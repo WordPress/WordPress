@@ -216,7 +216,8 @@ if ($ak_use_tooltip_titles == 1) {
             $ak_day_title_array[] = $ak_temp;
         }
     }
-	if (strstr($HTTP_SERVER_VARS["HTTP_USER_AGENT"], "MSIE")) {
+	if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") || 
+		strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "camino")) {
 		$ak_title_separator = "\n";
 		$ak_trim = 1;
 	}
