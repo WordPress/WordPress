@@ -315,6 +315,7 @@ function funky_javascript_fix($text) {
  @license         GPL v2.0
  @notes           
  @changelog       
+ ---  Modified by Scott Reilly (coffee2code) 02 Aug 2004
              1.2  ***TODO*** Make better - change loop condition to $text
              1.1  Fixed handling of append/stack pop order of end text
                   Added Cleaning Hooks
@@ -334,10 +335,10 @@ function balanceTags($text, $is_comment = 0) {
 	$text = preg_replace('#<([0-9]{1})#', '&lt;$1', $text);
 
 	while (preg_match("/<(\/?\w*)\s*([^>]*)>/",$text,$regex)) {
-		$newtext = $newtext . $tagqueue;
+		$newtext .= $tagqueue;
 
 		$i = strpos($text,$regex[0]);
-		$l = strlen($tagqueue) + strlen($regex[0]);
+		$l = strlen($regex[0]);
 
 		// clear the shifter
 		$tagqueue = '';
@@ -373,32 +374,46 @@ function balanceTags($text, $is_comment = 0) {
 
 			// Tag Cleaning
 
-			// Push if not img or br or hr
-			if($tag != 'br' && $tag != 'img' && $tag != 'hr') {
+			// If self-closing or '', don't do anything.
+			if((substr($regex[2],-1) == '/') || ($tag == '')) {
+			}
+			// ElseIf it's a known single-entity tag but it doesn't close itself, do so
+			elseif ($tag == 'br' || $tag == 'img' || $tag == 'hr' || $tag == 'input') {
+				$regex[2] .= '/';
+			} else {	// Push the tag onto the stack
+				// If the top of the stack is the same as the tag we want to push, close previous tag
+				if (($stacksize > 0) && ($tag != 'div') && ($tagstack[$stacksize - 1] == $tag)) {
+					$tagqueue = '</' . array_pop ($tagstack) . '>';
+					$stacksize--;
+				}
 				$stacksize = array_push ($tagstack, $tag);
 			}
 
 			// Attributes
-			// $attributes = $regex[2];
 			$attributes = $regex[2];
 			if($attributes) {
 				$attributes = ' '.$attributes;
 			}
 			$tag = '<'.$tag.$attributes.'>';
+			//If already queuing a close tag, then put this tag on, too
+			if ($tagqueue) {
+				$tagqueue .= $tag;
+				$tag = '';
+			}
 		}
 		$newtext .= substr($text,0,$i) . $tag;
 		$text = substr($text,$i+$l);
 	}  
 
 	// Clear Tag Queue
-	$newtext = $newtext . $tagqueue;
+	$newtext .= $tagqueue;
 
 	// Add Remaining text
 	$newtext .= $text;
 
 	// Empty Stack
 	while($x = array_pop($tagstack)) {
-		$newtext = $newtext . '</' . $x . '>'; // Add remaining tags to close      
+		$newtext .= '</' . $x . '>'; // Add remaining tags to close
 	}
 
 	// WP fix for the bug with HTML comments
