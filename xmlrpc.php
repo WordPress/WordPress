@@ -13,7 +13,7 @@ include_once(ABSPATH . WPINC . '/functions-post.php');
 $post_default_title = ""; // posts submitted via the xmlrpc interface get that title
 $post_default_category = 1; // posts submitted via the xmlrpc interface go into that category
 
-$xmlrpc_logging = 0;
+$xmlrpc_logging = 1;
 
 function logIO($io,$msg) {
 	global $xmlrpc_logging;
@@ -139,7 +139,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $struct = array(
 	    'isAdmin'  => $is_admin,
 	    'url'      => get_settings('home') .'/'.get_settings('blogfilename'),
-	    'blogid'   => 1,
+	    'blogid'   => '1',
 	    'blogName' => get_settings('blogname')
 	  );
 
@@ -633,19 +633,19 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $allow_pings = ('open' == $postdata['ping_status']) ? 1 : 0;
 
 	    $resp = array(
-				'link' => $link,
-				'title' => $postdata['post_title'],
-				'description' => $post['main'],
-				'dateCreated' => new IXR_Date($post_date),
-				'userid' => $postdata['post_author'],
-				'postid' => $postdata['ID'],
-				'content' => $postdata['post_content'],
-				'permaLink' => $link,
-				'categories' => $categories,
-				'mt_excerpt' => $postdata['post_excerpt'],
-				'mt_allow_comments' => $allow_comments,
-				'mt_allow_pings' => $allow_pings,
-				'mt_text_more' => $post['extended']
+	      'dateCreated' => new IXR_Date($post_date),
+	      'userid' => $entry['post_author'],
+	      'postid' => $entry['ID'],
+	      'description' => $post['main'],
+	      'title' => $entry['post_title'],
+	      'link' => $link,
+	      'permaLink' => $link,
+//	      'content' => $entry['post_content'],
+//	      'categories' => $categories
+	      'mt_excerpt' => $entry['post_excerpt'],
+	      'mt_text_more' => $post['extended'],
+	      'mt_allow_comments' => $allow_comments,
+	      'mt_allow_pings' => $allow_pings
 	    );
 
 	    return $resp;
@@ -661,7 +661,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $blog_ID     = $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
-	  $num_posts  = $args[4];
+	  $num_posts   = $args[3];
 
 	  if (!$this->login_pass_ok($user_login, $user_pass)) {
 	    return $this->error;
@@ -690,19 +690,19 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $allow_pings = ('open' == $entry['ping_status']) ? 1 : 0;
 
 	    $struct[] = array(
-	      'link' => $link,
-	      'title' => $entry['post_title'],
-	      'description' => $post['main'],
 	      'dateCreated' => new IXR_Date($post_date),
 	      'userid' => $entry['post_author'],
 	      'postid' => $entry['ID'],
-	      'content' => $entry['post_content'],
-	      'permalink' => $link,
-	      'categories' => $categories,
+	      'description' => $post['main'],
+	      'title' => $entry['post_title'],
+	      'link' => $link,
+	      'permaLink' => $link,
+//	      'content' => $entry['post_content'],
+//	      'categories' => $categories
 	      'mt_excerpt' => $entry['post_excerpt'],
+	      'mt_text_more' => $post['extended'],
 	      'mt_allow_comments' => $allow_comments,
-	      'mt_allow_pings' => $allow_pings,
-	      'mt_text_more' => $post['extended']
+	      'mt_allow_pings' => $allow_pings
 	    );
 
 	  }
@@ -821,6 +821,81 @@ class wp_xmlrpc_server extends IXR_Server {
 	      return new IXR_Error(500, 'Could not create directories for '.$name);
 	    }
 	  }
+	}
+
+
+
+	/* MovableType API functions
+	 * specs on http://www.movabletype.org/docs/mtmanual_programmatic.html
+	 */
+
+	/* mt.getRecentPostTitles ...returns recent posts' titles */
+	function mt_getRecentPostTitles($args) {
+
+	  $blog_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+	  $num_posts   = $args[3];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $posts_list = wp_get_recent_posts($num_posts);
+
+	  if (!$posts_list) {
+	    $this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
+	    return $this->error;
+	  }
+
+	  foreach ($posts_list as $entry) {
+	  
+	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
+
+	    $struct[] = array(
+	      'dateCreated' => new IXR_Date($post_date),
+	      'userid' => $entry['post_author'],
+	      'postid' => $entry['ID'],
+	      'title' => $entry['post_title'],
+	    );
+
+	  }
+
+	  $recent_posts = array();
+	  for ($j=0; $j<count($struct); $j++) {
+	    array_push($recent_posts, $struct[$j]);
+	  }
+	  
+	  return $recent_posts;
+	}
+
+
+	/* mt.getCategoryList ...returns the list of categories on a given weblog */
+	function mt_getCategoryList($args) {
+
+	  global $wpdb;
+
+	  $blog_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $categories_struct = array();
+
+	  // FIXME: can we avoid using direct SQL there?
+	  if ($cats = $wpdb->get_results("SELECT cat_ID, cat_name FROM $wpdb->categories", ARRAY_A)) {
+	    foreach ($cats as $cat) {
+	      $struct['categoryId'] = $cat['cat_ID'];
+	      $struct['categoryName'] = $cat['cat_name'];
+
+	      $categories_struct[] = $struct;
+	    }
+	  }
+
+	  return $categories_struct;
 	}
 
 }
