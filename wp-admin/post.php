@@ -104,8 +104,9 @@ case 'post':
 	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
 	$post_ID = $id_result->Auto_increment;
 
-	if ( empty($post_name) || 'draft' == $post_status ) {
-		$post_name = sanitize_title($post_title, $post_ID);
+	if ( empty($post_name) ) {
+		if ( 'draft' != $post_status )
+			$post_name = sanitize_title($post_title, $post_ID);
 	} else {
 		$post_name = sanitize_title($post_name, $post_ID);
 	}
@@ -290,9 +291,6 @@ case 'editpost':
 	//if (!$_POST['ping_status']) $ping_status = get_settings('default_ping_status');
 	$post_password = $_POST['post_password'];
 	$post_name = $_POST['post_name'];
-	if (empty($post_name)) {
-		$post_name = $post_title;
-	}
 
 	$post_parent = 0;
 	if (isset($_POST['parent_id'])) {
@@ -308,8 +306,9 @@ case 'editpost':
 	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) )
 		$post_status = 'draft';
 
-	if (empty($post_name) || 'draft' == $post_status ) {
-		$post_name = sanitize_title($post_title, $post_ID);
+	if ( empty($post_name) ) {
+		if ( 'draft' != $post_status )
+			$post_name = sanitize_title($post_title, $post_ID);
 	} else {
 		$post_name = sanitize_title($post_name, $post_ID);
 	}
