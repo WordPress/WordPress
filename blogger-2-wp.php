@@ -20,10 +20,10 @@ switch ($action) {
 
 case "step1":
 
-	require('wp-config.php');
-	require($abspath.$b2inc.'/b2template.functions.php');
-	require($abspath.$b2inc.'/b2functions.php');
-	require($abspath.$b2inc.'/b2vars.php');
+	require_once('wp-config.php');
+	require_once($abspath.$b2inc.'/b2template.functions.php');
+	require_once($abspath.$b2inc.'/b2functions.php');
+	require_once($abspath.$b2inc.'/b2vars.php');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -60,7 +60,10 @@ case "step1":
 			$postinfo = explode('|||', $posts[$i]);
 			$post_date = $postinfo[0];
 			$post_content = $postinfo[2];
-			$post_number = $postinfo[3];
+			// Don't try to re-use the original numbers
+			// because the new, longer numbers are too
+			// big to handle as ints.
+			//$post_number = $postinfo[3];
 			$post_title = $postinfo[4];
 
 			$post_author = trim(addslashes($postinfo[1]));
@@ -128,12 +131,21 @@ case "step1":
 			$post_content = str_replace('<br>', '<br />', $post_content); // the XHTML touch... ;)
 			
 			$post_title = addslashes($post_title);
+			
+			// Quick-n-dirty check for dups:
+			$dupcheck = $wpdb->get_results("SELECT ID,post_date,post_title FROM $tableposts WHERE post_date='$post_date' AND post_title='$post_title' LIMIT 1",ARRAY_A);
+			if ($dupcheck[0]['ID']) {
+				print "<br />\nSkipping duplicate post, ID = '" . $dupcheck[0]['ID'] . "'<br />\n";
+				print "Timestamp: " . $post_date . "<br />\n";
+				print "Post Title: '" . stripslashes($post_title) . "'<br />\n";
+				continue;
+			}
 
 			$result = $wpdb->query("
 			INSERT INTO $tableposts 
-				(ID, post_author,post_date,post_content,post_title,post_category)
+				(post_author,post_date,post_content,post_title,post_category)
 			VALUES 
-				('$post_number','$post_author_ID','$post_date','$post_content','$post_title','1')
+				('$post_author_ID','$post_date','$post_content','$post_title','1')
 			");
 
 
