@@ -1460,7 +1460,7 @@ function get_category_parents($id, $link=FALSE, $separator=' / ', $nicename=FALS
 
 function get_category_children($id, $before=' / ', $after='') {
     global $tablecategories, $cache_categories;
-    $c_cache=$cache_categories;#can't do recursive foreach on a global, have to make a copy
+    $c_cache=$cache_categories; // Can't do recursive foreach on a global, have to make a copy
     $chain = "";
     foreach ($c_cache as $category){
         if ($category->category_parent == $id){

@@ -92,7 +92,10 @@ case 'edit':
         <p>Category name:<br />
         <input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /></p>
         <p>Category parent:<br />
-        <?php dropdown_cats(FALSE, '', 'name', 'asc', FALSE, FALSE, FALSE, TRUE, $category->category_parent, $HTTP_GET_VARS['cat_ID']); ?></p>
+		<select name='cat' class='postform'>
+        <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?></p>
+		</select>
+        </p>
         <p>Description:<br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlentities($category->category_description); ?></textarea></p>
         <p><input type="submit" name="submit" value="Edit it!" class="search" /></p>
@@ -132,30 +135,17 @@ default:
     ?>
 
 <div class="wrap">
-    <h2>Current Categories</h2>
-    <table width="100%" cellpadding="3" cellspacing="3">
-    <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Parent</th>
-        <th scope="col">Description</th>
-        <th scope="col"># Posts</th>
-        <th colspan="2">Action</th>
-    </tr>
-    <?php
-    $categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
-    foreach ($categories as $category) {
-        $parent = "None";
-        if ($category->category_parent) $parent = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = $category->category_parent");
-        $count = $wpdb->get_var("SELECT COUNT(post_id) FROM $tablepost2cat WHERE category_id = $category->cat_ID");
-        $bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
-        echo "<tr style='background-color: $bgcolor'><td>$category->cat_name</td>
-        <td>$parent</td>
-        <td>$category->category_description</td>
-        <td>$count</td>
-        <td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>Edit</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('You are about to delete the category \'". addslashes($category->cat_name) ."\' and all its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop.')\" class='delete'>Delete</a></td>
-        </tr>";
-    }
-    ?>
+<h2>Current Categories</h2>
+<table width="100%" cellpadding="3" cellspacing="3">
+	<tr>
+		<th scope="col">Name</th>
+		<th scope="col">Description</th>
+		<th scope="col"># Posts</th>
+		<th colspan="2">Action</th>
+	</tr>
+<?php
+cat_rows();
+?>
     </table>
 
 </div>
@@ -166,7 +156,9 @@ default:
         <p>Name:<br />
         <input type="text" name="cat_name" value="" /></p>
         <p>Category parent:<br />
-        <?php dropdown_cats(FALSE, '', 'name', 'asc', FALSE, FALSE, FALSE, TRUE); ?></p>
+		<select name='cat' class='postform'>
+        <?php wp_dropdown_cats(); ?></p>
+		</select>
         <p>Description: (optional) <br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
         <p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="Add" class="search" /></p>

@@ -2,6 +2,7 @@
 
 require_once('../wp-config.php');
 require_once(ABSPATH.'/wp-admin/auth.php');
+require(ABSPATH.'/wp-admin/admin-functions.php');
 
 function gethelp_link($this_file, $helptag) {
     $url = 'http://wordpress.org/docs/reference/links/#'.$helptag;
