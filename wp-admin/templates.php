@@ -83,6 +83,7 @@ default:
 		$file = '.' . $file;
 	
 	$file = stripslashes($file);
+	$file = str_replace('../', '', $file);
 	$file = '../' . $file;
 	
 	if (!is_file($file))
