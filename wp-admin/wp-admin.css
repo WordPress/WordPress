@@ -13,24 +13,25 @@ a:hover {
 
 body	{
 	background: #fff;
-	margin: 0px;
+	color: #000;
+	margin: 0;
+	padding: 0;
 }
 
 body, td {
-	color: #000;
 	font: 10pt Georgia, "Times New Roman", Times, serif;
 }
 
 form {
 	margin: 0;
-	padding: 0; /* thanks #mozilla */
+	padding: 0;
 }
 
 h2 {
-	border-bottom: 2px solid #666;
+	border-bottom: 2px solid #ccc;
 	color: #333;
-	font: normal 22px/22px normal;
-	margin: 2px 10px 0px 10px;
+	font: normal 22px/16px normal;
+	margin: 5px 10px;
 }
 
 label {
@@ -47,9 +48,7 @@ p {
 
 textarea, input, select {
 	background: #f0f0f0;
-	border-color: #ccc;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid #ccc;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	margin: 1px;
 	padding: 2px;
@@ -66,9 +65,6 @@ textarea, input, select {
 	padding: 0px;
 }
 
-.helptext {
-}
-
 .quicktags, .search {
 	background: #ccc;
 	color: #000;
@@ -82,51 +78,53 @@ textarea, input, select {
 	width: 85%;
 }
 
-#adminmenu #last, #adminmenu2 #last2 {
+.wrap h2 {
+	font-size: 18px;
+	margin: 6px 0;
+}
+
+#adminmenu .last {
 	border-right: none;
 }
 
-#adminmenu a {
+#adminmenu a, #adminmenu2 a {
 	border: 1px solid #fff;
 	color: #333;
-	padding: 3px 5px 3px 4px;
+	font-size: 16px;
+	font-weight: normal;
+	padding: 3px;
 	text-decoration: none;
 }
 
-#adminmenu a:hover, #current, #adminmenu2 a:hover, #current2 {
+#adminmenu a:hover, .current, #adminmenu2 a:hover {
 	background: #e9e9e9;
 	border: 1px solid #808080;
 	color: #333;
 }
 
-#adminmenu li {
+#adminmenu li, #adminmenu2 li {
 	border-right: 1px solid #ccc;
-	display: block;
-	float: left;
-	padding: 2px;
+	display: inline;
+	margin: 1px;
 	text-align: center;
 }
 
 #adminmenu, #adminmenu2 {
-	list-style: none outside;
-	margin: 5px 0 0 0;
-	margin-left: 40px;
+	border-bottom: 2px solid #5a5a5a;
+	height: 24px;
+	list-style: none;
+	margin: 2px;
 	padding: 0;
+	padding-top: 5px;
+}
+
+#adminmenu2 {
+	border-bottom: none;
+	margin-left: 7px;
 }
 
 #adminmenu2 a {
-	border: 1px solid #fff;
-	color: #333;
-	padding: 3px 8px 3px 7px;
-	text-decoration: none;
-}
-
-#adminmenu2 li {
-	border-right: 1px solid #ccc;
-	display: block;
-	float: left;
-	padding: 4px;
-	text-align: center;
+	font-size: 14px;
 }
 
 #ed_button {
@@ -214,14 +212,12 @@ textarea, input, select {
 	background: url(../b2-img/wp-small.png) no-repeat;
 	border-bottom: 4px solid #333;
 	height: 42px;
-	margin: 5px;
+	margin: 0 2px;
 }
 
 #wphead a {
 	display: block;
-	height: 30px;
-}
-
-#wphead a span {
-	display: none;
+	height: 42px;
+	text-decoration: none;
+	text-indent: -100em;
 }
