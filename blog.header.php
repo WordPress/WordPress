@@ -13,7 +13,7 @@ require_once ($curpath.$b2inc.'/b2functions.php');
 require_once ($curpath.$b2inc.'/xmlrpc.inc');
 require_once ($curpath.$b2inc.'/xmlrpcs.inc');
 
-$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_nicename');
+$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name');
 
 	for ($i=0; $i<count($b2varstoreset); $i += 1) {
 		$b2var = $b2varstoreset[$i];
@@ -58,6 +58,7 @@ $result = '';
 $where = '';
 $limits = '';
 $distinct = '';
+$join = '';
 
 if ($pagenow != 'wp-post.php') { timer_start(); }
 
@@ -155,13 +156,23 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
 		$eq = '=';
 		$andor = 'OR';
 	}
+	$join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) ";
 	$cat_array = explode(' ',$cat);
-    $whichcat .= ' AND (post_category '.$eq.' '.intval($cat_array[0]);
+    $whichcat .= ' AND (category_id '.$eq.' '.intval($cat_array[0]);
     for ($i = 1; $i < (count($cat_array)); $i = $i + 1) {
         $whichcat .= ' '.$andor.' post_category '.$eq.' '.intval($cat_array[$i]);
     }
     $whichcat .= ')';
-} 
+}
+
+// Category stuff for nice URIs
+
+if ('' != $category_name) {
+	$category_name = preg_replace('|[^a-z0-9-/]|', '', $category_name);
+	$join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) LEFT JOIN $tablecategories ON ($tablepost2cat.category_id = $tablecategories.cat_ID) ";
+	$whichcat = " AND (category_nicename = '$category_name') ";
+}
+
 // author stuff
 if ((empty($author)) || ($author == 'all') || ($author == '0')) {
 	$whichauthor='';
@@ -293,7 +304,7 @@ if (isset($user_ID) && ('' != intval($user_ID)))
     $where .= " OR post_author = $user_ID AND post_status != 'draft')";
 else
     $where .= ')';
-$request = " SELECT $distinct * FROM $tableposts WHERE 1=1".$where." ORDER BY post_$orderby $limits";
+$request = " SELECT $distinct * FROM $tableposts $join WHERE 1=1".$where." ORDER BY post_$orderby $limits";
 
 
 if ($preview) {
