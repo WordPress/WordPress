@@ -263,7 +263,7 @@ if ( !empty($postend) && ($postend > $poststart) && (!$m) && !$month && !$year &
 			}
 		}
 	}
-	elseif (($m) || ($p) || ($w) || ($s) || ($whichcat) || ($author) || $month || $year || $day) {
+	elseif (($m) || ($p) || ($w) || ($s) || ($whichcat) || ($author)) {
 		$limits = '';
 	}
 }
