@@ -56,7 +56,7 @@ function upgrade_071() {
 }
 
 function upgrade_072() {
-	global $wpdb, $tableposts, $tablelinks, $tablelinkcategories, $tableoptions, $tableoptiontypes, $tableoptiongroups, $tableoptiongroup_options, $tableoptionvalues;
+	global $wpdb, $tableposts, $tablelinks, $tablelinkcategories, $tableoptions, $tableoptiontypes, $tableoptiongroups, $tableoptiongroup_options, $tableoptionvalues, $tablecategories;
 	maybe_add_column($tablelinks, 'link_notes', "ALTER TABLE $tablelinks ADD COLUMN link_notes MEDIUMTEXT NOT NULL DEFAULT '' ");
 	maybe_add_column($tablelinkcategories, 'show_images', "ALTER TABLE $tablelinkcategories ADD COLUMN show_images enum('Y','N') NOT NULL default 'Y'");
 	maybe_add_column($tablelinkcategories, 'show_description', "ALTER TABLE $tablelinkcategories ADD COLUMN show_description enum('Y','N') NOT NULL default 'Y'");

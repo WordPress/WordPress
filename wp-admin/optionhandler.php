@@ -43,7 +43,7 @@ BOOLSELECT;
         case 5: // select
             $ret = <<<SELECT
                     <label for="$option_result->option_name">$option_result->option_name</label>$between
-                    <select name="$option_result->option_name" $disabled>
+                    <select name="$option_result->option_name" id="$option_result->option_name" $disabled>
 SELECT;
 
             $select = $wpdb->get_results("SELECT optionvalue, optionvalue_desc "
@@ -72,13 +72,13 @@ SELECT;
             }
 
             // now we may need to do table name substitution
-            eval("include('../wp-config.php');\$sql = \"$sql\";");
+           eval("include('../wp-config.php');\$sql = \"$sql\";");
 
             $ret = <<<SELECT
                     <label for="$option_result->option_name">$option_result->option_name</label>$between
                     <select name="$option_result->option_name" $disabled>
 SELECT;
-
+	
             $select = $wpdb->get_results("$sql");
             if ($select) {
                 foreach($select as $option) {
