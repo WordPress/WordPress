@@ -24,13 +24,13 @@ switch ($action) {
 case 'adduser':
 	check_admin_referer();
 
-	$user_login     = wp_specialchars($_POST['user_login']);
+	$user_login     = wp_specialchars(trim($_POST['user_login']));
 	$pass1          = $_POST['pass1'];
 	$pass2          = $_POST['pass2'];
-	$user_email     = wp_specialchars($_POST['email']);
-	$user_firstname = wp_specialchars($_POST['firstname']);
-	$user_lastname  = wp_specialchars($_POST['lastname']);
-	$user_uri       = wp_specialchars($_POST['uri']);
+	$user_email     = wp_specialchars(trim($_POST['email']));
+	$user_firstname = wp_specialchars(trim($_POST['firstname']));
+	$user_lastname  = wp_specialchars(trim($_POST['lastname']));
+	$user_uri       = wp_specialchars(trim($_POST['uri']));
 		
 	/* checking that username has been typed */
 	if ($user_login == '')
