@@ -9,14 +9,17 @@ $this_file = $parent_file = 'link-manager.php';
 
 function xfn_check($class, $value = '', $type = 'check') {
 	global $link_rel;
-	if ('' != $value && strstr($link_rel, $value)) {
+	$rels = preg_split('/\s+/', $link_rel);
+
+	if ('' != $value && in_array($value, $rels) ) {
 		echo ' checked="checked"';
 	}
+
 	if ('' == $value) {
 		if ('family' == $class && !strstr($link_rel, 'child') && !strstr($link_rel, 'parent') && !strstr($link_rel, 'sibling') && !strstr($link_rel, 'spouse') && !strstr($link_rel, 'kin')) echo ' checked="checked"';
 		if ('friendship' == $class && !strstr($link_rel, 'friend') && !strstr($link_rel, 'acquaintance') && !strstr($link_rel, 'contact') ) echo ' checked="checked"';
 		if ('geographical' == $class && !strstr($link_rel, 'co-resident') && !strstr($link_rel, 'neighbor') ) echo ' checked="checked"';
-		if ('identity' == $class && !strstr($link_rel, 'me') ) echo ' checked="checked"';
+		if ('identity' == $class && in_array('me', $rels) ) echo ' checked="checked"';
 	}
 }
 
@@ -331,7 +334,16 @@ switch ($action) {
            	</tr>
             <tr>
                 <th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
-            	<td><table cellpadding="3" cellspacing="5">
+            	<td>
+					<table cellpadding="3" cellspacing="5">
+	          <tr>
+              <th scope="row"> <?php _e('identity') ?> </th>
+              <td>
+                <label for="me">
+                <input type="checkbox" name="identity" value="me" id="me" <?php xfn_check('identity', 'me'); ?> />
+          <?php _e('another web address of mine') ?></label>
+              </td>
+            </tr>
             <tr>
               <th scope="row"> <?php _e('friendship') ?> </th>
               <td>
@@ -418,15 +430,8 @@ switch ($action) {
          <?php _e('sweetheart') ?></label>
               </td>
             </tr>
-            <tr>
-              <th scope="row"> <?php _e('identity') ?> </th>
-              <td>
-                <label for="label60">
-                <input class="valinp" type="checkbox" name="identity" value="me" id="label60" <?php xfn_check('identity', 'me'); ?> />
-          <?php _e('me') ?></label>
-              </td>
-            </tr>
-        </table></td>
+        </table>
+		  </td>
            	</tr>
 </table>
 </fieldset>
