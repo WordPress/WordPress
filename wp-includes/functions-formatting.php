@@ -1,8 +1,9 @@
 <?php
 
 function wptexturize($text) {
-	$output = "";
-	$textarr = preg_split("/(<.*>)/Us", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
+	$output = '';
+	// Capture tags and everything inside them
+	$textarr = preg_split("/(<.*>)/Us", $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 	$stop = count($textarr); $next = true; // loop stuff
 	for ($i = 0; $i < $stop; $i++) {
 		$curl = $textarr[$i];
@@ -30,7 +31,6 @@ function wptexturize($text) {
 			$curl = preg_replace("/\(tm\)/i", '&#8482;', $curl);
 			$curl = preg_replace("/\(c\)/i", '&#169;', $curl);
 			$curl = preg_replace("/\(r\)/i", '&#174;', $curl);
-			$curl = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $curl);
 			$curl = str_replace("''", '&#8221;', $curl);
 			
 			$curl = preg_replace('/(d+)x(\d+)/', "$1&#215;$2", $curl);
@@ -55,9 +55,10 @@ function clean_pre($text) {
 function wpautop($pee, $br = 1) {
 	$pee = $pee . "\n"; // just to make things a little easier, pad the end
 	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
-	$pee = preg_replace('!(<(?:table|thead|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)!', "\n$1", $pee); // Space things out a little
-	$pee = preg_replace('!(</(?:table|thead|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|p|h[1-6])>)!', "$1\n", $pee); // Space things out a little
-	$pee = preg_replace("/(\r\n|\r)/", "\n", $pee); // cross-platform newlines 
+	// Space things out a little
+	$pee = preg_replace('!(<(?:table|thead|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)!', "\n$1", $pee); 
+	$pee = preg_replace('!(</(?:table|thead|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|p|h[1-6])>)!', "$1\n", $pee);
+	$pee = str_replace(array("\r\n", "\r"), "\n", $pee); // cross-platform newlines 
 	$pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
 	$pee = preg_replace('/\n?(.+?)(?:\n\s*\n|\z)/s', "\t<p>$1</p>\n", $pee); // make paragraphs, including one at the end 
 	$pee = preg_replace('|<p>\s*?</p>|', '', $pee); // under certain strange conditions it could create a P of entirely whitespace 
@@ -71,7 +72,6 @@ function wpautop($pee, $br = 1) {
 	$pee = preg_replace('!(</?(?:table|thead|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)!', '$1', $pee);
 	$pee = preg_replace('!(<pre.*?>)(.*?)</pre>!ise', " stripslashes('$1') .  clean_pre('$2')  . '</pre>' ", $pee);
-	$pee = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $pee);
 	
 	return $pee; 
 }
@@ -87,25 +87,22 @@ function sanitize_title($title) {
 	return $title;
 }
 
-function convert_chars($content, $flag='obsolete attribute left there for backwards compatibility') { 
-	// html/unicode entities output
-	global $wp_htmltrans, $wp_htmltranswinuni;
+function convert_chars($content, $flag = 'obsolete') { 
+	global $wp_htmltranswinuni;
 
-	// removes metadata tags
+	// Remove metadata tags
 	$content = preg_replace('/<title>(.+?)<\/title>/','',$content);
 	$content = preg_replace('/<category>(.+?)<\/category>/','',$content);
-	// converts lone & characters into &#38; (a.k.a. &amp;)
-	$content = preg_replace('/&[^#](?![a-z]*;)/ie', '"&#38;".substr("\0",1)', $content);
-	$content = strtr($content, $wp_htmltranswinuni);
-	if (get_settings('use_htmltrans')) {
-		// converts HTML-entities to their display values in order to convert them again later
-		$content = preg_replace('/['.chr(127).'-'.chr(255).']/e', '"&#".ord(\'\0\').";"', $content );
-		$content = strtr($content, $wp_htmltrans);
-	}
 
-	// you can delete these 2 lines if you don't like <br /> and <hr />
-	$content = str_replace('<br>', '<br />',$content);
-	$content = str_replace('<hr>', '<hr />',$content);
+	// Converts lone & characters into &#38; (a.k.a. &amp;)
+	$content = preg_replace('/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $content);
+
+	// Fix Word pasting
+	$content = strtr($content, $wp_htmltranswinuni);
+
+	// Just a little XHTML help
+	$content = str_replace('<br>', '<br />', $content);
+	$content = str_replace('<hr>', '<hr />', $content);
 
 	return $content;
 }
@@ -209,24 +206,11 @@ function balanceTags($text, $is_comment = 0) {
 		$newtext = $newtext . '</' . $x . '>'; // Add remaining tags to close      
 	}
 
-	# WP fix for the bug with HTML comments
+	// WP fix for the bug with HTML comments
 	$newtext = str_replace("< !--","<!--",$newtext);
 	$newtext = str_replace("<    !--","< !--",$newtext);
 
 	return $newtext;
-}
-
-function autobrize($content) {
-	$content = preg_replace("/<br>\n/", "\n", $content);
-	$content = preg_replace("/<br \/>\n/", "\n", $content);
-	$content = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />\n", $content);
-	return $content;
-}
-
-function unautobrize($content) {
-	$content = preg_replace("/<br>\n/", "\n", $content);   //for PHP versions before 4.0.5
-	$content = preg_replace("/<br \/>\n/", "\n", $content);
-	return $content;
 }
 
 
@@ -298,29 +282,6 @@ function make_clickable($text) { // original function: phpBB, extended here for 
     $ret = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([^,< \n\r]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $ret);
     $ret = substr($ret, 1);
     return $ret;
-}
-
-function convert_bbcode($content) { // depreciated
-	return $content;
-}
-
-function convert_bbcode_email($content) {
-	global $use_bbcode;
-	$bbcode_email["in"] = array(
-		'#\[email](.+?)\[/email]#eis',
-		'#\[email=(.+?)](.+?)\[/email]#eis'
-	);
-	$bbcode_email["out"] = array(
-		"'<a href=\"mailto:'.antispambot('\\1').'\">'.antispambot('\\1').'</a>'",		// E-mail
-		"'<a href=\"mailto:'.antispambot('\\1').'\">\\2</a>'"
-	);
-
-	$content = preg_replace($bbcode_email["in"], $bbcode_email["out"], $content);
-	return $content;
-}
-
-function convert_gmcode($content) { // depreciated
-	return $content;
 }
 
 function convert_smilies($text) {

@@ -862,7 +862,7 @@ function doGeoUrlHeader($posts) {
         $title = $row->post_title;
         if(($lon != null) && ($lat != null) ) {
             echo "<meta name=\"ICBM\" content=\"".$lat.", ".$lon."\" />\n";
-            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")." - ".$title."\" />\n";
+            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")))." - ".$title."\" />\n";
             echo "<meta name=\"geo.position\" content=\"".$lat.";".$lon."\" />\n";
             return;
         }
@@ -870,7 +870,7 @@ function doGeoUrlHeader($posts) {
         if(get_settings('use_default_geourl')) {
             // send the default here 
             echo "<meta name=\"ICBM\" content=\"". get_settings('default_geourl_lat') .", ". get_settings('default_geourl_lon') ."\" />\n";
-            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")."\" />\n";
+            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")))."\" />\n";
             echo "<meta name=\"geo.position\" content=\"". get_settings('default_geourl_lat') .";". get_settings('default_geourl_lon') ."\" />\n";
         }
     }
@@ -1058,7 +1058,6 @@ function wp_notify_moderator($comment_id) {
 
 function start_wp() {
 	global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
-	global $preview_userid,$preview_date,$preview_content,$preview_title,$preview_category,$preview_notify,$preview_make_clickable,$preview_autobr;
 	global $pagenow;
 	if (!$preview) {
 		$id = $post->ID;

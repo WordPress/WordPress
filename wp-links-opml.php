@@ -24,8 +24,6 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 <opml version="1.0">
     <head>
         <title>Links for <?php echo get_bloginfo('name').$cat_name ?></title>
-        <ownerName><?php echo antispambot(get_bloginfo('admin_email')) ?></ownerName>
-        <ownerEmail><?php echo antispambot(get_bloginfo('admin_email')) ?></ownerEmail>
         <dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
     </head>
     <body>

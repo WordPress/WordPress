@@ -18,8 +18,6 @@ header('Content-type: text/xml', true);
         <description><?php bloginfo_rss("description") ?></description>
         <lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT')); ?></lastBuildDate>
         <docs>http://backend.userland.com/rss092</docs>
-        <managingEditor><?php echo antispambot(get_settings('admin_email')) ?></managingEditor>
-        <webMaster><?php echo antispambot(get_settings('admin_email')) ?></webMaster>
         <language><?php echo get_settings('rss_language'); ?></language>
 
 <?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>

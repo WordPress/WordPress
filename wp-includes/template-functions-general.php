@@ -4,21 +4,18 @@
 
 function bloginfo($show='') {
     $info = get_bloginfo($show);
-    $info = convert_bbcode($info);
-    $info = convert_gmcode($info);
-    $info = convert_smilies($info);
     $info = apply_filters('bloginfo', $info);
-    echo convert_chars($info, 'html');
+    echo convert_chars($info);
 }
 
 function bloginfo_rss($show='') {
     $info = strip_tags(get_bloginfo($show));
-    echo convert_chars($info, 'unicode');
+    echo convert_chars($info);
 }
 
 function bloginfo_unicode($show='') {
     $info = get_bloginfo($show);
-    echo convert_chars($info, 'unicode');
+    echo convert_chars($info);
 }
 
 function get_bloginfo($show='') {

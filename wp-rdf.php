@@ -25,9 +25,7 @@ add_filter('the_content', 'trim');
 	<description><?php bloginfo_rss('description') ?></description>
 	<dc:language><?php echo get_settings('rss_language'); ?></dc:language>
 	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></dc:date>
-	<dc:creator><?php echo antispambot(get_settings('admin_email')) ?></dc:creator>
 	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $wp_version ?>"/>
-	<admin:errorReportsTo rdf:resource="mailto:<?php echo antispambot(get_settings('admin_email')) ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
