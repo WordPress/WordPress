@@ -52,7 +52,7 @@ function get_permalink($id=false) {
     );
     if (!$id) {
         if ('' != get_settings('permalink_structure')) {
-            $unixtime = strtotime($post->post_date);
+	    $unixtime = strtotime(get_date_from_gmt($post->post_date));
             $rewritereplace = array(
                 date('Y', $unixtime),
                 date('m', $unixtime),
@@ -67,7 +67,7 @@ function get_permalink($id=false) {
     } else { // if an ID is given
         $idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
         if ('' != get_settings('permalink_structure')) {
-            $unixtime = strtotime($idpost->post_date);
+	    $unixtime = strtotime(get_date_from_gmt($idpost->post_date));
             $rewritereplace = array(
                 date('Y', $unixtime),
                 date('m', $unixtime),
