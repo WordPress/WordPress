@@ -13,7 +13,7 @@ if (!empty($HTTP_GET_VARS['tb_id'])) {
 	// trackback is done by a POST
 	$request_array = 'HTTP_POST_VARS';
 	$tb_id = explode('/', $HTTP_SERVER_VARS['REQUEST_URI']);
-	$tb_id = inval($tb_id[count($tb_id)-1]);
+	$tb_id = intval($tb_id[count($tb_id)-1]);
 	$tb_url = $HTTP_POST_VARS['url'];
 	$title = $HTTP_POST_VARS['title'];
 	$excerpt = $HTTP_POST_VARS['excerpt'];
