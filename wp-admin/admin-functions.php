@@ -36,7 +36,7 @@ function return_categories_list( $parent = 0, $sortbyname = FALSE )
         }
 
         // First query the database
-        $cats_tmp = $wpdb->get_results("SELECT cat_id FROM $wpdb->categories WHERE category_parent = $parent ORDER BY $sort");
+        $cats_tmp = $wpdb->get_results("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY $sort");
 
         // Now strip this down to a simple array of IDs
         $cats = array();
@@ -44,7 +44,7 @@ function return_categories_list( $parent = 0, $sortbyname = FALSE )
         {
                 foreach( $cats_tmp as $cat )
                 {
-                        $cats[] = $cat->cat_id;
+                        $cats[] = $cat->cat_ID;
                 }
         }
 
