@@ -17,7 +17,7 @@ if ('b' == $_GET['a']) {
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=UTF-8" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 </head>
-<body
+<body>
 	<p>Posted !</p>
 	<p><a href="sidebar.php">Click here</a> to post again.</p>
 </body>
