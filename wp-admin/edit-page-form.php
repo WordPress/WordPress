@@ -1,6 +1,6 @@
 
 <div class="wrap">
-<h2><?php _e('New Page'); ?></h2>
+<h2><?php _e('Write Page'); ?></h2>
 <?php
 if (0 == $post_ID) {
 	$form_action = 'post';

@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 
-$wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder', 'enclosure_url' );
+$wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder' );
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
@@ -21,9 +21,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch($action) {
 case 'post':
 
-	if (!user_can_create_draft($user_ID)) {
+	if ( !user_can_create_draft($user_ID) )
 		die('You are not allowed to create posts or drafts on this blog.');
-	}
 
 	$post_pingback = intval($_POST['post_pingback']);
 	$content = apply_filters('content_save_pre', $_POST['content']);
@@ -114,11 +113,11 @@ case 'post':
 		$location = 'post.php?posted=true';
 	}
 
+	if ( 'static' == $_POST['post_status'] )
+		$location = "page-new.php?saved=true";
+
 	if ( '' != $_POST['advanced'] || isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
-
-	if ( '' != $_POST['savepage'] )
-		$location = "post.php?action=createpage";
 
 	header("Location: $location"); // Send user on their way while we keep working
 
