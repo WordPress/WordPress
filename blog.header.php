@@ -32,13 +32,13 @@ $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search
 
 
 /* Sending HTTP headers */
-@header ("X-Pingback: $siteurl/xmlrpc.php");
 // It is presumptious to think that WP is the only thing that might change on the page.
 @header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 				// Date in the past 
 @header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified 
 @header("Cache-Control: no-store, no-cache, must-revalidate"); 	// HTTP/1.1 
 @header("Cache-Control: post-check=0, pre-check=0", false); 
 @header("Pragma: no-cache"); 									// HTTP/1.0 
+@header ("X-Pingback: $siteurl/xmlrpc.php");
 
 /* Getting settings from db */
 $posts_per_page = get_settings('posts_per_page');
@@ -58,9 +58,10 @@ $distinct = '';
 
 if ($pagenow != 'b2edit.php') { timer_start(); }
 
-if ($posts)
+if ($posts) {
+    $posts = (int)$posts;
 	$posts_per_page=$posts;
-
+}
 // if a month is specified in the querystring, load that month
 if ($m != '') {
 	$m = ''.intval($m);
