@@ -1308,7 +1308,6 @@ function balanceTags($text, $is_comment = 0) {
 			// $attributes = $regex[2];
 			$attributes = $regex[2];
 			if($attributes) {
-
 				$attributes = ' '.$attributes;
 			}
 

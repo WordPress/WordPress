@@ -7,7 +7,7 @@ require_once('wp-blog-header.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title><?php bloginfo('name') ?><?php single_post_title(' &raquo; ') ?><?php single_cat_title(' &raquo; ') ?><?php single_month_title(' &raquo; ') ?></title>
+	<title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<meta name="generator" content="WordPress <?php echo $wp_version; ?>" /> <!-- leave this for stats -->

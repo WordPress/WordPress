@@ -72,6 +72,65 @@ function get_bloginfo($show='') {
 	return $output;
 }
 
+function wp_title($sep = '&raquo;', $display = true) {
+	global $wpdb, $tableposts, $tablecategories;
+	global $year, $monthnum, $day, $cat, $p, $name;
+
+	// If there's a category
+	if(!empty($cat) || !empty($category_name)) {
+		$title = stripslashes(get_the_category_by_ID($cat));
+		$title = stripslashes($wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE category_nicename = '$category_name'"));
+	}
+
+	// If there's a month
+	if(!empty($m)) {
+		$my_year = substr($m, 0, 4);
+		$my_month = $month[substr($m, 4, 2)];
+		$title = "$my_year $sep $my_month";
+
+	}
+	if (!empty($year)) {
+		$title = $year;
+		if (!empty($monthnum)) {
+			$title .= "$sep $monthnum";
+		}
+		if (!empty($day)) {
+			$title .= " $sep $day";
+		}
+	}
+
+	// If there's a post
+	if (intval($p) || '' != $name) {
+		if (!$p) {
+		if ($year != '') {
+			$year = '' . intval($year);
+			$where .= ' AND YEAR(post_date)=' . $year;
+		}
+		
+		if ($monthnum != '') {
+			$monthnum = '' . intval($monthnum);
+			$where .= ' AND MONTH(post_date)=' . $monthnum;
+		}
+		
+		if ($day != '') {
+			$hay = '' . intval($day);
+			$where .= ' AND DAYOFMONTH(post_date)=' . $day;
+		}
+			$p = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_name = '$name' $where");
+		}
+		$post_data = get_postdata($p);
+		$title = strip_tags(stripslashes($post_data['Title']));
+		$title = apply_filters('single_post_title', $title);
+	}
+
+	// Send it out
+	if ($display) {
+		echo " $sep $title";
+	} else {
+		return " $sep $title";
+	}
+}
+
 function single_post_title($prefix = '', $display = true) {
 	global $p, $name, $wpdb, $tableposts;
 	if (intval($p) || '' != $name) {
