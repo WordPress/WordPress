@@ -64,10 +64,12 @@ function the_author_ID() {
 }
 
 function get_the_author_email() {
-    global $id,$authordata;    return antispambot($authordata->user_email);
+	global $authordata;
+	return $authordata->user_email;
 }
+
 function the_author_email() {
-    echo get_the_author_email();
+	echo apply_filters('the_author_email', get_the_author_email() );
 }
 
 function get_the_author_url() {
