@@ -91,7 +91,7 @@ window.onload = focusit;
     </fieldset>
 
 <br />
-<fieldset style="clear:both">
+<fieldset id="postexcerpt">
 <legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="<?php _e('Help with excerpts') ?>"><?php _e('Excerpt') ?></a></legend>
 <div><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
 </fieldset>

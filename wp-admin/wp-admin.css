@@ -381,7 +381,7 @@ textarea, input, select {
 	padding: 3px;
 }
 
-#metainfo, #postdiv {
+#metainfo, #postdiv, #postexcerpt {
 	clear: both;
 }
 
