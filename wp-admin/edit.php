@@ -129,8 +129,6 @@ $posts_columns['control_view']   = '';
 $posts_columns['control_edit']   = '';
 $posts_columns['control_delete'] = '';
 
-print_r($posts_columns);
-
 ?>
 
 <table width="100%" cellpadding="3" cellspacing="3"> 
