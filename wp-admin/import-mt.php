@@ -65,13 +65,14 @@ if ('' != MTEXPORT && !file_exists(MTEXPORT)) die("The file you specified does n
 if ('' == MTEXPORT) die("You must edit the MTEXPORT line as described on the <a href='import-mt.php'>previous page</a> to continue.");
 // Bring in the data
 set_magic_quotes_runtime(0);
-$datalines = file(MTEXPORT); // Read the file into an array
-$importdata = implode('', $datalines); // squish it
+$importdata = file(MTEXPORT); // Read the file into an array
+$importdata = implode('', $importdata); // squish it
 $importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
 $importdata = preg_replace("/--------\nAUTHOR/", "--MT-ENTRY--\nAUTHOR", $importdata);
 $authors = array();
 $temp = array();
 $posts = explode("--MT-ENTRY--", $importdata);
+unset( $importdata ); // Free up memory
 
 function users_form($n) {
 	global $wpdb, $testing;
@@ -174,12 +175,16 @@ for ($x = 1; $x < $y; $x++) {
 }//function checkauthor ends here
 
 	//bring in the posts now
-	set_magic_quotes_runtime(0);
-$datalines = file(MTEXPORT); // Read the file into an array
-$importdata = implode('', $datalines); // squish it
+set_magic_quotes_runtime(0);
+$importdata = file(MTEXPORT); // Read the file into an array
+$importdata = implode('', $importdata); // squish it
 $importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
 $importdata = preg_replace("/--------\nAUTHOR/", "--MT-ENTRY--\nAUTHOR", $importdata);
+$authors = array();
+$temp = array();
 $posts = explode("--MT-ENTRY--", $importdata);
+unset( $importdata ); // Free up memory
+
 $i = -1;
 echo "<ol>";
 foreach ($posts as $post) { if ('' != trim($post)) {
