@@ -194,7 +194,7 @@ function single_month_title($prefix = '', $display = true ) {
 /* link navigation hack by Orien http://icecode.com/ */
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
 	$text = wptexturize($text);
-    $title_text = htmlspecialchars($text);
+    $title_text = htmlspecialchars($text, ENT_QUOTES);
 
 	if ('link' == $format) {
 		return "\t<link rel='archives' title='$title_text' href='$url' />\n";
