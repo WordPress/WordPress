@@ -341,9 +341,12 @@ switch($action) {
 			}
         } // end if publish
         
-
-        $location = "Location: post.php";
-        header ($location);
+		if ($HTTP_POST_VARS['save']) {
+			$location = $HTTP_SERVER_VARS['HTTP_REFERER'];
+		} else {
+        	$location = 'post.php';
+		}
+        header ('Location: ' . $location);
         break;
 
     case 'delete':

@@ -65,6 +65,7 @@ switch($action) {
 		} else {
 			$form_trackback = '';
 		}
+		$saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="Save and Continue Editing" />';
 		break;
 	case "editcomment":
 		$submitbutton_text = 'Edit this!';
