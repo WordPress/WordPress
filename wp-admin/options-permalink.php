@@ -43,7 +43,12 @@ save_mod_rewrite_rules();
 ?>
 
 <?php if (isset($_POST['submit'])) : ?>
-<div class="updated"><p><?php _e('Permalink structure updated.'); ?></p></div>
+<div class="updated"><p><?php
+if ($writable)
+	_e('Permalink structure updated.');
+else
+	_e('You should update your .htaccess now.'); 
+?></p></div>
 <?php endif; ?>
 
 <div class="wrap"> 
