@@ -46,7 +46,6 @@ $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
 $dateformat = stripslashes(get_settings('date_format'));
 $timeformat = stripslashes(get_settings('time_format'));
-$autobr = get_settings('AutoBR');
 $time_difference = get_settings('time_difference');
 
 /* First let's clear some variables */
@@ -252,8 +251,12 @@ if ($pagenow != 'b2edit.php') {
 		gzip_compression();
 	}
 }
+$where .= ' AND post_status = "publish"';
 
+// Get private posts
+if ('' != intval($user_ID)) $where .= " OR post_author = $user_ID AND post_status != 'draft'";
 $request = " SELECT $distinct * FROM $tableposts WHERE 1=1".$where." ORDER BY post_$orderby $limits";
+
 
 if ($preview) {
 	$request = 'SELECT 1-1'; // dummy mysql query for the preview
