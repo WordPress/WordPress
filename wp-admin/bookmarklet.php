@@ -26,8 +26,8 @@ window.close()
     /* big funky fixes for browsers' javascript bugs */
     
     if (($is_macIE) && (!isset($IEMac_bookmarklet_fix))) {
-        $popuptitle = preg_replace($wp_macIE_correction["in"],$wp_macIE_correction["out"],$popuptitle);
-        $text = preg_replace($wp_macIE_correction["in"],$wp_macIE_correction["out"],$text);
+        $popuptitle = preg_replace('/'.$wp_macIE_correction["in"].'/','/'.$wp_macIE_correction["out"].'/',$popuptitle);
+        $text = preg_replace('/'.$wp_macIE_correction["in"].'/','/'.$wp_macIE_correction["out"].'/',$text);
     }
     
     if (($is_winIE) && (!isset($IEWin_bookmarklet_fix))) {
@@ -36,8 +36,8 @@ window.close()
     }
     
     if (($is_gecko) && (!isset($Gecko_bookmarklet_fix))) {
-        $popuptitle = preg_replace($wp_gecko_correction["in"],$wp_gecko_correction["out"],$popuptitle);
-        $text = preg_replace($wp_gecko_correction["in"],$wp_gecko_correction["out"],$text);
+        $popuptitle = preg_replace('/'.$wp_gecko_correction["in"].'/','/'.$wp_gecko_correction["out"].'/',$popuptitle);
+        $text = preg_replace('/'.$wp_gecko_correction["in"].'/','/'.$wp_gecko_correction["out"].'/',$text);
     }
     
     $post_title = wp_specialchars($_REQUEST['post_title']);
