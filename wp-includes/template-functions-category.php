@@ -113,7 +113,7 @@ function the_category_rss($type = 'rss') {
 
 function get_the_category_by_ID($cat_ID) {
     global $tablecategories, $cache_categories, $wpdb;
-    if ( !$cache_categories[$cat_ID]) ) {
+    if ( !$cache_categories[$cat_ID] ) {
         $cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
         $cache_categories[$cat_ID]->cat_name = $cat_name;
     } else {
@@ -330,7 +330,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 
                 $link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename)  . '"';
 
-                if (! empty($feed)) {
+                if ( !empty($feed) ) {
                     $title =  ' title="' . stripslashes($feed) . '"';
                     $alt = ' alt="' . stripslashes($feed) . '"';
                     $name = stripslashes($feed);

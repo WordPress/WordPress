@@ -412,7 +412,7 @@ function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { //
 
 function get_catname($cat_ID) {
 	global $tablecategories, $cache_catnames, $wpdb;
-	if ( !$cache_catnames) ) {
+	if ( !$cache_catnames ) {
         $results = $wpdb->get_results("SELECT * FROM $tablecategories") or die('Oops, couldn\'t query the db for categories.');
 		foreach ($results as $post) {
 			$cache_catnames[$post->cat_ID] = $post->cat_name;
