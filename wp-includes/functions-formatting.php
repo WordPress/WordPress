@@ -141,42 +141,44 @@ function utf8_uri_encode( $utf8_string ) {
 
 function remove_accents($string) {
 	if (seems_utf8($string)) {
-		$chars = array(// Decompositions for Latin-1 Supplement
-									 chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
-									 chr(195).chr(130) => 'A', chr(195).chr(131) => 'A',
-									 chr(195).chr(132) => 'A', chr(195).chr(133) => 'A',
-									 chr(195).chr(135) => 'C', chr(195).chr(136) => 'E',
-									 chr(195).chr(137) => 'E', chr(195).chr(138) => 'E',
-									 chr(195).chr(139) => 'E', chr(195).chr(140) => 'I',
-									 chr(195).chr(141) => 'I', chr(195).chr(142) => 'I',
-									 chr(195).chr(143) => 'I', chr(195).chr(145) => 'N',
-									 chr(195).chr(146) => 'O', chr(195).chr(147) => 'O',
-									 chr(195).chr(148) => 'O', chr(195).chr(149) => 'O',
-									 chr(195).chr(150) => 'O', chr(195).chr(153) => 'U',
-									 chr(195).chr(154) => 'U', chr(195).chr(155) => 'U',
-									 chr(195).chr(156) => 'U', chr(195).chr(157) => 'Y',
-									 chr(195).chr(160) => 'a', chr(195).chr(161) => 'a',
-									 chr(195).chr(162) => 'a', chr(195).chr(163) => 'a',
-									 chr(195).chr(164) => 'a', chr(195).chr(165) => 'a',
-									 chr(195).chr(167) => 'c', chr(195).chr(168) => 'e',
-									 chr(195).chr(169) => 'e', chr(195).chr(170) => 'e',
-									 chr(195).chr(171) => 'e', chr(195).chr(172) => 'i',
-									 chr(195).chr(173) => 'i', chr(195).chr(174) => 'i',
-									 chr(195).chr(175) => 'i', chr(195).chr(177) => 'n',
-									 chr(195).chr(178) => 'o', chr(195).chr(179) => 'o',
-									 chr(195).chr(180) => 'o', chr(195).chr(181) => 'o',
-									 chr(195).chr(182) => 'o', chr(195).chr(182) => 'o',
-									 chr(195).chr(185) => 'u', chr(195).chr(186) => 'u',
-									 chr(195).chr(187) => 'u', chr(195).chr(188) => 'u',
-									 chr(195).chr(189) => 'y', chr(195).chr(191) => 'y',
-									 // Decompositions for Latin Extended-A
-									 // TODO: Finish me.
-									 chr(197).chr(146) => 'OE', chr(197).chr(147) => 'oe',
-									 chr(197).chr(160) => 'S', chr(197).chr(161) => 's',
-									 chr(197).chr(189) => 'Z', chr(197).chr(190) => 'z',
-									 // Euro Sign
-									 chr(226).chr(130).chr(172) => 'E');
-
+		$chars = array(
+		// Decompositions for Latin-1 Supplement
+		chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
+		chr(195).chr(130) => 'A', chr(195).chr(131) => 'A',
+		chr(195).chr(132) => 'A', chr(195).chr(133) => 'A',
+		chr(195).chr(135) => 'C', chr(195).chr(136) => 'E',
+		chr(195).chr(137) => 'E', chr(195).chr(138) => 'E',
+		chr(195).chr(139) => 'E', chr(195).chr(140) => 'I',
+		chr(195).chr(141) => 'I', chr(195).chr(142) => 'I',
+		chr(195).chr(143) => 'I', chr(195).chr(145) => 'N',
+		chr(195).chr(146) => 'O', chr(195).chr(147) => 'O',
+		chr(195).chr(148) => 'O', chr(195).chr(149) => 'O',
+		chr(195).chr(150) => 'O', chr(195).chr(153) => 'U',
+		chr(195).chr(154) => 'U', chr(195).chr(155) => 'U',
+		chr(195).chr(156) => 'U', chr(195).chr(157) => 'Y',
+		chr(195).chr(159) => 's', chr(195).chr(160) => 'a',
+		chr(195).chr(161) => 'a', chr(195).chr(162) => 'a',
+		chr(195).chr(163) => 'a', chr(195).chr(164) => 'a',
+		chr(195).chr(165) => 'a', chr(195).chr(167) => 'c',
+		chr(195).chr(168) => 'e', chr(195).chr(169) => 'e',
+		chr(195).chr(170) => 'e', chr(195).chr(171) => 'e',
+		chr(195).chr(172) => 'i', chr(195).chr(173) => 'i',
+		chr(195).chr(174) => 'i', chr(195).chr(175) => 'i',
+		chr(195).chr(177) => 'n', chr(195).chr(178) => 'o',
+		chr(195).chr(179) => 'o', chr(195).chr(180) => 'o',
+		chr(195).chr(181) => 'o',	chr(195).chr(182) => 'o',
+		chr(195).chr(182) => 'o',	chr(195).chr(185) => 'u',
+		chr(195).chr(186) => 'u',	chr(195).chr(187) => 'u',
+		chr(195).chr(188) => 'u',	chr(195).chr(189) => 'y',
+		chr(195).chr(191) => 'y',
+		// Decompositions for Latin Extended-A
+		// TODO: Finish me.
+		chr(197).chr(146) => 'OE', chr(197).chr(147) => 'oe',
+		chr(197).chr(160) => 'S', chr(197).chr(161) => 's',
+		chr(197).chr(189) => 'Z', chr(197).chr(190) => 'z',
+		// Euro Sign
+		chr(226).chr(130).chr(172) => 'E');
+		
 		$string = strtr($string, $chars);
 	} else {
 		// Assume ISO-8859-1 if not UTF-8
