@@ -6,9 +6,9 @@
 // Menu item name
 // The minimum level the user needs to access the item: between 0 and 10
 // The URL of the item's file
+$menu[0] = array(__('Dashboard'), 0, 'index.php');
 $menu[5] = array(__('Write'), 1, 'post.php');
-$menu[10] = array(__('Edit'), 1, 'edit.php');
-$menu[15] = array(__('Categories'), 3, 'categories.php');
+$menu[10] = array(__('Manage'), 1, 'edit.php');
 $menu[20] = array(__('Links'), 5, 'link-manager.php');
 $menu[25] = array(__('Users'), 3, 'users.php');
 $menu[30] = array(__('Options'), 6, 'options-general.php');

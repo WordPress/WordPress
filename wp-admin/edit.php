@@ -7,8 +7,9 @@ require_once('admin-header.php');
 ?>
  <ul id="adminmenu2"> 
   <li><a href="edit.php" class="current"><?php _e('Posts') ?></a></li> 
+  <li><a href="categories.php"><?php _e('Categories') ?></a></li>
   <li><a href="edit-comments.php"><?php _e('Comments') ?></a></li> 
-  <li class="last"><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li> 
+  <li><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li> 
 </ul> 
 <?php
 get_currentuserinfo();
@@ -84,8 +85,9 @@ if( isset( $_GET['m'] ) )
     <th scope="col"><?php _e('Categories') ?></th> 
     <th scope="col"><?php _e('Comments') ?></th> 
     <th scope="col"><?php _e('Author') ?></th> 
-    <th scope="col"><?php _e('Edit') ?></th> 
-    <th scope="col"><?php _e('Delete') ?></th> 
+	<th scope="col"></th> 
+    <th scope="col"></th> 
+    <th scope="col"></th> 
   </tr> 
 <?php
 if (empty($m)) $showposts = 15;
@@ -99,15 +101,15 @@ $class = ('alternate' == $class) ? '' : 'alternate';
   <tr class='<?php echo $class; ?>'> 
     <th scope="row"><?php echo $id ?></th> 
     <td><?php the_time('Y-m-d \<\b\r \/\> g:i:s a'); ?></td> 
-    <td><a href="<?php the_permalink(); ?>" rel="permalink"> 
+    <td>
       <?php the_title() ?> 
-      </a> 
     <?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?></td> 
     <td><?php the_category(','); ?></td> 
     <td><a href="edit.php?p=<?php echo $id ?>&amp;c=1"> 
-      <?php comments_number(__('no comments'), __('1 comment'), __("% comments")) ?> 
+      <?php comments_number(__('0'), __('1'), __('%')) ?> 
       </a></td> 
     <td><?php the_author() ?></td> 
+	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit">View</a></td>
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), the_title('','',0)) . "')\">" . __('Delete') . "</a>"; } ?></td> 
   </tr> 
