@@ -630,7 +630,7 @@ $geo_option_data = array(
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(86,'default_geourl_lat ', 8, 0.0, 'The default Latitude ICBM value - <a href=\"http://www.geourl.org/resources.html\" target=\"_blank\">see here</a>', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(87,'default_geourl_lon', 8, 0.0, 'The default Longitude ICBM value', 8, 20)",
 
-"INSERT INTO $tableoptiongroups (group_id, group_name, group_desc) VALUES(9,'Geo Options',Settings which control the posting and display of Geo Options')",
+"INSERT INTO $tableoptiongroups (group_id, group_name, group_desc) VALUES(9,'Geo Options', 'Settings which control the posting and display of Geo Options')",
 
 "INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,84,1)",
 "INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,85,1)",
