@@ -259,14 +259,16 @@ $q = $wpdb->query($query);
 $query = "
 CREATE TABLE $tableoptions (
   option_id int(11) NOT NULL auto_increment,
-  option_name varchar(64) UNIQUE NOT NULL default '',
+  blog_id int(11) NOT NULL default 0,
+  option_name varchar(64) NOT NULL default '',
+  option_can_override enum ('Y','N') NOT NULL default 'Y',
   option_type int(11) NOT NULL default 1,
   option_value varchar(255) NOT NULL default '',
   option_width int NOT NULL default 20,
   option_height int NOT NULL default 8,
   option_description tinytext NOT NULL default '',
   option_admin_level int NOT NULL DEFAULT '1',
-  PRIMARY KEY (option_id)
+  PRIMARY KEY (option_id, blog_id, option_name)
 )
 ";
 $q = $wpdb->query($query);

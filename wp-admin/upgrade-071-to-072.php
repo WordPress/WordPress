@@ -80,16 +80,16 @@ switch($step) {
 $query = "
 CREATE TABLE $tableoptions (
   option_id int(11) NOT NULL auto_increment,
-  blog_id int(11) not null default 0,
+  blog_id int(11) NOT NULL default 0,
+  option_name varchar(64) NOT NULL default '',
   option_can_override enum ('Y','N') NOT NULL default 'Y',
-  option_name varchar(64) UNIQUE NOT NULL default '',
   option_type int(11) NOT NULL default 1,
   option_value varchar(255) NOT NULL default '',
   option_width int NOT NULL default 20,
   option_height int NOT NULL default 8,
   option_description tinytext NOT NULL default '',
   option_admin_level int NOT NULL DEFAULT '1',
-  PRIMARY KEY (option_id, blog_id)
+  PRIMARY KEY (option_id, blog_id, option_name)
 )
 ";
 $q = $wpdb->query($query);
@@ -401,17 +401,40 @@ foreach ($option_data as $query) {
 
     // now pickup the old settings table data
     $v = $wpdb->get_var("SELECT posts_per_page from $tablesettings");
-    $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=48"; $q = $wpdb->query($query);
+    if ($v != null) {
+        $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=48";
+        $q = $wpdb->query($query);
+    }
+    
     $v = $wpdb->get_var("SELECT what_to_show from $tablesettings");
-    $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=49"; $q = $wpdb->query($query);
+    if ($v != null) {
+        $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=49";
+        $q = $wpdb->query($query);
+    }
+    
     $v = $wpdb->get_var("SELECT archive_mode from $tablesettings");
-    $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=50"; $q = $wpdb->query($query);
+    if ($v != null) {
+        $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=50";
+        $q = $wpdb->query($query);
+    }
+    
     $v = $wpdb->get_var("SELECT time_difference from $tablesettings");
-    $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=51"; $q = $wpdb->query($query);
+    if ($v != null) {
+        $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=51";
+        $q = $wpdb->query($query);
+    }
+    
     $v = $wpdb->get_var("SELECT date_format from $tablesettings");
-    $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=52"; $q = $wpdb->query($query);
+    if ($v != null) {
+        $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=52";
+        $q = $wpdb->query($query);
+    }
+    
     $v = $wpdb->get_var("SELECT time_format from $tablesettings");
-    $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=53"; $q = $wpdb->query($query);
+    if ($v != null) {
+        $query = "UPDATE $tableoptions SET option_value='".addslashes($v)."' WHERE option_id=53";
+        $q = $wpdb->query($query);
+    }
     
     // ok it can go now
     $query = "DROP TABLE $tablesettings";
