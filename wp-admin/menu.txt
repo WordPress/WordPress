@@ -4,6 +4,7 @@
 5	link-manager.php	Links
 3	users.php	Users
 4	options-general.php	Options
+8	plugins.php	Plugins
 4	templates.php	Templates
 5	upload.php	Upload
 0	profile.php	My Profile
