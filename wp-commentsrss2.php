@@ -5,9 +5,12 @@
 
 /* These first lines are the first part of a WordPress template.
 		   In every template you do, you got to copy them before the CafeLog 'loop' */
-$blog=1; // enter your blog's ID
+if (! $feed) {
+    $blog=1; // enter your blog's ID
+    require('wp-blog-header.php');
+}
+
 header('Content-type: text/xml');
-require('wp-blog-header.php');
 
 if (!isset($rss_language)) { $rss_language = 'en'; }
 echo "<?xml version=\"1.0\"?".">"; 
@@ -26,8 +29,8 @@ foreach ($posts as $post) { start_wp();
 	if ($i < 1) {
 		$i++;
 ?>
-	<title><?php if (isset($_REQUEST["p"])) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
-	<link><?php isset($_REQUEST["p"]) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
+	<title><?php if (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
+    <link><?php (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<dc:language><?php echo $rss_language ?></dc:language>
 	<dc:creator><?php echo antispambot($admin_email) ?></dc:creator>
@@ -40,7 +43,7 @@ foreach ($posts as $post) { start_wp();
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
 
 <?php 
-		if (isset($_REQUEST["p"])) {
+		if (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) {
 			$comments = $wpdb->get_results("SELECT comment_ID,
 												   comment_author,
 												   comment_author_email,

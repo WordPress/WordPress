@@ -1,8 +1,11 @@
 <?php /* RDF 1.0 generator, original version by garym@teledyn.com */
-$blog = 1; // enter your blog's ID
-$doing_rss = 1;
+if (! $feed) {
+    $blog = 1; // enter your blog's ID
+    $doing_rss = 1;
+    require('wp-blog-header.php');
+}
+
 header('Content-type: text/xml', true);
-require('wp-blog-header.php');
 
 /* This doesn't take into account edits
 // Get the time of the most recent article

@@ -1,8 +1,11 @@
 <?php 
-$blog = 1;
-$doing_rss = 1;
+if (! $feed) {
+    $blog = 1;
+    $doing_rss = 1;
+    require('wp-blog-header.php');
+}
+
 header('Content-type: text/xml', true);
-require('wp-blog-header.php');
 
 /* This doesn't take into account edits
 // Get the time of the most recent article

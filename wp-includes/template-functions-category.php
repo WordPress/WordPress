@@ -36,6 +36,23 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
     return $link;
 }
 
+function get_category_rss_link($echo = false, $category_id, $category_nicename) {
+       global $querystring_start, $querystring_equal, $siteurl;
+       $cat_ID = $category_id;
+       $permalink_structure = get_settings('permalink_structure');
+
+       if ('' == $permalink_structure) {
+               $file = "$siteurl/wp-rss2.php";
+        $link = $file . $querystring_start . 'cat' . $querystring_equal . $category_id;
+       } else {
+        $link = get_category_link(0, $category_id, $category_nicename);
+               $link = $link . "/feed/";
+       }
+
+       if ($echo) echo $link;
+       return $link;
+}
+
 function the_category($seperator = '', $parents='') {
     $categories = get_the_category();
     if ('' == $seperator) {

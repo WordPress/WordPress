@@ -10,6 +10,11 @@ $title = $HTTP_POST_VARS['title'];
 $excerpt = $HTTP_POST_VARS['excerpt'];
 $blog_name = $HTTP_POST_VARS['blog_name'];
 
+require('wp-blog-header.php');
+
+if ( (($p != '') && ($p != 'all')) || ($name != '') ) {
+    $tb_id = $posts[0]->ID;
+}
 
 if (empty($title) && empty($tb_url) && empty($blog_name)) {
 	// If it doesn't look like a trackback at all...

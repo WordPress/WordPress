@@ -1,8 +1,12 @@
 <?php 
-$blog = 1;
-$doing_rss = 1;
+if (! $feed) {
+    $blog = 1;
+    $doing_rss = 1;
+    require('wp-blog-header.php');
+}
+
 header('Content-type: application/atom+xml', true);
-require('wp-blog-header.php');
+
 if (!isset($rss_language)) { $rss_language = 'en'; }
 if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
 if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }

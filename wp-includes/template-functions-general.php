@@ -23,6 +23,17 @@ function bloginfo_unicode($show='') {
 
 function get_bloginfo($show='') {
     global $siteurl, $blogfilename, $blogname, $blogdescription, $siteurl, $admin_email;
+
+    $do_perma = 0;
+    $feed_url = $siteurl;
+    $comment_feed_url = $siteurl;
+
+    if ('' != get_settings('permalink_structure')) {
+        $do_perma = 1;
+        $feed_url = $siteurl . '/feed';
+        $comment_feed_url = $siteurl . '/comments/feed';
+    }
+
     switch($show) {
         case "url":
             $output = $siteurl."/".$blogfilename;
@@ -32,18 +43,33 @@ function get_bloginfo($show='') {
             break;
         case "rdf_url":
             $output = $siteurl.'/wp-rdf.php';
+            if ($do_perma) {
+                $output = $feed_url . '/rdf/';
+            }
             break;
         case "rss_url":
             $output = $siteurl.'/wp-rss.php';
+            if ($do_perma) {
+                $output = $feed_url . '/rss/';
+            }
             break;
         case "rss2_url":
             $output = $siteurl.'/wp-rss2.php';
+            if ($do_perma) {
+                $output = $feed_url . '/rss2/';
+            }
             break;
         case "atom_url":
             $output = $siteurl.'/wp-atom.php';
+            if ($do_perma) {
+                $output = $feed_url . '/atom/';
+            }
             break;        
         case "comments_rss2_url":
             $output = $siteurl.'/wp-commentsrss2.php';
+            if ($do_perma) {
+                $output = $comment_feed_url . '/rss2/';
+            }
             break;
         case "pingback_url":
             $output = $siteurl.'/xmlrpc.php';

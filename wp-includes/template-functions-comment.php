@@ -209,7 +209,13 @@ function comment_time($d='') {
 function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp-commentsrss2.php') {
     global $id;
     global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-    $url = $siteurl.'/'.$commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
+
+    if ('' != get_settings('permalink_structure')) {
+        $url = trailingslashit(get_permalink()) . 'rss2/';
+    } else {
+        $url = $siteurl.'/'.$commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
+    }
+
     $url = '<a href="'.$url.'">'.$link_text.'</a>';
     echo $url;
 }
@@ -252,6 +258,11 @@ function permalink_comments_rss() {
 function trackback_url($display = true) {
     global $siteurl, $id;
     $tb_url = $siteurl.'/wp-trackback.php/'.$id;
+
+    if ('' != get_settings('permalink_structure')) {
+        $tb_url = get_permalink() . 'trackback/';
+    }
+
     if ($display) {
         echo $tb_url;
     } else {
