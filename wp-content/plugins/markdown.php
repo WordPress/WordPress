@@ -2,7 +2,8 @@
 /*
 Plugin Name: MarkDown
 Plugin URI: http://daringfireball.net/projects/markdown/
-Description: Markdown is a text-to-HTML conversion tool for web writers. <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML. This plugin <strong>enables Markdown for your posts and comments</strong>. Written by <a href="http://daringfireball.net/">John Gruber</a> in Perl, translated to PHP by <a href="http://www.michelf.com/">Michel Fortin</a>, and made a WP plugin by <a href="http://photomatt.net/">Matt</a>. If you use this you should disable Textile 1 and 2.
+Description: Markdown is a text-to-HTML conversion tool for web writers. <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML. This plugin <strong>enables Markdown for your posts and comments</strong>. Written by <a href="http://daringfireball.net/">John Gruber</a> in Perl, translated to PHP by <a href="http://www.michelf.com/">Michel Fortin</a>, and made a WP plugin by <a href="http://photomatt.net/">Matt</a>. If you use this you should disable Textile 1 and 2 because the syntax conflicts.
+Version: 1.0b4
 Author: John Gruber
 Author URI: http://daringfireball.net/
 */ 

@@ -3,6 +3,7 @@
 Plugin Name: Search Hilite
 Plugin URI: http://wordpress.org/#
 Description: When someone is referred from a search engine like Google, Yahoo, or WordPress' own, the terms they search for are highlighted with this plugin. Packaged by <a href="http://photomatt.net/">Matt</a>.
+Version: 1.2
 Author: Ryan Boren
 Author URI: http://rboren.nu
 */ 
