@@ -95,7 +95,8 @@ if ($date) :
 	$date = strtotime($date[1]);
 else : // if we don't already have something from pubDate
 	preg_match('|<dc:date>(.*?)</dc:date>|is', $post, $date);
-	$date = preg_replace('|(-[0-9:]+)$|', '', $date[1]);
+	$date = preg_replace('|([-+])([0-9]+):([0-9]+)$|', '\1\2\3', $date[1]);
+	$date = str_replace('T', ' ', $date);
 	$date = strtotime($date);
 endif;
 
