@@ -7,6 +7,7 @@ function upgrade_all() {
 	upgrade_100();
 	upgrade_101();
 	upgrade_110();
+	upgrade_130();
 }
 
 // General
@@ -832,6 +833,14 @@ function upgrade_110() {
 
 
 	$wpdb->query("ALTER TABLE `$wpdb->comments` CHANGE `comment_author_url` `comment_author_url` VARCHAR( 200 ) NOT NULL");
+}
+
+function upgrade_130() {
+    global $wpdb;
+
+	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'default_email_category'")) {
+        $wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_description, option_admin_level) VALUES('default_email_category', 1, '1', 'by default posts by email will have this category', 8)");
+    }
 }
 
 ?>

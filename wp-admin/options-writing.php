@@ -48,7 +48,7 @@ include('options-head.php');
   <h2>Writing Options</h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','advanced_edit','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category'" /> 
+    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','advanced_edit','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category', 'default_email_category'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top">
         <th scope="row"> <?php _e('When starting a post, show:') ?> </th>
@@ -74,6 +74,19 @@ include('options-head.php');
   <input name="use_balanceTags" type="checkbox" id="label2" value="1" <?php checked('1', get_settings('use_balanceTags')); ?> />
           <?php _e('WordPress should correct invalidly nested XHTML automatically') ?></label></td>
       </tr>
+        	<tr valign="top">
+                <th scope="row"><?php _e('Default post category:') ?></th>
+        		<td><select name="default_category" id="default_category">
+<?php
+$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
+foreach ($categories as $category) :
+if ($category->cat_ID == get_settings('default_category')) $selected = " selected='selected'";
+else $selected = '';
+	echo "\n\t<option value='$category->cat_ID' $selected>$category->cat_name</option>";
+endforeach;
+?>
+       			</select></td>
+       		</tr>
     </table> 
     <fieldset class="options">
 	<legend><?php _e('Update Services') ?></legend>
@@ -104,12 +117,12 @@ include('options-head.php');
         		</td>
        		</tr>
         	<tr valign="top">
-                <th scope="row"><?php _e('Usual category:') ?></th>
-        		<td><select name="default_category" id="default_category">
+                <th scope="row"><?php _e('Default post by mail category:') ?></th>
+        		<td><select name="default_email_category" id="default_email_category">
 <?php
-$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
+//Alreay have $categories from default_category
 foreach ($categories as $category) :
-if ($category->cat_ID == get_settings('default_category')) $selected = " selected='selected'";
+if ($category->cat_ID == get_settings('default_email_category')) $selected = " selected='selected'";
 else $selected = '';
 	echo "\n\t<option value='$category->cat_ID' $selected>$category->cat_name</option>";
 endforeach;
