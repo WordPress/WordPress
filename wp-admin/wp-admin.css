@@ -84,9 +84,9 @@ form, label input {
 }
 
 h2 {
-	border-bottom: 2px solid #ccc;
+	border-bottom: 2px solid #69c;
 	color: #333;
-	font: normal 22px/16px normal;
+	font: normal 22px/18px normal;
 	margin: 5px 10px;
 }
 
@@ -189,7 +189,6 @@ textarea, input, select {
 }
 
 .wrap h2 {
-	font-size: 20px;
 	margin: 6px 0;
 }
 
