@@ -616,4 +616,16 @@ function upgrade_100() {
 	}
 }
 
+function upgrade_101() {
+	global $wpdb, $tableoptionvalues;
+	// Fix possible duplicate problem from CVS
+	$option59 = $wpdb->get_results("SELECT * FROM $tableoptionvalues WHERE option_id  = 59");
+	if (1 < count($option59)) {
+		$wpdb->query("DELETE FROM $tableoptionvalues WHERE option_id = 59 AND optionvalue LIKE('%FROM  order%')");
+	}
+	
+	// Remove 'automatic' option for comment moderation until it actually does something
+	$wpdb->query("DELETE FROM $tableoptionvalues WHERE optionvalue = 'auto'");
+}
+
 ?>

@@ -51,6 +51,7 @@ switch($step) {
 	upgrade_071();
 	upgrade_072();
 	upgrade_100();
+	upgrade_101();
 ?> 
 <h2>Step 1</h2> 
 <p>There's actually only one step. So if you see this, you're done. <a href="../">Have fun</a>! </p>

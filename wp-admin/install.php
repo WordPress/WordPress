@@ -722,6 +722,7 @@ $q = $wpdb->query($query);
 upgrade_071();
 upgrade_072();
 upgrade_100();
+upgrade_101();
 ?>
 
 <p>User setup successful!</p>
