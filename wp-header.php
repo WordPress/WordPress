@@ -15,7 +15,7 @@ else :
 	<meta name="generator" content="WordPress <?php bloginfo('version'); ?>" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
-		@import url( <?php echo get_settings('siteurl'); ?>/wp-layout.css );
+		@import url( <?php echo bloginfo('stylesheet_url'); ?> );
 	</style>
 	
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_settings('siteurl'); ?>/print.css" />
