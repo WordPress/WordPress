@@ -1218,12 +1218,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$original_pagelinkedfrom = $pagelinkedfrom;
 		$pagelinkedfrom = addslashes($pagelinkedfrom);
 		$original_title = $title;
-		$title = addslashes(strip_tags(trim($title)));
 
-		// Check if the entry allows pings
-		if( !check_comment($title, '', $pagelinkedfrom, $context, $user_ip, $user_agent) ) {
-	  		return new IXR_Error(49, 'Pingbacks not allowed on this entry.');
-		}
+		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $tb_id");
+	
+		if ('open' != $pingstatus)
+			trackback_response(1, 'Sorry, trackbacks are closed for this item.');
 
 		$comment_post_ID = $post_ID;
 		$comment_author = $title;
@@ -1234,10 +1233,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
 
 		wp_new_comment($commentdata);
-
-		$comment_ID = $wpdb->insert_id;
-
-		do_action('pingback_post', $comment_ID);
+		do_action('pingback_post', $wpdb->insert_id);
 		
 		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
 	}

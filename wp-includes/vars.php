@@ -94,7 +94,7 @@ $wp_gecko_correction['in'] = array(
 	'/\‘/', '/\’/', '/\“/', '/\”/',
 	'/\•/', '/\–/', '/\—/', '/\Ω/',
 	'/\β/', '/\γ/', '/\θ/', '/\λ/',
-	'/\π/', '/\′/', '/\″/', '/\�/',
+	'/\π/', '/\′/', '/\″/', '/\/',
 	'/\€/', '/\ /'
 );
 $wp_gecko_correction['out'] = array(
@@ -192,5 +192,41 @@ add_filter('the_title', 'wptexturize');
 add_filter('the_content', 'wptexturize');
 add_filter('the_excerpt', 'wptexturize');
 add_filter('bloginfo', 'wptexturize');
+
+// Comments, trackbacks, pingbacks
+add_filter('pre_comment_author_name', 'strip_tags');
+add_filter('pre_comment_author_name', 'trim');
+add_filter('pre_comment_author_name', 'wp_specialchars', 30);
+
+add_filter('pre_comment_author_email', 'trim');
+add_filter('pre_comment_author_email', 'sanitize_email');
+
+add_filter('pre_comment_author_url', 'strip_tags');
+add_filter('pre_comment_author_url', 'trim');
+add_filter('pre_comment_author_url', 'clean_url');
+
+add_filter('pre_comment_content', 'wp_filter_kses');
+add_filter('pre_comment_content', 'format_to_post');
+add_filter('pre_comment_content', 'balanceTags', 30);
+
+// Default filters for these functions
+add_filter('comment_author', 'wptexturize');
+add_filter('comment_author', 'convert_chars');
+
+add_filter('comment_email', 'antispambot');
+
+add_filter('comment_url', 'clean_url');
+
+add_filter('comment_text', 'convert_chars');
+add_filter('comment_text', 'make_clickable');
+add_filter('comment_text', 'wpautop', 30);
+add_filter('comment_text', 'convert_smilies', 20);
+
+add_filter('comment_excerpt', 'convert_chars');
+
+// Places to balance tags on input
+add_filter('content_save_pre', 'balanceTags', 50);
+add_filter('excerpt_save_pre', 'balanceTags', 50);
+add_filter('comment_save_pre', 'balanceTags', 50);
 
 ?>

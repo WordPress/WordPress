@@ -561,8 +561,4 @@ function wp_filter_kses($data) {
 	return wp_kses($data, $allowedtags);
 }
 
-// Filter untrusted content
-add_filter('comment_author', 'wp_filter_kses');
-add_filter('comment_text', 'wp_filter_kses');
-
 ?>

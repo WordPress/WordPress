@@ -546,4 +546,8 @@ function popuplinks($text) {
 	return $text;
 }
 
+function sanitize_email($email) {
+	return preg_replace('/[^a-z0-9+_.@-]/i', '', $email);
+}
+
 ?>

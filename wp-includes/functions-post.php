@@ -382,41 +382,36 @@ function user_can_edit_user($user_id, $other_user) {
 }
 
 
-function wp_new_comment($commentdata) {
+function wp_new_comment( $commentdata ) {
 	global $wpdb;
+
 	extract($commentdata);
 
 	$comment_post_ID = (int) $comment_post_ID;
 
-	$comment_author = strip_tags($comment_author);
-	$comment_author = wp_specialchars($comment_author);
+	$author  = apply_filters('pre_comment_author_name', $comment_author);
+	$email   = apply_filters('pre_comment_author_email', $comment_author_email);
+	$url     = apply_filters('pre_comment_author_url', $comment_author_url);
+	$comment = apply_filters('pre_comment_content', $comment_content);
+	$comment = apply_filters('post_comment_text', $comment); // Deprecated
+	$comment = apply_filters('comment_content_presave', $comment_content); // Deprecated
 
-	$comment_author_email = preg_replace('/[^a-z+_.@-]/i', '', $comment_author_email);
+	$user_ip     = apply_filters('pre_comment_user_ip', $_SERVER['REMOTE_ADDR']);
+	$user_domain = apply_filters('pre_comment_user_domain', gethostbyaddr($user_ip) );
+	$user_agent  = apply_filters('pre_comment_user_agent', $_SERVER['HTTP_USER_AGENT']);
 
-	$comment_author_url = strip_tags($comment_author_url);
-	$comment_author_url = wp_specialchars($comment_author_url);
-
-	$comment_content = apply_filters('comment_content_presave', $comment_content);
-
-	$user_ip = addslashes($_SERVER['REMOTE_ADDR']);
-	$user_domain = addslashes( gethostbyaddr($user_ip) );
-	$now = current_time('mysql');
+	$now     = current_time('mysql');
 	$now_gmt = current_time('mysql', 1);
-	$user_agent = addslashes($_SERVER['HTTP_USER_AGENT']);
-
-	if ( (!isset($comment_type)) || (($comment_type != 'trackback') && ($comment_type != 'pingback')) ) {
-		$comment_type = '';
-	}
 
 	// Simple flood-protection
-	if ( $lasttime = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1") ) {
-		$time_lastcomment= mysql2date('U', $lasttime);
-		$time_newcomment= mysql2date('U', $now);
+	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' OR comment_author_email = '$email' ORDER BY comment_date DESC LIMIT 1") ) {
+		$time_lastcomment = mysql2date('U', $lasttime);
+		$time_newcomment  = mysql2date('U', $now_gmt);
 		if ( ($time_newcomment - $time_lastcomment) < 15 )
 			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
 	}
 
-	if( check_comment($comment_author, $comment_author_email, $comment_author_url, $comment_content, $user_ip, $user_agent) )
+	if( check_comment($author, $email, $url, $comment, $user_ip, $user_agent) )
 		$approved = 1;
 	else
 		$approved = 0;
@@ -427,8 +422,14 @@ function wp_new_comment($commentdata) {
 	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$user_ip', '$now', '$now_gmt', '$comment_content', '$approved', '$user_agent', '$comment_type')
 	");
 
-	if ( get_option('comments_notify') )
-		wp_notify_postauthor($wpdb->insert_id, $comment_type);
+	$comment_id = $wpdb->insert_id;
+	do_action('comment_post', $comment_id);
+
+	if ( !$approved )
+		wp_notify_moderator($comment_ID);
+
+	if ( get_settings('comments_notify') && $approved )
+		wp_notify_postauthor($comment_ID, 'comment');
 
 	return $result;
 }

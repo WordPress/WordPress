@@ -17,23 +17,6 @@ $what_to_show = get_settings('what_to_show');
 $date_format = get_settings('date_format');
 $time_format = get_settings('time_format');
 
-function add_magic_quotes($array) {
-	foreach ($array as $k => $v) {
-		if (is_array($v)) {
-			$array[$k] = add_magic_quotes($v);
-		} else {
-			$array[$k] = addslashes($v);
-		}
-	}
-	return $array;
-}
-
-if (!get_magic_quotes_gpc()) {
-	$_GET    = add_magic_quotes($_GET);
-	$_POST   = add_magic_quotes($_POST);
-	$_COOKIE = add_magic_quotes($_COOKIE);
-}
-
 $wpvarstoreset = array('profile','redirect','redirect_url','a','popuptitle','popupurl','text', 'trackback', 'pingback');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     $wpvar = $wpvarstoreset[$i];

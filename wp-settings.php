@@ -101,6 +101,13 @@ if ( get_settings('active_plugins') ) {
 
 define('TEMPLATEPATH', get_template_directory());
 
+if ( !get_magic_quotes_gpc() ) {
+	$_GET    = add_magic_quotes($_GET   );
+	$_POST   = add_magic_quotes($_POST  );
+	$_COOKIE = add_magic_quotes($_COOKIE);
+	$_SERVER = add_magic_quotes($_SERVER);
+}
+
 function shutdown_action_hook() {
 	do_action('shutdown', '');
 }

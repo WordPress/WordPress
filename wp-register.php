@@ -1,23 +1,6 @@
 <?php
 require('./wp-config.php');
 
-function add_magic_quotes($array) {
-	foreach ($array as $k => $v) {
-		if (is_array($v)) {
-			$array[$k] = add_magic_quotes($v);
-		} else {
-			$array[$k] = addslashes($v);
-		}
-	}
-	return $array;
-} 
-
-if (!get_magic_quotes_gpc()) {
-	$_GET    = add_magic_quotes($_GET);
-	$_POST   = add_magic_quotes($_POST);
-	$_COOKIE = add_magic_quotes($_COOKIE);
-}
-
 $wpvarstoreset = array('action');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];

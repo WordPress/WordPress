@@ -1,25 +1,9 @@
 <?php
+require_once( dirname(__FILE__) . '/wp-config.php' );
 
-function add_magic_quotes($array) {
-	foreach ($array as $k => $v) {
-		if (is_array($v)) {
-			$array[$k] = add_magic_quotes($v);
-		} else {
-			$array[$k] = addslashes($v);
-		}
-	}
-	return $array;
-}
-
-if (!get_magic_quotes_gpc()) {
-	$_GET    = add_magic_quotes($_GET);
-	$_POST   = add_magic_quotes($_POST);
-	$_COOKIE = add_magic_quotes($_COOKIE);
-}
-
-if (empty($doing_trackback)) {
-    $doing_trackback = true;
-    require('wp-blog-header.php');
+if ( empty($doing_trackback) ) {
+	$doing_trackback = true;
+	require_once('wp-blog-header.php');
 }
 
 function trackback_response($error = 0, $error_message = '') {
@@ -41,31 +25,33 @@ function trackback_response($error = 0, $error_message = '') {
 
 // trackback is done by a POST
 $request_array = 'HTTP_POST_VARS';
+
 if (!$tb_id) {
 	$tb_id = explode('/', $_SERVER['REQUEST_URI']);
 	$tb_id = intval($tb_id[count($tb_id)-1]);
 }
-$tb_url = $_POST['url'];
-$title = $_POST['title'];
-$excerpt = $_POST['excerpt'];
+
+$tb_url    = $_POST['url'];
+$title     = $_POST['title'];
+$excerpt   = $_POST['excerpt'];
 $blog_name = $_POST['blog_name'];
-$charset = $_POST['charset'];
+$charset   = $_POST['charset'];
 
 if ($charset)
 	$charset = strtoupper( trim($charset) );
 else
 	$charset = 'auto';
 
-if ( function_exists('mb_convert_encoding') ) {
-	$title = mb_convert_encoding($title, get_settings('blog_charset'), $charset);
-	$excerpt = mb_convert_encoding($excerpt, get_settings('blog_charset'), $charset);
+if ( function_exists('mb_convert_encoding') ) { // For international trackbacks
+	$title     = mb_convert_encoding($title, get_settings('blog_charset'), $charset);
+	$excerpt   = mb_convert_encoding($excerpt, get_settings('blog_charset'), $charset);
 	$blog_name = mb_convert_encoding($blog_name, get_settings('blog_charset'), $charset);
 }
 
 if ( is_single() ) 
     $tb_id = $posts[0]->ID;
 
-if ( !$tb_id)
+if ( !$tb_id )
 	trackback_response(1, 'I really need an ID for this to work.');
 
 if (empty($title) && empty($tb_url) && empty($blog_name)) {
@@ -79,15 +65,13 @@ if ( !empty($tb_url) && !empty($title) && !empty($tb_url) ) {
 
 	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $tb_id");
 
-	if ('closed' == $pingstatus)
+	if ('open' != $pingstatus)
 		trackback_response(1, 'Sorry, trackbacks are closed for this item.');
 
 	$title =  wp_specialchars( strip_tags( $title ) );
 	$title = (strlen($title) > 250) ? substr($title, 0, 250) . '...' : $title;
 	$excerpt = strip_tags($excerpt);
 	$excerpt = (strlen($excerpt) > 255) ? substr($excerpt, 0, 252) . '...' : $excerpt;
-	$blog_name = wp_specialchars($blog_name);
-	$blog_name = (strlen($blog_name) > 250) ? substr($blog_name, 0, 250) . '...' : $blog_name;
 
 	$comment_post_ID = $tb_id;
 	$comment_author = $blog_name;
