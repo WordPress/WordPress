@@ -1,6 +1,13 @@
 <?php
 $_wp_installing = 1;
-if (file_exists('../wp-config.php')) die("The file 'wp-config.php already exists. If you need to reset any of the configuration items in this file, please delete it first.");
+
+if (file_exists('../wp-config.php')) 
+	die("The file 'wp-config.php already exists. If you need to reset any of the configuration items in this file, please delete it first.");
+
+if (!file_exists('../wp-config-sample.php'))
+    die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
+    
+if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
@@ -43,7 +50,6 @@ if (!$step) $step = 0;
 <?php
 
 switch($step) {
-
 	case 0:
 ?> 
 <p>Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding.</p> 
@@ -102,13 +108,15 @@ switch($step) {
     $dbhost = $HTTP_POST_VARS['dbhost'];
 	$prefix = $HTTP_POST_VARS['prefix'];
 	if (empty($prefix)) $prefix = 'wp_';
-    
-	if (!file_exists('../wp-config-sample.php'))
-		die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
-    $configFile = file('../wp-config-sample.php');
-    
-	if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
-    $handle = fopen('../wp-config.php', 'w');
+
+    // Test the db connection.
+    define('DB_NAME', $dbname);
+    define('DB_USER', $uname);
+    define('DB_PASSWORD', $passwrd);
+    define('DB_HOST', $dbhost);
+
+    // We'll fail here if the values are no good.
+    require_once('../wp-includes/wp-db.php');
 
     foreach ($configFile as $line_num => $line) {
         switch (substr($line,0,16)) {
