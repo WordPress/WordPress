@@ -1,15 +1,20 @@
 <?php
 
-function the_author() {
-    global $id, $authordata;
-    $i = $authordata->user_idmode;
-    if ($i == 'nickname')    echo $authordata->user_nickname;
-    if ($i == 'login')    echo $authordata->user_login;
-    if ($i == 'firstname')    echo $authordata->user_firstname;
-    if ($i == 'lastname')    echo $authordata->user_lastname;
-    if ($i == 'namefl')    echo $authordata->user_firstname.' '.$authordata->user_lastname;
-    if ($i == 'namelf')    echo $authordata->user_lastname.' '.$authordata->user_firstname;
-    if (!$i) echo $authordata->user_nickname;
+function the_author($idmode = '', $echo = true) {
+    global $authordata;
+    if (empty($idmode)) {
+        $idmode = $authordata->user_idmode;
+    }
+    if ($idmode == 'nickname')    $id = $authordata->user_nickname;
+    if ($idmode == 'login')    $id = $authordata->user_login;
+    if ($idmode == 'firstname')    $id = $authordata->user_firstname;
+    if ($idmode == 'lastname')    $id = $authordata->user_lastname;
+    if ($idmode == 'namefl')    $id = $authordata->user_firstname.' '.$authordata->user_lastname;
+    if ($idmode == 'namelf')    $id = $authordata->user_lastname.' '.$authordata->user_firstname;
+    if (!$idmode) $id = $authordata->user_nickname;
+
+    if ($echo) echo $id;
+    return $id;
 }
 function the_author_description() {
     global $authordata;
@@ -62,6 +67,13 @@ function the_author_msn() {
 function the_author_posts() {
     global $id,$post;    $posts=get_usernumposts($post->post_author);    echo $posts;
 }
+
+function the_author_posts_link($idmode='') {
+    global $id, $authordata;
+
+    echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), htmlspecialchars(the_author($idmode, false))) . '">' . stripslashes(the_author($idmode, false)) . '</a>';
+}
+
 
 function get_author_link($echo = false, $author_id, $author_nicename) {
     global $wpdb, $tableusers, $post, $querystring_start, $querystring_equal, $cache_authors;
