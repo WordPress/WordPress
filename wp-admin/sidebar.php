@@ -37,7 +37,7 @@ if ('b' == $HTTP_GET_VARS['a']) {
 <title>WordPress > Sidebar</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $admin_area_charset ?>" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
-<link rel="shortcut icon" href="wp-favicon.png" />
+<link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 <style type="text/css" media="screen">
 form {
 	padding: 3px;
