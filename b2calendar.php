@@ -243,7 +243,7 @@ for($i = $calendarfirst; $i<($calendarlast+86400); $i = $i + 86400) {
 				$ak_day_titles = "";
 				foreach($ak_day_title_array as $post) {
 					if (substr($post->post_date, 8, 2) == date('d',$i)) {
-						$ak_day_titles = $ak_day_titles.stripslashes($post->post_title).$ak_title_separator;
+						$ak_day_titles = $ak_day_titles.htmlspecialchars(stripslashes($post->post_title)).$ak_title_separator;
 					}
 				}
 				$ak_day_titles = substr($ak_day_titles, 0, strlen($ak_day_titles) - $ak_trim);
