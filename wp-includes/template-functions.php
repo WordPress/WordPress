@@ -1730,10 +1730,10 @@ function comment_text() {
 	$comment_text = convert_chars($comment_text);
 	$comment_text = convert_bbcode($comment_text);
 	$comment_text = convert_gmcode($comment_text);
-	$comment_text = convert_smilies($comment_text);
 	$comment_text = make_clickable($comment_text);
 	$comment_text = balanceTags($comment_text,1);
 	$comment_text = apply_filters('comment_text', $comment_text);
+	$comment_text = convert_smilies($comment_text);
 	echo $comment_text;
 }
 
