@@ -68,7 +68,7 @@ include('options-head.php');
 			<tr valign="top"> 
                 <th width="33%" scope="row"><?php _e('Show the most recent:') ?></th> 
 				<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php echo get_settings('posts_per_rss'); ?>" size="3" /> 
-					<?php _('posts') ?></td> 
+					<?php _e('posts') ?></td> 
 			</tr>
 			<tr valign="top">
                 <th scope="row"><?php _e('For each article, show:') ?> </th>
