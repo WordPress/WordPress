@@ -437,7 +437,7 @@ function get_calendar($daylength = 1) {
             echo "\n\t</tr>\n\t<tr>\n\t\t";
         $newrow = false;
 
-        if ($day == gmdate('j', (time() + (get_settings('gmt_offset') * 3600))) && $thismonth == gmdate('m', time()+(get_settings('gmt_offset') * 3600)))
+        if ($day == gmdate('j', (time() + (get_settings('gmt_offset') * 3600))) && $thismonth == gmdate('m', time()+(get_settings('gmt_offset') * 3600)) && $thisyear == gmdate('Y', time()+(get_settings('gmt_offset') * 3600)))
             echo '<td id="today">';
         else
             echo '<td>';
