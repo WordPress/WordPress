@@ -20,7 +20,6 @@ header('Content-type: text/xml', true);
 	<title><?php bloginfo_rss('name') ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
-	<language><?php echo get_settings('rss_language'); ?></language>
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT')); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
