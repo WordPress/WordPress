@@ -1,9 +1,9 @@
 <?php
-define('RSSFILE', '');
+define('XMLFILE', '');
 // Example:
-// define('RSSFILE', '/home/example/public_html/rss.xml');
+// define('XMLFILE', '/home/example/public_html/rss.xml');
 // or if it's in the same directory as import-rss.php
-// define('RSSFILE', 'rss.xml');
+// define('XMLFILE', 'rss.xml');
 
 $post_author = 1; // Author to import posts as author ID
 $timezone_offset = 0; // GMT offset of posts your importing
@@ -53,26 +53,26 @@ switch($step) {
 
 	case 0:
 ?> 
-<p>Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. To get started you must edit the following line in this file (<code>import-rss.php</code>) </p>
-<p><code>define('RSSFILE', '');</code></p>
+<p>Howdy! This importer allows you to extract posts from a LiveJournal XML export file. To get started you must edit the following line in this file (<code>import-livejournal.php</code>) </p>
+<p><code>define('XMLFILE', '');</code></p>
 <p>You want to define where the RSS file we'll be working with is, for example: </p>
-<p><code>define('RSSFILE', 'rss.xml');</code></p>
+<p><code>define('XMLFILE', '2002-04.xml');</code></p>
 <p>You have to do this manually for security reasons.</p>
 <p>If you've done that and you&#8217;re all ready, <a href="import-rss.php?step=1">let's go</a>!</p>
 <?php
 	break;
 	
 	case 1:
-if ('' != RSSFILE && !file_exists(RSSFILE)) die("The file you specified does not seem to exist. Please check the path you've given.");
-if ('' == RSSFILE) die("You must edit the RSSFILE line as described on the <a href='import-rss.php'>previous page</a> to continue.");
+if ('' != XMLFILE && !file_exists(XMLFILE)) die("The file you specified does not seem to exist. Please check the path you've given.");
+if ('' == XMLFILE) die("You must edit the XMLFILE line as described on the <a href='import-rss.php'>previous page</a> to continue.");
 
 // Bring in the data
 set_magic_quotes_runtime(0);
-$datalines = file(RSSFILE); // Read the file into an array
+$datalines = file(XMLFILE); // Read the file into an array
 $importdata = implode('', $datalines); // squish it
 $importdata = str_replace(array("\r\n", "\r"), "\n", $importdata);
 
-preg_match_all('|<item>(.*?)</item>|is', $importdata, $posts);
+preg_match_all('|<entry>(.*?)</entry>|is', $importdata, $posts);
 $posts = $posts[1];
 
 echo '<ol>';
@@ -80,36 +80,18 @@ foreach ($posts as $post) :
 $title = $date = $categories = $content = $post_id =  '';
 echo "<li>Importing post... ";
 
-preg_match('|<title>(.*?)</title>|is', $post, $title);
+preg_match('|<subject>(.*?)</subject>|is', $post, $title);
 $title = addslashes( trim($title[1]) );
 $post_name = sanitize_title($title);
 
-preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $date);
+preg_match('|<eventtime>(.*?)</eventtime>|is', $post, $date);
 $date = strtotime($date[1]);
-
-if (!$date) : // if we don't already have something from pubDate
-	preg_match('|<dc:date>(.*?)</dc:date>|is', $post, $date);
-	$date = preg_replace('|(-[0-9:]+)$|', '', $date[1]);
-	$date = strtotime($date);
-endif;
 
 $post_date = date('Y-m-d H:i:s', $date);
 
-preg_match_all('|<category>(.*?)</category>|is', $post, $categories);
-$categories = $categories[1];
 
-if (!$categories) :
-	preg_match_all('|<dc:subject>(.*?)</dc:subject>|is', $post, $categories);
-	$categories = $categories[1];
-endif;
-
-preg_match('|<content:encoded>(.*?)</content:encoded>|is', $post, $content);
+preg_match('|<event>(.*?)</event>|is', $post, $content);
 $content = str_replace( array('<![CDATA[', ']]>'), '', addslashes( trim($content[1]) ) );
-
-if (!$content) : // This is for feeds that put content in description
-	preg_match('|<description>(.*?)</description>|is', $post, $content);
-	$content = addslashes( trim($content[1]) );
-endif;
 
 // Now lets put it in the DB
 if ($wpdb->get_var("SELECT ID FROM $tableposts WHERE post_title = '$title' AND post_date = '$post_date'")) :
