@@ -105,6 +105,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
 		);
+		$this->methods = apply_filters('xmlrpc_methods', $this->methods);
 		$this->IXR_Server($this->methods);
 	}
 
