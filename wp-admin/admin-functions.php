@@ -106,7 +106,7 @@ function dropdown_categories($default = 0) {
 
 // Dandy new recursive multiple category stuff.
 function cat_rows($parent = 0, $level = 0, $categories = 0) {
-	global $wpdb, $bgcolor, $user_level;
+	global $wpdb, $class, $user_level;
 	if (!$categories)
 		$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
 
