@@ -9,7 +9,7 @@ $parent_file = 'linkmanager.php';
 $title = 'Import Blogroll';
 $this_file = 'links.import.php';
 
-$step = $HTTP_GET_VARS['step'];
+$step = $HTTP_POST_VARS['step'];
 if (!$step) $step = 0;
 ?>
 <?php
@@ -20,7 +20,7 @@ switch ($step) {
         include_once('b2header.php');
         if ($user_level < get_settings('links_minadminlevel'))
             die ("Cheatin&#8217; uh?");
-        
+
         $opmltype = 'blogrolling'; // default.
 ?>
 
@@ -33,7 +33,9 @@ switch ($step) {
 <div class="wrap">
 
     <h3>On this page you can import your blogroll.</h3>
-	<form name="blogroll" action="links.import.php" method="get">
+	<!-- <form name="blogroll" action="links.import.php" method="get"> -->
+	<form enctype="multipart/form-data" action="links.import.php" method="post" name="blogroll">
+
 	<ol>
     <li>Go to <a href="http://www.blogrolling.com">Blogrolling.com</a>
     and sign in. Once you've done that, click on <strong>Get Code</strong>, and then
@@ -43,20 +45,14 @@ switch ($step) {
     that in the 'Welcome Back' box on the right, click on <strong>share</strong>, and then
     look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
     link</strong> (favorites.opml)<?php echo gethelp_link($this_file,'opml_code');?>.</li>
-
     <li>Select that text and copy it or copy the link/shortcut into the box below.<br />
        <input type="hidden" name="step" value="1" />
-       Your OPML code:<?php echo gethelp_link($this_file,'opml_code');?> <input type="text" name="opml_url" size="65" />
+       Your OPML URL:<?php echo gethelp_link($this_file,'opml_code');?> <input type="text" name="opml_url" size="65" />
 	</li>
-    <li>Did you use
-        <label>
-<input type="radio" name="opmltype" value="blogrolling" <?php echo(($opmltype == 'blogrolling') ? 'checked="checked"' : ''); ?>>
-blogrolling.com</label>
-      &nbsp;or&nbsp;
-      <label>
-<input type="radio" name="opmltype" value="blo.gs" <?php echo(($link_target == 'blo.gs') ? 'checked="checked"' : ''); ?>>
-blo.gs</label> 
-      ?
+    <li>
+	   <strong>or</strong> you can upload an OPML file from your desktop aggregator:<br />
+       <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+       <label>Upload this file: <input name="userfile" type="file" /></label>
     </li>
 
     <li>Now select a category you want to put these links in.<br />
@@ -70,7 +66,7 @@ blo.gs</label>
         } // end foreach
 ?>
     </select>
-	
+
 	</li>
 
     <li><input type="submit" name="submit" value="Import!" /><?php echo gethelp_link($this_file,'import');?></li>
@@ -92,59 +88,60 @@ blo.gs</label>
 
      <h3>Importing...</h3>
 <?php
-                $cat_id = $HTTP_GET_VARS['cat_id'];
+                $cat_id = $HTTP_POST_VARS['cat_id'];
                 if (($cat_id == '') || ($cat_id == 0)) {
                     $cat_id  = 1;
                 }
-                $opmltype = $HTTP_GET_VARS['opmltype'];
-                if ($opmltype == '')
-                $opmltype = 'blogrolling';
-                $opml_url = $HTTP_GET_VARS['opml_url'];
-                if ($opml_url == '') {
-                    echo "<p>You need to supply your OPML url. Press back on your browser and try again</p>\n";
-                }
-                else
-                {
-                            
-                    $opml = implode('', file($opml_url));
 
-                    // Updated for new format thanks to Rantor http://wordpress.org/support/2/769
-                    if ($opmltype == 'blogrolling') {
-                        preg_match_all('/<outline text="(.*?)" type="(.*?)" url="(.*?)" (lastmod="(.*?)"|) target="(.*?)"*? \/>/', $opml, $items);
-                        $names = $items[1];
-                        $types = $items[2];
-                        $urls = $items[3];
-                        $titles = $items[5];
-                        $targets = $items[6];
-                    } else {
-                        preg_match_all('/<outline type="(.*?)" text="(.*?)" url="(.*?)" \/>/', $opml, $items);
-                        $types = $items[1];
-                        $names = $items[2];
-                        $urls = $items[3];
-                    }
+                $opml_url = $HTTP_POST_VARS['opml_url'];
+                if (isset($opml_url) && $opml_url != '') {
+					$blogrolling = true;
+                }
+                else // try to get the upload file.
+				{
+					$uploaddir = $fileupload_realpath;
+					$uploadfile = $uploaddir.'/'.$_FILES['userfile']['name'];
+
+					if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile))
+					{
+						//echo "Upload successful.<p />";
+						$blogrolling = false;
+						$opml_url = $uploadfile;
+					} else {
+						echo "Upload error<p />";
+					}
+				}
+
+                if (isset($opml_url) && $opml_url != '') {
+                    $opml = implode('', file($opml_url));
+                    include_once('links.parse.opml.php');
+
                     $link_count = count($names);
                     for ($i = 0; $i < $link_count; $i++) {
                         if ('Last' == substr($titles[$i], 0, 4))
                             $titles[$i] = '';
-						if ('http' == substr($titles[$i], 0, 4))
+                        if ('http' == substr($titles[$i], 0, 4))
                             $titles[$i] = '';
-                        //echo "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner) VALUES('{$urls[$i]}', '{$names[$i]}', '{$targets[$i]}', $cat_id, '{$titles[$i]}', \$user_ID)<br />\n";
                         $query = "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner)
-						VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '{$targets[$i]}', $cat_id, '".addslashes($titles[$i])."', $user_ID)\n";
+                                  VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '', $cat_id, '".addslashes($descriptions[$i])."', $user_ID)\n";
                         $result = $wpdb->query($query);
-						echo "<p>Inserted <strong>{$names[$i]}</strong></p>";
+                        echo "<p>Inserted <strong>{$names[$i]}</strong></p>";
                     }
 ?>
      <p>Inserted <?php echo $link_count ?> links into category <?php echo $cat_id; ?>. All done! Go <a href="linkmanager.php">manage those links</a>.</p>
 <?php
-                } // end else got url
-?>
+                } // end if got url
+                else
+                {
+                    echo "<p>You need to supply your OPML url. Press back on your browser and try again</p>\n";
+                } // end else
 
-</div>
+?>
 <?php
                 break;
             } // end case 1
 } // end switch
 ?>
+</div>
 </body>
 </html>
