@@ -173,6 +173,7 @@ switch ($action) {
     $link_rating = $HTTP_POST_VARS['rating'];
     $link_rel = $HTTP_POST_VARS['rel'];
     $link_notes = $HTTP_POST_VARS['notes'];
+	$link_rss_uri =  $HTTP_POST_VARS['rss_uri'];
     $auto_toggle = get_autotoggle($link_category);
 
     if ($user_level < get_settings('links_minadminlevel'))
@@ -183,11 +184,11 @@ switch ($action) {
     if (($auto_toggle == 'Y') && ($link_visible == 'Y')) {
       $wpdb->query("UPDATE $tablelinks set link_visible = 'N' WHERE link_category = $link_category");
     }
-    $wpdb->query("INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel, link_notes) " .
+    $wpdb->query("INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) " .
       " VALUES('" . addslashes($link_url) . "','"
            . addslashes($link_name) . "', '"
            . addslashes($link_image) . "', '$link_target', $link_category, '"
-           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) . "', '" . addslashes($link_notes) . "')");
+           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) . "', '" . addslashes($link_notes) . "', '$link_rss_uri')");
 
     header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
     break;
@@ -220,6 +221,7 @@ switch ($action) {
       $link_rating = $HTTP_POST_VARS['rating'];
       $link_rel = $HTTP_POST_VARS['rel'];
       $link_notes = $HTTP_POST_VARS['notes'];
+	  $link_rss_uri =  $HTTP_POST_VARS['rss_uri'];
       $auto_toggle = get_autotoggle($link_category);
 
       if ($user_level < get_settings('links_minadminlevel'))
@@ -231,14 +233,15 @@ switch ($action) {
         $wpdb->query("UPDATE $tablelinks set link_visible = 'N' WHERE link_category = $link_category");
       }
 
-      $wpdb->query("UPDATE $tablelinks SET link_url='" . addslashes($link_url) . "',\n " .
-             " link_name='" . addslashes($link_name) . "',\n link_image='" . addslashes($link_image) . "',\n " .
-             " link_target='$link_target',\n link_category=$link_category,\n " .
-             " link_visible='$link_visible',\n link_description='" . addslashes($link_description) . "',\n " .
-             " link_rating=$link_rating,\n" .
-             " link_rel='" . addslashes($link_rel) . "',\n" .
-             " link_notes='" . addslashes($link_notes) . "'\n" .
-             " WHERE link_id=$link_id");
+      $wpdb->query("UPDATE $tablelinks SET link_url='" . addslashes($link_url) . "',
+	  link_name='" . addslashes($link_name) . "',\n link_image='" . addslashes($link_image) . "',
+	  link_target='$link_target',\n link_category=$link_category,
+	  link_visible='$link_visible',\n link_description='" . addslashes($link_description) . "',
+	  link_rating=$link_rating,
+	  link_rel='" . addslashes($link_rel) . "',
+	  link_notes='" . addslashes($link_notes) . "',
+	  link_rss = '$link_rss_uri'
+	  WHERE link_id=$link_id");
     } // end if save
     setcookie('links_show_cat_id_' . $cookiehash, $links_show_cat_id, time()+600);
     header('Location: ' . $this_file);
@@ -278,7 +281,7 @@ switch ($action) {
       die("You have no right to edit the links for this blog.<br />Ask for a promotion to your <a href='mailto:$admin_email'>blog admin</a>. :)");
     }
 
-    $row = $wpdb->get_row("SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel, link_notes 
+    $row = $wpdb->get_row("SELECT * 
 	FROM $tablelinks 
 	WHERE link_id = $link_id");
 
@@ -293,6 +296,7 @@ switch ($action) {
       $link_rating = $row->link_rating;
       $link_rel = stripslashes($row->link_rel);
       $link_notes = stripslashes($row->link_notes);
+	  $link_rss_uri = $row->link_rss;
     }
 
 ?>
@@ -316,6 +320,10 @@ th { text-align: right; }
       <tr>
         <th scope="row">Link Name: </th>
         <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>" /></td>
+      </tr>
+      <tr>
+        <th scope="row">RSS URI: </th>
+        <td><input name="rss_uri" type="text" id="rss_uri" value="<?php echo $link_rss_uri; ?>" size="80"></td>
       </tr>
       <tr>
         <th scope="row">Image:</th>
@@ -383,7 +391,7 @@ No</label></td>
           <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" /></td>
       </tr>
     </table>
-    </form> 
+  </form> 
 </div>
 <?php
     break;

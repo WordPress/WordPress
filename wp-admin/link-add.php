@@ -84,6 +84,10 @@ th { text-align: right; }
            <td><input type="text" name="image" size="80" value=""></td>
          </tr>
          <tr>
+           <th scope="row">RSS URI: </th>
+           <td><input name="rss_uri" type="text" id="rss_uri" value="" size="80"></td>
+         </tr>
+         <tr>
            <th scope="row">Description</th>
            <td><input type="text" name="description" size="80" value=""></td>
          </tr>
@@ -228,8 +232,8 @@ No</label></td>
        </table>
        <p style="text-align: center;">
          <input type="submit" name="submit" value="Add Link" class="search"> <input type="hidden" name="action" value="Add" /> 
-         </p>
-       </form>
+       </p>
+  </form>
 </div>
 
 <div class="wrap">
