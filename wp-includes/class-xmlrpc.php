@@ -612,11 +612,14 @@ class xmlrpcmsg {
   }
 
   function xml_header() {
+	/* commenting this out until we get further testing...
 	if (function_exists('get_settings')) {
 		$encoding = ' encoding="'.get_settings('blog_charset').'"';
 	} else {
 		$encoding = '';
 	}
+	*/
+	$encoding = '';
 	return "<?xml version=\"1.0\"$encoding?".">\n<methodCall>\n";
   }
 
