@@ -112,10 +112,8 @@ break;
 
 default:
 
-    require_once ('admin-header.php');
-    if ($user_level < 3) {
-        die(sprintf(__("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:%s'>blog admin</a>. :)"), get_settings('admin_email')));
-    }
+require_once ('admin-header.php');
+
 $messages[1] = __('Category added.');
 $messages[2] = __('Category deleted.');
 $messages[3] = __('Category updated.');
@@ -126,7 +124,11 @@ $messages[3] = __('Category updated.');
 <?php endif; ?>
 
 <div class="wrap">
-     <h2><?php printf(__('Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
+<?php if ( $user_level > 3 ) : ?>
+	<h2><?php printf(__('Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
+<?php else : ?>
+	<h2><?php _e('Categories') ?> </h2>
+<?php endif; ?>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<th scope="col"><?php _e('ID') ?></th>
@@ -142,6 +144,7 @@ cat_rows();
 
 </div>
 
+<?php if ( $user_level > 3 ) : ?>
 <div class="wrap">
     <p><?php printf(__('<strong>Note:</strong><br />
 Deleting a category does not delete posts from that category, it will just
@@ -165,8 +168,9 @@ set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
         <p class="submit"><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add Category &raquo;') ?>" /></p>
     </form>
 </div>
+<?php endif; ?>
 
-    <?php
+<?php
 break;
 }
 

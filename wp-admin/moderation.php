@@ -74,10 +74,6 @@ default:
 
 	require_once('admin-header.php');
 
-	if ($user_level <= 3) {
-		die(__('<p>Your level is not high enough to moderate comments.</p>'));
-	}
-
 if (isset($deleted) || isset($approved) || isset($ignored)) {
 	echo "<div class='updated'>\n<p>";
 	if ($approved) {
@@ -107,8 +103,12 @@ if (isset($deleted) || isset($approved) || isset($ignored)) {
 ?>
 	
 <div class="wrap">
+
 <?php
-$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '0'");
+if ($user_level > 3)
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '0'");
+else
+	$comments = '';
 
 if ($comments) {
     // list all comments that are waiting for approval
@@ -152,7 +152,7 @@ echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID
 <?php
 } else {
     // nothing to approve
-    echo __("<p>Currently there are no comments to be approved.</p>") . "\n";
+    echo __("<p>Currently there are no comments for you to moderate.</p>") . "\n";
 }
 ?>
 
