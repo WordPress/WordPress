@@ -62,7 +62,7 @@ textarea,input,select {
 	font-size: 12px;
 	background-color: transparent;
 <?php if ($is_gecko || $is_macIE) { ?>
-	background-image: url('../b2-img/bgbookmarklet.png');
+	background-image: url('../b2-img/bgbookmarklet3.gif');
 <?php } elseif ($is_winIE) { ?>
 	background-color: #dddddd;
 	filter: alpha(opacity:80);

@@ -56,7 +56,7 @@ function launchupload() {
 body {
 	background-image: url('<?php
 if ($is_gecko || $is_IE) {
-?>../b2-img/bgbookmarklet1.gif<?php
+?>../b2-img/bgbookmarklet3.gif<?php
 } else {
 ?>../b2-img/bgbookmarklet3.gif<?php
 }
@@ -69,7 +69,7 @@ if (!$is_NS4) {
 textarea,input,select {
 	background-color: transparent;
 <?php if ($is_gecko || $is_macIE) { ?>
-	background-image: url('../b2-img/bgbookmarklet.png');
+	background-image: url('../b2-img/bgbookmarklet3.gif');
 <?php } elseif ($is_winIE) { ?>
 	background-color: #cccccc;
 	filter: alpha(opacity:80);
