@@ -1751,13 +1751,15 @@ function hilite($text) {
 	$search_engines = array('wordpress', 'google', 'lycos', 'yahoo');
 
 	foreach ($search_engines as $engine) {
-		if ( is_referer_search_engine($engine) && !empty($term) && $term != ' ') {
+		if ( is_referer_search_engine($engine)) {
 			$query_terms = get_search_query_terms($engine);
 			foreach ($query_terms as $term) {
-				if (!preg_match('/<.+>/',$text)) {
-					$text = preg_replace('/(\b'.$term.'\b)/i','<span class="hilite">$1</span>',$text);
-				} else {
-					$text = preg_replace('/(?<=>)([^<]+)?(\b'.$term.'\b)/i','$1<span class="hilite">$2</span>',$text);
+				if (!empty($term) && $term != ' ') {
+					if (!preg_match('/<.+>/',$text)) {
+						$text = preg_replace('/(\b'.$term.'\b)/i','<span class="hilite">$1</span>',$text);
+					} else {
+						$text = preg_replace('/(?<=>)([^<]+)?(\b'.$term.'\b)/i','$1<span class="hilite">$2</span>',$text);
+					}
 				}
 			}
 			break;
