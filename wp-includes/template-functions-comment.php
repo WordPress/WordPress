@@ -157,12 +157,15 @@ function comment_author_link() {
 
 function comment_type($commenttxt = 'Comment', $trackbacktxt = 'Trackback', $pingbacktxt = 'Pingback') {
 	global $comment;
-	if (preg_match('|<trackback />|', $comment->comment_content))
+	if (preg_match('|<trackback />|', $comment->comment_content)
+		|| ('trackback' == $comment->comment_type)) {
 		echo $trackbacktxt;
-	elseif (preg_match('|<pingback />|', $comment->comment_content))
+	} elseif (preg_match('|<pingback />|', $comment->comment_content)
+		|| ('pingback' == $comment->comment_type)) {
 		echo $pingbacktxt;
-	else
+	} else {
 		echo $commenttxt;
+	}
 }
 
 function comment_author_url() {
