@@ -1,14 +1,14 @@
 <?php
 $_wp_installing = 1;
+if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
 require_once('../wp-config.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
-if (!step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<title>WordPress > b2 Conversion</title>
+	<title>WordPress &#8212; b2 Conversion</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style media="screen" type="text/css">
 	body {
@@ -31,7 +31,7 @@ if (!step) $step = 0;
 	#logo a span {
 		display: none;
 	}
-	p {
+	p, li {
 		line-height: 140%;
 	}
 	</style>
@@ -47,7 +47,7 @@ switch($step) {
   familiar to you. Here are some notes on upgrading:</p>
 <ul>
   <li>If you're using an older version of b2, it's probably a good idea to upgrade 
-    to at least .6.1 before making the leap to WordPress.</li>
+    to at least .61 before making the leap to WordPress.</li>
   <li>The templates are so much better, and there is so much more going on than 
     before it's probably worth it to start from scratch and work back to your 
     design.</li>
@@ -59,7 +59,7 @@ switch($step) {
     Right now.</li>
 </ul>
 <p><code></code>Have you looked at the <a href="../readme.html">readme</a>? If 
-  you&#8217;re all ready, <a href="b2-2-wp.php?step=1">let's go</a>! </p>
+  you&#8217;re all ready, <a href="b2-2-wp.php?step=1">let&#8217;s go</a>!</p>
 <?php
 	break;
 	
@@ -243,8 +243,6 @@ $query = "ALTER TABLE $tableusers DROP INDEX ID";
 $q = $wpdb->query($query);
 
 ?>
-
-<p>All done!</p>
 
 <p>Don't forget to CHMOD the <code>weblogs.com.changes.cache</code> file and you'll 
   be A-okay. Welcome to the family.</p>
