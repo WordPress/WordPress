@@ -62,6 +62,8 @@ case 'Delete':
     $standalone = 1;
     require_once('admin-header.php');
 
+    check_admin_referer();
+
     $cat_ID = intval($_GET["cat_ID"]);
     $cat_name = get_catname($cat_ID);
     $cat_name = addslashes($cat_name);

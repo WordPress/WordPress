@@ -429,6 +429,8 @@ case 'delete':
 	$standalone = 1;
 	require_once('./admin-header.php');
 
+	check_admin_referer();
+
 	if ($user_level == 0)
 		die ('Cheatin&#8217; uh?');
 
@@ -527,6 +529,8 @@ case 'deletecomment':
 $standalone = 1;
 require_once('./admin-header.php');
 
+check_admin_referer();
+
 if ($user_level == 0)
 	die (__('Cheatin&#8217; uh?'));
 
@@ -561,6 +565,8 @@ case 'unapprovecomment':
 
 $standalone = 1;
 require_once('./admin-header.php');
+
+check_admin_referer();
 
 if ($user_level == 0)
 	die (__('Cheatin&#8217; uh?'));
