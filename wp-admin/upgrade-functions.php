@@ -831,6 +831,8 @@ function upgrade_110() {
 	$wpdb->query("ALTER TABLE `$tableposts` CHANGE `post_status` `post_status` ENUM( 'publish', 'draft', 'private', 'static' ) DEFAULT 'publish' NOT NULL");
 	maybe_add_column($tableposts, 'post_parent', "ALTER TABLE `$tableposts` ADD `post_parent` INT NOT NULL ;");
 
+
+	$wpdb->query("ALTER TABLE `$tablecomments` CHANGE `comment_author_url` `comment_author_url` VARCHAR( 200 ) NOT NULL");
 }
 
 ?>
