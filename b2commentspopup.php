@@ -10,7 +10,7 @@ foreach ($posts as $post) { start_b2();
 
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style type="text/css" media="screen">
-		@import url( layout2b.css );
+		@import url( wp-layout.css );
 		body { margin: 3px; }
 	</style>
 
@@ -28,7 +28,8 @@ foreach ($posts as $post) { start_b2();
 <?php } ?>
 
 <ol id="comments">
-<?php /* this line is b2's motor, do not delete it */ 
+<?php
+// this line is WordPress' motor, do not delete it.
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 $commentstatus = $wpdb->get_row("SELECT comment_status, post_password FROM $tableposts WHERE ID = $id");
 if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $commentstatus->post_password) {  // and it doesn't match the cookie
@@ -49,7 +50,6 @@ else {
 	} else { // this is displayed if there are no comments so far 
 ?>
 	<li>No comments yet.</li>
-
 <?php } ?>
 </ol>
 <?php 
@@ -85,10 +85,9 @@ else {
 	  <input name="submit" type="submit" tabindex="5" value="Say it!" />
 	</p>
 </form>
-
 <?php } else { // comments are closed ?>
 <p>Sorry, comments are closed at this time.</p>
-<?php } 
+<?php }
 } // end password check
 ?>
 
@@ -98,23 +97,17 @@ else {
 }
 ?>
 
-
-
 <!-- // this is just the end of the motor - don't touch that line either :) -->
-	<?php //} ?> 
-
-
-
+<?php //} ?> 
 <p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite></p>
-
-<?php
-// Seen at http://www.mijnkopthee.nl/log2/archive/2003/05/28/esc(18)
-?>
+<?php // Seen at http://www.mijnkopthee.nl/log2/archive/2003/05/28/esc(18) ?>
 <script type="text/javascript">
+<!--
 document.onkeypress = function esc(e) {	
 	if(typeof(e) == "undefined") { e=event; }
 	if (e.keyCode == 27) { self.close(); }
 }
+// -->
 </script>
 </body>
 </html>
