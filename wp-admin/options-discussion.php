@@ -68,8 +68,8 @@ if ($user_level <= 3) {
 	<h2>Discussion Options</h2> 
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
-		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','moderation_keys'" /> 
-		<p>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></p> 
+		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_max_links','moderation_keys'" /> 
+		<h3>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></h3> 
 		<ul> 
 			<li> 
 				<label for="default_pingback_flag"> 
@@ -87,7 +87,7 @@ if ($user_level <= 3) {
 				Allow people to post comments on the article</label> 
 			</li> 
 		</ul> 
-		<p>Email me whenever:</p> 
+		<h3>Email me whenever:</h3> 
 		<ul> 
 			<li> 
 				<label for="comments_notify"> 
@@ -100,7 +100,7 @@ if ($user_level <= 3) {
 				A comment is approved or declined </label> 
 			</li> 
 		</ul> 
-		<p>Before a comment appears:</p> 
+		<h3>Before a comment appears:</h3> 
 		<ul> 
 			<li> 
 				<label for="comment_moderation"> 
@@ -113,7 +113,11 @@ if ($user_level <= 3) {
 				User must fill out name and email </label> 
 			</li> 
 		</ul> 
-		<p>When a comment contains any of these words in its content, name, URI,  email, or IP, hold it in the moderation queue: (Seperate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.</p> 
+		<h3>Comment Moderation:</h3>
+		<p>Hold a comment in the queue if it contains more than 
+			<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="<?php echo get_settings('comment_max_links'); ?>" /> 
+		links. (A common characteristic of comment spam is a large number of hyperlinks.)</p>
+		<p>When a comment contains any of these words in its content, name, URI,  email, or IP, hold it in the moderation queue: (Seperate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.</p>
 		<p> 
 			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%;"><?php echo get_settings('moderation_keys'); ?></textarea> 
 		</p> 

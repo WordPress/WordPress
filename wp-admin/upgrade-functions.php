@@ -794,6 +794,11 @@ function upgrade_110() {
 		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('active_plugins', 3, '', 8)");
 	}
 
+	// Option for max # of links per comment
+	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'comment_max_links'")) {
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('comment_max_links', 3, '5', 8)");
+	}
+
 }
 
 ?>
