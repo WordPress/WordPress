@@ -228,8 +228,8 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 	}
 }
 
-function get_calendar() {
-	global $wpdb, $HTTP_GET_VARS, $m, $monthnum, $year, $timedifference, $month, $tableposts;
+function get_calendar($daylength = 1) {
+	global $wpdb, $HTTP_GET_VARS, $m, $monthnum, $year, $timedifference, $month, $weekday, $tableposts;
 // Quick check. If we have no posts at all, abort!
 if (!$posts) {
 	$gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
@@ -268,50 +268,51 @@ $unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
 $previous = $wpdb->get_row("SELECT DISTINCT MONTH( post_date ) AS month, YEAR( post_date ) AS year
 							FROM $tableposts
 							WHERE post_date < '$thisyear-$thismonth-01'
+							AND post_status = 'publish'
 							ORDER BY post_date DESC
 							LIMIT 1");
 $next = $wpdb->get_row("SELECT  DISTINCT MONTH( post_date ) AS month, YEAR( post_date ) AS year
 							FROM $tableposts
-							WHERE post_date >  '$thisyear-$thismonth-01' AND MONTH( post_date )  != MONTH( '$thisyear-$thismonth-01' ) 
+							WHERE post_date >  '$thisyear-$thismonth-01' 
+							AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' ) 
+							AND post_status = 'publish'
 							ORDER  BY post_date ASC 
-							LIMIT 1 ");
+							LIMIT 1");
 
 echo '<table id="wp-calendar">
 	<caption>' . $month[zeroise($thismonth, 2)] . ' ' . date('Y', $unixmonth) . '</caption>
 <thead>
-  <tr>
-	<th abbr="Sunday" scope="col" title="Sunday">Sun</th>
-	<th abbr="Monday" scope="col" title="Monday">Mon</th>
-	<th abbr="Tuesday" scope="col" title="Tuesday">Tue</th>
-	<th abbr="Wednesday" scope="col" title="Wednesday">Wed</th>
-	<th abbr="Thursday" scope="col" title="Thursday">Thu</th>
-	<th abbr="Friday" scope="col" title="Friday">Fri</th>
-	<th abbr="Saturday" scope="col" title="Saturday">Sat</th>
-  </tr>
+  <tr>';
+ foreach ($weekday as $wd) {
+ 	echo "\n\t<th abbr='$wd' scope='col' title='$wd'>" . substr($wd, 0, $daylength) . '</th>';
+ }
+
+echo '  </tr>
 </thead>
 
 <tfoot>
   <tr>';
 
 if ($previous) {
-	echo '<th abbr="' . $month[zeroise($previous->month, 2)] . '" colspan="3" id="prev"><a href="' . 
+	echo "\n\t".'<td abbr="' . $month[zeroise($previous->month, 2)] . '" colspan="3" id="prev"><a href="' . 
 	get_month_link($previous->year, $previous->month) . '" title="View posts for ' . $month[zeroise($previous->month, 2)] . ' ' . 
-	date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year)) . '">&laquo; ' . substr($month[zeroise($previous->month, 2)], 0, 3) . '</a>';
+	date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year)) . '">&laquo; ' . substr($month[zeroise($previous->month, 2)], 0, 3) . '</a></td>';
 } else {
-	echo '<th colspan="3" id="prev">&laquo;</th>';
+	echo "\n\t".'<td colspan="3" id="prev">&laquo;</td>';
 }
 
-echo '<th>&nbsp;</th>';
+echo "\n\t".'<td>&nbsp;</td>';
 
 if ($next) {
-	echo '<th abbr="' . $month[zeroise($next->month, 2)] . '" colspan="3" id="next"><a href="' . 
+	echo "\n\t".'<td abbr="' . $month[zeroise($next->month, 2)] . '" colspan="3" id="next"><a href="' . 
 	get_month_link($previous->year, $next->month) . '" title="View posts for ' . $month[zeroise($next->month, 2)] . ' ' . 
-	date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">' . substr($month[zeroise($next->month, 2)], 0, 3) . ' &raquo;</a>';
+	date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">' . substr($month[zeroise($next->month, 2)], 0, 3) . ' &raquo;</a></td>';
 } else {
-	echo '<th colspan="3" id="next">&raquo;</th>';
+	echo "\n\t".'<td colspan="3" id="next">&raquo;</td>';
 }
 
-echo '  </tr>
+echo '
+  </tr>
 </tfoot>
 
 <tbody>
@@ -323,19 +324,26 @@ $dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
 				AND YEAR(post_date) = $thisyear 
 				AND post_status = 'publish' 
 				AND post_date < '" . date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."'", ARRAY_N);
-foreach ($dayswithposts as $daywith) {
-	$daywithpost[] = $daywith[0];
+
+if ($dayswithposts) {
+	foreach ($dayswithposts as $daywith) {
+		$daywithpost[] = $daywith[0];
+	}
+} else {
+	$daywithpost = array();
 }
 
 // See how much we should pad in the beginning
 $pad = intval(date('w', $unixmonth));
-if (0 != $pad) echo "\n\t<td class='empty' colspan='$pad'>&nbsp;</td>";
+if (0 != $pad) echo "\n\t<td colspan='$pad'>&nbsp;</td>";
 
 $daysinmonth = intval(date('t', $unixmonth));
 for ($day = 1; $day <= $daysinmonth; ++$day) {
-	if ($newrow) echo "\n</tr>\n  <tr>";
+	if ($newrow) echo "\n  </tr>\n  <tr>\n\t";
 	$newrow = false;
-	echo "\n\t<td>";
+
+	if ($day == date('j', (time() + ($time_difference * 3600)))) echo '<td id="today">';
+	else echo "<td>";
 
 	if (in_array($day, $daywithpost)) {
 		echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\">$day</a>";

@@ -1,5 +1,5 @@
 /* Default WordPress by Dave Shea || http://mezzoblue.com
-	Tweaked by Matthew Mullenweg || http://photomatt.net
+	Modifications by Matthew Mullenweg || http://photomatt.net
 	This is just a basic layout, with only the bare minimum defined.
 	Please tweak this and make it your own. :)
 */
@@ -73,39 +73,6 @@ p, li, .feedback {
 	letter-spacing: -1px;
 }
 
-.b2calendarcell {
-	color: #000;
-}
-
-.b2calendaremptycell {
-}
-
-.b2calendarheadercell {
-	background: #808080;
-	color: #ccc;
-}
-
-.b2calendarlinkpost {
-	color: #f00;
-	text-decoration: none;
-}
-
-.b2calendarmonth {
-	color: #aaa;
-}
-
-.b2calendarrow {
-	color: #0f0;
-}
-
-.b2calendartable {
-	background: #fff;
-	border: 1px solid #000;
-}
-
-.b2calendartoday {
-	color: #00f;
-}
 
 .credit {
 	background: #90a090;
@@ -237,4 +204,55 @@ p, li, .feedback {
 
 #menu ul ul li a:hover {
 	border-bottom: 1px solid #809080;
+}
+
+#wp-calendar {
+	border: 1px solid #ddd;
+	empty-cells: show;
+	font-size: 14px;
+	margin: 0;
+	width: 90%;
+}
+
+#wp-calendar #next a {
+	padding-right: 10px;
+	text-align: right;
+}
+
+#wp-calendar #prev a {
+	padding-left: 10px;
+	text-align: left;
+}
+
+#wp-calendar a {
+	display: block;
+	text-decoration: none;
+}
+
+#wp-calendar a:hover {
+	background: #e0e6e0;
+	color: #333;
+}
+
+#wp-calendar caption {
+	color: #999;
+	font-size: 16px;
+}
+
+#wp-calendar td {
+	color: #ccc;
+	font: normal 12px 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+	text-align: center;
+	padding: 2px 0;
+	letter-spacing: normal;
+}
+
+#wp-calendar td:hover, #wp-calendar #today {
+	background: #eee;
+	color: #bbb;
+}
+
+#wp-calendar th {
+	font-style: normal;
+	text-transform: capitalize;
 }
