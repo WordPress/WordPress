@@ -86,7 +86,7 @@ case 'post':
 		$hh = ($hh > 23) ? $hh - 24 : $hh;
 		$mn = ($mn > 59) ? $mn - 60 : $mn;
 		$ss = ($ss > 59) ? $ss - 60 : $ss;
-	$now = date("$aa-$mm-$jj $hh:$mn:$ss");
+	$now = "$aa-$mm-$jj $hh:$mn:$ss";
 	$now_gmt = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
 	} else {
 	$now = current_time('mysql');
