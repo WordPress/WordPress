@@ -8,34 +8,48 @@ require_once( dirname(__FILE__) . '/wp-config.php');
 
 require_once( dirname(__FILE__) . '/wp-includes/wp-l10n.php');
 
-// Process PATH_INFO, if set.
-$path_info = array();
-if ( !empty( $_SERVER['PATH_INFO'] ) ) {
+$query_vars = array();
+
+// Process PATH_INFO and 404.
+if ((isset($_GET['error']) && $_GET['error'] == '404') ||
+    (! empty( $_SERVER['PATH_INFO']))) {
+
     // Fetch the rewrite rules.
     $rewrite = rewrite_rules('matches');
 
-    $pathinfo = $_SERVER['PATH_INFO'];
-    // Trim leading '/'.
-    $pathinfo = preg_replace('!^/!', '', $pathinfo);
-
     if (! empty($rewrite)) {
-        // Get the name of the file requesting path info.
-        $req_uri = $_SERVER['REQUEST_URI'];
+        $pathinfo = $_SERVER['PATH_INFO'];
+	$req_uri = $_SERVER['REQUEST_URI'];      
+	$home_path = parse_url(get_settings('home'));
+	$home_path = $home_path['path'];
+
+	// Trim path info from the end and the leading home path from the
+	// front.  For path info requests, this leaves us with the requesting
+	// filename, if any.  For 404 requests, this leaves us with the
+	// requested permalink.	
         $req_uri = str_replace($pathinfo, '', $req_uri);
-        $req_uri = preg_replace("!/+$!", '', $req_uri);
-        $req_uri = explode('/', $req_uri);
-        $req_uri = $req_uri[count($req_uri)-1];
+	$req_uri = str_replace($home_path, '', $req_uri);
+	$req_uri = trim($req_uri, '/');
+	$pathinfo = trim($pathinfo, '/');
+
+	// The requested permalink is in $pathinfo for path info requests and
+	//  $req_uri for other requests.
+	if (! empty($pathinfo)) {
+	  $request = $pathinfo;
+	} else {
+	  $request = $req_uri;
+	}
 
         // Look for matches.
-        $pathinfomatch = $pathinfo;
+	$request_match = $request;
         foreach ($rewrite as $match => $query) {
-            // If the request URI is the anchor of the match, prepend it
+            // If the requesting file is the anchor of the match, prepend it
             // to the path info.
-            if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0)) {
-                $pathinfomatch = $req_uri . '/' . $pathinfo;
-            }
+	    if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0)) {
+	      $request_match = $req_uri . '/' . $request;
+	    }
 
-            if (preg_match("!^$match!", $pathinfomatch, $matches)) {
+            if (preg_match("!^$match!", $request_match, $matches)) {
                 // Got a match.
                 // Trim the query of everything up to the '?'.
                 $query = preg_replace("!^.+\?!", '', $query);
@@ -44,25 +58,32 @@ if ( !empty( $_SERVER['PATH_INFO'] ) ) {
                 eval("\$query = \"$query\";");
 
                 // Parse the query.
-                parse_str($query, $path_info);
+                parse_str($query, $query_vars);
+
+		// If we're processing a 404 request, clear the error var
+		// since we found something.
+		if (isset($_GET['error'])) {
+		    unset($_GET['error']);
+		}
+
                 break;
             }
         }
-    }    
+    }
 }
 
-$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename');
+$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'error');
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
 		if (empty($_POST[$wpvar])) {
-			if (empty($_GET[$wpvar]) && empty($path_info[$wpvar])) {
+			if (empty($_GET[$wpvar]) && empty($query_vars[$wpvar])) {
 				$$wpvar = '';
 			} elseif (!empty($_GET[$wpvar])) {
 				$$wpvar = $_GET[$wpvar];
 			} else {
-				$$wpvar = $path_info[$wpvar];
+				$$wpvar = $query_vars[$wpvar];
 			}
 		} else {
 			$$wpvar = $_POST[$wpvar];
@@ -198,6 +219,11 @@ if (is_single() && (! isset($wp_did_single)) &&
 	   file_exists(ABSPATH . 'wp-content/search.php')) {
   $wp_did_search = true;
   include(ABSPATH . 'wp-content/search.php');
+  exit;
+} else if (is_404() && (! isset($wp_did_404)) &&
+	   file_exists(ABSPATH . 'wp-content/404.php')) {
+  $wp_did_404 = true;
+  include(ABSPATH . 'wp-content/404.php');
   exit;
 } else if (is_feed() && $pagenow != 'wp-feed.php') {
   include(dirname(__FILE__) . '/wp-feed.php');

@@ -1662,6 +1662,12 @@ function is_home () {
     return $wp_query->is_home;
 }
 
+function is_404 () {
+    global $wp_query;
+
+    return $wp_query->is_404;
+}
+
 function get_query_var($var) {
   global $wp_query;
 
