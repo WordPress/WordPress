@@ -240,7 +240,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 	    $categories = implode(',', wp_get_post_cats(1, $entry['ID']));
 
-	    $content  = '<title>'.stripslashes($entry['post_itle']).'</title>';
+	    $content  = '<title>'.stripslashes($entry['post_title']).'</title>';
 	    $content .= '<category>'.$categories.'</category>';
 	    $content .= stripslashes($entry['post_content']);
 
