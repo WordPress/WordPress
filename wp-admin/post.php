@@ -104,7 +104,7 @@ case 'post':
 	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
 	$post_ID = $id_result->Auto_increment;
 
-	if ( empty($post_name) ) {
+	if ( empty($post_name) || 'draft' == $post_status ) {
 		$post_name = sanitize_title($post_title, $post_ID);
 	} else {
 		$post_name = sanitize_title($post_name, $post_ID);
@@ -308,7 +308,7 @@ case 'editpost':
 	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) && 2 != get_option('new_users_can_blog') )
 		$post_status = 'draft';
 
-	if (empty($post_name)) {
+	if (empty($post_name) || 'draft' == $post_status ) {
 		$post_name = sanitize_title($post_title, $post_ID);
 	} else {
 		$post_name = sanitize_title($post_name, $post_ID);
