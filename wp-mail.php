@@ -114,7 +114,7 @@ for ($i=1; $i <= $count; $i++) :
 
 	if ($post_title == '') $post_title = $subject;
 
-	if (empty($post_categories)) $post_categories[] = get_settings('default_category');
+	if (empty($post_categories)) $post_categories[] = get_settings('default_email_category');
 
 	$post_title = addslashes(trim($post_title));
 	$content = preg_replace("|\n([^\n])|", " $1", $content);
