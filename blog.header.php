@@ -4,13 +4,9 @@ $use_cache = 1;
 $use_gzipcompression = 1;
 
 /* Including config and functions files */
-/* Including config and functions files */
 $curpath = dirname(__FILE__).'/';
-require_once ($curpath.'/b2config.php');
 
-if (($b2inc{0} == '/') || ($b2inc{1} == ':')) {
-	$curpath='./';
-}
+require_once ($curpath.'/b2config.php');
 require_once ($curpath.$b2inc.'/b2template.functions.php');
 require_once ($curpath.$b2inc.'/b2vars.php');
 require_once ($curpath.$b2inc.'/b2functions.php');
