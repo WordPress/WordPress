@@ -4,7 +4,7 @@
 5	linkmanager.php	Links
 3	users.php	Users
 4	wp-options.php	Options
-4	b2template.php	Template
+4	templates.php	Templates
 ***
 (Everything after the '***' is a comment.)
 

@@ -1,5 +1,5 @@
 <?php
-$title = 'Team management';
+$title = 'Users';
 /* <Team> */
 	
 $b2varstoreset = array('action','standalone','redirect','profile');
@@ -84,7 +84,7 @@ default:
 	?>
 <div class="wrap">
   <h2>Authors</h2>
-  <table cellpadding="5" cellspacing="0">
+  <table cellpadding="5" cellspacing="0" width="100%">
 	<tr>
 	<th>ID</th>
 	<th>Nickname</th>

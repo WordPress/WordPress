@@ -1,6 +1,5 @@
 <?php
 $title = "Template &amp; file editing";
-/* <Template> */
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -46,14 +45,14 @@ case 'update':
 		die('<p>You have no right to edit the template for this blog.<br />Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
 	}
 
-	$newcontent = stripslashes($HTTP_POST_VARS["newcontent"]);
-	$file = $HTTP_POST_VARS["file"];
+	$newcontent = stripslashes($HTTP_POST_VARS['newcontent']);
+	$file = $HTTP_POST_VARS['file'];
 	$f = fopen($file, 'w+');
 	fwrite($f, $newcontent);
 	fclose($f);
 
 	$file = str_replace('../', '', $file);
-	header("Location: b2template.php?file=$file&a=te");
+	header("Location: templates.php?file=$file&a=te");
 	exit();
 
 break;
@@ -100,55 +99,45 @@ default:
 	}
 
 	?>
-<div class="wrap">
-	<?php
-	echo "Listing <strong>$file</strong> $warning";
+ <div class="wrap"> 
+  <?php
+	echo "Editing <strong>$file</strong> $warning";
 	if ('te' == $a)
 		echo "<em>File edited successfully.</em>";
 	
 	if (!$error) {
-	?>
-		<form name="template" action="b2template.php" method="post">
-		<textarea cols="80" rows="20" style="width:100%; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea>
-		<input type="hidden" name="action" value="update" />
-		<input type="hidden" name="file" value="<?php echo $file ?>" />
-		<br />
-		<?php
+	?> 
+  <form name="template" action="templates.php" method="post"> 
+     <textarea cols="80" rows="20" style="width:100%; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea> 
+     <input type="hidden" name="action" value="update" /> 
+     <input type="hidden" name="file" value="<?php echo $file ?>" /> 
+     <br /> 
+     <?php
 		if (is_writeable($file)) {
 			echo "<input type=\"submit\" name=\"submit\" class=\"search\" value=\"update template !\" tabindex=\"2\" />";
 		} else {
 			echo "<input type=\"button\" name=\"oops\" class=\"search\" value=\"(you cannot update that file/template: must make it writable, e.g. CHMOD 766)\" tabindex=\"2\" />";
 		}
-		?>
-		</form>
-	<?php
+		?> 
+   </form> 
+  <?php
 	} else {
 		echo '<p>Oops, no such file exists! Double check the name and try again, merci.</p>';
 	}
-	?>
-</div>
-
+	?> 
+</div> 
 <div class="wrap"> 
-  <p>You can also edit the <a href="b2template.php?file=b2comments.php">comments 
-    template</a> or the <a href="b2template.php?file=b2commentspopup.php">popup 
-    comments template</a>, or edit any other file (provided it&#8217;s writable by 
-    the server, e.g. CHMOD 766).</p>
-    <p>To edit a file, type its name here:</p>
-  <form name="file" action="b2template.php" method="get">
-	<input type="text" name="file" />
-	<input type="submit" name="submit"  class="search" value="go" />
-	</form>
-	
-  <p>Note: of course, you can also edit the files/templates in your text editor 
-    and upload them. This online editor is only meant to be used when you don't 
-    have access to a text editor.</p>
-</div>
-	
-
-	<?php
+  <p>You can also edit the <a href="templates.php?file=b2comments.php">comments template</a> or the <a href="templates.php?file=b2commentspopup.php">popup comments template</a>, or edit any other file (provided it&#8217;s writable by the server, e.g. CHMOD 766).</p> 
+  <p>To edit a file, type its name here:</p> 
+  <form name="file" action="templates.php" method="get"> 
+    <input type="text" name="file" /> 
+    <input type="submit" name="submit"  class="search" value="go" /> 
+  </form> 
+  <p>Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don't have access to a text editor or FTP client.</p> 
+</div> 
+<?php
 
 break;
 }
 
-/* </Template> */
-include("b2footer.php") ?>
+include("b2footer.php") ?> 
