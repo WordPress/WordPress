@@ -4,6 +4,10 @@ require_once(ABSPATH . 'wp-includes/wp-l10n.php');
 require_once(ABSPATH . 'wp-admin/admin-functions.php');
 auth_redirect();
 
+header('Expires: Mon, 11 Jan 1984 05:00:00 GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+header('Cache-Control: no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 $dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
 foreach ($dogs as $catt) {
