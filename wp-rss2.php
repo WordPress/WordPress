@@ -34,7 +34,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 	<language><?php echo $rss_language ?></language>
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
-	<generator>http://wordpress.org/?v=<?php echo $wp_version ?>"</generator>
+	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
 
 	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 	<item>
