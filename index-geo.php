@@ -1,9 +1,8 @@
 <?php /* Don't remove these lines, they call the b2 function files ! */
-$blog=1;
+$blog = 1;
 require_once('blog.header.php');
 require_once($abspath.'wp-links/links.php');
 // not on by default: require_once($abspath.'wp-links/links.weblogs.com.php');
-    
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,7 +25,7 @@ require_once($abspath.'wp-links/links.php');
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
     <?php get_archives('monthly', '', 'link'); ?>
-	<?php // comments_popup_script(); // off by default ?>
+	<?php //comments_popup_script(); // off by default ?>
 	<?php if(get_settings('use_geo_positions')) {
 		print_PopUpScript();
 	} ?>
@@ -42,8 +41,8 @@ require_once($abspath.'wp-links/links.php');
 <?php the_date('','<h2>','</h2>'); ?>
 
  <h3 class="storytitle" id="post-<?php the_ID(); ?>">
-  <a href="<?php permalink_link() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a>
-  <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?> 
+  <a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a>
+  <span class="meta"><a href="<?php get_category_link(1) ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?> 
   <?php if(get_settings('use_geo_positions')) { if((get_Lon() != null) && (get_Lon() < 360) &&(get_Lon() > -360)) {  ?>
 		&#8212; Posted from: <?php print_Lat(); ?> &#215; <?php print_Lon(); ?>
 <?php  } } ?>
@@ -69,8 +68,9 @@ require_once($abspath.'wp-links/links.php');
 
 <?php include($abspath . 'b2comments.php'); ?>
 
-<?php } } // end foreach, end if any posts ?>
-
+<?php } } else { // end foreach, end if any posts ?>
+<p>Sorry, no posts matched your criteria.</p>
+<?php } ?>
 </div>
 
 <div id="menu">
@@ -96,21 +96,24 @@ require_once($abspath.'wp-links/links.php');
  </li>
  <li>Archives:
  	<ul>
-	 <?php get_archives(); ?>
+	 <?php get_archives('monthly'); ?>
  	</ul>
+ </li>
+ <li>
+	<?php get_calendar(); ?>
  </li>
  <li>Other:
 	<ul>
-		<li><a href="b2login.php">login</a></li>
-		<li><a href="b2register.php">register</a></li>
+		<li><a href="<?php echo $siteurl; ?>/b2login.php">login</a></li>
+		<li><a href="<?php echo $siteurl; ?>/b2register.php">register</a></li>
 	</ul>
  </li>
  <li>Meta:
  	<ul>
-		<li><a href="b2rss.php">RSS .92</a></li>
-		<li><a href="b2rdf.php">RDF 1.0</a></li>
-		<li><a href="b2rss2.php">RSS 2.0</a></li>
-		<li><a href="wp-commentsrss2.php">Comments RSS 2.0</a></li>
+		<li><a href="<?php bloginfo('rss_url'); ?>">RSS .92</a></li>
+		<li><a href="<?php bloginfo('rdf_url'); ?>">RDF 1.0</a></li>
+		<li><a href="<?php bloginfo('rss2_url'); ?>">RSS 2.0</a></li>
+		<li><a href="<?php bloginfo('comments_rss2_url'); ?>">Comments RSS 2.0</a></li>
 		<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
 		<li><a href="http://wordpress.org" title="Powered by WordPress, personal publishing platform">WP</a></li>
 	</ul>
@@ -123,6 +126,5 @@ require_once($abspath.'wp-links/links.php');
 </div>
 
 <p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>WordPress</strong></a></cite></p>
-
 </body>
 </html>
