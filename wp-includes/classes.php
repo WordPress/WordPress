@@ -10,6 +10,7 @@ class WP_Query {
     var $post;
 
     var $is_single = false;
+    var $is_page = false;
     var $is_archive = false;
     var $is_date = false;
     var $is_year = false;
@@ -24,6 +25,7 @@ class WP_Query {
 
     function init () {
         $this->is_single = false;
+        $this->is_page = false;
         $this->is_archive = false;
         $this->is_date = false;
 	$this->is_year = false;
@@ -152,15 +154,18 @@ class WP_Query {
 
         if ('' != $qv['feed']) {
             $this->is_feed = true;
-            $this->feed = $qv['feed'];
+        }
+
+        if ('' != $qv['static'] || '' != $qv['pagename']) {
+            $this->is_page = true;
         }
 
         if ( ($this->is_date || $this->is_author || $this->is_category)
-             && (! $this->is_single)) {
+             && (! ($this->is_single || $this->is_page)) ) {
             $this->is_archive = true;
         }
 
-        if ( ! ($this->is_archive || $this->is_single || $this->is_search || $this->is_feed)) {
+        if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed)) {
             $this->is_home = true;
         }
     }

@@ -1590,6 +1590,12 @@ function is_single () {
     return $wp_query->is_single;
 }
 
+function is_page () {
+    global $wp_query;
+
+    return $wp_query->is_page;
+}
+
 function is_archive () {
     global $wp_query;
 

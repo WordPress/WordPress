@@ -1,5 +1,6 @@
 <?php
 
+if (! isset($wp_did_header)):
 if ( !file_exists( dirname(__FILE__) . '/wp-config.php') )
     die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='wp-admin/setup-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.");
 
@@ -159,14 +160,51 @@ if (1 == count($posts)) {
 	}
 }
 
-if ($pagenow != 'wp-feed.php' && $feed != '') {
-	require(dirname(__FILE__) . '/wp-feed.php');
-	exit;
-}
+$wp_did_header = true;
+endif;
 
-if ($pagenow != 'wp-trackback.php' && $tb == 1) {
-	require(dirname(__FILE__) . '/wp-trackback.php');
-	exit;
+// Template redirection
+if (is_single() && (! isset($wp_did_single)) &&
+    file_exists(ABSPATH . 'wp-content/single.php')) {
+  $wp_did_single = true;
+  include(ABSPATH . 'wp-content/single.php');
+  exit;
+} else if (is_page() && (! isset($wp_did_page)) &&
+	    file_exists(ABSPATH . 'wp-content/page.php')) {
+  $wp_did_page = true;
+  include(ABSPATH . 'wp-content/page.php');
+  exit;
+} else if (is_category() && (! isset($wp_did_category)) &&
+	   file_exists(ABSPATH . 'wp-content/category.php')) {
+  $wp_did_category = true;
+  include(ABSPATH . 'wp-content/category.php');
+  exit;
+} else if (is_author() && (! isset($wp_did_author)) &&
+	   file_exists(ABSPATH . 'wp-content/author.php')) {
+  $wp_did_author = true;
+  include(ABSPATH . 'wp-content/author.php');
+  exit;
+} else if (is_date() && (! isset($wp_did_date)) &&
+	   file_exists(ABSPATH . 'wp-content/date.php')) {
+  $wp_did_date = true;
+  include(ABSPATH . 'wp-content/date.php');
+  exit;
+} else if (is_archive() && (! isset($wp_did_archive)) &&
+	   file_exists(ABSPATH . 'wp-content/archive.php')) {
+  $wp_did_archive = true;
+  include(ABSPATH . 'wp-content/archive.php');
+  exit;
+} else if (is_search() && (! isset($wp_did_search)) &&
+	   file_exists(ABSPATH . 'wp-content/search.php')) {
+  $wp_did_search = true;
+  include(ABSPATH . 'wp-content/search.php');
+  exit;
+} else if (is_feed() && $pagenow != 'wp-feed.php') {
+  include(dirname(__FILE__) . '/wp-feed.php');
+  exit;
+} else if ($pagenow != 'wp-trackback.php' && $tb == 1) {
+  include(dirname(__FILE__) . '/wp-trackback.php');
+  exit;
 }
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
