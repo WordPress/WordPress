@@ -476,7 +476,7 @@ function wp_new_comment( $commentdata, $spam = false ) {
 			wp_notify_moderator($comment_id);
 	
 		if ( get_settings('comments_notify') && $approved )
-			wp_notify_postauthor($comment_id, 'comment');
+			wp_notify_postauthor($comment_id, $comment_type);
 	}
 
 	return $result;

@@ -615,7 +615,7 @@ function wp_get_comment_status($comment_id) {
     }
 }
 
-function wp_notify_postauthor($comment_id, $comment_type='comment') {
+function wp_notify_postauthor($comment_id, $comment_type='') {
     global $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
     
@@ -628,6 +628,8 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 	$comment_author_domain = gethostbyaddr($comment->comment_author_IP);
 
 	$blogname = get_settings('blogname');
+	
+	if ( empty( $comment_type ) ) $comment_type = 'comment';
 	
 	if ('comment' == $comment_type) {
 		$notify_message  = "New comment on your post #$comment->comment_post_ID \"".$post->post_title."\"\r\n\r\n";
@@ -654,6 +656,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 		$subject = '[' . $blogname . '] Pingback: "' .$post->post_title.'"';
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . '#comments';
+	$notify_message .= "\r\n\r\nTo delete this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id";
 
 	if ('' == $comment->comment_author_email || '' == $comment->comment_author) {
 		$from = "From: \"$blogname\" <wordpress@" . $_SERVER['SERVER_NAME'] . '>';
