@@ -510,7 +510,7 @@ $p = $_GET['p'];
 $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 echo "<div class=\"wrap\">\n";
-echo "<p><?php __('<strong>Caution:</strong> You are about to delete the following comment:'); ?></p>\n";
+echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
 echo "<table border=\"0\">\n";
 echo "<tr><td>" . __('Author:') . "</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
 echo "<tr><td>" . __('E-mail:') . "</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";

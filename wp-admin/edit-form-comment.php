@@ -78,5 +78,5 @@ if ($user_level > 4) {
 ?>
 
 </form>
-<p><a class="delete" href="post.php?action=deletecomment&amp;noredir=true&amp;comment=<?php echo $commentdata['comment_ID']; ?>&amp;p=<?php echo $commentdata['comment_post_ID']; ?>"><?php _e('Delete comment') ?></a></p>
+<p><a class="delete" href="post.php?action=confirmdeletecomment&amp;noredir=true&amp;comment=<?php echo $commentdata['comment_ID']; ?>&amp;p=<?php echo $commentdata['comment_post_ID']; ?>"><?php _e('Delete comment') ?></a></p>
 </div>
