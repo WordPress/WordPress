@@ -158,7 +158,7 @@ textarea, input, select {
 	color: #171717;
 }
 
-#adminmenu .current {
+#adminmenu .current, #adminmenu2 .current {
 	font-weight: bold;
 }
 

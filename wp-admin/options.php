@@ -113,7 +113,7 @@ default:
         if ($option_group->group_id == $option_group_id) {
             $current_desc=$option_group->group_desc;
             $current_long_desc = $option_group->group_longdesc;
-            echo("  <li><a id=\"current2\" href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></li>\n");
+            echo("  <li><a class=\"current\" href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></li>\n");
         } else {
             echo("  <li><a href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></li>\n");
         }
