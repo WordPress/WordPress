@@ -81,6 +81,8 @@ switch($action) {
         } else {
             $now = date('Y-m-d H:i:s', (time() + ($time_difference * 3600)));
         }
+		
+		if ('' != $HTTP_POST_VARS['save']) $post_status = 'draft';
 
         if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
 		$postquery ="INSERT INTO $tableposts
@@ -145,6 +147,8 @@ switch($action) {
         } else {
             $location = 'wp-post.php';
         }
+		
+		if ('' != $HTTP_POST_VARS['save']) $location = "wp-post.php?action=edit&post=$post_ID";
         header("Location: $location");
         exit();
         break;

@@ -28,6 +28,7 @@ switch($action) {
 			$form_trackback = '';
 		}
 		$colspan = 3;
+		$saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="Save and Continue Editing" />';
 		break;
 	case "edit":
 		$submitbutton_text = 'Edit this!';
@@ -185,7 +186,7 @@ if ($use_quicktags) {
 <?php
 if ($use_quicktags) {
 ?>
-<script language="JavaScript">
+<script type="text/javascript" language="JavaScript">
 <!--
 edCanvas = document.getElementById('content');
 //-->
@@ -210,7 +211,7 @@ if (get_settings('use_geo_positions')) {
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<p><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
+<p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
 
