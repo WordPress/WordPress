@@ -78,7 +78,7 @@ if ( get_settings('active_plugins') ) {
 	$current_plugins = get_settings('active_plugins');
 	foreach ($current_plugins as $plugin) {
 		if ('' != $plugin && file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))
-			include(ABSPATH . 'wp-content/plugins/' . $plugin);
+			include_once(ABSPATH . 'wp-content/plugins/' . $plugin);
 	}
 }
 
