@@ -12,10 +12,11 @@ else
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 	<title>WordPress &rsaquo; Installation</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style media="screen" type="text/css">
-    <!--
+
 	body {
 		background-color: white;
 		color: black;
@@ -41,7 +42,7 @@ else
 	p, li {
 		line-height: 140%;
 	}
-    -->
+
 	</style>
 </head>
 <body>
