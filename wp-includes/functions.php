@@ -377,9 +377,8 @@ function get_lastpostdate() {
 	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
 		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
 
-		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE post_date <= '$now' ORDER BY post_date DESC LIMIT 1");
+		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE post_date <= '$now' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
 		$cache_lastpostdate = $lastpostdate;
-//		echo $lastpostdate;
 	} else {
 		$lastpostdate = $cache_lastpostdate;
 	}
