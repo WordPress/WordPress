@@ -80,7 +80,11 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 	$post = preg_replace("/(\r\n|\n|\r)/", "\n", $post);
 	echo "<li>Importing post... ";
 
-	// Take the comments out first
+	// Take the pings out first
+	preg_match("|(-----\n\nPING:.*)|s", $post, $pings);
+	$post = preg_replace("|(-----\n\nPING:.*)|s", '', $post);
+
+	// Then take the comments out
 	preg_match("|(-----\nCOMMENT:.*)|s", $post, $comments);
 	$post = preg_replace("|(-----\nCOMMENT:.*)|s", '', $post);
 	
@@ -130,9 +134,9 @@ foreach ($posts as $post) { if ('' != trim($post)) {
             case 'ALLOW COMMENTS':
                 $post_allow_comments = $value;
                 if ($post_allow_comments == 1) {
-                    $post_allow_comments = "open";
+                    $comment_status = 'open';
                 } else {
-                    $post_allow_comments = "closed";
+                    $comment_status = 'closed';
                 }
                 break;
             case 'CONVERT BREAKS':
@@ -141,9 +145,9 @@ foreach ($posts as $post) { if ('' != trim($post)) {
             case 'ALLOW PINGS':
                 $post_allow_pings = trim($meta[2][0]);
                 if ($post_allow_pings == 1) {
-                    $post_allow_pings = "open";
+                    $post_allow_pings = 'open';
                 } else {
-                    $post_allow_pings = "closed";
+                    $post_allow_pings = 'closed';
                 }
                 break;
             case 'PRIMARY CATEGORY':
@@ -222,10 +226,10 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$comment_date = trim($comment_date[1]);
 			$comment_date = date('Y-m-d H:i:s', strtotime($comment_date));
 			$comment = preg_replace('|(\n?DATE:.*)|', '', $comment);
-		
+
 			$comment_content = addslashes(trim($comment));
 			$comment_content = str_replace('-----', '', $comment_content);
-			
+
 			// Check if it's already there
 			if (!$wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_date = '$comment_date' AND comment_content = '$comment_content'")) {
 				$wpdb->query("INSERT INTO $tablecomments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved)
@@ -233,6 +237,52 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 				($post_id, '$comment_author', '$comment_email', '$comment_url', '$comment_ip', '$comment_date', '$comment_content', '1')");
 				echo " Comment added.";
 			}
+		}
+		}
+
+		// Finally the pings
+		// fix the double newline on the first one
+		$pings[0] = str_replace("-----\n\n", "-----\n", $pings[0]);
+		$pings = explode("-----\nPING:", $pings[0]);
+		foreach ($pings as $ping) {
+		if ('' != trim($ping)) {
+			// 'Author'
+			preg_match("|BLOG NAME:(.*)|", $ping, $comment_author);
+			$comment_author = addslashes(trim($comment_author[1]));
+			$ping = preg_replace('|(\n?BLOG NAME:.*)|', '', $ping);
+
+			$comment_email = '';
+
+			preg_match("|IP:(.*)|", $ping, $comment_ip);
+			$comment_ip = trim($comment_ip[1]);
+			$ping = preg_replace('|(\n?IP:.*)|', '', $ping);
+
+			preg_match("|URL:(.*)|", $ping, $comment_url);
+			$comment_url = addslashes(trim($comment_url[1]));
+			$ping = preg_replace('|(\n?URL:.*)|', '', $ping);
+
+			preg_match("|DATE:(.*)|", $ping, $comment_date);
+			$comment_date = trim($comment_date[1]);
+			$comment_date = date('Y-m-d H:i:s', strtotime($comment_date));
+			$ping = preg_replace('|(\n?DATE:.*)|', '', $ping);
+      
+ 			preg_match("|TITLE:(.*)|", $ping, $ping_title);
+			$ping_title = addslashes(trim($ping_title[1]));
+			$ping = preg_replace('|(\n?TITLE:.*)|', '', $ping);
+
+			$comment_content = addslashes(trim($ping));
+			$comment_content = str_replace('-----', '', $comment_content);
+			
+			$comment_content = "<trackback /><strong>$ping_title</strong>\n$comment_content";
+      
+			// Check if it's already there
+			if (!$wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_date = '$comment_date' AND comment_content = '$comment_content'")) {
+				$wpdb->query("INSERT INTO $tablecomments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved)
+				VALUES
+				($post_id, '$comment_author', '$comment_email', '$comment_url', '$comment_ip', '$comment_date', '$comment_content', '1')");
+				echo " Comment added.";
+			}
+
 		}
 		}
 	}
