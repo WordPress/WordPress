@@ -58,6 +58,9 @@ window.close()
 // the var instead of changing the assignment on the lines above. 
 // -- Alex King 2004-01-07
     $edited_post_title = $post_title;
+
+// $post_pingback needs to be set in any file that includes edit-form.php
+    $post_pingback = get_settings('default_pingback_flag');
     
     $content = $_REQUEST['content'];
     if (!empty($content)) {
