@@ -48,17 +48,23 @@ $month['10'] = __('October');
 $month['11'] = __('November');
 $month['12'] = __('December');
 
-// Abbreviations for each month.
-$month_abbrev[__('January')] = __('Jan');
-$month_abbrev[__('February')] = __('Feb');
-$month_abbrev[__('March')] = __('Mar');
-$month_abbrev[__('April')] = __('Apr');
-$month_abbrev[__('May')] = __('May');
-$month_abbrev[__('June')] = __('Jun');
-$month_abbrev[__('July')] = __('Jul');
-$month_abbrev[__('August')] = __('Aug');
-$month_abbrev[__('September')] = __('Sep');
-$month_abbrev[__('October')] = __('Oct');
-$month_abbrev[__('November')] = __('Nov');
-$month_abbrev[__('December')] = __('Dec');
+// Abbreviations for each month. Uses the same hack as above to get around the
+// 'May' duplication.
+$month_abbrev[__('January')] = __('Jan_January_abbreviation');
+$month_abbrev[__('February')] = __('Feb_February_abbreviation');
+$month_abbrev[__('March')] = __('Mar_March_abbreviation');
+$month_abbrev[__('April')] = __('Apr_April_abbreviation');
+$month_abbrev[__('May')] = __('May_May_abbreviation');
+$month_abbrev[__('June')] = __('Jun_June_abbreviation');
+$month_abbrev[__('July')] = __('Jul_July_abbreviation');
+$month_abbrev[__('August')] = __('Aug_August_abbreviation');
+$month_abbrev[__('September')] = __('Sep_September_abbreviation');
+$month_abbrev[__('October')] = __('Oct_October_abbreviation');
+$month_abbrev[__('November')] = __('Nov_November_abbreviation');
+$month_abbrev[__('December')] = __('Dec_December_abbreviation');
+
+foreach ($month_abbrev as $month_ => $month_abbrev_) {
+  $month_abbrev[$month_] = preg_replace('/_.+_abbreviation$/', '', $month_abbrev_);
+}
+
 ?>
