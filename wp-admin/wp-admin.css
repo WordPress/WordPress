@@ -283,8 +283,12 @@ textarea, input, select {
 	clear: both;
 }
 
-#poststatusdiv, #commentstatusdiv, #pingstatusdiv {
+#poststatusdiv, #pingstatusdiv, #commentstatusdiv {
 	width: 6.5em;
+}
+
+#slugdiv {
+	width: 9.4em;
 }
 
 #poststuff {
@@ -321,7 +325,7 @@ textarea, input, select {
 	text-align: right;
 }
 
-#titlediv, #poststatusdiv, #commentstatusdiv, #pingstatusdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv {
+#titlediv, #poststatusdiv, #commentstatusdiv, #slugdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv {
 	float: left;
 	height: 6em;
 	margin-right: 5px;

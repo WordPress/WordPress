@@ -63,15 +63,17 @@ window.onload = focusit;
 	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> Private</label></div>
     </fieldset>
     <fieldset id="commentstatusdiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#comments" title="Help on comment status">Comments</a></legend> 
-	  <div><label for="comment_status_open" class="selectit"><input id="comment_status_open" name="comment_status" type="radio" value="open" <?php checked($comment_status, 'open'); ?> /> Open</label> 
-	  <label for="comment_status_closed" class="selectit"><input id="comment_status_closed" name="comment_status" type="radio" value="closed" <?php checked($comment_status, 'closed'); ?> /> Closed</label></div>
-    </fieldset>
-    <fieldset id="pingstatusdiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#pings" title="Help on ping status">Pings</a></legend> 
-	  <div><label for="ping_status_open" class="selectit"><input id="ping_status_open" name="ping_status" type="radio" value="open" <?php checked($ping_status, 'open'); ?> /> Open</label> 
-	  <label for="ping_status_closed" class="selectit"><input id="ping_status_closed" name="ping_status" type="radio" value="closed" <?php checked($ping_status, 'closed'); ?> /> Closed</label></div>
-    </fieldset>
+      <legend><a href="http://wordpress.org/docs/reference/post/#comments" title="Help on comment status">Discussion</a></legend> 
+	  <div><label for="comment_status" class="selectit">
+	      <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($comment_status, 'open'); ?> />
+         Allow Comments</label> 
+		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> Allow Pings</label>
+</div>
+</fieldset>
+<fieldset id="slugdiv">
+<legend>Post Slug</legend>
+<div><input name="post_name" type="text" size="17" id="post_name" value="<?php echo $post_name ?>" /></div>
+</fieldset>
     <fieldset id="postpassworddiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#post_password" title="Help on post password">Post Password</a></legend> 
 	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>

@@ -325,7 +325,8 @@ function get_postdata($postid) {
 		'ping_status' => $post->ping_status,
 		'post_password' => $post->post_password,
 		'to_ping' => $post->to_ping,
-		'pinged' => $post->pinged
+		'pinged' => $post->pinged,
+		'post_name' => $post->post_name
 	);
 	return $postdata;
 }

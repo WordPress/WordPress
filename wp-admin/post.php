@@ -221,6 +221,7 @@ switch($action) {
 			$post_password = $postdata['post_password'];
 			$to_ping = $postdata['to_ping'];
 			$pinged = $postdata['pinged'];
+			$post_name = $postdata['post_name'];
 
             include('edit-form-advanced.php');
 			$p = $_GET['post'];
@@ -288,7 +289,8 @@ switch($action) {
 			$ping_status = $HTTP_POST_VARS['ping_status'];
 			if (empty($ping_status)) $post_status = get_settings('default_ping_status');
 			$post_password = addslashes($HTTP_POST_VARS['post_password']);
-			$post_name = sanitize_title($post_title);
+			$post_name = sanitize_title($_POST['post_name']);
+			if (empty($post_name)) $post_name = sanitize_title($post_title);
 			$trackback = $HTTP_POST_VARS['trackback_url'];
 		// Format trackbacks
 		$trackback = preg_replace('|\s+|', '\n', $trackback);
