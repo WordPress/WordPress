@@ -259,7 +259,7 @@ switch ($action) {
       }
 
       $wpdb->query("UPDATE $wpdb->links SET link_url='" . $link_url . "',
-	  link_name='" . addslashes($link_name) . "',\n link_image='" . $link_image . "',
+	  link_name='" . $link_name . "',\n link_image='" . $link_image . "',
 	  link_target='$link_target',\n link_category=$link_category,
 	  link_visible='$link_visible',\n link_description='" . $link_description . "',
 	  link_rating=$link_rating,
