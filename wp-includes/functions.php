@@ -1346,11 +1346,11 @@ function get_page_uri($page) {
 	global $wpdb;
 	$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page'");
 
-	$uri = $page->post_name;
+	$uri = urldecode($page->post_name);
 
 	while ($page->post_parent != 0) {
 		$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page->post_parent'");
-		$uri = $page->post_name . "/" . $uri;
+		$uri = urldecode($page->post_name) . "/" . $uri;
 	}
 
 	return $uri;
@@ -1363,7 +1363,7 @@ function page_rewrite_rules() {
         if( is_array( $uris ) )
         {
             foreach ($uris as $uri => $pagename) {
-                $rewrite_rules += array($uri . '/?$' => "index.php?pagename=$pagename");
+							$rewrite_rules += array($uri . '/?$' => "index.php?pagename=" . urldecode($pagename));
             }
         }
 
