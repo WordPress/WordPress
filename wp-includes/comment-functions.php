@@ -61,8 +61,11 @@ function get_comments_link() {
 }
 
 function comments_link( $file = '', $echo = true ) {
-    if (!$echo) return get_permalink() . '#comments';
-    else echo ;
+    echo get_comments_link();
+}
+
+function comment_link_rss() {
+	echo get_comments_link();
 }
 
 function comments_popup_script($width=400, $height=400, $file='') {
@@ -145,6 +148,11 @@ function get_comment_author() {
 
 function comment_author() {
 	$author = apply_filters('comment_author', get_comment_author() );
+	echo $author;
+}
+
+function comment_author_rss() {
+	$author = apply_filters('comment_author_rss', get_comment_author() );
 	echo $author;
 }
 
@@ -244,6 +252,12 @@ function comment_text() {
 	echo apply_filters('comment_text', get_comment_text() );
 }
 
+function comment_text_rss() {
+	$comment_text = get_comment_text();
+	$comment_text = apply_filters('comment_text_rss', $comment_text);
+	echo $comment_text;
+}
+
 function get_comment_excerpt() {
 	global $comment;
 	$comment_text = str_replace('<trackback />', '', $comment->comment_content);
@@ -312,50 +326,21 @@ function comments_rss($commentsrssfilename = 'wp-commentsrss2.php') {
 	return $url;
 }
 
-function comment_author_rss() {
-	global $comment;
-	if (empty($comment->comment_author)) {
-		echo 'Anonymous';
-	} else {
-		echo wp_specialchars(apply_filters('comment_author', $comment->comment_author));
-	}
-}
-
-function comment_text_rss() {
-	global $comment;
-	$comment_text = str_replace('<trackback />', '', $comment->comment_content);
-	$comment_text = str_replace('<pingback />', '', $comment_text);
-	$comment_text = apply_filters('comment_text', $comment_text);
-	$comment_text = strip_tags($comment_text);
-	$comment_text = wp_specialchars($comment_text);
-	echo $comment_text;
-}
-
-function comment_link_rss() {
-	global $comment;
-	echo get_permalink($comment->comment_post_ID).'#comments';
-}
-
-function permalink_comments_rss() {
-	global $comment;
-	echo get_permalink($comment->comment_post_ID);
-}
-
-function trackback_url($display = true) {
+function get_trackback_url() {
 	global $id;
 	$tb_url = get_settings('siteurl') . '/wp-trackback.php/' . $id;
-	
-	if ('' != get_settings('permalink_structure')) {
-		$tb_url = trailingslashit(get_permalink()) . 'trackback/';
-	}
-	
-	if ($display) {
-		echo $tb_url;
-	} else {
-		return $tb_url;
-	}
-}
 
+	if ( '' != get_settings('permalink_structure') )
+		$tb_url = trailingslashit(get_permalink()) . 'trackback/';
+
+	return $tb_url;
+}
+function trackback_url( $display = true ) {
+	if ( $display)
+		echo get_trackback_url();
+	else
+		return get_trackback_url();
+}
 
 function trackback_rdf($timezone = 0) {
 	global $id;
@@ -377,14 +362,18 @@ function trackback_rdf($timezone = 0) {
 
 function comments_open() {
 	global $post;
-	if ('open' == $post->comment_status) return true;
-	else return false;
+	if ( 'open' == $post->comment_status )
+		return true;
+	else
+		return false;
 }
 
 function pings_open() {
 	global $post;
-	if ('open' == $post->ping_status) return true;
-	else return false;
+	if ( 'open' == $post->ping_status ) 
+		return true;
+	else
+		return false;
 }
 
 // Non-template functions

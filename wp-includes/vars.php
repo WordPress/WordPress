@@ -212,6 +212,7 @@ add_filter('pre_comment_content', 'balanceTags', 30);
 // Default filters for these functions
 add_filter('comment_author', 'wptexturize');
 add_filter('comment_author', 'convert_chars');
+add_filter('comment_author', 'wp_specialchars');
 
 add_filter('comment_email', 'antispambot');
 
@@ -221,6 +222,8 @@ add_filter('comment_text', 'convert_chars');
 add_filter('comment_text', 'make_clickable');
 add_filter('comment_text', 'wpautop', 30);
 add_filter('comment_text', 'convert_smilies', 20);
+
+add_filter('comment_text_rss', 'htmlspecialchars');
 
 add_filter('comment_excerpt', 'convert_chars');
 
