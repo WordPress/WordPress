@@ -1,27 +1,13 @@
-
-<div class="wrap">
 <?php
 
 $allowed_users = explode(" ", trim($fileupload_allowedusers));
 
-function selected($selected, $current) {
-	if ($selected == $current) echo ' selected="selected"';
-}
-
-function checked($checked, $current) {
-	if ($checked == $current) echo ' checked="checked"';
-}
-
-
-		$submitbutton_text = 'Edit this!';
-		$toprow_title = 'Editing Comment # '.$commentdata['comment_ID'];
-		$form_action = 'editedcomment';
-		$form_extra = "' />\n<input type='hidden' name='comment_ID' value='$comment' />\n<input type='hidden' name='comment_post_ID' value='".$commentdata["comment_post_ID"];
-
-
-
-
+$submitbutton_text = 'Edit this!';
+$toprow_title = 'Editing Comment # '.$commentdata['comment_ID'];
+$form_action = 'editedcomment';
+$form_extra = "' />\n<input type='hidden' name='comment_ID' value='$comment' />\n<input type='hidden' name='comment_post_ID' value='".$commentdata["comment_post_ID"];
 ?>
+<div class="wrap">
 
 <form name="post" action="post.php" method="post" id="post">
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />

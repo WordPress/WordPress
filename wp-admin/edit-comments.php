@@ -2,144 +2,35 @@
 $title = 'Edit Comments';
 $parent_file = 'edit.php';
 require_once('admin-header.php');
-
-if (!$showcomments) {
-	if ($comments_per_page) {
-		$showcomments=$comments_per_page;
-	} else {
-		$showcomments=10;
-		$comments_per_page=$showcomments;
-	}
-} else {
-	$comments_per_page = $showcomments;
-}
-
-if ((!empty($commentstart)) && (!empty($commentend)) && ($commentstart == $commentend)) {
-	$p=$commentstart;
-	$commentstart=0;
-	$commentend=0;
-}
-
-if (!$commentstart) {
-	$commentstart=0;
-	$commentend=$showcomments;
-}
-
-$nextXstart=$commentend;
-$nextXend=$commentend+$showcomments;
-
-$previousXstart=($commentstart-$showcomments);
-$previousXend=$commentstart;
-if ($previousXstart < 0) {
-	$previousXstart=0;
-	$previousXend=$showcomments;
-}
-
-ob_start();
 ?>
 <ul id="adminmenu2">
-	<li><a href="edit.php">Latest Posts</a></li>
-	<li><a href="edit-comments.php" class="current">Latest Comments</a></li>
-	<li class="last"><a href="moderation.php">Comments Awaiting Moderation</a></li>
+	<li><a href="edit.php">Posts</a></li>
+	<li><a href="edit-comments.php" class="current">Comments</a></li>
+	<li class="last"><a href="moderation.php">Awaiting Moderation</a></li>
 </ul>
 
 <div class="wrap">
-<table width="100%">
-  <tr>
-    <td valign="top" width="200">
-      Show comments:
-    </td>
-    <td>
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2" align="center"><!-- show next/previous X comments -->
-            <form name="previousXcomments" method="get" action="">
+<form name="searchform" action="" method="get"> 
+  <fieldset> 
+  <legend>Show Comments That Contain...</legend> 
+  <input type="text" name="s" value="<?php echo $s; ?>" size="17" /> 
+  <input type="submit" name="submit" value="Search"  /> 
+  </fieldset> 
+</form>
+<p><a href="?mode=view">View Mode</a> | <a href="?mode=edit">Mass Edit Mode</a></p>
 <?php
-if ($previousXstart > 0) {
-?>
-              <input type="hidden" name="showcomments" value="<?php echo $showcomments; ?>" />
-              <input type="hidden" name="commentstart" value="<?php echo $previousXstart; ?>" />
-              <input type="hidden" name="commentend" value="<?php echo $previousXend; ?>" />
-              <input type="submit" name="submitprevious" class="search" value="< <?php echo $showcomments ?>" />
-<?php
+if ($s) {
+	$s = $wpdb->escape($s);
+	$comments = $wpdb->get_results("SELECT * FROM $tablecomments  WHERE
+		comment_author LIKE '%$s%' OR
+		comment_author_email LIKE '%$s%' OR
+		comment_author_url LIKE ('%$s%') OR
+		comment_author_IP LIKE ('%$s%') OR
+		comment_content LIKE ('%$s%')
+		ORDER BY comment_date");
+} else {
+	$comments = $wpdb->get_results("SELECT * FROM $tablecomments ORDER BY comment_date $commentorder LIMIT 20");
 }
-?>
-            </form>
-          </td>
-          <td>
-            <form name="nextXcomments" method="get" action="">
-              <input type="hidden" name="showcomments" value="<?php echo $showcomments; ?>" />
-              <input type="hidden" name="commentstart" value="<?php echo $nextXstart; ?>" />
-              <input type="hidden" name="commentend" value="<?php echo $nextXend; ?>" />
-              <input type="submit" name="submitnext" class="search" value="<?php echo $showcomments ?> >" />
-            </form>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="200"><!-- show X first/last comments -->
-      <form name="showXfirstlastcomments" method="get" action="">
-        <input type="text" name="showcomments" value="<?php echo $showcomments ?>" style="width:40px;" /?>
-<?php
-if (empty($commentorder))
-  $commentorder="DESC";
-$i = $commentorder;
-if ($i == "DESC")
- $besp_selected = "selected='selected'";
-?>
-        <select name="commentorder">
-          <option value="DESC" <?php echo $besp_selected ?>>last comments</option>
-<?php
-$besp_selected = "";
-if ($i == "ASC")
-$besp_selected = "selected='selected'";
-?>
-          <option value="ASC" <?php echo $besp_selected?>>first comments</option>
-        </select>&nbsp;
-        <input type="submit" name="submitfirstlast" class="search" value="OK" />
-      </form>
-    </td>
-    <td valign="top"><!-- show comment X to comment X -->
-      <form name="showXfirstlastcomments" method="get" action="">
-        <input type="text" name="commentstart" value="<?php echo $commentstart ?>" style="width:40px;" /?>&nbsp;to&nbsp;<input type="text" name="commentend" value="<?php echo $commentend ?>" style="width:40px;" /?>&nbsp;
-        <select name="commentorder">
-<?php
-$besp_selected = "";
-$i = $commentorder;
-if ($i == "DESC")
-  $besp_selected = "selected='selected'";
-?>
-          <option value="DESC" "<?php echo $besp_selected ?>">from the end</option>
-<?php
-$besp_selected = "";
-if ($i == "ASC")
-  $besp_selected = "selected='selected'";
-?>        <option value="ASC" "<?php echo $besp_selected ?>">from the start</option>
-        </select>&nbsp;
-        <input type="submit" name="submitXtoX" class="search" value="OK" />
-      </form>
-    </td>
-  </tr>
-</table>
-</div>
-<?php
-$comments_nav_bar = ob_get_contents();
-ob_end_clean();
-echo $comments_nav_bar;
-?>
-
-<div class="wrap">
-
-	<?php
-	$comments = $wpdb->get_results("SELECT * FROM $tablecomments
-									ORDER BY comment_date $commentorder 
-									LIMIT $commentstart, $commentend"
-	                              );
-
-// need to account for offet, etc.
-
 	if ($comments) {
 		echo '<ol>';
 		foreach ($comments as $comment) {
@@ -182,6 +73,5 @@ echo $comments_nav_bar;
 </div>
 
 <?php 
-echo $comments_nav_bar; 
 include('admin-footer.php');
 ?>

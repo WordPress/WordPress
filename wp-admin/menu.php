@@ -11,7 +11,7 @@ foreach ($menu as $item) {
 		$item = explode("\t", $item);
 		// 0 = user level, 1 = file, 2 = name
 		$self = str_replace('/wp-admin/', '', $PHP_SELF);
-		if ((substr($self, -20) == substr($item[1], -20)) || ($parent_file && ($item[1] == $parent_file))) $class = ' class="current"';
+		if ((substr($self, -20) == substr($item[1], -20) && empty($parent_file)) || ($parent_file && ($item[1] == $parent_file))) $class = ' class="current"';
 		if ($user_level >= $item[0]) {
 			if (('upload.php' == $item[1] && $use_fileupload && ($user_level >= $fileupload_minlevel)
          && (in_array($user_login, explode(' ', $allowed_users)) || (trim($fileupload_allowedusers)==""))) || 'upload.php' != $item[1])

@@ -431,6 +431,7 @@ switch($action) {
     case 'editcomment':
         $title = 'Edit Comment';
         $standalone = 0;
+		$parent_file = 'edit.php';
         require_once ('admin-header.php');
 
         get_currentuserinfo();

@@ -1,53 +1,21 @@
 <?php
-$title = 'Edit Posts';
+$title = 'Posts';
 require_once('admin-header.php');
-if (!$showposts) {
-	if ($posts_per_page) {
-		$showposts=$posts_per_page;
-	} else {
-		$showposts=10;
-		$posts_per_page=$showposts;
-	}
-} else {
-	$posts_per_page = $showposts;
-}
 
-if ((!empty($poststart)) && (!empty($postend)) && ($poststart == $postend)) {
-	$p=$poststart;
-	$poststart=0;
-	$postend=0;
-}
-
-if (!$poststart) {
-	$poststart=0;
-	$postend=$showposts;
-}
-
-$nextXstart=$postend;
-$nextXend=$postend+$showposts;
-
-$previousXstart=($poststart-$showposts);
-$previousXend=$poststart;
-if ($previousXstart < 0) {
-	$previousXstart=0;
-	$previousXend=$showposts;
-}
-
-ob_start();
 ?>
-<ul id="adminmenu2">
-	<li><a href="edit.php" class="current">Latest Posts</a></li>
-	<li><a href="edit-comments.php">Latest Comments</a></li>
-	<li class="last"><a href="moderation.php">Comments Awaiting Moderation</a></li>
-</ul>
+ <ul id="adminmenu2"> 
+  <li><a href="edit.php" class="current">Posts</a></li> 
+  <li><a href="edit-comments.php">Comments</a></li> 
+  <li class="last"><a href="moderation.php">Awaiting Moderation</a></li> 
+</ul> 
 <?php
 get_currentuserinfo();
 $drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_status = 'draft' AND post_author = $user_ID");
 if ($drafts) {
-	?>
-	<div class="wrap">
-	<p><strong>Your Drafts:</strong>
-	<?php
+	?> 
+<div class="wrap"> 
+  <p><strong>Your Drafts:</strong> 
+    <?php
 	$i = 0;
 	foreach ($drafts as $draft) {
 		if (0 != $i)
@@ -58,326 +26,117 @@ if ($drafts) {
 		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
 		++$i;
 		}
-	?>.</p>
-	</div>
-	<?php
-}
-?>
-<div class="wrap">
-<table width="100%">
-  <tr>
-    <td valign="top" width="200">
-      Show posts:
-    </td>
-    <td>
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2" align="center"><!-- show next/previous X posts -->
-            <form name="previousXposts" method="get" action="">
-<?php
-if ($previousXstart > 0) {
-?>
-              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
-              <input type="hidden" name="poststart" value="<?php echo $previousXstart; ?>" />
-              <input type="hidden" name="postend" value="<?php echo $previousXend; ?>" />
-              <input type="submit" name="submitprevious" class="search" value="< <?php echo $showposts ?>" />
+	?> 
+    .</p> 
+</div> 
 <?php
 }
-?>
-            </form>
-          </td>
-          <td>
-            <form name="nextXposts" method="get" action="">
-              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
-              <input type="hidden" name="poststart" value="<?php echo $nextXstart; ?>" />
-              <input type="hidden" name="postend" value="<?php echo $nextXend; ?>" />
-              <input type="submit" name="submitnext" class="search" value="<?php echo $showposts ?> >" />
-            </form>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="200"><!-- show X first/last posts -->
-      <form name="showXfirstlastposts" method="get" action="">
-        <input type="text" name="showposts" value="<?php echo $showposts ?>" style="width:40px;" /?>
-<?php
-if (!isset($order))
-  $order="DESC";
-$i = $order;
-if ($i == "DESC")
- $besp_selected = "selected='selected'";
-?>
-        <select name="order">
-          <option value="DESC" <?php echo $besp_selected ?>>last posts</option>
-<?php
-$besp_selected = "";
-if ($i == "ASC")
-$besp_selected = "selected='selected'";
-?>
-          <option value="ASC" <?php echo $besp_selected?>>first posts</option>
-        </select>&nbsp;
-        <input type="submit" name="submitfirstlast" class="search" value="OK" />
-      </form>
-    </td>
-    <td valign="top"><!-- show post X to post X -->
-      <form name="showXfirstlastposts" method="get" action="">
-        <input type="text" name="poststart" value="<?php echo $poststart ?>" style="width:40px;" /?>&nbsp;to&nbsp;<input type="text" name="postend" value="<?php echo $postend ?>" style="width:40px;" /?>&nbsp;
-        <select name="order">
-<?php
-$besp_selected = "";
-$i = $order;
-if ($i == "DESC")
-  $besp_selected = "selected='selected'";
-?>
-          <option value="DESC" "<?php echo $besp_selected ?>">from the end</option>
-<?php
-$besp_selected = "";
-if ($i == "ASC")
-  $besp_selected = "selected='selected'";
-?>        <option value="ASC" "<?php echo $besp_selected ?>">from the start</option>
-        </select>&nbsp;
-        <input type="submit" name="submitXtoX" class="search" value="OK" />
-      </form>
-    </td>
-  </tr>
-</table>
-</div>
-
-<?php
-$posts_nav_bar = ob_get_contents();
-ob_end_clean();
-echo $posts_nav_bar;
-?>
-
-<div class="wrap">
-<table width="100%">
-  <tr>
-	<td valign="top" width="33%">
-		<form name="searchform" action="" method="get">
-			<input type="hidden" name="a" value="s" />
-			<input onfocus="this.value='';" onblur="if (this.value=='') {this.value='search...';}" type="text" name="s" value="search..." size="7" style="width: 100px;" />
-			<input type="submit" name="submit" value="search" class="search" />
-		</form>
-	</td>
-    <td valign="top" width="33%" align="center">
-	  <form name="viewcat" action="" method="get">
-		<select name="cat" style="width:140px;">
-		<option value="all">All Categories</option>
-		<?php
-	$categories = $wpdb->get_results("SELECT * FROM $tablecategories");
-	$width = ($mode=="sidebar") ? "100%" : "170px";
-	foreach ($categories as $category) {
-		echo "<option value=\"".$category->cat_ID."\"";
-		if ($category->cat_ID == $postdata["Category"])
-			echo " selected='selected'";
-		echo ">".$category->cat_name."</option>";
-	}
-		?>
-		</select>
-		<input type="submit" name="submit" value="View" class="search" />
-	  </form>
-    </td>
-    <td valign="top" width="33%" align="right">
-    <form name="viewarc" action="" method="get">
-	<?php
-
-	if ($archive_mode == "monthly") {
-		echo "<select name=\"m\" style=\"width:120px;\">";
-		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date) FROM $tableposts ORDER BY post_date DESC",ARRAY_A);
-		foreach ($arc_result as $arc_row) {
-			$arc_year  = $arc_row["YEAR(post_date)"];
-			$arc_month = $arc_row["MONTH(post_date)"];
-			echo "<option value=\"$arc_year".zeroise($arc_month,2)."\">";
-			echo $month[zeroise($arc_month,2)]." $arc_year";
-			echo "</option>\n";
-		}
-	} elseif ($archive_mode == "daily") {
-		echo "<select name=\"d\" style=\"width:120px;\">";
-		$archive_day_date_format = "Y/m/d";
-		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) FROM $tableposts ORDER BY post_date DESC", ARRAY_A);
-		foreach ($arc_result as $arc_row) {
-			$arc_year  = $arc_row["YEAR(post_date)"];
-			$arc_month = $arc_row["MONTH(post_date)"];
-			$arc_dayofmonth = $arc_row["DAYOFMONTH(post_date)"];
-			echo "<option value=\"$arc_year".zeroise($arc_month,2).zeroise($arc_dayofmonth,2)."\">";
-			echo mysql2date($archive_day_date_format, $arc_year.zeroise($arc_month,2).zeroise($arc_dayofmonth,2)." 00:00:00");
-			echo "</option>\n";
-		}
-	} elseif ($archive_mode == "weekly") {
-		echo "<select name=\"w\" style=\"width:120px;\">";
-		if (!isset($start_of_week)) {
-			$start_of_week = 1;
-		}
-		$archive_week_start_date_format = "Y/m/d";
-		$archive_week_end_date_format   = "Y/m/d";
-		$archive_week_separator = " - ";
-		$arc_result=$wpdb->geT_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date), WEEK(post_date) FROM $tableposts ORDER BY post_date DESC", ARRAY_A);
-		$arc_w_last = '';
-        foreach ($arc_result as $arc_row) {
-			$arc_year = $arc_row["YEAR(post_date)"];
-			$arc_w = $arc_row["WEEK(post_date)"];
-			if ($arc_w != $arc_w_last) {
-				$arc_w_last = $arc_w;
-				$arc_ymd = $arc_year."-".zeroise($arc_row["MONTH(post_date)"],2)."-" .zeroise($arc_row["DAYOFMONTH(post_date)"],2);
-				$arc_week = get_weekstartend($arc_ymd, $start_of_week);
-				$arc_week_start = date($archive_week_start_date_format, $arc_week['start']);
-				$arc_week_end = date($archive_week_end_date_format, $arc_week['end']);
-				echo "<option value=\"$arc_w\">";
-				echo $arc_week_start.$archive_week_separator.$arc_week_end;
-				echo "</option>\n";
-			}
-		}
-	} elseif ($archive_mode == "postbypost") {
-		echo '<input type="hidden" name="more" value="1" />';
-		echo '<select name="p" style="width:120px;">';
-		$resultarc = $wpdb->get_results("SELECT ID,post_date,post_title FROM $tableposts ORDER BY post_date DESC");
-		foreach ($resultarc as $row) {
-			if ($row->post_date != "0000-00-00 00:00:00") {
-				echo "<option value=\"".$row->ID."\">";
-				if (strip_tags($row->post_title)) {
-					echo strip_tags(stripslashes($row->post_title));
-				} else {
-					echo $row->ID;
-				}
-				echo "</option>\n";
-			}
-		}
-	}
-
-	echo "</select>";
-	?>
-	    <input type="submit" name="submit" value="View" class="search" />
-      </form>
-    </td>
-  </tr>
-</table>
-
-<?php
+?> 
+<div class="wrap"> 
+<form name="searchform" action="" method="get"> 
+  <fieldset> 
+  <legend>Show Posts That Contain...</legend> 
+  <input type="text" name="s" value="<?php echo $s; ?>" size="17" /> 
+  <input type="submit" name="submit" value="Search"  /> 
+  </fieldset> 
+</form> 
+<table width="100%" cellpadding="3" cellspacing="3"> 
+  <tr> 
+    <th scope="col">ID</th> 
+    <th scope="col">When</th> 
+    <th scope="col">Title</th> 
+    <th scope="col">Categories</th> 
+    <th scope="col">Comments</th> 
+    <th scope="col">Author</th> 
+    <th scope="col">Edit</th> 
+    <th scope="col">Delete</th> 
+  </tr> 
+  <?php
 include(ABSPATH.'wp-blog-header.php');
 
 if ($posts) {
 foreach ($posts as $post) { start_wp();
+$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
+?> 
+  <tr style='background-color: <?php echo $bgcolor; ?>'> 
+    <th scope="row"><?php echo $id ?></th> 
+    <td><?php the_time('Y-m-d \<\b\r \/\> g:i:s a'); ?></td> 
+    <td><a href="<?php permalink_link(); ?>" rel="permalink"> 
+      <?php the_title() ?> 
+      </a> 
+      <?php if ('private' == $post->post_status) echo ' - <strong>Private</strong>'; ?></td> 
+    <td><?php the_category(','); ?></td> 
+    <td><a href="edit.php?p=<?php echo $id ?>&c=1"> 
+      <?php comments_number('no comments', '1 comment', "% comments") ?> 
+      </a></td> 
+    <td><?php the_author() ?></td> 
+    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>Edit</a>"; } ?></td> 
+    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('You are about to delete this post \'".the_title('','',0)."\'\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a>"; } ?></td> 
+  </tr> 
+<?php
+}
+} else {
 ?>
-			<p>
-				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
-				<?php
-				if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-				echo " - <a href='post.php?action=edit&amp;post=$id";
-				if ($m)
-				echo "&m=$m";
-				echo "'>Edit</a>";
-				echo " - <a href='post.php?action=delete&amp;post=$id' onclick=\"return confirm('You are about to delete this post \'".the_title('','',0)."\'\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a> ";
+  <tr style='background-color: <?php echo $bgcolor; ?>'> 
+    <td colspan="8">No posts found.</td> 
+  </tr> 
+<?php
+} // end if ($posts)
+?> 
+</table> 
+<?php
+if (($withcomments) or ($single)) {
+
+	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+	if ($comments) {
+	?> 
+<h3>Comments</h3> 
+<ol id="comments"> 
+<?php
+foreach ($comments as $comment) {
+$comment_status = wp_get_comment_status($comment->comment_ID);
+?> 
+
+<li <?php if ("unapproved" == $comment_status) echo "class='unapproved'"; ?> >
+  <?php comment_date('Y-n-j') ?> 
+  @
+  <?php comment_time('g:m:s a') ?> 
+  <?php 
+			if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
+				echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
+				echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a> ";
+				if ( ('none' != $comment_status) && ($user_level >= 3) ) {
+					if ('approved' == wp_get_comment_status($comment->comment_ID)) {
+						echo " - <a href=\"post.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Unapprove</a> ";
+					} else {
+						echo " - <a href=\"post.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Approve</a> ";
+					}
 				}
-				if ('private' == $post->post_status) echo ' - <strong>Private</strong>';
-				?>
-				]
-				<br />
-				<strong><a href="<?php permalink_link(); ?>" rel="permalink"><?php the_title() ?></a></strong> &#8212; <cite><?php the_author() ?> (<a href="javascript:profile(<?php the_author_ID() ?>)"><?php the_author_nickname() ?></a>)</cite>, in <strong><?php the_category() ?></strong><br />
-				<?php
-				the_content();
-				?>
-			</p>
-				<?php
+				echo "]";
+			} // end if any comments to show
+			?> 
+  <br /> 
+  <strong> 
+  <?php comment_author() ?> 
+  (
+  <?php comment_author_email_link() ?> 
+  /
+  <?php comment_author_url_link() ?> 
+  )</strong> (IP:
+  <?php comment_author_IP() ?> 
+  )
+  <?php comment_text() ?> 
 
-				// comments
-				if (($withcomments) or ($single)) {
-
-					$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
-					if ($comments) {
-					?>
-
-					<h3>Comments</h3>
-					<ol id="comments">
-						<?php
-						foreach ($comments as $comment) {
-						?>
-				
-					<!-- comment -->
-					<li>
-					    <?php
-						$comment_status = wp_get_comment_status($comment->comment_ID);
-						
-						if ("unapproved" == $comment_status) {
-						    echo "<span class=\"unapproved\">";
-						}
-					    ?>
-							<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?> 
-							<?php 
-							if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-								echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
-								echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a> ";
-								if ( ('none' != $comment_status) && ($user_level >= 3) ) {
-									if ('approved' == wp_get_comment_status($comment->comment_ID)) {
-										echo " - <a href=\"post.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Unapprove</a> ";
-									} else {
-										echo " - <a href=\"post.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Approve</a> ";
-									}
-								}
-								echo "]";
-							} // end if any comments to show
-							?>
-						<br />
-						<strong><?php comment_author() ?> ( <?php comment_author_email_link() ?> / <?php comment_author_url_link() ?> )</strong> (IP: <?php comment_author_IP() ?>)
-							<?php comment_text() ?>
-					    <?php
-						if ("unapproved" == $comment_status) {
-						    echo "</span>";
-						}
-					    ?>
-					</li>
-					<!-- /comment -->
-
-						<?php //end of the loop, don't delete
-						} // end foreach
-					echo '</ol>';
-					}//end if comments
-					if ($comment_error)
-						echo "<p>Error: please fill the required fields (name & comment)</p>";
-					?>
-
-					<h3>Leave Comment</h3>
-
-
-					<!-- form to add a comment -->
-
-					<form action="<?php echo $siteurl.'/wp-comments-post.php'?>" method="post">
-						<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
-						<input type="hidden" name="redirect_to" value="<?php echo $HTTP_SERVER_VARS["REQUEST_URI"]; ?>" />
-						<input type="text" name="author" class="textarea" value="<?php echo $user_nickname ?>" size="20" tabindex="1" /><br />
-						<input type="text" name="email" class="textarea" value="<?php echo $user_email ?>" size="20" tabindex="2" /><br />
-						<input type="text" name="url" class="textarea" value="<?php echo $user_url ?>" size="20" tabindex="3" /><br />
-						<textarea cols="40" rows="4" name="comment" tabindex="4" class="textarea">comment</textarea><br />
-						<input type="submit" name="submit" class="buttonarea" value="ok" tabindex="5" />
-					</form>
-					<!-- /form -->
-
-					<?php // if you delete this the sky will fall on your head
-				}
-				?>
-			<br />
-
-	<?php
-
-	} // end b2 loop
-	
-	} else {
-
-		?>
-		<p>
-		<strong>No results found.</strong>
-		</p>
-		
-		<?php
-	} // end if ($posts)
-
+</li> 
+<!-- /comment --> 
+<?php //end of the loop, don't delete
+		} // end foreach
+	echo '</ol>';
+	}//end if comments
 	?>
-
-</div>
-
+	<p><a href="edit.php">Back to posts</a></p>
+<?php } ?> 
+</div> 
 <?php 
-// uncomment this to show the nav bar at the bottom as well
- echo $posts_nav_bar; 
  include('admin-footer.php');
-?>
+?> 
