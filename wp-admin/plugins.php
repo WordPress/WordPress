@@ -8,7 +8,7 @@ if ($_GET['action']) {
 		$current = preg_replace("|(\n)+\s*|", "\n", $current);
 		$current = trim($current) . "\n " . trim($_GET['plugin']);
 		$current = trim($current);
-		$current = preg_replace('|\n\s*|', '\n', $current); // I don't know where this is coming from
+		$current = preg_replace("|\n\s*|", "\n", $current); // I don't know where this is coming from
 		update_option('active_plugins', $current);
 		header('Location: plugins.php?activate=true');
 	}
