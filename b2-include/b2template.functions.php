@@ -464,23 +464,23 @@ function the_excerpt() {
 }
 
 function the_excerpt_rss($cut = 0, $encode_html = 0) {
-	$excerpt = get_the_excerpt(true);
-	$excerpt = convert_bbcode($excerpt);
-	$excerpt = convert_gmcode($excerpt);
-	$excerpt = convert_chars($excerpt, 'unicode');
+	$output = get_the_excerpt(true);
+	$output = convert_bbcode($output);
+	$output = convert_gmcode($output);
+	$output = convert_chars($output, 'unicode');
 	if ($cut && !$encode_html) {
 		$encode_html = 2;
 	}
 	if ($encode_html == 1) {
-		$excerpt = htmlspecialchars($excerpt);
+		$output = htmlspecialchars($output);
 		$cut = 0;
 	} elseif ($encode_html == 0) {
-		$excerpt = make_url_footnote($excerpt);
+		$output = make_url_footnote($output);
 	} elseif ($encode_html == 2) {
-		$excerpt = strip_tags($excerpt);
+		$output = strip_tags($output);
 	}
 	if ($cut) {
-		$blah = explode(' ', $excerpt);
+		$blah = explode(' ', $output);
 		if (count($blah) > $cut) {
 			$k = $cut;
 			$use_dotdotdot = 1;
@@ -492,9 +492,9 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
 			$excerpt .= $blah[$i].' ';
 		}
 		$excerpt .= ($use_dotdotdot) ? '...' : '';
-		$excerpt = $excerpt;
+		$output = $excerpt;
 	}
-	echo $excerpt;
+	echo $output;
 }
 
 function the_excerpt_unicode() {
