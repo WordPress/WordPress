@@ -67,7 +67,7 @@ function get_bloginfo($show='') {
 
 function wp_title($sep = '&raquo;', $display = true) {
     global $wpdb;
-    global $year, $monthnum, $day, $cat, $p, $name, $month, $posts, $single;
+    global $m, $year, $monthnum, $day, $cat, $p, $name, $month, $posts, $single;
 
     // If there's a category
     if(!empty($cat)) {
