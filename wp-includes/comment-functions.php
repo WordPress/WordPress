@@ -92,7 +92,6 @@ function comments_popup_script($width=400, $height=400, $file='') {
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
     global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb;
-    global $querystring_start, $querystring_equal, $querystring_separator;
     global $comment_count_cache;
 
 	if (! is_single() && ! is_page()) {
@@ -113,7 +112,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         }
         echo '<a href="';
         if ($wpcommentsjavascript) {
-            echo get_settings('siteurl') . '/' . $wpcommentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+            echo get_settings('siteurl') . '/' . $wpcommentspopupfile.'?p='.$id.'amp;c=1';
             //echo get_permalink();
             echo '" onclick="wpopen(this.href); return false"';
         } else {
@@ -635,7 +634,6 @@ function wp_get_comment_status($comment_id) {
 if ( ! function_exists('wp_notify_postauthor') ) {
 function wp_notify_postauthor($comment_id, $comment_type='') {
     global $wpdb;
-    global $querystring_start, $querystring_equal, $querystring_separator;
     
     $comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");

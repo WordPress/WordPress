@@ -123,13 +123,13 @@ function the_author_posts_link($idmode='') {
 
 
 function get_author_link($echo = false, $author_id, $author_nicename) {
-	global $wpdb, $wp_rewrite, $post, $querystring_start, $querystring_equal, $cache_userdata;
+	global $wpdb, $wp_rewrite, $post, $cache_userdata;
     $auth_ID = $author_id;
     $link = $wp_rewrite->get_author_permastruct();
     
     if (empty($link)) {
         $file = get_settings('home') . '/';
-        $link = $file.$querystring_start.'author'.$querystring_equal.$auth_ID;
+        $link = $file . '?author=' . .$auth_ID;
     } else {
         if ('' == $author_nicename) $author_nicename = $cache_userdata[$author_id]->author_nicename;
 				$link = str_replace('%author%', $author_nicename, $link);

@@ -262,7 +262,7 @@ function wp_get_archives($args = '') {
 }
 
 function get_archives($type='', $limit='', $format='html', $before = '', $after = '', $show_post_count = false) {
-    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb;
+    global $month, $wpdb;
 
     if ('' == $type) {
         $type = 'monthly';
@@ -276,9 +276,9 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
     $archive_week_separator = '&#8211;';
 
     // archive link url
-    $archive_link_m = get_settings('siteurl').'/'.$querystring_start.'m'.$querystring_equal;    # monthly archive;
-    $archive_link_w = get_settings('siteurl').'/'.$querystring_start.'w'.$querystring_equal;    # weekly archive;
-    $archive_link_p = get_settings('siteurl').'/'.$querystring_start.'p'.$querystring_equal;    # post-by-post archive;
+    $archive_link_m = get_settings('siteurl') . '/?m=';    # monthly archive;
+    $archive_link_w = get_settings('siteurl') . '/?w=';    # weekly archive;
+    $archive_link_p = get_settings('siteurl') . '/?p=';    # post-by-post archive;
 
     // over-ride general date format ? 0 = no: use the date format set in Options, 1 = yes: over-ride
     $archive_date_format_over_ride = 0;
@@ -338,9 +338,9 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
                     $arc_week = get_weekstartend($arcresult->yyyymmdd, get_settings('start_of_week'));
                     $arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
                     $arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-                    $url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('home'), '', $querystring_start,
-                                    $querystring_equal, $arc_year, $querystring_separator,
-                                    $querystring_equal, $arcresult->week);
+                    $url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('home'), '', '?',
+                                    '=', $arc_year, '&amp;',
+                                    '=', $arcresult->week);
                     $text = $arc_week_start . $archive_week_separator . $arc_week_end;
                     echo get_archives_link($url, $text, $format, $before, $after);
                 }

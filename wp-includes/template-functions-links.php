@@ -102,19 +102,19 @@ function get_page_link($id = false) {
 }
 
 function get_year_link($year) {
-	global $querystring_start, $querystring_equal, $wp_rewrite;
+	global $wp_rewrite;
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
 		$yearlink = $wp_rewrite->get_year_permastruct();
     if (!empty($yearlink)) {
         $yearlink = str_replace('%year%', $year, $yearlink);
         return apply_filters('year_link', get_settings('home') . trailingslashit($yearlink), $year);
     } else {
-        return apply_filters('year_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year, $year);
+        return apply_filters('year_link', get_settings('home') . '/?m=' . $year, $year);
     }
 }
 
 function get_month_link($year, $month) {
-    global $querystring_start, $querystring_equal, $wp_rewrite;
+    global $wp_rewrite;
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
 		$monthlink = $wp_rewrite->get_month_permastruct();
@@ -123,12 +123,12 @@ function get_month_link($year, $month) {
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
         return apply_filters('month_link', get_settings('home') . trailingslashit($monthlink), $year, $month);
     } else {
-        return apply_filters('month_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2), $year, $month);
+        return apply_filters('month_link', get_settings('home') . '/?m=' . $year . zeroise($month, 2), $year, $month);
     }
 }
 
 function get_day_link($year, $month, $day) {
-    global $querystring_start, $querystring_equal, $wp_rewrite;
+    global $wp_rewrite;
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
     if (!$day) $day = gmdate('j', time()+(get_settings('gmt_offset') * 3600));
@@ -140,7 +140,7 @@ function get_day_link($year, $month, $day) {
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
         return apply_filters('day_link', get_settings('home') . trailingslashit($daylink), $year, $month, $day);
     } else {
-        return apply_filters('day_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2), $year, $month, $day);
+        return apply_filters('day_link', get_settings('home') . '/?m=' . $year . zeroise($month, 2) . zeroise($day, 2), $year, $month, $day);
     }
 }
 
@@ -300,7 +300,6 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
     global $id, $post, $wpdb;
     global $posts, $posts_per_page, $s;
-    global $querystring_start, $querystring_equal, $querystring_separator;
 
     if(($posts_per_page == 1) || is_single()) {
 
@@ -403,11 +402,10 @@ function get_pagenum_link($pagenum = 1){
    // lets see what sort of URL we have...
    } else {
       // we need to know the way queries are being written
-      global $querystring_start, $querystring_equal, $querystring_separator;
       // if there's a querystring_start (a "?" usually), it's deffinitely not mod_rewritten
-      if ( stristr( $qstr, $querystring_start ) ){
+      if ( stristr( $qstr, '?' ) ){
          // so append the query string (using &, since we already have ?)
-         $qstr .=  $querystring_separator.$page_querystring.$querystring_equal.$pagenum;
+         $qstr .=  '&amp;' . $page_querystring . '=' . $pagenum;
          // otherwise, it could be rewritten, OR just the default index ...
       } elseif( '' != get_settings('permalink_structure')) {
          $permalink = 1;
@@ -425,7 +423,7 @@ function get_pagenum_link($pagenum = 1){
 
 	 $qstr =  trailingslashit($qstr) . $page_modstring . $pagenum;
       } else {
-         $qstr = $index . $querystring_start.$page_querystring.$querystring_equal.$pagenum;
+         $qstr = $index . '?' . $page_querystring . '=' . $pagenum;
       }
    }
 
@@ -436,7 +434,6 @@ function get_pagenum_link($pagenum = 1){
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
     global $paged, $pagenow;
-    global $querystring_start, $querystring_equal, $querystring_separator;
 
      if (! is_single()) {
          if (!$paged) $paged = 1;
@@ -468,7 +465,6 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 
 function previous_posts() { // original by cfactor at cooltux.org
     global $_SERVER, $paged, $pagenow;
-    global $querystring_start, $querystring_equal, $querystring_separator;
 
      if (! is_single()) {
          $nextpage = intval($paged) - 1;

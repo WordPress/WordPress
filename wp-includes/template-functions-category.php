@@ -25,13 +25,13 @@ function get_the_category($id = false) {
 }
 
 function get_category_link($echo = false, $category_id, $category_nicename) {
-	global $wpdb, $wp_rewrite, $post, $querystring_start, $querystring_equal, $cache_categories;
+	global $wpdb, $wp_rewrite, $post, $cache_categories;
     $cat_ID = $category_id;
     $catlink = $wp_rewrite->get_category_permastruct();
     
     if (empty($catlink)) {
         $file = get_settings('home') . '/';
-        $catlink = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
+        $catlink = $file . '?cat=' . $cat_ID;
     } else {
 			$category_nicename = $cache_categories[$category_id]->category_nicename;
 			if ($parent=$cache_categories[$category_id]->category_parent) $category_nicename = get_category_parents($parent, FALSE, '/', TRUE) . $category_nicename . '/';
@@ -182,7 +182,6 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
         $optiondates = 0, $optioncount = 0, $hide_empty = 1, $optionnone=FALSE,
         $selected=0, $hide=0) {
     global $wpdb;
-    global $querystring_start, $querystring_equal, $querystring_separator;
     if (($file == 'blah') || ($file == '')) $file = get_settings('home') . '/';
     if (!$selected) $selected=$cat;
     $sort_column = 'cat_'.$sort_column;
@@ -253,7 +252,6 @@ function wp_list_cats($args = '') {
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
 	global $wpdb, $category_posts;
-	global $querystring_start, $querystring_equal, $querystring_separator;
 	// Optiondates now works
 	if ('' == $file) {
 		$file = get_settings('home') . '/';
@@ -305,16 +303,6 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		GROUP BY category_id");
 		foreach ($cat_dates as $cat_date) {
 			$category_timestamp["$cat_date->category_id"] = $cat_date->ts;
-		}
-	}
-	
-	if (intval($optionall) == 1 && !$child_of && $categories) {
-		$all = apply_filters('list_cats', $all);
-		$link = "<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a>";
-		if ($list) {
-			echo "\n\t<li>$link</li>";
-		} else {
-			echo "\t$link<br />\n";
 		}
 	}
 	

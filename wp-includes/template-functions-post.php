@@ -170,7 +170,6 @@ function wp_link_pages($args = '') {
 function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', $pagelink='%', $more_file='') {
     global $id, $page, $numpages, $multipage, $more;
     global $pagenow;
-    global $querystring_start, $querystring_equal, $querystring_separator;
     if ($more_file != '') {
         $file = $more_file;
     } else {
@@ -184,9 +183,9 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
                 echo ' ';
                 if (($i != $page) || ((!$more) && ($page==1))) {
                     if ('' == get_settings('permalink_structure')) {
-                        echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
+                        echo '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
                     } else {
-                        echo '<a href="'.get_permalink().$i.'/">';
+                        echo '<a href="' . get_permalink() . $i . '/">';
                     }
                 }
                 echo $j;
@@ -200,15 +199,15 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
                 $i=$page-1;
                 if ($i && $more) {
                     if ('' == get_settings('permalink_structure')) {
-                        echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">'.$previouspagelink.'</a>';
+                        echo '<a href="' . get_permalink() '&amp;page=' . $i . '">'.$previouspagelink.'</a>';
                     } else {
-                        echo '<a href="'.get_permalink().$i.'/">'.$previouspagelink.'</a>';
+                        echo '<a href="' . get_permalink() . $i . '/">'.$previouspagelink.'</a>';
                     }
                 }
                 $i=$page+1;
                 if ($i<=$numpages && $more) {
                     if ('' == get_settings('permalink_structure')) {
-                        echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">'.$nextpagelink.'</a>';
+                        echo '<a href="'.get_permalink() . '&amp;page=' . $i . '">'.$nextpagelink.'</a>';
                     } else {
                         echo '<a href="'.get_permalink().$i.'/">'.$nextpagelink.'</a>';
                     }
