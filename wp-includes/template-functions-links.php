@@ -105,29 +105,26 @@ function get_page_link($id = false) {
 	return $link;
 }
 
+function get_year_link($year) {
+    global $querystring_start, $querystring_equal;
+    if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
+		$yearlink = get_year_permastruct();
+    if (!empty($yearlink)) {
+        $yearlink = str_replace('%year%', $year, $yearlink);
+        return get_settings('home') . $yearlink;
+    } else {
+        return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year;
+    }
+}
+
 function get_month_link($year, $month) {
     global $querystring_start, $querystring_equal;
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
-    if ('' != get_settings('permalink_structure')) {
-        $permalink = get_settings('permalink_structure');
-
-        // If the permalink structure does not contain year and month, make
-        // one that does.
-        if (! (strstr($permalink, '%year%') && strstr($permalink, '%monthnum%'))
-            || preg_match('/%category%.*(%year%|%monthnum%|%day%)/', $permalink)) {
-            $front = substr($permalink, 0, strpos($permalink, '%'));
-            $permalink = $front . '%year%/%monthnum%/';
-        }
-
-        $off = strpos($permalink, '%monthnum%');
-        $offset = $off + 11;
-        $monthlink = substr($permalink, 0, $offset);
-        if ('/' != substr($monthlink, -1)) $monthlink = substr($monthlink, 0, -1);
+		$monthlink = get_month_permastruct();
+    if (!empty($monthlink)) {
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
-        $monthlink = str_replace('%post_id%', '', $monthlink);
-        $monthlink = str_replace('%category%', '', $monthlink);
         return get_settings('home') . $monthlink;
     } else {
         return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
@@ -139,26 +136,12 @@ function get_day_link($year, $month, $day) {
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
     if (!$day) $day = gmdate('j', time()+(get_settings('gmt_offset') * 3600));
-    if ('' != get_settings('permalink_structure')) {
-        $permalink = get_settings('permalink_structure');
 
-        // If the permalink structure does not contain year, month, and day,
-        // make one that does.
-        if (! (strstr($permalink, '%year%') && strstr($permalink, '%monthnum%')&& strstr($permalink, '%day%'))
-            || preg_match('/%category%.*(%year%|%monthnum%|%day%)/', $permalink)) {
-            $front = substr($permalink, 0, strpos($permalink, '%'));
-            $permalink = $front . '%year%/%monthnum%/%day%/';
-        }
-
-        $off = strpos($permalink, '%day%');
-        $offset = $off + 6;
-        $daylink = substr($permalink, 0, $offset);
-        if ('/' != substr($daylink, -1)) $daylink = substr($daylink, 0, -1);
+		$daylink = get_day_permastruct();
+    if (!empty($daylink)) {
         $daylink = str_replace('%year%', $year, $daylink);
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
-        $daylink = str_replace('%post_id%', '', $daylink);
-        $daylink = str_replace('%category%', '', $daylink);
         return get_settings('home') . $daylink;
     } else {
         return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);

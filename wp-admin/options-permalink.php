@@ -35,6 +35,7 @@ if ( isset($_POST) ) {
 $permalink_structure = get_settings('permalink_structure');
 $category_base = get_settings('category_base');
 
+get_date_permastruct();
 
 generate_page_rewrite_rules();
 

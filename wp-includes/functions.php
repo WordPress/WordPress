@@ -1330,22 +1330,6 @@ function preg_index($number, $matches = '') {
 }
 
 
-function page_permastruct() {
-    $permalink_structure = get_settings('permalink_structure');
-        
-    if (empty($permalink_structure)) {
-        return '';
-    }
-
-    $index = 'index.php';
-    $prefix = '';
-    if (using_index_permalinks()) {
-        $prefix = $index . '/';
-    }
-
-    return '/' . $prefix . 'site/%pagename%';    
-}
-
 function get_page_uri($page) {
 	global $wpdb;
 	$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page'");
@@ -1372,6 +1356,68 @@ function page_rewrite_rules() {
         }
 
 	return $rewrite_rules;
+}
+
+function get_date_permastruct($permalink_structure = '') {
+    if (empty($permalink_structure)) {
+        $permalink_structure = get_settings('permalink_structure');
+	
+        if (empty($permalink_structure)) {
+            return false;
+        }
+    }
+		
+    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
+		// The date permalink must have year, month, and day separated by slashes.
+		$endians = array('%year%/%monthnum%/%day%', '%day%/%monthnum%/%year%', '%monthnum%/%day%/%year%');
+
+		$date_structure = '';
+
+		foreach ($endians as $endian) {
+			if (false !== strpos($permalink_structure, $endian)) {
+				$date_structure = $front . $endian;
+				break;
+			}
+		} 
+
+		if (empty($date_structure)) {
+				$date_structure = $front . '%year%/%monthnum%/%day%';
+		}
+
+		return $date_structure;
+}
+
+function get_year_permastruct($permalink_structure = '') {
+	$structure = get_date_permastruct($permalink_structure);
+
+	if (empty($structure)) {
+		return false;
+	}
+
+	$structure = str_replace('%monthnum%', '', $structure);
+	$structure = str_replace('%day%', '', $structure);
+
+	$structure = preg_replace('#/+#', '/', $structure);
+
+	return $structure;
+}
+
+function get_month_permastruct($permalink_structure = '') {
+	$structure = get_date_permastruct($permalink_structure);
+
+	if (empty($structure)) {
+		return false;
+	}
+
+	$structure = str_replace('%day%', '', $structure);
+
+	$structure = preg_replace('#/+#', '/', $structure);
+
+	return $structure;
+}
+
+function get_day_permastruct($permalink_structure = '') {
+	return get_date_permastruct($permalink_structure);
 }
 
 function generate_rewrite_rules($permalink_structure = '', $matches = '') {
@@ -1519,15 +1565,8 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
         $prefix = $index . '/';
     }
 
-    // If the permalink does not have year, month, and day, we need to create a
-    // separate archive rule.
-    $doarchive = false;
-    if (! (strstr($permalink_structure, '%year%') && strstr($permalink_structure, '%monthnum%') && strstr($permalink_structure, '%day%')) ||
-        preg_match('/%category%.*(%year%|%monthnum%|%day%)/', $permalink_structure)) {
-        $doarchive = true;
-        $archive_structure = $front . '%year%/%monthnum%/%day%/';
-        $archive_rewrite =  generate_rewrite_rules($archive_structure, $matches);
-    }
+		// Generate date rules.
+		$date_rewrite = generate_rewrite_rules(get_date_permastruct($permalink_structure), $matches);
 
     // Site feed
     $sitefeedmatch = $prefix . 'feed/?([_0-9a-z-]+)?/?$';
@@ -1572,12 +1611,7 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 		$pages_rewrite = page_rewrite_rules();
 
     // Put them together.
-    $rewrite = $pages_rewrite + $site_rewrite + $page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite;
-
-    // Add on archive rewrite rules if needed.
-    if ($doarchive) {
-        $rewrite = $rewrite + $archive_rewrite;
-    }
+    $rewrite = $pages_rewrite + $site_rewrite + $page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite;
 
     $rewrite = $rewrite + $post_rewrite;
 
@@ -1598,15 +1632,20 @@ function mod_rewrite_rules ($permalink_structure) {
 	$rules .= "RewriteEngine On\n";
 	$rules .= "RewriteBase $home_root\n";
 	$rewrite = rewrite_rules('', $permalink_structure);
+
+	$num_rules = count($rewrite);
+	$rules .= "RewriteCond %{REQUEST_FILENAME} -f [OR]\n" .
+		"RewriteCond %{REQUEST_FILENAME} -d\n" .
+		"RewriteRule ^.*$ - [S=$num_rules]\n";
+
 	foreach ($rewrite as $match => $query) {
 		// Apache 1.3 does not support the reluctant (non-greedy) modifier.
 		$match = str_replace('.+?', '.+', $match);
 
 		// If the match is unanchored and greedy, prepend rewrite conditions
 		// to avoid infinite redirects and eclipsing of real files.
-		if ($match == '(.+)/?$') {
-			$rules .= "RewriteCond %{REQUEST_FILENAME} !-f\n" .
-				"RewriteCond %{REQUEST_FILENAME} !-d\n";
+		if ($match == '(.+)/?$' || $match == '([^/]+)/?$' ) {
+			//nada.
 		}
 
 		if (strstr($query, 'index.php')) {
