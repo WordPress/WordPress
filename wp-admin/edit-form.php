@@ -15,7 +15,7 @@ $saveasdraft = '';
 
 ?>
 
-<form name="post" action="post.php" method="post" id="post">
+<form name="post" action="post.php" method="post" id="simple">
 
 <?php
 if (isset($mode) && 'bookmarklet' == $mode) {
@@ -29,7 +29,7 @@ if (isset($mode) && 'bookmarklet' == $mode) {
 <!--
 function focusit() {
 	// focus on first input field
-	document.post.title.focus();
+	document.getElementById('title').focus();
 }
 window.onload = focusit;
 //-->
