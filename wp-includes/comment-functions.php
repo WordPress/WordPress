@@ -2,7 +2,7 @@
 
 // Template functions
 
-function comments_template() {
+function comments_template( $file = '/comments.php' ) {
 	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity;
 
 	if ( is_single() || is_page() || $withcomments ) :
@@ -20,8 +20,8 @@ function comments_template() {
 
 	get_currentuserinfo();
 
-	if ( file_exists( TEMPLATEPATH . '/comments.php') )
-		require( TEMPLATEPATH . '/comments.php');
+	if ( file_exists( TEMPLATEPATH . $file ) )
+		require( TEMPLATEPATH . $file );
 	else
 		require( ABSPATH . 'wp-content/themes/default/comments.php');
 
