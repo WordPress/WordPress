@@ -1,0 +1,213 @@
+<?php // rename this to blogger-2-b2.php
+
+$b2varstoreset = array('action');
+for ($i=0; $i<count($b2varstoreset); $i += 1) {
+	$b2var = $b2varstoreset[$i];
+	if (!isset($$b2var)) {
+		if (empty($HTTP_POST_VARS["$b2var"])) {
+			if (empty($HTTP_GET_VARS["$b2var"])) {
+				$$b2var = '';
+			} else {
+				$$b2var = $HTTP_GET_VARS["$b2var"];
+			}
+		} else {
+			$$b2var = $HTTP_POST_VARS["$b2var"];
+		}
+	}
+}
+
+switch ($action) {
+
+case "step1":
+
+	require('b2config.php');
+	require($abspath.$b2inc.'/b2template.functions.php');
+	require($abspath.$b2inc.'/b2functions.php');
+	require($abspath.$b2inc.'/b2vars.php');
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<title>Blogger to WordPress - Converting...</title>
+	<link rel="stylesheet" href="wp-admin/b2.css" type="text/css">
+</head>
+<body>
+<div class="wrap">
+<h1>Blogger to <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<p>The importer is running...</p>
+<ul>
+	<li>Importing posts and users
+		<ul><?php
+
+	for($bgy=1999; $bgy<=(date('Y')); $bgy++) {
+		for($bgm=1; $bgm<13; $bgm++) {
+
+		$bgmm = zeroise($bgm,2);
+	
+		$archivefile = "$bgy"."_"."$bgmm"."_01_cafelog.php";
+		
+		if (file_exists($archivefile)) {
+
+			$f = fopen($archivefile,"r");
+			$archive = fread($f, filesize($archivefile));
+			fclose($f);
+			echo "<li>$bgy/$bgmm ";
+
+			$posts = explode('<cafelogpost>', $archive);
+
+			for ($i = 1; $i < (count($posts)+1); $i = $i + 1) {
+
+			$postinfo = explode('|||', $posts[$i]);
+			$post_date = $postinfo[0];
+			$post_content = $postinfo[2];
+			$post_number = $postinfo[3];
+
+			$post_author = trim(addslashes($postinfo[1]));
+			// we'll check the author is registered already
+			$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE user_login = '$post_author'");
+			if (!$user) { // seems s/he's not, so let's register
+				$user_ip = '127.0.0.1';
+				$user_domain = 'localhost';
+				$user_browser = 'server';
+				$user_joindate = '1979-06-06 00:41:00'; // that's my birthdate (gmt+1) - I could choose any other date. You could change the date too. Just remember the year must be >=1970 or the world would just randomly fall on your head (everything might look fine, and then blam! major headache!)
+				$user_login = addslashes($post_author);
+				$pass1 = addslashes('password');
+				$user_nickname = addslashes($post_author);
+				$user_email = addslashes('user@cafelog.com');
+				$user_url = addslashes('');
+				$user_joindate = addslashes($user_joindate);
+				$result = $wpdb->query("
+				INSERT INTO $tableusers (
+					user_login,
+					user_pass,
+					user_nickname,
+					user_email,
+					user_url,
+					user_ip,
+					user_domain,
+					user_browser,
+					dateYMDhour,
+					user_level,
+					user_idmode
+				) VALUES (
+					'$user_login',
+					'$pass1',
+					'$user_nickname',
+					'$user_email',
+					'$user_url',
+					'$user_ip',
+					'$user_domain',
+					'$user_browser',
+					'$user_joindate',
+					'1',
+					'nickname'
+				)");
+
+				echo ": Registered user <strong>$user_login</strong>";
+			}
+
+			$post_author_ID = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$post_author'");
+
+			$post_date = explode(' ', $post_date);
+			$post_date_Ymd = explode('/', $post_date[0]);
+			$postyear = $post_date_Ymd[2];
+			$postmonth = zeroise($post_date_Ymd[0], 2);
+			$postday = zeroise($post_date_Ymd[1], 2);
+			$post_date_His = explode(':', $post_date[1]);
+			$posthour = zeroise($post_date_His[0], 2);
+			$postminute = zeroise($post_date_His[1], 2);
+			$postsecond = zeroise($post_date_His[2], 2);
+
+			if (($post_date[2] == 'PM') && ($posthour != '12'))
+				$posthour = $posthour + 12;
+
+			$post_date = "$postyear-$postmonth-$postday $posthour:$postminute:$postsecond";
+
+			$post_content = addslashes($post_content);
+			$post_content = str_replace('<br>', '<br />', $post_content); // the XHTML touch... ;)
+
+			$post_title = '';
+
+			$result = $wpdb->query("
+			INSERT INTO $tableposts 
+				(ID, post_author,post_date,post_content,post_title,post_category)
+			VALUES 
+				('$post_number','$post_author_ID','$post_date','$post_content','$post_title','1')
+			");
+
+
+			} echo '... <strong>Done</strong></li>';
+			
+		}}
+	}
+
+	/* we've still got a bug that adds some empty posts with the date 0000-00-00 00:00:00
+	   here's the bugfix: */
+	$result = $wpdb->query("DELETE FROM $tableposts WHERE post_date=\"0000-00-00 00:00:00\"");
+
+
+	?>
+</ul>
+<strong>Done</strong>
+</li>
+</ul>
+<p>&nbsp;</p>
+<p>Completed Blogger to WordPress import!</p>
+<p>Now you can go and <a href="b2login.php">log in</a>, have fun!</p>
+</div>
+</body>
+</html>
+	<?php
+	break;
+
+default:
+
+	?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<title>Blogger to WordPress Import Utility</title>
+	<link rel="stylesheet" href="wp-admin/b2.css" type="text/css">
+</head>
+
+<body>
+<div class="wrap">
+<h1>Blogger to <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<p>This is a basic Blogger to WordPress import script.</p>
+<p>What it does:</p>
+<ul>
+	<li>Parses your archives to retrieve your blogger posts.</li>
+	<li>Adds an author whenever it sees a new nickname, all authors are imported at level 1, with a default profile and the password 'password'</li>
+</ul>
+<p>What it does not:</p>
+<ul>
+	<li>It sucks at making coffee.</li>
+	<li>It always forgets to call back.</li>
+</ul>
+
+<h2>First step: Install WordPress</h2>
+<p>Install the WordPress blog as explained in the <a href="readme.html">read me</a>, then immediately come back here.</p>
+
+<h3>Second step: let's play with Blogger</h3>
+<p>Log into your Blogger account.<br />
+Go to the Settings, and make Blogger publish your files in the directory where your b2 resides. Change the Date/Time format to be mm/dd/yyyy hh:mm:ss AM/PM (the first choice in the dropdown menu). In Archives: set the frequency to 'monthly' and the archive filename to 'cafelog.php' (without the quotes), set the ftp archive path to make Blogger publish the archives in your b2 directory. Click 'save changes'.<br />
+Go to the Templates. Replace your existing template with this line (copy and paste):
+<blockquote>&lt;Blogger>&lt;cafelogpost>&lt;$BlogItemDateTime$>|||&lt;$BlogItemAuthorNickname$>|||&lt;$BlogItemBody$>|||&lt;$BlogItemNumber$>&lt;/Blogger></blockquote>
+Go to the Archives, and click 'republish all'.<br />
+Check in your FTP that you've got the archive files published. They should look like this example: <code>2001_10_01_cafelog.php</code>. If they aren't there, redo the republish process.</p>
+<p>You're done with the hard part. :)</p>
+
+<form name="stepOne" method="get">
+<input type="hidden" name="action" value="step1" />
+<h3>Third step: w00t, let's click OK:</h3>
+<p>When you're ready, click OK to start importing: <input type="submit" name="submit" value="OK" /><br /><br />
+<i>Note: the script might take some time, like 1 second for 100 entries imported. DO NOT STOP IT or else you won't have a complete import, and running the script again might just make you have double posts.</i></p>
+</form>
+</div>
+</body>
+</html>
+	<?php
+	break;
+
+}
+
+?>
