@@ -473,8 +473,10 @@ switch($action) {
 
         include('wp-edit.showposts.php');
         echo '<br /><br />';
-        include('wp-edit.showcomments.php');
-
+        if (empty($_REQUEST["p"])) {
+	        include('wp-edit.showcomments.php');
+		}
+		
         break;
 } // end switch
 /* </Edit> */
