@@ -65,11 +65,11 @@ default:
     <li><code>%postname%</code> --- A sanitized version of the title of the post. So &quot;This Is A Great Post!&quot; becomes &quot;<code>this-is-a-great-post</code>&quot; in the URI </li> 
     <li><code>%post_id%</code> --- The unique ID # of the post, for example <code>423</code> <strong></strong></li> 
   </ul> 
-  <p>So for example a value like </p>
+  <p>So for example a value like:</p>
   <p><code>/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
-  <p>would give you a permalink like </p>
-  <p><code>/archives/2003/05/23/my-cheese-sandwich/</code> . </p>
-  <p> In general for this you must use mod_rewrite, however if you put a filename at the beginning WordPress will attempt to use that to pass the arguments, example:</p>
+  <p>would give you a permalink like:</p>
+  <p><code>/archives/2003/05/23/my-cheese-sandwich/</code></p>
+  <p> In general for this you must use mod_rewrite, however if you put a filename at the beginning WordPress will attempt to use that to pass the arguments, for example:</p>
   <p><code>/index.php/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
   <p>If you use this option you can ignore the mod_rewrite rules. </p>
   <form name="form" action="options-permalink.php" method="post"> 

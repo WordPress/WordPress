@@ -77,7 +77,7 @@ include('options-head.php');
     </table> 
     <fieldset class="options">
 	<legend><?php _e('Update Services') ?></legend>
-          <p><?php printf(__('Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see <a href="%s">Update Services</a> on the wiki. Seperate multiple URIs by line breaks.'), 'http://wiki.wordpress.org/index.php/UpdateServices') ?></p>
+          <p><?php printf(__('Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see <a href="%s">Update Services</a> on the wiki. Separate multiple URIs by line breaks.'), 'http://wiki.wordpress.org/index.php/UpdateServices') ?></p>
 	
 	<textarea name="ping_sites" id="ping_sites" style="width: 98%;"><?php echo get_settings('ping_sites'); ?></textarea>
 	</fieldset>

@@ -48,7 +48,7 @@ include('options-head.php');
 		<input type="hidden" name="action" value="update" /> 
 		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_max_links','moderation_keys'" /> 
 <fieldset class="options">
-        <legend><?php _e('Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em>') ?></legend> 
+        <legend><?php _e('Usual settings for an article: <em>(These settings may be overridden for individual articles.)</em>') ?></legend> 
 		<ul> 
 			<li> 
 				<label for="default_pingback_flag"> 
@@ -101,7 +101,7 @@ include('options-head.php');
     <legend><?php _e('Comment Moderation') ?></legend>
     <p><?php printf(__('Hold a comment in the queue if it contains more than %s links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_settings('comment_max_links'). '" />' ) ?></p>
 
-    <p><?php _e('When a comment contains any of these words in its content, name, URI,  email, or IP, hold it in the moderation queue: (Seperate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.') ?></p>
+    <p><?php _e('When a comment contains any of these words in its content, name, URI,  email, or IP, hold it in the moderation queue: (Separate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.') ?></p>
 		<p> 
 			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php echo get_settings('moderation_keys'); ?></textarea> 
 		</p> 
