@@ -1,8 +1,8 @@
 <?php
 
 if ( defined('WPLANG') && '' != constant('WPLANG') ) {
-	require_once(ABSPATH . 'wp-includes/streams.php');
-	require_once(ABSPATH . 'wp-includes/gettext.php');
+	include_once(ABSPATH . 'wp-includes/streams.php');
+	include_once(ABSPATH . 'wp-includes/gettext.php');
 }
 
 function get_locale() {
