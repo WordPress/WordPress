@@ -27,7 +27,7 @@ $submenu = '
 	<li><a href="options-permalink.php">' . __('Permalinks') . '</a></li>';
 
 $sublines = split("\n", $submenu);
-$_SERVER['REQUEST_URI'] = str_replace('?updated=true', '', $_SERVER['REQUEST_URI']);
+$_SERVER['REQUEST_URI'] = str_replace(array('?updated=true','&', 'updated=true'), '', $_SERVER['REQUEST_URI']);
 foreach ($sublines as $subline) {
 	if (preg_match('/href="([^"]+)"/', $subline, $url)) {
 		if (substr($_SERVER['REQUEST_URI'], -8) == substr($url[1], -8)) {
