@@ -3,7 +3,7 @@
 # fix for mozBlog and other cases where '<?xml' isn't on the very first line
 $HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 
-include('../wp-config.php');
+include('./wp-config.php');
 include_once(ABSPATH . WPINC . '/class-IXR.php');
 include_once(ABSPATH . WPINC . '/functions-post.php');
 
@@ -1220,7 +1220,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 
-		// Check if pings are on, inelegant exit
+		// Check if pings are on
 		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $post_ID");
 		if ('closed' == $pingstatus) {
 	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
