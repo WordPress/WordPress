@@ -165,10 +165,11 @@ if ($action != 'editcomment') {
 ?>
 		</td>
 		<td align="right">
-<?php if ($use_quicktags) {
+<?php
+if ($use_quicktags) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
 	include('b2quicktags.php');
-	}
+}
 ?>
 		</td>
 	</tr>
@@ -181,13 +182,22 @@ if ($action != 'editcomment') {
 ?>
 <textarea rows="<?php echo $rows; ?>" cols="40" style="width:100%" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
 <?php
-  if (get_settings('use_geo_positions')) {
+if ($use_quicktags) {
+?>
+<script language="JavaScript">
+<!--
+edCanvas = document.getElementById('content');
+//-->
+</script>
+<?php
+}
+if (get_settings('use_geo_positions')) {
 ?>
 <label for="post_latf">Latitude:</label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
 <label for="post_lonf">Longitude:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <A href="http://www.geourl.org/resources.html" target="_blank" >click for Geo Info</A>
 <br>
 <?
-  }
+}
 ?>
 
 <?php echo $form_pingback ?>

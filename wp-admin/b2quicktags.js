@@ -1,190 +1,336 @@
-// b2 quick tags
-// - authorized adaptation of the 'bbCode control code' by subBlue design ( www.subBlue.com )
+// new edit toolbar used with permission
+// by Alex King
+// http://www.alexking.org/
 
-// Define the quick tags
-bbcode = new Array();
-bbtags = new Array('<strong>','</strong>','<em>','</em>','<u>','</u>','<del>','</del>','<blockquote>','</blockquote>','<p>','</p>','<li>','</li>','<img src="" border="0" alt="" />','','<a href="">','</a>');
-imageTag = false;
-
-// Replacement for arrayname.length property
-function getarraysize(thearray) {
-	for (i = 0; i < thearray.length; i++) {
-		if ((thearray[i] == "undefined") || (thearray[i] == "") || (thearray[i] == null))
-			return i;
-		}
-	return thearray.length;
+function edButton() {
+	this.id = '';		// used to name the toolbar button
+	this.display = '';	// label on button
+	this.tagStart = ''; // open tag
+	this.tagEnd = '';	// close tag
+	this.open = 0;		// set to -1 if tag does not need to be closed
 }
 
-// Replacement for arrayname.push(value) not implemented in IE until version 5.5
-// Appends element to the array
-function arraypush(thearray,value) {
-	thearray[ getarraysize(thearray) ] = value;
-}
+var edOpenTags = new Array();
 
-// Replacement for arrayname.pop() not implemented in IE until version 5.5
-// Removes and returns the last element of an array
-function arraypop(thearray) {
-	thearraysize = getarraysize(thearray);
-	retval = thearray[thearraysize - 1];
-	delete thearray[thearraysize - 1];
-	return retval;
-}
+function edAddTag(button) {
+	if (eval('ed' + button + '.tagEnd') != '') {
+		edOpenTags[edOpenTags.length] = button;
+		document.getElementById(eval('ed' + button + '.id')).value = '/' + document.getElementById(eval('ed' + button + '.id')).value;
 
-
-function checkForm(formObj) {
-
-	formErrors = false;
-
-	if (formObj.content.value.length < 2) {
-		formErrors = "You must enter a message!";
-	}
-
-	if (formErrors) {
-		alert(formErrors);
-		return false;
-	} else {
-		bbstyle(formObj, -1);
-		//formObj.preview.disabled = true;
-		//formObj.submit.disabled = true;
-		return true;
 	}
 }
 
-
-function emoticon(theSmilie) {
-	if ((parseInt(navigator.appVersion) >= 4) && (navigator.appName == "Microsoft Internet Explorer"))
-		theSelection = document.selection.createRange().text; // Get text selection
-
-	if (theSelection) {
-		// Add tags around selection
-		document.selection.createRange().text = theSelection + theSmilie + ' ';
-		formObj.content.focus();
-		theSelection = '';
-		return;
-	}
-
-
-	document.post.content.value += ' ' + theSmilie + ' ';
-	document.post.content.focus();
-}
-
-
-function bbfontstyle(formObj, bbopen, bbclose) {
-	if ((parseInt(navigator.appVersion) >= 4) && (navigator.appName == "Microsoft Internet Explorer")) {
-		theSelection = document.selection.createRange().text;
-		if (!theSelection) {
-			formObj.content.value += bbopen + bbclose;
-			formObj.content.focus();
-			return;
-		}
-		document.selection.createRange().text = bbopen + theSelection + bbclose;
-		formObj.content.focus();
-		return;
-	} else {
-		formObj.content.value += bbopen + bbclose;
-		formObj.content.focus();
-		return;
-	}
-}
-
-
-function bbstyle(formObj, bbnumber) {
-
-	donotinsert = false;
-	theSelection = false;
-	bblast = 0;
-
-	if (bbnumber == -1) { // Close all open tags & default button names
-		while (bbcode[0]) {
-			butnumber = arraypop(bbcode) - 1;
-			formObj.content.value += bbtags[butnumber + 1];
-			buttext = eval('formObj.addbbcode' + butnumber + '.value');
-			eval('formObj.addbbcode' + butnumber + '.value ="' + buttext.substr(0,(buttext.length - 1)) + '"');
-		}
-		formObj.content.focus();
-		return;
-	}
-
-	if ((parseInt(navigator.appVersion) >= 4) && (navigator.appName == "Microsoft Internet Explorer"))
-		theSelection = document.selection.createRange().text; // Get text selection
-
-	if (theSelection) {
-		// Add tags around selection
-		document.selection.createRange().text = bbtags[bbnumber] + theSelection + bbtags[bbnumber+1];
-		formObj.content.focus();
-		theSelection = '';
-		return;
-	}
-
-	// Find last occurance of an open tag the same as the one just clicked
-	for (i = 0; i < bbcode.length; i++) {
-		if (bbcode[i] == bbnumber+1) {
-			bblast = i;
-			donotinsert = true;
+function edRemoveTag(button) {
+	for (i = 0; i < edOpenTags.length; i++) {
+		if (edOpenTags[i] == button) {
+			edOpenTags.splice(i, 1);
+			document.getElementById(eval('ed' + button + '.id')).value = 		document.getElementById(eval('ed' + button + '.id')).value.replace('/', '');
 		}
 	}
+}
 
-	if (donotinsert) {		// Close all open tags up to the one just clicked & default button names
-		while (bbcode[bblast]) {
-				butnumber = arraypop(bbcode) - 1;
-				formObj.content.value += bbtags[butnumber + 1];
-				buttext = eval('formObj.addbbcode' + butnumber + '.value');
-				eval('formObj.addbbcode' + butnumber + '.value ="' + buttext.substr(0,(buttext.length - 1)) + '"');
-				imageTag = false;
+function edCheckOpenTags(button) {
+	var tag = 0;
+	for (i = 0; i < edOpenTags.length; i++) {
+		if (edOpenTags[i] == button) {
+			tag++;
+		}
+	}
+	if (tag > 0) {
+		return true; // tag found
+	}
+	else {
+		return false; // tag not found
+	}
+}	
+
+function edCloseAllTags() {
+	var count = edOpenTags.length;
+	for (o = 0; o < count; o++) {
+		edInsertTag(edCanvas, edOpenTags[edOpenTags.length - 1]);
+	}
+}
+
+var ed0 = new edButton();
+ed0.id = 'ed_bold';
+ed0.display = 'B';
+ed0.tagStart = '<strong>';
+ed0.tagEnd = '</strong>';
+
+var ed1 = new edButton();
+ed1.id = 'ed_italic';
+ed1.display = 'I';
+ed1.tagStart = '<em>';
+ed1.tagEnd = '</em>';
+
+var ed2 = new edButton();
+ed2.id = 'ed_under';
+ed2.display = 'U';
+ed2.tagStart = '<u>';
+ed2.tagEnd = '</u>';
+
+var ed3 = new edButton();
+ed3.id = 'ed_strike';
+ed3.display = 'S';
+ed3.tagStart = '<s>';
+ed3.tagEnd = '</s>';
+
+var ed4 = new edButton();
+ed4.id = 'ed_quot';
+ed4.display = '&#34;';
+ed4.tagStart = '&#34;';
+ed4.tagEnd = '&#34;';
+ed4.open = -1;
+
+var ed5 = new edButton();
+ed5.id = 'ed_amp';
+ed5.display = '&#38;';
+ed5.tagStart = '&#38;';
+ed5.tagEnd = '';
+ed5.open = -1;
+
+var ed6 = new edButton();
+ed6.id = 'ed_nbsp';
+ed6.display = 'nbsp';
+ed6.tagStart = '&#160;';
+ed6.tagEnd = '';
+ed6.open = -1;
+
+var ed7 = new edButton();
+ed7.id = 'ed_nobr';
+ed7.display = 'nobr';
+ed7.tagStart = '<nobr>';
+ed7.tagEnd = '</nobr>';
+
+var ed8 = new edButton();
+ed8.id = 'ed_link';
+ed8.display = 'link';
+ed8.tagStart = ''; // special case
+ed8.tagEnd = '</a>';
+
+var ed9 = new edButton();
+ed9.id = 'ed_img';
+ed9.display = 'img';
+ed9.tagStart = ''; // special case
+ed9.tagEnd = '';
+ed9.open = -1;
+
+var ed10 = new edButton();
+ed10.id = 'ed_ul';
+ed10.display = 'UL';
+ed10.tagStart = '<ul>';
+ed10.tagEnd = '</ul>';
+
+var ed11 = new edButton();
+ed11.id = 'ed_ol';
+ed11.display = 'OL';
+ed11.tagStart = '<ol>';
+ed11.tagEnd = '</ol>';
+
+var ed12 = new edButton();
+ed12.id = 'ed_li';
+ed12.display = 'LI';
+ed12.tagStart = '<li>';
+ed12.tagEnd = '</li>';
+
+var ed13 = new edButton();
+ed13.id = 'ed_block';
+ed13.display = 'b-quote';
+ed13.tagStart = '<blockquote>';
+ed13.tagEnd = '</blockquote>';
+
+var ed14 = new edButton();
+ed14.id = 'ed_pre';
+ed14.display = 'pre';
+ed14.tagStart = '<pre>';
+ed14.tagEnd = '</pre>';
+
+var edButtonCount = 15;
+
+function edShowButton(button, i) {
+	if (button.id == 'ed_img') {
+		document.write('<input type="button" id="' + button.id + '" class="ed_button" onclick="edInsertImage(edCanvas);" value="' + button.display + '" />');
+	}
+	else if (button.id == 'ed_link') {
+		document.write('<input type="button" id="' + button.id + '" class="ed_button" onclick="edInsertLink(edCanvas, ' + i + ');" value="' + button.display + '" />');
+	}
+	else {
+		document.write('<input type="button" id="' + button.id + '" class="ed_button" onclick="edInsertTag(edCanvas, ' + i + ');" value="' + button.display + '" />');
+	}
+}
+
+function edLink() {
+	this.display = '';
+	this.URL = '';
+	this.newWin = 0;
+}
+
+var edLink0 = new edLink;
+edLink0.display = 'WordPress';
+edLink0.URL = 'http://www.wordpress.org/';
+
+var edLink1 = new edLink;
+edLink1.display = 'alexking.org';
+edLink1.URL = 'http://www.alexking.org/';
+
+var edLinkCount = 2;
+
+function edShowLinks() {
+	var tempStr = '<select onchange="edQuickLink(this.options[this.selectedIndex].value, this);"><option value="-1" selected>(Quick Links)</option>';
+	for (i = 0; i < edLinkCount; i++) {
+		tempStr += '<option value="' + i + '">' + eval('edLink' + i + '.display') + '</option>';
+	}
+	tempStr += '</select>';
+	document.write(tempStr);
+}
+
+function edQuickLink(i, thisSelect) {
+	if (i > -1) {
+		var newWin = '';
+		if (eval('edLink' + i + '.newWin') == 1) {
+			newWin = ' target="_blank"';
+		}
+		var tempStr = '<a href="' + eval('edLink' + i + '.URL') + '"' + newWin + '>' + eval('edLink' + i + '.display') + '</a>';
+		edInsertContent(edCanvas, tempStr);
+	}
+	thisSelect.selectedIndex = 0;
+}
+
+function edSpell(myField) {
+	var word = '';
+	if (document.selection) {
+		myField.focus();
+	    var sel = document.selection.createRange();
+		if (sel.text.length > 0) {
+			word = sel.text;
+		}
+	}
+	else if (myField.selectionStart || myField.selectionStart == '0') {
+		var startPos = myField.selectionStart;
+		var endPos = myField.selectionEnd;
+		if (startPos != endPos) {
+			word = myField.value.substring(startPos, endPos);
+		}
+	}
+	if (word == '') {
+		word = prompt('Enter a word to look up:', '');
+	}
+	if (word != '') {
+		window.open('http://dictionary.reference.com/search?q=' + word);
+	}
+}
+
+function edToolbar() {
+	document.write('<div id="ed_toolbar">');
+	for (i = 0; i < edButtonCount; i++) {
+		edShowButton(eval('ed' + i), i);
+	}
+	document.write('<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" value="Close Tags" />');
+	document.write('<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" value="Dict" />');
+//	edShowLinks(); // disabled by default
+	document.write('</div>');
+}
+
+// insertion code
+
+function edInsertTag(myField, i) {
+	//IE support
+	if (document.selection) {
+		myField.focus();
+	    sel = document.selection.createRange();
+		if (sel.text.length > 0) {
+			sel.text = eval('ed' + i + '.tagStart') + sel.text + eval('ed' + i + '.tagEnd');
+		}
+		else {
+			if (!edCheckOpenTags(i) || eval('ed' + i + '.tagEnd') == '') {
+				sel.text = eval('ed' + i + '.tagStart');
+				edAddTag(i);
 			}
-			formObj.content.focus();
-			return;
-	} else { // Open tags
-
-		if (imageTag && (bbnumber != 14)) {		// Close image tag before adding another
-			formObj.content.value += bbtags[15];
-			lastValue = arraypop(bbcode) - 1;	// Remove the close image tag from the list
-			formObj.addbbcode14.value = "image";	// Return button back to normal state
-			imageTag = false;
+			else {
+				sel.text = eval('ed' + i + '.tagEnd');
+				edRemoveTag(i);
+			}
 		}
-
-		// Open tag
-		formObj.content.value += bbtags[bbnumber];
-		if ((bbnumber == 14) && (imageTag == false)) imageTag = 1; // Check to stop additional tags after an unclosed image tag
-		arraypush(bbcode,bbnumber+1);
-		eval('formObj.addbbcode'+bbnumber+'.value += "*"');
-		formObj.content.focus();
-		return;
+		myField.focus();
 	}
-
+	//MOZILLA/NETSCAPE support
+	else if (myField.selectionStart || myField.selectionStart == '0') {
+		var startPos = myField.selectionStart;
+		var endPos = myField.selectionEnd;
+		var cursorPos;
+		if (startPos != endPos) {
+			myField.value = myField.value.substring(0, startPos)
+			              + eval('ed' + i + '.tagStart')
+			              + myField.value.substring(startPos, endPos) 
+			              + eval('ed' + i + '.tagEnd') 
+			              + myField.value.substring(endPos, myField.value.length);
+			cursorPos = endPos + eval('ed' + i + '.tagStart').length + eval('ed' + i + '.tagEnd').length;
+		}
+		else {
+			if (!edCheckOpenTags(i) || eval('ed' + i + '.tagEnd') == '') {
+				myField.value = myField.value.substring(0, startPos) 
+				              + eval('ed' + i + '.tagStart') 
+				              + myField.value.substring(endPos, myField.value.length);
+				edAddTag(i);
+				cursorPos = startPos + eval('ed' + i + '.tagStart').length;
+			}
+			else {
+				myField.value = myField.value.substring(0, startPos) 
+				              + eval('ed' + i + '.tagEnd') 
+				              + myField.value.substring(endPos, myField.value.length);
+				edRemoveTag(i);
+				cursorPos = startPos + eval('ed' + i + '.tagEnd').length;
+			}
+		}
+		myField.focus();
+		myField.selectionStart = cursorPos;
+		myField.selectionEnd = cursorPos;
+	}
+	else {
+		if (!edCheckOpenTags(i) || eval('ed' + i + '.tagEnd') == '') {
+			myField.value += eval('ed' + i + '.tagStart');
+			edAddTag(i);
+		}
+		else {
+			myField.value += eval('ed' + i + '.tagEnd');
+			edRemoveTag(i);
+		}
+		myField.focus();
+	}
 }
 
-// swirlee's bblink hack, slightly corrected
-function bblink(formObj, bbnumber) {
-	current_url = prompt("URL:","http://");
-	var re = new RegExp ('http%3A//', 'gi') ;
-	var current_url = current_url.replace(re, 'http://') ;
-	if((current_url == 'null') || (current_url == "http://")) {
-		current_url = "";
-		exit;
+function edInsertContent(myField, myValue) {
+	//IE support
+	if (document.selection) {
+		myField.focus();
+		sel = document.selection.createRange();
+		sel.text = myValue;
+		myField.focus();
 	}
-	if(bbnumber == 16) {
-		current_link_text = unescape(prompt("Link text:","link"));
-		if((current_link_text == null) || (current_link_text == "") || (current_link_text == "link")) {
-			link_text = 'link';
-		} else {
-			link_text = current_link_text;
-		}
-		final_link = '<a href="' + current_url + '">' + current_link_text + '</a>';
-		if (final_link != '<a href="">null</a>') {
-			formObj.content.value += final_link;
-		}
+	//MOZILLA/NETSCAPE support
+	else if (myField.selectionStart || myField.selectionStart == '0') {
+		var startPos = myField.selectionStart;
+		var endPos = myField.selectionEnd;
+		myField.value = myField.value.substring(0, startPos)
+		              + myValue 
+                      + myField.value.substring(endPos, myField.value.length);
+		myField.focus();
+		myField.selectionStart = startPos + myValue.length;
+		myField.selectionEnd = startPos + myValue.length;
+	} else {
+		myField.value += myValue;
+		myField.focus();
 	}
-	if(bbnumber == 14) {
-		current_alt = prompt("ALTernate text:","ALT");
-		if((current_alt == null) || (current_alt == "") || (current_alt == "ALT")) {
-			alttag = ' alt=""';
-		} else {
-			alttag = ' alt="' + current_alt + '"';
-		}
-		final_image = '<img src="' + current_url + '" border="0"' + alttag + ' />';
-		if (final_image != '<img src="" border="0" alt="" />') {
-			formObj.content.value += final_image;
-		}
+}
+
+function edInsertLink(myField, i) {
+	if (!edCheckOpenTags(i)) {
+		eval('ed' + i + '.tagStart = \'<a href="\' + prompt(\'Enter the URL\', \'http://\') + \'" target="_blank">\'');
 	}
+	edInsertTag(myField, i);
+}
+
+function edInsertImage(myField) {
+	var myValue = '<img src="' + prompt('Enter the URL of the image', 'http://') + '" alt="' + prompt('Enter a description of the image', '') + '" />';
+	edInsertContent(myField, myValue);
 }
