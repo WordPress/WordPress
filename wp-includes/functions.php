@@ -1267,8 +1267,34 @@ function the_post() {
     $wp_query->the_post();
 }
 
+function get_theme_root() {
+	return apply_filters('theme_root', ABSPATH . "wp-content/themes");
+}
+
+function get_theme_root_uri() {
+	return apply_filters('theme_root_uri', get_settings('siteurl') . "/wp-content/themes", get_settings('siteurl'));
+}
+
 function get_stylesheet() {
 	return apply_filters('stylesheet', get_settings('stylesheet'));
+}
+
+function get_stylesheet_directory() {
+	$stylesheet = get_stylesheet();
+	$stylesheet_dir = get_theme_root() . "/$stylesheet";
+	return apply_filters('stylesheet_directory', $stylesheet_dir, $stylesheet);
+}
+
+function get_stylesheet_directory_uri() {
+	$stylesheet = get_stylesheet();
+	$stylesheet_dir_uri = get_theme_root_uri() . "/$stylesheet";
+	return apply_filters('stylesheet_directory_uri', $stylesheet_dir_uri, $stylesheet);
+}
+
+function get_stylesheet_uri() {
+	$stylesheet_dir_uri = get_stylesheet_directory_uri();
+	$stylesheet_uri = $stylesheet_dir_uri . "/style.css";
+	return apply_filters('stylesheet_uri', $stylesheet_uri, $stylesheet_dir_uri);
 }
 
 function get_template() {
@@ -1277,10 +1303,14 @@ function get_template() {
 
 function get_template_directory() {
 	$template = get_template();
+	$template_dir = get_theme_root() . "/$template";
+	return apply_filters('template_directory', $template_dir, $template);
+}
 
-	$template = ABSPATH . "wp-content/themes/$template";
-
-	return $template;
+function get_template_directory_uri() {
+	$template = get_template();
+	$template_dir_uri = get_theme_root_uri() . "/$template";
+	return apply_filters('template_directory_uri', $template_dir_uri, $template);
 }
 
 function get_theme_data($theme_file) {
@@ -1324,8 +1354,8 @@ function get_themes() {
 
 	$themes = array();
 	$wp_broken_themes = array();
-	$theme_loc = 'wp-content/themes';
-	$theme_root = ABSPATH . $theme_loc;
+	$theme_root = get_theme_root();
+	$theme_loc = str_replace(ABSPATH, '', $theme_root);
 
 	// Files in wp-content/themes directory
 	$themes_dir = @ dir($theme_root);

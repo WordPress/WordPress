@@ -96,17 +96,14 @@ function get_bloginfo($show='') {
 		$output = get_settings('siteurl') .'/xmlrpc.php';
 		break;
 	case 'stylesheet_url':
-		$output = get_stylesheet();
-		$output = get_settings('siteurl') . "/wp-content/themes/$output/style.css";
+		$output = get_stylesheet_uri();
 		break;
 	case 'stylesheet_directory':
-		$output = get_stylesheet();
-		$output = get_settings('siteurl') . "/wp-content/themes/$output";
+		$output = get_stylesheet_directory_uri();
 		break;
 	case 'template_directory':
 	case 'template_url':
-		$output = get_template();
-		$output = get_settings('siteurl') . "/wp-content/themes/$output";
+		$output = get_template_directory_uri();
 		break;
 	case 'admin_email':
 		$output = get_settings('admin_email');
