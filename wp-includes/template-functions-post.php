@@ -16,11 +16,11 @@ add_filter('the_excerpt', 'convert_chars');
 add_filter('the_excerpt', 'wpautop');
 
 function get_the_password_form() {
-    $output = "<form action='" . get_settings('siteurl') . "/wp-pass.php' method='post'>
+    $output = '<form action="' . get_settings('siteurl') . '/wp-pass.php" method="post">
     <p>This post is password protected. To view it please enter your password below:</p>
-    <p><label>Password: <input name='post_password' type='text' size='20' /></label> <input type='submit' name='Submit' value='Submit' /></p>
+    <p><label>Password: <input name="post_password" type="text" size="20" /></label> <input type="submit" name="Submit" value="Submit" /></p>
     </form>
-    ";
+    ';
 	return $output;
 }
 
@@ -124,7 +124,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
         if ($more) {
             $output .= '<a id="more-'.$id.'"></a>'.$content[1];
         } else {
-            $output .= " <a href='". get_permalink() . "#more-$id'>$more_link_text</a>";
+            $output .= ' <a href="'. get_permalink() . "#more-$id\">$more_link_text</a>";
         }
     }
     if ($preview) { // preview fix for javascript bug with foreign languages
@@ -178,7 +178,7 @@ function get_the_excerpt($fakeit = true) {
     $output = stripslashes($post->post_excerpt);
     if (!empty($post->post_password)) { // if there's a password
         if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
-            $output = "There is no excerpt because this is a protected post.";
+            $output = 'There is no excerpt because this is a protected post.';
             return $output;
         }
     }
@@ -223,7 +223,7 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
             echo $before;
             for ($i = 1; $i < ($numpages+1); $i = $i + 1) {
                 $j=str_replace('%',"$i",$pagelink);
-                echo " ";
+                echo ' ';
                 if (($i != $page) || ((!$more) && ($page==1))) {
                 if ('' == get_settings('permalink_structure')) {
                     echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
@@ -346,15 +346,15 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
     if (empty($p) && ($what_to_show == 'paged')) {
         $qstr = $HTTP_SERVER_VARS['QUERY_STRING'];
         if (!empty($qstr)) {
-            $qstr = preg_replace("/&paged=\d{0,}/","",$qstr);
-            $qstr = preg_replace("/paged=\d{0,}/","",$qstr);
+            $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
+            $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
         } elseif (stristr($HTTP_SERVER_VARS['REQUEST_URI'], $HTTP_SERVER_VARS['SCRIPT_NAME'] )) {
             if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '',
                                             $HTTP_SERVER_VARS['REQUEST_URI']) ) {
-                $qstr = preg_replace("/^\//", "", $qstr);
-                $qstr = preg_replace("/paged\/\d{0,}\//", "", $qstr);
-                $qstr = preg_replace("/paged\/\d{0,}/", "", $qstr);
-                $qstr = preg_replace("/\/$/", "", $qstr);
+                $qstr = preg_replace('/^\//', '', $qstr);
+                $qstr = preg_replace('/paged\/\d{0,}\//', '', $qstr);
+                $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
+                $qstr = preg_replace('/\/$/', '', $qstr);
             }
         }
         if (!$paged) $paged = 1;
@@ -399,15 +399,15 @@ function previous_posts() { // original by cfactor at cooltux.org
     if (empty($p) && ($what_to_show == 'paged')) {
         $qstr = $HTTP_SERVER_VARS['QUERY_STRING'];
         if (!empty($qstr)) {
-            $qstr = preg_replace("/&paged=\d{0,}/","",$qstr);
-            $qstr = preg_replace("/paged=\d{0,}/","",$qstr);
+            $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
+            $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
         } elseif (stristr($HTTP_SERVER_VARS['REQUEST_URI'], $HTTP_SERVER_VARS['SCRIPT_NAME'] )) {
             if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '',
                                             $HTTP_SERVER_VARS['REQUEST_URI']) ) {
-                $qstr = preg_replace("/^\//", "", $qstr);
-                $qstr = preg_replace("/paged\/\d{0,}\//", "", $qstr);
-                $qstr = preg_replace("/paged\/\d{0,}/", "", $qstr);
-                $qstr = preg_replace("/\/$/", "", $qstr);
+                $qstr = preg_replace('/^\//', '', $qstr);
+                $qstr = preg_replace("/paged\/\d{0,}\//", '', $qstr);
+                $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
+                $qstr = preg_replace('/\/$/', '', $qstr);
             }
         }
         $nextpage = intval($paged) - 1;

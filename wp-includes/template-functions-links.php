@@ -135,7 +135,7 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
     }
 
     $location = "$siteurl/wp-admin/post.php?action=edit&amp;post=$post->ID";
-    echo "$before <a href='$location'>$link</a> $after";
+    echo "$before <a href=\"$location\">$link</a> $after";
 }
 
 function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
@@ -153,7 +153,7 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
     }
 
     $location = "$siteurl/wp-admin/post.php?action=editcomment&amp;comment=$comment->comment_ID";
-    echo "$before <a href='$location'>$link</a> $after";
+    echo "$before <a href=\"$location\">$link</a> $after";
 }
 
 ?>
