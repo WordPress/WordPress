@@ -8,7 +8,7 @@ function mysql_doh($msg,$sql,$error) {
 	die();
 }
 
-$connexion = mysql_connect($server, $loginsql, $passsql) or die("Can't connect to the database<br />".mysql_error());
+$connexion = mysql_connect($server, $loginsql, $passsql) or die("<h1>Check your b2config.php file!</h1>Can't connect to the database<br />".mysql_error());
 $dbconnexion = mysql_select_db($base, $connexion);
 
 if (!$dbconnexion) {
