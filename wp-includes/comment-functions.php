@@ -60,10 +60,6 @@ function comments_link( $file = '', $echo = true ) {
     echo get_comments_link();
 }
 
-function comment_link_rss() {
-	echo get_comments_link();
-}
-
 function comments_popup_script($width=400, $height=400, $file='') {
     global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
 
@@ -142,11 +138,6 @@ function get_comment_author() {
 
 function comment_author() {
 	$author = apply_filters('comment_author', get_comment_author() );
-	echo $author;
-}
-
-function comment_author_rss() {
-	$author = apply_filters('comment_author_rss', get_comment_author() );
 	echo $author;
 }
 
@@ -244,12 +235,6 @@ function comment_text() {
 	echo apply_filters('comment_text', get_comment_text() );
 }
 
-function comment_text_rss() {
-	$comment_text = get_comment_text();
-	$comment_text = apply_filters('comment_text_rss', $comment_text);
-	echo $comment_text;
-}
-
 function get_comment_excerpt() {
 	global $comment;
 	$comment_text = strip_tags($comment->comment_content);
@@ -297,23 +282,6 @@ function get_comment_time( $d = '' ) {
 
 function comment_time( $d = '' ) {
 	echo get_comment_time();
-}
-
-function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = 'wp-commentsrss2.php') {
-	$url = comments_rss($commentsrssfilename);
-	echo "<a href='$url'>$link_text</a>";
-}
-
-function comments_rss($commentsrssfilename = 'wp-commentsrss2.php') {
-	global $id;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-
-	if ('' != get_settings('permalink_structure'))
-		$url = trailingslashit( get_permalink() ) . 'feed/';
-	else
-		$url = get_settings('siteurl') . "/$commentsrssfilename?p=$id";
-
-	return $url;
 }
 
 function get_trackback_url() {

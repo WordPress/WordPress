@@ -46,7 +46,7 @@ add_filter('the_content', 'trim');
 	<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 	<?php the_category_rss('rdf') ?>
 <?php if (get_settings('rss_use_excerpt')) : ?>
-	<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
+	<description><?php the_excerpt_rss() ?></description>
 <?php else : ?>
 	<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
 	<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>

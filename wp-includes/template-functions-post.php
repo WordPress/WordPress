@@ -39,13 +39,6 @@ function the_title($before = '', $after = '', $echo = true) {
 	}
 }
 
-function the_title_rss() {
-	$title = get_the_title();
-	$title = apply_filters('the_title', $title);
-	$title = apply_filters('the_title_rss', $title);
-	echo $title;
-}
-
 function get_the_title($id = 0) {
 	global $post, $wpdb;
 	$title = $post->post_title;
@@ -59,44 +52,26 @@ function get_the_title($id = 0) {
 	return $title;
 }
 
+function get_the_guid( $id = 0 ) {
+	global $post, $wpdb;
+	$guid = $post->guid;
+
+	if ( 0 != $id )
+		$title = $wpdb->get_var("SELECT guid FROM $wpdb->posts WHERE ID = $id");
+	$guid = apply_filters('get_the_guid', $guid);
+	return $guid;
+}
+
+function the_guid( $id = 0 ) {
+	echo get_the_guid();
+}
+
+
 function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
     $content = get_the_content($more_link_text, $stripteaser, $more_file);
     $content = apply_filters('the_content', $content);
     $content = str_replace(']]>', ']]&gt;', $content);
     echo $content;
-}
-
-function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
-	$content = get_the_content($more_link_text, $stripteaser, $more_file);
-	$content = apply_filters('the_content', $content);
-	if ($cut && !$encode_html) {
-		$encode_html = 2;
-	}
-	if ($encode_html == 1) {
-		$content = wp_specialchars($content);
-		$cut = 0;
-	} elseif ($encode_html == 0) {
-		$content = make_url_footnote($content);
-	} elseif ($encode_html == 2) {
-		$content = strip_tags($content);
-	}
-	if ($cut) {
-		$blah = explode(' ', $content);
-		if (count($blah) > $cut) {
-			$k = $cut;
-			$use_dotdotdot = 1;
-		} else {
-			$k = count($blah);
-			$use_dotdotdot = 0;
-		}
-		for ($i=0; $i<$k; $i++) {
-			$excerpt .= $blah[$i].' ';
-		}
-		$excerpt .= ($use_dotdotdot) ? '...' : '';
-		$content = $excerpt;
-	}
-	$content = str_replace(']]>', ']]&gt;', $content);
-	echo $content;
 }
 
 function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
@@ -140,42 +115,6 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 
 function the_excerpt() {
     echo apply_filters('the_excerpt', get_the_excerpt());
-}
-
-function the_excerpt_rss($cut = 0, $encode_html = FALSE) {
-    $output = get_the_excerpt(true);
-
-    $output = convert_chars($output);
-    if ($cut && !$encode_html) {
-        $encode_html = 2;
-    }
-    if ($encode_html == 1) {
-        $output = wp_specialchars($output);
-        $cut = 0;
-    } elseif ($encode_html === 0) {
-        $output = make_url_footnote($output);
-    } elseif ($encode_html == 2) {
-        $output = strip_tags($output);
-        $output = str_replace('&', '&amp;', $output);
-    }
-    if ($cut) {
-        $excerpt = '';
-        $blah = explode(' ', $output);
-        if (count($blah) > $cut) {
-            $k = $cut;
-            $use_dotdotdot = 1;
-        } else {
-            $k = count($blah);
-            $use_dotdotdot = 0;
-        }
-        for ($i=0; $i<$k; $i++) {
-            $excerpt .= $blah[$i].' ';
-        }
-        $excerpt .= ($use_dotdotdot) ? '...' : '';
-        $output = $excerpt;
-    }
-    $output = str_replace(']]>', ']]&gt;', $output);
-    echo apply_filters('the_excerpt_rss', $output);
 }
 
 function get_the_excerpt($fakeit = true) {

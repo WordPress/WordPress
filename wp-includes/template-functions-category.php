@@ -43,23 +43,6 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
     return $catlink;
 }
 
-function get_category_rss_link($echo = false, $category_id, $category_nicename) {
-       global $querystring_start, $querystring_equal;
-       $cat_ID = $category_id;
-       $permalink_structure = get_settings('permalink_structure');
-
-       if ('' == $permalink_structure) {
-               $file = get_settings('siteurl') . '/wp-rss2.php';
-        $link = $file . $querystring_start . 'cat' . $querystring_equal . $category_id;
-       } else {
-        $link = get_category_link(0, $category_id, $category_nicename);
-               $link = $link . "feed/";
-       }
-
-       if ($echo) echo $link;
-       return $link;
-}
-
 function the_category($separator = '', $parents='') {
     $categories = get_the_category();
     if (empty($categories)) {
@@ -116,20 +99,6 @@ function the_category($separator = '', $parents='') {
         }
     }
     echo apply_filters('the_category', $thelist);
-}
-
-function the_category_rss($type = 'rss') {
-    $categories = get_the_category();
-    $the_list = '';
-    foreach ($categories as $category) {
-        $category->cat_name = convert_chars($category->cat_name);
-        if ('rdf' == $type) {
-            $the_list .= "\n\t<dc:subject>$category->cat_name</dc:subject>";
-        } else {
-            $the_list .= "\n\t<category>$category->cat_name</category>";
-        }
-    }
-    echo apply_filters('the_category_rss', $the_list);
 }
 
 function get_the_category_by_ID($cat_ID) {

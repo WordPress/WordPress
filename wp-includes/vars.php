@@ -158,6 +158,7 @@ add_filter('comment_text', 'convert_smilies', 20);
 add_filter('comment_text_rss', 'htmlspecialchars');
 
 add_filter('comment_excerpt', 'convert_chars');
+add_filter('the_excerpt_rss', 'convert_chars');
 
 // Places to balance tags on input
 add_filter('content_save_pre', 'balanceTags', 50);

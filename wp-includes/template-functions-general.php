@@ -61,16 +61,6 @@ function bloginfo($show='') {
     echo convert_chars($info);
 }
 
-function bloginfo_rss($show='') {
-    $info = strip_tags(get_bloginfo($show));
-    echo convert_chars($info);
-}
-
-function bloginfo_unicode($show='') {
-    $info = get_bloginfo($show);
-    echo convert_chars($info);
-}
-
 function get_bloginfo($show='') {
 
 	switch($show) {
@@ -611,19 +601,26 @@ function the_date($d='', $before='', $after='', $echo = true) {
     }
 }
 
-function the_time($d='', $echo = true) {
-    global $id, $post;
-    if ($d=='') {
-        $the_time = mysql2date(get_settings('time_format'), $post->post_date);
-    } else {
-        $the_time = mysql2date($d, $post->post_date);
-    }
-    $the_time = apply_filters('the_time', $the_time);
-    if ($echo) {
-        echo $the_time;
-    } else {
-        return $the_time;
-    }
+function the_time( $d = '' ) {
+	echo apply_filters('the_time', get_the_time( $d ) );
+}
+
+function get_the_time( $d = '' ) {
+	global $id, $post;
+	if ( '' == $d )
+		$the_time = date( get_settings('time_format'), get_post_time() );
+	else
+		$the_time = mysql2date( $d, get_post_time() );
+	return apply_filters('get_the_time', $the_time);
+}
+
+function get_post_time( $gmt = false ) { // returns timestamp
+	global $post;
+	if ( $gmt )
+		$time = mysql2date('U', $post->post_date_gmt);
+	else
+		$time = mysql2date('U', $post->post_date);
+	return apply_filters('get_the_time', $time);
 }
 
 function the_weekday() {

@@ -140,23 +140,6 @@ function get_author_link($echo = false, $author_id, $author_nicename) {
     return $link;
 }
 
-function get_author_rss_link($echo = false, $author_id, $author_nicename) {
-       global $querystring_start, $querystring_equal;
-       $auth_ID = $author_id;
-       $permalink_structure = get_settings('permalink_structure');
-
-       if ('' == $permalink_structure) {
-           $file = get_settings('siteurl') . '/wp-rss2.php';
-           $link = $file . $querystring_start . 'author' . $querystring_equal . $author_id;
-       } else {
-           $link = get_author_link(0, $author_id, $author_nicename);
-           $link = $link . "feed/";
-       }
-
-       if ($echo) echo $link;
-       return $link;
-}
-
 function wp_list_authors($args = '') {
 	parse_str($args, $r);
 	if (!isset($r['optioncount'])) $r['optioncount'] = false;

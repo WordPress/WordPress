@@ -19,4 +19,6 @@ require($curpath . 'template-functions-category.php');
 /***** Comment tags *****/
 require($curpath . 'comment-functions.php');
 
+require($curpath . 'feed-functions.php');
+
 ?>

@@ -22,10 +22,6 @@ function permalink_anchor($mode = 'id') {
     }
 }
 
-function permalink_single_rss($file = '') {
-    echo get_permalink();
-}
-
 function get_permalink($id = false) {
 	global $post, $wpdb;
 
