@@ -35,8 +35,10 @@ foreach ($submenu["$parent_file"] as $item) :
 		 continue;
 	 }
 
-if ( (isset($plugin_page) && $plugin_page == $item[2]) || (!isset($plugin_page) && substr($self, -10) == substr($item[2], -10)) ) $class = ' class="current"';
-else if (isset($submenu_file) && $submenu_file == substr($item[2], -10)) $class = ' class="current"';	 
+if ( isset($submenu_file) ) {
+	if ( substr($submenu_file, -10) == substr($item[2], -10) ) $class = ' class="current"';
+	else $class = '';
+} else if ( (isset($plugin_page) && $plugin_page == $item[2]) || (!isset($plugin_page) && substr($self, -10) == substr($item[2], -10)) ) $class = ' class="current"';
 else $class = '';
 
 $menu_hook = get_plugin_page_hook($item[2], $parent_file);
