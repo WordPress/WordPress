@@ -578,6 +578,13 @@ class WP_Query {
 
 		return false;
 	}
+
+	function rewind_posts() {
+		$this->current_post = -1;
+		if ($this->post_count > 0) {
+			$this->post = $this->posts[0];
+		}
+	}
     
 	function query($query) {
 		$this->parse_query($query);

@@ -1232,6 +1232,12 @@ function have_posts() {
     return $wp_query->have_posts();
 }
 
+function rewind_posts() {
+    global $wp_query;
+
+    return $wp_query->rewind_posts();
+}
+
 function the_post() {
     start_wp(true);
 }
