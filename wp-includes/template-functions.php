@@ -55,6 +55,9 @@ function get_bloginfo($show='') {
 		case "rss2_url":
 			$output = $siteurl.'/wp-rss2.php';
 			break;
+		case "atom_url":
+			$output = $siteurl.'/wp-atom.php';
+			break;		
 		case "comments_rss2_url":
 			$output = $siteurl.'/wp-commentsrss2.php';
 			break;
