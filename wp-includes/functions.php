@@ -959,7 +959,7 @@ function pingback($content, $post_ID) {
 				if (!$result->value()){
 					debug_fwrite($log, $result->faultCode().' -- '.$result->faultString());
 				} else {
-					$value = xmlrpc_decode($result->value());
+					$value = phpxmlrpc_decode($result->value());
 					if (is_array($value)) {
 						$value_arr = '';
 						foreach($value as $blah) {
