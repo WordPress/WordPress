@@ -6,7 +6,14 @@
 // accessing a single global $all_settings var
 if (!$_wp_installing) {
     $siteurl = get_settings('siteurl');
-	if ('/' == substr($siteurl, -1)) $siteurl = substr($siteurl, 0, -1);
+	// "When trying to design a foolproof system, 
+	//  never underestimate the ingenuity of the fools :)"
+	//
+	// Strip trailing slashes from $siteurl. But don't do
+	// anything that could cause an infinite loop.
+	while (('/' == substr($siteurl, -1)) && (10 > $i++)) {
+		$siteurl = substr($siteurl, 0, -1);
+	}
     $blogfilename = get_settings('blogfilename');
     $blogname = get_settings('blogname');
     $blogdescription = get_settings('blogdescription');
