@@ -6,6 +6,7 @@ if (! $feed) {
 }
 
 header('Content-type: application/atom+xml', true);
+$more = 1;
 
 ?>
 <?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
@@ -31,12 +32,10 @@ header('Content-type: application/atom+xml', true);
 		<modified><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_modified_gmt); ?></modified>
 		<issued><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt); ?></issued>
 		<?php the_category_rss('rdf') ?>
-<?php $more = 1; if (get_settings('rss_use_excerpt')) { ?>
 		<summary type="text/html" mode="escaped"><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></summary>
-<?php } else { // use content ?>
-		<summary type="text/html"><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></summary>
+<?php if (!get_settings('rss_use_excerpt')) { ?>
 		<content type="text/html" mode="escaped" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
-<?php } // end else use content ?>
+<?php } ?>
 	</entry>
 	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
 </feed>
