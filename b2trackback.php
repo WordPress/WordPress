@@ -37,7 +37,7 @@
 if (!empty($HTTP_GET_VARS['tb_id'])) {
 	// trackback is done by a GET
 	$tb_id = $HTTP_GET_VARS['tb_id'];
-	$url = $HTTP_GET_VARS['url'];
+	$tb_url = $HTTP_GET_VARS['url'];
 	$title = $HTTP_GET_VARS['title'];
 	$excerpt = $HTTP_GET_VARS['excerpt'];
 	$blog_name = $HTTP_GET_VARS['blog_name'];
@@ -46,13 +46,13 @@ if (!empty($HTTP_GET_VARS['tb_id'])) {
 	$request_array = 'HTTP_POST_VARS';
 	$tb_id = explode('/', $HTTP_SERVER_VARS['REQUEST_URI']);
 	$tb_id = $tb_id[count($tb_id)-1];
-	$url = $HTTP_POST_VARS['url'];
+	$tb_url = $HTTP_POST_VARS['url'];
 	$title = $HTTP_POST_VARS['title'];
 	$excerpt = $HTTP_POST_VARS['excerpt'];
 	$blog_name = $HTTP_POST_VARS['blog_name'];
 }
 
-if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url))) {
+if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_url))) {
 
 	@header('Content-Type: text/xml');
 
@@ -70,7 +70,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url)
 	if ('closed' == $pingstatus)
 		die('Sorry, trackbacks are closed for this item.');
 
-	$url = addslashes($url);
+	$tb_url = addslashes($tb_url);
 	$title = strip_tags($title);
 	$title = (strlen($title) > 255) ? substr($title, 0, 252).'...' : $title;
 	$excerpt = strip_tags($excerpt);
@@ -97,11 +97,11 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url)
 
 	$comment_author = $author;
 	$comment_author_email = $email;
-	$comment_author_url = $url;
+	$comment_author_url = $tb_url;
 
 	$author = addslashes($author);
 
-	$query = "INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$url','$user_ip','$now','$comment','0')";
+	$query = "INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$tb_url','$user_ip','$now','$comment','0')";
 	$result = $wpdb->query($query);
 	if (!$result) {
 		die ("There is an error with the database, it can't store your comment...<br />Contact the <a href=\"mailto:$admin_email\">webmaster</a>");
