@@ -250,18 +250,19 @@ default:
 		<th><?php _e('Website') ?></th>
 		<th><?php _e('Level') ?></th>
 	</tr>
-	<?php
-	foreach ($users as $user) {
-		$user_data = get_userdata($user->ID);
-		$email = $user_data->user_email;
-		$url = $user_data->user_url;
-		$short_url = str_replace('http://', '', $url);
-		$short_url = str_replace('www.', '', $short_url);
-		if ('/' == substr($short_url, -1))
-			$short_url = substr($short_url, 0, -1);
-		if (strlen($short_url) > 35)
-		$short_url =  substr($short_url, 0, 32).'...';
-		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
+<?php
+$style = '';
+foreach ($users as $user) {
+	$user_data = get_userdata($user->ID);
+	$email = $user_data->user_email;
+	$url = $user_data->user_url;
+	$short_url = str_replace('http://', '', $url);
+	$short_url = str_replace('www.', '', $short_url);
+	if ('/' == substr($short_url, -1))
+		$short_url = substr($short_url, 0, -1);
+	if (strlen($short_url) > 35)
+	$short_url =  substr($short_url, 0, 32).'...';
+	$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
 echo "\n<tr $style>
 <td align='center'>$user_data->ID</td>
 <td><strong>$user_data->user_nickname</strong></td>
@@ -269,24 +270,23 @@ echo "\n<tr $style>
 <td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
 <td><a href='$url' title='website: $url'>$short_url</a></td>
 <td align='center'>";
-		if ($user_level >= 3)
-			echo " <a href=\"users.php?action=delete&amp;id=".$user_data->ID."\" style=\"color:red;font-weight:bold;\">X</a> ";
-		echo $user_data->user_level;
-		if ($user_level >= 2)
-			echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=up\">+</a> ";	
-		echo "</td>\n</tr>\n";
-	}
-	?>
+	if ($user_level >= 3)
+		echo " <a href=\"users.php?action=delete&amp;id=".$user_data->ID."\" style=\"color:red;font-weight:bold;\">X</a> ";
+	echo $user_data->user_level;
+	if ($user_level >= 2)
+		echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=up\">+</a> ";	
+	echo "</td>\n</tr>\n";
+}
+?>
 	
 	</table>
-	  <?php _e('<p>To delete a user, bring his level to zero, then click on the red X.<br />
-    <strong>Warning:</strong> deleting a user also deletes all posts made by this user.</p>') ?>
+	  <p><?php _e('To delete an author or user, bring his level to zero, then click on the red X. <strong>Warning:</strong> Deleting a user also deletes all posts made by this user.') ?></p>
 </div>
 
 	<?php 
 	} ?>
 <div class="wrap">
-<h2><?php _e('Add User') ?></h2>
+<h2><?php _e('Add New User') ?></h2>
 <?php printf(__('<p>Users can <a href="%s/wp-register.php">register themselves</a> or you can manually create users here.</p>'), get_settings('siteurl')); ?>
 <form action="" method="post" name="adduser" id="adduser">
   <table class="editform" width="100%" cellspacing="2" cellpadding="5">
