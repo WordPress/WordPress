@@ -173,7 +173,7 @@ foreach($wpsmiliestrans as $smiley => $img) {
 }
 
 // Path for cookies
-define('COOKIEPATH', preg_replace('|http://[^/]+|i', '', get_settings('home') . '/' ) );
+define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('home') . '/' ) );
 
 // Some default filters
 add_filter('category_description', 'wptexturize');
