@@ -21,8 +21,8 @@ if ( $home != '' && $home != get_settings('siteurl') ) {
 }
 
 if (isset($_POST['submit'])) {
-	update_option('permalink_structure', $_POST['permalink_structure']);
-	$permalink_structure = $_POST['permalink_structure'];
+	$permalink_structure = preg_replace('#/+/#', '/', $_POST['permalink_structure']);
+	update_option('permalink_structure', $permalink_structure);
 
 	update_option('category_base', $_POST['category_base']);
 	$category_base = $_POST['category_base'];
