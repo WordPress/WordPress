@@ -902,11 +902,15 @@ $wp_file_descriptions =
 function get_file_description($file) {
 	global $wp_file_descriptions;
 
-	if (isset($wp_file_descriptions[$file])) {
-		return $wp_file_descriptions[$file];
+	if ( isset($wp_file_descriptions[basename($file)] ) ) {
+		return $wp_file_descriptions[basename($file)];
+	} else {
+		$template_data = implode('', file(ABSPATH . $file));
+		if ( preg_match("|Template Name:(.*)|i", $template_data, $name) )
+			return $name[1];
 	}
 
-	return $file;
+	return basename( $file );
 }
 
 function update_recently_edited($file) {

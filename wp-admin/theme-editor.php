@@ -100,9 +100,9 @@ default:
  <div class="wrap"> 
   <?php
 	if (is_writeable($real_file)) {
-		echo '<h2>' . sprintf(__('Editing <strong>%s</strong>'), $file) . '</h2>';
+		echo '<h2>' . sprintf(__('Editing <code>%s</code>'), $file) . '</h2>';
 	} else {
-		echo '<h2>' . sprintf(__('Browsing <strong>%s</strong>'), $file) . '</h2>';
+		echo '<h2>' . sprintf(__('Browsing <code>%s</code>'), $file) . '</h2>';
 	}
 	?>
 	<div id="templateside">
@@ -113,7 +113,7 @@ if ($allowed_files) :
 ?>
   <ul>
 <?php foreach($allowed_files as $allowed_file) : ?>
-		 <li><a href="theme-editor.php?file=<?php echo "$allowed_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo get_file_description(basename($allowed_file)); ?></a></li>
+		 <li><a href="theme-editor.php?file=<?php echo "$allowed_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo get_file_description($allowed_file); ?></a></li>
 <?php endforeach; ?>
   </ul>
 <?php endif; ?>
