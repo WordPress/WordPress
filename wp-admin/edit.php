@@ -83,8 +83,13 @@ if( isset( $_GET['m'] ) )
     <th scope="col"></th> 
   </tr> 
 <?php
-if (empty($m)) $showposts = 15;
-$nopaging = true;
+$what_to_show = 'posts';
+if (empty($m)) {
+  $showposts = 15;
+} else {
+  $nopaging = true;
+}
+
 include(ABSPATH.'wp-blog-header.php');
 
 if ($posts) {
