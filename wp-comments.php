@@ -22,7 +22,7 @@
 
 <!-- You can start editing here. -->
 
-<h2 id="comments"><?php comments_number(__("Comments")); ?> 
+<h2 id="comments"><?php comments_number(__("Comments"), __("1 Comment"), __("% Comments")); ?> 
 <?php if ('open' == $post->comment_status) { ?>
 <a href="#postcomment" title="<?php _e("Leave a comment"); ?>">&raquo;</a>
 <?php } ?>
