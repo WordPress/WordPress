@@ -355,11 +355,11 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
             }
         }
 
-        $now = current_time('mysql');
+        $now = current_time('mysql', 1);
 
         $limitnext--;
 
-        $nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT $limitnext,1");
+        $nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts WHERE post_date > '$current_post_date' AND post_date_gmt < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT $limitnext,1");
         if ($nextpost) {
             $string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
             if ($title=='yes') {
