@@ -1058,23 +1058,20 @@ function wp_head() {
 function is_single ($post = '') {
 	global $wp_query;
 
-	if (! $wp_query->is_single) {
+	if ( !$wp_query->is_single )
 		return false;
-	}
 
-	if (empty($post)) {
+	if ( empty( $post) )
 		return true;
-	}
 
 	$post_obj = $wp_query->get_queried_object();
 
-	if ($post == $post_obj->ID) {
+	if ( $post == $post_obj->ID ) 
 		return true;
-	} else if ($post == $post_obj->post_title) {
+	elseif ( $post == $post_obj->post_title ) 
 		return true;
-	} else if ($post == $post_obj->post_name) {
+	elseif ( $post == $post_obj->post_name )
 		return true;
-	}
 
 	return false;
 }

@@ -1,11 +1,5 @@
-<?php
-// If a sidebar.php file exists in the WP root directory we
-// use that, otherwise use this default wp-sidebar.php file.
-if ( file_exists(TEMPLATEPATH . '/sidebar.php') ) :
-	include_once(TEMPLATEPATH . '/sidebar.php');
-else :
-?>
 
+<!-- begin sidebar -->
 <div id="menu">
 
 <ul>
@@ -17,7 +11,7 @@ else :
  </li>
  <li id="search">
    <label for="s"><?php _e('Search:'); ?></label>	
-   <form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
+   <form id="searchform" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />
 		<input type="submit" name="submit" value="<?php _e('Search'); ?>" />
@@ -28,9 +22,6 @@ else :
  	<ul>
 	 <?php wp_get_archives('type=monthly'); ?>
  	</ul>
- </li>
- <li id="calendar">
-	<?php get_calendar(); ?>
  </li>
  <li id="meta"><?php _e('Meta:'); ?>
  	<ul>
@@ -48,5 +39,4 @@ else :
 </ul>
 
 </div>
-
-<?php endif; ?>
+<!-- end sidebar -->

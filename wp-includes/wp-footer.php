@@ -1,18 +1,7 @@
-<?php
-// If a footer.php file exists in the WP root directory we
-// use that, otherwise use this default wp-footer.php file.
-if ( file_exists(TEMPLATEPATH . '/footer.php') ) :
-	include_once(TEMPLATEPATH . '/footer.php');
-else :
-?>
+<!-- begin footer -->
 </div>
 
-
-
-<?php
-// This code pulls in the sidebar:
-include(ABSPATH . '/wp-sidebar.php');
-?>
+<?php get_sidebar(); ?>
 
 </div>
 
@@ -21,4 +10,3 @@ include(ABSPATH . '/wp-sidebar.php');
 <?php do_action('wp_footer', ''); ?>
 </body>
 </html>
-<?php endif; ?>

@@ -2,8 +2,8 @@
 
 // Template functions
 
-function comments_template() {
-	global $withcomments, $post, $wpdb, $id, $comment;
+function comments_template( $show ) {
+	global $wp_query, $withcomments, $post, $wpdb, $id, $comment;
 
 	if ( is_single() || is_page() || $withcomments ) :
 		$req = get_settings('require_name_email');
@@ -12,14 +12,10 @@ function comments_template() {
 		$comment_author_url = isset($_COOKIE['comment_author_url_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_url_'.COOKIEHASH])) : '';
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
 
-		$template = get_template_directory();
-		$template .= "/comments.php";
-
-		if (file_exists($template)) {
-			include($template);
-		}	else {
-			include(ABSPATH . 'wp-comments.php');
-		}
+	if ( file_exists( TEMPLATEPATH . '/comments.php') )
+		require( TEMPLATEPATH . '/comments.php');
+	else
+		require( ABSPATH . 'wp-includes/wp-comments.php');
 
 	endif;
 }
@@ -72,12 +68,10 @@ function comments_popup_script($width=400, $height=400, $file='') {
     global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
 
 		if (empty ($file)) {
-			$template = TEMPLATEPATH . '/comments-popup.php';
-			if (file_exists($template)) {
-				$wpcommentspopupfile = str_replace(ABSPATH, '', $template);
-			} else {
-				$wpcommentspopupfile = 'wp-comments-popup.php';
-			}
+			if ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
+				require( TEMPLATEPATH . '/comments-popup.php');
+			else
+				require( ABSPATH . 'wp-includes/wp-comments-popup.php');
 		} else {
 			$wpcommentspopupfile = $file;
 		}

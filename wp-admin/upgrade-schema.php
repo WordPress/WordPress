@@ -210,7 +210,7 @@ function populate_options() {
 	add_option('use_linksupdate', 0);
 	add_option('template', 'default');
 	add_option('stylesheet', 'default');
-	add_option('comment_whitelist', 0);
+	add_option('comment_whitelist', 1);
 	add_option('page_uris');
 
 	// Delete unused options

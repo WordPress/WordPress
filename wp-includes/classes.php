@@ -65,16 +65,16 @@ class WP_Query {
 
 		if ('' != $qv['name']) {
 			$this->is_single = true;
-		} else 	if (($qv['p'] != '') && ($qv['p'] != 'all') && (intval($q['p']) != 0)) {
+		} elseif ( intval( $q['p'] ) != 0 && $qv['p'] != 'all' ) {
 			$this->is_single = true;            
-		}	else if (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
+		} elseif (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
 			// If year, month, day, hour, minute, and second are set, a single 
 		  // post is being queried.        
 			$this->is_single = true;
-		} else if ('' != $qv['static'] || '' != $qv['pagename'] || '' != $qv['page_id']) {
+		} elseif ('' != $qv['static'] || '' != $qv['pagename'] || '' != $qv['page_id']) {
 			$this->is_page = true;
 			$this->is_single = false;
-		} else if (!empty($qv['s'])) {
+		} elseif (!empty($qv['s'])) {
 			$this->is_search = true;
 		} else {
 			// Look for archive queries.  Dates, categories, authors.

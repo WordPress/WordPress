@@ -1,7 +1,7 @@
 <?php 
 /* Don't remove this line. */
 require('./wp-blog-header.php');
-include(ABSPATH . '/wp-header.php');
+get_header();
 ?>
 
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
@@ -27,7 +27,7 @@ include(ABSPATH . '/wp-header.php');
 
 </div>
 
-<?php comments_template(); // Get wp-comments.php template ?>
+<?php comments_template( is_single() ); // Get wp-comments.php template ?>
 
 <?php endwhile; else: ?>
 <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
@@ -35,4 +35,4 @@ include(ABSPATH . '/wp-header.php');
 
 <?php posts_nav_link(' &#8212; ', __('&laquo; Previous Page'), __('Next Page &raquo;')); ?>
 
-<?php include(ABSPATH . '/wp-footer.php'); ?>
+<?php get_footer(); ?>

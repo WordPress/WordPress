@@ -2,6 +2,31 @@
 
 /* Note: these tags go anywhere in the template */
 
+function get_header() {
+	global $wpdb, $wp_query;
+	if ( file_exists( TEMPLATEPATH . '/header.php') )
+		require_once( TEMPLATEPATH . '/header.php');
+	else
+		require_once( ABSPATH . 'wp-includes/wp-header.php');
+}
+
+function get_footer() {
+	global $wpdb, $wp_query;
+	if ( file_exists( TEMPLATEPATH . '/footer.php') )
+		require_once( TEMPLATEPATH . '/footer.php');
+	else
+		require_once( ABSPATH . 'wp-includes/wp-footer.php');
+}
+
+function get_sidebar() {
+	global $wpdb, $wp_query;
+	if ( file_exists( TEMPLATEPATH . '/sidebar.php') )
+		require_once( TEMPLATEPATH . '/sidebar.php');
+	else
+		require_once( ABSPATH . 'wp-includes/wp-sidebar.php');
+}
+
+
 function wp_loginout() {
 	global $user_level;
 	get_currentuserinfo();
@@ -84,7 +109,7 @@ function get_bloginfo($show='') {
 	case 'stylesheet_url':
 		$output = get_stylesheet();
 		if (empty($output) || $output == 'default') {
-			$output = get_settings('siteurl') . "/wp-layout.css";
+			$output = get_settings('siteurl') . "/wp-includes/wp-layout.css";
 		} else {
 			$output = get_settings('siteurl') . "/wp-content/themes/$output/style.css";
 		}
