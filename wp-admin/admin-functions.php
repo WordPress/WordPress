@@ -675,4 +675,26 @@ function get_current_theme() {
 	return $current_theme;
 }
 
+function validate_current_theme() {
+	$theme_loc = 'wp-content/themes';
+	$theme_root = ABSPATH . $theme_loc;
+
+	$template = get_settings('template');
+	$stylesheet = get_settings('stylesheet');
+
+	if (($template != 'default') && (! file_exists("$theme_root/$template/index.php"))) {
+		update_option('template', 'default');
+		update_option('stylesheet', 'default');
+		return false;
+	}
+
+	if (($stylesheet != 'default') && (! file_exists("$theme_root/$stylesheet/style.css"))) {
+		update_option('template', 'default');
+		update_option('stylesheet', 'default');
+		return false;
+	}
+
+	return true;
+}
+
 ?>
