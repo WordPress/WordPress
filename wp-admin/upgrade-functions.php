@@ -180,10 +180,14 @@ function upgrade_130() {
         $wpdb->query("UPDATE $wpdb->options SET option_value = 'posts' WHERE option_name = 'what_to_show'");
     }
 
-	if ( !is_array( get_settings('active_plugins') ) ) {
-		$plugins = explode("\n", trim(get_settings('active_plugins')) );
-		update_option('active_plugins', $plugins);
-	}
+		$active_plugins = __get_option('active_plugins');
+
+		// If plugins are not stored in an array, they're stored in the old
+		// newline separated format.  Convert to new format.
+		if ( !is_array( $active_plugins ) ) {
+			$active_plugins = explode("\n", trim($active_plugins));
+			update_option('active_plugins', $active_plugins);
+		}
 
 	// Obsolete tables
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optionvalues');
@@ -289,6 +293,19 @@ function get_alloptions_110() {
 		}
 	}
 	return $all_options;
+}
+
+// Version of get_option that is private to install/upgrade.
+function __get_option($setting) {
+	global $wpdb;
+
+	$option = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
+
+	@ $kellogs = unserialize($option);
+	if ($kellogs !== FALSE)
+		return $kellogs;
+	else
+		return $option;
 }
 
 function deslash($content) {
@@ -561,13 +578,14 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		$lines = explode("\n", implode('', file("$site_dir/$newfile")));
 		if ($lines) {
 			$f = fopen("$site_dir/$newfile", 'w');
-			
+
+			$siteurl = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'");
 			foreach ($lines as $line) {
 				if (preg_match('/require.*wp-blog-header/', $line))
 					$line = '//' . $line;
 
 				// Update stylesheet references.
-				$line = str_replace("<?php echo get_settings('siteurl'); ?>/wp-layout.css", "<?php bloginfo('stylesheet_url'); ?>", $line);
+				$line = str_replace("<?php echo $siteurl; ?>/wp-layout.css", "<?php bloginfo('stylesheet_url'); ?>", $line);
 
 				// Update comments template inclusion.
 				$line = str_replace("<?php include(ABSPATH . 'wp-comments.php'); ?>", "<?php comments_template(); ?>", $line);
@@ -579,7 +597,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 	}
 
 	// Add a theme header.
-	$header = "/*\nTheme Name: $theme_name\nTheme URI: " . get_option('siteurl') . "\nDescription: A theme automatically created by the upgrade.\nVersion: 1.0\nAuthor: Moi\n*/\n";
+	$header = "/*\nTheme Name: $theme_name\nTheme URI: " . __get_option('siteurl') . "\nDescription: A theme automatically created by the upgrade.\nVersion: 1.0\nAuthor: Moi\n*/\n";
 
 	$stylelines = file_get_contents("$site_dir/style.css");
 	if ($stylelines) {
@@ -618,7 +636,7 @@ function make_site_theme_from_default($theme_name, $template) {
 
 		foreach ($stylelines as $line) {
 			if (strstr($line, "Theme Name:")) $line = "Theme Name: $theme_name";
-			elseif (strstr($line, "Theme URI:")) $line = "Theme URI: " . get_option('siteurl');
+			elseif (strstr($line, "Theme URI:")) $line = "Theme URI: " . __get_option('siteurl');
 			elseif (strstr($line, "Description:")) $line = "Description: Your theme";
 			elseif (strstr($line, "Version:")) $line = "Version: 1";
 			elseif (strstr($line, "Author:")) $line = "Author: You";
@@ -648,7 +666,7 @@ function make_site_theme_from_default($theme_name, $template) {
 // Create a site theme from the default theme.
 function make_site_theme() {
 	// Name the theme after the blog.
-	$theme_name = get_option('blogname');
+	$theme_name = __get_option('blogname');
 	$template = sanitize_title($theme_name);
 	$site_dir = ABSPATH . "wp-content/themes/$template";
 
@@ -679,7 +697,7 @@ function make_site_theme() {
 	}
 
 	// Make the new site theme active.
-	$current_template = get_option('template');
+	$current_template = __get_option('template');
 	if ($current_template == 'default') {
 		update_option('template', $template);
 		update_option('stylesheet', $template);
