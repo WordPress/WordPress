@@ -25,7 +25,20 @@ function comments_template() {
 		$comment_author_email = isset($_COOKIE['comment_author_email_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_email_'.$cookiehash])) : '';
 		$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_url_'.$cookiehash])) : '';
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
-		include(ABSPATH . 'wp-comments.php');
+
+		$wp_template = get_settings('template');
+		if ($wp_template == 'default') {
+			$wp_template = '';
+		} else {
+			$wp_template = ABSPATH . "wp-content/themes/$wp_template/comments.php";
+		} 
+
+		if(! empty($wp_template) && file_exists($wp_template)) {
+			include($wp_template);
+		}	else {
+			include(ABSPATH . 'wp-comments.php');
+		}
+
 	endif;
 }
 
