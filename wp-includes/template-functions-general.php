@@ -320,10 +320,13 @@ function get_calendar($daylength = 1) {
         $w = ''.intval($HTTP_GET_VARS['w']);
     }
     $time_difference = get_settings('time_difference');
+    $add_hours = intval($time_difference);
+    $add_minutes = intval(60 * ($time_difference - $add_hours));
+    $wp_posts_post_date_field = "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
     // Let's figure out when we are
     if (!empty($monthnum) && !empty($year)) {
-        $thismonth = ''.intval($monthnum);
+        $thismonth = ''.zeroise(intval($monthnum), 2);
         $thisyear = ''.intval($year);
     } elseif (!empty($w)) {
         // We need to get the month from MySQL
@@ -336,23 +339,23 @@ function get_calendar($daylength = 1) {
         if (strlen($m) < 6) {
             $thismonth = '01';
         } else {
-            $thismonth = ''.intval(substr($m, 4, 2));
+	    $thismonth = ''.zeroise(intval(substr($m, 4, 2), 2));
         }
     } else {
-        $thisyear = intval(date('Y', time()+($time_difference * 3600)));
-        $thismonth = intval(date('m', time()+($time_difference * 3600)));
+        $thisyear = gmdate('Y', current_time('timestamp'));
+        $thismonth = gmdate('m', current_time('timestamp'));
     }
 
     $unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
 
     // Get the next and previous month and year with at least one post
-    $previous = $wpdb->get_row("SELECT DISTINCT MONTH( post_date ) AS month, YEAR( post_date ) AS year
+    $previous = $wpdb->get_row("SELECT DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
             FROM $tableposts
-            WHERE post_date < '$thisyear-$thismonth-01'
+            WHERE $wp_posts_post_date_field < '$thisyear-$thismonth-01'
             AND post_status = 'publish'
                               ORDER BY post_date DESC
                               LIMIT 1");
-    $next = $wpdb->get_row("SELECT  DISTINCT MONTH( post_date ) AS month, YEAR( post_date ) AS year
+    $next = $wpdb->get_row("SELECT  DISTINCT MONTH($wp_posts_post_date_field) AS month, YEAR($wp_posts_post_date_field) AS year
             FROM $tableposts
             WHERE post_date >  '$thisyear-$thismonth-01'
             AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
@@ -401,11 +404,11 @@ function get_calendar($daylength = 1) {
     <tr>';
 
     // Get days with posts
-    $dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
-            FROM $tableposts WHERE MONTH(post_date) = $thismonth
+    $dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH($wp_posts_post_date_field)
+            FROM $tableposts WHERE MONTH($wp_posts_post_date_field) = $thismonth
             AND YEAR(post_date) = $thisyear
             AND post_status = 'publish'
-            AND post_date < '" . date('Y-m-d H:i:s', (time() + ($time_difference * 3600))).'\'', ARRAY_N);
+            AND post_date < '" . current_time('mysql') . '\'', ARRAY_N);
     if ($dayswithposts) {
         foreach ($dayswithposts as $daywith) {
             $daywithpost[] = $daywith[0];
@@ -425,11 +428,11 @@ function get_calendar($daylength = 1) {
     }
 
     $ak_titles_for_day = array();
-    $ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH(post_date) as dom "
+    $ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH($wp_posts_post_date_field) as dom "
                                          ."FROM $tableposts "
-                                         ."WHERE YEAR(post_date) = '$thisyear' "
-                                         ."AND MONTH(post_date) = '$thismonth' "
-                                         ."AND post_date < '".date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."' "
+                                         ."WHERE YEAR($wp_posts_post_date_field) = '$thisyear' "
+                                         ."AND MONTH($wp_posts_post_date_field) = '$thismonth' "
+                                         ."AND post_date < '".current_time('mysql')."' "
                                          ."AND post_status = 'publish'"
                                         );
     if ($ak_post_titles) {
