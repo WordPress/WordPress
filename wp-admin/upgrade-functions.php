@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/upgrade-schema.php');
+require_once(dirname(__FILE__) . '/admin-functions.php');
 // Functions to be called in install and upgrade scripts
 function upgrade_all() {
 	populate_options();
@@ -527,37 +528,72 @@ function make_db_current_silent() {
 	$alterations = dbDelta($wp_queries);
 }
 
-// Create a site theme from the default theme.
-function make_site_theme() {
-	// Name the theme after the blog.
-	$site = get_option('blogname');
-	$template = sanitize_title($site);
+function make_site_theme_from_oldschool($theme_name, $template) {
+	$home_path = get_home_path();
 	$site_dir = ABSPATH . "wp-content/themes/$template";
 
-	// If the theme already exists, nothing to do.
-	if ( is_dir($site_dir)) {
-		return;
+	if (! file_exists("$home_path/index.php"))
+		return false;
+
+	// Copy files from the old locations to the site theme.
+	// TODO: This does not copy arbitarary include dependencies.  Only the
+	// standard WP files are copied.
+	$files = array('index.php' => 'index.php', 'wp-layout.css' => 'style.css', 'wp-comments.php' => 'comments.php', 'wp-comments-popup.php' => 'comments-popup.php');
+
+	foreach ($files as $oldfile => $newfile) {
+		if ($oldfile == 'index.php')
+			$oldpath = $home_path;
+		else
+			$oldpath = ABSPATH;
+
+		if (! copy("$oldpath/$oldfile", "$site_dir/$newfile"))
+			return false;
+
+		chmod("$site_dir/$newfile", 0777);
+
+		// Update the blog header include in each file.
+		$lines = explode("\n", implode('', file("$site_dir/$newfile")));
+		if ($lines) {
+			$f = fopen("$site_dir/$newfile", 'w');
+			
+			foreach ($lines as $line) {
+				if (preg_match('/require.*wp-blog-header/', $line)) {
+					if ($newfile == 'comments-popup.php')
+						$line = "require('../../../wp-blog-header.php');";
+					else
+						$line = '//' . $line;
+				}
+				fwrite($f, "{$line}\n");
+			}
+			fclose($f);
+		}
 	}
 
-	// We must be able to write to the themes dir.
-	if (! is_writable(ABSPATH . "wp-content/themes")) {
-		return;
+	// Add a theme header.
+	$header = "/*\nTheme Name: $theme_name\nTheme URI: " . get_option('siteurl') . "\nDescription: Your theme.\nVersion: 1\nAuthor: You\n*/\n";
+
+	$stylelines = file_get_contents("$site_dir/style.css");
+	if ($stylelines) {
+		$f = fopen("$site_dir/style.css", 'w');
+
+		fwrite($f, $header);
+		fwrite($f, $stylelines);
+		fclose($f);
 	}
 
-	if (! mkdir($site_dir, 0777)) {
-		return;
-	}
+	return true;
+}
 
-	// Copy files from the default theme to the new site theme.
-	// TODO: Copy wp-* template files from the blog root when upgrading from
-	//       pre-theme releases.
+function make_site_theme_from_default($theme_name, $template) {
+	$site_dir = ABSPATH . "wp-content/themes/$template";
 	$default_dir = ABSPATH . 'wp-content/themes/default';
+
+// Copy files from the default theme to the site theme.
 	$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
 
 	foreach ($files as $file) {
-		if (! copy("$default_dir/$file", "$site_dir/$file")) {
+		if (! copy("$default_dir/$file", "$site_dir/$file"))
 			return;
-		}
 
 		chmod("$site_dir/$file", 0777);
 	}
@@ -568,7 +604,7 @@ function make_site_theme() {
 		$f = fopen("$site_dir/style.css", 'w');
 
 		foreach ($stylelines as $line) {
-			if (strstr($line, "Theme Name:")) $line = "Theme Name: $site";
+			if (strstr($line, "Theme Name:")) $line = "Theme Name: $theme_name";
 			elseif (strstr($line, "Theme URI:")) $line = "Theme URI: " . get_option('siteurl');
 			elseif (strstr($line, "Description:")) $line = "Description: Your theme";
 			elseif (strstr($line, "Version:")) $line = "Version: 1";
@@ -576,6 +612,39 @@ function make_site_theme() {
 			fwrite($f, "{$line}\n");
 		}
 		fclose($f);
+	}
+}
+
+// Create a site theme from the default theme.
+function make_site_theme() {
+	// Name the theme after the blog.
+	$theme_name = get_option('blogname');
+	$template = sanitize_title($theme_name);
+	$site_dir = ABSPATH . "wp-content/themes/$template";
+
+	// If the theme already exists, nothing to do.
+	if ( is_dir($site_dir)) {
+		return false;
+	}
+
+	// We must be able to write to the themes dir.
+	if (! is_writable(ABSPATH . "wp-content/themes")) {
+		return false;
+	}
+
+	if (! mkdir($site_dir, 0777)) {
+		return false;
+	}
+
+	if (file_exists(ABSPATH . 'wp-layout.css')) {
+		if (! make_site_theme_from_oldschool($theme_name, $template)) {
+			// TODO:  rm -rf the site theme directory.
+			return false;
+		}
+	} else {
+		if (! make_site_theme_from_default($theme_name, $template))
+			// TODO:  rm -rf the site theme directory.
+			return false;
 	}
 
 	// Make the new site theme active.
