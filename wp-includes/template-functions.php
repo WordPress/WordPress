@@ -563,7 +563,7 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 		return;
 	}
 
-	$location = "$siteurl/wp-admin/post.php?action=edit&post=$post->ID";
+	$location = "$siteurl/wp-admin/post.php?action=edit&amp;post=$post->ID";
 	echo "$before <a href='$location'>$link</a> $after";
 }
 
