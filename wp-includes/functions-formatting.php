@@ -24,8 +24,8 @@ function wptexturize($text) {
 			$curl = preg_replace("/'s/", '&#8217;s', $curl);
 			$curl = preg_replace("/'(\d\d(?:&#8217;|')?s)/", "&#8217;$1", $curl);
 			$curl = preg_replace('/(\s|\A|")\'/', '$1&#8216;', $curl);
-			$curl = preg_replace('/(\d+)"/', '$1&Prime;', $curl);
-			$curl = preg_replace("/(\d+)'/", '$1&prime;', $curl);
+			$curl = preg_replace('/(\d+)"/', '$1&#8243;', $curl);
+			$curl = preg_replace("/(\d+)'/", '$1&#8242;', $curl);
 			$curl = preg_replace("/(\S)'([^'\s])/", "$1&#8217;$2", $curl);
 			$curl = preg_replace('/(\s|\A)"(?!\s)/', '$1&#8220;$2', $curl);
 			$curl = preg_replace('/"(\s|\Z)/', '&#8221;$1', $curl);
