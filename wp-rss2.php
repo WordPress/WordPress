@@ -5,10 +5,13 @@ if (! $feed) {
     require('wp-blog-header.php');
 }
 
+$charset = get_settings('blog_charset');
+if (!$charset) $charset = 'UTF-8';
 header('Content-type: application/rss+xml', true);
 
 ?>
-<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
+<?php echo '<?xml version="1.0" encoding="' . $charset . '"?'.'>'; ?>
+
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
 	xmlns:content="http://purl.org/rss/1.0/modules/content/">
@@ -28,9 +31,8 @@ header('Content-type: application/rss+xml', true);
 		<link><?php permalink_single_rss() ?></link>
 		<comments><?php comments_link(); ?></comments>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $post->post_date_gmt); ?></pubDate>
-		<author><?php the_author() ?> (mailto:<?php the_author_email() ?>)</author>
 		<?php the_category_rss() ?>
-		<guid isPermaLink="false"><?php echo $id; ?>@<?php bloginfo_rss("url") ?></guid>
+		<guid><?php echo get_permalink($id); ?></guid>
 <?php $more = 1; if (get_settings('rss_use_excerpt')) {
 ?>
 		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
