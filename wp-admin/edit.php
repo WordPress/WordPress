@@ -1,12 +1,14 @@
 <?php
-$title = 'Posts';
+require_once('../wp-includes/wp-l10n.php');
+
+$title = __('Posts');
 require_once('admin-header.php');
 
 ?>
  <ul id="adminmenu2"> 
-  <li><a href="edit.php" class="current">Posts</a></li> 
-  <li><a href="edit-comments.php">Comments</a></li> 
-  <li class="last"><a href="moderation.php">Awaiting Moderation</a></li> 
+  <li><a href="edit.php" class="current"><?php _e('Posts') ?></a></li> 
+  <li><a href="edit-comments.php"><?php _e('Comments') ?></a></li> 
+  <li class="last"><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li> 
 </ul> 
 <?php
 get_currentuserinfo();
@@ -14,7 +16,7 @@ $drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_
 if ($drafts) {
 	?> 
 <div class="wrap"> 
-  <p><strong>Your Drafts:</strong> 
+    <p><strong><?php _e('Your Drafts:') ?></strong> 
     <?php
 	$i = 0;
 	foreach ($drafts as $draft) {
@@ -22,8 +24,8 @@ if ($drafts) {
 			echo ', ';
 		$draft->post_title = stripslashes($draft->post_title);
 		if ($draft->post_title == '')
-			$draft->post_title = 'Post #'.$draft->ID;
-		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
+			$draft->post_title = sprintf(__('Post #%s'), $draft->ID);
+		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
 		++$i;
 		}
 	?> 
@@ -35,21 +37,21 @@ if ($drafts) {
 <div class="wrap"> 
 <form name="searchform" action="" method="get"> 
   <fieldset> 
-  <legend>Show Posts That Contain...</legend> 
+  <legend><?php _e('Show Posts That Contain...') ?></legend> 
   <input type="text" name="s" value="<?php echo $s; ?>" size="17" /> 
-  <input type="submit" name="submit" value="Search"  /> 
+  <input type="submit" name="submit" value="<?php _e('Search') ?>"  /> 
   </fieldset> 
 </form> 
 <table width="100%" cellpadding="3" cellspacing="3"> 
   <tr> 
-    <th scope="col">ID</th> 
-    <th scope="col">When</th> 
-    <th scope="col">Title</th> 
-    <th scope="col">Categories</th> 
-    <th scope="col">Comments</th> 
-    <th scope="col">Author</th> 
-    <th scope="col">Edit</th> 
-    <th scope="col">Delete</th> 
+    <th scope="col"><?php _e('ID') ?></th> 
+    <th scope="col"><?php _e('When') ?></th> 
+    <th scope="col"><?php _e('Title') ?></th> 
+    <th scope="col"><?php _e('Categories') ?></th> 
+    <th scope="col"><?php _e('Comments') ?></th> 
+    <th scope="col"><?php _e('Author') ?></th> 
+    <th scope="col"><?php _e('Edit') ?></th> 
+    <th scope="col"><?php _e('Delete') ?></th> 
   </tr> 
   <?php
 include(ABSPATH.'wp-blog-header.php');
@@ -64,21 +66,21 @@ $bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
     <td><a href="<?php permalink_link(); ?>" rel="permalink"> 
       <?php the_title() ?> 
       </a> 
-      <?php if ('private' == $post->post_status) echo ' - <strong>Private</strong>'; ?></td> 
+    <?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?></td> 
     <td><?php the_category(','); ?></td> 
     <td><a href="edit.php?p=<?php echo $id ?>&c=1"> 
-      <?php comments_number('no comments', '1 comment', "% comments") ?> 
+      <?php comments_number(__('no comments'), __('1 comment'), __("% comments")) ?> 
       </a></td> 
     <td><?php the_author() ?></td> 
-    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>Edit</a>"; } ?></td> 
-    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('You are about to delete this post \'".the_title('','',0)."\'\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a>"; } ?></td> 
+    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
+    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), the_title('','',0)) . "')\">" . __('Delete') . "</a>"; } ?></td> 
   </tr> 
 <?php
 }
 } else {
 ?>
   <tr style='background-color: <?php echo $bgcolor; ?>'> 
-    <td colspan="8">No posts found.</td> 
+    <td colspan="8"><?php _e('No posts found.') ?></td> 
   </tr> 
 <?php
 } // end if ($posts)
@@ -90,7 +92,7 @@ if (($withcomments) or ($single)) {
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 	if ($comments) {
 	?> 
-<h3>Comments</h3> 
+<h3><?php _e('Comments') ?></h3> 
 <ol id="comments"> 
 <?php
 foreach ($comments as $comment) {
@@ -103,13 +105,13 @@ $comment_status = wp_get_comment_status($comment->comment_ID);
   <?php comment_time('g:m:s a') ?> 
   <?php 
 			if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-				echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
-				echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a> ";
+				echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" .  __('Edit') . "</a>";
+				echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), $comment->comment_author) . "')\">" . __('Delete') . "</a> ";
 				if ( ('none' != $comment_status) && ($user_level >= 3) ) {
 					if ('approved' == wp_get_comment_status($comment->comment_ID)) {
-						echo " - <a href=\"post.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Unapprove</a> ";
+						echo " - <a href=\"post.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">" . __('Unapprove') . "</a> ";
 					} else {
-						echo " - <a href=\"post.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Approve</a> ";
+						echo " - <a href=\"post.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">" . __('Approve') . "</a> ";
 					}
 				}
 				echo "]";
@@ -134,7 +136,7 @@ $comment_status = wp_get_comment_status($comment->comment_ID);
 	echo '</ol>';
 	}//end if comments
 	?>
-	<p><a href="edit.php">Back to posts</a></p>
+    <p><a href="edit.php"><?php _e('Back to posts') ?></a></p>
 <?php } ?> 
 </div> 
 <?php 
