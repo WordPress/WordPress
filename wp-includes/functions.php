@@ -1296,10 +1296,6 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     return $rewrite;
 }
 
-function remove_slashes($string) {
-	return stripslashes(stripslashes($string));
-}
-
 function get_posts($args) {
 	global $wpdb, $tableposts;
 	parse_str($args, $r);

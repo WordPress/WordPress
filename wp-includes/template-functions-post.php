@@ -10,7 +10,6 @@ add_filter('the_content', 'convert_smilies');
 add_filter('the_content', 'convert_chars');
 add_filter('the_content', 'wpautop');
 
-add_filter('the_excerpt', 'remove_slashes', 5);
 add_filter('the_excerpt', 'convert_smilies');
 add_filter('the_excerpt', 'convert_chars');
 add_filter('the_excerpt', 'wpautop');
