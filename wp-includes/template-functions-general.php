@@ -75,7 +75,7 @@ function get_bloginfo($show='') {
             $output = get_feed_link('comments_rss2');
             break;
         case 'pingback_url':
-            $output = get_settings('siteurl') .'/xmlrpc.php';
+            $output = get_settings('siteurl') .'/wp-admin/xmlrpc.php';
             break;
 		case 'stylesheet_url':
 			$output = get_settings('stylesheet');;

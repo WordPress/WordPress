@@ -108,14 +108,14 @@ if (1 == $tb) {
 if (is_404()) {
 	header("HTTP/1.x 404 Not Found");
 } else if ( !isset($doing_rss) || !$doing_rss ) {
-	@header ('X-Pingback: '. get_settings('siteurl') . '/xmlrpc.php');
+	@header ('X-Pingback: '. get_settings('siteurl') . '/wp-admin/xmlrpc.php');
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
 	$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT'), 0).' GMT';
 	$wp_etag = '"' . md5($wp_last_modified) . '"';
 	@header('Last-Modified: '.$wp_last_modified);
 	@header('ETag: '.$wp_etag);
-	@header ('X-Pingback: ' . get_settings('siteurl') . '/xmlrpc.php');
+	@header ('X-Pingback: ' . get_settings('siteurl') . '/wp-admin/xmlrpc.php');
 
 	// Support for Conditional GET
 	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) $client_last_modified = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
