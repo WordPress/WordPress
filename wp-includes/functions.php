@@ -185,8 +185,8 @@ function get_userdata($userid) {
 	global $wpdb, $cache_userdata;
 	$userid = (int) $userid;
 	if ( empty($cache_userdata[$userid]) && $userid != 0) {
-        $cache_userdata[$userid] = 
-            $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$userid'");
+		$cache_userdata[$userid] = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = $userid");
+		$cache_userdata[$cache_userdata[$userid]->user_login] =& $cache_userdata[$userid];
 	} 
 
     return $cache_userdata[$userid];
@@ -196,26 +196,15 @@ function get_userdata($userid) {
 if ( !function_exists('get_userdatabylogin') ) {
 function get_userdatabylogin($user_login) {
 	global $cache_userdata, $wpdb;
-	if ( !empty($user_login) && empty($cache_userdata["$user_login"]) ) {
-		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'");
-		$cache_userdata["$user_login"] = $user;
+	if ( !empty($user_login) && empty($cache_userdata[$user_login]) ) {
+		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'"); /* todo: get rid of this intermediate var */
+		$cache_userdata[$user->ID] = $user;
+		$cache_userdata[$user_login] =& $cache_userdata[$user->ID];
 	} else {
-		$user = $cache_userdata["$user_login"];
+		$user = $cache_userdata[$user_login];
 	}
 	return $user;
 }
-}
-
-function get_userid($user_login) {
-	global $cache_userdata, $wpdb;
-	if ( !empty($user_login) && empty($cache_userdata["$user_login"]) ) {
-		$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$user_login'");
-
-		$cache_userdata["$user_login"] = $user_id;
-	} else {
-		$user_id = $cache_userdata["$user_login"];
-	}
-	return $user_id;
 }
 
 function get_usernumposts($userid) {
@@ -1075,6 +1064,7 @@ function update_user_cache() {
     if ( $users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level > 0") ) :
 		foreach ($users as $user) :
 			$cache_userdata[$user->ID] = $user;
+			$cache_userdata[$user->user_login] =& $cache_userdata[$user->ID];
 		endforeach;
 		return true;
 	else: 
