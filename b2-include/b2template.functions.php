@@ -891,17 +891,16 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	}
 	foreach ($categories as $category) {
 		$cat_name = apply_filters('list_cats', $category->cat_name);
-        $link = "<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
-        $link .= stripslashes($cat_name)."</a>";
+        $link = '<a href="'.$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
+        $link .= stripslashes($cat_name).'</a>';
         if (intval($optioncount) == 1) {
-            $link .= "&nbsp;&nbsp;(".$category->cat_count.")";
+            $link .= '&nbsp;&nbsp;('.$category->cat_count.')';
         }
         if (intval($optiondates) == 1) {
-            $link .= "&nbsp;&nbsp;".$category->lastday."/".$category->lastmonth."";
+            $link .= '&nbsp;&nbsp;'.$category->lastday.'/'.$category->lastmonth;
         }
-        $link .= "</a>";
 		if ($list) {
-			echo "\n\t<li>$link</li>";
+			echo "\t<li>$link</li>\n";
 		} else {
 			echo "\t$link<br />\n";
 		}
