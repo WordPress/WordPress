@@ -297,6 +297,7 @@ class WP_Query {
 			}
 			if (!$q['sentence']) {
 				$s_array = explode(' ',$q['s']);
+				$q['search_terms'] = $s_array;
 				$search .= '((post_title LIKE \''.$n.$s_array[0].$n.'\') OR (post_content LIKE \''.$n.$s_array[0].$n.'\'))';
 				for ( $i = 1; $i < count($s_array); $i = $i + 1) {
 					$search .= ' AND ((post_title LIKE \''.$n.$s_array[$i].$n.'\') OR (post_content LIKE \''.$n.$s_array[$i].$n.'\'))';

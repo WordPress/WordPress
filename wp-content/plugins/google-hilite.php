@@ -10,7 +10,9 @@ Author URI: http://rboren.nu
 
 /* Highlighting code c/o Ryan Boren */
 function get_search_query_terms($engine = 'google') {
-    global $s, $s_array;
+	$search = get_query_var('s');
+	$search_terms = get_query_var('search_terms');
+
 	$referer = urldecode($_SERVER['HTTP_REFERER']);
 	$query_array = array();
 	switch ($engine) {
@@ -38,10 +40,10 @@ function get_search_query_terms($engine = 'google') {
         // Check the search form vars if the search terms
         // aren't in the referer.
         if ( ! preg_match('/^.*s=/i', $referer)) {
-            if (isset($s_array)) {
-                $query_array = $s_array;
-            } else if (isset($s)) {
-                $query_array = array($s);
+            if (!empty($search_terms)) {
+                $query_array = $search_terms;
+            } else if (isset($search)) {
+                $query_array = array($search);
             }
 
             break;
