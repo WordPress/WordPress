@@ -223,6 +223,20 @@ switch($action) {
 			$pinged = $postdata['pinged'];
 
             include('edit-form-advanced.php');
+			$p = $_GET['post'];
+			include(ABSPATH.'wp-blog-header.php');
+			start_wp();
+			?>
+	<div id='preview' class='wrap'>
+			<h2>Post Preview</h2>
+	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
+	<div class="meta">Filed under: <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
+	
+	<div class="storycontent">
+		<?php the_content(); ?>
+	</div>
+			</div>
+<?php
         } else {
 ?>
             <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1,
