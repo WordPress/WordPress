@@ -31,7 +31,7 @@ CTO, ispi
 Lincoln, NE 68510
 
 The latest version of Snoopy can be obtained from:
-http://snoopy.sourceforge.com
+http://snoopy.sourceforge.net
 
 *************************************************/
 
