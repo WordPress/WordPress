@@ -1879,4 +1879,18 @@ function permalink_single_rss($file = '') {
 
 /***** // Permalink tags *****/
 
+function allowed_tags() {
+	global $allowedtags;
+	foreach($allowedtags as $tag => $attributes) {
+		$allowed .= "<$tag";
+		if (0 < count($attributes)) {
+			foreach ($attributes as $attribute) {
+				$allowed .= " $attribute=\"\"";
+			}
+		}
+		$allowed .= "> ";
+	}
+	return htmlentities($allowed);
+}
+
 ?>

@@ -18,10 +18,10 @@ $allowedtags = array('b' => array(),
 				 'abbr' => array('title'),
 				 'em' => array(),
 				 'strike' => array(),
-                 'a' => array('href'  => array('minlen' => 6, 'maxlen' => 250),
+                 'a' => array('href',
                               'title',
-							  'rel' => array('minlen' => 3, 'maxlen' => 250)),
-				'blockquote' => array('cite' => array()),
+							  'rel'),
+				'blockquote' => array('cite'),
 				'del' => array('datetime'),
                  'br' => array());
 

@@ -44,7 +44,7 @@
 
 <h2>Leave a Comment</h2>
 <?php if ('open' == $post->comment_status) { ?>
-<p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo htmlentities(str_replace('<', ' <', $comment_allowed_tags)); ?></code></p>
+<p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
 
 <form action="<?php echo $siteurl; ?>/wp-comments-post.php" method="post" id="commentform">
 	<p>
