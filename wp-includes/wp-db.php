@@ -295,7 +295,7 @@ class wpdb {
 		$mtime = explode(' ', $mtime);
 		$time_end = $mtime[1] + $mtime[0];
 		$time_total = $time_end - $this->time_start;
-		return $timetotal;
+		return $time_total;
 	}
 
 	function bail($message) { // Just wraps errors in a nice header and footer
