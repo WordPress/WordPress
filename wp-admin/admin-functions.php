@@ -290,7 +290,7 @@ function add_meta($post_ID) {
 	$metakeyinput = trim($_POST['metakeyinput']);
 	$metavalue = trim($_POST['metavalue']);
 
-	if (isset($metavalue) && (('#NONE#' != $metakeyselect) || $metakeyinput)) {
+	if (!empty($metavalue) && ((('#NONE#' != $metakeyselect) && !empty($metakeyselect)) || !empty($metakeyinput))) {
 		// We have a key/value pair. If both the select and the 
 		// input for the key have data, the input takes precedence:
 
