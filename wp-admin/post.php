@@ -303,7 +303,7 @@ switch($action) {
 			$comment_status = $HTTP_POST_VARS['comment_status'];
 			if (empty($comment_status)) $post_status = get_settings('default_comment_status');
 			$ping_status = $HTTP_POST_VARS['ping_status'];
-			if (empty($ping_status)) $post_status = get_settings('default_ping_status');
+			if (empty($ping_status)) $ping_status = get_settings('default_ping_status');
 			$post_password = addslashes($HTTP_POST_VARS['post_password']);
 			$post_name = sanitize_title($_POST['post_name']);
 			if (empty($post_name)) $post_name = sanitize_title($post_title);
