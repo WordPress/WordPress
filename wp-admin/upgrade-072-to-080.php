@@ -234,14 +234,14 @@ if ($continue) {
 $wpdb->show_errors();
 ?>
 <p>Comment spammers should now watch out for you.</p>
-<p>See, that didn&#8217;t hurt a bit (again). Now on to the <a href="upgrade-072-to-080.php?step=3">final step</a>.</p>
+<p>See, that didn&#8217;t hurt a bit (again). Now on to the <a href="upgrade-072-to-080.php?step=3">next step</a>.</p>
   <?php
 	break;
 	case 3:
 ?>
 
 <h1>Step 3</h1>
-<p>This is the final step, and the most exciting. We&#8217;re going to make it so each post can now have multiple categories. Hold on tight.</p>
+<p>This is a most exciting step. We&#8217;re going to make it so each post can now have multiple categories. Hold on tight.</p>
 <?php
 // Create post2cat table
 if ( maybe_create_table($tablepost2cat, "
@@ -280,6 +280,21 @@ foreach ($allposts as $post) {
 // Going to leave the post table category field in for now. We can remove it in a future version.
 ?>
  All done!</p>
+ <p>You are ready to rock &#8217;n roll. <a href="upgrade-072-to-080.php?step=4">Next step</a>.</p>
+<?php
+	break;
+	case 4:
+?>
+
+<h1>Step 4</h1>
+<p>This is the final step. We&#8217;re going to update the paths for the default links images that have moved.</p>
+<p>If you do not still have the default settings it will <strong>not</strong> make any changes.</p>
+<?php
+$wpdb->query("UPDATE $tableoptions SET option_value = REPLACE(option_value, 'wp-links/links-images/', 'wp-images/links/')
+                                                      WHERE option_name LIKE 'links_rating_image%'
+                                                      AND option_value LIKE 'wp-links/links-images/%'");
+?>
+<p>All done!</p>
  <p>You are ready to rock &#8217;n roll. <a href="../wp-login.php">Go crazy</a>.</p>
 <?php
 	break;
