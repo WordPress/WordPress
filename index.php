@@ -25,6 +25,7 @@ require_once($abspath.'wp-links/links.php');
 </head>
 
 <body>
+<div id="rap">
 <h1 id="header"><a href="<?php echo $siteurl; ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <div id="content">
@@ -104,6 +105,7 @@ require_once($abspath.'wp-links/links.php');
 
 </div>
 
+</div>
 
 </body>
 </html>
