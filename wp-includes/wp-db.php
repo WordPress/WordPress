@@ -20,6 +20,7 @@
 		var $debug_called;
 		var $vardump_called;
 		var $show_errors = true;
+		var $querycount;
 
 		// ==================================================================
 		//	DB Constructor - connects to the server and selects a database
@@ -44,6 +45,7 @@
 
 
 			$this->select($dbname);
+			$this->querycount = 0;
 
 		}
 

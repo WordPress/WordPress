@@ -129,9 +129,9 @@ function wp_title($sep = '&raquo;', $display = true) {
 	}
 
 	// Send it out
-	if ($display && $title) {
+	if ($display && isset($title)) {
 		echo " $sep $title";
-	} elseif (!$display && $title) {
+	} elseif (!$display && isset($title)) {
 		return " $sep $title";
 	}
 }
@@ -304,7 +304,9 @@ function get_calendar($daylength = 1) {
             return;
     }
 
-	$w = ''.intval($HTTP_GET_VARS['w']);
+	if (isset($HTTP_GET_VARS['w'])) {
+		$w = ''.intval($HTTP_GET_VARS['w']);
+	}
 	$time_difference = get_settings('time_difference');
 
 	// Let's figure out when we are
@@ -419,6 +421,7 @@ function get_calendar($daylength = 1) {
 										);
 	if ($ak_post_titles) {
 		foreach ($ak_post_titles as $ak_post_title) {
+			$ak_titles_for_day["$ak_post_title->dom"] = '';
 			if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
 				$ak_titles_for_day["$ak_post_title->dom"] .= htmlspecialchars(stripslashes($ak_post_title->post_title));
 			} else {
@@ -434,7 +437,7 @@ function get_calendar($daylength = 1) {
 
 	$daysinmonth = intval(date('t', $unixmonth));
 	for ($day = 1; $day <= $daysinmonth; ++$day) {
-		if ($newrow)
+		if (isset($newrow) && $newrow)
 			echo "\n\t</tr>\n\t<tr>\n\t\t";
 		$newrow = false;
 

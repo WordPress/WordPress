@@ -553,7 +553,9 @@ function get_settings($setting) {
     if (!isset($settings->$setting)) {
         error_log("get_settings: Didn't find setting $setting");
     }
-	return $settings->$setting;
+    else {
+		return $settings->$setting;
+	}
 }
 
 function get_alloptions() {

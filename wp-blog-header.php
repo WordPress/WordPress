@@ -1,5 +1,7 @@
 <?php
 
+$use_cache = 1; // No reason not to
+
 /* Including config and functions files */
 $curpath = dirname(__FILE__).'/';
 
@@ -45,7 +47,6 @@ $archive_mode = get_settings('archive_mode');
 $dateformat = stripslashes(get_settings('date_format'));
 $timeformat = stripslashes(get_settings('time_format'));
 $time_difference = get_settings('time_difference');
-$use_cache = 1; // No reason not to
 $use_gzipcompression = get_settings('gzipcompression');
 
 /* First let's clear some variables */
