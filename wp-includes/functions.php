@@ -1574,9 +1574,9 @@ function wp_mail($to, $subject, $message, $headers = '', $more = '') {
 	}
 
 	if ( function_exists('mb_send_mail') )
-		return mb_send_mail($to, $subject, $message, $headers, $more);
+		return @mb_send_mail($to, $subject, $message, $headers, $more);
 	else
-		return mail($to, $subject, $message, $headers, $more);
+		return @mail($to, $subject, $message, $headers, $more);
 }
 
 if ( !function_exists('wp_login') ) :

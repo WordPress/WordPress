@@ -163,8 +163,7 @@ $wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_nickname
 
 $from = 'From: '.$_POST['weblog_title'].' <wordpress@'.$_SERVER['SERVER_NAME'].'>';
 $message_headers = "$from";
-
-mail($admin_email, 'New WordPress Blog', "Your new WordPress blog has been successfully set up at:
+$message = "Your new WordPress blog has been successfully set up at:
 
 $guessurl
 
@@ -177,7 +176,9 @@ We hope you enjoy your new weblog. Thanks!
 
 --The WordPress Team
 http://wordpress.org/
-", $message_headers);
+";
+
+@mail($admin_email, 'New WordPress Blog', $message, $message_headers);
 
 upgrade_all();
 ?>
