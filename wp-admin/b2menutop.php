@@ -1,7 +1,8 @@
-<h1 id="wphead"><a href="http://wordpress.org" rel="external"><span>WordPress</span></a></h1> 
+<h1 id="wphead"><a href="http://wordpress.org" rel="external">WordPress</a></h1>
+
 <ul id="adminmenu">
 <?php
-$menu = file("./b2menutop.txt");
+$menu = file('./b2menutop.txt');
 $continue = true;
 foreach ($menu as $item) {
 	$class = '';
