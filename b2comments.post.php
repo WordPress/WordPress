@@ -1,13 +1,8 @@
 <?php
-
-# if you want to change the paths here, remember to put your new path BEFORE $b2inc,
-#  like this: "b2/$b2inc/b2functions.php"
-
 require_once('wp-config.php');
 require_once($abspath.$b2inc.'/b2template.functions.php');
-include($abspath.$b2inc.'/b2vars.php');
-include($abspath.$b2inc.'/b2functions.php');
-
+require_once($abspath.$b2inc.'/b2vars.php');
+require_once($abspath.$b2inc.'/b2functions.php');
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
