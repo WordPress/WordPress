@@ -26,9 +26,9 @@
 //
 // Mike Little (mike@zed1.com)
 // *****************************************************************
-include_once('../wp-config.php');
-include_once('../wp-links/links.config.php');
-include_once("../wp-links/links.php");
+require_once('../wp-config.php');
+require_once('../wp-links/links.config.php');
+require_once("../wp-links/links.php");
 
 $title = 'Manage Links';
 
@@ -68,6 +68,7 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 }
 
 $links_show_cat_id = $HTTP_COOKIE_VARS["links_show_cat_id"];
+$links_show_order = $HTTP_COOKIE_VARS["links_show_order"];
 
 // error_log("start, links_show_cat_id=$links_show_cat_id");  
 
@@ -94,17 +95,14 @@ switch ($action) {
     // if we are in an auto toggle category and this one is visible then we
     // need to make the others invisible before we add this new one.
     if (($auto_toggle == 'Y') && ($link_visible == 'Y')) {
-      $sql = "UPDATE $tablelinks set link_visible = 'N' WHERE link_category = $link_category";
-      $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
+      $wpdb->query("UPDATE $tablelinks set link_visible = 'N' WHERE link_category = $link_category");
     }
 
-    $sql = "INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel) " .
+    $wpdb->query("INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel) " .
       " VALUES('" . addslashes($link_url) . "','"
            . addslashes($link_name) . "', '"
            . addslashes($link_image) . "', '$link_target', $link_category, '"
-           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) ."')";
-
-    $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
+           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) ."')");
 
     header('Location: linkmanager.php');
     break;
@@ -144,20 +142,17 @@ switch ($action) {
       // if we are in an auto toggle category and this one is visible then we
       // need to make the others invisible before we update this one.
       if (($auto_toggle == 'Y') && ($link_visible == 'Y')) {
-        $sql = "UPDATE $tablelinks set link_visible = 'N' WHERE link_category = $link_category";
-        $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
+        $wpdb->query("UPDATE $tablelinks set link_visible = 'N' WHERE link_category = $link_category");
       }
 
-      $sql = "UPDATE $tablelinks SET link_url='" . addslashes($link_url) . "',\n " .
+      $wpdb->query("UPDATE $tablelinks SET link_url='" . addslashes($link_url) . "',\n " .
              " link_name='" . addslashes($link_name) . "',\n link_image='" . addslashes($link_image) . "',\n " .
              " link_target='$link_target',\n link_category=$link_category,\n " .
              " link_visible='$link_visible',\n link_description='" . addslashes($link_description) . "',\n " .
              " link_rating=$link_rating,\n" .
              " link_rel='" . addslashes($link_rel) . "'\n" .
-             " WHERE link_id=$link_id";
+             " WHERE link_id=$link_id");
       //error_log($sql);
-      $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
-
     } // end if save
     setcookie('links_show_cat_id', $links_show_cat_id, time()+600);
     header("Location: linkmanager.php");
@@ -174,8 +169,7 @@ switch ($action) {
     if ($user_level < $minadminlevel)
       die ("Cheatin' uh ?");
 
-    $sql = "DELETE FROM $tablelinks WHERE link_id = '$link_id'";
-    $sql_result = mysql_query($sql) or die("Couldn't execute query.".mysql_error());
+    $wpdb->query("DELETE FROM $tablelinks WHERE link_id = '$link_id'");
 
     if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
         $cat_id = $links_show_cat_id;
@@ -198,12 +192,11 @@ switch ($action) {
       die("You have no right to edit the links for this blog.<br />Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a>. :)");
     }
 
-    $sql = "SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel " .
+    $row = $wpdb->get_row("SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel " .
       " FROM $tablelinks " .
-      " WHERE link_id = $link_id";
+      " WHERE link_id = $link_id");
 
-    $result = mysql_query($sql) or die("Couldn't execute query.".mysql_error());
-    if ($row = mysql_fetch_object($result)) {
+    if ($row) {
       $link_url = $row->link_url;
       $link_name = stripslashes($row->link_name);
       $link_image = $row->link_image;
@@ -286,10 +279,9 @@ switch ($action) {
       <td height="20" align="right">Category:</td>
       <td> 
         <?php
-    $query = "SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id";
-    $result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
+    $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
     echo "        <select name=\"category\" size=\"1\">\n";
-    while($row = mysql_fetch_object($result)) {
+    foreach($results as $row) {
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $link_category)
         echo " selected";
@@ -320,6 +312,11 @@ switch ($action) {
         $cat_id = 'All';
     }
     $links_show_cat_id = $cat_id;
+    if (!isset($order_by) || ($order_by == '')) {
+        if (!isset($links_show_order) || ($links_show_order == ''))
+        $order_by = 'order_name';
+    }
+    $links_show_order = $order_by;
     //break; fall through
   } // end Show
   case "popup":
@@ -338,9 +335,15 @@ switch ($action) {
         $cat_id = 'All';
     }
     $links_show_cat_id = $cat_id;
+    if (isset($links_show_order) && ($links_show_order != ''))
+        $order_by = $links_show_order;
+    
     if (!isset($order_by) || ($order_by == ''))
         $order_by = 'order_name';
+    $links_show_order = $order_by;
+
     setcookie('links_show_cat_id', $links_show_cat_id, time()+600);
+    setcookie('links_show_order', $links_show_order, time()+600);
     $standalone=0;
     include_once ("./b2header.php");
     if ($user_level < $minadminlevel) {
@@ -376,14 +379,13 @@ switch ($action) {
       <tr>
         <td>
 <?php
-    $query = "SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id";
-    $result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
+    $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
     echo "        <select name=\"cat_id\">\n";
     echo "          <option value=\"All\"";
     if ($cat_id == 'All')
       echo " selected";
     echo "> All</option>\n";
-    while($row = mysql_fetch_object($result)) {
+    foreach ($results as $row) {
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $cat_id)
         echo " selected";
@@ -433,11 +435,18 @@ switch ($action) {
       <th>&nbsp;</th>
   </tr>
 <?php
-    $sql = "SELECT link_url, link_name, link_image, link_description, link_visible, link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id, link_rating, link_rel FROM $tablelinks LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id LEFT JOIN $tableusers on $tableusers.ID = $tablelinks.link_owner ";
+    $sql = "SELECT link_url, link_name, link_image, link_description, link_visible,
+    link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id,
+    link_rating, link_rel
+    FROM $tablelinks
+    LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id
+    LEFT JOIN $tableusers on $tableusers.ID = $tablelinks.link_owner ";
+    
     // have we got a where clause?
     if (($use_adminlevels) || (isset($cat_id) && ($cat_id != 'All')) ) {
         $sql .= " WHERE ";
     }
+    // FIX ME This make higher level links invisible rather than just uneditable
     if ($use_adminlevels) {
         $sql .= " ($tableusers.user_level <= $user_level"
                 . "   OR $tableusers.ID = $user_ID)";
@@ -549,10 +558,9 @@ LINKS;
         <td height="20" align="right">Category:</td>
         <td>
 <?php
-    $query = "SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id";
-    $result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
+    $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
     echo "        <select name=\"category\" size=\"1\">\n";
-    while($row = mysql_fetch_object($result)) {
+    foreach ($results as $row) {
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $cat_id)
         echo " selected";

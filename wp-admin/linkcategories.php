@@ -63,8 +63,7 @@ switch ($action) {
           $auto_toggle = 'N';
       }
 
-      $query="INSERT INTO $tablelinkcategories (cat_id,cat_name, auto_toggle) VALUES ('0', '$cat_name', '$auto_toggle')";
-      $result=mysql_query($query) or die("Couldn't add category <b>$cat_name</b>".mysql_error());
+      $wpdb->query("INSERT INTO $tablelinkcategories (cat_id,cat_name, auto_toggle) VALUES ('0', '$cat_name', '$auto_toggle')");
       
       header("Location: linkcategories.php");
     break;
@@ -84,11 +83,8 @@ switch ($action) {
     if ($user_level < $minadminlevel)
     die ("Cheatin' uh ?");
     
-    $query="DELETE FROM $tablelinkcategories WHERE cat_id=\"$cat_id\"";
-    $result=mysql_query($query) or die("Couldn't delete link category <b>$cat_name</b>".mysql_error());
-    
-    $query="UPDATE $tablelinks SET link_category=1 WHERE link_category='$cat_id'";
-    $result=mysql_query($query) or die("Couldn't reset category on links where category was <b>$cat_name</b>");
+    $wpdb->query("DELETE FROM $tablelinkcategories WHERE cat_id='$cat_id'");
+    $wpdb->query("UPDATE $tablelinks SET link_category=1 WHERE link_category='$cat_id'");
 
     header("Location: linkcategories.php");
     break;
@@ -129,9 +125,8 @@ switch ($action) {
     $cat_id=$HTTP_POST_VARS["cat_id"];
     $auto_toggle=$HTTP_POST_VARS["auto_toggle"];
 
-    $query="UPDATE $tablelinkcategories SET cat_name='$cat_name', auto_toggle='$auto_toggle' WHERE cat_id=$cat_id";
-    $result=mysql_query($query) or die("Couldn't edit link category <b>$cat_name</b>: ".$query.mysql_error());
-    
+    $wpdb->query("UPDATE $tablelinkcategories SET cat_name='$cat_name', auto_toggle='$auto_toggle' WHERE cat_id=$cat_id");
+
     header("Location: linkcategories.php");
     break;
   } // end edit
@@ -151,10 +146,9 @@ switch ($action) {
           <form name="cats" method="post">
             <b>Edit</b> a link category:<br />
 <?php
-$query = "SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id";
-$result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
+$results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
     echo "        <select name=\"cat_id\">\n";
-    while($row = mysql_fetch_object($result)) {
+    foreach ($results as $row) {
         echo "          <option value=\"".$row->cat_id."\"";
         if ($row->cat_id == $cat_id)
             echo ' selected';
