@@ -12,7 +12,7 @@ include('admin-header.php');
 <h2><?php _e('Miscellaneous Options') ?></h2> 
 <form name="miscoptions" method="post" action="options.php"> 
 	<input type="hidden" name="action" value="update" />
-	<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel','use_geo_positions','use_linksupdate','weblogs_xml_url','links_updated_date_format','links_recently_updated_prepend','links_recently_updated_append'" /> 
+	<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel','use_geo_positions','use_linksupdate'" /> 
 	<fieldset class="options">
 	<legend>
 	<input name="use_fileupload" type="checkbox" id="use_fileupload" value="1" <?php checked('1', get_settings('use_fileupload')); ?> />
