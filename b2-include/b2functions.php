@@ -266,7 +266,7 @@ function convert_gmcode($content) {
 	return $content;
 }
 
-function convert_smilies($content) {
+function convert_smilies($text) {
 	global $smilies_directory, $use_smilies;
 	global $b2_smiliessearch, $b2_smiliesreplace;
 	if ($use_smilies) {
