@@ -872,12 +872,10 @@ function merge_filters($tag) {
 				$wp_filter[$tag][$priority] = array_merge($wp_filter['all'][$priority], array());
 			$wp_filter[$tag][$priority] = array_unique($wp_filter[$tag][$priority]);
 		}
-
 	}
-}
 
-	if (isset($wp_filter[$tag]))
-		ksort($wp_filter[$tag]);
+	if ( isset($wp_filter[$tag]) )
+		ksort( $wp_filter[$tag] );
 }
 
 function apply_filters($tag, $string) {
