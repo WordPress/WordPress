@@ -54,14 +54,6 @@ case 'post':
 		$excerpt = format_to_post($excerpt);
 		$post_title = $_POST['post_title'];
 		$post_categories = $_POST['post_category'];
-		if(get_settings('use_geo_positions')) {
-			$latstr = $_POST['post_latf'];
-			$lonstr = $_POST['post_lonf'];
-			if((strlen($latstr) > 2) && (strlen($lonstr) > 2 ) ) {
-				$post_latf = floatval($_POST['post_latf']);
-				$post_lonf = floatval($_POST['post_lonf']);
-			}
-		}
 		$post_status = $_POST['post_status'];
 		$post_name = $_POST['post_name'];
 
@@ -112,19 +104,11 @@ case 'post':
 	if ('' != $_POST['advanced']) $post_status = 'draft';
 	if ('' != $_POST['savepage']) $post_status = 'static';
 
-	if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
-	$postquery ="INSERT INTO $wpdb->posts
-			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt)
-			VALUES
-			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', $post_latf, $post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt')
-			";
-	} else {
 	$postquery ="INSERT INTO $wpdb->posts
 			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt)
 			VALUES
 			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt')
 			";
-	}
 
 	$result = $wpdb->query($postquery);
 
@@ -178,9 +162,6 @@ case 'post':
 	}
 
 	if ($post_status == 'publish') {
-		if((get_settings('use_geo_positions')) && ($post_latf != null) && ($post_lonf != null)) {
-			pingGeoUrl($post_ID);
-		}
 
 		if ($post_pingback) {
 			pingback($content, $post_ID);
@@ -228,8 +209,6 @@ case 'edit':
 
 		$content = $postdata->post_content;
 		$content = format_to_edit($content);
-		$edited_lat = $postdata->post_lat;
-		$edited_lon = $postdata->post_lon;
 		$excerpt = $postdata->post_excerpt;
 		$excerpt = format_to_edit($excerpt);
 		$edited_post_title = format_to_edit($postdata->post_title);
@@ -291,19 +270,6 @@ case 'editpost':
 		$excerpt = balanceTags($_POST['excerpt']);
 		$excerpt = format_to_post($excerpt);
 		$post_title = $_POST['post_title'];
-		if(get_settings('use_geo_positions')) {
-			$latf = floatval($_POST["post_latf"]);
-				$lonf = floatval($_POST["post_lonf"]);
-				$latlonaddition = "";
-				if( ($latf != null) && ($latf <= 90 ) && ($latf >= -90) && ($lonf != null) && ($lonf <= 360) && ($lonf >= -360) ) {
-						pingGeoUrl($post_ID);
-				$latlonaddition = " post_lat=".$latf.", post_lon =".$lonf.", ";
-				} else {
-				$latlonaddition = " post_lat=null, post_lon=null, ";
-			}
-		} else {
-			$latlonaddition = '';
-		}
 		$prev_status = $_POST['prev_status'];
 		$post_status = $_POST['post_status'];
 		$comment_status = $_POST['comment_status'];
@@ -369,9 +335,7 @@ $now_gmt = current_time('mysql', 1);
 			post_excerpt = '$excerpt',
 			post_title = '$post_title'"
 			.$datemodif_gmt
-			.$datemodif.","
-			.$latlonaddition."
-			
+			.$datemodif.",			
 			post_status = '$post_status',
 			comment_status = '$comment_status',
 			ping_status = '$ping_status',
@@ -467,15 +431,6 @@ case 'delete':
 
 	if ($user_level < $authordata->user_level)
 		die (sprintf(__('You don&#8217;t have the right to delete <strong>%s</strong>&#8217;s posts.'), $authordata[1]));
-
-	// send geoURL ping to "erase" from their DB
-	$query = "SELECT post_lat from $wpdb->posts WHERE ID=$post_id";
-	$rows = $wpdb->query($query); 
-	$myrow = $rows[0];
-	$latf = $myrow->post_lat;
-	if($latf != null ) {
-		pingGeoUrl($post);
-	}
 
 	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE ID=$post_id");
 	if (!$result)

@@ -400,8 +400,6 @@ function get_postdata($postid) {
 		'Excerpt' => $post->post_excerpt, 
 		'Title' => $post->post_title, 
 		'Category' => $post->post_category,
-		'Lat' => $post->post_lat,
-		'Lon' => $post->post_lon,
 		'post_status' => $post->post_status,
 		'comment_status' => $post->comment_status,
 		'ping_status' => $post->ping_status,
@@ -823,55 +821,6 @@ include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 
 	debug_fwrite($log, "\nEND: ".time()."\n****************************\n\r");
 	debug_fclose($log);
-}
-
-function doGeoUrlHeader($post_list = '') {
-    global $posts;
-
-  if (get_settings('use_geo_positions')) {
-		if ($posts && 1 === count($posts) && ! empty($posts[0]->post_lat)) {
-			// there's only one result  see if it has a geo code
-			$row = $posts[0];
-			$lat = $row->post_lat;
-			$lon = $row->post_lon;
-			$title = $row->post_title;
-			if(($lon != null) && ($lat != null) ) {
-				echo "<meta name=\"ICBM\" content=\"".$lat.", ".$lon."\" />\n";
-				echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(htmlspecialchars(get_bloginfo("name"))))." - ".$title."\" />\n";
-				echo "<meta name=\"geo.position\" content=\"".$lat.";".$lon."\" />\n";
-				return;
-			}
-		} else {
-			if(get_settings('use_default_geourl')) {
-				// send the default here 
-				echo "<meta name='ICBM' content=\"". get_settings('default_geourl_lat') .", ". get_settings('default_geourl_lon') ."\" />\n";
-				echo "<meta name='DC.title' content=\"".convert_chars(strip_tags(htmlspecialchars(get_bloginfo("name"))))."\" />\n";
-				echo "<meta name='geo.position' content=\"". get_settings('default_geourl_lat') .";". get_settings('default_geourl_lon') ."\" />\n";
-			}
-		}
-	}
-}
-
-function getRemoteFile($host,$path) {
-    $fp = fsockopen($host, 80, $errno, $errstr, 5);
-    if ($fp) {
-        fputs($fp,"GET $path HTTP/1.0\r\nHost: $host\r\n\r\n");
-        while ($line = fgets($fp, 4096)) {
-            $lines[] = $line;
-        }
-        fclose($fp);
-        return $lines;
-    } else {
-        return false;
-    }
-}
-
-function pingGeoURL($blog_ID) {
-
-    $ourUrl = get_settings('home') ."/index.php?p=".$blog_ID;
-    $host="geourl.org";
-    $path="/ping/?p=".$ourUrl;
-    getRemoteFile($host,$path); 
 }
 
 /* wp_set_comment_status:

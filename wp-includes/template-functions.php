@@ -7,9 +7,6 @@ require($curpath . 'template-functions-general.php');
 /***** Links *****/
 require($curpath . 'template-functions-links.php');
 
-/**** // Geo Tags ****/
-require($curpath . 'template-functions-geo.php');
-
 /***** Author tags *****/
 require($curpath . 'template-functions-author.php');
 

@@ -105,8 +105,6 @@ CREATE TABLE $wpdb->posts (
   post_title text NOT NULL,
   post_category int(4) NOT NULL default '0',
   post_excerpt text NOT NULL,
-  post_lat float default NULL,
-  post_lon float default NULL,
   post_status enum('publish','draft','private','static') NOT NULL default 'publish',
   comment_status enum('open','closed','registered_only') NOT NULL default 'open',
   ping_status enum('open','closed') NOT NULL default 'open',
@@ -189,10 +187,6 @@ function populate_options() {
 	add_option('what_to_show', 'posts');
 	add_option('date_format', 'F j, Y');
 	add_option('time_format', 'g:i a');
-	add_option('use_geo_positions', 0);
-	add_option('use_default_geourl', 0);
-	add_option('default_geourl_lat', 0);
-	add_option('default_geourl_lon', 0);
 	add_option('weblogs_xml_url', 'http://static.wordpress.org/changes.xml');
 	add_option('links_updated_date_format', 'F j, Y g:i a');
 	add_option('links_recently_updated_prepend', '<em>');
@@ -219,7 +213,7 @@ function populate_options() {
 	add_option('stylesheet', 'default');
 
 	// Delete unused options
-	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'rss_language', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls');
+	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'rss_language', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat', 'default_geourl_lon', 'use_default_geourl');
 	foreach ($unusedoptions as $option) :
 		delete_option($option);
 	endforeach;

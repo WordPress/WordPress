@@ -114,31 +114,10 @@ window.onload = focusit;
 edCanvas = document.getElementById('content');
 //-->
 </script>
-<?php
-if ($action != 'editcomment') {
-    if (get_settings('use_geo_positions')) {
-        if (empty($edited_lat)) {
-            if (get_settings('use_default_geourl')) {
-                $edited_lat = get_settings('default_geourl_lat');
-                $edited_lon = get_settings('default_geourl_lon');
-            }
-        }
-?>
-<br />
-<fieldset id="post_lat_lon">
-<label for="post_latf"><?php _e('Latitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf" id="post_latf" />&nbsp;
-<label for="post_lonf"><?php _e('Longitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf" id="post_lonf" />&nbsp; <a href="http://www.geourl.org/resources.html" rel="external"><?php _e('click for Geo Info') ?></a>
-</fieldset>
-<br />
-<?php
-    }
-}
-?>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 <?php echo $form_trackback; ?>
-
 
 
 <p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="6" /> 

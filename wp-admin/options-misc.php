@@ -47,7 +47,7 @@ include('options-head.php');
 <h2><?php _e('Miscellaneous Options') ?></h2> 
 <form name="miscoptions" method="post" action="options.php"> 
 	<input type="hidden" name="action" value="update" />
-	<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel','use_geo_positions','use_linksupdate','weblogs_xml_url','links_updated_date_format','links_recently_updated_prepend','links_recently_updated_append','default_geourl_lat','default_geourl_lon','use_default_geourl'" /> 
+	<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel','use_geo_positions','use_linksupdate','weblogs_xml_url','links_updated_date_format','links_recently_updated_prepend','links_recently_updated_append'" /> 
 	<fieldset class="options">
 	<legend>
 	<input name="use_fileupload" type="checkbox" id="use_fileupload" value="1" <?php checked('1', get_settings('use_fileupload')); ?> />
@@ -123,31 +123,7 @@ include('options-head.php');
 	</table>
 	<p><?php printf(__('A link is "recent" if it has been updated in the past %s minutes.'), '<input name="links_recently_updated_time" type="text" id="links_recently_updated_time" size="3" value="' . get_settings('links_recently_updated_time'). '" />' ) ?></p>
 	</fieldset>
-	<fieldset class="options">
-	<legend>
-	<input name="use_geo_positions" type="checkbox" id="use_geo_positions" value="1" <?php checked('1', get_settings('use_geo_positions')); ?> />
-	<label for="use_geo_positions"><?php _e('Use Geographic Tracking Features') ?></label></legend>
-	<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
-	<tr> 
-	<th width="33%" valign="top" scope="row"><?php _e('Default latitude:') ?> </th> 
-	<td>
-	<input name="default_geourl_lat" type="text" id="default_geourl_lat" value="<?php form_option('default_geourl_lat'); ?>" size="50" />
-	</td> 
-	</tr> 
-	<tr>
-	<th valign="top" scope="row"><?php _e('Default longitude:') ?> </th>
-	<td>          
-	<input name="default_geourl_lon" type="text" id="default_geourl_lon" value="<?php form_option('default_geourl_lon'); ?>" size="50" />
-	</td>
-	</tr>
-	<tr>
-	<th scope="row">  </th>
-	<td><label>
-	<input type="checkbox" name="use_default_geourl" value="1" <?php checked('1', get_settings('use_default_geourl')); ?> /> 
-	<?php _e('Use default location values if none specified.') ?></label></td>
-	</tr>
-	</table> 
-	</fieldset>
+
 	<p>
 	<label><input type="checkbox" name="hack_file" value="1" <?php checked('1', get_settings('hack_file')); ?> /> <?php _e('Use legacy <code>my-hacks.php</code> file support') ?></label>
 	</p>

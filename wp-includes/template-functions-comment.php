@@ -62,7 +62,7 @@ function comments_number($zero='No Comments', $one='1 Comment', $more='% Comment
     } elseif ($number  > 1) {
         $blah = str_replace('%', $number, $more);
     }
-    echo $blah;
+    echo apply_filters('comments_number', $blah);
 }
 
 function comments_link($file='', $echo=true) {
