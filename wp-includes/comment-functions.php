@@ -2,7 +2,7 @@
 
 // Template functions
 
-function comments_template( $show ) {
+function comments_template() {
 	global $wp_query, $withcomments, $post, $wpdb, $id, $comment;
 
 	if ( is_single() || is_page() || $withcomments ) :
@@ -69,9 +69,9 @@ function comments_popup_script($width=400, $height=400, $file='') {
 
 		if (empty ($file)) {
 			if ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
-				require( TEMPLATEPATH . '/comments-popup.php');
+				$wpcommentspopupfile = str_replace(ABSPATH, '', TEMPLATEPATH . '/comments-popup.php');
 			else
-				require( ABSPATH . 'wp-includes/wp-comments-popup.php');
+				$wpcommentspopupfile = 'wp-includes/wp-comments-popup.php';
 		} else {
 			$wpcommentspopupfile = $file;
 		}
