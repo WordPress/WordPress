@@ -502,29 +502,31 @@ function weblog_ping($server = '', $path = '') {
 			new xmlrpcval(get_settings('home') ,'string')));
 	$c = new xmlrpc_client($path, $server, 80);
 	$r = $c->send($f);
-	
-	if ($debug) {
-		echo "<h3>Response Object Dump:</h3>
-			<pre>\n";
-		print_r($r);
-		echo "</pre>\n";
-	}
 
-	$v = @phpxmlrpc_decode($r->value());
-	if (!$r->faultCode()) {
-		$result['message'] =  "<p class=\"rpcmsg\">";
-		$result['message'] = $result['message'] .  $v["message"] . "<br />\n";
-		$result['message'] = $result['message'] . "</p>";
-	} else {
-		$result['err'] = $r->faultCode();
-		$result['message'] =  "<!--\n";
-		$result['message'] = $result['message'] . "Fault: ";
-		$result['message'] = $result['message'] . "Code: " . $r->faultCode();
-		$result['message'] = $result['message'] . " Reason '" .$r->faultString()."'<BR>";
-		$result['message'] = $result['message'] . "-->\n";
-	}
+	if ('0' != $r) {	
+		if ($debug) {
+			echo "<h3>Response Object Dump:</h3>
+				<pre>\n";
+			print_r($r);
+			echo "</pre>\n";
+		}
 
-	if ($debug) print '<blockquote>' . $result['message'] . '</blockquote>';
+		$v = @phpxmlrpc_decode($r->value());
+		if (!$r->faultCode()) {
+			$result['message'] =  "<p class=\"rpcmsg\">";
+			$result['message'] = $result['message'] .  $v["message"] . "<br />\n";
+			$result['message'] = $result['message'] . "</p>";
+		} else {
+			$result['err'] = $r->faultCode();
+			$result['message'] =  "<!--\n";
+			$result['message'] = $result['message'] . "Fault: ";
+			$result['message'] = $result['message'] . "Code: " . $r->faultCode();
+			$result['message'] = $result['message'] . " Reason '" .$r->faultString()."'<BR>";
+			$result['message'] = $result['message'] . "-->\n";
+		}
+
+		if ($debug) print '<blockquote>' . $result['message'] . '</blockquote>';
+	}
 }
 
 function generic_ping($post_id = 0) {
