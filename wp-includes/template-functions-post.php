@@ -108,7 +108,7 @@ function the_content_unicode($more_link_text='(more...)', $stripteaser=0, $more_
 }
 
 function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file='') {
-    global $id, $post, $more, $c, $withcomments, $page, $pages, $multipage, $numpages;
+    global $id, $post, $more, $single, $withcomments, $page, $pages, $multipage, $numpages;
     global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $preview, $cookiehash;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $pagenow;

@@ -282,7 +282,7 @@ foreach ($posts as $post) { start_wp();
 				<?php
 
 				// comments
-				if (($withcomments) or ($c)) {
+				if (($withcomments) or ($single)) {
 
 					$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 					if ($comments) {

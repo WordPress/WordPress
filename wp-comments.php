@@ -1,7 +1,7 @@
 <?php // Do not delete these lines
 	if ('wp-comments.php' == basename($HTTP_SERVER_VARS['SCRIPT_FILENAME']))
 		die ('Please do not load this page directly. Thanks!');
-	if (($withcomments) or ($c)) {
+	if (($withcomments) or ($single)) {
 
         if (!empty($post->post_password)) { // if there's a password
             if ($HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie

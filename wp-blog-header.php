@@ -10,7 +10,7 @@ if (!file_exists($curpath . '/wp-config.php'))
 
 require($curpath.'/wp-config.php');
 
-$wpvarstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name');
+$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name');
 
     for ($i=0; $i<count($wpvarstoreset); $i += 1) {
         $wpvar = $wpvarstoreset[$i];
@@ -369,7 +369,6 @@ if ($posts) {
     if (1 == count($posts)) {
         if ($p || $name) {
             $more = 1;
-            $c = 1;
             $single = 1;
         }
         if ($s && empty($paged)) { // If they were doing a search and got one result
