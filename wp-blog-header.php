@@ -151,6 +151,9 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
     $cat = ''.urldecode($cat).'';
     $cat = addslashes_gpc($cat);
     if (stristr($cat,'-')) {
+        // Note: if we have a negative, we ignore all the positives. It must
+        // always mean 'everything /except/ this one'. We should be able to do
+        // multiple negatives but we don't :-(
         $eq = '!=';
         $andor = 'AND';
         $cat = explode('-',$cat);
@@ -168,6 +171,9 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
         $whichcat .= get_category_children($cat_array[$i], ' '.$andor.' category_id '.$eq.' ');
     }
     $whichcat .= ')';
+    if ($eq == '!=') {
+        $cat = '-'.$cat; //put back the knowledge that we are excluding a category.
+    }
 }
 
 // Category stuff for nice URIs
@@ -374,6 +380,6 @@ if ($posts) {
         if ($s && empty($paged)) { // If they were doing a search and got one result
             header('Location: ' . get_permalink($posts[0]->ID));
         }
-}
-}
+    }
+} // end if posts.
 ?>

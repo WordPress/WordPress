@@ -65,7 +65,9 @@ function wp_title($sep = '&raquo;', $display = true) {
 
     // If there's a category
     if(!empty($cat)) {
-        $title = stripslashes(get_the_category_by_ID($cat));
+        if (!stristr($cat,'-')) { // category excluded
+            $title = stripslashes(get_the_category_by_ID($cat));
+        }
     }
     if (!empty($category_name)) {
         $title = stripslashes($wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE category_nicename = '$category_name'"));
