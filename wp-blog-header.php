@@ -158,7 +158,7 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
 	$cat_array = explode(' ',$cat);
     $whichcat .= ' AND (category_id '.$eq.' '.intval($cat_array[0]);
     for ($i = 1; $i < (count($cat_array)); $i = $i + 1) {
-        $whichcat .= ' '.$andor.' post_category '.$eq.' '.intval($cat_array[$i]);
+        $whichcat .= ' '.$andor.' category_id '.$eq.' '.intval($cat_array[$i]);
     }
     $whichcat .= ')';
 }
