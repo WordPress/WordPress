@@ -9,10 +9,10 @@
 	<meta name="generator" content="WordPress .7" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
-		@import url( <?php echo $siteurl; ?>/layout2b.css );
+		@import url( <?php echo $pathserver; ?>/layout2b.css );
 	</style>
 	
-	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $pathserver; ?>/print.css" />
 	<link rel="alternate" type="text/xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
