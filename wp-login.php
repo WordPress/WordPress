@@ -183,7 +183,7 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 <input type="hidden" name="action" value="retrievepassword" />
 <label><?php _e('Login:') ?> <input type="text" name="user_login" id="user_login" value="" size="12" /></label><br />
 <label><?php _e('E-mail:') ?> <input type="text" name="email" id="email" value="" size="12" /></label><br />
-<input type="submit" name="Submit2" value="OK" class="search">
+<input type="submit" name="Submit2" value="OK" class="search" />
 
 </form>
 </div>
@@ -264,7 +264,7 @@ default:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php printf(__('WordPress > %s > Login form'), get_settings('blogname')) ?></title>
+	<title><?php printf(__('WordPress > %s > Login form'), htmlspecialchars(get_settings('blogname'))) ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
