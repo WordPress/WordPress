@@ -105,21 +105,6 @@ function convert_chars($content, $flag='obsolete attribute left there for backwa
 	return $content;
 }
 
-/**
- ** sanitise HTML attributes, remove frame/applet/*script/mouseovers,etc. tags
- ** so that this kind of thing cannot be done:
- ** This is how we can do <b onmouseover="alert('badbadbad')">bad stuff</b>!
- **/
-function sanitise_html_attributes($text) {
-    $text = preg_replace('#(([\s"\'])on[a-z]{1,}|style|class|id)="(.*?)"#i', '$1', $text);
-    $text = preg_replace('#(([\s"\'])on[a-z]{1,}|style|class|id)=\'(.*?)\'#i', '$1', $text);
-    $text = preg_replace('#(([\s"\'])on[a-z]{1,}|style|class|id)[ \t]*=[ \t]*([^ \t\>]*?)#i', '$1', $text);
-    $text = preg_replace('#([a-z]{1,})="(( |\t)*?)(javascript|vbscript|about):(.*?)"#i', '$1=""', $text);
-    $text = preg_replace('#([a-z]{1,})=\'(( |\t)*?)(javascript|vbscript|about):(.*?)\'#i', '$1=""', $text);
-    $text = preg_replace('#\<(\/{0,1})([a-z]{0,2})(frame|applet)(.*?)\>#i', '', $text);
-    return $text;
-}
-
 /*
  balanceTags
  
@@ -140,10 +125,6 @@ function sanitise_html_attributes($text) {
 */
 function balanceTags($text, $is_comment = 0) {
 	global $use_balanceTags;
-
-	if ($is_comment) {
-        $text = sanitise_html_attributes($text);
-	}
 	
 	if ($use_balanceTags == 0) {
 		return $text;
