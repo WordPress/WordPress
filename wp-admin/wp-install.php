@@ -1,5 +1,6 @@
 <?php
 $_wp_installing = 1;
+if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
 require_once('../wp-config.php');
 
 
@@ -8,7 +9,7 @@ if (!$step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<title>WordPress > Installation</title>
+	<title>WordPress &#8212; Installation</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style media="screen" type="text/css">
     <!--
@@ -32,7 +33,7 @@ if (!$step) $step = 0;
 	#logo a span {
 		display: none;
 	}
-	p {
+	p, li {
 		line-height: 140%;
 	}
     -->
@@ -41,6 +42,12 @@ if (!$step) $step = 0;
 <body>
 <h1 id="logo"><a href="http://wordpress.org"><span>WordPress</span></a></h1>
 <?php
+// Let's check to make sure WP isn't already installed.
+
+$wpdb->hide_errors();
+$installed = $wpdb->get_results("SELECT * FROM $tableusers");
+if ($installed) die('<p>You appear to already have WordPress installed. If you would like to reinstall please clear your old database files first.</p></body></html>');
+$wpdb->show_errors();
 switch($step) {
 
 	case 0:
@@ -650,7 +657,8 @@ foreach ($geo_option_data as $query) {
 <p>OK. We're nearly done now. We just need to ask you a couple of things:</p>
 <form action="wp-install.php?step=3" method="post">
 <input type="hidden" name="step" value="3" />
-What is the url for your blog? <input type="text" name="url" length="50" />, now on to <input type="submit" value="Step 3" >
+<p>What is the url for your blog? <input name="url" type="text" size="60" />
+, now on to <input type="submit" value="Step 3" ></p>
 </form>
 
 <?php
