@@ -8,15 +8,13 @@
 		$comment_author_url = (empty($HTTP_COOKIE_VARS["comment_author"])) ? "url" : trim($HTTP_COOKIE_VARS["comment_author_url"]);
 
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
-	$commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = $id");
-	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $tableposts WHERE ID = $id");
 ?>
 
 <!-- you can start editing here -->
 
 <h2>Comments</h2>
 
-<?php if ('open' == $pingstatus) { ?>
+<?php if ('open' == $post->ping_status) { ?>
 <p>The URL to TrackBack this entry is:</p>
 <p><em><?php trackback_url() ?></em></p>
 <?php } ?>
@@ -40,7 +38,7 @@ if ($comments) {
 <?php } ?>
 </ol>
 <h2>Leave a Comment</h2>
-<?php if ('open' == $commentstatus) { ?>
+<?php if ('open' == $post->comment_status) { ?>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities($comment_allowed_tags); ?></p>
 
 
