@@ -66,7 +66,7 @@ window.onload = focusit;
     <fieldset id="poststatusdiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#post_status" title="<?php _e('Help on post status') ?>"><?php _e('Post Status') ?></a></legend>
 	  <div>
-<?php if ( 2 == get_option('new_users_can_blog') && 1 != $user_level ) : ?>
+<?php if ( 1 < $user_level || (1 == $user_level && 2 == get_option('new_users_can_blog')) ) : ?>
 <label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Publish') ?></label>
 <?php endif; ?>
 	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label> 
@@ -124,7 +124,7 @@ edCanvas = document.getElementById('content');
 <?php 
 if ('publish' != $post_status || 0 == $post_ID) {
 ?>
-<?php if ( 2 == get_option('new_users_can_blog') && 1 != $user_level ) : ?>
+<?php if ( 1 < $user_level || (1 == $user_level && 2 == get_option('new_users_can_blog')) ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="10" value="<?php _e('Publish') ?>" /> 
 <?php endif; ?>
 <?php
