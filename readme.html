@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>b2 > ReadMe</title>
+<title>WordPRess &gt; ReadMe</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style>
 <!--
@@ -27,33 +27,31 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
 <table width="600" border="0" cellspacing="0" cellpadding="0" align="center">
   <tr>
 	<td> 
-      <p align="center"><img src="b2-img/b2minilogo.png" width="50" height="50"><br />
-        <font size="2" face="Georgia, Times New Roman, Times, serif">0.6.1<br />
-        20021102</font></p>
+      <p align="center"><img src="http://wordpress.org/images/wordpress.gif" alt="WordPress" /><br />
+        <font size="2" face="Georgia, Times New Roman, Times, serif">0.7</font></p>
 		
-	  <p align="center">weblog / news publishing tool</p>
+	  <p align="center">Weblog / News Publishing Tool</p>
 
 	  <p align="center"><a href="#requirements">requirements</a> - <a href="#installation">installation</a> 
         - <a href="#templates">template(s)</a> - <a href="#usage">querystring 
         usage</a> - <a href="#xmlrpc">xmlrpc (Blogger API)</a> - <a href="#postviaemail">post via email</a> - <a href="#notes">notes</a></p>
 
-	  <a name="requirements"></a><h1>requirements:</h1>
+	  <a name="requirements"></a>
+      <h1>Requirements:</h1>
 	  <p><strong>PHP4</strong> (version 4.0.5 or higher)<br />
         <strong>MySQL</strong> (version 3.23.23 or higher)<br />
         Perl (optional - only for the spellchecker)<br />
-        ...and a link to <a href="http://cafelog.com" target="_blank">http://cafelog.com</a> 
+        ... and a link to <a href="http://wordpress.org" target="_blank">http://wordpress.org</a> 
         on your site.<br />
         <br />
-        The link will help promoting b2, since this is its only mean of promotion.<br />
-		If you like b2, you can help me with a donation (even if it's only 2 or 3 dollars, every donation helps), or you can buy me stuff from my <a href="http://www.amazon.com/exec/obidos/registry-address-select-done/1XKLC38KDUPXR/103-8901342-4908609">wishlist</a> :)
-		<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		  <input type="hidden" name="cmd" value="_xclick" />
-		  <input type="hidden" name="business" value="dieu@paradis.com" />
-		  <input type="image" src="https://www.paypal.com/images/x-click-but04.gif" border="0" name="submit" alt="If you like b2 a lot, you may help me with a donation :)" title="If you like b2 a lot, you may help me with a donation :)" />
-		</form></p>
+        The link will help promote <a href="http://wordpress.org">WordPress</a> 
+        and is its only mean of promotion. 
+      <p>WordPress is built from b2, which comes from Michel V. We wouldn't be 
+        here without him, so why don't you grab him something from his <a href="http://www.amazon.com/exec/obidos/registry-address-select-done/1XKLC38KDUPXR/103-8901342-4908609">wishlist</a>?</p>
+      <p>This document is currently beta stage, we'll be updating it extensively 
+        as WordPress matures.</p>
 
-	  <p>&nbsp;</p>
-	  <a name="installation"></a><h1>installation:</h1>
+	  <h1 id="installation">Installation:</h1>
 	  <p>New users:</p>
 	  <blockquote>
 	  
@@ -70,29 +68,29 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
 		it except you. If your server is on Windows NT, then set the file on &quot;read-only&quot; mode.<br />
 
 		&nbsp;&nbsp;&nbsp;b. if you want to use the spellchecker, do a CHMOD 755 on sproxy.pl<br /><br />
-
-        <strong>5.</strong> Launch b2install.php in your browser. This should setup the 
-        MySQL database for your blog. If there is an error, double check your 
-        b2config.php file, and try again. If it fails again, please go to the 
-        support forums there: <a href="http://tidakada.com/board" target="_blank">http://tidakada.com/board</a>, 
-        and make a post with all the information about the failure (error messages, 
-        etc), and your setup (the PHP and MySQL versions on your server, and the 
-        browser you were using).<br /><br />
+        <strong>5.</strong> Launch b2install.php in your browser. This should 
+        setup the MySQL database for your blog. If there is an error, double check 
+        your b2config.php file, and try again. If it fails again, please go to 
+        the <a href="http://wordpress.org/support/">support forums</a> and make 
+        a post with all the information about the failure (error messages, etc), 
+        and your setup (the PHP and MySQL versions on your server, and the browser 
+        you were using).<br />
+        <br />
 
         <strong>6.</strong> Delete b2install.php - this is not necessary since 
         v0.5, because there's no &quot;drop table&quot; instructions in the install 
         script anymore, but it's better to delete it anyway (or rename it to a 
         random name in case you need it again in the future).<br /><br />
-
         <strong>7.</strong> Go to b2login.php and log in with the login &quot;admin&quot; 
-        and the pass &quot;admin&quot;. Then click on the menu 'My Profile',
-        and change the password. Note: 
-        you need javascript enabled to launch the profile popup window.<br /><br />
-
-        <strong>8.</strong> Do this if you don't want to blog as &quot;admin&quot;: log 
-        out, create an user account on b2register.php, then re-log in as &quot;admin&quot;, 
+        and the password given to you before. Then click on the menu 'My Profile', 
+        and change the password. Note: you need javascript enabled to launch the 
+        profile popup window.<br />
+        <br />
+        <strong>8.</strong> (Optional) If you don't want to blog as &quot;admin&quot;: 
+        log out, create an user account on b2register.php, then re-log in as &quot;admin&quot;, 
         and update the level of the new user to 5 or more, so that you have all 
-        the admin rights. Logout, then log in as the new user.<br /><br />
+        the admin rights. Logout, then log in as the new user.<br />
+        <br />
 
 		Whenever you want to post something, just open a browser and 
 		go to b2login.php to log in and post.<br />
@@ -104,9 +102,10 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
 		You can also copy b2.php into a new file and modify that new file, it will work too ;)<br />
 
 	  </blockquote>
-	  <p>Users upgrading from v0.5.x to v0.6.1:</p>
-      <blockquote> <strong>1.</strong> Unzip the package in an empty directory, to avoid 
-        deleting your existing b2config.php file.<br /><br />
+	  <p>Users upgrading from b2 v0.6.1 to WordPress v0.7:</p>
+      <blockquote> <strong>1.</strong> Unzip the package in an empty directory, 
+        to avoid deleting your existing b2config.php file.<br />
+        <br />
 		<strong>2.</strong> Open the new b2config.php file and your existing b2config.php file. Modify the new b2config.php file in order to use your existing settings there, in addition to the new settings. (There are a lot of additionnal settings, so it's best to edit the new config file than adding on the exisitng one.)<br /><br />
 		<strong>3.</strong> if you want to use the new spellchecker, do a CHMOD 755 on sproxy.pl<br /><br />
 
@@ -116,16 +115,11 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
         Tags noted with an orange asterisk <b><font face="Courier New, Courier, mono" color="#FF9900">*</font></b> 
         are tags that were added or modified in v0.6, these are those you got 
         to update in your templates.<br />
-		<strong>5.</strong> Upload the new files, and you're done. :)<br /></blockquote>
-	  <p>Users upgrading from v0.6preX to v0.6.1:</p>
-      <blockquote> <strong>1.</strong> Unzip the package in an empty directory, to avoid 
-        deleting your existing b2config.php file.<br /><br />
-		<strong>2.</strong> Open the new b2config.php file and your existing b2config.php file. Modify the new b2config.php file in order to use your existing settings there, in addition to the new settings. (There are a lot of additionnal settings, so it's best to edit the new config file than adding on the existing one.)<br />
-		<strong>3.</strong> Upload the new files, and you're done. :) (Generally, this means every file but your template file index.php/b2.php)<br />
-		<strong>4.</strong> To add support of the new TrackBack and Pingback functionnalities, you may want to check the Template tags section for the appropriate new tags, and the default index.php to see how they are used :)<br />
-        </blockquote>
-      <p>&nbsp;</p>
-	  <a name="templates"></a><h1>template(s):</h1>
+        <strong>5.</strong> Upload the new files, and you're done. :)<br />
+      </blockquote>
+	  <p>&nbsp;</p>
+	  <a name="templates"></a>
+      <h1>Template(s):</h1>
 	  <p>First notes:</p>
 	  <blockquote>Enclosed is an example of a template, in the file b2.php. You can rename 
 		this file to &quot;index.php&quot;or something else (recent b2 versions have a default index.php, which is an elaborate CSS-based template).<br />
@@ -726,13 +720,13 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
 		<strong>.b2calendarlinkpost {}</strong><br /> &nbsp; &nbsp; <i>the style of the link to the post</i><br />
 		<strong>.b2calendartoday {}</strong><br /> &nbsp; &nbsp; <i>the style of the day if it is today</i>
 		</div></blockquote>
-	  <p>&nbsp;</p>
-	  <a name="usage"></a><h1>usage:</h1>
-	  <p>b2 relies a lot on the querystring, these variables passed with the URL 
-        (note: to pass variables in the querystring, preceed the first variable 
-        name with a '?' question mark and every other variables with a '&amp;' 
-        sign.)<br />
-        Most of the time you won't have to do anything about it, but if you want 
+	  <a name="usage"></a>
+      <h1>Usage:</h1>
+	  <p>WordPress relies a lot on the querystring, these variables passed with 
+        the URL (note: to pass variables in the querystring, preceed the first 
+        variable name with a '?' question mark and every other variables with 
+        a '&amp;' sign.)</p>
+      <p>Most of the time you won't have to do anything about it, but if you want 
         to know how it works, it's here:</p>
 	  <p>How to use the QueryString:</p>
 	  <blockquote> index.php<strong>?m=200107</strong> will display the month of July 2001.<br />
@@ -779,13 +773,16 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
         will display the posts that match the search request &quot;hotdog&quot;, 
         but only in July 2001. </blockquote>
 	  <p>&nbsp;</p>
-	  <a name="xmlrpc"></a><h1>XMLRPC interface:</h1>
-		<p>b2 now has a XMLRPC interface. The only API available right now is the Blogger
-		API (complete specs <a href="http://www.tswoam.co.uk/blogger_method_listing.html">here</a>). There are talks about a new API that would cover a lot of weblog/CMS systems
-		in the future: when it's ready, b2 will support it.<br />
+	  <a name="xmlrpc"></a>
+      <h1>XMLRPC Interface:</h1>
+		
+      <p>WordPress now has a XMLRPC interface. The only API available right now 
+        is the Blogger API (complete specs <a href="http://www.tswoam.co.uk/blogger_method_listing.html">here</a>). 
+        There are talks about a new API that would cover a lot of weblog/CMS systems 
+        in the future: when it's ready, WordPress will support it.<br />
 		<br />
-		The <a href="http://plant.blogger.com/api">Blogger API</a> has been
-		completely emulated on b2, with some little differences:</p>
+        The <a href="http://plant.blogger.com/api">Blogger API</a> has been completely 
+        emulated on WordPress, with some little differences:</p>
 
 		<ul>
 		<li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns all
@@ -812,13 +809,17 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
 		<li>complete URL (just in case): http://mydomain.com/me/xmlrpc.php</li>
 		</ul>
 
-		<p>There's also a b2-specific method: b2.getCategories. Request it with 3 strings: blog_ID (use '1'), username, password. The response is an array of structs with strings categoryID and categoryName.<br />
+		
+      <p>There's also a b2-specific method: b2.getCategories. Request it with 
+        3 strings: blog_ID (use '1'), username, password. The response is an array 
+        of structs with strings categoryID and categoryName.<br />
 
 		<br />
 		</p>
 	  <p>&nbsp;</p>
 	  <a name="postviaemail"></a><h1>Post via Email:</h1>
-		<p>You can post news from an email client !<br />
+		
+      <p>You can post news from an email client!<br />
 		But first you'll have to edit b2config.php, filling the appropriate values for your POP3 email account (this interface doesn't support IMAP yet, only POP3, sorry).<br />
 		<br />
 		Once you have edited the config options, you can make your webserver execute b2mail.php every set amount of time (depending on your host's performance, this script can be resource intensive, so don't make it run every minute or you'll be kicked).<br />
@@ -864,7 +865,8 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
 		</div>
 
 	  <p>&nbsp;</p>
-	  <a name="notes"></a><h1>notes: </h1>
+	  <a name="notes"></a>
+      <h1>Notes: </h1>
 	  <p>On multi-user:</p>
 	  <blockquote>You don't invite users, they can register on b2register.php.<br />
 		Then you (as an admin) click the &quot;+&quot; next to their name in the 
@@ -890,20 +892,20 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
         once you've registered your user account.</blockquote>
 	  <p><br />
 		Final notes:</p>
-	  <blockquote>b2 is functionnal, but a lot of coding and code clean-up remain 
-        to be done.<br />
-        If you've got suggestions, ideas, or comments, or if you found a bug, 
-        why not joining us in the <a href="http://tidakada.com/board/">Forums</a> 
-        ?<br />
-        If you can code in PHP, you'll see the structure of b2 is flexible enough 
-        to allow for more functions and sections to be added.</blockquote>
+	  <blockquote>
+        <p>WordPress is functionnal, but a lot of coding and code clean-up remain 
+          to be done.</p>
+        <p>If you've got suggestions, ideas, or comments, or if you found a bug, 
+          why not joining us in the <a href="http://wordpress.org/support/">Forums</a>?</p>
+        <p>If you can code in PHP, you'll see the structure of b2 is flexible 
+          enough to allow for more functions and sections to be added.</p>
+      </blockquote>
 	  <p><br />
 		Copyright notes:</p>
-	  <blockquote>b2 is &copy;2001, 2002 Michel Valdrighi - <a href="mailto:m@tidakada.com?subject=b2">m@tidakada.com</a> 
-        - <a href="http://tidakada.com" target="_blank">http://tidakada.com</a><br />
+	  <blockquote><br />
 		Wherever third party code has been used, credit has been given in the 
 		code's comments.<br />
-		b2 is released under the GPL (see license.txt).</blockquote>
+        WordPress is released under the GPL (see license.txt).</blockquote>
 	</td>
   </tr>
 </table>
