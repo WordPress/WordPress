@@ -15,17 +15,12 @@ timer_start();
 
 get_currentuserinfo();
 
-$request = "SELECT * FROM $tablesettings";
-$result = mysql_query($request);
-$querycount++;
-while($row = mysql_fetch_object($result)) {
-	$posts_per_page=$row->posts_per_page;
-	$what_to_show=$row->what_to_show;
-	$archive_mode=$row->archive_mode;
-	$time_difference=$row->time_difference;
-	$date_format=stripslashes($row->date_format);
-	$time_format=stripslashes($row->time_format);
-}
+$posts_per_page=get_settings('posts_per_page');
+$what_to_show=get_settings('what_to_show');
+$archive_mode=get_settings('archive_mode');
+$time_difference=get_settings('time_difference');
+$date_format=stripslashes(get_settings('date_format'));
+$time_format=stripslashes(get_settings('time_format'));
 
 // let's deactivate quicktags on IE Mac and Lynx, because they don't work there.
 if (($is_macIE) || ($is_lynx))

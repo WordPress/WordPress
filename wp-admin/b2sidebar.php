@@ -20,11 +20,7 @@ $is_IE    = (($is_macIE) || ($is_winIE));
 if ($user_level == 0)
 	die ("Cheatin' uh ?");
 
-$request = " SELECT * FROM $tablesettings ";
-$result = mysql_query($request);
-while($row = mysql_fetch_object($result)) {
-	$time_difference=$row->time_difference;
-}
+$time_difference=get_settings('time_difference');
 
 if ($a=="b") {
 

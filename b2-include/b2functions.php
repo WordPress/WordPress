@@ -471,7 +471,7 @@ function get_usernumposts($userid) {
 }
 
 function get_settings($setting) {
-	global $tablesettings, $wpdb, $cache_settings, $use_cache, $querycount;
+	global $wpdb, $cache_settings, $use_cache, $querycount;
 	if ((empty($cache_settings)) OR (!$use_cache)) {
 		$settings = get_alloptions();
 		$cache_settings = $settings;
@@ -497,7 +497,7 @@ function get_alloptions() {
 }
     
 function get_postdata($postid) {
-	global $tableusers, $tablesettings, $tablecategories, $tableposts, $tablecomments, $querycount, $wpdb;
+	global $tableusers, $tablecategories, $tableposts, $tablecomments, $querycount, $wpdb;
 	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = $postid");
 	++$querycount;
 	
