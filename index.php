@@ -28,10 +28,7 @@ require($abspath.'wp-links/links.weblogs.com.php');
 
 <div id="content">
 
-<!-- // b2 loop start -->
 <?php foreach ($posts as $post) { start_b2(); ?>
-
-
 <?php the_date('','<h2>','</h2>'); ?>
 
  <h3 class="storytitle">
@@ -51,13 +48,9 @@ require($abspath.'wp-links/links.weblogs.com.php');
 
 <?php trackback_rdf(); ?>
 
-<!-- this includes the comments and a form to add a new comment -->
 <?php include('b2comments.php'); ?>
 
-
-<!-- // this is just the end of the motor - don't touch that line either :) -->
 	<?php } ?> 
-
 
 </div>
 
