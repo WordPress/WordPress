@@ -75,10 +75,11 @@ require('wp-blog-header.php');
 	<?php wp_list_cats(); ?>
 	</ul>
  </li>
- <li id="search">Search:
-	<form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
+ <li id="search">
+   <label for="s">Search:</label>	
+   <form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
 	<div>
-		<input type="text" name="s" size="15" /><br />
+		<input type="text" name="s" id="s" size="15" /><br />
 		<input type="submit" name="submit" value="search" />
 	</div>
 	</form>
