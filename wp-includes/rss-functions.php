@@ -414,7 +414,7 @@ function fetch_rss ($url) {
 			// return cache HIT, MISS, or STALE
 			$cache_status = $cache->check_cache( $url );
 		}
-		
+
 		// if object cached, and cache is fresh, return cached obj
 		if ( $cache_status == 'HIT' ) {
 			$rss = $cache->get( $url );
@@ -676,7 +676,7 @@ class RSSCache {
 \*=======================================================================*/	
 	function get ($url) {
 		$this->ERROR = "";
-		$cache_option = $this->file_name( $url );
+		$cache_option = 'rss_' . $this->file_name( $url );
 		
 		if ( ! get_option( $cache_option ) ) {
 			$this->debug( 

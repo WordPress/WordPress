@@ -366,7 +366,7 @@ function get_alloptions() {
 
 function update_option($option_name, $newvalue) {
 	global $wpdb, $cache_settings;
-	if ( is_array($newvalue) || is_object($value) )
+	if ( is_array($newvalue) || is_object($newvalue) )
 		$newvalue = serialize($newvalue);
 
 	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim

@@ -35,6 +35,7 @@ http://snoopy.sourceforge.com
 
 *************************************************/
 
+if ( !in_array('Snoopy', get_declared_classes() ) ) :
 class Snoopy
 {
 	/**** Public variables ****/
@@ -895,5 +896,6 @@ class Snoopy
 		return $postdata;
 	}
 }
+endif;
 
 ?>
