@@ -34,12 +34,8 @@
 <h3 class="storytitle"><a href="<?php permalink_link() ?>"><?php the_title(); ?></a> <a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>" class="storycategory">[<?php the_category() ?>]</a> - <span class="storyauthor"><?php the_author() ?></span> @ <?php the_time() ?>
 </h3>
 
-<<<<<<< index.php
 <div class="storycontent">
 
-=======
-<div class="storyContent">
->>>>>>> 1.8
 <?php the_content(); ?>
 
 <div class="feedback">
