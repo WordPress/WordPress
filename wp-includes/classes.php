@@ -858,23 +858,31 @@ class WP_Rewrite {
 		$endians = array('%year%/%monthnum%/%day%', '%day%/%monthnum%/%year%', '%monthnum%/%day%/%year%');
 
 		$this->date_structure = '';
+		$date_endian = '';
 
 		foreach ($endians as $endian) {
 			if (false !== strpos($this->permalink_structure, $endian)) {
-				$this->date_structure = $this->front . $endian;
+				$date_endian= $endian;
 				break;
 			}
 		} 
 
+		if ( empty($date_endian) )
+			$date_endian = '%year%/%monthnum%/%day%';
+
 		// Do not allow the date tags and %post_id% to overlap in the permalink
 		// structure. If they do, move the date tags to $front/date/.  
 		$front = $this->front;
-		if ( false !== strpos($this->permalink_structure, $this->front . '%post_id%') )
-			$front = $front . 'date/';
-			 
-		if (empty($this->date_structure)) {
-			$this->date_structure = $front . '%year%/%monthnum%/%day%';
+		preg_match_all('/%.+?%/', $this->permalink_structure, $tokens);
+		$tok_index = 1;
+		foreach ($tokens[0] as $token) {
+			if ( ($token == '%post_id%') && ($tok_index <= 3) ) {
+				$front = $front . 'date/';
+				break;
+			}
 		}
+
+		$this->date_structure = $front . $date_endian;
 
 		return $this->date_structure;
 	}
