@@ -39,7 +39,7 @@ if ( $scheduled = $wpdb->get_results("SELECT ID, post_title, post_date_gmt FROM 
 foreach ($scheduled as $post) {
 	if ($post->post_title == '')
 		$post->post_title = sprintf(__('Post #%s'), $post->ID);
-	echo "<li><a href='post.php?action=edit&amp;post=$post->ID' title='" . __('Edit this post') . "'>$post->post_title</a> in " . human_time_diff( current_time('timestamp', 1), strtotime($post->post_date_gmt) )  . "</li>";
+	echo "<li><a href='post.php?action=edit&amp;post=$post->ID' title='" . __('Edit this post') . "'>$post->post_title</a> in " . human_time_diff( current_time('timestamp', 1), strtotime($post->post_date_gmt. ' GMT') )  . "</li>";
 }
 ?> 
 </ul>
