@@ -271,14 +271,18 @@ function meta_form() {
 <th><?php _e('Value') ?></th>
 </tr>
 	<tr valign="top">
-		<td align="right" width="18%"><select id="metakeyselect" name="metakeyselect" tabindex="7">
+		<td align="right" width="18%">
+<?php if ($keys) : ?>
+<select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#">- Select -</option>
 <?php
 	foreach($keys as $key) {
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>
-</select> or </td>
+</select> or 
+<?php endif; ?>
+</td>
 <td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
 		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25" tabindex="7"></textarea></td>
 	</tr>
