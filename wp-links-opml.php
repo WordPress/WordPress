@@ -27,7 +27,6 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
         <ownerName><?php echo antispambot(get_bloginfo('admin_email')) ?></ownerName>
         <ownerEmail><?php echo antispambot(get_bloginfo('admin_email')) ?></ownerEmail>
         <dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
-        <dateModified><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateModified>
     </head>
     <body>
 <?php $sql = "SELECT $tablelinks.link_url, link_rss, $tablelinks.link_name, $tablelinks.link_category, $tablelinkcategories.cat_name 
@@ -47,12 +46,12 @@ FROM $tablelinks
 <?php
              } // end if not first time
 ?>
-        <outline type="category" text="<?php echo(htmlspecialchars(stripslashes($result->cat_name))) ?>">
+        <outline type="category" title="<?php echo(htmlspecialchars(stripslashes($result->cat_name))) ?>">
 <?php
              $prev_cat_id = $result->link_category;
         } // end if new category
 ?>
-            <outline type="link" text="<?php echo(htmlspecialchars(stripslashes($result->link_name))) ?>" xmlUrl="<?php echo $result->link_rss; ?>" link="<?php echo($result->link_url) ?>"/>
+            <outline title="<?php echo(htmlspecialchars(stripslashes($result->link_name))) ?>" type="link" xmlUrl="<?php echo $result->link_rss; ?>" htmlUrl="<?php echo($result->link_url) ?>"/>
 <?php
         } // end foreach
     } // end if
