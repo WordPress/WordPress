@@ -1,4 +1,5 @@
 <?php 
-/* Don't remove this line. */
+/* Short and sweet */
+define('WP_USE_THEMES', true);
 require('./wp-blog-header.php');
 ?>
