@@ -10,16 +10,60 @@ if (!file_exists($curpath . '/wp-config.php'))
 
 require($curpath.'/wp-config.php');
 
+/* Process PATH_INFO, if set. */
+$path_info = array();
+if (! empty($_SERVER['PATH_INFO'])) {
+    // Fetch the rewrite rules.
+    $rewrite = rewrite_rules('matches');
+
+    $pathinfo = $_SERVER['PATH_INFO'];
+    // Trim leading '/'.
+    $pathinfo = preg_replace("!^/!", '', $pathinfo);
+
+    if (! empty($rewrite)) {
+        // Get the name of the file requesting path info.
+        $req_uri = $HTTP_SERVER_VARS['REQUEST_URI'];
+        $req_uri = str_replace($pathinfo, '', $req_uri);
+        $req_uri = preg_replace("!/+$!", '', $req_uri);
+        $req_uri = explode('/', $req_uri);
+        $req_uri = $req_uri[count($req_uri)-1];
+
+        // Look for matches.
+        $pathinfomatch = $pathinfo;
+        foreach ($rewrite as $match => $query) {
+            // If the request URI is the anchor of the match, prepend it
+            // to the path info.
+            if (preg_match("!^$req_uri!", $match)) {
+                $pathinfomatch = $req_uri . '/' . $pathinfo;
+            }
+
+            if (preg_match("!^$match!", $pathinfomatch, $matches)) {
+                // Got a match.
+                // Trim the query of everything up to the '?'.
+                $query = preg_replace("!^.+\?!", '', $query);
+
+                // Substitute the substring matches into the query.
+                eval("\$query = \"$query\";");
+
+                // Parse the query.
+                parse_str($query, $path_info);
+            }
+        }
+    }    
+}
+
 $wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name', 'feed', 'author_name');
 
     for ($i=0; $i<count($wpvarstoreset); $i += 1) {
         $wpvar = $wpvarstoreset[$i];
         if (!isset($$wpvar)) {
             if (empty($HTTP_POST_VARS[$wpvar])) {
-                if (empty($HTTP_GET_VARS[$wpvar])) {
+                if (empty($HTTP_GET_VARS[$wpvar]) && empty($path_info[$wpvar])) {
                     $$wpvar = '';
-                } else {
+                } elseif (!empty($HTTP_GET_VARS[$wpvar])) {
                     $$wpvar = $HTTP_GET_VARS[$wpvar];
+                } else {
+                    $$wpvar = $path_info[$wpvar];
                 }
             } else {
                 $$wpvar = $HTTP_POST_VARS[$wpvar];

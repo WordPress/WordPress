@@ -1330,4 +1330,141 @@ function hilite($text) {
 	return $text;
 }
 
+/* rewrite_rules
+ * Construct rewrite matches and queries from permalink structure.
+ * matches - The name of the match array to use in the query strings.
+ *           If empty, $1, $2, $3, etc. are used.
+ * Returns an associate array of matches and queries.
+ */
+function rewrite_rules($matches = '') {
+
+    function preg_index($number, $matches = '') {
+        $match_prefix = '$';
+        $match_suffix = '';
+        
+        if (! empty($matches)) {
+            $match_prefix = '$' . $matches . '['; 
+                                               $match_suffix = ']';
+        }        
+        
+        return "$match_prefix$number$match_suffix";        
+    }
+    
+    $rewrite = array();
+
+    $permalink_structure = get_settings('permalink_structure');
+
+    if (empty($permalink_structure)) {
+        return $rewrite;
+    }
+
+    $rewritecode = array(
+                         '%year%',
+                         '%monthnum%',
+                         '%day%',
+                         '%postname%',
+                         '%post_id%'
+                         );
+
+    $rewritereplace = array(
+                            '([0-9]{4})?',
+                            '([0-9]{1,2})?',
+                            '([0-9]{1,2})?',
+                            '([0-9a-z-]+)?',
+                            '([0-9]+)?'
+                            );
+
+    $queryreplace = array (
+                           'year=',
+                           'monthnum=',
+                           'day=',
+                           'name=',
+                           'p='
+                           );
+
+
+    $match = str_replace('/', '/?', $permalink_structure);
+    $match = preg_replace('|/[?]|', '', $match, 1);
+
+    $match = str_replace($rewritecode, $rewritereplace, $match);
+    $match = preg_replace('|[?]|', '', $match, 1);
+
+    $feedmatch = str_replace('?/?', '/', $match);
+    $trackbackmatch = $feedmatch;
+
+    preg_match_all('/%.+?%/', $permalink_structure, $tokens);
+
+    $query = 'index.php?';
+    $feedquery = 'wp-feed.php?';
+    $trackbackquery = 'wp-trackback.php?';
+    for ($i = 0; $i < count($tokens[0]); ++$i) {
+             if (0 < $i) {
+                 $query .= '&';
+                 $feedquery .= '&';
+                 $trackbackquery .= '&';
+             }
+             
+             $query_token = str_replace($rewritecode, $queryreplace, $tokens[0][$i]) . preg_index($i+1, $matches);
+             $query .= $query_token;
+             $feedquery .= $query_token;
+             $trackbackquery .= $query_token;
+             }
+    ++$i;
+
+    // Add post paged stuff
+    $match .= '([0-9]+)?/?';
+    $query .= '&page=' . preg_index($i, $matches);
+
+    // Add post feed stuff
+    $feedregex = '(feed|rdf|rss|rss2|atom)/?';
+    $feedmatch .= $feedregex;
+    $feedquery .= '&feed=' . preg_index($i, $matches);
+
+    // Add post trackback stuff
+    $trackbackregex = 'trackback/?';
+    $trackbackmatch .= $trackbackregex;
+
+    // Site feed
+    $sitefeedmatch = 'feed/?([0-9a-z-]+)?/?$';
+    $sitefeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches);
+
+    // Site comment feed
+    $sitecommentfeedmatch = 'comments/feed/?([0-9a-z-]+)?/?$';
+    $sitecommentfeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
+
+    // Code for nice categories and authors, currently not very flexible
+    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+    $catmatch = $front . 'category/';
+    $catmatch = preg_replace('|^/+|', '', $catmatch);
+    
+    $catfeedmatch = $catmatch . '(.*)/' . $feedregex;
+    $catfeedquery = 'wp-feed.php?category_name=' . preg_index(1, $matches) . '&feed=' . preg_index(2, $matches);
+
+    $catmatch = $catmatch . '?(.*)';
+    $catquery = 'index.php?category_name=' . preg_index(1, $matches);
+
+    $authormatch = $front . 'author/';
+    $authormatch = preg_replace('|^/+|', '', $authormatch);
+
+    $authorfeedmatch = $authormatch . '(.*)/' . $feedregex;
+    $authorfeedquery = 'wp-feed.php?author_name=' . preg_index(1, $matches) . '&feed=' . preg_index(2, $matches);
+
+    $authormatch = $authormatch . '?(.*)';
+    $authorquery = 'index.php?author_name=' . preg_index(1, $matches);
+
+    $rewrite = array(
+                     $catfeedmatch => $catfeedquery,
+                     $catmatch => $catquery,
+                     $authorfeedmatch => $authorfeedquery,
+                     $authormatch => $authorquery,
+                     $match => $query,
+                     $feedmatch => $feedquery,
+                     $trackbackmatch => $tracbackquery,
+                     $sitefeedmatch => $sitefeedquery,
+                     $sitecommentfeedmatch => $sitecommentfeedquery
+                     );
+
+    return $rewrite;
+}
+
 ?>
