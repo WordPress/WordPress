@@ -48,7 +48,7 @@ function the_title_rss() {
 
 function get_the_title() {
 	global $post;
-	$output = stripslashes($post->post_title);
+	$output = $post->post_title;
 	if (!empty($post->post_password)) { // if there's a password
 		$output = 'Protected: ' . $output;
 	}
@@ -188,7 +188,7 @@ function get_the_excerpt($fakeit = true) {
 
     // If we haven't got an excerpt, make one in the style of the rss ones
     if (($output == '') && $fakeit) {
-        $output = stripslashes($post->post_content);
+        $output = $post->post_content;
         $output = strip_tags($output);
         $blah = explode(' ', $output);
         $excerpt_length = 120;
