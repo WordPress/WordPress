@@ -104,19 +104,22 @@ $rewritecode = array(
 	'%year%',
 	'%monthnum%',
 	'%day%',
-	'%postname%'
+	'%postname%',
+	'%post_id%'
 );
 $rewritereplace = array(
 	'([0-9]{4})?',
 	'([0-9]{1,2})?',
 	'([0-9]{1,2})?',
-	'([0-9a-z-]+)?'
+	'([0-9a-z-]+)?',
+	'([0-9]+)?'
 );
 $queryreplace = array (
 	'year=',
 	'monthnum=',
 	'day=',
-	'name='
+	'name=',
+	'p='
 );
 
 

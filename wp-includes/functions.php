@@ -493,13 +493,15 @@ function url_to_postid($url = '') {
 		'%year%',
 		'%monthnum%',
 		'%day%',
-		'%postname%'
+		'%postname%',
+		'%post_id%'
 	);
 	$rewritereplace = array(
 		'([0-9]{4})?',
 		'([0-9]{1,2})?',
 		'([0-9]{1,2})?',
-		'([0-9a-z-]+)?'
+		'([0-9a-z-]+)?',
+		'([0-9]+)?'
 	);
 
 	// Turn the structure into a regular expression
@@ -516,18 +518,23 @@ function url_to_postid($url = '') {
 		$name = $tokens[1][$i];
 		$value = $values[$i+1];
 
-		// Create a variable named $year, $monthnum, $day, or $postname:
+		// Create a variable named $year, $monthnum, $day, $postname, or $post_id:
 		$$name = $value;
 	}
 	
-	// Build a WHERE clause, making the values safe along the way:
+	// If using %post_id%, we're done:
+	if (intval($post_id)) return intval($post_id);
+
+	// Otherwise, build a WHERE clause, making the values safe along the way:
 	if ($year) $where .= " AND YEAR(post_date) = " . intval($year);
 	if ($monthnum) $where .= " AND MONTH(post_date) = " . intval($monthnum);
 	if ($day) $where .= " AND DAYOFMONTH(post_date) = " . intval($day);
 	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
 
 	// Run the query to get the post ID:
-    return intval($wpdb->get_var("SELECT ID FROM $tableposts WHERE 1 = 1 " . $where));
+	$id = intval($wpdb->get_var("SELECT ID FROM $tableposts WHERE 1 = 1 " . $where));
+
+	return $id;
 }
 
 

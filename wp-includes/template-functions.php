@@ -419,7 +419,8 @@ function get_permalink($id=false) {
 				date('Y', $unixtime),
 				date('n', $unixtime),
 				date('j', $unixtime),
-				$post->post_name
+				$post->post_name,
+				$post->ID
 			);
 			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else { // if they're not using the fancy permalink option
