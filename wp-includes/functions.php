@@ -387,6 +387,81 @@ function delete_option($name) {
 	return true;
 }
 
+function add_post_meta($post_id, $key, $value, $unique = false) {
+	global $wpdb;
+	
+	if ($unique) {
+		if( $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
+= '$key' AND post_id = '$post_id'") ) {
+			return false;
+		}
+	}
+
+	$wpdb->query("INSERT INTO $wpdb->postmeta
+                                (post_id,meta_key,meta_value) 
+                                VALUES ('$post_id','$key','$value')
+                        ");
+	
+	return true;
+}
+
+function delete_post_meta($post_id, $key, $value = '') {
+	global $wpdb;
+
+	if (empty($value)) {
+		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE
+post_id = '$post_id' AND meta_key = '$key'");
+	} else {
+		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE
+post_id = '$post_id' AND meta_key = '$key' AND meta_value = '$value'");
+	}
+
+	if (!$meta_id) return false;
+
+	if (empty($value)) {
+		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
+AND meta_key = '$key'");
+	} else {
+		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
+AND meta_key = '$key' AND meta_value = '$value'");
+	}
+        
+	return true;
+}
+
+function get_post_meta($post_id, $key) {
+	global $wpdb, $post_meta_cache;
+
+	if (isset($post_meta_cache[$post_id][$key])) {
+		return $post_meta_cache[$post_id][$key];
+	}
+
+	$metalist = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key'", ARRAY_N);
+
+	$values = array();
+	if ($metalist) {
+		foreach ($metalist as $metarow) {
+			$values[] = $metarow[0];
+		}
+	}
+
+	return $values;
+}
+
+function update_post_meta($post_id, $key, $value, $prev_value = '') {
+	global $wpdb, $post_meta_cache;
+
+	if (empty($prev_value)) {
+		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
+meta_key = '$key' AND post_id = '$post_id'");
+	} else {
+		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
+meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
+	}
+
+	return true;
+}
+
 function get_postdata($postid) {
 	global $post, $wpdb;
 
@@ -1034,15 +1109,15 @@ function apply_filters($tag, $string) {
 		}
 
 	}
-	
+
 	if (isset($wp_filter[$tag])) {
 		ksort($wp_filter[$tag]);
 		foreach ($wp_filter[$tag] as $priority => $functions) {
 			if (!is_null($functions)) {
-                foreach($functions as $function) {
-					$string = $function($string);
-                }
-            }
+				foreach($functions as $function) {
+					$string = call_user_func($function, $string);
+				}
+			}
 		}
 	}
 	return $string;
