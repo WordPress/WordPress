@@ -275,7 +275,7 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 
 
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
-    global $tableposts, $id, $post, $wpdb;
+    global $id, $post, $wpdb;
     global $p, $posts, $posts_per_page, $s, $single;
     global $querystring_start, $querystring_equal, $querystring_separator;
 
@@ -299,7 +299,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
         }
 
         $limitprev--;
-        $lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
+        $lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
         if ($lastpost) {
             $string = '<a href="'.get_permalink($lastpost->ID).'">'.$previous;
             if ($title == 'yes') {
@@ -313,7 +313,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 }
 
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-    global $tableposts, $posts_per_page, $post, $wpdb, $single;
+    global $posts_per_page, $post, $wpdb, $single;
     if(1 == $posts_per_page || 1 == $single) {
 
         $current_post_date = $post->post_date;
@@ -337,7 +337,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 
         $limitnext--;
 
-        $nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT $limitnext,1");
+        $nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT $limitnext,1");
         if ($nextpost) {
             $string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
             if ($title=='yes') {

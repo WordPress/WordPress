@@ -55,7 +55,7 @@ case 'adduser':
 	$user_nickname = $user_login;
 
 	/* checking the login isn't already used by another user */
-	$loginthere = $wpdb->get_var("SELECT user_login FROM $tableusers WHERE user_login = '$user_login'");
+	$loginthere = $wpdb->get_var("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'");
     if ($loginthere) {
 		die (__('<strong>ERROR</strong>: This login is already registered, please choose another one.'));
 	}
@@ -78,7 +78,7 @@ case 'adduser':
 	$now = gmdate('Y-m-d H:i:s');
 	$new_users_can_blog = get_settings('new_users_can_blog');
 
-	$result = $wpdb->query("INSERT INTO $tableusers 
+	$result = $wpdb->query("INSERT INTO $wpdb->users 
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode, user_firstname, user_lastname, user_nicename)
 	VALUES 
 		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_firstname', '$user_lastname', '$user_nicename')");
@@ -122,10 +122,10 @@ case 'promote':
 
 	if ('up' == $prom) {
 		$new_level = $usertopromote_level + 1;
-		$sql="UPDATE $tableusers SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
+		$sql="UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
 	} elseif ('down' == $prom) {
 		$new_level = $usertopromote_level - 1;
-		$sql="UPDATE $tableusers SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
+		$sql="UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
 	}
 	$result = $wpdb->query($sql);
 
@@ -152,24 +152,24 @@ case 'delete':
 	if ($user_level <= $usertodelete_level)
 		die(__('Can&#8217;t delete a user whose level is higher than yours.'));
 
-	$post_ids = $wpdb->get_col("SELECT ID FROM $tableposts WHERE post_author = $id");
+	$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");
 	if ($post_ids) {
 		$post_ids = implode(',', $post_ids);
 		
 		// Delete comments, *backs
-		$wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID IN ($post_ids)");
+		$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID IN ($post_ids)");
 		// Clean cats
-		$wpdb->query("DELETE FROM $tablepost2cat WHERE post_id IN ($post_ids)");
+		$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id IN ($post_ids)");
 		// Clean post_meta
-		$wpdb->query("DELETE FROM $tablepostmeta WHERE post_id IN ($post_ids)");
+		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id IN ($post_ids)");
 		// Clean links
-		$wpdb->query("DELETE FROM $tablelinks WHERE link_owner = $id");
+		$wpdb->query("DELETE FROM $wpdb->links WHERE link_owner = $id");
 		// Delete posts
-		$wpdb->query("DELETE FROM $tableposts WHERE post_author = $id");
+		$wpdb->query("DELETE FROM $wpdb->posts WHERE post_author = $id");
 	}
 
 	// FINALLY, delete user
-	$wpdb->query("DELETE FROM $tableusers WHERE ID = $id");
+	$wpdb->query("DELETE FROM $wpdb->users WHERE ID = $id");
 	header('Location: users.php?deleted=true');
 
 break;
@@ -195,7 +195,7 @@ default:
 	<th><?php _e('Posts') ?></th>
 	</tr>
 	<?php
-	$users = $wpdb->get_results("SELECT ID FROM $tableusers WHERE user_level > 0 ORDER BY ID");
+	$users = $wpdb->get_results("SELECT ID FROM $wpdb->users WHERE user_level > 0 ORDER BY ID");
 	$style = '';
 	foreach ($users as $user) {
 		$user_data = get_userdata($user->ID);
@@ -208,7 +208,7 @@ default:
 		if (strlen($short_url) > 35)
 		$short_url =  substr($short_url, 0, 32).'...';
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
-		$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = $user->ID and post_status = 'publish'");
+		$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = $user->ID and post_status = 'publish'");
 		if (0 < $numposts) $numposts = "<a href='edit.php?author=$user_data->ID' title='" . __('View posts') . "'>$numposts</a>";
 		echo "
 <tr $style>
@@ -233,7 +233,7 @@ default:
 </div>
 
 <?php
-	$users = $wpdb->get_results("SELECT * FROM $tableusers WHERE user_level = 0 ORDER BY ID");
+	$users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level = 0 ORDER BY ID");
 	if ($users) {
 ?>
 <div class="wrap">

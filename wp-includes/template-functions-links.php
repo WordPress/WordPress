@@ -27,7 +27,7 @@ function permalink_single_rss($file = '') {
 }
 
 function get_permalink($id=false) {
-    global $post, $wpdb, $tableposts;
+    global $post, $wpdb;
     global $querystring_start, $querystring_equal;
 
     $rewritecode = array(
@@ -58,7 +58,7 @@ function get_permalink($id=false) {
             return get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$post->ID;
         }
     } else { // if an ID is given
-        $idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
+        $idpost = $wpdb->get_row("SELECT post_date, post_name FROM $wpdb->posts WHERE ID = $id");
         if ('' != get_settings('permalink_structure')) {
 	    $unixtime = strtotime($idpost->post_date);
             $rewritereplace = array(

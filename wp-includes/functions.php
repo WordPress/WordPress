@@ -95,20 +95,20 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 }
 
 function get_lastpostdate($timezone = 'server') {
-	global $tableposts, $cache_lastpostdate, $pagenow, $wpdb;
+	global $cache_lastpostdate, $pagenow, $wpdb;
 	$add_seconds_blog = get_settings('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
 	if ( !isset($cache_lastpostdate[$timezone]) ) {
 		switch(strtolower($timezone)) {
 			case 'gmt':
-				$lastpostdate = $wpdb->get_var("SELECT post_date_gmt FROM $tableposts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				$lastpostdate = $wpdb->get_var("SELECT post_date_gmt FROM $wpdb->posts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
 				break;
 			case 'blog':
-				$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				$lastpostdate = $wpdb->get_var("SELECT post_date FROM $wpdb->posts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
 				break;
 			case 'server':
-				$lastpostdate = $wpdb->get_var("SELECT DATE_ADD(post_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $tableposts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
+				$lastpostdate = $wpdb->get_var("SELECT DATE_ADD(post_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
 				break;
 		}
 		$cache_lastpostdate[$timezone] = $lastpostdate;
@@ -119,20 +119,20 @@ function get_lastpostdate($timezone = 'server') {
 }
 
 function get_lastpostmodified($timezone = 'server') {
-	global $tableposts, $cache_lastpostmodified, $pagenow, $wpdb;
+	global $cache_lastpostmodified, $pagenow, $wpdb;
 	$add_seconds_blog = get_settings('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
 	if ( !isset($cache_lastpostmodified[$timezone]) ) {
 		switch(strtolower($timezone)) {
 			case 'gmt':
-				$lastpostmodified = $wpdb->get_var("SELECT post_modified_gmt FROM $tableposts WHERE post_modified_gmt <= '$now' AND post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
+				$lastpostmodified = $wpdb->get_var("SELECT post_modified_gmt FROM $wpdb->posts WHERE post_modified_gmt <= '$now' AND post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
 				break;
 			case 'blog':
-				$lastpostmodified = $wpdb->get_var("SELECT post_modified FROM $tableposts WHERE post_modified_gmt <= '$now' AND post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
+				$lastpostmodified = $wpdb->get_var("SELECT post_modified FROM $wpdb->posts WHERE post_modified_gmt <= '$now' AND post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
 				break;
 			case 'server':
-				$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $tableposts WHERE post_modified_gmt <= '$now' AND post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
+				$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_modified_gmt <= '$now' AND post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
 				break;
 		}
 		$lastpostdate = get_lastpostdate($timezone);
@@ -172,9 +172,9 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 }
 
 function get_userdata($userid) {
-	global $wpdb, $cache_userdata, $tableusers;
+	global $wpdb, $cache_userdata;
 	if ( empty($cache_userdata[$userid]) ) {
-		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = '$userid'");
+		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$userid'");
 		$user->user_nickname = stripslashes($user->user_nickname);
 		$user->user_firstname = stripslashes($user->user_firstname);
 		$user->user_lastname = stripslashes($user->user_lastname);
@@ -187,9 +187,9 @@ function get_userdata($userid) {
 }
 
 function get_userdatabylogin($user_login) {
-	global $tableusers, $cache_userdata, $wpdb;
+	global $cache_userdata, $wpdb;
 	if ( empty($cache_userdata["$user_login"]) ) {
-		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE user_login = '$user_login'");
+		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'");
 		$cache_userdata["$user_login"] = $user;
 	} else {
 		$user = $cache_userdata["$user_login"];
@@ -198,9 +198,9 @@ function get_userdatabylogin($user_login) {
 }
 
 function get_userid($user_login) {
-	global $tableusers, $cache_userdata, $wpdb;
+	global $cache_userdata, $wpdb;
 	if ( empty($cache_userdata["$user_login"]) ) {
-		$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$user_login'");
+		$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$user_login'");
 
 		$cache_userdata["$user_login"] = $user_id;
 	} else {
@@ -210,14 +210,14 @@ function get_userid($user_login) {
 }
 
 function get_usernumposts($userid) {
-	global $tableposts, $tablecomments, $wpdb;
-	return $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = '$userid'");
+	global $wpdb;
+	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid'");
 }
 
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
 function url_to_postid($url = '') {
-	global $wpdb, $tableposts;
+	global $wpdb;
 
 	$siteurl = get_settings('home');
 	// Take a link like 'http://example.com/blog/something'
@@ -290,7 +290,7 @@ function url_to_postid($url = '') {
 	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
 
 	// Run the query to get the post ID:
-	$id = intval($wpdb->get_var("SELECT ID FROM $tableposts WHERE 1 = 1 " . $where));
+	$id = intval($wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE 1 = 1 " . $where));
 
 	return $id;
 }
@@ -321,8 +321,8 @@ function get_settings($setting) {
 }
 
 function get_alloptions() {
-	global $tableoptions, $wpdb;
-	$options = $wpdb->get_results("SELECT option_name, option_value FROM $tableoptions");
+	global $wpdb;
+	$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
 	if ($options) {
 		foreach ($options as $option) {
 			// "When trying to design a foolproof system, 
@@ -338,11 +338,11 @@ function get_alloptions() {
 }
 
 function update_option($option_name, $newvalue) {
-	global $wpdb, $tableoptions, $cache_settings;
+	global $wpdb, $cache_settings;
 	$newvalue = stripslashes($newvalue);
 	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim
 	$newvalue = $wpdb->escape($newvalue);
-	$wpdb->query("UPDATE $tableoptions SET option_value = '$newvalue' WHERE option_name = '$option_name'");
+	$wpdb->query("UPDATE $wpdb->options SET option_value = '$newvalue' WHERE option_name = '$option_name'");
 	$cache_settings = get_alloptions(); // Re cache settings
 	return true;
 }
@@ -351,11 +351,11 @@ function update_option($option_name, $newvalue) {
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
 function add_option($name, $value='') {
 	// Adds an option if it doesn't already exist
-	global $wpdb, $tableoptions;
+	global $wpdb;
 	if(!get_settings($name)) {
 		$name = $wpdb->escape($name);
 		$value = $wpdb->escape($value);
-		$wpdb->query("INSERT INTO $tableoptions (option_name, option_value) VALUES ('$name', '$value')");
+		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value) VALUES ('$name', '$value')");
 
 		if($wpdb->insert_id) {
 			global $cache_settings;
@@ -366,19 +366,19 @@ function add_option($name, $value='') {
 }
 
 function delete_option($name) {
-	global $wpdb, $tableoptions, $tableoptiongroup_options;
+	global $wpdb;
 	// Get the ID, if no ID then return
-	$option_id = $wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = '$name'");
+	$option_id = $wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = '$name'");
 	if (!$option_id) return false;
-	$wpdb->query("DELETE FROM $tableoptiongroup_options WHERE option_id = '$option_id'");
-	$wpdb->query("DELETE FROM $tableoptions WHERE option_name = '$name'");
+	$wpdb->query("DELETE FROM $wpdb->optiongroup_options WHERE option_id = '$option_id'");
+	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name = '$name'");
 	return true;
 }
 
 function get_postdata($postid) {
-	global $post, $tableposts, $wpdb;
+	global $post, $wpdb;
 
-	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$postid'");
+	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$postid'");
 	
 	$postdata = array (
 		'ID' => $post->ID, 
@@ -402,9 +402,9 @@ function get_postdata($postid) {
 }
 
 function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { // less flexible, but saves DB queries
-	global $postc,$id,$commentdata,$tablecomments, $wpdb;
+	global $postc,$id,$commentdata, $wpdb;
 	if ($no_cache) {
-		$query = "SELECT * FROM $tablecomments WHERE comment_ID = '$comment_ID'";
+		$query = "SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment_ID'";
 		if (false == $include_unapproved) {
 		    $query .= " AND comment_approved = '1'";
 		}
@@ -431,9 +431,9 @@ function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { //
 }
 
 function get_catname($cat_ID) {
-	global $tablecategories, $cache_catnames, $wpdb;
+	global $cache_catnames, $wpdb;
 	if ( !$cache_catnames ) {
-        $results = $wpdb->get_results("SELECT * FROM $tablecategories") or die('Oops, couldn\'t query the db for categories.');
+        $results = $wpdb->get_results("SELECT * FROM $wpdb->categories") or die('Oops, couldn\'t query the db for categories.');
 		foreach ($results as $post) {
 			$cache_catnames[$post->cat_ID] = $post->cat_name;
 		}
@@ -544,7 +544,7 @@ add_action('publish_post', 'generic_ping');
 
 // Send a Trackback
 function trackback($trackback_url, $title, $excerpt, $ID) {
-	global $wpdb, $tableposts;
+	global $wpdb;
 	$title = urlencode(stripslashes($title));
 	$excerpt = urlencode(stripslashes($excerpt));
 	$blog_name = urlencode(stripslashes(get_settings('blogname')));
@@ -572,8 +572,8 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 */
 	@fclose($fs);
 
-	$wpdb->query("UPDATE $tableposts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = '$ID'");
-	$wpdb->query("UPDATE $tableposts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = '$ID'");
+	$wpdb->query("UPDATE $wpdb->posts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = '$ID'");
+	$wpdb->query("UPDATE $wpdb->posts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = '$ID'");
 	return $result;
 }
 
@@ -898,17 +898,17 @@ function pingGeoURL($blog_ID) {
    returns false on database error or invalid value for $comment_status
  */
 function wp_set_comment_status($comment_id, $comment_status) {
-    global $wpdb, $tablecomments;
+    global $wpdb;
 
     switch($comment_status) {
 		case 'hold':
-			$query = "UPDATE $tablecomments SET comment_approved='0' WHERE comment_ID='$comment_id' LIMIT 1";
+			$query = "UPDATE $wpdb->comments SET comment_approved='0' WHERE comment_ID='$comment_id' LIMIT 1";
 		break;
 		case 'approve':
-			$query = "UPDATE $tablecomments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
+			$query = "UPDATE $wpdb->comments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
 		break;
 		case 'delete':
-			$query = "DELETE FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1";
+			$query = "DELETE FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1";
 		break;
 		default:
 			return false;
@@ -934,9 +934,9 @@ function wp_set_comment_status($comment_id, $comment_status) {
    a (boolean) false signals an error
  */
 function wp_get_comment_status($comment_id) {
-    global $wpdb, $tablecomments;
+    global $wpdb;
     
-    $result = $wpdb->get_var("SELECT comment_approved FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
+    $result = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
     if ($result == NULL) {
         return "deleted";
     } else if ($result == "1") {
@@ -949,12 +949,12 @@ function wp_get_comment_status($comment_id) {
 }
 
 function wp_notify_postauthor($comment_id, $comment_type='comment') {
-    global $wpdb, $tablecomments, $tableposts, $tableusers;
+    global $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
     
-    $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
-    $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
-    $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
+    $comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
+    $post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+    $user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID='$post->post_author' LIMIT 1");
 
     if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
@@ -1009,15 +1009,15 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
    always returns true
  */
 function wp_notify_moderator($comment_id) {
-    global $wpdb, $tablecomments, $tableposts, $tableusers;
+    global $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
     
-    $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
-    $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
-    $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
+    $comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
+    $post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+    $user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID='$post->post_author' LIMIT 1");
 
     $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
-    $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $tablecomments WHERE comment_approved = '0'");
+    $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
 
     $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\" is waiting for your approval\r\n\r\n";
     $notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
@@ -1316,7 +1316,7 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 }
 
 function get_posts($args) {
-	global $wpdb, $tableposts;
+	global $wpdb;
 	parse_str($args, $r);
 	if (!isset($r['numberposts'])) $r['numberposts'] = 5;
 	if (!isset($r['offset'])) $r['offset'] = 0;
@@ -1327,7 +1327,7 @@ function get_posts($args) {
 
 	$now = current_time('mysql');
 
-	$posts = $wpdb->get_results("SELECT DISTINCT * FROM $tableposts WHERE post_date <= '$now' AND (post_status = 'publish') GROUP BY $tableposts.ID ORDER BY post_date DESC LIMIT " . $r['offset'] . ',' . $r['numberposts']);
+	$posts = $wpdb->get_results("SELECT DISTINCT * FROM $wpdb->posts WHERE post_date <= '$now' AND (post_status = 'publish') GROUP BY $wpdb->posts.ID ORDER BY post_date DESC LIMIT " . $r['offset'] . ',' . $r['numberposts']);
 	
 	return $posts;
 }
@@ -1354,7 +1354,7 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 }
 
 function query_posts($query) {
-    global $wpdb, $tablepost2cat, $tableposts, $tablecategories, $tableusers,
+    global $wpdb,
         $pagenow;
 
     parse_str($query);
@@ -1485,7 +1485,7 @@ function query_posts($query) {
             $eq = '=';
             $andor = 'OR';
         }
-        $join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) ";
+        $join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) ";
         $cat_array = explode(' ',$cat);
         $whichcat .= ' AND (category_id '.$eq.' '.intval($cat_array[0]);
         $whichcat .= get_category_children($cat_array[0], ' '.$andor.' category_id '.$eq.' ');
@@ -1511,10 +1511,10 @@ function query_posts($query) {
             }
         }
         $category_name = preg_replace('|[^a-z0-9-_]|i', '', $category_name);
-        $tables = ", $tablepost2cat, $tablecategories";
-        $join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) LEFT JOIN $tablecategories ON ($tablepost2cat.category_id = $tablecategories.cat_ID) ";
+        $tables = ", $wpdb->post2cat, $wpdb->categories";
+        $join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
         $whichcat = " AND (category_nicename = '$category_name'";
-        $cat = $wpdb->get_var("SELECT cat_ID FROM $tablecategories WHERE category_nicename = '$category_name'");
+        $cat = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_name'");
         $whichcat .= get_category_children($cat, " OR category_id = ");
         $whichcat .= ")";
     }
@@ -1555,7 +1555,7 @@ function query_posts($query) {
             }
         }
         $author_name = preg_replace('|[^a-z0-9-_]|', '', strtolower($author_name));
-        $author = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_nicename='".$author_name."'");
+        $author = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_nicename='".$author_name."'");
         $whichauthor .= ' AND (post_author = '.intval($author).')';
     }
 
@@ -1662,8 +1662,8 @@ function query_posts($query) {
         $where .= " OR post_author = $user_ID AND post_status != 'draft')";
     else
         $where .= ')';
-    $where .= " GROUP BY $tableposts.ID";
-    $request = " SELECT $distinct * FROM $tableposts $join WHERE 1=1".$where." ORDER BY post_$orderby $limits";
+    $where .= " GROUP BY $wpdb->posts.ID";
+    $request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY post_$orderby $limits";
 
 
     if ($preview) {
@@ -1682,8 +1682,7 @@ function query_posts($query) {
 
 function update_post_caches($posts) {
     global $category_cache, $comment_count_cache, $post_meta_cache;
-    global $tablecategories, $tablepost2cat, $tableposts, $tablecomments,
-        $tablepostmeta, $wpdb;
+    global $wpdb;
 
     // No point in doing all this work if we didn't match any posts.
     if (! $posts) {
@@ -1698,7 +1697,7 @@ function update_post_caches($posts) {
 
     $dogs = $wpdb->get_results("SELECT DISTINCT
         ID, category_id, cat_name, category_nicename, category_description, category_parent
-        FROM $tablecategories, $tablepost2cat, $tableposts
+        FROM $wpdb->categories, $wpdb->post2cat, $wpdb->posts
         WHERE category_id = cat_ID AND post_id = ID AND post_id IN ($post_id_list)");
         
     foreach ($dogs as $catt) {
@@ -1707,8 +1706,8 @@ function update_post_caches($posts) {
 
     // Do the same for comment numbers
     $comment_counts = $wpdb->get_results("SELECT ID, COUNT( comment_ID ) AS ccount
-        FROM $tableposts
-        LEFT JOIN $tablecomments ON ( comment_post_ID = ID  AND comment_approved =  '1')
+        FROM $wpdb->posts
+        LEFT JOIN $wpdb->comments ON ( comment_post_ID = ID  AND comment_approved =  '1')
         WHERE post_status =  'publish' AND ID IN ($post_id_list)
         GROUP BY ID");
     
@@ -1721,7 +1720,7 @@ function update_post_caches($posts) {
     // Get post-meta info
     if ( $meta_list = $wpdb->get_results("
 			SELECT post_id,meta_key,meta_value 
-			FROM $tablepostmeta 
+			FROM $wpdb->postmeta 
 			WHERE post_id IN($post_id_list)
 			ORDER BY post_id,meta_key
 		", ARRAY_A) ) {
@@ -1746,17 +1745,17 @@ function update_post_caches($posts) {
 }
 
 function update_category_cache() {
-    global $cache_categories, $tablecategories, $wpdb;
-    $dogs = $wpdb->get_results("SELECT * FROM $tablecategories WHERE 1=1");
+    global $cache_categories, $wpdb;
+    $dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE 1=1");
     foreach ($dogs as $catt) {
         $cache_categories[$catt->cat_ID] = $catt;
     }
 }
 
 function update_user_cache() {
-    global $cache_userdata, $tableusers, $wpdb;
+    global $cache_userdata, $wpdb;
 
-    $users = $wpdb->get_results("SELECT * FROM $tableusers WHERE user_level > 0");
+    $users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level > 0");
     foreach ($users as $user) {
         $cache_userdata[$user->ID] = $user;
     }

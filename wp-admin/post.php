@@ -108,13 +108,13 @@ case 'post':
 
 
 	if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
-	$postquery ="INSERT INTO $tableposts
+	$postquery ="INSERT INTO $wpdb->posts
 			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt)
 			VALUES
 			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', $post_latf, $post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt')
 			";
 	} else {
-	$postquery ="INSERT INTO $tableposts
+	$postquery ="INSERT INTO $wpdb->posts
 			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt)
 			VALUES
 			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt')
@@ -123,7 +123,7 @@ case 'post':
 	$postquery =
 	$result = $wpdb->query($postquery);
 
-	$post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
+	$post_ID = $wpdb->get_var("SELECT ID FROM $wpdb->posts ORDER BY ID DESC LIMIT 1");
 
 	if (!empty($_POST['mode'])) {
 	switch($_POST['mode']) {
@@ -151,11 +151,11 @@ case 'post':
 	if (!$post_categories) $post_categories[] = 1;
 	foreach ($post_categories as $post_category) {
 		// Double check it's not there already
-		$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
+		$exists = $wpdb->get_row("SELECT * FROM $wpdb->post2cat WHERE post_id = $post_ID AND category_id = $post_category");
 
 		 if (!$exists && $result) { 
 			$wpdb->query("
-			INSERT INTO $tablepost2cat
+			INSERT INTO $wpdb->post2cat
 			(post_id, category_id)
 			VALUES
 			($post_ID, $post_category)
@@ -181,8 +181,8 @@ case 'post':
 		do_action('publish_post', $post_ID);
 
 		// Time for trackbacks
-		$to_ping = $wpdb->get_var("SELECT to_ping FROM $tableposts WHERE ID = $post_ID");
-		$pinged = $wpdb->get_var("SELECT pinged FROM $tableposts WHERE ID = $post_ID");
+		$to_ping = $wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_ID");
+		$pinged = $wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_ID");
 		$pinged = explode("\n", $pinged);
 		if ('' != $to_ping) {
 			if (strlen($excerpt) > 0) {
@@ -213,7 +213,7 @@ case 'edit':
 
 	$post = $post_ID = $p = (int) $_GET['post'];
 	if ($user_level > 0) {
-		$postdata = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$post_ID'");
+		$postdata = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
 		$authordata = get_userdata($postdata->post_author);
 		if ($user_level < $authordata->user_level)
 			die ('You don&#8217;t have the right to edit <strong>'.$authordata[1].'</strong>&#8217;s posts.');
@@ -235,7 +235,7 @@ case 'edit':
 
 		include('edit-form-advanced.php');
 
-		$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$post_ID'");
+		$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
 		?>
 <div id='preview' class='wrap'>
 	 <h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
@@ -343,7 +343,7 @@ $now = current_time('mysql');
 $now_gmt = current_time('mysql', 1);
 
 	$result = $wpdb->query("
-		UPDATE $tableposts SET
+		UPDATE $wpdb->posts SET
 			post_content = '$content',
 			post_excerpt = '$excerpt',
 			post_title = '$post_title'"
@@ -364,18 +364,18 @@ $now_gmt = current_time('mysql', 1);
 
 	// Now it's category time!
 	// First the old categories
-	$old_categories = $wpdb->get_col("SELECT category_id FROM $tablepost2cat WHERE post_id = $post_ID");
+	$old_categories = $wpdb->get_col("SELECT category_id FROM $wpdb->post2cat WHERE post_id = $post_ID");
 	
 	// Delete any?
 	foreach ($old_categories as $old_cat) {
 		if (!in_array($old_cat, $post_categories)) // If a category was there before but isn't now
-			$wpdb->query("DELETE FROM $tablepost2cat WHERE category_id = $old_cat AND post_id = $post_ID LIMIT 1");
+			$wpdb->query("DELETE FROM $wpdb->post2cat WHERE category_id = $old_cat AND post_id = $post_ID LIMIT 1");
 	}
 	
 	// Add any?
 	foreach ($post_categories as $new_cat) {
 		if (!in_array($new_cat, $old_categories))
-			$wpdb->query("INSERT INTO $tablepost2cat (post_id, category_id) VALUES ($post_ID, $new_cat)");
+			$wpdb->query("INSERT INTO $wpdb->post2cat (post_id, category_id) VALUES ($post_ID, $new_cat)");
 	}
 	
 	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
@@ -392,8 +392,8 @@ $now_gmt = current_time('mysql', 1);
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 		// Trackback time.
-		$to_ping = trim($wpdb->get_var("SELECT to_ping FROM $tableposts WHERE ID = $post_ID"));
-		$pinged = trim($wpdb->get_var("SELECT pinged FROM $tableposts WHERE ID = $post_ID"));
+		$to_ping = trim($wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_ID"));
+		$pinged = trim($wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_ID"));
 		$pinged = explode("\n", $pinged);
 		if ('' != $to_ping) {
 			if (strlen($excerpt) > 0) {
@@ -449,7 +449,7 @@ case 'delete':
 		die (sprintf(__('You don&#8217;t have the right to delete <strong>%s</strong>&#8217;s posts.'), $authordata[1]));
 
 	// send geoURL ping to "erase" from their DB
-	$query = "SELECT post_lat from $tableposts WHERE ID=$post_id";
+	$query = "SELECT post_lat from $wpdb->posts WHERE ID=$post_id";
 	$rows = $wpdb->query($query); 
 	$myrow = $rows[0];
 	$latf = $myrow->post_lat;
@@ -457,13 +457,13 @@ case 'delete':
 		pingGeoUrl($post);
 	}
 
-	$result = $wpdb->query("DELETE FROM $tableposts WHERE ID=$post_id");
+	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE ID=$post_id");
 	if (!$result)
 		die(__('Error in deleting...'));
 
-	$result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID=$post_id");
+	$result = $wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID=$post_id");
 
-	$categories = $wpdb->query("DELETE FROM $tablepost2cat WHERE post_id = $post_id");
+	$categories = $wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $post_id");
 
 	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
 		sleep($sleep_after_edit);
@@ -694,7 +694,7 @@ case 'editedcomment':
 	$content = format_to_post($content);
 
 	$result = $wpdb->query("
-		UPDATE $tablecomments SET
+		UPDATE $wpdb->comments SET
 			comment_content = '$content',
 			comment_author = '$newcomment_author',
 			comment_author_email = '$newcomment_author_email',
@@ -716,7 +716,7 @@ default:
 	if ($user_level > 0) {
 		$action = 'post';
 		get_currentuserinfo();
-		$drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_status = 'draft' AND post_author = $user_ID");
+		$drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
 		if ($drafts) {
 			?>
 			<div class="wrap">

@@ -28,7 +28,7 @@ if ((strlen(''.$tb_id)) && (empty($_GET['__mode'])) && (strlen(''.$tb_url))) {
 	if (!get_settings('use_trackback'))
 		trackback_response(1, 'Sorry, this weblog does not allow you to trackback its posts.');
 
-	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $tableposts WHERE ID = $tb_id");
+	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $tb_id");
 
 	if ('closed' == $pingstatus)
 		trackback_response(1, 'Sorry, trackbacks are closed for this item.');
@@ -72,7 +72,7 @@ if ((strlen(''.$tb_id)) && (empty($_GET['__mode'])) && (strlen(''.$tb_url))) {
 		$approved = 0;
 	}
 
-	$result = $wpdb->query("INSERT INTO $tablecomments 
+	$result = $wpdb->query("INSERT INTO $wpdb->comments 
 	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved)
 	VALUES 
 	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved')

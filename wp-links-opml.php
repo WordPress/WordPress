@@ -12,8 +12,8 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
     $link_cat = addslashes_gpc($link_cat);
     $link_cat = intval($link_cat);
     if ($link_cat != 0) {
-        $sql_cat = "AND $tablelinks.link_category = $link_cat";
-        $cat_name = $wpdb->get_var("SELECT $tablelinkcategories.cat_name FROM $tablelinkcategories WHERE $tablelinkcategories.cat_id = $link_cat");
+        $sql_cat = "AND $wpdb->links.link_category = $link_cat";
+        $cat_name = $wpdb->get_var("SELECT $wpdb->linkcategories.cat_name FROM $wpdb->linkcategories WHERE $wpdb->linkcategories.cat_id = $link_cat");
         if (!empty($cat_name)) {
             $cat_name = ": category $cat_name";
         }
@@ -27,11 +27,11 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
         <dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
     </head>
     <body>
-<?php $sql = "SELECT $tablelinks.link_url, link_rss, $tablelinks.link_name, $tablelinks.link_category, $tablelinkcategories.cat_name 
-FROM $tablelinks 
- LEFT JOIN $tablelinkcategories on $tablelinks.link_category = $tablelinkcategories.cat_id
+<?php $sql = "SELECT $wpdb->links.link_url, link_rss, $wpdb->links.link_name, $wpdb->links.link_category, $wpdb->linkcategories.cat_name 
+FROM $wpdb->links 
+ LEFT JOIN $wpdb->linkcategories on $wpdb->links.link_category = $wpdb->linkcategories.cat_id
  $sql_cat
- ORDER BY $tablelinkcategories.cat_name, $tablelinks.link_name \n";
+ ORDER BY $wpdb->linkcategories.cat_name, $wpdb->links.link_name \n";
  //echo("<!-- $sql -->");
  $prev_cat_id = 0;
  $results = $wpdb->get_results($sql);

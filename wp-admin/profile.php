@@ -95,7 +95,7 @@ case 'update':
 	$newuser_idmode=addslashes(stripslashes($_POST['newuser_idmode']));
 	$user_description = addslashes(stripslashes($_POST['user_description']));
 
-	$query = "UPDATE $tableusers SET user_firstname='$newuser_firstname', $updatepassword user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode', user_description = '$user_description' WHERE ID = $user_ID";
+	$query = "UPDATE $wpdb->users SET user_firstname='$newuser_firstname', $updatepassword user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode', user_description = '$user_description' WHERE ID = $user_ID";
 	$result = $wpdb->query($query);
 	if (!$result) {
 		die (__("<strong>ERROR</strong>: couldn't update your profile..."));

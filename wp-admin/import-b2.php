@@ -82,32 +82,32 @@ if (!$result) {
 }
 
 while ($row = mysql_fetch_row($result)) {
-    if ($row[0] == $tablelinks)
+    if ($row[0] == $wpdb->links)
         $got_links = true;
-    if ($row[0] == $tablelinkcategories)
+    if ($row[0] == $wpdb->linkcategories)
         $got_cats = true;
     //print "Table: $row[0]<br />\n";
 }
 if (!$got_cats) {
-    echo "<p>Can't find table '$tablelinkcategories', gonna create it...</p>\n";
-    $sql = "CREATE TABLE $tablelinkcategories ( " .
+    echo "<p>Can't find table '$wpdb->linkcategories', gonna create it...</p>\n";
+    $sql = "CREATE TABLE $wpdb->linkcategories ( " .
            " cat_id int(11) NOT NULL auto_increment, " .
            " cat_name tinytext NOT NULL, ".
            " auto_toggle enum ('Y','N') NOT NULL default 'N', ".
            " PRIMARY KEY (cat_id) ".
            ") ";
-    $result = mysql_query($sql) or print ("Can't create the table '$tablelinkcategories' in the database.<br />" . $sql . "<br />" . mysql_error());
+    $result = mysql_query($sql) or print ("Can't create the table '$wpdb->linkcategories' in the database.<br />" . $sql . "<br />" . mysql_error());
     if ($result != false) {
-        echo "<p>Table '$tablelinkcategories' created OK</p>\n";
+        echo "<p>Table '$wpdb->linkcategories' created OK</p>\n";
         $got_cats = true;
     }
 } else {
-    echo "<p>Found table '$tablelinkcategories', don't need to create it...</p>\n";
+    echo "<p>Found table '$wpdb->linkcategories', don't need to create it...</p>\n";
         $got_cats = true;
 }
 if (!$got_links) {
-    echo "<p>Can't find '$tablelinks', gonna create it...</p>\n";
-    $sql = "CREATE TABLE $tablelinks ( " .
+    echo "<p>Can't find '$wpdb->links', gonna create it...</p>\n";
+    $sql = "CREATE TABLE $wpdb->links ( " .
            " link_id int(11) NOT NULL auto_increment,           " .
            " link_url varchar(255) NOT NULL default '',         " .
            " link_name varchar(255) NOT NULL default '',        " .
@@ -123,38 +123,38 @@ if (!$got_links) {
            " link_notes MEDIUMTEXT NOT NULL default '',         " .
            " PRIMARY KEY (link_id)                              " .
            ") ";
-    $result = mysql_query($sql) or print ("Can't create the table '$tablelinks' in the database.<br />" . $sql . "<br />" . mysql_error());
-	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://wordpress.org/', 'WordPress', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
-	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://photomatt.net/', 'Matt', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
-	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://zed1.com/b2/', 'Mike', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+    $result = mysql_query($sql) or print ("Can't create the table '$wpdb->links' in the database.<br />" . $sql . "<br />" . mysql_error());
+	$links = mysql_query("INSERT INTO $wpdb->links VALUES ('', 'http://wordpress.org/', 'WordPress', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO $wpdb->links VALUES ('', 'http://photomatt.net/', 'Matt', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO $wpdb->links VALUES ('', 'http://zed1.com/b2/', 'Mike', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
 
     if ($result != false) {
-        echo "<p>Table '$tablelinks' created OK</p>\n";
+        echo "<p>Table '$wpdb->links' created OK</p>\n";
         $got_links = true;
     }
 } else {
-    echo "<p>Found table '$tablelinks', don't need to create it...</p>\n";
+    echo "<p>Found table '$wpdb->links', don't need to create it...</p>\n";
     echo "<p>... may need to update it though. Looking for column link_updated...</p>\n";
-    $query = "SELECT link_updated FROM $tablelinks LIMIT 1";
+    $query = "SELECT link_updated FROM $wpdb->links LIMIT 1";
     $q = @mysql_query($query);
     if ($q != false) {
         if ($row = mysql_fetch_object($q)) {
             echo "<p>You have  column link_updated. Good!</p>\n";
         }
     } else {
-        $query = "ALTER TABLE $tablelinks ADD COLUMN link_updated DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'";
+        $query = "ALTER TABLE $wpdb->links ADD COLUMN link_updated DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'";
         $q = mysql_query($query) or mysql_doh("Doh, couldn't add column.", $query, mysql_error());
         echo "<p>Added column link_updated...</p>\n";
     }
     echo "<p>Looking for column link_rel...</p>\n";
-    $query = "SELECT link_rel FROM $tablelinks LIMIT 1";
+    $query = "SELECT link_rel FROM $wpdb->links LIMIT 1";
     $q = @mysql_query($query);
     if ($q != false) {
         if ($row = mysql_fetch_object($q)) {
             echo "<p>You have column link_rel. Good!</p>\n";
         }
     } else {
-        $query = "ALTER TABLE $tablelinks ADD COLUMN link_rel varchar(255) NOT NULL DEFAULT '' ";
+        $query = "ALTER TABLE $wpdb->links ADD COLUMN link_rel varchar(255) NOT NULL DEFAULT '' ";
         $q = mysql_query($query) or mysql_doh("Doh, couldn't add column.", $query, mysql_error());
         echo "<p>Added column link_rel...</p>\n";
     }
@@ -163,15 +163,15 @@ if (!$got_links) {
 
 if ($got_links && $got_cats) {
     echo "<p>Looking for category 1...</p>\n";
-    $sql = "SELECT * FROM $tablelinkcategories WHERE cat_id=1 ";
-    $result = mysql_query($sql) or print ("Can't query '$tablelinkcategories'.<br />" . $sql . "<br />" . mysql_error());
+    $sql = "SELECT * FROM $wpdb->linkcategories WHERE cat_id=1 ";
+    $result = mysql_query($sql) or print ("Can't query '$wpdb->linkcategories'.<br />" . $sql . "<br />" . mysql_error());
     if ($result != false) {
         if ($row = mysql_fetch_object($result)) {
             echo "<p>You have at least 1 category. Good!</p>\n";
             $got_row = true;
         } else {
             echo "<p>Gonna insert category 1...</p>\n";
-            $sql = "INSERT INTO $tablelinkcategories (cat_id, cat_name) VALUES (1, 'General')";
+            $sql = "INSERT INTO $wpdb->linkcategories (cat_id, cat_name) VALUES (1, 'General')";
             $result = mysql_query($sql) or print ("Can't query insert category.<br />" . $sql . "<br />" . mysql_error());
             if ($result != false) {
                 echo "<p>Inserted category Ok</p>\n";
@@ -196,10 +196,10 @@ if ($got_row) {
 
 <?php
 
-$query = "ALTER TABLE $tableposts ADD COLUMN post_excerpt text NOT NULL;";
+$query = "ALTER TABLE $wpdb->posts ADD COLUMN post_excerpt text NOT NULL;";
 $q = $wpdb->query($query);
 // 0.71 mods
-$query = "ALTER TABLE $tableposts ADD post_status ENUM('publish','draft','private') NOT NULL,
+$query = "ALTER TABLE $wpdb->posts ADD post_status ENUM('publish','draft','private') NOT NULL,
 ADD comment_status ENUM('open','closed') NOT NULL,
 ADD ping_status ENUM('open','closed') NOT NULL,
 ADD post_password varchar(20) NOT NULL;";
@@ -209,7 +209,7 @@ $q = $wpdb->query($query);
 <p>That went well! Now let's clean up the b2 database structure a bit...</p>
 
 <?php
-$query = "ALTER TABLE $tableposts DROP INDEX ID";
+$query = "ALTER TABLE $wpdb->posts DROP INDEX ID";
 
 $q = $wpdb->query($query);
 
@@ -217,17 +217,11 @@ $q = $wpdb->query($query);
 
 <p>One down, two to go...</p>
 
-<?php
-
-$query="ALTER TABLE $tablesettings DROP INDEX ID";
-$q = $wpdb->query($query);
-
-?>
 
 <p>So far so good.</p>
 <?php
 
-$query="ALTER TABLE $tableposts DROP post_karma";
+$query="ALTER TABLE $wpdb->posts DROP post_karma";
 $q = $wpdb->query($query);
 flush();
 ?>
@@ -236,7 +230,7 @@ flush();
 
 <?php
 
-$query = "ALTER TABLE $tableusers DROP INDEX ID";
+$query = "ALTER TABLE $wpdb->users DROP INDEX ID";
 
 $q = $wpdb->query($query);
 upgrade_all();

@@ -6,7 +6,7 @@
  * generic function for inserting data into the posts table.
  */
 function wp_insert_post($postarr = array()) {
-	global $wpdb, $tableposts, $post_default_category;
+	global $wpdb, $post_default_category;
 	
 	// export array as variables
 	extract($postarr);
@@ -31,7 +31,7 @@ function wp_insert_post($postarr = array()) {
 	if (empty($post_date_gmt)) 
 		$post_date_gmt = get_gmt_from_date($post_date);
 	
-	$sql = "INSERT INTO $tableposts 
+	$sql = "INSERT INTO $wpdb->posts 
 		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name) 
 		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name')";
 	
@@ -49,9 +49,9 @@ function wp_insert_post($postarr = array()) {
 }
 
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
-	global $wpdb, $tableposts;
+	global $wpdb;
 
-	$sql = "SELECT * FROM $tableposts WHERE ID=$postid";
+	$sql = "SELECT * FROM $wpdb->posts WHERE ID=$postid";
 	$result = $wpdb->get_row($sql, $mode);
 	
 	// Set categories
@@ -61,21 +61,21 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 }
 
 function wp_get_recent_posts($num = 10) {
-	global $wpdb, $tableposts;
+	global $wpdb;
 
 	// Set the limit clause, if we got a limit
 	if ($num) {
 		$limit = "LIMIT $num";
 	}
 
-	$sql = "SELECT * FROM $tableposts ORDER BY post_date DESC $limit";
+	$sql = "SELECT * FROM $wpdb->posts ORDER BY post_date DESC $limit";
 	$result = $wpdb->get_results($sql,ARRAY_A);
 
 	return $result?$result:array();
 }
 
 function wp_update_post($postarr = array()) {
-	global $wpdb, $tableposts;
+	global $wpdb;
 
 	// First get all of the original fields
 	extract(wp_get_single_post($postarr['ID'],ARRAY_A));	
@@ -96,7 +96,7 @@ function wp_update_post($postarr = array()) {
 	$post_modified = current_time('mysql');
 	$post_modified_gmt = current_time('mysql', 1);
 
-	$sql = "UPDATE $tableposts 
+	$sql = "UPDATE $wpdb->posts 
 		SET post_content = '$post_content',
 		post_title = '$post_title',
 		post_category = $post_category[0],
@@ -118,10 +118,10 @@ function wp_update_post($postarr = array()) {
 }
 
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
-	global $wpdb, $tablepost2cat;
+	global $wpdb;
 	
 	$sql = "SELECT category_id 
-		FROM $tablepost2cat 
+		FROM $wpdb->post2cat 
 		WHERE post_id = $post_ID 
 		ORDER BY category_id";
 
@@ -131,7 +131,7 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 }
 
 function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
-	global $wpdb, $tablepost2cat;
+	global $wpdb;
 	// If $post_categories isn't already an array, make it one:
 	if (!is_array($post_categories)) {
 		if (!$post_categories) {
@@ -145,7 +145,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	// First the old categories
 	$old_categories = $wpdb->get_col("
 		SELECT category_id 
-		FROM $tablepost2cat 
+		FROM $wpdb->post2cat 
 		WHERE post_id = $post_ID");
 	
 	if (!$old_categories) {
@@ -168,7 +168,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	if ($delete_cats) {
 		foreach ($delete_cats as $del) {
 			$wpdb->query("
-				DELETE FROM $tablepost2cat 
+				DELETE FROM $wpdb->post2cat 
 				WHERE category_id = $del 
 					AND post_id = $post_ID 
 				");
@@ -185,7 +185,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	if ($add_cats) {
 		foreach ($add_cats as $new_cat) {
 			$wpdb->query("
-				INSERT INTO $tablepost2cat (post_id, category_id) 
+				INSERT INTO $wpdb->post2cat (post_id, category_id) 
 				VALUES ($post_ID, $new_cat)");
 
 				logio("O","adding post/cat: $post_ID, $new_cat");
@@ -194,12 +194,12 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 }	// wp_set_post_cats()
 
 function wp_delete_post($postid = 0) {
-	global $wpdb, $tableposts, $tablepost2cat;
+	global $wpdb;
 	
-	$sql = "DELETE FROM $tablepost2cat WHERE post_id = $postid";
+	$sql = "DELETE FROM $wpdb->post2cat WHERE post_id = $postid";
 	$wpdb->query($sql);
 		
-	$sql = "DELETE FROM $tableposts WHERE ID = $postid";
+	$sql = "DELETE FROM $wpdb->posts WHERE ID = $postid";
 	
 	$wpdb->query($sql);
 
@@ -215,7 +215,6 @@ function wp_delete_post($postid = 0) {
 // get permalink from post ID
 function post_permalink($post_ID=0, $mode = 'id') {
     global $wpdb;
-	global $tableposts;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 
 	$blog_URL = get_settings('home') .'/'. get_settings('blogfilename');
@@ -265,19 +264,19 @@ function post_permalink($post_ID=0, $mode = 'id') {
 
 // Get the name of a category from its ID
 function get_cat_name($cat_id) {
-	global $wpdb,$tablecategories;
+	global $wpdb;
 	
 	$cat_id -= 0; 	// force numeric
-	$name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID=$cat_id");
+	$name = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE cat_ID=$cat_id");
 	
 	return $name;
 }
 
 // Get the ID of a category from its name
 function get_cat_ID($cat_name='General') {
-	global $wpdb,$tablecategories;
+	global $wpdb;
 	
-	$cid = $wpdb->get_var("SELECT cat_ID FROM $tablecategories WHERE cat_name='$cat_name'");
+	$cid = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
 
 	return $cid?$cid:1;	// default to cat 1
 }

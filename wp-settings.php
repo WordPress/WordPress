@@ -9,28 +9,26 @@ $_SERVER['REQUEST_URI'] = ( isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_U
 // Change to E_ALL for development/debugging
 error_reporting(E_ALL ^ E_NOTICE);
 
-// Table names
-$tableposts               = $table_prefix . 'posts';
-$tableusers               = $table_prefix . 'users';
-$tablesettings            = $table_prefix . 'settings'; // only used during upgrade
-$tablecategories          = $table_prefix . 'categories';
-$tablepost2cat            = $table_prefix . 'post2cat';
-$tablecomments            = $table_prefix . 'comments';
-$tablelinks               = $table_prefix . 'links';
-$tablelinkcategories      = $table_prefix . 'linkcategories';
-$tableoptions             = $table_prefix . 'options';
-$tableoptiontypes         = $table_prefix . 'optiontypes';
-$tableoptionvalues        = $table_prefix . 'optionvalues';
-$tableoptiongroups        = $table_prefix . 'optiongroups';
-$tableoptiongroup_options = $table_prefix . 'optiongroup_options';
-$tablepostmeta            = $table_prefix . 'postmeta';
-
 define('WPINC', 'wp-includes');
-
 require_once (ABSPATH . WPINC . '/wp-db.php');
 
+// Table names
+$wpdb->posts               = $table_prefix . 'posts';
+$wpdb->users               = $table_prefix . 'users';
+$wpdb->categories          = $table_prefix . 'categories';
+$wpdb->post2cat            = $table_prefix . 'post2cat';
+$wpdb->comments            = $table_prefix . 'comments';
+$wpdb->links               = $table_prefix . 'links';
+$wpdb->linkcategories      = $table_prefix . 'linkcategories';
+$wpdb->options             = $table_prefix . 'options';
+$wpdb->optiontypes         = $table_prefix . 'optiontypes';
+$wpdb->optionvalues        = $table_prefix . 'optionvalues';
+$wpdb->optiongroups        = $table_prefix . 'optiongroups';
+$wpdb->optiongroup_options = $table_prefix . 'optiongroup_options';
+$wpdb->postmeta            = $table_prefix . 'postmeta';
+
 $wpdb->hide_errors();
-$users = $wpdb->get_results("SELECT * FROM $tableusers");
+$users = $wpdb->get_results("SELECT * FROM $wpdb->users");
 if (!$users && !strstr($_SERVER['PHP_SELF'], 'install.php')) {
 	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
 }

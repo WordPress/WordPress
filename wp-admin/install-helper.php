@@ -131,17 +131,17 @@ echo "<p>testing</p>";
 echo "<pre>";
 
 //check_column('wp_links', 'link_description', 'mediumtext'); 
-//if (check_column($tablecomments, 'comment_author', 'tinytext'))
+//if (check_column($wpdb->comments, 'comment_author', 'tinytext'))
 //    echo "ok\n";
 $error_count = 0;
-$tablename = $tablelinks;
+$tablename = $wpdb->links;
 // check the column
-if (!check_column($tablelinks, 'link_description', 'varchar(255)'))
+if (!check_column($wpdb->links, 'link_description', 'varchar(255)'))
 {
-    $ddl = "ALTER TABLE $tablelinks MODIFY COLUMN link_description varchar(255) NOT NULL DEFAULT '' ";
+    $ddl = "ALTER TABLE $wpdb->links MODIFY COLUMN link_description varchar(255) NOT NULL DEFAULT '' ";
     $q = $wpdb->query($ddl);
 }
-if (check_column($tablelinks, 'link_description', 'varchar(255)')) {
+if (check_column($wpdb->links, 'link_description', 'varchar(255)')) {
     $res .= $tablename . ' - ok <br />';
 } else {
     $res .= 'There was a problem with ' . $tablename . '<br />';

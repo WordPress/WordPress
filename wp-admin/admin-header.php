@@ -14,7 +14,7 @@ if (!isset($blogID))    $blog_ID=1;
 if (!isset($debug))        $debug=0;
 timer_start();
 
-$dogs = $wpdb->get_results("SELECT * FROM $tablecategories WHERE 1=1");
+$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE 1=1");
 foreach ($dogs as $catt) {
     $cache_categories[$catt->cat_ID] = $catt;
 }

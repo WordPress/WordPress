@@ -71,7 +71,7 @@ case 'register':
 	}
 
 	/* checking the login isn't already used by another user */
-	$result = $wpdb->get_results("SELECT user_login FROM $tableusers WHERE user_login = '$user_login'");
+	$result = $wpdb->get_results("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'");
     if (count($result) >= 1) {
 		die (__('<strong>ERROR</strong>: This login is already registered, please choose another one.'));
 	}
@@ -86,7 +86,7 @@ case 'register':
 	$now = gmdate('Y-m-d H:i:s');
 	$new_users_can_blog = get_settings('new_users_can_blog');
 
-	$result = $wpdb->query("INSERT INTO $tableusers 
+	$result = $wpdb->query("INSERT INTO $wpdb->users 
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_browser, dateYMDhour, user_level, user_idmode)
 	VALUES 
 		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_browser', '$now', '$new_users_can_blog', 'nickname')");

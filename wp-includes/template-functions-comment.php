@@ -26,8 +26,8 @@ function clean_url($url) {
 }
 
 function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments', $number='') {
-    global $id, $comment, $tablecomments, $wpdb, $comment_count_cache;
-    if ('' == $comment_count_cache["$id"]) $number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
+    global $id, $comment, $wpdb, $comment_count_cache;
+    if ('' == $comment_count_cache["$id"]) $number = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved = '1'");
 	else $number = $comment_count_cache["$id"];
     if ($number == 0) {
         $blah = $zero;
@@ -56,12 +56,12 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
-    global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $cookiehash;
+    global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $cookiehash;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $comment_count_cache, $single;
 	if (!$single) {
     if ('' == $comment_count_cache["$id"]) {
-        $number = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1';");
+        $number = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved = '1';");
     } else {
         $number = $comment_count_cache["$id"];
     }

@@ -121,7 +121,7 @@ for ($i=1; $i <= $count; $i++) :
 	$content = addslashes(trim($content));
 
 
-	$sql = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_modified, post_modified_gmt) VALUES (1, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_date', '$post_date_gmt')";
+	$sql = "INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_modified, post_modified_gmt) VALUES (1, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_date', '$post_date_gmt')";
 
 	$result = $wpdb->query($sql);
 	$post_ID = $wpdb->insert_id;
@@ -138,11 +138,11 @@ foreach ($post_categories as $post_category) :
 	$post_category = intval($post_category);
 
 	// Double check it's not there already
-	$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
+	$exists = $wpdb->get_row("SELECT * FROM $wpdb->post2cat WHERE post_id = $post_ID AND category_id = $post_category");
 
 	 if (!$exists && $result) { 
 		$wpdb->query("
-		INSERT INTO $tablepost2cat
+		INSERT INTO $wpdb->post2cat
 		(post_id, category_id)
 		VALUES
 		($post_ID, $post_category)

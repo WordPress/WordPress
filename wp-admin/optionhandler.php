@@ -9,7 +9,7 @@ require_once('../wp-config.php');
 **/
 function get_option_widget($option_result, $editable, $between)
 {
-    global $wpdb, $tableoptionvalues;
+    global $wpdb;
     $disabled = $editable ? '' : 'disabled';
 
     switch ($option_result->option_type) {
@@ -47,7 +47,7 @@ BOOLSELECT;
 SELECT;
 
             $select = $wpdb->get_results("SELECT optionvalue, optionvalue_desc "
-                                         ."FROM $tableoptionvalues "
+                                         ."FROM $wpdb->optionvalues "
                                          ."WHERE option_id = $option_result->option_id "
                                          ."ORDER BY optionvalue_seq");
             if ($select) {
@@ -66,7 +66,7 @@ SELECT;
         
         case 7: // SQL select
             // first get the sql to run
-            $sql = $wpdb->get_var("SELECT optionvalue FROM $tableoptionvalues WHERE option_id = $option_result->option_id");
+            $sql = $wpdb->get_var("SELECT optionvalue FROM $wpdb->optionvalues WHERE option_id = $option_result->option_id");
             if (!$sql) {
                 return $option_result->option_name . $editable;
             }
@@ -100,12 +100,12 @@ SELECT;
 
 
 function validate_option($option, $name, $val) {
-    global $wpdb, $tableoptionvalues;
+    global $wpdb;
     $msg = '';
     switch ($option->option_type) {
         case 6: // range
             // get range
-            $range = $wpdb->get_row("SELECT optionvalue_max, optionvalue_min FROM $tableoptionvalues WHERE option_id = $option->option_id");
+            $range = $wpdb->get_row("SELECT optionvalue_max, optionvalue_min FROM $wpdb->optionvalues WHERE option_id = $option->option_id");
             if ($range) {
                 if (($val < $range->optionvalue_min) || ($val > $range->optionvalue_max)) {
                     $msg = "$name is outside the valid range ($range->optionvalue_min - $range->optionvalue_max). ";

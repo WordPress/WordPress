@@ -1,14 +1,14 @@
 <?php
 
 function get_the_category() {
-    global $post, $tablecategories, $tablepost2cat, $wpdb, $category_cache;
+    global $post, $wpdb, $category_cache;
     if ($category_cache[$post->ID]) {
         return $category_cache[$post->ID];
     } else {
         $categories = $wpdb->get_results("
             SELECT category_id, cat_name, category_nicename, category_description, category_parent
-            FROM  $tablecategories, $tablepost2cat
-            WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = $post->ID
+            FROM  $wpdb->categories, $wpdb->post2cat
+            WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = $post->ID
             ");
     
         return $categories;
@@ -16,7 +16,7 @@ function get_the_category() {
 }
 
 function get_category_link($echo = false, $category_id, $category_nicename) {
-    global $wpdb, $tablecategories, $post, $querystring_start, $querystring_equal, $cache_categories;
+    global $wpdb, $post, $querystring_start, $querystring_equal, $cache_categories;
     $cat_ID = $category_id;
     $permalink_structure = get_settings('permalink_structure');
     
@@ -123,9 +123,9 @@ function the_category_rss($type = 'rss') {
 }
 
 function get_the_category_by_ID($cat_ID) {
-    global $tablecategories, $cache_categories, $wpdb;
+    global $cache_categories, $wpdb;
     if ( !$cache_categories[$cat_ID] ) {
-        $cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
+        $cat_name = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
         $cache_categories[$cat_ID]->cat_name = $cat_name;
     } else {
         $cat_name = $cache_categories[$cat_ID]->cat_name;
@@ -134,8 +134,8 @@ function get_the_category_by_ID($cat_ID) {
 }
 
 function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
-    global $tablecategories, $cache_categories;
-    $chain = "";
+    global $cache_categories;
+    $chain = '';
     $parent = $cache_categories[$id];
     if ($nicename) {
         $name = $parent->category_nicename;
@@ -152,7 +152,7 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 }
 
 function get_category_children($id, $before = '/', $after = '') {
-    global $tablecategories, $cache_categories;
+    global $cache_categories;
     $c_cache = $cache_categories; // Can't do recursive foreach on a global, have to make a copy
     $chain = '';
     foreach ($c_cache as $category){
@@ -184,7 +184,7 @@ function the_category_head($before='', $after='') {
 }
 
 function category_description($category = 0) {
-    global $cat, $wpdb, $tablecategories, $cache_categories;
+    global $cat, $wpdb, $cache_categories;
     if (!$category) $category = $cat;
     $category_description = $cache_categories[$category]->category_description;
     $category_description = apply_filters('category_description', $category_description);
@@ -195,7 +195,7 @@ function category_description($category = 0) {
 function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
         $optiondates = 0, $optioncount = 0, $hide_empty = 1, $optionnone=FALSE,
         $selected=0, $hide=0) {
-    global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
+    global $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
     if (($file == 'blah') || ($file == '')) $file = get_settings('home') . '/' . get_settings('blogfilename');
     if (!$selected) $selected=$cat;
@@ -203,10 +203,10 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 
     $query = "
         SELECT cat_ID, cat_name, category_nicename,category_parent,
-        COUNT($tablepost2cat.post_id) AS cat_count,
+        COUNT($wpdb->post2cat.post_id) AS cat_count,
         DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
-        FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
-        LEFT JOIN $tableposts ON (ID = post_id)
+        FROM $wpdb->categories LEFT JOIN $wpdb->post2cat ON (cat_ID = category_id)
+        LEFT JOIN $wpdb->posts ON (ID = post_id)
         WHERE cat_ID > 0
         ";
     if ($hide) {
@@ -265,7 +265,7 @@ function wp_list_cats($args = '') {
 }
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '') {
-	global $tablecategories, $tableposts, $tablepost2cat, $wpdb, $category_posts;
+	global $wpdb, $category_posts;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	// Optiondates now works
 	if ('' == $file) {
@@ -287,7 +287,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 
 		$query  = "
 			SELECT cat_ID, cat_name, category_nicename, category_description, category_parent
-			FROM $tablecategories
+			FROM $wpdb->categories
 			WHERE cat_ID > 0 $exclusions
 			ORDER BY $sort_column $sort_order";
 
@@ -295,10 +295,10 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	}
 	if (!count($category_posts)) {
 		$cat_counts = $wpdb->get_results("	SELECT cat_ID,
-		COUNT($tablepost2cat.post_id) AS cat_count
-		FROM $tablecategories 
-		INNER JOIN $tablepost2cat ON (cat_ID = category_id)
-		INNER JOIN $tableposts ON (ID = post_id)
+		COUNT($wpdb->post2cat.post_id) AS cat_count
+		FROM $wpdb->categories 
+		INNER JOIN $wpdb->post2cat ON (cat_ID = category_id)
+		INNER JOIN $wpdb->posts ON (ID = post_id)
 		WHERE post_status = 'publish' $exclusions
 		GROUP BY category_id");
 		foreach ($cat_counts as $cat_count) {
@@ -311,9 +311,9 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	if (intval($optiondates) == 1) {
 		$cat_dates = $wpdb->get_results("	SELECT cat_ID,
 		DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
-		FROM $tablecategories 
-		LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
-		LEFT JOIN $tableposts ON (ID = post_id)
+		FROM $wpdb->categories 
+		LEFT JOIN $wpdb->post2cat ON (cat_ID = category_id)
+		LEFT JOIN $wpdb->posts ON (ID = post_id)
 		WHERE post_status = 'publish' $exclusions
 		GROUP BY category_id");
 		foreach ($cat_dates as $cat_date) {

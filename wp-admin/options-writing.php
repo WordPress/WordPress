@@ -107,7 +107,7 @@ include('options-head.php');
                 <th scope="row"><?php _e('Usual category:') ?></th>
         		<td><select name="default_category" id="default_category">
 <?php
-$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
+$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
 foreach ($categories as $category) :
 if ($category->cat_ID == get_settings('default_category')) $selected = " selected='selected'";
 else $selected = '';

@@ -63,7 +63,7 @@ case 'update':
 		$option_names = stripslashes($_POST['page_options']);
 	}
 
-    $options = $wpdb->get_results("SELECT $tableoptions.option_id, option_name, option_type, option_value, option_admin_level FROM $tableoptions WHERE option_name IN ($option_names)");
+    $options = $wpdb->get_results("SELECT $wpdb->options.option_id, option_name, option_type, option_value, option_admin_level FROM $wpdb->options WHERE option_name IN ($option_names)");
 //	die(var_dump($options));
 
 // HACK
@@ -83,7 +83,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
 				}
 				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_value = 'closed';
                 if ($new_val !== $old_val) {
-					$query = "UPDATE $tableoptions SET option_value = '$new_val' WHERE option_name = '$option->option_name'";
+					$query = "UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'";
 					$result = $wpdb->query($query);
 					//if( in_array($option->option_name, $nonbools)) die('boo'.$query);
 					if (!$result) {
@@ -130,7 +130,7 @@ if ($non_was_selected) { // no group pre-selected, display opening page
 <dl>
 <?php
     //iterate through the available option groups. output them as a definition list.
-    $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
+    $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $wpdb->optiongroups ORDER BY group_id");
     foreach ($option_groups as $option_group) {
         echo("  <dt><a href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></dt>\n");
         $current_long_desc = $option_group->group_longdesc;
@@ -159,12 +159,12 @@ include('options-head.php');
 <?php
 //Now display all the options for the selected group.
 if ('all' == $_GET['option_group_id']) :
-$options = $wpdb->get_results("SELECT * FROM $tableoptions LEFT JOIN $tableoptiongroup_options ON $tableoptions.option_id = $tableoptiongroup_options.option_id ORDER BY option_name");
+$options = $wpdb->get_results("SELECT * FROM $wpdb->options LEFT JOIN $wpdb->optiongroup_options ON $wpdb->options.option_id = $wpdb->optiongroup_options.option_id ORDER BY option_name");
 else :
 $options = $wpdb->get_results("
 SELECT 
-$tableoptions.option_id, option_name, option_type, option_value, option_width, option_height, option_description, option_admin_level 
-FROM $tableoptions  LEFT JOIN $tableoptiongroup_options ON $tableoptions.option_id = $tableoptiongroup_options.option_id
+$wpdb->options.option_id, option_name, option_type, option_value, option_width, option_height, option_description, option_admin_level 
+FROM $wpdb->options  LEFT JOIN $wpdb->optiongroup_options ON $wpdb->options.option_id = $wpdb->optiongroup_options.option_id
 WHERE group_id = $option_group_id
 ORDER BY seq
 ");

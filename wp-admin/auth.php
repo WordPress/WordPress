@@ -5,7 +5,7 @@ require_once('../wp-config.php');
 /* Checking login & pass in the database */
 function veriflog() {
 	global $cookiehash;
-	global $tableusers, $wpdb;
+	global $wpdb;
 
 	if (!empty($_COOKIE['wordpressuser_' . $cookiehash])) {
 		$user_login = $_COOKIE['wordpressuser_' . $cookiehash];
@@ -19,7 +19,7 @@ function veriflog() {
 	if (!$user_pass_md5)
 		return false;
 
-	$login = $wpdb->get_row("SELECT user_login, user_pass FROM $tableusers WHERE user_login = '$user_login'");
+	$login = $wpdb->get_row("SELECT user_login, user_pass FROM $wpdb->users WHERE user_login = '$user_login'");
 
 	if (!$login) {
 		return false;

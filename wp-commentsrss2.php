@@ -28,17 +28,17 @@ foreach ($posts as $post) { start_wp();
 		if (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) {
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
 			comment_author_url, comment_date, comment_content, comment_post_ID, 
-			$tableposts.ID, $tableposts.post_password FROM $tablecomments 
-			LEFT JOIN $tableposts ON comment_post_id = id WHERE comment_post_ID = '$id' 
-			AND $tablecomments.comment_approved = '1' AND $tableposts.post_status = 'publish' 
+			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
+			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE comment_post_ID = '$id' 
+			AND $wpdb->comments.comment_approved = '1' AND $wpdb->posts.post_status = 'publish' 
 			AND post_date < '".date("Y-m-d H:i:59")."' 
 			ORDER BY comment_date LIMIT " . get_settings('posts_per_rss') );
 		} else { // if no post id passed in, we'll just ue the last 10 comments.
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
 			comment_author_url, comment_date, comment_content, comment_post_ID, 
-			$tableposts.ID, $tableposts.post_password FROM $tablecomments 
-			LEFT JOIN $tableposts ON comment_post_id = id WHERE $tableposts.post_status = 'publish' 
-			AND $tablecomments.comment_approved = '1' AND post_date < '".date("Y-m-d H:i:s")."'  
+			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
+			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE $wpdb->posts.post_status = 'publish' 
+			AND $wpdb->comments.comment_approved = '1' AND post_date < '".date("Y-m-d H:i:s")."'  
 			ORDER BY comment_date DESC LIMIT " . get_settings('posts_per_rss') );
 		}
 	// this line is WordPress' motor, do not delete it.

@@ -77,7 +77,7 @@ function the_author_posts_link($idmode='') {
 
 
 function get_author_link($echo = false, $author_id, $author_nicename) {
-    global $wpdb, $tableusers, $post, $querystring_start, $querystring_equal, $cache_userdata;
+    global $wpdb, $post, $querystring_start, $querystring_equal, $cache_userdata;
     $auth_ID = $author_id;
     $permalink_structure = get_settings('permalink_structure');
     
@@ -126,9 +126,9 @@ function wp_list_authors($args = '') {
 }
 
 function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
-    global $tableusers, $wpdb, $blogfilename;
+    global $wpdb, $blogfilename;
 
-    $query = "SELECT ID, user_nickname, user_firstname, user_lastname, user_nicename from $tableusers " . ($exclude_admin ? "WHERE user_nickname <> 'admin' " : '') . "ORDER BY user_nickname";
+    $query = "SELECT ID, user_nickname, user_firstname, user_lastname, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_nickname <> 'admin' " : '') . "ORDER BY user_nickname";
     $authors = $wpdb->get_results($query);
 
     foreach($authors as $author) {

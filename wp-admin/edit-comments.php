@@ -45,10 +45,10 @@ if (!empty($delete_comments)) {
 	$del_comments = ''; $safe_delete_commeents = ''; $i = 0;
 	foreach ($delete_comments as $comment) { // Check the permissions on each
 		$comment = intval($comment);
-		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $tablecomments WHERE comment_ID = $comment");
-		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $tableposts WHERE ID = $post_id"));
+		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
+		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id"));
 		if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-			$wpdb->query("DELETE FROM $tablecomments WHERE comment_ID = $comment");
+			$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_ID = $comment");
 			++$i;
 		}
 	}
@@ -57,7 +57,7 @@ if (!empty($delete_comments)) {
 
 if (isset($_GET['s'])) {
 	$s = $wpdb->escape($_GET['s']);
-	$comments = $wpdb->get_results("SELECT * FROM $tablecomments  WHERE
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments  WHERE
 		comment_author LIKE '%$s%' OR
 		comment_author_email LIKE '%$s%' OR
 		comment_author_url LIKE ('%$s%') OR
@@ -65,13 +65,13 @@ if (isset($_GET['s'])) {
 		comment_content LIKE ('%$s%')
 		ORDER BY comment_date DESC");
 } else {
-	$comments = $wpdb->get_results("SELECT * FROM $tablecomments ORDER BY comment_date DESC LIMIT 20");
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments ORDER BY comment_date DESC LIMIT 20");
 }
 if ('view' == $mode) {
 	if ($comments) {
 		echo '<ol>';
 		foreach ($comments as $comment) {
-		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $tableposts WHERE ID = $comment->comment_post_ID"));
+		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
 			$comment_status = wp_get_comment_status($comment->comment_ID);
 			if ('unapproved' == $comment_status) {
 				echo '<li class="unapproved" style="border-bottom: 1px solid #ccc;">';
@@ -89,7 +89,7 @@ if ('view' == $mode) {
 				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\">" . __('Delete Comment') . "</a> &#8212; ";
 			} // end if any comments to show
 			// Get post title
-			$post_title = $wpdb->get_var("SELECT post_title FROM $tableposts WHERE ID = $comment->comment_post_ID");
+			$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $comment->comment_post_ID");
 			$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 			?> <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), stripslashes($post_title)); ?></a> | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a></p>
 		</li>
@@ -119,7 +119,7 @@ if ('view' == $mode) {
 	<th scope="col" colspan="3">' .  __('Actions') . '</th>
   </tr>';
 		foreach ($comments as $comment) {
-		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $tableposts WHERE ID = $comment->comment_post_ID"));
+		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
 		$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
 ?>
   <tr style='background-color: <?php echo $bgcolor; ?>'>

@@ -32,7 +32,7 @@ $comment = trim($_POST['comment']);
 $comment_post_ID = intval($_POST['comment_post_ID']);
 $user_ip = $_SERVER['REMOTE_ADDR'];
 
-if ( 'closed' ==  $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = '$comment_post_ID'") )
+if ( 'closed' ==  $wpdb->get_var("SELECT comment_status FROM $wpdb->posts WHERE ID = '$comment_post_ID'") )
 	die( __('Sorry, comments are closed for this item.') );
 
 if ( get_settings('require_name_email') && ('' == $email || '' == $author) )
@@ -51,7 +51,7 @@ $comment = format_to_post($comment);
 $comment = apply_filters('post_comment_text', $comment);
 
 // Simple flood-protection
-$lasttime = $wpdb->get_var("SELECT comment_date FROM $tablecomments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1");
+$lasttime = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1");
 if (!empty($lasttime)) {
 	$time_lastcomment= mysql2date('U', $lasttime);
 	$time_newcomment= mysql2date('U', $now);
@@ -68,7 +68,7 @@ if(check_comment($author, $email, $url, $comment, $user_ip)) {
 	$approved = 0;
 }
 
-$wpdb->query("INSERT INTO $tablecomments 
+$wpdb->query("INSERT INTO $wpdb->comments 
 (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved) 
 VALUES 
 ('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved')

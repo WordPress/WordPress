@@ -94,18 +94,18 @@ preg_match('|<event>(.*?)</event>|is', $post, $content);
 $content = str_replace( array('<![CDATA[', ']]>'), '', addslashes( trim($content[1]) ) );
 
 // Now lets put it in the DB
-if ($wpdb->get_var("SELECT ID FROM $tableposts WHERE post_title = '$title' AND post_date = '$post_date'")) :
+if ($wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$title' AND post_date = '$post_date'")) :
 	echo 'Post already imported';
 else : 
 	
-	$wpdb->query("INSERT INTO $tableposts 
+	$wpdb->query("INSERT INTO $wpdb->posts 
 		(post_author, post_date, post_date_gmt, post_content, post_title,post_status, comment_status, ping_status, post_name)
 		VALUES 
 		('$post_author', '$post_date', DATE_ADD('$post_date', INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE), '$content', '$title', 'publish', '$comment_status', '$ping_status', '$post_name')");
-	$post_id = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_title = '$title' AND post_date = '$post_date'");
+	$post_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$title' AND post_date = '$post_date'");
 	if (!$post_id) die("couldn't get post ID");
-	$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_id AND category_id = 1");
-	if (!$exists) $wpdb->query("INSERT INTO $tablepost2cat (post_id, category_id) VALUES ($post_id, 1) ");
+	$exists = $wpdb->get_row("SELECT * FROM $wpdb->post2cat WHERE post_id = $post_id AND category_id = 1");
+	if (!$exists) $wpdb->query("INSERT INTO $wpdb->post2cat (post_id, category_id) VALUES ($post_id, 1) ");
 	echo 'Done!</li>';
 endif;
 

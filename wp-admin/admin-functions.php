@@ -19,19 +19,19 @@ function checked($checked, $current) {
 }
 
 function get_nested_categories($default = 0) {
- global $post_ID, $tablecategories, $tablepost2cat, $mode, $wpdb;
+ global $post_ID, $mode, $wpdb;
 
  if ($post_ID) {
    $checked_categories = $wpdb->get_col("
      SELECT category_id
-     FROM  $tablecategories, $tablepost2cat
-     WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = '$post_ID'
+     FROM  $wpdb->categories, $wpdb->post2cat
+     WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$post_ID'
      ");
  } else {
    $checked_categories[] = $default;
  }
 
- $categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY category_parent DESC, cat_name ASC");
+ $categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY category_parent DESC, cat_name ASC");
  $result = array();
  foreach($categories as $category) {
    $array_category = get_object_vars($category);
@@ -66,14 +66,14 @@ function dropdown_categories($default = 0) {
 
 // Dandy new recursive multiple category stuff.
 function cat_rows($parent = 0, $level = 0, $categories = 0) {
-	global $wpdb, $tablecategories, $tablepost2cat, $bgcolor;
+	global $wpdb, $bgcolor;
 	if (!$categories) {
-		$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
+		$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
 	}
 	if ($categories) {
 		foreach ($categories as $category) {
 			if ($category->category_parent == $parent) {
-				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $tablepost2cat WHERE category_id = $category->cat_ID");
+				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 				$pad = str_repeat('&#8212; ', $level);
 
 				$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
@@ -91,13 +91,13 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 }
 
 function wp_dropdown_cats($currentcat, $currentparent = 0, $parent = 0, $level = 0, $categories = 0) {
-	global $wpdb, $tablecategories, $tablepost2cat, $bgcolor;
+	global $wpdb, $bgcolor;
 	if (!$categories) {
-		$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
+		$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
 	}
 	if ($categories) {
 		foreach ($categories as $category) { if ($currentcat != $category->cat_ID && $parent == $category->category_parent) {
-			$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $tablepost2cat WHERE category_id = $category->cat_ID");
+			$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 			$pad = str_repeat('&#8211; ', $level);
 			echo "\n\t<option value='$category->cat_ID'";
 			if ($currentparent == $category->cat_ID)
@@ -199,11 +199,11 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
 
 // Some postmeta stuff
 function has_meta($postid) {
-	global $wpdb, $tablepostmeta;
+	global $wpdb;
 
 	return $wpdb->get_results("
 		SELECT meta_key, meta_value, meta_id, post_id
-		FROM $tablepostmeta
+		FROM $wpdb->postmeta
 		WHERE post_id = '$postid'
 		ORDER BY meta_key,meta_id",ARRAY_A);
 
@@ -240,11 +240,11 @@ function list_meta($meta) {
 
 // Get a list of previously defined keys
 function get_meta_keys() {
-	global $wpdb, $tablepostmeta;
+	global $wpdb;
 	
 	$keys = $wpdb->get_col("
 		SELECT meta_key
-		FROM $tablepostmeta
+		FROM $wpdb->postmeta
 		GROUP BY meta_key
 		ORDER BY meta_key");
 	
@@ -252,10 +252,10 @@ function get_meta_keys() {
 }
 
 function meta_form() {
-	global $wpdb, $tablepostmeta;
+	global $wpdb;
 	$keys = $wpdb->get_col("
 		SELECT meta_key
-		FROM $tablepostmeta
+		FROM $wpdb->postmeta
 		GROUP BY meta_key
 		ORDER BY meta_id DESC
 		LIMIT 10");
@@ -289,7 +289,7 @@ function meta_form() {
 }
 
 function add_meta($post_ID) {
-	global $wpdb, $tablepostmeta;
+	global $wpdb;
 	
 	$metakeyselect = $wpdb->escape( stripslashes( trim($_POST['metakeyselect']) ) );
 	$metakeyinput  = $wpdb->escape( stripslashes( trim($_POST['metakeyinput']) ) );
@@ -306,7 +306,7 @@ function add_meta($post_ID) {
 			$metakey = $metakeyinput; // default
 
 		$result = $wpdb->query("
-				INSERT INTO $tablepostmeta 
+				INSERT INTO $wpdb->postmeta 
 				(post_id,meta_key,meta_value) 
 				VALUES ('$post_ID','$metakey','$metavalue')
 			");
@@ -314,15 +314,15 @@ function add_meta($post_ID) {
 } // add_meta
 
 function delete_meta($mid) {
-	global $wpdb, $tablepostmeta;
+	global $wpdb;
 
-	$result = $wpdb->query("DELETE FROM $tablepostmeta WHERE meta_id = '$mid'");
+	$result = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_id = '$mid'");
 }
 
 function update_meta($mid, $mkey, $mvalue) {
-	global $wpdb, $tablepostmeta;
+	global $wpdb;
 
-	return $wpdb->query("UPDATE $tablepostmeta SET meta_key = '$mkey', meta_value = '$mvalue' WHERE meta_id = '$mid'");
+	return $wpdb->query("UPDATE $wpdb->postmeta SET meta_key = '$mkey', meta_value = '$mvalue' WHERE meta_id = '$mid'");
 }
 
 function touch_time($edit = 1) {

@@ -166,4 +166,5 @@ if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
         gzip_compression();
     }
 }
+
 ?>

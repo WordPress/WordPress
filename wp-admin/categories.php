@@ -51,7 +51,7 @@ case 'addcat':
     $category_description = addslashes(stripslashes(stripslashes($_POST['category_description'])));
     $cat = intval($_POST['cat']);
 
-    $wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
+    $wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
     
     header('Location: categories.php?message=1#addcat');
 
@@ -67,7 +67,7 @@ case 'Delete':
     $cat_ID = intval($_GET["cat_ID"]);
     $cat_name = get_catname($cat_ID);
     $cat_name = addslashes($cat_name);
-    $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = '$cat_ID'");
+    $category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
     $cat_parent = $category->category_parent;
 
     if (1 == $cat_ID)
@@ -76,9 +76,9 @@ case 'Delete':
     if ($user_level < 3)
         die (__('Cheatin&#8217; uh?'));
 
-    $wpdb->query("DELETE FROM $tablecategories WHERE cat_ID = '$cat_ID'");
-    $wpdb->query("UPDATE $tablecategories SET category_parent = '$cat_parent' WHERE category_parent = '$cat_ID'");
-    $wpdb->query("UPDATE $tablepost2cat SET category_id='1' WHERE category_id='$cat_ID'");
+    $wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
+    $wpdb->query("UPDATE $wpdb->categories SET category_parent = '$cat_parent' WHERE category_parent = '$cat_ID'");
+    $wpdb->query("UPDATE $wpdb->post2cat SET category_id='1' WHERE category_id='$cat_ID'");
 
     header('Location: categories.php?message=2');
 
@@ -88,7 +88,7 @@ case 'edit':
 
     require_once ('admin-header.php');
     $cat_ID = intval($_GET['cat_ID']);
-    $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = '$cat_ID'");
+    $category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
     $cat_name = stripslashes($category->cat_name);
     ?>
 
@@ -129,7 +129,7 @@ case 'editedcat':
     $category_nicename = sanitize_title($cat_name);
     $category_description = $wpdb->escape(stripslashes($_POST['category_description']));
 
-    $wpdb->query("UPDATE $tablecategories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$cat' WHERE cat_ID = '$cat_ID'");
+    $wpdb->query("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$cat' WHERE cat_ID = '$cat_ID'");
     
     header('Location: categories.php?message=3');
 

@@ -19,6 +19,21 @@ class wpdb {
 	var $last_query;
 	var $col_info;
 
+	// Our tables
+	var $posts;
+	var $users;
+	var $categories;
+	var $post2cat;
+	var $comments;
+	var $links;
+	var $linkcategories;
+	var $options;
+	var $optiontypes;
+	var $optionvalues;
+	var $optiongroups;
+	var $optiongroup_options;
+	var $postmeta;
+
 	// ==================================================================
 	//	DB Constructor - connects to the server and selects a database
 

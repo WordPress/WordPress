@@ -12,7 +12,7 @@ require_once('admin-header.php');
 </ul> 
 <?php
 get_currentuserinfo();
-$drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_status = 'draft' AND post_author = $user_ID");
+$drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
 if ($drafts) {
 	?> 
 <div class="wrap"> 
@@ -47,7 +47,7 @@ if( isset( $_GET['m'] ) )
 	<legend><?php _e('Show Posts From Month of...') ?></legend>
     <select name='m'>
 	<?php
-		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $tableposts ORDER BY post_date DESC");
+		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts ORDER BY post_date DESC");
 		foreach ($arc_result as $arc_row) {			
 			$arc_year  = $arc_row->yyear;
 			$arc_month = $arc_row->mmonth;
@@ -125,7 +125,7 @@ $bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
 <?php
 if ( 1 == count($posts) ) {
 
-	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id ORDER BY comment_date");
 	if ($comments) {
 	?> 
 <h3><?php _e('Comments') ?></h3> 

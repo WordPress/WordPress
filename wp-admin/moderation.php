@@ -134,7 +134,7 @@ if (isset($deleted) || isset($approved) || isset($ignored)) {
 	
 <div class="wrap">
 <?php
-$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_approved = '0'");
+$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '0'");
 
 if ($comments) {
     // list all comments that are waiting for approval
@@ -147,7 +147,7 @@ if ($comments) {
 <?php
     foreach($comments as $comment) {
 	$comment_date = mysql2date(get_settings("date_format") . " @ " . get_settings("time_format"), $comment->comment_date);
-	$post_title = $wpdb->get_var("SELECT post_title FROM $tableposts WHERE ID='$comment->comment_post_ID'");
+	$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID='$comment->comment_post_ID'");
 	
 	echo "\n\t<li id='comment-$comment->comment_ID'>"; 
 	?>

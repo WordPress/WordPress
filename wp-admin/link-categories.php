@@ -71,7 +71,7 @@ switch ($action) {
       if ($list_limit == '')
           $list_limit = -1;
 
-      $wpdb->query("INSERT INTO $tablelinkcategories (cat_id, cat_name, auto_toggle, show_images, show_description, \n" .
+      $wpdb->query("INSERT INTO $wpdb->linkcategories (cat_id, cat_name, auto_toggle, show_images, show_description, \n" .
              " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, text_after_all, list_limit) \n" .
              " VALUES ('0', '$cat_name', '$auto_toggle', '$show_images', '$show_description', \n" .
              " '$show_rating', '$show_updated', '$sort_order', '$sort_desc', '$text_before_link', '$text_after_link', \n" .
@@ -95,8 +95,8 @@ switch ($action) {
     if ($user_level < get_settings('links_minadminlevel'))
       die (__("Cheatin' uh ?"));
 
-    $wpdb->query("DELETE FROM $tablelinkcategories WHERE cat_id='$cat_id'");
-    $wpdb->query("UPDATE $tablelinks SET link_category=1 WHERE link_category='$cat_id'");
+    $wpdb->query("DELETE FROM $wpdb->linkcategories WHERE cat_id='$cat_id'");
+    $wpdb->query("UPDATE $wpdb->links SET link_category=1 WHERE link_category='$cat_id'");
 
     header('Location: link-categories.php');
     break;
@@ -107,7 +107,7 @@ switch ($action) {
     $cat_id = $_GET['cat_id'];
     $row = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
          . " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
-         . " text_after_all, list_limit FROM $tablelinkcategories WHERE cat_id=$cat_id");
+         . " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_id=$cat_id");
     if ($row) {
         if ($row->list_limit == -1) {
             $row->list_limit = '';
@@ -263,7 +263,7 @@ switch ($action) {
     if ($list_limit == '')
         $list_limit = -1;
 
-    $wpdb->query("UPDATE $tablelinkcategories set
+    $wpdb->query("UPDATE $wpdb->linkcategories set
             cat_name='$cat_name',
             auto_toggle='$auto_toggle',
             show_images='$show_images',
@@ -324,7 +324,7 @@ switch ($action) {
 <?php
 $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
          . " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
-         . " text_after_all, list_limit FROM $tablelinkcategories ORDER BY cat_id");
+         . " text_after_all, list_limit FROM $wpdb->linkcategories ORDER BY cat_id");
 $i = 1;
 foreach ($results as $row) {
     if ($row->list_limit == -1) {

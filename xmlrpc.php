@@ -163,7 +163,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* blogger.getRecentPosts ...gets recent posts */
 	function blogger_getRecentPosts($args) {
 
-	  global $tableposts, $wpdb;
+	  global $wpdb;
 
 	  $blog_ID    = $args[1]; /* though we don't use it yet */
 	  $user_login = $args[2];
@@ -180,7 +180,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $sql = "SELECT * FROM $tableposts ORDER BY post_date DESC".$limit;
+	  $sql = "SELECT * FROM $wpdb->posts ORDER BY post_date DESC".$limit;
 	  $result = $wpdb->get_results($sql);
 
 	  if (!$result) {
@@ -322,7 +322,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* blogger.newPost ...creates a new post */
 	function blogger_newPost($args) {
 
-	  global $tableposts, $wpdb;
+	  global $wpdb;
 
 	  $blog_ID    = $args[1]; /* though we don't use it yet */
 	  $user_login = $args[2];
@@ -375,7 +375,7 @@ $wp_xmlrpc_server = new wp_xmlrpc_server();
  */
 
 function wp_insert_post($postarr = array()) {
-	global $wpdb, $tableposts, $post_default_category;
+	global $wpdb, $post_default_category;
 	
 	// export array as variables
 	extract($postarr);
@@ -400,7 +400,7 @@ function wp_insert_post($postarr = array()) {
 	if (empty($post_date_gmt)) 
 		$post_date_gmt = get_gmt_from_date($post_date);
 	
-	$sql = "INSERT INTO $tableposts 
+	$sql = "INSERT INTO $wpdb->posts 
 		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name) 
 		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name')";
 	
@@ -416,7 +416,7 @@ function wp_insert_post($postarr = array()) {
 
 
 function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
-	global $wpdb, $tablepost2cat;
+	global $wpdb;
 	// If $post_categories isn't already an array, make it one:
 	if (!is_array($post_categories)) {
 		if (!$post_categories) {
@@ -430,7 +430,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	// First the old categories
 	$old_categories = $wpdb->get_col("
 		SELECT category_id 
-		FROM $tablepost2cat 
+		FROM $wpdb->post2cat 
 		WHERE post_id = $post_ID");
 	
 	if (!$old_categories) {
@@ -453,7 +453,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	if ($delete_cats) {
 		foreach ($delete_cats as $del) {
 			$wpdb->query("
-				DELETE FROM $tablepost2cat 
+				DELETE FROM $wpdb->post2cat 
 				WHERE category_id = $del 
 					AND post_id = $post_ID 
 				");
@@ -470,7 +470,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	if ($add_cats) {
 		foreach ($add_cats as $new_cat) {
 			$wpdb->query("
-				INSERT INTO $tablepost2cat (post_id, category_id) 
+				INSERT INTO $wpdb->post2cat (post_id, category_id) 
 				VALUES ($post_ID, $new_cat)");
 
 				logio("O","adding post/cat: $post_ID, $new_cat");
@@ -480,10 +480,10 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 
 
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
-	global $wpdb, $tablepost2cat;
+	global $wpdb;
 	
 	$sql = "SELECT category_id 
-		FROM $tablepost2cat 
+		FROM $wpdb->post2cat 
 		WHERE post_id = $post_ID 
 		ORDER BY category_id";
 

@@ -63,7 +63,7 @@ case "step1":
 
 			$post_author = trim(addslashes($postinfo[1]));
 			// we'll check the author is registered already
-			$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE user_login = '$post_author'");
+			$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$post_author'");
 			if (!$user) { // seems s/he's not, so let's register
 				$user_ip = '127.0.0.1';
 				$user_domain = 'localhost';
@@ -76,7 +76,7 @@ case "step1":
 				$user_url = addslashes('');
 				$user_joindate = addslashes($user_joindate);
 				$result = $wpdb->query("
-				INSERT INTO $tableusers (
+				INSERT INTO $wpdb->users (
 					user_login,
 					user_pass,
 					user_nickname,
@@ -105,7 +105,7 @@ case "step1":
 				echo ": Registered user <strong>$user_login</strong>";
 			}
 
-			$post_author_ID = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$post_author'");
+			$post_author_ID = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$post_author'");
 
 			$post_date = explode(' ', $post_date);
 			$post_date_Ymd = explode('/', $post_date[0]);
@@ -128,7 +128,7 @@ case "step1":
 			$post_title = addslashes($post_title);
 			
 			// Quick-n-dirty check for dups:
-			$dupcheck = $wpdb->get_results("SELECT ID,post_date,post_title FROM $tableposts WHERE post_date='$post_date' AND post_title='$post_title' LIMIT 1",ARRAY_A);
+			$dupcheck = $wpdb->get_results("SELECT ID,post_date,post_title FROM $wpdb->posts WHERE post_date='$post_date' AND post_title='$post_title' LIMIT 1",ARRAY_A);
 			if ($dupcheck[0]['ID']) {
 				print "<br />\nSkipping duplicate post, ID = '" . $dupcheck[0]['ID'] . "'<br />\n";
 				print "Timestamp: " . $post_date . "<br />\n";
@@ -137,7 +137,7 @@ case "step1":
 			}
 
 			$result = $wpdb->query("
-			INSERT INTO $tableposts 
+			INSERT INTO $wpdb->posts 
 				(post_author,post_date,post_content,post_title,post_category)
 			VALUES 
 				('$post_author_ID','$post_date','$post_content','$post_title','1')
@@ -151,7 +151,7 @@ case "step1":
 
 	/* we've still got a bug that adds some empty posts with the date 0000-00-00 00:00:00
 	   here's the bugfix: */
-	$result = $wpdb->query("DELETE FROM $tableposts WHERE post_date=\"0000-00-00 00:00:00\"");
+	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE post_date=\"0000-00-00 00:00:00\"");
 
 	upgrade_all();
 	?>
