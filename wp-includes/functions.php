@@ -172,7 +172,7 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 function get_userdata($userid) {
 	global $wpdb, $cache_userdata;
 	$userid = (int) $userid;
-	if ( empty($cache_userdata[$userid]) ) {
+	if ( empty($cache_userdata[$userid]) && $userid != 0) {
         $cache_userdata[$userid] = 
             $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$userid'");
 	} 
