@@ -25,6 +25,14 @@ class WP_Query_State {
         parse_str($query);
         $this->init();
 
+        if ('' != $name) {
+            $this->single = true;
+        }
+
+        if (($p != '') && ($p != 'all')) {
+            $this->single = true;
+        }
+
         if ('' != $m) {
             $this->date = true;
         }
@@ -57,25 +65,11 @@ class WP_Query_State {
             $this->date = true;
         }
 
-        if ('' != $name) {
-            $this->single = true;
-        }
-
-        if (($p != '') && ($p != 'all')) {
-            $this->single = true;
-        }
-
         if (!empty($s)) {
             $this->search = true;
         }
 
-        if ((empty($cat)) || ($cat == 'all') || ($cat == '0') || 
-            // Bypass cat checks if fetching specific posts
-            (
-             intval($year) || intval($monthnum) || intval($day) || intval($w) ||
-             intval($p) || !empty($name) || !empty($s)
-             )
-            ) {
+        if (empty($cat) || ($cat == 'all') || ($cat == '0')) {
             $this->category = false;
         } else {
             if (stristr($cat,'-')) {
@@ -87,6 +81,11 @@ class WP_Query_State {
 
         if ('' != $category_name) {
             $this->category = true;
+        }
+            
+        // single, date, and search override category.
+        if ($this->single || $this->date || $this->search) {
+            $this->category = false;                
         }
 
         if ((empty($author)) || ($author == 'all') || ($author == '0')) {
