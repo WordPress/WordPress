@@ -243,7 +243,7 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
             }
             
             $thumbnail = imagecreatetruecolor($image_new_width, $image_new_height);
-            @imagecopyresized($thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $image_attr[0], $image_attr[1]);
+            @imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $image_attr[0], $image_attr[1]);
             
             // move the thumbnail to it's final destination
             
