@@ -65,11 +65,12 @@ if ($user_level <= 3) {
 <div class="wrap"> 
   <h2>Writing Options</h2> 
   <form name="form1" method="post" action="options.php"> 
-    <input type="hidden" name="action" value="update" /> 
+    <input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'default_post_edit_rows','blog_charset','use_smilies','use_balanceTags'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
-        <th width="33%" scope="row"> Size of the writing box, in lines:</th> 
-        <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php echo get_settings('default_post_edit_rows'); ?>" size="3" /></td> 
+        <th width="33%" scope="row"> Size of the writing box:</th> 
+        <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php echo get_settings('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
+        lines </td> 
       </tr>
       <tr valign="top">
         <th scope="row">Character Setting: </th>

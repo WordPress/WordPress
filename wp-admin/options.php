@@ -44,7 +44,7 @@ if ($option_group_id == '') {
 
 switch($action) {
 
-case "update":
+case 'update':
 	$standalone = 1;
 	include_once("./admin-header.php");
     $any_changed = 0;
@@ -53,19 +53,24 @@ case "update":
     // pull the vars from the post
     // validate ranges etc.
     // update the values
-	foreach ($_POST as $key => $value) {
-		$option_names[] = "'$key'";
+	if (!$_POST['page_options']) {
+		foreach ($_POST as $key => $value) {
+			$option_names[] = "'$key'";
+		}
+		$option_names = implode(',', $option_names);
+	} else {
+		$option_names = stripslashes($_POST['page_options']);
 	}
-	$option_names = implode(',', $option_names);
 
     $options = $wpdb->get_results("SELECT $tableoptions.option_id, option_name, option_type, option_value, option_admin_level FROM $tableoptions WHERE option_name IN ($option_names)");
+//	die(var_dump($options));
     if ($options) {
         foreach ($options as $option) {
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
-                $this_name = $option->option_name;
                 $old_val = stripslashes($option->option_value);
-                $new_val = $_POST[$this_name];
+                $new_val = $_POST[$option->option_name];
+				if (!$new_val) $new_val = 0;
 
                 if ($new_val != $old_val) {
                     // get type and validate
