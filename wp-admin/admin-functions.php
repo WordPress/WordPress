@@ -732,14 +732,29 @@ function get_admin_page_parent() {
 	return '';
 }
 
-function add_options_page($page_title, $menu_title, $access_level, $file) {
+function add_menu_page($page_title, $menu_title, $access_level, $file) {
+	global $menu;
+
+	$file = basename($file);
+
+	$menu[] = array($menu_title, $access_level, $file, $page_title);
+}
+
+function add_submenu_page($parent, $page_title, $menu_title, $access_level, $file) {
 	global $submenu;
 
 	$file = basename($file);
 
-	$submenu['options-general.php'][] = array($menu_title, $access_level, $file, $page_title);
+	$submenu[$parent][] = array($menu_title, $access_level, $file, $page_title);
 }
 
+function add_options_page($page_title, $menu_title, $access_level, $file) {
+	add_submenu_page('options-general.php', $page_title, $menu_title, $access_level, $file);
+}
+
+function add_management_page($page_title, $menu_title, $access_level, $file) {
+	add_submenu_page('edit.php', $page_title, $menu_title, $access_level, $file);
+}
 
 function validate_file_to_edit($file, $allowed_files = '') {
 	if ('..' == substr($file,0,2))
