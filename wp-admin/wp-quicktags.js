@@ -140,7 +140,21 @@ ed10.tagStart = '<pre>';
 ed10.tagEnd = '</pre>';
 ed10.access = '';
 
-var edButtonCount = 11;
+var ed11 = new edButton();
+ed11.id = 'ed_more';
+ed11.display = 'more';
+ed11.tagStart = '<!--more-->';
+ed11.tagEnd = '';
+ed11.access = 't';
+
+var ed12 = new edButton();
+ed12.id = 'ed_next';
+ed12.display = 'n-page';
+ed12.tagStart = '<!--nextpage-->';
+ed12.tagEnd = '';
+ed12.access = 'p';
+
+var edButtonCount = 13;
 
 function edShowButton(button, i) {
 	if (button.id == 'ed_img') {
