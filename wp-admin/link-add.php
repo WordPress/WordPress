@@ -14,7 +14,7 @@ function category_dropdown($fieldname, $selected = 0) {
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $selected)
         echo " selected";
-        echo ">".$row->cat_id.": ".$row->cat_name;
+        echo ">".$row->cat_id.": ".htmlspecialchars($row->cat_name);
         if ($row->auto_toggle == 'Y')
             echo ' (auto toggle)';
         echo "</option>\n";

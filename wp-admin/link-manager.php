@@ -185,6 +185,7 @@ switch ($action) {
     check_admin_referer();
 
     $link_url = $_POST['linkurl'];
+    $link_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $link_url) ? $link_url : 'http://' . $link_url; 
     $link_name = $_POST['name'];
     $link_image = $_POST['image'];
     $link_target = $_POST['target'];
@@ -235,6 +236,7 @@ switch ($action) {
 
       $link_id = $_POST['link_id'];
       $link_url = $_POST['linkurl'];
+      $link_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $link_url) ? $link_url : 'http://' . $link_url; 
       $link_name = $_POST['name'];
       $link_image = $_POST['image'];
       $link_target = $_POST['target'];
