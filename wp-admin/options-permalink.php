@@ -76,7 +76,7 @@ default:
   <p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p> 
   <ul> 
     <li><code>%year%</code> --- The year of the post, 4 digits, for example <code>2004</code> </li> 
-    <li><code>%monthnum%</code> --- Month of the year, for example <code>5</code></li> 
+    <li><code>%monthnum%</code> --- Month of the year, for example <code>05</code></li> 
     <li><code>%day% </code>--- Day of the month, for example <code>28</code></li> 
     <li><code>%postname%</code> --- A sanitized version of the title of the post. So &quot;This Is A Great Post!&quot; becomes &quot;<code>this-is-a-great-post</code>&quot; in the URI </li> 
     <li><code>%post_id%</code> --- The unique ID # of the post, for example <code>423</code> <strong></strong></li> 
