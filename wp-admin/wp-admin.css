@@ -94,6 +94,10 @@ h2 {
 	margin: 5px 10px;
 }
 
+img {
+	border: 0;
+}
+
 input:focus, textarea:focus, label:focus {
 	background: #fff;
 	border: 1px solid #686868;
