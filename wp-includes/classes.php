@@ -492,8 +492,8 @@ class WP_Query {
 			} elseif ($q['what_to_show'] == 'days') {
 				$startrow = $q['posts_per_page'] * (intval($page)-1);
 				$start_date = $wpdb->get_var("SELECT max(post_date) FROM $wpdb->posts $join WHERE (1=1) $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $startrow,1");
-				$endrow = $startrow + $q['posts_per_page'];
-				$end_date = $wpdb->get_var("SELECT min(post_date) FROM $wpdb->posts GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $endrow,1");
+				$endrow = $startrow + $q['posts_per_page'] - 1;
+				$end_date = $wpdb->get_var("SELECT min(post_date) FROM $wpdb->posts $join WHERE (1=1) $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $endrow,1");
 
 				if ($page > 1) {
 					$where .= " AND post_date >= '$end_date' AND post_date <= '$start_date'";
