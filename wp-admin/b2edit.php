@@ -134,7 +134,11 @@ switch($action) {
             }
 
             if (!empty($HTTP_POST_VARS['trackback_url'])) {
-                $excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252) . '...' : strip_tags($content);
+				if (strlen($excerpt) > 0) {
+					$the_excerpt = (strlen(strip_tags($excerpt)) > 255) ? substr(strip_tags($excerpt), 0, 252) . '...' : strip_tags($excerpt)	;
+				} else {
+					$the_excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252) . '...' : strip_tags($content);
+				}
                 $excerpt = stripslashes($excerpt);
                 $trackback_urls = explode(',', $HTTP_POST_VARS['trackback_url']);
                 foreach($trackback_urls as $tb_url) {
