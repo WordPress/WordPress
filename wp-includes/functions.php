@@ -1516,7 +1516,10 @@ function get_date_template() {
 
 function get_home_template() {
 	$template = '';
-	if ( file_exists(TEMPLATEPATH . "/index.php") )
+
+	if ( file_exists(TEMPLATEPATH . "/home.php") )
+		$template = TEMPLATEPATH . "/home.php";
+	else if ( file_exists(TEMPLATEPATH . "/index.php") )
 		$template = TEMPLATEPATH . "/index.php";
 
 	return apply_filters('home_template', $template);
