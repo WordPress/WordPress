@@ -909,6 +909,17 @@ function upgrade_130() {
             $wpdb->query("UPDATE $wpdb->comments SET comment_content = '$comment_content', comment_author = '$comment_author' WHERE comment_ID = '$comment->comment_ID'");
 		}
 	}
+
+    // Remove extraneous backslashes.
+	$links = $wpdb->get_results("SELECT link_id, link_name, link_description FROM $wpdb->links");
+	if ($links) {
+		foreach($links as $link) {
+            $link_name = addslashes(deslash($link->link_name));
+            $link_description = addslashes(deslash($link->link_description));
+            $wpdb->query("UPDATE $wpdb->links SET link_name = '$link_name', link_description = '$link_description' WHERE link_id = '$link->link_id'");
+		}
+	}
+
 }
 
 ?>
