@@ -1,12 +1,13 @@
 <?php /* RDF 1.0 generator, original version by garym@teledyn.com */
-if (! $feed) {
+
+if (!isset($feed) || !$feed) {
     $blog = 1; // enter your blog's ID
     $doing_rss = 1;
     require('wp-blog-header.php');
 }
-$more = 1;
 
 header('Content-type: application/rdf+xml', true);
+$more = 1;
 
 add_filter('the_content', 'trim');
 ?>

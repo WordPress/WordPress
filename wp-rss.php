@@ -1,12 +1,13 @@
-<?php /* These first lines are the first part of a CafeLog template.
-         In every template you do, you got to copy them before the CafeLog 'loop' */
-if (! $feed) {
-    $blog = 1; // enter your blog's ID
+<?php
+
+if (!isset($feed) || !$feed) {
+    $blog = 1;
     $doing_rss = 1;
     require('wp-blog-header.php');
 }
 
 header('Content-type: text/xml', true);
+$more = 1;
 
 ?>
 <?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
@@ -23,10 +24,6 @@ header('Content-type: text/xml', true);
         <item>
             <title><?php the_title_rss() ?></title>
 <?php
-// we might use this in the future, but not now, that's why it's commented in PHP
-// so that it doesn't appear at all in the RSS
-//          echo "<category>"; the_category_unicode(); echo "</category>";
-$more = 1; 
 if (get_settings('rss_use_excerpt')) {
 ?>
             <description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>

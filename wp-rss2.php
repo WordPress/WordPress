@@ -1,16 +1,16 @@
-<?php 
-if (!isset($feed)) {
+<?php
+
+if (!isset($feed) || !$feed) {
     $blog = 1;
     $doing_rss = 1;
     require('wp-blog-header.php');
 }
-$more = 1;
-$charset = get_settings('blog_charset');
-if (!$charset) $charset = 'UTF-8';
+
 header('Content-type: text/xml', true);
+$more = 1;
 
 ?>
-<?php echo '<?xml version="1.0" encoding="' . $charset . '"?'.'>'; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
 
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
