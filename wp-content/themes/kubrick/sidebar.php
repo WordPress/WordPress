@@ -2,7 +2,7 @@
 		<ul>
 			
 			<li>
-				<?php include (TEMPLATEPATH . "/searchform.php"; ?>
+				<?php include (TEMPLATEPATH . '/searchform.php'); ?>
 			</li>
 
 			<!-- Author information is disabled per default. Uncomment and fill in your details if you want to use it.
@@ -66,13 +66,15 @@
 					</ul>
 				</li>
 				
-				<li><h2><?php _e('Admin'); ?></h2>
-					<ul>
-						<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php"><?php _e('Login'); ?></a></li>
-						<!--
-						<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php"><?php _e('Register'); ?></a></li>
-						-->
-					</ul>
+				<li><h2><?php _e('Meta'); ?></h2>
+				<ul>
+					<li><?php wp_register(); ?></li>
+					<li><?php wp_loginout(); ?></li>
+					<li><a href="http://validator.w3.org/check/referer" title="<?php _e('This page validates as XHTML 1.0 Transitional'); ?>"><?php _e('Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr>'); ?></a></li>
+					<li><a href="http://gmpg.org/xfn/"><abbr title="XHTML Friends Network">XFN</abbr></a></li>
+					<li><a href="http://wordpress.org/" title="<?php _e('Powered by WordPress, state-of-the-art semantic personal publishing platform.'); ?>"><abbr title="WordPress">WordPress</abbr></a></li>
+					<?php wp_meta(); ?>
+				</ul>
 				</li>
 			<?php } ?>
 			

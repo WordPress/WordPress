@@ -39,7 +39,7 @@
 	<?php else : ?>
 
 		<h2 class="center">Not Found</h2>
-		<?php include (TEMPLATEPATH . "/searchform.php"; ?>
+		<?php include (TEMPLATEPATH . '/searchform.php'); ?>
 
 	<?php endif; ?>
 		
