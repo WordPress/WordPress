@@ -55,7 +55,7 @@ require('b2config.php');
 require_once($abspath.$b2inc.'/b2template.functions.php');
 require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc.'/b2vars.php');
-dbconnect();
+require_once($curpath.$b2inc.'/wp-db.php');
 
 if (isset($calendar) && ($calendar != '')) {
 	$thisyear = substr($calendar,0,4);
@@ -91,29 +91,25 @@ if ($ak_next_month == 13) {
     ++$ak_next_year;
 }
 
-$ak_first_post = mysql_query("SELECT MONTH(MIN(post_date)), YEAR(MIN(post_date)) FROM $tableposts");
-$ak_first_post = mysql_fetch_array($ak_first_post);
+$ak_first_post = $wpdb->get_row("SELECT MONTH(MIN(post_date)) AS min_month, YEAR(MIN(post_date)) AS min_year FROM $tableposts");
 // using text links by default
-	$ak_previous_month_dim = '<span>&lt;</span>&nbsp;&nbsp;';
-	$ak_previous_month_active = '<a href="'.$archive_link_m.$ak_previous_year.zeroise($ak_previous_month,2).'" style="text-decoration: none;">&lt;</a>&nbsp;&nbsp;';
-	$ak_next_month_dim = '&nbsp;&nbsp;<span>&gt;</span>';
-	$ak_next_month_active = '&nbsp;&nbsp;<a href="'.$archive_link_m.$ak_next_year.zeroise($ak_next_month,2).'" style="text-decoration: none;">&gt;</a>';
+$ak_previous_month_dim = '<span>&lt;</span>&nbsp;&nbsp;';
+$ak_previous_month_active = '<a href="'.$archive_link_m.$ak_previous_year.zeroise($ak_previous_month,2).'" style="text-decoration: none;">&lt;</a>&nbsp;&nbsp;';
+$ak_next_month_dim = '&nbsp;&nbsp;<span>&gt;</span>';
+$ak_next_month_active = '&nbsp;&nbsp;<a href="'.$archive_link_m.$ak_next_year.zeroise($ak_next_month,2).'" style="text-decoration: none;">&gt;</a>';
 if ($ak_use_arrows == 1) {
-	if (mktime(0,0,0,$ak_previous_month,1,$ak_previous_year) < mktime(0,0,0,$ak_first_post[0],1,$ak_first_post[1])) {
-		$ak_previous_month_link = $ak_previous_month_dim;
-	}
-	else {
-		$ak_previous_month_link = $ak_previous_month_active;
+    if (mktime(0,0,0,$ak_previous_month,1,$ak_previous_year) < mktime(0,0,0,$ak_first_post->min_month,1,$ak_first_post->min_year)) {
+        $ak_previous_month_link = $ak_previous_month_dim;
+	} else {
+        $ak_previous_month_link = $ak_previous_month_active;
 	}
 	
 	if (mktime(0,0,0,$ak_next_month,1,$ak_next_year) > mktime()) {
 		$ak_next_month_link = $ak_next_month_dim;
-	}
-	else {
+	} else {
 		$ak_next_month_link = $ak_next_month_active;
 	}
-}
-else {
+} else {
 	$ak_previous_month_link = "";
 	$ak_next_month_link = "";
 }
@@ -122,13 +118,13 @@ $end_of_week = (($start_of_week + 7) % 7);
 
 $calendarmonthwithpost = 0;
 while($calendarmonthwithpost == 0) {
-	$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) FROM $tableposts WHERE MONTH(post_date) = '$thismonth' AND YEAR(post_date) = '$thisyear' ORDER BY post_date DESC";
+	$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) AS dom FROM $tableposts WHERE MONTH(post_date) = '$thismonth' AND YEAR(post_date) = '$thisyear' ORDER BY post_date DESC";
 	$querycount++;
-	$arc_result=mysql_query($arc_sql) or die($arc_sql."<br />".mysql_error());
-	if (mysql_num_rows($arc_result) > 0) {
-		$daysinmonthwithposts = '-';
-		while($arc_row = mysql_fetch_array($arc_result)) {
-			$daysinmonthwithposts .= $arc_row["DAYOFMONTH(post_date)"].'-';
+    $arc_results = $wpdb->get_results($arc_sql);
+	if ($wpdb->num_rows > 0) {
+        $daysinmonthwithposts = '-';
+		foreach ($arc_results as $arc_row) {
+			$daysinmonthwithposts .= $arc_row->dom.'-';
 		}
 		$calendarmonthwithpost = 1;
 	} elseif ($calendar != '') {
@@ -203,10 +199,10 @@ $k = 1;
 
 // original tooltip hack by Alex King
 if ($ak_use_tooltip_titles == 1) {
-	$ak_days_result = mysql_query("SELECT post_title, post_date FROM $tableposts WHERE YEAR(post_date) = '$thisyear' AND MONTH(post_date) = '$thismonth'");
+	$ak_days_result = $wpdb->get_results("SELECT post_title, post_date FROM $tableposts WHERE YEAR(post_date) = '$thisyear' AND MONTH(post_date) = '$thismonth'");
 
 	$ak_day_title_array = array();
-	while($ak_temp = mysql_fetch_array($ak_days_result)) {
+	foreach($ak_days_result as $ak_temp) {
 		$ak_day_title_array[] = $ak_temp;
 	}
 	if (strstr($HTTP_SERVER_VARS["HTTP_USER_AGENT"], "MSIE")) {
@@ -247,8 +243,8 @@ for($i = $calendarfirst; $i<($calendarlast+86400); $i = $i + 86400) {
 			if ($ak_use_tooltip_titles == 1) { // check to see if we want to show the tooltip titles
 				$ak_day_titles = "";
 				foreach($ak_day_title_array as $post) {
-					if (substr($post[1], 8, 2) == date('d',$i)) {
-						$ak_day_titles = $ak_day_titles.stripslashes($post[0]).$ak_title_separator;
+					if (substr($post->post_date, 8, 2) == date('d',$i)) {
+						$ak_day_titles = $ak_day_titles.stripslashes($post->post_title).$ak_title_separator;
 					}
 				}
 				$ak_day_titles = substr($ak_day_titles, 0, strlen($ak_day_titles) - $ak_trim);
