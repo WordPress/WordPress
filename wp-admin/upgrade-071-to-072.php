@@ -119,7 +119,7 @@ if (maybe_create_table($tablename, $ddl) == true) {
 }
 
 $tablename = $tableoptiongroups;
-$query = "
+$ddl = "
 CREATE TABLE $tableoptiongroups (
   group_id int(11) NOT NULL auto_increment,
   group_name varchar(64) not null,
@@ -137,7 +137,7 @@ if (maybe_create_table($tablename, $ddl) == true) {
 }
 
 $tablename = $tableoptiongroup_options;
-$query = "
+$ddl = "
 CREATE TABLE $tableoptiongroup_options (
   group_id int(11) NOT NULL,
   option_id int(11) NOT NULL,
@@ -154,7 +154,7 @@ if (maybe_create_table($tablename, $ddl) == true) {
 }
 
 $tablename = $tableoptionvalues;
-$query = "
+$ddl = "
 CREATE TABLE $tableoptionvalues (
   option_id int(11) NOT NULL,
   optionvalue tinytext,
