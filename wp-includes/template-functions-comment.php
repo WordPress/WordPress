@@ -121,7 +121,6 @@ function comment_author_email() {
 function comment_author_link() {
 	global $comment;
 	$url = apply_filters('comment_url', $comment->comment_author_url);
-	$email = apply_filters('comment_email', $comment->comment_author_email);
 	$author = apply_filters('comment_author', $comment->comment_author);
 
 	if (empty($url) && empty($email)) {
@@ -132,8 +131,6 @@ function comment_author_link() {
 	echo '<a href="';
 	if ($url) {
 		echo $url;
-	} else {
-		echo "mailto:$email";
 	}
 	echo '" rel="external">' . $author . '</a>';
 }
