@@ -423,7 +423,7 @@ function get_permalink($id=false) {
 			);
 			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else { // if they're not using the fancy permalink option
-			return $siteurl . $blogfilename.$querystring_start.'p'.$querystring_equal.$post->ID;
+			return $siteurl . '/' . $blogfilename.$querystring_start.'p'.$querystring_equal.$post->ID;
 		}
 	} else { // if an ID is given
 		$idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
@@ -437,7 +437,7 @@ function get_permalink($id=false) {
 			);
 			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else {
-			return $siteurl . $blogfilename.$querystring_start.'p'.$querystring_equal.$idpost->ID;
+			return $siteurl . '/' . $blogfilename.$querystring_start.'p'.$querystring_equal.$idpost->ID;
 		}
 	}
 }
