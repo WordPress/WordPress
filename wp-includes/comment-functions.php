@@ -77,10 +77,7 @@ function comments_popup_script($width=400, $height=400, $file='') {
     global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
 
 		if (empty ($file)) {
-			if ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
-				$wpcommentspopupfile = str_replace(ABSPATH, '', TEMPLATEPATH . '/comments-popup.php');
-			else
-				$wpcommentspopupfile = 'wp-content/themes/default/comments-popup.php';
+			$wpcommentspopupfile = '';  // Use the index.
 		} else {
 			$wpcommentspopupfile = $file;
 		}
@@ -112,9 +109,12 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         }
         echo '<a href="';
         if ($wpcommentsjavascript) {
-            echo get_settings('siteurl') . '/' . $wpcommentspopupfile.'?p='.$id.'amp;c=1';
-            //echo get_permalink();
-            echo '" onclick="wpopen(this.href); return false"';
+					if ( empty($wpcommentspopupfile) )
+						$home = get_settings('home');
+					else
+						$home = get_settings('siteurl');
+					echo $home . '/' . $wpcommentspopupfile.'?comments_popup='.$id;
+					echo '" onclick="wpopen(this.href); return false"';
         } else {
             // if comments_popup_script() is not in the template, display simple comment link
             comments_link();

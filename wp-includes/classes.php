@@ -26,6 +26,7 @@ class WP_Query {
 	var $is_trackback = false;
 	var $is_home = false;
 	var $is_404 = false;
+	var $is_comments_popup = false;
 	var $is_admin = false;
 
 	function init () {
@@ -187,11 +188,15 @@ class WP_Query {
 			$this->is_paged = true;
 		}
 
+		if ('' != $qv['comments_popup']) {
+			$this->is_comments_popup = true;
+		}
+
 		if (strstr($_SERVER['PHP_SELF'], 'wp-admin/')) {
 			$this->is_admin = true;
 		}
 
-		if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin)) {
+		if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) {
 			$this->is_home = true;
 		}
 
@@ -311,6 +316,9 @@ class WP_Query {
 			$q['w'] = ''.intval($q['w']);
 			$where .= " AND WEEK(post_date, 1)='" . $q['w'] . "'";
 		}
+
+		if ( intval($q['comments_popup']) )
+			$q['p'] = intval($q['comments_popup']);
 
 		// If a post number is specified, load that post
 		if (($q['p'] != '') && intval($q['p']) != 0) {

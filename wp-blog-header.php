@@ -85,7 +85,7 @@ if ((isset($_GET['error']) && $_GET['error'] == '404') ||
 	}
  }
 
-$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error');
+$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup');
 
 $wpvarstoreset = apply_filters('query_vars', $wpvarstoreset);
 
@@ -226,6 +226,9 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		exit;
 	} else if ( is_archive() && get_archive_template() ) {
 		include(get_archive_template());
+		exit;
+	} else if ( is_comments_popup() && get_comments_popup_template() ) {
+		include(get_comments_popup_template());
 		exit;
 	} else if ( is_paged() && get_paged_template() ) {
 		include(get_paged_template());

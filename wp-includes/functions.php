@@ -1244,6 +1244,12 @@ function is_404 () {
     return $wp_query->is_404;
 }
 
+function is_comments_popup () {
+    global $wp_query;
+
+    return $wp_query->is_comments_popup;
+}
+
 function is_paged () {
     global $wp_query;
 
@@ -1574,6 +1580,15 @@ function get_search_template() {
 
 function get_single_template() {
 	return get_query_template('single');
+}
+
+function get_comments_popup_template() {
+	if ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
+		$template = TEMPLATEPATH . '/comments-popup.php';
+	else
+		$template = get_theme_base() . '/default/comments-popup.php';
+
+	return apply_filters('comments_popup_template', $template);
 }
 
 // Borrowed from the PHP Manual user notes. Convert entities, while

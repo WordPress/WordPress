@@ -1,7 +1,5 @@
 <?php 
 /* Don't remove these lines. */
-$blog = 1;
-require ('../../../wp-blog-header.php');
 add_filter('comment_text', 'popuplinks');
 foreach ($posts as $post) { start_wp();
 ?>

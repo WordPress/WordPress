@@ -554,12 +554,8 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 			$f = fopen("$site_dir/$newfile", 'w');
 			
 			foreach ($lines as $line) {
-				if (preg_match('/require.*wp-blog-header/', $line)) {
-					if ($newfile == 'comments-popup.php')
-						$line = "require('../../../wp-blog-header.php');";
-					else
-						$line = '//' . $line;
-				}
+				if (preg_match('/require.*wp-blog-header/', $line))
+					$line = '//' . $line;
 
 				// Update stylesheet references.
 				$line = str_replace("<?php echo get_settings('siteurl'); ?>/wp-layout.css", "<?php bloginfo('stylesheet_url'); ?>", $line);
