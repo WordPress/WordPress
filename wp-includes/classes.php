@@ -1032,8 +1032,8 @@ class WP_Rewrite {
 
 	function generate_rewrite_rules($permalink_structure, $page = true, $feed = true, $forcomments = false, $walk_dirs = true) {
 		$feedregex2 = '';
-		foreach ($this->feeds as $feed) {
-			$feedregex2 .= $feed . '|';
+		foreach ($this->feeds as $feed_name) {
+			$feedregex2 .= $feed_name . '|';
 		}
 		$feedregex2 = '(' . trim($feedregex2, '|') .  ')/?$';
 		$feedregex = $this->feed_base  . '/' . $feedregex2;
