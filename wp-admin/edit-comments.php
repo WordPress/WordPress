@@ -36,6 +36,10 @@ if ($previousXstart < 0) {
 
 ob_start();
 ?>
+<ul id="adminmenu2">
+	<li><a href="edit.php">Posts</a></li>
+	<li class="last"><a href="edit-comments.php" class="current">Comments</a></li>
+</ul>
 
 <div class="wrap">
 <table width="100%">
