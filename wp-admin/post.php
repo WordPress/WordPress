@@ -725,8 +725,8 @@ function oneclickbookmarklet(blah) {
 
 ?>
 <div class="wrap">
-            <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
-				You can also <a href="mailto:<?php echo $admin_email ?>?subject=b2-promotion">e-mail the admin</a> to ask for a promotion.<br />
+            <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post blog items.<br />
+				You can also <a href="mailto:<?php echo $admin_email ?>?subject=Blog posting permission">e-mail the admin</a> to ask for a promotion.<br />
 				When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)</p>
 </div>
 <?php
