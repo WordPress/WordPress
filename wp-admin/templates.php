@@ -96,8 +96,15 @@ default:
 		}
 	}
 
-    $file = validate_file($file);	
-	$real_file = '../' . $file;
+    $home = get_settings('home');
+    if ($home != '' && ('index.php' == $file || get_settings('blogfilename') == $file)) {
+        $home_root = str_replace('http://', '', $home);
+        $home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
+        $real_file = $_SERVER['DOCUMENT_ROOT'] . $home_root . '/' . $file;
+    } else {
+        $file = validate_file($file);
+        $real_file = '../' . $file;
+    }
 	
 	if (!is_file($real_file))
 		$error = 1;
