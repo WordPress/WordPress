@@ -297,10 +297,12 @@ function get_pages($args = '') {
 		  "$exclusions " .
 		  "ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
 
-		foreach($pages as $page) {
-			$cache_pages[$page->ID] = $page;
+		$cache_pages = array();
+		if (count($pages)) {
+			foreach($pages as $page) {
+				$cache_pages[$page->ID] = $page;
+			}
 		}
-
 	}
 
 	return $cache_pages;
