@@ -77,7 +77,9 @@ VALUES
 ('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved', '$user_agent')
 ");
 
-$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
+$comment_ID = $wpdb->insert_id;
+
+do_action('comment_post', $comment_ID);
 
 if (!$approved) {
 	wp_notify_moderator($comment_ID);
@@ -86,8 +88,6 @@ if (!$approved) {
 if ((get_settings('comments_notify')) && ($approved)) {
 	wp_notify_postauthor($comment_ID, 'comment');
 }
-
-do_action('comment_post', $comment_ID);
 
 setcookie('comment_author_' . $cookiehash, stripslashes($author), time() + 30000000, COOKIEPATH);
 setcookie('comment_author_email_' . $cookiehash, stripslashes($email), time() + 30000000, COOKIEPATH);
