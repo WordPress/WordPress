@@ -21,7 +21,7 @@ add_filter('comment_excerpt', 'remove_slashes', 5);
 add_filter('comment_excerpt', 'convert_chars');
 
 function clean_url($url) {
-	$url = str_replace('http://url', '', $url);
+	if ('' == $url) return $url;
 	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $url);
 	$url = str_replace(';//', '://', $url);
 	$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
@@ -122,17 +122,13 @@ function comment_author_link() {
 	global $comment;
 	$url = apply_filters('comment_url', $comment->comment_author_url);
 	$author = apply_filters('comment_author', $comment->comment_author);
+	if (!$author) $author = 'Anonymous';
 
-	if (empty($url) && empty($email)) {
-		echo 'Anonymous';
-		return;
-	}
-
-	echo '<a href="';
-	if ($url) {
-		echo $url;
-	}
-	echo '" rel="external">' . $author . '</a>';
+	if (empty($url)) :
+		echo $author;
+	else:
+		echo "<a href='$url' rel='external'>$author</a>";
+	endif;
 }
 
 function comment_type($commenttxt = 'Comment', $trackbacktxt = 'Trackback', $pingbacktxt = 'Pingback') {
