@@ -1686,6 +1686,8 @@ function query_posts($query) {
         $where .= " OR post_author = $user_ID AND post_status != 'draft')";
     else
         $where .= ')';
+
+    $where = apply_filters('posts_where', $where);
     $where .= " GROUP BY $wpdb->posts.ID";
     $request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY post_$orderby $limits";
 
@@ -1702,6 +1704,8 @@ function query_posts($query) {
     // error_log("$request");
     // echo $request;
     $posts = $wpdb->get_results($request);
+    $posts = apply_filters('the_posts', $posts);
+
     update_post_caches($posts);
     return $posts;
 }
