@@ -125,6 +125,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
             case 'STATUS':
                 // "publish" and "draft" enumeration items match up; no change required
                 $post_status = $value;
+				if (empty($post_status)) $post_status = 'publish';
                 break;
             case 'ALLOW COMMENTS':
                 $post_allow_comments = $value;
