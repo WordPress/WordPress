@@ -50,7 +50,7 @@ function get_permalink($id = false) {
 	}
 
 	if ($idpost->post_status == 'static') {
-		return get_page_link();
+		return get_page_link($idpost->ID);
 	}
 
 	$permalink = get_settings('permalink_structure');

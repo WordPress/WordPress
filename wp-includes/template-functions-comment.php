@@ -25,7 +25,7 @@ add_filter('comment_save_pre', 'balanceTags', 50);
 function comments_template() {
 	global $withcomments, $post, $wpdb, $id, $comment;
 
-	if ( is_single() || $withcomments ) :
+	if ( is_single() || is_page() || $withcomments ) :
 		$req = get_settings('require_name_email');
         $comment_author = isset($_COOKIE['comment_author_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_'.COOKIEHASH])) : '';
 		$comment_author_email = isset($_COOKIE['comment_author_email_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_email_'.COOKIEHASH])) : '';
@@ -100,7 +100,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $comment_count_cache;
 
-	if (! is_single()) {
+	if (! is_single() && ! is_page()) {
     if ('' == $comment_count_cache["$id"]) {
         $number = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved = '1';");
     } else {
