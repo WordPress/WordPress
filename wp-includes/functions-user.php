@@ -28,7 +28,7 @@ function verify_current() {
 	if ('' == $user_pass)
 		return false;
 
-	if ( verify_login($user_login, $user_pass) {
+	if ( verify_login($user_login, $user_pass) ) {
 		return true;
 	} else {
 		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
