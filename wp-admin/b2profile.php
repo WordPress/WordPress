@@ -258,13 +258,13 @@ case 'IErightclick':
 
 	<p>To have a one-click bookmarklet, just copy and paste this<br />into a new text file:</p>
 	<?php
-	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &b2 : ".$blogname."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('".$pathserver."/b2bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'b2bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
+	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ".$blogname."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('".$pathserver."/wp-admin/b2bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'b2bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
 	?>
 	<pre style="margin: 20px; background-color: #cccccc; border: 1px dashed #333333; padding: 5px; font-size: 12px;"><?php echo $regedit; ?></pre>
-	<p>Save it as b2.reg, and double-click on this file in an Explorer<br />
+	<p>Save it as wordpress.reg, and double-click on this file in an Explorer<br />
 	window. Answer Yes to the question, and restart Internet Explorer.<br /><br />
 	That's it, you can now right-click in an IE window and select <br />
-	'Post to b2' to make the bookmarklet appear :)</p>
+	'Post to WP' to make the bookmarklet appear. :)</p>
 
 	<p align="center">
 		<form>
@@ -401,11 +401,11 @@ if ($user_level > 0) {
 <?php
 if ($is_NS4 || $is_gecko) {
 ?>
-<a href="javascript:Q=document.selection?document.selection.createRange().text:document.getSelection();void(window.open('<?php echo $path ?>/b2bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'b2 bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">b2 - <?php echo $blogname ?></a>
+<a href="javascript:Q=document.selection?document.selection.createRange().text:document.getSelection();void(window.open('<?php echo $path ?>/wp-admin/b2bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'b2 bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">b2 - <?php echo $blogname ?></a>
 <?php
 } else if ($is_winIE) {
 ?>
-<a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo $path ?>/b2bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'b2bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">b2 - <?php echo $blogname ?></a>
+<a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo $path ?>/wp-admin/b2bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'b2bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">b2 - <?php echo $blogname ?></a>
 
 <script type="text/javascript" language="javascript">
 <!--
@@ -422,11 +422,11 @@ One-click bookmarklet:<br />
 <?php
 } else if ($is_opera) {
 ?>
-<a href="javascript:void(window.open('<?php echo $path ?>/b2bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','b2bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">b2 - <?php echo $blogname ?></a>
+<a href="javascript:void(window.open('<?php echo $path ?>/wp-admin/b2bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','b2bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">b2 - <?php echo $blogname ?></a>
 <?php
 } else if ($is_macIE) {
 ?>
-<a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo $path ?>/b2bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','b2bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">b2 - <?php echo $blogname ?></a> <?php
+<a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo $path ?>/wp-admin/b2bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','b2bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">WordPress - <?php echo $blogname ?></a> <?php
 }
 ?>
 <?php if ($is_gecko) { ?>
@@ -435,17 +435,17 @@ One-click bookmarklet:<br />
 function addPanel()
         {
           if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
-            window.sidebar.addPanel("b2 post: <?php echo $blogname ?>","<?php echo $pathserver ?>/b2sidebar.php","");
+            window.sidebar.addPanel("WordPress post: <?php echo $blogname ?>","<?php echo $pathserver ?>/wp-admin/b2sidebar.php","");
           else
             alert('No Sidebar found!  You must use Mozilla 0.9.4 or later!');
         }
 </script>
 <strong>SideBar</strong><br />
-Add the <a href="#" onClick="addPanel()">b2 Sidebar</a> !
+Add the <a href="#" onClick="addPanel()">WordPress Sidebar</a>!
 <?php } elseif (($is_winIE) || ($is_macIE)) { ?>
 <br /><br />
 <strong>SideBar</strong><br />
-Add this link to your favorites:<br /><a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo $pathserver ?>/b2sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))">b2 Sidebar</a>. 
+Add this link to your favorites:<br /><a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo $pathserver ?>/wp-admin/b2sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))">WordPress Sidebar</a>. 
 <?php } ?>
 	</td>
 	</tr>
