@@ -12,8 +12,9 @@ function wptexturize($text) {
 
 		if (isset($curl{0}) && '<' != $curl{0} && $next) { // If it's not a tag
 			$curl = str_replace('---', '&#8212;', $curl);
+			$curl = preg_replace('/(\s)--(\s)/', '$1&#8212;$2', $curl);
 			$curl = str_replace('--', '&#8211;', $curl);
-			$curl = str_replace("...", '&#8230;', $curl);
+			$curl = str_replace('...', '&#8230;', $curl);
 			$curl = str_replace('``', '&#8220;', $curl);
 
 			// This is a hack, look at this more later. It works pretty well though.
@@ -28,11 +29,11 @@ function wptexturize($text) {
 			$curl = preg_replace("/(\d+)'/", '$1&#8242;', $curl);
 			$curl = preg_replace("/(\S)'([^'\s])/", "$1&#8217;$2", $curl);
 			$curl = preg_replace('/(\s|\A)"(?!\s)/', '$1&#8220;$2', $curl);
-			$curl = preg_replace('/"(\s|\Z)/', '&#8221;$1', $curl);
+			$curl = preg_replace('/"(\s|\S|\Z)/', '&#8221;$1', $curl);
 			$curl = preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
-			$curl = preg_replace("/\(tm\)/i", '&#8482;', $curl);
-			$curl = preg_replace("/\(c\)/i", '&#169;', $curl);
-			$curl = preg_replace("/\(r\)/i", '&#174;', $curl);
+			$curl = preg_replace("/ \(tm\)/i", ' &#8482;', $curl);
+			$curl = preg_replace("/ \(c\)/i", ' &#169;', $curl);
+			$curl = preg_replace("/ \(r\)/i", ' &#174;', $curl);
 			$curl = str_replace("''", '&#8221;', $curl);
 			
 			$curl = preg_replace('/(d+)x(\d+)/', "$1&#215;$2", $curl);
