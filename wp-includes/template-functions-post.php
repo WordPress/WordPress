@@ -69,7 +69,7 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 		$encode_html = 2;
 	}
 	if ($encode_html == 1) {
-		$content = htmlspecialchars($content);
+		$content = wp_specialchars($content);
 		$cut = 0;
 	} elseif ($encode_html == 0) {
 		$content = make_url_footnote($content);
@@ -146,7 +146,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
         $encode_html = 2;
     }
     if ($encode_html == 1) {
-        $output = htmlspecialchars($output);
+        $output = wp_specialchars($output);
         $cut = 0;
     } elseif ($encode_html == 0) {
         $output = make_url_footnote($output);
@@ -334,7 +334,7 @@ function wp_list_pages($args = '') {
 
 		$title = apply_filters('the_title', $page->post_title);
 
-		echo '<a href="' . get_page_link($page->ID) . '" title="' . htmlspecialchars($title) . '">' . $title . '</a>';
+		echo '<a href="' . get_page_link($page->ID) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
 		echo '</li>';
 	}
 }

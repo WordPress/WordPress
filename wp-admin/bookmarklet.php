@@ -20,8 +20,8 @@ window.close()
 </html>
 <?php
 } else {
-    $popuptitle = htmlspecialchars(stripslashes($popuptitle));
-    $text = htmlspecialchars(stripslashes(urldecode($text)));
+    $popuptitle = wp_specialchars(stripslashes($popuptitle));
+    $text = wp_specialchars(stripslashes(urldecode($text)));
     
     /* big funky fixes for browsers' javascript bugs */
     
@@ -40,24 +40,22 @@ window.close()
         $text = preg_replace($wp_gecko_correction["in"],$wp_gecko_correction["out"],$text);
     }
     
-    $post_title = $_REQUEST['post_title'];
+    $post_title = wp_specialchars($_REQUEST['post_title']);
     if (!empty($post_title)) {
         $post_title =  stripslashes($post_title);
     } else {
         $post_title = $popuptitle;
     }
-// I'm not sure why we're using $edited_post_title in the edit-form.php, but we are
-// and that is what is being included below. For this reason, I am just duplicating
-// the var instead of changing the assignment on the lines above. 
-// -- Alex King 2004-01-07
-    $edited_post_title = htmlspecialchars($post_title);
+
+    $edited_post_title = wp_specialchars($post_title);
 
 // $post_pingback needs to be set in any file that includes edit-form.php
     $post_pingback = get_settings('default_pingback_flag');
     
-    $content = htmlspecialchars($_REQUEST['content']);
-    if (!empty($content)) {
-        $content =  stripslashes($content);
+    $content  = wp_specialchars($_REQUEST['content']);
+	$popupurl = wp_specialchars($_REQUEST['popupurl']);
+    if ( !empty($content) ) {
+        $content = wp_specialchars( stripslashes($_REQUEST['content']) );
     } else {
         $content = '<a href="'.$popupurl.'">'.$popuptitle.'</a>'."\n$text";
     }
@@ -71,14 +69,7 @@ window.close()
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
-<script type="text/javascript">
-<!--
-function launchupload() {
-	window.open ("upload.php", "wpupload", "width=380,height=360,location=0,menubar=0,resizable=1,scrollbars=yes,status=1,toolbar=0");
-}
 
-//-->
-</script>
 <style type="text/css">
 <!--
 

@@ -282,7 +282,7 @@ function comment_author_rss() {
 	if (empty($comment->comment_author)) {
 		echo 'Anonymous';
 	} else {
-		echo htmlspecialchars(apply_filters('comment_author', $comment->comment_author));
+		echo wp_specialchars(apply_filters('comment_author', $comment->comment_author));
 	}
 }
 
@@ -292,7 +292,7 @@ function comment_text_rss() {
 	$comment_text = str_replace('<pingback />', '', $comment_text);
 	$comment_text = apply_filters('comment_text', $comment_text);
 	$comment_text = strip_tags($comment_text);
-	$comment_text = htmlspecialchars($comment_text);
+	$comment_text = wp_specialchars($comment_text);
 	echo $comment_text;
 }
 

@@ -97,6 +97,18 @@ function seems_utf8($Str) { # by bmorel at ssi dot fr
 	return true;
 }
 
+function wp_specialchars( $text, $quotes = 0 ) {
+	// Like htmlspecialchars except don't double-encode HTML entities
+	$text = preg_replace('/&([^#])(?![a-z12]{1,8};)/', '&#038;$1', $text);-
+	$text = str_replace('<', '&lt;', $text);
+	$text = str_replace('>', '&gt;', $text);
+	if ( $quotes ) {
+		$text = str_replace('"', '&quot;', $text);
+		$text = str_replace('"', '&#039;', $text);
+	}
+	return $text;
+}
+
 function utf8_uri_encode( $utf8_string ) {
   $unicode = '';        
   $values = array();

@@ -67,7 +67,7 @@ default:
 	if (!$error) {
 		$f = fopen($real_file, 'r');
 		$content = fread($f, filesize($real_file));
-		$content = htmlspecialchars($content);
+		$content = wp_specialchars($content);
 	}
 
 	?>

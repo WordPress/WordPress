@@ -176,14 +176,14 @@ function get_links($category = -1, $before = '', $after = '<br />',
         }
         $the_link = '#';
         if (($row->link_url != null) && ($row->link_url != '')) {
-            $the_link = htmlspecialchars($row->link_url);
+            $the_link = wp_specialchars($row->link_url);
         }
         $rel = $row->link_rel;
         if ($rel != '') {
             $rel = " rel='$rel'";
         }
-        $desc = htmlspecialchars($row->link_description, ENT_QUOTES);
-        $name = htmlspecialchars($row->link_name, ENT_QUOTES);
+        $desc = wp_specialchars($row->link_description, ENT_QUOTES);
+        $name = wp_specialchars($row->link_name, ENT_QUOTES);
 
         $title = $desc;
 

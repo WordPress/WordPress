@@ -28,7 +28,7 @@ switch ($action) {
       if ($user_level < 5)
           die (__("Cheatin' uh ?"));
 
-      $cat_name = addslashes($_POST['cat_name']);
+      $cat_name = wp_specialchars($_POST['cat_name']);
       $auto_toggle = $_POST['auto_toggle'];
       if ($auto_toggle != 'Y') {
           $auto_toggle = 'N';
@@ -79,7 +79,7 @@ switch ($action) {
   } // end addcat
   case 'Delete':
   {
-    $cat_id = $_GET['cat_id'];
+    $cat_id = (int) $_GET['cat_id'];
     $cat_name=get_linkcatname($cat_id);
 
     if ($cat_id=="1")
@@ -97,7 +97,7 @@ switch ($action) {
   case 'Edit':
   {
     include_once ('admin-header.php');
-    $cat_id = $_GET['cat_id'];
+    $cat_id = (int) $_GET['cat_id'];
     $row = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
          . " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
          . " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_id=$cat_id");
@@ -108,7 +108,7 @@ switch ($action) {
 ?>
 
 <div class="wrap">
-  <h2>Edit &#8220;<?php echo htmlspecialchars($row->cat_name)?>&#8221; Category </h2>
+  <h2>Edit &#8220;<?php echo wp_specialchars($row->cat_name)?>&#8221; Category </h2>
 
   <form name="editcat" method="post">
       <input type="hidden" name="action" value="editedcat" />
@@ -118,7 +118,7 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Name:') ?></th>
-	<td width="67%"><input name="cat_name" type="text" value="<?php echo htmlspecialchars($row->cat_name)?>" size="30" /></td>
+	<td width="67%"><input name="cat_name" type="text" value="<?php echo wp_specialchars($row->cat_name)?>" size="30" /></td>
 </tr>
 <tr>
 	<th scope="row"><?php _e('Show:') ?></th>
@@ -176,15 +176,15 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Before Link:') ?></th>
-	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo htmlspecialchars($row->text_before_link)?>" /></td>
+	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo wp_specialchars($row->text_before_link)?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Between Link and Description:') ?></th>
-<td><input type="text" name="text_after_link" size="45" value="<?php echo htmlspecialchars($row->text_after_link)?>" /></td>
+<td><input type="text" name="text_after_link" size="45" value="<?php echo wp_specialchars($row->text_after_link)?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('After Link:') ?></th>
-<td><input type="text" name="text_after_all" size="45" value="<?php echo htmlspecialchars($row->text_after_all)?>"/></td>
+<td><input type="text" name="text_after_all" size="45" value="<?php echo wp_specialchars($row->text_after_all)?>"/></td>
 </tr>
 </table>
 </fieldset>
@@ -204,9 +204,9 @@ switch ($action) {
     $submit=$_POST["submit"];
     if (isset($submit)) {
 
-    $cat_id=$_POST["cat_id"];
+    $cat_id = (int)$_POST["cat_id"];
 
-    $cat_name= $_POST["cat_name"];
+    $cat_name= wp_specialchars($_POST["cat_name"]);
     $auto_toggle = $_POST["auto_toggle"];
     if ($auto_toggle != 'Y') {
         $auto_toggle = 'N';
@@ -310,7 +310,7 @@ foreach ($results as $row) {
     $style = ($i % 2) ? ' class="alternate"' : '';
 ?>
               <tr valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
-                <td><?php echo htmlspecialchars($row->cat_name)?></td>
+                <td><?php echo wp_specialchars($row->cat_name)?></td>
 				<td ><?php echo $row->cat_id?></td>
                 <td><?php echo $row->auto_toggle?></td>
                 <td><?php echo $row->show_images?></td>

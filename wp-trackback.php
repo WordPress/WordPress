@@ -82,11 +82,11 @@ if ( !empty($tb_url) && !empty($title) && !empty($tb_url) ) {
 	if ('closed' == $pingstatus)
 		trackback_response(1, 'Sorry, trackbacks are closed for this item.');
 
-	$title = strip_tags( htmlspecialchars( $title ) );
+	$title =  wp_specialchars( strip_tags( $title ) );
 	$title = (strlen($title) > 250) ? substr($title, 0, 250) . '...' : $title;
 	$excerpt = strip_tags($excerpt);
 	$excerpt = (strlen($excerpt) > 255) ? substr($excerpt, 0, 252) . '...' : $excerpt;
-	$blog_name = htmlspecialchars($blog_name);
+	$blog_name = wp_specialchars($blog_name);
 	$blog_name = (strlen($blog_name) > 250) ? substr($blog_name, 0, 250) . '...' : $blog_name;
 
 	$comment_post_ID = $tb_id;

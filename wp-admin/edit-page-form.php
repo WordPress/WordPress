@@ -77,7 +77,7 @@ edCanvas = document.getElementById('content');
 
 <p class="submit">
   <input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Edit Page') :_e('Create New Page') ?> &raquo;" /> 
-  <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
+  <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo wp_specialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
 
 <fieldset id="pageoptions">

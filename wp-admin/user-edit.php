@@ -45,19 +45,19 @@ if ($_POST['pass1'] == '') {
 	$updatepassword = "user_pass=MD5('$new_pass'), ";
 }
 
-$new_user_login  = $_POST['new_user_login'];
-$new_firstname   = $_POST['new_firstname'];
-$new_lastname    = $_POST['new_lastname'];
+$new_user_login  = wp_specialchars($_POST['new_user_login']);
+$new_firstname   = wp_specialchars($_POST['new_firstname']);
+$new_lastname    = wp_specialchars($_POST['new_lastname']);
 $new_nickname    = $_POST['new_nickname'];
 $new_nicename    = sanitize_title($new_nickname, $user_id);
-$new_icq         = $_POST['new_icq'];
-$new_aim         = $_POST['new_aim'];
-$new_msn         = $_POST['new_msn'];
-$new_yim         = $_POST['new_yim'];
-$new_email       = $_POST['new_email'];
-$new_url         = $_POST['new_url'];
+$new_icq         = wp_specialchars($_POST['new_icq']);
+$new_aim         = wp_specialchars($_POST['new_aim']);
+$new_msn         = wp_specialchars($_POST['new_msn']);
+$new_yim         = wp_specialchars($_POST['new_yim']);
+$new_email       = wp_specialchars($_POST['new_email']);
+$new_url         = wp_specialchars($_POST['new_url']);
 $new_url         = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $new_url) ? $new_url : 'http://' . $new_url; 
-$new_idmode      = $_POST['new_idmode'];
+$new_idmode      = wp_specialchars($_POST['new_idmode']);
 $new_description = $_POST['new_description'];
 
 $result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', user_firstname = '$new_firstname', $updatepassword user_lastname='$new_lastname', user_nickname='$new_nickname', user_icq='$new_icq', user_email='$new_email', user_url='$new_url', user_aim='$new_aim', user_msn='$new_msn', user_yim='$new_yim', user_idmode='$new_idmode', user_description = '$new_description', user_nicename = '$new_nicename' WHERE ID = $user_id");
@@ -195,7 +195,6 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 <?php
 break;
 }
-	
-/* </Team> */
+
 include('admin-footer.php');
 ?>

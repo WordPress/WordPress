@@ -41,7 +41,7 @@
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
 	   <label for="author"><?php _e('Name'); ?></label> <?php if ($req) _e('(required)'); ?>
 	<input type="hidden" name="comment_post_ID" value="<?php echo $post->ID; ?>" />
-	<input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>" />
+	<input type="hidden" name="redirect_to" value="<?php echo wp_specialchars($_SERVER['REQUEST_URI']); ?>" />
 	</p>
 
 	<p>

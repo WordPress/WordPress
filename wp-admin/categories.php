@@ -26,7 +26,7 @@ case 'addcat':
 	if ($user_level < 3)
 		die (__('Cheatin&#8217; uh?'));
 	
-	$cat_name= $_POST['cat_name'];
+	$cat_name= wp_specialchars($_POST['cat_name']);
 	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->categories'");
 	$cat_ID = $id_result->Auto_increment;
 	$category_nicename = sanitize_title($cat_name, $cat_ID);
@@ -64,7 +64,7 @@ break;
 case 'edit':
 
     require_once ('admin-header.php');
-    $cat_ID = intval($_GET['cat_ID']);
+    $cat_ID = (int) $_GET['cat_ID'];
     $category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
     $cat_name = $category->cat_name;
     ?>
@@ -75,12 +75,12 @@ case 'edit':
 	  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 		<tr>
 		  <th width="33%" scope="row"><?php _e('Category name:') ?></th>
-		  <td width="67%"><input name="cat_name" type="text" value="<?php echo htmlspecialchars($cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
+		  <td width="67%"><input name="cat_name" type="text" value="<?php echo wp_specialchars($cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
 <input type="hidden" name="cat_ID" value="<?php echo $cat_ID ?>" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e('Category slug:') ?></th>
-			<td><input name="category_nicename" type="text" value="<?php echo htmlspecialchars($category->category_nicename); ?>" size="40" /></td>
+			<td><input name="category_nicename" type="text" value="<?php echo wp_specialchars($category->category_nicename); ?>" size="40" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e('Category parent:') ?></th>
@@ -92,7 +92,7 @@ case 'edit':
 		</tr>
 		<tr>
 			<th scope="row"><?php _e('Description:') ?></th>
-			<td><textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlspecialchars($category->category_description, ENT_NOQUOTES); ?></textarea></td>
+			<td><textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description, 1); ?></textarea></td>
 		</tr>
 		</table>
 	  <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category') ?> &raquo;" /></p>
@@ -107,7 +107,7 @@ case 'editedcat':
 	if ($user_level < 3)
 		die (__('Cheatin&#8217; uh?'));
 	
-	$cat_name = $_POST['cat_name'];
+	$cat_name = wp_specialchars($_POST['cat_name']);
 	$cat_ID = (int) $_POST['cat_ID'];
 	$category_nicename = sanitize_title($_POST['category_nicename'], $cat_ID);
 	$category_description = $_POST['category_description'];

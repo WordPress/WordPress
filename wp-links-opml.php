@@ -43,12 +43,12 @@ FROM $wpdb->links
 <?php
              } // end if not first time
 ?>
-        <outline type="category" title="<?php echo(htmlspecialchars(stripslashes($result->cat_name))) ?>">
+        <outline type="category" title="<?php echo wp_specialchars($result->cat_name); ?>">
 <?php
              $prev_cat_id = $result->link_category;
         } // end if new category
 ?>
-            <outline title="<?php echo(htmlspecialchars(stripslashes($result->link_name))) ?>" type="link" xmlUrl="<?php echo $result->link_rss; ?>" htmlUrl="<?php echo($result->link_url) ?>"/>
+            <outline title="<?php echo wp_specialchars($result->link_name); ?>" type="link" xmlUrl="<?php echo $result->link_rss; ?>" htmlUrl="<?php echo($result->link_url) ?>"/>
 <?php
         } // end foreach
     } // end if

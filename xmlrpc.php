@@ -763,8 +763,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	      $struct['categoryId'] = $cat['cat_ID'];
 	      $struct['description'] = $cat['cat_name'];
 	      $struct['categoryName'] = $cat['cat_name'];
-	      $struct['htmlUrl'] = htmlspecialchars(get_category_link(false, $cat['cat_ID'], $cat['cat_name']));
-	      $struct['rssUrl'] = htmlspecialchars(get_category_rss_link(false, $cat['cat_ID'], $cat['cat_name']));
+	      $struct['htmlUrl'] = wp_specialchars(get_category_link(false, $cat['cat_ID'], $cat['cat_name']));
+	      $struct['rssUrl'] = wp_specialchars(get_category_rss_link(false, $cat['cat_ID'], $cat['cat_name']));
 
 	      $categories_struct[] = $struct;
 	    }
@@ -1213,7 +1213,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$title = (!strlen($matchtitle[1])) ? $pagelinkedfrom : $matchtitle[1];
 		$original_context = strip_tags($context);
 		$context = '[...] ';
-		$context = htmlspecialchars($original_context);
+		$context = wp_specialchars($original_context);
 		$context .= ' [...]';
 		$original_pagelinkedfrom = $pagelinkedfrom;
 		$pagelinkedfrom = addslashes($pagelinkedfrom);

@@ -182,7 +182,7 @@ foreach($wpsmiliestrans as $smiley => $img) {
 define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('home') . '/' ) );
 
 // Some default filters
-add_filter('bloginfo','htmlspecialchars');
+add_filter('bloginfo','wp_specialchars');
 add_filter('category_description', 'wptexturize');
 add_filter('list_cats', 'wptexturize');
 add_filter('comment_author', 'wptexturize');

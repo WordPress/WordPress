@@ -6,7 +6,7 @@ $parent_file = 'edit.php';
 
 require_once('admin-header.php');
 if (empty($_GET['mode'])) $mode = 'view';
-else $mode = htmlspecialchars($_GET['mode']);
+else $mode = wp_specialchars($_GET['mode'], 1);
 ?>
 
 <script type="text/javascript">
@@ -29,7 +29,7 @@ function checkAll(form)
 <form name="searchform" action="" method="get"> 
   <fieldset> 
   <legend><?php _e('Show Comments That Contain...') ?></legend> 
-  <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo htmlspecialchars($_GET['s']); ?>" size="17" /> 
+  <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo wp_specialchars($_GET['s'], 1); ?>" size="17" /> 
   <input type="submit" name="submit" value="<?php _e('Search') ?>"  />  
   <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
   <?php _e('(Searches within comment text, e-mail, URI, and IP address.)') ?>

@@ -128,7 +128,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 <?php
 }
 ?>
-	<input name="referredby" type="hidden" id="referredby" value="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
+	<input name="referredby" type="hidden" id="referredby" value="<?php echo wp_specialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
 
 <?php do_action('edit_form_advanced', ''); ?>

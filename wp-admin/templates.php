@@ -63,7 +63,7 @@ default:
 	if (!$error) {
 		$f = fopen($real_file, 'r');
 		$content = fread($f, filesize($real_file));
-		$content = htmlspecialchars($content);
+		$content = wp_specialchars($content);
 	}
 
 	?>
@@ -73,9 +73,9 @@ default:
  <div class="wrap"> 
 <?php
 if (is_writeable($real_file)) {
-	echo '<h2>' . sprintf(__('Editing <strong>%s</strong>'), $file) . '</h2>';
+	echo '<h2>' . sprintf(__('Editing <strong>%s</strong>'), wp_specialchars($file) ) . '</h2>';
 } else {
-	echo '<h2>' . sprintf(__('Browsing <strong>%s</strong>'), $file) . '</h2>';
+	echo '<h2>' . sprintf(__('Browsing <strong>%s</strong>'), wp_specialchars($file) ) . '</h2>';
 }
 ?>
 <div id="templateside">

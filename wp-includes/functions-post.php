@@ -389,12 +389,12 @@ function wp_new_comment($commentdata) {
 	$comment_post_ID = (int) $comment_post_ID;
 
 	$comment_author = strip_tags($comment_author);
-	$comment_author = htmlspecialchars($comment_author);
+	$comment_author = wp_specialchars($comment_author);
 
 	$comment_author_email = preg_replace('/[^a-z+_.@-]/i', '', $comment_author_email);
 
 	$comment_author_url = strip_tags($comment_author_url);
-	$comment_author_url = htmlspecialchars($comment_author_url);
+	$comment_author_url = wp_specialchars($comment_author_url);
 
 	$comment_content = apply_filters('comment_content_presave', $comment_content);
 

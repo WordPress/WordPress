@@ -1,25 +1,25 @@
 <?php
 require_once('admin.php');
 
-$title = 'Add Link';
+$title = __('Add Link');
 $this_file = 'link-manager.php';
 $parent_file = 'link-manager.php';
 
 function category_dropdown($fieldname, $selected = 0) {
-    global $wpdb;
-
-    $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
-    echo '        <select name="'.$fieldname.'" size="1">'."\n";
-    foreach ($results as $row) {
-      echo "          <option value=\"".$row->cat_id."\"";
-      if ($row->cat_id == $selected)
-        echo " selected";
-        echo ">".$row->cat_id.": ".htmlspecialchars($row->cat_name);
-        if ($row->auto_toggle == 'Y')
-            echo ' (auto toggle)';
-        echo "</option>\n";
-    }
-    echo "        </select>\n";
+	global $wpdb;
+	
+	$results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
+	echo "\n<select name='$fieldname' size='1'>\n";
+	foreach ($results as $row) {
+		echo "\n\t<option value='$row->cat_id'";
+		if ($row->cat_id == $selected)
+			echo " selected='selected'";
+		echo ">$row->cat_id : " . wp_specialchars($row->cat_name);
+		if ($row->auto_toggle == 'Y')
+			echo ' (auto toggle)';
+		echo "</option>";
+	}
+	echo "\n</select>\n";
 }
 
 $wpvarstoreset = array('action', 'cat_id', 'linkurl', 'name', 'image',
@@ -49,7 +49,7 @@ require('admin-header.php');
 ?>
 
 <?php if ($_GET['added']) : ?>
-<div class="updated"><p>Link added.</p></div>
+<div class="updated"><p><?php _e('Link added.'); ?></p></div>
 <?php endif; ?>
 <div class="wrap">
 <h2><?php _e('<strong>Add</strong> a link:') ?></h2>
@@ -59,11 +59,11 @@ require('admin-header.php');
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
            <th width="33%" scope="row"><?php _e('URI:') ?></th>
-           <td width="67%"><input type="text" name="linkurl" value="<?php echo $_GET['linkurl']; ?>" style="width: 95%;" /></td>
+           <td width="67%"><input type="text" name="linkurl" value="<?php echo wp_specialchars($_GET['linkurl'], 1); ?>" style="width: 95%;" /></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Link Name:') ?></th>
-           <td><input type="text" name="name" value="<?php echo urldecode($_GET['name']); ?>" style="width: 95%" /></td>
+           <td><input type="text" name="name" value="<?php echo wp_specialchars( urldecode($_GET['name']), 1 ); ?>" style="width: 95%" /></td>
          </tr>
          <tr>
          	<th scope="row"><?php _e('Short description:') ?></th>

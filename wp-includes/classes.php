@@ -57,6 +57,7 @@ class WP_Query {
 		parse_str($query, $qv);
 		$this->query = $query;
 		$this->query_vars = $qv;
+		$qv['m'] =  (int) $qv['m'];
 
 		if ('' != $qv['name']) {
 			$this->is_single = true;
@@ -71,54 +72,53 @@ class WP_Query {
 			$this->is_single = false;
 		}
 
-		if ('' != $qv['second']) {
+		if ( (int) $qv['second']) {
 			$this->is_time = true;
 			$this->is_date = true;
 		}
 
-		if ('' != $qv['minute']) {
+		if ( (int) $qv['minute']) {
 			$this->is_time = true;
 			$this->is_date = true;
 		}
 
-		if ('' != $qv['hour']) {
+		if ( (int) $qv['hour']) {
 			$this->is_time = true;
-	    $this->is_date = true;
+			$this->is_date = true;
 		}
 
-		if ('' != $qv['day']) {
+		if ( (int) $qv['day']) {
 			if (! $this->is_date) {
 				$this->is_day = true;
 				$this->is_date = true;
 			}
 		}
 
-		if ('' != $qv['monthnum']) {
+		if ( (int)  $qv['monthnum']) {
 			if (! $this->is_date) {
 				$this->is_month = true;
 				$this->is_date = true;
 			}
 		}
 
-		if ('' != $qv['year']) {
+		if ( (int)  $qv['year']) {
 			if (! $this->is_date) {
 				$this->is_year = true;
 				$this->is_date = true;
 			}
 		}
 
-		if ('' != $qv['m']) {
+		if ( (int)  $qv['m']) {
 			$this->is_date = true;
-
 			if (strlen($qv['m']) > 9) {
-	      $this->is_time = true;
-	    } else if (strlen($qv['m']) > 7) {
-	      $this->is_day = true;
-	    } else if (strlen($qv['m']) > 5) {
-	      $this->is_month = true;
-	    } else {
-	      $this->is_year = true;
-	    }
+				$this->is_time = true;
+			} else if (strlen($qv['m']) > 7) {
+				$this->is_day = true;
+			} else if (strlen($qv['m']) > 5) {
+				$this->is_month = true;
+			} else {
+				$this->is_year = true;
+			}
 		}
 
 		if ('' != $qv['w']) {
@@ -232,7 +232,7 @@ class WP_Query {
 		$wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
 		// If a month is specified in the querystring, load that month
-		if ('' != $q['m']) {
+		if ( (int) $q['m'] ) {
 			$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
 			$where .= ' AND YEAR(post_date)=' . substr($q['m'], 0, 4);
 			if (strlen($q['m'])>5)
@@ -247,32 +247,32 @@ class WP_Query {
 				$where .= ' AND SECOND(post_date)=' . substr($q['m'], 12, 2);
 		}
 
-		if ('' != $q['hour']) {
+		if ( (int) $q['hour'] ) {
 			$q['hour'] = '' . intval($q['hour']);
 			$where .= " AND HOUR(post_date)='" . $q['hour'] . "'";
 		}
 
-		if ('' != $q['minute']) {
+		if ( (int) $q['minute'] ) {
 			$q['minute'] = '' . intval($q['minute']);
 			$where .= " AND MINUTE(post_date)='" . $q['minute'] . "'";
 		}
 
-		if ('' != $q['second']) {
+		if ( (int) $q['second'] ) {
 			$q['second'] = '' . intval($q['second']);
 			$where .= " AND SECOND(post_date)='" . $q['second'] . "'";
 		}
 
-		if ('' != $q['year']) {
+		if ( (int) $q['year'] ) {
 			$q['year'] = '' . intval($q['year']);
 			$where .= " AND YEAR(post_date)='" . $q['year'] . "'";
 		}
 
-		if ('' != $q['monthnum']) {
+		if ( (int) $q['monthnum'] ) {
 			$q['monthnum'] = '' . intval($q['monthnum']);
 			$where .= " AND MONTH(post_date)='" . $q['monthnum'] . "'";
 		}
 
-		if ('' != $q['day']) {
+		if ( (int) $q['day'] ) {
 			$q['day'] = '' . intval($q['day']);
 			$where .= " AND DAYOFMONTH(post_date)='" . $q['day'] . "'";
 		}
@@ -287,15 +287,15 @@ class WP_Query {
 		}
 
 
-		if ('' != $q['w']) {
+		if ( (int) $q['w'] ) {
 			$q['w'] = ''.intval($q['w']);
 			$where .= " AND WEEK(post_date, 1)='" . $q['w'] . "'";
 		}
 
 		// If a post number is specified, load that post
 		if (($q['p'] != '') && ($q['p'] != 'all')) {
-			$q['p'] = intval($q['p']);
-			$where = ' AND ID = '.$q['p'];
+			$q['p'] =  (int) $q['p'];
+			$where = ' AND ID = ' . $q['p'];
 		}
 
 		if (($q['page_id'] != '') && ($q['page_id'] != 'all')) {

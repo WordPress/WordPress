@@ -656,7 +656,7 @@ default:
 		$post_pingback = get_settings('default_pingback_flag');
 		$default_post_cat = get_settings('default_category');
 
-		$content = htmlspecialchars($content);
+		$content = wp_specialchars($content);
 		$content = apply_filters('default_content', $content);
 		$edited_post_title = apply_filters('default_title', $edited_post_title);
 		$excerpt = apply_filters('default_excerpt', $excerpt);
@@ -677,7 +677,7 @@ $bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
 
 if ($is_NS4 || $is_gecko) {
 ?>
-<a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}void(window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title),'<?php _e('WordPress bookmarklet') ?>','scrollbars=yes,width=600,height=460,left=100,top=150,status=yes'));"><?php printf(__('Press It - %s'), htmlspecialchars(get_settings('blogname'))); ?></a> 
+<a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}void(window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title),'<?php _e('WordPress bookmarklet') ?>','scrollbars=yes,width=600,height=460,left=100,top=150,status=yes'));"><?php printf(__('Press It - %s'), wp_specialchars(get_settings('blogname'))); ?></a> 
 <?php
 } else if ($is_winIE) {
 ?>

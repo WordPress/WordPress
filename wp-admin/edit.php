@@ -5,6 +5,8 @@ $title = __('Posts');
 $parent_file = 'edit.php';
 require_once('admin-header.php');
 
+$_GET['m'] = (int) $_GET['m'];
+
 get_currentuserinfo();
 
 $drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
@@ -65,7 +67,7 @@ if ($drafts || $other_drafts) {
 if ( isset( $_GET['m'] ) ) {
 	echo $month[substr( $_GET['m'], 4, 2 )] . ' ' . substr( $_GET['m'], 0, 4 );
 } elseif ( isset( $_GET['s'] ) ) {
-	printf(__('Search for &#8220;%s&#8221;'), htmlspecialchars($_GET['s']) );
+	printf(__('Search for &#8220;%s&#8221;'), wp_specialchars($_GET['s']) );
 } else {
 	_e('Last 15 Posts');
 }
@@ -90,7 +92,7 @@ if ( isset( $_GET['m'] ) ) {
 			$arc_year  = $arc_row->yyear;
 			$arc_month = $arc_row->mmonth;
 			
-			if( isset($_GET['m']) && $arc_year . zeroise($arc_month, 2) == $_GET['m'] )
+			if( isset($_GET['m']) && $arc_year . zeroise($arc_month, 2) == (int) $_GET['m'] )
 				$default = 'selected="selected"';
 			else
 				$default = null;
@@ -121,7 +123,7 @@ if ( isset( $_GET['m'] ) ) {
   </tr> 
 <?php
 $what_to_show = 'posts';
-if ( empty($_GET['m']) && empty($_GET['s']) ) {
+if ( empty($_GET['m']) || 0 == $_GET['m'] && empty($_GET['s']) ) {
   $showposts = 15;
 } else {
   $nopaging = true;

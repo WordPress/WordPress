@@ -1,10 +1,10 @@
 <?php 
 require_once('admin.php');
 
-$title = "Profile";
+$title = 'Profile';
 $parent_file = 'profile.php';
 
-$wpvarstoreset = array('action','redirect','profile','user');
+$wpvarstoreset = array('action', 'profile', 'user');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -66,18 +66,18 @@ case 'update':
 		setcookie('wordpresspass_' . COOKIEHASH, md5(md5($newuser_pass)), time() + 31536000, COOKIEPATH);
 	}
 
-	$newuser_firstname = $_POST['newuser_firstname'];
-	$newuser_lastname = $_POST['newuser_lastname'];
+	$newuser_firstname = wp_specialchars($_POST['newuser_firstname']);
+	$newuser_lastname = wp_specialchars($_POST['newuser_lastname']);
 	$newuser_nickname = $_POST['newuser_nickname'];
     $newuser_nicename = sanitize_title($newuser_nickname);
-	$newuser_icq = $_POST['newuser_icq'];
-	$newuser_aim = $_POST['newuser_aim'];
-	$newuser_msn = $_POST['newuser_msn'];
-	$newuser_yim = $_POST['newuser_yim'];
-	$newuser_email = $_POST['newuser_email'];
-	$newuser_url = $_POST['newuser_url'];
+	$newuser_icq = wp_specialchars($_POST['newuser_icq']);
+	$newuser_aim = wp_specialchars($_POST['newuser_aim']);
+	$newuser_msn = wp_specialchars($_POST['newuser_msn']);
+	$newuser_yim = wp_specialchars($_POST['newuser_yim']);
+	$newuser_email = wp_specialchars($_POST['newuser_email']);
+	$newuser_url = wp_specialchars($_POST['newuser_url')];
 	$newuser_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $newuser_url) ? $newuser_url : 'http://' . $newuser_url; 
-	$newuser_idmode=$_POST['newuser_idmode'];
+	$newuser_idmode = wp_specialchars($_POST['newuser_idmode']);
 	$user_description = $_POST['user_description'];
 
 	$result = $wpdb->query("UPDATE $wpdb->users SET user_firstname='$newuser_firstname', $updatepassword user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode', user_description = '$user_description', user_nicename = '$newuser_nicename' WHERE ID = $user_ID");

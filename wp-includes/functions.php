@@ -361,7 +361,7 @@ function get_option($option) {
 }
 
 function form_option($option) {
-	echo htmlspecialchars( get_option($option) );
+	echo htmlspecialchars( get_option($option), ENT_QUOTES );
 }
 
 function get_alloptions() {

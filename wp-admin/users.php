@@ -4,7 +4,7 @@ require_once('admin.php');
 $title = __('Users');
 $parent_file = 'users.php';
 	
-$wpvarstoreset = array('action','standalone','redirect','profile');
+$wpvarstoreset = array('action');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -24,17 +24,13 @@ switch ($action) {
 case 'adduser':
 	check_admin_referer();
 
-	function filter($value)	{
-		return ereg('^[a-zA-Z0-9\_-\|]+$',$value);
-	}
-
-	$user_login = $_POST['user_login'];
-	$pass1 = $_POST['pass1'];
-	$pass2 = $_POST['pass2'];
-	$user_email = $_POST['email'];
-	$user_firstname = $_POST['firstname'];
-	$user_lastname = $_POST['lastname'];
-	$user_uri = $_POST['uri'];
+	$user_login     = wp_specialchars($_POST['user_login']);
+	$pass1          = $_POST['pass1'];
+	$pass2          = $_POST['pass2'];
+	$user_email     = wp_specialchars($_POST['email']);
+	$user_firstname = wp_specialchars($_POST['firstname']);
+	$user_lastname  = wp_specialchars($_POST['lastname']);
+	$user_uri       = wp_specialchars($_POST['uri']);
 		
 	/* checking login has been typed */
 	if ($user_login == '') {
@@ -130,7 +126,7 @@ case 'delete':
 
 	check_admin_referer();
 
-	$id = intval($_GET['id']);
+	$id = (int) $_GET['id'];
 
 	if (!$id) {
 		header('Location: users.php');
@@ -228,8 +224,8 @@ default:
 </div>
 
 <?php
-	$users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level = 0 ORDER BY ID");
-	if ($users) {
+$users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level = 0 ORDER BY ID");
+if ($users) {
 ?>
 <div class="wrap">
 	<h2><?php _e('Registered Users') ?></h2>

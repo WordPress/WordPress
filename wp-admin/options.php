@@ -48,7 +48,7 @@ case 'update':
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
                 $old_val = $option->option_value;
-                $new_val = $_POST[$option->option_name];
+                $new_val = wp_specialchars($_POST[$option->option_name]);
                 if (!$new_val) {
                     if (3 == $option->option_type)
                         $new_val = '';
@@ -88,7 +88,7 @@ default:
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
 
 foreach ($options as $option) :
-	$value = htmlspecialchars($option->option_value);
+	$value = wp_specialchars($option->option_value);
 	echo "
 <tr>
 	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>

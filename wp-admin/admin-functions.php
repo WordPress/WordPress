@@ -90,7 +90,7 @@ function write_nested_categories($categories) {
  foreach($categories as $category) {
    echo '<label for="category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'],
      '" type="checkbox" name="post_category[]" id="category-', $category['cat_ID'], '"',
-     ($category['checked'] ? ' checked="checked"' : ""), '/> ', htmlspecialchars($category['cat_name']), "</label>\n";
+     ($category['checked'] ? ' checked="checked"' : ""), '/> ', wp_specialchars($category['cat_name']), "</label>\n";
 
    if(isset($category['children'])) {
      echo "\n<span class='cat-nest'>\n";
@@ -113,7 +113,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 	if ($categories) {
 		foreach ($categories as $category) {
 			if ($category->category_parent == $parent) {
-				$category->cat_name = htmlspecialchars($category->cat_name);
+				$category->cat_name = wp_specialchars($category->cat_name);
 				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 				$pad = str_repeat('&#8212; ', $level);
 				if ( $user_level > 3 )
@@ -144,7 +144,7 @@ function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $lev
 		foreach ($categories as $category) { if ($currentcat != $category->cat_ID && $parent == $category->category_parent) {
 			$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 			$pad = str_repeat('&#8211; ', $level);
-			$category->cat_name = htmlspecialchars($category->cat_name);
+			$category->cat_name = wp_specialchars($category->cat_name);
 			echo "\n\t<option value='$category->cat_ID'";
 			if ($currentparent == $category->cat_ID)
 				echo " selected='selected'";

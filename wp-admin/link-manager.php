@@ -32,7 +32,7 @@ function category_dropdown($fieldname, $selected = 0) {
 		echo "\n\t<option value='$row->cat_id'";
 		if ($row->cat_id == $selected)
 			echo " selected='selected'";
-		echo ">$row->cat_id: ".htmlspecialchars($row->cat_name);
+		echo ">$row->cat_id: ".wp_specialchars($row->cat_name);
 		if ('Y' == $row->auto_toggle)
 			echo ' (auto toggle)';
 		echo "</option>\n";
@@ -160,10 +160,10 @@ switch ($action) {
   {
     check_admin_referer();
 
-    $link_url = $_POST['linkurl'];
+    $link_url = wp_specialchars($_POST['linkurl']);
     $link_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $link_url) ? $link_url : 'http://' . $link_url; 
-    $link_name = $_POST['name'];
-    $link_image = $_POST['image'];
+    $link_name = wp_specialchars($_POST['name']);
+    $link_image = wp_specialchars($_POST['image']);
     $link_target = $_POST['target'];
     $link_category = $_POST['category'];
     $link_description = $_POST['description'];
@@ -171,7 +171,7 @@ switch ($action) {
     $link_rating = $_POST['rating'];
     $link_rel = $_POST['rel'];
     $link_notes = $_POST['notes'];
-	$link_rss_uri =  $_POST['rss_uri'];
+	$link_rss_uri =  wp_specialchars($_POST['rss_uri']);
     $auto_toggle = get_autotoggle($link_category);
 
     if ($user_level < 5)
@@ -207,12 +207,12 @@ switch ($action) {
 
       check_admin_referer();
 
-      $link_id = $_POST['link_id'];
-      $link_url = $_POST['linkurl'];
+      $link_id = (int) $_POST['link_id'];
+      $link_url = wp_specialchars($_POST['linkurl']);
       $link_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $link_url) ? $link_url : 'http://' . $link_url; 
-      $link_name = $_POST['name'];
-      $link_image = $_POST['image'];
-      $link_target = $_POST['target'];
+      $link_name = wp_specialchars($_POST['name']);
+      $link_image = wp_specialchars($_POST['image']);
+      $link_target = wp_specialchars($_POST['target']);
       $link_category = $_POST['category'];
       $link_description = $_POST['description'];
       $link_visible = $_POST['visible'];
@@ -270,31 +270,30 @@ switch ($action) {
     break;
   } // end Delete
 
-  case 'linkedit':
-  {
+  case 'linkedit': {
 	$xfn = true;
     include_once ('admin-header.php');
-    if ($user_level < 5) {
+    if ($user_level < 5)
       die(__('You do not have sufficient permissions to edit the links for this blog.'));
-    }
+
     $link_id = (int) $_GET['link_id'];
-    $row = $wpdb->get_row("SELECT * 
-	FROM $wpdb->links 
-	WHERE link_id = $link_id");
+    $row = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = $link_id");
 
     if ($row) {
-      $link_url = htmlspecialchars($row->link_url);
-      $link_name = htmlspecialchars($row->link_name);
+      $link_url = wp_specialchars($row->link_url, 1);
+      $link_name = wp_specialchars($row->link_name, 1);
       $link_image = $row->link_image;
       $link_target = $row->link_target;
       $link_category = $row->link_category;
-      $link_description = htmlspecialchars($row->link_description);
+      $link_description = wp_specialchars($row->link_description);
       $link_visible = $row->link_visible;
       $link_rating = $row->link_rating;
       $link_rel = $row->link_rel;
-      $link_notes = htmlspecialchars($row->link_notes);
-	  $link_rss_uri = htmlspecialchars($row->link_rss);
-    }
+      $link_notes = wp_specialchars($row->link_notes);
+	  $link_rss_uri = wp_specialchars($row->link_rss);
+    } else {
+		die( __('Link not found.') ); 
+	}
 
 ?>
 
@@ -492,9 +491,9 @@ switch ($action) {
 </fieldset>
 <p class="submit"><input type="submit" name="submit" value="<?php _e('Save Changes &raquo;') ?>" />
           <input type="hidden" name="action" value="editlink" />
-          <input type="hidden" name="link_id" value="<?php echo $link_id; ?>" />
-          <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
-          <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" /></p>
+          <input type="hidden" name="link_id" value="<?php echo (int) $link_id; ?>" />
+          <input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
+          <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" /></p>
   </form> 
 </div>
 <?php
@@ -598,7 +597,7 @@ function checkAll(form)
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $cat_id)
         echo " selected='selected'";
-        echo ">".$row->cat_id.": ".htmlspecialchars($row->cat_name);
+        echo ">".$row->cat_id.": ".wp_specialchars($row->cat_name);
         if ($row->auto_toggle == 'Y')
             echo ' (auto toggle)';
         echo "</option>\n";
@@ -630,8 +629,8 @@ function checkAll(form)
 
     <input type="hidden" name="link_id" value="" />
     <input type="hidden" name="action" value="" />
-    <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
-    <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
+    <input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
+    <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
   <table width="100%" cellpadding="3" cellspacing="3">
     <tr>
       <th width="15%"><?php _e('Name') ?></th>
@@ -660,10 +659,10 @@ function checkAll(form)
     $links = $wpdb->get_results($sql);
     if ($links) {
         foreach ($links as $link) {
-      	    $link->link_name = htmlspecialchars($link->link_name);
-      	    $link->link_category = htmlspecialchars($link->link_category);
-      	    $link->link_description = htmlspecialchars($link->link_description);
-            $link->link_url = htmlspecialchars($link->link_url);
+      	    $link->link_name = wp_specialchars($link->link_name);
+      	    $link->link_category = wp_specialchars($link->link_category);
+      	    $link->link_description = wp_specialchars($link->link_description);
+            $link->link_url = wp_specialchars($link->link_url);
             $short_url = str_replace('http://', '', $link->link_url);
             $short_url = str_replace('www.', '', $short_url);
             if ('/' == substr($short_url, -1))
@@ -752,7 +751,5 @@ LINKS;
   } // end default
 } // end case
 ?>
-
-
 
 <?php include('admin-footer.php'); ?>
