@@ -5,6 +5,7 @@ require('wp-install-helper.php');
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 if (!step) $step = 0;
+update_option('blogdescription', 'hahahah');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -76,6 +77,7 @@ foreach($posts as $post) {
 	flush();
 }
 
+$wpdb->query("INSERT INTO `$tableoptions` (`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) VALUES ('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed.', '8');");
 ?> 
   <strong>Done.</strong> </p> 
 <p>See, that didn&#8217;t hurt a bit. All done!</p> 

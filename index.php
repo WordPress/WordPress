@@ -55,8 +55,9 @@ require_once($abspath.'wp-links/links.php');
 
 <?php include($abspath . 'b2comments.php'); ?>
 
-<?php } } // end foreach, end if any posts ?>
-
+<?php } } else { // end foreach, end if any posts ?>
+<p>Sorry, no posts matched your criteria.</p>
+<?php } ?>
 </div>
 
 

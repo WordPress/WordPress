@@ -119,6 +119,7 @@ default:
         }
     } // end for each group
 ?>
+<li><a href="wp-options-permalink.php">Permalinks</a></li>
 </ul>
     <br clear="all" />
 <div class="wrap">

@@ -13,7 +13,7 @@ require_once ($curpath.$b2inc.'/b2functions.php');
 require_once ($curpath.$b2inc.'/xmlrpc.inc');
 require_once ($curpath.$b2inc.'/xmlrpcs.inc');
 
-$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby');
+$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'monthnum');
 
 	for ($i=0; $i<count($b2varstoreset); $i += 1) {
 		$b2var = $b2varstoreset[$i];
@@ -82,9 +82,29 @@ if ($m != '') {
 
 }
 
+if ($year != '') {
+	$year = '' . intval($year);
+	$where .= ' AND YEAR(post_date)=' . $year;
+}
+
+if ($monthnum != '') {
+	$monthnum = '' . intval($monthnum);
+	$where .= ' AND MONTH(post_date)=' . $monthnum;
+}
+
+if ($day != '') {
+	$hay = '' . intval($day);
+	$where .= ' AND DAYOFMONTH(post_date)=' . $day;
+}
+
+if ($name != '') {
+	$name = preg_replace('/[^a-z0-9-]/', '', $name);
+	$where .= " AND post_name = '$name'";
+}
+
 if ($w != '') {
 	$w = ''.intval($w);
-	$where .= ' AND WEEK(post_date,1)='.$w;
+	$where .= ' AND WEEK(post_date, 1)=' . $w;
 }
 
 // if a post number is specified, load that post
@@ -206,7 +226,7 @@ if ((!$whichcat) && (!$m) && (!$p) && (!$w) && (!$s) && empty($poststart) && emp
 	}
 }
 
-if ( !empty($postend) && ($postend > $poststart) && (!$m) &&(!$w) && (!$whichcat) && (!$s) && (!$p)) {
+if ( !empty($postend) && ($postend > $poststart) && (!$m) && !$month && !$year && !$day &&(!$w) && (!$whichcat) && (!$s) && (!$p)) {
 	if ($what_to_show == 'posts' || ($what_to_show == 'paged' && (!$paged))) {
 		$poststart = intval($poststart);
 		$postend = intval($postend);
@@ -243,7 +263,7 @@ if ( !empty($postend) && ($postend > $poststart) && (!$m) &&(!$w) && (!$whichcat
 			}
 		}
 	}
-	elseif (($m) || ($p) || ($w) || ($s) || ($whichcat) || ($author)) {
+	elseif (($m) || ($p) || ($w) || ($s) || ($whichcat) || ($author) || $month || $year || $day) {
 		$limits = '';
 	}
 }
@@ -281,7 +301,11 @@ if ($preview) {
 	}
 }
 
-//error_log("$request");
-//echo $request;
+// error_log("$request");
+// echo $request;
 $posts = $wpdb->get_results($request);
+
+if (1 == count($posts)) {
+	$more = 1; $c = 1; $single = 1;
+}
 ?>
