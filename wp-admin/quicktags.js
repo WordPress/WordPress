@@ -157,7 +157,6 @@ function edAddTag(button) {
 	if (edButtons[button].tagEnd != '') {
 		edOpenTags[edOpenTags.length] = button;
 		document.getElementById(edButtons[button].id).value = '/' + document.getElementById(edButtons[button].id).value;
-
 	}
 }
 
@@ -249,7 +248,7 @@ function edToolbar() {
 function edInsertTag(myField, i) {
 	//IE support
 	if (document.selection) {
-		myField.focus(); 
+		myField.focus();
 	    sel = document.selection.createRange();
 		if (sel.text.length > 0) {
 			sel.text = edButtons[i].tagStart + sel.text + edButtons[i].tagEnd;
@@ -270,16 +269,14 @@ function edInsertTag(myField, i) {
 	else if (myField.selectionStart || myField.selectionStart == '0') {
 		var startPos = myField.selectionStart;
 		var endPos = myField.selectionEnd;
-		var cursorPos; 
+		var cursorPos = endPos;
 		if (startPos != endPos) {
 			myField.value = myField.value.substring(0, startPos)
 			              + edButtons[i].tagStart
 			              + myField.value.substring(startPos, endPos) 
 			              + edButtons[i].tagEnd
 			              + myField.value.substring(endPos, myField.value.length);
-			cursorPos = endPos 
-			          + edButtons[i].tagStart.length 
-			          + edButtons[i].tagEnd.length;
+			cursorPos += edButtons[i].tagStart.length + edButtons[i].tagEnd.length;
 		}
 		else {
 			if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
@@ -343,20 +340,24 @@ function edInsertLink(myField, i, defaultValue) {
 		defaultValue = 'http://';
 	}
 	if (!edCheckOpenTags(i)) {
-		edButtons[i].tagStart = '<a href="' 
-		                      + prompt('Enter the URL'
-		                              ,defaultValue
-		                              ) 
-		                      + '">';
+		var URL = prompt('Enter the URL' ,defaultValue);
+		if (URL) {
+			edButtons[i].tagStart = '<a href="' + URL + '">';
+			edInsertTag(myField, i);
+		}
 	}
-	edInsertTag(myField, i);
+	else {
+		edInsertTag(myField, i);
+	}
 }
 
 function edInsertImage(myField) {
-	var myValue = '<img src="' 
-	            + prompt('Enter the URL of the image', 'http://') 
-	            + '" alt="' 
-	            + prompt('Enter a description of the image', '') 
-	            + '" />';
-	edInsertContent(myField, myValue);
+	var myValue = prompt('Enter the URL of the image', 'http://');
+	if (myValue) {
+		myValue = '<img src="' 
+				+ myValue 
+				+ '" alt="' + prompt('Enter a description of the image', '') 
+				+ '" />';
+		edInsertContent(myField, myValue);
+	}
 }
