@@ -101,6 +101,12 @@ if ( get_settings('active_plugins') ) {
 
 define('TEMPLATEPATH', get_template_directory());
 
+// Load the default text localization domain.
+load_default_textdomain();
+
+// Pull in locale data after loading text domain.
+require_once(ABSPATH . WPINC . '/locale.php');
+
 if ( !get_magic_quotes_gpc() ) {
 	$_GET    = add_magic_quotes($_GET   );
 	$_POST   = add_magic_quotes($_POST  );

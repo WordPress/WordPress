@@ -1,19 +1,26 @@
 <?php
-$locale = '';
-
-// WPLANG is defined in wp-config.
-if (defined('WPLANG')) {
-    $locale = WPLANG;
-}
-
-if (empty($locale)) {
-    $locale = 'en_US';
-}
-
-$locale = apply_filters('locale', $locale);
-
 require_once(ABSPATH . 'wp-includes/streams.php');
 require_once(ABSPATH . 'wp-includes/gettext.php');
+
+function get_locale() {
+	global $locale;
+
+	if (isset($locale))
+		return $locale;
+
+	// WPLANG is defined in wp-config.
+	if (defined('WPLANG')) {
+    $locale = WPLANG;
+	}
+	
+	if (empty($locale)) {
+    $locale = 'en_US';
+	}
+
+	$locale = apply_filters('locale', $locale);
+
+	return $locale;
+}
 
 // Return a translated string.    
 function __($text, $domain = 'default') {
@@ -65,29 +72,26 @@ function load_textdomain($domain, $mofile) {
 }
 
 function load_default_textdomain() {
-	global $l10n, $locale;
+	global $l10n;
 
+	$locale = get_locale();
 	$mofile = ABSPATH . "wp-includes/languages/$locale.mo";
 	
 	load_textdomain('default', $mofile);
 }
 
 function load_plugin_textdomain($domain) {
-	global $locale;
+	$locale = get_locale();
 	
 	$mofile = ABSPATH . "wp-content/plugins/$domain-$locale.mo";
 	load_textdomain($domain, $mofile);
 }
 
 function load_theme_textdomain($domain) {
-	global $locale;
+	$locale = get_locale();
 	
 	$mofile = get_template_directory() . "/$locale.mo";
 	load_textdomain($domain, $mofile);
 }
 
-// Load the default domain.
-load_default_textdomain();
-
-require_once(ABSPATH . WPINC . '/locale.php');
 ?>
