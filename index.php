@@ -22,7 +22,7 @@ require_once($abspath.'wp-links/links.php');
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
     <?php get_archives('monthly', '', 'link'); ?>
-	<?php comments_popup_script(); // off by default ?>
+	<?php //comments_popup_script(); // off by default ?>
 
 </head>
 
@@ -115,6 +115,5 @@ require_once($abspath.'wp-links/links.php');
 </div>
 
 <p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>WordPress</strong></a></cite></p>
-
 </body>
 </html>
