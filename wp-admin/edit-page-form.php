@@ -92,7 +92,49 @@ edCanvas = document.getElementById('content');
 		</div>
 		</td>
 	</tr>
+	<tr valign="top">
+		<th scope="row" width="25%"><?php _e('Page slug') ?>:</th>
+		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
+	</tr>
+<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login, user_firstname, user_lastname FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
+	<tr>
+		<th scope="row"><?php _e('Page owner'); ?>:</th>
+		<td>
+		<select name="post_author" id="post_author">
+		<?php 
+		foreach ($users as $o) :
+			if ( $post_author == $o->ID ) $selected = 'selected="selected"';
+			else $selected = '';
+			echo "<option value='$o->ID' $selected>$o->user_login ($o->user_firstname $o->user_lastname)</option>";
+		endforeach;
+		?>
+		</select>
+		</td>
+	</tr>
+<?php endif; ?>
+	<tr>
+		<th scope="row"><?php _e('Delete'); ?>:</th>
+		<td><?php if ('edit' == $action) : ?>
+		<input name="deletepost" class="delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this post') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title) ) . "')\""; ?> />
+<?php endif; ?></td>
+	</tr>
 </table>
+</fieldset>
+
+<fieldset id="postcustom">
+<legend><?php _e('Custom Fields') ?></legend>
+<div id="postcustomstuff">
+<?php 
+if($metadata = has_meta($post_ID)) {
+?>
+<?php
+	list_meta($metadata); 
+?>
+<?php
+}
+	meta_form();
+?>
+</div>
 </fieldset>
 
 <?php do_action('edit_page_form', ''); ?>
