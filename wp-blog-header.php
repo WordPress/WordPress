@@ -205,7 +205,18 @@ $wp_template_dir = TEMPLATEPATH;
 
 // Template redirection
 if ($pagenow == 'index.php') {
-	if ( !isset($wp_template_redirect) ) {
+	if ( isset($wp_template_redirect) && $wp_template_redirect != true) {
+		// If $wp_template_redirect is set to false, template redirection
+		// should be skipped for everything except feeds and trackbacks.
+		$wp_template_redirect = true;
+		if ( is_feed() ) {
+			include(ABSPATH . '/wp-feed.php');
+			exit;
+		} else if ( is_trackback() ) {
+			include(ABSPATH . '/wp-trackback.php');
+			exit;
+		}
+	} elseif ( !isset($wp_template_redirect) ) {
 		$wp_template_redirect = true;
 		do_action('template_redirect', '');
 		if ( is_feed() ) {
