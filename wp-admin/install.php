@@ -274,6 +274,26 @@ $q = $wpdb->query($query);
 <p>Comments are groovy...</p>
 
 <?php
+$query = "
+	CREATE TABLE $tablepostmeta (
+	  meta_id int(11) NOT NULL auto_increment,
+	  post_id int(11) NOT NULL default 0,
+	  meta_key varchar(255),
+	  meta_value text,
+	  PRIMARY KEY (meta_id),
+	  INDEX (post_id),
+	  INDEX (meta_key)
+	)
+	";
+
+$q = $wpdb->query($query);
+
+
+?>
+
+<p>Post metadata table ready to go...</p>
+
+<?php
 // $query = "DROP TABLE IF EXISTS $tableoptions";
 // $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$tableoptions\" in the database.");
 
