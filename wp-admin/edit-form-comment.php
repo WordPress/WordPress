@@ -74,7 +74,7 @@ edCanvas = document.getElementById('content');
 <?php if ($user_level > 4) : ?>
 	<tr>
 		<th scope="row"><?php _e('Edit time'); ?>:</th>
-		<td><?php touch_time(($action == 'edit')); ?></td>
+		<td><?php touch_time(('editcomment' == $action), 0); ?></td>
 	</tr>
 <?php endif; ?>
 
