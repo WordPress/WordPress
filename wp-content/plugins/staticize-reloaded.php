@@ -33,9 +33,9 @@ function StaticizeInit() {
 	global $staticFileName, $acceptableFiles, $timestart, $http;
 
 	$key = $_SERVER['REQUEST_URI'] . join($_COOKIE, ',');
-	$script = basename($_SERVER['SCRIPT_NAME']);
+	$script = basename($_SERVER['PHP_SELF']);
 
-	if( strstr($_SERVER['SCRIPT_NAME'], 'wp-') && !in_array($script, $acceptableFiles) ) 
+	if( strstr($_SERVER['PHP_SELF'], 'wp-') && !in_array($script, $acceptableFiles) ) 
 		return;
 
 	$staticFileName = md5($key) . '.php';
