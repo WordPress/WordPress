@@ -3,6 +3,21 @@ require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Edit User');
 
+function add_magic_quotes($array) {
+  foreach ($array as $k => $v) {
+    if (is_array($v)) {
+      $array[$k] = add_magic_quotes($v);
+    } else {
+      $array[$k] = addslashes($v);
+    }
+  }
+  return $array;
+}
+
+if (!get_magic_quotes_gpc()) {
+	$_POST   = add_magic_quotes($_POST);
+}
+
 $wpvarstoreset = array('action', 'standalone', 'redirect', 'profile', 'user_id');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
@@ -17,10 +32,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 			$$wpvar = $_POST["$wpvar"];
 		}
 	}
-}
-
-if (!get_magic_quotes_gpc()) {
-	$_POST   = add_magic_quotes($_POST);
 }
 
 switch ($action) {
