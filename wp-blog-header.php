@@ -166,13 +166,8 @@ $posts = query_posts($query_string);
 extract($wp_query->query_vars);
 
 if (1 == count($posts)) {
-	if (is_single()) {
-		$more = 1;
-		$single = 1;
-	}
-	if ( $s && empty($paged) && !strstr($_SERVER['PHP_SELF'], 'wp-admin/')) { // If they were doing a search and got one result
-		header('Location: ' . get_permalink($posts[0]->ID));
-	}
+	$more = 1;
+	$single = 1;
 }
 
 // Issue a 404 if a permalink request doesn't match any posts.  Don't issue a
@@ -218,6 +213,9 @@ if ($pagenow == 'index.php') {
 		} else if ( is_404() && get_404_template() ) {
 			include(get_404_template());
 			exit;
+		} else if ( is_search() && get_search_template() ) {
+			include(get_search_template());
+			exit;
 		} else if ( is_home() && get_home_template() ) {
 			include(get_home_template());
 			exit;
@@ -238,9 +236,6 @@ if ($pagenow == 'index.php') {
 			exit;
 		} else if ( is_archive() && get_archive_template() ) {
 			include(get_archive_template());
-			exit;
-		} else if ( is_search() && get_search_template() ) {
-			include(get_search_template());
 			exit;
 		} else if ( is_paged() && get_paged_template() ) {
 			include(get_paged_template());
