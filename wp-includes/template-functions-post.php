@@ -17,8 +17,8 @@ add_filter('the_excerpt', 'wpautop');
 
 function get_the_password_form() {
     $output = '<form action="' . get_settings('siteurl') . '/wp-pass.php" method="post">
-    <p>This post is password protected. To view it please enter your password below:</p>
-    <p><label>Password: <input name="post_password" type="text" size="20" /></label> <input type="submit" name="Submit" value="Submit" /></p>
+    <p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
+    <p><label>' . __("Password:") . ' <input name="post_password" type="text" size="20" /></label> <input type="submit" name="Submit" value="Submit" /></p>
     </form>
     ';
 	return $output;
@@ -182,7 +182,7 @@ function get_the_excerpt($fakeit = true) {
     $output = stripslashes($post->post_excerpt);
     if (!empty($post->post_password)) { // if there's a password
         if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
-            $output = 'There is no excerpt because this is a protected post.';
+            $output = __('There is no excerpt because this is a protected post.');
             return $output;
         }
     }

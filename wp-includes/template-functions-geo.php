@@ -48,27 +48,27 @@ function formHandler(form) {
 function print_UrlPopNav() {
     $sites = array(
                    array('http://www.acme.com/mapper/?lat='.get_Lat().'&amp;long='.get_Lon().'&amp;scale=11&amp;theme=Image&amp;width=3&amp;height=2&amp;dot=Yes',
-                         'Acme Mapper'),
+                         __('Acme Mapper')),
                    array('http://geourl.org/near/?lat='.get_Lat().'&amp;lon='.get_Lon().'&amp;dist=500',
-                         'GeoURLs near here'),
+                         __('GeoURLs near here')),
                    array('http://www.geocaching.com/seek/nearest.aspx?origin_lat='.get_Lat().'&amp;origin_long='.get_Lon().'&amp;dist=5',
-                         'Geocaches Near Nere'),
+                         __('Geocaches near here')),
                    array('http://www.mapquest.com/maps/map.adp?latlongtype=decimal&amp;latitude='.get_Lat().'&amp;longitude='.get_Lon(),
-                         'Mapquest map of this spot'),
+                         __('Mapquest map of this spot')),
                    array('http://www.sidebit.com/ProjectGeoURLMap.php?lat='.get_Lat().'&amp;lon='.get_Lon(),
-                         'SideBit URL Map of this spot'),
+                         __('SideBit URL Map of this spot')),
                    array('http://confluence.org/confluence.php?lat='.get_Lat().'&amp;lon='.get_Lon(),
-                         'Confluence.org near here'),
+                         __('Confluence.org near here')),
                    array('http://www.topozone.com/map.asp?lat='.get_Lat().'&amp;lon='.get_Lon(),
-                         'Topozone near here'),
+                         __('Topozone near here')),
                    array('http://www.findu.com/cgi-bin/near.cgi?lat='.get_Lat().'&amp;lon='.get_Lon(),
-                         'FindU near here'),
+                         __('FindU near here')),
                    array('http://mapserver.maptech.com/api/espn/index.cfm?lat='.get_Lat().'&amp;lon='.get_Lon().'&amp;scale=100000&amp;zoom=50&amp;type=1&amp;icon=0&amp;&amp;scriptfile=http://mapserver.maptech.com/api/espn/index.cfm',
-                         'Maptech near here')
+                         __('Maptech near here'))
                   );
     echo '<form action=""><div>
 <select name="site" size="1" onchange="formHandler(this.form);" >'."\n";
-    echo '<option value=".">Sites referencing '.get_Lat().' x '.get_Lon()."</option>\n";
+    echo '<option value=".">' . sprintf(__("Sites referencing %s x %s"), get_Lat(), get_Lon()) . "</option>\n";
     foreach($sites as $site) {
         echo "\t".'<option value="'.$site[0].'">'.$site[1]."</option>\n";
     }

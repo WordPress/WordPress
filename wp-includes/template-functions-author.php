@@ -130,7 +130,7 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
         if ($posts == 0) {
             if (! $hide_empty) echo $name;
         } else {
-            $link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="Posts by ' . htmlspecialchars($author->user_nickname) . '">' . stripslashes($name) . '</a>';
+            $link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="' . sprintf(__("Posts by %s"), htmlspecialchars($author->user_nickname)) . '">' . stripslashes($name) . '</a>';
 
             if ( (! empty($feed_image)) || (! empty($feed)) ) {
                 
