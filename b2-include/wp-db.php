@@ -160,7 +160,6 @@
 				if ( preg_match("/^\\s*$word /i",$query) )
 				{
 					$this->rows_affected = mysql_affected_rows();
-					$this->querybump();
 					
 					// This gets the insert ID
 					if ( $word == 'insert' || $word == 'replace' )
