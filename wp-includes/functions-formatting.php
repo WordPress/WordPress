@@ -52,6 +52,8 @@ function wptexturize($text) {
 
 function clean_pre($text) {
 	$text = str_replace('<br />', '', $text);
+	$text = str_replace('<p>', "\n", $text);
+	$text = str_replace('</p>', '', $text);
 	return $text;
 }
 
