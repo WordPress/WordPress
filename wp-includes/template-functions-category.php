@@ -327,7 +327,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 			if ($use_desc_for_title == 0 || empty($category->category_description)) {
 				$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name)) . '"';
 			} else {
-				$link .= 'title="' . wp_specialchars($category->category_description) . '"';
+				$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description)) . '"';
 			}
 			$link .= '>';
 			$link .= apply_filters('list_cats', $category->cat_name).'</a>';
