@@ -53,10 +53,10 @@ function current_time($type) {
 	$time_difference = get_settings('time_difference');
 	switch ($type) {
 		case 'mysql':
-			return date('Y-m-d H:i:s', (time() + ($time_difference * 3600) ) );
+			return gmdate('Y-m-d H:i:s');
 			break;
 		case 'timestamp':
-			return (time() + ($time_difference * 3600) );
+			return time();
 			break;
 	}
 }
