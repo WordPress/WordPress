@@ -389,6 +389,7 @@ function user_can_edit_user($user_id, $other_user) {
 function wp_new_comment( $commentdata ) {
 	global $wpdb;
 
+	$commentdata = apply_filters('preprocess_comment', $commentdata);
 	extract($commentdata);
 
 	$comment_post_ID = (int) $comment_post_ID;
