@@ -348,8 +348,10 @@ function get_settings($setting) {
 			$cache_nonexistantoptions[$setting] = true;
 			return false;
 		endif;
-	  
-		if (@ $kellogs =  unserialize($option) ) return $kellogs;
+
+		@ $kellogs = unserialize($option);
+		if ($kellogs !== FALSE)
+			return $kellogs;
 		else return $option;
 	endif;
 }
@@ -378,9 +380,9 @@ function get_alloptions() {
 		if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 		if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 		if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-	if (@ $value =  unserialize($option->option_value) )
-		$all_options->{$option->option_name} = $value;
-	else $value = $option->option_value;
+		@ $value = unserialize($option->option_value);
+		if ($value === FALSE)
+			$value = $option->option_value;
 		$all_options->{$option->option_name} = $value;
 	}
 	return $all_options;
