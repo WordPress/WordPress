@@ -42,13 +42,15 @@ require(ABSPATH . '/wp-admin/menu.php');
 // Handle plugin admin pages.
 if (isset($_GET['page'])) {
 	$plugin_page = plugin_basename($_GET['page']);
-	if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page")) {
-		die(sprintf(__('Cannot load %s.'), $plugin_page));
+	if ( validate_file($plugin_page) ) {
+		die(__('Invalid plugin page'));
 	}
 
-	if (! isset($_GET['noheader'])) {
+	if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page"))
+		die(sprintf(__('Cannot load %s.'), $plugin_page));
+
+	if (! isset($_GET['noheader']))
 		require_once(ABSPATH . '/wp-admin/admin-header.php');
-	}
 
 	include(ABSPATH . "wp-content/plugins/$plugin_page");
 

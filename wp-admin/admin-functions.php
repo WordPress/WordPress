@@ -760,20 +760,37 @@ function add_management_page($page_title, $menu_title, $access_level, $file) {
 	add_submenu_page('edit.php', $page_title, $menu_title, $access_level, $file);
 }
 
-function validate_file_to_edit($file, $allowed_files = '') {
-	if ('..' == substr($file,0,2))
-		die (__('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.'));
+function validate_file($file, $allowed_files = '') {
+	if ( false !== strpos($file, './'))
+		return 1;
 	
 	if (':' == substr($file,1,1))
-		die (__('Sorry, can&#8217;t call files with their real path.'));
+		return 2;
 
-	if ( !empty($allowed_files) && (! in_array($file, $allowed_files)) ) {
-		die (__('Sorry, that file cannot be edited.'));
-	}
-	
+	if ( !empty($allowed_files) && (! in_array($file, $allowed_files)) )
+		return 3;
+
+	return 0;
+}
+
+function validate_file_to_edit($file, $allowed_files = '') {
 	$file = stripslashes($file);
 
-	return $file;
+	$code = validate_file($file, $allowed_files);
+
+	if (! $code)
+		return $file;
+
+	switch ($code) {
+	case 1:
+		die (__('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.'));
+	
+	case 2:
+		die (__('Sorry, can&#8217;t call files with their real path.'));
+
+	case 3:
+		die (__('Sorry, that file cannot be edited.'));
+	}
 }
 
 function get_home_path() {
