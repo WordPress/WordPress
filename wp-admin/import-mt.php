@@ -68,7 +68,7 @@ set_magic_quotes_runtime(0);
 $importdata = file(MTEXPORT); // Read the file into an array
 $importdata = implode('', $importdata); // squish it
 $importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
-$importdata = preg_replace("/--------\nAUTHOR/", "--MT-ENTRY--\nAUTHOR", $importdata);
+$importdata = preg_replace("/\n--------\n/", "--MT-ENTRY--\n", $importdata);
 $authors = array();
 $temp = array();
 $posts = explode("--MT-ENTRY--", $importdata);
@@ -179,7 +179,7 @@ set_magic_quotes_runtime(0);
 $importdata = file(MTEXPORT); // Read the file into an array
 $importdata = implode('', $importdata); // squish it
 $importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
-$importdata = preg_replace("/--------\nAUTHOR/", "--MT-ENTRY--\nAUTHOR", $importdata);
+$importdata = preg_replace("/\n--------\n/", "--MT-ENTRY--", $importdata);
 $authors = array();
 $temp = array();
 $posts = explode("--MT-ENTRY--", $importdata);
