@@ -466,6 +466,8 @@ case 'delete':
 
 	$categories = $wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $post_id");
 
+    $meta = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $post_id");
+
 	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
 		sleep($sleep_after_edit);
 	}
