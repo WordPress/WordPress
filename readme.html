@@ -6,6 +6,8 @@
 <style type="text/css" media="screen">
 	<!--
 	body {
+		background: #fff;
+		color: #000;
 		font-family: Georgia, "Times New Roman", Times, serif;
 		margin-left: 25%;
 		margin-right: 25%;
@@ -80,10 +82,11 @@
 <h2>New users: 5-minute install.</h2> 
 <ol> 
   <li>Unzip the package in an empty directory.</li> 
- <li>Open <span class="file">wp-config-sample.php</span> in a text editor and insert your database name, username, password, and host name as indicated in the comments. (Comments are lines that start with <code>/*</code> or <code>//</code>.)  Save this file as <span class="file">wp-config.php</span>.</li>
   <li>Upload everything. This release is designed to sit in your root folder; i.e, the folder where your WordPress-powered page will reside.</li> 
   <li>The weblogs.com cache file needs to be writable by the web server. <a href="http://www.evolt.org/article/A_quick_and_dirty_chmod_Tutorial/18/541/">CHMOD 666</a> the <span class="file"><code>weblogs.com.changes.cache</code></span> file. </li> 
- <li> Launch <span class="file">/wpfolder/wp-admin/install.php</a></span> in your browser. This should setup the MySQL database for your blog. <strong>Note the password given to you.</strong> If there is an error, double check your wp-config.php file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). </li>
+<li>Point your browser to <span class="file">wp-admin/install-config.php</span>.  This will create a configuration file for your installation.  You'll need to know your database name, username, password, and host name.</li>
+ <li>Alternately, you may open <span class="file">wp-config-sample.php</span> in a text editor and insert your database name, username, password, and host name as indicated in the comments. (Comments are lines that start with <code>/*</code> or <code>//</code>.)  Save this file as <span class="file">wp-config.php</span>, and upload it.</li>
+ <li> Launch <span class="file">/wpfolder/wp-admin/install.php</a></span> in your browser. This should setup the MySQL database for your blog. <strong>Note the password given to you.</strong> If there is an error, double check your <span class="file">wp-config.php</span> file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). </li>
   <li> During step 2 of the installation, make sure you enter a fully-qualified domain name for your blog url. For example: <span class="file">http://www.yoursite.com/wordpress</span> .  Make sure there is no trailing slash at the end of the url.</li>
  <li> The install script should then send you to the login page.  Sign in with the username "admin" and the password generated during the installation.  Then click on the item 'My Profile', and change the password.  The login page may also be accessed by going to <span class="file">/wpfolder/wp-login.php</span>. Note: you need javascript enabled to launch the profile popup window.</li> 
 </ol> 
