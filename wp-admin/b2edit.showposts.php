@@ -120,6 +120,7 @@ if ($i == "ASC")
 
 <div class="wrap">
 <table width="100%">
+  <tr>
 	<td valign="top" width="33%">
 		<form name="searchform" action="b2edit.php" method="get">
 			<input type="hidden" name="a" value="s" />
@@ -127,8 +128,8 @@ if ($i == "ASC")
 			<input type="submit" name="submit" value="search" class="search" />
 		</form>
 	</td>
-<td valign="top" width="33%" align="center">
-	<form name="viewcat" action="b2edit.php" method="get">
+    <td valign="top" width="33%" align="center">
+	  <form name="viewcat" action="b2edit.php" method="get">
 		<select name="cat" style="width:140px;">
 		<option value="all">All Categories</option>
 		<?php
@@ -144,10 +145,10 @@ if ($i == "ASC")
 		?>
 		</select>
 		<input type="submit" name="submit" value="View" class="search" />
-	</form>
-</td>
-<td valign="top" width="33%" align="right">
-<form name="viewarc" action="b2edit.php" method="get">
+	  </form>
+    </td>
+    <td valign="top" width="33%" align="right">
+    <form name="viewarc" action="b2edit.php" method="get">
 	<?php
 
 	if ($archive_mode == "monthly") {
@@ -219,10 +220,10 @@ if ($i == "ASC")
 
 	echo "</select>";
 	?>
-	<input type="submit" name="submit" value="View" class="search" />
-</form>
-</td>
-
+	    <input type="submit" name="submit" value="View" class="search" />
+      </form>
+    </td>
+  </tr>
 </table>
 
 	<?php
