@@ -92,7 +92,7 @@ function get_bloginfo($show='') {
 
 function wp_title($sep = '&raquo;', $display = true) {
     global $wpdb, $tableposts, $tablecategories;
-    global $year, $monthnum, $day, $cat, $p, $name, $month;
+    global $year, $monthnum, $day, $cat, $p, $name, $month, $posts, $single;
 
     // If there's a category
     if(!empty($cat)) {
@@ -122,26 +122,8 @@ function wp_title($sep = '&raquo;', $display = true) {
     }
 
     // If there's a post
-    if (intval($p) || '' != $name) {
-        if (!$p) {
-        if ($year != '') {
-            $year = '' . intval($year);
-            $where .= ' AND YEAR(post_date)=' . $year;
-        }
-        
-        if ($monthnum != '') {
-            $monthnum = '' . intval($monthnum);
-            $where .= ' AND MONTH(post_date)=' . $monthnum;
-        }
-        
-        if ($day != '') {
-            $day = '' . intval($day);
-            $where .= ' AND DAYOFMONTH(post_date)=' . $day;
-        }
-            $p = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_name = '$name' $where");
-        }
-        $post_data = get_postdata($p);
-        $title = strip_tags(stripslashes($post_data['Title']));
+    if ($single) {
+        $title = strip_tags(stripslashes($posts[0]->post_title));
         $title = apply_filters('single_post_title', $title);
     }
 

@@ -30,8 +30,9 @@ function clean_url($url) {
 }
 
 function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments', $number='') {
-    global $id, $comment, $tablecomments, $wpdb;
-    if ('' == $number) $number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
+    global $id, $comment, $tablecomments, $wpdb, $comment_count_cache;
+    if ('' == $comment_count_cache["$id"]) $number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
+	else $number = $comment_count_cache["$id"];
     if ($number == 0) {
         $blah = $zero;
     } elseif ($number == 1) {
