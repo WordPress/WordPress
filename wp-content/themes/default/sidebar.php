@@ -13,7 +13,7 @@
 
 			<li>
 			<?php /* If this is a category archive */ if (is_category()) { ?>
-			<p><?php printf( __('You are currently browsing the %1$s weblog archives for the \'%2$s\' category.'), '<a href="' . get_settings('siteurl') .'">' . get_bloginfo('name') . '</a>', single_cat_title('', false) ) ?></p>
+			<p>You are currently browsing the archives for the <?php single_cat_title(''); ?> category.</p>
 			
 			<?php /* If this is a yearly archive */ } elseif (is_day()) { ?>
 			<p>You are currently browsing the <a href="<?php echo get_settings('siteurl'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
