@@ -87,7 +87,7 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	$wpdb->query("INSERT INTO $tablecomments 
 	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved) 
 	VALUES 
-	('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', ,'$now_gmt', '$comment', '$approved')
+	('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved')
 	");
 
 	$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
