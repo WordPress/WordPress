@@ -9,24 +9,9 @@ define('DB_HOST', 'localhost');     // 99% chance you won't need to change this 
 
 // Database tables' names
 //
-// Change them if you want to have multiple blogs in a single database.
-// If you already have custom names leave table_prefix empty and just
-// edit the names.
+// Change the prefix if you want to have multiple blogs in a single database.
 
 $table_prefix             = 'wp_';   // eg 'wp_' or 'b2' or 'mylogin_'
-
-$tableposts               = $table_prefix . 'posts';
-$tableusers               = $table_prefix . 'users';
-$tablesettings            = $table_prefix . 'settings'; // only used during upgrade
-$tablecategories          = $table_prefix . 'categories';
-$tablecomments            = $table_prefix . 'comments';
-$tablelinks               = $table_prefix . 'links';
-$tablelinkcategories      = $table_prefix . 'linkcategories';
-$tableoptions             = $table_prefix . 'options';
-$tableoptiontypes         = $table_prefix . 'optiontypes';
-$tableoptionvalues        = $table_prefix . 'optionvalues';
-$tableoptiongroups        = $table_prefix . 'optiongroups';
-$tableoptiongroup_options = $table_prefix . 'optiongroup_options';
 
 // This is the name of the include directory. No "/" allowed.
 $b2inc = 'b2-include';

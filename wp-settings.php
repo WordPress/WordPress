@@ -1,4 +1,20 @@
 <?php
+// Table names
+$tableposts               = $table_prefix . 'posts';
+$tableusers               = $table_prefix . 'users';
+$tablesettings            = $table_prefix . 'settings'; // only used during upgrade
+$tablecategories          = $table_prefix . 'categories';
+$tablepost2cat            = $table_prefix . 'post2cat';
+$tablecomments            = $table_prefix . 'comments';
+$tablelinks               = $table_prefix . 'links';
+$tablelinkcategories      = $table_prefix . 'linkcategories';
+$tableoptions             = $table_prefix . 'options';
+$tableoptiontypes         = $table_prefix . 'optiontypes';
+$tableoptionvalues        = $table_prefix . 'optionvalues';
+$tableoptiongroups        = $table_prefix . 'optiongroups';
+$tableoptiongroup_options = $table_prefix . 'optiongroup_options';
+
+
 //setup the old globals from b2config.php
 //
 // We should eventually migrate to either calling
