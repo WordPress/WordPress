@@ -32,6 +32,23 @@ require_once("../wp-links/links.php");
 
 $title = 'Manage Links';
 
+function category_dropdown($fieldname, $selected = 0) {
+    global $wpdb, $tablelinkcategories;
+    
+    $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
+    echo '        <select name="'.$fieldname.'" size="1">'."\n";
+    foreach ($results as $row) {
+      echo "          <option value=\"".$row->cat_id."\"";
+      if ($row->cat_id == $selected)
+        echo " selected";
+        echo ">".$row->cat_id.": ".$row->cat_name;
+        if ($row->auto_toggle == 'Y')
+            echo ' (auto toggle)';
+        echo "</option>\n";
+    }
+    echo "        </select>\n";
+}
+
 function add_magic_quotes($array) {
     foreach ($array as $k => $v) {
         if (is_array($v)) {
@@ -51,7 +68,7 @@ if (!get_magic_quotes_gpc()) {
 $b2varstoreset = array('action','standalone','cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
                        'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
-                       'notes', 'linkcheck');
+                       'notes', 'linkcheck[]');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
     $b2var = $b2varstoreset[$i];
     if (!isset($$b2var)) {
@@ -73,6 +90,7 @@ $links_show_order = $HTTP_COOKIE_VARS["links_show_order"];
 if ($action2 != '')
     $action = $action2;
 
+//error_log("action=$action");
 switch ($action) {
   case 'Assign':
   {
@@ -85,7 +103,11 @@ switch ($action) {
     
     //for each link id (in $linkcheck[]): if the current user level >= the
     //userlevel of the owner of the link then we can proceed.
-    
+
+    if (count($linkcheck) == 0) {
+        header('Location: linkmanager.php');
+        exit;
+    }
     $all_links = join(',', $linkcheck);
     $results = $wpdb->get_results("SELECT link_id, link_owner, user_level FROM $tablelinks LEFT JOIN $tableusers ON link_owner = ID WHERE link_id in ($all_links)");
     foreach ($results as $row) {
@@ -101,6 +123,65 @@ switch ($action) {
     header('Location: linkmanager.php');
     break;
   }
+  case 'Visibility':
+  {
+    $standalone = 1;
+    include_once('b2header.php');
+        
+    // check the current user's level first.
+    if ($user_level < $minadminlevel)
+      die ("Cheatin' uh ?");
+    
+    //for each link id (in $linkcheck[]): toggle the visibility
+    if (count($linkcheck) == 0) {
+        header('Location: linkmanager.php');
+        exit;
+    }
+    $all_links = join(',', $linkcheck);
+    $results = $wpdb->get_results("SELECT link_id, link_visible FROM $tablelinks WHERE link_id in ($all_links)");
+    foreach ($results as $row) {
+        if ($row->link_visible == 'Y') { // ok to proceed
+            $ids_to_turnoff[] = $row->link_id;
+        } else {
+            $ids_to_turnon[] = $row->link_id;
+        }
+    }
+
+    // should now have two arrays of links to change
+    if (count($ids_to_turnoff)) {
+        $all_linksoff = join(',', $ids_to_turnoff);
+        $q = $wpdb->query("update $tablelinks SET link_visible='N' WHERE link_id IN ($all_linksoff)");
+    }
+    
+    if (count($ids_to_turnon)) {
+        $all_linkson = join(',', $ids_to_turnon);
+        $q = $wpdb->query("update $tablelinks SET link_visible='Y' WHERE link_id IN ($all_linkson)");
+    }
+
+    header('Location: linkmanager.php');
+    break;
+  }
+  case 'Move':
+  {
+    $standalone = 1;
+    include_once('b2header.php');
+    // check the current user's level first.
+    if ($user_level < $minadminlevel)
+      die ("Cheatin' uh ?");
+    
+    //for each link id (in $linkcheck[]) change category to selected value
+    if (count($linkcheck) == 0) {
+        header('Location: linkmanager.php');
+        exit;
+    }
+    $all_links = join(',', $linkcheck);
+    // should now have an array of links we can change
+    $q = $wpdb->query("update $tablelinks SET link_category='$category' WHERE link_id IN ($all_links)");
+
+    header('Location: linkmanager.php');
+    break;
+  }
+
   case 'Add':
   {
     $standalone = 1;
@@ -311,20 +392,7 @@ switch ($action) {
     <tr height="20">
       <td height="20" align="right"><label for="category">Category</label>:</td>
       <td>
-<?php
-    $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
-    echo "        <select name=\"category\" size=\"1\">\n";
-    foreach ($results as $row) {
-      echo "          <option value=\"".$row->cat_id."\"";
-      if ($row->cat_id == $link_category)
-        echo " selected";
-        echo ">".$row->cat_id.": ".$row->cat_name;
-        if ($row->auto_toggle == 'Y')
-            echo ' (auto toggle)';
-        echo "</option>\n";
-    }
-    echo "        </select>\n";
-?>
+<?php category_dropdown('category', $link_category); ?>
       </td>
     </tr>
     <tr height="20">
@@ -556,25 +624,35 @@ LINKS;
 ?>
     </tr>
 </table>
+</div>
+
+<div class="wrap">
   <table width="100%" border="0" cellspacing="0" cellpadding="3">
+    <tr><th colspan="4">Manage Multiple Links:</th></tr>
+    <tr><td colspan="4">Use the checkboxes on the right to select multiple links and choose an action below:</td></tr>
     <tr>
-        <td>Assign ownership (of checked) to:
+        <td>
+          <input type="submit" name="action2" value="Assign" /> ownership to:
 <?php
     $results = $wpdb->get_results("SELECT ID, user_login FROM $tableusers WHERE user_level > 0 ORDER BY ID");
-    echo "        <select name=\"newowner\" size=\"1\">\n";
+    echo "          <select name=\"newowner\" size=\"1\">\n";
     foreach ($results as $row) {
-      echo "          <option value=\"".$row->ID."\"";
+      echo "            <option value=\"".$row->ID."\"";
       echo ">".$row->user_login;
       echo "</option>\n";
     }
-    echo "        </select>\n";
+    echo "          </select>\n";
 ?>
-        <input type="submit" name="action2" value="Assign" />
+        </td>
+        <td>
+          Toggle <input type="submit" name="action2" value="Visibility" />
+        </td>
+        <td>
+          <input type="submit" name="action2" value="Move" /> to category
+<?php category_dropdown('category'); ?>
         </td>
         <td align="right">
-          Toggle Checkboxes
-          &nbsp;
-          <input type="checkbox" name="unused" value="Check All" onclick="checkAll(document.getElementById('links'));" />
+          <a href="#" onclick="checkAll(document.getElementById('links')); return false; ">Toggle Checkboxes</a>
         </td>
     </tr>
 </table>
@@ -646,20 +724,7 @@ LINKS;
       <tr height="20">
         <td height="20" align="right"><label for="category">Category</label>:</td>
         <td>
-<?php
-    $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
-    echo "        <select name=\"category\" size=\"1\">\n";
-    foreach ($results as $row) {
-      echo "          <option value=\"".$row->cat_id."\"";
-      if ($row->cat_id == $cat_id)
-        echo " selected";
-        echo ">".$row->cat_id.": ".$row->cat_name;
-        if ($row->auto_toggle == 'Y')
-            echo ' (auto toggle)';
-        echo "</option>\n";
-    }
-    echo "        </select>\n";
-?>
+<?php category_dropdown('category'); ?>
         </td>
       </tr>
       <tr height="20">
