@@ -42,7 +42,7 @@
 	<!-- // this is just the end of the motor - don't touch that line either :) -->
 	<?php } ?> 
 
-<div align="right">[powered by <a href="http://cafelog.com" target="_blank"><b>b2</b></a>.]<br />
+<div align="right"><cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite><br />
 <br />
 <a href="b2login.php">login</a><br />
 <a href="b2register.php">register</a></div>

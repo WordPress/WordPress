@@ -154,7 +154,7 @@ textarea,input,select {
 
 <tr height="50">
 <td height="50" width="50">
-<a href="http://cafelog.com" target="_blank"><img src="b2-img/b2minilogo.png" border="0" alt="visit b2's homepage" /></a>
+<a href="http://wordpress.org" target="_blank"><img src="http://wordpress.org/images/wp-small.png" /></a>
 </td>
 <td class="b2menutop" align="center">
 registration<br />complete
@@ -222,7 +222,7 @@ textarea,input,select {
 
 <tr height="50">
 <td height="50" width="50">
-<a href="http://cafelog.com" target="_blank"><img src="b2-img/b2minilogo.png" border="0" alt="visit b2's homepage" /></a>
+<a href="http://wordpress.org" target="_blank"><img src="http://wordpress.org/images/wp-small.png" /></a>
 </td>
 <td class="b2menutop" align="center">
 registration disabled<br />
@@ -281,11 +281,11 @@ textarea,input,select {
 <table width="100%" height="100%">
 <td align="center" valign="middle">
 
-<table width="200" height="200" style="border: 1px solid #cccccc;" cellpadding="0" cellspacing="0">
+<table width="250" height="250" style="border: 1px solid #cccccc;" cellpadding="0" cellspacing="0">
 
-<tr height="50">
-<td height="50" width="50">
-<a href="http://cafelog.com" target="_blank"><img src="b2-img/b2minilogo.png" border="0" alt="visit b2's homepage" /></a>
+<tr>
+<td>
+<a href="http://wordpress.org"  title="visit WordPress dot org"  target="_blank"><img src="http://wordpress.org/images/wp-small.png" alt="visit WordPress dot org" style="border:0;" /></a>
 </td>
 <td class="b2menutop" align="center">
 registration<br />

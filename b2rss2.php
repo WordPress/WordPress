@@ -1,4 +1,4 @@
-<?php /* These first lines are the first part of a CafeLog template.
+<?php /* These first lines are the first part of a WordPress template.
 		   In every template you do, you got to copy them before the CafeLog 'loop' */
 $blog=1; // enter your blog's ID
 header("Content-type: text/xml");

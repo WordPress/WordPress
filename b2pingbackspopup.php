@@ -67,7 +67,7 @@ $blog=1; include ("blog.header.php"); while($row = mysql_fetch_object($result)) 
 </div>
 
 <p class="centerP">
-[powered by <a href="http://cafelog.com" target="_blank"><b>b2</b></a>.]
+<cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite>
 </p>
 
 
