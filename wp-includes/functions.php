@@ -284,6 +284,11 @@ function url_to_postid($url = '') {
 	if ($second) $where .= " AND SECOND(post_date) = '" . intval($second) . "'";
 	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
 
+	// We got no indication, so we return false:
+	if (!strlen($where)) {
+		return false;
+	}
+
 	// Run the query to get the post ID:
 	$id = intval($wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE 1 = 1 " . $where));
 
