@@ -561,6 +561,49 @@ function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), w
     return $timetotal;
 }
 
+function weblog_ping($server = '', $path = '') {
+  $f = new xmlrpcmsg('weblogUpdates.ping',
+				array(new xmlrpcval(get_settings('blog_name'), 'string'),
+					new xmlrpcval(get_settings('blog_url') ,'string')));
+  $c = new xmlrpc_client($path, $server, 80);
+  $r = $c->send($f);
+  if (!$r) { die("send failed"); }
+
+  if ($debug) {
+    print "<h3>Response Object Dump:</h3>\n";
+    print "<pre>\n";
+    print_r($r);
+    print "</pre>\n";
+  }
+
+  $v=@xmlrpc_decode($r->value());
+  if (!$r->faultCode()) {
+	$result['message'] =  "<p class=\"rpcmsg\">";
+	$result['message'] = $result['message'] .  $v["message"] . "<br />\n";
+	$result['message'] = $result['message'] . "</p>";
+  } else {
+	$result['err'] = $r->faultCode();
+	$result['message'] =  "<!--\n";
+	$result['message'] = $result['message'] . "Fault: ";
+	$result['message'] = $result['message'] . "Code: " . $r->faultCode();
+	$result['message'] = $result['message'] . " Reason '" .$r->faultString()."'<BR>";
+	$result['message'] = $result['message'] . "-->\n";
+  }
+
+  print '<blockquote>' . $result['message'] . '</blockquote>';
+}
+
+function generic_ping($post_id = 0) {
+	$services = get_settings('ping_sites');
+	$services = preg_replace("|(\s)+|", '$1', $serivces); // Kill dupe lines
+	$services = explode("\n", trim($services));
+	foreach ($services as $service) {
+		$uri = parse_url($service);
+		weblog_ping($uri['host'], $uri['path']);
+	}
+}
+
+add_action('publish_post', 'generic_ping');
 
 // pings Weblogs.com
 function pingWeblogs($blog_ID = 1) {

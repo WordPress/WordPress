@@ -161,14 +161,12 @@ switch($action) {
             if((get_settings('use_geo_positions')) && ($post_latf != null) && ($post_lonf != null)) {
                 pingGeoUrl($post_ID);
             }
-            pingWeblogs($blog_ID);
-            pingBlogs($blog_ID);
 
             if ($post_pingback) {
                 pingback($content, $post_ID);
             }
 			
-			apply_filters('action_publish_post', $post_ID);
+			do_action('publish_post', $post_ID);
 
 			// Time for trackbacks
 			$to_ping = $wpdb->get_var("SELECT to_ping FROM $tableposts WHERE ID = $post_ID");
