@@ -42,6 +42,7 @@ body {
 	border-top: solid 3px #565;
 	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 	margin: 0;
+	padding: 0;
 	background-color: white;
 	color: black;
 }
