@@ -488,3 +488,15 @@ textarea, input, select {
 #wphead h1 span {
 	font-size: .4em;
 }
+
+#TextDisplay{
+border-left: solid 1px #666666;
+border-right: solid 1px #000000;
+border-top: solid 1px #666666;
+border-bottom: solid 1px #000000;
+background:#f2f9a5;
+margin:10px 30px 10px 30px;
+padding:3px;
+font-size: 11px;
+font-family:verdana;
+}

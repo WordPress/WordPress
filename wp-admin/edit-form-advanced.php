@@ -94,7 +94,21 @@ window.onload = focusit;
 <legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="<?php _e('Help with excerpts') ?>"><?php _e('Excerpt') ?></a></legend>
 <div><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
 </fieldset>
-
+<script type="text/javascript">
+<!--
+function ReloadTextDiv()
+{
+    var UseInstantPreview = document.getElementById("use_instant_preview").checked;
+    if( UseInstantPreview == true )
+    {
+        var NewText = document.getElementById("content").value;
+        splitText = NewText.split(/\n/).join("<br />");
+        var DivElement = document.getElementById("TextDisplay");
+        DivElement.innerHTML = splitText;
+    }
+}
+// -->
+</script>
 <fieldset id="postdiv">
        <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
 <?php the_quicktags(); ?>
@@ -104,7 +118,12 @@ window.onload = focusit;
      $rows = 10;
  }
 ?>
-<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="5" id="content"><?php echo $content ?></textarea></div>
+<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="5" onkeyup="ReloadTextDiv();" id="content"><?php echo $content ?></textarea></div>
+<input onclick='ReloadTextDiv();' name="use_instant_preview" type="checkbox" id="use_instant_preview" value="1" checked /> <label for='use_instant_preview'>Use Instant Preview</label> <br />
+</fieldset>
+<fieldset id="previewdiv">
+<legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Preview</a></legend>
+<div><p id="TextDisplay"></p></div>
 </fieldset>
 
 <?php
