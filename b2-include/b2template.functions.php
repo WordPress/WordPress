@@ -169,7 +169,7 @@ function get_archives($type='', $limit='') {
 			$start_of_week = 1;
 		}
 		++$querycount;
-		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
 		foreach ($arcresults as $arcresult) {
 			if ($arcresult->week != $arc_w_last) {
