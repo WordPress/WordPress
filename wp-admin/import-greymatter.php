@@ -35,10 +35,10 @@ case "step1":
 	}
 
 	if (!chdir($archivespath))
-		alert_error("Wrong path, $archivespath\ndoesn't exist\non the server");
+		die("Wrong path, $archivespath\ndoesn't exist\non the server");
 
 	if (!chdir($gmpath))
-		alert_error("Wrong path, $gmpath\ndoesn't exist\non the server");
+		die("Wrong path, $gmpath\ndoesn't exist\non the server");
 ?>
 <html>
 <head>

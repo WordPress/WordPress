@@ -460,28 +460,6 @@ function gzip_compression() {
 	}
 }
 
-function alert_error($msg) { // displays a warning box with an error message (original by KYank)
-	global $$HTTP_SERVER_VARS;
-	?>
-	<html>
-	<head>
-	<script language="JavaScript">
-	<!--
-	alert("<?php echo $msg ?>");
-	history.back();
-	//-->
-	</script>
-	</head>
-	<body>
-	<!-- this is for non-JS browsers (actually we should never reach that code, but hey, just in case...) -->
-	<?php echo $msg; ?><br />
-	<a href="<?php echo $HTTP_SERVER_VARS["HTTP_REFERER"]; ?>">go back</a>
-	</body>
-	</html>
-	<?php
-	exit;
-}
-
 function alert_confirm($msg) { // asks a question - if the user clicks Cancel then it brings them back one page
 	?>
 	<script language="JavaScript">
@@ -1175,6 +1153,8 @@ function is_new_day() {
 	}
 }
 
+// Filters: these are the core of WP's plugin architecture
+
 function apply_filters($tag, $string) {
 	global $wp_filter;
 	if (isset($wp_filter['all'])) {
@@ -1220,6 +1200,20 @@ function remove_filter($tag, $function_to_remove, $priority = 10) {
 	}
 	//die(var_dump($wp_filter));
 	return true;
+}
+
+// The *_action functions are just aliases for the *_filter functions, they take special strings instead of generic content
+
+function do_action($tag, $string) {
+	return apply_filter($tag, $string);
+}
+
+function add_action($tag, $function_to_add, $priority = 10) {
+	add_filter($tag, $function_to_add, $priority);
+}
+
+function remove_action($tag, $function_to_remove, $priority = 10) {
+	remove_filter($tag, $function_to_remove, $priority);
 }
 
 /* Highlighting code c/o Ryan Boren */
