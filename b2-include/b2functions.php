@@ -351,7 +351,7 @@ function strip_all_but_one_link($text, $mylink) {
 
 
 function get_lastpostdate() {
-	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb;
+	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb, $querycount;
 	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
 		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
 		if ($pagenow != 'b2edit.php') {
@@ -468,7 +468,7 @@ function get_settings($setting) {
 }
 
 function get_alloptions() {
-    global $tableoptions, $wpdb;
+    global $tableoptions, $wpdb, $querycount;
     $options = $wpdb->get_results("SELECT option_name, option_value FROM $tableoptions");
     ++$querycount;
     if ($options) {
