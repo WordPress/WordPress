@@ -89,7 +89,7 @@ $rss = @fetch_rss('http://feeds.technorati.com/cosmos/rss/?url='. trailingslashi
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <div id="incominglinks">
-<h3><?php _e('Incoming Links'); ?> <cite><a href="http://feeds.technorati.com/cosmos/search.html?url=<?php echo trailingslashit(get_option('home')); ?>&amp;partner=wordpress"><?php _e('More'); ?> &raquo;</a></cite></h3>
+<h3><?php _e('Incoming Links'); ?> <cite><a href="http://www.technorati.com/cosmos/search.html?url=<?php echo trailingslashit(get_option('home')); ?>&amp;partner=wordpress"><?php _e('More'); ?> &raquo;</a></cite></h3>
 <ul>
 <?php
 $rss->items = array_slice($rss->items, 0, 10);
@@ -107,7 +107,7 @@ foreach ($rss->items as $item ) {
 <p><?php _e('Below is the latest news from the official WordPress development blog, click on a title to read the full entry.'); ?></p>
 <?php
 $rss = @fetch_rss('http://wordpress.org/development/feed/');
-if ( $rss ) {
+if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <h3>WordPress Development Blog</h3>
 <?php
@@ -124,8 +124,7 @@ foreach ($rss->items as $item ) {
 
 <?php
 $rss = @fetch_rss('http://planet.wordpress.org/feed/');
-//var_dump($rss);
-if ( $rss ) {
+if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <div id="planetnews">
 <h3><?php _e('Other WordPress News'); ?> <a href="http://planet.wordpress.org/"><?php _e('more'); ?> &raquo;</a></h3>
