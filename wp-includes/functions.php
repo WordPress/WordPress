@@ -1275,11 +1275,11 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 
     // Site feed
     $sitefeedmatch = 'feed/?([_0-9a-z-]+)?/?$';
-    $sitefeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches);
+    $sitefeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches);
 
     // Site comment feed
     $sitecommentfeedmatch = 'comments/feed/?([_0-9a-z-]+)?/?$';
-    $sitecommentfeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
+    $sitecommentfeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
 
     // Code for nice categories and authors, currently not very flexible
     $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
