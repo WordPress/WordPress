@@ -707,4 +707,23 @@ function validate_current_theme() {
 	return true;
 }
 
+function parent_dropdown($parent = 0, $level = 0) {
+	global $wpdb;
+	$items = $wpdb->get_results("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = $parent AND post_status = 'static' ORDER BY menu_order");
+	if ($items) {
+		foreach ($items as $item) {
+			$pad = str_repeat('&nbsp;', $level * 3);
+			if ($item->ID == $current)
+				$current = ' selected="selected"';
+			else
+				$current = '';
+
+			echo "\n\t<option value='$item->ID'$current>$pad $item->post_title</a></option>";
+				parent_dropdown($item->ID, $level + 1);
+		}
+	} else {
+		return false;
+	}
+}
+
 ?>

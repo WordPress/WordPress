@@ -692,35 +692,6 @@ case 'editedcomment':
 	do_action('edit_comment', $comment_ID);
 	break;
 
- case 'createpage':
-	$standalone = 0;
-	$title = __('Create New Page');
-	require_once ('./admin-header.php');
-
-	if ($user_level > 0) {
-		$action = 'post';
-		get_currentuserinfo();
-		//set defaults
-		$post_status = 'static';
-		$comment_status = get_settings('default_comment_status');
-		$ping_status = get_settings('default_ping_status');
-		$post_pingback = get_settings('default_pingback_flag');
-
-        include('edit-page-form.php');
-	} else {
-?>
-<div class="wrap">
-		<p><?php printf(__('Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
-You can also <a href="mailto:%s?subject=Promotion?">e-mail the admin</a> to ask for a promotion.<br />
-When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)'), get_settings('admin_email')); ?>
-		</p>
-</div>
-<?php
-
-	}
-
-     break;
-
 default:
 	$standalone = 0;
 	$title = __('Create New Post');

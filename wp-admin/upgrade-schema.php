@@ -117,10 +117,9 @@ CREATE TABLE $wpdb->posts (
   post_content_filtered text NOT NULL,
   post_parent int(11) NOT NULL default '0',
   guid varchar(255) NOT NULL default '',
+  menu_order int(11) NOT NULL default '0',
   PRIMARY KEY  (ID),
-  KEY post_date_gmt (post_date_gmt),
   KEY post_name (post_name),
-  KEY post_status (post_status)
 );
 CREATE TABLE $wpdb->users (
   ID int(10) unsigned NOT NULL auto_increment,

@@ -47,7 +47,8 @@ body, td {
 
 fieldset {
 	border: 1px solid #ddd;
-	padding: 2px;
+	padding: 3px;
+	-moz-border-radius: 5px;
 }
 
 fieldset label.selectit {
@@ -467,7 +468,7 @@ textarea, input, select {
 	height: 4em;
 }
 
-#titlediv, #poststatusdiv, #commentstatusdiv, #slugdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv {
+#titlediv, #poststatusdiv, #commentstatusdiv, #slugdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv, #pageparent {
 	float: left;
 	height: 6em;
 	margin-right: 5px;
