@@ -225,7 +225,7 @@ if ($user_level > 4) {
 	touch_time(($action == 'edit'));
 }
 if ('edit' == $action) echo "
-<p><a href='post.php?action=delete&amp;post=$post' onclick=\"return confirm('You are about to delete this post \'".$edited_post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete this post</a></p>";
+<p><a href='post.php?action=delete&amp;post=$post->ID' onclick=\"return confirm('You are about to delete this post \'".addslashes($edited_post_title)."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete this post</a></p>";
 ?>
 
 </div>

@@ -359,7 +359,7 @@ switch($action) {
 
         // pingWeblogs($blog_ID);
 		$sendback = $HTTP_SERVER_VARS['HTTP_REFERER'];
-		if (strstr($sendback, 'wp-post')) $sendback = $siteurl .'/wp-admin/post.php';
+		if (strstr($sendback, 'post.php')) $sendback = $siteurl .'/wp-admin/post.php';
         header ('Location: ' . $sendback);
 
         break;
