@@ -202,7 +202,7 @@ function the_excerpt_unicode() {
     echo $excerpt;
 }
 
-function get_the_excerpt($fakeit = false) {
+function get_the_excerpt($fakeit = true) {
     global $id, $post;
     global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $preview, $cookiehash;
     $output = '';
