@@ -83,7 +83,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
 					else
 						$new_val = 0;
 				}
-				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_value = 'closed';
+				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_val = 'closed';
                 if ($new_val !== $old_val) {
 					$query = "UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'";
 					$result = $wpdb->query($query);
