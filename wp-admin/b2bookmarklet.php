@@ -1,19 +1,19 @@
 <?php
 /* <Bookmarklet> */
 
-$mode = "bookmarklet";
+$mode = 'bookmarklet';
 
 $standalone = 1;
-require("b2header.php");
+require('b2header.php');
 
 if ($user_level == 0)
-die ("Cheatin' uh ?");
+	die ("Cheatin' uh?");
 
-if ($a=="b") {
+if ('b' == $a) {
 
 ?><html>
 <head>
-<script language="javascript">
+<script language="javascript" type="text/javascript">
 <!--
 window.close()
 -->
@@ -31,20 +31,6 @@ window.close()
 <link rel="stylesheet" href="b2.css" type="text/css" />
 <script type="text/javascript" language="javascript">
 <!--
-function preview(form) {
-	var preview_date = "<?php echo date("Y-m-d H:i:s"); ?>";
-	var preview_userid = "<?php echo $user_ID ?>";
-	var preview_title = form.post_title.value;
-	var preview_category = form.post_category.value;
-	var preview_content = form.content.value;
-	preview_date = escape(preview_date);
-	preview_userid = escape(preview_userid);
-	preview_title = escape(preview_title);
-	preview_category = escape(preview_category);
-	preview_content = escape(preview_content);
-	window.open ("<?php echo "$siteurl/$blogfilename" ?>?preview=1&preview_date="+preview_date +"&preview_userid="+preview_userid +"&preview_title="+preview_title +"&preview_category="+preview_category +"&preview_content="+preview_content,"Preview", "location=0,menubar=1,resizable=1,scrollbars=yes,status=1,toolbar=0");
-}
-
 function launchupload() {
 	window.open ("b2upload.php", "b2upload", "width=380,height=360,location=0,menubar=0,resizable=1,scrollbars=yes,status=1,toolbar=0");
 }
@@ -54,43 +40,29 @@ function launchupload() {
 <style type="text/css">
 <!--
 body {
-	background-image: url('<?php
-if ($is_gecko || $is_IE) {
-?>../b2-img/bgbookmarklet3.gif<?php
-} else {
-?>../b2-img/bgbookmarklet3.gif<?php
-}
-?>');
+	background-image: url('../b2-img/bgbookmarklet3.gif');
 	background-repeat: no-repeat;
 }
-<?php
-if (!$is_NS4) {
-?>
+
 textarea,input,select {
 	background-color: transparent;
-<?php if ($is_gecko || $is_macIE) { ?>
-	background-image: url('../b2-img/bgbookmarklet3.gif');
-<?php } elseif ($is_winIE) { ?>
 	background-color: #cccccc;
 	filter: alpha(opacity:80);
-<?php } ?>
+	-moz-opacity: .8;
 	border-width: 1px;
 	border-color: #cccccc;
 	border-style: solid;
 	padding: 2px;
 	margin: 1px;
 }
-<?php if (!$is_gecko) { ?>
+
 .checkbox {
 	background-color: #ffffff;
 	border-width: 0px;
 	padding: 0px;
 	margin: 0px;
 }
-<?php } ?>
-<?php
-}
-?>
+
 textarea {
 	font-family: Verdana, Geneva, Arial, Helvetica;
 	font-size: 0.9em;
