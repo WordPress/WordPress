@@ -47,6 +47,11 @@ case 'lostpassword':
 	}
 	window.onload = focusit;
 	</script>
+	<style type="text/css">
+	#user_login, #email, #submit {
+		font-size: 1.7em;
+	}
+	</style>
 </head>
 <body>
 <div id="login">
@@ -60,11 +65,20 @@ if ($error)
 <form name="lostpass" action="wp-login.php" method="post" id="lostpass">
 <p>
 <input type="hidden" name="action" value="retrievepassword" />
-<label><?php _e('Login') ?>: <input type="text" name="user_login" id="user_login" value="" size="12" tabindex="1" /></label><br />
-<label><?php _e('E-mail') ?>: <input type="text" name="email" id="email" value="" size="12" tabindex="2" /></label><br />
+<label><?php _e('Login') ?>:<br />
+<input type="text" name="user_login" id="user_login" value="" size="20" tabindex="1" /></label></p>
+<p><label><?php _e('E-mail') ?>:<br />
+<input type="text" name="email" id="email" value="" size="25" tabindex="2" /></label><br />
 </p>
-<p class="submit"><input type="submit" name="submit" value="<?php _e('Retrieve Password'); ?> &raquo;" tabindex="3" /></p>
+<p class="submit"><input type="submit" name="submit" id="submit" value="<?php _e('Retrieve Password'); ?> &raquo;" tabindex="3" /></p>
 </form>
+<ul>
+	<li><a href="<?php bloginfo('home'); ?>" title="<?php _e('Are you lost?') ?>">&laquo; <?php _e('Back to blog') ?></a></li>
+<?php if (get_settings('users_can_register')) : ?>
+	<li><a href="<?php bloginfo('wpurl'); ?>/wp-register.php"><?php _e('Register') ?></a></li>
+<?php endif; ?>
+	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Login') ?></a></li>
+</ul>
 </div>
 </body>
 </html>
@@ -72,7 +86,6 @@ if ($error)
 break;
 
 case 'retrievepassword':
-
 	$user_data = get_userdatabylogin($_POST['user_login']);
 	// redefining user_login ensures we return the right case in the email
 	$user_login = $user_data->user_login;
@@ -82,14 +95,15 @@ case 'retrievepassword':
 		die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
 
 	// Generate something random for a password... md5'ing current time with a rand salt
-	$user_pass = substr(md5(uniqid(microtime())), 0, 6);
+	$key = substr( md5( uniqid( microtime() ) ), 0, 50);
 	// now insert the new pass md5'd into the db
- 	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
-	$message  = __('Login') . ": $user_login\r\n";
-	$message .= __('Password') . ": $user_pass\r\n";
-	$message .= get_settings('siteurl') . '/wp-login.php';
-
-	$m = wp_mail($user_email, sprintf(__("[%s] Your login and password"), get_settings('blogname')), $message);
+ 	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
+	$message .= __("Someone has asked to reset a password for the login this site\n\n " . get_option('siteurl') ) . "\n\n";
+	$message .= __('Login') . ": $user_login\r\n\r\n";
+	$message .= __("To reset your password visit the following address, otherwise just ignore this email and nothing will happen.\n\n");
+	$message .= get_settings('siteurl') . "/wp-login.php?action=resetpass&key=$key";
+mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
+	$m = wp_mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -97,12 +111,40 @@ case 'retrievepassword':
 		die();
 	} else {
 		echo '<p>' .  sprintf(__("The e-mail was sent successfully to %s's e-mail address."), $user_login) . '<br />';
-        echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
-		// send a copy of password change notification to the admin
-		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user_login));
+		echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
 		die();
 	}
 
+break;
+
+case 'resetpass' :
+
+	// Generate something random for a password... md5'ing current time with a rand salt
+	$key = $_GET['key'];
+	$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_activation_key = '$key'");
+	if ( !$user )
+		die( __('Sorry, that key does not appear to be valid.') );
+
+	$new_pass = md5( substr( md5( uniqid( microtime() ) ), 0, 7) );
+ 	$wpdb->query("UPDATE $wpdb->users SET user_pass = '$new_pass', user_activation_key = '' WHERE user_login = '$user->user_login'");
+	$message  = __('Login') . ": $user_login\r\n";
+	$message .= __('Password') . ": $new_pass\r\n";
+	$message .= get_settings('siteurl') . '/wp-login.php';
+
+	$m = wp_mail($user->user_email, sprintf(__("[%s] Your new password"), get_settings('blogname')), $message);
+
+	if ($m == false) {
+		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
+         echo  __('Possible reason: your host may have disabled the mail() function...') . "</p>";
+		die();
+	} else {
+		echo '<p>' .  sprintf(__("Your new password is in the mail."), $user_login) . '<br />';
+        echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
+		die();
+	}	
+	
+		// send a copy of password change notification to the admin
+		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user_login));
 break;
 
 case 'login' : 
@@ -158,6 +200,11 @@ default:
 	}
 	window.onload = focusit;
 	</script>
+	<style type="text/css">
+	#log, #pwd, #submit {
+		font-size: 1.7em;
+	}
+	</style>
 </head>
 <body>
 
@@ -169,10 +216,10 @@ if ( $error )
 ?>
 
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
-<p><label><?php _e('Login') ?>: <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
-<p><label><?php _e('Password') ?>: <input type="password" name="pwd" value="" size="20" tabindex="2" /></label></p>
+<p><label><?php _e('Login') ?>:<br /><input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
+<p><label><?php _e('Password') ?>:<br /> <input type="password" name="pwd" id="pwd" value="" size="20" tabindex="2" /></label></p>
 <p class="submit">
-	<input type="submit" name="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
+	<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
 	<input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>" />
 </p>
 </form>

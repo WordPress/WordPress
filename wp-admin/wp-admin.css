@@ -205,7 +205,7 @@ textarea, input, select {
 	border-top-color: #999;
 }
 
-.submit, #quicktags, .editform th, #postcustomsubmit, #login form {
+.submit, #quicktags, .editform th, #postcustomsubmit {
 	text-align: right;
 }
 
