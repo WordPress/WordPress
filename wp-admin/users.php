@@ -51,13 +51,6 @@ case 'adduser':
 	}
 	$user_nickname = $user_login;
 
-	/* checking e-mail address */
-	if ($user_email == '') {
-		die (__('<strong>ERROR</strong>: Please type your e-mail address.'));
-	} else if (!is_email($user_email)) {
-		die (__('<strong>ERROR</strong>: The email address isn&#8217;t correct.'));
-	}
-
 	/* checking the login isn't already used by another user */
 	$loginthere = $wpdb->get_var("SELECT user_login FROM $tableusers WHERE user_login = '$user_login'");
     if ($loginthere) {
@@ -304,8 +297,8 @@ echo "\n<tr $style>
       <input name="pass2" type="password" id="pass2" /></td>
     </tr>
   </table>
-  <p>
-    <input name="adduser" type="submit" id="adduser" value="<?php _e('Add User') ?>">
+  <p class="submit">
+    <input name="adduser" type="submit" id="adduser" value="<?php _e('Add User') ?> &raquo;">
   </p>
   </form>
 </div>
