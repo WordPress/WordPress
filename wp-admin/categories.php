@@ -54,7 +54,7 @@ case 'addcat':
 
     $wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
     
-    header('Location: categories.php#addcat');
+    header('Location: categories.php?message=1#addcat');
 
 break;
 
@@ -79,7 +79,7 @@ case 'Delete':
     $wpdb->query("UPDATE $tablecategories SET category_parent=$cat_parent WHERE category_parent=$cat_ID");
     $wpdb->query("UPDATE $tablepost2cat SET category_id='1' WHERE category_id='$cat_ID'");
 
-    header('Location: categories.php');
+    header('Location: categories.php?message=2');
 
 break;
 
@@ -106,7 +106,7 @@ case 'edit':
 
         <p><?php _e('Description:') ?><br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlentities($category->category_description); ?></textarea></p>
-        <p><input type="submit" name="submit" value="<?php _e('Edit it!') ?>" class="search" /></p>
+        <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category &raquo;') ?>" /></p>
     </form>
 </div>
 
@@ -129,7 +129,7 @@ case 'editedcat':
 
     $wpdb->query("UPDATE $tablecategories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = $cat WHERE cat_ID = $cat_ID");
     
-    header('Location: categories.php');
+    header('Location: categories.php?message=3');
 
 break;
 
@@ -140,7 +140,13 @@ default:
     if ($user_level < 3) {
         die(sprintf(__("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:%s'>blog admin</a>. :)"), get_settings('admin_email')));
     }
-    ?>
+$messages[1] = __('Category added.');
+$messages[2] = __('Category deleted.');
+$messages[3] = __('Category updated.');
+?>
+<?php if ($_GET['message']) : ?>
+<div class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<?php endif; ?>
 
 <div class="wrap">
      <h2><?php printf(__('Current Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
@@ -179,7 +185,7 @@ set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
         </select>
         <p><?php _e('Description: (optional)') ?> <br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
-        <p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add') ?>" class="search" /></p>
+        <p class="submit"><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add Category &raquo;') ?>" /></p>
     </form>
 </div>
 
