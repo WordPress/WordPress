@@ -109,9 +109,9 @@ if (!empty($s)) {
 	}
 	if (!$sentence) {
 		$s_array = explode(' ',$s);
-		$search .= '(post_title LIKE \''.$n.$s_array[0].$n.'\') OR (post_content LIKE \''.$s_array[0].'\')';
+		$search .= '((post_title LIKE \''.$n.$s_array[0].$n.'\') OR (post_content LIKE \''.$s_array[0].'\'))';
 		for ( $i = 1; $i < count($s_array); $i = $i + 1) {
-			$search .= ' OR (post_title LIKE \''.$n.$s_array[$i].$n.'\') OR (post_content LIKE \''.$n.$s_array[$i].$n.'\')';
+			$search .= ' AND ((post_title LIKE \''.$n.$s_array[$i].$n.'\') OR (post_content LIKE \''.$n.$s_array[$i].$n.'\'))';
 		}
 		$search .= ' OR (post_title LIKE \''.$n.$s.$n.'\') OR (post_content LIKE \''.$n.$s.$n.'\')';
 		$search .= ')';
