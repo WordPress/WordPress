@@ -84,7 +84,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				echo "<tr style='background-color: $bgcolor'><td>$pad $category->cat_name</td>
 				<td>$category->category_description</td>
 				<td>$count</td>
-				<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>Edit</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('You are about to delete the category \'". addslashes($category->cat_name) ."\' and all its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop.')\" class='delete'>Delete</a></td>
+				<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>" . __('Edit') . "</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('".  sprintf(__("You are about to delete the category \'%s\'.  All of its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop."), addslashes($category->cat_name)) . "')\" class='delete'>" .  __('Delete') . "</a></td>
 				</tr>";
 				cat_rows($category->cat_ID, $level + 1);
 			}
@@ -125,11 +125,11 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
         // handle. duh. i hope.
         
         if(!function_exists('imagegif') && $type[2] == 1) {
-            $error = 'Filetype not supported. Thumbnail not created.';
+            $error = __('Filetype not supported. Thumbnail not created.');
         }elseif(!function_exists('imagejpeg') && $type[2] == 2) {
-            $error = 'Filetype not supported. Thumbnail not created.';
+            $error = __('Filetype not supported. Thumbnail not created.');
         }elseif(!function_exists('imagepng') && $type[2] == 3) {
-            $error = 'Filetype not supported. Thumbnail not created.';
+            $error = __('Filetype not supported. Thumbnail not created.');
         } else {
         
             // create the initial copy from the original file
@@ -176,15 +176,15 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
             
             if($type[2] == 1) {
                 if(!imagegif($thumbnail, $thumbpath)) {
-                    $error = "Thumbnail path invalid";
+                    $error = __("Thumbnail path invalid");
                 }
             } elseif($type[2] == 2) {
                 if(!imagejpeg($thumbnail, $thumbpath)) {
-                    $error = "Thumbnail path invalid";
+                    $error = __("Thumbnail path invalid");
                 }
             } elseif($type[2] == 3) {
                 if(!imagepng($thumbnail, $thumbpath)) {
-                    $error = "Thumbnail path invalid";
+                    $error = __("Thumbnail path invalid");
                 }
             }
             
@@ -256,9 +256,9 @@ function get_meta_keys() {
 function meta_form() {
 	$keys = get_meta_keys();
 ?>
-<h4>Add new custom data to this post:</h4>
+<h4><?php _e('Add new custom data to this post:') ?></h4>
 <div id="postcustomkeys">
-<p>Select existing key or enter new key</p>
+<p><?php _e('Select existing key or enter new key') ?></p>
 <?php
 if ($keys) {
 ?>
@@ -276,13 +276,13 @@ if ($keys) {
 <input type="text" id="metakeyinput" name="metakeyinput" />
 </div>
 <div id="postcustomvals">
-<p>Custom Value</p>
+<p><?php _e('Custom Value') ?></p>
 
 <textarea id="metavalue" name="metavalue" rows="3" cols="25"></textarea>
 </div>
 <br style="clear: both;" />
 <div id="postcustomsubmit">
-<input type="submit" id="save" name="save" value="Add Custom">
+<input type="submit" id="save" name="save" value="<?php _e('Add Custom') ?>">
 </div>
 <?php
 }

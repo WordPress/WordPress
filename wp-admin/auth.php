@@ -38,7 +38,7 @@ if ( !veriflog() ) {
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Pragma: no-cache');
 	if (!empty($_COOKIE['wordpressuser_' . $cookiehash])) {
-		$error="<strong>Error</strong>: wrong login or password.";
+		$error= __("<strong>Error</strong>: wrong login or password.");
 	}
 	$redir = 'Location: ' . get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']);
 	header($redir);

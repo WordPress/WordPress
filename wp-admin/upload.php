@@ -1,13 +1,15 @@
 <?php
+require_once('../wp-includes/wp-l10n.php');
+
 $title = 'Upload Image or File';
 
 require_once('admin-header.php');
 
 if ($user_level == 0) //Checks to see if user has logged in
-	die ("Cheatin' uh ?");
+	die (__("Cheatin' uh ?"));
 
 if (!get_settings('use_fileupload')) //Checks if file upload is enabled in the config
-	die ("The admin disabled this function");
+	die (__("The admin disabled this function"));
 
 $allowed_types = explode(' ', trim(strtolower(get_settings('fileupload_allowedtypes'))));
 
@@ -27,7 +29,7 @@ if (!is_writable(get_settings('fileupload_realpath')))
 switch ($action) {
 case 'not-writable':
 ?>
-<p>It doesn't look like you can use the file upload feature at this time because the directory you have specified (<code><?php echo get_settings('fileupload_realpath'); ?></code>) doesn't appear to be writable by WordPress. Check the permissions on the directory and for typos.</p>
+<p><?php printf(__("It doesn't look like you can use the file upload feature at this time because the directory you have specified (<code>%s</code>) doesn't appear to be writable by WordPress. Check the permissions on the directory and for typos."), get_settings('fileupload_realpath')) ?></p>
 
 <?php
 break;
@@ -37,39 +39,39 @@ case '':
 	}
 	$i = implode(', ', $type_tags);
 ?>
-    <p>You can upload files with the extension <?php echo $i ?> as long as they are no larger than <?php echo get_settings('fileupload_maxk'); ?> <abbr title="Kilobytes">KB</abbr>. If you&#8217;re an admin you can configure these values under <a href="options-misc.php">options</a>.</p>
+<p><?php printf(__('You can upload files with the extension %s as long as they are no larger than %s <abbr title="Kilobytes">KB</abbr>. If you&#8217;re an admin you can configure these values under <a href="%s">options</a>.'), $i, get_settings('fileupload_maxk'), 'options-misc.php') ?></p>
     <form action="upload.php" method="post" enctype="multipart/form-data">
     <p>
-      <label for="img1">File:</label>
+      <label for="img1"><?php _e('File:') ?></label>
       <br />
 	<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_settings('fileupload_maxk') * 1024 ?>" />
     <input type="file" name="img1" id="img1" size="35" class="uploadform" /></p>
     <p>
-      <label for="imgdesc">Description:</label><br />
+    <label for="imgdesc"><?php _e('Description:') ?></label><br />
     <input type="text" name="imgdesc" id="imgdesc" size="30" class="uploadform" />
     </p>
 	
-    <p>Create a thumbnail?</p>
+    <p><?php _e('Create a thumbnail?') ?></p>
     <p>
     <label for="thumbsize_no">
     <input type="radio" name="thumbsize" value="none" checked="checked" id="thumbsize_no" />
-    No thanks</label>
+    <?php _e('No thanks') ?></label>
     <br />
         <label for="thumbsize_small">
 <input type="radio" name="thumbsize" value="small" id="thumbsize_small" />
-Small (200px largest side)</label>
+<?php _e('Small (200px largest side)') ?></label>
         <br />
         <label for="thumbsize_large">
 <input type="radio" name="thumbsize" value="large" id="thumbsize_large" />
-Large (400px largest side)</label>
+<?php _e('Large (400px largest side)') ?></label>
         <br />
         <label for="thumbsize_custom">
         <input type="radio" name="thumbsize" value="custom" id="thumbsize_custom" />
-        Custom size</label>
+<?php _e('Custom size') ?></label>
       : 
       <input type="text" name="imgthumbsizecustom" size="4" />
-      px (largest side)    </p>
-	<p><input type="submit" name="submit" value="Upload File" /></p>
+    <?php _e('px (largest side)') ?>    </p>
+	<p><input type="submit" name="submit" value="<?php _e('Upload File') ?>" /></p>
     </form>
 </div><?php 
 break;
@@ -92,7 +94,7 @@ case 'upload':
     $imgtype = strtolower($imgtype[count($imgtype)-1]);
 
     if (in_array($imgtype, $allowed_types) == false) {
-        die("File $img1_name of type $imgtype is not allowed.");
+        die(sprintf(__("File %s of type %s is not allowed.") , $img1_name, $imgtype));
     }
 
     if (strlen($imgalt)) {
@@ -126,7 +128,7 @@ case 'upload':
             $moved = copy($img1, $pathtofile2);
         }
         if (!$moved) {
-            die("Couldn't Upload Your File to $pathtofile2.");
+            die(sprintf(__("Couldn't upload your file to %s."), $pathtofile2));
         } else {
 			chmod($pathtofile2, 0666);
             @unlink($img1);
@@ -136,10 +138,10 @@ case 'upload':
     
     // duplicate-renaming function contributed by Gary Lawrence Murphy
     ?>
-    <p><strong>Duplicate File?</strong></p>
-    <p><b><em>The filename '<?php echo $img1_name; ?>' already exists!</em></b></p>
-    <p> filename '<?php echo $img1; ?>' moved to '<?php echo "$pathtofile2 - $img2_name"; ?>'</p>
-    <p>Confirm or rename:</p>
+    <p><strong><?php __('Duplicate File?') ?></strong></p>
+    <p><b><em><?php printf(__("The filename '%s' already exists!"), $img1_name); ?></em></b></p>
+    <p> <?php printf(__("Filename '%s' moved to '%s'"), $img1, "$pathtofile2 - $img2_name") ?></p>
+    <p><?php _e('Confirm or rename:') ?></p>
     <form action="upload.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo  get_settings('fileupload_maxk') *1024 ?>" />
     <input type="hidden" name="img1_type" value="<?php echo $img1_type;?>" />
@@ -148,11 +150,11 @@ case 'upload':
     <input type="hidden" name="img1" value="<?php echo $pathtofile2;?>" />
     <input type="hidden" name="thumbsize" value="<?php echo $_REQUEST['thumbsize'];?>" />
     <input type="hidden" name="imgthumbsizecustom" value="<?php echo $_REQUEST['imgthumbsizecustom'];?>" />
-    Alternate name:<br /><input type="text" name="imgalt" size="30" class="uploadform" value="<?php echo $img2_name;?>" /><br />
+    <?php _e('Alternate name:') ?><br /><input type="text" name="imgalt" size="30" class="uploadform" value="<?php echo $img2_name;?>" /><br />
     <br />
-    Description:<br /><input type="text" name="imgdesc" size="30" class="uploadform" value="<?php echo $imgdesc;?>" />
+    <?php _e('Description:') ?><br /><input type="text" name="imgdesc" size="30" class="uploadform" value="<?php echo $imgdesc;?>" />
     <br />
-    <input type="submit" name="submit" value="Rename" class="search" />
+    <input type="submit" name="submit" value="<?php _e('Rename') ?>" class="search" />
     </form>
 </div>
 <?php 
@@ -170,7 +172,7 @@ die();
         }
         // Still couldn't get it. Give up.
         if (!moved) {
-            die("Couldn't Upload Your File to $pathtofile.");
+            die(sprintf(__("Couldn't upload your file to %s."), $pathtofile));
         } else {
 			chmod($pathtofile, 0666);
             @unlink($img1);
@@ -178,7 +180,7 @@ die();
         
     } else {
         rename($img1, $pathtofile)
-        or die("Couldn't Upload Your File to $pathtofile.");
+        or die(sprintf(__("Couldn't upload your file to %s."), $pathtofile));
     }
     
     if($_POST['thumbsize'] != 'none' ) {
@@ -208,22 +210,22 @@ if ( ereg('image/',$img1_type)) {
 
 ?>
 
-<h3>File uploaded!</h3>
-<p>Your file <code><?php echo $img1_name; ?></code> was uploaded successfully !</p>
-<p>Here&#8217;s the code to display it:</p>
+<h3><?php _e('File uploaded!') ?></h3>
+<p><?php printf(__("Your file <code>%s</code> was uploaded successfully!"), $img1_name); ?></p>
+<p><?php _e('Here&#8217;s the code to display it:') ?></p>
 <p><code><?php echo $piece_of_code; ?></code>
 </p>
-<p><strong>Image Details</strong>: <br />
+<p><strong><?php _e('Image Details') ?></strong>: <br />
 Name:
 <?php echo $img1_name; ?>
 <br />
-Size:
-<?php echo round($img1_size / 1024, 2); ?> <abbr title="Kilobyte">KB</abbr><br />
-Type:
+<?php _e('Size:') ?>
+<?php echo round($img1_size / 1024, 2); ?> <?php _e('<abbr title="Kilobyte">KB</abbr>') ?><br />
+<?php _e('Type:') ?>
 <?php echo $img1_type; ?>
 </p>
 </div>
-<p><a href="upload.php">Upload another</a>.</p>
+<p><a href="upload.php"><?php _e('Upload another') ?></a></p>
 <?php
 break;
 }
