@@ -113,7 +113,7 @@ case 'register':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; Registration Complete</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />	
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />	
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 </head>
 <body>
@@ -141,7 +141,7 @@ case 'disabled':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; Registration Currently Disabled</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>">
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
 </head>
 
@@ -167,7 +167,7 @@ default:
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; Registration Form</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 </head>
 

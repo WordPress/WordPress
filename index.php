@@ -11,7 +11,7 @@ require('wp-blog-header.php');
 <head>
 	<title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
 	
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
 	<meta name="generator" content="WordPress <?php echo $wp_version; ?>" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
