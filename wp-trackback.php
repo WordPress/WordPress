@@ -52,7 +52,8 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	$user_ip = $HTTP_SERVER_VARS['REMOTE_ADDR'];
 	$user_domain = gethostbyaddr($user_ip);
 	$time_difference = get_settings('time_difference');
-	$now = gmdate('Y-m-d H:i:s');
+	$now = current_time('mysql');
+	$now_gmt = current_time('mysql', 1);
 
 	$comment = convert_chars($comment);
 	$comment = format_to_post($comment);
@@ -73,9 +74,9 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	}
 
 	$result = $wpdb->query("INSERT INTO $tablecomments 
-	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved)
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved)
 	VALUES 
-	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$comment', '$approved')
+	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved')
 	");
 
 	if (!$result) {
