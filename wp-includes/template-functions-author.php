@@ -1,6 +1,5 @@
 <?php
-
-function the_author($idmode = '', $echo = true) {
+function get_the_author($idmode = '') {
     global $authordata;
     if (empty($idmode)) {
         $idmode = $authordata->user_idmode;
@@ -13,62 +12,107 @@ function the_author($idmode = '', $echo = true) {
     if ($idmode == 'namefl')    $id = $authordata->user_firstname.' '.$authordata->user_lastname;
     if ($idmode == 'namelf')    $id = $authordata->user_lastname.' '.$authordata->user_firstname;
     if (!$idmode) $id = $authordata->user_nickname;
-
-    if ($echo) echo $id;
+    
     return $id;
 }
-function the_author_description() {
+function the_author($idmode = '', $echo = true) {
+	if ($echo) echo get_the_author($idmode);
+	return get_the_author($idmode);
+}
+
+function get_the_author_description() {
     global $authordata;
-    echo $authordata->user_description;
+    return $authordata->user_description;
+}
+function the_author_description() {
+    echo get_the_author_description();
+}
+
+function get_the_author_login() {
+    global $id,$authordata;    return $authordata->user_login;
 }
 function the_author_login() {
-    global $id,$authordata;    echo $authordata->user_login;
+    echo get_the_author_login();
 }
 
+function get_the_author_firstname() {
+    global $id,$authordata;    return $authordata->user_firstname;
+}
 function the_author_firstname() {
-    global $id,$authordata;    echo $authordata->user_firstname;
+    echo get_the_author_firstname();
 }
 
+function get_the_author_lastname() {
+    global $id,$authordata;    return $authordata->user_lastname;
+}
 function the_author_lastname() {
-    global $id,$authordata;    echo $authordata->user_lastname;
+    echo get_the_author_lastname();
 }
 
+function get_the_author_nickname() {
+    global $id,$authordata;    return $authordata->user_nickname;
+}
 function the_author_nickname() {
-    global $id,$authordata;    echo $authordata->user_nickname;
+    echo get_the_author_nickname();
 }
 
+function get_the_author_ID() {
+    global $id,$authordata;    return $authordata->ID;
+}
 function the_author_ID() {
-    global $id,$authordata;    echo $authordata->ID;
+    echo get_the_author_id();
 }
 
+function get_the_author_email() {
+    global $id,$authordata;    return antispambot($authordata->user_email);
+}
 function the_author_email() {
-    global $id,$authordata;    echo antispambot($authordata->user_email);
+    echo get_the_author_email();
 }
 
+function get_the_author_url() {
+    global $id,$authordata;    return $authordata->user_url;
+}
 function the_author_url() {
-    global $id,$authordata;    echo $authordata->user_url;
+    echo get_the_author_url();
 }
 
+function get_the_author_icq() {
+    global $id,$authordata;    return $authordata->user_icq;
+}
 function the_author_icq() {
-    global $id,$authordata;    echo $authordata->user_icq;
+    echo get_the_author_icq();
 }
 
+function get_the_author_aim() {
+    global $id,$authordata;    return str_replace(' ', '+', $authordata->user_aim);
+}
 function the_author_aim() {
-    global $id,$authordata;    echo str_replace(' ', '+', $authordata->user_aim);
+    echo get_the_author_aim();
 }
 
+function get_the_author_yim() {
+    global $id,$authordata;    return $authordata->user_yim;
+}
 function the_author_yim() {
-    global $id,$authordata;    echo $authordata->user_yim;
+    echo get_the_author_yim();
 }
 
+function get_the_author_msn() {
+    global $id,$authordata;    return $authordata->user_msn;
+}
 function the_author_msn() {
-    global $id,$authordata;    echo $authordata->user_msn;
+    echo get_the_author_msn();
 }
 
+function get_the_author_posts() {
+    global $id,$post;    $posts=get_usernumposts($post->post_author);    return $posts;
+}
 function the_author_posts() {
-    global $id,$post;    $posts=get_usernumposts($post->post_author);    echo $posts;
+    echo get_the_author_posts();
 }
 
+/* the_author_posts_link() requires no get_, use get_author_link() */
 function the_author_posts_link($idmode='') {
     global $id, $authordata;
 
