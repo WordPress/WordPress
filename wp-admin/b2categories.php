@@ -131,30 +131,30 @@ default:
 
 <div class="wrap">
 	<form name="cats" method="post">
-	<h3>Edit a category:</h3>
+	<h3><label for="cat_ID">Edit a category:</label></h3>
 	<p>
 	<?php
-	$query = "SELECT * FROM $tablecategories ORDER BY cat_ID";
-	$result = mysql_query($query);
-	echo "<select name='cat_ID'>\n";
-	while($row = mysql_fetch_object($result)) {
-		echo "\t<option value='$row->cat_ID'";
-		if ($row->cat_ID == $cat)
+	$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_ID");
+	echo "<select name='cat_ID' id='cat_ID'>\n";
+	foreach ($categories as $category) {
+		echo "\t<option value='$category->cat_ID'";
+		if ($category->cat_ID == $cat)
 			echo ' selected="selected"';
-		echo ">".$row->cat_ID.": ".$row->cat_name."</option>\n";
+		echo ">".$category->cat_ID.": ".$category->cat_name."</option>\n";
 	}
 	echo "</select>\n";
-	?><br />
+	?></p>
+	<p>
 	<input type="submit" name="action" value="Delete" class="search" />
-	<input type="submit" name="action" value="Rename" class="search" />
+	<input type="submit" name="action" value="Rename" class="search" /></p>
 	</form>
-	</p>
-
-	<h3>Add a category:</h3>
-		<form name="addcat" action="b2categories.php" method="post">
-			<input type="hidden" name="action" value="addcat" />
-			<input type="text" name="cat_name" /><br />
-			<input type="submit" name="submit" value="Add it!" class="search" /></form>
+	
+	
+	<form name="addcat" action="b2categories.php" method="post">
+	<h3><label>Add a category:
+	<input type="text" name="cat_name" /></label><input type="hidden" name="action" value="addcat" /></h3>
+	<input type="submit" name="submit" value="Add it!" class="search" />
+	</form>
 </div>
 
 
