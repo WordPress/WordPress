@@ -989,7 +989,7 @@ function comment_author_link() {
 		$url = str_replace(';//', '://', $url);
 		$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
 		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
-		else echo $url;
+		echo $url;
 	} else {
 		echo 'mailto:'.$email;
 	}
