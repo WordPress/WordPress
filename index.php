@@ -6,16 +6,17 @@
 	<title><?php bloginfo('name') ?><?php single_post_title(' :: ') ?><?php single_cat_title(' :: ') ?><?php single_month_title(' :: ') ?></title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	
+	<meta name="generator" content="WordPress .7" /> <!-- leave this for stats -->
+
 	<style type="text/css" media="screen">
-		@import url( layout2b.css );
+		@import url( <?php echo $siteurl; ?>/layout2b.css );
 	</style>
 	
-	<link rel="stylesheet" type="text/css" media="print" href="print.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
 	<link rel="alternate" type="text/xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-	<?php comments_popup_script() ?>
+	<?php // comments_popup_script(); // off by default ?>
 </head>
 
 <body>
@@ -30,10 +31,15 @@
 
 <?php the_date('','<h2>','</h2>'); ?>
 
-<h3 class="storyTitle"><a href="<?php permalink_link() ?>"><?php the_title(); ?></a> <a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>" class="storyCategory">[<?php the_category() ?>]</a> - <span class="storyAuthor"><?php the_author() ?></span> @ <?php the_time() ?>
+<h3 class="storytitle"><a href="<?php permalink_link() ?>"><?php the_title(); ?></a> <a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>" class="storycategory">[<?php the_category() ?>]</a> - <span class="storyauthor"><?php the_author() ?></span> @ <?php the_time() ?>
 </h3>
 
+<<<<<<< index.php
+<div class="storycontent">
+
+=======
 <div class="storyContent">
+>>>>>>> 1.8
 <?php the_content(); ?>
 
 <div class="feedback">
@@ -41,6 +47,7 @@
 <?php comments_popup_link('Comments (0)', 'Comments (1)', 'Comments (%)') ?> 
 <?php trackback_popup_link('TrackBack (0)', 'TrackBack (1)', 'TrackBack (%)') ?> 
 <?php pingback_popup_link('PingBack (0)', 'PingBack (1)', 'PingBack (%)') ?>
+</div>
 
 <?php trackback_rdf() ?>
 
@@ -53,7 +60,7 @@
 <!-- this includes the pingbacks -->
 <?php include ('b2pingbacks.php'); ?>
 
-</div>
+
 
 </div>
 
@@ -64,8 +71,7 @@
 
 </div>
 
-<p class="centerP"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite>
-</p>
+<p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite></p>
 
 
 <div id="menu">
@@ -94,7 +100,7 @@
  </li>
  <li>Archives:
  	<ul>
-	 <?php include("b2archives.php"); // fix this too ?>
+	 <?php get_archives('monthly'); ?>
  	</ul>
  </li>
  <li>Other:
