@@ -106,7 +106,7 @@ if (!$got_cats) {
            " text_before_link varchar(128) not null default '<li>',  " .
            " text_after_link  varchar(128) not null default '<br />'," .
            " text_after_all  varchar(128) not null default '</li>',  " .
-           " list_limit int not null default -1,                     " .
+           " list_limit int not null default '-1',                     " .
            " PRIMARY KEY (cat_id) ".
            ") ";
     $result = mysql_query($sql) or print ("Can't create the table '$tablelinkcategories' in the database.<br />" . $sql . "<br />" . mysql_error());
