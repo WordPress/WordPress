@@ -109,19 +109,21 @@ function single_month_title($prefix = '', $display = true ) {
 }
 
 /* link navigation hack by Orien http://icecode.com/ */
-function get_archives_link($url, $text, $format) {
+function get_archives_link($url, $text, $format = "html", $before = "", $after = "") {
 	if ('link' == $format) {
 		return "\t".'<link rel="archives" title="'.$text.'" href="'.$url.'" />'."\n";
 	} else if ('option' == $format) {
 		return '<option value="'.$url.'">'.$text.'</option>'."\n";
-	} else { // 'html'
+	} else if ('html' == $format) {
 		return "\t".'<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>'."\n";
+	} else { // custom 
+		return "\t".$before.'<a href="'.$url.'" title="'.$text.'">'.$text.'</a>'.$after."\n";
 	}
 }
 
-function get_archives($type='', $limit='', $format='html') {
+function get_archives($type='', $limit='', $format='html', $before = "", $after = "") {
 	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
-    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
+    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week, $querycount;
 
     if ('' == $type) {
         $type = get_settings('archive_mode');
@@ -164,7 +166,7 @@ function get_archives($type='', $limit='', $format='html') {
             foreach ($arcresults as $arcresult) {
                 $url  = sprintf("%s%d%02d", $archive_link_m,  $arcresult->year,   $arcresult->month);
                 $text = sprintf("%s %d",    $month[zeroise($arcresult->month,2)], $arcresult->year);
-                echo get_archives_link($url, $text, $format);
+                echo get_archives_link($url, $text, $format, $before, $after);
             }
         }
 	} elseif ('daily' == $type) {
@@ -175,7 +177,7 @@ function get_archives($type='', $limit='', $format='html') {
                 $url  = sprintf("%s%d%02d%02d", $archive_link_m, $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
                 $date = sprintf("%d-%02d-%02d 00:00:00", $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
                 $text = mysql2date($archive_day_date_format, $date);
-                echo get_archives_link($url, $text, $format);
+                echo get_archives_link($url, $text, $format, $before, $after);
             }
         }
 	} elseif ('weekly' == $type) {
@@ -197,7 +199,7 @@ function get_archives($type='', $limit='', $format='html') {
                                     $querystring_equal, $arc_year, $querystring_separator, 
                                     $querystring_equal, $arcresult->week);
                     $text = $arc_week_start . $archive_week_separator . $arc_week_end;
-                    echo get_archives_link($url, $text, $format);
+                    echo get_archives_link($url, $text, $format, $before, $after);
                 }
             }
         }
@@ -214,7 +216,7 @@ function get_archives($type='', $limit='', $format='html') {
                     } else {
                         $text = $arcresult->ID;
                     }
-                    echo get_archives_link($url, $text, $format);
+                    echo get_archives_link($url, $text, $format, $before, $after);
                 }
             }
         }
