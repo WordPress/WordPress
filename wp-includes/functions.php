@@ -997,8 +997,11 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
 function get_page_uri($page_id) {
 	global $wpdb, $cache_pages;
 
+	$dates = ",UNIX_TIMESTAMP(post_modified) AS time_modified";
+	$dates .= ",UNIX_TIMESTAMP(post_date) AS time_created";
+
 	if (!isset($cache_pages[$page_id])) {
-		$cache_pages[$page_id] = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$page_id'");
+		$cache_pages[$page_id] = $wpdb->get_row("SELECT ID, post_title, post_name, post_parent $dates FROM $wpdb->posts WHERE ID = '$page_id'");
 	}
 
 	$page = $cache_pages[$page_id];
@@ -1010,7 +1013,12 @@ function get_page_uri($page_id) {
 	}
 
 	while ($page->post_parent != 0) {
-		$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page->post_parent'");
+		if (isset($cache_pages[$page->post_parent])) {
+			$page = $cache_pages[$page->post_parent];
+		} else {
+			$page = $wpdb->get_row("SELECT ID, post_title, post_name, post_parent $dates FROM $wpdb->posts WHERE ID = '$page->post_parent'");
+			$cache_pages[$page->ID] = $page;
+		}
 		$uri = urldecode($page->post_name) . "/" . $uri;
 	}
 

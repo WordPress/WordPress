@@ -264,50 +264,50 @@ function the_meta() {
 function get_pages($args = '') {
 	global $wpdb, $cache_pages;
 
-	if (!isset($cache_pages) || empty($cache_pages)) {
+	parse_str($args, $r);
 
-		parse_str($args, $r);
+	if (!isset($r['child_of'])) $r['child_of'] = 0;
+	if (!isset($r['sort_column'])) $r['sort_column'] = 'post_title';
+	if (!isset($r['sort_order'])) $r['sort_order'] = 'ASC';
 
-		if (!isset($r['child_of'])) $r['child_of'] = 0;
-		if (!isset($r['sort_column'])) $r['sort_column'] = 'post_title';
-		if (!isset($r['sort_order'])) $r['sort_order'] = 'ASC';
-
-		$exclusions = '';
-		if (!empty($r['exclude'])) {
-			$expages = preg_split('/[\s,]+/',$r['exclude']);
-			if (count($expages)) {
-				foreach ($expages as $expage) {
-					$exclusions .= ' AND ID <> ' . intval($expage) . ' ';
-				}
-			}
-		}
-
-		$dates = ",UNIX_TIMESTAMP(post_modified) AS time_modified";
-		$dates .= ",UNIX_TIMESTAMP(post_date) AS time_created";
-	
-		$post_parent = '';
-		if ($r['child_of']) {
-			$post_parent = ' AND post_parent=' . $r['child_of'] . ' ';
-		}
-	
-		$pages = $wpdb->get_results("SELECT " .
-		  "ID, post_title, post_name, post_parent " .
-		  "$dates " .
-		  "FROM $wpdb->posts " .
-		  "WHERE post_status = 'static' " .
-		  "$post_parent" .
-		  "$exclusions " .
-		  "ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
-
-		$cache_pages = array();
-		if (count($pages)) {
-			foreach($pages as $page) {
-				$cache_pages[$page->ID] = $page;
+	$exclusions = '';
+	if (!empty($r['exclude'])) {
+		$expages = preg_split('/[\s,]+/',$r['exclude']);
+		if (count($expages)) {
+			foreach ($expages as $expage) {
+				$exclusions .= ' AND ID <> ' . intval($expage) . ' ';
 			}
 		}
 	}
 
-	return $cache_pages;
+	$dates = ",UNIX_TIMESTAMP(post_modified) AS time_modified";
+	$dates .= ",UNIX_TIMESTAMP(post_date) AS time_created";
+	
+	$post_parent = '';
+	if ($r['child_of']) {
+		$post_parent = ' AND post_parent=' . $r['child_of'] . ' ';
+	}
+	
+	$pages = $wpdb->get_results("SELECT " .
+															"ID, post_title, post_name, post_parent " .
+															"$dates " .
+															"FROM $wpdb->posts " .
+															"WHERE post_status = 'static' " .
+															"$post_parent" .
+															"$exclusions " .
+															"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
+
+	// Update page cache.
+	if (count($pages)) {
+		foreach($pages as $page) {
+			$cache_pages[$page->ID] = $page;
+		}
+	}
+
+	if ( empty($pages) )
+		$pages = array();
+
+	return $pages;
 }
 
 function wp_list_pages($args = '') {
