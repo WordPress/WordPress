@@ -18,7 +18,9 @@ function get_the_category($id = false) {
     
     }
 
-		sort($categories);
+		if (!empty($categories))
+			sort($categories);
+
 		return $categories;
 }
 
