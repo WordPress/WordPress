@@ -64,7 +64,7 @@ include('admin-header.php');
       <tr>
       	<th scope="row"><?php _e('Default date format:') ?></th>
       	<td><input name="date_format" type="text" id="date_format" size="30" value="<?php form_option('date_format'); ?>" /><br />
-<?php _e('Output:') ?> <strong><?php echo gmdate(get_settings('date_format'), current_time('timestamp')); ?></strong></td>
+<?php _e('Output:') ?> <strong><?php echo mysql2date(get_settings('date_format'), current_time('mysql')); ?></strong></td>
       	</tr>
       <tr>
         <th scope="row"><?php _e('Default time format:') ?></th>
