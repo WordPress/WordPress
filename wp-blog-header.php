@@ -342,7 +342,7 @@ if ($preview) {
 }
 
 // error_log("$request");
-echo $request;
+// echo $request;
 $posts = $wpdb->get_results($request);
 
 // No point in doing all this work if we didn't match any posts.
