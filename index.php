@@ -41,7 +41,7 @@ require('wp-blog-header.php');
 	
 <div class="post">
 	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
-	<div class="meta">Filed under: <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
+	<div class="meta"><?php $lang->str('filed_under'); ?> <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
 	
 	<div class="storycontent">
 		<?php the_content(); ?>
@@ -60,7 +60,7 @@ require('wp-blog-header.php');
 </div>
 
 <?php } } else { // end foreach, end if any posts ?>
-<p>Sorry, no posts matched your criteria.</p>
+<p><?php $lang->str('no_posts_matched'); ?></p>
 <?php } ?>
 </div>
 
@@ -70,21 +70,21 @@ require('wp-blog-header.php');
 
 <ul>
 	<?php get_links_list(); ?>
- <li id="categories">Categories:
+ <li id="categories"><?php $lang->str('categories'); ?>
 	<ul>
 	<?php wp_list_cats(); ?>
 	</ul>
  </li>
  <li id="search">
-   <label for="s">Search:</label>	
+   <label for="s"><?php $lang->str('search'); ?></label>	
    <form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />
-		<input type="submit" name="submit" value="search" />
+		<input type="submit" name="submit" value="<?php $lang->str('search_button'); ?>" />
 	</div>
 	</form>
  </li>
- <li id="archives">Archives:
+ <li id="archives"><?php $lang->str('archives'); ?>
  	<ul>
 	 <?php get_archives('monthly'); ?>
  	</ul>
@@ -92,18 +92,18 @@ require('wp-blog-header.php');
  <li id="calendar">
 	<?php get_calendar(); ?>
  </li>
- <li id="other">Other:
+ <li id="other"><?php $lang->str('other'); ?>
 	<ul>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php">Login</a></li>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php">Register</a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php"><?php $lang->str('login'); ?></a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php"><?php $lang->str('register'); ?></a></li>
 	</ul>
  </li>
- <li id="meta">Meta:
+ <li id="meta"><?php $lang->str('meta'); ?>
  	<ul>
-		<li><a href="<?php bloginfo('rss2_url'); ?>" title="Syndicate this site using RSS"><abbr title="Really Simple Syndication">RSS</abbr> 2.0</a></li>
-		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr> 2.0</a></li>
-		<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
-		<li><a href="http://wordpress.org" title="Powered by WordPress, state-of-the-art semantic personal publishing platform">WP</a></li>
+		<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php $lang->str('rss_2_title'); ?>"><?php $lang->str('rss_2'); ?></a></li>
+		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php $lang->str('comments_rss_2_title'); ?>"><?php $lang->str('comments_rss_2'); ?></a></li>
+		<li><a href="http://validator.w3.org/check/referer" title="<?php $lang->str('valid_xhtml_title'); ?>"><?php $lang->str('valid_xhtml'); ?></a></li>
+		<li><a href="http://wordpress.org" title="<?php $lang->str('powered_by_title'); ?>">WP</a></li>
 	</ul>
  </li>
 
@@ -113,6 +113,6 @@ require('wp-blog-header.php');
 
 </div>
 
-<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <cite>Powered by <a href="http://wordpress.org" title="Powered by WordPress, state-of-the-art semantic personal publishing platform"><strong>WordPress</strong></a></cite></p>
+<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <cite><?php $lang->str('powered_by'); ?> <a href="http://wordpress.org" title="<?php $lang->str('powered_by_title'); ?>"><strong><?php $lang->str('wordpress'); ?></strong></a></cite></p>
 </body>
 </html>
