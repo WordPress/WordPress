@@ -50,11 +50,11 @@ include('options-head.php');
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"><?php _e('Weblog title:') ?></th> 
-        <td><input name="blogname" type="text" id="blogname" value="<?php echo get_settings('blogname'); ?>" size="40" /></td> 
+        <td><input name="blogname" type="text" id="blogname" value="<?php echo htmlspecialchars(get_settings('blogname')); ?>" size="40" /></td> 
       </tr> 
       <tr valign="top"> 
         <th scope="row"><?php _e('Tagline:') ?></th> 
-        <td><input name="blogdescription" type="text" id="blogdescription" style="width: 95%" value="<?php echo get_settings('blogdescription'); ?>" size="45" />
+        <td><input name="blogdescription" type="text" id="blogdescription" style="width: 95%" value="<?php echo htmlspecialchars(get_settings('blogdescription')); ?>" size="45" />
         <br />
 <?php _e('In a few words, explain what this weblog is about.') ?></td> 
       </tr> 

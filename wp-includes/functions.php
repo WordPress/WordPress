@@ -816,7 +816,7 @@ function doGeoUrlHeader($post_list = '') {
         $title = $row->post_title;
         if(($lon != null) && ($lat != null) ) {
             echo "<meta name=\"ICBM\" content=\"".$lat.", ".$lon."\" />\n";
-            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")))." - ".$title."\" />\n";
+            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(htmlspecialchars(get_bloginfo("name"))))." - ".$title."\" />\n";
             echo "<meta name=\"geo.position\" content=\"".$lat.";".$lon."\" />\n";
             return;
         }
@@ -824,7 +824,7 @@ function doGeoUrlHeader($post_list = '') {
         if(get_settings('use_default_geourl')) {
             // send the default here 
             echo "<meta name='ICBM' content=\"". get_settings('default_geourl_lat') .", ". get_settings('default_geourl_lon') ."\" />\n";
-            echo "<meta name='DC.title' content=\"".convert_chars(strip_tags(get_bloginfo("name")))."\" />\n";
+            echo "<meta name='DC.title' content=\"".convert_chars(strip_tags(htmlspecialchars(get_bloginfo("name"))))."\" />\n";
             echo "<meta name='geo.position' content=\"". get_settings('default_geourl_lat') .";". get_settings('default_geourl_lon') ."\" />\n";
         }
     }

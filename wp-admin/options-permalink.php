@@ -137,7 +137,7 @@ echo apply_filters('rewrite_rules', $rules);
     </p>
     <?php printf(__('<p>If your <code>.htaccess</code> file is writable by WordPress, you can <a href="%s">edit it through your template interface</a>.</p>'), 'templates.php?file=.htaccess') ?>
 </form>
-</div> 
+ 
 <?php
 } else {
 ?>
