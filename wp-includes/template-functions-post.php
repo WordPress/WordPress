@@ -313,10 +313,8 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 }
 
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-    global $tableposts, $p, $posts, $id, $post, $wpdb;
-    global $single;
-    global $querystring_start, $querystring_equal, $querystring_separator;
-    if(($p) || ($posts==1) || 1 == $single) {
+    global $tableposts, $posts_per_page, $post, $wpdb, $single;
+    if(1 == $posts_per_page || 1 == $single) {
 
         $current_post_date = $post->post_date;
         $current_category = $post->post_category;
