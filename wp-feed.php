@@ -28,6 +28,9 @@ if ( is_single() || ($withcomments == 1) ) {
     case 'rss2':
         require('wp-rss2.php');
         break;
+    case 'comments-rss2':
+        require('wp-commentsrss2.php');
+        break;
     }
 }
 

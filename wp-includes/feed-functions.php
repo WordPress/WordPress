@@ -73,20 +73,20 @@ function comment_text_rss() {
 	echo $comment_text;
 }
 
-function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = 'wp-commentsrss2.php') {
+function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = '') {
 	$url = comments_rss($commentsrssfilename);
 	echo "<a href='$url'>$link_text</a>";
 }
 
-function comments_rss($commentsrssfilename = 'wp-commentsrss2.php') {
+function comments_rss($commentsrssfilename = '') {
 	global $id;
 
 	if ('' != get_settings('permalink_structure'))
 		$url = trailingslashit( get_permalink() ) . 'feed/';
 	else
-		$url = get_settings('siteurl') . "/$commentsrssfilename?p=$id";
+		$url = get_settings('home') . "/$commentsrssfilename?feed=rss2&amp;p=$id";
 
-	return $url;
+	return apply_filters('post_comments_feed_link', $url);
 }
 
 function get_author_rss_link($echo = false, $author_id, $author_nicename) {
@@ -94,12 +94,13 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
        $permalink_structure = get_settings('permalink_structure');
 
        if ('' == $permalink_structure) {
-           $file = get_settings('siteurl') . '/wp-rss2.php';
-           $link = $file . '?author=' . $author_id;
+				 $link = get_settings('home') . '?feed=rss2&amp;author=' . $author_id;
        } else {
-           $link = get_author_link(0, $author_id, $author_nicename);
-           $link = $link . "feed/";
+				 $link = get_author_link(0, $author_id, $author_nicename);
+				 $link = $link . "feed/";
        }
+			 
+			 $link = apply_filters('author_feed_link', $link);
 
        if ($echo) echo $link;
        return $link;
@@ -110,12 +111,13 @@ function get_category_rss_link($echo = false, $category_id, $category_nicename) 
        $permalink_structure = get_settings('permalink_structure');
 
        if ('' == $permalink_structure) {
-               $file = get_settings('siteurl') . '/wp-rss2.php';
-        $link = $file . '?cat=' . $category_id;
+				 $link = get_settings('home') . '?feed=rss2&amp;cat=' . $category_id;
        } else {
-        $link = get_category_link($category_id);
-               $link = $link . "feed/";
+				 $link = get_category_link($category_id);
+				 $link = $link . "feed/";
        }
+
+			 $link = apply_filters('category_feed_link', $link);
 
        if ($echo) echo $link;
        return $link;

@@ -168,9 +168,9 @@ function get_feed_link($feed='rss2') {
 		$output =  get_settings('home') . $permalink;
 	} else {
 		if ( false !== strpos($feed, 'comments_') )
-			$feed = str_replace('comments_', 'comments', $feed);
+			$feed = str_replace('comments_', 'comments-', $feed);
 
-		$output = get_settings('siteurl') . "/wp-{$feed}.php";
+		$output = get_settings('home') . "/?feed={$feed}";
 	}
 
 	return apply_filters('feed_link', $output, $feed);
