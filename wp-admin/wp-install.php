@@ -210,7 +210,8 @@ $query = "
 CREATE TABLE $tablecategories (
   cat_ID int(4) NOT NULL auto_increment,
   cat_name varchar(55) NOT NULL default '',
-  PRIMARY KEY  (cat_ID)
+  PRIMARY KEY  (cat_ID),
+  UNIQUE (cat_name)
 )
 ";
 $q = $wpdb->query($query);
@@ -323,7 +324,7 @@ CREATE TABLE $tableoptionvalues (
   optionvalue_max int(11),
   optionvalue_min int(11),
   optionvalue_seq int(11),
-  KEY (option_id),
+  UNIQUE (option_id, optionvalue(255)),
   INDEX (option_id, optionvalue_seq)
 )
 ";
@@ -555,7 +556,7 @@ if (isset($url)) {
     $q = $wpdb->query($query);
     $query= "UPDATE $tableoptions set option_value='$url' where option_id=28"; //blodotgsping_url
     $q = $wpdb->query($query);
-    $query= "UPDATE $tableoptions set option_value='$url' where option_id=17"; //smilies_directory
+    $query= "UPDATE $tableoptions set option_value='$url/b2-img/smilies' where option_id=17"; //smilies_directory
     $q = $wpdb->query($query);
 }
     
