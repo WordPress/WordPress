@@ -9,7 +9,7 @@ if ($user_level == 0) //Checks to see if user has logged in
 if (!get_settings('use_fileupload')) //Checks if file upload is enabled in the config
 	die ("The admin disabled this function");
 
-$allowed_types = explode(' ', trim(get_settings('fileupload_allowedtypes')));
+$allowed_types = explode(' ', trim(strtolower(get_settings('fileupload_allowedtypes'))));
 
 if ($HTTP_POST_VARS['submit']) {
 	$action = 'upload';
@@ -89,7 +89,7 @@ case 'upload':
     $imgdesc = str_replace('"', '&amp;quot;', $HTTP_POST_VARS['imgdesc']);
 
     $imgtype = explode(".",$img1_name);
-    $imgtype = $imgtype[count($imgtype)-1];
+    $imgtype = strtolower($imgtype[count($imgtype)-1]);
 
     if (in_array($imgtype, $allowed_types) == false) {
         die("File $img1_name of type $imgtype is not allowed.");
