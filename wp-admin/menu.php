@@ -15,7 +15,7 @@ $menu = array(
               array(__('Options'), 6, 'options-general.php'),
               array(__('Plugins'), 8, 'plugins.php'),
               array(__('Templates'), 4, 'templates.php'),
-              array(__('Upload'), 5, 'upload.php'),
+              array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php'),
               array(__('Profile'), 0, 'profile.php')
 );
 
