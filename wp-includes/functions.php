@@ -412,7 +412,7 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 function get_userdata($userid) {
 	global $wpdb, $cache_userdata, $use_cache, $tableusers;
 	if ((empty($cache_userdata[$userid])) || (!$use_cache)) {
-		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = $userid");
+		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = '$userid'");
         $user->user_nickname = stripslashes($user->user_nickname);
         $user->user_firstname = stripslashes($user->user_firstname);
         $user->user_lastname = stripslashes($user->user_lastname);
@@ -464,7 +464,7 @@ function get_userid($user_login) {
 
 function get_usernumposts($userid) {
 	global $tableposts, $tablecomments, $wpdb;
-	return $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = $userid");
+	return $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = '$userid'");
 }
 
 // examine a url (supposedly from this blog) and try to
@@ -527,9 +527,9 @@ function url_to_postid($url = '') {
 	if (intval($post_id)) return intval($post_id);
 
 	// Otherwise, build a WHERE clause, making the values safe along the way:
-	if ($year) $where .= " AND YEAR(post_date) = " . intval($year);
-	if ($monthnum) $where .= " AND MONTH(post_date) = " . intval($monthnum);
-	if ($day) $where .= " AND DAYOFMONTH(post_date) = " . intval($day);
+	if ($year) $where .= " AND YEAR(post_date) = '" . intval($year) . "'";
+	if ($monthnum) $where .= " AND MONTH(post_date) = '" . intval($monthnum) . "'";
+	if ($day) $where .= " AND DAYOFMONTH(post_date) = '" . intval($day) . "'";
 	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
 
 	// Run the query to get the post ID:
@@ -584,7 +584,7 @@ function add_option() {
 function get_postdata($postid) {
 	global $post, $tableusers, $tablecategories, $tableposts, $tablecomments, $wpdb;
 
-	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = $postid");
+	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$postid'");
 	
 	$postdata = array (
 		'ID' => $post->ID, 
@@ -629,7 +629,7 @@ function get_postdata2($postid=0) { // less flexible, but saves DB queries
 function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { // less flexible, but saves DB queries
 	global $postc,$id,$commentdata,$tablecomments, $wpdb;
 	if ($no_cache) {
-		$query = "SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID";
+		$query = "SELECT * FROM $tablecomments WHERE comment_ID = '$comment_ID'";
 		if (false == $include_unapproved) {
 		    $query .= " AND comment_approved = '1'";
 		}
@@ -680,7 +680,7 @@ function dropdown_categories($default = 0) {
 		$postcategories = $wpdb->get_col("
 			SELECT category_id 
 			FROM  $tablecategories, $tablepost2cat 
-			WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = $post->ID
+			WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = '$post->ID'
 			");
 	} else {
 		$postcategories[] = $default;
@@ -937,8 +937,8 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 */
 	@fclose($fs);
 
-	$wpdb->query("UPDATE $tableposts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = $ID");
-	$wpdb->query("UPDATE $tableposts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = $ID");
+	$wpdb->query("UPDATE $tableposts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = '$ID'");
+	$wpdb->query("UPDATE $tableposts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = '$ID'");
 	return $result;
 }
 
