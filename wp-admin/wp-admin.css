@@ -87,7 +87,7 @@ textarea, input, select {
 	margin: 6px 0;
 }
 
-#adminmenu .last {
+#adminmenu .last, #adminmenu2 .last {
 	border-right: none;
 }
 
@@ -98,6 +98,7 @@ textarea, input, select {
 	font-weight: normal;
 	padding: 3px;
 	text-decoration: none;
+	margin: 0 1px;
 }
 
 #adminmenu a:hover, .current, #adminmenu2 a:hover {
@@ -110,7 +111,6 @@ textarea, input, select {
 	border-right: 1px solid #ccc;
 	display: inline;
 	list-style: none;
-	margin: 1px;
 	text-align: center;
 	line-height: 2.0em;
 }
