@@ -1247,12 +1247,14 @@ function the_category($seperator = '') {
 	if ('' == $seperator) {
 		echo '<ul class="post-categories">';
 		foreach ($categories as $category) {
+			$category->cat_name = stripslashes($category->cat_name);
 			echo "\n\t<li><a href='" . get_category_link(0, $category->category_id) . "' title='View all posts in $category->cat_name'>$category->cat_name</a></li>";
 		}
 		echo '</ul>';
 	} else {
 		$i = 0;
 		foreach ($categories as $category) {
+			$category->cat_name = stripslashes($category->cat_name);
 			if (0 < $i) echo $seperator . ' ';
 			echo "<a href='" . get_category_link(0, $category->category_id) . "' title='View all posts in $category->cat_name'>$category->cat_name</a>";
 			++$i;

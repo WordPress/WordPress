@@ -278,8 +278,9 @@ if ($pagenow != 'wp-post.php') {
 	if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
 		$where .= ' AND post_date <= \''.$now.'\'';
 	}
-	$where .= ' AND post_category > 0';
+
 	$distinct = 'DISTINCT';
+
 	if ($use_gzipcompression) {
 		// gzipping the output of the script
 		gzip_compression();

@@ -1,6 +1,7 @@
 a {
+	border-bottom: 1px solid #69c;
 	color: #00019b;
-	font-weight: bold;
+	text-decoration: none;
 }
 
 a:visited {
@@ -8,6 +9,7 @@ a:visited {
 }
 
 a:hover {
+	border-bottom: 1px solid #3a75ae;
 	color: #069;
 }
 
@@ -22,7 +24,31 @@ body, td {
 	font: 10pt Georgia, "Times New Roman", Times, serif;
 }
 
-form {
+fieldset {
+	border: 1px solid #ccc;
+	padding: 2px;
+}
+
+fieldset label.selectit {
+	background: #f0f0f0;
+	display: block;
+	font-size: 11px;
+	padding: 0 2px;
+}
+
+fieldset label.selectit:hover {
+	background: #dadada;
+}
+
+fieldset legend {
+	padding: .1em;
+}
+
+fieldset:hover {
+	border: 1px solid #999;
+}
+
+form, label input {
 	margin: 0;
 	padding: 0;
 }
@@ -64,9 +90,9 @@ textarea, input, select {
 
 .checkbox {
 	background: #fff;
-	border-width: 0px;
-	margin: 0px;
-	padding: 0px;
+	border: none;
+	margin: 0;
+	padding: 0;
 }
 
 .quicktags, .search {
@@ -75,32 +101,31 @@ textarea, input, select {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
-.wrap {
-	border: 1px solid #ccc;
-	margin: 20px auto 10px auto;
-	padding: 10px;
-	width: 85%;
-}
-
-.wrap h2 {
-	font-size: 18px;
-	margin: 6px 0;
-}
-
 .unapproved {
 	color: #888;
 }
 
 .unapproved a:link {
-	color: #B9BCFF;
+	color: #b9bcff;
 }
 
 .unapproved a:visited {
-	color: #696DFF;
+	color: #696dff;
 }
 
 .unapproved a:hover {
-	color: #009EF0;
+	color: #009ef0;
+}
+
+.wrap {
+	border: 1px solid #ccc;
+	margin: 15px 5%;
+	padding: 0 1em;
+}
+
+.wrap h2 {
+	font-size: 18px;
+	margin: 6px 0;
 }
 
 #adminmenu .last, #adminmenu2 .last {
@@ -112,30 +137,28 @@ textarea, input, select {
 	color: #333;
 	font-size: 16px;
 	font-weight: normal;
-	padding: 3px;
+	margin: 0;
+	padding: 3px 5px;
 	text-decoration: none;
-	margin: 0 1px;
 }
 
 #adminmenu a:hover, .current, #adminmenu2 a:hover {
-	background: #e9e9e9;
-	border: 1px solid #808080;
-	color: #333;
+	background: #eaeaea;
+	border: 1px solid #9d9d9d;
+	color: #171717;
 }
 
 #adminmenu li, #adminmenu2 li {
-	border-right: 1px solid #ccc;
 	display: inline;
+	line-height: 2.0em;
 	list-style: none;
 	text-align: center;
-	line-height: 2.0em;
 }
 
 #adminmenu, #adminmenu2 {
 	border-bottom: 2px solid #5a5a5a;
 	margin: 2px;
-	padding: 2px;
-	padding-top: 5px;
+	padding: 0 2px;
 }
 
 #adminmenu2 {
@@ -148,17 +171,15 @@ textarea, input, select {
 }
 
 #categorydiv {
-	float: right;
-	width: 10%;
 	line-height: 130%;
+	margin-right: 5px;
+	position: absolute;
+	right: 5%;
+	width: 9em;
 }
 
-#poststuff {
-	width: 88%;
-}
-
-#poststuff textarea {
-	width: 100%;
+#categorydiv input, #poststatusdiv input, #commentstatusdiv input, #pingstatusdiv input {
+	border: none;
 }
 
 #ed_button {
@@ -211,23 +232,16 @@ textarea, input, select {
 	clear: both;
 }
 
-#post label.selectit {
-	background-color: #eee;
-	padding: 0 2px;
-	display: block;
-	margin-bottom: 1px;
-	margin-top: 1px;
-	border-bottom: 1px solid #666;
-	font-size: 11px;
+#poststatusdiv, #commentstatusdiv, #pingstatusdiv {
+	width: 6.5em;
 }
 
-#post label.selectit:hover {
-	background-color: #dadada;
+#poststuff {
+	margin-right: 11em;
 }
 
-label input {
-	padding: 0;
-	margin: 0;
+#poststuff textarea {
+	width: 100%;
 }
 
 #profile {
@@ -261,7 +275,6 @@ label input {
 	margin-right: 5px;
 }
 
-
 #wphead {
 	background: url(../b2-img/wp-small.png) no-repeat;
 	border-bottom: 4px solid #333;
@@ -273,6 +286,6 @@ label input {
 	display: block;
 	height: 42px;
 	text-decoration: none;
-	text-indent: -100em;
+	text-indent: -1000px;
 	width: 200px;
 }

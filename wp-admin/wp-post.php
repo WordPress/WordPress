@@ -48,7 +48,7 @@ switch($action) {
 			$excerpt = balanceTags($HTTP_POST_VARS['excerpt']);
 			$excerpt = format_to_post($excerpt);
 			$post_title = addslashes($HTTP_POST_VARS['post_title']);
-			$post_category = intval($HTTP_POST_VARS['post_category']);
+			$post_categories = $HTTP_POST_VARS['post_category'];
 			if(get_settings('use_geo_positions')) {
 				$latstr = $HTTP_POST_VARS['post_latf'];
 				$lonstr = $HTTP_POST_VARS['post_lonf'];
@@ -86,15 +86,15 @@ switch($action) {
 
         if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
 		$postquery ="INSERT INTO $tableposts
-                (ID, post_author, post_date, post_content, post_title, post_category, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name)
+                (ID, post_author, post_date, post_content, post_title, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name)
                 VALUES
-                ('0','$user_ID','$now','$content','$post_title','$post_category',$post_latf,$post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name')
+                ('0', '$user_ID', '$now', '$content', '$post_title', $post_latf, $post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name')
                 ";
         } else {
 		$postquery ="INSERT INTO $tableposts
-                (ID, post_author, post_date, post_content, post_title, post_category,  post_excerpt,  post_status, comment_status, ping_status, post_password, post_name)
+                (ID, post_author, post_date, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name)
                 VALUES
-                ('0','$user_ID','$now','$content','$post_title','$post_category','$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name')
+                ('0', '$user_ID', '$now', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name')
                 ";
         }
         $postquery =
@@ -102,6 +102,21 @@ switch($action) {
 
         $post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
 
+		// Insert categories
+		foreach ($post_categories as $post_category) {
+			// Double check it's not there already
+			$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
+
+			 if (!$exists && $result) { 
+			 	$wpdb->query("
+				INSERT INTO $tablepost2cat
+				(post_id, category_id)
+				VALUES
+				($post_ID, $post_category)
+				");
+			}
+		}
+		
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
                 sleep($sleep_after_edit);
         }
@@ -203,7 +218,7 @@ switch($action) {
             $blog_ID = 1;
         }
 			$post_ID = $HTTP_POST_VARS['post_ID'];
-			$post_category = intval($HTTP_POST_VARS['post_category']);
+			$post_categories = $HTTP_POST_VARS['post_category'];
 			$post_autobr = intval($HTTP_POST_VARS['post_autobr']);
 			$content = balanceTags($HTTP_POST_VARS['content']);
 			$content = format_to_post($content);
@@ -248,9 +263,9 @@ switch($action) {
 			UPDATE $tableposts SET
 				post_content = '$content',
 				post_excerpt = '$excerpt',
-				post_title = '$post_title',
-				post_category = '$post_category'".$datemodif.",
-				".$latlonaddition."
+				post_title = '$post_title'"
+				.$datemodif.","
+				.$latlonaddition."
 				post_status = '$post_status',
 				comment_status = '$comment_status',
 				ping_status = '$ping_status',
@@ -258,6 +273,23 @@ switch($action) {
 				post_name = '$post_name'
 			WHERE ID = $post_ID ");
 
+
+		// Now it's category time!
+		// First the old categories
+		$old_categories = $wpdb->get_col("SELECT category_id FROM $tablepost2cat WHERE post_id = $post_ID");
+		
+		// Delete any?
+		foreach ($old_categories as $old_cat) {
+			if (!in_array($old_cat, $post_categories)) // If a category was there before but isn't now
+				$wpdb->query("DELETE FROM $tablepost2cat WHERE category_id = $old_cat AND post_id = $post_ID LIMIT 1");
+		}
+		
+		// Add any?
+		foreach ($post_categories as $new_cat) {
+			if (!in_array($new_cat, $old_categories))
+				$wpdb->query("INSERT INTO $tablepost2cat (post_id, category_id) VALUES ($post_ID, $new_cat)");
+		}
+		
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
             sleep($sleep_after_edit);
         }
@@ -294,7 +326,7 @@ switch($action) {
         if ($user_level == 0)
             die ('Cheatin&#8217; uh?');
 
-        $post = $HTTP_GET_VARS['post'];
+        $post_id = $HTTP_GET_VARS['post'];
         $postdata = get_postdata($post) or die('Oops, no post with this ID. <a href="wp-post.php">Go back</a>!');
         $authordata = get_userdata($postdata['Author_ID']);
 
@@ -302,7 +334,7 @@ switch($action) {
             die ('You don&#8217;t have the right to delete <strong>'.$authordata[1].'</strong>&#8217;s posts.');
 
         // send geoURL ping to "erase" from their DB
-        $query = "SELECT post_lat from $tableposts WHERE ID=$post";
+        $query = "SELECT post_lat from $tableposts WHERE ID=$post_id";
         $rows = $wpdb->query($query); 
         $myrow = $rows[0];
         $latf = $myrow->post_lat;
@@ -310,11 +342,13 @@ switch($action) {
             pingGeoUrl($post);
         }
 
-        $result = $wpdb->query("DELETE FROM $tableposts WHERE ID=$post");
+        $result = $wpdb->query("DELETE FROM $tableposts WHERE ID=$post_id");
         if (!$result)
             die('Error in deleting... contact the <a href="mailto:$admin_email">webmaster</a>.');
 
-        $result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID=$post");
+        $result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID=$post_id");
+
+		$categories = $wpdb->query("DELETE FROM $tablepost2cat WHERE post_id = $post_id");
 
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
             sleep($sleep_after_edit);

@@ -680,10 +680,10 @@ function dropdown_categories($default = 0) {
 	foreach($categories as $category) {
 		++$i;
 		$category->cat_name = stripslashes($category->cat_name);
-		echo "<label for='category-$category->cat_ID' class='selectit'><input value='$category->cat_ID' type='checkbox' name='post_category' id='category-$category->cat_ID'";
+		echo "<label for='category-$i' class='selectit'><input value='$category->cat_ID' type='checkbox' name='post_category[]	' id='category-$i'";
 		if ($postcategories && in_array($category->cat_ID, $postcategories))
 			echo " checked='checked'";
-		echo ">$category->cat_name</label> ";
+		echo " /> $category->cat_name</label> ";
 	}
 
 }
@@ -713,7 +713,7 @@ function touch_time($edit = 1) {
 	for ($i=1; $i < 13; $i=$i+1) {
 		echo "\t\t\t<option value=\"$i\"";
 		if ($i == $mm)
-		echo " selected";
+		echo " selected='selected'";
 		if ($i < 10) {
 			$ii = "0".$i;
 		} else {
