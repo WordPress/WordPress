@@ -377,7 +377,7 @@ if ($p == 'all') {
     $where = '';
 }
 
-$now = gmdate('Y-m-d H:i:s');
+$now = gmdate('Y-m-d H:i:00');
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
     if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
