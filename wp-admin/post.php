@@ -18,6 +18,10 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+if (isset($_POST['deletepost'])) {
+$action = "delete";
+}
+
 switch($action) {
 case 'post':
 
@@ -388,20 +392,14 @@ case 'editpost':
 case 'delete':
 	check_admin_referer();
 
-	$post_id = intval($_GET['post']);
+	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	
 	if (!user_can_delete_post($user_ID, $post_id)) {
 		die('You are not allowed to delete this post.');
 	}
 
-	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE ID=$post_id");
-	if (!$result)
+	if (! wp_delete_post($post_id))
 		die(__('Error in deleting...'));
-
-	$result = $wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID=$post_id");
-
-	$categories = $wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $post_id");
-
-	$meta = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $post_id");
 
 	$sendback = $_SERVER['HTTP_REFERER'];
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
