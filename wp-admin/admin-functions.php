@@ -368,9 +368,9 @@ function touch_time($edit = 1) {
 }
 
 function check_admin_referer() {
-  $adminurl = url_shorten(strtolower(get_settings('siteurl'))).'/wp-admin';
-  $referer = url_shorten(strtolower($_SERVER['HTTP_REFERER']));
-  if (substr($referer, 0, strlen($adminurl)) != $adminurl) {
+  $adminurl = strtolower(get_settings('siteurl')).'/wp-admin';
+  $referer = strtolower($_SERVER['HTTP_REFERER']);
+  if ( !strstr($referer, $adminurl) ) {
     die('Sorry, you need to enable sending referrers, for this feature to work.');
   }
 }
