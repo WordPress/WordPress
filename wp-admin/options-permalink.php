@@ -75,11 +75,11 @@ default:
   <h2>Edit Permalink Structure</h2> 
   <p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p> 
   <ul> 
-    <li><code>%year%</code> --- The year of the post, 4 digits, for example 2003 </li> 
-    <li><code>%monthnum%</code> --- Two digit month, for example 05</li> 
-    <li><code>%day% </code>--- Day of the month, for example 28</li> 
-    <li><code>%postname%</code> --- A sanitized version of the title of the post. So &quot;This Is A Great Post!&quot; becomes &quot;this-is-a-great-post&quot; </li> 
-    <li><code>%post_id%</code> --- The unique ID # of the post. <strong></strong></li> 
+    <li><code>%year%</code> --- The year of the post, 4 digits, for example <code>2004</code> </li> 
+    <li><code>%monthnum%</code> --- Month of the year, for example <code>5</code></li> 
+    <li><code>%day% </code>--- Day of the month, for example <code>28</code></li> 
+    <li><code>%postname%</code> --- A sanitized version of the title of the post. So &quot;This Is A Great Post!&quot; becomes &quot;<code>this-is-a-great-post</code>&quot; in the URI </li> 
+    <li><code>%post_id%</code> --- The unique ID # of the post, for example <code>423</code> <strong></strong></li> 
   </ul> 
   <p>So for example a value like <code>/archives/%year%/%monthnum%/%day%/%postname%/</code> could give you a permalink like <code>/archives/2003/05/23/my-cheese-sandwich/</code> . For this to work you'll need mod_rewrite installed on your server for the rule generation rule to work below. In the future there may be other options. </p> 
   <form name="form" action="options-permalink.php" method="post"> 
