@@ -212,7 +212,7 @@ case 'retrievepassword':
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
 
-	$m = mail($user_email, "Your weblog's login/password", $message);
+	$m = mail($user_email, "[$blogname] Your weblog's login/password", $message);
 
 	if ($m == false) {
 		echo "<p>The email could not be sent.<br />\n";
