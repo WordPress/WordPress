@@ -471,8 +471,8 @@ function wp_new_comment( $commentdata, $spam = false ) {
 	$comment_id = $wpdb->insert_id;
 	do_action('comment_post', $comment_id);
 
-	if ( 'spam' != $approved ) { // If it's spam save it silently for later crunching
-		if ( !$approved )
+	if ( 'spam' !== $approved ) { // If it's spam save it silently for later crunching
+		if ( '0' == $approved )
 			wp_notify_moderator($comment_id);
 	
 		if ( get_settings('comments_notify') && $approved )
