@@ -32,8 +32,6 @@ function wptexturize($text) {
 			$curl = preg_replace('/"(\s|\S|\Z)/', '&#8221;$1', $curl);
 			$curl = preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
 			$curl = preg_replace("/ \(tm\)/i", ' &#8482;', $curl);
-			$curl = preg_replace("/ \(c\)/i", ' &#169;', $curl);
-			$curl = preg_replace("/ \(r\)/i", ' &#174;', $curl);
 			$curl = str_replace("''", '&#8221;', $curl);
 			
 			$curl = preg_replace('/(d+)x(\d+)/', "$1&#215;$2", $curl);
