@@ -204,8 +204,8 @@ switch($action) {
             sleep($sleep_after_edit);
         }
 
-        // are we going from unpublished to publishd?
-        if (($prev_status == 'draft') && ($post_status == 'publish')) {
+        // are we going from draft/private to publishd?
+        if ((($prev_status == 'draft') || ($prev_status == 'private')) && ($post_status == 'publish')) {
             pingWeblogs($blog_ID);
             pingCafelog($cafelogID, $post_title, $post_ID);
             pingBlogs($blog_ID);
