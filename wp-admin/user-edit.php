@@ -40,7 +40,7 @@ $pass2 = $_POST['pass2'];
 do_action('check_passwords', array($new_user_login, &$pass1, &$pass2));
 
 if ( '' == $pass1 ) {
-	if ( '' == $pass2 )
+	if ( '' != $pass2 )
 		die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
 	$updatepassword = '';
 } else {
