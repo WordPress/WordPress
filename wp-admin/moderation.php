@@ -3,7 +3,6 @@ require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Moderate comments');
 $parent_file = 'edit.php';
-/* <Moderation> */
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -96,15 +95,6 @@ default:
 	if ($user_level <= 3) {
 		die(__('<p>Your level is not high enough to moderate comments.</p>'));
 	}
-?>
-<ul id="adminmenu2">
-	<li><a href="edit.php"> <?php _e('Posts') ?></a></li>
-    <li><a href="edit-pages.php"><?php _e('Pages') ?></a></li> 
-	<li><a href="categories.php"><?php _e('Categories') ?></a></li>
-	<li><a href="edit-comments.php"> <?php _e('Comments') ?></a></li>
-	<li><a href="moderation.php" class="current"><?php _e('Awaiting Moderation') ?></a></li>
-</ul>
-<?php
 
 if (isset($deleted) || isset($approved) || isset($ignored)) {
 	echo "<div class='updated'>\n<p>";
@@ -183,5 +173,5 @@ echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_
 break;
 }
 
-/* </Template> */
-include("admin-footer.php") ?>
+
+include('admin-footer.php') ?>

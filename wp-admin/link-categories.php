@@ -113,13 +113,6 @@ switch ($action) {
         }
 ?>
 
-<ul id="adminmenu2">
-	<li><a href="link-manager.php" ><?php _e('Manage Links') ?></a></li>
-	<li><a href="link-add.php"><?php _e('Add Link') ?></a></li>
-	<li><a href="link-categories.php" class="current"><?php _e('Link Categories') ?></a></li>
-	<li class="last"><a href="link-import.php"><?php _e('Import Blogroll') ?></a></li>
-</ul>
-
 <div class="wrap">
   <h2>Edit &#8220;<?php echo htmlspecialchars($row->cat_name)?>&#8221; Category </h2>
 
@@ -291,12 +284,7 @@ switch ($action) {
       die(__("You have do not have sufficient permissions to edit the link categories for this blog. :)"));
     }
 ?>
-<ul id="adminmenu2">
-	<li><a href="link-manager.php" ><?php _e('Manage Links') ?></a></li>
-	<li><a href="link-add.php"><?php _e('Add Link') ?></a></li>
-	<li><a href="link-categories.php" class="current"><?php _e('Link Categories') ?></a></li>
-	<li class="last"><a href="link-import.php"><?php _e('Import Blogroll') ?></a></li>
-</ul>
+
 <div class="wrap">
             <h2><?php _e('Link Categories:') ?></h2>
             <table width="100%" cellpadding="5" cellspacing="0" border="0">

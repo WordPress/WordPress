@@ -2,17 +2,9 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Posts');
+$parent_file = 'edit.php';
 require_once('admin-header.php');
 
-?>
- <ul id="adminmenu2"> 
-  <li><a href="edit.php" class="current"><?php _e('Posts') ?></a></li> 
-  <li><a href="edit-pages.php"><?php _e('Pages') ?></a></li> 
-  <li><a href="categories.php"><?php _e('Categories') ?></a></li>
-  <li><a href="edit-comments.php"><?php _e('Comments') ?></a></li> 
-  <li><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li> 
-</ul> 
-<?php
 get_currentuserinfo();
 $drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
 if ($drafts) {

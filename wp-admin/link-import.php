@@ -23,13 +23,6 @@ switch ($step) {
         $opmltype = 'blogrolling'; // default.
 ?>
 
-<ul id="adminmenu2">
-        <li><a href="link-manager.php" ><?php _e('Manage Links') ?></a></li>
-	<li><a href="link-add.php"><?php _e('Add Link') ?></a></li>
-	<li><a href="link-categories.php"><?php _e('Link Categories') ?></a></li>
-	<li class="last"><a href="link-import.php"  class="current"><?php _e('Import Blogroll') ?></a></li>
-</ul>
-
 <div class="wrap">
 
     <h2><?php _e('Import your blogroll from another system') ?> </h2>

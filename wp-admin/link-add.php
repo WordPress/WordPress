@@ -63,15 +63,7 @@ $link_name = htmlentities(stripslashes(urldecode($_GET['name'])));
 $xfn = true;
 require('admin-header.php');
 ?>
-<ul id="adminmenu2">
-	<li><a href="link-manager.php"><?php _e('Manage Links') ?></a></li>
-        <li><a href="link-add.php" class="current"><?php _e('Add Link') ?></a></li>
-	<li><a href="link-categories.php"><?php _e('Link Categories') ?></a></li>
-	<li class="last"><a href="link-import.php"><?php _e('Import Blogroll') ?></a></li>
-</ul>
-<style type="text/css" media="screen">
-th { text-align: right; }
-</style>
+
 <?php if ($_GET['added']) : ?>
 <div class="updated"><p>Link added.</p></div>
 <?php endif; ?>

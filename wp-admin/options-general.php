@@ -2,6 +2,7 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('General Options');
+$parent_file = 'options-general.php';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {

@@ -2,7 +2,7 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Users');
-/* <Team> */
+$parent_file = 'users.php';
 	
 $wpvarstoreset = array('action','standalone','redirect','profile');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -179,10 +179,6 @@ default:
 	$standalone = 0;
 	include ('admin-header.php');
 	?>
-<ul id="adminmenu2">
-	<li><a class="current"><?php _e('Authors &amp; Users') ?></a></li>
-    <li><a href="profile.php"><?php _e('Your Profile') ?></a></li>
-</ul>
 
 <?php if (isset($_GET['deleted'])) : ?>
 <div class="updated"><p><?php _e('User deleted.') ?></p></div>
@@ -340,7 +336,6 @@ echo "\n<tr $style>
 
 break;
 }
-	
-/* </Team> */
+
 include('admin-footer.php');
 ?>

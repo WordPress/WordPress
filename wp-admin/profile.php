@@ -2,7 +2,7 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = "Profile";
-/* <Profile | My Profile> */
+$parent_file = 'profile.php';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -105,82 +105,6 @@ case 'update':
 	header('Location: profile.php?updated=true');
 break;
 
-case 'viewprofile':
-
-
-	$profiledata = get_userdata($user);
-	if ($_COOKIE['wordpressuser_'.$cookiehash] == $profiledata->user_login)
-		header ('Location: profile.php');
-	
-	include_once('admin-header.php');
-	?>
-
-<h2><?php _e('View Profile') ?> &#8220;
-  <?php
-	switch($profiledata->user_idmode) {
-		case 'nickname':
-			$r = $profiledata->user_nickname;
-			break;
-		case 'login':
-			$r = $profiledata->user_login;
-			break;
-		case 'firstname':
-			$r = $profiledata->user_firstname;
-			break;
-		case 'lastname':
-			$r = $profiledata->user_lastname;
-			break;
-		case 'namefl':
-			$r = $profiledata->user_firstname.' '.$profiledata->user_lastname;
-			break;
- 		case 'namelf':
-			$r = $profiledata->user_lastname.' '.$profiledata->user_firstname;
-			break;
-	}
-	echo $r;
-	?>
-  &#8221;</h2>
-	  
-  <div id="profile">
-<p> 
-  <strong><?php _e('Login') ?></strong> <?php echo $profiledata->user_login ?>
-  | <strong><?php _e('User #') ?></strong> <?php echo $profiledata->ID ?> | <strong><?php _e('Level') ?></strong> 
-  <?php echo $profiledata->user_level ?> | <strong><?php _e('Posts') ?></strong> 
-  <?php
-	$posts = get_usernumposts($user);
-	echo $posts;
-	?>
-</p>
-
-<p> <strong><?php _e('First name:') ?></strong> <?php echo $profiledata->user_firstname ?> </p>
-  
-<p> <strong><?php _e('Last name:') ?></strong> <?php echo $profiledata->user_lastname ?> </p>
-  
-<p> <strong><?php _e('Nickname:') ?></strong> <?php echo $profiledata->user_nickname ?> </p>
-  
-<p> <strong><?php _e('E-mail:') ?></strong> <?php echo make_clickable($profiledata->user_email) ?> 
-</p>
-  
-<p> <strong><?php _e('Website:') ?></strong> <?php echo $profiledata->user_url ?> </p>
-  
-<p> <strong><?php _e('ICQ:') ?></strong> 
-  <?php if ($profiledata->user_icq > 0) { echo make_clickable("icq:".$profiledata->user_icq); } ?>
-</p>
-  
-<p> <strong><?php _e('AIM:') ?></strong> <?php echo "<a href='aim:goim?screenname=". str_replace(' ', '+', $profiledata->user_aim) ."&message=Howdy'>$profiledata->user_aim</a>"; ?> 
-</p>
-  
-<p> <strong><?php _e('MSN IM:') ?></strong> <?php echo $profiledata->user_msn ?> </p>
-  
-<p> <strong><?php _e('Yahoo IM:') ?></strong> <?php echo $profiledata->user_yim ?> </p>
-  
-</div>
-
-	<?php
-
-break;
-
-
 case 'IErightclick':
 
 
@@ -226,12 +150,7 @@ default:
 	$bookmarklet_tbpb .= (get_settings('use_pingback'))  ? '&pingback=1'  : '';
 	$bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
 
-	?>
-<ul id="adminmenu2">
-	<li><a href="users.php"><?php _e('Authors &amp; Users') ?></a></li>
-    <li><a class="current"><?php _e('Your Profile') ?></a></li>
-</ul>
-<?php if (isset($updated)) { ?>
+if (isset($updated)) { ?>
 <div class="updated">
 <p><strong><?php _e('Profile updated.') ?></strong></p>
 </div>
@@ -244,13 +163,10 @@ default:
     <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
   </p>
 
-	<style type="text/css" media="screen">
-	th { text-align: right; }
-	</style>
   <table width="99%"  border="0" cellspacing="2" cellpadding="3">
     <tr>
       <th width="33%" scope="row"><?php _e('Login:') ?></th>
-      <td width="73%"><?php echo $profiledata->user_login; ?></td>
+      <td width="67%"><?php echo $profiledata->user_login; ?></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('Level:') ?></th>

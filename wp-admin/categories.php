@@ -2,6 +2,7 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Categories');
+$parent_file = 'edit.php';
 
 function add_magic_quotes($array) {
     foreach ($array as $k => $v) {
@@ -91,13 +92,7 @@ case 'edit':
     $category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
     $cat_name = $category->cat_name;
     ?>
-<ul id="adminmenu2"> 
-  <li><a href="edit.php"><?php _e('Posts') ?></a></li> 
-  <li><a href="edit-pages.php"><?php _e('Pages') ?></a></li> 
-  <li><a href="categories.php" class="current"><?php _e('Categories') ?></a></li>
-  <li><a href="edit-comments.php"><?php _e('Comments') ?></a></li> 
-  <li class="last"><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li> 
-</ul> 
+
 <div class="wrap">
     <h2><?php _e('Edit Category') ?></h2>
     <form name="editcat" action="categories.php" method="post">
@@ -152,13 +147,7 @@ $messages[1] = __('Category added.');
 $messages[2] = __('Category deleted.');
 $messages[3] = __('Category updated.');
 ?>
-<ul id="adminmenu2"> 
-	<li><a href="edit.php"><?php _e('Posts') ?></a></li> 
-    <li><a href="edit-pages.php"><?php _e('Pages') ?></a></li> 
-	<li><a class="current"><?php _e('Categories') ?></a></li>
-	<li><a href="edit-comments.php"><?php _e('Comments') ?></a></li> 
-	<li><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li> 
-</ul> 
+
 <?php if (isset($_GET['message'])) : ?>
 <div class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>

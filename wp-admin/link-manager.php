@@ -5,7 +5,7 @@
 require_once('../wp-config.php');
 
 $title = __('Manage Links');
-$this_file = 'link-manager.php';
+$this_file = $parent_file = 'link-manager.php';
 
 function xfn_check($class, $value = '', $type = 'check') {
 	global $link_rel;
@@ -329,15 +329,7 @@ switch ($action) {
     }
 
 ?>
-<ul id="adminmenu2"> 
-  <li><a href="link-manager.php" class="current"><?php _e('Manage Links') ?></a></li> 
-  <li><a href="link-add.php"><?php _e('Add Link') ?></a></li> 
-  <li><a href="link-categories.php"><?php _e('Link Categories') ?></a></li> 
-  <li class="last"><a href="link-import.php"><?php _e('Import Blogroll') ?></a></li> 
-</ul> 
-<style media="screen" type="text/css">
-th { text-align: right; }
-</style>
+
 <div class="wrap"> 
   <form action="" method="post" name="editlink" id="editlink"> 
   <h2><?php _e('Edit a link:') ?></h2>
@@ -611,12 +603,7 @@ function checkAll(form)
 }
 //-->
 </script>
-<ul id="adminmenu2">
-    <li><a href="link-manager.php" class="current"><?php _e('Manage Links') ?></a></li>
-    <li><a href="link-add.php"><?php _e('Add Link') ?></a></li>
-    <li><a href="link-categories.php"><?php _e('Link Categories') ?></a></li>
-    <li class="last"><a href="link-import.php"><?php _e('Import Blogroll') ?></a></li>
-</ul>
+
 <div class="wrap">
     <form name="cats" method="post" action="">
     <table width="75%" cellpadding="3" cellspacing="3">
