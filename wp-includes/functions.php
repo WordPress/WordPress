@@ -817,7 +817,7 @@ function do_enclose( $content, $post_ID ) {
                     $headers = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
                     $port    = 80;
                     $timeout = 3;
-                    $fp = fsockopen($host, $port, $err_num, $err_msg, $timeout);
+                    $fp = @fsockopen($host, $port, $err_num, $err_msg, $timeout);
                     if( $fp ) {
                         fputs($fp, $headers );
                         $response = '';
@@ -945,7 +945,7 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 	$port  = (isset($port))  ? $port      : 80;
 
 	// Try to connect to the server at $host
-	$fp = fsockopen($host, $port, $errno, $errstr, 3);
+	$fp = @fsockopen($host, $port, $errno, $errstr, 2);
 	if (!$fp) {
 		// Couldn't open a connection to $host;
 		return false;
