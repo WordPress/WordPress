@@ -1,5 +1,5 @@
 <?php
-require('../b2config.php');
+require_once('../wp-config.php');
 
 
 $step = $HTTP_GET_VARS['step'];
@@ -46,7 +46,7 @@ switch($step) {
   you up and running with the latest in personal publishing platforms. Before 
   we get started, remember that we require a PHP version of at least 4.0.6, you 
   have <?php echo phpversion(); ?>. Look good? You also need to set up the database 
-  connection information in <code>b2config.php</code>. Have you looked at the 
+  connection information in <code>wp-config.php</code>. Have you looked at the 
   <a href="../readme.html">readme</a>? If you&#8217;re all ready, <a href="wp-install.php?step=1">let's 
   go</a>! </p>
 <?php
