@@ -443,4 +443,44 @@ function posts_nav_link($sep=' :: ', $prelabel='<< Previous Page', $nxtlabel='Ne
     }
 }
 
+/*
+ * Post-meta: Custom per-post fields.
+ */
+ 
+function get_post_custom() {
+	global $id, $post_meta_cache;
+
+	return $post_meta_cache[$id];
+}
+
+function get_post_custom_keys() {
+	global $id, $post_meta_cache;
+	
+	if (!is_array($post_meta_cache[$id]))
+		return;
+	if ($keys = array_keys($post_meta_cache[$id]))
+		return $keys;
+}
+
+function get_post_custom_values($key='') {
+	global $id, $post_meta_cache;
+
+	return $post_meta_cache[$id][$key];
+}
+
+// this will probably change at some point...
+function the_meta() {
+	global $id, $post_meta_cache;
+	
+	if ($keys = get_post_custom_keys()) {
+		echo "<ul>\n";
+		foreach ($keys as $key) {
+			$value = implode($post_meta_cache[$id][$key],',');
+			
+			echo "<li>$key: $value</li>\n";
+		}
+		echo "</ul>\n";
+	}
+}
+
 ?>

@@ -23,6 +23,7 @@ $tableoptiontypes         = $table_prefix . 'optiontypes';
 $tableoptionvalues        = $table_prefix . 'optionvalues';
 $tableoptiongroups        = $table_prefix . 'optiongroups';
 $tableoptiongroup_options = $table_prefix . 'optiongroup_options';
+$tablepostmeta            = $table_prefix . 'postmeta';
 define('WPINC', 'wp-includes');
 require_once (ABSPATH . WPINC . '/wp-db.php');
 
