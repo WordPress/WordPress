@@ -272,20 +272,20 @@ function meta_form() {
 <th></th>
 </tr>
 	<tr valign="top">
-		<td align="right"><select id="metakeyselect" name="metakeyselect">
+		<td align="right"><select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#">- Select -</option>
 <?php
 	foreach($keys as $key) {
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>
-</select> or </td><td><input type="text" id="metakeyinput" name="metakeyinput" /></td>
-		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25"></textarea></td>
+</select> or </td><td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
+		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25" tabindex="7"></textarea></td>
 		<td></td>
 	</tr>
 
 </table>
-<p class="submit"><input type="submit" name="updatemeta" value="<?php _e('Add Custom Field &raquo;') ?>"></p>
+<p class="submit"><input type="submit" name="updatemeta" tabindex="7" value="<?php _e('Add Custom Field &raquo;') ?>"></p>
 <?php
 }
 
