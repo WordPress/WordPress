@@ -192,7 +192,7 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 
 		$blah = explode(':', $userpassstring);
 		$user_login = $blah[0];
-		$user_pass = $blah[1];
+		$user_pass = md5($blah[1]);
 
 		$content = $contentfirstline.str_replace($firstline, '', $content);
 		$content = trim($content);
@@ -227,9 +227,9 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				$content = preg_replace("|\n([^\n])|", " $1", $content);
 				$content = addslashes(trim($content));
                 if($flat > 500) {
-                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_category) VALUES ($post_author, '$post_date', '$post_date_gmt', '$content', '$post_title', $post_category)";
+                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_modified, post_modified_gmt) VALUES ($post_author, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_date', '$post_date_gmt')";
                 } else {
-                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_category, post_lat, post_lon) VALUES ($post_author, '$post_date', '$post_date_gmt', '$content', '$post_title', $post_category, $flat, $flon)";
+                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_modified, post_modified_gmt, post_lat, post_lon) VALUES ($post_author, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_date', '$post_date_gmt', $flat, $flon)";
                 }
 				$result = $wpdb->query($sql);
 				$post_ID = $wpdb->insert_id;
@@ -252,6 +252,8 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 
 		if (!$post_categories) $post_categories[] = 1;
 		foreach ($post_categories as $post_category) {
+			$post_category = intval($post_category);
+
 			// Double check it's not there already
 			$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
 
