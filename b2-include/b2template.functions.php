@@ -622,7 +622,9 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 		++$querycount;
 		if ($lastpost) {
 			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$lastpost->ID.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$previous;
-			$string .= wptexturize(stripslashes($lastpost->post_title));
+			if ($title == 'yes') {
+                $string .= wptexturize(stripslashes($lastpost->post_title));
+            }
 			$string .= '</a>';
 			$format = str_replace('%', $string, $format);
 			echo $format;
