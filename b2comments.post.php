@@ -107,7 +107,7 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 			if ('' != $comment_author_email) {
 				$from = "From: \"$comment_author\" <$comment_author_email>\r\n";
 				} else {
-				$from = 'From: "' . stripslashes($blogname) . "\" <$authordata->user_email>\r\n";
+				$from = 'From: "' . stripslashes($comment_author) . "\" <$authordata->user_email>\r\n";
 				}
 			$from .= "X-Mailer: WordPress $b2_version with PHP/" . phpversion();
 
