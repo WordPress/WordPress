@@ -6,11 +6,14 @@ require_once(ABSPATH.WPINC.'/functions.php');
 // we need to map XML attribute names to our columns
 // if we are doing OPML use this map
 $opml_map = array(
-                  'link_url' => 'URL',
-                  'link_name' => 'TEXT',
-                  'link_target' => 'TARGET',
-                  'link_description' => 'DESCRIPTION'
-                 );
+'link_url' => 'URL',
+'link_url' => 'HTMLURL',
+'link_name' => 'TEXT',
+'link_name' => 'TITLE',
+'link_target' => 'TARGET',
+'link_description' => 'DESCRIPTION',
+'link_rss' => 'XMLURL'
+);
 
 $map = $opml_map;
 
@@ -20,7 +23,7 @@ $map = $opml_map;
  **/
 function startElement($parser, $tagName, $attrs) {
 	global $updated_timestamp, $all_links, $map;
-    global $names, $urls, $targets, $descriptions;
+    global $names, $urls, $targets, $descriptions, $feeds;
 
 	if ($tagName == 'OUTLINE') {
         if ($map['link_url'] != '')
@@ -31,11 +34,14 @@ function startElement($parser, $tagName, $attrs) {
             $link_target  = $attrs[$map['link_target']];
         if ($map['link_description'] != '')
             $link_description  = $attrs[$map['link_description']];
+        if ($map['link_rss'] != '')
+            $link_rss  = $attrs[$map['link_rss']];
         //echo("got data: link_url = [$link_url], link_name = [$link_name], link_target = [$link_target], link_description = [$link_description]<br />\n");
         // save the data away.
         $names[] = $link_name;
         $urls[] = $link_url;
         $targets[] = $link_target;
+		$feeds[] = $link_rss;
         $descriptions[] = $link_description;
     }
 }

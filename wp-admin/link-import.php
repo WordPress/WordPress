@@ -32,7 +32,7 @@ switch ($step) {
 
 <div class="wrap">
 
-    <h3>Import your blogroll from another system </h3>
+    <h2>Import your blogroll from another system </h2>
 	<!-- <form name="blogroll" action="link-import.php" method="get"> -->
 	<form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 
@@ -86,7 +86,7 @@ switch ($step) {
 ?>
 <div class="wrap">
 
-     <h3>Importing...</h3>
+     <h2>Importing...</h2>
 <?php
                 $cat_id = $HTTP_POST_VARS['cat_id'];
                 if (($cat_id == '') || ($cat_id == 0)) {
@@ -122,8 +122,8 @@ switch ($step) {
                             $titles[$i] = '';
                         if ('http' == substr($titles[$i], 0, 4))
                             $titles[$i] = '';
-                        $query = "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner)
-                                  VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '', $cat_id, '".addslashes($descriptions[$i])."', $user_ID)\n";
+                        $query = "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner, link_rss)
+                                  VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '', $cat_id, '".addslashes($descriptions[$i])."', $user_ID, {$feeds[$i]})\n";
                         $result = $wpdb->query($query);
                         echo "<p>Inserted <strong>{$names[$i]}</strong></p>";
                     }
