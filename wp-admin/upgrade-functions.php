@@ -493,14 +493,13 @@ function upgrade_100() {
 	maybe_add_column($tablecategories, 'category_parent', "ALTER TABLE `$tablecategories` ADD `category_parent` INT(4) NOT NULL");
 	maybe_add_column($tablelinks, 'link_rss', "ALTER TABLE `$tablelinks` ADD `link_rss` VARCHAR( 255 ) NOT NULL;");
 	maybe_add_column($tableusers, 'user_description', "ALTER TABLE `$tableusers` ADD `user_description` TEXT NOT NULL");
+	maybe_add_column($tablecomments, 'comment_approved', "ALTER TABLE $tablecomments ADD COLUMN comment_approved ENUM('0', '1') DEFAULT '1' NOT NULL");
 
 	// Create indicies
 	add_clean_index($tableposts, 'post_name');
 	add_clean_index($tablecategories, 'category_nicename');
 	add_clean_index($tablecomments, 'comment_approved');
 
-	if (maybe_add_column($tablecomments, 'comment_approved', "ALTER TABLE $tablecomments ADD COLUMN comment_approved ENUM('0', '1') DEFAULT '1' NOT NULL")) {
-	}
 
 	// Options stuff
 	if (!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'comment_moderation'")) {
