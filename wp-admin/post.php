@@ -85,7 +85,6 @@ case 'post':
 	$post_ID = $id_result->Auto_increment;
 
 	if ( empty($post_name) ) {
-		if ( !empty($post_title) )
 			$post_name = sanitize_title($post_title, $post_ID);
 	} else {
 		$post_name = sanitize_title($post_name, $post_ID);
@@ -268,9 +267,7 @@ case 'editpost':
 	}
 
 	if (empty($post_name)) {
-		if (! empty($post_title)) {
-			$post_name = sanitize_title($post_title, $post_ID);
-		}
+		$post_name = sanitize_title($post_title, $post_ID);
 	} else {
 		$post_name = sanitize_title($post_name, $post_ID);
 	}
