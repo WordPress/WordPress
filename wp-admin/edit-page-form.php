@@ -83,22 +83,25 @@ edCanvas = document.getElementById('content');
 <fieldset id="pageoptions">
 	 <legend><?php _e('Page Options') ?></legend> 
 <table width="100%" cellspacing="2" cellpadding="5" class="editform">
+<?php if ( 0 != count( get_page_templates() ) ) { ?>
 	<tr valign="top">
 		<th scope="row" width="30%"><?php _e('Page Template:') ?></th>
 		<td><div><select name="page_template">
 		<option value='default'><?php _e('Default Template'); ?></option>
 		<?php page_template_dropdown($page_template); ?>
 		</select>
+		
 		</div>
 		</td>
 	</tr>
+<?php } ?>
 	<tr valign="top">
-		<th scope="row" width="25%"><?php _e('Page slug') ?>:</th>
+		<th scope="row" width="30%"><?php _e('Page slug') ?>:</th>
 		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
 	</tr>
 <?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login, user_firstname, user_lastname FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
 	<tr>
-		<th scope="row"><?php _e('Page owner'); ?>:</th>
+		<th scope="row" width="30%"><?php _e('Page owner'); ?>:</th>
 		<td>
 		<select name="post_author" id="post_author">
 		<?php 
