@@ -6,8 +6,8 @@ include ("blog.header.php");
 if (!isset($rss_language)) { $rss_language = 'en'; }
 if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
 if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }
-?><?php echo "<?xml version=\"1.0\"?".">\n"; ?>
-<!-- generator="b2/<?php echo $b2_version ?>" -->
+?><?php echo "<?xml version=\"1.0\"?".">"; ?>
+<!-- generator="wordpress/<?php echo $b2_version ?>" -->
 <rss version="0.92">
     <channel>
         <title><?php bloginfo_rss("name") ?></title>

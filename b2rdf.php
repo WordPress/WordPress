@@ -4,8 +4,8 @@ header("Content-type: text/xml");
 include ("blog.header.php");
 add_filter('the_content', 'trim');
 if (!isset($rss_language)) { $rss_language = 'en'; }
-?><?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">\n"; ?>
-<!-- generator="b2/<?php echo $b2_version ?>" -->
+?><?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">"; ?>
+<!-- generator="wordpress/<?php echo $b2_version ?>" -->
 <rdf:RDF
 	xmlns="http://purl.org/rss/1.0/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -23,7 +23,7 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 	<dc:language><?php echo $rss_language ?></dc:language>
 	<dc:date><?php echo gmdate('Y-m-d\TH:i:s'); ?></dc:date>
 	<dc:creator><?php echo $admin_email ?></dc:creator>
-	<admin:generatorAgent rdf:resource="http://cafelog.com/?v=<?php echo $b2_version ?>"/>
+	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $b2_version ?>"/>
 	<admin:errorReportsTo rdf:resource="mailto:<?php echo $admin_email ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>

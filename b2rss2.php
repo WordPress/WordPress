@@ -6,8 +6,8 @@ include ("blog.header.php");
 if (!isset($rss_language)) { $rss_language = 'en'; }
 if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
 if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }
-?><?php echo "<?xml version=\"1.0\"?".">\n"; ?>
-<!-- generator="b2/<?php echo $b2_version ?>" -->
+?><?php echo "<?xml version=\"1.0\"?".">"; ?>
+<!-- generator="wordpress/<?php echo $b2_version ?>" -->
 <rss version="2.0" 
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
@@ -23,7 +23,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 	<dc:creator><?php echo $admin_email ?></dc:creator>
 	<dc:rights>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></dc:rights>
 	<dc:date><?php echo gmdate('Y-m-d\TH:i:s'); ?></dc:date>
-	<admin:generatorAgent rdf:resource="http://cafelog.com/?v=<?php echo $b2_version ?>"/>
+	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $b2_version ?>"/>
 	<admin:errorReportsTo rdf:resource="mailto:<?php echo $admin_email ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
