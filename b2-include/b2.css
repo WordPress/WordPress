@@ -127,4 +127,10 @@ a.b2menutop:hover {
 xmp { /* Just in case */
 	font-size: 10pt;
 }
+.wrap {
+	width: 85%;
+	border: 1px solid #ccc;
+	margin: 20px auto 10px auto;
+	padding: 10px;
+}
 form { margin: 0; padding: 0; } /* thanks #mozilla */

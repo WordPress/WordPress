@@ -1,6 +1,5 @@
 <?php
 $title = "Options";
-/* <Options> */
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -73,106 +72,82 @@ default:
 			<form name="form" action="b2options.php" method="post">
 			<input type="hidden" name="action" value="update" />
 	
-<?php echo $blankline ?>
-<?php echo $tabletop ?>
-			<table width="550" cellpadding="5" cellspacing="0">
-			<tr height="40">
-				<td width="150" height="40">Show:</td>
-				<td width="350"><input type="text" name="newposts_per_page" value="<?php echo get_settings("posts_per_page") ?>" size="3">
-				<select name="newwhat_to_show">
-				<option value="days" <?php
+<div class="wrap">
+			
+  <table width="550" cellpadding="5" cellspacing="0">
+    <tr height="40"> 
+      <td width="150" height="40">Show:</td>
+      <td width="350"><input type="text" name="newposts_per_page" value="<?php echo get_settings("posts_per_page") ?>" size="3"> 
+        <select name="newwhat_to_show">
+          <option value="days" <?php
 				$i = $what_to_show;
 				if ($i == "days")
 				echo " selected";
 				?>>days</option>
-				<option value="posts" <?php
+          <option value="posts" <?php
 				if ($i == "posts")
 				echo " selected";
 				?>>posts</option>
-				<option value="paged" <?php
+          <option value="paged" <?php
 				if ($i == "paged")
 				echo " selected";
 				?>>posts paged</option>
-				</select>
-				</td>
-			</tr>
-			<tr height="40">
-				<td height="40">Archive mode:</td>
-				<td><select name="newarchive_mode">
-				<?php $i = $archive_mode; ?>
-				<option value="daily"<?php
+        </select> </td>
+    </tr>
+    <tr height="40"> 
+      <td height="40">Archive mode:</td>
+      <td><select name="newarchive_mode">
+          <?php $i = $archive_mode; ?>
+          <option value="daily"<?php
 				if ($i == "daily")
 				echo " selected";
 				?>>daily</option>
-				<option value="weekly"<?php
+          <option value="weekly"<?php
 				if ($i == "weekly")
 				echo " selected";
 				?>>weekly</option>
-				<option value="monthly"<?php
+          <option value="monthly"<?php
 				if ($i == "monthly")
 				echo " selected";
 				?>>monthly</option>
-				<option value="postbypost"<?php
+          <option value="postbypost"<?php
 				if ($i == "postbypost")
 				echo " selected";
 				?>>post by post</option>
-				</select>
-			</tr>
-			<tr height="40">
-				<td height="40">Time difference:</td>
-				<td><input type="text" name="newtime_difference" value="<?php echo $time_difference ?>" size="2">
-				<i> if you're not on the timezone of your server</i>
-				</td>
-			</tr>
-			<tr height="40">
-				<td height="40" width="150">AutoBR:</td>
-				<td><select name="newautobr">
-				<option value="1" <?php
-				if ($autobr)
-				echo " selected";
-				?>>on</option>
-				<option value="0" <?php
-				if (!$autobr)
-				echo " selected";
-				?>>off</option>
-				</select>
-				<i>converts line-breaks into &lt;br /> tags. (<a href="#autobr">note</a>)</i>
-				</td>
-			</tr>
-			<tr height="40">
-				<td height="40">Date format:</td>
-				<td><input type="text" name="newdate_format" value="<?php echo $date_format ?>" size="10">
-				<i> (<a href="#dateformat">note</a>)</i>
-				</td>
-			</tr>
-			<tr height="40">
-				<td height="40">Time format:</td>
-				<td><input type="text" name="newtime_format" value="<?php echo $time_format ?>" size="10">
-				<i> (<a href="#dateformat">note</a>)</i>
-				</td>
-			</tr>
-			<tr height="40">
-				<td height="40">&nbsp;</td>
-				<td>
-				<input type="submit" name="submit" value="Update" class="search">
-				</td>
-			</tr>
-		</table>
+        </select> </tr>
+    <tr height="40"> 
+      <td height="40">Time difference:</td>
+      <td><input type="text" name="newtime_difference" value="<?php echo $time_difference ?>" size="2"> 
+        <i> if you're not on the timezone of your server</i> </td>
+    </tr>
+    <tr height="40"> 
+      <td height="40">Date format:</td>
+      <td><input type="text" name="newdate_format" value="<?php echo $date_format ?>" size="10"> 
+        <i> (<a href="#dateformat">note</a>)</i> </td>
+    </tr>
+    <tr height="40"> 
+      <td height="40">Time format:</td>
+      <td><input type="text" name="newtime_format" value="<?php echo $time_format ?>" size="10"> 
+        <i> (<a href="#dateformat">note</a>)</i> </td>
+    </tr>
+    <tr height="40"> 
+      <td height="40">&nbsp;</td>
+      <td> <input type="submit" name="submit" value="Update" class="search"> </td>
+    </tr>
+  </table>
 
-<?php echo $tablebottom ?>
+</div>
 	
 		</form>
 
-		<br />
-
-<?php echo $tabletop ?>
-		
-		<a name="dateformat"></a><b>About Date & Time formats:</b><br />
-		<br />
-		
-		You can format the date & time in many ways, using the PHP syntax.<br />
-		As quoted from the PHP manual, here are the letters you can use:<br />
-		<blockquote>
+<div class="wrap">
+<h2 id="dateformat">
+About Date & Time formats:
+</h2>
+<p> You can format the date & time in many ways, using the PHP syntax.<br />
+  As quoted from the PHP manual, here are the letters you can use:<br />
+</p>
+<blockquote>
 		The following characters are recognized in the format string:<br />
 		a - "am" or "pm"<br />
 		A - "AM" or "PM"<br />
@@ -206,14 +181,13 @@ default:
 		<br />
 		Unrecognized characters in the format string will be printed as-is.
 		</blockquote>
-		For more information and examples, check the PHP manual on <a href="http://www.php.net/manual/en/function.date.php">this page</a>.
-
-<?php echo $tablebottom ?>
-
+		
+<p>For more information and examples, check the PHP manual on <a href="http://www.php.net/manual/en/function.date.php">this 
+  page</a>.</p>
+  </div>
 <?php
 
 break;
 }
 
-/* </Options> */
 include($b2inc."/b2footer.php") ?>
