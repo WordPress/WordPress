@@ -15,6 +15,8 @@ if ( isset($_GET['action']) ) {
 	    update_option('stylesheet', $_GET['stylesheet']);
 	  }
 
+		do_action('switch_theme', get_current_theme());
+
 	  header('Location: themes.php?activated=true');
 	}
  }

@@ -153,6 +153,7 @@ if(function_exists('add_action')) {
 	add_action('edit_comment', 'postChange', 0);
 	add_action('delete_comment', 'postChange', 0);
 	add_action('template_save', 'postChange', 0);
+	add_action('switch_theme', 'postChange', 0);
 }
 
 if ( isset($_GET['staticize-flush']) ) {
