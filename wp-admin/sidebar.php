@@ -36,6 +36,7 @@ if ('b' == $HTTP_GET_VARS['a']) {
 <head>
 <title>WordPress > Sidebar</title>
 <link rel="stylesheet" href="wp-admin.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $admin_area_charset ?>" />
 <style type="text/css" media="screen">
 form {
 	padding: 3px;
