@@ -57,7 +57,7 @@ if ($action == 'retrospam') {
 	<h2><?php _e('Discussion Options') ?></h2> 
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
-		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_max_links','moderation_keys'" /> 
+		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_whitelist','comment_max_links','moderation_keys'" /> 
 <fieldset class="options">
         <legend><?php _e('Usual settings for an article: <em>(These settings may be overridden for individual articles.)</em>') ?></legend> 
 		<ul> 
@@ -101,11 +101,8 @@ if ($action == 'retrospam') {
 				<input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked('1', get_settings('comment_moderation')); ?> /> 
 				<?php _e('An administrator must approve the comment (regardless of any matches below)') ?> </label> 
 			</li> 
-			<li> 
-				<label for="require_name_email"> 
-				<input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> /> 
-				<?php _e('User must fill out name and e-mail') ?> </label> 
-			</li> 
+			<li><label for="require_name_email"><input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> /> <?php _e('Comment author must fill out name and e-mail') ?></label></li> 
+			<li><label for="comment_whitelist"><input type="checkbox" name="comment_whitelist" id="comment_whitelist" value="1" <?php checked('1', get_settings('comment_whitelist')); ?> /> <?php _e('Comment author must have a previously approved comment') ?></label></li> 
 		</ul> 
 </fieldset>
 <fieldset class="options">

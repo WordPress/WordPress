@@ -1473,13 +1473,26 @@ function get_posts($args) {
 }
 
 function check_comment($author, $email, $url, $comment, $user_ip) {
+	global $wpdb;
+
 	if (1 == get_settings('comment_moderation')) return false; // If moderation is set to manual
 
 	if ( (count(explode('http:', $comment)) - 1) >= get_settings('comment_max_links') )
 		return false; // Check # of external links
 
-	if ('' == trim( get_settings('moderation_keys') ) ) return true; // If moderation keys are empty
-	$words = explode("\n", get_settings('moderation_keys') );
+	// Comment whitelisting:
+	if ( 1 == get_settings('comment_whitelist')) {
+		$ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author_email = '$email' and comment_approved = '1' ");
+		if ( 1 == $ok_to_comment && false === strpos( $email, get_settings('moderation_keys')) )
+			return true
+	return false;
+	}
+
+	$mod_keys = trim( get_settings('moderation_keys') );
+	if ('' == $mod_keys )
+		return true; // If moderation keys are empty
+	$words = explode("\n", $mod_keys );
+
 	foreach ($words as $word) {
 		$word = trim($word);
 
