@@ -1,6 +1,7 @@
 3	b2options.php	Options
 3	b2categories.php	Categories
 3	b2template.php	Template
+5	linkmanager.php	Manage&nbsp;Links
 ***
 (Everything after the '***' is a comment.)
 
