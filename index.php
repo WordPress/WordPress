@@ -85,7 +85,7 @@ require_once($abspath.'wp-links/links.php');
  </li>
  <li>Archives:
  	<ul>
-	 <?php get_archives(); ?>
+	 <?php get_archives('monthly'); ?>
  	</ul>
  </li>
  <li>Calendar:
