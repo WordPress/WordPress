@@ -73,6 +73,23 @@ function maybe_add_column($table_name, $column_name, $create_ddl) {
     return false;
 }
 
+
+// get_alloptions as it was for 1.2.
+function get_alloptions_110() {
+	global $wpdb;
+	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options")) {
+		foreach ($options as $option) {
+			// "When trying to design a foolproof system, 
+			//  never underestimate the ingenuity of the fools :)" -- Dougal
+			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			$all_options->{$option->option_name} = stripslashes($option->option_value);
+		}
+	}
+	return $all_options;
+}
+
 // .71 stuff
 
 function upgrade_071() {
@@ -731,7 +748,8 @@ function upgrade_110() {
 	}
 
 	// Get the GMT offset, we'll use that later on
-	$all_options = get_alloptions();
+	$all_options = get_alloptions_110();
+
 	$time_difference = $all_options->time_difference;
 
 	$server_time = time()+date('Z');
