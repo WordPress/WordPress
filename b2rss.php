@@ -3,6 +3,30 @@
 $blog = 1; // enter your blog's ID
 $doing_rss=1;
 header('Content-type: text/xml');
+
+// Handle Conditional GET
+
+// Get the time of the most recent article
+$sql = "SELECT max(post_date) FROM $tableposts";
+
+$maxdate = $wbdp->get_var($sql);
+
+$unixtime = strtotime($maxdate);
+
+// format timestamp for Last-Modified header
+$last = gmdate("D, d M Y H:i:s \G\M\T",$unixtime);
+
+// send it in a Last-Modified header
+header("Last-Modified: $last");
+
+// compare it to aggregator's If_Modified_Since
+// if they match, send a 304 and die
+if ($_SERVER[HTTP_IF_MODIFIED_SINCE] == $last){
+	header("HTTP/1.1 304 Not Modified");
+	exit;
+}
+
+
 include('blog.header.php');
 if (!isset($rss_language)) { $rss_language = 'en'; }
 if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
