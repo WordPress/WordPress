@@ -20,7 +20,6 @@ if (!isset($$wpvar)) {
 
 switch($action) {
 case 'post':
-	require_once('admin-header.php');
 
 	if (!user_can_create_draft($user_ID)) {
 		die('You are not allowed to create posts or drafts on this blog.');
@@ -158,6 +157,8 @@ case 'post':
 		generate_page_rewrite_rules();
 		add_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'], true);
 	}
+
+	require_once('admin-header.php');
 
 	exit();
 	break;
