@@ -217,7 +217,7 @@ class WP_Query {
 		$this->query_vars[$query_var] = $value;
 	}
 
-	function get_posts() {
+	function &get_posts() {
 		global $wpdb, $pagenow, $request, $user_ID;
 
 		// Shorthand.
@@ -595,7 +595,7 @@ class WP_Query {
 		}
 	}
     
-	function query($query) {
+	function &query($query) {
 		$this->parse_query($query);
 		return $this->get_posts();
 	}
@@ -609,11 +609,9 @@ class WP_Query {
 		$this->queried_object_id = 0;
 
 		if ($this->is_category) {
-			global $cache_categories;
-			if (isset($cache_categories[$this->get('cat')])) {
-				$this->queried_object = $cache_categories[$this->get('cat')];
-				$this->queried_object_id = $this->get('cat');
-			}
+			$category = &get_category($this->get('cat'));
+			$this->queried_object = &$category;
+			$this->queried_object_id = $this->get('cat');
 		} else if ($this->is_single) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = $this->post->ID;

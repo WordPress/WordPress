@@ -26,34 +26,23 @@ function the_title($before = '', $after = '', $echo = true) {
 }
 
 function get_the_title($id = 0) {
-	global $post, $wpdb;
-	
-	if ( 0 != $id ) {
-		$id_post = $wpdb->get_row("SELECT post_title, post_password FROM $wpdb->posts WHERE ID = $id");
-		$title = $id_post->post_title;
-		if (!empty($id_post->post_password))
-			$title = sprintf(__('Protected: %s'), $title);
-	}
-	else {
-		$title = $post->post_title;
-		if (!empty($post->post_password))
-			$title = sprintf(__('Protected: %s'), $title);
-	}
+	$post = &get_post($id);
+
+	$title = $post->post_title;
+	if (!empty($post->post_password))
+		$title = sprintf(__('Protected: %s'), $title);
+
 	return $title;
 }
 
 function get_the_guid( $id = 0 ) {
-	global $post, $wpdb;
-	$guid = $post->guid;
-
-	if ( 0 != $id )
-		$guid = $wpdb->get_var("SELECT guid FROM $wpdb->posts WHERE ID = $id");
-	$guid = apply_filters('get_the_guid', $guid);
-	return $guid;
+	$post = &get_post($id);
+	
+	return apply_filters('get_the_guid', $post->guid);
 }
 
 function the_guid( $id = 0 ) {
-	echo get_the_guid();
+	echo get_the_guid($id);
 }
 
 
@@ -261,7 +250,7 @@ function the_meta() {
 // Pages
 //
 
-function get_pages($args = '') {
+function &get_pages($args = '') {
 	global $wpdb, $cache_pages;
 
 	parse_str($args, $r);
@@ -280,29 +269,20 @@ function get_pages($args = '') {
 		}
 	}
 
-	$dates = ",UNIX_TIMESTAMP(post_modified) AS time_modified";
-	$dates .= ",UNIX_TIMESTAMP(post_date) AS time_created";
-	
 	$post_parent = '';
 	if ($r['child_of']) {
 		$post_parent = ' AND post_parent=' . $r['child_of'] . ' ';
 	}
 	
-	$pages = $wpdb->get_results("SELECT " .
-															"ID, post_title, post_name, post_parent " .
-															"$dates " .
+	$pages = $wpdb->get_results("SELECT * " .
 															"FROM $wpdb->posts " .
 															"WHERE post_status = 'static' " .
 															"$post_parent" .
 															"$exclusions " .
 															"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
 
-	// Update page cache.
-	if (count($pages)) {
-		foreach($pages as $page) {
-			$cache_pages[$page->ID] = $page;
-		}
-	}
+	// Update cache.
+	update_post_cache($pages);
 
 	if ( empty($pages) )
 		$pages = array();
@@ -319,7 +299,7 @@ function wp_list_pages($args = '') {
 
 
 	// Query pages.
-	$pages = get_pages($args);
+	$pages = & get_pages($args);
 	if ( $pages ) :
 
 	if ( $r['title_li'] )
@@ -338,9 +318,9 @@ function wp_list_pages($args = '') {
 		// ts field.
 		if (! empty($r['show_date'])) {
 			if ('modified' == $r['show_date'])
-				$page_tree[$page->ID]['ts'] = $page->time_modified;
+				$page_tree[$page->ID]['ts'] = $page->post_modified;
 			else
-				$page_tree[$page->ID]['ts'] = $page->time_created;
+				$page_tree[$page->ID]['ts'] = $page->post_date;
 		}
 
 		// The tricky bit!!
@@ -383,7 +363,7 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0) {
 			$format = get_settings('date_format');
 			if(isset($args['date_format']))
 				$format = $args['date_format'];
-			echo " " . gmdate($format,$cur_page['ts']);
+			echo " " . mysql2date($format,$cur_page['ts']);
 		}
 		echo "\n";
 

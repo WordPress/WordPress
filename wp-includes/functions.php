@@ -538,16 +538,67 @@ function get_postdata($postid) {
 	return $postdata;
 }
 
-function get_catname($cat_ID) {
-	global $cache_catnames, $wpdb;
-	if ( !$cache_catnames ) {
-        $results = $wpdb->get_results("SELECT * FROM $wpdb->categories") or die('Oops, couldn\'t query the db for categories.');
-		foreach ($results as $post) {
-			$cache_catnames[$post->cat_ID] = $post->cat_name;
+// Retrieves post data given a post ID or post object. 
+// Handles post caching.
+function &get_post(&$post, $output = OBJECT) {
+	global $post_cache, $wpdb;
+
+	if ( empty($post) ) {
+		if ( isset($GLOBALS['post']) )
+			$post = & $GLOBALS['post'];
+		else
+			$post = null;
+	} elseif (is_object($post) ) {
+		if (! isset($post_cache[$post->ID]))
+			$post_cache[$post->ID] = &$post;
+		$post = & $post_cache[$post->ID];
+	} else {
+		if ( isset($GLOBALS['post']) && ($post == $GLOBALS['post']->ID) )
+			$post = & $GLOBALS['post'];
+		elseif (isset($post_cache[$post]))
+			$post = & $post_cache[$post];
+		else {
+			$query = "SELECT * FROM $wpdb->posts WHERE ID=$post";
+			$post_cache[$post] = & $wpdb->get_row($query);
+			$post = & $post_cache[$post];
 		}
 	}
-	$cat_name = $cache_catnames[$cat_ID];
-	return $cat_name;
+
+	if ( $output == OBJECT ) {
+		return $post;
+	} elseif ( $output == ARRAY_A ) {
+		return get_object_vars($post);
+	} elseif ( $output == ARRAY_N ) {
+		return array_values(get_object_vars($post));
+	} else {
+		return $post;
+	}
+}
+
+// Retrieves category data given a category ID or category object. 
+// The category cache is fully populated by the blog header, so we don't
+// have to worry with managing it here.
+function &get_category(&$category, $output = OBJECT) {
+	global $cache_categories;
+	if (is_object($category))
+		$category = & $cache_categories[$category->cat_ID];
+	else
+		$category = & $cache_categories[$category];
+
+	if ( $output == OBJECT ) {
+		return $category;
+	} elseif ( $output == ARRAY_A ) {
+		return get_object_vars($category);
+	} elseif ( $output == ARRAY_N ) {
+		return array_values(get_object_vars($category));
+	} else {
+		return $category;
+	}
+}
+
+function get_catname($cat_ID) {
+	$category = &get_category($cat_ID);
+	return $category->cat_name;
 }
 
 function gzip_compression() {
@@ -995,30 +1046,16 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
 }
 
 function get_page_uri($page_id) {
-	global $wpdb, $cache_pages;
-
-	$dates = ",UNIX_TIMESTAMP(post_modified) AS time_modified";
-	$dates .= ",UNIX_TIMESTAMP(post_date) AS time_created";
-
-	if (!isset($cache_pages[$page_id])) {
-		$cache_pages[$page_id] = $wpdb->get_row("SELECT ID, post_title, post_name, post_parent $dates FROM $wpdb->posts WHERE ID = '$page_id'");
-	}
-
-	$page = $cache_pages[$page_id];
+	$page = get_post($page_id);
 	$uri = urldecode($page->post_name);
 
 	// A page cannot be it's own parent.
 	if ($page->post_parent == $page->ID) {
 		return $uri;
 	}
-
+	
 	while ($page->post_parent != 0) {
-		if (isset($cache_pages[$page->post_parent])) {
-			$page = $cache_pages[$page->post_parent];
-		} else {
-			$page = $wpdb->get_row("SELECT ID, post_title, post_name, post_parent $dates FROM $wpdb->posts WHERE ID = '$page->post_parent'");
-			$cache_pages[$page->ID] = $page;
-		}
+		$page = get_post($page->post_parent);
 		$uri = urldecode($page->post_name) . "/" . $uri;
 	}
 
@@ -1049,13 +1086,44 @@ function get_posts($args) {
 	return $posts;
 }
 
-function query_posts($query) {
+function &query_posts($query) {
 	global $wp_query;
 	return $wp_query->query($query);
 }
 
-function update_post_caches($posts) {
-	global $category_cache, $comment_count_cache, $post_meta_cache;
+function update_post_cache(&$posts) {
+	global $post_cache;
+
+	if ( !$posts )
+		return;
+
+	for ($i = 0; $i < count($posts); $i++) {
+		$post_cache[$posts[$i]->ID] = &$posts[$i];
+	}
+}
+
+function update_post_category_cache($post_ids) {
+	global $wpdb, $category_cache, $cache_categories;
+
+	if (empty($post_ids))
+		return;
+
+	if (is_array($post_ids))
+		$post_ids = implode(',', $post_ids);
+
+	$dogs = $wpdb->get_results("SELECT DISTINCT
+	post_id, category_id FROM $wpdb->categories, $wpdb->post2cat
+	WHERE category_id = cat_ID AND post_id IN ($post_ids)");
+
+	if ( !empty($dogs) ) {
+		foreach ($dogs as $catt) {
+			$category_cache[$catt->post_id][$catt->category_id] = &$cache_categories[$catt->category_id];
+		}
+	}
+}
+
+function update_post_caches(&$posts) {
+	global $post_cache, $category_cache, $comment_count_cache, $post_meta_cache;
 	global $wpdb;
 	
 	// No point in doing all this work if we didn't match any posts.
@@ -1063,20 +1131,14 @@ function update_post_caches($posts) {
 		return;
 
 	// Get the categories for all the posts
-	foreach ($posts as $post)
-		$post_id_list[] = $post->ID;
-	$post_id_list = implode(',', $post_id_list);
-
-	$dogs = $wpdb->get_results("SELECT DISTINCT
-	post_id, category_id, cat_name, category_nicename, category_description, category_parent
-	FROM $wpdb->categories, $wpdb->post2cat
-	WHERE category_id = cat_ID AND post_id IN ($post_id_list)");
-    
-	if ( !empty($dogs) ) {
-		foreach ($dogs as $catt) {
-			$category_cache[$catt->post_id][$catt->category_id] = $catt;
-		}
+	for ($i = 0; $i < count($posts); $i++) {
+		$post_id_list[] = $posts[$i]->ID;
+		$post_cache[$posts[$i]->ID] = &$posts[$i];
 	}
+
+	$post_id_list = implode(',', $post_id_list);
+	
+	update_post_category_cache($post_id_list);
 
 	// Do the same for comment numbers
 	$comment_counts = $wpdb->get_results("SELECT ID, COUNT( comment_ID ) AS ccount
@@ -1114,8 +1176,10 @@ function update_post_caches($posts) {
 function update_category_cache() {
 	global $cache_categories, $wpdb;
 	$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
-	foreach ($dogs as $catt)
+	foreach ($dogs as $catt) {
+		$catt->category_id = $catt->cat_ID; // Alias.
 		$cache_categories[$catt->cat_ID] = $catt;
+	}
 }
 
 function update_user_cache() {

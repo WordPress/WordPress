@@ -193,8 +193,8 @@ function single_post_title($prefix = '', $display = true) {
         if (!$p) {
             $p = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name = '$name'");
         }
-        $post_data = get_postdata($p);
-        $title = $post_data['Title'];
+        $post = & get_post($p);
+        $title = $post->post_title;
         $title = apply_filters('single_post_title', $title);
         if ($display) {
             echo $prefix.strip_tags($title);
@@ -347,11 +347,11 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
             }
         }
     } elseif ('postbypost' == $type) {
-        $arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $wpdb->posts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+        $arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 if ($arcresult->post_date != '0000-00-00 00:00:00') {
-                    $url  = get_permalink($arcresult->ID);
+                    $url  = get_permalink($arcresult);
                     $arc_title = $arcresult->post_title;
                     if ($arc_title) {
                         $text = strip_tags($arc_title);

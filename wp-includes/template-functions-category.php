@@ -1,20 +1,15 @@
 <?php
 
 function get_the_category($id = false) {
-    global $post, $wpdb, $category_cache;
+    global $post, $category_cache;
 
 	if ( !$id )
 		$id = $post->ID;
 
-	if ( $category_cache[$id] ) {
-		$categories = $category_cache[$id];
-    } else {
-		$categories = $wpdb->get_results("
-		SELECT category_id, cat_name, category_nicename, category_description, category_parent
-		FROM  $wpdb->categories, $wpdb->post2cat
-		WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$id'
-		");
-    }
+	if ( ! isset($category_cache[$id]) )
+		update_post_category_cache($id);
+
+	$categories = $category_cache[$id];
 
 	if (!empty($categories))
 		sort($categories);
@@ -25,19 +20,17 @@ function get_the_category($id = false) {
 }
 
 function get_category_link($category_id) {
-	global $wpdb, $wp_rewrite, $querystring_start, $querystring_equal, $cache_categories;
+	global $wp_rewrite;
 	$catlink = $wp_rewrite->get_category_permastruct();
 
 	if ( empty($catlink) ) {
 		$file = get_settings('home') . '/' . get_settings('blogfilename');
 		$catlink = $file . '?cat=' . $category_id;
 	} else {
-		if ($cache_categories[$category_id]->category_nicename)
-			$category_nicename = $cache_categories[$category_id]->category_nicename;
-		else
-			$category_nicename = $wpdb->get_var('SELECT category_nicename FROM ' . $wpdb->categories . ' WHERE cat_ID=' . $category_id);
+		$category = &get_category($category_id);
+		$category_nicename = $category->category_nicename;
 
-		if ($parent = $cache_categories[$category_id]->category_parent) 
+		if ($parent = $category->category_parent) 
 			$category_nicename = get_category_parents($parent, false, '/', true) . $category_nicename . '/';
 
 		$catlink = str_replace('%category%', $category_nicename, $catlink);
@@ -108,20 +101,13 @@ function the_category($separator = '', $parents='') {
 }
 
 function get_the_category_by_ID($cat_ID) {
-    global $cache_categories, $wpdb;
-    if ( !$cache_categories[$cat_ID] ) {
-        $cat_name = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
-        $cache_categories[$cat_ID]->cat_name = $cat_name;
-    } else {
-        $cat_name = $cache_categories[$cat_ID]->cat_name;
-    }
-    return($cat_name);
+	$category = &get_category($cat_ID);
+	return $category->cat_name;
 }
 
 function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
-    global $cache_categories;
     $chain = '';
-    $parent = $cache_categories[$id];
+		$parent = &get_category($id);
     if ($nicename) {
         $name = $parent->category_nicename;
     } else {
@@ -175,11 +161,10 @@ function the_category_head($before='', $after='') {
 }
 
 function category_description($category = 0) {
-    global $cat, $wpdb, $cache_categories;
+    global $cat;
     if (!$category) $category = $cat;
-    $category_description = $cache_categories[$category]->category_description;
-    $category_description = apply_filters('category_description', $category_description, $category);
-    return $category_description;
+		$category = & get_category($category);
+    return apply_filters('category_description', $category->category_description, $category->cat_ID);
 }
 
 // out of the WordPress loop

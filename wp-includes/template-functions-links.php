@@ -22,9 +22,7 @@ function permalink_anchor($mode = 'id') {
     }
 }
 
-function get_permalink($id = false) {
-	global $post, $wpdb;
-
+function get_permalink($id = 0) {
 	$rewritecode = array(
 		'%year%',
 		'%monthnum%',
@@ -39,29 +37,24 @@ function get_permalink($id = false) {
 		'%pagename%'
 	);
 
-	if ($id) {
-		$idpost = $wpdb->get_row("SELECT ID, post_date, post_name, post_status, post_author FROM $wpdb->posts WHERE ID = $id");
-	} else {
-		$idpost = $post;
-	}
-
-	if ($idpost->post_status == 'static') {
-		return get_page_link($idpost->ID);
+	$post = & get_post($id);
+	if ($post->post_status == 'static') {
+		return get_page_link($post->ID);
 	}
 
 	$permalink = get_settings('permalink_structure');
 
 	if ('' != $permalink) {
-		$unixtime = strtotime($idpost->post_date);
+		$unixtime = strtotime($post->post_date);
 
 		$category = '';
 		if (strstr($permalink, '%category%')) {
-			$cats = get_the_category($idpost->ID);
+			$cats = get_the_category($post->ID);
 			$category = $cats[0]->category_nicename;
 			if ($parent=$cats[0]->category_parent) $category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
 		}
 
-		$authordata = get_userdata($idpost->post_author);
+		$authordata = get_userdata($post->post_author);
 		$author = $authordata->user_nicename;
 		$rewritereplace = 
 		array(
@@ -71,16 +64,16 @@ function get_permalink($id = false) {
 			date('H', $unixtime),
 			date('i', $unixtime),
 			date('s', $unixtime),
-			$idpost->post_name,
-			$idpost->ID,
+			$post->post_name,
+			$post->ID,
 			$category,
 			$author,
-			$idpost->post_name,
+			$post->post_name,
 		);
-		return apply_filters('post_link', get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink), $idpost);
+		return apply_filters('post_link', get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink), $post);
 	} else { // if they're not using the fancy permalink option
-		$permalink = get_settings('home') . '/?p=' . $idpost->ID;
-		return apply_filters('post_link', $permalink, $idpost);
+		$permalink = get_settings('home') . '/?p=' . $post->ID;
+		return apply_filters('post_link', $permalink, $post);
 	}
 }
 
