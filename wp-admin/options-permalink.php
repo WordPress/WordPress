@@ -84,7 +84,7 @@ save_mod_rewrite_rules();
     <p> 
       <?php _e('Structure'); ?>: <input name="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo $permalink_structure; ?>" size="50" /> 
     </p> 
-	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/taxonomy/categorias</code> would make your category links like <code>http://example.org/taxonomy/categorias/general/</code>. If you leave this blank the default will be used.') ?></p>
+	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/taxonomy/categorias</code> would make your category links like <code>http://example.org/taxonomy/categorias/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
 	<p> 
   <?php _e('Category base'); ?>: <input name="category_base" type="text" class="code"  value="<?php echo $category_base; ?>" size="30" /> 
      </p> 
