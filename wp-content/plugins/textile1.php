@@ -70,7 +70,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 	$text = preg_split("/\n/",$text);
 	foreach($text as $line){
-		$line = trim($line);
+		$line = rtrim($line);
 		$lineout[] = $line;
 	}
 
