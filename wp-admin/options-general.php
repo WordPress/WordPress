@@ -107,8 +107,8 @@ This address is used only for admin purposes. </td>
     <legend>Time</legend> 
 	    <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr> 
-        <th scope="row" width="33%">The servers current time is: </th> 
-        <td><code><?php echo date('Y-m-d g:i:s a'); ?></code></td> 
+        <th scope="row" width="33%"><acronym title="Greenwich Meridian Time">GMT</acronym> time is: </th> 
+        <td><code><?php echo gmdate('Y-m-d g:i:s a'); ?></code></td> 
       </tr>
       <tr>
         <th scope="row"> Times in the weblog should differ by: </th>
