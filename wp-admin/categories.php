@@ -63,6 +63,8 @@ case 'Delete':
     $cat_ID = intval($HTTP_GET_VARS["cat_ID"]);
     $cat_name = get_catname($cat_ID);
     $cat_name = addslashes($cat_name);
+    $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = " . $cat_ID);
+    $cat_parent = $category->category_parent;
 
     if (1 == $cat_ID)
         die("Can't delete the <strong>$cat_name</strong> category: this is the default one");
@@ -71,6 +73,7 @@ case 'Delete':
         die ('Cheatin&#8217; uh?');
 
     $wpdb->query("DELETE FROM $tablecategories WHERE cat_ID = $cat_ID");
+    $wpdb->query("UPDATE $tablecategories SET category_parent=$cat_parent WHERE category_parent=$cat_ID");
     $wpdb->query("UPDATE $tablepost2cat SET category_id='1' WHERE category_id='$cat_ID'");
 
     header('Location: categories.php');
