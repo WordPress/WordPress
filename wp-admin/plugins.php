@@ -8,7 +8,9 @@ if ( isset($_GET['action']) ) {
 
 	if ('activate' == $_GET['action']) {
 		$current = get_settings('active_plugins');
-		$current[] = trim( $_GET['plugin'] );
+		if (!in_array($_GET['plugin'], $current)) {
+			$current[] = trim( $_GET['plugin'] );
+		}
 		sort($current);
 		update_option('active_plugins', $current);
 		header('Location: plugins.php?activate=true');
