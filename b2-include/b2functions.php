@@ -66,8 +66,8 @@ function wptexturize($text) {
 
 function wpautop($pee, $br=1) { 
 	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
-	$pee = preg_replace('!(<(?:table|ul|ol|li|pre|select|form|blockquote)[^>]*>)!', "\n$1", $pee); // Space things out a little
-	$pee = preg_replace('!(</(?:table|ul|ol|li|pre|select|form|blockquote)>)!', "$1\n", $pee); // Space things out a little
+	$pee = preg_replace('!(<(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])[^>]*>)!', "\n$1", $pee); // Space things out a little
+	$pee = preg_replace('!(</(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])>)!', "$1\n", $pee); // Space things out a little
 	$pee = preg_replace("/(\r\n|\n|\r)/", "\n", $pee); // cross-platform newlines 
 	$pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
 	$pee = preg_replace('/\n?(.+?)(\n\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end 
@@ -76,10 +76,10 @@ function wpautop($pee, $br=1) {
 	$pee = preg_replace('|</p>\s*</p>|', '</p>', $pee);
 	$pee = preg_replace('|<p><blockquote([^>]*)>|i', "<blockquote$1><p>", $pee);
 	$pee = str_replace('</blockquote></p>', '</p></blockquote>', $pee);
-	$pee = preg_replace('!<p>\s*(</?(?:table|ul|ol|li|pre|select|form|blockquote)[^>]*>)!', "$1", $pee);
-	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote)>)\s*</p>!', "$1", $pee); 
+	$pee = preg_replace('!<p>\s*(</?(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])[^>]*>)!', "$1", $pee);
+	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])>)\s*</p>!', "$1", $pee); 
 	if ($br) $pee = preg_replace('|(?<!<br />)\s*\n|', "<br />\n", $pee); // optionally make line breaks
-	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote|p)[^>]*>)\s*<br />!', "$1", $pee);
+	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $pee);
 	
 	return $pee; 
