@@ -3,7 +3,7 @@ $messages[1] = __('Post updated');
 $messages[2] = __('Custom field updated');
 $messages[3] = __('Custom field deleted.');
 ?>
-<?php if ($_GET['message']) : ?>
+<?php if (isset($_GET['message'])) : ?>
 <div class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
 <div class="wrap">
@@ -52,7 +52,7 @@ $saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="'
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action ?>' />
 <?php echo $form_extra ?>
-<?php if (2 > $_GET['message']) : ?>
+<?php if (isset($_GET['message']) && 2 > $_GET['message']) : ?>
 <script type="text/javascript">
 <!--
 function focusit() {

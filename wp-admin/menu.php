@@ -20,6 +20,7 @@ $menu = array(
 );
 
 $self = preg_replace('|.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
+if (!isset($parent_file)) $parent_file = '';
 foreach ($menu as $item) {
 	$class = '';
 

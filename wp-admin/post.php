@@ -230,7 +230,6 @@ case 'edit':
 
 		include('edit-form-advanced.php');
 
-		include(ABSPATH.'wp-blog-header.php');
 		$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$post_ID'");
 		?>
 <div id='preview' class='wrap'>

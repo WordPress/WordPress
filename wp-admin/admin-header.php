@@ -71,7 +71,7 @@ setTimeout("redirect();", 600);
 } // redirect
 ?>
 
-<?php if ($xfn) : ?>
+<?php if (isset($xfn)) : ?>
 <script language="javascript" type="text/javascript">
 //<![CDATA[
 

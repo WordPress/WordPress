@@ -6,7 +6,7 @@ $curpath = dirname(__FILE__).'/';
 if (!file_exists($curpath . '/wp-config.php'))
     die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='wp-admin/install-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.");
 
-require($curpath.'/wp-config.php');
+require_once($curpath . '/wp-config.php');
 
 /* Process PATH_INFO, if set. */
 $path_info = array();

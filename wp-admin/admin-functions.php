@@ -41,7 +41,7 @@ function get_nested_categories($default = 0) {
    $array_category = get_object_vars($category);
    $me = 0 + $category->cat_ID;
    $parent = 0 + $category->category_parent;
-   $array_category['children'] = $result[$me];
+	if (isset($result[$me]))   $array_category['children'] = $result[$me];
    $array_category['checked'] = in_array($category->cat_ID, $checked_categories);
    $array_category['cat_name'] = stripslashes($category->cat_name);
    $result[$parent][] = $array_category;
@@ -58,7 +58,7 @@ function write_nested_categories($categories) {
 
    if(isset($category['children'])) {
      echo "\n<span class='cat-nest'>\n";
-     write_nested_categories($category['children'], $count);
+     write_nested_categories($category['children']);
      echo "</span>\n";
    }
  }
