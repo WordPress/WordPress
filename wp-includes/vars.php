@@ -37,16 +37,20 @@ $wp_htmltranswinuni = array(
 	'&#157;' => '',
 	'&#158;' => '',
 	'&#159;' => '&#376;'
-);
+	);
 
 // On which page are we ?
 $PHP_SELF = $_SERVER['PHP_SELF'];
-$pagenow = explode('/', $PHP_SELF);
-$pagenow = trim($pagenow[(sizeof($pagenow)-1)]);
-$pagenow = explode('?', $pagenow);
-$pagenow = $pagenow[0];
-if (($querystring_start == '/') && ($pagenow != 'post.php')) {
-	$pagenow = get_settings('siteurl') . '/' . get_settings('blogfilename');
+if (preg_match('#([^/]+.php)#', $PHP_SELF, $self_matches)) {
+	$pagenow = $self_matches[1];
+} else {
+	$pagenow = explode('/', $PHP_SELF);
+	$pagenow = trim($pagenow[(sizeof($pagenow)-1)]);
+	$pagenow = explode('?', $pagenow);
+	$pagenow = $pagenow[0];
+	if (($querystring_start == '/') && ($pagenow != 'post.php')) {
+		$pagenow = get_settings('siteurl') . '/' . get_settings('blogfilename');
+	}
 }
 
 // Simple browser detection
