@@ -32,7 +32,7 @@ function write_nested_categories($categories) {
  foreach($categories as $category) {
    echo '<label for="category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'],
      '" type="checkbox" name="post_category[]" id="category-', $category['cat_ID'], '"',
-     ($category['checked'] ? ' checked="checked"' : ""), '/>', $category['cat_name'], "</label>\n";
+     ($category['checked'] ? ' checked="checked"' : ""), '/> ', $category['cat_name'], "</label>\n";
 
    if(isset($category['children'])) {
      echo "\n<span class='cat-nest'>\n";
