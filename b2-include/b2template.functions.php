@@ -437,7 +437,7 @@ function get_permalink($id=false) {
 			);
 			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else {
-			return $siteurl . '/' . $blogfilename.$querystring_start.'p'.$querystring_equal.$idpost->ID;
+			return $siteurl . '/' . $blogfilename.$querystring_start.'p'.$querystring_equal.$id;
 		}
 	}
 }
