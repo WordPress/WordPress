@@ -615,6 +615,9 @@ function &get_page(&$page, $output = OBJECT) {
 function &get_category(&$category, $output = OBJECT) {
 	global $cache_categories, $wpdb;
 
+	if ( ! isset($cache_categories))
+		update_category_cache();
+
 	if (is_object($category)) {
 		if ( ! isset($cache_categories[$category->cat_ID]))
 			$cache_categories[$category->cat_ID] = &$category;
@@ -1170,6 +1173,9 @@ function update_post_category_cache($post_ids) {
 	post_id, category_id FROM $wpdb->categories, $wpdb->post2cat
 	WHERE category_id = cat_ID AND post_id IN ($post_ids)");
 
+	if (! isset($cache_categories))
+		update_category_cache();
+		
 	if ( !empty($dogs) ) {
 		foreach ($dogs as $catt) {
 			$category_cache[$catt->post_id][$catt->category_id] = &$cache_categories[$catt->category_id];
