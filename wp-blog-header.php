@@ -6,7 +6,7 @@ if ( !file_exists( dirname(__FILE__) . '/wp-config.php') )
 
 require_once( dirname(__FILE__) . '/wp-config.php');
 
-require_once( dirname(__FILE__) . '/wp-includes/wp-l10n.php');
+require_once( ABSPATH . '/wp-includes/wp-l10n.php');
 
 $query_vars = array();
 
@@ -103,20 +103,19 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-if ('' != $feed) {
-    $doing_rss = true;
-}
+if ( '' != $feed )
+	$doing_rss = true;
 
-if (is_trackback()) {
-    $doing_trackback = true;
-}
+
+if ( is_trackback() )
+	$doing_trackback = true;
 
 // Sending HTTP headers
 
-if (is_404()) {
-	header("HTTP/1.x 404 Not Found");
+if ( is_404() ) {
+	header('HTTP/1.x 404 Not Found');
 } else if ( !isset($doing_rss) || !$doing_rss ) {
-	@header ('X-Pingback: '. get_bloginfo('pingback_url'));
+	@header('X-Pingback: '. get_bloginfo('pingback_url'));
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
 	if ( $withcomments )
@@ -126,7 +125,7 @@ if (is_404()) {
 	$wp_etag = '"' . md5($wp_last_modified) . '"';
 	@header("Last-Modified: $wp_last_modified");
 	@header("ETag: $wp_etag");
-	@header ('X-Pingback: ' . get_bloginfo('pingback_url'));
+	@header('X-Pingback: ' . get_bloginfo('pingback_url'));
 
 	// Support for Conditional GET
 	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) $client_last_modified = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
@@ -142,7 +141,7 @@ if (is_404()) {
 		    echo "\r\n\r\n";
 		    exit;
 		} else {
-		    if (version_compare(phpversion(),'4.3.0','>=')) {
+		    if ( version_compare(phpversion(), '4.3.0', '>=') ) {
 		        header('Not Modified', TRUE, 304);
 		    } else {
 		        header('HTTP/1.x 304 Not Modified');
@@ -196,7 +195,7 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 		 && !empty($_SERVER['QUERY_STRING']) &&
 		 (false === strpos($_SERVER['REQUEST_URI'], '?')) ) {
 	$wp_query->is_404 = true;
-	header("HTTP/1.x 404 Not Found");
+	header('HTTP/1.x 404 Not Found');
 }
 
 $wp_did_header = true;
@@ -206,59 +205,52 @@ $wp_template_dir = TEMPLATEPATH;
 
 // Template redirection
 if ($pagenow == 'index.php') {
-	if (! isset($wp_did_template_redirect)) {
+	if ( !isset($wp_did_template_redirect) ) {
 		$wp_did_template_redirect = true;
 		do_action('template_redirect', '');
-		if (is_feed()) {
-			include(dirname(__FILE__) . '/wp-feed.php');
+		if ( is_feed() ) {
+			include(ABSPATH . '/wp-feed.php');
 			exit;
-		} else if (is_trackback()) {
-			include(dirname(__FILE__) . '/wp-trackback.php');
+		} else if ( is_trackback() ) {
+			include(ABSPATH . '/wp-trackback.php');
 			exit;
-		} else if (is_404() &&
-							 file_exists("$wp_template_dir/404.php")) {
+		} else if ( is_404() && file_exists("$wp_template_dir/404.php") ) {
 			include("$wp_template_dir/404.php");
 			exit;
-		} else if (is_home() && 
-				file_exists("$wp_template_dir/index.php")) {
+		} else if ( is_home() && file_exists("$wp_template_dir/index.php") ) {
 			include("$wp_template_dir/index.php");
 			exit;
-		} else if (is_single() &&
-							 file_exists("$wp_template_dir/single.php")) {
+		} else if ( is_single() && file_exists("$wp_template_dir/single.php") ) {
 			include("$wp_template_dir/single.php");
 			exit;
-		} else if (is_page() && file_exists(get_page_template())) {
+		} else if ( is_page() && file_exists(get_page_template()) ) {
 			include(get_page_template());
 			exit;
-		} else if (is_category() &&
-							 file_exists("$wp_template_dir/category.php")) {
+		} else if ( is_category() && file_exists("$wp_template_dir/category-" . get_query_var('cat') . '.php') ) {
+			include("$wp_template_dir/category" . get_query_var('cat') . '.php');
+			exit;		
+		} else if ( is_category() && file_exists("$wp_template_dir/category.php") ) {
 			include("$wp_template_dir/category.php");
 			exit;
-		} else if (is_author() &&
-							 file_exists("$wp_template_dir/author.php")) {
+		} else if ( is_author() && file_exists("$wp_template_dir/author.php") ) {
 			include("$wp_template_dir/author.php");
 			exit;
-		} else if (is_date() &&
-							 file_exists("$wp_template_dir/date.php")) {
+		} else if ( is_date() && file_exists("$wp_template_dir/date.php") ) {
 			include("$wp_template_dir/date.php");
 			exit;
-		} else if (is_archive() &&
-							 file_exists("$wp_template_dir/archive.php")) {
+		} else if ( is_archive() && file_exists("$wp_template_dir/archive.php") ) {
 			include("$wp_template_dir/archive.php");
 			exit;
-		} else if (is_search() &&
-							 file_exists("$wp_template_dir/search.php")) {
+		} else if ( is_search() && file_exists("$wp_template_dir/search.php") ) {
 			include("$wp_template_dir/search.php");
 			exit;
-		} else if (is_paged() &&
-							 file_exists("$wp_template_dir/paged.php")) {
+		} else if ( is_paged() && file_exists("$wp_template_dir/paged.php") ) {
 			include("$wp_template_dir/paged.php");
 			exit;
-		} else if (file_exists("$wp_template_dir/index.php"))
-			{
-				include("$wp_template_dir/index.php");
-				exit;
-			}
+		} else if ( file_exists("$wp_template_dir/index.php") ) {
+			include("$wp_template_dir/index.php");
+			exit;
+		}
 	}
 }
 
