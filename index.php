@@ -1,7 +1,6 @@
 <?php /* Don't remove this line, it calls the b2 function files ! */ $blog=1;
-require('blog.header.php');
+require_once('blog.header.php');
 require($abspath.'wp-links/links.php');
-require($abspath.'wp-links/links.weblogs.com.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -62,7 +61,7 @@ require($abspath.'wp-links/links.weblogs.com.php');
 <ul>
 <li>Links:
 	<ul>
-		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, 1 )?>
+		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, -1)?>
 	</ul>
  </li>
  <li>Categories:
@@ -94,7 +93,7 @@ require($abspath.'wp-links/links.weblogs.com.php');
 		<li><a href="b2rss.php">RSS .92</a></li>
 		<li><a href="b2rdf.php">RDF 1.0</a></li>
 		<li><a href="b2rss2.php">RSS 2.0</a></li>
-		<li><a href="http://validator.w3.org/check/referer" title="this page validates as XHTML 1.0 Transitional">Valid XHTML</a></li>
+		<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr ttile="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
 		<li><a href="http://wordpress.org" title="Powered by WordPress, personal publishing platform">WP</a></li>
 	</ul>
  </li>
