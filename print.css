@@ -1,20 +1,35 @@
+/* This is the stylesheet modern browser will use to print your pages. */
+
+a {
+	color: #000;
+}
+
 body {
-	font-family: serif; font-size: 11pt;;
+	font-family: serif;
+	font-size: 12pt;
 }
-#header, H3, H4, storyTitle {
-	margin: 0px 0px 0.5in; width: auto;
-	font-weight: bold; border: none;
-}
-#main {
-	float: none; margin: 0px 10%; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; width: auto
-}
+
 #content {
-	margin: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; width: auto
+	margin: 0px;
+	padding: 0px;
+	width: auto;
 }
-#header, H3, H4, storyTitle {
-	margin: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px; width: auto;
-	font-weight: bold; border: none;
+
+#header, h3, h4, .storytitle {
+	border: none;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+	width: auto;
 }
+
+#main {
+	float: none;
+	margin: 0px 10%;
+	padding: 0px;
+	width: auto;
+}
+
 #menu {
 	display: none;
 }

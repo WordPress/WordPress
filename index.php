@@ -20,7 +20,7 @@ require($abspath.'wp-links/links.weblogs.com.php');
 	<link rel="alternate" type="text/xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-	<?php // comments_popup_script(); // off by default ?>
+	<?php  comments_popup_script(); // off by default ?>
 </head>
 
 <body>
@@ -34,35 +34,33 @@ require($abspath.'wp-links/links.weblogs.com.php');
 
 <?php the_date('','<h2>','</h2>'); ?>
 
-<h3 class="storytitle"><a href="<?php permalink_link() ?>"><?php the_title(); ?></a> <a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>" class="storycategory">[<?php the_category() ?>]</a> - <span class="storyauthor"><?php the_author() ?></span> @ <?php the_time() ?>
-</h3>
+ <h3 class="storytitle">
+  <a href="<?php permalink_link() ?>"><?php the_title(); ?></a> 
+  <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?>
+  </span>
+ </h3>
 
 <div class="storycontent">
-
-<?php the_content(); ?>
+	<?php the_content(); ?>
+</div>
 
 <div class="feedback">
-<?php link_pages('<br />Pages: ', '<br />', 'number') ?> 
-<?php comments_popup_link('Comments (0)', 'Comments (1)', 'Comments (%)') ?> 
-<?php trackback_popup_link('TrackBack (0)', 'TrackBack (1)', 'TrackBack (%)') ?> 
-<?php pingback_popup_link('PingBack (0)', 'PingBack (1)', 'PingBack (%)') ?>
+	<?php link_pages('<br />Pages: ', '<br />', 'number'); ?> 
+	<?php comments_popup_link('Comments (0)', 'Comments (1)', 'Comments (%)'); ?> 
+	<?php trackback_popup_link('TrackBack (0)', 'TrackBack (1)', 'TrackBack (%)'); ?> 
+	<?php pingback_popup_link('PingBack (0)', 'PingBack (1)', 'PingBack (%)'); ?>
 </div>
 
-<?php trackback_rdf() ?>
+<?php trackback_rdf(); ?>
 
 <!-- this includes the comments and a form to add a new comment -->
-<?php include ('b2comments.php'); ?>
+<?php include('b2comments.php'); ?>
 
 <!-- this includes the trackbacks -->
-<?php include ('b2trackback.php'); ?>
+<?php include('b2trackback.php'); ?>
 
 <!-- this includes the pingbacks -->
-<?php include ('b2pingbacks.php'); ?>
-
-
-
-</div>
-
+<?php include('b2pingbacks.php'); ?>
 
 <!-- // this is just the end of the motor - don't touch that line either :) -->
 	<?php } ?> 
@@ -105,12 +103,13 @@ require($abspath.'wp-links/links.weblogs.com.php');
 		<li><a href="b2register.php">register</a></li>
 	</ul>
  </li>
- <li>Misc:
+ <li>Meta:
  	<ul>
 		<li><a href="b2rss.php">RSS .92</a></li>
 		<li><a href="b2rdf.php">RDF 1.0</a></li>
 		<li><a href="b2rss2.php">RSS 2.0</a></li>
 		<li><a href="http://validator.w3.org/check/referer" title="this page validates as XHTML 1.0 Transitional">Valid XHTML</a></li>
+		<li><a href="http://wordpress.org" title="Powered by WordPress, personal publishing platform">WP</a></li>
 	</ul>
  </li>
 </ul>

@@ -15,6 +15,22 @@ a:hover {
 	color: #39c;
 }
 
+acronym, abbr {
+	border-bottom: 1px dashed #333;
+}
+
+acronym, abbr, span.caps {
+	cursor: help;
+	font-size: 90%;
+	letter-spacing: .07em;
+}
+
+blockquote {
+	border-left: 5px solid #ccc;
+	margin-left: 1.5em;
+	padding-left: 5px;
+}
+
 body {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	margin: 0;
@@ -29,6 +45,40 @@ p, li {
 	line-height: 130%;
 }
 
+.b2calendarcell {
+	color: #000;
+}
+
+.b2calendaremptycell {
+}
+
+.b2calendarheadercell {
+	background: #808080;
+	color: #ccc;
+}
+
+.b2calendarlinkpost {
+	color: #f00;
+	text-decoration: none;
+}
+
+.b2calendarmonth {
+	color: #aaa;
+}
+
+.b2calendarrow {
+	color: #0f0;
+}
+
+.b2calendartable {
+	background: #fff;
+	border: 1px solid #000;
+}
+
+.b2calendartoday {
+	color: #00f;
+}
+
 .credit {
 	font-size: 11px;
 	text-align: center;
@@ -38,13 +88,22 @@ p, li {
 	text-align: right;
 }
 
+.meta, .meta a {
+	color: #808080;
+	font-size: small;
+}
+
+.storytitle a {
+	text-decoration: none;
+}
+
 #content {
-	: ;
 	margin: 0 160px 0 20px;
 }
 
 #header {
 	background-color: #808080;
+	margin: 0;
 	padding-left: 10px;
 }
 
@@ -53,13 +112,27 @@ p, li {
 	text-decoration: none;
 }
 
+#header a:hover {
+	color: #ccc;
+}
+
 #menu {
 	background-color: #000;
-	border-left: 2px solid #666;
+	border-left: 3px solid #666;
+	padding-bottom: 10px;
 	position: absolute;
 	right: 0;
-	top: 70px;
+	top: 65px;
 	width: 150px;
+}
+
+#menu form {
+	margin: 0 0 0 13px;
+}
+
+#menu input {
+	background-color: #ccc;
+	border: 2px solid #666;
 }
 
 #menu ul {
@@ -94,28 +167,4 @@ p, li {
 
 #menu ul ul li a:hover {
 	border-bottom: 1px solid #ccc;
-}
-
-.b2calendartable { 
-    background: #fff; border: 1px solid #000; 
-}
-.b2calendarmonth { 
-    color: #aaa; 
-}
-.b2calendarrow   { 
-    color: #0f0; 
-}
-.b2calendarheadercell { 
-    color: #ccc; background: #808080; 
-}
-.b2calendarcell { 
-    color: #000; 
-}
-.b2calendartoday { 
-    color: #00f; 
-}
-.b2calendaremptycell { }
-.b2calendarlinkpost { 
-    color: #f00;
-	text-decoration: none; 
 }
