@@ -113,6 +113,10 @@ edCanvas = document.getElementById('content');
 	</tr>
 <?php endif; ?>
 	<tr>
+		<th scope="row" width="25%"><?php _e('Page Order') ?>:</th>
+		<td><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $menu_order ?>" /></td>
+	</tr>
+	<tr>
 		<th scope="row"><?php _e('Delete'); ?>:</th>
 		<td><?php if ('edit' == $action) : ?>
 		<input name="deletepost" class="delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this page') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this page \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title) ) . "')\""; ?> />

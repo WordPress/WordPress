@@ -194,6 +194,7 @@ case 'edit':
 	$post_name = $postdata->post_name;
 	$post_parent = $postdata->post_parent;
 	$post_author = $postdata->post_author;
+	$menu_order = $postdata->menu_order;
 
 	if( 'private' == $postdata->post_status && $postdata->post_author != $user_ID )
 		die ('You are not allowed to view other users\' private posts.');
@@ -241,6 +242,7 @@ case 'editpost':
 	$post_title = $_POST['post_title'];
 	$prev_status = $_POST['prev_status'];
 	$post_status = $_POST['post_status'];
+	$menu_order = (int) $_POST['menu_order'];
 	if (! empty($_POST['post_author'])) {
 		$post_author = (int) $_POST['post_author'];
 	} else {
@@ -334,6 +336,7 @@ case 'editpost':
 			to_ping = '$trackback',
 			post_modified = '$now',
 			post_modified_gmt = '$now_gmt',
+			menu_order = '$menu_order',
 			post_parent = '$post_parent'
 		WHERE ID = $post_ID ");
 
