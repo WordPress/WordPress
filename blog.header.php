@@ -306,7 +306,11 @@ if ($preview) {
 $posts = $wpdb->get_results($request);
 
 if (1 == count($posts)) {
-	$more = 1; $c = 1; $single = 1;
+	if ($id || $name) {
+		$more = 1;
+		$c = 1;
+		$single = 1;
+	}
 	if ($s) { // If they were doing a search and got one result
 		header('Location: ' . get_permalink($posts[0]->ID));
 	}
