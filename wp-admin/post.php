@@ -379,7 +379,7 @@ $now_gmt = current_time('mysql', 1);
 	}
 
         // Enclosures
-        $enclosures = split( "   ", $enclosure_url );
+        $enclosures = split( " ", $enclosure_url );
         if( is_array( $enclosures ) ) {
             while( list( $key, $url ) = each( $enclosures ) ) {
                 if( $url != '' ) {
@@ -390,13 +390,9 @@ $now_gmt = current_time('mysql', 1);
                     $headers = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
                     $port    = 80;
                     $timeout = 3;
-                    // Open a socket connection to the host
-                    $fp = fsockopen($host, $port, $err_num, $err_msg, $timeout);
+                    $fp = fsockopen($host, $port, &$err_num, &$err_msg, $timeout);
                     if( $fp ) {
-                        // Send request for the page
                         fputs($fp, $headers );
-
-                        // Get the response
                         $response = '';
                         while (!feof($fp))
                             $response .= fgets($fp, 2048);
