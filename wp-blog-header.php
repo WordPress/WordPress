@@ -183,8 +183,8 @@ if ( is_single() || is_page() ) {
 // 404 if one was already issued, if the request was a search, or if the
 // request was a regular query string request rather than a permalink request.
 if ( (0 == count($posts)) && !is_404() && !is_search()
-		 && !empty($_SERVER['QUERY_STRING']) &&
-		 (false === strpos($_SERVER['REQUEST_URI'], '?')) ) {
+		&& ( isset($rewrite) || (!empty($_SERVER['QUERY_STRING']) &&
+		(false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
 	$wp_query->is_404 = true;
 	if ( preg_match('/cgi/', php_sapi_name()) )
 		@header('Status: 404 Not Found');
@@ -231,6 +231,7 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		include(get_date_template());
 		exit;
 	} else if ( is_archive() && get_archive_template() ) {
+		echo "here";
 		include(get_archive_template());
 		exit;
 	} else if ( is_comments_popup() && get_comments_popup_template() ) {
