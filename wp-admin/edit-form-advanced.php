@@ -97,21 +97,6 @@ window.onload = focusit;
 <legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="<?php _e('Help with excerpts') ?>"><?php _e('Excerpt') ?></a></legend>
 <div><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
 </fieldset>
-<script type="text/javascript">
-<!--
-function ReloadTextDiv()
-{
-    var UseInstantPreview = document.getElementById("use_instant_preview").checked;
-    if( UseInstantPreview == true )
-    {
-        var NewText = document.getElementById("content").value;
-        splitText = NewText.split(/\n/).join("<br />");
-        var DivElement = document.getElementById("TextDisplay");
-        DivElement.innerHTML = splitText;
-    }
-}
-// -->
-</script>
 <fieldset id="postdiv">
        <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
 <?php the_quicktags(); ?>
@@ -148,10 +133,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 ?>
 	<input name="referredby" type="hidden" id="referredby" value="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
-<fieldset id="previewdiv">
-<legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Preview</a></legend>
-<div><p id="TextDisplay"></p></div>
-</fieldset>
+
 <?php echo $form_enclosure; ?>
 
 <?php
