@@ -64,7 +64,12 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	$result = $wpdb->get_row($sql, $mode);
 	
 	// Set categories
-	$result['post_category'] = wp_get_post_cats('',$postid);
+	if($mode == OBJECT) {
+		$result->post_category = wp_get_post_cats('',$postid);
+	} 
+	else {
+		$result['post_category'] = wp_get_post_cats('',$postid);
+	}
 
 	return $result;
 }
