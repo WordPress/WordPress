@@ -233,7 +233,7 @@ if ($i == "ASC")
 		$posts_per_page = 10;
 	start_b2(); ?>
 			<p>
-				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comment', '1 comment', "% comments") ?></a>
+				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
 				<?php
 				if (($user_level > $authordata[13]) or ($user_login == $authordata[1])) {
 				echo " - <a href='b2edit.php?action=edit&amp;post=$id";
@@ -242,6 +242,7 @@ if ($i == "ASC")
 				echo "'>Edit</a>";
 				echo " - <a href='b2edit.php?action=delete&amp;post=$id' onclick=\"return confirm('You are about to delete this post \'".$row->post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
 				}
+				if ('private' == $post->post_status) echo ' - <strong>Private</strong>';
 				?>
 				]
 				<br />
