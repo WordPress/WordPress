@@ -302,7 +302,7 @@ if ($i == "ASC")
 
 					<!-- form to add a comment -->
 
-					<form action="b2comments.post.php" method="post">
+					<form action="<?php echo $siteurl.'/b2comments.post.php'?>" method="post">
 						<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
 						<input type="hidden" name="redirect_to" value="<?php echo $HTTP_SERVER_VARS["REQUEST_URI"]; ?>" />
 						<input type="text" name="author" class="textarea" value="<?php echo $user_nickname ?>" size="20" tabindex="1" /><br />
