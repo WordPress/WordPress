@@ -452,7 +452,7 @@ function wp_new_comment( $commentdata, $spam = false ) {
 			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
 	}
 
-	if ( check_comment($author, $email, $url, $comment, $user_ip, $user_agent) )
+	if ( check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) )
 		$approved = 1;
 	else
 		$approved = 0;
