@@ -6,8 +6,6 @@ if ( !file_exists( dirname(__FILE__) . '/wp-config.php') )
 
 require_once( dirname(__FILE__) . '/wp-config.php');
 
-require_once( ABSPATH . '/wp-includes/wp-l10n.php');
-
 $query_vars = array();
 
 // Process PATH_INFO and 404.
