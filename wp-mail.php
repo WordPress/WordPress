@@ -114,7 +114,7 @@ for ($i=1; $i <= $count; $i++) :
 
 	$content = trim($content);
 
-	$content = apply_filters('phone_content', $content);
+	$post_content = apply_filters('phone_content', $content);
 
 	$post_title = xmlrpc_getposttitle($content);
 
@@ -122,20 +122,13 @@ for ($i=1; $i <= $count; $i++) :
 
 	if (empty($post_categories)) $post_categories[] = get_settings('default_email_category');
 
-	$post_title = addslashes(trim($post_title));
-	// Make sure that we get a nice post-slug
-	$post_name = sanitize_title( $post_title );
-	$content = preg_replace("|\n([^\n])|", " $1", $content);
-	$content = addslashes(trim($content));
+	$post_category = $post_categories;
 
-	$sql = "INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_name, post_modified, post_modified_gmt) VALUES (1, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_name', '$post_date', '$post_date_gmt')";
+	$post_data = compact('post_content','post_title','post_date','post_date_gmt','post_author','post_category');
 
-	$result = $wpdb->query($sql);
-	$post_ID = $wpdb->insert_id;
+	wp_insert_post($post_data);
 
-	do_action('publish_post', $post_ID);
 	do_action('publish_phone', $post_ID);
-	pingback($content, $post_ID);
 
 	echo "\n<p><b>Posted title:</b> $post_title<br />";
 	echo "\n<b>Posted content:</b><br /><pre>".$content.'</pre></p>';

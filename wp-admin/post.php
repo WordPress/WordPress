@@ -167,6 +167,8 @@ case 'post':
 	}
 
 	add_meta($post_ID);
+
+	$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
 	
 	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
 			sleep($sleep_after_edit);

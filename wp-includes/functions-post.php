@@ -41,12 +41,17 @@ function wp_insert_post($postarr = array()) {
 	
 	$result = $wpdb->query($sql);
 	$post_ID = $wpdb->insert_id;
+
+	// Set GUID
+	$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
 	
-	wp_set_post_cats('',$post_ID,$post_category);
+	wp_set_post_cats('', $post_ID, $post_category);
 	
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 	}
+
+	pingback($content, $post_ID);
 
 	// Return insert_id if we got a good result, otherwise return zero.
 	return $result ? $post_ID : 0;
