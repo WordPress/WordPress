@@ -316,13 +316,13 @@ function meta_form() {
 		<td align="right" width="18%">
 <?php if ($keys) : ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
-<option value="#NONE#">- Select -</option>
+<option value="#NONE#"><?php _e('- Select -'); ?></option>
 <?php
 	foreach($keys as $key) {
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>
-</select> or 
+</select> <?php _e('or'); ?>
 <?php endif; ?>
 </td>
 <td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
