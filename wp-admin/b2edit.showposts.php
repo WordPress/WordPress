@@ -1,4 +1,3 @@
-<div class="wrap">
 <?php
 
 require_once('../wp-config.php');
@@ -35,8 +34,10 @@ if ($previousXstart < 0) {
 	$previousXend=$showposts;
 }
 
+ob_start();
 ?>
 
+<div class="wrap">
 <table width="100%">
   <tr>
     <td valign="top" width="200">
@@ -117,6 +118,12 @@ if ($i == "ASC")
   </tr>
 </table>
 </div>
+
+<?php
+$posts_nav_bar = ob_get_contents();
+ob_end_clean();
+echo $posts_nav_bar;
+?>
 
 <div class="wrap">
 <table width="100%">
@@ -331,68 +338,4 @@ if ($i == "ASC")
 
 </div>
 
-<div class="wrap">
-<table width="100%">
-  <tr>
-    <td valign="top" width="200">Show posts:</td>
-    <td>
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td colspan="2" align="center"><!-- show next/previous X posts -->
-            <form name="previousXposts" method="get"><?php
-if ($previousXstart > -1) {
-?>
-              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
-              <input type="hidden" name="poststart" value="<?php echo $previousXstart; ?>" />
-              <input type="hidden" name="postend" value="<?php echo $previousXend; ?>" />
-              <input type="submit" name="submitprevious" class="search" value="< Previous <?php echo $showposts ?>" /><?php
-}
-?>
-            </form>
-          </td>
-          <td>
-            <form name="nextXposts" method="get">
-              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
-              <input type="hidden" name="poststart" value="<?php echo $nextXstart; ?>" />
-              <input type="hidden" name="postend" value="<?php echo $nextXend; ?>" />
-              <input type="submit" name="submitnext" class="search" value="Next <?php echo $showposts ?> >" />
-            </form>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="200"><!-- show X first/last posts -->
-      <form name="showXfirstlastposts" method="get">
-        <input type="text" name="showposts" value="<?php echo $showposts ?>" style="width:40px;" /?>
-        <select name="order">&nbsp;<option value="DESC" <?php
-$i = $order;
-if ($i == "DESC")
-echo " selected";
-?>>last posts</option>
-<option value="ASC" <?php
-if ($i == "ASC")
-echo " selected";
-?>>first posts</option>
-        </select>&nbsp;<input type="submit" name="submitfirstlast" class="search" value="OK" />
-      </form>
-    </td>
-    <td valign="top"><!-- show post X to post X -->
-      <form name="showXfirstlastposts" method="get">
-        <input type="text" name="poststart" value="<?php echo $poststart ?>" style="width:40px;" /?>&nbsp;to&nbsp;<input type="text" name="postend" value="<?php echo $postend ?>" style="width:40px;" /?>&nbsp;<select name="order">
-          <option value="DESC" <?php
-$i = $order;
-if ($i == "DESC")
-echo " selected";
-?>>from the end</option>
-<option value="ASC" <?php
-if ($i == "ASC")
-echo " selected";
-?>>from the start</option>
-          </select>&nbsp;<input type="submit" name="submitXtoX" class="search" value="OK" />
-        </form>
-      </td>
-    </tr>
-  </table>
-</div>
+<?php echo $posts_nav_bar; ?>
