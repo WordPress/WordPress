@@ -21,9 +21,9 @@ function comments_template() {
 
 	if ( $single || $withcomments ) :
 		$req = get_settings('require_name_email');
-		$comment_author = isset($_COOKIE['comment_author_'.$cookiehash]) ? trim($_COOKIE['comment_author_'.$cookiehash]) : '';
-		$comment_author_email = isset($_COOKIE['comment_author_email_'.$cookiehash]) ? trim($_COOKIE['comment_author_email_'.$cookiehash]) : '';
-		$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim($_COOKIE['comment_author_url_'.$cookiehash]) : '';
+        $comment_author = isset($_COOKIE['comment_author_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_'.$cookiehash])) : '';
+		$comment_author_email = isset($_COOKIE['comment_author_email_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_email_'.$cookiehash])) : '';
+		$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_url_'.$cookiehash])) : '';
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
 		include(ABSPATH . 'wp-comments.php');
 	endif;

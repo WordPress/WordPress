@@ -50,7 +50,7 @@ case 'post':
 		$content = format_to_post($content);
 		$excerpt = balanceTags($_POST['excerpt']);
 		$excerpt = format_to_post($excerpt);
-		$post_title = addslashes($_POST['post_title']);
+		$post_title = $_POST['post_title'];
 		$post_categories = $_POST['post_category'];
 		if(get_settings('use_geo_positions')) {
 			$latstr = $_POST['post_latf'];
@@ -68,7 +68,7 @@ case 'post':
 		if (empty($comment_status)) $comment_status = get_settings('default_comment_status');
 		$ping_status = $_POST['ping_status'];
 		if (empty($ping_status)) $ping_status = get_settings('default_ping_status');
-		$post_password = addslashes(stripslashes($_POST['post_password']));
+		$post_password = $_POST['post_password'];
 		
 		if (empty($post_name))
 			$post_name = sanitize_title($post_title);
@@ -278,7 +278,7 @@ case 'editpost':
 		$content = format_to_post($content);
 		$excerpt = balanceTags($_POST['excerpt']);
 		$excerpt = format_to_post($excerpt);
-		$post_title = addslashes($_POST['post_title']);
+		$post_title = $_POST['post_title'];
 		if(get_settings('use_geo_positions')) {
 			$latf = floatval($_POST["post_latf"]);
 				$lonf = floatval($_POST["post_lonf"]);
@@ -301,7 +301,7 @@ case 'editpost':
 		$ping_status = $_POST['ping_status'];
 		if (empty($ping_status)) $ping_status = 'closed';
 		//if (!$_POST['ping_status']) $ping_status = get_settings('default_ping_status');
-		$post_password = addslashes($_POST['post_password']);
+		$post_password = $_POST['post_password'];
 		$post_name = sanitize_title($_POST['post_name']);
 		if (empty($post_name)) $post_name = sanitize_title($post_title);
 		$trackback = $_POST['trackback_url'];
@@ -670,9 +670,6 @@ case 'editedcomment':
 	$newcomment_author = $_POST['newcomment_author'];
 	$newcomment_author_email = $_POST['newcomment_author_email'];
 	$newcomment_author_url = $_POST['newcomment_author_url'];
-	$newcomment_author = addslashes($newcomment_author);
-	$newcomment_author_email = addslashes($newcomment_author_email);
-	$newcomment_author_url = addslashes($newcomment_author_url);
 
 	if (($user_level > 4) && (!empty($_POST['edit_date']))) {
 		$aa = $_POST['aa'];

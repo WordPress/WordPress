@@ -267,7 +267,6 @@ function balanceTags($text, $is_comment = 0) {
 
 
 function format_to_edit($content) {
-	$content = stripslashes($content);
 	$content = apply_filters('format_to_edit', $content);
 	$content = htmlspecialchars($content);
 	return $content;

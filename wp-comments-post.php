@@ -86,9 +86,9 @@ if ((get_settings('comments_notify')) && ($approved)) {
 
 do_action('comment_post', $comment_ID);
 
-setcookie('comment_author_' . $cookiehash, $author, time() + 30000000, COOKIEPATH);
-setcookie('comment_author_email_' . $cookiehash, $email, time() + 30000000, COOKIEPATH);
-setcookie('comment_author_url_' . $cookiehash, $url, time() + 30000000, COOKIEPATH);
+setcookie('comment_author_' . $cookiehash, stripslashes($author), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_email_' . $cookiehash, stripslashes($email), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_url_' . $cookiehash, stripslashes($url), time() + 30000000, COOKIEPATH);
 
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
