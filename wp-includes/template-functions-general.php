@@ -240,12 +240,12 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 
     $add_hours = intval($time_difference);
     $add_minutes = intval(60 * ($time_difference - $add_hours));
-    $wp_posts_post_date_field = "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
+    $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
     $now = current_time('mysql');
 
     if ('monthly' == $type) {
-        $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR($wp_posts_post_date_field) AS `year`, MONTH($wp_posts_post_date_field) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' GROUP BY YEAR($wp_posts_post_date_field), MONTH($wp_posts_post_date_field) ORDER BY post_date DESC" . $limit);
+        $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 $url  = get_month_link($arcresult->year,   $arcresult->month);
@@ -259,7 +259,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             }
         }
     } elseif ('daily' == $type) {
-        $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR($wp_posts_post_date_field) AS `year`, MONTH($wp_posts_post_date_field) AS `month`, DAYOFMONTH($wp_posts_post_date_field) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+        $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 $url  = get_day_link($arcresult->year, $arcresult->month, $arcresult->dayofmonth);
@@ -270,7 +270,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
         }
     } elseif ('weekly' == $type) {
 	$start_of_week = get_settings('start_of_week');
-        $arcresults = $wpdb->get_results("SELECT DISTINCT WEEK($wp_posts_post_date_field, $start_of_week) AS `week`, YEAR($wp_posts_post_date_field) AS yr, DATE_FORMAT($wp_posts_post_date_field, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+        $arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         $arc_w_last = '';
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
@@ -289,7 +289,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             }
         }
     } elseif ('postbypost' == $type) {
-        $arcresults = $wpdb->get_results("SELECT ID, $wp_posts_post_date_field, post_title FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+        $arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 if ($arcresult->post_date != '0000-00-00 00:00:00') {
@@ -323,7 +323,7 @@ function get_calendar($daylength = 1) {
     $time_difference = get_settings('time_difference');
     $add_hours = intval($time_difference);
     $add_minutes = intval(60 * ($time_difference - $add_hours));
-    $wp_posts_post_date_field = "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
+    $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
     // Let's figure out when we are
     if (!empty($monthnum) && !empty($year)) {
@@ -343,8 +343,8 @@ function get_calendar($daylength = 1) {
             $thismonth = ''.zeroise(intval(substr($m, 4, 2)), 2);
         }
     } else {
-        $thisyear = gmdate('Y', current_time('timestamp'));
-        $thismonth = gmdate('m', current_time('timestamp'));
+        $thisyear = gmdate('Y', current_time('timestamp') + $time_difference * 3600);
+        $thismonth = gmdate('m', current_time('timestamp') + $time_difference * 3600);
     }
 
     $unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
@@ -352,11 +352,11 @@ function get_calendar($daylength = 1) {
     // Get the next and previous month and year with at least one post
     $previous = $wpdb->get_row("SELECT DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
             FROM $tableposts
-            WHERE $wp_posts_post_date_field < '$thisyear-$thismonth-01'
+            WHERE post_date < '$thisyear-$thismonth-01'
             AND post_status = 'publish'
                               ORDER BY post_date DESC
                               LIMIT 1");
-    $next = $wpdb->get_row("SELECT  DISTINCT MONTH($wp_posts_post_date_field) AS month, YEAR($wp_posts_post_date_field) AS year
+    $next = $wpdb->get_row("SELECT  DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
             FROM $tableposts
             WHERE post_date >  '$thisyear-$thismonth-01'
             AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
@@ -405,8 +405,8 @@ function get_calendar($daylength = 1) {
     <tr>';
 
     // Get days with posts
-    $dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH($wp_posts_post_date_field)
-            FROM $tableposts WHERE MONTH($wp_posts_post_date_field) = $thismonth
+    $dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
+            FROM $tableposts WHERE MONTH(post_date) = $thismonth
             AND YEAR(post_date) = $thisyear
             AND post_status = 'publish'
             AND post_date < '" . current_time('mysql') . '\'', ARRAY_N);
@@ -429,10 +429,10 @@ function get_calendar($daylength = 1) {
     }
 
     $ak_titles_for_day = array();
-    $ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH($wp_posts_post_date_field) as dom "
+    $ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH(post_date) as dom "
                                          ."FROM $tableposts "
-                                         ."WHERE YEAR($wp_posts_post_date_field) = '$thisyear' "
-                                         ."AND MONTH($wp_posts_post_date_field) = '$thismonth' "
+                                         ."WHERE YEAR(post_date) = '$thisyear' "
+                                         ."AND MONTH(post_date) = '$thismonth' "
                                          ."AND post_date < '".current_time('mysql')."' "
                                          ."AND post_status = 'publish'"
                                         );
@@ -501,7 +501,7 @@ function allowed_tags() {
 
 function the_date_xml() {
     global $post;
-    echo mysql2date('Y-m-d', get_date_from_gmt($post->post_date));
+    echo mysql2date('Y-m-d', $post->post_date);
     //echo ""+$post->post_date;
 }
 
@@ -511,9 +511,9 @@ function the_date($d='', $before='', $after='', $echo = true) {
     if ($day != $previousday) {
         $the_date .= $before;
         if ($d=='') {
-	    $the_date .= mysql2date(get_settings('date_format'), get_date_from_gmt($post->post_date));
+	    $the_date .= mysql2date(get_settings('date_format'), $post->post_date);
         } else {
-	    $the_date .= mysql2date($d, get_date_from_gmt($post->post_date));
+	    $the_date .= mysql2date($d, $post->post_date);
         }
         $the_date .= $after;
         $previousday = $day;
@@ -529,9 +529,9 @@ function the_date($d='', $before='', $after='', $echo = true) {
 function the_time($d='', $echo = true) {
     global $id, $post;
     if ($d=='') {
-        $the_time = mysql2date(get_settings('time_format'), get_date_from_gmt($post->post_date));
+        $the_time = mysql2date(get_settings('time_format'), $post->post_date);
     } else {
-        $the_time = mysql2date($d, get_date_from_gmt($post->post_date));
+        $the_time = mysql2date($d, $post->post_date);
     }
     $the_time = apply_filters('the_time', $the_time);
     if ($echo) {
@@ -543,7 +543,7 @@ function the_time($d='', $echo = true) {
 
 function the_weekday() {
     global $weekday, $id, $post;
-    $the_weekday = $weekday[mysql2date('w', get_date_from_gmt($post->post_date))];
+    $the_weekday = $weekday[mysql2date('w', $post->post_date)];
     $the_weekday = apply_filters('the_weekday', $the_weekday);
     echo $the_weekday;
 }
@@ -553,7 +553,7 @@ function the_weekday_date($before='',$after='') {
     $the_weekday_date = '';
     if ($day != $previousweekday) {
         $the_weekday_date .= $before;
-        $the_weekday_date .= $weekday[mysql2date('w', get_date_from_gmt($post->post_date))];
+        $the_weekday_date .= $weekday[mysql2date('w', $post->post_date)];
         $the_weekday_date .= $after;
         $previousweekday = $day;
     }
