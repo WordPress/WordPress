@@ -248,6 +248,7 @@ switch($action) {
         }
 			$post_ID = $HTTP_POST_VARS['post_ID'];
 			$post_categories = $HTTP_POST_VARS['post_category'];
+			if (!$post_categories) $post_categories[] = 1;
 			$post_autobr = intval($HTTP_POST_VARS['post_autobr']);
 			$content = balanceTags($HTTP_POST_VARS['content']);
 			$content = format_to_post($content);
