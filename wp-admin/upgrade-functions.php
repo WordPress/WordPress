@@ -197,6 +197,16 @@ function upgrade_130() {
 	$wpdb->query("UPDATE $wpdb->comments SET comment_type='trackback', comment_content = REPLACE(comment_content, '<trackback />', '') WHERE comment_content LIKE '<trackback />%'");
 	$wpdb->query("UPDATE $wpdb->comments SET comment_type='pingback', comment_content = REPLACE(comment_content, '<pingback />', '') WHERE comment_content LIKE '<pingback />%'");
 
+	// Some versions have multiple duplicate option_name rows with the same values
+	$options = $wpdb->get_results("SELECT option_name, COUNT(option_name) AS dupes FROM `$wpdb->options` GROUP BY option_name");
+	foreach ( $options as $option ) {
+		if ( 1 != $option->dupes ) { // Could this be done in the query?
+			$limit = $option->dupes - 1;
+			$dupe_ids = $wpdb->get_col("SELECT option_id FROM $wpdb->options WHERE option_name = '$option->option_name' LIMIT $limit");
+			$dupe_ids = join($dupe_ids, ',');
+			$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($dupe_ids)");
+		}
+	}
 }
 
 // The functions we use to actually do stuff

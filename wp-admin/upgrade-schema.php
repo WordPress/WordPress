@@ -78,7 +78,8 @@ CREATE TABLE $wpdb->options (
   option_description tinytext NOT NULL,
   option_admin_level int(11) NOT NULL default '1',
   autoload enum('yes','no') NOT NULL default 'yes',
-  PRIMARY KEY  (option_id,blog_id,option_name)
+  PRIMARY KEY  (option_id,blog_id,option_name),
+  KEY option_name (option_name)
 );
 CREATE TABLE $wpdb->post2cat (
   rel_id int(11) NOT NULL auto_increment,
