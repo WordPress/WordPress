@@ -32,20 +32,6 @@ include_once("../wp-links/links.php");
 
 $title = 'Import Blogroll';
 
-function mysql_doh($msg,$sql,$error) {
-	echo "<p>$msg</p>";
-	echo "<p>query:<br />$sql</p>";
-	echo "<p>error:<br />$error</p>";
-	die();
-}
-
-$connexion = mysql_connect($server, $loginsql, $passsql) or die("<h1>Check your b2config.php file!</h1>Can't connect to the database<br />".mysql_error());
-$dbconnexion = mysql_select_db($base, $connexion);
-
-if (!$dbconnexion) {
-	echo mysql_error();
-	die();
-}
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 ?>
@@ -56,42 +42,41 @@ switch ($step) {
         $standalone = 0;
         include_once('b2header.php');
         if ($user_level < $minadminlevel)
-            die ("Cheatin' uh ?");
+            die ("Cheatin&#8217; uh?");
 ?>
 <div class="wrap">
-    <table width="75%" cellpadding="5" cellspacing="0" border="0">
-    <tr><td>
-    <h3>On this page you can import your blogroll.</h3>
-    <p>You will need your unique blogrolling.com Id.</p>
-    <p>First, go to <a href="http://www.blogrolling.com">Blogrolling.com</a>
-    and sign in. Once you've done that, click on <b>Get Code</b>, and then
-    look for the <b><abbr title="Outline Processor Markup Language">OPML</abbr>
-    code</b>.</p>
 
-    <p>Select that and copy it into the box below.</p>
-    <form name="blogroll" action="links.import.php" method="GET">
+    <h3>On this page you can import your blogroll.</h3>
+	<form name="blogroll" action="links.import.php" method="get">
+	<ol>
+    <li>Go to <a href="http://www.blogrolling.com">Blogrolling.com</a>
+    and sign in. Once you've done that, click on <strong>Get Code</strong>, and then
+    look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
+    code</strong>.</li>
+
+    <li>Select that and copy it into the box below.<br />
+    
        <input type="hidden" name="step" value="1" />
        Your OPML code: <input type="text" name="opml_url" size="65" />
-    <p>Please select a category for these links.</p>
+	   </li>
+    <li>Now select a category you want to put these links in.<br />
+	Category: <select name="cat_id">
 <?php
-        $query = "SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id";
-        $result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
+	$categories = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
+	foreach ($categories as $category) {
 ?>
-    <p>Select category: <select name="cat_id">
+    <option value="<?php echo $category->cat_id; ?>"><?php echo $category->cat_id.': '.$category->cat_name; ?></option>
 <?php
-        while($row = mysql_fetch_object($result)) {
-?>
-    <option value="<?php echo $row->cat_id; ?>"><?php echo $row->cat_id.': '.$row->cat_name; ?></option>
-<?php
-        } // end while
+        } // end foreach
 ?>
     </select>
-    <p>Finally, click on the 'Import' button and we're off!</p>
-        <input type="submit" name="submit" value="Import" />
+	
+	</li>
+
+    <li><input type="submit" name="submit" value="Import!" /></li>
+	</ol>
     </form>
-        </td>
-      </tr>
-    </table>
+
 </div>
 <?php
                 break;
@@ -104,8 +89,7 @@ switch ($step) {
                     die ("Cheatin' uh ?");
 ?>
 <div class="wrap">
-    <table width="75%" cellpadding="5" cellspacing="0" border="0">
-    <tr><td>
+
      <h3>Importing...</h3>
 <?php
                 $cat_id = $HTTP_GET_VARS['cat_id'];
@@ -114,7 +98,7 @@ switch ($step) {
                 }
                 $opml_url = $HTTP_GET_VARS['opml_url'];
                 if ($opml_url == '') {
-                    echo "<p>You need to supply your OLPML url. Press back on your browser and try again</p>\n";
+                    echo "<p>You need to supply your OPML url. Press back on your browser and try again</p>\n";
                 }
                 else
                 {
@@ -126,22 +110,23 @@ switch ($step) {
                     $titles = $items[4];
                     $targets = $items[5];
                     $link_count = count($names);
-                    for ($i = 0; $i < count($names); $i++) {
+                    for ($i = 0; $i < $link_count; $i++) {
                         if ('Last' == substr($titles[$i], 0, 4))
                             $titles[$i] = '';
+						if ('http' == substr($titles[$i], 0, 4))
+                            $titles[$i] = '';
                         //echo "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner) VALUES('{$urls[$i]}', '{$names[$i]}', '{$targets[$i]}', $cat_id, '{$titles[$i]}', \$user_ID)<br />\n";
-                        $query = "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner)\n " .
-                                 " VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '{$targets[$i]}', $cat_id, '".addslashes($titles[$i])."', $user_ID)\n";
-                        $result = mysql_query($query) or die("Couldn't insert link. Sorry".mysql_error());
+                        $query = "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner)
+						VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '{$targets[$i]}', $cat_id, '".addslashes($titles[$i])."', $user_ID)\n";
+                        $result = $wpdb->query($query);
+						echo "<p>Inserted <strong>{$names[$i]}</strong></p>";
                     }
 ?>
-     <p>Inserted <?php echo $link_count ?> links into category <?php echo $cat_id; ?>.</p>
+     <p>Inserted <?php echo $link_count ?> links into category <?php echo $cat_id; ?>. All done! Go <a href="linkmanager.php">manage those links</a>.</p>
 <?php
                 } // end else got url
 ?>
-        </td>
-      </tr>
-    </table>
+
 </div>
 <?php
                 break;
