@@ -140,8 +140,8 @@ if ($action != 'editcomment') {
 ?>
 <br />
 <fieldset id="post_lat_lon">
-<label for="post_latf"><?php _e('Latitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf" />&nbsp;
-<label for="post_lonf"><?php _e('Longitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf" />&nbsp; <a href="http://www.geourl.org/resources.html" rel="external"><?php _e('click for Geo Info') ?></a>
+<label for="post_latf"><?php _e('Latitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf" id="post_latf" />&nbsp;
+<label for="post_lonf"><?php _e('Longitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf" id="post_lonf" />&nbsp; <a href="http://www.geourl.org/resources.html" rel="external"><?php _e('click for Geo Info') ?></a>
 </fieldset>
 <br />
 <?php
