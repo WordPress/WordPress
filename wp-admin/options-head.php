@@ -23,9 +23,7 @@ $submenu = '
 	<li><a href="options-reading.php">' . __('Reading') . '</a></li>
 	<li><a href="options-discussion.php">' . __('Discussion') . '</a></li>
 	<li><a href="options-misc.php">' . __('Miscellaneous') . '</a></li>
-	<li><a href="options-permalink.php">' . __('Permalinks') . '</a></li>' . 
-	$groups .
-    '</ul>';
+	<li><a href="options-permalink.php">' . __('Permalinks') . '</a></li>';
 
 $sublines = split("\n", $submenu);
 $_SERVER['REQUEST_URI'] = str_replace('?updated=true', '', $_SERVER['REQUEST_URI']);
@@ -39,6 +37,8 @@ foreach ($sublines as $subline) {
 	}
 	echo $subline."\n";
 }
+echo  $groups .
+    '</ul>';
 ?>
   
 
