@@ -11,6 +11,7 @@
 # [kses strips evil scripts!]
 
 // You could override this in your my-hacks.php file
+if (defined('CUSTOM_TAGS') && !CUSTOM_TAGS) { // Let's people override the allowed tags in their my-hacks.php
 $allowedtags = array(
 				'a' => array(
 					'href' => array(),
@@ -40,7 +41,7 @@ $allowedtags = array(
 //				'u' => array(),
 //				'ul' => array(),
 				);
-
+}
 function wp_kses($string, $allowed_html, $allowed_protocols =
                array('http', 'https', 'ftp', 'news', 'nntp', 'telnet',
                      'gopher', 'mailto'))
