@@ -35,7 +35,7 @@ header('Content-type: text/xml', true);
 <?php if (get_settings('rss_use_excerpt')) : ?>
 		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
 <?php else : ?>
-		<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
+		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 <?php endif; ?>
 		

@@ -13,9 +13,9 @@ header('Content-type: text/xml', true);
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="0.92">
     <channel>
-        <title><?php bloginfo_rss("name") ?></title>
-        <link><?php bloginfo_rss("url") ?></link>
-        <description><?php bloginfo_rss("description") ?></description>
+        <title><?php bloginfo_rss('name') ?></title>
+        <link><?php bloginfo_rss('url') ?></link>
+        <description><?php bloginfo_rss('description') ?></description>
         <lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT')); ?></lastBuildDate>
         <docs>http://backend.userland.com/rss092</docs>
 
@@ -29,7 +29,7 @@ header('Content-type: text/xml', true);
 $more = 1; 
 if (get_settings('rss_use_excerpt')) {
 ?>
-            <description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?></description>
+            <description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
 <?php
 } else { // use content
 ?>
