@@ -568,7 +568,7 @@ function profile($user_login) {
 
 function dropdown_categories($blog_ID=1, $default=1) {
 	global $postdata,$tablecategories,$mode,$querycount, $wpdb;
-	$query="SELECT * FROM $tablecategories";
+	$query="SELECT * FROM $tablecategories ORDER BY cat_name";
 	$results = $wpdb->get_results($query);
 	++$querycount;
 	$width = ($mode=="sidebar") ? "100%" : "170px";
