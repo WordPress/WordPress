@@ -839,4 +839,73 @@ function update_recently_edited($file) {
 	update_option('recently_edited', $oldfiles);
 }
 
+function get_plugin_data($plugin_file) {
+	$plugin_data = implode('', file($plugin_file));
+	preg_match("|Plugin Name:(.*)|i", $plugin_data, $plugin_name);
+	preg_match("|Plugin URI:(.*)|i", $plugin_data, $plugin_uri);
+	preg_match("|Description:(.*)|i", $plugin_data, $description);
+	preg_match("|Author:(.*)|i", $plugin_data, $author_name);
+	preg_match("|Author URI:(.*)|i", $plugin_data, $author_uri);
+	if ( preg_match("|Version:(.*)|i", $plugin_data, $version) )
+		$version = $version[1];
+	else
+		$version ='';
+
+	$description = wptexturize($description[1]);
+
+	$name = $plugin_name[1];
+	$name = trim($name);
+	$plugin = $name;
+	if ('' != $plugin_uri[1] && '' != $name) {
+		$plugin = __("<a href='{$plugin_uri[1]}' title='Visit plugin homepage'>{$plugin}</a>");
+	}
+
+	if ('' == $author_uri[1]) {
+		$author = $author_name[1];
+	} else {
+		$author = __("<a href='{$author_uri[1]}' title='Visit author homepage'>{$author_name[1]}</a>");
+	}
+
+	return array('Name' => $name, 'Title' => $plugin, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1]);
+}
+
+function get_plugins() {
+	global $wp_plugins;
+
+	if (isset($wp_plugins)) {
+		return $wp_plugins;
+	}
+
+	$wp_plugins = array();
+	$plugin_loc = 'wp-content/plugins';
+	$plugin_root = ABSPATH . $plugin_loc;
+
+	// Files in wp-content/plugins directory
+	$plugins_dir = @ dir($plugin_root);
+	if ($plugins_dir) {
+		while(($file = $plugins_dir->read()) !== false) {
+			if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) ) 
+				$plugin_files[] = $file;
+		}
+	}
+
+	if (!$plugins_dir || !$plugin_files) {
+		return $wp_plugins;
+	}
+
+	sort($plugin_files);
+
+	foreach($plugin_files as $plugin_file) {
+		$plugin_data = get_plugin_data("$plugin_root/$plugin_file");
+	  
+		if (empty($plugin_data['Name'])) {
+			continue;
+		}
+
+		$wp_plugins[basename($plugin_file)] = $plugin_data;
+	}
+
+	return $wp_plugins;
+}
+
 ?>
