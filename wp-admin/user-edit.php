@@ -107,7 +107,7 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Posts:') ?></th>
-		<td><?php echo get_usernumposts($edituser->user_id); ?></td>
+		<td><?php echo get_usernumposts($edituser->ID); ?></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('First name:') ?></th>
