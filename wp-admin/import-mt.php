@@ -223,6 +223,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$comment = preg_replace('|(\n?DATE:.*)|', '', $comment);
 		
 			$comment_content = addslashes(trim($comment));
+			$comment_content = str_replace('-----', '', $comment_content);
 			
 			// Check if it's already there
 			if (!$wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_date = '$comment_date' AND comment_content = '$comment_content'")) {
