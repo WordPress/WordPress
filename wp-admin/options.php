@@ -74,7 +74,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
                 $old_val = stripslashes($option->option_value);
-                if(isset($_POST[$option->option_name])) $new_val = $_POST[$option->option_name];
+                $new_val = $_POST[$option->option_name];
 				if (!$new_val) {
 					if (3 == $option->option_type)
 						$new_val = '';
