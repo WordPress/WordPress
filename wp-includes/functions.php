@@ -989,89 +989,84 @@ function get_posts($args) {
 }
 
 function query_posts($query) {
-    global $wp_query;
-
-    return $wp_query->query($query);
+	global $wp_query;
+	return $wp_query->query($query);
 }
 
 function update_post_caches($posts) {
-    global $category_cache, $comment_count_cache, $post_meta_cache;
-    global $wpdb;
+	global $category_cache, $comment_count_cache, $post_meta_cache;
+	global $wpdb;
+	
+	// No point in doing all this work if we didn't match any posts.
+	if ( !$posts )
+		return;
 
-    // No point in doing all this work if we didn't match any posts.
-    if (! $posts) {
-        return;
-    }
+	// Get the categories for all the posts
+	foreach ($posts as $post)
+		$post_id_list[] = $post->ID;
+	$post_id_list = implode(',', $post_id_list);
 
-    // Get the categories for all the posts
-    foreach ($posts as $post)
-        $post_id_list[] = $post->ID;
-    $post_id_list = implode(',', $post_id_list);
-
-    $dogs = $wpdb->get_results("SELECT DISTINCT
-        ID, category_id, cat_name, category_nicename, category_description, category_parent
-        FROM $wpdb->categories, $wpdb->post2cat, $wpdb->posts
-        WHERE category_id = cat_ID AND post_id = ID AND post_id IN ($post_id_list)");
-        
-    if (!empty($dogs)) {
-        foreach ($dogs as $catt) {
-					$category_cache[$catt->ID][$catt->category_id] = $catt;
-        }
-    }
-
-    // Do the same for comment numbers
-    $comment_counts = $wpdb->get_results("SELECT ID, COUNT( comment_ID ) AS ccount
-        FROM $wpdb->posts
-        LEFT JOIN $wpdb->comments ON ( comment_post_ID = ID  AND comment_approved =  '1')
-        WHERE post_status =  'publish' AND ID IN ($post_id_list)
-        GROUP BY ID");
+	$dogs = $wpdb->get_results("SELECT DISTINCT
+	post_id, category_id, cat_name, category_nicename, category_description, category_parent
+	FROM $wpdb->categories, $wpdb->post2cat
+	WHERE category_id = cat_ID AND post_id IN ($post_id_list)");
     
-    if ($comment_counts) {
-        foreach ($comment_counts as $comment_count) {
-            $comment_count_cache["$comment_count->ID"] = $comment_count->ccount;
-        }
-    }
+	if ( !empty($dogs) ) {
+		foreach ($dogs as $catt) {
+			$category_cache[$catt->post_id][$catt->category_id] = $catt;
+		}
+	}
+
+	// Do the same for comment numbers
+	$comment_counts = $wpdb->get_results("SELECT ID, COUNT( comment_ID ) AS ccount
+	FROM $wpdb->posts
+	LEFT JOIN $wpdb->comments ON ( comment_post_ID = ID  AND comment_approved =  '1')
+	WHERE post_status =  'publish' AND ID IN ($post_id_list)
+	GROUP BY ID");
+	
+	if ($comment_counts) {
+		foreach ($comment_counts as $comment_count)
+			$comment_count_cache["$comment_count->ID"] = $comment_count->ccount;
+	}
 
     // Get post-meta info
-    if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta  WHERE post_id IN($post_id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
-		
-        // Change from flat structure to hierarchical:
-        $post_meta_cache = array();
-        foreach ($meta_list as $metarow) {
-            $mpid = $metarow['post_id'];
-            $mkey = $metarow['meta_key'];
-            $mval = $metarow['meta_value'];
-			
-            // Force subkeys to be array type:
-            if (!isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]))
-                $post_meta_cache[$mpid] = array();
-            if (!isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]))
-                $post_meta_cache[$mpid]["$mkey"] = array();
-			
-            // Add a value to the current pid/key:
-            $post_meta_cache[$mpid][$mkey][] = $mval;
-        }
-    }
+	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta  WHERE post_id IN($post_id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
+		// Change from flat structure to hierarchical:
+		$post_meta_cache = array();
+		foreach ($meta_list as $metarow) {
+			$mpid = $metarow['post_id'];
+			$mkey = $metarow['meta_key'];
+			$mval = $metarow['meta_value'];
+
+			// Force subkeys to be array type:
+			if (!isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]))
+				$post_meta_cache[$mpid] = array();
+			if (!isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]))
+				$post_meta_cache[$mpid]["$mkey"] = array();
+
+			// Add a value to the current pid/key:
+			$post_meta_cache[$mpid][$mkey][] = $mval;
+		}
+	}
 }
 
 function update_category_cache() {
-    global $cache_categories, $wpdb;
-    $dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
-    foreach ($dogs as $catt) {
-        $cache_categories[$catt->cat_ID] = $catt;
-    }
+	global $cache_categories, $wpdb;
+	$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
+	foreach ($dogs as $catt)
+		$cache_categories[$catt->cat_ID] = $catt;
 }
 
 function update_user_cache() {
-    global $cache_userdata, $wpdb;
-
-    if ( $users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level > 0") ) :
+	global $cache_userdata, $wpdb;
+	
+	if ( $users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level > 0") ) :
 		foreach ($users as $user) :
 			$cache_userdata[$user->ID] = $user;
 			$cache_userdata[$user->user_login] =& $cache_userdata[$user->ID];
 		endforeach;
 		return true;
-	else: 
+	else : 
 		return false;
 	endif;
 }

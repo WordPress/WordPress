@@ -3,27 +3,25 @@
 function get_the_category($id = false) {
     global $post, $wpdb, $category_cache;
 
-    if (! $id) {
-        $id = $post->ID;
-    }
+	if ( !$id )
+		$id = $post->ID;
 
-    if ($category_cache[$id]) {
-			 $categories = $category_cache[$id];
+	if ( $category_cache[$id] ) {
+		$categories = $category_cache[$id];
     } else {
-        $categories = $wpdb->get_results("
-            SELECT category_id, cat_name, category_nicename, category_description, category_parent
-            FROM  $wpdb->categories, $wpdb->post2cat
-            WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$id'
-            ");
-    
+		$categories = $wpdb->get_results("
+		SELECT category_id, cat_name, category_nicename, category_description, category_parent
+		FROM  $wpdb->categories, $wpdb->post2cat
+		WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$id'
+		");
     }
 
-		if (!empty($categories))
-			sort($categories);
- 		else
- 			$categories = array();
+	if (!empty($categories))
+		sort($categories);
+	else
+		$categories = array();
 
-		return $categories;
+	return $categories;
 }
 
 function get_category_link($category_id) {
