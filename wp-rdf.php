@@ -1,42 +1,20 @@
 <?php /* RDF 1.0 generator, original version by garym@teledyn.com */
 $blog = 1; // enter your blog's ID
-$doing_rss=1;
-header('Content-type: text/xml');
-
+$doing_rss = 1;
+header('Content-type: text/xml', true);
 include('blog.header.php');
 
-// Handle Conditional GET
-
 // Get the time of the most recent article
-$sql = "SELECT max(post_date) FROM $tableposts";
-
-$maxdate = $wpdb->get_var($sql);
-++$querycount;
+$maxdate = $wpdb->get_var("SELECT max(post_date) FROM $tableposts");
 $unixtime = strtotime($maxdate);
 
 // format timestamp for Last-Modified header
-$clast = gmdate("D, d M Y H:i:s \G\M\T",$unixtime);
-$cetag = md5($last);
-
-$slast = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-$setag = $_SERVER['HTTP_IF_NONE_MATCH'];
+$clast = gmdate("D, d M Y H:i:s \G\M\T", $unixtime);
+$cetag = (isset($clast)) ? md5($clast) : '';
 
 // send it in a Last-Modified header
 header("Last-Modified: " . $clast, true);
 header("Etag: " . $cetag, true);
-
-// compare it to aggregator's If-Modified-Since and If-None-Match headers
-// if they match, send a 304 and die
-
-// This logic says that if only one header is provided, just use that one,
-// but if both headers exist, they *both* must match up with the locally
-// generated values.
-//if (($slast?($slast == $clast):true) && ($setag?($setag == $cetag):true)){
-if (($slast && $setag)?(($slast == $clast) && ($setag == $cetag)):(($slast == $clast) || ($setag == $cetag))) { 
-	header("HTTP/1.1 304 Not Modified");
-	echo "\r\n\r\n";
-	exit;
-}
 
 add_filter('the_content', 'trim');
 if (!isset($rss_language)) { $rss_language = 'en'; }

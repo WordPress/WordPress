@@ -2,46 +2,20 @@
          In every template you do, you got to copy them before the CafeLog 'loop' */
 $blog = 1; // enter your blog's ID
 $doing_rss = 1;
-header('Content-type: text/xml',true);
+header('Content-type: text/xml', true);
 include('blog.header.php');
-
-// Handle Conditional GET
 
 // Get the time of the most recent article
 $maxdate = $wpdb->get_var("SELECT max(post_date) FROM $tableposts");
-++$querycount;
 $unixtime = strtotime($maxdate);
 
 // format timestamp for Last-Modified header
 $clast = gmdate("D, d M Y H:i:s \G\M\T", $unixtime);
-$cetag = (isset($last)) ? md5($last) : '';
-
-$slast = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : '' ;
-$setag = (isset($_SERVER['HTTP_IF_NONE_MATCH'])) ? $_SERVER['HTTP_IF_NONE_MATCH'] : '';
+$cetag = (isset($clast)) ? md5($clast) : '';
 
 // send it in a Last-Modified header
 header("Last-Modified: " . $clast, true);
 header("Etag: " . $cetag, true);
-
-// compare it to aggregator's If-Modified-Since and If-None-Match headers
-// if they match, send a 304 and die
-
-// This logic says that if only one header is provided, just use that one,
-// but if both headers exist, they *both* must match up with the locally
-// generated values.
-//if (($slast?($slast == $clast):true) && ($setag?($setag == $cetag):true)){
-if (($slast != '') && ($setag != '')) {
-    if (($slast == $clast) && ($setag == $cetag)) {
-        header("HTTP/1.1 304 Not Modified");
-        echo "\r\n\r\n";
-        exit;
-    } else if (($slast == $clast)
-               || ($setag == $cetag)) {
-        header("HTTP/1.1 304 Not Modified");
-        echo "\r\n\r\n";
-        exit;
-    }
-}
 
 if (!isset($rss_language)) { $rss_language = 'en'; }
 if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
