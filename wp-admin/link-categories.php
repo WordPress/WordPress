@@ -87,7 +87,6 @@ switch ($action) {
 
     $cat_id = $_GET['cat_id'];
     $cat_name=get_linkcatname($cat_id);
-    $cat_name=addslashes($cat_name);
 
     if ($cat_id=="1")
         die(sprintf(__("Can't delete the <strong>%s</strong> link category: this is the default one"), $cat_name));
@@ -132,7 +131,7 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Name:') ?></th>
-	<td width="67%"><input name="cat_name" type="text" value="<?php echo stripslashes($row->cat_name)?>" size="30" /></td>
+	<td width="67%"><input name="cat_name" type="text" value="<?php echo $row->cat_name?>" size="30" /></td>
 </tr>
 <tr>
 	<th scope="row"><?php _e('Show:') ?></th>
@@ -190,15 +189,15 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Before Link:') ?></th>
-	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo htmlspecialchars(stripslashes($row->text_before_link))?>" /></td>
+	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo htmlspecialchars($row->text_before_link)?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Between Link and Description:') ?></th>
-<td><input type="text" name="text_after_link" size="45" value="<?php echo htmlspecialchars(stripslashes($row->text_after_link))?>" /></td>
+<td><input type="text" name="text_after_link" size="45" value="<?php echo htmlspecialchars($row->text_after_link)?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('After Link:') ?></th>
-<td><input type="text" name="text_after_all" size="45" value="<?php echo htmlspecialchars(stripslashes($row->text_after_all))?>"/></td>
+<td><input type="text" name="text_after_all" size="45" value="<?php echo htmlspecialchars($row->text_after_all)?>"/></td>
 </tr>
 </table>
 </fieldset>
@@ -223,7 +222,7 @@ switch ($action) {
 
     $cat_id=$_POST["cat_id"];
 
-    $cat_name=addslashes(stripslashes($_POST["cat_name"]));
+    $cat_name= $_POST["cat_name"];
     $auto_toggle = $_POST["auto_toggle"];
     if ($auto_toggle != 'Y') {
         $auto_toggle = 'N';
@@ -333,7 +332,7 @@ foreach ($results as $row) {
     $style = ($i % 2) ? ' class="alternate"' : '';
 ?>
               <tr valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
-                <td><?php echo stripslashes($row->cat_name)?></td>
+                <td><?php echo $row->cat_name?></td>
 				<td ><?php echo $row->cat_id?></td>
                 <td><?php echo $row->auto_toggle?></td>
                 <td><?php echo $row->show_images?></td>

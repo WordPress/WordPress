@@ -312,16 +312,16 @@ switch ($action) {
 	WHERE link_id = $link_id");
 
     if ($row) {
-      $link_url = stripslashes($row->link_url);
-      $link_name = stripslashes($row->link_name);
+      $link_url = $row->link_url;
+      $link_name = $row->link_name;
       $link_image = $row->link_image;
       $link_target = $row->link_target;
       $link_category = $row->link_category;
-      $link_description = stripslashes($row->link_description);
+      $link_description = $row->link_description;
       $link_visible = $row->link_visible;
       $link_rating = $row->link_rating;
-      $link_rel = stripslashes($row->link_rel);
-      $link_notes = stripslashes($row->link_notes);
+      $link_rel = $row->link_rel;
+      $link_notes = $row->link_notes;
 	  $link_rss_uri = $row->link_rss;
     }
 
@@ -690,17 +690,13 @@ function checkAll(form)
     $links = $wpdb->get_results($sql);
     if ($links) {
         foreach ($links as $link) {
-            $short_url = str_replace('http://', '', stripslashes($link->link_url));
+            $short_url = str_replace('http://', '', $link->link_url);
             $short_url = str_replace('www.', '', $short_url);
             if ('/' == substr($short_url, -1))
                 $short_url = substr($short_url, 0, -1);
             if (strlen($short_url) > 35)
                 $short_url =  substr($short_url, 0, 32).'...';
 
-            $link->link_name = stripslashes($link->link_name);
-            $link->category = stripslashes($link->category);
-            $link->link_rel = stripslashes($link->link_rel);
-            $link->link_description = stripslashes($link->link_description);
             $image = ($link->link_image != null) ? __('Yes') : __('No');
             $visible = ($link->link_visible == 'Y') ? __('Yes') : __('No');
             ++$i;

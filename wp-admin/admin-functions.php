@@ -80,7 +80,7 @@ function get_nested_categories($default = 0, $parent = 0) {
    $result[$cat]['children'] = get_nested_categories($default, $cat);
    $result[$cat]['cat_ID'] = $cat;
    $result[$cat]['checked'] = in_array($cat, $checked_categories);
-   $result[$cat]['cat_name'] = stripslashes(get_the_category_by_ID($cat));
+   $result[$cat]['cat_name'] = get_the_category_by_ID($cat);
  }
 
  return $result;

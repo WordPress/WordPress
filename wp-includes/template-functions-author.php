@@ -72,7 +72,7 @@ function the_author_posts() {
 function the_author_posts_link($idmode='') {
     global $id, $authordata;
 
-    echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), htmlspecialchars(the_author($idmode, false))) . '">' . stripslashes(the_author($idmode, false)) . '</a>';
+    echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), htmlspecialchars(the_author($idmode, false))) . '">' . the_author($idmode, false) . '</a>';
 }
 
 
@@ -143,7 +143,7 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
         if ($posts == 0) {
             if (! $hide_empty) echo $name;
         } else {
-            $link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="' . sprintf(__("Posts by %s"), htmlspecialchars($author->user_nickname)) . '">' . stripslashes($name) . '</a>';
+            $link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="' . sprintf(__("Posts by %s"), htmlspecialchars($author->user_nickname)) . '">' . $name . '</a>';
 
             if ( (! empty($feed_image)) || (! empty($feed)) ) {
                 
@@ -156,9 +156,9 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
                 $link .= '<a href="' . get_author_rss_link(0, $author->ID, $author->user_nicename)  . '"';
 
                 if (! empty($feed)) {
-                    $title =  ' title="' . stripslashes($feed) . '"';
-                    $alt = ' alt="' . stripslashes($feed) . '"';
-                    $name = stripslashes($feed);
+                    $title =  ' title="' . $feed . '"';
+                    $alt = ' alt="' . $feed . '"';
+                    $name = $feed;
                     $link .= $title;
                 }
 

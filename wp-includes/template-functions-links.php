@@ -255,7 +255,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
         if ($lastpost) {
             $string = '<a href="'.get_permalink($lastpost->ID).'">'.$previous;
             if ($title == 'yes') {
-                $string .= wptexturize(stripslashes($lastpost->post_title));
+                $string .= wptexturize($lastpost->post_title);
             }
             $string .= '</a>';
             $format = str_replace('%', $string, $format);
@@ -293,7 +293,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
         if ($nextpost) {
             $string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
             if ($title=='yes') {
-                $string .= wptexturize(stripslashes($nextpost->post_title));
+                $string .= wptexturize($nextpost->post_title);
             }
             $string .= '</a>';
             $format = str_replace('%', $string, $format);

@@ -176,14 +176,14 @@ function get_links($category = -1, $before = '', $after = '<br />',
         }
         $the_link = '#';
         if (($row->link_url != null) && ($row->link_url != '')) {
-            $the_link = htmlspecialchars(stripslashes($row->link_url));
+            $the_link = htmlspecialchars($row->link_url);
         }
-        $rel = stripslashes($row->link_rel);
+        $rel = $row->link_rel;
         if ($rel != '') {
             $rel = " rel='$rel'";
         }
-        $desc = htmlspecialchars(stripslashes($row->link_description), ENT_QUOTES);
-        $name = htmlspecialchars(stripslashes($row->link_name), ENT_QUOTES);
+        $desc = htmlspecialchars($row->link_description, ENT_QUOTES);
+        $name = htmlspecialchars($row->link_name, ENT_QUOTES);
 
         $title = $desc;
 
@@ -273,7 +273,7 @@ function get_links($category = -1, $before = '', $after = '<br />',
  ** Use this like:
  ** $links = get_linkobjectsbyname('fred');
  ** foreach ($links as $link) {
- **   echo '<li>'.stripslashes($link->link_name).'</li>';
+ **   echo '<li>'.$link->link_name.'</li>';
  ** }
  **/
 function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit = -1) {
@@ -350,10 +350,10 @@ function get_linkobjects($category = -1, $orderby = 'name', $limit = -1) {
     $results = $wpdb->get_results($sql);
     if ($results) {
         foreach ($results as $result) {
-            $result->link_url         = stripslashes($result->link_url);
-            $result->link_name        = stripslashes($result->link_name);
-            $result->link_description = stripslashes($result->link_description);
-            $result->link_notes       = stripslashes($result->link_notes);
+            $result->link_url         = $result->link_url;
+            $result->link_name        = $result->link_name;
+            $result->link_description = $result->link_description;
+            $result->link_notes       = $result->link_notes;
             $newresults[] = $result;
         }
     }
@@ -464,7 +464,7 @@ function get_linkcatname($id = 0) {
     if ('' != $id) {
         $cat_name = $wpdb->get_var("SELECT cat_name FROM $wpdb->linkcategories WHERE cat_id=$id");
     }
-    return stripslashes($cat_name);
+    return $cat_name;
 }
 
 /** function get_get_autotoggle()
@@ -559,7 +559,7 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 			$orderby = (bool_from_yn($cat['sort_desc'])?'_':'') . $orderby;
 
 			// Display the category name
-			echo '	<li id="'.sanitize_title($cat['cat_name']).'">' . stripslashes($cat['cat_name']) . "\n\t<ul>\n";
+			echo '	<li id="'.sanitize_title($cat['cat_name']).'">' . $cat['cat_name'] . "\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
 			get_links($cat['link_category'],
 				'<li>',"</li>","\n",

@@ -68,7 +68,7 @@ function the_category($seperator = '', $parents='') {
     if ('' == $seperator) {
         $thelist .= '<ul class="post-categories">';
         foreach ($categories as $category) {
-            $category->cat_name = stripslashes($category->cat_name);
+            $category->cat_name = $category->cat_name;
             $thelist .= "\n\t<li>";
             switch(strtolower($parents)) {
                 case 'multiple':
@@ -93,7 +93,7 @@ function the_category($seperator = '', $parents='') {
     } else {
         $i = 0;
         foreach ($categories as $category) {
-            $category->cat_name = stripslashes($category->cat_name);
+            $category->cat_name = $category->cat_name;
             if (0 < $i) $thelist .= $seperator . ' ';
             switch(strtolower($parents)) {
                 case 'multiple':
@@ -117,7 +117,7 @@ function the_category_rss($type = 'rss') {
     $categories = get_the_category();
     $the_list = '';
     foreach ($categories as $category) {
-        $category->cat_name = stripslashes(convert_chars($category->cat_name));
+        $category->cat_name = convert_chars($category->cat_name);
         if ('rdf' == $type) {
             $the_list .= "\n\t<dc:subject>$category->cat_name</dc:subject>";
         } else {
@@ -135,7 +135,7 @@ function get_the_category_by_ID($cat_ID) {
     } else {
         $cat_name = $cache_categories[$cat_ID]->cat_name;
     }
-    return(stripslashes($cat_name));
+    return($cat_name);
 }
 
 function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
@@ -242,7 +242,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
             if ($category->cat_ID == $selected)
                 echo ' selected="selected"';
             echo '>';
-            echo stripslashes($cat_name);
+            echo $cat_name;
             if (intval($optioncount) == 1) echo '&nbsp;&nbsp;('.$category->cat_count.')';
             if (intval($optiondates) == 1) echo '&nbsp;&nbsp;'.$category->lastday.'/'.$category->lastmonth;
             echo "</option>\n";
@@ -359,7 +359,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 				$link .= 'title="' . htmlspecialchars($category->category_description) . '"';
 			}
 			$link .= '>';
-			$link .= apply_filters('list_cats', stripslashes($category->cat_name)).'</a>';
+			$link .= apply_filters('list_cats', $category->cat_name).'</a>';
 
 			if ( (! empty($feed_image)) || (! empty($feed)) ) {
 				
@@ -372,9 +372,9 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 				$link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename)  . '"';
 
 				if ( !empty($feed) ) {
-					$title =  ' title="' . stripslashes($feed) . '"';
-					$alt = ' alt="' . stripslashes($feed) . '"';
-					$name = stripslashes($feed);
+					$title =  ' title="' . $feed . '"';
+					$alt = ' alt="' . $feed . '"';
+					$name = $feed;
 					$link .= $title;
 				}
 

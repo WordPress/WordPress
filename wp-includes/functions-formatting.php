@@ -50,7 +50,6 @@ function wptexturize($text) {
 }
 
 function clean_pre($text) {
-	$text = stripslashes($text);
 	$text = str_replace('<br />', '', $text);
 	return $text;
 }

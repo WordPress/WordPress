@@ -160,7 +160,7 @@ function comment_author_email_link($linktext='', $before='', $after='') {
 	global $comment;
 	$email = apply_filters('comment_email', $comment->comment_author_email);
 	if ((!empty($email)) && ($email != '@')) {
-	$display = ($linktext != '') ? $linktext : stripslashes($email);
+	$display = ($linktext != '') ? $linktext : $email;
 		echo $before;
 		echo "<a href='mailto:$email'>$display</a>";
 		echo $after;
@@ -172,7 +172,7 @@ function comment_author_url_link($linktext='', $before='', $after='') {
 	$url = apply_filters('comment_url', $comment->comment_author_url);
 
 	if ((!empty($url)) && ($url != 'http://') && ($url != 'http://url')) {
-	$display = ($linktext != '') ? $linktext : stripslashes($url);
+	$display = ($linktext != '') ? $linktext : $url;
 		echo "$before<a href='$url' rel='external'>$display</a>$after";
 	}
 }

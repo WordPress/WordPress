@@ -90,6 +90,23 @@ function get_alloptions_110() {
 	return $all_options;
 }
 
+function deslash($content) {
+    // Note: \\\ inside a regex denotes a single backslash.
+
+    // Replace one or more backslashes followed by a single quote with
+    // a single quote.
+    $content = preg_replace("/\\\+'/", "'", $content);
+
+    // Replace one or more backslashes followed by a double quote with
+    // a double quote.
+    $content = preg_replace('/\\\+"/', '"', $content);
+
+    // Replace one or more backslashes with one backslash.
+    $content = preg_replace("/\\\+/", "\\", $content);
+
+    return $content;
+}
+
 // .71 stuff
 
 function upgrade_071() {
@@ -871,6 +888,27 @@ function upgrade_130() {
 	foreach ($fatoptions as $fatoption) :
 		$wpdb->query("UPDATE $wpdb->options SET `autoload` = 'no' WHERE option_name = '$fatoption'");
 	endforeach;
+
+    // Remove extraneous backslashes.
+	$posts = $wpdb->get_results("SELECT ID, post_title, post_content, post_excerpt FROM $wpdb->posts");
+	if ($posts) {
+		foreach($posts as $post) {
+            $post_content = addslashes(deslash($post->post_content));
+            $post_title = addslashes(deslash($post->post_title));
+            $post_excerpt = addslashes(deslash($post->post_excerpt));
+            $wpdb->query("UPDATE $wpdb->posts SET post_title = '$post_title', post_content = '$post_content', post_excerpt = '$post_excerpt' WHERE ID = '$post->ID'");
+		}
+	}
+
+    // Remove extraneous backslashes.
+	$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_content FROM $wpdb->comments");
+	if ($comments) {
+		foreach($comments as $comment) {
+            $comment_content = addslashes(deslash($comment->comment_content));
+            $comment_author = addslashes(deslash($comment->comment_author));
+            $wpdb->query("UPDATE $wpdb->comments SET comment_content = '$comment_content', comment_author = '$comment_author' WHERE comment_ID = '$comment->comment_ID'");
+		}
+	}
 }
 
 ?>

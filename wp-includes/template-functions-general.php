@@ -72,11 +72,11 @@ function wp_title($sep = '&raquo;', $display = true) {
     // If there's a category
     if(!empty($cat)) {
         if (!stristr($cat,'-')) { // category excluded
-            $title = stripslashes(get_the_category_by_ID($cat));
+            $title = get_the_category_by_ID($cat);
         }
     }
     if (!empty($category_name)) {
-        $title = stripslashes($wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE category_nicename = '$category_name'"));
+        $title = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE category_nicename = '$category_name'");
     }
 
     // If there's a month
@@ -98,7 +98,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 
     // If there's a post
     if ($single) {
-        $title = strip_tags(stripslashes($posts[0]->post_title));
+        $title = strip_tags($posts[0]->post_title);
         $title = apply_filters('single_post_title', $title);
     }
 
@@ -120,9 +120,9 @@ function single_post_title($prefix = '', $display = true) {
         $title = $post_data['Title'];
         $title = apply_filters('single_post_title', $title);
         if ($display) {
-            echo $prefix.strip_tags(stripslashes($title));
+            echo $prefix.strip_tags($title);
         } else {
-            return strip_tags(stripslashes($title));
+            return strip_tags($title);
         }
     }
 }
@@ -133,9 +133,9 @@ function single_cat_title($prefix = '', $display = true ) {
         $my_cat_name = get_the_category_by_ID($cat);
         if(!empty($my_cat_name)) {
             if ($display)
-                echo $prefix.strip_tags(stripslashes($my_cat_name));
+                echo $prefix.strip_tags($my_cat_name);
             else
-                return strip_tags(stripslashes($my_cat_name));
+                return strip_tags($my_cat_name);
         }
     }
 }
@@ -267,7 +267,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
             foreach ($arcresults as $arcresult) {
                 if ($arcresult->post_date != '0000-00-00 00:00:00') {
                     $url  = get_permalink($arcresult->ID);
-                    $arc_title = stripslashes($arcresult->post_title);
+                    $arc_title = $arcresult->post_title;
                     if ($arc_title) {
                         $text = strip_tags($arc_title);
                     } else {
@@ -419,9 +419,9 @@ function get_calendar($daylength = 1) {
                 $ak_titles_for_day['day_'.$ak_post_title->dom] = '';
             }
             if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
-                $ak_titles_for_day["$ak_post_title->dom"] = str_replace('"', '&quot;', wptexturize(stripslashes($ak_post_title->post_title)));
+                $ak_titles_for_day["$ak_post_title->dom"] = str_replace('"', '&quot;', wptexturize($ak_post_title->post_title));
             } else {
-                $ak_titles_for_day["$ak_post_title->dom"] .= $ak_title_separator . str_replace('"', '&quot;', wptexturize(stripslashes($ak_post_title->post_title)));
+                $ak_titles_for_day["$ak_post_title->dom"] .= $ak_title_separator . str_replace('"', '&quot;', wptexturize($ak_post_title->post_title));
             }
         }
     }

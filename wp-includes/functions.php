@@ -166,16 +166,11 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 function get_userdata($userid) {
 	global $wpdb, $cache_userdata;
 	if ( empty($cache_userdata[$userid]) ) {
-		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$userid'");
-		$user->user_nickname = stripslashes($user->user_nickname);
-		$user->user_firstname = stripslashes($user->user_firstname);
-		$user->user_lastname = stripslashes($user->user_lastname);
-		$user->user_description = stripslashes($user->user_description);
-		$cache_userdata[$userid] = $user;
-	} else {
-		$user = $cache_userdata[$userid];
-	}
-	return $user;
+        $cache_userdata[$userid] = 
+            $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$userid'");
+	} 
+
+    return $cache_userdata[$userid];
 }
 
 function get_userdatabylogin($user_login) {
@@ -315,7 +310,7 @@ function get_alloptions() {
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			$all_options->{$option->option_name} = stripslashes($option->option_value);
+			$all_options->{$option->option_name} = $option->option_value;
 		}
 	}
 	return $all_options;
@@ -323,7 +318,7 @@ function get_alloptions() {
 
 function update_option($option_name, $newvalue) {
 	global $wpdb, $cache_settings;
-	$newvalue = stripslashes($newvalue);
+	$newvalue = $newvalue;
 	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim
 	$newvalue = $wpdb->escape($newvalue);
 	$wpdb->query("UPDATE $wpdb->options SET option_value = '$newvalue' WHERE option_name = '$option_name'");
@@ -516,9 +511,9 @@ add_action('publish_post', 'generic_ping');
 // Send a Trackback
 function trackback($trackback_url, $title, $excerpt, $ID) {
 	global $wpdb;
-	$title = urlencode(stripslashes($title));
-	$excerpt = urlencode(stripslashes($excerpt));
-	$blog_name = urlencode(stripslashes(get_settings('blogname')));
+	$title = urlencode($title);
+	$excerpt = urlencode($excerpt);
+	$blog_name = urlencode(get_settings('blogname'));
 	$tb_url = $trackback_url;
 	$url = urlencode(get_permalink($ID));
 	$query_string = "title=$title&url=$url&blog_name=$blog_name&excerpt=$excerpt";
@@ -932,38 +927,38 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 
 	$comment_author_domain = gethostbyaddr($comment->comment_author_IP);
 
-	$blogname = stripslashes(get_settings('blogname'));
+	$blogname = get_settings('blogname');
 	
 	if ('comment' == $comment_type) {
-		$notify_message  = "New comment on your post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\"\r\n\r\n";
+		$notify_message  = "New comment on your post #$comment->comment_post_ID \"".$post->post_title."\"\r\n\r\n";
 		$notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
 		$notify_message .= "E-mail : $comment->comment_author_email\r\n";
 		$notify_message .= "URI    : $comment->comment_author_url\r\n";
 		$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
-		$notify_message .= "Comment:\r\n".stripslashes($comment->comment_content)."\r\n\r\n";
+		$notify_message .= "Comment:\r\n".$comment->comment_content."\r\n\r\n";
 		$notify_message .= "You can see all comments on this post here: \r\n";
-		$subject = '[' . $blogname . '] Comment: "' .stripslashes($post->post_title).'"';
+		$subject = '[' . $blogname . '] Comment: "' .$post->post_title.'"';
 	} elseif ('trackback' == $comment_type) {
-		$notify_message  = "New trackback on your post #$comment_post_ID \"".stripslashes($post->post_title)."\"\r\n\r\n";
+		$notify_message  = "New trackback on your post #$comment_post_ID \"".$post->post_title."\"\r\n\r\n";
 		$notify_message .= "Website: $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
 		$notify_message .= "URI    : $comment->comment_author_url\r\n";
-		$notify_message .= "Excerpt: \n".stripslashes($comment->comment_content)."\r\n\r\n";
+		$notify_message .= "Excerpt: \n".$comment->comment_content."\r\n\r\n";
 		$notify_message .= "You can see all trackbacks on this post here: \r\n";
-		$subject = '[' . $blogname . '] Trackback: "' .stripslashes($post->post_title).'"';
+		$subject = '[' . $blogname . '] Trackback: "' .$post->post_title.'"';
 	} elseif ('pingback' == $comment_type) {
-		$notify_message  = "New pingback on your post #$comment_post_ID \"".stripslashes($post->post_title)."\"\r\n\r\n";
+		$notify_message  = "New pingback on your post #$comment_post_ID \"".$post->post_title."\"\r\n\r\n";
 		$notify_message .= "Website: $comment->comment_author\r\n";
 		$notify_message .= "URI    : $comment->comment_author_url\r\n";
 		$notify_message .= "Excerpt: \n[...] $original_context [...]\r\n\r\n";
 		$notify_message .= "You can see all pingbacks on this post here: \r\n";
-		$subject = '[' . $blogname . '] Pingback: "' .stripslashes($post->post_title).'"';
+		$subject = '[' . $blogname . '] Pingback: "' .$post->post_title.'"';
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . '#comments';
 
 	if ('' == $comment->comment_author_email || '' == $comment->comment_author) {
 		$from = "From: \"$blogname\" <wordpress@" . $_SERVER['SERVER_NAME'] . '>';
 	} else {
-		$from = 'From: "' . stripslashes($comment->comment_author) . "\" <$comment->comment_author_email>";
+		$from = 'From: "' . $comment->comment_author . "\" <$comment->comment_author_email>";
 	}
 
 	$message_headers = "MIME-Version: 1.0\r\n"
@@ -991,18 +986,18 @@ function wp_notify_moderator($comment_id) {
     $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
     $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
 
-    $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\" is waiting for your approval\r\n\r\n";
+    $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".$post->post_title."\" is waiting for your approval\r\n\r\n";
     $notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
     $notify_message .= "E-mail : $comment->comment_author_email\r\n";
     $notify_message .= "URL    : $comment->comment_author_url\r\n";
     $notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
-    $notify_message .= "Comment:\r\n".stripslashes($comment->comment_content)."\r\n\r\n";
+    $notify_message .= "Comment:\r\n".$comment->comment_content."\r\n\r\n";
     $notify_message .= "To approve this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=mailapprovecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
     $notify_message .= "To delete this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
     $notify_message .= "Currently $comments_waiting comments are waiting for approval. Please visit the moderation panel:\r\n";
     $notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 
-    $subject = '[' . stripslashes(get_settings('blogname')) . '] Please approve: "' .stripslashes($post->post_title).'"';
+    $subject = '[' . get_settings('blogname') . '] Please approve: "' .$post->post_title.'"';
     $admin_email = get_settings("admin_email");
     $from  = "From: $admin_email";
 

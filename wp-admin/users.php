@@ -70,13 +70,7 @@ case 'adduser':
 		return false;
 	}
 
-	$user_login = addslashes(stripslashes($user_login));
-	$pass1 = addslashes(stripslashes($pass1));
-	$user_nickname = addslashes(stripslashes($user_nickname));
     $user_nicename = sanitize_title($user_nickname);
-	$user_firstname = addslashes(stripslashes($user_firstname));
-	$user_lastname = addslashes(stripslashes($user_lastname));
-	$user_uri = addslashes(stripslashes($user_uri));
 	$user_uri = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $user_uri) ? $user_uri : 'http://' . $user_uri;
 	$now = gmdate('Y-m-d H:i:s');
 	$new_users_can_blog = get_settings('new_users_can_blog');
@@ -95,6 +89,7 @@ case 'adduser':
 		$stars .= '*';
 	}
 
+    $user_login = stripslashes($user_login);
 	$message  = 'New user registration on your blog ' . get_settings('blogname') . ":\r\n\r\n";
 	$message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
@@ -204,7 +199,7 @@ default:
 		$user_data = get_userdata($user->ID);
 		$email = $user_data->user_email;
 		$url = $user_data->user_url;
-		$short_url = str_replace('http://', '', stripslashes($url));
+		$short_url = str_replace('http://', '', $url);
 		$short_url = str_replace('www.', '', $short_url);
 		if ('/' == substr($short_url, -1))
 			$short_url = substr($short_url, 0, -1);
@@ -255,7 +250,7 @@ default:
 		$user_data = get_userdata($user->ID);
 		$email = $user_data->user_email;
 		$url = $user_data->user_url;
-		$short_url = str_replace('http://', '', stripslashes($url));
+		$short_url = str_replace('http://', '', $url);
 		$short_url = str_replace('www.', '', $short_url);
 		if ('/' == substr($short_url, -1))
 			$short_url = substr($short_url, 0, -1);
