@@ -152,7 +152,7 @@ textarea, input, select {
 }
 
 #wphead {
-	background-image: url(http://wordpress.org/images/wp-small.png);
+	background-image: url(../b2-img/wp-small.png);
 	background-repeat: no-repeat;
 	border-bottom: 4px solid #333;
 	height: 42px;
