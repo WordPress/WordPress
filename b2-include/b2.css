@@ -1,3 +1,48 @@
+#wphead {
+	margin: 5px;
+	background-image: url(http://wordpress.org/images/wp-small.png);
+	background-repeat: no-repeat;
+	height: 42px;
+	border-bottom: 4px solid #333;
+}
+#wphead a {
+	display: block;
+	height: 30px;
+}
+#wphead a span {
+	display: none;
+}
+
+#adminmenu {
+	list-style: none outside;
+	padding: 0;
+	margin: 5px 0 0 0;
+	margin-left: 40px;
+	height: 100%;
+}
+
+#adminmenu li {
+	text-align: center;
+	display: block;
+	float: left; 
+	padding: 4px;
+	border-right: 1px solid #ccc;
+}
+#adminmenu #last {
+	border-right: none;
+}
+#adminmenu a {
+	padding: 3px 8px 3px 7px;
+	color: #333;
+	text-decoration: none;
+	border: 1px solid white;
+}
+#adminmenu a:hover {
+	background-color: #e9e9e9;
+	color: #333;
+	border: 1px solid gray;
+}
+
 body	{
 	margin-top: 0px;
 	margin-left: 0px;
@@ -6,19 +51,18 @@ body	{
     background-color: #FFFFFF}
 body, td {
 	color: #000000; 
-	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 10pt;
 }
 a {
-	background-color: transparent; 
-	color: #0000FF;
-	text-decoration: none;
+	color: #00019b;
 	font-weight: bold;
 }
+a:visited {
+	color: #006;
+}
 a:hover {
-	color: #FF3300;
-	text-decoration: underline;
-	font-weight: bold;
+	color: #069;
 }
 
 .panelbody {
@@ -27,34 +71,24 @@ a:hover {
 }
 .table {
 	color: #000000; 
-	font-family: Verdana, Geneva, Arial, Helvetica;
 	font-size: 10pt;
 }
 .tabletoprow {
 	background-color: #ffffff;
 	color: #000000; 
-	font-family: Verdana, Geneva, Arial, Helvetica;
 	font-size: 12px;
 	font-style: italic;
 }
-.search {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #000066;
-	background-color: #ffeecc;
-	background-image: url("../b2-img/b2button.gif");
-}
-.quicktags {
-	font-family: Arial, Helvetica, sans-serif;
+
+.quicktags, .search {
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 12px;
 	color: #000000;
 	background-color: #cccccc;
-	background-image: url("../b2-img/b2button2.gif");
 }
 
 .menutop {
 	color: #999999;
-	font-family: Verdana, Geneva, Arial, Helvetica;
 	font-size: 10px;
 	background-color: #DDEEFF;
 }
@@ -71,7 +105,6 @@ a.menutop:hover {
 }
 
 .menutoptitle {
-	font-family: Arial, Verdana, Geneva, Arial, Helvetica;
 	color: #BBCCDD;
 	font-size: 14px;
 	font-weight: bold;
@@ -79,7 +112,6 @@ a.menutop:hover {
 
 .b2menutop { 
 	color: #333333; 
-	font-family: Verdana, Geneva, Arial, Helvetica;
 	font-size: 10px;
 }
 a.b2menutop {
@@ -93,7 +125,6 @@ a.b2menutop:hover {
 	text-decoration: none;
 }
 xmp { /* Just in case */
-	font-family: Verdana, Geneva, Arial, Helvetica;
 	font-size: 10pt;
 }
 form { margin: 0; padding: 0; } /* thanks #mozilla */
