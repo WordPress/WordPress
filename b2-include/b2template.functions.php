@@ -979,16 +979,19 @@ function comment_author_link() {
 	$author = stripslashes(&$comment->comment_author);
 
 	$url = str_replace('http://url', '', $url);
-
-	if (empty($url) && empty($email)) return $author;
+	
+	if (empty($url) && empty($email)) {
+		echo $author;
+		return;
+		}
 	echo '<a href="';
 	if ($url) {
 		$url = str_replace(';//', '://', $url);
 		$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
 		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
-		echo $url;
+		else echo $url;
 	} else {
-		echo antispambot($email);
+		echo 'mailto:'.$email;
 	}
 	echo '" rel="external">' . $author . '</a>';
 }
