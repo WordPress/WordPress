@@ -280,6 +280,9 @@ function get_settings($setting) {
 		return false;
 	}
 
+	// until we switch to using 'gmt_offset' everywhere
+	$setting = str_replace('time_difference', 'gmt_offset', $setting);
+
 	if ((empty($cache_settings)) OR (!$use_cache)) {
 		$settings = get_alloptions();
 		$cache_settings = $settings;
