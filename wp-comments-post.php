@@ -21,9 +21,9 @@ $comment_content      = $_POST['comment'];
 // If the user is logged in
 get_currentuserinfo();
 if ( $user_ID ) :
-	$comment_author       = $user_identity;
-	$comment_author_email = $user_email;
-	$comment_author_url   = str_replace('http://', '', $user_url);
+	$comment_author       = addslashes($user_identity);
+	$comment_author_email = addslashes($user_email);
+	$comment_author_url   = addslashes(str_replace('http://', '', $user_url));
 else :
 	if ( get_option('comment_registration') )
 		die( __('Sorry, you must be logged in to post a comment.') );
