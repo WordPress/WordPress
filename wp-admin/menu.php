@@ -51,7 +51,7 @@ do_action('admin_menu', '');
 ksort($menu); // make it all pretty
 
 if (! user_can_access_admin_page()) {
-	die( __('You have do not have sufficient permissions to access this page.') );
+	die( __('You do not have sufficient permissions to access this page.') );
 }
 
 ?>
