@@ -145,8 +145,13 @@ foreach ($dogs as $catt) {
     $cache_categories[$catt->cat_ID] = $catt;
 }
 
-//                                                       Bypass cat checks if fetching specific posts
-if ((empty($cat)) || ($cat == 'all') || ($cat == '0') || (intval($year) || intval($p))) {
+if ((empty($cat)) || ($cat == 'all') || ($cat == '0') || 
+	// Bypass cat checks if fetching specific posts
+	(
+		intval($year) || intval($monthnum) || intval($day) || intval($w) ||
+		intval($p) || !empty($name) || !empty($s)
+	)
+		) {
     $whichcat='';
 } else {
     $cat = ''.urldecode($cat).'';
