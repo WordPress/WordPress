@@ -54,7 +54,7 @@ case 'register':
 	$user_nickname = $user_login;
    $user_nicename = sanitize_title($user_nickname);
 	$now = gmdate('Y-m-d H:i:s');
-	if (get_settings('new_users_can_blog') >= 1) $user_level = 1;
+	$user_level = get_settings('new_users_can_blog');
 	$password = substr( md5( uniqid( microtime() ) ), 0, 7);
 
 	$result = $wpdb->query("INSERT INTO $wpdb->users 

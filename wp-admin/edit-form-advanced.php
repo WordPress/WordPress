@@ -115,7 +115,7 @@ edCanvas = document.getElementById('content');
 <?php 
 if ('publish' != $post_status || 0 == $post_ID) {
 ?>
-<?php if ( 1 < $user_level || (1 == $user_level && 2 == get_option('new_users_can_blog')) ) : ?>
+<?php if ( user_can_create_post($user_ID) ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="10" value="<?php _e('Publish') ?>" /> 
 <?php endif; ?>
 <?php
@@ -135,7 +135,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 <table width="100%" cellspacing="2" cellpadding="5" class="editform">
 	<tr>
 		<th scope="row" valign="top"><?php _e('Post Status') ?>:</th>
-		<td><?php if ( 1 < $user_level || (1 == $user_level && 2 == get_option('new_users_can_blog')) ) : ?>
+		<td><?php if ( user_can_create_post($user_ID) ) : ?>
 <label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Published') ?></label><br />
 <?php endif; ?>
 	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label><br />

@@ -61,7 +61,7 @@ case 'post':
 	if ( empty($post_status) )
 		$post_status = 'draft';
 	// Double-check
-	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) && 2 != get_option('new_users_can_blog') )
+	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) )
 		$post_status = 'draft';
 	$comment_status = $_POST['comment_status'];
 	if ( empty($comment_status) && !isset($_POST['advanced_view']) )
@@ -229,6 +229,11 @@ case 'edit':
 	if( 'private' == $postdata->post_status && $postdata->post_author != $user_ID )
 		die ( __('You are not allowed to view other users\' private posts.') );
 
+	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) ) {
+		 _e('You are not allowed to edit published posts.');
+		 break;
+	}
+
 	if ($post_status == 'static') {
 		$page_template = get_post_meta($post_ID, '_wp_page_template', true);
 		include('edit-page-form.php');
@@ -305,7 +310,7 @@ case 'editpost':
 	
 	if (isset($_POST['publish'])) $post_status = 'publish';
 	// Double-check
-	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) && 2 != get_option('new_users_can_blog') )
+	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) )
 		$post_status = 'draft';
 
 	if (empty($post_name) || 'draft' == $post_status ) {
