@@ -51,16 +51,20 @@ case 'update':
 		return false;
 	}
 
-	if ($_POST["pass1"] == "") {
-		if ($_POST["pass2"] != "")
+	$pass1 = $_POST["pass1"];
+	$pass2 = $_POST["pass2"];
+	do_action('check_passwords', array($user_login, &$pass1, &$pass2));
+
+	if ( '' == $pass1 ) {
+		if ( '' == $pass2 )
 			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
 		$updatepassword = "";
 	} else {
-		if ($_POST["pass2"] == "")
+		if ('' == $pass2)
 			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
-		if ($_POST["pass1"] != $_POST["pass2"])
+		if ( $pass1 != $pass2 )
 			die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
-		$newuser_pass = $_POST["pass1"];
+		$newuser_pass = $pass1;
 		$updatepassword = "user_pass=MD5('$newuser_pass'), ";
 		wp_clearcookie();
 		wp_setcookie($user_login, $newuser_pass);
@@ -69,7 +73,7 @@ case 'update':
 	$newuser_firstname = wp_specialchars($_POST['newuser_firstname']);
 	$newuser_lastname = wp_specialchars($_POST['newuser_lastname']);
 	$newuser_nickname = $_POST['newuser_nickname'];
-    $newuser_nicename = sanitize_title($newuser_nickname);
+	$newuser_nicename = sanitize_title($newuser_nickname);
 	$newuser_icq = wp_specialchars($_POST['newuser_icq']);
 	$newuser_aim = wp_specialchars($_POST['newuser_aim']);
 	$newuser_msn = wp_specialchars($_POST['newuser_msn']);
@@ -225,12 +229,17 @@ if (isset($updated)) { ?>
       <th scope="row"><?php _e('Profile:') ?></th>
       <td><textarea name="user_description" rows="5" id="textarea2" style="width: 99%; "><?php echo $profiledata->user_description ?></textarea></td>
     </tr>
+<?php
+$show_password_fields = apply_filters('show_password_fields', true);
+if ( $show_password_fields ) :
+?>
     <tr>
       <th scope="row"><?php _e('New <strong>Password</strong> (Leave blank to stay the same.)') ?></th>
       <td><input type="password" name="pass1" size="16" value="" />
       	<br />
         <input type="password" name="pass2" size="16" value="" /></td>
     </tr>
+<?php endif; ?>
   </table>
   <p class="submit">
     <input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" />

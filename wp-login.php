@@ -33,8 +33,8 @@ case 'logout':
 break;
 
 case 'lostpassword':
-
-	?>
+do_action('lost_password');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -95,6 +95,8 @@ case 'retrievepassword':
 	if (!$user_email || $user_email != $_POST['email'])
 		die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
 
+	do_action('retreive_password', $user_login);
+
 	// Generate something random for a password... md5'ing current time with a rand salt
 	$key = substr( md5( uniqid( microtime() ) ), 0, 50);
 	// now insert the new pass md5'd into the db
@@ -105,8 +107,6 @@ case 'retrievepassword':
 	$message .= get_settings('siteurl') . "/wp-login.php?action=resetpass&key=$key";
 
 	$m = wp_mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
-
-	do_action('retreive_password', $user_login);
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -128,6 +128,8 @@ case 'resetpass' :
 	if ( !$user )
 		die( __('Sorry, that key does not appear to be valid.') );
 
+	do_action('password_reset');
+
 	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
  	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$new_pass'), user_activation_key = '' WHERE user_login = '$user->user_login'");
 	$message  = __('Login') . ": $user->user_login\r\n";
@@ -135,8 +137,6 @@ case 'resetpass' :
 	$message .= get_settings('siteurl') . '/wp-login.php';
 
 	$m = wp_mail($user->user_email, sprintf(__("[%s] Your new password"), get_settings('blogname')), $message);
-
-	do_action('password_reset');
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -171,6 +171,8 @@ default:
 			$using_cookie = true;
 		}
 	}
+
+	do_action('wp_authenticate', array(&$user_login, &$user_pass));
 
 	if ($user_login && $user_pass) {
 		$user = get_userdatabylogin($user_login);

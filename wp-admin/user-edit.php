@@ -34,20 +34,24 @@ if (empty($_POST["new_nickname"])) {
 	return false;
 }
 
-if ($_POST['pass1'] == '') {
-	if ($_POST['pass2'] != '')
+$new_user_login  = wp_specialchars($_POST['new_user_login']);
+$pass1 = $_POST['pass1'];
+$pass2 = $_POST['pass2'];
+do_action('check_passwords', array($new_user_login, &$pass1, &$pass2));
+
+if ( '' == $pass1 ) {
+	if ( '' == $pass2 )
 		die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
 	$updatepassword = '';
 } else {
-	if ($_POST['pass2'] == "")
+	if ( '' == $pass2)
 		die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
-	if ($_POST['pass1'] != $_POST['pass2'])
+	if ( $pass1 != $pass2 )
 		die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
-	$new_pass = $_POST["pass1"];
+	$new_pass = $pass1;
 	$updatepassword = "user_pass=MD5('$new_pass'), ";
 }
 
-$new_user_login  = wp_specialchars($_POST['new_user_login']);
 $new_firstname   = wp_specialchars($_POST['new_firstname']);
 $new_lastname    = wp_specialchars($_POST['new_lastname']);
 $new_nickname    = $_POST['new_nickname'];
@@ -180,12 +184,17 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 			</select>
 		</td>
 	</tr>
+<?php
+$show_password_fields = apply_filters('show_password_fields', true);
+if ( $show_password_fields ) :
+?>
 	<tr>
 		<th scope="row"><?php _e('New <strong>Password</strong> (Leave blank to stay the same.)') ?></th>
 		<td><input type="password" name="pass1" size="16" value="" />
 			<br />
 			<input type="password" name="pass2" size="16" value="" /></td>
 	</tr>
+<?php endif; ?>
 </table>
   <p class="submit">
 	<input type="hidden" name="action" value="update" />
