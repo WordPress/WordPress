@@ -6,8 +6,8 @@ $allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
 $post_ID = intval($postdata['ID']);
 
-$submitbutton_text = 'Save';
-$toprow_title = 'Editing Post #' . $post_ID;
+$submitbutton_text = __('Save');
+$toprow_title = sprintf(__('Editing Post #%s'), $post_ID);
 if (0 == $post_ID) {
 	$form_action = 'post';
 } else {
@@ -17,7 +17,7 @@ if (0 == $post_ID) {
 if (get_settings('use_pingback')) {
 	$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
 	if ( get_settings('default_pingback_flag') ) $form_pingback .= 'checked="checked" ';
-	$form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback">' . sprintf(__('<strong>PingBack</strong> the <acronym title="Uniform Resource Locators">URL</acronym>s in this post</label> <a href="%s" title="Help on Pingbacks">?</a><br />'), 'http://wordpress.org/docs/reference/post/#pingback');
+	$form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback">' . __('<strong>PingBack</strong> the <acronym title="Uniform Resource Locators">URL</acronym>s in this post') . '</label> <a href="http://wordpress.org/docs/reference/post/#pingback" title="' . __('Help on Pingbacks') . '">?</a><br />';
 } else {
 	$form_pingback = '';
 }
@@ -25,11 +25,10 @@ if (get_settings('use_pingback')) {
 $colspan = 2;
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 if (get_settings('use_trackback')) {
-	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a></label>
-	 (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
+	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>') . '</label> ' . __('(Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)') . '<br />
 	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
 	if ('' != $pinged) {
-		$pings .= '<p>Already pinged:</p><ul>';
+		$pings .= '<p>'. __('Already pinged:') . '</p><ul>';
 		$already_pinged = explode("\n", trim($pinged));
 		foreach ($already_pinged as $pinged_url) {
 			$pings .= "\n\t<li>$pinged_url</li>";
@@ -39,7 +38,7 @@ if (get_settings('use_trackback')) {
 } else {
 	$form_trackback = '';
 }
-$saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="Save and Continue Editing" />';
+$saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="' . __('Save and Continue Editing') . '" />';
 
 
 ?>
@@ -61,50 +60,50 @@ window.onload = focusit;
 
 <div id="poststuff">
     <fieldset id="titlediv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#title" title="Help on titles">Title</a></legend> 
+      <legend><a href="http://wordpress.org/docs/reference/post/#title" title="<?php _e('Help on titles') ?>"><?php _e('Title') ?></a></legend> 
 	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
     </fieldset>
 
     <fieldset id="categorydiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Categories</a></legend> 
+      <legend><a href="http://wordpress.org/docs/reference/post/#category" title="<?php _e('Help on categories') ?>"><?php _e('Categories') ?></a></legend> 
 	  <div><?php dropdown_categories($default_post_cat); ?></div>
     </fieldset>
 
     <fieldset id="poststatusdiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#post_status" title="Help on post status">Post Status</a></legend>
-	  <div><label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> Publish</label> 
-	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> Draft</label> 
-	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> Private</label></div>
+      <legend><a href="http://wordpress.org/docs/reference/post/#post_status" title="<?php _e('Help on post status') ?>"><?php _e('Post Status') ?></a></legend>
+	  <div><label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Publish') ?></label> 
+	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label> 
+	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
     </fieldset>
     <fieldset id="commentstatusdiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#comments" title="Help on comment status">Discussion</a></legend> 
+      <legend><a href="http://wordpress.org/docs/reference/post/#comments" title="<?php _e('Help on comment status') ?>"><?php _e('Discussion') ?></a></legend> 
 	  <div><label for="comment_status" class="selectit">
 	      <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($comment_status, 'open'); ?> />
-         Allow Comments</label> 
-		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> Allow Pings</label>
+         <?php _e('Allow Comments') ?></label> 
+		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
 </div>
 </fieldset>
 <fieldset id="slugdiv">
-<legend>Post Slug</legend>
+<legend><?php _e('Post Slug') ?></legend>
 <div><input name="post_name" type="text" size="17" id="post_name" value="<?php echo $post_name ?>" /></div>
 </fieldset>
     <fieldset id="postpassworddiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#post_password" title="Help on post password">Post Password</a></legend> 
+      <legend><a href="http://wordpress.org/docs/reference/post/#post_password" title="<?php _e('Help on post password') ?>"><?php _e('Post Password') ?></a></legend> 
 	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>
     </fieldset>
 
 <br />
 <fieldset style="clear:both">
-<legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a></legend>
+<legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="<?php _e('Help with excerpts') ?>"><?php _e('Excerpt') ?></a></legend>
 <div><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
 </fieldset>
 
 <fieldset id="postdiv">
-<legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Post</a></legend>
+       <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
 		<div id="quicktags">
 <?php
 if ( get_settings('use_quicktags') ) {
-	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
+	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="' .  __('Help with quicktags') . '">' . __('Quicktags') . '</a>: ';
 	include('quicktags.php');
 }
 ?>
@@ -137,15 +136,15 @@ if ($action != 'editcomment') {
             }
         }
 ?>
-<label for="post_latf">Latitude:</label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
-<label for="post_lonf">Longitude:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <a href="http://www.geourl.org/resources.html" rel="external" >click for Geo Info</a>
+<label for="post_latf"><?php _e('Latitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
+<label for="post_lonf"><?php _e('Longitude:') ?></label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <a href="http://www.geourl.org/resources.html" rel="external" ><?php _e('click for Geo Info') ?></a>
 <br>
 <?php
     }
 }
 ?>
 <fieldset id="postcustom">
-<legend>Post Custom</legend>
+<legend><?php _e('Post Custom') ?></legend>
 <?php 
 if($metadata = has_meta($post_ID)) {
 ?>
@@ -164,11 +163,11 @@ if($metadata = has_meta($post_ID)) {
 
 
 
-<p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="Save" style="font-weight: bold;" tabindex="6" /> 
+<p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="6" /> 
 <?php 
 if ('publish' != $post_status || 0 == $post_ID) {
 ?>
-	<input name="publish" type="submit" id="publish" tabindex="10" value="Publish" /> 
+	<input name="publish" type="submit" id="publish" tabindex="10" value="<?php _e('Publish') ?>" /> 
 <?php
 }
 ?>
@@ -185,7 +184,7 @@ if ($user_level > 4) {
 	touch_time(($action == 'edit'));
 }
 if ('edit' == $action) echo "
-<p><a href='post.php?action=delete&amp;post=$post_ID' onclick=\"return confirm('You are about to delete this post \'".addslashes($edited_post_title)."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete this post</a></p>";
+<p><a href='post.php?action=delete&amp;post=$post_ID' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title)) . "')\">" .  __('Delete this post') . "</a></p>";
 ?>
 
 </div>
