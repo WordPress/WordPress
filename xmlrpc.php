@@ -113,6 +113,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		  // PingBack
 		  'pingback.ping' => 'this:pingback_ping',
+		  'pingback.extensions.getPingbacks' => 'this:pingback_extensions_getPingbacks',
 
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
@@ -1016,7 +1017,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  global $wpdb;
 
-	  $post_ID = intval($args[0]);
+	  $post_ID = intval($args);
 
 	  $actual_post = wp_get_single_post($post_ID, ARRAY_A);
 
@@ -1110,6 +1111,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 
 		// let's find which post is linked to
+		// FIXME: does url_to_postid() cover all these cases already?
+		//        if so, then let's use it and drop the old code.
 		$urltest = parse_url($pagelinkedto);
 		if ($post_ID = url_to_postid($pagelinkedto)) {
 			$way = 'url_to_postid()';
@@ -1260,6 +1263,46 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action('pingback_post', $comment_ID);
 		
 		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
+	}
+
+
+	/* pingback.extensions.getPingbacks returns an array of URLs
+	   that pingbacked the given URL
+	   specs on http://www.aquarionics.com/misc/archives/blogite/0198.html */
+	function pingback_extensions_getPingbacks($args) {
+
+		global $wpdb;
+
+		$url = $args;
+
+		$post_ID = url_to_postid($url);
+		if (!$post_ID) {
+			// We aren't sure that the resource is available and/or pingback enabled
+			return '0x0021';
+		}
+
+		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
+
+		if (!$actual_post) {
+			// No such post = resource not found
+			return '0x0020';
+		}
+
+		$comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
+
+		if (!$comments) {
+			return array();
+		}
+
+		$pingbacks = array();
+		foreach($comments as $comment) {
+			if ((strpos($comment->comment_content, '<pingback />') === 0)
+			    || ('pingback' == $comment->comment_type)) {
+				$pingbacks[] = $comment->comment_author_url;
+			}
+		}
+
+		return $pingbacks;
 	}
 }
 
