@@ -48,20 +48,16 @@ add_filter('comment_text', 'make_clickable');
 add_filter('comment_text', 'wpautop', 30);
 add_filter('comment_text', 'convert_smilies', 20);
 
-add_filter('comment_text_rss', 'htmlspecialchars');
-
 add_filter('comment_excerpt', 'convert_chars');
-add_filter('the_excerpt_rss', 'convert_chars');
 
 // Places to balance tags on input
 add_filter('content_save_pre', 'balanceTags', 50);
 add_filter('excerpt_save_pre', 'balanceTags', 50);
 add_filter('comment_save_pre', 'balanceTags', 50);
 
+// Misc. title, content, and excerpt filters
 add_filter('the_title', 'convert_chars');
 add_filter('the_title', 'trim');
-
-add_filter('the_title_rss', 'strip_tags');
 
 add_filter('the_content', 'convert_smilies');
 add_filter('the_content', 'convert_chars');
@@ -70,11 +66,23 @@ add_filter('the_content', 'wpautop');
 add_filter('the_excerpt', 'convert_smilies');
 add_filter('the_excerpt', 'convert_chars');
 add_filter('the_excerpt', 'wpautop');
-
 add_filter('get_the_excerpt', 'wp_trim_excerpt');
 
 add_filter('sanitize_title', 'sanitize_title_with_dashes');
 
+// RSS filters
+add_filter('the_title_rss', 'strip_tags');
+add_filter('the_title_rss', 'ent2ncr', 8);
+add_filter('the_content_rss', 'ent2ncr', 8);
+add_filter('the_excerpt_rss', 'convert_chars');
+add_filter('the_excerpt_rss', 'ent2ncr', 8);
+add_filter('comment_author_rss', 'ent2ncr', 8);
+add_filter('comment_text_rss', 'htmlspecialchars');
+add_filter('comment_text_rss', 'ent2ncr', 8);
+add_filter('bloginfo_rss', 'ent2ncr', 8);
+add_filter('the_author', 'ent2ncr', 8);
+
+// Actions
 add_action('publish_post', 'generic_ping');
 
 ?>
