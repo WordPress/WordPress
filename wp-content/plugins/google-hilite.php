@@ -57,7 +57,7 @@ function get_search_query_terms($engine = 'google') {
 }
 
 function is_referer_search_engine($engine = 'google') {
-	$siteurl = get_settings('siteurl');
+	$siteurl = get_settings('home');
 	$referer = urldecode($_SERVER['HTTP_REFERER']);
     //echo "referer is: $referer<br />";
 	if ( ! $engine ) {

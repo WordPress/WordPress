@@ -12,10 +12,10 @@ require('./wp-blog-header.php');
 	<meta name="generator" content="WordPress <?php bloginfo('version'); ?>" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
-		@import url( <?php bloginfo('url'); ?>/wp-layout.css );
+		@import url( <?php echo get_settings('siteurl'); ?>/wp-layout.css );
 	</style>
 	
-	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('url'); ?>/print.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_settings('siteurl'); ?>/print.css" />
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS .92" href="<?php bloginfo('rss_url'); ?>" />
 	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="<?php bloginfo('atom_url'); ?>" />

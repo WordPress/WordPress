@@ -224,7 +224,7 @@ function get_usernumposts($userid) {
 function url_to_postid($url = '') {
 	global $wpdb, $tableposts;
 
-	$siteurl = get_settings('siteurl');
+	$siteurl = get_settings('home');
 	// Take a link like 'http://example.com/blog/something'
 	// and extract just the '/something':
 	$uri = preg_replace("#$siteurl#i", '', $url);
@@ -310,6 +310,8 @@ function get_settings($setting) {
 		$settings = $cache_settings;
 	}
 
+	if ('home' == $setting && '' == $settings->home) return $settings->siteurl;
+
 	if (!isset($settings->$setting)) {
 		return false;
 	} else {
@@ -325,6 +327,8 @@ function get_alloptions() {
 			// "When trying to design a foolproof system, 
 			//  never underestimate the ingenuity of the fools :)"
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+
 			$all_options->{$option->option_name} = $option->option_value;
 		}
 	}
@@ -531,7 +535,7 @@ include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 
   $f = new xmlrpcmsg('weblogUpdates.ping',
 				array(new xmlrpcval(get_settings('blogname'), 'string'),
-					new xmlrpcval(get_settings('siteurl') ,'string')));
+					new xmlrpcval(get_settings('home') ,'string')));
   $c = new xmlrpc_client($path, $server, 80);
   $r = $c->send($f);
 
@@ -636,7 +640,7 @@ function make_url_footnote($content) {
 		$link_url = $matches[2][$i];
 		$link_text = $matches[4][$i];
 		$content = str_replace($link_match, $link_text.' '.$link_number, $content);
-		$link_url = (strtolower(substr($link_url,0,7)) != 'http://') ? get_settings('siteurl') . $link_url : $link_url;
+		$link_url = (strtolower(substr($link_url,0,7)) != 'http://') ? get_settings('home') . $link_url : $link_url;
 		$links_summary .= "\n".$link_number.' '.$link_url;
 	}
 	$content = strip_tags($content);
@@ -917,7 +921,7 @@ function getRemoteFile($host,$path) {
 
 function pingGeoURL($blog_ID) {
 
-    $ourUrl = get_settings('siteurl') ."/index.php?p=".$blog_ID;
+    $ourUrl = get_settings('home') ."/index.php?p=".$blog_ID;
     $host="geourl.org";
     $path="/ping/?p=".$ourUrl;
     getRemoteFile($host,$path); 

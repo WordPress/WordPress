@@ -46,7 +46,7 @@ include('options-head.php');
   <h2><?php _e('General Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset','date_format','time_format'" /> 
+	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset','date_format','time_format','home'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"><?php _e('Weblog title:') ?></th> 
@@ -59,9 +59,13 @@ include('options-head.php');
 <?php _e('In a few words, explain what this weblog is about.') ?></td> 
       </tr> 
       <tr valign="top"> 
-        <th scope="row"><?php _e('Web address (URI):') ?> </th> 
+        <th scope="row"><?php _e('WordPress address (URI):') ?></th> 
         <td><input name="siteurl" type="text" id="siteurl" value="<?php echo get_settings('siteurl'); ?>" size="40" class="code" /></td> 
       </tr> 
+      <tr valign="top">
+      	<th scope="row"><?php _e('Blog address (URI):') ?></th>
+      	<td><input name="home" type="text" id="home" value="<?php echo get_settings('home'); ?>" size="40" class="code" /><br /><?php _e('If you want your blog homepage to be different than the directory you installed WordPress in, enter that address here. '); ?></td>
+      	</tr>
       <tr valign="top"> 
         <th scope="row"><?php _e('E-mail address:') ?> </th> 
         <td><input name="admin_email" type="text" id="admin_email" value="<?php echo get_settings('admin_email'); ?>" size="40" class="code" />

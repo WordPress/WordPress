@@ -63,9 +63,9 @@ function get_permalink($id=false) {
                 $post->post_name,
                 $post->ID
             );
-            return get_settings('siteurl') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+            return get_settings('home') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
         } else { // if they're not using the fancy permalink option
-            return get_settings('siteurl') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$post->ID;
+            return get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$post->ID;
         }
     } else { // if an ID is given
         $idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
@@ -78,9 +78,9 @@ function get_permalink($id=false) {
                 $idpost->post_name,
                 $id
             );
-            return get_settings('siteurl') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+            return get_settings('home') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
         } else {
-            return get_settings('siteurl') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$id;
+            return get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$id;
         }
     }
 }
@@ -97,9 +97,9 @@ function get_month_link($year, $month) {
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
         $monthlink = str_replace('%post_id%', '', $monthlink);
-        return get_settings('siteurl') . $monthlink;
+        return get_settings('home') . $monthlink;
     } else {
-        return get_settings('siteurl') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
+        return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
     }
 }
 
@@ -117,9 +117,9 @@ function get_day_link($year, $month, $day) {
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
         $daylink = str_replace('%post_id%', '', $daylink);
-        return get_settings('siteurl') . $daylink;
+        return get_settings('home') . $daylink;
     } else {
-        return get_settings('siteurl') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
+        return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
     }
 }
 

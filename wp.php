@@ -15,7 +15,7 @@ require_once("wp-blog-header.php");
   <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 </head>
 <body>
-<h1 id="header"><a href="<?php echo get_settings('siteurl'); ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
+<h1 id="header"><a href="<?php echo get_settings('home'); ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <!-- // loop start -->
 <?php foreach ($posts as $post) { start_wp(); ?>

@@ -798,6 +798,11 @@ function upgrade_110() {
 		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('comment_max_links', 3, '5', 8)");
 	}
 
+	// Option for different blog URL
+	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'home'")) {
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('home', 3, '', 8)");
+	}
+
 	// Delete unused options
 	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file');
 	foreach ($unusedoptions as $option) :

@@ -21,13 +21,13 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
     $permalink_structure = get_settings('permalink_structure');
     
     if ('' == $permalink_structure) {
-        $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
+        $file = get_settings('home') . '/' . get_settings('blogfilename');
         $link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
     } else {
         if ('' == $category_nicename) $category_nicename = $cache_categories[$category_id]->category_nicename;
         // Get any static stuff from the front
         $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-        $link = get_settings('siteurl') . $front . 'category/';
+        $link = get_settings('home') . $front . 'category/';
         if ($parent=$cache_categories[$category_id]->category_parent) $link .= get_category_parents($parent, FALSE, '/', TRUE);
         $link .= $category_nicename . '/';
     }
@@ -187,7 +187,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
     global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    if (($file == 'blah') || ($file == '')) $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
+    if (($file == 'blah') || ($file == '')) $file = get_settings('home') . '/' . get_settings('blogfilename');
     if (!$selected) $selected=$cat;
     $sort_column = 'cat_'.$sort_column;
 
@@ -259,7 +259,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     global $querystring_start, $querystring_equal, $querystring_separator;
     // Optiondates now works
     if ('' == $file) {
-        $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
+        $file = get_settings('home') . '/' . get_settings('blogfilename');
     }
     if (intval($categories)==0){
         $sort_column = 'cat_'.$sort_column;

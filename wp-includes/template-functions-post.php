@@ -373,7 +373,7 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
         if (!$paged) $paged = 1;
         $nextpage = intval($paged) + 1;
         if (!$max_page || $max_page >= $nextpage) {
-            echo  get_settings('siteurl') .'/'.$pagenow.$querystring_start.
+            echo  get_settings('home') .'/'.$pagenow.$querystring_start.
                 ($qstr == '' ? '' : $qstr.$querystring_separator) .
                 'paged'.$querystring_equal.$nextpage;
         }
@@ -425,7 +425,7 @@ function previous_posts() { // original by cfactor at cooltux.org
         }
         $nextpage = intval($paged) - 1;
         if ($nextpage < 1) $nextpage = 1;
-        echo  get_settings('siteurl') .'/'.$pagenow.$querystring_start.
+        echo  get_settings('home') .'/'.$pagenow.$querystring_start.
             ($qstr == '' ? '' : $qstr.$querystring_separator) .
             'paged'.$querystring_equal.$nextpage;
     }

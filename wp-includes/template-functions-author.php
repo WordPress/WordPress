@@ -82,13 +82,13 @@ function get_author_link($echo = false, $author_id, $author_nicename) {
     $permalink_structure = get_settings('permalink_structure');
     
     if ('' == $permalink_structure) {
-        $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
+        $file = get_settings('home') . '/' . get_settings('blogfilename');
         $link = $file.$querystring_start.'author'.$querystring_equal.$auth_ID;
     } else {
         if ('' == $author_nicename) $author_nicename = $cache_userdata[$author_id]->author_nicename;
         // Get any static stuff from the front
         $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-        $link = get_settings('siteurl') . $front . 'author/';
+        $link = get_settings('home') . $front . 'author/';
         $link .= $author_nicename . '/';
     }
 

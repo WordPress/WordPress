@@ -18,7 +18,7 @@ require ('wp-blog-header.php');
 </head>
 <body id="commentspopup">
 
-<h1 id="header"><a href="<?php echo get_settings('siteurl'); ?>" title="<?php echo get_settings('blogname'); ?>"><?php echo get_settings('blogname'); ?></a></h1>
+<h1 id="header"><a href="<?php echo get_settings('home'); ?>" title="<?php echo get_settings('blogname'); ?>"><?php echo get_settings('blogname'); ?></a></h1>
 
 <h2 id="comments">Replying to Comment:</h2>
 <?php

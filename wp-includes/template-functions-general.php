@@ -26,14 +26,14 @@ function get_bloginfo($show='') {
 
     if ('' != get_settings('permalink_structure')) {
         $do_perma = 1;
-        $feed_url = get_settings('siteurl') . '/feed';
-        $comment_feed_url = get_settings('siteurl') . '/comments/feed';
+        $feed_url = get_settings('home') . '/feed';
+        $comment_feed_url = get_settings('home') . '/comments/feed';
     }
 
     switch($show) {
         case 'url':
 		case 'siteurl':
-            $output = get_settings('siteurl');
+            $output = get_settings('home');
             break;
         case 'description':
             $output = get_settings('blogdescription');
@@ -279,7 +279,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
                     $arc_week = get_weekstartend($arcresult->yyyymmdd, get_settings('start_of_week'));
                     $arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
                     $arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-                    $url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('siteurl'), get_settings('blogfilename'), $querystring_start,
+                    $url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('home'), get_settings('blogfilename'), $querystring_start,
                                     $querystring_equal, $arc_year, $querystring_separator,
                                     $querystring_equal, $arcresult->week);
                     $text = $arc_week_start . $archive_week_separator . $arc_week_end;

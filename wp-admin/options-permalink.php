@@ -75,14 +75,19 @@ $site_root = str_replace('http://', '', trim(get_settings('siteurl')));
 $site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
 if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
 
+$home_root = str_replace('http://', '', trim(get_settings('home')));
+$home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
+if ('/' != substr($home_root, -1)) $home_root = $home_root . '/';
+
 ?> 
 <form action="">
     <p>
     	<textarea rows="5" style="width: 100%;">RewriteEngine On
-RewriteBase <?php echo $site_root; ?> 
+RewriteBase <?php echo $home_root; ?> 
 <?php
 $rewrite = rewrite_rules('', $permalink_structure);
 foreach ($rewrite as $match => $query) {
+	if (strstr($query, 'index.php')) echo 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
     echo 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
 }
 ?>

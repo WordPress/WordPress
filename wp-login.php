@@ -280,7 +280,7 @@ default:
 
 <div id="login">
 <p>
-	<a href="<?php echo get_settings('siteurl'); ?>" title="<?php _e('Are you lost?') ?>"><?php _e('Back to blog?') ?></a><br />
+	<a href="<?php echo get_settings('home'); ?>" title="<?php _e('Are you lost?') ?>"><?php _e('Back to blog?') ?></a><br />
 <?php if (get_settings('users_can_register')) { ?>
 	<a href="<?php echo get_settings('siteurl'); ?>/wp-register.php" title="<?php _e('Register to be an author') ?>"><?php _e('Register?') ?></a><br />
 <?php } ?>
