@@ -92,7 +92,7 @@ if ($monthnum != '') {
 }
 
 if ($day != '') {
-	$hay = '' . intval($day);
+	$day = '' . intval($day);
 	$where .= ' AND DAYOFMONTH(post_date)=' . $day;
 }
 

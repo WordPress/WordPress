@@ -77,7 +77,7 @@ function get_bloginfo($show='') {
 
 function wp_title($sep = '&raquo;', $display = true) {
 	global $wpdb, $tableposts, $tablecategories;
-	global $year, $monthnum, $day, $cat, $p, $name;
+	global $year, $monthnum, $day, $cat, $p, $name, $month;
 
 	// If there's a category
 	if(!empty($cat)) {
@@ -97,10 +97,10 @@ function wp_title($sep = '&raquo;', $display = true) {
 	if (!empty($year)) {
 		$title = $year;
 		if (!empty($monthnum)) {
-			$title .= " $sep $monthnum";
+			$title .= " $sep ".$month[zeroise($monthnum, 2)];
 		}
 		if (!empty($day)) {
-			$title .= " $sep $day";
+			$title .= " $sep ".zeroise($day, 2);
 		}
 	}
 
@@ -118,7 +118,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 		}
 		
 		if ($day != '') {
-			$hay = '' . intval($day);
+			$day = '' . intval($day);
 			$where .= ' AND DAYOFMONTH(post_date)=' . $day;
 		}
 			$p = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_name = '$name' $where");
@@ -487,8 +487,8 @@ function get_permalink($id=false) {
 			$unixtime = strtotime($post->post_date);
 			$rewritereplace = array(
 				date('Y', $unixtime),
-				date('n', $unixtime),
-				date('j', $unixtime),
+				date('m', $unixtime),
+				date('d', $unixtime),
 				$post->post_name,
 				$post->ID
 			);
@@ -502,8 +502,8 @@ function get_permalink($id=false) {
 			$unixtime = strtotime($idpost->post_date);
 			$rewritereplace = array(
 				date('Y', $unixtime),
-				date('n', $unixtime),
-				date('j', $unixtime),
+				date('m', $unixtime),
+				date('d', $unixtime),
 				$idpost->post_name,
 				$id
 			);
@@ -524,7 +524,7 @@ function get_month_link($year, $month) {
 		$monthlink = substr(get_settings('permalink_structure'), 0, $offset);
 		if ('/' != substr($monthlink, -1)) $monthlink = substr($monthlink, 0, -1);
 		$monthlink = str_replace('%year%', $year, $monthlink);
-		$monthlink = str_replace('%monthnum%', intval($month), $monthlink);
+		$monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
 		$monthlink = str_replace('%post_id%', '', $monthlink);
 		return $siteurl . $monthlink;
 	} else {
@@ -543,8 +543,8 @@ function get_day_link($year, $month, $day) {
 		$daylink = substr(get_settings('permalink_structure'), 0, $offset);
 		if ('/' != substr($daylink, -1)) $daylink = substr($daylink, 0, -1);
 		$daylink = str_replace('%year%', $year, $daylink);
-		$daylink = str_replace('%monthnum%', intval($month), $daylink);
-		$daylink = str_replace('%day%', intval($day), $daylink);
+		$daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
+		$daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
 		$daylink = str_replace('%post_id%', '', $daylink);
 		return $siteurl . $daylink;
 	} else {
