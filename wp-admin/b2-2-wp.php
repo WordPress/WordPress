@@ -77,7 +77,7 @@ $got_row = false;
 <p>Installing WP-Links.</p>
 <p>Checking for tables...</p>
 <?php
-$result = mysql_list_tables($dbname);
+$result = mysql_list_tables(DB_NAME);
 if (!$result) {
     print "DB Error, could not list tables\n";
     print 'MySQL Error: ' . mysql_error();
