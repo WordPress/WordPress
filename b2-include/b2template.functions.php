@@ -214,7 +214,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 if ($arcresult->post_date != '0000-00-00 00:00:00') {
-                    $url  = $archive_link_p . $arcresult->ID;
+                    $url  = get_permalink($arcresult->ID);
                     $arc_title = stripslashes($arcresult->post_title);
                     if ($arc_title) {
                         $text = strip_tags($arc_title);
@@ -803,7 +803,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 		$lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
 		++$querycount;
 		if ($lastpost) {
-			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$lastpost->ID.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$previous;
+			$string = '<a href="'.get_permalink($lastpost->ID).'">'.$previous;
 			if ($title == 'yes') {
                 $string .= wptexturize(stripslashes($lastpost->post_title));
             }
@@ -844,7 +844,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 		$nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1");
 		++$querycount;
 		if ($nextpost) {
-			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$nextpost->ID.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$next;
+			$string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
 			if ($title=='yes') {
 				$string .= wptexturize(stripslashes($nextpost->post_title));
 			}
@@ -882,7 +882,7 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 	}
 }
 
-function next_posts_link($label='Next Page >>', $max_page=0) {
+function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 	global $p, $paged, $result, $request, $posts_per_page, $what_to_show, $wpdb;
 	if ($what_to_show == 'paged') {
 		if (!$max_page) {
@@ -933,7 +933,7 @@ function previous_posts() { // original by cfactor at cooltux.org
 	}
 }
 
-function previous_posts_link($label='<< Previous Page') {
+function previous_posts_link($label='&laquo; Previous Page') {
 	global $p, $paged, $what_to_show;
 	if (empty($p)  && ($paged > 1) && ($what_to_show == 'paged')) {
 		echo '<a href="';
@@ -1251,6 +1251,7 @@ function comment_type($commenttxt = 'Comment', $trackbacktxt = 'Trackback', $pin
 	elseif (preg_match('|<pingback />|', $comment->comment_content)) echo $pingbacktxt;
 	else echo $commenttxt;
 }
+
 function comment_author_url() {
 	global $comment;
 	$url = trim(stripslashes($comment->comment_author_url));
@@ -1356,13 +1357,13 @@ function comment_text_rss() {
 function comment_link_rss() {
 	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
-	echo $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$comment->comment_post_ID.$querystring_separator.'c'.$querystring_equal.'1#comments';
+	echo $siteurl.get_permalink($comment->comment_post_ID).'#comments';
 }
 
 function permalink_comments_rss() {
 	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
-	echo $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$comment->comment_post_ID.$querystring_separator.'c'.$querystring_equal.'1';
+	echo $siteurl.get_permalink($comment->comment_post_ID);
 }
 
 /***** // Comment tags *****/
@@ -1447,23 +1448,22 @@ function permalink_anchor($mode = 'id') {
 	global $id, $post;
 	switch(strtolower($mode)) {
 		case 'title':
-			$title = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $post->post_title);
-			echo '<a name="'.$title.'"></a>';
+			$title = sanitize_title($post->post_title) . '-' . $id;
+			echo '<a id="'.$title.'"></a>';
 			break;
 		case 'id':
 		default:
-			echo '<a name="post-'.$id.'"></a>';
+			echo '<a id="post-'.$id.'"></a>';
 			break;
 	}
 }
 
 function permalink_link($file='', $mode = 'id') {
-	global $id, $post, $pagenow, $cacheweekly, $wpdb, $querycount;
-	global $querystring_start, $querystring_equal, $querystring_separator;
+	global $post, $pagenow, $cacheweekly, $wpdb;
 	$file = ($file=='') ? $pagenow : $file;
 	switch(strtolower($mode)) {
 		case 'title':
-			$title = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $post->post_title);
+			$title = sanitize_title($post->post_title) . '-' . $post->ID;
 			$anchor = $title;
 			break;
 		case 'id':
@@ -1474,128 +1474,15 @@ function permalink_link($file='', $mode = 'id') {
 	echo get_permalink();
 }
 
-function permalink_single($file='') {
-	global $id, $pagenow;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-	if ($file=='')
-		$file = $pagenow;
-	echo $file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1';
+function permalink_single($file = '') {
+	echo get_permalink();
 }
 
-function permalink_single_rss($file = 'b2rss.php') {
-	global $id, $pagenow, $siteurl, $blogfilename;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-		echo $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+function permalink_single_rss($file = '') {
+	global $siteurl;
+	echo $siteurl . get_permalink();
 }
 
 /***** // Permalink tags *****/
-
-
-
-
-// @@@ These aren't template tags, do not edit them
-
-function start_b2() {
-	global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
-	global $preview_userid,$preview_date,$preview_content,$preview_title,$preview_category,$preview_notify,$preview_make_clickable,$preview_autobr;
-	global $pagenow;
-	global $HTTP_GET_VARS;
-	if (!$preview) {
-		$id = $post->ID;
-	} else {
-		$id = 0;
-		$postdata = array (
-			'ID' => 0,
-			'Author_ID' => $HTTP_GET_VARS['preview_userid'],
-			'Date' => $HTTP_GET_VARS['preview_date'],
-			'Content' => $HTTP_GET_VARS['preview_content'],
-			'Excerpt' => $HTTP_GET_VARS['preview_excerpt'],
-			'Title' => $HTTP_GET_VARS['preview_title'],
-			'Category' => $HTTP_GET_VARS['preview_category'],
-			'Notify' => 1
-			);
-	}
-	$authordata = get_userdata($post->post_author);
-	$day = mysql2date('d.m.y', $post->post_date);
-	$currentmonth = mysql2date('m', $post->post_date);
-	$numpages = 1;
-	if (!$page)
-		$page = 1;
-	if (isset($p))
-		$more = 1;
-	$content = $post->post_content;
-	if (preg_match('/<!--nextpage-->/', $post->post_content)) {
-		if ($page > 1)
-			$more = 1;
-		$multipage = 1;
-		$content = stripslashes($post->post_content);
-		$content = str_replace("\n<!--nextpage-->\n", '<!--nextpage-->', $content);
-		$content = str_replace("\n<!--nextpage-->", '<!--nextpage-->', $content);
-		$content = str_replace("<!--nextpage-->\n", '<!--nextpage-->', $content);
-		$pages = explode('<!--nextpage-->', $content);
-		$numpages = count($pages);
-	} else {
-		$pages[0] = stripslashes($post->post_content);
-		$multipage = 0;
-	}
-	return true;
-}
-
-function is_new_day() {
-	global $day, $previousday;
-	if ($day != $previousday) {
-		return(1);
-	} else {
-		return(0);
-	}
-}
-
-function apply_filters($tag, $string) {
-	global $b2_filter;
-	if (isset($b2_filter['all'])) {
-		$b2_filter['all'] = (is_string($b2_filter['all'])) ? array($b2_filter['all']) : $b2_filter['all'];
-		$b2_filter[$tag] = array_merge($b2_filter['all'], $b2_filter[$tag]);
-		$b2_filter[$tag] = array_unique($b2_filter[$tag]);
-	}
-	if (isset($b2_filter[$tag])) {
-		$b2_filter[$tag] = (is_string($b2_filter[$tag])) ? array($b2_filter[$tag]) : $b2_filter[$tag];
-		$functions = $b2_filter[$tag];
-		foreach($functions as $function) {
-			$string = $function($string);
-		}
-	}
-	return $string;
-}
-
-function add_filter($tag, $function_to_add) {
-	global $b2_filter;
-	if (isset($b2_filter[$tag])) {
-		$functions = $b2_filter[$tag];
-		if (is_array($functions)) {
-			foreach($functions as $function) {
-				$new_functions[] = $function;
-			}
-		} elseif (is_string($functions)) {
-			$new_functions[] = $functions;
-		}
-/* this is commented out because it just makes PHP die silently
-   for no apparent reason
-		if (is_array($function_to_add)) {
-			foreach($function_to_add as $function) {
-				if (!in_array($function, $b2_filter[$tag])) {
-					$new_functions[] = $function;
-				}
-			}
-		} else */if (is_string($function_to_add)) {
-			if (!@in_array($function_to_add, $b2_filter[$tag])) {
-				$new_functions[] = $function_to_add;
-			}
-		}
-		$b2_filter[$tag] = $new_functions;
-	} else {
-		$b2_filter[$tag] = array($function_to_add);
-	}
-	return true;
-}
 
 ?>

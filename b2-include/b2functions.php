@@ -1325,4 +1325,107 @@ if (!function_exists('in_array')) {
 	}
 }
 
+function start_b2() {
+	global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
+	global $preview_userid,$preview_date,$preview_content,$preview_title,$preview_category,$preview_notify,$preview_make_clickable,$preview_autobr;
+	global $pagenow;
+	global $HTTP_GET_VARS;
+	if (!$preview) {
+		$id = $post->ID;
+	} else {
+		$id = 0;
+		$postdata = array (
+			'ID' => 0,
+			'Author_ID' => $HTTP_GET_VARS['preview_userid'],
+			'Date' => $HTTP_GET_VARS['preview_date'],
+			'Content' => $HTTP_GET_VARS['preview_content'],
+			'Excerpt' => $HTTP_GET_VARS['preview_excerpt'],
+			'Title' => $HTTP_GET_VARS['preview_title'],
+			'Category' => $HTTP_GET_VARS['preview_category'],
+			'Notify' => 1
+			);
+	}
+	$authordata = get_userdata($post->post_author);
+	$day = mysql2date('d.m.y', $post->post_date);
+	$currentmonth = mysql2date('m', $post->post_date);
+	$numpages = 1;
+	if (!$page)
+		$page = 1;
+	if (isset($p))
+		$more = 1;
+	$content = $post->post_content;
+	if (preg_match('/<!--nextpage-->/', $post->post_content)) {
+		if ($page > 1)
+			$more = 1;
+		$multipage = 1;
+		$content = stripslashes($post->post_content);
+		$content = str_replace("\n<!--nextpage-->\n", '<!--nextpage-->', $content);
+		$content = str_replace("\n<!--nextpage-->", '<!--nextpage-->', $content);
+		$content = str_replace("<!--nextpage-->\n", '<!--nextpage-->', $content);
+		$pages = explode('<!--nextpage-->', $content);
+		$numpages = count($pages);
+	} else {
+		$pages[0] = stripslashes($post->post_content);
+		$multipage = 0;
+	}
+	return true;
+}
+
+function is_new_day() {
+	global $day, $previousday;
+	if ($day != $previousday) {
+		return(1);
+	} else {
+		return(0);
+	}
+}
+
+function apply_filters($tag, $string) {
+	global $b2_filter;
+	if (isset($b2_filter['all'])) {
+		$b2_filter['all'] = (is_string($b2_filter['all'])) ? array($b2_filter['all']) : $b2_filter['all'];
+		$b2_filter[$tag] = array_merge($b2_filter['all'], $b2_filter[$tag]);
+		$b2_filter[$tag] = array_unique($b2_filter[$tag]);
+	}
+	if (isset($b2_filter[$tag])) {
+		$b2_filter[$tag] = (is_string($b2_filter[$tag])) ? array($b2_filter[$tag]) : $b2_filter[$tag];
+		$functions = $b2_filter[$tag];
+		foreach($functions as $function) {
+			$string = $function($string);
+		}
+	}
+	return $string;
+}
+
+function add_filter($tag, $function_to_add) {
+	global $b2_filter;
+	if (isset($b2_filter[$tag])) {
+		$functions = $b2_filter[$tag];
+		if (is_array($functions)) {
+			foreach($functions as $function) {
+				$new_functions[] = $function;
+			}
+		} elseif (is_string($functions)) {
+			$new_functions[] = $functions;
+		}
+/* this is commented out because it just makes PHP die silently
+   for no apparent reason
+		if (is_array($function_to_add)) {
+			foreach($function_to_add as $function) {
+				if (!in_array($function, $b2_filter[$tag])) {
+					$new_functions[] = $function;
+				}
+			}
+		} else */if (is_string($function_to_add)) {
+			if (!@in_array($function_to_add, $b2_filter[$tag])) {
+				$new_functions[] = $function_to_add;
+			}
+		}
+		$b2_filter[$tag] = $new_functions;
+	} else {
+		$b2_filter[$tag] = array($function_to_add);
+	}
+	return true;
+}
+
 ?>
