@@ -1,30 +1,25 @@
 <h1 id="wphead"><a href="http://wordpress.org" rel="external"><span>WordPress</span></a></h1> 
 <ul id="adminmenu">
-  <li><a href="b2edit.php"><strong>Post / Edit</strong></a></li>
-  <li><a href="javascript:profile(<?php echo $user_ID ?>)">My Profile</a></li>
-  <li><a href="b2team.php">Team</a></li>
-    <?php
-
-if ($pagenow != "b2profile.php") {
-
+<?php
 $menu = file("./b2menutop.txt");
-$i=0;
-$j=$menu[0];
-while ($j != "") {
-	$k = explode("\t",$j);
-	if ($user_level >= $k[0]) {
-		echo "\n<li><a href='".$k[1]."'>".trim($k[2]).'</a></li>';
+$continue = true;
+foreach ($menu as $item) {
+	$class = '';
+	$item = trim($item);
+	if ('***' == $item) $continue = false;
+	if ($continue) {
+		$item = explode("\t", $item);
+		// 0 = user level, 1 = file, 2 = name
+		if (substr($PHP_SELF, -6) == substr($item[1], -6)) $class = ' id="current"';
+		if ($user_level >= $item[0]) echo "\n\t<li><a href='{$item[1]}'$class>{$item[2]}</a></li>";
 	}
-	$i=$i+1;
-	$j=$menu[$i];
-	if (trim($j) == "***")
-		$j="";
 }
 
-}
 ?>
-<li><a href="<?php echo $siteurl."/".$blogfilename; ?>">View site</a></li>
-<li id="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout</a></li>
+
+	<li><a href="javascript:profile(<?php echo $user_ID ?>)">My Profile</a></li>
+	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>">View site</a></li>
+	<li id="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout</a></li>
 </ul>
 <br clear="all" />
 

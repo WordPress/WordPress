@@ -12,31 +12,6 @@ a:hover {
 	color: #069;
 }
 
-a.b2menutop {
-	background-color: transparent;
-	color: #06f;
-	font-weight: lighter;
-}
-
-a.b2menutop:hover {
-	color: #f90;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-a.menutop {
-	background-color: transparent;
-	border-width: 0px;
-	color: #36c;
-	font-weight: normal;
-}
-
-a.menutop:hover {
-	color: #f90;
-	font-weight: normal;
-	text-decoration: underline;
-}
-
 body	{
 	background-color: #fff;
 	margin: 0px;
@@ -68,17 +43,6 @@ p {
 	line-height: 130%;
 }
 
-td.menutop {
-	border-bottom-width: 1px;
-	border-color: #999;
-	border-left-width: 0px;
-	border-right-width: 0px;
-	border-style: dashed;
-	border-top-width: 1px;
-	padding-bottom: 2px;
-	padding-top: 2px;
-}
-
 textarea, input, select {
 	background-color: #f0f0f0;
 	border-color: #ccc;
@@ -89,15 +53,6 @@ textarea, input, select {
 	padding: 2px;
 }
 
-xmp {
-	font-size: 10pt; /* Just in case */
-}
-
-.b2menutop {
-	color: #333;
-	font-size: 10px;
-}
-
 .checkbox {
 	background-color: #fff;
 	border-width: 0px;
@@ -105,35 +60,12 @@ xmp {
 	padding: 0px;
 }
 
-.menutop {
-	background-color: #def;
-	color: #999;
-	font-size: 10px;
-}
-
-.menutoptitle {
-	color: #bcd;
-	font-size: 14px;
-	font-weight: bold;
-}
 
 .quicktags, .search {
 	background-color: #ccc;
 	color: #000;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 12px;
-}
-
-.table {
-	color: #000;
-	font-size: 10pt;
-}
-
-.tabletoprow {
-	background-color: #fff;
-	color: #000;
-	font-size: 12px;
-	font-style: italic;
 }
 
 .wrap {
@@ -161,7 +93,7 @@ xmp {
 	text-decoration: none;
 }
 
-#adminmenu a:hover {
+#adminmenu a:hover, #current {
 	background-color: #e9e9e9;
 	border: 1px solid #808080;
 	color: #333;
