@@ -97,9 +97,11 @@ switch($action) {
             $hh = ($hh > 23) ? $hh - 24 : $hh;
             $mn = ($mn > 59) ? $mn - 60 : $mn;
             $ss = ($ss > 59) ? $ss - 60 : $ss;
-	    $now = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
+	    $now = date("$aa-$mm-$jj $hh:$mn:$ss");
+	    $now_gmt = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
         } else {
-	    $now = gmdate('Y-m-d H:i:s');
+		$now = current_time('mysql');
+		$now_gmt = current_time('mysql', 1);
         }
 
 		if (!empty($HTTP_POST_VARS['mode'])) {
@@ -127,15 +129,15 @@ switch($action) {
 
         if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
 		$postquery ="INSERT INTO $tableposts
-                (ID, post_author, post_date, post_content, post_title, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping)
+                (ID, post_author, post_date, post_date_gmt, post_content, post_title, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping)
                 VALUES
-                ('0', '$user_ID', '$now', '$content', '$post_title', $post_latf, $post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback')
+                ('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', $post_latf, $post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback')
                 ";
         } else {
 		$postquery ="INSERT INTO $tableposts
-                (ID, post_author, post_date, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping)
+                (ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping)
                 VALUES
-                ('0', '$user_ID', '$now', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback')
+                ('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback')
                 ";
         }
         $postquery =
@@ -322,12 +324,15 @@ switch($action) {
             $hh = ($hh > 23) ? $hh - 24 : $hh;
             $mn = ($mn > 59) ? $mn - 60 : $mn;
             $ss = ($ss > 59) ? $ss - 60 : $ss;
-            $datemodif = ", post_date = '".get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss")."'";
+            $datemodif = ", post_date = '$aa-$mm-$jj $hh:$mn:$ss'";
+	    $datemodif_gmt = ", post_date = '".get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss")."'";
         } else {
             $datemodif = '';
+            $datemodif_gmt = '';
         }
 	
-	$now = gmdate('Y-m-d H:i:s');
+	$now = current_time('mysql');
+	$now_gmt = current_time('mysql', 1);
 
         $result = $wpdb->query("
 			UPDATE $tableposts SET
@@ -343,6 +348,7 @@ switch($action) {
 				post_name = '$post_name',
 				to_ping = '$trackback',
 				post_modified = '$now'
+				post_modified_gmt = '$now_gmt'
 			WHERE ID = $post_ID ");
 
 
