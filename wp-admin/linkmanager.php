@@ -363,8 +363,8 @@ switch ($action) {
 
 <div class="wrap">
     <form name="cats" method="post">
-    <table width="50%" cellpadding="5" cellspacing="0" border="0">
-      <tr><td><b>Link Categories:</b></td><td colspan="2"><a href="linkcategories.php">Manage Link Categories</a></td></tr>
+    <table width="75%" cellpadding="5" cellspacing="0" border="0">
+      <tr><td><b>Link Categories:</b></td><td><a href="linkcategories.php">Manage Link Categories</a></td><td><a href="links.import.php">Import Blogroll</a></td></tr>
       <tr>
         <td>
           <b>Show</b> links in category:<br />
