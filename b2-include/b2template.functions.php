@@ -631,7 +631,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 }
 
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-	global $tableposts, $p, $posts, $id, $post, $siteurl, $blogfilename, $querycount;
+	global $tableposts, $p, $posts, $id, $post, $siteurl, $blogfilename, $querycount, $wpdb;
 	global $time_difference;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if(($p) || ($posts==1)) {
@@ -1053,7 +1053,7 @@ function comment_text() {
 	$comment_text = convert_gmcode($comment_text);
 	$comment_text = convert_smilies($comment_text);
 	$comment_text = make_clickable($comment_text);
-	$comment_text = balanceTags($comment_text);
+	$comment_text = balanceTags($comment_text,1);
 	$comment_text = apply_filters('comment_text', $comment_text);
 	echo $comment_text;
 }
