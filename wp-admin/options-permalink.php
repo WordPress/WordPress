@@ -105,7 +105,7 @@ if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
   <textarea rows="5" style="width: 100%;">RewriteEngine On
 RewriteBase <?php echo $site_root; ?> 
 <?php
-$rewrite = rewrite_rules();
+$rewrite = rewrite_rules('', $permalink_structure);
 foreach ($rewrite as $match => $query) {
     echo 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
 }

@@ -263,7 +263,7 @@ function url_to_postid($url = '') {
 		'([0-9]{4})?',
 		'([0-9]{1,2})?',
 		'([0-9]{1,2})?',
-		'([0-9a-z-]+)?',
+		'([_0-9a-z-]+)?',
 		'([0-9]+)?'
 	);
 
@@ -1367,7 +1367,7 @@ function hilite($text) {
  *           If empty, $1, $2, $3, etc. are used.
  * Returns an associate array of matches and queries.
  */
-function rewrite_rules($matches = '') {
+function rewrite_rules($matches = '', $permalink_structure = '') {
 
     function preg_index($number, $matches = '') {
         $match_prefix = '$';
@@ -1383,10 +1383,12 @@ function rewrite_rules($matches = '') {
     
     $rewrite = array();
 
-    $permalink_structure = get_settings('permalink_structure');
-
     if (empty($permalink_structure)) {
-        return $rewrite;
+        $permalink_structure = get_settings('permalink_structure');
+        
+        if (empty($permalink_structure)) {
+            return $rewrite;
+        }
     }
 
     $rewritecode = array(
@@ -1401,7 +1403,7 @@ function rewrite_rules($matches = '') {
                             '([0-9]{4})?',
                             '([0-9]{1,2})?',
                             '([0-9]{1,2})?',
-                            '([0-9a-z_-]+)?',
+                            '([_0-9a-z-]+)?',
                             '([0-9]+)?'
                             );
 
@@ -1456,11 +1458,11 @@ function rewrite_rules($matches = '') {
     $trackbackmatch .= $trackbackregex;
 
     // Site feed
-    $sitefeedmatch = 'feed/?([0-9a-z_-]+)?/?$';
+    $sitefeedmatch = 'feed/?([_0-9a-z-]+)?/?$';
     $sitefeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches);
 
     // Site comment feed
-    $sitecommentfeedmatch = 'comments/feed/?([0-9a-z_-]+)?/?$';
+    $sitecommentfeedmatch = 'comments/feed/?([_0-9a-z-]+)?/?$';
     $sitecommentfeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
 
     // Code for nice categories and authors, currently not very flexible
