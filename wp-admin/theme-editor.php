@@ -92,7 +92,7 @@ default:
 	$themes = get_themes();
 
 	if (! isset($theme)  || empty($theme)) {
-		$theme = 'Default';
+		$theme = get_current_theme();
 	}
 
 	$stylesheet_files = $themes[$theme]['Stylesheet Files'];
