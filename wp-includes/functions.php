@@ -154,6 +154,7 @@ function user_pass_ok($user_login,$user_pass) {
 	return (md5($user_pass) == $userdata->user_pass);
 }
 
+if ( !function_exists('get_currentuserinfo') ) {
 function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $user_identity;
 	// *** retrieving user's data from cookies and db - no spoofing
@@ -177,7 +178,9 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 	if ($idmode == 'namelf')    $user_identity = $userdata->user_lastname.' '.$userdata->user_firstname;
 	if (!$idmode) $user_identity = $userdata->user_nickname;
 }
+}
 
+if ( !function_exists('get_userdata') ) {
 function get_userdata($userid) {
 	global $wpdb, $cache_userdata;
 	$userid = (int) $userid;
@@ -188,7 +191,9 @@ function get_userdata($userid) {
 
     return $cache_userdata[$userid];
 }
+}
 
+if ( !function_exists('get_userdatabylogin') ) {
 function get_userdatabylogin($user_login) {
 	global $cache_userdata, $wpdb;
 	if ( !empty($user_login) && empty($cache_userdata["$user_login"]) ) {
@@ -198,6 +203,7 @@ function get_userdatabylogin($user_login) {
 		$user = $cache_userdata["$user_login"];
 	}
 	return $user;
+}
 }
 
 function get_userid($user_login) {
