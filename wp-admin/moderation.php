@@ -36,7 +36,12 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-
+$comment = array();
+if (isset($HTTP_POST_VARS["comment"])) {
+	foreach ($HTTP_POST_VARS["comment"] as $k => $v) {
+		$comment[intval($k)] = $v;
+	}
+}
 
 switch($action) {
 
@@ -137,7 +142,7 @@ if ($comments) {
     $file = basename(__FILE__);
 ?>
     <p>The following comments wait for approval:</p>
-    <form name="approval" action="" method="post">
+    <form name="approval" action="moderation.php" method="post">
     <input type="hidden" name="action" value="update" />
     <ol id="comments">
 <?php
