@@ -83,7 +83,7 @@ switch($action) {
             $hh = ($hh > 23) ? $hh - 24 : $hh;
             $mn = ($mn > 59) ? $mn - 60 : $mn;
             $ss = ($ss > 59) ? $ss - 60 : $ss;
-	    $now = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss")
+	    $now = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
         } else {
 	    $now = gmdate('Y-m-d H:i:s');
         }
