@@ -35,10 +35,10 @@ $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search
 /* Connecting to the db */
 dbconnect();
 
+@header ("X-Pingback: $pathserver/xmlrpc.php");
 /* Sending HTTP headers 
 // It is presumptious to think that WP is the only thing that might change on the page.
 $last_modified_header = mysql2date('D, d M Y H:i:s', get_lastpostdate());
-@header ("X-Pingback: $pathserver/xmlrpc.php");
 if (!$is_winIE) {
 	@header ("Last-Modified: $last_modified_header");
 	@header ('ETag: "'.md5($last_modified_header.$pagenow).'"');
