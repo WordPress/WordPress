@@ -91,6 +91,9 @@ default:
       <input type="submit" name="Submit" value="Update"> 
     </p> 
   </form> 
+<?php
+ if ($permalink_structure) {
+?>
   <p>Using the permalink structure value you currently have, <code><?php echo $permalink_structure; ?></code>, these are the mod_rewrite rules you should have in your <code>.htaccess</code> file.</p> 
   <?php
 $site_root = str_replace('http://', '', trim(get_settings('siteurl')));
@@ -136,6 +139,15 @@ for ($i = 0; $i < count($tokens[0]); ++$i) {
     RewriteRule ^<?php echo $match; echo '$ ' . $query ?> [QSA]</code></p> 
 </div> 
 <?php
+} else {
+?>
+<p>
+You are not currently using customized permalinks. No special mod_rewrite
+rules are needed.
+</p>
+<?php
+}
+echo "</div>\n";
 
 break;
 }
