@@ -74,7 +74,7 @@ case 'register':
 	}
 	
 	$message  = __('Login') . ": $user_login\r\n";
-	$message .= __('Password') . ": $new_pass\r\n";
+	$message .= __('Password') . ": $password\r\n";
 	$message .= get_settings('siteurl') . '/wp-login.php';
 	
 	wp_mail($user_email, sprintf(__("[%s] Your login information"), get_settings('blogname')), $message);
@@ -87,9 +87,14 @@ case 'register':
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-        <title>WordPress &raquo; <?php _e('Registration Complete') ?></title>
+	<title>WordPress &raquo; <?php _e('Registration Complete') ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />	
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
+	<style type="text/css">
+	.submit {
+		font-size: 1.7em;
+	}
+	</style>
 </head>
 <body>
 
@@ -98,10 +103,7 @@ case 'register':
 	<p><?php _e('Login:') ?> <strong><?php echo $user_login; ?></strong><br />
 	<?php _e('Password:') ?> <strong>emailed to you</strong><br />
 	<?php _e('E-mail:') ?> <strong><?php echo $user_email; ?></strong></p>
-	<form action="wp-login.php" method="post" name="login">
-		<input type="hidden" name="log" value="<?php echo $user_login; ?>" />
-		<input type="submit" value="<?php _e('Login') ?>" name="submit" />
-	</form>
+	<p class="submit"><a href="wp-login.php"><?php _e('Login'); ?> &raquo;</a></p>
 </div>
 </body>
 </html>
