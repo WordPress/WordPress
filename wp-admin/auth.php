@@ -7,7 +7,7 @@ if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && !wp_login($_COOKIE['word
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Pragma: no-cache');
 
-	header('Location: ' . get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']);
+	header('Location: ' . get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
 	exit();
 }
 
