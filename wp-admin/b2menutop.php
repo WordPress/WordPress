@@ -23,4 +23,4 @@ foreach ($menu as $item) {
 </ul>
 <br clear="all" />
 
-<h2><?php echo $title; ?></h2>
+<h2 id="top"><?php echo $title; ?></h2>
