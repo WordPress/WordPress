@@ -380,6 +380,7 @@ switch($action) {
 					foreach ($drafts as $draft) {
 						if (0 != $i) echo ', ';
 						$draft->post_title = stripslashes($draft->post_title);
+                        if ($draft->post_title == '') $draft->post_title = 'post-'.$draft->ID;
 						echo "<a href='b2edit.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
 						++$i;
 						}
