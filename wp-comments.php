@@ -45,7 +45,7 @@
 <p><?php comments_rss_link('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'); ?></p>
 <h2 id="postcomment">Leave a Comment</h2>
 <?php if ('open' == $post->comment_status) { ?>
-<p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
+<p>Line and paragraph breaks automatic, email address never displayed, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
 
 <form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 	<p>

@@ -56,7 +56,7 @@ if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass_'.$c
 
 <?php if ('open' == $commentstatus->comment_status) { ?>
 <h2>Leave a Comment</h2>
-<p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
+<p>Line and paragraph breaks automatic, email address never displayed, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
 
 <form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 	<p>
