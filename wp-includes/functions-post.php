@@ -384,6 +384,8 @@ function user_can_edit_user($user_id, $other_user) {
 function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
 	global $wpdb;
 
+	do_action('wp_blacklist_check', '');
+
 	if ( preg_match_all('/&#(\d+);/', $comment, $chars) ) {
 		foreach ($chars[1] as $char) {
 			// If it's an encoded char in the normal ASCII set, reject
@@ -446,6 +448,7 @@ function wp_new_comment( $commentdata, $spam = false ) {
 		$time_lastcomment = mysql2date('U', $lasttime);
 		$time_newcomment  = mysql2date('U', $now_gmt);
 		if ( ($time_newcomment - $time_lastcomment) < 15 )
+			do_action('comment_flood_trigger', '');
 			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
 	}
 
@@ -455,6 +458,8 @@ function wp_new_comment( $commentdata, $spam = false ) {
 		$approved = 0;
 	if ( wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) )
 		$approved = 'spam';
+	
+	$approved = apply_filters('pre_comment_approved', $approved);
 
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
 	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type)
