@@ -326,7 +326,7 @@ function print_Lon() {
 
 function print_PopUpScript() {
     echo "
-<script language='javaScript' type='text/javascript'>
+<script type='text/javascript'>
 <!-- This script and many more are available free online at -->
 <!-- The JavaScript Source!! http://javascript.internet.com -->
 function formHandler(form) {
