@@ -80,8 +80,8 @@ if (get_settings('hack_file')) {
 		require(ABSPATH . '/my-hacks.php');
 }
 
-if (!strstr($_SERVER['PHP_SELF'], 'wp-admin/plugins.php') && get_settings('active_plugins')) {
-	$current_plugins = explode("\n", (get_settings('active_plugins')));
+if ( get_settings('active_plugins') ) {
+	$current_plugins = explode("\n", get_settings('active_plugins') );
 	foreach ($current_plugins as $plugin) {
 		if (file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))
 			include(ABSPATH . 'wp-content/plugins/' . $plugin);
