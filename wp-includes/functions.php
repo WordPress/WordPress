@@ -1127,6 +1127,8 @@ function start_wp() {
 			);
 	}
 	$authordata = get_userdata($post->post_author);
+	$post->post_date_gmt = $post->post_date;
+	$post->post_date = get_date_from_gmt($post->post_date);
 	$day = mysql2date('d.m.y', $post->post_date);
 	$currentmonth = mysql2date('m', $post->post_date);
 	$numpages = 1;
@@ -1149,8 +1151,6 @@ function start_wp() {
 		$pages[0] = stripslashes($post->post_content);
 		$multipage = 0;
 	}
-	$post->post_date_gmt = $post->post_date;
-	$post->post_date = get_date_from_gmt($post->post_date);
 	return true;
 }
 
