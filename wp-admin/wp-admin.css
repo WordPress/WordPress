@@ -450,8 +450,3 @@ textarea, input, select {
 #wphead h1 span {
 	font-size: .4em;
 }
-
-/* keep labels and their form controls together: */
-label {
-	white-space: nowrap; 
-}
