@@ -156,7 +156,7 @@ $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http:
 $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 53");
 echo ' .';
 flush();
-if (!$wpdb->get_var("SELECT option_id FROM $tableoptinos WHERE option_name = 'hack_file'")) {
+if (!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'hack_file'")) {
 	$wpdb->query("INSERT INTO `$tableoptions` 
 		( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` )
 		VALUES 
