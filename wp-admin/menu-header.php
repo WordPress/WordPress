@@ -40,8 +40,8 @@ else if (isset($submenu_file) && $submenu_file == substr($item[2], -10)) $class 
 else $class = '';
 
 if (file_exists(ABSPATH . "wp-content/plugins/{$item[2]}")) {
-	$page_hook = get_plugin_page_hook($item[2], $parent_file);
-	if ( $page_hook )
+	$menu_hook = get_plugin_page_hook($item[2], $parent_file);
+	if ( $menu_hook )
 		echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/{$parent_file}?page={$item[2]}'$class>{$item[0]}</a></li>";		
 	else
 		echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
