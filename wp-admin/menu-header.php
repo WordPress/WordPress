@@ -12,16 +12,10 @@ foreach ($menu as $item) {
 	if ((substr($self, -10) == substr($item[2], -10) && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
     
 	if ($user_level >= $item[1]) {
-		if (
-				('upload.php' == $item[2] && 
-				 get_settings('use_fileupload') && 
-				 ($user_level >= get_settings('fileupload_minlevel'))
-				 ) || 'upload.php' != $item[2]) {
-			if (file_exists(ABSPATH . "wp-content/plugins/{$item[2]}"))
-				echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";			
-			else
-				echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/{$item[2]}'$class>{$item[0]}</a></li>";
-		}
+		if ( file_exists(ABSPATH . "wp-content/plugins/{$item[2]}") )
+			echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";			
+		else
+			echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/{$item[2]}'$class>{$item[0]}</a></li>";
 	}
 }
 

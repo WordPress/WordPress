@@ -12,7 +12,8 @@ $menu[25] = array(__('Users'), 0, 'profile.php');
 $menu[30] = array(__('Options'), 6, 'options-general.php');
 $menu[35] = array(__('Plugins'), 8, 'plugins.php');
 $menu[40] = array(__('Presentation'), 8, 'themes.php');
-$menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
+if ( get_option('use_fileupload') )
+	$menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
 
 $submenu['post.php'][5] = array(__('Write Post'), 1, 'post.php');
 $submenu['post.php'][10] = array(__('Write Page'), 5, 'page-new.php');
