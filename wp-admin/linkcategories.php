@@ -27,7 +27,6 @@
 // Mike Little (mike@zed1.com)
 // *****************************************************************
 
-include_once('../wp-links/links.config.php');
 include_once('../wp-links/links.php');
 
 $title = "Link Categories";
@@ -54,7 +53,7 @@ switch ($action) {
       $standalone = 1;
       include_once("./b2header.php");
 
-      if ($user_level < $minadminlevel)
+      if ($user_level < get_settings('links_minadminlevel'))
           die ("Cheatin' uh ?");
 
       $cat_name=addslashes($HTTP_POST_VARS["cat_name"]);
@@ -118,7 +117,7 @@ switch ($action) {
     if ($cat_id=="1")
         die("Can't delete the <b>$cat_name</b> link category: this is the default one");
 
-    if ($user_level < $minadminlevel)
+    if ($user_level < get_settings('links_minadminlevel'))
     die ("Cheatin' uh ?");
 
     $wpdb->query("DELETE FROM $tablelinkcategories WHERE cat_id='$cat_id'");
@@ -213,7 +212,7 @@ switch ($action) {
     $standalone = 1;
     include_once("./b2header.php");
 
-    if ($user_level < $minadminlevel)
+    if ($user_level < get_settings('links_minadminlevel'))
       die ("Cheatin' uh ?");
 
     if (isset($submit) && ($submit == "Save")) {
@@ -285,7 +284,7 @@ switch ($action) {
   {
     $standalone=0;
     include_once ("./b2header.php");
-    if ($user_level < $minadminlevel) {
+    if ($user_level < get_settings('links_minadminlevel')) {
       die("You have no right to edit the link categories for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
     }
 ?>

@@ -68,7 +68,6 @@ switch($step) {
 <h1>Step 1</h1>
 <p>Okay first we&#8217;re going to set up the links database. This will allow you to host your own blogroll, complete with Weblogs.com updates.</p>
 <?php
-require_once('../wp-links/links.config.php');
 
 $got_links = false;
 $got_cats = false;

@@ -27,7 +27,6 @@
 // Mike Little (mike@zed1.com)
 // *****************************************************************
 require_once('../wp-config.php');
-require_once('../wp-links/links.config.php');
 require_once("../wp-links/links.php");
 
 $title = 'Manage Links';
@@ -98,7 +97,7 @@ switch ($action) {
     include_once('b2header.php');
 
     // check the current user's level first.
-    if ($user_level < $minadminlevel)
+    if ($user_level < get_settings('links_minadminlevel'))
       die ("Cheatin' uh ?");
 
     //for each link id (in $linkcheck[]): if the current user level >= the
@@ -111,7 +110,7 @@ switch ($action) {
     $all_links = join(',', $linkcheck);
     $results = $wpdb->get_results("SELECT link_id, link_owner, user_level FROM $tablelinks LEFT JOIN $tableusers ON link_owner = ID WHERE link_id in ($all_links)");
     foreach ($results as $row) {
-      if (!$use_adminlevels || ($user_level >= $row->user_level)) { // ok to proceed
+      if (!get_settings('links_use_adminlevels') || ($user_level >= $row->user_level)) { // ok to proceed
         $ids_to_change[] = $row->link_id;
       }
     }
@@ -129,7 +128,7 @@ switch ($action) {
     include_once('b2header.php');
 
     // check the current user's level first.
-    if ($user_level < $minadminlevel)
+    if ($user_level < get_settings('links_minadminlevel'))
       die ("Cheatin' uh ?");
 
     //for each link id (in $linkcheck[]): toggle the visibility
@@ -166,7 +165,7 @@ switch ($action) {
     $standalone = 1;
     include_once('b2header.php');
     // check the current user's level first.
-    if ($user_level < $minadminlevel)
+    if ($user_level < get_settings('links_minadminlevel'))
       die ("Cheatin' uh ?");
 
     //for each link id (in $linkcheck[]) change category to selected value
@@ -199,7 +198,7 @@ switch ($action) {
     $link_notes = $HTTP_POST_VARS["notes"];
     $auto_toggle = get_autotoggle($link_category);
 
-    if ($user_level < $minadminlevel)
+    if ($user_level < get_settings('links_minadminlevel'))
       die ("Cheatin' uh ?");
 
     // if we are in an auto toggle category and this one is visible then we
@@ -246,7 +245,7 @@ switch ($action) {
       $link_notes = $HTTP_POST_VARS["notes"];
       $auto_toggle = get_autotoggle($link_category);
 
-      if ($user_level < $minadminlevel)
+      if ($user_level < get_settings('links_minadminlevel'))
         die ("Cheatin' uh ?");
 
       // if we are in an auto toggle category and this one is visible then we
@@ -276,7 +275,7 @@ switch ($action) {
 
     $link_id = $HTTP_POST_VARS["link_id"];
 
-    if ($user_level < $minadminlevel)
+    if ($user_level < get_settings('links_minadminlevel'))
       die ("Cheatin' uh ?");
 
     $wpdb->query("DELETE FROM $tablelinks WHERE link_id = '$link_id'");
@@ -298,7 +297,7 @@ switch ($action) {
   {
     $standalone=0;
     include_once ('b2header.php');
-    if ($user_level < $minadminlevel) {
+    if ($user_level < get_settings('links_minadminlevel')) {
       die("You have no right to edit the links for this blog.<br />Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a>. :)");
     }
 
@@ -446,7 +445,7 @@ switch ($action) {
     setcookie('links_show_order', $links_show_order, time()+600);
     $standalone=0;
     include_once ("./b2header.php");
-    if ($user_level < $minadminlevel) {
+    if ($user_level < get_settings('links_minadminlevel')) {
       die("You have no right to edit the links for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
     }
 
@@ -598,7 +597,7 @@ function checkAll(form)
 LINKS;
             $show_buttons = 1; // default
 
-            if ($use_adminlevels && ($link->user_level > $user_level)) {
+            if (get_settings('links_use_adminlevels') && ($link->user_level > $user_level)) {
               $show_buttons = 0;
             }
 

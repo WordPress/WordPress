@@ -45,22 +45,21 @@ switch($step) {
 
 	case 0:
 ?>
-<p>Welcome to WordPress. We&#8217;re now going to go through a few steps to get 
-  you up and running with the latest in personal publishing platforms. Before 
-  we get started, remember that we require a PHP version of at least 4.0.6, you 
-  have <?php echo phpversion(); ?>. Look good? You also need to set up the database 
-  connection information in <code>wp-config.php</code>. Have you looked at the 
-  <a href="../readme.html">readme</a>? If you&#8217;re all ready, <a href="wp-install.php?step=1">let's 
+<p>Welcome to WordPress. We&#8217;re now going to go through a few steps to get
+  you up and running with the latest in personal publishing platforms. Before
+  we get started, remember that we require a PHP version of at least 4.0.6, you
+  have <?php echo phpversion(); ?>. Look good? You also need to set up the database
+  connection information in <code>wp-config.php</code>. Have you looked at the
+  <a href="../readme.html">readme</a>? If you&#8217;re all ready, <a href="wp-install.php?step=1">let's
   go</a>! </p>
 <?php
 	break;
-	
+
 	case 1:
 ?>
 <h1>Step 1</h1>
 <p>Okay first we&#8217;re going to set up the links database. This will allow you to host your own blogroll, complete with Weblogs.com updates.</p>
 <?php
-require_once('../wp-links/links.config.php');
 
 $got_links = false;
 $got_cats = false;
@@ -169,7 +168,7 @@ if ($got_row) {
     echo "<p>All done!</p>\n";
 }
 ?>
-<p>Did you defeat the boss monster at the end? Great! You&#8217;re ready for <a href="wp-install.php?step=2">Step 
+<p>Did you defeat the boss monster at the end? Great! You&#8217;re ready for <a href="wp-install.php?step=2">Step
   2</a>.</p>
 <?php
 	break;
@@ -515,6 +514,7 @@ $option_data = array(
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(57,'default_ping_status',    5, 'open', 'The default ping state for each new post', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(58,'default_pingback_flag',  5, '1', 'Whether the \'PingBack the URLs in this post\' checkbox should be checked by default', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(59,'default_post_category',  7, '1', 'The default category for each new post', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(83,'default_post_edit_rows', 1, '9', 'The number of rows in the edit post form (min 3, max 100)', 8, 5)",
 
 "INSERT INTO $tableoptiongroups (group_id,  group_name, group_desc) VALUES(7, 'Default post options', 'Default settings for new posts.')",
 "INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(7,55,1 )",
@@ -522,6 +522,7 @@ $option_data = array(
 "INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(7,57,3 )",
 "INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(7,58,4 )",
 "INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(7,59,5 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(7,83,5 )",
 
 // select data for post_status
 "INSERT INTO $tableoptionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (55, 'publish', 'Publish', null,null,1)",
@@ -551,6 +552,72 @@ foreach ($option_data as $query) {
 
 <p>Option Data inserted okay.</p>
 
+
+<?php
+$links_option_data = array(
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(60,'links_minadminlevel',    1, '5', 'The minimum admin level to edit links', 8, 10)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(61,'links_use_adminlevels',  2, '1', 'set this to false to have all links visible and editable to everyone in the link manager', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(62,'links_rating_type',      5, 'image', 'Set this to the type of rating indication you wish to use', 8, 10)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(63,'links_rating_char',      3, '*', 'If we are set to \'char\' which char to use.', 8, 5)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(64,'links_rating_ignore_zero', 2, '1', 'What do we do with a value of zero? set this to true to output nothing, 0 to output as normal (number/image)', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(65,'links_rating_single_image',  2, '1', 'Use the same image for each rating point? (Uses links_rating_image[0])', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(66,'links_rating_image0',  3, 'wp-links/links-images/tick.png', 'Image for rating 0 (and for single image)', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(67,'links_rating_image1',  3, 'wp-links/links-images/rating-1.gif', 'Image for rating 1', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(68,'links_rating_image2',  3, 'wp-links/links-images/rating-2.gif', 'Image for rating 2', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(69,'links_rating_image3',  3, 'wp-links/links-images/rating-3.gif', 'Image for rating 3', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(70,'links_rating_image4',  3, 'wp-links/links-images/rating-4.gif', 'Image for rating 4', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(71,'links_rating_image5',  3, 'wp-links/links-images/rating-5.gif', 'Image for rating 5', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(72,'links_rating_image6',  3, 'wp-links/links-images/rating-6.gif', 'Image for rating 6', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(73,'links_rating_image7',  3, 'wp-links/links-images/rating-7.gif', 'Image for rating 7', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(74,'links_rating_image8',  3, 'wp-links/links-images/rating-8.gif', 'Image for rating 8', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(75,'links_rating_image9',  3, 'wp-links/links-images/rating-9.gif', 'Image for rating 9', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(76,'weblogs_cache_file',   3, 'weblogs.com.changes.cache', 'path/to/cachefile needs to be writable by web server', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(77,'weblogs_xml_url',      3, 'http://www.weblogs.com/changes.xml', 'Which file to grab from weblogs.com', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(78,'weblogs_cacheminutes', 1, '60', 'cache time in minutes (if it is older than this get a new copy)', 8, 10)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(79,'links_updated_date_format',  3, '%d/%m/%Y %h:%i', 'The date format for the updated tooltip', 8, 25)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(80,'links_recently_updated_prepend',  3, '&gt;&gt;', 'The text to prepend to a recently updated link', 8, 10)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(81,'links_recently_updated_append',  3, '&lt;&lt;', 'The text to append to a recently updated link', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(82,'links_recently_updated_time',  1, '120', 'The time in minutes to consider a link recently updated', 8, 20)",
+
+//group them together
+"INSERT INTO $tableoptiongroups (group_id,  group_name, group_desc) VALUES(8, 'Link Manager Settings', 'Various settings for the link manager.')",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,60,1 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,61,2 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,62,3 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,63,4 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,64,5 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,65,6 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,66,7 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,67,8 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,68,9 )",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,69,10)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,70,11)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,71,12)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,72,13)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,73,14)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,74,15)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,75,16)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,76,17)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,77,18)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,78,19)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,79,20)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,80,21)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,81,22)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(8,82,23)",
+
+// select data for rating_type
+"INSERT INTO $tableoptionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'number', 'Number',    null,null,1)",
+"INSERT INTO $tableoptionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'char',   'Character', null,null,2)",
+"INSERT INTO $tableoptionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'image',  'Image',     null,null,3)",
+);
+
+foreach ($links_option_data as $query) {
+    $q = $wpdb->query($query);
+}
+?>
+
+<p>Links option data inserted okay.</p>
+
 <p>OK. We're nearly done now. We just need to ask you a couple of things:</p>
 <form action="wp-install.php?step=3" method="post">
 <input type="hidden" name="step" value="3" />
@@ -574,7 +641,7 @@ if (isset($url)) {
     $query= "UPDATE $tableoptions set option_value='$url/b2-img/smilies' where option_id=17"; //smilies_directory
     $q = $wpdb->query($query);
 }
-    
+
 // $query = "DROP TABLE IF EXISTS $tableusers";
 // $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$tableusers\" in the database.");
 
@@ -613,10 +680,10 @@ $q = $wpdb->query($query);
 
 <p>User setup successful!</p>
 
-<p>Now you can <a href="../b2login.php">log in</a> with the <strong>login</strong> 
+<p>Now you can <a href="../b2login.php">log in</a> with the <strong>login</strong>
   "admin" and <strong>password</strong> "<?php echo $random_password; ?>".</p>
-<p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em> 
-  password that was generated just for you. If you lose it, you 
+<p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em>
+  password that was generated just for you. If you lose it, you
   will have to delete the tables from the database yourself, and re-install WordPress.
 </p>
 <p>Were you expecting more steps? Sorry to disappoint. All done!</p>

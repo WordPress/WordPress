@@ -27,7 +27,6 @@
 // Mike Little (mike@zed1.com)
 // *****************************************************************
 require_once('../wp-config.php');
-include_once('../wp-links/links.config.php');
 include_once("../wp-links/links.php");
 
 $title = 'Import Blogroll';
@@ -41,7 +40,7 @@ switch ($step) {
     {
         $standalone = 0;
         include_once('b2header.php');
-        if ($user_level < $minadminlevel)
+        if ($user_level < get_settings('links_minadminlevel'))
             die ("Cheatin&#8217; uh?");
 ?>
 <div class="wrap">
@@ -85,7 +84,7 @@ switch ($step) {
     case 1: {
                 $standalone = 0;
                 include_once('b2header.php');
-                if ($user_level < $minadminlevel)
+                if ($user_level < get_settings('links_minadminlevel'))
                     die ("Cheatin' uh ?");
 ?>
 <div class="wrap">
