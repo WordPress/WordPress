@@ -202,7 +202,15 @@ if (! empty($wp_template)) {
 // Template redirection
 if ($pagenow == 'index.php') {
 	if (! isset($wp_did_template_redirect)) {
-		if (is_home() && 
+		if (is_feed()) {
+			$wp_did_template_redirect = true;
+			include(dirname(__FILE__) . '/wp-feed.php');
+			exit;
+		} else if ($tb == 1) {
+			$wp_did_template_redirect = true;
+			include(dirname(__FILE__) . '/wp-trackback.php');
+			exit;
+		} else if (is_home() && 
 				file_exists(ABSPATH . "wp-content/${wp_template}index.php")) {
 			$wp_did_template_redirect = true;
 			include(ABSPATH . "wp-content/${wp_template}index.php");
@@ -247,14 +255,6 @@ if ($pagenow == 'index.php') {
 							 file_exists(ABSPATH . "wp-content/${wp_template}404.php")) {
 			$wp_did_template_redirect = true;
 			include(ABSPATH . "wp-content/${wp_template}404.php");
-			exit;
-		} else if (is_feed()) {
-			$wp_did_template_redirect = true;
-			include(dirname(__FILE__) . '/wp-feed.php');
-			exit;
-		} else if ($tb == 1) {
-			$wp_did_template_redirect = true;
-			include(dirname(__FILE__) . '/wp-trackback.php');
 			exit;
 		} else if (file_exists(ABSPATH . "wp-content/${wp_template}index.php"))
 			{
