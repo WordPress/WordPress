@@ -33,7 +33,7 @@ if (! empty($_SERVER['PATH_INFO'])) {
         foreach ($rewrite as $match => $query) {
             // If the request URI is the anchor of the match, prepend it
             // to the path info.
-            if (preg_match("!^$req_uri!", $match)) {
+            if (strpos($match, $req_uri) === 0) {
                 $pathinfomatch = $req_uri . '/' . $pathinfo;
             }
 
