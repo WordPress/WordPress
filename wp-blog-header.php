@@ -18,7 +18,7 @@ if ((isset($_GET['error']) && $_GET['error'] == '404') ||
 	$error = '404';
 
 	// Fetch the rewrite rules.
-	$rewrite = rewrite_rules('matches');
+	$rewrite = $wp_rewrite->wp_rewrite_rules();
 
 	if (! empty($rewrite)) {
 		$pathinfo = $_SERVER['PATH_INFO'];

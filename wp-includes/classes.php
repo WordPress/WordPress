@@ -698,4 +698,400 @@ class retrospam_mgr {
 
 }
 
+class WP_Rewrite {
+	var $permalink_structure;
+	var $category_base;
+	var $category_structure;
+	var $date_structure;
+	var $front;
+	var $prefix = '';
+	var $index = 'index.php';
+	var $matches = '';
+	var $rewritecode = 
+		array(
+					'%year%',
+					'%monthnum%',
+					'%day%',
+					'%hour%',
+					'%minute%',
+					'%second%',
+					'%postname%',
+					'%post_id%',
+					'%category%',
+					'%author%',
+					'%pagename%',
+					'%search%'
+					);
+
+	var $rewritereplace = 
+		array(
+					'([0-9]{4})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([^/]+)',
+					'([0-9]+)',
+					'(.+?)',
+					'([^/]+)',
+					'([^/]+)',
+					'(.+)'
+					);
+
+	var $queryreplace = 
+		array (
+					 'year=',
+					 'monthnum=',
+					 'day=',
+					 'hour=',
+					 'minute=',
+					 'second=',
+					 'name=',
+					 'p=',
+					 'category_name=',
+					 'author_name=',
+					 'pagename=',
+					 's='
+					 );
+
+	function using_index_permalinks() {
+    if (empty($this->permalink_structure)) {
+			return false;
+    }
+
+    // If the index is not in the permalink, we're using mod_rewrite.
+    if (preg_match('#^/*index.php#', $this->permalink_structure)) {
+      return true;
+    }
+    
+    return false;
+	}
+
+	function preg_index($number) {
+    $match_prefix = '$';
+    $match_suffix = '';
+    
+    if (! empty($this->matches)) {
+			$match_prefix = '$' . $this->matches . '['; 
+			$match_suffix = ']';
+    }        
+    
+    return "$match_prefix$number$match_suffix";        
+	}
+
+	function page_rewrite_rules() {
+		$uris = get_settings('page_uris');
+
+		$rewrite_rules = array();
+		if( is_array( $uris ) )
+			{
+				foreach ($uris as $uri => $pagename) {
+					$rewrite_rules += array($uri . '/?$' => "index.php?pagename=" . urldecode($pagename));
+				}
+			}
+
+		return $rewrite_rules;
+	}
+
+	function get_date_permastruct() {
+		if (isset($this->date_structure)) {
+			return $this->date_structure;
+		}
+
+    if (empty($this->permalink_structure)) {
+			$this->date_structure = '';
+			return false;
+		}
+		
+		// The date permalink must have year, month, and day separated by slashes.
+		$endians = array('%year%/%monthnum%/%day%', '%day%/%monthnum%/%year%', '%monthnum%/%day%/%year%');
+
+		$this->date_structure = '';
+
+		foreach ($endians as $endian) {
+			if (false !== strpos($this->permalink_structure, $endian)) {
+				$this->date_structure = $this->front . $endian;
+				break;
+			}
+		} 
+
+		if (empty($this->date_structure)) {
+			$this->date_structure = $front . '%year%/%monthnum%/%day%';
+		}
+
+		return $this->date_structure;
+	}
+
+	function get_year_permastruct() {
+		$structure = $this->get_date_permastruct($permalink_structure);
+
+		if (empty($structure)) {
+			return false;
+		}
+
+		$structure = str_replace('%monthnum%', '', $structure);
+		$structure = str_replace('%day%', '', $structure);
+
+		$structure = preg_replace('#/+#', '/', $structure);
+
+		return $structure;
+	}
+
+	function get_month_permastruct() {
+		$structure = $this->get_date_permastruct($permalink_structure);
+
+		if (empty($structure)) {
+			return false;
+		}
+
+		$structure = str_replace('%day%', '', $structure);
+
+		$structure = preg_replace('#/+#', '/', $structure);
+
+		return $structure;
+	}
+
+	function get_day_permastruct() {
+		return $this->get_date_permastruct($permalink_structure);
+	}
+
+	function get_category_permastruct() {
+		if (isset($this->category_structure)) {
+			return $this->category_structure;
+		}
+
+    if (empty($this->permalink_structure)) {
+			$this->category_structure = '';
+			return false;
+		}
+
+		if (empty($this->category_base))
+			$this->category_structure = $this->front . 'category/';
+		else
+			$this->category_structure = $this->category_base . '/';
+
+		$this->category_structure .= '%category%';
+		
+		return $this->category_structure;
+	}
+
+	function generate_rewrite_rules($permalink_structure = '', $forcomments = false) {
+		$feedregex2 = '(feed|rdf|rss|rss2|atom)/?$';
+		$feedregex = 'feed/' . $feedregex2;
+
+		$trackbackregex = 'trackback/?$';
+		$pageregex = 'page/?([0-9]{1,})/?$';
+		
+		$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+		preg_match_all('/%.+?%/', $permalink_structure, $tokens);
+
+		$num_tokens = count($tokens[0]);
+
+		$index = $this->index;
+		$feedindex = $index;
+		$trackbackindex = $index;
+		for ($i = 0; $i < $num_tokens; ++$i) {
+			if (0 < $i) {
+				$queries[$i] = $queries[$i - 1] . '&';
+			}
+             
+			$query_token = str_replace($this->rewritecode, $this->queryreplace, $tokens[0][$i]) . $this->preg_index($i+1);
+			$queries[$i] .= $query_token;
+		}
+
+		$structure = $permalink_structure;
+		if ($front != '/') {
+			$structure = str_replace($front, '', $structure);
+		}
+		$structure = trim($structure, '/');
+		$dirs = explode('/', $structure);
+		$num_dirs = count($dirs);
+
+		$front = preg_replace('|^/+|', '', $front);
+
+		$post_rewrite = array();
+		$struct = $front;
+		for ($j = 0; $j < $num_dirs; ++$j) {
+			$struct .= $dirs[$j] . '/';
+			$struct = ltrim($struct, '/');
+			$match = str_replace($this->rewritecode, $this->rewritereplace, $struct);
+			$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
+			$query = $queries[$num_toks - 1];
+
+			$pagematch = $match . $pageregex;
+			$pagequery = $index . '?' . $query . '&paged=' . $this->preg_index($num_toks + 1);
+
+			$feedmatch = $match . $feedregex;
+			$feedquery = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
+
+			$feedmatch2 = $match . $feedregex2;
+			$feedquery2 = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
+
+			if ($forcomments) {
+				$feedquery .= '&withcomments=1';
+				$feedquery2 .= '&withcomments=1';
+			}
+				
+			$rewrite = array($feedmatch => $feedquery, $feedmatch2 => $feedquery2, $pagematch => $pagequery);
+
+			if ($num_toks) {
+				$post = 0;
+				if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
+						|| (strstr($struct, '%year%') &&  strstr($struct, '%monthnum%') && strstr($struct, '%day%') && strstr($struct, '%hour%') && strstr($struct, '%minute') && strstr($struct, '%second%'))) {
+					$post = 1;
+					$trackbackmatch = $match . $trackbackregex;
+					$trackbackquery = $trackbackindex . '?' . $query . '&tb=1';
+					$match = $match . '?([0-9]+)?/?$';
+					$query = $index . '?' . $query . '&page=' . $this->preg_index($num_toks + 1);
+				} else {
+					$match .= '?$';
+					$query = $index . '?' . $query;
+				}
+				        
+				$rewrite = $rewrite + array($match => $query);
+
+				if ($post) {
+					$rewrite = array($trackbackmatch => $trackbackquery) + $rewrite;
+				}
+			}
+
+			$post_rewrite = $rewrite + $post_rewrite;
+		}
+
+		return $post_rewrite;
+	}
+
+	/* rewrite_rules
+	 * Construct rewrite matches and queries from permalink structure.
+	 * Returns an associate array of matches and queries.
+	 */
+	function rewrite_rules() {
+		$rewrite = array();
+
+		if (empty($this->permalink_structure)) {
+			return $rewrite;
+		}
+
+		// Post
+		$post_rewrite = $this->generate_rewrite_rules($this->permalink_structure);
+
+		// Date
+		$date_rewrite = $this->generate_rewrite_rules($this->get_date_permastruct());
+		
+		// Root
+		$root_rewrite = $this->generate_rewrite_rules($this->prefix . '/');
+
+		// Comments
+		$comments_rewrite = $this->generate_rewrite_rules($this->prefix . 'comments', true);
+
+		// Search
+		$search_structure = $this->prefix . "search/%search%";
+		$search_rewrite = $this->generate_rewrite_rules($search_structure);
+
+		// Categories
+		$category_rewrite = $this->generate_rewrite_rules($this->get_category_permastruct());
+
+		// Authors
+		$author_structure = $this->front . 'author/%author%';
+		$author_rewrite = $this->generate_rewrite_rules($author_structure);
+
+		// Pages
+		$page_rewrite = $this->page_rewrite_rules();
+
+		// Deprecated style static pages
+		$page_structure = $this->prefix . 'site/%pagename%';
+		$old_page_rewrite = $this->generate_rewrite_rules($page_structure);
+
+		// Put them together.
+		$this->rewrite = $page_rewrite + $root_rewrite + $comments_rewrite + $old_page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite + $post_rewrite;
+
+		$this->rewrite = apply_filters('rewrite_rules_array', $this->rewrite);
+		return $this->rewrite;
+	}
+
+	function wp_rewrite_rules() {
+		$this->matches = 'matches';
+		return $this->rewrite_rules();
+	}
+
+	function mod_rewrite_rules () {
+		$site_root = str_replace('http://', '', trim(get_settings('siteurl')));
+		$site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
+		if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
+    
+		$home_root = str_replace('http://', '', trim(get_settings('home')));
+		$home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
+		if ('/' != substr($home_root, -1)) $home_root = $home_root . '/';
+
+		$rules = "<IfModule mod_rewrite.c>\n";
+		$rules .= "RewriteEngine On\n";
+		$rules .= "RewriteBase $home_root\n";
+		$this->matches = '';
+		$rewrite = $this->rewrite_rules();
+
+		$num_rules = count($rewrite);
+		$rules .= "RewriteCond %{REQUEST_FILENAME} -f [OR]\n" .
+			"RewriteCond %{REQUEST_FILENAME} -d\n" .
+			"RewriteRule ^.*$ - [S=$num_rules]\n";
+
+		foreach ($rewrite as $match => $query) {
+			// Apache 1.3 does not support the reluctant (non-greedy) modifier.
+			$match = str_replace('.+?', '.+', $match);
+
+			// If the match is unanchored and greedy, prepend rewrite conditions
+			// to avoid infinite redirects and eclipsing of real files.
+			if ($match == '(.+)/?$' || $match == '([^/]+)/?$' ) {
+				//nada.
+			}
+
+			if (strstr($query, 'index.php')) {
+				$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
+			} else {
+				$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA,L]\n";
+			}
+		}
+		$rules .= "</IfModule>\n";
+
+		$rules = apply_filters('rewrite_rules', $rules);
+
+		return $rules;
+	}
+
+	function init() {
+		$this->permalink_structure = get_settings('permalink_structure');
+		$this->front = substr($this->permalink_structure, 0, strpos($this->permalink_structure, '%'));		
+		$this->prefix = '';
+		if ($this->using_index_permalinks()) {
+			$this->prefix = $this->index . '/';
+		}
+		$this->category_base = get_settings('category_base');
+		unset($this->category_structure);
+		unset($this->date_structure);		
+	}
+
+	function set_permalink_structure($permalink_structure) {
+		if ($permalink_structure != $this->permalink_structure) {
+			update_option('permalink_structure', $permalink_structure);
+			$this->init();
+		}
+	}
+
+	function set_category_base($category_base) {
+		if ($category_base != $this->category_base) {
+			update_option('category_base', $category_base);
+			$this->init();
+		}
+	}
+
+	function WP_Rewrite() {
+		$this->init();
+	}
+}
+
+// Make a global instance.
+if (! isset($wp_rewrite)) {
+    $wp_rewrite = new WP_Rewrite();
+}
+
 ?>

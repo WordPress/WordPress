@@ -21,21 +21,19 @@ if ( isset($_POST) ) {
 		$permalink_structure = $_POST['permalink_structure'];
 		if (! empty($permalink_structure) )
 			$permalink_structure = preg_replace('#/+#', '/', '/' . $_POST['permalink_structure']);
-		update_option('permalink_structure', $permalink_structure);
+		$wp_rewrite->set_permalink_structure($permalink_structure);
 	}
 	
 	if ( isset($_POST['category_base']) ) {
 		$category_base = $_POST['category_base'];
 		if (! empty($category_base) )
 			$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
-		update_option('category_base', $category_base);
+		$wp_rewrite->set_category_base($category_base);
 	}
 }
 	
 $permalink_structure = get_settings('permalink_structure');
 $category_base = get_settings('category_base');
-
-get_date_permastruct();
 
 generate_page_rewrite_rules();
 
@@ -44,7 +42,7 @@ if ( (!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_wri
 else
 	$writable = false;
 
-if ( strstr($permalink_structure, 'index.php') ) // If they're using 
+if ($wp_rewrite->using_index_permalinks())
 	$usingpi = true;
 else
 	$usingpi = false;
@@ -106,7 +104,7 @@ save_mod_rewrite_rules();
   <p><?php _e('If your <code>.htaccess</code> was <a href="http://codex.wordpress.org/Make_a_Directory_Writable">writable</a> we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
    <p>
-<textarea rows="5" style="width: 98%;" name="rules"><?php echo mod_rewrite_rules($permalink_structure); ?>
+<textarea rows="5" style="width: 98%;" name="rules"><?php echo $wp_rewrite->mod_rewrite_rules(); ?>
 </textarea>
     </p>
 <?php endif; ?>

@@ -84,7 +84,7 @@ function get_permalink($id = false) {
 }
 
 function get_page_link($id = false) {
-	global $post;
+	global $post, $wp_rewrite;
 
 	if (! $id) {
 		$id = $post->ID;
@@ -94,7 +94,7 @@ function get_page_link($id = false) {
 
 	if ('' != $permalink) {
 		$link = get_page_uri($id);
-		if (using_index_permalinks()) {
+		if ($wp_rewrite->using_index_permalinks()) {
 			$link = 'index.php/' . $link;
 		}
 		$link = get_settings('home') . "/$link/";
@@ -106,49 +106,50 @@ function get_page_link($id = false) {
 }
 
 function get_year_link($year) {
-    global $querystring_start, $querystring_equal;
+	global $querystring_start, $querystring_equal, $wp_rewrite;
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
-		$yearlink = get_year_permastruct();
+		$yearlink = $wp_rewrite->get_year_permastruct();
     if (!empty($yearlink)) {
         $yearlink = str_replace('%year%', $year, $yearlink);
-        return get_settings('home') . $yearlink;
+        return get_settings('home') . trailingslashit($yearlink);
     } else {
         return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year;
     }
 }
 
 function get_month_link($year, $month) {
-    global $querystring_start, $querystring_equal;
+    global $querystring_start, $querystring_equal, $wp_rewrite;
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
-		$monthlink = get_month_permastruct();
+		$monthlink = $wp_rewrite->get_month_permastruct();
     if (!empty($monthlink)) {
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
-        return get_settings('home') . $monthlink;
+        return get_settings('home') . trailingslashit($monthlink);
     } else {
         return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
     }
 }
 
 function get_day_link($year, $month, $day) {
-    global $querystring_start, $querystring_equal;
+    global $querystring_start, $querystring_equal, $wp_rewrite;
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
     if (!$day) $day = gmdate('j', time()+(get_settings('gmt_offset') * 3600));
 
-		$daylink = get_day_permastruct();
+		$daylink = $wp_rewrite->get_day_permastruct();
     if (!empty($daylink)) {
         $daylink = str_replace('%year%', $year, $daylink);
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
-        return get_settings('home') . $daylink;
+        return get_settings('home') . trailingslashit($daylink);
     } else {
         return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
     }
 }
 
 function get_feed_link($feed='rss2') {
+	global $wp_rewrite;
     $do_perma = 0;
     $feed_url = get_settings('siteurl');
     $comment_feed_url = $feed_url;
@@ -159,7 +160,7 @@ function get_feed_link($feed='rss2') {
         $feed_url = get_settings('home');
         $index = 'index.php';
         $prefix = '';
-        if (using_index_permalinks()) {
+        if ($wp_rewrite->using_index_permalinks()) {
             $feed_url .= '/' . $index;
         }
 
@@ -416,6 +417,8 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 }
 
 function get_pagenum_link($pagenum = 1){
+	global $wp_rewrite;
+
    $qstr = $_SERVER['REQUEST_URI'];
 
    $page_querystring = "paged"; 
@@ -453,7 +456,7 @@ function get_pagenum_link($pagenum = 1){
          $permalink = 1;
 
 	 // If it's not a path info permalink structure, trim the index.
-	 if (! using_index_permalinks()) {
+	 if (! $wp_rewrite->using_index_permalinks()) {
 	   $qstr = preg_replace("#/*" . $index . "/*#", '/', $qstr);
 	 } else {
 	   // If using path info style permalinks, make sure the index is in

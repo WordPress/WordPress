@@ -25,28 +25,22 @@ function get_the_category($id = false) {
 }
 
 function get_category_link($echo = false, $category_id, $category_nicename) {
-    global $wpdb, $post, $querystring_start, $querystring_equal, $cache_categories;
+	global $wpdb, $wp_rewrite, $post, $querystring_start, $querystring_equal, $cache_categories;
     $cat_ID = $category_id;
-    $permalink_structure = get_settings('permalink_structure');
+    $catlink = $wp_rewrite->get_category_permastruct();
     
-    if ('' == $permalink_structure) {
+    if (empty($catlink)) {
         $file = get_settings('home') . '/' . get_settings('blogfilename');
-        $link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
+        $catlink = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
     } else {
-		$category_nicename = $cache_categories[$category_id]->category_nicename;
-		// Get any static stuff from the front
-        $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-		if ( '' == get_settings('category_base') ) :
-			$link = get_settings('home') . $front . 'category/';
-		else :
-         $link = get_settings('home') . get_settings('category_base') . '/';
-		endif;
-        if ($parent=$cache_categories[$category_id]->category_parent) $link .= get_category_parents($parent, FALSE, '/', TRUE);
-        $link .= $category_nicename . '/';
-    }
+			$category_nicename = $cache_categories[$category_id]->category_nicename;
+			if ($parent=$cache_categories[$category_id]->category_parent) $category_nicename = get_category_parents($parent, FALSE, '/', TRUE) . $category_nicename . '/';
 
-    if ($echo) echo $link;
-    return $link;
+			$catlink = str_replace('%category%', $category_nicename, $catlink);
+			$catlink = get_settings('home') . trailingslashit($catlink);
+    }
+    if ($echo) echo $catlink;
+    return $catlink;
 }
 
 function get_category_rss_link($echo = false, $category_id, $category_nicename) {

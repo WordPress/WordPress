@@ -490,7 +490,7 @@ function extract_from_markers($filename, $marker) {
 }
 
 function save_mod_rewrite_rules() {
-	global $is_apache;
+	global $is_apache, $wp_rewrite;
 	$home = get_settings('home');
 	if ( $home != '' && $home != get_settings('siteurl') ) {
 		$home_path = parse_url($home);
@@ -506,15 +506,13 @@ function save_mod_rewrite_rules() {
 	else
 		$writable = false;
 
-	$permalink_structure = get_settings('permalink_structure');
-
-	if ( strstr($permalink_structure, 'index.php') ) // If they're using 
+	if ($wp_rewrite->using_index_permalinks())
 		$usingpi = true;
 	else
 		$usingpi = false;
 
 	if ( $writable && !$usingpi && $is_apache ) {
-		$rules = explode("\n", mod_rewrite_rules($permalink_structure));
+		$rules = explode("\n", $wp_rewrite->mod_rewrite_rules());
 		insert_with_markers($home_path.'.htaccess', 'WordPress', $rules);
 	}
 }
