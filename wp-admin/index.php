@@ -4,7 +4,7 @@ $title = __('Dashboard');
 require_once('admin-header.php');
 require_once (ABSPATH . WPINC . '/rss-functions.php');
 
-$today = current_time('mysql');
+$today = current_time('mysql', 1);
 ?>
 
 <div class="wrap">
@@ -30,7 +30,7 @@ foreach ($recentposts as $post) {
 <?php endif; ?>
 
 <?php
-if ( $scheduled = $wpdb->get_results("SELECT ID, post_title, post_date FROM $wpdb->posts WHERE post_status = 'publish' AND post_date_gmt > '$today'") ) :
+if ( $scheduled = $wpdb->get_results("SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_date_gmt > '$today'") ) :
 ?> 
 <div>
 <h3><?php _e('Scheduled Entries:') ?></h3>
@@ -39,7 +39,7 @@ if ( $scheduled = $wpdb->get_results("SELECT ID, post_title, post_date FROM $wpd
 foreach ($scheduled as $post) {
 	if ($post->post_title == '')
 		$post->post_title = sprintf(__('Post #%s'), $post->ID);
-	echo "<li><a href='post.php?action=edit&amp;post=$post->ID' title='" . __('Edit this post') . "'>$post->post_title</a> in " . human_time_diff( time(), strtotime($post->post_date) )  . "</li>";
+	echo "<li><a href='post.php?action=edit&amp;post=$post->ID' title='" . __('Edit this post') . "'>$post->post_title</a> in " . human_time_diff( time(), strtotime($post->post_date_gmt) )  . "</li>";
 }
 ?> 
 </ul>

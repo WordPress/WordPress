@@ -58,6 +58,12 @@ $tableoptions = $wpdb->options;
 $tablepostmeta = $wpdb->postmeta;
 
 require (ABSPATH . WPINC . '/functions.php');
+
+$wpdb->hide_errors();
+if ( !update_user_cache() && !strstr($_SERVER['PHP_SELF'], 'install.php') )
+	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
+$wpdb->show_errors();
+
 require (ABSPATH . WPINC . '/functions-formatting.php');
 require (ABSPATH . WPINC . '/functions-post.php');
 require (ABSPATH . WPINC . '/classes.php');
@@ -66,11 +72,6 @@ require (ABSPATH . WPINC . '/links.php');
 require (ABSPATH . WPINC . '/kses.php');
 
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
-
-$wpdb->hide_errors();
-if ( !update_user_cache() && !strstr($_SERVER['PHP_SELF'], 'install.php') )
-	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
-$wpdb->show_errors();
 
 if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF'], 'wp-admin/import')) :
     $querystring_start = '?';
