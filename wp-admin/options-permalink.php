@@ -1,5 +1,7 @@
 <?php
-$title = 'Permalink Options';
+require_once('../wp-includes/wp-l10n.php');
+
+$title = __('Permalink Options');
 $parent_file = 'options-general.php';
 
 $wpvarstoreset = array('action','standalone', 'option_group_id');
@@ -34,40 +36,40 @@ default:
 	$standalone = 0;
 	require_once('admin-header.php');
 	if ($user_level <= 6) {
-		die("You have do not have sufficient permissions to edit the options for this blog.");
+		die(__("You have do not have sufficient permissions to edit the options for this blog."));
 	}
 	require('./options-head.php');
 ?>
 <div class="wrap"> 
-  <h2>Edit Permalink Structure</h2> 
-  <p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p> 
+  <h2><?php _e('Edit Permalink Structure') ?></h2> 
+  <?php _e('<p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p>')?> 
   <ul> 
-    <li><code>%year%</code> --- The year of the post, 4 digits, for example <code>2004</code> </li> 
-    <li><code>%monthnum%</code> --- Month of the year, for example <code>05</code></li> 
-    <li><code>%day% </code>--- Day of the month, for example <code>28</code></li> 
-    <li><code>%postname%</code> --- A sanitized version of the title of the post. So &#8220;This Is A Great Post!&#8221; becomes &#8220;<code>this-is-a-great-post</code>&#8221; in the URI </li> 
-    <li><code>%post_id%</code> --- The unique ID # of the post, for example <code>423</code> <strong></strong></li> 
+    <li><code>%year%</code> --- <?php _e('The year of the post, 4 digits, for example <code>2004</code>') ?> </li> 
+    <li><code>%monthnum%</code> --- <?php _e('Month of the year, for example <code>05</code>') ?></li> 
+    <li><code>%day% </code>--- <?php _e('Day of the month, for example <code>28</code>') ?></li> 
+    <li><code>%postname%</code> --- <?php _e('A sanitized version of the title of the post. So &#8220;This Is A Great Post!&#8221; becomes &#8220;<code>this-is-a-great-post</code>&#8221; in the URI') ?> </li> 
+    <li><code>%post_id%</code> --- <?php _e('The unique ID # of the post, for example <code>423</code> <strong></strong>') ?></li> 
   </ul> 
-  <p>So for example a value like:</p>
+  <?php _e('<p>So for example a value like:</p>
   <p><code>/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
   <p>would give you a permalink like:</p>
   <p><code>/archives/2003/05/23/my-cheese-sandwich/</code></p>
   <p> In general for this you must use mod_rewrite, however if you put a filename at the beginning WordPress will attempt to use that to pass the arguments, for example:</p>
   <p><code>/index.php/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
-  <p>If you use this option you can ignore the mod_rewrite rules. </p>
+  <p>If you use this option you can ignore the mod_rewrite rules. </p>') ?>
   <form name="form" action="options-permalink.php" method="post"> 
-    <p>Use the template tags above to create a virtual site structure:</p> 
+    <?php _e('<p>Use the template tags above to create a virtual site structure:</p>') ?> 
     <p> 
       <input name="permalink_structure" type="text" style="width: 98%;" value="<?php echo $permalink_structure; ?>" /> 
     </p> 
     <p class="submit"> 
-      <input type="submit" name="submit" value="Update Permalink Structure"> 
+      <input type="submit" name="submit" value="<?php _e('Update Permalink Structure') ?>"> 
     </p> 
   </form> 
 <?php
  if ($permalink_structure) {
 ?>
-  <p>Using the permalink structure value you currently have, <code><?php echo $permalink_structure; ?></code>, these are the mod_rewrite rules you should have in your <code>.htaccess</code> file.</p> 
+  <?php printf(__('<p>Using the permalink structure value you currently have, <code>%s</code>, these are the mod_rewrite rules you should have in your <code>.htaccess</code> file.</p>'), $permalink_structure) ?> 
   <?php
 $site_root = str_replace('http://', '', trim(get_settings('siteurl')));
 $site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
@@ -86,15 +88,14 @@ foreach ($rewrite as $match => $query) {
 ?>
     </textarea>
     </p>
-    <p>If your <code>.htaccess</code> file is writable by WordPress, you can <a href="templates.php?file=.htaccess">edit it through your template interface</a>.</p>
+    <?php printf(__('<p>If your <code>.htaccess</code> file is writable by WordPress, you can <a href="%s">edit it through your template interface</a>.</p>'), 'templates.php?file=.htaccess') ?>
 </form>
 </div> 
 <?php
 } else {
 ?>
 <p>
-You are not currently using customized permalinks. No special mod_rewrite
-rules are needed.
+<?php _e('You are not currently using customized permalinks. No special mod_rewrite rules are needed.') ?>
 </p>
 <?php
 }
