@@ -19,8 +19,14 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+$recents = get_option('recently_edited');
+
 if (empty($file)) {
-	$file = 'index.php';
+	if ($recents) {
+		$file = $recents[0];
+	} else {
+		$file = 'index.php';
+	}
 }
 
 $file = validate_file_to_edit($file);
@@ -82,7 +88,7 @@ if (is_writeable($real_file)) {
 ?>
 <div id="templateside">
 <?php 
-if ( $recents = get_option('recently_edited') ) : 
+if ( $recents ) : 
 ?>
 <h3><?php _e('Recent'); ?></h3>
 <?php
