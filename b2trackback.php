@@ -1,41 +1,10 @@
-<?php if (!empty($tb)) { ?>
-<!-- you can START editing here -->
+<?php if (!empty($tb)) {
 
-	<?php // don't touch these 2 lines
-	$resultc = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id AND comment_content LIKE '%<trackback />%' ORDER BY comment_date"); if ($resultc) {
-	?>
-
-<h2>Trackbacks</h2>
-
-<p>The URL to TrackBack this entry is:</p>
-<p><em><?php trackback_url() ?></em></p>
-
-<ol id="trackbacks">
-	<?php /* this line is b2's motor, do not delete it */ foreach ($resultc as $rowc) { $commentdata = get_commentdata($rowc->comment_ID); ?>
-	<li id="trackback-<?php comment_ID() ?>">
-	<?php comment_text() ?>
-	
-	<p><cite>Tracked on <a href="<?php comment_author_url(); ?>" title="<?php comment_author() ?>"><?php comment_author() ?></a> on <?php comment_date() ?> @ <?php comment_time() ?></cite></p>
-	</li>
-
-	<?php /* end of the loop, don't delete */ } if (!$wxcvbn_c) { ?>
-
-<!-- this is displayed if there are no trackbacks so far -->
-	<li>No trackbacks yet.</li>
-
-	<?php /* if you delete this the sky will fall on your head */ } ?>
-</ol>
-<div><a href="javascript:history.go(-1)">Go back</a></div>
-	<?php /* if you delete this the sky will fall on your head */ } ?>
-<!-- STOP editing there -->
-
-<?php
-	
 } else {
 
 if (!empty($HTTP_GET_VARS['tb_id'])) {
 	// trackback is done by a GET
-	$tb_id = $HTTP_GET_VARS['tb_id'];
+	$tb_id = intval($HTTP_GET_VARS['tb_id']);
 	$tb_url = $HTTP_GET_VARS['url'];
 	$title = $HTTP_GET_VARS['title'];
 	$excerpt = $HTTP_GET_VARS['excerpt'];
@@ -44,7 +13,7 @@ if (!empty($HTTP_GET_VARS['tb_id'])) {
 	// trackback is done by a POST
 	$request_array = 'HTTP_POST_VARS';
 	$tb_id = explode('/', $HTTP_SERVER_VARS['REQUEST_URI']);
-	$tb_id = $tb_id[count($tb_id)-1];
+	$tb_id = inval($tb_id[count($tb_id)-1]);
 	$tb_url = $HTTP_POST_VARS['url'];
 	$title = $HTTP_POST_VARS['title'];
 	$excerpt = $HTTP_POST_VARS['excerpt'];
@@ -84,7 +53,6 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	$email = '';
 	$original_comment = $comment;
 	$comment_post_ID = $tb_id;
-	$autobr = 1;
 
 	$user_ip = $HTTP_SERVER_VARS['REMOTE_ADDR'];
 	$user_domain = gethostbyaddr($user_ip);
@@ -100,43 +68,30 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 
 	$author = addslashes($author);
 
-	$query = "INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$tb_url','$user_ip','$now','$comment','0')";
-	$result = $wpdb->query($query);
+	$result = $wpdb->query("INSERT INTO $tablecomments VALUES ('0', '$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$comment', '0')");
 	if (!$result) {
 		die ("There is an error with the database, it can't store your comment...<br />Contact the <a href=\"mailto:$admin_email\">webmaster</a>");
 	} else {
-
-		if ($comments_notify) {
-
-			$notify_message  = "New trackback on your post #$comment_post_ID.\r\n\r\n";
-			$notify_message .= "website: $comment_author (IP: $user_ip , $user_domain)\r\n";
-			$notify_message .= "url    : $comment_author_url\r\n";
-			$notify_message .= "excerpt: \n".stripslashes($original_comment)."\r\n\r\n";
-			$notify_message .= "You can see all trackbacks on this post there: \r\n";
-			$notify_message .= "$siteurl/$blogfilename?p=$comment_post_ID&tb=1\r\n\r\n";
-
 			$postdata = get_postdata($comment_post_ID);
 			$authordata = get_userdata($postdata["Author_ID"]);
-			$recipient = $authordata["user_email"];
-			$subject = "trackback on post #$comment_post_ID \"".$postdata["Title"]."\"";
+		if ($comments_notify && '' != $authordata->user_email) {
 
-			@mail($recipient, $subject, $notify_message, "From: wordpress@".$HTTP_SERVER_VARS['SERVER_NAME']."\r\n"."X-Mailer: WordPress $b2_version - PHP/" . phpversion());
-			
+			$notify_message  = "New trackback on your post #$comment_post_ID.\r\n\r\n";
+			$notify_message .= "Website: $comment_author (IP: $user_ip , $user_domain)\r\n";
+			$notify_message .= "URI    : $comment_author_url\r\n";
+			$notify_message .= "Excerpt: \n".stripslashes($original_comment)."\r\n\r\n";
+			$notify_message .= "You can see all trackbacks on this post here: \r\n";
+			$notify_message .= "$siteurl/$blogfilename?p=$comment_post_ID&c=1\r\n\r\n";
+
+			$subject = '[' . stripslashes($blogname) . '] Trackback: "' .stripslashes($postdata['Title']).'"';
+
+			$from = "From: wordpress@".$HTTP_SERVER_VARS['SERVER_NAME'];
+			$from .= "X-Mailer: WordPress $b2_version with PHP/" . phpversion();
+
+			@mail($authordata->user_email, $subject, $notify_message, $from);
 		}
-
 		trackback_response(0);
 	}
-
-}/* elseif (empty($HTTP_GET_VARS['__mode'])) {
-
-	header('Content-type: application/xml');
-	echo "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?".">\n<response>\n<error>1</error>\n";
-	echo "<message>Tell me a lie. \nOr just a __mode or url parameter ?</message>\n";
-	echo "</response>";
-
-}*/
-
-
 }
-
+}
 ?>
