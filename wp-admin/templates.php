@@ -66,8 +66,8 @@ default:
 	}
 
 	if ('' == $file) {
-		if ('' != $blogfilename) {
-			$file = $blogfilename;
+		if ('' != get_settings('blogfilename')) {
+			$file = get_settings('blogfilename');
 		} else {
 			$file = 'index.php';
 		}

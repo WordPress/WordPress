@@ -150,7 +150,7 @@ case 'disabled':
 <div id="login">
 	<h2>Registration Disabled</h2>
 	<p>User registration is currently not allowed.<br />
-	<a href="<?php echo $siteurl.'/'.$blogfilename; ?>" title="Go back to the blog">Home</a>
+	<a href="<?php echo get_settings('siteurl') .'/'. get_settings('blogfilename'); ?>" title="Go back to the blog">Home</a>
 	</p>
 </div>
 

@@ -48,8 +48,6 @@ require_once (ABSPATH . WPINC . '/kses.php');
 // get_settings() wherever these are needed OR
 // accessing a single global $all_settings var
 if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST_URI'], 'wp-admin/import')) {
-    $siteurl = get_settings('siteurl');
-    $blogfilename = get_settings('blogfilename');
     $blogname = get_settings('blogname');
     $blogdescription = get_settings('blogdescription');
     $admin_email = get_settings('admin_email');
@@ -102,7 +100,7 @@ if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST
     $querystring_separator = '&amp;';
     //}
     // Used to guarantee unique cookies
-    $cookiehash = md5($siteurl);
+    $cookiehash = md5(get_settings('siteurl'));
 
 } //end !$_wp_installing
 

@@ -23,7 +23,7 @@ foreach ($posts as $post) { start_wp();
 
 <h2 id="comments">Comments</h2>
 
-<p><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php?p=<?php echo $post->ID; ?>">RSS feed for comments on this post.</a></p>
+<p><a href="<?php echo get_settings('siteurl'); ?>/wp-commentsrss2.php?p=<?php echo $post->ID; ?>">RSS feed for comments on this post.</a></p>
 
 <?php if ('open' == $post->ping_status) { ?>
 <p>The <acronym title="Uniform Resource Identifier">URI</acronym> to TrackBack this entry is: <em><?php trackback_url() ?></em></p>
@@ -58,7 +58,7 @@ if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass_'.$c
 <h2>Leave a Comment</h2>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
 
-<form action="<?php echo $siteurl; ?>/wp-comments-post.php" method="post" id="commentform">
+<form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
 	   <label for="author">Name</label>

@@ -60,7 +60,7 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
     global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
-    global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
+    global $querystring_start, $querystring_equal, $querystring_separator;
     global $comment_count_cache, $single;
 	if (!$single) {
     if ('' == $comment_count_cache["$id"]) {
@@ -80,7 +80,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         }
         echo '<a href="';
         if ($wpcommentsjavascript) {
-            echo $siteurl.'/'.$wpcommentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+            echo get_settings('siteurl') . '/' . $wpcommentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
             //echo get_permalink();
             echo '" onclick="wpopen(this.href); return false"';
         } else {
@@ -227,12 +227,12 @@ function comment_time($d='') {
 
 function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp-commentsrss2.php') {
 	global $id;
-	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
+	global $querystring_start, $querystring_equal, $querystring_separator;
 
 	if ('' != get_settings('permalink_structure')) {
 		$url = trailingslashit(get_permalink()) . 'rss2/';
 	} else {
-		$url = $siteurl.'/'.$commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
+		$url = get_settings('siteurl') . '/' . $commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
 	}
 
 	echo "<a href='$url'>$link_text</a>";
@@ -284,8 +284,8 @@ function trackback_url($display = true) {
 
 
 function trackback_rdf($timezone = 0) {
-	global $siteurl, $id, $HTTP_SERVER_VARS;
-	if (!stristr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'W3C_Validator')) {
+	global $id;
+	if (!stristr($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator')) {
 	echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
 	    xmlns:dc="http://purl.org/dc/elements/1.1/"
 	    xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">

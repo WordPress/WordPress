@@ -21,6 +21,7 @@ foreach ($menu as $item) {
 }
 
 ?>
-	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>" title="View your site">View site</a></li>
-	<li class="last"><a href="<?php echo $siteurl ?>/wp-login.php?action=logout" title="Logout of this account">Logout (<?php echo stripslashes($user_nickname) ?>)</a></li>
+	<li><a href="<?php echo get_settings('siteurl') . '/' . get_settings('blogfilename'); ?>" title="View your site">View site</a></li>
+	<li class="last"><a href="<?php echo get_settings('siteurl')
+	 ?>/wp-login.php?action=logout" title="Logout of this account">Logout (<?php echo stripslashes($user_nickname) ?>)</a></li>
 </ul>

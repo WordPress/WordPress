@@ -676,7 +676,7 @@ $guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HO
 
 
 <?php
-$url = $HTTP_POST_VARS['url'];
+$url = $_POST['url'];
 if (isset($url)) {
     $query= "UPDATE $tableoptions set option_value='$url' where option_id=1"; //siteurl
     $q = $wpdb->query($query);

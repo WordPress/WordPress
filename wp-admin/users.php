@@ -258,7 +258,7 @@ echo "\n<tr $style>
 	} ?>
 <div class="wrap">
 <h2>Add User</h2>
-<p>Users can <a href="<?php echo $siteurl ?>/wp-register.php">register themselves</a> or you can manually create users here.</p>
+<p>Users can <a href="<?php echo get_settings('siteurl'); ?>/wp-register.php">register themselves</a> or you can manually create users here.</p>
 <form action="" method="post" name="adduser" id="adduser">
   <table border="0" cellspacing="5" cellpadding="3">
     <tr>

@@ -15,10 +15,10 @@ require('wp-blog-header.php');
 	<meta name="generator" content="WordPress <?php echo $wp_version; ?>" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
-		@import url( <?php echo $siteurl; ?>/wp-layout.css );
+		@import url( <?php echo get_settings('siteurl'); ?>/wp-layout.css );
 	</style>
 	
-	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_settings('siteurl'); ?>/print.css" />
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="alternate" type="application/rdf+xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS .92" href="<?php bloginfo('rss_url'); ?>" />
@@ -32,7 +32,7 @@ require('wp-blog-header.php');
 
 <body>
 <div id="rap">
-<h1 id="header"><a href="<?php echo $siteurl; ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
+<h1 id="header"><a href="<?php echo get_settings('siteurl'); ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <div id="content">
 <?php if ($posts) { foreach ($posts as $post) { start_wp(); ?>
@@ -76,7 +76,7 @@ require('wp-blog-header.php');
 	</ul>
  </li>
  <li id="search">Search:
-	<form id="searchform" method="get" action="<?php echo $PHP_SELF; /*$siteurl."/".$blogfilename*/ ?>">
+	<form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
 	<div>
 		<input type="text" name="s" size="15" /><br />
 		<input type="submit" name="submit" value="search" />
@@ -93,8 +93,8 @@ require('wp-blog-header.php');
  </li>
  <li id="other">Other:
 	<ul>
-		<li><a href="<?php echo $siteurl; ?>/wp-login.php">login</a></li>
-		<li><a href="<?php echo $siteurl; ?>/wp-register.php">register</a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php">login</a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php">register</a></li>
 	</ul>
  </li>
  <li id="meta">Meta:

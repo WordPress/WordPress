@@ -203,8 +203,9 @@ function get_usernumposts($userid) {
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
 function url_to_postid($url = '') {
-	global $wpdb, $tableposts, $siteurl;
+	global $wpdb, $tableposts;
 
+	$siteurl = get_settings('siteurl');
 	// Take a link like 'http://example.com/blog/something'
 	// and extract just the '/something':
 	$uri = preg_replace("#$siteurl#i", '', $url);
@@ -536,10 +537,12 @@ function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), w
 // pings Weblogs.com
 function pingWeblogs($blog_ID = 1) {
 	// original function by Dries Buytaert for Drupal
-	global $use_weblogsping, $blogname,$siteurl,$blogfilename;
-	if ((!(($blogname=="my weblog") && ($siteurl=="http://example.com") && ($blogfilename=="wp.php"))) && (!preg_match("/localhost\//",$siteurl)) && ($use_weblogsping)) {
+	global $use_weblogsping, $blogname;
+	if ((!(($blogname=="my weblog") && (get_settings('siteurl')=="http://example.com") && (get_settings('blogfilename') == "wp.php"))) && (!preg_match("/localhost\//", get_settings('siteurl'))) && ($use_weblogsping)) {
 		$client = new xmlrpc_client("/RPC2", "rpc.weblogs.com", 80);
-		$message = new xmlrpcmsg("weblogUpdates.ping", array(new xmlrpcval($blogname), new xmlrpcval($siteurl."/".$blogfilename)));
+		$message = new xmlrpcmsg("weblogUpdates.ping", array(new xmlrpcval($blogname), 
+		new xmlrpcval(get_settings('siteurl') . '/' . get_settings('blogfilename')
+		)));
 		$result = $client->send($message);
 		if (!$result || $result->faultCode()) {
 			return false;
@@ -568,8 +571,8 @@ function pingWeblogsRss($blog_ID = 1, $rss_url) {
 
 // pings CaféLog.com
 function pingCafelog($cafelogID,$title='',$p='') {
-	global $use_cafelogping, $blogname, $siteurl, $blogfilename;
-	if ((!(($blogname=="my weblog") && ($siteurl=="http://example.com") && ($blogfilename=="wp.php"))) && (!preg_match("/localhost\//",$siteurl)) && ($use_cafelogping) && ($cafelogID != '')) {
+	global $use_cafelogping, $blogname;
+	if ((!(($blogname=="my weblog") && (get_settings('siteurl') == "http://example.com") && (get_settings('blogfilename')=="wp.php"))) && (!preg_match("/localhost\//", get_settings('siteurl'))) && ($use_cafelogping) && ($cafelogID != '')) {
 		$client = new xmlrpc_client("/xmlrpc.php", "cafelog.tidakada.com", 80);
 		$message = new xmlrpcmsg("b2.ping", array(new xmlrpcval($cafelogID), new xmlrpcval($title), new xmlrpcval($p)));
 		$result = $client->send($message);
@@ -584,12 +587,12 @@ function pingCafelog($cafelogID,$title='',$p='') {
 
 // pings Blo.gs
 function pingBlogs($blog_ID="1") {
-	global $use_blodotgsping, $blodotgsping_url, $use_rss, $blogname, $siteurl, $blogfilename;
-	if ((!(($blogname=='my weblog') && ($siteurl=='http://example.com') && ($blogfilename=='wp.php'))) && (!preg_match('/localhost\//',$siteurl)) && ($use_blodotgsping)) {
-		$url = ($blodotgsping_url == 'http://example.com') ? $siteurl.'/'.$blogfilename : $blodotgsping_url;
+	global $use_blodotgsping, $blodotgsping_url, $use_rss, $blogname;
+	if ((!(($blogname=='my weblog') && (get_settings('siteurl')=='http://example.com') && (get_settings('blogfilename')=='wp.php'))) && (!preg_match('/localhost\//',get_settings('siteurl'))) && ($use_blodotgsping)) {
+		$url = ($blodotgsping_url == 'http://example.com') ? get_settings('siteurl').'/'.get_settings('blogfilename') : $blodotgsping_url;
 		$client = new xmlrpc_client('/', 'ping.blo.gs', 80);
 		if ($use_rss) {
-			$message = new xmlrpcmsg('weblogUpdates.extendedPing', array(new xmlrpcval($blogname), new xmlrpcval($url), new xmlrpcval($url), new xmlrpcval($siteurl.'/b2rss.xml')));
+			$message = new xmlrpcmsg('weblogUpdates.extendedPing', array(new xmlrpcval($blogname), new xmlrpcval($url), new xmlrpcval($url), new xmlrpcval(get_settings('siteurl').'/b2rss.xml')));
 		} else {
 			$message = new xmlrpcmsg('weblogUpdates.ping', array(new xmlrpcval($blogname), new xmlrpcval($url)));
 		}
@@ -657,7 +660,6 @@ function trackback_response($error = 0, $error_message = '') {
 }
 
 function make_url_footnote($content) {
-	global $siteurl;
 	preg_match_all('/<a(.+?)href=\"(.+?)\"(.*?)>(.+?)<\/a>/', $content, $matches);
 	$j = 0;
 	for ($i=0; $i<count($matches[0]); $i++) {
@@ -668,7 +670,7 @@ function make_url_footnote($content) {
 		$link_url = $matches[2][$i];
 		$link_text = $matches[4][$i];
 		$content = str_replace($link_match, $link_text.' '.$link_number, $content);
-		$link_url = (strtolower(substr($link_url,0,7)) != 'http://') ? $siteurl.$link_url : $link_url;
+		$link_url = (strtolower(substr($link_url,0,7)) != 'http://') ? get_settings('siteurl') . $link_url : $link_url;
 		$links_summary .= "\n".$link_number.' '.$link_url;
 	}
 	$content = strip_tags($content);
@@ -735,7 +737,7 @@ function debug_fclose($fp) {
 
 function pingback($content, $post_ID) {
 	// original code by Mort (http://mort.mine.nu:8080)
-	global $siteurl, $blogfilename, $wp_version;
+	global $wp_version;
 	$log = debug_fopen('./pingback.log', 'a');
 	$post_links = array();
 	debug_fwrite($log, 'BEGIN '.time()."\n");
@@ -1014,7 +1016,7 @@ function wp_get_comment_status($comment_id) {
 function wp_notify_postauthor($comment_id, $comment_type='comment') {
     global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    global $blogfilename, $blogname, $siteurl, $blog_charset;
+    global $blogname, $blog_charset;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
@@ -1075,7 +1077,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 function wp_notify_moderator($comment_id) {
     global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    global $blogfilename, $blogname, $siteurl, $blog_charset;
+    global $blogname, $blog_charset;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
@@ -1090,10 +1092,10 @@ function wp_notify_moderator($comment_id) {
     $notify_message .= "URL    : $comment->comment_author_url\r\n";
     $notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
     $notify_message .= "Comment:\r\n".stripslashes($comment->comment_content)."\r\n\r\n";
-    $notify_message .= "To approve this comment, visit: $siteurl/wp-admin/post.php?action=mailapprovecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
-    $notify_message .= "To delete this comment, visit: $siteurl/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
+    $notify_message .= "To approve this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=mailapprovecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
+    $notify_message .= "To delete this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
     $notify_message .= "Currently $comments_waiting comments are waiting for approval. Please visit the moderation panel:\r\n";
-    $notify_message .= "$siteurl/wp-admin/moderation.php\r\n";
+    $notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 
     $subject = '[' . stripslashes($blogname) . '] Please approve: "' .stripslashes($post->post_title).'"';
     $admin_email = get_settings("admin_email");
@@ -1278,9 +1280,8 @@ function get_search_query_terms($engine = 'google') {
 }
 
 function is_referer_search_engine($engine = 'google') {
-    global $siteurl;
-
-	$referer = urldecode($_SERVER[HTTP_REFERER]);
+	$siteurl = get_settings('siteurl');
+	$referer = urldecode($_SERVER['HTTP_REFERER']);
     //echo "referer is: $referer<br />";
 	if ( ! $engine ) {
 		return 0;

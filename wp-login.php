@@ -163,7 +163,7 @@ case 'lostpassword':
 <head>
 	<title>WordPress &rsaquo; Lost password ?</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
-	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/wp-admin.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
@@ -211,7 +211,7 @@ case 'retrievepassword':
  	$wpdb->query("UPDATE $tableusers SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
-	$message .= "Login at: $siteurl/wp-login.php";
+	$message .= 'Login at: ' . get_settings('siteurl') . '/wp-login.php';
 
 	$m = mail($user_email, "[$blogname] Your weblog's login/password", $message);
 
@@ -267,7 +267,7 @@ default:
 <head>
 	<title>WordPress > <?php bloginfo('name') ?> > Login form</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
-	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/wp-admin.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
@@ -280,11 +280,11 @@ default:
 
 <div id="login">
 <p>
-	<a href="<?php echo $siteurl?>" title="Are you lost?">Back to blog?</a><br />
+	<a href="<?php echo get_settings('siteurl'); ?>" title="Are you lost?">Back to blog?</a><br />
 <?php if ($users_can_register) { ?>
-	<a href="<?php echo $siteurl; ?>/wp-register.php" title="Register to be an author">Register?</a><br />
+	<a href="<?php echo get_settings('siteurl'); ?>/wp-register.php" title="Register to be an author">Register?</a><br />
 <?php } ?>
-	<a href="<?php echo $siteurl; ?>/wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>
+	<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>
 </p>
 
 <?php

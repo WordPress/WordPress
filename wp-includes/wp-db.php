@@ -47,7 +47,7 @@
 		// ==================================================================
 		//	Select a DB (if another one needs to be selected)
 
-		function select($db)x{
+		function select($db) {
 			if ( !@mysql_select_db($db,$this->dbh)) {
 				die("
 				<p>We're having a little trouble selecting the proper database for WordPress.</p>
@@ -237,7 +237,7 @@
 			}
 
 			// If the output is an object then return object using the row offset..
-			if ( $output == OBJECT ) b{
+			if ( $output == OBJECT ) {
 				return $this->last_result[$y]?$this->last_result[$y]:null;
 			}
 			// If the output is an associative array then return row as such..

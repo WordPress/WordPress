@@ -15,7 +15,7 @@ require_once('wp-blog-header.php');
 
 define( 'NODISPLAY', false );
 
-$wpsmarty->assign( 'siteurl', $siteurl );
+$wpsmarty->assign( 'siteurl', get_settings('siteurl') );
 $wpsmarty->assign( 'b2_version', $wp_version );
 
 if($posts) 

@@ -35,13 +35,12 @@ function permalink_single($file = '') {
 }
 
 function permalink_single_rss($file = '') {
-    global $siteurl;
     echo get_permalink();
 }
 
 function get_permalink($id=false) {
     global $post, $wpdb, $tableposts;
-    global $siteurl, $blogfilename, $querystring_start, $querystring_equal;
+    global $querystring_start, $querystring_equal;
 
     $rewritecode = array(
         '%year%',
@@ -60,9 +59,9 @@ function get_permalink($id=false) {
                 $post->post_name,
                 $post->ID
             );
-            return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+            return get_settings('siteurl') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
         } else { // if they're not using the fancy permalink option
-            return $siteurl . '/' . $blogfilename.$querystring_start.'p'.$querystring_equal.$post->ID;
+            return get_settings('siteurl') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$post->ID;
         }
     } else { // if an ID is given
         $idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
@@ -75,15 +74,15 @@ function get_permalink($id=false) {
                 $idpost->post_name,
                 $id
             );
-            return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+            return get_settings('siteurl') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
         } else {
-            return $siteurl . '/' . $blogfilename.$querystring_start.'p'.$querystring_equal.$id;
+            return get_settings('siteurl') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$id;
         }
     }
 }
 
 function get_month_link($year, $month) {
-    global $siteurl, $blogfilename, $querystring_start, $querystring_equal;
+    global $querystring_start, $querystring_equal;
     if (!$year) $year = date('Y', time()+($time_difference * 3600));
     if (!$month) $month = date('m', time()+($time_difference * 3600));
     if ('' != get_settings('permalink_structure')) {
@@ -94,14 +93,14 @@ function get_month_link($year, $month) {
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
         $monthlink = str_replace('%post_id%', '', $monthlink);
-        return $siteurl . $monthlink;
+        return get_settings('siteurl') . $monthlink;
     } else {
-        return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
+        return get_settings('siteurl') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
     }
 }
 
 function get_day_link($year, $month, $day) {
-    global $siteurl, $blogfilename, $querystring_start, $querystring_equal;
+    global $querystring_start, $querystring_equal;
     if (!$year) $year = date('Y', time()+($time_difference * 3600));
     if (!$month) $month = date('m', time()+($time_difference * 3600));
     if (!$day) $day = date('j', time()+($time_difference * 3600));
@@ -114,14 +113,14 @@ function get_day_link($year, $month, $day) {
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
         $daylink = str_replace('%post_id%', '', $daylink);
-        return $siteurl . $daylink;
+        return get_settings('siteurl') . $daylink;
     } else {
-        return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
+        return get_settings('siteurl') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
     }
 }
 
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {
-    global $user_level, $post, $siteurl;
+    global $user_level, $post;
 
     get_currentuserinfo();
 
@@ -134,12 +133,12 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
         return;
     }
 
-    $location = "$siteurl/wp-admin/post.php?action=edit&amp;post=$post->ID";
+    $location = get_settings('siteurl') . "/wp-admin/post.php?action=edit&amp;post=$post->ID";
     echo "$before <a href=\"$location\">$link</a> $after";
 }
 
 function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
-    global $user_level, $post, $comment, $siteurl;
+    global $user_level, $post, $comment;
 
     get_currentuserinfo();
 
@@ -152,7 +151,7 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
         return;
     }
 
-    $location = "$siteurl/wp-admin/post.php?action=editcomment&amp;comment=$comment->comment_ID";
+    $location = get_settings('siteurl') . "/wp-admin/post.php?action=editcomment&amp;comment=$comment->comment_ID";
     echo "$before <a href=\"$location\">$link</a> $after";
 }
 

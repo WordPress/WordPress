@@ -139,7 +139,7 @@ $pagenow = trim($pagenow[(sizeof($pagenow)-1)]);
 $pagenow = explode('?', $pagenow);
 $pagenow = $pagenow[0];
 if (($querystring_start == '/') && ($pagenow != 'post.php')) {
-	$pagenow = $siteurl.'/'.$blogfilename;
+	$pagenow = get_settings('siteurl') . '/' . get_settings('blogfilename');
 }
 
 # browser detection

@@ -22,57 +22,57 @@ function bloginfo_unicode($show='') {
 }
 
 function get_bloginfo($show='') {
-    global $siteurl, $blogfilename, $blogname, $blogdescription, $siteurl, $admin_email;
+    global $blogname, $blogdescription, $admin_email;
 
     $do_perma = 0;
-    $feed_url = $siteurl;
-    $comment_feed_url = $siteurl;
+    $feed_url = get_settings('siteurl');
+    $comment_feed_url = get_settings('siteurl');
 
     if ('' != get_settings('permalink_structure')) {
         $do_perma = 1;
-        $feed_url = $siteurl . '/feed';
-        $comment_feed_url = $siteurl . '/comments/feed';
+        $feed_url = get_settings('siteurl') . '/feed';
+        $comment_feed_url = get_settings('siteurl') . '/comments/feed';
     }
 
     switch($show) {
         case 'url':
-            $output = $siteurl.'/'.$blogfilename;
+            $output = get_settings('siteurl') .'/'. get_settings('blogfilename');
             break;
         case 'description':
             $output = $blogdescription;
             break;
         case 'rdf_url':
-            $output = $siteurl.'/wp-rdf.php';
+            $output = get_settings('siteurl') .'/wp-rdf.php';
             if ($do_perma) {
                 $output = $feed_url . '/rdf/';
             }
             break;
         case 'rss_url':
-            $output = $siteurl.'/wp-rss.php';
+            $output = get_settings('siteurl') .'/wp-rss.php';
             if ($do_perma) {
                 $output = $feed_url . '/rss/';
             }
             break;
         case 'rss2_url':
-            $output = $siteurl.'/wp-rss2.php';
+            $output = get_settings('siteurl') .'/wp-rss2.php';
             if ($do_perma) {
                 $output = $feed_url . '/rss2/';
             }
             break;
         case 'atom_url':
-            $output = $siteurl.'/wp-atom.php';
+            $output = get_settings('siteurl') .'/wp-atom.php';
             if ($do_perma) {
                 $output = $feed_url . '/atom/';
             }
             break;        
         case 'comments_rss2_url':
-            $output = $siteurl.'/wp-commentsrss2.php';
+            $output = get_settings('siteurl') .'/wp-commentsrss2.php';
             if ($do_perma) {
                 $output = $comment_feed_url . '/rss2/';
             }
             break;
         case 'pingback_url':
-            $output = $siteurl.'/xmlrpc.php';
+            $output = get_settings('siteurl') .'/xmlrpc.php';
             break;
         case 'admin_email':
             $output = $admin_email;
@@ -204,7 +204,7 @@ function get_archives_link($url, $text, $format = "html", $before = "", $after =
 }
 
 function get_archives($type='', $limit='', $format='html', $before = "", $after = "", $show_post_count = false) {
-    global $tableposts, $time_difference, $siteurl, $blogfilename;
+    global $tableposts, $time_difference;
     global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
 
     if ('' == $type) {
@@ -219,9 +219,9 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
     $archive_week_separator = '&#8211;';
 
     // archive link url
-    $archive_link_m = $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal;    # monthly archive;
-    $archive_link_w = $siteurl.'/'.$blogfilename.$querystring_start.'w'.$querystring_equal;    # weekly archive;
-    $archive_link_p = $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal;    # post-by-post archive;
+    $archive_link_m = get_settings('siteurl').'/'.get_settings('blogfilename').$querystring_start.'m'.$querystring_equal;    # monthly archive;
+    $archive_link_w = get_settings('siteurl').'/'.get_settings('blogfilename').$querystring_start.'w'.$querystring_equal;    # weekly archive;
+    $archive_link_p = get_settings('siteurl').'/'.get_settings('blogfilename').$querystring_start.'p'.$querystring_equal;    # post-by-post archive;
 
     // over-ride general date format ? 0 = no: use the date format set in Options, 1 = yes: over-ride
     $archive_date_format_over_ride = 0;
@@ -283,7 +283,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
                     $arc_week = get_weekstartend($arcresult->yyyymmdd, $start_of_week);
                     $arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
                     $arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-                    $url  = sprintf('%s/%s%sm%s%s%sw%s%d', $siteurl, $blogfilename, $querystring_start,
+                    $url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('siteurl'), get_settings('blogfilename'), $querystring_start,
                                     $querystring_equal, $arc_year, $querystring_separator,
                                     $querystring_equal, $arcresult->week);
                     $text = $arc_week_start . $archive_week_separator . $arc_week_end;

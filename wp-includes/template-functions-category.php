@@ -16,18 +16,18 @@ function get_the_category() {
 }
 
 function get_category_link($echo = false, $category_id, $category_nicename) {
-    global $wpdb, $tablecategories, $post, $querystring_start, $querystring_equal, $siteurl, $blogfilename, $cache_categories;
+    global $wpdb, $tablecategories, $post, $querystring_start, $querystring_equal, $cache_categories;
     $cat_ID = $category_id;
     $permalink_structure = get_settings('permalink_structure');
     
     if ('' == $permalink_structure) {
-        $file = "$siteurl/$blogfilename";
+        $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
         $link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
     } else {
         if ('' == $category_nicename) $category_nicename = $cache_categories[$category_id]->category_nicename;
         // Get any static stuff from the front
         $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-        $link = $siteurl . $front . 'category/';
+        $link = get_settings('siteurl') . $front . 'category/';
         if ($parent=$cache_categories[$category_id]->category_parent) $link .= get_category_parents($parent, FALSE, '/', TRUE);
         $link .= $category_nicename . '/';
     }
@@ -37,12 +37,12 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
 }
 
 function get_category_rss_link($echo = false, $category_id, $category_nicename) {
-       global $querystring_start, $querystring_equal, $siteurl;
+       global $querystring_start, $querystring_equal;
        $cat_ID = $category_id;
        $permalink_structure = get_settings('permalink_structure');
 
        if ('' == $permalink_structure) {
-               $file = "$siteurl/wp-rss2.php";
+               $file = get_settings('siteurl') . '/wp-rss2.php';
         $link = $file . $querystring_start . 'cat' . $querystring_equal . $category_id;
        } else {
         $link = get_category_link(0, $category_id, $category_nicename);
@@ -185,9 +185,9 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
         $optiondates = 0, $optioncount = 0, $hide_empty = 1, $optionnone=FALSE,
         $selected=0, $hide=0) {
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
-    global $pagenow, $siteurl, $blogfilename;
+    global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    if (($file == 'blah') || ($file == '')) $file = "$siteurl/$blogfilename";
+    if (($file == 'blah') || ($file == '')) $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
     if (!$selected) $selected=$cat;
     $sort_column = 'cat_'.$sort_column;
 
@@ -252,11 +252,11 @@ function wp_list_cats($args = '') {
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0) {
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
-    global $pagenow, $siteurl, $blogfilename;
+    global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
     // Optiondates now works
     if ('' == $file) {
-        $file = "$siteurl/$blogfilename";
+        $file = "$siteurl/" . get_settings('blogfilename');
     }
     if (intval($categories)==0){
         $sort_column = 'cat_'.$sort_column;

@@ -424,7 +424,7 @@ switch($action) {
         }
 
 		$sendback = $HTTP_SERVER_VARS['HTTP_REFERER'];
-		if (strstr($sendback, 'post.php')) $sendback = $siteurl .'/wp-admin/post.php';
+		if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
         header ('Location: ' . $sendback);
 
         break;
@@ -472,14 +472,14 @@ switch($action) {
 	echo "</table>\n";
 	echo "<p>Are you sure you want to do that?</p>\n";
 	
-	echo "<form action=\"$siteurl/wp-admin/post.php\" method=\"get\">\n";
+	echo "<form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'>\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"deletecomment\" />\n";
 	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
 	echo "<input type=\"hidden\" name=\"comment\" value=\"$comment\" />\n";
 	echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
 	echo "<input type=\"submit\" value=\"Yes\" />";
 	echo "&nbsp;&nbsp;";
-	echo "<input type=\"button\" value=\"No\" onClick=\"self.location='$siteurl/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
+	echo "<input type=\"button\" value=\"No\" onClick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
 	echo "</form>\n";
 	echo "</div>\n";
 	
@@ -514,7 +514,7 @@ switch($action) {
 	if (($HTTP_SERVER_VARS['HTTP_REFERER'] != "") && (false == $noredir)) {
 		header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
 	} else {
-		header('Location: '.$siteurl.'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
 
 	break;
@@ -542,7 +542,7 @@ switch($action) {
 	if (($HTTP_SERVER_VARS['HTTP_REFERER'] != "") && (false == $noredir)) {
 		header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
 	} else {
-		header('Location: '.$siteurl.'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
 	
 	break;
@@ -567,7 +567,7 @@ switch($action) {
 	echo "<div class=\"wrap\">\n";
 	echo "<p>Comment has been approved.</p>\n";
 	
-	echo "<form action=\"$siteurl/wp-admin/edit.php?p=$p&c=1#comments\" method=\"get\">\n";
+	echo "<form action=\"". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments\" method=\"get\">\n";
 	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
 	echo "<input type=\"hidden\" name=\"c\" value=\"1\" />\n";
 	echo "<input type=\"submit\" value=\"Ok\" />";
@@ -602,7 +602,7 @@ switch($action) {
 	if (($HTTP_SERVER_VARS['HTTP_REFERER'] != "") && (false == $noredir)) {
 		header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
 	} else {
-		header('Location: '.$siteurl.'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
 	
 	break;
@@ -706,12 +706,12 @@ $bookmarklet_height= ($use_trackback) ? 460 : 420;
 
 if ($is_NS4 || $is_gecko) {
 ?>
-    <a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}void(window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'WordPress bookmarklet','scrollbars=yes,width=600,height=460,left=100,top=150,status=yes'));">Press It 
+    <a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}void(window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'WordPress bookmarklet','scrollbars=yes,width=600,height=460,left=100,top=150,status=yes'));">Press It 
     - <?php echo $blogname ?></a> 
     <?php
 } else if ($is_winIE) {
 ?>
-    <a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
+    <a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
     - <?php echo $blogname ?></a> 
     <script type="text/javascript" language="JavaScript">
 <!--
@@ -727,12 +727,12 @@ function oneclickbookmarklet(blah) {
     <?php
 } else if ($is_opera) {
 ?>
-    <a href="javascript:void(window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">Press it 
+    <a href="javascript:void(window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">Press it 
     - <?php echo $blogname ?></a> 
     <?php
 } else if ($is_macIE) {
 ?>
-    <a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
+    <a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
     - <?php echo $blogname ?></a> 
     <?php
 }
