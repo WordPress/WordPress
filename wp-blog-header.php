@@ -100,14 +100,14 @@ if (!isset($doing_rss) || !$doing_rss) {
 	  $_match_ifnonematch = 0;
 
 	  if (!empty($request_headers['If-Modified-Since'])) {
-	    if (strtotime($request_headers['If-Modified-Since']) <= strtotime($last_modified_date)) {
+	    if (strtotime($request_headers['If-Modified-Since']) >= strtotime($last_modified_date)) {
 	      $_match_ifmodifiedsince = 1;
 	    } else {
 	      $_match_ifmodifiedsince = -1;
 	    }
 	  }
 	  if (!empty($request_headers['If-None-Match'])) {
-	    if ($request_headers['If-None-Match'] == md5($last_modified_date)) {
+	    if ($request_headers['If-None-Match'] == '"'.md5($last_modified_date).'"') {
 	      $_match_ifnonematch = 1;
 	    } else {
 	      $_match_ifnonematch = -1;
@@ -115,7 +115,7 @@ if (!isset($doing_rss) || !$doing_rss) {
 	  }
 
 	  // if one element is present but doesn't match the header, the -1 makes this <=0
-	  if ($_match_ifmodifiedsince + $_match_ifnonematch) {
+	  if ($_match_ifmodifiedsince + $_match_ifnonematch > 0) {
 	    header("HTTP/1.1 304 Not Modified\n\n");
 	  }
 	}
