@@ -258,7 +258,8 @@ function has_meta($postid) {
 function list_meta($meta) {
 	global $post_ID;	
 	// Exit if no meta
-	if (!$meta) return;	
+	if (!$meta) return;
+	$count = 0;
 ?>
 <table id='meta-list' cellpadding="3">
 	<tr>
@@ -269,9 +270,12 @@ function list_meta($meta) {
 <?php
 		
 	foreach ($meta as $entry) {
-		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
+		++$count;
+		if ( $count % 2 ) $style = 'alternate';
+		else $style = '';
+		if ( '_' == $entry['meta_key']{0} ) $style .= ' hidden';
 		echo "
-	<tr $style>
+	<tr class='$style'>
 		<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>
 		<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>
 		<td align='center' width='10%'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='" . __('Update') ."' /></td>
@@ -326,11 +330,11 @@ function meta_form() {
 <?php endif; ?>
 </td>
 <td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
-		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25" tabindex="7"></textarea></td>
+		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25" tabindex="8"></textarea></td>
 	</tr>
 
 </table>
-<p class="submit"><input type="submit" name="updatemeta" tabindex="7" value="<?php _e('Add Custom Field &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="updatemeta" tabindex="9" value="<?php _e('Add Custom Field &raquo;') ?>" /></p>
 <?php
 }
 
@@ -801,29 +805,30 @@ function get_real_file_to_edit($file) {
 	return $real_file;
 }
 
-$wp_file_descriptions = array('index.php' => __('Main Template'),
-															'wp-layout.css' => __('Stylesheet'),
-															'style.css' => __('Stylesheet'),
-															'wp-comments.php' => __('Comments Template'),
-															'comments.php' => __('Comments Template'),
-															'wp-comments-popup.php' => __('Popup Comments Template'),
-															'comments-popup.php' => __('Popup Comments Template'),
-															'wp-footer.php' => __('Footer Template'),
-															'footer.php' => __('Footer Template'),
-															'wp-header.php' => __('Header Template'),
-															'header.php' => __('Header Template'),
-															'wp-sidebar.php' => __('Sidebar Template'),
-															'sidebar.php' => __('Sidebar Template'),
-															'archive.php' => __('Archive Template'),
-															'category.php' => __('Category Template'),
-															'page.php' => __('Page Template'),
-															'search.php' => __('Search Template'),
-															'single.php' => __('Post Template'),
-															'404.php' => __('404 Template'),
-															'my-hacks.php' => __('my-hacks.php (legacy hacks support)'),
-															
-															'.htaccess' => __('.htaccess (for rewrite rules)')
-															);
+$wp_file_descriptions = 
+	array(
+	'index.php' => __('Main Template'),
+	'wp-layout.css' => __('Stylesheet'),
+	'style.css' => __('Stylesheet'),
+	'wp-comments.php' => __('Comments Template'),
+	'comments.php' => __('Comments Template'),
+	'wp-comments-popup.php' => __('Popup Comments Template'),
+	'comments-popup.php' => __('Popup Comments Template'),
+	'wp-footer.php' => __('Footer Template'),
+	'footer.php' => __('Footer Template'),
+	'wp-header.php' => __('Header Template'),
+	'header.php' => __('Header Template'),
+	'wp-sidebar.php' => __('Sidebar Template'),
+	'sidebar.php' => __('Sidebar Template'),
+	'archive.php' => __('Archive Template'),
+	'category.php' => __('Category Template'),
+	'page.php' => __('Page Template'),
+	'search.php' => __('Search Template'),
+	'single.php' => __('Post Template'),
+	'404.php' => __('404 Template'),
+	'my-hacks.php' => __('my-hacks.php (legacy hacks support)'),
+	'.htaccess' => __('.htaccess (for rewrite rules)')
+	);
 
 function get_file_description($file) {
 	global $wp_file_descriptions;

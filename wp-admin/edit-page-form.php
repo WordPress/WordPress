@@ -122,7 +122,7 @@ edCanvas = document.getElementById('content');
 </fieldset>
 
 <fieldset id="postcustom">
-<legend><?php _e('Custom Fields') ?></legend>
+<legend><?php _e('Custom Fields') ?> <script type="text/javascript">customToggleLink();</script></legend>
 <div id="postcustomstuff">
 <?php 
 if($metadata = has_meta($post_ID)) {

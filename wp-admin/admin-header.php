@@ -8,16 +8,34 @@
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 
-<?php if ( isset($xfn) ) : ?>
 <script type="text/javascript">
 //<![CDATA[
+
+function customToggleLink() {
+	// TODO: Only show link if there's a hidden row
+	document.write('<small>(<a href="javascript:;" id="customtoggle" onclick="toggleHidden()"><?php _e('Show hidden'); ?></a>)</small>');
+	// TODO: Rotate link to say "show" or "hide"
+	// TODO: Use DOM
+}
+
+function toggleHidden() {
+	var allElements = document.getElementsByTagName('tr');
+	for (i = 0; i < allElements.length; i++) {
+		if ( allElements[i].className.indexOf('hidden') != -1 ) {
+			 allElements[i].className = allElements[i].className.replace('hidden', '');
+		}
+	}
+}
+
+<?php if ( isset($xfn) ) : ?>
+
 function GetElementsWithClassName(elementName, className) {
 	var allElements = document.getElementsByTagName(elementName);
 	var elemColl = new Array();
 	for (i = 0; i < allElements.length; i++) {
-		 if (allElements[i].className == className) {
-			  elemColl[elemColl.length] = allElements[i];
-		 }
+		if (allElements[i].className == className) {
+			elemColl[elemColl.length] = allElements[i];
+		}
 	}
 	return elemColl;
 }
@@ -57,9 +75,10 @@ function blurry() {
 }
 
 window.onload = blurry;
+<?php endif; ?>
+
 //]]>
 </script>
-<?php endif; ?>
 
 <?php do_action('admin_head', ''); ?>
 </head>

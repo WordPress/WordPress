@@ -153,6 +153,10 @@ textarea, input, select {
 	padding: 1px;
 }
 
+.hidden {
+	display: none;
+}
+
 .post-categories {
 	display: inline;
 	margin: 0;
