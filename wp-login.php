@@ -1,5 +1,53 @@
 <?php
-require(dirname(__FILE__) . '/wp-config.php');
+require('./wp-config.php');
+
+function login() {
+	global $wpdb, $log, $pwd, $error, $user_ID;
+	global $pass_is_md5;
+	$user_login = &$log;
+	$pwd = md5($pwd);
+	$password = &$pwd;
+	if (!$user_login) {
+		$error = __('<strong>Error</strong>: the login field is empty.');
+		return false;
+	}
+
+	if (!$password) {
+		$error = __('<strong>Error</strong>: the password field is empty.');
+		return false;
+	}
+
+	$query = "SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$user_login' AND user_pass = '$password'";
+
+	$login = $wpdb->get_row($query);
+
+	if (!$login) {
+		$error = __('<strong>Error</strong>: wrong login or password.');
+		$pwd = '';
+		return false;
+	} else {
+	$user_ID = $login->ID;
+		if (($pass_is_md5 == 0 && $login->user_login == $user_login && $login->user_pass == $password) || ($pass_is_md5 == 1 && $login->user_login == $user_login && $login->user_pass == md5($password))) {
+			return true;
+		} else {
+			$error = __('<strong>Error</strong>: wrong login or password.');
+			$pwd = '';
+		return false;
+		}
+	}
+}
+
+function checklogin() {
+	global $user_login, $user_pass_md5, $user_ID;
+
+	$userdata = get_userdatabylogin($user_login);
+
+	if ($user_pass_md5 != md5($userdata->user_pass)) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
 if (!function_exists('add_magic_quotes')) {
 	function add_magic_quotes($array) {
@@ -72,42 +120,6 @@ case 'login':
 	
 	if (0 == $user->user_level) {
 		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
-	}
-
-	function login() {
-		global $wpdb, $log, $pwd, $error, $user_ID;
-		global $pass_is_md5;
-		$user_login = &$log;
-		$pwd = md5($pwd);
-		$password = &$pwd;
-		if (!$user_login) {
-			$error = __('<strong>Error</strong>: the login field is empty.');
-			return false;
-		}
-
-		if (!$password) {
-			$error = __('<strong>Error</strong>: the password field is empty.');
-			return false;
-		}
-
-		$query = "SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$user_login' AND user_pass = '$password'";
-	
-		$login = $wpdb->get_row($query);
-
-		if (!$login) {
-			$error = __('<strong>Error</strong>: wrong login or password.');
-			$pwd = '';
-			return false;
-		} else {
-		$user_ID = $login->ID;
-			if (($pass_is_md5 == 0 && $login->user_login == $user_login && $login->user_pass == $password) || ($pass_is_md5 == 1 && $login->user_login == $user_login && $login->user_pass == md5($password))) {
-				return true;
-			} else {
-				$error = __('<strong>Error</strong>: wrong login or password.');
-				$pwd = '';
-			return false;
-			}
-		}
 	}
 
 	if (!login()) {
@@ -239,18 +251,6 @@ default:
 		$user_login = $_COOKIE['wordpressuser_'.$cookiehash];
 		$user_pass_md5 = $_COOKIE['wordpresspass_'.$cookiehash];
 	}
-
-	function checklogin() {
-		global $user_login, $user_pass_md5, $user_ID;
-
-		$userdata = get_userdatabylogin($user_login);
-
-		if ($user_pass_md5 != md5($userdata->user_pass)) {
-			return false;
-		} else {
-			return true;
-		}
-	} 
 
 	if ( !(checklogin()) ) {
 		if (!empty($_COOKIE['wordpressuser_'.$cookiehash])) {
