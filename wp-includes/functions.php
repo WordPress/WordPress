@@ -1595,13 +1595,13 @@ function htmlentities2($myHTML) {
 }
 
 
-function wp_mail($to, $subject, $message, $headers = '', $more = '') {
+function wp_mail($to, $subject, $message, $headers = '') {
 	if( $headers == '' ) {
 		$headers = "MIME-Version: 1.0\n" .
 		"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 	}
 
-	return @mail($to, $subject, $message, $headers, $more);
+	return @mail($to, $subject, $message, $headers);
 }
 
 if ( !function_exists('wp_login') ) :
