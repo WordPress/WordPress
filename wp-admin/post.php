@@ -229,7 +229,7 @@ switch($action) {
 			start_wp();
 			?>
 	<div id='preview' class='wrap'>
-			<h2>Post Preview</h2>
+			<h2>Post Preview (updated when post is saved)</h2>
 	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
 	<div class="meta">Filed under: <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
 	
