@@ -249,11 +249,12 @@ function wp_list_cats($args = '') {
 	if (!isset($r['recurse'])) $r['recurse'] = 0;
 	if (!isset($r['feed'])) $r['feed'] = '';
 	if (!isset($r['feed_image'])) $r['feed_image'] = '';
+	if (!isset($r['exclude'])) $r['exclude'] = '';
 
-	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'], $r['children'], $r['child_of'], $r['categories'], $r['recurse'], $r['feed'], $r['feed_image']);
+	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'], $r['children'], $r['child_of'], $r['categories'], $r['recurse'], $r['feed'], $r['feed_image'], $r['exclude']);
 }
 
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '') {
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '') {
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb, $category_posts;
     global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
@@ -261,13 +262,24 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     if ('' == $file) {
         $file = get_settings('home') . '/' . get_settings('blogfilename');
     }
+
+	if (!empty($exclude)) {
+		$exclusions = ''; // initialize for safety
+		$excats = preg_split('/[\s,]+/',$exclude);
+		if (count($excats)) {
+			foreach ($excats as $excat) {
+				$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
+			}
+		}
+	}
+
     if (intval($categories)==0){
         $sort_column = 'cat_'.$sort_column;
 
         $query  = "
             SELECT cat_ID, cat_name, category_nicename, category_description, category_parent
             FROM $tablecategories
-            WHERE cat_ID > 0
+            WHERE cat_ID > 0 $exclusions
             ORDER BY $sort_column $sort_order";
 
         $categories = $wpdb->get_results($query);
@@ -275,8 +287,10 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     if (intval($hide_empty) == 1 && !isset($category_posts)) {
         $cat_counts = $wpdb->get_results("    SELECT cat_ID,
         COUNT($tablepost2cat.post_id) AS cat_count
-        FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
+        FROM $tablecategories 
+	LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
         LEFT JOIN $tableposts ON (ID = post_id)
+	WHERE 1 = 1 $exclusions
         GROUP BY category_id");
         foreach ($cat_counts as $cat_count) {
             $category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
@@ -286,8 +300,10 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     if (intval($optiondates) == 1) {
         $cat_dates = $wpdb->get_results("    SELECT cat_ID,
         DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
-        FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
+        FROM $tablecategories 
+	LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
         LEFT JOIN $tableposts ON (ID = post_id)
+	WHERE 1 = 1 $exclusions
         GROUP BY category_id");
         foreach ($cat_dates as $cat_date) {
             $category_lastday["$cat_date->cat_ID"] = $cat_date->lastday;
