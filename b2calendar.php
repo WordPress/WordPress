@@ -198,7 +198,7 @@ $k = 1;
 
 // original tooltip hack by Alex King
 if ($ak_use_tooltip_titles == 1) {
-	$ak_days_result = $wpdb->get_results("SELECT post_title, post_date FROM $tableposts WHERE YEAR(post_date) = '$thisyear' AND MONTH(post_date) = '$thismonth'");
+	$ak_days_result = $wpdb->get_results("SELECT post_title, post_date FROM $tableposts WHERE YEAR(post_date) = '$thisyear' AND MONTH(post_date) = '$thismonth' AND post_status = 'publish'");
 
 	$ak_day_title_array = array();
 	foreach($ak_days_result as $ak_temp) {
