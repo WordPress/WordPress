@@ -170,6 +170,13 @@ case 'lostpassword':
 	<title>WordPress > Lost password ?</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
+	<script type="text/javascript">
+	function focusit() {
+		// focus on first input field
+		document.lostpass.user_login.focus();
+	}
+	window.onload = focusit;
+	</script>
 </head>
 <body>
 
@@ -180,7 +187,7 @@ case 'lostpassword':
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
 ?>
 
-<form name="" action="b2login.php" method="post">
+<form name="" action="b2login.php" method="post" id="lostpass">
 <input type="hidden" name="action" value="retrievepassword" />
 <label>Login: <input type="text" name="user_login" id="user_login" value="" size="12" /></label>
 <input type="submit" name="Submit2" value="OK" class="search">
@@ -253,50 +260,56 @@ default:
 		header("Location: wp-admin/b2edit.php");
 		exit();
 	}
-	?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>WordPress > Login form</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
+	<title>WordPress > Login form</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
+	<script type="text/javascript">
+	function focusit() {
+		// focus on first input field
+		document.loginform.log.focus();
+	}
+	window.onload = focusit;
+	</script>
 </head>
 <body>
 
-
-
 <div id="login">
-<p><a href="<?php echo $siteurl?>">Back to blog?</a><br />
+<p>
+	<a href="<?php echo $siteurl?>" title="Are you lost?">Back to blog?</a><br />
 <?php if ($users_can_register) { ?>
-    <a href="<?php echo $siteurl; ?>/b2register.php">Register?</a><br />
+	<a href="<?php echo $siteurl; ?>/b2register.php" title="Register to be an author">Register?</a><br />
 <?php } ?>
-   <a href="<?php echo $siteurl; ?>/b2login.php?action=lostpassword">Lost your password?</a></p>
+	<a href="<?php echo $siteurl; ?>/b2login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>
+</p>
 
 <?php
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
 ?>
 
-<form name="" action="<?php echo $path; ?>/b2login.php" method="post">
+<form name="login" id="loginform" action="<?php echo $path; ?>/b2login.php" method="post">
 <?php if ($mode=="bookmarklet") { ?>
-<input type="hidden" name="mode" value="<?php echo $mode ?>" />
-<input type="hidden" name="text" value="<?php echo $text ?>" />
-<input type="hidden" name="popupurl" value="<?php echo $popupurl ?>" />
-<input type="hidden" name="popuptitle" value="<?php echo $popuptitle ?>" />
+	<input type="hidden" name="mode" value="<?php echo $mode ?>" />
+	<input type="hidden" name="text" value="<?php echo $text ?>" />
+	<input type="hidden" name="popupurl" value="<?php echo $popupurl ?>" />
+	<input type="hidden" name="popuptitle" value="<?php echo $popuptitle ?>" />
 <?php } ?>
-<input type="hidden" name="redirect_to" value="wp-admin/b2edit.php" />
-<input type="hidden" name="action" value="login" />
-<label>Login: <input type="text" name="log" value="" size="8" /></label><br />
-<label>Password: <input type="password" name="pwd" value="" size="8" /></label><br />
-<input type="submit" name="Submit2" value="OK" class="search">
-
+	<input type="hidden" name="redirect_to" value="wp-admin/b2edit.php" />
+	<input type="hidden" name="action" value="login" />
+	<label>Login: <input type="text" name="log" id="log" value="" size="12" tabindex="1" /></label><br />
+	<label>Password: <input type="password" name="pwd" value="" size="12" tabindex="2" /></label><br />
+	<input type="submit" name="Submit2" value="OK" class="search" />
 </form>
 
 </div>
 
 </body>
 </html>
-	<?php
+<?php
 
 break;
-}
-
+} // end action switch
 ?>
