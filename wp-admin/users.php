@@ -130,7 +130,7 @@ case 'delete':
 	$standalone = 1;
 	require_once('admin-header.php');
 
-	$id = $HTTP_GET_VARS['id'];
+	$id = intval($HTTP_GET_VARS['id']);
 
 	if (!$id) {
 		header('Location: users.php');
@@ -142,13 +142,23 @@ case 'delete':
 	if ($user_level <= $usertodelete_level)
 		die('Can&#8217;t delete a user whose level is higher than yours.');
 
-	$sql = "DELETE FROM $tableusers WHERE ID = $id";
-	$result = $wpdb->query($sql) or die("Couldn&#8217;t delete user #$id.");
-
-	$sql = "DELETE FROM $tableposts WHERE post_author = $id";
-	$result = $wpdb->query($sql) or die("Couldn&#8217;t delete user #$id&#8217;s posts.");
-
-	header('Location: users.php');
+	$post_ids = $wpdb->get_col("SELECT ID FROM $tableposts WHERE post_author = $id");
+	$post_ids = implode(',', $post_ids);
+	
+	// Delete comments, *backs
+	$wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID IN ($post_ids)");
+	// Clean cats
+	$wpdb->query("DELETE FROM $tablepost2cat WHERE post_id IN ($post_ids)");
+	// Clean post_meta
+	$wpdb->query("DELETE FROM $tablepostmeta WHERE post_id IN ($post_ids)");
+	// Clean links
+	$wpdb->query("DELETE FROM $tablelinks WHERE link_owner = $id");
+	// Delete posts
+	$wpdb->query("DELETE FROM $tableposts WHERE post_author = $id");
+	// FINALLY, delete user
+	$wpdb->query("DELETE FROM $tableusers WHERE ID = $id");
+	
+	header('Location: users.php?deleted=true');
 
 break;
 
@@ -157,6 +167,9 @@ default:
 	$standalone = 0;
 	include ('admin-header.php');
 	?>
+<?php if ($_GET['deleted']) : ?>
+<div class="updated"><p>User deleted.</p></div>
+<?php endif; ?>
 <div class="wrap">
   <h2>Authors</h2>
   <table cellpadding="3" cellspacing="3" width="100%">
