@@ -100,6 +100,7 @@ switch($step) {
 	<td><input name="admin_email" type="text" id="admin_email" size="25" /></td>
 </tr>
 </table>
+<p><em>Double-check that email address before continuing.</em></p>
 <h2 class="step">
 	<input type="submit" name="Submit" value="Continue to Second Step &raquo;" />
 </h2>
@@ -682,12 +683,6 @@ foreach ($geo_option_data as $query) {
 ?>
 
 <p>Groovy. We're almost done.</p>
-<h2 class="step"><a href="install.php?step=3">Final Step &raquo;</a></h2>
-
-<?php
-	break;
-	case 3:
-?>
 
 <h1>Third Step</h1>
 <?php
@@ -722,11 +717,26 @@ $q = $wpdb->query($query);
 
 $random_password = substr(md5(uniqid(microtime())),0,6);
 
-$query = "INSERT INTO $wpdb->users (ID, user_login, user_pass, user_firstname, user_lastname, user_nickname, user_icq, user_email, user_url, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_aim, user_msn, user_yim, user_idmode) VALUES ( '1', 'admin', MD5('$random_password'), '', '', 'site admin', '0', '$admin_email', '', '127.0.0.1', '127.0.0.1', '', '00-00-0000 00:00:01', '10', '', '', '', 'nickname')";
+$query = "INSERT INTO $wpdb->users (ID, user_login, user_pass, user_nickname, user_email, user_level, user_idmode) VALUES ( '1', 'admin', MD5('$random_password'), 'Administrator', '$admin_email', '10', 'nickname')";
 $q = $wpdb->query($query);
 
 // Do final updates
 upgrade_all();
+
+mail($admin_email, 'New WordPress Blog', "Your new WordPress blog has been sucessfully set up at:
+
+$guessurl
+
+You can log in to the administrator account with the following information:
+
+Username: admin
+Password: $random_password
+
+We hope you enjoy your new weblog. Thanks!
+
+--The WordPress Team
+http://wordpress.org/
+");
 ?>
 
 <p>User setup successful!</p>
