@@ -1,7 +1,7 @@
 <?php /* Don't remove this line, it calls the b2 function files ! */ $blog=1;
 require('blog.header.php');
-require('wp-links/links.php');
-require('wp-links/links.weblogs.com.php');
+require($abspath.'wp-links/links.php');
+require($abspath.'wp-links/links.weblogs.com.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -13,10 +13,10 @@ require('wp-links/links.weblogs.com.php');
 	<meta name="generator" content="WordPress .7" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
-		@import url( <?php echo $pathserver; ?>/layout2b.css );
+		@import url( <?php echo $siteurl; ?>/layout2b.css );
 	</style>
 	
-	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $pathserver; ?>/print.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
 	<link rel="alternate" type="text/xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />

@@ -1,8 +1,8 @@
 <?php
 require('b2config.php');
-require_once($b2inc.'/b2template.functions.php');
-require_once($b2inc.'/b2functions.php');
-require_once($b2inc.'/b2vars.php');
+require_once($abspath.$b2inc.'/b2template.functions.php');
+require_once($abspath.$b2inc.'/b2functions.php');
+require_once($abspath.$b2inc.'/b2vars.php');
 
 if (!function_exists('add_magic_quotes')) {
 	function add_magic_quotes($array) {

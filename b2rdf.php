@@ -1,10 +1,11 @@
 <?php /* RDF 1.0 generator, original version by garym@teledyn.com */
-$blog=1; // enter your blog's ID
-header("Content-type: text/xml");
-include ("blog.header.php");
+$blog = 1; // enter your blog's ID
+header('Content-type: text/xml');
+include('blog.header.php');
 add_filter('the_content', 'trim');
 if (!isset($rss_language)) { $rss_language = 'en'; }
-?><?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">"; ?>
+?>
+<?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">"; ?>
 <!-- generator="wordpress/<?php echo $b2_version ?>" -->
 <rdf:RDF
 	xmlns="http://purl.org/rss/1.0/"

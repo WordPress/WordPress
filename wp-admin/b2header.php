@@ -1,12 +1,12 @@
 <?php
 
-require("../b2config.php");
-require_once($b2inc."/b2template.functions.php");
-require_once("b2verifauth.php");
-require_once($b2inc."/b2vars.php");
-require_once($b2inc."/b2functions.php");
-require_once($b2inc."/xmlrpc.inc");
-require_once($b2inc."/xmlrpcs.inc");
+require('../b2config.php');
+require_once($abspath.$b2inc.'/b2template.functions.php');
+require_once($abspath.'/wp-admin/b2verifauth.php');
+require_once($abspath.$b2inc.'/b2vars.php');
+require_once($abspath.$b2inc.'/b2functions.php');
+require_once($abspath.$b2inc.'/xmlrpc.inc');
+require_once($abspath.$b2inc.'/xmlrpcs.inc');
 
 if (!isset($use_cache))	$use_cache=1;
 if (!isset($blogID))	$blog_ID=1;

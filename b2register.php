@@ -1,8 +1,8 @@
 <?php
 /* <Register> */
 
-include("./b2config.php");
-include($b2inc."/b2functions.php");
+require('b2config.php');
+require($abspath.$b2inc.'/b2functions.php');
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {

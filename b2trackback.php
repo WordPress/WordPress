@@ -57,10 +57,10 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url)
 	@header('Content-Type: text/xml');
 
 
-	require_once("b2config.php");
-	require_once("$b2inc/b2template.functions.php");
-	require_once("$b2inc/b2vars.php");
-	require_once("$b2inc/b2functions.php");
+	require_once('b2config.php');
+	require_once($abspath.$b2inc.'/b2template.functions.php');
+	require_once($abspath.$b2inc.'/b2vars.php');
+	require_once($abspath.$b2inc.'/b2functions.php');
 
 	if (!$use_trackback) {
 		trackback_response(1, 'Sorry, this weblog does not allow you to trackback its posts.');

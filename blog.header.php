@@ -4,16 +4,14 @@ $use_cache = 1;
 $use_gzipcompression = 1;
 
 /* Including config and functions files */
-require_once (dirname(__FILE__).'/b2config.php');
+require_once('b2config.php');
 $b2blah = dirname(__FILE__).'/';
-if ( (substr($b2inc,0,1)=='/') || (substr($b2inc,1,1)==':') ) {
-	$b2blah='./';
-}
-require_once ($b2blah.$b2inc.'/b2template.functions.php');
-require_once ($b2blah.$b2inc.'/b2vars.php');
-require_once ($b2blah.$b2inc.'/b2functions.php');
-require_once ($b2blah.$b2inc.'/xmlrpc.inc');
-require_once ($b2blah.$b2inc.'/xmlrpcs.inc');
+
+require_once ($abspath.$b2inc.'/b2template.functions.php');
+require_once ($abspath.$b2inc.'/b2vars.php');
+require_once ($abspath.$b2inc.'/b2functions.php');
+require_once ($abspath.$b2inc.'/xmlrpc.inc');
+require_once ($abspath.$b2inc.'/xmlrpcs.inc');
 
 $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby');
 

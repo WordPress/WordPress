@@ -26,7 +26,7 @@
 //
 // Mike Little (mike@zed1.com)
 // *****************************************************************
-
+include_once('../b2config.php');
 include_once('../wp-links/links.config.php');
 include_once("../wp-links/links.php");
 

@@ -51,10 +51,10 @@ $calendaremptycellcontent = '&nbsp;';
 /* stop customizing (unless you really know what you're doing) */
 
 
-include('b2config.php');
-require_once("$b2inc/b2template.functions.php");
-require_once("$b2inc/b2functions.php");
-require_once("$b2inc/b2vars.php");
+require('b2config.php');
+require_once($abspath.$b2inc.'/b2template.functions.php');
+require_once($abspath.$b2inc.'/b2functions.php');
+require_once($abspath.$b2inc.'/b2vars.php');
 dbconnect();
 
 if (isset($calendar) && ($calendar != '')) {

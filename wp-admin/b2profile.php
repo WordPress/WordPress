@@ -34,8 +34,8 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 	}
 }
 
-require_once("../b2config.php");
-require_once("$b2inc/b2functions.php");
+require_once('../b2config.php');
+require_once($abspath.$b2inc.'/b2functions.php');
 
 dbconnect();
 

@@ -1,7 +1,7 @@
 <div class="wrap">
 <?php
 
-require_once('b2config.php');
+require_once('../b2config.php');
 
 if (!$posts) {
 	if ($posts_per_page) {
@@ -228,7 +228,7 @@ if ($i == "ASC")
 
 	<?php
 	// these lines are b2's "motor", do not alter nor remove them
-	include("blog.header.php");
+	include($abspath.'blog.header.php');
 
 	while($row = mysql_fetch_object($result)) {
 		$posts_per_page = 10;

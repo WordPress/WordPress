@@ -1,9 +1,7 @@
 <?php
-
 /* *
  * WordPress's config file *
                          * */
-
 
 // Reminder: everything that starts with #, /* or // is a comment
 
@@ -13,7 +11,7 @@
 // $blogfilename is the name of the default file for your blog
 // $blogname is the name of your blog
 
-$siteurl = 'http://example.com';
+$siteurl = 'http://example.com'; // Double check this, it's very important.
 $blogfilename = 'index.php';
 $blogname = "my weblog";
 $blogdescription = "babblings !";
@@ -23,11 +21,14 @@ $admin_email = 'you@example.com';
 
 // ** MySQL settings **
 
-// fill with your database details
-$dbname = 'b2';             // the name of the database
-$dbusername = 'user';       // your MySQL username
+$dbname = 'b2';             // The name of the database
+$dbusername = 'user';       // Your MySQL username
 $dbpassword = 'pass';       // ...and password
-$dbhost = 'localhost';      // 99% chances you won't need to change this value
+$dbhost = 'localhost';      // 99% chance you won't need to change this value
+
+
+// If you've finished up to here you should be able to install now.
+
 
 // set this to 0 or 1, whether you want new users to be able to post entries once they registered
 $new_users_can_blog = 0;
@@ -259,8 +260,7 @@ $month['12']='December';
 
 
 
-// $b2inc is where the included b2 files are: that's generally the directory b2-include,
-//  so you shouldn't have to change that setting
+// This is the name of the include directory. No "/" allowed.
 $b2inc = 'b2-include';
 
 
@@ -321,9 +321,14 @@ $passsql = $dbpassword;
 $path = $siteurl;
 $base = $dbname;
 
-// This is so the new admin location works
-// Set this path separator appropriately for your OS: semi-colon on windows, colon on unix
-//$path_sep=';';
-$path_sep = ':';
-ini_set('include_path', ".$path_sep..$path_sep../$b2inc$path_sep./$b2inc");
+
+// This should get us the relative path of WordPress and the absolute path on the server. Yipee!
+$relpath = '';
+$url = explode('/', $siteurl);
+for ($i = 3; $i < count($url); $i++) {
+	$relpath .= '/'. $url[$i];
+}
+$abspath =  getenv('DOCUMENT_ROOT') . $relpath . '/';
+$b2inc = "/$b2inc";
+$pathserver = &$siteurl;
 ?>

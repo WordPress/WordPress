@@ -3,10 +3,10 @@
 # if you want to change the paths here, remember to put your new path BEFORE $b2inc,
 #  like this: "b2/$b2inc/b2functions.php"
 
-require("b2config.php");
-require("$b2inc/b2template.functions.php");
-include("$b2inc/b2vars.php");
-include("$b2inc/b2functions.php");
+require('b2config.php');
+require($abspath.$b2inc.'/b2template.functions.php');
+include($abspath.$b2inc.'/b2vars.php');
+include($abspath.$b2inc.'/b2functions.php');
 
 dbconnect();
 

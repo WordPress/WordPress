@@ -108,9 +108,8 @@
         <li>The templates are so much better, and there is so much more going 
           on than before it's probably worth it to start from scratch and work 
           back to your design.</li>
-        <li>You can keeep your <code>b2config.php</code> file if you want to, 
-          but it is <strong>very important</strong> that you take the last few 
-          lines from the WordPress and add those in, otherwise, nothing will work.</li>
+        <li>You <em>must</em> update your <code>b2config.php</code>. There's all 
+          sort of new stuff in there.</li>
         <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support 
           forums</a>.</li>
         <li><strong>Back up</strong> your database before you do anything. Yes, 
@@ -869,9 +868,9 @@
       <p>Your XMLRPC server/path are as described here: if you login to b2 on 
         http://mydomain.com/me/b2login.php, then you have:</p>
       <ul>
-        <li>server: http://mydomain.com/me</li>
+        <li>server: http://example.com/me</li>
         <li>path: /me/xmlrpc.php</li>
-        <li>complete URL (just in case): http://mydomain.com/me/xmlrpc.php</li>
+        <li>complete URL (just in case): http://example.com/me/xmlrpc.php</li>
       </ul>
       <p>There's also a b2-specific method: b2.getCategories. Request it with 
         3 strings: blog_ID (use '1'), username, password. The response is an array 
@@ -973,12 +972,12 @@
       <h1><br />
         Final notes:</h1>
       <ul>
-        <li>WordPress is functionnal, but a lot of coding and code clean-up remain 
+        <li>WordPress is functional, but a lot of coding and code clean-up remain 
           to be done.</li>
         <li>If you've got suggestions, ideas, or comments, or if you found a bug, 
           why not joining us in the <a href="http://wordpress.org/support/">Support 
           Forums</a>?</li>
-        <li>If you can code in PHP, you'll see the structure of b2 is flexible 
+        <li>If you can code in PHP, you'll see the structure of WordPress is flexible 
           enough to allow for more functions and sections to be added.</li>
       </ul>
       <h1><br />
@@ -986,7 +985,8 @@
       <ul>
         <li> Wherever third party code has been used, credit has been given in 
           the code's comments.</li>
-        <li>WordPress is released under the GPL (see license.txt).</li>
+        <li>WordPress is released under the <acronym title="GNU Public License">GPL</acronym> 
+          (see license.txt).</li>
       </ul></td>
   </tr>
 </table>
