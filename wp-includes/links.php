@@ -514,7 +514,7 @@ function links_popup_script($text = 'Links', $width=400, $height=400,
  *   order (default 'name')  - Sort link categories by 'name' or 'id'
  *   hide_if_empty (default true)  - Supress listing empty link categories
  */
-function get_links_list($order = 'name', $hide_if_empty = true) {
+function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 	global $tablelinkcategories, $tablelinks, $wpdb;
 
 	$order = strtolower($order);
@@ -526,37 +526,29 @@ function get_links_list($order = 'name', $hide_if_empty = true) {
 	}
 
 	// if 'name' wasn't specified, assume 'id':
-	$cat_order = ('name' == $order)?'cat_name':'cat_id';
+	$cat_order = ('name' == $order) ? 'cat_name' : 'cat_id';
 
-	if ($hide_if_empty) {
-		$extra_join = "LEFT JOIN $tablelinks ON link_category = cat_id";
-		$group_by_having = 'GROUP BY cat_id HAVING count(link_id) > 0';
-	}
 
 	// Fetch the link category data as an array of hashes
-	$cats = $wpdb->get_results("SELECT cat_id, cat_name, show_images,
+	$cats = $wpdb->get_results("SELECT DISTINCT link_category, cat_name, show_images,
 		show_description, show_rating, show_updated, sort_order, sort_desc, list_limit
-		FROM $tablelinkcategories $extra_join
-		$group_by_having
-		ORDER BY $cat_order $direction ",ARRAY_A);
+FROM `$tablelinks` LEFT JOIN `$tablelinkcategories` ON (link_category = cat_id)
+WHERE link_visible =  'Y'
+		ORDER BY $cat_order $direction ", ARRAY_A);
 
 	// Display each category
 	if ($cats) {
-		// Start the unordered list
-		echo "<ul>\n";
-
 		foreach ($cats as $cat) {
 			// Handle each category.
-
 			// First, fix the sort_order info
 			$orderby = $cat['sort_order'];
 			$orderby = (bool_from_yn($cat['sort_desc'])?'_':'') . $orderby;
 
 			// Display the category name
-			echo '<li>' . stripslashes($cat['cat_name']) . "\n<ul>\n";
+			echo '	<li>' . stripslashes($cat['cat_name']) . "\n\t<ul>\n";
 
 			// Call get_links() with all the appropriate params
-			get_links($cat['cat_id'],
+			get_links($cat['link_category'],
 				'<li>',"</li>","\n",
 				bool_from_yn($cat['show_images']),
 				$orderby,
@@ -566,11 +558,8 @@ function get_links_list($order = 'name', $hide_if_empty = true) {
 				bool_from_yn($cat['show_updated']));
 
 			// Close the last category
-			echo "</ul>\n</li>\n";
-
+			echo "\n\t</ul>\n</li>\n";
 		}
-		// Close out our category list.
-		echo "</ul>\n";
 	}
 }
 

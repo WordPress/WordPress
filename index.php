@@ -67,11 +67,7 @@ require_once('wp-blog-header.php');
 <div id="menu">
 
 <ul>
- <li>Links:
-	<ul>
-		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, -1)?>
-	</ul>
- </li>
+	<?php get_links_list(); ?>
  <li>Categories:
 	<ul>
 	<?php list_cats(0, 'All', 'name'); ?>
