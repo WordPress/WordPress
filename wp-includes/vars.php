@@ -191,4 +191,6 @@ add_filter('single_post_title', 'wptexturize');
 add_filter('the_title', 'wptexturize');
 add_filter('the_content', 'wptexturize');
 add_filter('the_excerpt', 'wptexturize');
+add_filter('bloginfo', 'wptexturize');
+
 ?>
