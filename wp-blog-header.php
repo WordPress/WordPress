@@ -44,6 +44,7 @@ if (! empty($_SERVER['PATH_INFO'])) {
 
                 // Parse the query.
                 parse_str($query, $path_info);
+                break;
             }
         }
     }    

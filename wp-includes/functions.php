@@ -1174,7 +1174,7 @@ function preg_index($number, $matches = '') {
     return "$match_prefix$number$match_suffix";        
 }
 
-function generate_rewrite_rules($permalink_structure = '') {
+function generate_rewrite_rules($permalink_structure = '', $matches = '') {
     $rewritecode = 
 	array(
 	'%year%',
@@ -1199,7 +1199,7 @@ function generate_rewrite_rules($permalink_structure = '') {
 	'([0-9]{1,2})',
 	'([_0-9a-z-]+)',
 	'([0-9]+)',
-	'(.*)',
+	'([/_0-9a-z-]+)',
 	'([_0-9a-z-]+)'
 	);
 
@@ -1267,7 +1267,7 @@ function generate_rewrite_rules($permalink_structure = '') {
                 $match = $match . '?([0-9]+)?/?$';
                 $query = $index . '?' . $query . '&page=' . preg_index($num_toks + 1, $matches);
         } else {
-            $match .= '?';
+            $match .= '?$';
             $query = $index . '?' . $query;
         }
         
@@ -1298,7 +1298,11 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
         }
     }
 
-    $post_rewrite = generate_rewrite_rules($permalink_structure);
+    $post_rewrite = generate_rewrite_rules($permalink_structure, $matches);
+
+    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
+    $pageregex = 'page/?([0-9]{1,})/?$';
+    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
 
     // If the permalink does not have year, month, and day, we need to create a
     // separate archive rule.
@@ -1306,12 +1310,8 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     if (! (strstr($permalink_structure, '%year') && strstr($permalink_structure, '%monthnum') && strstr($permalink_structure, '%day')) ) {
         $doarchive = true;
         $archive_structure = $front . '%year%/%monthnum%/%day%/';
-        $archive_rewrite =  generate_rewrite_rules($archive_structure);
+        $archive_rewrite =  generate_rewrite_rules($archive_structure, $matches);
     }
-
-    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
-    $pageregex = 'page/?([0-9]{1,})/?$';
-    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
 
     // Site feed
     $sitefeedmatch = 'feed/?([_0-9a-z-]+)?/?$';
@@ -1338,19 +1338,21 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 	    $category_structure = get_settings('category_base') . '/';
 
     $category_structure = $category_structure . '%category%';
-    $category_rewrite = generate_rewrite_rules($category_structure);
+    $category_rewrite = generate_rewrite_rules($category_structure, $matches);
 
     // Authors
     $author_structure = $front . 'author/%author%';
-    $author_rewrite = generate_rewrite_rules($author_structure);
+    $author_rewrite = generate_rewrite_rules($author_structure, $matches);
 
     // Put them together.
-    $rewrite = $site_rewrite + $category_rewrite + $author_rewrite + $post_rewrite;
+    $rewrite = $site_rewrite + $category_rewrite + $author_rewrite;
 
     // Add on archive rewrite rules if needed.
     if ($doarchive) {
         $rewrite = $rewrite + $archive_rewrite;
     }
+
+    $rewrite = $rewrite + $post_rewrite;
 
     return $rewrite;
 }
