@@ -309,6 +309,7 @@ default:
     <tr>
       <th scope="row">New <strong>Password</strong> (Leave blank to stay the same.)</th>
       <td><input type="password" name="pass1" size="16" value="" />
+      	<br>
         <input type="password" name="pass2" size="16" value="" /></td>
     </tr>
   </table>
