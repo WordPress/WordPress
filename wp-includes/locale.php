@@ -10,15 +10,20 @@ $weekday[4] = __('Thursday');
 $weekday[5] = __('Friday');
 $weekday[6] = __('Saturday');
 
-// The first letter of each day.  Note that marking single characters for
-// translation is useless, but here it is.
-$weekday_initial[__('Sunday')]    = __('S');
-$weekday_initial[__('Monday')]    = __('M');
-$weekday_initial[__('Tuesday')]   = __('T');
-$weekday_initial[__('Wednesday')] = __('W');
-$weekday_initial[__('Thursday')]  = __('T');
-$weekday_initial[__('Friday')]    = __('F');
-$weekday_initial[__('Saturday')]  = __('S');
+// The first letter of each day.  The _%day%_initial suffix is a hack to make
+// sure the day initials are unique.  They should be translated to a one
+// letter initial.  
+$weekday_initial[__('Sunday')]    = __('S_Sunday_initial');
+$weekday_initial[__('Monday')]    = __('M_Monday_initial');
+$weekday_initial[__('Tuesday')]   = __('T_Tuesday_initial');
+$weekday_initial[__('Wednesday')] = __('W_Wednesday_initial');
+$weekday_initial[__('Thursday')]  = __('T_Thursday_initial');
+$weekday_initial[__('Friday')]    = __('F_Friday_initial');
+$weekday_initial[__('Saturday')]  = __('S_Saturday_initial');
+
+foreach ($weekday_initial as $weekday_ => $weekday_initial_) {
+  $weekday_initial[$weekday_] = preg_replace('/_.+_initial$/', '', $weekday_initial_);
+}
 
 // Abbreviations for each day.
 $weekday_abbrev[__('Sunday')]    = __('Sun');
