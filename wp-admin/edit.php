@@ -261,7 +261,7 @@ if ($posts) {
 foreach ($posts as $post) { start_wp();
 ?>
 			<p>
-				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments", true) ?></a>
+				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
 				<?php
 				if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
 				echo " - <a href='post.php?action=edit&amp;post=$id";

@@ -1558,7 +1558,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 
 // generic comments/trackbacks/pingbacks numbering
 
-function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments', $number) {
+function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments', $number='') {
 	global $id, $comment, $tablecomments, $wpdb;
 	if ('' == $number) $number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
 	if ($number == 0) {
