@@ -126,14 +126,21 @@ default:
 	}
 	?> 
 </div> 
-<div class="wrap"> 
-  <p>You can also edit the <a href="templates.php?file=wp-comments.php">comments template</a> or the <a href="templates.php?file=wp-comments-popup.php">popup comments template</a>, or edit any other file (provided it&#8217;s writable by the server, e.g. CHMOD 766).</p> 
-  <p>To edit a file, type its name here:</p> 
+<div class="wrap">
+  <p>To edit a file, type its name here. You can edit any file ritable by the server, e.g. CHMOD 766.</p> 
   <form name="file" action="templates.php" method="get"> 
     <input type="text" name="file" /> 
     <input type="submit" name="submit"  class="search" value="go" /> 
   </form> 
-  <p>Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don't have access to a text editor or FTP client.</p> 
+  <p>Common files:</p>
+  <ul>
+    <li><a href="templates.php?file=index.php">Main Index </a></li>
+    <li><a href="templates.php?file=wp-comments.php">Comments</a></li>
+    <li><a href="templates.php?file=wp-comments-popup.php">Popup comments </a></li>
+    <li><a href="templates.php?file=.htaccess">.htaccess (for rewrite rules)</a></li>
+    <li><a href="templates.php?file=my-hacks.php">my-hacks.php</a></li>
+  </ul>
+  <p>Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don't have access to a text editor or FTP client.</p>
 </div> 
 <?php
 
