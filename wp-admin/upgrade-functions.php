@@ -587,6 +587,9 @@ function upgrade_100() {
 	$wpdb->query("UPDATE $tableoptions SET option_value = REPLACE(option_value, 'wp-links/links-images/', 'wp-images/links/')
                                                       WHERE option_name LIKE 'links_rating_image%'
                                                       AND option_value LIKE 'wp-links/links-images/%'");
+	$wpdb->query("DELETE FROM $tableoptions WHERE option_name = 'comment_allowed_tags'");
+	$wpdb->query("DELETE FROM $tableoptions WHERE option_name = 'use_preview'");
+	$wpdb->query("DELETE FROM $tableoptions WHERE option_name = 'search_engine_friendly_urls'");
 	// Multiple categories
 	maybe_create_table($tablepost2cat, "
 		CREATE TABLE `$tablepost2cat` (

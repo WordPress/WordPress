@@ -1,15 +1,15 @@
 <?php
 $_wp_installing = 1;
-if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
+if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must <a href='install-config.php'>create one</a> before moving on.");
 require_once('../wp-config.php');
-
+require('upgrade-functions.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<title>WordPress &#8212; Installation</title>
+	<title>WordPress &rsaquo; Installation</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style media="screen" type="text/css">
     <!--
@@ -23,12 +23,12 @@ if (!$step) $step = 0;
 		padding: 0;
 		background-image: url(http://wordpress.org/images/wordpress.gif);
 		background-repeat: no-repeat;
-		height: 72px;
+		height: 60px;
 		border-bottom: 4px solid #333;
 	}
 	#logo a {
 		display: block;
-		height: 72px;
+		height: 60px;
 	}
 	#logo a span {
 		display: none;
@@ -712,6 +712,10 @@ $random_password = substr(md5(uniqid(microtime())),0,6);
 $query = "INSERT INTO $tableusers (ID, user_login, user_pass, user_firstname, user_lastname, user_nickname, user_icq, user_email, user_url, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_aim, user_msn, user_yim, user_idmode) VALUES ( '1', 'admin', '$random_password', '', '', 'admin', '0', '$admin_email', '', '127.0.0.1', '127.0.0.1', '', '00-00-0000 00:00:01', '10', '', '', '', 'nickname')";
 $q = $wpdb->query($query);
 
+// Do final updates
+upgrade_071();
+upgrade_072();
+upgrade_100();
 ?>
 
 <p>User setup successful!</p>

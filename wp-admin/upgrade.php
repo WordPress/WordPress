@@ -22,14 +22,14 @@ if (!$step) $step = 0;
 		padding: 0;
 		background-image: url(http://wordpress.org/images/logo.png);
 		background-repeat: no-repeat;
-		height: 54px;
+		height: 60px;
 		border-bottom: 4px solid #333;
 	}
 	#logo a {
 		display: block;
 		text-decoration: none;
 		text-indent: -100em;
-		height: 54px;
+		height: 60px;
 	}
 	p {
 		line-height: 140%;
