@@ -19,15 +19,14 @@ add_filter('comment_excerpt', 'convert_chars');
 function comments_template() {
 	global $withcomments, $single, $post, $wpdb, $id, $comment, $cookiehash;
 
-	$req = get_settings('require_name_email');
-	$comment_author = isset($_COOKIE['comment_author_'.$cookiehash]) ? trim($_COOKIE['comment_author_'.$cookiehash]) : '';
-	$comment_author_email = isset($_COOKIE['comment_author_email_'.$cookiehash]) ? trim($_COOKIE['comment_author_email_'.$cookiehash]) : '';
-	$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim($_COOKIE['comment_author_url_'.$cookiehash]) : '';
-
-	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
-
-	if ( $single || $withcomments )
+	if ( $single || $withcomments ) :
+		$req = get_settings('require_name_email');
+		$comment_author = isset($_COOKIE['comment_author_'.$cookiehash]) ? trim($_COOKIE['comment_author_'.$cookiehash]) : '';
+		$comment_author_email = isset($_COOKIE['comment_author_email_'.$cookiehash]) ? trim($_COOKIE['comment_author_email_'.$cookiehash]) : '';
+		$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim($_COOKIE['comment_author_url_'.$cookiehash]) : '';
+		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
 		include(ABSPATH . 'wp-comments.php');
+	endif;
 }
 
 function clean_url($url) {
