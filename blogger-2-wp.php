@@ -126,6 +126,8 @@ case "step1":
 
 			$post_content = addslashes($post_content);
 			$post_content = str_replace('<br>', '<br />', $post_content); // the XHTML touch... ;)
+			
+			$post_title = addslashes($post_title);
 
 			$result = $wpdb->query("
 			INSERT INTO $tableposts 
