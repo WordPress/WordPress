@@ -1,10 +1,10 @@
 1	wp-post.php	Post
 1	edit.php	Edit
-3	b2team.php	Team
-4	wp-options.php	Options
 3	categories.php	Categories
+5	linkmanager.php	Links
+3	users.php	Users
+4	wp-options.php	Options
 4	b2template.php	Template
-5	linkmanager.php	Manage Links
 ***
 (Everything after the '***' is a comment.)
 

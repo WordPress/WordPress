@@ -175,7 +175,7 @@ default:
 		
 		<p>Name:<br />
 		<input type="text" name="cat_name" value="" /></p>
-		<p>Description:<br />
+		<p>Description: (optional) <br />
 		<textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
 		<p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="Add" class="search" /></p>
 	</form>
