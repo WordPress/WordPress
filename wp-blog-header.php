@@ -68,6 +68,13 @@ $wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','e
         }
     }
 
+if ($feed != '') {
+    $doing_rss = 1;
+}
+
+if ($tb == 1) {
+    $doing_trackback = 1;
+}
 
 // Sending HTTP headers
 
@@ -158,6 +165,16 @@ if (1 == count($posts)) {
         if (!strstr($_SERVER['PHP_SELF'], 'wp-admin')) // And not in admin section
             header('Location: ' . get_permalink($posts[0]->ID));
     }
+}
+
+if ($pagenow != 'wp-feed.php' && $feed != '') {
+    require(dirname(__FILE__) . '/wp-feed.php');
+    exit;
+}
+
+if ($pagenow != 'wp-trackback.php' && $tb == 1) {
+    require(dirname(__FILE__) . '/wp-trackback.php');
+    exit;
 }
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {

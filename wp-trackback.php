@@ -10,7 +10,10 @@ $title = $_POST['title'];
 $excerpt = $_POST['excerpt'];
 $blog_name = $_POST['blog_name'];
 
-require('wp-blog-header.php');
+if (! $doing_trackback) {
+    $doing_trackback = 1;
+    require('wp-blog-header.php');
+}
 
 if ( (($p != '') && ($p != 'all')) || ($name != '') ) {
     $tb_id = $posts[0]->ID;

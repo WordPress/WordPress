@@ -1227,8 +1227,8 @@ function generate_rewrite_rules($permalink_structure = '') {
     $num_tokens = count($tokens[0]);
 
     $index = 'index.php';
-    $feedindex = 'wp-feed.php';
-    $trackbackindex = 'wp-trackback.php';
+    $feedindex = 'index.php';
+    $trackbackindex = 'index.php';
     for ($i = 0; $i < $num_tokens; ++$i) {
              if (0 < $i) {
                  $queries[$i] = $queries[$i - 1] . '&';
@@ -1263,7 +1263,7 @@ function generate_rewrite_rules($permalink_structure = '') {
         if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')) {
                 $post = 1;
                 $trackbackmatch = $match . $trackbackregex;
-                $trackbackquery = $trackbackindex . '?' . $query;
+                $trackbackquery = $trackbackindex . '?' . $query . '&tb=1';
                 $match = $match . '?([0-9]+)?/?$';
                 $query = $index . '?' . $query . '&page=' . preg_index($num_toks + 1, $matches);
         } else {
@@ -1315,11 +1315,11 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 
     // Site feed
     $sitefeedmatch = 'feed/?([_0-9a-z-]+)?/?$';
-    $sitefeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches);
+    $sitefeedquery = 'index.php?feed=_' . preg_index(1, $matches);
 
     // Site comment feed
     $sitecommentfeedmatch = 'comments/feed/?([_0-9a-z-]+)?/?$';
-    $sitecommentfeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
+    $sitecommentfeedquery = 'index.php?feed=_' . preg_index(1, $matches) . '&withcomments=1';
 
     // Site page
     $sitepagematch = $pageregex;
@@ -1343,7 +1343,6 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     // Authors
     $author_structure = $front . 'author/%author%';
     $author_rewrite = generate_rewrite_rules($author_structure);
-
 
     // Put them together.
     $rewrite = $site_rewrite + $category_rewrite + $author_rewrite + $post_rewrite;
