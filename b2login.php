@@ -46,10 +46,10 @@ case 'logout':
 
 	setcookie('wordpressuser');
 	setcookie('wordpresspass');
-		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
+	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+	header('Cache-Control: no-cache, must-revalidate');
+	header('Pragma: no-cache');
 	if ($is_IIS) {
 		header('Refresh: 0;url=b2login.php');
 	} else {
@@ -264,7 +264,7 @@ default:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>WordPress > Login form</title>
+	<title>WordPress > <?php bloginfo('name') ?> > Login form</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
 	<script type="text/javascript">
@@ -299,8 +299,8 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 <?php } ?>
 	<input type="hidden" name="redirect_to" value="wp-admin/b2edit.php" />
 	<input type="hidden" name="action" value="login" />
-	<label>Login: <input type="text" name="log" id="log" value="" size="12" tabindex="1" /></label><br />
-	<label>Password: <input type="password" name="pwd" value="" size="12" tabindex="2" /></label><br />
+	<label>Login: <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label><br />
+	<label>Password: <input type="password" name="pwd" value="" size="20" tabindex="2" /></label><br />
 	<input type="submit" name="Submit2" value="OK" class="search" />
 </form>
 
