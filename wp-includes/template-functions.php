@@ -1340,7 +1340,7 @@ function get_the_category() {
 	return $categories;
 }
 
-function get_category_link($echo = false, $category_id) {
+function get_category_link($echo = false, $category_id, $category_nicename) {
 	global $wpdb, $tablecategories, $post, $querystring_start, $querystring_equal, $siteurl, $blogfilename;
 	$cat_ID = $category_id;
 	$permalink_structure = get_settings('permalink_structure');
@@ -1349,7 +1349,7 @@ function get_category_link($echo = false, $category_id) {
 		$file = "$siteurl/$blogfilename";
 		$link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
 	} else {
-		$category_nicename = $wpdb->get_var("SELECT category_nicename FROM $tablecategories WHERE cat_ID = $category_id");
+		if ('' == $category_nicename) $category_nicename = $wpdb->get_var("SELECT category_nicename FROM $tablecategories WHERE cat_ID = $category_id");
 		// Get any static stuff from the front
 		$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
 		$link = $siteurl . $front . 'category/' . $category_nicename;
@@ -1365,7 +1365,7 @@ function the_category($seperator = '') {
 		echo '<ul class="post-categories">';
 		foreach ($categories as $category) {
 			$category->cat_name = stripslashes($category->cat_name);
-			echo "\n\t<li><a href='" . get_category_link(0, $category->category_id) . "' title='View all posts in $category->cat_name'>$category->cat_name</a></li>";
+			echo "\n\t<li><a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>$category->cat_name</a></li>";
 		}
 		echo '</ul>';
 	} else {
@@ -1373,7 +1373,7 @@ function the_category($seperator = '') {
 		foreach ($categories as $category) {
 			$category->cat_name = stripslashes($category->cat_name);
 			if (0 < $i) echo $seperator . ' ';
-			echo "<a href='" . get_category_link(0, $category->category_id) . "' title='View all posts in $category->cat_name'>$category->cat_name</a>";
+			echo "<a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>$category->cat_name</a>";
 			++$i;
 		}
 	}
@@ -1491,7 +1491,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$sort_column = 'cat_'.$sort_column;
 
     $query  = "
-		SELECT cat_ID, cat_name,
+		SELECT cat_ID, cat_name, category_nicename,
 		COUNT($tablepost2cat.post_id) AS cat_count,
 		DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
 		FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
@@ -1522,7 +1522,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 
 	foreach ($categories as $category) {
 		$cat_name = apply_filters('list_cats', $category->cat_name);
-        $link = '<a href="'.get_category_link(0, $category->cat_ID).'" title="View all posts filed under ' . $category->cat_name . '">';
+        $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" title="View all posts filed under ' . $category->cat_name . '">';
         $link .= stripslashes($cat_name).'</a>';
         if (intval($optioncount) == 1) {
             $link .= '&nbsp;&nbsp;('.$category->cat_count.')';
