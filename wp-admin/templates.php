@@ -97,10 +97,14 @@ update_option('recently_edited', array(1, 2, 3) );
 	}
 
     $home = get_settings('home');
-    if ($home != '' && ('index.php' == $file || get_settings('blogfilename') == $file)) {
-        $home_root = str_replace('http://', '', $home);
-        $home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
-        $real_file = $_SERVER['DOCUMENT_ROOT'] . $home_root . '/' . $file;
+    if (($home != '' && $home != get_settings('siteurl')) &&
+      ('index.php' == $file || get_settings('blogfilename') == $file ||
+       '.htaccess' == $file)) {
+        $home_root = parse_url($home);
+	$home_root = $home_root['path'];
+	$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
+	$home_root = $root . $home_root;
+        $real_file = $home_root . '/' . $file;
     } else {
         $file = validate_file($file);
         $real_file = '../' . $file;

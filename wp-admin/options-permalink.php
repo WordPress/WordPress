@@ -20,6 +20,16 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+$home = get_settings('home');
+if ($home != '' && $home != get_settings('siteurl')) {
+  $home_path = parse_url($home);
+  $home_path = $home_root['path'];
+  $root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
+  $home_path = $root . $home_path . "/";
+} else {
+  $home_path = ABSPATH;
+}
+
 require_once('./optionhandler.php');
 
 if (isset($_POST['submit'])) {
@@ -47,7 +57,7 @@ if (isset($_POST['submit'])) {
 
 <?php if(isset($_POST['rules'])) {
 		$rules = explode("\n", $_POST['rules']);
-		if(insert_with_markers(ABSPATH.'.htaccess', 'WordPress', $rules)) {
+		if(insert_with_markers($home_path.'.htaccess', 'WordPress', $rules)) {
 ?>
 <div class="updated" id="htupdate"><p><?php _e('mod_rewrite rules written to .htaccess.'); ?></p></div>
 <?php
@@ -136,7 +146,8 @@ if (isset($_POST['submit'])) {
 </textarea>
     </p>
 <?php
-if ((! file_exists(ABSPATH.'.htaccess') && is_writable(ABSPATH)) || is_writable(ABSPATH.'.htaccess')) {
+
+if ((! file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess')) {
 ?>
     <p class="submit"> 
         <input type="submit" name="writerules" value="<?php _e('Write mod_rewrite rules to .htaccess &raquo;') ?>"> 
