@@ -115,6 +115,14 @@ function wpautop($pee, $br=1) {
 	return $pee; 
 }
 
+function popuplinks($text) {
+	// Comment text in popup windows should be filtered through this.
+	// Right now it's a moderately dumb function, ideally it would detect whether
+	// a target or rel attribute was already there and adjust its actions accordingly.
+	$text = preg_replace('/<a (.+?)>/i', "<a $1 target='_blank' rel='external'>", $text);
+	return $text;
+}
+
 function autobrize($content) {
 	$content = preg_replace("/<br>\n/", "\n", $content);
 	$content = preg_replace("/<br \/>\n/", "\n", $content);

@@ -1,7 +1,10 @@
 <?php /* Don't remove this line, it calls the b2 function files ! */
-$blog=1; include ("blog.header.php"); while($row = mysql_fetch_object($result)) { start_b2();
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+$blog=1;
+include('blog.header.php');
+add_filter('comment_text', 'popuplinks');
+while($row = mysql_fetch_object($result)) { start_b2();
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title><?php echo $blogname ?> - Comments on "<?php the_title() ?>"</title>
@@ -11,13 +14,12 @@ $blog=1; include ("blog.header.php"); while($row = mysql_fetch_object($result)) 
 		@import url( layout2b.css );
 		body { margin: 3px; }
 	</style>
-	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
 
 </head>
-<body>
+<body id="commentspopup">
+
 <h1 id="header"><a href="" title="<?php echo $blogname ?>"><?php echo $blogname ?></a></h1>
 
-<div id="contentcomments">
 <h2>Comments</h2>
 <ol id="comments">
 
@@ -94,7 +96,6 @@ QQQ;
 }
 ?>
 
-</div>
 
 
 <!-- // this is just the end of the motor - don't touch that line either :) -->
