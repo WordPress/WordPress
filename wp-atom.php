@@ -36,7 +36,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 		<?php the_category_rss('rdf') ?>
 <?php $more = 1; if ($rss_use_excerpt) {
 ?>
-		<summary type="text/html"><?php the_excerpt_rss($rss_excerpt_length, 2) ?></summary>
+		<summary type="text/html" mode="escaped"><?php the_excerpt_rss($rss_excerpt_length, 2) ?></summary>
 <?php
 } else { // use content
 ?>

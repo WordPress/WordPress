@@ -5,7 +5,7 @@ if (! $feed) {
     require('wp-blog-header.php');
 }
 
-header('Content-type: text/xml', true);
+header('Content-type: application/rdf+xml', true);
 
 /* This doesn't take into account edits
 // Get the time of the most recent article
