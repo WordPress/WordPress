@@ -269,8 +269,4 @@ foreach($wpsmiliestrans as $smiley => $img) {
 // Some default filters
 add_filter('all', 'wptexturize');
 
-// Uncomment the following for Textile support
-// include_once('textile.php');
-// add_filter('the_content', 'textile');
-// There is some duplication of effort so textile.php really should be tweaked to eliminate that.
 ?>
