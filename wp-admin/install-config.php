@@ -62,7 +62,7 @@ switch($step) {
   <li>Table prefix (if you want to run more than one WordPress in a single database) </li>
 </ol> 
 <p><strong>If for any reason this automatic file creation doens't work, don't worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>. </strong></p>
-<p>In all likelyhood, these items were supplied to you by your ISP. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready, <a href="install-config.php?step=1">let&#8217;s go</a>! </p>
+<p>In all likelihood, these items were supplied to you by your ISP. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready, <a href="install-config.php?step=1">let&#8217;s go</a>! </p>
 <?php
 	break;
 

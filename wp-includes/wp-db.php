@@ -30,7 +30,7 @@
 			$this->dbh = @mysql_connect($dbhost,$dbuser,$dbpassword);
 			if ( ! $this->dbh )	{
 				die("<div>
-				<p><strong>Error establishing a database connection!</strong> This probably means that the connection information in youn <code>wp-config.php</code> file is incorrect. Double check it and try again.</p>
+				<p><strong>Error establishing a database connection!</strong> This probably means that the connection information in your <code>wp-config.php</code> file is incorrect. Double check it and try again.</p>
 				<ul>
 				<li>Are you sure you have the correct user/password?</li>
 				<li>Are you sure that you have typed the correct hostname?</li>
