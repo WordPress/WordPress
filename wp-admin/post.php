@@ -689,7 +689,7 @@ case 'editedcomment':
 	} else {
 		$datemodif = '';
 	}
-	$content = balanceTags($content);
+	$content = balanceTags($_POST['content']);
 	$content = format_to_post($content);
 
 	$result = $wpdb->query("
