@@ -1,8 +1,4 @@
 <?php
-$parentpath = dirname(dirname(__FILE__));
- 
-require_once($parentpath.'/wp-config.php');
-
 $locale = '';
 
 // WPLANG is defined in wp-config.
