@@ -356,7 +356,7 @@ function wp_new_comment($commentdata) {
 	global $wpdb;
 	extract($commentdata);
 
-	$comment_post_id = (int) $comment_post_id;
+	$comment_post_ID = (int) $comment_post_ID;
 
 	$comment_author = strip_tags($comment_author);
 	$comment_author = htmlspecialchars($comment_author);
@@ -385,7 +385,7 @@ function wp_new_comment($commentdata) {
 			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
 	}
 
-	if( check_comment($author, $email, $url, $comment, $user_ip, $user_agent) )
+	if( check_comment($comment_author, $comment_author_email, $comment_author_url, $comment_content, $user_ip, $user_agent) )
 		$approved = 1;
 	else
 		$approved = 0;
@@ -393,7 +393,7 @@ function wp_new_comment($commentdata) {
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
 	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent)
 	VALUES 
-	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved', '$user_agent')
+	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$user_ip', '$now', '$now_gmt', '$comment_content', '$approved', '$user_agent')
 	");
 
 	if ( get_option('comments_notify') )

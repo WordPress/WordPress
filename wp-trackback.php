@@ -62,14 +62,14 @@ if ( !empty($tb_url) && !empty($title) && !empty($tb_url) ) {
 	$blog_name = htmlspecialchars($blog_name);
 	$blog_name = (strlen($blog_name) > 250) ? substr($blog_name, 0, 250) . '...' : $blog_name;
 
-	$comment_post_id = $tb_id;
-	$commment_author = $blog_name;
+	$comment_post_ID = $tb_id;
+	$comment_author = $blog_name;
 	$comment_author_email = '';
 	$comment_author_url = $tb_url;
 	$comment_content = "<strong>$title</strong>\n\n$excerpt";
 	$comment_type = 'trackback';
 
-	$commentdata = compact('comment_post_id', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type');
+	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type');
 
 	wp_new_comment($commentdata);
 
