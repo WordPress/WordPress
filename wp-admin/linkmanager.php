@@ -89,7 +89,7 @@ switch ($action) {
     $all_links = join(',', $linkcheck);
     $results = $wpdb->get_results("SELECT link_id, link_owner, user_level FROM $tablelinks LEFT JOIN $tableusers ON link_owner = ID WHERE link_id in ($all_links)");
     foreach ($results as $row) {
-      if ($user_level >= $row->user_level) { // ok to proceed
+      if (!$use_adminlevels || ($user_level >= $row->user_level)) { // ok to proceed
         $ids_to_change[] = $row->link_id;
       }
     }
