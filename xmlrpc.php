@@ -523,7 +523,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  logIO('O', 'Post cats: ' . printr($catnames,true));
 	  $post_category = array();
 
-	  if ($catnames) {
+	  if (is_array($catnames)) {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
@@ -576,10 +576,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
 	  $catnames = $content_struct['categories'];
 		
-	  if ($catnames) {
+	  if (is_array($catnames)) {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
+	  } else {
+	    $post_category[] = 1;
 	  }
 
 	  $post_excerpt = $content_struct['mt_excerpt'];
