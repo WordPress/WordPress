@@ -31,12 +31,14 @@
 
 			if ( ! $this->dbh )
 			{
-				$this->print_error("<ol id='error'>
-				<li><strong>Error establishing a database connection!</strong></li>
+				$this->print_error("<div id='error'>
+				<p><strong>Error establishing a database connection!</strong></p>
+				<ul>
 				<li>Are you sure you have the correct user/password?</li>
 				<li>Are you sure that you have typed the correct hostname?</li>
 				<li>Are you sure that the database server is running?</li>
-				</ol>");
+				</ul>
+				</div>");
 			}
 
 
@@ -90,10 +92,10 @@
 			if ( $this->show_errors )
 			{
 				// If there is an error then take note of it
-				print "<ol id='error'>
-				<li><strong>SQL/DB Error --</strong></li>
-				<li>[<font color=000077>$str</font>]</li>
-				</ol>";
+				print "<div id='error'>
+				<p><strong>SQL/DB Error:</strong><br />
+				[<span style='color: #007;'>$str</span>]</p>
+				</div>";
 			}
 			else
 			{
@@ -145,6 +147,7 @@
 
 			// Perform the query via std mysql_query function..
 			$this->result = mysql_query($query, $this->dbh);
+			++$this->querycount;
 
 			// If there was an insert, delete or update see how many rows were affected
 			// (Also, If there there was an insert take note of the insert_id
@@ -157,6 +160,7 @@
 				if ( preg_match("/^\\s*$word /i",$query) )
 				{
 					$this->rows_affected = mysql_affected_rows();
+					$this->querybump();
 					
 					// This gets the insert ID
 					if ( $word == 'insert' || $word == 'replace' )
