@@ -81,7 +81,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				$pad = str_repeat('&#8212; ', $level);
 
 				$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
-				echo "<tr style='background-color: $bgcolor'><td>$pad $category->cat_name</td>
+				echo "<tr style='background-color: $bgcolor'><th scope='row'>$category->cat_ID</th><td>$pad $category->cat_name</td>
 				<td>$category->category_description</td>
 				<td>$count</td>
 				<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>" . __('Edit') . "</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('".  sprintf(__("You are about to delete the category \'%s\'.  All of its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop."), addslashes($category->cat_name)) . "')\" class='delete'>" .  __('Delete') . "</a></td>

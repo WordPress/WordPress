@@ -185,7 +185,7 @@ textarea, input, select {
 .wrap {
 	border: 1px solid #ccc;
 	margin: 15px 5%;
-	padding: 0 1em;
+	padding: .5em 1em;
 }
 
 .wrap h2 {
@@ -341,8 +341,7 @@ textarea, input, select {
 	width: 100%;
 }
 
-#postcustom td,th {
-	background-color: #fff;
+#postcustom td, #postcustom th {
 	color: #000;
 	margin: 1px;
 	padding: 0.2em;

@@ -146,6 +146,7 @@ default:
      <h2><?php printf(__('Current Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
+		<th scope="col"><?php _e('ID') ?></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col"><?php _e('# Posts') ?></th>
