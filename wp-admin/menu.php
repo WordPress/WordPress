@@ -24,6 +24,7 @@ $submenu['edit.php'][15] = array(__('Categories'), 1, 'categories.php');
 $submenu['edit.php'][20] = array(__('Comments'), 1, 'edit-comments.php');
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
 $submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), $awaiting_mod), 1, 'moderation.php');
+$submenu['edit.php'][30] = array(__('Files'), 5, 'templates.php');
 
 $submenu['link-manager.php'][5] = array(__('Manage Links'), 5, 'link-manager.php');
 $submenu['link-manager.php'][10] = array(__('Add Link'), 5, 'link-add.php');
@@ -40,9 +41,11 @@ $submenu['options-general.php'][20] = array(__('Discussion'), 5, 'options-discus
 $submenu['options-general.php'][25] = array(__('Permalinks'), 5, 'options-permalink.php');
 $submenu['options-general.php'][30] = array(__('Miscellaneous'), 5, 'options-misc.php');
 
+$submenu['plugins.php'][5] = array(__('Plugins'), 5, 'plugins.php');
+$submenu['plugins.php'][10] = array(__('Plugin Editor'), 5, 'plugin-editor.php');
+
 $submenu['themes.php'][5] = array(__('Themes'), 5, 'themes.php');
 $submenu['themes.php'][10] = array(__('Theme Editor'), 5, 'theme-editor.php');
-$submenu['themes.php'][15] = array(__('Other Files'), 5, 'templates.php');
 
 do_action('admin_menu', '');
 

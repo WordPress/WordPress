@@ -1,23 +1,7 @@
 <?php
 require_once('admin.php');
 $title = __('Template &amp; file editing');
-$parent_file = 	'themes.php';
-
-function validate_file($file) {
-	if ('..' == substr($file,0,2))
-		die (__('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.'));
-	
-	if (':' == substr($file,1,1))
-		die (__('Sorry, can&#8217;t call files with their real path.'));
-
-	if ('/' == substr($file,0,1))
-		$file = '.' . $file;
-	
-	$file = stripslashes($file);
-	$file = str_replace('../', '', $file);
-
-    return $file;
-}
+$parent_file = 	'edit.php';
 
 $wpvarstoreset = array('action','redirect','profile','error','warning','a','file');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -35,6 +19,13 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+if (empty($file)) {
+	$file = 'index.php';
+}
+
+$file = validate_file_to_edit($file);
+$real_file = get_real_file_to_edit($file);
+
 switch($action) {
 
 case 'update':
@@ -44,17 +35,14 @@ case 'update':
 	}
 
 	$newcontent = stripslashes($_POST['newcontent']);
-	$file = $_POST['file'];
-    $file = validate_file($file);
-	$real_file = '../' . $file;
-    if (is_writeable($real_file)) {
-        $f = fopen($real_file, 'w+');
-        fwrite($f, $newcontent);
-        fclose($f);
-        header("Location: templates.php?file=$file&a=te");
-    } else {
-        header("Location: templates.php?file=$file");
-    }
+	if (is_writeable($real_file)) {
+		$f = fopen($real_file, 'w+');
+		fwrite($f, $newcontent);
+		fclose($f);
+		header("Location: templates.php?file=$file&a=te");
+	} else {
+		header("Location: templates.php?file=$file");
+	}
 
 	exit();
 
@@ -67,37 +55,8 @@ default:
 		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
 	}
 
-	if ('' == $file) {
-		$file = 'index.php';
-	} else {
-		$oldfiles = (array) get_option('recently_edited');
-		if ($oldfiles) {
-			$oldfiles = array_reverse($oldfiles);
-			$oldfiles[] = $file;
-			$oldfiles = array_reverse($oldfiles);
-			$oldfiles = array_unique($oldfiles);
-			if ( 5 < count($oldfiles) )
-				array_pop($oldfiles);
-		} else {
-			$oldfiles[] = $file;
-		}
-		update_option('recently_edited', $oldfiles);
-	}
+	update_recently_edited($file);
 
-    $home = get_settings('home');
-    if (($home != '' && $home != get_settings('siteurl')) &&
-      ('index.php' == $file || get_settings('blogfilename') == $file ||
-       '.htaccess' == $file)) {
-        $home_root = parse_url($home);
-	$home_root = $home_root['path'];
-	$root = str_replace($_SERVER['PHP_SELF'], '', $_SERVER['PATH_TRANSLATED']);
-	$home_root = $root . $home_root;
-        $real_file = $home_root . '/' . $file;
-    } else {
-        $file = validate_file($file);
-        $real_file = '../' . $file;
-    }
-	
 	if (!is_file($real_file))
 		$error = 1;
 	
@@ -127,21 +86,18 @@ if ( $recents = get_option('recently_edited') ) :
 <?php
 echo '<ol>';
 foreach ($recents as $recent) :
-	$display = preg_replace('|.*/(.*)$|', '$1', $recent);
-	echo "<li><a href='templates.php?file=$recent'>$display</a>";
+	echo "<li><a href='templates.php?file=$recent'>" . get_file_description(basename($recent)) . "</a>";
 endforeach;
 echo '</ol>';
 endif;
 ?>
 <h3><?php _e('Common'); ?></h3>
+	<?php $common_files = array('index.php', 'wp-layout.css', 'wp-comments.php', 'wp-comments-popup.php', '.htaccess', 'my-hacks.php'); ?>
   <ul>
-    <li><a href="templates.php?file=index.php"><?php _e('Main Index') ?></a></li>
-    <li><a href="templates.php?file=wp-layout.css"><?php _e('Main Stylesheet') ?></a></li>
-    <li><a href="templates.php?file=wp-comments.php"><?php _e('Comments') ?></a></li>
-    <li><a href="templates.php?file=wp-comments-popup.php"><?php _e('Popup comments') ?></a></li>
-    <li><a href="templates.php?file=.htaccess"><?php _e('.htaccess (for rewrite rules)') ?></a></li>
-    <li><a href="templates.php?file=my-hacks.php"><?php _e('my-hacks.php (legacy hacks support)') ?></a></li>
-    </ul>
+	 <?php foreach ($common_files as $common_file) : ?>
+	  <li><a href="templates.php?file=<?php echo $common_file?>"><?php echo get_file_description($common_file); ?></a></li>
+	 <? endforeach; ?>
+  </ul>
 </div>
 <?php if (!$error) { ?>
   <form name="template" id="template" action="templates.php" method="post"> 
@@ -174,23 +130,6 @@ endif;
     <input type="submit" name="submit"  value="<?php _e('Edit file &raquo;') ?>" /> 
   </form> 
 
-<?php
-$plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
-if ($plugins_dir) {
-	while(($file = $plugins_dir->read()) !== false) {
-	  if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) ) 
-		$plugin_files[] = $file;
-	}
-}
-if ($plugins_dir || $plugin_files) :
-?>
-  <p>Plugin files:</p>
-  <ul>
-<?php foreach($plugin_files as $plugin_file) : ?>
-	<li><a href="templates.php?file=wp-content/plugins/<?php echo $plugin_file; ?>"><?php echo $plugin_file; ?></a></li>
-<?php endforeach; ?>
-  </ul>
-<?php endif; ?>
   <p><?php _e('Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don&#8217;t have access to a text editor or FTP client.') ?></p>
 </div> 
 <?php

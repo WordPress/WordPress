@@ -729,4 +729,88 @@ function add_options_page($page_title, $menu_title, $access_level, $file) {
 	$submenu['options-general.php'][] = array($menu_title, $access_level, $file, $page_title);
 }
 
+
+function validate_file_to_edit($file, $allowed_files = '') {
+	if ('..' == substr($file,0,2))
+		die (__('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.'));
+	
+	if (':' == substr($file,1,1))
+		die (__('Sorry, can&#8217;t call files with their real path.'));
+
+	if ( !empty($allowed_files) && (! in_array($file, $allowed_files)) ) {
+		die (__('Sorry, that file cannot be edited.'));
+	}
+	
+	$file = stripslashes($file);
+
+	return $file;
+}
+
+function get_real_file_to_edit($file) {
+	$home = get_settings('home');
+	if (($home != '')
+			&& ($home != get_settings('siteurl')) &&
+			('index.php' == $file || get_settings('blogfilename') == $file ||
+			 '.htaccess' == $file)) {
+		$home_root = parse_url($home);
+		$home_root = $home_root['path'];
+		$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
+		$home_root = $root . $home_root;
+		$real_file = $home_root . '/' . $file;
+	} else {
+		$real_file = ABSPATH . $file;
+	}
+
+	return $real_file;
+}
+
+$wp_file_descriptions = array('index.php' => __('Main Template'),
+															'wp-layout.css' => __('Stylesheet'),
+															'style.css' => __('Stylesheet'),
+															'wp-comments.php' => __('Comments Template'),
+															'comments.php' => __('Comments Template'),
+															'wp-comments-popup.php' => __('Popup Comments Template'),
+															'comments-popup.php' => __('Popup Comments Template'),
+															'wp-footer.php' => __('Footer Template'),
+															'footer.php' => __('Footer Template'),
+															'wp-header.php' => __('Header Template'),
+															'header.php' => __('Header Template'),
+															'wp-sidebar.php' => __('Sidebar Template'),
+															'sidebar.php' => __('Sidebar Template'),
+															'archive.php' => __('Archive Template'),
+															'category.php' => __('Category Template'),
+															'page.php' => __('Page Template'),
+															'search.php' => __('Search Template'),
+															'single.php' => __('Post Template'),
+															'404.php' => __('404 Template'),
+															'my-hacks.php' => __('my-hacks.php (legacy hacks support)'),
+															
+															'.htaccess' => __('.htaccess (for rewrite rules)')
+															);
+
+function get_file_description($file) {
+	global $wp_file_descriptions;
+
+	if (isset($wp_file_descriptions[$file])) {
+		return $wp_file_descriptions[$file];
+	}
+
+	return $file;
+}
+
+function update_recently_edited($file) {
+	$oldfiles = (array) get_option('recently_edited');
+	if ($oldfiles) {
+		$oldfiles = array_reverse($oldfiles);
+		$oldfiles[] = $file;
+		$oldfiles = array_reverse($oldfiles);
+		$oldfiles = array_unique($oldfiles);
+		if ( 5 < count($oldfiles) )
+			array_pop($oldfiles);
+	} else {
+		$oldfiles[] = $file;
+	}
+	update_option('recently_edited', $oldfiles);
+}
+
 ?>

@@ -1,10 +1,10 @@
 <?php
 require_once('admin.php');
 
-$title = __("Edit Themes");
-$parent_file = 'themes.php';
+$title = __("Edit Plugins");
+$parent_file = 'plugins.php';
 
-$wpvarstoreset = array('action','redirect','profile','error','warning','a','file', 'theme');
+$wpvarstoreset = array('action','redirect','profile','error','warning','a','file');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -20,19 +20,28 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-$themes = get_themes();
-
-if (empty($theme)) {
-	$theme = get_current_theme();
+$plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
+if ($plugins_dir) {
+	while(($plug_file = $plugins_dir->read()) !== false) {
+		if ( !preg_match('|^\.+$|', $plug_file) && preg_match('|\.php$|', $plug_file) ) 
+			$plugin_files[] = "wp-content/plugins/$plug_file";
+	}
 }
 
-$allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $allowed_files, $themes[$theme]['Template Files']);
+if (count($plugin_files)) {
+	natcasesort($plugin_files);
+}
+
+if (file_exists(ABSPATH . 'my-hacks.php')) {
+	$plugin_files[] = 'my-hacks.php';
+}
+
 
 if (empty($file)) {
-	$file = $allowed_files[0];
+	$file = $plugin_files[0];
 }
 
-$file = validate_file_to_edit($file, $allowed_files);
+$file = validate_file_to_edit($file, $plugin_files);
 $real_file = get_real_file_to_edit($file);
 
 switch($action) {
@@ -48,9 +57,9 @@ case 'update':
 		$f = fopen($real_file, 'w+');
 		fwrite($f, $newcontent);
 		fclose($f);
-		header("Location: theme-editor.php?file=$file&a=te");
+		header("Location: plugin-editor.php?file=$file&a=te");
 	} else {
-		header("Location: theme-editor.php?file=$file");
+		header("Location: plugin-editor.php?file=$file");
 	}
 
 	exit();
@@ -61,7 +70,7 @@ default:
 	
 	require_once('admin-header.php');
 	if ($user_level <= 5) {
-		die(__('<p>You have do not have sufficient permissions to edit themes for this blog.</p>'));
+		die(__('<p>You have do not have sufficient permissions to edit plugins for this blog.</p>'));
 	}
 
 	update_recently_edited($file);
@@ -79,23 +88,6 @@ default:
 <?php if (isset($_GET['a'])) : ?>
  <div class="updated"><p><?php _e('File edited successfully.') ?></p></div>
 <?php endif; ?>
- <div class="wrap">
-  <form name="theme" action="theme-editor.php" method="post"> 
-		<?php _e('Select theme to edit:') ?>
-		<select name="theme" id="theme">
-	<?php
-		foreach ($themes as $a_theme) {
-		$theme_name = $a_theme['Name'];
-		if ($theme_name == $theme) $selected = " selected='selected'";
-		else $selected = '';
-		echo "\n\t<option value='$theme_name' $selected>$theme_name</option>";
-	}
-?>
- </select>
- <input type="submit" name="Submit" value="<?php _e('Select') ?> &raquo;" />
- </form>
- </div>
-
  <div class="wrap"> 
   <?php
 	if (is_writeable($real_file)) {
@@ -105,27 +97,24 @@ default:
 	}
 	?>
 	<div id="templateside">
-  <h3><?php printf(__("<strong>'%s'</strong> theme files"), $theme) ?></h3>
+<h3><?php _e('Plugin files') ?></h3>
 
 <?php
-if ($allowed_files) :
+if ($plugin_files) :
 ?>
   <ul>
-<?php foreach($allowed_files as $allowed_file) : ?>
-		 <li><a href="theme-editor.php?file=<?php echo "$allowed_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo get_file_description(basename($allowed_file)); ?></a></li>
+<?php foreach($plugin_files as $plugin_file) : ?>
+		 <li><a href="plugin-editor.php?file=<?php echo "$plugin_file"; ?>"><?php echo get_file_description(basename($plugin_file)); ?></a></li>
 <?php endforeach; ?>
   </ul>
 <?php endif; ?>
-</div> 
-	<?php
-	if (!$error) {
-	?> 
-  <form name="template" id="template" action="theme-editor.php" method="post">a
+</div>
+	<?php	if (!$error) { ?> 
+  <form name="template" id="template" action="plugin-editor.php" method="post">
 		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea> 
      <input type="hidden" name="action" value="update" /> 
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 
-     <input type="hidden" name="theme" value="<?php echo $theme ?>" />
-		 </div>
+		</div>
 <?php if ( is_writeable($real_file) ) : ?>
      <p class="submit">
 <?php
