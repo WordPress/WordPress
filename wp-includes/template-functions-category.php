@@ -271,11 +271,12 @@ function wp_list_cats($args = '') {
 	if (!isset($r['feed'])) $r['feed'] = '';
 	if (!isset($r['feed_image'])) $r['feed_image'] = '';
 	if (!isset($r['exclude'])) $r['exclude'] = '';
+	if (!isset($r['hierarchical'])) $r['hierarchical'] = true;
 
-	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'], $r['children'], $r['child_of'], $r['categories'], $r['recurse'], $r['feed'], $r['feed_image'], $r['exclude']);
+	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'], $r['children'], $r['child_of'], $r['categories'], $r['recurse'], $r['feed'], $r['feed_image'], $r['exclude'], $r['hierarchical']);
 }
 
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '') {
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
 	global $wpdb, $category_posts;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	// Optiondates now works
@@ -349,7 +350,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$thelist = "";
 	
 	foreach ($categories as $category) {
-		if ((intval($hide_empty) == 0 || isset($category_posts["$category->cat_ID"])) && (!$children || $category->category_parent == $child_of)) {
+		if ((intval($hide_empty) == 0 || isset($category_posts["$category->cat_ID"])) && (!$hierarchical || $category->category_parent == $child_of) && ($children || $category->category_parent == 0)) {
 			$num_found++;
 			$link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" ';
 			if ($use_desc_for_title == 0 || empty($category->category_description)) {
@@ -403,7 +404,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 			} else {
 				$thelist .= "\t$link<br />\n";
 			}
-			if ($children) $thelist .= list_cats($optionall, $all, $sort_column, $sort_order, $file, $list, $optiondates, $optioncount, $hide_empty, $use_desc_for_title, $children, $category->cat_ID, $categories, 1, $feed, $feed_image, $exclude);
+			if ($hierarchical && $children) $thelist .= list_cats($optionall, $all, $sort_column, $sort_order, $file, $list, $optiondates, $optioncount, $hide_empty, $use_desc_for_title, $hierarchical, $category->cat_ID, $categories, 1, $feed, $feed_image, $exclude, $hierarchical);
 			if ($list) $thelist .= "</li>\n";
 			}
 	}
