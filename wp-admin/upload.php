@@ -39,7 +39,7 @@ case '':
 	}
 	$i = implode(', ', $type_tags);
 ?>
-<p><?php printf(__('You can upload files with the extension %s as long as they are no larger than %s <abbr title="Kilobytes">KB</abbr>. If you&#8217;re an admin you can configure these values under <a href="%s">options</a>.'), $i, get_settings('fileupload_maxk'), 'options-misc.php') ?></p>
+<p><?php printf(__('You can upload files with the extension %1$s as long as they are no larger than %2$s <abbr title="Kilobytes">KB</abbr>. If you&#8217;re an admin you can configure these values under <a href="%3$s">options</a>.'), $i, get_settings('fileupload_maxk'), 'options-misc.php') ?></p>
     <form action="upload.php" method="post" enctype="multipart/form-data">
     <p>
       <label for="img1"><?php _e('File:') ?></label>
@@ -94,7 +94,7 @@ case 'upload':
     $imgtype = strtolower($imgtype[count($imgtype)-1]);
 
     if (in_array($imgtype, $allowed_types) == false) {
-        die(sprintf(__("File %s of type %s is not allowed.") , $img1_name, $imgtype));
+        die(sprintf(__('File %1$s of type %2$s is not allowed.') , $img1_name, $imgtype));
     }
 
     if (strlen($imgalt)) {
@@ -140,7 +140,7 @@ case 'upload':
     ?>
     <p><strong><?php __('Duplicate File?') ?></strong></p>
     <p><b><em><?php printf(__("The filename '%s' already exists!"), $img1_name); ?></em></b></p>
-    <p> <?php printf(__("Filename '%s' moved to '%s'"), $img1, "$pathtofile2 - $img2_name") ?></p>
+    <p> <?php printf(__("Filename '%1\$s' moved to '%2\$s'"), $img1, "$pathtofile2 - $img2_name") ?></p>
     <p><?php _e('Confirm or rename:') ?></p>
     <form action="upload.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo  get_settings('fileupload_maxk') *1024 ?>" />

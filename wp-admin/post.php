@@ -528,7 +528,7 @@ When you&#8217;re promoted, just reload this page and you&#8217;ll be able to bl
 
 	$authordata = get_userdata($postdata['Author_ID']);
 	if ($user_level < $authordata->user_level)
-		die (sprintf(__('You don&#8217;t have the right to delete <strong>%s</strong>&#8217;s post comments. <a href="%s">Go back</a>!'), $authordata->user_nickname, 'post.php'));
+		die (sprintf(__('You don&#8217;t have the right to delete <strong>%1$s</strong>&#8217;s post comments. <a href="%2$s">Go back</a>!'), $authordata->user_nickname, 'post.php'));
 
 	wp_set_comment_status($comment, "delete");
 	do_action('delete_comment', $comment);
