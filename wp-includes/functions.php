@@ -676,9 +676,9 @@ function dropdown_categories($default = 0) {
 	foreach($categories as $category) {
 		++$i;
 		$category->cat_name = stripslashes($category->cat_name);
-		echo "<label for='category-$i' class='selectit'><input value='$category->cat_ID' type='checkbox' name='post_category[]	' id='category-$i'";
+		echo "\n<label for='category-$i' class='selectit'><input value='$category->cat_ID' type='checkbox' name='post_category[]' id='category-$i'";
 		if ($postcategories && in_array($category->cat_ID, $postcategories))
-			echo " checked='checked'";
+			echo ' checked="checked"';
 		echo " /> $category->cat_name</label> ";
 	}
 
