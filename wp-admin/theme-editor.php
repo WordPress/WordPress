@@ -24,6 +24,8 @@ $themes = get_themes();
 
 if (empty($theme)) {
 	$theme = get_current_theme();
+} else {
+	$theme = stripslashes($theme);
 }
 
 $allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $themes[$theme]['Template Files']);
@@ -89,7 +91,8 @@ default:
 		$theme_name = $a_theme['Name'];
 		if ($theme_name == $theme) $selected = " selected='selected'";
 		else $selected = '';
-		echo "\n\t<option value='$theme_name' $selected>$theme_name</option>";
+		$theme_name = wp_specialchars($theme_name, true);
+		echo "\n\t<option value=\"$theme_name\" $selected>$theme_name</option>";
 	}
 ?>
  </select>
