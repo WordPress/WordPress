@@ -275,11 +275,6 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
     // this is what will separate dates on weekly archive links
     $archive_week_separator = '&#8211;';
 
-    // archive link url
-    $archive_link_m = get_settings('siteurl') . '/?m=';    # monthly archive;
-    $archive_link_w = get_settings('siteurl') . '/?w=';    # weekly archive;
-    $archive_link_p = get_settings('siteurl') . '/?p=';    # post-by-post archive;
-
     // over-ride general date format ? 0 = no: use the date format set in Options, 1 = yes: over-ride
     $archive_date_format_over_ride = 0;
 
