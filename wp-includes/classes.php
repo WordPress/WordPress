@@ -282,7 +282,7 @@ class WP_Query {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
-			$q['pagename'] = sanitize_title($q['pagename']);
+			$q['pagename'] = sanitize_title(basename($q['pagename']));
 			$q['name'] = $q['pagename'];
 			$where .= " AND post_name = '" . $q['pagename'] . "'";
 		}
@@ -821,10 +821,12 @@ class WP_Rewrite {
 		$uris = get_settings('page_uris');
 
 		$rewrite_rules = array();
+		$page_structure = '/%pagename%';
 		if( is_array( $uris ) )
 			{
 				foreach ($uris as $uri => $pagename) {
-					$rewrite_rules += array($uri . '/?$' => "index.php?pagename=" . urldecode($pagename));
+					$this->add_rewrite_tag('%pagename%', "($uri)", 'pagename=');
+					$rewrite_rules += $this->generate_rewrite_rules($page_structure);
 				}
 			}
 
@@ -929,9 +931,18 @@ class WP_Rewrite {
 	}
 
 	function add_rewrite_tag($tag, $pattern, $query) {
-		$this->rewritecode[] = $tag;
-		$this->rewritereplace[] = $pattern;
-		$this->queryreplace[] = $query;
+		// If the tag already exists, replace the existing pattern and query for
+		// that tag, otherwise add the new tag, pattern, and query to the end of
+		// the arrays.
+		$position = array_search($tag, $this->rewritecode);		
+		if (FALSE !== $position && NULL !== $position) {
+			$this->rewritereplace[$position] = $pattern;
+			$this->queryreplace[$position] = $query;			
+		} else {
+			$this->rewritecode[] = $tag;
+			$this->rewritereplace[] = $pattern;
+			$this->queryreplace[] = $query;
+		}
 	}
 
 	function generate_rewrite_rules($permalink_structure, $page = true, $feed = true, $forcomments = false, $walk_dirs = true) {
@@ -1004,6 +1015,7 @@ class WP_Rewrite {
 			if ($num_toks) {
 				$post = 0;
 				if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
+						|| strstr($struct, '%pagename%')
 						|| (strstr($struct, '%year%') &&  strstr($struct, '%monthnum%') && strstr($struct, '%day%') && strstr($struct, '%hour%') && strstr($struct, '%minute') && strstr($struct, '%second%'))) {
 					$post = 1;
 					$trackbackmatch = $match . $trackbackregex;
