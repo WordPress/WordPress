@@ -54,7 +54,6 @@ window.close()
 <title><?php bloginfo('name') ?> &rsaquo; Bookmarklet &#8212; WordPress</title>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
-<link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 
 <style type="text/css">
 <!--
