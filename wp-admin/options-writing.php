@@ -1,5 +1,7 @@
 <?php
-$title = 'Writing Options';
+require_once('../wp-includes/wp-l10n.php');
+
+$title = __('Writing Options');
 $parent_file = 'options-general.php';
 
 function add_magic_quotes($array) {
@@ -49,14 +51,14 @@ include('options-head.php');
     <input type="hidden" name="page_options" value="'default_post_edit_rows','blog_charset','use_smilies','use_balanceTags','advanced_edit','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top">
-        <th scope="row"> When starting a post, show: </th>
+        <th scope="row"> <?php _e('When starting a post, show:') ?> </th>
         <td><?php get_settings('advanced_edit') ?><label>
           <input name="advanced_edit" type="radio" value="0" <?php checked('0', get_settings('advanced_edit')); ?> />
-Simple controls</label>
+<?php _e('Simple controls') ?></label>
           <br />
           <label>
           <input name="advanced_edit" type="radio" value="1" <?php checked('1', get_settings('advanced_edit')); ?> />
-Advanced controls</label>
+<?php _e('Advanced controls') ?></label>
           <label for="advanced_edit"></label></td>
       </tr>
       <tr valign="top"> 
@@ -65,45 +67,44 @@ Advanced controls</label>
           lines </td> 
       </tr> 
       <tr valign="top">
-        <th scope="row">Formatting:</th>
+        <th scope="row"><?php _e('Formatting:') ?></th>
         <td>          <label for="label">
           <input name="use_smilies" type="checkbox" id="label" value="1" <?php checked('1', get_settings('use_smilies')); ?> />
-  Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics</label>        
-            on display <br />          <label for="label2">
+          <?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label> <br />          <label for="label2">
   <input name="use_balanceTags" type="checkbox" id="label2" value="1" <?php checked('1', get_settings('use_balanceTags')); ?> />
-  WordPress should correct invalidly nested XHTML automatically</label></td>
+          <?php _e('WordPress should correct invalidly nested XHTML automatically') ?></label></td>
       </tr>
     </table> 
     <fieldset class="options">
-	<legend>Update Services</legend>
-	<p>Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see <a href="http://wiki.wordpress.org/index.php/UpdateServices">Update Services</a> on the wiki. Seperate multiple URIs by line breaks.</p>
+	<legend><?php _e('Update Services') ?></legend>
+          <p><?php printf(__('Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see <a href="%s">Update Services</a> on the wiki. Seperate multiple URIs by line breaks.'), 'http://wiki.wordpress.org/index.php/UpdateServices') ?></p>
 	
 	<textarea name="ping_sites" id="ping_sites" style="width: 98%;"><?php echo get_settings('ping_sites'); ?></textarea>
 	</fieldset>
     <fieldset class="options">
-	<legend>Writing by Email</legend>
-	<p>To post to WordPress by email you must set up a secret email account with POP3 access. Any mail received at this address will be posted, so it's a good idea to keep this address very secret. Here are three random strings you could use: <code><?php echo substr(md5(uniqid(microtime())),0,5); ?></code>, <code><?php echo substr(md5(uniqid(microtime())),0,5); ?></code>, <code><?php echo substr(md5(uniqid(microtime())),0,5); ?></code>.</p>
+	<legend><?php _e('Writing by Email') ?></legend>
+	<p><?php printf(__('To post to WordPress by email you must set up a secret email account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5)) ?></p>
 	
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform">
         	<tr valign="top">
-        		<th scope="row"> Mail server:</th>
+                <th scope="row"><?php _e('Mail server:') ?></th>
         		<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php echo get_settings('mailserver_url'); ?>" size="40" />
-       			<label for="port">Port:</label> 
+                <label for="port"><?php _e('Port:') ?></label> 
 				<input name="mailserver_port" type="text" id="mailserver_port" value="<?php echo get_settings('mailserver_port'); ?>" size="6" />
        			</td>
        		</tr>
         	<tr valign="top">
-        		<th width="33%" scope="row"> Login name:</th>
+                <th width="33%" scope="row"><?php _e('Login name:') ?></th>
         		<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php echo get_settings('mailserver_login'); ?>" size="40" /></td>
        		</tr>
         	<tr valign="top">
-        		<th scope="row">Password:</th>
+                <th scope="row"><?php _e('Password:') ?></th>
         		<td>
         			<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php echo get_settings('mailserver_pass'); ?>" size="40" />
         		</td>
        		</tr>
         	<tr valign="top">
-        		<th scope="row">Usual category:</th>
+                <th scope="row"><?php _e('Usual category:') ?></th>
         		<td><select name="default_category" id="default_category">
 <?php
 $categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
@@ -118,7 +119,7 @@ endforeach;
         	</table>
 		</fieldset>
     <p style="text-align: right;"> 
-      <input type="submit" name="Submit" value="Update Options" /> 
+      <input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 
     </p> 
   </form> 
 </div> 
