@@ -12,6 +12,7 @@
 	define('OBJECT', 'OBJECT', true);
 	define('ARRAY_A', 'ARRAY_A', true);
 	define('ARRAY_N', 'ARRAY_N', true);
+	define('SAVEQUERIES', true);
 
 	//	The Main Class, renamed to avoid conflicts.
 
@@ -155,6 +156,9 @@
 			// Perform the query via std mysql_query function..
 			$this->result = mysql_query($query, $this->dbh);
 			++$this->querycount;
+			if (SAVEQUERIES) {
+				$this->savedqueries[] = $query;
+			}
 
 			// If there was an insert, delete or update see how many rows were affected
 			// (Also, If there there was an insert take note of the insert_id
