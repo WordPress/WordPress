@@ -91,6 +91,7 @@ p, dl, dd, dt {
 
 textarea, input, select {
 	background: #f4f4f4;
+	color: black;
 	border: 1px solid #cacaca;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	margin: 1px;
