@@ -10,11 +10,11 @@
             }
         }
 
-		$comment_author = trim($HTTP_COOKIE_VARS["comment_author_".$cookiehash]);
+        $comment_author = trim($HTTP_COOKIE_VARS["comment_author_".$cookiehash]);
 		$comment_author_email = trim($HTTP_COOKIE_VARS["comment_author_email_".$cookiehash]);
 		$comment_author_url = trim($HTTP_COOKIE_VARS["comment_author_url_".$cookiehash]);
 
-	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+        $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 ?>
 
 <!-- You can start editing here. -->
@@ -48,7 +48,6 @@ if ($comments) {
 <h2>Leave a Comment</h2>
 <?php if ('open' == $post->comment_status) { ?>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo htmlentities(str_replace('<', ' <', $comment_allowed_tags)); ?></code></p>
-
 
 <form action="<?php echo $siteurl; ?>/b2comments.post.php" method="post" id="commentform">
 	<p>
