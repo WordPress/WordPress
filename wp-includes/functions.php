@@ -1517,6 +1517,10 @@ function get_theme_data($theme_file) {
 		$version = $version[1];
 	else
 		$version ='';
+	if ( preg_match("|Status:(.*)|i", $theme_data, $status) )
+		$status = $status[1];
+	else
+		$status ='publish';
 
 	$description = wptexturize($description[1]);
 
@@ -1533,7 +1537,7 @@ function get_theme_data($theme_file) {
 		$author = '<a href="' . $author_uri[1] . '" title="' . __('Visit author homepage') . '">' . $author_name[1] . '</a>';
 	}
 
-	return array('Name' => $name, 'Title' => $theme, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1]);
+	return array('Name' => $name, 'Title' => $theme, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1], 'Status' => $status);
 }
 
 function get_themes() {
@@ -1634,7 +1638,7 @@ function get_themes() {
 		if (empty($template_dir)) $template_dir = '/';
 		if (empty($stylesheet_dir)) $stylesheet_dir = '/';
 		
-		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir);
+		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status']);
 	}
 
 	// Resolve theme dependencies.
