@@ -534,6 +534,7 @@ switch($action) {
 		die ('You don&#8217;t have the right to delete <strong>'.$authordata->user_nickname.'</strong>&#8217;s post comments. <a href="post.php">Go back</a>!');
 
 	wp_set_comment_status($comment, "delete");
+	do_action('delete_comment', $comment);
 
 	if (($HTTP_SERVER_VARS['HTTP_REFERER'] != "") && (false == $noredir)) {
 		header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
@@ -678,7 +679,7 @@ switch($action) {
 		$referredby = $HTTP_POST_VARS['referredby'];
 		if (!empty($referredby)) header('Location: ' . $referredby);
         else header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
-		do_action('edit_comment', $post_ID);
+		do_action('edit_comment', $comment_ID);
         break;
 
     default:
