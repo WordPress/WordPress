@@ -106,7 +106,7 @@ $rewritecode = array(
 $rewritereplace = array(
 	'([0-9]{4})?',
 	'([0-9]{1,2})?',
-	'([0-3][0-9])?',
+	'([0-9]{1,2})?',
 	'([0-9a-z-]+)?'
 );
 $queryreplace = array (
