@@ -501,7 +501,11 @@ function get_postdata($postid) {
 		'Content' => $post->post_content, 
 		'Excerpt' => $post->post_excerpt, 
 		'Title' => $post->post_title, 
-		'Category' => $post->post_category, 
+		'Category' => $post->post_category,
+		'post_status' => $post->post_status,
+		'comment_status' => $post->comment_status,
+		'ping_status' => $post->ping_status,
+		'post_password' => $post->post_password
 	);
 	return($postdata);
 }
@@ -516,9 +520,10 @@ function get_postdata2($postid=0) { // less flexible, but saves mysql queries
 		'Excerpt' => $post->post_excerpt,
 		'Title' => $post->post_title,
 		'Category' => $post->post_category,
-#		'Notify' => $post->post_notifycomments,
-#		'Clickable' => $post->post_make_clickable,
-		'Karma' => $post->post_karma // this isn't used yet
+		'post_status' => $post->post_status,
+		'comment_status' => $post->comment_status,
+		'ping_status' => $post->ping_status,
+		'post_password' => $post->post_password
 		);
 	return($postdata);
 }
