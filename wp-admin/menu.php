@@ -28,7 +28,7 @@ foreach ($menu as $item) {
     
     if ($user_level >= $item[1]) {
         if (('upload.php' == $item[2] && get_settings('use_fileupload') && ($user_level >= get_settings('fileupload_minlevel'))
-             && (in_array($user_login, explode(' ', $allowed_users)) || (trim(get_settings('fileupload_allowedusers'))==''))) || 'upload.php' != $item[2])
+             )) || 'upload.php' != $item[2])
             echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
     }
 }
