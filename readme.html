@@ -62,20 +62,20 @@
   <li>Copy wp-config.sample.php to wp-config.php. Open wp-config.php in a text editor and modify the variables as explained in the comments. Comments are lines that start with <code>/*</code> or <code>//</code></li> 
   <li>Upload everything. This release is designed to sit in your root folder, IE the folder where your WordPress-powered page will reside.</li> 
   <li>The weblogs.com cache file needs to be writable by the web server. <a href="http://www.evolt.org/article/A_quick_and_dirty_chmod_Tutorial/18/541/">CHMOD 666</a> the <code>weblogs.com.changes.cache</code> file. </li> 
-  <li> Launch <a href="wp-admin/wp-install.php">wp-install.php</a> in your browser. This should setup the MySQL database for your blog. If there is an error, double check your wp-config.php file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). <strong>Note the password given to you.</strong></li> 
+  <li> Launch <a href="wp-admin/wp-install.php">wp-admin/wp-install.php</a> in your browser. This should setup the MySQL database for your blog. If there is an error, double check your wp-config.php file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). <strong>Note the password given to you.</strong></li> 
   <li> Go to <a href="b2login.php">b2login.php</a> and sign in with the login "admin" and the password given to you by the install script. Then click on the menu 'My Profile', and change the password. Note: you need javascript enabled to launch the profile popup window.</li> 
 </ol> 
 <h2>Some notes:</h2> 
 <ul> 
   <li>Whenever you want to post something, just open a browser and go to b2login.php to log in and post.</li> 
   <li>You can also use a bookmarklet and/or a sidebar (IE5+/NS6+) to post.</li> 
-  <li> You can also post through the Blogger API, <a href="#xmlrpc">click here</a> for more info.</li> 
+  <li> You can also post through the Blogger, MetaWeblog, and MovableType APIs, <a href="#xmlrpc">click here</a> for more info.</li> 
   <li> Your site's blog is on b2.php (simple template) and index.php (CSS template), you can rename this file to index.php or any other name you fancy (provided it bears the php extension or is interpreted as a php file by your server).</li> 
   <li> You can also copy b2.php into a new file and modify that new file, it will work too ;)</li> 
 </ul> 
 <h2>Upgrading from b2 v0.6.1 to WordPress v0.7:</h2> 
 <ul> 
-  <li>All you <em>really</em> have to do is replace all the files with newer versions and run <a href="javascript:window.close()">b2-2-wp.php</a> and you should be ready to go.</li> 
+  <li>All you <em>really</em> have to do is replace all the files with newer versions and run <a href="wp-admin/import-b2.php">wp-admin/import-b2.php</a> and you should be ready to go.</li> 
   <li>If you're using an older version of b2, it's probably a good idea to upgrade to at least .6.1 before making the leap to WordPress.</li> 
   <li>The templates are better and structured slightly differently, so it might be worth it to start from scratch and work back to your design.</li> 
   <li>You <em>must</em> update <code>wp-config.php</code>.</li> 
