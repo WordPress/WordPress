@@ -525,14 +525,17 @@ function do_trackbacks($post_id) {
 	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $post_id");
 	$to_ping = get_to_ping($post_id);
 	$pinged  = get_pung($post_id);
-	$content = strip_tags($post->post_content);
-	$excerpt = strip_tags($post->post_excerpt);
-	$post_title = strip_tags($post->post_title);
 
-	if ( $excerpt )
-		$excerpt = substr($excerpt, 0, 252) . '...';
+	if (empty($post->post_excerpt))
+		$excerpt = apply_filters('the_content', $post->post_content);
 	else
-		$excerpt = substr($content, 0, 252) . '...';
+		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
+	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
+	$excerpt = strip_tags($excerpt);
+	$excerpt = substr($excerpt, 0, 252) . '...';
+
+	$post_title = apply_filters('the_title', $post->post_title);
+	$post_title = strip_tags($post_title);
 
 	if ($to_ping) : foreach ($to_ping as $tb_ping) :
 		$tb_ping = trim($tb_ping);
