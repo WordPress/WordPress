@@ -25,7 +25,7 @@ get_header();
 
 </div>
 
-<?php comments_template( is_single() ); // Get wp-comments.php template ?>
+<?php comments_template(); // Get wp-comments.php template ?>
 
 <?php endwhile; else: ?>
 <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
