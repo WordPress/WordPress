@@ -1,13 +1,5 @@
 <?php
 
-/* new and improved ! now with more querystring stuff ! */
-
-if (!isset($querystring_start)) {
-	$querystring_start = '?';
-	$querystring_equal = '=';
-	$querystring_separator = '&amp;';
-}
-
 if (!function_exists('_')) {
 	function _($string) {
 		return $string;
@@ -481,15 +473,29 @@ function get_usernumposts($userid) {
 function get_settings($setting) {
 	global $tablesettings, $wpdb, $cache_settings, $use_cache, $querycount;
 	if ((empty($cache_settings)) OR (!$use_cache)) {
-		$settings = $wpdb->get_row("SELECT * FROM $tablesettings");
-		++$querycount;
+		$settings = get_alloptions();
 		$cache_settings = $settings;
 	} else {
 		$settings = $cache_settings;
 	}
+    if (!isset($settings->$setting)) {
+        error_log("get_settings: Didn't find setting $setting");
+    }
 	return $settings->$setting;
 }
 
+function get_alloptions() {
+    global $tableoptions, $wpdb;
+    $options = $wpdb->get_results("SELECT option_name, option_value FROM $tableoptions");
+    ++$querycount;
+    if ($options) {
+        foreach ($options as $option) {
+            $all_options->{$option->option_name} = $option->option_value;
+        }
+    }
+    return $all_options;
+}
+    
 function get_postdata($postid) {
 	global $tableusers, $tablesettings, $tablecategories, $tableposts, $tablecomments, $querycount, $wpdb;
 	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = $postid");
@@ -576,16 +582,19 @@ function profile($user_login) {
 	echo "<a href='b2profile.php?user=".$user_data->user_login."' onclick=\"javascript:window.open('b2profile.php?user=".$user_data->user_login."','Profile','toolbar=0,status=1,location=0,directories=0,menuBar=1,scrollbars=1,resizable=0,width=480,height=320,left=100,top=100'); return false;\">$user_login</a>";
 }
 
-function dropdown_categories($blog_ID=1) {
+function dropdown_categories($blog_ID=1, $default=1) {
 	global $postdata,$tablecategories,$mode,$querycount;
 	$query="SELECT * FROM $tablecategories";
 	$result=mysql_query($query);
 	++$querycount;
 	$width = ($mode=="sidebar") ? "100%" : "170px";
 	echo '<select name="post_category" style="width:'.$width.';" tabindex="2" id="category">';
+    if ($postdata["Category"] != '') {
+        $default = $postdata["Category"];
+    }
 	while($post = mysql_fetch_object($result)) {
 		echo "<option value=\"".$post->cat_ID."\"";
-		if ($post->cat_ID == $postdata["Category"])
+		if ($post->cat_ID == $default)
 			echo " selected";
 		echo ">".$post->cat_name."</option>";
 	}
@@ -702,26 +711,26 @@ function redirect_js($url,$title="...") {
 // functions to count the page generation time (from phpBB2)
 // ( or just any time between timer_start() and timer_stop() )
 
-	function timer_start() {
-		global $timestart;
-		$mtime = microtime();
-		$mtime = explode(" ",$mtime);
-		$mtime = $mtime[1] + $mtime[0];
-		$timestart = $mtime;
-		return true;
-	}
+function timer_start() {
+    global $timestart;
+    $mtime = microtime();
+    $mtime = explode(" ",$mtime);
+    $mtime = $mtime[1] + $mtime[0];
+    $timestart = $mtime;
+    return true;
+}
 
-	function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), will echo $timetotal
-		global $timestart,$timeend;
-		$mtime = microtime();
-		$mtime = explode(" ",$mtime);
-		$mtime = $mtime[1] + $mtime[0];
-		$timeend = $mtime;
-		$timetotal = $timeend-$timestart;
-		if ($display)
-			echo number_format($timetotal,$precision);
-		return $timetotal;
-	}
+function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), will echo $timetotal
+    global $timestart,$timeend;
+    $mtime = microtime();
+    $mtime = explode(" ",$mtime);
+    $mtime = $mtime[1] + $mtime[0];
+    $timeend = $mtime;
+    $timetotal = $timeend-$timestart;
+    if ($display)
+        echo number_format($timetotal,$precision);
+    return $timetotal;
+}
 
 
 // pings Weblogs.com
