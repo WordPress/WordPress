@@ -24,16 +24,16 @@ $admin_email = 'you@example.com';
 // ** MySQL settings **
 
 // fill with your database details
-$dbname = 'b2';			// the name of the database
-$dbusername = 'user';			// your MySQL username
-$dbpassword = 'pass';		// ...and password
-$dbhost = 'localhost';		// 99% chances you won't need to change this value
+$dbname = 'b2';             // the name of the database
+$dbusername = 'user';       // your MySQL username
+$dbpassword = 'pass';       // ...and password
+$dbhost = 'localhost';      // 99% chances you won't need to change this value
 
 // set this to 0 or 1, whether you want new users to be able to post entries once they registered
 $new_users_can_blog = 0;
 
 
-// set this to 0 or 1, whether you want to allow users to register on your blog.      
+// set this to 0 or 1, whether you want to allow users to register on your blog.
 $users_can_register = 1;
 
 
@@ -57,20 +57,12 @@ $use_preview = 1;
 
 
 
-// ** Spell Checker functions **
-
-
-// set this to 0 to disable the spell checker, or 1 to enable it
-$use_spellchecker = 0;
-
-
-
 // ** Text formatting options **
 
 // these options can help you format your text without using too much html
-$use_bbcode = 0;	// use BBCode, like [b]bold[/b]
-$use_gmcode = 0;	// use GreyMatter-styles: **bold** \italic\ __underline__
-$use_quicktags = 1;	// buttons for HTML tags (they won't work on IE Mac yet)
+$use_bbcode = 0;        // use BBCode, like [b]bold[/b]
+$use_gmcode = 0;        // use GreyMatter-styles: **bold** \italic\ __underline__
+$use_quicktags = 1;     // buttons for HTML tags (they won't work on IE Mac yet)
 
 // IMPORTANT! set this to 0 if you are using Chinese, Japanese, Korean,
 //                                           or other double-bytes languages
@@ -134,7 +126,7 @@ $rss_encoded_html = 0;
 //  note: in b2rss.php, this will be set to 0 if you use encoded HTML
 $rss_excerpt_length = 50;
 //use the excerpt field for rss feed.
-$rss_use_excerpt = 1; 
+$rss_use_excerpt = 1;
 
 
 // ** Weblogs.com ping **
@@ -192,51 +184,51 @@ $smilies_directory = $siteurl . '/b2-img/smilies';
 
 // here's the conversion table, you can modify it if you know what you're doing
 $b2smiliestrans = array(
-	':)'		=> 'icon_smile.gif',
-	':D'		=> 'icon_biggrin.gif',
-	':-D'		=> 'icon_biggrin.gif',
-	':grin:'		=> 'icon_biggrin.gif',
-	':)'		=> 'icon_smile.gif',
-	':-)'		=> 'icon_smile.gif',
-	':smile:'		=> 'icon_smile.gif',
-	':('		=> 'icon_sad.gif',
-	':-('		=> 'icon_sad.gif',
-	':sad:'		=> 'icon_sad.gif',
-	':o'		=> 'icon_surprised.gif',
-	':-o'		=> 'icon_surprised.gif',
-	':eek:'		=> 'icon_surprised.gif',
-	'8O'		=> 'icon_eek.gif',
-	'8-O'		=> 'icon_eek.gif',
-	':shock:'		=> 'icon_eek.gif',
-	':?'		=> 'icon_confused.gif',
-	':-?'		=> 'icon_confused.gif',
-	':???:'		=> 'icon_confused.gif',
-	'8)'		=> 'icon_cool.gif',
-	'8-)'		=> 'icon_cool.gif',
-	':cool:'		=> 'icon_cool.gif',
-	':lol:'		=> 'icon_lol.gif',
-	':x'		=> 'icon_mad.gif',
-	':-x'		=> 'icon_mad.gif',
-	':mad:'		=> 'icon_mad.gif',
-	':P'		=> 'icon_razz.gif',
-	':-P'		=> 'icon_razz.gif',
-	':razz:'		=> 'icon_razz.gif',
-	':oops:'		=> 'icon_redface.gif',
-	':cry:'		=> 'icon_cry.gif',
-	':evil:'		=> 'icon_evil.gif',
-	':twisted:'		=> 'icon_twisted.gif',
-	':roll:'		=> 'icon_rolleyes.gif',
-	':wink:'		=> 'icon_wink.gif',
-	';)'		=> 'icon_wink.gif',
-	';-)'		=> 'icon_wink.gif',
-	':!:'		=> 'icon_exclaim.gif',
-	':?:'		=> 'icon_question.gif',
-	':idea:'		=> 'icon_idea.gif',
-	':arrow:'		=> 'icon_arrow.gif',
-	':|'		=> 'icon_neutral.gif',
-	':-|'		=> 'icon_neutral.gif',
-	':neutral:'		=> 'icon_neutral.gif',
-	':mrgreen:'		=> 'icon_mrgreen.gif',
+    ':)'        => 'icon_smile.gif',
+    ':D'        => 'icon_biggrin.gif',
+    ':-D'       => 'icon_biggrin.gif',
+    ':grin:'    => 'icon_biggrin.gif',
+    ':)'        => 'icon_smile.gif',
+    ':-)'       => 'icon_smile.gif',
+    ':smile:'   => 'icon_smile.gif',
+    ':('        => 'icon_sad.gif',
+    ':-('       => 'icon_sad.gif',
+    ':sad:'     => 'icon_sad.gif',
+    ':o'        => 'icon_surprised.gif',
+    ':-o'       => 'icon_surprised.gif',
+    ':eek:'     => 'icon_surprised.gif',
+    '8O'        => 'icon_eek.gif',
+    '8-O'       => 'icon_eek.gif',
+    ':shock:'   => 'icon_eek.gif',
+    ':?'        => 'icon_confused.gif',
+    ':-?'       => 'icon_confused.gif',
+    ':???:'     => 'icon_confused.gif',
+    '8)'        => 'icon_cool.gif',
+    '8-)'       => 'icon_cool.gif',
+    ':cool:'    => 'icon_cool.gif',
+    ':lol:'     => 'icon_lol.gif',
+    ':x'        => 'icon_mad.gif',
+    ':-x'       => 'icon_mad.gif',
+    ':mad:'     => 'icon_mad.gif',
+    ':P'        => 'icon_razz.gif',
+    ':-P'       => 'icon_razz.gif',
+    ':razz:'    => 'icon_razz.gif',
+    ':oops:'    => 'icon_redface.gif',
+    ':cry:'     => 'icon_cry.gif',
+    ':evil:'    => 'icon_evil.gif',
+    ':twisted:' => 'icon_twisted.gif',
+    ':roll:'    => 'icon_rolleyes.gif',
+    ':wink:'    => 'icon_wink.gif',
+    ';)'        => 'icon_wink.gif',
+    ';-)'       => 'icon_wink.gif',
+    ':!:'       => 'icon_exclaim.gif',
+    ':?:'       => 'icon_question.gif',
+    ':idea:'    => 'icon_idea.gif',
+    ':arrow:'   => 'icon_arrow.gif',
+    ':|'        => 'icon_neutral.gif',
+    ':-|'       => 'icon_neutral.gif',
+    ':neutral:' => 'icon_neutral.gif',
+    ':mrgreen:' => 'icon_mrgreen.gif',
 );
 
 
