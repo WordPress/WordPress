@@ -681,16 +681,16 @@ function upgrade_110() {
 	$wpdb->query("ALTER TABLE `$tableposts` CHANGE `comment_status` `comment_status` ENUM( 'open', 'closed', 'registered_only' ) DEFAULT 'open' NOT NULL");
 
 	// Convert passwords to MD5 and update table appropiately
-	$query = 'DESCRIBE wp_users user_pass';
+	$query = 'DESCRIBE '.$tableusers.' user_pass';
 	$res = $wpdb->get_results($query);
 	if ($res[0]['Type'] != 'varchar(32)') {
-		$wpdb->query('ALTER TABLE wp_users MODIFY user_pass varchar(64) not null');
+		$wpdb->query('ALTER TABLE '.$tableusers.' MODIFY user_pass varchar(64) not null');
 	}
 	
-	$query = 'SELECT ID, user_pass from wp_users';
+	$query = 'SELECT ID, user_pass from '.$tableusers;
 	foreach ($wpdb->get_results($query) as $row) {
 		if (!preg_match('/^[A-Fa-f0-9]{32}$/', $row->user_pass)) {
-			   $wpdb->query('UPDATE wp_users SET user_pass = MD5(\''.$row->user_pass.'\') WHERE ID = \''.$row->ID.'\'');
+			   $wpdb->query('UPDATE '.$tableusers.' SET user_pass = MD5(\''.$row->user_pass.'\') WHERE ID = \''.$row->ID.'\'');
 		}
 	}
 }
