@@ -97,7 +97,7 @@ case 'edit':
     <h2><?php _e('Edit Category') ?></h2>
     <form name="editcat" action="categories.php" method="post">
         <input type="hidden" name="action" value="editedcat" />
-        <input type="hidden" name="cat_ID" value="<?php echo $_GET['cat_ID'] ?>" />
+        <input type="hidden" name="cat_ID" value="<?php echo $cat_ID ?>" />
         <p><?php _e('Category name:') ?><br />
         <input type="text" name="cat_name" value="<?php echo htmlspecialchars($cat_name); ?>" /></p>
         <p><?php _e('Category parent:') ?><br />

@@ -65,7 +65,7 @@ if ($drafts || $other_drafts) {
 if ( isset( $_GET['m'] ) ) {
 	echo $month[substr( $_GET['m'], 4, 2 )] . ' ' . substr( $_GET['m'], 0, 4 );
 } elseif ( isset( $_GET['s'] ) ) {
-	printf(__('Search for &#8220;%s&#8221;'), $_GET['s']);
+	printf(__('Search for &#8220;%s&#8221;'), htmlspecialchars($_GET['s']) );
 } else {
 	_e('Last 15 Posts');
 }

@@ -41,20 +41,6 @@ if ($standalone == 0) :
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
-<?php
-if ($redirect==1) {
-?>
-<script type="text/javascript">
-<!--
-function redirect() {
-  window.location = "<?php echo $redirect_url; ?>";
-}
-setTimeout("redirect();", 600);
-//-->
-</script>
-<?php
-} // redirect
-?>
 
 <?php if (isset($xfn)) : ?>
 <script type="text/javascript">

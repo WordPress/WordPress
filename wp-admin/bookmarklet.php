@@ -1,8 +1,4 @@
 <?php
-/* <Bookmarklet> */
-
-// accepts 'post_title' and 'content' as vars passed in. Add-on from Alex King
-
 $mode = 'bookmarklet';
 
 $standalone = 1;
@@ -23,12 +19,11 @@ window.close()
 </script>
 </head>
 <body></body>
-</html><?php
-
+</html>
+<?php
 } else {
-
-    $popuptitle = stripslashes($popuptitle);
-    $text = stripslashes(urldecode($text));
+    $popuptitle = htmlspecialchars(stripslashes($popuptitle));
+    $text = htmlspecialchars(stripslashes(urldecode($text)));
     
     /* big funky fixes for browsers' javascript bugs */
     
@@ -57,7 +52,7 @@ window.close()
 // and that is what is being included below. For this reason, I am just duplicating
 // the var instead of changing the assignment on the lines above. 
 // -- Alex King 2004-01-07
-    $edited_post_title = $post_title;
+    $edited_post_title = htmlspecialchars($post_title);
 
 // $post_pingback needs to be set in any file that includes edit-form.php
     $post_pingback = get_settings('default_pingback_flag');

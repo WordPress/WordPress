@@ -28,7 +28,7 @@ function checkAll(form)
 <form name="searchform" action="" method="get"> 
   <fieldset> 
   <legend><?php _e('Show Comments That Contain...') ?></legend> 
-  <input type="text" name="s" value="<?php if (isset($s)) echo $s; ?>" size="17" /> 
+  <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo htmlspecialchars($_GET['s']); ?>" size="17" /> 
   <input type="submit" name="submit" value="<?php _e('Search') ?>"  />  
   <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
   <?php _e('(Searches within comment text, e-mail, URI, and IP address.)') ?>
@@ -148,6 +148,4 @@ if ('view' == $mode) {
 
 </div>
 
-<?php 
-include('admin-footer.php');
-?>
+<?php include('admin-footer.php'); ?>
