@@ -1636,6 +1636,7 @@ function htmlentities2($myHTML) {
 function wp_mail($to, $subject, $message, $headers = '') {
 	if( $headers == '' ) {
 		$headers = "MIME-Version: 1.0\n" .
+		"From: " . get_settings('admin_email') . "\n" . 
 		"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 	}
 
