@@ -32,7 +32,8 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
     global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
     global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-    global $comment_count_cache;
+    global $comment_count_cache, $single;
+	if (!$single) {
     if ('' == $comment_count_cache["$id"]) {
         $number = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1';");
     } else {
@@ -65,6 +66,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         comments_number($zero, $one, $more, $number);
         echo '</a>';
     }
+	}
 }
 
 function comment_ID() {

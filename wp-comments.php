@@ -19,10 +19,11 @@
 
 <!-- You can start editing here. -->
 
-<h2 id="comments">Comments</h2>
-
-<p><?php comments_rss_link('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'); ?></p>
-
+<h2 id="comments"><?php comments_number('Comments'); ?> 
+<?php if ('open' == $post->comment_status) { ?>
+<a href="#postcomment" title="Leave a comment">&raquo;</a>
+<?php } ?>
+</h2>
 <?php if ('open' == $post->ping_status) { ?>
 <p>The <acronym title="Uniform Resource Identifier">URI</acronym> to TrackBack this entry is: <em><?php trackback_url() ?></em></p>
 <?php } ?>
@@ -41,8 +42,8 @@
 <?php } else { // this is displayed if there are no comments so far ?>
 	<p>No comments yet.</p>
 <?php } ?>
-
-<h2>Leave a Comment</h2>
+<p><?php comments_rss_link('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'); ?></p>
+<h2 id="postcomment">Leave a Comment</h2>
 <?php if ('open' == $post->comment_status) { ?>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo allowed_tags(); ?></code></p>
 
@@ -85,7 +86,7 @@ if ('none' != get_settings("comment_moderation")) {
 	</p>
 </form>
 <?php } else { // comments are closed ?>
-<p>Sorry, comments are closed at this time.</p>
+<p>Sorry, the comment form is closed at this time.</p>
 <?php } ?>
 
 <?php // if you delete this the sky will fall on your head
