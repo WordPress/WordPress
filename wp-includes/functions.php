@@ -299,7 +299,7 @@ function get_settings($setting) {
 	if ( isset($cache_settings->$setting) )
 		return $cache_settings->$setting;
 	else
-		return $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
+		return @ unserialize( $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'") );
 }
 
 function get_alloptions() {
@@ -311,7 +311,7 @@ function get_alloptions() {
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			$all_options->{$option->option_name} = $option->option_value;
+			@$all_options->{$option->option_name} = unserialize($option->option_value);
 		}
 	}
 	return $all_options;
@@ -319,7 +319,9 @@ function get_alloptions() {
 
 function update_option($option_name, $newvalue) {
 	global $wpdb, $cache_settings;
-	$newvalue = $newvalue;
+	if ( is_array($newvalue) || is_object($value) )
+		$newvalue = serialize($newvalue);
+
 	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim
 
     // If the new and old values are the same, no need to update.
@@ -335,9 +337,12 @@ function update_option($option_name, $newvalue) {
 
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
-function add_option($name, $value='') {
+function add_option($name, $value = '') {
 	// Adds an option if it doesn't already exist
 	global $wpdb;
+	if ( is_array($value) || is_object($value) )
+		$value = serialize($value);
+
 	if(!get_settings($name)) {
 		$name = $wpdb->escape($name);
 		$value = $wpdb->escape($value);
