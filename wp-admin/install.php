@@ -153,7 +153,7 @@ $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://dougal.gunters.org/', 'Dougal', 1, 'http://dougal.gunters.org/feed/');");
 
 // Default category
-$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name) VALUES ('0', '".addslashes(__('Uncategorized'))."')");
+$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename) VALUES ('0', '".addslashes(__('Uncategorized'))."', '".sanitize_title(__('Uncategorized'))."')");
 
 // First post
 $now = date('Y-m-d H:i:s');
