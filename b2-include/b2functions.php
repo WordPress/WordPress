@@ -6,6 +6,11 @@ if (!function_exists('_')) {
 	}
 }
 
+if (!function_exists('floatval')) {
+	function floatval($string) {
+		return ((float) $string);
+	}
+}
 
 /* functions... */
 
