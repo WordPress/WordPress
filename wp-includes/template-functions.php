@@ -1485,7 +1485,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 }
 
 // out of the WordPress loop
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 0) {
 	global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
 	global $pagenow, $siteurl, $blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
@@ -1496,11 +1496,10 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$sort_column = 'cat_'.$sort_column;
 
     $query  = "
-		SELECT cat_ID, cat_name, category_nicename
+		SELECT cat_ID, cat_name, category_nicename, category_description
 		FROM $tablecategories
 		WHERE cat_ID > 0 
-		";
-    $query .= " ORDER BY $sort_column $sort_order";
+		ORDER BY $sort_column $sort_order";
 
 	$categories = $wpdb->get_results($query);
 
@@ -1529,7 +1528,14 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	}
 
 	foreach ($categories as $category) {
-        $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" title="View all posts filed under ' . $category->cat_name . '">';
+        $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" ';
+        if ($use_desc_for_title == 0 || empty($category->category_description)) {
+	        $link .= 'title="View all posts filed under ' . htmlspecialchars($category->cat_name) . '"';
+	    }
+	    else {
+	        $link .= 'title="' . htmlspecialchars($category->category_description) . '"';
+	    }
+        $link .= '>';
         $link .= stripslashes($category->cat_name).'</a>';
         if (intval($optioncount) == 1) {
             $link .= ' ('.$category_posts["$category->cat_ID"].')';
