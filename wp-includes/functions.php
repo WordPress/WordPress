@@ -2348,11 +2348,13 @@ function add_query_arg() {
 		$uri = @func_get_arg(1);
 	}
 	else {
-		$uri = @func_get_arg(2);
+		if (@func_num_args() < 3) {
+			$uri = $_SERVER['REQUEST_URI'];
+		} else {
+			$uri = @func_get_arg(2);
+		}
 	}
-	if ('' == $uri) {
-		$uri = $_SERVER['REQUEST_URI'];
-	}
+
 	if (strstr($uri, '?')) {
 		$parts = explode('?', $uri, 2);
 		if (1 == count($parts)) {
