@@ -492,7 +492,6 @@ case 'deletecomment':
 	} else {
 		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
-	clear_smarty_cache();
 
 	break;
 
