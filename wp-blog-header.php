@@ -153,9 +153,6 @@ update_category_cache();
 // Call query posts to do the work.
 $posts = query_posts($query_string);
 
-// Update per post caches.
-update_post_caches($posts);
-
 if (1 == count($posts)) {
     if ($p || $name) {
         $more = 1;

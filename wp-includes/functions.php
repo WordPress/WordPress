@@ -1352,6 +1352,8 @@ function get_posts($args) {
 	$now = current_time('mysql');
 
 	$posts = $wpdb->get_results("SELECT DISTINCT * FROM $wpdb->posts WHERE post_date <= '$now' AND (post_status = 'publish') GROUP BY $wpdb->posts.ID ORDER BY post_date DESC LIMIT " . $r['offset'] . ',' . $r['numberposts']);
+
+    update_post_caches($posts);
 	
 	return $posts;
 }
@@ -1704,7 +1706,9 @@ function query_posts($query) {
 
     // error_log("$request");
     // echo $request;
-    return $wpdb->get_results($request);
+    $posts = $wpdb->get_results($request);
+    update_post_caches($posts);
+    return $posts;
 }
 
 function update_post_caches($posts) {
