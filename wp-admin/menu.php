@@ -13,7 +13,6 @@ $menu[30] = array(__('Options'), 6, 'options-general.php');
 $menu[35] = array(__('Plugins'), 8, 'plugins.php');
 $menu[40] = array(__('Presentation'), 8, 'themes.php');
 $menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
-ksort($menu); // So other files can plugin
 
 $submenu['post.php'][5] = array(__('Write Post'), 1, 'post.php');
 $submenu['post.php'][10] = array(__('Write Page'), 5, 'page-new.php');
@@ -48,6 +47,7 @@ $submenu['themes.php'][5] = array(__('Themes'), 5, 'themes.php');
 $submenu['themes.php'][10] = array(__('Theme Editor'), 5, 'theme-editor.php');
 
 do_action('admin_menu', '');
+ksort($menu); // make it all pretty
 
 if (! user_can_access_admin_page()) {
 	die( __('You have do not have sufficient permissions to access this page.') );
