@@ -51,7 +51,7 @@ case 'addcat':
     
     $wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', $cat)");
     
-    header('Location: categories.php');
+    header('Location: categories.php#addcat');
 
 break;
 
@@ -92,9 +92,10 @@ case 'edit':
         <p>Category name:<br />
         <input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /></p>
         <p>Category parent:<br />
-		<select name='cat' class='postform'>
+        <select name='cat' class='postform'>
+        <option value='0'<?php if (!$category->category_parent) echo " selected='selected'"; ?>>None</option>
         <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?></p>
-		</select>
+        </select>
         </p>
         <p>Description:<br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlentities($category->category_description); ?></textarea></p>
@@ -135,22 +136,6 @@ default:
     ?>
 
 <div class="wrap">
-    <h2>Add New Category</h2>
-    <form name="addcat" action="categories.php" method="post">
-        
-        <p>Name:<br />
-        <input type="text" name="cat_name" value="" /></p>
-        <p>Category parent:<br />
-		<select name='cat' class='postform'>
-        <?php wp_dropdown_cats(); ?></p>
-		</select>
-        <p>Description: (optional) <br />
-        <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
-        <p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="Add" class="search" /></p>
-    </form>
-</div>
-
-<div class="wrap">
 <h2>Current Categories</h2>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
@@ -173,10 +158,27 @@ cat_rows();
   </p>
 </div>
 
+<div class="wrap">
+    <h2>Add New Category</h2>
+    <form name="addcat" id="addcat" action="categories.php" method="post">
+        
+        <p>Name:<br />
+        <input type="text" name="cat_name" value="" /></p>
+        <p>Category parent:<br />
+        <select name='cat' class='postform'>
+        <option value='0'>None</option>
+        <?php wp_dropdown_cats(); ?></p>
+        </select>
+        <p>Description: (optional) <br />
+        <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
+        <p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="Add" class="search" /></p>
+    </form>
+</div>
+
     <?php
 break;
 }
 
 /* </Categories> */
 include('admin-footer.php');
-?> 
+?>
