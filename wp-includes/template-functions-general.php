@@ -32,7 +32,8 @@ function get_bloginfo($show='') {
 
     switch($show) {
         case 'url':
-            $output = get_settings('siteurl') .'/'. get_settings('blogfilename');
+		case 'siteurl':
+            $output = get_settings('siteurl');
             break;
         case 'description':
             $output = get_settings('blogdescription');
