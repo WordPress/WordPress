@@ -31,7 +31,7 @@ require($abspath.'wp-links/links.php');
 <?php the_date('','<h2>','</h2>'); ?>
 
  <h3 class="storytitle">
-  <a href="<?php permalink_link() ?>"><?php the_title(); ?></a> 
+  <a href="<?php permalink_link() ?>" rel="bookmark"><?php the_title(); ?></a> 
   <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?>
   </span>
  </h3>
