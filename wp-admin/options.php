@@ -74,7 +74,12 @@ $nonbools = array('default_ping_status', 'default_comment_status');
             if ($user_level >= $option->option_admin_level) {
                 $old_val = stripslashes($option->option_value);
                 $new_val = $_POST[$option->option_name];
-				if (!$new_val) $new_val = 0;
+				if (!$new_val) {
+					if (3 == $option->option_type)
+						$new_val = '';
+					else
+						$new_val = 0;
+				}
 				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_value = 'closed';
                 if ($new_val !== $old_val) {
 					$query = "UPDATE $tableoptions SET option_value = '$new_val' WHERE option_id = $option->option_id";
