@@ -12,10 +12,12 @@ get_currentuserinfo();
 $drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
 if (1 < $user_level) {
 	$editable = $wpdb->get_col("SELECT ID FROM $wpdb->users WHERE user_level <= '$user_level' AND ID != $user_ID");
-        if( is_array( $editable ) == false )
-            $editable = array( "1" );
-	$editable = join(',', $editable);
-	$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) ");
+	if( is_array( $editable ) == false )
+			$other_drafts = '';
+	else {
+		$editable = join(',', $editable);
+		$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) ");
+	}
 } else {
 	$other_drafts = false;
 }
