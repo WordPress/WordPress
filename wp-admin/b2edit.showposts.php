@@ -10,6 +10,8 @@ if (!$showposts) {
 		$showposts=10;
 		$posts_per_page=$showposts;
 	}
+} else {
+	$posts_per_page = $showposts;
 }
 
 if ((!empty($poststart)) && (!empty($postend)) && ($poststart == $postend)) {
@@ -48,6 +50,7 @@ if ($previousXstart < 0) {
 <?php
 if ($previousXstart > 0) {
 ?>
+              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
               <input type="hidden" name="poststart" value="<?php echo $previousXstart; ?>" />
               <input type="hidden" name="postend" value="<?php echo $previousXend; ?>" />
               <input type="submit" name="submitprevious" class="search" value="< <?php echo $showposts ?>" />
@@ -58,6 +61,7 @@ if ($previousXstart > 0) {
           </td>
           <td>
             <form name="nextXposts" method="get" action="">
+              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
               <input type="hidden" name="poststart" value="<?php echo $nextXstart; ?>" />
               <input type="hidden" name="postend" value="<?php echo $nextXend; ?>" />
               <input type="submit" name="submitnext" class="search" value="<?php echo $showposts ?> >" />
@@ -70,7 +74,7 @@ if ($previousXstart > 0) {
   <tr>
     <td valign="top" width="200"><!-- show X first/last posts -->
       <form name="showXfirstlastposts" method="get" action="">
-        <input type="text" name="posts" value="<?php echo $showposts ?>" style="width:40px;" /?>
+        <input type="text" name="showposts" value="<?php echo $showposts ?>" style="width:40px;" /?>
 <?php
 if (!isset($order))
   $order="DESC";
@@ -227,7 +231,7 @@ if ($i == "ASC")
 
 	if ($posts) {
 	foreach ($posts as $post) {
-        $posts_per_page = 10;
+        //$posts_per_page = 10;
         start_b2(); ?>
 			<p>
 				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
@@ -342,6 +346,7 @@ if ($i == "ASC")
             <form name="previousXposts" method="get"><?php
 if ($previousXstart > -1) {
 ?>
+              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
               <input type="hidden" name="poststart" value="<?php echo $previousXstart; ?>" />
               <input type="hidden" name="postend" value="<?php echo $previousXend; ?>" />
               <input type="submit" name="submitprevious" class="search" value="< Previous <?php echo $showposts ?>" /><?php
@@ -351,6 +356,7 @@ if ($previousXstart > -1) {
           </td>
           <td>
             <form name="nextXposts" method="get">
+              <input type="hidden" name="showposts" value="<?php echo $showposts; ?>" />
               <input type="hidden" name="poststart" value="<?php echo $nextXstart; ?>" />
               <input type="hidden" name="postend" value="<?php echo $nextXend; ?>" />
               <input type="submit" name="submitnext" class="search" value="Next <?php echo $showposts ?> >" />
@@ -363,7 +369,7 @@ if ($previousXstart > -1) {
   <tr>
     <td valign="top" width="200"><!-- show X first/last posts -->
       <form name="showXfirstlastposts" method="get">
-        <input type="text" name="posts" value="<?php echo $showposts ?>" style="width:40px;" /?>
+        <input type="text" name="showposts" value="<?php echo $showposts ?>" style="width:40px;" /?>
         <select name="order">&nbsp;<option value="DESC" <?php
 $i = $order;
 if ($i == "DESC")
