@@ -1210,7 +1210,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$title = (!strlen($matchtitle[1])) ? $pagelinkedfrom : $matchtitle[1];
 		$original_context = strip_tags($context);
 		$context = '[...] ';
-		$context = wp_specialchars($original_context);
+		$context .= wp_specialchars($original_context);
 		$context .= ' [...]';
 		$original_pagelinkedfrom = $pagelinkedfrom;
 		$pagelinkedfrom = addslashes($pagelinkedfrom);
