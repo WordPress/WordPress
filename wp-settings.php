@@ -51,14 +51,16 @@ if (!$_wp_installing) {
     $use_phoneemail = get_settings('use_phoneemail');
     $phoneemail_separator = get_settings('phoneemail_separator');
 
+    /* not currently used
     if (get_settings('search_engine_friendly_urls')) {
         $querystring_start = '/';
         $querystring_equal = '/';
         $querystring_separator = '/';
     } else {
-        $querystring_start = '?';
-        $querystring_equal = '=';
-        $querystring_separator = '&amp;';
-    }
+    */
+    $querystring_start = '?';
+    $querystring_equal = '=';
+    $querystring_separator = '&amp;';
+    //}
 } //end !$_wp_installing
 ?>
