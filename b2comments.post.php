@@ -88,7 +88,7 @@ if ($ok) {
 
 	$wpdb->query("INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$url','$user_ip','$now','$comment','0')");
 
-	if ($comments_notify) {
+	if ($comments_notify && '' != $comment_author_email) {
 
 		$notify_message  = "New comment on your post #$comment_post_ID ".stripslashes($postdata['Title'])."\r\n\r\n";
 		$notify_message .= "Author : $comment_author (IP: $user_ip , $user_domain)\r\n";
