@@ -1,11 +1,11 @@
 <?php
 
 function the_permalink() {
-	echo get_permalink();
+	echo apply_filters('the_permalink', get_permalink());
 }
 
 function permalink_link() { // For backwards compatibility
-	echo get_permalink();
+	echo apply_filters('the_permalink', get_permalink());
 }
 
 function permalink_anchor($mode = 'id') {
