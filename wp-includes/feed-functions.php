@@ -109,7 +109,7 @@ function get_category_rss_link($echo = false, $category_id, $category_nicename) 
                $file = get_settings('siteurl') . '/wp-rss2.php';
         $link = $file . '?cat=' . $category_id;
        } else {
-        $link = get_category_link(0, $category_id, $category_nicename);
+        $link = get_category_link($category_id);
                $link = $link . "feed/";
        }
 

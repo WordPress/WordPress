@@ -24,24 +24,26 @@ function get_the_category($id = false) {
 		return $categories;
 }
 
-function get_category_link($echo = false, $category_id, $category_nicename) {
-	global $wpdb, $wp_rewrite, $post, $cache_categories;
-    $cat_ID = $category_id;
-    $catlink = $wp_rewrite->get_category_permastruct();
-    
-    if (empty($catlink)) {
-        $file = get_settings('home') . '/';
-        $catlink = $file . '?cat=' . $cat_ID;
-    } else {
-			$category_nicename = $cache_categories[$category_id]->category_nicename;
-			if ($parent=$cache_categories[$category_id]->category_parent) $category_nicename = get_category_parents($parent, FALSE, '/', TRUE) . $category_nicename . '/';
+function get_category_link($category_id) {
+	global $wpdb, $wp_rewrite, $querystring_start, $querystring_equal, $cache_categories;
+	$catlink = $wp_rewrite->get_category_permastruct();
 
-			$catlink = str_replace('%category%', $category_nicename, $catlink);
-			$catlink = get_settings('home') . trailingslashit($catlink);
-    }
-		$catlink = apply_filters('category_link', $catlink, $category_id, $category_nicename);
-    if ($echo) echo $catlink;
-    return $catlink;
+	if ( empty($catlink) ) {
+		$file = get_settings('home') . '/' . get_settings('blogfilename');
+		$catlink = $file . '?cat=' . $category_ID;
+	} else {
+		if ($cache_categories[$category_id]->category_nicename)
+			$category_nicename = $cache_categories[$category_id]->category_nicename;
+		else
+			$category_nicename = $wpdb->get_var('SELECT category_nicename FROM ' . $wpdb->categories . ' WHERE cat_ID=' . $category_id);
+
+		if ($parent = $cache_categories[$category_id]->category_parent) 
+			$category_nicename = get_category_parents($parent, false, '/', true) . $category_nicename . '/';
+
+		$catlink = str_replace('%category%', $category_nicename, $catlink);
+		$catlink = get_settings('home') . trailingslashit($catlink);
+	}
+	return $catlink;
 }
 
 function the_category($separator = '', $parents='') {
@@ -62,10 +64,10 @@ function the_category($separator = '', $parents='') {
                     if ($category->category_parent) {
                         $thelist .= get_category_parents($category->category_parent, TRUE);
                     }
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
                     break;
                 case 'single':
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . ' rel="category tag">';
+                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . ' rel="category tag">';
                     if ($category->category_parent) {
                         $thelist .= get_category_parents($category->category_parent, FALSE);
                     }
@@ -73,7 +75,7 @@ function the_category($separator = '', $parents='') {
                     break;
                 case '':
                 default:
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
             }
         }
         $thelist .= '</ul>';
@@ -85,16 +87,16 @@ function the_category($separator = '', $parents='') {
             switch(strtolower($parents)) {
                 case 'multiple':
                     if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, TRUE);
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
+                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
                     break;
                 case 'single':
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">';
+                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">';
                     if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, FALSE);
                     $thelist .= "$category->cat_name</a>";
                     break;
                 case '':
                 default:
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
+                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
             }
             ++$i;
         }
@@ -124,7 +126,7 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
     }
     if ($parent->category_parent) $chain .= get_category_parents($parent->category_parent, $link, $separator, $nicename);
     if ($link) {
-        $chain .= '<a href="' . get_category_link(0, $parent->cat_ID, $parent->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $parent->cat_name) . '">'.$name.'</a>' . $separator;
+        $chain .= '<a href="' . get_category_link($parent->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $parent->cat_name) . '">'.$name.'</a>' . $separator;
     } else {
         $chain .= $name.$separator;
     }
@@ -314,7 +316,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	foreach ($categories as $category) {
 		if ((intval($hide_empty) == 0 || isset($category_posts["$category->cat_ID"])) && (!$hierarchical || $category->category_parent == $child_of) ) {
 			$num_found++;
-			$link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" ';
+			$link = '<a href="'.get_category_link($category->cat_ID).'" ';
 			if ($use_desc_for_title == 0 || empty($category->category_description)) {
 				$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name)) . '"';
 			} else {
