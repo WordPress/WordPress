@@ -289,7 +289,7 @@ function trackback_rdf($timezone = 0) {
 	echo '    dc:identifier="';
 	permalink_single();
 	echo '"'."\n";
-	echo '    dc:title="'.str_replace('--', '&#x2d;&#x2d;', addslashes(strip_tags(get_the_title()))).'"'."\n";
+	echo '    dc:title="'.str_replace('--', '&#x2d;&#x2d;', wptexturize(strip_tags(get_the_title()))).'"'."\n";
 	echo '    trackback:ping="'.trackback_url(0).'"'." />\n";
 	echo '</rdf:RDF>';
 	}
