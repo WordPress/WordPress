@@ -1,7 +1,7 @@
 <?php 
-if ( !$feed ) {
+if ( empty($feed) ) {
 	$withcomments = 1;
-    require('wp-blog-header.php');
+	require('wp-blog-header.php');
 }
 
 header('Content-type: text/xml;charset=' . get_settings('blog_charset'), true);

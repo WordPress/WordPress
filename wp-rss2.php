@@ -1,9 +1,9 @@
 <?php
 
-if (!isset($feed) || !$feed) {
-    $blog = 1;
-    $doing_rss = 1;
-    require('wp-blog-header.php');
+if (empty($feed)) {
+	$blog = 1;
+	$doing_rss = 1;
+	require('wp-blog-header.php');
 }
 
 header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);

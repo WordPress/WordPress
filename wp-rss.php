@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($feed) || !$feed) {
+if (empty($feed)) {
     $blog = 1;
     $doing_rss = 1;
     require('wp-blog-header.php');

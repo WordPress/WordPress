@@ -1,6 +1,6 @@
 <?php /* RDF 1.0 generator, original version by garym@teledyn.com */
 
-if (!isset($feed) || !$feed) {
+if (empty($feed)) {
     $blog = 1; // enter your blog's ID
     $doing_rss = 1;
     require('wp-blog-header.php');
