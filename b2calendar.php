@@ -57,6 +57,9 @@ require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc.'/b2vars.php');
 
 $w = $HTTP_GET_VARS['w'];
+if (isset($HTTP_GET_VARS['w'])) {
+    $w = $HTTP_GET_VARS['w'];
+}
 
 if (isset($calendar) && ($calendar != '')) {
 	$thisyear = substr($calendar,0,4);

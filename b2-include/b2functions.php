@@ -16,6 +16,7 @@ if (!function_exists('floatval')) {
 
 /***** Formatting functions *****/
 function wptexturize($text) {
+	$output = "";
 	$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
 	$stop = count($textarr); $next = true; // loop stuff
 	for ($i = 0; $i < $stop; $i++) {
@@ -24,7 +25,7 @@ function wptexturize($text) {
 			$curl = str_replace('<q>', '&#8220;', $curl);
 			$curl = str_replace('</q>', '&#8221;', $curl);
 		}
-		if ('<' != $curl{0} && $next) { // If it's not a tag
+		if (isset($curl{0}) && '<' != $curl{0} && $next) { // If it's not a tag
 			$curl = str_replace('---', '&#8212;', $curl);
 			$curl = str_replace('--', '&#8211;', $curl);
 			$curl = str_replace("...", '&#8230;', $curl);
@@ -35,7 +36,6 @@ function wptexturize($text) {
 			$cockneyreplace = array("&#8217;tain&#8217;t","&#8217;twere","&#8217;twas","&#8217;tis","&#8217;twill","&#8217;til","&#8217;bout","&#8217;nuff","&#8217;round");
 			$curl = str_replace($cockney, $cockneyreplace, $curl);
 
-		
 			$curl = preg_replace("/'s/", "&#8217;s", $curl);
 			$curl = preg_replace("/'(\d\d(?:&#8217;|')?s)/", "&#8217;$1", $curl);
 			$curl = preg_replace('/(\s|\A|")\'/', '$1&#8216;', $curl);
@@ -218,7 +218,7 @@ function convert_chars($content,$flag='obsolete attribute left there for backwar
 		$content = preg_replace('/&[^#](?![a-z]*;)/ie', '"&#38;".substr("\0",1)', $content);
 
 		// converts HTML-entities to their display values in order to convert them again later
-		$content = preg_replace('/['.chr(127).'-'.chr(255).']/e', '"&#".ord(\0).";"', $content );
+		$content = preg_replace('/['.chr(127).'-'.chr(255).']/e', '"&#".ord(\'\0\').";"', $content );
 		$content = strtr($content, $b2_htmltrans);
 
 		// now converting: Windows CP1252 => Unicode (valid HTML)
@@ -271,6 +271,7 @@ function convert_gmcode($content) {
 function convert_smilies($text) {
 	global $smilies_directory, $use_smilies;
 	global $b2_smiliessearch, $b2_smiliesreplace;
+
 	if ($use_smilies) {
 		// HTML loop taken from texturize function, could possible be consolidated
 		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
@@ -282,6 +283,9 @@ function convert_smilies($text) {
 			}
 			$output .= $content;
 		}
+	} else {
+		// return default text.
+		$output = $text;
 	}
 	return $output;
 }
@@ -1279,6 +1283,5 @@ function pingGeoURL($blog_ID) {
     $path="/ping/?p=".$ourUrl;
     getRemoteFile($host,$path); 
 }
-
 
 ?>
