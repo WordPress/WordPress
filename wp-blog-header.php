@@ -174,7 +174,7 @@ $posts = query_posts($query_string);
 // Extract updated query vars back into global namespace.
 extract($wp_query->query_vars);
 
-if (1 == count($posts)) {
+if ( is_single() || is_page() ) {
 	$more = 1;
 	$single = 1;
 }
