@@ -121,7 +121,7 @@ switch ($action) {
 </ul>
 
 <div class="wrap">
-  <h2>Edit &#8220;<?php echo $row->cat_name?>&#8221; Category </h2>
+  <h2>Edit &#8220;<?php echo htmlspecialchars($row->cat_name)?>&#8221; Category </h2>
 
   <form name="editcat" method="post">
       <input type="hidden" name="action" value="editedcat" />
@@ -131,7 +131,7 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Name:') ?></th>
-	<td width="67%"><input name="cat_name" type="text" value="<?php echo $row->cat_name?>" size="30" /></td>
+	<td width="67%"><input name="cat_name" type="text" value="<?php echo htmlspecialchars($row->cat_name)?>" size="30" /></td>
 </tr>
 <tr>
 	<th scope="row"><?php _e('Show:') ?></th>
@@ -332,7 +332,7 @@ foreach ($results as $row) {
     $style = ($i % 2) ? ' class="alternate"' : '';
 ?>
               <tr valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
-                <td><?php echo $row->cat_name?></td>
+                <td><?php echo htmlspecialchars($row->cat_name)?></td>
 				<td ><?php echo $row->cat_id?></td>
                 <td><?php echo $row->auto_toggle?></td>
                 <td><?php echo $row->show_images?></td>

@@ -312,17 +312,17 @@ switch ($action) {
 	WHERE link_id = $link_id");
 
     if ($row) {
-      $link_url = $row->link_url;
-      $link_name = $row->link_name;
+      $link_url = htmlspecialchars($row->link_url);
+      $link_name = htmlspecialchars($row->link_name);
       $link_image = $row->link_image;
       $link_target = $row->link_target;
       $link_category = $row->link_category;
-      $link_description = $row->link_description;
+      $link_description = htmlspecialchars($row->link_description);
       $link_visible = $row->link_visible;
       $link_rating = $row->link_rating;
       $link_rel = $row->link_rel;
-      $link_notes = $row->link_notes;
-	  $link_rss_uri = $row->link_rss;
+      $link_notes = htmlspecialchars($row->link_notes);
+	  $link_rss_uri = htmlspecialchars($row->link_rss);
     }
 
 ?>
@@ -690,6 +690,10 @@ function checkAll(form)
     $links = $wpdb->get_results($sql);
     if ($links) {
         foreach ($links as $link) {
+      	    $link->link_name = htmlspecialchars($link->link_name);
+      	    $link->link_category = htmlspecialchars($link->link_category);
+      	    $link->link_description = htmlspecialchars($link->link_description);
+            $link->link_url = htmlspecialchars($link->link_url);
             $short_url = str_replace('http://', '', $link->link_url);
             $short_url = str_replace('www.', '', $short_url);
             if ('/' == substr($short_url, -1))
