@@ -42,7 +42,7 @@ require_once (ABSPATH . WPINC . '/class-xmlrpc.php');
 require_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 require_once (ABSPATH . WPINC . '/links.php');
 require_once (ABSPATH . WPINC . '/kses.php');
-require_once (ABSPATH . WPINC . '/class-language.php');
+require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
 //setup the old globals from b2config.php
 //
@@ -76,9 +76,4 @@ if (!strstr($_SERVER['REQUEST_URI'], 'wp-admin/plugins.php') && get_settings('ac
 			include(ABSPATH . 'wp-content/plugins/' . $plugin);
 	}
 }
-
-// temporarily hardcoded, AK
-
-require_once (ABSPATH . WPINC . '/languages/english.php');
-
 ?>

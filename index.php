@@ -41,15 +41,15 @@ require('wp-blog-header.php');
 	
 <div class="post">
 	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
-	<div class="meta"><?php $lang->str('filed_under'); ?> <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
+	<div class="meta"><?php _e("Filed under:"); ?> <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
 	
 	<div class="storycontent">
 		<?php the_content(); ?>
 	</div>
 	
 	<div class="feedback">
-		<?php link_pages('<br />'.$lang->str('pages','',1).' ', '<br />', 'number'); ?> 
-		<?php comments_popup_link($lang->str('comment_count_0','',1), $lang->str('comment_count_1','',1), $lang->str('comment_count_n','',1)); ?> 
+            <?php link_pages('<br />'. __("Pages:").' ', '<br />', 'number'); ?>
+            <?php comments_popup_link(__("Comments (0)"), __("Comments (1)"), __("Comments (%)")); ?>
 	</div>
 	
 	<!--
@@ -60,7 +60,7 @@ require('wp-blog-header.php');
 </div>
 
 <?php } } else { // end foreach, end if any posts ?>
-<p><?php $lang->str('no_posts_matched'); ?></p>
+<p><?php _e("Sorry, no posts matched your criteria."); ?></p>
 <?php } ?>
 </div>
 
@@ -70,21 +70,21 @@ require('wp-blog-header.php');
 
 <ul>
 	<?php get_links_list(); ?>
- <li id="categories"><?php $lang->str('categories'); ?>
+ <li id="categories"><?php _e("Categories:"); ?>
 	<ul>
 	<?php wp_list_cats(); ?>
 	</ul>
  </li>
  <li id="search">
-   <label for="s"><?php $lang->str('search'); ?></label>	
+   <label for="s"><?php _e("Search:"); ?></label>	
    <form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />
-		<input type="submit" name="submit" value="<?php $lang->str('search_button'); ?>" />
+		<input type="submit" name="submit" value="<?php _e("search"); ?>" />
 	</div>
 	</form>
  </li>
- <li id="archives"><?php $lang->str('archives'); ?>
+ <li id="archives"><?php _e("Archives"); ?>
  	<ul>
 	 <?php get_archives('monthly'); ?>
  	</ul>
@@ -92,18 +92,19 @@ require('wp-blog-header.php');
  <li id="calendar">
 	<?php get_calendar(); ?>
  </li>
- <li id="other"><?php $lang->str('other'); ?>
+ <li id="other"><?php _e("Other:"); ?>
 	<ul>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php"><?php $lang->str('login'); ?></a></li>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php"><?php $lang->str('register'); ?></a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php"><?php _e("Login"); ?></a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php"><?php _e("Register"); ?></a></li>
 	</ul>
  </li>
- <li id="meta"><?php $lang->str('meta'); ?>
+ <li id="meta"><?php _e("Meta:"); ?>
  	<ul>
-		<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php $lang->str('rss_2_title'); ?>"><?php $lang->str('rss_2'); ?></a></li>
-		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php $lang->str('comments_rss_2_title'); ?>"><?php $lang->str('comments_rss_2'); ?></a></li>
-		<li><a href="http://validator.w3.org/check/referer" title="<?php $lang->str('valid_xhtml_title'); ?>"><?php $lang->str('valid_xhtml'); ?></a></li>
-		<li><a href="http://wordpress.org" title="<?php $lang->str('powered_by_title'); ?>">WP</a></li>
+		<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php _e("Syndicate this site using RSS"); ?>"><?php _e("<abbr title=\"Really Simple Syndication\">RSS</abbr> 2.0"); ?></a></li>
+		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php _e("The latest comments to all posts in RSS"); ?>"><?php _e("Comments <abbr title=\"Really Simple Syndication\">RSS</abbr> 2.0"); ?></a></li>
+		<li><a href="http://validator.w3.org/check/referer" title="<?php _e("This page validates as XHTML 1.0 Transitional"
+); ?>"><?php _e("Valid <abbr title=\"eXtensible HyperText Markup Language\">XHTML</abbr>"); ?></a></li>
+		<li><a href="http://wordpress.org" title="<?php _e("Powered by WordPress; state-of-the-art semantic personal publishing platform."); ?>">WP</a></li>
 	</ul>
  </li>
 
@@ -113,6 +114,6 @@ require('wp-blog-header.php');
 
 </div>
 
-<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <?php $lang->str('powered_by_wordpress',$lang->str('powered_by_title','',1)); ?></p>
+<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <cite><?php echo sprintf(__("Powered by <a href=\"http://wordpress.org\" title=\"%s\"><strong>WordPress</strong></a></cite></p>"), __("Powered by WordPress, state-of-the-art semantic personal publishing platform")); ?>
 </body>
 </html>
