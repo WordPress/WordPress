@@ -417,7 +417,7 @@ switch ($action) {
 <div class="wrap">
 
     <table width="100%" cellpadding="1" cellspacing="0" border="0">
-    <form name="links" method="post">
+    <form name="links" id="links" method="post">
     <input type="hidden" name="link_id" value="" />
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
@@ -473,8 +473,8 @@ switch ($action) {
         echo("  <td align=\"center\">N</td>\n");
       }
       echo("  <td>".stripslashes($row->category)."</td>\n");
-      echo("  <td><input type=\"submit\" name=\"edit\" onclick=\"forms['links'].link_id.value='$row->link_id'; forms['links'].action.value='linkedit'; \" value=\"Edit\" class=\"search\" /></td>\n");
-      echo("  <td><input type=\"submit\" name=\"delete\" onclick=\"forms['links'].link_id.value='$row->link_id'; forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); \" value=\"Delete\" class=\"search\" /></td>\n");
+      echo("  <td><input type=\"submit\" name=\"edit\" onclick=\"document.forms['links'].link_id.value='$row->link_id'; document.forms['links'].action.value='linkedit'; \" value=\"Edit\" class=\"search\" /></td>\n");
+      echo("  <td><input type=\"submit\" name=\"delete\" onclick=\"document.forms['links'].link_id.value='$row->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); \" value=\"Delete\" class=\"search\" /></td>\n");
       echo("</tr>\n");
 
       echo("<tr>\n");
