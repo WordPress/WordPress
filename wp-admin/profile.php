@@ -56,7 +56,7 @@ case 'update':
 	do_action('check_passwords', array($user_login, &$pass1, &$pass2));
 
 	if ( '' == $pass1 ) {
-		if ( '' == $pass2 )
+		if ( '' != $pass2 )
 			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
 		$updatepassword = "";
 	} else {
