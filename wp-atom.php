@@ -27,7 +27,7 @@ $more = 1;
 	  	<author>
 			<name><?php the_author() ?></name>
 		</author>
-		<title><?php the_title_rss() ?></title>
+		<title type="text/html" mode="escaped"><![CDATA[<?php the_title_rss() ?>]]></title>
 		<link rel="alternate" type="text/html" href="<?php permalink_single_rss() ?>" />
 		<id><?php the_guid(); ?></id>
 		<modified><?php the_time('Y-m-d\TH:i:s\Z'); ?></modified>
