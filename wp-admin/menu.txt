@@ -1,4 +1,4 @@
-1	post.php	Post
+1	post.php	Write
 1	edit.php	Edit
 3	categories.php	Categories
 5	link-manager.php	Links
