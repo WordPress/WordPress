@@ -112,6 +112,7 @@ default:
 if ($non_was_selected) { // no group pre-selected, display opening page
 ?>
 <div class="wrap">
+<dl>
 <?php
     //iterate through the available option groups. output them as a definition list.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
@@ -126,6 +127,7 @@ if ($non_was_selected) { // no group pre-selected, display opening page
 ?>
   <dt><a href="options-permalink.php">Permalinks</a></dt>
   <dd>Permanent link configuration</dd>
+</dl>
 </div>
 <?php    
 
