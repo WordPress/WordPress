@@ -1037,7 +1037,7 @@ function pingback($content, $post_ID) {
 
 	// Step 1
 	// Parsing the post, external links (if any) are stored in the $post_links array
-	// This regexp comes straigth from phpfreaks.com
+	// This regexp comes straight from phpfreaks.com
 	// http://www.phpfreaks.com/quickcode/Extract_All_URLs_on_a_Page/15.php
 	preg_match_all("{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp);
 
@@ -1089,7 +1089,7 @@ function pingback($content, $post_ID) {
 		}
 
 		// Send the GET request
-		$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: b2/$wp_version PHP/" . phpversion() . "\r\n\r\n";
+		$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: WordPress/$wp_version PHP/" . phpversion() . "\r\n\r\n";
 		ob_end_flush();
 		fputs($fp, $request);
 
@@ -1157,7 +1157,7 @@ function pingback($content, $post_ID) {
 			$method = 'pingback.ping';
 			debug_fwrite($log, 'Page Linked To: '.$pagelinkedto."\n");
 			debug_fwrite($log, 'Page Linked From: ');
-			$pagelinkedfrom = $siteurl.'/'.$blogfilename.'?p='.$post_ID.'&c=1';
+			$pagelinkedfrom = get_permalink($post_ID);
 			debug_fwrite($log, $pagelinkedfrom."\n");
 
 			$client = new xmlrpc_client($path, $host, 80);
