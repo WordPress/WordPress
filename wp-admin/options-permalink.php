@@ -151,7 +151,7 @@ $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
   <textarea rows="5" style="width: 100%;">RewriteEngine On
 RewriteBase <?php echo $site_root; ?> 
 RewriteRule ^<?php echo $match; echo '$ ' . $site_root . $query ?> [QSA]
-RewriteRule ^<?php echo $catmatch; ?>?([0-9a-z-]+)?/? <?php echo $site_root; ?>index.php?category_name=$1 [QSA]</textarea> 
+RewriteRule ^<?php echo $catmatch; ?>?(.*) <?php echo $site_root; ?>index.php?category_name=$1 [QSA]</textarea> 
 	</form>
 </div> 
 <?php

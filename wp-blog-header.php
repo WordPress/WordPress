@@ -166,7 +166,7 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
 // Category stuff for nice URIs
 
 if ('' != $category_name) {
-	$category_name = preg_replace('|[^a-z0-9-/]|', '', $category_name);
+	$category_name = preg_replace('|[^a-z0-9-]|', '', $category_name);
 	$tables = ", $tablepost2cat, $tablecategories";
 	$join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) LEFT JOIN $tablecategories ON ($tablepost2cat.category_id = $tablecategories.cat_ID) ";
 	$whichcat = " AND (category_nicename = '$category_name') ";
