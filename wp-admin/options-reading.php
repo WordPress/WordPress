@@ -56,7 +56,6 @@ include('options-head.php');
 					<select name="what_to_show" id="what_to_show" > 
                                                 <option value="days" <?php selected('days', get_settings('what_to_show')); ?>><?php _e('days') ?></option> 
 						<option value="posts" <?php selected('posts', get_settings('what_to_show')); ?>><?php _e('posts') ?></option> 
-						<option value="paged" <?php selected('paged', get_settings('what_to_show')); ?>><?php _e('posts paged') ?></option> 
 					</select> </td> 
 			</tr> 
 		</table> 

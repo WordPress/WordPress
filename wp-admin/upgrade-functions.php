@@ -255,7 +255,7 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 
 		// original options from options page
 		"48" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (48,'posts_per_page', 1, '20','How many posts/days to show on the index page.', 4, 20)",
-		"49" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (49,'what_to_show', 5, 'posts','Posts, days, or posts paged', 4, 20)",
+		"49" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (49,'what_to_show', 5, 'posts','Posts or days', 4, 20)",
 		"50" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (50,'archive_mode', 5, 'monthly','Which \'unit\' to use for archives.', 4, 20)",
 		"51" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (51,'time_difference', 6, '0', 'if you\'re not on the timezone of your server', 4, 20)",
 		"52" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (52,'date_format', 3, 'n/j/Y', 'see note for format characters', 4, 20)",
@@ -422,7 +422,6 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 		// select data for what to show
 		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (49, 'days',  'days',        null,null,1)",
 		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (49, 'posts', 'posts',       null,null,2)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (49, 'paged', 'posts paged', null,null,3)",
 		// select data for archive mode
 		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'daily',     'daily',       null,null,1)",
 		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'weekly',    'weekly',      null,null,2)",
@@ -920,6 +919,10 @@ function upgrade_130() {
 		}
 	}
 
+    // The "paged" option for what_to_show is no more.
+    if ($wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'what_to_show'") == 'paged') {
+        $wpdb->query("UPDATE $wpdb->options SET option_value = 'posts' WHERE option_name = 'what_to_show'");
+    }
 }
 
 ?>

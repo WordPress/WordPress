@@ -348,10 +348,10 @@ function get_pagenum_link($pagenum = 1){
 }
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
-    global $p, $paged, $what_to_show, $pagenow;
+    global $paged, $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
 
-     if (empty($p) && ($what_to_show == 'paged')) {
+     if (! is_single()) {
          if (!$paged) $paged = 1;
          $nextpage = intval($paged) + 1;
          if (!$max_page || $max_page >= $nextpage) {
@@ -361,36 +361,34 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
-    global $p, $paged, $result, $request, $posts_per_page, $what_to_show, $wpdb;
-    if ($what_to_show == 'paged') {
-        if (!$max_page) {
-            $nxt_request = $request;
-            //if the query includes a limit clause, call it again without that
-            //limit clause!
-            if ($pos = strpos(strtoupper($request), 'LIMIT')) {
-                $nxt_request = substr($request, 0, $pos);
-            }
-            $nxt_result = $wpdb->query($nxt_request);
-            $numposts = $wpdb->num_rows;
-            $max_page = ceil($numposts / $posts_per_page);
+    global $paged, $result, $request, $posts_per_page, $wpdb;
+    if (!$max_page) {
+        $nxt_request = $request;
+        //if the query includes a limit clause, call it again without that
+        //limit clause!
+        if ($pos = strpos(strtoupper($request), 'LIMIT')) {
+            $nxt_request = substr($request, 0, $pos);
         }
-        if (!$paged)
-            $paged = 1;
-        $nextpage = intval($paged) + 1;
-        if (empty($p) && (empty($paged) || $nextpage <= $max_page)) {
-            echo '<a href="';
-            next_posts($max_page);
-            echo '">'. preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
-        }
+        $nxt_result = $wpdb->query($nxt_request);
+        $numposts = $wpdb->num_rows;
+        $max_page = ceil($numposts / $posts_per_page);
+    }
+    if (!$paged)
+        $paged = 1;
+    $nextpage = intval($paged) + 1;
+    if ((! is_single()) && (empty($paged) || $nextpage <= $max_page)) {
+        echo '<a href="';
+        next_posts($max_page);
+        echo '">'. preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
     }
 }
 
 
 function previous_posts() { // original by cfactor at cooltux.org
-    global $_SERVER, $p, $paged, $what_to_show, $pagenow;
+    global $_SERVER, $paged, $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
 
-     if (empty($p) && ($what_to_show == 'paged')) {
+     if (! is_single()) {
          $nextpage = intval($paged) - 1;
          if ($nextpage < 1) $nextpage = 1;
          echo get_pagenum_link($nextpage);
@@ -398,8 +396,8 @@ function previous_posts() { // original by cfactor at cooltux.org
 }
 
 function previous_posts_link($label='&laquo; Previous Page') {
-    global $p, $paged, $what_to_show;
-    if (empty($p)  && ($paged > 1) && ($what_to_show == 'paged')) {
+    global $paged;
+    if ((! is_single())  && ($paged > 1) ) {
         echo '<a href="';
         previous_posts();
         echo '">'. preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $label) .'</a>';
@@ -407,8 +405,8 @@ function previous_posts_link($label='&laquo; Previous Page') {
 }
 
 function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
-    global $p, $what_to_show, $request, $posts_per_page, $wpdb;
-    if (empty($p) && ($what_to_show == 'paged')) {
+    global $request, $posts_per_page, $wpdb;
+    if (! is_single()) {
         $nxt_request = $request;
         if ($pos = strpos(strtoupper($request), 'LIMIT')) {
             $nxt_request = substr($request, 0, $pos);

@@ -1669,7 +1669,7 @@ function query_posts($query) {
     }
 
     if ( !empty($postend) && ($postend > $poststart) && (!$m) && empty($monthnum) && empty($year) && empty($day) &&(!$w) && (!$whichcat) && (!$s) && (!$p)) {
-        if ($what_to_show == 'posts' || ($what_to_show == 'paged' && (!$paged))) {
+        if ($what_to_show == 'posts') {
             $poststart = intval($poststart);
             $postend = intval($postend);
             $limposts = $postend - $poststart;
@@ -1686,7 +1686,7 @@ function query_posts($query) {
             $where .= " AND post_date > '$otherdate' AND post_date < '$startdate'";
         }
     } else {
-        if (($what_to_show == 'paged') && (!$p) && (!$more)) {
+        if (($what_to_show == 'posts') && (! is_single()) && (!$more)) {
             if ($pagenow != 'post.php') {
                 $pgstrt = '';
                 if ($paged) {

@@ -59,6 +59,8 @@ require('./wp-blog-header.php');
 <?php endforeach; else: ?>
 <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
+
+<?php posts_nav_link(' &#8212; ', __('&laquo; Previous Page'), __('Next Page &raquo;')); ?>
 </div>
 
 
