@@ -715,48 +715,49 @@ function upgrade_110() {
 		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('blog_charset', 3, 'utf-8', 8)");
 	}
 
-	// Convert all datetime fields' values to GMT, add a gmt_offset option
+	// Get the GMT offset, we'll use that later on
+	$all_options = get_alloptions();
+	$time_difference = $all_options->time_difference;
+
+	$server_time = time()+date('Z');
+	$weblogger_time = $server_time + $time_difference*3600;
+	$gmt_time = time();
+
+	$diff_gmt_server = ($gmt_time - $server_time) / 3600;
+	$diff_weblogger_server = ($weblogger_time - $server_time) / 3600;
+	$diff_gmt_weblogger = $diff_gmt_server - $diff_weblogger_server;
+	$gmt_offset = -$diff_gmt_weblogger;
+
+	// Add a gmt_offset option, with value $gmt_offset
 	if (!get_settings('gmt_offset')) {
-		// echo '1';
-		$all_options = get_alloptions();
-		$time_difference = $all_options->time_difference;
-
-		$server_time = time()+date('Z');
-		$weblogger_time = $server_time + $time_difference*3600;
-		$gmt_time = time();
-
-		$diff_gmt_server = ($gmt_time - $server_time) / 3600;
-		$diff_weblogger_server = ($weblogger_time - $server_time) / 3600;
-		$diff_gmt_weblogger = $diff_gmt_server - $diff_weblogger_server;
-
-		if ($diff_gmt_weblogger != 0) {
-			//echo '<br>2: ';
-			$gmt_offset = -$diff_gmt_weblogger;
-
-			$add_hours = intval($diff_gmt_weblogger);
-			$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
-			// echo $add_hours.':'.$add_minutes;
-			
-			// Add or substract time to all dates, to get GMT dates
-			$wpdb->query("UPDATE $tableposts SET post_date = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
-			$wpdb->query("UPDATE $tableposts SET post_modified = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
-			$wpdb->query("UPDATE $tablecomments SET comment_date = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
-			$wpdb->query("UPDATE $tableusers SET dateYMDhour = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
-
-
-		} else {
-			//echo '3';
-			$gmt_offset = 0;
-		}
-
-		// Add gmt_field option, with value $gmt_offset
 		if(!$wpdb->get_var("SELECT * FROM $tableoptions WHERE option_name = 'gmt_offset'")) {
-			// echo "<br>4: $gmt_offset";
 			$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (94, 'gmt_offset', 8, $gmt_offset, 'The difference in hours between GMT and your timezone', 8)");
 		}
 
 	}
- 
+
+	// Add post_date_gmt, post_modified_gmt, comment_date_gmt fields
+	$got_gmt_fields = 0;
+	foreach ($wpdb->get_col("DESC $tableposts", 0) as $column ) {
+		if ($debug) echo("checking $column == $column_name<br />");
+		if ($column == 'post_date_gmt') {
+			$got_gmt_fields++;
+		}
+	}
+	if (!$got_gmt_fields) {
+		$wpdb->query("ALTER TABLE $tableposts ADD post_date_gmt DATETIME NOT NULL AFTER post_date");
+		$wpdb->query("ALTER TABLE $tableposts ADD post_modified_gmt DATETIME NOT NULL AFTER post_modified");
+		$wpdb->query("ALTER TABLE $tablecomments ADD comment_date_gmt DATETIME NOT NULL AFTER comment_date");
+
+		// Add or substract time to all dates, to get GMT dates
+		$add_hours = intval($diff_gmt_weblogger);
+		$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
+		$wpdb->query("UPDATE $tableposts SET post_date_gmt = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+		$wpdb->query("UPDATE $tableposts SET post_modified_gmt = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
+		$wpdb->query("UPDATE $tablecomments SET comment_date_gmt = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+		$wpdb->query("UPDATE $tableusers SET dateYMDhour = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+	}
+
 	// post-meta
 	maybe_create_table($tablepostmeta, "
 	CREATE TABLE $tablepostmeta (
