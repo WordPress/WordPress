@@ -106,8 +106,7 @@ window.onload = focusit;
      $rows = 10;
  }
 ?>
-<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="5" onkeyup="ReloadTextDiv();" id="content"><?php echo $content ?></textarea></div>
-<input onclick='ReloadTextDiv();' name="use_instant_preview" type="checkbox" id="use_instant_preview" value="1" checked /> <label for='use_instant_preview'>Use Instant Preview</label> <br />
+<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="5" id="content"><?php echo $content ?></textarea></div>
 </fieldset>
 <?php
 ?>
