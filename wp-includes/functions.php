@@ -2045,11 +2045,18 @@ function get_themes() {
 		}
 	}
 
-	$default_files = array(get_settings('blogfilename'), 'wp-comments.php', 'wp-comments-popup.php', 'wp-comments-post.php', 'wp-footer.php', 'wp-header.php', 'wp-sidebar.php', 'footer.php', 'header.php', 'sidebar.php');
+	$default_files = array('wp-comments.php', 'wp-comments-popup.php', 'wp-comments-post.php', 'wp-footer.php', 'wp-header.php', 'wp-sidebar.php', 'footer.php', 'header.php', 'sidebar.php');
 
 	// Get the files for the default template.
 	$default_template_files = array();
 	{
+		// Find the index.
+		if (file_exists(ABSPATH  .'wp-content/index.php')) {
+			$default_template_files[] = 'wp-content/index.php';
+		} else {
+			$default_template_files[] = 'index.php';
+		}
+		
 		$dirs = array('', 'wp-content');
 		foreach ($dirs as $dir) {
 			$template_dir = @ dir(ABSPATH . $dir);
