@@ -1308,12 +1308,7 @@ function balanceTags($text, $is_comment = 0) {
 			// $attributes = $regex[2];
 			$attributes = $regex[2];
 			if($attributes) {
-				// fix to avoid CSS defacements
-				if ($is_comment) {
-					$attributes = str_replace('style=', 'title=', $attributes);
-					$attributes = str_replace('class=', 'title=', $attributes);
-					$attributes = str_replace('id=', 'title=', $attributes);
-				}
+
 				$attributes = ' '.$attributes;
 			}
 

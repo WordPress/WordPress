@@ -1524,8 +1524,10 @@ function comment_ID() {
 
 function comment_author() {
 	global $comment;
-	if (!empty($comment->comment_author)) {
-		echo htmlspecialchars(stripslashes($comment->comment_author));
+	$author = stripslashes(stripslashes($comment->comment_author));
+	$author = apply_filters('comment_auther', $author);
+	if (!empty($author)) {
+		echo htmlspecialchars($comment->comment_author);
 	}
 	else {
 		echo "Anonymous";
@@ -1534,6 +1536,8 @@ function comment_author() {
 
 function comment_author_email() {
 	global $comment;
+	$email = stripslashes(stripslashes($comment->comment_author_email));
+	
 	echo antispambot(stripslashes($comment->comment_author_email));
 }
 
@@ -1547,7 +1551,7 @@ function comment_author_link() {
 	}
 
 	$url = str_replace('http://url', '', $url);
-
+	$url = preg_replace('|[^a-z0-9-_.,/:]|i', '', $url);
 	if (empty($url) && empty($email)) {
 		echo $author;
 		return;
@@ -1578,6 +1582,7 @@ function comment_author_url() {
 	$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
 	// convert & into &amp;
 	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
+	$url = preg_replace('|[^a-z0-9-_.,/:]|i', '', $url);
 	if ($url != 'http://url') {
 		echo $url;
 	}
@@ -1599,10 +1604,11 @@ function comment_author_url_link($linktext='', $before='', $after='') {
 	$url = trim(stripslashes($comment->comment_author_url));
 	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
 	$url = (!stristr($url, '://')) ? 'http://'.$url : $url;
+	$url = preg_replace('|[^a-z0-9-_.,/:]|i', '', $url);
 	if ((!empty($url)) && ($url != 'http://') && ($url != 'http://url')) {
 		$display = ($linktext != '') ? $linktext : stripslashes($url);
 		echo $before;
-		echo '<a href="'.stripslashes($url).'" target="_blank">'.$display.'</a>';
+		echo '<a href="'.stripslashes($url).'" rel="external">'.$display.'</a>';
 		echo $after;
 	}
 }
@@ -1679,14 +1685,12 @@ function comment_text_rss() {
 }
 
 function comment_link_rss() {
-	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
-	global $querystring_start, $querystring_equal, $querystring_separator;
+	global $comment;
 	echo get_permalink($comment->comment_post_ID).'#comments';
 }
 
 function permalink_comments_rss() {
-	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
-	global $querystring_start, $querystring_equal, $querystring_separator;
+	global $comment;
 	echo get_permalink($comment->comment_post_ID);
 }
 

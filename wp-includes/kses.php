@@ -10,6 +10,17 @@
 #
 # [kses strips evil scripts!]
 
+$allowedtags = array('b' => array(),
+                 'i' => array(),
+				 'strong' => array(),
+				 'code' => array(),
+				 'em' => array(),
+				 'strike' => array(),
+                 'a' => array('href'  => array('minlen' => 3, 'maxlen' => 50),
+                              'title' => array('valueless' => 'n'),
+							  'rel' => array('minlen' => 3, 'maxlen' => 250)),
+				'blockquote' => array('cite' => array()),
+                 'br' => array());
 
 function wp_kses($string, $allowed_html, $allowed_protocols =
                array('http', 'https', 'ftp', 'news', 'nntp', 'telnet',
@@ -21,12 +32,12 @@ function wp_kses($string, $allowed_html, $allowed_protocols =
 # call this function.
 ###############################################################################
 {
-  $string = kses_no_null($string);
-  $string = kses_js_entities($string);
-  $string = kses_normalize_entities($string);
-  $string = kses_hook($string);
-  $allowed_html_fixed = kses_array_lc($allowed_html);
-  return kses_split($string, $allowed_html_fixed, $allowed_protocols);
+  $string = wp_kses_no_null($string);
+  $string = wp_kses_js_entities($string);
+  $string = wp_kses_normalize_entities($string);
+  $string = wp_kses_hook($string);
+  $allowed_html_fixed = wp_kses_array_lc($allowed_html);
+  return wp_kses_split($string, $allowed_html_fixed, $allowed_protocols);
 } # function wp_kses
 
 
@@ -58,7 +69,7 @@ function wp_kses_split($string, $allowed_html, $allowed_protocols)
                       '[^>]*'. # things that aren't >
                       '(>|$)'. # > or end of string
                       '|>)%e', # OR: just a >
-                      "kses_split2('\\1', \$allowed_html, ".
+                      "wp_kses_split2('\\1', \$allowed_html, ".
                       '$allowed_protocols)',
                       $string);
 } # function wp_kses_split
@@ -72,7 +83,7 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols)
 # attribute list.
 ###############################################################################
 {
-  $string = kses_stripslashes($string);
+  $string = wp_kses_stripslashes($string);
 
   if (substr($string, 0, 1) != '<')
     return '&gt;';
@@ -90,7 +101,7 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols)
     return '';
     # They are using a not allowed HTML element
 
-  return kses_attr("$slash$elem", $attrlist, $allowed_html,
+  return wp_kses_attr("$slash$elem", $attrlist, $allowed_html,
                    $allowed_protocols);
 } # function wp_kses_split2
 
@@ -98,7 +109,7 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols)
 function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols)
 ###############################################################################
 # This function removes all attributes, if none are allowed for this element.
-# If some are allowed it calls kses_hair() to split them further, and then it
+# If some are allowed it calls wp_kses_hair() to split them further, and then it
 # builds up new HTML code from the data that kses_hair() returns. It also
 # removes "<" and ">" characters, if there are any left. One more thing it
 # does is to check if the tag has a closing XHTML slash, and if it does,
@@ -118,7 +129,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols)
 
 # Split it
 
-  $attrarr = kses_hair($attr, $allowed_protocols);
+  $attrarr = wp_kses_hair($attr, $allowed_protocols);
 
 # Go through $attrarr, and save the allowed attributes for this element
 # in $attr2
@@ -141,7 +152,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols)
     # there are some checks
       $ok = true;
       foreach ($current as $currkey => $currval)
-        if (!kses_check_attr_val($arreach['value'], $arreach['vless'],
+        if (!wp_kses_check_attr_val($arreach['value'], $arreach['vless'],
                                  $currkey, $currval))
         { $ok = false; break; }
 
@@ -218,7 +229,7 @@ function wp_kses_hair($attr, $allowed_protocols)
         if (preg_match('/^"([^"]*)"(\s+|$)/', $attr, $match))
          # "value"
         {
-          $thisval = kses_bad_protocol($match[1], $allowed_protocols);
+          $thisval = wp_kses_bad_protocol($match[1], $allowed_protocols);
 
           $attrarr[] = array
                         ('name'  => $attrname,
@@ -233,7 +244,7 @@ function wp_kses_hair($attr, $allowed_protocols)
         if (preg_match("/^'([^']*)'(\s+|$)/", $attr, $match))
          # 'value'
         {
-          $thisval = kses_bad_protocol($match[1], $allowed_protocols);
+          $thisval = wp_kses_bad_protocol($match[1], $allowed_protocols);
 
           $attrarr[] = array
                         ('name'  => $attrname,
@@ -248,7 +259,7 @@ function wp_kses_hair($attr, $allowed_protocols)
         if (preg_match("%^([^\s\"']+)(\s+|$)%", $attr, $match))
          # value
         {
-          $thisval = kses_bad_protocol($match[1], $allowed_protocols);
+          $thisval = wp_kses_bad_protocol($match[1], $allowed_protocols);
 
           $attrarr[] = array
                         ('name'  => $attrname,
@@ -265,7 +276,7 @@ function wp_kses_hair($attr, $allowed_protocols)
 
     if ($working == 0) # not well formed, remove and try again
     {
-      $attr = kses_html_error($attr);
+      $attr = wp_kses_html_error($attr);
       $mode = 0;
     }
   } # while
@@ -357,13 +368,13 @@ function wp_kses_bad_protocol($string, $allowed_protocols)
 # fooled by a string like "javascript:javascript:alert(57)".
 ###############################################################################
 {
-  $string = kses_no_null($string);
+  $string = wp_kses_no_null($string);
   $string2 = $string.'a';
 
   while ($string != $string2)
   {
     $string2 = $string;
-    $string = kses_bad_protocol_once($string, $allowed_protocols);
+    $string = wp_kses_bad_protocol_once($string, $allowed_protocols);
   } # while
 
   return $string;
@@ -430,7 +441,7 @@ function wp_kses_js_entities($string)
 
 function wp_kses_html_error($string)
 ###############################################################################
-# This function deals with parsing errors in kses_hair(). The general plan is
+# This function deals with parsing errors in wp_kses_hair(). The general plan is
 # to remove everything to and including some whitespace, but it deals with
 # quotes and apostrophes as well.
 ###############################################################################
@@ -447,7 +458,7 @@ function wp_kses_bad_protocol_once($string, $allowed_protocols)
 {
   return preg_replace('/^((&[^;]*;|[\sA-Za-z0-9])*)'.
                       '(:|&#58;|&#[Xx]3[Aa];)\s*/e',
-                      'kses_bad_protocol_once2("\\1", $allowed_protocols)',
+                      'wp_kses_bad_protocol_once2("\\1", $allowed_protocols)',
                       $string);
 } # function wp_kses_bad_protocol_once
 
@@ -458,9 +469,9 @@ function wp_kses_bad_protocol_once2($string, $allowed_protocols)
 # list or not, and returns different data depending on the answer.
 ###############################################################################
 {
-  $string2 = kses_decode_entities($string);
+  $string2 = wp_kses_decode_entities($string);
   $string2 = preg_replace('/\s/', '', $string2);
-  $string2 = kses_no_null($string2);
+  $string2 = wp_kses_no_null($string2);
   $string2 = strtolower($string2);
 
   $allowed = false;
@@ -493,7 +504,7 @@ function wp_kses_normalize_entities($string)
   $string = preg_replace('/&amp;([A-Za-z][A-Za-z0-9]{0,19});/',
                          '&\\1;', $string);
   $string = preg_replace('/&amp;#0*([0-9]{1,5});/e',
-                         'kses_normalize_entities2("\\1")', $string);
+                         'wp_kses_normalize_entities2("\\1")', $string);
   $string = preg_replace('/&amp;#([Xx])0*(([0-9A-Fa-f]{2}){1,2});/',
                          '&#\\1\\2;', $string);
 
@@ -503,7 +514,7 @@ function wp_kses_normalize_entities($string)
 
 function wp_kses_normalize_entities2($i)
 ###############################################################################
-# This function helps kses_normalize_entities() to only accept 16 bit values
+# This function helps wp_kses_normalize_entities() to only accept 16 bit values
 # and nothing more for &#number; entities.
 ###############################################################################
 {
@@ -524,5 +535,14 @@ function wp_kses_decode_entities($string)
 
   return $string;
 } # function wp_kses_decode_entities
+
+function wp_filter_kses($data) {
+	global $allowedtags;
+	return wp_kses($data, $allowedtags);
+}
+
+// Filter untrusted content
+add_filter('comment_author', 'wp_filter_kses');
+add_filter('comment_text', 'wp_filter_kses');
 
 ?>
