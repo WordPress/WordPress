@@ -18,32 +18,72 @@ function checked($checked, $current) {
 	if ($checked == $current) echo ' checked="checked"';
 }
 
-function get_nested_categories($default = 0) {
+function return_categories_list( $parent = 0, $sortbyname = FALSE )
+{
+        /*
+         * This function returns an list of all categories
+         * that have $parent as their parent
+         * if no parent is specified we will assume top level caegories
+         * are required.
+         */
+        global $wpdb;
+
+        // select sort order
+        $sort = "cat_id";
+        if( TRUE == $sortbyname )
+        {
+                $sort = "cat_name";
+        }
+
+        // First query the database
+        $cats_tmp = $wpdb->get_results("SELECT cat_id FROM $wpdb->categories WHERE category_parent = $parent ORDER BY $sort");
+
+        // Now strip this down to a simple array of IDs
+        $cats = array();
+        if( count($cats_tmp) > 0 )
+        {
+                foreach( $cats_tmp as $cat )
+                {
+                        $cats[] = $cat->cat_id;
+                }
+        }
+
+        // Return the list of categories
+        return $cats;
+}
+
+function get_nested_categories($default = 0, $parent = 0) {
  global $post_ID, $mode, $wpdb;
 
  if ($post_ID) {
    $checked_categories = $wpdb->get_col("
      SELECT category_id
-     FROM  $wpdb->categories, $wpdb->post2cat
+     FROM $wpdb->categories, $wpdb->post2cat
      WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$post_ID'
      ");
+
+   if(count($checked_categories) == 0)
+   {
+     // No selected categories, strange
+     $checked_categories[] = $default;
+   }
+
  } else {
    $checked_categories[] = $default;
  }
 
- $categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY category_parent DESC, cat_name ASC");
+ $cats = return_categories_list($parent, TRUE);
  $result = array();
- foreach($categories as $category) {
-   $array_category = get_object_vars($category);
-   $me = 0 + $category->cat_ID;
-   $parent = 0 + $category->category_parent;
-	if (isset($result[$me]))   $array_category['children'] = $result[$me];
-   $array_category['checked'] = in_array($category->cat_ID, $checked_categories);
-   $array_category['cat_name'] = stripslashes($category->cat_name);
-   $result[$parent][] = $array_category;
+
+ foreach($cats as $cat)
+ {
+   $result[$cat]['children'] = get_nested_categories($default, $cat);
+   $result[$cat]['cat_ID'] = $cat;
+   $result[$cat]['checked'] = in_array($cat, $checked_categories);
+   $result[$cat]['cat_name'] = stripslashes(get_the_category_by_ID($cat));
  }
 
- return $result[0];
+ return $result;
 }
 
 function write_nested_categories($categories) {
