@@ -378,6 +378,7 @@ switch($action) {
             pingBlogs($blog_ID);
 		} // end if moving from draft/private to published
         if ($post_status == 'publish') {
+			do_action('publish_post', $post_ID);
 			// Trackback time.
 			$to_ping = trim($wpdb->get_var("SELECT to_ping FROM $tableposts WHERE ID = $post_ID"));
 			$pinged = trim($wpdb->get_var("SELECT pinged FROM $tableposts WHERE ID = $post_ID"));
@@ -407,6 +408,7 @@ switch($action) {
         	$location = 'post.php';
 		}
         header ('Location: ' . $location);
+		do_action('edit_post', $post_ID);
         break;
 
     case 'delete':
@@ -448,7 +450,7 @@ switch($action) {
 		$sendback = $HTTP_SERVER_VARS['HTTP_REFERER'];
 		if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
         header ('Location: ' . $sendback);
-
+		do_action('delete_post', $post_ID);
         break;
 
     case 'editcomment':
@@ -676,7 +678,7 @@ switch($action) {
 		$referredby = $HTTP_POST_VARS['referredby'];
 		if (!empty($referredby)) header('Location: ' . $referredby);
         else header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
-
+		do_action('edit_comment', $post_ID);
         break;
 
     default:

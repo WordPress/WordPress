@@ -100,6 +100,8 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	    wp_notify_postauthor($comment_ID, 'comment');
 	}
 
+	do_action('comment_post', $comment_ID);
+
 	if ($email == '')
 		$email = ' '; // this to make sure a cookie is set for 'no email'
 

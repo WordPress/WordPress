@@ -1567,6 +1567,7 @@ function get_posts($args) {
 }
 
 function check_comment($author, $email, $url, $comment, $user_ip) {
+	if (1 == get_settings('comment_moderation')) return false;
 	$words = explode("\n", get_settings('moderation_keys') );
 	foreach ($words as $word) {
 	$word = trim($word);
