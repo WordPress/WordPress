@@ -17,7 +17,15 @@ add_filter('comment_text', 'convert_smilies', 20);
 add_filter('comment_excerpt', 'convert_chars');
 
 function comments_template() {
-	global $withcomments, $single, $post, $wpdb, $id, $comment;
+	global $withcomments, $single, $post, $wpdb, $id, $comment, $cookiehash;
+
+	$req = get_settings('require_name_email');
+	$comment_author = isset($_COOKIE['comment_author_'.$cookiehash]) ? trim($_COOKIE['comment_author_'.$cookiehash]) : '';
+	$comment_author_email = isset($_COOKIE['comment_author_email_'.$cookiehash]) ? trim($_COOKIE['comment_author_email_'.$cookiehash]) : '';
+	$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim($_COOKIE['comment_author_url_'.$cookiehash]) : '';
+
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
+
 	if ( $single || $withcomments )
 		include(ABSPATH . 'wp-comments.php');
 }
@@ -299,6 +307,18 @@ function trackback_rdf($timezone = 0) {
 	echo '    trackback:ping="'.trackback_url(0).'"'." />\n";
 	echo '</rdf:RDF>';
 	}
+}
+
+function comments_open() {
+	global $post;
+	if ('open' == $post->comment_status) return true;
+	else return false;
+}
+
+function pings_open() {
+	global $post;
+	if ('open' == $post->ping_status) return true;
+	else return false;
 }
 
 ?>
