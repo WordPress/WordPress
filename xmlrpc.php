@@ -1219,16 +1219,16 @@ class wp_xmlrpc_server extends IXR_Server {
 		$pagelinkedfrom = addslashes($pagelinkedfrom);
 		$original_title = $title;
 
-		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $tb_id");
-	
-		if ('open' != $pingstatus)
-			trackback_response(1, 'Sorry, trackbacks are closed for this item.');
-
 		$comment_post_ID = $post_ID;
 		$comment_author = $title;
 		$comment_author_url = $pagelinkedfrom;
 		$comment_content = $context;
 		$comment_type = 'pingback';
+
+		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $post_ID");
+	
+		if ('open' != $pingstatus)
+			die('Sorry, pingbacks are closed for this item.');
 
 		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
 
