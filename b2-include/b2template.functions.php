@@ -111,7 +111,7 @@ function single_month_title($prefix = '', $display = true ) {
 /* link navigation hack by Orien http://icecode.com/ */
 function get_archives_link($url, $text, $format) {
 	if ('link' == $format) {
-		return '<link rel="Archives" title="'.$text.'" href="'.$url.'" />'."\n";
+		return '<link rel="archives" title="'.$text.'" href="'.$url.'" />'."\n";
 	} else if ('option' == $format) {
 		return '<option value="'.$url.'">'.$text.'</option>'."\n";
 	} else { // 'html'
