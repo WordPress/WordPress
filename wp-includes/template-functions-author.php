@@ -63,4 +63,75 @@ function the_author_posts() {
     global $id,$postdata;    $posts=get_usernumposts($post->post_author);    echo $posts;
 }
 
+function get_author_link($echo = false, $author_id, $author_nicename) {
+    global $wpdb, $tableusers, $post, $querystring_start, $querystring_equal, $cache_authors;
+    $auth_ID = $author_id;
+    $permalink_structure = get_settings('permalink_structure');
+    
+    if ('' == $permalink_structure) {
+        $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
+        $link = $file.$querystring_start.'author'.$querystring_equal.$auth_ID;
+    } else {
+        if ('' == $author_nicename) $author_nicename = $cache_authors[$author_id]->author_nicename;
+        // Get any static stuff from the front
+        $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+        $link = get_settings('siteurl') . $front . 'author/';
+        $link .= $author_nicename . '/';
+    }
+
+    if ($echo) echo $link;
+    return $link;
+}
+
+function get_author_rss_link($echo = false, $author_id, $author_nicename) {
+       global $querystring_start, $querystring_equal;
+       $auth_ID = $author_id;
+       $permalink_structure = get_settings('permalink_structure');
+
+       if ('' == $permalink_structure) {
+           $file = get_settings('siteurl') . '/wp-rss2.php';
+           $link = $file . $querystring_start . 'author' . $querystring_equal . $author_id;
+       } else {
+           $link = get_author_link(0, $author_id, $author_nicename);
+           $link = $link . "feed/";
+       }
+
+       if ($echo) echo $link;
+       return $link;
+}
+
+function wp_list_authors($args = '') {
+	parse_str($args, $r);
+	if (!isset($r['optioncount'])) $r['optioncount'] = false;
+    if (!isset($r['exclude_admin'])) $r['exclude_admin'] = true;
+    if (!isset($r['show_fullname'])) $r['show_fullname'] = false;
+	if (!isset($r['hide_empty'])) $r['hide_empty'] = true;
+
+	list_authors($r['optioncount'], $r['exclude_admin'], $r['show_fullname'], $r[hide_empty]);
+}
+
+function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true) {
+    global $tableusers, $wpdb, $blogfilename;
+
+    $query = "SELECT ID, user_nickname, user_firstname, user_lastname, user_nicename from $tableusers " . ($exclude_admin ? "WHERE user_nickname <> 'admin' " : '') . "ORDER BY user_nickname";
+    $authors = $wpdb->get_results($query);
+
+    foreach($authors as $author) {
+        $posts = get_usernumposts($author->ID);
+        $name = $author->user_nickname;
+
+        if ($show_fullname && ($author->user_firstname != '' && $author->user_lastname != '')) {
+            $name = "$author->user_firstname $author->user_lastname";
+        }
+        
+        if (! ($posts == 0 && $hide_empty)) echo "<li>";
+        if ($posts == 0) {
+            if (! $hide_empty) echo $name;
+        } else {
+            echo '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="Posts by ' . $author->user_nickname . '">' . $name . ($optioncount ? " ($posts)" : '')."</a>";
+        }
+        if (! ($posts == 0 && $hide_empty)) echo "</li>";
+    }
+}
+
 ?>

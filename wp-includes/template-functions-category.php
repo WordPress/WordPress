@@ -46,7 +46,7 @@ function get_category_rss_link($echo = false, $category_id, $category_nicename) 
         $link = $file . $querystring_start . 'cat' . $querystring_equal . $category_id;
        } else {
         $link = get_category_link(0, $category_id, $category_nicename);
-               $link = $link . "/feed/";
+               $link = $link . "feed/";
        }
 
        if ($echo) echo $link;
