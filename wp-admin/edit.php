@@ -1,4 +1,4 @@
-<?php
+un<?php
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Posts');
@@ -35,13 +35,48 @@ if ($drafts) {
 }
 ?> 
 <div class="wrap"> 
+<?php
+if( isset( $_GET['m'] ) )
+{
+	print "<h3>Showing Posts From ".$month[substr( $_GET['m'], 4, 2 )]." ".substr( $_GET['m'], 0, 4 )."</h3>";
+}
+?>
+
+<form name="viewarc" action="" method="get" style="float: left; width: 20em;">
+	<fieldset>
+	<legend><?php _e('Show Posts From Month of ...') ?></legend>
+    
+	<?php
+		echo "<select name=\"m\" style=\"width:120px;\">";
+		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date) FROM $tableposts ORDER BY post_date DESC",ARRAY_A);
+		foreach ($arc_result as $arc_row) {			
+			$arc_year  = $arc_row["YEAR(post_date)"];
+			$arc_month = $arc_row["MONTH(post_date)"];
+			
+			if( $arc_year.zeroise($arc_month,2) == $_GET['m'] )
+				$default = "selected";
+			else
+				$default = null;
+			
+			echo "<option ".$default." value=\"".$arc_year.zeroise($arc_month,2)."\">";
+			echo $month[zeroise($arc_month,2)]." $arc_year";
+			echo "</option>\n";
+		}
+		echo "</select>";
+	?>
+		<input type="submit" name="submit" value="<?php _e('Show Month') ?>"  /> 
+	</fieldset>
+</form>
 <form name="searchform" action="" method="get"> 
   <fieldset> 
   <legend><?php _e('Show Posts That Contain...') ?></legend> 
   <input type="text" name="s" value="<?php echo $s; ?>" size="17" /> 
   <input type="submit" name="submit" value="<?php _e('Search') ?>"  /> 
-  </fieldset> 
-</form> 
+  </fieldset>
+</form>
+
+<br clear="both" />
+
 <table width="100%" cellpadding="3" cellspacing="3"> 
   <tr> 
     <th scope="col"><?php _e('ID') ?></th> 
