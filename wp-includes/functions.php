@@ -396,31 +396,6 @@ function profile($user_login) {
 	echo "<a href='profile.php?user=".$user_data->user_login."' onclick=\"javascript:window.open('profile.php?user=".$user_data->user_login."','Profile','toolbar=0,status=1,location=0,directories=0,menuBar=1,scrollbars=1,resizable=0,width=480,height=320,left=100,top=100'); return false;\">$user_login</a>";
 }
 
-function dropdown_categories($default = 0) {
-	global $post, $tablecategories, $tablepost2cat, $mode, $wpdb;
-	$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
-
-	if ($post->ID) {
-		$postcategories = $wpdb->get_col("
-			SELECT category_id 
-			FROM  $tablecategories, $tablepost2cat 
-			WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = '$post->ID'
-			");
-	} else {
-		$postcategories[] = $default;
-	}
-	
-	foreach($categories as $category) {
-		++$i;
-		$category->cat_name = stripslashes($category->cat_name);
-		echo "\n<label for='category-$i' class='selectit'><input value='$category->cat_ID' type='checkbox' name='post_category[]' id='category-$i'";
-		if ($postcategories && in_array($category->cat_ID, $postcategories))
-			echo ' checked="checked"';
-		echo " /> $category->cat_name</label> ";
-	}
-
-}
-
 function touch_time($edit = 1) {
 	global $month, $postdata, $time_difference;
 	// echo $postdata['Date'];

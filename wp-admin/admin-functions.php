@@ -1,5 +1,50 @@
 <?php
 
+function get_nested_categories($default = 0) {
+ global $post, $tablecategories, $tablepost2cat, $mode, $wpdb;
+
+ if ($post->ID) {
+   $checked_categories = $wpdb->get_col("
+     SELECT category_id
+     FROM  $tablecategories, $tablepost2cat
+     WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = '$post->ID'
+     ");
+ } else {
+   $checked_categories[] = $default;
+ }
+
+ $categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY category_parent DESC");
+ $result = array();
+ foreach($categories as $category) {
+   $array_category = get_object_vars($category);
+   $me = 0 + $category->cat_ID;
+   $parent = 0 + $category->category_parent;
+   $array_category['children'] = $result[$me];
+   $array_category['checked'] = in_array($category->cat_ID, $checked_categories);
+   $array_category['cat_name'] = stripslashes($category->cat_name);
+   $result[$parent][] = $array_category;
+ }
+
+ return $result[0];
+}
+
+function write_nested_categories($categories) {
+ foreach($categories as $category) {
+   echo '<label for="category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'],
+     '" type="checkbox" name="post_category[]" id="category-', $category['cat_ID'], '"',
+     ($category['checked'] ? ' checked="checked"' : ""), '/>', $category['cat_name'], "</label>\n";
+
+   if(isset($category['children'])) {
+     echo "\n<span class='cat-nest'>\n";
+     write_nested_categories($category['children'], $count);
+     echo "</span>\n";
+   }
+ }
+}
+
+function dropdown_categories($default = 0) {
+ write_nested_categories(get_nested_categories($default));
+} 
 
 // Dandy new recursive multiple category stuff.
 function cat_rows($parent = 0, $level = 0, $categories = 0) {

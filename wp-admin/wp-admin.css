@@ -65,6 +65,11 @@ fieldset legend {
 	padding: .1em;
 }
 
+fieldset span.cat-nest {
+	display: block;
+	margin-left: 10px;
+}
+
 form, label input {
 	margin: 0;
 	padding: 0;
@@ -91,8 +96,8 @@ p, dl, dd, dt {
 
 textarea, input, select {
 	background: #f4f4f4;
-	color: black;
 	border: 1px solid #cacaca;
+	color: #000;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	margin: 1px;
 	padding: 2px;
