@@ -90,50 +90,6 @@ case 'logout':
 
 break;
 
-case 'login':
-
-	if( !empty($_POST) ) {
-		$log = $_POST['log'];
-		$pwd = $_POST['pwd'];
-		$redirect_to = preg_replace('|[^a-z/.:_-]|i', '', $_POST['redirect_to']);
-	}
-	
-	$user = get_userdatabylogin($log);
-	
-	if (0 == $user->user_level) {
-		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
-	}
-
-	if ( !login($log, $pwd) ) {
-		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
-		if ($is_IIS)
-			header('Refresh: 0;url=wp-login.php');
-		else
-			header('Location: wp-login.php');
-		exit();
-	} else {
-		$user_login = $log;
-		$user_pass = md5($pwd);
-		setcookie('wordpressuser_'.$cookiehash, $user_login, time() + 31536000, COOKIEPATH);
-		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time() + 31536000, COOKIEPATH);
-
-		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
-
-		if ($is_IIS)
-			header("Refresh: 0;url=$redirect_to");
-		else
-			header("Location: $redirect_to");
-	}
-
-break;
-
-
 case 'lostpassword':
 
 	?>
@@ -208,8 +164,42 @@ case 'retrievepassword':
 
 break;
 
-
+case 'login' : 
 default:
+
+	if( !empty($_POST) ) {
+		$log = $_POST['log'];
+		$pwd = $_POST['pwd'];
+		$redirect_to = preg_replace('|[^a-z/.:_-]|i', '', $_POST['redirect_to']);
+	}
+	
+	$user = get_userdatabylogin($log);
+	
+	if (0 == $user->user_level) {
+		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
+	}
+
+	if ( !login($log, $pwd) ) {
+		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
+	} else {
+		$user_login = $log;
+		$user_pass = md5($pwd);
+		setcookie('wordpressuser_'.$cookiehash, $user_login, time() + 31536000, COOKIEPATH);
+		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time() + 31536000, COOKIEPATH);
+
+		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
+
+		if ($is_IIS)
+			header("Refresh: 0;url=$redirect_to");
+		else
+			header("Location: $redirect_to");
+	}
 
 	if( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && !empty($_COOKIE['wordpresspass_' . COOKIEHASH]) ) {
 		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
