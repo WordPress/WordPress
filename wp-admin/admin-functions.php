@@ -278,7 +278,7 @@ if ($keys) {
 </div>
 <br style="clear: both;" />
 <div id="postcustomsubmit">
-<input type="submit" id="addmeta" name="addmeta" value="Add Custom">
+<input type="submit" id="save" name="save" value="Add Custom">
 </div>
 <?php
 }
