@@ -44,12 +44,12 @@ $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 <div class="wrap">
 <h2><?php _e('Current Theme'); ?></h2>
 <div id="currenttheme">
-<h3><?php printf(__('%s %s by %s'), $current_title, $current_version, $themes[$current_theme]['Author']) ; ?></h3>
+<h3><?php printf(__('%1$s %2$s by %3$s'), $current_title, $current_version, $themes[$current_theme]['Author']) ; ?></h3>
 <p><?php echo $themes[$current_theme]['Description']; ?></p>
 <?php if ($current_parent_theme) { ?>
-	<p><?php printf(__('The active theme is <strong>%s</strong>.  The template files are located in <code>%s</code>.  The stylesheet files are located in <code>%s</code>.  <strong>%s</strong> uses templates from <strong>%s</strong>.  Changes made to the templates will affect both themes.'), $current_theme, $current_template_dir, $current_stylesheet_dir, $current_theme, $current_parent_theme); ?></p>
+	<p><?php printf(__('The active theme is <strong>%1$s</strong>.  The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.  <strong>%4$s</strong> uses templates from <strong>%5$s</strong>.  Changes made to the templates will affect both themes.'), $current_theme, $current_template_dir, $current_stylesheet_dir, $current_theme, $current_parent_theme); ?></p>
 <?php } else { ?>
-	<p><?php printf(__('The active theme is <strong>%s</strong>.  The template files are located in <code>%s</code>.  The stylesheet files are located in <code>%s</code>.'), $current_theme, $current_template_dir, $current_stylesheet_dir); ?></p>
+	<p><?php printf(__('The active theme is <strong>%1$s</strong>.  The template files are located in <code>%2$s</code>.  The stylesheet files are located in <code>%3$s</code>.'), $current_theme, $current_template_dir, $current_stylesheet_dir); ?></p>
 <?php } ?>
 </div>
 
