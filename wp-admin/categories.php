@@ -127,26 +127,41 @@ default:
 		die("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:$admin_email'>blog admin</a>. :)");
 	}
 	?>
-
+<style type="text/css">
+	.edit, .delete, .edit:hover, .delete:hover {
+		display: block;
+		text-align: center;
+		border-bottom: none;
+	}
+	
+	.edit:hover {
+		background-color: #ccc;
+		color: #fff;
+	}
+	
+	.delete:hover {
+		background-color: #c00;
+		color: #fff;
+	}
+</style>
 <div class="wrap">
 	<h2>Current Categories</h2>
 	<table width="100%">
 	<tr>
-		<th>Category Name</th>
-		<th>Description</th>
-		<th># Posts</th>
-		<th>Edit</th>
-		<th>Delete</th>
+		<th scope="col">Name</th>
+		<th scope="col">Description</th>
+		<th scope="col"># Posts</th>
+		<th colspan="2">Action</th>
 	</tr>
 	<?php
 	$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
 	foreach ($categories as $category) {
 		$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $tablepost2cat WHERE category_id = $category->cat_ID");
-		$bgcolor = ('#eeeeee' == $bgcolor) ? '' : '#eeeeee';
-		echo "<tr bgcolor='$bgcolor'><td>$category->cat_name</td>
+		$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
+		echo "<tr style='background-color: $bgcolor'><td>$category->cat_name</td>
 		<td>$category->category_description</td>
 		<td>$count</td>
-		<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID'>Edit</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('You are about to delete the category \'$category->cat_name\' and all its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a></td>
+		<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>Edit</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('You are about to delete the category \'$category->cat_name\' and all its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop.')\" class='delete'>Delete</a></td>
 		</tr>";
 	}
 	?>
@@ -157,7 +172,7 @@ default:
 	<h2>Add New Category</h2>
 	<form name="addcat" action="categories.php" method="post">
 		
-		<p>Category name:<br />
+		<p>Name:<br />
 		<input type="text" name="cat_name" value="" /></p>
 		<p>Description:<br />
 		<textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
