@@ -370,7 +370,7 @@ function strip_all_but_one_link($text, $mylink) {
 
 
 function get_lastpostdate() {
-	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow;
+	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb;
 	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
 		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
 		if ($pagenow != 'b2edit.php') {
@@ -378,11 +378,8 @@ function get_lastpostdate() {
 		} else {
 			$showcatzero = '';
 		}
-		$sql = "SELECT * FROM $tableposts WHERE $showcatzero post_date <= '$now' ORDER BY post_date DESC LIMIT 1";
-		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
+		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE $showcatzero post_date <= '$now' ORDER BY post_date DESC LIMIT 1");
 		++$querycount;
-		$myrow = mysql_fetch_object($result);
-		$lastpostdate = $myrow->post_date;
 		$cache_lastpostdate = $lastpostdate;
 //		echo $lastpostdate;
 	} else {
@@ -536,12 +533,10 @@ function get_postdata2($postid=0) { // less flexible, but saves mysql queries
 }
 
 function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves mysql queries
-	global $postc,$id,$commentdata,$tablecomments,$querycount;
+	global $postc,$id,$commentdata,$tablecomments,$querycount, $wpdb;
 	if ($no_cache) {
-		$query="SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID";
-		$result=mysql_query($query);
+        $myrow = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID", ARRAY_A);
 		++$querycount;
-		$myrow = mysql_fetch_array($result);
 	} else {
 		$myrow['comment_ID']=$postc->comment_ID;
 		$myrow['comment_post_ID']=$postc->comment_post_ID;
@@ -564,12 +559,11 @@ function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves 
 }
 
 function get_catname($cat_ID) {
-	global $tablecategories,$cache_catnames,$use_cache,$querycount;
+	global $tablecategories,$cache_catnames,$use_cache,$querycount, $wpdb;
 	if ((!$cache_catnames) || (!$use_cache)) {
-		$sql = "SELECT * FROM $tablecategories";
-		$result = mysql_query($sql) or die('Oops, couldn\'t query the db for categories.');
-		$querycount;
-		while ($post = mysql_fetch_object($result)) {
+        $results = $wpdb->get_results("SELECT * FROM $tablecategories") or die('Oops, couldn\'t query the db for categories.');
+		$querycount++;
+		foreach ($results as $post) {
 			$cache_catnames[$post->cat_ID] = $post->cat_name;
 		}
 	}
@@ -583,16 +577,16 @@ function profile($user_login) {
 }
 
 function dropdown_categories($blog_ID=1, $default=1) {
-	global $postdata,$tablecategories,$mode,$querycount;
+	global $postdata,$tablecategories,$mode,$querycount, $wpdb;
 	$query="SELECT * FROM $tablecategories";
-	$result=mysql_query($query);
+	$results = $wpdb->get_results($query);
 	++$querycount;
 	$width = ($mode=="sidebar") ? "100%" : "170px";
 	echo '<select name="post_category" style="width:'.$width.';" tabindex="2" id="category">';
     if ($postdata["Category"] != '') {
         $default = $postdata["Category"];
     }
-	while($post = mysql_fetch_object($result)) {
+	foreach($results as $post) {
 		echo "<option value=\"".$post->cat_ID."\"";
 		if ($post->cat_ID == $default)
 			echo " selected";
@@ -1138,17 +1132,20 @@ function balanceTags($text, $is_comment = 0) {
 	global $use_balanceTags;
 
 	if ($is_comment) {
+        $text = stripslashes($text);
 		// sanitise HTML attributes, remove frame/applet tags
 		$text = preg_replace('#( on[a-z]{1,}|style|class|id)="(.*?)"#i', '', $text);
 		$text = preg_replace('#( on[a-z]{1,}|style|class|id)=\'(.*?)\'#i', '', $text);
 		$text = preg_replace('#([a-z]{1,})="(( |\t)*?)(javascript|vbscript|about):(.*?)"#i', '$1=""', $text);
 		$text = preg_replace('#([a-z]{1,})=\'(( |\t)*?)(javascript|vbscript|about):(.*?)\'#i', '$1=""', $text);
 		$text = preg_replace('#\<(\/{0,1})([a-z]{0,2})(frame|applet)(.*?)\>#i', '', $text);
+        $text = addslashes($text);
 	}
 	
 	if ($use_balanceTags == 0) {
 		return $text;
 	}
+
 	$tagstack = array();
 	$stacksize = 0;
 	$tagqueue = '';
