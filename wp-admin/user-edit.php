@@ -109,6 +109,12 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 		<th scope="row"><?php _e('Posts:') ?></th>
 		<td><?php echo get_usernumposts($edituser->ID); ?></td>
 	</tr>
+<?php if ( '0000-00-00 00:00:00' != $edituser->user_registered ) { ?>
+	<tr>
+		<th scope="row"><?php _e('Registered on:') ?></th>
+		<td><?php echo substr($edituser->user_registered, 0, 11); ?></td>
+	</tr>
+<?php } ?>
 	<tr>
 		<th scope="row"><?php _e('First name:') ?></th>
 		<td><input type="text" name="new_firstname" id="new_firstname" value="<?php echo $edituser->user_firstname ?>" /></td>

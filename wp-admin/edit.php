@@ -64,7 +64,7 @@ if ($drafts || $other_drafts) {
 <div class="wrap">
 <h2>
 <?php
-if ( isset( $_GET['m'] ) ) {
+if ( $_GET['m'] ) {
 	echo $month[substr( $_GET['m'], 4, 2 )] . ' ' . substr( $_GET['m'], 0, 4 );
 } elseif ( isset( $_GET['s'] ) ) {
 	printf(__('Search for &#8220;%s&#8221;'), wp_specialchars($_GET['s']) );
