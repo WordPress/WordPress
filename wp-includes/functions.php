@@ -1250,9 +1250,12 @@ function page_rewrite_rules() {
 	$uris = get_settings('page_uris');
 
 	$rewrite_rules = array();
-	foreach ($uris as $uri => $pagename) {
-		$rewrite_rules += array($uri . '/?$' => "index.php?pagename=$pagename");
-	}
+        if( is_array( $uris ) )
+        {
+            foreach ($uris as $uri => $pagename) {
+                $rewrite_rules += array($uri . '/?$' => "index.php?pagename=$pagename");
+            }
+        }
 
 	return $rewrite_rules;
 }
