@@ -124,8 +124,8 @@ else $selected = '';
 			<input type="checkbox" name="hack_file" value="1" <?php checked('1', get_settings('hack_file')); ?> /> 
 			<?php _e('Use legacy <code>my-hacks.php</code> file support') ?></label>
 		</p>
-    <p style="text-align: right;">
-      <input type="submit" name="Submit" value="<?php _e('Update Options') ?>" />
+    <p class="submit">
+      <input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" />
     </p>
   </form> 
 </div> 

@@ -94,8 +94,8 @@ include('options-head.php');
 			<input type="checkbox" name="gzipcompression" value="1" <?php checked('1', get_settings('gzipcompression')); ?> /> 
              <?php _e('WordPress should compress articles (gzip) if browsers ask for them') ?></label>
 		</p>
-		<p style="text-align: right;"> 
-			<input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 
+		<p class="submit"> 
+			<input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" /> 
 		</p> 
 	</form> 
 </div> 

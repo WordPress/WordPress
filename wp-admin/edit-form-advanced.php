@@ -151,7 +151,7 @@ if ($action != 'editcomment') {
 
 
 
-<p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="6" /> 
+<p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="6" /> 
 <?php 
 if ('publish' != $post_status || 0 == $post_ID) {
 ?>

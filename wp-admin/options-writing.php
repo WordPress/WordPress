@@ -118,8 +118,8 @@ endforeach;
        		</tr>
         	</table>
 		</fieldset>
-    <p style="text-align: right;"> 
-      <input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 
+    <p class="submit"> 
+      <input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" /> 
     </p> 
   </form> 
 </div> 

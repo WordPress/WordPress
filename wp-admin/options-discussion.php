@@ -106,7 +106,7 @@ include('options-head.php');
 			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php echo get_settings('moderation_keys'); ?></textarea> 
 		</p> 
 </fieldset>
-		<p style="text-align: right;"> 
+		<p class="submit"> 
     	<input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 
 		</p> 
 	</form> 

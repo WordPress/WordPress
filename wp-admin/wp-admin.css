@@ -159,6 +159,22 @@ textarea, input, select {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
+.submit input, .submit input:focus {
+	background: url(../wp-images/fade-butt.png);
+	border: 3px double #999;
+	border-left-color: #ccc;
+	border-top-color: #ccc;
+	color: #333;
+	padding: 0.25em;
+}
+
+.submit input:active {
+	background: #f4f4f4;
+	border: 3px double #ccc;
+	border-left-color: #999;
+	border-top-color: #999;
+}
+
 .submit, #quicktags, .editform th, #postcustomsubmit {
 	text-align: right;
 }
@@ -282,6 +298,11 @@ textarea, input, select {
 	border: none;
 }
 
+#content, #excerpt {
+	margin-left: 1%;
+	width: 97%;
+}
+
 #ed_del {
 	text-decoration: line-through;
 }
@@ -353,7 +374,6 @@ textarea, input, select {
 	width: 98%;
 }
 
-
 #postcustom table input, #postcustom table textarea {
 	width: 95%;
 }
@@ -364,11 +384,6 @@ textarea, input, select {
 
 #poststuff {
 	margin-right: 11em;
-}
-
-#content, #excerpt {
-	margin-left: 1%;
-	width: 97%;
 }
 
 #profile {
@@ -398,7 +413,7 @@ textarea, input, select {
 }
 
 #save {
-	width: 13em;
+	width: 14em;
 }
 
 #slugdiv {
