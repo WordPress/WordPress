@@ -56,11 +56,20 @@ class WP_Query {
 		$this->current_post = -1;
 	}
 
+	// Reparse the query vars.
+	function parse_query_vars() {
+		$this->parse_query('');
+	}
+
+	// Parse a query string and set query type booleans.
 	function parse_query ($query) {
-		$this->init();
-		parse_str($query, $qv);
-		$this->query = $query;
-		$this->query_vars = $qv;
+		if ( !empty($query) || !isset($this->query) ) {
+			$this->init();
+			parse_str($query, $qv);
+			$this->query = $query;
+			$this->query_vars = $qv;
+		}
+
 		$qv['m'] =  (int) $qv['m'];
 		$qv['p'] =  (int) $qv['p'];
 
@@ -184,6 +193,10 @@ class WP_Query {
 
 		if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin)) {
 			$this->is_home = true;
+		}
+
+		if ( !empty($query) ) {
+			do_action('parse_query', array(&$this));
 		}
 	}
 
