@@ -1211,7 +1211,7 @@ function comment_author_email() {
 function comment_author_link() {
 	global $comment;
 	$url = trim(stripslashes($comment->comment_author_url));
-	$email = $comment->comment_author_email;
+	$email = stripslashes($comment->comment_author_email);
 	$author = stripslashes($comment->comment_author);
 
 	$url = str_replace('http://url', '', $url);
@@ -1227,7 +1227,7 @@ function comment_author_link() {
 		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
 		echo $url;
 	} else {
-		echo 'mailto:'.$email;
+		echo 'mailto:'.antispambot($email);
 	}
 	echo '" rel="external">' . $author . '</a>';
 }
