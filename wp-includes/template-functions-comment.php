@@ -75,14 +75,13 @@ function comments_link($file='', $echo=true) {
     else echo get_permalink() . '#comments';
 }
 
-function comments_popup_script($width=400, $height=400, $file='wp-comments-popup.php') {
+function comments_popup_script($width=400, $height=400, $file='') {
     global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
 
 		if (empty ($file)) {
-			$template = get_template_directory();
-			$template .= '/comments-popup.php';
+			$template = TEMPLATEPATH . '/comments-popup.php';
 			if (file_exists($template)) {
-				$wpcommentspopupfile = $template;
+				$wpcommentspopupfile = str_replace(ABSPATH, '', $template);
 			} else {
 				$wpcommentspopupfile = 'wp-comments-popup.php';
 			}
