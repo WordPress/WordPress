@@ -146,8 +146,5 @@ setTimeout("redirect();", 600);
 if ($profile==0) {
     include('menu.php');
 }
-?>
-
-<?php
 }
-?> 
+?>
