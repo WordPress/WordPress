@@ -64,7 +64,7 @@ body {
 	text-align: center;
 	}
 
-.graybox {
+.alt {
 	background-color: #f8f8f8;
 	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
@@ -437,7 +437,7 @@ ol li, #sidebar ul ol li {
 	}
 
 #sidebar #searchform #s {
-	width: 130px;
+	width: 115px;
 	padding: 2px;
 	}
 
@@ -473,7 +473,7 @@ select {
 
 
 /* Begin Comments*/
-.graybox {
+.alt {
 	margin: 0;
 	padding: 10px;
 	}

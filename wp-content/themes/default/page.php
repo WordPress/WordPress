@@ -13,6 +13,7 @@
 			</div>
 		</div>
 	  <?php endwhile; endif; ?>
+	<?php edit_post_link('Edit this entry.', '<p>', '</p>'); ?>
 	</div>
 
 <?php get_sidebar(); ?>

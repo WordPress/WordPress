@@ -17,10 +17,10 @@
 	
 				<?php link_pages('<p><strong>Pages:</strong> ', '</p>', 'number'); ?>
 	
-				<p class="postmetadata graybox">
+				<p class="postmetadata alt">
 					<small>
 						This entry was posted
-						<?php /* This is uncommented, because it requires a little adjusting sometimes.
+						<?php /* This is commented, because it requires a little adjusting sometimes.
 							You'll need to download this plugin, and follow the instructions:
 							http://binarybonsai.com/archives/2004/08/17/time-since-plugin/ */
 							/* $entry_datetime = abs(strtotime($post->post_date) - (60*120)); echo time_since($entry_datetime); echo ' ago'; */ ?> 

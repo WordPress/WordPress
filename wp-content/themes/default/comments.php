@@ -14,13 +14,13 @@
         }
 
 		/* This variable is for alternating comment background */
-		$oddcomment = 'graybox';
+		$oddcomment = 'alt';
 ?>
 
 <!-- You can start editing here. -->
 
 <?php if ($comments) : ?>
-	<h3 id="comments"><?php comments_number('No Responses','One Response','% Responses' );?> to '<?php the_title(); ?>'</h3> 
+	<h3 id="comments"><?php comments_number('No Responses', 'One Response', '% Responses' );?> to &#8220;<?php the_title(); ?>&#8221;</h3> 
 
 	<ol class="commentlist">
 
@@ -36,8 +36,8 @@
 		</li>
 		
 		<?php /* Changes every other comment to a different class */	
-			if('graybox' == $oddcomment) {$oddcomment="";}
-			else { $oddcomment = "graybox"; }
+			if ('alt' == $oddcomment) $oddcomment = '';
+			else $oddcomment = 'alt';
 		?>
 
 	<?php endforeach; /* end for each comment */ ?>
@@ -62,12 +62,12 @@
 <h3 id="respond">Leave a Reply</h3>
 <form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 
-<p><input type="text" name="author" id="author" class="styled" value="<?php echo $comment_author; ?>" size="22" tabindex="1" />
+<p><input type="text" name="author" id="author" value="<?php echo $comment_author; ?>" size="22" tabindex="1" />
 <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
-<label for="author"><small>Name</small></label></p>
+<label for="author"><small>Name <?php if ($req) _e('(required)'); ?></small></label></p>
 
 <p><input type="text" name="email" id="email" value="<?php echo $comment_author_email; ?>" size="22" tabindex="2" />
-<label for="email"><small>Mail (will not be published)</small></label></p>
+<label for="email"><small>Mail (will not be published) <?php if ($req) _e('(required)'); ?></small></label></p>
 
 <p><input type="text" name="url" id="url" value="<?php echo $comment_author_url; ?>" size="22" tabindex="3" />
 <label for="url"><small>Website</small></label></p>

@@ -36,15 +36,6 @@
 
 			<?php } ?>
 			</li>
-			
-		
-		
-			
-			<!-- The Calendar is disabled per default. Uncomment if you want to use it.
-			<li><h2><?php _e('Calendar'); ?></h2>
-				<?php get_calendar(); ?>
-			</li>
-			-->
 
 			<?php wp_list_pages('title_li=<h2>' . __('Pages') . '</h2>' ); ?>
 
@@ -60,12 +51,8 @@
 				</ul>
 			</li>
 
-			<?php /* If this is the frontpage */ if (is_home()) { ?>				
-				<li><h2><?php _e('Links'); ?></h2>
-					<ul>
-						<?php get_links('-1', '<li>', '</li>', '<br />'); ?>
-					</ul>
-				</li>
+			<?php /* If this is the frontpage */ if ( is_home() || is_page() ) { ?>				
+				<?php get_links_list(); ?>
 				
 				<li><h2><?php _e('Meta'); ?></h2>
 				<ul>
