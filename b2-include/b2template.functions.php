@@ -326,19 +326,15 @@ function print_Lon() {
 
 function print_PopUpScript() {
     echo "
-<SCRIPT LANGUAGE=\"JavaScript\">
-
+<script language='javaScript' type='text/javascript'>
 <!-- This script and many more are available free online at -->
 <!-- The JavaScript Source!! http://javascript.internet.com -->
-
-<!-- Begin
 function formHandler(form) {
   var URL = form.site.options[form.site.selectedIndex].value;
   if(URL != \".\") {
     popup = window.open(URL,\"MenuPopup\");
   }
 }
-// End -->
 </script> ";
 }
 
