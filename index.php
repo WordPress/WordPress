@@ -18,7 +18,7 @@ require_once($abspath.'wp-links/links.php');
 		doGeoUrlHeader($posts);
 	} ?>
 	<style type="text/css" media="screen">
-		@import url( <?php echo $siteurl; ?>/layout2b.css );
+		@import url( <?php echo $siteurl; ?>/wp-layout.css );
 	</style>
 	
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
@@ -42,16 +42,15 @@ require_once($abspath.'wp-links/links.php');
 
  <h3 class="storytitle" id="post-<?php the_ID(); ?>">
   <a href="<?php permalink_link() ?>" rel="bookmark"><?php the_title(); ?></a>
-  <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?><br />
-<?php
-    if(get_settings('use_geo_positions')) {
-        if((get_Lon() != null) && (get_Lon() < 360) &&(get_Lon() > -360)) {  ?>
-    from: &nbsp;<?php print_Lat(); echo " x "; print_Lon(); echo "&nbsp;&nbsp;"; print_UrlPopNav(); ?>
-<?php
-        }
-    } ?>
-  </span>
+  <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?> 
+  <?php if(get_settings('use_geo_positions')) { if((get_Lon() != null) && (get_Lon() < 360) &&(get_Lon() > -360)) {  ?>
+		&#8212; Posted from: <?php print_Lat(); ?> &#215; <?php print_Lon(); ?>
+<?php  } } ?>
+		</span>
  </h3>
+<?php if(get_settings('use_geo_positions')) { if((get_Lon() != null) && (get_Lon() < 360) &&(get_Lon() > -360)) {  ?>
+    	 <?php print_UrlPopNav(); ?>
+<?php } } ?>
 
 <div class="storycontent">
 	<?php the_content(); ?>

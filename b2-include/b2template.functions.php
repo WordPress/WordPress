@@ -359,13 +359,13 @@ function print_UrlPopNav() {
                    array('http://mapserver.maptech.com/api/espn/index.cfm?lat='.get_Lat().'&amp;lon='.get_Lon().'&amp;scale=100000&amp;zoom=50&amp;type=1&amp;icon=0&amp;&amp;scriptfile=http://mapserver.maptech.com/api/espn/index.cfm',
                          'Maptech near here')
                   );
-    echo '<form name="form">
+    echo '<form action=""><div>
 <select name="site" size="1" onchange="formHandler(this.form);" >'."\n";
-    echo '<option value=".">Sites referencing '.get_Lat().' x '.get_Lon()."\n";
+    echo '<option value=".">Sites referencing '.get_Lat().' x '.get_Lon()."</option>\n";
     foreach($sites as $site) {
         echo "\t".'<option value="'.$site[0].'">'.$site[1]."</option>\n";
     }
-    echo '</select>
+    echo '</select></div>
 </form>'."\n";
 }
 
