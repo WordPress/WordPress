@@ -54,10 +54,11 @@ $xml_parser = xml_parser_create();
 // Set the functions to handle opening and closing tags
 xml_set_element_handler($xml_parser, "startElement", "endElement");
 
-xml_parse($xml_parser, $opml, true)
-    or echo(sprintf("XML error: %s at line %d",
+if (!xml_parse($xml_parser, $opml, true)) {
+    echo(sprintf("XML error: %s at line %d",
                    xml_error_string(xml_get_error_code($xml_parser)),
                    xml_get_current_line_number($xml_parser)));
+}
 
 // Free up memory used by the XML parser
 xml_parser_free($xml_parser);
