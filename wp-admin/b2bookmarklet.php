@@ -1,6 +1,8 @@
 <?php
 /* <Bookmarklet> */
 
+// accepts 'post_title' and 'content' as vars passed in. Add-on from Alex King
+
 function selected($selected, $current) {
 	if ($selected == $current) echo ' selected="selected"';
 }
@@ -102,6 +104,20 @@ if (($is_gecko) && (!isset($Gecko_bookmarklet_fix))) {
 	$text = preg_replace($b2_gecko_correction["in"],$b2_gecko_correction["out"],$text);
 }
 
+$post_title = $_REQUEST['post_title'];
+if (!empty($post_title)) {
+    $post_title =  stripslashes($post_title);
+} else {
+    $post_title = $popuptitle;
+}
+
+$content = $_REQUEST['content'];
+if (!empty($content)) {
+    $content =  stripslashes($content);
+} else {
+    $content = '<a href="'.$popupurl.'">'.$popuptitle.'</a>'."\n$text";
+}
+
 /* /big funky fixes */
 
 
@@ -112,7 +128,7 @@ if (($is_gecko) && (!isset($Gecko_bookmarklet_fix))) {
     <td align="left" width="415">
       <table cellspacing="0" cellpadding="0">
         <td height="50" width="250" align="left" valign="bottom"><label>Title<br />
-          <input type="text" name="post_title" size="20" tabindex="1" style="width: 215px;" value="<?php echo stripslashes($popuptitle) ?>" /></label></td>
+          <input type="text" name="post_title" size="20" tabindex="1" style="width: 215px;" value="<?php echo $post_title; ?>" /></label></td>
         <td width="165" align="left" valign="bottom"><b>Category</b><br /><?php dropdown_categories(); ?></td>
       </table>
     </td>
@@ -178,7 +194,7 @@ if ((preg_match("/Nav/",$HTTP_USER_AGENT)) || (preg_match("/Mozilla\/4\.7/",$HTT
 preg_match("/\%u[1-9A-F][1-9A-F][1-9A-F][1-9A-F]/is", $text, $stufftofix);
 // ... and so on. currently coding the fix
 ?>
-      <textarea rows="<?php echo $rows ?>" cols="48" style="width:415px;" name="content" tabindex="2" class="postform"><?php echo "<a href=\"$popupurl\">$popuptitle</a>\n$text" ?></textarea><br />
+      <textarea rows="<?php echo $rows ?>" cols="48" style="width:415px;" name="content" tabindex="2" class="postform"><?php echo $content ?></textarea><br />
       <table cellpadding="0" cellspacing="0">
         <td align="left" width="90"></td>
 <?php if ($pingback) { ?>
