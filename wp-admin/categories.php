@@ -85,7 +85,8 @@ break;
 case 'edit':
 
     require_once ('admin-header.php');
-    $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = '{$_GET['cat_ID']}'");
+    $cat_ID = intval($_GET['cat_ID']);
+    $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = '$cat_ID'");
     $cat_name = stripslashes($category->cat_name);
     ?>
 
