@@ -347,3 +347,56 @@ textarea, input, select {
 	text-indent: -1000px;
 	width: 200px;
 }
+
+#postcustom {
+	xwidth: 30em;
+	border: 1px solid #aaa;
+	padding: 0.25em;
+	margin: 0.25em;
+}
+
+#postcustom p {
+	margin: 0;
+}
+
+#postcustom textarea {
+	width: 95%;
+}
+
+#postcustom select {
+	width: 95%;
+}
+
+#postcustomkeys {
+	width: 49%;
+	float: left;
+}
+
+#postcustomkeys input {
+	width: 95%;
+}
+
+#postcustomvals {
+	width: 49%;
+	float: right;
+}
+
+#postcustomsubmit {
+	text-align: right;
+}
+
+#postcustom table {
+	width: 100%;
+	margin-bottom: 1em;
+	background-color: #eee;
+	color: black;
+	padding: 0px;
+	border: 1px solid #ccc;
+}
+
+#postcustom td,th {
+	background-color: white;
+	color: black;
+	padding: 0.2em;
+	margin: 1px;
+}
