@@ -5,7 +5,7 @@ require_once(ABSPATH.WPINC.'/class-pop3.php');
 
 error_reporting(2037);
 
-$time_difference = get_settings('gmt_offset');
+$time_difference = get_settings('gmt_offset') * 3600;
 
 $pop3 = new POP3();
 
@@ -59,6 +59,10 @@ for ($i=1; $i <= $count; $i++) :
 				if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject)) {
 				  $subject = wp_iso_descrambler($subject);
 				}
+				// Captures any text in the subject before :: as the subject
+				$subject = explode('::', $subject);
+				$subject = $subject[0];
+
 			}
 			if (preg_match('/Date: /i', $line)) { // of the form '20 Mar 2002 20:32:37'
 				$ddate = trim($line);
@@ -76,22 +80,31 @@ for ($i=1; $i <= $count; $i++) :
 				$ddate_m = $date_arr[1];
 				$ddate_d = $date_arr[0];
 				$ddate_Y = $date_arr[2];
-				for ($i=0; $i<12; $i++) {
-					if ($ddate_m == $dmonths[$i]) {
-						$ddate_m = $i+1;
+
+				for ($j=0; $j<12; $j++) {
+					if ($ddate_m == $dmonths[$j]) {
+						$ddate_m = $j+1;
 					}
 				}
-				$ddate_U = mktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
 
-				$post_date = gmdate('Y-m-d H:i:s', $ddate_U + ($time_difference * 3600));
+				$time_zn = intval($date_arr[4]) * 36;
+				if ( $time_zn < 0 ) {
+					if (abs($time_difference) > abs($time_zn)) {
+						$time_zn = abs($time_difference) - abs($time_zn);
+					} else {
+						$time_zn = abs($time_zn) - abs($time_difference);
+					}
+				} else {
+					$time_zn = abs($time_zn) + abs($time_difference);
+				}
+
+				$ddate_U = mktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
+				$ddate_U = $ddate_U - $time_zn;
+				$post_date = gmdate('Y-m-d H:i:s', $ddate_U + $time_difference);
 				$post_date_gmt = gmdate('Y-m-d H:i:s', $ddate_U);
 			}
 		}
 	endforeach;
-
-	$ddate_today = time() + ($time_difference * 3600);
-	$ddate_difference_days = ($ddate_today - $ddate_U) / 86400;
-
 
 	$subject = trim(str_replace(get_settings('subjectprefix'), '', $subject));
 
@@ -102,6 +115,9 @@ for ($i=1; $i <= $count; $i++) :
 		$content = strip_tags($content[1], '<img><p><br><i><b><u><em><strong><strike><font><span><div>');
 	}
 	$content = trim($content);
+	// Captures any text in the body after :: as the body
+	$content = explode('::', $content);
+	$content = $content[1];
 
 	echo "<p><b>Content-type:</b> $content_type, <b>boundary:</b> $boundary</p>\n";
 	echo "<p><b>Raw content:</b><br /><pre>".$content.'</pre></p>';
@@ -117,11 +133,13 @@ for ($i=1; $i <= $count; $i++) :
 	if (empty($post_categories)) $post_categories[] = get_settings('default_email_category');
 
 	$post_title = addslashes(trim($post_title));
+	// Make sure that we get a nice post-slug
+	$post_name = sanitize_title( $post_title );
 	$content = preg_replace("|\n([^\n])|", " $1", $content);
 	$content = addslashes(trim($content));
 
 
-	$sql = "INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_modified, post_modified_gmt) VALUES (1, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_date', '$post_date_gmt')";
+	$sql = "INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_name, post_modified, post_modified_gmt) VALUES (1, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_name', '$post_date', '$post_date_gmt')";
 
 	$result = $wpdb->query($sql);
 	$post_ID = $wpdb->insert_id;
@@ -133,8 +151,8 @@ for ($i=1; $i <= $count; $i++) :
 	echo "\n<p><b>Posted title:</b> $post_title<br />";
 	echo "\n<b>Posted content:</b><br /><pre>".$content.'</pre></p>';
 
-if (!$post_categories) $post_categories[] = 1;
-foreach ($post_categories as $post_category) :
+	if (!$post_categories) $post_categories[] = 1;
+	foreach ($post_categories as $post_category) :
 	$post_category = intval($post_category);
 
 	// Double check it's not there already
