@@ -26,7 +26,7 @@ if (empty($title) && empty($tb_url) && empty($blog_name)) {
 
 if ((strlen(''.$tb_id)) && (empty($_GET['__mode'])) && (strlen(''.$tb_url))) {
 
-	@header('Content-Type: text/xml');
+	@header('Content-Type: text/xml; charset=' . get_settings('blog_charset'));
 
 	if (!get_settings('use_trackback'))
 		trackback_response(1, 'Sorry, this weblog does not allow you to trackback its posts.');

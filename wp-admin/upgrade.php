@@ -12,7 +12,7 @@ if (!$step) $step = 0;
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress &rsaquo; Upgrade WordPress</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style media="screen" type="text/css">
 	body {
 		background-color: white;

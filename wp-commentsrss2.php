@@ -3,7 +3,7 @@ if (! $feed) {
     require('wp-blog-header.php');
 }
 
-header('Content-type: text/xml', true);
+header('Content-type: text/xml;charset=' . get_settings('blog_charset'), true);
 
 echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; 
 ?>

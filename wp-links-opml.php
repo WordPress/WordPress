@@ -1,9 +1,8 @@
 <?php 
-$blog = 1; // Your blog's ID
 $doing_rss = 1;
-header('Content-type: text/xml', true);
-require('wp-blog-header.php');
 
+require('wp-blog-header.php');
+header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
 $link_cat = $_GET['link_cat'];
 if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
     $sql_cat = '';

@@ -1,6 +1,184 @@
 <?php
 // Functions to be called in install and upgrade scripts
 
+// First let's set up the tables:
+
+$wp_queries="CREATE TABLE $wpdb->categories (
+  cat_ID int(4) NOT NULL auto_increment,
+  cat_name varchar(55) NOT NULL default '',
+  category_nicename varchar(200) NOT NULL default '',
+  category_description text NOT NULL,
+  category_parent int(4) NOT NULL default '0',
+  PRIMARY KEY  (cat_ID),
+  UNIQUE KEY cat_name (cat_name),
+  KEY category_nicename (category_nicename)
+);
+CREATE TABLE $wpdb->comments (
+  comment_ID int(11) unsigned NOT NULL auto_increment,
+  comment_post_ID int(11) NOT NULL default '0',
+  comment_author tinytext NOT NULL,
+  comment_author_email varchar(100) NOT NULL default '',
+  comment_author_url varchar(200) NOT NULL default '',
+  comment_author_IP varchar(100) NOT NULL default '',
+  comment_date datetime NOT NULL default '0000-00-00 00:00:00',
+  comment_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
+  comment_content text NOT NULL,
+  comment_karma int(11) NOT NULL default '0',
+  comment_approved enum('0','1') NOT NULL default '1',
+  user_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (comment_ID),
+  KEY comment_approved (comment_approved),
+  KEY comment_post_ID (comment_post_ID)
+);
+CREATE TABLE $wpdb->linkcategories (
+  cat_id int(11) NOT NULL auto_increment,
+  cat_name tinytext NOT NULL,
+  auto_toggle enum('Y','N') NOT NULL default 'N',
+  show_images enum('Y','N') NOT NULL default 'Y',
+  show_description enum('Y','N') NOT NULL default 'N',
+  show_rating enum('Y','N') NOT NULL default 'Y',
+  show_updated enum('Y','N') NOT NULL default 'Y',
+  sort_order varchar(64) NOT NULL default 'name',
+  sort_desc enum('Y','N') NOT NULL default 'N',
+  text_before_link varchar(128) NOT NULL default '<li>',
+  text_after_link varchar(128) NOT NULL default '<br />',
+  text_after_all varchar(128) NOT NULL default '</li>',
+  list_limit int(11) NOT NULL default '-1',
+  PRIMARY KEY  (cat_id)
+);
+CREATE TABLE $wpdb->links (
+  link_id int(11) NOT NULL auto_increment,
+  link_url varchar(255) NOT NULL default '',
+  link_name varchar(255) NOT NULL default '',
+  link_image varchar(255) NOT NULL default '',
+  link_target varchar(25) NOT NULL default '',
+  link_category int(11) NOT NULL default '0',
+  link_description varchar(255) NOT NULL default '',
+  link_visible enum('Y','N') NOT NULL default 'Y',
+  link_owner int(11) NOT NULL default '1',
+  link_rating int(11) NOT NULL default '0',
+  link_updated datetime NOT NULL default '0000-00-00 00:00:00',
+  link_rel varchar(255) NOT NULL default '',
+  link_notes mediumtext NOT NULL,
+  link_rss varchar(255) NOT NULL default '',
+  PRIMARY KEY  (link_id),
+  KEY link_category (link_category),
+  KEY link_visible (link_visible)
+);
+CREATE TABLE $wpdb->optiongroup_options (
+  group_id int(11) NOT NULL default '0',
+  option_id int(11) NOT NULL default '0',
+  seq int(11) NOT NULL default '0',
+  PRIMARY KEY  (group_id,option_id)
+);
+CREATE TABLE $wpdb->optiongroups (
+  group_id int(11) NOT NULL auto_increment,
+  group_name varchar(64) NOT NULL default '',
+  group_desc varchar(255) default NULL,
+  group_longdesc tinytext,
+  PRIMARY KEY  (group_id)
+);
+CREATE TABLE $wpdb->options (
+  option_id int(11) NOT NULL auto_increment,
+  blog_id int(11) NOT NULL default '0',
+  option_name varchar(64) NOT NULL default '',
+  option_can_override enum('Y','N') NOT NULL default 'Y',
+  option_type int(11) NOT NULL default '1',
+  option_value text NOT NULL,
+  option_width int(11) NOT NULL default '20',
+  option_height int(11) NOT NULL default '8',
+  option_description tinytext NOT NULL,
+  option_admin_level int(11) NOT NULL default '1',
+  autoload enum('yes','no') NOT NULL default 'yes',
+  PRIMARY KEY  (option_id,blog_id,option_name)
+);
+CREATE TABLE $wpdb->optiontypes (
+  optiontype_id int(11) NOT NULL auto_increment,
+  optiontype_name varchar(64) NOT NULL default '',
+  PRIMARY KEY  (optiontype_id)
+);
+CREATE TABLE $wpdb->optionvalues (
+  option_id int(11) NOT NULL default '0',
+  optionvalue tinytext,
+  optionvalue_desc varchar(255) default NULL,
+  optionvalue_max int(11) default NULL,
+  optionvalue_min int(11) default NULL,
+  optionvalue_seq int(11) default NULL,
+  UNIQUE KEY option_id (option_id,optionvalue(255)),
+  KEY option_id_2 (option_id,optionvalue_seq)
+);
+CREATE TABLE $wpdb->post2cat (
+  rel_id int(11) NOT NULL auto_increment,
+  post_id int(11) NOT NULL default '0',
+  category_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (rel_id),
+  KEY post_id (post_id,category_id)
+);
+CREATE TABLE $wpdb->postmeta (
+  meta_id int(11) NOT NULL auto_increment,
+  post_id int(11) NOT NULL default '0',
+  meta_key varchar(255) default NULL,
+  meta_value text,
+  PRIMARY KEY  (meta_id),
+  KEY post_id (post_id),
+  KEY meta_key (meta_key)
+);
+CREATE TABLE $wpdb->posts (
+  ID int(10) unsigned NOT NULL auto_increment,
+  post_author int(4) NOT NULL default '0',
+  post_date datetime NOT NULL default '0000-00-00 00:00:00',
+  post_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
+  post_content text NOT NULL,
+  post_title text NOT NULL,
+  post_category int(4) NOT NULL default '0',
+  post_excerpt text NOT NULL,
+  post_lat float default NULL,
+  post_lon float default NULL,
+  post_status enum('publish','draft','private','static') NOT NULL default 'publish',
+  comment_status enum('open','closed','registered_only') NOT NULL default 'open',
+  ping_status enum('open','closed') NOT NULL default 'open',
+  post_password varchar(20) NOT NULL default '',
+  post_name varchar(200) NOT NULL default '',
+  to_ping text NOT NULL,
+  pinged text NOT NULL,
+  post_modified datetime NOT NULL default '0000-00-00 00:00:00',
+  post_modified_gmt datetime NOT NULL default '0000-00-00 00:00:00',
+  post_content_filtered text NOT NULL,
+  post_parent int(11) NOT NULL default '0',
+  PRIMARY KEY  (ID),
+  KEY post_date (post_date),
+  KEY post_date_gmt (post_date_gmt),
+  KEY post_name (post_name),
+  KEY post_status (post_status)
+);
+CREATE TABLE $wpdb->users (
+  ID int(10) unsigned NOT NULL auto_increment,
+  user_login varchar(20) NOT NULL default '',
+  user_pass varchar(64) NOT NULL default '',
+  user_firstname varchar(50) NOT NULL default '',
+  user_lastname varchar(50) NOT NULL default '',
+  user_nickname varchar(50) NOT NULL default '',
+  user_nicename varchar(50) NOT NULL default '',
+  user_icq int(10) unsigned NOT NULL default '0',
+  user_email varchar(100) NOT NULL default '',
+  user_url varchar(100) NOT NULL default '',
+  user_ip varchar(15) NOT NULL default '',
+  user_domain varchar(200) NOT NULL default '',
+  user_browser varchar(200) NOT NULL default '',
+  dateYMDhour datetime NOT NULL default '0000-00-00 00:00:00',
+  user_level int(2) unsigned NOT NULL default '0',
+  user_aim varchar(50) NOT NULL default '',
+  user_msn varchar(100) NOT NULL default '',
+  user_yim varchar(50) NOT NULL default '',
+  user_idmode varchar(20) NOT NULL default '',
+  user_activation_key varchar(60) NOT NULL default '',
+  user_status int(11) NOT NULL default '0',
+  PRIMARY KEY  (ID),
+  UNIQUE KEY user_login (user_login)
+);";
+
+
+
 function upgrade_all() {
 	upgrade_071();
 	upgrade_072();
@@ -8,104 +186,11 @@ function upgrade_all() {
 	upgrade_101();
 	upgrade_110();
 	upgrade_130();
+
+	// Options that should not exist
+	$obs_options = array('');
 }
 
-// General
-function maybe_create_table($table_name, $create_ddl) {
-    global $wpdb;
-    foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
-        if ($table == $table_name) {
-            return true;
-        }
-    }
-    //didn't find it try to create it.
-    $q = $wpdb->query($create_ddl);
-    // we cannot directly tell that whether this succeeded!
-    foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
-        if ($table == $table_name) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function drop_index($table, $index) {
-	global $wpdb;
-	$wpdb->hide_errors();
-	$wpdb->query("ALTER TABLE `$table` DROP INDEX `$index`");
-	// Now we need to take out all the extra ones we may have created
-	for ($i = 0; $i < 25; $i++) {
-		$wpdb->query("ALTER TABLE `$table` DROP INDEX `{$index}_$i`");
-	}
-	$wpdb->show_errors();
-	return true;
-}
-
-function add_clean_index($table, $index) {
-	global $wpdb;
-	drop_index($table, $index);
-	$wpdb->query("ALTER TABLE `$table` ADD INDEX ( `$index` )");
-	return true;
-}
-
-/**
- ** maybe_add_column()
- ** Add column to db table if it doesn't exist.
- ** Returns:  true if already exists or on successful completion
- **           false on error
- */
-function maybe_add_column($table_name, $column_name, $create_ddl) {
-    global $wpdb, $debug;
-    foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
-        if ($debug) echo("checking $column == $column_name<br />");
-        if ($column == $column_name) {
-            return true;
-        }
-    }
-    //didn't find it try to create it.
-    $q = $wpdb->query($create_ddl);
-    // we cannot directly tell that whether this succeeded!
-    foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
-        if ($column == $column_name) {
-            return true;
-        }
-    }
-    return false;
-}
-
-
-// get_alloptions as it was for 1.2.
-function get_alloptions_110() {
-	global $wpdb;
-	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options")) {
-		foreach ($options as $option) {
-			// "When trying to design a foolproof system, 
-			//  never underestimate the ingenuity of the fools :)" -- Dougal
-			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			$all_options->{$option->option_name} = stripslashes($option->option_value);
-		}
-	}
-	return $all_options;
-}
-
-function deslash($content) {
-    // Note: \\\ inside a regex denotes a single backslash.
-
-    // Replace one or more backslashes followed by a single quote with
-    // a single quote.
-    $content = preg_replace("/\\\+'/", "'", $content);
-
-    // Replace one or more backslashes followed by a double quote with
-    // a double quote.
-    $content = preg_replace('/\\\+"/', '"', $content);
-
-    // Replace one or more backslashes with one backslash.
-    $content = preg_replace("/\\\+/", "\\", $content);
-
-    return $content;
-}
 
 // .71 stuff
 
@@ -928,6 +1013,327 @@ function upgrade_130() {
 		$plugins = explode("\n", trim(get_settings('active_plugins')) );
 		update_option('active_plugins', $plugins);
 	}
+
+
+}
+
+// The functions we use to actually do stuff
+
+// General
+function maybe_create_table($table_name, $create_ddl) {
+    global $wpdb;
+    foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
+        if ($table == $table_name) {
+            return true;
+        }
+    }
+    //didn't find it try to create it.
+    $q = $wpdb->query($create_ddl);
+    // we cannot directly tell that whether this succeeded!
+    foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
+        if ($table == $table_name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function drop_index($table, $index) {
+	global $wpdb;
+	$wpdb->hide_errors();
+	$wpdb->query("ALTER TABLE `$table` DROP INDEX `$index`");
+	// Now we need to take out all the extra ones we may have created
+	for ($i = 0; $i < 25; $i++) {
+		$wpdb->query("ALTER TABLE `$table` DROP INDEX `{$index}_$i`");
+	}
+	$wpdb->show_errors();
+	return true;
+}
+
+function add_clean_index($table, $index) {
+	global $wpdb;
+	drop_index($table, $index);
+	$wpdb->query("ALTER TABLE `$table` ADD INDEX ( `$index` )");
+	return true;
+}
+
+/**
+ ** maybe_add_column()
+ ** Add column to db table if it doesn't exist.
+ ** Returns:  true if already exists or on successful completion
+ **           false on error
+ */
+function maybe_add_column($table_name, $column_name, $create_ddl) {
+    global $wpdb, $debug;
+    foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
+        if ($debug) echo("checking $column == $column_name<br />");
+        if ($column == $column_name) {
+            return true;
+        }
+    }
+    //didn't find it try to create it.
+    $q = $wpdb->query($create_ddl);
+    // we cannot directly tell that whether this succeeded!
+    foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
+        if ($column == $column_name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+// get_alloptions as it was for 1.2.
+function get_alloptions_110() {
+	global $wpdb;
+	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options")) {
+		foreach ($options as $option) {
+			// "When trying to design a foolproof system, 
+			//  never underestimate the ingenuity of the fools :)" -- Dougal
+			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			$all_options->{$option->option_name} = stripslashes($option->option_value);
+		}
+	}
+	return $all_options;
+}
+
+function deslash($content) {
+    // Note: \\\ inside a regex denotes a single backslash.
+
+    // Replace one or more backslashes followed by a single quote with
+    // a single quote.
+    $content = preg_replace("/\\\+'/", "'", $content);
+
+    // Replace one or more backslashes followed by a double quote with
+    // a double quote.
+    $content = preg_replace('/\\\+"/', '"', $content);
+
+    // Replace one or more backslashes with one backslash.
+    $content = preg_replace("/\\\+/", "\\", $content);
+
+    return $content;
+}
+
+function dbDelta($queries, $execute = true) {
+	global $wpdb;
+	
+	// Seperate individual queries into an array
+	if( !is_array($queries) ) {
+		$queries = explode( ';', $queries );
+		if('' == $queries[count($queries) - 1]) array_pop($queries);
+	}
+	
+	$cqueries = array(); // Creation Queries
+	$iqueries = array(); // Insertion Queries
+	$for_update = array();
+	
+	// Create a tablename index for an array ($cqueries) of queries
+	foreach($queries as $qry) {
+		if(preg_match("|CREATE TABLE ([^ ]*)|", $qry, $matches)) {
+			$cqueries[strtolower($matches[1])] = $qry;
+			$for_update[$matches[1]] = 'Created table '.$matches[1];
+		}
+		else if(preg_match("|CREATE DATABASE ([^ ]*)|", $qry, $matches)) {
+			array_unshift($cqueries, $qry);
+		}
+		else if(preg_match("|INSERT INTO ([^ ]*)|", $qry, $matches)) {
+			$iqueries[] = $qry;
+		}
+		else if(preg_match("|UPDATE ([^ ]*)|", $qry, $matches)) {
+			$iqueries[] = $qry;
+		}
+		else {
+			// Unrecognized query type
+		}
+	}	
+
+	// Check to see which tables and fields exist
+	if($tables = $wpdb->get_col('SHOW TABLES;')) {
+		// For every table in the database
+		foreach($tables as $table) {
+			// If a table query exists for the database table...
+			if( array_key_exists(strtolower($table), $cqueries) ) {
+				// Clear the field and index arrays
+				unset($cfields);
+				unset($indices);
+				// Get all of the field names in the query from between the parens
+				preg_match("|\((.*)\)|ms", $cqueries[strtolower($table)], $match2);
+				$qryline = trim($match2[1]);
+
+				// Separate field lines into an array
+				$flds = explode("\n", $qryline);
+
+				//echo "<hr/><pre>\n".print_r(strtolower($table), true).":\n".print_r($cqueries, true)."</pre><hr/>";
+				
+				// For every field line specified in the query
+				foreach($flds as $fld) {
+					// Extract the field name
+					preg_match("|^([^ ]*)|", trim($fld), $fvals);
+					$fieldname = $fvals[1];
+					
+					// Verify the found field name
+					$validfield = true;
+					switch(strtolower($fieldname))
+					{
+					case '':
+					case 'primary':
+					case 'index':
+					case 'fulltext':
+					case 'unique':
+					case 'key':
+						$validfield = false;
+						$indices[] = trim(trim($fld), ", \n");
+						break;
+					}
+					$fld = trim($fld);
+					
+					// If it's a valid field, add it to the field array
+					if($validfield) {
+						$cfields[strtolower($fieldname)] = trim($fld, ", \n");
+					}
+				}
+				
+				// Fetch the table column structure from the database
+				$tablefields = $wpdb->get_results("DESCRIBE {$table};");
+								
+				// For every field in the table
+				foreach($tablefields as $tablefield) {				
+					// If the table field exists in the field array...
+					if(array_key_exists(strtolower($tablefield->Field), $cfields)) {
+						// Get the field type from the query
+						preg_match("|".$tablefield->Field." ([^ ]*( unsigned)?)|i", $cfields[strtolower($tablefield->Field)], $matches);
+						$fieldtype = $matches[1];
+
+						// Is actual field type different from the field type in query?
+						if($tablefield->Type != $fieldtype) {
+							// Add a query to change the column type
+							$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[strtolower($tablefield->Field)];
+							$for_update[$table.'.'.$tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
+						}
+						
+						// Get the default value from the array
+							//echo "{$cfields[strtolower($tablefield->Field)]}<br>";
+						if(preg_match("| DEFAULT '(.*)'|i", $cfields[strtolower($tablefield->Field)], $matches)) {
+							$default_value = $matches[1];
+							if($tablefield->Default != $default_value)
+							{
+								// Add a query to change the column's default value
+								$cqueries[] = "ALTER TABLE {$table} ALTER COLUMN {$tablefield->Field} SET DEFAULT '{$default_value}'";
+								$for_update[$table.'.'.$tablefield->Field] = "Changed default value of {$table}.{$tablefield->Field} from {$tablefield->Default} to {$default_value}";
+							}
+						}
+
+						// Remove the field from the array (so it's not added)
+						unset($cfields[strtolower($tablefield->Field)]);
+					}
+					else {
+						// This field exists in the table, but not in the creation queries?
+					}
+				}
+
+				// For every remaining field specified for the table
+				foreach($cfields as $fieldname => $fielddef) {
+					// Push a query line into $cqueries that adds the field to that table
+					$cqueries[] = "ALTER TABLE {$table} ADD COLUMN $fielddef";
+					$for_update[$table.'.'.$fieldname] = 'Added column '.$table.'.'.$fieldname;
+				}
+				
+				// Index stuff goes here
+				// Fetch the table index structure from the database
+				$tableindices = $wpdb->get_results("SHOW INDEX FROM {$table};");
+				
+				if($tableindices) {
+					// Clear the index array
+					unset($index_ary);
+
+					// For every index in the table
+					foreach($tableindices as $tableindex) {
+						// Add the index to the index data array
+						$keyname = $tableindex->Key_name;
+						$index_ary[$keyname]['columns'][] = array('fieldname' => $tableindex->Column_name, 'subpart' => $tableindex->Sub_part);
+						$index_ary[$keyname]['unique'] = ($tableindex->Non_unique == 0)?true:false;
+					}
+
+					// For each actual index in the index array
+					foreach($index_ary as $index_name => $index_data) {
+						// Build a create string to compare to the query
+						$index_string = '';
+						if($index_name == 'PRIMARY') {
+							$index_string .= 'PRIMARY ';
+						}
+						else if($index_data['unique']) {
+							$index_string .= 'UNIQUE ';
+						}
+						$index_string .= 'KEY ';
+						if($index_name != 'PRIMARY') {
+							$index_string .= $index_name;
+						}
+						$index_columns = '';
+						// For each column in the index
+						foreach($index_data['columns'] as $column_data) {					
+							if($index_columns != '') $index_columns .= ',';
+							// Add the field to the column list string
+							$index_columns .= $column_data['fieldname'];
+							if($column_data['subpart'] != '') {
+								$index_columns .= '('.$column_data['subpart'].')';
+							}
+						}
+						// Add the column list to the index create string 
+						$index_string .= ' ('.$index_columns.')';
+
+						if(!(($aindex = array_search($index_string, $indices)) === false)) {
+							unset($indices[$aindex]);
+							//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">{$table}:<br/>Found index:".$index_string."</pre>\n";
+						}
+						//else echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">{$table}:<br/><b>Did not find index:</b>".$index_string."<br/>".print_r($indices, true)."</pre>\n";
+					}
+				}
+
+				// For every remaining index specified for the table
+				foreach($indices as $index) {
+					// Push a query line into $cqueries that adds the index to that table
+					$cqueries[] = "ALTER TABLE {$table} ADD $index";
+					$for_update[$table.'.'.$fieldname] = 'Added index '.$table.' '.$index;
+				}
+
+				// Remove the original table creation query from processing
+				unset($cqueries[strtolower($table)]);
+				unset($for_update[strtolower($table)]);
+			} else {
+				// This table exists in the database, but not in the creation queries?
+			}
+		}
+	}
+
+	$allqueries = array_merge($cqueries, $iqueries);
+	if($execute) {
+		foreach($allqueries as $query) {
+			//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">".print_r($query, true)."</pre>\n";
+			$wpdb->query($query);
+		}
+	}
+
+	return $for_update;
+}
+
+function make_db_current() {
+	global $wp_queries;
+
+	$alterations = dbDelta($wp_queries);
+	echo "<ol>\n";
+	foreach($alterations as $alteration) echo "<li>$alteration</li>\n";
+	echo "</ol>\n";
+}
+
+function rename_field($table, $field, $new) {
+//	ALTER TABLE `wp_users` CHANGE `ID` `user_id` INT( 10 ) UNSIGNED NOT NULL AUTO_INCREMENT 
+}
+
+function remove_field($table, $field) {
+	global $wpdb;
+// ALTER TABLE `wp_users` DROP `user_domain` 
 }
 
 ?>

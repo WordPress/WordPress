@@ -572,13 +572,13 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 // trackback - reply
 function trackback_response($error = 0, $error_message = '') {
 	if ($error) {
-		echo '<?xml version="1.0" encoding="iso-8859-1"?'.">\n";
+		echo '<?xml version="1.0" encoding="utf-8"?'.">\n";
 		echo "<response>\n";
 		echo "<error>1</error>\n";
 		echo "<message>$error_message</message>\n";
 		echo "</response>";
 	} else {
-		echo '<?xml version="1.0" encoding="iso-8859-1"?'.">\n";
+		echo '<?xml version="1.0" encoding="utf-8"?'.">\n";
 		echo "<response>\n";
 		echo "<error>0</error>\n";
 		echo "</response>";

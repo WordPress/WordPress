@@ -6,7 +6,7 @@ if (!isset($feed) || !$feed) {
     require('wp-blog-header.php');
 }
 
-header('Content-type: application/atom+xml', true);
+header('Content-type: application/atom+xml; charset=' . get_settings('blog_charset'), true);
 $more = 1;
 
 ?>

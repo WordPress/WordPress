@@ -6,7 +6,7 @@ if (!isset($feed) || !$feed) {
     require('wp-blog-header.php');
 }
 
-header('Content-type: text/xml', true);
+header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
 $more = 1;
 
 ?>
