@@ -54,7 +54,7 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
     global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
     $wpcommentspopupfile = $file;
     $wpcommentsjavascript = 1;
-    $javascript = "<script type='text/javascript'>\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
+    $javascript = "<script type=\"text/javascript\">\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
     echo $javascript;
 }
 
@@ -74,7 +74,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
     } else {
         if (!empty($post->post_password)) { // if there's a password
             if ($HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
-                echo("Enter your password to view comments");
+                echo('Enter your password to view comments');
                 return;
             }
         }
@@ -171,7 +171,7 @@ function comment_author_url_link($linktext='', $before='', $after='') {
 	if ((!empty($url)) && ($url != 'http://') && ($url != 'http://url')) {
 	$display = ($linktext != '') ? $linktext : stripslashes($url);
 		echo $before;
-		echo "<a href='$url' rel='external'>$display</a>";
+		echo '<a href="'.$url.'" rel="external">'.$display.'</a>';
 		echo $after;
 	}
 }
@@ -237,7 +237,7 @@ function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp
 		$url = $siteurl.'/'.$commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
 	}
 
-	echo "<a href='$url'>$link_text</a>";
+	echo '<a href="'.$url.'">'.$link_text.'</a>';
 }
 
 function comment_author_rss() {

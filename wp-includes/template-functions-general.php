@@ -35,49 +35,49 @@ function get_bloginfo($show='') {
     }
 
     switch($show) {
-        case "url":
-            $output = $siteurl."/".$blogfilename;
+        case 'url':
+            $output = $siteurl.'/'.$blogfilename;
             break;
-        case "description":
+        case 'description':
             $output = $blogdescription;
             break;
-        case "rdf_url":
+        case 'rdf_url':
             $output = $siteurl.'/wp-rdf.php';
             if ($do_perma) {
                 $output = $feed_url . '/rdf/';
             }
             break;
-        case "rss_url":
+        case 'rss_url':
             $output = $siteurl.'/wp-rss.php';
             if ($do_perma) {
                 $output = $feed_url . '/rss/';
             }
             break;
-        case "rss2_url":
+        case 'rss2_url':
             $output = $siteurl.'/wp-rss2.php';
             if ($do_perma) {
                 $output = $feed_url . '/rss2/';
             }
             break;
-        case "atom_url":
+        case 'atom_url':
             $output = $siteurl.'/wp-atom.php';
             if ($do_perma) {
                 $output = $feed_url . '/atom/';
             }
             break;        
-        case "comments_rss2_url":
+        case 'comments_rss2_url':
             $output = $siteurl.'/wp-commentsrss2.php';
             if ($do_perma) {
                 $output = $comment_feed_url . '/rss2/';
             }
             break;
-        case "pingback_url":
+        case 'pingback_ur'":
             $output = $siteurl.'/xmlrpc.php';
             break;
-        case "admin_email":
+        case 'admin_email':
             $output = $admin_email;
             break;
-        case "name":
+        case 'name':
         default:
             $output = $blogname;
             break;
@@ -213,7 +213,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 
     if ('' != $limit) {
         $limit = (int) $limit;
-        $limit = " LIMIT $limit";
+        $limit = ' LIMIT '.$limit;
     }
     // this is what will separate dates on weekly archive links
     $archive_week_separator = '&#8211;';
@@ -247,10 +247,10 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             foreach ($arcresults as $arcresult) {
                 $url  = get_month_link($arcresult->year,   $arcresult->month);
                 if ($show_post_count) {
-                    $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
-                    $after = "&nbsp;($arcresult->posts)";
+                    $text = sprintf('%s %d', $month[zeroise($arcresult->month,2)], $arcresult->year);
+                    $after = '&nbsp;('.$arcresult->posts.')';
                 } else {
-                    $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
+                    $text = sprintf('%s %d', $month[zeroise($arcresult->month,2)], $arcresult->year);
                 }
                 echo get_archives_link($url, $text, $format, $before, $after);
             }
@@ -279,7 +279,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
                     $arc_week = get_weekstartend($arcresult->yyyymmdd, $start_of_week);
                     $arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
                     $arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-                    $url  = sprintf("%s/%s%sm%s%s%sw%s%d", $siteurl, $blogfilename, $querystring_start,
+                    $url  = sprintf('%s/%s%sm%s%s%sw%s%d', $siteurl, $blogfilename, $querystring_start,
                                     $querystring_equal, $arc_year, $querystring_separator,
                                     $querystring_equal, $arcresult->week);
                     $text = $arc_week_start . $archive_week_separator . $arc_week_end;
@@ -459,7 +459,7 @@ function get_calendar($daylength = 1) {
         if ($day == date('j', (time() + ($time_difference * 3600))) && $thismonth == date('m', time()+($time_difference * 3600)))
             echo '<td id="today">';
         else
-            echo "<td>";
+            echo '<td>';
 
         if (in_array($day, $daywithpost)) { // any posts today?
             echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"$ak_titles_for_day[$day]\">$day</a>";
@@ -482,13 +482,13 @@ function get_calendar($daylength = 1) {
 function allowed_tags() {
     global $allowedtags;
     foreach($allowedtags as $tag => $attributes) {
-        $allowed .= "<$tag";
+        $allowed .= '<'.$tag;
         if (0 < count($attributes)) {
             foreach ($attributes as $attribute => $limits) {
-                $allowed .= " $attribute=\"\"";
+                $allowed .= ' '.$attribute.'=""';
             }
         }
-        $allowed .= "> ";
+        $allowed .= '> ';
     }
     return htmlentities($allowed);
 }
@@ -497,7 +497,7 @@ function allowed_tags() {
 
 function the_date_xml() {
     global $post;
-    echo mysql2date("Y-m-d",$post->post_date);
+    echo mysql2date('Y-m-d',$post->post_date);
     //echo ""+$post->post_date;
 }
 
