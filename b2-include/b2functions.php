@@ -1140,6 +1140,15 @@ function balanceTags($text, $is_comment = 0) {
 		return $text;
 	}
 
+	if ($is_comment) {
+		// sanitise HTML attributes, remove frame/applet tags
+		$text = preg_replace('#( on[a-z]{1,}|style|class|id)="(.*?)"#i', '', $text);
+		$text = preg_replace('#( on[a-z]{1,}|style|class|id)=\'(.*?)\'#i', '', $text);
+		$text = preg_replace('#([a-z]{1,})="(( |\t)*?)(javascript|vbscript|about):(.*?)"#i', '$1=""', $text);
+		$text = preg_replace('#([a-z]{1,})=\'(( |\t)*?)(javascript|vbscript|about):(.*?)\'#i', '$1=""', $text);
+		$text = preg_replace('#\<(\/{0,1})([a-z]{0,2})(frame|applet)(.*?)\>#i', '', $text);
+	}
+	
 	$tagstack = array();
 	$stacksize = 0;
 	$tagqueue = '';
