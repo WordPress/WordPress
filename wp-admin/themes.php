@@ -65,7 +65,7 @@ $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 		<th></th>
 	</tr>
 <?php
-	$theme = '';
+	$style = '';
 
 	$theme_names = array_keys($themes);
 	natcasesort($theme_names);
@@ -86,17 +86,20 @@ $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 			$current = false;
 		}
 
-		$theme = ('class="alternate"' == $theme) ? '' : 'class="alternate"';
+		$style = ('class="alternate"' == $style|| 'class="alternate active"' == $style) ? '' : 'alternate';
+		if ($current) $style .= $style == 'alternate' ? ' active' : 'active';
+		if ($style != '') $style = 'class="' . $style . '"';
+
 		echo "
-	  <tr $theme>";
+	  <tr $style>";
 if ( $current )
 	echo "<td><strong>$title $version</strong></td>";
 else
 	echo "<td>$title $version</td>";
 echo "
-	     <td align='center'>$author</td>
-	     <td>$description</td>
-	     <td align='center'>$action</td>
+	     <td class=\"auth\">$author</td>
+	     <td class=\"desc\">$description</td>
+	     <td class=\"togl\">$action</td>
 	  </tr>";
 	}
 ?>

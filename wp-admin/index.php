@@ -81,7 +81,7 @@ if (0 < $numcomms) $numcomms = number_format($numcomms);
 $numcats = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->categories");
 if (0 < $numcats) $numcats = number_format($numcats);
 ?>
-<p><?php printf(__('There are currently %1$d <a href="%2$s" title="Posts">posts</a> and %3$d <a href="%4$s" title="Comments">comments</a>, contained within %5$d <a href="%6$s" title="categories">categories</a>.'), $numposts, 'edit.php',  $numcomms, 'edit-comments.php', $numcats, 'categories.php'); ?></p>
+<p><?php printf(__('There are currently %1$s <a href="%2$s" title="Posts">posts</a> and %3$s <a href="%4$s" title="Comments">comments</a>, contained within %5$s <a href="%6$s" title="categories">categories</a>.'), $numposts, 'edit.php',  $numcomms, 'edit-comments.php', $numcats, 'categories.php'); ?></p>
 </div>
 
 <?php

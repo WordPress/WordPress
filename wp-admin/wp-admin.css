@@ -541,3 +541,11 @@ textarea, input, select {
 	margin: 0 0 .3em .6em;
 	padding: 0 0 0 .6em;
 }
+
+
+/* emeyer additions */
+
+.active td {background: #BEB;}
+.active .name {background: #9C9;}
+.active.alternate td {background: #ADA;}
+.active.alternate .name {background: #8B8;}
