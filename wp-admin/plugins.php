@@ -1,6 +1,6 @@
 <?php
 
-if ($_GET['action']) {
+if (isset($_GET['action'])) {
 	$standalone = 1;
 	require_once('admin-header.php');
 	if ('activate' == $_GET['action']) {

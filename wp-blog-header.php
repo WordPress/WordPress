@@ -515,9 +515,10 @@ if ($posts) {
             $more = 1;
             $single = 1;
         }
-        if ($s && empty($paged)) { // If they were doing a search and got one result
-            header('Location: ' . get_permalink($posts[0]->ID));
-        }
+		if ($s && empty($paged)) { // If they were doing a search and got one result
+			if (!strstr($_SERVER['PHP_SELF'], 'wp-admin')) // And not in admin section
+				header('Location: ' . get_permalink($posts[0]->ID));
+		}
     }
 } // end if posts.
 ?>

@@ -45,25 +45,24 @@ if( isset( $_GET['m'] ) )
 <form name="viewarc" action="" method="get" style="float: left; width: 20em;">
 	<fieldset>
 	<legend><?php _e('Show Posts From Month of...') ?></legend>
-    
+    <select name='m'>
 	<?php
-		echo "<select name=\"m\" style=\"width:120px;\">";
-		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date) FROM $tableposts ORDER BY post_date DESC",ARRAY_A);
+		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $tableposts ORDER BY post_date DESC");
 		foreach ($arc_result as $arc_row) {			
-			$arc_year  = $arc_row["YEAR(post_date)"];
-			$arc_month = $arc_row["MONTH(post_date)"];
+			$arc_year  = $arc_row->yyear;
+			$arc_month = $arc_row->mmonth;
 			
-			if( $arc_year.zeroise($arc_month,2) == $_GET['m'] )
-				$default = "selected";
+			if( isset($_GET['m']) && $arc_year . zeroise($arc_month, 2) == $_GET['m'] )
+				$default = 'selected="selected"';
 			else
 				$default = null;
 			
-			echo "<option ".$default." value=\"".$arc_year.zeroise($arc_month,2)."\">";
-			echo $month[zeroise($arc_month,2)]." $arc_year";
+			echo "<option $default value=\"" . $arc_year.zeroise($arc_month, 2) . '">';
+			echo $month[zeroise($arc_month, 2)] . " $arc_year";
 			echo "</option>\n";
 		}
-		echo "</select>";
 	?>
+	</select>
 		<input type="submit" name="submit" value="<?php _e('Show Month') ?>"  /> 
 	</fieldset>
 </form>
@@ -92,13 +91,14 @@ if( isset( $_GET['m'] ) )
 include(ABSPATH.'wp-blog-header.php');
 
 if ($posts) {
+$bgcolor = '';
 foreach ($posts as $post) { start_wp();
 $bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
 ?> 
   <tr style='background-color: <?php echo $bgcolor; ?>'> 
     <th scope="row"><?php echo $id ?></th> 
     <td><?php the_time('Y-m-d \<\b\r \/\> g:i:s a'); ?></td> 
-    <td><a href="<?php permalink_link(); ?>" rel="permalink"> 
+    <td><a href="<?php the_permalink(); ?>" rel="permalink"> 
       <?php the_title() ?> 
       </a> 
     <?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?></td> 
@@ -122,7 +122,7 @@ $bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
 ?> 
 </table> 
 <?php
-if (($withcomments) or ($single)) {
+if ( 1 == count($posts) ) {
 
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 	if ($comments) {
@@ -171,7 +171,6 @@ $comment_status = wp_get_comment_status($comment->comment_ID);
 	echo '</ol>';
 	}//end if comments
 	?>
-    <p><a href="edit.php"><?php _e('Back to posts') ?></a></p>
 <?php } ?> 
 </div> 
 <?php 

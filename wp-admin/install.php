@@ -1,11 +1,13 @@
 <?php
 $_wp_installing = 1;
-if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must create one (<a href='install-config.php'>attempt automatically</a>) before moving on.");
+if (!file_exists('../wp-config.php')) die(__("There doesn't seem to be a wp-config.php file. You must create one (<a href='install-config.php'>attempt automatically</a>) before moving on."));
 require_once('../wp-config.php');
 require('upgrade-functions.php');
 
-$step = $_GET['step'];
-if (!$step) $step = 0;
+if (isset($_GET['step']))
+	$step = $_GET['step'];
+else
+	$step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -48,7 +50,7 @@ if (!$step) $step = 0;
 
 $wpdb->hide_errors();
 $installed = $wpdb->get_results("SELECT * FROM $tableusers");
-if ($installed) die('<p>You appear to already have WordPress installed. If you would like to reinstall please clear your old database files first.</p></body></html>');
+if ($installed) die(__('<p>You appear to already have WordPress installed. If you would like to reinstall please clear your old database files first.</p></body></html>'));
 $wpdb->show_errors();
 switch($step) {
 

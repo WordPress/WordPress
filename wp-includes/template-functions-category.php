@@ -189,7 +189,6 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
         $optiondates = 0, $optioncount = 0, $hide_empty = 1, $optionnone=FALSE,
         $selected=0, $hide=0) {
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
-    global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
     if (($file == 'blah') || ($file == '')) $file = get_settings('home') . '/' . get_settings('blogfilename');
     if (!$selected) $selected=$cat;
@@ -260,7 +259,6 @@ function wp_list_cats($args = '') {
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '') {
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb, $category_posts;
-    global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
     // Optiondates now works
     if ('' == $file) {
@@ -383,7 +381,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
             } else {
                 $thelist .= "\t$link<br />\n";
             }
-            if ($children) $thelist .= list_cats($optionall, $all, $sort_column, $sort_order, $file, $list, $optiondates, $optioncount, $hide_empty, $use_desc_for_title, $children, $category->cat_ID, $categories, 1);
+            if ($children) $thelist .= list_cats($optionall, $all, $sort_column, $sort_order, $file, $list, $optiondates, $optioncount, $hide_empty, $use_desc_for_title, $children, $category->cat_ID, $categories, 1, $feed, $feed_image, $exclude);
             if ($list) $thelist .= "</li>\n";
             }
     }

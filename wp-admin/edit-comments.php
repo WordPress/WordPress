@@ -55,8 +55,8 @@ if (!empty($delete_comments)) {
 	echo "<div class='wrap'><p>" . sprintf(__('%s comments deleted.'), $i) . "</p></div>";
 }
 
-if ($s) {
-	$s = $wpdb->escape($s);
+if (isset($_GET['s'])) {
+	$s = $wpdb->escape($_GET['s']);
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments  WHERE
 		comment_author LIKE '%$s%' OR
 		comment_author_email LIKE '%$s%' OR

@@ -280,10 +280,10 @@ function trackback_rdf($timezone = 0) {
 	    xmlns:dc="http://purl.org/dc/elements/1.1/"
 	    xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
 		<rdf:Description rdf:about="';
-	permalink_single();
+	the_permalink();
 	echo '"'."\n";
 	echo '    dc:identifier="';
-	permalink_single();
+	the_permalink();
 	echo '"'."\n";
 	echo '    dc:title="'.str_replace('--', '&#x2d;&#x2d;', wptexturize(strip_tags(get_the_title()))).'"'."\n";
 	echo '    trackback:ping="'.trackback_url(0).'"'." />\n";

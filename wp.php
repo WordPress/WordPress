@@ -23,7 +23,7 @@ require_once("wp-blog-header.php");
 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
 
 <?php the_content(); ?><?php link_pages("<br />Pages: ","<br />","number") ?>
-<p><em>posted by <strong><?php the_author() ?></strong> @ <a href="<?php permalink_link() ?>"><?php the_time() ?></a></em></p>
+<p><em>posted by <strong><?php the_author() ?></strong> @ <a href="<?php the_permalink() ?>"><?php the_time() ?></a></em></p>
 <p>Filed under: <?php the_category() ?></p>
 <?php comments_popup_link("comments ?", "1 comment", "% comments") ?>
 

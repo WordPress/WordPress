@@ -22,7 +22,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 
 require_once('./optionhandler.php');
 
-if ($_POST['submit']) {
+if (isset($_POST['submit'])) {
 	update_option('permalink_structure', $_POST['permalink_structure']);
 	$permalink_structure = $_POST['permalink_structure'];
 
@@ -41,7 +41,7 @@ if ($_POST['submit']) {
 	}
 	require('./options-head.php');
 ?>
-<?php if ($_POST['submit']) : ?>
+<?php if (isset($_POST['submit'])) : ?>
 <div class="updated"><p><?php _e('Permalink structure updated.'); ?></p></div>
 <?php endif; ?>
 <div class="wrap"> 

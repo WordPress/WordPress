@@ -18,26 +18,6 @@ function permalink_anchor($mode = 'id') {
     }
 }
 
-function permalink_link($file='', $mode = 'id') {
-    global $post, $pagenow, $cacheweekly, $wpdb;
-    $file = ($file=='') ? $pagenow : $file;
-    switch(strtolower($mode)) {
-        case 'title':
-            $title = sanitize_title($post->post_title) . '-' . $post->ID;
-            $anchor = $title;
-            break;
-        case 'id':
-        default:
-            $anchor = $id;
-            break;
-    }
-    echo get_permalink();
-}
-
-function permalink_single($file = '') {
-    echo get_permalink();
-}
-
 function permalink_single_rss($file = '') {
     echo get_permalink();
 }
@@ -165,7 +145,7 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
     }
 
     $location = get_settings('siteurl') . "/wp-admin/post.php?action=editcomment&amp;comment=$comment->comment_ID";
-    echo "$before <a href=\"$location\">$link</a> $after";
+    echo "$before <a href='$location'>$link</a> $after";
 }
 
 ?>
