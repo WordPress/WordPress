@@ -376,6 +376,20 @@ $now_gmt = current_time('mysql', 1);
 			post_modified_gmt = '$now_gmt'
 		WHERE ID = $post_ID ");
 
+	// Meta Stuff
+	if ($_POST['meta']) :
+		foreach ($_POST['meta'] as $key => $value) :
+			update_meta($key, $value['key'], $value['value']);
+		endforeach;
+	endif;
+
+	if ($_POST['deletemeta']) :
+		foreach ($_POST['deletemeta'] as $key => $value) :
+			delete_meta($key);
+		endforeach;
+	endif;
+
+	add_meta($post_ID);
 
 	// Now it's category time!
 	// First the old categories
@@ -405,6 +419,7 @@ $now_gmt = current_time('mysql', 1);
 	} // end if moving from draft/private to published
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
+
 		// Trackback time.
 		$to_ping = trim($wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_ID"));
 		$pinged = trim($wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_ID"));
@@ -425,21 +440,6 @@ $now_gmt = current_time('mysql', 1);
 			}
 		}
 	} // end if publish
-
-	// Meta Stuff
-	if ($_POST['meta']) :
-		foreach ($_POST['meta'] as $key => $value) :
-			update_meta($key, $value['key'], $value['value']);
-		endforeach;
-	endif;
-
-	if ($_POST['deletemeta']) :
-		foreach ($_POST['deletemeta'] as $key => $value) :
-			delete_meta($key);
-		endforeach;
-	endif;
-
-	add_meta($post_ID);
 
 	do_action('edit_post', $post_ID);
 	exit();
