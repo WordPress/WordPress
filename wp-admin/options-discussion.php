@@ -78,7 +78,7 @@ include('options-head.php');
 			<li> 
 				<label for="moderation_notify"> 
 				<input name="moderation_notify" type="checkbox" id="moderation_notify" value="1" <?php checked('1', get_settings('moderation_notify')); ?> /> 
-				<?php _e('A comment is approved or declined') ?> </label> 
+				<?php _e('A comment is held for moderation') ?> </label> 
 			</li> 
 		</ul> 
 </fieldset>
