@@ -121,7 +121,7 @@ $wp_posts_post_date_field = "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minut
 // if a month is specified in the querystring, load that month
 if ($m != '') {
     $m = ''.intval($m);
-    $where .= " AND YEAR($wp_posts_post_date_fieldpost_date)=".substr($m,0,4);
+    $where .= " AND YEAR($wp_posts_post_date_field)=".substr($m,0,4);
     if (strlen($m)>5)
         $where .= " AND MONTH($wp_posts_post_date_field)=".substr($m,4,2);
     if (strlen($m)>7)
