@@ -58,15 +58,16 @@ switch($step) {
   you up and running with the latest in personal publishing platforms. Before 
   we get started, remember that we require a PHP version of at least 4.0.6, you 
   have <?php echo phpversion(); ?>. Look good? You also need to set up the database 
-  connection information in <code>b2config.php</code>. If you&#8217;re all done, 
-  <a href="wp-install.php?step=1">let's go</a>! </p>
+  connection information in <code>b2config.php</code>. Have you looked at the 
+  <a href="../readme.html">readme</a>? If you&#8217;re all ready, <a href="wp-install.php?step=1">let's 
+  go</a>! </p>
 <?php
 	break;
 	
 	case 1:
 ?>
 <h1>Step 1</h1>
-<p>Okay first we're going to set up the links database. This will allow you to host your own blogroll, complete with Weblogs.com updates.</p>
+<p>Okay first we&#8217;re going to set up the links database. This will allow you to host your own blogroll, complete with Weblogs.com updates.</p>
 <?php
 require_once('../wp-links/links.config.php');
 
@@ -126,6 +127,13 @@ if (!$got_links) {
            " PRIMARY KEY (link_id)                              " .
            ") ";
     $result = mysql_query($sql) or print ("Can't create the table '$tablelinks' in the database.<br />" . $sql . "<br />" . mysql_error());
+	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://wordpress.org', 'WordPress', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://cafelog.com', 'b2', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://photomatt.net', 'Matt', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://zed1.com/b2/', 'Mike', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+
+
+
     if ($result != false) {
         echo "<p>Table '$tablelinks' created OK</p>\n";
         $got_links = true;
@@ -159,7 +167,7 @@ if ($got_row) {
     echo "<p>All done!</p>\n";
 }
 ?>
-<p>Did you defeat the boss monster at the end? Good, then go on to <a href="wp-install.php?step=2">Step 
+<p>Did you defeat the boss monster at the end? Good, then you&#8217;re ready for <a href="wp-install.php?step=2">Step 
   2</a>.</p>
 <?php
 	break;
