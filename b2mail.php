@@ -204,6 +204,7 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 
 		$sql = "SELECT ID, user_level FROM $tableusers WHERE user_login='$user_login' AND user_pass='$user_pass' ORDER BY ID DESC LIMIT 1";
 		$result = $wpdb->get_row($sql);
+        ++$querycount;
 
 		if (!$result) {
 			echo '<p><b>Wrong login or password.</b></p></div>';

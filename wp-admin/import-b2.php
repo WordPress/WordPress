@@ -139,6 +139,7 @@ if (!$got_links) {
     echo "<p>... may need to update it though. Looking for column link_updated...</p>\n";
     $query = "SELECT link_updated FROM $tablelinks LIMIT 1";
     $q = @mysql_query($query);
+    ++$querycount;
     if ($q != false) {
         if ($row = mysql_fetch_object($q)) {
             echo "<p>You have  column link_updated. Good!</p>\n";
@@ -150,6 +151,7 @@ if (!$got_links) {
     }
     echo "<p>Looking for column link_rel...</p>\n";
     $query = "SELECT link_rel FROM $tablelinks LIMIT 1";
+    ++$querycount;
     $q = @mysql_query($query);
     if ($q != false) {
         if ($row = mysql_fetch_object($q)) {
@@ -166,6 +168,7 @@ if (!$got_links) {
 if ($got_links && $got_cats) {
     echo "<p>Looking for category 1...</p>\n";
     $sql = "SELECT * FROM $tablelinkcategories WHERE cat_id=1 ";
+    ++$querycount;
     $result = mysql_query($sql) or print ("Can't query '$tablelinkcategories'.<br />" . $sql . "<br />" . mysql_error());
     if ($result != false) {
         if ($row = mysql_fetch_object($result)) {

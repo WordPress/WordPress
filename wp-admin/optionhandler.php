@@ -50,6 +50,7 @@ SELECT;
                                          ."FROM $tableoptionvalues "
                                          ."WHERE option_id = $option_result->option_id "
                                          ."ORDER BY optionvalue_seq");
+            ++$querycount;
             if ($select) {
                 foreach($select as $option) {
                     $ret .= '<option value="'.$option->optionvalue.'"';
@@ -67,6 +68,7 @@ SELECT;
         case 7: // SQL select
             // first get the sql to run
             $sql = $wpdb->get_var("SELECT optionvalue FROM $tableoptionvalues WHERE option_id = $option_result->option_id");
+            ++$querycount;
             if (!$sql) {
                 return $option_result->option_name . $editable;
             }

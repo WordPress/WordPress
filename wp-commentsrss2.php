@@ -59,6 +59,7 @@ foreach ($posts as $post) { start_b2();
 											AND post_date < '".date("Y-m-d H:i:s")."' 
 											ORDER BY comment_date 
 											LIMIT $posts_per_rss");
+            ++$querycount;
 		}
 		else { // if no post id passed in, we'll just ue the last 10 comments.
 			$comments = $wpdb->get_results("SELECT comment_ID,
@@ -78,6 +79,7 @@ foreach ($posts as $post) { start_b2();
 											AND post_date < '".date("Y-m-d H:i:s")."' 
 											ORDER BY comment_date DESC
 											LIMIT $posts_per_rss");
+            ++$querycount;
 		}
 	// this line is WordPress' motor, do not delete it.
 		if ($comments) {

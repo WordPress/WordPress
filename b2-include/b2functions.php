@@ -478,7 +478,7 @@ function get_usernumposts($userid) {
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
 function url_to_postid($url = '') {
-	global $wpdb, $tableposts, $siteurl;
+	global $wpdb, $querycount, $tableposts, $siteurl;
 
 	// Take a link like 'http://example.com/blog/something'
 	// and extract just the '/something':
@@ -536,7 +536,8 @@ function url_to_postid($url = '') {
 	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
 
 	// Run the query to get the post ID:
-	return intval($wpdb->get_var("SELECT ID FROM $tableposts WHERE 1 = 1 " . $where));
+    ++$querycount;
+    return intval($wpdb->get_var("SELECT ID FROM $tableposts WHERE 1 = 1 " . $where));
 }
 
 
@@ -681,6 +682,7 @@ function dropdown_categories($blog_ID=1, $default=1) {
     if ($postdata["Category"] != '') {
         $default = $postdata["Category"];
     }
+	++$querycount;
 	foreach($results as $post) {
 		echo "<option value=\"".$post->cat_ID."\"";
 		if ($post->cat_ID == $default)
@@ -1439,28 +1441,32 @@ function wp_set_comment_status($comment_id, $comment_status) {
    a (boolean) false signals an error
  */
 function wp_get_comment_status($comment_id) {
-    global $wpdb, $tablecomments;
+    global $wpdb, $querycount, $tablecomments;
     
     $result = $wpdb->get_var("SELECT comment_approved FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
+    ++$querycount;
     if ($result == NULL) {
-	return "deleted";
+        return "deleted";
     } else if ($result == "1") {
-	return "approved";
+        return "approved";
     } else if ($result == "0") {
-	return "unapproved";
+        return "unapproved";
     } else {
-	return false;
+        return false;
     }
 }
 
 function wp_notify_postauthor($comment_id, $comment_type) {
-    global $wpdb, $tablecomments, $tableposts, $tableusers;
+    global $wpdb, $querycount, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $blogfilename, $blogname, $siteurl;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
+    ++$querycount;
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+    ++$querycount;
     $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
+    ++$querycount;
 
     if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
@@ -1511,16 +1517,20 @@ function wp_notify_postauthor($comment_id, $comment_type) {
    always returns true
  */
 function wp_notify_moderator($comment_id) {
-    global $wpdb, $tablecomments, $tableposts, $tableusers;
+    global $wpdb, $querycount, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $blogfilename, $blogname, $siteurl;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
+    ++$querycount;
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+    ++$querycount;
     $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
+    ++$querycount;
 
     $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
     $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $tablecomments WHERE comment_approved = '0'");
+    ++$querycount;
 
     $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\" is waiting for your approval\r\n\r\n";
     $notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";

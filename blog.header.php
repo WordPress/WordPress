@@ -304,7 +304,7 @@ if ($preview) {
 // error_log("$request");
 // echo $request;
 $posts = $wpdb->get_results($request);
-
+++$querycount;
 if (1 == count($posts)) {
 	if ($p || $name) {
 		$more = 1;

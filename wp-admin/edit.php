@@ -268,6 +268,7 @@ foreach ($posts as $post) { start_b2();
 				if (($withcomments) or ($c)) {
 
 					$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+                    ++$querycount;
 					if ($comments) {
 					?>
 

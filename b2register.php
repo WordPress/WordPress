@@ -80,7 +80,8 @@ case 'register':
 
 	/* checking the login isn't already used by another user */
 	$result = $wpdb->get_results("SELECT user_login FROM $tableusers WHERE user_login = '$user_login'");
-	if (count($result) >= 1) {
+    ++$querycount;
+    if (count($result) >= 1) {
 		die ('<strong>ERROR</strong>: This login is already registered, please choose another one.');
 	}
 

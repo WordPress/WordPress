@@ -11,6 +11,7 @@ include('blog.header.php');
 $sql = "SELECT max(post_date) FROM $tableposts";
 
 $maxdate = $wpdb->get_var($sql);
+++$querycount;
 
 $unixtime = strtotime($maxdate);
 

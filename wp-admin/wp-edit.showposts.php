@@ -271,6 +271,7 @@ echo $posts_nav_bar;
 				if (($withcomments) or ($c)) {
 
 					$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+                    ++$querycount;
 					if ($comments) {
 					?>
 
