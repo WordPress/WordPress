@@ -14,6 +14,7 @@ if (!$step) $step = 0;
 <style media="screen" type="text/css">
 	body {
 		background-color: white;
+		color: black;
 		font-family: Georgia, "Times New Roman", Times, serif;
 		margin-left: 15%;
 		margin-right: 15%;
