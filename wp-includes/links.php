@@ -501,7 +501,7 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 			$orderby = (bool_from_yn($cat['sort_desc'])?'_':'') . $orderby;
 
 			// Display the category name
-			echo '	<li id="'.sanitize_title($cat['cat_name']).'">' . $cat['cat_name'] . "\n\t<ul>\n";
+			echo '	<li id="'.sanitize_title($cat['cat_name']).'"><h2>' . $cat['cat_name'] . "</h2>\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
 			get_links($cat['link_category'],
 				'<li>',"</li>","\n",
