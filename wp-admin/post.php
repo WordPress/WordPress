@@ -432,7 +432,7 @@ case 'editcomment':
 	$comment = $_GET['comment'];
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
 		die('You are not allowed to edit comments on this post.');
 	}
 
@@ -454,7 +454,7 @@ case 'confirmdeletecomment':
 	$p = $_GET['p'];
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID'])) {
 		die('You are not allowed to delete comments on this post.');
 	}
 
@@ -496,7 +496,7 @@ case 'deletecomment':
 	$postdata = get_postdata($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
 
-	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID'])) {
 		die('You are not allowed to edit comments on this post.');
 	}
 
@@ -527,7 +527,7 @@ case 'unapprovecomment':
 
 	$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
 		die('You are not allowed to edit comments on this post, so you cannot disapprove this comment.');
 	}
 
@@ -547,7 +547,7 @@ case 'mailapprovecomment':
 
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
 		die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
 	}
 
@@ -572,7 +572,7 @@ case 'approvecomment':
 	}
 	$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
 		die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
 	}
 
