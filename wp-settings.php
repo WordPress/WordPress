@@ -19,15 +19,15 @@ $tableoptiongroups        = $table_prefix . 'optiongroups';
 $tableoptiongroup_options = $table_prefix . 'optiongroup_options';
 
 // This is the name of the include directory. No "/" allowed.
-$b2inc = 'wp-includes';
+define('WPINC', 'wp-includes');
 
-require ($abspath . 'wp-config-extra.php');
-require ($abspath . $b2inc . '/wp-db.php');
-require ($abspath . $b2inc . '/functions.php');
-require ($abspath . $b2inc . '/template-functions.php');
-require ($abspath . $b2inc . '/class-xmlrpc.php');
-require ($abspath . $b2inc . '/class-xmlrpcs.php');
-require ($abspath . '/wp-links/links.php');
+require (ABSPATH . 'wp-config-extra.php');
+require (ABSPATH . WPINC . '/wp-db.php');
+require (ABSPATH . WPINC . '/functions.php');
+require (ABSPATH . WPINC . '/template-functions.php');
+require (ABSPATH . WPINC . '/class-xmlrpc.php');
+require (ABSPATH . WPINC . '/class-xmlrpcs.php');
+require (ABSPATH . '/wp-links/links.php');
 
 //setup the old globals from b2config.php
 //
@@ -97,5 +97,5 @@ if (!isset($_wp_installing) || !$_wp_installing) {
 
 } //end !$_wp_installing
 
-require ($abspath . $b2inc . '/vars.php');
+require (ABSPATH . WPINC . '/vars.php');
 ?>

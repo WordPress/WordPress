@@ -15,7 +15,7 @@ $allowed_types = explode(" ", trim($fileupload_allowedtypes));
 ?><html>
 <head>
 <title>WordPress :: upload images/files</title>
-<link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
+<link rel="stylesheet" href="<?php echo WPINC; ?>/b2.css" type="text/css">
 <style type="text/css">
 <!--
 body {

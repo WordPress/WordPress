@@ -1,6 +1,6 @@
 <?php
 require_once('../wp-config.php');
-require_once($abspath.$b2inc.'/functions.php');
+require_once(ABSPATH.WPINC.'/functions.php');
 
 // columns we wish to find are:  link_url, link_name, link_target, link_description
 // we need to map XML attribute names to our columns

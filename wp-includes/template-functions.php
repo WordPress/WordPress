@@ -1464,15 +1464,15 @@ function comments_link($file='', $echo=true) {
 }
 
 function comments_popup_script($width=400, $height=400, $file='wp-comments-popup.php') {
-	global $b2commentspopupfile, $b2trackbackpopupfile, $b2pingbackpopupfile, $b2commentsjavascript;
-	$b2commentspopupfile = $file;
-	$b2commentsjavascript = 1;
+	global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
+	$wpcommentspopupfile = $file;
+	$wpcommentsjavascript = 1;
 	$javascript = "<script type='text/javascript'>\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
 	echo $javascript;
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
-	global $id, $b2commentspopupfile, $b2commentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
+	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
 	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
 	if (0 == $number && 'closed' == $post->comment_status) {
@@ -1486,8 +1486,8 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
             }
         }
         echo '<a href="';
-        if ($b2commentsjavascript) {
-            echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+        if ($wpcommentsjavascript) {
+            echo $wpcommentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
             //echo get_permalink();
             echo '" onclick="wpopen(this.href); return false"';
         } else {

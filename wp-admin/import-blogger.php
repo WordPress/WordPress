@@ -1,17 +1,17 @@
 <?php // rename this to blogger-2-b2.php
 
-$b2varstoreset = array('action');
-for ($i=0; $i<count($b2varstoreset); $i += 1) {
-	$b2var = $b2varstoreset[$i];
-	if (!isset($$b2var)) {
-		if (empty($HTTP_POST_VARS["$b2var"])) {
-			if (empty($HTTP_GET_VARS["$b2var"])) {
-				$$b2var = '';
+$wpvarstoreset = array('action');
+for ($i=0; $i<count($wpvarstoreset); $i += 1) {
+	$wpvar = $wpvarstoreset[$i];
+	if (!isset($$wpvar)) {
+		if (empty($HTTP_POST_VARS["$wpvar"])) {
+			if (empty($HTTP_GET_VARS["$wpvar"])) {
+				$$wpvar = '';
 			} else {
-				$$b2var = $HTTP_GET_VARS["$b2var"];
+				$$wpvar = $HTTP_GET_VARS["$wpvar"];
 			}
 		} else {
-			$$b2var = $HTTP_POST_VARS["$b2var"];
+			$$wpvar = $HTTP_POST_VARS["$wpvar"];
 		}
 	}
 }
@@ -21,9 +21,9 @@ switch ($action) {
 case "step1":
 
 	require_once('../wp-config.php');
-	require_once($abspath.$b2inc.'/template-functions.php');
-	require_once($abspath.$b2inc.'/functions.php');
-	require_once($abspath.$b2inc.'/vars.php');
+	require_once(ABSPATH.WPINC.'/template-functions.php');
+	require_once(ABSPATH.WPINC.'/functions.php');
+	require_once(ABSPATH.WPINC.'/vars.php');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

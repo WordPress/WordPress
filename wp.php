@@ -8,7 +8,7 @@ require_once("wp-blog-header.php");
   <title><?php bloginfo('name') ?><?php single_post_title(' :: ') ?><?php single_cat_title(' :: ') ?><?php single_month_title(' :: ') ?></title>
   <!-- Change charset if needed(?)  But please do not remove this metatag -->
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-  <meta name="generator" content="WordPress <?php $b2_version ?>" /> <!-- leave this for stats -->
+  <meta name="generator" content="WordPress <?php $wp_version ?>" /> <!-- leave this for stats -->
   <meta http-equiv="reply-to" content="you@somewhere.zzz" />
   <link rel="alternate" type="text/xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
   <link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
@@ -18,7 +18,7 @@ require_once("wp-blog-header.php");
 <h1 id="header"><a href="<?php echo $siteurl; ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <!-- // loop start -->
-<?php foreach ($posts as $post) { start_b2(); ?>
+<?php foreach ($posts as $post) { start_wp(); ?>
 <?php the_date("d.m.y","<h2>","</h2>"); ?>
 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
 

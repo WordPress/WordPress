@@ -233,10 +233,10 @@ echo $posts_nav_bar;
 </table>
 
 <?php
-include($abspath.'wp-blog-header.php');
+include(ABSPATH.'wp-blog-header.php');
 
 if ($posts) {
-foreach ($posts as $post) { start_b2();
+foreach ($posts as $post) { start_wp();
 ?>
 			<p>
 				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments", true) ?></a>

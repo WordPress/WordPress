@@ -18,18 +18,18 @@ if (!get_magic_quotes_gpc()) {
 	$HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
 }
 
-$b2varstoreset = array('action');
-for ($i=0; $i<count($b2varstoreset); $i += 1) {
-	$b2var = $b2varstoreset[$i];
-	if (!isset($$b2var)) {
-		if (empty($HTTP_POST_VARS["$b2var"])) {
-			if (empty($HTTP_GET_VARS["$b2var"])) {
-				$$b2var = '';
+$wpvarstoreset = array('action');
+for ($i=0; $i<count($wpvarstoreset); $i += 1) {
+	$wpvar = $wpvarstoreset[$i];
+	if (!isset($$wpvar)) {
+		if (empty($HTTP_POST_VARS["$wpvar"])) {
+			if (empty($HTTP_GET_VARS["$wpvar"])) {
+				$$wpvar = '';
 			} else {
-				$$b2var = $HTTP_GET_VARS["$b2var"];
+				$$wpvar = $HTTP_GET_VARS["$wpvar"];
 			}
 		} else {
-			$$b2var = $HTTP_POST_VARS["$b2var"];
+			$$wpvar = $HTTP_POST_VARS["$wpvar"];
 		}
 	}
 }

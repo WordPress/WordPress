@@ -30,7 +30,7 @@ require_once('wp-blog-header.php');
 <h1 id="header"><a href="<?php echo $siteurl; ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <div id="content">
-<?php if ($posts) { foreach ($posts as $post) { start_b2(); ?>
+<?php if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 
 <?php the_date('','<h2>','</h2>'); ?>
 	
@@ -51,7 +51,7 @@ require_once('wp-blog-header.php');
 	<?php trackback_rdf(); ?>
 	-->
 
-<?php include($abspath . 'wp-comments.php'); ?>
+<?php include(ABSPATH . 'wp-comments.php'); ?>
 </div>
 
 <?php } } else { // end foreach, end if any posts ?>

@@ -12,7 +12,7 @@ require('wp-blog-header.php');
 if (!isset($rss_language)) { $rss_language = 'en'; }
 echo "<?xml version=\"1.0\"?".">"; 
 ?>
-<!-- generator="wordpress/<?php echo $b2_version ?>" -->
+<!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
@@ -22,7 +22,7 @@ echo "<?xml version=\"1.0\"?".">";
 <channel>
 <?php
 $i = 0;
-foreach ($posts as $post) { start_b2();
+foreach ($posts as $post) { start_wp();
 	if ($i < 1) {
 		$i++;
 ?>
@@ -33,7 +33,7 @@ foreach ($posts as $post) { start_b2();
 	<dc:creator><?php echo antispambot($admin_email) ?></dc:creator>
 	<dc:rights>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></dc:rights>
 	<dc:date><?php echo gmdate('Y-m-d\TH:i:s'); ?></dc:date>
-	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $b2_version ?>"/>
+	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $wp_version ?>"/>
 	<admin:errorReportsTo rdf:resource="mailto:<?php echo antispambot($admin_email) ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>

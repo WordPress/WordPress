@@ -1,7 +1,7 @@
 <?php
 
 require_once('../wp-config.php');
-require_once($abspath.'/wp-admin/auth.php');
+require_once(ABSPATH.'/wp-admin/auth.php');
 
 function gethelp_link($this_file, $helptag) {
     $url = 'http://wordpress.org/docs/reference/links/#'.$helptag;
@@ -29,18 +29,18 @@ $admin_area_charset = (!isset($admin_area_charset)) ? 'iso-8859-15' : $admin_are
 if (($is_macIE) || ($is_lynx))
 	$use_quicktags = 0;
 
-$b2varstoreset = array('profile','standalone','redirect','redirect_url','a','popuptitle','popupurl','text', 'trackback', 'pingback');
-for ($i=0; $i<count($b2varstoreset); $i += 1) {
-	$b2var = $b2varstoreset[$i];
-	if (!isset($$b2var)) {
-		if (empty($HTTP_POST_VARS["$b2var"])) {
-			if (empty($HTTP_GET_VARS["$b2var"])) {
-				$$b2var = '';
+$wpvarstoreset = array('profile','standalone','redirect','redirect_url','a','popuptitle','popupurl','text', 'trackback', 'pingback');
+for ($i=0; $i<count($wpvarstoreset); $i += 1) {
+	$wpvar = $wpvarstoreset[$i];
+	if (!isset($$wpvar)) {
+		if (empty($HTTP_POST_VARS["$wpvar"])) {
+			if (empty($HTTP_GET_VARS["$wpvar"])) {
+				$$wpvar = '';
 			} else {
-				$$b2var = $HTTP_GET_VARS["$b2var"];
+				$$wpvar = $HTTP_GET_VARS["$wpvar"];
 			}
 		} else {
-			$$b2var = $HTTP_POST_VARS["$b2var"];
+			$$wpvar = $HTTP_POST_VARS["$wpvar"];
 		}
 	}
 }

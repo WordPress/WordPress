@@ -20,7 +20,7 @@ add_filter('the_content', 'trim');
 if (!isset($rss_language)) { $rss_language = 'en'; }
 ?>
 <?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">"; ?>
-<!-- generator="wordpress/<?php echo $b2_version ?>" -->
+<!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rdf:RDF
 	xmlns="http://purl.org/rss/1.0/"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -36,20 +36,20 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 	<dc:language><?php echo $rss_language ?></dc:language>
 	<dc:date><?php echo gmdate('Y-m-d\TH:i:s'); ?></dc:date>
 	<dc:creator><?php echo antispambot($admin_email) ?></dc:creator>
-	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $b2_version ?>"/>
+	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $wp_version ?>"/>
 	<admin:errorReportsTo rdf:resource="mailto:<?php echo antispambot($admin_email) ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
 	<items>
 		<rdf:Seq>
-		<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_b2(); ?>
+		<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 			<rdf:li rdf:resource="<?php permalink_single_rss() ?>"/>
-		<?php $b2_items[] = $row; $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } } ?>
+		<?php $wp_items[] = $row; $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } } ?>
 		</rdf:Seq>
 	</items>
 </channel>
-<?php if ($posts) { foreach ($posts as $post) { start_b2(); ?>
+<?php if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 <item rdf:about="<?php permalink_single_rss() ?>">
 	<title><?php the_title_rss() ?></title>
 	<link><?php permalink_single_rss() ?></link>

@@ -11,19 +11,19 @@ if (!file_exists($curpath . '/wp-config.php'))
 
 require_once ($curpath.'/wp-config.php');
 
-$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name');
+$wpvarstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name');
 
-	for ($i=0; $i<count($b2varstoreset); $i += 1) {
-		$b2var = $b2varstoreset[$i];
-		if (!isset($$b2var)) {
-			if (empty($HTTP_POST_VARS[$b2var])) {
-				if (empty($HTTP_GET_VARS[$b2var])) {
-					$$b2var = '';
+	for ($i=0; $i<count($wpvarstoreset); $i += 1) {
+		$wpvar = $wpvarstoreset[$i];
+		if (!isset($$wpvar)) {
+			if (empty($HTTP_POST_VARS[$wpvar])) {
+				if (empty($HTTP_GET_VARS[$wpvar])) {
+					$$wpvar = '';
 				} else {
-					$$b2var = $HTTP_GET_VARS[$b2var];
+					$$wpvar = $HTTP_GET_VARS[$wpvar];
 				}
 			} else {
-				$$b2var = $HTTP_POST_VARS[$b2var];
+				$$wpvar = $HTTP_POST_VARS[$wpvar];
 			}
 		}
 	}

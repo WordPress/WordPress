@@ -19,8 +19,8 @@ $loginsql = DB_USER;
 $passsql = DB_PASSWORD;
 $base = DB_NAME;
 
-$abspath = dirname(__FILE__).'/';
+define('ABSPATH', dirname(__FILE__).'/');
 
 // Get everything else
-require_once($abspath.'wp-settings.php');
+require_once(ABSPATH.'wp-settings.php');
 ?>

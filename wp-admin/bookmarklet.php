@@ -90,8 +90,8 @@ $text = stripslashes($text);
 /* big funky fixes for browsers' javascript bugs */
 
 if (($is_macIE) && (!isset($IEMac_bookmarklet_fix))) {
-	$popuptitle = preg_replace($b2_macIE_correction["in"],$b2_macIE_correction["out"],$popuptitle);
-	$text = preg_replace($b2_macIE_correction["in"],$b2_macIE_correction["out"],$text);
+	$popuptitle = preg_replace($wp_macIE_correction["in"],$wp_macIE_correction["out"],$popuptitle);
+	$text = preg_replace($wp_macIE_correction["in"],$wp_macIE_correction["out"],$text);
 }
 
 if (($is_winIE) && (!isset($IEWin_bookmarklet_fix))) {
@@ -100,8 +100,8 @@ if (($is_winIE) && (!isset($IEWin_bookmarklet_fix))) {
 }
 
 if (($is_gecko) && (!isset($Gecko_bookmarklet_fix))) {
-	$popuptitle = preg_replace($b2_gecko_correction["in"],$b2_gecko_correction["out"],$popuptitle);
-	$text = preg_replace($b2_gecko_correction["in"],$b2_gecko_correction["out"],$text);
+	$popuptitle = preg_replace($wp_gecko_correction["in"],$wp_gecko_correction["out"],$popuptitle);
+	$text = preg_replace($wp_gecko_correction["in"],$wp_gecko_correction["out"],$text);
 }
 
 $post_title = $_REQUEST['post_title'];

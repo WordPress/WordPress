@@ -1,7 +1,7 @@
 <?php
 require(dirname(__FILE__) . '/wp-config.php');
 
-require_once($abspath.$b2inc.'/class-pop3.php');
+require_once(ABSPATH.WPINC.'/class-pop3.php');
 
 
 timer_start();

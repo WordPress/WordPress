@@ -22,7 +22,7 @@ if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
 if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }
 ?>
 <?php echo "<?xml version=\"1.0\"?".">"; ?>
-<!-- generator="wordpress/<?php echo $b2_version ?>" -->
+<!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="0.92">
     <channel>
         <title><?php bloginfo_rss("name") ?></title>
@@ -34,7 +34,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
         <webMaster><?php echo antispambot($admin_email) ?></webMaster>
         <language><?php echo $rss_language ?></language>
 
-<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_b2(); ?>
+<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
         <item>
             <title><?php the_title_rss() ?></title>
 <?php

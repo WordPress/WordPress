@@ -23,7 +23,7 @@ if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
 if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }
 ?>
 <?php echo '<?xml version="1.0"?'.'>'; ?>
-<!-- generator="wordpress/<?php echo $b2_version ?>" -->
+<!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
 	xmlns:content="http://purl.org/rss/1.0/modules/content/">
 
@@ -34,9 +34,9 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 	<language><?php echo $rss_language ?></language>
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
-	<generator>http://wordpress.org/?v=<?php echo $b2_version ?>"</generator>
+	<generator>http://wordpress.org/?v=<?php echo $wp_version ?>"</generator>
 
-	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_b2(); ?>
+	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 	<item>
 		<title><?php the_title_rss() ?></title>
 		<link><?php permalink_single_rss() ?></link>

@@ -228,7 +228,7 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 
 function convert_chars($content,$flag='obsolete attribute left there for backwards compatibility') { // html/unicode entities output
 
-	global $use_htmltrans, $b2_htmltrans, $b2_htmltranswinuni;
+	global $use_htmltrans, $wp_htmltrans, $wp_htmltranswinuni;
 
 	// removes metadata tags
 	$content = preg_replace('/<title>(.+?)<\/title>/','',$content);
@@ -241,12 +241,12 @@ function convert_chars($content,$flag='obsolete attribute left there for backwar
 
 		// converts HTML-entities to their display values in order to convert them again later
 		$content = preg_replace('/['.chr(127).'-'.chr(255).']/e', '"&#".ord(\'\0\').";"', $content );
-		$content = strtr($content, $b2_htmltrans);
+		$content = strtr($content, $wp_htmltrans);
 
 		// now converting: Windows CP1252 => Unicode (valid HTML)
 		// (if you've ever pasted text from MSWord, you'll understand)
 
-		$content = strtr($content, $b2_htmltranswinuni);
+		$content = strtr($content, $wp_htmltranswinuni);
 
 	}
 
@@ -259,9 +259,9 @@ function convert_chars($content,$flag='obsolete attribute left there for backwar
 }
 
 function convert_bbcode($content) {
-	global $b2_bbcode, $use_bbcode;
+	global $wp_bbcode, $use_bbcode;
 	if ($use_bbcode) {
-		$content = preg_replace($b2_bbcode["in"], $b2_bbcode["out"], $content);
+		$content = preg_replace($wp_bbcode["in"], $wp_bbcode["out"], $content);
 	}
 	$content = convert_bbcode_email($content);
 	return $content;
@@ -283,16 +283,16 @@ function convert_bbcode_email($content) {
 }
 
 function convert_gmcode($content) {
-	global $b2_gmcode, $use_gmcode;
+	global $wp_gmcode, $use_gmcode;
 	if ($use_gmcode) {
-		$content = preg_replace($b2_gmcode["in"], $b2_gmcode["out"], $content);
+		$content = preg_replace($wp_gmcode["in"], $wp_gmcode["out"], $content);
 	}
 	return $content;
 }
 
 function convert_smilies($text) {
 	global $smilies_directory, $use_smilies;
-	global $b2_smiliessearch, $b2_smiliesreplace;
+	global $wp_smiliessearch, $wp_smiliesreplace;
     $output = '';
 	if ($use_smilies) {
 		// HTML loop taken from texturize function, could possible be consolidated
@@ -301,7 +301,7 @@ function convert_smilies($text) {
 		for ($i = 0; $i < $stop; $i++) {
 			$content = $textarr[$i];
 			if ((strlen($content) > 0) && ('<' != $content{0})) { // If it's not a tag
-				$content = str_replace($b2_smiliessearch, $b2_smiliesreplace, $content);
+				$content = str_replace($wp_smiliessearch, $wp_smiliesreplace, $content);
 			}
 			$output .= $content;
 		}
@@ -1030,7 +1030,7 @@ function debug_fclose($fp) {
 
 function pingback($content, $post_ID) {
 	// original code by Mort (http://mort.mine.nu:8080)
-	global $siteurl, $blogfilename, $b2_version;
+	global $siteurl, $blogfilename, $wp_version;
 	$log = debug_fopen('./pingback.log', 'a');
 	$post_links = array();
 	debug_fwrite($log, 'BEGIN '.time()."\n");
@@ -1099,7 +1099,7 @@ function pingback($content, $post_ID) {
 		}
 
 		// Send the GET request
-		$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: b2/$b2_version PHP/" . phpversion() . "\r\n\r\n";
+		$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: b2/$wp_version PHP/" . phpversion() . "\r\n\r\n";
 		ob_end_flush();
 		fputs($fp, $request);
 
@@ -1553,7 +1553,7 @@ if (!function_exists('in_array')) {
 	}
 }
 
-function start_b2() {
+function start_wp() {
 	global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
 	global $preview_userid,$preview_date,$preview_content,$preview_title,$preview_category,$preview_notify,$preview_make_clickable,$preview_autobr;
 	global $pagenow;
@@ -1609,18 +1609,18 @@ function is_new_day() {
 }
 
 function apply_filters($tag, $string) {
-	global $b2_filter;
-	if (isset($b2_filter['all'])) {
-		$b2_filter['all'] = (is_string($b2_filter['all'])) ? array($b2_filter['all']) : $b2_filter['all'];
-        if (isset($b2_filter[$tag]))
-            $b2_filter[$tag] = array_merge($b2_filter['all'], $b2_filter[$tag]);
+	global $wp_filter;
+	if (isset($wp_filter['all'])) {
+		$wp_filter['all'] = (is_string($wp_filter['all'])) ? array($wp_filter['all']) : $wp_filter['all'];
+        if (isset($wp_filter[$tag]))
+            $wp_filter[$tag] = array_merge($wp_filter['all'], $wp_filter[$tag]);
         else
-            $b2_filter[$tag] = array_merge($b2_filter['all'], array());
-		$b2_filter[$tag] = array_unique($b2_filter[$tag]);
+            $wp_filter[$tag] = array_merge($wp_filter['all'], array());
+		$wp_filter[$tag] = array_unique($wp_filter[$tag]);
 	}
-	if (isset($b2_filter[$tag])) {
-		$b2_filter[$tag] = (is_string($b2_filter[$tag])) ? array($b2_filter[$tag]) : $b2_filter[$tag];
-		$functions = $b2_filter[$tag];
+	if (isset($wp_filter[$tag])) {
+		$wp_filter[$tag] = (is_string($wp_filter[$tag])) ? array($wp_filter[$tag]) : $wp_filter[$tag];
+		$functions = $wp_filter[$tag];
 		foreach($functions as $function) {
             //error_log("apply_filters #1 applying filter $function");
 			$string = $function($string);
@@ -1630,9 +1630,9 @@ function apply_filters($tag, $string) {
 }
 
 function add_filter($tag, $function_to_add) {
-	global $b2_filter;
-	if (isset($b2_filter[$tag])) {
-		$functions = $b2_filter[$tag];
+	global $wp_filter;
+	if (isset($wp_filter[$tag])) {
+		$functions = $wp_filter[$tag];
 		if (is_array($functions)) {
 			foreach($functions as $function) {
 				$new_functions[] = $function;
@@ -1644,25 +1644,25 @@ function add_filter($tag, $function_to_add) {
    for no apparent reason
 		if (is_array($function_to_add)) {
 			foreach($function_to_add as $function) {
-				if (!in_array($function, $b2_filter[$tag])) {
+				if (!in_array($function, $wp_filter[$tag])) {
 					$new_functions[] = $function;
 				}
 			}
 		} else */if (is_string($function_to_add)) {
-			if (!@in_array($function_to_add, $b2_filter[$tag])) {
+			if (!@in_array($function_to_add, $wp_filter[$tag])) {
 				$new_functions[] = $function_to_add;
 			}
 		}
-		$b2_filter[$tag] = $new_functions;
+		$wp_filter[$tag] = $new_functions;
 	} else {
-		$b2_filter[$tag] = array($function_to_add);
+		$wp_filter[$tag] = array($function_to_add);
 	}
 	return true;
 }
 
 // Check for hacks file if the option is enabled
 if (get_settings('hack_file')) {
-	if (file_exists($abspath . '/my-hacks.php'))
-		require($abspath . '/my-hacks.php');
+	if (file_exists(ABSPATH . '/my-hacks.php'))
+		require(ABSPATH . '/my-hacks.php');
 }
 ?>

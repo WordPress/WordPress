@@ -234,12 +234,12 @@ echo $posts_nav_bar;
 
 	<?php
 	// these lines are b2's "motor", do not alter nor remove them
-	include($abspath.'wp-blog-header.php');
+	include(ABSPATH.'wp-blog-header.php');
 
 	if ($posts) {
 	foreach ($posts as $post) {
         //$posts_per_page = 10;
-        start_b2(); ?>
+        start_wp(); ?>
 			<p>
 				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="post.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments", true) ?></a>
 				<?php

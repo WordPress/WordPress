@@ -3,10 +3,10 @@
 /* This file sets various arrays and variables for use in b2 */
 
 #b2 version
-$b2_version = '0.80';
+$wp_version = '0.80';
 
 #BBcode search and replace arrays
-$b2_bbcode['in'] = array(
+$wp_bbcode['in'] = array(
 	'#\[b](.+?)\[/b]#is',		// Formatting tags
 	'#\[i](.+?)\[/i]#is',
 	'#\[u](.+?)\[/u]#is',
@@ -20,7 +20,7 @@ $b2_bbcode['in'] = array(
 #	'#\[email](.+?)\[/email]#eis',		// E-mail
 #	'#\[email=(.+?)](.+?)\[/email]#eis'
 );
-$b2_bbcode['out'] = array(
+$wp_bbcode['out'] = array(
 	'<strong>$1</strong>',		// Formatting tags
 	'<em>$1</em>',
 	'<span style="text-decoration:underline">$1</span>',
@@ -36,22 +36,22 @@ $b2_bbcode['out'] = array(
 );
 
 #GreyMatter formatting search and replace arrays
-$b2_gmcode['in'] = array(
+$wp_gmcode['in'] = array(
 	'#\\*\*(.+?)\\*\*#is',		// **bold**
 	'#\\\\(.+?)\\\\#is',		// \\italic\\
 	'#\__(.+?)\__#is'		// __underline__
 );
-$b2_gmcode['out'] = array(
+$wp_gmcode['out'] = array(
 	'<strong>$1</strong>',
 	'<em>$1</em>',
 	'<span style="text-decoration:underline">$1</span>'
 );
 
 #Translation of HTML entities and special characters
-$b2_htmltrans = array_flip(get_html_translation_table(HTML_ENTITIES));
-$b2_htmltrans['<'] = '<';	# preserve HTML
-$b2_htmltrans['>'] = '>';	# preserve HTML
-$b2_htmltransbis = array(
+$wp_htmltrans = array_flip(get_html_translation_table(HTML_ENTITIES));
+$wp_htmltrans['<'] = '<';	# preserve HTML
+$wp_htmltrans['>'] = '>';	# preserve HTML
+$wp_htmltransbis = array(
 	'�' => '&#8211;',
 	'�' => '&#8212;',
 	'�' => '&#8216;',
@@ -95,10 +95,10 @@ $b2_htmltransbis = array(
 	'&supe;' => '&#8839;', '&oplus;' => '&#8853;', '&otimes;' => '&#8855;', '&perp;' => '&#8869;', '&sdot;' => '&#8901;', '&lceil;' => '&#8968;', '&rceil;' => '&#8969;', '&lfloor;' => '&#8970;', '&rfloor;' => '&#8971;', '&lang;' => '&#9001;',
 	'&rang;' => '&#9002;', '&loz;' => '&#9674;', '&spades;' => '&#9824;', '&clubs;' => '&#9827;', '&hearts;' => '&#9829;', '&diams;' => '&#9830;'
 );
-$b2_htmltrans = array_merge($b2_htmltrans,$b2_htmltransbis);
+$wp_htmltrans = array_merge($wp_htmltrans,$wp_htmltransbis);
 
 #Translation of invalid Unicode references range to valid range
-$b2_htmltranswinuni = array(
+$wp_htmltranswinuni = array(
 	'&#128;' => '&#8364;', // the Euro sign
 	'&#129;' => '',
 	'&#130;' => '&#8218;', // these are Windows CP1252 specific characters
@@ -164,28 +164,28 @@ if (preg_match('/Lynx/', $HTTP_USER_AGENT)) {
 $is_IE    = (($is_macIE) || ($is_winIE));
 
 # browser-specific javascript corrections
-$b2_macIE_correction['in'] = array(
+$wp_macIE_correction['in'] = array(
 	'/\%uFFD4/', '/\%uFFD5/', '/\%uFFD2/', '/\%uFFD3/',
 	'/\%uFFA5/', '/\%uFFD0/', '/\%uFFD1/', '/\%uFFBD/',
 	'/\%uFF83%uFFC0/', '/\%uFF83%uFFC1/', '/\%uFF83%uFFC6/', '/\%uFF83%uFFC9/',
 	'/\%uFFB9/', '/\%uFF81%uFF8C/', '/\%uFF81%uFF8D/', '/\%uFF81%uFFDA/',
 	'/\%uFFDB/'
 );
-$b2_macIE_correction['out'] = array(
+$wp_macIE_correction['out'] = array(
 	'&lsquo;', '&rsquo;', '&ldquo;', '&rdquo;',
 	'&bull;', '&ndash;', '&mdash;', '&Omega;',
 	'&beta;', '&gamma;', '&theta;', '&lambda;',
 	'&pi;', '&prime;', '&Prime;', '&ang;',
 	'&euro;'
 );
-$b2_gecko_correction['in'] = array(
+$wp_gecko_correction['in'] = array(
 	'/\‘/', '/\’/', '/\“/', '/\”/',
 	'/\•/', '/\–/', '/\—/', '/\Ω/',
 	'/\β/', '/\γ/', '/\θ/', '/\λ/',
 	'/\π/', '/\′/', '/\″/', '/\�/',
 	'/\€/', '/\ /'
 );
-$b2_gecko_correction['out'] = array(
+$wp_gecko_correction['out'] = array(
 	'&8216;', '&rsquo;', '&ldquo;', '&rdquo;',
 	'&bull;', '&ndash;', '&mdash;', '&Omega;',
 	'&beta;', '&gamma;', '&theta;', '&lambda;',
@@ -198,8 +198,8 @@ $is_Apache = strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Apache') ? 1 : 0;
 $is_IIS = strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Microsoft-IIS') ? 1 : 0;
 
 # if the config file does not provide the smilies array, let's define it here
-if (!isset($b2smiliestrans)) {
-    $b2smiliestrans = array(
+if (!isset($wpsmiliestrans)) {
+    $wpsmiliestrans = array(
         ' :)'        => 'icon_smile.gif',
         ' :D'        => 'icon_biggrin.gif',
         ' :-D'       => 'icon_biggrin.gif',
@@ -257,16 +257,16 @@ if (!function_exists('smiliescmp')) {
 	   return (strlen($a) > strlen($b)) ? -1 : 1;
 	}
 }
-uksort($b2smiliestrans, 'smiliescmp');
+uksort($wpsmiliestrans, 'smiliescmp');
 
 # generates smilies' search & replace arrays
-foreach($b2smiliestrans as $smiley => $img) {
-	$b2_smiliessearch[] = $smiley;
+foreach($wpsmiliestrans as $smiley => $img) {
+	$wp_smiliessearch[] = $smiley;
 	$smiley_masked = '';
 	for ($i = 0; $i < strlen($smiley); $i = $i + 1) {
 		$smiley_masked .= substr($smiley, $i, 1).chr(160);
 	}
-	$b2_smiliesreplace[] = "&nbsp;<img src='$smilies_directory/$img' alt='$smiley_masked' />";
+	$wp_smiliesreplace[] = "&nbsp;<img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
 
     add_filter('all', 'wptexturize');

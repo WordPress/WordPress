@@ -26,7 +26,7 @@ $month['11']='November';
 $month['12']='December';
 
 // here's the conversion table, you can modify it if you know what you're doing
-$b2smiliestrans = array(
+$wpsmiliestrans = array(
     ' :)'        => 'icon_smile.gif',
     ' :D'        => 'icon_biggrin.gif',
     ' :-D'       => 'icon_biggrin.gif',

@@ -7,7 +7,7 @@ include('wp-blog-header.php');
 $start = count($posts)-1;
 for ($i = $start; $i >= 0; $i--) {
     $post = $posts[$i];
-    start_b2();
+    start_wp();
     if ((get_Lon() != null) && (get_Lon > -360) && (get_Lon() < 360 )) {
 ?>
     <location arrival="<?php the_date_xml() ?>">

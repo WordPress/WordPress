@@ -11,22 +11,22 @@ $wpsmarty->plugin_dir    = './wp-plugins';
 require_once( 'b2-include/class-smarty.php' );
 $blog = 1;
 require_once('wp-blog-header.php');
-require_once($abspath.'wp-links/links.php');
-// not on by default: require_once($abspath.'wp-links/links.weblogs.com.php');
+require_once(ABSPATH.'wp-links/links.php');
+// not on by default: require_once(ABSPATH.'wp-links/links.weblogs.com.php');
 
 define( 'NODISPLAY', false );
 
 $wpsmarty->assign( 'siteurl', $siteurl );
-$wpsmarty->assign( 'b2_version', $b2_version );
+$wpsmarty->assign( 'b2_version', $wp_version );
 
 if($posts) 
 { 
 	foreach ($posts as $post) 
 	{ 
-		start_b2(); 
+		start_wp(); 
 		$content .= $wpsmarty->fetch( 'post.html' );
 		ob_start();
-		include($abspath . 'wp-comments.php');
+		include(ABSPATH . 'wp-comments.php');
 		$txt = ob_get_contents();
 		ob_end_clean();
 		$content .= $txt;
