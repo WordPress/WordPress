@@ -113,6 +113,7 @@ foreach($wpsmiliestrans as $smiley => $img) {
 
 // Path for cookies
 define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('home') . '/' ) );
+define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('siteurl') . '/' ) );
 
 // Some default filters
 add_filter('bloginfo','wp_specialchars');

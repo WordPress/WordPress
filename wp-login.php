@@ -20,13 +20,11 @@ switch($action) {
 
 case 'logout':
 
-    setcookie('wordpressuser_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
-    setcookie('wordpresspass_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
+	wp_clearcookie();
 	header('Expires: Mon, 11 Jan 1984 05:00:00 GMT');
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate, max-age=0');
 	header('Pragma: no-cache');
-
 	header('Location: wp-login.php');
 	exit();
 
@@ -134,9 +132,7 @@ default:
 
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if (! $using_cookie) {
-				$user_pass = md5(md5($user_pass)); // Double hash the password in the cookie.
-				setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
-				setcookie('wordpresspass_'. COOKIEHASH, $user_pass, time() + 31536000, COOKIEPATH);
+				wp_setcookie($user_login, $user_pass);
 			}
 
 			header("Location: $redirect_to");

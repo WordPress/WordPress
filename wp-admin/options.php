@@ -27,7 +27,7 @@ if ($user_level < 6)
 switch($action) {
 
 case 'update':
-    $any_changed = 0;
+	$any_changed = 0;
     
 	if (!$_POST['page_options']) {
 		foreach ($_POST as $key => $value) {
@@ -39,6 +39,10 @@ case 'update':
 	}
 
     $options = $wpdb->get_results("SELECT $wpdb->options.option_id, option_name, option_type, option_value, option_admin_level FROM $wpdb->options WHERE option_name IN ($option_names)");
+
+		// Save for later.
+		$old_siteurl = get_settings('siteurl');
+		$old_home = get_settings('home');
 
 // HACK
 // Options that if not there have 0 value but need to be something like "closed"
@@ -56,8 +60,10 @@ case 'update':
                         $new_val = 0;
                 }
                 if( in_array($option->option_name, $nonbools) && $new_val == '0' ) $new_val = 'closed';
-                if ($new_val !== $old_val)
+                if ($new_val !== $old_val) {
                     $result = $wpdb->query("UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'");
+										$any_changed++;
+								}
             }
         }
         unset($cache_settings); // so they will be re-read
@@ -65,14 +71,22 @@ case 'update':
     } // end if options
     
     if ($any_changed) {
-        $message = sprintf(__('%d setting(s) saved... '), $any_changed);
+			// If siteurl or home changed, reset cookies.
+			if ( get_settings('siteurl') != $old_siteurl || get_settings('home') != $old_home ) {
+				// Get currently logged in user and password.
+				get_currentuserinfo();
+				// Clear cookies for old paths.
+				wp_clearcookie();
+				// Set cookies for new paths.
+				wp_setcookie($user_login, $user_pass_md5, true, get_settings('home'), get_settings('siteurl'));
+			}
+
+			//$message = sprintf(__('%d setting(s) saved... '), $any_changed);
     }
     
-		//$referred = str_replace('?updated=true' , '', $_SERVER['HTTP_REFERER']);
 		$referred = remove_query_arg('updated' , $_SERVER['HTTP_REFERER']);
-		//$goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
 		$goback = add_query_arg('updated', 'true', $_SERVER['HTTP_REFERER']);
-	$goback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $goback);
+		$goback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $goback);
     header('Location: ' . $goback);
     break;
 

@@ -62,8 +62,8 @@ case 'update':
 			die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
 		$newuser_pass = $_POST["pass1"];
 		$updatepassword = "user_pass=MD5('$newuser_pass'), ";
-		setcookie('wordpresspass_' . COOKIEHASH, " ", time() - 31536000, COOKIEPATH);
-		setcookie('wordpresspass_' . COOKIEHASH, md5(md5($newuser_pass)), time() + 31536000, COOKIEPATH);
+		wp_clearcookie();
+		wp_setcookie($user_login, $newuser_pass);
 	}
 
 	$newuser_firstname = wp_specialchars($_POST['newuser_firstname']);
