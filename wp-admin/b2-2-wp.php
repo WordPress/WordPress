@@ -1,20 +1,6 @@
 <?php
 require('../b2config.php');
 
-function mysql_doh($msg,$sql,$error) {
-	echo "<p>$msg</p>";
-	echo "<p>query:<br />$sql</p>";
-	echo "<p>error:<br />$error</p>";
-	die();
-}
-
-$connexion = mysql_connect($server, $loginsql, $passsql) or die("Can't connect to the database<br />".mysql_error());
-$dbconnexion = mysql_select_db($base, $connexion);
-
-if (!$dbconnexion) {
-	echo mysql_error();
-	die();
-}
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 if (!step) $step = 0;
@@ -209,12 +195,16 @@ if ($got_row) {
 	case 2:
 ?>
 <h1>Step 2</h1>
-<p>First we&#8217;re going to add excerpt functionality...</p>
+<p>First we&#8217;re going to add excerpt, post, and password functionality...</p>
 
 <?php
 
 $query = "ALTER TABLE $tableposts ADD COLUMN post_excerpt text NOT NULL;";
-$q = mysql_query($query) or mysql_doh("Doh, add excerpts.", $query, mysql_error());
+$q = $wpdb->query($query);
+$query = "ALTER TABLE $tableposts ADD `comment_status` ENUM('open','closed') NOT NULL,
+ADD `ping_status` ENUM('open','closed') NOT NULL,
+ADD post_password varchar(20) NOT NULL;";
+$q = $wpdb->query($query);
 ?>
 
 <p>That went well! Now let's clean up the b2 database structure a bit...</p>
@@ -222,7 +212,7 @@ $q = mysql_query($query) or mysql_doh("Doh, add excerpts.", $query, mysql_error(
 <?php
 $query = "ALTER TABLE $tableposts DROP INDEX `ID`";
 
-$q = mysql_query($query) or mysql_doh("Can't drop the ID index. Did you already fix this?", $query, mysql_error());
+$q = $wpdb->query($query);
 ?>
 
 <p>One down, two to go...</p>
@@ -230,7 +220,15 @@ $q = mysql_query($query) or mysql_doh("Can't drop the ID index. Did you already 
 <?php
 
 $query="ALTER TABLE $tablesettings DROP INDEX `ID`";
-$q = mysql_query($query) or mysql_doh("Can't drop ID from the settings table. Do it already?", $query, mysql_error());
+$q = $wpdb->query($query);
+
+?>
+
+<p>So far so good.</p>
+<?php
+
+$query="ALTER TABLE $tablesettings DROP `post_karma`";
+$q = $wpdb->query($query);
 
 ?>
 
@@ -240,7 +238,7 @@ $q = mysql_query($query) or mysql_doh("Can't drop ID from the settings table. Do
 
 $query = "ALTER TABLE $tableusers DROP INDEX `ID`";
 
-$q = mysql_query($query) or mysql_doh("Couldn't drop index from users table.", $query, mysql_error());
+$q = $wpdb->query($query);
 
 ?>
 
