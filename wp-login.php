@@ -161,7 +161,7 @@ case 'lostpassword':
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>WordPress > Lost password ?</title>
+	<title>WordPress &rsaquo; Lost password ?</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
@@ -176,14 +176,15 @@ case 'lostpassword':
 
 
 <div id="login">
-<p>Type your login here and click OK. You will receive an email with your password.</p>
+<p>Please enter your information here. We will send you a new password. </p>
 <?php
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
 ?>
 
 <form name="" action="wp-login.php" method="post" id="lostpass">
 <input type="hidden" name="action" value="retrievepassword" />
-<label>Login: <input type="text" name="user_login" id="user_login" value="" size="12" /></label>
+<label>Login: <input type="text" name="user_login" id="user_login" value="" size="12" /></label><br />
+<label>Email: <input type="text" name="email" id="email" value="" size="12" /></label><br />
 <input type="submit" name="Submit2" value="OK" class="search">
 
 </form>
@@ -202,9 +203,12 @@ case 'retrievepassword':
 	$user_login = $HTTP_POST_VARS["user_login"];
 	$user_data = get_userdatabylogin($user_login);
 	$user_email = $user_data->user_email;
-	$user_pass = $user_data->user_pass;
 
-	if (!$user_email) die('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username?');
+	if (!$user_email || $user_email != $_POST['email']) die('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or email address? <a href="wp-login.php?action=lostpassword">Try again</a>.');
+ 	// Generate something random for a password... md5'ing current time with a rand salt
+    $user_pass = substr((MD5("time" . rand(1,16000))), 0, 6);
+ 	// now insert the new pass md5'd into the db
+ 	$wpdb->query("UPDATE wp_users SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
 	$message .= "Login at: $siteurl/wp-login.php";
