@@ -60,8 +60,8 @@ if ($action == 'retrospam') {
 </fieldset>
 <fieldset class="options">
         <legend><?php _e('Before a comment appears:') ?></legend> 
-		<ul> 
-			<li> 
+		<ul>
+			<li>
 				<label for="comment_moderation"> 
 				<input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked('1', get_settings('comment_moderation')); ?> /> 
 				<?php _e('An administrator must approve the comment (regardless of any matches below)') ?> </label> 

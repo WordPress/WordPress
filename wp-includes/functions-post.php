@@ -429,6 +429,7 @@ function wp_new_comment( $commentdata, $spam = false ) {
 
 	$comment_post_ID = (int) $comment_post_ID;
 
+	$user_id = apply_filters('pre_user_id', $user_ID);
 	$author  = apply_filters('pre_comment_author_name', $comment_author);
 	$email   = apply_filters('pre_comment_author_email', $comment_author_email);
 	$url     = apply_filters('pre_comment_author_url', $comment_author_url);
@@ -463,9 +464,9 @@ function wp_new_comment( $commentdata, $spam = false ) {
 	$approved = apply_filters('pre_comment_approved', $approved);
 
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
-	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type)
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type, user_id)
 	VALUES 
-	('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved', '$user_agent', '$comment_type')
+	('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved', '$user_agent', '$comment_type', '$user_id')
 	");
 
 	$comment_id = $wpdb->insert_id;

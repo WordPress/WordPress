@@ -18,9 +18,18 @@ $comment_author_email = $_POST['email'];
 $comment_author_url   = $_POST['url'];
 $comment_content      = $_POST['comment'];
 
-$comment_type = '';
+// If the user is logged in
+get_currentuserinfo();
+if ( $user_ID ) :
+	$comment_author       = $user_login;
+	$comment_author_email = $user_email;
+	$comment_author_url   = str_replace('http://', '', $user_url);
+else :
+	if ( get_option('comment_registration') )
+		die( __('Sorry, you must be logged in to post a comment.') );
+endif;
 
-$user_ip    = apply_filters('pre_comment_user_ip', $_SERVER['REMOTE_ADDR']);
+$comment_type = '';
 
 if ( get_settings('require_name_email') && ('' == $comment_author_email || '' == $comment_author) )
 	die( __('Error: please fill the required fields (name, email).') );
@@ -28,7 +37,7 @@ if ( get_settings('require_name_email') && ('' == $comment_author_email || '' ==
 if ( '' == $comment_content )
 	die( __('Error: please type a comment.') );
 
-$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type');
+$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'user_ID');
 
 wp_new_comment($commentdata);
 

@@ -3,7 +3,7 @@
 // Template functions
 
 function comments_template() {
-	global $wp_query, $withcomments, $post, $wpdb, $id, $comment;
+	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity;
 
 	if ( is_single() || is_page() || $withcomments ) :
 		$req = get_settings('require_name_email');
@@ -17,6 +17,8 @@ function comments_template() {
 		$email_db  = addslashes($comment_author_email);
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND ( comment_approved = '1' OR ( comment_author = '$author_db' AND comment_author_email = '$email_db' AND comment_approved = '0' ) ) ORDER BY comment_date");
 	}
+
+	get_currentuserinfo();
 
 	if ( file_exists( TEMPLATEPATH . '/comments.php') )
 		require( TEMPLATEPATH . '/comments.php');

@@ -155,7 +155,7 @@ function user_pass_ok($user_login,$user_pass) {
 }
 
 function get_currentuserinfo() { // a bit like get_userdata(), on steroids
-	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5;
+	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $user_identity;
 	// *** retrieving user's data from cookies and db - no spoofing
 
 	if (isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
@@ -167,6 +167,15 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 	$user_email = $userdata->user_email;
 	$user_url = $userdata->user_url;
 	$user_pass_md5 = md5($userdata->user_pass);
+
+	$idmode = $userdata->user_idmode;
+	if ($idmode == 'nickname')  $user_identity = $userdata->user_nickname;
+	if ($idmode == 'login')     $user_identity = $userdata->user_login;
+	if ($idmode == 'firstname') $user_identity = $userdata->user_firstname;
+	if ($idmode == 'lastname')  $user_identity = $userdata->user_lastname;
+	if ($idmode == 'namefl')    $user_identity = $userdata->user_firstname.' '.$userdata->user_lastname;
+	if ($idmode == 'namelf')    $user_identity = $userdata->user_lastname.' '.$userdata->user_firstname;
+	if (!$idmode) $user_identity = $userdata->user_nickname;
 }
 
 function get_userdata($userid) {

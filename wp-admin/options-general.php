@@ -11,7 +11,7 @@ include('admin-header.php');
   <h2><?php _e('General Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','gmt_offset','date_format','time_format','home','start_of_week'" /> 
+	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','gmt_offset','date_format','time_format','home','start_of_week','comment_registration'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"><?php _e('Weblog title:') ?></th> 
@@ -41,7 +41,11 @@ include('admin-header.php');
         <th scope="row"><?php _e('Membership:') ?></th> 
         <td> <label for="users_can_register"> 
           <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked('1', get_settings('users_can_register')); ?> /> 
-          <?php _e('Anyone can register') ?></label> 
+          <?php _e('Anyone can register') ?></label><br />
+		  <label for="comment_registration">
+			<input name="comment_registration" type="checkbox" id="comment_registration" value="1" <?php checked('1', get_settings('comment_registration')); ?> /> 
+				<?php _e('Users must be registered and logged in to comment') ?>
+			</label>
 </td> 
       </tr> 
     </table> 
