@@ -108,7 +108,7 @@ for ($x = 1; $x < $y; $x++) {
 	$j = -1;
 	foreach ($authors as $author) {
 	++$j;
-	echo '<li><i>'.$author.'</i><br />'.'<input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"';
+	echo '<li><i>'.$author.'</i><br />'.'<input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30">';
 	users_form($j);
 	echo '</li>';
 	}
