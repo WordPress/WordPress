@@ -156,11 +156,11 @@ function user_pass_ok($user_login,$user_pass) {
 }
 
 function get_currentuserinfo() { // a bit like get_userdata(), on steroids
-	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $cookiehash;
+	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5;
 	// *** retrieving user's data from cookies and db - no spoofing
 
-	if (isset($_COOKIE['wordpressuser_' . $cookiehash])) 
-		$user_login = $_COOKIE['wordpressuser_' . $cookiehash];
+	if (isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
+		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
 	$userdata = get_userdatabylogin($user_login);
 	$user_level = $userdata->user_level;
 	$user_ID = $userdata->ID;
@@ -1888,6 +1888,34 @@ function wp_mail($to, $subject, $message, $headers = '', $more = '') {
         }
 	else
 		return mail($to, $subject, $message, $headers, $more);
+}
+
+function wp_login($username, $password, $already_md5 = false) {
+	global $wpdb, $error;
+
+	if ( !$username )
+		return false;
+
+	if ( !$password ) {
+		$error = __('<strong>Error</strong>: The password field is empty.');
+		return false;
+	}
+
+	$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
+
+	if (!$login) {
+		$error = __('<strong>Error</strong>: Wrong login.');
+		return false;
+	} else {
+
+		if ( ($login->user_login == $username && $login->user_pass == $password) || ($already_md5 && $login->user_login == $username && md5($login->user_pass) == $password) ) {
+			return true;
+		} else {
+			$error = __('<strong>Error</strong>: Incorrect password.');
+			$pwd = '';
+			return false;
+		}
+	}
 }
 
 ?>

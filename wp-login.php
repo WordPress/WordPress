@@ -148,21 +148,16 @@ default:
 		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 	}
 
-	if ( !login($log, $pwd) ) {
-		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
-	} else {
+	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+	header('Cache-Control: no-cache, must-revalidate');
+	header('Pragma: no-cache');
+
+	if ( wp_login($log, $pwd) ) {
 		$user_login = $log;
 		$user_pass = $pwd;
 		setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
 		setcookie('wordpresspass_'. COOKIEHASH, md5($user_pass), time() + 31536000, COOKIEPATH);
-
-		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
 
 		if ($is_IIS)
 			header("Refresh: 0;url=$redirect_to");
@@ -175,7 +170,7 @@ default:
 		$user_pass_md5 = $_COOKIE['wordpresspass_' . COOKIEHASH];
 	}
 
-	if ( login($user_login, $user_pass_md5, true) ) {
+	if ( wp_login($user_login, $user_pass_md5, true) ) {
 		header('Expires: Wed, 5 Jun 1979 23:41:00 GMT'); // Michel's birthday
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Cache-Control: no-cache, must-revalidate');

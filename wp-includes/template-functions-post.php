@@ -97,12 +97,12 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 
 function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
     global $id, $post, $more, $single, $withcomments, $page, $pages, $multipage, $numpages;
-    global $preview, $cookiehash;
+    global $preview;
     global $pagenow;
     $output = '';
 
     if (!empty($post->post_password)) { // if there's a password
-        if (stripslashes($_COOKIE['wp-postpass_'.$cookiehash]) != $post->post_password) {  // and it doesn't match the cookie
+        if (stripslashes($_COOKIE['wp-postpass_'.COOKIEHASH]) != $post->post_password) {  // and it doesn't match the cookie
             $output = get_the_password_form();
             return $output;
         }
@@ -176,11 +176,10 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
 
 function get_the_excerpt($fakeit = true) {
     global $id, $post;
-    global $cookiehash;
     $output = '';
     $output = $post->post_excerpt;
     if (!empty($post->post_password)) { // if there's a password
-        if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
+        if ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
             $output = __('There is no excerpt because this is a protected post.');
             return $output;
         }

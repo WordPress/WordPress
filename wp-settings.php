@@ -68,7 +68,7 @@ if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF']
     $querystring_separator = '&amp;';
 
     // Used to guarantee unique hash cookies
-    $cookiehash = md5(get_settings('siteurl'));
+    $cookiehash = md5(get_settings('siteurl')); // Remove in 1.4
 	define('COOKIEHASH', $cookiehash); 
 endif;
 

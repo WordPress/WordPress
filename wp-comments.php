@@ -1,4 +1,4 @@
-<?php if ( !empty($post->post_password) && $_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) : ?>
+<?php if ( !empty($post->post_password) && $_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password) : ?>
 <p><?php _e('Enter your password to view comments.'); ?></p>
 <?php return; endif; ?>
 

@@ -17,13 +17,13 @@ add_filter('comment_text', 'convert_smilies', 20);
 add_filter('comment_excerpt', 'convert_chars');
 
 function comments_template() {
-	global $withcomments, $post, $wpdb, $id, $comment, $cookiehash;
+	global $withcomments, $post, $wpdb, $id, $comment;
 
 	if ( is_single() || $withcomments ) :
 		$req = get_settings('require_name_email');
-        $comment_author = isset($_COOKIE['comment_author_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_'.$cookiehash])) : '';
-		$comment_author_email = isset($_COOKIE['comment_author_email_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_email_'.$cookiehash])) : '';
-		$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_url_'.$cookiehash])) : '';
+        $comment_author = isset($_COOKIE['comment_author_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_'.COOKIEHASH])) : '';
+		$comment_author_email = isset($_COOKIE['comment_author_email_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_email_'.COOKIEHASH])) : '';
+		$comment_author_url = isset($_COOKIE['comment_author_url_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_url_'.COOKIEHASH])) : '';
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
 
 		$template = get_template_directory();
@@ -90,7 +90,7 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
-    global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $cookiehash;
+    global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $comment_count_cache;
 
@@ -105,7 +105,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         return;
     } else {
         if (!empty($post->post_password)) { // if there's a password
-            if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
+            if ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
                 echo('Enter your password to view comments');
                 return;
             }

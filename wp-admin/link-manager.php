@@ -73,8 +73,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     }
 }
 
-$links_show_cat_id = $_COOKIE['links_show_cat_id_' . $cookiehash];
-$links_show_order = $_COOKIE['links_show_order_' . $cookiehash];
+$links_show_cat_id = $_COOKIE['links_show_cat_id_' . COOKIEHASH];
+$links_show_order = $_COOKIE['links_show_order_' . COOKIEHASH];
 
 if ('' != $_POST['assign']) $action = 'assign';
 if ('' != $_POST['visibility']) $action = 'visibility';
@@ -269,7 +269,7 @@ switch ($action) {
 	  link_rss = '$link_rss_uri'
 	  WHERE link_id=$link_id");
     } // end if save
-    setcookie('links_show_cat_id_' . $cookiehash, $links_show_cat_id, time()+600);
+    setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     header('Location: ' . $this_file);
     break;
   } // end Save
@@ -296,7 +296,7 @@ switch ($action) {
         $cat_id = 'All';
     }
     $links_show_cat_id = $cat_id;
-    setcookie("links_show_cat_id_".$cookiehash, $links_show_cat_id, time()+600);
+    setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     header('Location: '.$this_file);
     break;
   } // end Delete
@@ -567,8 +567,8 @@ switch ($action) {
         $order_by = 'order_name';
     $links_show_order = $order_by;
 
-    setcookie('links_show_cat_id_'.$cookiehash, $links_show_cat_id, time()+600);
-    setcookie('links_show_order_'.$cookiehash, $links_show_order, time()+600);
+    setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
+    setcookie('links_show_order_' . COOKIEHASH, $links_show_order, time()+600);
     $standalone=0;
     include_once ("./admin-header.php");
     if ($user_level < 5) {
