@@ -1252,7 +1252,7 @@ function apply_filters($tag, $string) {
 		$b2_filter[$tag] = array_unique($b2_filter[$tag]);
 	}
 	if (isset($b2_filter[$tag])) {
-		$b2_filter[$tags] = (is_string($b2_filter[$tag])) ? array($b2_filter[$tag]) : $b2_filter[$tag];
+		$b2_filter[$tag] = (is_string($b2_filter[$tag])) ? array($b2_filter[$tag]) : $b2_filter[$tag];
 		$functions = $b2_filter[$tag];
 		foreach($functions as $function) {
 			$string = $function($string);
