@@ -93,7 +93,7 @@ require($abspath.'wp-links/links.php');
 		<li><a href="b2rss.php">RSS .92</a></li>
 		<li><a href="b2rdf.php">RDF 1.0</a></li>
 		<li><a href="b2rss2.php">RSS 2.0</a></li>
-		<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr ttile="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
+		<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
 		<li><a href="http://wordpress.org" title="Powered by WordPress, personal publishing platform">WP</a></li>
 	</ul>
  </li>
