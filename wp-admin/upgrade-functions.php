@@ -147,13 +147,18 @@ function upgrade_130() {
     global $wpdb, $table_prefix;
 
     // Remove extraneous backslashes.
-	$posts = $wpdb->get_results("SELECT ID, post_title, post_content, post_excerpt FROM $wpdb->posts");
+	$posts = $wpdb->get_results("SELECT ID, post_title, post_content, post_excerpt, guid, post_date, post_name, post_status, post_author FROM $wpdb->posts");
 	if ($posts) {
 		foreach($posts as $post) {
             $post_content = addslashes(deslash($post->post_content));
             $post_title = addslashes(deslash($post->post_title));
             $post_excerpt = addslashes(deslash($post->post_excerpt));
-            $wpdb->query("UPDATE $wpdb->posts SET post_title = '$post_title', post_content = '$post_content', post_excerpt = '$post_excerpt' WHERE ID = '$post->ID'");
+			if ( empty($post->guid) )
+				$guid = get_option('home') . '/' . get_permalink();
+			else
+				$guid = $post->guid;
+
+            $wpdb->query("UPDATE $wpdb->posts SET post_title = '$post_title', post_content = '$post_content', post_excerpt = '$post_excerpt', guid = '$guid' WHERE ID = '$post->ID'");
 		}
 	}
 

@@ -26,65 +26,62 @@ function permalink_single_rss($file = '') {
     echo get_permalink();
 }
 
-function get_permalink($id=false) {
-    global $post, $wpdb;
-    global $querystring_start, $querystring_equal;
+function get_permalink($id = false) {
+	global $post, $wpdb;
 
-    $rewritecode = array(
-        '%year%',
-        '%monthnum%',
-        '%day%',
-	'%hour%',
-	'%minute%',
-	'%second%',
-        '%postname%',
-        '%post_id%',
-        '%category%',
-	'%author%',
-        '%pagename%'
-    );
+	$rewritecode = array(
+		'%year%',
+		'%monthnum%',
+		'%day%',
+		'%hour%',
+		'%minute%',
+		'%second%',
+		'%postname%',
+		'%post_id%',
+		'%category%',
+		'%author%',
+		'%pagename%'
+	);
 
-    if ($id) {
-        $idpost = $wpdb->get_row("SELECT ID, post_date, post_name, post_status, post_author FROM $wpdb->posts WHERE ID = $id");
-    } else {
-        $idpost = $post;
-    }
+	if ($id) {
+		$idpost = $wpdb->get_row("SELECT ID, post_date, post_name, post_status, post_author FROM $wpdb->posts WHERE ID = $id");
+	} else {
+		$idpost = $post;
+	}
 
-    $permalink = get_settings('permalink_structure');
+	$permalink = get_settings('permalink_structure');
 
-    if ('' != $permalink) {
-        if ($idpost->post_status == 'static') {
-            $permalink = page_permastruct();
-        }
+	if ('' != $permalink) {
+		if ($idpost->post_status == 'static')
+			$permalink = page_permastruct();
 
-	    $unixtime = strtotime($idpost->post_date);
+		$unixtime = strtotime($idpost->post_date);
 
-        $cats = get_the_category($idpost->ID);
-        $category = $cats[0]->category_nicename;
-        $authordata = get_userdata($idpost->post_author);
-	$author = $authordata->user_nicename;
-
-        $rewritereplace = array(
-                                date('Y', $unixtime),
-                                date('m', $unixtime),
-                                date('d', $unixtime),
-                                date('H', $unixtime),
-                                date('i', $unixtime),
-                                date('s', $unixtime),
-                                $idpost->post_name,
-                                $idpost->ID,
-                                $category,
-				$author,
-                                $idpost->post_name,
-                                );
-        return get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink);
-    } else { // if they're not using the fancy permalink option
-        $permalink = get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$idpost->ID;
-        if ($idpost->post_status == 'static') {
-            $permalink .=  $querystring_separator . "static=1";
-        }
-	return $permalink;
-    }
+		$cats = get_the_category($idpost->ID);
+		$category = $cats[0]->category_nicename;
+		$authordata = get_userdata($idpost->post_author);
+		$author = $authordata->user_nicename;
+		$rewritereplace = 
+		array(
+			date('Y', $unixtime),
+			date('m', $unixtime),
+			date('d', $unixtime),
+			date('H', $unixtime),
+			date('i', $unixtime),
+			date('s', $unixtime),
+			$idpost->post_name,
+			$idpost->ID,
+			$category,
+			$author,
+			$idpost->post_name,
+		);
+		return get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink);
+	} else { // if they're not using the fancy permalink option
+		$permalink = get_settings('home') . '/' . get_settings('blogfilename') . '?p=' . $idpost->ID;
+		if ($idpost->post_status == 'static')
+			$permalink .=  '&static=1';
+		return $permalink;
+	}
 }
 
 function get_month_link($year, $month) {
