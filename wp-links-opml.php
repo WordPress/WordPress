@@ -30,12 +30,11 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
         <dateModified><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateModified>
     </head>
     <body>
-<?php $sql = "SELECT $tablelinks.link_url, $tablelinks.link_name, $tablelinks.link_category, $tablelinkcategories.cat_name \n"
-        . " FROM $tablelinks \n"
-        . " LEFT JOIN $tablelinkcategories on $tablelinks.link_category = $tablelinkcategories.cat_id \n"
-        . " WHERE $tablelinks.link_url IS NOT NULL AND $tablelinks.link_url <> '' \n"
-        . " $sql_cat \n"
-        . " ORDER BY $tablelinkcategories.cat_name, $tablelinks.link_name \n";
+<?php $sql = "SELECT $tablelinks.link_url, link_rss, $tablelinks.link_name, $tablelinks.link_category, $tablelinkcategories.cat_name 
+FROM $tablelinks 
+ LEFT JOIN $tablelinkcategories on $tablelinks.link_category = $tablelinkcategories.cat_id
+ $sql_cat
+ ORDER BY $tablelinkcategories.cat_name, $tablelinks.link_name \n";
  //echo("<!-- $sql -->");
  $prev_cat_id = 0;
  $results = $wpdb->get_results($sql);
@@ -53,7 +52,7 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
              $prev_cat_id = $result->link_category;
         } // end if new category
 ?>
-            <outline type="link" text="<?php echo(htmlspecialchars(stripslashes($result->link_name))) ?>" url="<?php echo($result->link_url) ?>"/>
+            <outline type="link" text="<?php echo(htmlspecialchars(stripslashes($result->link_name))) ?>" xmlUrl="<?php echo $result->link_rss; ?>" link="<?php echo($result->link_url) ?>"/>
 <?php
         } // end foreach
     } // end if
