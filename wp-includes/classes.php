@@ -529,6 +529,7 @@ class WP_Query {
 
 		$where = apply_filters('posts_where', $where);
 		$where .= " GROUP BY $wpdb->posts.ID";
+		$join = apply_filters('posts_join', $join);
 		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY post_" . $q['orderby'] . " $limits";
 
 		if ($q['preview']) {
