@@ -94,8 +94,8 @@ require('wp-blog-header.php');
  </li>
  <li id="other">Other:
 	<ul>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php">login</a></li>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php">register</a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php">Login</a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php">Register</a></li>
 	</ul>
  </li>
  <li id="meta">Meta:
