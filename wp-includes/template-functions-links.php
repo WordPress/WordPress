@@ -40,11 +40,12 @@ function get_permalink($id=false) {
         '%postname%',
         '%post_id%',
         '%category%',
+	'%author%',
         '%pagename%'
     );
 
     if ($id) {
-        $idpost = $wpdb->get_row("SELECT ID, post_date, post_name, post_status FROM $wpdb->posts WHERE ID = $id");
+        $idpost = $wpdb->get_row("SELECT ID, post_date, post_name, post_status, post_author FROM $wpdb->posts WHERE ID = $id");
     } else {
         $idpost = $post;
     }
@@ -60,6 +61,8 @@ function get_permalink($id=false) {
 
         $cats = get_the_category($idpost->ID);
         $category = $cats[0]->category_nicename;
+        $authordata = get_userdata($idpost->post_author);
+	$author = $authordata->user_nicename;
 
         $rewritereplace = array(
                                 date('Y', $unixtime),
@@ -71,6 +74,7 @@ function get_permalink($id=false) {
                                 $idpost->post_name,
                                 $idpost->ID,
                                 $category,
+				$author,
                                 $idpost->post_name,
                                 );
         return get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink);
