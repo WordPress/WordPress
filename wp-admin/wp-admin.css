@@ -82,6 +82,11 @@ h2 {
 	margin: 5px 10px;
 }
 
+input:focus, textarea:focus, label:focus {
+	background: #fff;
+	border: 1px solid #878787;
+}
+
 label {
 	cursor: pointer;
 }
@@ -96,11 +101,11 @@ p, dl, dd, dt {
 
 textarea, input, select {
 	background: #f4f4f4;
-	border: 1px solid #cacaca;
+	border: 1px solid #b2b2b2;
 	color: #000;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	margin: 1px;
-	padding: 2px;
+	padding: 3px;
 }
 
 .alternate {
@@ -279,7 +284,7 @@ textarea, input, select {
 }
 
 #poststuff textarea {
-	width: 99%;
+	width: 98%;
 }
 
 #profile {
@@ -315,18 +320,17 @@ textarea, input, select {
 }
 
 #wphead {
-	background: url(../wp-images/header-shadow.png) repeat-x #f2f2f2;
-	height: 42px;
+	background: url(../wp-images/header-shadow.png) #f2f2f2 repeat-x bottom;
+	height: 44px;
 	margin: 0;
+	padding: 4px 0 0 5px;
 }
 
 #wphead a {
 	background: url(../wp-images/wp-small.png) no-repeat;
 	border-bottom: none;
 	display: block;
-	height: 42px;
-	line-height: 30px;
-	margin: 3px 0 0 5px;
+	height: 44px;
 	text-decoration: none;
 	text-indent: -1000px;
 	width: 200px;
