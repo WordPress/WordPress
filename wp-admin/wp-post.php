@@ -350,9 +350,16 @@ switch($action) {
 		if ($user_level == 0)
 			die ('Cheatin&#8217; uh?');
 
+
 		$comment = $HTTP_GET_VARS['comment'];
 		$p = $HTTP_GET_VARS['p'];
+
+		$postdata = get_postdata($p) or die('Oops, no post with this ID. <a href="wp-post.php">Go back</a>!');
 		$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="wp-post.php">Go back</a>!');
+
+		$authordata = get_userdata($postdata['Author_ID']);
+		if ($user_level < $authordata->user_level)
+			die ('You don&#8217;t have the right to delete <strong>'.$authordata->user_nickname.'</strong>&#8217;s post comments. <a href="wp-post.php">Go back</a>!');
 
 		$result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_ID=$comment");
 
