@@ -73,4 +73,76 @@ function maybe_drop_column($table_name, $column_name, $drop_ddl) {
     // else didn't find it
     return true;
 }
+
+
+/**
+ ** check_column()
+ ** Check column matches passed in criteria.
+ ** Pass in null to skip checking that criteria
+ ** Returns:  true if it matches
+ **           false otherwise
+ ** (case sensitive) Column names returned from DESC table are:
+ **      Field
+ **      Type
+ **      Null
+ **      Key
+ **      Default
+ **      Extra
+ */
+function check_column($table_name, $col_name, $col_type, $is_null = null, $key = null, $default = null, $extra = null) {
+    global $wpdb;
+    $diffs = 0;
+    $results = $wpdb->get_results("DESC $table_name");
+    
+    foreach ($results as $row ) {
+        print_r($row);
+        if ($row->Field == $col_name) {
+            // got our column, check the params
+            echo ("checking $row->Type != $col_type\n");
+            if (($col_type != null) && ($row->Type != $col_type)) {
+                ++$diffs;
+            }
+            if (($is_null != null) && ($row->Null != $is_null)) {
+                ++$diffs;
+            }
+            if (($key != null) && ($row->Key  != $key)) {
+                ++$diffs;
+            }
+            if (($default != null) && ($row->Default != $default)) {
+                ++$diffs;
+            }
+            if (($extra != null) && ($row->Extra != $extra)) {
+                ++$diffs;
+            }
+            if ($diffs > 0)
+                return false;
+            return true;
+        } // end if found our column
+    }
+    return false;
+}
+    
+/*
+echo "<p>testing</p>";
+echo "<pre>";
+
+//check_column('wp_links', 'link_description', 'mediumtext'); 
+//if (check_column($tablecomments, 'comment_author', 'tinytext'))
+//    echo "ok\n";
+$error_count = 0;
+$tablename = $tablelinks;
+// check the column
+if (!check_column($tablelinks, 'link_description', 'varchar(255)'))
+{
+    $ddl = "ALTER TABLE $tablelinks MODIFY COLUMN link_description varchar(255) NOT NULL DEFAULT '' ";
+    $q = $wpdb->query($ddl);
+}
+if (check_column($tablelinks, 'link_description', 'varchar(255)')) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+echo "</pre>";
+*/
 ?>

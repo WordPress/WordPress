@@ -33,25 +33,25 @@ require_once("../wp-links/links.php");
 $title = 'Manage Links';
 
 function add_magic_quotes($array) {
-	foreach ($array as $k => $v) {
-		if (is_array($v)) {
-			$array[$k] = add_magic_quotes($v);
-		} else {
-			$array[$k] = addslashes($v);
-		}
-	}
-	return $array;
-} 
+    foreach ($array as $k => $v) {
+        if (is_array($v)) {
+            $array[$k] = add_magic_quotes($v);
+        } else {
+            $array[$k] = addslashes($v);
+        }
+    }
+    return $array;
+}
 
 if (!get_magic_quotes_gpc()) {
-	$HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
-	$HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
-	$HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
+    $HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
+    $HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
+    $HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
 }
 
 $b2varstoreset = array('action','standalone','cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
-                       'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel');
+                       'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
     $b2var = $b2varstoreset[$i];
     if (!isset($$b2var)) {
@@ -70,7 +70,7 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 $links_show_cat_id = $HTTP_COOKIE_VARS["links_show_cat_id"];
 $links_show_order = $HTTP_COOKIE_VARS["links_show_order"];
 
-// error_log("start, links_show_cat_id=$links_show_cat_id");  
+// error_log("start, links_show_cat_id=$links_show_cat_id");
 
 switch ($action) {
   case 'Add':
@@ -87,6 +87,7 @@ switch ($action) {
     $link_visible = $HTTP_POST_VARS["visible"];
     $link_rating = $HTTP_POST_VARS["rating"];
     $link_rel = $HTTP_POST_VARS["rel"];
+    $link_notes = $HTTP_POST_VARS["notes"];
     $auto_toggle = get_autotoggle($link_category);
 
     if ($user_level < $minadminlevel)
@@ -97,12 +98,11 @@ switch ($action) {
     if (($auto_toggle == 'Y') && ($link_visible == 'Y')) {
       $wpdb->query("UPDATE $tablelinks set link_visible = 'N' WHERE link_category = $link_category");
     }
-
-    $wpdb->query("INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel) " .
+    $wpdb->query("INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel, link_notes) " .
       " VALUES('" . addslashes($link_url) . "','"
            . addslashes($link_name) . "', '"
            . addslashes($link_image) . "', '$link_target', $link_category, '"
-           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) ."')");
+           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) . "', '" . addslashes($link_notes) . "')");
 
     header('Location: linkmanager.php');
     break;
@@ -134,6 +134,7 @@ switch ($action) {
       $link_visible = $HTTP_POST_VARS["visible"];
       $link_rating = $HTTP_POST_VARS["rating"];
       $link_rel = $HTTP_POST_VARS["rel"];
+      $link_notes = $HTTP_POST_VARS["notes"];
       $auto_toggle = get_autotoggle($link_category);
 
       if ($user_level < $minadminlevel)
@@ -150,7 +151,8 @@ switch ($action) {
              " link_target='$link_target',\n link_category=$link_category,\n " .
              " link_visible='$link_visible',\n link_description='" . addslashes($link_description) . "',\n " .
              " link_rating=$link_rating,\n" .
-             " link_rel='" . addslashes($link_rel) . "'\n" .
+             " link_rel='" . addslashes($link_rel) . "',\n" .
+             " link_notes='" . addslashes($link_notes) . "'\n" .
              " WHERE link_id=$link_id");
       //error_log($sql);
     } // end if save
@@ -173,7 +175,7 @@ switch ($action) {
 
     if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
         $cat_id = $links_show_cat_id;
-        
+
     if (!isset($cat_id) || ($cat_id == '')) {
         if (!isset($links_show_cat_id) || ($links_show_cat_id == ''))
         $cat_id = 'All';
@@ -183,7 +185,7 @@ switch ($action) {
     header("Location: linkmanager.php");
     break;
   } // end Delete
- 
+
   case 'linkedit':
   {
     $standalone=0;
@@ -192,12 +194,12 @@ switch ($action) {
       die("You have no right to edit the links for this blog.<br />Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a>. :)");
     }
 
-    $row = $wpdb->get_row("SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel " .
+    $row = $wpdb->get_row("SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel, link_notes " .
       " FROM $tablelinks " .
       " WHERE link_id = $link_id");
 
     if ($row) {
-      $link_url = $row->link_url;
+      $link_url = stripslashes($row->link_url);
       $link_name = stripslashes($row->link_name);
       $link_image = $row->link_image;
       $link_target = $row->link_target;
@@ -206,13 +208,15 @@ switch ($action) {
       $link_visible = $row->link_visible;
       $link_rating = $row->link_rating;
       $link_rel = stripslashes($row->link_rel);
+      $link_notes = stripslashes($row->link_notes);
     }
 
 ?>
 
 <div class="wrap">
-    
-  <table width="95%" cellpadding="5" cellspacing="0" border="0"><form name="editlink" method="post">
+
+  <table width="95%" cellpadding="5" cellspacing="0" border="0">
+  <form name="editlink" method="post">
     <input type="hidden" name="action" value="editlink" />
     <input type="hidden" name="link_id" value="<?php echo $link_id; ?>" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
@@ -220,30 +224,35 @@ switch ($action) {
     <tr>
       <td colspan="2"><b>Edit</b> a link:</td>
     </tr>
-    <tr height="20"> 
+    <tr height="20">
       <td height="20" align="right">URL:</td>
       <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
     </tr>
-    <tr height="20"> 
+    <tr height="20">
       <td height="20" align="right">Display Name/Alt text:</td>
       <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
     </tr>
-    <tr height="20"> 
+    <tr height="20">
       <td height="20" align="right">Image:</td>
       <td><input type="text" name="image" size="80" value="<?php echo $link_image; ?>"></td>
     </tr>
-    <tr height="20"> 
+    <tr height="20">
       <td height="20" align="right">Description:</td>
       <td><input type="text" name="description" size="80" value="<?php echo $link_description; ?>"></td>
     </tr>
-    <tr height="20"> 
+    <tr height="20">
       <td height="20" align="right">Rel:</td>
       <td><input type="text" name="rel" size="80" value="<?php echo $link_rel; ?>"></td>
     </tr>
-    <tr height="20"> 
+    <tr height="20">
+      <td height="20" valign="top" align="right">Notes:</td>
+      <td><textarea name="notes" cols="80" rows="10"><?php echo $link_notes; ?></textarea></td>
+    </tr>
+    <tr height="20">
       <td height="20" align="right">Rating:</td>
-      <td> <select name="rating" size="1">
-          <?php
+      <td>
+        <select name="rating" size="1">
+<?php
     for ($r = 0; $r < 10; $r++) {
       echo('            <option value="'.$r.'" ');
       if ($link_rating == $r)
@@ -251,37 +260,33 @@ switch ($action) {
       echo('>'.$r.'</option>');
     }
 ?>
-        </select>
-        &nbsp;(Leave at 0 for no rating.) </td>
-    </tr>
-    <tr height="20"> 
-      <td height="20" align="right">Target:</td>
-      <td><label>
-        <input type="radio" name="target"  value="_blank" <?php echo(($link_target == '_blank') ? 'checked="checked"' : ''); ?>>
-        _blank</label> &nbsp;
-        <label>
-        <input type="radio" name="target" value="_top" <?php echo(($link_target == '_top') ? 'checked="checked"' : ''); ?>>
-        _top</label> &nbsp;
-        <label>
-        <input type="radio" name="target" value="" <?php echo(($link_target == '') ? 'checked="checked"' : ''); ?>>
-        none</label>
+        </select>&nbsp;(Leave at 0 for no rating.)
       </td>
     </tr>
-    <tr height="20"> 
-      <td height="20" align="right">Visible:</td>
-      <td><label> 
-        <input type="radio" name="visible" checked="checked" value="Y">
-        Y</label> &nbsp; <label> 
-        <input type="radio" name="visible" value="N">
-        N</label></td>
+    <tr height="20">
+      <td height="20" align="right">Target:</td>
+      <td><label><input type="radio" name="target" value="_blank"   <?php echo(($link_target == '_blank') ? 'checked="checked"' : ''); ?>> _blank</label>
+        &nbsp;<label><input type="radio" name="target" value="_top" <?php echo(($link_target == '_top') ? 'checked="checked"' : ''); ?>> _top</label>
+        &nbsp;<label><input type="radio" name="target" value=""     <?php echo(($link_target == '') ? 'checked="checked"' : ''); ?>> none</label>
+      </td>
     </tr>
-    <tr height="20"> 
-      <td height="20" align="right">Category:</td>
-      <td> 
-        <?php
+    <tr height="20">
+      <td height="20" align="right">Visible:</td>
+      <td><label>
+        <input type="radio" name="visible" checked="checked" value="Y">
+        Yes</label>
+        &nbsp;<label>
+        <input type="radio" name="visible" value="N">
+        No</label>
+      </td>
+    </tr>
+    <tr height="20">
+      <td height="20" align="right"><label for="category">Category</label>:</td>
+      <td>
+<?php
     $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
     echo "        <select name=\"category\" size=\"1\">\n";
-    foreach($results as $row) {
+    foreach ($results as $row) {
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $link_category)
         echo " selected";
@@ -294,10 +299,10 @@ switch ($action) {
 ?>
       </td>
     </tr>
-    <tr height="20"> 
-      <td colspan="2" align="center"> <input type="submit" name="submit" value="Save" class="search">
-        &nbsp;
-        <input type="submit" name="submit" value="Cancel" class="search"></a> 
+    <tr height="20">
+      <td colspan="2" align="center">
+        <input type="submit" name="submit" value="Save" class="search">&nbsp;
+        <input type="submit" name="submit" value="Cancel" class="search">
       </td>
     </tr>
   </table>
@@ -329,7 +334,7 @@ switch ($action) {
   {
     if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
         $cat_id = $links_show_cat_id;
-        
+
     if (!isset($cat_id) || ($cat_id == '')) {
         if (!isset($links_show_cat_id) || ($links_show_cat_id == ''))
         $cat_id = 'All';
@@ -337,7 +342,7 @@ switch ($action) {
     $links_show_cat_id = $cat_id;
     if (isset($links_show_order) && ($links_show_order != ''))
         $order_by = $links_show_order;
-    
+
     if (!isset($order_by) || ($order_by == ''))
         $order_by = 'order_name';
     $links_show_order = $order_by;
@@ -357,17 +362,21 @@ switch ($action) {
         case 'order_desc':   $sqlorderby = 'description'; break;
         case 'order_owner':  $sqlorderby = 'owner';       break;
         case 'order_rating': $sqlorderby = 'rating';      break;
-		case 'order_name':
+        case 'order_name':
         default:             $sqlorderby = 'name';        break;
     }
-    
+
   if ($action != "popup") {
 ?>
 
 <div class="wrap">
     <form name="cats" method="post">
     <table width="75%" cellpadding="5" cellspacing="0" border="0">
-      <tr><td><b>Link Categories:</b></td><td><a href="linkcategories.php">Manage Link Categories</a></td><td><a href="links.import.php">Import Blogroll</a></td></tr>
+      <tr>
+        <td><b>Link Categories:</b></td>
+        <td><a href="linkcategories.php">Manage Link Categories</a></td>
+        <td><a href="links.import.php">Import Blogroll</a></td>
+      </tr>
       <tr>
         <td>
           <b>Show</b> links in category:<br />
@@ -418,17 +427,17 @@ switch ($action) {
 
 <div class="wrap">
 
-     <form name="links" id="links" method="post">
+    <form name="links" id="links" method="post">
     <input type="hidden" name="link_id" value="" />
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
   <table width="100%" border="0" cellspacing="0" cellpadding="5">
-    <tr> 
+    <tr>
       <th width="15%">Name</th>
       <th>URL</th>
       <th>Category</th>
-      <th>Relevance</th>
+      <th>Relationship</th>
       <th>Image</th>
       <th>Visible</th>
       <th>&nbsp;</th>
@@ -441,7 +450,7 @@ switch ($action) {
     FROM $tablelinks
     LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id
     LEFT JOIN $tableusers on $tableusers.ID = $tablelinks.link_owner ";
-    
+
     // have we got a where clause?
     if (($use_adminlevels) || (isset($cat_id) && ($cat_id != 'All')) ) {
         $sql .= " WHERE ";
@@ -464,30 +473,34 @@ switch ($action) {
     $links = $wpdb->get_results($sql);
     if ($links) {
         foreach ($links as $link) {
-            $short_url = str_replace('http://', '', $link->link_url);
+            $short_url = str_replace('http://', '', stripslashes($link->link_url));
             $short_url = str_replace('www.', '', $short_url);
-            if ('/' == substr($short_url, -1)) $short_url = substr($short_url, 0, -1);
-            if (strlen($short_url) > 35) $short_url =  substr($short_url, 0, 32).'...';
-	  
+            if ('/' == substr($short_url, -1))
+                $short_url = substr($short_url, 0, -1);
+            if (strlen($short_url) > 35)
+                $short_url =  substr($short_url, 0, 32).'...';
+
             $link->link_name = stripslashes($link->link_name);
             $link->category = stripslashes($link->category);
             $link->link_rel = stripslashes($link->link_rel);
+            $link->link_description = stripslashes($link->link_description);
             $image = ($link->link_image != null) ? 'Yes' : 'No';
             $visible = ($link->link_visible == 'Y') ? 'Yes' : 'No';
             ++$i;
             $style = ($i % 2) ? ' class="alternate"' : '';
             echo <<<LINKS
-	<tr valign="middle"$style>
-		<td><strong>$link->link_name</strong><br />
-		Description: $link->link_description</td>
-		<td><a href="$link->link_url" title="Visit $link->link_name">$short_url</a></td>
-		<td>$link->category</td>
-		<td>$link->link_rel</td>
-		<td>$image</td>
-		<td>$visible</td>
-		<td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit'; " value="Edit" class="search" /></td>
-		<td><input type="submit" name="delete" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
-	</tr>
+    <tr valign="middle"$style>
+        <td><strong>$link->link_name</strong><br />
+        Description: $link->link_description</td>
+        <td><a href="$link->link_url" title="Visit $link->link_name">$short_url</a></td>
+        <td>$link->category</td>
+        <td>$link->link_rel</td>
+        <td>$image</td>
+        <td>$visible</td>
+        <td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit'; " value="Edit" class="search" /></td>
+        <td><input type="submit" name="delete" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
+    </tr>
+
 LINKS;
         }
     }
@@ -511,7 +524,7 @@ LINKS;
       </tr>
       <tr height="20">
         <td height="20" align="right">Display Name/Alt text:</td>
-        <td><input type="text" name="name" size="80" value="<?php echo $name; ?>"></td>
+        <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Image:</td>
@@ -524,6 +537,10 @@ LINKS;
       <tr height="20">
         <td height="20" align="right">Rel:</td>
         <td><input type="text" name="rel" size="80" value=""></td>
+      </tr>
+      <tr height="20">
+        <td height="20" valign="top" align="right">Notes:</td>
+        <td><textarea name="notes" cols="80" rows="10"></textarea></td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Rating:</td>
@@ -539,23 +556,23 @@ LINKS;
       </tr>
       <tr height="20">
         <td height="20" align="right">Target:</td>
-        <td><label><input type="radio" name="target"  value="_blank"> _blank</label>
-        &nbsp;<label><input type="radio" name="target" value="_top"> 
-        _top</label>&nbsp;<label><input type="radio" name="target" value="" checked="checked"> 
-        none</label></td>
+        <td><label><input type="radio" name="target" value="_blank"> _blank</label>
+        &nbsp;<label><input type="radio" name="target" value="_top"> _top</label>
+        &nbsp;<label><input type="radio" name="target" value="" checked="checked"> none</label>
+        </td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Visible:</td>
         <td><label>
-        <input type="radio" name="visible" checked="checked" value="Y">
-        Y</label>
-        &nbsp;
-<label>
-        <input type="radio" name="visible" value="N">
-        N</label></td>
+          <input type="radio" name="visible" checked="checked" value="Y">
+          Yes</label>
+          &nbsp;<label>
+          <input type="radio" name="visible" value="N">
+          No</label>
+        </td>
       </tr>
       <tr height="20">
-        <td height="20" align="right">Category:</td>
+        <td height="20" align="right"><label for="category">Category</label>:</td>
         <td>
 <?php
     $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");

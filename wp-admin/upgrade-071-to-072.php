@@ -70,10 +70,30 @@ switch($step) {
   you&#8217;re all ready, <a href="<?php echo $thisfile;?>?step=1">let's go</a>! </p>
 <?php
 	break;
-	
-	case 1:
+
+    case 1:
 ?>
 <h1>Step 1</h1>
+<p>There are some changes we need to make to the links tables with this version, so lets get those out of 
+  the way.</p>
+<?php
+$error_count = 0;
+$tablename = $tablelinks;
+$ddl = "ALTER TABLE $tablelinks ADD COLUMN link_notes MEDIUMTEXT NOT NULL DEFAULT '' ";
+maybe_add_column($tablename, 'link_notes', $ddl);
+if (check_column($tablelinks, 'link_notes', 'mediumtext')) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+?>
+<p>OK, that wasn't too bad was it? Let's move on to <a href="<?php echo $thisfile;?>?step=2">step 2</a>!</p>
+
+<?php
+	case 2:
+?>
+<h1>Step 2</h1>
 <p>There are a few new database tables with this version, so lets get those out of 
   the way.</p>
 <?php

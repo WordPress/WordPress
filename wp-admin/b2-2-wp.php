@@ -123,6 +123,7 @@ if (!$got_links) {
            " link_rating int NOT NULL DEFAULT '0',              " .
            " link_updated DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00', " .
            " link_rel varchar(255) NOT NULL default '',         " .
+           " link_notes MEDIUMTEXT NOT NULL default '',         " .
            " PRIMARY KEY (link_id)                              " .
            ") ";
     $result = mysql_query($sql) or print ("Can't create the table '$tablelinks' in the database.<br />" . $sql . "<br />" . mysql_error());
