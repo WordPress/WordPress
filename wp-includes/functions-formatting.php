@@ -402,4 +402,17 @@ function get_gmt_from_date($string) {
   }
 }
 
+// give it a GMT date, it will give you the same date with $time_difference added
+function get_date_from_gmt($string) {
+  $time_difference = get_settings('time_difference');
+  // $string must be of the form 'yyyy-mm-dd hh:mm:ss'
+  if ($string == gmdate('Y-m-d H:i:s')) {
+    $string_time = gmmktime(substr($string,11,13), substr($string,14,16), substr($string,17,19), substr($string,5,7), substr($string,8,10), substr($string,0,4));
+    $local_time = $string_time + $time_difference*3600;
+    return gmdate('Y-m-d H:i:s', $local_time);
+  } else {
+    return $string;
+  }
+}
+
 ?>
