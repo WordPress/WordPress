@@ -1236,7 +1236,7 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     $match = str_replace($rewritecode, $rewritereplace, $match);
     $match = preg_replace('|[?]|', '', $match, 1);
 
-    $feedmatch = str_replace('?/?', '/', $match);
+    $feedmatch = trailingslashit(str_replace('?/?', '/', $match));
     $trackbackmatch = $feedmatch;
 
     preg_match_all('/%.+?%/', $permalink_structure, $tokens);
