@@ -347,7 +347,7 @@ function edInsertLink(myField, i, defaultValue) {
 		                      + prompt('Enter the URL'
 		                              ,defaultValue
 		                              ) 
-		                      + '" target="_blank">';
+		                      + '">';
 	}
 	edInsertTag(myField, i);
 }
