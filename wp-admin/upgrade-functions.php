@@ -734,7 +734,7 @@ function upgrade_110() {
 		#the queries are simple
 		$wpdb->query("UPDATE $tableposts SET post_date = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 		$wpdb->query("UPDATE $tableposts SET post_modified = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
-		$wpdb->query("UPDATE $tablecomments SET comment_date = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE");
+		$wpdb->query("UPDATE $tablecomments SET comment_date = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 		$wpdb->query("UPDATE $tableusers SET dateYMDhour = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 
 		#and then we update time_difference to use the new value
