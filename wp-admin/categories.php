@@ -98,7 +98,7 @@ case 'edit':
         <input type="hidden" name="action" value="editedcat" />
         <input type="hidden" name="cat_ID" value="<?php echo $_GET['cat_ID'] ?>" />
         <p><?php _e('Category name:') ?><br />
-        <input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /></p>
+        <input type="text" name="cat_name" value="<?php echo htmlspecialchars($cat_name); ?>" /></p>
         <p><?php _e('Category parent:') ?><br />
         <select name='cat' class='postform'>
         <option value='0'<?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
