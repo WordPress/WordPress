@@ -355,7 +355,7 @@ if ($posts) {
     		$c = 1;
     		$single = 1;
     	}
-    	if ($s) { // If they were doing a search and got one result
+    	if ($s && empty($paged)) { // If they were doing a search and got one result
     		header('Location: ' . get_permalink($posts[0]->ID));
     	}
 }
