@@ -22,6 +22,22 @@ function category_dropdown($fieldname, $selected = 0) {
 	echo "\n</select>\n";
 }
 
+function xfn_check($class, $value = '', $type = 'check') {
+	global $link_rel;
+	$rels = preg_split('/\s+/', $link_rel);
+
+	if ('' != $value && in_array($value, $rels) ) {
+		echo ' checked="checked"';
+	}
+
+	if ('' == $value) {
+		if ('family' == $class && !strstr($link_rel, 'child') && !strstr($link_rel, 'parent') && !strstr($link_rel, 'sibling') && !strstr($link_rel, 'spouse') && !strstr($link_rel, 'kin')) echo ' checked="checked"';
+		if ('friendship' == $class && !strstr($link_rel, 'friend') && !strstr($link_rel, 'acquaintance') && !strstr($link_rel, 'contact') ) echo ' checked="checked"';
+		if ('geographical' == $class && !strstr($link_rel, 'co-resident') && !strstr($link_rel, 'neighbor') ) echo ' checked="checked"';
+		if ('identity' == $class && in_array('me', $rels) ) echo ' checked="checked"';
+	}
+}
+
 $wpvarstoreset = array('action', 'cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
                        'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
@@ -82,106 +98,109 @@ require('admin-header.php');
 	<legend><?php _e('Link Relationship (XFN)') ?></legend>
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
             <tr>
-            	<th width="33%" scope="row"><?php _e('rel:') ?></th>
-            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="" /></td>
+                <th width="33%" scope="row"><?php _e('rel:') ?></th>
+            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="<?php echo $link_rel; ?>" /></td>
            	</tr>
             <tr>
-            	<th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
-            	<td><table cellpadding="3" cellspacing="5">
-            			<tr>
-            				<th scope="row"> <?php _e('friendship') ?> </th>
-            				<td>
-            				<label for="label1">
-							<input class="valinp" type="radio" name="friendship" value="acquaintance" id="label1" />
-							<?php _e('acquaintance') ?></label>
-							<label for="label2">
-							<input class="valinp" type="radio" name="friendship" value="contact" id="label2" />
-							<?php _e('contact') ?></label>
-							<label for="label3">
-							<input class="valinp" type="radio" name="friendship" value="friend" id="label3" />
-							<?php _e('friend') ?></label>
-							<label for="label4">
-                					<input class="valinp" type="radio" name="friendship" value="" id="label4" />
-					<?php _e('none') ?></label>
-            					</td>
-           				</tr>
-            			<tr>
-            				<th scope="row"> <?php _e('physical') ?> </th>
-            				<td><label for="label10">
-            					<input class="valinp" type="checkbox" name="physical" value="met" id="label10" />
-					<?php _e('met') ?></label>
-            					</td>
-           				</tr>
-            			<tr>
-            				<th scope="row"> <?php _e('professional') ?> </th>
-            				<td><label for="label20">
-            					<input class="valinp" type="checkbox" name="professional" value="co-worker" id="label20" />
-					<?php _e('co-worker') ?></label>
-                					<label for="label21">
-                					<input class="valinp" type="checkbox" name="professional" value="colleague" id="label21" />
-					<?php _e('colleague') ?></label>
-            					</td>
-           				</tr>
-            			<tr>
-            				<th scope="row"> <?php _e('geographical') ?> </th>
-            				<td><label for="label30">
-            					<input class="valinp" type="radio" name="geographical" value="co-resident" id="label30" />
-					<?php _e('co-resident') ?></label>
-                					<label for="label31">
-                					<input class="valinp" type="radio" name="geographical" value="neighbor" id="label31" />
-					<?php _e('neighbor') ?></label>
-                					<label for="label32">
-                					<input class="valinp" type="radio" name="geographical" value="" id="label32" />
-					<?php _e('none') ?></label>
-            					</td>
-           				</tr>
-            			<tr>
-            				<th scope="row"> <?php _e('family') ?> </th>
-            				<td>
-            						<label for="label40">
-            					<input class="valinp" type="radio" name="family" value="child" id="label40" />
-					<?php _e('child') ?></label>
-            						<label for="label41">
-            					<input class="valinp" type="radio" name="family" value="kin" id="label41" />
-					<?php _e('kin') ?></label>
-                					<label for="label42">
-                					<input class="valinp" type="radio" name="family" value="parent" id="label42" />
-					<?php _e('parent') ?></label>
-                					<label for="label43">
-                					<input class="valinp" type="radio" name="family" value="sibling" id="label43" />
-					<?php _e('sibling') ?></label>
-                					<label for="label44">
-                					<input class="valinp" type="radio" name="family" value="spouse" id="label44" />
-					<?php _e('spouse') ?></label>
-                					<label for="label45">
-                					<input class="valinp" type="radio" name="family" value="" id="label45" />
-					<?php _e('none') ?></label>
-            					</td>
-           				</tr>
-            			<tr>
-            				<th scope="row"> <?php _e('romantic') ?> </th>
-            				<td><label for="label50">
-            					<input class="valinp" type="checkbox" name="romantic" value="muse" id="label50" />
-					<?php _e('muse') ?></label>
-                					<label for="label51">
-                					<input class="valinp" type="checkbox" name="romantic" value="crush" id="label51" />
-					<?php _e('crush') ?></label>
-                					<label for="label52">
-                					<input class="valinp" type="checkbox" name="romantic" value="date" id="label42" />
-					<?php _e('date') ?></label>
-                					<label for="label53">
-                					<input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="label53" />
-					<?php _e('sweetheart') ?></label>
-            					</td>
-           				</tr>
-            			<tr>
-            				<th scope="row"> <?php _e('identity') ?> </th>
-            				<td><label for="label60">
-            					<input class="valinp" type="checkbox" name="identity" value="me" id="label60" />
-					<?php _e('me') ?></label>
-            					</td>
-           				</tr>
-            			</table></td>
+                <th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
+            	<td>
+					<table cellpadding="3" cellspacing="5">
+	          <tr>
+              <th scope="row"> <?php _e('identity') ?> </th>
+              <td>
+                <label for="me">
+                <input type="checkbox" name="identity" value="me" id="me" <?php xfn_check('identity', 'me'); ?> />
+          <?php _e('another web address of mine') ?></label>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"> <?php _e('friendship') ?> </th>
+              <td>
+                <label for="acquaintance">
+                <input class="valinp" type="radio" name="friendship" value="acquaintance" id="acquaintance" <?php xfn_check('friendship', 'acquaintance', 'radio'); ?> />  <?php _e('acquaintance') ?></label>
+                <label for="contact">
+                <input class="valinp" type="radio" name="friendship" value="contact" id="contact" <?php xfn_check('friendship', 'contact', 'radio'); ?> /> <?php _e('contact') ?></label>
+                <label id="friend">
+                <input class="valinp" type="radio" name="friendship" value="friend" id="friend" <?php xfn_check('friendship', 'friend', 'radio'); ?> /> <?php _e('friend') ?></label>
+                <label for="friendship">
+                <input name="friendship" type="radio" class="valinp" value="" id="friendship" <?php xfn_check('friendship', '', 'radio'); ?> /> <?php _e('none') ?></label>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"> <?php _e('physical') ?> </th>
+              <td>
+                <label for="met">
+                <input class="valinp" type="checkbox" name="physical" value="met" id="met" <?php xfn_check('physical', 'met'); ?> />
+          <?php _e('met') ?></label>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"> <?php _e('professional') ?> </th>
+              <td>
+                <label for="co-worker">
+                <input class="valinp" type="checkbox" name="professional" value="co-worker" id="co-worker" <?php xfn_check('professional', 'co-worker'); ?> />
+          <?php _e('co-worker') ?></label>
+                <label for="colleague">
+                <input class="valinp" type="checkbox" name="professional" value="colleague" id="colleague" <?php xfn_check('professional', 'colleague'); ?> />
+          <?php _e('colleague') ?></label>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"> <?php _e('geographical') ?> </th>
+              <td>
+                <label for="co-resident">
+                <input class="valinp" type="radio" name="geographical" value="co-resident" id="co-resident" <?php xfn_check('geographical', 'co-resident', 'radio'); ?> />
+          <?php _e('co-resident') ?></label>
+                <label for="neighbor">
+                <input class="valinp" type="radio" name="geographical" value="neighbor" id="neighbor" <?php xfn_check('geographical', 'neighbor', 'radio'); ?> />
+          <?php _e('neighbor') ?></label>
+                <label for="geographical">
+                <input class="valinp" type="radio" name="geographical" value="" id="geographical" <?php xfn_check('geographical', '', 'radio'); ?> />
+          <?php _e('none') ?></label>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"> family </th>
+              <td>
+                <label for="child">
+                <input class="valinp" type="radio" name="family" value="child" id="child" <?php xfn_check('family', 'child', 'radio'); ?>  />
+          <?php _e('child') ?></label>
+                <label for="kin">
+                <input class="valinp" type="radio" name="family" value="kin" id="kin" <?php xfn_check('family', 'kin', 'radio'); ?>  />
+          <?php _e('kin') ?></label>
+                <label for="parent">
+                <input class="valinp" type="radio" name="family" value="parent" id="parent" <?php xfn_check('family', 'parent', 'radio'); ?> />
+          <?php _e('parent') ?></label>
+                <label for="sibling">
+                <input class="valinp" type="radio" name="family" value="sibling" id="sibling" <?php xfn_check('family', 'sibling', 'radio'); ?> />
+          <?php _e('sibling') ?></label>
+                <label for="spouse">
+                <input class="valinp" type="radio" name="family" value="spouse" id="spouse" <?php xfn_check('family', 'spouse', 'radio'); ?> />
+          <?php _e('spouse') ?></label>
+                <label for="family">
+                <input class="valinp" type="radio" name="family" value="" id="family" <?php xfn_check('family', '', 'radio'); ?> />
+          <?php _e('none') ?></label>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"> <?php _e('romantic') ?> </th>
+              <td>
+                <label for="muse">
+                <input class="valinp" type="checkbox" name="romantic" value="muse" id="muse" <?php xfn_check('romantic', 'muse'); ?> />
+         <?php _e('muse') ?></label>
+                <label for="crush">
+                <input class="valinp" type="checkbox" name="romantic" value="crush" id="crush" <?php xfn_check('romantic', 'crush'); ?> />
+         <?php _e('crush') ?></label>
+                <label for="date">
+                <input class="valinp" type="checkbox" name="romantic" value="date" id="date" <?php xfn_check('romantic', 'date'); ?> />
+         <?php _e('date') ?></label>
+                <label for="romantic">
+                <input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="romantic" <?php xfn_check('romantic', 'sweetheart'); ?> />
+         <?php _e('sweetheart') ?></label>
+              </td>
+            </tr>
+        </table>
+		  </td>
            	</tr>
 </table>
 </fieldset>
