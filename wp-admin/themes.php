@@ -62,7 +62,7 @@ $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 		<th><?php _e('Name'); ?></th>
 		<th><?php _e('Author'); ?></th>
 		<th><?php _e('Description'); ?></th>
-		<th><?php _e('Select'); ?></th>
+		<th></th>
 	</tr>
 <?php
 	$theme = '';
@@ -79,15 +79,21 @@ $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 		$author = $themes[$theme_name]['Author'];
 
 		if ($template == $current_template && $stylesheet == $current_stylesheet) {
-			$action = __('Active Theme');
+			$action = '<strong>' . __('Active Theme') . '</strong>';
+			$current = true;
 		} else {
 			$action = "<a href='themes.php?action=activate&amp;template=$template&amp;stylesheet=$stylesheet' title='" . __('Select this theme') . "' class='edit'>" . __('Select') . '</a>';
+			$current = false;
 		}
 
 		$theme = ('class="alternate"' == $theme) ? '' : 'class="alternate"';
 		echo "
-	  <tr $theme>
-	     <td>$title $version</td>
+	  <tr $theme>";
+if ( $current )
+	echo "<td><strong>$title $version</strong></td>";
+else
+	echo "<td>$title $version</td>";
+echo "
 	     <td align='center'>$author</td>
 	     <td>$description</td>
 	     <td align='center'>$action</td>
