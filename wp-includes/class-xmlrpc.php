@@ -612,7 +612,12 @@ class xmlrpcmsg {
   }
 
   function xml_header() {
-	return "<?xml version=\"1.0\"?".">\n<methodCall>\n";
+	if function_exists('get_settings') {
+		$encoding = ' encoding="'.get_settings('blog_charset').'"';
+	} else {
+		$encoding = '';
+	}
+	return "<?xml version=\"1.0\"$encoding?".">\n<methodCall>\n";
   }
 
   function xml_footer() {
