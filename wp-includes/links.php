@@ -204,7 +204,7 @@ function get_links($category = -1, $before = '', $after = '<br />',
         echo($rel . $title . $target);
         echo('>');
         if (($row->link_image != null) && $show_images) {
-            echo("<img src=\"$row->link_image\" border=\"0\"" . $alt . $title . "/>");
+            echo '<img src="' . get_settings('siteurl') . '$row->link_image" ' . $alt . $title . '/>');
         } else {
             echo($name);
         }
