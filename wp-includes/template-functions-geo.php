@@ -1,11 +1,12 @@
 <?php
+
 function get_Lat() {
     global $post;
 
    if ($post->post_lat != '') {
-       return $post->post_lat;
+       return trim($post->post_lat);
    } else if(get_settings('use_default_geourl')) {
-       return get_settings('default_geourl_lat');
+       return trim(get_settings('default_geourl_lat'));
    }
 
    return '';
@@ -15,9 +16,9 @@ function get_Lon() {
     global $post;
 
    if ($post->post_lon != '') {
-       return $post->post_lon;
+       return trim($post->post_lon);
    } else if(get_settings('use_default_geourl')) {
-       return get_settings('default_geourl_lon');
+       return trim(get_settings('default_geourl_lon'));
    }
 
    return '';
@@ -49,7 +50,7 @@ function print_PopUpScript() {
     echo "
 <script type='text/javascript'>
 <!-- This script and many more are available free online at -->
-<!-- The JavaScript Source!! http://javascript.internet.com -->
+<!-- The JavaScript Source!!  -->
 function formHandler(form) {
   var URL = form.site.options[form.site.selectedIndex].value;
   if(URL != \".\") {
@@ -99,7 +100,7 @@ function longitude_invalid() {
 function print_AcmeMap_Url() {
     if (!get_settings('use_geo_positions')) return;
     if (longitude_invalid()) return;
-    echo "http://www.acme.com/mapper/?lat=".get_Lat()."&amp;long=".get_Lon()."&amp;scale=11&amp;theme=Image&amp;width=3&amp;height=2&amp;dot=Yes";
+    echo "http://www.acme.com/mapper?lat=".get_Lat()."&amp;long=".get_Lon()."&amp;scale=11&amp;theme=Image&amp;width=3&amp;height=2&amp;dot=Yes";
 }
 
 function print_GeoURL_Url() {
@@ -131,6 +132,24 @@ function print_DegreeConfluence_Url() {
     if (!get_settings('use_geo_positions')) return;
     if (longitude_invalid()) return;
     echo "http://confluence.org/confluence.php?lat=".get_Lat()."&amp;lon=".get_Lon();
+}
+
+function print_TopoZone_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://www.topozone.com/map.asp?lat=".get_Lat()."&amp;lon=".get_Lon();
+}
+
+function print_FindU_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://www.findu.com/cgi-bin/near.cgi?lat=".get_Lat()."&amp;lon=".get_Lon()."&amp;scale=100000&amp;zoom=50&amp;type=1&amp;icon=0&amp;&amp;scriptfile=http://mapserver.maptech.com/api/espn/index.cfm";
+}
+
+function print_MapTech_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://mapserver.maptech.com/api/espn/index.cfm?lat=".get_Lat()."&amp;lon=".get_Lon();
 }
 
 ?>
