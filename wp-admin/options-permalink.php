@@ -100,100 +100,17 @@ $site_root = str_replace('http://', '', trim(get_settings('siteurl')));
 $site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
 if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
 
-$rewritecode = array(
-	'%year%',
-	'%monthnum%',
-	'%day%',
-	'%postname%',
-	'%post_id%'
-);
-$rewritereplace = array(
-	'([0-9]{4})?',
-	'([0-9]{1,2})?',
-	'([0-9]{1,2})?',
-	'([0-9a-z-_]+)?',
-	'([0-9]+)?'
-);
-$queryreplace = array (
-	'year=',
-	'monthnum=',
-	'day=',
-	'name=',
-	'p='
-);
-
-
-
-$match = str_replace('/', '/?', $permalink_structure);
-$match = preg_replace('|/[?]|', '', $match, 1);
-
-$match = str_replace($rewritecode, $rewritereplace, $match);
-$match = preg_replace('|[?]|', '', $match, 1);
-
-$feedmatch = str_replace('?/?', '/', $match);
-$trackbackmatch = $feedmatch;
-
-preg_match_all('/%.+?%/', $permalink_structure, $tokens);
-
-$query = 'index.php?';
-$feedquery = 'wp-feed.php?';
-$trackbackquery = 'wp-trackback.php?';
-for ($i = 0; $i < count($tokens[0]); ++$i) {
-	if (0 < $i) {
-        $query .= '&';
-        $feedquery .= '&';
-        $trackbackquery .= '&';
-    }
-
-    $query_token = str_replace($rewritecode, $queryreplace, $tokens[0][$i]) . '$'. ($i + 1);
-	$query .= $query_token;
-	$feedquery .= $query_token;
-	$trackbackquery .= $query_token;
-}
-++$i;
-
-// Add post paged stuff
-$match .= '([0-9]+)?/?';
-$query .= "&page=$$i";
-
-// Add post feed stuff
-$feedregex = '(feed|rdf|rss|rss2|atom)/?';
-$feedmatch .= $feedregex;
-$feedquery .= "&feed=$$i";
-
-// Add post trackback stuff
-$trackbackregex = 'trackback/?';
-$trackbackmatch .= $trackbackregex;
-
-// Site feed
-$sitefeedmatch = 'feed/?([0-9a-z-_]+)?/?$';
-$sitefeedquery = $site_root . 'wp-feed.php?feed=$1';
-
-// Site comment feed
-$sitecommentfeedmatch = 'comments/feed/?([0-9a-z-_]+)?/?$';
-$sitecommentfeedquery = $site_root . 'wp-feed.php?feed=$1&withcomments=1';
-
-// Code for nice categories, currently not very flexible
-$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-		$catmatch = $front . 'category/';
-		$catmatch = preg_replace('|^/+|', '', $catmatch);
-		$authormatch = $front . 'author/';
-		$authormatch = preg_replace('|^/+|', '', $authormatch);
-
 ?> 
 <form action"">
   <textarea rows="5" style="width: 100%;">RewriteEngine On
 RewriteBase <?php echo $site_root; ?> 
-RewriteRule ^<?php echo $match; echo '$ ' . $site_root . $query ?> [QSA]
-RewriteRule ^<?php echo $feedmatch; echo '$ ' . $site_root . $feedquery ?> [QSA]
-RewriteRule ^<?php echo $trackbackmatch; echo '$ ' . $site_root . $trackbackquery ?> [QSA]
-RewriteRule ^<?php echo $catmatch; ?>(.*)/<?php echo $feedregex ?>$ <?php echo $site_root; ?>wp-feed.php?category_name=$1&feed=$2 [QSA]
-RewriteRule ^<?php echo $catmatch; ?>?(.*) <?php echo $site_root; ?>index.php?category_name=$1 [QSA]
-RewriteRule ^<?php echo $authormatch; ?>(.*)/<?php echo $feedregex ?>$ <?php echo $site_root; ?>wp-feed.php?author_name=$1&feed=$2 [QSA]
-RewriteRule ^<?php echo $authormatch; ?>?(.*) <?php echo $site_root; ?>index.php?author_name=$1 [QSA]
-RewriteRule ^<?php echo $sitefeedmatch; ?> <?php echo $sitefeedquery ?> [QSA]
-RewriteRule ^<?php echo $sitecommentfeedmatch; ?> <?php echo $sitecommentfeedquery ?> [QSA]</textarea>
-	</form>
+<?php
+$rewrite = rewrite_rules();
+foreach ($rewrite as $match => $query) {
+    echo 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
+}
+?></textarea>
+</form>
 </div> 
 <?php
 } else {

@@ -1401,7 +1401,7 @@ function rewrite_rules($matches = '') {
                             '([0-9]{4})?',
                             '([0-9]{1,2})?',
                             '([0-9]{1,2})?',
-                            '([0-9a-z-]+)?',
+                            '([0-9a-z_-]+)?',
                             '([0-9]+)?'
                             );
 
@@ -1443,24 +1443,24 @@ function rewrite_rules($matches = '') {
     ++$i;
 
     // Add post paged stuff
-    $match .= '([0-9]+)?/?';
+    $match .= '([0-9]+)?/?$';
     $query .= '&page=' . preg_index($i, $matches);
 
     // Add post feed stuff
-    $feedregex = '(feed|rdf|rss|rss2|atom)/?';
+    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
     $feedmatch .= $feedregex;
     $feedquery .= '&feed=' . preg_index($i, $matches);
 
     // Add post trackback stuff
-    $trackbackregex = 'trackback/?';
+    $trackbackregex = 'trackback/?$';
     $trackbackmatch .= $trackbackregex;
 
     // Site feed
-    $sitefeedmatch = 'feed/?([0-9a-z-]+)?/?$';
+    $sitefeedmatch = 'feed/?([0-9a-z_-]+)?/?$';
     $sitefeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches);
 
     // Site comment feed
-    $sitecommentfeedmatch = 'comments/feed/?([0-9a-z-]+)?/?$';
+    $sitecommentfeedmatch = 'comments/feed/?([0-9a-z_-]+)?/?$';
     $sitecommentfeedquery = $site_root . 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
 
     // Code for nice categories and authors, currently not very flexible
@@ -1490,7 +1490,7 @@ function rewrite_rules($matches = '') {
                      $authormatch => $authorquery,
                      $match => $query,
                      $feedmatch => $feedquery,
-                     $trackbackmatch => $tracbackquery,
+                     $trackbackmatch => $trackbackquery,
                      $sitefeedmatch => $sitefeedquery,
                      $sitecommentfeedmatch => $sitecommentfeedquery
                      );
