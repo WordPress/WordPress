@@ -922,7 +922,11 @@ class WP_Rewrite {
 			$structure = str_replace($front, '', $structure);
 		}
 		$structure = trim($structure, '/');
-		$dirs = explode('/', $structure);
+		if ($walk_dirs) {
+			$dirs = explode('/', $structure);
+		} else {
+			$dirs[] = $structure;
+		}
 		$num_dirs = count($dirs);
 
 		$front = preg_replace('|^/+|', '', $front);
@@ -981,6 +985,10 @@ class WP_Rewrite {
 		}
 
 		return $post_rewrite;
+	}
+
+	function generate_rewrite_rule($permalink_structure, $walk_dirs = false) {
+		return $this->generate_rewrite_rules($permalink_structure, false, false, false, $walk_dirs);
 	}
 
 	/* rewrite_rules
