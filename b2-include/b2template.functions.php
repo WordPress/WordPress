@@ -416,7 +416,8 @@ function get_permalink($id=false) {
 		'%year%',
 		'%monthnum%',
 		'%day%',
-		'%postname%'
+		'%postname%',
+		'%post_id%'
 	);
 	if (!$id) {
 		if ('' != get_settings('permalink_structure')) {
@@ -440,7 +441,8 @@ function get_permalink($id=false) {
 				date('Y', $unixtime),
 				date('n', $unixtime),
 				date('j', $unixtime),
-				$idpost->post_name
+				$idpost->post_name,
+				$id
 			);
 			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else {
@@ -1223,26 +1225,54 @@ function posts_nav_link($sep=' :: ', $prelabel='<< Previous Page', $nxtlabel='Ne
 
 /***** Category tags *****/
 
-function get_category_link($echo = false, $file='') {
-	global $post, $querystring_start, $querystring_equal, $siteurl, $blogfilename;
-	$cat_ID = $post->post_category;
-    if ($file == '') {
-        $file = "$siteurl/$blogfilename";
-    }
-    if ('http:' != substr($file,0,5)) {
-        $file = "$siteurl/$file";
-    }
-    $link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
-    if ($echo)
-        echo($link);
-    return $link;
+function get_the_category() {
+	global $post, $tablecategories, $tablepost2cat, $wpdb;
+	$categories = $wpdb->get_results("
+		SELECT category_id, cat_name, category_nicename 
+		FROM  $tablecategories, $tablepost2cat 
+		WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = $post->ID
+		");
+
+	return $categories;
 }
 
-function the_category() {
-	$category = get_the_category();
-	$category = apply_filters('the_category', $category);
-	echo convert_chars($category, 'html');
+function get_category_link($echo = false, $category_id) {
+	global $wpdb, $tablecategories, $post, $querystring_start, $querystring_equal, $siteurl, $blogfilename;
+	$cat_ID = $category_id;
+	$permalink_structure = get_settings('permalink_structure');
+	
+	if ('' == $permalink_structure) {
+		$file = "$siteurl/$blogfilename";
+		$link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
+	} else {
+		$category_nicename = $wpdb->get_var("SELECT category_nicename FROM $tablecategories WHERE cat_ID = $category_id");
+		// Get any static stuff from the front
+		$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+		$link = $front . 'category/' . $category_nicename;
+	}
+
+	if ($echo) echo $link;
+	return $link;
 }
+
+function the_category($seperator = '') {
+	$categories = get_the_category();
+	if ('' == $seperator) {
+		echo '<ul class="post-categories">';
+		foreach ($categories as $category) {
+			echo "\n\t<li><a href='" . get_category_link(0, $category->category_id) . "' title='View all posts in $category->cat_name'>$category->cat_name</a></li>";
+		}
+		echo '</ul>';
+	} else {
+		$i = 0;
+		foreach ($categories as $category) {
+			if (0 < $i) echo $seperator . ' ';
+			echo "<a href='" . get_category_link(0, $category->category_id) . "' title='View all posts in $category->cat_name'>$category->cat_name</a>";
+			++$i;
+		}
+	}
+}
+
 function the_category_rss() {
 	echo convert_chars(strip_tags(get_the_category()), 'xml');
 }
@@ -1252,18 +1282,7 @@ function the_category_unicode() {
 	echo convert_chars($category, 'unicode');
 }
 
-function get_the_category() {
-	global $post, $tablecategories, $querycount, $cache_categories, $use_cache, $wpdb;
-	$cat_ID = $post->post_category;
-	if ((empty($cache_categories[$cat_ID])) OR (!$use_cache)) {
-		$cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
-		++$querycount;
-		$cache_categories[$cat_ID] = $cat_name;
-	} else {
-		$cat_name = $cache_categories[$cat_ID];
-	}
-	return(stripslashes($cat_name));
-}
+
 
 function get_the_category_by_ID($cat_ID) {
 	global $tablecategories, $querycount, $cache_categories, $use_cache, $wpdb;

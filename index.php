@@ -32,28 +32,28 @@ require_once($abspath.'wp-links/links.php');
 
 <div id="content">
 <?php if ($posts) { foreach ($posts as $post) { start_b2(); ?>
+
 <?php the_date('','<h2>','</h2>'); ?>
-
- <h3 class="storytitle" id="post-<?php the_ID(); ?>">
-  <a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a>
-  <span class="meta"><a href="<?php get_category_link(1) ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?></span>
- </h3>
-
-<div class="storycontent">
-	<?php the_content(); ?>
-</div>
-
-<div class="feedback">
-	<?php link_pages('<br />Pages: ', '<br />', 'number'); ?> 
-	<?php comments_popup_link('Comments (0)', 'Comments (1)', 'Comments (%)'); ?> 
-</div>
-
-<!--
-<?php trackback_rdf(); ?>
-
--->
+	
+<div class="post">
+	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
+	<div class="meta">Filed under: <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?></div>
+	
+	<div class="storycontent">
+		<?php the_content(); ?>
+	</div>
+	
+	<div class="feedback">
+		<?php link_pages('<br />Pages: ', '<br />', 'number'); ?> 
+		<?php comments_popup_link('Comments (0)', 'Comments (1)', 'Comments (%)'); ?> 
+	</div>
+	
+	<!--
+	<?php trackback_rdf(); ?>
+	-->
 
 <?php include($abspath . 'b2comments.php'); ?>
+</div>
 
 <?php } } else { // end foreach, end if any posts ?>
 <p>Sorry, no posts matched your criteria.</p>

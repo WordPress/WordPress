@@ -42,14 +42,14 @@ switch($step) {
 	case 0:
 ?> 
 <p>This file seeks to upgrade you to the latest version of WordPress. If you are upgrading from any version other than .72, you should run the previous upgrade files to get everything up to date before running this.</p> 
-<p>If you&#8217;re all ready, <a href="upgrade-072-to-073.php?step=1">let's go</a>! </p> 
+<p>If you&#8217;re all ready, <a href="upgrade-072-to-080.php?step=1">let's go</a>! </p> 
 <?php
 	break;
 	
 	case 1:
 ?> 
 <h1>Step 1</h1> 
-<p>If it isn&#8217;t there already, let&#8217;s add a field new to this version.</p> 
+<p>If it isn&#8217;t there already, let&#8217;s add fields new to this version.</p> 
 <?php
 // Create post_name field
 $query = "ALTER TABLE `$tableposts` ADD `post_name` VARCHAR(200) NOT NULL";
@@ -59,9 +59,28 @@ maybe_add_column($tableposts, 'post_name', $query);
 $wpdb->hide_errors();
 $wpdb->query("ALTER TABLE `$tableposts` ADD INDEX (`post_name`)");
 $wpdb->show_errors();
+
+
+
+// Create category_nicename field
+$query = "ALTER TABLE `$tablecategories` ADD `category_nicename` VARCHAR(200) NOT NULL";
+maybe_add_column($tablecategories, 'category_nicename', $query);
+
+// Create index if it isn't there already, suppress errors if it is
+$wpdb->hide_errors();
+$wpdb->query("ALTER TABLE `$tablecategories` ADD INDEX (`category_nicename`)");
+$wpdb->show_errors();
+
+// Create category description field
+$query = "ALTER TABLE `$tablecategories` ADD `category_description` TEXT NOT NULL";
+maybe_add_column($tablecategories, 'category_description', $query);
+
+// Create category parent field
+$query = "ALTER TABLE `$tablecategories` ADD `category_parent` INT(4) NOT NULL";
+maybe_add_column($tablecategories, 'category_parent', $query);
 ?> 
-<p><strong>Done.</strong></p> 
-<p>Now let's populate the new field.</p> 
+<p><strong>Groovy.</strong></p> 
+<p>Now let&#8217;s populate the new fields.</p> 
 <p>Working
   <?php
 // Get the title and ID of every post, post_name to check if it already has a value
@@ -76,6 +95,16 @@ foreach($posts as $post) {
 	flush();
 }
 
+$categories = $wpdb->get_results("SELECT cat_ID, cat_name, category_nicename FROM $tablecategories");
+foreach ($categories as $category) {
+	if ('' == $category->category_nicename) { 
+		$newtitle = sanitize_title($category->cat_name);
+		$wpdb->query("UPDATE $tablecategories SET category_nicename = '$newtitle' WHERE cat_ID = $category->cat_ID");
+	}
+	echo ' .';
+	flush();
+}
+
 if (!$wpdb->get_var("SELECT option_name FROM $tableoptions WHERE option_name = 'permalink_structure'")) { // If it's not already there
 	$wpdb->query("INSERT INTO `$tableoptions` 
 		(`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) 
@@ -84,7 +113,7 @@ if (!$wpdb->get_var("SELECT option_name FROM $tableoptions WHERE option_name = '
 	}
 ?> 
   Done with the name game. Now a little option action. </p>
-  <p>Now on to <a href="upgrade-072-to-073.php?step=2">step 2</a>.</p>
+  <p>Now on to <a href="upgrade-072-to-080.php?step=2">step 2</a>.</p>
 <?php
 	break;
 	case 2:
@@ -195,7 +224,7 @@ if ($continue) {
 $wpdb->show_errors();
 ?>
 <p>Comment spammers should now watch out for you.</p>
-<p>See, that didn&#8217;t hurt a bit (again). Now on to the <a href="upgrade-072-to-073.php?step=3">final step</a>.</p>
+<p>See, that didn&#8217;t hurt a bit (again). Now on to the <a href="upgrade-072-to-080.php?step=3">final step</a>.</p>
   <?php
 	break;
 	case 3:
