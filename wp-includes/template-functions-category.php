@@ -28,7 +28,7 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
 		$category_nicename = preg_replace( '|[^a-z0-9-]|i', '', $category_nicename );
 		// Get any static stuff from the front
         $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-        $link = get_settings('home') . $front . 'category/';
+         $link = get_settings('home') . get_settings('category_base') . '/';
         if ($parent=$cache_categories[$category_id]->category_parent) $link .= get_category_parents($parent, FALSE, '/', TRUE);
         $link .= $category_nicename . '/';
     }
