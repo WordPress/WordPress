@@ -69,7 +69,7 @@ require (ABSPATH . WPINC . '/default-filters.php');
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
 $wpdb->hide_errors();
-if ( !update_user_cache() && !strstr($_SERVER['PHP_SELF'], 'install.php') || !defined('WP_INSTALLING') ) {
+if ( !update_user_cache() && (!strstr($_SERVER['PHP_SELF'], 'install.php') || !defined('WP_INSTALLING')) ) {
 	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
 		$link = 'install.php';
 	else
