@@ -233,7 +233,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 // out of the WordPress loop
 function wp_list_cats($args = '') {
 	parse_str($args, $r);
-	if (!isset($r['optionall'])) $r['optionall'] = 1;
+	if (!isset($r['optionall'])) $r['optionall'] = 0;
     if (!isset($r['all'])) $r['all'] = 'All';
 	if (!isset($r['sort_column'])) $r['sort_column'] = 'ID';
 	if (!isset($r['sort_order'])) $r['sort_order'] = 'asc';
@@ -254,7 +254,7 @@ function wp_list_cats($args = '') {
 }
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '') {
-    global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
+    global $tablecategories, $tableposts, $tablepost2cat, $wpdb, $category_posts;
     global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
     // Optiondates now works
@@ -272,7 +272,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 
         $categories = $wpdb->get_results($query);
     }
-    if (intval($hide_empty) == 1 && intval($optioncount) == 1) {
+    if (intval($hide_empty) == 1 && !isset($category_posts)) {
         $cat_counts = $wpdb->get_results("    SELECT cat_ID,
         COUNT($tablepost2cat.post_id) AS cat_count
         FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
