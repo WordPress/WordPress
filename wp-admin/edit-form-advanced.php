@@ -6,6 +6,9 @@ $messages[3] = __('Custom field deleted.');
 <?php if (isset($_GET['message'])) : ?>
 <div class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
+
+<form name="post" action="post.php" method="post" id="post">
+
 <div class="wrap">
 <?php
 
@@ -40,7 +43,6 @@ if (empty($post_status)) $post_status = 'draft';
 
 ?>
 
-<form name="post" action="post.php" method="post" id="post">
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action ?>' />
 <?php echo $form_extra ?>
