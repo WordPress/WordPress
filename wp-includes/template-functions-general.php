@@ -365,7 +365,7 @@ function get_calendar($daylength = 1) {
     <thead>
     <tr>';
     foreach ($weekday as $wd) {
-        echo "\n\t\t<th abbr='$wd' scope='col' title='$wd'>" . substr($wd, 0, $daylength) . '</th>';
+        echo "\n\t\t<th abbr=\"$wd\" scope=\"col\" title=\"$wd\">" . substr($wd, 0, $daylength) . '</th>';
     }
 
     echo '
@@ -405,7 +405,7 @@ function get_calendar($daylength = 1) {
             FROM $tableposts WHERE MONTH(post_date) = $thismonth
             AND YEAR(post_date) = $thisyear
             AND post_status = 'publish'
-            AND post_date < '" . date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."'", ARRAY_N);
+            AND post_date < '" . date('Y-m-d H:i:s', (time() + ($time_difference * 3600))).'\'', ARRAY_N);
     if ($dayswithposts) {
         foreach ($dayswithposts as $daywith) {
             $daywithpost[] = $daywith[0];
@@ -416,12 +416,12 @@ function get_calendar($daylength = 1) {
 
 
 
-    if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") ||
-          strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "camino") ||
-          strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "safari")) {
+    if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') ||
+          strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'camino') ||
+          strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'safari')) {
         $ak_title_separator = "\n";
     } else {
-        $ak_title_separator = ", ";
+        $ak_title_separator = ', ';
     }
 
     $ak_titles_for_day = array();
@@ -434,8 +434,8 @@ function get_calendar($daylength = 1) {
                                         );
     if ($ak_post_titles) {
         foreach ($ak_post_titles as $ak_post_title) {
-            if (empty($ak_titles_for_day["day_".$ak_post_title->dom])) {
-                $ak_titles_for_day["day_".$ak_post_title->dom] = '';
+            if (empty($ak_titles_for_day['day_'.$ak_post_title->dom])) {
+                $ak_titles_for_day['day_'.$ak_post_title->dom] = '';
             }
             if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
                 $ak_titles_for_day["$ak_post_title->dom"] .= htmlspecialchars(stripslashes($ak_post_title->post_title));
@@ -448,7 +448,7 @@ function get_calendar($daylength = 1) {
 
     // See how much we should pad in the beginning
     $pad = intval(date('w', $unixmonth));
-    if (0 != $pad) echo "\n\t\t<td colspan='$pad' class='pad'>&nbsp;</td>";
+    if (0 != $pad) echo "\n\t\t".'<td colspan="'.$pad.'" class="pad">&nbsp;</td>';
 
     $daysinmonth = intval(date('t', $unixmonth));
     for ($day = 1; $day <= $daysinmonth; ++$day) {
@@ -474,7 +474,7 @@ function get_calendar($daylength = 1) {
 
     $pad = 7 - date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear));
     if ($pad != 0 && $pad != 7)
-        echo "\n\t\t<td class='pad' colspan='$pad'>&nbsp;</td>";
+        echo "\n\t\t".'<td class="pad" colspan="'.$pad.'">&nbsp;</td>';
 
     echo "\n\t</tr>\n\t</tbody>\n\t</table>";
 }
