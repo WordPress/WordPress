@@ -1252,6 +1252,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
 
+		wp_new_comment($commentdata);
+
 		$comment_ID = $wpdb->insert_id;
 
 		if (get_settings('comments_notify')) {
