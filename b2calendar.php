@@ -57,9 +57,12 @@ require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc.'/b2vars.php');
 
 // Quick check. If we have no posts at all, abort!
-$gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
-if (!$gotsome)
-	return;
+if (!$posts) {
+	$gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
+	if (!$gotsome)
+		// if all else fails, just show this month's calendar
+		$calendar = date('Ym');
+}
 
 $w = $HTTP_GET_VARS['w'];
 if (isset($HTTP_GET_VARS['w'])) {
