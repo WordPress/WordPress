@@ -46,6 +46,12 @@ function wptexturize($text) {
 	return $output;
 }
 
+function clean_pre($text) {
+	$text = stripslashes($text);
+	$text = str_replace('<br />', '', $text);
+	return $text;
+}
+
 function wpautop($pee, $br = 1) {
 	$pee = $pee . "\n"; // just to make things a little easier, pad the end
 	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
@@ -64,6 +70,7 @@ function wpautop($pee, $br = 1) {
 	if ($br) $pee = preg_replace('|(?<!<br />)\s*\n|', "<br />\n", $pee); // optionally make line breaks
 	$pee = preg_replace('!(</?(?:table|thead|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)!', '$1', $pee);
+	$pee = preg_replace('!(<pre.*?>)(.*?)</pre>!ise', " '$1' .  clean_pre('$2')  . '</pre>' ", $pee);
 	$pee = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $pee);
 	
 	return $pee; 
