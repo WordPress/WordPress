@@ -103,6 +103,13 @@
 		<li><a href="b2register.php">register</a></li>
 	</ul>
  </li>
+ <?php include_once('links.php') ?>
+ <?php include_once('links.weblogs.com.php') ?>
+ <li>Links:
+	<ul>
+		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, 1 )?>
+	</ul>
+ </li>
  <li>Misc:
  	<ul>
 		<li><a href="b2rss.php"><img src="b2-img/xml.gif" alt="view this weblog as RSS !" width="36" height="14" border="0"  /></a></li>

@@ -1,0 +1,4 @@
+Change the server name in this javascript and add to your browser toolbar. This currently only works in Mozilla.
+
+javascript:void(linkmanpopup=window.open('http://test.zed1.com/b2/linkmanager.php?action=popup&linkurl='+escape(location.href)+'&name='+escape(document.title),'Link Manager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();
+
