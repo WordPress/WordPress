@@ -236,7 +236,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
                 $url  = get_month_link($arcresult->year,   $arcresult->month);
                 if ($show_post_count) {
                     $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
-                    $after = " ($arcresult->posts)";
+                    $after = "&nbsp;($arcresult->posts)";
                 } else {
                     $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
                 }
@@ -1527,10 +1527,10 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
         $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" title="View all posts filed under ' . $category->cat_name . '">';
         $link .= stripslashes($cat_name).'</a>';
         if (intval($optioncount) == 1) {
-            $link .= '&nbsp;&nbsp;('.$category->cat_count.')';
+            $link .= '&nbsp;('.$category->cat_count.')';
         }
         if (intval($optiondates) == 1) {
-            $link .= '&nbsp;&nbsp;'.$category->lastday.'/'.$category->lastmonth;
+            $link .= '&nbsp;'.$category->lastday.'/'.$category->lastmonth;
         }
 		if ($list) {
 			echo "\t<li>$link</li>\n";
