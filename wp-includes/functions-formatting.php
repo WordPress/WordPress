@@ -18,14 +18,14 @@ function wptexturize($text) {
 			$cockneyreplace = array("&#8217;tain&#8217;t","&#8217;twere","&#8217;twas","&#8217;tis","&#8217;twill","&#8217;til","&#8217;bout","&#8217;nuff","&#8217;round");
 			$curl = str_replace($cockney, $cockneyreplace, $curl);
 
-			$curl = preg_replace("/'s/", "&#8217;s", $curl);
+			$curl = preg_replace("/'s/", '&#8217;s', $curl);
 			$curl = preg_replace("/'(\d\d(?:&#8217;|')?s)/", "&#8217;$1", $curl);
 			$curl = preg_replace('/(\s|\A|")\'/', '$1&#8216;', $curl);
-			$curl = preg_replace("/(\d+)\"/", "$1&Prime;", $curl);
-			$curl = preg_replace("/(\d+)'/", "$1&prime;", $curl);
+			$curl = preg_replace('/(\d+)"/', '$1&Prime;', $curl);
+			$curl = preg_replace("/(\d+)'/", '$1&prime;', $curl);
 			$curl = preg_replace("/(\S)'([^'\s])/", "$1&#8217;$2", $curl);
-			$curl = preg_replace('/"([\s.,!?;:&\']|\Z)/', '&#8221;$1', $curl);
-            $curl = preg_replace('/(\s|\A)"/', '$1&#8220;', $curl);
+			$curl = preg_replace('/(\s|\A)"(?!\s)/', '$1&#8220;$2', $curl);
+			$curl = preg_replace('/"(\s|\Z)/', '&#8221;$1', $curl);
 			$curl = preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
 			$curl = preg_replace("/\(tm\)/i", '&#8482;', $curl);
 			$curl = preg_replace("/\(c\)/i", '&#169;', $curl);
