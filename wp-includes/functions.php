@@ -927,6 +927,9 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 function wp_notify_moderator($comment_id) {
     global $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
+
+    if( get_settings( "moderation_notify" ) == 0 )
+        return true; 
     
     $comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");
