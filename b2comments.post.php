@@ -77,8 +77,8 @@ $ok=1;
 if (!empty($lasttime)) {
 	$time_lastcomment= mysql2date('U', $lasttime);
 	$time_newcomment= mysql2date('U', "$now");
-	if (($time_newcomment - $time_lastcomment) < 30)
-		$ok=0;
+	if (($time_newcomment - $time_lastcomment) < 10)
+		$ok = 0;
 }
 /* end flood-protection */
 
@@ -128,7 +128,7 @@ if ($ok) {
 		header("Location: $location");
 	}
 } else {
-	die('Sorry, you can only post a new comment once every 30 seconds.');
+	die('Sorry, you can only post a new comment once every 10 seconds.');
 }
 
 ?>
