@@ -43,17 +43,15 @@ $commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID
 if ('closed' == $commentstatus)
 	die('Sorry, comments are closed for this item.');
 
-if ($require_name_email && ($email == '' || $email == '@' || $author == '' || $author == 'name')) { //original fix by Dodo, and then Drinyth
-	echo 'Error: please fill the required fields (name, email).';
-	exit;
+if ($require_name_email && ($email == '' || $author == '')) { //original fix by Dodo, and then Drinyth
+	die('Error: please fill the required fields (name, email).');
 }
 if ($comment == 'comment' || $comment == '') {
-	echo "Error: please type a comment";
-	exit;
+	die('Error: please type a comment.');
 }
 
-$time_difference = get_settings('time_difference');
-$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
+
+$now = current_time('mysql');
 
 $comment = strip_tags($comment, $comment_allowed_tags);
 $comment = balanceTags($comment, 1);
@@ -68,7 +66,7 @@ $author = addslashes($author);
 $email = addslashes($email);
 $url = addslashes($url);
 
-/* flood-protection */
+/* Flood-protection */
 $lasttime = $wpdb->get_var("SELECT comment_date FROM $tablecomments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1");
 $ok = true;
 if (!empty($lasttime)) {
@@ -77,13 +75,13 @@ if (!empty($lasttime)) {
 	if (($time_newcomment - $time_lastcomment) < 10)
 		$ok = false;
 }
-/* end flood-protection */
+/* End flood-protection */
 
 
 
 if ($ok) { // if there was no comment from this IP in the last 10 seconds
-	$comment_moderation = get_settings("comment_moderation");
-	$moderation_notify = get_settings("moderation_notify");
+	$comment_moderation = get_settings('comment_moderation');
+	$moderation_notify = get_settings('moderation_notify');
 	
 	// o42: this place could be the hook for further comment spam checking
 	// $approved should be set according the final approval status
@@ -97,9 +95,8 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	}
 	$wpdb->query("INSERT INTO $tablecomments (comment_ID,comment_post_ID,comment_author,comment_author_email,comment_author_url,comment_author_IP,comment_date,comment_content,comment_karma,comment_approved) VALUES ('0', '$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '0', '$approved')");
 
-	// o42: this should be changed as soon as other sql dbs are supported
-	// as it's proprietary to mysql
-	$comment_ID = $wpdb->get_var("SELECT last_insert_id()");
+/*
+	$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
 
 	$fp = fopen("/tmp/wpdebug.txt", "w+");
 	fwrite($fp, "comment_moderation: $comment_moderation\n");
@@ -117,6 +114,7 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	
 	fclose($fp);
 
+*/
 	if ($email == '')
 		$email = ' '; // this to make sure a cookie is set for 'no email'
 
@@ -127,11 +125,11 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	setcookie('comment_author_email_'.$cookiehash, $email, time()+30000000);
 	setcookie('comment_author_url_'.$cookiehash, $url, time()+30000000);
 
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Pragma: no-cache');
-	$location = (!empty($HTTP_POST_VARS['redirect_to'])) ? $HTTP_POST_VARS['redirect_to'] : $HTTP_SERVER_VARS["HTTP_REFERER"];
+	$location = (empty($HTTP_POST_VARS['redirect_to'])) ? $HTTP_SERVER_VARS["HTTP_REFERER"] : $HTTP_POST_VARS['redirect_to'];
 	if ($is_IIS) {
 		header("Refresh: 0;url=$location");
 	} else {

@@ -76,9 +76,14 @@ foreach($posts as $post) {
 	flush();
 }
 
-$wpdb->query("INSERT INTO `$tableoptions` (`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) VALUES ('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed.', '8');");
+if (!$wpdb->get_var("SELECT option_name FROM $tableoptions WHERE option_name = 'permalink_structure'")) { // If it's not already there
+	$wpdb->query("INSERT INTO `$tableoptions` 
+		(`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) 
+		VALUES 
+		('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed. See <a href=\"wp-options-permalink.php\">permalink options page</a> for necessary mod_rewrite rules and more information.', '8');");
+	}
 ?> 
-  <strong>Done.</strong></p>
+  Done with the name game. Now a little option action. </p>
   <p>Now on to <a href="upgrade-072-to-073.php?step=2">step 2</a>.</p>
 <?php
 	break;
@@ -100,14 +105,95 @@ $wpdb->query("INSERT INTO `$tableoptions` (`option_id`, `blog_id`, `option_name`
         $wpdb->query("UPDATE $tableoptions SET option_description = 'accepted file types, separated by spaces. example: \'jpg gif png\'' WHERE option_id = 34");
         echo ' .';
         flush();
-        // add link to date format help page
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"help/en/dateformats.help.html\">help</a> for format characters' WHERE option_id = 52");
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"help/en/dateformats.help.html\">help</a> for format characters' WHERE option_id = 53");
+        // add link to php date format. this could be to a wordpress.org page in the future
+        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 52");
+        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 53");
         echo ' .';
         flush();
 ?>
-    <strong>Done.</strong></p>
-<p>See, that didn&#8217;t hurt a bit. All done!</p>
+    <strong>Done with the options updates. Now for a bit of comment action</strong></p>
+<?php
+$result = '';
+$error_count = 0;
+$continue = true;
+
+// Insert new column "comment_approved" to $tablecomments
+if ($continue) {
+	$ddl = "ALTER TABLE $tablecomments ADD COLUMN comment_approved ENUM('0', '1') DEFAULT '1' NOT NULL";
+	if (maybe_add_column($tablecomments, $tablecol, $ddl)) {
+		$wpdb->query("ALTER TABLE $tablecomments ADD INDEX (comment_approved)");
+	}
+}
+
+// Insert new option "comment_moderation" to settings	
+if (!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'comment_moderation'")) {
+	$wpdb->query("INSERT INTO $tableoptions
+		(option_id, blog_id, option_name, option_can_override, option_type, option_value, option_width, option_height, option_description, option_admin_level)
+		VALUES 
+		('0', '0', 'comment_moderation', 'Y', '5',' none', 20, 8, 'If enabled, comments will only be shown after they have been approved.', 8)");
+}
+
+// attach option to group "General blog settings"
+if ($continue) {
+	$oid = $wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'comment_moderation'");	    
+	$gid = $wpdb->get_var("SELECT group_id FROM $tableoptiongroups WHERE group_name = 'General blog settings'");
+	
+	$seq = $wpdb->get_var("SELECT MAX(seq) FROM $tableoptiongroup_options WHERE group_id = '$gid'");
+	
+	++$seq;
+
+	$wpdb->query("INSERT INTO $tableoptiongroup_options 
+		(group_id, option_id, seq) 
+		VALUES 
+		('$gid', '$oid', '$seq')");
+}
+
+// Insert option values for new option "comment_moderation"
+if ($continue) {
+	$ddl = array();	    
+	$ddl[] = "INSERT INTO $tableoptionvalues 
+		(option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq)
+		VALUES 
+		('$oid', 'none', 'None', NULL, NULL, 1)";
+	$ddl[] = "INSERT INTO $tableoptionvalues 
+		(option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq)
+		VALUES 
+		('$oid', 'manual', 'Manual', NULL, NULL, 2)";
+	$ddl[] = "INSERT INTO $tableoptionvalues 
+		(option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq)
+		VALUES 
+		('$oid','auto', 'Automatic', NULL, NULL, 3)";
+	   
+	foreach ($ddl as $query) {
+		$wpdb->query($query);
+	}
+	
+}
+
+// Insert new option "moderation_notify" to settings	
+if (!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'moderation_notify'")) {
+	$wpdb->query("INSERT INTO $tableoptions 
+		(option_id, blog_id, option_name, option_can_override, option_type, option_value, option_width, option_height, option_description, option_admin_level) 
+		VALUES 
+		('0', '0', 'moderation_notify' , 'Y', '2', '1', 20, 8, 'Set this to true if you want to be notified about new comments that wait for approval', 8)");
+}
+
+// attach option to group "General blog settings"
+if ($continue) {
+	$oid = $wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'moderation_notify'");	    
+	$gid = $wpdb->get_var("SELECT group_id FROM $tableoptiongroups WHERE group_name = 'General blog settings'");
+	
+	$seq = $wpdb->get_var("SELECT MAX(seq) FROM $tableoptiongroup_options WHERE group_id = '$gid'");
+
+	++$seq;
+	$wpdb->query("INSERT INTO $tableoptiongroup_options 
+		(group_id, option_id, seq)
+		VALUES 
+		('$gid', '$oid', '$seq')");
+}
+?>
+<p>Comment spammers should now watch out for you.</p>
+<p>See, that didn&#8217;t hurt a bit (again). All done!</p>
 <?php
 	break;
 }

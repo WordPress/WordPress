@@ -19,7 +19,7 @@ foreach ($posts as $post) { start_b2();
 
 <h1 id="header"><a href="" title="<?php echo $blogname ?>"><?php echo $blogname ?></a></h1>
 
-<h2>Comments</h2>
+<h2 id="comments">Comments</h2>
 
 <p><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php?p=<?php echo $post->ID; ?>">RSS feed for comments on this post.</a></p>
 
@@ -27,33 +27,29 @@ foreach ($posts as $post) { start_b2();
 <p>The <acronym title="Uniform Resource Identifier">URI</acronym> to TrackBack this entry is: <em><?php trackback_url() ?></em></p>
 <?php } ?>
 
-<ol id="comments">
 <?php
 // this line is WordPress' motor, do not delete it.
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1' ORDER BY comment_date");
 $commentstatus = $wpdb->get_row("SELECT comment_status, post_password FROM $tableposts WHERE ID = $id");
 if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $commentstatus->post_password) {  // and it doesn't match the cookie
-	echo("<li>".get_the_password_form()."</li></ol>");
-}
-else {
-	if ($comments) {
-// this line is WordPress' motor, do not delete it.
-		foreach ($comments as $comment) {
-?>
-<!-- comment -->
-<li id="comment-<?php comment_ID() ?>">
-<?php comment_text() ?>
-<p><cite><?php comment_type(); ?> by <?php comment_author_link() ?> &#8212; <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
-</li>
+	echo(get_the_password_form());
+} else { ?>
 
-<?php	 	} // end for each comment
-	} else { // this is displayed if there are no comments so far 
-?>
-	<li>No comments yet.</li>
-<?php } ?>
+<?php if ($comments) { ?>
+<ol id="commentlist">
+<?php foreach ($comments as $comment) { ?>
+	<li id="comment-<?php comment_ID() ?>">
+	<?php comment_text() ?>
+	<p><cite><?php comment_type(); ?> by <?php comment_author_link() ?> &#8212; <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
+	</li>
+
+<?php } // end for each comment ?>
 </ol>
-<?php 
-	if ('open' == $commentstatus->comment_status) { ?>
+<?php } else { // this is displayed if there are no comments so far ?>
+	<p>No comments yet.</p>
+<?php } ?>
+
+<?php if ('open' == $commentstatus->comment_status) { ?>
 <h2>Leave a Comment</h2>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo htmlentities(str_replace('<', ' <', $comment_allowed_tags)); ?></code></p>
 

@@ -42,19 +42,19 @@ switch($action) {
 case 'update':
 
 	$standalone = 1;
-	require_once("b2header.php");
+	require_once('b2header.php');
 
 	if ($user_level < 3) {
-		die('<p>You have no right to moderate comments.<br />Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
+		die('<p>Your level is not high enough to moderate comments. Ask for a promotion from your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
 	}
 	
 	// check if comment moderation is turned on in the settings
 	// if not, just give a short note and stop
-	if (get_settings("comment_moderation") == "none") {
-	    echo "<div class=\"wrap\">\n";
-	    echo "Comment moderation has been turned off.<br /><br />\n";
-	    echo "</div>\n";
-	    include("b2footer.php");
+	if ('none' == get_settings("comment_moderation")) {
+	    echo '<div class="wrap">
+		<p>Comment moderation has been turned off.</p>
+		</div>';
+	    require('b2footer.php');
 	    exit;
 	}	
 
@@ -64,24 +64,24 @@ case 'update':
 	
 	foreach($comment as $key => $value) {
 	    switch($value) {
-	    case "later":
-		// do nothing with that comment
-		// wp_set_comment_status($key, "hold");
-		++$item_ignored;
-		break;
-		
-	    case "delete":
-		wp_set_comment_status($key, "delete");
-		++$item_deleted;
-		break;
-		
-	    case "approve":
-		wp_set_comment_status($key, "approve");
-		if (get_settings("comments_notify") == true) {
-		    wp_notify_postauthor($key);
-		}
-		++$item_approved;
-		break;
+			case 'later':
+				// do nothing with that comment
+				// wp_set_comment_status($key, "hold");
+				++$item_ignored;
+				break;
+			
+			case 'delete':
+				wp_set_comment_status($key, 'delete');
+				++$item_deleted;
+				break;
+			
+			case 'approve':
+				wp_set_comment_status($key, 'approve');
+				if (get_settings('comments_notify') == true) {
+					wp_notify_postauthor($key);
+				}
+				++$item_approved;
+				break;
 	    }
 	}
 
@@ -96,15 +96,15 @@ default:
 	require_once('b2header.php');
 
 	if ($user_level <= 3) {
-		die('<p>You have no right to moderate comments.<br>Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
+		die('<p>Your level is not high enough to moderate comments. Ask for a promotion from your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
 	}
 
 	// check if comment moderation is turned on in the settings
 	// if not, just give a short note and stop
-	if (get_settings("comment_moderation") == "none") {
-	    echo "<div class=\"wrap\">\n";
-	    echo "Comment moderation has been turned off.<br /><br />\n";
-	    echo "</div>\n";
+	if ('none' == get_settings('comment_moderation')) {
+	    echo '<div class="wrap">
+		<p>Comment moderation has been turned off.</p>
+		</div>';
 	    include("b2footer.php");
 	    exit;
 	}	
@@ -144,7 +144,7 @@ default:
 
 	<?php
 	
-$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_approved='0'");
+$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_approved = 0");
 if ($comments) {
     // list all comments that are waiting for approval
     $file = basename(__FILE__);

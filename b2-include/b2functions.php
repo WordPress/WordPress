@@ -64,7 +64,7 @@ function wptexturize($text) {
 	return $output;
 }
 
-function wpautop($pee, $br=1) {
+function wpautop($pee, $br = 1) {
 	$pee = $pee . "\n"; // just to make things a little easier, pad the end
 	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
 	$pee = preg_replace('!(<(?:table|ul|ol|li|pre|form|blockquote|h[1-6])[^>]*>)!', "\n$1", $pee); // Space things out a little
@@ -169,6 +169,18 @@ function mysql2date($dateformatstring, $mysqlstring, $use_b2configmonthsdays = 1
 	//	echo $i." ".$mysqlstring;
 	}
 	return $j;
+}
+
+function current_time($type) {
+	$time_difference = get_settings('time_difference');
+	switch ($type) {
+		case 'mysql':
+			return date('Y-m-d H:i:s', (time() + ($time_difference * 3600) ) );
+			break;
+		case 'timestamp':
+			return (time() + ($time_difference * 3600) );
+			break;
+	}
 }
 
 function addslashes_gpc($gpc) {
@@ -1394,23 +1406,23 @@ function wp_set_comment_status($comment_id, $comment_status) {
     global $wpdb, $tablecomments;
 
     switch($comment_status) {
-    case 'hold':
-	$query = "UPDATE $tablecomments SET comment_approved='0' WHERE comment_ID='$comment_id' LIMIT 1";
-	break;
-    case 'approve':
-	$query = "UPDATE $tablecomments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
-	break;
-    case 'delete':
-	$query = "DELETE FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1";
-	break;
-    default:
-	return false;
+		case 'hold':
+			$query = "UPDATE $tablecomments SET comment_approved='0' WHERE comment_ID='$comment_id' LIMIT 1";
+		break;
+		case 'approve':
+			$query = "UPDATE $tablecomments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
+		break;
+		case 'delete':
+			$query = "DELETE FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1";
+		break;
+		default:
+			return false;
     }
     
     if ($wpdb->query($query)) {
-	return true;
+		return true;
     } else {
-	return false;
+		return false;
     }
 }
 

@@ -1,6 +1,5 @@
 1	wp-post.php	Post
 1	edit.php	Edit
-3	wp-moderation.php	Moderation
 3	b2team.php	Team
 4	wp-options.php	Options
 3	b2categories.php	Categories

@@ -19,32 +19,29 @@
 
 <!-- You can start editing here. -->
 
-<h2>Comments</h2>
+<h2 id="comments">Comments</h2>
 
-<p><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php?p=<?php echo $id; ?>">RSS feed for comments on this post.</a></p>
+<p><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php?p=<?php echo $id; ?>"><abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.</a></p>
 
 <?php if ('open' == $post->ping_status) { ?>
 <p>The <acronym title="Uniform Resource Identifier">URI</acronym> to TrackBack this entry is: <em><?php trackback_url() ?></em></p>
 <?php } ?>
 
-<ol id="comments">
-<?php 
-// this line is WordPress' motor, do not delete it.
-if ($comments) {
-	foreach ($comments as $comment) {
-?>
-	
-<li id="comment-<?php comment_ID() ?>">
-<?php comment_text() ?>
-<p><cite><?php comment_type(); ?> by <?php comment_author_link() ?> &#8212; <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
-</li>
 
-<?php } // end for each comment
-} else { // this is displayed if there are no comments so far 
-?>
-	<li>No comments yet.</li>
-<?php } ?>
+<?php if ($comments) { ?>
+<ol id="commentlist">
+<?php foreach ($comments as $comment) { ?>
+	<li id="comment-<?php comment_ID() ?>">
+	<?php comment_text() ?>
+	<p><cite><?php comment_type(); ?> by <?php comment_author_link() ?> &#8212; <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
+	</li>
+
+<?php } // end for each comment ?>
 </ol>
+<?php } else { // this is displayed if there are no comments so far ?>
+	<p>No comments yet.</p>
+<?php } ?>
+
 <h2>Leave a Comment</h2>
 <?php if ('open' == $post->comment_status) { ?>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code><?php echo htmlentities(str_replace('<', ' <', $comment_allowed_tags)); ?></code></p>
@@ -77,10 +74,7 @@ if ($comments) {
 if ('none' != get_settings("comment_moderation")) { 
 ?>
 	<p>
-	<strong>Please note:</strong><br />
-	This blog uses comment moderation. In other words: your comment will need approval
-	by the administrator before it will appear in the blog. Approval usually happens 
-	within the next 24 hours. Please send your comment only once. Thank you.
+	<strong>Please note:</strong> Comment moderation is currently enabled so there may be a delay between when you post your comment and when it shows up. Patience is a virtue; there&#8217;s no need to resubmit your comment.
 	</p>
 <?php
 } // comment_moderation != 'none'
