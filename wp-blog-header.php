@@ -192,15 +192,7 @@ if (1 == count($posts)) {
 $wp_did_header = true;
 endif;
 
-$wp_template = get_settings('template');
-
-if ($wp_template == 'default') {
-  $wp_template = '';
-}
-
-if (! empty($wp_template)) {
-  $wp_template = "themes/$wp_template/";
-}
+$wp_template_dir = get_template_directory();
 
 // Template redirection
 if ($pagenow == 'index.php') {
@@ -214,55 +206,55 @@ if ($pagenow == 'index.php') {
 			include(dirname(__FILE__) . '/wp-trackback.php');
 			exit;
 		} else if (is_home() && 
-				file_exists(ABSPATH . "wp-content/${wp_template}index.php")) {
+				file_exists("$wp_template_dir/index.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}index.php");
+			include("$wp_template_dir/index.php");
 			exit;
 		} else if (is_single() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}single.php")) {
+							 file_exists("$wp_template_dir/single.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}single.php");
+			include("$wp_template_dir/single.php");
 			exit;
 		} else if (is_page() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}page.php")) {
+							 file_exists("$wp_template_dir/page.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}page.php");
+			include("$wp_template_dir/page.php");
 			exit;
 		} else if (is_category() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}category.php")) {
+							 file_exists("$wp_template_dir/category.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}category.php");
+			include("$wp_template_dir/category.php");
 			exit;
 		} else if (is_author() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}author.php")) {
+							 file_exists("$wp_template_dir/author.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}author.php");
+			include("$wp_template_dir/author.php");
 			exit;
 		} else if (is_date() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}date.php")) {
+							 file_exists("$wp_template_dir/date.php")) {
 			$wp_did_date = true;
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}date.php");
+			include("$wp_template_dir/date.php");
 			exit;
 		} else if (is_archive() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}archive.php")) {
+							 file_exists("$wp_template_dir/archive.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}archive.php");
+			include("$wp_template_dir/archive.php");
 			exit;
 		} else if (is_search() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}search.php")) {
+							 file_exists("$wp_template_dir/search.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}search.php");
+			include("$wp_template_dir/search.php");
 			exit;
 		} else if (is_404() &&
-							 file_exists(ABSPATH . "wp-content/${wp_template}404.php")) {
+							 file_exists("$wp_template_dir/404.php")) {
 			$wp_did_template_redirect = true;
-			include(ABSPATH . "wp-content/${wp_template}404.php");
+			include("$wp_template_dir/404.php");
 			exit;
-		} else if (file_exists(ABSPATH . "wp-content/${wp_template}index.php"))
+		} else if (file_exists("$wp_template_dir/index.php"))
 			{
 				$wp_did_template_redirect = true;
-				include(ABSPATH . "wp-content/${wp_template}index.php");
+				include("$wp_template_dir/index.php");
 				exit;
 			}
 	}

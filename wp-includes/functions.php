@@ -1704,4 +1704,16 @@ function the_post() {
     start_wp(true);
 }
 
+function get_template_directory() {
+	$template = get_settings('template');
+
+	if (empty($template) || $template == 'default') {
+		$template = ABSPATH . "wp-content";
+	} else {
+		$template = ABSPATH . "wp-content/themes/$template";
+	}
+
+	return $template;
+}
+
 ?>

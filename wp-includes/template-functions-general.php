@@ -51,65 +51,74 @@ function bloginfo_unicode($show='') {
 
 function get_bloginfo($show='') {
 
-    switch($show) {
-        case 'url':
-		case 'siteurl':
-            $output = get_settings('home');
-            break;
-        case 'description':
-            $output = get_settings('blogdescription');
-            break;
-        case 'rdf_url':
-            $output = get_feed_link('rdf');
-            break;
-        case 'rss_url':
-            $output = get_feed_link('rss');
-            break;
-        case 'rss2_url':
-            $output = get_feed_link('rss2');
-            break;
-        case 'atom_url':
-            $output = get_feed_link('atom');
-            break;        
-        case 'comments_rss2_url':
-            $output = get_feed_link('comments_rss2');
-            break;
-        case 'pingback_url':
-            $output = get_settings('siteurl') .'/xmlrpc.php';
-            break;
-		case 'stylesheet_url':
-			$output = get_settings('stylesheet');;
-			if (empty($output) || $output == 'default') {
-				$output = get_settings('siteurl') . "/wp-layout.css";
-			} else {
-				$output = get_settings('siteurl') . "/wp-content/themes/$output/style.css";
-			}
-			break;
-		case 'template_url':
-			$output = get_settings('template');;
-			if (empty($output) || $output == 'default') {
-				$output = get_settings('siteurl');
-			} else {
-				$output = get_settings('siteurl') . "/wp-content/themes/$output";
-			}
-			break;
-        case 'admin_email':
-            $output = get_settings('admin_email');
-            break;
-		case 'charset':
-			$output = get_settings('blog_charset');
-			if ('' == $output) $output = 'UTF-8';
-			break;
-		case 'version':
-			global $wp_version;
-			$output = $wp_version;
-			break;
-        case 'name':
-        default:
-            $output = get_settings('blogname');
-            break;
-    }
-    return $output;
+	switch($show) {
+	case 'url':
+	case 'siteurl':
+		$output = get_settings('home');
+		break;
+	case 'description':
+		$output = get_settings('blogdescription');
+		break;
+	case 'rdf_url':
+		$output = get_feed_link('rdf');
+		break;
+	case 'rss_url':
+		$output = get_feed_link('rss');
+		break;
+	case 'rss2_url':
+		$output = get_feed_link('rss2');
+		break;
+	case 'atom_url':
+		$output = get_feed_link('atom');
+		break;        
+	case 'comments_rss2_url':
+		$output = get_feed_link('comments_rss2');
+		break;
+	case 'pingback_url':
+		$output = get_settings('siteurl') .'/xmlrpc.php';
+		break;
+	case 'stylesheet_url':
+		$output = get_settings('stylesheet');;
+		if (empty($output) || $output == 'default') {
+			$output = get_settings('siteurl') . "/wp-layout.css";
+		} else {
+			$output = get_settings('siteurl') . "/wp-content/themes/$output/style.css";
+		}
+		break;
+	case 'stylesheet_directory':
+		$output = get_settings('stylesheet');;
+		if (empty($output) || $output == 'default') {
+			$output = get_settings('siteurl');
+		} else {
+			$output = get_settings('siteurl') . "/wp-content/themes/$output";
+		}
+		break;
+	case 'template_directory':
+	case 'template_url':
+		$output = get_settings('template');;
+		if (empty($output) || $output == 'default') {
+			$output = get_settings('siteurl');
+		} else {
+			$output = get_settings('siteurl') . "/wp-content/themes/$output";
+		}
+		break;
+	case 'admin_email':
+		$output = get_settings('admin_email');
+		break;
+	case 'charset':
+		$output = get_settings('blog_charset');
+		if ('' == $output) $output = 'UTF-8';
+		break;
+	case 'version':
+		global $wp_version;
+		$output = $wp_version;
+		break;
+	case 'name':
+	default:
+		$output = get_settings('blogname');
+		break;
+	}
+	return $output;
 }
 
 function wp_title($sep = '&raquo;', $display = true) {

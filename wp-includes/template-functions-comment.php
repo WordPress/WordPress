@@ -26,15 +26,11 @@ function comments_template() {
 		$comment_author_url = isset($_COOKIE['comment_author_url_'.$cookiehash]) ? trim(stripslashes($_COOKIE['comment_author_url_'.$cookiehash])) : '';
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
 
-		$wp_template = get_settings('template');
-		if ($wp_template == 'default') {
-			$wp_template = '';
-		} else {
-			$wp_template = ABSPATH . "wp-content/themes/$wp_template/comments.php";
-		} 
+		$template = get_template_directory();
+		$template .= "/comments.php";
 
-		if(! empty($wp_template) && file_exists($wp_template)) {
-			include($wp_template);
+		if (file_exists($template)) {
+			include($template);
 		}	else {
 			include(ABSPATH . 'wp-comments.php');
 		}
@@ -75,7 +71,19 @@ function comments_link($file='', $echo=true) {
 
 function comments_popup_script($width=400, $height=400, $file='wp-comments-popup.php') {
     global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
-    $wpcommentspopupfile = $file;
+
+		if (empty ($file)) {
+			$template = get_template_directory();
+			$template .= '/comments-popup.php';
+			if (file_exists($template)) {
+				$wpcommentspopupfile = $template;
+			} else {
+				$wpcommentspopupfile = 'wp-comments-popup.php';
+			}
+		} else {
+			$wpcommentspopupfile = $file;
+		}
+
     $wpcommentsjavascript = 1;
     $javascript = "<script type=\"text/javascript\">\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
     echo $javascript;
