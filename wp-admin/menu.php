@@ -48,6 +48,11 @@ $submenu['plugins.php'][10] = array(__('Plugin Editor'), 8, 'plugin-editor.php')
 $submenu['themes.php'][5] = array(__('Themes'), 8, 'themes.php');
 $submenu['themes.php'][10] = array(__('Theme Editor'), 8, 'theme-editor.php');
 
+// Create list of page plugin hook names.
+foreach ($menu as $menu_page) {
+	$admin_page_hooks[$menu_page[2]] = sanitize_title($menu_page[0]);
+}
+
 do_action('admin_menu', '');
 ksort($menu); // make it all pretty
 

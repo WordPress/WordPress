@@ -773,14 +773,16 @@ function plugin_basename($file) {
 }
 
 function add_menu_page($page_title, $menu_title, $access_level, $file) {
-	global $menu;
+	global $menu, $admin_page_hooks;
 
 	$file = plugin_basename($file);
 
 	$menu[] = array($menu_title, $access_level, $file, $page_title);
+
+	$admin_page_hooks[$file] = sanitize_title($menu_title);
 }
 
-function add_submenu_page($parent, $page_title, $menu_title, $access_level, $file) {
+function add_submenu_page($parent, $page_title, $menu_title, $access_level, $file, $function = '') {
 	global $submenu;
 	global $menu;
 
@@ -800,14 +802,20 @@ function add_submenu_page($parent, $page_title, $menu_title, $access_level, $fil
 	}
 	
 	$submenu[$parent][] = array($menu_title, $access_level, $file, $page_title);
+
+	$hookname = get_plugin_page_hookname($file, $parent);
+	if ( !empty($function) && !empty($hookname) )
+		add_action($hookname, $function);
+
+	return $hookname;
 }
 
-function add_options_page($page_title, $menu_title, $access_level, $file) {
-	add_submenu_page('options-general.php', $page_title, $menu_title, $access_level, $file);
+function add_options_page($page_title, $menu_title, $access_level, $file, $function = '') {
+	return add_submenu_page('options-general.php', $page_title, $menu_title, $access_level, $file, $function);
 }
 
-function add_management_page($page_title, $menu_title, $access_level, $file) {
-	add_submenu_page('edit.php', $page_title, $menu_title, $access_level, $file);
+function add_management_page($page_title, $menu_title, $access_level, $file, $function = '') {
+	return add_submenu_page('edit.php', $page_title, $menu_title, $access_level, $file, $function);
 }
 
 function validate_file($file, $allowed_files = '') {
@@ -997,6 +1005,30 @@ function get_plugins() {
 	}
 
 	return $wp_plugins;
+}
+
+function get_plugin_page_hookname($plugin_page, $parent_page) {
+	global $admin_page_hooks;
+
+	if ( isset($admin_page_hooks[$parent_page]) )
+		$page_type = $admin_page_hooks[$parent_page];
+	else
+		$page_type = 'admin';
+
+	$plugin_name = preg_replace('!\.php!', '', $plugin_page);
+
+	return $page_type . '_page_' . $plugin_name;
+}
+
+function get_plugin_page_hook($plugin_page, $parent_page) {
+	global $wp_filter;
+
+	$hook = get_plugin_page_hookname($plugin_page, $parent_page);
+
+	if ( isset($wp_filter[$hook]) )
+		return $hook;
+	else
+		return '';
 }
 
 ?>
