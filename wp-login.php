@@ -67,7 +67,7 @@ case 'login':
 	$user = get_userdatabylogin($log);
 	
 	if (0 == $user->user_level) {
-		$redirect_to = $site . '/wp-admin/profile.php';
+		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 	}
 
 	function login() {
