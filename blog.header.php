@@ -41,7 +41,10 @@ $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search
 @header ("X-Pingback: $siteurl/xmlrpc.php");
 
 /* Getting settings from db */
-$posts_per_page = get_settings('posts_per_page');
+if ($doing_rss == 1)
+    $posts_per_page=get_settings('posts_per_rss');
+if ($posts_per_page == 0)
+    $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
 $dateformat = stripslashes(get_settings('date_format'));

@@ -1,5 +1,6 @@
 <?php /* RDF 1.0 generator, original version by garym@teledyn.com */
 $blog = 1; // enter your blog's ID
+$doing_rss=1;
 header('Content-type: text/xml');
 include('blog.header.php');
 add_filter('the_content', 'trim');
