@@ -48,7 +48,7 @@ save_mod_rewrite_rules();
 
 <div class="wrap"> 
   <h2><?php _e('Edit Permalink Structure') ?></h2> 
-  <p><?php _e('By default WordPress uses web URIs which have question marks and lots of numbers in them, however WordPress offers you the ability to create a custom URI structure for your permalinks and archives. This can improve the aesthetics, usability, and longevity of your links. A <a href="http://codex.wordpress.org/Permalink_Structure">number of tags are available</a>, and here are some examples to get you started.'); ?></p>
+  <p><?php _e('By default WordPress uses web URIs which have question marks and lots of numbers in them, however WordPress offers you the ability to create a custom URI structure for your permalinks and archives. This can improve the aesthetics, usability, and longevity of your links. A <a href="http://codex.wordpress.org/Using_Permalinks">number of tags are available</a>, and here are some examples to get you started.'); ?></p>
 
 <?php if ($is_apache) : ?>
 <dl>
