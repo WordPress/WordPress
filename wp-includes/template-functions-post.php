@@ -171,7 +171,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
         $output = $excerpt;
     }
     $output = str_replace(']]>', ']]&gt;', $output);
-    echo $output;
+    echo apply_filters('the_excerpt_rss', $output);
 }
 
 function get_the_excerpt($fakeit = true) {
