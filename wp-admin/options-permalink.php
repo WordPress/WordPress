@@ -123,10 +123,12 @@ if ('/' != substr($home_root, -1)) $home_root = $home_root . '/';
 RewriteBase <?php echo $home_root; ?> 
 <?php
 $rewrite = rewrite_rules('', $permalink_structure);
+$rules = '';
 foreach ($rewrite as $match => $query) {
-	if (strstr($query, 'index.php')) echo 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
-    else echo 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
+	if (strstr($query, 'index.php')) $rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
+    $rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
 }
+echo apply_filters('rewrite_rules', $rules);
 ?>
     </textarea>
     </p>
