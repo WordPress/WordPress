@@ -4,6 +4,7 @@ $doing_rss = 1;
 header('Content-type: text/xml', true);
 require('wp-blog-header.php');
 
+/* This doesn't take into account edits
 // Get the time of the most recent article
 $maxdate = $wpdb->get_var("SELECT max(post_date) FROM $tableposts");
 $unixtime = strtotime($maxdate);
@@ -15,6 +16,7 @@ $cetag = (isset($clast)) ? md5($clast) : '';
 // send it in a Last-Modified header
 header("Last-Modified: " . $clast, true);
 header("Etag: " . $cetag, true);
+*/
 
 add_filter('the_content', 'trim');
 if (!isset($rss_language)) { $rss_language = 'en'; }
