@@ -230,7 +230,62 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 /***** // About-the-blog tags *****/
 
 
+/***** Links *****/
+function get_permalink($id=false) {
+	global $post, $wpdb, $tableposts;
+	global $file, $siteurl, $querystring_start, $querystring_equal;
+	$rewritecode = array(
+		'%year%',
+		'%monthnum%',
+		'%day%',
+		'%postname%'
+	);
+	if (!$id) {
+		if ('' != get_settings('permalink_structure')) {
+			$unixtime = strtotime($post->post_date);
+			$rewritereplace = array(
+				date('Y', $unixtime),
+				date('n', $unixtime),
+				date('j', $unixtime),
+				$post->post_name
+			);
+			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+		} else { // if they're not using the fancy permalink option
+			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$post->ID;
+		}
+	} else { // if an ID is given
+		$idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
+		if ('' != get_settings('permalink_structure')) {
+			$unixtime = strtotime($idpost->post_date);
+			$rewritereplace = array(
+				date('Y', $unixtime),
+				date('n', $unixtime),
+				date('j', $unixtime),
+				$idpost->post_name
+			);
+			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+		} else {
+			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$idpost->ID;
+		}
+	}
+}
 
+function get_month_link($year, $month) {
+	global $siteurl, $blogfilename, $querystring_start, $querystring_equal;
+	if (!$year) $year = date('Y', time()+($time_difference * 3600));
+	if (!$month) $month = date('m', time()+($time_difference * 3600));
+	if ('' != get_settings('permalink_structure')) {
+		$off = strpos(get_settings('permalink_structure'), '%monthnum%');
+		$offset = $off + 11;
+		$monthlink = substr(get_settings('permalink_structure'), 0, $offset);
+		if ('/' != substr($monthlink, -1)) $monthlink = substr($monthlink, 0, -1);
+		$monthlink = str_replace('%year%', $year, $monthlink);
+		$monthlink = str_replace('%monthnum%', intval($month), $monthlink);
+		return $monthlink;
+	} else {
+		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.$month;
+	}
+}
 
 /***** Date/Time tags *****/
 
@@ -1406,45 +1461,6 @@ function trackback_rdf($timezone = 0) {
 
 
 /***** Permalink tags *****/
-function get_permalink($id=false) {
-	global $post, $wpdb, $tableposts;
-	global $file, $siteurl, $querystring_start, $querystring_equal;
-	$rewritecode = array(
-		'%year%',
-		'%monthnum%',
-		'%day%',
-		'%postname%'
-	);
-	if (!$id) {
-		if ('' != get_settings('permalink_structure')) {
-			$unixtime = strtotime($post->post_date);
-			$rewritereplace = array(
-				date('Y', $unixtime),
-				date('n', $unixtime),
-				date('j', $unixtime),
-				$post->post_name
-			);
-			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
-		} else { // if they're not using the fancy permalink option
-			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$post->ID;
-		}
-	} else { // if an ID is given
-		$idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
-		if ('' != get_settings('permalink_structure')) {
-			$unixtime = strtotime($idpost->post_date);
-			$rewritereplace = array(
-				date('Y', $unixtime),
-				date('n', $unixtime),
-				date('j', $unixtime),
-				$idpost->post_name
-			);
-			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
-		} else {
-			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$idpost->ID;
-		}
-	}
-}
-
 function permalink_anchor($mode = 'id') {
 	global $id, $post;
 	switch(strtolower($mode)) {
