@@ -217,7 +217,7 @@ default:
 	echo "</td><td align='right'>$numposts</td>";
 	echo '<td>';
 	if (($user_level >= 2) and ($user_level > $user_data->user_level))
-		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>Edit</a>";
+		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>".__('Edit')."</a>";
 	echo '</td>';
 	echo '</tr>';
 	}

@@ -15,8 +15,8 @@ $menu[40] = array(__('Presentation'), 8, 'themes.php');
 $menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
 ksort($menu); // So other files can plugin
 
-$submenu['post.php'][5] = array('Write Post', 1, 'post.php');
-$submenu['post.php'][10] = array('Write Page', 5, 'page-new.php');
+$submenu['post.php'][5] = array(__('Write Post'), 1, 'post.php');
+$submenu['post.php'][10] = array(__('Write Page'), 5, 'page-new.php');
 
 $submenu['edit.php'][5] = array(__('Posts'), 1, 'edit.php');
 $submenu['edit.php'][10] = array(__('Pages'), 5, 'edit-pages.php');
