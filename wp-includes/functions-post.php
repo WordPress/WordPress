@@ -141,7 +141,7 @@ function wp_update_post($postarr = array()) {
 	$result = $wpdb->query($sql);
 	$rows_affected = $wpdb->rows_affected;
 
-	wp_set_post_cats('', $ID, $post_category)
+	wp_set_post_cats('', $ID, $post_category);
 
 	do_action('edit_post', $ID);
 
