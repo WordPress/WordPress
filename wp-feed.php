@@ -1,6 +1,6 @@
 <?php
 
-if (! $doing_rss) {
+if (empty($doing_rss)) {
     $doing_rss = 1;
     require('wp-blog-header.php');
 }

@@ -204,15 +204,17 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 
 function wp_delete_post($postid = 0) {
 	global $wpdb;
-	
-	$sql = "DELETE FROM $wpdb->post2cat WHERE post_id = $postid";
-	$wpdb->query($sql);
-		
-	$sql = "DELETE FROM $wpdb->posts WHERE ID = $postid";
-	
-	$wpdb->query($sql);
 
-	$result = $wpdb->rows_affected;
+	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
+
+	if (!$result)
+		return $result;
+
+	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
+
+	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $postid");
+
+	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 	
 	return $result;
 }
