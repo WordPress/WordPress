@@ -48,7 +48,7 @@ function veriflog() {
 		if (!empty($HTTP_COOKIE_VARS["wordpressuser"])) {
 			$error="<b>Error</b>: wrong login or password";
 		}
-		include("b2login.php");
+		header("Location: $path/b2login.php");
 		exit();
 	}
 //}
