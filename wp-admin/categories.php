@@ -1,5 +1,7 @@
 <?php
-$title = 'Categories';
+require_once('../wp-includes/wp-l10n.php');
+
+$title = __('Categories');
 /* <Categories> */
 
 function add_magic_quotes($array) {
@@ -43,7 +45,7 @@ case 'addcat':
     require_once('admin-header.php');
     
     if ($user_level < 3)
-        die ('Cheatin&#8217; uh?');
+        die (__('Cheatin&#8217; uh?'));
     
     $cat_name= addslashes(stripslashes(stripslashes($_POST['cat_name'])));
     $category_nicename = sanitize_title($cat_name);
@@ -68,10 +70,10 @@ case 'Delete':
     $cat_parent = $category->category_parent;
 
     if (1 == $cat_ID)
-        die("Can't delete the <strong>$cat_name</strong> category: this is the default one");
+        die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
     if ($user_level < 3)
-        die ('Cheatin&#8217; uh?');
+        die (__('Cheatin&#8217; uh?'));
 
     $wpdb->query("DELETE FROM $tablecategories WHERE cat_ID = $cat_ID");
     $wpdb->query("UPDATE $tablecategories SET category_parent=$cat_parent WHERE category_parent=$cat_ID");
@@ -89,21 +91,22 @@ case 'edit':
     ?>
 
 <div class="wrap">
-    <h2>Edit Category</h2>
+    <h2><?php _e('Edit Category') ?></h2>
     <form name="editcat" action="categories.php" method="post">
         <input type="hidden" name="action" value="editedcat" />
         <input type="hidden" name="cat_ID" value="<?php echo $_GET['cat_ID'] ?>" />
-        <p>Category name:<br />
+        <p><?php _e('Category name:') ?><br />
         <input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /></p>
-        <p>Category parent:<br />
+        <p><?php _e('Category parent:') ?><br />
         <select name='cat' class='postform'>
         <option value='0'<?php if (!$category->category_parent) echo " selected='selected'"; ?>>None</option>
         <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?></p>
         </select>
         </p>
-        <p>Description:<br />
+
+        <p><?php _e('Description:') ?><br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlentities($category->category_description); ?></textarea></p>
-        <p><input type="submit" name="submit" value="Edit it!" class="search" /></p>
+        <p><input type="submit" name="submit" value="<?php _e('Edit it!') ?>" class="search" /></p>
     </form>
 </div>
 
@@ -117,7 +120,7 @@ case 'editedcat':
     require_once('admin-header.php');
 
     if ($user_level < 3)
-        die ('Cheatin&#8217; uh?');
+        die (__('Cheatin&#8217; uh?'));
     
     $cat_name = addslashes(stripslashes(stripslashes($_POST['cat_name'])));
     $cat_ID = addslashes($_POST['cat_ID']);
@@ -135,18 +138,18 @@ default:
     $standalone = 0;
     require_once ('admin-header.php');
     if ($user_level < 3) {
-        die("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:" . get_settings('admin_email'). "'>blog admin</a>. :)");
+        die(sprintf(__("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:%s'>blog admin</a>. :)"), get_settings('admin_email')));
     }
     ?>
 
 <div class="wrap">
-<h2>Current Categories (<a href="#addcat">add new</a>) </h2>
+     <h2><?php printf(__('Current Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
-		<th scope="col">Name</th>
-		<th scope="col">Description</th>
-		<th scope="col"># Posts</th>
-		<th colspan="2">Action</th>
+        <th scope="col"><?php _e('Name') ?></th>
+        <th scope="col"><?php _e('Description') ?></th>
+        <th scope="col"><?php _e('# Posts') ?></th>
+        <th colspan="2"><?php _e('Action') ?></th>
 	</tr>
 <?php
 cat_rows();
@@ -156,26 +159,26 @@ cat_rows();
 </div>
 
 <div class="wrap">
-  <p><strong>Note:</strong><br />
-    Deleting a category does not delete posts from that category, it will just
-    set them back to the default category <strong><?php echo get_catname(1) ?></strong>.
+    <p><?php printf(__('<strong>Note:</strong><br />
+Deleting a category does not delete posts from that category, it will just
+set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
   </p>
 </div>
 
 <div class="wrap">
-    <h2>Add New Category</h2>
+    <h2><?php _e('Add New Category') ?></h2>
     <form name="addcat" id="addcat" action="categories.php" method="post">
         
-        <p>Name:<br />
+        <p><?php _e('Name:') ?><br />
         <input type="text" name="cat_name" value="" /></p>
-        <p>Category parent:<br />
+        <p><?php _e('Category parent:') ?><br />
         <select name='cat' class='postform'>
-        <option value='0'>None</option>
+        <option value='0'><?php _e('None') ?></option>
         <?php wp_dropdown_cats(); ?></p>
         </select>
-        <p>Description: (optional) <br />
+        <p><?php _e('Description: (optional)') ?> <br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
-        <p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="Add" class="search" /></p>
+        <p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add') ?>" class="search" /></p>
     </form>
 </div>
 
