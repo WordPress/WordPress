@@ -17,36 +17,6 @@ if (!function_exists('_')) {
 
 /* functions... */
 
-function get_currentuserinfo() { // a bit like get_userdata(), on steroids
-	global $HTTP_COOKIE_VARS,$user_login,$userdata,$user_level,$user_ID,$user_nickname,$user_email,$user_url,$user_pass_md5;
-	// *** retrieving user's data from cookies and db - no spoofing
-	$user_login = $HTTP_COOKIE_VARS["wordpressuser"];
-	$userdata = get_userdatabylogin($user_login);
-	$user_level = $userdata["user_level"];
-	$user_ID=$userdata['ID'];
-	$user_nickname=$userdata["user_nickname"];
-	$user_email=$userdata["user_email"];
-	$user_url=$userdata["user_url"];
-	$user_pass_md5=md5($userdata["user_pass"]);
-}
-
-
-
-function dbconnect() {
-	global $connexion, $server, $loginsql, $passsql, $base;
-	$connexion = mysql_connect($server,$loginsql,$passsql) or die("Can't connect to the database server. MySQL said:<br />".mysql_error());
-	$connexionbase = mysql_select_db("$base") or die("Can't connect to the database $base. MySQL said:<br />".mysql_error());
-	return(($connexion && $connexionbase));
-}
-
-
-function mysql_oops($query) {
-	$error  = '<p>Oops, MySQL error!</p><p>Your query:<br />'.$query;
-	$error .= '</p><p>MySQL said:<br />'.mysql_error().'</p>';
-	die($error);
-}
-
-
 /***** Formatting functions *****/
 function wptexturize($text) {
 	$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
@@ -384,26 +354,6 @@ function is_email($user_email) {
 }
 
 
-function phpcurlme($string, $language = 'en') {
-	// by Matt - http://www.photomatt.net/scripts/phpcurlme
-
-    // This should take care of the single quotes
-    $string = preg_replace("/'([dmst])([ .,?!\)\/<])/i","&#8217;$1$2",$string);
-    $string = preg_replace("/'([lrv])([el])([ .,?!\)\/<])/i","&#8217;$1$2$3",$string);
-    $string = preg_replace("/([^=])(\s+)'([^ >])?(.*?)([^=])'(\s*)([^>&])/S","$1$2&#8216;$3$4$5&#8217;$6$7",$string);
-
-    // time for the doubles
-    $string = preg_replace('/([^=])(\s+)"([^ >])?(.*?)([^=])"(\s*)([^>&])/S',"$1$2&#8220;$3$4$5&#8221;$6$7",$string);
-    // multi-paragraph
-    $string = preg_replace('/<p>"(.*)<\/p>/U',"<p>&#8220;$1</p>",$string);
-
-    // not a quote, but whatever
-    $string = str_replace('---','&#8212;',$string);
-    $string = str_replace('--','&#8211;',$string);
-    return $string;
-}
-
-
 function strip_all_but_one_link($text, $mylink) {
 	$match_link = '#(<a.+?href.+?'.'>)(.+?)(</a>)#';
 	preg_match_all($match_link, $text, $matches);
@@ -453,22 +403,33 @@ function user_pass_ok($user_login,$user_pass) {
 	return ($user_pass == $userdata['user_pass']);
 }
 
+function get_currentuserinfo() { // a bit like get_userdata(), on steroids
+	global $HTTP_COOKIE_VARS, $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5;
+	// *** retrieving user's data from cookies and db - no spoofing
+	$user_login = $HTTP_COOKIE_VARS['wordpressuser'];
+	$userdata = get_userdatabylogin($user_login);
+	$user_level = $userdata->user_level;
+	$user_ID = $userdata->ID;
+	$user_nickname = $userdata->user_nickname;
+	$user_email = $userdata->user_email;
+	$user_url = $userdata->user_url;
+	$user_pass_md5 = md5($userdata->user_pass);
+}
+
 function get_userdata($userid) {
-	global $tableusers,$querycount,$cache_userdata,$use_cache;
-	if ((empty($cache_userdata[$userid])) OR (!$use_cache)) {
-		$sql = "SELECT * FROM $tableusers WHERE ID = '$userid'";
-		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
-		$myrow = mysql_fetch_array($result);
+	global $wpdb, $querycount, $cache_userdata, $use_cache, $tableusers;
+	if ((empty($cache_userdata[$userid])) || (!$use_cache)) {
+		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = $userid");
 		++$querycount;
-		$cache_userdata[$userid] = $myrow;
+		$cache_userdata[$userid] = $user;
 	} else {
-		$myrow = $cache_userdata[$userid];
+		$user = $cache_userdata[$userid];
 	}
-	return($myrow);
+	return($user);
 }
 
 function get_userdata2($userid) { // for team-listing
-	global $tableusers,$post;
+	global $tableusers, $post;
 	$user_data['ID'] = $userid;
 	$user_data['user_login'] = $post->user_login;
 	$user_data['user_firstname'] = $post->user_firstname;
@@ -481,40 +442,34 @@ function get_userdata2($userid) { // for team-listing
 }
 
 function get_userdatabylogin($user_login) {
-	global $tableusers,$querycount,$cache_userdata,$use_cache;
+	global $tableusers, $querycount, $cache_userdata, $use_cache, $wpdb;
 	if ((empty($cache_userdata["$user_login"])) OR (!$use_cache)) {
-		$sql = "SELECT * FROM $tableusers WHERE user_login = '$user_login'";
-		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
-		if (!$result)	die($sql."<br /><br />".mysql_error());
-		$myrow = mysql_fetch_array($result);
+		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE user_login = '$user_login'");
 		++$querycount;
-		$cache_userdata["$user_login"] = $myrow;
+		$cache_userdata["$user_login"] = $user;
 	} else {
-		$myrow = $cache_userdata["$user_login"];
+		$user = $cache_userdata["$user_login"];
 	}
-	return($myrow);
+	return($user);
 }
 
 function get_userid($user_login) {
-	global $tableusers,$querycount,$cache_userdata,$use_cache;
+	global $tableusers, $querycount, $cache_userdata, $use_cache, $wpdb;
 	if ((empty($cache_userdata["$user_login"])) OR (!$use_cache)) {
-		$sql = "SELECT ID FROM $tableusers WHERE user_login = '$user_login'";
-		$result = mysql_query($sql) or die("No user with the login <i>$user_login</i>");
-		$myrow = mysql_fetch_array($result);
+		$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$user_login'");
+
 		++$querycount;
-		$cache_userdata["$user_login"] = $myrow;
+		$cache_userdata["$user_login"] = $user_id;
 	} else {
-		$myrow = $cache_userdata["$user_login"];
+		$user_id = $cache_userdata["$user_login"];
 	}
-	return($myrow[0]);
+	return($user_id);
 }
 
 function get_usernumposts($userid) {
-	global $tableusers,$tablesettings,$tablecategories,$tableposts,$tablecomments,$querycount;
-	$sql = "SELECT * FROM $tableposts WHERE post_author = $userid";
-	$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
+	global $tableposts, $tablecomments, $querycount, $wpdb;
 	++$querycount;
-	return mysql_num_rows($result);
+	return $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = $userid");
 }
 
 function get_settings($setting) {
@@ -607,7 +562,7 @@ function get_catname($cat_ID) {
 
 function profile($user_login) {
 	global $user_data;
-	echo "<a href=\"#\" OnClick=\"javascript:window.open('b2profile.php?user=".$user_data["user_login"]."','Profile','toolbar=0,status=1,location=0,directories=0,menuBar=1,scrollbars=1,resizable=0,width=480,height=320,left=100,top=100');\">$user_login</a>";
+	echo "<a href='b2profile.php?user=".$user_data->user_login."' onclick=\"javascript:window.open('b2profile.php?user=".$user_data->user_login."','Profile','toolbar=0,status=1,location=0,directories=0,menuBar=1,scrollbars=1,resizable=0,width=480,height=320,left=100,top=100'); return false;\">$user_login</a>";
 }
 
 function dropdown_categories($blog_ID=1) {
