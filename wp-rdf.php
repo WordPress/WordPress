@@ -6,7 +6,7 @@ if (! $feed) {
 }
 $more = 1;
 
-header('Content-type: application/rss+xml', true);
+header('Content-type: application/rdf+xml', true);
 
 add_filter('the_content', 'trim');
 ?>
