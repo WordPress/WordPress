@@ -33,7 +33,7 @@ header("Etag: " . $cetag, true);
 	<description><?php bloginfo_rss("description") ?></description>
 	<language><?php echo $rss_language ?></language>
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
-	<pubDate><?php echo gmdate('r'); ?></pubDate>
+	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT')); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
 
 	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
@@ -41,7 +41,7 @@ header("Etag: " . $cetag, true);
 		<title><?php the_title_rss() ?></title>
 		<link><?php permalink_single_rss() ?></link>
 		<comments><?php comments_link(); ?></comments>
-		<pubDate><?php the_time('r'); ?></pubDate>
+		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $post->post_date_gmt); ?></pubDate>
 		<author><?php the_author() ?> (mailto:<?php the_author_email() ?>)</author>
 		<?php the_category_rss() ?>
 		<guid isPermaLink="false"><?php echo $id; ?>@<?php bloginfo_rss("url") ?></guid>
