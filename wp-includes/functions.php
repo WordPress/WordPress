@@ -576,7 +576,6 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 }
 
 function weblog_ping($server = '', $path = '') {
-
 	global $wp_version;
 	include_once (ABSPATH . WPINC . '/class-IXR.php');
 
@@ -589,7 +588,6 @@ function weblog_ping($server = '', $path = '') {
 	$client->debug = false;
 	$home = trailingslashit( get_option('home') );
 	$client->query('weblogUpdates.ping', get_settings('blogname'), $home);
-
 }
 
 function generic_ping($post_id = 0) {
@@ -608,7 +606,7 @@ function generic_ping($post_id = 0) {
 
 // Send a Trackback
 function trackback($trackback_url, $title, $excerpt, $ID) {
-	global $wpdb;
+	global $wpdb, $wp_version;
 	$title = urlencode($title);
 	$excerpt = urlencode($excerpt);
 	$blog_name = urlencode(get_settings('blogname'));
@@ -620,7 +618,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
 	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_settings('blog_charset')."\r\n";
 	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
-	$http_request .= "User-Agent: WordPress/" . get_settings('version');
+	$http_request .= "User-Agent: WordPress/" . $wp_version;
 	$http_request .= "\r\n\r\n";
 	$http_request .= $query_string;
 	if ( '' == $trackback_url['port'] )
