@@ -1,21 +1,19 @@
 <?php
 require(dirname(__FILE__) . '/wp-config.php');
-if (!empty($HTTP_GET_VARS['tb_id'])) {
-	// trackback is done by a GET
-	$tb_id = intval($HTTP_GET_VARS['tb_id']);
-	$tb_url = $HTTP_GET_VARS['url'];
-	$title = $HTTP_GET_VARS['title'];
-	$excerpt = $HTTP_GET_VARS['excerpt'];
-	$blog_name = $HTTP_GET_VARS['blog_name'];
-} elseif (!empty($HTTP_POST_VARS['url'])) {
-	// trackback is done by a POST
-	$request_array = 'HTTP_POST_VARS';
-	$tb_id = explode('/', $HTTP_SERVER_VARS['REQUEST_URI']);
-	$tb_id = intval($tb_id[count($tb_id)-1]);
-	$tb_url = $HTTP_POST_VARS['url'];
-	$title = $HTTP_POST_VARS['title'];
-	$excerpt = $HTTP_POST_VARS['excerpt'];
-	$blog_name = $HTTP_POST_VARS['blog_name'];
+
+// trackback is done by a POST
+$request_array = 'HTTP_POST_VARS';
+$tb_id = explode('/', $HTTP_SERVER_VARS['REQUEST_URI']);
+$tb_id = intval($tb_id[count($tb_id)-1]);
+$tb_url = $HTTP_POST_VARS['url'];
+$title = $HTTP_POST_VARS['title'];
+$excerpt = $HTTP_POST_VARS['excerpt'];
+$blog_name = $HTTP_POST_VARS['blog_name'];
+
+
+if (empty($title) && empty($tb_url) && empty($blog_name)) {
+	// If it doesn't look like a trackback at all...
+	header('Location: ' . get_permalink($tb_id));
 }
 
 if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_url))) {
