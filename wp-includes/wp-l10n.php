@@ -86,7 +86,7 @@ function load_plugin_textdomain($domain) {
 function load_theme_textdomain($domain) {
 	global $locale;
 	
-	$mofile = get_template_directory() . "/$locale.mo"";
+	$mofile = get_template_directory() . "/$locale.mo";
 	load_textdomain($domain, $mofile);
 }
 
