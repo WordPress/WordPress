@@ -269,7 +269,6 @@ case 'editpost':
 		$post_ID = $_POST['post_ID'];
 		$post_categories = $_POST['post_category'];
 		if (!$post_categories) $post_categories[] = 1;
-		$post_autobr = intval($_POST['post_autobr']);
 		$content = balanceTags($_POST['content']);
 		$content = format_to_post($content);
 		$excerpt = balanceTags($_POST['excerpt']);
@@ -285,6 +284,8 @@ case 'editpost':
 				} else {
 				$latlonaddition = " post_lat=null, post_lon=null, ";
 			}
+		} else {
+			$latlonaddition = '';
 		}
 		$prev_status = $_POST['prev_status'];
 		$post_status = $_POST['post_status'];
@@ -302,7 +303,7 @@ case 'editpost':
 	// Format trackbacks
 	$trackback = preg_replace('|\s+|', '\n', $trackback);
 	
-	if ('' != $_POST['publish']) $post_status = 'publish';
+	if (isset($_POST['publish'])) $post_status = 'publish';
 
 	if (($user_level > 4) && (!empty($_POST['edit_date']))) {
 		$aa = $_POST['aa'];
@@ -364,7 +365,8 @@ $now_gmt = current_time('mysql', 1);
 	}
 
 	// are we going from draft/private to published?
-	if ((($prev_status == 'draft') || ($prev_status == 'private')) && ($post_status == 'publish')) {
+	if ($prev_status != 'publish' && $post_status == 'publish') {
+		generic_ping();
 	} // end if moving from draft/private to published
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
