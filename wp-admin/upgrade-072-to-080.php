@@ -115,6 +115,18 @@ if (!$wpdb->get_var("SELECT option_name FROM $tableoptions WHERE option_name = '
 		VALUES 
 		('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed. See <a href=\"options-permalink.php\">permalink options page</a> for necessary mod_rewrite rules and more information.', '8');");
 	}
+	
+if (!$wpdb->get_var("SELECT option_name FROM $tableoptions WHERE option_name = 'gzipcompression'")) { // If it's not already there
+	$wpdb->query("INSERT INTO `$tableoptions` 
+		(`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) 
+		VALUES 
+		('', '0', 'gzipcompression', 'Y', '2', '0', '20', '8', 'Whether your output should be gzipped or not. Enable this if you don&#8217;t already have mod_gzip running.', '8');");
+	$optionid = $wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'gzipcompression'");
+	$wpdb->query("INSERT INTO $tableoptiongroup_options
+		(group_id, option_id, seq)
+		VALUES
+		(2, $optionid, 5)");
+	}
 ?> 
   Done with the name game. Now a little option action. </p>
   <p>Now on to <a href="upgrade-072-to-080.php?step=2">step 2</a>.</p>
