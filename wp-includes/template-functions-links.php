@@ -54,9 +54,12 @@ function get_permalink($id = false) {
 	if ('' != $permalink) {
 		$unixtime = strtotime($idpost->post_date);
 
-		$cats = get_the_category($idpost->ID);
-		$category = $cats[0]->category_nicename;
-		if ($parent=$cats[0]->category_parent) $category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
+		$category = '';
+		if (strstr($permalink, '%category%')) {
+			$cats = get_the_category($idpost->ID);
+			$category = $cats[0]->category_nicename;
+			if ($parent=$cats[0]->category_parent) $category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
+		}
 
 		$authordata = get_userdata($idpost->post_author);
 		$author = $authordata->user_nicename;
