@@ -195,6 +195,7 @@ $query = "CREATE TABLE $tableposts (
   ID int(10) unsigned NOT NULL auto_increment,
   post_author int(4) NOT NULL default '0',
   post_date datetime NOT NULL default '0000-00-00 00:00:00',
+  post_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
   post_content text NOT NULL,
   post_title text NOT NULL,
   post_category int(4) NOT NULL default '0',
@@ -205,7 +206,16 @@ $query = "CREATE TABLE $tableposts (
   comment_status enum('open','closed') NOT NULL default 'open',
   ping_status enum('open','closed') NOT NULL default 'open',
   post_password varchar(20) NOT NULL default '',
+  post_name varchar(200) NOT NULL default '',
+  to_ping text NOT NULL,
+  pinged text NOT NULL,
+  post_modified datetime NOT NULL default '0000-00-00 00:00:00',
+  post_modified_gmt datetime NOT NULL default '0000-00-00 00:00:00',
+  post_content_filtered text NOT NULL,
   PRIMARY KEY  (ID),
+  KEY post_date (post_date),
+  KEY post_date_gmt (post_date_gmt),
+  KEY post_name (post_name),
   KEY post_status (post_status)
 )
 ";
@@ -216,7 +226,8 @@ $q = $wpdb->query($query);
 
 <?php
 $now = date('Y-m-d H:i:s');
-$query = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category) VALUES ('1', '$now', 'Welcome to WordPress. This is the first post. Edit or delete it, then start blogging!', 'Hello world!', '1')";
+$now_gmt = gmdate('Y-m-d H:i:s');
+$query = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_modified, post_modified_gmt) VALUES ('1', '$now', '$now_gmt', 'Welcome to WordPress. This is the first post. Edit or delete it, then start blogging!', 'Hello world!', '$now', '$now_gmt')";
 
 $q = $wpdb->query($query);
 ?>
