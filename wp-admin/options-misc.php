@@ -47,7 +47,7 @@ include('options-head.php');
   <h2><?php _e('Miscellaneous Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> 		<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk'" /> 
+	<input type="hidden" name="action" value="update" /> 		<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel'" /> 
 <fieldset class="options">
 <legend>
 <input name="use_fileupload" type="checkbox" id="use_fileupload" value="1" <?php checked('1', get_settings('use_fileupload')); ?> />
@@ -83,7 +83,7 @@ include('options-head.php');
         <th scope="row"><?php _e('Minimum level to upload:') ?></th>
       	<td><select name="fileupload_minlevel" id="fileupload_minlevel">
 <?php
-for ($i = 0; $i < 11; $i++) {
+for ($i = 1; $i < 11; $i++) {
 if ($i == get_settings('fileupload_minlevel')) $selected = " selected='selected'";
 else $selected = '';
 	echo "\n\t<option value='$i' $selected>$i</option>";
