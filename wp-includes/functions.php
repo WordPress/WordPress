@@ -340,19 +340,25 @@ function form_option($option) {
 }
 
 function get_alloptions() {
-	global $wpdb;
-	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'")) {
-		foreach ($options as $option) {
-			// "When trying to design a foolproof system, 
-			//  never underestimate the ingenuity of the fools :)" -- Dougal
-			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-		if (@ $value =  unserialize($option->option_value) )
-			$all_options->{$option->option_name} = $value;
-		else $value = $option->option_value;
-			$all_options->{$option->option_name} = $value;
-		}
+	global $wpdb, $wp_queries;
+	$wpdb->hide_errors();
+	if (!$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'")) {
+		include_once(ABSPATH . '/wp-admin/upgrade-functions.php');
+		make_db_current_silent();
+		$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
+	}
+	$wpdb->show_errors();
+
+	foreach ($options as $option) {
+		// "When trying to design a foolproof system, 
+		//  never underestimate the ingenuity of the fools :)" -- Dougal
+		if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+		if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+		if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+	if (@ $value =  unserialize($option->option_value) )
+		$all_options->{$option->option_name} = $value;
+	else $value = $option->option_value;
+		$all_options->{$option->option_name} = $value;
 	}
 	return $all_options;
 }

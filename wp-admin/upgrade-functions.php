@@ -1,5 +1,6 @@
 <?php
-require_once('./upgrade-schema.php');
+
+require_once(dirname(__FILE__) . '/upgrade-schema.php');
 // Functions to be called in install and upgrade scripts
 function upgrade_all() {
 	populate_options();
