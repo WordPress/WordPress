@@ -9,12 +9,13 @@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
 
-// If someone has moved WordPress let's try to detect it
-if ( isset( $_SERVER['PATH_INFO'] ) && ($_SERVER['PATH_INFO'] != $_SERVER['PHP_SELF']) )
-	$_SERVER['PHP_SELF'] = str_replace( $_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF'] );
-
-if ( dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) != get_settings('siteurl') )
-	update_option('siteurl', dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) );
+if ( defined('RELOCATE') ) { // Move flag is set
+	if ( isset( $_SERVER['PATH_INFO'] ) && ($_SERVER['PATH_INFO'] != $_SERVER['PHP_SELF']) )
+		$_SERVER['PHP_SELF'] = str_replace( $_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF'] );
+	
+	if ( dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) != get_settings('siteurl') )
+		update_option('siteurl', dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) );
+}
 
 switch($action) {
 

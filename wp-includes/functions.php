@@ -1629,15 +1629,15 @@ function add_magic_quotes($array) {
 }
 
 function wp_setcookie($username, $password, $already_md5 = false, $home = '', $siteurl = '') {
-	if ( ! $already_md5)
-		$password = md5(md5($password)); // Double hash the password in the cookie.
+	if ( !$already_md5 )
+		$password = md5( md5($password) ); // Double hash the password in the cookie.
 
-	if (empty($home))
+	if ( empty($home) )
 		$cookiepath = COOKIEPATH;
 	else
 		$cookiepath = preg_replace('|https?://[^/]+|i', '', $home . '/' );
 
-	if (empty($siteurl)) {
+	if ( empty($siteurl) ) {
 		$sitecookiepath = SITECOOKIEPATH;
 		$cookiehash = COOKIEHASH;
 	} else {
