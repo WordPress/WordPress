@@ -62,10 +62,10 @@ function the_category($separator = '', $parents='') {
                     if ($category->category_parent) {
                         $thelist .= get_category_parents($category->category_parent, TRUE);
                     }
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
                     break;
                 case 'single':
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . ' rel="category tag">';
                     if ($category->category_parent) {
                         $thelist .= get_category_parents($category->category_parent, FALSE);
                     }
@@ -73,7 +73,7 @@ function the_category($separator = '', $parents='') {
                     break;
                 case '':
                 default:
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
             }
         }
         $thelist .= '</ul>';
@@ -85,16 +85,16 @@ function the_category($separator = '', $parents='') {
             switch(strtolower($parents)) {
                 case 'multiple':
                     if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, TRUE);
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
                     break;
                 case 'single':
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">';
                     if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, FALSE);
                     $thelist .= "$category->cat_name</a>";
                     break;
                 case '':
                 default:
-                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
             }
             ++$i;
         }
