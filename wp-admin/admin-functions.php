@@ -520,17 +520,19 @@ function generate_page_rewrite_rules() {
 	$posts = $wpdb->get_results("SELECT ID, post_name FROM $wpdb->posts WHERE post_status = 'static'");
 
 	$page_rewrite_rules = array();
-
-	foreach ($posts as $post) {
-		// URI => page name
-		$uri = get_page_uri($post->ID);
-
-		$page_rewrite_rules[$uri] = $post->post_name;
+	
+	if ($posts) {
+		foreach ($posts as $post) {
+			// URI => page name
+			$uri = get_page_uri($post->ID);
+			
+			$page_rewrite_rules[$uri] = $post->post_name;
+		}
+		
+		update_option('page_uris', $page_rewrite_rules);
+		
+		save_mod_rewrite_rules();
 	}
-
-	update_option('page_uris', $page_rewrite_rules);
-
-	save_mod_rewrite_rules();
 }
 
 function the_quicktags () {
