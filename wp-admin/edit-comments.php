@@ -158,7 +158,7 @@ if ('view' == $mode) {
 		} // end foreach
 	?></table>
     <p><a href="javascript:;" onclick="checkAll(document.getElementById('deletecomments')); return false; "><?php _e('Invert Checkbox Selection') ?></a></p>
-            <p style="text-align: right;"><input type="submit" name="Submit" value="<?php _e('Delete Checked Comments') ?>" onclick="return confirm('<?php _e("You are about to delete these comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" />	</p>
+            <p class="submit"><input type="submit" name="Submit" value="<?php _e('Delete Checked Comments') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" />	</p>
   </form>
 <?php
 	} else {

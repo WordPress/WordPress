@@ -4,7 +4,7 @@
 	font-size: 90%;
 	background-color: #eee;
 	padding: 1em;
-	border: 1px solid #ccc;
+	border: 1px solid #69c;
 }
 
 #zeitgeist h2 {
@@ -275,7 +275,7 @@ textarea, input, select {
 }
 
 #adminmenu a:hover, .current {
-	background: #eaeaea;
+	background: #ccc;
 	border: 1px solid #9d9d9d;
 	color: #171717;
 }
@@ -518,6 +518,7 @@ textarea, input, select {
 	font-size: 2.5em;
 	font-weight: normal;
 	margin: 0;
+	letter-spacing: -.05em;
 }
 
 #wphead h1 span {
