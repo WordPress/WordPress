@@ -145,7 +145,8 @@ foreach ($dogs as $catt) {
     $cache_categories[$catt->cat_ID] = $catt;
 }
 
-if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
+//                                                       Bypass cat checks if fetching specific posts
+if ((empty($cat)) || ($cat == 'all') || ($cat == '0') || (intval($year) || intval($p))) {
     $whichcat='';
 } else {
     $cat = ''.urldecode($cat).'';
@@ -341,7 +342,7 @@ if ($preview) {
 }
 
 // error_log("$request");
-// echo $request;
+echo $request;
 $posts = $wpdb->get_results($request);
 
 // No point in doing all this work if we didn't match any posts.
