@@ -21,7 +21,7 @@
 				and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
 				not, then go right ahead and delete the following lines, and the image files. */
 			
-		body	 	{ background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickbgcolor.jpg"); }	<?php /* Checks to see whether it needs a sidebar or not */ if ((! $withcomments) && (! is_single()) && (! is_page())) { ?>
+		body	 	{ background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickbgcolor.jpg"); }	<?php /* Checks to see whether it needs a sidebar or not */ if ((! $withcomments) && (! is_single())) { ?>
 			#page		{ background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickbg.jpg") repeat-y top; border: none; } <?php } else { // No sidebar ?>
 			#page		{ background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickbgwide.jpg") repeat-y top; border: none; } <?php } ?>
 			#header 	{ background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickheader.jpg") no-repeat bottom center; }
