@@ -1673,7 +1673,7 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 		if ( preg_match($pattern, $url) ) return false;
 		if ( preg_match($pattern, $comment) ) return false;
 		if ( preg_match($pattern, $user_ip) ) return false;
-		if ( preg_match($pattern, $useg_agent) ) return false;
+		if ( preg_match($pattern, $user_agent) ) return false;
 	}
 
 	return true;
