@@ -376,12 +376,8 @@ function get_lastpostdate() {
 	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb;
 	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
 		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
-		if ($pagenow != 'wp-post.php') {
-			$showcatzero = 'post_category > 0 AND';
-		} else {
-			$showcatzero = '';
-		}
-		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE $showcatzero post_date <= '$now' ORDER BY post_date DESC LIMIT 1");
+
+		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE post_date <= '$now' ORDER BY post_date DESC LIMIT 1");
 		$cache_lastpostdate = $lastpostdate;
 //		echo $lastpostdate;
 	} else {

@@ -163,7 +163,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 	$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 
 	if ('monthly' == $type) {
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 $url  = get_month_link($arcresult->year,   $arcresult->month);
@@ -177,7 +177,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             }
         }
 	} elseif ('daily' == $type) {
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 $url  = get_day_link($arcresult->year, $arcresult->month, $arcresult->dayofmonth);
@@ -190,7 +190,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 		if (!isset($start_of_week)) {
 			$start_of_week = 1;
 		}
-		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
@@ -209,7 +209,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             }
         }
 	} elseif ('postbypost' == $type) {
-		$arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 if ($arcresult->post_date != '0000-00-00 00:00:00') {
@@ -232,7 +232,7 @@ function get_calendar($daylength = 1) {
 
     // Quick check. If we have no posts at all, abort!
     if (!$posts) {
-        $gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
+        $gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
         if (!$gotsome)
             return;
     }
@@ -1047,7 +1047,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 		}
 
 		$limitprev--;
-		$lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
+		$lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
 		if ($lastpost) {
 			$string = '<a href="'.get_permalink($lastpost->ID).'">'.$previous;
 			if ($title == 'yes') {
@@ -1087,7 +1087,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 
 		$limitnext--;
 
-		$nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1");
+		$nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1");
 		if ($nextpost) {
 			$string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
 			if ($title=='yes') {
