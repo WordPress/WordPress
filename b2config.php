@@ -1,8 +1,8 @@
 <?php
 
 /* *
- * b2's config file *
-                  * */
+ * WordPress's config file *
+                         * */
 
 
 # Reminder: everything that starts with #, /* or // is a comment
@@ -19,15 +19,6 @@ $blogname = "my weblog";
 $blogdescription = "babblings !";
 
 
-# fill these only if you have a Cafelog ID,
-# this enables your blog to be in the Recently Updated b2 blogs list.
-# to obtain this ID, e-mail update@tidakada.com with these details:
-#  name of the weblog, weblog's URL, your e-mail address, and a password
-# in the future, the password will allow you to change these details online
-
-$cafelogID = '';
-$use_cafelogping = 0;    # set this to 1 if you do have a Cafelog ID
-
 
 # $pathserver is where you have uploaded b2: for example, 'http://mydomain.com' (no ending slash !)
 #   by default b2 is set to run in the folder your blog resides, same as $siteurl
@@ -35,12 +26,12 @@ $use_cafelogping = 0;    # set this to 1 if you do have a Cafelog ID
 $pathserver = 'http://example.com';
 
 
-# your email (obvious uh ?)
+# your email (obvious eh ?)
 $admin_email = 'you@example.com';
 
 
 # set this to 0 or 1, whether you want new users to be able to post entries once they registered
-$new_users_can_blog = 1;
+$new_users_can_blog = 0;
 
 
 # set this to 0 or 1, whether you want to allow users to register on your blog.      
@@ -56,9 +47,9 @@ $start_of_week = 1;
 
 # fill with your database details
 $dbname = 'b2';			// the name of the database
-$dbhost = 'localhost';		// 99% chances you won't need to change this value
 $dbusername = 'user';			// your MySQL username
 $dbpassword = 'pass';		// ...and password
+$dbhost = 'localhost';		// 99% chances you won't need to change this value
 
 # database tables' names (change them if you want to have multiple b2's in a single database)
 $tableposts = 'b2posts';
@@ -79,7 +70,7 @@ $use_preview = 1;
 
 
 # set this to 0 to disable the spell checker, or 1 to enable it
-$use_spellchecker = 1;
+$use_spellchecker = 0;
 
 
 
@@ -96,9 +87,6 @@ $use_htmltrans = 1;
 
 # this could help balance your HTML code. if it gives bad results, set it to 0
 $use_balanceTags = 1;
-
-# this would convert quotes into smart/curly quotes, set it to 1 to enable it
-$use_smartquotes = 0;
 
 
 // ** Image upload **
@@ -178,11 +166,11 @@ $blodotgsping_url = 'http://example.com';
 
 # set this to 0 or 1, whether you want to allow your posts to be trackback'able or not
 # note: setting it to zero would also disable sending trackbacks
-$use_trackback = 0;
+$use_trackback = 1;
 
 # set this to 0 or 1, whether you want to allow your posts to be pingback'able or not
 # note: setting it to zero would also disable sending pingbacks
-$use_pingback = 0;
+$use_pingback = 1;
 
 
 
@@ -198,7 +186,7 @@ $require_name_email = 0;
 $comment_allowed_tags = '<b><i><u><strong><em><code><blockquote><p><br><strike><a>';
 
 # set this to 1 to let every author be notified about comments on their posts
-$comments_notify = 0;
+$comments_notify = 1;
 
 
 
@@ -290,7 +278,7 @@ $month['12']='December';
 
 # $b2inc is where the included b2 files are: that's generally the directory b2-include,
 #  so you shouldn't have to change that setting
-$b2inc = './b2-include';
+$b2inc = 'b2-include';
 
 
 // ** Querystring Configuration ** (don't change if you don't know what you're doing)
@@ -349,5 +337,8 @@ $loginsql = $dbusername;
 $passsql = $dbpassword;
 $path = $pathserver;
 $base = $dbname;
+
+// This is so the new admin location works
+ini_set('include_path', ".:../:../$b2inc");
 
 ?>
