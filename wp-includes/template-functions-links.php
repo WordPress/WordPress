@@ -448,12 +448,16 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
-    global $paged, $result, $request, $posts_per_page, $wpdb;
+	global $paged, $result, $request, $posts_per_page, $wpdb, $max_num_pages;
     if (!$max_page) {
+			if ( isset($max_num_pages) ) {
+				$max_page = $max_num_pages;
+			} else {
         preg_match('#FROM (.*) GROUP BY#', $request, $matches);
         $fromwhere = $matches[1];
         $numposts = $wpdb->get_var("SELECT COUNT(ID) FROM $fromwhere");
-        $max_page = ceil($numposts / $posts_per_page);
+        $max_page = $max_num_pages = ceil($numposts / $posts_per_page);
+			}
     }
     if (!$paged)
         $paged = 1;
@@ -486,19 +490,21 @@ function previous_posts_link($label='&laquo; Previous Page') {
 }
 
 function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
-	global $request, $posts_per_page, $wpdb;
+	global $request, $posts_per_page, $wpdb, $max_num_pages;
 	if (! is_single()) {
 
 		if (get_query_var('what_to_show') == 'posts') {
-			preg_match('#FROM (.*) GROUP BY#', $request, $matches);
-			$fromwhere = $matches[1];
-			$numposts = $wpdb->get_var("SELECT COUNT(ID) FROM $fromwhere");
-			$max_page = ceil($numposts / $posts_per_page);
+			if ( ! isset($max_num_pages) ) {
+				preg_match('#FROM (.*) GROUP BY#', $request, $matches);
+				$fromwhere = $matches[1];
+				$numposts = $wpdb->get_var("SELECT COUNT(ID) FROM $fromwhere");
+				$max_num_pages = ceil($numposts / $posts_per_page);
+			}
 		} else {
-			$max_page = 999999;
+			$max_num_pages = 999999;
 		}
 
-        if ($max_page > 1) {
+        if ($max_num_pages > 1) {
             previous_posts_link($prelabel);
             echo preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $sep);
             next_posts_link($nxtlabel, $max_page);
