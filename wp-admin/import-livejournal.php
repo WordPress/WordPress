@@ -58,7 +58,7 @@ switch($step) {
 <p>You want to define where the XML file we'll be working with is, for example: </p>
 <p><code>define('XMLFILE', '2002-04.xml');</code></p>
 <p>You have to do this manually for security reasons.</p>
-<p>If you've done that and you&#8217;re all ready, <a href="import-rss.php?step=1">let's go</a>!</p>
+<p>If you've done that and you&#8217;re all ready, <a href="import-livejournal.php?step=1">let's go</a>!</p>
 <?php
 	break;
 	
