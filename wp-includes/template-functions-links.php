@@ -377,14 +377,16 @@ function get_pagenum_link($pagenum = 1) {
 	$page_modstring = "page/";
 	$page_modregex = "page/?";
 	$permalink = 0;
-	//$index = 'index.php';
-	$index = $_SERVER['SCRIPT_NAME'];
 
 	$home_root = parse_url(get_settings('home'));
 	$home_root = $home_root['path'];
 	$home_root = trailingslashit($home_root);
 	$qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
 	$qstr = preg_replace('|^/+|', '', $qstr);
+
+	$index = $_SERVER['SCRIPT_NAME'];
+	$index = preg_replace('|^'. $home_root . '|', '', $index);
+	$index = preg_replace('|^/+|', '', $index);
 
 	// if we already have a QUERY style page string
 	if( stristr( $qstr, $page_querystring ) ) {
