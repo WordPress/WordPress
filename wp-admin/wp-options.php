@@ -69,7 +69,7 @@ case "update":
                     $msg = validate_option($option, $this_name, $new_val);
                     if ($msg == '') {
                         //no error message
-                        $result = $wpdb->query("UPDATE $tableoptions SET option_value = '" . addslashes($new_val) . "' WHERE option_id = $option->option_id");
+                        $result = $wpdb->query("UPDATE $tableoptions SET option_value = '$new_val' WHERE option_id = $option->option_id");
                         if (!$result) {
                             $db_errors .= " SQL error while saving $this_name. ";
                         } else {
