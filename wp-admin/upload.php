@@ -171,7 +171,7 @@ die();
             $moved = copy($img1, $pathtofile);
         }
         // Still couldn't get it. Give up.
-        if (!moved) {
+        if (!$moved) {
             die(sprintf(__("Couldn't upload your file to %s."), $pathtofile));
         } else {
 			chmod($pathtofile, 0666);
