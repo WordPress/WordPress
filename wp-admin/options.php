@@ -125,32 +125,7 @@ default:
 	}
 ?>
 
-<?php
-if ($non_was_selected) { // no group pre-selected, display opening page
-?>
-<div class="wrap">
-<dl>
-<?php
-    //iterate through the available option groups. output them as a definition list.
-    $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $wpdb->optiongroups ORDER BY group_id");
-    foreach ($option_groups as $option_group) {
-        echo("  <dt><a href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></dt>\n");
-        $current_long_desc = $option_group->group_longdesc;
-        if ($current_long_desc == '') {
-            $current_long_desc = __('No help for this group of options.');
-        }
-        echo("  <dd>{$option_group->group_desc}: $current_long_desc</dd>\n");
-    } // end for each group
-?>
-  <dt><a href="options-permalink.php"><?php _e('Permalinks') ?></a></dt>
-  <dd><?php _e('Permanent link configuration') ?></dd>
-</dl>
-</div>
-<?php    
-
-} else { //there was a group selected.
-include('options-head.php');
-?>
+<?php include('options-head.php'); ?>
 
 <div class="wrap">
   <h2><?php echo $current_desc; ?></h2>

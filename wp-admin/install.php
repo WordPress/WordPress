@@ -343,21 +343,6 @@ CREATE TABLE $wpdb->options (
 $q = $wpdb->query($query);
 
 $query = "
-CREATE TABLE $wpdb->optiongroups (
-  group_id int(11) NOT NULL auto_increment,
-  group_name varchar(64) not null,
-  group_desc varchar(255),
-  group_longdesc tinytext,
-  PRIMARY KEY (group_id)
-)
-";
-$q = $wpdb->query($query);
-
-
-// $query = "DROP TABLE IF EXISTS $wpdb->optiongroup_options";
-// $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$wpdb->optiongroup_options\" in the database.");
-
-$query = "
 CREATE TABLE $wpdb->optiongroup_options (
   group_id int(11) NOT NULL,
   option_id int(11) NOT NULL,
@@ -418,7 +403,6 @@ $option_data = array(
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(53,'time_format', 3, 'g:i a', 'see note for format characters', 4, 20)",
 
 //'pages' of options
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(1, 'Other Options', 'Posts per page etc. Original options page')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(1,48,1 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(1,49,2 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(1,50,3 )",
@@ -426,7 +410,6 @@ $option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(1,52,5 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(1,53,6 )",
 
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(2, 'General blog settings', 'Things you\'ll probably want to tweak')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(2,9 ,1 )",
 //"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(2,10,2 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(2,11,3 )",
@@ -440,7 +423,6 @@ $option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(2,19,11)",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(2,20,12)",
 
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(3, 'RSS/RDF Feeds, Track/Ping-backs', 'Settings for RSS/RDF Feeds, Track/ping-backs')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(3,21,1 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(3,22,2 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(3,23,3 )",
@@ -452,7 +434,6 @@ $option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(3,29,9 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(3,30,10)",
 
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(4, 'File uploads', 'Settings for file uploads')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(4,31,1 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(4,32,2 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(4,33,3 )",
@@ -461,7 +442,6 @@ $option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(4,36,6 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(4,37,7 )",
 
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(5, 'Blog-by-Email settings', 'Settings for blogging via email')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(5,38,1 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(5,39,2 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(5,40,3 )",
@@ -473,7 +453,6 @@ $option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(5,46,9 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(5,47,10)",
 
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(6, 'Base settings', 'Basic settings required to get your blog working')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(6,1,1)",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(6,2,2)",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(6,3,3)",
@@ -498,7 +477,6 @@ $option_data = array(
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(59,'default_post_category',  7, '1', 'The default category for each new post', 8, 20)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(83,'default_post_edit_rows', 1, '9', 'The number of rows in the edit post form (min 3, max 100)', 8, 5)",
 
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(7, 'Default post options', 'Default settings for new posts.')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(7,55,1 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(7,56,2 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(7,57,3 )",
@@ -541,7 +519,6 @@ $links_option_data = array(
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(82,'links_recently_updated_time',  1, '120', 'The time in minutes to consider a link recently updated', 8, 20)",
 
 //group them together
-"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES(8, 'Link Manager Settings', 'Various settings for the link manager.')",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(8,60,1 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(8,61,2 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(8,62,3 )",
@@ -581,7 +558,6 @@ $geo_option_data = array(
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(86,'default_geourl_lat ', 8, 0.0, 'The default Latitude ICBM value - <a href=\"http://www.geourl.org/resources.html\" target=\"_blank\">see here</a>', 8, 20)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(87,'default_geourl_lon', 8, 0.0, 'The default Longitude ICBM value', 8, 20)",
 
-"INSERT INTO $wpdb->optiongroups (group_id, group_name, group_desc) VALUES(9,'Geo Options', 'Settings which control the posting and display of Geo Options')",
 
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(9,84,1)",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(9,85,1)",

@@ -71,13 +71,6 @@ CREATE TABLE $wpdb->optiongroup_options (
   seq int(11) NOT NULL default '0',
   PRIMARY KEY  (group_id,option_id)
 );
-CREATE TABLE $wpdb->optiongroups (
-  group_id int(11) NOT NULL auto_increment,
-  group_name varchar(64) NOT NULL default '',
-  group_desc varchar(255) default NULL,
-  group_longdesc tinytext,
-  PRIMARY KEY  (group_id)
-);
 CREATE TABLE $wpdb->options (
   option_id int(11) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default '0',
@@ -217,15 +210,6 @@ function upgrade_072() {
 	  PRIMARY KEY (option_id, blog_id, option_name)
 	)
 	");
-	maybe_create_table($wpdb->optiongroups, "
-	CREATE TABLE $wpdb->optiongroups (
-	  group_id int(11) NOT NULL auto_increment,
-	  group_name varchar(64) not null,
-	  group_desc varchar(255),
-	  group_longdesc tinytext,
-	  PRIMARY KEY (group_id)
-	)
-	");
 	maybe_create_table($wpdb->optiongroup_options, "
 	CREATE TABLE $wpdb->optiongroup_options (
 	  group_id int(11) NOT NULL,
@@ -327,25 +311,6 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 			$wpdb->query($query);
 		}
 	}
-	
-	$option_groups = array(
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (1, 'Other Options', 'Posts per page etc. Original options page')",
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (2, 'General blog settings', 'Things you\'ll probably want to tweak')",
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (3, 'RSS/RDF Feeds, Track/Ping-backs', 'Settings for RSS/RDF Feeds, Track/ping-backs')",
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (4, 'File uploads', 'Settings for file uploads')",
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (5, 'Blog-by-Email settings', 'Settings for blogging via email')",
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (6, 'Base settings', 'Basic settings required to get your blog working')",
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (7, 'Default post options', 'Default settings for new posts.')",
-	"INSERT INTO $wpdb->optiongroups (group_id,  group_name, group_desc) VALUES (8, 'Link Manager Settings', 'Various settings for the link manager.')",
-	"INSERT INTO $wpdb->optiongroups (group_id, group_name, group_desc) VALUES (9, 'Geo Options', 'Settings which control the posting and display of Geo Options')");
-
-	foreach ($option_groups as $query) {
-		$option_id = preg_match('|VALUES \(([0-9]+)|', $query, $matches);
-		$option_id = $matches[1];
-		if(!$wpdb->get_var("SELECT * FROM $wpdb->optiongroups WHERE group_id = '$option_id'")) {
-			$wpdb->query($query);
-			}
-	}	
 	
 	$optiongroup_options = array (		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,48,1 )",
 		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,49,2 )",
@@ -514,7 +479,6 @@ function upgrade_100() {
 	}
 
 	$oid = $wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'comment_moderation'");	    
-	$gid = $wpdb->get_var("SELECT group_id FROM $wpdb->optiongroups WHERE group_name = 'General blog settings'");
 	$seq = $wpdb->get_var("SELECT MAX(seq) FROM $wpdb->optiongroup_options WHERE group_id = '$gid'");
 	++$seq;
 	if (!$wpdb->get_row("SELECT * FROM $wpdb->optiongroup_options WHERE group_id = '$gid' AND option_id = '$oid'")) {
@@ -692,17 +656,6 @@ function upgrade_110() {
 			   $wpdb->query('UPDATE '.$wpdb->users.' SET user_pass = MD5(\''.$row->user_pass.'\') WHERE ID = \''.$row->ID.'\'');
 		}
 	}
-	
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 1");
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 2");
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 3");
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 4");
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 5");
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 6");
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 7");
-	$wpdb->query("DELETE FROM $wpdb->optiongroups WHERE group_id = 9");
-
-	$wpdb->query("UPDATE $wpdb->optiongroups SET group_name = 'Link Manager' WHERE group_id = 8");
 
 	// Add blog_charset option
 	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'blog_charset'")) {
@@ -878,6 +831,7 @@ function upgrade_130() {
 	// Obsolete tables
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optionvalues');
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiontypes');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiongroups');
 }
 
 // The functions we use to actually do stuff
