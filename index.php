@@ -99,10 +99,10 @@ require_once($abspath.'wp-links/links.php');
  </li>
  <li>Meta:
  	<ul>
-		<li><a href="<?php echo $siteurl; ?>/b2rss.php">RSS .92</a></li>
-		<li><a href="<?php echo $siteurl; ?>/b2rdf.php">RDF 1.0</a></li>
-		<li><a href="<?php echo $siteurl; ?>/b2rss2.php">RSS 2.0</a></li>
-		<li><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php">Comments RSS 2.0</a></li>
+		<li><a href="<?php bloginfo('rss_url'); ?>">RSS .92</a></li>
+		<li><a href="<?php bloginfo('rdf_url'); ?>">RDF 1.0</a></li>
+		<li><a href="<?php bloginfo('rss2_url'); ?>">RSS 2.0</a></li>
+		<li><a href="<?php bloginfo('comments_rss2_url'); ?>">Comments RSS 2.0</a></li>
 		<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
 		<li><a href="http://wordpress.org" title="Powered by WordPress, personal publishing platform">WP</a></li>
 	</ul>
