@@ -3,6 +3,7 @@
 <div id="menu">
 
 <ul>
+	<?php wp_list_pages(); ?>
 	<?php get_links_list(); ?>
  <li id="categories"><?php _e('Categories:'); ?>
 	<ul>

@@ -127,7 +127,41 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				<td>$count</td>
 				<td>$edit</td>
 				</tr>";
-				cat_rows($category->cat_ID, $level + 1);
+				cat_rows($category->cat_ID, $level + 1, $categories);
+			}
+		}
+	} else {
+		return false;
+	}
+}
+
+function page_rows( $parent = 0, $level = 0, $pages = 0 ) {
+	global $wpdb, $class, $user_level, $post;
+	if (!$pages)
+		$pages = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static' ORDER BY menu_order");
+
+	if ($pages) {
+		foreach ($pages as $post) { start_wp();
+			if ($post->post_parent == $parent) {
+				$post->post_title = wp_specialchars($post->post_title);
+				$pad = str_repeat('&#8212; ', $level);
+				$id = $post->ID;
+				$class = ('alternate' == $class) ? '' : 'alternate';
+?>
+  <tr class='<?php echo $class; ?>'> 
+    <th scope="row"><?php echo $post->ID; ?></th> 
+    <td>
+      <?php echo $pad; ?><?php the_title() ?> 
+    </td> 
+    <td><?php the_author() ?></td>
+    <td><?php the_time('Y-m-d g:i a'); ?></td> 
+	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
+    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
+    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), the_title('','',0)) . "')\">" . __('Delete') . "</a>"; } ?></td> 
+  </tr> 
+
+<?php
+				page_rows($id, $level + 1, $pages);
 			}
 		}
 	} else {

@@ -49,6 +49,7 @@ function the_title_rss() {
 function get_the_title($id = 0) {
 	global $post, $wpdb;
 	$title = $post->post_title;
+
 	if ( 0 != $id )
 		$title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $id");
 
@@ -365,10 +366,15 @@ function wp_list_pages($args = '') {
 	if (!isset($r['depth'])) $r['depth'] = 0;
 	if (!isset($r['show_date'])) $r['show_date'] = '';
 	if (!isset($r['child_of'])) $r['child_of'] = 0;
+	if ( !isset($r['title_li']) ) $r['title_li'] = __('Pages');
+
 
 	// Query pages.
 	$pages = get_pages($args);
+	if ( $pages ) :
 
+	if ( $r['title_li'] )
+		echo '<li>' . $r['title_li'] . '<ul>';
 	// Now loop over all pages that were selected
 	$page_tree = Array();
 	foreach($pages as $page) {
@@ -397,6 +403,9 @@ function wp_list_pages($args = '') {
 	// Output of the pages starting with child_of as the root ID.
 	// child_of defaults to 0 if not supplied in the query.
 	_page_level_out($r['child_of'],$page_tree, $r);
+	if ( $r['title_li'] )
+		echo '</ul></li>';
+	endif;
 }
 
 function _page_level_out($parent, $page_tree, $args, $depth = 0) {
