@@ -6,16 +6,20 @@ add_filter('comment_author', 'wptexturize');
 add_filter('comment_author', 'convert_chars');
 
 add_filter('comment_email', 'remove_slashes', 5);
-add_filter('comment_email', 'antispambot', 5);
+add_filter('comment_email', 'antispambot');
 
 add_filter('comment_url', 'clean_url');
 
+add_filter('comment_text', 'remove_slashes', 5);
 add_filter('comment_text', 'convert_chars');
 add_filter('comment_text', 'make_clickable');
-add_filter('comment_text', 'wpautop');
+add_filter('comment_text', 'wpautop', 30);
 add_filter('comment_text', 'balanceTags');
 add_filter('comment_text', 'convert_smilies', 20);
-    
+
+add_filter('comment_excerpt', 'remove_slashes', 5);
+add_filter('comment_excerpt', 'convert_chars');
+
 function clean_url($url) {
 	$url = str_replace('http://url', '', $url);
 	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $url);
@@ -129,7 +133,7 @@ function comment_author_link() {
 	if ($url) {
 		echo $url;
 	} else {
-		echo 'mailto:'.antispambot($email);
+		echo "mailto:$email";
 	}
 	echo '" rel="external">' . $author . '</a>';
 }
@@ -153,7 +157,7 @@ function comment_author_email_link($linktext='', $before='', $after='') {
 	global $comment;
 	$email = apply_filters('comment_email', $comment->comment_author_email);
 	if ((!empty($email)) && ($email != '@')) {
-	$display = ($linktext != '') ? $linktext : antispambot(stripslashes($email));
+	$display = ($linktext != '') ? $linktext : stripslashes($email);
 		echo $before;
 		echo "<a href='mailto:$email'>$display</a>";
 		echo $after;
@@ -182,6 +186,27 @@ function comment_text() {
 	$comment_text = str_replace('<trackback />', '', $comment->comment_content);
 	$comment_text = str_replace('<pingback />', '', $comment_text);
 	echo apply_filters('comment_text', $comment_text);
+}
+
+function comment_excerpt() {
+	global $comment;
+	$comment_text = str_replace('<trackback />', '', $comment->comment_content);
+	$comment_text = str_replace('<pingback />', '', $comment_text);
+	$comment_text = strip_tags($comment_text);
+	$blah = explode(' ', $comment_text);
+	if (count($blah) > 20) {
+		$k = 20;
+		$use_dotdotdot = 1;
+	} else {
+		$k = count($blah);
+		$use_dotdotdot = 0;
+	}
+	$excerpt = '';
+	for ($i=0; $i<$k; $i++) {
+		$excerpt .= $blah[$i] . ' ';
+	}
+	$excerpt .= ($use_dotdotdot) ? '...' : '';
+	echo apply_filters('comment_excerpt', $excerpt);
 }
 
 function comment_date($d='') {

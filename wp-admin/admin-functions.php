@@ -1,5 +1,15 @@
 <?php
 
+function url_shorten ($url) {
+	$short_url = str_replace('http://', '', stripslashes($url));
+	$short_url = str_replace('www.', '', $short_url);
+	if ('/' == substr($short_url, -1))
+		$short_url = substr($short_url, 0, -1);
+	if (strlen($short_url) > 35)
+		$short_url =  substr($short_url, 0, 32).'...';
+	return $short_url;
+}
+
 function selected($selected, $current) {
 	if ($selected == $current) echo ' selected="selected"';
 }

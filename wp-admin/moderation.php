@@ -96,9 +96,9 @@ default:
 	}
 ?>
 <ul id="adminmenu2">
-	<li><a href="edit.php">Latest Posts</a></li>
-	<li><a href="edit-comments.php">Latest Comments</a></li>
-	<li class="last"><a href="moderation.php" class="current">Comments Awaiting Moderation</a></li>
+	<li><a href="edit.php"> Posts</a></li>
+	<li><a href="edit-comments.php"> Comments</a></li>
+	<li class="last"><a href="moderation.php" class="current">Awaiting Moderation</a></li>
 </ul>
 <?php
 
@@ -166,7 +166,7 @@ echo "<a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."
     }
 ?>
     </ol>
-    <input type="submit" name="submit" value="Moderate Comments" class="search" />
+    <input type="submit" name="submit" value="Moderate Comments" />
     </form>
 <?php
 } else {
