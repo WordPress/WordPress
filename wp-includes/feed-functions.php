@@ -138,7 +138,9 @@ function the_category_rss($type = 'rss') {
 }
 
 function rss_enclosure() {
-	global $id;
+	global $id, $post;
+	if (!empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password)) return;
+
 	$custom_fields = get_post_custom();
 	if( is_array( $custom_fields ) ) {
 		while( list( $key, $val ) = each( $custom_fields ) ) { 
