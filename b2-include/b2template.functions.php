@@ -860,27 +860,50 @@ function dropdown_cats($optionall = 1, $all = 'All') {
 }
 
 // out of the b2 loop
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = 'blah', $list = true) {
-	global $tablecategories, $querycount, $wpdb;
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
+                   $file = 'blah', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
+	global $tablecategories, $tableposts, $querycount, $wpdb;
 	global $pagenow;
 	global $querystring_start, $querystring_equal, $querystring_separator;
-	$file = ($file == 'blah') ? $pagenow : $file;
+    if (($file == 'blah') || ($file == '')) {
+        $file = $pagenow;
+    }
 	$sort_column = 'cat_'.$sort_column;
-	$categories = $wpdb->get_results("SELECT * FROM $tablecategories WHERE cat_ID > 0 ORDER BY $sort_column $sort_order");
+
+    $query  = " SELECT cat_ID, cat_name,";
+    $query .= "  COUNT($tableposts.ID) AS cat_count,";
+    $query .= "  DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth";
+    $query .= " FROM $tablecategories LEFT JOIN $tableposts ON cat_ID = post_category";
+    $query .= " WHERE cat_ID > 0 ";
+    $query .= " GROUP BY post_category ";
+    if (intval($hide_empty) == 1) {
+        $query .= " HAVING cat_count > 0";
+    }
+    $query .= " ORDER BY $sort_column $sort_order, post_date DESC";
+
+	$categories = $wpdb->get_results($query);
 	++$querycount;
 	if (intval($optionall) == 1) {
 		$all = apply_filters('list_cats', $all);
-		if ($list) echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a></li>";
-		else echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a><br />\n";
+        $link = "<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a>";
+		if ($list) echo "\n\t<li>$link</li>";
+		else echo "\t$link<br />\n";
 	}
 	foreach ($categories as $category) {
 		$cat_name = apply_filters('list_cats', $category->cat_name);
+        $link = "<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
+        $link .= stripslashes($cat_name)."</a>";
+        if (intval($optioncount) == 1) {
+            $link .= "&nbsp;&nbsp;(".$category->cat_count.")";
+        }
+        if (intval($optiondates) == 1) {
+            $link .= "&nbsp;&nbsp;".$category->lastday."/".$category->lastmonth."";
+        }
+        $link .= "</a>";
 		if ($list) {
-			echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
-			echo stripslashes($cat_name)."</a></li>";
+			echo "\n\t<li>$link</li>";
 		} else {
-			echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
-			echo stripslashes($cat_name)."</a><br />\n";
+			echo "\t$link<br />\n";
 		}
 	}
 }
