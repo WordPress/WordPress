@@ -132,8 +132,11 @@ $query = 'index.php?';
 for ($i = 0; $i < count($tokens[0]); ++$i) {
 	if (0 < $i) $query .= '&';
 	$query .= str_replace($rewritecode, $queryreplace, $tokens[0][$i]) . '$'. ($i + 1);
-	
 }
+++$i;
+// Add post paged stuff
+$match .= '([0-9]+)?/?';
+$query .= "&page=$$i";
 
 // Code for nice categories, currently not very flexible
 $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
@@ -141,10 +144,12 @@ $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
 		$catmatch = preg_replace('|^/+|', '', $catmatch);
 
 ?> 
-  <p><code>RewriteEngine On<br /> 
-    RewriteBase <?php echo $site_root; ?><br /> 
-    RewriteRule ^<?php echo $match; echo '$ ' . $site_root . $query ?> [QSA]<br />
-	RewriteRule ^<?php echo $catmatch; ?>(.*) <?php echo $site_root; ?>index.php?category_name=$1 [QSA]</code></p> 
+<form action"">
+  <textarea rows="5" style="width: 100%;">RewriteEngine On
+RewriteBase <?php echo $site_root; ?> 
+RewriteRule ^<?php echo $match; echo '$ ' . $site_root . $query ?> [QSA]
+RewriteRule ^<?php echo $catmatch; ?>(.*) <?php echo $site_root; ?>index.php?category_name=$1 [QSA]</textarea> 
+	</form>
 </div> 
 <?php
 } else {

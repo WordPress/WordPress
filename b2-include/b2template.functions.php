@@ -872,9 +872,9 @@ function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file
 	$output .= $teaser;
 	if (count($content)>1) {
 		if ($more) {
-			$output .= '<a name="more'.$id.'"></a>'.$content[1];
+			$output .= '<a id="more-'.$id.'"></a>'.$content[1];
 		} else {
-			$output .= ' <a href="'.$file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'more'.$querystring_equal.'1#more'.$id.'">'.$more_link_text.'</a>';
+			$output .= " <a href='". get_permalink() . "#more-$id'>$more_link_text</a>";
 		}
 	}
 	if ($preview) { // preview fix for javascript bug with foreign languages
@@ -985,16 +985,19 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 	} else {
 		$file = $pagenow;
 	}
-	if (($multipage)) { // && ($more)) {
+	if (($multipage)) {
 		if ($next_or_number=='number') {
 			echo $before;
 			for ($i = 1; $i < ($numpages+1); $i = $i + 1) {
 				$j=str_replace('%',"$i",$pagelink);
 				echo " ";
-				if (($i != $page) || ((!$more) && ($page==1)))
-					echo '<a href="'.$file.$querystring_start.'p'.$querystring_equal.$id.
-					$querystring_separator.'more'.$querystring_equal.'1'.
-					$querystring_separator.'page'.$querystring_equal.$i.'">';
+				if (($i != $page) || ((!$more) && ($page==1))) {
+				if ('' == get_settings('permalink_structure')) {
+					echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
+				} else {
+					echo '<a href="'.get_permalink().$i.'/">';
+				}
+				}
 				echo $j;
 				if (($i != $page) || ((!$more) && ($page==1)))
 					echo '</a>';
@@ -1004,17 +1007,21 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 			if ($more) {
 				echo $before;
 				$i=$page-1;
-				if ($i && $more)
-					echo ' <a href="'.$file.$querystring_start.'p'.$querystring_equal.$id.
-					$querystring_separator.'more'.$querystring_equal.'1'.
-					$querystring_separator.'page'.$querystring_equal.$i.'">'.
-					$previouspagelink.'</a>';
+				if ($i && $more) {
+				if ('' == get_settings('permalink_structure')) {
+					echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
+				} else {
+					echo '<a href="'.get_permalink().$i.'/">';
+				}
+				}
 				$i=$page+1;
-				if ($i<=$numpages && $more)
-					echo ' <a href="'.$file.$querystring_start.'p'.$querystring_equal.$id.
-					$querystring_separator.'more'.$querystring_equal.'1'.
-					$querystring_separator.'page'.$querystring_equal.$i.'">'.
-					$nextpagelink.'</a>';
+				if ($i<=$numpages && $more) {
+				if ('' == get_settings('permalink_structure')) {
+					echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
+				} else {
+					echo '<a href="'.get_permalink().$i.'/">';
+				}
+				}
 				echo $after;
 			}
 		}
