@@ -160,7 +160,7 @@ if($metadata = has_meta($post_ID)) {
 
 <p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="Save" style="font-weight: bold;" tabindex="6" /> 
 <?php 
-if ('publish' != $post_status) {
+if ('publish' != $post_status || 0 == $post_ID) {
 ?>
 	<input name="publish" type="submit" id="publish" tabindex="10" value="Publish" /> 
 <?php
