@@ -67,6 +67,7 @@ if ($user_level > 0) {
 	$comment_status = get_settings('default_comment_status');
 	$ping_status = get_settings('default_ping_status');
 	$post_pingback = get_settings('default_pingback_flag');
+	$post_parent = 0;
 
 	include('edit-page-form.php');
 }

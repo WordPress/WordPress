@@ -49,12 +49,13 @@ function get_permalink($id = false) {
 		$idpost = $post;
 	}
 
+	if ($idpost->post_status == 'static') {
+		return get_page_link();
+	}
+	
 	$permalink = get_settings('permalink_structure');
 
 	if ('' != $permalink) {
-		if ($idpost->post_status == 'static')
-			$permalink = page_permastruct();
-
 		$unixtime = strtotime($idpost->post_date);
 
 		$cats = get_the_category($idpost->ID);
@@ -78,10 +79,27 @@ function get_permalink($id = false) {
 		return get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink);
 	} else { // if they're not using the fancy permalink option
 		$permalink = get_settings('home') . '/' . get_settings('blogfilename') . '?p=' . $idpost->ID;
-		if ($idpost->post_status == 'static')
-			$permalink .=  '&static=1';
 		return $permalink;
 	}
+}
+
+function get_page_link($id = false) {
+	global $post;
+
+	if (! $id) {
+		$id = $post->ID;
+	}
+
+	$permalink = get_settings('permalink_structure');
+
+	if ('' != $permalink) {
+		$link = get_page_uri($id);
+		$link = get_settings('home') . "/$link/";
+	} else {
+		$link = get_settings('home') . "/index.php?p=$id&static=1";
+	}
+
+	return $link;
 }
 
 function get_month_link($year, $month) {

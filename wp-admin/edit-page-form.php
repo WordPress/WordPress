@@ -52,7 +52,7 @@ window.onload = focusit;
       <legend><?php _e('Page Parent') ?></a></legend> 
 	  <div><select name="parent_id">
 		<option value='0'>Main Page (no parent)</option>
-			<?php parent_dropdown(); ?>
+			<?php parent_dropdown($post_parent); ?>
         </select>
 	  </div>
     </fieldset>

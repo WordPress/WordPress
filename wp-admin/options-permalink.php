@@ -31,6 +31,8 @@ if (isset($_POST['submit'])) {
 	$category_base = get_settings('category_base');
 }
 
+generate_page_rewrite_rules();
+
 if ( (!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess') )
 	$writable = true;
 else
@@ -41,10 +43,7 @@ if ( strstr($permalink_structure, 'index.php') ) // If they're using
 else
 	$usingpi = false;
 
-if ( $writable && !$usingpi && $is_apache ) {
-	$rules = explode("\n", mod_rewrite_rules($permalink_structure));
-	insert_with_markers($home_path.'.htaccess', 'WordPress', $rules);
-}
+save_mod_rewrite_rules();
 ?>
 
 <?php if (isset($_POST['submit'])) : ?>

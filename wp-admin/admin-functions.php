@@ -485,6 +485,54 @@ function extract_from_markers($filename, $marker) {
 	return $result;
 }
 
+function save_mod_rewrite_rules() {
+	global $is_apache;
+	$home = get_settings('home');
+	if ( $home != '' && $home != get_settings('siteurl') ) {
+		$home_path = parse_url($home);
+		$home_path = $home_root['path'];
+		$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
+		$home_path = $root . $home_path . "/";
+	} else {
+		$home_path = ABSPATH;
+	}
+
+	if ( (!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess') )
+		$writable = true;
+	else
+		$writable = false;
+
+	$permalink_structure = get_settings('permalink_structure');
+
+	if ( strstr($permalink_structure, 'index.php') ) // If they're using 
+		$usingpi = true;
+	else
+		$usingpi = false;
+
+	if ( $writable && !$usingpi && $is_apache ) {
+		$rules = explode("\n", mod_rewrite_rules($permalink_structure));
+		insert_with_markers($home_path.'.htaccess', 'WordPress', $rules);
+	}
+}
+
+function generate_page_rewrite_rules() {
+	global $wpdb;
+	$posts = $wpdb->get_results("SELECT ID, post_name FROM $wpdb->posts WHERE post_status = 'static'");
+
+	$page_rewrite_rules = array();
+
+	foreach ($posts as $post) {
+		// URI => page name
+		$uri = get_page_uri($post->ID);
+
+		$page_rewrite_rules[$uri] = $post->post_name;
+	}
+
+	update_option('page_uris', $page_rewrite_rules);
+
+	save_mod_rewrite_rules();
+}
+
 function the_quicktags () {
 // Browser detection sucks, but until Safari supports the JS needed for this to work people just assume it's a bug in WP
 if ( !strstr($_SERVER['HTTP_USER_AGENT'], 'Safari') ) :
@@ -707,19 +755,19 @@ function validate_current_theme() {
 	return true;
 }
 
-function parent_dropdown($parent = 0, $level = 0) {
+function parent_dropdown($default = 0, $parent = 0, $level = 0) {
 	global $wpdb;
 	$items = $wpdb->get_results("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = $parent AND post_status = 'static' ORDER BY menu_order");
 	if ($items) {
 		foreach ($items as $item) {
 			$pad = str_repeat('&nbsp;', $level * 3);
-			if ($item->ID == $current)
+			if ($item->ID == $default)
 				$current = ' selected="selected"';
 			else
 				$current = '';
 
 			echo "\n\t<option value='$item->ID'$current>$pad $item->post_title</a></option>";
-				parent_dropdown($item->ID, $level + 1);
+			parent_dropdown($default, $item->ID, $level + 1);
 		}
 	} else {
 		return false;

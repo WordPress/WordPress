@@ -56,6 +56,10 @@ case 'post':
 		$post_categories = $_POST['post_category'];
 		$post_status = $_POST['post_status'];
 		$post_name = $_POST['post_name'];
+		$post_parent = 0;
+		if (isset($_POST['parent_id'])) {
+			$post_parent = $_POST['parent_id'];
+		}
 
 		if (empty($post_status)) $post_status = 'draft';
 		// Double-check
@@ -108,9 +112,9 @@ case 'post':
 	if ('' != $_POST['savepage']) $post_status = 'static';
 
 	$postquery ="INSERT INTO $wpdb->posts
-			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt)
+			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent)
 			VALUES
-			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt')
+			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent')
 			";
 
 	$result = $wpdb->query($postquery);
@@ -194,6 +198,10 @@ case 'post':
 
 	} // end if publish
 
+	if ($post_status = 'static') {
+		generate_page_rewrite_rules();
+	}
+
 	exit();
 	break;
 
@@ -222,12 +230,13 @@ case 'edit':
 		$to_ping = $postdata->to_ping;
 		$pinged = $postdata->pinged;
 		$post_name = $postdata->post_name;
+		$post_parent = $postdata->post_parent;
 
-        if ($post_status == 'static') {
-            include('edit-page-form.php');
-        } else {
-            include('edit-form-advanced.php');
-        }
+		if ($post_status == 'static') {
+			include('edit-page-form.php');
+		} else {
+			include('edit-form-advanced.php');
+		}
 
 		$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
 		?>
@@ -286,6 +295,11 @@ case 'editpost':
 		$post_name = $_POST['post_name'];
 		if (empty($post_name)) {
 		  $post_name = $post_title;
+		}
+
+		$post_parent = 0;
+		if (isset($_POST['parent_id'])) {
+			$post_parent = $_POST['parent_id'];
 		}
 
 		if (empty($post_name)) {
@@ -353,7 +367,8 @@ $now_gmt = current_time('mysql', 1);
 			post_name = '$post_name',
 			to_ping = '$trackback',
 			post_modified = '$now',
-			post_modified_gmt = '$now_gmt'
+			post_modified_gmt = '$now_gmt',
+      post_parent = '$post_parent'
 		WHERE ID = $post_ID ");
 
 	// Meta Stuff
@@ -420,6 +435,10 @@ $now_gmt = current_time('mysql', 1);
 			}
 		}
 	} // end if publish
+
+	if ($post_status = 'static') {
+		generate_page_rewrite_rules();
+	}
 
 	do_action('edit_post', $post_ID);
 	exit();

@@ -1215,6 +1215,31 @@ function page_permastruct() {
     return '/' . $prefix . 'site/%pagename%';    
 }
 
+function get_page_uri($page) {
+	global $wpdb;
+	$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page'");
+
+	$uri = $page->post_name;
+
+	while ($page->post_parent != 0) {
+		$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page->post_parent'");
+		$uri = $page->post_name . "/" . $uri;
+	}
+
+	return $uri;
+}
+
+function page_rewrite_rules() {
+	$uris = get_settings('page_uris');
+
+	$rewrite_rules = array();
+	foreach ($uris as $uri => $pagename) {
+		$rewrite_rules += array($uri . '/?$' => "index.php?pagename=$pagename");
+	}
+
+	return $rewrite_rules;
+}
+
 function generate_rewrite_rules($permalink_structure = '', $matches = '') {
     $rewritecode = 
 	array(
@@ -1409,8 +1434,11 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     $page_structure = $prefix . 'site/%pagename%';
     $page_rewrite = generate_rewrite_rules($page_structure, $matches);
 
+		// Pages
+		$pages_rewrite = page_rewrite_rules();
+
     // Put them together.
-    $rewrite = $site_rewrite + $page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite;
+    $rewrite = $pages_rewrite + $site_rewrite + $page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite;
 
     // Add on archive rewrite rules if needed.
     if ($doarchive) {
