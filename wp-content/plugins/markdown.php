@@ -1,27 +1,66 @@
 <?php
-/*
-Plugin Name: MarkDown
-Plugin URI: http://daringfireball.net/projects/markdown/
-Description: Markdown is a text-to-HTML conversion tool for web writers. <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML. This plugin <strong>enables Markdown for your posts and comments</strong>. Written by <a href="http://daringfireball.net/">John Gruber</a> in Perl, translated to PHP by <a href="http://www.michelf.com/">Michel Fortin</a>, and made a WP plugin by <a href="http://photomatt.net/">Matt</a>. If you use this you should disable Textile 1 and 2 because the syntax conflicts.
-Version: 1.0b4
-Author: John Gruber
-Author URI: http://daringfireball.net/
-*/ 
+
+#
+# Markdown  -  A text-to-HTML conversion tool for web writers
+#
+# Copyright (c) 2004 John Gruber  
+# <http://daringfireball.net/projects/markdown/>
+#
+# Copyright (c) 2004 Michel Fortin - Translation to PHP  
+# <http://www.michelf.com/projects/php-markdown/>
+#
+
+# This version has been modified for inclusion in WordPress
+# For the original please see Michel's site
 
 
+global	$MarkdownPHPVersion, $MarkdownSyntaxVersion,
+		$md_empty_element_suffix, $md_tab_width,
+		$md_nested_brackets_depth, $md_nested_brackets, 
+		$md_escape_table, $md_backslash_escape_table;
+
+
+$MarkdownPHPVersion    = '1.0'; # Sat 21 Aug 2004
+$MarkdownSyntaxVersion = '1.0'; # Fri 20 Aug 2004
+
+
+#
+# Global default settings:
+#
+$md_empty_element_suffix = " />";     # Change to ">" for HTML output
+$md_tab_width = 4;
+
+
+# -- WordPress Plugin Interface -----------------------------------------------
 /*
-Note to code readers: I've stripped most of the comments from the source, see the original at http://www.michelf.com/php-markdown/?code to get the unaltered version. --Matt
+Plugin Name: Markdown
+Plugin URI: http://codex.wordpress.org/Plugin:Markdown
+Description: <a href="http://daringfireball.net/projects/markdown/syntax">Markdown syntax</a> allows you to write using an easy-to-read, easy-to-write plain text format. Based on the original Perl version by <a href="http://daringfireball.net/">John Gruber</a>. <a href="http://www.michelf.com/projects/php-markdown/">More...</a>
+Version: 1.0
+Author: Michel Fortin
+Author URI: http://www.michelf.com/
 */
+if (isset($wp_version)) {
+	# Remove default WordPress auto-paragraph filter.
+	remove_filter('the_content', 'wpautop');
+	remove_filter('the_excerpt', 'wpautop');
+	remove_filter('comment_text', 'wpautop');
+	# Add Markdown filter with priority 6 (same as Textile).
+	add_filter('the_content', 'Markdown', 6);
+	add_filter('the_excerpt', 'Markdown', 6);
+	add_filter('comment_text', 'Markdown', 6);
+}
 
-$MarkdownPHPVersion    = '1.0b4.1'; # Sun 4 Apr 2004
-$MarkdownSyntaxVersion = '1.0b4'; # Thu 25 Mar 2004
-$g_empty_element_suffix = " />";     # Change to ">" for HTML output
-$g_tab_width = 4;
-$g_nested_brackets_depth = 6;
-$g_nested_brackets = 
-	str_repeat('(?>[^\[\]]+|\[', $g_nested_brackets_depth).
-	str_repeat('\])*', $g_nested_brackets_depth);
-$g_escape_table = array(
+function smarty_modifier_markdown($text) {
+	return Markdown($text);
+}
+
+$md_nested_brackets_depth = 6;
+$md_nested_brackets = 
+	str_repeat('(?>[^\[\]]+|\[', $md_nested_brackets_depth).
+	str_repeat('\])*', $md_nested_brackets_depth);
+
+$md_escape_table = array(
 	"\\" => md5("\\"),
 	"`" => md5("`"),
 	"*" => md5("*"),
@@ -36,30 +75,39 @@ $g_escape_table = array(
 	"." => md5("."),
 	"!" => md5("!")
 );
-$g_backslash_escape_table;
-foreach ($g_escape_table as $key => $char)
-	$g_backslash_escape_table["\\$key"] = $char;
+# Create an identical table but for escaped characters.
+$md_backslash_escape_table;
+foreach ($md_escape_table as $key => $char)
+	$md_backslash_escape_table["\\$key"] = $char;
 
-$g_urls;
-$g_titles;
-$g_html_blocks;
 
 function Markdown($text) {
-	global $g_urls, $g_titles, $g_html_blocks;
-	$g_urls = array();
-	$g_titles = array();
-	$g_html_blocks = array();
+	global $md_urls, $md_titles, $md_html_blocks;
+	$md_urls = array();
+	$md_titles = array();
+	$md_html_blocks = array();
+
 	$text = str_replace(array("\r\n", "\r"), "\n", $text);
+
 	$text .= "\n\n";
+
 	$text = _Detab($text);
+
 	$text = preg_replace('/^[ \t]+$/m', '', $text);
+
 	$text = _HashHTMLBlocks($text);
+
 	$text = _StripLinkDefinitions($text);
+
 	$text = _EscapeSpecialChars($text);
+
 	$text = _RunBlockGamut($text);
+
 	$text = _UnescapeSpecialChars($text);
+
 	return $text . "\n";
 }
+
 
 function _StripLinkDefinitions($text) {
 	$text = preg_replace_callback('{
@@ -67,7 +115,7 @@ function _StripLinkDefinitions($text) {
 						  [ \t]*
 						  \n?				# maybe *one* newline
 						  [ \t]*
-						(\S+)				# url = $2
+						<?(\S+?)>?			# url = $2
 						  [ \t]*
 						  \n?				# maybe one newline
 						  [ \t]*
@@ -85,20 +133,25 @@ function _StripLinkDefinitions($text) {
 	return $text;
 }
 function _StripLinkDefinitions_callback($matches) {
-	global $g_urls, $g_titles;
+	global $md_urls, $md_titles;
 	$link_id = strtolower($matches[1]);
-	$g_urls[$link_id] = _EncodeAmpsAndAngles($matches[2]);
+	$md_urls[$link_id] = _EncodeAmpsAndAngles($matches[2]);
 	if (isset($matches[3]))
-		$g_titles[$link_id] = htmlentities($matches[3]);
+		$md_titles[$link_id] = htmlentities($matches[3]);
 	return ''; # String that will replace the block
 }
 
+
 function _HashHTMLBlocks($text) {
-	$block_tag_re = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script';
+	$block_tags_a = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|'.
+					'script|noscript|form|fieldset|iframe|math|ins|del';
+	$block_tags_b = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|'.
+					'script|noscript|form|fieldset|iframe|math';
+
 	$text = preg_replace_callback("{
 				(						# save in $1
 					^					# start of line  (with /m)
-					<($block_tag_re)	# start tag = $2
+					<($block_tags_a)	# start tag = $2
 					\\b					# word break
 					(.*\\n)*?			# any number of lines, minimally matching
 					</\\2>				# the matching end tag
@@ -112,7 +165,7 @@ function _HashHTMLBlocks($text) {
 	$text = preg_replace_callback("{
 				(						# save in $1
 					^					# start of line  (with /m)
-					<($block_tag_re)	# start tag = $2
+					<($block_tags_b)	# start tag = $2
 					\\b					# word break
 					(.*\\n)*?			# any number of lines, minimally matching
 					.*</\\2>				# the matching end tag
@@ -144,23 +197,25 @@ function _HashHTMLBlocks($text) {
 	return $text;
 }
 function _HashHTMLBlocks_callback($matches) {
-	global $g_html_blocks;
+	global $md_html_blocks;
 	$text = $matches[1];
 	$key = md5($text);
-	$g_html_blocks[$key] = $text;
+	$md_html_blocks[$key] = $text;
 	return "\n\n$key\n\n"; # String that will replace the block
 }
 
+
 function _RunBlockGamut($text) {
-	global $g_empty_element_suffix;
-	
+	global $md_empty_element_suffix;
+
 	$text = _DoHeaders($text);
 
+	# Do Horizontal Rules:
 	$text = preg_replace(
 		array('/^( ?\* ?){3,}$/m',
-			  '/^( ?- ?){3,}$/m'),
-		array("\n<hr$g_empty_element_suffix\n", 
-			  "\n<hr$g_empty_element_suffix\n"), 
+			  '/^( ?- ?){3,}$/m',
+			  '/^( ?_ ?){3,}$/m'),
+		"\n<hr$md_empty_element_suffix\n", 
 		$text);
 
 	$text = _DoLists($text);
@@ -169,6 +224,7 @@ function _RunBlockGamut($text) {
 
 	$text = _DoBlockQuotes($text);
 
+	# Make links out of things like `<http://example.com/>`
 	$text = _DoAutoLinks($text);
 
 	$text = _HashHTMLBlocks($text);
@@ -180,45 +236,40 @@ function _RunBlockGamut($text) {
 
 
 function _RunSpanGamut($text) {
-	global $g_empty_element_suffix;
+	global $md_empty_element_suffix;
 	$text = _DoCodeSpans($text);
 
-
+	# Fix unencoded ampersands and <'s:
 	$text = _EncodeAmpsAndAngles($text);
 
+	# Process anchor and image tags. Images must come first,
+	# because ![foo][f] looks like an anchor.
 	$text = _DoImages($text);
 	$text = _DoAnchors($text);
 
 
 	$text = _DoItalicsAndBold($text);
-	
-	# Do hard breaks:
-	$text = preg_replace('/ {2,}\n/', "<br$g_empty_element_suffix\n", $text);
+
+	$text = preg_replace('/ {2,}\n/', "<br$md_empty_element_suffix\n", $text);
 
 	return $text;
 }
 
 
 function _EscapeSpecialChars($text) {
-	global $g_escape_table;
+	global $md_escape_table;
 	$tokens = _TokenizeHTML($text);
 
 	$text = '';   # rebuild $text from the tokens
-	$in_pre = 0;  # Keep track of when we're inside <pre> or <code> tags.
-	$tags_to_skip = "!<(/?)(?:pre|code|kbd|script)[\s>]!";
-
 	foreach ($tokens as $cur_token) {
 		if ($cur_token[0] == 'tag') {
 			$cur_token[1] = str_replace(array('*', '_'),
-				array($g_escape_table['*'], $g_escape_table['_']),
+				array($md_escape_table['*'], $md_escape_table['_']),
 				$cur_token[1]);
 			$text .= $cur_token[1];
 		} else {
 			$t = $cur_token[1];
-			if (! $in_pre) {
-				$t = _EncodeBackslashEscapes($t);
-				# $t =~ s{([a-z])/([a-z])}{$1&thinsp;/&thinsp;$2}ig;
-			}
+			$t = _EncodeBackslashEscapes($t);
 			$text .= $t;
 		}
 	}
@@ -227,48 +278,49 @@ function _EscapeSpecialChars($text) {
 
 
 function _DoAnchors($text) {
-	global $g_nested_brackets;
-
+	global $md_nested_brackets;
+	#
+	# First, handle reference-style links: [link text] [id]
+	#
 	$text = preg_replace_callback("{
 		(					# wrap whole match in $1
 		  \\[
-		    ($g_nested_brackets)	# link text = $2
+			($md_nested_brackets)	# link text = $2
 		  \\]
 
 		  [ ]?				# one optional space
 		  (?:\\n[ ]*)?		# one optional newline followed by spaces
 
 		  \\[
-		    (.*?)		# id = $3
+			(.*?)		# id = $3
 		  \\]
 		)
 		}xs",
 		'_DoAnchors_reference_callback', $text);
-	
+
 	$text = preg_replace_callback("{
 		(				# wrap whole match in $1
 		  \\[
-			($g_nested_brackets)	# link text = $2
+			($md_nested_brackets)	# link text = $2
 		  \\]
 		  \\(			# literal paren
 			[ \\t]*
-			(.+?)		# href = $3
+			<?(.+?)>?	# href = $3
 			[ \\t]*
-			(			# title = $4
+			(			# $4
 			  (['\"])	# quote char = $5
-			  .*?
+			  (.*?)		# Title = $6
 			  \\5		# matching quote
 			)?			# title is optional
 		  \\)
 		)
 		}xs",
 		'_DoAnchors_inline_callback', $text);
-	
+
 	return $text;
 }
 function _DoAnchors_reference_callback($matches) {
-	global $g_urls, $g_titles;
-	$result;
+	global $md_urls, $md_titles, $md_escape_table;
 	$whole_match = $matches[1];
 	$link_text   = $matches[2];
 	$link_id     = strtolower($matches[3]);
@@ -277,15 +329,18 @@ function _DoAnchors_reference_callback($matches) {
 		$link_id = strtolower($link_text); # for shortcut links like [this][].
 	}
 
-	if (isset($g_urls[$link_id])) {
-		$url = $g_urls[$link_id];
-		$url = str_replace(array('*',     '_'),
-						   array('&#42;', '&#95;'), $url);
-		$result = "<a href='$url'";
-		if ( isset( $g_title[$link_id] ) ) {
-			$title = $g_titles[$link_id];
+	if (isset($md_urls[$link_id])) {
+		$url = $md_urls[$link_id];
+		# We've got to encode these to avoid conflicting with italics/bold.
+		$url = str_replace(array('*', '_'),
+						   array($md_escape_table['*'], $md_escape_table['_']),
+						   $url);
+		$result = "<a href=\"$url\"";
+		if ( isset( $md_titles[$link_id] ) ) {
+			$title = $md_titles[$link_id];
 			$title = str_replace(array('*',     '_'),
-								 array('&#42;', '&#95;'), $title);
+								 array($md_escape_table['*'], 
+									   $md_escape_table['_']), $title);
 			$result .=  " title=\"$title\"";
 		}
 		$result .= ">$link_text</a>";
@@ -296,21 +351,25 @@ function _DoAnchors_reference_callback($matches) {
 	return $result;
 }
 function _DoAnchors_inline_callback($matches) {
-	$result;
+	global $md_escape_table;
 	$whole_match = $matches[1];
 	$link_text   = $matches[2];
 	$url	  		= $matches[3];
-	$title		= $matches[4];
+	$title		= $matches[6];
 
 	# We've got to encode these to avoid conflicting with italics/bold.
-	$url = str_replace(array('*',     '_'),
-					   array('&#42;', '&#95;'), $url);
+	$url = str_replace(array('*', '_'),
+					   array($md_escape_table['*'], $md_escape_table['_']), 
+					   $url);
 	$result = "<a href=\"$url\"";
-	if ($title) {
-		$title = str_replace(array('*',     '_'),
-							 array('&#42;', '&#95;'), $title);
-		$result .=  " title=$title";
+	if (isset($title)) {
+		$title = str_replace('"', '&quot', $title);
+		$title = str_replace(array('*', '_'),
+							 array($md_escape_table['*'], $md_escape_table['_']),
+							 $title);
+		$result .=  " title=\"$title\"";
 	}
+	
 	$result .= ">$link_text</a>";
 
 	return $result;
@@ -321,14 +380,14 @@ function _DoImages($text) {
 	$text = preg_replace_callback('{
 		(				# wrap whole match in $1
 		  !\[
-		    (.*?)		# alt text = $2
+			(.*?)		# alt text = $2
 		  \]
 
 		  [ ]?				# one optional space
 		  (?:\n[ ]*)?		# one optional newline followed by spaces
 
 		  \[
-		    (.*?)		# id = $3
+			(.*?)		# id = $3
 		  \]
 
 		)
@@ -346,11 +405,11 @@ function _DoImages($text) {
 		  \\]
 		  \\(			# literal paren
 			[ \\t]*
-			(\\S+)		# src url = $3
+			<?(\S+?)>?	# src url = $3
 			[ \\t]*
-			(			# title = $4
+			(			# $4
 			  (['\"])	# quote char = $5
-			  .*?
+			  (.*?)		# title = $6
 			  \\5		# matching quote
 			  [ \\t]*
 			)?			# title is optional
@@ -362,8 +421,7 @@ function _DoImages($text) {
 	return $text;
 }
 function _DoImages_reference_callback($matches) {
-	global $g_urls, $g_titles, $g_empty_element_suffix;
-	$result;
+	global $md_urls, $md_titles, $md_empty_element_suffix, $md_escape_table;
 	$whole_match = $matches[1];
 	$alt_text    = $matches[2];
 	$link_id     = strtolower($matches[3]);
@@ -371,43 +429,55 @@ function _DoImages_reference_callback($matches) {
 	if ($link_id == "") {
 		$link_id = strtolower($alt_text); # for shortcut links like ![this][].
 	}
-	
-	if (isset($g_urls[$link_id])) {
-		$url = $g_urls[$link_id];
-		$url = str_replace(array('*',     '_'),
-						   array('&#42;', '&#95;'), $url);
+
+	$alt_text = str_replace('"', '&quot;', $alt_text);
+	if (isset($md_urls[$link_id])) {
+		$url = $md_urls[$link_id];
+		# We've got to encode these to avoid conflicting with italics/bold.
+		$url = str_replace(array('*', '_'),
+						   array($md_escape_table['*'], $md_escape_table['_']),
+						   $url);
 		$result = "<img src=\"$url\" alt=\"$alt_text\"";
-		if (isset($g_titles[$link_id])) {
-			$title = $g_titles[$link_id];
-			$title = str_replace(array('*',     '_'),
-								 array('&#42;', '&#95;'), $title);
+		if (isset($md_titles[$link_id])) {
+			$title = $md_titles[$link_id];
+			$title = str_replace(array('*', '_'),
+								 array($md_escape_table['*'], 
+									   $md_escape_table['_']), $title);
 			$result .=  " title=\"$title\"";
 		}
-		$result .= $g_empty_element_suffix;
+		$result .= $md_empty_element_suffix;
 	}
 	else {
+		# If there's no such link ID, leave intact:
 		$result = $whole_match;
 	}
 
 	return $result;
 }
 function _DoImages_inline_callback($matches) {
-	global $g_empty_element_suffix;
-	$result;
+	global $md_empty_element_suffix, $md_escape_table;
 	$whole_match = $matches[1];
 	$alt_text    = $matches[2];
 	$url	  		= $matches[3];
-	$title		= $matches[4];
+	$title		= '';
+	if (isset($matches[6])) {
+		$title = $matches[6];
+	}
 
-	$url = str_replace(array('*',     '_'),
-					   array('&#42;', '&#95;'), $url);
+	$alt_text = str_replace('"', '&quot;', $alt_text);
+	$title    = str_replace('"', '&quot;', $title);
+	# We've got to encode these to avoid conflicting with italics/bold.
+	$url = str_replace(array('*', '_'),
+					   array($md_escape_table['*'], $md_escape_table['_']),
+					   $url);
 	$result = "<img src=\"$url\" alt=\"$alt_text\"";
 	if (isset($title)) {
-		$title = str_replace(array('*',     '_'),
-							 array('&#42;', '&#95;'), $title);
-		$result .=  " title=$title"; # $title already quoted
+		$title = str_replace(array('*', '_'),
+							 array($md_escape_table['*'], $md_escape_table['_']),
+							 $title);
+		$result .=  " title=\"$title\""; # $title already quoted
 	}
-	$result .= $g_empty_element_suffix;
+	$result .= $md_empty_element_suffix;
 
 	return $result;
 }
@@ -437,23 +507,34 @@ function _DoHeaders($text) {
 
 
 function _DoLists($text) {
-	global $g_tab_width;
-	$less_than_tab = $g_tab_width - 1;
+#
+# Form HTML ordered (numbered) and unordered (bulleted) lists.
+#
+	global $md_tab_width;
+	$less_than_tab = $md_tab_width - 1;
+
+	# Re-usable patterns to match list item bullets and number markers:
+	$marker_ul  = '[*+-]';
+	$marker_ol  = '\d+[.]';
+	$marker_any = "(?:$marker_ul|$marker_ol)";
 
 	$text = preg_replace_callback("{
-			(
-			  (
-			    ^[ ]{0,$less_than_tab}
-			    (\\*|\\d+[.])
-			    [ \\t]+
+			(								# $1
+			  (								# $2
+				^[ ]{0,$less_than_tab}
+			    ($marker_any)				# $3 - first list item marker
+				[ \\t]+
 			  )
 			  (?s:.+?)
-			  (
-			      \\z
-			    |
+			  (								# $4
+				  \\z
+				|
 				  \\n{2,}
 				  (?=\\S)
-				  (?![ \\t]* (\\*|\\d+[.]) [ \\t]+)
+				  (?!						# Negative lookahead for another list item marker
+				  	[ \\t]*
+				  	{$marker_any}[ \\t]+
+				  )
 			  )
 			)
 		}xm",
@@ -462,26 +543,33 @@ function _DoLists($text) {
 	return $text;
 }
 function _DoLists_callback($matches) {
-	$list_type = ($matches[3] == "*") ? "ul" : "ol";
+	# Re-usable patterns to match list item bullets and number markers:
+	$marker_ul  = '[*+-]';
+	$marker_ol  = '\d+[.]';
+	$marker_any = "(?:$marker_ul|$marker_ol)";
+	
 	$list = $matches[1];
+	$list_type = preg_match('/[*+-]/', $matches[3]) ? "ul" : "ol";
+	# Turn double returns into triple returns, so that we can make a
+	# paragraph for the last item in a list, if necessary:
 	$list = preg_replace("/\n{2,}/", "\n\n\n", $list);
-	$result = _ProcessListItems($list);
-	$result = "<$list_type>\n" . $result . "</$list_type>\n";
+	$result = _ProcessListItems($list, $marker_any);
+	$result = "<$list_type>\n" . $result . "</$list_type>\n\n";
 	return $result;
 }
 
 
-function _ProcessListItems($list_str) {
+function _ProcessListItems($list_str, $marker_any) {
 	# trim trailing blank lines:
 	$list_str = preg_replace("/\n{2,}\\z/", "\n", $list_str);
 
 	$list_str = preg_replace_callback('{
 		(\n)?							# leading line = $1
 		(^[ \t]*)						# leading whitespace = $2
-		(\*|\d+[.]) [ \t]+				# list marker = $3
+		('.$marker_any.') [ \t]+		# list marker = $3
 		((?s:.+?)						# list item text   = $4
 		(\n{1,2}))
-		(?= \n* (\z | \2 (\*|\d+[.]) [ \t]+))
+		(?= \n* (\z | \2 ('.$marker_any.') [ \t]+))
 		}xm',
 		'_ProcessListItems_callback', $list_str);
 
@@ -508,41 +596,30 @@ function _ProcessListItems_callback($matches) {
 
 
 function _DoCodeBlocks($text) {
-	global $g_tab_width;
+	global $md_tab_width;
 	$text = preg_replace_callback("{
-			(.?)			# $1 = preceding character
-			(:)				# $2 = colon delimiter
-			(\\n+)			# $3 = newlines after colon
-			(	            # $4 = the code block -- one or more lines, starting with a space/tab
+			(?:\\n\\n|\\A)
+			(	            # $1 = the code block -- one or more lines, starting with a space/tab
 			  (?:
-			    (?:[ ]\{$g_tab_width} | \\t)  # Lines must start with a tab or a tab-width of spaces
-			    .*\\n+
+				(?:[ ]\{$md_tab_width} | \\t)  # Lines must start with a tab or a tab-width of spaces
+				.*\\n+
 			  )+
 			)
-			((?=^[ ]{0,$g_tab_width}\\S)|\\Z)	# Lookahead for non-space at line-start, or end of doc
+			((?=^[ ]{0,$md_tab_width}\\S)|\\Z)	# Lookahead for non-space at line-start, or end of doc
 		}xm",
 		'_DoCodeBlocks_callback', $text);
 
 	return $text;
 }
 function _DoCodeBlocks_callback($matches) {
-	$prevchar  = $matches[1];
-	$newlines  = $matches[2];
-	$codeblock = $matches[4];
+	$codeblock = $matches[1];
 
-	$result; # return value
-	
-
-	$prefix = "";
-	if (!(preg_match('/\s/', $prevchar) || ($prevchar == ""))) {
-			$prefix = "$prevchar:";
-	}
 	$codeblock = _EncodeCode(_Outdent($codeblock));
 	$codeblock = _Detab($codeblock);
 	# trim leading newlines and trailing whitespace
 	$codeblock = preg_replace(array('/\A\n+/', '/\s+\z/'), '', $codeblock);
-	
-	$result = $prefix . "\n\n<pre><code>" . $codeblock . "\n</code></pre>\n\n";
+
+	$result = "\n\n<pre><code>" . $codeblock . "\n</code></pre>\n\n";
 
 	return $result;
 }
@@ -550,8 +627,8 @@ function _DoCodeBlocks_callback($matches) {
 
 function _DoCodeSpans($text) {
 	$text = preg_replace_callback("@
-			(`+)		# Opening run of `
-			(.+?)		# the code block
+			(`+)		# $1 = Opening run of `
+			(.+?)		# $2 = The code block
 			(?<!`)
 			\\1
 			(?!`)
@@ -570,20 +647,15 @@ function _DoCodeSpans_callback($matches) {
 
 
 function _EncodeCode($_) {
+	global $md_escape_table;
 
-	global $g_escape_table;
-
-	# Encode all ampersands; HTML entities are not
-	# entities within a Markdown code span.
 	$_ = str_replace('&', '&amp;', $_);
 
-	# Do the angle bracket song and dance:
 	$_ = str_replace(array('<',    '>'), 
 					 array('&lt;', '&gt;'), $_);
 
-	# Now, escape characters that are magic in Markdown:
-	$_ = str_replace(array_keys($g_escape_table), 
-					 array_values($g_escape_table), $_);
+	$_ = str_replace(array_keys($md_escape_table), 
+					 array_values($md_escape_table), $_);
 
 	return $_;
 }
@@ -618,26 +690,35 @@ function _DoBlockQuotes($text) {
 }
 function _DoBlockQuotes_callback($matches) {
 	$bq = $matches[1];
-	$bq = preg_replace('/^[ \t]*>[ \t]?/m', '', $bq); 
+	# trim one level of quoting - trim whitespace-only lines
+	$bq = preg_replace(array('/^[ \t]*>[ \t]?/m', '/^[ \t]+$/m'), '', $bq);
 	$bq = _RunBlockGamut($bq);		# recurse
-	$bq = preg_replace('/^/m', "\t", $bq);
-	
+
+	$bq = preg_replace('/^/m', "  ", $bq);
+	# These leading spaces screw with <pre> content, so we need to fix that:
+	$bq = preg_replace_callback('{(\s*<pre>.+?</pre>)}sx', 
+								'_DoBlockQuotes_callback2', $bq);
+
 	return "<blockquote>\n$bq\n</blockquote>\n\n";
+}
+function _DoBlockQuotes_callback2($matches) {
+	$pre = $matches[1];
+	$pre = preg_replace('/^  /m', '', $pre);
+	return $pre;
 }
 
 
 function _FormParagraphs($text) {
-	global $g_html_blocks;
+	global $md_html_blocks;
 
 	# Strip leading and trailing lines:
 	$text = preg_replace(array('/\A\n+/', '/\n+\z/'), '', $text);
 
-	$grafs = preg_split('/\n{2,}/', $text);
-	$count = count($graph);
-
+	$grafs = preg_split('/\n{2,}/', $text, -1, PREG_SPLIT_NO_EMPTY);
+	$count = count($grafs);
 
 	foreach ($grafs as $key => $value) {
-		if (!isset( $g_html_blocks[$value] )) {
+		if (!isset( $md_html_blocks[$value] )) {
 			$value = _RunSpanGamut($value);
 			$value = preg_replace('/^([ \t]*)/', '<p>', $value);
 			$value .= "</p>";
@@ -645,10 +726,9 @@ function _FormParagraphs($text) {
 		}
 	}
 
-
 	foreach ($grafs as $key => $value) {
-		if (isset( $g_html_blocks[$value] )) {
-			$grafs[$key] = $g_html_blocks[$value];
+		if (isset( $md_html_blocks[$value] )) {
+			$grafs[$key] = $md_html_blocks[$value];
 		}
 	}
 
@@ -657,7 +737,7 @@ function _FormParagraphs($text) {
 
 
 function _EncodeAmpsAndAngles($text) {
-	$text = preg_replace('/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w{1,8});)/', 
+	$text = preg_replace('/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/', 
 						 '&amp;', $text);;
 
 	# Encode naked <'s
@@ -668,17 +748,17 @@ function _EncodeAmpsAndAngles($text) {
 
 
 function _EncodeBackslashEscapes($text) {
-	global $g_escape_table, $g_backslash_escape_table;
+	global $md_escape_table, $md_backslash_escape_table;
 	# Must process escaped backslashes first.
-	return str_replace(array_keys($g_backslash_escape_table),
-					   array_values($g_backslash_escape_table), $text);
+	return str_replace(array_keys($md_backslash_escape_table),
+					   array_values($md_backslash_escape_table), $text);
 }
 
 
 function _DoAutoLinks($text) {
 	$text = preg_replace("!<((https?|ftp):[^'\">\\s]+)>!", 
 						 '<a href="\1">\1</a>', $text);
-	
+
 	# Email addresses: <address@domain.foo>
 	$text = preg_replace('{
 		<
@@ -691,7 +771,7 @@ function _DoAutoLinks($text) {
 		}exi',
 		"_EncodeEmailAddress(_UnescapeSpecialChars(_UnslashQuotes('\\1')))",
 		$text);
-	
+
 	return $text;
 }
 
@@ -700,10 +780,12 @@ function _EncodeEmailAddress($addr) {
 	$addr = "mailto:" . $addr;
 	$length = strlen($addr);
 
+	# leave ':' alone (to spot mailto: later)
 	$addr = preg_replace_callback('/([^\:])/', 
 								  '_EncodeEmailAddress_callback', $addr);
 
 	$addr = "<a href=\"$addr\">$addr</a>";
+	# strip the mailto: from the visible part
 	$addr = preg_replace('/">.+?:/', '">', $addr);
 
 	return $addr;
@@ -711,6 +793,8 @@ function _EncodeEmailAddress($addr) {
 function _EncodeEmailAddress_callback($matches) {
 	$char = $matches[1];
 	$r = rand(0, 100);
+	# roughly 10% raw, 45% hex, 45% dec
+	# '@' *must* be encoded. I insist.
 	if ($r > 90 && $char != '@') return $char;
 	if ($r < 45) return '&#x'.dechex(ord($char)).';';
 	return '&#'.ord($char).';';
@@ -718,57 +802,49 @@ function _EncodeEmailAddress_callback($matches) {
 
 
 function _UnescapeSpecialChars($text) {
-	global $g_escape_table;
-	return str_replace(array_values($g_escape_table), 
-					   array_keys($g_escape_table), $text);
+	global $md_escape_table;
+	return str_replace(array_values($md_escape_table), 
+					   array_keys($md_escape_table), $text);
 }
 
 
-function _TokenizeHTML($str) {
-	$pos = 0;
-	$len = strlen($str);
-	$tokens = array();
+if (!function_exists('_TokenizeHTML')) {
+	function _TokenizeHTML($str) {
+		$index = 0;
+		$tokens = array();
 
-	$depth = 6;
-	$nested_tags = str_repeat('(?:<[a-z\/!$](?:[^<>]|',$depth)
-				   .str_repeat(')*>)', $depth);
-	$match = "(?s:<!(--.*?--\s*)+>)|".  # comment
-			 "(?s:<\?.*?\?>)|".         # processing instruction
-			 "$nested_tags";            # nested tags
-	
-	preg_match_all("/($match)/", $str, $matches, 
-				   PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+		$depth = 6;
+		$nested_tags = str_repeat('(?:<[a-z\/!$](?:[^<>]|',$depth)
+					   .str_repeat(')*>)', $depth);
+		$match = "(?s:<!(?:--.*?--\s*)+>)|".  # comment
+				 "(?s:<\?.*?\?>)|".         # processing instruction
+				 "$nested_tags";            # nested tags
 
-	foreach ($matches as $element) {
-		$whole_tag = $element[0][0];
-		$tag_start = $element[0][1];
-		$sec_start = $tag_start + strlen($whole_tag);
-		if ($pos < $tag_start) {
-			array_push($tokens, array('text', 
-					   substr($str, $pos, $tag_start - $pos)));
+		$parts = preg_split("/($match)/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+		foreach ($parts as $part) {
+			if (++$index % 2 && $part != '') 
+				array_push($tokens, array('text', $part));
+			else
+				array_push($tokens, array('tag', $part));
 		}
-		array_push($tokens, array('tag', $whole_tag));
-		$pos = $sec_start;
+
+		return $tokens;
 	}
-	
-	if ($pos < $len)
-		array_push($tokens, array('text', 
-				   substr($str, $pos, $len - $pos)));
-	return $tokens;
 }
 
 
 function _Outdent($text) {
-	global $g_tab_width;
-	return preg_replace("/^(\\t|[ ]{1,$g_tab_width})/m", "", $text);
+	global $md_tab_width;
+	return preg_replace("/^(\\t|[ ]{1,$md_tab_width})/m", "", $text);
 }
 
 
 function _Detab($text) {
-	global $g_tab_width;
+	global $md_tab_width;
 	$text = preg_replace(
 		"/(.*?)\t/e",
-		"'\\1'.str_repeat(' ', $g_tab_width - strlen('\\1') % $g_tab_width)",
+		"'\\1'.str_repeat(' ', $md_tab_width - strlen('\\1') % $md_tab_width)",
 		$text);
 	return $text;
 }
@@ -777,14 +853,5 @@ function _Detab($text) {
 function _UnslashQuotes($text) {
 	return str_replace('\"', '"', $text);
 }
-
-// And now for the filters
-remove_filter('the_content', 'wpautop');
-remove_filter('the_excerpt', 'wpautop');
-remove_filter('comment_text', 'wpautop');
-
-add_filter('the_content', 'Markdown');
-add_filter('the_excerpt', 'Markdown');
-remove_filter('comment_text', 'Markdown');
 
 ?>
