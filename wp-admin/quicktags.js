@@ -36,7 +36,7 @@ var datetime = now.getFullYear() + '-' +
 
 edButtons[edButtons.length] = 
 new edButton('ed_strong'
-,'str'
+,'b'
 ,'<strong>'
 ,'</strong>'
 ,'b'
@@ -44,7 +44,7 @@ new edButton('ed_strong'
 
 edButtons[edButtons.length] = 
 new edButton('ed_em'
-,'em'
+,'i'
 ,'<em>'
 ,'</em>'
 ,'i'
@@ -61,8 +61,8 @@ new edButton('ed_link'
 edButtons[edButtons.length] = 
 new edButton('ed_block'
 ,'b-quote'
-,'<blockquote>'
-,'</blockquote>'
+,'\n\n<blockquote>'
+,'</blockquote>\n\n'
 ,'q'
 );
 
@@ -132,7 +132,7 @@ new edButton('ed_more'
 ,'t'
 ,-1
 );
-
+/*
 edButtons[edButtons.length] = 
 new edButton('ed_next'
 ,'page'
@@ -141,7 +141,7 @@ new edButton('ed_next'
 ,'p'
 ,-1
 );
-
+*/
 function edLink() {
 	this.display = '';
 	this.URL = '';
@@ -252,7 +252,7 @@ function edSpell(myField) {
 		word = prompt('Enter a word to look up:', '');
 	}
 	if (word != '') {
-		window.open('http://dictionary.reference.com/search?q=' + escape(word));
+		window.open('http://www.answers.com/' + escape(word));
 	}
 }
 
@@ -261,7 +261,7 @@ function edToolbar() {
 	for (i = 0; i < edButtons.length; i++) {
 		edShowButton(edButtons[i], i);
 	}
-	document.write('<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" title="Dictionary lookup" value="Dict." />');
+	document.write('<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" title="Dictionary lookup" value="lookup" />');
 	document.write('<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" title="Close all open tags" value="Close Tags" />');
 //	edShowLinks(); // disabled by default
 	document.write('</div>');
