@@ -1154,14 +1154,12 @@ class WP_Rewrite {
 			return '';
 		}
 
-		$site_root = str_replace('http://', '', trim(get_settings('siteurl')));
-		$site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
-		if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
-    
-		$home_root = str_replace('http://', '', trim(get_settings('home')));
-		$home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
-		if ('/' != substr($home_root, -1)) $home_root = $home_root . '/';
+		$site_root = parse_url(get_settings('siteurl'));
+		$site_root = trailingslashit($site_root['path']);
 
+		$home_root = parse_url(get_settings('home'));
+		$home_root = trailingslashit($home_root['path']);
+    
 		$rules = "<IfModule mod_rewrite.c>\n";
 		$rules .= "RewriteEngine On\n";
 		$rules .= "RewriteBase $home_root\n";
