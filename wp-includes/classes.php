@@ -26,6 +26,7 @@ class WP_Query {
 	var $is_trackback = false;
 	var $is_home = false;
 	var $is_404 = false;
+	var $is_admin = false;
 
 	function init () {
 		$this->is_single = false;
@@ -44,6 +45,7 @@ class WP_Query {
 		$this->is_home = false;
 		$this->is_404 = false;
 		$this->is_paged = false;
+		$this->is_admin = false;
 
 		unset($this->posts);
 		unset($this->query);
@@ -175,7 +177,11 @@ class WP_Query {
 			$this->is_paged = true;
 		}
 
-		if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404)) {
+		if (strstr($_SERVER['PHP_SELF'], 'wp-admin/')) {
+			$this->is_admin = true;
+		}
+
+		if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin)) {
 			$this->is_home = true;
 		}
 	}
