@@ -296,10 +296,13 @@ function get_settings($setting) {
 	if ('home' == $setting && '' == $cache_settings->home)
 		return $cache_settings->siteurl;
 
-	if ( isset($cache_settings->$setting) )
+	if ( isset($cache_settings->$setting) ) :
 		return $cache_settings->$setting;
-	else
-		return @ unserialize( $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'") );
+	else :
+		$option = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
+		if (@ $kellogs =  unserialize($option) ) return $kellogs;
+		else return $option;
+	endif;
 }
 
 function get_alloptions() {
@@ -311,7 +314,9 @@ function get_alloptions() {
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-			@$all_options->{$option->option_name} = unserialize($option->option_value);
+		if (@ $value =  unserialize($option->option_value) ) return $value;
+		else $value = $option->option_value;
+			$all_options->{$option->option_name} = $value;
 		}
 	}
 	return $all_options;
