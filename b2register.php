@@ -154,16 +154,16 @@ textarea,input,select {
 
 <tr height="50">
 <td height="50" width="50">
-<a href="http://wordpress.org" target="_blank"><img src="http://wordpress.org/images/wp-small.png" /></a>
+<a href="http://wordpress.org" target="_blank"><img src="http://wordpress.org/images/wp-small.png" style="border:0" /></a>
 </td>
 <td class="b2menutop" align="center">
 registration<br />complete
 </td>
 </tr>
 
-<tr height="150"><td align="right" valign="bottom" height="150" colspan="2">
+<tr height="250"><td align="right" valign="bottom" height="150" colspan="2">
 
-<table width="180">
+<table width="280">
 <tr><td align="right" colspan="2">login: <b><?php echo $user_login ?>&nbsp;</b></td></tr>
 <tr><td align="right" colspan="2">password: <b><?php echo $stars ?>&nbsp;</b></td></tr>
 <tr><td align="right" colspan="2">e-mail: <b><?php echo $user_email ?>&nbsp;</b></td></tr>
