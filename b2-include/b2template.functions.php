@@ -912,24 +912,30 @@ function comments_popup_script($width=400, $height=400, $file='b2commentspopup.p
 	echo $javascript;
 }
 
-function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='') {
-	global $id, $b2commentspopupfile, $b2commentsjavascript;
+function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
+	global $id, $b2commentspopupfile, $b2commentsjavascript, $post, $wpdb, $tablecomments;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-	echo "<a href=\"$siteurl/";
-	if ($b2commentsjavascript) {
-		echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
-		echo '" onclick="b2open(this.href); return false"';
+	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id");
+	if (0 == $number && 'closed' == $post->comment_status) {
+		echo $none;
+		return;
 	} else {
-		// if comments_popup_script() is not in the template, display simple comment link
-		comments_link();
-		echo '"';
+		echo "<a href=\"$siteurl/";
+		if ($b2commentsjavascript) {
+			echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+			echo '\' onclick="b2open(this.href); return false"';
+		} else {
+			// if comments_popup_script() is not in the template, display simple comment link
+			comments_link();
+			echo '"';
+		}
+		if (!empty($CSSclass)) {
+			echo ' class="'.$CSSclass.'"';
+		}
+		echo '>';
+		comments_number($zero, $one, $more);
+		echo '</a>';
 	}
-	if (!empty($CSSclass)) {
-		echo ' class="'.$CSSclass.'"';
-	}
-	echo '>';
-	comments_number($zero, $one, $more);
-	echo '</a>';
 }
 
 function comment_ID() {
