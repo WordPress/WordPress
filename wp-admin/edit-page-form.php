@@ -76,7 +76,7 @@ edCanvas = document.getElementById('content');
 </script>
 
 <p class="submit">
-  <input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php _e('Create New Page') ?> &raquo;" /> 
+  <input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Edit Page') :_e('Create New Page') ?> &raquo;" /> 
   <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
 
