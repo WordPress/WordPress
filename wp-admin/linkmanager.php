@@ -218,38 +218,39 @@ switch ($action) {
 ?>
 
 <div class="wrap">
-    <table width="95%" cellpadding="5" cellspacing="0" border="0">
-    <form name="editlink" method="post">
+    
+  <table width="95%" cellpadding="5" cellspacing="0" border="0"><form name="editlink" method="post">
     <input type="hidden" name="action" value="editlink" />
     <input type="hidden" name="link_id" value="<?php echo $link_id; ?>" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
-    <tr><td colspan="2"><b>Edit</b> a link:</td></tr>
-      <tr height="20">
-        <td height="20" align="right">URL:</td>
-        <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Display Name/Alt text:</td>
-        <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Image:</td>
-        <td><input type="text" name="image" size="80" value="<?php echo $link_image; ?>"></td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Description:</td>
-        <td><input type="text" name="description" size="80" value="<?php echo $link_description; ?>"></td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Rel:</td>
-        <td><input type="text" name="rel" size="80" value="<?php echo $link_rel; ?>"></td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Rating:</td>
-        <td>
-          <select name="rating" size="1">
-<?php
+    <tr>
+      <td colspan="2"><b>Edit</b> a link:</td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">URL:</td>
+      <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Display Name/Alt text:</td>
+      <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Image:</td>
+      <td><input type="text" name="image" size="80" value="<?php echo $link_image; ?>"></td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Description:</td>
+      <td><input type="text" name="description" size="80" value="<?php echo $link_description; ?>"></td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Rel:</td>
+      <td><input type="text" name="rel" size="80" value="<?php echo $link_rel; ?>"></td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Rating:</td>
+      <td> <select name="rating" size="1">
+          <?php
     for ($r = 0; $r < 10; $r++) {
       echo('            <option value="'.$r.'" ');
       if ($link_rating == $r)
@@ -257,21 +258,34 @@ switch ($action) {
       echo('>'.$r.'</option>');
     }
 ?>
-            </select>&nbsp;(Leave at 0 for no rating.)
-        </td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Target:</td>
-        <td><input type="radio" name="target" <?php if ($link_target == '_blank') echo "checked"; ?> value="_blank">_blank&nbsp;<input type="radio" name="target" <?php if ($link_target == '_top') echo "checked"; ?> value="_top">_top</td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Visible:</td>
-        <td><input type="radio" name="visible" <?php if ($link_visible == 'Y') echo "checked"; ?> value="Y">Y&nbsp;<input type="radio" name="visible" <?php if ($link_visible == 'N') echo "checked"; ?> value="N">N</td>
-      </tr>
-      <tr height="20">
-        <td height="20" align="right">Category:</td>
-        <td>
-<?php
+        </select>
+        &nbsp;(Leave at 0 for no rating.) </td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Target:</td>
+      <td><label>
+        <input type="radio" name="target"  value="_blank">
+        _blank</label> &nbsp;
+        <label>
+        <input type="radio" name="target" value="_top">
+        _top</label>
+        &nbsp;
+        <label>
+        <input type="radio" name="target" value="" checked="checked">
+        none</label></td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Visible:</td>
+      <td><label> 
+        <input type="radio" name="visible" checked="checked" value="Y">
+        Y</label> &nbsp; <label> 
+        <input type="radio" name="visible" value="N">
+        N</label></td>
+    </tr>
+    <tr height="20"> 
+      <td height="20" align="right">Category:</td>
+      <td> 
+        <?php
     $query = "SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id";
     $result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
     echo "        <select name=\"category\" size=\"1\">\n";
@@ -286,14 +300,15 @@ switch ($action) {
     }
     echo "        </select>\n";
 ?>
-        </td>
-      </tr>
-      <tr height="20">
-        <td colspan="2" align="center">
-          <input type="submit" name="submit" value="Save" class="search">&nbsp;<input type="submit" name="submit" value="Cancel" class="search"></a>
-        </td>
-      </tr>
-    </table>
+      </td>
+    </tr>
+    <tr height="20"> 
+      <td colspan="2" align="center"> <input type="submit" name="submit" value="Save" class="search">
+        &nbsp;
+        <input type="submit" name="submit" value="Cancel" class="search"></a> 
+      </td>
+    </tr>
+  </table>
 </div>
 <?php
     break;
@@ -523,11 +538,20 @@ switch ($action) {
       </tr>
       <tr height="20">
         <td height="20" align="right">Target:</td>
-        <td><input type="radio" name="target" checked="checked" value="_blank">_blank&nbsp;<input type="radio" name="target" value="_top">_top</td>
+        <td><label><input type="radio" name="target"  value="_blank"> _blank</label>
+        &nbsp;<label><input type="radio" name="target" value="_top"> 
+        _top</label>&nbsp;<label><input type="radio" name="target" value="" checked="checked"> 
+        none</label></td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Visible:</td>
-        <td><input type="radio" name="visible" checked="checked" value="Y">Y&nbsp;<input type="radio" name="visible" value="N">N</td>
+        <td><label>
+        <input type="radio" name="visible" checked="checked" value="Y">
+        Y</label>
+        &nbsp;
+<label>
+        <input type="radio" name="visible" value="N">
+        N</label></td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Category:</td>
