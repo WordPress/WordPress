@@ -937,7 +937,7 @@ function do_action($tag, $arg = '') {
 	if ( is_array($arg) )
 		$args = $arg + array_slice(func_get_args(), 2);
 	else
-		$args = array($action) + array_slice(func_get_args(), 2);
+		$args = array($arg) + array_slice(func_get_args(), 2);
 	
 	merge_filters($tag);
 	
