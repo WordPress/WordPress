@@ -1195,6 +1195,12 @@ function is_feed () {
     return $wp_query->is_feed;
 }
 
+function is_trackback () {
+    global $wp_query;
+
+    return $wp_query->is_trackback;
+}
+
 function is_home () {
     global $wp_query;
 

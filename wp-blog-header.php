@@ -107,7 +107,7 @@ if ('' != $feed) {
     $doing_rss = true;
 }
 
-if (1 == $tb) {
+if (is_trackback()) {
     $doing_trackback = true;
 }
 
@@ -210,66 +210,52 @@ if ($pagenow == 'index.php') {
 		$wp_did_template_redirect = true;
 		do_action('template_redirect', '');
 		if (is_feed()) {
-			$wp_did_template_redirect = true;
 			include(dirname(__FILE__) . '/wp-feed.php');
 			exit;
-		} else if ($tb == 1) {
-			$wp_did_template_redirect = true;
+		} else if (is_trackback()) {
 			include(dirname(__FILE__) . '/wp-trackback.php');
 			exit;
 		} else if (is_404() &&
 							 file_exists("$wp_template_dir/404.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/404.php");
 			exit;
 		} else if (is_home() && 
 				file_exists("$wp_template_dir/index.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/index.php");
 			exit;
 		} else if (is_single() &&
 							 file_exists("$wp_template_dir/single.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/single.php");
 			exit;
 		} else if (is_page() && file_exists(get_page_template())) {
-			$wp_did_template_redirect = true;
 			include(get_page_template());
 			exit;
 		} else if (is_category() &&
 							 file_exists("$wp_template_dir/category.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/category.php");
 			exit;
 		} else if (is_author() &&
 							 file_exists("$wp_template_dir/author.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/author.php");
 			exit;
 		} else if (is_date() &&
 							 file_exists("$wp_template_dir/date.php")) {
-			$wp_did_date = true;
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/date.php");
 			exit;
 		} else if (is_archive() &&
 							 file_exists("$wp_template_dir/archive.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/archive.php");
 			exit;
 		} else if (is_search() &&
 							 file_exists("$wp_template_dir/search.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/search.php");
 			exit;
 		} else if (is_paged() &&
 							 file_exists("$wp_template_dir/paged.php")) {
-			$wp_did_template_redirect = true;
 			include("$wp_template_dir/paged.php");
 			exit;
 		} else if (file_exists("$wp_template_dir/index.php"))
 			{
-				$wp_did_template_redirect = true;
 				include("$wp_template_dir/index.php");
 				exit;
 			}

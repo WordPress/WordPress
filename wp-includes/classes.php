@@ -23,6 +23,7 @@ class WP_Query {
 	var $is_category = false;
 	var $is_search = false;
 	var $is_feed = false;
+	var $is_trackback = false;
 	var $is_home = false;
 	var $is_404 = false;
 
@@ -39,6 +40,7 @@ class WP_Query {
 		$this->is_category = false;
 		$this->is_search = false;
 		$this->is_feed = false;
+		$this->is_trackback = false;
 		$this->is_home = false;
 		$this->is_404 = false;
 		$this->is_paged = false;
@@ -61,111 +63,108 @@ class WP_Query {
 
 		if ('' != $qv['name']) {
 			$this->is_single = true;
-		}
-
-		if (($qv['p'] != '') && ($qv['p'] != 'all')) {
+		} else 	if (($qv['p'] != '') && ($qv['p'] != 'all')) {
 			$this->is_single = true;            
-		}
-
-		if ('' != $qv['static'] || '' != $qv['pagename'] || '' != $qv['page_id']) {
+		}	else if (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
+			// If year, month, day, hour, minute, and second are set, a single 
+		  // post is being queried.        
+			$this->is_single = true;
+		} else if ('' != $qv['static'] || '' != $qv['pagename'] || '' != $qv['page_id']) {
 			$this->is_page = true;
 			$this->is_single = false;
-		}
-
-		if ( (int) $qv['second']) {
-			$this->is_time = true;
-			$this->is_date = true;
-		}
-
-		if ( (int) $qv['minute']) {
-			$this->is_time = true;
-			$this->is_date = true;
-		}
-
-		if ( (int) $qv['hour']) {
-			$this->is_time = true;
-			$this->is_date = true;
-		}
-
-		if ( (int) $qv['day']) {
-			if (! $this->is_date) {
-				$this->is_day = true;
-				$this->is_date = true;
-			}
-		}
-
-		if ( (int)  $qv['monthnum']) {
-			if (! $this->is_date) {
-				$this->is_month = true;
-				$this->is_date = true;
-			}
-		}
-
-		if ( (int)  $qv['year']) {
-			if (! $this->is_date) {
-				$this->is_year = true;
-				$this->is_date = true;
-			}
-		}
-
-		if ( (int)  $qv['m']) {
-			$this->is_date = true;
-			if (strlen($qv['m']) > 9) {
-				$this->is_time = true;
-			} else if (strlen($qv['m']) > 7) {
-				$this->is_day = true;
-			} else if (strlen($qv['m']) > 5) {
-				$this->is_month = true;
-			} else {
-				$this->is_year = true;
-			}
-		}
-
-		if ('' != $qv['w']) {
-			$this->is_date = true;
-		}
-
-		// If year, month, day, hour, minute, and second are set, a single 
-		// post is being queried.        
-		if (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
-			$this->is_single = true;
-		}
-
-		if (!empty($qv['s'])) {
+		} else if (!empty($qv['s'])) {
 			$this->is_search = true;
-		}
-
-		if (empty($qv['cat']) || ($qv['cat'] == 'all') || ($qv['cat'] == '0')) {
-			$this->is_category = false;
 		} else {
-			if (stristr($qv['cat'],'-')) {
+			// Look for archive queries.  Dates, categories, authors.
+
+			if ( (int) $qv['second']) {
+				$this->is_time = true;
+				$this->is_date = true;
+			}
+
+			if ( (int) $qv['minute']) {
+				$this->is_time = true;
+				$this->is_date = true;
+			}
+
+			if ( (int) $qv['hour']) {
+				$this->is_time = true;
+				$this->is_date = true;
+			}
+
+			if ( (int) $qv['day']) {
+				if (! $this->is_date) {
+					$this->is_day = true;
+					$this->is_date = true;
+				}
+			}
+
+			if ( (int)  $qv['monthnum']) {
+				if (! $this->is_date) {
+					$this->is_month = true;
+					$this->is_date = true;
+				}
+			}
+
+			if ( (int)  $qv['year']) {
+				if (! $this->is_date) {
+					$this->is_year = true;
+					$this->is_date = true;
+				}
+			}
+
+			if ( (int)  $qv['m']) {
+				$this->is_date = true;
+				if (strlen($qv['m']) > 9) {
+					$this->is_time = true;
+				} else if (strlen($qv['m']) > 7) {
+					$this->is_day = true;
+				} else if (strlen($qv['m']) > 5) {
+					$this->is_month = true;
+				} else {
+					$this->is_year = true;
+				}
+			}
+
+			if ('' != $qv['w']) {
+				$this->is_date = true;
+			}
+
+			if (empty($qv['cat']) || ($qv['cat'] == 'all') || ($qv['cat'] == '0')) {
 				$this->is_category = false;
 			} else {
+				if (stristr($qv['cat'],'-')) {
+					$this->is_category = false;
+				} else {
+					$this->is_category = true;
+				}
+			}
+
+			if ('' != $qv['category_name']) {
 				$this->is_category = true;
 			}
-		}
-
-		if ('' != $qv['category_name']) {
-			$this->is_category = true;
-		}
             
-		// single, page, date, and search override category.
-		if ($this->is_single || $this->is_page || $this->is_date || $this->is_search) {
-			$this->is_category = false;                
-		}
+			if ((empty($qv['author'])) || ($qv['author'] == 'all') || ($qv['author'] == '0')) {
+				$this->is_author = false;
+			} else {
+				$this->is_author = true;
+			}
 
-		if ((empty($qv['author'])) || ($qv['author'] == 'all') || ($qv['author'] == '0')) {
-			$this->is_author = false;
-		} else {
-			$this->is_author = true;
-		}
+			if ('' != $qv['author_name']) {
+				$this->is_author = true;
+			}
 
-		if ('' != $qv['author_name']) {
-			$this->is_author = true;
+			if ( ($this->is_date || $this->is_author || $this->is_category)) {
+				$this->is_archive = true;
+			}
 		}
 
 		if ('' != $qv['feed']) {
 			$this->is_feed = true;
+		}
+
+		if ('' != $qv['tb']) {
+			$this->is_trackback = true;
 		}
 
 		if ('404' == $qv['error']) {
@@ -176,12 +175,7 @@ class WP_Query {
 			$this->is_paged = true;
 		}
 
-		if ( ($this->is_date || $this->is_author || $this->is_category)
-				 && (! ($this->is_single || $this->is_page)) ) {
-			$this->is_archive = true;
-		}
-
-		if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_404)) {
+		if ( ! ($this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404)) {
 			$this->is_home = true;
 		}
 	}
@@ -899,7 +893,7 @@ class WP_Rewrite {
 		$this->queryreplace[] = $query;
 	}
 
-	function generate_rewrite_rules($permalink_structure = '', $page = true, $feed = true, $forcomments = false) {
+	function generate_rewrite_rules($permalink_structure, $page = true, $feed = true, $forcomments = false, $walk_dirs = true) {
 		$feedregex2 = '(feed|rdf|rss|rss2|atom)/?$';
 		$feedregex = 'feed/' . $feedregex2;
 
