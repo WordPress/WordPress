@@ -4,7 +4,6 @@ require('install-helper.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
-//update_option('blogdescription', 'hahahah');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -123,23 +122,34 @@ if (!$wpdb->get_var("SELECT option_name FROM $tableoptions WHERE option_name = '
     <p>Working
 <?php
 $wpdb->hide_errors(); // Turn this off for dev and we should probably just fix the queries anyway
-        // fix timezone diff range
-        $wpdb->query("UPDATE $tableoptionvalues SET optionvalue_max = 23 , optionvalue_min = -23 WHERE option_id = 51");
-        echo ' .';
-        flush();
-        // fix upload users description
-        $wpdb->query("UPDATE $tableoptions SET option_description = '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'' WHERE option_id = 37");
-        echo ' .';
-        flush();
-        // and file types
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'accepted file types, separated by spaces. example: \'jpg gif png\'' WHERE option_id = 34");
-        echo ' .';
-        flush();
-        // add link to php date format. this could be to a wordpress.org page in the future
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 52");
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 53");
-        echo ' .';
-        flush();
+// fix timezone diff range
+$wpdb->query("UPDATE $tableoptionvalues SET optionvalue_max = 23 , optionvalue_min = -23 WHERE option_id = 51");
+echo ' .';
+flush();
+// fix upload users description
+$wpdb->query("UPDATE $tableoptions SET option_description = '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'' WHERE option_id = 37");
+echo ' .';
+flush();
+// and file types
+$wpdb->query("UPDATE $tableoptions SET option_description = 'accepted file types, separated by spaces. example: \'jpg gif png\'' WHERE option_id = 34");
+echo ' .';
+flush();
+// add link to php date format. this could be to a wordpress.org page in the future
+$wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 52");
+$wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 53");
+echo ' .';
+flush();
+if (!$wpdb->get_var("SELECT option_id FROM $tableoptinos WHERE option_name = 'hack_file'")) {
+	$wpdb->query("INSERT INTO `$tableoptions` 
+		( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` )
+		VALUES 
+		('', '0', 'hack_file', 'Y', '2', '0', '20', '8', 'Set this to true if you plan to use a hacks file. This is a place for you to store code hacks that won&#8217;t be overwritten when you upgrade. The file must be in your wordpress root and called <code>my-hacks.php</code>', '8')");
+	$optionid = $wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'hack_file'");
+	$wpdb->query("INSERT INTO $tableoptiongroup_options
+		(group_id, option_id, seq)
+		VALUES
+		(2, $optionid, 5)");
+}
 ?>
     <strong>Done with the options updates. Now for a bit of comment action</strong></p>
 <?php

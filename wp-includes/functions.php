@@ -1660,4 +1660,9 @@ function add_filter($tag, $function_to_add) {
 	return true;
 }
 
+// Check for hacks file if the option is enabled
+if (get_settings('hack_file')) {
+	if (file_exists($abspath . '/my-hacks.php'))
+		require($abspath . '/my-hacks.php');
+}
 ?>

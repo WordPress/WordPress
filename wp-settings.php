@@ -1,15 +1,4 @@
 <?php
-// This is the name of the include directory. No "/" allowed.
-$b2inc = 'wp-includes';
-
-require ($abspath . 'wp-config-extra.php');
-require ($abspath . $b2inc . '/wp-db.php');
-require ($abspath . $b2inc . '/functions.php');
-require ($abspath . $b2inc . '/template-functions.php');
-require ($abspath . $b2inc . '/class-xmlrpc.php');
-require ($abspath . $b2inc . '/class-xmlrpcs.php');
-require ($abspath . '/wp-links/links.php');
-
 $HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
 $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
@@ -29,6 +18,16 @@ $tableoptionvalues        = $table_prefix . 'optionvalues';
 $tableoptiongroups        = $table_prefix . 'optiongroups';
 $tableoptiongroup_options = $table_prefix . 'optiongroup_options';
 
+// This is the name of the include directory. No "/" allowed.
+$b2inc = 'wp-includes';
+
+require ($abspath . 'wp-config-extra.php');
+require ($abspath . $b2inc . '/wp-db.php');
+require ($abspath . $b2inc . '/functions.php');
+require ($abspath . $b2inc . '/template-functions.php');
+require ($abspath . $b2inc . '/class-xmlrpc.php');
+require ($abspath . $b2inc . '/class-xmlrpcs.php');
+require ($abspath . '/wp-links/links.php');
 
 //setup the old globals from b2config.php
 //
