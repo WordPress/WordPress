@@ -25,7 +25,7 @@ $user_ip    = apply_filters('pre_comment_user_ip', $_SERVER['REMOTE_ADDR']);
 if ( get_settings('require_name_email') && ('' == $email || '' == $author) )
 	die( __('Error: please fill the required fields (name, email).') );
 
-if ( '' == $comment )
+if ( '' == $comment_content )
 	die( __('Error: please type a comment.') );
 
 $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type');
