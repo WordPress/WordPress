@@ -353,11 +353,7 @@ class WP_Query {
 
 		if ((empty($q['cat'])) || ($q['cat'] == '0') || 
 				// Bypass cat checks if fetching specific posts
-				(
-				 intval($q['year']) || intval($q['monthnum']) || intval($q['day']) || intval($q['w']) ||
-				 intval($q['p']) || !empty($q['name']) || !empty($q['s'])
-				 )
-				) {
+				( is_single() || is_page() )) {
 			$whichcat='';
 		} else {
 			$q['cat'] = ''.urldecode($q['cat']).'';
@@ -375,7 +371,7 @@ class WP_Query {
 				$andor = 'OR';
 			}
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) ";
-			$cat_array = explode(' ',$q['cat']);
+			$cat_array = preg_split('/[,\s]+/', $q['cat']);
 			$whichcat .= ' AND (category_id '.$eq.' '.intval($cat_array[0]);
 			$whichcat .= get_category_children($cat_array[0], ' '.$andor.' category_id '.$eq.' ');
 			for ($i = 1; $i < (count($cat_array)); $i = $i + 1) {
@@ -424,7 +420,7 @@ class WP_Query {
 				$eq = '=';
 				$andor = 'OR';
 			}
-			$author_array = explode(' ', $q['author']);
+			$author_array = preg_split('/[,\s]+/', $q['author']);
 			$whichauthor .= ' AND (post_author '.$eq.' '.intval($author_array[0]);
 			for ($i = 1; $i < (count($author_array)); $i = $i + 1) {
 				$whichauthor .= ' '.$andor.' post_author '.$eq.' '.intval($author_array[$i]);
