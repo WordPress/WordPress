@@ -38,7 +38,7 @@ $calendarrowend = '</tr>';
 $calendarheaderdisplay = 1;	// set this to 0 if you don't want to display the "Mon Tue Wed..." header
 $calendarheadercellstart = '<th class="b2calendarheadercell" abbr="$abbr">';	// please leave $abbr there !
 $calendarheadercellend = '</th>';
-$calendarheaderabbrlenght = 3;	// lenght of the shortened weekday
+$calendarheaderabbrlength = 1;	// length of the shortened weekday
 
 $calendarcellstart = '<td class="b2calendarcell">';
 $calendarcellend = '</td>';
@@ -188,7 +188,7 @@ if ($calendarheaderdisplay) {
 
 	for ($i = $start_of_week; $i<($start_of_week+7); $i = $i + 1) {
 		echo str_replace('$abbr', $weekday[($i % 7)], $calendarheadercellstart);
-		echo ucwords(substr($weekday[($i % 7)], 0, $calendarheaderabbrlenght));
+		echo ucwords(substr($weekday[($i % 7)], 0, $calendarheaderabbrlength));
 		echo $calendarheadercellend;
 	}
 
