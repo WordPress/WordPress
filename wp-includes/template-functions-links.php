@@ -331,7 +331,13 @@ function get_pagenum_link($pagenum = 1){
          // otherwise, it could be rewritten, OR just the default index ...
       } elseif( '' != get_settings('permalink_structure')) {
          $permalink = 1;
-         $qstr = preg_replace('|(.*)/[^/]*|', '$1/', $qstr).$page_modstring.$pagenum;
+
+	 // If it's not a path info permalink structure, trim the index.
+	 if ( ! preg_match('#^/*' . get_settings('blogfilename') . '#', get_settings('permalink_structure'))) {
+	   $qstr = preg_replace("#/*" . get_settings('blogfilename') . "/*#", '/', $qstr);
+	 }
+
+	 $qstr =  trailingslashit($qstr) . $page_modstring . $pagenum;
       } else {
          $qstr = get_settings('blogfilename') . $querystring_start.$page_querystring.$querystring_equal.$pagenum;
       }
