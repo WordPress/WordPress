@@ -8,7 +8,7 @@ include('admin-header.php');
 ?>
 
 <div class="wrap"> 
-  <h2>Writing Options</h2> 
+  <h2><?php _e('Writing Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
     <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','advanced_edit','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category','default_email_category','new_users_can_blog'" /> 
