@@ -447,3 +447,8 @@ textarea, input, select {
 	height: 1.5em;
 	margin: 0;
 }
+
+/* keep labels and their form controls together: */
+label {
+	white-space: nowrap; 
+}

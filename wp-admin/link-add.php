@@ -114,80 +114,95 @@ th { text-align: right; }
             	<td><table cellpadding="3" cellspacing="5">
             			<tr>
             				<th scope="row"> <?php _e('friendship') ?> </th>
-            				<td><label for="label">
-            					<input class="valinp" type="radio" name="friendship" value="acquaintance" id="label" />
-					<?php _e('acquaintance') ?></label>
-                					<label for="label2">
-                					<input class="valinp" type="radio" name="friendship" value="friend" id="label2" />
-					<?php _e('friend') ?></label>
-                					<label for="label3">
-                					<input class="valinp" type="radio" name="friendship" value="" id="label3" />
+            				<td>
+            				<label for="label1">
+							<input class="valinp" type="radio" name="friendship" value="acquaintance" id="label1" />
+							<?php _e('acquaintance') ?></label>
+							<label for="label2">
+							<input class="valinp" type="radio" name="friendship" value="contact" id="label2" />
+							<?php _e('contact') ?></label>
+							<label for="label3">
+							<input class="valinp" type="radio" name="friendship" value="friend" id="label3" />
+							<?php _e('friend') ?></label>
+							<label for="label4">
+                					<input class="valinp" type="radio" name="friendship" value="" id="label4" />
 					<?php _e('none') ?></label>
             					</td>
            				</tr>
             			<tr>
             				<th scope="row"> <?php _e('physical') ?> </th>
-            				<td><label for="label4">
-            					<input class="valinp" type="checkbox" name="physical" value="met" id="label4" />
+            				<td><label for="label10">
+            					<input class="valinp" type="checkbox" name="physical" value="met" id="label10" />
 					<?php _e('met') ?></label>
             					</td>
            				</tr>
             			<tr>
             				<th scope="row"> <?php _e('professional') ?> </th>
-            				<td><label for="label5">
-            					<input class="valinp" type="checkbox" name="professional" value="co-worker" id="label5" />
+            				<td><label for="label20">
+            					<input class="valinp" type="checkbox" name="professional" value="co-worker" id="label20" />
 					<?php _e('co-worker') ?></label>
-                					<label for="label6">
-                					<input class="valinp" type="checkbox" name="professional" value="colleague" id="label6" />
+                					<label for="label21">
+                					<input class="valinp" type="checkbox" name="professional" value="colleague" id="label21" />
 					<?php _e('colleague') ?></label>
             					</td>
            				</tr>
             			<tr>
             				<th scope="row"> <?php _e('geographical') ?> </th>
-            				<td><label for="label7">
-            					<input class="valinp" type="radio" name="geographical" value="co-resident" id="label7" />
+            				<td><label for="label30">
+            					<input class="valinp" type="radio" name="geographical" value="co-resident" id="label30" />
 					<?php _e('co-resident') ?></label>
-                					<label for="label8">
-                					<input class="valinp" type="radio" name="geographical" value="neighbor" id="label8" />
+                					<label for="label31">
+                					<input class="valinp" type="radio" name="geographical" value="neighbor" id="label31" />
 					<?php _e('neighbor') ?></label>
-                					<label for="label9">
-                					<input class="valinp" type="radio" name="geographical" value="" id="label9" />
+                					<label for="label32">
+                					<input class="valinp" type="radio" name="geographical" value="" id="label32" />
 					<?php _e('none') ?></label>
             					</td>
            				</tr>
             			<tr>
             				<th scope="row"> <?php _e('family') ?> </th>
-            				<td><label for="label10">
-            					<input class="valinp" type="radio" name="family" value="child" id="label10" />
+            				<td>
+            						<label for="label40">
+            					<input class="valinp" type="radio" name="family" value="child" id="label40" />
 					<?php _e('child') ?></label>
-                					<label for="label11">
-                					<input class="valinp" type="radio" name="family" value="parent" id="label11" />
+            						<label for="label41">
+            					<input class="valinp" type="radio" name="family" value="kin" id="label41" />
+					<?php _e('kin') ?></label>
+                					<label for="label42">
+                					<input class="valinp" type="radio" name="family" value="parent" id="label42" />
 					<?php _e('parent') ?></label>
-                					<label for="label12">
-                					<input class="valinp" type="radio" name="family" value="sibling" id="label12" />
+                					<label for="label43">
+                					<input class="valinp" type="radio" name="family" value="sibling" id="label43" />
 					<?php _e('sibling') ?></label>
-                					<label for="label13">
-                					<input class="valinp" type="radio" name="family" value="spouse" id="label13" />
+                					<label for="label44">
+                					<input class="valinp" type="radio" name="family" value="spouse" id="label44" />
 					<?php _e('spouse') ?></label>
-                					<label for="label14">
-                					<input class="valinp" type="radio" name="family" value="" id="label14" />
+                					<label for="label45">
+                					<input class="valinp" type="radio" name="family" value="" id="label45" />
 					<?php _e('none') ?></label>
             					</td>
            				</tr>
             			<tr>
             				<th scope="row"> <?php _e('romantic') ?> </th>
-            				<td><label for="label15">
-            					<input class="valinp" type="checkbox" name="romantic" value="muse" id="label15" />
+            				<td><label for="label50">
+            					<input class="valinp" type="checkbox" name="romantic" value="muse" id="label50" />
 					<?php _e('muse') ?></label>
-                					<label for="label16">
-                					<input class="valinp" type="checkbox" name="romantic" value="crush" id="label16" />
+                					<label for="label51">
+                					<input class="valinp" type="checkbox" name="romantic" value="crush" id="label51" />
 					<?php _e('crush') ?></label>
-                					<label for="label17">
-                					<input class="valinp" type="checkbox" name="romantic" value="date" id="label17" />
+                					<label for="label52">
+                					<input class="valinp" type="checkbox" name="romantic" value="date" id="label42" />
 					<?php _e('date') ?></label>
-                					<label for="label18">
-                					<input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="label18" />
+                					<label for="label53">
+                					<input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="label53" />
 					<?php _e('sweetheart') ?></label>
+            					</td>
+           				</tr>
+            			<tr>
+            				<th scope="row"> <?php _e('identity') ?> </th>
+            				<td><label for="label60">
+            					<input class="valinp" type="checkbox" name="identity" value="me" id="label60" />
+					<?php _e('me') ?></label>
             					</td>
            				</tr>
             			</table></td>
