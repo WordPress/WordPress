@@ -59,6 +59,7 @@ if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST
     $admin_email = get_settings('admin_email');
     $new_users_can_blog = get_settings('new_users_can_blog');
     $users_can_register = get_settings('users_can_register');
+    $blog_charset = get_settings('blog_charset');
     $start_of_week = get_settings('start_of_week');
     $use_bbcode = get_settings('use_bbcode');
     $use_gmcode = get_settings('use_gmcode');

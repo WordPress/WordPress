@@ -85,7 +85,13 @@ In a few words, explain what this weblog is about.</td>
         <td><input name="admin_email" type="text" id="admin_email" value="<?php echo get_settings('admin_email'); ?>" size="40" class="code" />
         <br />
 This address is used only for admin purposes. </td> 
-      </tr> 
+      </tr>
+      <tr valign="top">
+	<th scope="row">Charset</th>
+	<td><input name="blog_charset" type="text" id="blog_charset" value="<?php echo get_settings('blog_charset'); ?>" size="20" class="code" />
+	  <br />
+	  Your weblog's charset (here's a <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">list of possible charsets</a>)</td>
+      </tr>
       <tr valign="top"> 
         <th scope="row">Membership:</th> 
         <td> <label for="users_can_register"> 

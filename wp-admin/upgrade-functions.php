@@ -706,6 +706,10 @@ function upgrade_110() {
 	}
 	
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 6");
+
+	// Add blog_charset option
+	$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (93, 1, 'blog_charset', 'Y', 3, 'utf-8', 20, 8, 'your blog\'s charset (here\'s a <a href=\"http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html\">list of possible charsets</a>)', 8)");
+
 }
 
 ?>
