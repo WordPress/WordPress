@@ -71,7 +71,7 @@ function get_bloginfo($show='') {
                 $output = $comment_feed_url . '/rss2/';
             }
             break;
-        case 'pingback_ur':
+        case 'pingback_url':
             $output = $siteurl.'/xmlrpc.php';
             break;
         case 'admin_email':
