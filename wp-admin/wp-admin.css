@@ -13,6 +13,26 @@ a.delete:hover {
 	color: #fff;
 }
 
+#planetnews ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#planetnews li {
+	width: 16%;
+	margin: 1% 2%;
+	float: left;
+}
+
+#planetnews li a {
+	display: block;
+	padding: .5em;
+	background: #ddd;
+	height: 6em;
+	overflow: hidden;
+}
+
 a.edit, a.delete, a.edit:hover, a.delete:hover {
 	border-bottom: none;
 	display: block;

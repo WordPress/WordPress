@@ -88,7 +88,7 @@ if (0 < $numcats) $numcats = number_format($numcats);
 $rss = @fetch_rss('http://feedster.com/links.php?url='. trailingslashit(get_option('home')) .'&type=rss&limit=6');
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
-<div>
+<div id="incominglinks">
 <h3><?php _e('Incoming Links'); ?> <cite><a href="http://feedster.com/links.php?url=<?php echo trailingslashit(get_option('home')); ?>"><?php _e('More'); ?> &raquo;</a></cite></h3>
 <ul>
 <?php
@@ -121,11 +121,13 @@ foreach ($rss->items as $item ) {
 }
 ?>
 
+
 <?php
 $rss = @fetch_rss('http://planet.wordpress.org/feed/');
 //var_dump($rss);
 if ( $rss ) {
 ?>
+<div id="planetnews">
 <h3><?php _e('Other WordPress News'); ?> <a href="http://planet.wordpress.org/"><?php _e('more'); ?> &raquo;</a></h3>
 <ul>
 <?php
@@ -137,11 +139,13 @@ foreach ($rss->items as $item ) {
 	}
 ?>
 </ul>
+</div>
 <?php
 }
 ?>
-
+<div style="clear: both">&nbsp;
 <br clear="all" />
+</div>
 </div>
 <?php
 $drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
