@@ -4,7 +4,7 @@ require_once('admin.php');
 $title = __('Moderate comments');
 $parent_file = 'edit.php';
 
-$wpvarstoreset = array('action','item_ignored','item_deleted','item_approved');
+$wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'feelinglucky');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
