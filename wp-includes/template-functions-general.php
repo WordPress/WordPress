@@ -98,7 +98,12 @@ function get_bloginfo($show='') {
 
 function wp_title($sep = '&raquo;', $display = true) {
     global $wpdb;
-    global $m, $year, $monthnum, $day, $cat, $category_name, $p, $name, $month, $posts;
+    global $m, $year, $monthnum, $day, $category_name, $month, $posts;
+
+		$cat = get_query_var('cat');
+		$p = get_query_var('p');
+		$name = get_query_var('name');
+		$category_name = get_query_var('category_name');
 
     // If there's a category
     if(!empty($cat)) {
@@ -150,7 +155,9 @@ function wp_title($sep = '&raquo;', $display = true) {
 }
 
 function single_post_title($prefix = '', $display = true) {
-    global $p, $name, $wpdb;
+    global $wpdb;
+		$p = get_query_var('p');
+		$name = get_query_var('name');
     if (intval($p) || '' != $name) {
         if (!$p) {
             $p = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_name = '$name'");
@@ -167,7 +174,7 @@ function single_post_title($prefix = '', $display = true) {
 }
 
 function single_cat_title($prefix = '', $display = true ) {
-    global $cat;
+	  $cat = get_query_var('cat');
     if(!empty($cat) && !(strtoupper($cat) == 'ALL')) {
         $my_cat_name = get_the_category_by_ID($cat);
         if(!empty($my_cat_name)) {

@@ -524,6 +524,9 @@ class WP_Query {
 		}
 
 		update_post_caches($this->posts);
+		
+		// Save any changes made to the query vars.
+		$this->query_vars = $q;
 		return $this->posts;
 	}
 
