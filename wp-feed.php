@@ -4,7 +4,7 @@ $blog = 1;
 $doing_rss = 1;
 require('wp-blog-header.php');
 
-if ($feed == '' || $feed = 'feed') {
+if ($feed == '' || $feed == 'feed') {
     // TODO:  Get default feed from options DB.
     $feed = 'rss2';
 }
