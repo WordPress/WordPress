@@ -62,6 +62,9 @@ switch($action) {
 			$ping_status = $HTTP_POST_VARS['ping_status'];
 			$post_password = addslashes($HTTP_POST_VARS['post_password']);
 			$post_name = sanitize_title($post_title);
+			$trackback = $HTTP_POST_VARS['trackback_url'];
+		// Format trackbacks
+		$trackback = preg_replace('|\s+|', '\n', $trackback);
 
         if ($user_level == 0)
             die ('Cheatin&#8217; uh?');
@@ -86,15 +89,15 @@ switch($action) {
 
         if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
 		$postquery ="INSERT INTO $tableposts
-                (ID, post_author, post_date, post_content, post_title, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name)
+                (ID, post_author, post_date, post_content, post_title, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping)
                 VALUES
-                ('0', '$user_ID', '$now', '$content', '$post_title', $post_latf, $post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name')
+                ('0', '$user_ID', '$now', '$content', '$post_title', $post_latf, $post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback')
                 ";
         } else {
 		$postquery ="INSERT INTO $tableposts
-                (ID, post_author, post_date, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name)
+                (ID, post_author, post_date, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping)
                 VALUES
-                ('0', '$user_ID', '$now', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name')
+                ('0', '$user_ID', '$now', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback')
                 ";
         }
         $postquery =
@@ -140,7 +143,8 @@ switch($action) {
         }
 		
 		if ('' != $HTTP_POST_VARS['save']) $location = "post.php?action=edit&post=$post_ID";
-        header("Location: $location");
+        
+		header("Location: $location");
 
         if ($post_status == 'publish') {
             if((get_settings('use_geo_positions')) && ($post_latf != null) && ($post_lonf != null)) {
@@ -153,19 +157,26 @@ switch($action) {
                 pingback($content, $post_ID);
             }
 
-            if (!empty($HTTP_POST_VARS['trackback_url'])) {
+			// Time for trackbacks
+			$to_ping = $wpdb->get_var("SELECT to_ping FROM $tableposts WHERE ID = $post_ID");
+			$pinged = $wpdb->get_var("SELECT pinged FROM $tableposts WHERE ID = $post_ID");
+			$pinged = explode("\n", $pinged);
+			if ('' != $to_ping) {
 				if (strlen($excerpt) > 0) {
 					$the_excerpt = (strlen(strip_tags($excerpt)) > 255) ? substr(strip_tags($excerpt), 0, 252) . '...' : strip_tags($excerpt)	;
 				} else {
 					$the_excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252) . '...' : strip_tags($content);
 				}
-                $excerpt = stripslashes($the_excerpt);
-                $trackback_urls = explode(',', $HTTP_POST_VARS['trackback_url']);
-                foreach($trackback_urls as $tb_url) {
-                    $tb_url = trim($tb_url);
-                    trackback($tb_url, stripslashes($post_title), $excerpt, $post_ID);
-                }
-            }
+				$excerpt = stripslashes($the_excerpt);
+				$to_pings = explode("\n", $to_ping);
+				foreach ($to_pings as $tb_ping) {
+					$tb_ping = trim($tb_ping);
+					if (!in_array($tb_ping, $pinged)) {
+					 trackback($tb_ping, stripslashes($post_title), $excerpt, $post_ID);
+					}
+				}
+			}
+
         } // end if publish
 
         exit();
@@ -195,6 +206,8 @@ switch($action) {
 			$comment_status = $postdata['comment_status'];
 			$ping_status = $postdata['ping_status'];
 			$post_password = $postdata['post_password'];
+			$to_ping = $postdata['to_ping'];
+			$pinged = $postdata['pinged'];
 
             include('edit-form.php');
         } else {
@@ -245,6 +258,9 @@ switch($action) {
 			$ping_status = $HTTP_POST_VARS['ping_status'];
 			$post_password = addslashes($HTTP_POST_VARS['post_password']);
 			$post_name = sanitize_title($post_title);
+			$trackback = $HTTP_POST_VARS['trackback_url'];
+		// Format trackbacks
+		$trackback = preg_replace('|\s+|', '\n', $trackback);
 
         if (($user_level > 4) && (!empty($HTTP_POST_VARS['edit_date']))) {
             $aa = $HTTP_POST_VARS['aa'];
@@ -273,7 +289,8 @@ switch($action) {
 				comment_status = '$comment_status',
 				ping_status = '$ping_status',
 				post_password = '$post_password',
-				post_name = '$post_name'
+				post_name = '$post_name',
+				to_ping = '$trackback'
 			WHERE ID = $post_ID ");
 
 
@@ -301,21 +318,29 @@ switch($action) {
         if ((($prev_status == 'draft') || ($prev_status == 'private')) && ($post_status == 'publish')) {
             pingWeblogs($blog_ID);
             pingBlogs($blog_ID);
-
-            if ($post_pingback) {
-                pingback($content, $post_ID);
-            }
-
-            if (!empty($HTTP_POST_VARS['trackback_url'])) {
-                $excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252) . '...' : strip_tags($content);
-                $excerpt = stripslashes($excerpt);
-                $trackback_urls = explode(',', $HTTP_POST_VARS['trackback_url']);
-                foreach($trackback_urls as $tb_url) {
-                    $tb_url = trim($tb_url);
-                    trackback($tb_url, stripslashes($post_title), $excerpt, $post_ID);
-                }
-            }
+		} // end if moving from draft/private to published
+        if ($post_status == 'publish') {
+			// Trackback time.
+			$to_ping = trim($wpdb->get_var("SELECT to_ping FROM $tableposts WHERE ID = $post_ID"));
+			$pinged = trim($wpdb->get_var("SELECT pinged FROM $tableposts WHERE ID = $post_ID"));
+			$pinged = explode("\n", $pinged);
+			if ('' != $to_ping) {
+				if (strlen($excerpt) > 0) {
+					$the_excerpt = (strlen(strip_tags($excerpt)) > 255) ? substr(strip_tags($excerpt), 0, 252) . '...' : strip_tags($excerpt)	;
+				} else {
+					$the_excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252) . '...' : strip_tags($content);
+				}
+				$excerpt = stripslashes($the_excerpt);
+				$to_pings = explode("\n", $to_ping);
+				foreach ($to_pings as $tb_ping) {
+					$tb_ping = trim($tb_ping);
+					if (!in_array($tb_ping, $pinged)) {
+					 trackback($tb_ping, stripslashes($post_title), $excerpt, $post_ID);
+					}
+				}
+			}
         } // end if publish
+        
 
         $location = "Location: post.php";
         header ($location);
@@ -357,7 +382,6 @@ switch($action) {
             sleep($sleep_after_edit);
         }
 
-        // pingWeblogs($blog_ID);
 		$sendback = $HTTP_SERVER_VARS['HTTP_REFERER'];
 		if (strstr($sendback, 'post.php')) $sendback = $siteurl .'/wp-admin/post.php';
         header ('Location: ' . $sendback);

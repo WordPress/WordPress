@@ -26,8 +26,16 @@ switch($action) {
 			$form_pingback = '';
 		}
 		if ($use_trackback) {
-			$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with commas.)<br />
+			$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
 			<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" /></p>';
+			if ('' != $pinged) {
+				$form_trackback .= '<p>Already pinged:</p><ul>';
+				$already_pinged = explode("\n", trim($pinged));
+				foreach ($already_pinged as $pinged_url) {
+					$form_trackback .= "\n\t<li>$pinged_url</li>";
+				}
+				$form_trackback .= '</ul>';
+			}
 		} else {
 			$form_trackback = '';
 		}
@@ -42,7 +50,21 @@ switch($action) {
 		$colspan = 2;
 		$form_pingback = '<input type="hidden" name="post_pingback" value="0" />';
 		$form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
-		$form_trackback = '';
+		if ($use_trackback) {
+			$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a></label>
+			 (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
+			<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
+			if ('' != $pinged) {
+				$form_trackback .= '<p>Already pinged:</p><ul>';
+				$already_pinged = explode("\n", trim($pinged));
+				foreach ($already_pinged as $pinged_url) {
+					$form_trackback .= "\n\t<li>$pinged_url</li>";
+				}
+				$form_trackback .= '</ul>';
+			}
+		} else {
+			$form_trackback = '';
+		}
 		break;
 	case "editcomment":
 		$submitbutton_text = 'Edit this!';

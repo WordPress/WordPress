@@ -59,7 +59,12 @@ $wpdb->hide_errors();
 $wpdb->query("ALTER TABLE `$tableposts` ADD INDEX (`post_name`)");
 $wpdb->show_errors();
 
+// Create ping status fields
 
+$query = "ALTER TABLE $tableposts ADD `to_ping` TEXT NOT NULL";
+maybe_add_column($tableposts, 'to_ping', $query);
+$query = "ALTER TABLE $tableposts ADD `pinged` TEXT NOT NULL";
+maybe_add_column($tableposts, 'pinged', $query);
 
 // Create category_nicename field
 $query = "ALTER TABLE `$tablecategories` ADD `category_nicename` VARCHAR(200) NOT NULL";

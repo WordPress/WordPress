@@ -588,7 +588,9 @@ function get_postdata($postid) {
 		'post_status' => $post->post_status,
 		'comment_status' => $post->comment_status,
 		'ping_status' => $post->ping_status,
-		'post_password' => $post->post_password
+		'post_password' => $post->post_password,
+		'to_ping' => $post->to_ping,
+		'pinged' => $post->pinged
 	);
 	return $postdata;
 }
@@ -887,50 +889,38 @@ function pingBlogs($blog_ID="1") {
 }
 
 
-// trackback - send
+// Send a Trackback
 function trackback($trackback_url, $title, $excerpt, $ID) {
-	global $siteurl, $blogfilename, $blogname;
-	global $querystring_start, $querystring_equal;
-	$title = urlencode($title);
+	global $blogname, $wpdb, $tableposts;
+	$title = urlencode(stripslashes($title));
 	$excerpt = urlencode(stripslashes($excerpt));
-	$blog_name = urlencode($blogname);
-	$url = urlencode($siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$ID);
+	$blog_name = urlencode(stripslashes($blogname));
+	$tb_url = $trackback_url;
+	$url = urlencode(get_permalink($ID));
 	$query_string = "title=$title&url=$url&blog_name=$blog_name&excerpt=$excerpt";
-	if (strstr($trackback_url, '?')) {
-		$trackback_url .= "&".$query_string;;
-		$fp = @fopen($trackback_url, 'r');
-		$result = @fread($fp, 4096);
-		@fclose($fp);
-/* debug code
-		$debug_file = 'trackback.log';
-		$fp = fopen($debug_file, 'a');
-		fwrite($fp, "\n*****\nTrackback URL query:\n\n$trackback_url\n\nResponse:\n\n");
-		fwrite($fp, $result);
-		fwrite($fp, "\n\n");
-		fclose($fp);
-*/
-	} else {
-		$trackback_url = parse_url($trackback_url);
-		$http_request  = 'POST '.$trackback_url['path']." HTTP/1.0\r\n";
-		$http_request .= 'Host: '.$trackback_url['host']."\r\n";
-		$http_request .= 'Content-Type: application/x-www-form-urlencoded'."\r\n";
-		$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
-		$http_request .= "\r\n";
-		$http_request .= $query_string;
-		$fs = @fsockopen($trackback_url['host'], 80);
-		@fputs($fs, $http_request);
-/* debug code
-		$debug_file = 'trackback.log';
-		$fp = fopen($debug_file, 'a');
-		fwrite($fp, "\n*****\nRequest:\n\n$http_request\n\nResponse:\n\n");
-		while(!@feof($fs)) {
-			fwrite($fp, @fgets($fs, 4096));
-		}
-		fwrite($fp, "\n\n");
-		fclose($fp);
-*/
-		@fclose($fs);
+	$trackback_url = parse_url($trackback_url);
+	$http_request  = 'POST '.$trackback_url['path']." HTTP/1.0\r\n";
+	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
+	$http_request .= 'Content-Type: application/x-www-form-urlencoded'."\r\n";
+	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
+	$http_request .= "\r\n";
+	$http_request .= $query_string;
+	$fs = @fsockopen($trackback_url['host'], 80);
+	@fputs($fs, $http_request);
+/*
+	$debug_file = 'trackback.log';
+	$fp = fopen($debug_file, 'a');
+	fwrite($fp, "\n*****\nRequest:\n\n$http_request\n\nResponse:\n\n");
+	while(!@feof($fs)) {
+		fwrite($fp, @fgets($fs, 4096));
 	}
+	fwrite($fp, "\n\n");
+	fclose($fp);
+*/
+	@fclose($fs);
+
+	$wpdb->query("UPDATE $tableposts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = $ID");
+	$wpdb->query("UPDATE $tableposts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = $ID");
 	return $result;
 }
 

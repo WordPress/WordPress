@@ -41,7 +41,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	$comment = '<trackback />';
 	$comment .= "<strong>$title</strong>\n$excerpt";
 
-	$author = addslashes($blog_name);
+	$author = addslashes(stripslashes(stripslashes($blog_name)));
 	$email = '';
 	$original_comment = $comment;
 	$comment_post_ID = $tb_id;
