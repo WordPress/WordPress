@@ -1146,7 +1146,7 @@ function comments_popup_script($width=400, $height=400, $file='b2commentspopup.p
 	global $b2commentspopupfile, $b2trackbackpopupfile, $b2pingbackpopupfile, $b2commentsjavascript;
 	$b2commentspopupfile = $file;
 	$b2commentsjavascript = 1;
-	$javascript = "<script language='javascript' type='text/javascript'>\nfunction b2open (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
+	$javascript = "<script type='text/javascript'>\nfunction b2open (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
 	echo $javascript;
 }
 
