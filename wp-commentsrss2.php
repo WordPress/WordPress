@@ -1,5 +1,6 @@
 <?php 
-if (! $feed) {
+if ( !$feed ) {
+	$withcomments = 1;
     require('wp-blog-header.php');
 }
 
