@@ -541,7 +541,8 @@ function url_to_postid($url = '') {
 /* Options functions */
 
 function get_settings($setting) {
-	global $wpdb, $cache_settings, $use_cache;
+	global $wpdb, $cache_settings, $use_cache, $REQUEST_URI;
+	if (strstr($REQUEST_URI, 'install.php')) return false;
 	if ((empty($cache_settings)) OR (!$use_cache)) {
 		$settings = get_alloptions();
 		$cache_settings = $settings;

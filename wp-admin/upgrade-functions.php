@@ -455,7 +455,7 @@ function upgrade_072() {
 }
 
 function upgrade_100() {
-	global $wpdb, $tableposts, $tablecomments, $tablecategories, $tableoptionvalues, $tableoptiongroups, $tableoptiongroup_options, $tableoptions, $tablepost2cat;
+	global $wpdb, $tableposts, $tablecomments, $tablecategories, $tableoptionvalues, $tableoptiongroups, $tableoptiongroup_options, $tableoptions, $tablepost2cat, $tablelinks, $tableusers;
 	maybe_add_column($tableposts, 'post_name', "ALTER TABLE `$tableposts` ADD `post_name` VARCHAR(200) NOT NULL");
 	maybe_add_column($tableposts, 'to_ping', "ALTER TABLE $tableposts ADD `to_ping` TEXT NOT NULL");
 	maybe_add_column($tableposts, 'pinged', "ALTER TABLE $tableposts ADD `pinged` TEXT NOT NULL");
@@ -464,6 +464,8 @@ function upgrade_100() {
 	maybe_add_column($tablecategories, 'category_nicename', "ALTER TABLE `$tablecategories` ADD `category_nicename` VARCHAR(200) NOT NULL");	
 	maybe_add_column($tablecategories, 'category_description', "ALTER TABLE `$tablecategories` ADD `category_description` TEXT NOT NULL");
 	maybe_add_column($tablecategories, 'category_parent', "ALTER TABLE `$tablecategories` ADD `category_parent` INT(4) NOT NULL");
+	maybe_add_column($tablelinks, 'link_rss', "ALTER TABLE `$tablelinks` ADD `link_rss` VARCHAR( 255 ) NOT NULL;");
+	maybe_add_column($tableusers, 'user_description', "ALTER TABLE `$tableusers` ADD `user_description` TEXT NOT NULL");
 
 	// Create indicies
 	$wpdb->hide_errors();

@@ -656,8 +656,15 @@ foreach ($geo_option_data as $query) {
 <p>OK. We're nearly done now. We just need to ask you a couple of things:</p>
 <form action="install.php?step=3" method="post">
 <input type="hidden" name="step" value="3" />
-<p>What is the url for your blog? <input name="url" type="text" size="60" />
-, now on to <input type="submit" value="Step 3" ></p>
+<p>What is the URL for your blog?<br />
+<?php
+$guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
+?>
+  <input name="url" type="text" size="60" value="<?php echo $guessurl; ?>" />
+</p>
+<p>On to 
+    <input type="submit" value="Step 3..." />
+</p>
 </form>
 
 <?php

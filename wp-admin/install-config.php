@@ -123,7 +123,7 @@ switch($step) {
             case "define('DB_HOST'":
                 fwrite($handle, str_replace("localhost", $dbhost, $line));
                 break;
-			case '$table_prefix  ':
+			case '$table_prefix  =':
 				fwrite($handle, str_replace('wp_', $prefix, $line));
 				break;
             default:

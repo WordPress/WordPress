@@ -17,13 +17,19 @@ $tableoptiontypes         = $table_prefix . 'optiontypes';
 $tableoptionvalues        = $table_prefix . 'optionvalues';
 $tableoptiongroups        = $table_prefix . 'optiongroups';
 $tableoptiongroup_options = $table_prefix . 'optiongroup_options';
+define('WPINC', 'wp-includes');
+require (ABSPATH . WPINC . '/wp-db.php');
+
+$wpdb->hide_errors();
+if (!$wpdb->get_row("SELECT * FROM $tableoptions LIMIT 1") && !strstr($REQUEST_URI, 'install.php')) {
+	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
+}
+$wpdb->show_errors();
 
 // This is the name of the include directory. No "/" allowed.
-define('WPINC', 'wp-includes');
 
-require (ABSPATH . 'wp-config-extra.php');
-require (ABSPATH . WPINC . '/wp-db.php');
 require (ABSPATH . WPINC . '/functions.php');
+require (ABSPATH . 'wp-config-extra.php');
 require (ABSPATH . WPINC . '/template-functions.php');
 require (ABSPATH . WPINC . '/class-xmlrpc.php');
 require (ABSPATH . WPINC . '/class-xmlrpcs.php');
@@ -35,7 +41,7 @@ require (ABSPATH . WPINC . '/kses.php');
 // We should eventually migrate to either calling
 // get_settings() wherever these are needed OR
 // accessing a single global $all_settings var
-if (!isset($_wp_installing) || !$_wp_installing) {
+if (!strstr($REQUEST_URI, 'install.php')) {
     $siteurl = get_settings('siteurl');
 	// "When trying to design a foolproof system, 
 	//  never underestimate the ingenuity of the fools :)"
@@ -97,6 +103,8 @@ if (!isset($_wp_installing) || !$_wp_installing) {
     $cookiehash = md5($siteurl);
 
 } //end !$_wp_installing
+
+
 
 require (ABSPATH . WPINC . '/vars.php');
 ?>
