@@ -49,6 +49,7 @@ $tablepostmeta = $wpdb->postmeta;
 
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/functions-formatting.php');
+require (ABSPATH . WPINC . '/functions-post.php');
 require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/template-functions.php');
 require (ABSPATH . WPINC . '/links.php');

@@ -734,20 +734,21 @@ function debug_fclose($fp) {
 }
 
 function pingback($content, $post_ID) {
-
-	global $wp_version;
+	global $wp_version, $wpdb;
 	include_once (ABSPATH . WPINC . '/class-IXR.php');
 
 	// original code by Mort (http://mort.mine.nu:8080)
-	$log = debug_fopen('./pingback.log', 'a');
+	$log = debug_fopen(ABSPATH . '/pingback.log', 'a');
 	$post_links = array();
 	debug_fwrite($log, 'BEGIN '.date('YmdHis', time())."\n");
+
+	$pung = get_pung($post_ID);
 
 	// Variables
 	$ltrs = '\w';
 	$gunk = '/#~:.?+=&%@!\-';
 	$punc = '.:?\-';
-	$any = $ltrs.$gunk.$punc;
+	$any = $ltrs . $gunk . $punc;
 
 	// Step 1
 	// Parsing the post, external links (if any) are stored in the $post_links array
@@ -768,25 +769,23 @@ function pingback($content, $post_ID) {
 	// http://dummy-weblog.org/post.php
 	// We don't wanna ping first and second types, even if they have a valid <link/>
 
-	foreach($post_links_temp[0] as $link_test){
-		$test = parse_url($link_test);
-		if (isset($test['query'])) {
-			$post_links[] = $link_test;
-		} elseif(($test['path'] != '/') && ($test['path'] != '')) {
-			$post_links[] = $link_test;
-		}
-	}
+	foreach($post_links_temp[0] as $link_test) :
+		if ( !in_array($link_test, $pung) ) : // If we haven't pung it already
+			$test = parse_url($link_test);
+			if (isset($test['query']))
+				$post_links[] = $link_test;
+			elseif(($test['path'] != '/') && ($test['path'] != ''))
+				$post_links[] = $link_test;
+		endif;
+	endforeach;
 
 	foreach ($post_links as $pagelinkedto){
-
 		debug_fwrite($log, "Processing -- $pagelinkedto\n");
 		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
 
-		if($pingback_server_url) {
-
+		if ($pingback_server_url) {
 			 // Now, the RPC call
-			$method = 'pingback.ping';
-			debug_fwrite($log, 'Page Linked To: '.$pagelinkedto."\n");
+			debug_fwrite($log, "Page Linked To: $pagelinkedto \n");
 			debug_fwrite($log, 'Page Linked From: ');
 			$pagelinkedfrom = get_permalink($post_ID);
 			debug_fwrite($log, $pagelinkedfrom."\n");
@@ -794,19 +793,20 @@ function pingback($content, $post_ID) {
 			// using a timeout of 3 seconds should be enough to cover slow servers
 			$client = new IXR_Client($pingback_server_url);
 			$client->timeout = 3;
-			$client->useragent .= ' -- WordPress/'.$wp_version;
+			$client->useragent .= ' -- WordPress/' . $wp_version;
 
 			// when set to true, this outputs debug messages by itself
 			$client->debug = false;
 			$client->query('pingback.ping', array($pagelinkedfrom, $pagelinkedto)); 
-
-			if (!$client->query('pingback.ping', array($pagelinkedfrom, $pagelinkedto))) {
+			
+			if ( !$client->query('pingback.ping', array($pagelinkedfrom, $pagelinkedto) ) )
 				debug_fwrite($log, "Error.\n Fault code: ".$client->getErrorCode()." : ".$client->getErrorMessage()."\n");
-			}
+			else
+				add_ping( $post_ID, $pagelinkedto );
 		}
 	}
 
-	debug_fwrite($log, "\nEND: ".time()."\n****************************\n\r");
+	debug_fwrite($log, "\nEND: ".time()."\n****************************\n");
 	debug_fclose($log);
 }
 
@@ -1607,12 +1607,7 @@ function update_post_caches($posts) {
     }
 
     // Get post-meta info
-    if ( $meta_list = $wpdb->get_results("
-			SELECT post_id,meta_key,meta_value 
-			FROM $wpdb->postmeta 
-			WHERE post_id IN($post_id_list)
-			ORDER BY post_id,meta_key
-		", ARRAY_A) ) {
+    if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta  WHERE post_id IN($post_id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
 		
         // Change from flat structure to hierarchical:
         $post_meta_cache = array();

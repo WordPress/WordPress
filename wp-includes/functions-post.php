@@ -360,16 +360,13 @@ function wp_new_comment($commentdata) {
 
 	$comment_author = strip_tags($comment_author);
 	$comment_author = htmlspecialchars($comment_author);
-	$comment_author = $wpdb->escape($comment_author);
 
 	$comment_author_email = preg_replace('/[^a-z+_.@-]/i', '', $comment_author_email);
 
 	$comment_author_url = strip_tags($comment_author_url);
 	$comment_author_url = htmlspecialchars($comment_author_url);
-	$comment_author_url = $wpdb->escape($comment_author_url);
 
 	$comment_content = apply_filters('comment_content_presave', $comment_content);
-	$comment_content = $wpdb->escape($comment_content);
 
 	$user_ip = addslashes($_SERVER['REMOTE_ADDR']);
 	$user_domain = addslashes( gethostbyaddr($user_ip) );
@@ -404,6 +401,54 @@ function wp_new_comment($commentdata) {
 		wp_notify_postauthor($wpdb->insert_id, $comment_type);
 
 	return $result;
+}
+
+function do_trackbacks($post_id) {
+	global $wpdb;
+
+	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $post_id");
+	$to_ping = get_to_ping($post_id);
+	$pinged  = get_pung($post_id);
+	$content = strip_tags($post->post_content);
+	$excerpt = strip_tags($post->post_excerpt);
+	$post_title = strip_tags($post->post_title);
+
+	if ( $excerpt )
+		$excerpt = substr($excerpt, 0, 252) . '...';
+	else
+		$excerpt = substr($content, 0, 252) . '...';
+
+	if ($to_ping) : foreach ($to_ping as $tb_ping) :
+		$tb_ping = trim($tb_ping);
+		if ( !in_array($tb_ping, $pinged) )
+		 trackback($tb_ping, $post_title, $excerpt, $post_id);
+	endforeach; endif;
+}
+
+function get_pung($post_id) { // Get URIs already pung for a post
+	global $wpdb;
+	$pung = $wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_id");
+	$pung = trim($pung);
+	$pung = preg_split('/\s/', $pung);
+	return $pung;
+}
+
+function get_to_ping($post_id) { // Get any URIs in the todo list
+	global $wpdb;
+	$to_ping = $wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_id");
+	$to_ping = trim($to_ping);
+	$to_ping = preg_split('/\s/', $to_ping);
+	return $to_ping;
+}
+
+function add_ping($post_id, $uri) { // Add a URI to those already pung
+	global $wpdb;
+	$pung = $wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_id");
+	$pung = trim($pung);
+	$pung = preg_split('/\s/', $pung);
+	$pung[] = $uri;
+	$new = implode("\n", $pung);
+	return $wpdb->query("UPDATE $wpdb->posts SET pinged = '$new' WHERE ID = $post_id");
 }
 
 ?>

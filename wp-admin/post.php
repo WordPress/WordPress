@@ -13,9 +13,9 @@ return $array;
 }
 
 if (!get_magic_quotes_gpc()) {
-$_GET    = add_magic_quotes($_GET);
-$_POST   = add_magic_quotes($_POST);
-$_COOKIE = add_magic_quotes($_COOKIE);
+	$_GET    = add_magic_quotes($_GET);
+	$_POST   = add_magic_quotes($_POST);
+	$_COOKIE = add_magic_quotes($_COOKIE);
 }
 
 $wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder', 'enclosure_url' );
@@ -37,46 +37,47 @@ if (!isset($$wpvar)) {
 
 switch($action) {
 case 'post':
-		$standalone = 1;
-		require_once('admin-header.php');
+	$standalone = 1;
+	require_once('admin-header.php');
 
-        $post_ID = $wpdb->get_var("SELECT ID FROM $wpdb->posts ORDER BY ID DESC LIMIT 1") + 1;
+	$post_ID = $wpdb->get_var("SELECT MAX(ID) FROM $wpdb->posts") + 1;
 
-		$post_pingback = intval($_POST['post_pingback']);
-		$content = apply_filters('content_save_pre', $_POST['content']);
-		$content = format_to_post($content);
-		$excerpt = apply_filters('excerpt_save_pre',$_POST['excerpt']);
-		$excerpt = format_to_post($excerpt);
-		$post_title = $_POST['post_title'];
-		$post_categories = $_POST['post_category'];
-		$post_status = $_POST['post_status'];
-		$post_name = $_POST['post_name'];
-		$post_parent = 0;
-		if (isset($_POST['parent_id'])) {
-			$post_parent = $_POST['parent_id'];
-		}
+	$post_pingback = intval($_POST['post_pingback']);
+	$content = apply_filters('content_save_pre', $_POST['content']);
+	$content = format_to_post($content);
+	$excerpt = apply_filters('excerpt_save_pre',$_POST['excerpt']);
+	$excerpt = format_to_post($excerpt);
+	$post_title = $_POST['post_title'];
+	$post_categories = $_POST['post_category'];
+	$post_status = $_POST['post_status'];
+	$post_name = $_POST['post_name'];
+	$post_parent = 0;
 
-		if (empty($post_status)) $post_status = 'draft';
-		// Double-check
-		if ( 'publish' == $post_status && 1 == $user_level && 2 != get_option('new_users_can_blog') )
-			$post_status = 'draft';
-		$comment_status = $_POST['comment_status'];
-		if (empty($comment_status)) $comment_status = get_settings('default_comment_status');
-		$ping_status = $_POST['ping_status'];
-		if (empty($ping_status)) $ping_status = get_settings('default_ping_status');
-		$post_password = $_POST['post_password'];
-		
-		if (empty($post_name)) {
-			if (! empty($post_title)) {
-				$post_name = sanitize_title($post_title, $post_ID);
-			}
-		} else {
-			$post_name = sanitize_title($post_name, $post_ID);
-		}
+	if ( isset($_POST['parent_id']) )
+		$post_parent = $_POST['parent_id'];
 
-		$trackback = $_POST['trackback_url'];
-	// Format trackbacks
-	$trackback = preg_replace('|\s+|', '\n', $trackback);
+	if ( empty($post_status) )
+		$post_status = 'draft';
+	// Double-check
+	if ( 'publish' == $post_status && 1 == $user_level && 2 != get_option('new_users_can_blog') )
+		$post_status = 'draft';
+	$comment_status = $_POST['comment_status'];
+	if ( empty($comment_status) )
+		$comment_status = get_option('default_comment_status');
+	$ping_status = $_POST['ping_status'];
+	if ( empty($ping_status) )
+		$ping_status = get_option('default_ping_status');
+	$post_password = $_POST['post_password'];
+	
+	if ( empty($post_name) ) {
+		if ( !empty($post_title) )
+			$post_name = sanitize_title($post_title, $post_ID);
+	} else {
+		$post_name = sanitize_title($post_name, $post_ID);
+	}
+
+	$trackback = $_POST['trackback_url'];
+	$trackback = preg_replace('|\s+|', "\n", $trackback);
 
 	if ($user_level == 0)
 		die (__('Cheatin&#8217; uh?'));
@@ -92,11 +93,11 @@ case 'post':
 		$hh = ($hh > 23) ? $hh - 24 : $hh;
 		$mn = ($mn > 59) ? $mn - 60 : $mn;
 		$ss = ($ss > 59) ? $ss - 60 : $ss;
-	$now = "$aa-$mm-$jj $hh:$mn:$ss";
-	$now_gmt = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
+		$now = "$aa-$mm-$jj $hh:$mn:$ss";
+		$now_gmt = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
 	} else {
-	$now = current_time('mysql');
-	$now_gmt = current_time('mysql', 1);
+		$now = current_time('mysql');
+		$now_gmt = current_time('mysql', 1);
 	}
 
 	// What to do based on which button they pressed
@@ -109,7 +110,7 @@ case 'post':
 	$postquery ="INSERT INTO $wpdb->posts
 			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent)
 			VALUES
-			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent')
+			('$post_ID', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent')
 			";
 
 	$result = $wpdb->query($postquery);
@@ -127,8 +128,9 @@ case 'post':
 			break;
 		}
 	} else {
-		$location = 'post.php';
+		$location = 'post.php?posted=true';
 	}
+
 	if ( '' != $_POST['advanced'] || isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
 
@@ -137,15 +139,14 @@ case 'post':
 
 	header("Location: $location"); // Send user on their way while we keep working
 
-
 	// Insert categories
 	// Check to make sure there is a category, if not just set it to some default
-	if (!$post_categories) $post_categories[] = 1;
+	if (!$post_categories) $post_categories[] = get_option('default_category');
 	foreach ($post_categories as $post_category) {
 		// Double check it's not there already
 		$exists = $wpdb->get_row("SELECT * FROM $wpdb->post2cat WHERE post_id = $post_ID AND category_id = $post_category");
 
-		 if (!$exists && $result) { 
+		 if (!$exists) { 
 			$wpdb->query("
 			INSERT INTO $wpdb->post2cat
 			(post_id, category_id)
@@ -158,44 +159,18 @@ case 'post':
 	add_meta($post_ID);
 
 	$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
-	
-	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
-			sleep($sleep_after_edit);
-	}
 
-	if ($post_status == 'publish') {
+	do_action('save_post', $post_ID);
 
-		if ($post_pingback) {
+	if ('publish' == $post_status) {
+		if ($post_pingback)
 			pingback($content, $post_ID);
-		}
-		
+		do_trackbacks($post_ID);
 		do_action('publish_post', $post_ID);
-
-		// Time for trackbacks
-		$to_ping = $wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_ID");
-		$pinged = $wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_ID");
-		$pinged = explode("\n", $pinged);
-		if ('' != $to_ping) {
-			if (strlen($excerpt) > 0) {
-				$the_excerpt = (strlen(strip_tags($excerpt)) > 255) ? substr(strip_tags($excerpt), 0, 252) . '...' : strip_tags($excerpt)	;
-			} else {
-				$the_excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252) . '...' : strip_tags($content);
-			}
-			$excerpt = stripslashes($the_excerpt);
-			$to_pings = explode("\n", $to_ping);
-			foreach ($to_pings as $tb_ping) {
-				$tb_ping = trim($tb_ping);
-				if (!in_array($tb_ping, $pinged)) {
-				 trackback($tb_ping, stripslashes($post_title), $excerpt, $post_ID);
-				}
-			}
-		}
-
-	} // end if publish
+	}
 
 	if ($post_status == 'static') {
 		generate_page_rewrite_rules();
-
 		add_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'], true);
 	}
 
@@ -349,7 +324,7 @@ case 'editpost':
 	} else {
 		$location = 'post.php';
 	}
-	header ('Location: ' . $location); // Send user on their way while we keep working
+	//header ('Location: ' . $location); // Send user on their way while we keep working
 
 $now = current_time('mysql');
 $now_gmt = current_time('mysql', 1);
@@ -402,10 +377,6 @@ $now_gmt = current_time('mysql', 1);
 		if (!in_array($new_cat, $old_categories))
 			$wpdb->query("INSERT INTO $wpdb->post2cat (post_id, category_id) VALUES ($post_ID, $new_cat)");
 	}
-	
-	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
-		sleep($sleep_after_edit);
-	}
 
         // Enclosures
         $enclosures = split( "   ", $enclosure_url );
@@ -446,35 +417,15 @@ $now_gmt = current_time('mysql', 1);
             } 
         }
 
-	// are we going from draft/private to published?
-	if ($prev_status != 'publish' && $post_status == 'publish') {
-		if ($post_pingback) {
-			pingback($content, $post_ID);
-		}
-	} // end if moving from draft/private to published
+	if ($prev_status != 'publish' && $post_status == 'publish')
+		do_action('private_to_published', $post_ID);
+
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
-
-		// Trackback time.
-		$to_ping = trim($wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_ID"));
-		$pinged = trim($wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_ID"));
-		$pinged = explode("\n", $pinged);
-		if ('' != $to_ping) {
-			if (strlen($excerpt) > 0) {
-				$the_excerpt = (strlen(strip_tags($excerpt)) > 255) ? substr(strip_tags($excerpt), 0, 252) . '...' : strip_tags($excerpt)	;
-			} else {
-				$the_excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252) . '...' : strip_tags($content);
-			}
-			$excerpt = stripslashes($the_excerpt);
-			$to_pings = explode("\n", $to_ping);
-			foreach ($to_pings as $tb_ping) {
-				$tb_ping = trim($tb_ping);
-				if (!in_array($tb_ping, $pinged)) {
-				 trackback($tb_ping, stripslashes($post_title), $excerpt, $post_ID);
-				}
-			}
-		}
-	} // end if publish
+		do_trackbacks($post_ID);
+		if ( get_option('default_pingback_flag') )
+			pingback($content, $post_ID);
+	}
 
 	if ($post_status == 'static') {
 		generate_page_rewrite_rules();
@@ -499,8 +450,8 @@ case 'delete':
 		die ('Cheatin&#8217; uh?');
 
 	$post_id = intval($_GET['post']);
-	$postdata = get_postdata($post_id) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'post.php'));
-	$authordata = get_userdata($postdata['Author_ID']);
+	$postdata = $post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_id'") or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'post.php'));
+	$authordata = get_userdata($postdata->post_author);
 
 	if ($user_level < $authordata->user_level)
 		die (sprintf(__('You don&#8217;t have the right to delete <strong>%s</strong>&#8217;s posts.'), $authordata[1]));
@@ -514,10 +465,6 @@ case 'delete':
 	$categories = $wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $post_id");
 
     $meta = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $post_id");
-
-	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
-		sleep($sleep_after_edit);
-	}
 
 	$sendback = $_SERVER['HTTP_REFERER'];
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';

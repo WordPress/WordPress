@@ -5,7 +5,6 @@ $HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 
 include('./wp-config.php');
 include_once(ABSPATH . WPINC . '/class-IXR.php');
-include_once(ABSPATH . WPINC . '/functions-post.php');
 
 // Turn off all warnings and errors.
 // error_reporting(0);
