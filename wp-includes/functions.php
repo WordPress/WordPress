@@ -867,10 +867,16 @@ function pingback($content, $post_ID) {
 	debug_fclose($log);
 }
 
-function doGeoUrlHeader($posts) {
-    if (count($posts) == 1) {
+function doGeoUrlHeader($post_list = '') {
+    global $posts;
+
+    if (empty($post_list)) {
+        $post_list = $posts;
+    }
+
+    if (count($post_list) == 1) {
         // there's only one result  see if it has a geo code
-        $row = $posts[0];
+        $row = $post_list[0];
         $lat = $row->post_lat;
         $lon = $row->post_lon;
         $title = $row->post_title;

@@ -1,12 +1,26 @@
 <?php
 function get_Lat() {
     global $post;
-    return $post->post_lat;
+
+   if ($post->post_lat != '') {
+       return $post->post_lat;
+   } else if(get_settings('use_default_geourl')) {
+       return get_settings('default_geourl_lat');
+   }
+
+   return '';
 }
 
 function get_Lon() {
     global $post;
-    return $post->post_lon;
+
+   if ($post->post_lon != '') {
+       return $post->post_lon;
+   } else if(get_settings('use_default_geourl')) {
+       return get_settings('default_geourl_lon');
+   }
+
+   return '';
 }
 
 function print_Lat() {
