@@ -1,7 +1,6 @@
 <?php
 
 require_once(dirname(__FILE__) . '/upgrade-schema.php');
-require_once(dirname(__FILE__) . '/admin-functions.php');
 // Functions to be called in install and upgrade scripts
 function upgrade_all() {
 	populate_options();
@@ -526,6 +525,20 @@ function make_db_current_silent() {
 	global $wp_queries;
 
 	$alterations = dbDelta($wp_queries);
+}
+
+function get_home_path() {
+	$home = get_settings('home');
+	if ( $home != '' && $home != get_settings('siteurl') ) {
+		$home_path = parse_url($home);
+		$home_path = $home_root['path'];
+		$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["SCRIPT_FILENAME"]);
+		$home_path = $root . $home_path . "/";
+	} else {
+		$home_path = ABSPATH;
+	}
+
+	return $home_path;
 }
 
 function make_site_theme_from_oldschool($theme_name, $template) {
