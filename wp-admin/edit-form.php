@@ -46,11 +46,7 @@ function focusit() {
 window.onload = focusit;
 //-->
 </script>
-<style media="screen" type="text/css">
-#titlediv, #postpassworddiv {
-	height: 3.5em;
-}
-</style>
+
 <div id="poststuff">
     <fieldset id="titlediv">
       <legend><a href="http://wordpress.org/docs/reference/post/#title" title="<?php _e('Help on titles') ?>"><?php _e('Title') ?></a></legend> 
