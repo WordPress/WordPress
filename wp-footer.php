@@ -2,7 +2,7 @@
 // If a footer.php file exists in the WP root directory we
 // use that, otherwise use this default wp-footer.php file.
 if ( file_exists(ABSPATH . '/footer.php') ) :
-	include(ABSPATH . '/footer.php');
+	include_once(ABSPATH . '/footer.php');
 else :
 ?>
 </div>
