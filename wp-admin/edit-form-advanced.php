@@ -159,16 +159,19 @@ if($metadata = has_meta($post_ID)) {
 
 
 <p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="Save" style="font-weight: bold;" tabindex="6" /> 
-  <input name="publish" type="submit" id="publish" tabindex="10" value="Publish" /> 
-  <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
+<?php 
+if ('publish' != $post_status) {
+?>
+	<input name="publish" type="submit" id="publish" tabindex="10" value="Publish" /> 
+<?php
+}
+?>
+	<input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
 <?php
-	if ('' != $pinged) {
-		echo $pings;
-	}
-?>
-
-<?php
+if ('' != $pinged) {
+	echo $pings;
+}
 
 // if the level is 5+, allow user to edit the timestamp - not on 'new post' screen though
 // if (($user_level > 4) && ($action != "post"))
