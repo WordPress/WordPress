@@ -117,7 +117,7 @@ case 'register':
 <head>
 	<title>WordPress &raquo; Registration Complete</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />	
-	<link rel="stylesheet" href="wp-admin/b2.css" type="text/css" />
+	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 </head>
 <body>
 
@@ -145,7 +145,7 @@ case 'disabled':
 <head>
 	<title>WordPress &raquo; Registration Currently Disabled</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<link rel="stylesheet" href="wp-admin/b2.css" type="text/css">
+	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
 </head>
 
 <body>
@@ -171,7 +171,7 @@ default:
 <head>
 	<title>WordPress &raquo; Registration Form</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<link rel="stylesheet" href="wp-admin/b2.css" type="text/css" />
+	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 </head>
 
 <body>
