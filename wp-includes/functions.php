@@ -623,7 +623,7 @@ function &get_category(&$category, $output = OBJECT) {
 		if ( !isset($cache_categories[$category]) ) {
 			$category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = $category");
 			$category->category_id = $category->cat_ID; // Alias.
-			$cache_categories[$category] = & $category;
+			$cache_categories[$category->cat_ID] = & $category;
 		} else {
 			$category = & $cache_categories[$category];
 		}
