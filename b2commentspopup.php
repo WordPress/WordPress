@@ -21,16 +21,15 @@ foreach ($posts as $post) { start_b2();
 
 <h2>Comments</h2>
 <ol id="comments">
-
 <?php /* this line is b2's motor, do not delete it */ 
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 $commentstatus = $wpdb->get_row("SELECT comment_status, post_password FROM $tableposts WHERE ID = $id");
+if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass'] != $commentstatus->post_password) {  // and it doesn't match the cookie
+	echo("<li>".get_the_password_form()."</li></ol>");
+}
+else {
+	if ($comments) {
 // this line is WordPress' motor, do not delete it.
-if ($comments) {
-	if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass'] != $commentstatus->post_password) {  // and it doesn't match the cookie
-		echo("<li>Enter your password to view comments.</li>");
-	}
-	else {
 		foreach ($comments as $comment) {
 ?>
 <!-- comment -->
@@ -39,19 +38,15 @@ if ($comments) {
 <p><cite><?php comment_type(); ?> by <?php comment_author_link() ?> <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
 </li>
 
-<?php 	} // end for each comment
-	} // end password check
-} else { // this is displayed if there are no comments so far 
+<?php	 	} // end for each comment
+	} else { // this is displayed if there are no comments so far 
 ?>
 	<li>No comments yet.</li>
 
 <?php } ?>
 </ol>
 <?php 
-if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass'] != $commentstatus->post_password) {
-// no authorization for private comments
-}
-else if ('open' == $commentstatus->comment_status) { ?>
+	if ('open' == $commentstatus->comment_status) { ?>
 <h2>Leave a Comment</h2>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities($comment_allowed_tags); ?></p>
 
@@ -86,7 +81,9 @@ else if ('open' == $commentstatus->comment_status) { ?>
 
 <?php } else { // comments are closed ?>
 <p>Sorry, comments are closed at this time.</p>
-<?php } ?>
+<?php } 
+} // end password check
+?>
 
 <div><strong><a href="javascript:window.close()">Close this window</a>.</strong></div>
 
