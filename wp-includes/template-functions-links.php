@@ -174,16 +174,11 @@ function get_feed_link($feed='rss2') {
 }
 
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {
-    global $user_level, $post;
+    global $user_ID, $post;
 
     get_currentuserinfo();
 
-    if ($user_level > 0) {
-        $authordata = get_userdata($post->post_author);
-        if ($user_level < $authordata->user_level) {
-            return;
-        }
-    } else {
+	if (!user_can_edit_post($user_ID, $post->ID)) {
         return;
     }
 
@@ -192,16 +187,11 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 }
 
 function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
-    global $user_level, $post, $comment;
+    global $user_ID, $post, $comment;
 
     get_currentuserinfo();
 
-    if ($user_level > 0) {
-        $authordata = get_userdata($post->post_author);
-        if ($user_level < $authordata->user_level) {
-            return;
-        }
-    } else {
+	if (!user_can_edit_post_comments($user_ID, $post->ID)) {
         return;
     }
 
