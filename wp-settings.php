@@ -80,7 +80,6 @@ if (!strstr($HTTP_SERVER_VARS['REQUEST_URI'], 'install.php')) {
     $use_trackback = get_settings('use_trackback');
     $use_pingback = get_settings('use_pingback');
     $require_name_email = get_settings('require_name_email');
-    $comment_allowed_tags = get_settings('comment_allowed_tags');
     $comments_notify = get_settings('comments_notify');
     $use_smilies = get_settings('use_smilies');
     $smilies_directory = get_settings('smilies_directory');
