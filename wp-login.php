@@ -165,7 +165,7 @@ case 'lostpassword':
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
-		document.lostpass.user_login.focus();
+		document.getElementById('user_login').focus();
 	}
 	window.onload = focusit;
 	</script>
@@ -270,7 +270,7 @@ default:
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
-		document.loginform.log.focus();
+		document.getElementById('log').focus();
 	}
 	window.onload = focusit;
 	</script>
