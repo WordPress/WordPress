@@ -1732,7 +1732,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent) {
 
 		// Do some escaping magic so that '#' chars in the 
 		// spam words don't break things:
-		$word = preg_replace('/(\\\\|#)/','\\\\$1',$word);
+		$word = preg_quote($word, '#');
 		
 		$pattern = "#$word#i"; 
 		if ( preg_match($pattern, $author) ) return false;
