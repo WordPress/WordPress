@@ -1,5 +1,5 @@
 <?php
-require('../b2config.php');
+require_once('../wp-config.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;

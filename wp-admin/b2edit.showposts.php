@@ -1,7 +1,7 @@
 <div class="wrap">
 <?php
 
-require_once('../b2config.php');
+require_once('../wp-config.php');
 
 if (!$showposts) {
 	if ($posts_per_page) {

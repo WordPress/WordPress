@@ -6,7 +6,7 @@ $use_gzipcompression = 1;
 /* Including config and functions files */
 $curpath = dirname(__FILE__).'/';
 
-require_once ($curpath.'/b2config.php');
+require_once ($curpath.'/wp-config.php');
 require_once ($curpath.$b2inc.'/b2template.functions.php');
 require_once ($curpath.$b2inc.'/b2vars.php');
 require_once ($curpath.$b2inc.'/b2functions.php');

@@ -20,7 +20,7 @@ switch ($action) {
 
 case "step1":
 
-	require('b2config.php');
+	require('wp-config.php');
 	require($abspath.$b2inc.'/b2template.functions.php');
 	require($abspath.$b2inc.'/b2functions.php');
 	require($abspath.$b2inc.'/b2vars.php');

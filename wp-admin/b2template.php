@@ -40,7 +40,7 @@ switch($action) {
 case 'update':
 
 	$standalone = 1;
-	require("b2header.php");
+	require_once("b2header.php");
 
 	if ($user_level < 3) {
 		die('<p>You have no right to edit the template for this blog.<br />Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
@@ -60,7 +60,7 @@ break;
 
 default:
 
-	require('b2header.php');
+	require_once('b2header.php');
 
 	if ($user_level <= 3) {
 		die('<p>You have no right to edit the template for this blog.<br>Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');

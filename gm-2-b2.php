@@ -4,8 +4,8 @@
 // 2. upload on your server in the directory where your b2 files are
 // 3. load in the browser from there
 
-require('b2config.php');
-require($abspath.$b2inc.'/b2functions.php');
+require_once('wp-config.php');
+require_once($abspath.$b2inc.'/b2functions.php');
 
 $b2varstoreset = array('action', 'gmpath', 'archivespath');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {

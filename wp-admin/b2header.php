@@ -1,6 +1,6 @@
 <?php
 
-require('../b2config.php');
+require_once('../wp-config.php');
 require_once($abspath.$b2inc.'/b2template.functions.php');
 require_once($abspath.'/wp-admin/b2verifauth.php');
 require_once($abspath.$b2inc.'/b2vars.php');

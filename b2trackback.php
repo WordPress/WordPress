@@ -57,7 +57,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	@header('Content-Type: text/xml');
 
 
-	require_once('b2config.php');
+	require_once('wp-config.php');
 	require_once($abspath.$b2inc.'/b2template.functions.php');
 	require_once($abspath.$b2inc.'/b2vars.php');
 	require_once($abspath.$b2inc.'/b2functions.php');

@@ -3,13 +3,13 @@
 # pop3-2-b2 mail to blog
 # v0.3 20020716
 
-require('b2config.php');
-require($abspath.$b2inc."/b2template.functions.php");
-require($abspath.$b2inc.'/b2vars.php');
-require($abspath.$b2inc.'/class.POP3.php');
-require($abspath.$b2inc.'/b2functions.php');
-require($abspath.$b2inc."/xmlrpc.inc");
-require($abspath.$b2inc."/xmlrpcs.inc");
+require_once('wp-config.php');
+require_once($abspath.$b2inc."/b2template.functions.php");
+require_once($abspath.$b2inc.'/b2vars.php');
+require_once($abspath.$b2inc.'/class.POP3.php');
+require_once($abspath.$b2inc.'/b2functions.php');
+require_once($abspath.$b2inc."/xmlrpc.inc");
+require_once($abspath.$b2inc."/xmlrpcs.inc");
 
 dbconnect();
 timer_start();

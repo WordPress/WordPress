@@ -8,7 +8,7 @@ function selected($selected, $current) {
 $mode = 'bookmarklet';
 
 $standalone = 1;
-require('b2header.php');
+require_once('b2header.php');
 
 if ($user_level == 0)
 	die ("Cheatin' uh?");

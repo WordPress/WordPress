@@ -1,5 +1,5 @@
 <?php
-require('../b2config.php');
+require_once('../wp-config.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
@@ -50,9 +50,8 @@ switch($step) {
   <li>The templates are so much better, and there is so much more going on than 
     before it's probably worth it to start from scratch and work back to your 
     design.</li>
-  <li>You can keeep your <code>b2config.php</code> file if you want to, but it 
-    is <strong>very important</strong> that you take the last few lines from the 
-    WordPress one and add those in, otherwise, nothing will work.</li>
+  <li>You need to transfer some of your settings from your old <code>b2config.php</code>
+    to <code>wp-config.php</code> file [NEED MORE INFO].</li>
   <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support 
     forums</a>.</li>
   <li><strong>Back up</strong> your database before you do anything. Yes, you. 

@@ -1,8 +1,8 @@
 <?php
 /* <Register> */
 
-require('b2config.php');
-require($abspath.$b2inc.'/b2functions.php');
+require_once('wp-config.php');
+require_once($abspath.$b2inc.'/b2functions.php');
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
