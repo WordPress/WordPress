@@ -92,7 +92,7 @@ if ($ok) {
 	$query = "INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$url','$user_ip','$now','$comment','0')";
 	$result = mysql_query($query);
 	if (!$result)
-		die ("There is an error with the database, it can't store your comment...<br />Contact the <a href=\"mailto:$admin_email\">webmaster</a>");
+		die ("There is an error with the database, it can&#8217;t store your comment...<br />Contact the <a href=\"mailto:$admin_email\">webmaster</a>.");
 
 	if ($comments_notify) {
 
@@ -100,7 +100,7 @@ if ($ok) {
 		$notify_message .= "Author : $comment_author (IP: $user_ip , $user_domain)\r\n";
 		$notify_message .= "E-mail : $comment_author_email\r\n";
 		$notify_message .= "URL    : $comment_author_url\r\n";
-		$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$user_ip";
+		$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$user_ip\r\n";
 		$notify_message .= "Comment: \n".stripslashes($original_comment)."\r\n\r\n";
 		$notify_message .= "You can see all comments on this post here: \r\n";
 		$notify_message .= comments_link('', false);
@@ -114,25 +114,25 @@ if ($ok) {
 		
 	}
 
-	if ($email == "") {
-		$email = " "; // this to make sure a cookie is set for 'no email'
+	if ($email == '') {
+		$email = ' '; // this to make sure a cookie is set for 'no email'
 	}
-	if ($url == "") {
-		$url = " "; // this to make sure a cookie is set for 'no url'
+	if ($url == '') {
+		$url = ' '; // this to make sure a cookie is set for 'no url'
 	}
-	setcookie("comment_author",$author, time()+30000000);
-	setcookie("comment_author_email",$email, time()+30000000);
-	setcookie("comment_author_url",$url, time()+30000000);
+	setcookie("comment_author", $author, time()+30000000);
+	setcookie("comment_author_email", $email, time()+30000000);
+	setcookie("comment_author_url", $url, time()+30000000);
 
-	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-	header("Cache-Control: no-cache, must-revalidate");
-	header("Pragma: no-cache");
+	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+	header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
+	header('Cache-Control: no-cache, must-revalidate');
+	header('Pragma: no-cache');
 	$location = (!empty($HTTP_POST_VARS['redirect_to'])) ? $HTTP_POST_VARS['redirect_to'] : $HTTP_SERVER_VARS["HTTP_REFERER"];
 	header("Location: $location");
 
 } else {
-	die("Sorry, you can only post a new comment every 30 seconds");
+	die('Sorry, you can only post a new comment once every 30 seconds.');
 }
 
 ?>
