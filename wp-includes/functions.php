@@ -337,10 +337,23 @@ function update_option($option_name, $newvalue) {
 	return true;
 }
 
-function add_option() {
+
+// thx Alex Stapleton, http://alex.vort-x.net/blog/
+function add_option($name, $value='') {
 	// Adds an option if it doesn't already exist
 	global $wpdb, $tableoptions;
-	// TODO
+	if(!get_settings($name)) {
+		$name = $wpdb->escape($name);
+		$value = $wpdb->escape($value);
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_value) VALUES ('$name', '$value')");
+
+		global $use_cache;
+		if($wpdb->insert_id && $use_cache) {
+			global $cache_settings;
+			$cache_settings->{$name} = $value;
+		}
+	}
+	return;
 }
 
 function get_postdata($postid) {
