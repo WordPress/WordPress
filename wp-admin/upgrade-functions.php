@@ -709,7 +709,7 @@ function upgrade_110() {
 
 	// Add blog_charset option
 	if(!$wpdb->get_var("SELECT * FROM $tableoptions WHERE option_id = '93'")) {
-		$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (93, 'blog_charset', 3, 'utf-8', 'Your blog&#8217;s charset (here&#8217;s a <a href='http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html'>list of possible charsets</a>)', 8)");
+		$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (93, 'blog_charset', 3, 'utf-8', 'Your blog&#8217;s charset (here&#8217;s a <a href=\"http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html\">list of possible charsets</a>)', 8)");
 	}
 
 }
