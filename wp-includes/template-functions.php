@@ -522,7 +522,7 @@ function get_month_link($year, $month) {
 		if ('/' != substr($monthlink, -1)) $monthlink = substr($monthlink, 0, -1);
 		$monthlink = str_replace('%year%', $year, $monthlink);
 		$monthlink = str_replace('%monthnum%', intval($month), $monthlink);
-		$monhtlink = str_replace('%post_id%', '', $monthlink);
+		$monthlink = str_replace('%post_id%', '', $monthlink);
 		return $siteurl . $monthlink;
 	} else {
 		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
