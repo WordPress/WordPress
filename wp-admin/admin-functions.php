@@ -701,6 +701,7 @@ function user_can_access_admin_page() {
 
 function get_admin_page_title() {
 	global $title;
+	global $menu;
 	global $submenu;
 	global $pagenow;
 	global $plugin_page;
@@ -709,15 +710,30 @@ function get_admin_page_title() {
 		return $title;
 	}
 
-	foreach (array_keys($submenu) as $parent) {
-		foreach ($submenu[$parent] as $submenu_array) {
-			if (isset($submenu_array[3])) {
-				if ($submenu_array[2] == $pagenow) {
-					$title = $submenu_array[3];
-					return $submenu_array[3];
-				} else if (isset($plugin_page) && ($plugin_page == $submenu_array[2])) {
-					$title = $submenu_array[3];
-					return $submenu_array[3];
+	$parent = get_admin_page_parent();
+	if (empty($parent)) {
+		foreach ($menu as $menu_array) {
+			if (isset($menu_array[3])) {
+				if ($menu_array[2] == $pagenow) {
+					$title = $menu_array[3];
+					return $menu_array[3];
+				} else if (isset($plugin_page) && ($plugin_page == $menu_array[2])) {
+					$title = $menu_array[3];
+					return $menu_array[3];
+				}
+			}
+		}
+	} else {
+		foreach (array_keys($submenu) as $parent) {
+			foreach ($submenu[$parent] as $submenu_array) {
+				if (isset($submenu_array[3])) {
+					if ($submenu_array[2] == $pagenow) {
+						$title = $submenu_array[3];
+						return $submenu_array[3];
+					} else if (isset($plugin_page) && ($plugin_page == $submenu_array[2])) {
+						$title = $submenu_array[3];
+						return $submenu_array[3];
+					}
 				}
 			}
 		}
