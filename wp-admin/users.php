@@ -196,6 +196,7 @@ default:
 	<th><?php _e('Website') ?></th>
 	<th><?php _e('Level') ?></th>
 	<th><?php _e('Posts') ?></th>
+	<th>&nbsp;</th>
 	</tr>
 	<?php
 	$users = $wpdb->get_results("SELECT ID FROM $wpdb->users WHERE user_level > 0 ORDER BY ID");
@@ -227,6 +228,10 @@ default:
 	if (($user_level >= 2) and ($user_level > ($user_data->user_level + 1)))
 		echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=up\">+</a> ";
 	echo "</td><td align='right'>$numposts</td>";
+	echo '<td>';
+	if (($user_level >= 2) and ($user_level > $user_data->user_level))
+		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>Edit</a>";
+	echo '</td>';
 	echo '</tr>';
 	}
 	
@@ -249,6 +254,7 @@ default:
 		<th><?php _e('E-mail') ?></th>
 		<th><?php _e('Website') ?></th>
 		<th><?php _e('Level') ?></th>
+		<th></th>
 	</tr>
 <?php
 $style = '';
@@ -275,8 +281,13 @@ echo "\n<tr $style>
 	echo $user_data->user_level;
 	if ($user_level >= 2)
 		echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=up\">+</a> ";	
-	echo "</td>\n</tr>\n";
+	echo "</td>\n";
 }
+	echo '<td>';
+	if (($user_level >= 2) and ($user_level > $user_data->user_level))
+		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>Edit</a>";
+	echo '</td>';
+	echo '</tr>';
 ?>
 	
 	</table>
