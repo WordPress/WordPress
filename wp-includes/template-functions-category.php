@@ -13,7 +13,7 @@ function get_the_category($id = false) {
         $categories = $wpdb->get_results("
             SELECT category_id, cat_name, category_nicename, category_description, category_parent
             FROM  $wpdb->categories, $wpdb->post2cat
-            WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = $id
+            WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$id'
             ");
     
         return $categories;
