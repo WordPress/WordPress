@@ -39,7 +39,7 @@ case "step1":
 
 		$bgmm = zeroise($bgm,2);
 	
-		$archivefile = "../$bgy"."_"."$bgmm"."_01_cafelog.php";
+		$archivefile = "../$bgy"."_"."$bgmm"."_01_wordpress.php";
 		
 		if (file_exists($archivefile)) {
 
@@ -48,7 +48,7 @@ case "step1":
 			fclose($f);
 			echo "<li>$bgy/$bgmm ";
 
-			$posts = explode('<cafelogpost>', $archive);
+			$posts = explode('<wordpresspost>', $archive);
 
 			for ($i = 1; $i < (count($posts)+1); $i = $i + 1) {
 
@@ -72,7 +72,7 @@ case "step1":
 				$user_login = addslashes($post_author);
 				$pass1 = addslashes('password');
 				$user_nickname = addslashes($post_author);
-				$user_email = addslashes('user@cafelog.com');
+				$user_email = addslashes('user@wordpress.org');
 				$user_url = addslashes('');
 				$user_joindate = addslashes($user_joindate);
 				$result = $wpdb->query("
@@ -197,11 +197,11 @@ default:
 
 <h3>Second step: let's play with Blogger</h3>
 <p>Log into your Blogger account.<br />
-Go to the Settings, and make Blogger publish your files in the directory where your b2 resides. Change the Date/Time format to be mm/dd/yyyy hh:mm:ss AM/PM (the first choice in the dropdown menu). In Archives: set the frequency to 'monthly' and the archive filename to 'cafelog.php' (without the quotes), set the ftp archive path to make Blogger publish the archives in your b2 directory. Click 'save changes'.<br />
+Go to the Settings, and make Blogger publish your files in the directory where your WordPress resides. Change the Date/Time format to be mm/dd/yyyy hh:mm:ss AM/PM (the first choice in the dropdown menu). In Archives: set the frequency to 'monthly' and the archive filename to 'wordpress.php' (without the quotes), set the ftp archive path to make Blogger publish the archives in your WordPress directory. Click 'save changes'.<br />
 Go to the Templates. Replace your existing template with this line (copy and paste):
-<blockquote>&lt;Blogger>&lt;cafelogpost>&lt;$BlogItemDateTime$>|||&lt;$BlogItemAuthorNickname$>|||&lt;$BlogItemBody$>|||&lt;$BlogItemNumber$>|||&lt;$BlogItemSubject$>&lt;/Blogger></blockquote>
+<blockquote>&lt;Blogger>&lt;wordpresspost>&lt;$BlogItemDateTime$>|||&lt;$BlogItemAuthorNickname$>|||&lt;$BlogItemBody$>|||&lt;$BlogItemNumber$>|||&lt;$BlogItemSubject$>&lt;/Blogger></blockquote>
 Go to the Archives, and click 'republish all'.<br />
-Check in your FTP that you've got the archive files published. They should look like this example: <code>2001_10_01_cafelog.php</code>. If they aren't there, redo the republish process.</p>
+Check in your FTP that you've got the archive files published. They should look like this example: <code>2001_10_01_wordpress.php</code>. If they aren't there, redo the republish process.</p>
 <p>You're done with the hard part. :)</p>
 
 <form name="stepOne" method="get">
