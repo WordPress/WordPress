@@ -266,7 +266,7 @@ foreach($wpsmiliestrans as $smiley => $img) {
 	for ($i = 0; $i < strlen($smiley); $i = $i + 1) {
 		$smiley_masked .= substr($smiley, $i, 1).chr(160);
 	}
-	$wp_smiliesreplace[] = "<img src='$smilies_directory/$img' alt='$smiley_masked' />";
+	$wp_smiliesreplace[] = " <img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
 
 
