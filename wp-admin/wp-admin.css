@@ -35,7 +35,7 @@ a:hover {
 }
 
 body	{
-	background: #fff;
+	background: #f2f2f2;
 	color: #000;
 	margin: 0;
 	padding: 0;
@@ -96,7 +96,7 @@ h2 {
 
 input:focus, textarea:focus, label:focus {
 	background: #fff;
-	border: 1px solid #878787;
+	border: 1px solid #686868;
 }
 
 label {
@@ -107,7 +107,7 @@ li, dd {
 	margin-bottom: 6px;
 }
 
-p, dl, dd, dt {
+p, li, dl, dd, dt {
 	line-height: 130%;
 }
 
@@ -203,6 +203,7 @@ textarea, input, select {
 }
 
 .wrap {
+	background: #fff;
 	border: 1px solid #ccc;
 	margin: 15px 5%;
 	padding: .5em 1em;
@@ -213,9 +214,10 @@ textarea, input, select {
 }
 
 #adminmenu {
+	background: #fff;
 	border-bottom: 2px solid #707070;
-	margin: 2px 2px 0 2px;
-	padding: 0 2px;
+	margin: 0;
+	padding: .2em;
 }
 
 #adminmenu .current, #adminmenu2 .current, #ed_strong {
@@ -249,12 +251,13 @@ textarea, input, select {
 	background: #707070;
 	border-bottom: none;
 	height: 20px;
-	margin: 0 2px;
-	padding: 0;
+	margin: 0;
+	padding: 0 1em;
 }
 
 #adminmenu2 .current {
-	background: #fff;
+	background: #f2f2f2;
+	border-right: 2px solid #4f4f4f;
 	color: #000;
 }
 
@@ -426,17 +429,9 @@ textarea, input, select {
 	padding: 4px 0 0 5px;
 }
 
-#wphead a {
-	border-bottom: none;
-	display: block;
-	height: 44px;
-	text-decoration: none;
-	text-indent: -1000px;
-	width: 200px;
-}
-
 #wphead h1 {
-	background: url(../wp-images/wp-small.png) no-repeat;
-	height: 44px;
+	font-size: 2.5em;
+	font-weight: normal;
+	height: 1.5em;
 	margin: 0;
 }
