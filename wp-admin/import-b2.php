@@ -1,5 +1,5 @@
 <?php
-if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
+if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config-sample.php with the proper database connection information and renamed it to wp-config.php.");
 require_once('../wp-config.php');
 require('upgrade-functions.php');
 $step = $_GET['step'];
@@ -51,11 +51,10 @@ switch($step) {
     before it&#8217;s probably worth it to start from scratch and work back to your 
     design.</li>
   <li>You need to transfer some of your settings from your old <code>b2config.php</code>
-    to <code>wp-config.php</code> file [NEED MORE INFO].</li>
+    to <code>wp-config.php</code> file.</li>
   <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support 
     forums</a>.</li>
-  <li><strong>Back up</strong> your database before you do anything. Yes, you. 
-    Right now.</li>
+  <li><strong>Back up</strong> your database before you do anything. Yes, you.</li>
 </ul>
 <p>Have you looked at the <a href="../readme.html">readme</a>? If 
   you&#8217;re all ready, <a href="import-b2.php?step=1">let&#8217;s go</a>!</p>
