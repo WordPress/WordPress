@@ -207,7 +207,10 @@ function get_links($category = -1, $before = '', $after = '<br />',
         echo($rel . $title . $target);
         echo('>');
         if (($row->link_image != null) && $show_images) {
-            echo "<img src='" . get_settings('siteurl') . "$row->link_image' $alt $title />";
+			if (strstr($row->link_image, 'http'))
+				echo "<img src='$row->link_image' $alt $title />";
+			else // If it's a relative path
+            	echo "<img src='" . get_settings('siteurl') . "$row->link_image' $alt $title />";
         } else {
             echo($name);
         }
