@@ -66,7 +66,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 	<sy:updateFrequency>1</sy:updateFrequency>
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
 
-	<?php $items_count = 0; foreach ($posts as $post) { start_b2(); ?>
+	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_b2(); ?>
 	<item rdf:about="<?php permalink_single_rss() ?>">
 		<title><?php the_title_rss() ?></title>
 		<link><?php permalink_single_rss() ?></link>
@@ -86,6 +86,6 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 ?>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 	</item>
-	<?php $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } ?>
+	<?php $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } } ?>
 </channel>
 </rss>

@@ -55,7 +55,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
         <webMaster><?php echo $admin_email ?></webMaster>
         <language><?php echo $rss_language ?></language>
 
-<?php $items_count = 0; foreach ($posts as $post) { start_b2(); ?>
+<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_b2(); ?>
         <item>
             <title><?php the_title_rss() ?></title>
 <?php
@@ -74,6 +74,6 @@ if ($rss_use_excerpt) {
 ?>
             <link><?php permalink_single_rss() ?></link>
         </item>
-<?php $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } ?>
+<?php $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } } ?>
     </channel>
 </rss>
