@@ -51,7 +51,8 @@ if (!get_magic_quotes_gpc()) {
 
 $b2varstoreset = array('action','standalone','cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
-                       'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes');
+                       'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
+                       'notes'. 'linkcheck');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
     $b2var = $b2varstoreset[$i];
     if (!isset($$b2var)) {
@@ -73,6 +74,33 @@ $links_show_order = $HTTP_COOKIE_VARS["links_show_order"];
 // error_log("start, links_show_cat_id=$links_show_cat_id");
 
 switch ($action) {
+  case 'Assign':
+  {
+    $standalone = 1;
+    include_once('b2header.php');
+        
+    // check the current user's level first.
+    if ($user_level < $minadminlevel)
+      die ("Cheatin' uh ?");
+    
+    //for each link id (in $linkcheck[]): if the current user level >= the
+    //userlevel of the owner of the link then we can proceed.
+    
+    $all_links = join(',', $linkcheck);
+    $results = $wpdb->get_results("SELECT link_id, link_owner, user_level FROM $tablelinks LEFT JOIN $tableusers ON link_owner = ID WHERE link_id in ($all_links)");
+    foreach ($results as $row) {
+      if ($user_level >= $row->user_level) { // ok to proceed
+        $ids_to_change[] = $row->link_id;
+      }
+    }
+
+    // should now have an array of links we can change
+    $all_links = join(',', $ids_to_change);
+    $q = $wpdb->query("update $tablelinks SET link_owner='$newowner' WHERE link_id IN ($all_links)");
+
+    header('Location: linkmanager.php');
+    break;
+  }
   case 'Add':
   {
     $standalone = 1;
@@ -368,6 +396,21 @@ switch ($action) {
 
   if ($action != "popup") {
 ?>
+<script type="text/javascript">
+<!-- 
+function checkAll(form)
+{
+	for (i = 0, n = form.elements.length; i < n; i++) {
+		if(form.elements[i].type == "checkbox") {
+			if(form.elements[i].checked == true)
+				form.elements[i].checked = false;
+			else
+				form.elements[i].checked = true;
+		}
+	}
+}
+//-->
+</script> 
 
 <div class="wrap">
     <form name="cats" method="post">
@@ -432,40 +475,31 @@ switch ($action) {
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
-  <table width="100%" border="0" cellspacing="0" cellpadding="5">
+  <table width="100%" border="0" cellspacing="0" cellpadding="3">
     <tr>
       <th width="15%">Name</th>
       <th>URL</th>
       <th>Category</th>
-      <th>Relationship</th>
+      <th>Rel</th>
       <th>Image</th>
       <th>Visible</th>
+      <th>&nbsp;</th>
       <th>&nbsp;</th>
       <th>&nbsp;</th>
   </tr>
 <?php
     $sql = "SELECT link_url, link_name, link_image, link_description, link_visible,
-    link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id,
-    link_rating, link_rel
-    FROM $tablelinks
-    LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id
-    LEFT JOIN $tableusers on $tableusers.ID = $tablelinks.link_owner ";
+            link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id,
+            link_rating, link_rel, $tableusers.user_level
+            FROM $tablelinks
+            LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id
+            LEFT JOIN $tableusers ON $tableusers.ID = $tablelinks.link_owner ";
 
-    // have we got a where clause?
-    if (($use_adminlevels) || (isset($cat_id) && ($cat_id != 'All')) ) {
-        $sql .= " WHERE ";
-    }
-    // FIX ME This make higher level links invisible rather than just uneditable
-    if ($use_adminlevels) {
-        $sql .= " ($tableusers.user_level <= $user_level"
-                . "   OR $tableusers.ID = $user_ID)";
-    }
+    //$use_adminlevels = 0;
+
     if (isset($cat_id) && ($cat_id != 'All')) {
       // have we already started the where clause?
-      if ($use_adminlevels) {
-        $sql .= " AND ";
-      }
-      $sql .= " link_category = $cat_id ";
+      $sql .= " WHERE link_category = $cat_id ";
     }
     $sql .= ' ORDER BY link_' . $sqlorderby;
 
@@ -497,14 +531,52 @@ switch ($action) {
         <td>$link->link_rel</td>
         <td>$image</td>
         <td>$visible</td>
+LINKS;
+            $show_buttons = 1; // default
+            
+            if ($use_adminlevels && ($link->user_level > $user_level)) {
+              $show_buttons = 0;
+            }
+            
+            if ($show_buttons) {
+              echo <<<LINKS
         <td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit'; " value="Edit" class="search" /></td>
         <td><input type="submit" name="delete" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
-    </tr>
-
+        <td><input type="checkbox" name="linkcheck[]" value="$link->link_id" /><td>
 LINKS;
+            } else {
+              echo <<<LINKS
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+LINKS;
+            }
         }
     }
 ?>
+    </tr>
+</table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="3">
+    <tr>
+        <td>Assign ownership (of checked) to:
+<?php
+    $results = $wpdb->get_results("SELECT ID, user_login FROM $tableusers WHERE user_level > 0 ORDER BY ID");
+    echo "        <select name=\"newowner\" size=\"1\">\n";
+    foreach ($results as $row) {
+      echo "          <option value=\"".$row->ID."\"";
+      echo ">".$row->user_login;
+      echo "</option>\n";
+    }
+    echo "        </select>\n";
+?>
+        <input type="submit" name="action" value="Assign" />
+        </td>
+        <td align="right">
+          Toggle Checkboxes
+          &nbsp;
+          <input type="checkbox" name="unused" value="Check All" onclick="checkAll(document.getElementById('links'));" />
+        </td>
+    </tr>
 </table>
 </form>
 <?php
