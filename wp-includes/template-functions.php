@@ -781,7 +781,10 @@ function the_author() {
 	if ($i == 'namelf')	echo $authordata->user_lastname.' '.$authordata->user_firstname;
 	if (!$i) echo $authordata->user_nickname;
 }
-
+function the_author_description() {
+	global $authordata;
+	echo $authordata->user_description;
+}
 function the_author_login() {
 	global $id,$authordata;	echo $authordata->user_login;
 }

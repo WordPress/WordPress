@@ -418,6 +418,7 @@ function get_userdata($userid) {
         $user->user_lastname = stripslashes($user->user_lastname);
         $user->user_firstname =  stripslashes($user->user_firstname);
         $user->user_lastname = stripslashes($user->user_lastname);
+		$user->user_description = stripslashes($user->user_description);
 		$cache_userdata[$userid] = $user;
 	} else {
 		$user = $cache_userdata[$userid];

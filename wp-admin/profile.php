@@ -35,13 +35,10 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 }
 
 require_once('../wp-config.php');
-require_once(ABSPATH.WPINC.'/functions.php');
-
+require_once('auth.php');
 switch($action) {
 
 case 'update':
-	
-	require_once('auth.php');
 
 	get_currentuserinfo();
 
@@ -82,47 +79,35 @@ case 'update':
 		setcookie("wordpresspass_".$cookiehash,md5($newuser_pass),time()+31536000);
 	}
 
-	$newuser_firstname=addslashes($HTTP_POST_VARS["newuser_firstname"]);
-	$newuser_lastname=addslashes($HTTP_POST_VARS["newuser_lastname"]);
-	$newuser_nickname=addslashes($HTTP_POST_VARS["newuser_nickname"]);
-	$newuser_icq=addslashes($HTTP_POST_VARS["newuser_icq"]);
-	$newuser_aim=addslashes($HTTP_POST_VARS["newuser_aim"]);
-	$newuser_msn=addslashes($HTTP_POST_VARS["newuser_msn"]);
-	$newuser_yim=addslashes($HTTP_POST_VARS["newuser_yim"]);
-	$newuser_email=addslashes($HTTP_POST_VARS["newuser_email"]);
-	$newuser_url=addslashes($HTTP_POST_VARS["newuser_url"]);
-	$newuser_idmode=addslashes($HTTP_POST_VARS["newuser_idmode"]);
+	$newuser_firstname=addslashes(stripslashes($HTTP_POST_VARS['newuser_firstname']));
+	$newuser_lastname=addslashes(stripslashes($HTTP_POST_VARS['newuser_lastname']));
+	$newuser_nickname=addslashes(stripslashes($HTTP_POST_VARS['newuser_nickname']));
+	$newuser_icq=addslashes(stripslashes($HTTP_POST_VARS['newuser_icq']));
+	$newuser_aim=addslashes(stripslashes($HTTP_POST_VARS['newuser_aim']));
+	$newuser_msn=addslashes(stripslashes($HTTP_POST_VARS['newuser_msn']));
+	$newuser_yim=addslashes(stripslashes($HTTP_POST_VARS['newuser_yim']));
+	$newuser_email=addslashes(stripslashes($HTTP_POST_VARS['newuser_email']));
+	$newuser_url=addslashes(stripslashes($HTTP_POST_VARS['newuser_url']));
+	$newuser_idmode=addslashes(stripslashes($HTTP_POST_VARS['newuser_idmode']));
+	$user_description = addslashes(stripslashes($HTTP_POST_VARS['user_description']));
 
-	$query = "UPDATE $tableusers SET user_firstname='$newuser_firstname', ".$updatepassword."user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode' WHERE ID = $user_ID";
+	$query = "UPDATE $tableusers SET user_firstname='$newuser_firstname', $updatepassword user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode', user_description = '$user_description' WHERE ID = $user_ID";
 	$result = $wpdb->query($query);
 	if (!$result) {
 		die ("<strong>ERROR</strong>: couldn't update your profile... please contact the <a href=\"mailto:$admin_email\">webmaster</a> !<br /><br />$query<br /><br />");
 	}
-
-	?>
-	<html>
-	<body onload="window.close();">
-		Profile updated!<br />
-		If this window doesn't close itself, close it yourself :p
-	</body>
-	</html>
-	<?php
-
+	header('Location: profile.php?updated=true');
 break;
 
 case 'viewprofile':
 
-	require_once('auth.php');
 
 	$profiledata = get_userdata($user);
 	if ($HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash] == $profiledata->user_login)
 		header ('Location: profile.php');
 	
-	$profile = 1;
-	include('admin-header.php');
+	include_once('admin-header.php');
 	?>
-
-<h1 id="wphead"><a href="http://wordpress.org" rel="external"><span>WordPress</span></a></h1> 
 
 <h2>View Profile &#8220;
   <?php
@@ -192,8 +177,6 @@ break;
 
 case 'IErightclick':
 
-	$profile = 1;
-	include ('admin-header.php');
 
 	$bookmarklet_tbpb  = ($use_trackback) ? '&trackback=1' : '';
 	$bookmarklet_tbpb .= ($use_pingback)  ? '&pingback=1'  : '';
@@ -230,8 +213,7 @@ break;
 
 default:
 
-	$profile = 1;
-	include ('admin-header.php');
+	include_once('admin-header.php');
 	$profiledata=get_userdata($user_ID);
 
 	$bookmarklet_tbpb  = ($use_trackback) ? '&trackback=1' : '';
@@ -239,7 +221,12 @@ default:
 	$bookmarklet_height= ($use_trackback) ? 480 : 440;
 
 	?>
-<h1 id="wphead"><a href="http://wordpress.org" rel="external"><span>WordPress</span></a></h1> 
+<?php if ($updated) { ?>
+<div class="wrap">
+<p><strong>Profile updated.</strong></p>
+</div>
+<?php } ?>
+<div class="wrap">
 <form name="profile" id="profile" action="profile.php" method="post">
 	<h2>Edit Your Profile</h2>
   <p>
@@ -253,76 +240,86 @@ default:
 	echo $posts;
 	?>
     | <strong>Login:</strong> <?php echo $profiledata->user_login ?></p>
-  <div class="left">
-  <p>
-    <label for="newuser_firstname">First:</label>
-    <input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" />
-  </p>
-  <p>
-    <label for="">Last:</label>
-    <input type="text" name="newuser_lastname" id="newuser_lastname" value="<?php echo $profiledata->user_lastname ?>" />
-  </p>
-  <p>
-    <label for="newuser_nickname">Nickname:</label> 
-    <input type="text" name="newuser_nickname" id="newuser_nickname" value="<?php echo $profiledata->user_nickname ?>" />
-  </p>
-  <p>
-    <label for="newuser_email">Email:</label> 
-    <input type="text" name="newuser_email" id="newuser_email" value="<?php echo $profiledata->user_email ?>" />
-  </p>
-  <p>
-    <label for="newuser_url">URL:</label>
-    <input type="text" name="newuser_url" id="newuser_url" value="<?php echo $profiledata->user_url ?>" />
-  </p>
-  <p>
-    <label for="newuser_icq">ICQ:</label> 
-    <input type="text" name="newuser_icq" id="newuser_icq" value="<?php if ($profiledata->user_icq > 0) { echo $profiledata->user_icq; } ?>" />
-  </p>
-  <p>
-    <label for="newuser_aim">AIM:</label>
-    <input type="text" name="newuser_aim" id="newuser_aim" value="<?php echo $profiledata->user_aim ?>" />
-  </p>
-  <p>
-    <label for="newuser_msn">MSN IM:</label>
-    <input type="text" name="newuser_msn" id="newuser_msn" value="<?php echo $profiledata->user_msn ?>" />
-  </p>
-  <p>
-    <label for="newuser_yim">Yahoo IM:</label> 
-    <input type="text" name="newuser_yim" id="newuser_yim" value="<?php echo $profiledata->user_yim ?>" />
-  </p>
-  </div>
-  <div class="right">
-  <p><strong>Identity</strong> on the blog: 
-    <select name="newuser_idmode">
-      <option value="nickname"<?php
+	<style type="text/css" media="screen">
+	th { text-align: right; }
+	</style>
+  <table width="99%"  border="0" cellspacing="2" cellpadding="3">
+    <tr>
+      <th width="15%" scope="row">First:</th>
+      <td><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Last:</th>
+      <td><input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->user_lastname ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Description:</th>
+      <td><textarea name="user_description" rows="5" id="textarea2" style="width: 99%; "><?php echo $profiledata->user_description ?></textarea></td>
+    </tr>
+    <tr>
+      <th scope="row">Nickname:</th>
+      <td><input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->user_nickname ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Email:</th>
+      <td><input type="text" name="newuser_email" id="newuser_email2" value="<?php echo $profiledata->user_email ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">URI:</th>
+      <td><input type="text" name="newuser_url" id="newuser_url2" value="<?php echo $profiledata->user_url ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">ICQ:</th>
+      <td><input type="text" name="newuser_icq" id="newuser_icq2" value="<?php if ($profiledata->user_icq > 0) { echo $profiledata->user_icq; } ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">AIM:</th>
+      <td><input type="text" name="newuser_aim" id="newuser_aim2" value="<?php echo $profiledata->user_aim ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">MSN IM: </th>
+      <td><input type="text" name="newuser_msn" id="newuser_msn2" value="<?php echo $profiledata->user_msn ?>" /></td>
+    </tr>
+    <tr>
+      <th scope="row">Yahoo IM: </th>
+      <td>        <input type="text" name="newuser_yim" id="newuser_yim2" value="<?php echo $profiledata->user_yim ?>" />      </td>
+    </tr>
+    <tr>
+      <th scope="row">Identity on blog: </th>
+      <td><select name="newuser_idmode">
+        <option value="nickname"<?php
 	if ($profiledata->user_idmode == 'nickname')
 	echo " selected"; ?>><?php echo $profiledata->user_nickname ?></option>
-      <option value="login"<?php
+        <option value="login"<?php
 	if ($profiledata->user_idmode=="login")
 	echo " selected"; ?>><?php echo $profiledata->user_login ?></option>
-      <option value="firstname"<?php
+        <option value="firstname"<?php
 	if ($profiledata->user_idmode=="firstname")
 	echo " selected"; ?>><?php echo $profiledata->user_firstname ?></option>
-      <option value="lastname"<?php
+        <option value="lastname"<?php
 	if ($profiledata->user_idmode=="lastname")
 	echo " selected"; ?>><?php echo $profiledata->user_lastname ?></option>
-      <option value="namefl"<?php
+        <option value="namefl"<?php
 	if ($profiledata->user_idmode=="namefl")
 	echo " selected"; ?>><?php echo $profiledata->user_firstname." ".$profiledata->user_lastname ?></option>
-      <option value="namelf"<?php
+        <option value="namelf"<?php
 	if ($profiledata->user_idmode=="namelf")
 	echo " selected"; ?>><?php echo $profiledata->user_lastname." ".$profiledata->user_firstname ?></option>
-    </select>
-  </p>
-  <p> <br />
-    New <strong>Password</strong> (Leave blank to stay the same.)<br />
-    <input type="password" name="pass1" size="16" value="" />
-    <input type="password" name="pass2" size="16" value="" />
-  </p>
-
-    <?php if ($is_gecko) { ?>
-    <br />
-    <br />
+      </select>        </td>
+    </tr>
+    <tr>
+      <th scope="row">New <strong>Password</strong> (Leave blank to stay the same.)</th>
+      <td><input type="password" name="pass1" size="16" value="" />
+        <input type="password" name="pass2" size="16" value="" /></td>
+    </tr>
+  </table>
+  <p style=" text-align: center;">
+    <input class="search" type="submit" value="Update" name="submit" /></p>
+	</div>
+  </form>
+</div>
+<?php if ($is_gecko) { ?>
+<div class="wrap">
     <script language="JavaScript" type="text/javascript">
 function addPanel()
         {
@@ -335,19 +332,13 @@ function addPanel()
     <strong>SideBar</strong><br />
     Add the <a href="#" onclick="addPanel()">WordPress Sidebar</a>! 
     <?php } elseif (($is_winIE) || ($is_macIE)) { ?>
-    <br />
-    <br />
     <strong>SideBar</strong><br />
     Add this link to your favorites:<br />
     <a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo $siteurl ?>/wp-admin/sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))">WordPress 
     Sidebar</a>. 
-    <?php } ?>
-  </p>
-  <p style="clear: both; text-align: center;">
-    <input class="search" type="submit" value="Update and Close Window" name="submit" /></p>
-	</div>
-  </form>
-
+    
+</div>
+<?php } ?>
 	<?php
 
 break;
