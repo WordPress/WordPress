@@ -35,7 +35,7 @@ $more = 1;
 		<?php the_category_rss() ?>
 		<guid><?php the_permalink($id); ?></guid>
 <?php if (get_settings('rss_use_excerpt')) : ?>
-		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
+		<description><?php the_excerpt_rss('', 2) ?></description>
 <?php else : ?>
 		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
