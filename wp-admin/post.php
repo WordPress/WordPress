@@ -459,7 +459,7 @@ case 'confirmdeletecomment':
 	echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
 	echo "<input type=\"submit\" value=\"" . __('Yes') . "\" />";
 	echo "&nbsp;&nbsp;";
-	echo "<input type=\"button\" value=\"" . __('No') . "\" onClick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
+	echo "<input type=\"button\" value=\"" . __('No') . "\" onclick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&amp;c=1#comments';\" />\n";
 	echo "</form>\n";
 	echo "</div>\n";
 

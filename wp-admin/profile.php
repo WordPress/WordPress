@@ -245,7 +245,7 @@ function addPanel()
 //]]>
 </script>
     <strong><?php _e('SideBar') ?></strong><br />
-    <?php _e('Add the <a href="#" onClick="addPanel()">WordPress Sidebar</a>!') ?> 
+    <?php _e('Add the <a href="#" onclick="addPanel()">WordPress Sidebar</a>!') ?> 
     <?php } elseif (($is_winIE) || ($is_macIE)) { ?>
     <strong><?php _e('SideBar') ?></strong><br />
     <?php __('Add this link to your favorites:') ?><br />

@@ -80,6 +80,7 @@ if (empty($plugins)) {
 		} else {
 			$action = "<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
+		$plugin_data['Description'] = wp_kses($plugin_data['Description'], array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array()) ); ;
 		echo "
 	<tr $style>
 		<td>{$plugin_data['Title']}</td>
