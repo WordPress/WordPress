@@ -167,7 +167,7 @@ $class = ('alternate' == $class) ? '' : 'alternate';
 <?php
 if ( 1 == count($posts) ) {
 
-	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_status != 'spam' ORDER BY comment_date");
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
 	if ($comments) {
 	?> 
 <h3><?php _e('Comments') ?></h3> 
