@@ -47,27 +47,24 @@ switch($action) {
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td<?php 
-
-if ($action != "editcomment") {
-
-// this is for everything but comment editing
-	?>>
-	<table height="60" align="left" cellpadding="0" cellspacing="0">
-		<td height="60" width="190">
-		<label for="title"><b>Title :</b></label><br />
-		<input type="text" name="post_title" size="20" tabindex="1" style="width: 170px;" value="<?php echo $edited_post_title; ?>" id="title" />
-		</td>
-		<td>
-		<label for="category"><b>Category :</b></label><br /><?php dropdown_categories(); ?>
-		</td>
-	</table>
-	<?php
+<?php if ($action != "editcomment") {
+  // this is for everything but comment editing
+?>  <td>
+      <table height="60" align="left" cellpadding="0" cellspacing="0">
+        <td height="60" width="190">
+          <label for="title"><b>Title :</b></label><br />
+          <input type="text" name="post_title" size="20" tabindex="1" style="width: 170px;" value="<?php echo $edited_post_title; ?>" id="title" />
+        </td>
+        <td>
+          <label for="category"><b>Category :</b></label><br /><?php dropdown_categories(); ?>
+        </td>
+      </table>
+  <?php
 
 } else {
-	
+  
 // this is for comment editing
-	?> colspan="2">&nbsp;</td>
+?>  <td colspan="2">&nbsp;</td>
 </tr>
 
 <tr>
@@ -81,8 +78,8 @@ if ($action != "editcomment") {
 	<label for="URL"><b>URL :</b></label><br />
 	<input type="text" name="newcomment_author_url" size="20" value="<?php echo format_to_edit($commentdata["comment_author_url"]) ?>" tabindex="3" id="URL" />
 	<?php
-	
-}
+  
+} // end else comment editing
 
 	?>
 	</td>
@@ -91,6 +88,20 @@ if ($action != "editcomment") {
 <td colspan="<?php echo $colspan; ?>">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <td valign="bottom">
+<?php
+if ($action != 'editcomment') {
+  echo '<label for="excerpt"><b>Excerpt :</b></label>';
+} else {
+  echo '<br /><label for="content"><b>Comment :</b></label>';
+}
+?>
+</td>
+<td valign="bottom" align="right">&nbsp;</td>
+</table>
+
+<textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="content"><?php echo $excerpt ?></textarea><br />
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+
 <?php
 if ($action != 'editcomment') {
 	echo '<label for="content"><b>Post :</b></label>';
@@ -120,8 +131,7 @@ echo " checked" ?> tabindex="7" id="autobr" /><label for="autobr"> Auto-BR (conv
 
 <?php if ($use_spellchecker) { ?>
 <!--<input type = "button" value = "Spell Check" onclick="var f=document.forms[0]; doSpell( 'en', f.post_content, '<?php echo $spellchecker_url ?>/sproxy.cgi', true);" class="search" tabindex="5" />-->
-<input type="button" value="Spellcheck" onclick="DoSpell
-('post','content','');" class="search" tabindex="9"/>
+<input type="button" value="Spellcheck" onclick="DoSpell('post','content','');" class="search" tabindex="9"/>
 <?php } ?>
 
 <?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && ((ereg(" ".$user_login." ", $fileupload_allowedusers)) || (trim($fileupload_allowedusers)=="")) ) { ?>

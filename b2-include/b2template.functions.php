@@ -370,6 +370,72 @@ function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file
 	return($output);
 }
 
+function the_excerpt() {
+	$excerpt = get_the_excerpt();
+	$excerpt = convert_bbcode($excerpt);
+	$excerpt = convert_gmcode($excerpt);
+	$excerpt = convert_smilies($excerpt);
+	$excerpt = convert_chars($excerpt, 'html');
+	$excerpt = apply_filters('the_excerpt', $excerpt);
+	echo $excerpt;
+}
+
+function the_excerpt_rss($cut = 0, $encode_html = 0) {
+	$excerpt = get_the_excerpt();
+	$excerpt = convert_bbcode($excerpt);
+	$excerpt = convert_gmcode($excerpt);
+	$excerpt = convert_chars($excerpt, 'unicode');
+	if ($cut && !$encode_html) {
+		$encode_html = 2;
+	}
+	if ($encode_html == 1) {
+		$excerpt = htmlspecialchars($excerpt);
+		$cut = 0;
+	} elseif ($encode_html == 0) {
+		$excerpt = make_url_footnote($excerpt);
+	} elseif ($encode_html == 2) {
+		$excerpt = strip_tags($excerpt);
+	}
+	if ($cut) {
+		$blah = explode(' ', $excerpt);
+		if (count($blah) > $cut) {
+			$k = $cut;
+			$use_dotdotdot = 1;
+		} else {
+			$k = count($blah);
+			$use_dotdotdot = 0;
+		}
+		for ($i=0; $i<$k; $i++) {
+			$excerpt .= $blah[$i].' ';
+		}
+		$excerpt .= ($use_dotdotdot) ? '...' : '';
+		$excerpt = $excerpt;
+	}
+	echo $excerpt;
+}
+function the_excerpt_unicode() {
+	$excerpt = get_the_excerpt();
+	$excerpt = convert_bbcode($excerpt);
+	$excerpt = convert_gmcode($excerpt);
+	$excerpt = convert_smilies($excerpt);
+	$excerpt = convert_chars($excerpt, 'unicode');
+	$excerpt = apply_filters('the_excerpt_unicode', $excerpt);
+	echo $excerpt;
+}
+function get_the_excerpt() {
+	global $id,$postdata;
+	global $HTTP_SERVER_VARS, $preview;
+	$output = '';
+	$output = $postdata['Excerpt'];
+	if ($preview) { // preview fix for javascript bug with foreign languages
+		$output =  preg_replace('/\%u([0-9A-F]{4,4})/e',  "'&#'.base_convert('\\1',16,10).';'", $output);
+	}
+	return($output);
+}
+
+
+
+
 function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', $pagelink='%', $more_file='') {
 	global $id,$page,$numpages,$multipage,$more;
 	global $pagenow;
@@ -1123,6 +1189,7 @@ function start_b2() {
 			'Author_ID' => $HTTP_GET_VARS['preview_userid'],
 			'Date' => $HTTP_GET_VARS['preview_date'],
 			'Content' => $HTTP_GET_VARS['preview_content'],
+			'Excerpt' => $HTTP_GET_VARS['preview_excerpt'],
 			'Title' => $HTTP_GET_VARS['preview_title'],
 			'Category' => $HTTP_GET_VARS['preview_category'],
 			'Notify' => 1,

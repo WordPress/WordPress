@@ -19,7 +19,7 @@ if (!get_magic_quotes_gpc()) {
 	$HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
 }
 
-$b2varstoreset = array('action','safe_mode','withcomments','c','posts','poststart','postend','content','edited_post_title','comment_error','profile', 'trackback_url');
+$b2varstoreset = array('action','safe_mode','withcomments','c','posts','poststart','postend','content','edited_post_title','comment_error','profile', 'trackback_url', 'excerpt');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
 	$b2var = $b2varstoreset[$i];
 	if (!isset($$b2var)) {
@@ -46,6 +46,8 @@ case 'post':
 	$post_pingback = intval($HTTP_POST_VARS["post_pingback"]);
 	$content = balanceTags($HTTP_POST_VARS["content"]);
 	$content = format_to_post($content);
+	$excerpt = balanceTags($HTTP_POST_VARS["excerpt"]);
+	$excerpt = format_to_post($excerpt);
 	$post_title = addslashes($HTTP_POST_VARS["post_title"]);
 	$post_category = intval($HTTP_POST_VARS["post_category"]);
 
@@ -68,7 +70,7 @@ case 'post':
 		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
 	}
 
-	$query = "INSERT INTO $tableposts (ID, post_author, post_date, post_content, post_title, post_category) VALUES ('0','$user_ID','$now','$content','".$post_title."','".$post_category."')";
+	$query = "INSERT INTO $tableposts (ID, post_author, post_date, post_content, post_title, post_category, post_excerpt) VALUES ('0','$user_ID','$now','$content','".$post_title."','".$post_category."','".$excerpt."')";
 	$result = mysql_query($query) or mysql_oops($query);
 
 	$post_ID = mysql_insert_id();
@@ -128,6 +130,8 @@ case "edit":
 
 	$content = $postdata["Content"];
 	$content = format_to_edit($content);
+	$excerpt = $postdata["Excerpt"];
+	$excerpt = format_to_edit($excerpt);
 	$edited_post_title = format_to_edit($postdata["Title"]);
 
 	echo $blankline;
@@ -159,6 +163,8 @@ case "editpost":
 	$post_autobr = intval($HTTP_POST_VARS["post_autobr"]);
 	$content = balanceTags($HTTP_POST_VARS["content"]);
 	$content = format_to_post($content);
+	$excerpt = balanceTags($HTTP_POST_VARS["excerpt"]);
+	$excerpt = format_to_post($excerpt);
 	$post_title = addslashes($HTTP_POST_VARS["post_title"]);
 
 	if (($user_level > 4) && (!empty($HTTP_POST_VARS["edit_date"]))) {
@@ -177,7 +183,7 @@ case "editpost":
 		$datemodif = "";
 	}
 
-	$query = "UPDATE $tableposts SET post_content=\"$content\", post_title=\"$post_title\", post_category=\"$post_category\"".$datemodif." WHERE ID=$post_ID";
+	$query = "UPDATE $tableposts SET post_content=\"$content\", post_excerpt=\"$excerpt\", post_title=\"$post_title\", post_category=\"$post_category\"".$datemodif." WHERE ID=$post_ID";
 	$result = mysql_query($query) or mysql_oops($query);
 
 	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {

@@ -63,6 +63,10 @@ p, .storyContent {
 #content>.storyContent {margin:0px;}
 #content>.storyContent+.storyContent {text-indent:30px;}
 
+.storyExcerpt {
+	font:12px/18px verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+}
 
 a {
 	color:#09c;

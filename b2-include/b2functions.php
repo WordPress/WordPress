@@ -518,6 +518,7 @@ function get_postdata($postid) {
 			'Author_ID' => $myrow->post_author, 
 			'Date' => $myrow->post_date, 
 			'Content' => $myrow->post_content, 
+			'Excerpt' => $myrow->post_excerpt, 
 			'Title' => $myrow->post_title, 
 			'Category' => $myrow->post_category, 
 			);
@@ -534,6 +535,7 @@ function get_postdata2($postid=0) { // less flexible, but saves mysql queries
 		'Author_ID' => $row->post_author,
 		'Date' => $row->post_date,
 		'Content' => $row->post_content,
+		'Excerpt' => $row->post_excerpt,
 		'Title' => $row->post_title,
 		'Category' => $row->post_category,
 #		'Notify' => $row->post_notifycomments,
