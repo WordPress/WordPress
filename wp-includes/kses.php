@@ -14,12 +14,15 @@ $allowedtags = array('b' => array(),
                  'i' => array(),
 				 'strong' => array(),
 				 'code' => array(),
+				 'acronym' => array('title'),
+				 'abbr' => array('title'),
 				 'em' => array(),
 				 'strike' => array(),
-                 'a' => array('href'  => array('minlen' => 3, 'maxlen' => 50),
-                              'title' => array('valueless' => 'n'),
+                 'a' => array('href'  => array('minlen' => 6, 'maxlen' => 250),
+                              'title',
 							  'rel' => array('minlen' => 3, 'maxlen' => 250)),
 				'blockquote' => array('cite' => array()),
+				'del' => array('datetime'),
                  'br' => array());
 
 function wp_kses($string, $allowed_html, $allowed_protocols =

@@ -550,9 +550,10 @@ function the_date_xml() {
 }
 
 function the_date($d='', $before='', $after='', $echo = true) {
-	global $id, $post, $day, $previousday, $dateformat, $newday;
+	global $id, $post, $dateday, $previousday, $dateformat, $newday;
 	$the_date = '';
-	if ($day != $previousday) {
+	$dateday = mysql2date('Yd', $post->post_date);
+	if ($dateday != $previousday) {
 		$the_date .= $before;
 		if ($d=='') {
 			$the_date .= mysql2date($dateformat, $post->post_date);
@@ -560,7 +561,7 @@ function the_date($d='', $before='', $after='', $echo = true) {
 			$the_date .= mysql2date($d, $post->post_date);
 		}
 		$the_date .= $after;
-		$previousday = $day;
+		$previousday = $dateday;
 	}
 	$the_date = apply_filters('the_date', $the_date);
 	if ($echo) {
@@ -1687,10 +1688,10 @@ function comment_text() {
 	$comment_text = convert_chars($comment_text);
 	$comment_text = convert_bbcode($comment_text);
 	$comment_text = convert_gmcode($comment_text);
-	$comment_text = convert_smilies($comment_text);
 	$comment_text = make_clickable($comment_text);
 	$comment_text = balanceTags($comment_text,1);
 	$comment_text = apply_filters('comment_text', $comment_text);
+	$comment_text = convert_smilies($comment_text);
 	echo $comment_text;
 }
 
