@@ -110,6 +110,10 @@ if (!$categories) :
 	$categories = $categories[1];
 endif;
 
+preg_match('|<guid.+?>(.*?)</guid>|is', $post, $guid);
+if ($guid) $guid = addslashes( trim($guid[1]) );
+else $guid = '';
+
 preg_match('|<content:encoded>(.*?)</content:encoded>|is', $post, $content);
 $content = str_replace( array('<![CDATA[', ']]>'), '', addslashes( trim($content[1]) ) );
 
@@ -137,9 +141,9 @@ if ($dupe) :
 else : 
 	
 	$wpdb->query("INSERT INTO $wpdb->posts 
-		(post_author, post_date, post_date_gmt, post_content, post_title,post_status, comment_status, ping_status, post_name)
+		(post_author, post_date, post_date_gmt, post_content, post_title,post_status, comment_status, ping_status, post_name, guid)
 		VALUES 
-		('$post_author', '$post_date', DATE_ADD('$post_date', INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE), '$content', '$title', 'publish', '$comment_status', '$ping_status', '$post_name')");
+		('$post_author', '$post_date', DATE_ADD('$post_date', INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE), '$content', '$title', 'publish', '$comment_status', '$ping_status', '$post_name', '$guid')");
 	$post_id = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$title' AND post_date = '$post_date'");
 	if (!$post_id) die("couldn't get post ID");
 	if (0 != count($categories)) :
