@@ -1,6 +1,7 @@
 <?php
 
 require_once('../b2config.php');
+require_once($abspath.$b2inc.'/wp-db.php');
 
 /* checking login & pass in the database */
 function veriflog() {

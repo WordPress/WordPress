@@ -18,9 +18,8 @@
 
 <body>
 
-	<!-- // b2 loop start -->
-	<?php while($row = mysql_fetch_object($result)) { start_b2(); ?>
-
+<!-- // b2 loop start -->
+<?php foreach ($posts as $post) { start_b2(); ?>
 
 <?php the_date("d.m.y","<h1>","</h1>"); ?>
 
@@ -39,8 +38,8 @@
 <?php include ("b2comments.php"); ?>
 
 
-	<!-- // this is just the end of the motor - don't touch that line either :) -->
-	<?php } ?> 
+<!-- // this is just the end of the motor - don't touch that line either :) -->
+<?php } ?> 
 
 <div align="right"><cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite><br />
 <br />

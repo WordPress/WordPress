@@ -12,6 +12,7 @@ require_once ($curpath.$b2inc.'/b2vars.php');
 require_once ($curpath.$b2inc.'/b2functions.php');
 require_once ($curpath.$b2inc.'/xmlrpc.inc');
 require_once ($curpath.$b2inc.'/xmlrpcs.inc');
+require_once ($curpath.$b2inc.'/wp-db.php');
 
 $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby');
 
