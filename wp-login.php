@@ -182,7 +182,7 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 <form name="" action="wp-login.php" method="post" id="lostpass">
 <input type="hidden" name="action" value="retrievepassword" />
 <label><?php _e('Login:') ?> <input type="text" name="user_login" id="user_login" value="" size="12" /></label><br />
-<label><?php _e('Email:') ?> <input type="text" name="email" id="email" value="" size="12" /></label><br />
+<label><?php _e('E-mail:') ?> <input type="text" name="email" id="email" value="" size="12" /></label><br />
 <input type="submit" name="Submit2" value="OK" class="search">
 
 </form>
@@ -203,7 +203,7 @@ case 'retrievepassword':
 	$user_login = $user_data->user_login;
 	$user_email = $user_data->user_email;
 
-	if (!$user_email || $user_email != $_POST['email']) die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or email address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
+	if (!$user_email || $user_email != $_POST['email']) die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
  	// Generate something random for a password... md5'ing current time with a rand salt
     $user_pass = substr((MD5("time" . rand(1,16000))), 0, 6);
  	// now insert the new pass md5'd into the db
@@ -215,12 +215,13 @@ case 'retrievepassword':
 	$m = mail($user_email, '[' . get_settings('blogname') . "] Your weblog's login/password", $message);
 
 	if ($m == false) {
-		echo "<p>The email could not be sent.<br />\n";
-		echo "Possible reason: your host may have disabled the mail() function...</p>";
+		echo "<p><?php _e('The e-mail could not be sent.') ?><br />\n";
+		echo "<?php _e('Possible reason: your host may have disabled the mail() function...') ?></p>";
 		die();
 	} else {
-		echo "<p>The email was sent successfully to $user_login's email address.<br />
-		<a href='wp-login.php' title='Check your email first, of course'>Click here to login!</a></p>";
+		echo "<p><?php _e('The e-mail was sent successfully to $user_login's e-mail address.') ?><br />
+		<?php _e('<a href='wp-login.php' title=\'Check your e-mail first, of course\'>Click here to login!</a>
+') ?></p>";
 		// send a copy of password change notification to the admin
 		mail(get_settings('admin_email'), '[' . get_settings('blogname') . "] Password Lost/Change", "Password Lost and Changed for user: $user_login");
 		die();

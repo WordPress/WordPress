@@ -34,7 +34,7 @@ function checkAll(form)
   <input type="text" name="s" value="<?php if (isset($s)) echo $s; ?>" size="17" /> 
   <input type="submit" name="submit" value="<?php _e('Search') ?>"  />  
   <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
-  <?php _e('(Searches within comment text, email, URI, and IP address.)') ?>
+  <?php _e('(Searches within comment text, e-mail, URI, and IP address.)') ?>
   </fieldset> 
 </form>
 <p><a href="?mode=view"><?php _e('View Mode') ?></a> | <a href="?mode=edit"><?php _e('Mass Edit Mode') ?></a></p>
@@ -79,7 +79,7 @@ if ('view' == $mode) {
 				echo '<li style="border-bottom: 1px solid #ccc;">';
 			}
 		?>		
-        <p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('Email:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
+        <p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('E-mail:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 		
 		<?php comment_text() ?>
 
@@ -113,7 +113,7 @@ if ('view' == $mode) {
   <tr>
     <th scope="col">*</th>
     <th scope="col">' .  __('Name') . '</th>
-    <th scope="col">' .  __('Email') . '</th>
+    <th scope="col">' .  __('E-mail') . '</th>
     <th scope="col">' . __('IP') . '</th>
     <th scope="col">' . __('Comment Excerpt') . '</th>
 	<th scope="col" colspan="3">' .  __('Actions') . '</th>

@@ -64,7 +64,7 @@ case 'update':
 		die (__("<strong>ERROR</strong>: please type your e-mail address"));
 		return false;
 	} else if (!is_email($_POST["newuser_email"])) {
-		die (__("<strong>ERROR</strong>: the email address isn't correct"));
+		die (__("<strong>ERROR</strong>: the e-mail address isn't correct"));
 		return false;
 	}
 
@@ -157,7 +157,7 @@ case 'viewprofile':
   
 <p> <strong><?php _e('Nickname:') ?></strong> <?php echo $profiledata->user_nickname ?> </p>
   
-<p> <strong><?php _e('Email:') ?></strong> <?php echo make_clickable($profiledata->user_email) ?> 
+<p> <strong><?php _e('E-mail:') ?></strong> <?php echo make_clickable($profiledata->user_email) ?> 
 </p>
   
 <p> <strong><?php _e('Website:') ?></strong> <?php echo $profiledata->user_url ?> </p>
@@ -275,7 +275,7 @@ default:
       <td><input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->user_nickname ?>" /></td>
     </tr>
     <tr>
-      <th scope="row"><?php _e('Email:') ?></th>
+      <th scope="row"><?php _e('E-mail:') ?></th>
       <td><input type="text" name="newuser_email" id="newuser_email2" value="<?php echo $profiledata->user_email ?>" /></td>
     </tr>
     <tr>

@@ -1,7 +1,7 @@
 <?php
 require_once('../wp-includes/wp-l10n.php');
 
-$title = 'Reading Options';
+$title = __('Reading Options');
 $parent_file = 'options-general.php';
 
 function add_magic_quotes($array) {
@@ -68,16 +68,16 @@ include('options-head.php');
 			<tr valign="top"> 
                 <th width="33%" scope="row"><?php _e('Show the most recent:') ?></th> 
 				<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php echo get_settings('posts_per_rss'); ?>" size="3" /> 
-					posts </td> 
+					<?php _('posts') ?></td> 
 			</tr>
 			<tr valign="top">
                 <th scope="row"><?php _e('For each article, show:') ?> </th>
 				<td><label>
 					<input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>  />
-					full text</label>					<br />
+					<?php _e('full text') ?></label>					<br>
 					<label>
 					<input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_settings('rss_use_excerpt')); ?> />
-					summary</label> </td>
+					<?php _('summary') ?></label> </td>
 			</tr> 
 		</table> 
 		</fieldset> 

@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) {
   <p><code>/archives/2003/05/23/my-cheese-sandwich/</code></p>
   <p> In general for this you must use mod_rewrite, however if you put a filename at the beginning WordPress will attempt to use that to pass the arguments, for example:</p>
   <p><code>/index.php/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
-  <p>If you use this option you can ignore the mod_rewrite rules. </p>') ?>
+  <p>If you use this option you can ignore the mod_rewrite rules.</p>') ?>
   <form name="form" action="options-permalink.php" method="post"> 
     <p><?php _e('Use the template tags above to create a virtual site structure:') ?></p>
     <p> 

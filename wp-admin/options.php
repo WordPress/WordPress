@@ -1,5 +1,7 @@
 <?php
-$title = 'Options';
+require_once('../wp-includes/wp-l10n.php');
+
+$title = __('Options');
 $this_file = 'options.php';
 $parent_file = 'options-general.php';
 

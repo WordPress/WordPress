@@ -511,7 +511,7 @@ echo "<div class=\"wrap\">\n";
 echo "<p><?php __('<strong>Caution:</strong> You are about to delete the following comment:'); ?></p>\n";
 echo "<table border=\"0\">\n";
 echo "<tr><td>" . __('Author:') . "</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
-echo "<tr><td>" . __('E-Mail:') . "</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
+echo "<tr><td>" . __('E-mail:') . "</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
 echo "<tr><td>". __('URL:') . "</td><td>" . $commentdata["comment_author_url"] . "</td></tr>\n";
 echo "<tr><td>". __('Comment:') . "</td><td>" . stripslashes($commentdata["comment_content"]) . "</td></tr>\n";
 echo "</table>\n";
@@ -790,9 +790,10 @@ window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=50
 
 ?>
 <div class="wrap">
-	  <?php printf(__('<p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post blog items.<br />
-You can also <a href="mailto:%s?subject=Blog posting permission">e-mail the admin</a> to ask for a promotion.<br />
-When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)</p>'), get_settings('admin_email')); ?>
+		<p><?php printf(__('Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
+You can also <a href="mailto:%s?subject=Promotion?">e-mail the admin</a> to ask for a promotion.<br />
+When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)'), get_settings('admin_email')); ?>
+		</p>
 </div>
 <?php
 

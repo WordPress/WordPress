@@ -62,9 +62,9 @@ include('options-head.php');
           <label for="advanced_edit"></label></td>
       </tr>
       <tr valign="top"> 
-        <th width="33%" scope="row"> Size of the writing box:</th> 
+        <th width="33%" scope="row"> <?php _e('Size of the writing box:') ?></th> 
         <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php echo get_settings('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
-          lines </td> 
+         <?php _e('lines') ?></td> 
       </tr> 
       <tr valign="top">
         <th scope="row"><?php _e('Formatting:') ?></th>
@@ -95,8 +95,8 @@ endforeach;
 	<textarea name="ping_sites" id="ping_sites" style="width: 98%;"><?php echo get_settings('ping_sites'); ?></textarea>
 	</fieldset>
     <fieldset class="options">
-	<legend><?php _e('Writing by Email') ?></legend>
-	<p><?php printf(__('To post to WordPress by email you must set up a secret email account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5)) ?></p>
+	<legend><?php _e('Writing by e-mail') ?></legend>
+	<p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5)) ?></p>
 	
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform">
         	<tr valign="top">

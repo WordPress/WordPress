@@ -45,7 +45,7 @@ endif;
 <?php if ( comments_open() ) : ?>
 <h2 id="postcomment"><?php _e('Leave a comment'); ?></h2>
 
-<p><?php _e('Line and paragraph breaks automatic. E-mail address never displayed. <abbr title="HyperText Markup Language">HTML</abbr> allowed:'); ?> <code><?php echo allowed_tags(); ?></code></p>
+<p><?php _e("Line and paragraph breaks automatic, e-mail address never displayed, <acronym title=\"Hypertext Markup Language\">HTML</acronym> allowed:"); ?> <code><?php echo allowed_tags(); ?></code></p>
 
 <form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 	<p>

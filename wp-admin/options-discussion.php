@@ -1,7 +1,7 @@
 <?php
 require_once('../wp-includes/wp-l10n.php');
 
-$title = 'Discussion Options';
+$title = __('Discussion Options');
 $parent_file = 'options-general.php';
 
 function add_magic_quotes($array) {
@@ -68,7 +68,7 @@ include('options-head.php');
 		</ul> 
 </fieldset>
 <fieldset class="options">
-        <legend><?php _e('Email me whenever:') ?></legend> 
+        <legend><?php _e('E-mail me whenever:') ?></legend> 
 		<ul> 
 			<li> 
 				<label for="comments_notify"> 
@@ -93,7 +93,7 @@ include('options-head.php');
 			<li> 
 				<label for="require_name_email"> 
 				<input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> /> 
-				<?php _e('User must fill out name and email') ?> </label> 
+				<?php _e('User must fill out name and e-mail') ?> </label> 
 			</li> 
 		</ul> 
 </fieldset>
@@ -101,7 +101,7 @@ include('options-head.php');
     <legend><?php _e('Comment Moderation') ?></legend>
     <p><?php printf(__('Hold a comment in the queue if it contains more than %s links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_settings('comment_max_links'). '" />' ) ?></p>
 
-    <p><?php _e('When a comment contains any of these words in its content, name, URI,  email, or IP, hold it in the moderation queue: (Separate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.') ?></p>
+    <p><?php _e('When a comment contains any of these words in its content, name, URI, e-mail, or IP, hold it in the moderation queue: (Separate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.') ?></p>
 		<p> 
 			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php echo get_settings('moderation_keys'); ?></textarea> 
 		</p> 

@@ -1,7 +1,7 @@
 <?php
 require_once('../wp-includes/wp-l10n.php');
 
-$title = 'Miscellaneous Options';
+$title = __('Miscellaneous Options');
 $parent_file = 'options-general.php';
 
 function add_magic_quotes($array) {
