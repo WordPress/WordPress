@@ -1543,10 +1543,12 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
         if (intval($optiondates) == 1) {
             $link .= ' '.$category->lastday.'/'.$category->lastmonth;
         }
-		if ($list) {
-			echo "\t<li>$link</li>\n";
-		} else {
-			echo "\t$link<br />\n";
+        if (!$hide_empty || $category_posts[$category->cat_ID]) {
+			if ($list) {
+				echo "\t<li>$link</li>\n";
+			} else {
+				echo "\t$link<br />\n";
+			}
 		}
 	}
 }
