@@ -37,14 +37,14 @@ blockquote {
 }
 
 body {
+	background: #fff;
 	border: solid 2px #565;
 	border-bottom: solid 1px #565;
 	border-top: solid 3px #565;
+	color: #000;
 	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 	margin: 0;
 	padding: 0;
-	background-color: white;
-	color: black;
 }
 
 cite {
@@ -75,6 +75,15 @@ p, li, .feedback {
 	letter-spacing: -1px;
 }
 
+/* classes used by the_meta() */
+ul.post-meta {
+	list-style: none;
+}
+
+ul.post-meta span.post-meta-key {
+	font-weight: bold;
+}
+
 .credit {
 	background: #90a090;
 	border-top: double 3px #aba;
@@ -98,20 +107,21 @@ p, li, .feedback {
 	font-size: .75em;
 }
 
+.meta li, ul.post-meta li {
+	display: inline;
+}
+
+.meta ul {
+	display: inline;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
 .meta, .meta a {
 	color: #808080;
 	font-weight: normal;
 	letter-spacing: 0;
-}
-.meta ul {
-	display: inline;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.meta li {
-	display: inline;
 }
 
 .storytitle {
@@ -129,6 +139,12 @@ p, li, .feedback {
 
 #commentform textarea {
 	width: 100%;
+}
+
+#commentlist li ul {
+	border-left: 1px solid #ddd;
+	font-size: 110%;
+	list-style-type: none;
 }
 
 #content {
@@ -174,8 +190,8 @@ p, li, .feedback {
 
 #menu input {
 	background: #eee;
-	color: black;
 	border: 1px solid #999;
+	color: #000;
 	letter-spacing: -0.05em;
 	width: 80%;
 }
@@ -197,10 +213,10 @@ p, li, .feedback {
 }
 
 #menu ul ul {
-	list-style-type: none;
 	font-variant: normal;
 	font-weight: normal;
 	line-height: 100%;
+	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -225,8 +241,8 @@ p, li, .feedback {
 }
 
 #menu ul ul ul.children {
-	padding-left:4px;
-	font-size:142%;
+	font-size: 142%;
+	padding-left: 4px;
 }
 
 #wp-calendar {
@@ -284,17 +300,3 @@ p, li, .feedback {
 	font-style: normal;
 	text-transform: capitalize;
 }
-
-/* classes used by the_meta() */
-ul.post-meta {
-	list-style: none;
-}
-
-ul.post-meta li {
-	display: inline;
-}
-
-ul.post-meta span.post-meta-key {
-	font-weight: bold;
-}
-
