@@ -169,7 +169,7 @@ case 'lostpassword':
 <head>
 	<title>WordPress > Lost password ?</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
@@ -266,7 +266,7 @@ default:
 <head>
 	<title>WordPress > <?php bloginfo('name') ?> > Login form</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
@@ -301,7 +301,7 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 	<input type="hidden" name="action" value="login" />
 	<label>Login: <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label><br />
 	<label>Password: <input type="password" name="pwd" value="" size="20" tabindex="2" /></label><br />
-	<input type="submit" name="Submit2" value="OK" class="search" />
+	<input type="submit" name="Submit2" value="OK" class="search" tabindex="3" />
 </form>
 
 </div>
