@@ -125,12 +125,15 @@ RewriteBase <?php echo $home_root; ?>
 $rewrite = rewrite_rules('', $permalink_structure);
 $rules = '';
 foreach ($rewrite as $match => $query) {
-	if (strstr($query, 'index.php')) $rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
-    $rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
+	if (strstr($query, 'index.php')) {
+        $rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
+    } else {
+        $rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
+    }
 }
 echo apply_filters('rewrite_rules', $rules);
 ?>
-    </textarea>
+</textarea>
     </p>
     <?php printf(__('<p>If your <code>.htaccess</code> file is writable by WordPress, you can <a href="%s">edit it through your template interface</a>.</p>'), 'templates.php?file=.htaccess') ?>
 </form>

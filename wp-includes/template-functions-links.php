@@ -83,9 +83,18 @@ function get_month_link($year, $month) {
     if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
     if ('' != get_settings('permalink_structure')) {
-        $off = strpos(get_settings('permalink_structure'), '%monthnum%');
+        $permalink = get_settings('permalink_structure');
+
+        // If the permalink structure does not contain year and month, make
+        // one that does.
+        if (! (strstr($permalink, '%year') && strstr($permalink, '%monthnum')) ) {
+            $front = substr($permalink, 0, strpos($permalink, '%'));
+            $permalink = $front . '%year%/%monthnum%/';
+        }
+
+        $off = strpos($permalink, '%monthnum%');
         $offset = $off + 11;
-        $monthlink = substr(get_settings('permalink_structure'), 0, $offset);
+        $monthlink = substr($permalink, 0, $offset);
         if ('/' != substr($monthlink, -1)) $monthlink = substr($monthlink, 0, -1);
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
@@ -102,9 +111,18 @@ function get_day_link($year, $month, $day) {
     if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
     if (!$day) $day = gmdate('j', time()+(get_settings('gmt_offset') * 3600));
     if ('' != get_settings('permalink_structure')) {
-        $off = strpos(get_settings('permalink_structure'), '%day%');
+        $permalink = get_settings('permalink_structure');
+
+        // If the permalink structure does not contain year, month, and day,
+        // make one that does.
+        if (! (strstr($permalink, '%year') && strstr($permalink, '%monthnum')) ) {
+            $front = substr($permalink, 0, strpos($permalink, '%'));
+            $permalink = $front . '%year%/%monthnum%/%day%/';
+        }
+
+        $off = strpos($permalink, '%day%');
         $offset = $off + 6;
-        $daylink = substr(get_settings('permalink_structure'), 0, $offset);
+        $daylink = substr($permalink, 0, $offset);
         if ('/' != substr($daylink, -1)) $daylink = substr($daylink, 0, -1);
         $daylink = str_replace('%year%', $year, $daylink);
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);

@@ -1206,14 +1206,14 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 
     $rewritereplace = 
 	array(
-	'([0-9]{4})?',
-	'([0-9]{1,2})?',
-	'([0-9]{1,2})?',
-	'([0-9]{1,2})?',
-	'([0-9]{1,2})?',
-	'([0-9]{1,2})?',
-	'([_0-9a-z-]+)?',
-	'([0-9]+)?'
+	'([0-9]{4})',
+	'([0-9]{1,2})',
+	'([0-9]{1,2})',
+	'([0-9]{1,2})',
+	'([0-9]{1,2})',
+	'([0-9]{1,2})',
+	'([_0-9a-z-]+)',
+	'([0-9]+)'
 	);
 
     $queryreplace = 
@@ -1228,58 +1228,89 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 	'p='
 	);
 
+    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
+    $trackbackregex = 'trackback/?$';
+    $pageregex = 'page/?([0-9]{1,})/?$';
 
-    $match = str_replace('/', '/?', $permalink_structure);
-    $match = preg_replace('|/[?]|', '', $match, 1);
-
-    $match = str_replace($rewritecode, $rewritereplace, $match);
-    $match = preg_replace('|[?]|', '', $match, 1);
-
-    $feedmatch = trailingslashit(str_replace('?/?', '/', $match));
-    $trackbackmatch = $feedmatch;
-
+    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
     preg_match_all('/%.+?%/', $permalink_structure, $tokens);
 
-    $query = 'index.php?';
-    $feedquery = 'wp-feed.php?';
-    $trackbackquery = 'wp-trackback.php?';
-    for ($i = 0; $i < count($tokens[0]); ++$i) {
+    $num_tokens = count($tokens[0]);
+
+    $index = 'index.php';
+    $feedindex = 'wp-feed.php';
+    $trackbackindex = 'wp-trackback.php';
+    for ($i = 0; $i < $num_tokens; ++$i) {
              if (0 < $i) {
-                 $query .= '&';
-                 $feedquery .= '&';
-                 $trackbackquery .= '&';
+                 $queries[$i] = $queries[$i - 1] . '&';
              }
              
              $query_token = str_replace($rewritecode, $queryreplace, $tokens[0][$i]) . preg_index($i+1, $matches);
-             $query .= $query_token;
-             $feedquery .= $query_token;
-             $trackbackquery .= $query_token;
+             $queries[$i] .= $query_token;
              }
-    ++$i;
 
-    // Add post paged stuff
-    $match .= '([0-9]+)?/?$';
-    $query .= '&page=' . preg_index($i, $matches);
+    $structure = str_replace($front, '', $permalink_structure);
+    $structure = trim($structure, '/');
+    $dirs = explode('/', $structure);
+    $num_dirs = count($dirs);
 
-    // Add post feed stuff
-    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
-    $feedmatch .= $feedregex;
-    $feedquery .= '&feed=' . preg_index($i, $matches);
+    $front = preg_replace('|^/+|', '', $front);
 
-    // Add post trackback stuff
-    $trackbackregex = 'trackback/?$';
-    $trackbackmatch .= $trackbackregex;
+    $post_rewrite = array();
+    $struct = $front;
+    for ($j = 0; $j < $num_dirs; ++$j) {
+        $struct .= $dirs[$j] . '/';
+        $match = str_replace($rewritecode, $rewritereplace, $struct);
+        $num_toks = preg_match_all('/%.+?%/', $struct, $toks);
+        $query = $queries[$num_toks - 1];
+
+        $pagematch = $match . $pageregex;
+        $pagequery = $index . '?' . $query . '&paged=' . preg_index($num_toks + 1, $matches);
+
+        $feedmatch = $match . $feedregex;
+        $feedquery = $feedindex . '?' . $query . '&feed=' . preg_index($num_toks + 1, $matches);
+
+        $post = 0;
+        if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')) {
+                $post = 1;
+                $trackbackmatch = $match . $trackbackregex;
+                $trackbackquery = $trackbackindex . '?' . $query;
+                $match = $match . '?([0-9]+)?/?$';
+                $query = $index . '?' . $query . '&page=' . preg_index($num_toks + 1, $matches);
+        } else {
+            $match .= '?';
+            $query = $index . '?' . $query;
+        }
+        
+        $post_rewrite = array($feedmatch => $feedquery, $pagematch => $pagequery, $match => $query) + $post_rewrite;
+
+        if ($post) {
+            $post_rewrite = array($trackbackmatch => $trackbackquery) + $post_rewrite;
+        }
+    }
+
+    // If the permalink does not have year, month, and day, we need to create a
+    // separate archive rule.
+    // TODO:  Need to write separate rules for each component of the permalink.
+    $doarchive = false;
+    if (! (strstr($permalink_structure, '%year') && strstr($permalink_structure, '%monthnum') && strstr($permalink_structure, '%day')) ) {
+        $doarchive = true;
+        $archivematch = $front . '([0-9]{4})/?([0-9]{1,2})?/?([0-9]{1,2})?/?$';
+        $archivequery =  'index.php?year=' . preg_index(1, $matches) . '&monthnum=' . preg_index(2, $matches) . '&day=' . preg_index(3, $matches) ;
+    }
 
     // Site feed
     $sitefeedmatch = 'feed/?([_0-9a-z-]+)?/?$';
     $sitefeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches);
 
+    $sitepagematch = $pageregex;
+    $sitepagequery = 'index.php?paged=' . preg_index(1, $matches);
+
     // Site comment feed
     $sitecommentfeedmatch = 'comments/feed/?([_0-9a-z-]+)?/?$';
     $sitecommentfeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
 
-    // Code for nice categories and authors, currently not very flexible
-    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+    // Code for nice categories and authors.
 	if ( '' == get_settings('category_base') )
 		$catmatch = $front . 'category/';
 	else
@@ -1288,6 +1319,9 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     
     $catfeedmatch = $catmatch . '(.*)/' . $feedregex;
     $catfeedquery = 'wp-feed.php?category_name=' . preg_index(1, $matches) . '&feed=' . preg_index(2, $matches);
+
+    $catpagematch = $catmatch . '(.*)/' . $pageregex;
+    $catpagequery = 'index.php?category_name=' . preg_index(1, $matches) . '&paged=' . preg_index(2, $matches);
 
     $catmatch = $catmatch . '?(.*)';
     $catquery = 'index.php?category_name=' . preg_index(1, $matches);
@@ -1298,20 +1332,29 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     $authorfeedmatch = $authormatch . '(.*)/' . $feedregex;
     $authorfeedquery = 'wp-feed.php?author_name=' . preg_index(1, $matches) . '&feed=' . preg_index(2, $matches);
 
+    $authorpagematch = $authormatch . '(.*)/' . $pageregex;
+    $authorpagequery = 'index.php?author_name=' . preg_index(1, $matches) . '&paged=' . preg_index(2, $matches);
+
     $authormatch = $authormatch . '?(.*)';
     $authorquery = 'index.php?author_name=' . preg_index(1, $matches);
 
     $rewrite = array(
+                     $sitefeedmatch => $sitefeedquery,
+                     $sitecommentfeedmatch => $sitecommentfeedquery,
+                     $sitepagematch => $sitepagequery,
                      $catfeedmatch => $catfeedquery,
+                     $catpagematch => $catpagequery,
                      $catmatch => $catquery,
                      $authorfeedmatch => $authorfeedquery,
-                     $authormatch => $authorquery,
-                     $match => $query,
-                     $feedmatch => $feedquery,
-                     $trackbackmatch => $trackbackquery,
-                     $sitefeedmatch => $sitefeedquery,
-                     $sitecommentfeedmatch => $sitecommentfeedquery
+                     $authorpagematch => $authorpagequery,
+                     $authormatch => $authorquery
                      );
+
+    $rewrite = $rewrite + $post_rewrite;
+
+    if ($doarchive) {
+        $rewrite = $rewrite + array($archivematch => $archivequery);
+    }
 
     return $rewrite;
 }

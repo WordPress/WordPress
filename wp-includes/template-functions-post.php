@@ -350,31 +350,79 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
     }
 }
 
+function get_pagenum_link($pagenum = 1){
+   $qstr = $_SERVER['REQUEST_URI'];
+
+   $page_querystring = "paged"; 
+   $page_modstring = "page/";
+   $page_modregex = "page/?";
+
+   // if we already have a QUERY style page string
+   if( stristr( $qstr, $page_querystring ) ) {
+       $replacement = "$page_querystring=$pagenum";
+      $qstr = preg_replace("/".$page_querystring."[^\d]+\d+/", $replacement, $qstr);
+   // if we already have a mod_rewrite style page string
+   } elseif ( preg_match( '|'.$page_modregex.'\d+|', $qstr ) ){
+      $qstr = preg_replace('|'.$page_modregex.'\d+|',"$page_modstring$pagenum",$qstr);
+
+   // if we don't have a page string at all ...
+   // lets see what sort of URL we have...
+   } else {
+      // we need to know the way queries are being written
+      global $querystring_start, $querystring_equal, $querystring_separator;
+      // if there's a querystring_start (a "?" usually), it's deffinitely not mod_rewritten
+      if ( stristr( $qstr, $querystring_start ) ){
+         // so append the query string (using &, since we already have ?)
+         $qstr .=  $querystring_separator.$page_querystring.$querystring_equal.$pagenum;
+         // otherwise, it could be rewritten, OR just the default index ...
+      } elseif( '' != get_settings('permalink_structure')) {
+         $qstr = preg_replace('|(.*)/[^/]*|', '$1/', $qstr).$page_modstring.$pagenum;
+      } else {
+         $qstr = get_settings('blogfilename') . $querystring_start.$page_querystring.$querystring_equal.$pagenum;
+      }
+   }
+
+   $home_root = str_replace('http://', '', trim(get_settings('home')));
+   $home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
+   if ('/' != substr($home_root, -1)) $home_root = $home_root . '/';
+
+   $qstr = str_replace($home_root, '', $qstr);
+   return trailingslashit(get_settings('home')).$qstr;
+}
+
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
     global $p, $paged, $what_to_show, $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    if (empty($p) && ($what_to_show == 'paged')) {
-        $qstr = $_SERVER['QUERY_STRING'];
-        if (!empty($qstr)) {
-            $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
-            $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
-        } elseif (stristr($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'] )) {
-            if ('' != $qstr = str_replace($_SERVER['SCRIPT_NAME'], '',
-                                            $_SERVER['REQUEST_URI']) ) {
-                $qstr = preg_replace('/^\//', '', $qstr);
-                $qstr = preg_replace('/paged\/\d{0,}\//', '', $qstr);
-                $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
-                $qstr = preg_replace('/\/$/', '', $qstr);
-            }
-        }
-        if (!$paged) $paged = 1;
-        $nextpage = intval($paged) + 1;
-        if (!$max_page || $max_page >= $nextpage) {
-            echo  get_settings('home') .'/'.$pagenow.$querystring_start.
-                ($qstr == '' ? '' : $qstr.$querystring_separator) .
-                'paged'.$querystring_equal.$nextpage;
-        }
-    }
+//     if (empty($p) && ($what_to_show == 'paged')) {
+//         $qstr = $_SERVER['QUERY_STRING'];
+//         if (!empty($qstr)) {
+//             $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
+//             $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
+//         } elseif (stristr($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'] )) {
+//             if ('' != $qstr = str_replace($_SERVER['SCRIPT_NAME'], '',
+//                                             $_SERVER['REQUEST_URI']) ) {
+//                 $qstr = preg_replace('/^\//', '', $qstr);
+//                 $qstr = preg_replace('/paged\/\d{0,}\//', '', $qstr);
+//                 $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
+//                 $qstr = preg_replace('/\/$/', '', $qstr);
+//             }
+//         }
+//         if (!$paged) $paged = 1;
+//         $nextpage = intval($paged) + 1;
+//         if (!$max_page || $max_page >= $nextpage) {
+//             echo  get_settings('home') .'/'.$pagenow.$querystring_start.
+//                 ($qstr == '' ? '' : $qstr.$querystring_separator) .
+//                 'paged'.$querystring_equal.$nextpage;
+//         }
+//     }
+
+     if (empty($p) && ($what_to_show == 'paged')) {
+         if (!$paged) $paged = 1;
+         $nextpage = intval($paged) + 1;
+         if (!$max_page || $max_page >= $nextpage) {
+             echo get_pagenum_link($nextpage);
+         }         
+     }
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
@@ -406,26 +454,32 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 function previous_posts() { // original by cfactor at cooltux.org
     global $_SERVER, $p, $paged, $what_to_show, $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    if (empty($p) && ($what_to_show == 'paged')) {
-        $qstr = $_SERVER['QUERY_STRING'];
-        if (!empty($qstr)) {
-            $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
-            $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
-        } elseif (stristr($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'] )) {
-            if ('' != $qstr = str_replace($_SERVER['SCRIPT_NAME'], '',
-                                            $_SERVER['REQUEST_URI']) ) {
-                $qstr = preg_replace('/^\//', '', $qstr);
-                $qstr = preg_replace("/paged\/\d{0,}\//", '', $qstr);
-                $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
-                $qstr = preg_replace('/\/$/', '', $qstr);
-            }
-        }
-        $nextpage = intval($paged) - 1;
-        if ($nextpage < 1) $nextpage = 1;
-        echo  get_settings('home') .'/'.$pagenow.$querystring_start.
-            ($qstr == '' ? '' : $qstr.$querystring_separator) .
-            'paged'.$querystring_equal.$nextpage;
-    }
+//     if (empty($p) && ($what_to_show == 'paged')) {
+//         $qstr = $_SERVER['QUERY_STRING'];
+//         if (!empty($qstr)) {
+//             $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
+//             $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
+//         } elseif (stristr($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'] )) {
+//             if ('' != $qstr = str_replace($_SERVER['SCRIPT_NAME'], '',
+//                                             $_SERVER['REQUEST_URI']) ) {
+//                 $qstr = preg_replace('/^\//', '', $qstr);
+//                 $qstr = preg_replace("/paged\/\d{0,}\//", '', $qstr);
+//                 $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
+//                 $qstr = preg_replace('/\/$/', '', $qstr);
+//             }
+//         }
+//         $nextpage = intval($paged) - 1;
+//         if ($nextpage < 1) $nextpage = 1;
+//         echo  get_settings('home') .'/'.$pagenow.$querystring_start.
+//             ($qstr == '' ? '' : $qstr.$querystring_separator) .
+//             'paged'.$querystring_equal.$nextpage;
+//     }
+
+     if (empty($p) && ($what_to_show == 'paged')) {
+         $nextpage = intval($paged) - 1;
+         if ($nextpage < 1) $nextpage = 1;
+         echo get_pagenum_link($nextpage);
+     }
 }
 
 function previous_posts_link($label='&laquo; Previous Page') {
