@@ -12,7 +12,7 @@ $blog=1; include ("blog.header.php"); while($row = mysql_fetch_object($result)) 
 		@import url( layout2b.css );
 		body { margin: 3px; }
 	</style>
-	<link rel="stylesheet" type="text/css" media="print" href="b2-include/print.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
 </head>
 
 <body>
