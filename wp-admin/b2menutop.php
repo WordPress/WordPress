@@ -22,6 +22,5 @@ foreach ($menu as $item) {
 	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>">View site</a></li>
 	<li id="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout (<?php echo stripslashes($user_nickname) ?>)</a></li>
 </ul>
-<br clear="all" />
 
 <h2 id="top"><?php echo $title; ?></h2>
