@@ -41,13 +41,17 @@ function the_title($before = '', $after = '', $echo = true) {
 
 function get_the_title($id = 0) {
 	global $post, $wpdb;
-	$title = $post->post_title;
-
-	if ( 0 != $id )
-		$title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $id");
-
-	if ( !empty($post->post_password) ) { // if there's a password
-		$title = 'Protected: ' . $title;
+	
+	if ( 0 != $id ) {
+		$id_post = $wpdb->get_row("SELECT post_title, post_password FROM $wpdb->posts WHERE ID = $id");
+		$title = $id_post->post_title;
+		if (!empty($id_post->post_password))
+			$title = sprintf(__('Protected: %s'), $title);
+	}
+	else {
+		$title = $post->post_title;
+		if (!empty($post->post_password))
+			$title = sprintf(__('Protected: %s'), $title);
 	}
 	return $title;
 }
@@ -57,7 +61,7 @@ function get_the_guid( $id = 0 ) {
 	$guid = $post->guid;
 
 	if ( 0 != $id )
-		$title = $wpdb->get_var("SELECT guid FROM $wpdb->posts WHERE ID = $id");
+		$guid = $wpdb->get_var("SELECT guid FROM $wpdb->posts WHERE ID = $id");
 	$guid = apply_filters('get_the_guid', $guid);
 	return $guid;
 }
