@@ -210,6 +210,17 @@ function get_the_excerpt($fakeit = true) {
     return $output;
 }
 
+function wp_link_pages($args = '') {
+	parse_str($args, $r);
+	if (!isset($r['before'])) $r['before'] = '<p>' . __('Pages:');
+	if (!isset($r['after'])) $r['after'] = '</p>';
+	if (!isset($r['next_or_number'])) $r['next_or_number'] = 'number';
+	if (!isset($r['nextpagelink'])) $r['nextpagelink'] = 'Next page';
+	if (!isset($r['previouspagelink'])) $r['previouspagelink'] = 'Previous page';
+	if (!isset($r['pagelink'])) $r['pagelink'] = '%';
+	if (!isset($r['more_file'])) $r['more_file'] = '';
+	link_pages($r['before'], $r['after'], $r['next_or_number'], $r['nextpagelink'], $r['previouspagelink'], $r['pagelink'], $r['more_file']);
+}
 
 function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', $pagelink='%', $more_file='') {
     global $id, $page, $numpages, $multipage, $more;

@@ -8,27 +8,27 @@ require('./wp-blog-header.php');
 <head profile="http://gmpg.org/xfn/1">
 	<title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
 	
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
-	<meta name="generator" content="WordPress <?php echo $wp_version; ?>" /> <!-- leave this for stats -->
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
+	<meta name="generator" content="WordPress <?php bloginfo('version'); ?>" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
-		@import url( <?php echo get_settings('siteurl'); ?>/wp-layout.css );
+		@import url( <?php bloginfo('url'); ?>/wp-layout.css );
 	</style>
 	
-	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_settings('siteurl'); ?>/print.css" />
+	<link rel="stylesheet" type="text/css" media="print" href="<?php bloginfo('url'); ?>/print.css" />
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS .92" href="<?php bloginfo('rss_url'); ?>" />
 	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="<?php bloginfo('atom_url'); ?>" />
 	
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-    <?php get_archives('monthly', '', 'link'); ?>
+    <?php wp_get_archives('type=monthly&format=link'); ?>
 	<?php //comments_popup_script(); // off by default ?>
 	<?php wp_head(); ?>
 </head>
 
 <body>
 <div id="rap">
-<h1 id="header"><a href="<?php echo get_settings('siteurl'); ?>"><?php bloginfo('name'); ?></a></h1>
+<h1 id="header"><a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <div id="content">
 <?php if ($posts) : foreach ($posts as $post) : start_wp(); ?>
@@ -44,8 +44,8 @@ require('./wp-blog-header.php');
 	</div>
 	
 	<div class="feedback">
-            <?php link_pages('<br />'. __("Pages:").' ', '<br />', 'number'); ?>
-            <?php comments_popup_link(__("Comments (0)"), __("Comments (1)"), __("Comments (%)")); ?>
+            <?php wp_link_pages(); ?>
+            <?php comments_popup_link(__('Comments (0)'), __('Comments (1)'), __('Comments (%)')); ?>
 	</div>
 	
 	<!--
@@ -56,7 +56,7 @@ require('./wp-blog-header.php');
 </div>
 
 <?php endforeach; else: ?>
-<p><?php _e("Sorry, no posts matched your criteria."); ?></p>
+<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
 </div>
 
@@ -66,41 +66,40 @@ require('./wp-blog-header.php');
 
 <ul>
 	<?php get_links_list(); ?>
- <li id="categories"><?php _e("Categories:"); ?>
+ <li id="categories"><?php _e('Categories:'); ?>
 	<ul>
 	<?php wp_list_cats(); ?>
 	</ul>
  </li>
  <li id="search">
-   <label for="s"><?php _e("Search:"); ?></label>	
+   <label for="s"><?php _e('Search:'); ?></label>	
    <form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />
-		<input type="submit" name="submit" value="<?php _e("Search"); ?>" />
+		<input type="submit" name="submit" value="<?php _e('Search'); ?>" />
 	</div>
 	</form>
  </li>
- <li id="archives"><?php _e("Archives:"); ?>
+ <li id="archives"><?php _e('Archives:'); ?>
  	<ul>
-	 <?php get_archives('monthly'); ?>
+	 <?php wp_get_archives('type=monthly'); ?>
  	</ul>
  </li>
  <li id="calendar">
 	<?php get_calendar(); ?>
  </li>
- <li id="other"><?php _e("Other:"); ?>
+ <li id="other"><?php _e('Other:'); ?>
 	<ul>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php"><?php _e("Login"); ?></a></li>
-		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php"><?php _e("Register"); ?></a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-login.php"><?php _e('Login'); ?></a></li>
+		<li><a href="<?php echo get_settings('siteurl'); ?>/wp-register.php"><?php _e('Register'); ?></a></li>
 	</ul>
  </li>
- <li id="meta"><?php _e("Meta:"); ?>
+ <li id="meta"><?php _e('Meta:'); ?>
  	<ul>
-		<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php _e("Syndicate this site using RSS"); ?>"><?php _e("<abbr title=\"Really Simple Syndication\">RSS</abbr> 2.0"); ?></a></li>
-		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php _e("The latest comments to all posts in RSS"); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr> 2.0'); ?></a></li>
-		<li><a href="http://validator.w3.org/check/referer" title="<?php _e("This page validates as XHTML 1.0 Transitional"
-); ?>"><?php _e('Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr>'); ?></a></li>
-		<li><a href="http://wordpress.org" title="<?php _e("Powered by WordPress; state-of-the-art semantic personal publishing platform."); ?>">WP</a></li>
+		<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php _e('Syndicate this site using RSS'); ?>"><?php _e('<abbr title="Really Simple Syndication">RSS</abbr> 2.0'); ?></a></li>
+		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php _e('The latest comments to all posts in RSS'); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr> 2.0'); ?></a></li>
+		<li><a href="http://validator.w3.org/check/referer" title="<?php _e('This page validates as XHTML 1.0 Transitional'); ?>"><?php _e('Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr>'); ?></a></li>
+		<li><a href="http://wordpress.org/" title="<?php _e('Powered by WordPress; state-of-the-art semantic personal publishing platform.'); ?>">WP</a></li>
 	</ul>
  </li>
 
