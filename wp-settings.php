@@ -28,7 +28,8 @@ define('WPINC', 'wp-includes');
 require_once (ABSPATH . WPINC . '/wp-db.php');
 
 $wpdb->hide_errors();
-if (!$wpdb->get_row("SELECT * FROM $tableusers LIMIT 1") && !strstr($_SERVER['REQUEST_URI'], 'install.php')) {
+$users = $wpdb->get_results("SELECT * FROM $tableusers");
+if (!$users && !strstr($_SERVER['REQUEST_URI'], 'install.php')) {
 	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
 }
 $wpdb->show_errors();

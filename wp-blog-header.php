@@ -271,8 +271,7 @@ if ('' != $category_name) {
 }
 
 // author stuff
-$auteurs = $wpdb->get_results("SELECT * FROM $tableusers WHERE 1=1");
-foreach ($auteurs as $auteur) {
+foreach ($users as $auteur) {
     $cache_authors[$auteur->ID] = $auteur;
 }
 
