@@ -96,7 +96,7 @@ function get_page_link($id = false) {
 		$link = get_page_uri($id);
 		$link = get_settings('home') . "/$link/";
 	} else {
-		$link = get_settings('home') . "/index.php?p=$id&static=1";
+		$link = get_settings('home') . "/index.php?page_id=$id";
 	}
 
 	return $link;

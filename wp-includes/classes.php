@@ -65,6 +65,11 @@ class WP_Query {
 			$this->is_single = true;            
 		}
 
+		if ('' != $qv['static'] || '' != $qv['pagename'] || '' != $qv['page_id']) {
+			$this->is_page = true;
+			$this->is_single = false;
+		}
+
 		if ('' != $qv['second']) {
 			$this->is_time = true;
 			$this->is_date = true;
@@ -143,8 +148,8 @@ class WP_Query {
 			$this->is_category = true;
 		}
             
-		// single, date, and search override category.
-		if ($this->is_single || $this->is_date || $this->is_search) {
+		// single, page, date, and search override category.
+		if ($this->is_single || $this->is_page || $this->is_date || $this->is_search) {
 			$this->is_category = false;                
 		}
 
@@ -160,11 +165,6 @@ class WP_Query {
 
 		if ('' != $qv['feed']) {
 			$this->is_feed = true;
-		}
-
-		if ('' != $qv['static'] || '' != $qv['pagename']) {
-			$this->is_page = true;
-			$this->is_single = false;
 		}
 
 		if ('404' == $qv['error']) {
@@ -267,10 +267,8 @@ class WP_Query {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
-			// If pagename is set, set static to true and set name to pagename.
 			$q['pagename'] = sanitize_title($q['pagename']);
 			$q['name'] = $q['pagename'];
-			$q['static'] = true;
 			$where .= " AND post_name = '" . $q['pagename'] . "'";
 		}
 
@@ -284,6 +282,12 @@ class WP_Query {
 		if (($q['p'] != '') && ($q['p'] != 'all')) {
 			$q['p'] = intval($q['p']);
 			$where = ' AND ID = '.$q['p'];
+		}
+
+		if (($q['page_id'] != '') && ($q['page_id'] != 'all')) {
+			$q['page_id'] = intval($q['page_id']);
+			$q['p'] = $q['page_id'];
+			$where = ' AND ID = '.$q['page_id'];
 		}
 
 		// If a search pattern is specified, load the posts that match
@@ -455,7 +459,7 @@ class WP_Query {
 			$distinct = 'DISTINCT';
 		}
 
-		if ('' != $q['static']) {
+		if (is_page()) {
 			$where .= ' AND (post_status = "static"';
 		} else {
 			$where .= ' AND (post_status = "publish"';
