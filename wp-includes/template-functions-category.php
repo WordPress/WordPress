@@ -312,11 +312,13 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		INNER JOIN $wpdb->posts ON (ID = post_id)
 		WHERE post_status = 'publish' $exclusions
 		GROUP BY category_id");
-		foreach ($cat_counts as $cat_count) {
-			if (1 != intval($hide_empty) || $cat_count > 0) {
-				$category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
-			}
-		}
+        if (! empty($cat_counts)) {
+            foreach ($cat_counts as $cat_count) {
+                if (1 != intval($hide_empty) || $cat_count > 0) {
+                    $category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
+                }
+            }
+        }
 	}
 	
 	if (intval($optiondates) == 1) {

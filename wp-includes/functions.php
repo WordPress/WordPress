@@ -1409,7 +1409,7 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 }
 
 function query_posts($query) {
-    global $wpdb, $pagenow, $request;
+    global $wpdb, $pagenow, $request, $user_ID;
 
     parse_str($query);
 
