@@ -31,7 +31,7 @@ if ('b' == $HTTP_GET_VARS['a']) {
 ?><html>
 <head>
 <title>WordPress &rsaquo; Sidebar</title>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $admin_area_charset ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset ?>" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 <style type="text/css" media="screen">

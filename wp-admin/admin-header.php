@@ -29,8 +29,6 @@ $time_difference = get_settings('time_difference');
 $date_format = stripslashes(get_settings('date_format'));
 $time_format = stripslashes(get_settings('time_format'));
 
-$admin_area_charset = (!isset($admin_area_charset)) ? 'iso-8859-15' : $admin_area_charset;
-
 // let's deactivate quicktags on IE Mac and Lynx, because they don't work there.
 if (($is_macIE) || ($is_lynx))
     $use_quicktags = 0;
@@ -59,7 +57,7 @@ if ($standalone == 0) {
 <title>WordPress &rsaquo; <?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?></title>
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $admin_area_charset ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset ?>" />
 <?php
 if ($redirect==1) {
 ?>
