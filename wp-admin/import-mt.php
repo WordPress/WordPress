@@ -1,11 +1,10 @@
 <?php
-define('MTEXPORT', '');
-
+define('MTEXPORT', 'import.txt');// enter the relative path of the import.txt file containing the mt entries. If the file is called import.txt and it is /wp-admin, then this line
+//should be define('MTEXPORT', 'import.txt');
 
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must install WordPress before you import any entries.");
 require('../wp-config.php');
-
-$step = $_GET['step'];
+$step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -35,6 +34,12 @@ if (!$step) $step = 0;
 	p {
 		line-height: 140%;
 	}
+	#authors li 	{
+		padding:3px;
+		border: 1px solid #ccc;
+		width: 40%;
+		margin-bottom:2px;
+	}
 	</style>
 </head><body> 
 <h1 id="logo"><a href="http://wordpress.org">WordPress</a></h1> 
@@ -49,7 +54,6 @@ switch($step) {
 <p><code>define('MTEXPORT', 'import.txt');</code></p>
 <p>You have to do this manually for security reasons.</p>
 <p>If you've done that and you&#8217;re all ready, <a href="import-mt.php?step=1">let's go</a>! Remember that the import process may take a minute or so if you have a large number of entries and comments. Think of all the rebuilding time you'll be saving once it's done. :)</p>
-<p>On our test system, importing a blog of 1189 entries and about a thousand comments took 18 seconds. </p>
 <p>The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn't finish. </p>
 <?php
 	break;
@@ -57,21 +61,117 @@ switch($step) {
 	case 1:
 if ('' != MTEXPORT && !file_exists(MTEXPORT)) die("The file you specified does not seem to exist. Please check the path you've given.");
 if ('' == MTEXPORT) die("You must edit the MTEXPORT line as described on the <a href='import-mt.php'>previous page</a> to continue.");
-
-function checkauthor($author) {
-	global $wpdb, $tableusers;
-	// Checks if an author exists, creates it if it doesn't, and returns author_id
-	$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$author'");
-	if (!$user_id) {
-		$wpdb->query("INSERT INTO $tableusers (user_login, user_pass, user_nickname) VALUES ('$author', 'changeme', '$author')");
-		$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$author'");
-		echo "<strong>Created user '$author'</strong>. ";
-	}
-	return $user_id;
-}
-
 // Bring in the data
 set_magic_quotes_runtime(0);
+$datalines = file(MTEXPORT); // Read the file into an array
+$importdata = implode('', $datalines); // squish it
+$importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
+$authors = array();
+$temp = array();
+$posts = explode("--------", $importdata);
+
+function users_form($n) {
+	global $wpdb, $tableusers, $testing;
+	$users = $wpdb->get_results("SELECT * FROM $tableusers ORDER BY ID");
+	?><select name="userselect[<?php echo $n; ?>]">
+	<option value="#NONE#">- Select -</option>
+	<?php foreach($users as $user) {
+		echo '<option value="'.$user->user_nickname.'">'.$user->user_nickname.'</option>';
+		} ?>
+	</select>
+<?php }
+
+$i = -1;
+foreach ($posts as $post) { 
+	if ('' != trim($post)) {
+		++$i;
+		unset($post_categories);
+		preg_match("|AUTHOR:(.*)|", $post, $thematch);
+		$thematch = trim($thematch[1]);
+		array_push($temp,"$thematch"); //store the extracted author names in a temporary array
+		}
+	}//end of foreach
+//we need to find unique values of author names, while preserving the order, so this function emulates the unique_value(); php function, without the sorting.
+$authors[0] = array_shift($temp); 
+$y = count($temp) + 1;
+for ($x = 1; $x < $y; $x++) {
+	$next = array_shift($temp);
+	if (!(in_array($next,$authors))) array_push($authors, "$next");
+	}
+//by this point, we have all unique authors in the array $authors
+?><p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.'); ?></p>
+<p><?php _e('Below, you can see the names of the authors of the MovableType posts in <i>italics</i>. For each of these names, you can either pick an author in your WordPress installation from the menu, or enter a name for the author in the textbox.'); ?></p>
+<p><?php _e('If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)'); ?></p>
+	<?php
+	echo '<ol id="authors">';
+	echo '<form action="?step=2" method="post">';
+	$j = -1;
+	foreach ($authors as $author) {
+	++$j;
+	echo '<li><i>'.$author.'</i><br />'.'<input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"';
+	users_form($j);
+	echo '</li>';
+	}
+	echo '<input type="submit" value="Submit">'.'<br/>';
+	echo '</form>';
+	echo '</ol>';
+	
+	flush();
+
+	break;
+	
+	case 2:
+	$newauthornames = array();
+	$formnames = array();
+	$selectnames = array();
+	$mtnames = array();
+	foreach($_POST['user'] as $key => $line) { 
+	$newname = trim(stripslashes($line)); 
+	if ($newname == '') $newname = 'left_blank';//passing author names from step 1 to step 2 is accomplished by using POST. left_blank denotes an empty entry in the form.
+	array_push($formnames,"$newname");
+	}// $formnames is the array with the form entered names
+	foreach ($_POST['userselect'] as $user => $key) {
+	$selected = trim(stripslashes($key));
+	array_push($selectnames,"$selected");
+	}
+	$count = count($formnames);
+	for ($i = 0; $i < $count; $i++) {
+	if ( $selectnames[$i] != '#NONE#') {//if no name was selected from the select menu, use the name entered in the form
+	array_push($newauthornames,"$selectnames[$i]");
+	} 
+	else {
+	array_push($newauthornames,"$formnames[$i]");
+	}
+	}
+
+	$j = -1;
+	//function to check the authorname and do the mapping
+	function checkauthor($author) {
+	global $wpdb, $tableusers, $mtnames, $newauthornames, $j;//mtnames is an array with the names in the mt import file
+	$md5pass = md5(changeme);
+	if (!(in_array($author, $mtnames))) { //a new mt author name is found
+		++$j;
+		$mtnames[$j] = $author; //add that new mt author name to an array 
+		$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$newauthornames[$j]'"); //check if the new author name defined by the user is a pre-existing wp user
+		if (!$user_id) { //banging my head against the desk now. 
+			if ($newauthornames[$j] == 'left_blank') { //check if the user does not want to change the authorname
+				$wpdb->query("INSERT INTO $tableusers (user_level, user_login, user_pass, user_nickname) VALUES ('1', '$author', '$md5pass', '$author')"); // if user does not want to change, insert the authorname $author
+				$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$author'");
+				$newauthornames[$j] = $author; //now we have a name, in the place of left_blank.
+			} else {
+			$wpdb->query("INSERT INTO $tableusers (user_level, user_login, user_pass, user_nickname) VALUES ('1', '$newauthornames[$j]', '$md5pass', '$newauthornames[$j]')"); //if not left_blank, insert the user specified name
+			$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$newauthornames[$j]'");
+			}
+		} else return $user_id; // return pre-existing wp username if it exists
+    } else {
+    $key = array_search($author, $mtnames); //find the array key for $author in the $mtnames array
+    $user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$newauthornames[$key]'");//use that key to get the value of the author's name from $newauthornames
+	}
+	return $user_id;
+}//function checkauthor ends here
+
+	//bring in the posts now
+	set_magic_quotes_runtime(0);
 $datalines = file(MTEXPORT); // Read the file into an array
 $importdata = implode('', $datalines); // squish it
 $importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
@@ -82,7 +182,7 @@ echo "<ol>";
 foreach ($posts as $post) { if ('' != trim($post)) {
 	++$i;
 	unset($post_categories);
-	echo "<li>Importing post... ";
+	echo "<li>Processing post... ";
 
 	// Take the pings out first
 	preg_match("|(-----\n\nPING:.*)|s", $post, $pings);
@@ -123,7 +223,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			case '':
 				break;
             case 'AUTHOR':
-                $post_author = checkauthor($value);
+                $post_author = $value;
                 break;
             case 'TITLE':
                 $post_title = addslashes($value);
@@ -174,6 +274,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 	if ($wpdb->get_var("SELECT ID FROM $tableposts WHERE post_title = '$post_title' AND post_date = '$post_date'")) {
 		echo "Post already imported.";
 	} else {
+		$post_author = checkauthor($post_author);//just so that if a post already exists, new users are not created by checkauthor
 	    $wpdb->query("INSERT INTO $tableposts (
 			post_author, post_date, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_name)
 			VALUES 
@@ -205,6 +306,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_id AND category_id = 1");
 			if (!$exists) $wpdb->query("INSERT INTO $tablepost2cat (post_id, category_id) VALUES ($post_id, 1) ");
 		}
+		echo " Post imported successfully...";
 		// Now for comments
 		$comments = explode("-----\nCOMMENT:", $comments[0]);
 		foreach ($comments as $comment) {
@@ -292,7 +394,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 	}
 	echo "</li>";
 	flush();
-	// n
+
 } }
 
 ?>
