@@ -1888,7 +1888,7 @@ function allowed_tags() {
 	foreach($allowedtags as $tag => $attributes) {
 		$allowed .= "<$tag";
 		if (0 < count($attributes)) {
-			foreach ($attributes as $attribute) {
+			foreach ($attributes as $attribute => $limits) {
 				$allowed .= " $attribute=\"\"";
 			}
 		}
