@@ -516,7 +516,7 @@ function get_month_link($year, $month) {
 		if ('/' != substr($monthlink, -1)) $monthlink = substr($monthlink, 0, -1);
 		$monthlink = str_replace('%year%', $year, $monthlink);
 		$monthlink = str_replace('%monthnum%', intval($month), $monthlink);
-		return $monthlink;
+		return $siteurl . $monthlink;
 	} else {
 		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
 	}
@@ -535,7 +535,7 @@ function get_day_link($year, $month, $day) {
 		$daylink = str_replace('%year%', $year, $daylink);
 		$daylink = str_replace('%monthnum%', intval($month), $daylink);
 		$daylink = str_replace('%day%', intval($day), $daylink);
-		return $daylink;
+		return $siteurl . $daylink;
 	} else {
 		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
 	}
@@ -1307,7 +1307,7 @@ function get_category_link($echo = false, $category_id) {
 		$category_nicename = $wpdb->get_var("SELECT category_nicename FROM $tablecategories WHERE cat_ID = $category_id");
 		// Get any static stuff from the front
 		$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-		$link = $front . 'category/' . $category_nicename;
+		$link = $siteurl . $front . 'category/' . $category_nicename;
 	}
 
 	if ($echo) echo $link;
@@ -1549,7 +1549,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
 	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
-	if (0 == $number && 'closed' == $post->comment_status) {
+	if (0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status) {
 		echo $none;
 		return;
 	} else {
