@@ -146,13 +146,13 @@ case "login":
 
 		switch($mode) {
 			case "bookmarklet":
-				$location="b2bookmarklet.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
+				$location="wp-admin/b2bookmarklet.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
 				break;
 			case "sidebar":
-				$location="sidebar.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
+				$location="wp-admin/sidebar.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
 				break;
 			case "profile":
-				$location="profile.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
+				$location="wp-admin/profile.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
 				break;
 			default:
 				$location="$redirect_to";
