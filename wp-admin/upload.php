@@ -105,8 +105,8 @@ case 'upload':
     $tmppathtofile = $pathtofile2;
     $img2_name = $img1_name;
 
-    while (file_exists($pathtofile2)) {
-        $pos = strpos($tmppathtofile, '.'.trim($imgtype));
+    while ( file_exists($pathtofile2) ) {
+        $pos = strpos( strtolower($tmppathtofile), '.' . trim($imgtype) );
         $pathtofile_start = substr($tmppathtofile, 0, $pos);
         $pathtofile2 = $pathtofile_start.'_'.zeroise($i++, 2).'.'.trim($imgtype);
         $img2_name = explode('/', $pathtofile2);
