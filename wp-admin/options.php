@@ -36,8 +36,10 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 }
 
 require_once("optionhandler.php");
+$non_was_selected = 0;
 if ($option_group_id == '') {
     $option_group_id = 1;
+    $non_was_selected = 1;
 }
 
 switch($action) {
@@ -49,7 +51,7 @@ case "update":
     
     // iterate through the list of options in this group
     // pull the vars from the post
-    // validate ranges etc.?
+    // validate ranges etc.
     // update the values
     $options = $wpdb->get_results("SELECT $tableoptions.option_id, option_name, option_type, option_value, option_admin_level "
                                   . "FROM $tableoptions "
@@ -102,12 +104,37 @@ default:
 	$standalone = 0;
 	include_once("./admin-header.php");
 	if ($user_level <= 3) {
-		die("You have no right to edit the options for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
+		die("You have no right to edit the options for this blog.<br>Ask for a promotion from your <a href=\"mailto:$admin_email\">blog admin</a> :)");
 	}
+?>
+
+<?php
+if ($non_was_selected) { // no group pre-selected, display opening page
+?>
+<div class="wrap">
+<?php
+    //iterate through the available option groups. output them as a definition list.
+    $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
+    foreach ($option_groups as $option_group) {
+        echo("  <dt><a href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></dt>\n");
+        $current_long_desc = $option_group->group_longdesc;
+        if ($current_long_desc == '') {
+            $current_long_desc = 'No help for this group of options.';
+        }
+        echo("  <dd>{$option_group->group_desc}: $current_long_desc</dd>\n");
+    } // end for each group
+?>
+  <dt><a href="options-permalink.php">Permalinks</a></dt>
+  <dd>Permanent link configuration</dd>
+</div>
+<?php    
+
+} else { //there was a group selected.
+
 ?>
 <ul id="adminmenu2">
 <?php
-    //we need to iterate through the available option groups.
+    //Iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
     foreach ($option_groups as $option_group) {
         if ($option_group->group_id == $option_group_id) {
@@ -119,15 +146,14 @@ default:
         }
     } // end for each group
 ?>
-<li class="last"><a href="options-permalink.php">Permalinks</a></li>
+  <li class="last"><a href="options-permalink.php">Permalinks</a></li>
 </ul>
-    <br clear="all" />
+<br clear="all" />
 <div class="wrap">
-    <h2><?php echo $current_desc; ?></h2>
-    <form name="form" action="<?php echo $this_file; ?>" method="post">
-    <input type="hidden" name="action" value="update" />
-    <input type="hidden" name="option_group_id" value="<?php echo $option_group_id; ?>" />
-
+  <h2><?php echo $current_desc; ?></h2>
+  <form name="form" action="<?php echo $this_file; ?>" method="post">
+  <input type="hidden" name="action" value="update" />
+  <input type="hidden" name="option_group_id" value="<?php echo $option_group_id; ?>" />
   <table width="90%" cellpadding="2" cellspacing="2" border="0">
 <?php
     //Now display all the options for the selected group.
@@ -138,8 +164,8 @@ default:
                                   . "ORDER BY seq");
     if ($options) {
         foreach ($options as $option) {
-            echo('<tr><td width="10%" valign="top">'. get_option_widget($option, ($user_level >= $option->option_admin_level), '</td><td width="15%" valign="top" style="border: 1px solid #ccc">'));
-            echo("</td><td  valign='top' class='helptext'>$option->option_description</td></tr>\n");
+            echo('    <tr><td width="10%" valign="top">'. get_option_widget($option, ($user_level >= $option->option_admin_level), '</td><td width="15%" valign="top" style="border: 1px solid #ccc">'));
+            echo("    </td><td  valign='top' class='helptext'>$option->option_description</td></tr>\n");
         }
     }
 ?>
@@ -147,25 +173,23 @@ default:
     <tr><td align="center" colspan="3"><input type="submit" name="Update" value="Update Settings" /></td></tr>
     <tr><td colspan="3"><?php echo $message; ?></td></tr>
   </table>
-
+  </form>
 </div>
-
-   </form>
 
 <div class="wrap">
 <?php
-if ($current_long_desc != '') {
-    echo($current_long_desc);
-} else {
+    if ($current_long_desc != '') {
+        echo($current_long_desc);
+    } else {
 ?>
-    <p> No help for this group of options.</p>
+  <p> No help for this group of options.</p>
 <?php
-}
+    }
 ?>
 </div>
 <?php
-
+} // end else a group was selected
 break;
-}
+} // end switch
 
 include("admin-footer.php") ?>
