@@ -222,9 +222,12 @@ case 'edit':
 
 		$content = $postdata->post_content;
 		$content = format_to_edit($content);
+		$content = apply_filters('content_edit_pre', $content);
 		$excerpt = $postdata->post_excerpt;
 		$excerpt = format_to_edit($excerpt);
+		$excerpt = apply_filters('excerpt_edit_pre', $excerpt);
 		$edited_post_title = format_to_edit($postdata->post_title);
+		$edited_post_title = apply_filters('title_edit_pre', $edited_post_title);
 		$post_status = $postdata->post_status;
 		$comment_status = $postdata->comment_status;
 		$ping_status = $postdata->ping_status;
@@ -236,7 +239,6 @@ case 'edit':
 
 		if ($post_status == 'static') {
 			$page_template = get_post_meta($post_ID, '_wp_page_template', true);
-
 			include('edit-page-form.php');
 		} else {
 			include('edit-form-advanced.php');
@@ -506,6 +508,7 @@ case 'editcomment':
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
 	$content = $commentdata['comment_content'];
 	$content = format_to_edit($content);
+	$content = apply_filters('comment_edit_pre', $content);
 
 	include('edit-form-comment.php');
 
@@ -754,6 +757,10 @@ default:
 		$ping_status = get_settings('default_ping_status');
 		$post_pingback = get_settings('default_pingback_flag');
 		$default_post_cat = get_settings('default_category');
+
+		$content = apply_filters('default_content', $content);
+		$edited_post_title = apply_filters('default_title', $edited_post_title);
+		$excerpt = apply_filters('default_excerpt', $excerpt);
 
 		if (get_settings('advanced_edit')) {
 			include('edit-form-advanced.php');
