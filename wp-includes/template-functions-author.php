@@ -122,7 +122,7 @@ function wp_list_authors($args = '') {
     if (!isset($r['feed'])) $r['feed'] = '';
     if (!isset($r['feed_image'])) $r['feed_image'] = '';
 
-	list_authors($r['optioncount'], $r['exclude_admin'], $r['show_fullname'], $r[hide_empty], $r['feed'], $r['feed_image']);
+	list_authors($r['optioncount'], $r['exclude_admin'], $r['show_fullname'], $r['hide_empty'], $r['feed'], $r['feed_image']);
 }
 
 function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
