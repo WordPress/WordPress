@@ -314,4 +314,30 @@ function the_meta() {
 	}
 }
 
+
+//
+// Pages
+//
+
+function wp_list_pages($args = '') {
+	global $wpdb;
+
+	// TODO: Hierarchy.
+
+	parse_str($args, $r);
+	if (!isset($r['sort_column'])) $r['sort_column'] = 'title';
+	if (!isset($r['sort_order'])) $r['sort_order'] = 'asc';
+
+	$pages = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'static' ORDER BY post_" . $r['sort_column'] . " " . $r['sort_order'] = 'asc');
+
+	foreach ($pages as $page) {
+		echo '<li>';
+
+		$title = apply_filters('the_title', $page->post_title);
+
+		echo '<a href="' . get_page_link($page->ID) . '" title="' . htmlspecialchars($title) . '">' . $title . '</a>';
+		echo '</li>';
+	}
+}
+
 ?>
