@@ -536,7 +536,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 			$p_id = $p_info->ID;
 			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$p_id.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$previous;
 			if (!($title!='yes')) {
-				$string .= stripslashes($p_title);
+				$string .= wptexturize(stripslashes($p_title));
 			}
 			$string .= '</a>';
 			$format = str_replace('%',$string,$format);
@@ -581,7 +581,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 			$p_id = $p_info->ID;
 			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$p_id.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$next;
 			if ($title=='yes') {
-				$string .= stripslashes($p_title);
+				$string .= wptexturize(stripslashes($p_title));
 			}
 			$string .= '</a>';
 			$format = str_replace('%',$string,$format);
