@@ -1,36 +1,43 @@
-<?php 
-get_header();
-?>
+<?php get_header(); ?>
 
-<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+	<div id="content" class="narrowcolumn">
 
-<?php the_date('','<h2>','</h2>'); ?>
+	<?php if (have_posts()) : ?>
+		
+		<?php while (have_posts()) : the_post(); ?>
+				
+			<div class="post">
+				<h2 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>
+				<small><?php the_time('F jS, Y') ?> <!-- by <?php the_author() ?> --></small>
+				
+				<div class="entry">
+					<?php the_content('Read the rest of this entry &raquo;'); ?>
+				</div>
+		
+				<p class="postmetadata">Posted in <?php the_category(', ') ?> <strong>|</strong> <?php edit_post_link('Edit','','<strong>|</strong>'); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p> 
+				
+				<!--
+				<?php trackback_rdf(); ?>
+				-->
+			</div>
 	
-<div class="post">
-	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark"><?php the_title(); ?></a></h3>
-	<div class="meta"><?php _e("Filed under:"); ?> <?php the_category(',') ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(__('Edit This')); ?></div>
-	
-	<div class="storycontent">
-		<?php the_content(__('(more...)')); ?>
+		<?php endwhile; ?>
+
+		<div class="navigation">
+			<div class="alignleft"><?php posts_nav_link('','','&laquo; Previous Entries') ?></div>
+			<div class="alignright"><?php posts_nav_link('','Next Entries &raquo;','') ?></div>
+		</div>
+		
+	<?php else : ?>
+
+		<h2 class="center">Not Found</h2>
+		<p class="center"><?php _e("Sorry, but you are looking for something that isn't here."); ?></p>
+		<?php include (TEMPLATEPATH . "/searchform.php"); ?>
+
+	<?php endif; ?>
+
 	</div>
-	
-	<div class="feedback">
-            <?php wp_link_pages(); ?>
-            <?php comments_popup_link(__('Comments (0)'), __('Comments (1)'), __('Comments (%)')); ?>
-	</div>
-	
-	<!--
-	<?php trackback_rdf(); ?>
-	-->
 
-</div>
-
-<?php comments_template( is_single() ); // Get wp-comments.php template ?>
-
-<?php endwhile; else: ?>
-<p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
-<?php endif; ?>
-
-<?php posts_nav_link(' &#8212; ', __('&laquo; Previous Page'), __('Next Page &raquo;')); ?>
+<?php get_sidebar(); ?>
 
 <?php get_footer(); ?>
