@@ -1794,7 +1794,7 @@ function htmlentities2($myHTML) {
 	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($myHTML, $translation_table));
 }
 
-
+if ( !function_exists('wp_mail') ) :
 function wp_mail($to, $subject, $message, $headers = '') {
 	if( $headers == '' ) {
 		$headers = "MIME-Version: 1.0\r\n" .
@@ -1804,6 +1804,7 @@ function wp_mail($to, $subject, $message, $headers = '') {
 
 	return @mail($to, $subject, $message, $headers);
 }
+endif;
 
 if ( !function_exists('wp_login') ) :
 function wp_login($username, $password, $already_md5 = false) {
