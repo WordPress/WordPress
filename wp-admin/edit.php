@@ -252,8 +252,7 @@ foreach ($posts as $post) { start_b2();
 				?>
 				]
 				<br />
-				<font color="#999999"><b><a href="<?php permalink_single($siteurl.'/'.$blogfilename); ?>" title="permalink"><?php the_title() ?></a></b> by <b><?php the_author() ?> (<a href="javascript:profile(<?php the_author_ID() ?>)"><?php the_author_nickname() ?></a>)</b>, in <b><?php the_category() ?></b></font><br />
-				<?php permalink_anchor(); ?>
+				<strong><a href="<?php permalink_link(); ?>" rel="permalink"><?php the_title() ?></a></strong> &#8212; <cite><?php the_author() ?> (<a href="javascript:profile(<?php the_author_ID() ?>)"><?php the_author_nickname() ?></a>)</cite>, in <strong><?php the_category() ?></strong><br />
 				<?php
 				the_content();
 				?>
