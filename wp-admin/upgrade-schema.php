@@ -152,9 +152,9 @@ function populate_options() {
 	global $wpdb;
 
 	$guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-	add_option('siteurl', $guessurl, 'WordPress web address');
-	add_option('blogname', 'My Weblog', 'Blog title');
-	add_option('blogdescription', 'Just another WordPress weblog', 'Short tagline');
+	add_option('siteurl', $guessurl, __('WordPress web address'));
+	add_option('blogname', __('My Weblog'), __('Blog title'));
+	add_option('blogdescription', __('Just another WordPress weblog'), __('Short tagline'));
 	add_option('new_users_can_blog', 0);
 	add_option('users_can_register', 0);
 	add_option('admin_email', 'you@example.com');
@@ -203,7 +203,7 @@ function populate_options() {
 	add_option('advanced_edit', 0);
 	add_option('comment_max_links', 2);
 	// 1.5
-	add_option('default_email_category', 1, 'Posts by email go to this category');
+	add_option('default_email_category', 1, __('Posts by email go to this category'));
 	add_option('recently_edited');
 	add_option('use_linksupdate', 0);
 	add_option('template', 'default');

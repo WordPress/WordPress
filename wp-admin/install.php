@@ -77,37 +77,37 @@ else
 // Let's check to make sure WP isn't already installed.
 $wpdb->hide_errors();
 $installed = $wpdb->get_results("SELECT * FROM $wpdb->users");
-if ($installed) die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p></body></html>'));
+if ($installed) die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>') . '</body></html>');
 $wpdb->show_errors();
 
 switch($step) {
 
 	case 0:
 ?>
-<p>Welcome to WordPress installation. We&#8217;re now going to go through a few steps to get you up and running with the latest in personal publishing platforms. You may want to peruse the <a href="../readme.html">ReadMe documentation</a> at your leisure.</p>
-<h2 class="step"><a href="install.php?step=1">First Step &raquo;</a></h2>
+<p><?php printf(__('Welcome to WordPress installation. We&#8217;re now going to go through a few steps to get you up and running with the latest in personal publishing platforms. You may want to peruse the <a href="%s">ReadMe documentation</a> at your leisure.'), '../readme.html'); ?></p>
+	<h2 class="step"><a href="install.php?step=1"><?php _e('First Step &raquo;'); ?></a></h2>
 <?php
 	break;
 
 	case 1:
 ?>
-<h1>First Step</h1>
-<p>Before we begin we need a little bit of information. Don't worry, you can always change these later. </p>
+<h1><?php _e('First Step'); ?></h1>
+<p><?php _e("Before we begin we need a little bit of information. Don't worry, you can always change these later."); ?></p>
 
 <form id="setup" method="post" action="install.php?step=2">
 <table width="100%">
 <tr>
-<th width="33%">Weblog title:</th>
+<th width="33%"><?php _e('Weblog title:'); ?></th>
 <td><input name="weblog_title" type="text" id="weblog_title" size="25" /></td>
 </tr>
 <tr>
-	<th>Your e-mail:</th>
+<th><?php _e('Your e-mail:'); ?></th>
 	<td><input name="admin_email" type="text" id="admin_email" size="25" /></td>
 </tr>
 </table>
-<p><em>Double-check that email address before continuing.</em></p>
+<p><em><?php _e('Double-check that email address before continuing.'); ?></em></p>
 <h2 class="step">
-	<input type="submit" name="Submit" value="Continue to Second Step &raquo;" />
+<input type="submit" name="Submit" value="<?php _e('Continue to Second Step &raquo;'); ?>" />
 </h2>
 </form>
 
@@ -115,8 +115,8 @@ switch($step) {
 	break;
 	case 2:
 ?>
-<h1>Second Step</h1>
-<p>Now we&#8217;re going to create the database tables and fill them with some default data.</p>
+<h1><?php _e('Second Step'); ?></h1>
+<p><?php _e('Now we&#8217;re going to create the database tables and fill them with some default data.'); ?></p>
 
 
 <?php
@@ -163,47 +163,47 @@ $wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_nickname
 
 $from = 'From: '.$_POST['weblog_title'].' <wordpress@'.$_SERVER['SERVER_NAME'].'>';
 $message_headers = "$from";
-$message = "Your new WordPress blog has been successfully set up at:
+$message = sprintf(__("Your new WordPress blog has been successfully set up at:
 
-$guessurl
+%1\$s
 
 You can log in to the administrator account with the following information:
 
 Username: admin
-Password: $random_password
+Password: %2\$s
 
 We hope you enjoy your new weblog. Thanks!
 
 --The WordPress Team
 http://wordpress.org/
-";
+"), $guessurl, $random_password);
 
-@mail($admin_email, 'New WordPress Blog', $message, $message_headers);
+@mail($admin_email, __('New WordPress Blog'), $message, $message_headers);
 
 upgrade_all();
 ?>
 
-<p><em>Finished!</em></p>
+<p><em><?php _e('Finished!'); ?></em></p>
 
-<p>Now you can <a href="../wp-login.php">log in</a> with the <strong>login</strong>
-  "<code>admin</code>" and <strong>password</strong> "<code><?php echo $random_password; ?></code>".</p>
-<p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em>
+<p><?php printf(__('Now you can <a href="%1$s">log in</a> with the <strong>login</strong>
+"<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $random_password); ?></p>
+<p><?php _e('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em>
   password that was generated just for you. If you lose it, you
-  will have to delete the tables from the database yourself, and re-install WordPress. So to review:
+  will have to delete the tables from the database yourself, and re-install WordPress. So to review:'); ?>
 </p>
 <dl>
-<dt>Login</dt>
+<dt><?php _e('Login'); ?></dt>
 <dd><code>admin</code></dd>
-<dt>Password</dt>
+<dt><?php _e('Password'); ?></dt>
 <dd><code><?php echo $random_password; ?></code></dd>
-<dt>Login address</dt>
+	<dt><?php _e('Login address'); ?></dt>
 <dd><a href="../wp-login.php">wp-login.php</a></dd>
 </dl>
-<p>Were you expecting more steps? Sorry to disappoint. All done! :)</p>
+<p><?php _e('Were you expecting more steps? Sorry to disappoint. All done! :)'); ?></p>
 <?php
 	break;
 }
 ?>
-<p id="footer"><a href="http://wordpress.org/">WordPress</a>, personal publishing platform.</p>
+<p id="footer"><?php _e('<a href="http://wordpress.org/">WordPress</a>, personal publishing platform.'); ?></p>
 </body>
 </html>

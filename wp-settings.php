@@ -74,7 +74,7 @@ if ( !update_user_cache() && !strstr($_SERVER['PHP_SELF'], 'install.php') ) {
 		$link = 'install.php';
 	else
 		$link = 'wp-admin/install.php';
-	die("It doesn't look like you've installed WP yet. Try running <a href='$link'>install.php</a>.");
+	die(sprintf(__("It doesn't look like you've installed WP yet. Try running <a href='%s'>install.php</a>."), $link));
 }
 $wpdb->show_errors();
 

@@ -67,8 +67,8 @@ switch($step) {
 
 	case 0:
 ?> 
-<p>This file upgrades you from any previous version of WordPress to the latest. It may take a while though, so be patient.</p> 
-<h2 class="step"><a href="upgrade.php?step=1">Upgrade WordPress &raquo;</a></h2>
+<p><?php _e('This file upgrades you from any previous version of WordPress to the latest. It may take a while though, so be patient.'); ?></p> 
+	<h2 class="step"><a href="upgrade.php?step=1"><?php _e('Upgrade WordPress &raquo;'); ?></a></h2>
 <?php
 	break;
 	
@@ -76,14 +76,14 @@ switch($step) {
 	make_db_current_silent();
 	upgrade_all();
 ?> 
-<h2>Step 1</h2> 
-<p>There's actually only one step. So if you see this, you're done. <a href="../">Have fun</a>! </p>
+<h2><?php _e('Step 1'); ?></h2> 
+	<p><?php printf(__("There's actually only one step. So if you see this, you're done. <a href='%s'>Have fun</a>!"), '../'); ?></p>
 
 <!--
 <pre>
-<?php echo $wpdb->num_queries; ?> queries
+<?php printf(__('%s queries'), $wpdb->num_queries); ?>
 
-<?php timer_stop(1); ?> seconds
+<?php printf(__('%s seconds'), timer_stop(0)); ?>
 </pre>
 -->
 
