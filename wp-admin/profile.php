@@ -1,4 +1,7 @@
-<?php $title = "Profile";
+<?php 
+require_once('../wp-includes/wp-l10n.php');
+
+$title = "Profile";
 /* <Profile | My Profile> */
 
 function add_magic_quotes($array) {
@@ -44,36 +47,36 @@ case 'update':
 
 	/* checking the nickname has been typed */
 	if (empty($_POST["newuser_nickname"])) {
-		die ("<strong>ERROR</strong>: please enter your nickname (can be the same as your login)");
+		die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your login)"));
 		return false;
 	}
 
 	/* if the ICQ UIN has been entered, check to see if it has only numbers */
 	if (!empty($_POST["newuser_icq"])) {
 		if ((ereg("^[0-9]+$",$_POST["newuser_icq"]))==false) {
-			die ("<strong>ERROR</strong>: your ICQ UIN can only be a number, no letters allowed");
+			die (__("<strong>ERROR</strong>: your ICQ UIN can only be a number, no letters allowed"));
 			return false;
 		}
 	}
 
 	/* checking e-mail address */
 	if (empty($_POST["newuser_email"])) {
-		die ("<strong>ERROR</strong>: please type your e-mail address");
+		die (__("<strong>ERROR</strong>: please type your e-mail address"));
 		return false;
 	} else if (!is_email($_POST["newuser_email"])) {
-		die ("<strong>ERROR</strong>: the email address isn't correct");
+		die (__("<strong>ERROR</strong>: the email address isn't correct"));
 		return false;
 	}
 
 	if ($_POST["pass1"] == "") {
 		if ($_POST["pass2"] != "")
-			die ("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice.");
+			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
 		$updatepassword = "";
 	} else {
 		if ($_POST["pass2"] == "")
-			die ("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice.");
+			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
 		if ($_POST["pass1"] != $_POST["pass2"])
-			die ("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that.");
+			die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
 		$newuser_pass = $_POST["pass1"];
 		$updatepassword = "user_pass=MD5('$newuser_pass'), ";
 		setcookie("wordpresspass_".$cookiehash,md5($newuser_pass),time()+31536000);
@@ -94,7 +97,7 @@ case 'update':
 	$query = "UPDATE $tableusers SET user_firstname='$newuser_firstname', $updatepassword user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode', user_description = '$user_description' WHERE ID = $user_ID";
 	$result = $wpdb->query($query);
 	if (!$result) {
-		die ("<strong>ERROR</strong>: couldn't update your profile...");
+		die (__("<strong>ERROR</strong>: couldn't update your profile..."));
 	}
 	header('Location: profile.php?updated=true');
 break;
@@ -109,7 +112,7 @@ case 'viewprofile':
 	include_once('admin-header.php');
 	?>
 
-<h2>View Profile &#8220;
+<h2><?php _e('View Profile') ?> &#8220;
   <?php
 	switch($profiledata->user_idmode) {
 		case 'nickname':
@@ -137,36 +140,36 @@ case 'viewprofile':
 	  
   <div id="profile">
 <p> 
-  <strong>Login</strong> <?php echo $profiledata->user_login ?>
-  | <strong>User #</strong> <?php echo $profiledata->ID ?> | <strong>Level</strong> 
-  <?php echo $profiledata->user_level ?> | <strong>Posts</strong> 
+  <strong><?php _e('Login') ?></strong> <?php echo $profiledata->user_login ?>
+  | <strong><?php _e('User #') ?></strong> <?php echo $profiledata->ID ?> | <strong><?php _e('Level') ?></strong> 
+  <?php echo $profiledata->user_level ?> | <strong><?php _e('Posts') ?></strong> 
   <?php
 	$posts = get_usernumposts($user);
 	echo $posts;
 	?>
 </p>
 
-<p> <strong>First name:</strong> <?php echo $profiledata->user_firstname ?> </p>
+<p> <strong><?php _e('First name:') ?></strong> <?php echo $profiledata->user_firstname ?> </p>
   
-<p> <strong>Last name:</strong> <?php echo $profiledata->user_lastname ?> </p>
+<p> <strong><?php _e('Last name:') ?></strong> <?php echo $profiledata->user_lastname ?> </p>
   
-<p> <strong>Nickname:</strong> <?php echo $profiledata->user_nickname ?> </p>
+<p> <strong><?php _e('Nickname:') ?></strong> <?php echo $profiledata->user_nickname ?> </p>
   
-<p> <strong>Email:</strong> <?php echo make_clickable($profiledata->user_email) ?> 
+<p> <strong><?php _e('Email:') ?></strong> <?php echo make_clickable($profiledata->user_email) ?> 
 </p>
   
-<p> <strong>Website:</strong> <?php echo $profiledata->user_url ?> </p>
+<p> <strong><?php _e('Website:') ?></strong> <?php echo $profiledata->user_url ?> </p>
   
-<p> <strong>ICQ:</strong> 
+<p> <strong><?php _e('ICQ:') ?></strong> 
   <?php if ($profiledata->user_icq > 0) { echo make_clickable("icq:".$profiledata->user_icq); } ?>
 </p>
   
-<p> <strong>AIM:</strong> <?php echo "<a href='aim:goim?screenname=". str_replace(' ', '+', $profiledata->user_aim) ."&message=Howdy'>$profiledata->user_aim</a>"; ?> 
+<p> <strong><?php _e('AIM:') ?></strong> <?php echo "<a href='aim:goim?screenname=". str_replace(' ', '+', $profiledata->user_aim) ."&message=Howdy'>$profiledata->user_aim</a>"; ?> 
 </p>
   
-<p> <strong>MSN IM:</strong> <?php echo $profiledata->user_msn ?> </p>
+<p> <strong><?php _e('MSN IM:') ?></strong> <?php echo $profiledata->user_msn ?> </p>
   
-<p> <strong>Yahoo IM:</strong> <?php echo $profiledata->user_yim ?> </p>
+<p> <strong><?php _e('Yahoo IM:') ?></strong> <?php echo $profiledata->user_yim ?> </p>
   
 </div>
 
@@ -223,7 +226,7 @@ default:
 	?>
 <?php if ($updated) { ?>
 <div class="updated">
-<p><strong>Profile updated.</strong></p>
+<p><strong><?php _e('Profile updated.') ?></strong></p>
 </div>
 <?php } ?>
 <div class="wrap">
@@ -232,8 +235,8 @@ default:
     <input type="hidden" name="action" value="update" />
     <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
   </p>
-  <p><strong>Login:</strong> <?php echo $profiledata->user_login ?> | <strong>Level:</strong> 
-    <?php echo $profiledata->user_level ?> | <strong>Posts:</strong> 
+  <p><strong><?php _e('Login:') ?></strong> <?php echo $profiledata->user_login ?> | <strong><?php _e('Level:') ?></strong> 
+    <?php echo $profiledata->user_level ?> | <strong><?php _e('Posts:') ?></strong> 
     <?php
 	$posts = get_usernumposts($user_ID);
 	echo $posts;
@@ -244,47 +247,47 @@ default:
 	</style>
   <table width="99%"  border="0" cellspacing="2" cellpadding="3">
     <tr>
-      <th width="33%" scope="row">First name:</th>
+      <th width="33%" scope="row"><?php _e('First name:') ?></th>
       <td width="73%"><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">Last name:</th>
+      <th scope="row"><?php _e('Last name:') ?></th>
       <td><input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->user_lastname ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">Profile:</th>
+      <th scope="row"><?php _e('Profile:') ?></th>
       <td><textarea name="user_description" rows="5" id="textarea2" style="width: 99%; "><?php echo $profiledata->user_description ?></textarea></td>
     </tr>
     <tr>
-      <th scope="row">Nickname:</th>
+      <th scope="row"><?php _e('Nickname:') ?></th>
       <td><input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->user_nickname ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">Email:</th>
+      <th scope="row"><?php _e('Email:') ?></th>
       <td><input type="text" name="newuser_email" id="newuser_email2" value="<?php echo $profiledata->user_email ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">Website:</th>
+      <th scope="row"><?php _e('Website:') ?></th>
       <td><input type="text" name="newuser_url" id="newuser_url2" value="<?php echo $profiledata->user_url ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">ICQ:</th>
+      <th scope="row"><?php _e('ICQ:') ?></th>
       <td><input type="text" name="newuser_icq" id="newuser_icq2" value="<?php if ($profiledata->user_icq > 0) { echo $profiledata->user_icq; } ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">AIM:</th>
+      <th scope="row"><?php _e('AIM:') ?></th>
       <td><input type="text" name="newuser_aim" id="newuser_aim2" value="<?php echo $profiledata->user_aim ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">MSN IM: </th>
+      <th scope="row"><?php _e('MSN IM:') ?> </th>
       <td><input type="text" name="newuser_msn" id="newuser_msn2" value="<?php echo $profiledata->user_msn ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">Yahoo IM: </th>
+      <th scope="row"><?php _e('Yahoo IM:') ?> </th>
       <td>        <input type="text" name="newuser_yim" id="newuser_yim2" value="<?php echo $profiledata->user_yim ?>" />      </td>
     </tr>
     <tr>
-      <th scope="row">Identity on blog: </th>
+      <th scope="row"><?php _e('Identity on blog:') ?> </th>
       <td><select name="newuser_idmode">
         <option value="nickname"<?php
 	if ($profiledata->user_idmode == 'nickname')
@@ -307,14 +310,14 @@ default:
       </select>        </td>
     </tr>
     <tr>
-      <th scope="row">New <strong>Password</strong> (Leave blank to stay the same.)</th>
+      <th scope="row"><?php _e('New <strong>Password</strong> (Leave blank to stay the same.)') ?></th>
       <td><input type="password" name="pass1" size="16" value="" />
       	<br>
         <input type="password" name="pass2" size="16" value="" /></td>
     </tr>
   </table>
   <p class="submit">
-    <input type="submit" value="Update &raquo;" name="submit" />
+    <input type="submit" value="<?php _e('Update &raquo;') ?>" name="submit" />
   </p>
 	</div>
 </form>
@@ -327,7 +330,7 @@ function addPanel()
           if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
             window.sidebar.addPanel("WordPress Post: <?php echo get_settings('blogname'); ?>","<?php echo get_settings('siteurl'); ?>/wp-admin/sidebar.php","");
           else
-            alert('No Sidebar found!  You must use Mozilla 0.9.4 or later!');
+            alert(<?php __("'No Sidebar found!  You must use Mozilla 0.9.4 or later!'") ?>);
         }
 </script>
     <strong>SideBar</strong><br />
