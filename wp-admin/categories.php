@@ -135,21 +135,6 @@ default:
     ?>
 
 <div class="wrap">
-<h2>Current Categories</h2>
-<table width="100%" cellpadding="3" cellspacing="3">
-	<tr>
-		<th scope="col">Name</th>
-		<th scope="col">Description</th>
-		<th scope="col"># Posts</th>
-		<th colspan="2">Action</th>
-	</tr>
-<?php
-cat_rows();
-?>
-    </table>
-
-</div>
-<div class="wrap">
     <h2>Add New Category</h2>
     <form name="addcat" action="categories.php" method="post">
         
@@ -165,6 +150,21 @@ cat_rows();
     </form>
 </div>
 
+<div class="wrap">
+<h2>Current Categories</h2>
+<table width="100%" cellpadding="3" cellspacing="3">
+	<tr>
+		<th scope="col">Name</th>
+		<th scope="col">Description</th>
+		<th scope="col"># Posts</th>
+		<th colspan="2">Action</th>
+	</tr>
+<?php
+cat_rows();
+?>
+</table>
+
+</div>
 
 <div class="wrap">
   <p><strong>Note:</strong><br />
