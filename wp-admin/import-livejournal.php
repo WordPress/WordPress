@@ -55,7 +55,7 @@ switch($step) {
 ?> 
 <p>Howdy! This importer allows you to extract posts from a LiveJournal XML export file. To get started you must edit the following line in this file (<code>import-livejournal.php</code>) </p>
 <p><code>define('XMLFILE', '');</code></p>
-<p>You want to define where the RSS file we'll be working with is, for example: </p>
+<p>You want to define where the XML file we'll be working with is, for example: </p>
 <p><code>define('XMLFILE', '2002-04.xml');</code></p>
 <p>You have to do this manually for security reasons.</p>
 <p>If you've done that and you&#8217;re all ready, <a href="import-rss.php?step=1">let's go</a>!</p>
@@ -104,32 +104,8 @@ else :
 		('$post_author', '$post_date', DATE_ADD('$post_date', INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE), '$content', '$title', 'publish', '$comment_status', '$ping_status', '$post_name')");
 	$post_id = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_title = '$title' AND post_date = '$post_date'");
 	if (!$post_id) die("couldn't get post ID");
-	if (0 != count($categories)) :
-		foreach ($categories as $post_category) :
-		// See if the category exists yet
-		$cat_id = $wpdb->get_var("SELECT cat_ID from $tablecategories WHERE cat_name = '$post_category'");
-		if (!$cat_id && '' != trim($post_category)) {
-			$cat_nicename = sanitize_title($post_category);
-			$wpdb->query("INSERT INTO $tablecategories (cat_name, category_nicename) VALUES ('$post_category', '$cat_nicename')");
-			$cat_id = $wpdb->get_var("SELECT cat_ID from $tablecategories WHERE cat_name = '$post_category'");
-		}
-		if ('' == trim($post_category)) $cat_id = 1;
-		// Double check it's not there already
-		$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_id AND category_id = $cat_id");
-	
-		 if (!$exists) { 
-			$wpdb->query("
-			INSERT INTO $tablepost2cat
-			(post_id, category_id)
-			VALUES
-			($post_id, $cat_id)
-			");
-			}
-	endforeach;
-	else:
-		$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_id AND category_id = 1");
-		if (!$exists) $wpdb->query("INSERT INTO $tablepost2cat (post_id, category_id) VALUES ($post_id, 1) ");
-	endif;
+	$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_id AND category_id = 1");
+	if (!$exists) $wpdb->query("INSERT INTO $tablepost2cat (post_id, category_id) VALUES ($post_id, 1) ");
 	echo 'Done!</li>';
 endif;
 
