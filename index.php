@@ -7,10 +7,10 @@ require_once('wp-blog-header.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title><?php bloginfo('name') ?><?php single_post_title(' :: ') ?><?php single_cat_title(' :: ') ?><?php single_month_title(' :: ') ?></title>
+	<title><?php bloginfo('name') ?><?php single_post_title(' &raquo; ') ?><?php single_cat_title(' &raquo; ') ?><?php single_month_title(' &raquo; ') ?></title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta name="generator" content="WordPress .72" /> <!-- leave this for stats -->
+	<meta name="generator" content="WordPress <?php echo $wp_version; ?>" /> <!-- leave this for stats -->
 
 	<style type="text/css" media="screen">
 		@import url( <?php echo $siteurl; ?>/wp-layout.css );
@@ -18,7 +18,9 @@ require_once('wp-blog-header.php');
 	
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo $siteurl; ?>/print.css" />
 	<link rel="alternate" type="text/xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
-	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
+	<link rel="alternate" type="text/xml" title="RSS 2.0" href="<?php bloginfo('rss2_url'); ?>" />
+	<link rel="alternate" type="text/xml" title="RSS .92" href="<?php bloginfo('rss_url'); ?>" />
+	
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
     <?php get_archives('monthly', '', 'link'); ?>
 	<?php //comments_popup_script(); // off by default ?>
@@ -98,12 +100,10 @@ require_once('wp-blog-header.php');
  </li>
  <li>Meta:
  	<ul>
-		<li><a href="<?php bloginfo('rss_url'); ?>">RSS .92</a></li>
-		<li><a href="<?php bloginfo('rdf_url'); ?>">RDF 1.0</a></li>
-		<li><a href="<?php bloginfo('rss2_url'); ?>">RSS 2.0</a></li>
-		<li><a href="<?php bloginfo('comments_rss2_url'); ?>">Comments RSS 2.0</a></li>
+		<li><a href="<?php bloginfo('rss2_url'); ?>" title="Syndicate this site using RSS"><abbr title="Really Simple Syndication">RSS</abbr> 2.0</a></li>
+		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr> 2.0</a></li>
 		<li><a href="http://validator.w3.org/check/referer" title="This page validates as XHTML 1.0 Transitional">Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr></a></li>
-		<li><a href="http://wordpress.org" title="Powered by WordPress, personal publishing platform">WP</a></li>
+		<li><a href="http://wordpress.org" title="Powered by WordPress, state-of-the-art semantic personal publishing platform">WP</a></li>
 	</ul>
  </li>
 
@@ -113,6 +113,6 @@ require_once('wp-blog-header.php');
 
 </div>
 
-<p class="credit"><?php echo $wpdb->querycount; ?> queries. <?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>WordPress</strong></a></cite></p>
+<p class="credit"><?php echo $wpdb->querycount; ?> queries. <?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org" title="Powered by WordPress, state-of-the-art semantic personal publishing platform"><strong>WordPress</strong></a></cite></p>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php
 
-/* This file sets various arrays and variables for use in b2 */
+/* This file sets various arrays and variables for use in WordPress */
 
-#b2 version
-$wp_version = '0.80';
+# WordPress version
+$wp_version = '1.0-alpha-1';
 
-#BBcode search and replace arrays
+# BBcode search and replace arrays
 $wp_bbcode['in'] = array(
 	'#\[b](.+?)\[/b]#is',		// Formatting tags
 	'#\[i](.+?)\[/i]#is',
@@ -35,7 +35,7 @@ $wp_bbcode['out'] = array(
 #	'<a href="mailto:$1">$2</a>'
 );
 
-#GreyMatter formatting search and replace arrays
+# GreyMatter formatting search and replace arrays
 $wp_gmcode['in'] = array(
 	'#\\*\*(.+?)\\*\*#is',		// **bold**
 	'#\\\\(.+?)\\\\#is',		// \\italic\\
@@ -47,7 +47,7 @@ $wp_gmcode['out'] = array(
 	'<span style="text-decoration:underline">$1</span>'
 );
 
-#Translation of HTML entities and special characters
+# Translation of HTML entities and special characters
 $wp_htmltrans = array_flip(get_html_translation_table(HTML_ENTITIES));
 $wp_htmltrans['<'] = '<';	# preserve HTML
 $wp_htmltrans['>'] = '>';	# preserve HTML
@@ -97,7 +97,7 @@ $wp_htmltransbis = array(
 );
 $wp_htmltrans = array_merge($wp_htmltrans,$wp_htmltransbis);
 
-#Translation of invalid Unicode references range to valid range
+# Translation of invalid Unicode references range to valid range
 $wp_htmltranswinuni = array(
 	'&#128;' => '&#8364;', // the Euro sign
 	'&#129;' => '',
@@ -269,11 +269,11 @@ foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliesreplace[] = "&nbsp;<img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
 
-    add_filter('all', 'wptexturize');
-    add_filter('the_content', 'wpautop');
-	add_filter('comment_text', 'wpautop');
-	// Uncomment the following for Textile support
-	//include_once('textile.php');
-    //add_filter('the_content', 'textile');
-	// There is some duplication of effort so textile.php really should be tweaked to eliminate that.
+add_filter('all', 'wptexturize');
+add_filter('the_content', 'wpautop');
+add_filter('comment_text', 'wpautop');
+// Uncomment the following for Textile support
+// include_once('textile.php');
+// add_filter('the_content', 'textile');
+// There is some duplication of effort so textile.php really should be tweaked to eliminate that.
 ?>
