@@ -320,6 +320,12 @@ function update_option($option_name, $newvalue) {
 	global $wpdb, $cache_settings;
 	$newvalue = $newvalue;
 	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim
+
+    // If the new and old values are the same, no need to update.
+    if ($newvalue == get_settings($option_name)) {
+        return true;
+    }
+
 	$newvalue = $wpdb->escape($newvalue);
 	$wpdb->query("UPDATE $wpdb->options SET option_value = '$newvalue' WHERE option_name = '$option_name'");
 	$cache_settings = get_alloptions(); // Re cache settings
