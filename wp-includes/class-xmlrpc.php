@@ -612,7 +612,7 @@ class xmlrpcmsg {
   }
 
   function xml_header() {
-	if function_exists('get_settings') {
+	if (function_exists('get_settings')) {
 		$encoding = ' encoding="'.get_settings('blog_charset').'"';
 	} else {
 		$encoding = '';
