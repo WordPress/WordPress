@@ -84,8 +84,29 @@ switch($action) {
         } else {
             $now = date('Y-m-d H:i:s', (time() + ($time_difference * 3600)));
         }
-		
-		if ('' != $HTTP_POST_VARS['save']) $post_status = 'draft';
+
+		if (!empty($HTTP_POST_VARS['mode'])) {
+		switch($HTTP_POST_VARS['mode']) {
+			case 'bookmarklet':
+				$location = 'bookmarklet.php?a=b';
+				break;
+			case 'sidebar':
+				$location = 'sidebar.php?a=b';
+				break;
+			default:
+				$location = 'post.php';
+				break;
+			}
+		} else {
+			$location = 'post.php';
+		}
+
+		// What to do based on which button they pressed
+		if ('' != $HTTP_POST_VARS['saveasdraft']) $post_status = 'draft';
+		if ('' != $HTTP_POST_VARS['saveasprivate']) $post_status = 'private';
+		if ('' != $HTTP_POST_VARS['publish']) $post_status = 'publish';
+		if ('' != $HTTP_POST_VARS['advanced']) $post_status = 'draft';
+
 
         if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
 		$postquery ="INSERT INTO $tableposts
@@ -104,6 +125,10 @@ switch($action) {
         $result = $wpdb->query($postquery);
 
         $post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
+
+		if ('' != $HTTP_POST_VARS['advanced'])
+			$location = "post.php?action=edit&post=$post_ID";
+
 
 		// Insert categories
 		// Check to make sure there is a category, if not just set it to some default
@@ -126,23 +151,6 @@ switch($action) {
                 sleep($sleep_after_edit);
         }
 
-        if (!empty($HTTP_POST_VARS['mode'])) {
-            switch($HTTP_POST_VARS['mode']) {
-                case 'bookmarklet':
-                    $location = 'bookmarklet.php?a=b';
-                    break;
-                case 'sidebar':
-                    $location = 'sidebar.php?a=b';
-                    break;
-                default:
-                    $location = 'post.php';
-                    break;
-            }
-        } else {
-            $location = 'post.php';
-        }
-		
-		if ('' != $HTTP_POST_VARS['save']) $location = "post.php?action=edit&post=$post_ID";
         
 		header("Location: $location");
 
@@ -209,7 +217,7 @@ switch($action) {
 			$to_ping = $postdata['to_ping'];
 			$pinged = $postdata['pinged'];
 
-            include('edit-form.php');
+            include('edit-form-advanced.php');
         } else {
 ?>
             <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1,
@@ -261,6 +269,8 @@ switch($action) {
 			$trackback = $HTTP_POST_VARS['trackback_url'];
 		// Format trackbacks
 		$trackback = preg_replace('|\s+|', '\n', $trackback);
+		
+		if ('' != $HTTP_POST_VARS['publish']) $post_status = 'publish';
 
         if (($user_level > 4) && (!empty($HTTP_POST_VARS['edit_date']))) {
             $aa = $HTTP_POST_VARS['aa'];
@@ -407,7 +417,7 @@ switch($action) {
         $content = $commentdata['comment_content'];
         $content = format_to_edit($content);
 
-        include('edit-form.php');
+        include('edit-form-comment.php');
 
         break;
 

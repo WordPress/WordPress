@@ -301,7 +301,7 @@ textarea, input, select {
 	text-align: right;
 }
 
-#titlediv, #poststatusdiv, #commentstatusdiv, #pingstatusdiv, #postpassworddiv {
+#titlediv, #poststatusdiv, #commentstatusdiv, #pingstatusdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv {
 	float: left;
 	height: 6em;
 	margin-right: 5px;

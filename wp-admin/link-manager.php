@@ -340,7 +340,7 @@ th { text-align: right; }
     for ($r = 0; $r < 10; $r++) {
       echo('            <option value="'.$r.'" ');
       if ($link_rating == $r)
-        echo('selected');
+        echo 'selected="selected"';
       echo('>'.$r.'</option>');
     }
 ?>
@@ -468,7 +468,7 @@ function checkAll(form)
 	<li class="last"><a href="link-import.php">Import Blogroll</a></li>
 </ul>
 <div class="wrap">
-    <form name="cats" method="post">
+    <form name="cats" method="post" action="">
     <table width="75%" cellpadding="3" cellspacing="3">
       <tr>
         <td>
@@ -486,12 +486,12 @@ function checkAll(form)
     echo "        <select name=\"cat_id\">\n";
     echo "          <option value=\"All\"";
     if ($cat_id == 'All')
-      echo " selected";
+      echo " selected='selected'";
     echo "> All</option>\n";
     foreach ($results as $row) {
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $cat_id)
-        echo " selected";
+        echo " selected='selected'";
         echo ">".$row->cat_id.": ".$row->cat_name;
         if ($row->auto_toggle == 'Y')
             echo ' (auto toggle)';
@@ -502,12 +502,12 @@ function checkAll(form)
         </td>
         <td>
           <select name="order_by">
-            <option value="order_id"     <?php if ($order_by == 'order_id')     echo " selected";?>>Id</option>
-            <option value="order_name"   <?php if ($order_by == 'order_name')   echo " selected";?>>Name</option>
-            <option value="order_url"    <?php if ($order_by == 'order_url')    echo " selected";?>>URL</option>
-            <option value="order_desc"   <?php if ($order_by == 'order_desc')   echo " selected";?>>Description</option>
-            <option value="order_owner"  <?php if ($order_by == 'order_owner')  echo " selected";?>>Owner</option>
-            <option value="order_rating" <?php if ($order_by == 'order_rating') echo " selected";?>>Rating</option>
+            <option value="order_id"     <?php if ($order_by == 'order_id')     echo " selected='selected'";?>>Link ID</option>
+            <option value="order_name"   <?php if ($order_by == 'order_name')   echo " selected='selected'";?>>Name</option>
+            <option value="order_url"    <?php if ($order_by == 'order_url')    echo " selected='selected'";?>>URI</option>
+            <option value="order_desc"   <?php if ($order_by == 'order_desc')   echo " selected='selected'";?>>Description</option>
+            <option value="order_owner"  <?php if ($order_by == 'order_owner')  echo " selected='selected'";?>>Owner</option>
+            <option value="order_rating" <?php if ($order_by == 'order_rating') echo " selected='selected'";?>>Rating</option>
           </select>
         </td>
         <td>
@@ -521,7 +521,7 @@ function checkAll(form)
 
 <div class="wrap">
 
-    <form name="links" id="links" method="post">
+    <form name="links" id="links" method="post" action="">
     <input type="hidden" name="link_id" value="" />
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
@@ -591,7 +591,7 @@ LINKS;
               echo <<<LINKS
         <td><a href="link-manager.php?link_id=$link->link_id&amp;action=linkedit" class="edit">Edit</a></td>
         <td><a href="link-manager.php?link_id=$link->link_id&amp;action=Delete" onclick="return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.');" class="delete">Delete</a></td>
-        <td><input type="checkbox" name="linkcheck[]" value="$link->link_id" /><td>
+        <td><input type="checkbox" name="linkcheck[]" value="$link->link_id" /></td>
 LINKS;
             } else {
               echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>\n";
@@ -634,10 +634,11 @@ LINKS;
         </td>
     </tr>
 </table>
-</form>
+
 <?php
   } // end if !popup
 ?>
+</form>
 </div>
 
 
