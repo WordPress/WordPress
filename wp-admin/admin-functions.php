@@ -546,7 +546,7 @@ function save_mod_rewrite_rules() {
 
 function generate_page_rewrite_rules() {
 	global $wpdb;
-	$posts = $wpdb->get_results("SELECT ID, post_name FROM $wpdb->posts WHERE post_status = 'static'");
+	$posts = $wpdb->get_results("SELECT ID, post_name FROM $wpdb->posts WHERE post_status = 'static' ORDER BY post_parent DESC");
 
 	$page_rewrite_rules = array();
 	
