@@ -70,7 +70,7 @@ fieldset label.selectit:hover {
 }
 
 fieldset legend {
-	padding: .1em;
+	padding: .1em .3em;
 }
 
 fieldset span.cat-nest {
