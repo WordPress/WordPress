@@ -2,7 +2,7 @@
 /*
 Plugin Name: Staticize Reloaded
 Version: 2.5
-Plugin URI: http://www.cowpimp.com/archives/2004/06/08/staticize-plugin-for-wordpress/
+Plugin URI: http://codex.wordpress.org/Plugins/Staticize
 Description: Automatic Generation of static files. Cuts down on php and mysql usage. Should automatically update when changes are made to site. Original by <a href="http://www.cowpimp.com">Bill Zeller</a>.
 Author: Matt Mullenweg
 Author URI: http://photomatt.net/
@@ -67,7 +67,10 @@ function StaticizeCallback($buffer) {
 		return $buffer;
 	endif;
 
-	if ( strstr($buffer, 'wpdberror') )
+	if ( strstr($buffer, 'wpdberror') ) // If we detect a $wpdb error
+		return $buffer;
+
+	if ( !strstr($buffer, '</html>') ) // If we don't get to the end of the page
 		return $buffer;
 
 	$fr = fopen(CACHE_PATH . $staticFileName, 'a');
