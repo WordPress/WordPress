@@ -412,4 +412,17 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     }
     echo apply_filters('list_cats', $thelist);
 }
+
+function in_category($category) { // Check if the current post is in the given category
+	global $post, $category_cache;
+	$cats = '';
+	foreach ($category_cache[$post->ID] as $cat) :
+		$cats[] = $cat->category_id;
+	endforeach;
+
+	if ( in_array($category, $cats) )
+		return true;
+	else
+		return false;
+}
 ?>
