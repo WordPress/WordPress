@@ -31,7 +31,6 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 		trackback_response(1, 'Sorry, this weblog does not allow you to trackback its posts.');
 
 	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $tableposts WHERE ID = $tb_id");
-    ++$querycount;
 
 	if ('closed' == $pingstatus)
 		trackback_response(1, 'Sorry, trackbacks are closed for this item.');
@@ -87,7 +86,6 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 		die ("There is an error with the database, it can't store your comment...<br />Please contact the <a href='mailto:$admin_email'>webmaster</a>.");
 	} else {
 		$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
-        ++$querycount;
 		if ($comments_notify)
 			wp_notify_postauthor($comment_ID, 'trackback');
 		trackback_response(0);

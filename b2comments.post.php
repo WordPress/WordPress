@@ -39,7 +39,6 @@ $user_ip = $HTTP_SERVER_VARS['REMOTE_ADDR'];
 $user_domain = gethostbyaddr($user_ip);
 
 $commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = $comment_post_ID");
-++$querycount;
 if ('closed' == $commentstatus)
 	die('Sorry, comments are closed for this item.');
 
@@ -68,7 +67,6 @@ $url = addslashes($url);
 
 /* Flood-protection */
 $lasttime = $wpdb->get_var("SELECT comment_date FROM $tablecomments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1");
-++$querycount;
 $ok = true;
 if (!empty($lasttime)) {
 	$time_lastcomment= mysql2date('U', $lasttime);
@@ -101,7 +99,6 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	");
 
 	$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
-    ++$querycount;
 
 	if (($moderation_notify) && (!$approved)) {
 	    wp_notify_moderator($comment_ID);

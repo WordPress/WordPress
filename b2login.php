@@ -86,11 +86,9 @@ case 'login':
 			$pass_is_md5 = 1;
 			$password = substr($password, 4, strlen($password));
 			$query = "SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND MD5(user_pass) = '$password'";
-            ++$querycount;
 		} else {
 			$pass_is_md5 = 0;
 			$query = "SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND user_pass = '$password'";
-            ++$querycount;
 		}
 		$login = $wpdb->get_row($query);
 

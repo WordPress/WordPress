@@ -48,7 +48,7 @@
 
 <?php
 if ($debug=="1") {
-	echo "<p>$querycount queries - ".number_format(timer_stop(),3)." seconds</p>";
+	echo "<p>$wpdb->querycount queries - ".number_format(timer_stop(),3)." seconds</p>";
 }
 ?>
 
