@@ -506,7 +506,7 @@ switch ($action) {
     <tr><td colspan="2"><b>Add</b> a link:</td></tr>
       <tr height="20">
         <td height="20" align="right">URL:</td>
-        <td><input type="text" name="linkurl" size="80" value="http://<?php echo $link_url; ?>"></td>
+        <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Display Name/Alt text:</td>
