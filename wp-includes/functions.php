@@ -1162,36 +1162,19 @@ function remove_action($tag, $function_to_remove, $priority = 10) {
 	remove_filter($tag, $function_to_remove, $priority);
 }
 
-/* rewrite_rules
- * Construct rewrite matches and queries from permalink structure.
- * matches - The name of the match array to use in the query strings.
- *           If empty, $1, $2, $3, etc. are used.
- * Returns an associate array of matches and queries.
- */
-function rewrite_rules($matches = '', $permalink_structure = '') {
-
-    function preg_index($number, $matches = '') {
-        $match_prefix = '$';
-        $match_suffix = '';
-        
-        if (! empty($matches)) {
-            $match_prefix = '$' . $matches . '['; 
-                                               $match_suffix = ']';
-        }        
-        
-        return "$match_prefix$number$match_suffix";        
-    }
+function preg_index($number, $matches = '') {
+    $match_prefix = '$';
+    $match_suffix = '';
     
-    $rewrite = array();
+    if (! empty($matches)) {
+        $match_prefix = '$' . $matches . '['; 
+        $match_suffix = ']';
+    }        
+    
+    return "$match_prefix$number$match_suffix";        
+}
 
-    if (empty($permalink_structure)) {
-        $permalink_structure = get_settings('permalink_structure');
-        
-        if (empty($permalink_structure)) {
-            return $rewrite;
-        }
-    }
-
+function generate_rewrite_rules($permalink_structure = '') {
     $rewritecode = 
 	array(
 	'%year%',
@@ -1201,7 +1184,9 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 	'%minute%',
 	'%second%',
 	'%postname%',
-	'%post_id%'
+	'%post_id%',
+    '%category%',
+    '%author%'
 	);
 
     $rewritereplace = 
@@ -1213,7 +1198,9 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 	'([0-9]{1,2})',
 	'([0-9]{1,2})',
 	'([_0-9a-z-]+)',
-	'([0-9]+)'
+	'([0-9]+)',
+	'(.*)',
+	'([_0-9a-z-]+)'
 	);
 
     $queryreplace = 
@@ -1225,7 +1212,9 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 	'minute=',
 	'second=',
 	'name=',
-	'p='
+	'p=',
+    'category_name=',
+    'author_name='
 	);
 
     $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
@@ -1289,71 +1278,79 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
         }
     }
 
+    return $post_rewrite;
+}
+
+/* rewrite_rules
+ * Construct rewrite matches and queries from permalink structure.
+ * matches - The name of the match array to use in the query strings.
+ *           If empty, $1, $2, $3, etc. are used.
+ * Returns an associate array of matches and queries.
+ */
+function rewrite_rules($matches = '', $permalink_structure = '') {
+    $rewrite = array();
+
+    if (empty($permalink_structure)) {
+        $permalink_structure = get_settings('permalink_structure');
+        
+        if (empty($permalink_structure)) {
+            return $rewrite;
+        }
+    }
+
+    $post_rewrite = generate_rewrite_rules($permalink_structure);
+
     // If the permalink does not have year, month, and day, we need to create a
     // separate archive rule.
-    // TODO:  Need to write separate rules for each component of the permalink.
     $doarchive = false;
     if (! (strstr($permalink_structure, '%year') && strstr($permalink_structure, '%monthnum') && strstr($permalink_structure, '%day')) ) {
         $doarchive = true;
-        $archivematch = $front . '([0-9]{4})/?([0-9]{1,2})?/?([0-9]{1,2})?/?$';
-        $archivequery =  'index.php?year=' . preg_index(1, $matches) . '&monthnum=' . preg_index(2, $matches) . '&day=' . preg_index(3, $matches) ;
+        $archive_structure = $front . '%year%/%monthnum%/%day%/';
+        $archive_rewrite =  generate_rewrite_rules($archive_structure);
     }
+
+    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
+    $pageregex = 'page/?([0-9]{1,})/?$';
+    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
 
     // Site feed
     $sitefeedmatch = 'feed/?([_0-9a-z-]+)?/?$';
     $sitefeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches);
 
-    $sitepagematch = $pageregex;
-    $sitepagequery = 'index.php?paged=' . preg_index(1, $matches);
-
     // Site comment feed
     $sitecommentfeedmatch = 'comments/feed/?([_0-9a-z-]+)?/?$';
     $sitecommentfeedquery = 'wp-feed.php?feed=' . preg_index(1, $matches) . '&withcomments=1';
 
-    // Code for nice categories and authors.
-	if ( '' == get_settings('category_base') )
-		$catmatch = $front . 'category/';
-	else
-	    $catmatch = get_settings('category_base') . '/';
-    $catmatch = preg_replace('|^/+|', '', $catmatch);
-    
-    $catfeedmatch = $catmatch . '(.*)/' . $feedregex;
-    $catfeedquery = 'wp-feed.php?category_name=' . preg_index(1, $matches) . '&feed=' . preg_index(2, $matches);
+    // Site page
+    $sitepagematch = $pageregex;
+    $sitepagequery = 'index.php?paged=' . preg_index(1, $matches);
 
-    $catpagematch = $catmatch . '(.*)/' . $pageregex;
-    $catpagequery = 'index.php?category_name=' . preg_index(1, $matches) . '&paged=' . preg_index(2, $matches);
-
-    $catmatch = $catmatch . '?(.*)';
-    $catquery = 'index.php?category_name=' . preg_index(1, $matches);
-
-    $authormatch = $front . 'author/';
-    $authormatch = preg_replace('|^/+|', '', $authormatch);
-
-    $authorfeedmatch = $authormatch . '(.*)/' . $feedregex;
-    $authorfeedquery = 'wp-feed.php?author_name=' . preg_index(1, $matches) . '&feed=' . preg_index(2, $matches);
-
-    $authorpagematch = $authormatch . '(.*)/' . $pageregex;
-    $authorpagequery = 'index.php?author_name=' . preg_index(1, $matches) . '&paged=' . preg_index(2, $matches);
-
-    $authormatch = $authormatch . '?(.*)';
-    $authorquery = 'index.php?author_name=' . preg_index(1, $matches);
-
-    $rewrite = array(
+    $site_rewrite = array(
                      $sitefeedmatch => $sitefeedquery,
                      $sitecommentfeedmatch => $sitecommentfeedquery,
                      $sitepagematch => $sitepagequery,
-                     $catfeedmatch => $catfeedquery,
-                     $catpagematch => $catpagequery,
-                     $catmatch => $catquery,
-                     $authorfeedmatch => $authorfeedquery,
-                     $authorpagematch => $authorpagequery,
-                     $authormatch => $authorquery
                      );
 
-    $rewrite = $rewrite + $post_rewrite;
+    // Categories
+	if ( '' == get_settings('category_base') )
+		$category_structure = $front . 'category/';
+	else
+	    $category_structure = get_settings('category_base') . '/';
 
+    $category_structure = $category_structure . '%category%';
+    $category_rewrite = generate_rewrite_rules($category_structure);
+
+    // Authors
+    $author_structure = $front . 'author/%author%';
+    $author_rewrite = generate_rewrite_rules($author_structure);
+
+
+    // Put them together.
+    $rewrite = $site_rewrite + $category_rewrite + $author_rewrite + $post_rewrite;
+
+    // Add on archive rewrite rules if needed.
     if ($doarchive) {
-        $rewrite = $rewrite + array($archivematch => $archivequery);
+        $rewrite = $rewrite + $archive_rewrite;
     }
 
     return $rewrite;
