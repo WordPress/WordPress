@@ -780,6 +780,11 @@ function upgrade_110() {
 	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'advanced_edit'")) {
 		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('advanced_edit', 3, '0', 8)");
 	}
+	
+	// Now an option for moderation words
+	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'moderation_keys'")) {
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('moderation_keys', 3, '', 8)");
+	}
 }
 
 ?>

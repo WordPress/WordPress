@@ -46,6 +46,7 @@ if ($user_level <= 3) {
  <ul id="adminmenu2"> 
  	<li><a class="current">General</a></li>
 	<li><a href="options-writing.php">Writing</a></li>
+	<li><a href="options-discussion.php">Discussion</a></li>
   <?php
     //we need to iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");

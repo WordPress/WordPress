@@ -46,6 +46,7 @@ if ($user_level <= 3) {
  <ul id="adminmenu2"> 
   <li><a href="options-general.php">General</a></li> 
   <li><a class="current">Writing</a></li> 
+  <li><a href="options-discussion.php">Discussion</a></li>
   <?php
     //we need to iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
@@ -68,34 +69,39 @@ if ($user_level <= 3) {
     <input type="hidden" name="action" value="update" /> 
     <input type="hidden" name="page_options" value="'default_post_edit_rows','blog_charset','use_smilies','use_balanceTags','advanced_edit','ping_sites'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+      <tr valign="top">
+        <th scope="row"> When starting a post, show: </th>
+        <td><label>
+          <input name="advanced_edit" type="radio" value="0" <?php checked('0', get_settings('advanced_edit')); ?> />
+Simple controls</label>
+          <br />
+          <label>
+          <input name="advanced_edit" type="radio" value="1" <?php checked('1', get_settings('advanced_edit')); ?> />
+Advanced controls</label>
+          <label for="advanced_edit"></label></td>
+      </tr>
       <tr valign="top"> 
         <th width="33%" scope="row"> Size of the writing box:</th> 
         <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php echo get_settings('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
           lines </td> 
       </tr> 
+      <tr valign="top">
+        <th scope="row">Formatting:</th>
+        <td>          <label for="label">
+          <input name="use_smilies" type="checkbox" id="label" value="1" <?php checked('1', get_settings('use_smilies')); ?> />
+  Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics</label>        
+            on display <br />          <label for="label2">
+  <input name="use_balanceTags" type="checkbox" id="label2" value="1" <?php checked('1', get_settings('use_balanceTags')); ?> />
+  WordPress should correct invalidly nested XHTML automatically</label></td>
+      </tr>
       <tr valign="top"> 
-        <th scope="row">Character Setting: </th> 
+        <th scope="row">Character Encoding: </th> 
         <td><input name="blog_charset" type="text" id="blog_charset" value="<?php echo get_settings('blog_charset'); ?>" size="20" class="code" /> 
           <br /> 
-          The charset you write your blog in (UTF-8 recommended<a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html"></a>)</td> 
+          The character encoding you write your blog in (UTF-8 recommended<a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html"></a>)</td> 
       </tr> 
     </table> 
-    <p> 
-      <label for="use_smilies"> 
-      <input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked('1', get_settings('use_smilies')); ?> /> 
-      Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics.</label> 
-    </p> 
-    <p> 
-      <label for="use_balanceTags"> 
-      <input name="use_balanceTags" type="checkbox" id="use_balanceTags" value="1" <?php checked('1', get_settings('use_balanceTags')); ?> /> 
-      WordPress should correct invalidly nested XHTML automatically.</label> 
-    </p> 
-    <p> 
-      <label for="advanced_edit"> 
-      <input name="advanced_edit" type="checkbox" id="advanced_edit" value="1" <?php checked('1', get_settings('advanced_edit')); ?> /> 
-      Compose posts using the advanced interface by default.</label> 
-    </p> 
-	<fieldset>
+    <fieldset>
 	<legend>Update Services</legend>
 	<p>Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see [LINK TO SOMETHING]. Seperate multiple URIs by line breaks.</p>
 	
