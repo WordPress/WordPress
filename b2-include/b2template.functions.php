@@ -110,7 +110,17 @@ function single_month_title($prefix = '', $display = true ) {
 	}
 }
 
-function get_archives($type='', $limit='') {
+function get_archives_link( $url, $text, $format ) {
+	if ('link' == $format) {
+		echo "	<link rel='Archives' title='$text' href='$url' />\n";
+	} else {
+		echo "<li><a href='$url'>";
+		echo $text;
+		echo "</a></li>\n";
+	}
+}
+
+function get_archives($type='', $limit='',$format='html') {
 	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
     GLOBAL $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
 
@@ -152,17 +162,18 @@ function get_archives($type='', $limit='') {
 		++$querycount;
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		foreach ($arcresults as $arcresult) {
-			echo "<li><a href=\"$archive_link_m$arcresult->year".zeroise($arcresult->month, 2).'">';
-			echo $month[zeroise($arcresult->month, 2)].' '.$arcresult->year;
-			echo "</a></li>\n";
+			$url  = sprintf("%s%d%02d", $archive_link_m,  $arcresult->year,   $arcresult->month);
+			$text = sprintf("%s %d",    $month[zeroise($arcresult->month,2)], $arcresult->year);
+			get_archives_link($url, $text, $format);
 		}
 	} elseif ('daily' == $type) {
 		++$querycount;
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		foreach ($arcresults as $arcresult) {
-			echo "<li><a href=\"$archive_link_m$arcresult->year".zeroise($arcresult->month, 2).zeroise($arcresult->dayofmonth, 2).'">';
-			echo mysql2date($archive_day_date_format, $arcresult->year.'-'.zeroise($arcresult->month,2).'-'.zeroise($arcresult->dayofmonth,2).' 00:00:00');
-			echo "</a></li>\n";
+			$url  = sprintf("%s%d%02d%02d", $archive_link_m, $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
+			$date = sprintf("%d-%02d-%02d 00:00:00", $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
+			$text = mysql2date($archive_day_date_format, $date);
+			get_archives_link($url, $text, $format);
 		}
 	} elseif ('weekly' == $type) {
 		if (!isset($start_of_week)) {
@@ -178,9 +189,11 @@ function get_archives($type='', $limit='') {
 				$arc_week = get_weekstartend($arcresult->yyyymmdd, $start_of_week);
 				$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 				$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-				echo "<li><a href='$siteurl/$blogfilename$querystring_start"."m$querystring_equal$arc_year$querystring_separator"."w$querystring_equal$arcresult->week'>";
-				echo $arc_week_start.$archive_week_separator.$arc_week_end;
-				echo "</a></li>\n";
+				$url  = sprintf("%s/%s%sm%s%s%sw%s%d", $siteurl, $blogfilename, $querystring_start, 
+													 $querystring_equal, $arc_year, $querystring_separator, 
+													 $querystring_equal, $arcresult->week);
+				$text = $arc_week_start . $archive_week_separator . $arc_week_end;
+				get_archives_link($url, $text, $format);
 			}
 		}
 	} elseif ('postbypost' == $type) {
@@ -188,14 +201,14 @@ function get_archives($type='', $limit='') {
 		$arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		foreach ($arcresults as $arcresult) {
 			if ($arcresult->post_date != '0000-00-00 00:00:00') {
-				echo "<li><a href=\"$archive_link_p".$arcresult->ID.'">';
+				$url  = $archive_link_p . $arcresult->ID;
 				$arc_title = stripslashes($arcresult->post_title);
 				if ($arc_title) {
-					echo strip_tags($arc_title);
+					$text = strip_tags($arc_title);
 				} else {
-					echo $arcresult->ID;
+					$text = $arcresult->ID;
 				}
-				echo "</a></li>\n";
+				get_archives_link($url, $text, $format);
 			}
 		}
 	}
