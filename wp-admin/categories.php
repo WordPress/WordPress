@@ -122,10 +122,10 @@ case 'editedcat':
     if ($user_level < 3)
         die (__('Cheatin&#8217; uh?'));
     
-    $cat_name = addslashes(stripslashes(stripslashes($_POST['cat_name'])));
-    $cat_ID = addslashes($_POST['cat_ID']);
+    $cat_name = $wpdb->escape(stripslashes($_POST['cat_name']));
+    $cat_ID = (int) $_POST['cat_ID'];
     $category_nicename = sanitize_title($cat_name);
-    $category_description = $_POST['category_description'];
+    $category_description = $wpdb->escape(stripslashes($_POST['category_description']));
 
     $wpdb->query("UPDATE $tablecategories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = $cat WHERE cat_ID = $cat_ID");
     
