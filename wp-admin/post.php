@@ -229,11 +229,6 @@ case 'edit':
 	if( 'private' == $postdata->post_status && $postdata->post_author != $user_ID )
 		die ( __('You are not allowed to view other users\' private posts.') );
 
-	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) ) {
-		 _e('You are not allowed to edit published posts.');
-		 break;
-	}
-
 	if ($post_status == 'static') {
 		$page_template = get_post_meta($post_ID, '_wp_page_template', true);
 		include('edit-page-form.php');
