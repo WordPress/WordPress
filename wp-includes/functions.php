@@ -550,7 +550,7 @@ function get_settings($setting) {
 		$settings = $cache_settings;
 	}
     if (!isset($settings->$setting)) {
-        error_log("get_settings: Didn't find setting $setting");
+        return false;
     }
     else {
 		return $settings->$setting;
