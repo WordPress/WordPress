@@ -2,8 +2,6 @@
 
 function login($username, $password, $already_md5 = false) {
 	global $wpdb, $error;
-	if ( !$already_md5 )
-		$pwd = md5($password);
 
 	if ( !$username )
 		return false;
@@ -17,11 +15,10 @@ function login($username, $password, $already_md5 = false) {
 
 	if (!$login) {
 		$error = __('<strong>Error</strong>: Wrong login.');
-		$pwd = '';
 		return false;
 	} else {
 
-		if ( $login->user_login == $username && $login->user_pass == $pwd ) {
+		if ( ($login->user_login == $username && $login->user_pass == $password) || ($already_md5 && $login->user_login == $username && md5($login->user_pass) == $password) ) {
 			return true;
 		} else {
 			$error = __('<strong>Error</strong>: Incorrect password.');

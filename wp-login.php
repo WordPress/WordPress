@@ -138,7 +138,7 @@ default:
 
 	if( !empty($_POST) ) {
 		$log = $_POST['log'];
-		$pwd = $_POST['pwd'];
+		$pwd = md5($_POST['pwd']);
 		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_POST['redirect_to']);
 	}
 	
@@ -155,9 +155,9 @@ default:
 		header('Pragma: no-cache');
 	} else {
 		$user_login = $log;
-		$user_pass = md5($pwd);
-		setcookie('wordpressuser_'.$cookiehash, $user_login, time() + 31536000, COOKIEPATH);
-		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time() + 31536000, COOKIEPATH);
+		$user_pass = $pwd;
+		setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
+		setcookie('wordpresspass_'. COOKIEHASH, md5($user_pass), time() + 31536000, COOKIEPATH);
 
 		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -175,16 +175,16 @@ default:
 		$user_pass_md5 = $_COOKIE['wordpresspass_' . COOKIEHASH];
 	}
 
-	if ( !login($user_login, $user_pass_md5, true) ) {
-		if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
-			$error = 'Your session has expired.';
-	} else {
+	if ( login($user_login, $user_pass_md5, true) ) {
 		header('Expires: Wed, 5 Jun 1979 23:41:00 GMT'); // Michel's birthday
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Pragma: no-cache');
 		header('Location: wp-admin/');
 		exit();
+	} else {
+		if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
+			$error = 'Your session has expired.';
 	}
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -210,7 +210,7 @@ if ($error)
 	echo "<div id='login_error'>$error</div>";
 ?>
 
-<form name="loginform" id="loginform" action="wp-login.php?action=login" method="post">
+<form name="loginform" id="loginform" action="wp-login.php" method="post">
 <p><label><?php _e('Login') ?>: <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
 <p><label><?php _e('Password') ?>: <input type="password" name="pwd" value="" size="20" tabindex="2" /></label></p>
 <p class="submit"><input type="submit" name="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
