@@ -14,9 +14,15 @@ if (0 == $post_ID) {
 	$form_action = 'editpost';
 	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
 }
+if (get_settings('use_pingback')) {
+	$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
+	if ( get_settings('default_pingback_flag') ) $form_pingback .= 'checked="checked" ';
+	$form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback">' . sprintf(__('<strong>PingBack</strong> the <acronym title="Uniform Resource Locators">URL</acronym>s in this post</label> <a href="%s" title="Help on Pingbacks">?</a><br />'), 'http://wordpress.org/docs/reference/post/#pingback');
+} else {
+	$form_pingback = '';
+}
 
 $colspan = 2;
-$form_pingback = '<input type="hidden" name="post_pingback" value="0" />';
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 if (get_settings('use_trackback')) {
 	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a></label>
