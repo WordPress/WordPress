@@ -200,7 +200,7 @@ if (! empty($wp_template)) {
 }
 
 // Template redirection
-if ($pagenow == get_settings('blogfilename')) {
+if ($pagenow == 'index.php') {
 	if (! isset($wp_did_template_redirect)) {
 		if (is_home() && 
 				file_exists(ABSPATH . "wp-content/${wp_template}index.php")) {
