@@ -1645,8 +1645,9 @@ function comment_author() {
 	global $comment;
 	$author = stripslashes(stripslashes($comment->comment_author));
 	$author = apply_filters('comment_auther', $author);
+	$author = convert_chars($author);
 	if (!empty($author)) {
-		echo htmlspecialchars($comment->comment_author);
+		echo $comment->comment_author;
 	}
 	else {
 		echo "Anonymous";
@@ -1664,7 +1665,9 @@ function comment_author_link() {
 	global $comment;
 	$url = trim(stripslashes($comment->comment_author_url));
 	$email = stripslashes($comment->comment_author_email);
-	$author = htmlspecialchars(stripslashes($comment->comment_author));
+	$author = stripslashes($comment->comment_author);
+	$author = convert_chars($author);
+	$author = wptexturize($author);
 	if (empty($author)) {
 		$author = "Anonymous";
 	}
