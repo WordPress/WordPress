@@ -85,6 +85,8 @@ switch ($action) {
     $standalone = 1;
     include_once('admin-header.php');
 
+    check_admin_referer();
+
     // check the current user's level first.
     if ($user_level < get_settings('links_minadminlevel'))
       die (__("Cheatin' uh ?"));
@@ -115,6 +117,8 @@ switch ($action) {
   {
     $standalone = 1;
     include_once('admin-header.php');
+
+    check_admin_referer();
 
     // check the current user's level first.
     if ($user_level < get_settings('links_minadminlevel'))
@@ -153,6 +157,9 @@ switch ($action) {
   {
     $standalone = 1;
     include_once('admin-header.php');
+
+    check_admin_referer();
+
     // check the current user's level first.
     if ($user_level < get_settings('links_minadminlevel'))
       die (__("Cheatin' uh ?"));
@@ -174,6 +181,8 @@ switch ($action) {
   {
     $standalone = 1;
     include_once('admin-header.php');
+
+    check_admin_referer();
 
     $link_url = $_POST['linkurl'];
     $link_name = $_POST['name'];
@@ -222,6 +231,8 @@ switch ($action) {
       $standalone = 1;
       include_once('admin-header.php');
 
+      check_admin_referer();
+
       $link_id = $_POST['link_id'];
       $link_url = $_POST['linkurl'];
       $link_name = $_POST['name'];
@@ -264,6 +275,8 @@ switch ($action) {
   {
     $standalone = 1;
     include_once('admin-header.php');
+
+    check_admin_referer();
 
     $link_id = $_GET["link_id"];
 
