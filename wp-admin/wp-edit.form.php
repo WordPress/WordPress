@@ -3,6 +3,8 @@
 <div class="wrap">
 <?php
 
+$allowed_users = explode(" ", trim($fileupload_allowedusers));
+
 function selected($selected, $current) {
 	if ($selected == $current) echo ' selected="selected"';
 }
@@ -206,7 +208,7 @@ if (get_settings('use_geo_positions')) {
 <p><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" class="search" style="font-weight: bold;" tabindex="6" /></p>
 
 
-<?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && ((ereg(" ".$user_login." ", $fileupload_allowedusers)) || (trim($fileupload_allowedusers)=="")) ) { ?>
+<?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && (in_array($user_login, $allowed_users) || (trim($fileupload_allowedusers)=="")) ) { ?>
 <input type="button" value="upload a file/image" onclick="launchupload();" class="search"  tabindex="10" />
 <?php }
 

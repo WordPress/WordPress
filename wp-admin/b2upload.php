@@ -10,6 +10,8 @@ die ("Cheatin' uh ?");
 if (!$use_fileupload) //Checks if file upload is enabled in the config
 die ("The admin disabled this function");
 
+$allowed_types = explode(" ", trim($fileupload_allowedtypes));
+
 ?><html>
 <head>
 <title>WordPress :: upload images/files</title>
@@ -92,9 +94,8 @@ function targetopener(blah, closeme, closeonly) {
 <?php
 
 if (!$HTTP_POST_VARS["submit"]) {
-	$i = explode(" ",$fileupload_allowedtypes);
-	$i = implode(", ",array_slice($i, 1, count($i)-2));
-	?>
+	$i = implode(", ", $allowed_types);
+?>
 	<p><strong>File upload</strong></p>
 	<p>You can upload files of type:<br /><em><?php echo $i ?></em></p>
 	<p>The maximum size of the file should be:<br /><em><?php echo $fileupload_maxk ?> KB</em></p>
@@ -135,9 +136,9 @@ if (!empty($HTTP_POST_VARS)) { //$img1_name != "") {
 	$imgdesc = str_replace('"', '&amp;quot;', $HTTP_POST_VARS['imgdesc']);
 
 	$imgtype = explode(".",$img1_name);
-	$imgtype = " ".$imgtype[count($imgtype)-1]." ";
+	$imgtype = $imgtype[count($imgtype)-1];
 
-	if (!ereg(strtolower($imgtype), strtolower($fileupload_allowedtypes))) {
+	if (in_array($imgtype, $allowed_types) == false) {
 	    die("File $img1_name of type $imgtype is not allowed.");
 	}
 
@@ -187,6 +188,7 @@ if (!empty($HTTP_POST_VARS)) { //$img1_name != "") {
 	<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $fileupload_maxk*1024 ?>" />
 	<input type="hidden" name="img1_type" value="<?php echo $img1_type;?>" />
 	<input type="hidden" name="img1_name" value="<?php echo $img2_name;?>" />
+	<input type="hidden" name="img1_size" value="<?php echo $img1_size;?>" />
 	<input type="hidden" name="img1" value="<?php echo $pathtofile2;?>" />
 	Alternate name:<br /><input type="text" name="imgalt" size="30" class="uploadform" value="<?php echo $img2_name;?>" /><br />
 	<br />
