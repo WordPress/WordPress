@@ -52,7 +52,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	$user_ip = $HTTP_SERVER_VARS['REMOTE_ADDR'];
 	$user_domain = gethostbyaddr($user_ip);
 	$time_difference = get_settings('time_difference');
-	$now = current_time('mysql');
+	$now = gmdate('Y-m-d H:i:s');
 
 	$comment = convert_chars($comment);
 	$comment = format_to_post($comment);

@@ -712,7 +712,7 @@ function upgrade_110() {
 		$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (93, 'blog_charset', 3, 'utf-8', 'Your blog&#8217;s charset (here&#8217;s a <a href=\"http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html\">list of possible charsets</a>)', 8)");
 	}
 
-	/* for GMT dates: this is commented until all of WP can deal with GMT
+	// Convert all datetime fields' values to GMT, and update $time_difference
 	$time_difference = get_settings('time_difference');
 
 	$server_time = gmmktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
@@ -731,12 +731,6 @@ function upgrade_110() {
 		$add_hours = intval($diff_gmt_weblogger);
 		$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
 
-		#field names to update:
-		#wp_posts.post_date
-		#wp_posts.post_modified
-		#wp_comments.comment_date
-		#wp_users.dateYMDhour
-
 		#the queries are simple
 		$wpdb->query("UPDATE $tableposts SET post_date = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 		$wpdb->query("UPDATE $tableposts SET post_modified = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
@@ -753,7 +747,6 @@ function upgrade_110() {
 		$wpdb->query("UPDATE $tableoptions SET option_value = '0' WHERE option_name = 'time_difference'");
 
 	}
-	*/
 
 }
 

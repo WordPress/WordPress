@@ -96,10 +96,9 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 }
 
 function get_lastpostdate() {
-	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb;
+	global $tableposts, $cache_lastpostdate, $use_cache, $pagenow, $wpdb;
 	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
-		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
-
+		$now = gmdate('Y-m-d H:i:s');
 		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE post_date <= '$now' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
 		$cache_lastpostdate = $lastpostdate;
 	} else {
@@ -111,9 +110,7 @@ function get_lastpostdate() {
 function get_lastpostmodified() {
 	global $tableposts, $cache_lastpostmodified, $use_cache, $pagenow, $wpdb;
 	if ((!isset($cache_lastpostmodified)) OR (!$use_cache)) {
-		$time_difference = get_settings('time_difference'); // for some weird reason the global wasn't set anymore?
-		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
-
+		$now = gmdate('Y-m-d H:i:s');
 		$lastpostmodified = $wpdb->get_var("SELECT post_modified FROM $tableposts WHERE post_modified <= '$now' AND post_status = 'publish' ORDER BY post_modified DESC LIMIT 1");
 		$cache_lastpostmodified = $lastpostmodified;
 	} else {
@@ -1485,7 +1482,7 @@ function get_posts($args) {
 	if (!isset($r['orderby'])) $r['orderby'] = '';
 	if (!isset($r['order'])) $r['order'] = '';
 
-	$now = current_time('mysql');
+	$now = gmdate('Y-m-d H:i:s');
 
 	$posts = $wpdb->get_results("SELECT DISTINCT * FROM $tableposts WHERE post_date <= '$now' AND (post_status = 'publish') GROUP BY $tableposts.ID ORDER BY post_date DESC LIMIT " . $r['offset'] . ',' . $r['numberposts']);
 	

@@ -47,7 +47,8 @@ if ($comment == 'comment' || $comment == '') {
 }
 
 
-$now = current_time('mysql');
+$now = gmdate('Y-m-d H:i:s');
+
 
 $comment = balanceTags($comment, 1);
 $comment = format_to_post($comment);

@@ -83,11 +83,9 @@ switch($action) {
             $hh = ($hh > 23) ? $hh - 24 : $hh;
             $mn = ($mn > 59) ? $mn - 60 : $mn;
             $ss = ($ss > 59) ? $ss - 60 : $ss;
-            $now = "$aa-$mm-$jj $hh:$mn:$ss";
-	    // for GMT dates: compute GMT time from user's timezone time with time_difference
+	    $now = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss")
         } else {
-            $now = current_time('mysql');
-	    // for GMT dates: $now = gmdate('Y-m-d H:i:s');
+	    $now = gmdate('Y-m-d H:i:s');
         }
 
 		if (!empty($HTTP_POST_VARS['mode'])) {
@@ -310,17 +308,12 @@ switch($action) {
             $hh = ($hh > 23) ? $hh - 24 : $hh;
             $mn = ($mn > 59) ? $mn - 60 : $mn;
             $ss = ($ss > 59) ? $ss - 60 : $ss;
-            $datemodif = ", post_date=\"$aa-$mm-$jj $hh:$mn:$ss\"";
-	    /* for GMT dates:
-	    $add_hours = intval($time_difference);
-	    $add_minutes = intval(60 * ($time_difference - $add_hours));
-	    $datemodif = ", post_date = DATE_ADD('$aa-$mm-$jj $hh:$mn:$ss', INTERVAL '-$add_hours:$add_minutes' HOUR_MINUTE)";
-	    */
+            $datemodif = ", post_date = '".get_gmt_from_date('$aa-$mm-$jj $hh:$mn:$ss')."'";
         } else {
             $datemodif = '';
         }
-		$now = current_time('mysql');
-		// for GMT dates: $now = gmdate('Y-m-d H:i:s');
+	
+	$now = gmdate('Y-m-d H:i:s');
 
         $result = $wpdb->query("
 			UPDATE $tableposts SET

@@ -106,8 +106,8 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 					}
 				}
 				$ddate_U = mktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
-				$ddate_U = $ddate_U + ($time_difference * 3600);
-				$post_date = date('Y-m-d H:i:s', $ddate_U);
+
+				$post_date = gmdate('Y-m-d H:i:s', $ddate_U);
 			}
 		}
 	}

@@ -87,7 +87,7 @@ case 'register':
 	$user_login = addslashes($user_login);
 	$pass1 = addslashes($pass1);
 	$user_nickname = addslashes($user_nickname);
-	$now = current_time('mysql');
+	$now = gmdate('Y-m-d H:i:s');
 
 	$result = $wpdb->query("INSERT INTO $tableusers 
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode)
