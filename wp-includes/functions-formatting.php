@@ -87,27 +87,25 @@ function sanitize_title($title) {
 	return $title;
 }
 
-function convert_chars($content, $flag='obsolete attribute left there for backwards compatibility') { // html/unicode entities output
+function convert_chars($content, $flag='obsolete attribute left there for backwards compatibility') { 
+	// html/unicode entities output
 	global $wp_htmltrans, $wp_htmltranswinuni;
 
 	// removes metadata tags
 	$content = preg_replace('/<title>(.+?)<\/title>/','',$content);
 	$content = preg_replace('/<category>(.+?)<\/category>/','',$content);
-	
+	// converts lone & characters into &#38; (a.k.a. &amp;)
+	$content = preg_replace('/&[^#](?![a-z]*;)/ie', '"&#38;".substr("\0",1)', $content);
+	$content = strtr($content, $wp_htmltranswinuni);
 	if (get_settings('use_htmltrans')) {
-		// converts lone & characters into &#38; (a.k.a. &amp;)
-		$content = preg_replace('/&[^#](?![a-z]*;)/ie', '"&#38;".substr("\0",1)', $content);
 		// converts HTML-entities to their display values in order to convert them again later
 		$content = preg_replace('/['.chr(127).'-'.chr(255).']/e', '"&#".ord(\'\0\').";"', $content );
 		$content = strtr($content, $wp_htmltrans);
-		// now converting: Windows CP1252 => Unicode (valid HTML)
-		// (if you've ever pasted text from MSWord, you'll understand)
-		$content = strtr($content, $wp_htmltranswinuni);
 	}
 
 	// you can delete these 2 lines if you don't like <br /> and <hr />
-	$content = str_replace("<br>","<br />",$content);
-	$content = str_replace("<hr>","<hr />",$content);
+	$content = str_replace('<br>', '<br />',$content);
+	$content = str_replace('<hr>', '<hr />',$content);
 
 	return $content;
 }
