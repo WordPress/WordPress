@@ -463,6 +463,8 @@ function get_usernumposts($userid) {
 	return $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = $userid");
 }
 
+/* Options functions */
+
 function get_settings($setting) {
 	global $wpdb, $cache_settings, $use_cache, $querycount;
 	if ((empty($cache_settings)) OR (!$use_cache)) {
@@ -488,7 +490,19 @@ function get_alloptions() {
     }
     return $all_options;
 }
-    
+
+function update_option($option_name, $newvalue) {
+	global $wpdb, $tableoptions;
+	// No validation at the moment
+	$wpdb->query("UPDATE $tableoptions SET option_value = '$newvalue' WHERE option_name = '$option_name'");
+}
+
+function add_option() {
+	// Adds an option if it doesn't already exist
+	global $wpdb, $tableoptions;
+	// TODO
+}
+
 function get_postdata($postid) {
 	global $tableusers, $tablecategories, $tableposts, $tablecomments, $querycount, $wpdb;
 	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = $postid");
