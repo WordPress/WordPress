@@ -223,6 +223,11 @@ p, li, .feedback {
 	border-bottom: 1px solid #809080;
 }
 
+#menu ul ul ul.children {
+	padding-left:4px;
+	font-size:142%;
+}
+
 #wp-calendar {
 	border: 1px solid #ddd;
 	empty-cells: show;
