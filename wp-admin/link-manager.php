@@ -62,7 +62,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 $links_show_cat_id = $HTTP_COOKIE_VARS["links_show_cat_id_".$cookiehash];
 $links_show_order = $HTTP_COOKIE_VARS["links_show_order_".$cookiehash];
 
-if ($action2 != '')
+if (!empty($action2))
     $action = $action2;
 
 switch ($action) {
@@ -294,7 +294,12 @@ switch ($action) {
     }
 
 ?>
-
+<ul id="adminmenu2">
+	<li><a href="link-manager.php" class="current">Manage Links</a></li>
+	<li><a href="link-add.php">Add Link</a></li>
+	<li><a href="link-categories.php">Link Categories</a></li>
+	<li class="last"><a href="link-import.php">Import Blogroll</a></li>
+</ul>
 <div class="wrap">
 
   <table width="100%" cellpadding="3" cellspacing="3">
@@ -580,8 +585,8 @@ LINKS;
 
             if ($show_buttons) {
               echo <<<LINKS
-        <td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit';" value="Edit" class="search" /></td>
-        <td><input type="submit" name="delete" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
+        <td><a href="link-manager.php?link_id=$link->link_id&amp;action=linkedit" class="edit">Edit</a></td>
+        <td><a href="link-manager.php?link_id=$link->link_id&amp;action=Delete" onclick="return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.');" class="delete">Delete</a></td>
         <td><input type="checkbox" name="linkcheck[]" value="$link->link_id" /><td>
 LINKS;
             } else {

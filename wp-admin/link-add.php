@@ -63,138 +63,172 @@ require('admin-header.php');
 	<li><a href="link-categories.php">Link Categories</a></li>
 	<li class="last"><a href="link-import.php">Import Blogroll</a></li>
 </ul>
+<style type="text/css" media="screen">
+th { text-align: right; }
+</style>
 <div class="wrap">
-
-    <table width="100%" cellpadding="3" cellspacing="3">
-    <form name="addlink" method="post" action="link-manager.php">
-    <input type="hidden" name="action" value="Add" />
-    <tr><td colspan="2"><strong>Add</strong> a link:<?php echo gethelp_link($this_file,'add_a_link');?></td></tr>
-      <tr>
-        <td align="right">URL:</td>
-        <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
-      </tr>
-      <tr>
-        <td align="right">Display Name/Alt text:</td>
-        <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
-      </tr>
-      <tr>
-        <td align="right">Image:</td>
-        <td><input type="text" name="image" size="80" value=""></td>
-      </tr>
-      <tr>
-        <td align="right">Description:</td>
-        <td><input type="text" name="description" size="80" value=""></td>
-      </tr>
-      <tr>
-        <td align="right">rel:</td>
-        <td><input type="text" name="rel" id="rel" size="80" value=""></td>
-      </tr>
-      <tr>
-        <td valign="top" align="right"><a href="http://gmpg.org/xfn/">XFN</a>:</td>
-        <td>  <table cellspacing="0">
-        <tr>
-          <th scope="row">
-            friendship
-          </th>
-          <td>
-
-            <label for="friendship-aquaintance"><input class="valinp" type="radio" name="friendship" value="acquaintance" id="friendship-aquaintance" /> acquaintance</label> <label for="friendship-friend"><input class="valinp" type="radio" name="friendship" value="friend" id="friendship-friend" /> friend</label> <label for="friendship-none"><input class="valinp" type="radio" name="friendship" value="" id="friendship-none" /> none</label>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">
-
-            physical
-          </th>
-          <td>
-            <label for="met"><input class="valinp" type="checkbox" name="physical" value="met" id="met" /> met</label>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">
-
-            professional
-          </th>
-          <td>
-            <label for="co-worker"><input class="valinp" type="checkbox" name="professional" value="co-worker" id="co-worker" /> co-worker</label> <label for="colleague"><input class="valinp" type="checkbox" name="professional" value="colleague" id="colleague" /> colleague</label>
-          </td>
-        </tr>
-        <tr>
-
-          <th scope="row">
-            geographical
-          </th>
-          <td>
-            <label for="co-resident"><input class="valinp" type="radio" name="geographical" value="co-resident" id="co-resident" /> co-resident</label> <label for="neighbor"><input class="valinp" type="radio" name="geographical" value="neighbor" id="neighbor" /> neighbor</label> <label for="geographical-none"><input class="valinp" type="radio" name="geographical" value="" id="geographical-none" /> none</label>
-
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">
-            family
-          </th>
-          <td>
-            <label for="family-child"><input class="valinp" type="radio" name="family" value="child" id="family-child" /> child</label> <label for="family-parent"><input class="valinp" type="radio" name="family" value="parent" id="family-parent" /> parent</label> <label for="family-sibling"><input class="valinp" type="radio" name="family" value="sibling" id="family-sibling" /> sibling</label> <label for="family-spouse"><input class="valinp" type="radio" name="family" value="spouse" id="family-spouse" /> spouse</label> 
-            <label for="family-none"><input class="valinp" type="radio" name="family" value="" id="family-none" /> none</label>
-
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">
-            romantic
-          </th>
-          <td>
-            <label for="muse"><input class="valinp" type="checkbox" name="romantic" value="muse" id="muse" /> muse</label> <label for="crush"><input class="valinp" type="checkbox" name="romantic" value="crush" id="crush" /> crush</label> <label for="date"><input class="valinp" type="checkbox" name="romantic" value="date" id="date" /> date</label> <label for="sweetheart"><input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="sweetheart" /> sweetheart</label><label for="spouse"></label>
-
-          </td>
-        </tr>
-      </table></td>
-      </tr>
-      <tr>
-        <td valign="top" align="right">Notes:</td>
-        <td><textarea name="notes" cols="80" rows="10"></textarea></td>
-      </tr>
-      <tr>
-        <td align="right">Rating:</td>
-        <td>
-          <select name="rating" size="1">
-<?php
+<h3><strong>Add</strong> a link:<?php echo gethelp_link($this_file,'add_a_link');?></h3>
+     <form name="addlink" method="post" action="link-manager.php">
+       <table width="100%"  border="0" cellspacing="0" cellpadding="4">
+         <tr>
+           <th scope="row">URI:</th>
+           <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
+         </tr>
+         <tr>
+           <th scope="row">Link Name:</th>
+           <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
+         </tr>
+         <tr>
+           <th scope="row">Image</th>
+           <td><input type="text" name="image" size="80" value=""></td>
+         </tr>
+         <tr>
+           <th scope="row">Description</th>
+           <td><input type="text" name="description" size="80" value=""></td>
+         </tr>
+         <tr>
+           <th scope="row">rel:</th>
+           <td><input type="text" name="rel" id="rel2" size="80" value=""></td>
+         </tr>
+         <tr>
+           <th scope="row"><a href="http://gmpg.org/xfn/">XFN</a>:</th>
+           <td><table cellpadding="3" cellspacing="5">
+             <tr>
+               <th scope="row"> friendship </th>
+               <td>
+                 <label for="label">
+                 <input class="valinp" type="radio" name="friendship" value="acquaintance" id="label" />
+      acquaintance</label>
+                 <label for="label2">
+                 <input class="valinp" type="radio" name="friendship" value="friend" id="label2" />
+      friend</label>
+                 <label for="label3">
+                 <input class="valinp" type="radio" name="friendship" value="" id="label3" />
+      none</label>
+               </td>
+             </tr>
+             <tr>
+               <th scope="row"> physical </th>
+               <td>
+                 <label for="label4">
+                 <input class="valinp" type="checkbox" name="physical" value="met" id="label4" />
+      met</label>
+               </td>
+             </tr>
+             <tr>
+               <th scope="row"> professional </th>
+               <td>
+                 <label for="label5">
+                 <input class="valinp" type="checkbox" name="professional" value="co-worker" id="label5" />
+      co-worker</label>
+                 <label for="label6">
+                 <input class="valinp" type="checkbox" name="professional" value="colleague" id="label6" />
+      colleague</label>
+               </td>
+             </tr>
+             <tr>
+               <th scope="row"> geographical </th>
+               <td>
+                 <label for="label7">
+                 <input class="valinp" type="radio" name="geographical" value="co-resident" id="label7" />
+      co-resident</label>
+                 <label for="label8">
+                 <input class="valinp" type="radio" name="geographical" value="neighbor" id="label8" />
+      neighbor</label>
+                 <label for="label9">
+                 <input class="valinp" type="radio" name="geographical" value="" id="label9" />
+      none</label>
+               </td>
+             </tr>
+             <tr>
+               <th scope="row"> family </th>
+               <td>
+                 <label for="label10">
+                 <input class="valinp" type="radio" name="family" value="child" id="label10" />
+      child</label>
+                 <label for="label11">
+                 <input class="valinp" type="radio" name="family" value="parent" id="label11" />
+      parent</label>
+                 <label for="label12">
+                 <input class="valinp" type="radio" name="family" value="sibling" id="label12" />
+      sibling</label>
+                 <label for="label13">
+                 <input class="valinp" type="radio" name="family" value="spouse" id="label13" />
+      spouse</label>
+                 <label for="label14">
+                 <input class="valinp" type="radio" name="family" value="" id="label14" />
+      none</label>
+               </td>
+             </tr>
+             <tr>
+               <th scope="row"> romantic </th>
+               <td>
+                 <label for="label15">
+                 <input class="valinp" type="checkbox" name="romantic" value="muse" id="label15" />
+      muse</label>
+                 <label for="label16">
+                 <input class="valinp" type="checkbox" name="romantic" value="crush" id="label16" />
+      crush</label>
+                 <label for="label17">
+                 <input class="valinp" type="checkbox" name="romantic" value="date" id="label17" />
+      date</label>
+                 <label for="label18">
+                 <input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="label18" />
+      sweetheart</label>
+                 <label for="spouse"></label>
+               </td>
+             </tr>
+           </table></td>
+         </tr>
+         <tr>
+           <th scope="row">Notes:</th>
+           <td><textarea name="notes" cols="80" rows="10"></textarea></td>
+         </tr>
+         <tr>
+           <th scope="row">Rating:</th>
+           <td><select name="rating" size="1">
+             <?php
     for ($r = 0; $r < 10; $r++) {
       echo('            <option value="'.$r.'">'.$r.'</option>');
     }
 ?>
-            </select>&nbsp;(Leave at 0 for no rating.)
-        </td>
-      </tr>
-      <tr>
-        <td align="right">Target:</td>
-        <td><label><input type="radio" name="target" value="_blank"> _blank</label>
-        &nbsp;<label><input type="radio" name="target" value="_top"> _top</label>
-        &nbsp;<label><input type="radio" name="target" value="" checked="checked"> none</label>
-        </td>
-      </tr>
-      <tr>
-        <td align="right">Visible:</td>
-        <td><label>
-          <input type="radio" name="visible" checked="checked" value="Y">
-          Yes</label>
-          &nbsp;<label>
-          <input type="radio" name="visible" value="N">
-          No</label>
-        </td>
-      </tr>
-      <tr>
-        <td align="right"><label for="category">Category</label>:</td>
-        <td>
-<?php category_dropdown('category'); ?>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center">
-          <input type="submit" name="submit" value="Add" class="search">
-        </td>
-      </tr>
-    </table>
+           </select>
+           &nbsp;(Leave at 0 for no rating.) </td>
+         </tr>
+         <tr>
+           <th scope="row">Target</th>
+           <td><label>
+             <input type="radio" name="target" value="_blank">
+             <code>_blank</code></label>
+&nbsp;
+<label>
+<input type="radio" name="target" value="_top">
+<code>_top</code></label>
+&nbsp;
+<label>
+<input type="radio" name="target" value="" checked="checked">
+none</label>
+(Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)</td>
+         </tr>
+         <tr>
+           <th scope="row">Visible:</th>
+           <td><label>
+             <input type="radio" name="visible" checked="checked" value="Y">
+Yes</label>
+&nbsp;
+<label>
+<input type="radio" name="visible" value="N">
+No</label></td>
+         </tr>
+         <tr>
+           <th scope="row">Category:</th>
+           <td><?php category_dropdown('category'); ?></td>
+         </tr>
+       </table>
+       <p style="text-align: center;">
+         <input type="submit" name="submit" value="Add Link" class="search"> <input type="hidden" name="action" value="Add" /> 
+         </p>
+       </form>
 </div>
 
 <div class="wrap">

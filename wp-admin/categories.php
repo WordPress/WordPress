@@ -128,23 +128,7 @@ default:
 		die("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:$admin_email'>blog admin</a>. :)");
 	}
 	?>
-<style type="text/css">
-	.edit, .delete, .edit:hover, .delete:hover {
-		display: block;
-		text-align: center;
-		border-bottom: none;
-	}
-	
-	.edit:hover {
-		background-color: #ccc;
-		color: #fff;
-	}
-	
-	.delete:hover {
-		background-color: #c00;
-		color: #fff;
-	}
-</style>
+
 <div class="wrap">
 	<h2>Current Categories</h2>
 	<table width="100%" cellpadding="3" cellspacing="3">

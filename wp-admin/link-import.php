@@ -32,7 +32,7 @@ switch ($step) {
 
 <div class="wrap">
 
-    <h3>On this page you can import your blogroll.</h3>
+    <h3>Import your blogroll from another system </h3>
 	<!-- <form name="blogroll" action="link-import.php" method="get"> -->
 	<form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 

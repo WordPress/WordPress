@@ -2,7 +2,6 @@
 // Links
 // Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
 
-
 $title = 'Link Categories';
 $this_file='link-categories.php';
 $parent_file = 'link-manager.php';
@@ -24,51 +23,51 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 }
 
 switch ($action) {
-  case "addcat":
+  case 'addcat':
   {
       $standalone = 1;
-      include_once("./admin-header.php");
+      include_once('admin-header.php');
 
       if ($user_level < get_settings('links_minadminlevel'))
           die ("Cheatin' uh ?");
 
-      $cat_name=addslashes($HTTP_POST_VARS["cat_name"]);
-      $auto_toggle = $HTTP_POST_VARS["auto_toggle"];
+      $cat_name = addslashes($HTTP_POST_VARS['cat_name']);
+      $auto_toggle = $HTTP_POST_VARS['auto_toggle'];
       if ($auto_toggle != 'Y') {
           $auto_toggle = 'N';
       }
 
-      $show_images = $HTTP_POST_VARS["show_images"];
+      $show_images = $HTTP_POST_VARS['show_images'];
       if ($show_images != 'Y') {
           $show_images = 'N';
       }
 
-      $show_description = $HTTP_POST_VARS["show_description"];
+      $show_description = $HTTP_POST_VARS['show_description'];
       if ($show_description != 'Y') {
           $show_description = 'N';
       }
 
-      $show_rating = $HTTP_POST_VARS["show_rating"];
+      $show_rating = $HTTP_POST_VARS['show_rating'];
       if ($show_rating != 'Y') {
           $show_rating = 'N';
       }
 
-      $show_updated = $HTTP_POST_VARS["show_updated"];
+      $show_updated = $HTTP_POST_VARS['show_updated'];
       if ($show_updated != 'Y') {
           $show_updated = 'N';
       }
 
-      $sort_order = $HTTP_POST_VARS["sort_order"];
+      $sort_order = $HTTP_POST_VARS['sort_order'];
 
-      $sort_desc = $HTTP_POST_VARS["sort_desc"];
+      $sort_desc = $HTTP_POST_VARS['sort_desc'];
       if ($sort_desc != 'Y') {
           $sort_desc = 'N';
       }
-      $text_before_link = addslashes($HTTP_POST_VARS["text_before_link"]);
-      $text_after_link = addslashes($HTTP_POST_VARS["text_after_link"]);
-      $text_after_all = addslashes($HTTP_POST_VARS["text_after_all"]);
+      $text_before_link = addslashes($HTTP_POST_VARS['text_before_link']);
+      $text_after_link = addslashes($HTTP_POST_VARS['text_after_link']);
+      $text_after_all = addslashes($HTTP_POST_VARS['text_after_all']);
 
-      $list_limit = $HTTP_POST_VARS["list_limit"];
+      $list_limit = $HTTP_POST_VARS['list_limit'];
       if ($list_limit == '')
           $list_limit = -1;
 
@@ -78,20 +77,20 @@ switch ($action) {
              " '$show_rating', '$show_updated', '$sort_order', '$sort_desc', '$text_before_link', '$text_after_link', \n" .
              " '$text_after_all', $list_limit)");
 
-      header("Location: link-categories.php");
+      header('Location: link-categories.php');
     break;
   } // end addcat
-  case "Delete":
+  case 'Delete':
   {
     $standalone = 1;
-    include_once("./admin-header.php");
+    include_once('admin-header.php');
 
-    $cat_id = $HTTP_POST_VARS["cat_id"];
+    $cat_id = $HTTP_GET_VARS['cat_id'];
     $cat_name=get_linkcatname($cat_id);
     $cat_name=addslashes($cat_name);
 
     if ($cat_id=="1")
-        die("Can't delete the <b>$cat_name</b> link category: this is the default one");
+        die("Can't delete the <strong>$cat_name</strong> link category: this is the default one");
 
     if ($user_level < get_settings('links_minadminlevel'))
     die ("Cheatin' uh ?");
@@ -99,13 +98,13 @@ switch ($action) {
     $wpdb->query("DELETE FROM $tablelinkcategories WHERE cat_id='$cat_id'");
     $wpdb->query("UPDATE $tablelinks SET link_category=1 WHERE link_category='$cat_id'");
 
-    header("Location: link-categories.php");
+    header('Location: link-categories.php');
     break;
   } // end delete
-  case "Edit":
+  case 'Edit':
   {
-    include_once ("./admin-header.php");
-    $cat_id = $HTTP_POST_VARS["cat_id"];
+    include_once ('admin-header.php');
+    $cat_id = $HTTP_GET_VARS['cat_id'];
     $row = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
          . " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
          . " text_after_all, list_limit FROM $tablelinkcategories WHERE cat_id=$cat_id");
@@ -123,28 +122,38 @@ switch ($action) {
 </ul>
 
 <div class="wrap">
-  <p>Edit Link Category '<b><?php echo $row->cat_name?></b>'</p>
+  <h3>Edit Link Category &#8220;<?php echo $row->cat_name?>&#8221;</h3>
   <p>
-    <form name="editcat" method="post">
+  <form name="editcat" method="post">
       <input type="hidden" name="action" value="editedcat" />
       <input type="hidden" name="cat_id" value="<?php echo $row->cat_id ?>" />
     <table border="0">
       <tr>
         <td align="right">Name:</td>
         <td><input type="text" name="cat_name" size="25" value="<?php echo stripslashes($row->cat_name)?>" />&nbsp;&nbsp;&nbsp;
-            <input type="checkbox" name="auto_toggle" <?php echo ($row->auto_toggle == 'Y') ? 'checked' : '';?> value="Y" /> auto-toggle?</td>
+            <label for="auto_toggle">
+<input type="checkbox" name="auto_toggle" id="auto_toggle" <?php echo ($row->auto_toggle == 'Y') ? 'checked' : '';?> value="Y" />
+auto-toggle?</label></td>
       </tr>
       <tr>
-        <td align="right"><b>Show:</b></td>
+        <td align="right">Show:</td>
         <td>
-          <input type="checkbox" name="show_images"      <?php echo ($row->show_images  == 'Y') ? 'checked' : '';?>     value="Y" /> images&nbsp;&nbsp;
-          <input type="checkbox" name="show_description" <?php echo ($row->show_description == 'Y') ? 'checked' : '';?> value="Y" /> description&nbsp;&nbsp;
-          <input type="checkbox" name="show_rating"      <?php echo ($row->show_rating  == 'Y') ? 'checked' : '';?>     value="Y" /> rating&nbsp;&nbsp;
-          <input type="checkbox" name="show_updated"     <?php echo ($row->show_updated == 'Y') ? 'checked' : '';?>     value="Y" /> updated
+          <label for="show_images">
+          <input type="checkbox" name="show_images" id="show_images"  <?php echo ($row->show_images  == 'Y') ? 'checked' : '';?> value="Y" /> 
+          images</label>&nbsp;
+          <label for="show_description">
+<input type="checkbox" name="show_description" id="show_description" <?php echo ($row->show_description == 'Y') ? 'checked' : '';?> value="Y" />
+description</label>          &nbsp;
+          <label for="show_rating">
+<input type="checkbox" name="show_rating" id="show_rating" <?php echo ($row->show_rating  == 'Y') ? 'checked' : '';?>     value="Y" />
+rating</label>          &nbsp;
+          <label for="show_updated">
+<input type="checkbox" name="show_updated" id="show_updated" <?php echo ($row->show_updated == 'Y') ? 'checked' : '';?>     value="Y" />
+updated</label>
         </td>
       </tr>
       <tr>
-        <td align="right">Sort order:</td>
+        <td align="right">Sort by:</td>
         <td>
           <select name="sort_order" size="1">
             <option value="name"    <?php echo ($row->sort_order == 'name') ? 'selected' : ''?>>Name</option>
@@ -159,24 +168,24 @@ switch ($action) {
         </td>
       </tr>
       <tr>
-        <td align="center"><b>Text/HTML</b></td>
+        <td align="center">Text/HTML</td>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td align="right">before:</td>
+        <td align="right">Before:</td>
         <td><input type="text" name="text_before_link" size="45" value="<?php echo stripslashes($row->text_before_link)?>" /></td>
       </tr>
       <tr>
-        <td align="right">between:</td>
+        <td align="right">Between:</td>
         <td><input type="text" name="text_after_link" size="45" value="<?php echo stripslashes($row->text_after_link)?>" /></td>
       </tr>
       <tr>
-        <td align="right">after:</td>
+        <td align="right">After:</td>
         <td><input type="text" name="text_after_all" size="45" value="<?php echo stripslashes($row->text_after_all)?>" /></td>
       </tr>
       <tr>
-        <td align="right">limit:</td>
-        <td><input type="text" name="list_limit" size="5" value="<?php echo $row->list_limit?>"/> (leave empty for no limit)</td>
+        <td align="right">Limit:</td>
+        <td><input type="text" name="list_limit" size="5" value="<?php echo $row->list_limit?>"/>          (How many links are shown. Empty for unlimited.)</td>
       </tr>
       <tr>
         <td align="center" colspan="2">
@@ -185,7 +194,7 @@ switch ($action) {
         </td>
       </tr>
     </table>
-    </form>
+  </form>
   </p>
 </div>
 <?php
@@ -281,31 +290,29 @@ switch ($action) {
 	<li class="last"><a href="link-import.php">Import Blogroll</a></li>
 </ul>
 <div class="wrap">
-    <table width="" cellpadding="5" cellspacing="0" border="0">
-      <tr>
-        <td>
-          <form name="cats" method="post">
-            <b>Edit</b> a link category:<?php echo gethelp_link($this_file,'edit_link_category');?><br />
-            <table width="" cellpadding="5" cellspacing="0" border="0">
-              <tr style="background-color: #ddd;">
-                <th rowspan="2" valign="bottom" style="border-bottom: 1px dotted #9C9A9C;" >Id</th>
-                <th rowspan="2" valign="bottom" style="border-bottom: 1px dotted #9C9A9C;" >Name</th>
-                <th rowspan="2" valign="bottom" style="border-bottom: 1px dotted #9C9A9C;" >Auto<br />Toggle?</th>
-                <th colspan="4" valign="bottom" style="border-left: 1px dotted #9C9A9C; border-right: 1px dotted #9C9A9C;">Show</th>
-                <th rowspan="2" valign="bottom" style="border-bottom: 1px dotted #9C9A9C;" >Sort Order</th>
-                <th rowspan="2" valign="bottom" style="border-bottom: 1px dotted #9C9A9C;" >Desc?</th>
-                <th colspan="3" valign="bottom" style="border-left: 1px dotted #9C9A9C; border-right: 1px dotted #9C9A9C;">Text/HTML</th>
-                <th rowspan="2" valign="bottom" style="border-bottom: 1px dotted #9C9A9C;" >Limit</th>
-                <th rowspan="2" colspan="2" style="border-bottom: 1px dotted #9C9A9C;" >&nbsp;</th>
+
+          <form name="cats" method="post" action="link-categories.php">
+            <strong>Edit</strong> a link category:<?php echo gethelp_link($this_file,'edit_link_category');?><br />
+            <table width="100%" cellpadding="5" cellspacing="0" border="0">
+              <tr>
+			  <th rowspan="2" valign="bottom">Name</th>
+                <th rowspan="2" valign="bottom">Id</th>
+                <th rowspan="2" valign="bottom">Auto<br />Toggle?</th>
+                <th colspan="4" valign="bottom">Show</th>
+                <th rowspan="2" valign="bottom">Sort Order</th>
+                <th rowspan="2" valign="bottom">Desc?</th>
+                <th colspan="3" valign="bottom">Text/HTML</th>
+                <th rowspan="2" valign="bottom">Limit</th>
+                <th rowspan="2" colspan="2">&nbsp;</th>
               </tr>
-              <tr style="background-color: #ddd;">
-                <th valign="top" style="border-bottom: 1px dotted #9C9A9C; border-left: 1px dotted #9C9A9C;" >images?</th>
-                <th valign="top" style="border-bottom: 1px dotted #9C9A9C;" >desc?</th>
-                <th valign="top" style="border-bottom: 1px dotted #9C9A9C;" >rating?</th>
-                <th valign="top" style="border-bottom: 1px dotted #9C9A9C; border-right: 1px dotted #9C9A9C;" >updated?</th>
-                <th valign="top" style="border-bottom: 1px dotted #9C9A9C; border-left: 1px dotted #9C9A9C;" >before</th>
-                <th valign="top" style="border-bottom: 1px dotted #9C9A9C;" >between</th>
-                <th valign="top" style="border-bottom: 1px dotted #9C9A9C; border-right: 1px dotted #9C9A9C;" >after</th>
+              <tr>
+                <th valign="top">images?</th>
+                <th valign="top">desc?</th>
+                <th valign="top">rating?</th>
+                <th valign="top">updated?</th>
+                <th valign="top">before</th>
+                <th valign="top">between</th>
+                <th valign="top">after</th>
               </tr>
                 <input type="hidden" name="cat_id" value="" />
                 <input type="hidden" name="action" value="" />
@@ -319,22 +326,22 @@ foreach ($results as $row) {
     }
     $style = ($i % 2) ? ' class="alternate"' : '';
 ?>
-              <tr valign="middle" <?php echo $style ?>>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->cat_id?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo stripslashes($row->cat_name)?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->auto_toggle?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->show_images?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->show_description?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->show_rating?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->show_updated?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->sort_order?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->sort_desc?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;" nowrap><?php echo htmlentities($row->text_before_link)?>&nbsp;</td>
-                <td style="border-bottom: 1px dotted #9C9A9C;" nowrap><?php echo htmlentities($row->text_after_link)?>&nbsp;</td>
-                <td style="border-bottom: 1px dotted #9C9A9C;" nowrap><?php echo htmlentities($row->text_after_all)?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><?php echo $row->list_limit?></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><input type="submit" name="edit" onclick="forms['cats'].cat_id.value='<?php echo $row->cat_id?>'; forms['cats'].action.value='Edit'; " value="Edit" class="search" /></td>
-                <td style="border-bottom: 1px dotted #9C9A9C;"><input type="submit" name="delete" onclick="forms['cats'].cat_id.value='<?php echo $row->cat_id?>'; forms['cats'].action.value='Delete'; return confirm('You are about to delete this category.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
+              <tr valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
+                <td><?php echo stripslashes($row->cat_name)?></td>
+				<td ><?php echo $row->cat_id?></td>
+                <td><?php echo $row->auto_toggle?></td>
+                <td><?php echo $row->show_images?></td>
+                <td><?php echo $row->show_description?></td>
+                <td><?php echo $row->show_rating?></td>
+                <td><?php echo $row->show_updated?></td>
+                <td><?php echo $row->sort_order?></td>
+                <td><?php echo $row->sort_desc?></td>
+                <td nowrap="nowrap"><?php echo htmlentities($row->text_before_link)?>&nbsp;</td>
+                <td nowrap="nowrap"><?php echo htmlentities($row->text_after_link)?>&nbsp;</td>
+                <td nowrap="nowrap"><?php echo htmlentities($row->text_after_all)?></td>
+                <td><?php echo $row->list_limit?></td>
+                <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Edit" class="edit">Edit</a></td>
+                <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Delete" onclick="return confirm('You are about to delete this category.\n  \'Cancel\' to stop, \'OK\' to delete.');" class="delete">Delete</a></td>
               </tr>
 <?php
         ++$i;
@@ -342,18 +349,14 @@ foreach ($results as $row) {
 ?>
             </table>
         </form>
-      </td>
-    </tr>
-  </table>
+
 </div>
 
 <div class="wrap">
     <form name="addcat" method="post">
       <input type="hidden" name="action" value="addcat" />
-    <table border="0">
-      <tr>
-        <th>Add a Link Category:<?php echo gethelp_link($this_file,'add_link_category');?></th>
-      </tr>
+	  <h3>Add a Link Category:<?php echo gethelp_link($this_file,'add_link_category');?></h3>
+    <table width="100%" cellpadding="5" cellspacing="0" border="0">
       <tr>
         <td align="right">Name:</td>
         <td><input type="text" name="cat_name" size="25" />&nbsp;&nbsp;&nbsp;
@@ -407,11 +410,12 @@ foreach ($results as $row) {
     </table>
   </form>
 </div>
-
 <div class="wrap">
-    <b>Note:</b><br />
-    Deleting a link category does not delete links from that category.<br />It will
+    <h3>Note:</h3>
+    <p>Deleting a link category does not delete links from that category.<br />
+    It will
     just set them back to the default category <b><?php echo get_linkcatname(1) ?></b>.
+    </p>
 </div>
 <?php
     break;

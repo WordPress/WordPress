@@ -1,7 +1,28 @@
+* html #poststuff {
+	height: 100%; /* kill peekaboo bug in IE */
+}
+
 a {
 	border-bottom: 1px solid #69c;
 	color: #00019b;
 	text-decoration: none;
+}
+
+a.delete:hover {
+	background: #c00;
+	color: #fff;
+}
+
+a.edit, a.delete, a.edit:hover, a.delete:hover {
+	border-bottom: none;
+	display: block;
+	padding: 5px 0;
+	text-align: center;
+}
+
+a.edit:hover {
+	background: #ccc;
+	color: #036;
 }
 
 a:visited {
@@ -73,8 +94,8 @@ p, dl, dd, dt {
 }
 
 textarea, input, select {
-	background: #f0f0f0;
-	border: 1px solid #ccc;
+	background: #f4f4f4;
+	border: 1px solid #d8d8d8;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	margin: 1px;
 	padding: 2px;
@@ -101,7 +122,7 @@ textarea, input, select {
 	padding: 0;
 }
 
-.post-categories li {
+.post-categories li, #ed_toolbar {
 	display: inline;
 }
 
@@ -138,6 +159,10 @@ textarea, input, select {
 	margin: 6px 0;
 }
 
+#adminmenu .current, #adminmenu2 .current {
+	font-weight: bold;
+}
+
 #adminmenu .last, #adminmenu2 .last {
 	border-right: none;
 }
@@ -156,10 +181,6 @@ textarea, input, select {
 	background: #eaeaea;
 	border: 1px solid #9d9d9d;
 	color: #171717;
-}
-
-#adminmenu .current, #adminmenu2 .current {
-	font-weight: bold;
 }
 
 #adminmenu li, #adminmenu2 li {
@@ -214,10 +235,6 @@ textarea, input, select {
 	width: 25px;
 }
 
-#ed_toolbar {
-	display: inline;
-}
-
 #login {
 	background: url(http://wordpress.org/images/wp-small.png) #fff no-repeat top center;
 	border: 2px solid #333;
@@ -254,10 +271,6 @@ textarea, input, select {
 	margin-right: 11em;
 }
 
-* html #poststuff {
-	height: 100%; /* kill peekaboo bug in IE */
-}
-
 #poststuff textarea {
 	width: 99%;
 }
@@ -290,24 +303,24 @@ textarea, input, select {
 
 #titlediv, #poststatusdiv, #commentstatusdiv, #pingstatusdiv, #postpassworddiv {
 	float: left;
-	margin-right: 5px;
 	height: 6em;
+	margin-right: 5px;
 }
 
 #wphead {
+	background: url(../wp-images/header-shadow.png) repeat-x #f2f2f2;
 	height: 42px;
 	margin: 0;
-	background: repeat-x url(../wp-images/header-shadow.png) #f2f2f2;
 }
 
 #wphead a {
-	display: block;
 	background: url(../wp-images/wp-small.png) no-repeat;
+	border-bottom: none;
+	display: block;
 	height: 42px;
+	line-height: 30px;
+	margin: 3px 0 0 5px;
 	text-decoration: none;
 	text-indent: -1000px;
-	line-height: 30px;
 	width: 200px;
-	border-bottom: none;
-	margin: 3px 0 0 5px;
 }
