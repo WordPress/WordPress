@@ -617,6 +617,9 @@ function &get_page(&$page, $output = OBJECT) {
 function &get_category(&$category, $output = OBJECT) {
 	global $cache_categories, $wpdb;
 
+	if ( empty($category) )
+		return null;
+
 	if ( ! isset($cache_categories))
 		update_category_cache();
 
