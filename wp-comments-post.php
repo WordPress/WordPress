@@ -48,8 +48,6 @@ if ( '' == $comment )
 $now = current_time('mysql');
 $now_gmt = current_time('mysql', 1);
 
-
-$comment = balanceTags($comment, 1);
 $comment = format_to_post($comment);
 $comment = apply_filters('post_comment_text', $comment);
 

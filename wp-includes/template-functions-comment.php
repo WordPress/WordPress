@@ -11,10 +11,16 @@ add_filter('comment_url', 'clean_url');
 add_filter('comment_text', 'convert_chars');
 add_filter('comment_text', 'make_clickable');
 add_filter('comment_text', 'wpautop', 30);
-add_filter('comment_text', 'balanceTags');
+add_filter('comment_text', 'balanceTags', 50);
 add_filter('comment_text', 'convert_smilies', 20);
 
 add_filter('comment_excerpt', 'convert_chars');
+
+// Places to balance tags on input
+add_filter('post_comment_text', 'balanceTags', 50);
+add_filter('content_save_pre', 'balanceTags', 50);
+add_filter('excerpt_save_pre', 'balanceTags', 50);
+add_filter('comment_save_pre', 'balanceTags', 50);
 
 function comments_template() {
 	global $withcomments, $post, $wpdb, $id, $comment;

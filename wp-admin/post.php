@@ -48,9 +48,9 @@ case 'post':
         $post_ID = $wpdb->get_var("SELECT ID FROM $wpdb->posts ORDER BY ID DESC LIMIT 1") + 1;
 
 		$post_pingback = intval($_POST['post_pingback']);
-		$content = balanceTags($_POST['content']);
+		$content = apply_filters('content_save_pre', $_POST['content']);
 		$content = format_to_post($content);
-		$excerpt = balanceTags($_POST['excerpt']);
+		$excerpt = apply_filters('excerpt_save_pre',$_POST['excerpt']);
 		$excerpt = format_to_post($excerpt);
 		$post_title = $_POST['post_title'];
 		$post_categories = $_POST['post_category'];
@@ -281,9 +281,9 @@ case 'editpost':
 		$post_ID = $_POST['post_ID'];
 		$post_categories = $_POST['post_category'];
 		if (!$post_categories) $post_categories[] = 1;
-		$content = balanceTags($_POST['content']);
+		$content = apply_filters('content_save_pre', $_POST['content']);
 		$content = format_to_post($content);
-		$excerpt = balanceTags($_POST['excerpt']);
+		$excerpt = apply_filters('excerpt_save_pre', $_POST['excerpt']);
 		$excerpt = format_to_post($excerpt);
 		$post_title = $_POST['post_title'];
 		$prev_status = $_POST['prev_status'];
@@ -702,7 +702,7 @@ case 'editedcomment':
 	} else {
 		$datemodif = '';
 	}
-	$content = balanceTags($_POST['content']);
+	$content = apply_filters('comment_save_pre', $_POST['content']);
 	$content = format_to_post($content);
 
 	$result = $wpdb->query("
