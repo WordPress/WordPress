@@ -10,7 +10,7 @@ if ($_GET['action']) {
 		$current = trim($current);
 		$current = preg_replace('|\n\s*|', '\n', $current); // I don't know where this is coming from
 		update_option('active_plugins', $current);
-		header('Location: plugins.php');
+		header('Location: plugins.php?activate=true');
 	}
 	
 	if ('deactivate' == $_GET['action']) {
@@ -18,7 +18,7 @@ if ($_GET['action']) {
 		$current = str_replace("\n" . $_GET['plugin'], '', $current);
 		$current = preg_replace("|(\n)+\s*|", "\n", $current);
 		update_option('active_plugins', trim($current));
-		header('Location: plugins.php');
+		header('Location: plugins.php?deactivate=true');
 	}
 }
 
@@ -44,13 +44,24 @@ foreach ($check_plugins as $check_plugin) {
 
 
 ?>
+
+<?php if ($_GET['activate']) : ?>
+<div class="updated"><p>Plugin <strong>activated</strong>.</p>
+</div>
+<?php endif; ?>
+<?php if ($_GET['deactivate']) : ?>
+<div class="updated"><p>Plugin <strong>deactivated</strong>.</p>
+</div>
+<?php endif; ?>
+
 <div class="wrap">
 <?php
 // Files in wp-content/plugins directory
 $plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
 if ($plugins_dir) {
 	while(($file = $plugins_dir->read()) !== false) {
-	  if (!preg_match('|^\.+$|', $file)) $plugin_files[] = $file;
+	  if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) ) 
+		$plugin_files[] = $file;
 	}
 }
 
