@@ -47,7 +47,8 @@ case 'addcat':
         die (__('Cheatin&#8217; uh?'));
     
     $cat_name= addslashes(stripslashes(stripslashes($_POST['cat_name'])));
-    $category_nicename = sanitize_title($cat_name);
+    $cat_ID = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories ORDER BY cat_ID DESC LIMIT 1") + 1;
+    $category_nicename = sanitize_title($cat_name, $cat_ID);
     $category_description = addslashes(stripslashes(stripslashes($_POST['category_description'])));
     $cat = intval($_POST['cat']);
 
@@ -126,7 +127,7 @@ case 'editedcat':
     
     $cat_name = $wpdb->escape(stripslashes($_POST['cat_name']));
     $cat_ID = (int) $_POST['cat_ID'];
-    $category_nicename = sanitize_title($cat_name);
+    $category_nicename = sanitize_title($cat_name, $cat_ID);
     $category_description = $wpdb->escape(stripslashes($_POST['category_description']));
 
     $wpdb->query("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$cat' WHERE cat_ID = '$cat_ID'");
