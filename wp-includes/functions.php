@@ -1907,8 +1907,7 @@ function wp_login($username, $password, $already_md5 = false) {
 		$error = __('<strong>Error</strong>: Wrong login.');
 		return false;
 	} else {
-
-		if ( ($login->user_login == $username && $login->user_pass == $password) || ($already_md5 && $login->user_login == $username && md5($login->user_pass) == $password) ) {
+		if ( ($already_md5 && $login->user_login == $username && $login->user_pass == $password) || ($login->user_login == $username && $login->user_pass == md5($password)) ) {
 			return true;
 		} else {
 			$error = __('<strong>Error</strong>: Incorrect password.');

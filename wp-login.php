@@ -142,8 +142,12 @@ default:
 
 	if( !empty($_POST) ) {
 		$log = $_POST['log'];
-		$pwd = md5($_POST['pwd']);
+		$pwd = $_POST['pwd'];
 		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_POST['redirect_to']);
+	} else {
+		$log = '';
+		$pwd = '';
+		$redirect_to = '';
 	}
 	
 	$user = get_userdatabylogin($log);
@@ -152,30 +156,31 @@ default:
 		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 	}
 
-	if ( wp_login($log, $pwd) ) {
-		$user_login = $log;
-		$user_pass = $pwd;
-		setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
-		setcookie('wordpresspass_'. COOKIEHASH, md5($user_pass), time() + 31536000, COOKIEPATH);
-
-		if ($is_IIS)
-			header("Refresh: 0;url=$redirect_to");
-		else
-			header("Location: $redirect_to");
-	}
-
-	if( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && !empty($_COOKIE['wordpresspass_' . COOKIEHASH]) ) {
+	if ($log && $pwd) {
+		if ( wp_login($log, $pwd) ) {
+			$user_login = $log;
+			$user_pass = md5($pwd);
+			setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
+			setcookie('wordpresspass_'. COOKIEHASH, $user_pass, time() + 31536000, COOKIEPATH);
+			
+			if ($is_IIS)
+				header("Refresh: 0;url=$redirect_to");
+			else
+				header("Location: $redirect_to");
+		}
+	} else if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && !empty($_COOKIE['wordpresspass_' . COOKIEHASH]) ) {
 		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
 		$user_pass_md5 = $_COOKIE['wordpresspass_' . COOKIEHASH];
+
+		if ( wp_login($user_login, $user_pass_md5, true) ) {
+			header('Location: wp-admin/');
+			exit();
+		} else {
+			if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
+				$error = 'Your session has expired.';
+		}
 	}
 
-	if ( wp_login($user_login, $user_pass_md5, true) ) {
-		header('Location: wp-admin/');
-		exit();
-	} else {
-		if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
-			$error = 'Your session has expired.';
-	}
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
