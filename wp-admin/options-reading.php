@@ -46,7 +46,7 @@ include('options-head.php');
 	<h2><?php _e('Reading Options') ?></h2> 
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
-		<input type="hidden" name="page_options" value="'posts_per_page','what_to_show','rss_use_excerpt','blog_charset','gzipcompression' " /> 
+		<input type="hidden" name="page_options" value="'posts_per_page','what_to_show','posts_per_rss','rss_use_excerpt','blog_charset','gzipcompression' " /> 
 		<fieldset class="options"> 
         <legend><?php _e('Front Page') ?></legend> 
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
