@@ -32,9 +32,9 @@ $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_emai
 
 wp_new_comment($commentdata);
 
-setcookie('comment_author_' . COOKIEHASH, stripslashes($author), time() + 30000000, COOKIEPATH);
-setcookie('comment_author_email_' . COOKIEHASH, stripslashes($email), time() + 30000000, COOKIEPATH);
-setcookie('comment_author_url_' . COOKIEHASH, stripslashes($url), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_' . COOKIEHASH, stripslashes($comment_author), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_email_' . COOKIEHASH, stripslashes($comment_author_email), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_url_' . COOKIEHASH, stripslashes($comment_author_url), time() + 30000000, COOKIEPATH);
 
 header('Expires: Mon, 11 Jan 1984 05:00:00 GMT');
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
