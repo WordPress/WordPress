@@ -78,7 +78,7 @@ class WP_Query {
 		} elseif (!empty($qv['s'])) {
 			$this->is_search = true;
 		} else {
-	die('heree5');		// Look for archive queries.  Dates, categories, authors.
+		// Look for archive queries.  Dates, categories, authors.
 
 			if ( (int) $qv['second']) {
 				$this->is_time = true;
