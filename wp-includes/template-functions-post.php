@@ -348,7 +348,8 @@ function wp_list_pages($args = '') {
 		// array index we set the curent page as a child of that page.
 		// We can now start looping over the $page_tree array
 		// with any ID which will output the page links from that ID downwards.
-		$page_tree[$page->post_parent]['children'][] = $page->ID;
+		if ( $page->post_parent != $page->ID)
+			$page_tree[$page->post_parent]['children'][] = $page->ID;
 	}
 	// Output of the pages starting with child_of as the root ID.
 	// child_of defaults to 0 if not supplied in the query.
