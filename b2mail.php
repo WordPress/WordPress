@@ -11,12 +11,10 @@ require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc."/xmlrpc.inc");
 require_once($abspath.$b2inc."/xmlrpcs.inc");
 
-dbconnect();
 timer_start();
 
 $use_cache = 1;
 $output_debugging_info = 0;	# =1 if you want to output debugging info
-$autobr = get_settings('AutoBR');
 $time_difference = get_settings('time_difference');
 
 if ($use_phoneemail) {
@@ -126,7 +124,7 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 	ob_start();
 
 	if ($ddate_difference_days > 14) {
-		echo 'too old<br />';
+		echo 'Too old<br />';
 		continue;
 	}
 
@@ -148,7 +146,7 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 		$content = trim($content);
 
 		echo "<p><b>Content-type:</b> $content_type, <b>boundary:</b> $boundary</p>\n";
-		echo "<p><b>Raw content:</b><br /><xmp>".$content.'</xmp></p>';
+		echo "<p><b>Raw content:</b><br /><pre>".$content.'</pre></p>';
 		
 		$btpos = strpos($content, $bodyterminator);
 		if ($btpos) {
@@ -186,16 +184,15 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 		echo "<p><b>Login:</b> $user_login, <b>Pass:</b> $user_pass</p>";
 
 		$sql = "SELECT ID, user_level FROM $tableusers WHERE user_login='$user_login' AND user_pass='$user_pass' ORDER BY ID DESC LIMIT 1";
-		$result = mysql_query($sql);
+		$result = $wpdb->get_row($sql);
 
-		if (!mysql_num_rows($result)) {
+		if (!$result) {
 			echo '<p><b>Wrong login or password.</b></p></div>';
 			continue;
 		}
 
-		$row = mysql_fetch_object($result);
-		$user_level = $row->user_level;
-		$post_author = $row->ID;
+		$user_level = $result->user_level;
+		$post_author = $result->ID;
 
 		if ($user_level > 0) {
 
@@ -209,15 +206,11 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				$post_category = $default_category;
 			}
 
-			if ($autobr) {
-				$content = autobrize($content);
-			}
-
 			if (!$thisisforfunonly) {
 				$post_title = addslashes(trim($post_title));
 				$content = addslashes(trim($content));
 				$sql = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category) VALUES ($post_author, '$post_date', '$content', '$post_title', $post_category)";
-				$result = mysql_query($sql) or die('Couldn\'t add post: '.mysql_error());
+				$result = $wpdb->query($sql);
 				$post_ID = mysql_insert_id();
 
 				if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
@@ -232,18 +225,18 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				pingback($content, $post_ID);
 			}
 			echo "\n<p><b>Posted title:</b> $post_title<br />";
-			echo "\n<b>Posted content:</b><br /><xmp>".$content.'</xmp></p>';
+			echo "\n<b>Posted content:</b><br /><pre>".$content.'</pre></p>';
 
 			if(!$pop3->delete($iCount)) {
-				echo '<p>oops '.$pop3->ERROR.'</p></div>';
+				echo '<p>Oops '.$pop3->ERROR.'</p></div>';
 				$pop3->reset();
 				exit;
 			} else {
-				echo "<p>Mission complete, message <b>$iCount</b> deleted </p>";
+				echo "<p>Mission complete, message <strong>$iCount</strong> deleted.</p>";
 			}
 
 		} else {
-			echo '<p><b>Level 0 users can\'t post.</b></p>';
+			echo '<p><strong>Level 0 users can\'t post.</strong></p>';
 		}
 		echo '</div>';
 		if ($output_debugging_info) {
