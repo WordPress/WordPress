@@ -786,7 +786,7 @@ function upgrade_110() {
 	
 	// Now an option for blog pinging
 	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'ping_sites'")) {
-		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('ping_sites', 3, '', 8)");
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('ping_sites', 3, 'http://rpc.pingomatic.com/', 8)");
 	}
 	
 	// Option for using the advanced edit screen by default
