@@ -495,15 +495,7 @@ function extract_from_markers($filename, $marker) {
 
 function save_mod_rewrite_rules() {
 	global $is_apache, $wp_rewrite;
-	$home = get_settings('home');
-	if ( $home != '' && $home != get_settings('siteurl') ) {
-		$home_path = parse_url($home);
-		$home_path = $home_root['path'];
-		$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
-		$home_path = $root . $home_path . "/";
-	} else {
-		$home_path = ABSPATH;
-	}
+	$home_path = get_home_path();
 
 	if ( (!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess') )
 		$writable = true;
@@ -787,17 +779,24 @@ function validate_file_to_edit($file, $allowed_files = '') {
 	return $file;
 }
 
-function get_real_file_to_edit($file) {
+function get_home_path() {
 	$home = get_settings('home');
-	if (($home != '')
-			&& ($home != get_settings('siteurl')) &&
-			('index.php' == $file || get_settings('blogfilename') == $file ||
-			 '.htaccess' == $file)) {
-		$home_root = parse_url($home);
-		$home_root = $home_root['path'];
-		$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
-		$home_root = $root . $home_root;
-		$real_file = $home_root . '/' . $file;
+	if ( $home != '' && $home != get_settings('siteurl') ) {
+		$home_path = parse_url($home);
+		$home_path = $home_root['path'];
+		$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["SCRIPT_FILENAME"]);
+		$home_path = $root . $home_path . "/";
+	} else {
+		$home_path = ABSPATH;
+	}
+
+	return $home_path;
+}
+
+function get_real_file_to_edit($file) {
+	if ('index.php' == $file || get_settings('blogfilename') == $file ||
+			 '.htaccess' == $file) {
+		$real_file = get_home_path() . $file;
 	} else {
 		$real_file = ABSPATH . $file;
 	}

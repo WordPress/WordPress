@@ -6,15 +6,7 @@ $parent_file = 'options-general.php';
 
 include('admin-header.php');
 
-$home = get_settings('home');
-if ( $home != '' && $home != get_settings('siteurl') ) {
-	$home_path = parse_url($home);
-	$home_path = $home_root['path'];
-	$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
-	$home_path = $root . $home_path . "/";
-} else {
-	$home_path = ABSPATH;
-}
+$home_path = get_home_path();
 
 if ( isset($_POST) ) {
 	if ( isset($_POST['permalink_structure']) ) {
