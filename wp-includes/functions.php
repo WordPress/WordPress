@@ -95,26 +95,54 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 	return $week;
 }
 
-function get_lastpostdate() {
+function get_lastpostdate($timezone = 'server') {
 	global $tableposts, $cache_lastpostdate, $use_cache, $pagenow, $wpdb;
-	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
-		$now = gmdate('Y-m-d H:i:s');
-		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE post_date <= '$now' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
-		$cache_lastpostdate = $lastpostdate;
+	$add_seconds_blog = get_settings('gmt_offset') * 3600;
+	$add_seconds_server = date('Z');
+	$now = gmdate('Y-m-d H:i:s');
+	if ((!isset($cache_lastpostdate[$timezone])) OR (!$use_cache)) {
+		switch(strtolower($timezone)) {
+			case 'gmt':
+				$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE post_date <= '$now' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
+				break;
+			case 'blog':
+				$lastpostdate = $wpdb->get_var("SELECT DATE_ADD(post_date, INTERVAL '$add_seconds_blog' SECOND) FROM $tableposts WHERE post_date <= '$now' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
+				break;
+			case 'server':
+				$lastpostdate = $wpdb->get_var("SELECT DATE_ADD(post_date, INTERVAL '$add_seconds_server' SECOND) FROM $tableposts WHERE post_date <= '$now' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
+				break;
+		}
+		$cache_lastpostdate[$timezone] = $lastpostdate;
 	} else {
-		$lastpostdate = $cache_lastpostdate;
+		$lastpostdate = $cache_lastpostdate[$timezone];
 	}
 	return $lastpostdate;
 }
 
-function get_lastpostmodified() {
+function get_lastpostmodified($timezone = 'server') {
 	global $tableposts, $cache_lastpostmodified, $use_cache, $pagenow, $wpdb;
-	if ((!isset($cache_lastpostmodified)) OR (!$use_cache)) {
-		$now = gmdate('Y-m-d H:i:s');
-		$lastpostmodified = $wpdb->get_var("SELECT post_modified FROM $tableposts WHERE post_modified <= '$now' AND post_status = 'publish' ORDER BY post_modified DESC LIMIT 1");
-		$cache_lastpostmodified = $lastpostmodified;
+	$add_seconds_blog = get_settings('gmt_offset') * 3600;
+	$add_seconds_server = date('Z');
+	$now = gmdate('Y-m-d H:i:s');
+	if ((!isset($cache_lastpostmodified[$timezone])) OR (!$use_cache)) {
+		switch($timezone) {
+			case 'gmt':
+				$lastpostmodified = $wpdb->get_var("SELECT post_modified FROM $tableposts WHERE post_modified <= '$now' AND post_status = 'publish' ORDER BY post_modified DESC LIMIT 1");
+				break;
+			case 'blog':
+				$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified, INTERVAL '$add_seconds_blog' SECOND) FROM $tableposts WHERE post_modified <= '$now' AND post_status = 'publish' ORDER BY post_modified DESC LIMIT 1");
+				break;
+			case 'server':
+				$lastpostmodified = $wpdb->get_var("SELECT DATE_ADD(post_modified, INTERVAL '$add_seconds_server' SECOND) FROM $tableposts WHERE post_modified <= '$now' AND post_status = 'publish' ORDER BY post_modified DESC LIMIT 1");
+				break;
+		}
+		$lastpostdate = get_lastpostdate($timezone);
+		if ($lastpostdate > $lastpostmodified) {
+			$lastpostmodified = $lastpostdate;
+		}
+		$cache_lastpostmodified[$timezone] = $lastpostmodified;
 	} else {
-		$lastpostmodified = $cache_lastpostmodified;
+		$lastpostmodified = $cache_lastpostmodified[$timezone];
 	}
 	return $lastpostmodified;
 }
