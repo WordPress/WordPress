@@ -1088,12 +1088,8 @@ class WP_Rewrite {
 		$page_rewrite = $this->page_rewrite_rules();
 		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
-		// Deprecated style static pages
-		$page_structure = $this->root . 'site/%pagename%';
-		$old_page_rewrite = $this->generate_rewrite_rules($page_structure);
-
 		// Put them together.
-		$this->rules = $page_rewrite + $root_rewrite + $comments_rewrite + $old_page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite + $post_rewrite;
+		$this->rules = $page_rewrite + $root_rewrite + $comments_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite + $post_rewrite;
 
 		do_action('generate_rewrite_rules', '');
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
