@@ -897,16 +897,16 @@ function apply_filters($tag, $string) {
 				$accepted_args = $function['accepted_args'];
 
 				if($accepted_args == 1) {
-					$args = array($string);
+					$the_args = array($string);
 				} elseif ($accepted_args > 1) {
-					$args = array_slice($all_args, 0, $accepted_args);
+					$the_args = array_slice($all_args, 0, $accepted_args);
 				} elseif($accepted_args == 0) {
-					$args = NULL;
+					$the_args = NULL;
 				} else {
-					$args = $all_args;
+					$the_args = $all_args;
 				}
 
-				$string = call_user_func_array($function_name, $args);
+				$string = call_user_func_array($function_name, $the_args);
 			}
 		}
 	}
@@ -952,8 +952,8 @@ function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args
 function do_action($tag, $arg = '') {
 	global $wp_filter;
 	$extra_args = array_slice(func_get_args(), 2);
-	if ( is_array($arg) )
-		$args = array_merge($arg, $extra_args);
+ 	if ( is_array($arg) )
+ 		$args = array_merge($arg, $extra_args);
 	else
 		$args = array_merge(array($arg), $extra_args);
 	
@@ -966,21 +966,23 @@ function do_action($tag, $arg = '') {
 		if (!is_null($functions)) {
 			foreach($functions as $function) {
 
-				$all_args = array_merge(array($string), $args);
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
 
 				if($accepted_args == 1) {
-					$args = array($string);
+					if ( is_array($arg) )
+						$the_args = $arg;
+					else
+						$the_args = array($arg);
 				} elseif ($accepted_args > 1) {
-					$args = array_slice($all_args, 0, $accepted_args);
+					$the_args = array_slice($args, 0, $accepted_args);
 				} elseif($accepted_args == 0) {
-					$args = NULL;
+					$the_args = NULL;
 				} else {
-					$args = $all_args;
+					$the_args = $args;
 				}
 
-				$string = call_user_func_array($function_name, $args);
+				$string = call_user_func_array($function_name, $the_args);
 			}
 		}
 	}
