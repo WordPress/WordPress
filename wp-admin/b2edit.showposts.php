@@ -135,7 +135,7 @@ if ($i == "ASC")
 		echo "<option value=\"".$category->cat_ID."\"";
 		if ($category->cat_ID == $postdata["Category"])
 			echo " selected='selected'";
-		echo ">".$row->cat_name."</option>";
+		echo ">".$category->cat_name."</option>";
 	}
 		?>
 		</select>
