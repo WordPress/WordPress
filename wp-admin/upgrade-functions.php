@@ -85,11 +85,11 @@ function upgrade_071() {
 function upgrade_072() {
 	global $wpdb;
 	maybe_add_column($wpdb->links, 'link_notes', "ALTER TABLE $wpdb->links ADD COLUMN link_notes MEDIUMTEXT NOT NULL DEFAULT '' ");
-	maybe_add_column($wpdb->links, 'show_images', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_images enum('Y','N') NOT NULL default 'Y'");
-	maybe_add_column($wpdb->links, 'show_description', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_description enum('Y','N') NOT NULL default 'Y'");
-	maybe_add_column($wpdb->links, 'show_rating', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_rating enum('Y','N') NOT NULL default 'Y'");
-	maybe_add_column($wpdb->links, 'show_updated', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_updated enum('Y','N') NOT NULL default 'Y'");
-	maybe_add_column($wpdb->links, 'sort_order', "ALTER TABLE $wpdb->linkcategories ADD COLUMN sort_order varchar(64) NOT NULL default 'name'");
+	maybe_add_column($wpdb->linkcategories, 'show_images', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_images enum('Y','N') NOT NULL default 'Y'");
+	maybe_add_column($wpdb->linkcategories, 'show_description', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_description enum('Y','N') NOT NULL default 'Y'");
+	maybe_add_column($wpdb->linkcategories, 'show_rating', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_rating enum('Y','N') NOT NULL default 'Y'");
+	maybe_add_column($wpdb->linkcategories, 'show_updated', "ALTER TABLE $wpdb->linkcategories ADD COLUMN show_updated enum('Y','N') NOT NULL default 'Y'");
+	maybe_add_column($wpdb->linkcategories, 'sort_order', "ALTER TABLE $wpdb->linkcategories ADD COLUMN sort_order varchar(64) NOT NULL default 'name'");
 	maybe_add_column($wpdb->linkcategories, 'sort_desc', "ALTER TABLE $wpdb->linkcategories ADD COLUMN sort_desc enum('Y','N') NOT NULL default 'N'");
 	maybe_add_column($wpdb->linkcategories, 'text_before_link', "ALTER TABLE $wpdb->linkcategories ADD COLUMN text_before_link varchar(128) not null default '<li>'");
 	maybe_add_column($wpdb->linkcategories, 'text_after_link', "ALTER TABLE $wpdb->linkcategories ADD COLUMN text_after_link  varchar(128) not null default '<br />'");
