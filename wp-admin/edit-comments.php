@@ -154,10 +154,13 @@ echo $comments_nav_bar;
 		<?php comment_text() ?>
 		<p>Posted <?php comment_date('M j, g:i A') ?> | <?php 
 			if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-				echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
+				echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit Comment</a>";
 				echo " | <a href=\"wp-post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> | ";
 			} // end if any comments to show
-			?> <a href="edit.php?p=<?php echo $comment->comment_post_ID; ?>">Edit Post</a></p>
+			// Get post title
+			$post_title = $wpdb->get_var("SELECT post_title FROM $tableposts WHERE ID = $comment->comment_post_ID");
+			$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
+			?> <a href="wp-post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>">Edit Post &#8220;<?php echo $post_title; ?>&#8221;</a></p>
 		</li>
 
 		<?php 
