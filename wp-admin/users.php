@@ -175,7 +175,7 @@ default:
 	<th><?php _e('Nickname') ?></th>
 	<th><?php _e('Name') ?></th>
 	<th><?php _e('E-mail') ?></th>
-	<th><?php _e('URI') ?></th>
+	<th><?php _e('Website') ?></th>
 	<th><?php _e('Level') ?></th>
 	<th><?php _e('Posts') ?></th>
 	</tr>
@@ -228,7 +228,7 @@ default:
 		<th><?php _e('Nickname') ?></th>
 		<th><?php _e('Name') ?></th>
 		<th><?php _e('E-mail') ?></th>
-		<th><?php _e('URI') ?></th>
+		<th><?php _e('Website') ?></th>
 		<th><?php _e('Level') ?></th>
 	</tr>
 	<?php
@@ -270,11 +270,11 @@ echo "\n<tr $style>
 <h2><?php _e('Add User') ?></h2>
 <?php printf(__('<p>Users can <a href="%s/wp-register.php">register themselves</a> or you can manually create users here.</p>'), get_settings('siteurl')); ?>
 <form action="" method="post" name="adduser" id="adduser">
-  <table border="0" cellspacing="5" cellpadding="3">
+  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
     <tr>
-      <th scope="row"><?php _e('Nickname') ?>
+      <th scope="row" width="33%"><?php _e('Nickname') ?>
       <input name="action" type="hidden" id="action" value="adduser" /></th>
-      <td><input name="user_login" type="text" id="user_login" /></td>
+      <td width="66%"><input name="user_login" type="text" id="user_login" /></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('First Name') ?> </th>
@@ -285,11 +285,11 @@ echo "\n<tr $style>
       <td><input name="lastname" type="text" id="lastname" /></td>
     </tr>
     <tr>
-      <th scope="row"><?php _e('Email') ?></th>
+      <th scope="row"><?php _e('E-mail') ?></th>
       <td><input name="email" type="text" id="email" /></td>
     </tr>
     <tr>
-      <th scope="row"><?php _e('URI') ?></th>
+      <th scope="row"><?php _e('Website') ?></th>
       <td><input name="uri" type="text" id="uri" /></td>
     </tr>
     <tr>
