@@ -186,6 +186,11 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 	header('HTTP/1.x 404 Not Found');
 }
 
+if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
+	if ( get_settings('gzipcompression') ) 
+		gzip_compression();
+}
+
 // Template redirection
 if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	do_action('template_redirect');
@@ -238,11 +243,6 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		include(ABSPATH . '/wp-trackback.php');
 		exit;
 	}
-}
-
-if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
-	if ( get_settings('gzipcompression') ) 
-		gzip_compression();
 }
 
 endif;
