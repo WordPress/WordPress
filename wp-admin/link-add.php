@@ -1,4 +1,5 @@
 <?php
+require_once('../wp-includes/wp-l10n.php');
 
 $title = 'Add Link';
 $this_file = 'link-manager.php';
@@ -61,127 +62,127 @@ $link_name = htmlentities(stripslashes(urldecode($_GET['name'])));
 require('admin-header.php');
 ?>
 <ul id="adminmenu2">
-	<li><a href="link-manager.php">Manage Links</a></li>
-	<li><a href="link-add.php" class="current">Add Link</a></li>
-	<li><a href="link-categories.php">Link Categories</a></li>
-	<li class="last"><a href="link-import.php">Import Blogroll</a></li>
+	<li><a href="link-manager.php"><?php _e('Manage Links') ?></a></li>
+        <li><a href="link-add.php" class="current"><?php _e('Add Link') ?></a></li>
+	<li><a href="link-categories.php"><?php _e('Link Categories') ?></a></li>
+	<li class="last"><a href="link-import.php"><?php _e('Import Blogroll') ?></a></li>
 </ul>
 <style type="text/css" media="screen">
 th { text-align: right; }
 </style>
 <div class="wrap">
-<h2><strong>Add</strong> a link: <?php echo gethelp_link($this_file,'add_a_link');?></h2>
+<h2><?php _e('<strong>Add</strong> a link:') ?> <?php echo gethelp_link($this_file,'add_a_link');?></h2>
      <form name="addlink" method="post" action="link-manager.php">
 <fieldset class="options">
-	<legend>Basics</legend>
+	<legend><?php _e('Basics') ?></legend>
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
-           <th width="33%" scope="row">URI:</th>
+           <th width="33%" scope="row"><?php _e('URI:') ?></th>
            <td width="67%"><input type="text" name="linkurl" value="<?php echo $_GET['linkurl']; ?>" style="width: 95%; /"></td>
          </tr>
          <tr>
-           <th scope="row">Link Name:</th>
+           <th scope="row"><?php _e('Link Name:') ?></th>
            <td><input type="text" name="name" value="<?php echo urldecode($_GET['name']); ?>" style="width: 95%" /></td>
          </tr>
          <tr>
-         	<th scope="row">Short description:</th>
+         	<th scope="row"><?php _e('Short description:') ?></th>
          	<td><input type="text" name="description" value="" style="width: 95%" /></td>
          	</tr>
         <tr>
-           <th scope="row">Category:</th>
+           <th scope="row"><?php _e('Category:') ?></th>
            <td><?php category_dropdown('category'); ?></td>
          </tr>
 </table>
 </fieldset>
        <p class="submit">
-         <input type="submit" name="submit" value="Add Link &raquo;" /> 
+         <input type="submit" name="submit" value="<?php _e('Add Link &raquo;') ?>" /> 
        </p>
 	<fieldset class="options">
-	<legend>Link Relationship (XFN)</legend>
+	<legend><?php _e('Link Relationship (XFN)') ?></legend>
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
             <tr>
-            	<th width="33%" scope="row">rel:</th>
+            	<th width="33%" scope="row"><?php _e('rel:') ?></th>
             	<td width="67%"><input type="text" name="rel" id="rel" size="50" value=""></td>
            	</tr>
             <tr>
-            	<th scope="row"><a href="http://gmpg.org/xfn/">XFN</a> Creator:</th>
+            	<th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
             	<td><table cellpadding="3" cellspacing="5">
             			<tr>
-            				<th scope="row"> friendship </th>
+            				<th scope="row"> <?php _e('friendship') ?> </th>
             				<td><label for="label">
             					<input class="valinp" type="radio" name="friendship" value="acquaintance" id="label"  />
-					acquaintance</label>
+					<?php _e('acquaintance') ?></label>
                 					<label for="label2">
                 					<input class="valinp" type="radio" name="friendship" value="friend" id="label2" />
-					friend</label>
+					<?php _e('friend') ?></label>
                 					<label for="label3">
                 					<input class="valinp" type="radio" name="friendship" value="" id="label3" />
-					none</label>
+					<?php _e('none') ?></label>
             					</td>
            				</tr>
             			<tr>
-            				<th scope="row"> physical </th>
+            				<th scope="row"> <?php _e('physical') ?> </th>
             				<td><label for="label4">
             					<input class="valinp" type="checkbox" name="physical" value="met" id="label4" />
-					met</label>
+					<?php _e('met') ?></label>
             					</td>
            				</tr>
             			<tr>
-            				<th scope="row"> professional </th>
+            				<th scope="row"> <?php _e('professional') ?> </th>
             				<td><label for="label5">
             					<input class="valinp" type="checkbox" name="professional" value="co-worker" id="label5" />
-					co-worker</label>
+					<?php _e('co-worker') ?></label>
                 					<label for="label6">
                 					<input class="valinp" type="checkbox" name="professional" value="colleague" id="label6" />
-					colleague</label>
+					<?php _e('colleague') ?></label>
             					</td>
            				</tr>
             			<tr>
-            				<th scope="row"> geographical </th>
+            				<th scope="row"> <?php _e('geographical') ?> </th>
             				<td><label for="label7">
             					<input class="valinp" type="radio" name="geographical" value="co-resident" id="label7" />
-					co-resident</label>
+					<?php _e('co-resident') ?></label>
                 					<label for="label8">
                 					<input class="valinp" type="radio" name="geographical" value="neighbor" id="label8" />
-					neighbor</label>
+					<?php _e('neighbor') ?></label>
                 					<label for="label9">
                 					<input class="valinp" type="radio" name="geographical" value="" id="label9" />
-					none</label>
+					<?php _e('none') ?></label>
             					</td>
            				</tr>
             			<tr>
-            				<th scope="row"> family </th>
+            				<th scope="row"> <?php _e('family') ?> </th>
             				<td><label for="label10">
             					<input class="valinp" type="radio" name="family" value="child" id="label10" />
-					child</label>
+					<?php _e('child') ?></label>
                 					<label for="label11">
                 					<input class="valinp" type="radio" name="family" value="parent" id="label11" />
-					parent</label>
+					<?php _e('parent') ?></label>
                 					<label for="label12">
                 					<input class="valinp" type="radio" name="family" value="sibling" id="label12" />
-					sibling</label>
+					<?php _e('sibling') ?></label>
                 					<label for="label13">
                 					<input class="valinp" type="radio" name="family" value="spouse" id="label13" />
-					spouse</label>
+					<?php _e('spouse') ?></label>
                 					<label for="label14">
                 					<input class="valinp" type="radio" name="family" value="" id="label14" />
-					none</label>
+					<?php _e('none') ?></label>
             					</td>
            				</tr>
             			<tr>
-            				<th scope="row"> romantic </th>
+            				<th scope="row"> <?php _e('romantic') ?> </th>
             				<td><label for="label15">
             					<input class="valinp" type="checkbox" name="romantic" value="muse" id="label15" />
-					muse</label>
+					<?php _e('muse') ?></label>
                 					<label for="label16">
                 					<input class="valinp" type="checkbox" name="romantic" value="crush" id="label16" />
-					crush</label>
+					<?php _e('crush') ?></label>
                 					<label for="label17">
                 					<input class="valinp" type="checkbox" name="romantic" value="date" id="label17" />
-					date</label>
+					<?php _e('date') ?></label>
                 					<label for="label18">
                 					<input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="label18" />
-					sweetheart</label>
+					<?php _e('sweetheart') ?></label>
             					</td>
            				</tr>
             			</table></td>
@@ -189,25 +190,25 @@ th { text-align: right; }
 </table>
 </fieldset>
        <p class="submit">
-         <input type="submit" name="submit" value="Add Link &raquo;" /> 
+         <input type="submit" name="submit" value="<?php _e('Add Link &raquo;') ?>" /> 
        </p>
 <fieldset class="options">
-	<legend>Advanced</legend>
+	<legend><?php _e('Advanced') ?></legend>
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
-           <th width="33%" scope="row">Image URI:</th>
+           <th width="33%" scope="row"><?php _e('Image URI:') ?></th>
            <td width="67%"><input type="text" name="image" size="50" value="" style="width: 95%" /></td>
          </tr>
 <tr>
-           <th scope="row">RSS URI: </th>
+           <th scope="row"><?php _e('RSS URI:') ?> </th>
            <td><input name="rss_uri" type="text" id="rss_uri" value="" size="50" style="width: 95%" /></td>
          </tr>
          <tr>
-           <th scope="row">Notes:</th>
+           <th scope="row"><?php _e('Notes:') ?></th>
            <td><textarea name="notes" cols="50" rows="10" style="width: 95%"></textarea></td>
          </tr>
          <tr>
-           <th scope="row">Rating:</th>
+           <th scope="row"><?php _e('Rating:') ?></th>
            <td><select name="rating" size="1">
              <?php
     for ($r = 0; $r < 10; $r++) {
@@ -215,10 +216,10 @@ th { text-align: right; }
     }
 ?>
            </select>
-           &nbsp;(Leave at 0 for no rating.) </td>
+           &nbsp;<?php _e('(Leave at 0 for no rating.)') ?> </td>
          </tr>
          <tr>
-           <th scope="row">Target</th>
+           <th scope="row"><?php _e('Target') ?></th>
            <td><label>
              <input type="radio" name="target" value="_blank" />
              <code>_blank</code></label>
@@ -227,28 +228,28 @@ th { text-align: right; }
 <code>_top</code></label>
 <br />
 <label><input type="radio" name="target" value="" checked="checked" />
-none</label>
-(Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)</td>
+<?php _e('none') ?></label>
+<?php _e('(Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)') ?></td>
          </tr>
          <tr>
-           <th scope="row">Visible:</th>
+           <th scope="row"><?php _e('Visible:') ?></th>
            <td><label>
              <input type="radio" name="visible" checked="checked" value="Y" />
-Yes</label><br />
+<?php _e('Yes') ?></label><br />
 <label><input type="radio" name="visible" value="N"> <input type="hidden" name="action" value="Add" /> 
-No</label></td>
+<?php _e('No') ?></label></td>
          </tr>
 </table>
 </fieldset>
 
        <p class="submit">
-         <input type="submit" name="submit" value="Add Link &raquo;" /> 
+         <input type="submit" name="submit" value="<?php _e('Add Link &raquo;') ?>" /> 
        </p>
   </form>
 </div>
 
 <div class="wrap">
-<p>You can drag <a href="javascript:void(linkmanpopup=window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/link-add.php?action=popup&linkurl='+escape(location.href)+'&name='+escape(document.title),'LinkManager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();" title="Link add bookmarklet">Link This</a> to your toolbar and when you click it a window will pop up that will allow you to add whatever site you're on to your links! Right now this only works on Mozilla or Netscape, but we're working on it.</p>
+<?php printf(__('<p>You can drag <a href="%s" title="Link add bookmarklet">Link This</a> to your toolbar and when you click it a window will pop up that will allow you to add whatever site you&#8217;re on to your links! Right now this only works on Mozilla or Netscape, but we&#8217;re working on it.</p>'), "javascript:void(linkmanpopup=window.open('" . get_settings('siteurl') . "/wp-admin/link-add.php?action=popup&linkurl='+escape(location.href)+'&name='+escape(document.title),'LinkManager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();") ?>
 </div>
 
 <?php
