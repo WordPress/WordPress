@@ -34,9 +34,6 @@
 </h3>
 
 <div class="storyContent">
-<div class="storyExcerpt">
-<?php the_excerpt(); ?>
-</div>
 <?php the_content(); ?>
 
 <div class="feedback">
