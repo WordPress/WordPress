@@ -1580,6 +1580,12 @@ function is_home () {
     return $wp_query->is_home;
 }
 
+function get_query_var($var) {
+  global $wp_query;
+
+  return $wp_query->get($var);
+}
+
 function have_posts() {
     global $wp_query;
 
