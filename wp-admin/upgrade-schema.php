@@ -146,6 +146,7 @@ CREATE TABLE $wpdb->users (
   user_idmode varchar(20) NOT NULL default '',
   user_activation_key varchar(60) NOT NULL default '',
   user_status int(11) NOT NULL default '0',
+  user_description TEXT NOT NULL default '',
   PRIMARY KEY  (ID),
   UNIQUE KEY user_login (user_login)
 );";
