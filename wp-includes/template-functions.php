@@ -97,7 +97,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	if (!empty($year)) {
 		$title = $year;
 		if (!empty($monthnum)) {
-			$title .= "$sep $monthnum";
+			$title .= " $sep $monthnum";
 		}
 		if (!empty($day)) {
 			$title .= " $sep $day";
