@@ -49,6 +49,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'blogger.editPost' => 'this:blogger_editPost',
 		  'blogger.deletePost' => 'this:blogger_deletePost',
 
+		  'metaWeblog.newPost' => 'this:mw_newPost',
+		  'metaWeblog.editPost' => 'this:mw_editPost',
+		  'metaWeblog.getPost' => 'this:mw_getPost',
+
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
 		));
@@ -337,8 +341,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  $user_data = get_userdatabylogin($user_login);
-	  if ($user_data->user_level < 1) {
-	    return new IXR_Error(401, 'Sorry, level 0 users can not post');
+	  if (!user_can_create_post($user_data->ID, $blog_ID)) {
+	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
 	  }
 
 	  $post_status = ($publish) ? 'publish' : 'draft';
@@ -452,6 +456,209 @@ class wp_xmlrpc_server extends IXR_Server {
 	  return true;
 	}
 
+
+
+	/* MetaWeblog API functions
+	 * specs on wherever Dave Winer wants them to be
+	 */
+
+	/* metaweblog.newPost creates a post */
+	function mw_newPost($args) {
+
+	  global $wpdb;
+
+	  $blog_ID     = $args[0]; // we will support this in the near future
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+	  $content_struct = $args[3];
+	  $publish     = $args[4];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+	  if (!user_can_create_post($user_data->ID, $blog_ID)) {
+	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
+	  }
+
+	  $post_author = $userdata->ID;
+
+	  $post_title = $content_struct['title'];
+	  $post_content = format_to_post($content_struct['description']);
+	  $post_status = $publish ? 'publish' : 'draft';
+
+	  $post_excerpt = $content_struct['mt_excerpt'];
+	  $post_more = $content_struct['mt_text_more'];
+
+	  $comment_status = $content_struct['mt_allow_comments'] ? 'open' : 'closed';
+	  $ping_status = $content_struct['mt_allow_pings'] ? 'open' : 'closed';
+
+	  if ($post_more) {
+	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
+	  }
+		
+	  // Do some timestamp voodoo
+	  $dateCreated = $content_struct['dateCreated'];
+	  if (!empty($dateCreated)) {
+	    $post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+	    $post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
+	  } else {
+	    $post_date     = current_time('mysql');
+	    $post_date_gmt = current_time('mysql', 1);
+	  }
+
+	  $catnames = $content_struct['categories'];
+	  // FIXME: commented until a fix to print_r is found: logio('O', 'Post cats: ' . print_r($catnames,true));
+	  $post_category = array();
+
+	  if ($catnames) {
+	    foreach ($catnames as $cat) {
+	      $post_category[] = get_cat_ID($cat);
+	    }
+	  } else {
+	    $post_category[] = 1;
+	  }
+		
+	  // We've got all the data -- post it:
+	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status');
+
+	  $post_ID = wp_insert_post($postdata);
+
+	  if (!$post_ID) {
+	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
+	  }
+
+	  logIO('O', "Posted ! ID: $post_ID");
+
+	  // FIXME: do we pingback always? pingback($content, $post_ID);
+	  trackback_url_list($content_struct['mt_tb_ping_urls'],$post_ID);
+
+	  return $post_ID;
+	}
+
+
+	/* metaweblog.editPost ...edits a post */
+	function mw_editPost($args) {
+
+	  global $wpdb;
+
+	  $post_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+	  $content_struct = $args[3];
+	  $publish     = $args[4];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
+	  }
+
+	  extract($postdata);
+
+	  $post_title = $content_struct['title'];
+	  $post_content = format_to_post($content_struct['description']);
+	  $catnames = $content_struct['categories'];
+		
+	  if ($catnames) {
+	    foreach ($catnames as $cat) {
+	      $post_category[] = get_cat_ID($cat);
+	    }
+	  }
+
+	  $post_excerpt = $content_struct['mt_excerpt'];
+	  $post_more = $content_struct['mt_text_more'];
+	  $post_status = $publish ? 'publish' : 'draft';
+
+	  if ($post_more) {
+	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
+	  }
+
+	  $comment_status = (1 == $content_struct['mt_allow_comments']) ? 'open' : 'closed';
+	  $ping_status = $content_struct['mt_allow_pings'] ? 'open' : 'closed';
+
+	  // Do some timestamp voodoo
+	  $dateCreated = $content_struct['dateCreated'];
+	  if (!empty($dateCreated)) {
+	    $post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+	    $post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
+	  } else {
+	    $post_date     = $postdata['post_date'];
+	    $post_date_gmt = $postdata['post_date_gmt'];
+	  }
+
+	  // We've got all the data -- post it:
+	  $newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt');
+
+	  $post_ID = wp_update_post($newpost);
+	  if (!$post_ID) {
+	    return new IXR_Error(500, 'Sorry, your entry could not be edited. Something wrong happened.');
+	  }
+
+	  logIO('O',"(MW) Edited ! ID: $post_ID");
+
+	  // FIXME: do we pingback always? pingback($content, $post_ID);
+	  trackback_url_list($content_struct['mt_tb_ping_urls'], $post_ID);
+
+	  return $post_ID;
+	}
+
+
+	/* metaweblog.getPost ...returns a post */
+	function mw_getPost($args) {
+
+	  global $wpdb;
+
+	  $post_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
+
+	  if ($postdata['post_date'] != '') {
+
+	    $post_date = mysql2date('Ymd\TH:i:s\Z', $postdata['post_date_gmt']);
+			
+	    $catids = wp_get_post_cats('', $post_ID);
+	    foreach($catids as $catid) {
+	      $catname = get_cat_name($catid);
+	      $catnameenc = new xmlrpcval($catname);
+	      $catlist[] = $catnameenc;
+	    }
+	    $post = get_extended($postdata['post_content']);
+	    $allow_comments = ('open' == $postdata['comment_status']) ? 1 : 0;
+	    $allow_pings = ('open' == $postdata['ping_status']) ? 1 : 0;
+
+	    $resp = array(
+				'link' => post_permalink($post_ID),
+				'title' => $postdata['post_title'],
+				'description' => $post['main'],
+				'dateCreated' => new IXR_Date($post_date),
+				'userid' => $postdata['post_author'],
+				'postid' => $postdata['ID'],
+				'content' => $postdata['post_content'],
+				'permalink' => post_permalink($post_ID),
+				'categories' => $catlist,
+				'mt_excerpt' => $postdata['post_excerpt'],
+				'mt_allow_comments' => $allow_comments,
+				'mt_allow_pings' => $allow_pings,
+				'mt_text_more' => $post['extended']
+	    );
+
+	    return $resp;
+	  } else {
+	  	return new IXR_Error(404, 'Sorry, no such post.');
+	  }
+	}
+	
 }
 
 
