@@ -104,6 +104,7 @@ function hilite($text) {
 			$query_terms = get_search_query_terms($engine);
 			foreach ($query_terms as $term) {
 				if (!empty($term) && $term != ' ') {
+                    $term = preg_quote($term, '/');
 					if (!preg_match('/<.+>/',$text)) {
 						$text = preg_replace('/(\b'.$term.'\b)/i','<span class="hilite">$1</span>',$text);
 					} else {
