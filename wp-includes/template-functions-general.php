@@ -82,7 +82,7 @@ function get_bloginfo($show='') {
 		$output = get_settings('siteurl') .'/xmlrpc.php';
 		break;
 	case 'stylesheet_url':
-		$output = get_settings('stylesheet');;
+		$output = get_stylesheet();
 		if (empty($output) || $output == 'default') {
 			$output = get_settings('siteurl') . "/wp-layout.css";
 		} else {
@@ -90,7 +90,7 @@ function get_bloginfo($show='') {
 		}
 		break;
 	case 'stylesheet_directory':
-		$output = get_settings('stylesheet');;
+		$output = get_stylesheet();
 		if (empty($output) || $output == 'default') {
 			$output = get_settings('siteurl');
 		} else {
@@ -99,7 +99,7 @@ function get_bloginfo($show='') {
 		break;
 	case 'template_directory':
 	case 'template_url':
-		$output = get_settings('template');;
+		$output = get_template();
 		if (empty($output) || $output == 'default') {
 			$output = get_settings('siteurl');
 		} else {

@@ -1830,8 +1830,16 @@ function the_post() {
     start_wp(true);
 }
 
+function get_stylesheet() {
+	return apply_filters('stylesheet', get_settings('stylesheet'));
+}
+
+function get_template() {
+	return apply_filters('template', get_settings('template'));
+}
+
 function get_template_directory() {
-	$template = get_settings('template');
+	$template = get_template();
 
 	if (empty($template) || $template == 'default') {
 		$template = ABSPATH . "wp-content";
