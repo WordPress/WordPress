@@ -1,8 +1,9 @@
 <?php /* Don't remove these lines, they call the b2 function files ! */
-$blog = 1;
+$blog=1;
 require_once('blog.header.php');
 require_once($abspath.'wp-links/links.php');
 // not on by default: require_once($abspath.'wp-links/links.weblogs.com.php');
+    
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,6 +27,9 @@ require_once($abspath.'wp-links/links.php');
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
     <?php get_archives('monthly', '', 'link'); ?>
 	<?php // comments_popup_script(); // off by default ?>
+	<?php if(get_settings('use_geo_positions')) {
+		print_PopUpScript();
+	} ?>
 
 </head>
 
@@ -39,8 +43,15 @@ require_once($abspath.'wp-links/links.php');
 
  <h3 class="storytitle" id="post-<?php the_ID(); ?>">
   <a href="<?php permalink_link() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a>
-  <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?></span>
+  <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?> 
+  <?php if(get_settings('use_geo_positions')) { if((get_Lon() != null) && (get_Lon() < 360) &&(get_Lon() > -360)) {  ?>
+		&#8212; Posted from: <?php print_Lat(); ?> &#215; <?php print_Lon(); ?>
+<?php  } } ?>
+		</span>
  </h3>
+<?php if(get_settings('use_geo_positions')) { if((get_Lon() != null) && (get_Lon() < 360) &&(get_Lon() > -360)) {  ?>
+    	 <?php print_UrlPopNav(); ?>
+<?php } } ?>
 
 <div class="storycontent">
 	<?php the_content(); ?>
@@ -88,7 +99,7 @@ require_once($abspath.'wp-links/links.php');
  </li>
  <li>Archives:
  	<ul>
-	 <?php get_archives('monthly'); ?>
+	 <?php get_archives(); ?>
  	</ul>
  </li>
  <li>Other:
