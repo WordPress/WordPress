@@ -18,9 +18,9 @@ foreach ($menu as $item) {
 
 ?>
 
-	<li><a href="javascript:profile(<?php echo $user_ID ?>)">My Profile</a></li>
-	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>">View site</a></li>
-	<li class="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout (<?php echo stripslashes($user_nickname) ?>)</a></li>
+	<li><a href="javascript:profile(<?php echo $user_ID ?>)">My&nbsp;Profile</a></li>
+	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>">View&nbsp;site</a></li>
+	<li class="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout&nbsp;(<?php echo stripslashes($user_nickname) ?>)</a></li>
 </ul>
 
 <h2 id="top"><?php echo $title; ?></h2>

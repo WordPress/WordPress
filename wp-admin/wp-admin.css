@@ -109,16 +109,16 @@ textarea, input, select {
 #adminmenu li, #adminmenu2 li {
 	border-right: 1px solid #ccc;
 	display: inline;
+	list-style: none;
 	margin: 1px;
 	text-align: center;
+	line-height: 2.0em;
 }
 
 #adminmenu, #adminmenu2 {
 	border-bottom: 2px solid #5a5a5a;
-	height: 24px;
-	list-style: none;
 	margin: 2px;
-	padding: 0;
+	padding: 2px;
 	padding-top: 5px;
 }
 
