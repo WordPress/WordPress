@@ -50,7 +50,7 @@ case "step1":
 
 			$posts = explode('<wordpresspost>', $archive);
 
-			for ($i = 1; $i < (count($posts)+1); $i = $i + 1) {
+			for ($i = 1; $i < count($posts); $i = $i + 1) {
 
 			$postinfo = explode('|||', $posts[$i]);
 			$post_date = $postinfo[0];
@@ -119,6 +119,8 @@ case "step1":
 
 			if (($post_date[2] == 'PM') && ($posthour != '12'))
 				$posthour = $posthour + 12;
+			else if (($post_date[2] == 'AM') && ($posthour == '12'))
+				$posthour = '00';
 
 			$post_date = "$postyear-$postmonth-$postday $posthour:$postminute:$postsecond";
 
@@ -148,10 +150,6 @@ case "step1":
 			
 		}}
 	}
-
-	/* we've still got a bug that adds some empty posts with the date 0000-00-00 00:00:00
-	   here's the bugfix: */
-	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE post_date=\"0000-00-00 00:00:00\"");
 
 	upgrade_all();
 	?>
