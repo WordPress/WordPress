@@ -3,8 +3,40 @@ $title = 'Manage Plugins';
 
 require_once('admin-header.php');
 
-if ($user_level == 0) //Checks to see if user has logged in
-	die ("Cheatin' uh ?");
+if ($user_level < 9) // Must be at least level 9
+	die ("Sorry, you must be at least a level 8 user to modify plugins.");
+
+// Clean up options
+// if any files are in the option that don't exist, axe 'em
+
+$check_plugins = explode("\n", (get_settings('active_plugins')));
+foreach ($check_plugins as $check_plugin) {
+	if (!file_exists(ABSPATH . 'wp-content/plugins/' . $check_plugin)) {
+			$current = get_settings('active_plugins') . "\n";
+			$current = str_replace($check_plugin . "\n", '', $current);
+			$current = preg_replace("|\n+|", "\n", $current);
+			update_option('active_plugins', trim($current));
+	}
+}
+
+
+if ('activate' == $_GET['action']) {
+	$current = "\n" . get_settings('active_plugins') . "\n";
+	$current = preg_replace("|(\n)+\s*|", "\n", $current);
+	$current = trim($current) . "\n " . trim($_GET['plugin']);
+	$current = trim($current);
+	$current = preg_replace('|\n\s*|', '\n', $current); // I don't know where this is coming from
+	update_option('active_plugins', $current);
+	header('Location: plugins.php');
+}
+
+if ('deactivate' == $_GET['action']) {
+	$current = "\n" . get_settings('active_plugins') . "\n";
+	$current = str_replace("\n" . $_GET['plugin'], '', $current);
+	$current = preg_replace("|(\n)+\s*|", "\n", $current);
+	update_option('active_plugins', trim($current));
+	header('Location: plugins.php');
+}
 
 ?>
 <div class="wrap">
@@ -18,16 +50,8 @@ if ($plugins_dir) {
 }
 
 if ('' != trim(get_settings('active_plugins'))) {
-	$current_plugins = unserialize(get_settings('active_plugins'));
+	$current_plugins = explode("\n", (get_settings('active_plugins')));
 }
-
-/*
-Plugin Name: matt's cool plugin
-Plugin URI: http://photomatt.net/plugins/cool-plugin
-Description: blah blah blah anything until a newline
-Author: photo matt
-Author URI: http://photomatt.net
-*/ 
 
 if (!$plugins_dir || !$plugin_files) {
 	echo "<p>Couldn't open plugins directory or there are no plugins available.</p>"; // TODO: make more helpful
@@ -66,12 +90,18 @@ if (!$plugins_dir || !$plugin_files) {
 
 
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
+
+		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
+			$action = "<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='Deactivate this plugin' class='delete'>Deactivate</a>";
+		} else {
+			$action = "<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='Activate this plugin' class='edit'>Activate</a>";
+		}
 		echo "
 	<tr $style>
 		<td>$plugin</td>
 		<td>$author</td>
 		<td>$description</td>
-		<td><a href='' class='edit'>activate</a></td>
+		<td>$action</td>
 	</tr>";
 	}
 ?>
