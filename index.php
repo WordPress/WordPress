@@ -59,7 +59,6 @@ require_once($abspath.'wp-links/links.php');
 
 </div>
 
-<p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>WordPress</strong></a></cite></p>
 
 
 <div id="menu">
@@ -117,6 +116,8 @@ require_once($abspath.'wp-links/links.php');
 </div>
 
 </div>
+
+<p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>WordPress</strong></a></cite></p>
 
 </body>
 </html>
