@@ -52,6 +52,10 @@ textarea, input, select {
 	padding: 2px;
 }
 
+.alternate {
+	background-color: #eee;
+}
+
 .checkbox {
 	background-color: #fff;
 	border-width: 0px;
