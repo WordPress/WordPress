@@ -1,6 +1,6 @@
 <?php
 $_wp_installing = 1;
-if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must <a href='install-config.php'>create one</a> before moving on.");
+if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must create one (<a href='install-config.php'>attempt automatically</a>) before moving on.");
 require_once('../wp-config.php');
 require('upgrade-functions.php');
 
@@ -692,7 +692,7 @@ $query = "
 CREATE TABLE $tableusers (
   ID int(10) unsigned NOT NULL auto_increment,
   user_login varchar(20) NOT NULL default '',
-  user_pass varchar(20) NOT NULL default '',
+  user_pass varchar(64) NOT NULL default '',
   user_firstname varchar(50) NOT NULL default '',
   user_lastname varchar(50) NOT NULL default '',
   user_nickname varchar(50) NOT NULL default '',
@@ -716,14 +716,11 @@ $q = $wpdb->query($query);
 
 $random_password = substr(md5(uniqid(microtime())),0,6);
 
-$query = "INSERT INTO $tableusers (ID, user_login, user_pass, user_firstname, user_lastname, user_nickname, user_icq, user_email, user_url, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_aim, user_msn, user_yim, user_idmode) VALUES ( '1', 'admin', '$random_password', '', '', 'admin', '0', '$admin_email', '', '127.0.0.1', '127.0.0.1', '', '00-00-0000 00:00:01', '10', '', '', '', 'nickname')";
+$query = "INSERT INTO $tableusers (ID, user_login, user_pass, user_firstname, user_lastname, user_nickname, user_icq, user_email, user_url, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_aim, user_msn, user_yim, user_idmode) VALUES ( '1', 'admin', MD5('$random_password'), '', '', 'admin', '0', '$admin_email', '', '127.0.0.1', '127.0.0.1', '', '00-00-0000 00:00:01', '10', '', '', '', 'nickname')";
 $q = $wpdb->query($query);
 
 // Do final updates
-upgrade_071();
-upgrade_072();
-upgrade_100();
-upgrade_101();
+upgrade_all();
 ?>
 
 <p>User setup successful!</p>
