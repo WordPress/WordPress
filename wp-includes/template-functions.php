@@ -17,6 +17,6 @@ require($curpath . 'template-functions-post.php');
 require($curpath . 'template-functions-category.php');
 
 /***** Comment tags *****/
-require($curpath . 'template-functions-comment.php');
+require($curpath . 'comment-functions.php');
 
 ?>

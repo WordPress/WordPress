@@ -220,7 +220,7 @@ function comment_author_email_link($linktext='', $before='', $after='') {
 	}
 }
 
-function get_comment_author_url_link( $linktext = '', $before = '', $after = '' ) }
+function get_comment_author_url_link( $linktext = '', $before = '', $after = '' ) {
 	global $comment;
 	$url = get_comment_author_url();
 	$display = ($linktext != '') ? $linktext : $url;
