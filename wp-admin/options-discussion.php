@@ -68,7 +68,7 @@ if ($user_level <= 3) {
 	<h2>Discussion Options</h2> 
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
-		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','moderation_keys'" /> 
+		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','moderation_keys'" /> 
 		<p>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></p> 
 		<ul> 
 			<li> 
@@ -108,8 +108,8 @@ if ($user_level <= 3) {
 				An administrator must approve the comment (regardless of any matches below) </label> 
 			</li> 
 			<li> 
-				<label> 
-				<input type="checkbox" name="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> /> 
+				<label for="require_name_email"> 
+				<input type="checkbox" name="require_name_email" id="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> /> 
 				User must fill out name and email </label> 
 			</li> 
 		</ul> 
