@@ -1,7 +1,8 @@
 <?php
 /*
    Copyright (c) 2003 Danilo Segan <danilo@kvota.net>.
-
+   Copyright (c) 2005 Nico Kaiser <nico@siriux.net>
+   
    This file is part of PHP-gettext.
 
    PHP-gettext is free software; you can redistribute it and/or modify
@@ -20,44 +21,91 @@
 
 */
  
-
-
-  // For start, we only want to read the MO files
-
+/**
+ * Provides a simple gettext replacement that works independently from
+ * the system's gettext abilities.
+ * It can read MO files and use them for translating strings.
+ * The files are passed to gettext_reader as a Stream (see streams.php)
+ * 
+ * This version has the ability to cache all strings and translations to
+ * speed up the string lookup.
+ * While the cache is enabled by default, it can be switched off with the
+ * second parameter in the constructor (e.g. whenusing very large MO files
+ * that you don't want to keep in memory)
+ */
 class gettext_reader {
-//public:
-  var $error = 0; // public variable that holds error code (0 if no error)
-//private:
-  var $BYTEORDER = 0;
+  //public:
+   var $error = 0; // public variable that holds error code (0 if no error)
+   
+   //private:
+  var $BYTEORDER = 0;        // 0: low endian, 1: big endian
   var $STREAM = NULL;
   var $short_circuit = false;
+  var $enable_cache = false;
+  var $originals = NULL;      // offset of original table
+  var $translations = NULL;    // offset of translation table
+  var $pluralheader = NULL;    // cache header field for plural forms
+  var $total = 0;          // total string count
+  var $table_originals = NULL;  // table for original strings (offsets)
+  var $table_translations = NULL;  // table for translated strings (offsets)
+  var $cache_translations = NULL;  // original -> translation mapping
 
+
+  /* Methods */
+  
+    
+  /**
+   * Reads a 32bit Integer from the Stream
+   * 
+   * @access private
+   * @return Integer from the Stream
+   */
   function readint() {
-    // Reads 4 byte value from $FD and puts it in int
-    // $BYTEORDER specifies the byte order: 0 low endian, 1 big endian
-    for ($i=0; $i<4; $i++) {
-      $byte[$i]=ord($this->STREAM->read(1));
+      if ($this->BYTEORDER == 0) {
+        // low endian
+        return array_shift(unpack('V', $this->STREAM->read(4)));
+      } else {
+        // big endian
+        return array_shift(unpack('N', $this->STREAM->read(4)));
+      }
     }
-    //print sprintf("pos: %d\n",$this->STREAM->currentpos());
-    if ($this->BYTEORDER == 0) 
-      return (int)(($byte[0]) | ($byte[1]<<8) | ($byte[2]<<16) | ($byte[3]<<24));
-    else 
-      return (int)(($byte[3]) | ($byte[2]<<8) | ($byte[1]<<16) | ($byte[0]<<24));
-  }
 
-  // constructor that requires StreamReader object
-  function gettext_reader($Reader) {
+  /**
+   * Reads an array of Integers from the Stream
+   * 
+   * @param int count How many elements should be read
+   * @return Array of Integers
+   */
+  function readintarray($count) {
+    if ($this->BYTEORDER == 0) {
+        // low endian
+        return unpack('V'.$count, $this->STREAM->read(4 * $count));
+      } else {
+        // big endian
+        return unpack('N'.$count, $this->STREAM->read(4 * $count));
+      }
+  }
+  
+  /**
+   * Constructor
+   * 
+   * @param object Reader the StreamReader object
+   * @param boolean enable_cache Enable or disable caching of strings (default on)
+   */
+  function gettext_reader($Reader, $enable_cache = true) {
     // If there isn't a StreamReader, turn on short circuit mode.
     if (! $Reader) {
-        $this->short_circuit = true;
-        return;
+      $this->short_circuit = true;
+      return;
     }
+    
+    // Caching can be turned off
+    $this->enable_cache = $enable_cache;
 
-	// $MAGIC1 = (int)0x950412de; //bug in PHP 5
-	$MAGIC1 = (int) - 1794895138;
-	// $MAGIC2 = (int)0xde120495; //bug
-	$MAGIC2 = (int) - 569244523;
-
+    // $MAGIC1 = (int)0x950412de; //bug in PHP 5
+    $MAGIC1 = (int) - 1794895138;
+    // $MAGIC2 = (int)0xde120495; //bug
+    $MAGIC2 = (int) - 569244523;
 
     $this->STREAM = $Reader;
     $magic = $this->readint();
@@ -69,169 +117,242 @@ class gettext_reader {
       $this->error = 1; // not MO file
       return false;
     }
-
+    
     // FIXME: Do we care about revision? We should.
     $revision = $this->readint();
-
-    $total = $this->readint();
-    $originals = $this->readint();
-    $translations = $this->readint();
-
-    $this->total = $total;
-    $this->originals = $originals;
-    $this->translations = $translations;
-
+    
+    $this->total = $this->readint();
+    $this->originals = $this->readint();
+    $this->translations = $this->readint();
   }
-
-  function load_tables($translations=false) {
-    // if tables are loaded do not load them again
-    if (!is_array($this->ORIGINALS)) {
-      $this->ORIGINALS = array();
-      $this->STREAM->seekto($this->originals);
-      for ($i=0; $i<$this->total; $i++) {
-	$len = $this->readint();
-	$ofs = $this->readint();
-	$this->ORIGINALS[] = array($len,$ofs);
+  
+  /**
+   * Loads the translation tables from the MO file into the cache
+   * If caching is enabled, also loads all strings into a cache
+   * to speed up translation lookups
+   * 
+   * @access private
+   */
+  function load_tables() {
+    if (is_array($this->cache_translations) &&
+      is_array($this->table_originals) &&
+      is_array($this->table_translations))
+      return;
+    
+    /* get original and translations tables */
+    $this->STREAM->seekto($this->originals);
+    $this->table_originals = $this->readintarray($this->total * 2);
+    $this->STREAM->seekto($this->translations);
+    $this->table_translations = $this->readintarray($this->total * 2);
+    
+    if ($this->enable_cache) {
+      $this->cache_translations = array ();
+      /* read all strings in the cache */
+      for ($i = 0; $i < $this->total; $i++) {
+        $this->STREAM->seekto($this->table_originals[$i * 2 + 2]);
+        $original = $this->STREAM->read($this->table_originals[$i * 2 + 1]);
+        $this->STREAM->seekto($this->table_translations[$i * 2 + 2]);
+        $translation = $this->STREAM->read($this->table_translations[$i * 2 + 1]);
+        $this->cache_translations[$original] = $translation;
       }
     }
-
-    // similar for translations
-    if ($translations and !is_array($this->TRANSLATIONS)) {
-      $this->TRANSLATIONS = array();
-      $this->STREAM->seekto($this->translations);
-      for ($i=0; $i<$this->total; $i++) {
-	$len = $this->readint();
-	$ofs = $this->readint();
-	$this->TRANSLATIONS[] = array($len,$ofs);
-      }
-    }
-
   }
-
-  function get_string_number($num) {
-    // get a string with particular number
-    // TODO: Add simple hashing [check array, add if not already there]
-    $this->load_tables();
-    $meta = $this->ORIGINALS[$num];
-    $length = $meta[0];
-    $offset = $meta[1];
-		if (! $length) {
-			return '';
-		}
-    $this->STREAM->seekto($offset);
-    $data = $this->STREAM->read($length);
-    return (string)$data;
-  }
-
-  function get_translation_number($num) {
-    // get a string with particular number
-    // TODO: Add simple hashing [check array, add if not already there]
-    $this->load_tables(true);
-    $meta = $this->TRANSLATIONS[$num];
-    $length = $meta[0];
-    $offset = $meta[1];
+  
+  /**
+   * Returns a string from the "originals" table
+   * 
+   * @access private
+   * @param int num Offset number of original string
+   * @return string Requested string if found, otherwise ''
+   */
+  function get_original_string($num) {
+    $length = $this->table_originals[$num * 2 + 1];
+    $offset = $this->table_originals[$num * 2 + 2];
+    if (! $length)
+      return '';
     $this->STREAM->seekto($offset);
     $data = $this->STREAM->read($length);
     return (string)$data;
   }
   
-  // binary search for string
-  function find_string($string, $start,$end) {
-    //print "start: $start, end: $end\n";
-    if (abs($start-$end)<=1) {
-      // we're done, if it's not it, bye bye
-      $txt = $this->get_string_number($start);
+  /**
+   * Returns a string from the "translations" table
+   * 
+   * @access private
+   * @param int num Offset number of original string
+   * @return string Requested string if found, otherwise ''
+   */
+  function get_translation_string($num) {
+    $length = $this->table_translations[$num * 2 + 1];
+    $offset = $this->table_translations[$num * 2 + 2];
+    if (! $length)
+      return '';
+    $this->STREAM->seekto($offset);
+    $data = $this->STREAM->read($length);
+    return (string)$data;
+  }
+  
+  /**
+   * Binary search for string
+   * 
+   * @access private
+   * @param string string
+   * @param int start (internally used in recursive function)
+   * @param int end (internally used in recursive function)
+   * @return int string number (offset in originals table)
+   */
+  function find_string($string, $start = -1, $end = -1) {
+    if (($start == -1) or ($end == -1)) {
+      // find_string is called with only one parameter, set start end end
+      $start = 0;
+      $end = $this->total;
+    }
+    if (abs($start - $end) <= 1) {
+      // We're done, now we either found the string, or it doesn't exist
+      $txt = $this->get_original_string($start);
       if ($string == $txt)
-	return $start;
+        return $start;
       else
-	return -1;
-    } elseif ($start>$end) {
-      return $this->find_string($string,$end,$start);
-    }  else {
-      $half = (int)(($start+$end)/2);
-      $tst = $this->get_string_number($half);
-      $cmp = strcmp($string,$tst);
-      if ($cmp == 0) 
-	return $half;
-      elseif ($cmp<0) 
-	return $this->find_string($string,$start,$half);
+        return -1;
+    } else if ($start > $end) {
+      // start > end -> turn around and start over
+      return $this->find_string($string, $end, $start);
+    } else {
+      // Divide table in two parts
+      $half = (int)(($start + $end) / 2);
+      $cmp = strcmp($string, $this->get_original_string($half));
+      if ($cmp == 0)
+        // string is exactly in the middle => return it
+        return $half;
+      else if ($cmp < 0)
+        // The string is in the upper half
+        return $this->find_string($string, $start, $half);
       else
-	return $this->find_string($string,$half,$end);
+        // The string is in the lower half
+        return $this->find_string($string, $half, $end);
     }
   }
-
+  
+  /**
+   * Translates a string
+   * 
+   * @access public
+   * @param string string to be translated
+   * @return string translated string (or original, if not found)
+   */
   function translate($string) {
-    if ($this->short_circuit) {
-        return $string;
-    }
-
-    $num = $this->find_string($string, 0, $this->total);
-    if ($num == -1)
+    if ($this->short_circuit)
       return $string;
-    else 
-      return $this->get_translation_number($num);
-  }
-
-  function get_plural_forms() {
-    // lets assume message number 0 is header
-    // this is true, right?
-
-    // cache header field for plural forms
-    if (is_string($this->pluralheader)) 
-      return $this->pluralheader;
-    else {
-      $header = $this->get_translation_number(0);
-
-      if (eregi("plural-forms: (.*)\n",$header,$regs)) {
-	$expr = $regs[1];
-      } else {
-	$expr = "nplurals=2; plural=n == 1 ? 0 : 1;";
-      }
-      $this->pluralheader = $expr;
-      return $expr;
+    $this->load_tables();     
+    
+    if ($this->enable_cache) {
+      // Caching enabled, get translated string from cache
+      if (array_key_exists($string, $this->cache_translations))
+        return $this->cache_translations[$string];
+      else
+        return $string;
+    } else {
+      // Caching not enabled, try to find string
+      $num = $this->find_string($string);
+      if ($num == -1)
+        return $string;
+      else
+        return $this->get_translation_string($num);
     }
   }
 
+  /**
+   * Get possible plural forms from MO header
+   * 
+   * @access private
+   * @return string plural form header
+   */
+  function get_plural_forms() {
+    // lets assume message number 0 is header  
+    // this is true, right?
+    $this->load_tables();
+    
+    // cache header field for plural forms
+    if (! is_string($this->pluralheader)) {
+      if ($this->enable_cache) {
+        $header = $this->cache_translations[""];
+      } else {
+        $header = $this->get_translation_string(0);
+      }
+      if (eregi("plural-forms: (.*)\n", $header, $regs))
+        $expr = $regs[1];
+      else
+        $expr = "nplurals=2; plural=n == 1 ? 0 : 1;";
+      $this->pluralheader = $expr;
+    }
+    return $this->pluralheader;
+  }
+
+  /**
+   * Detects which plural form to take
+   * 
+   * @access private
+   * @param n count
+   * @return int array index of the right plural form
+   */
   function select_string($n) {
     $string = $this->get_plural_forms();
     $string = str_replace('nplurals',"\$total",$string);
     $string = str_replace("n",$n,$string);
     $string = str_replace('plural',"\$plural",$string);
-
+    
     $total = 0;
     $plural = 0;
 
     eval("$string");
-    if ($plural>=$total) $plural = 0;
+    if ($plural >= $total) $plural = 0;
     return $plural;
   }
 
+  /**
+   * Plural version of gettext
+   * 
+   * @access public
+   * @param string single
+   * @param string plural
+   * @param string number
+   * @return translated plural form
+   */
   function ngettext($single, $plural, $number) {
     if ($this->short_circuit) {
-      if ($number != 1) return $plural;
-      else return $single;
+      if ($number != 1)
+        return $plural;
+      else
+        return $single;
     }
 
     // find out the appropriate form
     $select = $this->select_string($number); 
     
-
     // this should contains all strings separated by NULLs
-    $result = $this->find_string($single.chr(0).$plural,0,$this->total);
-    if ($result == -1) {
-      if ($number != 1) return $plural;
-      else return $single;
-    } else {
-      $result = $this->get_translation_number($result);
+    $key = $single.chr(0).$plural;
     
-      // lets try to parse all the NUL staff
-      //$result = "proba0".chr(0)."proba1".chr(0)."proba2";
-      $list = explode (chr(0), $result);
-      return $list[$select];
+    
+    if ($this->enable_cache) {
+      if (! array_key_exists($key, $this->cache_translations)) {
+        return ($number != 1) ? $plural : $single;
+      } else {
+        $result = $this->cache_translations[$key];
+        $list = explode(chr(0), $result);
+        return $list[$select];
+      }
+    } else {
+      $num = $this->find_string($key);
+      if ($num == -1) {
+        return ($number != 1) ? $plural : $single;
+      } else {
+        $result = $this->get_translation_string($num);
+        $list = explode(chr(0), $result);
+        return $list[$select];
+      }
     }
   }
 
 }
-
 
 ?>

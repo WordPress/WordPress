@@ -66,7 +66,7 @@ function load_textdomain($domain, $mofile) {
 	}
 
 	if ( is_readable($mofile)) {
-    $input = new FileReader($mofile);
+    $input = new CachedFileReader($mofile);
 	}	else {
 		return;
 	}
