@@ -13,7 +13,6 @@ if (!$_wp_installing) {
     $new_users_can_blog = get_settings('new_users_can_blog');
     $users_can_register = get_settings('users_can_register');
     $start_of_week = get_settings('start_of_week');
-    $use_preview = get_settings('use_preview');
     $use_bbcode = get_settings('use_bbcode');
     $use_gmcode = get_settings('use_gmcode');
     $use_quicktags = get_settings('use_quicktags');
