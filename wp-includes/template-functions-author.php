@@ -106,11 +106,13 @@ function wp_list_authors($args = '') {
     if (!isset($r['exclude_admin'])) $r['exclude_admin'] = true;
     if (!isset($r['show_fullname'])) $r['show_fullname'] = false;
 	if (!isset($r['hide_empty'])) $r['hide_empty'] = true;
+    if (!isset($r['feed'])) $r['feed'] = '';
+    if (!isset($r['feed_image'])) $r['feed_image'] = '';
 
-	list_authors($r['optioncount'], $r['exclude_admin'], $r['show_fullname'], $r[hide_empty]);
+	list_authors($r['optioncount'], $r['exclude_admin'], $r['show_fullname'], $r[hide_empty], $r['feed'], $r['feed_image']);
 }
 
-function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true) {
+function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
     global $tableusers, $wpdb, $blogfilename;
 
     $query = "SELECT ID, user_nickname, user_firstname, user_lastname, user_nicename from $tableusers " . ($exclude_admin ? "WHERE user_nickname <> 'admin' " : '') . "ORDER BY user_nickname";
@@ -128,9 +130,46 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
         if ($posts == 0) {
             if (! $hide_empty) echo $name;
         } else {
-            echo '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="Posts by ' . $author->user_nickname . '">' . $name . ($optioncount ? " ($posts)" : '')."</a>";
+            $link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="Posts by ' . htmlspecialchars($author->user_nickname) . '">' . stripslashes($name) . '</a>';
+
+            if ( (! empty($feed_image)) || (! empty($feed)) ) {
+                
+                $link .= ' ';
+
+                if (empty($feed_image)) {
+                    $link .= '(';
+                }
+
+                $link .= '<a href="' . get_author_rss_link(0, $author->ID, $author->user_nicename)  . '"';
+
+                if (! empty($feed)) {
+                    $title =  ' title="' . stripslashes($feed) . '"';
+                    $alt = ' alt="' . stripslashes($feed) . '"';
+                    $name = stripslashes($feed);
+                    $link .= $title;
+                }
+
+                $link .= '>';
+
+                if (! empty($feed_image)) {
+                    $link .= "<img src=\"$feed_image\" border=\"0\"$alt$title" . ' />';
+                } else {
+                    $link .= $name;
+                }
+                
+                $link .= '</a>';
+
+                if (empty($feed_image)) {
+                    $link .= ')';
+                }
+            }
+
+            if ($optioncount) {
+                $link .= ' ('. $posts . ')';
+            }
         }
-        if (! ($posts == 0 && $hide_empty)) echo "</li>";
+
+        if (! ($posts == 0 && $hide_empty)) echo "$link</li>";
     }
 }
 

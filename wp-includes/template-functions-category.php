@@ -247,12 +247,13 @@ function wp_list_cats($args = '') {
 	if (!isset($r['child_of'])) $r['child_of'] = 0;
 	if (!isset($r['categories'])) $r['categories'] = 0;
 	if (!isset($r['recurse'])) $r['recurse'] = 0;
-	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],
-	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'],
-	$r['children'], $r['child_of'], $r['categories'], $r['recurse']);
+	if (!isset($r['feed'])) $r['feed'] = '';
+	if (!isset($r['feed_image'])) $r['feed_image'] = '';
+
+	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'], $r['children'], $r['child_of'], $r['categories'], $r['recurse'], $r['feed'], $r['feed_image']);
 }
 
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0) {
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '') {
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
     global $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
@@ -318,6 +319,39 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
             }
             $link .= '>';
             $link .= stripslashes($category->cat_name).'</a>';
+
+            if ( (! empty($feed_image)) || (! empty($feed)) ) {
+                
+                $link .= ' ';
+
+                if (empty($feed_image)) {
+                    $link .= '(';
+                }
+
+                $link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename)  . '"';
+
+                if (! empty($feed)) {
+                    $title =  ' title="' . stripslashes($feed) . '"';
+                    $alt = ' alt="' . stripslashes($feed) . '"';
+                    $name = stripslashes($feed);
+                    $link .= $title;
+                }
+
+                $link .= '>';
+
+                if (! empty($feed_image)) {
+                    $link .= "<img src=\"$feed_image\" border=\"0\"$alt$title" . ' />';
+                } else {
+                    $link .= $name;
+                }
+                
+                $link .= '</a>';
+
+                if (empty($feed_image)) {
+                    $link .= ')';
+                }
+            }
+
             if (intval($optioncount) == 1) {
                 $link .= ' ('.intval($category_posts["$category->cat_ID"]).')';
             }
