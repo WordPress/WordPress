@@ -565,7 +565,7 @@ function get_themes() {
 	}
 	
 	// The default theme always exists.
-	$themes['Default'] = array('Name' => 'Default', 'Title' => 'Default', 'Description' => 'The default theme', 'Author' => '', 'Version' => '1.3', 'Template' => 'default', 'Stylesheet' => 'default', 'Template Files' => $default_template_files, 'Stylesheet Files' => $default_stylesheet_files);
+	$themes['Default'] = array('Name' => 'Default', 'Title' => 'Default', 'Description' => 'The default theme', 'Author' => '', 'Version' => '1.3', 'Template' => 'default', 'Stylesheet' => 'default', 'Template Files' => $default_template_files, 'Stylesheet Files' => $default_stylesheet_files, 'Template Dir' => '/', 'Stylesheet Dir' => '/', 'Parent Theme' => '');
 
 	if (!$themes_dir || !$theme_files) {
 		return $themes;
@@ -629,10 +629,50 @@ function get_themes() {
 			$template_files = $default_template_files;
 		}
 
-		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files);
+		$template_dir = dirname($template_files[0]);
+		$stylesheet_dir = dirname($stylesheet_files[0]);
+
+		if (empty($template_dir)) $template_dir = '/';
+		if (empty($stylesheet_dir)) $stylesheet_dir = '/';
+		
+		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir);
+	}
+
+	// Resolve theme dependencies.
+	$theme_names = array_keys($themes);
+
+	foreach ($theme_names as $theme_name) {
+		$themes[$theme_name]['Parent Theme'] = '';
+		if ($themes[$theme_name]['Stylesheet'] != $themes[$theme_name]['Template']) {
+			foreach ($theme_names as $parent_theme_name) {
+				if (($themes[$parent_theme_name]['Stylesheet'] == $themes[$parent_theme_name]['Template']) && ($themes[$parent_theme_name]['Template'] == $themes[$theme_name]['Template'])) {
+					$themes[$theme_name]['Parent Theme'] = $themes[$parent_theme_name]['Name'];
+					break;
+				}
+			}
+		}
 	}
 
 	return $themes;
+}
+
+function get_current_theme() {
+	$themes = get_themes();
+	$theme_names = array_keys($themes);
+	$current_template = get_settings('template');
+	$current_stylesheet = get_settings('stylesheet');
+	$current_theme = 'Default';
+
+	if ($themes) {
+		foreach ($theme_names as $theme_name) {
+			if ($themes[$theme_name]['Stylesheet'] == $current_stylesheet &&
+					$themes[$theme_name]['Template'] == $current_template) {
+				$current_theme = $themes[$theme_name]['Name'];
+			}
+		}
+	}
+
+	return $current_theme;
 }
 
 ?>

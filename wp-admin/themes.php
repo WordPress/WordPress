@@ -30,33 +30,12 @@ if ($user_level < 9) // Must be at least level 9
 
 <?php
 $themes = get_themes();
-$theme_names = array_keys($themes);
-natcasesort($theme_names);
-$current_template = get_settings('template');
-$current_stylesheet = get_settings('stylesheet');
-$current_theme = 'Default';
-$current_parent_theme = '';
-$current_template_dir = '/';
-$current_stylesheet_dir = '/';
-
-if ($themes) {
-	foreach ($theme_names as $theme_name) {
-		if ($themes[$theme_name]['Stylesheet'] == $current_stylesheet &&
-				$themes[$theme_name]['Template'] == $current_template) {
-			$current_theme = $themes[$theme_name]['Name'];
-			if ($current_template != 'default')
-				$current_template_dir = dirname($themes[$theme_name]['Template Files'][0]);
-			if ($current_stylesheet != 'default')
-				$current_stylesheet_dir = dirname($themes[$theme_name]['Stylesheet Files'][0]);
-		}
-
-		if (($current_template != $current_stylesheet) &&
-				($themes[$theme_name]['Stylesheet'] == $themes[$theme_name]['Template']) &&
-				($themes[$theme_name]['Template'] == $current_template)) {
-			$current_parent_theme = $themes[$theme_name]['Name'];
-		}
-	}
-}
+$current_theme = get_current_theme();
+$current_parent_theme = $themes[$current_theme]['Parent Theme'];
+$current_template_dir = $themes[$current_theme]['Template Dir'];
+$current_stylesheet_dir = $themes[$current_theme]['Stylesheet Dir'];
+$current_template = $themes[$current_theme]['Template'];
+$current_stylesheet = $themes[$current_theme]['Stylesheet'];
 ?>
 
 <?php if ($current_parent_theme) { ?>
