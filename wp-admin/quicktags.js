@@ -26,14 +26,14 @@ var datetime = now.getFullYear() + '-' +
 */
 
 edButtons[edButtons.length] = new edButton('ed_strong'
-                                          ,'B'
+                                          ,'strong'
                                           ,'<strong>'
                                           ,'</strong>'
                                           ,'b'
                                           );
 
 edButtons[edButtons.length] = new edButton('ed_em'
-                                          ,'i'
+                                          ,'em'
                                           ,'<em>'
                                           ,'</em>'
                                           ,'i'
@@ -70,22 +70,22 @@ edButtons[edButtons.length] = new edButton('ed_img'
 
 edButtons[edButtons.length] = new edButton('ed_ul'
                                           ,'ul'
-                                          ,'<ul>'
-                                          ,'</ul>'
+                                          ,'<ul>\n'
+                                          ,'</ul>\n\n'
                                           ,'u'
                                           );
 
 edButtons[edButtons.length] = new edButton('ed_ol'
                                           ,'ol'
-                                          ,'<ol>'
-                                          ,'</ol>'
+                                          ,'<ol>\n'
+                                          ,'</ol>\n\n'
                                           ,'o'
                                           );
 
 edButtons[edButtons.length] = new edButton('ed_li'
                                           ,'li'
-                                          ,'<li>'
-                                          ,'</li>'
+                                          ,'\t<li>'
+                                          ,'</li>\n'
                                           ,'l'
                                           );
 
