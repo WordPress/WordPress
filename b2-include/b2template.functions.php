@@ -111,27 +111,45 @@ function single_month_title($prefix = '', $display = true ) {
 }
 
 function get_archives($type, $limit='') {
-	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename, $querystring_start, $querystring_equal, $month, $wpdb;
-	// weekly and daily are *broken*
+	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename, $querystring_start, $querystring_equal, $month, $wpdb, $start_of_week;
+
 	if ('' != $limit) {
-		$limit = (int) $limit;
-		$limit= " LIMIT $limit";
+        $limit = (int) $limit;
+		$limit = " LIMIT $limit";
 	}
 	// this is what will separate dates on weekly archive links
 	$archive_week_separator = '&#8211;';
-	
-	
+
 	// archive link url
-	$archive_link_m = $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal;	# monthly archive
-	$archive_link_w = $siteurl.'/'.$blogfilename.$querystring_start.'w'.$querystring_equal;	# weekly archive
-	$archive_link_p = $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal;	# post-by-post archive
+	$archive_link_m = $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal;	# monthly archive;
+	$archive_link_w = $siteurl.'/'.$blogfilename.$querystring_start.'w'.$querystring_equal;	# weekly archive;
+	$archive_link_p = $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal;	# post-by-post archive;
 	
+    // over-ride general date format ? 0 = no: use the date format set in Options, 1 = yes: over-ride
+    $archive_date_format_over_ride = 0;
+
+    // options for daily archive (only if you over-ride the general date format)
+    $archive_day_date_format = 'Y/m/d';
+
+    // options for weekly archive (only if you over-ride the general date format)
+    $archive_week_start_date_format = 'Y/m/d';
+    $archive_week_end_date_format   = 'Y/m/d';
+
+
+    //$dateformat=get_settings('date_format');
+    //$time_difference=get_settings('time_difference');
+
+    if (!$archive_date_format_over_ride) {
+        $archive_day_date_format = $dateformat;
+        $archive_week_start_date_format = $dateformat;
+        $archive_week_end_date_format   = $dateformat;
+    }
 	
 	$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 	
 	if ('monthly' == $type) {
 		++$querycount;
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		foreach ($arcresults as $arcresult) {
 			echo "<li><a href=\"$archive_link_m$arcresult->year".zeroise($arcresult->month, 2).'">';
 			echo $month[zeroise($arcresult->month, 2)].' '.$arcresult->year;
@@ -139,7 +157,7 @@ function get_archives($type, $limit='') {
 		}
 	} elseif ('daily' == $type) {
 		++$querycount;
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		foreach ($arcresults as $arcresult) {
 			echo "<li><a href=\"$archive_link_m$arcresult->year".zeroise($arcresult->month, 2).zeroise($arcresult->dayofmonth, 2).'">';
 			echo mysql2date($archive_day_date_format, $arcresult->year.'-'.zeroise($arcresult->month,2).'-'.zeroise($arcresult->dayofmonth,2).' 00:00:00');
@@ -150,12 +168,12 @@ function get_archives($type, $limit='') {
 			$start_of_week = 1;
 		}
 		++$querycount;
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, WEEK(post_date) AS `week` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS dom, WEEK(post_date) AS `week` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
 		foreach ($arcresults as $arcresult) {
 			if ($arcresult->week != $arc_w_last) {
 				$arc_w_last = $arcresult->week;
-				$arc_ymd = $arcresult->year.'-'.zeroise($arcresult->month, 2).'-' .zeroise($arcresult->dayofmonth, 2);
+				$arc_ymd = $arcresult->year.'-'.zeroise($arcresult->month, 2).'-' .zeroise($arcresult->dom, 2);
 				$arc_week = get_weekstartend($arc_ymd, $start_of_week);
 				$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 				$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
@@ -166,7 +184,7 @@ function get_archives($type, $limit='') {
 		}
 	} elseif ('postbypost' == $type) {
 		++$querycount;
-		$arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		foreach ($arcresults as $arcresult) {
 			if ($arcresult->post_date != '0000-00-00 00:00:00') {
 				echo "<li><a href=\"$archive_link_p".$arcresult->ID.'">';
