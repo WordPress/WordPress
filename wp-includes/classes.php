@@ -680,7 +680,7 @@ class retrospam_mgr {
 
 		if ( count($counters[found]) > 0 ) {
 			$id_list = implode( ',', $counters[found] );
-			$body .= '<p><a href="options-discussion.php?action=retrospam&move=true&ids='.$id_list.'">'. __('Move suspect comments to moderation queue &raquo;') . '</a></p>';
+			$body .= '<p><a href="options-discussion.php?action=retrospam&amp;move=true&amp;ids='.$id_list.'">'. __('Move suspect comments to moderation queue &raquo;') . '</a></p>';
 
 		}
 		$head = '<div class="wrap"><h2>' . __('Check Comments Results:') . '</h2>';
