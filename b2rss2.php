@@ -57,11 +57,11 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 	<link><?php bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<dc:language><?php echo $rss_language ?></dc:language>
-	<dc:creator><?php echo $admin_email ?></dc:creator>
+	<dc:creator><?php echo antispambot($admin_email) ?></dc:creator>
 	<dc:rights>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></dc:rights>
 	<dc:date><?php echo gmdate('Y-m-d\TH:i:s'); ?></dc:date>
 	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $b2_version ?>"/>
-	<admin:errorReportsTo rdf:resource="mailto:<?php echo $admin_email ?>"/>
+	<admin:errorReportsTo rdf:resource="mailto:<?php echo antispambot($admin_email) ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>

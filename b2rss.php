@@ -51,8 +51,8 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
         <description><?php bloginfo_rss("description") ?></description>
         <lastBuildDate><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</lastBuildDate>
         <docs>http://backend.userland.com/rss092</docs>
-        <managingEditor><?php echo $admin_email ?></managingEditor>
-        <webMaster><?php echo $admin_email ?></webMaster>
+        <managingEditor><?php echo antispambot($admin_email) ?></managingEditor>
+        <webMaster><?php echo antispambot($admin_email) ?></webMaster>
         <language><?php echo $rss_language ?></language>
 
 <?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_b2(); ?>
