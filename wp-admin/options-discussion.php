@@ -44,11 +44,11 @@ if ($user_level <= 3) {
 }
 ?>
  <ul id="adminmenu2"> 
-  <li><a href="options-general.php">General</a></li> 
-  <li><a href="options-writing.php">Writing</a></li> 
-  <li><a href="options-reading.php">Reading</a></li>
-  <li><a class="current">Discussion</a></li> 
-  <?php
+	<li><a href="options-general.php">General</a></li> 
+	<li><a href="options-writing.php">Writing</a></li> 
+	<li><a href="options-reading.php">Reading</a></li> 
+	<li><a class="current">Discussion</a></li> 
+	<?php
     //we need to iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
     foreach ($option_groups as $option_group) {
@@ -61,64 +61,65 @@ if ($user_level <= 3) {
         }
     } // end for each group
 ?> 
-  <li class="last"><a href="options-permalink.php">Permalinks</a></li> 
+	<li class="last"><a href="options-permalink.php">Permalinks</a></li> 
 </ul> 
 <br clear="all" /> 
 <div class="wrap"> 
-  <h2>Discussion Options</h2> 
-  <form name="form1" method="post" action="options.php"> 
-    <input type="hidden" name="action" value="update" /> 
-    <input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','moderation_keys'" /> 
-    <p>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></p> 
-    <ul> 
-      <li> 
-        <label for="default_pingback_flag"> 
-        <input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked('1', get_settings('default_pingback_flag')); ?> /> 
-        Attempt to notify any Weblogs linked to from the article. (Slows down posting.)</label> 
-      </li> 
-      <li> 
-        <label for="default_ping_status"> 
-        <input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked('open', get_settings('default_ping_status')); ?> /> 
-        Allow link notifications from other Weblogs. (Pingbacks and trackbacks.)</label> 
-      </li> 
-      <li> 
-        <label for="default_comment_status"> 
-        <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_settings('default_comment_status')); ?> /> 
-        Allow people to post comments on the article</label> 
-      </li> 
-    </ul> 
-    <p>Email me whenever:</p> 
-    <ul> 
-      <li> 
-        <label for="comments_notify"> 
-        <input name="comments_notify" type="checkbox" id="comments_notify" value="1" <?php checked('1', get_settings('comments_notify')); ?> /> 
-        Anyone posts a comment </label> 
-      </li> 
-      <li> 
-        <label for="moderation_notify"> 
-        <input name="moderation_notify" type="checkbox" id="moderation_notify" value="1" <?php checked('1', get_settings('moderation_notify')); ?> /> 
-        A comment is approved or declined </label> 
-      </li> 
-    </ul> 
-    <p>Before a comment appears:</p> 
-    <ul> 
-      <li> 
-        <label for="comment_moderation"> 
-        <input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked('1', get_settings('comment_moderation')); ?> /> 
-        An administrator must approve the comment (regardless of any matches below) </label>
-      </li> 
-      <li>
-      	<input type="checkbox" name="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> />
-      	User must fill out name and email 
-</li>
-    </ul> 
-    <p>When a comment contains any of these words in its content, name, URI, or email, hold it in the moderation queue: (Seperate multiple words with new lines.)</p> 
-    <p> 
-      <textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%;"><?php echo get_settings('moderation_keys'); ?></textarea> 
-    </p> 
-    <p style="text-align: right;"> 
-      <input type="submit" name="Submit" value="Update Options" /> 
-    </p> 
-  </form> 
+	<h2>Discussion Options</h2> 
+	<form name="form1" method="post" action="options.php"> 
+		<input type="hidden" name="action" value="update" /> 
+		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','moderation_keys'" /> 
+		<p>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></p> 
+		<ul> 
+			<li> 
+				<label for="default_pingback_flag"> 
+				<input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked('1', get_settings('default_pingback_flag')); ?> /> 
+				Attempt to notify any Weblogs linked to from the article. (Slows down posting.)</label> 
+			</li> 
+			<li> 
+				<label for="default_ping_status"> 
+				<input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked('open', get_settings('default_ping_status')); ?> /> 
+				Allow link notifications from other Weblogs. (Pingbacks and trackbacks.)</label> 
+			</li> 
+			<li> 
+				<label for="default_comment_status"> 
+				<input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_settings('default_comment_status')); ?> /> 
+				Allow people to post comments on the article</label> 
+			</li> 
+		</ul> 
+		<p>Email me whenever:</p> 
+		<ul> 
+			<li> 
+				<label for="comments_notify"> 
+				<input name="comments_notify" type="checkbox" id="comments_notify" value="1" <?php checked('1', get_settings('comments_notify')); ?> /> 
+				Anyone posts a comment </label> 
+			</li> 
+			<li> 
+				<label for="moderation_notify"> 
+				<input name="moderation_notify" type="checkbox" id="moderation_notify" value="1" <?php checked('1', get_settings('moderation_notify')); ?> /> 
+				A comment is approved or declined </label> 
+			</li> 
+		</ul> 
+		<p>Before a comment appears:</p> 
+		<ul> 
+			<li> 
+				<label for="comment_moderation"> 
+				<input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked('1', get_settings('comment_moderation')); ?> /> 
+				An administrator must approve the comment (regardless of any matches below) </label> 
+			</li> 
+			<li> 
+				<label> 
+				<input type="checkbox" name="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> /> 
+				User must fill out name and email </label> 
+			</li> 
+		</ul> 
+		<p>When a comment contains any of these words in its content, name, URI, or email, hold it in the moderation queue: (Seperate multiple words with new lines.)</p> 
+		<p> 
+			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%;"><?php echo get_settings('moderation_keys'); ?></textarea> 
+		</p> 
+		<p style="text-align: right;"> 
+			<input type="submit" name="Submit" value="Update Options" /> 
+		</p> 
+	</form> 
 </div> 
 <?php include("admin-footer.php") ?>
