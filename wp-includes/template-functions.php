@@ -522,6 +522,7 @@ function get_month_link($year, $month) {
 		if ('/' != substr($monthlink, -1)) $monthlink = substr($monthlink, 0, -1);
 		$monthlink = str_replace('%year%', $year, $monthlink);
 		$monthlink = str_replace('%monthnum%', intval($month), $monthlink);
+		$monhtlink = str_replace('%post_id%', '', $monthlink);
 		return $siteurl . $monthlink;
 	} else {
 		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
@@ -541,6 +542,7 @@ function get_day_link($year, $month, $day) {
 		$daylink = str_replace('%year%', $year, $daylink);
 		$daylink = str_replace('%monthnum%', intval($month), $daylink);
 		$daylink = str_replace('%day%', intval($day), $daylink);
+		$daylink = str_replace('%post_id%', '', $daylink);
 		return $siteurl . $daylink;
 	} else {
 		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
