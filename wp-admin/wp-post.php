@@ -103,6 +103,8 @@ switch($action) {
         $post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
 
 		// Insert categories
+		// Check to make sure there is a category, if not just set it to some default
+		if (!$post_categories) $post_categories = $wpdb->get_var("SELECT cat_ID FROM $tablecategories LIMIT 1");
 		foreach ($post_categories as $post_category) {
 			// Double check it's not there already
 			$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
@@ -120,6 +122,25 @@ switch($action) {
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
                 sleep($sleep_after_edit);
         }
+
+        if (!empty($HTTP_POST_VARS['mode'])) {
+            switch($HTTP_POST_VARS['mode']) {
+                case 'bookmarklet':
+                    $location = 'b2bookmarklet.php?a=b';
+                    break;
+                case 'sidebar':
+                    $location = 'b2sidebar.php?a=b';
+                    break;
+                default:
+                    $location = 'wp-post.php';
+                    break;
+            }
+        } else {
+            $location = 'wp-post.php';
+        }
+		
+		if ('' != $HTTP_POST_VARS['save']) $location = "wp-post.php?action=edit&post=$post_ID";
+        header("Location: $location");
 
         if ($post_status == 'publish') {
             if((get_settings('use_geo_positions')) && ($post_latf != null) && ($post_lonf != null)) {
@@ -147,24 +168,6 @@ switch($action) {
             }
         } // end if publish
 
-        if (!empty($HTTP_POST_VARS['mode'])) {
-            switch($HTTP_POST_VARS['mode']) {
-                case 'bookmarklet':
-                    $location = 'b2bookmarklet.php?a=b';
-                    break;
-                case 'sidebar':
-                    $location = 'b2sidebar.php?a=b';
-                    break;
-                default:
-                    $location = 'wp-post.php';
-                    break;
-            }
-        } else {
-            $location = 'wp-post.php';
-        }
-		
-		if ('' != $HTTP_POST_VARS['save']) $location = "wp-post.php?action=edit&post=$post_ID";
-        header("Location: $location");
         exit();
         break;
 

@@ -273,6 +273,7 @@ textarea, input, select {
 #titlediv, #poststatusdiv, #commentstatusdiv, #pingstatusdiv, #postpassworddiv {
 	float: left;
 	margin-right: 5px;
+	height: 6em;
 }
 
 #wphead {
