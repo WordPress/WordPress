@@ -1,5 +1,5 @@
 <?php
-define('MTEXPORT', 'import.txt');// enter the relative path of the import.txt file containing the mt entries. If the file is called import.txt and it is /wp-admin, then this line
+define('MTEXPORT', '');// enter the relative path of the import.txt file containing the mt entries. If the file is called import.txt and it is /wp-admin, then this line
 //should be define('MTEXPORT', 'import.txt');
 
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must install WordPress before you import any entries.");
