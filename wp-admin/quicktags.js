@@ -15,11 +15,24 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	this.open = open;			// set to -1 if tag does not need to be closed
 }
 
+function zeroise(number, threshold) {
+	// FIXME: or we could use an implementation of printf in js here
+	var str = number.toString();
+	if (number < 0) { str = str.substr(1, str.length) }
+	while (str.length < threshold) { str = "0" + str }
+	if (number < 0) { str = '-' + str }
+	return str;
+}
+
 var now = new Date();
-var datetime = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + 'T' + 
-				now.getHours() + ':' + now.getMinutes() + ':' + 
-				now.getSeconds() + '-' + (now.getTimezoneOffset()/60)
-				+ ':' + '00';
+var datetime = now.getFullYear() + '-' + 
+				zeroise(now.getMonth() + 1, 2) + '-' +
+				zeroise(now.getDate(), 2) + 'T' + 
+				zeroise(now.getHours(), 2) + ':' + 
+				zeroise(now.getMinutes(), 2) + ':' + 
+				zeroise(now.getSeconds() ,2) +
+				// FIXME: we could try handling timezones like +05:30 and the like
+				zeroise((now.getTimezoneOffset()/60), 2) + ':' + '00';
 
 edButtons[edButtons.length] = 
 new edButton('ed_strong'
