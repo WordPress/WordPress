@@ -81,7 +81,8 @@ if (!empty($lasttime)) {
 if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	$comment_moderation = get_settings('comment_moderation');
 	$moderation_notify = get_settings('moderation_notify');
-	
+	$comments_notify = get_settings('comments_notify');
+
 	// o42: this place could be the hook for further comment spam checking
 	// $approved should be set according the final approval status
 	// of the new comment
@@ -104,7 +105,7 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	    wp_notify_moderator($comment_ID);
 	}
 	
-	if (($comment_notify) && ($approved)) {
+	if (($comments_notify) && ($approved)) {
 	    wp_notify_postauthor($comment_ID, 'comment');
 	}
 
