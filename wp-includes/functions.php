@@ -1514,10 +1514,17 @@ function mod_rewrite_rules ($permalink_structure) {
 		// Apache 1.3 does not support the reluctant (non-greedy) modifier.
 		$match = str_replace('.+?', '.+', $match);
 
+		// If the match is unanchored and greedy, prepend rewrite conditions
+		// to avoid infinite redirects and eclipsing of real files.
+		if ($match == '(.+)/?$') {
+			$rules .= "RewriteCond %{REQUEST_FILENAME} !-f\n" .
+				"RewriteCond %{REQUEST_FILENAME} !-d\n";
+		}
+
 		if (strstr($query, 'index.php')) {
-			$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
+			$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
 		} else {
-			$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
+			$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA,L]\n";
 		}
 	}
 	$rules .= "</IfModule>\n";
