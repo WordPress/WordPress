@@ -9,7 +9,7 @@ foreach ($menu as $item) {
 	$class = '';
 
 	// 0 = name, 1 = user_level, 2 = file
-	if ((substr($self, -10) == substr($item[2], -10) && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
+	if (( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
     
 	if ($user_level >= $item[1]) {
 		if ( file_exists(ABSPATH . "wp-content/plugins/{$item[2]}") )
