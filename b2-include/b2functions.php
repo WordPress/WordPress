@@ -20,7 +20,7 @@ if (!function_exists('_')) {
 function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 	global $HTTP_COOKIE_VARS,$user_login,$userdata,$user_level,$user_ID,$user_nickname,$user_email,$user_url,$user_pass_md5;
 	// *** retrieving user's data from cookies and db - no spoofing
-	$user_login = $HTTP_COOKIE_VARS["cafeloguser"];
+	$user_login = $HTTP_COOKIE_VARS["wordpressuser"];
 	$userdata = get_userdatabylogin($user_login);
 	$user_level = $userdata["user_level"];
 	$user_ID=$userdata['ID'];

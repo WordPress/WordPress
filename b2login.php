@@ -49,8 +49,8 @@ switch($action) {
 
 case "logout":
 
-	setcookie("cafeloguser");
-	setcookie("cafelogpass");
+	setcookie("wordpressuser");
+	setcookie("wordpresspass");
 	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 	header("Cache-Control: no-cache, must-revalidate"); // for HTTP/1.1
@@ -130,14 +130,14 @@ case "login":
 	} else {
 		$user_login=$log;
 		$user_pass=$pwd;
-		setcookie("cafeloguser",$user_login,time()+31536000);
+		setcookie("wordpressuser",$user_login,time()+31536000);
 		if ($pass_is_md5) {
-			setcookie("cafelogpass",$user_pass,time()+31536000);
+			setcookie("wordpresspass",$user_pass,time()+31536000);
 		} else {
-			setcookie("cafelogpass",md5($user_pass),time()+31536000);
+			setcookie("wordpresspass",md5($user_pass),time()+31536000);
 		}
-		if (empty($HTTP_COOKIE_VARS["cafelogblogid"])) {
-			setcookie("cafelogblogid","1",time()+31536000);
+		if (empty($HTTP_COOKIE_VARS["wordpressblogid"])) {
+			setcookie("wordpressblogid","1",time()+31536000);
 		}
 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -254,9 +254,9 @@ break;
 
 default:
 
-	if((!empty($HTTP_COOKIE_VARS["cafeloguser"])) && (!empty($HTTP_COOKIE_VARS["cafelogpass"]))) {
-		$user_login = $HTTP_COOKIE_VARS["cafeloguser"];
-		$user_pass_md5 = $HTTP_COOKIE_VARS["cafelogpass"];
+	if((!empty($HTTP_COOKIE_VARS["wordpressuser"])) && (!empty($HTTP_COOKIE_VARS["wordpresspass"]))) {
+		$user_login = $HTTP_COOKIE_VARS["wordpressuser"];
+		$user_pass_md5 = $HTTP_COOKIE_VARS["wordpresspass"];
 	}
 
 	function checklogin() {
@@ -273,7 +273,7 @@ default:
 	} 
 
 	if ( !(checklogin()) ) {
-		if (!empty($HTTP_COOKIE_VARS["cafeloguser"])) {
+		if (!empty($HTTP_COOKIE_VARS["wordpressuser"])) {
 			$error="Error: wrong login/password"; //, or your session has expired.";
 		}
 	} else {
