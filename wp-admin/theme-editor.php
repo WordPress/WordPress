@@ -72,7 +72,7 @@ default:
 	if (!is_file($real_file))
 		$error = 1;
 	
-	if (!$error) {
+	if (!$error && filesize($real_file) > 0) {
 		$f = fopen($real_file, 'r');
 		$content = fread($f, filesize($real_file));
 		$content = htmlspecialchars($content);
