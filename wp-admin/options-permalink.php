@@ -30,16 +30,16 @@ if ($_POST['submit']) {
 }
 
 
-switch($action) {
 
-default:
-	$standalone = 0;
 	require_once('admin-header.php');
 	if ($user_level <= 6) {
 		die(__("You have do not have sufficient permissions to edit the options for this blog."));
 	}
 	require('./options-head.php');
 ?>
+<?php if ($_POST['submit']) : ?>
+<div class="updated"><p><?php _e('Permalink structure updated.'); ?></p></div>
+<?php endif; ?>
 <div class="wrap"> 
   <h2><?php _e('Edit Permalink Structure') ?></h2> 
   <?php _e('<p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p>')?> 
@@ -63,7 +63,7 @@ default:
       <input name="permalink_structure" type="text" style="width: 98%;" value="<?php echo $permalink_structure; ?>" /> 
     </p> 
     <p class="submit"> 
-      <input type="submit" name="submit" value="<?php _e('Update Permalink Structure') ?>"> 
+      <input type="submit" name="submit" value="<?php _e('Update Permalink Structure &raquo;') ?>"> 
     </p> 
   </form> 
 <?php
@@ -100,9 +100,6 @@ foreach ($rewrite as $match => $query) {
 <?php
 }
 echo "</div>\n";
-
-break;
-}
 
 require('./admin-footer.php');
 ?>

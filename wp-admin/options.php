@@ -174,10 +174,8 @@ foreach ($options as $option) :
 	echo "\t</td><td  valign='top' class='helptext'>$option->option_description</td></tr>\n";
 endforeach;
 ?>
-    <tr><td colspan="3">&nbsp;</td></tr>
-    <tr><td align="center" colspan="3"><input type="submit" name="Update" value="<?php _e('Update Settings') ?>" /></td></tr>
-    <tr><td colspan="3"><?php echo $message; ?></td></tr>
   </table>
+<p class="submit"><input type="submit" name="Update" value="<?php _e('Update Settings &raquo;') ?>" /></p>
   </form>
 </div>
 
