@@ -11,7 +11,7 @@ if ($user_level == 0)
 
 $time_difference = get_settings('time_difference');
 
-if ('b' == $HTTP_GET_VARS['a']) {
+if ('b' == $_GET['a']) {
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

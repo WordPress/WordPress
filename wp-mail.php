@@ -6,7 +6,6 @@ require_once(ABSPATH.WPINC.'/class-pop3.php');
 
 timer_start();
 
-$use_cache = 1;
 $output_debugging_info = 0;	# =1 if you want to output debugging info
 $time_difference = get_settings('time_difference');
 

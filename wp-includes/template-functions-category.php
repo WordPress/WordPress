@@ -112,8 +112,8 @@ function the_category_rss($type = 'rss') {
 }
 
 function get_the_category_by_ID($cat_ID) {
-    global $tablecategories, $cache_categories, $use_cache, $wpdb;
-    if ((!$cache_categories[$cat_ID]) OR (!$use_cache)) {
+    global $tablecategories, $cache_categories, $wpdb;
+    if ( !$cache_categories[$cat_ID]) ) {
         $cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
         $cache_categories[$cat_ID]->cat_name = $cat_name;
     } else {

@@ -1,7 +1,5 @@
 <?php
 
-$use_cache = 1; // No reason not to
-
 /* Including config and functions files */
 $curpath = dirname(__FILE__).'/';
 
@@ -22,7 +20,7 @@ if (! empty($_SERVER['PATH_INFO'])) {
 
     if (! empty($rewrite)) {
         // Get the name of the file requesting path info.
-        $req_uri = $HTTP_SERVER_VARS['REQUEST_URI'];
+        $req_uri = $_SERVER['REQUEST_URI'];
         $req_uri = str_replace($pathinfo, '', $req_uri);
         $req_uri = preg_replace("!/+$!", '', $req_uri);
         $req_uri = explode('/', $req_uri);
@@ -57,16 +55,16 @@ $wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','e
     for ($i=0; $i<count($wpvarstoreset); $i += 1) {
         $wpvar = $wpvarstoreset[$i];
         if (!isset($$wpvar)) {
-            if (empty($HTTP_POST_VARS[$wpvar])) {
-                if (empty($HTTP_GET_VARS[$wpvar]) && empty($path_info[$wpvar])) {
+            if (empty($_POST[$wpvar])) {
+                if (empty($_GET[$wpvar]) && empty($path_info[$wpvar])) {
                     $$wpvar = '';
-                } elseif (!empty($HTTP_GET_VARS[$wpvar])) {
-                    $$wpvar = $HTTP_GET_VARS[$wpvar];
+                } elseif (!empty($_GET[$wpvar])) {
+                    $$wpvar = $_GET[$wpvar];
                 } else {
                     $$wpvar = $path_info[$wpvar];
                 }
             } else {
-                $$wpvar = $HTTP_POST_VARS[$wpvar];
+                $$wpvar = $_POST[$wpvar];
             }
         }
     }

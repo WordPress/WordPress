@@ -6,14 +6,14 @@ $wpvarstoreset = array('action','standalone','redirect','profile');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
-		if (empty($HTTP_POST_VARS["$wpvar"])) {
-			if (empty($HTTP_GET_VARS["$wpvar"])) {
+		if (empty($_POST["$wpvar"])) {
+			if (empty($_GET["$wpvar"])) {
 				$$wpvar = '';
 			} else {
-				$$wpvar = $HTTP_GET_VARS["$wpvar"];
+				$$wpvar = $_GET["$wpvar"];
 			}
 		} else {
-			$$wpvar = $HTTP_POST_VARS["$wpvar"];
+			$$wpvar = $_POST["$wpvar"];
 		}
 	}
 }
@@ -26,12 +26,12 @@ case 'adduser':
 		return ereg('^[a-zA-Z0-9\_-\|]+$',$value);
 	}
 
-	$user_login = $HTTP_POST_VARS['user_login'];
-	$pass1 = $HTTP_POST_VARS['pass1'];
-	$pass2 = $HTTP_POST_VARS['pass2'];
-	$user_email = $HTTP_POST_VARS['email'];
-	$user_firstname = $HTTP_POST_VARS['firstname'];
-	$user_lastname = $HTTP_POST_VARS['lastname'];
+	$user_login = $_POST['user_login'];
+	$pass1 = $_POST['pass1'];
+	$pass2 = $_POST['pass2'];
+	$user_email = $_POST['email'];
+	$user_firstname = $_POST['firstname'];
+	$user_lastname = $_POST['lastname'];
 		
 	/* checking login has been typed */
 	if ($user_login == '') {
@@ -98,12 +98,12 @@ case 'promote':
 	$standalone = 1;
 	require_once('admin-header.php');
 
-	if (empty($HTTP_GET_VARS['prom'])) {
+	if (empty($_GET['prom'])) {
 		header('Location: users.php');
 	}
 
-	$id = $HTTP_GET_VARS['id'];
-	$prom = $HTTP_GET_VARS['prom'];
+	$id = $_GET['id'];
+	$prom = $_GET['prom'];
 
 	$user_data = get_userdata($id);
 	$usertopromote_level = $user_data->user_level;
@@ -130,7 +130,7 @@ case 'delete':
 	$standalone = 1;
 	require_once('admin-header.php');
 
-	$id = intval($HTTP_GET_VARS['id']);
+	$id = intval($_GET['id']);
 
 	if (!$id) {
 		header('Location: users.php');

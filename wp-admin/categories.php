@@ -14,23 +14,23 @@ function add_magic_quotes($array) {
 }
 
 if (!get_magic_quotes_gpc()) {
-    $HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
-    $HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
-    $HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
+    $_GET    = add_magic_quotes($_GET);
+    $_POST   = add_magic_quotes($_POST);
+    $_COOKIE = add_magic_quotes($_COOKIE);
 }
 
 $wpvarstoreset = array('action','standalone','cat');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     $wpvar = $wpvarstoreset[$i];
     if (!isset($$wpvar)) {
-        if (empty($HTTP_POST_VARS["$wpvar"])) {
-            if (empty($HTTP_GET_VARS["$wpvar"])) {
+        if (empty($_POST["$wpvar"])) {
+            if (empty($_GET["$wpvar"])) {
                 $$wpvar = '';
             } else {
-                $$wpvar = $HTTP_GET_VARS["$wpvar"];
+                $$wpvar = $_GET["$wpvar"];
             }
         } else {
-            $$wpvar = $HTTP_POST_VARS["$wpvar"];
+            $$wpvar = $_POST["$wpvar"];
         }
     }
 }
@@ -45,10 +45,10 @@ case 'addcat':
     if ($user_level < 3)
         die ('Cheatin&#8217; uh?');
     
-    $cat_name= addslashes(stripslashes(stripslashes($HTTP_POST_VARS['cat_name'])));
+    $cat_name= addslashes(stripslashes(stripslashes($_POST['cat_name'])));
     $category_nicename = sanitize_title($cat_name);
-    $category_description = addslashes(stripslashes(stripslashes($HTTP_POST_VARS['category_description'])));
-    $cat = intval($HTTP_POST_VARS['cat']);
+    $category_description = addslashes(stripslashes(stripslashes($_POST['category_description'])));
+    $cat = intval($_POST['cat']);
 
     $wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
     
@@ -61,7 +61,7 @@ case 'Delete':
     $standalone = 1;
     require_once('admin-header.php');
 
-    $cat_ID = intval($HTTP_GET_VARS["cat_ID"]);
+    $cat_ID = intval($_GET["cat_ID"]);
     $cat_name = get_catname($cat_ID);
     $cat_name = addslashes($cat_name);
     $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = " . $cat_ID);
@@ -84,7 +84,7 @@ break;
 case 'edit':
 
     require_once ('admin-header.php');
-    $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = " . $HTTP_GET_VARS['cat_ID']);
+    $category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = " . $_GET['cat_ID']);
     $cat_name = stripslashes($category->cat_name);
     ?>
 
@@ -92,7 +92,7 @@ case 'edit':
     <h2>Edit Category</h2>
     <form name="editcat" action="categories.php" method="post">
         <input type="hidden" name="action" value="editedcat" />
-        <input type="hidden" name="cat_ID" value="<?php echo $HTTP_GET_VARS['cat_ID'] ?>" />
+        <input type="hidden" name="cat_ID" value="<?php echo $_GET['cat_ID'] ?>" />
         <p>Category name:<br />
         <input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /></p>
         <p>Category parent:<br />
@@ -119,10 +119,10 @@ case 'editedcat':
     if ($user_level < 3)
         die ('Cheatin&#8217; uh?');
     
-    $cat_name = addslashes(stripslashes(stripslashes($HTTP_POST_VARS['cat_name'])));
-    $cat_ID = addslashes($HTTP_POST_VARS['cat_ID']);
+    $cat_name = addslashes(stripslashes(stripslashes($_POST['cat_name'])));
+    $cat_ID = addslashes($_POST['cat_ID']);
     $category_nicename = sanitize_title($cat_name);
-    $category_description = $HTTP_POST_VARS['category_description'];
+    $category_description = $_POST['category_description'];
 
     $wpdb->query("UPDATE $tablecategories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = $cat WHERE cat_ID = $cat_ID");
     

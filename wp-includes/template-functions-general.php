@@ -308,7 +308,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 }
 
 function get_calendar($daylength = 1) {
-    global $wpdb, $HTTP_GET_VARS, $m, $monthnum, $year, $timedifference, $month, $weekday, $tableposts, $posts;
+    global $wpdb, $m, $monthnum, $year, $timedifference, $month, $weekday, $tableposts, $posts;
 
     // Quick check. If we have no posts at all, abort!
     if (!$posts) {
@@ -317,8 +317,8 @@ function get_calendar($daylength = 1) {
             return;
     }
 
-    if (isset($HTTP_GET_VARS['w'])) {
-        $w = ''.intval($HTTP_GET_VARS['w']);
+    if (isset($_GET['w'])) {
+        $w = ''.intval($_GET['w']);
     }
     $time_difference = get_settings('time_difference');
     $add_hours = intval($time_difference);

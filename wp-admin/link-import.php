@@ -8,7 +8,7 @@ $parent_file = 'link-manager.php';
 $title = 'Import Blogroll';
 $this_file = 'link-import.php';
 
-$step = $HTTP_POST_VARS['step'];
+$step = $_POST['step'];
 if (!$step) $step = 0;
 ?>
 <?php
@@ -88,12 +88,12 @@ switch ($step) {
 
      <h2>Importing...</h2>
 <?php
-                $cat_id = $HTTP_POST_VARS['cat_id'];
+                $cat_id = $_POST['cat_id'];
                 if (($cat_id == '') || ($cat_id == 0)) {
                     $cat_id  = 1;
                 }
 
-                $opml_url = $HTTP_POST_VARS['opml_url'];
+                $opml_url = $_POST['opml_url'];
                 if (isset($opml_url) && $opml_url != '') {
 					$blogrolling = true;
                 }

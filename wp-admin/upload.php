@@ -11,7 +11,7 @@ if (!get_settings('use_fileupload')) //Checks if file upload is enabled in the c
 
 $allowed_types = explode(' ', trim(strtolower(get_settings('fileupload_allowedtypes'))));
 
-if ($HTTP_POST_VARS['submit']) {
+if ($_POST['submit']) {
 	$action = 'upload';
 } else {
 	$action = '';
@@ -82,11 +82,11 @@ case 'upload':
 //die();
 
 
-    $imgalt = (isset($HTTP_POST_VARS['imgalt'])) ? $HTTP_POST_VARS['imgalt'] : $imgalt;
+    $imgalt = (isset($_POST['imgalt'])) ? $_POST['imgalt'] : $imgalt;
 
-    $img1_name = (strlen($imgalt)) ? $HTTP_POST_VARS['imgalt'] : $HTTP_POST_FILES['img1']['name'];
-    $img1_type = (strlen($imgalt)) ? $HTTP_POST_VARS['img1_type'] : $HTTP_POST_FILES['img1']['type'];
-    $imgdesc = str_replace('"', '&amp;quot;', $HTTP_POST_VARS['imgdesc']);
+    $img1_name = (strlen($imgalt)) ? $_POST['imgalt'] : $HTTP_POST_FILES['img1']['name'];
+    $img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $HTTP_POST_FILES['img1']['type'];
+    $imgdesc = str_replace('"', '&amp;quot;', $_POST['imgdesc']);
 
     $imgtype = explode(".",$img1_name);
     $imgtype = strtolower($imgtype[count($imgtype)-1]);
@@ -97,7 +97,7 @@ case 'upload':
 
     if (strlen($imgalt)) {
         $pathtofile = get_settings('fileupload_realpath')."/".$imgalt;
-        $img1 = $HTTP_POST_VARS['img1'];
+        $img1 = $_POST['img1'];
     } else {
         $pathtofile = get_settings('fileupload_realpath')."/".$img1_name;
         $img1 = $HTTP_POST_FILES['img1']['tmp_name'];
@@ -181,15 +181,15 @@ die();
         or die("Couldn't Upload Your File to $pathtofile.");
     }
     
-    if($HTTP_POST_VARS['thumbsize'] != 'none' ) {
-        if($HTTP_POST_VARS['thumbsize'] == 'small') {
+    if($_POST['thumbsize'] != 'none' ) {
+        if($_POST['thumbsize'] == 'small') {
             $max_side = 200;
         }
-        elseif($HTTP_POST_VARS['thumbsize'] == 'large') {
+        elseif($_POST['thumbsize'] == 'large') {
             $max_side = 400;
         }
-        elseif($HTTP_POST_VARS['thumbsize'] == 'custom') {
-            $max_side = $HTTP_POST_VARS['imgthumbsizecustom'];
+        elseif($_POST['thumbsize'] == 'custom') {
+            $max_side = $_POST['imgthumbsizecustom'];
         }
         
         $result = wp_create_thumbnail($pathtofile, $max_side, NULL);

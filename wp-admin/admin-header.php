@@ -10,7 +10,6 @@ function gethelp_link($this_file, $helptag) {
     return $s;
 }
 
-if (!isset($use_cache))    $use_cache=1;
 if (!isset($blogID))    $blog_ID=1;
 if (!isset($debug))        $debug=0;
 timer_start();
@@ -37,14 +36,14 @@ $wpvarstoreset = array('profile','standalone','redirect','redirect_url','a','pop
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     $wpvar = $wpvarstoreset[$i];
     if (!isset($$wpvar)) {
-        if (empty($HTTP_POST_VARS["$wpvar"])) {
-            if (empty($HTTP_GET_VARS["$wpvar"])) {
+        if (empty($_POST["$wpvar"])) {
+            if (empty($_GET["$wpvar"])) {
                 $$wpvar = '';
             } else {
-                $$wpvar = $HTTP_GET_VARS["$wpvar"];
+                $$wpvar = $_GET["$wpvar"];
             }
         } else {
-            $$wpvar = $HTTP_POST_VARS["$wpvar"];
+            $$wpvar = $_POST["$wpvar"];
         }
     }
 }

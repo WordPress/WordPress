@@ -98,11 +98,11 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 }
 
 function get_lastpostdate($timezone = 'server') {
-	global $tableposts, $cache_lastpostdate, $use_cache, $pagenow, $wpdb;
+	global $tableposts, $cache_lastpostdate, $pagenow, $wpdb;
 	$add_seconds_blog = get_settings('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
-	if ((!isset($cache_lastpostdate[$timezone])) OR (!$use_cache)) {
+	if ( !isset($cache_lastpostdate[$timezone]) ) {
 		switch(strtolower($timezone)) {
 			case 'gmt':
 				$lastpostdate = $wpdb->get_var("SELECT post_date_gmt FROM $tableposts WHERE post_date_gmt <= '$now' AND post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
@@ -122,11 +122,11 @@ function get_lastpostdate($timezone = 'server') {
 }
 
 function get_lastpostmodified($timezone = 'server') {
-	global $tableposts, $cache_lastpostmodified, $use_cache, $pagenow, $wpdb;
+	global $tableposts, $cache_lastpostmodified, $pagenow, $wpdb;
 	$add_seconds_blog = get_settings('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
-	if ((!isset($cache_lastpostmodified[$timezone])) OR (!$use_cache)) {
+	if ( !isset($cache_lastpostmodified[$timezone]) ) {
 		switch(strtolower($timezone)) {
 			case 'gmt':
 				$lastpostmodified = $wpdb->get_var("SELECT post_modified_gmt FROM $tableposts WHERE post_modified_gmt <= '$now' AND post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
@@ -150,8 +150,8 @@ function get_lastpostmodified($timezone = 'server') {
 }
 
 function user_pass_ok($user_login,$user_pass) {
-	global $cache_userdata,$use_cache;
-	if ((empty($cache_userdata[$user_login])) OR (!$use_cache)) {
+	global $cache_userdata;
+	if ( empty($cache_userdata[$user_login]) ) {
 		$userdata = get_userdatabylogin($user_login);
 	} else {
 		$userdata = $cache_userdata[$user_login];
@@ -173,8 +173,8 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 }
 
 function get_userdata($userid) {
-	global $wpdb, $cache_userdata, $use_cache, $tableusers;
-	if ((empty($cache_userdata[$userid])) || (!$use_cache)) {
+	global $wpdb, $cache_userdata, $tableusers;
+	if ( empty($cache_userdata[$userid]) ) {
 		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = '$userid'");
         $user->user_nickname = stripslashes($user->user_nickname);
         $user->user_firstname = stripslashes($user->user_firstname);
@@ -190,8 +190,8 @@ function get_userdata($userid) {
 }
 
 function get_userdatabylogin($user_login) {
-	global $tableusers, $cache_userdata, $use_cache, $wpdb;
-	if ((empty($cache_userdata["$user_login"])) OR (!$use_cache)) {
+	global $tableusers, $cache_userdata, $wpdb;
+	if ( empty($cache_userdata["$user_login"]) ) {
 		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE user_login = '$user_login'");
 		$cache_userdata["$user_login"] = $user;
 	} else {
@@ -201,8 +201,8 @@ function get_userdatabylogin($user_login) {
 }
 
 function get_userid($user_login) {
-	global $tableusers, $cache_userdata, $use_cache, $wpdb;
-	if ((empty($cache_userdata["$user_login"])) OR (!$use_cache)) {
+	global $tableusers, $cache_userdata, $wpdb;
+	if ( empty($cache_userdata["$user_login"]) ) {
 		$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$user_login'");
 
 		$cache_userdata["$user_login"] = $user_id;
@@ -293,7 +293,7 @@ function url_to_postid($url = '') {
 /* Options functions */
 
 function get_settings($setting) {
-	global $wpdb, $cache_settings, $use_cache;
+	global $wpdb, $cache_settings;
 	if (strstr($_SERVER['REQUEST_URI'], 'install.php')) {
 		return false;
 	}
@@ -301,7 +301,7 @@ function get_settings($setting) {
 	// until we switch to using 'gmt_offset' everywhere
 	$setting = str_replace('time_difference', 'gmt_offset', $setting);
 
-	if ((empty($cache_settings)) OR (!$use_cache)) {
+	if ( (empty($cache_settings)) ) {
 		$settings = get_alloptions();
 		$cache_settings = $settings;
 	} else {
@@ -347,8 +347,7 @@ function add_option($name, $value='') {
 		$value = $wpdb->escape($value);
 		$wpdb->query("INSERT INTO $tableoptions (option_name, option_value) VALUES ('$name', '$value')");
 
-		global $use_cache;
-		if($wpdb->insert_id && $use_cache) {
+		if($wpdb->insert_id) {
 			global $cache_settings;
 			$cache_settings->{$name} = $value;
 		}
@@ -412,8 +411,8 @@ function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { //
 }
 
 function get_catname($cat_ID) {
-	global $tablecategories,$cache_catnames,$use_cache, $wpdb;
-	if ((!$cache_catnames) || (!$use_cache)) {
+	global $tablecategories, $cache_catnames, $wpdb;
+	if ( !$cache_catnames) ) {
         $results = $wpdb->get_results("SELECT * FROM $tablecategories") or die('Oops, couldn\'t query the db for categories.');
 		foreach ($results as $post) {
 			$cache_catnames[$post->cat_ID] = $post->cat_name;
@@ -474,7 +473,7 @@ function gzip_compression() {
 				ob_start("ob_gzhandler"); 
 			}
 		} else if($phpver > "4.0") {
-			if(strstr($HTTP_SERVER_VARS['HTTP_ACCEPT_ENCODING'], 'gzip')) {
+			if(strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
 				if(extension_loaded("zlib")) { 
 					$do_gzip_compress = TRUE; 
 					ob_start(); 
@@ -1002,7 +1001,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 	$notify_message .= get_permalink($comment->comment_post_ID) . '#comments';
 
 	if ('' == $comment->comment_author_email || '' == $comment->comment_author) {
-		$from = "From: \"$blogname\" <wordpress@" . $HTTP_SERVER_VARS['SERVER_NAME'] . '>';
+		$from = "From: \"$blogname\" <wordpress@" . $_SERVER['SERVER_NAME'] . '>';
 	} else {
 		$from = 'From: "' . stripslashes($comment->comment_author) . "\" <$comment->comment_author_email>";
 	}
@@ -1061,19 +1060,18 @@ function start_wp() {
 	global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
 	global $preview_userid,$preview_date,$preview_content,$preview_title,$preview_category,$preview_notify,$preview_make_clickable,$preview_autobr;
 	global $pagenow;
-	global $HTTP_GET_VARS;
 	if (!$preview) {
 		$id = $post->ID;
 	} else {
 		$id = 0;
 		$postdata = array (
 			'ID' => 0,
-			'Author_ID' => $HTTP_GET_VARS['preview_userid'],
-			'Date' => $HTTP_GET_VARS['preview_date'],
-			'Content' => $HTTP_GET_VARS['preview_content'],
-			'Excerpt' => $HTTP_GET_VARS['preview_excerpt'],
-			'Title' => $HTTP_GET_VARS['preview_title'],
-			'Category' => $HTTP_GET_VARS['preview_category'],
+			'Author_ID' => $_GET['preview_userid'],
+			'Date' => $_GET['preview_date'],
+			'Content' => $_GET['preview_content'],
+			'Excerpt' => $_GET['preview_excerpt'],
+			'Title' => $_GET['preview_title'],
+			'Category' => $_GET['preview_category'],
 			'Notify' => 1
 			);
 	}

@@ -15,9 +15,9 @@ if (!function_exists('add_magic_quotes')) {
 }
 
 if (!get_magic_quotes_gpc()) {
-	$HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
-	$HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
-	$HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
+	$_GET    = add_magic_quotes($_GET);
+	$_POST   = add_magic_quotes($_POST);
+	$_COOKIE = add_magic_quotes($_COOKIE);
 }
 
 $wpvarstoreset = array('action','mode','error','text','popupurl','popuptitle');
@@ -25,14 +25,14 @@ $wpvarstoreset = array('action','mode','error','text','popupurl','popuptitle');
 for ($i = 0; $i < count($wpvarstoreset); $i = $i + 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
-		if (empty($HTTP_POST_VARS["$wpvar"])) {
-			if (empty($HTTP_GET_VARS["$wpvar"])) {
+		if (empty($_POST["$wpvar"])) {
+			if (empty($_GET["$wpvar"])) {
 				$$wpvar = '';
 			} else {
-				$$wpvar = $HTTP_GET_VARS["$wpvar"];
+				$$wpvar = $_GET["$wpvar"];
 			}
 		} else {
-			$$wpvar = $HTTP_POST_VARS["$wpvar"];
+			$$wpvar = $_POST["$wpvar"];
 		}
 	}
 }
@@ -58,10 +58,10 @@ break;
 
 case 'login':
 
-	if(!empty($HTTP_POST_VARS)) {
-		$log = $HTTP_POST_VARS['log'];
-		$pwd = $HTTP_POST_VARS['pwd'];
-		$redirect_to = $HTTP_POST_VARS['redirect_to'];
+	if(!empty($_POST)) {
+		$log = $_POST['log'];
+		$pwd = $_POST['pwd'];
+		$redirect_to = $_POST['redirect_to'];
 	}
 	
 	$user = get_userdatabylogin($log);
@@ -122,7 +122,7 @@ case 'login':
 		$user_pass = $pwd;
 		setcookie('wordpressuser_'.$cookiehash, $user_login, time()+31536000);
 		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time()+31536000);
-		if (empty($HTTP_COOKIE_VARS['wordpressblogid_'.$cookiehash])) {
+		if (empty($_COOKIE['wordpressblogid_'.$cookiehash])) {
 			setcookie('wordpressblogid_'.$cookiehash, 1,time()+31536000);
 		}
 		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
@@ -200,7 +200,7 @@ break;
 
 case 'retrievepassword':
 
-	$user_login = $HTTP_POST_VARS["user_login"];
+	$user_login = $_POST["user_login"];
 	$user_data = get_userdatabylogin($user_login);
 	$user_email = $user_data->user_email;
 
@@ -232,9 +232,9 @@ break;
 
 default:
 
-	if((!empty($HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash])) && (!empty($HTTP_COOKIE_VARS['wordpresspass_'.$cookiehash]))) {
-		$user_login = $HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash];
-		$user_pass_md5 = $HTTP_COOKIE_VARS['wordpresspass_'.$cookiehash];
+	if((!empty($_COOKIE['wordpressuser_'.$cookiehash])) && (!empty($_COOKIE['wordpresspass_'.$cookiehash]))) {
+		$user_login = $_COOKIE['wordpressuser_'.$cookiehash];
+		$user_pass_md5 = $_COOKIE['wordpresspass_'.$cookiehash];
 	}
 
 	function checklogin() {
@@ -250,7 +250,7 @@ default:
 	} 
 
 	if ( !(checklogin()) ) {
-		if (!empty($HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash])) {
+		if (!empty($_COOKIE['wordpressuser_'.$cookiehash])) {
 			$error="Error: wrong login/password"; //, or your session has expired.";
 		}
 	} else {
@@ -298,8 +298,8 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 	<input type="hidden" name="popupurl" value="<?php echo $popupurl ?>" />
 	<input type="hidden" name="popuptitle" value="<?php echo $popuptitle ?>" />
 <?php } ?>
-<?php if (isset($HTTP_GET_VARS["redirect_to"])) { ?>
-	<input type="hidden" name="redirect_to" value="<?php echo $HTTP_GET_VARS["redirect_to"] ?>" />
+<?php if (isset($_GET["redirect_to"])) { ?>
+	<input type="hidden" name="redirect_to" value="<?php echo $_GET["redirect_to"] ?>" />
 <?php } else { ?>
 	<input type="hidden" name="redirect_to" value="wp-admin/" />
 <?php } ?>

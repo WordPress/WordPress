@@ -4,7 +4,7 @@ $doing_rss = 1;
 header('Content-type: text/xml', true);
 require('wp-blog-header.php');
 
-$link_cat = $HTTP_GET_VARS['link_cat'];
+$link_cat = $_GET['link_cat'];
 if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
     $sql_cat = '';
 } else { // be safe

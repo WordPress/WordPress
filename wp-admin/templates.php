@@ -29,23 +29,23 @@ function validate_file($file) {
 }
 
 if (!get_magic_quotes_gpc()) {
-	$HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
-	$HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
-	$HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
+	$_GET    = add_magic_quotes($_GET);
+	$_POST   = add_magic_quotes($_POST);
+	$_COOKIE = add_magic_quotes($_COOKIE);
 }
 
 $wpvarstoreset = array('action','standalone','redirect','profile','error','warning','a','file');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
-		if (empty($HTTP_POST_VARS["$wpvar"])) {
-			if (empty($HTTP_GET_VARS["$wpvar"])) {
+		if (empty($_POST["$wpvar"])) {
+			if (empty($_GET["$wpvar"])) {
 				$$wpvar = '';
 			} else {
-				$$wpvar = $HTTP_GET_VARS["$wpvar"];
+				$$wpvar = $_GET["$wpvar"];
 			}
 		} else {
-			$$wpvar = $HTTP_POST_VARS["$wpvar"];
+			$$wpvar = $_POST["$wpvar"];
 		}
 	}
 }
@@ -61,8 +61,8 @@ case 'update':
 		die('<p>You have do not have sufficient permissions to edit templates for this blog.</p>');
 	}
 
-	$newcontent = stripslashes($HTTP_POST_VARS['newcontent']);
-	$file = $HTTP_POST_VARS['file'];
+	$newcontent = stripslashes($_POST['newcontent']);
+	$file = $_POST['file'];
     $file = validate_file($file);
 	$real_file = '../' . $file;
     if (is_writeable($real_file)) {

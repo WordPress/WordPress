@@ -13,23 +13,23 @@ function add_magic_quotes($array) {
 } 
 
 if (!get_magic_quotes_gpc()) {
-	$HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
-	$HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
-	$HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
+	$_GET    = add_magic_quotes($_GET);
+	$_POST   = add_magic_quotes($_POST);
+	$_COOKIE = add_magic_quotes($_COOKIE);
 }
 
 $wpvarstoreset = array('action');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
-		if (empty($HTTP_POST_VARS["$wpvar"])) {
-			if (empty($HTTP_GET_VARS["$wpvar"])) {
+		if (empty($_POST["$wpvar"])) {
+			if (empty($_GET["$wpvar"])) {
 				$$wpvar = '';
 			} else {
-				$$wpvar = $HTTP_GET_VARS["$wpvar"];
+				$$wpvar = $_GET["$wpvar"];
 			}
 		} else {
-			$$wpvar = $HTTP_POST_VARS["$wpvar"];
+			$$wpvar = $_POST["$wpvar"];
 		}
 	}
 }
@@ -46,10 +46,10 @@ case 'register':
 		return ereg('^[a-zA-Z0-9\_-\|]+$',$value);
 	}
 
-	$user_login = $HTTP_POST_VARS['user_login'];
-	$pass1 = $HTTP_POST_VARS['pass1'];
-	$pass2 = $HTTP_POST_VARS['pass2'];
-	$user_email = $HTTP_POST_VARS['user_email'];
+	$user_login = $_POST['user_login'];
+	$pass1 = $_POST['pass1'];
+	$pass2 = $_POST['pass2'];
+	$user_email = $_POST['user_email'];
 		
 	/* checking login has been typed */
 	if ($user_login == '') {
@@ -80,9 +80,9 @@ case 'register':
 		die ('<strong>ERROR</strong>: This login is already registered, please choose another one.');
 	}
 
-	$user_ip = $HTTP_SERVER_VARS['REMOTE_ADDR'] ;
-	$user_domain = gethostbyaddr($HTTP_SERVER_VARS['REMOTE_ADDR'] );
-	$user_browser = $HTTP_SERVER_VARS['HTTP_USER_AGENT'];
+	$user_ip = $_SERVER['REMOTE_ADDR'] ;
+	$user_domain = gethostbyaddr($_SERVER['REMOTE_ADDR'] );
+	$user_browser = $_SERVER['HTTP_USER_AGENT'];
 
 	$user_login = addslashes($user_login);
 	$pass1 = addslashes($pass1);

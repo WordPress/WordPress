@@ -59,7 +59,7 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
-    global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
+    global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $cookiehash;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $comment_count_cache, $single;
 	if (!$single) {
@@ -73,7 +73,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         return;
     } else {
         if (!empty($post->post_password)) { // if there's a password
-            if ($HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
+            if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
                 echo('Enter your password to view comments');
                 return;
             }

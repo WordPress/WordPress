@@ -51,7 +51,7 @@ foreach ($posts as $post) { start_wp();
 		<pubDate><?php comment_time('r'); ?></pubDate>
 		<guid isPermaLink="false"><?php comment_ID(); echo ":".$comment->comment_post_ID; ?>@<?php bloginfo_rss("url") ?></guid>
 			<?php 
-			if (!empty($comment->post_password) && $HTTP_COOKIE_VARS['wp-postpass'] != $comment->post_password) {
+			if (!empty($comment->post_password) && $_COOKIE['wp-postpass'] != $comment->post_password) {
 			?>
 		<description>Protected Comments: Please enter your password to view comments.</description>
 		<content:encoded><![CDATA[<?php echo get_the_password_form() ?>]]></content:encoded>

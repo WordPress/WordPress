@@ -98,7 +98,7 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 
 function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
     global $id, $post, $more, $single, $withcomments, $page, $pages, $multipage, $numpages;
-    global $HTTP_SERVER_VARS, $preview, $cookiehash;
+    global $preview, $cookiehash;
     global $pagenow;
     $output = '';
 
@@ -112,7 +112,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
     if ($more_file != '') {
         $file = $more_file;
     } else {
-        $file = $pagenow; //$HTTP_SERVER_VARS['PHP_SELF'];
+        $file = $pagenow; //$_SERVER['PHP_SELF'];
     }
     $content = $pages[$page-1];
     $content = explode('<!--more-->', $content);
@@ -343,16 +343,16 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 }
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
-    global $HTTP_SERVER_VARS, $p, $paged, $what_to_show, $pagenow;
+    global $p, $paged, $what_to_show, $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
     if (empty($p) && ($what_to_show == 'paged')) {
-        $qstr = $HTTP_SERVER_VARS['QUERY_STRING'];
+        $qstr = $_SERVER['QUERY_STRING'];
         if (!empty($qstr)) {
             $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
             $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
-        } elseif (stristr($HTTP_SERVER_VARS['REQUEST_URI'], $HTTP_SERVER_VARS['SCRIPT_NAME'] )) {
-            if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '',
-                                            $HTTP_SERVER_VARS['REQUEST_URI']) ) {
+        } elseif (stristr($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'] )) {
+            if ('' != $qstr = str_replace($_SERVER['SCRIPT_NAME'], '',
+                                            $_SERVER['REQUEST_URI']) ) {
                 $qstr = preg_replace('/^\//', '', $qstr);
                 $qstr = preg_replace('/paged\/\d{0,}\//', '', $qstr);
                 $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
@@ -396,16 +396,16 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 
 
 function previous_posts() { // original by cfactor at cooltux.org
-    global $HTTP_SERVER_VARS, $p, $paged, $what_to_show, $pagenow;
+    global $_SERVER, $p, $paged, $what_to_show, $pagenow;
     global $querystring_start, $querystring_equal, $querystring_separator;
     if (empty($p) && ($what_to_show == 'paged')) {
-        $qstr = $HTTP_SERVER_VARS['QUERY_STRING'];
+        $qstr = $_SERVER['QUERY_STRING'];
         if (!empty($qstr)) {
             $qstr = preg_replace('/&paged=\d{0,}/', '', $qstr);
             $qstr = preg_replace('/paged=\d{0,}/', '', $qstr);
-        } elseif (stristr($HTTP_SERVER_VARS['REQUEST_URI'], $HTTP_SERVER_VARS['SCRIPT_NAME'] )) {
-            if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '',
-                                            $HTTP_SERVER_VARS['REQUEST_URI']) ) {
+        } elseif (stristr($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'] )) {
+            if ('' != $qstr = str_replace($_SERVER['SCRIPT_NAME'], '',
+                                            $_SERVER['REQUEST_URI']) ) {
                 $qstr = preg_replace('/^\//', '', $qstr);
                 $qstr = preg_replace("/paged\/\d{0,}\//", '', $qstr);
                 $qstr = preg_replace('/paged\/\d{0,}/', '', $qstr);
