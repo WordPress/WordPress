@@ -89,9 +89,11 @@ require_once($abspath.'wp-links/links.php');
  	</ul>
  </li>
  <li>Calendar:
-	<ul>
+   <ul>
+     <li>
 		<?php include_once('b2calendar.php')?>
-	</ul>
+     </li>
+   </ul>
  </li>
  <li>Other:
 	<ul>
