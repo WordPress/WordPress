@@ -6,6 +6,7 @@ function upgrade_all() {
 	upgrade_072();
 	upgrade_100();
 	upgrade_101();
+	upgrade_110();
 }
 
 // General
@@ -669,6 +670,16 @@ function upgrade_101() {
 	add_clean_index($tablecomments, 'comment_post_ID');
 	add_clean_index($tablelinks , 'link_category');
 	add_clean_index($tablelinks , 'link_visible');
+}
+
+function upgrade_110() {
+	global $wpdb, $tableusers, $tablecomments, $tableposts;
+	
+	maybe_add_column($tablecomments, 'user_id', "ALTER TABLE `$tablecomments` ADD `user_id` INT DEFAULT '0' NOT NULL ;");
+	maybe_add_column($tableusers, 'user_activation_key', "ALTER TABLE `$tableusers` ADD `user_activation_key` VARCHAR( 60 ) NOT NULL ;");
+	maybe_add_column($tableusers, 'user_status', "ALTER TABLE `$tableusers` ADD `user_status` INT DEFAULT '0' NOT NULL ;");
+	$wpdb->query("ALTER TABLE `$tableposts` CHANGE `comment_status` `comment_status` ENUM( 'open', 'closed', 'registered_only' ) DEFAULT 'open' NOT NULL");
+	
 }
 
 ?>
