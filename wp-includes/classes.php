@@ -160,6 +160,7 @@ class WP_Query {
 
 		if ('' != $qv['static'] || '' != $qv['pagename']) {
 			$this->is_page = true;
+			$this->is_single = false;
 		}
 
 		if ('404' == $qv['error']) {
