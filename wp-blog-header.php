@@ -73,13 +73,20 @@ $wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','e
 
 
 /* Sending HTTP headers */
-// It is presumptious to think that WP is the only thing that might change on the page.
-@header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");                 // Date in the past
-@header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-@header("Cache-Control: no-store, no-cache, must-revalidate");     // HTTP/1.1
-@header("Cache-Control: post-check=0, pre-check=0", false);
-@header("Pragma: no-cache");                                     // HTTP/1.0
-@header ("X-Pingback: $siteurl/xmlrpc.php");
+
+if (!isset($doing_rss) || !$doing_rss) {
+	// It is presumptious to think that WP is the only thing that might change on the page.
+	@header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");                 // Date in the past
+	@header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
+	@header("Cache-Control: no-store, no-cache, must-revalidate");     // HTTP/1.1
+	@header("Cache-Control: post-check=0, pre-check=0", false);
+	@header("Pragma: no-cache");                                     // HTTP/1.0
+	@header ("X-Pingback: $siteurl/xmlrpc.php");
+} else {
+	// We're showing a feed, so WP is indeed the only thing that last changed
+	@header('Last Modified: ' . gmdate(get_lastpostmodified()));
+	@header ("X-Pingback: $siteurl/xmlrpc.php");
+}
 
 /* Getting settings from db */
 if (isset($doing_rss) && $doing_rss == 1)
