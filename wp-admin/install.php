@@ -54,7 +54,7 @@ switch($step) {
 ?>
 <p>Welcome to WordPress. We&#8217;re now going to go through a few steps to get
   you up and running with the latest in personal publishing platforms. Before
-  we get started, remember that we require a PHP version of at least 4.0.6, you
+  we get started, remember that we require a PHP version of at least 4.1.0, you
   have <?php echo phpversion(); ?>. Look good? You also need to set up the database
   connection information in <code>wp-config.php</code>. Have you looked at the
   <a href="../readme.html">readme</a>? If you&#8217;re all ready, <a href="install.php?step=1">let's
@@ -270,6 +270,7 @@ CREATE TABLE $tablecomments (
   comment_author_url varchar(100) NOT NULL default '',
   comment_author_IP varchar(100) NOT NULL default '',
   comment_date datetime NOT NULL default '0000-00-00 00:00:00',
+  comment_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
   comment_content text NOT NULL,
   comment_karma int(11) NOT NULL default '0',
   PRIMARY KEY  (comment_ID)
@@ -278,7 +279,8 @@ CREATE TABLE $tablecomments (
 $q = $wpdb->query($query);
 
 $now = date('Y-m-d H:i:s');
-$query = "INSERT INTO $tablecomments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content) VALUES ('1', 'Mr WordPress', 'mr@wordpress.org', 'http://wordpress.org', '127.0.0.1', '$now', 'Hi, this is a comment.<br />To delete a comment, just log in, and view the posts\' comments, there you will have the option to edit or delete them.')";
+$now_gmt = gmdate('Y-m-d H:i:s');
+$query = "INSERT INTO $tablecomments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content) VALUES ('1', 'Mr WordPress', 'mr@wordpress.org', 'http://wordpress.org', '127.0.0.1', '$now', '$now_gmt', 'Hi, this is a comment.<br />To delete a comment, just log in, and view the posts\' comments, there you will have the option to edit or delete them.')";
 $q = $wpdb->query($query);
 ?>
 
