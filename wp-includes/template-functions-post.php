@@ -237,11 +237,11 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
                 $j=str_replace('%',"$i",$pagelink);
                 echo ' ';
                 if (($i != $page) || ((!$more) && ($page==1))) {
-                if ('' == get_settings('permalink_structure')) {
-                    echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
-                } else {
-                    echo '<a href="'.get_permalink().$i.'/">';
-                }
+                    if ('' == get_settings('permalink_structure')) {
+                        echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
+                    } else {
+                        echo '<a href="'.get_permalink().$i.'/">';
+                    }
                 }
                 echo $j;
                 if (($i != $page) || ((!$more) && ($page==1)))
@@ -253,19 +253,19 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
                 echo $before;
                 $i=$page-1;
                 if ($i && $more) {
-                if ('' == get_settings('permalink_structure')) {
-                    echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
-                } else {
-                    echo '<a href="'.get_permalink().$i.'/">';
-                }
+                    if ('' == get_settings('permalink_structure')) {
+                        echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">'.$previouspagelink.'</a>';
+                    } else {
+                        echo '<a href="'.get_permalink().$i.'/">'.$previouspagelink.'</a>';
+                    }
                 }
                 $i=$page+1;
                 if ($i<=$numpages && $more) {
-                if ('' == get_settings('permalink_structure')) {
-                    echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">';
-                } else {
-                    echo '<a href="'.get_permalink().$i.'/">';
-                }
+                    if ('' == get_settings('permalink_structure')) {
+                        echo '<a href="'.get_permalink().$querystring_separator.'page'.$querystring_equal.$i.'">'.$nextpagelink.'</a>';
+                    } else {
+                        echo '<a href="'.get_permalink().$i.'/">'.$nextpagelink.'</a>';
+                    }
                 }
                 echo $after;
             }
