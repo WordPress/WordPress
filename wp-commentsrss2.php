@@ -55,7 +55,6 @@ foreach ($posts as $post) { start_wp();
 											WHERE comment_post_ID = '$id'
 											AND $tablecomments.comment_approved = '1'
 											AND $tableposts.post_status = 'publish'
-											AND post_category > '0'
 											AND post_date < '".date("Y-m-d H:i:s")."' 
 											ORDER BY comment_date 
 											LIMIT $posts_per_rss");
@@ -74,7 +73,6 @@ foreach ($posts as $post) { start_wp();
 											LEFT JOIN $tableposts ON comment_post_id = id
 											WHERE $tableposts.post_status = 'publish'
 											AND $tablecomments.comment_approved = '1'
-											AND post_category > '0'
 											AND post_date < '".date("Y-m-d H:i:s")."' 
 											ORDER BY comment_date DESC
 											LIMIT $posts_per_rss");
