@@ -106,7 +106,7 @@ if (isset($_POST['submit'])) {
 <?php
  if ($permalink_structure) {
 ?>
-  <?php printf(__('<p>Using the permalink structure value you currently have, <code>%s</code>, these are the mod_rewrite rules you should have in your <code>.htaccess</code> file.</p>'), $permalink_structure) ?> 
+  <p><?php printf(__('Using the permalink structure value you currently have, <code>%s</code>, these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.'), $permalink_structure) ?></p>
   <?php
 $site_root = str_replace('http://', '', trim(get_settings('siteurl')));
 $site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
@@ -119,13 +119,13 @@ if ('/' != substr($home_root, -1)) $home_root = $home_root . '/';
 ?> 
 <form action="">
     <p>
-    	<textarea rows="5" style="width: 100%;">RewriteEngine On
+    	<textarea rows="5" style="width: 98%;">RewriteEngine On
 RewriteBase <?php echo $home_root; ?> 
 <?php
 $rewrite = rewrite_rules('', $permalink_structure);
 foreach ($rewrite as $match => $query) {
 	if (strstr($query, 'index.php')) echo 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
-    echo 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
+    else echo 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
 }
 ?>
     </textarea>
@@ -139,9 +139,9 @@ foreach ($rewrite as $match => $query) {
 <p>
 <?php _e('You are not currently using customized permalinks. No special mod_rewrite rules are needed.') ?>
 </p>
-<?php
-}
-echo "</div>\n";
+<?php } ?>
+</div>
 
+<?php
 require('./admin-footer.php');
 ?>

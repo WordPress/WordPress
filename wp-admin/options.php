@@ -109,7 +109,8 @@ $nonbools = array('default_ping_status', 'default_comment_status');
         $message .= $dB_errors . '<br />' . $validation_message;
     }
 
-	 if (strstr($_SERVER['HTTP_REFERER'], '?')) $goback = str_replace('&updated=true', '', $_SERVER['HTTP_REFERER']) . '&updated=true';
+	$referred = str_replace(array('&updated=true', '?updated=true') , '', $_SERVER['HTTP_REFERER']);
+	 if (strstr($referred, '?')) $goback = $referred . '&updated=true';
 	else $goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
     header('Location: ' . $goback);
     break;

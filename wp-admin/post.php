@@ -61,7 +61,7 @@ case 'post':
 			}
 		}
 		$post_status = $_POST['post_status'];
-		if (empty($post_status)) $post_status = get_settings('default_post_status');
+		if (empty($post_status)) $post_status = 'draft';
 		$comment_status = $_POST['comment_status'];
 		if (empty($comment_status)) $comment_status = get_settings('default_comment_status');
 		$ping_status = $_POST['ping_status'];
@@ -133,7 +133,7 @@ case 'post':
 	} else {
 		$location = 'post.php';
 	}
-	if ('' != $_POST['advanced'])
+	if ( '' != $_POST['advanced'] || isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
 
 	header("Location: $location"); // Send user on their way while we keep working
@@ -724,7 +724,7 @@ default:
 			<?php
 		}
 		//set defaults
-		$post_status = get_settings('default_post_status');
+		$post_status = 'draft';
 		$comment_status = get_settings('default_comment_status');
 		$ping_status = get_settings('default_ping_status');
 		$post_pingback = get_settings('default_pingback_flag');

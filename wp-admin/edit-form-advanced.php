@@ -45,6 +45,7 @@ if (get_settings('use_trackback')) {
 }
 $saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="' . __('Save and Continue Editing') . '" />';
 
+if (empty($post_status)) $post_status = 'draft';
 
 ?>
 
