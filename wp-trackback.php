@@ -3,6 +3,7 @@ require_once( dirname(__FILE__) . '/wp-config.php' );
 
 if ( empty($doing_trackback) ) {
 	$doing_trackback = true;
+	$tb = true;
 	require_once('wp-blog-header.php');
 }
 

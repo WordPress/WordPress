@@ -182,16 +182,13 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 	header('HTTP/1.x 404 Not Found');
 }
 
-if ( is_trackback() )
-	$doing_trackback = true;
-
 // Template redirection
 if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	do_action('template_redirect');
 	if ( is_feed() && empty($doing_rss) ) {
 		include(ABSPATH . '/wp-feed.php');
 		exit;
-	} else if ( is_trackback() ) {
+	} else if ( is_trackback() && empty($doing_trackback) ) {
 		include(ABSPATH . '/wp-trackback.php');
 		exit;
 	} else if ( is_404() && get_404_template() ) {
@@ -233,7 +230,7 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	if ( is_feed() && empty($doing_rss) ) {
 		include(ABSPATH . '/wp-feed.php');
 		exit;
-	} else if ( is_trackback() ) {
+	} else if ( is_trackback() && empty($doing_trackback) ) {
 		include(ABSPATH . '/wp-trackback.php');
 		exit;
 	}
