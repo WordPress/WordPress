@@ -159,7 +159,7 @@ default:
 	if ($log && $pwd) {
 		if ( wp_login($log, $pwd) ) {
 			$user_login = $log;
-			$user_pass = md5($pwd);
+			$user_pass = md5(md5($pwd)); // Double hash the password in the cookie.
 			setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
 			setcookie('wordpresspass_'. COOKIEHASH, $user_pass, time() + 31536000, COOKIEPATH);
 			
