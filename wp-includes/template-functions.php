@@ -77,8 +77,10 @@ function wp_title($sep = '&raquo;', $display = true) {
 	global $year, $monthnum, $day, $cat, $p, $name;
 
 	// If there's a category
-	if(!empty($cat) || !empty($category_name)) {
+	if(!empty($cat)) {
 		$title = stripslashes(get_the_category_by_ID($cat));
+	}
+	if (!empty($category_name)) {
 		$title = stripslashes($wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE category_nicename = '$category_name'"));
 	}
 
@@ -124,9 +126,9 @@ function wp_title($sep = '&raquo;', $display = true) {
 	}
 
 	// Send it out
-	if ($display) {
+	if ($display && $title) {
 		echo " $sep $title";
-	} else {
+	} elseif (!$display && $title) {
 		return " $sep $title";
 	}
 }
