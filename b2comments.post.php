@@ -127,8 +127,11 @@ if ($ok) {
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Pragma: no-cache');
 	$location = (!empty($HTTP_POST_VARS['redirect_to'])) ? $HTTP_POST_VARS['redirect_to'] : $HTTP_SERVER_VARS["HTTP_REFERER"];
-	header("Location: $location");
-
+	if ($is_IIS) {
+		header("Refresh: 0;url=$location");
+	} else {
+		header("Location: $location");
+	}
 } else {
 	die('Sorry, you can only post a new comment once every 30 seconds.');
 }
