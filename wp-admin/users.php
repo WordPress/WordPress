@@ -283,9 +283,9 @@ echo "\n<tr $style>
     </tr>
     <tr>
       <th scope="row">Password (twice) </th>
-      <td><input name="pass1" type="text" id="pass1" />
+      <td><input name="pass1" type="password" id="pass1" />
       <br />
-      <input name="pass2" type="text" id="pass2" /></td>
+      <input name="pass2" type="password" id="pass2" /></td>
     </tr>
   </table>
   <p>
