@@ -194,19 +194,23 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 
 function wp_delete_post($postid = 0) {
 	global $wpdb;
+	$postid = (int) $postid;
 
-	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
+	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
+		return $post;
 
-	if (!$result)
-		return $result;
+	if ( 'static' == $post->post_status )
+		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_status = 'static'");
 
+	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
+	
 	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
 
 	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $postid");
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 	
-	return $result;
+	return $post;
 }
 
 /**** /DB Functions ****/
