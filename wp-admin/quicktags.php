@@ -1,2 +1,2 @@
-<script src="quicktags.js" language="JavaScript" type="text/javascript"></script>
-<script language="JavaScript" type="text/javascript">edToolbar();</script>
+<script src="quicktags.js" type="text/javascript"></script>
+<script type="text/javascript">edToolbar();</script>

@@ -1,21 +1,12 @@
 <?php
 
 require_once('../wp-config.php');
-require_once(ABSPATH.'/wp-admin/auth.php');
-require(ABSPATH.'/wp-admin/admin-functions.php');
+require_once(ABSPATH . '/wp-admin/auth.php');
+require(ABSPATH . '/wp-admin/admin-functions.php');
 
-function gethelp_link($this_file, $helptag) {
-    $url = 'http://wordpress.org/docs/reference/links/#'.$helptag;
-    $s = ' <a href="'.$url.'" title="' . __('Click here for help') .'">?</a>';
-    return $s;
-}
-
-if (!isset($blogID))    $blog_ID=1;
-if (!isset($debug))        $debug=0;
-
-$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE 1=1");
+$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
 foreach ($dogs as $catt) {
-    $cache_categories[$catt->cat_ID] = $catt;
+	$cache_categories[$catt->cat_ID] = $catt;
 }
 
 get_currentuserinfo();
@@ -23,12 +14,8 @@ get_currentuserinfo();
 $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
-$date_format = stripslashes(get_settings('date_format'));
-$time_format = stripslashes(get_settings('time_format'));
-
-// let's deactivate quicktags on IE Mac and Lynx, because they don't work there.
-if (($is_macIE) || ($is_lynx))
-    $use_quicktags = 0;
+$date_format = get_settings('date_format');
+$time_format = get_settings('time_format');
 
 $wpvarstoreset = array('profile','standalone','redirect','redirect_url','a','popuptitle','popupurl','text', 'trackback', 'pingback');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -58,7 +45,7 @@ if ($standalone == 0) :
 <?php
 if ($redirect==1) {
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function redirect() {
   window.location = "<?php echo $redirect_url; ?>";
@@ -71,7 +58,7 @@ setTimeout("redirect();", 600);
 ?>
 
 <?php if (isset($xfn)) : ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 //<![CDATA[
 
 function GetElementsWithClassName(elementName, className) {
@@ -132,6 +119,7 @@ window.onload = blurry;
 <?php do_action('admin_head', ''); ?>
 </head>
 <body>
+
 <div id="wphead">
 <h1><?php bloginfo('name') ?></h1>
 </div>

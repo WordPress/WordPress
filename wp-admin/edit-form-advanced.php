@@ -11,14 +11,13 @@ $messages[3] = __('Custom field deleted.');
 
 $allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
-$submitbutton_text = __('Save');
-$toprow_title = sprintf(__('Editing Post #%s'), $post_ID);
 if (0 == $post_ID) {
 	$form_action = 'post';
 } else {
 	$form_action = 'editpost';
 	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
 }
+
 if (get_settings('use_pingback')) {
 	$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
 	if ( get_settings('default_pingback_flag') ) $form_pingback .= 'checked="checked" ';
@@ -27,8 +26,8 @@ if (get_settings('use_pingback')) {
 	$form_pingback = '';
 }
 
-$colspan = 2;
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
+
 if (get_settings('use_trackback')) {
 	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> an <abbr title="Universal Resource Identifier">URI</abbr></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
 	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
@@ -123,7 +122,7 @@ window.onload = focusit;
 
 <?php
 ?>
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
 //-->
@@ -189,6 +188,7 @@ if($metadata = has_meta($post_ID)) {
 	meta_form();
 ?>
 </fieldset>
+<?php do_action('edit_form_advanced', ''); ?>
 </div>
 </form>
 <?php if ('edit' == $action) echo "

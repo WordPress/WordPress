@@ -56,7 +56,7 @@ window.onload = focusit;
 <div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $content ?></textarea></div>
 </fieldset>
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
 //-->

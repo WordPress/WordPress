@@ -342,7 +342,7 @@ default:
 
 <?php if ($is_gecko && $profiledata->user_level != 0) { ?>
 <div class="wrap">
-    <script language="JavaScript" type="text/javascript">
+    <script type="text/javascript">
 //<![CDATA[
 function addPanel()
         {

@@ -4,10 +4,9 @@
 
 $allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
-$submitbutton_text = __('Blog this!');
-$toprow_title = __('New Post');
 $form_action = 'post';
 $form_extra = '';
+
 if (get_settings('use_pingback')) {
 	$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
 	if ($post_pingback) $form_pingback .= 'checked="checked" ';
@@ -15,13 +14,14 @@ if (get_settings('use_pingback')) {
 } else {
 	$form_pingback = '';
 }
+
 if (get_settings('use_trackback')) {
 	$form_trackback = '<p><label for="trackback">' . sprintf(__('<a href="%s" title="Help on trackbacks"><strong>TrackBack</strong> a <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)<br />'), 'http://wordpress.org/docs/reference/post/#trackback') .
 	'<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>';
 } else {
 	$form_trackback = '';
 }
-$colspan = 3;
+
 $saveasdraft = '';
 
 
@@ -79,7 +79,7 @@ if ('bookmarklet' != $mode) {
 </fieldset>
 
 
-<script type="text/javascript" language="JavaScript">
+<script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
 //-->
@@ -87,6 +87,7 @@ edCanvas = document.getElementById('content');
 
 <?php echo $form_pingback ?>
 <?php echo $form_trackback; ?>
+
 <p class="submit"><input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="<?php _e('Save as Draft') ?>" /> 
   <input name="saveasprivate" type="submit" id="saveasprivate" tabindex="10" value="<?php _e('Save as Private') ?>" /> 
   <input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="<?php _e('Publish') ?>" /> 
@@ -95,7 +96,7 @@ edCanvas = document.getElementById('content');
   } ?>
   <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo urlencode($_SERVER['HTTP_REFERER']); ?>" />
 </p>
-
+<?php do_action('edit_form', ''); ?>
 </div>
 </form>
 
