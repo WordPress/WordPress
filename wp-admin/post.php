@@ -28,22 +28,22 @@ case 'post':
 	if ( !user_can_create_draft($user_ID) )
 		die('You are not allowed to create posts or drafts on this blog.');
 
-	$post_pingback = intval($_POST['post_pingback']);
-	$content = apply_filters('content_save_pre', $_POST['content']);
-	$excerpt = apply_filters('excerpt_save_pre',$_POST['excerpt']);
-	$post_title = $_POST['post_title'];
-	$post_categories = $_POST['post_category'];
-	$post_status = $_POST['post_status'];
-	$post_name = $_POST['post_name'];
+	$post_pingback = (int) $_POST['post_pingback'];
+	$content         = apply_filters('content_save_pre',  $_POST['content']);
+	$excerpt         = apply_filters('excerpt_save_pre',  $_POST['excerpt']);
+	$post_title      = apply_filters('title_save_pre',    $_POST['post_title']);
+	$post_categories = apply_filters('category_save_pre', $_POST['post_category']);
+	$post_status     = apply_filters('status_save_pre',   $_POST['post_status']);
+	$post_name       = apply_filters('name_save_pre',     $_POST['post_name']);
 	$post_parent = 0;
 	$menu_order  = 0;
 	
 
 	if ( isset($_POST['parent_id']) )
-		$post_parent = $_POST['parent_id'];
+		$post_parent = (int) $_POST['parent_id'];
 
 	if ( isset($_POST['menu_order']) )
-		$menu_order = $_POST['menu_order'];
+		$menu_order = (int) $_POST['menu_order'];
 
 	if (! empty($_POST['post_author_override'])) {
 		$post_author = (int) $_POST['post_author_override'];
