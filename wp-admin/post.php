@@ -93,22 +93,6 @@ case 'post':
 	$now_gmt = current_time('mysql', 1);
 	}
 
-	if (!empty($_POST['mode'])) {
-	switch($_POST['mode']) {
-		case 'bookmarklet':
-			$location = 'bookmarklet.php?a=b';
-			break;
-		case 'sidebar':
-			$location = 'sidebar.php?a=b';
-			break;
-		default:
-			$location = 'post.php';
-			break;
-		}
-	} else {
-		$location = 'post.php';
-	}
-
 	// What to do based on which button they pressed
 	if ('' != $_POST['saveasdraft']) $post_status = 'draft';
 	if ('' != $_POST['saveasprivate']) $post_status = 'private';
@@ -134,8 +118,25 @@ case 'post':
 
 	$post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
 
+	if (!empty($_POST['mode'])) {
+	switch($_POST['mode']) {
+		case 'bookmarklet':
+			$location = 'bookmarklet.php?a=b';
+			break;
+		case 'sidebar':
+			$location = 'sidebar.php?a=b';
+			break;
+		default:
+			$location = 'post.php';
+			break;
+		}
+	} else {
+		$location = 'post.php';
+	}
 	if ('' != $_POST['advanced'])
 		$location = "post.php?action=edit&post=$post_ID";
+
+	header("Location: $location"); // Send user on their way while we keep working
 
 
 	// Insert categories
@@ -160,9 +161,6 @@ case 'post':
 	if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
 			sleep($sleep_after_edit);
 	}
-
-	
-	header("Location: $location");
 
 	if ($post_status == 'publish') {
 		if((get_settings('use_geo_positions')) && ($post_latf != null) && ($post_lonf != null)) {
@@ -323,6 +321,17 @@ case 'editpost':
 		$datemodif_gmt = '';
 	}
 
+	if ($_POST['save']) {
+		$location = $_SERVER['HTTP_REFERER'];
+	} elseif ($_POST['updatemeta']) {
+		$location = $_SERVER['HTTP_REFERER'] . '&message=2#postcustom';
+	} elseif ($_POST['deletemeta']) {
+		$location = $_SERVER['HTTP_REFERER'] . '&message=3#postcustom';
+	} else {
+		$location = 'post.php';
+	}
+	header ('Location: ' . $location); // Send user on their way while we keep working
+
 $now = current_time('mysql');
 $now_gmt = current_time('mysql', 1);
 
@@ -406,16 +415,6 @@ $now_gmt = current_time('mysql', 1);
 
 	add_meta($post_ID);
 
-	if ($_POST['save']) {
-		$location = $_SERVER['HTTP_REFERER'];
-	} elseif ($_POST['updatemeta']) {
-		$location = $_SERVER['HTTP_REFERER'] . '&message=2#postcustom';
-	} elseif ($_POST['deletemeta']) {
-		$location = $_SERVER['HTTP_REFERER'] . '&message=3#postcustom';
-	} else {
-		$location = 'post.php';
-	}
-	header ('Location: ' . $location);
 	do_action('edit_post', $post_ID);
 	exit();
 	break;
