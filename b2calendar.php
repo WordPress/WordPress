@@ -92,10 +92,10 @@ if ($ak_next_month == 13) {
 
 $ak_first_post = $wpdb->get_row("SELECT MONTH(MIN(post_date)) AS min_month, YEAR(MIN(post_date)) AS min_year FROM $tableposts");
 // using text links by default
-$ak_previous_month_dim = '<span>&lt;</span>&nbsp;&nbsp;';
-$ak_previous_month_active = '<a href="'.$archive_link_m.$ak_previous_year.zeroise($ak_previous_month,2).'" style="text-decoration: none;">&lt;</a>&nbsp;&nbsp;';
-$ak_next_month_dim = '&nbsp;&nbsp;<span>&gt;</span>';
-$ak_next_month_active = '&nbsp;&nbsp;<a href="'.$archive_link_m.$ak_next_year.zeroise($ak_next_month,2).'" style="text-decoration: none;">&gt;</a>';
+$ak_previous_month_dim = '<span>&laquo;</span>&nbsp;&nbsp;';
+$ak_previous_month_active = '<a href="'.$archive_link_m.$ak_previous_year.zeroise($ak_previous_month,2).'" style="text-decoration: none;">&laquo;</a>&nbsp;&nbsp;';
+$ak_next_month_dim = '&nbsp;&nbsp;<span>&raquo;</span>';
+$ak_next_month_active = '&nbsp;&nbsp;<a href="'.$archive_link_m.$ak_next_year.zeroise($ak_next_month,2).'" style="text-decoration: none;">&raquo;</a>';
 if ($ak_use_arrows == 1) {
     if (mktime(0,0,0,$ak_previous_month,1,$ak_previous_year) < mktime(0,0,0,$ak_first_post->min_month,1,$ak_first_post->min_year)) {
         $ak_previous_month_link = $ak_previous_month_dim;
@@ -221,9 +221,9 @@ for($i = $calendarfirst; $i<($calendarlast+86400); $i = $i + 86400) {
 			break;
 		}
 		echo $calendarrowend."\n";
-		if (($i+86400) < ($calendarlast+86400)) {
+		//if (($i+86400) < ($calendarlast+86400)) {
 			echo $calendarrowstart."\n";
-		}
+		//}
 		$newrow = 0;
 	}
 	if (date('m',$i) != $thismonth) {
