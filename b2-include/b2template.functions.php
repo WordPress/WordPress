@@ -522,7 +522,10 @@ function the_title_unicode($before='',$after='') {
 function get_the_title() {
 	global $id, $post;
 	$output = stripslashes($post->post_title);
-	return($output);
+	if (!empty($post->post_password)) { // if there's a password
+		$output = 'Protected: ' . $output;
+	}
+	return $output;
 }
 
 function the_content($more_link_text='(more...)', $stripteaser=0, $more_file='') {
@@ -580,10 +583,22 @@ function the_content_unicode($more_link_text='(more...)', $stripteaser=0, $more_
 
 function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file='') {
 	global $id, $post, $more, $c, $withcomments, $page, $pages, $multipage, $numpages;
-	global $HTTP_SERVER_VARS, $preview;
+	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $preview;
 	global $querystring_start, $querystring_equal, $querystring_separator;
     global $pagenow;
 	$output = '';
+	
+	if (!empty($post->post_password)) { // if there's a password
+		if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
+			$output = "<form action='$siteurl/wp-pass.php' method='post'>
+			<p>This post is password protected. To view it please enter your password below:</p>
+			<p><label>Password: <input name='post_password' type='text' size='20' /></label> <input type='submit' name='Submit' value='Submit' /></p>
+			</form>
+			";
+			return $output;
+		}
+	}
+
 	if ($more_file != '') {
 		$file = $more_file;
 	} else {
@@ -666,9 +681,15 @@ function the_excerpt_unicode() {
 
 function get_the_excerpt($fakeit = false) {
 	global $id, $post;
-	global $HTTP_SERVER_VARS, $preview;
+	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $preview;
 	$output = '';
 	$output = $post->post_excerpt;
+	if (!empty($post->post_password)) { // if there's a password
+		if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
+			$output = "There is no excerpt because this is a protected post.";
+			return $output;
+		}
+	}
     //if we haven't got an excerpt, make one in the style of the rss ones
     if (($output == '') && $fakeit) {
         $output = get_the_content();
