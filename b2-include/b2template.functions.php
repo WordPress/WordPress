@@ -1162,8 +1162,8 @@ function comments_link($file='', $echo=true) {
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if ($file == '')	$file = $pagenow;
 	if ($file == '/')	$file = '';
-	if (!$echo) return $file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1#comments';
-	else echo $file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1#comments';
+	if (!$echo) return get_permalink() . '#comments';
+	else echo get_permalink() . '#comments';
 }
 
 function comments_popup_script($width=400, $height=400, $file='b2commentspopup.php') {
@@ -1188,7 +1188,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
                 return;
             }
         }
-        echo '<a href="' . $siteurl . '/';
+        echo '<a href="' . $siteurl;
         if ($b2commentsjavascript) {
             echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
             echo '" onclick="b2open(this.href); return false"';
