@@ -37,15 +37,14 @@ $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search
 /* Connecting to the db */
 dbconnect();
 
+/* Sending HTTP headers */
 @header ("X-Pingback: $siteurl/xmlrpc.php");
-/* Sending HTTP headers 
 // It is presumptious to think that WP is the only thing that might change on the page.
-$last_modified_header = mysql2date('D, d M Y H:i:s', get_lastpostdate());
-if (!$is_winIE) {
-	@header ("Last-Modified: $last_modified_header");
-	@header ('ETag: "'.md5($last_modified_header.$pagenow).'"');
-}
-*/
+@header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 				// Date in the past 
+@header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified 
+@header("Cache-Control: no-store, no-cache, must-revalidate"); 	// HTTP/1.1 
+@header("Cache-Control: post-check=0, pre-check=0", false); 
+@header("Pragma: no-cache"); 									// HTTP/1.0 
 
 /* Getting settings from db */
 $posts_per_page = get_settings('posts_per_page');
