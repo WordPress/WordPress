@@ -86,6 +86,16 @@ function wpautop($pee, $br=1) {
 	return $pee; 
 }
 
+function sanitize_title($title) {
+    $title = strtolower($title);
+	$title = preg_replace('/&.+;/', '', $title); // kill entities
+    $title = preg_replace('/[^a-z0-9 ]/', '', $title);
+    $title = preg_replace('/\s+/', ' ', $title);
+    $title = trim($title);
+    $title = str_replace(' ', '-', $title);
+	return $title;
+}
+
 function popuplinks($text) {
 	// Comment text in popup windows should be filtered through this.
 	// Right now it's a moderately dumb function, ideally it would detect whether
