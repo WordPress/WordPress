@@ -431,8 +431,12 @@ function gzip_compression() {
 	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') ) return false;
 	if ( !get_settings('gzipcompression') ) return false;
 
-	if( extension_loaded('zlib') )
-		ob_start('ob_gzhandler'); 
+	if( extension_loaded('zlib') ) {
+		$ob_status = ob_get_status();
+		if (empty($ob_status) || $ob_status['name'] != 'ob_gzhandler') {
+			ob_start('ob_gzhandler');
+		}
+	}
 }
 
 
@@ -524,7 +528,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	$trackback_url = parse_url($trackback_url);
 	$http_request  = 'POST ' . $trackback_url['path'] . $trackback_url['query'] . " HTTP/1.0\r\n";
 	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
-	$http_request .= 'Content-Type: application/x-www-form-urlencoded'."\r\n";
+	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='."\r\n";
 	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
 	$http_request .= "\r\n";
 	$http_request .= $query_string;
