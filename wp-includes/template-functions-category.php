@@ -269,27 +269,20 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		}
 	}
 
-	if ($hide_empty) {
-		$categories = array();
-		$extra_fields = 'cat_name, category_nicename, category_description,';
-	} else {
-		if (intval($categories)==0 && !$hide_empty){
-			$sort_column = 'cat_'.$sort_column;
+	if (intval($categories)==0){
+		$sort_column = 'cat_'.$sort_column;
 
-			$query  = "
-				SELECT cat_ID, cat_name, category_nicename, category_description, category_parent
-				FROM $wpdb->categories
-				WHERE cat_ID > 0 $exclusions
-				ORDER BY $sort_column $sort_order";
+		$query  = "
+			SELECT cat_ID, cat_name, category_nicename, category_description, category_parent
+			FROM $wpdb->categories
+			WHERE cat_ID > 0 $exclusions
+			ORDER BY $sort_column $sort_order";
 
-			$categories = $wpdb->get_results($query);
-		}
-		$extra_fields = '';
+		$categories = $wpdb->get_results($query);
 	}
-
 	if (!count($category_posts)) {
 		$now = current_time('mysql', 1);
-		$cat_counts = $wpdb->get_results("	SELECT cat_ID, $extra_fields
+		$cat_counts = $wpdb->get_results("	SELECT cat_ID,
 		COUNT($wpdb->post2cat.post_id) AS cat_count
 		FROM $wpdb->categories 
 		INNER JOIN $wpdb->post2cat ON (cat_ID = category_id)
@@ -301,9 +294,6 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
             foreach ($cat_counts as $cat_count) {
                 if (1 != intval($hide_empty) || $cat_count > 0) {
                     $category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
-                    if ($hide_empty) {
-                    	$categories[] = $cat_count;
-                    }
                 }
             }
         }
