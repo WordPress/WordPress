@@ -1060,7 +1060,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 function wp_notify_moderator($comment_id) {
     global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    global $blogfilename, $blogname, $siteurl;
+    global $blogfilename, $blogname, $siteurl, $blog_charset;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
@@ -1093,22 +1093,6 @@ function wp_notify_moderator($comment_id) {
     return true;
 }
 
-
-// implementation of in_array that also should work on PHP3
-if (!function_exists('in_array')) {
-
-	function in_array($needle, $haystack) {
-	    $needle = strtolower($needle);
-	    
-	    for ($i = 0; $i < count($haystack); $i++) {
-		if (strtolower($haystack[$i]) == $needle) {
-		    return true;
-		}
-	    }
-	
-	    return false;
-	}
-}
 
 function start_wp() {
 	global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
