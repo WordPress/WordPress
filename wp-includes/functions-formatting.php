@@ -6,10 +6,7 @@ function wptexturize($text) {
 	$stop = count($textarr); $next = true; // loop stuff
 	for ($i = 0; $i < $stop; $i++) {
 		$curl = $textarr[$i];
-		if (!strstr($_SERVER['HTTP_USER_AGENT'], 'Gecko')) {
-			$curl = str_replace('<q>', '&#8220;', $curl);
-			$curl = str_replace('</q>', '&#8221;', $curl);
-		}
+
 		if (isset($curl{0}) && '<' != $curl{0} && $next) { // If it's not a tag
 			$curl = str_replace('---', '&#8212;', $curl);
 			$curl = str_replace('--', '&#8211;', $curl);
