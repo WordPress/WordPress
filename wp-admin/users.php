@@ -111,9 +111,11 @@ case 'promote':
 	}
 
 	if ('up' == $prom) {
-		$sql="UPDATE $tableusers SET user_level=user_level+1 WHERE ID = $id";
+		$new_level = $usertopromote_level + 1;
+		$sql="UPDATE $tableusers SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
 	} elseif ('down' == $prom) {
-		$sql="UPDATE $tableusers SET user_level=user_level-1 WHERE ID = $id";
+		$new_level = $usertopromote_level - 1;
+		$sql="UPDATE $tableusers SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
 	}
 	$result = $wpdb->query($sql);
 
