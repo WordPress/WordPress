@@ -160,7 +160,7 @@ if ($got_links && $got_cats) {
             $got_row = true;
         } else {
             echo "<p>Gonna insert category 1...</p>\n";
-            $sql = "INSERT INTO $tablelinkcategories (cat_id, cat_name) VALUES (1, 'General')";
+            $sql = "INSERT INTO $tablelinkcategories (cat_id, cat_name) VALUES (1, 'Links')";
             $result = mysql_query($sql) or print ("Can't query insert category.<br />" . $sql . "<br />" . mysql_error());
             if ($result != false) {
                 echo "<p>Inserted category Ok</p>\n";
