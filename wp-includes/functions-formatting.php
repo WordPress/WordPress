@@ -1,6 +1,6 @@
 <?php
 
-add_action('sanitize_title', 'sanitize_title_with_dashes');
+add_filter('sanitize_title', 'sanitize_title_with_dashes');
 
 function wptexturize($text) {
 	$output = '';
@@ -119,8 +119,12 @@ function remove_accents($string) {
 	return $string;
 }
 
-function sanitize_title($title) {
-    $title = do_action('sanitize_title', $title);
+function sanitize_title($title, $fallback_title = '') {
+    $title = apply_filters('sanitize_title', $title);
+
+    if (empty($title)) {
+        $title = $fallback_title;
+    }
 
     return $title;
 }

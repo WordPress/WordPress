@@ -45,6 +45,8 @@ case 'post':
 		$standalone = 1;
 		require_once('admin-header.php');
 
+        $post_ID = $wpdb->get_var("SELECT ID FROM $wpdb->posts ORDER BY ID DESC LIMIT 1") + 1;
+
 		$post_pingback = intval($_POST['post_pingback']);
 		$content = balanceTags($_POST['content']);
 		$content = format_to_post($content);
@@ -71,9 +73,9 @@ case 'post':
 		$post_password = $_POST['post_password'];
 		
 		if (empty($post_name))
-			$post_name = sanitize_title($post_title);
+			$post_name = sanitize_title($post_title, $post_ID);
 		else
-			$post_name = sanitize_title($post_name);
+			$post_name = sanitize_title($post_name, $post_ID);
 
 		$trackback = $_POST['trackback_url'];
 	// Format trackbacks
@@ -122,8 +124,6 @@ case 'post':
 	}
 
 	$result = $wpdb->query($postquery);
-
-	$post_ID = $wpdb->get_var("SELECT ID FROM $wpdb->posts ORDER BY ID DESC LIMIT 1");
 
 	if (!empty($_POST['mode'])) {
 	switch($_POST['mode']) {
@@ -302,7 +302,7 @@ case 'editpost':
 		if (empty($ping_status)) $ping_status = 'closed';
 		//if (!$_POST['ping_status']) $ping_status = get_settings('default_ping_status');
 		$post_password = $_POST['post_password'];
-		$post_name = sanitize_title($_POST['post_name']);
+		$post_name = sanitize_title($_POST['post_name'], $post_ID);
 		if (empty($post_name)) $post_name = sanitize_title($post_title);
 		$trackback = $_POST['trackback_url'];
 	// Format trackbacks
