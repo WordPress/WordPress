@@ -331,7 +331,9 @@ function get_alloptions() {
 
 function update_option($option_name, $newvalue) {
 	global $wpdb, $tableoptions, $cache_settings;
-	// No validation at the moment
+	$newvalue = stripslashes($newvalue);
+	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim
+	$newvalue = $wpdb->escape($newvalue);
 	$wpdb->query("UPDATE $tableoptions SET option_value = '$newvalue' WHERE option_name = '$option_name'");
 	$cache_settings = get_alloptions(); // Re cache settings
 	return true;
