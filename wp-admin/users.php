@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 $title = __('Users');
-$parent_file = 'users.php';
+$parent_file = 'profile.php';
 	
 $wpvarstoreset = array('action');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {

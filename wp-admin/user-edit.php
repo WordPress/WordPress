@@ -2,6 +2,8 @@
 require_once('admin.php');
 
 $title = __('Edit User');
+$parent_file = 'profile.php';	
+$submenu_file = 'users.php';
 
 $wpvarstoreset = array('action', 'redirect', 'profile', 'user_id');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -75,17 +77,12 @@ check_admin_referer();
 break;
 
 default:
-	
 include ('admin-header.php');
 
 $edituser = get_userdata($user_id);
 
 if ($edituser->user_level >= $user_level) die( __('You do not have permission to edit this user.') );
 ?>
-<ul id="adminmenu2">
-	<li><a href="profile.php"><?php _e('Your Profile') ?></a></li>
-	<li><a href="users.php" class="current"><?php _e('Authors &amp; Users') ?></a></li>
-</ul>
 
 <?php if ( isset($_GET['updated']) ) : ?>
 <div class="updated">

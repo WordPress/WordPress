@@ -31,8 +31,8 @@ $submenu['link-manager.php'][10] = array(__('Add Link'), 5, 'link-add.php');
 $submenu['link-manager.php'][15] = array(__('Link Categories'), 5, 'link-categories.php');
 $submenu['link-manager.php'][20] = array(__('Import Links'), 5, 'link-import.php');
 
-$submenu['users.php'][5] = array(__('Your Profile'), 0, 'profile.php');
-$submenu['users.php'][10] = array(__('Authors &amp; Users'), 5, 'users.php');
+$submenu['profile.php'][5] = array(__('Your Profile'), 0, 'profile.php');
+$submenu['profile.php'][10] = array(__('Authors &amp; Users'), 5, 'users.php');
 
 $submenu['options-general.php'][5] = array(__('General'), 6, 'options-general.php');
 $submenu['options-general.php'][10] = array(__('Writing'), 6, 'options-writing.php');

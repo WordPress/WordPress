@@ -119,7 +119,7 @@ break;
 
 
 default:
-	$parent_file = 'users.php';
+	$parent_file = 'profile.php';
 	include_once('admin-header.php');
 	$profiledata=get_userdata($user_ID);
 
