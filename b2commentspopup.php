@@ -105,6 +105,14 @@ QQQ;
 
 <p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite></p>
 
-
+<?php
+// Seen at http://www.mijnkopthee.nl/log2/archive/2003/05/28/esc(18)
+?>
+<script type="text/javascript">
+document.onkeypress = function esc(e) {	
+	if(typeof(e) == "undefined") { e=event; }
+	if (e.keyCode == 27) { self.close(); }
+}
+</script>
 </body>
 </html>
