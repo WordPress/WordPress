@@ -415,7 +415,12 @@ function get_userdata($userid) {
 	global $wpdb, $querycount, $cache_userdata, $use_cache, $tableusers;
 	if ((empty($cache_userdata[$userid])) || (!$use_cache)) {
 		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = $userid");
-		++$querycount;
+        $user->user_nickname = stripslashes($user->user_nickname);
+        $user->user_firstname = stripslashes($user->user_firstname);
+        $user->user_lastname = stripslashes($user->user_lastname);
+        $user->user_firstname =  stripslashes($user->user_firstname);
+        $user->user_lastname = stripslashes($user->user_lastname);
+        ++$querycount;
 		$cache_userdata[$userid] = $user;
 	} else {
 		$user = $cache_userdata[$userid];
