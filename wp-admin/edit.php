@@ -25,9 +25,33 @@ if ($drafts) {
 	?> 
     .</p> 
 </div> 
+<?php } ?>
+
 <?php
-}
-?> 
+if (1 < $user_level) {
+$editable = $wpdb->get_col("SELECT ID FROM $wpdb->users WHERE user_level <= '$user_level' AND ID != $user_ID");
+$editable = join($editable, ',');
+$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) ");
+if ($other_drafts) {
+	?> 
+<div class="wrap"> 
+    <p><strong><?php _e('Other&#8217;s Drafts:') ?></strong> 
+    <?php
+	$i = 0;
+	foreach ($other_drafts as $draft) {
+		if (0 != $i)
+			echo ', ';
+		$draft->post_title = stripslashes($draft->post_title);
+		if ($draft->post_title == '')
+			$draft->post_title = sprintf(__('Post #%s'), $draft->ID);
+		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
+		++$i;
+		}
+	?> 
+    .</p> 
+</div> 
+<?php } } ?> 
+
 <div class="wrap"> 
 <?php
 if( isset( $_GET['m'] ) )
