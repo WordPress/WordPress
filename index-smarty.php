@@ -4,9 +4,9 @@
 
 require_once( 'Smarty.class.php' );
 $wpsmarty = new Smarty;
-$wpsmarty->template_dir = './wp-sitetemplates/main/templates';
-$wpsmarty->compile_dir  = './wp-sitetemplates/main/templates_c';
-$wpsmarty->cache_dir    = './wp-sitetemplates/main/smartycache';
+$wpsmarty->template_dir = './wp-blogs/main/templates';
+$wpsmarty->compile_dir  = './wp-blogs/main/templates_c';
+$wpsmarty->cache_dir    = './wp-blogs/main/smartycache';
 $wpsmarty->plugin_dir    = './wp-plugins';
 require_once( 'b2-include/smarty.inc.php' );
 $blog = 1;
