@@ -1,3 +1,5 @@
+<p class="anchors">Go to: <a href="b2edit.php#top">Post/Edit</a> | <a href="b2edit.php#posts">Posts</a> | <a href="b2edit.php#comments">Comments</a></p>
+
 <div class="wrap">
 <?php
 
@@ -218,8 +220,6 @@ if ($user_level > 4) {
 if ('edit' == $action) echo "
 <p><a href='b2edit.php?action=delete&amp;post=$post' onclick=\"return confirm('You are about to delete this post \'".$edited_post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete this post</a></p>";
 ?>
-
-<p>Go to: <a href="b2edit.php#top">Post/Edit</a> | <a href="b2edit.php#posts">Posts</a> | <a href="b2edit.php#comments">Comments</a></p>
 
 </form>
 </div>

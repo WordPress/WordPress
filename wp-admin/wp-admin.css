@@ -58,6 +58,10 @@ textarea, input, select {
 	background: #eee;
 }
 
+.anchors {
+	margin: 10px 20px 10px 20px;
+}
+
 .checkbox {
 	background: #fff;
 	border-width: 0px;

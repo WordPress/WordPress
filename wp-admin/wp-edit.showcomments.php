@@ -38,6 +38,9 @@ ob_start();
 ?>
 
 <h2 id="comments">Comments</h2>
+
+<p class="anchors">Go to: <a href="b2edit.php#top">Post/Edit</a> | <a href="b2edit.php#posts">Posts</a> | <a href="b2edit.php#comments">Comments</a></p>
+
 <div class="wrap">
 <table width="100%">
   <tr>
@@ -173,8 +176,6 @@ echo $comments_nav_bar;
 	} // end if ($comments)
 
 	?>
-
-<p>Go to: <a href="b2edit.php#top">Post/Edit</a> | <a href="b2edit.php#posts">Posts</a> | <a href="b2edit.php#comments">Comments</a></p>
 
 </div>
 
