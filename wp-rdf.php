@@ -5,7 +5,7 @@ if (! $feed) {
     require('wp-blog-header.php');
 }
 
-header('Content-type: application/rdf+xml', true);
+header('Content-type: application/rss+xml', true);
 
 /* This doesn't take into account edits
 // Get the time of the most recent article
@@ -38,7 +38,7 @@ add_filter('the_content', 'trim');
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
 	<dc:language><?php echo get_settings('rss_language'); ?></dc:language>
-	<dc:date><?php echo gmdate('Y-m-d\TH:i:s'); ?></dc:date>
+	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></dc:date>
 	<dc:creator><?php echo antispambot(get_settings('admin_email')) ?></dc:creator>
 	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $wp_version ?>"/>
 	<admin:errorReportsTo rdf:resource="mailto:<?php echo antispambot(get_settings('admin_email')) ?>"/>
@@ -57,7 +57,7 @@ add_filter('the_content', 'trim');
 <item rdf:about="<?php permalink_single_rss() ?>">
 	<title><?php the_title_rss() ?></title>
 	<link><?php permalink_single_rss() ?></link>
-	<dc:date><?php the_time('Y-m-d\TH:i:s'); ?></dc:date>
+	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt); ?></dc:date>
 	<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 	<?php the_category_rss('rdf') ?>
 <?php $more = 1; if (get_settings('rss_use_excerpt')) {
