@@ -153,14 +153,6 @@ if ($action != 'editcomment') {
 ?>
 
 <?php
-if ($action != 'editcomment') {
-    if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel)
-         && (in_array($user_login, $allowed_users) || (trim($fileupload_allowedusers)=="")) ) { ?>
-<p><input type="button" value="Upload a file or image" onclick="launchupload();" tabindex="10" /></p>
-<?php }
-}
-
-
 
 // if the level is 5+, allow user to edit the timestamp - not on 'new post' screen though
 // if (($user_level > 4) && ($action != "post"))

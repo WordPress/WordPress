@@ -78,14 +78,6 @@ setTimeout("redirect();", 600);
 <script language="javascript" type="text/javascript">
 //<![CDATA[
 
-function profile(userID) {
-	window.open ("profile.php?action=viewprofile&user="+userID, "Profile", "width=500, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=60, left=60, screenY=60, top=60");
-}
-
-function launchupload() {
-	window.open ("upload.php", "wpupload", "width=380,height=360,location=0,menubar=0,resizable=1,scrollbars=yes,status=1,toolbar=0");
-}
-
 function helpWindow(url) {
 	window.open(url, "Help", "width=640, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=60, left=60, screenY=60, top=60");
 }
@@ -145,10 +137,13 @@ window.onload = blurry;
 </script>
 </head>
 <body>
-
+<h1 id="wphead"><a href="http://wordpress.org" rel="external" title="Visit WordPress.org">WordPress</a></h1>
 <?php
 if ($profile==0) {
     include('menu.php');
 }
-}
+?>
+<h2><?php echo $title; ?></h2>
+<?php
+} // endif not standalone
 ?>

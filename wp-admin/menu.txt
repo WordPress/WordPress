@@ -5,6 +5,7 @@
 3	users.php	Users
 4	options.php	Options
 4	templates.php	Templates
+5	upload.php	Upload
 0	profile.php	My Profile
 ***
 (Everything after the '***' is a comment.)

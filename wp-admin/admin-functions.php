@@ -47,4 +47,91 @@ function wp_dropdown_cats($currentcat, $currentparent = 0, $parent = 0, $level =
 	}
 }
 
+function wp_create_thumbnail($file, $max_side, $effect = '') {
+
+    // 1 = GIF, 2 = JPEG, 3 = PNG
+
+    if(file_exists($file)) {
+        $type = getimagesize($file);
+        
+        // if the associated function doesn't exist - then it's not
+        // handle. duh. i hope.
+        
+        if(!function_exists('imagegif') && $type[2] == 1) {
+            $error = 'Filetype not supported. Thumbnail not created.';
+        }elseif(!function_exists('imagejpeg') && $type[2] == 2) {
+            $error = 'Filetype not supported. Thumbnail not created.';
+        }elseif(!function_exists('imagepng') && $type[2] == 3) {
+            $error = 'Filetype not supported. Thumbnail not created.';
+        } else {
+        
+            // create the initial copy from the original file
+            if($type[2] == 1) {
+                $image = imagecreatefromgif($file);
+            } elseif($type[2] == 2) {
+                $image = imagecreatefromjpeg($file);
+            } elseif($type[2] == 3) {
+                $image = imagecreatefrompng($file);
+            }
+            
+			if (function_exists('imageantialias'))
+	            imageantialias($image, TRUE);
+            
+            $image_attr = getimagesize($file);
+            
+            // figure out the longest side
+            
+            if($image_attr[0] > $image_attr[1]) {
+                $image_width = $image_attr[0];
+                $image_height = $image_attr[1];
+                $image_new_width = $max_side;
+                
+                $image_ratio = $image_width/$image_new_width;
+                $image_new_height = $image_height/$image_ratio;
+                //width is > height
+            } else {
+                $image_width = $image_attr[0];
+                $image_height = $image_attr[1];
+                $image_new_height = $max_side;
+                
+                $image_ratio = $image_height/$image_new_height;
+                $image_new_width = $image_width/$image_ratio;
+                //height > width
+            }
+            
+            $thumbnail = imagecreatetruecolor($image_new_width, $image_new_height);
+            @imagecopyresized($thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $image_attr[0], $image_attr[1]);
+            
+            // move the thumbnail to it's final destination
+            
+            $path = explode('/', $file);
+            $thumbpath = substr($file, 0, strrpos($file, '/')) . '/thumb-' . $path[count($path)-1];
+            
+            if($type[2] == 1) {
+                if(!imagegif($thumbnail, $thumbpath)) {
+                    $error = "Thumbnail path invalid";
+                }
+            } elseif($type[2] == 2) {
+                if(!imagejpeg($thumbnail, $thumbpath)) {
+                    $error = "Thumbnail path invalid";
+                }
+            } elseif($type[2] == 3) {
+                if(!imagepng($thumbnail, $thumbpath)) {
+                    $error = "Thumbnail path invalid";
+                }
+            }
+            
+        }
+    }
+    
+    if(!empty($error))
+    {
+        return $error;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 ?>

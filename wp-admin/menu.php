@@ -1,4 +1,3 @@
-<h1 id="wphead"><a href="http://wordpress.org" rel="external">WordPress</a></h1>
 
 <ul id="adminmenu">
 <?php
@@ -13,13 +12,15 @@ foreach ($menu as $item) {
 		// 0 = user level, 1 = file, 2 = name
 		$self = str_replace('/wp-admin/', '', $PHP_SELF);
 		if ((substr($self, -20) == substr($item[1], -20)) || ($parent_file && ($item[1] == $parent_file))) $class = ' class="current"';
-		if ($user_level >= $item[0]) echo "\n\t<li><a href='{$item[1]}'$class>{$item[2]}</a></li>";
+		if ($user_level >= $item[0]) {
+			if (('upload.php' == $item[1] && $use_fileupload && ($user_level >= $fileupload_minlevel)
+         && (in_array($user_login, explode(' ', $allowed_users)) || (trim($fileupload_allowedusers)==""))) || 'upload.php' != $item[1])
+				echo "\n\t<li><a href='{$item[1]}'$class>{$item[2]}</a></li>";
+		}
 	}
 }
 
 ?>
-	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>">View site</a></li>
-	<li class="last"><a href="<?php echo $siteurl ?>/wp-login.php?action=logout">Logout (<?php echo stripslashes($user_nickname) ?>)</a></li>
+	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>" title="View your site">View site</a></li>
+	<li class="last"><a href="<?php echo $siteurl ?>/wp-login.php?action=logout" title="Logout of this account">Logout (<?php echo stripslashes($user_nickname) ?>)</a></li>
 </ul>
-
-<h2><?php echo $title; ?></h2>
