@@ -166,7 +166,7 @@ if ($action != 'editcomment') {
 <?php
 if ($use_quicktags) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
-	include('b2quicktags.php');
+	include('wp-quicktags.php');
 }
 ?>
 		</td>
