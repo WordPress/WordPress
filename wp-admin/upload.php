@@ -89,8 +89,8 @@ case 'upload':
     $img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $_FILES['img1']['type'];
     $imgdesc = htmlentities2($imgdesc);
 
-    $imgtype = explode(".",$img1_name);
-    $imgtype = strtolower($imgtype[count($imgtype)-1]);
+    $pi = pathinfo($img1_name);
+    $imgtype = strtolower($pi['extension']);
 
     if (in_array($imgtype, $allowed_types) == false) {
         die(sprintf(__('File %1$s of type %2$s is not allowed.') , $img1_name, $imgtype));
