@@ -135,7 +135,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 	}
 }
 
-function wp_dropdown_cats($currentcat, $currentparent = 0, $parent = 0, $level = 0, $categories = 0) {
+function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0) {
 	global $wpdb, $bgcolor;
 	if (!$categories) {
 		$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
