@@ -727,7 +727,7 @@ upgrade_all();
 <p>User setup successful!</p>
 
 <p>Now you can <a href="../wp-login.php">log in</a> with the <strong>login</strong>
-  "admin" and <strong>password</strong> "<?php echo $random_password; ?>".</p>
+  "<code>admin</code>" and <strong>password</strong> "<code><?php echo $random_password; ?></code>".</p>
 <p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em>
   password that was generated just for you. If you lose it, you
   will have to delete the tables from the database yourself, and re-install WordPress.
