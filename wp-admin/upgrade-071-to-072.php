@@ -81,16 +81,126 @@ $error_count = 0;
 $tablename = $tablelinks;
 $ddl = "ALTER TABLE $tablelinks ADD COLUMN link_notes MEDIUMTEXT NOT NULL DEFAULT '' ";
 maybe_add_column($tablename, 'link_notes', $ddl);
-if (check_column($tablelinks, 'link_notes', 'mediumtext')) {
+if (check_column($tablename, 'link_notes', 'mediumtext')) {
     $res .= $tablename . ' - ok <br />';
 } else {
     $res .= 'There was a problem with ' . $tablename . '<br />';
     ++$error_count;
 }
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN show_images enum('Y','N') NOT NULL default 'Y'";
+maybe_add_column($tablename, 'show_images', $ddl);
+if (check_column($tablename, 'show_images', "enum('Y','N')")) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN show_description enum('Y','N') NOT NULL default 'Y'";
+maybe_add_column($tablename, 'show_description', $ddl);
+if (check_column($tablename, 'show_description', "enum('Y','N')")) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN show_rating enum('Y','N') NOT NULL default 'Y'";
+maybe_add_column($tablename, 'show_rating', $ddl);
+if (check_column($tablename, 'show_rating', "enum('Y','N')")) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN show_updated enum('Y','N') NOT NULL default 'Y'";
+maybe_add_column($tablename, 'show_updated', $ddl);
+if (check_column($tablename, 'show_updated', "enum('Y','N')")) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN sort_order varchar(64) NOT NULL default 'name'";
+maybe_add_column($tablename, 'sort_order', $ddl);
+if (check_column($tablename, 'sort_order', "varchar(64)")) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN sort_desc enum('Y','N') NOT NULL default 'N'";
+maybe_add_column($tablename, 'sort_desc', $ddl);
+if (check_column($tablename, 'sort_Desc', "enum('Y','N')")) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN text_before_link varchar(128) not null default '<li>'";
+maybe_add_column($tablename, 'text_before_link', $ddl);
+if (check_column($tablename, 'text_before_link', 'varchar(128)')) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN text_after_link  varchar(128) not null default '<br />'";
+maybe_add_column($tablename, 'text_after_link', $ddl);
+if (check_column($tablename, 'text_after_link', 'varchar(128)')) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN text_after_all  varchar(128) not null default '</li>'";
+maybe_add_column($tablename, 'text_after_all', $ddl);
+if (check_column($tablename, 'text_after_all', 'varchar(128)')) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+$tablename = $tablelinkcategories;
+$ddl = "ALTER TABLE $tablelinkcategories ADD COLUMN list_limit int not null default -1";
+maybe_add_column($tablename, 'list_limit', $ddl);
+if (check_column($tablename, 'list_limit', 'int(11)')) {
+    $res .= $tablename . ' - ok <br />';
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />';
+    ++$error_count;
+}
+
+if ($error_count > 0) {
+?>
+<p>Hmmm... there was some kind of error. If you cannot figure out
+   see from the output above how to correct the problems please
+   visit our <a href="http://wordpress.org/support/">support
+   forums</a> and report your problem.</p>
+<?php
+} else {
 ?>
 <p>OK, that wasn't too bad was it? Let's move on to <a href="<?php echo $thisfile;?>?step=2">step 2</a>!</p>
-
 <?php
+}
+    break;
 	case 2:
 ?>
 <h1>Step 2</h1>
@@ -104,7 +214,7 @@ CREATE TABLE $tableoptions (
   option_id int(11) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default 0,
   option_name varchar(64) NOT NULL default '',
-  option_can_override enum ('Y','N') NOT NULL default 'Y',
+  option_can_override enum('Y','N') NOT NULL default 'Y',
   option_type int(11) NOT NULL default 1,
   option_value varchar(255) NOT NULL default '',
   option_width int NOT NULL default 20,

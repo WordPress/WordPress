@@ -31,10 +31,11 @@ require_once('../wp-links/links.config.php');
 require_once("../wp-links/links.php");
 
 $title = 'Manage Links';
+$this_file = 'linkmanager.php';
 
 function category_dropdown($fieldname, $selected = 0) {
     global $wpdb, $tablelinkcategories;
-    
+
     $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
     echo '        <select name="'.$fieldname.'" size="1">'."\n";
     foreach ($results as $row) {
@@ -90,22 +91,21 @@ $links_show_order = $HTTP_COOKIE_VARS["links_show_order"];
 if ($action2 != '')
     $action = $action2;
 
-//error_log("action=$action");
 switch ($action) {
   case 'Assign':
   {
     $standalone = 1;
     include_once('b2header.php');
-        
+
     // check the current user's level first.
     if ($user_level < $minadminlevel)
       die ("Cheatin' uh ?");
-    
+
     //for each link id (in $linkcheck[]): if the current user level >= the
     //userlevel of the owner of the link then we can proceed.
 
     if (count($linkcheck) == 0) {
-        header('Location: linkmanager.php');
+        header('Location: '.$this_file);
         exit;
     }
     $all_links = join(',', $linkcheck);
@@ -120,21 +120,21 @@ switch ($action) {
     $all_links = join(',', $ids_to_change);
     $q = $wpdb->query("update $tablelinks SET link_owner='$newowner' WHERE link_id IN ($all_links)");
 
-    header('Location: linkmanager.php');
+    header('Location: '.$this_file);
     break;
   }
   case 'Visibility':
   {
     $standalone = 1;
     include_once('b2header.php');
-        
+
     // check the current user's level first.
     if ($user_level < $minadminlevel)
       die ("Cheatin' uh ?");
-    
+
     //for each link id (in $linkcheck[]): toggle the visibility
     if (count($linkcheck) == 0) {
-        header('Location: linkmanager.php');
+        header('Location: '.$this_file);
         exit;
     }
     $all_links = join(',', $linkcheck);
@@ -152,13 +152,13 @@ switch ($action) {
         $all_linksoff = join(',', $ids_to_turnoff);
         $q = $wpdb->query("update $tablelinks SET link_visible='N' WHERE link_id IN ($all_linksoff)");
     }
-    
+
     if (count($ids_to_turnon)) {
         $all_linkson = join(',', $ids_to_turnon);
         $q = $wpdb->query("update $tablelinks SET link_visible='Y' WHERE link_id IN ($all_linkson)");
     }
 
-    header('Location: linkmanager.php');
+    header('Location: '.$this_file);
     break;
   }
   case 'Move':
@@ -168,17 +168,17 @@ switch ($action) {
     // check the current user's level first.
     if ($user_level < $minadminlevel)
       die ("Cheatin' uh ?");
-    
+
     //for each link id (in $linkcheck[]) change category to selected value
     if (count($linkcheck) == 0) {
-        header('Location: linkmanager.php');
+        header('Location: '.$this_file);
         exit;
     }
     $all_links = join(',', $linkcheck);
     // should now have an array of links we can change
     $q = $wpdb->query("update $tablelinks SET link_category='$category' WHERE link_id IN ($all_links)");
 
-    header('Location: linkmanager.php');
+    header('Location: '.$this_file);
     break;
   }
 
@@ -213,7 +213,7 @@ switch ($action) {
            . addslashes($link_image) . "', '$link_target', $link_category, '"
            . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) . "', '" . addslashes($link_notes) . "')");
 
-    header('Location: linkmanager.php');
+    header('Location: '.$this_file);
     break;
   } // end Add
 
@@ -263,10 +263,9 @@ switch ($action) {
              " link_rel='" . addslashes($link_rel) . "',\n" .
              " link_notes='" . addslashes($link_notes) . "'\n" .
              " WHERE link_id=$link_id");
-      //error_log($sql);
     } // end if save
     setcookie('links_show_cat_id', $links_show_cat_id, time()+600);
-    header("Location: linkmanager.php");
+    header('Location: '.$this_file);
     break;
   } // end Save
 
@@ -291,7 +290,7 @@ switch ($action) {
     }
     $links_show_cat_id = $cat_id;
     setcookie("links_show_cat_id", $links_show_cat_id, time()+600);
-    header("Location: linkmanager.php");
+    header('Location: '.$this_file);
     break;
   } // end Delete
 
@@ -382,10 +381,10 @@ switch ($action) {
     <tr height="20">
       <td height="20" align="right">Visible:</td>
       <td><label>
-        <input type="radio" name="visible" checked="checked" value="Y">
+        <input type="radio" name="visible" <?php if ($link_visible == 'Y') echo "checked"; ?> value="Y">
         Yes</label>
         &nbsp;<label>
-        <input type="radio" name="visible" value="N">
+        <input type="radio" name="visible" <?php if ($link_visible == 'N') echo "checked"; ?> value="N">
         No</label>
       </td>
     </tr>
@@ -465,7 +464,7 @@ switch ($action) {
   if ($action != "popup") {
 ?>
 <script type="text/javascript">
-<!-- 
+<!--
 function checkAll(form)
 {
 	for (i = 0, n = form.elements.length; i < n; i++) {
@@ -478,7 +477,7 @@ function checkAll(form)
 	}
 }
 //-->
-</script> 
+</script>
 
 <div class="wrap">
     <form name="cats" method="post">
@@ -563,10 +562,7 @@ function checkAll(form)
             LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id
             LEFT JOIN $tableusers ON $tableusers.ID = $tablelinks.link_owner ";
 
-    //$use_adminlevels = 0;
-
     if (isset($cat_id) && ($cat_id != 'All')) {
-      // have we already started the where clause?
       $sql .= " WHERE link_category = $cat_id ";
     }
     $sql .= ' ORDER BY link_' . $sqlorderby;
@@ -601,11 +597,11 @@ function checkAll(form)
         <td>$visible</td>
 LINKS;
             $show_buttons = 1; // default
-            
+
             if ($use_adminlevels && ($link->user_level > $user_level)) {
               $show_buttons = 0;
             }
-            
+
             if ($show_buttons) {
               echo <<<LINKS
         <td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit';" value="Edit" class="search" /></td>
@@ -736,7 +732,7 @@ LINKS;
 </div>
 
 <div class="wrap">
-<p>You can drag <a href="javascript:void(linkmanpopup=window.open('<?php echo $siteurl; ?>/wp-admin/linkmanager.php?action=popup&linkurl='+escape(location.href)+'&name='+escape(document.title),'Link Manager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();" title="Link add bookmarklet">link this</a> to your toolbar and when you click it a window will pop up that will allow you to add whatever site you're on to your links! Right now this only works on Mozilla or Netscape, but we're working on it.</p>
+<p>You can drag <a href="javascript:void(linkmanpopup=window.open('<?php echo $siteurl; ?>/wp-admin/<?php echo $this_file ?>?action=popup&linkurl='+escape(location.href)+'&name='+escape(document.title),'Link Manager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();" title="Link add bookmarklet">link this</a> to your toolbar and when you click it a window will pop up that will allow you to add whatever site you're on to your links! Right now this only works on Mozilla or Netscape, but we're working on it.</p>
 </div>
 <?php
     break;

@@ -95,10 +95,10 @@ function check_column($table_name, $col_name, $col_type, $is_null = null, $key =
     $results = $wpdb->get_results("DESC $table_name");
     
     foreach ($results as $row ) {
-        print_r($row);
+        //print_r($row);
         if ($row->Field == $col_name) {
             // got our column, check the params
-            echo ("checking $row->Type != $col_type\n");
+            //echo ("checking $row->Type against $col_type\n");
             if (($col_type != null) && ($row->Type != $col_type)) {
                 ++$diffs;
             }
@@ -114,8 +114,10 @@ function check_column($table_name, $col_name, $col_type, $is_null = null, $key =
             if (($extra != null) && ($row->Extra != $extra)) {
                 ++$diffs;
             }
-            if ($diffs > 0)
+            if ($diffs > 0) {
+                //echo ("diffs = $diffs returning false\n");
                 return false;
+            }
             return true;
         } // end if found our column
     }

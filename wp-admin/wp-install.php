@@ -89,6 +89,16 @@ if (!$got_cats) {
            " cat_id int(11) NOT NULL auto_increment, " .
            " cat_name tinytext NOT NULL, ".
            " auto_toggle enum ('Y','N') NOT NULL default 'N', ".
+           " show_images enum ('Y','N') NOT NULL default 'Y',        " .
+           " show_description enum ('Y','N') NOT NULL default 'Y',   " .
+           " show_rating enum ('Y','N') NOT NULL default 'Y',        " .
+           " show_updated enum ('Y','N') NOT NULL default 'Y',       " .
+           " sort_order varchar(64) NOT NULL default 'name',         " .
+           " sort_desc enum('Y','N') NOT NULL default 'N',           " .
+           " text_before_link varchar(128) not null default '<li>',  " .
+           " text_after_link  varchar(128) not null default '<br />'," .
+           " text_after_all  varchar(128) not null default '</li>',  " .
+           " list_limit int not null default -1,                     " .
            " PRIMARY KEY (cat_id) ".
            ") ";
     $result = mysql_query($sql) or print ("Can't create the table '$tablelinkcategories' in the database.<br />" . $sql . "<br />" . mysql_error());
