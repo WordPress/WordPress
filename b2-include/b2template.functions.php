@@ -363,7 +363,7 @@ function print_UrlPopNav() {
 <select name="site" size="1" onchange="formHandler(this.form);" >'."\n";
     echo '<option value=".">Sites referencing '.get_Lat().' x '.get_Lon()."\n";
     foreach($sites as $site) {
-        echo '\t<option value="'.$site[0].'">'.$site[1]."</option>\n";
+        echo "\t".'<option value="'.$site[0].'">'.$site[1]."</option>\n";
     }
     echo '</select>
 </form>'."\n";
