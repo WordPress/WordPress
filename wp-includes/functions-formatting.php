@@ -91,7 +91,7 @@ function sanitize_title_with_dashes($title) {
     $title = preg_replace('/\s+/', ' ', $title);
     $title = str_replace(' ', '-', $title);
     $title = preg_replace('|-+|', '-', $title);
-    $title = trim($title);
+    $title = trim($title, '-');
 
     return $title;
 }
