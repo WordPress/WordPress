@@ -2,13 +2,6 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Permalink Options');
-$parent_file = 'options-general.php';
-
-require_once('./admin-header.php');
-if ($user_level <= 8)
-	die(__('You have do not have sufficient permissions to edit the options
-for this blog.'));
-
 require('./options-head.php');
 
 $home = get_settings('home');
