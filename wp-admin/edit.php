@@ -36,8 +36,9 @@ if ($previousXstart < 0) {
 ob_start();
 ?>
 <ul id="adminmenu2">
-	<li><a href="edit.php" class="current">Posts</a></li>
-	<li class="last"><a href="edit-comments.php">Comments</a></li>
+	<li><a href="edit.php" class="current">Latest Posts</a></li>
+	<li class="last"><a href="edit-comments.php">Latest Comments</a></li>
+	<li><a href="wp-moderation.php">Comments Awaiting Moderation</a></li>
 </ul>
 
 <div class="wrap">
