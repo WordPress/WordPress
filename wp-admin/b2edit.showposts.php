@@ -235,7 +235,7 @@ if ($i == "ASC")
 			<p>
 				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
 				<?php
-				if (($user_level > $authordata[13]) or ($user_login == $authordata[1])) {
+				if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
 				echo " - <a href='b2edit.php?action=edit&amp;post=$id";
 				if ($m)
 				echo "&m=$m";
@@ -274,7 +274,7 @@ if ($i == "ASC")
 					<?php comment_text() ?>
 					<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?> 
 					<?php 
-					if (($user_level > $authordata[13]) or ($user_login == $authordata[1])) {
+					if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
 						echo "[ <a href=\"b2edit.php?action=editcomment&amp;comment=".$commentdata->comment_ID."\">Edit</a>";
 						echo " - <a href=\"b2edit.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$commentdata->comment_ID."\">Delete</a> ]";
 					}

@@ -33,10 +33,10 @@ case 'promote':
 	$prom = $HTTP_GET_VARS["prom"];
 
 	$user_data = get_userdata($id);
-	$usertopromote_level = $user_data[13];
+	$usertopromote_level = $user_data->user_level;
 
 	if ($user_level <= $usertopromote_level) {
-		die('Can&#8217;t change the level of an user whose level is higher than yours.');
+		die('Can&#8217;t change the level of a user whose level is higher than yours.');
 	}
 
 	if ('up' == $prom) {
@@ -65,7 +65,7 @@ case 'delete':
 	$usertodelete_level = $user_data->user_level;
 
 	if ($user_level <= $usertodelete_level)
-		die('Can&#8217;t delete an user whose level is higher than yours.');
+		die('Can&#8217;t delete a user whose level is higher than yours.');
 
 	$sql = "DELETE FROM $tableusers WHERE ID = $id";
 	$result = $wpdb->query($sql) or die("Couldn&#8217;t delete user #$id.");
@@ -83,7 +83,7 @@ default:
 	include ('b2header.php');
 	?>
 
-<div class="wrap"><p>Click on an user&#8217;s login name to see his complete profile.<br />
+<div class="wrap"><p>Click on a user&#8217;s login name to see his complete profile.<br />
 	To edit your profile, click on your login name.</p>
 </div>
 
@@ -191,8 +191,8 @@ default:
 	}
 	if ($user_level >= 3) { ?>
 <div class="wrap"> 
-  <p>To delete an user, bring his level to zero, then click on the red X.<br />
-    <strong>Warning:</strong> deleting an user also deletes all posts made by this user. 
+  <p>To delete a user, bring his level to zero, then click on the red X.<br />
+    <strong>Warning:</strong> deleting a user also deletes all posts made by this user. 
   </p>
 </div>
 	<?php
