@@ -70,8 +70,8 @@
   <li>Whenever you want to post something, just open a browser and go to wp-login.php to log in and post.</li> 
   <li>You can also use a bookmarklet and/or a sidebar (IE5+/NS6+) to post.</li> 
   <li> You can also post through the Blogger, MetaWeblog, and MovableType APIs, <a href="#xmlrpc">click here</a> for more info.</li> 
-  <li> Your site's blog is on b2.php (simple template) and index.php (CSS template), you can rename this file to index.php or any other name you fancy (provided it bears the php extension or is interpreted as a php file by your server).</li> 
-  <li> You can also copy b2.php into a new file and modify that new file, it will work too ;)</li> 
+  <li> Your site's blog is on wp.php (simple template) and index.php (CSS template), you can rename this file to index.php or any other name you fancy (provided it bears the php extension or is interpreted as a php file by your server).</li> 
+  <li> You can also copy wp.php into a new file and modify that new file, it will work too ;)</li> 
 </ul> 
 <h2>Upgrading from b2 v0.6.1 to WordPress v0.7:</h2> 
 <ul> 
@@ -85,7 +85,7 @@
 <h1 id="templates">Templates:</h1> 
 <h2>First notes:</h2> 
 <ul> 
-  <li>Enclosed is an example of a template, in the file b2.php. You can rename this file to "index.php"or something else (recent b2 versions have a default index.php, which is an elaborate CSS-based template).</li> 
+  <li>Enclosed is an example of a template, in the file wp.php. You can rename this file to "index.php"or something else (recent WordPress versions have a default index.php, which is an elaborate CSS-based template).</li> 
   <li>You can have any number of template files, since all they do is extract the posts from the database.</li> 
   <li>Pseudo-template for the comments is in wp-comments.php. You needn't rename this file, but you can edit it.</li> 
   <li>The only thing to remember is that it's not actually a template, but a PHP file that you're manipulating. So when you see "don't delete this line", you know you mustn't, unless you want to have a broken page.</li> 
@@ -333,7 +333,7 @@ This tag is out of the WordPress loop.<br />
 It outputs info about your weblog.<br /> 
 <div class="params">Parameters:
   <ul> 
-    <li>string: can be 'name' to display the name of your weblog (you set it in the options page), 'url', 'description', 'admin_email', 'rss_url' to display the URL of your b2rss.xml file, 'pingback_url' to display the URL of your xmlrpc.php file<br /> 
+    <li>string: can be 'name' to display the name of your weblog (you set it in the options page), 'url', 'description', 'admin_email', 'rss_url' to display the URL of your wp-rss2.php file, 'pingback_url' to display the URL of your xmlrpc.php file<br /> 
       (default string is 'name')</li> 
   </ul> 
 </div>
@@ -383,8 +383,8 @@ Only one, if any, of these functions will produce output, thus the page Title ca
 <strong>&lt;?php the_author_yim() ?&gt;</strong> - the author's Yahoo Messenger handle.<br /> 
 <strong>&lt;?php the_author_msn() ?&gt;</strong> - the author's MSN Messenger handle.<br /> 
 <strong>&lt;?php the_author_posts() ?&gt;</strong> - the author's post count.<br /> 
-<strong>&lt;?php the_author_login() ?&gt;</strong> - the author's login name in b2. If you want some static data about the author, this is what you're searching for. You can, for example, associate a picture with an author, like this: <em>&lt;img src="pictures/&lt;?php the_author_login() ?&gt;.jpg" border="0"&gt;</em><br /> 
-<strong>&lt;?php the_author_ID() ?&gt;</strong> - the author's ID number in b2. This number is automatically set when the user registers: to see the ID of an user, go to the Team page. This is static data too, so you can use it like the_author_login() in associating stuff with authors.<br /> 
+<strong>&lt;?php the_author_login() ?&gt;</strong> - the author's login name in WordPress. If you want some static data about the author, this is what you're searching for. You can, for example, associate a picture with an author, like this: <em>&lt;img src="pictures/&lt;?php the_author_login() ?&gt;.jpg" border="0"&gt;</em><br /> 
+<strong>&lt;?php the_author_ID() ?&gt;</strong> - the author's ID number in WordPress. This number is automatically set when the user registers: to see the ID of an user, go to the Team page. This is static data too, so you can use it like the_author_login() in associating stuff with authors.<br /> 
 <br /> 
 <strong><br /> 
 Tags for permalinks</strong> are:<br /> 
@@ -512,8 +512,8 @@ typically, under the post itself. don't worry, the comments only appear if the p
 </div>
 <br /> 
 <strong>&lt;?php trackback_url() ?&gt; </strong><br /> 
-This tag is out of the b2 TrackBacks loop.<br /> 
-It will output the URL to TrackBack the post, that other people can copy and use in b2's posting interface to trackback this post.<br /> 
+This tag is out of the WordPress TrackBacks loop.<br /> 
+It will output the URL to TrackBack the post, that other people can copy and use in WordPress's posting interface to trackback this post.<br /> 
 <p>  In wp-comments.php, like in the main template file, please keep the first PHP lines, the "while" lines, and the "}" lines.</p>
 <p>You can modify the form, but do not remove "&lt;?php echo ... ?&gt;" and all the name="..." attributes.</p>
 <br />
@@ -536,26 +536,7 @@ It will output the URL to TrackBack the post, that other people can copy and use
     <li>0 or 1: 1 means to display link counts</li>
   </ul> 
 </div>
-<br />
-<p><strong>To include the calendar:</strong></p>
-<p><strong>&lt;?php include("b2calendar.php") ?&gt;</strong><br />
-  this will include a table with the current month's calendar, each day when you posted shows a link to this day's posts. You can customise this table with CSS classes: </p>
-<div class="params"> <strong>.b2calendarmonth {}</strong><br /> 
-&nbsp; &nbsp; <i>the style that is used to display the month and year</i><br /> 
-  <strong>.b2calendartable {}</strong><br /> 
-&nbsp; &nbsp; <i>the style of the &lt;table&gt; tag (border etc...)</i><br /> 
-  <strong>.b2calendarrow {}</strong><br /> 
-&nbsp; &nbsp; <i>the style of the &lt;tr&gt; tag</i><br /> 
-  <strong>.b2calendarheadercell {}</strong><br /> 
-&nbsp; &nbsp; <i>the style of the &lt;td&gt; tag that shows the weekdays on the top of the table</i><br /> 
-  <strong>.b2calendarcell {}</strong><br /> 
-&nbsp; &nbsp; <i>the style of the &lt;td&gt; tags that show the days</i><br /> 
-  <strong>.b2calendaremptycell {}</strong><br /> 
-&nbsp; &nbsp; <i>the style of the &lt;td&gt; tags that are empty</i><br /> 
-  <strong>.b2calendarlinkpost {}</strong><br /> 
-&nbsp; &nbsp; <i>the style of the link to the post</i><br /> 
-  <strong>.b2calendartoday {}</strong><br /> 
-&nbsp; &nbsp; <i>the style of the day if it is today</i> </div>
+
 <h1 id="usage">Query String Usage:</h1> 
 <p>WordPress relies a lot on the query string, these variables passed with the URL (note: to pass variables in the querystring, preceed the first variable name with a '?' question mark and every other variables with a '&amp;' sign.)</p>
 <p>Most of the time you won't have to do anything about it, but if you want to know how it works, it's here:</p>
@@ -570,7 +551,7 @@ here is the code for a simple search box:</p>
 &lt;input type="text" name="s" /&gt;<br />
 &lt;input type="submit" name="submit" value="search" /&gt;<br />
 &lt;/form&gt; </code></p>
-<p>index.php<strong>?cat=1</strong> will display all posts that belong to category #1 (1 is the default). you can add/rename/delete categories from b2's interface.</p>
+<p>index.php<strong>?cat=1</strong> will display all posts that belong to category #1 (1 is the default). you can add/rename/delete categories from WordPress's interface.</p>
 <p>index.php<strong>?author=1</strong> will display all posts from the author #1</p>
 <p>index.php<strong>?p=50&amp;c=1</strong> will display the comments and a form to add a comment below the post.<br />
   you should use this variable only with <strong>p=</strong>, example: index.php<strong>?p=50&amp;c=1</strong>.</p>
@@ -582,7 +563,7 @@ here is the code for a simple search box:</p>
 <ul> 
   <li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns all posts in the blog</li> 
   <li><em>blogger.getTemplate</em> fetches your file $blogfilename (as specified in the config), while <em>blogger.setTemplate</em> overwrites it with the edited data</li> 
-  <li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' and $blogname, since b2 supports only one blog as of now</li> 
+  <li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' and $blogname, since WordPress supports only one blog as of now</li> 
 </ul> 
 <p>If you use blogger.newPost, your post is submitted without title and in category #1.</p> 
 <p> However, you can type &lt;title&gt;my title&lt;/title&gt; and/or &lt;category&gt;2&lt;category&gt; in the body of your post to make its title be 'my title' and its category be #2 (refer to your categories section to find out the ID numbers of the categories). b2 would then delete that extra info from the body of your post once it is posted.</p> 
@@ -594,8 +575,8 @@ here is the code for a simple search box:</p>
 </ul> 
 <br /> 
 Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a> are automatically converted to/from the WordPress &lt;!--more--&gt; tag.<br /> 
-<p>You can now post to your b2 blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :)</p> 
-<p>Your XMLRPC server/path are as described here: if you login to b2 on http://example.com/me/wp-login.php, then you have:</p> 
+<p>You can now post to your WordPress blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :)</p> 
+<p>Your XMLRPC server/path are as described here: if you login to WordPress on http://example.com/me/wp-login.php, then you have:</p> 
 <ul> 
   <li>server: http://example.com/ (some tools will just want the 'example.com' hostname part)</li> 
   <li>path: /me/xmlrpc.php</li> 
@@ -640,7 +621,7 @@ Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_progra
   blog:the post's title <b>:::</b> login:password <b>:::</b> The content of the post, blah blah blah.___ </div> 
 <h1 id="notes">Notes:</h1> 
 <p>On multi-user:</p> 
-<p>New users can register with <code>b2register.php</code>. Then you (as an admin) click the "+" next to their name on the Team page in admin to upgrade their level to 1 or more, so they can post. If you don't want an user to post anymore, just click "-" until their level is 0.</p> 
+<p>New users can register with <code>wp-register.php</code>. Then you (as an admin) click the "+" next to their name on the Team page in admin to upgrade their level to 1 or more, so they can post. If you don't want an user to post anymore, just click "-" until their level is 0.</p> 
 <p>Note: you can now disable users registration altogether from the config file.</p> 
 <p><strong>Levels</strong>:</p> 
 <ul> 
@@ -651,7 +632,7 @@ Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_progra
 </ul> 
 <p>Usually, you'll want to have a team of only level 1 users except you. ;)</p> 
 <p><strong>Note:</strong> you can modify an option on the option screens, to enable new users to post once they've registered.</p> 
-<p>If you don't want users to register on your blog at all, just delete b2register.php once you've registered your user account. </p> 
+<p>If you don't want users to register on your blog at all, just delete wp-register.php once you've registered your user account. </p> 
 <h1> Final notes:</h1> 
 <ul> 
   <li>WordPress is functional, but a lot of coding and code clean-up remain to be done.</li> 
