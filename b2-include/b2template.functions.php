@@ -1188,9 +1188,9 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
                 return;
             }
         }
-        echo '<a href="' . $siteurl;
+        echo '<a href="';
         if ($b2commentsjavascript) {
-            echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+            echo get_permalink();
             echo '" onclick="b2open(this.href); return false"';
         } else {
             // if comments_popup_script() is not in the template, display simple comment link
@@ -1407,7 +1407,8 @@ function trackback_rdf($timezone = 0) {
 
 /***** Permalink tags *****/
 function get_permalink($id=false) {
-	global $post, $wpdb, $tableposts;
+	global $post, $wpdb, $tableposts, $siteurl;
+	global  $querystring_start, $querystring_equal; 
 	$rewritecode = array(
 		'%year%',
 		'%monthnum%',
@@ -1423,9 +1424,9 @@ function get_permalink($id=false) {
 				date('j', $unixtime),
 				$post->post_name
 			);
-			return str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else { // if they're not using the fancy permalink option
-			return $file.$querystring_start.'p'.$querystring_equal.$post->ID;
+			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$post->ID;
 		}
 	} else { // if an ID is given
 		$idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
@@ -1437,9 +1438,9 @@ function get_permalink($id=false) {
 				date('j', $unixtime),
 				$idpost->post_name
 			);
-			return str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else {
-			return $file.$querystring_start.'p'.$querystring_equal.$idpost->ID;
+			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$idpost->ID;
 		}
 	}
 }
