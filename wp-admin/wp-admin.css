@@ -64,11 +64,11 @@ label {
 	cursor: pointer;
 }
 
-li {
+li, dd {
 	margin-bottom: 6px;
 }
 
-p {
+p, dl, dd, dt {
 	line-height: 130%;
 }
 
