@@ -171,65 +171,51 @@ break;
 
 case "lostpassword":
 
-	?><html>
+	?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>b2 > Lost password ?</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
-<style type="text/css">
-<!--
-<?php
-if (!preg_match("/Nav/",$HTTP_USER_AGENT)) {
-?>
-textarea,input,select {
-	background-color: #f0f0f0;
-	border-width: 1px;
-	border-color: #cccccc;
-	border-style: solid;
-	padding: 2px;
-	margin: 1px;
-}
-<?php
-}
-?>
--->
-</style>
+	<title>WordPress > Lost password ?</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" href="<?php echo $pathserver; ?>/wp-admin/b2.css" type="text/css" />
+	<style type="text/css">
+	<!--
+	<?php
+	if (!preg_match("/Nav/",$HTTP_USER_AGENT)) {
+	?>
+	textarea, input, select {
+		background-color: #f0f0f0;
+		border-width: 1px;
+		border-color: #cccccc;
+		border-style: solid;
+		padding: 2px;
+		margin: 1px;
+	}
+	<?php
+	}
+	?>
+	-->
+	</style>
 </head>
-<body bgcolor="#ffffff" text="#000000" link="#cccccc" vlink="#cccccc" alink="#ff0000">
+<body>
 
 <table width="100%" height="100%">
 <td align="center" valign="middle">
 
-<table width="200" height="200" style="border: 1px solid #cccccc;" cellpadding="0" cellspacing="0">
-
-<tr height="50">
-<td height="50" width="50">
-<a href="http://cafelog.com" target="_blank"><img src="b2-img/b2minilogo.png" border="0" alt="visit b2's homepage" /></a>
-</td>
-<td align="right" valign="top">&nbsp;</td>
-</tr>
-
-<tr height="150"><td align="right" valign="bottom" height="150" colspan="2">
-
-<p align="center" style="color: #b0b0b0">Type your login here and click OK. You will receive an email with your password.</p>
+<div id="login">
+<p>Type your login here and click OK. You will receive an email with your password.</p>
 <?php
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
 ?>
 
 <form name="" action="b2login.php" method="post">
 <input type="hidden" name="action" value="retrievepassword" />
-<table width="100" style="background-color: #ffffff">
-<tr><td align="right">login</td>
-	<td><input type="text" name="user_login" value="" size="8" />&nbsp;&nbsp;&nbsp;</td></tr>
-<tr><td>&nbsp;</td>
-	<td><input type="submit" name="Submit2" value="OK" class="search">&nbsp;&nbsp;&nbsp;</td></tr>
-</table>
+<label>Login: <input type="text" name="user_login" id="user_login" value="" size="12" /></label>
+<input type="submit" name="Submit2" value="OK" class="search">
 
 </form>
+</div>
 
-</td>
-</tr>
-</table>
 </td>
 </tr>
 </table>
@@ -298,17 +284,18 @@ default:
 		header("Location: wp-admin/b2edit.php");
 		exit();
 	}
-	?><html>
+	?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>b2 > Login form</title>
+<title>WordPress > Login form</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
+<link rel="stylesheet" href="<?php echo $pathserver; ?>/wp-admin/b2.css" type="text/css">
 <style type="text/css">
 <!--
 <?php
 if (!preg_match("/Nav/",$HTTP_USER_AGENT)) {
 ?>
-textarea,input,select {
+textarea, input, select {
 	background-color: #f0f0f0;
 	border-width: 1px;
 	border-color: #cccccc;
@@ -322,24 +309,14 @@ textarea,input,select {
 -->
 </style>
 </head>
-<body bgcolor="#ffffff" text="#000000" link="#cccccc" vlink="#cccccc" alink="#ff0000">
+<body>
 
 <table width="100%" height="100%">
 <td align="center" valign="middle">
 
-<table width="200" height="200" style="border: 1px solid #cccccc;" cellpadding="0" cellspacing="0">
-
-<tr height="50">
-<td height="50" width="50">
-<a href="http://cafelog.com" target="_blank"><img src="b2-img/b2minilogo.png" border="0" alt="visit b2's homepage" /></a>
-</td>
-<td align="right" valign="top">
-<a href="b2register.php" class="b2menutop">register ?</a><br />
-<a href="b2login.php?action=lostpassword" class="b2menutop">lost your password ?</a>
-</td>
-</tr>
-
-<tr height="150"><td align="right" valign="bottom" height="150" colspan="2">
+<div id="login">
+<p><a href="<?php echo $pathserver; ?>/b2register.php">Register?</a><br />
+<a href="<?php echo $pathserver; ?>/b2login.php?action=lostpassword">Lost your password?</a></p>
 
 <?php
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
@@ -354,20 +331,13 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 <?php } ?>
 <input type="hidden" name="redirect_to" value="wp-admin/b2edit.php" />
 <input type="hidden" name="action" value="login" />
-<table width="100" style="background-color: #ffffff">
-<tr><td align="right">login</td>
-	<td><input type="text" name="log" value="" size="8" />&nbsp;&nbsp;&nbsp;</td></tr>
-<tr><td align="right">password</td>
-	<td><input type="password" name="pwd" value="" size="8" />&nbsp;&nbsp;&nbsp;</td></tr>
-<tr><td>&nbsp;</td>
-	<td><input type="submit" name="Submit2" value="OK" class="search">&nbsp;&nbsp;&nbsp;</td></tr>
-</table>
+<label>Login: <input type="text" name="log" value="" size="8" /></label><br />
+<label>Password: <input type="password" name="pwd" value="" size="8" /></label><br />
+<input type="submit" name="Submit2" value="OK" class="search">
 
 </form>
 
-</td>
-</tr>
-</table>
+</div>
 </td>
 </tr>
 </table>
