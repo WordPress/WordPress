@@ -73,6 +73,9 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 			if (preg_match('/Subject: /', $line)) {
 				$subject = trim($line);
 				$subject = substr($subject, 9, strlen($subject)-9);
+				if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject)) {
+				  $subject = wp_iso_descrambler($subject);
+				}
 				if ($use_phoneemail) {
 					$subject = explode($phoneemail_separator, $subject);
 					$subject = trim($subject[0]);

@@ -375,4 +375,18 @@ function strip_all_but_one_link($text, $mylink) {
 	return $text;
 }
 
+
+// used by wp-mail to handle charsets in email subjects
+
+function wp_iso_descrambler($string) {
+  /* this may only work with iso-8859-1, I'm afraid */
+  if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $string, $matches)) {
+    return $string;
+  } else {
+    $subject = str_replace('_', ' ', $matches[2]);
+    $subject = preg_replace('#\=([0-9a-f]{2})#ei', "chr(hexdec(strtolower('$1')))", $subject);
+    return $subject;
+  }
+}
+
 ?>
