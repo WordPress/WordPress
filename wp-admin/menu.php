@@ -6,18 +6,16 @@
 // Menu item name
 // The minimum level the user needs to access the item: between 0 and 10
 // The URL of the item's file
-$menu = array(
-              array(__('Write'), 1, 'post.php'),
-              array(__('Edit'), 1, 'edit.php'),
-              array(__('Categories'), 3, 'categories.php'),
-              array(__('Links'), 5, 'link-manager.php'),
-              array(__('Users'), 3, 'users.php'),
-              array(__('Options'), 6, 'options-general.php'),
-              array(__('Plugins'), 8, 'plugins.php'),
-              array(__('Templates'), 4, 'templates.php'),
-              array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php'),
-              array(__('Profile'), 0, 'profile.php')
-);
+$menu[5] = array(__('Write'), 1, 'post.php');
+$menu[10] = array(__('Edit'), 1, 'edit.php');
+$menu[15] = array(__('Categories'), 3, 'categories.php');
+$menu[20] = array(__('Links'), 5, 'link-manager.php');
+$menu[25] = array(__('Users'), 3, 'users.php');
+$menu[30] = array(__('Options'), 6, 'options-general.php');
+$menu[35] = array(__('Plugins'), 8, 'plugins.php');
+$menu[40] = array(__('Templates'), 4, 'templates.php');
+$menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
+ksort($menu); // So other files can plugin
 
 $self = preg_replace('|.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 if (!isset($parent_file)) $parent_file = '';
