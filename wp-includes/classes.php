@@ -235,7 +235,7 @@ class WP_Query {
 			$q['showposts'] = (int) $q['showposts'];
 			$q['posts_per_page'] = $q['showposts'];
 		}
-		if ( (isset($q['posts_per_archive_page']) && $q['posts_per_archive_page'] != 0) && (is_archive() || is_search()) )
+		if ( (isset($q['posts_per_archive_page']) && $q['posts_per_archive_page'] != 0) && ($this->is_archive || $this->is_search) )
 			$q['posts_per_page'] = $q['posts_per_archive_page'];
 		if ( !isset($q['nopaging']) ) {
 			if ($q['posts_per_page'] == -1) {
@@ -355,7 +355,7 @@ class WP_Query {
 
 		if ((empty($q['cat'])) || ($q['cat'] == '0') || 
 				// Bypass cat checks if fetching specific posts
-				( is_single() || is_page() )) {
+				( $this->is_single || $this->is_page )) {
 			$whichcat='';
 		} else {
 			$q['cat'] = ''.urldecode($q['cat']).'';
@@ -482,7 +482,7 @@ class WP_Query {
 			$distinct = 'DISTINCT';
 		}
 
-		if (is_page()) {
+		if ($this->is_page) {
 			$where .= ' AND (post_status = "static"';
 		} else {
 			$where .= ' AND (post_status = "publish"';
@@ -500,7 +500,7 @@ class WP_Query {
 		$join = apply_filters('posts_join', $join);
 
 		// Paging
-		if (empty($q['nopaging']) && ! is_single()) {
+		if (empty($q['nopaging']) && ! $this->is_single) {
 			$page = $q['paged'];
 			if (empty($page)) {
 				$page = 1;
