@@ -324,7 +324,7 @@ case 'editpost':
 	} else {
 		$location = 'post.php';
 	}
-	//header ('Location: ' . $location); // Send user on their way while we keep working
+	header ('Location: ' . $location); // Send user on their way while we keep working
 
 $now = current_time('mysql');
 $now_gmt = current_time('mysql', 1);
