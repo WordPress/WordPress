@@ -18,7 +18,7 @@ switch($action) {
 		}
 		if ($use_trackback) {
 			$form_trackback = '<p><label for="trackback"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym>:</label> (Seperate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with commas.)<br />
-			<input type="text" name="trackback_url" style="width: 415px" id="trackback" /></p>';
+			<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" /></p>';
 		} else {
 			$form_trackback = '';
 		}
@@ -47,14 +47,20 @@ switch($action) {
 
 ?>
 
-<form name="post" action="b2edit.php" method="post">
+<form name="post" action="b2edit.php" method="post" id="post">
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
 <?php if ($action != "editcomment") {
   // this is for everything but comment editing
 ?> 
-      
+<script type="text/javascript">
+function focusit() {
+	// focus on first input field
+	document.post.title.focus();
+}
+window.onload = focusit;
+</script>
 <table>
 	<tr> 
 	<td width="210">
@@ -99,6 +105,13 @@ switch($action) {
   
 // this is for comment editing
 ?>
+<script type="text/javascript">
+function focusit() {
+	// focus on first input field
+	document.post.name.focus();
+}
+window.onload = focusit;
+</script>
 <table>
 	<tr>
 	<td>
@@ -154,7 +167,7 @@ if ($action != 'editcomment') {
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<p><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" class="search" style="font-weight: bold;" tabindex="5" /></p>
+<p><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" class="search" style="font-weight: bold;" tabindex="6" /></p>
 
 
 <?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && ((ereg(" ".$user_login." ", $fileupload_allowedusers)) || (trim($fileupload_allowedusers)=="")) ) { ?>
