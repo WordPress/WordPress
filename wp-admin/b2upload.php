@@ -12,7 +12,7 @@ die ("The admin disabled this function");
 
 ?><html>
 <head>
-<title>b2 > upload images/files</title>
+<title>WordPress :: upload images/files</title>
 <link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
 <style type="text/css">
 <!--
@@ -166,8 +166,13 @@ if (!empty($HTTP_POST_VARS)) { //$img1_name != "") {
 	if (file_exists($pathtofile) && !strlen($imgalt)) {
 		$i = explode(" ",$fileupload_allowedtypes);
 		$i = implode(", ",array_slice($i, 1, count($i)-2));
-		move_uploaded_file($img1, $pathtofile2) 
-		 or die("Couldn't Upload Your File to $pathtofile2.");
+		$moved = move_uploaded_file($img1, $pathtofile2);
+		// if move_uploaded_file() fails, try copy()
+		if (!$moved) {
+			$moved = copy($img1, $pathtofile2);
+		}
+		if (!$moved) 
+			die("Couldn't Upload Your File to $pathtofile2.");
 	
 	// duplicate-renaming function contributed by Gary Lawrence Murphy
 	?>
@@ -196,8 +201,15 @@ if (!empty($HTTP_POST_VARS)) { //$img1_name != "") {
 	}
 
 	if (!strlen($imgalt)) {
-		move_uploaded_file($img1, $pathtofile) //Path to your images directory, chmod the dir to 777
-		 or die("Couldn't Upload Your File to $pathtofile.");
+		@$moved = move_uploaded_file($img1, $pathtofile); //Path to your images directory, chmod the dir to 777
+		// move_uploaded_file() can fail if open_basedir in PHP.INI doesn't
+		// include your tmp directory. Try copy instead?
+		if(!moved) {
+			$moved = copy($img1, $pathtofile);
+		}
+		// Still couldn't get it. Give up.
+		if (!moved) 
+			die("Couldn't Upload Your File to $pathtofile.");
 	} else {
 		rename($img1, $pathtofile)
 		or die("Couldn't Upload Your File to $pathtofile.");
