@@ -110,7 +110,7 @@ edCanvas = document.getElementById('content');
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
-
+<?php echo $form_trackback; ?>
 <p><input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="Save as Draft" /> 
   <input name="saveasprivate" type="submit" id="saveasprivate" tabindex="10" value="Save as Private" /> 
   <input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="Publish" /> 
@@ -119,12 +119,6 @@ edCanvas = document.getElementById('content');
   } ?>
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
-
-
-<?php
-
-echo $form_trackback;
-?>
 
 </div>
 </form>

@@ -46,7 +46,7 @@ body, td {
 }
 
 fieldset {
-	border: 1px solid #ccc;
+	border: 1px solid #ddd;
 	padding: 2px;
 }
 
@@ -63,10 +63,6 @@ fieldset label.selectit:hover {
 
 fieldset legend {
 	padding: .1em;
-}
-
-fieldset:hover {
-	border: 1px solid #999;
 }
 
 form, label input {
@@ -95,7 +91,7 @@ p, dl, dd, dt {
 
 textarea, input, select {
 	background: #f4f4f4;
-	border: 1px solid #d8d8d8;
+	border: 1px solid #cacaca;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	margin: 1px;
 	padding: 2px;
@@ -213,6 +209,11 @@ textarea, input, select {
 	width: 9em;
 }
 
+#categorydiv div {
+	height: 27em;
+	overflow: auto;
+}
+
 #categorydiv input, #poststatusdiv input, #commentstatusdiv input, #pingstatusdiv input {
 	border: none;
 }
@@ -259,12 +260,8 @@ textarea, input, select {
 	padding: 2px;
 }
 
-#metainfo {
+#metainfo, #postdiv {
 	clear: both;
-}
-
-#postdiv {
-    clear: both;
 }
 
 #poststatusdiv, #commentstatusdiv, #pingstatusdiv {

@@ -25,12 +25,12 @@ if ($use_trackback) {
 	 (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
 	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
 	if ('' != $pinged) {
-		$form_trackback .= '<p>Already pinged:</p><ul>';
+		$pings .= '<p>Already pinged:</p><ul>';
 		$already_pinged = explode("\n", trim($pinged));
 		foreach ($already_pinged as $pinged_url) {
-			$form_trackback .= "\n\t<li>$pinged_url</li>";
+			$pings .= "\n\t<li>$pinged_url</li>";
 		}
-		$form_trackback .= '</ul>';
+		$pings .= '</ul>';
 	}
 } else {
 	$form_trackback = '';
@@ -83,13 +83,13 @@ window.onload = focusit;
     </fieldset>
     <fieldset id="postpassworddiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#post_password" title="Help on post password">Post Password</a></legend> 
-	  <div><input name="post_password" type="text" size="18" id="post_password" value="<?php echo $post_password ?>" /></div>
+	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>
     </fieldset>
 
 <br />
 <fieldset style="clear:both">
 <legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a></legend>
-<div><textarea rows="2" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
+<div><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
 </fieldset>
 
 <fieldset id="postdiv">
@@ -140,12 +140,17 @@ if ($action != 'editcomment') {
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
+<?php echo $form_trackback; ?>
 
 <p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="Save" style="font-weight: bold;" tabindex="6" /> 
   <input name="publish" type="submit" id="publish" tabindex="10" value="Publish" /> 
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
-
+<?php
+	if ('' != $pinged) {
+		echo $pings;
+	}
+?>
 
 <?php
 if ($action != 'editcomment') {
@@ -155,7 +160,7 @@ if ($action != 'editcomment') {
 <?php }
 }
 
-echo $form_trackback;
+
 
 // if the level is 5+, allow user to edit the timestamp - not on 'new post' screen though
 // if (($user_level > 4) && ($action != "post"))
