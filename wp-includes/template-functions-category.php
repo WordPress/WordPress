@@ -351,7 +351,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 				$link .= 'title="' . htmlspecialchars($category->category_description) . '"';
 			}
 			$link .= '>';
-			$link .= stripslashes($category->cat_name).'</a>';
+			$link .= apply_filters('list_cats', stripslashes($category->cat_name)).'</a>';
 
 			if ( (! empty($feed_image)) || (! empty($feed)) ) {
 				
