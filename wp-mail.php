@@ -106,7 +106,7 @@ for ($i=1; $i <= $count; $i++) :
 
 	$content = trim($content);
 
-	$content = trim($content);
+	$content = apply_filters('phone_content', $content);
 
 	$post_title = xmlrpc_getposttitle($content);
 
@@ -124,7 +124,8 @@ for ($i=1; $i <= $count; $i++) :
 	$result = $wpdb->query($sql);
 	$post_ID = $wpdb->insert_id;
 
-
+	do_action('publish_post', $post_ID);
+	do_action('publish_phone', $post_ID);
 	pingback($content, $post_ID);
 
 	echo "\n<p><b>Posted title:</b> $post_title<br />";
