@@ -159,7 +159,7 @@ $wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comm
 
 // Set up admin user
 $random_password = substr(md5(uniqid(microtime())), 0, 6);
-$wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_nickname, user_email, user_level, user_idmode) VALUES ( '1', 'admin', MD5('$random_password'), 'Administrator', '$admin_email', '10', 'nickname')");
+$wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_nickname, user_email, user_level, user_idmode, user_registered) VALUES ( '1', 'admin', MD5('$random_password'), 'Administrator', '$admin_email', '10', 'nickname', NOW() )");
 
 $from = 'From: '.$_POST['weblog_title'].' <wordpress@'.$_SERVER['SERVER_NAME'].'>';
 $message_headers = "$from";
