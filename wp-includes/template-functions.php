@@ -562,6 +562,24 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 	echo "$before <a href='$location'>$link</a> $after";
 }
 
+function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
+	global $user_level, $post, $comment, $siteurl;
+
+	get_currentuserinfo();
+
+	if ($user_level > 0) {
+		$authordata = get_userdata($post->post_author);
+		if ($user_level < $authordata->user_level) {
+			return;
+		}
+	} else {
+		return;
+	}
+
+	$location = "$siteurl/wp-admin/post.php?action=editcomment&amp;comment=$comment->comment_ID";
+	echo "$before <a href='$location'>$link</a> $after";
+}
+
 /***** Date/Time tags *****/
 
 function the_date_xml() {
