@@ -34,6 +34,7 @@ function starify($string) {
 
 logIO("I", $HTTP_RAW_POST_DATA);
 
+
 function printr($var, $do_not_echo = false) {
 	// from php.net/print_r user contributed notes 
 	ob_start();
@@ -45,6 +46,30 @@ function printr($var, $do_not_echo = false) {
 	}
 	return $code;
 }
+
+function mkdir_p($target) {
+	// from php.net/mkdir user contributed notes 
+	if (file_exists($target)) {
+	  if (!is_dir($target)) {
+	    return false;
+	  } else {
+	    return true;
+	  }
+	}
+
+	// Attempting to create the directory may clutter up our display.
+	if (@mkdir($target)) {
+	  return true;
+	}
+
+	// If the above failed, attempt to create the parent node, then try again.
+	if (mkdir_p(dirname($target))) {
+	  return mkdir_p($target);
+	}
+
+	return false;
+}
+
 
 class wp_xmlrpc_server extends IXR_Server {
 
@@ -84,7 +109,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	function login_pass_ok($user_login, $user_pass) {
 	  if (!user_pass_ok($user_login, $user_pass)) {
-	    $this->error = new IXR_Error(403, 'Bad login/pass combination.'.$user_login);
+	    $this->error = new IXR_Error(403, 'Bad login/pass combination.');
 	    return false;
 	  }
 	  return true;
@@ -615,7 +640,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				'userid' => $postdata['post_author'],
 				'postid' => $postdata['ID'],
 				'content' => $postdata['post_content'],
-				'permalink' => $link,
+				'permaLink' => $link,
 				'categories' => $categories,
 				'mt_excerpt' => $postdata['post_excerpt'],
 				'mt_allow_comments' => $allow_comments,
@@ -758,7 +783,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if(get_settings('fileupload_minlevel') > $user_data->user_level) {
 	    // User has not enough privileges
 	    logIO('O', '(MW) Not enough privilege: user level too low');
-	    $this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.sdff'.$user_data->user_level);
+	    $this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.');
 	    return $this->error;
 	  }
 
@@ -776,18 +801,24 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $localpath = $file_realpath.$prefix.$name;
 	    $url = $file_url.$prefix.$name;
 
-	    /* encode & write data (binary) */
-	    $ifp = fopen($localpath, 'wb');
-	    $success = fwrite($ifp, $bits);
-	    fclose($ifp);
-	    @chmod($localpath, 0666);
+	    if (mkdir_p(dirname($localpath))) {
 
-	    if($success) {
-	      $resp = array($url);
-	      return $resp;
+	      /* encode & write data (binary) */
+	      $ifp = fopen($localpath, 'wb');
+	      $success = fwrite($ifp, $bits);
+	      fclose($ifp);
+	      @chmod($localpath, 0666);
+
+	      if($success) {
+	        $resp = array($url);
+	        return $resp;
+	      } else {
+	        logIO('O', '(MW) Could not write file '.$name.' to '.$localpath);
+	        return new IXR_Error(500, 'Could not write file '.$name);
+	      }
+
 	    } else {
-	      logIO('O', '(MW) Could not write file '.$name.' to '.$localpath);
-	      return new IXR_Error(500, 'Could not write file '.$name.' to '.$localpath);
+	      return new IXR_Error(500, 'Could not create directories for '.$name);
 	    }
 	  }
 	}
