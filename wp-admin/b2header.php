@@ -9,8 +9,8 @@ require_once($abspath.$b2inc.'/xmlrpc.inc');
 require_once($abspath.$b2inc.'/xmlrpcs.inc');
 
 function gethelp_link($this_file, $helptag) {
-    $url = 'help/en/'.$this_file.'.help.html#'.$helptag;
-    $s = '&nbsp;<span class="helplink"><a href="'.$url.'" onclick="javascript:helpWindow(\''.$url.'\'); return false;" title="Click here for help">[?]</a></span>';
+    $url = 'http://wordpress.org/docs/reference/links/#'.$helptag;
+    $s = ' <a href="'.$url.'" title="Click here for help">?</a>';
     return $s;
 }
 
@@ -21,12 +21,12 @@ timer_start();
 
 get_currentuserinfo();
 
-$posts_per_page=get_settings('posts_per_page');
-$what_to_show=get_settings('what_to_show');
-$archive_mode=get_settings('archive_mode');
-$time_difference=get_settings('time_difference');
-$date_format=stripslashes(get_settings('date_format'));
-$time_format=stripslashes(get_settings('time_format'));
+$posts_per_page = get_settings('posts_per_page');
+$what_to_show = get_settings('what_to_show');
+$archive_mode = get_settings('archive_mode');
+$time_difference = get_settings('time_difference');
+$date_format = stripslashes(get_settings('date_format'));
+$time_format = stripslashes(get_settings('time_format'));
 
 $admin_area_charset = (!isset($admin_area_charset)) ? 'iso-8859-15' : $admin_area_charset;
 
