@@ -225,7 +225,7 @@ class IXR_Message {
                 $valueFlag = true;
                 break;
             case 'base64':
-                $value = base64_decode($this->_currentTagContents);
+                $value = base64_decode( trim($this->_currentTagContents) );
                 $this->_currentTagContents = '';
                 $valueFlag = true;
                 break;
