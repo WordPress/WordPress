@@ -342,22 +342,6 @@ CREATE TABLE $wpdb->options (
 ";
 $q = $wpdb->query($query);
 
-// $query = "DROP TABLE IF EXISTS $tableoptiontypes";
-// $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$tableoptiontypes\" in the database.");
-
-$query = "
-CREATE TABLE $wpdb->optiontypes (
-  optiontype_id int(11) NOT NULL auto_increment,
-  optiontype_name varchar(64) NOT NULL,
-  PRIMARY KEY (optiontype_id)
-)
-";
-$q = $wpdb->query($query);
-
-
-// $query = "DROP TABLE IF EXISTS $tableoptiongroups";
-// $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$tableoptiongroups\" in the database.");
-
 $query = "
 CREATE TABLE $wpdb->optiongroups (
   group_id int(11) NOT NULL auto_increment,
@@ -384,15 +368,6 @@ CREATE TABLE $wpdb->optiongroup_options (
 $q = $wpdb->query($query);
 
 $option_data = array(
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (1, 'integer')",
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (2, 'boolean')",
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (3, 'string')",
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (4, 'date')",
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (5, 'select')",
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (6, 'range')",
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (7, 'sqlselect')",
-"INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (8, 'float')",
-
 //base options from b2cofig
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(1,'siteurl', 3, '$guessurl', 'siteurl is your blog\'s URL: for example, \'http://example.com/wordpress\' (no trailing slash !)', 8, 30)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(2,'blogfilename', 3, 'index.php', 'blogfilename is the name of the default file for your blog', 8, 20)",

@@ -92,11 +92,6 @@ CREATE TABLE $wpdb->options (
   autoload enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (option_id,blog_id,option_name)
 );
-CREATE TABLE $wpdb->optiontypes (
-  optiontype_id int(11) NOT NULL auto_increment,
-  optiontype_name varchar(64) NOT NULL default '',
-  PRIMARY KEY  (optiontype_id)
-);
 CREATE TABLE $wpdb->post2cat (
   rel_id int(11) NOT NULL auto_increment,
   post_id int(11) NOT NULL default '0',
@@ -222,13 +217,6 @@ function upgrade_072() {
 	  PRIMARY KEY (option_id, blog_id, option_name)
 	)
 	");
-	maybe_create_table($wpdb->optiontypes, "
-	CREATE TABLE $wpdb->optiontypes (
-	  optiontype_id int(11) NOT NULL auto_increment,
-	  optiontype_name varchar(64) NOT NULL,
-	  PRIMARY KEY (optiontype_id)
-	)
-	");
 	maybe_create_table($wpdb->optiongroups, "
 	CREATE TABLE $wpdb->optiongroups (
 	  group_id int(11) NOT NULL auto_increment,
@@ -246,22 +234,6 @@ function upgrade_072() {
 	  PRIMARY KEY (group_id, option_id)
 	)
 	");
-	
-	// TODO: REWRITE THIS
-	$option_types = array(
-		"1" => "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES ('1', 'integer')",
-		"2" => "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES ('2', 'boolean')",
-		"3" => "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES ('3', 'string')",
-		"4" => "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES ('4', 'date')",
-		"5" => "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES ('5', 'select')",
-		"6" => "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES ('6', 'range')",
-		"7" => "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES ('7', 'sqlselect')");
-
-	foreach ($option_types as $option_id => $query) {
-		if(!$wpdb->get_var("SELECT * FROM $wpdb->optiontypes WHERE optiontype_id = '$option_id'")) {
-			$wpdb->query($query);
-		}
-	}
 
 	// Guess a site URI
 $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
@@ -903,7 +875,9 @@ function upgrade_130() {
 		update_option('active_plugins', $plugins);
 	}
 
+	// Obsolete tables
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optionvalues');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiontypes');
 }
 
 // The functions we use to actually do stuff
