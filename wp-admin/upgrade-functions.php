@@ -563,6 +563,13 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 					else
 						$line = '//' . $line;
 				}
+
+				// Update stylesheet references.
+				$line = str_replace("<?php echo get_settings('siteurl'); ?>/wp-layout.css", "<?php bloginfo('stylesheet_url'); ?>", $line);
+
+				// Update comments template inclusion.
+				$line = str_replace("<?php include(ABSPATH . 'wp-comments.php'); ?>", "<?php comments_template(); ?>", $line);
+
 				fwrite($f, "{$line}\n");
 			}
 			fclose($f);
