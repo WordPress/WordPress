@@ -98,6 +98,22 @@ function wptexturize($text) {
 	return $output;
 	}
 
+function wpautop($pee, $br=1) { 
+    $pee = preg_replace("/(\r\n|\n|\r)/", "\n", $pee); // cross-platform newlines 
+    $pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates 
+    $pee = preg_replace('/\n?(.+?)(\n\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end 
+    $pee = preg_replace('/<p>\s*(<(?:table|ol|ul|pre|select|form)>)/', "$1", $pee);
+    $pee = preg_replace('!(</(?:table|ol|ul|pre|select|form)>)</p>!', "$1", $pee); 
+    if ($br) $pee = preg_replace('|(?<!</p>)\s*\n|', "<br />\n", $pee); // optionally make line breaks 
+    $pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote)>)<br />!', "$1", $pee);
+    $pee = preg_replace('|<p><blockquote([^>]*)>|i', "<blockquote$1><p>", $pee);
+    $pee = str_replace('</blockquote></p>', '</p></blockquote>', $pee);
+    $pee = str_replace('<p><p>', '<p>', $pee);
+    $pee = preg_replace('#</p>\s*</p>#', '</p>', $pee);
+	$pee = preg_replace('/&[^#](?![a-z]*;)/', '&#038;', $pee);
+    return $pee;
+}
+
 function autobrize($content) {
 	$content = preg_replace("/<br>\n/", "\n", $content);
 	$content = preg_replace("/<br \/>\n/", "\n", $content);
