@@ -2,7 +2,7 @@
 $curpath = dirname(__FILE__).'/';
 
 // The locale is hard-coded here for now.
-$locale = 'en_GB';
+$locale = 'en_US';
 
 $mofile = $curpath . "/languages/$locale.mo";
 
@@ -36,4 +36,6 @@ function __ngettext($single, $plural, $number) {
     global $l10n;
     return $l10n->ngettext($single, $plural, $number);
 }
+
+require($curpath . 'locale.php');
 ?>
