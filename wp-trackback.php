@@ -80,6 +80,10 @@ if ( !empty($tb_url) && !empty($title) && !empty($tb_url) ) {
 	$comment_content = "<strong>$title</strong>\n\n$excerpt";
 	$comment_type = 'trackback';
 
+	$dupe = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND comment_author_url = '$comment_author_url'");
+	if ( $dupe )
+		trackback_response(1, 'We already have a ping from that URI for this post.');
+
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type');
 
 	wp_new_comment($commentdata);
