@@ -9,9 +9,11 @@
 # Paper mail:  (not at the moment)
 #
 # [kses strips evil scripts!]
-
-// You could override this in your my-hacks.php file
-if (defined('CUSTOM_TAGS') && !CUSTOM_TAGS) { // Let's people override the allowed tags in their my-hacks.php
+if (!defined('CUSTOM_TAGS'))
+	define('CUSTOM_TAGS', false);
+	
+// You can override this in your my-hacks.php file
+if (!CUSTOM_TAGS) {
 $allowedtags = array(
 				'a' => array(
 					'href' => array(),
