@@ -1,8 +1,14 @@
 
 <div class="wrap">
+
 <?php
-$form_action = 'post';
-$form_extra = '';
+if (0 == $post_ID) {
+	$form_action = 'post';
+	$form_extra = '';
+} else {
+	$form_action = 'editpost';
+	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
+}
 ?>
 
 <form name="post" action="post.php" method="post" id="post">
@@ -13,7 +19,9 @@ if (isset($mode) && 'bookmarklet' == $mode) {
 }
 ?>
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
-<input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
+<input type="hidden" name="action" value='<?php echo $form_action ?>' />
+<?php echo $form_extra ?>
+<input type="hidden" name="post_status" value="static" />
 
 <script type="text/javascript">
 <!--
@@ -53,7 +61,7 @@ edCanvas = document.getElementById('content');
 
 <p class="submit">
   <input name="savepage" type="submit" id="savepage" tabindex="6" style="font-weight: bold;" value="<?php _e('Save') ?>" /> 
-  <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo urlencode($_SERVER['HTTP_REFERER']); ?>" />
+  <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
 <?php do_action('edit_page_form', ''); ?>
 </div>
