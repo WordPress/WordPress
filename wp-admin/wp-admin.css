@@ -35,7 +35,7 @@ h2 {
 }
 
 label {
-	font-weight: bold;
+	cursor: pointer;
 }
 
 li {
@@ -195,6 +195,24 @@ textarea, input, select {
 
 #metainfo {
 	clear: both;
+}
+
+#post label.selectit {
+	background-color: #eee;
+	padding: 0 2px;
+	display: block;
+	margin-bottom: 1px;
+	border-bottom: 1px solid #666;
+	font-size: 11px;
+}
+
+#post label.selectit:hover {
+	background-color: #dadada;
+}
+
+label input {
+	padding: 0;
+	margin: 0;
 }
 
 #profile {

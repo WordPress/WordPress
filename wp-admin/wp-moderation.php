@@ -50,7 +50,7 @@ case 'update':
 	
 	// check if comment moderation is turned on in the settings
 	// if not, just give a short note and stop
-	if ('none' == get_settings("comment_moderation")) {
+	if ('none' == get_settings('comment_moderation')) {
 	    echo '<div class="wrap">
 		<p>Comment moderation has been turned off.</p>
 		</div>';
@@ -98,7 +98,13 @@ default:
 	if ($user_level <= 3) {
 		die('<p>Your level is not high enough to moderate comments. Ask for a promotion from your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
 	}
-
+?>
+<ul id="adminmenu2">
+	<li><a href="edit.php">Latest Posts</a></li>
+	<li><a href="edit-comments.php">Latest Comments</a></li>
+	<li class="last"><a href="wp-moderation.php" class="current">Comments Awaiting Moderation</a></li>
+</ul>
+<?php
 	// check if comment moderation is turned on in the settings
 	// if not, just give a short note and stop
 	if ('none' == get_settings('comment_moderation')) {
@@ -129,9 +135,9 @@ default:
 	    }
 	    if ($ignored) {
 		if ($deleted == "1") {
-		    echo "1 comment left unchanged <br />\n";
+		    echo "1 comment unchanged <br />\n";
 		} else {
-		    echo "$approved comments left unchanged <br />\n";
+		    echo "$approved comments unchanged <br />\n";
 		}
 	    
 	    }
@@ -141,58 +147,47 @@ default:
 	?>
 	
 <div class="wrap">
-
-	<?php
+<?php
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_approved = '0'");
 
 if ($comments) {
     // list all comments that are waiting for approval
     $file = basename(__FILE__);
-    echo "The following comments wait for approval:<br /><br />";
-    echo "<form name=\"approval\" action=\"$file\" method=\"post\">";
-    echo "<input type=\"hidden\" name=\"action\" value=\"update\" />\n";
-    echo "<ol id=\"comments\">\n";
-
+?>
+    <p>The following comments wait for approval:</p>
+    <form name="approval" action="" method="post">
+    <input type="hidden" name="action" value="update" />
+    <ol id="comments">
+<?php
     foreach($comments as $comment) {
 	$comment_date = mysql2date(get_settings("date_format") . " @ " . get_settings("time_format"), $comment->comment_date);
 	$post_title = $wpdb->get_var("SELECT post_title FROM $tableposts WHERE ID='$comment->comment_post_ID'");
-        $comment_text = stripslashes($comment->comment_content);
-        $comment_text = str_replace('<trackback />', '', $comment_text);
-        $comment_text = str_replace('<pingback />', '', $comment_text);
-        $comment_text = convert_chars($comment_text);
-        $comment_text = convert_bbcode($comment_text);
-        $comment_text = convert_gmcode($comment_text);
-        $comment_text = convert_smilies($comment_text);
-        $comment_text = make_clickable($comment_text);
-        $comment_text = balanceTags($comment_text,1);
-        $comment_text = apply_filters('comment_text', $comment_text);
 	
-	echo "<li id=\"comment-$comment->comment_ID\">";
-	echo "$comment_date -&gt; $post_title<br />";
-	echo "<strong>$comment->comment_author ";
-	echo "(<a href=\"mailto:$comment->comment_author_email\">$comment->comment_author_email</a> /";
-	echo "<a href=\"$comment->comment_author_url\">$comment->comment_author_url</a>)</strong> ";
-	echo "(IP: <a href=\"http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\">$comment->comment_author_IP</a>)<br />";
-	echo $comment_text;
-	echo "<strong>Your action:</strong>";
-	echo "&nbsp;&nbsp;<input type=\"radio\" name=\"comment[$comment->comment_ID]\" value=\"approve\" />&nbsp;approve";
-	echo "&nbsp;&nbsp;<input type=\"radio\" name=\"comment[$comment->comment_ID]\" value=\"delete\" />&nbsp;delete";
-	echo "&nbsp;&nbsp;<input type=\"radio\" name=\"comment[$comment->comment_ID]\" value=\"later\" checked=\"checked\" />&nbsp;later";
-	echo "<br /><br />";
-	echo "</li>\n";
+	echo "\n\t<li id='comment-$comment->comment_ID'>"; 
+	?>
+			<p><strong>Name:</strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong>Email:</strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong>URI:</strong> <?php comment_author_url_link() ?> <?php } ?>| <strong>IP:</strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
+<?php comment_text() ?>
+<p><?php
+echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
+				echo " | <a href=\"wp-post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete just this comment</a> | "; ?>Bulk action:
+	<label><input type="radio" name="comment[$comment->comment_ID]" value="approve" /> Approve</label>
+	<label><input type="radio" name="comment[$comment->comment_ID]" value="delete" /> Delete</label>
+	<label><input type="radio" name="comment[$comment->comment_ID]" value="later" checked="checked" /> Do nothing</label>
+
+	</li>
+<?php
     }
-    
-    echo "</ol>\n";
-    echo "<input type=\"submit\" name=\"submit\" value=\"Continue!\" class=\"search\" style=\"font-weight: bold;\" />\n";
-    echo "</form>\n";
+?>
+    </ol>
+    <input type="submit" name="submit" value="Moderate Comments" class="search" />
+    </form>
+<?php
 } else {
     // nothing to approve
-    echo "Currently there are no comments to be approved.<br />\n";
+    echo "Currently there are no comments to be approved.\n";
 }
+?>
 
-	?>
-
-	<br />
 </div>
 
 <?php
@@ -204,7 +199,7 @@ if ($comments) {
 	<p>For each comment you have to choose either <em>approve</em>, <em>delete</em> or <em>later</em>:</p>
 	<p><em>approve</em>: approves comment, so that it will be publically visible
 	<?php 
-	    if ("1" == get_settings("comments_notify")) {
+	    if ('1' == get_settings('comments_notify')) {
 		echo "; the author of the post will be notified about the new comment on his post.</p>\n";
 	    } else {
 		echo ".</p>\n";

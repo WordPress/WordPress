@@ -38,8 +38,8 @@ ob_start();
 ?>
 <ul id="adminmenu2">
 	<li><a href="edit.php">Latest Posts</a></li>
-	<li class="last"><a href="edit-comments.php" class="current">Latest Comments</a></li>
-	<li><a href="wp-moderation.php">Comments Awaiting Moderation</a></li>
+	<li><a href="edit-comments.php" class="current">Latest Comments</a></li>
+	<li class="last"><a href="wp-moderation.php">Comments Awaiting Moderation</a></li>
 </ul>
 
 <div class="wrap">
@@ -143,16 +143,14 @@ echo $comments_nav_bar;
 	if ($comments) {
 		echo '<ol>';
 		foreach ($comments as $comment) {
-		?>		
-		<li style="border-bottom: 1px solid #ccc;">
-		<?php
 			$comment_status = wp_get_comment_status($comment->comment_ID);
-			
-			if ("unapproved" == $comment_status) {
-				echo "<span class=\"unapproved\">";
+			if ('unapproved' == $comment_status) {
+				echo '<li class="unapproved" style="border-bottom: 1px solid #ccc;">';
+			} else {
+				echo '<li style="border-bottom: 1px solid #ccc;">';
 			}
-		?>
-		<p><strong>Name:</strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong>Email:</strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong>URI:</strong> <?php comment_author_url_link() ?> <?php } ?>| <strong>IP:</strong> <?php comment_author_IP() ?></p>
+		?>		
+		<p><strong>Name:</strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong>Email:</strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong>URI:</strong> <?php comment_author_url_link() ?> <?php } ?>| <strong>IP:</strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 		
 		<?php comment_text() ?>
 		<p>Posted <?php comment_date('M j, g:i A') ?> | <?php 
@@ -160,12 +158,7 @@ echo $comments_nav_bar;
 				echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
 				echo " | <a href=\"wp-post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> | ";
 			} // end if any comments to show
-			?> <a href="edit.php?p=<?php echo $comment->comment_post_ID; ?>">View Post</a></p>
-		<?php
-		    if ("unapproved" == $comment_status) {
-			    echo "</span>";
-		    }
-		?>
+			?> <a href="edit.php?p=<?php echo $comment->comment_post_ID; ?>">Edit Post</a></p>
 		</li>
 
 		<?php 

@@ -8,6 +8,10 @@ function selected($selected, $current) {
 	if ($selected == $current) echo ' selected="selected"';
 }
 
+function checked($checked, $current) {
+	if ($checked == $current) echo ' checked="checked"';
+}
+
 switch($action) {
 	case 'post':
 		$submitbutton_text = 'Blog this!';
@@ -57,7 +61,7 @@ switch($action) {
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
-<?php if ($action != "editcomment") {
+<?php if ($action != 'editcomment') {
   // this is for everything but comment editing
 ?> 
 <script type="text/javascript">
@@ -79,30 +83,23 @@ window.onload = focusit;
 		<?php dropdown_categories($blog_ID, $default_post_cat); ?>
 	</div>
 	<div id="poststatusdiv">
-		<label for="post_status"><a href="http://wordpress.org/docs/reference/post/#post_status" title="Help on post status">Post
-		Status</a>:</label>
-		<br />          
-		<select name="post_status" id="post_status">
-			<option value="publish"<?php selected($post_status, 'publish'); ?>>Publish</option>
-			<option value="draft"<?php selected($post_status, 'draft'); ?>>Draft</option>
-			<option value="private"<?php selected($post_status, 'private'); ?>>Private</option>
-		</select>
+		<a href="http://wordpress.org/docs/reference/post/#post_status" title="Help on post status">Post
+		Status</a>:
+		<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> Publish</label>
+		<label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> Draft</label>
+		<label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> Private</label>
 	</div>
 	<div id="commentstatusdiv">
-		<label for="comment_status"><a href="http://wordpress.org/docs/reference/post/#comments" title="Help on comment status">Comments</a>:</label>
-		<br />
-		<select name="comment_status" id="comment_status">
-			<option value="open"<?php selected($comment_status, 'open'); ?>>Open</option>
-			<option value="closed"<?php selected($comment_status, 'closed'); ?>>Closed</option>
-		</select>
+		<a href="http://wordpress.org/docs/reference/post/#comments" title="Help on comment status">Comments</a>:
+		<label for="comment_status_open" class="selectit"><input id="comment_status_open" name="comment_status" type="radio" value="open" <?php checked($comment_status, 'open'); ?> /> Open</label>
+	  <label for="comment_status_closed" class="selectit"><input id="comment_status_closed" name="comment_status" type="radio" value="closed" <?php checked($comment_status, 'closed'); ?> /> 
+	  Closed</label>
 	</div>
 	<div id="pingstatusdiv">
-		<label for="ping_status"><a href="http://wordpress.org/docs/reference/post/#pings" title="Help on ping status">Pings</a>:</label>		
-		<br />	
-		<select name="ping_status" id="ping_status">
-			<option value="open"<?php selected($ping_status, 'open'); ?>>Open</option>
-			<option value="closed"<?php selected($ping_status, 'closed'); ?>>Closed</option>
-		</select>
+		<a href="http://wordpress.org/docs/reference/post/#pings" title="Help on ping status">Pings</a>:
+		<label for="ping_status_open" class="selectit"><input id="ping_status_open" name="ping_status" type="radio" value="open"<?php checked($ping_status, 'open'); ?> /> Open</label>
+		<label for="ping_status_closed" class="selectit"><input id="ping_status_closed" name="ping_status" type="radio" value="closed" <?php checked($ping_status, 'closed'); ?> /> Closed</label>
+
 	</div>
 	<div id="postpassworddiv">
 		<label for="post_password"><a href="http://wordpress.org/docs/reference/post/#post_password" title="Help on post password">Post
@@ -110,7 +107,7 @@ window.onload = focusit;
 		<br />
 		<input name="post_password" type="text" id="post_password" value="<?php echo $post_password ?>" />
 	</div>
-<br clear="all" />
+<br style="clear: both" />
 <?php
 
 } else {
@@ -148,7 +145,7 @@ window.onload = focusit;
 <?php
 if ($action != 'editcomment') {
 ?>
-<p><label for="excerpt"><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a>:</label>
+<p><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a>:
 <br />
 <textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="excerpt"><?php echo $excerpt ?></textarea></p>
 

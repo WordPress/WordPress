@@ -321,8 +321,9 @@ switch($action) {
         }
 
         // pingWeblogs($blog_ID);
-
-        header ('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
+		$sendback = $HTTP_SERVER_VARS['HTTP_REFERER'];
+		if (strstr($sendback, 'wp-post')) $sendback = $siteurl .'/wp-admin/wp-post.php';
+        header ('Location: ' . $sendback);
 
         break;
 
@@ -575,7 +576,7 @@ switch($action) {
                             echo ', ';
 						$draft->post_title = stripslashes($draft->post_title);
                         if ($draft->post_title == '')
-                            $draft->post_title = 'post-'.$draft->ID;
+                            $draft->post_title = 'Post #'.$draft->ID;
 						echo "<a href='wp-post.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
 						++$i;
 						}
