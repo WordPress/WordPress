@@ -171,8 +171,11 @@ if (!empty($HTTP_POST_VARS)) { //$img1_name != "") {
 		if (!$moved) {
 			$moved = copy($img1, $pathtofile2);
 		}
-		if (!$moved) 
+		if (!$moved) {
 			die("Couldn't Upload Your File to $pathtofile2.");
+		} else {
+			@unlink($img1);
+		}
 	
 	// duplicate-renaming function contributed by Gary Lawrence Murphy
 	?>
@@ -208,8 +211,11 @@ if (!empty($HTTP_POST_VARS)) { //$img1_name != "") {
 			$moved = copy($img1, $pathtofile);
 		}
 		// Still couldn't get it. Give up.
-		if (!moved) 
+		if (!moved) {
 			die("Couldn't Upload Your File to $pathtofile.");
+		} else {
+			@unlink($img1);
+		}
 	} else {
 		rename($img1, $pathtofile)
 		or die("Couldn't Upload Your File to $pathtofile.");
