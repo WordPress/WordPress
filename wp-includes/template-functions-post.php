@@ -142,7 +142,7 @@ function the_excerpt() {
     echo apply_filters('the_excerpt', get_the_excerpt());
 }
 
-function the_excerpt_rss($cut = 0, $encode_html = 0) {
+function the_excerpt_rss($cut = 0, $encode_html = FALSE) {
     $output = get_the_excerpt(true);
 
     $output = convert_chars($output);
@@ -152,7 +152,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
     if ($encode_html == 1) {
         $output = wp_specialchars($output);
         $cut = 0;
-    } elseif ($encode_html == 0) {
+    } elseif ($encode_html === 0) {
         $output = make_url_footnote($output);
     } elseif ($encode_html == 2) {
         $output = strip_tags($output);

@@ -38,7 +38,11 @@ $more = 1;
 		<description><?php the_excerpt_rss('', 2) ?></description>
 <?php else : ?>
 		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
+	<?php if ( strlen( $post->post_content ) ) : ?>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
+	<?php else : ?>
+		<content:encoded><![CDATA[<?php the_excerpt_rss(); ?>]]></content:encoded>
+	<?php endif; ?>
 <?php endif; ?>
 		<wfw:commentRSS><?php echo comments_rss(); ?></wfw:commentRSS>
 <?php 

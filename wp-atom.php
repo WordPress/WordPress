@@ -33,9 +33,15 @@ $more = 1;
 		<issued><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt); ?></issued>
 		<?php the_category_rss('rdf') ?>
 		<summary type="text/html" mode="escaped"><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></summary>
-<?php if (!get_settings('rss_use_excerpt')) { ?>
+<?php if (!get_settings('rss_use_excerpt')) : ?>
+	<?php if ( strlen( $post->post_content ) ) : ?>
 		<content type="text/html" mode="escaped" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
-<?php } ?>
+	<?php else : ?>
+		<content type="text/html" mode="escaped" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_excerpt_rss(); ?>]]></content>
+	<?php endif; ?>
+<?php else : ?>
+		<content type="text/html" mode="escaped" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_excerpt_rss('', 2) ?>]]></content>
+<?php endif; ?>
 	</entry>
 	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
 </feed>
