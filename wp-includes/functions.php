@@ -870,7 +870,7 @@ function is_new_day() {
 
 // Filters: these are the core of WP's plugin architecture
 
-function apply_filters($tag, $string, $filter = true) {
+function merge_filters($tag) {
 	global $wp_filter;
 	if (isset($wp_filter['all'])) {
 		foreach ($wp_filter['all'] as $priority => $functions) {
@@ -883,15 +883,22 @@ function apply_filters($tag, $string, $filter = true) {
 
 	}
 
-	if (isset($wp_filter[$tag])) {
+	if (isset($wp_filter[$tag]))
 		ksort($wp_filter[$tag]);
+}
+
+function apply_filters($tag, $string) {
+	global $wp_filter;
+	
+	$args = array($string) + array_slice(func_get_args(), 3);
+	
+	merge_filters($tag);
+	
+	if (isset($wp_filter[$tag])) {
 		foreach ($wp_filter[$tag] as $priority => $functions) {
 			if (!is_null($functions)) {
 				foreach($functions as $function) {
-					if ($filter)
-						$string = call_user_func($function, $string);
-					else
-						call_user_func($function, $string);
+					$string = call_user_func_array($function, $args);
 				}
 			}
 		}
@@ -924,9 +931,25 @@ function remove_filter($tag, $function_to_remove, $priority = 10) {
 
 // The *_action functions are just aliases for the *_filter functions, they take special strings instead of generic content
 
-function do_action($tag, $string) {
-	apply_filters($tag, $string, false);
-	return $string;
+function do_action($tag, $arg = '') {
+	global $wp_filter;
+
+	if ( is_array($arg) )
+		$args = $arg + array_slice(func_get_args(), 2);
+	else
+		$args = array($action) + array_slice(func_get_args(), 2);
+	
+	merge_filters($tag);
+	
+	if (isset($wp_filter[$tag])) {
+		foreach ($wp_filter[$tag] as $priority => $functions) {
+			if (!is_null($functions)) {
+				foreach($functions as $function) {
+					$string = call_user_func_array($function, $args);
+				}
+			}
+		}
+	}
 }
 
 function add_action($tag, $function_to_add, $priority = 10) {
@@ -1064,7 +1087,7 @@ function update_user_cache() {
 }
 
 function wp_head() {
-	do_action('wp_head', '');
+	do_action('wp_head');
 }
 
 function is_single ($post = '') {

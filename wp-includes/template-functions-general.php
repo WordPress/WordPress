@@ -54,7 +54,7 @@ function wp_register( $before = '<li>', $after = '</li>' ) {
 }
 
 function wp_meta() {
-	do_action('wp_meta', 1);
+	do_action('wp_meta');
 }
 
 function bloginfo($show='') {

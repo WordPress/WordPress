@@ -1139,7 +1139,7 @@ class WP_Rewrite {
 		// Put them together.
 		$this->rules = $page_rewrite + $root_rewrite + $comments_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite + $post_rewrite;
 
-		do_action('generate_rewrite_rules', '');
+		do_action('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
 		return $this->rules;
 	}

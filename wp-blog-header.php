@@ -218,7 +218,7 @@ if ($pagenow == 'index.php') {
 		}
 	} elseif ( !isset($wp_template_redirect) ) {
 		$wp_template_redirect = true;
-		do_action('template_redirect', '');
+		do_action('template_redirect');
 		if ( is_feed() ) {
 			include(ABSPATH . '/wp-feed.php');
 			exit;

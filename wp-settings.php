@@ -120,10 +120,10 @@ if ( !get_magic_quotes_gpc() ) {
 }
 
 function shutdown_action_hook() {
-	do_action('shutdown', '');
+	do_action('shutdown');
 }
 register_shutdown_function('shutdown_action_hook');
 
 // Everything is loaded.
-do_action('init', '');
+do_action('init');
 ?>
