@@ -377,6 +377,10 @@ function wp_new_comment($commentdata) {
 	$now_gmt = current_time('mysql', 1);
 	$user_agent = addslashes($_SERVER['HTTP_USER_AGENT']);
 
+	if ( (!isset($comment_type)) || (($comment_type != 'trackback') && ($comment_type != 'pingback')) ) {
+		$comment_type = '';
+	}
+
 	// Simple flood-protection
 	if ( $lasttime = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1") ) {
 		$time_lastcomment= mysql2date('U', $lasttime);
@@ -391,9 +395,9 @@ function wp_new_comment($commentdata) {
 		$approved = 0;
 
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
-	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent)
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type)
 	VALUES 
-	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$user_ip', '$now', '$now_gmt', '$comment_content', '$approved', '$user_agent')
+	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$user_ip', '$now', '$now_gmt', '$comment_content', '$approved', '$user_agent', '$comment_type')
 	");
 
 	if ( get_option('comments_notify') )
