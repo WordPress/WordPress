@@ -29,7 +29,7 @@ require($abspath.'wp-links/links.weblogs.com.php');
 <div id="content">
 
 <!-- // b2 loop start -->
-<?php while($row = mysql_fetch_object($result)) { start_b2(); ?>
+<?php foreach ($posts as $post) { start_b2(); ?>
 
 
 <?php the_date('','<h2>','</h2>'); ?>
@@ -47,8 +47,6 @@ require($abspath.'wp-links/links.weblogs.com.php');
 <div class="feedback">
 	<?php link_pages('<br />Pages: ', '<br />', 'number'); ?> 
 	<?php comments_popup_link('Comments (0)', 'Comments (1)', 'Comments (%)'); ?> 
-	<?php trackback_popup_link('TrackBack (0)', 'TrackBack (1)', 'TrackBack (%)'); ?> 
-	<?php pingback_popup_link('PingBack (0)', 'PingBack (1)', 'PingBack (%)'); ?>
 </div>
 
 <?php trackback_rdf(); ?>
@@ -56,11 +54,6 @@ require($abspath.'wp-links/links.weblogs.com.php');
 <!-- this includes the comments and a form to add a new comment -->
 <?php include('b2comments.php'); ?>
 
-<!-- this includes the trackbacks -->
-<?php include('b2trackback.php'); ?>
-
-<!-- this includes the pingbacks -->
-<?php include('b2pingbacks.php'); ?>
 
 <!-- // this is just the end of the motor - don't touch that line either :) -->
 	<?php } ?> 

@@ -432,7 +432,7 @@ function get_lastpostdate() {
 		}
 		$sql = "SELECT * FROM $tableposts WHERE $showcatzero post_date <= '$now' ORDER BY post_date DESC LIMIT 1";
 		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
-		$querycount++;
+		++$querycount;
 		$myrow = mysql_fetch_object($result);
 		$lastpostdate = $myrow->post_date;
 		$cache_lastpostdate = $lastpostdate;
@@ -459,7 +459,7 @@ function get_userdata($userid) {
 		$sql = "SELECT * FROM $tableusers WHERE ID = '$userid'";
 		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
 		$myrow = mysql_fetch_array($result);
-		$querycount++;
+		++$querycount;
 		$cache_userdata[$userid] = $myrow;
 	} else {
 		$myrow = $cache_userdata[$userid];
@@ -468,15 +468,15 @@ function get_userdata($userid) {
 }
 
 function get_userdata2($userid) { // for team-listing
-	global $tableusers,$row;
+	global $tableusers,$post;
 	$user_data['ID'] = $userid;
-	$user_data['user_login'] = $row->user_login;
-	$user_data['user_firstname'] = $row->user_firstname;
-	$user_data['user_lastname'] = $row->user_lastname;
-	$user_data['user_nickname'] = $row->user_nickname;
-	$user_data['user_level'] = $row->user_level;
-	$user_data['user_email'] = $row->user_email;
-	$user_data['user_url'] = $row->user_url;
+	$user_data['user_login'] = $post->user_login;
+	$user_data['user_firstname'] = $post->user_firstname;
+	$user_data['user_lastname'] = $post->user_lastname;
+	$user_data['user_nickname'] = $post->user_nickname;
+	$user_data['user_level'] = $post->user_level;
+	$user_data['user_email'] = $post->user_email;
+	$user_data['user_url'] = $post->user_url;
 	return($user_data);
 }
 
@@ -487,7 +487,7 @@ function get_userdatabylogin($user_login) {
 		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
 		if (!$result)	die($sql."<br /><br />".mysql_error());
 		$myrow = mysql_fetch_array($result);
-		$querycount++;
+		++$querycount;
 		$cache_userdata["$user_login"] = $myrow;
 	} else {
 		$myrow = $cache_userdata["$user_login"];
@@ -501,7 +501,7 @@ function get_userid($user_login) {
 		$sql = "SELECT ID FROM $tableusers WHERE user_login = '$user_login'";
 		$result = mysql_query($sql) or die("No user with the login <i>$user_login</i>");
 		$myrow = mysql_fetch_array($result);
-		$querycount++;
+		++$querycount;
 		$cache_userdata["$user_login"] = $myrow;
 	} else {
 		$myrow = $cache_userdata["$user_login"];
@@ -513,80 +513,73 @@ function get_usernumposts($userid) {
 	global $tableusers,$tablesettings,$tablecategories,$tableposts,$tablecomments,$querycount;
 	$sql = "SELECT * FROM $tableposts WHERE post_author = $userid";
 	$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
-	$querycount++;
+	++$querycount;
 	return mysql_num_rows($result);
 }
 
 function get_settings($setting) {
-	global $tablesettings,$querycount,$cache_settings,$use_cache;
+	global $tablesettings, $wpdb, $cache_settings, $use_cache, $querycount;
 	if ((empty($cache_settings)) OR (!$use_cache)) {
-		$sql = "SELECT * FROM $tablesettings";
-		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
-		$querycount++;
-		$myrow = mysql_fetch_object($result);
-		$cache_settings = $myrow;
+		$settings = $wpdb->get_row("SELECT * FROM $tablesettings");
+		++$querycount;
+		$cache_settings = $settings;
 	} else {
-		$myrow = $cache_settings;
+		$settings = $cache_settings;
 	}
-	return($myrow->$setting);
+	return($settings->$setting);
 }
 
 function get_postdata($postid) {
-	global $tableusers,$tablesettings,$tablecategories,$tableposts,$tablecomments,$querycount;
-	$sql = "SELECT * FROM $tableposts WHERE ID = $postid";
-	$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
-	$querycount++;
-	if (mysql_num_rows($result)) {
-		$myrow = mysql_fetch_object($result);
-		$postdata = array (
-			'ID' => $myrow->ID, 
-			'Author_ID' => $myrow->post_author, 
-			'Date' => $myrow->post_date, 
-			'Content' => $myrow->post_content, 
-			'Excerpt' => $myrow->post_excerpt, 
-			'Title' => $myrow->post_title, 
-			'Category' => $myrow->post_category, 
-			);
-		return($postdata);
-	} else {
-		return false;
-	}
+	global $tableusers, $tablesettings, $tablecategories, $tableposts, $tablecomments, $querycount, $wpdb;
+	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = $postid");
+	++$querycount;
+	
+	$postdata = array (
+		'ID' => $post->ID, 
+		'Author_ID' => $post->post_author, 
+		'Date' => $post->post_date, 
+		'Content' => $post->post_content, 
+		'Excerpt' => $post->post_excerpt, 
+		'Title' => $post->post_title, 
+		'Category' => $post->post_category, 
+	);
+	return($postdata);
 }
 
 function get_postdata2($postid=0) { // less flexible, but saves mysql queries
-	global $row;
+	global $post;
 	$postdata = array (
-		'ID' => $row->ID, 
-		'Author_ID' => $row->post_author,
-		'Date' => $row->post_date,
-		'Content' => $row->post_content,
-		'Excerpt' => $row->post_excerpt,
-		'Title' => $row->post_title,
-		'Category' => $row->post_category,
-#		'Notify' => $row->post_notifycomments,
-#		'Clickable' => $row->post_make_clickable,
-		'Karma' => $row->post_karma // this isn't used yet
+		'ID' => $post->ID, 
+		'Author_ID' => $post->post_author,
+		'Date' => $post->post_date,
+		'Content' => $post->post_content,
+		'Excerpt' => $post->post_excerpt,
+		'Title' => $post->post_title,
+		'Category' => $post->post_category,
+#		'Notify' => $post->post_notifycomments,
+#		'Clickable' => $post->post_make_clickable,
+		'Karma' => $post->post_karma // this isn't used yet
 		);
 	return($postdata);
 }
 
 function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves mysql queries
-	global $rowc,$id,$commentdata,$tablecomments,$querycount;
+	global $postc,$id,$commentdata,$tablecomments,$querycount;
 	if ($no_cache) {
 		$query="SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID";
 		$result=mysql_query($query);
-		$querycount++;
+		++$querycount;
 		$myrow = mysql_fetch_array($result);
 	} else {
-		$myrow['comment_ID']=$rowc->comment_ID;
-		$myrow['comment_post_ID']=$rowc->comment_post_ID;
-		$myrow['comment_author']=$rowc->comment_author;
-		$myrow['comment_author_email']=$rowc->comment_author_email;
-		$myrow['comment_author_url']=$rowc->comment_author_url;
-		$myrow['comment_author_IP']=$rowc->comment_author_IP;
-		$myrow['comment_date']=$rowc->comment_date;
-		$myrow['comment_content']=$rowc->comment_content;
-		$myrow['comment_karma']=$rowc->comment_karma;
+		$myrow['comment_ID']=$postc->comment_ID;
+		$myrow['comment_post_ID']=$postc->comment_post_ID;
+		$myrow['comment_author']=$postc->comment_author;
+		$myrow['comment_author_email']=$postc->comment_author_email;
+		$myrow['comment_author_url']=$postc->comment_author_url;
+		$myrow['comment_author_IP']=$postc->comment_author_IP;
+		$myrow['comment_date']=$postc->comment_date;
+		$myrow['comment_content']=$postc->comment_content;
+		$myrow['comment_karma']=$postc->comment_karma;
 		if (strstr($myrow['comment_content'], '<trackback />')) {
 			$myrow['comment_type'] = 'trackback';
 		} elseif (strstr($myrow['comment_content'], '<pingback />')) {
@@ -604,8 +597,8 @@ function get_catname($cat_ID) {
 		$sql = "SELECT * FROM $tablecategories";
 		$result = mysql_query($sql) or die('Oops, couldn\'t query the db for categories.');
 		$querycount;
-		while ($row = mysql_fetch_object($result)) {
-			$cache_catnames[$row->cat_ID] = $row->cat_name;
+		while ($post = mysql_fetch_object($result)) {
+			$cache_catnames[$post->cat_ID] = $post->cat_name;
 		}
 	}
 	$cat_name = $cache_catnames[$cat_ID];
@@ -621,14 +614,14 @@ function dropdown_categories($blog_ID=1) {
 	global $postdata,$tablecategories,$mode,$querycount;
 	$query="SELECT * FROM $tablecategories";
 	$result=mysql_query($query);
-	$querycount++;
+	++$querycount;
 	$width = ($mode=="sidebar") ? "100%" : "170px";
 	echo '<select name="post_category" style="width:'.$width.';" tabindex="2" id="category">';
-	while($row = mysql_fetch_object($result)) {
-		echo "<option value=\"".$row->cat_ID."\"";
-		if ($row->cat_ID == $postdata["Category"])
+	while($post = mysql_fetch_object($result)) {
+		echo "<option value=\"".$post->cat_ID."\"";
+		if ($post->cat_ID == $postdata["Category"])
 			echo " selected";
-		echo ">".$row->cat_name."</option>";
+		echo ">".$post->cat_name."</option>";
 	}
 	echo "</select>";
 }
@@ -891,81 +884,6 @@ function trackback_response($error = 0, $error_message = '') {
 		echo "</response>";
 	}
 	die();
-}
-
-// updates the RSS feed !
-function rss_update($blog_ID, $num_posts="", $file="./b2rss.xml") {
-
-	global $use_rss, $b2_version, $querystring_start, $querystring_equal, $querystring_separator;
-	global $admin_email,$blogname,$siteurl,$blogfilename,$blogdescription,$posts_per_rss,$rss_language;
-	global $tableposts,$postdata,$row;
-
-	if ($rss_language == '') {
-		$rss_language = 'en';
-	}
-
-	if ($use_rss) {
-
-		$num_posts = ($num_posts=="") ? $posts_per_rss : 5;
-
-		$date_now = gmdate("D, d M Y H:i:s")." GMT";
-
-		# let's build the rss file
-		$rss = '';
-
-		$rss .= '<?xml version="1.0"?'.">\n";
-		$rss .= "<!-- generator=\"b2/$b2_version\" -->\n";
-		$rss .= "<rss version=\"0.92\">\n";
-		$rss .= "\t<channel>\n";
-		$rss .= "\t\t<title>".convert_chars(strip_tags(get_bloginfo("name")),"unicode")."</title>\n";
-		$rss .= "\t\t<link>".convert_chars(strip_tags(get_bloginfo("url")),"unicode")."</link>\n";
-		$rss .= "\t\t<description>".convert_chars(strip_tags(get_bloginfo("description")),"unicode")."</description>\n";
-		$rss .= "\t\t<lastBuildDate>$date_now</lastBuildDate>\n";
-		$rss .= "\t\t<docs>http://backend.userland.com/rss092</docs>\n";
-		$rss .= "\t\t<managingEditor>$admin_email</managingEditor>\n";
-		$rss .= "\t\t<webMaster>$admin_email</webMaster>\n";
-		$rss .= "\t\t<language>$rss_language</language>\n";
-		
-		$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
-		$sql = "SELECT * FROM $tableposts WHERE post_date <= '$now' AND post_category > 0 ORDER BY post_date DESC LIMIT $num_posts";
-		$result = mysql_query($sql) or die("Your SQL query: <br />$sql<br /><br />MySQL said:<br />".mysql_error());
-
-		while($row = mysql_fetch_object($result)) {
-
-			$id = $row->ID;
-			$postdata=get_postdata2($id);
-
-			$rss .= "\t\t<item>\n";
-			$rss .= "\t\t\t<title>".convert_chars(strip_tags(get_the_title()),"unicode")."</title>\n";
-
-//		we could add some specific RSS here, but not yet. uncomment if you wish, it's functionnal
-//			$rss .= "\t\t\t<category>".convert_chars(strip_tags(get_the_category()),"unicode")."</category>\n";
-
-			$content = stripslashes($row->post_content);
-			$content = explode("<!--more-->",$content);
-			$content = $content[0];
-			$rss .= "\t\t\t<description>".convert_chars(make_url_footnote($content),"unicode")."</description>\n";
-
-			$rss .= "\t\t\t<link>".htmlentities("$siteurl/$blogfilename".$querystring_start.'p'.$querystring_equal.$row->ID.$querystring_separator.'c'.$querystring_equal.'1')."</link>\n";
-			$rss .= "\t\t</item>\n";
-
-		}
-
-		$rss .= "\t</channel>\n";
-		$rss .= "</rss>";
-
-		$f=@fopen("$file","w+");
-		if ($f) {
-			@fwrite($f,$rss);
-			@fclose($f);
-
-			return(true);
-		} else {
-			return(false);
-		}
-	} else {
-		return(false);
-	}
 }
 
 function make_url_footnote($content) {

@@ -8,11 +8,6 @@
 	//  We highly recommend it.
 	//  We have modified the HTML it returns slightly.
 
-	define('EZSQL_DB_USER', "");			// <-- mysql db user
-	define('EZSQL_DB_PASSWORD', "");		// <-- mysql db password
-	define('EZSQL_DB_NAME', "mysql");		// <-- mysql db pname
-	define('EZSQL_DB_HOST', 'localhost');	// <-- mysql server host
-
 	define('EZSQL_VERSION', '1.21');
 	define('OBJECT', 'OBJECT', true);
 	define('ARRAY_A', 'ARRAY_A', true);
@@ -399,6 +394,6 @@
 
 	}
 
-$wpdb = new wpdb(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
+$wpdb = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
 
 ?>

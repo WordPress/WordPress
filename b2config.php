@@ -21,10 +21,10 @@ $admin_email = 'you@example.com';
 
 // ** MySQL settings **
 
-$dbname = 'b2';             // The name of the database
-$dbusername = 'user';       // Your MySQL username
-$dbpassword = 'pass';       // ...and password
-$dbhost = 'localhost';      // 99% chance you won't need to change this value
+define('DB_NAME', 'b2');		// The name of the database
+define('DB_USER', 'user');		// Your MySQL username
+define('DB_PASSWORD', 'pass');	// ...and password
+define('DB_HOST', 'localhost');	// 99% chance you won't need to change this value    
 
 
 // If you've finished up to here you should be able to install now.

@@ -30,8 +30,6 @@ $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search
 		}
 	}
 
-/* Connecting to the db */
-dbconnect();
 
 /* Sending HTTP headers */
 @header ("X-Pingback: $siteurl/xmlrpc.php");
@@ -267,5 +265,5 @@ if ($preview) {
 }
 
 //echo $request;
-$result = mysql_query($request);
+$posts = $wpdb->get_results($request);
 ?>

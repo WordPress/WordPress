@@ -71,7 +71,7 @@ function get_bloginfo($show='') {
 	return($output);
 }
 
-function single_post_title($prefix = '', $display = 1) {
+function single_post_title($prefix = '', $display = true) {
 	global $p;
 	if (intval($p)) {
 		$post_data = get_postdata($p);
@@ -85,7 +85,7 @@ function single_post_title($prefix = '', $display = 1) {
 	}
 }
 
-function single_cat_title($prefix = '', $display = 1 ) {
+function single_cat_title($prefix = '', $display = true ) {
 	global $cat;
 	if(!empty($cat) && !(strtoupper($cat) == 'ALL')) {
 		$my_cat_name = get_the_category_by_ID($cat);
@@ -98,7 +98,7 @@ function single_cat_title($prefix = '', $display = 1 ) {
 	}
 }
 
-function single_month_title($prefix = '', $display = 1 ) {
+function single_month_title($prefix = '', $display = true ) {
 	global $m, $month;
 	if(!empty($m)) {
 		$my_year = substr($m,0,4);
@@ -111,9 +111,8 @@ function single_month_title($prefix = '', $display = 1 ) {
 }
 
 function get_archives($type, $limit='') {
-	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename, $querystring_start, $querystring_equal, $month;
+	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename, $querystring_start, $querystring_equal, $month, $wpdb;
 	// weekly and daily are *broken*
-	dbconnect();
 	if ('' != $limit) {
 		$limit = (int) $limit;
 		$limit= " LIMIT $limit";
@@ -130,63 +129,52 @@ function get_archives($type, $limit='') {
 	
 	$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 	
-	if ($type == 'monthly') {
-		$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date) FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit;
-		$querycount++;
-		$arc_result=mysql_query($arc_sql) or die($arc_sql.'<br />'.mysql_error());
-		while($arc_row = mysql_fetch_array($arc_result)) {
-			$arc_year  = $arc_row['YEAR(post_date)'];
-			$arc_month = $arc_row['MONTH(post_date)'];
-			echo "<li><a href=\"$archive_link_m$arc_year".zeroise($arc_month,2).'">';
-			echo $month[zeroise($arc_month,2)].' '.$arc_year;
+	if ('monthly' == $type) {
+		++$querycount;
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
+		foreach ($arcresults as $arcresult) {
+			echo "<li><a href=\"$archive_link_m$arcresult->year".zeroise($arcresult->month, 2).'">';
+			echo $month[zeroise($arcresult->month, 2)].' '.$arcresult->year;
 			echo "</a></li>\n";
 		}
-	} elseif ($type == 'daily') {
-		$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit;
-		$querycount++;
-		$arc_result=mysql_query($arc_sql) or die($arc_sql.'<br />'.mysql_error());
-		while($arc_row = mysql_fetch_array($arc_result)) {
-			$arc_year  = $arc_row['YEAR(post_date)'];
-			$arc_month = $arc_row['MONTH(post_date)'];
-			$arc_dayofmonth = $arc_row['DAYOFMONTH(post_date)'];
-			echo "<li><a href=\"$archive_link_m$arc_year".zeroise($arc_month,2).zeroise($arc_dayofmonth,2).'">';
-			echo mysql2date($archive_day_date_format, $arc_year.'-'.zeroise($arc_month,2).'-'.zeroise($arc_dayofmonth,2).' 00:00:00');
+	} elseif ('daily' == $type) {
+		++$querycount;
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
+		foreach ($arcresults as $arcresult) {
+			echo "<li><a href=\"$archive_link_m$arcresult->year".zeroise($arcresult->month, 2).zeroise($arcresult->dayofmonth, 2).'">';
+			echo mysql2date($archive_day_date_format, $arcresult->year.'-'.zeroise($arcresult->month,2).'-'.zeroise($arcresult->dayofmonth,2).' 00:00:00');
 			echo "</a></li>\n";
 		}
-	} elseif ($type == 'weekly') {
+	} elseif ('weekly' == $type) {
 		if (!isset($start_of_week)) {
 			$start_of_week = 1;
 		}
-		$arc_sql = "SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date), WEEK(post_date) FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit;
-		$querycount++;
-		$arc_result=mysql_query($arc_sql) or die($arc_sql.'<br />'.mysql_error());
+		++$querycount;
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, WEEK(post_date) AS `week` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
-		while($arc_row = mysql_fetch_array($arc_result)) {
-			$arc_year = $arc_row['YEAR(post_date)'];
-			$arc_w = $arc_row['WEEK(post_date)'];
-			if ($arc_w != $arc_w_last) {
-				$arc_w_last = $arc_w;
-				$arc_ymd = $arc_year.'-'.zeroise($arc_row['MONTH(post_date)'],2).'-' .zeroise($arc_row['DAYOFMONTH(post_date)'],2);
+		foreach ($arcresults as $arcresult) {
+			if ($arcresult->week != $arc_w_last) {
+				$arc_w_last = $arcresult->week;
+				$arc_ymd = $arcresult->year.'-'.zeroise($arcresult->month, 2).'-' .zeroise($arcresult->dayofmonth, 2);
 				$arc_week = get_weekstartend($arc_ymd, $start_of_week);
 				$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 				$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-				echo "<li><a href=\"$siteurl/".$blogfilename."?m=$arc_year&amp;w=$arc_w\">";
+				echo "<li><a href='$siteurl/".$blogfilename."?m=$arc_year&amp;w=$arc_w'>";
 				echo $arc_week_start.$archive_week_separator.$arc_week_end;
 				echo "</a></li>\n";
 			}
 		}
-	} elseif ($type == 'postbypost') {
-		$requestarc = " SELECT ID,post_date,post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit;
-		$querycount++;
-		$resultarc = mysql_query($requestarc);
-		while($row=mysql_fetch_object($resultarc)) {
-			if ($row->post_date != '0000-00-00 00:00:00') {
-				echo "<li><a href=\"$archive_link_p".$row->ID.'">';
-				$arc_title = stripslashes($row->post_title);
+	} elseif ('postbypost' == $type) {
+		++$querycount;
+		$arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC" . $limit);
+		foreach ($arcresults as $arcresult) {
+			if ($arcresult->post_date != '0000-00-00 00:00:00') {
+				echo "<li><a href=\"$archive_link_p".$arcresult->ID.'">';
+				$arc_title = stripslashes($arcresult->post_title);
 				if ($arc_title) {
 					echo strip_tags($arc_title);
 				} else {
-					echo $row->ID;
+					echo $arcresult->ID;
 				}
 				echo "</a></li>\n";
 			}
@@ -200,8 +188,8 @@ function get_archives($type, $limit='') {
 
 /***** Date/Time tags *****/
 
-function the_date($d='', $before='', $after='', $echo = 1) {
-	global $id, $postdata, $day, $previousday,$dateformat,$newday;
+function the_date($d='', $before='', $after='', $echo = true) {
+	global $id, $postdata, $day, $previousday, $dateformat, $newday;
 	$the_date = '';
 	if ($day != $previousday) {
 		$the_date .= $before;
@@ -221,7 +209,7 @@ function the_date($d='', $before='', $after='', $echo = 1) {
 	}
 }
 
-function the_time($d='', $echo = 1) {
+function the_time($d='', $echo = true) {
 	global $id,$postdata,$timeformat;
 	if ($d=='') {
 		$the_time = mysql2date($timeformat, $postdata['Date']);
@@ -364,7 +352,7 @@ function the_title_unicode($before='',$after='') {
 	}
 }
 function get_the_title() {
-	global $id,$postdata;
+	global $id, $postdata;
 	$output = stripslashes($postdata['Title']);
 	$output = apply_filters('the_title', $output);
 	return($output);
@@ -612,7 +600,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 		$sql = "SELECT ID,post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev,1";
 
 		$query = @mysql_query($sql);
-		$querycount++;
+		++$querycount;
 		if (($query) && (mysql_num_rows($query))) {
 			$p_info = mysql_fetch_object($query);
 			$p_title = $p_info->post_title;
@@ -657,7 +645,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 		$sql = "SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1";
 
 		$query = @mysql_query($sql);
-		$querycount++;
+		++$querycount;
 		if (($query) && (mysql_num_rows($query))) {
 			$p_info = mysql_fetch_object($query);
 			$p_title = $p_info->post_title;
@@ -805,7 +793,7 @@ function get_the_category() {
 	if ((empty($cache_categories[$cat_ID])) OR (!$use_cache)) {
 		$query="SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'";
 		$result=mysql_query($query);
-		$querycount++;
+		++$querycount;
 		$myrow = mysql_fetch_array($result);
 		$cat_name = $myrow[0];
 		$cache_categories[$cat_ID] = $cat_name;
@@ -820,7 +808,7 @@ function get_the_category_by_ID($cat_ID) {
 	if ((!$cache_categories[$cat_ID]) OR (!$use_cache)) {
 		$query="SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'";
 		$result=mysql_query($query);
-		$querycount++;
+		++$querycount;
 		$myrow = mysql_fetch_array($result);
 		$cat_name = $myrow[0];
 		$cache_categories[$cat_ID] = $cat_name;
@@ -850,7 +838,7 @@ function dropdown_cats($optionall = 1, $all = 'All') {
 	global $cat, $tablecategories, $querycount;
 	$query="SELECT * FROM $tablecategories";
 	$result=mysql_query($query);
-	$querycount++;
+	++$querycount;
 	echo "<select name=\"cat\" class=\"postform\">\n";
 	if (intval($optionall) == 1) {
 		echo "\t<option value=\"all\">$all</option>\n";
@@ -873,7 +861,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$sort_column = 'cat_'.$sort_column;
 	$query="SELECT * FROM $tablecategories WHERE cat_ID > 0 ORDER BY $sort_column $sort_order";
 	$result=mysql_query($query);
-	$querycount++;
+	++$querycount;
 	if (intval($optionall) == 1) {
 		$all = apply_filters('list_cats', $all);
 		if ($list) echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a></li>";
@@ -909,52 +897,22 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 /***** Comment tags *****/
 
 // generic comments/trackbacks/pingbacks numbering
-function generic_ctp_number($post_id, $mode = 'comments') {
-	global $postdata, $tablecomments, $querycount, $cache_ctp_number, $use_cache;
-	if (!isset($cache_ctp_number[$post_id]) || (!$use_cache)) {
-		$post_id = intval($post_id);
-		$query = "SELECT * FROM $tablecomments WHERE comment_post_ID = $post_id";
-		$result = mysql_query($query) or die('SQL query: '.$query.'<br />MySQL Error: '.mysql_error());
-		$querycount++;
-		$ctp_number = array();
-		while($row = mysql_fetch_object($result)) {
-			if (substr($row->comment_content, 0, 13) == '<trackback />') {
-				$ctp_number['trackbacks']++;
-			} elseif (substr($row->comment_content, 0, 12) == '<pingback />') {
-				$ctp_number['pingbacks']++;
-			} else {
-				$ctp_number['comments']++;
-			}
-			$ctp_number['ctp']++;
-		}
-		$cache_ctp_number[$post_id] = $ctp_number;
-	} else {
-		$ctp_number = $cache_ctp_number[$post_id];
-	}
-	if (($mode != 'comments') && ($mode != 'trackbacks') && ($mode != 'pingbacks') && ($mode != 'ctp')) {
-		$mode = 'ctp';
-	}
-	return $ctp_number[$mode];
-}
 
-function comments_number($zero='no comment', $one='1 comment', $more='% comments') {
-	// original hack by dodo@regretless.com
-	global $id,$postdata,$tablecomments,$c,$querycount,$cache_commentsnumber,$use_cache;
-	$number = generic_ctp_number($id, 'comments');
+function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments') {
+	global $id, $comment, $tablecomments, $querycount, $wpdb;
+	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id");
 	if ($number == 0) {
 		$blah = $zero;
 	} elseif ($number == 1) {
 		$blah = $one;
 	} elseif ($number  > 1) {
-		$n = $number;
-		$more=str_replace('%', $n, $more);
-		$blah = $more;
+		$blah = str_replace('%', $number, $more);
 	}
 	echo $blah;
 }
 
-function comments_link($file='',$echo=true) {
-	global $id,$pagenow;
+function comments_link($file='', $echo=true) {
+	global $id, $pagenow;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if ($file == '')	$file = $pagenow;
 	if ($file == '/')	$file = '';
@@ -962,23 +920,21 @@ function comments_link($file='',$echo=true) {
 	else echo $file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1#comments';
 }
 
-function comments_popup_script($width=400, $height=400, $file='b2commentspopup.php', $trackbackfile='b2trackbackpopup.php', $pingbackfile='b2pingbackspopup.php') {
+function comments_popup_script($width=400, $height=400, $file='b2commentspopup.php') {
 	global $b2commentspopupfile, $b2trackbackpopupfile, $b2pingbackpopupfile, $b2commentsjavascript;
 	$b2commentspopupfile = $file;
-	$b2trackbackpopupfile = $trackbackfile;
-	$b2pingbackpopupfile = $pingbackfile;
 	$b2commentsjavascript = 1;
-	$javascript = "<script language=\"javascript\" type=\"text/javascript\">\n<!--\nfunction b2open (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n//-->\n</script>\n";
+	$javascript = "<script language='javascript' type='text/javascript'>\n<!--\nfunction b2open (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n//-->\n</script>\n";
 	echo $javascript;
 }
 
-function comments_popup_link($zero='no comment', $one='1 comment', $more='% comments', $CSSclass='') {
+function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='') {
 	global $id, $b2commentspopupfile, $b2commentsjavascript;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-	echo '<a href="'.$siteurl.'/';
+	echo "<a href=\"$siteurl/";
 	if ($b2commentsjavascript) {
 		echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
-		echo '" onclick="b2open(this.href); return false"';
+		echo '\' onclick="b2open(this.href); return false"';
 	} else {
 		// if comments_popup_script() is not in the template, display simple comment link
 		comments_link();
@@ -993,31 +949,62 @@ function comments_popup_link($zero='no comment', $one='1 comment', $more='% comm
 }
 
 function comment_ID() {
-	global $commentdata;	echo $commentdata['comment_ID'];
+	global $comment;
+	echo $comment->comment_ID;
 }
 
 function comment_author() {
-	global $commentdata;	echo stripslashes($commentdata['comment_author']);
+	global $comment;
+	echo stripslashes($comment->comment_author);
 }
 
 function comment_author_email() {
-	global $commentdata;	echo antispambot(stripslashes($commentdata['comment_author_email']));
+	global $comment;
+	echo antispambot(stripslashes($comment->comment_author_email));
 }
 
+function comment_author_link() {
+	global $comment;
+	$url = trim(stripslashes(&$comment->comment_author_url));
+	$email = &$comment->comment_author_email;
+	$author = stripslashes(&$comment->comment_author);
+
+	$url = str_replace('http://url', '', $url);
+	
+	if (empty($url) && empty($email)) return $author;
+	echo '<a href="';
+	if ($url) {
+		$url = str_replace(';//', '://', $url);
+		$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
+		$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
+		echo $url;
+	} else {
+		echo antispambot($email);
+	}
+	echo '" rel="external">' . $author . '</a>';
+}
+
+function comment_type($commenttxt = 'Comment', $trackbacktxt = 'Trackback', $pingbacktxt = 'Pingback') {
+	global $comment;
+	if (preg_match('|<trackback />|', $comment->comment_content)) echo $trackbacktxt;
+	elseif (preg_match('|<pingback />|', $comment->comment_content)) echo $pingbacktxt;
+	else echo $commenttxt;
+}
 function comment_author_url() {
-	global $commentdata;
-	$url = trim(stripslashes($commentdata['comment_author_url']));
-	$url = (!stristr($url, '://')) ? 'http://'.$url : $url;
+	global $comment;
+	$url = trim(stripslashes($comment->comment_author_url));
+	$url = str_replace(';//', '://', $url);
+	$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
 	// convert & into &amp;
-	$url = preg_replace('#&([^amp\;])#is', '&amp;$1', $url);
+	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
 	if ($url != 'http://url') {
 		echo $url;
 	}
 }
 
 function comment_author_email_link($linktext='', $before='', $after='') {
-	global $commentdata;
-	$email=$commentdata['comment_author_email'];
+	global $comment;
+	$email = $comment->comment_author_email;
 	if ((!empty($email)) && ($email != '@')) {
 		$display = ($linktext != '') ? $linktext : antispambot(stripslashes($email));
 		echo $before;
@@ -1027,9 +1014,9 @@ function comment_author_email_link($linktext='', $before='', $after='') {
 }
 
 function comment_author_url_link($linktext='', $before='', $after='') {
-	global $commentdata;
-	$url = trim(stripslashes($commentdata['comment_author_url']));
-	$url = preg_replace('#&([^amp\;])#is', '&amp;$1', $url);
+	global $comment;
+	$url = trim(stripslashes($comment->comment_author_url));
+	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
 	$url = (!stristr($url, '://')) ? 'http://'.$url : $url;
 	if ((!empty($url)) && ($url != 'http://') && ($url != 'http://url')) {
 		$display = ($linktext != '') ? $linktext : stripslashes($url);
@@ -1040,39 +1027,40 @@ function comment_author_url_link($linktext='', $before='', $after='') {
 }
 
 function comment_author_IP() {
-	global $commentdata;	echo stripslashes($commentdata['comment_author_IP']);
+	global $comment;
+	echo stripslashes($comment->comment_author_IP);
 }
 
 function comment_text() {
-	global $commentdata;
-	$comment = stripslashes($commentdata['comment_content']);
-	$comment = str_replace('<trackback />', '', $comment);
-	$comment = str_replace('<pingback />', '', $comment);
-	$comment = convert_chars($comment);
-	$comment = convert_bbcode($comment);
-	$comment = convert_gmcode($comment);
-	$comment = convert_smilies($comment);
-	$comment = make_clickable($comment);
-	$comment = balanceTags($comment);
-	$comment = apply_filters('comment_text', $comment);
-	echo $comment;
+	global $comment;
+	$comment_text = stripslashes($comment->comment_content);
+	$comment_text = str_replace('<trackback />', '', $comment_text);
+	$comment_text = str_replace('<pingback />', '', $comment_text);
+	$comment_text = convert_chars($comment_text);
+	$comment_text = convert_bbcode($comment_text);
+	$comment_text = convert_gmcode($comment_text);
+	$comment_text = convert_smilies($comment_text);
+	$comment_text = make_clickable($comment_text);
+	$comment_text = balanceTags($comment_text);
+	$comment_text = apply_filters('comment_text', $comment_text);
+	echo $comment_text;
 }
 
 function comment_date($d='') {
-	global $commentdata,$dateformat;
+	global $comment, $dateformat;
 	if ($d == '') {
-		echo mysql2date($dateformat, $commentdata['comment_date']);
+		echo mysql2date($dateformat, $comment->comment_date);
 	} else {
-		echo mysql2date($d, $commentdata['comment_date']);
+		echo mysql2date($d, $comment->comment_date);
 	}
 }
 
 function comment_time($d='') {
-	global $commentdata,$timeformat;
+	global $comment, $timeformat;
 	if ($d == '') {
-		echo mysql2date($timeformat, $commentdata['comment_date']);
+		echo mysql2date($timeformat, $comment->comment_date);
 	} else {
-		echo mysql2date($d, $commentdata['comment_date']);
+		echo mysql2date($d, $comment->comment_date);
 	}
 }
 
@@ -1082,7 +1070,7 @@ function comment_time($d='') {
 
 /***** TrackBack tags *****/
 
-function trackback_url($display = 1) {
+function trackback_url($display = true) {
 	global $siteurl, $id;
 	$tb_url = $siteurl.'/b2trackback.php/'.$id;
 	if ($display) {
@@ -1284,12 +1272,12 @@ function permalink_single_rss($file='b2rss.xml') {
 // @@@ These aren't template tags, do not edit them
 
 function start_b2() {
-	global $row, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
+	global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages;
 	global $preview_userid,$preview_date,$preview_content,$preview_title,$preview_category,$preview_notify,$preview_make_clickable,$preview_autobr;
 	global $pagenow;
 	global $HTTP_GET_VARS;
 	if (!$preview) {
-		$id = $row->ID;
+		$id = $post->ID;
 		$postdata=get_postdata2($id);
 	} else {
 		$id = 0;

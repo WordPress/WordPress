@@ -8,7 +8,6 @@ require($abspath.$b2inc.'/b2template.functions.php');
 include($abspath.$b2inc.'/b2vars.php');
 include($abspath.$b2inc.'/b2functions.php');
 
-dbconnect();
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -73,15 +72,11 @@ $email = addslashes($email);
 $url = addslashes($url);
 
 /* flood-protection */
-$query = "SELECT * FROM $tablecomments WHERE comment_author_IP='$user_ip' ORDER BY comment_date DESC LIMIT 1";
-$result = mysql_query($query);
+$lasttime = $wpdb->get_var("SELECT comment_date FROM $tablecomments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1");
 $ok=1;
-if (!empty($result)) {
-	while($row = mysql_fetch_object($result)) {
-		$then=$row->comment_date;
-	}
-	$time_lastcomment=mysql2date("U","$then");
-	$time_newcomment=mysql2date("U","$now");
+if (!empty($lasttime)) {
+	$time_lastcomment= mysql2date('U', $lasttime);
+	$time_newcomment= mysql2date('U', "$now");
 	if (($time_newcomment - $time_lastcomment) < 30)
 		$ok=0;
 }
@@ -89,10 +84,7 @@ if (!empty($result)) {
 
 if ($ok) {
 
-	$query = "INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$url','$user_ip','$now','$comment','0')";
-	$result = mysql_query($query);
-	if (!$result)
-		die ("There is an error with the database, it can&#8217;t store your comment...<br />Contact the <a href=\"mailto:$admin_email\">webmaster</a>.");
+	$wpdb->query("INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$url','$user_ip','$now','$comment','0')");
 
 	if ($comments_notify) {
 
@@ -110,7 +102,7 @@ if ($ok) {
 		$recipient = $authordata['user_email'];
 		$subject = "[$blogname] Comment: \"".stripslashes($postdata['Title']).'"';
 
-		@mail($recipient, $subject, $notify_message, "From: \"$comment_author\" <$comment_author_email>\r\n"."X-Mailer: wordpress $b2_version with PHP/".phpversion());
+		@mail($recipient, $subject, $notify_message, "From: \"$comment_author\" <$comment_author_email>\r\n"."X-Mailer: WordPress $b2_version with PHP/".phpversion());
 		
 	}
 
@@ -120,12 +112,12 @@ if ($ok) {
 	if ($url == '') {
 		$url = ' '; // this to make sure a cookie is set for 'no url'
 	}
-	setcookie("comment_author", $author, time()+30000000);
-	setcookie("comment_author_email", $email, time()+30000000);
-	setcookie("comment_author_url", $url, time()+30000000);
+	setcookie('comment_author', $author, time()+30000000);
+	setcookie('comment_author_email', $email, time()+30000000);
+	setcookie('comment_author_url', $url, time()+30000000);
 
 	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-	header('Last-Modified: ' . gmdate("D, d M Y H:i:s") . ' GMT');
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Pragma: no-cache');
 	$location = (!empty($HTTP_POST_VARS['redirect_to'])) ? $HTTP_POST_VARS['redirect_to'] : $HTTP_SERVER_VARS["HTTP_REFERER"];
