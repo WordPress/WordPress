@@ -264,15 +264,15 @@ switch ($action) {
     <tr height="20"> 
       <td height="20" align="right">Target:</td>
       <td><label>
-        <input type="radio" name="target"  value="_blank">
+        <input type="radio" name="target"  value="_blank" <?php echo(($link_target == '_blank') ? 'checked="checked"' : ''); ?>>
         _blank</label> &nbsp;
         <label>
-        <input type="radio" name="target" value="_top">
-        _top</label>
-        &nbsp;
+        <input type="radio" name="target" value="_top" <?php echo(($link_target == '_top') ? 'checked="checked"' : ''); ?>>
+        _top</label> &nbsp;
         <label>
-        <input type="radio" name="target" value="" checked="checked">
-        none</label></td>
+        <input type="radio" name="target" value="" <?php echo(($link_target == '') ? 'checked="checked"' : ''); ?>>
+        none</label>
+      </td>
     </tr>
     <tr height="20"> 
       <td height="20" align="right">Visible:</td>
