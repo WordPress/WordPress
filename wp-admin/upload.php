@@ -27,7 +27,7 @@ if (!is_writable(get_settings('fileupload_realpath')))
 switch ($action) {
 case 'not-writable':
 ?>
-<p>It doesn't look like you can use the file upload feature at this time because the directory you have specified (<code><?php echo $get_settings('fileupload_realpath'); ?></code>) doesn't appear to be writable by WordPress. Check the permissions on the directory and for typos.</p>
+<p>It doesn't look like you can use the file upload feature at this time because the directory you have specified (<code><?php echo get_settings('fileupload_realpath'); ?></code>) doesn't appear to be writable by WordPress. Check the permissions on the directory and for typos.</p>
 
 <?php
 break;
