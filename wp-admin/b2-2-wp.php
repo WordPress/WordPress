@@ -15,11 +15,13 @@ if (!$dbconnexion) {
 	echo mysql_error();
 	die();
 }
+$step = $HTTP_GET_VARS['step'];
+if (!$step) $step = 0;
 if (!step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<title>WordPress > Installation</title>
+	<title>WordPress > b2 Conversion</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style media="screen" type="text/css">
 	body {
@@ -64,7 +66,7 @@ switch($step) {
     design.</li>
   <li>You can keeep your <code>b2config.php</code> file if you want to, but it 
     is <strong>very important</strong> that you take the last few lines from the 
-    WordPress and add those in, otherwise, nothing will work.</li>
+    WordPress one and add those in, otherwise, nothing will work.</li>
   <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support 
     forums</a>.</li>
   <li><strong>Back up</strong> your database before you do anything. Yes, you. 
@@ -138,12 +140,10 @@ if (!$got_links) {
            " PRIMARY KEY (link_id)                              " .
            ") ";
     $result = mysql_query($sql) or print ("Can't create the table '$tablelinks' in the database.<br />" . $sql . "<br />" . mysql_error());
-	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://wordpress.org', 'WordPress', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
-	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://cafelog.com', 'b2', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
-	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://photomatt.net', 'Matt', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
-	$links = mysql_query("INSERT INTO b2links VALUES ('', 'http://zed1.com/b2/', 'Mike', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
-
-
+	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://wordpress.org', 'WordPress', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://cafelog.com', 'b2', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://photomatt.net', 'Matt', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
+	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://zed1.com/b2/', 'Mike', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '');");
 
     if ($result != false) {
         echo "<p>Table '$tablelinks' created OK</p>\n";
@@ -151,7 +151,31 @@ if (!$got_links) {
     }
 } else {
     echo "<p>Found table '$tablelinks', don't need to create it...</p>\n";
-        $got_links = true;
+    echo "<p>... may need to update it though. Looking for column link_updated...</p>\n";
+    $query = "SELECT link_updated FROM $tablelinks LIMIT 1";
+    $q = @mysql_query($query);
+    if ($q != false) {
+        if ($row = mysql_fetch_object($q)) {
+            echo "<p>You have  column link_updated. Good!</p>\n";
+        }
+    } else {
+        $query = "ALTER TABLE $tablelinks ADD COLUMN link_updated DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'";
+        $q = mysql_query($query) or mysql_doh("Doh, couldn't add column.", $query, mysql_error());
+        echo "<p>Added column link_updated...</p>\n";
+    }
+    echo "<p>Looking for column link_rel...</p>\n";
+    $query = "SELECT link_rel FROM $tablelinks LIMIT 1";
+    $q = @mysql_query($query);
+    if ($q != false) {
+        if ($row = mysql_fetch_object($q)) {
+            echo "<p>You have column link_rel. Good!</p>\n";
+        }
+    } else {
+        $query = "ALTER TABLE $tablelinks ADD COLUMN link_rel varchar(255) NOT NULL DEFAULT '' ";
+        $q = mysql_query($query) or mysql_doh("Doh, couldn't add column.", $query, mysql_error());
+        echo "<p>Added column link_rel...</p>\n";
+    }
+    $got_links = true;
 }
 
 if ($got_links && $got_cats) {
