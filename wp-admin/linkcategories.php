@@ -2,13 +2,13 @@
 // $Id$
 //
 // Links
-// Copyright (C) 2002 Mike Little -- mike@zed1.com
+// Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
 //
-// This is an add-on to b2 weblog / news publishing tool
+// This is an add-on to b2/WordPress weblog / news publishing tool
 // b2 is copyright (c)2001, 2002 by Michel Valdrighi - m@tidakada.com
 //
 // **********************************************************************
-// Copyright (C) 2002 Mike Little
+// Copyright (C) 2002, 2003 Mike Little
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,8 @@
 
 include_once('../wp-links/links.php');
 
-$title = "Link Categories";
+$title = 'Link Categories';
+$this_file='linkcategories.php';
 
 $b2varstoreset = array('action','standalone','cat', 'auto_toggle');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
@@ -293,7 +294,7 @@ switch ($action) {
       <tr>
         <td>
           <form name="cats" method="post">
-            <b>Edit</b> a link category:<br />
+            <b>Edit</b> a link category:<?php echo gethelp_link($this_file,'edit_link_category');?><br />
             <table width="" cellpadding="5" cellspacing="0" border="0">
               <tr style="background-color: #ddd;">
                 <th rowspan="2" valign="bottom" style="border-bottom: 1px dotted #9C9A9C;" >Id</th>
@@ -360,7 +361,7 @@ $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images
       <input type="hidden" name="action" value="addcat" />
     <table border="0">
       <tr>
-        <th>Add a Link Category:</th>
+        <th>Add a Link Category:<?php echo gethelp_link($this_file,'add_link_category');?></th>
       </tr>
       <tr>
         <td align="right">Name:</td>

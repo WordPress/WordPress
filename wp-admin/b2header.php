@@ -10,7 +10,7 @@ require_once($abspath.$b2inc.'/xmlrpcs.inc');
 
 function gethelp_link($this_file, $helptag) {
     $url = 'help/en/'.$this_file.'.help.html#'.$helptag;
-    $s = '&nbsp;<a href="'.$url.'" onclick="javascript:helpWindow(\''.$url.'\'); return false;" title="Click here for help"><span class="helplink">[?]</span></a>';
+    $s = '&nbsp;<span class="helplink"><a href="'.$url.'" onclick="javascript:helpWindow(\''.$url.'\'); return false;" title="Click here for help">[?]</a></span>';
     return $s;
 }
 
@@ -56,7 +56,6 @@ if ($standalone == 0) {
 <title>WordPress > <?php bloginfo('name') ?> > <?php echo $title; ?></title>
 <link rel="stylesheet" href="b2.css" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
 <?php
 if ($redirect==1) {
 ?>
