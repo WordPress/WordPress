@@ -1020,12 +1020,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $trackback_pings = array();
 	  foreach($comments as $comment) {
-	    if ((strpos($comment->comment_content, '<trackback />') === 0)
-	        || ('trackback' == $comment->comment_type)) {
-	      // FIXME: would be nicer to have a comment_title field?
-	      // FIXME: assumption: here we make the assumption that trackback
-	      //        titles are stored as <strong>title</strong>
-	      $content = str_replace('<trackback />', '', $comment->comment_content);
+	    if ( 'trackback' == $comment->comment_type ) {
+	      $content = $comment->comment_content;
 	      $title = substr($content, 8, (strpos($content, '</strong>') - 8));
 	      $trackback_pings[] = array(
 	        'pingTitle' => $title,
@@ -1269,10 +1265,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$pingbacks = array();
 		foreach($comments as $comment) {
-			if ((strpos($comment->comment_content, '<pingback />') === 0)
-			    || ('pingback' == $comment->comment_type)) {
+			if ( 'pingback' == $comment->comment_type )
 				$pingbacks[] = $comment->comment_author_url;
-			}
 		}
 
 		return $pingbacks;

@@ -382,13 +382,13 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$comment_content = addslashes(trim($ping));
 			$comment_content = str_replace('-----', '', $comment_content);
 			
-			$comment_content = "<trackback /><strong>$ping_title</strong>\n$comment_content";
+			$comment_content = "<strong>$ping_title</strong>\n\n$comment_content";
       
 			// Check if it's already there
 			if (!$wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_date = '$comment_date' AND comment_content = '$comment_content'")) {
-				$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved)
+				$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved, comment_type)
 				VALUES
-				($post_id, '$comment_author', '$comment_email', '$comment_url', '$comment_ip', '$comment_date', '$comment_content', '1')");
+				($post_id, '$comment_author', '$comment_email', '$comment_url', '$comment_ip', '$comment_date', '$comment_content', '1', 'trackback')");
 				echo " Comment added.";
 			}
 

@@ -237,9 +237,7 @@ function comment_author_IP() {
 
 function get_comment_text() {
 	global $comment;
-	$comment_text = str_replace('<trackback />', '', $comment->comment_content);
-	$comment_text = str_replace('<pingback />', '', $comment_text);
-	return apply_filters('get_comment_text', $comment_text);
+	return apply_filters('get_comment_text', $comment->comment_content);
 }
 
 function comment_text() {
@@ -254,9 +252,7 @@ function comment_text_rss() {
 
 function get_comment_excerpt() {
 	global $comment;
-	$comment_text = str_replace('<trackback />', '', $comment->comment_content);
-	$comment_text = str_replace('<pingback />', '', $comment_text);
-	$comment_text = strip_tags($comment_text);
+	$comment_text = strip_tags($comment->comment_content);
 	$blah = explode(' ', $comment_text);
 	if (count($blah) > 20) {
 		$k = 20;
@@ -396,8 +392,8 @@ function get_lastcommentmodified($timezone = 'server') {
 	return $lastcommentmodified;
 }
 
-function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { // less flexible, but saves DB queries
-	global $postc,$id,$commentdata, $wpdb;
+function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) { // less flexible, but saves DB queries
+	global $postc, $id, $commentdata, $wpdb;
 	if ($no_cache) {
 		$query = "SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment_ID'";
 		if (false == $include_unapproved) {
@@ -405,23 +401,17 @@ function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { //
 		}
     		$myrow = $wpdb->get_row($query, ARRAY_A);
 	} else {
-		$myrow['comment_ID']=$postc->comment_ID;
-		$myrow['comment_post_ID']=$postc->comment_post_ID;
-		$myrow['comment_author']=$postc->comment_author;
-		$myrow['comment_author_email']=$postc->comment_author_email;
-		$myrow['comment_author_url']=$postc->comment_author_url;
-		$myrow['comment_author_IP']=$postc->comment_author_IP;
-		$myrow['comment_date']=$postc->comment_date;
-		$myrow['comment_content']=$postc->comment_content;
-		$myrow['comment_karma']=$postc->comment_karma;
-        $myrow['comment_approved']=$postc->comment_approved;
-		if (strstr($myrow['comment_content'], '<trackback />')) {
-			$myrow['comment_type'] = 'trackback';
-		} elseif (strstr($myrow['comment_content'], '<pingback />')) {
-			$myrow['comment_type'] = 'pingback';
-		} else {
-			$myrow['comment_type'] = 'comment';
-		}
+		$myrow['comment_ID'] = $postc->comment_ID;
+		$myrow['comment_post_ID'] = $postc->comment_post_ID;
+		$myrow['comment_author'] = $postc->comment_author;
+		$myrow['comment_author_email'] = $postc->comment_author_email;
+		$myrow['comment_author_url'] = $postc->comment_author_url;
+		$myrow['comment_author_IP'] = $postc->comment_author_IP;
+		$myrow['comment_date'] = $postc->comment_date;
+		$myrow['comment_content'] = $postc->comment_content;
+		$myrow['comment_karma'] = $postc->comment_karma;
+		$myrow['comment_approved'] = $postc->comment_approved;
+		$myrow['comment_type'] = $postc->comment_type;
 	}
 	return $myrow;
 }
