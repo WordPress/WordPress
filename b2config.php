@@ -18,14 +18,6 @@ $blogfilename = 'index.php';
 $blogname = "my weblog";
 $blogdescription = "babblings !";
 
-
-
-// $pathserver is where you have uploaded b2: for example, 'http://mydomain.com' (no ending slash !)
-//   by default b2 is set to run in the folder your blog resides, same as $siteurl
-
-$pathserver = 'http://example.com';
-
-
 // your email (obvious eh ?)
 $admin_email = 'you@example.com';
 
@@ -40,7 +32,6 @@ $users_can_register = 1;
 
 // day at the start of the week: 0 for Sunday, 1 for Monday, 2 for Tuesday, etc
 $start_of_week = 1;
-
 
 
 // ** MySQL settings **
@@ -335,7 +326,7 @@ $HTTP_USER_AGENT=getenv('HTTP_USER_AGENT'); /* visitor's browser */
 $server = $dbhost;
 $loginsql = $dbusername;
 $passsql = $dbpassword;
-$path = $pathserver;
+$path = $siteurl;
 $base = $dbname;
 
 // This is so the new admin location works
@@ -343,5 +334,4 @@ $base = $dbname;
 //$path_sep=';';
 $path_sep=':';
 ini_set('include_path', ".$path_sep..$path_sep../$b2inc$path_sep./$b2inc");
-
 ?>

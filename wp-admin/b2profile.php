@@ -258,7 +258,7 @@ case 'IErightclick':
 
 	<p>To have a one-click bookmarklet, just copy and paste this<br />into a new text file:</p>
 	<?php
-	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ".$blogname."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('".$pathserver."/wp-admin/b2bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'b2bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
+	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ".$blogname."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('".$siteurl."/wp-admin/b2bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'b2bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
 	?>
 	<pre style="margin: 20px; background-color: #cccccc; border: 1px dashed #333333; padding: 5px; font-size: 12px;"><?php echo $regedit; ?></pre>
 	<p>Save it as wordpress.reg, and double-click on this file in an Explorer<br />
@@ -435,7 +435,7 @@ One-click bookmarklet:<br />
 function addPanel()
         {
           if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
-            window.sidebar.addPanel("WordPress post: <?php echo $blogname ?>","<?php echo $pathserver ?>/wp-admin/b2sidebar.php","");
+            window.sidebar.addPanel("WordPress post: <?php echo $blogname ?>","<?php echo $siteurl ?>/wp-admin/b2sidebar.php","");
           else
             alert('No Sidebar found!  You must use Mozilla 0.9.4 or later!');
         }
@@ -445,7 +445,7 @@ Add the <a href="#" onClick="addPanel()">WordPress Sidebar</a>!
 <?php } elseif (($is_winIE) || ($is_macIE)) { ?>
 <br /><br />
 <strong>SideBar</strong><br />
-Add this link to your favorites:<br /><a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo $pathserver ?>/wp-admin/b2sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))">WordPress Sidebar</a>. 
+Add this link to your favorites:<br /><a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo $siteurl ?>/wp-admin/b2sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))">WordPress Sidebar</a>. 
 <?php } ?>
 	</td>
 	</tr>

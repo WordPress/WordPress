@@ -60,9 +60,9 @@ document.SPELLDATA.subjectname.value=subject
 document.SPELLDATA.messagebodyname.value=body
 document.SPELLDATA.companyID.value="custom\\http://cafelog.com"
 document.SPELLDATA.language.value=1033
-document.SPELLDATA.opener.value="<?php echo $pathserver ?>/sproxy.pl"
+document.SPELLDATA.opener.value="<?php echo $siteurl ?>/sproxy.pl"
 document.SPELLDATA.formaction.value="http://www.spellchecker.com/spell/startspelling.asp "
-window.open("<?php echo $pathserver ?>/b2spell.php","Spell",
+window.open("<?php echo $siteurl ?>/b2spell.php","Spell",
 "toolbar=no,directories=no,location=yes,resizable=yes,width=620,height=400,top=100,left=100")
 }
 //-->

@@ -175,7 +175,7 @@ case "lostpassword":
 <head>
 	<title>WordPress > Lost password ?</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<link rel="stylesheet" href="<?php echo $pathserver; ?>/wp-admin/b2.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
 	<style type="text/css">
 	<!--
 	<?php
@@ -287,7 +287,7 @@ default:
 <head>
 <title>WordPress > Login form</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" href="<?php echo $pathserver; ?>/wp-admin/b2.css" type="text/css">
+<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css">
 <style type="text/css">
 <!--
 <?php
@@ -313,11 +313,11 @@ textarea, input, select {
 <td align="center" valign="middle">
 
 <div id="login">
-<p><a href="<?=$pathserver?>">Back to blog?</a><br />
+<p><a href="<?=$siteurl?>">Back to blog?</a><br />
 <?php if ($users_can_register) { ?>
-    <a href="<?php echo $pathserver; ?>/b2register.php">Register?</a><br />
+    <a href="<?php echo $siteurl; ?>/b2register.php">Register?</a><br />
 <?php } ?>
-   <a href="<?php echo $pathserver; ?>/b2login.php?action=lostpassword">Lost your password?</a></p>
+   <a href="<?php echo $siteurl; ?>/b2login.php?action=lostpassword">Lost your password?</a></p>
 
 <?php
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";

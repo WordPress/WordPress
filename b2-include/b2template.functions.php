@@ -40,7 +40,7 @@ function bloginfo_unicode($show='') {
 }
 
 function get_bloginfo($show='') {
-	global $siteurl, $blogfilename, $blogname, $blogdescription, $pathserver, $admin_email;
+	global $siteurl, $blogfilename, $blogname, $blogdescription, $siteurl, $admin_email;
 	switch($show) {
 		case "url":
 			$output = $siteurl."/".$blogfilename;
@@ -58,7 +58,7 @@ function get_bloginfo($show='') {
 			$output = $siteurl.'/b2rss2.php';
 			break;
 		case "pingback_url":
-			$output = $pathserver.'/xmlrpc.php';
+			$output = $siteurl.'/xmlrpc.php';
 			break;
 		case "admin_email":
 			$output = $admin_email;
@@ -1083,8 +1083,8 @@ function comment_time($d='') {
 /***** TrackBack tags *****/
 
 function trackback_url($display = 1) {
-	global $pathserver, $id;
-	$tb_url = $pathserver.'/b2trackback.php/'.$id;
+	global $siteurl, $id;
+	$tb_url = $siteurl.'/b2trackback.php/'.$id;
 	if ($display) {
 		echo $tb_url;
 	} else {
@@ -1136,7 +1136,7 @@ function trackback_popup_link($zero='no trackback', $one='1 trackback', $more='%
 }
 
 function trackback_rdf($timezone=0) {
-	global $pathserver, $id, $HTTP_SERVER_VARS;
+	global $siteurl, $id, $HTTP_SERVER_VARS;
 	if (!stristr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'W3C_Validator')) {
 		echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" '."\n";
 		echo '    xmlns:dc="http://purl.org/dc/elements/1.1/"'."\n";
