@@ -81,23 +81,26 @@ switch($action) {
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
                 sleep($sleep_after_edit);
         }
-
-        pingWeblogs($blog_ID);
-        pingCafelog($cafelogID, $post_title, $post_ID);
-        pingBlogs($blog_ID);
-        if ($post_pingback) {
-            pingback($content, $post_ID);
-        }
-
-        if (!empty($HTTP_POST_VARS['trackback_url'])) {
-            $excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252).'...' : strip_tags($content);
-            $excerpt = stripslashes($excerpt);
-            $trackback_urls = explode(',', $HTTP_POST_VARS['trackback_url']);
-            foreach($trackback_urls as $tb_url) {
-                $tb_url = trim($tb_url);
-                trackback($tb_url, stripslashes($post_title), $excerpt, $post_ID);
+        
+        if ($post_status == 'publish') {
+            pingWeblogs($blog_ID);
+            pingCafelog($cafelogID, $post_title, $post_ID);
+            pingBlogs($blog_ID);
+        
+            if ($post_pingback) {
+                pingback($content, $post_ID);
             }
-        }
+
+            if (!empty($HTTP_POST_VARS['trackback_url'])) {
+                $excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252).'...' : strip_tags($content);
+                $excerpt = stripslashes($excerpt);
+                $trackback_urls = explode(',', $HTTP_POST_VARS['trackback_url']);
+                foreach($trackback_urls as $tb_url) {
+                    $tb_url = trim($tb_url);
+                    trackback($tb_url, stripslashes($post_title), $excerpt, $post_ID);
+                }
+            }
+        } // end if publish
 
         if (!empty($HTTP_POST_VARS["mode"])) {
             switch($HTTP_POST_VARS["mode"]) {
@@ -173,6 +176,7 @@ switch($action) {
         $excerpt = format_to_post($excerpt);
         $post_title = addslashes($HTTP_POST_VARS["post_title"]);
 		$post_status = $HTTP_POST_VARS['post_status'];
+        $prev_status = $HTTP_POST_VARS['prev_status'];
 		$comment_status = $HTTP_POST_VARS['comment_status'];
 		$ping_status = $HTTP_POST_VARS['ping_status'];
 		$post_password = addslashes($HTTP_POST_VARS['post_password']);
@@ -200,7 +204,26 @@ switch($action) {
             sleep($sleep_after_edit);
         }
 
-        //pingWeblogs($blog_ID);
+        // are we going from unpublished to publishd?
+        if (($prev_status == 'draft') && ($post_status == 'publish')) {
+            pingWeblogs($blog_ID);
+            pingCafelog($cafelogID, $post_title, $post_ID);
+            pingBlogs($blog_ID);
+        
+            if ($post_pingback) {
+                pingback($content, $post_ID);
+            }
+
+            if (!empty($HTTP_POST_VARS['trackback_url'])) {
+                $excerpt = (strlen(strip_tags($content)) > 255) ? substr(strip_tags($content), 0, 252).'...' : strip_tags($content);
+                $excerpt = stripslashes($excerpt);
+                $trackback_urls = explode(',', $HTTP_POST_VARS['trackback_url']);
+                foreach($trackback_urls as $tb_url) {
+                    $tb_url = trim($tb_url);
+                    trackback($tb_url, stripslashes($post_title), $excerpt, $post_ID);
+                }
+            }
+        } // end if publish
 
         $location = "Location: b2edit.php";
         header ($location);
@@ -233,7 +256,7 @@ switch($action) {
             sleep($sleep_after_edit);
         }
 
-        //      pingWeblogs($blog_ID);
+        //pingWeblogs($blog_ID);
 
         header ('Location: b2edit.php');
 

@@ -30,6 +30,7 @@ switch($action) {
 		$form_extra = "' />\n<input type='hidden' name='post_ID' value='$post";
 		$colspan = 2;
 		$form_pingback = '<input type="hidden" name="post_pingback" value="0" />';
+		$form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 		$form_trackback = '';
 		break;
 	case "editcomment":
@@ -143,6 +144,7 @@ if ($action != 'editcomment') {
 <textarea rows="9" cols="40" style="width:100%" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
 
 <?php echo $form_pingback ?>
+<?php echo $form_prevstatus ?>
 
 <p><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" class="search" style="font-weight: bold;" tabindex="5" /></p>
 

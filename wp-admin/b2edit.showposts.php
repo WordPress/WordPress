@@ -318,7 +318,7 @@ if ($i == "ASC")
 
 	<?php
 
-	}
+	} // end b2 loop
 	?>
 
 </div>
