@@ -12,7 +12,7 @@ foreach ($posts as $post) { start_wp();
 
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<style type="text/css" media="screen">
-		@import url( wp-layout.css );
+		@import url( <?php echo bloginfo('stylesheet_url'); ?> );
 		body { margin: 3px; }
 	</style>
 
