@@ -1,6 +1,8 @@
 <?php /* Don't remove this line, it calls the b2 function files ! */ $blog=1;
 require_once('blog.header.php');
-require($abspath.'wp-links/links.php');
+require_once($abspath.'wp-links/links.php');
+// not on by default require_once($abspath.'wp-links/links.weblogs.com.php');
+    
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -59,7 +61,7 @@ require($abspath.'wp-links/links.php');
 <div id="menu">
 
 <ul>
-<li>Links:
+ <li>Links:
 	<ul>
 		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, -1)?>
 	</ul>
@@ -79,7 +81,7 @@ require($abspath.'wp-links/links.php');
  </li>
  <li>Archives:
  	<ul>
-	 <?php get_archives('monthly'); ?>
+	 <?php get_archives(); ?>
  	</ul>
  </li>
  <li>Other:
@@ -97,6 +99,7 @@ require($abspath.'wp-links/links.php');
 		<li><a href="http://wordpress.org" title="Powered by WordPress, personal publishing platform">WP</a></li>
 	</ul>
  </li>
+
 </ul>
 
 </div>
