@@ -39,6 +39,7 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
 			$catlink = str_replace('%category%', $category_nicename, $catlink);
 			$catlink = get_settings('home') . trailingslashit($catlink);
     }
+		$catlink = apply_filters('category_link', $catlink);
     if ($echo) echo $catlink;
     return $catlink;
 }
