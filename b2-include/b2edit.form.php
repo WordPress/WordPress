@@ -99,7 +99,7 @@ if ($action != 'editcomment') {
 <td valign="bottom" align="right">&nbsp;</td>
 </table>
 
-<textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="content"><?php echo $excerpt ?></textarea><br />
+<textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="excerpt"><?php echo $excerpt ?></textarea><br />
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 
 <?php
@@ -117,10 +117,6 @@ if ($action != 'editcomment') {
 
 <textarea rows="9" cols="40" style="width:100%" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
 
-<input type="checkbox" class="checkbox" name="post_autobr" value="1" <?php
-if ($autobr)
-echo " checked" ?> tabindex="7" id="autobr" /><label for="autobr"> Auto-BR (converts line-breaks into &lt;br /> tags)</label><br />
-
 <?php echo $form_pingback ?>
 
 <?php if ($use_preview) { ?>
@@ -129,10 +125,6 @@ echo " checked" ?> tabindex="7" id="autobr" /><label for="autobr"> Auto-BR (conv
 
 <input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" class="search" style="font-weight: bold;" tabindex="5" /> 
 
-<?php if ($use_spellchecker) { ?>
-<!--<input type = "button" value = "Spell Check" onclick="var f=document.forms[0]; doSpell( 'en', f.post_content, '<?php echo $spellchecker_url ?>/sproxy.cgi', true);" class="search" tabindex="5" />-->
-<input type="button" value="Spellcheck" onclick="DoSpell('post','content','');" class="search" tabindex="9"/>
-<?php } ?>
 
 <?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && ((ereg(" ".$user_login." ", $fileupload_allowedusers)) || (trim($fileupload_allowedusers)=="")) ) { ?>
 <input type="button" value="upload a file/image" onclick="launchupload();" class="search"  tabindex="10" />
@@ -146,7 +138,7 @@ if ($user_level > 4) {
 	touch_time(($action=="edit"));
 }
 ?>
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
 <!--
 //	document.blog.post_content.focus();
 //-->
