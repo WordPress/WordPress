@@ -293,14 +293,14 @@ function convert_gmcode($content) {
 function convert_smilies($text) {
 	global $smilies_directory, $use_smilies;
 	global $b2_smiliessearch, $b2_smiliesreplace;
-
+    $output = '';
 	if ($use_smilies) {
 		// HTML loop taken from texturize function, could possible be consolidated
 		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
 		$stop = count($textarr);// loop stuff
 		for ($i = 0; $i < $stop; $i++) {
 			$content = $textarr[$i];
-			if ('<' != $content{0}) { // If it's not a tag
+			if ((strlen($content) > 0) && ('<' != $content{0})) { // If it's not a tag
 				$content = str_replace($b2_smiliessearch, $b2_smiliesreplace, $content);
 			}
 			$output .= $content;
@@ -1628,7 +1628,10 @@ function apply_filters($tag, $string) {
 	global $b2_filter;
 	if (isset($b2_filter['all'])) {
 		$b2_filter['all'] = (is_string($b2_filter['all'])) ? array($b2_filter['all']) : $b2_filter['all'];
-		$b2_filter[$tag] = array_merge($b2_filter['all'], $b2_filter[$tag]);
+        if (isset($b2_filter[$tag]))
+            $b2_filter[$tag] = array_merge($b2_filter['all'], $b2_filter[$tag]);
+        else
+            $b2_filter[$tag] = array_merge($b2_filter['all'], array());
 		$b2_filter[$tag] = array_unique($b2_filter[$tag]);
 	}
 	if (isset($b2_filter[$tag])) {

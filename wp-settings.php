@@ -4,7 +4,7 @@
 // We should eventually migrate to either calling
 // get_settings() wherever these are needed OR
 // accessing a single global $all_settings var
-if (!$_wp_installing) {
+if (!isset($_wp_installing) || !$_wp_installing) {
     $siteurl = get_settings('siteurl');
 	// "When trying to design a foolproof system, 
 	//  never underestimate the ingenuity of the fools :)"

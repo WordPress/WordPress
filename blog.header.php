@@ -41,9 +41,9 @@ $b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search
 @header ("X-Pingback: $siteurl/xmlrpc.php");
 
 /* Getting settings from db */
-if ($doing_rss == 1)
+if (isset($doing_rss) && $doing_rss == 1)
     $posts_per_page=get_settings('posts_per_rss');
-if ($posts_per_page == 0)
+if (!isset($posts_per_page) || $posts_per_page == 0)
     $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
@@ -61,7 +61,7 @@ $distinct = '';
 
 if ($pagenow != 'wp-post.php') { timer_start(); }
 
-if ($showposts) {
+if (isset($showposts) && $showposts) {
     $showposts = (int)$showposts;
 	$posts_per_page = $showposts;
 }
@@ -288,7 +288,10 @@ if ($pagenow != 'wp-post.php') {
 $where .= ' AND (post_status = "publish"';
 
 // Get private posts
-if ('' != intval($user_ID)) $where .= " OR post_author = $user_ID AND post_status != 'draft')"; else $where .= ')';
+if (isset($user_ID) && ('' != intval($user_ID)))
+    $where .= " OR  post_author = $user_ID AND post_status != 'draft')";
+else
+    $where .= ')';
 $request = " SELECT $distinct * FROM $tableposts WHERE 1=1".$where." ORDER BY post_$orderby $limits";
 
 

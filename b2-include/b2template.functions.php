@@ -919,6 +919,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
 		$output = strip_tags($output);
 	}
 	if ($cut) {
+        $excerpt = '';
 		$blah = explode(' ', $output);
 		if (count($blah) > $cut) {
 			$k = $cut;
@@ -970,6 +971,7 @@ function get_the_excerpt($fakeit = false) {
 			$k = count($blah);
 			$use_dotdotdot = 0;
 		}
+        $excerpt = '';
 		for ($i=0; $i<$k; $i++) {
 			$excerpt .= $blah[$i].' ';
 		}
@@ -1226,6 +1228,9 @@ function get_category_link($echo = false, $file='') {
 	$cat_ID = $post->post_category;
     if ($file == '') {
         $file = "$siteurl/$blogfilename";
+    }
+    if ('http:' != substr($file,0,5)) {
+        $file = "$siteurl/$file";
     }
     $link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
     if ($echo)

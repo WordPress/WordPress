@@ -1,25 +1,23 @@
 <?php /* These first lines are the first part of a CafeLog template.
          In every template you do, you got to copy them before the CafeLog 'loop' */
 $blog = 1; // enter your blog's ID
-$doing_rss=1;
+$doing_rss = 1;
 header('Content-type: text/xml',true);
 include('blog.header.php');
 
 // Handle Conditional GET
 
 // Get the time of the most recent article
-$sql = "SELECT max(post_date) FROM $tableposts";
-
-$maxdate = $wpdb->get_var($sql);
+$maxdate = $wpdb->get_var("SELECT max(post_date) FROM $tableposts");
 ++$querycount;
 $unixtime = strtotime($maxdate);
 
 // format timestamp for Last-Modified header
-$clast = gmdate("D, d M Y H:i:s \G\M\T",$unixtime);
-$cetag = md5($last);
+$clast = gmdate("D, d M Y H:i:s \G\M\T", $unixtime);
+$cetag = (isset($last)) ? md5($last) : '';
 
-$slast = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-$setag = $_SERVER['HTTP_IF_NONE_MATCH'];
+$slast = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : '' ;
+$setag = (isset($_SERVER['HTTP_IF_NONE_MATCH'])) ? $_SERVER['HTTP_IF_NONE_MATCH'] : '';
 
 // send it in a Last-Modified header
 header("Last-Modified: " . $clast, true);
@@ -32,10 +30,17 @@ header("Etag: " . $cetag, true);
 // but if both headers exist, they *both* must match up with the locally
 // generated values.
 //if (($slast?($slast == $clast):true) && ($setag?($setag == $cetag):true)){
-if (($slast && $setag)?(($slast == $clast) && ($setag == $cetag)):(($slast == $clast) || ($setag == $cetag))) { 
-	header("HTTP/1.1 304 Not Modified");
-	echo "\r\n\r\n";
-	exit;
+if (($slast != '') && ($setag != '')) {
+    if (($slast == $clast) && ($setag == $cetag)) {
+        header("HTTP/1.1 304 Not Modified");
+        echo "\r\n\r\n";
+        exit;
+    } else if (($slast == $clast)
+               || ($setag == $cetag)) {
+        header("HTTP/1.1 304 Not Modified");
+        echo "\r\n\r\n";
+        exit;
+    }
 }
 
 if (!isset($rss_language)) { $rss_language = 'en'; }
