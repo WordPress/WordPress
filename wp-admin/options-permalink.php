@@ -37,7 +37,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 
 require_once('optionhandler.php');
 
-if ($_POST['Submit'] == 'Update') {
+if ($_POST['Submit']) {
 	update_option('permalink_structure', $_POST['permalink_structure']);
 	$permalink_structure = $_POST['permalink_structure'];
 } else {
@@ -91,7 +91,7 @@ $site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
 if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
 
 ?> 
-<form action"">
+<form action="">
     <p>
     	<textarea rows="5" style="width: 100%;">RewriteEngine On
 RewriteBase <?php echo $site_root; ?> 
