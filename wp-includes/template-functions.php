@@ -1226,7 +1226,7 @@ function posts_nav_link($sep=' :: ', $prelabel='<< Previous Page', $nxtlabel='Ne
 function get_the_category() {
 	global $post, $tablecategories, $tablepost2cat, $wpdb;
 	$categories = $wpdb->get_results("
-		SELECT category_id, cat_name, category_nicename 
+		SELECT category_id, cat_name, category_nicename, category_description 
 		FROM  $tablecategories, $tablepost2cat 
 		WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = $post->ID
 		");
@@ -1321,6 +1321,14 @@ function the_category_head($before='', $after='') {
 		echo $after;
 		$previouscat = $currentcat;
 	}
+}
+
+function category_description($category = 0) {
+	global $cat, $wpdb, $tablecategories;
+	if (!$category) $category = $cat;
+	$category_description = $wpdb->get_var("SELECT category_description FROM $tablecategories WHERE cat_ID = $category");
+	$category_description = apply_filters('category_description', $category_description);
+	return $category_description;
 }
 
 // out of the b2 loop

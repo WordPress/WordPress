@@ -269,9 +269,12 @@ foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliesreplace[] = "&nbsp;<img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
 
+
+// Some default filters
 add_filter('all', 'wptexturize');
 add_filter('the_content', 'wpautop');
 add_filter('comment_text', 'wpautop');
+
 // Uncomment the following for Textile support
 // include_once('textile.php');
 // add_filter('the_content', 'textile');

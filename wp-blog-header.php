@@ -169,6 +169,7 @@ if ('' != $category_name) {
 	$category_name = preg_replace('|[^a-z0-9-/]|', '', $category_name);
 	$join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) LEFT JOIN $tablecategories ON ($tablepost2cat.category_id = $tablecategories.cat_ID) ";
 	$whichcat = " AND (category_nicename = '$category_name') ";
+	$cat = $wpdb->get_var("SELECT cat_ID FROM $tablecategories WHERE category_nicename = '$category_name'");
 }
 
 // author stuff
