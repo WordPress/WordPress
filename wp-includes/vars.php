@@ -107,7 +107,6 @@ $wp_gecko_correction['out'] = array(
 
 // Server detection
 $is_apache = strstr($_SERVER['SERVER_SOFTWARE'], 'Apache') ? 1 : 0;
-$is_IIS = strstr($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') ? 1 : 0;
 
 // if the config file does not provide the smilies array, let's define it here
 if (!isset($wpsmiliestrans)) {

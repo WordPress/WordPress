@@ -1,23 +1,7 @@
 <?php
 require( dirname(__FILE__) . '/wp-config.php' );
 
-$wpvarstoreset = array('action');
-
-for ($i = 0; $i < count($wpvarstoreset); $i = $i + 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
-
+$action = $_REQUEST['action'];
 $error = '';
 
 header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
@@ -36,10 +20,7 @@ case 'logout':
     setcookie('wordpressuser_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
     setcookie('wordpresspass_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
 
-	if ($is_IIS)
-		header('Refresh: 0;url=wp-login.php');
-	else
-		header('Location: wp-login.php');
+	header('Location: wp-login.php');
 	exit();
 
 break;
@@ -128,12 +109,12 @@ default:
 
 	if( !empty($_POST) ) {
 		$user_login = $_POST['log'];
-		$user_pass = $_POST['pwd'];
+		$user_pass  = $_POST['pwd'];
 		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_POST['redirect_to']);
 	} elseif ( !empty($_COOKIE) ) {
-		if (! empty($_COOKIE['wordpressuser_' . COOKIEHASH]))
+		if (! empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
 			$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
-		if (! empty($_COOKIE['wordpresspass_' . COOKIEHASH])) {
+		if (! empty($_COOKIE['wordpresspass_' . COOKIEHASH]) ) {
 			$user_pass = $_COOKIE['wordpresspass_' . COOKIEHASH];
 			$using_cookie = true;
 		}
@@ -141,9 +122,8 @@ default:
 	}
 	
 	$user = get_userdatabylogin($user_login);
-	if (0 == $user->user_level) {
+	if ( 0 == $user->user_level )
 		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
-	}
 
 	if ($user_login && $user_pass) {
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
@@ -153,18 +133,16 @@ default:
 				setcookie('wordpresspass_'. COOKIEHASH, $user_pass, time() + 31536000, COOKIEPATH);
 			}
 
-			if ($is_IIS)
-				header("Refresh: 0;url=$redirect_to");
-			else
-				header("Location: $redirect_to");
+			header("Location: $redirect_to");
 			exit();
 		} else {
 			if ($using_cookie)			
 				$error = __('Your session has expired.');
 		}
 	}
-
-	?>
+	if ( isset($_REQUEST['redirect_to']) )
+		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_REQUEST['redirect_to']);
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -173,7 +151,6 @@ default:
 	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
-		// focus on first input field
 		document.getElementById('log').focus();
 	}
 	window.onload = focusit;
@@ -184,19 +161,16 @@ default:
 <div id="login">
 <h1><a href="http://wordpress.org/">WordPress</a></h1>
 <?php
-if ($error)
+if ( $error )
 	echo "<div id='login_error'>$error</div>";
 ?>
 
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
 <p><label><?php _e('Login') ?>: <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
 <p><label><?php _e('Password') ?>: <input type="password" name="pwd" value="" size="20" tabindex="2" /></label></p>
-<p class="submit"><input type="submit" name="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
-<?php if (isset($_GET["redirect_to"])) { ?>
-	<input type="hidden" name="redirect_to" value="<?php echo $_GET["redirect_to"] ?>" />
-<?php } else { ?>
-	<input type="hidden" name="redirect_to" value="wp-admin/" />
-<?php } ?>
+<p class="submit">
+	<input type="submit" name="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
+	<input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>" />
 </p>
 </form>
 <ul>

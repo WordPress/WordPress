@@ -43,10 +43,6 @@ header('Pragma: no-cache');
 
 $location = get_permalink($comment_post_ID);
 
-if ($is_IIS) {
-	header("Refresh: 0;url=$location");
-} else {
-	header("Location: $location");
-}
+header("Location: $location");
 
 ?>

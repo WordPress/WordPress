@@ -1,6 +1,6 @@
 <?php
 require_once('admin.php');
-$title = __('Template &amp; file editing');
+$title = __('Template &amp; File Editing');
 $parent_file = 	'edit.php';
 
 $wpvarstoreset = array('action','redirect','profile','error','warning','a','file');
