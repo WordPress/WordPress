@@ -45,6 +45,7 @@ if (isset($wp_version)) {
 	# Add Markdown filter with priority 6 (same as Textile).
 	add_filter('the_content', 'Markdown', 6);
 	add_filter('the_excerpt', 'Markdown', 6);
+	add_filter('the_excerpt_rss', 'Markdown', 6);
 	add_filter('comment_text', 'Markdown', 6);
 }
 
