@@ -1,14 +1,10 @@
 <?php
 
+require_once(dirname(__FILE__).'/functions-compat.php');
+
 if (!function_exists('_')) {
 	function _($string) {
 		return $string;
-	}
-}
-
-if (!function_exists('floatval')) {
-	function floatval($string) {
-		return ((float) $string);
 	}
 }
 

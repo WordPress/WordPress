@@ -35,18 +35,6 @@ function starify($string) {
 logIO("I", $HTTP_RAW_POST_DATA);
 
 
-function printr($var, $do_not_echo = false) {
-	// from php.net/print_r user contributed notes 
-	ob_start();
-	print_r($var);
-	$code =  htmlentities(ob_get_contents());
-	ob_clean();
-	if (!$do_not_echo) {
-	  echo "<pre>$code</pre>";
-	}
-	return $code;
-}
-
 function mkdir_p($target) {
 	// from php.net/mkdir user contributed notes 
 	if (file_exists($target)) {
