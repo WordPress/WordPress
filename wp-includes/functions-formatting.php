@@ -223,9 +223,7 @@ function format_to_edit($content) {
 
 function format_to_post($content) {
 	global $wpdb;
-	$content = stripslashes(stripslashes($content));
 	$content = apply_filters('format_to_post', $content);
-	$content = $wpdb->escape($content);
 	return $content;
 }
 

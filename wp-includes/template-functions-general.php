@@ -484,6 +484,7 @@ function get_calendar($daylength = 1) {
 
 function allowed_tags() {
     global $allowedtags;
+	$allowed = '';
     foreach($allowedtags as $tag => $attributes) {
         $allowed .= '<'.$tag;
         if (0 < count($attributes)) {

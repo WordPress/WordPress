@@ -164,7 +164,7 @@ default:
 	$standalone = 0;
 	include ('admin-header.php');
 	?>
-<?php if ($_GET['deleted']) : ?>
+<?php if (isset($_GET['deleted'])) : ?>
 <div class="updated"><p><?php _e('User deleted.') ?></p></div>
 <?php endif; ?>
 <div class="wrap">
@@ -181,6 +181,7 @@ default:
 	</tr>
 	<?php
 	$users = $wpdb->get_results("SELECT ID FROM $tableusers WHERE user_level > 0 ORDER BY ID");
+	$style = '';
 	foreach ($users as $user) {
 		$user_data = get_userdata($user->ID);
 		$email = $user_data->user_email;

@@ -695,42 +695,39 @@ default:
 	require_once ('./admin-header.php');
 
 	if ($user_level > 0) {
-		if ((!$withcomments) && (!$single)) {
+		$action = 'post';
+		get_currentuserinfo();
+		$drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_status = 'draft' AND post_author = $user_ID");
+		if ($drafts) {
+			?>
+			<div class="wrap">
+			<p><strong><?php _e('Your Drafts:') ?></strong>
+			<?php
+			$i = 0;
+			foreach ($drafts as $draft) {
+				if (0 != $i)
+					echo ', ';
+				$draft->post_title = stripslashes($draft->post_title);
+				if ($draft->post_title == '')
+					$draft->post_title = sprintf(__('Post # %s'), $draft->ID);
+				echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
+				++$i;
+				}
+			?>.</p>
+			</div>
+			<?php
+		}
+		//set defaults
+		$post_status = get_settings('default_post_status');
+		$comment_status = get_settings('default_comment_status');
+		$ping_status = get_settings('default_ping_status');
+		$post_pingback = get_settings('default_pingback_flag');
+		$default_post_cat = get_settings('default_post_category');
 
-			$action = 'post';
-			get_currentuserinfo();
-			$drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_status = 'draft' AND post_author = $user_ID");
-			if ($drafts) {
-				?>
-				<div class="wrap">
-				<p><strong><?php _e('Your Drafts:') ?></strong>
-				<?php
-				$i = 0;
-				foreach ($drafts as $draft) {
-					if (0 != $i)
-						echo ', ';
-					$draft->post_title = stripslashes($draft->post_title);
-					if ($draft->post_title == '')
-						$draft->post_title = sprintf(__('Post # %s'), $draft->ID);
-					echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
-					++$i;
-					}
-				?>.</p>
-				</div>
-				<?php
-			}
-			//set defaults
-			$post_status = get_settings('default_post_status');
-			$comment_status = get_settings('default_comment_status');
-			$ping_status = get_settings('default_ping_status');
-			$post_pingback = get_settings('default_pingback_flag');
-			$default_post_cat = get_settings('default_post_category');
-
-			if (get_settings('advanced_edit')) {
-				include('edit-form-advanced.php');
-			} else {
-				include('edit-form.php');
-			}
+		if (get_settings('advanced_edit')) {
+			include('edit-form-advanced.php');
+		} else {
+			include('edit-form.php');
 		}
 ?>
 <div class="wrap">

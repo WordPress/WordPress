@@ -1,9 +1,5 @@
 <?php
 
-$curpath = dirname(__FILE__).'/';
-
-require($curpath . 'functions-formatting.php');
-
 if (!function_exists('_')) {
 	function _($string) {
 		return $string;
@@ -845,13 +841,9 @@ include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 function doGeoUrlHeader($post_list = '') {
     global $posts;
 
-    if (empty($post_list)) {
-        $post_list = $posts;
-    }
-
-    if (count($post_list) == 1) {
+    if ($posts && 1 === count($posts)) {
         // there's only one result  see if it has a geo code
-        $row = $post_list[0];
+        $row = $posts[0];
         $lat = $row->post_lat;
         $lon = $row->post_lon;
         $title = $row->post_title;
@@ -864,9 +856,9 @@ function doGeoUrlHeader($post_list = '') {
     } else {
         if(get_settings('use_default_geourl')) {
             // send the default here 
-            echo "<meta name=\"ICBM\" content=\"". get_settings('default_geourl_lat') .", ". get_settings('default_geourl_lon') ."\" />\n";
-            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")))."\" />\n";
-            echo "<meta name=\"geo.position\" content=\"". get_settings('default_geourl_lat') .";". get_settings('default_geourl_lon') ."\" />\n";
+            echo "<meta name='ICBM' content=\"". get_settings('default_geourl_lat') .", ". get_settings('default_geourl_lon') ."\" />\n";
+            echo "<meta name='DC.title' content=\"".convert_chars(strip_tags(get_bloginfo("name")))."\" />\n";
+            echo "<meta name='geo.position' content=\"". get_settings('default_geourl_lat') .";". get_settings('default_geourl_lon') ."\" />\n";
         }
     }
 }

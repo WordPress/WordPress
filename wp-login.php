@@ -120,11 +120,9 @@ case 'login':
 	} else {
 		$user_login = $log;
 		$user_pass = $pwd;
-		setcookie('wordpressuser_'.$cookiehash, $user_login, time()+31536000);
-		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time()+31536000);
-		if (empty($_COOKIE['wordpressblogid_'.$cookiehash])) {
-			setcookie('wordpressblogid_'.$cookiehash, 1,time()+31536000);
-		}
+		setcookie('wordpressuser_'.$cookiehash, $user_login, time() + 31536000, COOKIEPATH);
+		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time() + 31536000, COOKIEPATH);
+
 		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Cache-Control: no-cache, must-revalidate');

@@ -224,7 +224,7 @@ default:
 	$bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
 
 	?>
-<?php if ($updated) { ?>
+<?php if (isset($updated)) { ?>
 <div class="updated">
 <p><strong><?php _e('Profile updated.') ?></strong></p>
 </div>

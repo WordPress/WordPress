@@ -2,7 +2,6 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Categories');
-/* <Categories> */
 
 function add_magic_quotes($array) {
     foreach ($array as $k => $v) {
@@ -144,7 +143,7 @@ $messages[1] = __('Category added.');
 $messages[2] = __('Category deleted.');
 $messages[3] = __('Category updated.');
 ?>
-<?php if ($_GET['message']) : ?>
+<?php if (isset($_GET['message'])) : ?>
 <div class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
 
@@ -193,6 +192,5 @@ set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
 break;
 }
 
-/* </Categories> */
 include('admin-footer.php');
 ?>

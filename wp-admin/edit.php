@@ -70,7 +70,7 @@ if( isset( $_GET['m'] ) )
 <form name="searchform" action="" method="get" style="float: left; width: 20em; margin-left: 3em;"> 
   <fieldset> 
   <legend><?php _e('Show Posts That Contain...') ?></legend> 
-  <input type="text" name="s" value="<?php echo $s; ?>" size="17" /> 
+  <input type="text" name="s" value="<?php if (isset($s)) echo $s; ?>" size="17" /> 
   <input type="submit" name="submit" value="<?php _e('Search') ?>"  /> 
   </fieldset>
 </form>

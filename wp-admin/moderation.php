@@ -103,11 +103,8 @@ default:
 	<li class="last"><a href="moderation.php" class="current"><?php _e('Awaiting Moderation') ?></a></li>
 </ul>
 <?php
-$ignored = $_GET['ignored'];
-$deleted = $_GET['deleted'];
-$approved = $_GET['approved'];
 
-if (($deleted) || ($approved) || ($ignored)) {
+if (isset($deleted) || isset($approved) || isset($ignored)) {
 	echo "<div class='updated'>\n<p>";
 	if ($approved) {
 		if ('1' == $approved) {

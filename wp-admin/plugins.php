@@ -46,11 +46,11 @@ foreach ($check_plugins as $check_plugin) {
 
 ?>
 
-<?php if ($_GET['activate']) : ?>
+<?php if (isset($_GET['activate'])) : ?>
 <div class="updated"><p><?php _e('Plugin <strong>activated</strong>.') ?></p>
 </div>
 <?php endif; ?>
-<?php if ($_GET['deactivate']) : ?>
+<?php if (isset($_GET['deactivate'])) : ?>
 <div class="updated"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p>
 </div>
 <?php endif; ?>
@@ -86,6 +86,7 @@ if (!$plugins_dir || !$plugin_files) {
 	</tr>
 <?php
 	sort($plugin_files); // Alphabetize by filename. Better way?
+	$style = '';
 	foreach($plugin_files as $plugin_file) {
 		$plugin_data = implode('', file(ABSPATH . '/wp-content/plugins/' . $plugin_file));
 		preg_match("|Plugin Name:(.*)|i", $plugin_data, $plugin_name);
@@ -93,19 +94,23 @@ if (!$plugins_dir || !$plugin_files) {
 		preg_match("|Description:(.*)|i", $plugin_data, $description);
 		preg_match("|Author:(.*)|i", $plugin_data, $author_name);
 		preg_match("|Author URI:(.*)|i", $plugin_data, $author_uri);
-		preg_match("|Version:(.*)|i", $plugin_data, $version);
-		$description = wptexturize(wp_filter_kses($description[1]));
+		if ( preg_match("|Version:(.*)|i", $plugin_data, $version) )
+			$version = $version[1];
+		else
+			$version ='';
+
+		$description = wptexturize($description[1]);
 
 		if ('' == $plugin_uri) {
 			$plugin = $plugin_name[1];
 		} else {
-			$plugin = wp_filter_kses( __("<a href='{$plugin_uri[1]}' title='Visit plugin homepage'>{$plugin_name[1]}</a>") );
+			$plugin = __("<a href='{$plugin_uri[1]}' title='Visit plugin homepage'>{$plugin_name[1]}</a>");
 		}
 
 		if ('' == $author_uri) {
 			$author = $author_name[1];
 		} else {
-			$author = wp_filter_kses( __("<a href='{$author_uri[1]}' title='Visit author homepage'>{$author_name[1]}</a>") );
+			$author = __("<a href='{$author_uri[1]}' title='Visit author homepage'>{$author_name[1]}</a>");
 		}
 
 
@@ -121,7 +126,7 @@ if (!$plugins_dir || !$plugin_files) {
 		echo "
 	<tr $style>
 		<td>$plugin</td>
-		<td>{$version[1]}</td>
+		<td>$version</td>
 		<td>$author</td>
 		<td>$description</td>
 		<td>$action</td>
@@ -136,6 +141,5 @@ if (!$plugins_dir || !$plugin_files) {
 </div>
 
 <?php
-
 include('admin-footer.php');
 ?>

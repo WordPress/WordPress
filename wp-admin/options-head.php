@@ -1,10 +1,11 @@
 <?php
 
 if ($user_level <= 6) {
-	die(__("You have do not have sufficient permissions to edit the options for this blog."));
+	die( __('You have do not have sufficient permissions to edit the options for this blog.') );
 }
 
 //we need to iterate through the available option groups.
+$groups = '';
 $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
 foreach ($option_groups as $option_group) {
 	if ($option_group->group_id == $option_group_id) {
@@ -28,11 +29,12 @@ $submenu = '
 $sublines = split("\n", $submenu);
 $_SERVER['REQUEST_URI'] = str_replace('?updated=true', '', $_SERVER['REQUEST_URI']);
 foreach ($sublines as $subline) {
-	preg_match('/href="([^"]+)"/', $subline, $url);
-	if (substr($_SERVER['REQUEST_URI'], -8) == substr($url[1], -8)) {
-		$subline = str_replace('a hr', 'a class="current" hr', $subline);
-		if (str_replace('/wp-admin/', '', $_SERVER["REQUEST_URI"]) == $url[1]) {
-			$subline = preg_replace('|href=".*?"|', '', $subline);
+	if (preg_match('/href="([^"]+)"/', $subline, $url)) {
+		if (substr($_SERVER['REQUEST_URI'], -8) == substr($url[1], -8)) {
+			$subline = str_replace('a hr', 'a class="current" hr', $subline);
+			if (str_replace('/wp-admin/', '', $_SERVER["REQUEST_URI"]) == $url[1]) {
+				$subline = preg_replace('|href=".*?"|', '', $subline);
+			}
 		}
 	}
 	echo $subline."\n";
@@ -44,6 +46,6 @@ echo  $groups .
 
 <br clear="all" />
 
-<?php if ($updated) : ?>
+<?php if (isset($updated)) : ?>
 <div class="updated"><p><strong><?php _e('Options saved.') ?></strong></p></div>
 <?php endif; ?>
