@@ -1876,16 +1876,13 @@ function htmlentities2($myHTML) {
 
 
 function wp_mail($to, $subject, $message, $headers = '', $more = '') {
-	if ( function_exists('mb_send_mail') )
-        {
-            if( $headers == '' )
-            {
+        if( $headers == '' ) {
                 $headers = "MIME-Version: 1.0\r\n" .
                            "From: " . $to . " <" . $to . ">\r\n" .
                            "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
-            }
-            return mb_send_mail($to, $subject, $message, $headers, $more);
         }
+	if ( function_exists('mb_send_mail') )
+                return mb_send_mail($to, $subject, $message, $headers, $more);
 	else
 		return mail($to, $subject, $message, $headers, $more);
 }
