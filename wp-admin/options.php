@@ -65,8 +65,10 @@ case 'update':
         $message = sprintf(__('%d setting(s) saved... '), $any_changed);
     }
     
-	$referred = str_replace('?updated=true' , '', $_SERVER['HTTP_REFERER']);
-	$goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
+		//$referred = str_replace('?updated=true' , '', $_SERVER['HTTP_REFERER']);
+		$referred = remove_query_arg('updated' , $_SERVER['HTTP_REFERER']);
+		//$goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
+		$goback = add_query_arg('updated', 'true', $_SERVER['HTTP_REFERER']);
 	$goback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $goback);
     header('Location: ' . $goback);
     break;

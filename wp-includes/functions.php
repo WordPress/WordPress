@@ -2245,4 +2245,65 @@ function is_plugin_page() {
 	return false;
 }
 
+/*
+add_query_arg: Returns a modified querystring by adding
+a single key & value or an associative array.
+Setting a key value to emptystring removes the key.
+Omitting oldquery_or_uri uses the $_SERVER value.
+
+Parameters:
+add_query_arg(newkey, newvalue, oldquery_or_uri) or
+add_query_arg(associative_array, oldquery_or_uri)
+*/
+function add_query_arg() {
+	$ret = '';
+	if(is_array(func_get_arg(0))) {
+		$uri = @func_get_arg(1);
+	}
+	else {
+		$uri = @func_get_arg(2);
+	}
+	if ('' == $uri) {
+		$uri = $_SERVER['REQUEST_URI'];
+	}
+	if (strstr($uri, '?')) {
+		$parts = explode('?', $uri, 2);
+		if (1 == count($parts)) {
+			$base = '?';
+			$query = $parts[0];
+		}
+		else {
+			$base = $parts[0] . '?';
+			$query = $parts[1];
+		}
+	}
+	else {
+		$base = $uri . '?';
+		$query = '';
+	}
+	parse_str($query, $qs);
+	if (is_array(func_get_arg(0))) {
+		$kayvees = func_get_arg(0);
+		$qs = array_merge($qs, $kayvees);
+	}
+	else
+    {
+			$qs[func_get_arg(0)] = func_get_arg(1);
+    }
+
+	foreach($qs as $k => $v)
+    {
+			if($v != '')
+        {
+					if($ret != '') $ret .= '&';
+					$ret .= "$k=$v";
+        }
+    }
+	$ret = $base . $ret;   
+	return trim($ret, '?');
+}
+
+function remove_query_arg($key, $query) {
+	add_query_arg($key, '', $query);
+}
 ?>
