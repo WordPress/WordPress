@@ -176,7 +176,7 @@ case 'viewprofile':
   <?php if ($profiledata->user_icq > 0) { echo make_clickable("icq:".$profiledata->user_icq); } ?>
 </p>
   
-<p> <strong>AIM:</strong> <?php echo make_clickable("aim:".$profiledata->user_aim) ?> 
+<p> <strong>AIM:</strong> <?php echo "<a href='aim:goim?screenname=". str_replace(' ', '+', $profiledata->user_aim) ."&message=Howdy'>$profiledata->user_aim</a>"; ?> 
 </p>
   
 <p> <strong>MSN IM:</strong> <?php echo $profiledata->user_msn ?> </p>
