@@ -25,6 +25,7 @@ switch ($step) {
 
 <ul id="adminmenu2">
 	<li><a href="link-manager.php" >Manage Links</a></li>
+	<li><a href="link-add.php">Add Link</a></li>
 	<li><a href="link-categories.php">Link Categories</a></li>
 	<li class="last"><a href="link-import.php"  class="current">Import Blogroll</a></li>
 </ul>
