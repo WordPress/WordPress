@@ -211,9 +211,9 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
     echo "<select name='cat' class='postform'>\n";
     if (intval($optionall) == 1) {
         $all = apply_filters('list_cats', $all);
-        echo "\t<option value='all'>$all</option>\n";
+        echo "\t<option value='0'>$all</option>\n";
     }
-    if (intval($optionnone) == 1) echo "\t<option value='0'>None</option>\n";
+    if (intval($optionnone) == 1) echo "\t<option value='-1'>".__('None')."</option>\n";
     if ($categories) {
         foreach ($categories as $category) {
             $cat_name = apply_filters('list_cats', $category->cat_name, $category);
