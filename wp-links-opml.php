@@ -28,7 +28,7 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
     <body>
 <?php $sql = "SELECT $wpdb->links.link_url, link_rss, $wpdb->links.link_name, $wpdb->links.link_category, $wpdb->linkcategories.cat_name, link_updated 
 FROM $wpdb->links 
- LEFT JOIN $wpdb->linkcategories on $wpdb->links.link_category = $wpdb->linkcategories.cat_id
+ JOIN $wpdb->linkcategories on $wpdb->links.link_category = $wpdb->linkcategories.cat_id
  $sql_cat
  ORDER BY $wpdb->linkcategories.cat_name, $wpdb->links.link_name \n";
  //echo("<!-- $sql -->");
