@@ -147,6 +147,20 @@ textarea, input, select {
 	font-size: 14px;
 }
 
+#categorydiv {
+	float: right;
+	width: 10%;
+	line-height: 130%;
+}
+
+#poststuff {
+	width: 88%;
+}
+
+#poststuff textarea {
+	width: 100%;
+}
+
 #ed_button {
 	padding: 1px;
 }
@@ -202,6 +216,7 @@ textarea, input, select {
 	padding: 0 2px;
 	display: block;
 	margin-bottom: 1px;
+	margin-top: 1px;
 	border-bottom: 1px solid #666;
 	font-size: 11px;
 }
@@ -241,10 +256,11 @@ label input {
 	text-align: right;
 }
 
-#titlediv, #categorydiv, #poststatusdiv, #commentstatusdiv, #pingstatusdiv, #postpassworddiv {
+#titlediv, #poststatusdiv, #commentstatusdiv, #pingstatusdiv, #postpassworddiv {
 	float: left;
 	margin-right: 5px;
 }
+
 
 #wphead {
 	background: url(../b2-img/wp-small.png) no-repeat;

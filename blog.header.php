@@ -13,7 +13,7 @@ require_once ($curpath.$b2inc.'/b2functions.php');
 require_once ($curpath.$b2inc.'/xmlrpc.inc');
 require_once ($curpath.$b2inc.'/xmlrpcs.inc');
 
-$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name');
+$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_nicename');
 
 	for ($i=0; $i<count($b2varstoreset); $i += 1) {
 		$b2var = $b2varstoreset[$i];
@@ -289,7 +289,7 @@ $where .= ' AND (post_status = "publish"';
 
 // Get private posts
 if (isset($user_ID) && ('' != intval($user_ID)))
-    $where .= " OR  post_author = $user_ID AND post_status != 'draft')";
+    $where .= " OR post_author = $user_ID AND post_status != 'draft')";
 else
     $where .= ')';
 $request = " SELECT $distinct * FROM $tableposts WHERE 1=1".$where." ORDER BY post_$orderby $limits";
@@ -307,6 +307,7 @@ if ($preview) {
 // error_log("$request");
 // echo $request;
 $posts = $wpdb->get_results($request);
+
 if (1 == count($posts)) {
 	if ($p || $name) {
 		$more = 1;

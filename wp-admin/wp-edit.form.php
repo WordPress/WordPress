@@ -77,10 +77,8 @@ window.onload = focusit;
 		<br />
 		<input type="text" name="post_title" size="25" tabindex="1" style="width: 190px;" value="<?php echo $edited_post_title; ?>" id="title" /> 
 	</div>
-	<div id="categorydiv">
-		<label for="category"><a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Category</a>:</label>
-		<br /> 
-		<?php dropdown_categories($blog_ID, $default_post_cat); ?>
+		<div id="categorydiv"> <a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Categories</a>: <br /> 
+		<?php dropdown_categories($default_post_cat); ?>
 	</div>
 	<div id="poststatusdiv">
 		<a href="http://wordpress.org/docs/reference/post/#post_status" title="Help on post status">Post
@@ -107,7 +105,9 @@ window.onload = focusit;
 		<br />
 		<input name="post_password" type="text" id="post_password" value="<?php echo $post_password ?>" />
 	</div>
-<br style="clear: both" />
+
+
+<div id="poststuff">
 <?php
 
 } else {
@@ -145,14 +145,14 @@ window.onload = focusit;
 <?php
 if ($action != 'editcomment') {
 ?>
-<p><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a>:
+<p style="clear: both;" ><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a>:
 <br />
-<textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="excerpt"><?php echo $excerpt ?></textarea></p>
+<textarea rows="3" cols="40" name="excerpt" tabindex="4" wrap="virtual" id="excerpt"><?php echo $excerpt ?></textarea></p>
 
 <?php
 } // if not a comment
 ?>
-<table width="100%">
+<table style="width: 100%; ">
 	<tr>
 		<td>
 <?php
@@ -176,10 +176,10 @@ if ($use_quicktags) {
 <?php
  $rows = get_settings('default_post_edit_rows');
  if (($rows < 3) || ($rows > 100)) {
-     $rows = 9;
+     $rows = 10;
  }
 ?>
-<textarea rows="<?php echo $rows; ?>" cols="40" style="width:100%" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
+<textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
 <?php
 if ($use_quicktags) {
 ?>
@@ -235,4 +235,5 @@ if ('edit' == $action) echo "
 ?>
 
 </form>
+</div>
 </div>

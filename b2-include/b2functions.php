@@ -575,7 +575,8 @@ function add_option() {
 }
 
 function get_postdata($postid) {
-	global $tableusers, $tablecategories, $tableposts, $tablecomments, $wpdb;
+	global $post, $tableusers, $tablecategories, $tableposts, $tablecomments, $wpdb;
+
 	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = $postid");
 	
 	$postdata = array (
@@ -662,22 +663,29 @@ function profile($user_login) {
 	echo "<a href='b2profile.php?user=".$user_data->user_login."' onclick=\"javascript:window.open('b2profile.php?user=".$user_data->user_login."','Profile','toolbar=0,status=1,location=0,directories=0,menuBar=1,scrollbars=1,resizable=0,width=480,height=320,left=100,top=100'); return false;\">$user_login</a>";
 }
 
-function dropdown_categories($blog_ID=1, $default=1) {
-	global $postdata,$tablecategories,$mode, $wpdb;
-	$query="SELECT * FROM $tablecategories ORDER BY cat_name";
-	$results = $wpdb->get_results($query);
-	$width = ($mode=="sidebar") ? "100%" : "170px";
-	echo '<select name="post_category" style="width:'.$width.';" tabindex="2" id="category">';
-    if ($postdata["Category"] != '') {
-        $default = $postdata["Category"];
-    }
-	foreach($results as $post) {
-		echo "<option value=\"".$post->cat_ID."\"";
-		if ($post->cat_ID == $default)
-			echo " selected";
-		echo ">".$post->cat_name."</option>";
+function dropdown_categories($default = 0) {
+	global $post, $tablecategories, $tablepost2cat, $mode, $wpdb;
+	$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
+
+	if ($post->ID) {
+		$postcategories = $wpdb->get_col("
+			SELECT category_id 
+			FROM  $tablecategories, $tablepost2cat 
+			WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = $post->ID
+			");
+	} else {
+		$postcategories[] = $default;
 	}
-	echo "</select>";
+	
+	foreach($categories as $category) {
+		++$i;
+		$category->cat_name = stripslashes($category->cat_name);
+		echo "<label for='category-$category->cat_ID' class='selectit'><input value='$category->cat_ID' type='checkbox' name='post_category' id='category-$category->cat_ID'";
+		if ($postcategories && in_array($category->cat_ID, $postcategories))
+			echo " checked='checked'";
+		echo ">$category->cat_name</label> ";
+	}
+
 }
 
 function touch_time($edit = 1) {
