@@ -43,6 +43,8 @@ switch ($step) {
         include_once('b2header.php');
         if ($user_level < get_settings('links_minadminlevel'))
             die ("Cheatin&#8217; uh?");
+        
+        $opmltype='blogrolling'; // default.
 ?>
 <div class="wrap">
 
@@ -53,12 +55,20 @@ switch ($step) {
     and sign in. Once you've done that, click on <strong>Get Code</strong>, and then
     look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
     code</strong><?php echo gethelp_link($this_file,'opml_code');?>.</li>
+    <li>Or go to <a href="http://blo.gs">Blo.gs</a> and sign in. Once you've done
+    that in the 'Welcome Back' box on the right, click on <strong>share</strong>, and then
+    look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
+    link</strong> (favorites.opml)<?php echo gethelp_link($this_file,'opml_code');?>.</li>
 
-    <li>Select that and copy it into the box below.<br />
-    
+    <li>Select that text and copy it or copy the link/shortcut into the box below.<br />
        <input type="hidden" name="step" value="1" />
        Your OPML code:<?php echo gethelp_link($this_file,'opml_code');?> <input type="text" name="opml_url" size="65" />
-	   </li>
+	</li>
+    <li>Did you use
+        <input type="radio" name="opmltype" value="blogrolling" <?php echo(($opmltype == 'blogrolling') ? 'checked="checked"' : ''); ?>>blogrolling.com
+      &nbsp;or&nbsp;<input type="radio" name="opmltype" value="blo.gs" <?php echo(($link_target == 'blo.gs') ? 'checked="checked"' : ''); ?>>blo.gs ?
+    </li>
+
     <li>Now select a category you want to put these links in.<br />
 	Category: <?php echo gethelp_link($this_file,'link_category');?><select name="cat_id">
 <?php
@@ -96,20 +106,32 @@ switch ($step) {
                 if (($cat_id == '') || ($cat_id == 0)) {
                     $cat_id  = 1;
                 }
+                $opmltype = $HTTP_GET_VARS['opmltype'];
+                if ($opmltype == '')
+                $opmltype = 'blogrolling';
                 $opml_url = $HTTP_GET_VARS['opml_url'];
                 if ($opml_url == '') {
                     echo "<p>You need to supply your OPML url. Press back on your browser and try again</p>\n";
                 }
                 else
                 {
+                            
                     $opml = implode('', file($opml_url));
+
                     // Updated for new format thanks to Rantor http://wordpress.org/support/2/769
-                    preg_match_all('/<outline text="(.*?)" type="(.*?)" url="(.*?)" (lastmod="(.*?)"|) target="(.*?)"*? \/>/',$opml,$items);
-                    $names = $items[1];
-                    $types = $items[2];
-                    $urls = $items[3];
-                    $titles = $items[5];
-                    $targets = $items[6];
+                    if ($opmltype == 'blogrolling') {
+                        preg_match_all('/<outline text="(.*?)" type="(.*?)" url="(.*?)" (lastmod="(.*?)"|) target="(.*?)"*? \/>/', $opml, $items);
+                        $names = $items[1];
+                        $types = $items[2];
+                        $urls = $items[3];
+                        $titles = $items[5];
+                        $targets = $items[6];
+                    } else {
+                        preg_match_all('/<outline type="(.*?)" text="(.*?)" url="(.*?)" \/>/', $opml, $items);
+                        $types = $items[1];
+                        $names = $items[2];
+                        $urls = $items[3];
+                    }
                     $link_count = count($names);
                     for ($i = 0; $i < $link_count; $i++) {
                         if ('Last' == substr($titles[$i], 0, 4))
