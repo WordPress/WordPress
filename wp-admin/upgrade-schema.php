@@ -2,7 +2,7 @@
 // Here we keep the DB structure and option values
 
 $wp_queries="CREATE TABLE $wpdb->categories (
-  cat_ID int(4) NOT NULL auto_increment,
+  cat_ID bigint(20) NOT NULL auto_increment,
   cat_name varchar(55) NOT NULL default '',
   category_nicename varchar(200) NOT NULL default '',
   category_description longtext NOT NULL,
@@ -11,7 +11,7 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   KEY category_nicename (category_nicename)
 );
 CREATE TABLE $wpdb->comments (
-  comment_ID int(11) unsigned NOT NULL auto_increment,
+  comment_ID bigint(20) unsigned NOT NULL auto_increment,
   comment_post_ID int(11) NOT NULL default '0',
   comment_author tinytext NOT NULL,
   comment_author_email varchar(100) NOT NULL default '',
@@ -31,7 +31,7 @@ CREATE TABLE $wpdb->comments (
   KEY comment_post_ID (comment_post_ID)
 );
 CREATE TABLE $wpdb->linkcategories (
-  cat_id int(11) NOT NULL auto_increment,
+  cat_id bigint(20) NOT NULL auto_increment,
   cat_name tinytext NOT NULL,
   auto_toggle enum('Y','N') NOT NULL default 'N',
   show_images enum('Y','N') NOT NULL default 'Y',
@@ -47,7 +47,7 @@ CREATE TABLE $wpdb->linkcategories (
   PRIMARY KEY  (cat_id)
 );
 CREATE TABLE $wpdb->links (
-  link_id int(11) NOT NULL auto_increment,
+  link_id bigint(20) NOT NULL auto_increment,
   link_url varchar(255) NOT NULL default '',
   link_name varchar(255) NOT NULL default '',
   link_image varchar(255) NOT NULL default '',
@@ -66,7 +66,7 @@ CREATE TABLE $wpdb->links (
   KEY link_visible (link_visible)
 );
 CREATE TABLE $wpdb->options (
-  option_id int(11) NOT NULL auto_increment,
+  option_id bigint(20) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default '0',
   option_name varchar(64) NOT NULL default '',
   option_can_override enum('Y','N') NOT NULL default 'Y',
@@ -81,15 +81,15 @@ CREATE TABLE $wpdb->options (
   KEY option_name (option_name)
 );
 CREATE TABLE $wpdb->post2cat (
-  rel_id int(11) NOT NULL auto_increment,
-  post_id int(11) NOT NULL default '0',
-  category_id int(11) NOT NULL default '0',
+  rel_id bigint(20) NOT NULL auto_increment,
+  post_id bigint(20) NOT NULL default '0',
+  category_id bigint(20) NOT NULL default '0',
   PRIMARY KEY  (rel_id),
   KEY post_id (post_id,category_id)
 );
 CREATE TABLE $wpdb->postmeta (
-  meta_id int(11) NOT NULL auto_increment,
-  post_id int(11) NOT NULL default '0',
+  meta_id bigint(20) NOT NULL auto_increment,
+  post_id bigint(20) NOT NULL default '0',
   meta_key varchar(255) default NULL,
   meta_value text,
   PRIMARY KEY  (meta_id),
@@ -97,7 +97,7 @@ CREATE TABLE $wpdb->postmeta (
   KEY meta_key (meta_key)
 );
 CREATE TABLE $wpdb->posts (
-  ID int(11) unsigned NOT NULL auto_increment,
+  ID bigint(20) unsigned NOT NULL auto_increment,
   post_author int(4) NOT NULL default '0',
   post_date datetime NOT NULL default '0000-00-00 00:00:00',
   post_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
@@ -122,8 +122,8 @@ CREATE TABLE $wpdb->posts (
   KEY post_name (post_name)
 );
 CREATE TABLE $wpdb->users (
-  ID int(10) unsigned NOT NULL auto_increment,
-  user_login varchar(20) NOT NULL default '',
+  ID bigint(20) unsigned NOT NULL auto_increment,
+  user_login varchar(60) NOT NULL default '',
   user_pass varchar(64) NOT NULL default '',
   user_firstname varchar(50) NOT NULL default '',
   user_lastname varchar(50) NOT NULL default '',
