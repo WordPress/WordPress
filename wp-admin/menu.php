@@ -8,10 +8,11 @@ $menu[0] = array(__('Dashboard'), 0, 'index.php');
 $menu[5] = array(__('Write'), 1, 'post.php');
 $menu[10] = array(__('Manage'), 1, 'edit.php');
 $menu[20] = array(__('Links'), 5, 'link-manager.php');
-$menu[25] = array(__('Users'), 0, 'profile.php');
-$menu[30] = array(__('Options'), 6, 'options-general.php');
-$menu[35] = array(__('Plugins'), 8, 'plugins.php');
-$menu[40] = array(__('Presentation'), 8, 'themes.php');
+$menu[25] = array(__('Presentation'), 8, 'themes.php');
+$menu[30] = array(__('Plugins'), 8, 'plugins.php');
+$menu[35] = array(__('Users'), 0, 'profile.php');
+$menu[40] = array(__('Options'), 6, 'options-general.php');
+
 if ( get_option('use_fileupload') )
 	$menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
 
