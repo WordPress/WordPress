@@ -164,17 +164,23 @@ function get_category_children($id, $before = '/', $after = '') {
     return $chain;
 }
 
+// Deprecated.
 function the_category_ID($echo = true) {
-    global $post;
-    if ($echo)
-        echo $post->post_category;
-    else
-        return $post->post_category;
+    // Grab the first cat in the list.
+    $categories = get_the_category();
+    $cat = $categories[0]->category_id;
+    
+    if ($echo) echo $cat;
+
+    return $cat;
 }
 
+// Deprecated.
 function the_category_head($before='', $after='') {
-    global $post, $currentcat, $previouscat, $dateformat, $newday;
-    $currentcat = $post->post_category;
+    global $currentcat, $previouscat;
+    // Grab the first cat in the list.
+    $categories = get_the_category();
+    $currentcat = $categories[0]->category_id;
     if ($currentcat != $previouscat) {
         echo $before;
         echo get_the_category_by_ID($currentcat);
