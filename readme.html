@@ -863,7 +863,7 @@
         Userland</a> (which means you can use Radio's email-to-blog feature), 
         and other tools that support the Blogger API ! :)</p>
       <p>Your XMLRPC server/path are as described here: if you login to b2 on 
-        http://mydomain.com/me/b2login.php, then you have:</p>
+        http://example.com/me/b2login.php, then you have:</p>
       <ul>
         <li>server: http://example.com/me</li>
         <li>path: /me/xmlrpc.php</li>
@@ -903,7 +903,7 @@
         to post, the email is not deleted.</p>
       <h2>How to post:</h2>
       <p>Now to post something, here's how your email should look like:</p>
-      <div class="params"> <b>To:</b> address@domain.com <span style='color: #999'>(you 
+      <div class="params"> <b>To:</b> address@example.com <span style='color: #999'>(you 
         set it in the config file)</span><br />
         <b>Subject:</b> blog:the post's title <span style='color: #999'>(you can 
         change 'blog:' in the config file)</span><br />
@@ -924,7 +924,7 @@
         your mobile phone or PDA, but on such devices you can't always include 
         line breaks. In such case, you have to set <i>use_phoneemail = true</i> 
         in the options, and then here's how you write the email:</p>
-      <div class="params"> <b>To:</b> address@domain.com<br />
+      <div class="params"> <b>To:</b> address@example.com<br />
         <b>Subject:</b> blog:the post's title <b>:::</b><br />
         <b>Body:</b><br>
         login:password <b>:::</b> The content of the post, blah blah blah.___ 
@@ -935,7 +935,7 @@
         Some mobile phone service providers may not allow you to set a subject, 
         and they'll make the subject be the first characters of the body, in which 
         case you would send an email like this:</p>
-      <div class="params"> <b>To:</b> address@domain.com<br />
+      <div class="params"> <b>To:</b> address@example.com<br />
         <b>Body:</b><br>
         blog:the post's title <b>:::</b> login:password <b>:::</b> The content 
         of the post, blah blah blah.___ </div>
