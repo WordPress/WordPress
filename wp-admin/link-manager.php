@@ -654,7 +654,68 @@ LINKS;
       </tr>
       <tr>
         <td align="right">rel:</td>
-        <td><input type="text" name="rel" size="80" value=""></td>
+        <td><input type="text" name="rel" id="rel" size="80" value=""></td>
+      </tr>
+      <tr>
+        <td valign="top" align="right"><a href="http://gmpg.org/xfn/">XFN</a>:</td>
+        <td>  <table cellspacing="0">
+        <tr>
+          <th scope="row">
+            friendship
+          </th>
+          <td>
+
+            <label for="friendship-aquaintance"><input class="valinp" type="radio" name="friendship" value="acquaintance" id="friendship-aquaintance" /> acquaintance</label> <label for="friendship-friend"><input class="valinp" type="radio" name="friendship" value="friend" id="friendship-friend" /> friend</label> <label for="friendship-none"><input class="valinp" type="radio" name="friendship" value="" id="friendship-none" /> none</label>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+
+            physical
+          </th>
+          <td>
+            <label for="met"><input class="valinp" type="checkbox" name="physical" value="met" id="met" /> met</label>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+
+            professional
+          </th>
+          <td>
+            <label for="co-worker"><input class="valinp" type="checkbox" name="professional" value="co-worker" id="co-worker" /> co-worker</label> <label for="colleague"><input class="valinp" type="checkbox" name="professional" value="colleague" id="colleague" /> colleague</label>
+          </td>
+        </tr>
+        <tr>
+
+          <th scope="row">
+            geographical
+          </th>
+          <td>
+            <label for="co-resident"><input class="valinp" type="radio" name="geographical" value="co-resident" id="co-resident" /> co-resident</label> <label for="neighbor"><input class="valinp" type="radio" name="geographical" value="neighbor" id="neighbor" /> neighbor</label> <label for="geographical-none"><input class="valinp" type="radio" name="geographical" value="" id="geographical-none" /> none</label>
+
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+            family
+          </th>
+          <td>
+            <label for="family-child"><input class="valinp" type="radio" name="family" value="child" id="family-child" /> child</label> <label for="family-parent"><input class="valinp" type="radio" name="family" value="parent" id="family-parent" /> parent</label> <label for="family-sibling"><input class="valinp" type="radio" name="family" value="sibling" id="family-sibling" /> sibling</label> <label for="family-spouse"><input class="valinp" type="radio" name="family" value="spouse" id="family-spouse" /> spouse</label> 
+            <label for="family-none"><input class="valinp" type="radio" name="family" value="" id="family-none" /> none</label>
+
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+            romantic
+          </th>
+          <td>
+            <label for="muse"><input class="valinp" type="checkbox" name="romantic" value="muse" id="muse" /> muse</label> <label for="crush"><input class="valinp" type="checkbox" name="romantic" value="crush" id="crush" /> crush</label> <label for="date"><input class="valinp" type="checkbox" name="romantic" value="date" id="date" /> date</label> <label for="sweetheart"><input class="valinp" type="checkbox" name="romantic" value="sweetheart" id="sweetheart" /> sweetheart</label><label for="spouse"></label>
+
+          </td>
+        </tr>
+      </table></td>
       </tr>
       <tr>
         <td valign="top" align="right">Notes:</td>

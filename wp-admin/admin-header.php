@@ -69,7 +69,7 @@ setTimeout("redirect();", 600);
 ?>
 
 <script language="javascript" type="text/javascript">
-<!-- hiding from old terrible browsers
+//<![CDATA[
 
 	function profile(userID) {
 		window.open ("profile.php?action=viewprofile&user="+userID, "Profile", "width=500, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=60, left=60, screenY=60, top=60");
@@ -82,9 +82,55 @@ setTimeout("redirect();", 600);
     function helpWindow(url) {
 		window.open(url, "Help", "width=640, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=60, left=60, screenY=60, top=60");
 	}
-
-
-//  End -->
+	function GetElementsWithClassName(elementName, className) {
+	   var allElements = document.getElementsByTagName(elementName);
+	   var elemColl = new Array();
+	   for (i = 0; i < allElements.length; i++) {
+		   if (allElements[i].className == className) {
+			   elemColl[elemColl.length] = allElements[i];
+		   }
+	   }
+	   return elemColl;
+	}
+	
+	function blurry() {
+	   if (!document.getElementById) return;
+	
+	   var aInputs = document.getElementsByTagName('input');
+	
+	   for (var i = 0; i < aInputs.length; i++) {      
+	
+		   aInputs[i].onclick = function() {
+			   var inputColl = GetElementsWithClassName('input','valinp');
+			   var rel = document.getElementById('rel');
+			   var inputs = '';
+			   for (i = 0; i < inputColl.length; i++) {
+				   if (inputColl[i].checked) {
+					   if (inputColl[i].value != '') inputs += inputColl[i].value + ' ';
+					   }
+				   }
+			   inputs = inputs.substr(0,inputs.length - 1);
+			   rel.value = inputs;
+		   }
+	
+		   aInputs[i].onkeyup = function() {
+			   var inputColl = GetElementsWithClassName('input','valinp');
+			   var rel = document.getElementById('rel');
+			   var inputs = '';
+			   for (i = 0; i < inputColl.length; i++) {
+				   if (inputColl[i].checked) {
+					   inputs += inputColl[i].value + ' ';
+					   }
+				   }
+			   inputs = inputs.substr(0,inputs.length - 1);
+			   rel.value = inputs;
+		   }
+	   
+	   }
+	}
+	
+	window.onload = blurry;
+//]]>
 </script>
 </head>
 <body>
