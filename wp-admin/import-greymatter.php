@@ -4,7 +4,7 @@
 // 2. upload on your server in the directory where your b2 files are
 // 3. load in the browser from there
 
-require_once('wp-config.php');
+require_once('../wp-config.php');
 require_once(ABSPATH.WPINC.'/functions.php');
 
 $wpvarstoreset = array('action', 'gmpath', 'archivespath');
@@ -72,7 +72,7 @@ textarea,input,select {
 	$userbase = file("gm-authors.cgi");
 
 	$connexion = mysql_connect($server,$loginsql,$passsql) or die ("Oops, MySQL connection error ! Couldn't connect to $server with the username $loginsql");  
-	$bdd = mysql_select_db($dbname,$connexion) or die ("Oops, can't find any database named $dbname here !"); 
+	$bdd = mysql_select_db(DB_NAME,$connexion) or die ("Oops, can't find any database named DB_NAME here !"); 
 
 	foreach($userbase as $user) {
 		$userdata=explode("|", $user);
@@ -90,6 +90,12 @@ textarea,input,select {
 		$user_email=addslashes($userdata[2]);
 		$user_url=addslashes($userdata[3]);
 		$user_joindate=addslashes($user_joindate);
+
+		$loginthere = $wpdb->get_var("SELECT user_login FROM $tableusers WHERE user_login = '$user_login'");
+		if ($loginthere) {
+			echo "<li>user <i>$user_login</i>... <b>Already exists</b></li>";
+			continue;
+		}
 
 		$query = "INSERT INTO $tableusers (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,dateYMDhour,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','1','nickname')";
 		$result = mysql_query($query);
@@ -178,8 +184,6 @@ textarea,input,select {
 
 			$post_date="$postyear-$postmonth-$postday $posthour:$postminute:$postsecond";
 
-			$post_category="1";
-
 			$post_content=$postmaincontent;
 			if (strlen($postmorecontent)>3)
 				$post_content .= "<!--more--><br /><br />".$postmorecontent;
@@ -187,8 +191,7 @@ textarea,input,select {
 
 			$post_karma=$postinfo[12];
 
-			
-			$query = "INSERT INTO $tableposts (post_author,post_date,post_content,post_title,post_category,post_karma) VALUES ('$post_author_ID','$post_date','$post_content','$post_title','1','$post_karma')";
+			$query = "INSERT INTO $tableposts (post_author,post_date,post_content,post_title) VALUES ('$post_author_ID','$post_date','$post_content','$post_title')";
 			$result = mysql_query($query) or die(mysql_error());
 
 			if (!$result)
@@ -199,6 +202,20 @@ textarea,input,select {
 			$myrow2 = mysql_fetch_array($result2);
 			$post_ID=$myrow2[0];
 
+			// Grab a default category.
+			$post_category = $wpdb->get_var("SELECT cat_ID FROM $tablecategories LIMIT 1");
+
+			// Update the post2cat table.
+			$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
+			  
+			if (!$exists) {
+			  $wpdb->query("
+					INSERT INTO $tablepost2cat
+					(post_id, category_id)
+					VALUES
+					($post_ID, $post_category)
+					");
+			}
 
 			$c=count($entry);
 			if ($c>4) {
