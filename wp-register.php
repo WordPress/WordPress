@@ -50,7 +50,6 @@ case 'register':
 	$pass1 = $HTTP_POST_VARS['pass1'];
 	$pass2 = $HTTP_POST_VARS['pass2'];
 	$user_email = $HTTP_POST_VARS['user_email'];
-	$user_login = $HTTP_POST_VARS['user_login'];
 		
 	/* checking login has been typed */
 	if ($user_login == '') {
@@ -88,11 +87,12 @@ case 'register':
 	$user_login = addslashes($user_login);
 	$pass1 = addslashes($pass1);
 	$user_nickname = addslashes($user_nickname);
+	$now = current_time('mysql');
 
 	$result = $wpdb->query("INSERT INTO $tableusers 
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode)
 	VALUES 
-		('$user_login', '$pass1', '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', NOW(), '$new_users_can_blog', 'nickname')");
+		('$user_login', '$pass1', '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname')");
 	
 	if ($result == false) {
 		die ('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:'.$admin_email.'">webmaster</a> !');
