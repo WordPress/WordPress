@@ -7,7 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
 	<meta name="generator" content="WordPress <?php bloginfo('version'); ?>" /> <!-- leave this for stats -->
 
-	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" />
+	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
 
 	<style type="text/css" media="screen">
 
@@ -26,7 +26,7 @@
 			/*	Because the template is slightly different, size-wise, with images, this needs to be set here
 				If you don't want to use the template's images, you can also delete the following two lines. */
 			
-			#header { padding: 1px; height: 198px; width: 758px; }
+			#header 	{ margin: 0 !important; margin: 0 0 0 1px; padding: 1px; height: 198px; width: 758px; }
 			#headerimg 	{ margin: 7px 9px 0; height: 192px; width: 740px; } 
 		/* END IMAGE CSS */
 		
@@ -56,7 +56,7 @@
 
 <div id="header">
 	<div id="headerimg">
-		<h1><a href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
+		<h1><a href="<?php echo get_settings('siteurl'); ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 		<div class="description"><?php bloginfo('description'); ?></div>
 	</div>
 </div>

@@ -20,14 +20,14 @@
 <!-- You can start editing here. -->
 
 <?php if ($comments) : ?>
-	<a name="comments"></a><h3><?php comments_number('No Responses','One Response','% Responses' );?> to '<?php the_title(); ?>'</h3> 
+	<h3 id="comments"><?php comments_number('No Responses','One Response','% Responses' );?> to '<?php the_title(); ?>'</h3> 
 
 	<ol class="commentlist">
 
 	<?php foreach ($comments as $comment) : ?>
 
-		<li class="<?php echo $oddcomment; ?>">
-			<a name="comment-<?php comment_ID() ?>"></a><cite><?php comment_author_link() ?></cite> Says:<br />
+		<li class="<?php echo $oddcomment; ?>" id="comment-<?php comment_ID() ?>">
+			<cite><?php comment_author_link() ?></cite> Says:<br />
 			<!--<small class="commentmetadata"><a href="#comment-<?php comment_ID() ?>" title="<?php comment_date('l, F jS, Y') ?> at <?php comment_time() ?>"><?php /* $entry_datetime = abs(strtotime($post->post_date)); $comment_datetime = abs(strtotime($comment->comment_date)); echo time_since($entry_datetime, $comment_datetime) */ ?></a> after publication. <?php edit_comment_link('e','',''); ?></small>-->
 			<small class="commentmetadata"><a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date('F jS, Y') ?> at <?php comment_time() ?></a> <?php edit_comment_link('e','',''); ?></small>
 			
@@ -59,7 +59,7 @@
 
 <?php if ('open' == $post-> comment_status) : ?>
 
-<a name="respond"></a><h3>Leave a Comment</h3>
+<h3 id="respond">Leave a Reply</h3>
 <form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 
 <p><input type="text" name="author" id="author" class="styled" value="<?php echo $comment_author; ?>" size="22" tabindex="1" />

@@ -13,27 +13,27 @@
 
 			<li>
 			<?php /* If this is a category archive */ if (is_category()) { ?>				
-			<p>You are currently browsing the <a href="<?php bloginfo('url'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
+			<p>You are currently browsing the <a href="<?php echo get_settings('siteurl'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
 			for the '<?php echo single_cat_title(); ?>' category.</p>
 			
 			<?php /* If this is a yearly archive */ } elseif (is_day()) { ?>
-			<p>You are currently browsing the <a href="<?php bloginfo('url'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
+			<p>You are currently browsing the <a href="<?php echo get_settings('siteurl'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
 			for the day <?php the_time('l, F jS, Y'); ?>.</p>
 			
 			<?php /* If this is a monthly archive */ } elseif (is_month()) { ?>
-			<p>You are currently browsing the <a href="<?php bloginfo('url'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
+			<p>You are currently browsing the <a href="<?php echo get_settings('siteurl'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
 			for <?php the_time('F, Y'); ?>.</p>
 
       <?php /* If this is a yearly archive */ } elseif (is_year()) { ?>
-			<p>You are currently browsing the <a href="<?php bloginfo('url'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
+			<p>You are currently browsing the <a href="<?php echo get_settings('siteurl'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
 			for the year <?php the_time('Y'); ?>.</p>
 			
 		 <?php /* If this is a monthly archive */ } elseif (is_search()) { ?>
-			<p>You have searched the <a href="<?php bloginfo('url'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
-			for <strong>'<?php echo $s; ?>'</strong>. If you are unable to find anything in these search results, you can try one of these links.</p>
+			<p>You have searched the <a href="<?php echo get_settings('siteurl'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives
+			for <strong>'<?php echo wp_specialchars($s); ?>'</strong>. If you are unable to find anything in these search results, you can try one of these links.</p>
 
 			<?php /* If this is a monthly archive */ } elseif (isset($_GET['paged']) && !empty($_GET['paged'])) { ?>
-			<p>You are currently browsing the <a href="<?php bloginfo('url'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives.</p>
+			<p>You are currently browsing the <a href="<?php echo get_settings('siteurl'); ?>"><?php echo bloginfo('name'); ?></a> weblog archives.</p>
 
 			<?php } ?>
 			</li>
@@ -55,7 +55,7 @@
 
 			<li><h2><?php _e('Categories'); ?></h2>
 				<ul>
-				<?php list_cats(0, '', 'name', 'asc', '', 1, 0, 1, 1, 1, 1, 0,'','','','','28') ?>
+				<?php list_cats(0, '', 'name', 'asc', '', 1, 0, 1, 1, 1, 1, 0,'','','','','') ?>
 				</ul>
 			</li>
 
