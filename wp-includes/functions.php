@@ -1751,7 +1751,7 @@ function hilite($text) {
 	$search_engines = array('wordpress', 'google', 'lycos', 'yahoo');
 
 	foreach ($search_engines as $engine) {
-		if ( is_referer_search_engine($engine) ) {
+		if ( is_referer_search_engine($engine) && !empty($term) && $term != ' ') {
 			$query_terms = get_search_query_terms($engine);
 			foreach ($query_terms as $term) {
 				if (!preg_match('/<.+>/',$text)) {
