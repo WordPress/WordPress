@@ -88,7 +88,7 @@ default:
 	if (!is_file($file))
 		$error = 1;
 
-	if ((substr($file,0,2) == 'b2') and (substr($file,-4,4) == '.php') and ($file != 'b2.php'))
+	if ((substr($file,0,2) == 'wp') and (substr($file,-4,4) == '.php') and ($file != 'wp.php'))
 		$warning = ' &#8212; this is a WordPress file, be careful when editing it!';
 	
 	if (!$error) {
