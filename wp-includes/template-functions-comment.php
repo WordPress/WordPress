@@ -210,18 +210,18 @@ function comment_excerpt() {
 function comment_date($d='') {
 	global $comment;
 	if ('' == $d) {
-		echo mysql2date(get_settings('date_format'), get_date_from_gmt($comment->comment_date));
+		echo mysql2date(get_settings('date_format'), $comment->comment_date);
 	} else {
-		echo mysql2date($d, get_date_from_gmt($comment->comment_date));
+		echo mysql2date($d, $comment->comment_date);
 	}
 }
 
 function comment_time($d='') {
 	global $comment;
 	if ($d == '') {
-		echo mysql2date(get_settings('time_format'), get_date_from_gmt($comment->comment_date));
+		echo mysql2date(get_settings('time_format'), $comment->comment_date);
 	} else {
-		echo mysql2date($d, get_date_from_gmt($comment->comment_date));
+		echo mysql2date($d, $comment->comment_date);
 	}
 }
 
