@@ -7,20 +7,6 @@ if (! $feed) {
 
 header('Content-type: application/rss+xml', true);
 
-/* This doesn't take into account edits
-// Get the time of the most recent article
-$maxdate = $wpdb->get_var("SELECT max(post_date) FROM $tableposts");
-$unixtime = strtotime($maxdate);
-
-// format timestamp for Last-Modified header
-$clast = gmdate("D, d M Y H:i:s \G\M\T", $unixtime);
-$cetag = (isset($clast)) ? md5($clast) : '';
-
-// send it in a Last-Modified header
-header("Last-Modified: " . $clast, true);
-header("Etag: " . $cetag, true);
-*/
-
 ?>
 <?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
