@@ -777,6 +777,8 @@ class WP_Rewrite {
 					 's='
 					 );
 
+	var $feeds = array ('feed', 'rdf', 'rss', 'rss2', 'atom');
+
 	function using_permalinks() {
 		if (empty($this->permalink_structure))
 			return false;
@@ -1011,8 +1013,12 @@ class WP_Rewrite {
 	}
 
 	function generate_rewrite_rules($permalink_structure, $page = true, $feed = true, $forcomments = false, $walk_dirs = true) {
-		$feedregex2 = '(feed|rdf|rss|rss2|atom)/?$';
-		$feedregex = 'feed/' . $feedregex2;
+		$feedregex2 = '';
+		foreach ($this->feeds as $feed) {
+			$feedregex2 .= $feed . '|';
+		}
+		$feedregex2 = '(' . trim($feedregex2, '|') .  ')/?$';
+		$feedregex = $this->feed_base  . '/' . $feedregex2;
 
 		$trackbackregex = 'trackback/?$';
 		$pageregex = 'page/?([0-9]{1,})/?$';
