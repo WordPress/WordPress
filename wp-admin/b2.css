@@ -1,170 +1,202 @@
-#wphead {
-	margin: 5px;
-	background-image: url(http://wordpress.org/images/wp-small.png);
-	background-repeat: no-repeat;
-	height: 42px;
-	border-bottom: 4px solid #333;
-}
-#wphead a {
-	display: block;
-	height: 30px;
-}
-#wphead a span {
-	display: none;
-}
-p {
-	line-height: 130%;
-}
-#adminmenu {
-	list-style: none outside;
-	padding: 0;
-	margin: 5px 0 0 0;
-	margin-left: 40px;
-}
 
-#adminmenu li {
-	text-align: center;
-	display: block;
-	float: left; 
-	padding: 4px;
-	border-right: 1px solid #ccc;
-}
-#adminmenu #last {
-	border-right: none;
-}
-#adminmenu a {
-	padding: 3px 8px 3px 7px;
-	color: #333;
-	text-decoration: none;
-	border: 1px solid white;
-}
-#adminmenu a:hover {
-	background-color: #e9e9e9;
-	color: #333;
-	border: 1px solid gray;
-}
-
-body	{
-	margin-top: 0px;
-	margin-left: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-    background-color: #FFFFFF}
-body, td {
-	color: #000000; 
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 10pt;
-}
 a {
 	color: #00019b;
 	font-weight: bold;
 }
+
 a:visited {
 	color: #006;
 }
+
 a:hover {
 	color: #069;
 }
 
-h2 {
-	margin: 0 5px 2px 5px;
-	padding: 3px;
-	color: #333;
-	border-bottom: 2px solid #333;
-}
-
-.table {
-	color: #000000; 
-	font-size: 10pt;
-}
-.tabletoprow {
-	background-color: #ffffff;
-	color: #000000; 
-	font-size: 12px;
-	font-style: italic;
-}
-
-.quicktags, .search {
-	font-family: Georgia, "Times New Roman", Times, serif;
-	font-size: 12px;
-	color: #000000;
-	background-color: #cccccc;
-}
-
-.menutop {
-	color: #999999;
-	font-size: 10px;
-	background-color: #DDEEFF;
-}
-a.menutop {
-	background-color: transparent;
-	color: #3366CC; 
-	font-weight: normal;
-	border-width: 0px;
-}
-a.menutop:hover {
-	color: #FF9900;
-	text-decoration: underline;
-	font-weight: normal;
-}
-
-.menutoptitle {
-	color: #BBCCDD;
-	font-size: 14px;
-	font-weight: bold;
-	}
-
-.b2menutop { 
-	color: #333333; 
-	font-size: 10px;
-}
 a.b2menutop {
 	background-color: transparent;
-	color: #0066ff; 
+	color: #06f;
 	font-weight: lighter;
 }
+
 a.b2menutop:hover {
-	color: #ff9900; 
+	color: #f90;
 	font-weight: bold;
 	text-decoration: none;
 }
-xmp { /* Just in case */
+
+a.menutop {
+	background-color: transparent;
+	border-width: 0px;
+	color: #36c;
+	font-weight: normal;
+}
+
+a.menutop:hover {
+	color: #f90;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+body	{
+	background-color: #fff;
+	margin: 0px;
+}
+
+body, td {
+	color: #000;
+	font-family: Georgia, "Times New Roman", Times, serif;
 	font-size: 10pt;
 }
-.wrap {
-	width: 85%;
-	border: 1px solid #ccc;
-	margin: 20px auto 10px auto;
-	padding: 10px;
-}
-form { margin: 0; padding: 0; } /* thanks #mozilla */
 
-td.menutop {
-	padding-top: 2px;
-	padding-bottom: 2px;
-	border-color: #999999;
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 0px;
-	border-right-width: 0px;
-	border-style: dashed;
+form {
+	margin: 0;
+	padding: 0; /* thanks #mozilla */
 }
-textarea, input, select {
-	background-color: #f0f0f0;
-	border-width: 1px;
-	border-color: #cccccc;
-	border-style: solid;
-	padding: 2px;
-	margin: 1px;
-	font-family: Georgia, "Times New Roman", Times, serif;
-}
-.checkbox {
-	background-color: #ffffff;
-	border-width: 0px;
-	padding: 0px;
-	margin: 0px;
+
+h2 {
+	border-bottom: 2px solid #333;
+	color: #333;
+	margin: 0 5px 2px 5px;
+	padding: 3px;
 }
 
 label {
 	font-weight: bold;
+}
+
+p {
+	line-height: 130%;
+}
+
+td.menutop {
+	border-bottom-width: 1px;
+	border-color: #999;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-style: dashed;
+	border-top-width: 1px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+}
+
+textarea, input, select {
+	background-color: #f0f0f0;
+	border-color: #ccc;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	margin: 1px;
+	padding: 2px;
+}
+
+xmp {
+	font-size: 10pt; /* Just in case */
+}
+
+.b2menutop {
+	color: #333;
+	font-size: 10px;
+}
+
+.checkbox {
+	background-color: #fff;
+	border-width: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.menutop {
+	background-color: #def;
+	color: #999;
+	font-size: 10px;
+}
+
+.menutoptitle {
+	color: #bcd;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.quicktags, .search {
+	background-color: #ccc;
+	color: #000;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 12px;
+}
+
+.table {
+	color: #000;
+	font-size: 10pt;
+}
+
+.tabletoprow {
+	background-color: #fff;
+	color: #000;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.wrap {
+	border: 1px solid #ccc;
+	margin: 20px auto 10px auto;
+	padding: 10px;
+	width: 85%;
+}
+
+#adminmenu {
+	list-style: none outside;
+	margin: 5px 0 0 0;
+	margin-left: 40px;
+	padding: 0;
+}
+
+#adminmenu #last {
+	border-right: none;
+}
+
+#adminmenu a {
+	border: 1px solid #fff;
+	color: #333;
+	padding: 3px 8px 3px 7px;
+	text-decoration: none;
+}
+
+#adminmenu a:hover {
+	background-color: #e9e9e9;
+	border: 1px solid #808080;
+	color: #333;
+}
+
+#adminmenu li {
+	border-right: 1px solid #ccc;
+	display: block;
+	float: left;
+	padding: 4px;
+	text-align: center;
+}
+
+#login {
+	background: url(http://wordpress.org/images/wp-small.png) #fff no-repeat top center;
+	border: 2px solid #333;
+	color: #333;
+	padding: 40px 5px 5px 5px;
+	text-align: right;
+	width: 210px;
+}
+
+#wphead {
+	background-image: url(http://wordpress.org/images/wp-small.png);
+	background-repeat: no-repeat;
+	border-bottom: 4px solid #333;
+	height: 42px;
+	margin: 5px;
+}
+
+#wphead a {
+	display: block;
+	height: 30px;
+}
+
+#wphead a span {
+	display: none;
 }
