@@ -135,7 +135,7 @@ switch($action) {
 
 		// Insert categories
 		// Check to make sure there is a category, if not just set it to some default
-		if (!$post_categories) $post_categories = $wpdb->get_var("SELECT cat_ID FROM $tablecategories LIMIT 1");
+		if (!$post_categories) $post_categories[] = 1;
 		foreach ($post_categories as $post_category) {
 			// Double check it's not there already
 			$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
