@@ -5,7 +5,7 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   cat_ID int(4) NOT NULL auto_increment,
   cat_name varchar(55) NOT NULL default '',
   category_nicename varchar(200) NOT NULL default '',
-  category_description lengtext NOT NULL,
+  category_description longtext NOT NULL,
   category_parent int(4) NOT NULL default '0',
   PRIMARY KEY  (cat_ID),
   KEY category_nicename (category_nicename)
