@@ -693,7 +693,12 @@ switch($action) {
                 $ping_status = get_settings('default_ping_status');
                 $post_pingback = get_settings('default_pingback_flag');
                 $default_post_cat = get_settings('default_post_category');
-                include('edit-form.php');
+
+				if (get_settings('advanced_edit')) {
+					include('edit-form-advanced.php');
+				} else {
+                	include('edit-form.php');
+				}
             }
 ?>
 <div class="wrap">

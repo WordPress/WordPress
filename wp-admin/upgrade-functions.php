@@ -651,7 +651,7 @@ function upgrade_100() {
 
 function upgrade_101() {
 	global $wpdb, $tableoptionvalues, $tablelinkcategories, $tableposts, $tablecategories, $tablecomments, $tablelinks;
-	// Fix possible duplicate problem from CVS
+	// Fix possible duplicate problem from CVS, we can REMOVE this later
 	$option59 = $wpdb->get_results("SELECT * FROM $tableoptionvalues WHERE option_id  = '59'");
 	if (1 < count($option59)) {
 		$wpdb->query("DELETE FROM $tableoptionvalues WHERE option_id = '59' AND optionvalue LIKE('%FROM  order%')");
@@ -671,6 +671,7 @@ function upgrade_101() {
 	add_clean_index($tablelinks , 'link_category');
 	add_clean_index($tablelinks , 'link_visible');
 }
+
 
 function upgrade_110() {
   global $wpdb, $tableusers, $tablecomments, $tableposts, $tableoptiongroups, $tableoptiongroup_options, $tableoptions, $tablepostmeta;
@@ -708,8 +709,8 @@ function upgrade_110() {
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 6");
 
 	// Add blog_charset option
-	if(!$wpdb->get_var("SELECT * FROM $tableoptions WHERE option_id = '93'")) {
-		$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (93, 'blog_charset', 3, 'utf-8', 'Your blog&#8217;s charset (here&#8217;s a <a href=\"http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html\">list of possible charsets</a>)', 8)");
+	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'blog_charset'")) {
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('blog_charset', 3, 'utf-8', 8)");
 	}
 
 	// Convert all datetime fields' values to GMT, add a gmt_offset option
@@ -767,6 +768,18 @@ function upgrade_110() {
 	)
 	");
 
+	// First we need to enlarge option_value so it can hold larger values:
+	$wpdb->query("ALTER TABLE `$tableoptions` CHANGE `option_value` `option_value` TEXT NOT NULL");
+	
+	// Now an option for blog pinging
+	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'ping_sites'")) {
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('ping_sites', 3, '', 8)");
+	}
+	
+	// Option for using the advanced edit screen by default
+	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'advanced_edit'")) {
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('advanced_edit', 3, '0', 8)");
+	}
 }
 
 ?>
