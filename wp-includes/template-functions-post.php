@@ -244,6 +244,11 @@ function get_post_custom_values($key='') {
 	return $post_meta_cache[$id][$key];
 }
 
+function post_custom( $key = '' ) {
+	if ( 1 == count($post_meta_cache[$id][$key]) ) return $post_meta_cache[$id][$key][0];
+	else return $post_meta_cache[$id][$key];
+}
+
 // this will probably change at some point...
 function the_meta() {
 	global $id, $post_meta_cache;
