@@ -680,6 +680,9 @@ function upgrade_110() {
 	$wpdb->query("ALTER TABLE `$tableposts` CHANGE `comment_status` `comment_status` ENUM( 'open', 'closed', 'registered_only' ) DEFAULT 'open' NOT NULL");
 
 	maybe_add_column($tableusers, 'user_nicename', "ALTER TABLE `$tableusers` ADD `user_nicename` VARCHAR(50) DEFAULT '' NOT NULL ;");
+	maybe_add_column($tableposts, 'post_date_gmt', "ALTER TABLE $tableposts ADD post_date_gmt DATETIME NOT NULL AFTER post_date");
+	maybe_add_column($tableposts, 'post_modified_gmt', "ALTER TABLE $tableposts ADD post_modified_gmt DATETIME NOT NULL AFTER post_modified");
+	maybe_add_column($tablecomments, 'comment_date_gmt', "ALTER TABLE $tablecomments ADD comment_date_gmt DATETIME NOT NULL AFTER comment_date");
 
     // Set user_nicename.
 	$users = $wpdb->get_results("SELECT ID, user_nickname, user_nicename FROM $tableusers");
@@ -745,9 +748,6 @@ function upgrade_110() {
 		}
 	}
 	if (!$got_gmt_fields) {
-		$wpdb->query("ALTER TABLE $tableposts ADD post_date_gmt DATETIME NOT NULL AFTER post_date");
-		$wpdb->query("ALTER TABLE $tableposts ADD post_modified_gmt DATETIME NOT NULL AFTER post_modified");
-		$wpdb->query("ALTER TABLE $tablecomments ADD comment_date_gmt DATETIME NOT NULL AFTER comment_date");
 
 		// Add or substract time to all dates, to get GMT dates
 		$add_hours = intval($diff_gmt_weblogger);
