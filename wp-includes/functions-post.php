@@ -354,4 +354,29 @@ function trackback_url_list($tb_list, $post_id) {
     }
 }
 
+
+// query user capabilities
+
+/* returns true if a given $user_id can edit a given $post_id.
+   note: optional $blog_id for future usage?                   */
+function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
+	$author_data = get_userdata($user_id);
+	$post_data   = get_postdata($post_id);
+	$post_author_data = get_userdata($post_data['Author_ID']);
+
+	if ( ($user_id == $post_author_data->ID)
+	     || ($author_data->user_level > $post_author_data->user_level) ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/* returns true if a given $user_id can delete a given $post_id.
+   note: optional $blog_id for future usage?                   */
+function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
+	// right now if one can edit, one can delete
+	return user_can_edit_post($user_id, $post_id, $blog_id);
+}
+
 ?>
