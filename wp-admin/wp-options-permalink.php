@@ -126,7 +126,7 @@ $match = str_replace($rewritecode, $rewritereplace, $match);
 
 preg_match_all('/%.+?%/', $permalink_structure, $tokens);
 
-$query = '/index.php?';
+$query = 'index.php?';
 for ($i = 0; $i < count($tokens[0]); ++$i) {
 	if (0 < $i) $query .= '&';
 	$query .= str_replace($rewritecode, $queryreplace, $tokens[0][$i]) . '$'. ($i + 1);
@@ -136,7 +136,7 @@ for ($i = 0; $i < count($tokens[0]); ++$i) {
 ?> 
   <p><code>RewriteEngine On<br /> 
     RewriteBase <?php echo $site_root; ?><br /> 
-    RewriteRule ^<?php echo $match; echo '$ ' . $query ?> [QSA]</code></p> 
+    RewriteRule ^<?php echo $match; echo '$ ' . $site_root . $query ?> [QSA]</code></p> 
 </div> 
 <?php
 } else {
