@@ -44,13 +44,14 @@ case 'update':
 	}
 
 	$newcontent = stripslashes($_POST['newcontent']);
+	$theme = urlencode($theme);
 	if (is_writeable($real_file)) {
 		$f = fopen($real_file, 'w+');
 		fwrite($f, $newcontent);
 		fclose($f);
-		header("Location: theme-editor.php?file=$file&a=te");
+		header("Location: theme-editor.php?file=$file&theme=$theme&a=te");
 	} else {
-		header("Location: theme-editor.php?file=$file");
+		header("Location: theme-editor.php?file=$file&theme=$theme");
 	}
 
 	exit();
