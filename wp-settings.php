@@ -38,7 +38,6 @@ $wpdb->show_errors();
 
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/functions-formatting.php');
-require (ABSPATH . 'wp-config-extra.php');
 require (ABSPATH . WPINC . '/template-functions.php');
 require (ABSPATH . WPINC . '/links.php');
 require (ABSPATH . WPINC . '/kses.php');
