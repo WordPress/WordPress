@@ -309,10 +309,10 @@ function get_settings($setting) {
 		$cache_nonexistantoptions = array();
 
 	if ('home' == $setting && '' == $cache_settings->home)
-		return $cache_settings->siteurl;
+		return apply_filters('option_' . $setting, $cache_settings->siteurl);
 
 	if ( isset($cache_settings->$setting) ) :
-		return $cache_settings->$setting;
+		return apply_filters('option_' . $setting, $cache_settings->$setting);
 	else :
 		// for these cases when we're asking for an unknown option
 		if ( isset($cache_nonexistantoptions[$setting]) )
@@ -327,8 +327,8 @@ function get_settings($setting) {
 
 		@ $kellogs = unserialize($option);
 		if ($kellogs !== FALSE)
-			return $kellogs;
-		else return $option;
+			return apply_filters('option_' . $setting, $kellogs);
+		else return apply_filters('option_' . $setting, $option);
 	endif;
 }
 
@@ -359,9 +359,9 @@ function get_alloptions() {
 		@ $value = unserialize($option->option_value);
 		if ($value === FALSE)
 			$value = $option->option_value;
-		$all_options->{$option->option_name} = $value;
+		$all_options->{$option->option_name} = apply_filters('pre_option_' . $option->option_name, $value);
 	}
-	return $all_options;
+	return apply_filters('all_options', $all_options);
 }
 
 function update_option($option_name, $newvalue) {
