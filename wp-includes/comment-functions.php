@@ -64,6 +64,11 @@ function get_comments_link() {
 	return get_permalink() . '#comments';
 }
 
+function get_comment_link() {
+	global $comment;
+	return get_permalink( $comment->comment_post_ID ) . '#comment-' . $comment->comment_ID;
+}
+
 function comments_link( $file = '', $echo = true ) {
     echo get_comments_link();
 }

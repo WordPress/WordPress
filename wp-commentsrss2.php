@@ -47,9 +47,9 @@ if ($posts) { foreach ($posts as $post) { start_wp();
 ?>
 	<item>
 		<title>by: <?php comment_author_rss() ?></title>
-		<link><?php comment_link_rss() ?></link>
+		<link><?php comment_link() ?></link>
 		<pubDate><?php comment_time('r'); ?></pubDate>
-		<guid isPermaLink="false"><?php comment_ID(); echo ":".$comment->comment_post_ID; ?>@<?php bloginfo_rss("url") ?></guid>
+		<guid><?php comment_link() ?></guid>
 			<?php 
 			if (!empty($comment->post_password) && $_COOKIE['wp-postpass'] != $comment->post_password) {
 			?>

@@ -54,8 +54,8 @@ function permalink_single_rss($file = '') {
     echo get_permalink();
 }
 
-function comment_link_rss() {
-	echo get_comments_link();
+function comment_link() {
+	echo get_comment_link();
 }
 
 function comment_author_rss() {
