@@ -1,16 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>WordPress&#8212;ReadMe</title>
+<title>WordPress&rsaquo;ReadMe</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <style type="text/css" media="screen">
 	<!--
+	html {
+		background: #eee;
+	}
 	body {
 		background: #fff;
 		color: #000;
 		font-family: Georgia, "Times New Roman", Times, serif;
 		margin-left: 25%;
 		margin-right: 25%;
+		padding: .2em 2em;
 	}
 	
 	h1 {
@@ -19,230 +23,138 @@
 		font-weight: lighter;
 	}
 	
-	
 	h2 {
 		font-size: 16px;
 	}
 	
-	.tag {
-		background: #FFFF99
-		color: #000;
-		}
-
-
-	
-	p, li {
+	p, li, dt {
 		line-height: 140%;
 		padding-bottom: 2px;
 	}
 
-	.file {
-		background: #d4f5ff;
-		color: #000;
-	}
-	
-	.tag {
-		background: #FFFF99;
-		color: #000;
-		}
-
 	ul, ol {
 		padding: 5px 5px 5px 20px;
-	}
-	
-	.params {
-		border: 1px solid #ccc;
-		font: 12px arial,helvetica,sans-serif;
-		margin: 5px;
-		margin-left: 20px;
-		margin-right: 80px;
-		padding: 5px;
 	}
 	-->
 	</style>
 </head>
-<body> 
-<p style="text-align: center"><img alt="WordPress" src="http://wordpress.org/images/wordpress.gif" /> <br />
-Version 1.0.1</p> 
-<p style="text-align: center">Weblog / News Publishing Tool</p> 
-<p style="text-align: center"><a href="#requirements">Requirements</a> - <a href="#installation">Installation</a> - <a href="#templates">Template(s)</a> - <a href="#usage">Query String Usage</a> - <a href="#xmlrpc">XML-RPC (Blogging APIs)</a> - <a href="#postviaemail">Post Via Email</a> - <a href="#notes">Notes</a></p> 
-<h1 id="requirements">Requirements:</h1> 
-<ul> 
-  <li><strong>PHP4</strong> (version 4.0.6 or higher)</li> 
-  <li><strong>MySQL</strong> (version 3.23.23 or higher)</li> 
-  <li>... and a link to <a href="http://wordpress.org">http://wordpress.org</a> on your site.</li> 
-</ul> 
-<p>The link will help promote <a href="http://wordpress.org">WordPress</a> and is its only mean of promotion. </p> 
-<p>WordPress is the official continuation of <a href="http://cafelog.com/">b2</a>, which comes from Michel V. The work has been continued by the <a href="http://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="http://wordpress.org/donate/">donating</a>. </p> 
-<p>This document is currently <em>beta</em> stage, we'll be updating it extensively as WordPress matures. There is also <a href="http://wordpress.org/docs/">online documentation</a> under development, as well as a <a href="http://wiki.wordpress.org">wiki</a>.</p> 
-<h1 id="installation">Installation:</h1> 
-<h2>New users: 5-minute install.</h2> 
-<ol> 
-  <li>Unzip the package in an empty directory.</li> 
-  <li>Upload everything. This release is designed to sit in your root folder; i.e, the folder where your WordPress-powered page will reside.</li> 
-  <li>(Optional) If you're going to use it, the weblogs.com cache file needs to be writable by the web server. <a href="http://www.evolt.org/article/A_quick_and_dirty_chmod_Tutorial/18/541/">CHMOD 666</a> the <span class="file"><code>wp-content/link-update-cache.xml</code></span> file. </li> 
-  <li>
-    <p>Point your browser to <span class="file">wp-admin/install-config.php</span>.  This will create a configuration file for your installation.  You'll need to know your database name, username, password, and host name.</p>
-    <p>Alternately, you may open <span class="file">wp-config-sample.php</span> in a text editor and insert your database name, username, password, and host name as indicated in the comments. (Comments are lines that start with <code>/*</code> or <code>//</code>.)  Save this file as <span class="file">wp-config.php</span>, and upload it.</p>
-  </li>
-  <li> Launch <span class="file"><a href="wp-admin/install.php">/wp-admin/install.php</a></span> in your browser. This should setup the MySQL database for your blog. <strong>Note the password given to you.</strong> If there is an error, double check your <span class="file">wp-config.php</span> file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). </li>
-  <li> The install script should then send you to the login page.  Sign in with the username "admin" and the password generated during the installation.  Then click on the item 'My Profile', and change the password.  The login page may also be accessed by going to <span class="file"><a href="wp-login.php">wp-login.php</a></span>.</li> 
-</ol> 
-<h2>Some notes:</h2> 
-<ul> 
-  <li>Whenever you want to post something, just open a browser and go to <span class="file"><a href="wp-login.php">wp-login.php</a></span> to log in and post.</li> 
-  <li>You can also use a bookmarklet and/or a sidebar (IE5+/NS6+) to post.</li> 
-  <li> You can also post through the Blogger, MetaWeblog, and MovableType APIs, <a href="#xmlrpc">click here</a> for more info.</li> 
-  <li> By default, your site's blog is located at <span class="file">index.php</span>, which is an elaborate .CSS-based template.  There is a non-.CSS template you can also use, called <span class="file">wp.php</span>. You can rename either of these files as any other name you fancy (provided it bears the php extension or is interpreted as a php file by your server).</li>  
-</ul> 
-
-<h2>Preface for all upgrades:</h2>
- <ul><li><strong>Back up</strong> your database before you do anything. </li> 
-  <li>If you haven't already, we strongly suggest that you <strong>BACK UP</strong> your database.</li>
-  <li>Have you <strong>BACKED UP</strong> your database? Yeah? GREAT!</li>
-  <li>If you don't know how to do this, <a href="http://wordpress.org/support/10/1384">this script</a> may help.</li>
-</ul>
-
-<h2>Upgrading from any previous WordPress to v1.0.1:</h2>
+<body>
+<h1 style="text-align: center"><img alt="WordPress" src="http://wordpress.org/images/wordpress.gif" /> <br />
+	Version 1.2</h1>
+<p style="text-align: center"> Semantic Personal Publishing Platform </p>
+<h1>First Things First</h1>
+<p>Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I'm proud to be a part of. Thousands of hours have gone into WordPress, and we're dedicated to making it better every day. Thank you for making it part of your world.</p>
+<p style="text-align: right;">&#8212; Matt Mullenweg </p>
+<h1>Online Resources</h1>
+<p>If you have any questions that aren't addressed in this document, please take advantage of WordPress' numerous online resources:</p>
+<dl>
+	<dt><a href="http://wiki.wordpress.org/">The WordPress Wiki</a></dt>
+	<dd>A wiki is like a web page than anyone can contribute to, and the WordPress wiki documentation has grown rich from the many who have contributed to it. It is usually up-to-date and well-hyperlinked. The only downside is it can be hard to find your way around your first time. Use the search box at the top.</dd>
+	<dt><a href="http://wordpress.org/docs/">The official documentation</a></dt>
+	<dd>The documentation on wordpress.org represents the official resources we've made available. Beyond reference, this includes tutorials and guides for doing different things with WordPress. As I write this, it is a little sparse, but we're doing our best to enrich this resource so by the time you read this sentence the docs may be bursting with information. </dd>
+	<dt><a href="http://wordpress.org/development/">The Development Blog</a></dt>
+	<dd>This is where you'll find the latest updates and news related to WordPress. Bookmark and check often. </dd>
+	<dt><a href="http://faq.wordpress.net/">Frequently Asked Questions Blog </a></dt>
+	<dd>In addition to the FAQ on the wiki and the main website, there is a new FAQ blog that several members of the documentation team are updating. The FAQ itself is run with WordPress. </dd>
+	<dt><a href="http://wordpress.org/support/">WordPress Support Forums</a></dt>
+	<dd>If you've looked everywhere and still can't find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible. </dd>
+	<dt><a href="http://wiki.wordpress.org/index.php/IRC">WordPress IRC Channel</a></dt>
+	<dd>Finally, there is an online chat channel that is used for discussion amoung people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (irc.freenode.net #wordpresss) </dd>
+</dl>
+<h1 id="requirements">System Recomendations </h1>
 <ul>
-	<li><strong>Backup your database.</strong>  Yes, you.  Right now.</li>
-	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a>.</span></li>
-	<li>You wanted more, perhaps?  That's it!</li>
+	<li>PHP version <strong>4.1</strong> or higher</li>
+	<li>MySQL version <strong>3.23.23</strong> or higher</li>
+	<li>... and a link to <a href="http://wordpress.org">http://wordpress.org</a> on your site.</li>
 </ul>
-<h2>Note on upgrading to v1.0.1:</h2>
+<p>The Apache <code>mod_rewrite</code> is required for some optional functionality. </p>
+<p>WordPress is the official continuation of <a href="http://cafelog.com/">b2/caf&eacute;log</a>, which came from Michel V. The work has been continued by the <a href="http://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="http://wordpress.org/donate/">donating</a>. </p>
+<h1 id="installation">Installation: Famous 5-minute install</h1>
+<ol>
+	<li>Unzip the package in an empty directory</li>
+	<li>Open up <code>wp-config-sample.php</code> with a text editor like WordPad or similar and fill in your database connection details</li>
+	<li>Save the file as <code>wp-config.php</code> </li>
+	<li>Upload everything.</li>
+	<li>Launch <span class="file"><a href="wp-admin/install.php">/wp-admin/install.php</a></span> in your browser. This should setup the tables needed for your blog. If there is an error, double check your <span class="file">wp-config.php</span> file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> with as much data as you can gather. </li>
+	<li><strong>Note the password given to you.</strong></li>
+	<li> The install script should then send you to the <a href="wp-login.php">login page</a>. Sign in with the username <code>admin</code> and the password generated during the installation. You can then click on 'Profile' to change the password.</li>
+</ol>
+<h1>Upgrading</h1>
+<p>Before you upgrade anything, make sure you have backup copies of any files you may have modified such as <code>index.php</code>.</p>
+<h2>Upgrading from any previous WordPress to 1.2:</h2>
+<ol>
+	<li>Upload the new files, and be careful not to overwrite anything important</li>
+	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a></span></li>
+	<li>You wanted more, perhaps? That's it!</li>
+</ol>
+<p>If you are coming from 1.0 or greater, your existing templates should work perfectly. If you are coming from a version earlier than 1.0 you will need to modify your templates slightly. Use the default <code>index.php</code> as your guide. </p>
+<h1>Upgrading from another system</h1>
+<p>WordPress can import from a number of systems. First you need to get WordPress installed and working as described above, then you can run one of the following import scripts:</p>
 <ul>
-<li>It is <strong>strongly</strong> recommended that you use the new <span class="file"> index.php</span> for your templates, rather than simply upgrading your old one.  Sure, it'll take a little time, but you'll be much happier with the results when you do!</li>
-
-<h2>Upgrading from b2 v0.6.1/v0.6.2.2 to WordPress v1.0.1:</h2> 
-<ul> 
-  <li><strong>Back up</strong> your database before you do anything. Yes, you. Right now.</li> 
-<li>You <em>must</em> configure <span class="file"><code>wp-config.php</code></span> as indicated in the "5-minute install" section.</li>
-  <li>All you <em>really</em> have to do is replace all the files with newer versions and run <span class="file">wp-admin/upgrade.php</span> and you should be ready to go.</li>
-  <li>There is also an import script at <span class="file">wp-admin/import-b2.php</span>.</li>
-  <li>If you're using an older version of b2, it's probably a good idea to upgrade to at least .6.1 before making the leap to WordPress.</li> 
-  <li>The templates are better and structured slightly differently, so it might be worth it to start from scratch and work back to your design.</li> 
-  <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support forums</a>.</li> 
-</ul> 
-
-<h2>Upgrading to WordPress v1.0.1 from Movable Type, Textpattern, GreyMatter, & Blogger</h2>
-<ul>
-<li>Did we mention <strong>BACKING UP</strong> your database first?</li>
-<li>Each of these tools has an import script available.  They are all located in the wp-admin directory, and must first be configured with your database information before they are executed.  
-<li>Detailed importing instructions are given during the execution of the import script.
-<li>Textpattern:  run <span class="file"><a href="wp-admin/import-textpattern.php">wp-admin/import-textpattern.php</a></span>.</li>
-<li>GreyMatter: run <span class="file"><a href="wp-admin/import-greymatter.php">wp-admin/import-greymatter.php</a></span>.</li>
-<li>Blogger: run <span class="file"><a href="wp-admin/import-blogger.php">wp-admin/import-blogger.php</a></span>.</li>
-<li>Movable Type: run <a href="wp-admin/import-mt.php" class="file">wp-admin/import-mt.php</a>. </li>
+	<li> <a href="wp-admin/import-mt.php"> Import Movable Type </a></li>
+	<li><a href="wp-admin/import-rss.php">Import RSS 2.0</a></li>
+	<li><a href="wp-admin/import-blogger.php">Import Blogger</a></li>
+	<li><a href="wp-admin/import-b2.php">Import b2</a></li>
+	<li><a href="wp-admin/import-livejournal.php">Import LiveJournal</a></li>
+	<li><a href="wp-admin/import-textpattern.php">Import Textpattern</a></li>
+	<li><a href="wp-admin/import-greymatter.php">Import Greymatter </a></li>
 </ul>
-
-<h1 id="templates">Templates:</h1>
-<p>For information about WordPress templates, please see our <a href="http://wordpress.org/docs/template/">online documentation on them</a>. </p>
-<h2>First notes:</h2> 
-<h1 id="usage">Query String Usage:</h1> 
-<p>WordPress relies a lot on the query string. These variables passed with the URL (note: to pass variables in the querystring, preceed the first variable name with a '?' question mark and every other variables with a '&amp;' sign.)</p>
-<p>Most of the time you won't have to do anything about it, but if you want to know how it works, it's here:</p>
-<p>How to use the query string:</p> 
+<h1 id="templates">Templates</h1>
+<p>The template tags are too numerous and flexible to adequetely document here, so please see our <a href="http://wordpress.org/docs/template/">online documentation</a>. </p>
+<h1>Query String Usage</h1>
+<p>WordPress can be manipulated quite a bit through the query string. To pass variables in the querystring, proceed the first variable name with a '?' question mark and every other variables with a '&amp;' sign. You may never use this, but it is useful to know. </p>
 <p>index.php<strong>?m=200107</strong> will display the month of July 2001.</p>
 <p>index.php<strong>?m=20010701</strong> will display all posts from July 1st, 2001.</p>
 <p>index.php<strong>?w=20</strong> will display the posts from the 20th week of the year, where January 1st is in the first week (according to PHP).</p>
 <p>index.php<strong>?p=50</strong> will display the post labeled #50 in the database.</p>
-<p>index.php<strong>?s=blue+house</strong> will display the posts that match the search request "blue house".<br />
-here is the code for a simple search box:</p>
-<p><code>&lt;form name="searchform" action="&lt;?php echo $PHP_SELF ?&gt;" method="get"&gt;<br />
-&lt;input type="text" name="s" /&gt;<br />
-&lt;input type="submit" name="submit" value="search" /&gt;<br />
-&lt;/form&gt; </code></p>
+<p>index.php<strong>?s=blue+house</strong> will display the posts that match the search request "blue house".</p>
 <p>index.php<strong>?cat=1</strong> will display all posts that belong to category #1 (1 is the default). you can add/rename/delete categories from WordPress's interface.</p>
 <p>index.php<strong>?author=1</strong> will display all posts from the author #1</p>
-<p>index.php<strong>?p=50&amp;c=1</strong> will display the comments and a form to add a comment below the post.<br />
-  you should use this variable only with <strong>p=</strong>, example: index.php<strong>?p=50&amp;c=1</strong>.</p>
 <p>index.php<strong>?p=50&amp;page=1</strong> will display the first page of post #50. this, again, should be used only with <strong>p=</strong>, for individual entries.</p>
 <p>You can also mix these variables, example: index.php<strong>?m=200107&amp;s=hotdog</strong> will display the posts that match the search request "hotdog", but only in July 2001.</p>
-<h1 id="xmlrpc">XML-RPC Interface:</h1> 
-<p>WordPress has an XMLRPC interface. Currently supported APIs are the <a href="http://www.blogger.com/developers/api/1_docs/">Blogger API</a>, <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog API</a>, and the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a>. There are talks about a new API that would cover a lot of weblog/CMS systems in the future: when it's ready, WordPress will support it.</p> 
-<p> The <a href="http://www.blogger.com/developers/api/1_docs/">Blogger API</a> has been completely emulated on WordPress, with some little differences:</p> 
-<ul> 
-  <li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns all posts in the blog</li> 
-  <li><em>blogger.getTemplate</em> fetches your file $blogfilename (as specified in the config), while <em>blogger.setTemplate</em> overwrites it with the edited data</li> 
-  <li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' and $blogname, since WordPress supports only one blog as of now</li> 
-</ul> 
-<p>If you use blogger.newPost, your post is submitted without title and in category #1.</p> 
-<p> However, you can type &lt;title&gt;my title&lt;/title&gt; and/or &lt;category&gt;2&lt;category&gt; in the body of your post to make its title be 'my title' and its category be #2 (refer to your categories section to find out the ID numbers of the categories). b2 would then delete that extra info from the body of your post once it is posted.</p> 
-<p>The <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog</a> and <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType</a> APIs are currently supported with the following exceptions:</p> 
-<ul> 
-  <li>metaWeblog.newMediaObject,&nbsp; mt.getRecentPostTitles,&nbsp; and mt.getTrackbackPings are not yet implemented</li> 
-  <li>mt.supportedTextFilters is a dummy stub function that returns an empty string</li> 
-  <li>keywords are not supported in the MovableType API</li> 
-</ul> 
-<br /> 
-Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a> are automatically converted to/from the WordPress &lt;!--more--&gt; tag.<br /> 
-<p>You can now post to your WordPress blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :)</p> 
-<p>Your XMLRPC server/path are as described here: if you login to WordPress on http://example.com/me/wp-login.php, then you have:</p> 
-<ul> 
-  <li>server: http://example.com/ (some tools will just want the 'example.com' hostname part)</li> 
-  <li>path: /me/xmlrpc.php</li> 
-  <li>complete URL (just in case): http://example.com/me/xmlrpc.php</li> 
-</ul> 
-<p>There's also a b2-specific method: b2.getCategories. Request it with 3 strings: blog_ID (use '1'), username, password. The response is an array of structs with strings categoryID and categoryName.</p> 
-<h1 id="postviaemail">Post via Email:</h1> 
-<p>You can post news from an email client!<br /> 
-  But first you'll have to edit the options on the options screen, filling the appropriate values for your POP3 email account (this interface doesn't support IMAP yet, only POP3, sorry).</p> 
-<p> Once you have edited the options, you can make your webserver execute wp-mail.php every set amount of time (depending on your host's performance, this script can be resource intensive, so don't make it run every minute or you'll be kicked).</p> 
-<p>You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your wp-mail.php URL.</p> 
-<h2> Preliminary advice:</h2> 
-<p> It is strongly advised to send your email as text-only (Outlook and Outlook Express default to 'html', which may cause problems), but HTML email could work (the script would strip all your html tags though...).</p> 
-<p>It is also advised not to use your public email address, but create a new one especially for this script. If you use your public email address and the script goes crazy posting every email on your blog and deleting all your emails, I can't take responsibility for this.</p> 
-<p>Make sure you delete any email sent to your blog in your 'Sent' folder too, just in case (you don't want someone to find your login and password in the 'Sent' folder).</p> 
-<p> The script will <i>delete</i> the emails that were used to post stuff on your weblog if it successfully posted your stuff. If it didn't manage to post, the email is not deleted.</p> 
-<h2>How to post:</h2> 
-<p>Now to post something, here's how your email should look like:</p> 
-<div class="params"> <b>To:</b> address@example.com <span
-
- style="color: rgb(153, 153, 153);">(you set it in the config file)</span><br /> 
-  <b>Subject:</b> blog:the post's title <span
-
- style="color: rgb(153, 153, 153);">(you can change 'blog:' in the config file)</span><br /> 
-  <b>Body:</b><br /> 
-  login:password <span style="color: rgb(153, 153, 153);">(example: <i>Jack:Starwars</i>)</span><br /> 
-  The content of the post, blah blah blah.<br /> 
-  More blah blah. ___ </div> 
-<p> Subject must start with 'blog:', or any string you set in the config file (so that the script doesn't check EVERY email in your mailbox).</p> 
-<p>Body's first line must always be login:password, else the script will just skip the email.</p> 
-<p> If you don't use '___' (or any body terminator that you set in the config file), the script will post the whole body, which is not what you want if you send email with Yahoo or Hotmail (you don't want their ads on your blog, do you ?).</p> 
-<h2>Special cases for mobile phone email:</h2> 
-<p> Some mobile phone service providers may allow you to send email with your mobile phone or PDA, but on such devices you can't always include line breaks. In such case, you have to set <i>use_phoneemail = true</i> in the options, and then here's how you write the email:</p> 
-<div class="params"> <b>To:</b> address@example.com<br /> 
-  <b>Subject:</b> blog:the post's title <b>:::</b><br /> 
-  <b>Body:</b><br /> 
-  login:password <b>:::</b> The content of the post, blah blah blah.___ </div> 
-<p>You will have to append ':::' (or whatever string you set in the config file) after the subject, and after the login:password.</p> 
-<p>Some mobile phone service providers may not allow you to set a subject, and they'll make the subject be the first characters of the body, in which case you would send an email like this:</p> 
-<div class="params"> <b>To:</b> address@example.com<br /> 
-  <b>Body:</b><br /> 
-  blog:the post's title <b>:::</b> login:password <b>:::</b> The content of the post, blah blah blah.___ </div> 
-<h1 id="notes">Notes:</h1> 
-<p>On multi-user:</p> 
-<p>New users can register with <span class="file">wp-register.php</span>. Then you (as an admin) click the "+" next to their name on the Team page in admin to upgrade their level to 1 or more, so they can post. If you don't want an user to post anymore, just click "-" until their level is 0.</p> 
-<p>Note: you can now disable users registration altogether from the config file.</p> 
-<p><strong>User Levels</strong>:</p> 
-<ul> 
-  <li>0 - new user: can't post.</li> 
-  <li>1 - user: can post &amp; edit/delete their own posts.</li> 
-  <li>3 &amp; higher - admin: can post, edit/delete other people's posts, and change the options.</li> 
-  <li>Any user whose level is higher than 1, can edit/delete the posts and change the level of users whose level is inferior. Example: a level 2 user is not an admin, but can edit the posts of level 1 users, and up the level of a new user from 0 to 1.</li> 
-</ul> 
-<p>Usually, you'll want to have a team of only level 1 users except you. ;)</p> 
-<p><strong>Note:</strong> you can modify an option on the option screens, to enable new users to post once they've registered.</p> 
-<p>If you don't want users to register on your blog at all, just delete wp-register.php once you've registered your user account. </p> 
-<h1> Final notes:</h1> 
-<ul> 
-  <li>If you've got suggestions, ideas, or comments, or if you found a bug, why not joining us in the <a href="http://wordpress.org/support/">Support Forums</a>?</li> 
-  <li>If you can code in PHP, you'll see the structure of WordPress is flexible enough to allow for more functions and sections to be added.</li> 
-</ul> 
-<h1>Copyright notes:</h1> 
-<ul> 
-  <li>Wherever third party code has been used, credit has been given in the code&#8217;s comments.</li> 
-  <li>WordPress is released under the <acronym title="GNU Public License">GPL</acronym> (see license.txt).</li> 
-</ul> 
+<h1 id="xmlrpc">XML-RPC Interface</h1>
+<p>WordPress has an XMLRPC interface. We currently support the <a href="http://www.blogger.com/developers/api/1_docs/">Blogger API</a>, <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog API</a>, and the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a>. </p>
+<p> The <a href="http://www.blogger.com/developers/api/1_docs/">Blogger API</a> has been completely emulated on WordPress, with some little differences:</p>
+<ul>
+	<li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns all posts in the blog</li>
+	<li><em>blogger.getTemplate</em> fetches your file $blogfilename (as specified in the config), while <em>blogger.setTemplate</em> overwrites it with the edited data</li>
+	<li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' and $blogname, since WordPress supports only one blog as of now</li>
+</ul>
+<p>If you use blogger.newPost, your post is submitted without title and in category #1.</p>
+<p> However, you can type <code>&lt;title&gt;my title&lt;/title&gt;</code> and/or <code>&lt;category&gt;2&lt;category&gt;</code> in the body of your post to make its title be 'my title' and its category be #2 (refer to your categories section to find out the ID numbers of the categories). b2 would then delete that extra info from the body of your post once it is posted.</p>
+<p>The <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog</a> and <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType</a> APIs are currently supported with the following exceptions:</p>
+<ul>
+	<li>metaWeblog.newMediaObject,&nbsp; mt.getRecentPostTitles,&nbsp; and mt.getTrackbackPings are not yet implemented</li>
+	<li>mt.supportedTextFilters is a dummy stub function that returns an empty string</li>
+	<li>keywords are not supported in the MovableType API</li>
+</ul>
+<p>Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a> are automatically converted to/from the WordPress <code>&lt;!--more--&gt;</code> tag.</p>
+<p>You can now post to your WordPress blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :)</p>
+<p>Your XMLRPC server/path are as described here: if you login to WordPress on <code>http://example.com/me/wp-login.php</code>, then you have:</p>
+<ul>
+	<li>Server: <code>http://example.com/</code> (some tools will just want the 'example.com' hostname part)</li>
+	<li>Path: <code>/me/xmlrpc.php</code></li>
+	<li>complete URL (just in case): <code>http://example.com/me/xmlrpc.php</code></li>
+</ul>
+<h1>Post via Email</h1>
+<p>You can post from an email client! To set this up go to your &quot;Writing&quot; options screen and fill in the connection details for your secret POP3 account. Then you need to set up <code>wp-mail.php</code> to execute periodically to check the mailbox for new posts. You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your <code>wp-mail.php</code> URL. </p>
+<p> Posting is easy: Any email sent to the address you specify will be posted, with the subject as the title. It is best to keep the address dicrete. The script will <i>delete</i> emails that are successfully posted. </p>
+<h1 id="notes">User Levels </h1>
+<p>You may allow or disallow user registration in your <a href="wp-admin/options-general.php">General options</a>. If &quot;new users can blog&quot; is disabled you must first raise the level of a newly registered user to allow them to post. Click the plus sign next to their name on the <a href="wp-admin/users.php">Users</a> page. </p>
+<h2>User Levels</h2>
+<ul>
+	<li>0 - New User </li>
+	<li>1 - User can post, edit, and delete their own posts.</li>
+	<li>5+ - Admin; can post, edit, delete other people's posts, and change the options.</li>
+	<li>Any user whose level is higher than 1, can edit and delete the posts and change the level of lower users. Example: a level 2 user is not an admin, but can edit the posts of level 1 users, and up the level of a new user from 0 to 1.</li>
+</ul>
+<p>Usually you want to have a team of level 1 users except for you.</p>
+<h1> Final notes</h1>
+<ul>
+	<li>If you have any suggestions, ideas, comments, or if you (gasp!) found a bug, join us in the <a href="http://wordpress.org/support/">Support Forums</a></li>
+	<li>WordPress now has a robust plugin API that makes extending the code easy. If you are a developer interested in utilizing this see the documentation in the wiki. In most all cases you shouldn't modify any of the core code.</li>
+</ul>
+<h1>Copyright</h1>
+<p>WordPress is released under the <acronym title="GNU Public License">GPL</acronym> (see <a href="license.txt">license.txt</a>).</p>
 </body>
 </html>
