@@ -80,7 +80,7 @@ include('options-head.php');
           <br /> 
           <label for="new_users_can_blog"> 
           <input name="new_users_can_blog" type="checkbox" id="new_users_can_blog" value="1" <?php checked('1', get_settings('new_users_can_blog')); ?> /> 
-          <?php _e('Any registered member can publish articles') ?> </label></td> 
+          <?php _e('Newly registered members can publish articles') ?> </label></td> 
       </tr> 
     </table> 
     <fieldset class="options"> 
