@@ -115,7 +115,7 @@ p, li, .feedback {
 }
 
 #content {
-	margin: 30px 220px 0 60px;
+	margin: 30px 13em 0 3em;
 	padding-right: 60px;
 }
 
@@ -148,7 +148,7 @@ p, li, .feedback {
 	position: absolute;
 	right: 2px;
 	top: 0;
-	width: 180px;
+	width: 11em;
 }
 
 #menu form {
@@ -159,7 +159,7 @@ p, li, .feedback {
 	background: #eee;
 	border: 1px solid #999;
 	letter-spacing: -0.05em;
-	width: 80px;
+	width: 80%;
 }
 
 #menu ul {
@@ -179,7 +179,7 @@ p, li, .feedback {
 }
 
 #menu ul ul {
-	font-style: list-style-type: none;
+	list-style-type: none;
 	font-variant: normal;
 	font-weight: normal;
 	line-height: 100%;
@@ -191,7 +191,6 @@ p, li, .feedback {
 #menu ul ul li {
 	border: 0;
 	font: normal normal 70%/115% 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
-	height: 14px;
 	letter-spacing: 0;
 	margin-top: 0;
 	padding: 0;
@@ -200,7 +199,6 @@ p, li, .feedback {
 
 #menu ul ul li a {
 	color: #000;
-	display: block;
 	text-decoration: none;
 }
 
