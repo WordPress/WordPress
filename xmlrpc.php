@@ -533,7 +533,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  // FIXME: do we pingback always? pingback($content, $post_ID);
 	  trackback_url_list($content_struct['mt_tb_ping_urls'],$post_ID);
 
-	  return $post_ID;
+	  return strval($post_ID);
 	}
 
 
@@ -557,6 +557,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
 	  }
 
+	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
 	  extract($postdata);
 
 	  $post_title = $content_struct['title'];
@@ -609,7 +610,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  // FIXME: do we pingback always? pingback($content, $post_ID);
 	  trackback_url_list($content_struct['mt_tb_ping_urls'], $post_ID);
 
-	  return $post_ID;
+	  return true;
 	}
 
 
@@ -639,23 +640,23 @@ class wp_xmlrpc_server extends IXR_Server {
 	    }
 
 	    $post = get_extended($postdata['post_content']);
-	    $link = post_permalink($entry['ID']);
+	    $link = post_permalink($postdata['ID']);
 
 	    $allow_comments = ('open' == $postdata['comment_status']) ? 1 : 0;
 	    $allow_pings = ('open' == $postdata['ping_status']) ? 1 : 0;
 
 	    $resp = array(
 	      'dateCreated' => new IXR_Date($post_date),
-	      'userid' => $entry['post_author'],
-	      'postid' => $entry['ID'],
+	      'userid' => $postdata['post_author'],
+	      'postid' => $postdata['ID'],
 	      'description' => $post['main'],
-	      'title' => $entry['post_title'],
+	      'title' => $postdata['post_title'],
 	      'link' => $link,
 	      'permaLink' => $link,
 // commented out because no other tool seems to use them
 //	      'content' => $entry['post_content'],
 //	      'categories' => $categories
-	      'mt_excerpt' => $entry['post_excerpt'],
+	      'mt_excerpt' => $postdata['post_excerpt'],
 	      'mt_text_more' => $post['extended'],
 	      'mt_allow_comments' => $allow_comments,
 	      'mt_allow_pings' => $allow_pings
@@ -824,7 +825,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      @chmod($localpath, 0666);
 
 	      if($success) {
-	        $resp = array($url);
+	        $resp = array('url' => $url);
 	        return $resp;
 	      } else {
 	        logIO('O', '(MW) Could not write file '.$name.' to '.$localpath);
