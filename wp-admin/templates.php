@@ -96,7 +96,7 @@ endif;
   <ul>
 	 <?php foreach ($common_files as $common_file) : ?>
 	  <li><a href="templates.php?file=<?php echo $common_file?>"><?php echo get_file_description($common_file); ?></a></li>
-	 <? endforeach; ?>
+	 <?php endforeach; ?>
   </ul>
 </div>
 <?php if (!$error) { ?>
