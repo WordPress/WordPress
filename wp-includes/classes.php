@@ -1045,28 +1045,36 @@ class WP_Rewrite {
 
 		// Post
 		$post_rewrite = $this->generate_rewrite_rules($this->permalink_structure);
+		$post_rewrite = apply_filters('post_rewrite_rules', $post_rewrite);
 
 		// Date
 		$date_rewrite = $this->generate_rewrite_rules($this->get_date_permastruct());
+		$date_rewrite = apply_filters('date_rewrite_rules', $date_rewrite);
 		
 		// Root
 		$root_rewrite = $this->generate_rewrite_rules($this->root . '/');
+		$root_rewrite = apply_filters('root_rewrite_rules', $root_rewrite);
 
 		// Comments
 		$comments_rewrite = $this->generate_rewrite_rules($this->root . 'comments',true, true, true);
+		$comments_rewrite = apply_filters('comments_rewrite_rules', $comments_rewrite);
 
 		// Search
 		$search_structure = $this->root . "search/%search%";
 		$search_rewrite = $this->generate_rewrite_rules($search_structure);
+		$search_rewrite = apply_filters('search_rewrite_rules', $search_rewrite);
 
 		// Categories
 		$category_rewrite = $this->generate_rewrite_rules($this->get_category_permastruct());
+		$category_rewrite = apply_filters('category_rewrite_rules', $category_rewrite);
 
 		// Authors
 		$author_rewrite = $this->generate_rewrite_rules($this->get_author_permastruct());
+		$author_rewrite = apply_filters('author_rewrite_rules', $author_rewrite);
 
 		// Pages
 		$page_rewrite = $this->page_rewrite_rules();
+		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
 		// Deprecated style static pages
 		$page_structure = $this->root . 'site/%pagename%';
@@ -1085,7 +1093,7 @@ class WP_Rewrite {
 		return $this->rewrite_rules();
 	}
 
-	function mod_rewrite_rules () {
+	function mod_rewrite_rules() {
 		if ( ! $this->using_permalinks()) {
 			return '';
 		}
@@ -1126,7 +1134,8 @@ class WP_Rewrite {
 		}
 		$rules .= "</IfModule>\n";
 
-		$rules = apply_filters('rewrite_rules', $rules);
+		$rules = apply_filters('mod_rewrite_rules', $rules);
+		$rules = apply_filters('rewrite_rules', $rules);  // Deprecated
 
 		return $rules;
 	}
