@@ -420,8 +420,8 @@ switch ($action) {
   } // end Show
   case "popup":
   {
-    $link_url = $HTTP_GET_VARS["linkurl"];
-    $link_name = $HTTP_GET_VARS["name"];
+    $link_url = stripslashes($HTTP_GET_VARS["linkurl"]);
+    $link_name = stripslashes($HTTP_GET_VARS["name"]);
     //break; fall through
   }
   default:
