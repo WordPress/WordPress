@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Staticize Reloaded
-Version: 2.5
+Version: 2.6
 Plugin URI: http://codex.wordpress.org/Plugins/Staticize
 Description: Automatic Generation of static files. Cuts down on php and mysql usage. Should automatically update when changes are made to site. Original by <a href="http://www.cowpimp.com">Bill Zeller</a>.
 Author: Matt Mullenweg
