@@ -16,7 +16,7 @@ if (get_settings('use_pingback')) {
 	$form_pingback = '';
 }
 if (get_settings('use_trackback')) {
-	$form_trackback = '<p><label for="trackback">' . sprintf(__('<a href="%s" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)<br />'), 'http://wordpress.org/docs/reference/post/#trackback') .
+	$form_trackback = '<p><label for="trackback">' . sprintf(__('<a href="%s" title="Help on trackbacks"><strong>TrackBack</strong> a <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)<br />'), 'http://wordpress.org/docs/reference/post/#trackback') .
 	'<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>';
 } else {
 	$form_trackback = '';
