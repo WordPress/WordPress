@@ -40,6 +40,10 @@ case 'post':
 	$standalone = 1;
 	require_once('admin-header.php');
 
+	if (!user_can_create_draft($user_ID)) {
+		die('You are not allowed to create posts or drafts on this blog.');
+	}
+
 	$post_ID = $wpdb->get_var("SELECT MAX(ID) FROM $wpdb->posts") + 1;
 
 	$post_pingback = intval($_POST['post_pingback']);
@@ -59,7 +63,7 @@ case 'post':
 	if ( empty($post_status) )
 		$post_status = 'draft';
 	// Double-check
-	if ( 'publish' == $post_status && 1 == $user_level && 2 != get_option('new_users_can_blog') )
+	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) && 2 != get_option('new_users_can_blog') )
 		$post_status = 'draft';
 	$comment_status = $_POST['comment_status'];
 	if ( empty($comment_status) )
@@ -79,10 +83,7 @@ case 'post':
 	$trackback = $_POST['trackback_url'];
 	$trackback = preg_replace('|\s+|', "\n", $trackback);
 
-	if ($user_level == 0)
-		die (__('Cheatin&#8217; uh?'));
-
-	if (($user_level > 4) && (!empty($_POST['edit_date']))) {
+	if (user_can_set_post_date($user_ID) && (!empty($_POST['edit_date']))) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
 		$jj = $_POST['jj'];
@@ -184,12 +185,12 @@ case 'edit':
 	require_once('admin-header.php');
 
 	$post = $post_ID = $p = (int) $_GET['post'];
-	if ($user_level > 0) {
-		$postdata = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
-		$authordata = get_userdata($postdata->post_author);
-		if ($user_level < $authordata->user_level)
-			die ('You don&#8217;t have the right to edit <strong>'.$authordata[1].'</strong>&#8217;s posts.');
 
+	if (!user_can_edit_post($user_ID, $post_ID)) {
+		die ('You are not allowed to edit this post.');
+	}
+
+		$postdata = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
 		$content = $postdata->post_content;
 		$content = format_to_edit($content);
 		$content = apply_filters('content_edit_pre', $content);
@@ -229,14 +230,6 @@ echo $content;
 </div>
 		</div>
 <?php
-	} else {
-?>
-		<p><?php printf(__('Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
-You can also <a href="mailto:%s?subject=Promotion?">e-mail the admin</a> to ask for a promotion.<br />
-When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)'), get_settings('admin_email')); ?>
-		</p>
-<?php
-	}
 	break;
 
 case 'editpost':
@@ -244,13 +237,14 @@ case 'editpost':
 	$standalone = 1;
 	require_once('./admin-header.php');
 
-	if ($user_level == 0)
-		die (__('Cheatin&#8217; uh?'));
-
 	if (!isset($blog_ID)) {
 		$blog_ID = 1;
 	}
-		$post_ID = $_POST['post_ID'];
+	$post_ID = $_POST['post_ID'];
+
+	if (!user_can_edit_post($user_ID, $post_ID, $blog_ID)) {
+		die('You are not allowed to edit this post.');
+	}
 		$post_categories = $_POST['post_category'];
 		if (!$post_categories) $post_categories[] = 1;
 		$content = apply_filters('content_save_pre', $_POST['content']);
@@ -292,10 +286,10 @@ case 'editpost':
 	
 	if (isset($_POST['publish'])) $post_status = 'publish';
 	// Double-check
-	if ( 'publish' == $post_status && 1 == $user_level && 2 != get_option('new_users_can_blog') )
+	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) && 2 != get_option('new_users_can_blog') )
 		$post_status = 'draft';
 
-	if (($user_level > 4) && (!empty($_POST['edit_date']))) {
+	if (user_can_edit_post_date($user_ID, $post_ID) && (!empty($_POST['edit_date']))) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
 		$jj = $_POST['jj'];
@@ -442,15 +436,10 @@ case 'delete':
 
 	check_admin_referer();
 
-	if ($user_level == 0)
-		die ('Cheatin&#8217; uh?');
-
 	$post_id = intval($_GET['post']);
-	$postdata = $post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_id'") or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'post.php'));
-	$authordata = get_userdata($postdata->post_author);
-
-	if ($user_level < $authordata->user_level)
-		die (sprintf(__('You don&#8217;t have the right to delete <strong>%s</strong>&#8217;s posts.'), $authordata[1]));
+	if (!user_can_delete_post($user_ID, $post_id)) {
+		die('You are not allowed to delete this post.');
+	}
 
 	$result = $wpdb->query("DELETE FROM $wpdb->posts WHERE ID=$post_id");
 	if (!$result)
@@ -477,12 +466,13 @@ case 'editcomment':
 
 	get_currentuserinfo();
 
-	if ($user_level == 0) {
-		die (__('Cheatin&#8217; uh?'));
-	}
-
 	$comment = $_GET['comment'];
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
+
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+		die('You are not allowed to edit comments on this post.');
+	}
+
 	$content = $commentdata['comment_content'];
 	$content = format_to_edit($content);
 	$content = apply_filters('comment_edit_pre', $content);
@@ -496,12 +486,13 @@ case 'confirmdeletecomment':
 $standalone = 0;
 require_once('./admin-header.php');
 
-if ($user_level == 0)
-	die (__('Cheatin&#8217; uh?'));
-
 $comment = $_GET['comment'];
 $p = $_GET['p'];
 $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+
+if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	die('You are not allowed to delete comments on this post.');
+}
 
 echo "<div class=\"wrap\">\n";
 echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
@@ -533,10 +524,6 @@ require_once('./admin-header.php');
 
 check_admin_referer();
 
-if ($user_level == 0)
-	die (__('Cheatin&#8217; uh?'));
-
-
 $comment = $_GET['comment'];
 $p = $_GET['p'];
 if (isset($_GET['noredir'])) {
@@ -548,9 +535,9 @@ if (isset($_GET['noredir'])) {
 $postdata = get_postdata($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
 
-$authordata = get_userdata($postdata['Author_ID']);
-if ($user_level < $authordata->user_level)
-	die (sprintf(__('You don&#8217;t have the right to delete <strong>%1$s</strong>&#8217;s post comments. <a href="%2$s">Go back</a>!'), $authordata->user_nickname, 'post.php'));
+if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	die('You are not allowed to edit comments on this post.');
+}
 
 wp_set_comment_status($comment, "delete");
 do_action('delete_comment', $comment);
@@ -570,9 +557,6 @@ require_once('./admin-header.php');
 
 check_admin_referer();
 
-if ($user_level == 0)
-	die (__('Cheatin&#8217; uh?'));
-	
 $comment = $_GET['comment'];
 $p = $_GET['p'];
 if (isset($_GET['noredir'])) {
@@ -582,6 +566,10 @@ if (isset($_GET['noredir'])) {
 }
 
 $commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+
+if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	die('You are not allowed to edit comments on this post, so you cannot disapprove this comment.');
+}
 
 wp_set_comment_status($comment, "hold");
 
@@ -598,12 +586,13 @@ case 'mailapprovecomment':
 $standalone = 1;
 require_once('./admin-header.php');
 
-if ($user_level == 0)
-	die (__('Cheatin&#8217; uh?'));
-
 $comment = (int) $_GET['comment'];
 
 $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+
+if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
+}
 
 if ('1' != $commentdata['comment_approved']) {
 	wp_set_comment_status($comment, 'approve');
@@ -620,9 +609,6 @@ case 'approvecomment':
 $standalone = 1;
 require_once('./admin-header.php');
 
-if ($user_level == 0)
-	die (__('Cheatin&#8217; uh?'));
-	
 $comment = $_GET['comment'];
 $p = $_GET['p'];
 if (isset($_GET['noredir'])) {
@@ -631,6 +617,10 @@ if (isset($_GET['noredir'])) {
 	$noredir = false;
 }
 $commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+
+if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+	die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
+}
 
 wp_set_comment_status($comment, "approve");
 if (get_settings("comments_notify") == true) {
@@ -651,16 +641,17 @@ case 'editedcomment':
 	$standalone = 1;
 	require_once('./admin-header.php');
 
-	if ($user_level == 0)
-		die (__('Cheatin&#8217; uh?'));
-
 	$comment_ID = $_POST['comment_ID'];
 	$comment_post_ID = $_POST['comment_post_ID'];
 	$newcomment_author = $_POST['newcomment_author'];
 	$newcomment_author_email = $_POST['newcomment_author_email'];
 	$newcomment_author_url = $_POST['newcomment_author_url'];
 
-	if (($user_level > 4) && (!empty($_POST['edit_date']))) {
+	if (!user_can_edit_post_comments($user_ID, $comment_post_ID)) {
+		die('You are not allowed to edit comments on this post, so you cannot edit this comment.');
+	}
+
+	if (user_can_edit_post_date($user_ID, $post_ID) && (!empty($_POST['edit_date']))) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
 		$jj = $_POST['jj'];
@@ -698,7 +689,7 @@ default:
 	$title = __('Create New Post');
 	require_once ('./admin-header.php');
 
-	if ($user_level > 0) {
+	if (user_can_create_draft($user_ID)) {
 		$action = 'post';
 		get_currentuserinfo();
 		$drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
