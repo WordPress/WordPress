@@ -731,7 +731,7 @@ function upgrade_110() {
 	// Add a gmt_offset option, with value $gmt_offset
 	if (!get_settings('gmt_offset')) {
 		if(!$wpdb->get_var("SELECT * FROM $tableoptions WHERE option_name = 'gmt_offset'")) {
-			$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (94, 'gmt_offset', 8, $gmt_offset, 'The difference in hours between GMT and your timezone', 8)");
+			$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_description, option_admin_level) VALUES ('gmt_offset', 8, $gmt_offset, 'The difference in hours between GMT and your timezone', 8)");
 		}
 
 	}

@@ -110,6 +110,7 @@ include('options-head.php');
 <?php _e('Output:') ?> <strong><?php echo gmdate(get_settings('time_format'), current_time('timestamp')); ?></strong></td>
       	</tr> 
 </table>
+<pre><?php var_dump($cache_settings); ?></pre>
     </fieldset> 
     <p style="text-align: right;">
       <input type="submit" name="Submit" value="<?php _e('Update Options') ?>" />

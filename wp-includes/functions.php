@@ -50,7 +50,6 @@ function mysql2date($dateformatstring, $mysqlstring, $use_b2configmonthsdays = 1
 }
 
 function current_time($type, $gmt = 0) {
-	$time_difference = get_settings('time_difference');
 	switch ($type) {
 		case 'mysql':
 			if ($gmt) $d = gmdate('Y-m-d H:i:s');
@@ -299,9 +298,6 @@ function get_settings($setting) {
 	if (strstr($_SERVER['REQUEST_URI'], 'install.php')) {
 		return false;
 	}
-
-	// until we switch to using 'gmt_offset' everywhere
-	$setting = str_replace('time_difference', 'gmt_offset', $setting);
 
 	if ( (empty($cache_settings)) ) {
 		$settings = get_alloptions();

@@ -35,7 +35,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 		}
 	}
 }
-$option_group_id = (int) $_GET['option_group_id'];
+if (isset($_GET['option_group_id'])) $option_group_id = (int) $_GET['option_group_id'];
 require_once('./optionhandler.php');
 $non_was_selected = 0;
 if ('' == $_GET['option_group_id']) {
@@ -83,7 +83,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
 				}
 				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_value = 'closed';
                 if ($new_val !== $old_val) {
-					$query = "UPDATE $tableoptions SET option_value = '$new_val' WHERE option_id = $option->option_id";
+					$query = "UPDATE $tableoptions SET option_value = '$new_val' WHERE option_name = '$option->option_name'";
 					$result = $wpdb->query($query);
 					//if( in_array($option->option_name, $nonbools)) die('boo'.$query);
 					if (!$result) {
@@ -109,7 +109,8 @@ $nonbools = array('default_ping_status', 'default_comment_status');
         $message .= $dB_errors . '<br />' . $validation_message;
     }
 
-	$goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
+	 if (strstr($_SERVER['HTTP_REFERER'], '?')) $goback = str_replace('&updated=true', '', $_SERVER['HTTP_REFERER']) . '&updated=true';
+	else $goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
     header('Location: ' . $goback);
     break;
 
