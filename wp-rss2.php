@@ -26,6 +26,7 @@ $more = 1;
 	<description><?php bloginfo_rss("description") ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), 0); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php bloginfo_rss('version'); ?></generator>
+	<language><?php echo get_option('rss_language'); ?></language>
 
 	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 	<item>

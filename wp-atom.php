@@ -14,7 +14,9 @@ $more = 1;
 <?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
 <feed version="0.3"
   xmlns="http://purl.org/atom/ns#"
-  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xml:lang="<?php echo get_option('rss_language'); ?>"
+  >
 	<title><?php bloginfo_rss('name') ?></title>
 	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('home') ?>" />
 	<tagline><?php bloginfo_rss("description") ?></tagline>
