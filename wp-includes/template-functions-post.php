@@ -250,7 +250,7 @@ function the_meta() {
 // Pages
 //
 
-function &get_page_children($page_id, &$pages) {
+function &get_page_children($page_id, $pages) {
 	global $page_cache;
 
 	if ( empty($pages) )
