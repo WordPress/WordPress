@@ -107,7 +107,7 @@ case 'post':
 	if ('' != $_POST['saveasprivate']) $post_status = 'private';
 	if ('' != $_POST['publish']) $post_status = 'publish';
 	if ('' != $_POST['advanced']) $post_status = 'draft';
-
+	if ('' != $_POST['savepage']) $post_status = 'static';
 
 	if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
 	$postquery ="INSERT INTO $wpdb->posts
@@ -142,6 +142,9 @@ case 'post':
 	}
 	if ( '' != $_POST['advanced'] || isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
+
+	if ( '' != $_POST['savepage'] )
+		$location = "post.php?action=createpage";
 
 	header("Location: $location"); // Send user on their way while we keep working
 
@@ -233,7 +236,11 @@ case 'edit':
 		$pinged = $postdata->pinged;
 		$post_name = $postdata->post_name;
 
-		include('edit-form-advanced.php');
+        if ($post_status == 'static') {
+            include('edit-page-form.php');
+        } else {
+            include('edit-form-advanced.php');
+        }
 
 		$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
 		?>
@@ -711,6 +718,36 @@ case 'editedcomment':
 	else header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
 	do_action('edit_comment', $comment_ID);
 	break;
+
+ case 'createpage':
+	$standalone = 0;
+	$title = __('Create New Page');
+	require_once ('./admin-header.php');
+
+	if ($user_level > 0) {
+		$action = 'post';
+		get_currentuserinfo();
+		//set defaults
+		$post_status = 'static';
+		$comment_status = get_settings('default_comment_status');
+		$ping_status = get_settings('default_ping_status');
+		$post_pingback = get_settings('default_pingback_flag');
+		$default_post_cat = get_settings('default_post_category');
+
+        include('edit-page-form.php');
+	} else {
+?>
+<div class="wrap">
+		<p><?php printf(__('Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
+You can also <a href="mailto:%s?subject=Promotion?">e-mail the admin</a> to ask for a promotion.<br />
+When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)'), get_settings('admin_email')); ?>
+		</p>
+</div>
+<?php
+
+	}
+
+     break;
 
 default:
 	$standalone = 0;

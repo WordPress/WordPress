@@ -64,6 +64,11 @@ function get_category_rss_link($echo = false, $category_id, $category_nicename) 
 
 function the_category($seperator = '', $parents='') {
     $categories = get_the_category();
+    if (empty($categories)) {
+        _e('Uncategorized');
+        return;
+    }
+
     $thelist = '';
     if ('' == $seperator) {
         $thelist .= '<ul class="post-categories">';

@@ -454,11 +454,16 @@ class WP_Query {
 
             $distinct = 'DISTINCT';
         }
-        $where .= ' AND (post_status = "publish"';
+
+	if ('' != $q['static']) {
+	  $where .= ' AND (post_status = "static"';
+	} else {
+	  $where .= ' AND (post_status = "publish"';
+	}
 
         // Get private posts
         if (isset($user_ID) && ('' != intval($user_ID)))
-            $where .= " OR post_author = $user_ID AND post_status != 'draft')";
+            $where .= " OR post_author = $user_ID AND post_status != 'draft' AND post_status != 'static')";
         else
             $where .= ')';
 

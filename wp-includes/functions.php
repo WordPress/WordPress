@@ -1175,6 +1175,24 @@ function preg_index($number, $matches = '') {
     return "$match_prefix$number$match_suffix";        
 }
 
+
+function page_permastruct() {
+    $permalink_structure = get_settings('permalink_structure');
+        
+    if (empty($permalink_structure)) {
+        return '';
+    }
+
+    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
+    $index = get_settings('blogfilename');
+    $prefix = '';
+    if (preg_match('#^/*' . $index . '#', $front)) {
+        $prefix = $index . '/';
+    }
+
+    return '/' . $prefix . 'site/%pagename%';    
+}
+
 function generate_rewrite_rules($permalink_structure = '', $matches = '') {
     $rewritecode = 
 	array(
@@ -1187,7 +1205,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'%postname%',
 	'%post_id%',
     '%category%',
-    '%author%'
+    '%author%',
+	'%pagename%'
 	);
 
     $rewritereplace = 
@@ -1201,7 +1220,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'([_0-9a-z-]+)',
 	'([0-9]+)',
 	'([/_0-9a-z-]+)',
-	'([_0-9a-z-]+)'
+	'([_0-9a-z-]+)',
+	'([_0-9a-z-]+)',
 	);
 
     $queryreplace = 
@@ -1215,7 +1235,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'name=',
 	'p=',
     'category_name=',
-    'author_name='
+    'author_name=',
+	'static=1&name=',    
 	);
 
     $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
@@ -1355,8 +1376,12 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     $author_structure = $front . 'author/%author%';
     $author_rewrite = generate_rewrite_rules($author_structure, $matches);
 
+    // Site static pages
+    $page_structure = $prefix . 'site/%pagename%';
+    $page_rewrite = generate_rewrite_rules($page_structure, $matches);
+
     // Put them together.
-    $rewrite = $site_rewrite + $category_rewrite + $author_rewrite;
+    $rewrite = $site_rewrite + $page_rewrite + $category_rewrite + $author_rewrite;
 
     // Add on archive rewrite rules if needed.
     if ($doarchive) {
@@ -1464,8 +1489,10 @@ function update_post_caches($posts) {
         FROM $wpdb->categories, $wpdb->post2cat, $wpdb->posts
         WHERE category_id = cat_ID AND post_id = ID AND post_id IN ($post_id_list)");
         
-    foreach ($dogs as $catt) {
-        $category_cache[$catt->ID][] = $catt;
+    if (!empty($dogs)) {
+        foreach ($dogs as $catt) {
+            $category_cache[$catt->ID][] = $catt;
+        }
     }
 
     // Do the same for comment numbers

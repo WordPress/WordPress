@@ -39,16 +39,23 @@ function get_permalink($id=false) {
 		'%second%',
         '%postname%',
         '%post_id%',
-        '%category%'
+        '%category%',
+        '%pagename%'
     );
 
     if ($id) {
-        $idpost = $wpdb->get_row("SELECT ID, post_date, post_name FROM $wpdb->posts WHERE ID = $id");
+        $idpost = $wpdb->get_row("SELECT ID, post_date, post_name, post_status FROM $wpdb->posts WHERE ID = $id");
     } else {
         $idpost = $post;
     }
-       
-    if ('' != get_settings('permalink_structure')) {
+
+    $permalink = get_settings('permalink_structure');
+
+    if ('' != $permalink) {
+        if ($idpost->post_status == 'static') {
+            $permalink = page_permastruct();
+        }
+
 	    $unixtime = strtotime($idpost->post_date);
 
         $cats = get_the_category($idpost->ID);
@@ -63,11 +70,15 @@ function get_permalink($id=false) {
                                 date('s', $unixtime),
                                 $idpost->post_name,
                                 $idpost->ID,
-                                $category
+                                $category,
+                                $idpost->post_name,
                                 );
-        return get_settings('home') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+        return get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink);
     } else { // if they're not using the fancy permalink option
-        return get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$idpost->ID;
+        $permalink = get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$idpost->ID;
+        if ($idpost->post_status == 'static') {
+            $permalink .=  $querystring_separator . "static=1";
+        }
     }
 }
 

@@ -99,6 +99,7 @@ default:
 ?>
 <ul id="adminmenu2">
 	<li><a href="edit.php"> <?php _e('Posts') ?></a></li>
+    <li><a href="edit-pages.php"><?php _e('Pages') ?></a></li> 
 	<li><a href="categories.php"><?php _e('Categories') ?></a></li>
 	<li><a href="edit-comments.php"> <?php _e('Comments') ?></a></li>
 	<li><a href="moderation.php" class="current"><?php _e('Awaiting Moderation') ?></a></li>
