@@ -227,6 +227,121 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
         }
 	}
 }
+
+function get_calendar() {
+// Quick check. If we have no posts at all, abort!
+if (!$posts) {
+	$gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
+	if (!$gotsome)
+		return;
+}
+
+$w = ''.intval($HTTP_GET_VARS['w']);
+$time_difference = get_settings('time_difference');
+
+// Let's figure out when we are
+if (!empty($monthnum) && !empty($year)) {
+	$thismonth = ''.intval($monthnum);
+	$thisyear = ''.intval($year);
+} elseif (!empty($w)) {
+	// We need to get the month from MySQL
+	$thisyear = ''.intval(substr($m, 0, 4));
+	$d = (($w - 1) * 7) + 6; //it seems mysqls weeks disagree with php's
+	$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('${thisyear}0101', INTERVAL $d DAY) ), '%m')");
+} elseif (!empty($m)) {
+	$calendar = substr($m, 0, 6);
+	$thisyear = ''.intval(substr($m, 0, 4));
+	if (strlen($m) < 6) {
+		$thismonth = '01';
+	} else {
+		$thismonth = ''.intval(substr($m, 4, 2));
+	}
+} else {
+	$thisyear = intval(date('Y', time()+($time_difference * 3600)));
+	$thismonth = intval(date('m', time()+($time_difference * 3600)));
+}
+
+$unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
+
+// Get the next and previous month and year with at least one post
+$previous = $wpdb->get_row("SELECT DISTINCT MONTH( post_date ) AS month, YEAR( post_date ) AS year
+							FROM $tableposts
+							WHERE post_date < '$thisyear-$thismonth-01'
+							ORDER BY post_date DESC
+							LIMIT 1");
+$next = $wpdb->get_row("SELECT  DISTINCT MONTH( post_date ) AS month, YEAR( post_date ) AS year
+							FROM $tableposts
+							WHERE post_date >  '$thisyear-$thismonth-01' AND MONTH( post_date )  != MONTH( '$thisyear-$thismonth-01' ) 
+							ORDER  BY post_date ASC 
+							LIMIT 1 ");
+
+echo '<table id="wp-calendar">
+	<caption>' . $month[zeroise($thismonth, 2)] . ' ' . date('Y', $unixmonth) . '</caption>
+<thead>
+  <tr>
+	<th abbr="Sunday" scope="col" title="Sunday">Sun</th>
+	<th abbr="Monday" scope="col" title="Monday">Mon</th>
+	<th abbr="Tuesday" scope="col" title="Tuesday">Tue</th>
+	<th abbr="Wednesday" scope="col" title="Wednesday">Wed</th>
+	<th abbr="Thursday" scope="col" title="Thursday">Thu</th>
+	<th abbr="Friday" scope="col" title="Friday">Fri</th>
+	<th abbr="Saturday" scope="col" title="Saturday">Sat</th>
+  </tr>
+</thead>
+
+<tfoot>
+  <tr>';
+
+if ($previous) {
+	echo '<th abbr="' . $month[zeroise($previous->month, 2)] . '" colspan="3" id="prev"><a href="' . 
+	get_month_link($previous->year, $previous->month) . '" title="View posts for ' . $month[zeroise($previous->month, 2)] . ' ' . 
+	date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year)) . '">&laquo; ' . substr($month[zeroise($previous->month, 2)], 0, 3) . '</a>';
+} else {
+	echo '<th colspan="3" id="prev">&laquo;</th>';
+}
+
+echo '<th>&nbsp;</th>';
+
+if ($next) {
+	echo '<th abbr="' . $month[zeroise($next->month, 2)] . '" colspan="3" id="next"><a href="' . 
+	get_month_link($previous->year, $next->month) . '" title="View posts for ' . $month[zeroise($next->month, 2)] . ' ' . 
+	date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">&raquo; ' . substr($month[zeroise($next->month, 2)], 0, 3) . '</a>';
+} else {
+	echo '<th colspan="3" id="next">&raquo;</th>';
+}
+
+echo '  </tr>
+</tfoot>
+
+<tbody>
+  <tr>';
+  
+// Get days with posts
+$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date) 
+				FROM wp_posts WHERE MONTH(post_date) = $thismonth 
+				AND YEAR(post_date) = $thisyear 
+				AND post_status = 'publish' 
+				AND post_date < '" . date("Y-m-d H:i:s", (time() + ($time_difference * 3600))), ARRAY_N);
+
+// TODO: Make days with posts linked
+
+// See how much we should pad in the beginning
+$pad = intval(date('w', $unixmonth));
+if (0 != $pad) echo "\n\t<td class='empty' colspan='$pad'>&nbsp;</td>";
+
+$daysinmonth = intval(date('t', $unixmonth));
+for ($day = 1; $day <= $daysinmonth; ++$day) {
+	if ($newrow) echo "\n</tr>\n  <tr>";
+	$newrow = false;
+	echo "\n\t<td>$day</td>";
+	if (6 == date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear))) $newrow = true;
+}
+$pad = 7 - date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear));
+if (0 != $pad) echo "\n\t<td class='empty' colspan='$pad'>&nbsp;</td>";
+
+echo "\n  </tr>\n</tbody>\n</table>";
+}
+
 /***** // About-the-blog tags *****/
 
 
