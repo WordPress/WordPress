@@ -20,7 +20,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
         <webMaster><?php echo $admin_email ?></webMaster>
         <language><?php echo $rss_language ?></language>
 
-<?php $items_count = 0; while($row = mysql_fetch_object($result)) { start_b2(); ?>
+<?php $items_count = 0; foreach ($posts as $post) { start_b2(); ?>
         <item>
             <title><?php the_title_rss() ?></title>
 <?php

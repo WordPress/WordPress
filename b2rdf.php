@@ -32,14 +32,14 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 
 	<items>
 		<rdf:Seq>
-		<?php $items_count = 0; while($row = mysql_fetch_object($result)) { start_b2(); ?>
+		<?php $items_count = 0; foreach ($posts as $post) { start_b2(); ?>
 			<rdf:li rdf:resource="<?php permalink_single_rss() ?>"/>
 		<?php $b2_items[] = $row; $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } ?>
 		</rdf:Seq>
 	</items>
 </channel>
 
-<?php foreach($b2_items as $row) { start_b2(); ?>
+<?php foreach ($posts as $post) { start_b2(); ?>
 <item rdf:about="<?php permalink_single_rss() ?>">
 	<title><?php the_title_rss() ?></title>
 	<link><?php permalink_single_rss() ?></link>
