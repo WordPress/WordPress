@@ -2,6 +2,7 @@
 require_once('admin.php'); 
 $title = __('Dashboard'); 
 require_once('admin-header.php');
+require_once (ABSPATH . WPINC . '/rss-functions.php');
 
 $today = current_time('mysql');
 ?>
@@ -13,7 +14,7 @@ $today = current_time('mysql');
 if ( $recentposts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'publish' AND post_date_gmt < '$today' ORDER BY post_date DESC LIMIT 5") ) :
 ?>
 <div>
-<h3><?php _e('Posts'); ?></h3>
+<h3><?php _e('Posts'); ?> <a href="edit.php" title="<?php _e('More posts...'); ?>">&raquo;</a></h3>
 <ul>
 <?php
 foreach ($recentposts as $post) {
@@ -49,7 +50,7 @@ foreach ($scheduled as $post) {
 if ( $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID FROM $wpdb->comments ORDER BY comment_date_gmt DESC LIMIT 5") ) :
 ?>
 <div>
-<h3><?php _e('Comments'); ?></h3>
+<h3><?php _e('Comments'); ?> <a href="edit-comments.php" title="<?php _e('More comments...'); ?>">&raquo;</a></h3>
 <ul>
 <?php 
 foreach ($comments as $comment) {
@@ -62,7 +63,7 @@ foreach ($comments as $comment) {
 <?php 
 if ( $numcomments = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_approved = '0'") ) :
 ?>
-<p><a href="moderation.php"><?php echo sprintf(__('There are comments in moderation (%s)'), number_format($numcomments) ); ?> &raquo;</a></p>
+<p><strong><a href="moderation.php"><?php echo sprintf(__('There are comments in moderation (%s)'), number_format($numcomments) ); ?> &raquo;</a></strong></p>
 <?php endif; ?>
 </div>
 
@@ -85,20 +86,32 @@ if (0 < $numcats) $numcats = number_format($numcats);
 
 </div>
 
-<h2><?php _e('Dashboard'); ?></h2> 
+<h2><?php _e('Dashboard'); ?></h2>
+<p><?php _e('Below is the latest news from the official WordPress development blog, click on a title to read the full entry.'); ?></p>
+<?php
+$rss = @fetch_rss('http://wordpress.org/development/feed/');
+if ( $rss ) {
+?>
+<h3>WordPress Development Blog</h3>
+<?php
+$rss->items = array_slice($rss->items, 0, 4);
+foreach ($rss->items as $item ) {
+?>
+<h4><a href='<?php echo $item['link']; ?>'><?php echo wp_specialchars($item['title']); ?></a></h4>
+<p><?php echo $item['description']; ?></p>
+<?php
+	}
+}
+?>
 <br clear="all" />
 </div>
-<div class="wrap">
-<p>
-		<strong>
-		<?php _e('Your Drafts:') ?>
-		</strong>
-<br />
-		<?php
-get_currentuserinfo();
-$drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_status = 'draft' AND post_author = $user_ID");
+<?php
+$drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
 if ($drafts) {
-	?>
+?>
+<div class="wrap">
+
+    <p><strong><?php _e('Your Drafts:') ?></strong> 
     <?php
 	$i = 0;
 	foreach ($drafts as $draft) {
@@ -107,15 +120,13 @@ if ($drafts) {
 		$draft->post_title = stripslashes($draft->post_title);
 		if ($draft->post_title == '')
 			$draft->post_title = sprintf(__('Post #%s'), $draft->ID);
-		echo "<a href='post.php?action=edit&post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
+		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
 		++$i;
 		}
-		}else{
-		 echo ('No Entries found.');
-		 }
-		?>
- 	</p>
-		</div>
+	?> 
+    .</p> 
+</div>
+<?php } ?>
 <?php
 require('./admin-footer.php');
 ?>

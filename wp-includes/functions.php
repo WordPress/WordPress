@@ -372,9 +372,13 @@ function update_option($option_name, $newvalue) {
 	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim
 
     // If the new and old values are the same, no need to update.
-    if ($newvalue == get_settings($option_name)) {
+    if ($newvalue == get_option($option_name)) {
         return true;
     }
+
+	// If it's not there add it
+	if ( !$wpdb->get_var("SELECT option_name FROM $wpdb->options WHERE option_name = '$option_name'") )
+		add_option($option_name);
 
 	$newvalue = $wpdb->escape($newvalue);
 	$wpdb->query("UPDATE $wpdb->options SET option_value = '$newvalue' WHERE option_name = '$option_name'");
@@ -384,7 +388,7 @@ function update_option($option_name, $newvalue) {
 
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
-function add_option($name, $value = '', $description = '') {
+function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	global $wpdb;
 	if ( is_array($value) || is_object($value) )
 		$value = serialize($value);
@@ -393,7 +397,7 @@ function add_option($name, $value = '', $description = '') {
 		$name = $wpdb->escape($name);
 		$value = $wpdb->escape($value);
 		$description = $wpdb->escape($description);
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, option_description) VALUES ('$name', '$value', '$description')");
+		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, option_description, autoload) VALUES ('$name', '$value', '$description', '$autoload')");
 
 		if($wpdb->insert_id) {
 			global $cache_settings;
