@@ -160,9 +160,9 @@ function user_pass_ok($user_login,$user_pass) {
 }
 
 function get_currentuserinfo() { // a bit like get_userdata(), on steroids
-	global $HTTP_COOKIE_VARS, $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $cookiehash;
+	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $cookiehash;
 	// *** retrieving user's data from cookies and db - no spoofing
-	$user_login = $HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash];
+	$user_login = $_COOKIE['wordpressuser_' . $cookiehash];
 	$userdata = get_userdatabylogin($user_login);
 	$user_level = $userdata->user_level;
 	$user_ID = $userdata->ID;
@@ -187,19 +187,6 @@ function get_userdata($userid) {
 		$user = $cache_userdata[$userid];
 	}
 	return $user;
-}
-
-function get_userdata2($userid) { // for team-listing
-	global $tableusers, $post;
-	$user_data['ID'] = $userid;
-	$user_data['user_login'] = $post->user_login;
-	$user_data['user_firstname'] = $post->user_firstname;
-	$user_data['user_lastname'] = $post->user_lastname;
-	$user_data['user_nickname'] = $post->user_nickname;
-	$user_data['user_level'] = $post->user_level;
-	$user_data['user_email'] = $post->user_email;
-	$user_data['user_url'] = $post->user_url;
-	return $user_data;
 }
 
 function get_userdatabylogin($user_login) {
@@ -357,7 +344,7 @@ function add_option() {
 }
 
 function get_postdata($postid) {
-	global $post, $tableusers, $tablecategories, $tableposts, $tablecomments, $wpdb;
+	global $post, $tableposts, $wpdb;
 
 	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$postid'");
 	
@@ -379,26 +366,6 @@ function get_postdata($postid) {
 		'pinged' => $post->pinged,
 		'post_name' => $post->post_name
 	);
-	return $postdata;
-}
-
-function get_postdata2($postid=0) { // less flexible, but saves DB queries
-	global $post;
-	$postdata = array (
-		'ID' => $post->ID, 
-		'Author_ID' => $post->post_author,
-		'Date' => $post->post_date,
-		'Content' => $post->post_content,
-		'Excerpt' => $post->post_excerpt,
-		'Title' => $post->post_title,
-		'Category' => $post->post_category,
-		'Lat' => $post->post_lat,
-		'Lon' => $post->post_lon,
-		'post_status' => $post->post_status,
-		'comment_status' => $post->comment_status,
-		'ping_status' => $post->ping_status,
-		'post_password' => $post->post_password
-		);
 	return $postdata;
 }
 
@@ -441,11 +408,6 @@ function get_catname($cat_ID) {
 	}
 	$cat_name = $cache_catnames[$cat_ID];
 	return $cat_name;
-}
-
-function profile($user_login) {
-	global $user_data;
-	echo "<a href='profile.php?user=".$user_data->user_login."' onclick=\"javascript:window.open('profile.php?user=".$user_data->user_login."','Profile','toolbar=0,status=1,location=0,directories=0,menuBar=1,scrollbars=1,resizable=0,width=480,height=320,left=100,top=100'); return false;\">$user_login</a>";
 }
 
 function touch_time($edit = 1) {
@@ -512,34 +474,6 @@ function gzip_compression() {
 	}
 }
 
-function alert_confirm($msg) { // asks a question - if the user clicks Cancel then it brings them back one page
-	?>
-	<script language="JavaScript">
-	<!--
-	if (!confirm("<?php echo $msg ?>")) {
-	history.back();
-	}
-	//-->
-	</script>
-	<?php
-}
-
-function redirect_js($url,$title="...") {
-	?>
-	<script language="JavaScript">
-	<!--
-	function redirect() {
-	window.location = "<?php echo $url; ?>";
-	}
-	setTimeout("redirect();", 100);
-	//-->
-	</script>
-	<p>Redirecting you : <b><?php echo $title; ?></b><br />
-	<br />
-	If nothing happens, click <a href="<?php echo $url; ?>">here</a>.</p>
-	<?php
-	exit();
-}
 
 // functions to count the page generation time (from phpBB2)
 // ( or just any time between timer_start() and timer_stop() )
