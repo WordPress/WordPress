@@ -85,7 +85,7 @@ case "step1":
 					user_ip,
 					user_domain,
 					user_browser,
-					dateYMDhour,
+					user_registered,
 					user_level,
 					user_idmode
 				) VALUES (

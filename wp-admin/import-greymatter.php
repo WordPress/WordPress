@@ -93,7 +93,7 @@ textarea,input,select {
 			continue;
 		}
 
-		$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,dateYMDhour,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','1','nickname')";
+		$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,user_registered,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','1','nickname')";
 		$result = mysql_query($query);
 		if ($result==false) {
 			die ("<strong>ERROR</strong>: couldn't register an user!");
@@ -152,7 +152,7 @@ textarea,input,select {
 				$user_email=addslashes("user@deleted.com");
 				$user_url=addslashes("");
 				$user_joindate=addslashes($user_joindate);
-				$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,dateYMDhour,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','0','nickname')";
+				$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,user_registered,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','0','nickname')";
 				$result = mysql_query($query);
 				if ($result==false) {
 					die ("<strong>ERROR</strong>: couldn't register an user!");
