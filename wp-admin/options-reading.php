@@ -38,8 +38,8 @@ include('admin-header.php');
 		<tr valign="top">
 		<th scope="row"><?php _e('For each article, show:') ?> </th>
 		<td>
-		<label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>  /><?php _e('full text') ?></label><br />
-		<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_settings('rss_use_excerpt')); ?> /><?php _e('summary') ?></label>
+		<label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>  /> <?php _e('Full text') ?></label><br />
+		<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_settings('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label>
 		</td>
 		</tr> 
 	</table> 
@@ -48,7 +48,7 @@ include('admin-header.php');
 		<tr valign="top"> 
 		<th width="33%" scope="row"><?php _e('Encoding for pages and feeds:') ?></th> 
 		<td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option('blog_charset'); ?>" size="20" class="code" /><br />
-		<?php _e('The character encoding you write your blog in (UTF-8 <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></td> 
+		<?php _e('The character encoding you write your blog in (UTF-8 is <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></td> 
 		</tr>
 	</table> 
 	<p>
