@@ -405,7 +405,8 @@ function get_calendar($daylength = 1) {
 
 
 	if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") ||
-		  strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "camino")) {
+		  strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "camino") ||
+		  strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "safari")) {
 		$ak_title_separator = "\n";
 	} else {
 		$ak_title_separator = ", ";
@@ -421,7 +422,9 @@ function get_calendar($daylength = 1) {
 										);
 	if ($ak_post_titles) {
 		foreach ($ak_post_titles as $ak_post_title) {
-			$ak_titles_for_day["$ak_post_title->dom"] = '';
+			if (empty($ak_titles_for_day["day_".$ak_post_title->dom])) {
+				$ak_titles_for_day["day_".$ak_post_title->dom] = '';
+			}
 			if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
 				$ak_titles_for_day["$ak_post_title->dom"] .= htmlspecialchars(stripslashes($ak_post_title->post_title));
 			} else {
