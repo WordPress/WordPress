@@ -26,7 +26,7 @@ $more = 1;
 <?php
 if (get_settings('rss_use_excerpt')) {
 ?>
-            <description><?php the_excerpt_rss() ?></description>
+            <description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php
 } else { // use content
 ?>

@@ -32,7 +32,7 @@ $more = 1;
 		<modified><?php the_time('Y-m-d\TH:i:s\Z'); ?></modified>
 		<issued>  <?php the_time('Y-m-d\TH:i:s\Z'); ?></issued>
 		<?php the_category_rss('rdf') ?>
-		<summary type="text/html" mode="escaped"><?php the_excerpt_rss(); ?></summary>
+		<summary type="text/html" mode="escaped"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php if (!get_settings('rss_use_excerpt')) : ?>
 	<?php if ( strlen( $post->post_content ) ) : ?>
 		<content type="text/html" mode="escaped" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
