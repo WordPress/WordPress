@@ -21,7 +21,7 @@ $comment_content      = $_POST['comment'];
 // If the user is logged in
 get_currentuserinfo();
 if ( $user_ID ) :
-	$comment_author       = $user_login;
+	$comment_author       = $user_identity;
 	$comment_author_email = $user_email;
 	$comment_author_url   = str_replace('http://', '', $user_url);
 else :
