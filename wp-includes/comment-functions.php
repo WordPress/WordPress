@@ -757,6 +757,8 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 			$domain = $uri['host'];
 			if ( $wpdb->get_var("SELECT link_id FROM $wpdb->links WHERE link_url LIKE ('%$domain%') LIMIT 1") )
 				return true;
+			else
+				return false;
 		} elseif( $author != '' && $email != '' ) {
 			$ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author = '$author' AND comment_author_email = '$email' and comment_approved = '1' ");
 			if ( 1 == $ok_to_comment && false === strpos( $email, get_settings('moderation_keys')) )
