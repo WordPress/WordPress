@@ -293,12 +293,12 @@ textarea, input, select {
 #wphead {
 	height: 44px;
 	margin: 0;
-	background: repeat-x url(../b2-img/header-shadow.png) #f2f2f2;
+	background: repeat-x url(../wp-images/header-shadow.png) #f2f2f2;
 }
 
 #wphead a {
 	display: block;
-	background: url(../b2-img/wp-small.png) no-repeat;
+	background: url(../wp-images/wp-small.png) no-repeat;
 	height: 44px;
 	text-decoration: none;
 	text-indent: -1000px;

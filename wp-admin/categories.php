@@ -40,7 +40,7 @@ switch($action) {
 case 'addcat':
 
 	$standalone = 1;
-	require_once('b2header.php');
+	require_once('admin-header.php');
 	
 	if ($user_level < 3)
 		die ('Cheatin&#8217; uh?');
@@ -58,7 +58,7 @@ break;
 case 'Delete':
 
 	$standalone = 1;
-	require_once('b2header.php');
+	require_once('admin-header.php');
 
 	$cat_ID = intval($HTTP_GET_VARS["cat_ID"]);
 	$cat_name = get_catname($cat_ID);
@@ -79,7 +79,7 @@ break;
 
 case 'edit':
 
-	require_once ('b2header.php');
+	require_once ('admin-header.php');
 	$category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = " . $HTTP_GET_VARS['cat_ID']);
 	$cat_name = stripslashes($category->cat_name);
 	?>
@@ -104,7 +104,7 @@ break;
 case 'editedcat':
 
 	$standalone = 1;
-	require_once('b2header.php');
+	require_once('admin-header.php');
 
 	if ($user_level < 3)
 		die ('Cheatin&#8217; uh?');
@@ -123,7 +123,7 @@ break;
 default:
 
 	$standalone = 0;
-	require_once ('b2header.php');
+	require_once ('admin-header.php');
 	if ($user_level < 3) {
 		die("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:$admin_email'>blog admin</a>. :)");
 	}
@@ -194,5 +194,5 @@ break;
 }
 
 /* </Categories> */
-include('b2footer.php');
+include('admin-footer.php');
 ?>

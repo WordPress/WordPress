@@ -23,7 +23,7 @@ switch ($action) {
 case 'promote':
 
 	$standalone = 1;
-	require_once('b2header.php');
+	require_once('admin-header.php');
 
 	if (empty($HTTP_GET_VARS['prom'])) {
 		header('Location: users.php');
@@ -53,7 +53,7 @@ break;
 case 'delete':
 
 	$standalone = 1;
-	require_once('b2header.php');
+	require_once('admin-header.php');
 
 	$id = $HTTP_GET_VARS['id'];
 
@@ -80,7 +80,7 @@ break;
 default:
 	
 	$standalone = 0;
-	include ('b2header.php');
+	include ('admin-header.php');
 	?>
 <div class="wrap">
   <h2>Authors</h2>
@@ -192,5 +192,5 @@ break;
 }
 	
 /* </Team> */
-include('b2footer.php');
+include('admin-footer.php');
 ?>

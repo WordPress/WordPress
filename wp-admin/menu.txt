@@ -1,0 +1,18 @@
+1	post.php	Post
+1	edit.php	Edit
+3	categories.php	Categories
+5	link-manager.php	Links
+3	users.php	Users
+4	options.php	Options
+4	templates.php	Templates
+***
+(Everything after the '***' is a comment.)
+
+
+To add sections to the menu, use this syntax:
+
+ the minimum level the user needs to access the section: between 0 and 10
++tab
++the URL of the section's file
++tab
++the title of this section

@@ -2,7 +2,7 @@
 $_wp_installing = 1;
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
 require('../wp-config.php');
-require('wp-install-helper.php');
+require('install-helper.php');
 
 $thisfile = 'upgrade-071-to-072.php';
 $step = $HTTP_GET_VARS['step'];
@@ -408,7 +408,7 @@ $option_data = array(
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(14,'use_htmltrans', 2, '1', 'IMPORTANT! set this to false if you are using Chinese, Japanese, Korean, or other double-bytes languages', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(15,'use_balanceTags', 2, '1', 'this could help balance your HTML code. if it gives bad results, set it to false', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(16,'use_smilies', 2, '1', 'set this to true to enable smiley conversion in posts (note: this makes smiley conversion in ALL posts)', 8, 20)",
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(17,'smilies_directory', 3, 'http://example.com/b2-img/smilies', 'the directory where your smilies are (no trailing slash)', 8, 40)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(17,'smilies_directory', 3, 'http://example.com/wp-images/smilies', 'the directory where your smilies are (no trailing slash)', 8, 40)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(18,'require_name_email', 2, '0', 'set this to true to require e-mail and name, or false to allow comments without e-mail/name', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(19,'comment_allowed_tags', 3, '<b><i><strong><em><code><blockquote><p><br><strike><a>', 'here is a list of the tags that are allowed in the comments. You can add tags to the list, just add them in the string, add only the opening tag: for example, only \'&lt;a>\' instead of \'&lt;a href=\"\">&lt;/a>\'', 8, 40)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(20,'comments_notify', 2, '1', 'set this to true to let every author be notified about comments on their posts', 8, 20)",
@@ -709,7 +709,7 @@ foreach ($links_option_data as $query) {
     } else {
 ?>
 <p>Hmm... I couldn't find links.config.php so I couldn't transfer all your settings.
-    You need to check them on the <a href="wp-options.php?option_group_id=8">admin options page</a>.</p>
+    You need to check them on the <a href="options.php?option_group_id=8">admin options page</a>.</p>
 <?php
     } // end else no links.config
 ?>
@@ -819,7 +819,7 @@ foreach ($links_option_data as $query) {
     } else {
 ?>
 <p>Hmm... I couldn't find b2config.php so I couldn't transfer all your settings.
-    You need to check them on the <a href="wp-options.php?option_group_id=6">admin options page</a>.</p>
+    You need to check them on the <a href="options.php?option_group_id=6">admin options page</a>.</p>
 <p>You can now go play with your <a href="<?php echo $siteurl ? $siteurl : '../index.php'; ?>">updated blog</a> </p>
 <?php
     } // end else no b2config

@@ -39,7 +39,7 @@ switch($action) {
 case 'update':
 
 	$standalone = 1;
-	require_once("b2header.php");
+	require_once("admin-header.php");
 
 	if ($user_level < 3) {
 		die('<p>You have no right to edit the template for this blog.<br />Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
@@ -59,7 +59,7 @@ break;
 
 default:
 
-	require_once('b2header.php');
+	require_once('admin-header.php');
 
 	if ($user_level <= 3) {
 		die('<p>You have no right to edit the template for this blog.<br>Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
@@ -127,7 +127,7 @@ default:
 	?> 
 </div> 
 <div class="wrap"> 
-  <p>You can also edit the <a href="templates.php?file=b2comments.php">comments template</a> or the <a href="templates.php?file=b2commentspopup.php">popup comments template</a>, or edit any other file (provided it&#8217;s writable by the server, e.g. CHMOD 766).</p> 
+  <p>You can also edit the <a href="templates.php?file=wp-comments.php">comments template</a> or the <a href="templates.php?file=wp-comments-popup.php">popup comments template</a>, or edit any other file (provided it&#8217;s writable by the server, e.g. CHMOD 766).</p> 
   <p>To edit a file, type its name here:</p> 
   <form name="file" action="templates.php" method="get"> 
     <input type="text" name="file" /> 
@@ -140,4 +140,4 @@ default:
 break;
 }
 
-include("b2footer.php") ?> 
+include("admin-footer.php") ?> 

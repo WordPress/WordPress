@@ -2,7 +2,7 @@
 $blog = 1; // enter your blog's ID
 $doing_rss = 1;
 header('Content-type: text/xml', true);
-include('blog.header.php');
+require('wp-blog-header.php');
 
 // Get the time of the most recent article
 $maxdate = $wpdb->get_var("SELECT max(post_date) FROM $tableposts");

@@ -21,9 +21,9 @@ switch ($action) {
 case "step1":
 
 	require_once('../wp-config.php');
-	require_once($abspath.$b2inc.'/b2template.functions.php');
-	require_once($abspath.$b2inc.'/b2functions.php');
-	require_once($abspath.$b2inc.'/b2vars.php');
+	require_once($abspath.$b2inc.'/template-functions.php');
+	require_once($abspath.$b2inc.'/functions.php');
+	require_once($abspath.$b2inc.'/vars.php');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -33,7 +33,7 @@ case "step1":
 </head>
 <body>
 <div class="wrap">
-<h1>Blogger to <img src="../b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<h1>Blogger to <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
 <p>The importer is running...</p>
 <ul>
 	<li>Importing posts and users
@@ -166,7 +166,7 @@ case "step1":
 </ul>
 <p>&nbsp;</p>
 <p>Completed Blogger to WordPress import!</p>
-<p>Now you can go and <a href="../b2login.php">log in</a>, have fun!</p>
+<p>Now you can go and <a href="../wp-login.php">log in</a>, have fun!</p>
 </div>
 </body>
 </html>
@@ -184,7 +184,7 @@ default:
 
 <body>
 <div class="wrap">
-<h1>Blogger to <img src="../b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<h1>Blogger to <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
 <p>This is a basic Blogger to WordPress import script.</p>
 <p>What it does:</p>
 <ul>

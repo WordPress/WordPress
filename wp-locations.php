@@ -1,6 +1,6 @@
 <?php $blog = 1; // enter your blog's ID
 header('Content-type: text/xml');
-include('blog.header.php');
+include('wp-blog-header.php');
 ?><?php echo "<?xml version=\"1.0\"?".">\n"; ?>
 <travels>
 <?php

@@ -1,7 +1,7 @@
 <?php
 $title = 'Edit Comments';
 $parent_file = 'edit.php';
-require_once('b2header.php');
+require_once('admin-header.php');
 
 if (!$showcomments) {
 	if ($comments_per_page) {
@@ -40,7 +40,7 @@ ob_start();
 <ul id="adminmenu2">
 	<li><a href="edit.php">Latest Posts</a></li>
 	<li><a href="edit-comments.php" class="current">Latest Comments</a></li>
-	<li class="last"><a href="wp-moderation.php">Comments Awaiting Moderation</a></li>
+	<li class="last"><a href="moderation.php">Comments Awaiting Moderation</a></li>
 </ul>
 
 <div class="wrap">
@@ -155,13 +155,13 @@ echo $comments_nav_bar;
 		<?php comment_text() ?>
 		<p>Posted <?php comment_date('M j, g:i A') ?> | <?php 
 			if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-				echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit Comment</a>";
-				echo " | <a href=\"wp-post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> | ";
+				echo "<a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit Comment</a>";
+				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> | ";
 			} // end if any comments to show
 			// Get post title
 			$post_title = $wpdb->get_var("SELECT post_title FROM $tableposts WHERE ID = $comment->comment_post_ID");
 			$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
-			?> <a href="wp-post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>">Edit Post &#8220;<?php echo $post_title; ?>&#8221;</a></p>
+			?> <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>">Edit Post &#8220;<?php echo $post_title; ?>&#8221;</a></p>
 		</li>
 
 		<?php 
@@ -183,5 +183,5 @@ echo $comments_nav_bar;
 
 <?php 
 echo $comments_nav_bar; 
-include('b2footer.php');
+include('admin-footer.php');
 ?>

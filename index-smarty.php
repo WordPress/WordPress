@@ -8,9 +8,9 @@ $wpsmarty->template_dir = './wp-blogs/main/templates';
 $wpsmarty->compile_dir  = './wp-blogs/main/templates_c';
 $wpsmarty->cache_dir    = './wp-blogs/main/smartycache';
 $wpsmarty->plugin_dir    = './wp-plugins';
-require_once( 'b2-include/smarty.inc.php' );
+require_once( 'b2-include/class-smarty.php' );
 $blog = 1;
-require_once('blog.header.php');
+require_once('wp-blog-header.php');
 require_once($abspath.'wp-links/links.php');
 // not on by default: require_once($abspath.'wp-links/links.weblogs.com.php');
 
@@ -26,7 +26,7 @@ if($posts)
 		start_b2(); 
 		$content .= $wpsmarty->fetch( 'post.html' );
 		ob_start();
-		include($abspath . 'b2comments.php');
+		include($abspath . 'wp-comments.php');
 		$txt = ob_get_contents();
 		ob_end_clean();
 		$content .= $txt;

@@ -1,4 +1,20 @@
 <?php
+// This is the name of the include directory. No "/" allowed.
+$b2inc = 'wp-includes';
+
+require ($abspath . 'wp-config-extra.php');
+require ($abspath . $b2inc . '/wp-db.php');
+require ($abspath . $b2inc . '/functions.php');
+require ($abspath . $b2inc . '/template-functions.php');
+require ($abspath . $b2inc . '/vars.php');
+require ($abspath . $b2inc . '/class-xmlrpc.php');
+require ($abspath . $b2inc . '/class-xmlrpcs.php');
+require ($abspath . '/wp-links/links.php');
+
+$HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
+$REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
+$HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
+
 // Table names
 $tableposts               = $table_prefix . 'posts';
 $tableusers               = $table_prefix . 'users';
@@ -78,13 +94,6 @@ if (!isset($_wp_installing) || !$_wp_installing) {
     $default_geourl_lat = get_settings('default_geourl_lat');
     $default_geourl_lon = get_settings('default_geourl_lon');
 
-    /* not currently used
-    if (get_settings('search_engine_friendly_urls')) {
-        $querystring_start = '/';
-        $querystring_equal = '/';
-        $querystring_separator = '/';
-    } else {
-    */
     $querystring_start = '?';
     $querystring_equal = '=';
     $querystring_separator = '&amp;';

@@ -1,8 +1,5 @@
 <?php
-/* <Register> */
-
-require_once('wp-config.php');
-require_once($abspath.$b2inc.'/b2functions.php');
+require(dirname(__FILE__) . '/wp-config.php');
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -126,7 +123,7 @@ case 'register':
 	<p>Login: <strong><?php echo $user_login; ?></strong><br />
 	Password: <strong><?php echo $stars; ?></strong><br />
 	E-mail: <strong><?php echo $user_email; ?></strong></p>
-	<form action="b2login.php" method="post" name="login">
+	<form action="wp-login.php" method="post" name="login">
 		<input type="hidden" name="log" value="<?php echo $user_login; ?>" />
 		<input type="submit" value="Login" name="submit" />
 	</form>

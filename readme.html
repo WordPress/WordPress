@@ -62,12 +62,12 @@
   <li>Copy wp-config.sample.php to wp-config.php. Open wp-config.php in a text editor and modify the variables as explained in the comments. Comments are lines that start with <code>/*</code> or <code>//</code></li> 
   <li>Upload everything. This release is designed to sit in your root folder, IE the folder where your WordPress-powered page will reside.</li> 
   <li>The weblogs.com cache file needs to be writable by the web server. <a href="http://www.evolt.org/article/A_quick_and_dirty_chmod_Tutorial/18/541/">CHMOD 666</a> the <code>weblogs.com.changes.cache</code> file. </li> 
-  <li> Launch <a href="wp-admin/wp-install.php">wp-admin/wp-install.php</a> in your browser. This should setup the MySQL database for your blog. If there is an error, double check your wp-config.php file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). <strong>Note the password given to you.</strong></li> 
-  <li> Go to <a href="b2login.php">b2login.php</a> and sign in with the login "admin" and the password given to you by the install script. Then click on the menu 'My Profile', and change the password. Note: you need javascript enabled to launch the profile popup window.</li> 
+  <li> Launch <a href="wp-admin/install.php">wp-admin/install.php</a> in your browser. This should setup the MySQL database for your blog. If there is an error, double check your wp-config.php file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). <strong>Note the password given to you.</strong></li> 
+  <li> Go to <a href="wp-login.php">wp-login.php</a> and sign in with the login "admin" and the password given to you by the install script. Then click on the menu 'My Profile', and change the password. Note: you need javascript enabled to launch the profile popup window.</li> 
 </ol> 
 <h2>Some notes:</h2> 
 <ul> 
-  <li>Whenever you want to post something, just open a browser and go to b2login.php to log in and post.</li> 
+  <li>Whenever you want to post something, just open a browser and go to wp-login.php to log in and post.</li> 
   <li>You can also use a bookmarklet and/or a sidebar (IE5+/NS6+) to post.</li> 
   <li> You can also post through the Blogger, MetaWeblog, and MovableType APIs, <a href="#xmlrpc">click here</a> for more info.</li> 
   <li> Your site's blog is on b2.php (simple template) and index.php (CSS template), you can rename this file to index.php or any other name you fancy (provided it bears the php extension or is interpreted as a php file by your server).</li> 
@@ -87,9 +87,9 @@
 <ul> 
   <li>Enclosed is an example of a template, in the file b2.php. You can rename this file to "index.php"or something else (recent b2 versions have a default index.php, which is an elaborate CSS-based template).</li> 
   <li>You can have any number of template files, since all they do is extract the posts from the database.</li> 
-  <li>Pseudo-template for the comments is in b2comments.php. You needn't rename this file, but you can edit it.</li> 
+  <li>Pseudo-template for the comments is in wp-comments.php. You needn't rename this file, but you can edit it.</li> 
   <li>The only thing to remember is that it's not actually a template, but a PHP file that you're manipulating. So when you see "don't delete this line", you know you mustn't, unless you want to have a broken page.</li> 
-  <li>Required lines are: the first lines that call blog.header.php, the lines with the "while" statement, and the ones with just "}" (it ends the while loop).</li> 
+  <li>Required lines are: the first lines that call wp-blog-header.php, the lines with the "while" statement, and the ones with just "}" (it ends the while loop).</li> 
   <li>Between the "while" line and the "}", is the template for your posts.</li> 
 </ul> 
 <h2>Notes about parameters:</h2> 
@@ -429,14 +429,14 @@ You should put this tag before the &lt;/head&gt; tag in your template.<br />
   <ul> 
     <li>width (default is 400)</li> 
     <li>height (default is 400)</li> 
-    <li>file name, in case you want to use a different template for comments (default is b2commentspopup.php)</li> 
+    <li>file name, in case you want to use a different template for comments (default is wp-comments-popup.php)</li> 
   </ul> 
 </div>
 <br /> 
 <br /> 
 <strong>&lt;?php comments_popup_link() ?&gt;</strong><br /> 
 This will display the link to open comments in a popup window, with the number of comments.<br /> 
-To edit the popup window's template, edit the file b2commentspopup.php (it's the default one for comments popup).<br /> 
+To edit the popup window's template, edit the file wp-comments-popup.php (it's the default one for comments popup).<br /> 
 <br /> 
 <br /> 
 <div class="params">Parameters:
@@ -480,12 +480,12 @@ Example: <em>&lt;?php comments_number("no comment","1 comment","% comments") ?&g
 <br />
 This tag differs from v0.5's tag because in v0.5 and prior, it would only display a number, not a text with it, so you could have terrible things like "1 comments" (doh !)<br /> 
 <br /> 
-<strong>Necessary: &lt;?php include("b2comments.php") ?&gt;</strong><br /> 
+<strong>Necessary: &lt;?php include("wp-comments.php") ?&gt;</strong><br /> 
 you'll put this line where you want the comments to be placed on your page.<br /> 
 typically, under the post itself. don't worry, the comments only appear if the page is called in the comments mode. (like this: url?c=1)<br /> 
 <br /> 
 <br /> 
-<strong>Tags that go in b2comments.php:</strong> (these are easy too)<br /> 
+<strong>Tags that go in wp-comments.php:</strong> (these are easy too)<br /> 
 <br /> 
 <strong>&lt;?php comment_author() ?&gt;</strong><br /> 
 <strong>&lt;?php comment_author_email() ?&gt; </strong> - displays the e-mail address, but not the link<br /> 
@@ -514,7 +514,7 @@ typically, under the post itself. don't worry, the comments only appear if the p
 <strong>&lt;?php trackback_url() ?&gt; </strong><br /> 
 This tag is out of the b2 TrackBacks loop.<br /> 
 It will output the URL to TrackBack the post, that other people can copy and use in b2's posting interface to trackback this post.<br /> 
-<p>  In b2comments.php, like in the main template file, please keep the first PHP lines, the "while" lines, and the "}" lines.</p>
+<p>  In wp-comments.php, like in the main template file, please keep the first PHP lines, the "while" lines, and the "}" lines.</p>
 <p>You can modify the form, but do not remove "&lt;?php echo ... ?&gt;" and all the name="..." attributes.</p>
 <br />
 <p><strong>To include your archives:</strong></p>
@@ -595,7 +595,7 @@ here is the code for a simple search box:</p>
 <br /> 
 Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a> are automatically converted to/from the WordPress &lt;!--more--&gt; tag.<br /> 
 <p>You can now post to your b2 blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :)</p> 
-<p>Your XMLRPC server/path are as described here: if you login to b2 on http://example.com/me/b2login.php, then you have:</p> 
+<p>Your XMLRPC server/path are as described here: if you login to b2 on http://example.com/me/wp-login.php, then you have:</p> 
 <ul> 
   <li>server: http://example.com/ (some tools will just want the 'example.com' hostname part)</li> 
   <li>path: /me/xmlrpc.php</li> 
@@ -605,8 +605,8 @@ Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_progra
 <h1 id="postviaemail">Post via Email:</h1> 
 <p>You can post news from an email client!<br /> 
   But first you'll have to edit the options on the options screen, filling the appropriate values for your POP3 email account (this interface doesn't support IMAP yet, only POP3, sorry).</p> 
-<p> Once you have edited the options, you can make your webserver execute b2mail.php every set amount of time (depending on your host's performance, this script can be resource intensive, so don't make it run every minute or you'll be kicked).</p> 
-<p>You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your b2mail.php URL.</p> 
+<p> Once you have edited the options, you can make your webserver execute wp-mail.php every set amount of time (depending on your host's performance, this script can be resource intensive, so don't make it run every minute or you'll be kicked).</p> 
+<p>You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your wp-mail.php URL.</p> 
 <h2> Preliminary advice:</h2> 
 <p> It is strongly advised to send your email as text-only (Outlook and Outlook Express default to 'html', which may cause problems), but HTML email could work (the script would strip all your html tags though...).</p> 
 <p>It is also advised not to use your public email address, but create a new one especially for this script. If you use your public email address and the script goes crazy posting every email on your blog and deleting all your emails, I can't take responsibility for this.</p> 

@@ -1,6 +1,6 @@
 <?php
 require_once('../wp-config.php');
-require('wp-install-helper.php');
+require('install-helper.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
@@ -109,7 +109,7 @@ if (!$wpdb->get_var("SELECT option_name FROM $tableoptions WHERE option_name = '
 	$wpdb->query("INSERT INTO `$tableoptions` 
 		(`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) 
 		VALUES 
-		('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed. See <a href=\"wp-options-permalink.php\">permalink options page</a> for necessary mod_rewrite rules and more information.', '8');");
+		('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed. See <a href=\"options-permalink.php\">permalink options page</a> for necessary mod_rewrite rules and more information.', '8');");
 	}
 ?> 
   Done with the name game. Now a little option action. </p>
@@ -270,7 +270,7 @@ foreach ($allposts as $post) {
 // Going to leave the post table category field in for now. We can remove it in a future version.
 ?>
  All done!</p>
- <p>You are ready to rock &#8217;n roll. <a href="../b2login.php">Go crazy</a>.</p>
+ <p>You are ready to rock &#8217;n roll. <a href="../wp-login.php">Go crazy</a>.</p>
 <?php
 	break;
 }

@@ -1,8 +1,7 @@
-<?php /* Don't remove these lines, they call the b2 function files ! */
+<?php 
+/* Don't remove these lines. */
 $blog = 1;
-require_once('blog.header.php');
-require_once($abspath.'wp-links/links.php');
-// not on by default: require_once($abspath.'wp-links/links.weblogs.com.php');
+require_once('wp-blog-header.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -52,7 +51,7 @@ require_once($abspath.'wp-links/links.php');
 	<?php trackback_rdf(); ?>
 	-->
 
-<?php include($abspath . 'b2comments.php'); ?>
+<?php include($abspath . 'wp-comments.php'); ?>
 </div>
 
 <?php } } else { // end foreach, end if any posts ?>
@@ -93,7 +92,7 @@ require_once($abspath.'wp-links/links.php');
  </li>
  <li>Other:
 	<ul>
-		<li><a href="<?php echo $siteurl; ?>/b2login.php">login</a></li>
+		<li><a href="<?php echo $siteurl; ?>/wp-login.php">login</a></li>
 		<li><a href="<?php echo $siteurl; ?>/b2register.php">register</a></li>
 	</ul>
  </li>

@@ -5,7 +5,7 @@
 // 3. load in the browser from there
 
 require_once('wp-config.php');
-require_once($abspath.$b2inc.'/b2functions.php');
+require_once($abspath.$b2inc.'/functions.php');
 
 $b2varstoreset = array('action', 'gmpath', 'archivespath');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
@@ -63,7 +63,7 @@ textarea,input,select {
 </style>
 </head>
 <body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
+<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="wp-images/wpminilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
 <p>The importer is running...</p>
 <ul>
 <li>importing users... <ul><?php
@@ -239,7 +239,7 @@ textarea,input,select {
 </ul><b>Done</b></li></ul>
 <p>&nbsp;</p>
 <p>Completed GM 2 b2 import !</p>
-<p>Now you can go and <a href="b2login.php">log in</a>, have fun !</p>
+<p>Now you can go and <a href="wp-login.php">log in</a>, have fun !</p>
 	<?php
 	break;
 
@@ -274,7 +274,7 @@ textarea,input,select {
 </style>
 </head>
 <body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
+<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="wp-images/wpminilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
 <p>This is a basic GreyMatter to b2 import script.</p>
 <p>What it does:</p>
 <ul>
