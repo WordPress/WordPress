@@ -639,17 +639,12 @@ function parent_dropdown($default = 0, $parent = 0, $level = 0) {
 }
 
 function user_can_access_admin_page() {
-	global $parent_file;
 	global $pagenow;
 	global $menu;
 	global $submenu;
 	global $user_level;
 
-	if (! isset($parent_file)) {
-		$parent = $pagenow;
-	} else {
-		$parent = $parent_file;
-	}
+	$parent = get_admin_page_parent();
 
 	foreach ($menu as $menu_array) {
 		//echo "parent array: " . $menu_array[2];
