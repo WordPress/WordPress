@@ -30,7 +30,7 @@ function get_category_link($category_id) {
 
 	if ( empty($catlink) ) {
 		$file = get_settings('home') . '/' . get_settings('blogfilename');
-		$catlink = $file . '?cat=' . $category_ID;
+		$catlink = $file . '?cat=' . $category_id;
 	} else {
 		if ($cache_categories[$category_id]->category_nicename)
 			$category_nicename = $cache_categories[$category_id]->category_nicename;
@@ -43,7 +43,7 @@ function get_category_link($category_id) {
 		$catlink = str_replace('%category%', $category_nicename, $catlink);
 		$catlink = get_settings('home') . trailingslashit($catlink);
 	}
-	return $catlink;
+	return apply_filters('category_link', $catlink, $category_id);
 }
 
 function the_category($separator = '', $parents='') {
