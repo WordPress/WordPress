@@ -31,13 +31,14 @@
 
 			if ( ! $this->dbh )
 			{
-				$this->print_error("<div id='error'>
-				<p><strong>Error establishing a database connection!</strong></p>
+				die("<div>
+				<p><strong>Error establishing a database connection!</strong> This probably means that the connection information in youn <code>wp-config.php</code> file is incorrect. Double check it and try again.</p>
 				<ul>
 				<li>Are you sure you have the correct user/password?</li>
 				<li>Are you sure that you have typed the correct hostname?</li>
 				<li>Are you sure that the database server is running?</li>
 				</ul>
+				<p><a href='http://wordpress.org/support/'>WordPress Support Forums</a></p>
 				</div>");
 			}
 
@@ -53,11 +54,14 @@
 		{
 			if ( !@mysql_select_db($db,$this->dbh))
 			{
-				$this->print_error("<ol id='error'>
-				<li><strong>Error selecting database <u>$db</u>!</strong></li>
+				die("
+				<p>We're having a little trouble selecting the proper database for WordPress.</p>
+				<ul>
 				<li>Are you sure it exists?</li>
-				<li>Are you sure there is a valid database connection?</li>
-				</ol>");
+				<li>Your database name is currently specified as <code>" . DB_NAME ."</code>. Is this correct?</li>
+				<li>On some systems the name of your database is prefixed with your username, so it would be like username_wordpress. Could that be the problem?</li>
+				</ul>
+				<p><a href='http://wordpress.org/support/'>WordPress Support Forums</a></p>");
 			}
 		}
 
