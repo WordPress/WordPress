@@ -391,7 +391,7 @@ function wp_iso_descrambler($string) {
 
 // give it a date, it will give you the same date as GMT
 function get_gmt_from_date($string) {
-  global $time_difference;
+  $time_difference = get_settings('time_difference');
   // $string must be of the form 'yyyy-mm-dd hh:mm:ss'
   if ($string != gmdate('Y-m-d H:i:s')) {
     $string_time = gmmktime(substr($string,11,13), substr($string,14,16), substr($string,17,19), substr($string,5,7), substr($string,8,10), substr($string,0,4));
