@@ -128,7 +128,7 @@ if (!empty($s)) {
 	}
 	if (!$sentence) {
 		$s_array = explode(' ',$s);
-		$search .= '((post_title LIKE \''.$n.$s_array[0].$n.'\') OR (post_content LIKE \''.$s_array[0].'\'))';
+		$search .= '((post_title LIKE \''.$n.$s_array[0].$n.'\') OR (post_content LIKE \''.$n.$s_array[0].$n.'\'))';
 		for ( $i = 1; $i < count($s_array); $i = $i + 1) {
 			$search .= ' AND ((post_title LIKE \''.$n.$s_array[$i].$n.'\') OR (post_content LIKE \''.$n.$s_array[$i].$n.'\'))';
 		}
@@ -320,33 +320,35 @@ if ($preview) {
 // echo $request;
 $posts = $wpdb->get_results($request);
 
+// No point in doing all this work if we didn't match any posts.
+if ($posts) {
+    // Get the categories for all the posts
+    foreach ($posts as $post) {
+    	$post_id_list[] = $post->ID;
+    }
+    $post_id_list = implode(',', $post_id_list);
 
-// Get the categories for all the posts
-foreach ($posts as $post) {
-	$post_id_list[] = $post->ID;
+    $dogs = $wpdb->get_results("SELECT DISTINCT 
+    	ID, category_id, cat_name, category_nicename, category_description 
+    	FROM $tablecategories, $tablepost2cat, $tableposts 
+    	WHERE category_id = cat_ID AND post_id = ID AND post_id IN ($post_id_list)");
+    	
+    foreach ($dogs as $catt) {
+    	$category_cache[$catt->ID][] = $catt;
+    }
+
+    // Do the same for comment numbers
+
+
+    if (1 == count($posts)) {
+    	if ($p || $name) {
+    		$more = 1;
+    		$c = 1;
+    		$single = 1;
+    	}
+    	if ($s) { // If they were doing a search and got one result
+    		header('Location: ' . get_permalink($posts[0]->ID));
+    	}
 }
-$post_id_list = implode(',', $post_id_list);
-
-$dogs = $wpdb->get_results("SELECT DISTINCT 
-	ID, category_id, cat_name, category_nicename, category_description 
-	FROM $tablecategories, $tablepost2cat, $tableposts 
-	WHERE category_id = cat_ID AND post_id = ID AND post_id IN ($post_id_list)");
-	
-foreach ($dogs as $catt) {
-	$category_cache[$catt->ID][] = $catt;
-}
-
-// Do the same for comment numbers
-
-
-if (1 == count($posts)) {
-	if ($p || $name) {
-		$more = 1;
-		$c = 1;
-		$single = 1;
-	}
-	if ($s) { // If they were doing a search and got one result
-		header('Location: ' . get_permalink($posts[0]->ID));
-	}
 }
 ?>
