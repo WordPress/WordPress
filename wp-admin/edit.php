@@ -94,9 +94,9 @@ include(ABSPATH.'wp-blog-header.php');
 if ($posts) {
 $bgcolor = '';
 foreach ($posts as $post) { start_wp();
-$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
+$class = ('alternate' == $class) ? '' : 'alternate';
 ?> 
-  <tr style='background-color: <?php echo $bgcolor; ?>'> 
+  <tr class='<?php echo $class; ?>'> 
     <th scope="row"><?php echo $id ?></th> 
     <td><?php the_time('Y-m-d \<\b\r \/\> g:i:s a'); ?></td> 
     <td><a href="<?php the_permalink(); ?>" rel="permalink"> 

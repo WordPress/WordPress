@@ -120,9 +120,9 @@ if ('view' == $mode) {
   </tr>';
 		foreach ($comments as $comment) {
 		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
-		$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
+		$class = ('alternate' == $class) ? '' : 'alternate';
 ?>
-  <tr style='background-color: <?php echo $bgcolor; ?>'>
+  <tr class='<?php echo $class; ?>'>
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td><?php comment_author_link() ?></td>
     <td><?php comment_author_email_link() ?></td>
