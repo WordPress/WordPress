@@ -13,7 +13,7 @@ include('admin-header.php');
 	<input type="hidden" name="action" value="update" /> 
 	<input type="hidden" name="page_options" value="'posts_per_page','what_to_show','posts_per_rss','rss_use_excerpt','blog_charset','gzipcompression' " /> 
 	<fieldset class="options"> 
-	<legend><?php _e('Pages') ?></legend> 
+	<legend><?php _e('Blog Home Page') ?></legend> 
 	<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 		<tr valign="top"> 
 		<th width="33%" scope="row"><?php _e('Show the most recent:') ?></th> 
