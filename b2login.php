@@ -1,5 +1,4 @@
 <?php
-
 require('b2config.php');
 require_once($b2inc.'/b2template.functions.php');
 require_once($b2inc.'/b2functions.php');
@@ -63,7 +62,6 @@ case "logout":
 	exit();
 
 break;
-
 
 case "login":
 
@@ -315,14 +313,17 @@ textarea, input, select {
 <td align="center" valign="middle">
 
 <div id="login">
-<p><a href="<?php echo $pathserver; ?>/b2register.php">Register?</a><br />
-<a href="<?php echo $pathserver; ?>/b2login.php?action=lostpassword">Lost your password?</a></p>
+<p><a href="<?=$pathserver?>">Back to blog?</a><br />
+<?php if ($users_can_register) { ?>
+    <a href="<?php echo $pathserver; ?>/b2register.php">Register?</a><br />
+<?php } ?>
+   <a href="<?php echo $pathserver; ?>/b2login.php?action=lostpassword">Lost your password?</a></p>
 
 <?php
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
 ?>
 
-<form name="" action="b2login.php" method="post">
+<form name="" action="../b2login.php" method="post">
 <?php if ($mode=="bookmarklet") { ?>
 <input type="hidden" name="mode" value="<?php echo $mode ?>" />
 <input type="hidden" name="text" value="<?php echo $text ?>" />
