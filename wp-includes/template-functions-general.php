@@ -98,7 +98,7 @@ function get_bloginfo($show='') {
 
 function wp_title($sep = '&raquo;', $display = true) {
     global $wpdb;
-    global $m, $year, $monthnum, $day, $cat, $p, $name, $month, $posts;
+    global $m, $year, $monthnum, $day, $cat, $category_name, $p, $name, $month, $posts;
 
     // If there's a category
     if(!empty($cat)) {
@@ -107,6 +107,14 @@ function wp_title($sep = '&raquo;', $display = true) {
         }
     }
     if (!empty($category_name)) {
+        if (stristr($category_name,'/')) {
+            $category_name = explode('/',$category_name);
+            if ($category_name[count($category_name)-1]) {
+                $category_name = $category_name[count($category_name)-1]; // no trailing slash
+            } else {
+                $category_name = $category_name[count($category_name)-2]; // there was a trailling slash
+            }
+        }
         $title = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE category_nicename = '$category_name'");
     }
 
