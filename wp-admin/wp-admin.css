@@ -256,6 +256,7 @@ textarea, input, select {
 
 #poststuff {
 	margin-right: 11em;
+	height: 100%; /* kill peekaboo bug in IE */
 }
 
 #poststuff textarea {
