@@ -13,7 +13,7 @@
 // Fred Cooper for querystring bugfix
 // http://frcooper.com/journal/
 //
-// b2 is copyright (c) 2001, 2002 by Michel Valdrighi - m@tidakada.com
+// b2 is copyright (c) 2001, 2002, 2003 by Michel Valdrighi - m@tidakada.com
 //
 // Contributed portions copyright (c) various authors with permission
 //
