@@ -629,7 +629,48 @@ switch($action) {
                 $default_post_cat = get_settings('default_post_category');
                 include('edit-form.php');
             }
-
+?>
+<div class="wrap">
+<h3>WordPress bookmarklet</h3>
+<p>You can drag the following link to your links bar or add it to your bookmarks and when you "Press it" it will open up a popup window with information and a link to the site you're currently browsing so you can make a quick post about it. Try it out:</p>
+<p>
+   <?php
+if ($is_NS4 || $is_gecko) {
+?>
+    <a href="javascript:Q=document.selection?document.selection.createRange().text:document.getSelection();void(window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'WordPress bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">Press It 
+    - <?php echo $blogname ?></a> 
+    <?php
+} else if ($is_winIE) {
+?>
+    <a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
+    - <?php echo $blogname ?></a> 
+    <script type="text/javascript" language="JavaScript">
+<!--
+function oneclickbookmarklet(blah) {
+	window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=500, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=120, left=120, screenY=120, top=120");
+}
+// -->
+</script>
+    <br />
+    <br />
+    One-click bookmarklet:<br />
+    <a href="javascript:oneclickbookmarklet(0);">click here</a> 
+    <?php
+} else if ($is_opera) {
+?>
+    <a href="javascript:void(window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">Press it 
+    - <?php echo $blogname ?></a> 
+    <?php
+} else if ($is_macIE) {
+?>
+    <a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo $siteurl ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
+    - <?php echo $blogname ?></a> 
+    <?php
+}
+?>
+</p>
+</div>
+<?php
         } else {
 
 
