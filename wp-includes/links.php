@@ -48,21 +48,29 @@ function bool_from_yn($yn) {
  ** Parameters:
  **   category (no default)  - The category to use.
  **/
-function wp_get_linksbyname($category) {
-    global $wpdb;
+function wp_get_linksbyname($category, $args = '') {
+	global $wpdb;
 
-    $cat = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
-         . " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
-         . " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_name='$category'");
-    if ($cat) {
-        if ($cat->sort_desc == 'Y') {
-            $cat->sort_order = '_'.$cat->sort_order;
-        }
-        get_links($cat->cat_id, $cat->text_before_link, $cat->text_after_all,
-                  $cat->text_after_link, bool_from_yn($cat->show_images), $cat->sort_order,
-                   bool_from_yn($cat->show_description), bool_from_yn($cat->show_rating),
-                   $cat->list_limit, bool_from_yn($cat->show_updated));
-    }
+	$cat = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
+												. " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
+												. " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_name='$category'");
+
+	if (! $cat) {
+		return;
+	}
+
+	if (empty($args)) {
+		if ($cat->sort_desc == 'Y') {
+			$cat->sort_order = '_'.$cat->sort_order;
+		}
+		get_links($cat->cat_id, $cat->text_before_link, $cat->text_after_all,
+							$cat->text_after_link, bool_from_yn($cat->show_images), $cat->sort_order,
+							bool_from_yn($cat->show_description), bool_from_yn($cat->show_rating),
+							$cat->list_limit, bool_from_yn($cat->show_updated));
+	} else {
+		$args = add_query_arg('category', $cat->cat_id, $args);
+		wp_get_links($args);
+	}
 } // end wp_get_linksbyname
 
 /** function wp_get_links()
