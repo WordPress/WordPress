@@ -154,7 +154,8 @@ $rss_encoded_html = 0;
 # length (in words) of excerpts in the RSS feed? 0=unlimited
 #  note: in b2rss.php, this will be set to 0 if you use encoded HTML
 $rss_excerpt_length = 50;
-
+#use the excerpt field for rss feed.
+$rss_use_excerpt = 1; 
 
 
 // ** Weblogs.com ping **

@@ -45,7 +45,16 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 	<dc:date><?php the_time('Y-m-d\TH:i:s'); ?></dc:date>
 	<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 	<dc:subject><?php the_category_rss() ?></dc:subject>
+<?php if ($rss_use_excerpt) {
+?>
+	<description><?php the_excerpt_rss($rss_excerpt_length, 2) ?></description>
+<?php
+} else { // use content
+?>
 	<description><?php the_content_rss('', 0, '', $rss_excerpt_length, 2) ?></description>
+<?php
+} // end else use content
+?>
 	<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 </item>
 <?php } ?>

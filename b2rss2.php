@@ -37,7 +37,16 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 		<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 		<dc:subject><?php the_category_rss() ?></dc:subject>
 		<guid isPermaLink="false"><?php echo $id; ?>@<?php bloginfo_rss("url") ?></guid>
+<?php if ($rss_use_excerpt) {
+?>
+		<description><?php the_excerpt_rss($rss_excerpt_length, 2) ?></description>
+<?php
+} else { // use content
+?>
 		<description><?php the_content_rss('', 0, '', $rss_excerpt_length, 2) ?></description>
+<?php
+} // end else use content
+?>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 	</item>
 	<?php $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } ?>
