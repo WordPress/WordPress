@@ -31,7 +31,7 @@ require('./wp-blog-header.php');
 <h1 id="header"><a href="<?php bloginfo('url'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <div id="content">
-<?php if ($posts) : foreach ($posts as $post) : start_wp(); ?>
+<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
 <?php the_date('','<h2>','</h2>'); ?>
 	
@@ -56,7 +56,7 @@ require('./wp-blog-header.php');
 
 <?php comments_template(); // Get wp-comments.php template ?>
 
-<?php endforeach; else: ?>
+<?php endwhile; else: ?>
 <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
 
