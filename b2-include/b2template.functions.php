@@ -618,7 +618,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 		}
 
 		$limitprev--;
-		$lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
+		$lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
 		++$querycount;
 		if ($lastpost) {
 			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$lastpost->ID.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$previous;
@@ -659,7 +659,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 
 		$limitnext--;
 
-		$nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1");
+		$nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1");
 		++$querycount;
 		if ($nextpost) {
 			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$nextpost->ID.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$next;
