@@ -41,8 +41,8 @@ switch($action) {
 
 case 'logout':
 
-	setcookie('wordpressuser_'.$cookiehash);
-	setcookie('wordpresspass_'.$cookiehash);
+    setcookie('wordpressuser_'.$cookiehash, " ", time() - 31536000, COOKIEPATH);
+    setcookie('wordpresspass_'.$cookiehash, " ", time() - 31536000, COOKIEPATH);
 	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate');
