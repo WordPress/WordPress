@@ -45,7 +45,7 @@ if ($comments) {
 <form action="<?php echo $siteurl; ?>/b2comments.post.php" method="post" id="commentform">
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
-	   <label for="author">name</label>
+	   <label for="author">Name</label>
 	<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
 	<input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" />
 	</p>
