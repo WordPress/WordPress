@@ -1151,12 +1151,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 
 		// Let's check that the remote site didn't already pingback this entry
-		$sql = 'SELECT * FROM '.$wpdb->comments.' 
-			WHERE comment_post_ID = '.$post_ID.' 
-				AND comment_author_url = \''.$pagelinkedfrom.'\' 
-				AND comment_type = \'pingback\'';
-		$result = $wpdb->get_results($sql);
-//return($sql);
+		$result = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_ID' AND comment_author_url = '$pagelinkedfrom'");
 
 		if ($wpdb->num_rows) {
 			// We already have a Pingback from this URL
@@ -1229,7 +1224,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		if( !check_comment($title, '', $pagelinkedfrom, $context, $user_ip, $user_agent) ) {
 	  		return new IXR_Error(49, 'Pingbacks not allowed on this entry.');
 		}
-
 
 		$comment_post_ID = $post_ID;
 		$comment_author = $title;
