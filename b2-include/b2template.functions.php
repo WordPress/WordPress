@@ -8,8 +8,6 @@ if (!isset($querystring_start)) {
 	$querystring_separator = '&amp;';
 }
 
-
-
 /* template functions... */
 
 
@@ -949,7 +947,7 @@ function get_the_category() {
 	if ((empty($cache_categories[$cat_ID])) OR (!$use_cache)) {
 		$cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
 		++$querycount;
-		$cache_categories[$cat_ID] = &$cat_name;
+		$cache_categories[$cat_ID] = $cat_name;
 	} else {
 		$cat_name = $cache_categories[$cat_ID];
 	}
@@ -961,7 +959,7 @@ function get_the_category_by_ID($cat_ID) {
 	if ((!$cache_categories[$cat_ID]) OR (!$use_cache)) {
 		$cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
 		++$querycount;
-		$cache_categories[$cat_ID] = &$cat_name;
+		$cache_categories[$cat_ID] = $cat_name;
 	} else {
 		$cat_name = $cache_categories[$cat_ID];
 	}
@@ -1164,9 +1162,9 @@ function comment_author_email() {
 
 function comment_author_link() {
 	global $comment;
-	$url = trim(stripslashes(&$comment->comment_author_url));
-	$email = &$comment->comment_author_email;
-	$author = stripslashes(&$comment->comment_author);
+	$url = trim(stripslashes($comment->comment_author_url));
+	$email = $comment->comment_author_email;
+	$author = stripslashes($comment->comment_author);
 
 	$url = str_replace('http://url', '', $url);
 	
