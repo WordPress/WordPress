@@ -242,6 +242,102 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
 
 // Navigation links
 
+function get_previous_post($in_same_cat = false, $excluded_categories = '') {
+    global $post, $wpdb;
+
+    if(! is_single()) {
+      return null;
+    }
+    
+    $current_post_date = $post->post_date;
+    $current_category = $post->post_category;
+    
+    $sqlcat = '';
+    if ($in_same_cat) {
+      $sqlcat = " AND post_category = '$current_category' ";
+    }
+
+    $sql_exclude_cats = '';
+    if (!empty($excluded_categories)) {
+      $blah = explode('and', $excluded_categories);
+      foreach($blah as $category) {
+	$category = intval($category);
+	$sql_exclude_cats .= " AND post_category != $category";
+      }
+    }
+
+    return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT 1");
+}
+
+function get_next_post($in_same_cat = false, $excluded_categories = '') {
+    global $post, $wpdb;
+
+    if(! is_single()) {
+      return null;
+    }
+
+    $current_post_date = $post->post_date;
+    $current_category = $post->post_category;
+    
+    $sqlcat = '';
+    if ($in_same_cat) {
+      $sqlcat = " AND post_category = '$current_category' ";
+    }
+
+    $sql_exclude_cats = '';
+    if (!empty($excluded_categories)) {
+      $blah = explode('and', $excluded_categories);
+      foreach($blah as $category) {
+	$category = intval($category);
+	$sql_exclude_cats .= " AND post_category != $category";
+      }
+    }
+
+    $now = current_time('mysql');
+    
+    return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
+}
+
+function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
+  $post = get_previous_post($in_same_cat, $excluded_categories);
+
+  if(! $post) {
+    return;
+  }
+
+  $title = apply_filters('the_title', $post->post_title);
+
+  $string = '<a href="'.get_permalink($post->ID).'">';
+
+  $link = str_replace('%title', $title, $link);
+
+  $link = $string . $link . '</a>';
+
+  $format = str_replace('%link', $link, $format);
+
+  echo $format;	    
+}
+
+function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = false, $excluded_categories = '') {
+  $post = get_next_post($in_same_cat, $excluded_categories);
+
+  if(! $post) {
+    return;
+  }
+
+  $title = apply_filters('the_title', $post->post_title);
+
+  $string = '<a href="'.get_permalink($post->ID).'">';
+
+  $link = str_replace('%title', $title, $link);
+
+  $link = $string . $link . '</a>';
+
+  $format = str_replace('%link', $link, $format);
+
+  echo $format;	    
+}
+
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
     global $id, $post, $wpdb;
     global $posts, $posts_per_page, $s;
