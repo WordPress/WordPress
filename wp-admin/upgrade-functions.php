@@ -89,14 +89,8 @@ function upgrade_110() {
 		}
 	}
 
-	// Convert passwords to MD5 and update table appropiately
-	$user_table = $wpdb->get_row("DESCRIBE $wpdb->users user_pass");
-	if ($user_table->Type != 'varchar(32)') {
-		$wpdb->query("ALTER TABLE $wpdb->users MODIFY user_pass varchar(64) not null");
-	}
-	
-	$query = 'SELECT ID, user_pass from '.$wpdb->users;
-	foreach ($wpdb->get_results($query) as $row) {
+	$users = $wpdb->get_results("SELECT ID, user_pass from $wpdb->users");
+	foreach ($users as $row) {
 		if (!preg_match('/^[A-Fa-f0-9]{32}$/', $row->user_pass)) {
 			   $wpdb->query('UPDATE '.$wpdb->users.' SET user_pass = MD5(\''.$row->user_pass.'\') WHERE ID = \''.$row->ID.'\'');
 		}
