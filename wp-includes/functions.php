@@ -156,58 +156,6 @@ function user_pass_ok($user_login,$user_pass) {
 	return (md5($user_pass) == $userdata->user_pass);
 }
 
-if ( !function_exists('get_currentuserinfo') ) {
-function get_currentuserinfo() { // a bit like get_userdata(), on steroids
-	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $user_identity;
-	// *** retrieving user's data from cookies and db - no spoofing
-
-	if (isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
-		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
-	$userdata = get_userdatabylogin($user_login);
-	$user_level = $userdata->user_level;
-	$user_ID = $userdata->ID;
-	$user_nickname = $userdata->user_nickname;
-	$user_email = $userdata->user_email;
-	$user_url = $userdata->user_url;
-	$user_pass_md5 = md5($userdata->user_pass);
-
-	$idmode = $userdata->user_idmode;
-	if ($idmode == 'nickname')  $user_identity = $userdata->user_nickname;
-	if ($idmode == 'login')     $user_identity = $userdata->user_login;
-	if ($idmode == 'firstname') $user_identity = $userdata->user_firstname;
-	if ($idmode == 'lastname')  $user_identity = $userdata->user_lastname;
-	if ($idmode == 'namefl')    $user_identity = $userdata->user_firstname.' '.$userdata->user_lastname;
-	if ($idmode == 'namelf')    $user_identity = $userdata->user_lastname.' '.$userdata->user_firstname;
-	if (!$idmode) $user_identity = $userdata->user_nickname;
-}
-}
-
-if ( !function_exists('get_userdata') ) {
-function get_userdata($userid) {
-	global $wpdb, $cache_userdata;
-	$userid = (int) $userid;
-	if ( empty($cache_userdata[$userid]) && $userid != 0) {
-		$cache_userdata[$userid] = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = $userid");
-		$cache_userdata[$cache_userdata[$userid]->user_login] =& $cache_userdata[$userid];
-	} 
-
-    return $cache_userdata[$userid];
-}
-}
-
-if ( !function_exists('get_userdatabylogin') ) {
-function get_userdatabylogin($user_login) {
-	global $cache_userdata, $wpdb;
-	if ( !empty($user_login) && empty($cache_userdata[$user_login]) ) {
-		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'"); /* todo: get rid of this intermediate var */
-		$cache_userdata[$user->ID] = $user;
-		$cache_userdata[$user_login] =& $cache_userdata[$user->ID];
-	} else {
-		$user = $cache_userdata[$user_login];
-	}
-	return $user;
-}
-}
 
 function get_usernumposts($userid) {
 	global $wpdb;
@@ -1794,78 +1742,6 @@ function htmlentities2($myHTML) {
 	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($myHTML, $translation_table));
 }
 
-if ( !function_exists('wp_mail') ) :
-function wp_mail($to, $subject, $message, $headers = '') {
-	if( $headers == '' ) {
-		$headers = "MIME-Version: 1.0\r\n" .
-		"From: " . get_settings('admin_email') . "\r\n" . 
-		"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
-	}
-
-	return @mail($to, $subject, $message, $headers);
-}
-endif;
-
-if ( !function_exists('wp_login') ) :
-function wp_login($username, $password, $already_md5 = false) {
-	global $wpdb, $error;
-
-	if ( !$username )
-		return false;
-
-	if ( !$password ) {
-		$error = __('<strong>Error</strong>: The password field is empty.');
-		return false;
-	}
-
-	$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
-
-	if (!$login) {
-		$error = __('<strong>Error</strong>: Wrong username.');
-		return false;
-	} else {
-		// If the password is already_md5, it has been double hashed.
-		// Otherwise, it is plain text.
-		if ( ($already_md5 && $login->user_login == $username && md5($login->user_pass) == $password) || ($login->user_login == $username && $login->user_pass == md5($password)) ) {
-			return true;
-		} else {
-			$error = __('<strong>Error</strong>: Incorrect password.');
-			$pwd = '';
-			return false;
-		}
-	}
-}
-endif;
-
-if ( !function_exists('auth_redirect') ) :
-function auth_redirect() {
-	// Checks if a user is logged in, if not redirects them to the login page
-	if ( (!empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && 
-	!wp_login($_COOKIE['wordpressuser_' . COOKIEHASH], $_COOKIE['wordpresspass_' . COOKIEHASH], true)) ||
-	(empty($_COOKIE['wordpressuser_' . COOKIEHASH])) ) {
-		header('Expires: Mon, 11 Jan 1984 05:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-cache, must-revalidate, max-age=0');
-		header('Pragma: no-cache');
-	
-		header('Location: ' . get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
-		exit();
-	}
-}
-endif;
-
-// Cookie safe redirect.  Works around IIS Set-Cookie bug.
-// http://support.microsoft.com/kb/q176113/
-if ( !function_exists('wp_redirect') ) :
-function wp_redirect($location) {
-	global $is_IIS;
-
-	if ($is_IIS)
-		header("Refresh: 0;url=$location");
-	else
-		header("Location: $location");
-}
-endif;
 
 function is_plugin_page() {
 	global $plugin_page;
@@ -1965,40 +1841,4 @@ function add_magic_quotes($array) {
 	return $array;
 }
 
-if ( !function_exists('wp_setcookie') ) :
-function wp_setcookie($username, $password, $already_md5 = false, $home = '', $siteurl = '') {
-	if ( !$already_md5 )
-		$password = md5( md5($password) ); // Double hash the password in the cookie.
-
-	if ( empty($home) )
-		$cookiepath = COOKIEPATH;
-	else
-		$cookiepath = preg_replace('|https?://[^/]+|i', '', $home . '/' );
-
-	if ( empty($siteurl) ) {
-		$sitecookiepath = SITECOOKIEPATH;
-		$cookiehash = COOKIEHASH;
-	} else {
-		$sitecookiepath = preg_replace('|https?://[^/]+|i', '', $siteurl . '/' );
-		$cookiehash = md5($siteurl);
-	}
-
-	setcookie('wordpressuser_'. $cookiehash, $username, time() + 31536000, $cookiepath);
-	setcookie('wordpresspass_'. $cookiehash, $password, time() + 31536000, $cookiepath);
-
-	if ( $cookiepath != $sitecookiepath ) {
-		setcookie('wordpressuser_'. $cookiehash, $username, time() + 31536000, $sitecookiepath);
-		setcookie('wordpresspass_'. $cookiehash, $password, time() + 31536000, $sitecookiepath);
-	}
-}
-endif;
-
-if ( !function_exists('wp_clearcookie') ) :
-function wp_clearcookie() {
-	setcookie('wordpressuser_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
-	setcookie('wordpresspass_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
-	setcookie('wordpressuser_' . COOKIEHASH, ' ', time() - 31536000, SITECOOKIEPATH);
-	setcookie('wordpresspass_' . COOKIEHASH, ' ', time() - 31536000, SITECOOKIEPATH);
-}
-endif;
 ?>

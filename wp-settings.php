@@ -118,6 +118,8 @@ if ( get_settings('active_plugins') ) {
 	}
 }
 
+require (ABSPATH . WPINC . '/pluggable-functions.php');
+
 if ( defined('WP_CACHE') && function_exists('wp_cache_postload') )
 	wp_cache_postload();
 
