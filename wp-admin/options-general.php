@@ -47,7 +47,7 @@ include('options-head.php');
   <h2><?php _e('General Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset','date_format','time_format','home'" /> 
+	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset','date_format','time_format','home','start_of_week'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"><?php _e('Weblog title:') ?></th> 
@@ -110,6 +110,19 @@ include('options-head.php');
       	<td><input name="time_format" type="text" id="time_format" size="30" value="<?php form_option('time_format'); ?>" /><br />
 <?php _e('Output:') ?> <strong><?php echo gmdate(get_settings('time_format'), current_time('timestamp')); ?></strong></td>
       	</tr> 
+      <tr>
+        <th scope="row"><?php _e('Weeks in the calendar should start on:') ?></th>
+        <td><select name="start_of_week" id="start_of_week">
+	<?php
+for ($day_index = 0; $day_index <= 6; $day_index++) :
+	if ($day_index == get_settings('start_of_week')) $selected = " selected='selected'";
+	else $selected = '';
+echo "\n\t<option value='$day_index' $selected>$weekday[$day_index]</option>";
+endfor;
+?>
+</select></td>
+       		</tr>
+
 </table>
 
     </fieldset> 

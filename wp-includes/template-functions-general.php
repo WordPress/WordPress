@@ -329,6 +329,12 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
     }
 }
 
+// Used in get_calendar
+function calendar_week_mod($num) {
+	$base = 7;
+	return ($num - $base*floor($num/$base));
+}
+
 function get_calendar($daylength = 1) {
     global $wpdb, $m, $monthnum, $year, $timedifference, $month, $month_abbrev, $weekday, $weekday_initial, $weekday_abbrev, $posts;
 
@@ -343,6 +349,8 @@ function get_calendar($daylength = 1) {
         $w = ''.intval($_GET['w']);
     }
 
+    // week_begins = 0 stands for sunday
+    $week_begins = intval(get_settings('start_of_week'));
     $add_hours = intval(get_settings('gmt_offset'));
     $add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
 
@@ -395,7 +403,13 @@ function get_calendar($daylength = 1) {
         $day_abbrev = $weekday_abbrev;
     }
 
-    foreach ($weekday as $wd) {
+    $myweek = array();
+	
+    for ($wdcount=0; $wdcount<=6; $wdcount++) {
+        $myweek[]=$weekday[($wdcount+$week_begins)%7];
+    }
+	
+    foreach ($myweek as $wd) {
         echo "\n\t\t<th abbr=\"$wd\" scope=\"col\" title=\"$wd\">" . $day_abbrev[$wd] . '</th>';
     }
 
@@ -477,7 +491,7 @@ function get_calendar($daylength = 1) {
 
 
     // See how much we should pad in the beginning
-    $pad = intval(date('w', $unixmonth));
+    $pad = calendar_week_mod(date('w', $unixmonth)-$week_begins);
     if (0 != $pad) echo "\n\t\t".'<td colspan="'.$pad.'" class="pad">&nbsp;</td>';
 
     $daysinmonth = intval(date('t', $unixmonth));
@@ -498,11 +512,11 @@ function get_calendar($daylength = 1) {
         }
         echo '</td>';
 
-        if (6 == date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear)))
+	if (6 == calendar_week_mod(date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear))-$week_begins))
             $newrow = true;
     }
 
-    $pad = 7 - date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear));
+    $pad = 7 - calendar_week_mod(date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear))-$week_begins);
     if ($pad != 0 && $pad != 7)
         echo "\n\t\t".'<td class="pad" colspan="'.$pad.'">&nbsp;</td>';
 
