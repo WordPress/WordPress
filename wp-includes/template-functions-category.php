@@ -46,11 +46,10 @@ function get_category_link($category_id) {
 	return apply_filters('category_link', $catlink, $category_id);
 }
 
-function the_category($separator = '', $parents='') {
+function get_the_category_list($separator = '', $parents='') {
     $categories = get_the_category();
     if (empty($categories)) {
-        _e('Uncategorized');
-        return;
+			return apply_filters('the_category', __('Uncategorized'), $separator, $parents);
     }
 
     $thelist = '';
@@ -101,7 +100,11 @@ function the_category($separator = '', $parents='') {
             ++$i;
         }
     }
-    echo apply_filters('the_category', $thelist, $separator, $parents);
+    return apply_filters('the_category', $thelist, $separator, $parents);
+}
+
+function the_category($separator = '', $parents='') {
+	echo get_the_category_list($separator, $parents);
 }
 
 function get_the_category_by_ID($cat_ID) {
