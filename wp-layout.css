@@ -284,3 +284,17 @@ p, li, .feedback {
 	font-style: normal;
 	text-transform: capitalize;
 }
+
+/* classes used by the_meta() */
+ul.post-meta {
+	list-style: none;
+}
+
+ul.post-meta li {
+	display: inline;
+}
+
+ul.post-meta span.post-meta-key {
+	font-weight: bold;
+}
+
