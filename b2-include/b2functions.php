@@ -165,8 +165,8 @@ function mysql2date($dateformatstring, $mysqlstring, $use_b2configmonthsdays = 1
 	}
 	$j = @date($dateformatstring, $i);
 	if (!$j) {
-# // for debug purposes
-#		echo $i." ".$mysqlstring;
+	// for debug purposes
+	//	echo $i." ".$mysqlstring;
 	}
 	return $j;
 }
@@ -462,6 +462,71 @@ function get_usernumposts($userid) {
 	++$querycount;
 	return $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = $userid");
 }
+
+// examine a url (supposedly from this blog) and try to
+// determine the post ID it represents.
+function url_to_postid($url = '') {
+	global $wpdb, $tableposts, $siteurl;
+
+	// Take a link like 'http://example.com/blog/something'
+	// and extract just the '/something':
+	$uri = preg_replace("#$siteurl#i", '', $url);
+
+	// on failure, preg_replace just returns the subject string
+	// so if $uri and $siteurl are the same, they didn't match:
+	if ($uri == $siteurl) 
+		return 0;
+		
+	// First, check to see if there is a 'p=N' to match against:
+	preg_match('#[?&]p=(\d+)#', $uri, $values);
+	$p = intval($values[1]);
+	if ($p) return $p;
+	
+	// Match $uri against our permalink structure
+	$permalink_structure = get_settings('permalink_structure');
+	
+	// Matt's tokenizer code
+	$rewritecode = array(
+		'%year%',
+		'%monthnum%',
+		'%day%',
+		'%postname%'
+	);
+	$rewritereplace = array(
+		'([0-9]{4})?',
+		'([0-9]{1,2})?',
+		'([0-9]{1,2})?',
+		'([0-9a-z-]+)?'
+	);
+
+	// Turn the structure into a regular expression
+	$matchre = str_replace('/', '/?', $permalink_structure);
+	$matchre = str_replace($rewritecode, $rewritereplace, $matchre);
+
+	// Extract the key values from the uri:
+	preg_match("#$matchre#",$uri,$values);
+
+	// Extract the token names from the structure:
+	preg_match_all("#%(.+?)%#", $permalink_structure, $tokens);
+
+	for($i = 0; $i < count($tokens[1]); $i++) {
+		$name = $tokens[1][$i];
+		$value = $values[$i+1];
+
+		// Create a variable named $year, $monthnum, $day, or $postname:
+		$$name = $value;
+	}
+	
+	// Build a WHERE clause, making the values safe along the way:
+	if ($year) $where .= " AND YEAR(post_date) = " . intval($year);
+	if ($monthnum) $where .= " AND MONTH(post_date) = " . intval($monthnum);
+	if ($day) $where .= " AND DAYOFMONTH(post_date) = " . intval($day);
+	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
+
+	// Run the query to get the post ID:
+	return intval($wpdb->get_var("SELECT ID FROM $tableposts WHERE 1 = 1 " . $where));
+}
+
 
 /* Options functions */
 
