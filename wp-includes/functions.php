@@ -287,13 +287,14 @@ function url_to_postid($url = '') {
 
 function get_settings($setting) {
 	global $wpdb, $cache_settings;
-	if ( strstr($_SERVER['REQUEST_URI'], 'install.php') || strstr($_SERVER['REQUEST_URI'], 'upgrade.php') )
+	if ( strstr($_SERVER['REQUEST_URI'], 'wp-admin/install.php') || strstr($_SERVER['REQUEST_URI'], 'wp-admin/upgrade.php') )
 		return false;
 
 	if ( empty($cache_settings) )
 		$cache_settings = get_alloptions();
 
-	if ('home' == $setting && '' == $cache_settings->home) return $cache_settings->siteurl;
+	if ('home' == $setting && '' == $cache_settings->home)
+		return $cache_settings->siteurl;
 
 	if ( isset($cache_settings->$setting) )
 		return $cache_settings->$setting;
