@@ -13,7 +13,7 @@ include_once(ABSPATH . WPINC . '/functions-post.php');
 $post_default_title = ""; // posts submitted via the xmlrpc interface get that title
 $post_default_category = 1; // posts submitted via the xmlrpc interface go into that category
 
-$xmlrpc_logging = 1;
+$xmlrpc_logging = 0;
 
 function logIO($io,$msg) {
 	global $xmlrpc_logging;
@@ -475,7 +475,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
 	  }
 
-	  $post_author = $userdata->ID;
+	  $post_author = $user_data->ID;
 
 	  $post_title = $content_struct['title'];
 	  $post_content = format_to_post($content_struct['description']);
@@ -484,15 +484,21 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
 
-	  $comment_status = $content_struct['mt_allow_comments'] ? 'open' : 'closed';
-	  $ping_status = $content_struct['mt_allow_pings'] ? 'open' : 'closed';
+	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
+	    get_settings('default_comment_status')
+	    : $content_struct['mt_allow_comments'];
+
+	  $ping_status = (empty($content_struct['mt_allow_pings'])) ?
+	    get_settings('default_ping_status')
+	    : $content_struct['mt_allow_pings'];
 
 	  if ($post_more) {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
 	  }
 		
 	  // Do some timestamp voodoo
-	  $dateCreated = $content_struct['dateCreated'];
+	  $dateCreatedd = $content_struct['dateCreated'];
+	  $dateCreated = $dateCreatedd->getIso();
 	  if (!empty($dateCreated)) {
 	    $post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 	    $post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
@@ -571,11 +577,17 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
 	  }
 
-	  $comment_status = (1 == $content_struct['mt_allow_comments']) ? 'open' : 'closed';
-	  $ping_status = $content_struct['mt_allow_pings'] ? 'open' : 'closed';
+	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
+	    get_settings('default_comment_status')
+	    : $content_struct['mt_allow_comments'];
+
+	  $ping_status = (empty($content_struct['mt_allow_pings'])) ?
+	    get_settings('default_ping_status')
+	    : $content_struct['mt_allow_pings'];
 
 	  // Do some timestamp voodoo
 	  $dateCreated = $content_struct['dateCreated'];
+	  $dateCreated = $dateCreated->getIso();
 	  if (!empty($dateCreated)) {
 	    $post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 	    $post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
@@ -640,6 +652,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      'title' => $entry['post_title'],
 	      'link' => $link,
 	      'permaLink' => $link,
+// commented out because no other tool seems to use them
 //	      'content' => $entry['post_content'],
 //	      'categories' => $categories
 	      'mt_excerpt' => $entry['post_excerpt'],
@@ -697,6 +710,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      'title' => $entry['post_title'],
 	      'link' => $link,
 	      'permaLink' => $link,
+// commented out because no other tool seems to use them
 //	      'content' => $entry['post_content'],
 //	      'categories' => $categories
 	      'mt_excerpt' => $entry['post_excerpt'],
