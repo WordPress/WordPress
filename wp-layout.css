@@ -101,7 +101,7 @@ ul.post-meta span.post-meta-key {
 .feedback {
 	color: #ccc;
 	text-align: right;
-	clear: all;
+	clear: both;
 }
 
 .meta {
