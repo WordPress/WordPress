@@ -4,11 +4,13 @@ $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
 
 // Fix for IIS, which doesn't set REQUEST_URI
-$_SERVER['REQUEST_URI'] = (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME']);
-
-// Append the query string if it exists and isn't null
-if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
-	$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+if (! isset($_SERVER['REQUEST_URI'])) {
+	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+	
+	// Append the query string if it exists and isn't null
+	if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
+		$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+	}
 }
 
 if ( !(phpversion() >= '4.1') )
