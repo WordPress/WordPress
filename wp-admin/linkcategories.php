@@ -67,24 +67,24 @@ switch ($action) {
       if ($show_images != 'Y') {
           $show_images = 'N';
       }
-      
+
       $show_description = $HTTP_POST_VARS["show_description"];
       if ($show_description != 'Y') {
           $show_description = 'N';
       }
-      
+
       $show_rating = $HTTP_POST_VARS["show_rating"];
       if ($show_rating != 'Y') {
           $show_rating = 'N';
       }
-      
+
       $show_updated = $HTTP_POST_VARS["show_updated"];
       if ($show_updated != 'Y') {
           $show_updated = 'N';
       }
-      
+
       $sort_order = $HTTP_POST_VARS["sort_order"];
-      
+
       $sort_desc = $HTTP_POST_VARS["sort_desc"];
       if ($sort_desc != 'Y') {
           $sort_desc = 'N';
@@ -163,9 +163,9 @@ switch ($action) {
       <tr>
         <td align="right">Sort order:</td>
         <td>
-          <select name="sort_order" size="1">                                        
+          <select name="sort_order" size="1">
             <option value="name"    <?php echo ($row->sort_order == 'name') ? 'selected' : ''?>>Name</option>
-            <option value="id"      <?php echo ($row->sort_order == 'id') ? 'selected' : ''?>>Id</option>                                           
+            <option value="id"      <?php echo ($row->sort_order == 'id') ? 'selected' : ''?>>Id</option>
             <option value="url"     <?php echo ($row->sort_order == 'url') ? 'selected' : ''?>>URL</option>
             <option value="rating"  <?php echo ($row->sort_order == 'rating') ? 'selected' : ''?>>Rating</option>
             <option value="updated" <?php echo ($row->sort_order == 'updated') ? 'selected' : ''?>>Updated</option>
@@ -221,12 +221,12 @@ switch ($action) {
     if (isset($submit) && ($submit == "Save")) {
 
     $cat_id=$HTTP_POST_VARS["cat_id"];
-    
+
     $cat_name=addslashes($HTTP_POST_VARS["cat_name"]);
     $auto_toggle = $HTTP_POST_VARS["auto_toggle"];
     if ($auto_toggle != 'Y') {
         $auto_toggle = 'N';
-    } 
+    }
 
     $show_images = $HTTP_POST_VARS["show_images"];
     if ($show_images != 'Y') {
@@ -278,7 +278,7 @@ switch ($action) {
             WHERE cat_id=$cat_id
             ");
     } // end if save
-    
+
 
     header("Location: linkcategories.php");
     break;
@@ -318,7 +318,6 @@ switch ($action) {
                 <th valign="top" style="border-bottom: 1px dotted #9C9A9C;" >between</th>
                 <th valign="top" style="border-bottom: 1px dotted #9C9A9C; border-right: 1px dotted #9C9A9C;" >after</th>
               </tr>
-                <form name="cats" method="post">
                 <input type="hidden" name="cat_id" value="" />
                 <input type="hidden" name="action" value="" />
 <?php
@@ -353,9 +352,10 @@ $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images
     }
 ?>
             </table>
-
-            </table>
-          </form>
+        </form>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <div class="wrap">
@@ -380,15 +380,17 @@ $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images
       </tr>
       <tr>
         <td align="right">Sort order:</td>
-        <td><select name="sort_order" size="1">                                        
+        <td>
+            <select name="sort_order" size="1">
               <option value="name">Name</option>
-              <option value="id">Id</option>                                           
+              <option value="id">Id</option>
               <option value="url">URL</option>
               <option value="rating">Rating</option>
               <option value="updated">Updated</option>
               <option value="rand">Random</option>
             </select>&nbsp;&nbsp;
-            <input type="checkbox" name="sort_desc" value="N" /> Descending?<br /></td>
+            <input type="checkbox" name="sort_desc" value="N" /> Descending?<br />
+          </td>
       </tr>
       <tr>
         <td align="center">Text/HTML</td>
@@ -413,9 +415,8 @@ $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images
       <tr>
         <td align="center" colspan="2"><input type="submit" name="submit" value="Add Category!" class="search" /></td>
       </tr>
-    </form>
     </table>
-
+  </form>
 </div>
 
 <div class="wrap">
@@ -428,6 +429,4 @@ $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images
   } // end default
 } // end case
 ?>
-</table>
-
 <?php include('b2footer.php'); ?>
