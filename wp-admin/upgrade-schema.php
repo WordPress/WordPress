@@ -157,7 +157,7 @@ function populate_options() {
 	add_option('blogname', 'My Weblog', 'Blog title');
 	add_option('blogdescription', 'Just another WordPress weblog', 'Short tagline');
 	add_option('new_users_can_blog', 0);
-	add_option('users_can_register', 1);
+	add_option('users_can_register', 0);
 	add_option('admin_email', 'you@example.com');
 	add_option('start_of_week', 1);
 	add_option('use_balanceTags', 1);
