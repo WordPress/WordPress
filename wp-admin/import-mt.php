@@ -66,9 +66,10 @@ set_magic_quotes_runtime(0);
 $datalines = file(MTEXPORT); // Read the file into an array
 $importdata = implode('', $datalines); // squish it
 $importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
+$importdata = preg_replace("/--------\nAUTHOR/", "--MT-ENTRY--\nAUTHOR", $importdata);
 $authors = array();
 $temp = array();
-$posts = explode("--------", $importdata);
+$posts = explode("--MT-ENTRY--", $importdata);
 
 function users_form($n) {
 	global $wpdb, $testing;
@@ -175,8 +176,8 @@ for ($x = 1; $x < $y; $x++) {
 $datalines = file(MTEXPORT); // Read the file into an array
 $importdata = implode('', $datalines); // squish it
 $importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
-
-$posts = explode("--------", $importdata);
+$importdata = preg_replace("/--------\nAUTHOR/", "--MT-ENTRY--\nAUTHOR", $importdata);
+$posts = explode("--MT-ENTRY--", $importdata);
 $i = -1;
 echo "<ol>";
 foreach ($posts as $post) { if ('' != trim($post)) {
