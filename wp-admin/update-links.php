@@ -23,22 +23,22 @@ $http_request .= "\r\n";
 $http_request .= $query_string;
 
 $response = '';
-$fs = fsockopen('api.pingomatic.com', 80, $errno, $errstr, 5);
-fwrite($fs, $http_request);
-while ( !feof($fs) )
-	$response .= fgets($fs, 1160); // One TCP-IP packet
-fclose($fs);
-
-$response = explode("\r\n\r\n", $response, 2);
-$body = trim( $response[1] );
-$body = str_replace(array("\r\n", "\r"), "\n", $body);
-
-$returns = explode("\n", $body);
-
-foreach ($returns as $return) :
-	$time = addslashes( substr($return, 0, 19) );
-	$uri = addslashes( preg_replace('/(.*?) | (.*?)/', '$2', $return) );
-	$wpdb->query("UPDATE $wpdb->links SET link_updated = '$time' WHERE link_url = '$uri'");
-endforeach;
-
+if( false !== ( $fs = fsockopen('api.pingomatic.com', 80, $errno, $errstr, 5) ) ) {
+	fwrite($fs, $http_request);
+	while ( !feof($fs) )
+		$response .= fgets($fs, 1160); // One TCP-IP packet
+	fclose($fs);
+    
+	$response = explode("\r\n\r\n", $response, 2);
+	$body = trim( $response[1] );
+	$body = str_replace(array("\r\n", "\r"), "\n", $body);
+    
+	$returns = explode("\n", $body);
+    
+	foreach ($returns as $return) :
+		$time = addslashes( substr($return, 0, 19) );
+		$uri = addslashes( preg_replace('/(.*?) | (.*?)/', '$2', $return) );
+		$wpdb->query("UPDATE $wpdb->links SET link_updated = '$time' WHERE link_url = '$uri'");
+	endforeach;
+}
 ?>
