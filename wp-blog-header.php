@@ -180,7 +180,7 @@ if ('' != $day) {
 }
 
 if ('' != $name) {
-    $name = preg_replace('/[^a-z0-9-]/', '', $name);
+    $name = preg_replace('/[^a-z0-9-_]/', '', $name);
     $where .= " AND post_name = '$name'";
 }
 
