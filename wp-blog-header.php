@@ -238,7 +238,7 @@ if ($pagenow == 'index.php') {
 			include(get_page_template());
 			exit;
 		} else if ( is_category() && file_exists("$wp_template_dir/category-" . get_query_var('cat') . '.php') ) {
-			include("$wp_template_dir/category" . get_query_var('cat') . '.php');
+			include("$wp_template_dir/category-" . get_query_var('cat') . '.php');
 			exit;		
 		} else if ( is_category() && file_exists("$wp_template_dir/category.php") ) {
 			include("$wp_template_dir/category.php");
