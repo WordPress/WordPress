@@ -15,7 +15,7 @@
    <form id="searchform" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />
-		<input type="submit" name="submit" value="<?php _e('Search'); ?>" />
+		<input type="submit" value="<?php _e('Search'); ?>" />
 	</div>
 	</form>
  </li>
