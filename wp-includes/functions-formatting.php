@@ -104,7 +104,7 @@ function wp_specialchars( $text, $quotes = 0 ) {
 	$text = str_replace('>', '&gt;', $text);
 	if ( $quotes ) {
 		$text = str_replace('"', '&quot;', $text);
-		$text = str_replace('"', '&#039;', $text);
+		$text = str_replace("'", '&#039;', $text);
 	}
 	return $text;
 }
