@@ -499,7 +499,7 @@ function make_clickable($ret) { // original function: phpBB
 	$ret = ' ' . $ret . ' ';
 	$ret = preg_replace("#(\s)http://([^\s<>{}()]+[^\s.,<>{}()])#i", "$1<a href='http://$2'>http://$2</a>", $ret);
 	$ret = preg_replace("#(\s)www\.([a-z0-9\-]+)\.([a-z0-9\-.\~]+)((?:/[^ <>{}()\n\r]*[^., <>{}()\n\r]?)?)#i", "$1<a href='http://www.$2.$3$4'>www.$2.$3$4</a>", $ret);
-	$ret = preg_replace("#(\s)([a-z0-9\-_.]+)@([^,< \n\r]+)#i", "$1<a href='mailto:$2@$3\">$2@$3</a>", $ret);
+	$ret = preg_replace("#(\s)([a-z0-9\-_.]+)@([^,< \n\r]+)#i", "$1<a href=\"mailto:$2@$3\">$2@$3</a>", $ret);
 	$ret = trim($ret);
 	return $ret;
 }
