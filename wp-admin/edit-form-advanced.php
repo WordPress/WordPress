@@ -138,10 +138,25 @@ if ($action != 'editcomment') {
     }
 }
 ?>
+<fieldset id="postcustom">
+<legend>Post Custom</legend>
+<?php 
+if($metadata = has_meta($post_ID)) {
+?>
+<?php
+	list_meta($metadata); 
+?>
+<?php
+}
+	meta_form();
+?>
+</fieldset>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 <?php echo $form_trackback; ?>
+
+
 
 <p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="Save" style="font-weight: bold;" tabindex="6" /> 
   <input name="publish" type="submit" id="publish" tabindex="10" value="Publish" /> 

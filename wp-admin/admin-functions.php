@@ -197,4 +197,121 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
     }
 }
 
+// Some postmeta stuff
+function has_meta($postid) {
+	global $wpdb, $tablepostmeta;
+
+	return $wpdb->get_results("
+		SELECT meta_key, meta_value, meta_id, post_id
+		FROM $tablepostmeta
+		WHERE post_id = $postid
+		ORDER BY meta_key,meta_id",ARRAY_A);
+
+}
+
+function list_meta($meta) {
+	global $post_ID;	
+	// Exit if no meta
+	if (!$meta) return;
+
+	
+	print "
+	<table id='meta-list'>
+		<tr>
+			<th>Key</th>
+			<th>Value</th>
+			<th>&nbsp</th>
+		</tr>\n";
+		
+	foreach ($meta as $entry) {
+		// TBD: Still need to add edit/del logic...
+		print "
+		<tr>
+			<td>{$entry['meta_key']}</td>
+			<td>{$entry['meta_value']}</td>
+			<td><a href=\"?action=deletemeta&amp;meta_id={$entry['meta_id']}&amp;post={$entry['post_id']}\">Delete</a></td>
+		</tr>\n";
+	}
+	print "
+	</table>\n";
+}
+
+// Get a list of previously defined keys
+function get_meta_keys() {
+	global $wpdb, $tablepostmeta;
+	
+	$keys = $wpdb->get_col("
+		SELECT meta_key
+		FROM $tablepostmeta
+		GROUP BY meta_key
+		ORDER BY meta_key");
+	
+	return $keys;
+}
+
+function meta_form() {
+	$keys = get_meta_keys();
+?>
+<h4>Add new custom data to this post:</h4>
+<div id="postcustomkeys">
+<p>Select existing key or enter new key</p>
+<?php
+if ($keys) {
+?>
+<select id="metakeyselect" name="metakeyselect">
+<option value="#NONE#">- Select -</option>
+<?php
+	foreach($keys as $key) {
+		echo "<option value='$key'>$key</option>\n";
+	}
+?>
+</select>
+<?php
+} // if ($keys)
+?>
+<input type="text" id="metakeyinput" name="metakeyinput" />
+</div>
+<div id="postcustomvals">
+<p>Custom Value</p>
+
+<textarea id="metavalue" name="metavalue" rows="3" cols="25"></textarea>
+</div>
+<br style="clear: both;" />
+<div id="postcustomsubmit">
+<input type="submit" id="addmeta" name="addmeta" value="Add Custom">
+</div>
+<?php
+}
+
+function add_meta($post_ID) {
+	global $wpdb, $tablepostmeta;
+	
+	$metakeyselect = trim($_POST['metakeyselect']);
+	$metakeyinput = trim($_POST['metakeyinput']);
+	$metavalue = trim($_POST['metavalue']);
+
+	if ($metavalue && (('#NONE#' != $metakeyselect) || $metakeyinput)) {
+		// We have a key/value pair. If both the select and the 
+		// input for the key have data, the input takes precedence:
+
+		if ('#NONE#' != $metakeyselect)
+			$metakey = $metakeyselect;
+				
+		if ($metakeyinput)
+			$metakey = $metakeyinput; // default
+
+		$result = $wpdb->query("
+				INSERT INTO $tablepostmeta 
+				(post_id,meta_key,meta_value) 
+				VALUES ('$post_ID','$metakey','$metavalue')
+			");
+	}
+} // add_meta
+
+function del_meta($mid) {
+	global $wpdb, $tablepostmeta;
+	
+	$result = $wpdb->query("DELETE FROM $tablepostmeta WHERE meta_id = '$mid'");
+}
+
 ?>

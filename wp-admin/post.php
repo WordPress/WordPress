@@ -37,6 +37,20 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 
 switch($action) {
 
+	case 'deletemeta':
+	        $standalone = 1;
+	        require_once('./admin-header.php');
+	        
+	        $post_ID = intval($_GET['post']);
+
+			$location = "post.php?action=edit&post=$post_ID";
+	
+			del_meta($_GET['meta_id']);
+			
+			header("Location: $location");
+
+			break;
+
     case 'post':
 
 			$standalone = 1;
@@ -149,6 +163,8 @@ switch($action) {
 				");
 			}
 		}
+
+		add_meta($post_ID);
 		
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
                 sleep($sleep_after_edit);
@@ -376,7 +392,9 @@ switch($action) {
 				}
 			}
         } // end if publish
-        
+
+		add_meta($post_ID);
+
 		if ($HTTP_POST_VARS['save']) {
 			$location = $HTTP_SERVER_VARS['HTTP_REFERER'];
 		} else {
