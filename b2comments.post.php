@@ -97,7 +97,7 @@ if ($ok) {
 		$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$user_ip\r\n";
 		$notify_message .= "Comment: \n".stripslashes($original_comment)."\r\n\r\n";
 		$notify_message .= "You can see all comments on this post here: \r\n";
-		$notify_message .= "$siteurl/?p=$comment_post_ID&c=1";
+		$notify_message .= $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1#comments';
  
 		$postdata = get_postdata($comment_post_ID);
 		$authordata = get_userdata($postdata['Author_ID']);
