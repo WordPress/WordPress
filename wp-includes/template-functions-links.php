@@ -187,14 +187,14 @@ function get_feed_link($feed='rss2') {
         case 'comments_rss2':
             $output = $feed_url .'/wp-commentsrss2.php';
             if ($do_perma) {
-                $output = $comment_feed_url . '/rss2/';
+                $output = $comment_feed_url . '/';
             }
             break;
         case 'rss2':
         default:
             $output = $feed_url .'/wp-rss2.php';
             if ($do_perma) {
-                $output = $feed_url . '/rss2/';
+                $output = $feed_url . '/';
             }
             break;
     }

@@ -35,9 +35,9 @@ $more = 1;
 
 		<guid><?php the_permalink($id); ?></guid>
 <?php if (get_settings('rss_use_excerpt')) : ?>
-		<description><?php the_excerpt_rss() ?></description>
+		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php else : ?>
-		<description><?php the_excerpt_rss() ?></description>
+		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 	<?php if ( strlen( $post->post_content ) > 0 ) : ?>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 	<?php else : ?>
