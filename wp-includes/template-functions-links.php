@@ -4,6 +4,10 @@ function the_permalink() {
 	echo get_permalink();
 }
 
+function permalink_link() { // For backwards compatibility
+	echo get_permalink();
+}
+
 function permalink_anchor($mode = 'id') {
     global $id, $post;
     switch(strtolower($mode)) {
