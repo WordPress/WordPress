@@ -124,12 +124,12 @@ default:
 		}
 		$redirect_to = 'wp-admin/';
 	}
-	
-	$user = get_userdatabylogin($user_login);
-	if ( 0 == $user->user_level )
-		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 
 	if ($user_login && $user_pass) {
+		$user = get_userdatabylogin($user_login);
+		if ( 0 == $user->user_level )
+			$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
+
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if (! $using_cookie) {
 				$user_pass = md5(md5($user_pass)); // Double hash the password in the cookie.
