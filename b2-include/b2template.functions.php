@@ -189,14 +189,14 @@ function get_archives($type, $limit='') {
 /***** Date/Time tags *****/
 
 function the_date($d='', $before='', $after='', $echo = true) {
-	global $id, $postdata, $day, $previousday, $dateformat, $newday;
+	global $id, $post, $day, $previousday, $dateformat, $newday;
 	$the_date = '';
 	if ($day != $previousday) {
 		$the_date .= $before;
 		if ($d=='') {
-			$the_date .= mysql2date($dateformat, $postdata['Date']);
+			$the_date .= mysql2date($dateformat, $post->post_date);
 		} else {
-			$the_date .= mysql2date($d, $postdata['Date']);
+			$the_date .= mysql2date($d, $post->post_date);
 		}
 		$the_date .= $after;
 		$previousday = $day;
@@ -210,11 +210,11 @@ function the_date($d='', $before='', $after='', $echo = true) {
 }
 
 function the_time($d='', $echo = true) {
-	global $id,$postdata,$timeformat;
+	global $id, $post, $timeformat;
 	if ($d=='') {
-		$the_time = mysql2date($timeformat, $postdata['Date']);
+		$the_time = mysql2date($timeformat, $post->post_date);
 	} else {
-		$the_time = mysql2date($d, $postdata['Date']);
+		$the_time = mysql2date($d, $post->post_date);
 	}
 	$the_time = apply_filters('the_time', $the_time);
 	if ($echo) {
@@ -225,18 +225,18 @@ function the_time($d='', $echo = true) {
 }
 
 function the_weekday() {
-	global $weekday,$id,$postdata;
-	$the_weekday = $weekday[mysql2date('w', $postdata['Date'])];
+	global $weekday, $id, $post;
+	$the_weekday = $weekday[mysql2date('w', $post->post_date)];
 	$the_weekday = apply_filters('the_weekday', $the_weekday);
 	echo $the_weekday;
 }
 
 function the_weekday_date($before='',$after='') {
-	global $weekday,$id,$postdata,$day,$previousweekday;
+	global $weekday, $id, $post, $day, $previousweekday;
 	$the_weekday_date = '';
 	if ($day != $previousweekday) {
 		$the_weekday_date .= $before;
-		$the_weekday_date .= $weekday[mysql2date('w', $postdata['Date'])];
+		$the_weekday_date .= $weekday[mysql2date('w', $post->post_date)];
 		$the_weekday_date .= $after;
 		$previousweekday = $day;
 	}
@@ -252,7 +252,7 @@ function the_weekday_date($before='',$after='') {
 /***** Author tags *****/
 
 function the_author() {
-	global $id,$authordata;
+	global $id, $authordata;
 	$i = $authordata['user_idmode'];
 	if ($i == 'nickname')	echo $authordata['user_nickname'];
 	if ($i == 'login')	echo $authordata['user_login'];
@@ -308,7 +308,7 @@ function the_author_msn() {
 }
 
 function the_author_posts() {
-	global $id,$postdata;	$posts=get_usernumposts($postdata['Author_ID']);	echo $posts;
+	global $id,$postdata;	$posts=get_usernumposts($post->post_author);	echo $posts;
 }
 
 /***** // Author tags *****/
@@ -323,7 +323,7 @@ function the_ID() {
 	echo $id;
 }
 
-function the_title($before='',$after='') {
+function the_title($before='', $after='') {
 	$title = get_the_title();
 	$title = convert_bbcode($title);
 	$title = convert_gmcode($title);
@@ -352,14 +352,14 @@ function the_title_unicode($before='',$after='') {
 	}
 }
 function get_the_title() {
-	global $id, $postdata;
-	$output = stripslashes($postdata['Title']);
+	global $id, $post;
+	$output = stripslashes($post->post_title);
 	$output = apply_filters('the_title', $output);
 	return($output);
 }
 
 function the_content($more_link_text='(more...)', $stripteaser=0, $more_file='') {
-	$content = get_the_content($more_link_text,$stripteaser,$more_file);
+	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = convert_bbcode($content);
 	$content = convert_gmcode($content);
 	$content = convert_smilies($content);
@@ -368,7 +368,7 @@ function the_content($more_link_text='(more...)', $stripteaser=0, $more_file='')
 	echo $content;
 }
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
-	$content = get_the_content($more_link_text,$stripteaser,$more_file);
+	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = convert_bbcode($content);
 	$content = convert_gmcode($content);
 	$content = convert_chars($content, 'unicode');
@@ -400,8 +400,9 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 	}
 	echo $content;
 }
+
 function the_content_unicode($more_link_text='(more...)', $stripteaser=0, $more_file='') {
-	$content = get_the_content($more_link_text,$stripteaser,$more_file);
+	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = convert_bbcode($content);
 	$content = convert_gmcode($content);
 	$content = convert_smilies($content);
@@ -409,24 +410,25 @@ function the_content_unicode($more_link_text='(more...)', $stripteaser=0, $more_
 	$content = apply_filters('the_content_unicode', $content);
 	echo $content;
 }
+
 function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file='') {
-	global $id,$postdata,$more,$c,$withcomments,$page,$pages,$multipage,$numpages;
+	global $id, $post, $more, $c, $withcomments, $page, $pages, $multipage, $numpages;
 	global $HTTP_SERVER_VARS, $preview;
 	global $querystring_start, $querystring_equal, $querystring_separator;
     global $pagenow;
 	$output = '';
 	if ($more_file != '') {
-		$file=$more_file;
+		$file = $more_file;
 	} else {
-		$file=$pagenow; //$HTTP_SERVER_VARS['PHP_SELF'];
+		$file = $pagenow; //$HTTP_SERVER_VARS['PHP_SELF'];
 	}
-	$content=$pages[$page-1];
-	$content=explode('<!--more-->', $content);
-	if ((preg_match('/<!--noteaser-->/', $postdata['Content']) && ((!$multipage) || ($page==1))))
-		$stripteaser=1;
-	$teaser=$content[0];
+	$content = $pages[$page-1];
+	$content = explode('<!--more-->', $content);
+	if ((preg_match('/<!--noteaser-->/', $post->post_content) && ((!$multipage) || ($page==1))))
+		$stripteaser = 1;
+	$teaser = $content[0];
 	if (($more) && ($stripteaser))
-		$teaser='';
+		$teaser = '';
 	$output .= $teaser;
 	if (count($content)>1) {
 		if ($more) {
@@ -496,10 +498,10 @@ function the_excerpt_unicode() {
 }
 
 function get_the_excerpt($fakeit = false) {
-	global $id,$postdata;
+	global $id, $post;
 	global $HTTP_SERVER_VARS, $preview;
 	$output = '';
-	$output = $postdata['Excerpt'];
+	$output = $post->post_excerpt;
     //if we haven't got an excerpt, make one in the style of the rss ones
     if (($output == '') && $fakeit) {
         $output = get_the_content();
@@ -527,7 +529,7 @@ function get_the_excerpt($fakeit = false) {
 
 
 function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', $pagelink='%', $more_file='') {
-	global $id,$page,$numpages,$multipage,$more;
+	global $id, $page, $numpages, $multipage, $more;
 	global $pagenow;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if ($more_file != '') {
@@ -573,18 +575,18 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 
 
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
-	global $tableposts, $id, $postdata, $siteurl, $blogfilename, $querycount;
+	global $tableposts, $id, $post, $siteurl, $blogfilename, $querycount, $wpdb;
 	global $p, $posts, $posts_per_page, $s;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 
 	if(($p) || ($posts_per_page==1)) {
 		
-		$current_post_date = $postdata['Date'];
-		$current_category = $postdata['Category'];
+		$current_post_date = $post->post_date;
+		$current_category = $post->post_category;
 
 		$sqlcat = '';
 		if ($in_same_cat != 'no') {
-			$sqlcat = " AND post_category='$current_category' ";
+			$sqlcat = " AND post_category = '$current_category' ";
 		}
 
 		$sql_exclude_cats = '';
@@ -597,33 +599,26 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 		}
 
 		$limitprev--;
-		$sql = "SELECT ID,post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev,1";
-
-		$query = @mysql_query($sql);
+		$lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
 		++$querycount;
-		if (($query) && (mysql_num_rows($query))) {
-			$p_info = mysql_fetch_object($query);
-			$p_title = $p_info->post_title;
-			$p_id = $p_info->ID;
-			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$p_id.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$previous;
-			if (!($title!='yes')) {
-				$string .= wptexturize(stripslashes($p_title));
-			}
+		if ($lastpost) {
+			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$lastpost->ID.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$previous;
+			$string .= wptexturize(stripslashes($lastpost->post_title));
 			$string .= '</a>';
-			$format = str_replace('%',$string,$format);
+			$format = str_replace('%', $string, $format);
 			echo $format;
 		}
 	}
 }
 
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-	global $tableposts, $p, $posts, $id, $postdata, $siteurl, $blogfilename, $querycount;
+	global $tableposts, $p, $posts, $id, $post, $siteurl, $blogfilename, $querycount;
 	global $time_difference;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if(($p) || ($posts==1)) {
 		
-		$current_post_date = $postdata['Date'];
-		$current_category = $postdata['Category'];
+		$current_post_date = $post->post_date;
+		$current_category = $post->post_category;
 
 		$sqlcat = '';
 		if ($in_same_cat != 'no') {
@@ -642,20 +637,16 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 		$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 
 		$limitnext--;
-		$sql = "SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1";
 
-		$query = @mysql_query($sql);
+		$nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1");
 		++$querycount;
-		if (($query) && (mysql_num_rows($query))) {
-			$p_info = mysql_fetch_object($query);
-			$p_title = $p_info->post_title;
-			$p_id = $p_info->ID;
-			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$p_id.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$next;
+		if ($nextpost) {
+			$string = '<a href="'.$blogfilename.$querystring_start.'p'.$querystring_equal.$nextpost->ID.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1">'.$next;
 			if ($title=='yes') {
-				$string .= wptexturize(stripslashes($p_title));
+				$string .= wptexturize(stripslashes($nextpost->post_title));
 			}
 			$string .= '</a>';
-			$format = str_replace('%',$string,$format);
+			$format = str_replace('%', $string, $format);
 			echo $format;
 		}
 	}
@@ -787,16 +778,14 @@ function the_category_unicode() {
 	$category = apply_filters('the_category_unicode', $category);
 	echo convert_chars($category, 'unicode');
 }
+
 function get_the_category() {
-	global $id,$postdata,$tablecategories,$querycount,$cache_categories,$use_cache;
-	$cat_ID = $postdata['Category'];
+	global $post, $tablecategories, $querycount, $cache_categories, $use_cache, $wpdb;
+	$cat_ID = $post->post_category;
 	if ((empty($cache_categories[$cat_ID])) OR (!$use_cache)) {
-		$query="SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'";
-		$result=mysql_query($query);
+		$cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
 		++$querycount;
-		$myrow = mysql_fetch_array($result);
-		$cat_name = $myrow[0];
-		$cache_categories[$cat_ID] = $cat_name;
+		$cache_categories[$cat_ID] = &$cat_name;
 	} else {
 		$cat_name = $cache_categories[$cat_ID];
 	}
@@ -804,14 +793,11 @@ function get_the_category() {
 }
 
 function get_the_category_by_ID($cat_ID) {
-	global $id,$tablecategories,$querycount,$cache_categories,$use_cache;
+	global $tablecategories, $querycount, $cache_categories, $use_cache, $wpdb;
 	if ((!$cache_categories[$cat_ID]) OR (!$use_cache)) {
-		$query="SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'";
-		$result=mysql_query($query);
+		$cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
 		++$querycount;
-		$myrow = mysql_fetch_array($result);
-		$cat_name = $myrow[0];
-		$cache_categories[$cat_ID] = $cat_name;
+		$cache_categories[$cat_ID] = &$cat_name;
 	} else {
 		$cat_name = $cache_categories[$cat_ID];
 	}
@@ -819,12 +805,13 @@ function get_the_category_by_ID($cat_ID) {
 }
 
 function the_category_ID() {
-	global $id,$postdata;	echo $postdata['Category'];
+	global $post;
+	echo $post->post_category;
 }
 
-function the_category_head($before='',$after='') {
-	global $id, $postdata, $currentcat, $previouscat,$dateformat,$newday;
-	$currentcat = $postdata['Category'];
+function the_category_head($before='', $after='') {
+	global $post, $currentcat, $previouscat, $dateformat, $newday;
+	$currentcat = $post->post_category;
 	if ($currentcat != $previouscat) {
 		echo $before;
 		echo get_the_category_by_ID($currentcat);
@@ -835,46 +822,43 @@ function the_category_head($before='',$after='') {
 
 // out of the b2 loop
 function dropdown_cats($optionall = 1, $all = 'All') {
-	global $cat, $tablecategories, $querycount;
-	$query="SELECT * FROM $tablecategories";
-	$result=mysql_query($query);
+	global $cat, $tablecategories, $querycount, $wpdb;
+	$categories = $wpdb->get_results("SELECT cat_ID, cat_name FROM $tablecategories");
 	++$querycount;
-	echo "<select name=\"cat\" class=\"postform\">\n";
+	echo "<select name='cat' class='postform'>\n";
 	if (intval($optionall) == 1) {
-		echo "\t<option value=\"all\">$all</option>\n";
+		echo "\t<option value='all'>$all</option>\n";
 	}
-	while($row = mysql_fetch_object($result)) {
-		echo "\t<option value=\"".$row->cat_ID."\"";
-		if ($row->cat_ID == $cat)
+	foreach ($categories as $category) {
+		echo "\t<option value=\"".$category->cat_ID."\"";
+		if ($category->cat_ID == $cat)
 			echo ' selected="selected"';
-		echo '>'.stripslashes($row->cat_name)."</option>\n";
+		echo '>'.stripslashes($category->cat_name)."</option>\n";
 	}
 	echo "</select>\n";
 }
 
 // out of the b2 loop
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = 'blah', $list=true) {
-	global $tablecategories, $querycount;
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = 'blah', $list = true) {
+	global $tablecategories, $querycount, $wpdb;
 	global $pagenow;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	$file = ($file == 'blah') ? $pagenow : $file;
 	$sort_column = 'cat_'.$sort_column;
-	$query="SELECT * FROM $tablecategories WHERE cat_ID > 0 ORDER BY $sort_column $sort_order";
-	$result=mysql_query($query);
+	$categories = $wpdb->get_results("SELECT * FROM $tablecategories WHERE cat_ID > 0 ORDER BY $sort_column $sort_order");
 	++$querycount;
 	if (intval($optionall) == 1) {
 		$all = apply_filters('list_cats', $all);
 		if ($list) echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a></li>";
 		else echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a><br />\n";
 	}
-	while($row = mysql_fetch_object($result)) {
-		$cat_name = $row->cat_name;
-		$cat_name = apply_filters('list_cats', $cat_name);
+	foreach ($categories as $category) {
+		$cat_name = apply_filters('list_cats', $category->cat_name);
 		if ($list) {
-			echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$row->cat_ID.'">';
+			echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
 			echo stripslashes($cat_name)."</a></li>";
 		} else {
-			echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$row->cat_ID.'">';
+			echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
 			echo stripslashes($cat_name)."</a><br />\n";
 		}
 	}
@@ -1080,50 +1064,8 @@ function trackback_url($display = true) {
 	}
 }
 
-function trackback_number($zero='no trackback', $one='1 trackback', $more='% trackbacks') {
-	global $id, $tablecomments, $tb, $querycount, $cache_trackbacknumber, $use_cache;
-	$number = generic_ctp_number($id, 'trackbacks');
-	if ($number == 0) {
-		$blah = $zero;
-	} elseif ($number == 1) {
-		$blah = $one;
-	} elseif ($number  > 1) {
-		$n = $number;
-		$more=str_replace('%', $n, $more);
-		$blah = $more;
-	}
-	echo $blah;
-}
 
-function trackback_link($file='') {
-	global $id,$pagenow;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-	if ($file == '')	$file = $pagenow;
-	if ($file == '/')	$file = '';
-	echo $file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'tb'.$querystring_equal.'1#trackback';
-}
-
-function trackback_popup_link($zero='no trackback', $one='1 trackback', $more='% trackbacks', $CSSclass='') {
-	global $id, $b2trackbackpopupfile, $b2commentsjavascript;
-	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-	echo '<a href="'.$siteurl.'/';
-	if ($b2commentsjavascript) {
-		echo $b2trackbackpopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'tb'.$querystring_equal.'1';
-		echo '" onclick="b2open(this.href); return false"';
-	} else {
-		// if comments_popup_script() is not in the template, display simple comment link
-		trackback_link();
-		echo '"';
-	}
-	if (!empty($CSSclass)) {
-		echo ' class="'.$CSSclass.'"';
-	}
-	echo '>';
-	trackback_number($zero, $one, $more);
-	echo '</a>';
-}
-
-function trackback_rdf($timezone=0) {
+function trackback_rdf($timezone = 0) {
 	global $siteurl, $id, $HTTP_SERVER_VARS;
 	if (!stristr($HTTP_SERVER_VARS['HTTP_USER_AGENT'], 'W3C_Validator')) {
 		echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" '."\n";
@@ -1145,65 +1087,13 @@ function trackback_rdf($timezone=0) {
 /***** // TrackBack tags *****/
 
 
-
-/***** PingBack tags *****/
-
-function pingback_number($zero='no pingback', $one='1 pingback', $more='% pingbacks') {
-	global $id, $tablecomments, $tb, $querycount, $cache_pingbacknumber, $use_cache;
-	$number = generic_ctp_number($id, 'pingbacks');
-	if ($number == 0) {
-		$blah = $zero;
-	} elseif ($number == 1) {
-		$blah = $one;
-	} elseif ($number  > 1) {
-		$n = $number;
-		$more=str_replace('%', $n, $more);
-		$blah = $more;
-	}
-	echo $blah;
-}
-
-function pingback_link($file='') {
-	global $id,$pagenow;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-	if ($file == '')	$file = $pagenow;
-	if ($file == '/')	$file = '';
-	echo $file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'pb'.$querystring_equal.'1#pingbacks';
-}
-
-function pingback_popup_link($zero='no pingback', $one='1 pingback', $more='% pingbacks', $CSSclass='') {
-	global $id, $b2pingbackpopupfile, $b2commentsjavascript;
-	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-	echo '<a href="'.$siteurl.'/';
-	if ($b2commentsjavascript) {
-		echo $b2pingbackpopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'pb'.$querystring_equal.'1';
-		echo '" onclick="b2open(this.href); return false"';
-	} else {
-		// if comments_popup_script() is not in the template, display simple comment link
-		pingback_link();
-		echo '"';
-	}
-	if (!empty($CSSclass)) {
-		echo ' class="'.$CSSclass.'"';
-	}
-	echo '>';
-	pingback_number($zero, $one, $more);
-	echo '</a>';
-}
-
-
-
-/***** // PingBack tags *****/
-
-
-
 /***** Permalink tags *****/
 
 function permalink_anchor($mode = 'id') {
-	global $id, $postdata;
+	global $id, $post;
 	switch(strtolower($mode)) {
 		case 'title':
-			$title = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $postdata['Title']);
+			$title = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $post->post_title);
 			echo '<a name="'.$title.'"></a>';
 			break;
 		case 'id':
@@ -1214,12 +1104,12 @@ function permalink_anchor($mode = 'id') {
 }
 
 function permalink_link($file='', $mode = 'id') {
-	global $id, $postdata, $pagenow, $cacheweekly;
+	global $id, $post, $pagenow, $cacheweekly, $wpdb, $querycount;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	$file = ($file=='') ? $pagenow : $file;
 	switch(strtolower($mode)) {
 		case 'title':
-			$title = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $postdata['Title']);
+			$title = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $post->post_title);
 			$anchor = $title;
 			break;
 		case 'id':
@@ -1230,19 +1120,17 @@ function permalink_link($file='', $mode = 'id') {
 	$archive_mode = get_settings('archive_mode');
 	switch($archive_mode) {
 		case 'daily':
-			echo $file.$querystring_start.'m'.$querystring_equal.substr($postdata['Date'],0,4).substr($postdata['Date'],5,2).substr($postdata['Date'],8,2).'#'.$anchor;
+			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).substr($post->post_date,5,2).substr($postdata['Date'],8,2).'#'.$anchor;
 			break;
 		case 'monthly':
-			echo $file.$querystring_start.'m'.$querystring_equal.substr($postdata['Date'],0,4).substr($postdata['Date'],5,2).'#'.$anchor;
+			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).substr($post->post_date,5,2).'#'.$anchor;
 			break;
 		case 'weekly':
 			if((!isset($cacheweekly)) || (empty($cacheweekly[$postdata['Date']]))) {
-				$sql = "SELECT WEEK('".$postdata['Date']."')";
-				$result = mysql_query($sql);
-				$row = mysql_fetch_row($result);
-				$cacheweekly[$postdata['Date']] = $row[0];
+				$cacheweekly[$post->post_date] = $wpdb->get_var("SELECT WEEK('$post->post_date')");
+				++$querycount;
 			}
-			echo $file.$querystring_start.'m'.$querystring_equal.substr($postdata['Date'],0,4).$querystring_separator.'w'.$querystring_equal.$cacheweekly[$postdata['Date']].'#'.$anchor;
+			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).$querystring_separator.'w'.$querystring_equal.$cacheweekly[$post->post_date].'#'.$anchor;
 			break;
 		case 'postbypost':
 			echo $file.$querystring_start.'p'.$querystring_equal.$id;
@@ -1251,15 +1139,15 @@ function permalink_link($file='', $mode = 'id') {
 }
 
 function permalink_single($file='') {
-	global $id,$postdata,$pagenow;
+	global $id, $pagenow;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if ($file=='')
-		$file=$pagenow;
+		$file = $pagenow;
 	echo $file.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'more'.$querystring_equal.'1'.$querystring_separator.'c'.$querystring_equal.'1';
 }
 
-function permalink_single_rss($file='b2rss.xml') {
-	global $id,$postdata,$pagenow,$siteurl,$blogfilename;
+function permalink_single_rss($file = 'b2rss.php') {
+	global $id, $pagenow, $siteurl, $blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 		echo $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
 }
@@ -1278,7 +1166,6 @@ function start_b2() {
 	global $HTTP_GET_VARS;
 	if (!$preview) {
 		$id = $post->ID;
-		$postdata=get_postdata2($id);
 	} else {
 		$id = 0;
 		$postdata = array (
@@ -1289,36 +1176,31 @@ function start_b2() {
 			'Excerpt' => $HTTP_GET_VARS['preview_excerpt'],
 			'Title' => $HTTP_GET_VARS['preview_title'],
 			'Category' => $HTTP_GET_VARS['preview_category'],
-			'Notify' => 1,
-			'Clickable' => 1,
-			'Karma' => 0 // this isn't used yet
+			'Notify' => 1
 			);
-		if (!empty($HTTP_GET_VARS['preview_autobr'])) {
-			$postdata['Content'] = autobrize($postdata['Content']);
-		}
 	}
-	$authordata = get_userdata($postdata['Author_ID']);
-	$day = mysql2date('d.m.y',$postdata['Date']);
-	$currentmonth = mysql2date('m',$postdata['Date']);
-	$numpages=1;
+	$authordata = get_userdata($post->post_author);
+	$day = mysql2date('d.m.y', $post->post_date);
+	$currentmonth = mysql2date('m', $post->post_date);
+	$numpages = 1;
 	if (!$page)
-		$page=1;
+		$page = 1;
 	if (isset($p))
-		$more=1;
-	$content = $postdata['Content'];
-	if (preg_match('/<!--nextpage-->/', $postdata['Content'])) {
+		$more = 1;
+	$content = $post->post_content;
+	if (preg_match('/<!--nextpage-->/', $post->post_content)) {
 		if ($page > 1)
-			$more=1;
-		$multipage=1;
-		$content=stripslashes($postdata['Content']);
+			$more = 1;
+		$multipage = 1;
+		$content = stripslashes($post->post_content);
 		$content = str_replace("\n<!--nextpage-->\n", '<!--nextpage-->', $content);
 		$content = str_replace("\n<!--nextpage-->", '<!--nextpage-->', $content);
 		$content = str_replace("<!--nextpage-->\n", '<!--nextpage-->', $content);
-		$pages=explode('<!--nextpage-->', $content);
-		$numpages=count($pages);
+		$pages = explode('<!--nextpage-->', $content);
+		$numpages = count($pages);
 	} else {
-		$pages[0]=stripslashes($postdata['Content']);
-		$multipage=0;
+		$pages[0] = stripslashes($post->post_content);
+		$multipage = 0;
 	}
 	return true;
 }
