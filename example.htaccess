@@ -5,6 +5,10 @@
 	php_flag register_globals off
 </IfModule>
 
+# this will set the error_reporting level to remove 'Notices'
+<IfModule mod_php4.c>
+    php_value error_reporting 247
+</IfModule>
 
 
 # this is used to make b2 produce links like http://example.com/archives/m/200209
