@@ -538,8 +538,7 @@ foreach ($option_data as $query) {
 <p>OK. We're nearly done now. We just need to ask you a couple of things:</p>
 <form action="wp-install.php?step=3" method="post">
 <input type="hidden" name="step" value="3" />
-What is the url for your blog? <input type="text" name="url" length="50" />.
-OK on to <input type="submit" value="Step 3" >
+What is the url for your blog? <input type="text" name="url" length="50" />, now on to <input type="submit" value="Step 3" >
 </form>
 
 <?php
