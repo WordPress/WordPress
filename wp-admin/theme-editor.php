@@ -120,7 +120,7 @@ if ($allowed_files) :
 	<?php
 	if (!$error) {
 	?> 
-  <form name="template" id="template" action="theme-editor.php" method="post">a
+  <form name="template" id="template" action="theme-editor.php" method="post">
 		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea> 
      <input type="hidden" name="action" value="update" /> 
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 
