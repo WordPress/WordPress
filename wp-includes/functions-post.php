@@ -84,7 +84,7 @@ function wp_get_recent_posts($num = 10) {
 		$limit = "LIMIT $num";
 	}
 
-	$sql = "SELECT * FROM $wpdb->posts ORDER BY post_date DESC $limit";
+	$sql = "SELECT * FROM $wpdb->posts WHERE post_status IN ('publish', 'draft', 'private') ORDER BY post_date DESC $limit";
 	$result = $wpdb->get_results($sql,ARRAY_A);
 
 	return $result?$result:array();
