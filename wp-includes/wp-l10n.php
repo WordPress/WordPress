@@ -1,8 +1,16 @@
 <?php
 $curpath = dirname(__FILE__).'/';
 
-// The locale is hard-coded here for now.
-$locale = 'en_US';
+$locale = '';
+
+// WPLANG is defined in wp-config.
+if (defined('WPLANG')) {
+    $locale = WPLANG;
+}
+
+if (empty($locale)) {
+    $locale = 'en_US';
+}
 
 $mofile = $curpath . "/languages/$locale.mo";
 

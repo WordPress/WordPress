@@ -12,6 +12,12 @@ define('DB_HOST', 'localhost');     // 99% chance you won't need to change this 
 
 $table_prefix  = 'wp_';   // example: 'wp_' or 'b2' or 'mylogin_'
 
+// Change this to localize WordPress.  A corresponding MO file for the
+// chosen language must be installed to wp-includes/languages.
+// For example, install de.mo to wp-includes/languages and set WPLANG to 'de'
+// to enable German lanuage support.
+define ('WPLANG', '');
+
 /* Stop editing */
 
 $server = DB_HOST;
