@@ -447,9 +447,10 @@ function wp_new_comment( $commentdata, $spam = false ) {
 	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' OR comment_author_email = '$email' ORDER BY comment_date DESC LIMIT 1") ) {
 		$time_lastcomment = mysql2date('U', $lasttime);
 		$time_newcomment  = mysql2date('U', $now_gmt);
-		if ( ($time_newcomment - $time_lastcomment) < 15 )
+		if ( ($time_newcomment - $time_lastcomment) < 15 ) {
 			do_action('comment_flood_trigger', '');
 			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
+		}
 	}
 
 	if ( check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) )
