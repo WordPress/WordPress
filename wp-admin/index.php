@@ -97,7 +97,7 @@ if ( $rss ) {
 $rss->items = array_slice($rss->items, 0, 4);
 foreach ($rss->items as $item ) {
 ?>
-<h4><a href='<?php echo $item['link']; ?>'><?php echo wp_specialchars($item['title']); ?></a></h4>
+<h4><a href='<?php echo $item['link']; ?>'><?php echo wp_specialchars($item['title']); ?></a> &#8212; <?php echo human_time_diff( strtotime($item['pubdate'], time() ) ); ?> <?php _e('ago'); ?></h4>
 <p><?php echo $item['description']; ?></p>
 <?php
 	}
