@@ -1496,7 +1496,12 @@ function comment_ID() {
 
 function comment_author() {
 	global $comment;
-	echo stripslashes($comment->comment_author);
+	if (!empty($comment->comment_author)) {
+		echo htmlspecialchars(stripslashes($comment->comment_author));
+	}
+	else {
+		echo "Anonymous";
+	}
 }
 
 function comment_author_email() {
@@ -1508,7 +1513,10 @@ function comment_author_link() {
 	global $comment;
 	$url = trim(stripslashes($comment->comment_author_url));
 	$email = stripslashes($comment->comment_author_email);
-	$author = stripslashes($comment->comment_author);
+	$author = htmlspecialchars(stripslashes($comment->comment_author));
+	if (empty($author)) {
+		$author = "Anonymous";
+	}
 
 	$url = str_replace('http://url', '', $url);
 
@@ -1619,7 +1627,12 @@ function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp
 
 function comment_author_rss() {
 	global $comment;
-	echo strip_tags(stripslashes($comment->comment_author));
+	if (!empty($comment->comment_author)) {
+		echo htmlspecialchars(strip_tags(stripslashes($comment->comment_author)));
+	}
+	else {
+		echo "Anonymous";
+	}
 }
 
 function comment_text_rss() {
