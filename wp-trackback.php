@@ -1,6 +1,10 @@
 <?php
-$doing_trackback = 1;
-require('./wp-config.php');
+
+if ( !$doing_trackback) {
+    $doing_trackback = 1;
+    require('wp-blog-header.php');
+}
+
 include_once (ABSPATH . WPINC . '/functions-post.php');
 
 function trackback_response($error = 0, $error_message = '') {
@@ -30,11 +34,6 @@ $tb_url = $_POST['url'];
 $title = $_POST['title'];
 $excerpt = $_POST['excerpt'];
 $blog_name = $_POST['blog_name'];
-
-if ( !$doing_trackback) {
-    $doing_trackback = 1;
-    require('./wp-blog-header.php');
-}
 
 if ( is_single() ) 
     $tb_id = $posts[0]->ID;

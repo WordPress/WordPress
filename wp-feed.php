@@ -13,7 +13,7 @@ if ($feed == '' || $feed == 'feed') {
     $feed = 'rss2';
 }
 
-if ( (($p != '') && ($p != 'all')) || ($name != '') || ($withcomments == 1) ) {
+if ( is_single() || ($withcomments == 1) ) {
     require('wp-commentsrss2.php');
 } else {
     switch ($feed) {

@@ -1222,8 +1222,7 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
         $post_rewrite = array($feedmatch => $feedquery, $pagematch => $pagequery, $match => $query) + $post_rewrite;
 
         if ($post) {
-            $post_rewrite = array($trackbackmatch =top
-> $trackbackquery) + $post_rewrite;
+            $post_rewrite = array($trackbackmatch => $trackbackquery) + $post_rewrite;
         }
     }
 
