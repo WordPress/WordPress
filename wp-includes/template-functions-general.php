@@ -77,6 +77,22 @@ function get_bloginfo($show='') {
         case 'pingback_url':
             $output = get_settings('siteurl') .'/xmlrpc.php';
             break;
+		case 'stylesheet_url':
+			$output = get_settings('stylesheet');;
+			if (empty($output) || $output == 'default') {
+				$output = get_settings('home') . "/wp-layout.css";
+			} else {
+				$output = get_settings('home') . "/wp-content/themes/$output/style.css";
+			}
+			break;
+		case 'template_url':
+			$output = get_settings('template');;
+			if (empty($output) || $output == 'default') {
+				$output = get_settings('home');
+			} else {
+				$output = get_settings('home') . "/wp-content/themes/$output";
+			}
+			break;
         case 'admin_email':
             $output = get_settings('admin_email');
             break;

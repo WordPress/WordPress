@@ -66,6 +66,10 @@ if ((isset($_GET['error']) && $_GET['error'] == '404') ||
 		    unset($_GET['error']);
 		}
 
+		if (isset($error)) {
+		    unset($error);
+		}
+
                 break;
             }
         }
@@ -101,7 +105,9 @@ if (1 == $tb) {
 
 // Sending HTTP headers
 
-if ( !isset($doing_rss) || !$doing_rss ) {
+if (is_404()) {
+	header("HTTP/1.x 404 Not Found");
+} else if ( !isset($doing_rss) || !$doing_rss ) {
 	@header ('X-Pingback: '. get_settings('siteurl') . '/xmlrpc.php');
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
@@ -183,46 +189,63 @@ if (1 == count($posts)) {
 $wp_did_header = true;
 endif;
 
+$wp_template = get_settings('template');
+
+if ($wp_template == 'default') {
+  $wp_template = '';
+}
+
+if (! empty($wp_template)) {
+  $wp_template = "themes/$wp_template/";
+}
+
 // Template redirection
-if (is_single() && (! isset($wp_did_single)) &&
-    file_exists(ABSPATH . 'wp-content/single.php')) {
+if ($pagenow != get_settings('blogfilename')) {
+	// Noop.
+} else if (is_home() && (! isset($wp_did_home)) &&
+    file_exists(ABSPATH . "wp-content/${wp_template}index.php")) {
+  $wp_did_home = true;
+  include(ABSPATH . "wp-content/${wp_template}index.php");
+  exit;
+} else if (is_single() && (! isset($wp_did_single)) &&
+    file_exists(ABSPATH . "wp-content/${wp_template}single.php")) {
   $wp_did_single = true;
-  include(ABSPATH . 'wp-content/single.php');
+  include(ABSPATH . "wp-content/${wp_template}single.php");
   exit;
 } else if (is_page() && (! isset($wp_did_page)) &&
-	    file_exists(ABSPATH . 'wp-content/page.php')) {
+	    file_exists(ABSPATH . "wp-content/${wp_template}page.php")) {
   $wp_did_page = true;
-  include(ABSPATH . 'wp-content/page.php');
+  include(ABSPATH . "wp-content/${wp_template}page.php");
   exit;
 } else if (is_category() && (! isset($wp_did_category)) &&
-	   file_exists(ABSPATH . 'wp-content/category.php')) {
+	   file_exists(ABSPATH . "wp-content/${wp_template}category.php")) {
   $wp_did_category = true;
-  include(ABSPATH . 'wp-content/category.php');
+  include(ABSPATH . "wp-content/${wp_template}category.php");
   exit;
 } else if (is_author() && (! isset($wp_did_author)) &&
-	   file_exists(ABSPATH . 'wp-content/author.php')) {
+	   file_exists(ABSPATH . "wp-content/${wp_template}author.php")) {
   $wp_did_author = true;
-  include(ABSPATH . 'wp-content/author.php');
+  include(ABSPATH . "wp-content/${wp_template}author.php");
   exit;
 } else if (is_date() && (! isset($wp_did_date)) &&
-	   file_exists(ABSPATH . 'wp-content/date.php')) {
+	   file_exists(ABSPATH . "wp-content/${wp_template}date.php")) {
   $wp_did_date = true;
-  include(ABSPATH . 'wp-content/date.php');
+  include(ABSPATH . "wp-content/${wp_template}date.php");
   exit;
 } else if (is_archive() && (! isset($wp_did_archive)) &&
-	   file_exists(ABSPATH . 'wp-content/archive.php')) {
+	   file_exists(ABSPATH . "wp-content/${wp_template}archive.php")) {
   $wp_did_archive = true;
-  include(ABSPATH . 'wp-content/archive.php');
+  include(ABSPATH . "wp-content/${wp_template}archive.php");
   exit;
 } else if (is_search() && (! isset($wp_did_search)) &&
-	   file_exists(ABSPATH . 'wp-content/search.php')) {
+	   file_exists(ABSPATH . "wp-content/${wp_template}search.php")) {
   $wp_did_search = true;
-  include(ABSPATH . 'wp-content/search.php');
+  include(ABSPATH . "wp-content/${wp_template}search.php");
   exit;
 } else if (is_404() && (! isset($wp_did_404)) &&
-	   file_exists(ABSPATH . 'wp-content/404.php')) {
+	   file_exists(ABSPATH . "wp-content/${wp_template}404.php")) {
   $wp_did_404 = true;
-  include(ABSPATH . 'wp-content/404.php');
+  include(ABSPATH . "wp-content/${wp_template}404.php");
   exit;
 } else if (is_feed() && $pagenow != 'wp-feed.php') {
   include(dirname(__FILE__) . '/wp-feed.php');
@@ -230,6 +253,11 @@ if (is_single() && (! isset($wp_did_single)) &&
 } else if ($pagenow != 'wp-trackback.php' && $tb == 1) {
   include(dirname(__FILE__) . '/wp-trackback.php');
   exit;
+} else if ((! isset($wp_did_home)) && file_exists(ABSPATH . "wp-content/${wp_template}index.php"))
+{
+	$wp_did_home = true;
+	include(ABSPATH . "wp-content/${wp_template}index.php");
+	exit;
 }
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
