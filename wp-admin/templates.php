@@ -114,9 +114,9 @@ default:
      <br /> 
      <?php
 		if (is_writeable($file)) {
-			echo "<input type=\"submit\" name=\"submit\" class=\"search\" value=\"update template !\" tabindex=\"2\" />";
+			echo "<input type='submit' name='submit' value='Update File' tabindex='2' />";
 		} else {
-			echo "<input type=\"button\" name=\"oops\" class=\"search\" value=\"(you cannot update that file/template: must make it writable, e.g. CHMOD 766)\" tabindex=\"2\" />";
+			echo "<input type='button' name='oops' value='(You cannot update that file/template: must make it writable, e.g. CHMOD 666)' tabindex='2' />";
 		}
 		?> 
    </form> 
@@ -127,7 +127,7 @@ default:
 	?> 
 </div> 
 <div class="wrap">
-  <p>To edit a file, type its name here. You can edit any file ritable by the server, e.g. CHMOD 766.</p> 
+  <p>To edit a file, type its name here. You can edit any file writable by the server, e.g. CHMOD 766.</p> 
   <form name="file" action="templates.php" method="get"> 
     <input type="text" name="file" /> 
     <input type="submit" name="submit"  class="search" value="go" /> 
