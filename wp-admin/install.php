@@ -137,8 +137,9 @@ if (!$got_links) {
     $result = mysql_query($sql) or print ("Can't create the table '$tablelinks' in the database.<br />" . $sql . "<br />" . mysql_error());
 	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://wordpress.org/', 'WordPress', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '');");
 	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://photomatt.net/', 'Matt', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '');");
-	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://zed1.com/b2/', 'Mike', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '');");
-
+	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://zed1.com/journalized/', 'Mike', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '');");
+	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://www.alexking.org/', 'Alex', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '');");
+	$links = mysql_query("INSERT INTO $tablelinks VALUES ('', 'http://dougal.gunters.org/', 'Dougal', '', '', 1, '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '');");
 
 
     if ($result != false) {
