@@ -321,16 +321,14 @@ function the_meta() {
 // Pages
 //
 
-function wp_list_pages($args = '') {
+function get_pages($args = '') {
 	global $wpdb;
 
 	parse_str($args, $r);
+
 	if (!isset($r['child_of'])) $r['child_of'] = 0;
-	if (!isset($r['depth'])) $r['depth'] = 0;
-	if (!isset($r['show_date'])) $r['show_date'] = '';
 	if (!isset($r['sort_column'])) $r['sort_column'] = 'post_title';
 	if (!isset($r['sort_order'])) $r['sort_order'] = 'ASC';
-
 
 	$exclusions = '';
 	if (!empty($r['exclude'])) {
@@ -342,46 +340,84 @@ function wp_list_pages($args = '') {
 		}
 	}
 
-	$option_dates = '';
-	if (! empty($r['show_date'])) {
-		if ('modified' == $r['show_date'])
-			$option_dates = ",UNIX_TIMESTAMP(post_modified) AS ts";
-		else
-			$option_dates = ",UNIX_TIMESTAMP(post_date) AS ts";
-	}
+	$dates = ",UNIX_TIMESTAMP(post_modified) AS time_modified";
+	$dates .= ",UNIX_TIMESTAMP(post_date) AS time_created";
 
 	$post_parent = '';
 	if ($r['child_of']) {
 		$post_parent = ' AND post_parent=' . $r['child_of'] . ' ';
 	}
+
 	$pages = $wpdb->get_results("SELECT " .
 															"ID, post_title,post_parent " .
-															"$option_dates " .
+															"$dates " .
 															"FROM $wpdb->posts " .
 															"WHERE post_status = 'static' " .
 															"$post_parent" .
 															"$exclusions " .
 															"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
-	$page_tree = Array();
-	foreach($pages as $page) {
-		$page_tree[$page->ID]['title'] = $page->post_title;
 
-		if(!empty($r['show_date'])) {
-			$page_tree[$page->ID]['ts'] = $page->ts;
-		}
-		$page_tree[$page->post_parent]['children'][] = $page->ID;
-	}
-	page_level_out($r['child_of'],$page_tree, $r);
+	return $pages;
 }
 
-function page_level_out($parent, $page_tree, $args, $depth = 0) {
+function wp_list_pages($args = '') {
+	parse_str($args, $r);
+	if (!isset($r['depth'])) $r['depth'] = 0;
+	if (!isset($r['show_date'])) $r['show_date'] = '';
+	if (!isset($r['child_of'])) $r['child_of'] = 0;
+
+	// Query pages.
+	$pages = get_pages($args);
+
+	// Now loop over all pages that were selected
+	$page_tree = Array();
+	foreach($pages as $page) {
+		// set the title for the current page
+		$page_tree[$page->ID]['title'] = $page->post_title;
+
+		// set the selected date for the current page
+		// depending on the query arguments this is either
+		// the createtion date or the modification date
+		// as a unix timestamp. It will also always be in the
+		// ts field.
+		if (! empty($r['show_date'])) {
+			if ('modified' == $r['show_date'])
+				$page_tree[$page->ID]['ts'] = $page->date_modified;
+			else
+				$page_tree[$page->ID]['ts'] = $page->date_created;				
+		}
+
+		// The tricky bit!!
+		// Using the parent ID of the current page as the
+		// array index we set the curent page as a child of that page.
+		// We can now start looping over the $page_tree array
+		// with any ID which will output the page links from that ID downwards.
+		$page_tree[$page->post_parent]['children'][] = $page->ID; 	
+	}
+	// Output of the pages starting with child_of as the root ID.
+	// child_of defaults to 0 if not supplied in the query.
+	_page_level_out($r['child_of'],$page_tree, $r);
+}
+
+function _page_level_out($parent, $page_tree, $args, $depth = 0) {
+	global $wp_query;
+
+	$queried_obj = $wp_query->get_queried_object();
+
 	if($depth)
 		$indent = join(array_fill(0,$depth,"\t"));
 
 	foreach($page_tree[$parent]['children'] as $page_id) {
 		$cur_page = $page_tree[$page_id];
 		$title = $cur_page['title'];
-		echo $indent . '<li><a href="' . get_page_link($page_id) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
+
+		$css_class = 'page_item';
+		if( $page_id == $queried_obj->ID) {
+			$css_class .= ' current_page_item';
+		}
+
+		echo $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page_id) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
+
 		if(isset($cur_page['ts'])) {
 			$format = get_settings('date_format');
 			if(isset($args['date_format']))
@@ -395,12 +431,11 @@ function page_level_out($parent, $page_tree, $args, $depth = 0) {
 			$new_depth = $depth + 1;
 
 			if(!$args['depth'] || $depth < ($args['depth']-1)) {
-				page_level_out($page_id,$page_tree, $args, $new_depth);
+				_page_level_out($page_id,$page_tree, $args, $new_depth);
 			}
 			echo "$indent</ul>\n";
 		}
 		echo "$indent</li>\n";
-
 	}
 }
 
