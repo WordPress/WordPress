@@ -85,14 +85,14 @@ if (0 < $numcats) $numcats = number_format($numcats);
 </div>
 
 <?php
-$rss = @fetch_rss('http://feedster.com/links.php?url='. trailingslashit(get_option('home')) .'&type=rss&limit=6');
+$rss = @fetch_rss('http://feeds.technorati.com/cosmos/rss/?url='. trailingslashit(get_option('home')) .'&partner=wordpress');
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <div id="incominglinks">
-<h3><?php _e('Incoming Links'); ?> <cite><a href="http://feedster.com/links.php?url=<?php echo trailingslashit(get_option('home')); ?>"><?php _e('More'); ?> &raquo;</a></cite></h3>
+<h3><?php _e('Incoming Links'); ?> <cite><a href="http://feeds.technorati.com/cosmos/search.html?url=<?php echo trailingslashit(get_option('home')); ?>&amp;partner=wordpress"><?php _e('More'); ?> &raquo;</a></cite></h3>
 <ul>
 <?php
-$rss->items = array_slice($rss->items, 0, 6);
+$rss->items = array_slice($rss->items, 0, 10);
 foreach ($rss->items as $item ) {
 ?>
 	<li><a href="<?php echo wp_filter_kses($item['link']); ?>"><?php echo wp_specialchars($item['title']); ?></a></li>
