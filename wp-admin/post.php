@@ -384,7 +384,7 @@ $now_gmt = current_time('mysql', 1);
                     $headers = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
                     $port    = 80;
                     $timeout = 3;
-                    $fp = fsockopen($host, $port, &$err_num, &$err_msg, $timeout);
+                    $fp = fsockopen($host, $port, $errno, $errstr, $timeout);
                     if( $fp ) {
                         fputs($fp, $headers );
                         $response = '';
