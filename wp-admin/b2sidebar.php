@@ -1,5 +1,8 @@
 <?php
 /* <Sidebar> */
+function selected($selected, $current) {
+	if ($selected == $current) echo ' selected="selected"';
+}
 
 $mode = "sidebar";
 
@@ -52,21 +55,12 @@ if ($a=="b") {
 <style type="text/css">
 <!--
 body {
-	background-image: url('../b2-img/wpminilogo.png');
-	background-repeat: no-repeat;
-	background-position: 50px 90px;
 	padding: 3px;
 }
 textarea,input,select {
 	font-family: arial,helvetica,sans serif;
 	font-size: 12px;
 	background-color: transparent;
-<?php if ($is_gecko || $is_macIE) { ?>
-	background-image: url('../b2-img/bgbookmarklet3.gif');
-<?php } elseif ($is_winIE) { ?>
-	background-color: #dddddd;
-	filter: alpha(opacity:80);
-<?php } ?>
 	border-width: 1px;
 	border-color: #cccccc;
 	border-style: solid;
@@ -93,6 +87,24 @@ textarea,input,select {
 <input type="text" name="post_title" size="20" tabindex="1" style="width: 100%;" value="Title" onFocus="if (this.value=='Title') { this.value='';}" onBlur="if (this.value=='') {this.value='Title';}" />
 
 <?php dropdown_categories(); ?>
+		<label for="post_status">Status:</label>
+		<select name="post_status" id="post_status">
+			<option value="publish"<?php selected($post_status, 'publish'); ?>>Publish</option>
+			<option value="draft"<?php selected($post_status, 'draft'); ?>>Draft</option>
+			<option value="private"<?php selected($post_status, 'private'); ?>>Private</option>
+		</select><br />
+		<label for="comment_status">Comments:</label>
+		<select name="comment_status" id="comment_status">
+			<option value="open"<?php selected($comment_status, 'open'); ?>>Open</option>
+			<option value="closed"<?php selected($comment_status, 'closed'); ?>>Closed</option>
+		</select><br />
+		<label for="ping_status">Pings:</label>
+		<select name="ping_status" id="ping_status">
+			<option value="open"<?php selected($ping_status, 'open'); ?>>Open</option>
+			<option value="closed"<?php selected($ping_status, 'open'); ?>>Closed</option>
+		</select><br />
+		<label for="post_password">Post Password:</label>
+		<input name="post_password" type="text" id="post_password" value="<?php echo $post_password ?>" /><br />
 
 <textarea rows="8" cols="12" style="width: 100%" name="content" tabindex="2" class="postform" wrap="virtual" onFocus="if (this.value=='Post') { this.value='';}" onBlur="if (this.value=='') {this.value='Post';}">Post</textarea>
 
@@ -100,7 +112,7 @@ textarea,input,select {
 <input type="checkbox" class="checkbox" name="post_pingback" value="1" checked="checked" tabindex="5" id="pingback" /><label for="pingback"> PingBack</label>
 <?php } ?>
 
-<input type="submit" name="submit" value="Blog this !" class="search" tabindex="3" /> 
+<input type="submit" name="submit" value="Blog this !" class="search" tabindex="3" />
 
 <?php
 if ($use_trackback) { ?>
