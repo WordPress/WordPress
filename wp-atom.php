@@ -32,8 +32,8 @@ $more = 1;
 		<title type="text/html" mode="escaped"><![CDATA[<?php the_title_rss() ?>]]></title>
 		<link rel="alternate" type="text/html" href="<?php permalink_single_rss() ?>" />
 		<id><?php the_guid(); ?></id>
-		<modified><?php the_time('Y-m-d\TH:i:s\Z'); ?></modified>
-		<issued>  <?php the_time('Y-m-d\TH:i:s\Z'); ?></issued>
+		<modified><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></modified>
+		<issued><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></issued>
 		<?php the_category_rss('rdf') ?>
 		<summary type="<?php bloginfo('html_type'); ?>" mode="escaped"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php if (!get_settings('rss_use_excerpt')) : ?>
