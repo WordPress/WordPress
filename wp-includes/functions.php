@@ -932,7 +932,6 @@ function pingback($content, $post_ID) {
 }
 
 function doGeoUrlHeader($posts) {
-    global $use_default_geourl,$default_geourl_lat,$default_geourl_lon;
     if (count($posts) == 1) {
         // there's only one result  see if it has a geo code
         $row = $posts[0];
@@ -946,11 +945,11 @@ function doGeoUrlHeader($posts) {
             return;
         }
     } else {
-        if($use_default_geourl) {
+        if(get_settings('use_default_geourl')) {
             // send the default here 
-            echo "<meta name=\"ICBM\" content=\"".$default_geourl_lat.", ".$default_geourl_lon."\" />\n";
+            echo "<meta name=\"ICBM\" content=\"". get_settings('default_geourl_lat') .", ". get_settings('default_geourl_lon') ."\" />\n";
             echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")."\" />\n";
-            echo "<meta name=\"geo.position\" content=\"".$default_geourl_lat.";".$default_geourl_lon."\" />\n";
+            echo "<meta name=\"geo.position\" content=\"". get_settings('default_geourl_lat') .";". get_settings('default_geourl_lon') ."\" />\n";
         }
     }
 }

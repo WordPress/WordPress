@@ -110,7 +110,7 @@ default:
 	$standalone = 0;
 	include_once("./admin-header.php");
 	if ($user_level <= 3) {
-		die("You have no right to edit the options for this blog.<br>Ask for a promotion from your <a href=\"mailto:$admin_email\">blog admin</a> :)");
+		die("You have do not have sufficient permissions to edit the options for this blog.");
 	}
 ?>
 

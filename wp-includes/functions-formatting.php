@@ -317,10 +317,9 @@ function convert_gmcode($content) { // depreciated
 }
 
 function convert_smilies($text) {
-	global $smilies_directory, $use_smilies;
 	global $wp_smiliessearch, $wp_smiliesreplace;
     $output = '';
-	if ($use_smilies) {
+	if (get_settings('use_smilies')) {
 		// HTML loop taken from texturize function, could possible be consolidated
 		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
 		$stop = count($textarr);// loop stuff

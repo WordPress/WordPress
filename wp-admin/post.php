@@ -242,7 +242,7 @@ switch($action) {
 ?>
             <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1,
             in order to be authorized to post.<br />
-            You can also <a href="mailto:<?php echo $admin_email ?>?subject=Promotion?">e-mail the admin</a>
+            You can also <a href="mailto:<?php echo get_settings('admin_email'); ?>?subject=Promotion?">e-mail the admin</a>
             to ask for a promotion.<br />
             When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)
             </p>
@@ -413,7 +413,7 @@ switch($action) {
 
         $result = $wpdb->query("DELETE FROM $tableposts WHERE ID=$post_id");
         if (!$result)
-            die('Error in deleting... contact the <a href="mailto:$admin_email">webmaster</a>.');
+            die('Error in deleting...');
 
         $result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID=$post_id");
 
@@ -751,7 +751,7 @@ function oneclickbookmarklet(blah) {
 ?>
 <div class="wrap">
             <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post blog items.<br />
-				You can also <a href="mailto:<?php echo $admin_email ?>?subject=Blog posting permission">e-mail the admin</a> to ask for a promotion.<br />
+				You can also <a href="mailto:<?php echo get_settings('admin_email'); ?>?subject=Blog posting permission">e-mail the admin</a> to ask for a promotion.<br />
 				When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)</p>
 </div>
 <?php

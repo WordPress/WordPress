@@ -32,7 +32,7 @@ header("Etag: " . $cetag, true);
         <description><?php bloginfo_rss("description") ?></description>
         <lastBuildDate><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</lastBuildDate>
         <docs>http://backend.userland.com/rss092</docs>
-        <managingEditor><?php echo antispambot($admin_email) ?></managingEditor>
+        <managingEditor><?php echo antispambot(get_settings('admin_email')) ?></managingEditor>
         <webMaster><?php echo antispambot($admin_email) ?></webMaster>
         <language><?php echo get_settings('rss_language'); ?></language>
 

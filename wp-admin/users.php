@@ -78,7 +78,7 @@ case 'adduser':
 		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_firstname', '$user_lastname', '$user_nicename')");
 	
 	if ($result == false) {
-		die ('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:'.$admin_email.'">webmaster</a> !');
+		die ('<strong>ERROR</strong>: Couldn&#8217;t register you!');
 	}
 
 	$stars = '';
@@ -89,7 +89,7 @@ case 'adduser':
 	$message  = 'New user registration on your blog ' . get_settings('blogname') . ":\r\n\r\n";
 	$message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
-	@mail($admin_email, '[' . get_settings('blogname') . '] New User Registration', $message);
+	@mail(get_settings('admin_email'), '[' . get_settings('blogname') . '] New User Registration', $message);
 	header('Location: users.php');
 break;
 

@@ -22,7 +22,6 @@ function bloginfo_unicode($show='') {
 }
 
 function get_bloginfo($show='') {
-    global $admin_email;
 
     $do_perma = 0;
     $feed_url = get_settings('siteurl');
@@ -75,7 +74,7 @@ function get_bloginfo($show='') {
             $output = get_settings('siteurl') .'/xmlrpc.php';
             break;
         case 'admin_email':
-            $output = $admin_email;
+            $output = get_settings('admin_email');
             break;
         case 'name':
         default:

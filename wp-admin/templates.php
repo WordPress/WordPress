@@ -42,7 +42,7 @@ case 'update':
 	require_once("admin-header.php");
 
 	if ($user_level < 3) {
-		die('<p>You have no right to edit the template for this blog.<br />Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
+		die('<p>You have do not have sufficient permissions to edit templates for this blog.</p>');
 	}
 
 	$newcontent = stripslashes($HTTP_POST_VARS['newcontent']);
@@ -62,7 +62,7 @@ default:
 	require_once('admin-header.php');
 
 	if ($user_level <= 3) {
-		die('<p>You have no right to edit the template for this blog.<br>Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
+		die('<p>You have do not have sufficient permissions to edit templates for this blog.</p>');
 	}
 
 	if ('' == $file) {

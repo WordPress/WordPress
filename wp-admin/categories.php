@@ -134,7 +134,7 @@ default:
     $standalone = 0;
     require_once ('admin-header.php');
     if ($user_level < 3) {
-        die("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:$admin_email'>blog admin</a>. :)");
+        die("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:" . get_settings('admin_email'). "'>blog admin</a>. :)");
     }
     ?>
 

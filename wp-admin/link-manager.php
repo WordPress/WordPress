@@ -290,7 +290,7 @@ switch ($action) {
     $standalone=0;
     include_once ('admin-header.php');
     if ($user_level < get_settings('links_minadminlevel')) {
-      die("You have no right to edit the links for this blog.<br />Ask for a promotion to your <a href='mailto:$admin_email'>blog admin</a>. :)");
+      die('You have do not have sufficent permissions to edit the links for this blog.');
     }
 
     $row = $wpdb->get_row("SELECT * 
@@ -537,7 +537,7 @@ No</label></td>
     $standalone=0;
     include_once ("./admin-header.php");
     if ($user_level < get_settings('links_minadminlevel')) {
-      die("You have no right to edit the links for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
+      die("You have do not have sufficient permissions to edit the links for this blog.");
     }
 
     switch ($order_by)

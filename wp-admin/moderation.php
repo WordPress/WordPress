@@ -51,7 +51,7 @@ case 'update':
 	require_once('admin-header.php');
 
 	if ($user_level < 3) {
-		die('<p>Your level is not high enough to moderate comments. Ask for a promotion from your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
+		die('<p>Your level is not high enough to moderate comments.</p>');
 	}
 
 	$item_ignored = 0;
@@ -92,7 +92,7 @@ default:
 	require_once('admin-header.php');
 
 	if ($user_level <= 3) {
-		die('<p>Your level is not high enough to moderate comments. Ask for a promotion from your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
+		die('<p>Your level is not high enough to moderate comments.</p>');
 	}
 ?>
 <ul id="adminmenu2">

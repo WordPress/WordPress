@@ -49,22 +49,6 @@ require_once (ABSPATH . WPINC . '/kses.php');
 // get_settings() wherever these are needed OR
 // accessing a single global $all_settings var
 if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST_URI'], 'wp-admin/import')) {
-    $admin_email = get_settings('admin_email');
-    $use_smilies = get_settings('use_smilies');
-    $smilies_directory = get_settings('smilies_directory');
-    $mailserver_url = get_settings('mailserver_url');
-    $mailserver_login = get_settings('mailserver_login');
-    $mailserver_pass = get_settings('mailserver_pass');
-    $mailserver_port = get_settings('mailserver_port');
-    $default_category = get_settings('default_category');
-    $subjectprefix = get_settings('subjectprefix');
-    $bodyterminator = get_settings('bodyterminator');
-    $emailtestonly = get_settings('emailtestonly');
-    $use_phoneemail = get_settings('use_phoneemail');
-    $phoneemail_separator = get_settings('phoneemail_separator');
-    $use_default_geourl = get_settings('use_default_geourl');
-    $default_geourl_lat = get_settings('default_geourl_lat');
-    $default_geourl_lon = get_settings('default_geourl_lon');
 
     $querystring_start = '?';
     $querystring_equal = '=';

@@ -223,7 +223,7 @@ case 'retrievepassword':
 		echo "<p>The email was sent successfully to $user_login's email address.<br />
 		<a href='wp-login.php' title='Check your email first, of course'>Click here to login!</a></p>";
 		// send a copy of password change notification to the admin
-		mail($admin_email, '[' . get_settings('blogname') . "] Password Lost/Change", "Password Lost and Changed for user: $user_login");
+		mail(get_settings('admin_email'), '[' . get_settings('blogname') . "] Password Lost/Change", "Password Lost and Changed for user: $user_login");
 		die();
 	}
 

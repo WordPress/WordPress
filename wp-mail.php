@@ -10,7 +10,7 @@ $use_cache = 1;
 $output_debugging_info = 0;	# =1 if you want to output debugging info
 $time_difference = get_settings('time_difference');
 
-if ($use_phoneemail) {
+if (get_settings('use_phoneemail')) {
 	// if you're using phone email, the email will already be in your timezone
 	$time_difference = 0;
 }
@@ -21,12 +21,12 @@ error_reporting(2037);
 
 $pop3 = new POP3();
 
-if(!$pop3->connect($mailserver_url, $mailserver_port)) {
+if(!$pop3->connect(get_settings('mailserver_url'), get_settings('mailserver_port'))) {
 	echo "Ooops $pop3->ERROR <br />\n";
 	exit;
 }
 
-$Count = $pop3->login($mailserver_login, $mailserver_pass);
+$Count = $pop3->login(get_settings('mailserver_login'), get_settings('mailserver_pass'));
 if((!$Count) || ($Count == -1)) {
 	echo "<h1>Login Failed: $pop3->ERROR</h1>\n";
 	$pop3->quit();
@@ -76,11 +76,11 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject)) {
 				  $subject = wp_iso_descrambler($subject);
 				}
-				if ($use_phoneemail) {
-					$subject = explode($phoneemail_separator, $subject);
+				if (get_settings('use_phoneemail')) {
+					$subject = explode(get_settings('phoneemail_separator'), $subject);
 					$subject = trim($subject[0]);
 				}
-				if (!ereg($subjectprefix, $subject)) {
+				if (!ereg(get_settings('subjectprefix'), $subject)) {
 					continue;
 				}
 			}
@@ -124,14 +124,14 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 		continue;
 	}
 
-	if (preg_match('/'.$subjectprefix.'/', $subject)) {
+	if (preg_match('/'.get_settings('subjectprefix').'/', $subject)) {
 
 		$userpassstring = '';
 
 		echo '<div style="border: 1px dashed #999; padding: 10px; margin: 10px;">';
 		echo "<p><b>$iCount</b></p><p><b>Subject: </b>$subject</p>\n";
 
-		$subject = trim(str_replace($subjectprefix, '', $subject));
+		$subject = trim(str_replace(get_settings('subjectprefix'), '', $subject));
 
 		if ($content_type == 'multipart/alternative') {
 			$content = explode('--'.$boundary, $content);
@@ -144,7 +144,7 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 		echo "<p><b>Content-type:</b> $content_type, <b>boundary:</b> $boundary</p>\n";
 		echo "<p><b>Raw content:</b><br /><pre>".$content.'</pre></p>';
 		
-		$btpos = strpos($content, $bodyterminator);
+		$btpos = strpos($content, get_settings('bodyterminator'));
 		if ($btpos) {
 			$content = substr($content, 0, $btpos);
 		}
@@ -154,15 +154,15 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 		$firstline = $blah[0];
 		$secondline = $blah[1];
 
-		if ($use_phoneemail) {
-			$btpos = strpos($firstline, $phoneemail_separator);
+		if (get_settings('use_phoneemail')) {
+			$btpos = strpos($firstline, get_settings('phoneemail_separator'));
 			if ($btpos) {
 				$userpassstring = trim(substr($firstline, 0, $btpos));
-				$content = trim(substr($content, $btpos+strlen($phoneemail_separator), strlen($content)));
-				$btpos = strpos($content, $phoneemail_separator);
+				$content = trim(substr($content, $btpos+strlen(get_settings('phoneemail_separator')), strlen($content)));
+				$btpos = strpos($content, get_settings('phoneemail_separator'));
 				if ($btpos) {
 					$userpassstring = trim(substr($content, 0, $btpos));
-					$content = trim(substr($content, $btpos+strlen($phoneemail_separator), strlen($content)));
+					$content = trim(substr($content, $btpos+strlen(get_settings('phoneemail_separator')), strlen($content)));
 				}
 			}
 			$contentfirstline = $blah[1];
@@ -218,7 +218,7 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				$post_title = $subject;
 			}
 			if (empty($post_categories)) {
-				$post_categories[] = $default_category;
+				$post_categories[] = get_settings('default_category');
 			}
 
 			if (!$thisisforfunonly) {

@@ -81,7 +81,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	");
 
 	if (!$result) {
-		die ("There is an error with the database, it can't store your comment...<br />Please contact the <a href='mailto:$admin_email'>webmaster</a>.");
+		die ("There is an error with the database, it can't store your comment...<br />Please contact the webmaster.");
 	} else {
 		$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
 		if (get_settings('comments_notify'))

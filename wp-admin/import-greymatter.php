@@ -101,7 +101,7 @@ textarea,input,select {
 		$query = "INSERT INTO $tableusers (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,dateYMDhour,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','1','nickname')";
 		$result = mysql_query($query);
 		if ($result==false) {
-			die ("<b>ERROR</b>: couldn't register an user... please contact the <a href=\"mailto:$admin_email\">webmaster</a> !");
+			die ("<strong>ERROR</strong>: couldn't register an user!");
 		}
 		echo "<li>user <i>$user_login</i>... <b>Done</b></li>";
 
@@ -160,7 +160,7 @@ textarea,input,select {
 				$query = "INSERT INTO $tableusers (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,dateYMDhour,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','0','nickname')";
 				$result = mysql_query($query);
 				if ($result==false) {
-					die ("<b>ERROR</b>: couldn't register an user... please contact the <a href=\"mailto:$admin_email\">webmaster</a> !");
+					die ("<strong>ERROR</strong>: couldn't register an user!");
 				}
 				echo ": registered deleted user <i>$user_login</i> at level 0 ";
 			}
@@ -196,7 +196,7 @@ textarea,input,select {
 			$result = mysql_query($query) or die(mysql_error());
 
 			if (!$result)
-				die ("Error in posting... contact the <a href=\"mailto:$admin_email\">webmaster</a>");
+				die ("Error in posting...");
 			
 			$sql2 = "SELECT * FROM $tableposts WHERE 1=1 ORDER BY ID DESC LIMIT 1";
 			$result2 = mysql_query($sql2);
@@ -244,7 +244,7 @@ textarea,input,select {
 					$sql3 = "INSERT INTO $tablecomments (comment_post_ID,comment_author,comment_author_email,comment_author_url,comment_author_IP,comment_date,comment_content) VALUES ('$comment_post_ID','$comment_author','$comment_author_email','$comment_author_url','$comment_author_IP','$comment_date','$comment_content')";
 					$result3 = mysql_query($sql3);
 					if (!$result3)
-						die ("There is an error with the database, it can't store your comment...<br>Contact the <a href=\"mailto:$admin_email\">webmaster</a>");
+						die ("There is an error with the database, it can't store your comment..");
 				}
 				$comments=$c-4;
 				echo ": imported $comments comment";
