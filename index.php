@@ -110,6 +110,6 @@ require_once('wp-blog-header.php');
 
 </div>
 
-<p class="credit"><?php echo $wpdb->querycount; ?> queries. <?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org" title="Powered by WordPress, state-of-the-art semantic personal publishing platform"><strong>WordPress</strong></a></cite></p>
+<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <cite>Powered by <a href="http://wordpress.org" title="Powered by WordPress, state-of-the-art semantic personal publishing platform"><strong>WordPress</strong></a></cite></p>
 </body>
 </html>
