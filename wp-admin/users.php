@@ -270,7 +270,7 @@ echo "\n<tr $style>
 	echo "</td>\n";
 	echo '<td>';
 	if (($user_level >= 6) and ($user_level > $user_data->user_level))
-		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>Edit</a>";
+		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>".__('Edit')."</a>";
 	echo '</td><td>';
 	if ($user_level >= 6)
 		echo "<a href='users.php?action=delete&amp;id=$user_data->ID' class='delete'>" . __('Delete'). '</a>';

@@ -41,7 +41,7 @@ $class = ('alternate' == $class) ? '' : 'alternate';
     </td> 
     <td><?php the_author() ?></td>
     <td><?php the_time('Y-m-d g:i a'); ?></td> 
-	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit">View</a></td>
+	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), the_title('','',0)) . "')\">" . __('Delete') . "</a>"; } ?></td> 
   </tr> 
