@@ -744,6 +744,7 @@ function get_admin_page_title() {
 
 function get_admin_page_parent() {
 	global $parent_file;
+	global $menu;
 	global $submenu;
 	global $pagenow;
 	global $plugin_page;
@@ -752,6 +753,15 @@ function get_admin_page_parent() {
 		return $parent_file;
 	}
 
+	if ($pagenow == 'admin.php' && isset($plugin_page)) {
+		foreach ($menu as $parent_menu) {
+			if ($parent_menu[2] == $plugin_page) {
+				$parent_file = $plugin_page;
+				return $plugin_page;
+			}
+		}
+	}
+		
 	foreach (array_keys($submenu) as $parent) {
 		foreach ($submenu[$parent] as $submenu_array) {
 			if ($submenu_array[2] == $pagenow) {
@@ -769,10 +779,10 @@ function get_admin_page_parent() {
 }
 
 function plugin_basename($file) {
-	return preg_replace('#^.*wp-content/plugins/#', '', $file);
+	return preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', $file);
 }
 
-function add_menu_page($page_title, $menu_title, $access_level, $file) {
+function add_menu_page($page_title, $menu_title, $access_level, $file, $function = '') {
 	global $menu, $admin_page_hooks;
 
 	$file = plugin_basename($file);
@@ -780,6 +790,12 @@ function add_menu_page($page_title, $menu_title, $access_level, $file) {
 	$menu[] = array($menu_title, $access_level, $file, $page_title);
 
 	$admin_page_hooks[$file] = sanitize_title($menu_title);
+
+	$hookname = get_plugin_page_hookname($file, '');
+	if ( !empty($function) && !empty($hookname) )
+		add_action($hookname, $function);
+
+	return $hookname;
 }
 
 function add_submenu_page($parent, $page_title, $menu_title, $access_level, $file, $function = '') {
@@ -1014,10 +1030,18 @@ function get_plugins() {
 function get_plugin_page_hookname($plugin_page, $parent_page) {
 	global $admin_page_hooks;
 
-	if ( isset($admin_page_hooks[$parent_page]) )
+	$parent = get_admin_page_parent();
+
+	if ( empty($parent_page) || 'admin.php' == $parent_page ) {
+		if ( isset($admin_page_hooks[$plugin_page]) )
+			$page_type = 'toplevel';
+		else if ( isset($admin_page_hooks[$parent]) )
+			$page_type = $admin_page_hooks[$parent];
+	} else if ( isset($admin_page_hooks[$parent_page]) ) {
 		$page_type = $admin_page_hooks[$parent_page];
-	else
+	} else {
 		$page_type = 'admin';
+	}
 
 	$plugin_name = preg_replace('!\.php!', '', $plugin_page);
 
@@ -1026,9 +1050,8 @@ function get_plugin_page_hookname($plugin_page, $parent_page) {
 
 function get_plugin_page_hook($plugin_page, $parent_page) {
 	global $wp_filter;
-
+	
 	$hook = get_plugin_page_hookname($plugin_page, $parent_page);
-
 	if ( isset($wp_filter[$hook]) )
 		return $hook;
 	else
