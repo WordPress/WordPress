@@ -1122,9 +1122,9 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 		$from = 'From: "' . $comment->comment_author . "\" <$comment->comment_author_email>";
 	}
 
-	$message_headers = "MIME-Version: 1.0\r\n"
-		. "$from\r\n"
-		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
+	$message_headers = "MIME-Version: 1.0\n"
+		. "$from\n"
+		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 
 	@wp_mail($user->user_email, $subject, $notify_message, $message_headers);
    
@@ -1165,9 +1165,9 @@ function wp_notify_moderator($comment_id) {
     $admin_email = get_settings("admin_email");
     $from  = "From: $admin_email";
 
-    $message_headers = "MIME-Version: 1.0\r\n"
-    	. "$from\r\n"
-    	. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
+    $message_headers = "MIME-Version: 1.0\n"
+    	. "$from\n"
+    	. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 
     @wp_mail($admin_email, $subject, $notify_message, $message_headers);
     
@@ -1944,9 +1944,9 @@ function htmlentities2($myHTML) {
 
 function wp_mail($to, $subject, $message, $headers = '', $more = '') {
         if( $headers == '' ) {
-                $headers = "MIME-Version: 1.0\r\n" .
-                           "From: " . $to . " <" . $to . ">\r\n" .
-                           "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
+                $headers = "MIME-Version: 1.0\n" .
+                           "From: " . $to . " <" . $to . ">\n" .
+                           "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
         }
 	if ( function_exists('mb_send_mail') )
                 return mb_send_mail($to, $subject, $message, $headers, $more);
