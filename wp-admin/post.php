@@ -36,9 +36,13 @@ case 'post':
 	$post_status = $_POST['post_status'];
 	$post_name = $_POST['post_name'];
 	$post_parent = 0;
+	$menu_order  = 0;
 
 	if ( isset($_POST['parent_id']) )
 		$post_parent = $_POST['parent_id'];
+
+	if ( isset($_POST['menu_order']) )
+		$menu_order = $_POST['menu_order'];
 
 	if ( empty($post_status) )
 		$post_status = 'draft';
@@ -91,9 +95,9 @@ case 'post':
 	}
 
 	$postquery ="INSERT INTO $wpdb->posts
-			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent)
+			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order)
 			VALUES
-			('$post_ID', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent')
+			('$post_ID', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent', '$menu_order')
 			";
 
 	$result = $wpdb->query($postquery);
