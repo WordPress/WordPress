@@ -42,7 +42,6 @@ switch($action) {
         $standalone = 1;
         require_once('b2header.php');
 
-        $post_autobr = intval($HTTP_POST_VARS["post_autobr"]);
         $post_pingback = intval($HTTP_POST_VARS["post_pingback"]);
         $content = balanceTags($HTTP_POST_VARS["content"]);
         $content = format_to_post($content);
@@ -71,9 +70,9 @@ switch($action) {
         }
 
         $query = "INSERT INTO $tableposts (ID, post_author, post_date, post_content, post_title, post_category, post_excerpt) VALUES ('0','$user_ID','$now','$content','$post_title','$post_category','$excerpt')";
-        $result = mysql_query($query) or mysql_oops($query);
+        $result = $wpdb->query($query);
 
-        $post_ID = mysql_insert_id();
+        $post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
 
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
                 sleep($sleep_after_edit);
@@ -183,7 +182,7 @@ switch($action) {
         }
 
         $query = "UPDATE $tableposts SET post_content=\"$content\", post_excerpt=\"$excerpt\", post_title=\"$post_title\", post_category=\"$post_category\"".$datemodif." WHERE ID=$post_ID";
-        $result = mysql_query($query) or mysql_oops($query);
+        $result = $wpdb->query($query);
 
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
             sleep($sleep_after_edit);
@@ -211,12 +210,12 @@ switch($action) {
             die ("You don't have the right to delete <b>".$authordata[1]."</b>'s posts.");
 
         $query = "DELETE FROM $tableposts WHERE ID=$post";
-        $result = mysql_query($query) or die("Oops, no post with this ID. <a href=\"b2edit.php\">Go back</a> !");
+        $result = $wpdb->query($query);
         if (!$result)
             die("Error in deleting... contact the <a href=\"mailto:$admin_email\">webmaster</a>...");
 
         $query = "DELETE FROM $tablecomments WHERE comment_post_ID=$post";
-        $result = mysql_query($query) or die("Oops, no comment associated to that post. <a href=\"b2edit.php\">Go back</a> !");
+        $result = $wpdb->query($query);
 
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
             sleep($sleep_after_edit);
@@ -261,7 +260,7 @@ switch($action) {
         $commentdata=get_commentdata($comment) or die("Oops, no comment with this ID. <a href=\"b2edit.php\">Go back</a> !");
 
         $query = "DELETE FROM $tablecomments WHERE comment_ID=$comment";
-        $result = mysql_query($query) or die("Oops, no comment with this ID. <a href=\"b2edit.php\">Go back</a> !");
+        $result = $wpdb->query($query);
 
         header ("Location: b2edit.php?p=$p&c=1#comments"); //?a=dc");
 
@@ -304,7 +303,7 @@ switch($action) {
         $content = format_to_post($content);
 
         $query = "UPDATE $tablecomments SET comment_content=\"$content\", comment_author=\"$newcomment_author\", comment_author_email=\"$newcomment_author_email\", comment_author_url=\"$newcomment_author_url\"".$datemodif." WHERE comment_ID=$comment_ID";
-        $result = mysql_query($query) or mysql_oops($query);
+        $result = $wpdb->query($query);
 
         header ("Location: b2edit.php?p=$comment_post_ID&c=1#comments"); //?a=ec");
 
