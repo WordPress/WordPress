@@ -20,6 +20,25 @@ function maybe_create_table($table_name, $create_ddl) {
     return false;
 }
 
+function drop_index($table, $index) {
+	global $wpdb;
+	$wpdb->hide_errors();
+	$wpdb->query("ALTER TABLE `$table` DROP INDEX `$index`");
+	// Now we need to take out all the extra ones we may have created
+	for ($i = 0; $i < 25; $i++) {
+		$wpdb->query("ALTER TABLE `$table` DROP INDEX `{$index}_$i`");
+	}
+	$wpdb->show_errors();
+	return true;
+}
+
+function add_clean_index($table, $index) {
+	global $wpdb;
+	drop_index($table, $index);
+	$wpdb->query("ALTER TABLE `$table` ADD INDEX ( `$index` )");
+	return true;
+}
+
 /**
  ** maybe_add_column()
  ** Add column to db table if it doesn't exist.
@@ -467,13 +486,11 @@ function upgrade_100() {
 	maybe_add_column($tableusers, 'user_description', "ALTER TABLE `$tableusers` ADD `user_description` TEXT NOT NULL");
 
 	// Create indicies
-	$wpdb->hide_errors();
-	$wpdb->query("ALTER TABLE `$tableposts` ADD INDEX (`post_name`)");
-	$wpdb->query("ALTER TABLE `$tablecategories` ADD INDEX (`category_nicename`)");
-	$wpdb->show_errors();
+	add_clean_index($tableposts, 'post_name');
+	add_clean_index($tablecategories, 'category_nicename');
+	add_clean_index($tablecomments, 'comment_approved');
 
 	if (maybe_add_column($tablecomments, 'comment_approved', "ALTER TABLE $tablecomments ADD COLUMN comment_approved ENUM('0', '1') DEFAULT '1' NOT NULL")) {
-		$wpdb->query("ALTER TABLE $tablecomments ADD INDEX (comment_approved)");
 	}
 
 	// Options stuff
@@ -617,7 +634,7 @@ function upgrade_100() {
 }
 
 function upgrade_101() {
-	global $wpdb, $tableoptionvalues, $tablelinkcategories;
+	global $wpdb, $tableoptionvalues, $tablelinkcategories, $tableposts, $tablecategories, $tablecomments, $tablelinks;
 	// Fix possible duplicate problem from CVS
 	$option59 = $wpdb->get_results("SELECT * FROM $tableoptionvalues WHERE option_id  = 59");
 	if (1 < count($option59)) {
@@ -628,6 +645,15 @@ function upgrade_101() {
 	$wpdb->query("DELETE FROM $tableoptionvalues WHERE optionvalue = 'auto'");
 	// Less intrusive default
 	$wpdb->query("ALTER TABLE `$tablelinkcategories` CHANGE `show_description` `show_description` ENUM( 'Y', 'N' ) DEFAULT 'N' NOT NULL"); 
+	
+	// Clean up indices, add a few
+	add_clean_index($tableposts, 'post_name');
+	add_clean_index($tableposts, 'post_status');
+	add_clean_index($tablecategories, 'category_nicename');
+	add_clean_index($tablecomments, 'comment_approved');
+	add_clean_index($tablecomments, 'comment_post_ID');
+	add_clean_index($tablelinks , 'link_category');
+	add_clean_index($tablelinks , 'link_visible');
 }
 
 ?>
