@@ -85,8 +85,13 @@ require_once($abspath.'wp-links/links.php');
  </li>
  <li>Archives:
  	<ul>
-	 <?php get_archives('monthly'); ?>
+	 <?php get_archives(); ?>
  	</ul>
+ </li>
+ <li>Calendar:
+	<ul>
+		<?php include_once('b2calendar.php')?>
+	</ul>
  </li>
  <li>Other:
 	<ul>
