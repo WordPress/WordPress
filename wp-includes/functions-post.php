@@ -343,4 +343,54 @@ function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
 	return user_can_edit_post($user_id, $post_id, $blog_id);
 }
 
+function wp_new_comment($commentdata) {
+	global $wpdb;
+	extract($commentdata);
+
+	$comment_post_id = (int) $comment_post_id;
+
+	$comment_author = strip_tags($comment_author);
+	$comment_author = htmlspecialchars($comment_author);
+	$comment_author = $wpdb->escape($comment_author);
+
+	$comment_author_email = preg_replace('/[^a-z+_.@-]/i', '', $comment_author_email);
+
+	$comment_author_url = strip_tags($comment_author_url);
+	$comment_author_url = htmlspecialchars($comment_author_url);
+	$comment_author_url = $wpdb->escape($comment_author_url);
+
+	$comment_content = apply_filters('comment_content_presave', $comment_content);
+	$comment_content = $wpdb->escape($comment_content);
+
+	$user_ip = addslashes($_SERVER['REMOTE_ADDR']);
+	$user_domain = addslashes( gethostbyaddr($user_ip) );
+	$now = current_time('mysql');
+	$now_gmt = current_time('mysql', 1);
+	$user_agent = addslashes($_SERVER['HTTP_USER_AGENT']);
+
+	// Simple flood-protection
+	if ( $lasttime = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' ORDER BY comment_date DESC LIMIT 1") ) {
+		$time_lastcomment= mysql2date('U', $lasttime);
+		$time_newcomment= mysql2date('U', $now);
+		if ( ($time_newcomment - $time_lastcomment) < 15 )
+			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
+	}
+
+	if( check_comment($author, $email, $url, $comment, $user_ip, $user_agent) )
+		$approved = 1;
+	else
+		$approved = 0;
+
+	$result = $wpdb->query("INSERT INTO $wpdb->comments 
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent)
+	VALUES 
+	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved', '$user_agent')
+	");
+
+	if ( get_option('comments_notify') )
+		wp_notify_postauthor($wpdb->insert_id, $comment_type);
+
+	return $result;
+}
+
 ?>
