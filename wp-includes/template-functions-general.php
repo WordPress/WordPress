@@ -6,21 +6,21 @@ function get_header() {
 	if ( file_exists( TEMPLATEPATH . '/header.php') )
 		load_template( TEMPLATEPATH . '/header.php');
 	else
-		load_template( ABSPATH . 'wp-includes/wp-header.php');
+		load_template( ABSPATH . 'wp-content/themes/default/header.php');
 }
 
 function get_footer() {
 	if ( file_exists( TEMPLATEPATH . '/footer.php') )
 		load_template( TEMPLATEPATH . '/footer.php');
 	else
-		load_template( ABSPATH . 'wp-includes/wp-footer.php');
+		load_template( ABSPATH . 'wp-content/themes/default/footer.php');
 }
 
 function get_sidebar() {
 	if ( file_exists( TEMPLATEPATH . '/sidebar.php') )
 		load_template( TEMPLATEPATH . '/sidebar.php');
 	else
-		load_template( ABSPATH . 'wp-includes/wp-sidebar.php');
+		load_template( ABSPATH . 'wp-content/themes/default/sidebar.php');
 }
 
 
@@ -105,28 +105,16 @@ function get_bloginfo($show='') {
 		break;
 	case 'stylesheet_url':
 		$output = get_stylesheet();
-		if (empty($output) || $output == 'default') {
-			$output = get_settings('siteurl') . "/wp-includes/wp-layout.css";
-		} else {
-			$output = get_settings('siteurl') . "/wp-content/themes/$output/style.css";
-		}
+		$output = get_settings('siteurl') . "/wp-content/themes/$output/style.css";
 		break;
 	case 'stylesheet_directory':
 		$output = get_stylesheet();
-		if (empty($output) || $output == 'default') {
-			$output = get_settings('siteurl');
-		} else {
-			$output = get_settings('siteurl') . "/wp-content/themes/$output";
-		}
+		$output = get_settings('siteurl') . "/wp-content/themes/$output";
 		break;
 	case 'template_directory':
 	case 'template_url':
 		$output = get_template();
-		if (empty($output) || $output == 'default') {
-			$output = get_settings('siteurl');
-		} else {
-			$output = get_settings('siteurl') . "/wp-content/themes/$output";
-		}
+		$output = get_settings('siteurl') . "/wp-content/themes/$output";
 		break;
 	case 'admin_email':
 		$output = get_settings('admin_email');

@@ -1253,11 +1253,7 @@ function get_template() {
 function get_template_directory() {
 	$template = get_template();
 
-	if (empty($template) || $template == 'default') {
-		$template = ABSPATH . "wp-content";
-	} else {
-		$template = ABSPATH . "wp-content/themes/$template";
-	}
+	$template = ABSPATH . "wp-content/themes/$template";
 
 	return $template;
 }
@@ -1330,41 +1326,6 @@ function get_themes() {
 		}
 	}
 
-	$default_files = array('wp-comments.php', 'wp-comments-popup.php', 'wp-comments-post.php', 'wp-footer.php', 'wp-header.php', 'wp-sidebar.php', 'footer.php', 'header.php', 'sidebar.php');
-
-	// Get the files for the default template.
-	$default_template_files = array();
-	{
-		// Find the index.
-		if (file_exists(ABSPATH  .'wp-content/index.php')) {
-			$default_template_files[] = 'wp-content/index.php';
-		} else {
-			$default_template_files[] = 'index.php';
-		}
-		
-		$dirs = array('', 'wp-content');
-		foreach ($dirs as $dir) {
-			$template_dir = @ dir(ABSPATH . $dir);
-			while(($file = $template_dir->read()) !== false) {
-				if ( !preg_match('|^\.+$|', $file) && in_array($file, $default_files)) 
-					$default_template_files[] = trim("$dir/$file", '/');
-			}
-		}
-	}
-
-	// Get the files for the default stylesheet.
-	$default_stylesheet_files = array();
-	{
-		$stylesheet_dir = @ dir(ABSPATH);
-		while(($file = $stylesheet_dir->read()) !== false) {
-			if ( !preg_match('|^\.+$|', $file) && preg_match('|\.css$|', $file)) 
-				$default_stylesheet_files[] = "$file";
-		}
-	}
-	
-	// The default theme always exists.
-	$themes['Default'] = array('Name' => 'Default', 'Title' => 'WordPress Default', 'Description' => 'The default theme included with WordPress.', 'Author' => 'Dave Shea', 'Version' => '1.3', 'Template' => 'default', 'Stylesheet' => 'default', 'Template Files' => $default_template_files, 'Stylesheet Files' => $default_stylesheet_files, 'Template Dir' => '/', 'Stylesheet Dir' => '/', 'Parent Theme' => '');
-
 	if (!$themes_dir || !$theme_files) {
 		return $themes;
 	}
@@ -1397,35 +1358,27 @@ function get_themes() {
 
 		$template = trim($template);
 
-		if (($template != 'default') && (! file_exists("$theme_root/$template/index.php"))) {
+		if (! file_exists("$theme_root/$template/index.php")) {
 			$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
 			continue;
 		}
 		
 		$stylesheet_files = array();
-		if ($stylesheet != 'default') {
-			$stylesheet_dir = @ dir("$theme_root/$stylesheet");
-			if ($stylesheet_dir) {
-				while(($file = $stylesheet_dir->read()) !== false) {
-					if ( !preg_match('|^\.+$|', $file) && preg_match('|\.css$|', $file) ) 
-						$stylesheet_files[] = "$theme_loc/$stylesheet/$file";
-				}
+		$stylesheet_dir = @ dir("$theme_root/$stylesheet");
+		if ($stylesheet_dir) {
+			while(($file = $stylesheet_dir->read()) !== false) {
+				if ( !preg_match('|^\.+$|', $file) && preg_match('|\.css$|', $file) ) 
+					$stylesheet_files[] = "$theme_loc/$stylesheet/$file";
 			}
-		} else {
-			$stylesheet_files = $default_stylesheet_files;
 		}
 
 		$template_files = array();		
-		if ($template != 'default') {
-			$template_dir = @ dir("$theme_root/$template");
-			if ($template_dir) {
-				while(($file = $template_dir->read()) !== false) {
-					if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) ) 
-						$template_files[] = "$theme_loc/$template/$file";
-				}
+		$template_dir = @ dir("$theme_root/$template");
+		if ($template_dir) {
+			while(($file = $template_dir->read()) !== false) {
+				if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) ) 
+					$template_files[] = "$theme_loc/$template/$file";
 			}
-		} else {
-			$template_files = $default_template_files;
 		}
 
 		$template_dir = dirname($template_files[0]);
