@@ -138,21 +138,22 @@ case 'delete':
 		die(__('Can&#8217;t delete a user whose level is higher than yours.'));
 
 	$post_ids = $wpdb->get_col("SELECT ID FROM $tableposts WHERE post_author = $id");
-	$post_ids = implode(',', $post_ids);
-	
-	// Delete comments, *backs
-	$wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID IN ($post_ids)");
-	// Clean cats
-	$wpdb->query("DELETE FROM $tablepost2cat WHERE post_id IN ($post_ids)");
-	// Clean post_meta
-	$wpdb->query("DELETE FROM $tablepostmeta WHERE post_id IN ($post_ids)");
-	// Clean links
-	$wpdb->query("DELETE FROM $tablelinks WHERE link_owner = $id");
-	// Delete posts
-	$wpdb->query("DELETE FROM $tableposts WHERE post_author = $id");
-	// FINALLY, delete user
-	$wpdb->query("DELETE FROM $tableusers WHERE ID = $id");
-	
+	if ($post_ids) {
+		$post_ids = implode(',', $post_ids);
+		
+		// Delete comments, *backs
+		$wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID IN ($post_ids)");
+		// Clean cats
+		$wpdb->query("DELETE FROM $tablepost2cat WHERE post_id IN ($post_ids)");
+		// Clean post_meta
+		$wpdb->query("DELETE FROM $tablepostmeta WHERE post_id IN ($post_ids)");
+		// Clean links
+		$wpdb->query("DELETE FROM $tablelinks WHERE link_owner = $id");
+		// Delete posts
+		$wpdb->query("DELETE FROM $tableposts WHERE post_author = $id");
+		// FINALLY, delete user
+		$wpdb->query("DELETE FROM $tableusers WHERE ID = $id");
+	}
 	header('Location: users.php?deleted=true');
 
 break;
