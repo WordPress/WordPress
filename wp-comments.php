@@ -88,8 +88,6 @@ if ('none' != get_settings("comment_moderation")) {
 <p>Sorry, comments are closed at this time.</p>
 <?php } ?>
 
-<div><a href="javascript:history.go(-1)">Go back</a>.</div>
-
 <?php // if you delete this the sky will fall on your head
 }
 ?>
