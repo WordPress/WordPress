@@ -235,7 +235,11 @@ case 'editpost':
 	$post_title = $_POST['post_title'];
 	$prev_status = $_POST['prev_status'];
 	$post_status = $_POST['post_status'];
-	$post_author = (int) $_POST['post_author'];
+	if (! empty($_POST['post_author'])) {
+		$post_author = (int) $_POST['post_author'];
+	} else {
+		$post_author = (int) $_POST['user_ID'];
+	}
 	if ( !user_can_edit_user($user_ID, $post_author) )
 		die( __('You cannot post as this user.') );
 
