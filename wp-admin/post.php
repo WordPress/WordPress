@@ -167,6 +167,8 @@ switch($action) {
             if ($post_pingback) {
                 pingback($content, $post_ID);
             }
+			
+			apply_filters('action_publish_post', $post_ID);
 
 			// Time for trackbacks
 			$to_ping = $wpdb->get_var("SELECT to_ping FROM $tableposts WHERE ID = $post_ID");

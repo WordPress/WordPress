@@ -1655,7 +1655,7 @@ function comment_author_link() {
 	}
 
 	$url = str_replace('http://url', '', $url);
-	$url = preg_replace('|[^a-z0-9-_.,/:]|i', '', $url);
+	$url = preg_replace('|[^a-z0-9-_.?=&;,/:]|i', '', $url);
 	if (empty($url) && empty($email)) {
 		echo $author;
 		return;

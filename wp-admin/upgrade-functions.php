@@ -605,7 +605,7 @@ function upgrade_100() {
 	foreach ($allposts as $post) {
 		// Check to see if it's already been imported
 		$cat = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post->ID AND category_id = $post->post_category");
-		if (!$cat) { // If there's no result
+		if (!$cat && 0 != $post->post_category) { // If there's no result
 			$wpdb->query("
 				INSERT INTO $tablepost2cat
 				(post_id, category_id)
@@ -617,7 +617,7 @@ function upgrade_100() {
 }
 
 function upgrade_101() {
-	global $wpdb, $tableoptionvalues;
+	global $wpdb, $tableoptionvalues, $tablelinkcategories;
 	// Fix possible duplicate problem from CVS
 	$option59 = $wpdb->get_results("SELECT * FROM $tableoptionvalues WHERE option_id  = 59");
 	if (1 < count($option59)) {
@@ -626,6 +626,8 @@ function upgrade_101() {
 	
 	// Remove 'automatic' option for comment moderation until it actually does something
 	$wpdb->query("DELETE FROM $tableoptionvalues WHERE optionvalue = 'auto'");
+	// Less intrusive default
+	$wpdb->query("ALTER TABLE `$tablelinkcategories` CHANGE `show_description` `show_description` ENUM( 'Y', 'N' ) DEFAULT 'N' NOT NULL"); 
 }
 
 ?>
