@@ -368,64 +368,65 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
     }
 }
 
-function get_pagenum_link($pagenum = 1){
+function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
 
-   $qstr = $_SERVER['REQUEST_URI'];
+	$qstr = $_SERVER['REQUEST_URI'];
 
-   $page_querystring = "paged"; 
-   $page_modstring = "page/";
-   $page_modregex = "page/?";
-   $permalink = 0;
-	 $index = 'index.php';
+	$page_querystring = "paged"; 
+	$page_modstring = "page/";
+	$page_modregex = "page/?";
+	$permalink = 0;
+	//$index = 'index.php';
+	$index = $_SERVER['SCRIPT_NAME'];
 
-	 $home_root = parse_url(get_settings('home'));
-	 $home_root = $home_root['path'];
-   $home_root = trailingslashit($home_root);
-   $qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
-   $qstr = preg_replace('|^/+|', '', $qstr);
+	$home_root = parse_url(get_settings('home'));
+	$home_root = $home_root['path'];
+	$home_root = trailingslashit($home_root);
+	$qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
+	$qstr = preg_replace('|^/+|', '', $qstr);
 
-   // if we already have a QUERY style page string
-   if( stristr( $qstr, $page_querystring ) ) {
-       $replacement = "$page_querystring=$pagenum";
-      $qstr = preg_replace("/".$page_querystring."[^\d]+\d+/", $replacement, $qstr);
-   // if we already have a mod_rewrite style page string
-   } elseif ( preg_match( '|'.$page_modregex.'\d+|', $qstr ) ){
-      $permalink = 1;
-      $qstr = preg_replace('|'.$page_modregex.'\d+|',"$page_modstring$pagenum",$qstr);
+	// if we already have a QUERY style page string
+	if( stristr( $qstr, $page_querystring ) ) {
+		$replacement = "$page_querystring=$pagenum";
+		$qstr = preg_replace("/".$page_querystring."[^\d]+\d+/", $replacement, $qstr);
+		// if we already have a mod_rewrite style page string
+	} elseif ( preg_match( '|'.$page_modregex.'\d+|', $qstr ) ){
+		$permalink = 1;
+		$qstr = preg_replace('|'.$page_modregex.'\d+|',"$page_modstring$pagenum",$qstr);
 
-   // if we don't have a page string at all ...
-   // lets see what sort of URL we have...
-   } else {
-      // we need to know the way queries are being written
-      // if there's a querystring_start (a "?" usually), it's deffinitely not mod_rewritten
-      if ( stristr( $qstr, '?' ) ){
-         // so append the query string (using &, since we already have ?)
-         $qstr .=  '&amp;' . $page_querystring . '=' . $pagenum;
-         // otherwise, it could be rewritten, OR just the default index ...
-      } elseif( '' != get_settings('permalink_structure')) {
-         $permalink = 1;
+		// if we don't have a page string at all ...
+		// lets see what sort of URL we have...
+	} else {
+		// we need to know the way queries are being written
+		// if there's a querystring_start (a "?" usually), it's definitely not mod_rewritten
+		if ( stristr( $qstr, '?' ) ){
+			// so append the query string (using &, since we already have ?)
+			$qstr .=  '&amp;' . $page_querystring . '=' . $pagenum;
+			// otherwise, it could be rewritten, OR just the default index ...
+		} elseif( '' != get_settings('permalink_structure') && ! is_admin()) {
+			$permalink = 1;
+			$index = $wp_rewrite->index;
+			// If it's not a path info permalink structure, trim the index.
+			if (! $wp_rewrite->using_index_permalinks()) {
+				$qstr = preg_replace("#/*" . $index . "/*#", '/', $qstr);
+			} else {
+				// If using path info style permalinks, make sure the index is in
+				// the URI.
+				if (strpos($qstr, $index) === false) {
+					$qstr = '/' . $index . $qstr;
+				}
+			}
 
-	 // If it's not a path info permalink structure, trim the index.
-	 if (! $wp_rewrite->using_index_permalinks()) {
-	   $qstr = preg_replace("#/*" . $index . "/*#", '/', $qstr);
-	 } else {
-	   // If using path info style permalinks, make sure the index is in
-	   // the URI.
-	   if (strpos($qstr, $index) === false) {
-	     $qstr = '/' . $index . $qstr;
-	   }
-	 }
+			$qstr =  trailingslashit($qstr) . $page_modstring . $pagenum;
+		} else {
+			$qstr = $index . '?' . $page_querystring . '=' . $pagenum;
+		}
+	}
 
-	 $qstr =  trailingslashit($qstr) . $page_modstring . $pagenum;
-      } else {
-         $qstr = $index . '?' . $page_querystring . '=' . $pagenum;
-      }
-   }
-
-   $qstr = preg_replace('|^/+|', '', $qstr);
-   if ($permalink) $qstr = trailingslashit($qstr);
-   return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
+	$qstr = preg_replace('|^/+|', '', $qstr);
+	if ($permalink) $qstr = trailingslashit($qstr);
+	return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
 }
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org

@@ -141,6 +141,14 @@ textarea, input, select {
 	padding: 3px;
 }
 
+.alignleft {
+	float: left
+}
+
+.alignright {
+	float: right;
+}
+
 .alternate {
 	background: #eee;
 }
@@ -171,6 +179,13 @@ textarea, input, select {
 
 .hidden {
 	display: none;
+}
+
+.navigation {
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 30px;
 }
 
 .post-categories {

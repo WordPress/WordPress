@@ -1395,6 +1395,12 @@ function is_trackback () {
     return $wp_query->is_trackback;
 }
 
+function is_admin () {
+    global $wp_query;
+
+    return $wp_query->is_admin;
+}
+
 function is_home () {
     global $wp_query;
 

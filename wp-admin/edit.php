@@ -66,12 +66,21 @@ if ($drafts || $other_drafts) {
 <div class="wrap">
 <h2>
 <?php
-if ( $_GET['m'] ) {
-	echo $month[substr( $_GET['m'], 4, 2 )] . ' ' . substr( $_GET['m'], 0, 4 );
-} elseif ( isset( $_GET['s'] ) ) {
+$what_to_show = 'posts';
+$posts_per_page = 15;
+$posts_per_archive_page = -1;
+
+include(ABSPATH.'wp-blog-header.php');
+
+if ( is_month() ) {
+	single_month_title(' ');
+} elseif ( is_search() ) {
 	printf(__('Search for &#8220;%s&#8221;'), wp_specialchars($_GET['s']) );
 } else {
-	_e('Last 15 Posts');
+	if ( ! is_paged() || get_query_var('paged') == 1 )
+		_e('Last 15 Posts');
+	else
+		_e('Previous Posts');
 }
 ?>
 </h2>
@@ -140,15 +149,6 @@ $posts_columns['control_delete'] = '';
 
 	</tr>
 <?php
-$what_to_show = 'posts';
-if ( empty($_GET['m']) || 0 == $_GET['m'] && empty($_GET['s']) ) {
-  $showposts = 15;
-} else {
-  $nopaging = true;
-}
-
-include(ABSPATH.'wp-blog-header.php');
-
 if ($posts) {
 $bgcolor = '';
 foreach ($posts as $post) { start_wp();
@@ -238,6 +238,12 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 } // end if ($posts)
 ?> 
 </table> 
+
+<div class="navigation">
+<div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries')) ?></div>
+<div class="alignright"><?php previous_posts_link(__('Next Entries &raquo;')) ?></div>
+</div>
+
 <?php
 if ( 1 == count($posts) ) {
 
