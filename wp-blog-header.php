@@ -184,6 +184,16 @@ if (1 == count($posts)) {
 	}
 }
 
+// Issue a 404 if a permalink request doesn't match any posts.  Don't issue a
+// 404 if one was already issued, if the request was a search, or if the
+// request was a regular query string request rather than a permalink request.
+if ( (0 == count($posts)) && !is_404() && !is_search()
+		 && !empty($_SERVER['QUERY_STRING']) &&
+		 (false === strpos($_SERVER['REQUEST_URI'], '?')) ) {
+	$wp_query->is_404 = true;
+	header("HTTP/1.x 404 Not Found");
+}
+
 $wp_did_header = true;
 endif;
 
