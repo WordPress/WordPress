@@ -651,12 +651,12 @@ function checkAll(form)
   <table width="100%" cellpadding="3" cellspacing="3">
     <tr>
       <th width="15%"><?php echo gethelp_link($this_file,'list_o_links');?> <?php _e('Name') ?></th>
-      <th>URI</th>
-      <th>Category</th>
-      <th>rel</th>
-      <th>Image</th>
-      <th>Visible</th>
-      <th colspan="2">Action</th>
+      <th><?php _e('URI') ?></th>
+      <th><?php _e('Category') ?></th>
+      <th><?php _e('rel') ?></th>
+      <th><?php _e('Image') ?></th>
+      <th><?php _e('Visible') ?></th>
+      <th colspan="2"><?php _e('Action') ?></th>
       <th>&nbsp;</th>
   </tr>
 <?php
@@ -687,8 +687,8 @@ function checkAll(form)
             $link->category = stripslashes($link->category);
             $link->link_rel = stripslashes($link->link_rel);
             $link->link_description = stripslashes($link->link_description);
-            $image = ($link->link_image != null) ? 'Yes' : 'No';
-            $visible = ($link->link_visible == 'Y') ? 'Yes' : 'No';
+            $image = ($link->link_image != null) ? __('Yes') : __('No');
+            $visible = ($link->link_visible == 'Y') ? __('Yes') : __('No');
             ++$i;
             $style = ($i % 2) ? ' class="alternate"' : '';
             echo <<<LINKS
