@@ -42,7 +42,7 @@ case "step1":
 <html>
 <head>
 <title>GM 2 b2 - converting...</title>
-<link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
+<link rel="stylesheet" href="wp-admin/b2.css" type="text/css">
 <style type="text/css">
 <!--
 <?php
@@ -253,7 +253,7 @@ default:
 	?><html>
 <head>
 <title>GM 2 b2 importer utility</title>
-<link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
+<link rel="stylesheet" href="wp-admin/b2.css" type="text/css">
 <style type="text/css">
 <!--
 <?php
