@@ -121,7 +121,7 @@ window.onload = blurry;
 <body>
 
 <div id="wphead">
-<h1><?php bloginfo('name') ?></h1>
+<h1><?php echo wptexturize(get_settings(('blogname'))); ?></h1>
 </div>
 
 <?php
