@@ -145,10 +145,6 @@ if ( is_404() ) {
 	}
 }
 
-// Getting settings from DB
-if ( isset($doing_rss) && $doing_rss == 1 )
-    $posts_per_page = get_settings('posts_per_rss');
-
 $use_gzipcompression = get_settings('gzipcompression');
 
 $more_wpvars = array('posts_per_page', 'posts_per_archive_page', 'what_to_show', 'showposts', 'nopaging');
