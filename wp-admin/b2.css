@@ -157,13 +157,13 @@ textarea, input, select {
 	color: #333;
 	height: 170px;
 	left: 50%;
-	margin-left: -105px; /* half of width and height */
+	margin-left: -120px; /* half of width and height */
 	margin-top: -85px;
 	padding: 40px 5px 5px 5px;
 	position: absolute;
 	text-align: right;
 	top: 45%;
-	width: 210px;
+	width: 240px;
 }
 
 #login textarea, #login input, #login select {
