@@ -4,6 +4,6 @@
      printf(__('%s seconds'), number_format(timer_stop(), 2));
 ?>
 </p>
-
+<?php do_action('admin_footer', ''); ?>
 </body>
 </html>

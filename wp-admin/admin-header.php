@@ -130,7 +130,7 @@ window.onload = blurry;
 </script>
 <?php endif; ?>
 
-<?php wp_admin_head(); ?>
+<?php do_action('admin_head', ''); ?>
 </head>
 <body>
 <div id="wphead">
