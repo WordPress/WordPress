@@ -43,7 +43,7 @@ function the_title($before = '', $after = '', $echo = true) {
 function the_title_rss() {
 	$title = get_the_title();
 	$title = apply_filters('the_title', $title);
-	$title = apply_filters('the_title_rss', $title):
+	$title = apply_filters('the_title_rss', $title);
 	echo $title;
 }
 
