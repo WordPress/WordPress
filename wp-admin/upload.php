@@ -37,7 +37,7 @@ case '':
 	}
 	$i = implode(', ', $type_tags);
 ?>
-    <p>You can upload files with the extension <?php echo $i ?> as long as they are no larger than <?php echo get_settings('fileupload_maxk'); ?> <abbr title="Kilobytes">KB</abbr>. If you&#8217;re an admin you can configure these values under <a href="options.php">options</a>.</p>
+    <p>You can upload files with the extension <?php echo $i ?> as long as they are no larger than <?php echo get_settings('fileupload_maxk'); ?> <abbr title="Kilobytes">KB</abbr>. If you&#8217;re an admin you can configure these values under <a href="options-misc.php">options</a>.</p>
     <form action="upload.php" method="post" enctype="multipart/form-data">
     <p>
       <label for="img1">File:</label>
