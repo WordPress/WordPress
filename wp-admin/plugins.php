@@ -22,11 +22,12 @@ if ($_GET['action']) {
 	}
 }
 
-$title = 'Manage Plugins';
+require_once('../wp-includes/wp-l10n.php');
+$title = __('Manage Plugins');
 require_once('admin-header.php');
 
 if ($user_level < 9) // Must be at least level 9
-	die ("Sorry, you must be at least a level 8 user to modify plugins.");
+	die (__("Sorry, you must be at least a level 8 user to modify plugins."));
 
 // Clean up options
 // if any files are in the option that don't exist, axe 'em
@@ -46,11 +47,11 @@ foreach ($check_plugins as $check_plugin) {
 ?>
 
 <?php if ($_GET['activate']) : ?>
-<div class="updated"><p>Plugin <strong>activated</strong>.</p>
+<div class="updated"><p><?php _e('Plugin <strong>activated</strong>.') ?></p>
 </div>
 <?php endif; ?>
 <?php if ($_GET['deactivate']) : ?>
-<div class="updated"><p>Plugin <strong>deactivated</strong>.</p>
+<div class="updated"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p>
 </div>
 <?php endif; ?>
 
