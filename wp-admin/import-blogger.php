@@ -1,4 +1,4 @@
-<?php // rename this to blogger-2-b2.php
+<?php
 
 $wpvarstoreset = array('action');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -16,7 +16,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 	require_once('../wp-config.php');
-	require('upgrade_functions.php');
+	require('upgrade-functions.php');
 switch ($action) {
 
 case "step1":
