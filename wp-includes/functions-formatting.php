@@ -1,6 +1,6 @@
 <?php
 
-add_action('sanitize_title', 'convert_spaces_to_dashes');
+add_action('sanitize_title', 'sanitize_title_with_dashes');
 
 function wptexturize($text) {
 	$output = '';
@@ -78,21 +78,38 @@ function wpautop($pee, $br = 1) {
 	return $pee; 
 }
 
-function sanitize_title($title) {
-    $title = strtolower($title);
-	$title = preg_replace('/&.+?;/', '', $title); // kill entities
-    $title = preg_replace('/[^a-z0-9 _-]/', '', $title);
-    $title = do_action('sanitize_title', $title);
-    $title = trim($title);
-	return $title;
+function removeaccents($string){
+    $encoded_ligatures = array('Þ' => 'TH', 'þ' => 'th', 'Ð' => 'DH',
+                               'ð' => 'dh', 'ß' => 'ss', 'Œ' => 'OE',
+                               '°' => 'oe', 'Æ' => 'AE', 'æ' => 'ae',
+                                       'µ' => 'u');
+
+    foreach ($encoded_ligatures as $key => $value) {
+        $ligatures[utf8_decode($key)] = $value;
+    }
+
+    return strtr(strtr($string,
+                       utf8_decode('ŠŽšžŸÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖØÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöøùúûüýÿ'),
+                       'SZszYAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy'), $ligatures);
 }
 
-function convert_spaces_to_dashes($content) {
-    $content = preg_replace('/\s+/', ' ', $content);
-    $content = str_replace(' ', '-', $content);
-	$content = preg_replace('|-+|', '-', $content);
+function sanitize_title($title) {
+    $title = do_action('sanitize_title', $title);
 
-    return $content;
+    return $title;
+}
+
+function sanitize_title_with_dashes($title) {
+    $title = removeaccents($title);
+    $title = strtolower($title);
+    $title = preg_replace('/&.+?;/', '', $title); // kill entities
+    $title = preg_replace('/[^a-z0-9 _-]/', '', $title);
+    $title = preg_replace('/\s+/', ' ', $title);
+    $title = str_replace(' ', '-', $title);
+    $title = preg_replace('|-+|', '-', $title);
+    $title = trim($title);
+
+    return $title;
 }
 
 function convert_chars($content, $flag = 'obsolete') { 
