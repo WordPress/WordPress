@@ -1353,17 +1353,17 @@ function doGeoUrlHeader($posts) {
         $lon = $row->post_lon;
         $title = $row->post_title;
         if(($lon != null) && ($lat != null) ) {
-            echo "<meta name=\"ICBM\" content=\"".$lat.", ".$lon."\" >\n";
-            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")." - ".$title."\">\n";
-            echo "<meta name=\"geo.position\" content=\"".$lat.";".$lon."\">\n";
+            echo "<meta name=\"ICBM\" content=\"".$lat.", ".$lon."\" />\n";
+            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")." - ".$title."\" />\n";
+            echo "<meta name=\"geo.position\" content=\"".$lat.";".$lon."\" />\n";
             return;
         }
     } else {
         if($use_default_geourl) {
             // send the default here 
-            echo "<meta name=\"ICBM\" content=\"".$default_geourl_lat.", ".$default_geourl_lon."\" >\n";
-            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")."\">\n";
-            echo "<meta name=\"geo.position\" content=\"".$default_geourl_lat.";".$default_geourl_lon."\">\n";
+            echo "<meta name=\"ICBM\" content=\"".$default_geourl_lat.", ".$default_geourl_lon."\" />\n";
+            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")."\" />\n";
+            echo "<meta name=\"geo.position\" content=\"".$default_geourl_lat.";".$default_geourl_lon."\" />\n";
         }
     }
 }
