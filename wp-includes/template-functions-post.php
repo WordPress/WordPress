@@ -250,8 +250,27 @@ function the_meta() {
 // Pages
 //
 
+function &get_page_children($page_id, &$pages) {
+	global $page_cache;
+
+	if ( empty($pages) )
+		$pages = &$page_cache;
+
+	$page_list = array();
+	foreach ($pages as $page) {
+		if ($page->post_parent == $page_id) {
+			$page_list[] = $page;
+			if ( $children = get_page_children($page->ID, $pages)) {
+				$page_list = array_merge($page_list, $children);
+			}
+		}
+	}
+
+	return $page_list;
+}
+
 function &get_pages($args = '') {
-	global $wpdb, $page_cache;
+	global $wpdb;
 
 	parse_str($args, $r);
 
@@ -269,15 +288,9 @@ function &get_pages($args = '') {
 		}
 	}
 
-	$post_parent = '';
-	if ($r['child_of']) {
-		$post_parent = ' AND post_parent=' . $r['child_of'] . ' ';
-	}
-	
 	$pages = $wpdb->get_results("SELECT * " .
 															"FROM $wpdb->posts " .
 															"WHERE post_status = 'static' " .
-															"$post_parent" .
 															"$exclusions " .
 															"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
 
@@ -286,6 +299,9 @@ function &get_pages($args = '') {
 
 	// Update cache.
 	update_page_cache($pages);
+
+	if ($r['child_of'])
+		$pages = & get_page_children($r['child_of'], $pages);
 
 	return $pages;
 }
