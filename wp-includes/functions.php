@@ -303,7 +303,7 @@ function url_to_postid($url = '') {
 
 function get_settings($setting) {
   global $wpdb, $cache_settings, $cache_nonexistantoptions;
-	if ( strstr($_SERVER['REQUEST_URI'], 'wp-admin/install.php') )
+	if ( strstr($_SERVER['REQUEST_URI'], 'wp-admin/install.php') || constant('WP_INSTALLING') )
 		return false;
 
 	if ( empty($cache_settings) )

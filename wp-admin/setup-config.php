@@ -1,5 +1,5 @@
 <?php
-$_wp_installing = 1;
+define('WP_INSTALLING', true);
 
 if (file_exists('../wp-config.php')) 
 	die("The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first.");
