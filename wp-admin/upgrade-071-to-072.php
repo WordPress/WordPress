@@ -1,5 +1,6 @@
 <?php
 $_wp_installing = 1;
+if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php and renamed it to wp-config.php.");
 require('../wp-config.php');
 require('wp-install-helper.php');
 
@@ -9,7 +10,7 @@ if (!$step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<title>WordPress > .71 to .72 Upgrade</title>
+	<title>WordPress &#8212; 0.71 to 0.72 Upgrade</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style media="screen" type="text/css">
 	body {
@@ -32,7 +33,7 @@ if (!$step) $step = 0;
 	#logo a span {
 		display: none;
 	}
-	p {
+	p, li {
 		line-height: 140%;
 	}
 	</style>
@@ -45,22 +46,24 @@ switch($step) {
 	case 0:
     {
 ?>
-<p>Welcome to WordPress. You're already part of the family so this should be familiar 
-  to you now. We think you'll find to like in this latest version, here are some 
+<p>Welcome to WordPress. You&#8217;re already part of the family so this should be familiar 
+  to you now. The upgrade procedure should be painless, but here are some 
   things to watch out for:</p>
 <ul>
 
-  <li>One of the biggest changes is that b2config.php has been removed! <strong>But</strong> we
+  <li>One of the biggest changes is that b2config.php is no longer needed for future versions! <strong>But</strong> we
   will use it <em>one last time</em> as part of this upgrade process. Some other files
-  have been eliminated, so it's generally safest to delete all your old files
-  (apart from b2config.php) before re-uploading the new ones.</li>
+  have been eliminated, so it&#8217;s generally safest to delete all your old files
+  (<em>except b2config.php</em>) before re-uploading the new ones.</li>
 
   <li>The new configuration file is called wp-config.php. We provide a
   <em>sample</em> version of this file. The only things you will have to
   configure in this file is your database connection info, and your table names.
   All other configuration info is now held in the database.</li>
 
-  <li>If you have any troubles try out the <a
+  <li>It is a fairly common error to have the table names wrong in wp-config.php if you&#8217;re coming from a legacy b2 installation. In a clean WordPress installation the tables are named things like <code>wp_posts</code> and <code>wp_comments</code>, but if you&#8217;re coming from b2 you probably have table names like <code>b2posts</code> and <code>b2comments</code>. Double-check the <code>$table_prefix</code> variable to make sure this has what is appropiate to your installation.</li>
+
+  <li>If you have any troubles check out the <a
   href="http://wordpress.org/support/">support forums</a>.</li>
 
   <li><strong>Back up</strong> your database before you do anything. Yes, you.
