@@ -19,10 +19,10 @@ include('admin-header.php');
           <input name="advanced_edit" type="radio" value="0" <?php checked('0', get_settings('advanced_edit')); ?> />
 <?php _e('Simple controls') ?></label>
           <br />
-          <label>
-          <input name="advanced_edit" type="radio" value="1" <?php checked('1', get_settings('advanced_edit')); ?> />
+          <label for="advanced_edit">
+          <input name="advanced_edit" id="advanced_edit" type="radio" value="1" <?php checked('1', get_settings('advanced_edit')); ?> />
 <?php _e('Advanced controls') ?></label>
-          <label for="advanced_edit"></label></td>
+		</td>
       </tr>
       <tr valign="top"> 
         <th width="33%" scope="row"> <?php _e('Size of the writing box:') ?></th> 
@@ -49,19 +49,20 @@ else $selected = '';
 endforeach;
 ?>
        			</select></td>
-       		</tr>
+	</tr>
+	<tr>
         <th scope="row"><?php _e('Newly registered members:') ?></th> 
         <td> <label for="new_users_can_blog0"><input name="new_users_can_blog" id="new_users_can_blog0" type="radio" value="0" <?php checked('0', get_settings('new_users_can_blog')); ?> /> <?php _e('Cannot write articles') ?></label><br />
 <label for="new_users_can_blog1"><input name="new_users_can_blog" id="new_users_can_blog1" type="radio" value="1" <?php checked('1', get_settings('new_users_can_blog')); ?> /> <?php _e('May submit drafts for review') ?></label><br />
 <label for="new_users_can_blog2"><input name="new_users_can_blog" id="new_users_can_blog2" type="radio" value="2" <?php checked('2', get_settings('new_users_can_blog')); ?> /> <?php _e('May publish articles') ?></label><br /></td> 
-      </tr> 
-    </table>
+	</tr> 
+</table>
 
 <fieldset class="options">
 	<legend><?php _e('Update Services') ?></legend>
           <p><?php printf(__('When you publish a new post WordPress can notify site update services. For more about this see <a href="%s">Update Services</a> on the Codex. Separate multiple service URIs with line breaks.'), 'http://codex.wordpress.org/Update_Services') ?></p>
 	
-	<textarea name="ping_sites" id="ping_sites" style="width: 98%;"><?php form_option('ping_sites'); ?></textarea>
+	<textarea name="ping_sites" id="ping_sites" style="width: 98%;" rows="5" cols="50"><?php form_option('ping_sites'); ?></textarea>
 </fieldset>
 
 <fieldset class="options">
@@ -72,7 +73,7 @@ endforeach;
 		<tr valign="top">
 			<th scope="row"><?php _e('Mail server:') ?></th>
 			<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />
-			<label for="port"><?php _e('Port:') ?></label> 
+			<label for="mailserver_port"><?php _e('Port:') ?></label> 
 			<input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" size="6" />
 			</td>
 		</tr>

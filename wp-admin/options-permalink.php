@@ -107,8 +107,8 @@ save_mod_rewrite_rules();
 <textarea rows="5" style="width: 98%;" name="rules"><?php echo $wp_rewrite->mod_rewrite_rules(); ?>
 </textarea>
     </p>
-<?php endif; ?>
 </form>
+<?php endif; ?>
 
 </div>
 

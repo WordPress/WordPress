@@ -634,7 +634,7 @@ function parent_dropdown($default = 0, $parent = 0, $level = 0) {
 			else
 				$current = '';
 
-			echo "\n\t<option value='$item->ID'$current>$pad $item->post_title</a></option>";
+			echo "\n\t<option value='$item->ID'$current>$pad $item->post_title</option>";
 			parent_dropdown($default, $item->ID, $level + 1);
 		}
 	} else {

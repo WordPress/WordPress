@@ -86,7 +86,7 @@ if ( $recents = get_option('recently_edited') ) :
 <?php
 echo '<ol>';
 foreach ($recents as $recent) :
-	echo "<li><a href='templates.php?file=$recent'>" . get_file_description(basename($recent)) . "</a>";
+	echo "<li><a href='templates.php?file=$recent'>" . get_file_description(basename($recent)) . "</a></li>";
 endforeach;
 echo '</ol>';
 endif;
@@ -137,4 +137,5 @@ endif;
 break;
 }
 
-include("admin-footer.php") ?> 
+include("admin-footer.php");
+?>
