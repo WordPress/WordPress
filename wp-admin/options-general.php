@@ -46,6 +46,7 @@ if ($user_level <= 3) {
  <ul id="adminmenu2"> 
  	<li><a class="current">General</a></li>
 	<li><a href="options-writing.php">Writing</a></li>
+	<li><a href="options-reading.php">Reading</a></li>
 	<li><a href="options-discussion.php">Discussion</a></li>
   <?php
     //we need to iterate through the available option groups.

@@ -55,6 +55,10 @@ default:
 	}
 ?>
  <ul id="adminmenu2"> 
+ <li><a href="options-general.php">General</a></li>
+	<li><a href="options-writing.php">Writing</a></li>
+	<li><a href="options-reading.php">Reading</a></li> 
+	<li><a href="options-discussion.php">Discussion</a></li>
   <?php
     //we need to iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
@@ -68,7 +72,7 @@ default:
         }
     } // end for each group
 ?> 
-  <li class="last"><a href="options-permalink.php">Permalinks</a></li> 
+  <li class="last"><a class="current">Permalinks</a></li> 
 </ul> 
 <br clear="all" /> 
 <div class="wrap"> 

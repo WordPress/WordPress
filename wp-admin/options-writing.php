@@ -1,5 +1,5 @@
 <?php
-$title = 'Writing Options';
+$title = 'Reading Options';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -46,6 +46,7 @@ if ($user_level <= 3) {
  <ul id="adminmenu2"> 
   <li><a href="options-general.php">General</a></li> 
   <li><a class="current">Writing</a></li> 
+  <li><a href="options-reading.php">Reading</a></li> 
   <li><a href="options-discussion.php">Discussion</a></li>
   <?php
     //we need to iterate through the available option groups.
@@ -94,12 +95,6 @@ Advanced controls</label>
   <input name="use_balanceTags" type="checkbox" id="label2" value="1" <?php checked('1', get_settings('use_balanceTags')); ?> />
   WordPress should correct invalidly nested XHTML automatically</label></td>
       </tr>
-      <tr valign="top"> 
-        <th scope="row">Character Encoding: </th> 
-        <td><input name="blog_charset" type="text" id="blog_charset" value="<?php echo get_settings('blog_charset'); ?>" size="20" class="code" /> 
-          <br /> 
-          The character encoding you write your blog in (UTF-8 recommended<a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html"></a>)</td> 
-      </tr> 
     </table> 
     <fieldset>
 	<legend>Update Services</legend>

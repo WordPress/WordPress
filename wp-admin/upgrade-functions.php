@@ -704,6 +704,9 @@ function upgrade_110() {
 		}
 	}
 	
+	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 1");
+	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 2");
+	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 3");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 6");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 7");
 

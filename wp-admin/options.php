@@ -64,6 +64,10 @@ case 'update':
 
     $options = $wpdb->get_results("SELECT $tableoptions.option_id, option_name, option_type, option_value, option_admin_level FROM $tableoptions WHERE option_name IN ($option_names)");
 //	die(var_dump($options));
+
+// HACK
+// Options that if not there have 0 value but need to be something like "closed"
+$nonbools = array('default_ping_status', 'default_comment_status');
     if ($options) {
         foreach ($options as $option) {
             // should we even bother checking?
@@ -71,21 +75,16 @@ case 'update':
                 $old_val = stripslashes($option->option_value);
                 $new_val = $_POST[$option->option_name];
 				if (!$new_val) $new_val = 0;
-
-                if ($new_val != $old_val) {
-                    // get type and validate
-                    $msg = validate_option($option, $this_name, $new_val);
-                    if ($msg == '') {
-                        //no error message
-                        $result = $wpdb->query("UPDATE $tableoptions SET option_value = '$new_val' WHERE option_id = $option->option_id");
-                        if (!$result) {
-                            $db_errors .= " SQL error while saving $this_name. ";
-                        } else {
-                            ++$any_changed;
-                        }
-                    } else {
-                        $validation_message .= $msg;
-                    }
+				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_value = 'closed';
+                if ($new_val !== $old_val) {
+					$query = "UPDATE $tableoptions SET option_value = '$new_val' WHERE option_id = $option->option_id";
+					$result = $wpdb->query($query);
+					//if( in_array($option->option_name, $nonbools)) die('boo'.$query);
+					if (!$result) {
+						$db_errors .= " SQL error while saving $this_name. ";
+					} else {
+						++$any_changed;
+					}
                 }
             }
         } // end foreach
@@ -142,6 +141,9 @@ if ($non_was_selected) { // no group pre-selected, display opening page
 ?>
 <ul id="adminmenu2">
 <li><a href="options-general.php">General</a></li>
+	<li><a href="options-writing.php">Writing</a></li>
+	<li><a href="options-reading.php">Reading</a></li> 
+	<li><a href="options-discussion.php">Discussion</a></li>
 <?php
     //Iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");

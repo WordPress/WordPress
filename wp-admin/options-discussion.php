@@ -46,6 +46,7 @@ if ($user_level <= 3) {
  <ul id="adminmenu2"> 
   <li><a href="options-general.php">General</a></li> 
   <li><a href="options-writing.php">Writing</a></li> 
+  <li><a href="options-reading.php">Reading</a></li>
   <li><a class="current">Discussion</a></li> 
   <?php
     //we need to iterate through the available option groups.
@@ -67,7 +68,7 @@ if ($user_level <= 3) {
   <h2>Discussion Options</h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-    <input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','use_smilies','comments_notify','moderation_notify','comment_moderation','moderation_keys'" /> 
+    <input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','moderation_keys'" /> 
     <p>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></p> 
     <ul> 
       <li> 
@@ -82,7 +83,7 @@ if ($user_level <= 3) {
       </li> 
       <li> 
         <label for="default_comment_status"> 
-        <input name="default_comment_status" type="checkbox" id="default_comment_status" value="1" <?php checked('1', get_settings('default_comment_status')); ?> /> 
+        <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked('open', get_settings('default_comment_status')); ?> /> 
         Allow people to post comments on the article</label> 
       </li> 
     </ul> 
@@ -104,8 +105,12 @@ if ($user_level <= 3) {
       <li> 
         <label for="comment_moderation"> 
         <input name="comment_moderation" type="checkbox" id="comment_moderation" value="1" <?php checked('1', get_settings('comment_moderation')); ?> /> 
-        An administrator must approve the comment (regardless of any matches below) </label> 
+        An administrator must approve the comment (regardless of any matches below) </label>
       </li> 
+      <li>
+      	<input type="checkbox" name="require_name_email" value="1" <?php checked('1', get_settings('require_name_email')); ?> />
+      	User must fill out name and email 
+</li>
     </ul> 
     <p>When a comment contains any of these words in its content, name, URI, or email, hold it in the moderation queue: (Seperate multiple words with new lines.)</p> 
     <p> 
