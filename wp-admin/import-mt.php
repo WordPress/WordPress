@@ -77,7 +77,7 @@ function users_form($n) {
 	?><select name="userselect[<?php echo $n; ?>]">
 	<option value="#NONE#">- Select -</option>
 	<?php foreach($users as $user) {
-		echo '<option value="'.$user->user_nickname.'">'.$user->user_nickname.'</option>';
+		echo '<option value="'.$user->user_login.'">'.$user->user_login.'</option>';
 		} ?>
 	</select>
 <?php }
@@ -398,7 +398,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 	flush();
 
 } }
-
+upgrade_all();
 ?>
 </ol>
 <h3>All done. <a href="../">Have fun!</a></h3>
