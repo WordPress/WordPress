@@ -9,7 +9,6 @@ if (empty($feed)) {
 header('Content-type: application/rdf+xml; charset=' . get_settings('blog_charset'), true);
 $more = 1;
 
-add_filter('the_content', 'trim');
 ?>
 <?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->

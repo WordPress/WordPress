@@ -61,6 +61,7 @@ $tableoptions = $wpdb->options;
 $tablepostmeta = $wpdb->postmeta;
 
 require (ABSPATH . WPINC . '/functions.php');
+require (ABSPATH . WPINC . '/default-filters.php');
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
 $wpdb->hide_errors();

@@ -1,7 +1,5 @@
 <?php
 
-add_filter('sanitize_title', 'sanitize_title_with_dashes');
-
 function wptexturize($text) {
 	$output = '';
 	// Capture tags and everything inside them
