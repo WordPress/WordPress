@@ -193,7 +193,7 @@ textarea,input,select {
 			if (!$result)
 				die ("Error in posting...");
 			
-			$sql2 = "SELECT * FROM $wpdb->posts WHERE 1=1 ORDER BY ID DESC LIMIT 1";
+			$sql2 = "SELECT * FROM $wpdb->posts ORDER BY ID DESC LIMIT 1";
 			$result2 = mysql_query($sql2);
 			$myrow2 = mysql_fetch_array($result2);
 			$post_ID=$myrow2[0];
