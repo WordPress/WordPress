@@ -60,7 +60,7 @@ case 'login':
 
 	if(!empty($_POST)) {
 		$log = $_POST['log'];
-		$pwd = $_POST['pwd'];
+		$pwd = stripslashes($_POST['pwd']);
 		$redirect_to = $_POST['redirect_to'];
 	}
 	
