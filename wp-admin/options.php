@@ -45,7 +45,7 @@ if ($option_group_id == '') {
 switch($action) {
 
 case "update":
-	$standalone = 0;
+	$standalone = 1;
 	include_once("./admin-header.php");
     $any_changed = 0;
     
