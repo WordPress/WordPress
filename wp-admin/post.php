@@ -315,7 +315,7 @@ case 'editpost':
 		$mn = ($mn > 59) ? $mn - 60 : $mn;
 		$ss = ($ss > 59) ? $ss - 60 : $ss;
 		$datemodif = ", post_date = '$aa-$mm-$jj $hh:$mn:$ss'";
-	$datemodif_gmt = ", post_date = '".get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss")."'";
+	$datemodif_gmt = ", post_date_gmt = '".get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss")."'";
 	} else {
 		$datemodif = '';
 		$datemodif_gmt = '';
@@ -340,8 +340,10 @@ $now_gmt = current_time('mysql', 1);
 			post_content = '$content',
 			post_excerpt = '$excerpt',
 			post_title = '$post_title'"
+			.$datemodif_gmt
 			.$datemodif.","
 			.$latlonaddition."
+			
 			post_status = '$post_status',
 			comment_status = '$comment_status',
 			ping_status = '$ping_status',
