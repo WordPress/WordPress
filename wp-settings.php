@@ -44,7 +44,7 @@ require (ABSPATH . WPINC . '/kses.php');
 // We should eventually migrate to either calling
 // get_settings() wherever these are needed OR
 // accessing a single global $all_settings var
-if (!strstr($HTTP_SERVER_VARS['REQUEST_URI'], 'install.php')) {
+if (!strstr($HTTP_SERVER_VARS['REQUEST_URI'], 'install.php') && !strstr($HTTP_SERVER_VARS['REQUEST_URI'], 'wp-admin/import')) {
     $siteurl = get_settings('siteurl');
 	// "When trying to design a foolproof system, 
 	//  never underestimate the ingenuity of the fools :)"

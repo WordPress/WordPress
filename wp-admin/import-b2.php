@@ -1,7 +1,7 @@
 <?php
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
 require_once('../wp-config.php');
-
+require('upgrade-functions.php');
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 ?>
@@ -240,13 +240,10 @@ flush();
 $query = "ALTER TABLE $tableusers DROP INDEX ID";
 
 $q = $wpdb->query($query);
-upgrade_071();
-upgrade_072();
-upgrade_100();
+upgrade_all();
 ?>
 
-<p>Don't forget to CHMOD the <code>weblogs.com.changes.cache</code> file and you'll 
-  be A-okay. Welcome to the family.</p>
+<p>Welcome to the family. <a href="../">Have fun</a>!</p>
   <?php
 	break;
 }
