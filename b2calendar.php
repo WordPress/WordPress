@@ -51,20 +51,27 @@ $calendaremptycellcontent = '&nbsp;';
 /* stop customizing (unless you really know what you're doing) */
 
 
-require('b2config.php');
+require_once('wp-config.php');
 require_once($abspath.$b2inc.'/b2template.functions.php');
 require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc.'/b2vars.php');
+
+$w = $HTTP_GET_VARS['w'];
 
 if (isset($calendar) && ($calendar != '')) {
 	$thisyear = substr($calendar,0,4);
 	$thismonth = substr($calendar,4,2);
 } else {
-	if (isset($m) && ($m != '')) {
+    if (isset($w) && ($w != '')) {
+        $thisyear = substr($m,0,4);
+        $w = ''.intval($w);
+        $d = (($w - 1) * 7) + 6; //it seems mysqls weeks disagree with php's
+        $thismonth = $wpdb->get_var("SELECT  DATE_FORMAT((DATE_ADD('${thisyear}0101', INTERVAL $d DAY) ), '%m')");
+    } else if (isset($m) && ($m != '')) {
 		$calendar = substr($m,0,6);
 		$thisyear = substr($m,0,4);
 		if (strlen($m) < 6) {
-			$thismonth = '01';
+            $thismonth = '01';
 		} else {
 			$thismonth = substr($m,4,2);
 		}
@@ -201,9 +208,11 @@ if ($ak_use_tooltip_titles == 1) {
 	$ak_days_result = $wpdb->get_results("SELECT post_title, post_date FROM $tableposts WHERE YEAR(post_date) = '$thisyear' AND MONTH(post_date) = '$thismonth' AND post_status = 'publish'");
 
 	$ak_day_title_array = array();
-	foreach($ak_days_result as $ak_temp) {
-		$ak_day_title_array[] = $ak_temp;
-	}
+    if ($ak_days_result) {
+        foreach($ak_days_result as $ak_temp) {
+            $ak_day_title_array[] = $ak_temp;
+        }
+    }
 	if (strstr($HTTP_SERVER_VARS["HTTP_USER_AGENT"], "MSIE")) {
 		$ak_title_separator = "\n";
 		$ak_trim = 1;
@@ -241,7 +250,7 @@ for($i = $calendarfirst; $i<($calendarlast+86400); $i = $i + 86400) {
 			// original tooltip hack by Alex King 
 			if ($ak_use_tooltip_titles == 1) { // check to see if we want to show the tooltip titles
 				$ak_day_titles = "";
-				foreach($ak_day_title_array as $post) {
+                foreach($ak_day_title_array as $post) {
 					if (substr($post->post_date, 8, 2) == date('d',$i)) {
 						$ak_day_titles = $ak_day_titles.htmlspecialchars(stripslashes($post->post_title)).$ak_title_separator;
 					}
