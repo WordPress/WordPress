@@ -419,6 +419,12 @@ function get_pagenum_link($pagenum = 1){
    $page_modregex = "page/?";
    $permalink = 0;
 
+	 $home_root = parse_url(get_settings('home'));
+	 $home_root = $home_root['path'];
+   $home_root = trailingslashit($home_root);
+   $qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
+   $qstr = preg_replace('|^/+|', '', $qstr);
+
    // if we already have a QUERY style page string
    if( stristr( $qstr, $page_querystring ) ) {
        $replacement = "$page_querystring=$pagenum";
@@ -447,7 +453,7 @@ function get_pagenum_link($pagenum = 1){
 	 } else {
 	   // If using path info style permalinks, make sure the index is in
 	   // the URI.
-	   if (! strstr($qstr, get_settings('blogfilename'))) {
+	   if (strpos($qstr, get_settings('blogfilename')) === false) {
 	     $qstr = '/' . get_settings('blogfilename') . $qstr;
 	   }
 	 }
@@ -458,11 +464,6 @@ function get_pagenum_link($pagenum = 1){
       }
    }
 
-   $home_root = str_replace('http://', '', trim(get_settings('home')));
-   $home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
-   $home_root = preg_replace('|/+|i', '/', $home_root);
-   $home_root = trailingslashit($home_root);
-   $qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
    $qstr = preg_replace('|^/+|', '', $qstr);
    if ($permalink) $qstr = trailingslashit($qstr);
    return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
