@@ -30,7 +30,7 @@ if ($a=="b") {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css" />
+<link rel="stylesheet" href="b2.css" type="text/css" />
 </head>
 <body>
 <br />
@@ -47,8 +47,8 @@ if ($a=="b") {
 
 ?><html>
 <head>
-<title>b2 > sidebar</title>
-<link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
+<title>WordPress > sidebar</title>
+<link rel="stylesheet" href="b2.css" type="text/css">
 <?php
 if ($use_spellchecker) {
 ?><script type="text/javascript" language="javascript">
@@ -73,7 +73,7 @@ window.open("<?php echo $siteurl ?>/b2spell.php","Spell",
 <style type="text/css">
 <!--
 body {
-	background-image: url('b2-img/b2minilogo.png');
+	background-image: url('../b2-img/b2minilogo.png');
 	background-repeat: no-repeat;
 	background-position: 50px 90px;
 	padding: 3px;
@@ -83,7 +83,7 @@ textarea,input,select {
 	font-size: 12px;
 	background-color: transparent;
 <?php if ($is_gecko || $is_macIE) { ?>
-	background-image: url('b2-img/bgbookmarklet.png');
+	background-image: url('../b2-img/bgbookmarklet.png');
 <?php } elseif ($is_winIE) { ?>
 	background-color: #dddddd;
 	filter: alpha(opacity:80);
@@ -106,10 +106,7 @@ textarea,input,select {
 </style>
 </head>
 <body>
-<!--<table width="100%" cellpadding="0" cellspacing="0">
-<td><img src="b2-img/b2minilogo.png"></td>
-</table>
--->
+
 <form name="post" action="b2edit.php" method="POST" accept-charset="iso-8859-1">
 <input type="hidden" name="action" value="post" />
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />

@@ -109,15 +109,15 @@ default:
 		echo "<tr>\n<!--".$user_data["user_login"]."-->\n";
 		$email = $user_data["user_email"];
 		$url = $user_data["user_url"];
-		$bg1 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('b2-img/b2button.gif');\"" : "bgcolor=\"#dddddd\"";
-		$bg2 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('b2-img/b2button.gif');\"" : "bgcolor=\"#eeeeee\"";
+		$bg1 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('../b2-img/b2button.gif');\"" : "bgcolor=\"#dddddd\"";
+		$bg2 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('../b2-img/b2button.gif');\"" : "bgcolor=\"#eeeeee\"";
 		echo "<td $bg1>".$user_data["ID"]."</td>\n";
 		echo "<td $bg2><b><a href=\"javascript:profile(".$user_data["ID"].")\">".$user_data["user_nickname"]."</a></b></td>\n";
 		echo "<td $bg1>".$user_data["user_firstname"]."&nbsp;".$user_data["user_lastname"]."</td>\n";
-		echo "<td $bg2>&nbsp;<a href=\"mailto:$email\" title=\"e-mail: $email\"><img src=\"b2-img/email.gif\" border=\"0\" alt=\"e-mail: $email\" /></a>&nbsp;</td>";
+		echo "<td $bg2>&nbsp;<a href=\"mailto:$email\" title=\"e-mail: $email\"><img src='../b2-img/email.gif' border=\"0\" alt=\"e-mail: $email\" /></a>&nbsp;</td>";
 		echo "<td $bg1>&nbsp;";
 		if (($user_data["user_url"] != "http://") and ($user_data["user_url"] != ""))
-			echo "<a href=\"$url\" target=\"_blank\" title=\"website: $url\"><img src=\"b2-img/url.gif\" border=\"0\" alt=\"website: $url\" /></a>&nbsp;";
+			echo "<a href=\"$url\" target=\"_blank\" title=\"website: $url\"><img src=\"../b2-img/url.gif\" border=\"0\" alt=\"website: $url\" /></a>&nbsp;";
 		echo "</td>\n";
 		echo "<td $bg2>".$user_data["user_level"];
 		if (($user_level >= 2) and ($user_level > ($user_data["user_level"] + 1)))
@@ -162,15 +162,15 @@ default:
 		echo "<tr>\n<!--".$user_data["user_login"]."-->\n";
 		$email = $user_data["user_email"];
 		$url = $user_data["user_url"];
-		$bg1 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('b2-img/b2button.gif');\"" : "bgcolor=\"#dddddd\"";
-		$bg2 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('b2-img/b2button.gif');\"" : "bgcolor=\"#eeeeee\"";
+		$bg1 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('../b2-img/b2button.gif');\"" : "bgcolor=\"#dddddd\"";
+		$bg2 = ($user_data["user_login"] == $user_login) ? "style=\"background-image: url('../b2-img/b2button.gif');\"" : "bgcolor=\"#eeeeee\"";
 		echo "<td $bg1>".$user_data["ID"]."</td>\n";
 		echo "<td $bg2><b><a href=\"javascript:profile(".$user_data["ID"].")\">".$user_data["user_nickname"]."</a></b></td>\n";
 		echo "<td $bg1>".$user_data["user_firstname"]."&nbsp;".$user_data["user_lastname"]."</td>\n";
-		echo "<td $bg1>&nbsp;<a href=\"mailto:".antispambot($email)."\" title=\"e-mail: ".antispambot($email)."\"><img src=\"b2-img/email.gif\" border=\"0\" alt=\"e-mail: ".antispambot($email)."\" /></a>&nbsp;</td>";
+		echo "<td $bg1>&nbsp;<a href=\"mailto:".antispambot($email)."\" title=\"e-mail: ".antispambot($email)."\"><img src=\"../b2-img/email.gif\" border=\"0\" alt=\"e-mail: ".antispambot($email)."\" /></a>&nbsp;</td>";
 		echo "<td $bg2>&nbsp;";
 		if (($user_data["user_url"] != "http://") and ($user_data["user_url"] != ""))
-			echo "<a href=\"$url\" target=\"_blank\" title=\"website: $url\"><img src=\"b2-img/url.gif\" border=\"0\" alt=\"website: $url\" /></a>&nbsp;";
+			echo "<a href=\"$url\" target=\"_blank\" title=\"website: $url\"><img src=\"../b2-img/url.gif\" border=\"0\" alt=\"website: $url\" /></a>&nbsp;";
 		echo "</td>\n";
 		echo "<td $bg1>".$user_data["user_level"];
 		if ($user_level >= 2)

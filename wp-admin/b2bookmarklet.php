@@ -76,9 +76,9 @@ function launchupload() {
 body {
 	background-image: url('<?php
 if ($is_gecko || $is_IE) {
-?>b2-img/bgbookmarklet1.gif<?php
+?>../b2-img/bgbookmarklet1.gif<?php
 } else {
-?>b2-img/bgbookmarklet3.gif<?php
+?>../b2-img/bgbookmarklet3.gif<?php
 }
 ?>');
 	background-repeat: no-repeat;
@@ -89,7 +89,7 @@ if (!$is_NS4) {
 textarea,input,select {
 	background-color: transparent;
 <?php if ($is_gecko || $is_macIE) { ?>
-	background-image: url('b2-img/bgbookmarklet.png');
+	background-image: url('../b2-img/bgbookmarklet.png');
 <?php } elseif ($is_winIE) { ?>
 	background-color: #cccccc;
 	filter: alpha(opacity:80);
@@ -157,8 +157,8 @@ if (($is_gecko) && (!isset($Gecko_bookmarklet_fix))) {
 <td width="40">&nbsp;</td>
 <td align="left" width="415">
 <table cellspacing="0" cellpadding="0">
-<td height="50" width="250" align="left" valign="bottom"><b>Title</b><br />
-<input type="text" name="post_title" size="20" tabindex="1" style="width: 215px;" value="<?php echo stripslashes($popuptitle) ?>" /></td>
+<td height="50" width="250" align="left" valign="bottom"><label>Title<br />
+<input type="text" name="post_title" size="20" tabindex="1" style="width: 215px;" value="<?php echo stripslashes($popuptitle) ?>" /></label></td>
 <td width="165" align="left" valign="bottom"><b>Category</b><br /><?php dropdown_categories(); ?></td>
 </table>
 </td>
@@ -168,7 +168,7 @@ if (($is_gecko) && (!isset($Gecko_bookmarklet_fix))) {
 <td width="415" align="left" height="40">
 <table width="415" cellpadding="0" cellspacing="0">
 <td align="left" valign="bottom"><b>Post</b></td>
-<td align="right" valign="bottom"><?php if ($use_quicktags) include($b2inc."/b2quicktags.php"); ?></td>
+<td align="right" valign="bottom"><?php if ($use_quicktags) include("b2quicktags.php"); ?></td>
 </table>
 <?php
 if ((preg_match("/Nav/",$HTTP_USER_AGENT)) || (preg_match("/Mozilla\/4\.7/",$HTTP_USER_AGENT))) {
@@ -191,7 +191,6 @@ preg_match("/\%u[1-9A-F][1-9A-F][1-9A-F][1-9A-F]/is", $text, $stufftofix);
 
 <table cellpadding="0" cellspacing="0">
 <td align="left" width="90">
-<input type="checkbox" name="post_autobr" value="1" <?php if ($autobr) echo " checked" ?> tabindex="4" class="checkbox" id="autobr" /><label for="autobr"> Auto-BR</label>
 </td>
 <?php if ($pingback) { ?>
 <td align="left">
@@ -201,22 +200,17 @@ preg_match("/\%u[1-9A-F][1-9A-F][1-9A-F][1-9A-F]/is", $text, $stufftofix);
 </table>
 
 <?php if ($use_preview) { ?>
-<input type="button" value="preview" onclick="preview(this.form);" class="search" tabindex="8" />
+<input type="button" value="preview" onClick="preview(this.form);" class="search" tabindex="8" />
 <?php } ?>
 
 <input type="submit" name="submit" value="Blog this !" class="search" tabindex="3" /> 
 
-<?php if ($use_spellchecker) { ?>
-<!--<input type = "button" value = "Spell Check" onclick="var f=document.forms[0]; doSpell( 'en', f.post_content, '<?php echo $spellchecker_url ?>/sproxy.cgi', true);" class="search" tabindex="5" />-->
-<input type="button" value="Spellcheck" onclick="DoSpell
-('post','content','');" class="search" />
-<?php } ?>
 
 <?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && ((ereg(" ".$user_login." ", $fileupload_allowedusers)) || (trim($fileupload_allowedusers)=="")) ) { ?>
-<input type="button" value="upload a file" onclick="launchupload();" class="search" />
+<input type="button" value="upload a file" onClick="launchupload();" class="search" />
 <?php } ?>
 
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
 <!--
 window.focus();
 //				document.blog.post_content.focus();
@@ -228,8 +222,8 @@ window.focus();
 <tr>
 <td width="40">&nbsp;</td>
 <td width="415" align="left" height="40">
-<b>TrackBack</b> an URL:<br />
-<input type="text" name="trackback_url" style="width: 415px" />
+<label for="trackback"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym>:</label> (Seperate multiple URLs with commas.)<br />
+<input type="text" name="trackback" style="width: 415px" />
 </td>
 </tr>
 <?php } ?>
@@ -238,16 +232,7 @@ window.focus();
 
 </form>
 
-<!-- this is for the spellchecker -->
-<form name="SPELLDATA"><div>
-<input name="formname" type="hidden" value="">
-<input name="messagebodyname" type="hidden" value="">
-<input name="subjectname" type="hidden" value="">
-<input name="companyID" type="hidden" value="">
-<input name="language" type="hidden" value="">
-<input name="opener" type="hidden" value="">
-<input name="formaction" type="hidden" value="">
-</div></form>
+</div>
 
 </body>
 </html><?php
