@@ -195,6 +195,10 @@ class WP_Query {
 		return '';
 	}
 
+	function set($query_var, $value) {
+		$this->query_vars[$query_var] = $value;
+	}
+
 	function get_posts() {
 		global $wpdb, $pagenow, $request, $user_ID;
 
