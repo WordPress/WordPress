@@ -13,9 +13,10 @@ if ($user_level == 0)
 
 if ('b' == $a) {
 
-?><html>
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 <!--
 window.close()
 -->
@@ -27,7 +28,7 @@ window.close()
 } else {
 
     $popuptitle = stripslashes($popuptitle);
-    $text = stripslashes($text);
+    $text = stripslashes(urldecode($text));
     
     /* big funky fixes for browsers' javascript bugs */
     
@@ -70,11 +71,11 @@ window.close()
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>WordPress > Bookmarklet</title>
+<title><?php bloginfo('name') ?> &rsaquo; Bookmarklet &#8212; WordPress</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
-<script type="text/javascript" language="javascript">
+<script type="text/javascript">
 <!--
 function launchupload() {
 	window.open ("upload.php", "wpupload", "width=380,height=360,location=0,menubar=0,resizable=1,scrollbars=yes,status=1,toolbar=0");
@@ -121,7 +122,9 @@ function launchupload() {
 </style>
 </head>
 <body id="wpbookmarklet">
-<h1 id="wphead"><a href="http://wordpress.org" rel="external">WordPress</a></h1>
+<div id="wphead">
+<h1><?php bloginfo('name') ?></h1>
+</div>
 
 <?php require('edit-form.php'); ?>
 
