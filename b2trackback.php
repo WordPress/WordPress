@@ -86,7 +86,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 			$subject = '[' . stripslashes($blogname) . '] Trackback: "' .stripslashes($postdata['Title']).'"';
 
 			$from = "From: wordpress@".$HTTP_SERVER_VARS['SERVER_NAME'];
-			$from .= "X-Mailer: WordPress $b2_version with PHP/" . phpversion();
+			$from .= "\r\nX-Mailer: WordPress $b2_version with PHP/" . phpversion();
 
 			@mail($authordata->user_email, $subject, $notify_message, $from);
 		}
