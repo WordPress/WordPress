@@ -139,19 +139,6 @@ if ($action != 'editcomment') {
     }
 }
 ?>
-<fieldset id="postcustom">
-<legend><?php _e('Post Custom') ?></legend>
-<?php 
-if($metadata = has_meta($post_ID)) {
-?>
-<?php
-	list_meta($metadata); 
-?>
-<?php
-}
-	meta_form();
-?>
-</fieldset>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
@@ -179,11 +166,23 @@ if ('' != $pinged) {
 if ($user_level > 4) {
 	touch_time(($action == 'edit'));
 }
-if ('edit' == $action) echo "
-<p><a href='post.php?action=delete&amp;post=$post_ID' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title)) . "')\">" .  __('Delete this post') . "</a></p>";
 ?>
-
+<fieldset id="postcustom">
+<legend><?php _e('Custom Fields') ?></legend>
+<?php 
+if($metadata = has_meta($post_ID)) {
+?>
+<?php
+	list_meta($metadata); 
+?>
+<?php
+}
+	meta_form();
+?>
+</fieldset>
 </div>
 </form>
-
+<?php if ('edit' == $action) echo "
+<p><a class='delete' href='post.php?action=delete&amp;post=$post_ID' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title)) . "')\">" .  __('Delete this post') . "</a></p>";
+?>
 </div>

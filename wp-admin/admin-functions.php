@@ -216,28 +216,30 @@ function has_meta($postid) {
 function list_meta($meta) {
 	global $post_ID;	
 	// Exit if no meta
-	if (!$meta) return;
-
-	
-	print "
-	<table id='meta-list'>
-		<tr>
-			<th>Key</th>
-			<th>Value</th>
-			<th>&nbsp</th>
-		</tr>\n";
+	if (!$meta) return;	
+?>
+<table id='meta-list' width='98%'>
+	<tr>
+		<th><?php _e('Key') ?></th>
+		<th><?php _e('Value') ?></th>
+		<th colspan='2'><?php _e('Action') ?></th>
+	</tr>
+<?php
 		
 	foreach ($meta as $entry) {
-		// TBD: Still need to add edit/del logic...
-		print "
-		<tr>
-			<td>{$entry['meta_key']}</td>
-			<td>{$entry['meta_value']}</td>
-			<td><a href=\"?action=deletemeta&amp;meta_id={$entry['meta_id']}&amp;post={$entry['post_id']}\">Delete</a></td>
-		</tr>\n";
+		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
+		echo "
+	<tr $style>
+		<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' value='{$entry['meta_key']}' /></td>
+		<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='40'>{$entry['meta_value']}</textarea></td>
+		<td align='center'><input name='updatemeta' type='submit' id='updatemeta' tabindex='6' value='" . __('Update') ."' /></td>
+		<td align='center'><input name='deletemeta[{$entry['meta_id']}]' type='submit' id='deletemeta' tabindex='6' value='" . __('Delete') ."' /></td>
+	</tr>
+";
 	}
-	print "
-	</table>\n";
+	echo "
+	</table>
+";
 }
 
 // Get a list of previously defined keys
@@ -256,43 +258,37 @@ function get_meta_keys() {
 function meta_form() {
 	$keys = get_meta_keys();
 ?>
-<h4><?php _e('Add new custom data to this post:') ?></h4>
-<div id="postcustomkeys">
-<p><?php _e('Select existing key or enter new key') ?></p>
-<?php
-if ($keys) {
-?>
-<select id="metakeyselect" name="metakeyselect">
+<h3><?php _e('Add new custom data to this post:') ?></h3>
+<table width="100%" cellspacing="3" cellpadding="3">
+	<tr>
+<th colspan="2"><?php _e('Key') ?></th>
+<th><?php _e('Value') ?></th>
+<th></th>
+</tr>
+	<tr valign="top">
+		<td align="right"><select id="metakeyselect" name="metakeyselect">
 <option value="#NONE#">- Select -</option>
 <?php
 	foreach($keys as $key) {
-		echo "<option value='$key'>$key</option>\n";
+		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>
-</select>
-<?php
-} // if ($keys)
-?>
-<input type="text" id="metakeyinput" name="metakeyinput" />
-</div>
-<div id="postcustomvals">
-<p><?php _e('Custom Value') ?></p>
+</select> or </td><td><input type="text" id="metakeyinput" name="metakeyinput" /></td>
+		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25"></textarea></td>
+		<td></td>
+	</tr>
 
-<textarea id="metavalue" name="metavalue" rows="3" cols="25"></textarea>
-</div>
-<br style="clear: both;" />
-<div id="postcustomsubmit">
-<input type="submit" id="save" name="save" value="<?php _e('Add Custom') ?>">
-</div>
+</table>
+<p class="submit"><input type="submit" id="save" name="save" value="<?php _e('Add Custom Fields &raquo;') ?>"></p>
 <?php
 }
 
 function add_meta($post_ID) {
 	global $wpdb, $tablepostmeta;
 	
-	$metakeyselect = trim($_POST['metakeyselect']);
-	$metakeyinput = trim($_POST['metakeyinput']);
-	$metavalue = trim($_POST['metavalue']);
+	$metakeyselect = $wpdb->escape( stripslashes( trim($_POST['metakeyselect']) ) );
+	$metakeyinput  = $wpdb->escape( stripslashes( trim($_POST['metakeyinput']) ) );
+	$metavalue     = $wpdb->escape( stripslashes( trim($_POST['metavalue']) ) );
 
 	if (!empty($metavalue) && ((('#NONE#' != $metakeyselect) && !empty($metakeyselect)) || !empty($metakeyinput))) {
 		// We have a key/value pair. If both the select and the 
@@ -314,7 +310,7 @@ function add_meta($post_ID) {
 
 function del_meta($mid) {
 	global $wpdb, $tablepostmeta;
-	
+
 	$result = $wpdb->query("DELETE FROM $tablepostmeta WHERE meta_id = '$mid'");
 }
 

@@ -329,7 +329,7 @@ textarea, input, select {
 	border: 1px solid #aaa;
 	margin: 0.25em;
 	padding: 0.25em;
-	width: 30em;
+	width: 98%;
 }
 
 #postcustom p {
@@ -337,28 +337,27 @@ textarea, input, select {
 }
 
 #postcustom table {
-	background-color: #eee;
 	border: 1px solid #ccc;
-	color: #000;
-	margin-bottom: 1em;
-	padding: 0px;
+	margin: .5em;
 	width: 100%;
+	
+}
+
+#postcustom table input, #postcustom table textarea {
+	width: 97%;
 }
 
 #postcustom td, #postcustom th {
 	color: #000;
-	margin: 1px;
-	padding: 0.2em;
+	margin: 0.2em;
+	padding: .3em;
 }
 
-#postcustomkeys {
-	float: left;
-	width: 49%;
+#postcustom #updatemeta, #postcustom #deletemeta {
+	width: 90%;
+	margin: auto;
 }
 
-#postcustomkeys input, #postcustom select, #postcustom textarea {
-	width: 95%;
-}
 fieldset legend a {
 	border-bottom: none;
 }
