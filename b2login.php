@@ -281,7 +281,7 @@ default:
 <p>
 	<a href="<?php echo $siteurl?>" title="Are you lost?">Back to blog?</a><br />
 <?php if ($users_can_register) { ?>
-	<a href="<?php echo $siteurl; ?>/b2register.php" title="Register to be an author">Register?</a><br />
+	<a href="<?php echo $siteurl; ?>/wp-register.php" title="Register to be an author">Register?</a><br />
 <?php } ?>
 	<a href="<?php echo $siteurl; ?>/b2login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>
 </p>

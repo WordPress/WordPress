@@ -178,7 +178,7 @@ default:
 <div id="login">
 <h2>Registration</h2>
 
-<form method="post" action="b2register.php">
+<form method="post" action="wp-register.php">
 	<input type="hidden" name="action" value="register" />
 	<label for="user_login">Login:</label> <input type="text" name="user_login" id="user_login" size="10" maxlength="20" /><br />
 	<label for="pass1">Password:</label> <input type="password" name="pass1" id="pass1" size="10" maxlength="100" /><br />
