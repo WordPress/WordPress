@@ -131,7 +131,8 @@ function utf8_uri_encode( $utf8_string ) {
 
 function remove_accents($string) {
 	if (seems_utf8($string)) {
-		$chars = array(chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
+		$chars = array(// Decompositions for Latin-1 Supplement
+									 chr(195).chr(128) => 'A', chr(195).chr(129) => 'A',
 									 chr(195).chr(130) => 'A', chr(195).chr(131) => 'A',
 									 chr(195).chr(132) => 'A', chr(195).chr(133) => 'A',
 									 chr(195).chr(135) => 'C', chr(195).chr(136) => 'E',
@@ -158,9 +159,12 @@ function remove_accents($string) {
 									 chr(195).chr(185) => 'u', chr(195).chr(186) => 'u',
 									 chr(195).chr(187) => 'u', chr(195).chr(188) => 'u',
 									 chr(195).chr(189) => 'y', chr(195).chr(191) => 'y',
+									 // Decompositions for Latin Extended-A
+									 // TODO: Finish me.
 									 chr(197).chr(146) => 'OE', chr(197).chr(147) => 'oe',
 									 chr(197).chr(160) => 'S', chr(197).chr(161) => 's',
 									 chr(197).chr(189) => 'Z', chr(197).chr(190) => 'z',
+									 // Euro Sign
 									 chr(226).chr(130).chr(172) => 'E');
 
 		$string = strtr($string, $chars);
