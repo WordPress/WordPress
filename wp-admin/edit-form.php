@@ -50,7 +50,7 @@ edCanvas = document.getElementById('content');
 //-->
 </script>
 
-<input type="hidden" name="post_pingback" value="1" id="post_pingback" />
+<input type="hidden" name="post_pingback" value="<?php echo get_option('default_pingback_flag') ?>" id="post_pingback" />
 
 <p><label for="trackback"> <?php printf(__('<a href="%s" title="Help on trackbacks"><strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>:</label> (Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)<br />'), 'http://wordpress.org/docs/reference/post/#trackback') ?>
 	<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>

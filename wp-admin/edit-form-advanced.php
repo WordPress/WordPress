@@ -20,7 +20,7 @@ if (0 == $post_ID) {
 	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
 }
 
-$form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_pingback" />';
+$form_pingback = '<input type="hidden" name="post_pingback" value="' . get_option('default_pingback_flag') . '" id="post_pingback" />';
 
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 
