@@ -250,17 +250,17 @@ textarea, input, select {
 
 #adminmenu li, #adminmenu2 li {
 	display: inline;
-	line-height: 2.0em;
+	line-height: 200%;
 	list-style: none;
 	text-align: center;
 }
 
 #adminmenu2 {
-	background: #707070;
+	background: #a3a3a3;
 	border-bottom: none;
-	height: 20px;
+	height: 21px;
 	margin: 0;
-	padding: 0 1em;
+	padding: 0 2em;
 }
 
 #adminmenu2 .current {
@@ -272,24 +272,17 @@ textarea, input, select {
 #adminmenu2 a {
 	border: none;
 	color: #fff;
-	font-size: 16px;
-	font-weight: normal;
-	margin: 0;
-	padding: 3px 5px;
-	text-decoration: none;
-}
-
-#adminmenu2 a {
+	padding: 3px 5px 4px;
 	font-size: 12px;
 }
 
 #adminmenu2 a:hover {
 	background: #f0f0f0;
-	color: #000;
+	color: #393939;
 }
 
 #adminmenu2 li {
-	line-height: 1.7em;
+	line-height: 170%;
 }
 
 #categorydiv {
