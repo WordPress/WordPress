@@ -1,7 +1,7 @@
 <?php 
 /* Don't remove these lines. */
 $blog = 1;
-require_once('wp-blog-header.php');
+require('wp-blog-header.php');
 // Uncomment the next line if you want to track blog updates from weblogs.com
 //include_once(ABSPATH.WPINC.'/links-update-xml.php');
 ?>

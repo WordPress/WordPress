@@ -8,7 +8,7 @@ $curpath = dirname(__FILE__).'/';
 if (!file_exists($curpath . '/wp-config.php'))
 	die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='wp-admin/install-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.");
 
-require_once ($curpath.'/wp-config.php');
+require($curpath.'/wp-config.php');
 
 $wpvarstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name');
 
@@ -339,7 +339,15 @@ if ($posts) {
     }
 
     // Do the same for comment numbers
-
+	$comment_counts = $wpdb->get_results("SELECT ID, COUNT( comment_ID ) AS ccount
+		FROM $tableposts
+		LEFT JOIN $tablecomments ON ( comment_post_ID = ID  AND comment_approved =  '1') 
+		WHERE post_status =  'publish' AND ID IN ($post_id_list)
+		GROUP BY ID");
+	
+	foreach ($comment_counts as $comment_count) {
+		$comment_count_cache["$comment_count->ID"] = $comment_count->ccount;
+	}
 
     if (1 == count($posts)) {
     	if ($p || $name) {

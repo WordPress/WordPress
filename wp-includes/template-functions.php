@@ -862,12 +862,10 @@ function the_ID() {
 	echo $id;
 }
 
-function the_title($before='', $after='', $echo=true) {
+function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
-	$title = convert_bbcode($title);
-	$title = convert_gmcode($title);
 	$title = convert_smilies($title);
-	if ($title) {
+	if (!empty($title)) {
 		$title = convert_chars($before.$title.$after);
 		$title = apply_filters('the_title', $title);
         if ($echo)
@@ -878,8 +876,6 @@ function the_title($before='', $after='', $echo=true) {
 }
 function the_title_rss() {
 	$title = get_the_title();
-	$title = convert_bbcode($title);
-	$title = convert_gmcode($title);
 	$title = strip_tags($title);
 	if (trim($title)) {
 		echo convert_chars($title, 'unicode');
@@ -896,7 +892,7 @@ function the_title_unicode($before='',$after='') {
 	}
 }
 function get_the_title() {
-	global $id, $post;
+	global $post;
 	$output = stripslashes($post->post_title);
 	if (!empty($post->post_password)) { // if there's a password
 		$output = 'Protected: ' . $output;
@@ -1446,7 +1442,7 @@ function category_description($category = 0) {
 	return $category_description;
 }
 
-// out of the b2 loop
+// out of the WordPress loop
 function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
                        $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
     global $cat, $tablecategories, $tableposts, $wpdb;
@@ -1488,32 +1484,41 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 	echo "</select>\n";
 }
 
-// out of the b2 loop
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
-                   $file = 'blah', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
+// out of the WordPress loop
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
 	global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
 	global $pagenow, $siteurl, $blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
-    if (($file == 'blah') || ($file == '')) {
+	// Optiondates does not currently work
+    if ('' == $file) {
         $file = "$siteurl/$blogfilename";
     }
 	$sort_column = 'cat_'.$sort_column;
 
     $query  = "
-		SELECT cat_ID, cat_name, category_nicename,
-		COUNT($tablepost2cat.post_id) AS cat_count,
-		DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
-		FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
-		LEFT JOIN $tableposts ON (ID = post_id)
+		SELECT cat_ID, cat_name, category_nicename
+		FROM $tablecategories
 		WHERE cat_ID > 0 
-		GROUP BY category_id
 		";
-    if (intval($hide_empty) == 1) {
-        $query .= " HAVING cat_count > 0";
-    }
-    $query .= " ORDER BY $sort_column $sort_order, post_date DESC";
+    $query .= " ORDER BY $sort_column $sort_order";
 
 	$categories = $wpdb->get_results($query);
+
+    if (intval($hide_empty) == 1) {
+		$cat_counts = $wpdb->get_results("	SELECT cat_ID,
+		COUNT(wp_post2cat.post_id) AS cat_count
+		FROM wp_categories LEFT JOIN wp_post2cat ON (cat_ID = category_id)
+		LEFT JOIN wp_posts ON (ID = post_id)
+		GROUP BY category_id");
+		foreach ($cat_counts as $cat_count) {
+			$category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
+		}
+    }
+
+   if (intval($optioncount) == 1) {
+		$link .= '&nbsp;('.$category->cat_count.')';
+	}
+
 	if (!$categories) {
 		if ($list) {
 			$before = '<li>';
@@ -1522,22 +1527,15 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		echo $before . "No categories" . $after . "\n";
 		return;
 	}
-	if (intval($optionall) == 1) {
-		$all = apply_filters('list_cats', $all);
-        $link = "<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a>";
-		if ($list) echo "\n\t<li>$link</li>";
-		else echo "\t$link<br />\n";
-	}
 
 	foreach ($categories as $category) {
-		$cat_name = apply_filters('list_cats', $category->cat_name);
         $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" title="View all posts filed under ' . $category->cat_name . '">';
-        $link .= stripslashes($cat_name).'</a>';
+        $link .= stripslashes($category->cat_name).'</a>';
         if (intval($optioncount) == 1) {
-            $link .= '&nbsp;('.$category->cat_count.')';
+            $link .= ' ('.$category_posts["$category->cat_ID"].')';
         }
         if (intval($optiondates) == 1) {
-            $link .= '&nbsp;'.$category->lastday.'/'.$category->lastmonth;
+            $link .= ' '.$category->lastday.'/'.$category->lastmonth;
         }
 		if ($list) {
 			echo "\t<li>$link</li>\n";
@@ -1580,7 +1578,6 @@ function comments_number($zero='No Comments', $one='1 Comment', $more='% Comment
 
 function comments_link($file='', $echo=true) {
 	global $id, $pagenow;
-	global $querystring_start, $querystring_equal, $querystring_separator;
 	if ($file == '')	$file = $pagenow;
 	if ($file == '/')	$file = '';
 	if (!$echo) return get_permalink() . '#comments';
@@ -1598,7 +1595,12 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-	$number = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1';");
+	global $comment_count_cache;
+	if ('' == $comment_count_cache["$id"]) {
+		$number = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1';");
+	} else {
+		$number = $comment_count_cache["$id"];
+	}
 	if (0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status) {
 		echo $none;
 		return;
