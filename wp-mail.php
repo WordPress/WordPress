@@ -132,7 +132,10 @@ for ($i=1; $i <= $count; $i++) :
 
 	$post_category = $post_categories;
 
-	$post_data = compact('post_content','post_title','post_date','post_date_gmt','post_author','post_category');
+	// or maybe we should leave the choice to email drafts? propose a way
+	$post_status = 'publish';
+
+	$post_data = compact('post_content','post_title','post_date','post_date_gmt','post_author','post_category', 'post_status');
 
 	$post_ID = wp_insert_post($post_data);
 
