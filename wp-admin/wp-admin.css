@@ -139,6 +139,10 @@ textarea, input, select {
 	font-family: "Courier New", Courier, mono;
 }
 
+.commentlist li {
+	border-bottom: 1px solid #369;
+}
+
 .ed_button {
 	padding: 1px;
 }
