@@ -158,10 +158,11 @@ if ((empty($author)) || ($author == 'all') || ($author == '0')) {
 		$andor = 'OR';
 	}
 	$author_array = explode(' ', $author);
-	$whichauthor .= ' AND post_author '.$eq.' '.intval($author_array[0]);
+	$whichauthor .= ' AND (post_author '.$eq.' '.intval($author_array[0]);
 	for ($i = 1; $i < (count($author_array)); $i = $i + 1) {
 		$whichauthor .= ' '.$andor.' post_author '.$eq.' '.intval($author_array[$i]);
 	}
+	$whichauthor .= ')';
 }
 
 $where .= $search.$whichcat.$whichauthor;
