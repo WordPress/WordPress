@@ -19,9 +19,7 @@ if (0 == $post_ID) {
 }
 
 if (get_settings('use_pingback')) {
-	$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
-	if ( get_settings('default_pingback_flag') ) $form_pingback .= 'checked="checked" ';
-	$form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback">' . __('<strong>PingBack</strong> the <abbr title="Universal Resource Identifier">URI</abbr>s in this post') . '</label> <a href="http://wordpress.org/docs/reference/post/#pingback" title="' . __('Help on Pingbacks') . '">?</a><br />';
+	$form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_pingback" />';
 } else {
 	$form_pingback = '';
 }
@@ -29,7 +27,7 @@ if (get_settings('use_pingback')) {
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 
 if (get_settings('use_trackback')) {
-	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> an <abbr title="Universal Resource Identifier">URI</abbr></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
+	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
 	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
 	if ('' != $pinged) {
 		$pings .= '<p>'. __('Already pinged:') . '</p><ul>';
