@@ -42,8 +42,8 @@ function wptexturize($text) {
 			$curl = preg_replace("/(\d+)\"/", "$1&Prime;", $curl);
 			$curl = preg_replace("/(\d+)'/", "$1&prime;", $curl);
 			$curl = preg_replace("/(\S)'([^'\s])/", "$1&#8217;$2", $curl);
-			$curl = preg_replace('/"([\s.]|\Z)/', '&#8221;$1', $curl);
-			$curl = preg_replace('/(\s|\A)"/', '$1&#8220;', $curl);
+			$curl = preg_replace('/"([\s.,!?;:&\']|\Z)/', '&#8221;$1', $curl);
+            $curl = preg_replace('/(\s|\A)"/', '$1&#8220;', $curl);
 			$curl = preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
 			$curl = preg_replace("/\(tm\)/i", '&#8482;', $curl);
 			$curl = preg_replace("/\(c\)/i", '&#169;', $curl);
@@ -62,7 +62,7 @@ function wptexturize($text) {
 		$output .= $curl;
 	}
 	return $output;
-	}
+}
 
 function wpautop($pee, $br=1) {
 	$pee = $pee . "\n"; // just to make things a little easier, pad the end
@@ -1393,6 +1393,7 @@ function apply_filters($tag, $string) {
 		$b2_filter[$tag] = (is_string($b2_filter[$tag])) ? array($b2_filter[$tag]) : $b2_filter[$tag];
 		$functions = $b2_filter[$tag];
 		foreach($functions as $function) {
+            //error_log("apply_filters #1 applying filter $function");
 			$string = $function($string);
 		}
 	}
