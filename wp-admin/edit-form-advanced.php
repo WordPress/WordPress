@@ -44,7 +44,9 @@ if (empty($post_status)) $post_status = 'draft';
 ?>
 
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
-<input type="hidden" name="action" value='<?php echo $form_action ?>' />
+<input type="hidden" name="action" value="<?php echo $form_action ?>" />
+<input type="hidden" name="post_author" value="<?php echo $post_author ?>" />
+
 <?php echo $form_extra ?>
 <?php if (isset($_GET['message']) && 2 > $_GET['message']) : ?>
 <script type="text/javascript">
@@ -152,7 +154,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 	<tr>
 		<th scope="row"><?php _e('Post author'); ?>:</th>
 		<td>
-		<select name="post_author" id="post_author">
+		<select name="post_author_override" id="post_author_override">
 		<?php 
 		foreach ($users as $o) :
 			if ( $post_author == $o->ID ) $selected = 'selected="selected"';

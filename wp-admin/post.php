@@ -239,7 +239,9 @@ case 'editpost':
 	$prev_status = $_POST['prev_status'];
 	$post_status = $_POST['post_status'];
 	$menu_order = (int) $_POST['menu_order'];
-	if (! empty($_POST['post_author'])) {
+	if (! empty($_POST['post_author_override'])) {
+		$post_author = (int) $_POST['post_author_override'];
+	} else if (! empty($_POST['post_author'])) {
 		$post_author = (int) $_POST['post_author'];
 	} else {
 		$post_author = (int) $_POST['user_ID'];

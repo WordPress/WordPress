@@ -242,35 +242,30 @@ function get_cat_ID($cat_name='General') {
 }
 
 // Get author's preferred display name
-function get_author_name($auth_id) {
-	$authordata = get_userdata($auth_id);
+function get_author_name( $auth_id ) {
+	$authordata = get_userdata( $auth_id );
 
-	switch($authordata["user_idmode"]) {
-		case "nickname":
-			$authorname = $authordata["user_nickname"];
-
-		case "login":
-			$authorname = $authordata["user_login"];
+	switch( $authordata['user_idmode'] ) {
+		case 'nickname':
+			$authorname = $authordata['user_nickname'];
 			break;
-	
-		case "firstname":
-			$authorname = $authordata["user_firstname"];
+		case 'login':
+			$authorname = $authordata['user_login'];
 			break;
-
-		case "lastname":
-			$authorname = $authordata["user_lastname"];
+		case 'firstname':
+			$authorname = $authordata['user_firstname'];
 			break;
-
-		case "namefl":
-			$authorname = $authordata["user_firstname"]." ".$authordata["user_lastname"];
+		case 'lastname':
+			$authorname = $authordata['user_lastname'];
 			break;
-
-		case "namelf":
-			$authorname = $authordata["user_lastname"]." ".$authordata["user_firstname"];
+		case 'namefl':
+			$authorname = $authordata['user_firstname'].' '.$authordata['user_lastname'];
 			break;
-
+		case 'namelf':
+			$authorname = $authordata['user_lastname'].' '.$authordata['user_firstname'];
+			break;
 		default:
-			$authorname = $authordata["user_nickname"];
+			$authorname = $authordata['user_nickname'];
 			break;
 	}
 
@@ -279,7 +274,7 @@ function get_author_name($auth_id) {
 
 // get extended entry info (<!--more-->)
 function get_extended($post) {
-	list($main,$extended) = explode('<!--more-->',$post);
+	list($main,$extended) = explode('<!--more-->', $post, 2);
 
 	// Strip leading and trailing whitespace
 	$main = preg_replace('/^[\s]*(.*)[\s]*$/','\\1',$main);
