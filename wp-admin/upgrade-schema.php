@@ -154,7 +154,6 @@ function populate_options() {
 
 	$guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 	add_option('siteurl', $guessurl, 'WordPress web address');
-	add_option('blogfilename', '', 'Default file for blog');
 	add_option('blogname', 'My Weblog', 'Blog title');
 	add_option('blogdescription', 'Just another WordPress weblog', 'Short tagline');
 	add_option('new_users_can_blog', 0);

@@ -85,7 +85,7 @@ window.onload = blurry;
 <body>
 
 <div id="wphead">
-<h1><?php echo wptexturize(get_settings(('blogname'))); ?> <span>(<a href="<?php echo get_settings('home') . '/' . get_settings('blogfilename'); ?>"><?php _e('View site') ?> &raquo;</a>)</span></h1>
+<h1><?php echo wptexturize(get_settings(('blogname'))); ?> <span>(<a href="<?php echo get_settings('home') . '/'; ?>"><?php _e('View site') ?> &raquo;</a>)</span></h1>
 </div>
 
 <?php

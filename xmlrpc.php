@@ -149,7 +149,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $struct = array(
 	    'isAdmin'  => $is_admin,
-	    'url'      => get_settings('home') .'/'.get_settings('blogfilename'),
+	    'url'      => get_settings('home') . '/',
 	    'blogid'   => '1',
 	    'blogName' => get_settings('blogname')
 	  );
@@ -281,7 +281,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
-	  $filename = get_settings('home').'/'.get_settings('blogfilename');
+	  $filename = get_settings('home') . '/';
 	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
 	  $f = fopen($filename, 'r');
@@ -315,7 +315,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
-	  $filename = get_settings('home').'/'.get_settings('blogfilename');
+	  $filename = get_settings('home') . '/';
 	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
 	  if ($f = fopen($filename, 'w+')) {

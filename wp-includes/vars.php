@@ -13,7 +13,7 @@ if (preg_match('#([^/]+.php)#', $PHP_SELF, $self_matches)) {
 	$pagenow = explode('?', $pagenow);
 	$pagenow = $pagenow[0];
 	if (($querystring_start == '/') && ($pagenow != 'post.php')) {
-		$pagenow = get_settings('siteurl') . '/' . get_settings('blogfilename');
+		$pagenow = get_settings('siteurl') . '/';
 	}
 } else {
 	$pagenow = 'index.php';

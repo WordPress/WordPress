@@ -30,7 +30,7 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
     $catlink = $wp_rewrite->get_category_permastruct();
     
     if (empty($catlink)) {
-        $file = get_settings('home') . '/' . get_settings('blogfilename');
+        $file = get_settings('home') . '/';
         $catlink = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
     } else {
 			$category_nicename = $cache_categories[$category_id]->category_nicename;
@@ -213,7 +213,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
         $selected=0, $hide=0) {
     global $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    if (($file == 'blah') || ($file == '')) $file = get_settings('home') . '/' . get_settings('blogfilename');
+    if (($file == 'blah') || ($file == '')) $file = get_settings('home') . '/';
     if (!$selected) $selected=$cat;
     $sort_column = 'cat_'.$sort_column;
 
@@ -286,7 +286,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	// Optiondates now works
 	if ('' == $file) {
-		$file = get_settings('home') . '/' . get_settings('blogfilename');
+		$file = get_settings('home') . '/';
 	}
 
 	$exclusions = '';

@@ -794,7 +794,7 @@ function get_home_path() {
 }
 
 function get_real_file_to_edit($file) {
-	if ('index.php' == $file || get_settings('blogfilename') == $file ||
+	if ('index.php' == $file ||
 			 '.htaccess' == $file) {
 		$real_file = get_home_path() . $file;
 	} else {

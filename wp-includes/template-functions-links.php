@@ -78,7 +78,7 @@ function get_permalink($id = false) {
 		);
 		return get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink);
 	} else { // if they're not using the fancy permalink option
-		$permalink = get_settings('home') . '/' . get_settings('blogfilename') . '?p=' . $idpost->ID;
+		$permalink = get_settings('home') . '/?p=' . $idpost->ID;
 		return $permalink;
 	}
 }
@@ -113,7 +113,7 @@ function get_year_link($year) {
         $yearlink = str_replace('%year%', $year, $yearlink);
         return get_settings('home') . trailingslashit($yearlink);
     } else {
-        return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year;
+        return get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year;
     }
 }
 
@@ -127,7 +127,7 @@ function get_month_link($year, $month) {
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
         return get_settings('home') . trailingslashit($monthlink);
     } else {
-        return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
+        return get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
     }
 }
 
@@ -144,7 +144,7 @@ function get_day_link($year, $month, $day) {
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
         return get_settings('home') . trailingslashit($daylink);
     } else {
-        return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
+        return get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
     }
 }
 
