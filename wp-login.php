@@ -95,7 +95,8 @@ case 'retrievepassword':
 	if (!$user_email || $user_email != $_POST['email'])
 		die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
 
-	do_action('retreive_password', $user_login);
+do_action('retreive_password', $user_login);  // Misspelled and deprecated.
+do_action('retrieve_password', $user_login);
 
 	// Generate something random for a password... md5'ing current time with a rand salt
 	$key = substr( md5( uniqid( microtime() ) ), 0, 50);
