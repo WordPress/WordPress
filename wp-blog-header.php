@@ -10,7 +10,7 @@ if (!file_exists($curpath . '/wp-config.php'))
 
 require($curpath.'/wp-config.php');
 
-$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name', 'feed');
+$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name', 'feed', 'author_name');
 
     for ($i=0; $i<count($wpvarstoreset); $i += 1) {
         $wpvar = $wpvarstoreset[$i];
@@ -223,6 +223,22 @@ if ((empty($author)) || ($author == 'all') || ($author == '0')) {
         $whichauthor .= ' '.$andor.' post_author '.$eq.' '.intval($author_array[$i]);
     }
     $whichauthor .= ')';
+}
+
+// Author stuff for nice URIs
+
+if ('' != $author_name) {
+    if (stristr($author_name,'/')) {
+        $author_name = explode('/',$author_name);
+        if ($author_name[count($author_name)-1]) {
+        $author_name = $author_name[count($author_name)-1];#no trailing slash
+        } else {
+        $author_name = $author_name[count($author_name)-2];#there was a trailling slash
+        }
+    }
+    $author_name = preg_replace('|[^a-z0-9-]|', '', strtolower($author_name));
+    $author = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_nicename='".$author_name."'");
+    $whichauthor .= ' AND (post_author = '.intval($author).')';
 }
 
 $where .= $search.$whichcat.$whichauthor;

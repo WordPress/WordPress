@@ -680,6 +680,17 @@ function upgrade_110() {
 	maybe_add_column($tableusers, 'user_status', "ALTER TABLE `$tableusers` ADD `user_status` INT DEFAULT '0' NOT NULL ;");
 	$wpdb->query("ALTER TABLE `$tableposts` CHANGE `comment_status` `comment_status` ENUM( 'open', 'closed', 'registered_only' ) DEFAULT 'open' NOT NULL");
 
+	maybe_add_column($tableusers, 'user_nicename', "ALTER TABLE `$tableusers` ADD `user_nicename` VARCHAR(50) DEFAULT '' NOT NULL ;");
+
+    // Set user_nicename.
+	$users = $wpdb->get_results("SELECT ID, user_nickname, user_nicename FROM $tableusers");
+	foreach ($users as $user) {
+		if ('' == $user->user_nicename) { 
+			$newname = sanitize_title($user->user_nickname);
+			$wpdb->query("UPDATE $tableusers SET user_nicename = '$newname' WHERE ID = '$user->ID'");
+		}
+	}
+
 	// Convert passwords to MD5 and update table appropiately
 	$query = 'DESCRIBE '.$tableusers.' user_pass';
 	$res = $wpdb->get_results($query);

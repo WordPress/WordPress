@@ -177,6 +177,8 @@ $sitecommentfeedquery = $site_root . 'wp-feed.php?feed=$1&withcomments=1';
 $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
 		$catmatch = $front . 'category/';
 		$catmatch = preg_replace('|^/+|', '', $catmatch);
+		$authormatch = $front . 'author/';
+		$authormatch = preg_replace('|^/+|', '', $authormatch);
 
 ?> 
 <form action"">
@@ -187,6 +189,8 @@ RewriteRule ^<?php echo $feedmatch; echo '$ ' . $site_root . $feedquery ?> [QSA]
 RewriteRule ^<?php echo $trackbackmatch; echo '$ ' . $site_root . $trackbackquery ?> [QSA]
 RewriteRule ^<?php echo $catmatch; ?>(.*)/<?php echo $feedregex ?>$ <?php echo $site_root; ?>wp-feed.php?category_name=$1&feed=$2 [QSA]
 RewriteRule ^<?php echo $catmatch; ?>?(.*) <?php echo $site_root; ?>index.php?category_name=$1 [QSA]
+RewriteRule ^<?php echo $authormatch; ?>(.*)/<?php echo $feedregex ?>$ <?php echo $site_root; ?>wp-feed.php?author_name=$1&feed=$2 [QSA]
+RewriteRule ^<?php echo $authormatch; ?>?(.*) <?php echo $site_root; ?>index.php?author_name=$1 [QSA]
 RewriteRule ^<?php echo $sitefeedmatch; ?> <?php echo $sitefeedquery ?> [QSA]
 RewriteRule ^<?php echo $sitecommentfeedmatch; ?> <?php echo $sitecommentfeedquery ?> [QSA]</textarea>
 	</form>

@@ -66,14 +66,15 @@ case 'adduser':
 	$user_login = addslashes(stripslashes($user_login));
 	$pass1 = addslashes(stripslashes($pass1));
 	$user_nickname = addslashes(stripslashes($user_nickname));
+    $user_nicename = sanitize_title($user_nickname);
 	$user_firstname = addslashes(stripslashes($user_firstname));
 	$user_lastname = addslashes(stripslashes($user_lastname));
 	$now = current_time('mysql');
 
 	$result = $wpdb->query("INSERT INTO $tableusers 
-		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode, user_firstname, user_lastname)
+		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode, user_firstname, user_lastname, user_nicename)
 	VALUES 
-		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_firstname', '$user_lastname')");
+		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_firstname', '$user_lastname', '$user_nicename')");
 	
 	if ($result == false) {
 		die ('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:'.$admin_email.'">webmaster</a> !');
