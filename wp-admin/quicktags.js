@@ -15,108 +15,117 @@ function edButton(id, display, tagStart, tagEnd, access, open) {
 	this.open = open;			// set to -1 if tag does not need to be closed
 }
 
-/*
-** TODO: Make it so ins and del have proper datetime attributes, formatted as so: **
-1999-02-22T16:03:30-08:00
-
-** Here's my start **
 var now = new Date();
-var datetime = now.getFullYear() + '-' + 
+var datetime = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + 'T' + 
+				now.getHours() + ':' + now.getMinutes() + ':' + 
+				now.getSeconds() + '-' + (now.getTimezoneOffset()/60)
+				+ ':' + '00';
 
-*/
+edButtons[edButtons.length] = 
+new edButton('ed_strong'
+,'strong'
+,'<strong>'
+,'</strong>'
+,'b'
+);
 
-edButtons[edButtons.length] = new edButton('ed_strong'
-                                          ,'strong'
-                                          ,'<strong>'
-                                          ,'</strong>'
-                                          ,'b'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_em'
+,'em'
+,'<em>'
+,'</em>'
+,'i'
+);
 
-edButtons[edButtons.length] = new edButton('ed_em'
-                                          ,'em'
-                                          ,'<em>'
-                                          ,'</em>'
-                                          ,'i'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_del'
+,'del'
+,'<del>'
+,'</del>'
+,'d'
+);
 
-edButtons[edButtons.length] = new edButton('ed_del'
-                                          ,'del'
-                                          ,'<del>'
-                                          ,'</del>'
-                                          ,'d'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_ins'
+,'ins'
+,'<ins datetime="' + datetime + '">'
+,'</ins>'
+,'d'
+);
 
-edButtons[edButtons.length] = new edButton('ed_ins'
-                                          ,'ins'
-                                          ,'<ins>'
-                                          ,'</ins>'
-                                          ,'d'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_link'
+,'link'
+,''
+,'</a>'
+,'a'
+); // special case
 
-edButtons[edButtons.length] = new edButton('ed_link'
-                                          ,'link'
-                                          ,''
-                                          ,'</a>'
-                                          ,'a'
-                                          ); // special case
+edButtons[edButtons.length] = 
+new edButton('ed_img'
+,'img'
+,''
+,''
+,'m'
+,-1
+); // special case
 
-edButtons[edButtons.length] = new edButton('ed_img'
-                                          ,'img'
-                                          ,''
-                                          ,''
-                                          ,'m'
-                                          ,-1
-                                          ); // special case
+edButtons[edButtons.length] = 
+new edButton('ed_ul'
+,'ul'
+,'<ul>\n'
+,'</ul>\n\n'
+,'u'
+);
 
-edButtons[edButtons.length] = new edButton('ed_ul'
-                                          ,'ul'
-                                          ,'<ul>\n'
-                                          ,'</ul>\n\n'
-                                          ,'u'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_ol'
+,'ol'
+,'<ol>\n'
+,'</ol>\n\n'
+,'o'
+);
 
-edButtons[edButtons.length] = new edButton('ed_ol'
-                                          ,'ol'
-                                          ,'<ol>\n'
-                                          ,'</ol>\n\n'
-                                          ,'o'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_li'
+,'li'
+,'\t<li>'
+,'</li>\n'
+,'l'
+);
 
-edButtons[edButtons.length] = new edButton('ed_li'
-                                          ,'li'
-                                          ,'\t<li>'
-                                          ,'</li>\n'
-                                          ,'l'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_block'
+,'b-quote'
+,'<blockquote>'
+,'</blockquote>'
+,'q'
+);
 
-edButtons[edButtons.length] = new edButton('ed_block'
-                                          ,'b-quote'
-                                          ,'<blockquote>'
-                                          ,'</blockquote>'
-                                          ,'q'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_pre'
+,'code'
+,'<code>'
+,'</code>'
+);
 
-edButtons[edButtons.length] = new edButton('ed_pre'
-                                          ,'pre'
-                                          ,'<pre>'
-                                          ,'</pre>'
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_more'
+,'more'
+,'<!--more-->'
+,''
+,'t'
+,-1
+);
 
-edButtons[edButtons.length] = new edButton('ed_more'
-                                          ,'more'
-                                          ,'<!--more-->'
-                                          ,''
-                                          ,'t'
-                                          ,-1
-                                          );
-
-edButtons[edButtons.length] = new edButton('ed_next'
-                                          ,'n-page'
-                                          ,'<!--nextpage-->'
-                                          ,''
-                                          ,'p'
-                                          ,-1
-                                          );
+edButtons[edButtons.length] = 
+new edButton('ed_next'
+,'page'
+,'<!--nextpage-->'
+,''
+,'p'
+,-1
+);
 
 function edLink() {
 	this.display = '';

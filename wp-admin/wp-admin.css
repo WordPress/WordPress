@@ -123,12 +123,12 @@ textarea, input, select {
 	padding: 0;
 }
 
-.editform th {
-	text-align: right;
-}
-
 .code {
 	font-family: "Courier New", Courier, mono;
+}
+
+.ed_button {
+	padding: 1px;
 }
 
 .post-categories {
@@ -237,10 +237,6 @@ textarea, input, select {
 	border: none;
 }
 
-#ed_button {
-	padding: 1px;
-}
-
 #ed_del {
 	text-decoration: line-through;
 }
@@ -252,7 +248,11 @@ textarea, input, select {
 
 #ed_strong {
 	font-weight: bold;
-	width: 25px;
+	width: 1.9em;
+}
+
+#excerpt {
+	height: 1.5em;
 }
 
 #login {
@@ -283,12 +283,55 @@ textarea, input, select {
 	clear: both;
 }
 
-#poststatusdiv, #pingstatusdiv, #commentstatusdiv {
-	width: 6.5em;
+#postcustom {
+	border: 1px solid #aaa;
+	margin: 0.25em;
+	padding: 0.25em;
+	width: 30em;
 }
 
-#slugdiv {
-	width: 9.4em;
+#postcustom p {
+	margin: 0;
+}
+
+#postcustom table {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	color: #000;
+	margin-bottom: 1em;
+	padding: 0px;
+	width: 100%;
+}
+
+#postcustom td,th {
+	background-color: #fff;
+	color: #000;
+	margin: 1px;
+	padding: 0.2em;
+}
+
+#postcustomkeys {
+	float: left;
+	width: 49%;
+}
+
+#postcustomkeys input, #postcustom select, #postcustom textarea {
+	width: 95%;
+}
+fieldset legend a {
+	border-bottom: none;
+}
+#postcustomvals {
+	float: right;
+	width: 49%;
+}
+
+#save {
+	width: 13em;
+}
+
+#poststatusdiv {
+	width: 6.5em;
 }
 
 #poststuff {
@@ -296,7 +339,9 @@ textarea, input, select {
 }
 
 #poststuff textarea {
-	width: 98%;
+	width: 97%;
+	margin-left:1%;
+
 }
 
 #profile {
@@ -321,8 +366,16 @@ textarea, input, select {
 	margin: 0 0 4px 0;
 }
 
-#quicktags {
+#quicktags, .editform th, #postcustomsubmit {
 	text-align: right;
+}
+
+#quicktags {
+	margin-right: 1%;
+}
+
+#slugdiv {
+	width: 9.4em;
 }
 
 #titlediv, #poststatusdiv, #commentstatusdiv, #slugdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv {
@@ -346,57 +399,4 @@ textarea, input, select {
 	text-decoration: none;
 	text-indent: -1000px;
 	width: 200px;
-}
-
-#postcustom {
-	xwidth: 30em;
-	border: 1px solid #aaa;
-	padding: 0.25em;
-	margin: 0.25em;
-}
-
-#postcustom p {
-	margin: 0;
-}
-
-#postcustom textarea {
-	width: 95%;
-}
-
-#postcustom select {
-	width: 95%;
-}
-
-#postcustomkeys {
-	width: 49%;
-	float: left;
-}
-
-#postcustomkeys input {
-	width: 95%;
-}
-
-#postcustomvals {
-	width: 49%;
-	float: right;
-}
-
-#postcustomsubmit {
-	text-align: right;
-}
-
-#postcustom table {
-	width: 100%;
-	margin-bottom: 1em;
-	background-color: #eee;
-	color: black;
-	padding: 0px;
-	border: 1px solid #ccc;
-}
-
-#postcustom td,th {
-	background-color: white;
-	color: black;
-	padding: 0.2em;
-	margin: 1px;
 }
