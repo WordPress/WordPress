@@ -176,7 +176,7 @@ function get_links($category = -1, $before = '', $after = '<br />',
         }
         $the_link = '#';
         if (($row->link_url != null) && ($row->link_url != '')) {
-            $the_link = wp_specialchars($row->link_url);
+            $the_link = $row->link_url;
         }
         $rel = $row->link_rel;
         if ($rel != '') {
