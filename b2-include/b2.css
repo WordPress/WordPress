@@ -1,0 +1,99 @@
+body	{
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+    background-color: #FFFFFF}
+body, td {
+	color: #000000; 
+	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-size: 10pt;
+}
+a {
+	background-color: transparent; 
+	color: #0000FF;
+	text-decoration: none;
+	font-weight: bold;
+}
+a:hover {
+	color: #FF3300;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.panelbody {
+	/* empty style - for you to customize it.
+	   this style applies to b2's interface, the part where the sections are displayed */
+}
+.table {
+	color: #000000; 
+	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-size: 10pt;
+}
+.tabletoprow {
+	background-color: #ffffff;
+	color: #000000; 
+	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-size: 12px;
+	font-style: italic;
+}
+.search {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000066;
+	background-color: #ffeecc;
+	background-image: url("../b2-img/b2button.gif");
+}
+.quicktags {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	background-color: #cccccc;
+	background-image: url("../b2-img/b2button2.gif");
+}
+
+.menutop {
+	color: #999999;
+	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-size: 10px;
+	background-color: #DDEEFF;
+}
+a.menutop {
+	background-color: transparent;
+	color: #3366CC; 
+	font-weight: normal;
+	border-width: 0px;
+}
+a.menutop:hover {
+	color: #FF9900;
+	text-decoration: underline;
+	font-weight: normal;
+}
+
+.menutoptitle {
+	font-family: Arial, Verdana, Geneva, Arial, Helvetica;
+	color: #BBCCDD;
+	font-size: 14px;
+	font-weight: bold;
+	}
+
+.b2menutop { 
+	color: #333333; 
+	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-size: 10px;
+}
+a.b2menutop {
+	background-color: transparent;
+	color: #0066ff; 
+	font-weight: lighter;
+}
+a.b2menutop:hover {
+	color: #ff9900; 
+	font-weight: bold;
+	text-decoration: none;
+}
+xmp { /* Just in case */
+	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-size: 10pt;
+}
+form { margin: 0; padding: 0; } /* thanks #mozilla */

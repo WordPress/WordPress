@@ -1,0 +1,14 @@
+3	b2options.php	Options
+3	b2categories.php	Categories
+3	b2template.php	Template
+***
+(Everything after the '***' is a comment.)
+
+
+To add sections to the menu, use this syntax:
+
+ the minimum level the user needs to access the section: between 0 and 10
++tab
++the URL of the section's file
++tab
++the title of this section
