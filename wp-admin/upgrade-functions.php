@@ -149,126 +149,123 @@ function upgrade_072() {
 	");
 	
 	// TODO: REWRITE THIS
-	$option_types = array("INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (1, 'integer')",
-		"INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (2, 'boolean')",
-		"INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (3, 'string')",
-		"INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (4, 'date')",
-		"INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (5, 'select')",
-		"INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (6, 'range')",
-		"INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (7, 'sqlselect')");
+	$option_types = array(
+		"1" => "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES ('1', 'integer')",
+		"2" => "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES ('2', 'boolean')",
+		"3" => "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES ('3', 'string')",
+		"4" => "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES ('4', 'date')",
+		"5" => "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES ('5', 'select')",
+		"6" => "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES ('6', 'range')",
+		"7" => "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES ('7', 'sqlselect')");
 
-	foreach ($option_types as $query) {
-		$option_id = preg_match('|VALUES \(([0-9]+)|', $query, $matches);
-		$option_id = $matches[1];
-		if(!$wpdb->get_var("SELECT * FROM $tableoptiontypes WHERE optiontype_id = $option_id")) {
+	foreach ($option_types as $option_id => $query) {
+		if(!$wpdb->get_var("SELECT * FROM $tableoptiontypes WHERE optiontype_id = '$option_id'")) {
 			$wpdb->query($query);
-			}
+		}
 	}
 
 	// Guess a site URI
 $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
 	$option_data = array(		//base options from b2cofig
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (1,'siteurl', 3, '$guessurl', 'siteurl is your blog\'s URL: for example, \'http://example.com/wordpress\'', 8, 30)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (2,'blogfilename', 3, 'index.php', 'blogfilename is the name of the default file for your blog', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (3,'blogname', 3, 'my weblog', 'blogname is the name of your blog', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (4,'blogdescription', 3, 'babblings!', 'blogdescription is the description of your blog', 8, 40)",
+		"1" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (1,'siteurl', 3, '$guessurl', 'siteurl is your blog\'s URL: for example, \'http://example.com/wordpress\'', 8, 30)",
+		"2" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (2,'blogfilename', 3, 'index.php', 'blogfilename is the name of the default file for your blog', 8, 20)",
+		"3" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (3,'blogname', 3, 'my weblog', 'blogname is the name of your blog', 8, 20)",
+		"4" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (4,'blogdescription', 3, 'babblings!', 'blogdescription is the description of your blog', 8, 40)",
 		//"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (6,'search_engine_friendly_urls', 2, '0', 'Querystring Configuration ** (don\'t change if you don\'t know what you\'re doing)', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (7,'new_users_can_blog', 2, '0', 'whether you want new users to be able to post entries once they have registered', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (8,'users_can_register', 2, '1', 'whether you want to allow users to register on your blog', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (54,'admin_email', 3, 'you@example.com', 'Your email (obvious eh?)', 8, 20)",
+		"7" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (7,'new_users_can_blog', 2, '0', 'whether you want new users to be able to post entries once they have registered', 8, 20)",
+		"8" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (8,'users_can_register', 2, '1', 'whether you want to allow users to register on your blog', 8, 20)",
+		"54" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (54,'admin_email', 3, 'you@example.com', 'Your email (obvious eh?)', 8, 20)",
 		// general blog setup
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (9 ,'start_of_week', 5, '1', 'day at the start of the week', 8, 20)",
+		"9" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (9 ,'start_of_week', 5, '1', 'day at the start of the week', 8, 20)",
 		//"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (10,'use_preview', 2, '1', 'Do you want to use the \'preview\' function', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (11,'use_bbcode', 2, '0', 'use BBCode, like [b]bold[/b]', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (12,'use_gmcode', 2, '0', 'use GreyMatter-styles: **bold** \\\\italic\\\\ __underline__', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (13,'use_quicktags', 2, '1', 'buttons for HTML tags (they won\'t work on IE Mac yet)', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (14,'use_htmltrans', 2, '1', 'IMPORTANT! set this to false if you are using Chinese, Japanese, Korean, or other double-bytes languages', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (15,'use_balanceTags', 2, '1', 'this could help balance your HTML code. if it gives bad results, set it to false', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (16,'use_smilies', 2, '1', 'set this to true to enable smiley conversion in posts (note: this makes smiley conversion in ALL posts)', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (17,'smilies_directory', 3, 'http://example.com/wp-images/smilies', 'the directory where your smilies are (no trailing slash)', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (18,'require_name_email', 2, '0', 'set this to true to require e-mail and name, or false to allow comments without e-mail/name', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (20,'comments_notify', 2, '1', 'set this to true to let every author be notified about comments on their posts', 8, 20)",
+		"11" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (11,'use_bbcode', 2, '0', 'use BBCode, like [b]bold[/b]', 8, 20)",
+		"12" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (12,'use_gmcode', 2, '0', 'use GreyMatter-styles: **bold** \\\\italic\\\\ __underline__', 8, 20)",
+		"13" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (13,'use_quicktags', 2, '1', 'buttons for HTML tags (they won\'t work on IE Mac yet)', 8, 20)",
+		"14" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (14,'use_htmltrans', 2, '1', 'IMPORTANT! set this to false if you are using Chinese, Japanese, Korean, or other double-bytes languages', 8, 20)",
+		"15" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (15,'use_balanceTags', 2, '1', 'this could help balance your HTML code. if it gives bad results, set it to false', 8, 20)",
+		"16" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (16,'use_smilies', 2, '1', 'set this to true to enable smiley conversion in posts (note: this makes smiley conversion in ALL posts)', 8, 20)",
+		"17" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (17,'smilies_directory', 3, 'http://example.com/wp-images/smilies', 'the directory where your smilies are (no trailing slash)', 8, 40)",
+		"18" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (18,'require_name_email', 2, '0', 'set this to true to require e-mail and name, or false to allow comments without e-mail/name', 8, 20)",
+		"20" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (20,'comments_notify', 2, '1', 'set this to true to let every author be notified about comments on their posts', 8, 20)",
 		//rss/rdf feeds
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (21,'posts_per_rss', 1, '10', 'number of last posts to syndicate', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (22,'rss_language', 3, 'en', 'the language of your blog ( see this: http://backend.userland.com/stories/storyReader$16 )', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (23,'rss_encoded_html', 2, '0', 'for b2rss.php: allow encoded HTML in &lt;description> tag?', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (24,'rss_excerpt_length', 1, '50', 'length (in words) of excerpts in the RSS feed? 0=unlimited note: in b2rss.php, this will be set to 0 if you use encoded HTML', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (25,'rss_use_excerpt', 2, '1', 'use the excerpt field for rss feed.', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (26,'use_weblogsping', 2, '0', 'set this to true if you want your site to be listed on http://weblogs.com when you add a new post', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (27,'use_blodotgsping', 2, '0', 'set this to true if you want your site to be listed on http://blo.gs when you add a new post', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (28,'blodotgsping_url', 3, 'http://example.com', 'You shouldn\'t need to change this.', 8, 30)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (29,'use_trackback', 2, '1', 'set this to false or true, whether you want to allow your posts to be trackback\'able or not note: setting it to false would also disable sending trackbacks', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (30,'use_pingback', 2, '1', 'set this to false or true, whether you want to allow your posts to be pingback\'able or not note: setting it to false would also disable sending pingbacks', 8, 20)",
+		"21" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (21,'posts_per_rss', 1, '10', 'number of last posts to syndicate', 8, 20)",
+		"22" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (22,'rss_language', 3, 'en', 'the language of your blog ( see this: http://backend.userland.com/stories/storyReader$16 )', 8, 20)",
+		"23" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (23,'rss_encoded_html', 2, '0', 'for b2rss.php: allow encoded HTML in &lt;description> tag?', 8, 20)",
+		"24" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (24,'rss_excerpt_length', 1, '50', 'length (in words) of excerpts in the RSS feed? 0=unlimited note: in b2rss.php, this will be set to 0 if you use encoded HTML', 8, 20)",
+		"25" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (25,'rss_use_excerpt', 2, '1', 'use the excerpt field for rss feed.', 8, 20)",
+		"26" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (26,'use_weblogsping', 2, '0', 'set this to true if you want your site to be listed on http://weblogs.com when you add a new post', 8, 20)",
+		"27" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (27,'use_blodotgsping', 2, '0', 'set this to true if you want your site to be listed on http://blo.gs when you add a new post', 8, 20)",
+		"28" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (28,'blodotgsping_url', 3, 'http://example.com', 'You shouldn\'t need to change this.', 8, 30)",
+		"29" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (29,'use_trackback', 2, '1', 'set this to false or true, whether you want to allow your posts to be trackback\'able or not note: setting it to false would also disable sending trackbacks', 8, 20)",
+		"30" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (30,'use_pingback', 2, '1', 'set this to false or true, whether you want to allow your posts to be pingback\'able or not note: setting it to false would also disable sending pingbacks', 8, 20)",
 		//file upload
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (31,'use_fileupload', 2, '0', 'set this to false to disable file upload, or true to enable it', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (32,'fileupload_realpath', 3, '/home/your/site/wordpress/images', 'enter the real path of the directory where you\'ll upload the pictures \nif you\'re unsure about what your real path is, please ask your host\'s support staff \nnote that the  directory must be writable by the webserver (chmod 766) \nnote for windows-servers users: use forwardslashes instead of backslashes', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (33,'fileupload_url', 3, 'http://example.com/images', 'enter the URL of that directory (it\'s used to generate the links to the uploded files)', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (34,'fileupload_allowedtypes', 3, ' jpg gif png ', 'accepted file types, separated by spaces. example: \'jpg gif png\'', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (35,'fileupload_maxk', 1, '96', 'by default, most servers limit the size of uploads to 2048 KB, if you want to set it to a lower value, here it is (you cannot set a higher value than your server limit)', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (36,'fileupload_minlevel', 1, '1', 'you may not want all users to upload pictures/files, so you can set a minimum level for this', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (37,'fileupload_allowedusers', 3, '', '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'', 8, 30)",
+		"31" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (31,'use_fileupload', 2, '0', 'set this to false to disable file upload, or true to enable it', 8, 20)",
+		"32" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (32,'fileupload_realpath', 3, '/home/your/site/wordpress/images', 'enter the real path of the directory where you\'ll upload the pictures \nif you\'re unsure about what your real path is, please ask your host\'s support staff \nnote that the  directory must be writable by the webserver (chmod 766) \nnote for windows-servers users: use forwardslashes instead of backslashes', 8, 40)",
+		"33" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (33,'fileupload_url', 3, 'http://example.com/images', 'enter the URL of that directory (it\'s used to generate the links to the uploded files)', 8, 40)",
+		"34" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (34,'fileupload_allowedtypes', 3, ' jpg gif png ', 'accepted file types, separated by spaces. example: \'jpg gif png\'', 8, 20)",
+		"35" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (35,'fileupload_maxk', 1, '96', 'by default, most servers limit the size of uploads to 2048 KB, if you want to set it to a lower value, here it is (you cannot set a higher value than your server limit)', 8, 20)",
+		"36" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (36,'fileupload_minlevel', 1, '1', 'you may not want all users to upload pictures/files, so you can set a minimum level for this', 8, 20)",
+		"37" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (37,'fileupload_allowedusers', 3, '', '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'', 8, 30)",
 		// email settings
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (38,'mailserver_url', 3, 'mail.example.com', 'mailserver settings', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (39,'mailserver_login', 3, 'login@example.com', 'mailserver settings', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (40,'mailserver_pass', 3, 'password', 'mailserver settings', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (41,'mailserver_port', 1, '110', 'mailserver settings', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (42,'default_category', 1, '1', 'by default posts will have this category', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (43,'subjectprefix', 3, 'blog:', 'subject prefix', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (44,'bodyterminator', 3, '___', 'body terminator string (starting from this string, everything will be ignored, including this string)', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (45,'emailtestonly', 2, '0', 'set this to true to run in test mode', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (46,'use_phoneemail', 2, '0', 'some mobile phone email services will send identical subject & content on the same line if you use such a service, set use_phoneemail to true, and indicate a separator string', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (47,'phoneemail_separator', 3, ':::', 'when you compose your message, you\'ll type your subject then the separator string then you type your login:password, then the separator, then content', 8, 20)",
+		"38" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (38,'mailserver_url', 3, 'mail.example.com', 'mailserver settings', 8, 20)",
+		"39" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (39,'mailserver_login', 3, 'login@example.com', 'mailserver settings', 8, 20)",
+		"40" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (40,'mailserver_pass', 3, 'password', 'mailserver settings', 8, 20)",
+		"41" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (41,'mailserver_port', 1, '110', 'mailserver settings', 8, 20)",
+		"42" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (42,'default_category', 1, '1', 'by default posts will have this category', 8, 20)",
+		"43" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (43,'subjectprefix', 3, 'blog:', 'subject prefix', 8, 20)",
+		"44" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (44,'bodyterminator', 3, '___', 'body terminator string (starting from this string, everything will be ignored, including this string)', 8, 20)",
+		"45" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (45,'emailtestonly', 2, '0', 'set this to true to run in test mode', 8, 20)",
+		"46" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (46,'use_phoneemail', 2, '0', 'some mobile phone email services will send identical subject & content on the same line if you use such a service, set use_phoneemail to true, and indicate a separator string', 8, 20)",
+		"47" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (47,'phoneemail_separator', 3, ':::', 'when you compose your message, you\'ll type your subject then the separator string then you type your login:password, then the separator, then content', 8, 20)",
 		
 		// default post stuff
 		
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(55,'default_post_status',    5, 'publish', 'The default state of each new post', 8, 20)",
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(56,'default_comment_status', 5, 'open', 'The default state of comments for each new post', 8, 20)",
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(57,'default_ping_status',    5, 'open', 'The default ping state for each new post', 8, 20)",
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(58,'default_pingback_flag',  5, '1', 'Whether the \'PingBack the URLs in this post\' checkbox should be checked by default', 8, 20)",
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(59,'default_post_category',  7, '1', 'The default category for each new post', 8, 20)",
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(83,'default_post_edit_rows', 1, '9', 'The number of rows in the edit post form (min 3, max 100)', 8, 5)",
+		"55" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(55,'default_post_status',    5, 'publish', 'The default state of each new post', 8, 20)",
+		"56" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(56,'default_comment_status', 5, 'open', 'The default state of comments for each new post', 8, 20)",
+		"57" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(57,'default_ping_status',    5, 'open', 'The default ping state for each new post', 8, 20)",
+		"58" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(58,'default_pingback_flag',  5, '1', 'Whether the \'PingBack the URLs in this post\' checkbox should be checked by default', 8, 20)",
+		"59" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(59,'default_post_category',  7, '1', 'The default category for each new post', 8, 20)",
+		"83" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(83,'default_post_edit_rows', 1, '9', 'The number of rows in the edit post form (min 3, max 100)', 8, 5)",
 
 		// original options from options page
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (48,'posts_per_page', 1, '20','How many posts/days to show on the index page.', 4, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (49,'what_to_show', 5, 'posts','Posts, days, or posts paged', 4, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (50,'archive_mode', 5, 'monthly','Which \'unit\' to use for archives.', 4, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (51,'time_difference', 6, '0', 'if you\'re not on the timezone of your server', 4, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (52,'date_format', 3, 'n/j/Y', 'see note for format characters', 4, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (53,'time_format', 3, 'g:i a', 'see note for format characters', 4, 20)",		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (84,'use_geo_positions', 2, '0', 'Turns on the geo url features of WordPress', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (85,'use_default_geourl', 2, '1','enables placement of default GeoURL ICBM location even when no other specified', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (86,'default_geourl_lat ', 8, 0.0, 'The default Latitude ICBM value - <a href=\"http://www.geourl.org/resources.html\" target=\"_blank\">see here</a>', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (87,'default_geourl_lon', 8, 0.0, 'The default Longitude ICBM value', 8, 20)",
-				"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (60,'links_minadminlevel',             1, '5', 'The minimum admin level to edit links', 8, 10)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (61,'links_use_adminlevels',           2, '1', 'set this to false to have all links visible and editable to everyone in the link manager', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (62,'links_rating_type',               5, 'image', 'Set this to the type of rating indication you wish to use', 8, 10)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (63,'links_rating_char',               3, '*', 'If we are set to \'char\' which char to use.', 8, 5)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (64,'links_rating_ignore_zero',        2, '1', 'What do we do with a value of zero? set this to true to output nothing, 0 to output as normal (number/image)', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (65,'links_rating_single_image',       2, '1', 'Use the same image for each rating point? (Uses links_rating_image[0])', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (66,'links_rating_image0',             3, 'wp-links/links-images/tick.png', 'Image for rating 0 (and for single image)', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (67,'links_rating_image1',             3, 'wp-links/links-images/rating-1.gif', 'Image for rating 1', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (68,'links_rating_image2',             3, 'wp-links/links-images/rating-2.gif', 'Image for rating 2', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (69,'links_rating_image3',             3, 'wp-links/links-images/rating-3.gif', 'Image for rating 3', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (70,'links_rating_image4',             3, 'wp-links/links-images/rating-4.gif', 'Image for rating 4', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (71,'links_rating_image5',             3, 'wp-links/links-images/rating-5.gif', 'Image for rating 5', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (72,'links_rating_image6',             3, 'wp-links/links-images/rating-6.gif', 'Image for rating 6', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (73,'links_rating_image7',             3, 'wp-links/links-images/rating-7.gif', 'Image for rating 7', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (74,'links_rating_image8',             3, 'wp-links/links-images/rating-8.gif', 'Image for rating 8', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (75,'links_rating_image9',             3, 'wp-links/links-images/rating-9.gif', 'Image for rating 9', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (76,'weblogs_cache_file',              3, 'weblogs.com.changes.cache', 'path/to/cachefile needs to be writable by web server', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (77,'weblogs_xml_url',                 3, 'http://www.weblogs.com/changes.xml', 'Which file to grab from weblogs.com', 8, 40)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (78,'weblogs_cacheminutes',            1, '60', 'cache time in minutes (if it is older than this get a new copy)', 8, 10)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (79,'links_updated_date_format',       3, 'd/m/Y h:i', 'The date format for the updated tooltip', 8, 25)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (80,'links_recently_updated_prepend',  3, '&gt;&gt;', 'The text to prepend to a recently updated link', 8, 10)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (81,'links_recently_updated_append',   3, '&lt;&lt;', 'The text to append to a recently updated link', 8, 20)",
-		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (82,'links_recently_updated_time',     1, '120', 'The time in minutes to consider a link recently updated', 8, 20)"
+		"48" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (48,'posts_per_page', 1, '20','How many posts/days to show on the index page.', 4, 20)",
+		"49" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (49,'what_to_show', 5, 'posts','Posts, days, or posts paged', 4, 20)",
+		"50" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (50,'archive_mode', 5, 'monthly','Which \'unit\' to use for archives.', 4, 20)",
+		"51" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (51,'time_difference', 6, '0', 'if you\'re not on the timezone of your server', 4, 20)",
+		"52" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (52,'date_format', 3, 'n/j/Y', 'see note for format characters', 4, 20)",
+		"53" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (53,'time_format', 3, 'g:i a', 'see note for format characters', 4, 20)",		"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (84,'use_geo_positions', 2, '0', 'Turns on the geo url features of WordPress', 8, 20)",
+		"85" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (85,'use_default_geourl', 2, '1','enables placement of default GeoURL ICBM location even when no other specified', 8, 20)",
+		"86" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (86,'default_geourl_lat ', 8, 0.0, 'The default Latitude ICBM value - <a href=\"http://www.geourl.org/resources.html\" target=\"_blank\">see here</a>', 8, 20)",
+		"87" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (87,'default_geourl_lon', 8, 0.0, 'The default Longitude ICBM value', 8, 20)",
+		"60" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (60,'links_minadminlevel',             1, '5', 'The minimum admin level to edit links', 8, 10)",
+		"61" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (61,'links_use_adminlevels',           2, '1', 'set this to false to have all links visible and editable to everyone in the link manager', 8, 20)",
+		"62" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (62,'links_rating_type',               5, 'image', 'Set this to the type of rating indication you wish to use', 8, 10)",
+		"63" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (63,'links_rating_char',               3, '*', 'If we are set to \'char\' which char to use.', 8, 5)",
+		"64" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (64,'links_rating_ignore_zero',        2, '1', 'What do we do with a value of zero? set this to true to output nothing, 0 to output as normal (number/image)', 8, 20)",
+		"65" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (65,'links_rating_single_image',       2, '1', 'Use the same image for each rating point? (Uses links_rating_image[0])', 8, 20)",
+		"66" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (66,'links_rating_image0',             3, 'wp-links/links-images/tick.png', 'Image for rating 0 (and for single image)', 8, 40)",
+		"67" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (67,'links_rating_image1',             3, 'wp-links/links-images/rating-1.gif', 'Image for rating 1', 8, 40)",
+		"68" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (68,'links_rating_image2',             3, 'wp-links/links-images/rating-2.gif', 'Image for rating 2', 8, 40)",
+		"69" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (69,'links_rating_image3',             3, 'wp-links/links-images/rating-3.gif', 'Image for rating 3', 8, 40)",
+		"70" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (70,'links_rating_image4',             3, 'wp-links/links-images/rating-4.gif', 'Image for rating 4', 8, 40)",
+		"71" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (71,'links_rating_image5',             3, 'wp-links/links-images/rating-5.gif', 'Image for rating 5', 8, 40)",
+		"72" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (72,'links_rating_image6',             3, 'wp-links/links-images/rating-6.gif', 'Image for rating 6', 8, 40)",
+		"73" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (73,'links_rating_image7',             3, 'wp-links/links-images/rating-7.gif', 'Image for rating 7', 8, 40)",
+		"74" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (74,'links_rating_image8',             3, 'wp-links/links-images/rating-8.gif', 'Image for rating 8', 8, 40)",
+		"75" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (75,'links_rating_image9',             3, 'wp-links/links-images/rating-9.gif', 'Image for rating 9', 8, 40)",
+		"76" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (76,'weblogs_cache_file',              3, 'weblogs.com.changes.cache', 'path/to/cachefile needs to be writable by web server', 8, 40)",
+		"77" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (77,'weblogs_xml_url',                 3, 'http://www.weblogs.com/changes.xml', 'Which file to grab from weblogs.com', 8, 40)",
+		"78" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (78,'weblogs_cacheminutes',            1, '60', 'cache time in minutes (if it is older than this get a new copy)', 8, 10)",
+		"79" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (79,'links_updated_date_format',       3, 'd/m/Y h:i', 'The date format for the updated tooltip', 8, 25)",
+		"80" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (80,'links_recently_updated_prepend',  3, '&gt;&gt;', 'The text to prepend to a recently updated link', 8, 10)",
+		"81" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (81,'links_recently_updated_append',   3, '&lt;&lt;', 'The text to append to a recently updated link', 8, 20)",
+		"82" => "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (82,'links_recently_updated_time',     1, '120', 'The time in minutes to consider a link recently updated', 8, 20)"
 		);
 
-	foreach ($option_data as $query) {
-		$option_id = preg_match('|VALUES \(([0-9]+)|', $query, $matches);
-		$option_id = $matches[1];
-		if(!$wpdb->get_var("SELECT * FROM $tableoptions WHERE option_id = $option_id")) {
+	foreach ($option_data as $option_id => $query) {
+		if(!$wpdb->get_var("SELECT * FROM $tableoptions WHERE option_id = '$option_id'")) {
 			$wpdb->query($query);
-			}
+		}
 	}
 	
 	$option_groups = array(
@@ -285,7 +282,7 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 	foreach ($option_groups as $query) {
 		$option_id = preg_match('|VALUES \(([0-9]+)|', $query, $matches);
 		$option_id = $matches[1];
-		if(!$wpdb->get_var("SELECT * FROM $tableoptiongroups WHERE group_id = $option_id")) {
+		if(!$wpdb->get_var("SELECT * FROM $tableoptiongroups WHERE group_id = '$option_id'")) {
 			$wpdb->query($query);
 			}
 	}	
@@ -391,7 +388,7 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 	foreach ($optiongroup_options as $query) {
 		preg_match('|VALUES \([0-9]+,([0-9]+)|', $query, $matches);
 		$option_id = $matches[1];
-		if(!$wpdb->get_var("SELECT * FROM $tableoptiongroup_options WHERE option_id = $option_id")) {
+		if(!$wpdb->get_var("SELECT * FROM $tableoptiongroup_options WHERE option_id = '$option_id'")) {
 			$wpdb->query($query);
 			}
 	}	
@@ -453,7 +450,7 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 		preg_match("|VALUES \(([0-9]+), '([^']+)'|", $query, $matches);
 		$option_id = $matches[1];
 		$value = $matches[2];
-		if(!$wpdb->get_var("SELECT * FROM $tableoptionvalues WHERE option_id = $option_id AND optionvalue = '$value'")) {
+		if(!$wpdb->get_var("SELECT * FROM $tableoptionvalues WHERE option_id = '$option_id' AND optionvalue = '$value'")) {
 			$wpdb->query($query);
 			}
 	}	
@@ -523,7 +520,7 @@ function upgrade_100() {
 	$gid = $wpdb->get_var("SELECT group_id FROM $tableoptiongroups WHERE group_name = 'General blog settings'");
 	$seq = $wpdb->get_var("SELECT MAX(seq) FROM $tableoptiongroup_options WHERE group_id = '$gid'");
 	++$seq;
-	if (!$wpdb->get_row("SELECT * FROM $tableoptiongroup_options WHERE group_id = $gid AND option_id = $oid")) {
+	if (!$wpdb->get_row("SELECT * FROM $tableoptiongroup_options WHERE group_id = '$gid' AND option_id = '$oid'")) {
 		$wpdb->query("INSERT INTO $tableoptiongroup_options 
 		(group_id, option_id, seq) 
 		VALUES 
@@ -559,7 +556,7 @@ function upgrade_100() {
 	$oid = $wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'moderation_notify'");	    
 	$seq = $wpdb->get_var("SELECT MAX(seq) FROM $tableoptiongroup_options WHERE group_id = '$gid'");
 	++$seq;
-	if (!$wpdb->get_row("SELECT * FROM $tableoptiongroup_options WHERE group_id = $gid AND option_id = $oid")) {
+	if (!$wpdb->get_row("SELECT * FROM $tableoptiongroup_options WHERE group_id = '$gid' AND option_id = '$oid'")) {
 		$wpdb->query("INSERT INTO $tableoptiongroup_options 
 			(group_id, option_id, seq)
 			VALUES 
@@ -570,7 +567,7 @@ function upgrade_100() {
 	foreach($posts as $post) {
 		if ('' == $post->post_name) { 
 			$newtitle = sanitize_title($post->post_title);
-			$wpdb->query("UPDATE $tableposts SET post_name = '$newtitle' WHERE ID = $post->ID");
+			$wpdb->query("UPDATE $tableposts SET post_name = '$newtitle' WHERE ID = '$post->ID'");
 		}
 	}
 	
@@ -578,7 +575,7 @@ function upgrade_100() {
 	foreach ($categories as $category) {
 		if ('' == $category->category_nicename) { 
 			$newtitle = sanitize_title($category->cat_name);
-			$wpdb->query("UPDATE $tablecategories SET category_nicename = '$newtitle' WHERE cat_ID = $category->cat_ID");
+			$wpdb->query("UPDATE $tablecategories SET category_nicename = '$newtitle' WHERE cat_ID = '$category->cat_ID'");
 		}
 	}
 	
@@ -645,7 +642,7 @@ function upgrade_100() {
 				INSERT INTO $tablepost2cat
 				(post_id, category_id)
 				VALUES
-				($post->ID, $post->post_category)
+				('$post->ID', '$post->post_category')
 				");
 		}
 	}
@@ -654,9 +651,9 @@ function upgrade_100() {
 function upgrade_101() {
 	global $wpdb, $tableoptionvalues, $tablelinkcategories, $tableposts, $tablecategories, $tablecomments, $tablelinks;
 	// Fix possible duplicate problem from CVS
-	$option59 = $wpdb->get_results("SELECT * FROM $tableoptionvalues WHERE option_id  = 59");
+	$option59 = $wpdb->get_results("SELECT * FROM $tableoptionvalues WHERE option_id  = '59'");
 	if (1 < count($option59)) {
-		$wpdb->query("DELETE FROM $tableoptionvalues WHERE option_id = 59 AND optionvalue LIKE('%FROM  order%')");
+		$wpdb->query("DELETE FROM $tableoptionvalues WHERE option_id = '59' AND optionvalue LIKE('%FROM  order%')");
 	}
 	
 	// Remove 'automatic' option for comment moderation until it actually does something
