@@ -207,10 +207,10 @@ switch ($action) {
       $wpdb->query("UPDATE $wpdb->links set link_visible = 'N' WHERE link_category = $link_category");
     }
     $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) " .
-      " VALUES('" . addslashes($link_url) . "','"
-           . addslashes($link_name) . "', '"
-           . addslashes($link_image) . "', '$link_target', $link_category, '"
-           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) . "', '" . addslashes($link_notes) . "', '$link_rss_uri')");
+      " VALUES('" . $link_url . "','"
+           . $link_name . "', '"
+           . $link_image . "', '$link_target', $link_category, '"
+           . $link_description . "', '$link_visible', $user_ID, $link_rating, '" . $link_rel . "', '" . $link_notes . "', '$link_rss_uri')");
 
     header('Location: ' . $_SERVER['HTTP_REFERER'] . '?added=true');
     break;
@@ -258,13 +258,13 @@ switch ($action) {
         $wpdb->query("UPDATE $wpdb->links set link_visible = 'N' WHERE link_category = $link_category");
       }
 
-      $wpdb->query("UPDATE $wpdb->links SET link_url='" . addslashes($link_url) . "',
-	  link_name='" . addslashes($link_name) . "',\n link_image='" . addslashes($link_image) . "',
+      $wpdb->query("UPDATE $wpdb->links SET link_url='" . $link_url . "',
+	  link_name='" . addslashes($link_name) . "',\n link_image='" . $link_image . "',
 	  link_target='$link_target',\n link_category=$link_category,
-	  link_visible='$link_visible',\n link_description='" . addslashes($link_description) . "',
+	  link_visible='$link_visible',\n link_description='" . $link_description . "',
 	  link_rating=$link_rating,
-	  link_rel='" . addslashes($link_rel) . "',
-	  link_notes='" . addslashes($link_notes) . "',
+	  link_rel='" . $link_rel . "',
+	  link_notes='" . $link_notes . "',
 	  link_rss = '$link_rss_uri'
 	  WHERE link_id=$link_id");
     } // end if save
