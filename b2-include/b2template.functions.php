@@ -489,7 +489,7 @@ function the_ID() {
 	echo $id;
 }
 
-function the_title($before='', $after='') {
+function the_title($before='', $after='', $echo=true) {
 	$title = get_the_title();
 	$title = convert_bbcode($title);
 	$title = convert_gmcode($title);
@@ -497,7 +497,10 @@ function the_title($before='', $after='') {
 	if ($title) {
 		$title = convert_chars($before.$title.$after);
 		$title = apply_filters('the_title', $title);
-		echo $title;
+        if ($echo)
+            echo $title;
+        else
+            return $title;
 	}
 }
 function the_title_rss() {
@@ -997,9 +1000,12 @@ function get_the_category_by_ID($cat_ID) {
 	return(stripslashes($cat_name));
 }
 
-function the_category_ID() {
+function the_category_ID($echo=true) {
 	global $post;
-	echo $post->post_category;
+    if ($echo)
+        echo $post->post_category;
+    else
+        return $post->post_category;
 }
 
 function the_category_head($before='', $after='') {
@@ -1325,7 +1331,7 @@ function trackback_rdf($timezone = 0) {
 		echo '    dc:identifier="';
 		permalink_single();
 		echo '"'."\n";
-		echo '    dc:title="'.addslashes(strip_tags(get_the_title())).'"'."\n";
+		echo '    dc:title="'.str_replace('--', '&#x2d;&#x2d;', addslashes(strip_tags(get_the_title()))).'"'."\n";
 		echo '    trackback:ping="'.trackback_url(0).'"'." />\n";
 		echo '</rdf:RDF>';
 	}
