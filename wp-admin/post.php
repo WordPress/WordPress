@@ -1,6 +1,4 @@
 <?php
-/* <Edit> */
-
 require_once('../wp-includes/wp-l10n.php');
 
 function add_magic_quotes($array) {
@@ -654,30 +652,23 @@ break;
 
 case 'mailapprovecomment':
 
-$standalone = 0;
+$standalone = 1;
 require_once('./admin-header.php');
 
 if ($user_level == 0)
 	die (__('Cheatin&#8217; uh?'));
 
-$comment = $_GET['comment'];
-$p = $_GET['p'];
+$comment = (int) $_GET['comment'];
+
 $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-wp_set_comment_status($comment, "approve");
-if (get_settings("comments_notify") == true) {
-	wp_notify_postauthor($comment);
+if ('1' != $commentdata['comment_approved']) {
+	wp_set_comment_status($comment, 'approve');
+	if (true == get_option('comments_notify'))
+		wp_notify_postauthor($comment);
 }
 
-echo "<div class=\"wrap\">\n";
-echo "<p>" . __('Comment has been approved.') . "</p>\n";
-
-echo "<form action=\"". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments\" method=\"get\">\n";
-echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
-echo "<input type=\"hidden\" name=\"c\" value=\"1\" />\n";
-echo "<input type=\"submit\" value=\"" . __('Ok') . "\" />";
-echo "</form>\n";
-echo "</div>\n";
+header('Location: ' . get_option('siteurl') . '/wp-admin/moderation.php?approved=1');
 
 break;
 
