@@ -98,12 +98,12 @@ function autobrize($content) {
 	$content = preg_replace("/<br>\n/", "\n", $content);
 	$content = preg_replace("/<br \/>\n/", "\n", $content);
 	$content = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />\n", $content);
-	return($content);
+	return $content;
 	}
 function unautobrize($content) {
 	$content = preg_replace("/<br>\n/", "\n", $content);   //for PHP versions before 4.0.5
 	$content = preg_replace("/<br \/>\n/", "\n", $content);
-	return($content);
+	return $content;
 	}
 
 
@@ -112,13 +112,13 @@ function format_to_edit($content) {
 	$content = stripslashes($content);
 	if ($autobr) { $content = unautobrize($content); }
 	$content = htmlspecialchars($content);
-	return($content);
+	return $content;
 	}
 function format_to_post($content) {
 	global $post_autobr,$comment_autobr;
 	$content = addslashes($content);
 	if ($post_autobr || $comment_autobr) { $content = autobrize($content); }
-	return($content);
+	return $content;
 	}
 
 
@@ -126,7 +126,7 @@ function zeroise($number,$threshold) { // function to add leading zeros when nec
 	$l=strlen($number);
 	if ($l<$threshold)
 		for ($i=0; $i<($threshold-$l); $i=$i+1) { $number='0'.$number;	}
-	return($number);
+	return $number;
 	}
 
 
@@ -165,7 +165,7 @@ function addslashes_gpc($gpc) {
 	if (!get_magic_quotes_gpc()) {
 		$gpc = addslashes($gpc);
 	}
-	return($gpc);
+	return $gpc;
 }
 
 function date_i18n($dateformatstring, $unixtimestamp) {
@@ -201,7 +201,7 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 	}
 	$week['start'] = $day + 86400 - $i;
 	$week['end']   = $day + 691199;
-	return ($week);
+	return $week;
 }
 
 function convert_chars($content,$flag="html") { // html/unicode entities output, defaults to html
@@ -272,7 +272,7 @@ function convert_chars($content,$flag="html") { // html/unicode entities output,
 	$newcontent = str_replace("<br>","<br />",$newcontent);
 	$newcontent = str_replace("<hr>","<hr />",$newcontent);
 
-	return($newcontent);
+	return $newcontent;
 	*/
 }
 
@@ -282,7 +282,7 @@ function convert_bbcode($content) {
 		$content = preg_replace($b2_bbcode["in"], $b2_bbcode["out"], $content);
 	}
 	$content = convert_bbcode_email($content);
-	return ($content);
+	return $content;
 }
 
 function convert_bbcode_email($content) {
@@ -297,7 +297,7 @@ function convert_bbcode_email($content) {
 	);
 
 	$content = preg_replace($bbcode_email["in"], $bbcode_email["out"], $content);
-	return ($content);
+	return $content;
 }
 
 function convert_gmcode($content) {
@@ -305,7 +305,7 @@ function convert_gmcode($content) {
 	if ($use_gmcode) {
 		$content = preg_replace($b2_gmcode["in"], $b2_gmcode["out"], $content);
 	}
-	return ($content);
+	return $content;
 }
 
 function convert_smilies($content) {
@@ -314,7 +314,7 @@ function convert_smilies($content) {
 	if ($use_smilies) {
 		$content = str_replace($b2_smiliessearch, $b2_smiliesreplace, $content);
 	}
-	return ($content);
+	return $content;
 }
 
 function antispambot($emailaddy, $mailto=0) {
@@ -342,7 +342,7 @@ function make_clickable($text) { // original function: phpBB, extended here for 
     $ret = preg_replace("#([\n ])www\.([a-z0-9\-]+)\.([a-z0-9\-.\~]+)((?:/[^,< \n\r]*)?)#i", "\\1<a href=\"http://www.\\2.\\3\\4\" target=\"_blank\">www.\\2.\\3\\4</a>", $ret);
     $ret = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([^,< \n\r]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $ret);
     $ret = substr($ret, 1);
-    return($ret);
+    return $ret;
 }
 
 
@@ -396,7 +396,7 @@ function get_lastpostdate() {
 	} else {
 		$lastpostdate = $cache_lastpostdate;
 	}
-	return($lastpostdate);
+	return $lastpostdate;
 }
 
 function user_pass_ok($user_login,$user_pass) {
@@ -431,7 +431,7 @@ function get_userdata($userid) {
 	} else {
 		$user = $cache_userdata[$userid];
 	}
-	return($user);
+	return $user;
 }
 
 function get_userdata2($userid) { // for team-listing
@@ -444,7 +444,7 @@ function get_userdata2($userid) { // for team-listing
 	$user_data['user_level'] = $post->user_level;
 	$user_data['user_email'] = $post->user_email;
 	$user_data['user_url'] = $post->user_url;
-	return($user_data);
+	return $user_data;
 }
 
 function get_userdatabylogin($user_login) {
@@ -456,7 +456,7 @@ function get_userdatabylogin($user_login) {
 	} else {
 		$user = $cache_userdata["$user_login"];
 	}
-	return($user);
+	return $user;
 }
 
 function get_userid($user_login) {
@@ -469,7 +469,7 @@ function get_userid($user_login) {
 	} else {
 		$user_id = $cache_userdata["$user_login"];
 	}
-	return($user_id);
+	return $user_id;
 }
 
 function get_usernumposts($userid) {
@@ -487,7 +487,7 @@ function get_settings($setting) {
 	} else {
 		$settings = $cache_settings;
 	}
-	return($settings->$setting);
+	return $settings->$setting;
 }
 
 function get_postdata($postid) {
@@ -508,7 +508,7 @@ function get_postdata($postid) {
 		'ping_status' => $post->ping_status,
 		'post_password' => $post->post_password
 	);
-	return($postdata);
+	return $postdata;
 }
 
 function get_postdata2($postid=0) { // less flexible, but saves mysql queries
@@ -526,7 +526,7 @@ function get_postdata2($postid=0) { // less flexible, but saves mysql queries
 		'ping_status' => $post->ping_status,
 		'post_password' => $post->post_password
 		);
-	return($postdata);
+	return $postdata;
 }
 
 function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves mysql queries
@@ -554,7 +554,7 @@ function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves 
 			$myrow['comment_type'] = 'comment';
 		}
 	}
-	return($myrow);
+	return $myrow;
 }
 
 function get_catname($cat_ID) {
@@ -568,7 +568,7 @@ function get_catname($cat_ID) {
 		}
 	}
 	$cat_name = $cache_catnames[$cat_ID];
-	return($cat_name);
+	return $cat_name;
 }
 
 function profile($user_login) {
@@ -720,7 +720,7 @@ function redirect_js($url,$title="...") {
 		$timetotal = $timeend-$timestart;
 		if ($display)
 			echo number_format($timetotal,$precision);
-		return($timetotal);
+		return $timetotal;
 	}
 
 
@@ -733,11 +733,11 @@ function pingWeblogs($blog_ID = 1) {
 		$message = new xmlrpcmsg("weblogUpdates.ping", array(new xmlrpcval($blogname), new xmlrpcval($siteurl."/".$blogfilename)));
 		$result = $client->send($message);
 		if (!$result || $result->faultCode()) {
-			return(false);
+			return false;
 		}
-		return(true);
+		return true;
 	} else {
-		return(false);
+		return false;
 	}
 }
 
@@ -749,11 +749,11 @@ function pingWeblogsRss($blog_ID = 1, $rss_url) {
 		$message = new xmlrpcmsg('rssUpdate', array(new xmlrpcval($blogname), new xmlrpcval($rss_url)));
 		$result = $client->send($message);
 		if (!$result || $result->faultCode()) {
-			return(false);
+			return false;
 		}
-		return(true);
+		return true;
 	} else {
-		return(false);
+		return false;
 	}
 }
 
@@ -765,11 +765,11 @@ function pingCafelog($cafelogID,$title='',$p='') {
 		$message = new xmlrpcmsg("b2.ping", array(new xmlrpcval($cafelogID), new xmlrpcval($title), new xmlrpcval($p)));
 		$result = $client->send($message);
 		if (!$result || $result->faultCode()) {
-			return(false);
+			return false;
 		}
-		return(true);
+		return true;
 	} else {
-		return(false);
+		return false;
 	}
 }
 
@@ -786,11 +786,11 @@ function pingBlogs($blog_ID="1") {
 		}
 		$result = $client->send($message);
 		if (!$result || $result->faultCode()) {
-			return(false);
+			return false;
 		}
-		return(true);
+		return true;
 	} else {
-		return(false);
+		return false;
 	}
 }
 
@@ -876,7 +876,7 @@ function make_url_footnote($content) {
 	}
 	$content = strip_tags($content);
 	$content .= $links_summary;
-	return($content);
+	return $content;
 }
 
 
@@ -889,7 +889,7 @@ function xmlrpc_getposttitle($content) {
 	} else {
 		$post_title = $post_default_title;
 	}
-	return($post_title);
+	return $post_title;
 }
 	
 function xmlrpc_getpostcategory($content) {
@@ -902,14 +902,14 @@ function xmlrpc_getpostcategory($content) {
 	} else {
 		$post_category = $post_default_category;
 	}
-	return($post_category);
+	return $post_category;
 }
 
 function xmlrpc_removepostdata($content) {
 	$content = preg_replace('/<title>(.+?)<\/title>/si', '', $content);
 	$content = preg_replace('/<category>(.+?)<\/category>/si', '', $content);
 	$content = trim($content);
-	return($content);
+	return $content;
 }
 
 function debug_fopen($filename, $mode) {
@@ -1128,7 +1128,7 @@ function pingback($content, $post_ID) {
 function balanceTags($text, $is_comment = 0) {
 	global $use_balanceTags;
 	if ($use_balanceTags == 0) {
-		return($text);
+		return $text;
 	}
 
 	$tagstack = array();
