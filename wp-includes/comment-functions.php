@@ -281,7 +281,7 @@ function get_comment_time( $d = '' ) {
 }
 
 function comment_time( $d = '' ) {
-	echo get_comment_time();
+	echo get_comment_time($d);
 }
 
 function get_trackback_url() {
