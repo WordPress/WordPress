@@ -229,6 +229,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 }
 
 function get_calendar() {
+	global $wpdb, $HTTP_GET_VARS, $m, $monthnum, $year, $timedifference, $month, $tableposts;
 // Quick check. If we have no posts at all, abort!
 if (!$posts) {
 	$gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
@@ -305,7 +306,7 @@ echo '<th>&nbsp;</th>';
 if ($next) {
 	echo '<th abbr="' . $month[zeroise($next->month, 2)] . '" colspan="3" id="next"><a href="' . 
 	get_month_link($previous->year, $next->month) . '" title="View posts for ' . $month[zeroise($next->month, 2)] . ' ' . 
-	date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">&raquo; ' . substr($month[zeroise($next->month, 2)], 0, 3) . '</a>';
+	date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">' . substr($month[zeroise($next->month, 2)], 0, 3) . ' &raquo;</a>';
 } else {
 	echo '<th colspan="3" id="next">&raquo;</th>';
 }
@@ -318,12 +319,13 @@ echo '  </tr>
   
 // Get days with posts
 $dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date) 
-				FROM wp_posts WHERE MONTH(post_date) = $thismonth 
+				FROM $tableposts WHERE MONTH(post_date) = $thismonth 
 				AND YEAR(post_date) = $thisyear 
 				AND post_status = 'publish' 
-				AND post_date < '" . date("Y-m-d H:i:s", (time() + ($time_difference * 3600))), ARRAY_N);
-
-// TODO: Make days with posts linked
+				AND post_date < '" . date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."'", ARRAY_N);
+foreach ($dayswithposts as $daywith) {
+	$daywithpost[] = $daywith[0];
+}
 
 // See how much we should pad in the beginning
 $pad = intval(date('w', $unixmonth));
@@ -333,7 +335,15 @@ $daysinmonth = intval(date('t', $unixmonth));
 for ($day = 1; $day <= $daysinmonth; ++$day) {
 	if ($newrow) echo "\n</tr>\n  <tr>";
 	$newrow = false;
-	echo "\n\t<td>$day</td>";
+	echo "\n\t<td>";
+
+	if (in_array($day, $daywithpost)) {
+		echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\">$day</a>";
+	} else {
+		echo $day;
+	}
+
+	echo '</td>';
 	if (6 == date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear))) $newrow = true;
 }
 $pad = 7 - date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear));
@@ -398,7 +408,26 @@ function get_month_link($year, $month) {
 		$monthlink = str_replace('%monthnum%', intval($month), $monthlink);
 		return $monthlink;
 	} else {
-		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.$month;
+		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
+	}
+}
+
+function get_day_link($year, $month, $day) {
+	global $siteurl, $blogfilename, $querystring_start, $querystring_equal;
+	if (!$year) $year = date('Y', time()+($time_difference * 3600));
+	if (!$month) $month = date('m', time()+($time_difference * 3600));
+	if (!$day) $day = date('j', time()+($time_difference * 3600));
+	if ('' != get_settings('permalink_structure')) {
+		$off = strpos(get_settings('permalink_structure'), '%day%');
+		$offset = $off + 6;
+		$daylink = substr(get_settings('permalink_structure'), 0, $offset);
+		if ('/' != substr($daylink, -1)) $daylink = substr($daylink, 0, -1);
+		$daylink = str_replace('%year%', $year, $daylink);
+		$daylink = str_replace('%monthnum%', intval($month), $daylink);
+		$daylink = str_replace('%day%', intval($day), $daylink);
+		return $daylink;
+	} else {
+		return $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
 	}
 }
 
