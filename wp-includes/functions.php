@@ -493,7 +493,7 @@ function weblog_ping($server = '', $path = '') {
 	include_once (ABSPATH . WPINC . '/class-IXR.php');
 
 	// using a timeout of 3 seconds should be enough to cover slow servers
-	$client = new IXR_Client($server, (($path == '') ? false : $path));
+	$client = new IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));
 	$client->timeout = 3;
 	$client->useragent .= ' / WordPress '.$wp_version;
 
@@ -510,8 +510,7 @@ function generic_ping($post_id = 0) {
 	if ('' != $services) {
 		$services = explode("\n", $services);
 		foreach ($services as $service) {
-			$uri = parse_url($service);
-			weblog_ping($uri['host'], $uri['path']);
+			weblog_ping($service);
 		}
 	}
 
