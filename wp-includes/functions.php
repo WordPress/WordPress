@@ -175,11 +175,9 @@ function get_userdata($userid) {
 	global $wpdb, $cache_userdata, $tableusers;
 	if ( empty($cache_userdata[$userid]) ) {
 		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = '$userid'");
-        $user->user_nickname = stripslashes($user->user_nickname);
-        $user->user_firstname = stripslashes($user->user_firstname);
-        $user->user_lastname = stripslashes($user->user_lastname);
-        $user->user_firstname =  stripslashes($user->user_firstname);
-        $user->user_lastname = stripslashes($user->user_lastname);
+		$user->user_nickname = stripslashes($user->user_nickname);
+		$user->user_firstname = stripslashes($user->user_firstname);
+		$user->user_lastname = stripslashes($user->user_lastname);
 		$user->user_description = stripslashes($user->user_description);
 		$cache_userdata[$userid] = $user;
 	} else {
