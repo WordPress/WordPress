@@ -1047,19 +1047,21 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 		$all = apply_filters('list_cats', $all);
 		echo "\t<option value='all'>$all</option>\n";
 	}
-	foreach ($categories as $category) {
-		$cat_name = apply_filters('list_cats', $category->cat_name);
-		echo "\t<option value=\"".$category->cat_ID."\"";
-		if ($category->cat_ID == $cat)
-			echo ' selected="selected"';
-		echo '>'.stripslashes($cat_name);
-        if (intval($optioncount) == 1) {
-            echo '&nbsp;&nbsp;('.$category->cat_count.')';
-        }
-        if (intval($optiondates) == 1) {
-            echo '&nbsp;&nbsp;'.$category->lastday.'/'.$category->lastmonth;
-        }
-        echo "</option>\n";
+	if ($categories) {
+		foreach ($categories as $category) {
+			$cat_name = apply_filters('list_cats', $category->cat_name);
+			echo "\t<option value=\"".$category->cat_ID."\"";
+			if ($category->cat_ID == $cat)
+				echo ' selected="selected"';
+			echo '>'.stripslashes($cat_name);
+	        if (intval($optioncount) == 1) {
+	            echo '&nbsp;&nbsp;('.$category->cat_count.')';
+	        }
+	        if (intval($optiondates) == 1) {
+	            echo '&nbsp;&nbsp;'.$category->lastday.'/'.$category->lastmonth;
+	        }
+	        echo "</option>\n";
+		}
 	}
 	echo "</select>\n";
 }
@@ -1087,6 +1089,15 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     $query .= " ORDER BY $sort_column $sort_order, post_date DESC";
 
 	$categories = $wpdb->get_results($query);
+
+	if (!$categories) {
+		if ($list) {
+			$before = '<li>';
+			$after = '</li>';
+		}
+		echo $before . "No categories" . $after . "\n";
+		return;
+	}
 	++$querycount;
 	if (intval($optionall) == 1) {
 		$all = apply_filters('list_cats', $all);
@@ -1094,6 +1105,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		if ($list) echo "\n\t<li>$link</li>";
 		else echo "\t$link<br />\n";
 	}
+
 	foreach ($categories as $category) {
 		$cat_name = apply_filters('list_cats', $category->cat_name);
         $link = '<a href="'.$file.$querystring_start.'cat'.$querystring_equal.$category->cat_ID.'">';
