@@ -1,5 +1,5 @@
 <?php
-require_once('../wp-config.php');
+require_once(ABSPATH . '/wp-config.php');
 
 if ( (!empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && !wp_login($_COOKIE['wordpressuser_' . COOKIEHASH], $_COOKIE['wordpresspass_' . COOKIEHASH], true))
 	|| (empty($_COOKIE['wordpressuser_' . COOKIEHASH])) ) {

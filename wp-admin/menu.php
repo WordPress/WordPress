@@ -43,7 +43,15 @@ $submenu['themes.php'][5] = array(__('Themes'), 5, 'themes.php');
 $submenu['themes.php'][10] = array(__('Theme Editor'), 5, 'theme-editor.php');
 $submenu['themes.php'][15] = array(__('Other Files'), 5, 'templates.php');
 
-$self = preg_replace('|.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
+do_action('admin_menu', '');
+
+if (! user_can_access_admin_page()) {
+	die( __('You have do not have sufficient permissions to access this page.') );
+}
+
+$self = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
+$self = preg_replace('|^.*/plugins/|i', '', $self);
+
 if (!isset($parent_file)) $parent_file = '';
 foreach ($menu as $item) {
 	$class = '';
@@ -57,7 +65,7 @@ foreach ($menu as $item) {
 get_settings('use_fileupload') && 
 ($user_level >= get_settings('fileupload_minlevel'))
              ) || 'upload.php' != $item[2])
-            echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
+					echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/{$item[2]}'$class>{$item[0]}</a></li>";
     }
 }
 
@@ -73,9 +81,13 @@ if ( isset($submenu["$parent_file"]) ) :
 <ul id="adminmenu2">
 <?php 
 foreach ($submenu["$parent_file"] as $item) : 
+	 if ($user_level < $item[1]) {
+		 continue;
+	 }
+
 	if ( substr($self, -10) == substr($item[2], -10) ) $class = ' class="current"';
 	else $class = '';
-	echo "\n\t<li><a href='{$item[2]}'$class>{$item[0]}</a></li>";
+	echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/{$item[2]}'$class>{$item[0]}</a></li>";
 endforeach;
 ?>
 

@@ -2,10 +2,6 @@
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Writing Options');
-$parent_file = 'options-general.php';
-
-$standalone = 0;
-include_once('./admin-header.php');
 include('./options-head.php');
 ?>
 

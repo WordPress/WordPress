@@ -622,4 +622,49 @@ function parent_dropdown($default = 0, $parent = 0, $level = 0) {
 	}
 }
 
+function user_can_access_admin_page() {
+	global $parent_file;
+	global $pagenow;
+	global $menu;
+	global $submenu;
+	global $user_level;
+
+	if (! isset($parent_file)) {
+		$parent = $pagenow;
+	} else {
+		$parent = $parent_file;
+	}
+
+	foreach ($menu as $menu_array) {
+		//echo "parent array: " . $menu_array[2];
+		if ($menu_array[2] == $parent) {
+			if ($user_level < $menu_array[1]) {
+				return false;
+			} else {
+				break;
+			}
+		}
+	}
+
+	if (isset($submenu[$parent])) {
+		foreach ($submenu[$parent] as $submenu_array) {
+			if ($submenu_array[2] == $pagenow) {
+				if ($user_level < $submenu_array[1]) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
+	}
+	
+	return true;
+}
+
+function add_options_menu($title, $access_level, $file) {
+	global $submenu;
+	
+	$submenu['options-general.php'][] = array($title, $access_level, $file);
+}
+
 ?>

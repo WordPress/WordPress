@@ -1,6 +1,15 @@
 <?php
 
-require_once('../wp-config.php');
+if (strstr($_SERVER['PHP_SELF'], 'plugins/')) {
+	$wp_admin_path = '../../wp-admin/';
+	$wp_path = '../../';
+} else {
+	$wp_admin_path = './';
+	$wp_path = '../';
+}
+
+require_once($wp_path . 'wp-config.php');
+
 require_once(ABSPATH . '/wp-admin/auth.php');
 require(ABSPATH . '/wp-admin/admin-functions.php');
 
@@ -38,8 +47,8 @@ if ($standalone == 0) :
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
-<link rel="stylesheet" href="wp-admin.css" type="text/css" />
-<link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
+<link rel="stylesheet" href="<?php echo $wp_admin_path; ?>wp-admin.css" type="text/css" />
+<link rel="shortcut icon" href="<?php echo $wp_path; ?>wp-images/wp-favicon.png" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 
 <?php if (isset($xfn)) : ?>
@@ -110,6 +119,6 @@ window.onload = blurry;
 </div>
 
 <?php
-require('./menu.php');
+require(ABSPATH . '/wp-admin/menu.php');
 endif;
 ?>

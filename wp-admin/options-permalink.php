@@ -6,7 +6,8 @@ $parent_file = 'options-general.php';
 
 require_once('./admin-header.php');
 if ($user_level <= 8)
-	die(__('You have do not have sufficient permissions to edit the options for this blog.'));
+	die(__('You have do not have sufficient permissions to edit the options
+for this blog.'));
 
 require('./options-head.php');
 
@@ -21,20 +22,21 @@ if ( $home != '' && $home != get_settings('siteurl') ) {
 }
 
 if ( isset($_POST) ) {
-	if ( $_POST['permalink_structure'] )
-		$permalink_structure = preg_replace('#/+#', '/', '/' . $_POST['permalink_structure']);
-	else
+	if ( isset($_POST['permalink_structure']) ) {
 		$permalink_structure = $_POST['permalink_structure'];
+		if (! empty($permalink_structure) )
+			$permalink_structure = preg_replace('#/+#', '/', '/' . $_POST['permalink_structure']);
+		update_option('permalink_structure', $permalink_structure);
+	}
 	
-	if ( $_POST['category_base'] )
-		$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
-	else
+	if ( isset($_POST['category_base']) ) {
 		$category_base = $_POST['category_base'];
-	
-	update_option('permalink_structure', $permalink_structure);
-	update_option('category_base', $category_base);
+		if (! empty($category_base) )
+			$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
+		update_option('category_base', $category_base);
+	}
 }
-
+	
 $permalink_structure = get_settings('permalink_structure');
 $category_base = get_settings('category_base');
 
