@@ -426,8 +426,8 @@ textarea, input, select {
 	width: 10.4em;
 }
 
-#titlediv, #postpassworddiv {
-	height: 3.5em;
+#simple #titlediv {
+	height: 4em;
 }
 
 #titlediv, #poststatusdiv, #commentstatusdiv, #slugdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv {
