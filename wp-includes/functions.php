@@ -364,7 +364,7 @@ function add_option($name, $value = '', $description = '') {
 	if ( is_array($value) || is_object($value) )
 		$value = serialize($value);
 
-	if(!get_settings($name)) {
+	if( !$wpdb->get_var("SELECT option_name FROM $wpdb->options WHERE option_name = '$name'") ) {
 		$name = $wpdb->escape($name);
 		$value = $wpdb->escape($value);
 		$description = $wpdb->escape($description);
