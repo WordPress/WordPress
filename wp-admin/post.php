@@ -30,9 +30,7 @@ case 'post':
 
 	$post_pingback = intval($_POST['post_pingback']);
 	$content = apply_filters('content_save_pre', $_POST['content']);
-	$content = format_to_post($content);
 	$excerpt = apply_filters('excerpt_save_pre',$_POST['excerpt']);
-	$excerpt = format_to_post($excerpt);
 	$post_title = $_POST['post_title'];
 	$post_categories = $_POST['post_category'];
 	$post_status = $_POST['post_status'];
@@ -236,9 +234,7 @@ case 'editpost':
 	$post_categories = $_POST['post_category'];
 	if (!$post_categories) $post_categories[] = 1;
 	$content = apply_filters('content_save_pre', $_POST['content']);
-	$content = format_to_post($content);
 	$excerpt = apply_filters('excerpt_save_pre', $_POST['excerpt']);
-	$excerpt = format_to_post($excerpt);
 	$post_title = $_POST['post_title'];
 	$prev_status = $_POST['prev_status'];
 	$post_status = $_POST['post_status'];
@@ -607,7 +603,6 @@ case 'editedcomment':
 		$datemodif = '';
 	}
 	$content = apply_filters('comment_save_pre', $_POST['content']);
-	$content = format_to_post($content);
 
 	$result = $wpdb->query("
 		UPDATE $wpdb->comments SET

@@ -357,7 +357,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_category = xmlrpc_getpostcategory($content);
 
 	  $content = xmlrpc_removepostdata($content);
-	  $post_content = format_to_post($content);
+	  $post_content = apply_filters( 'content_save_pre', $content );
 
 	  $post_date = current_time('mysql');
 	  $post_date_gmt = current_time('mysql', 1);
@@ -411,7 +411,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_category = xmlrpc_getpostcategory($content);
 
 	  $content = xmlrpc_removepostdata($content);
-	  $post_content = format_to_post($content);
+	  $post_content = apply_filters( 'content_save_pre', $content );
 
 	  $postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt');
 
@@ -489,7 +489,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_author = $user_data->ID;
 
 	  $post_title = $content_struct['title'];
-	  $post_content = format_to_post($content_struct['description']);
+	  $post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
 	  $post_status = $publish ? 'publish' : 'draft';
 
 	  $post_excerpt = $content_struct['mt_excerpt'];
@@ -572,7 +572,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  extract($postdata);
 
 	  $post_title = $content_struct['title'];
-	  $post_content = format_to_post($content_struct['description']);
+	  $post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
 	  $catnames = $content_struct['categories'];
 		
 	  if ($catnames) {
