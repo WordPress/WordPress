@@ -896,14 +896,15 @@ function merge_filters($tag) {
 function apply_filters($tag, $string) {
 	global $wp_filter;
 	
+	$args = array_slice(func_get_args(), 3);
+
 	merge_filters($tag);
 	
 	if (isset($wp_filter[$tag])) {
 		foreach ($wp_filter[$tag] as $priority => $functions) {
 			if (!is_null($functions)) {
 				foreach($functions as $function) {
-					$args = array($string) + array_slice(func_get_args(), 3);
-					$string = call_user_func_array($function, $args);
+					$string = call_user_func_array($function, array($string) + $args);
 				}
 			}
 		}
