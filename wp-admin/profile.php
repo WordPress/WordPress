@@ -75,7 +75,7 @@ case 'update':
 	$newuser_msn = wp_specialchars($_POST['newuser_msn']);
 	$newuser_yim = wp_specialchars($_POST['newuser_yim']);
 	$newuser_email = wp_specialchars($_POST['newuser_email']);
-	$newuser_url = wp_specialchars($_POST['newuser_url')];
+	$newuser_url = wp_specialchars($_POST['newuser_url']);
 	$newuser_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $newuser_url) ? $newuser_url : 'http://' . $newuser_url; 
 	$newuser_idmode = wp_specialchars($_POST['newuser_idmode']);
 	$user_description = $_POST['user_description'];
