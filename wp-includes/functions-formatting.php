@@ -489,7 +489,7 @@ function make_clickable($ret) {
 }
 
 function wp_rel_nofollow( $text ) {
-	$text = preg_replace('|<a(.+?)>|i', '<a$1 rel="nofollow">', $text);
+	$text = preg_replace('|<a (.+?)>|i', '<a $1 rel="nofollow">', $text);
 	return $text;
 }
 
