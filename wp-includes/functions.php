@@ -1148,6 +1148,8 @@ function start_wp() {
 		$pages[0] = stripslashes($post->post_content);
 		$multipage = 0;
 	}
+	$post->post_date_gmt = $post->post_date;
+	$post->post_date = get_date_from_gmt($post->post_date);
 	return true;
 }
 
