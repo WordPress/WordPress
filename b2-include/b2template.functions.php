@@ -47,13 +47,16 @@ function get_bloginfo($show='') {
 			$output = $blogdescription;
 			break;
 		case "rdf_url":
-			$output = $siteurl.'/b2rdf.php';
+			$output = $siteurl.'/wp-rdf.php';
 			break;
 		case "rss_url":
-			$output = $siteurl.'/b2rss.php';
+			$output = $siteurl.'/wp-rss.php';
 			break;
 		case "rss2_url":
-			$output = $siteurl.'/b2rss2.php';
+			$output = $siteurl.'/wp-rss2.php';
+			break;
+		case "comments_rss2_url":
+			$output = $siteurl.'/wp-commentsrss2.php';
 			break;
 		case "pingback_url":
 			$output = $siteurl.'/xmlrpc.php';
@@ -66,7 +69,7 @@ function get_bloginfo($show='') {
 			$output = $blogname;
 			break;
 	}
-	return($output);
+	return $output;
 }
 
 function single_post_title($prefix = '', $display = true) {
@@ -879,7 +882,7 @@ function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file
 	if ($preview) { // preview fix for javascript bug with foreign languages
 		$output =  preg_replace('/\%u([0-9A-F]{4,4})/e',  "'&#'.base_convert('\\1',16,10).';'", $output);
 	}
-	return($output);
+	return $output;
 }
 
 function the_excerpt() {
