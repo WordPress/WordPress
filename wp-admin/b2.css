@@ -114,6 +114,20 @@ textarea, input, select {
 	padding: 40px 5px 5px 5px;
 	text-align: right;
 	width: 210px;
+	height: 170px;
+	position: absolute;
+	left: 50%;
+	top: 45%;
+	margin-left: -105px; /* half of width and height */
+	margin-top: -85px;
+}
+#login textarea, #login input, #login select {
+	background-color: #f0f0f0;
+	border-width: 1px;
+	border-color: #cccccc;
+	border-style: solid;
+	padding: 2px;
+	margin: 1px;
 }
 
 #wphead {
