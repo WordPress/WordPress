@@ -781,8 +781,10 @@ function upgrade_110() {
 	
 	// Option for using the advanced edit screen by default
 	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'advanced_edit'")) {
-		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('advanced_edit', 3, '0', 8)");
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('advanced_edit', 5, '0', 8)");
 	}
+	// Fix for CVS versions
+	$wpdb->query("UPDATE $tableoptions SET option_type = '5' WHERE option_name = 'advanced_edit'");
 	
 	// Now an option for moderation words
 	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'moderation_keys'")) {

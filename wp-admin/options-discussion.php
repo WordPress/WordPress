@@ -34,36 +34,11 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-require_once('optionhandler.php');
-
-
 $standalone = 0;
 include_once('admin-header.php');
-if ($user_level <= 3) {
-	die("You have do not have sufficient permissions to edit the options for this blog.");
-}
+include('options-head.php');
 ?>
- <ul id="adminmenu2"> 
-	<li><a href="options-general.php">General</a></li> 
-	<li><a href="options-writing.php">Writing</a></li> 
-	<li><a href="options-reading.php">Reading</a></li> 
-	<li><a class="current">Discussion</a></li> 
-	<?php
-    //we need to iterate through the available option groups.
-    $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
-    foreach ($option_groups as $option_group) {
-        if ($option_group->group_id == $option_group_id) {
-            $current_desc=$option_group->group_desc;
-            $current_long_desc = $option_group->group_longdesc;
-            echo("  <li><a id=\"current2\" href=\"options.php?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></li>\n");
-        } else {
-            echo("  <li><a href=\"options.php?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></li>\n");
-        }
-    } // end for each group
-?> 
-	<li class="last"><a href="options-permalink.php">Permalinks</a></li> 
-</ul> 
-<br clear="all" /> 
+
 <div class="wrap"> 
 	<h2>Discussion Options</h2> 
 	<form name="form1" method="post" action="options.php"> 

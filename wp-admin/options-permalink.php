@@ -50,31 +50,11 @@ switch($action) {
 default:
 	$standalone = 0;
 	include_once('admin-header.php');
-	if ($user_level <= 3) {
+	if ($user_level <= 6) {
 		die("You have do not have sufficient permissions to edit the options for this blog.");
 	}
+	include('options-head.php');
 ?>
- <ul id="adminmenu2"> 
- <li><a href="options-general.php">General</a></li>
-	<li><a href="options-writing.php">Writing</a></li>
-	<li><a href="options-reading.php">Reading</a></li> 
-	<li><a href="options-discussion.php">Discussion</a></li>
-  <?php
-    //we need to iterate through the available option groups.
-    $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
-    foreach ($option_groups as $option_group) {
-        if ($option_group->group_id == $option_group_id) {
-            $current_desc=$option_group->group_desc;
-            $current_long_desc = $option_group->group_longdesc;
-            echo("  <li><a id=\"current2\" href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></li>\n");
-        } else {
-            echo("  <li><a href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></li>\n");
-        }
-    } // end for each group
-?> 
-  <li class="last"><a class="current">Permalinks</a></li> 
-</ul> 
-<br clear="all" /> 
 <div class="wrap"> 
   <h2>Edit Permalink Structure</h2> 
   <p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p> 
@@ -130,4 +110,5 @@ echo "</div>\n";
 break;
 }
 
-include("admin-footer.php") ?> 
+include("admin-footer.php") 
+?>

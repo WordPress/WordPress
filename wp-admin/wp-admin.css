@@ -147,6 +147,13 @@ textarea, input, select {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
+.updated {
+	background-color: #f0f8ff;
+	border: 1px solid #69c;
+	margin: 5px 5% 10px;
+	padding: 0 1em 0 1em;
+}
+
 .unapproved {
 	color: #888;
 }
