@@ -1,7 +1,8 @@
 <?php
 require_once('../wp-includes/wp-l10n.php');
 
-$title = __("Template &amp; file editing");
+$title = __('Template &amp; file editing');
+$parent_file = 	'themes.php';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -57,7 +58,7 @@ switch($action) {
 case 'update':
 
 	$standalone = 1;
-	require_once("admin-header.php");
+	require_once('./admin-header.php');
 
 	if ($user_level < 5) {
 		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
@@ -82,18 +83,26 @@ break;
 
 default:
 
-	require_once('admin-header.php');
-update_option('recently_edited', array(1, 2, 3) );
+	require_once('./admin-header.php');
 	if ($user_level <= 5) {
 		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
 	}
 
 	if ('' == $file) {
-		if ('' != get_settings('blogfilename')) {
-			$file = get_settings('blogfilename');
+		$file = 'index.php';
+	} else {
+		$oldfiles = (array) get_option('recently_edited');
+		if ($oldfiles) {
+			$oldfiles = array_reverse($oldfiles);
+			$oldfiles[] = $file;
+			$oldfiles = array_reverse($oldfiles);
+			$oldfiles = array_unique($oldfiles);
+			if ( 5 < count($oldfiles) )
+				array_pop($oldfiles);
 		} else {
-			$file = 'index.php';
+			$oldfiles[] = $file;
 		}
+		update_option('recently_edited', $oldfiles);
 	}
 
     $home = get_settings('home');
@@ -102,7 +111,7 @@ update_option('recently_edited', array(1, 2, 3) );
        '.htaccess' == $file)) {
         $home_root = parse_url($home);
 	$home_root = $home_root['path'];
-	$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["PATH_TRANSLATED"]);
+	$root = str_replace($_SERVER['PHP_SELF'], '', $_SERVER['PATH_TRANSLATED']);
 	$home_root = $root . $home_root;
         $real_file = $home_root . '/' . $file;
     } else {
@@ -112,15 +121,11 @@ update_option('recently_edited', array(1, 2, 3) );
 	
 	if (!is_file($real_file))
 		$error = 1;
-
-	if ((substr($file,0,2) == 'wp') and (substr($file,-4,4) == '.php') and ($file != 'wp.php'))
-		$warning = __(' &#8212; this is a WordPress file, be careful when editing it!');
 	
 	if (!$error) {
 		$f = fopen($real_file, 'r');
 		$content = fread($f, filesize($real_file));
 		$content = htmlspecialchars($content);
-//		$content = str_replace("</textarea","&lt;/textarea",$content);
 	}
 
 	?>
@@ -128,38 +133,28 @@ update_option('recently_edited', array(1, 2, 3) );
  <div class="updated"><p><?php _e('File edited successfully.') ?></p></div>
 <?php endif; ?>
  <div class="wrap"> 
-  <?php
-	echo "<p>" . sprintf(__('Editing <strong>%s</strong>'), $file) . " $warning</p>";
-	
-	if (!$error) {
-	?> 
-  <form name="template" action="templates.php" method="post"> 
-     <textarea cols="80" rows="21" style="width:95%; margin-right: 10em; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea> 
-     <input type="hidden" name="action" value="update" /> 
-     <input type="hidden" name="file" value="<?php echo $file ?>" /> 
-     <p class="submit">
-     <?php
-		if (is_writeable($real_file)) {
-			echo "<input type='submit' name='submit' value='Update File &raquo;' tabindex='2' />";
-		} else {
-			echo "<input type='button' name='oops' value='" . __('(You cannot update that file/template: must make it writable, e.g. CHMOD 666)') ."' tabindex='2' />";
-		}
-		?> 
-</p>
-   </form> 
-  <?php
-	} else {
-		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
-	}
-	?> 
-</div> 
-<div class="wrap">
-  <p><?php _e('To edit a file, type its name here. You can edit any file <a href="http://wiki.wordpress.org/index.php/MakeWritable" title="Read more about making files writable">writable by the server</a>, e.g. CHMOD 666.') ?></p> 
-  <form name="file" action="templates.php" method="get"> 
-    <input type="text" name="file" /> 
-    <input type="submit" name="submit"  value="<?php _e('Edit file &raquo;') ?>" /> 
-  </form> 
-  <p><?php _e('Common files: (click to edit)') ?></p>
+<?php
+if (is_writeable($real_file)) {
+	echo '<h2>' . sprintf(__('Editing <strong>%s</strong>'), $file) . '</h2>';
+} else {
+	echo '<h2>' . sprintf(__('Browsing <strong>%s</strong>'), $file) . '</h2>';
+}
+?>
+<div id="templateside">
+<?php 
+if ( $recents = get_option('recently_edited') ) : 
+?>
+<h3><?php _e('Recent'); ?></h3>
+<?php
+echo '<ol>';
+foreach ($recents as $recent) :
+	$display = preg_replace('|.*/(.*)$|', '$1', $recent);
+	echo "<li><a href='templates.php?file=$recent'>$display</a>";
+endforeach;
+echo '</ol>';
+endif;
+?>
+<h3><?php _e('Common'); ?></h3>
   <ul>
     <li><a href="templates.php?file=index.php"><?php _e('Main Index') ?></a></li>
     <li><a href="templates.php?file=wp-layout.css"><?php _e('Main Stylesheet') ?></a></li>
@@ -168,6 +163,38 @@ update_option('recently_edited', array(1, 2, 3) );
     <li><a href="templates.php?file=.htaccess"><?php _e('.htaccess (for rewrite rules)') ?></a></li>
     <li><a href="templates.php?file=my-hacks.php"><?php _e('my-hacks.php (legacy hacks support)') ?></a></li>
     </ul>
+</div>
+<?php if (!$error) { ?>
+  <form name="template" id="template" action="templates.php" method="post"> 
+     <div><textarea cols="70" rows="25" name="newcontent" id='newcontent' tabindex="1"><?php echo $content ?></textarea> 
+     <input type="hidden" name="action" value="update" /> 
+     <input type="hidden" name="file" value="<?php echo $file ?>" /> 
+</div>
+<?php if ( is_writeable($real_file) ) : ?>
+     <p class="submit">
+<?php
+	echo "<input type='submit' name='submit' value='	" . __('Update File') . " &raquo;' tabindex='2' />";
+?>
+</p>
+<?php else : ?>
+<p><em><?php _e('If this file was writable you could edit it.'); ?></em></p>
+<?php endif; ?>
+   </form> 
+  <?php
+	} else {
+		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
+	}
+	?>
+</div>
+<div class="wrap">
+<h2>Other Files</h2>
+
+  <p><?php _e('To edit a file, type its name here. You can edit any file <a href="http://wiki.wordpress.org/index.php/MakeWritable" title="Read more about making files writable">writable by the server</a>, e.g. CHMOD 666.') ?></p> 
+  <form name="file" action="templates.php" method="get"> 
+    <input type="text" name="file" /> 
+    <input type="submit" name="submit"  value="<?php _e('Edit file &raquo;') ?>" /> 
+  </form> 
+
 <?php
 $plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
 if ($plugins_dir) {

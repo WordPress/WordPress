@@ -84,7 +84,6 @@ break;
 default:
 	
 	require_once('admin-header.php');
-	update_option('recently_edited', array(1, 2, 3) );
 	if ($user_level <= 5) {
 		die(__('<p>You have do not have sufficient permissions to edit themes for this blog.</p>'));
 	}

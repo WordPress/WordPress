@@ -352,6 +352,28 @@ textarea, input, select {
 	clear: both;
 }
 
+#template div {
+	margin-right: 190px;
+}
+
+#templateside {
+	width: 170px;
+	float: right;
+}
+#templateside h3 {
+	margin: 0;
+}
+#templateside ol, #templateside ul {
+	list-style: none;
+	margin: .5em;
+	padding: 0;
+}
+#template textarea {
+	font-family: 'Courier New', Courier, monopace;
+	font-size: small;
+	width: 99%;
+}
+
 #postcustom {
 	border: 1px solid #aaa;
 	padding: .5em;

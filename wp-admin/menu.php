@@ -14,8 +14,7 @@ $menu[25] = array(__('Users'), 3, 'users.php');
 $menu[30] = array(__('Options'), 6, 'options-general.php');
 $menu[35] = array(__('Plugins'), 8, 'plugins.php');
 $menu[40] = array(__('Presentation'), 8, 'themes.php');
-$menu[45] = array(__('Templates'), 4, 'templates.php');
-$menu[50] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
+$menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
 ksort($menu); // So other files can plugin
 
 $submenu['edit.php'][5] = array(__('Posts'), 1, 'edit.php');
@@ -42,6 +41,7 @@ $submenu['options-general.php'][30] = array(__('Miscellaneous'), 5, 'options-mis
 
 $submenu['themes.php'][5] = array(__('Themes'), 5, 'themes.php');
 $submenu['themes.php'][10] = array(__('Theme Editor'), 5, 'theme-editor.php');
+$submenu['themes.php'][15] = array(__('Other Files'), 5, 'templates.php');
 
 $self = preg_replace('|.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 if (!isset($parent_file)) $parent_file = '';
