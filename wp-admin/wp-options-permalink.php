@@ -135,10 +135,16 @@ for ($i = 0; $i < count($tokens[0]); ++$i) {
 	
 }
 
+// Code for nice categories, currently not very flexible
+$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+		$catmatch = $front . 'category/';
+		$catmatch = preg_replace('|^/+|', '', $catmatch);
+
 ?> 
   <p><code>RewriteEngine On<br /> 
     RewriteBase <?php echo $site_root; ?><br /> 
-    RewriteRule ^<?php echo $match; echo '$ ' . $site_root . $query ?> [QSA]</code></p> 
+    RewriteRule ^<?php echo $match; echo '$ ' . $site_root . $query ?> [QSA]<br />
+	RewriteRule ^<?php echo $catmatch; ?>(.*) <?php echo $site_root; ?>index.php?category_name=$1 [QSA]</code></p> 
 </div> 
 <?php
 } else {
