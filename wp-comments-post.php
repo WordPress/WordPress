@@ -89,16 +89,16 @@ if ((get_settings('comments_notify')) && ($approved)) {
 	wp_notify_postauthor($comment_ID, 'comment');
 }
 
-setcookie('comment_author_' . $cookiehash, stripslashes($author), time() + 30000000, COOKIEPATH);
-setcookie('comment_author_email_' . $cookiehash, stripslashes($email), time() + 30000000, COOKIEPATH);
-setcookie('comment_author_url_' . $cookiehash, stripslashes($url), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_' . COOKIEHASH, stripslashes($author), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_email_' . COOKIEHASH, stripslashes($email), time() + 30000000, COOKIEPATH);
+setcookie('comment_author_url_' . COOKIEHASH, stripslashes($url), time() + 30000000, COOKIEPATH);
 
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
-$location = (empty($_POST['redirect_to'])) ? $_SERVER["HTTP_REFERER"] : $_POST['redirect_to'];
-$location = preg_replace('|[^a-z?=&/~.:_-]|i', '', $location);
+
+$location = get_permalink($comment_ID);
 
 if ($is_IIS) {
 	header("Refresh: 0;url=$location");
