@@ -1637,7 +1637,7 @@ function get_posts($args) {
 	return $posts;
 }
 
-function check_comment($author, $email, $url, $comment, $user_ip) {
+function check_comment($author, $email, $url, $comment, $user_ip, $user_agent) {
 	global $wpdb;
 
 	if (1 == get_settings('comment_moderation')) return false; // If moderation is set to manual
