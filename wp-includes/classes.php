@@ -41,6 +41,7 @@ class WP_Query {
 		$this->is_feed = false;
 		$this->is_home = false;
 		$this->is_404 = false;
+		$this->is_paged = false;
 
 		unset($this->posts);
 		unset($this->query);
@@ -171,7 +172,11 @@ class WP_Query {
 			$this->is_404 = true;
 		}
 
-		if ( ($this->is_date || $this->is_author || $this->is_category)
+		if ('' != $qv['paged']) {
+			$this->is_paged = true;
+		}
+
+		if ( ($this->is_date || $this->is_author || $this->is_category || $this->is_paged)
 				 && (! ($this->is_single || $this->is_page)) ) {
 			$this->is_archive = true;
 		}

@@ -1986,6 +1986,12 @@ function is_404 () {
     return $wp_query->is_404;
 }
 
+function is_paged () {
+    global $wp_query;
+
+    return $wp_query->is_paged;
+}
+
 function get_query_var($var) {
   global $wp_query;
 
