@@ -39,9 +39,9 @@ switch($action) {
 case 'update':
 
 	$standalone = 1;
-	require_once("admin-header.php");
 
 	if ($user_level < 3) {
+		require_once("admin-header.php");
 		die('<p>You have no right to edit the template for this blog.<br />Ask for a promotion to your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
 	}
 
