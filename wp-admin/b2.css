@@ -1,4 +1,3 @@
-
 a {
 	color: #00019b;
 	font-weight: bold;
@@ -60,7 +59,6 @@ textarea, input, select {
 	padding: 0px;
 }
 
-
 .quicktags, .search {
 	background-color: #ccc;
 	color: #000;
@@ -111,23 +109,46 @@ textarea, input, select {
 	background: url(http://wordpress.org/images/wp-small.png) #fff no-repeat top center;
 	border: 2px solid #333;
 	color: #333;
-	padding: 40px 5px 5px 5px;
-	text-align: right;
-	width: 210px;
 	height: 170px;
-	position: absolute;
 	left: 50%;
-	top: 45%;
 	margin-left: -105px; /* half of width and height */
 	margin-top: -85px;
+	padding: 40px 5px 5px 5px;
+	position: absolute;
+	text-align: right;
+	top: 45%;
+	width: 210px;
 }
+
 #login textarea, #login input, #login select {
 	background-color: #f0f0f0;
-	border-width: 1px;
-	border-color: #cccccc;
+	border-color: #ccc;
 	border-style: solid;
-	padding: 2px;
+	border-width: 1px;
 	margin: 1px;
+	padding: 2px;
+}
+
+#profile {
+	margin: 10px;
+}
+
+#profile .left {
+	border-right: 1px dashed #ccc;
+	float: left;
+	margin-right: 5px;
+	padding-right: 5px;
+}
+
+#profile label {
+	float: left;
+	padding-right: 3px;
+	text-align: right;
+	width: 85px;
+}
+
+#profile p {
+	margin: 0 0 4px 0;
 }
 
 #wphead {
