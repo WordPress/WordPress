@@ -96,6 +96,8 @@ if ( get_settings('active_plugins') ) {
 	}
 }
 
+define('TEMPLATEPATH', get_template_directory());
+
 function shutdown_action_hook() {
 	do_action('shutdown', '');
 }

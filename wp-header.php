@@ -1,8 +1,8 @@
 <?php
 // If a header.php file exists in the WP root directory we
 // use that, otherwise use this default wp-header.php file.
-if ( file_exists(ABSPATH . '/header.php') ) :
-	include_once(ABSPATH . '/header.php');
+if ( file_exists(TEMPLATEPATH . '/header.php') ) :
+	include_once(TEMPLATEPATH . '/header.php');
 else :
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

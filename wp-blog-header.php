@@ -202,7 +202,7 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 $wp_did_header = true;
 endif;
 
-$wp_template_dir = get_template_directory();
+$wp_template_dir = TEMPLATEPATH;
 
 // Template redirection
 if ($pagenow == 'index.php') {

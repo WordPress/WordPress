@@ -1,8 +1,8 @@
 <?php
 // If a sidebar.php file exists in the WP root directory we
 // use that, otherwise use this default wp-sidebar.php file.
-if ( file_exists(ABSPATH . '/sidebar.php') ) :
-	include_once(ABSPATH . '/sidebar.php');
+if ( file_exists(TEMPLATEPATH . '/sidebar.php') ) :
+	include_once(TEMPLATEPATH . '/sidebar.php');
 else :
 ?>
 
