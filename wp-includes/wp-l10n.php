@@ -54,7 +54,10 @@ function __ngettext($single, $plural, $number, $domain = 'default') {
 	if (isset($l10n[$domain])) {
 		return $l10n[$domain]->ngettext($single, $plural, $number);
 	} else {
-		return $text;
+		if ($number != 1)
+			return $plural;
+		else
+			return $single;
 	}
 }
 
