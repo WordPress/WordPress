@@ -1,4 +1,6 @@
 <?php
+require_once('../wp-includes/wp-l10n.php');
+
 $title = 'Miscellaneous Options';
 $parent_file = 'options-general.php';
 
@@ -42,43 +44,43 @@ include('options-head.php');
 ?>
  
 <div class="wrap"> 
-  <h2>Miscellaneous Options</h2> 
+  <h2><?php _e('Miscellaneous Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
 	<input type="hidden" name="action" value="update" /> 		<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk'" /> 
 <fieldset class="options">
 <legend>
 <input name="use_fileupload" type="checkbox" id="use_fileupload" value="1" <?php checked('1', get_settings('use_fileupload')); ?> />
-<label for="use_fileupload">Allow File Uploads</label></legend>
+<label for="use_fileupload"><?php _e('Allow File Uploads') ?></label></legend>
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr> 
-        <th width="33%" valign="top" scope="row"> Destination directory: </th> 
+        <th width="33%" valign="top" scope="row"><?php _e('Destination directory:') ?> </th> 
         <td>
         	<input name="fileupload_realpath" type="text" id="fileupload_realpath" value="<?php echo get_settings('fileupload_realpath'); ?>" size="50" /><br />
-Recommended: <code><?php echo ABSPATH . 'wp-content'; ?></code>
+<?php printf(__('Recommended: <code>%s</code>'), ABSPATH . 'wp-content') ?>
   
         	</td> 
       </tr> 
       <tr>
-        <th valign="top" scope="row">URI of this directory: </th>
+        <th valign="top" scope="row"><?php _e('URI of this directory:') ?> </th>
         <td>          
         	<input name="fileupload_url" type="text" id="fileupload_url" value="<?php echo get_settings('fileupload_url'); ?>" size="50" /><br />
-Recommended: <code><?php echo get_settings('siteurl') . '/wp-content'; ?></code>
+<?php printf(__('Recommended: <code>%s</code>'), get_settings('siteurl') . '/wp-content') ?>
         </td>
       </tr>
       <tr>
-      	<th scope="row">Maximum size: </th>
+        <th scope="row"><?php _e('Maximum size:') ?> </th>
       	<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo get_settings('fileupload_maxk'); ?>" size="4"> 
-      		Kilobytes (KB)</td>
+        <?php _e('Kilobytes (KB)') ?></td>
       	</tr>
       <tr>
-      	<th valign="top" scope="row">Allowed file extensions:</th>
+        <th valign="top" scope="row"><?php _e('Allowed file extensions:') ?></th>
       	<td><input name="fileupload_allowedtypes" type="text" id="fileupload_allowedtypes" value="<?php echo get_settings('fileupload_allowedtypes'); ?>" size="40">
       		<br>
-      		Recommended: <code>jpg jpeg png gif </code></td>
+         <?php _e('Recommended: <code>jpg jpeg png gif </code>') ?></td>
       	</tr>
       <tr>
-      	<th scope="row">Minimum level to upload:</th>
+        <th scope="row"><?php _e('Minimum level to upload:') ?></th>
       	<td><select name="fileupload_minlevel" id="fileupload_minlevel">
 <?php
 for ($i = 0; $i < 11; $i++) {
@@ -94,10 +96,10 @@ else $selected = '';
 		<p>
 			<label>
 			<input type="checkbox" name="hack_file" value="1" <?php checked('1', get_settings('hack_file')); ?> /> 
-			Use legacy <code>my-hacks.php</code> file support</label>
+			<?php _e('Use legacy <code>my-hacks.php</code> file support') ?></label>
 		</p>
     <p style="text-align: right;">
-      <input type="submit" name="Submit" value="Update Options" />
+      <input type="submit" name="Submit" value="<?php _e('Update Options') ?>" />
     </p>
   </form> 
 </div> 

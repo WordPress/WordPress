@@ -1,4 +1,6 @@
 <?php
+require_once('../wp-includes/wp-l10n.php');
+
 $title = 'Reading Options';
 $parent_file = 'options-general.php';
 
@@ -41,15 +43,15 @@ include('options-head.php');
 ?>
 
 <div class="wrap"> 
-	<h2>Reading Options</h2> 
+	<h2><?php _e('Reading Options') ?></h2> 
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
 		<input type="hidden" name="page_options" value="'posts_per_page','what_to_show','rss_use_excerpt','blog_charset','gzipcompression' " /> 
 		<fieldset class="options"> 
-		<legend>Front Page</legend> 
+        <legend><?php _e('Front Page') ?></legend> 
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 			<tr valign="top"> 
-				<th width="33%" scope="row">Show the most recent:</th> 
+                <th width="33%" scope="row"><?php _e('Show the most recent:') ?></th> 
 				<td><input name="posts_per_page" type="text" id="posts_per_page" value="<?php echo get_settings('posts_per_page'); ?>" size="3" /> 
 					<select name="what_to_show" id="what_to_show" > 
 						<option value="days" <?php selected('days', get_settings('what_to_show')); ?>>days</option> 
@@ -61,15 +63,15 @@ include('options-head.php');
 		</fieldset> 
 
 		<fieldset class="options"> 
-		<legend>Syndication Feeds</legend> 
+        <legend><?php _e('Syndication Feeds') ?></legend> 
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 			<tr valign="top"> 
-				<th width="33%" scope="row">Show the most recent:</th> 
+                <th width="33%" scope="row"><?php _e('Show the most recent:') ?></th> 
 				<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php echo get_settings('posts_per_rss'); ?>" size="3" /> 
 					posts </td> 
 			</tr>
 			<tr valign="top">
-				<th scope="row"> For each article, show: </th>
+                <th scope="row"><?php _e('For each article, show:') ?> </th>
 				<td><label>
 					<input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>  />
 					full text</label>					<br>
@@ -81,19 +83,19 @@ include('options-head.php');
 		</fieldset> 
 				<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 			<tr valign="top"> 
-				<th width="33%" scope="row"> Encoding for pages and feeds:</th> 
+                <th width="33%" scope="row"><?php _e('Encoding for pages and feeds:') ?></th> 
 				<td><input name="blog_charset" type="text" id="blog_charset" value="<?php echo get_settings('blog_charset'); ?>" size="20" class="code" />
                     <br />
-The character encoding you write your blog in (UTF-8 recommended<a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html"></a>)</td> 
+                 <?php _e('The character encoding you write your blog in (UTF-8 <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">recommended</a>)') ?></td> 
 			</tr>
 		</table> 
 		<p>
 			<label>
 			<input type="checkbox" name="gzipcompression" value="1" <?php checked('1', get_settings('gzipcompression')); ?> /> 
-			WordPress should compress articles (gzip) if browsers ask for them</label>
+             <?php _e('WordPress should compress articles (gzip) if browsers ask for them') ?></label>
 		</p>
 		<p style="text-align: right;"> 
-			<input type="submit" name="Submit" value="Update Options" /> 
+			<input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 
 		</p> 
 	</form> 
 </div> 
