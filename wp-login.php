@@ -63,6 +63,12 @@ case 'login':
 		$pwd = $HTTP_POST_VARS["pwd"];
 		$redirect_to = $HTTP_POST_VARS["redirect_to"];
 	}
+	
+	$user = get_userdatabylogin($log);
+	
+	if (0 == $user->user_level) {
+		$redirect_to = $site . '/wp-admin/profile.php';
+	}
 
 	function login() {
 		global $wpdb, $log, $pwd, $error, $user_ID;
