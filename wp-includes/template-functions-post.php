@@ -185,7 +185,7 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
                 $i=$page-1;
                 if ($i && $more) {
                     if ('' == get_settings('permalink_structure')) {
-                        echo '<a href="' . get_permalink() '&amp;page=' . $i . '">'.$previouspagelink.'</a>';
+                        echo '<a href="' . get_permalink() . '&amp;page=' . $i . '">'.$previouspagelink.'</a>';
                     } else {
                         echo '<a href="' . get_permalink() . $i . '/">'.$previouspagelink.'</a>';
                     }
