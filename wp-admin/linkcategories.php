@@ -73,7 +73,6 @@ switch ($action) {
   {
     $standalone = 1;
     include_once("./b2header.php");
-    include_once("./links.php");
 
     $cat_id = $HTTP_POST_VARS["cat_id"];
     $cat_name=get_linkcatname($cat_id);
@@ -97,7 +96,6 @@ switch ($action) {
   case "Edit":
   {
     include_once ("./b2header.php");
-    include_once("./links.php");
     $cat_id = $HTTP_POST_VARS["cat_id"];
     $cat_name=get_linkcatname($cat_id);
     $cat_name=addslashes($cat_name);

@@ -1,5 +1,5 @@
 <?php
-$title = "Template(s) & file editing";
+$title = "Template(s) &amp; file editing";
 /* <Template> */
 
 function add_magic_quotes($array) {

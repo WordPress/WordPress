@@ -43,7 +43,7 @@ switch($action) {
 
 case "update":
 	
-	require_once("$b2inc/b2verifauth.php");
+	require_once("b2verifauth.php");
 
 	get_currentuserinfo();
 
@@ -114,7 +114,7 @@ break;
 
 case "viewprofile":
 
-	require_once("$b2inc/b2verifauth.php");
+	require_once("b2verifauth.php");
 /*	$profile=1;
 
 	get_currentuserinfo();

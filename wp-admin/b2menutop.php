@@ -7,7 +7,7 @@
 
 if ($pagenow != "b2profile.php") {
 
-$menu = file("b2menutop.txt");
+$menu = file("./b2menutop.txt");
 $i=0;
 $j=$menu[0];
 while ($j != "") {

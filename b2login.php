@@ -295,7 +295,7 @@ default:
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); /* different all the time */
 		header("Cache-Control: no-cache, must-revalidate"); /* to cope with HTTP/1.1 */
 		header("Pragma: no-cache");
-		header("Location: b2edit.php");
+		header("Location: wp-admin/b2edit.php");
 		exit();
 	}
 	?><html>
@@ -352,7 +352,7 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 <input type="hidden" name="popupurl" value="<?php echo $popupurl ?>" />
 <input type="hidden" name="popuptitle" value="<?php echo $popuptitle ?>" />
 <?php } ?>
-<input type="hidden" name="redirect_to" value="b2edit.php" />
+<input type="hidden" name="redirect_to" value="wp-admin/b2edit.php" />
 <input type="hidden" name="action" value="login" />
 <table width="100" style="background-color: #ffffff">
 <tr><td align="right">login</td>
