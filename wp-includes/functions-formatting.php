@@ -236,7 +236,41 @@ function sanitize_title_with_dashes($title) {
 }
 
 function convert_chars($content, $flag = 'obsolete') { 
-	global $wp_htmltranswinuni;
+	// Translation of invalid Unicode references range to valid range
+	$wp_htmltranswinuni = array(
+	'&#128;' => '&#8364;', // the Euro sign
+	'&#129;' => '',
+	'&#130;' => '&#8218;', // these are Windows CP1252 specific characters
+	'&#131;' => '&#402;',  // they would look weird on non-Windows browsers
+	'&#132;' => '&#8222;',
+	'&#133;' => '&#8230;',
+	'&#134;' => '&#8224;',
+	'&#135;' => '&#8225;',
+	'&#136;' => '&#710;',
+	'&#137;' => '&#8240;',
+	'&#138;' => '&#352;',
+	'&#139;' => '&#8249;',
+	'&#140;' => '&#338;',
+	'&#141;' => '',
+	'&#142;' => '&#382;',
+	'&#143;' => '',
+	'&#144;' => '',
+	'&#145;' => '&#8216;',
+	'&#146;' => '&#8217;',
+	'&#147;' => '&#8220;',
+	'&#148;' => '&#8221;',
+	'&#149;' => '&#8226;',
+	'&#150;' => '&#8211;',
+	'&#151;' => '&#8212;',
+	'&#152;' => '&#732;',
+	'&#153;' => '&#8482;',
+	'&#154;' => '&#353;',
+	'&#155;' => '&#8250;',
+	'&#156;' => '&#339;',
+	'&#157;' => '',
+	'&#158;' => '',
+	'&#159;' => '&#376;'
+	);
 
 	// Remove metadata tags
 	$content = preg_replace('/<title>(.+?)<\/title>/','',$content);
@@ -253,6 +287,49 @@ function convert_chars($content, $flag = 'obsolete') {
 	$content = str_replace('<hr>', '<hr />', $content);
 
 	return $content;
+}
+
+function funky_javascript_fix($text) {
+	// Fixes for browsers' javascript bugs
+	global $is_macIE, $is_winIE, $is_gecko;
+	$wp_macIE_correction['in'] = array(
+		'/\%uFFD4/', '/\%uFFD5/', '/\%uFFD2/', '/\%uFFD3/',
+		'/\%uFFA5/', '/\%uFFD0/', '/\%uFFD1/', '/\%uFFBD/',
+		'/\%uFF83%uFFC0/', '/\%uFF83%uFFC1/', '/\%uFF83%uFFC6/', '/\%uFF83%uFFC9/',
+		'/\%uFFB9/', '/\%uFF81%uFF8C/', '/\%uFF81%uFF8D/', '/\%uFF81%uFFDA/',
+		'/\%uFFDB/'
+	);
+	$wp_macIE_correction['out'] = array(
+		'&lsquo;', '&rsquo;', '&ldquo;', '&rdquo;',
+		'&bull;', '&ndash;', '&mdash;', '&Omega;',
+		'&beta;', '&gamma;', '&theta;', '&lambda;',
+		'&pi;', '&prime;', '&Prime;', '&ang;',
+		'&euro;'
+	);
+	$wp_gecko_correction['in'] = array(
+		'/\‘/', '/\’/', '/\“/', '/\”/',
+		'/\•/', '/\–/', '/\—/', '/\O/',
+		'/\ß/', '/\?/', '/\?/', '/\?/',
+		'/\p/', '/\'/', '/\?/', '/\/',
+		'/\€/', '/\?/'
+	);
+	$wp_gecko_correction['out'] = array(
+		'&8216;', '&rsquo;', '&ldquo;', '&rdquo;',
+		'&bull;', '&ndash;', '&mdash;', '&Omega;',
+		'&beta;', '&gamma;', '&theta;', '&lambda;',
+		'&pi;', '&prime;', '&Prime;', '&ang;',
+		'&euro;', '&#8201;'
+	);
+	if ( $is_macIE )
+		$text = preg_replace('/'.$wp_macIE_correction["in"].'/', '/'.$wp_macIE_correction["out"].'/', $text);
+	
+	if ( $is_winIE )
+		$text =  preg_replace("/\%u([0-9A-F]{4,4})/e",  "'&#'.base_convert('\\1',16,10).';'", $text);
+	
+	if ( $is_gecko )
+		$text = preg_replace('/'.$wp_gecko_correction["in"].'/','/'.$wp_gecko_correction["out"].'/',$text);
+	
+	return $text;
 }
 
 /*

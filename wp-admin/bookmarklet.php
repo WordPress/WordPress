@@ -20,34 +20,20 @@ window.close()
 </html>
 <?php
 } else {
-    $popuptitle = wp_specialchars(stripslashes($popuptitle));
-    $text = wp_specialchars(stripslashes(urldecode($text)));
-    
-    /* big funky fixes for browsers' javascript bugs */
-    
-    if (($is_macIE) && (!isset($IEMac_bookmarklet_fix))) {
-        $popuptitle = preg_replace('/'.$wp_macIE_correction["in"].'/','/'.$wp_macIE_correction["out"].'/',$popuptitle);
-        $text = preg_replace('/'.$wp_macIE_correction["in"].'/','/'.$wp_macIE_correction["out"].'/',$text);
-    }
-    
-    if (($is_winIE) && (!isset($IEWin_bookmarklet_fix))) {
-        $popuptitle =  preg_replace("/\%u([0-9A-F]{4,4})/e",  "'&#'.base_convert('\\1',16,10).';'", $popuptitle);
-        $text =  preg_replace("/\%u([0-9A-F]{4,4})/e",  "'&#'.base_convert('\\1',16,10).';'", $text);
-    }
-    
-    if (($is_gecko) && (!isset($Gecko_bookmarklet_fix))) {
-        $popuptitle = preg_replace('/'.$wp_gecko_correction["in"].'/','/'.$wp_gecko_correction["out"].'/',$popuptitle);
-        $text = preg_replace('/'.$wp_gecko_correction["in"].'/','/'.$wp_gecko_correction["out"].'/',$text);
-    }
-    
-    $post_title = wp_specialchars($_REQUEST['post_title']);
-    if (!empty($post_title)) {
-        $post_title =  stripslashes($post_title);
-    } else {
-        $post_title = $popuptitle;
-    }
-
-    $edited_post_title = wp_specialchars($post_title);
+	$popuptitle = wp_specialchars(stripslashes($popuptitle));
+	$text       = wp_specialchars(stripslashes(urldecode($text)));
+	
+	$popuptitle = funky_javascript_fix($popuptitle);
+	$text       = funky_javascript_fix($text);
+	
+	$post_title = wp_specialchars($_REQUEST['post_title']);
+	if (!empty($post_title)) {
+		$post_title =  stripslashes($post_title);
+	} else {
+		$post_title = $popuptitle;
+	}
+	
+	$edited_post_title = wp_specialchars($post_title);
 
 // $post_pingback needs to be set in any file that includes edit-form.php
     $post_pingback = get_settings('default_pingback_flag');
