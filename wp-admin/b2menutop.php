@@ -19,7 +19,7 @@ foreach ($menu as $item) {
 
 	<li><a href="javascript:profile(<?php echo $user_ID ?>)">My Profile</a></li>
 	<li><a href="<?php echo "$siteurl/$blogfilename"; ?>">View site</a></li>
-	<li id="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout (<?php echo $user_nickname ?>)</a></li>
+	<li id="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout (<?php echo stripslashes($user_nickname) ?>)</a></li>
 </ul>
 <br clear="all" />
 
