@@ -115,7 +115,7 @@ function user_pass_ok($user_login,$user_pass) {
 	} else {
 		$userdata = $cache_userdata[$user_login];
 	}
-	return ($user_pass == $userdata->user_pass);
+	return (md5($user_pass) == $userdata->user_pass);
 }
 
 function get_currentuserinfo() { // a bit like get_userdata(), on steroids
