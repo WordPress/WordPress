@@ -51,7 +51,7 @@ function get_permalink($id=false) {
     );
     if (!$id) {
         if ('' != get_settings('permalink_structure')) {
-	    $unixtime = strtotime(get_date_from_gmt($post->post_date));
+	    $unixtime = strtotime($post->post_date);
             $rewritereplace = array(
                 date('Y', $unixtime),
                 date('m', $unixtime),
@@ -66,7 +66,7 @@ function get_permalink($id=false) {
     } else { // if an ID is given
         $idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
         if ('' != get_settings('permalink_structure')) {
-	    $unixtime = strtotime(get_date_from_gmt($idpost->post_date));
+	    $unixtime = strtotime($idpost->post_date);
             $rewritereplace = array(
                 date('Y', $unixtime),
                 date('m', $unixtime),
@@ -83,8 +83,8 @@ function get_permalink($id=false) {
 
 function get_month_link($year, $month) {
     global $querystring_start, $querystring_equal;
-    if (!$year) $year = date('Y', time()+($time_difference * 3600));
-    if (!$month) $month = date('m', time()+($time_difference * 3600));
+    if (!$year) $year = gmdate('Y', time()+($time_difference * 3600));
+    if (!$month) $month = gmdate('m', time()+($time_difference * 3600));
     if ('' != get_settings('permalink_structure')) {
         $off = strpos(get_settings('permalink_structure'), '%monthnum%');
         $offset = $off + 11;
@@ -101,9 +101,9 @@ function get_month_link($year, $month) {
 
 function get_day_link($year, $month, $day) {
     global $querystring_start, $querystring_equal;
-    if (!$year) $year = date('Y', time()+($time_difference * 3600));
-    if (!$month) $month = date('m', time()+($time_difference * 3600));
-    if (!$day) $day = date('j', time()+($time_difference * 3600));
+    if (!$year) $year = gmdate('Y', time()+($time_difference * 3600));
+    if (!$month) $month = gmdate('m', time()+($time_difference * 3600));
+    if (!$day) $day = gmdate('j', time()+($time_difference * 3600));
     if ('' != get_settings('permalink_structure')) {
         $off = strpos(get_settings('permalink_structure'), '%day%');
         $offset = $off + 6;
