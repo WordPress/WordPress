@@ -113,7 +113,7 @@ if ($user_level <= 3) {
 				User must fill out name and email </label> 
 			</li> 
 		</ul> 
-		<p>When a comment contains any of these words in its content, name, URI, or email, hold it in the moderation queue: (Seperate multiple words with new lines.)</p> 
+		<p>When a comment contains any of these words in its content, name, URI,  email, or IP, hold it in the moderation queue: (Seperate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.</p> 
 		<p> 
 			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%;"><?php echo get_settings('moderation_keys'); ?></textarea> 
 		</p> 

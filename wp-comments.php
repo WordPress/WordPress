@@ -71,16 +71,6 @@
 	  <textarea name="comment" id="comment" cols="70" rows="4" tabindex="4"></textarea>
 	</p>
 
-<?php 
-if ('none' != get_settings("comment_moderation")) { 
-?>
-	<p>
-	<strong>Please note:</strong> Comment moderation is currently enabled so there may be a delay between when you post your comment and when it shows up. Patience is a virtue; there&#8217;s no need to resubmit your comment.
-	</p>
-<?php
-} // comment_moderation != 'none'
-?>
-
 	<p>
 	  <input name="submit" type="submit" tabindex="5" value="Say it!" />
 	</p>

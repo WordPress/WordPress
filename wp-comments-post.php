@@ -75,24 +75,19 @@ if (!empty($lasttime)) {
 
 
 if ($ok) { // if there was no comment from this IP in the last 10 seconds
-	$comment_moderation = get_settings('comment_moderation');
 	$moderation_notify = get_settings('moderation_notify');
 	$comments_notify = get_settings('comments_notify');
 
-	// o42: this place could be the hook for further comment spam checking
-	// $approved should be set according the final approval status
-	// of the new comment
-	if ('manual' == $comment_moderation) {
-		$approved = 0;
-	} else if ('auto' == $comment_moderation) {
-		$approved = 0;
-	} else { // none
+	if(check_comment($author, $email, $url, $comment, $user_ip)) {
 		$approved = 1;
+	} else {
+		$approved = 0;
 	}
+
 	$wpdb->query("INSERT INTO $tablecomments 
-	(comment_ID, comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved) 
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved) 
 	VALUES 
-	('0', '$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '$approved')
+	('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '$approved')
 	");
 
 	$comment_ID = $wpdb->get_var('SELECT last_insert_id()');

@@ -66,12 +66,10 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	$comment_moderation = get_settings('comment_moderation');
 	$moderation_notify = get_settings('moderation_notify');
 
-	if ('manual' == $comment_moderation) {
-		$approved = 0;
-	} else if ('auto' == $comment_moderation) {
-		$approved = 0;
-	} else { // none
+	if(check_comment($author, $email, $url, $comment, $user_ip)) {
 		$approved = 1;
+	} else {
+		$approved = 0;
 	}
 
 	$result = $wpdb->query("INSERT INTO $tablecomments 

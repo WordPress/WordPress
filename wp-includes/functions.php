@@ -1564,4 +1564,18 @@ function get_posts($args) {
 	return $posts;
 }
 
+function check_comment($author, $email, $url, $comment, $user_ip) {
+	$words = explode("\n", get_settings('moderation_keys') );
+	foreach ($words as $word) {
+	$word = trim($word);
+	$pattern = "#$word#i";
+		if ( preg_match($pattern, $author) ) return false;
+		if ( preg_match($pattern, $email) ) return false;
+		if ( preg_match($pattern, $url) ) return false;
+		if ( preg_match($pattern, $comment) ) return false;
+		if ( preg_match($pattern, $user_ip) ) return false;
+	}
+return true;
+}
+
 ?>
