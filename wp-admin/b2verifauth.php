@@ -31,15 +31,15 @@ function veriflog() {
 		return false;
 	} else {
 		$res=mysql_fetch_row($result);
-		if ($res[0]==$user_login && md5($res[1])==$user_pass_md5) {
+		if ($res[0] == $user_login && md5($res[1]) == $user_pass_md5) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 }
-#if ( $user_login!="" && $user_pass!="" && $id_session!="" && $adresse_ip==$REMOTE_ADDR) {
-#	if ( !(veriflog()) AND !(verifcookielog()) ) {
+//if ( $user_login!="" && $user_pass!="" && $id_session!="" && $adresse_ip==$REMOTE_ADDR) {
+//	if ( !(veriflog()) AND !(verifcookielog()) ) {
 	if (!(veriflog())) {
 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -51,5 +51,5 @@ function veriflog() {
 		include("b2login.php");
 		exit();
 	}
-#}
+//}
 ?>
