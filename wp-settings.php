@@ -27,7 +27,7 @@ require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/template-functions.php');
 require (ABSPATH . WPINC . '/class-xmlrpc.php');
 require (ABSPATH . WPINC . '/class-xmlrpcs.php');
-require (ABSPATH . '/wp-links/links.php');
+require (ABSPATH . WPINC . '/links.php');
 
 //setup the old globals from b2config.php
 //

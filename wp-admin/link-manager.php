@@ -3,7 +3,6 @@
 // Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
 
 require_once('../wp-config.php');
-require_once("../wp-links/links.php");
 
 $title = 'Manage Links';
 $this_file = 'link-manager.php';

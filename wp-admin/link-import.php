@@ -3,7 +3,6 @@
 // Copyright (C) 2002 Mike Little -- mike@zed1.com
 
 require_once('../wp-config.php');
-include_once("../wp-links/links.php");
 
 $parent_file = 'link-manager.php';
 $title = 'Import Blogroll';
