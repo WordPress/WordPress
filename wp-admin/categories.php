@@ -47,8 +47,9 @@ case 'addcat':
 	
 	$cat_name= addslashes(stripslashes(stripslashes($HTTP_POST_VARS['cat_name'])));
 	$category_nicename = sanitize_title($cat_name);
+	$category_description = addslashes(stripslashes(stripslashes($HTTP_POST_VARS['category_description'])));
 	
-	$wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename) VALUES ('0', '$cat_name', '$category_nicename')");
+	$wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename, category_description) VALUES ('0', '$cat_name', '$category_nicename', '$category_description')");
 	
 	header('Location: categories.php');
 
@@ -161,7 +162,7 @@ default:
 		echo "<tr style='background-color: $bgcolor'><td>$category->cat_name</td>
 		<td>$category->category_description</td>
 		<td>$count</td>
-		<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>Edit</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('You are about to delete the category \'$category->cat_name\' and all its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop.')\" class='delete'>Delete</a></td>
+		<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>Edit</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('You are about to delete the category \'". addslashes($category->cat_name) ."\' and all its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop.')\" class='delete'>Delete</a></td>
 		</tr>";
 	}
 	?>
