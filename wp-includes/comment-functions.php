@@ -20,8 +20,10 @@ function comments_template( $file = '/comments.php' ) {
 
 	get_currentuserinfo();
 
-	if ( file_exists( TEMPLATEPATH . $file ) )
-		require( TEMPLATEPATH . $file );
+	define('COMMENTS_TEMPLATE', true);
+	$include = apply_filters('comments_template', TEMPLATEPATH . $file );
+	if ( file_exists( $include ) )
+		require( $include );
 	else
 		require( ABSPATH . 'wp-content/themes/default/comments.php');
 
