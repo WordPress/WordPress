@@ -4,9 +4,9 @@ if (!file_exists('../wp-config.php'))
     die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='setup-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.");
 
 require_once('../wp-config.php');
-require('./upgrade-functions.php');
+require_once('./upgrade-functions.php');
 
-$guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
+$guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) );
 
 if (isset($_GET['step']))
 	$step = $_GET['step'];
