@@ -597,7 +597,7 @@ function weblog_ping($server = '', $path = '') {
 
 function generic_ping($post_id = 0) {
 	$services = get_settings('ping_sites');
-	$services = preg_replace("|(\s)+|", '$1', $serivces); // Kill dupe lines
+	$services = preg_replace("|(\s)+|", '$1', $services); // Kill dupe lines
 	$services = explode("\n", trim($services));
 	foreach ($services as $service) {
 		$uri = parse_url($service);
@@ -1286,7 +1286,7 @@ function remove_filter($tag, $function_to_remove, $priority = 10) {
 // The *_action functions are just aliases for the *_filter functions, they take special strings instead of generic content
 
 function do_action($tag, $string) {
-	return apply_filter($tag, $string);
+	return apply_filters($tag, $string);
 }
 
 function add_action($tag, $function_to_add, $priority = 10) {
