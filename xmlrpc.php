@@ -740,6 +740,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $file_realpath = get_settings('fileupload_realpath'); 
 	  $file_url = get_settings('fileupload_url');
 
+	  logIO('O', '(MW) Received '.strlen($bits).' bytes');
+
 	  if (!$this->login_pass_ok($user_login, $user_pass)) {
 	    return $this->error;
 	  }
@@ -753,10 +755,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  } 
 
-	  if(get_settings('fileupload_minlevel') > $userlevel) {
+	  if(get_settings('fileupload_minlevel') > $user_data->user_level) {
 	    // User has not enough privileges
 	    logIO('O', '(MW) Not enough privilege: user level too low');
-	    $this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.');
+	    $this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.sdff'.$user_data->user_level);
 	    return $this->error;
 	  }
 
@@ -769,7 +771,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $prefix = '/';
 
-	  if(!strlen(trim($name))) {
+	  if(!empty($name)) {
 	    // Create the path
 	    $localpath = $file_realpath.$prefix.$name;
 	    $url = $file_url.$prefix.$name;
@@ -780,7 +782,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    fclose($ifp);
 	    @chmod($localpath, 0666);
 
-	    if( $success ) {
+	    if($success) {
 	      $resp = array($url);
 	      return $resp;
 	    } else {
