@@ -44,7 +44,8 @@ if ($user_level <= 3) {
 }
 ?>
  <ul id="adminmenu2"> 
- 	<li><a href="options-general.php" class="current">General</a></li>
+ 	<li><a class="current">General</a></li>
+	<li><a href="options-writing.php">Writing</a></li>
   <?php
     //we need to iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");
@@ -86,12 +87,6 @@ In a few words, explain what this weblog is about.</td>
         <br />
 This address is used only for admin purposes. </td> 
       </tr>
-      <tr valign="top">
-	<th scope="row">Charset</th>
-	<td><input name="blog_charset" type="text" id="blog_charset" value="<?php echo get_settings('blog_charset'); ?>" size="20" class="code" />
-	  <br />
-	  Your weblog's charset (here's a <a href="http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html">list of possible charsets</a>)</td>
-      </tr>
       <tr valign="top"> 
         <th scope="row">Membership:</th> 
         <td> <label for="users_can_register"> 
@@ -122,7 +117,4 @@ This address is used only for admin purposes. </td>
     </p>
   </form> 
 </div> 
-<?php
-
-
-include("admin-footer.php") ?>
+<?php include("admin-footer.php") ?>
