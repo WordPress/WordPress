@@ -53,7 +53,6 @@ function wptexturize($text) {
 			$curl = preg_replace("/\(r\)/i", '&#174;', $curl);
 
 			$curl = str_replace("''", '&#8221;', $curl);
-			$curl = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $curl);
 			
 			$curl = preg_replace('/(d+)x(\d+)/', "$1&#215;$2", $curl);
 
@@ -82,6 +81,8 @@ function wpautop($pee, $br=1) {
 	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote|p)>)<br />!', "$1", $pee);
 	$pee = preg_replace('|<p><blockquote([^>]*)>|i', "<blockquote$1><p>", $pee);
 	$pee = str_replace('</blockquote></p>', '</p></blockquote>', $pee);
+	$pee = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $pee);
+	
 	return $pee; 
 }
 
