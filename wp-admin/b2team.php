@@ -108,8 +108,8 @@ default:
 		echo "<tr>\n<!--".$user_data->user_login."-->\n";
 		$email = $user_data->user_email;
 		$url = $user_data->user_url;
-		$bg1 = ($user_data->user_login == $user_login) ? "style=\"background-image: url('../b2-img/b2button.gif');\"" : "bgcolor=\"#dddddd\"";
-		$bg2 = ($user_data->user_login == $user_login) ? "style=\"background-image: url('../b2-img/b2button.gif');\"" : "bgcolor=\"#eeeeee\"";
+		$bg1 = ($user_data->user_login == $user_login) ? "bgcolor=\"#ffffff\"" : "bgcolor=\"#dddddd\"";
+		$bg2 = ($user_data->user_login == $user_login) ? "bgcolor=\"#ffffff\"" : "bgcolor=\"#eeeeee\"";
 		echo "<td $bg1>".$user_data->ID."</td>\n";
 		echo "<td $bg2><b><a href=\"javascript:profile(".$user_data->ID.")\">".$user_data->user_nickname."</a></b></td>\n";
 		echo "<td $bg1>".$user_data->user_firstname."&nbsp;".$user_data->user_lastname."</td>\n";
