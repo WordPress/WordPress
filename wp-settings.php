@@ -45,6 +45,9 @@ $wpdb->linkcategories      = $table_prefix . 'linkcategories';
 $wpdb->options             = $table_prefix . 'options';
 $wpdb->postmeta            = $table_prefix . 'postmeta';
 
+if ( defined('CUSTOM_USER_TABLE') )
+	$wpdb->users = CUSTOM_USER_TABLE;
+
 // We're going to need to keep this around for a few months even though we're not using it internally
 
 $tableposts = $wpdb->posts;
@@ -88,7 +91,6 @@ if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF']
 endif;
 
 require (ABSPATH . WPINC . '/vars.php');
-
 
 // Check for hacks file if the option is enabled
 if (get_settings('hack_file')) {
