@@ -47,6 +47,7 @@ if ( !(phpversion() >= '4.1') )
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
 
 
+require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/functions.php');
 timer_start();
 require (ABSPATH . WPINC . '/functions-formatting.php');

@@ -147,6 +147,8 @@ foreach (array_merge($wpvarstoreset, $more_wpvars) as $wpvar) {
 
 $query_string = apply_filters('query_string', $query_string);
 
+$wp_query_state->parse_query($query_string);
+
 // Update some caches.
 update_category_cache();
 

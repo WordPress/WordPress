@@ -1805,4 +1805,52 @@ function wp_head() {
 	do_action('wp_head', '');
 }
 
+function is_single () {
+    global $wp_query_state;
+
+    return $wp_query_state->single;
+}
+
+function is_archive () {
+    global $wp_query_state;
+
+    return $wp_query_state->archive;
+}
+
+function is_date () {
+    global $wp_query_state;
+
+    return $wp_query_state->date;
+}
+
+function is_author () {
+    global $wp_query_state;
+
+    return $wp_query_state->author;
+}
+
+function is_category () {
+    global $wp_query_state;
+
+    return $wp_query_state->category;
+}
+
+function is_search () {
+    global $wp_query_state;
+
+    return $wp_query_state->search;
+}
+
+function is_feed () {
+    global $wp_query_state;
+
+    return $wp_query_state->search;
+}
+
+function is_home () {
+    global $wp_query_state;
+
+    return $wp_query_state->home;
+}
+
 ?>
