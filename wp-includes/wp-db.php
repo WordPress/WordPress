@@ -77,7 +77,7 @@ class wpdb {
 	//	Format a string correctly for safe insert under all PHP conditions
 	
 	function escape($str) {
-		return mysql_escape_string(stripslashes($str));				
+		return addslashes($str);				
 	}
 
 	// ==================================================================
