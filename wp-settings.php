@@ -27,6 +27,22 @@ $wpdb->optiongroups        = $table_prefix . 'optiongroups';
 $wpdb->optiongroup_options = $table_prefix . 'optiongroup_options';
 $wpdb->postmeta            = $table_prefix . 'postmeta';
 
+// We're going to need to keep this around for a few months even though we're not using it internally
+
+$tableposts = $wpdb->posts;
+$tableusers = $wpdb->users;
+$tablecategories = $wpdb->categories;
+$tablepost2cat = $wpdb->post2cat;
+$tablecomments = $wpdb->comments;
+$tablelinks = $wpdb->links;
+$tablelinkcategories = $wpdb->linkcategories;
+$tableoptions = $wpdb->options;
+$tableoptiontypes = $wpdb->optiontypes;
+$tableoptionvalues = $wpdb->optionvalues;
+$tableoptiongroups = $wpdb->optiongroups;
+$tableoptiongroup_options = $wpdb->optiongroup_options;
+$tablepostmeta = $wpdb->postmeta;
+
 if ( !(phpversion() >= '4.1') )
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
 
