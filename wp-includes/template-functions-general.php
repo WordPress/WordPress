@@ -216,15 +216,19 @@ function single_cat_title($prefix = '', $display = true ) {
 }
 
 function single_month_title($prefix = '', $display = true ) {
-	global $monthnum, $month, $year;
-	if(!empty($monthnum)) {
+	global $m, $monthnum, $month, $year;
+	if(!empty($monthnum) && !empty($year)) {
 		$my_year = $year;
 		$my_month = $month[$monthnum];
-		if ($display) {
-			echo $prefix . $my_month . $prefix . " " . $my_year;
-		} else {
-			return $monthnum;
-		}
+	} elseif(!empty($m)) {
+		$my_year = substr($m, 0, 4);
+		$my_month = $month[substr($m, 4, 2)];
+	}
+
+	if (!empty($my_month) && $display) {
+		echo $prefix . $my_month . $prefix . $my_year;
+	} else {
+		return $monthnum;
 	}
 }
 
