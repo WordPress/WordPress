@@ -730,7 +730,7 @@ function wp_notify_moderator($comment_id) {
     $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
     $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
 
-    $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".$post->post_title."\" is waiting for your approval\n";
+    $notify_message  = "A new comment on the post #$post->ID \"$post->post_title\" is waiting for your approval\r\n";
 	$notify_message .= get_permalink($comment->comment_post_ID);
     $notify_message .= "\n\nAuthor : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
     $notify_message .= "E-mail : $comment->comment_author_email\r\n";
