@@ -233,18 +233,20 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 // out of the WordPress loop
 function wp_list_cats($args = '') {
 	parse_str($args, $r);
-	if (!$r['optionall']) $r['optionall'] = 1;
-	if (!$r['all']) $r['all'] = 'All';
-	if (!$r['sort_column']) $r['sort_column'] = 'ID';
-	if (!$r['file']) $r['file'] = '';
-	if (!$r['list']) $r['list'] = true;
-	if (!$r['optiondates']) $r['optiondates'] = 0;
-	if (!$r['hide_empty']) $r['hide_empty'] = 1;
-	if (!$r['use_desc_for_title']) $r['use_desc_for_title'] = 1;
-	if (!$r['children']) $r['children'] = true;
-	if (!$r['child_of']) $r['child_of'] = 0;
-	if (!$r['categories']) $r['categories'] = 0;
-	if (!$r['recurse']) $r['recurse'] = 0;
+	if (!isset($r['optionall'])) $r['optionall'] = 1;
+    if (!isset($r['all'])) $r['all'] = 'All';
+	if (!isset($r['sort_column'])) $r['sort_column'] = 'ID';
+	if (!isset($r['sort_order'])) $r['sort_order'] = 'asc';
+	if (!isset($r['file'])) $r['file'] = '';
+	if (!isset($r['list'])) $r['list'] = true;
+	if (!isset($r['optiondates'])) $r['optiondates'] = 0;
+	if (!isset($r['optioncount'])) $r['optioncount'] = 0;
+	if (!isset($r['hide_empty'])) $r['hide_empty'] = 1;
+	if (!isset($r['use_desc_for_title'])) $r['use_desc_for_title'] = 1;
+	if (!isset($r['children'])) $r['children'] = true;
+	if (!isset($r['child_of'])) $r['child_of'] = 0;
+	if (!isset($r['categories'])) $r['categories'] = 0;
+	if (!isset($r['recurse'])) $r['recurse'] = 0;
 	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],
 	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'],
 	$r['children'], $r['child_of'], $r['categories'], $r['recurse']);
