@@ -208,7 +208,7 @@ case 'retrievepassword':
  	// Generate something random for a password... md5'ing current time with a rand salt
     $user_pass = substr((MD5("time" . rand(1,16000))), 0, 6);
  	// now insert the new pass md5'd into the db
- 	$wpdb->query("UPDATE wp_users SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
+ 	$wpdb->query("UPDATE $tableusers SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
 	$message .= "Login at: $siteurl/wp-login.php";
