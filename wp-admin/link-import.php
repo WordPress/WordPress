@@ -104,11 +104,11 @@ switch ($step) {
 
 					if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile))
 					{
-						//echo "Upload successful.<p />";
+						//echo "Upload successful.";
 						$blogrolling = false;
 						$opml_url = $uploadfile;
 					} else {
-						echo __("Upload error<p />");
+						echo __("Upload error");
 					}
 				}
 

@@ -290,7 +290,7 @@ switch ($action) {
     $standalone=0;
     include_once ('admin-header.php');
     if ($user_level < get_settings('links_minadminlevel')) {
-      die(__('You do not have sufficent permissions to edit the links for this blog.'));
+      die(__('You do not have sufficient permissions to edit the links for this blog.'));
     }
 
     $row = $wpdb->get_row("SELECT * 
