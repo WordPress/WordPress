@@ -47,7 +47,7 @@ foreach ($scheduled as $post) {
 <?php endif; ?>
 
 <?php
-if ( $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID FROM $wpdb->comments ORDER BY comment_date_gmt DESC LIMIT 5") ) :
+if ( $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, comment_ID, comment_post_ID FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 5") ) :
 ?>
 <div>
 <h3><?php _e('Comments'); ?> <a href="edit-comments.php" title="<?php _e('More comments...'); ?>">&raquo;</a></h3>
