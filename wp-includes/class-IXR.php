@@ -464,11 +464,13 @@ class IXR_Client {
     var $path;
     var $useragent;
     var $response;
+    var $timeout;
+    var $vendor = '';
     var $message = false;
     var $debug = false;
     // Storage place for an error message
     var $error = false;
-    function IXR_Client($server, $path = false, $port = 80) {
+    function IXR_Client($server, $path = false, $port = 80, $timeout = 30, $vendor = '') {
         if (!$path) {
             // Assume we have been given a URL instead
             $bits = parse_url($server);
@@ -483,6 +485,7 @@ class IXR_Client {
             $this->server = $server;
             $this->path = $path;
             $this->port = $port;
+            $this->timeout = $timeout;
         }
         $this->useragent = 'The Incutio XML-RPC PHP Library';
     }
@@ -503,7 +506,7 @@ class IXR_Client {
         if ($this->debug) {
             echo '<pre>'.htmlspecialchars($request)."\n</pre>\n\n";
         }
-        $fp = @fsockopen($this->server, $this->port);
+        $fp = @fsockopen($this->server, $this->port, $errno, $errstr, $this->timeout);
         if (!$fp) {
             $this->error = new IXR_Error(-32300, 'transport error - could not open socket');
             return false;
