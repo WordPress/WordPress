@@ -4,8 +4,7 @@ require('wp-install-helper.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
-if (!step) $step = 0;
-update_option('blogdescription', 'hahahah');
+//update_option('blogdescription', 'hahahah');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -79,8 +78,36 @@ foreach($posts as $post) {
 
 $wpdb->query("INSERT INTO `$tableoptions` (`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) VALUES ('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed.', '8');");
 ?> 
-  <strong>Done.</strong> </p> 
-<p>See, that didn&#8217;t hurt a bit. All done!</p> 
+  <strong>Done.</strong></p>
+  <p>Now on to <a href="upgrade-072-to-073.php?step=2">step 2</a>.</p>
+<?php
+	break;
+	case 2:
+?>
+    <h1>Step 2</h1> 
+    <p>Now we need to adjust some option data (don't worry this won't change any of your settings.) </p>
+    <p>Working
+<?php
+        // fix timezone diff range
+        $wpdb->query("UPDATE $tableoptionvalues SET optionvalue_max = 23 , optionvalue_min = -23 WHERE option_id = 51");
+        echo ' .';
+        flush();
+        // fix upload users description
+        $wpdb->query("UPDATE $tableoptions SET option_description = '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'' WHERE option_id = 37");
+        echo ' .';
+        flush();
+        // and file types
+        $wpdb->query("UPDATE $tableoptions SET option_description = 'accepted file types, separated by spaces. example: \'jpg gif png\'' WHERE option_id = 34");
+        echo ' .';
+        flush();
+        // add link to date format help page
+        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"help/en/dateformats.help.html\">help</a> for format characters' WHERE option_id = 52");
+        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"help/en/dateformats.help.html\">help</a> for format characters' WHERE option_id = 53");
+        echo ' .';
+        flush();
+?>
+    <strong>Done.</strong></p>
+<p>See, that didn&#8217;t hurt a bit. All done!</p>
 <?php
 	break;
 }
