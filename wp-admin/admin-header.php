@@ -6,7 +6,7 @@ require(ABSPATH.'/wp-admin/admin-functions.php');
 
 function gethelp_link($this_file, $helptag) {
     $url = 'http://wordpress.org/docs/reference/links/#'.$helptag;
-    $s = ' <a href="'.$url.'" title="Click here for help">?</a>';
+    $s = ' <a href="'.$url.'" title="' . __('Click here for help') .'">?</a>';
     return $s;
 }
 
@@ -137,7 +137,7 @@ window.onload = blurry;
 <?php wp_admin_head(); ?>
 </head>
 <body>
-<h1 id="wphead"><a href="http://wordpress.org" rel="external" title="Visit WordPress.org">WordPress</a></h1>
+<h1 id="wphead"><a href="http://wordpress.org" rel="external" title="<?php _e('Visit WordPress.org') ?>"><?php _e('WordPress') ?></a></h1>
 <?php
 if ($profile==0) {
     include('menu.php');

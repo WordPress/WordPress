@@ -1,6 +1,8 @@
 <?php
 /* <Edit> */
 
+require_once('../wp-includes/wp-l10n.php');
+
 function add_magic_quotes($array) {
     foreach ($array as $k => $v) {
         if (is_array($v)) {
@@ -84,7 +86,7 @@ switch($action) {
 		$trackback = preg_replace('|\s+|', '\n', $trackback);
 
         if ($user_level == 0)
-            die ('Cheatin&#8217; uh?');
+            die (__('Cheatin&#8217; uh?'));
 
         if (($user_level > 4) && (!empty($HTTP_POST_VARS['edit_date']))) {
             $aa = $HTTP_POST_VARS['aa'];
@@ -212,7 +214,7 @@ switch($action) {
         break;
 
     case 'edit':
-        $title = 'Edit';
+        $title = __('Edit');
 
         $standalone = 0;
         require_once('admin-header.php');
@@ -245,9 +247,9 @@ switch($action) {
 			start_wp();
 			?>
 	<div id='preview' class='wrap'>
-			<h2>Post Preview (updated when post is saved)</h2>
-	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
-	<div class="meta">Filed under: <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
+         <h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
+                                                                            <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="<?php printf(__("Permanent Link: %s"), the_title()); ?>"><?php the_title(); ?></a></h3>
+                                                                                                                                                                                                                                                                                        <div class="meta"><?php printf(__("Filed under: %s"), the_category()); ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
 	
 	<div class="storycontent">
 		<?php the_content(); ?>
@@ -256,11 +258,9 @@ switch($action) {
 <?php
         } else {
 ?>
-            <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1,
-            in order to be authorized to post.<br />
-            You can also <a href="mailto:<?php echo get_settings('admin_email'); ?>?subject=Promotion?">e-mail the admin</a>
-            to ask for a promotion.<br />
-            When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)
+            <p><?php printf(__('Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
+You can also <a href="mailto:%s?subject=Promotion?">e-mail the admin</a> to ask for a promotion.<br />
+When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)'), get_settings('admin_email')); ?>
             </p>
 <?php
         }
@@ -272,7 +272,7 @@ switch($action) {
         require_once('./admin-header.php');
 
         if ($user_level == 0)
-            die ('Cheatin&#8217; uh?');
+            die (__('Cheatin&#8217; uh?'));
 
         if (!isset($blog_ID)) {
             $blog_ID = 1;
@@ -417,11 +417,11 @@ switch($action) {
             die ('Cheatin&#8217; uh?');
 
         $post_id = intval($HTTP_GET_VARS['post']);
-        $postdata = get_postdata($post_id) or die('Oops, no post with this ID. <a href="post.php">Go back</a>!');
+        $postdata = get_postdata($post_id) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'post.php'));
         $authordata = get_userdata($postdata['Author_ID']);
 
         if ($user_level < $authordata->user_level)
-            die ('You don&#8217;t have the right to delete <strong>'.$authordata[1].'</strong>&#8217;s posts.');
+            die (sprintf(__('You don&#8217;t have the right to delete <strong>%s</strong>&#8217;s posts.'), $authordata[1]));
 
         // send geoURL ping to "erase" from their DB
         $query = "SELECT post_lat from $tableposts WHERE ID=$post_id";
@@ -434,7 +434,7 @@ switch($action) {
 
         $result = $wpdb->query("DELETE FROM $tableposts WHERE ID=$post_id");
         if (!$result)
-            die('Error in deleting...');
+            die(__('Error in deleting...'));
 
         $result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_post_ID=$post_id");
 
@@ -451,7 +451,7 @@ switch($action) {
         break;
 
     case 'editcomment':
-        $title = 'Edit Comment';
+        $title = __('Edit Comment');
         $standalone = 0;
 		$parent_file = 'edit.php';
         require_once ('admin-header.php');
@@ -459,11 +459,11 @@ switch($action) {
         get_currentuserinfo();
 
         if ($user_level == 0) {
-            die ('Cheatin&#8217; uh?');
+            die (__('Cheatin&#8217; uh?'));
         }
 
         $comment = $HTTP_GET_VARS['comment'];
-        $commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="javascript:history.go(-1)">Go back</a>!');
+        $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
         $content = $commentdata['comment_content'];
         $content = format_to_edit($content);
 
@@ -477,30 +477,30 @@ switch($action) {
 	require_once('./admin-header.php');
 	
 	if ($user_level == 0)
-		die ('Cheatin&#8217; uh?');
+		die (__('Cheatin&#8217; uh?'));
 	
 	$comment = $HTTP_GET_VARS['comment'];
 	$p = $HTTP_GET_VARS['p'];
-	$commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
+    $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 	
 	echo "<div class=\"wrap\">\n";
-	echo "<p><strong>Caution:</strong> You are about to delete the following comment:</p>\n";
+	echo "<p><?php __('<strong>Caution:</strong> You are about to delete the following comment:'); ?></p>\n";
 	echo "<table border=\"0\">\n";
-	echo "<tr><td>Author:</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
-	echo "<tr><td>E-Mail:</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
-	echo "<tr><td>URL:</td><td>" . $commentdata["comment_author_url"] . "</td></tr>\n";
-	echo "<tr><td>Comment:</td><td>" . stripslashes($commentdata["comment_content"]) . "</td></tr>\n";
+    echo "<tr><td>" . __('Author:') . "</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
+    echo "<tr><td>" . __('E-Mail:') . "</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
+    echo "<tr><td>". __('URL:') . "</td><td>" . $commentdata["comment_author_url"] . "</td></tr>\n";
+    echo "<tr><td>". __('Comment:') . "</td><td>" . stripslashes($commentdata["comment_content"]) . "</td></tr>\n";
 	echo "</table>\n";
-	echo "<p>Are you sure you want to do that?</p>\n";
+    echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
 	
 	echo "<form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'>\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"deletecomment\" />\n";
 	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
 	echo "<input type=\"hidden\" name=\"comment\" value=\"$comment\" />\n";
 	echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
-	echo "<input type=\"submit\" value=\"Yes\" />";
+    echo "<input type=\"submit\" value=\"" . __('Yes') . "\" />";
 	echo "&nbsp;&nbsp;";
-	echo "<input type=\"button\" value=\"No\" onClick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
+    echo "<input type=\"button\" value=\"" . __('No') . "\" onClick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
 	echo "</form>\n";
 	echo "</div>\n";
 	
@@ -512,7 +512,7 @@ switch($action) {
 	require_once('./admin-header.php');
 
 	if ($user_level == 0)
-		die ('Cheatin&#8217; uh?');
+		die (__('Cheatin&#8217; uh?'));
 
 
 	$comment = $HTTP_GET_VARS['comment'];
@@ -523,12 +523,12 @@ switch($action) {
 	    $noredir = false;
 	}
 	
-	$postdata = get_postdata($p) or die('Oops, no post with this ID. <a href="edit.php">Go back</a>!');
-	$commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="post.php">Go back</a>!');
+    $postdata = get_postdata($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+    $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
 
 	$authordata = get_userdata($postdata['Author_ID']);
 	if ($user_level < $authordata->user_level)
-		die ('You don&#8217;t have the right to delete <strong>'.$authordata->user_nickname.'</strong>&#8217;s post comments. <a href="post.php">Go back</a>!');
+		die (sprintf(__('You don&#8217;t have the right to delete <strong>%s</strong>&#8217;s post comments. <a href="%s">Go back</a>!'), $authordata->user_nickname, 'post.php'));
 
 	wp_set_comment_status($comment, "delete");
 	do_action('delete_comment', $comment);
@@ -547,7 +547,7 @@ switch($action) {
 	require_once('./admin-header.php');
 	
 	if ($user_level == 0)
-		die ('Cheatin&#8217; uh?');
+		die (__('Cheatin&#8217; uh?'));
 		
 	$comment = $HTTP_GET_VARS['comment'];
 	$p = $HTTP_GET_VARS['p'];
@@ -557,7 +557,7 @@ switch($action) {
 	    $noredir = false;
 	}
 
-	$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
+    $commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 	
 	wp_set_comment_status($comment, "hold");
 	
@@ -575,11 +575,11 @@ switch($action) {
 	require_once('./admin-header.php');
 	
 	if ($user_level == 0)
-		die ('Cheatin&#8217; uh?');
+		die (__('Cheatin&#8217; uh?'));
 	
 	$comment = $HTTP_GET_VARS['comment'];
 	$p = $HTTP_GET_VARS['p'];
-	$commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
+    $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	wp_set_comment_status($comment, "approve");
 	if (get_settings("comments_notify") == true) {
@@ -587,12 +587,12 @@ switch($action) {
 	}
 	
 	echo "<div class=\"wrap\">\n";
-	echo "<p>Comment has been approved.</p>\n";
+    echo "<p>" . __('Comment has been approved.') . "</p>\n";
 	
 	echo "<form action=\"". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments\" method=\"get\">\n";
 	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
 	echo "<input type=\"hidden\" name=\"c\" value=\"1\" />\n";
-	echo "<input type=\"submit\" value=\"Ok\" />";
+    echo "<input type=\"submit\" value=\"" . __('Ok') . "\" />";
 	echo "</form>\n";
 	echo "</div>\n";
 	
@@ -604,7 +604,7 @@ switch($action) {
 	require_once('./admin-header.php');
 	
 	if ($user_level == 0)
-		die ('Cheatin&#8217; uh?');
+		die (__('Cheatin&#8217; uh?'));
 		
 	$comment = $HTTP_GET_VARS['comment'];
 	$p = $HTTP_GET_VARS['p'];
@@ -613,7 +613,7 @@ switch($action) {
 	} else {
 	    $noredir = false;
 	}
-	$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
+    $commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 	
 	wp_set_comment_status($comment, "approve");
 	if (get_settings("comments_notify") == true) {
@@ -635,7 +635,7 @@ switch($action) {
         require_once('./admin-header.php');
 
         if ($user_level == 0)
-            die ('Cheatin&#8217; uh?');
+            die (__('Cheatin&#8217; uh?'));
 
         $comment_ID = $HTTP_POST_VARS['comment_ID'];
         $comment_post_ID = $HTTP_POST_VARS['comment_post_ID'];
@@ -680,8 +680,8 @@ switch($action) {
         break;
 
     default:
-		$title = 'Create New Post';
         $standalone = 0;
+        $title = __('Create New Post');
         require_once ('./admin-header.php');
 
         if ($user_level > 0) {
@@ -693,7 +693,7 @@ switch($action) {
 				if ($drafts) {
 					?>
 					<div class="wrap">
-					<p><strong>Your Drafts:</strong>
+                    <p><strong><?php _e('Your Drafts:') ?></strong>
 					<?php
 					$i = 0;
 					foreach ($drafts as $draft) {
@@ -701,8 +701,8 @@ switch($action) {
                             echo ', ';
 						$draft->post_title = stripslashes($draft->post_title);
                         if ($draft->post_title == '')
-                            $draft->post_title = 'Post #'.$draft->ID;
-						echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
+                            $draft->post_title = sprintf(__('Post # %s'), $draft->ID);
+						echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
 						++$i;
 						}
 					?>.</p>
@@ -724,8 +724,8 @@ switch($action) {
             }
 ?>
 <div class="wrap">
-<h3>WordPress bookmarklet</h3>
-<p>You can drag the following link to your links bar or add it to your bookmarks and when you "Press it" it will open up a popup window with information and a link to the site you're currently browsing so you can make a quick post about it. Try it out:</p>
+<?php _e('<h3>WordPress bookmarklet</h3>
+<p>You can drag the following link to your links bar or add it to your bookmarks and when you "Press it" it will open up a popup window with information and a link to the site you&#8217re currently browsing so you can make a quick post about it. Try it out:</p>') ?>
 <p>
 
 <?php
@@ -733,13 +733,11 @@ $bookmarklet_height= (get_settings('use_trackback')) ? 460 : 420;
 
 if ($is_NS4 || $is_gecko) {
 ?>
-    <a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}void(window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'WordPress bookmarklet','scrollbars=yes,width=600,height=460,left=100,top=150,status=yes'));">Press It 
-    - <?php echo get_settings('blogname'); ?></a> 
+    <a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}void(window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'<?php _e('WordPress bookmarklet') ?>','scrollbars=yes,width=600,height=460,left=100,top=150,status=yes'));"><?php printf(__('Press It - %s'), get_settings('blogname')); ?></a> 
     <?php
 } else if ($is_winIE) {
 ?>
-    <a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
-    - <?php echo get_settings('blogname'); ?></a> 
+    <a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a> 
     <script type="text/javascript" language="JavaScript">
 <!--
 function oneclickbookmarklet(blah) {
@@ -754,13 +752,11 @@ function oneclickbookmarklet(blah) {
     <?php
 } else if ($is_opera) {
 ?>
-    <a href="javascript:void(window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">Press it 
-    - <?php echo get_settings('blogname'); ?></a> 
+    <a href="javascript:void(window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a> 
     <?php
 } else if ($is_macIE) {
 ?>
-    <a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();">Press it 
-    - <?php echo get_settings('blogname'); ?></a> 
+    <a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();"><?php prtinf(__('Press it - %s'), get_settings('blogname')); ?></a> 
     <?php
 }
 ?>
@@ -772,9 +768,9 @@ function oneclickbookmarklet(blah) {
 
 ?>
 <div class="wrap">
-            <p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post blog items.<br />
-				You can also <a href="mailto:<?php echo get_settings('admin_email'); ?>?subject=Blog posting permission">e-mail the admin</a> to ask for a promotion.<br />
-				When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)</p>
+          <?php printf(__('<p>Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post blog items.<br />
+You can also <a href="mailto:%s?subject=Blog posting permission">e-mail the admin</a> to ask for a promotion.<br />
+When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)</p>'), get_settings('admin_email')); ?>
 </div>
 <?php
 

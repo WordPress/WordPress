@@ -4,22 +4,22 @@
 
 $allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
-$submitbutton_text = 'Blog this!';
-$toprow_title = 'New Post';
+$submitbutton_text = __('Blog this!');
+$toprow_title = __('New Post');
 $form_action = 'post';
 $form_extra = '';
 if (get_settings('use_pingback')) {
 	$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
 	if ($post_pingback) $form_pingback .= 'checked="checked" ';
-	$form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback"><strong>PingBack</strong> the <acronym title="Uniform Resource Locators">URL</acronym>s in this post</label> <a href="http://wordpress.org/docs/reference/post/#pingback" title="Help on Pingbacks">?</a><br />';
+	$form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback">' . sprintf(__('<strong>PingBack</strong> the <acronym title="Uniform Resource Locators">URL</acronym>s in this post</label> <a href="%s" title="Help on Pingbacks">?</a><br />'), 'http://wordpress.org/docs/reference/post/#pingback');
 } else {
 	$form_pingback = '';
 }
 if (get_settings('use_trackback')) {
-	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
-	<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>';
+	$form_trackback = '<p><label for="trackback">' . sprintf(__('<a href="%s" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />'), 'http://wordpress.org/docs/reference/post/#trackback') .
+	'<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>';
 	if ('' != $pinged) {
-		$form_trackback .= '<p>Already pinged:</p><ul>';
+		$form_trackback .= '<p>' . __('Already pinged:') . '</p><ul>';
 		$already_pinged = explode("\n", trim($pinged));
 		foreach ($already_pinged as $pinged_url) {
 			$form_trackback .= "\n\t<li>$pinged_url</li>";
@@ -61,22 +61,22 @@ window.onload = focusit;
 </style>
 <div id="poststuff">
     <fieldset id="titlediv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#title" title="Help on titles">Title</a></legend> 
+      <legend><a href="http://wordpress.org/docs/reference/post/#title" title="<?php _e('Help on titles') ?>"><?php _e('Title') ?></a></legend> 
 	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
     </fieldset>
 
     <fieldset id="categorydiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Categories</a></legend> 
+      <legend><a href="http://wordpress.org/docs/reference/post/#category" title="<?php _e('Help on categories') ?>"><?php _e('Categories') ?></a></legend> 
 	  <div><?php dropdown_categories($default_post_cat); ?></div>
     </fieldset>
 
 <br />
 <fieldset id="postdiv">
-<legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Post</a></legend>
+    <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
 		<div id="quicktags">
 <?php
 if (get_settings('use_quicktags') && 'bookmarklet' != $mode) {
-	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
+	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="' . __('Help with quicktags') . '">' . __('Quicktags') . '</a>: ';
 	include('quicktags.php');
 }
 ?>
@@ -103,11 +103,11 @@ edCanvas = document.getElementById('content');
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 <?php echo $form_trackback; ?>
-<p><input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="Save as Draft" /> 
-  <input name="saveasprivate" type="submit" id="saveasprivate" tabindex="10" value="Save as Private" /> 
-  <input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="Publish" /> 
+<p><input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="<?php _e('Save as Draft') ?>" /> 
+  <input name="saveasprivate" type="submit" id="saveasprivate" tabindex="10" value="<?php _e('Save as Private') ?>" /> 
+  <input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="<?php _e('Publish') ?>" /> 
   <?php if ('bookmarklet' != $mode) {
-      echo '<input name="advanced" type="submit" id="advancededit" tabindex="7" value="Advanced Editing &raquo;" />';
+      echo '<input name="advanced" type="submit" id="advancededit" tabindex="7" value="' .  __('Advanced Editing &raquo;') . '" />';
   } ?>
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
