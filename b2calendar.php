@@ -131,7 +131,7 @@ while($calendarmonthwithpost == 0) {
             ."FROM $tableposts "
             ."WHERE MONTH(post_date) = '$thismonth' "
             ."AND YEAR(post_date) = '$thisyear' "
-	        ."AND post_date < '".date("Y-m-d H:i:s")."' "
+	        ."AND post_date < '".date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."' "
             ."AND post_status = 'publish' "
             ."ORDER BY post_date DESC";
 	$querycount++;
@@ -218,7 +218,7 @@ if ($ak_use_tooltip_titles == 1) {
 	                                    ."FROM $tableposts "
 	                                    ."WHERE YEAR(post_date) = '$thisyear' "
 	                                    ."AND MONTH(post_date) = '$thismonth' "
-	                                    ."AND post_date < '".date("Y-m-d H:i:s")."' "
+	                                    ."AND post_date < '".date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."' "
 	                                    ."AND post_status = 'publish'"
 	                                    );
 
