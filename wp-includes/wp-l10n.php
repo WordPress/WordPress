@@ -1,4 +1,8 @@
 <?php
+$parentpath = dirname(dirname(__FILE__));
+ 
+require_once($parentpath.'/wp-config.php');
+
 $curpath = dirname(__FILE__).'/';
 
 $locale = '';
