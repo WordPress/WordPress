@@ -91,15 +91,17 @@ This address is used only for admin purposes. </td>
       </tr>
       <tr>
       	<th scope="row">&nbsp;</th>
-      	<td>The following use the same syntax as the <a href="http://php.net/date">PHP <code>date()</code> function</a>. </td>
+      	<td>The following use the same syntax as the <a href="http://php.net/date">PHP <code>date()</code> function</a>. Save option to update sample output. </td>
       	</tr>
       <tr>
       	<th scope="row">Default date format:</th>
-      	<td><input name="date_format" type="text" id="date_format" size="30" value="<?php echo get_settings('date_format'); ?>" /></td>
+      	<td><input name="date_format" type="text" id="date_format" size="30" value="<?php echo get_settings('date_format'); ?>" /><br />
+Output: <strong><?php echo date(get_settings('date_format'), current_time('timestamp')); ?></strong></td>
       	</tr>
       <tr>
       	<th scope="row">Default time format:</th>
-      	<td><input name="time_format" type="text" id="time_format" size="30" value="<?php echo get_settings('time_format'); ?>" /></td>
+      	<td><input name="time_format" type="text" id="time_format" size="30" value="<?php echo get_settings('time_format'); ?>" /><br />
+Output: <strong><?php echo date(get_settings('time_format'), current_time('timestamp')); ?></strong></td>
       	</tr> 
 </table>
     </fieldset> 

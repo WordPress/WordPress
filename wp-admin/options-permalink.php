@@ -65,7 +65,13 @@ default:
     <li><code>%postname%</code> --- A sanitized version of the title of the post. So &quot;This Is A Great Post!&quot; becomes &quot;<code>this-is-a-great-post</code>&quot; in the URI </li> 
     <li><code>%post_id%</code> --- The unique ID # of the post, for example <code>423</code> <strong></strong></li> 
   </ul> 
-  <p>So for example a value like <code>/archives/%year%/%monthnum%/%day%/%postname%/</code> could give you a permalink like <code>/archives/2003/05/23/my-cheese-sandwich/</code> . For this to work you'll need mod_rewrite installed on your server for the rule generation rule to work below. In the future there may be other options. </p> 
+  <p>So for example a value like </p>
+  <p><code>/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
+  <p>would give you a permalink like </p>
+  <p><code>/archives/2003/05/23/my-cheese-sandwich/</code> . </p>
+  <p> In general for this you must use mod_rewrite, however if you put a filename at the beginning WordPress will attempt to use that to pass the arguments, example:</p>
+  <p><code>/index.php/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
+  <p>If you use this option you can ignore the mod_rewrite rules. </p>
   <form name="form" action="options-permalink.php" method="post"> 
     <p>Use the template tags above to create a virtual site structure:</p> 
     <p> 
@@ -86,14 +92,18 @@ if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
 
 ?> 
 <form action"">
-  <textarea rows="5" style="width: 100%;">RewriteEngine On
+    <p>
+    	<textarea rows="5" style="width: 100%;">RewriteEngine On
 RewriteBase <?php echo $site_root; ?> 
 <?php
 $rewrite = rewrite_rules('', $permalink_structure);
 foreach ($rewrite as $match => $query) {
     echo 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
 }
-?></textarea>
+?>
+    </textarea>
+    </p>
+    <p>If your <code>.htaccess</code> file is writable by WordPress, you can <a href="templates.php?file=.htaccess">edit it through your template interface</a>.</p>
 </form>
 </div> 
 <?php

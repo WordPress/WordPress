@@ -45,7 +45,7 @@ include('options-head.php');
   <h2>Writing Options</h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-    <input type="hidden" name="page_options" value="'default_post_edit_rows','blog_charset','use_smilies','use_balanceTags','advanced_edit','ping_sites'" /> 
+    <input type="hidden" name="page_options" value="'default_post_edit_rows','blog_charset','use_smilies','use_balanceTags','advanced_edit','ping_sites','mailserver_url', 'mailserver_port',mailserver_login','mailserver_pass','default_category'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top">
         <th scope="row"> When starting a post, show: </th>
@@ -103,7 +103,16 @@ Advanced controls</label>
        		</tr>
         	<tr valign="top">
         		<th scope="row">Usual category:</th>
-        		<td>&nbsp;</td>
+        		<td><select name="default_category" id="default_category">
+<?php
+$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
+foreach ($categories as $category) :
+if ($category->cat_ID == get_settings('default_category')) $selected = " selected='selected'";
+else $selected = '';
+	echo "\n\t<option value='$category->cat_ID' $selected>$category->cat_name</option>";
+endforeach;
+?>
+       			</select></td>
        		</tr>
         	</table>
 		</fieldset>

@@ -23,8 +23,8 @@ $submenu = <<<END
 	<li><a href="options-reading.php">Reading</a></li>
 	<li><a href="options-discussion.php">Discussion</a></li>
 	<li><a href="options-misc.php">Miscellaneous</a></li>
+	<li><a href="options-permalink.php">Permalinks</a></li> 
 	$groups
-	<li class="last"><a href="options-permalink.php">Permalinks</a></li> 
 </ul>
 END;
 
@@ -33,7 +33,7 @@ foreach ($sublines as $subline) {
 	preg_match('/href="([^"]+)"/', $subline, $url);
 	if (substr($_SERVER['REQUEST_URI'], -8) == substr($url[1], -8)) {
 		$subline = str_replace('a hr', 'a class="current" hr', $subline);
-		if ($_SERVER["REQUEST_URI"] == $url[1]) {
+		if (str_replace('/wp-admin/', '', $_SERVER["REQUEST_URI"]) == $url[1]) {
 			$subline = preg_replace('|href=".*?"|', '', $subline);
 		}
 	}

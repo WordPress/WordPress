@@ -710,8 +710,13 @@ function upgrade_110() {
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 1");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 2");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 3");
+	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 4");
+	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 5");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 6");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 7");
+
+	$wpdb->query("UPDATE $tableoptiongroups SET group_name = 'Link Manager' WHERE group_id = 8");
+	$wpdb->query("UPDATE $tableoptiongroups SET group_name = 'Geo-data' WHERE group_id = 9");
 
 	// Add blog_charset option
 	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'blog_charset'")) {
