@@ -153,9 +153,9 @@ function get_feed_link($feed='rss2') {
     if ('' != $permalink) {
         $do_perma = 1;
         $feed_url = get_settings('home');
-        $index = get_settings('blogfilename');
+        $index = 'index.php';
         $prefix = '';
-        if (preg_match('#^/*' . $index . '#', $permalink)) {
+        if (using_index_permalinks()) {
             $feed_url .= '/' . $index;
         }
 
@@ -418,6 +418,7 @@ function get_pagenum_link($pagenum = 1){
    $page_modstring = "page/";
    $page_modregex = "page/?";
    $permalink = 0;
+	 $index = 'index.php';
 
 	 $home_root = parse_url(get_settings('home'));
 	 $home_root = $home_root['path'];
@@ -448,19 +449,19 @@ function get_pagenum_link($pagenum = 1){
          $permalink = 1;
 
 	 // If it's not a path info permalink structure, trim the index.
-	 if (using_mod_rewrite()) {
-	   $qstr = preg_replace("#/*" . get_settings('blogfilename') . "/*#", '/', $qstr);
+	 if (! using_index_permalinks()) {
+	   $qstr = preg_replace("#/*" . $index . "/*#", '/', $qstr);
 	 } else {
 	   // If using path info style permalinks, make sure the index is in
 	   // the URI.
-	   if (strpos($qstr, get_settings('blogfilename')) === false) {
-	     $qstr = '/' . get_settings('blogfilename') . $qstr;
+	   if (strpos($qstr, $index) === false) {
+	     $qstr = '/' . $index . $qstr;
 	   }
 	 }
 
 	 $qstr =  trailingslashit($qstr) . $page_modstring . $pagenum;
       } else {
-         $qstr = get_settings('blogfilename') . $querystring_start.$page_querystring.$querystring_equal.$pagenum;
+         $qstr = $index . $querystring_start.$page_querystring.$querystring_equal.$pagenum;
       }
    }
 
