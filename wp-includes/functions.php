@@ -1334,6 +1334,10 @@ function get_posts($args) {
 
 function check_comment($author, $email, $url, $comment, $user_ip) {
 	if (1 == get_settings('comment_moderation')) return false; // If moderation is set to manual
+
+	if ( (count(explode('http:', $comment)) - 1) >= get_settings('comment_max_links') )
+		return false; // Check # of external links
+
 	if ('' == trim( get_settings('moderation_keys') ) ) return true; // If moderation keys are empty
 	$words = explode("\n", get_settings('moderation_keys') );
 	foreach ($words as $word) {
@@ -1345,10 +1349,6 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 		if ( preg_match($pattern, $comment) ) return false;
 		if ( preg_match($pattern, $user_ip) ) return false;
 	}
-
-	preg_match_all('|([\n ])([a-z]+?)://([^, <>{}\n\r]+)|i', $comment, $all_links);
-	$number = count($all_links[0]);
-	if ($number >= get_settings('comment_max_links')) return false;
 
 	return true;
 }
