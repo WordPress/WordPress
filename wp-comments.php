@@ -6,7 +6,7 @@
         if (!empty($post->post_password)) { // if there's a password
             if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
 ?>
-<p><?php e_("Enter your password to view comments."); ?><p>
+<p><?php _e("Enter your password to view comments."); ?><p>
 <?php
 				return;
             }
