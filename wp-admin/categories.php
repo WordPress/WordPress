@@ -49,7 +49,7 @@ case 'addcat':
     $category_nicename = sanitize_title($cat_name);
     $category_description = addslashes(stripslashes(stripslashes($HTTP_POST_VARS['category_description'])));
     
-    $wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', $cat)");
+    $wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
     
     header('Location: categories.php#addcat');
 
