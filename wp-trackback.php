@@ -17,8 +17,8 @@ if (!get_magic_quotes_gpc()) {
 	$_COOKIE = add_magic_quotes($_COOKIE);
 }
 
-if ( !$doing_trackback) {
-    $doing_trackback = 1;
+if (empty($doing_trackback)) {
+    $doing_trackback = true;
     require('wp-blog-header.php');
 }
 
