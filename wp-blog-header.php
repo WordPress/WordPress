@@ -370,7 +370,7 @@ if ($p == 'all') {
     $where = '';
 }
 
-$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
+$now = date('Y-m-d H:i:00',(time() + ($time_difference * 3600)));
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
     if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
