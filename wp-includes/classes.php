@@ -702,6 +702,7 @@ class WP_Rewrite {
 	var $permalink_structure;
 	var $category_base;
 	var $category_structure;
+	var $author_structure;
 	var $date_structure;
 	var $front;
 	var $root = '';
@@ -877,6 +878,21 @@ class WP_Rewrite {
 		return $this->category_structure;
 	}
 
+	function get_author_permastruct() {
+		if (isset($this->author_structure)) {
+			return $this->author_structure;
+		}
+
+    if (empty($this->permalink_structure)) {
+			$this->author_structure = '';
+			return false;
+		}
+
+		$this->author_structure = $this->front . 'author/%author%';
+
+		return $this->author_structure;
+	}
+
 	function add_rewrite_tag($tag, $pattern, $query) {
 		$this->rewritecode[] = $tag;
 		$this->rewritereplace[] = $pattern;
@@ -1004,8 +1020,7 @@ class WP_Rewrite {
 		$category_rewrite = $this->generate_rewrite_rules($this->get_category_permastruct());
 
 		// Authors
-		$author_structure = $this->front . 'author/%author%';
-		$author_rewrite = $this->generate_rewrite_rules($author_structure);
+		$author_rewrite = $this->generate_rewrite_rules($this->get_author_permastruct());
 
 		// Pages
 		$page_rewrite = $this->page_rewrite_rules();
@@ -1078,6 +1093,7 @@ class WP_Rewrite {
 		}
 		$this->category_base = get_settings('category_base');
 		unset($this->category_structure);
+		unset($this->author_structure);
 		unset($this->date_structure);		
 	}
 

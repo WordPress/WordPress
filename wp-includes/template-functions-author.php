@@ -77,19 +77,17 @@ function the_author_posts_link($idmode='') {
 
 
 function get_author_link($echo = false, $author_id, $author_nicename) {
-    global $wpdb, $post, $querystring_start, $querystring_equal, $cache_userdata;
+	global $wpdb, $wp_rewrite, $post, $querystring_start, $querystring_equal, $cache_userdata;
     $auth_ID = $author_id;
-    $permalink_structure = get_settings('permalink_structure');
+    $link = $wp_rewrite->get_author_permastruct();
     
-    if ('' == $permalink_structure) {
+    if (empty($link)) {
         $file = get_settings('home') . '/' . get_settings('blogfilename');
         $link = $file.$querystring_start.'author'.$querystring_equal.$auth_ID;
     } else {
         if ('' == $author_nicename) $author_nicename = $cache_userdata[$author_id]->author_nicename;
-        // Get any static stuff from the front
-        $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-        $link = get_settings('home') . $front . 'author/';
-        $link .= $author_nicename . '/';
+				$link = str_replace('%author%', $author_nicename, $link);
+				$link = get_settings('home') . trailingslashit($link);
     }
 
     if ($echo) echo $link;
