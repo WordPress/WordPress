@@ -246,11 +246,12 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
     if ('monthly' == $type) {
         $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
+            $afterafter = $after;
             foreach ($arcresults as $arcresult) {
                 $url  = get_month_link($arcresult->year,   $arcresult->month);
                 if ($show_post_count) {
                     $text = sprintf('%s %d', $month[zeroise($arcresult->month,2)], $arcresult->year);
-                    $after = '&nbsp;('.$arcresult->posts.')';
+                    $after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
                 } else {
                     $text = sprintf('%s %d', $month[zeroise($arcresult->month,2)], $arcresult->year);
                 }
