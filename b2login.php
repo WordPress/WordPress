@@ -44,8 +44,8 @@ switch($action) {
 
 case 'logout':
 
-	setcookie('wordpressuser');
-	setcookie('wordpresspass');
+	setcookie('wordpressuser_'.$cookiehash);
+	setcookie('wordpresspass_'.$cookiehash);
 	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate');
@@ -122,14 +122,14 @@ case 'login':
 	} else {
 		$user_login = $log;
 		$user_pass = $pwd;
-		setcookie('wordpressuser', $user_login, time()+31536000);
+		setcookie('wordpressuser_'.$cookiehash, $user_login, time()+31536000);
 		if ($pass_is_md5) {
-			setcookie('wordpresspass', $user_pass, time()+31536000);
+			setcookie('wordpresspass_'.$cookiehash, $user_pass, time()+31536000);
 		} else {
-			setcookie('wordpresspass', md5($user_pass), time()+31536000);
+			setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time()+31536000);
 		}
-		if (empty($HTTP_COOKIE_VARS['wordpressblogid'])) {
-			setcookie('wordpressblogid', 1,time()+31536000);
+		if (empty($HTTP_COOKIE_VARS['wordpressblogid_'.$cookiehash])) {
+			setcookie('wordpressblogid_'.$cookiehash, 1,time()+31536000);
 		}
 		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
@@ -231,9 +231,9 @@ break;
 
 default:
 
-	if((!empty($HTTP_COOKIE_VARS['wordpressuser'])) && (!empty($HTTP_COOKIE_VARS['wordpresspass']))) {
-		$user_login = $HTTP_COOKIE_VARS['wordpressuser'];
-		$user_pass_md5 = $HTTP_COOKIE_VARS['wordpresspass'];
+	if((!empty($HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash])) && (!empty($HTTP_COOKIE_VARS['wordpresspass_'.$cookiehash]))) {
+		$user_login = $HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash];
+		$user_pass_md5 = $HTTP_COOKIE_VARS['wordpresspass_'.$cookiehash];
 	}
 
 	function checklogin() {
@@ -249,7 +249,7 @@ default:
 	} 
 
 	if ( !(checklogin()) ) {
-		if (!empty($HTTP_COOKIE_VARS['wordpressuser'])) {
+		if (!empty($HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash])) {
 			$error="Error: wrong login/password"; //, or your session has expired.";
 		}
 	} else {

@@ -84,8 +84,8 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
     }
 }
 
-$links_show_cat_id = $HTTP_COOKIE_VARS["links_show_cat_id"];
-$links_show_order = $HTTP_COOKIE_VARS["links_show_order"];
+$links_show_cat_id = $HTTP_COOKIE_VARS["links_show_cat_id_".$cookiehash];
+$links_show_order = $HTTP_COOKIE_VARS["links_show_order_".$cookiehash];
 
 if ($action2 != '')
     $action = $action2;
@@ -263,7 +263,7 @@ switch ($action) {
              " link_notes='" . addslashes($link_notes) . "'\n" .
              " WHERE link_id=$link_id");
     } // end if save
-    setcookie('links_show_cat_id', $links_show_cat_id, time()+600);
+    setcookie('links_show_cat_id_'.$cookiehash, $links_show_cat_id, time()+600);
     header('Location: '.$this_file);
     break;
   } // end Save
@@ -288,7 +288,7 @@ switch ($action) {
         $cat_id = 'All';
     }
     $links_show_cat_id = $cat_id;
-    setcookie("links_show_cat_id", $links_show_cat_id, time()+600);
+    setcookie("links_show_cat_id_".$cookiehash, $links_show_cat_id, time()+600);
     header('Location: '.$this_file);
     break;
   } // end Delete
@@ -441,8 +441,8 @@ switch ($action) {
         $order_by = 'order_name';
     $links_show_order = $order_by;
 
-    setcookie('links_show_cat_id', $links_show_cat_id, time()+600);
-    setcookie('links_show_order', $links_show_order, time()+600);
+    setcookie('links_show_cat_id_'.$cookiehash, $links_show_cat_id, time()+600);
+    setcookie('links_show_order_'.$cookiehash, $links_show_order, time()+600);
     $standalone=0;
     include_once ("./b2header.php");
     if ($user_level < get_settings('links_minadminlevel')) {

@@ -118,9 +118,9 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	if ($url == '')
 		$url = ' '; // this to make sure a cookie is set for 'no url'
 
-	setcookie('comment_author', $author, time()+30000000);
-	setcookie('comment_author_email', $email, time()+30000000);
-	setcookie('comment_author_url', $url, time()+30000000);
+	setcookie('comment_author_'.$cookiehash, $author, time()+30000000);
+	setcookie('comment_author_email_'.$cookiehash, $email, time()+30000000);
+	setcookie('comment_author_url_'.$cookiehash, $url, time()+30000000);
 
 	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');

@@ -4,15 +4,15 @@
 	if (($withcomments) or ($c)) {
 
         if (!empty($post->post_password)) { // if there's a password
-            if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
+            if ($HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
                 echo("<p>Enter your password to view comments.<p>");
                 return;
             }
         }
 
-		$comment_author = trim($HTTP_COOKIE_VARS["comment_author"]);
-		$comment_author_email = trim($HTTP_COOKIE_VARS["comment_author_email"]);
-		$comment_author_url = trim($HTTP_COOKIE_VARS["comment_author_url"]);
+		$comment_author = trim($HTTP_COOKIE_VARS["comment_author_".$cookiehash]);
+		$comment_author_email = trim($HTTP_COOKIE_VARS["comment_author_email_".$cookiehash]);
+		$comment_author_url = trim($HTTP_COOKIE_VARS["comment_author_url_".$cookiehash]);
 
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 ?>

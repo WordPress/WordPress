@@ -62,5 +62,8 @@ if (!$_wp_installing) {
     $querystring_equal = '=';
     $querystring_separator = '&amp;';
     //}
+    // Used to guarantee unique cookies
+    $cookiehash = md5($siteurl);
+
 } //end !$_wp_installing
 ?>

@@ -79,7 +79,7 @@ case 'update':
 			die ("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that.");
 		$newuser_pass = $HTTP_POST_VARS["pass1"];
 		$updatepassword = "user_pass='$newuser_pass', ";
-		setcookie("wordpresspass",md5($newuser_pass),time()+31536000);
+		setcookie("wordpresspass_".$cookiehash,md5($newuser_pass),time()+31536000);
 	}
 
 	$newuser_firstname=addslashes($HTTP_POST_VARS["newuser_firstname"]);
@@ -115,7 +115,7 @@ case 'viewprofile':
 	require_once('b2verifauth.php');
 
 	$profiledata = get_userdata($user);
-	if ($HTTP_COOKIE_VARS['wordpressuser'] == $profiledata->user_login)
+	if ($HTTP_COOKIE_VARS['wordpressuser_'.$cookiehash] == $profiledata->user_login)
 		header ('Location: b2profile.php');
 	
 	$profile = 1;

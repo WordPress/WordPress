@@ -5,8 +5,8 @@
   It doesn't need to connect to the DB, or do anything fancy at all. Yum.
   -- Matt
 */
-
-setcookie('wp-postpass', $HTTP_POST_VARS['post_password'], time()+60*60*24*30);
+include_once('wp-config.php');
+setcookie('wp-postpass_'.$cookiehash, $HTTP_POST_VARS['post_password'], time()+60*60*24*30);
 header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
 
 ?>

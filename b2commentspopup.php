@@ -31,7 +31,7 @@ foreach ($posts as $post) { start_b2();
 <?php /* this line is b2's motor, do not delete it */ 
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 $commentstatus = $wpdb->get_row("SELECT comment_status, post_password FROM $tableposts WHERE ID = $id");
-if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass'] != $commentstatus->post_password) {  // and it doesn't match the cookie
+if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $commentstatus->post_password) {  // and it doesn't match the cookie
 	echo("<li>".get_the_password_form()."</li></ol>");
 }
 else {
