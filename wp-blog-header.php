@@ -231,7 +231,6 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		include(get_date_template());
 		exit;
 	} else if ( is_archive() && get_archive_template() ) {
-		echo "here";
 		include(get_archive_template());
 		exit;
 	} else if ( is_comments_popup() && get_comments_popup_template() ) {
