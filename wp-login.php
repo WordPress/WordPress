@@ -37,6 +37,10 @@ for ($i = 0; $i < count($wpvarstoreset); $i = $i + 1) {
 	}
 }
 
+// If someone has moved WordPress let's try to detect it
+if ( dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) != get_settings('siteurl') )
+	update_option('siteurl', dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) );
+
 switch($action) {
 
 case 'logout':
