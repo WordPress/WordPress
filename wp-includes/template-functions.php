@@ -1785,8 +1785,7 @@ function comment_text_rss() {
 	$comment_text = convert_chars($comment_text);
 	$comment_text = convert_bbcode($comment_text);
 	$comment_text = convert_gmcode($comment_text);
-// smiley conversion is breaking things
-//	$comment_text = convert_smilies($comment_text);
+	$comment_text = convert_smilies($comment_text);
 	$comment_text = apply_filters('comment_text', $comment_text);
 	$comment_text = strip_tags($comment_text);
 	$comment_text = htmlspecialchars($comment_text);
