@@ -28,6 +28,6 @@
 -- // *****************************************************************
 
 ALTER TABLE b2links ADD COLUMN link_updated DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
-
+ALTER TABLE b2links ADD COLUMN link_rel varchar(255) NOT NULL DEFAULT '';
 
 

@@ -110,7 +110,7 @@ function get_links($category = -1, $before = '', $after = '<br />',
     }
     dbconnect();
     $sql = "SELECT link_url, link_name, link_image, link_target, " .
-           " link_description, link_rating $get_updated " .
+           " link_description, link_rating, link_rel $get_updated " .
            " FROM $tablelinks " .
            " WHERE link_visible = 'Y' " .
            $category_query;
@@ -139,7 +139,11 @@ function get_links($category = -1, $before = '', $after = '<br />',
         if (($row->link_url != null) || ($row->link_url != '')) {
             $the_link = $row->link_url;
         }
-        echo("<a href=\"".$the_link."\" title=\"" .
+        $rel = stripslashes($row->link_rel);
+        if ($rel != '') {
+            $rel = 'rel="'.$rel.'"';
+        }
+        echo("<a href=\"".$the_link."\" $rel title=\"" .
              stripslashes($row->link_description) .
              "\" target=\"$row->link_target\">");
         if (($row->link_image != null) && $show_images) {

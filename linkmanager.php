@@ -51,7 +51,7 @@ if (!get_magic_quotes_gpc()) {
 
 $b2varstoreset = array('action','standalone','cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
-                       'submit', 'order_by', 'links_show_cat_id', 'rating');
+                       'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
     $b2var = $b2varstoreset[$i];
     if (!isset($$b2var)) {
@@ -85,6 +85,7 @@ switch ($action) {
     $link_description = $HTTP_POST_VARS["description"];
     $link_visible = $HTTP_POST_VARS["visible"];
     $link_rating = $HTTP_POST_VARS["rating"];
+    $link_rel = $HTTP_POST_VARS["rel"];
     $auto_toggle = get_autotoggle($link_category);
 
     if ($user_level < $minadminlevel)
@@ -97,11 +98,11 @@ switch ($action) {
       $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
     }
 
-    $sql = "INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating) " .
+    $sql = "INSERT INTO $tablelinks (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel) " .
       " VALUES('" . addslashes($link_url) . "','"
            . addslashes($link_name) . "', '"
            . addslashes($link_image) . "', '$link_target', $link_category, '"
-           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating)";
+           . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) ."')";
 
     $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
 
@@ -134,6 +135,7 @@ switch ($action) {
       $link_description = $HTTP_POST_VARS["description"];
       $link_visible = $HTTP_POST_VARS["visible"];
       $link_rating = $HTTP_POST_VARS["rating"];
+      $link_rel = $HTTP_POST_VARS["rel"];
       $auto_toggle = get_autotoggle($link_category);
 
       if ($user_level < $minadminlevel)
@@ -150,7 +152,8 @@ switch ($action) {
              " link_name='" . addslashes($link_name) . "',\n link_image='" . addslashes($link_image) . "',\n " .
              " link_target='$link_target',\n link_category=$link_category,\n " .
              " link_visible='$link_visible',\n link_description='" . addslashes($link_description) . "',\n " .
-             " link_rating=$link_rating\n" .
+             " link_rating=$link_rating,\n" .
+             " link_rel='" . addslashes($link_rel) . "'\n" .
              " WHERE link_id=$link_id";
       //error_log($sql);
       $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
@@ -194,7 +197,7 @@ switch ($action) {
       die("You have no right to edit the links for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
     }
 
-    $sql = "SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating " .
+    $sql = "SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel " .
       " FROM $tablelinks " .
       " WHERE link_id = $link_id";
 
@@ -208,6 +211,7 @@ switch ($action) {
       $link_description = stripslashes($row->link_description);
       $link_visible = $row->link_visible;
       $link_rating = $row->link_rating;
+      $link_rel = stripslashes($row->link_rel);
     }
 
 ?>
@@ -235,6 +239,10 @@ switch ($action) {
       <tr height="20">
         <td height="20" align="right">Description:</td>
         <td><input type="text" name="description" size="80" value="<?php echo $link_description; ?>"></td>
+      </tr>
+      <tr height="20">
+        <td height="20" align="right">Rel:</td>
+        <td><input type="text" name="rel" size="80" value="<?php echo $link_rel; ?>"></td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Rating:</td>
@@ -408,7 +416,7 @@ switch ($action) {
       <td style="border-bottom: 1px dotted #9C9A9C;">&nbsp;</td>
     </tr>
 <?php
-    $sql = "SELECT link_url, link_name, link_image, link_description, link_visible, link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id, link_rating "
+    $sql = "SELECT link_url, link_name, link_image, link_description, link_visible, link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id, link_rating, link_rel "
            . " FROM $tablelinks LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id "
            . " LEFT JOIN $tableusers on $tableusers.ID = $tablelinks.link_owner ";
     // have we got a where clause?
@@ -454,9 +462,15 @@ switch ($action) {
       echo("</tr>\n");
 
       echo("<tr>\n");
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" colspan=\"4\"><b>Desc:</b>&nbsp;".stripslashes($row->link_description)."</td>\n");
+      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" colspan=\"2\"><b>Desc:</b>&nbsp;".stripslashes($row->link_description)."</td>\n");
+      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" ><b>Rel:</b></td>\n");
+      $my_rel = stripslashes($row->link_rel);
+      if ($my_rel == '') {
+          $my_rel = '&nbsp;';
+      }
+      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" >$my_rel</td>\n");
       echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" ><b>Rating:</b>&nbsp;".$row->link_rating."</td>\n");
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" valign=\"top\"><b>Owner:</ab></td>\n");
+      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" valign=\"top\"><b>Owner:</b></td>\n");
       echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" valign=\"top\">".$row->user_login."</td>\n");
       echo("</tr>\n");
     }
@@ -490,6 +504,10 @@ switch ($action) {
       <tr height="20">
         <td height="20" align="right">Description:</td>
         <td><input type="text" name="description" size="80" value=""></td>
+      </tr>
+      <tr height="20">
+        <td height="20" align="right">Rel:</td>
+        <td><input type="text" name="rel" size="80" value=""></td>
       </tr>
       <tr height="20">
         <td height="20" align="right">Rating:</td>

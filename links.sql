@@ -40,6 +40,7 @@ CREATE TABLE b2links (
   link_owner int NOT NULL DEFAULT '1',
   link_rating int NOT NULL DEFAULT '0',
   link_updated DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  link_rel varchar(255) NOT NULL default '',
   PRIMARY KEY (link_id)
 ) TYPE=MyISAM;
 

@@ -4,7 +4,6 @@ require_once('./b2config.php');
 require_once($b2inc.'/b2functions.php');
 
 // globals to hold state
-$inside_weblog = false;
 $updated_timestamp = 0;
 $all_links = array();
 
@@ -83,7 +82,7 @@ function get_weblogs_updatedfile() {
  ** Callback function. Called at the start of a new xml tag.
  **/
 function startElement($parser, $tagName, $attrs) {
-    global $inside_weblog, $updated_timestamp, $all_links;
+    global $updated_timestamp, $all_links;
     if ($tagName == 'WEBLOGUPDATES') {
         //convert 'updated' into php date variable
         $updated_timestamp = strtotime($attrs['UPDATED']);
