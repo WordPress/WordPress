@@ -528,7 +528,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	$trackback_url = parse_url($trackback_url);
 	$http_request  = 'POST ' . $trackback_url['path'] . $trackback_url['query'] . " HTTP/1.0\r\n";
 	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
-	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='."\r\n";
+	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_settings('blog_charset')."\r\n";
 	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
 	$http_request .= "\r\n";
 	$http_request .= $query_string;
