@@ -25,9 +25,12 @@ acronym, abbr {
 }
 
 acronym, abbr, span.caps {
-	cursor: help;
 	font-size: 90%;
 	letter-spacing: .07em;
+}
+
+acronym, abbr {
+	cursor: help;
 }
 
 blockquote {
