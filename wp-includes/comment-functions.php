@@ -15,7 +15,7 @@ function comments_template() {
 	if ( file_exists( TEMPLATEPATH . '/comments.php') )
 		require( TEMPLATEPATH . '/comments.php');
 	else
-		require( ABSPATH . 'wp-includes/wp-comments.php');
+		require( ABSPATH . 'wp-content/themes/default/comments.php');
 
 	endif;
 }
@@ -71,7 +71,7 @@ function comments_popup_script($width=400, $height=400, $file='') {
 			if ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
 				$wpcommentspopupfile = str_replace(ABSPATH, '', TEMPLATEPATH . '/comments-popup.php');
 			else
-				$wpcommentspopupfile = 'wp-includes/wp-comments-popup.php';
+				$wpcommentspopupfile = 'wp-content/themes/default/comments-popup.php';
 		} else {
 			$wpcommentspopupfile = $file;
 		}
