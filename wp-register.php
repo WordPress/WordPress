@@ -83,13 +83,14 @@ case 'register':
 	$user_login = $wpdb->escape($user_login);
 	$pass1 = $wpdb->escape($pass1);
 	$user_nickname = $wpdb->escape($user_nickname);
+    $user_nicename = sanitize_title($user_nickname);
 	$now = gmdate('Y-m-d H:i:s');
 	$new_users_can_blog = get_settings('new_users_can_blog');
 
 	$result = $wpdb->query("INSERT INTO $wpdb->users 
-		(user_login, user_pass, user_nickname, user_email, user_ip, user_browser, dateYMDhour, user_level, user_idmode)
+		(user_login, user_pass, user_nickname, user_email, user_ip, user_browser, dateYMDhour, user_level, user_idmode, user_nicename)
 	VALUES 
-		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_browser', '$now', '$new_users_can_blog', 'nickname')");
+		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_nicename')");
 	
 	if ($result == false) {
 		die (sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_settings('admin_email')));
