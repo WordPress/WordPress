@@ -4,14 +4,6 @@
 
 $allowed_users = explode(" ", trim($fileupload_allowedusers));
 
-function selected($selected, $current) {
-	if ($selected == $current) echo ' selected="selected"';
-}
-
-function checked($checked, $current) {
-	if ($checked == $current) echo ' checked="checked"';
-}
-
 $submitbutton_text = 'Blog this!';
 $toprow_title = 'New Post';
 $form_action = 'post';

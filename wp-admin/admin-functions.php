@@ -1,5 +1,13 @@
 <?php
 
+function selected($selected, $current) {
+	if ($selected == $current) echo ' selected="selected"';
+}
+
+function checked($checked, $current) {
+	if ($checked == $current) echo ' checked="checked"';
+}
+
 function get_nested_categories($default = 0) {
  global $post, $tablecategories, $tablepost2cat, $mode, $wpdb;
 

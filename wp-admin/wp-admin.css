@@ -123,6 +123,14 @@ textarea, input, select {
 	padding: 0;
 }
 
+.editform th {
+	text-align: right;
+}
+
+.code {
+	font-family: "Courier New", Courier, mono;
+}
+
 .post-categories {
 	display: inline;
 	margin: 0;

@@ -53,18 +53,19 @@ case "update":
     // pull the vars from the post
     // validate ranges etc.
     // update the values
-    $options = $wpdb->get_results("SELECT $tableoptions.option_id, option_name, option_type, option_value, option_admin_level "
-                                  . "FROM $tableoptions "
-                                  . "LEFT JOIN $tableoptiongroup_options ON $tableoptions.option_id = $tableoptiongroup_options.option_id "
-                                  . "WHERE group_id = $option_group_id "
-                                  . "ORDER BY seq");
+	foreach ($_POST as $key => $value) {
+		$option_names[] = "'$key'";
+	}
+	$option_names = implode(',', $option_names);
+
+    $options = $wpdb->get_results("SELECT $tableoptions.option_id, option_name, option_type, option_value, option_admin_level FROM $tableoptions WHERE option_name IN ($option_names)");
     if ($options) {
         foreach ($options as $option) {
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
                 $this_name = $option->option_name;
                 $old_val = stripslashes($option->option_value);
-                $new_val = $HTTP_POST_VARS[$this_name];
+                $new_val = $_POST[$this_name];
 
                 if ($new_val != $old_val) {
                     // get type and validate
@@ -97,8 +98,8 @@ case "update":
         }
         $message .= $dB_errors . '<br />' . $validation_message;
     }
-        
-    //break; //fall through
+    header('Location: ' . $_SERVER['HTTP_REFERER']);    
+    break;
 
 default:
 	$standalone = 0;
@@ -135,6 +136,7 @@ if ($non_was_selected) { // no group pre-selected, display opening page
 
 ?>
 <ul id="adminmenu2">
+<li><a href="options-general.php">General</a></li>
 <?php
     //Iterate through the available option groups.
     $option_groups = $wpdb->get_results("SELECT group_id, group_name, group_desc, group_longdesc FROM $tableoptiongroups ORDER BY group_id");

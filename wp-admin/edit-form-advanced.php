@@ -4,15 +4,6 @@
 
 $allowed_users = explode(" ", trim($fileupload_allowedusers));
 
-function selected($selected, $current) {
-	if ($selected == $current) echo ' selected="selected"';
-}
-
-function checked($checked, $current) {
-	if ($checked == $current) echo ' checked="checked"';
-}
-
-
 $submitbutton_text = 'Save';
 $toprow_title = 'Editing Post #' . $postdata['ID'];
 $form_action = 'editpost';
