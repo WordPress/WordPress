@@ -89,7 +89,7 @@ if ($action == 'retrospam') {
 			<textarea name="blacklist_keys" cols="60" rows="4" id="blacklist_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('blacklist_keys'); ?></textarea> 
 		</p>
 		<p><label for="open_proxy_check"> 
-				<input name="open_proxy_check" type="checkbox" id="open_proxy_check" value="open" <?php checked('1', get_settings('open_proxy_check')); ?> /> 
+				<input name="open_proxy_check" type="checkbox" id="open_proxy_check" value="1" <?php checked('1', get_settings('open_proxy_check')); ?> /> 
             <?php _e('Blacklist comments from open and insecure proxies.)') ?></label></p>
 </fieldset>
 		<p class="submit"> 
