@@ -1,5 +1,4 @@
 <?php
-$title = "Post / Edit";
 /* <Edit> */
 
 function add_magic_quotes($array) {
@@ -19,24 +18,7 @@ if (!get_magic_quotes_gpc()) {
     $HTTP_COOKIE_VARS = add_magic_quotes($HTTP_COOKIE_VARS);
 }
 
-$b2varstoreset = array('action'
-                      ,'safe_mode'
-                      ,'withcomments'
-                      ,'c'
-                      ,'posts'
-                      ,'poststart'
-                      ,'postend'
-                      ,'content'
-                      ,'edited_post_title'
-                      ,'comment_error'
-                      ,'profile'
-                      ,'trackback_url'
-                      ,'excerpt'
-                      ,'showcomments'
-                      ,'commentstart'
-                      ,'commentend'
-                      ,'commentorder'
-                      );
+$b2varstoreset = array('action', 'safe_mode', 'withcomments', 'c', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder');
 
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
     $b2var = $b2varstoreset[$i];
@@ -127,7 +109,6 @@ switch($action) {
                 pingGeoUrl($post_ID);
             }
             pingWeblogs($blog_ID);
-            pingCafelog($cafelogID, $post_title, $post_ID);
             pingBlogs($blog_ID);
 
             if ($post_pingback) {
@@ -158,17 +139,18 @@ switch($action) {
                     $location = 'b2sidebar.php?a=b';
                     break;
                 default:
-                    $location = 'b2edit.php';
+                    $location = 'wp-post.php';
                     break;
             }
         } else {
-            $location = 'b2edit.php';
+            $location = 'wp-post.php';
         }
         header("Location: $location");
         exit();
         break;
 
     case 'edit':
+	$title = 'Edit';
 
         $standalone = 0;
         require_once('b2header.php');
@@ -296,7 +278,7 @@ switch($action) {
             }
         } // end if publish
 
-        $location = "Location: b2edit.php";
+        $location = "Location: wp-post.php";
         header ($location);
         break;
 
@@ -336,12 +318,12 @@ switch($action) {
 
         // pingWeblogs($blog_ID);
 
-        header ('Location: b2edit.php');
+        header ('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
 
         break;
 
     case 'editcomment':
-
+	$title = 'Edit Comment';
         $standalone = 0;
         require_once ('b2header.php');
 
@@ -362,21 +344,21 @@ switch($action) {
 
     case 'deletecomment':
 
-        $standalone = 1;
-        require_once('./b2header.php');
-
-        if ($user_level == 0)
-            die ('Cheatin&#8217; uh?');
-
-        $comment = $HTTP_GET_VARS['comment'];
-        $p = $HTTP_GET_VARS['p'];
-        $commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="b2edit.php">Go back</a>!');
-
-        $result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_ID=$comment");
-
-        header ("Location: b2edit.php?p=$p&c=1#comments");
-
-        break;
+		$standalone = 1;
+		require_once('./b2header.php');
+		
+		if ($user_level == 0)
+			die ('Cheatin&#8217; uh?');
+		
+		$comment = $HTTP_GET_VARS['comment'];
+		$p = $HTTP_GET_VARS['p'];
+		$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="b2edit.php">Go back</a>!');
+		
+		$result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_ID=$comment");
+		
+		header ('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
+		
+		break;
 
     case 'editedcomment':
 
@@ -421,13 +403,15 @@ switch($action) {
 				comment_author_url = '$newcomment_author_url'".$datemodif."
 			WHERE comment_ID = $comment_ID"
 			);
-
-        header ("Location: b2edit.php?p=$comment_post_ID&c=1#comments");
+		
+		$referredby = $HTTP_SERVER_VARS['HTTP_REFERER'];
+		if (!empty($referredby)) header('Location: ' . $referredby);
+        else header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
 
         break;
 
     default:
-
+		$title = 'Create New Post';
         $standalone = 0;
         require_once ('./b2header.php');
 
@@ -445,8 +429,7 @@ switch($action) {
 					$i = 0;
 					foreach ($drafts as $draft) {
 						if (0 != $i) echo ', ';
-						$draft->post_title = stripslashes($draft->post_title);
-                        if ($draft->post_title == '') $draft->post_title = 'post-'.$draft->ID;
+						$draft->post_title = stripslashes($draft->post_title);   if ($draft->post_title == '') $draft->post_title = 'post-'.$draft->ID;
 						echo "<a href='b2edit.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
 						++$i;
 						}
@@ -476,12 +459,6 @@ switch($action) {
 <?php
 
         }
-
-        include('wp-edit.showposts.php');
-        echo '<br /><br />';
-        if (empty($_REQUEST["p"])) {
-	        include('wp-edit.showcomments.php');
-		}
 		
         break;
 } // end switch

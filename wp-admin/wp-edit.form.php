@@ -1,4 +1,3 @@
-<p class="anchors">Go to: <a href="b2edit.php#top">Post/Edit</a> | <a href="b2edit.php#posts">Posts</a> | <a href="b2edit.php#comments">Comments</a></p>
 
 <div class="wrap">
 <?php
@@ -53,7 +52,7 @@ switch($action) {
 
 ?>
 
-<form name="post" action="b2edit.php" method="post" id="post">
+<form name="post" action="wp-post.php" method="post" id="post">
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
@@ -72,7 +71,7 @@ window.onload = focusit;
 		<label for="title"><a href="http://wordpress.org/docs/reference/post/#title" title="Help on titles">Title</a>:</label>		
 		<br />
 		<input type="text" name="post_title" size="25" tabindex="1" style="width: 190px;" value="<?php echo $edited_post_title; ?>" id="title" /> 
-		</div>
+	</div>
 	<div id="categorydiv">
 		<label for="category"><a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Category</a>:</label>
 		<br /> 
@@ -205,7 +204,9 @@ if (get_settings('use_geo_positions')) {
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<p><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" class="search" style="font-weight: bold;" tabindex="6" /></p>
+<p><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
+  <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
+</p>
 
 
 <?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && (in_array($user_login, $allowed_users) || (trim($fileupload_allowedusers)=="")) ) { ?>
