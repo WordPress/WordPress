@@ -537,7 +537,9 @@ class WP_Query {
 		$where = apply_filters('posts_where_paged', $where);
 		$where .= " GROUP BY $wpdb->posts.ID";
 		$join = apply_filters('posts_join_paged', $join);
-		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY post_" . $q['orderby'] . " $limits";
+		$orderby = "post_" . $q['orderby'];
+		$orderby = apply_filters('posts_orderby', $orderby); 
+		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY " . $orderby . " $limits";
 
 		if ($q['preview']) {
 			$request = 'SELECT 1-1'; // dummy mysql query for the preview
