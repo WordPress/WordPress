@@ -413,6 +413,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
 	}
 	echo $excerpt;
 }
+
 function the_excerpt_unicode() {
 	$excerpt = get_the_excerpt();
 	$excerpt = convert_bbcode($excerpt);
@@ -422,18 +423,36 @@ function the_excerpt_unicode() {
 	$excerpt = apply_filters('the_excerpt_unicode', $excerpt);
 	echo $excerpt;
 }
+
 function get_the_excerpt() {
 	global $id,$postdata;
 	global $HTTP_SERVER_VARS, $preview;
 	$output = '';
 	$output = $postdata['Excerpt'];
+    //if we haven't got an excerpt, make one in the style of the rss ones
+    if ($output == '') {
+        $output = get_the_content();
+        $output = strip_tags($output);
+        $blah = explode(' ', $output);
+        $excerpt_length = 120;
+        if (count($blah) > $excerpt_length) {
+			$k = $excerpt_length;
+			$use_dotdotdot = 1;
+		} else {
+			$k = count($blah);
+			$use_dotdotdot = 0;
+		}
+		for ($i=0; $i<$k; $i++) {
+			$excerpt .= $blah[$i].' ';
+		}
+		$excerpt .= ($use_dotdotdot) ? '...' : '';
+		$output = $excerpt;
+    } // end if no excerpt
 	if ($preview) { // preview fix for javascript bug with foreign languages
 		$output =  preg_replace('/\%u([0-9A-F]{4,4})/e',  "'&#'.base_convert('\\1',16,10).';'", $output);
 	}
-	return($output);
+	return $output;
 }
-
-
 
 
 function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', $pagelink='%', $more_file='') {
