@@ -705,6 +705,7 @@ function wp_notify_moderator($comment_id) {
 		$notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 
 		$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), get_settings('blogname'), $post->post_title );
+		$admin_email = get_settings("admin_email");
 
     @wp_mail($admin_email, $subject, $notify_message);
     
