@@ -77,24 +77,19 @@ case '':
 break;
 case 'upload':
 
-//Makes sure they choose a file
+	$imgalt = basename( (isset($_POST['imgalt'])) ? $_POST['imgalt'] : '' );
 
-//print_r($_FILES);
-//die();
+	$img1_name = (strlen($imgalt)) ? $imgalt : basename( $_FILES['img1']['name'] );
+	$img1_name = preg_replace('/[^a-z0-9.]/i', '', $img1_name); 
 
+	$img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $_FILES['img1']['type'];
+	$imgdesc = htmlentities2($imgdesc);
 
-    $imgalt = basename( (isset($_POST['imgalt'])) ? $_POST['imgalt'] : '' );
-  
-    $img1_name = (strlen($imgalt)) ? $imgalt : basename( $_FILES['img1']['name'] );
-    $img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $_FILES['img1']['type'];
-    $imgdesc = htmlentities2($imgdesc);
+	$pi = pathinfo($img1_name);
+	$imgtype = strtolower($pi['extension']);
 
-    $pi = pathinfo($img1_name);
-    $imgtype = strtolower($pi['extension']);
-
-    if (in_array($imgtype, $allowed_types) == false) {
-        die(sprintf(__('File %1$s of type %2$s is not allowed.') , $img1_name, $imgtype));
-    }
+	if (in_array($imgtype, $allowed_types) == false)
+		die(sprintf(__('File %1$s of type %2$s is not allowed.') , $img1_name, $imgtype));
 
     if (strlen($imgalt)) {
         $pathtofile = get_settings('fileupload_realpath')."/".$imgalt;
