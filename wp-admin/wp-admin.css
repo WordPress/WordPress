@@ -173,7 +173,7 @@ textarea, input, select {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
-.submit input, .submit input:focus {
+.submit input, .submit input:focus, .button {
 	background: url(../wp-images/fade-butt.png);
 	border: 3px double #999;
 	border-left-color: #ccc;
@@ -182,7 +182,7 @@ textarea, input, select {
 	padding: 0.25em;
 }
 
-.submit input:active {
+.submit input:active, .button:active {
 	background: #f4f4f4;
 	border: 3px double #ccc;
 	border-left-color: #999;
@@ -312,6 +312,11 @@ textarea, input, select {
 #content, #excerpt {
 	margin-left: 1%;
 	width: 97%;
+}
+
+#deletepost:hover {
+	background: #ce0000;
+	color: #fff;
 }
 
 #ed_del {
