@@ -147,7 +147,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 		<th scope="row" width="25%"><?php _e('Post slug') ?>:</th>
 		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
 	</tr>
-<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login, user_firstname, user_lastname FROM $wpdb->users WHERE user_level <= $user_level") ) : ?>
+<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login, user_firstname, user_lastname FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
 	<tr>
 		<th scope="row"><?php _e('Post author'); ?>:</th>
 		<td>
