@@ -58,9 +58,9 @@ $distinct = '';
 
 if ($pagenow != 'b2edit.php') { timer_start(); }
 
-if ($posts) {
-    $posts = (int)$posts;
-	$posts_per_page=$posts;
+if ($showposts) {
+    $showposts = (int)$showposts;
+	$posts_per_page = $showposts;
 }
 // if a month is specified in the querystring, load that month
 if ($m != '') {
@@ -197,12 +197,12 @@ if ( !empty($postend) && ($postend > $poststart) && (!$m) &&(!$w) && (!$whichcat
 	if ($what_to_show == 'posts' || ($what_to_show == 'paged' && (!$paged))) {
 		$poststart = intval($poststart);
 		$postend = intval($postend);
-		$posts = $postend - $poststart;
-		$limits = ' LIMIT '.$poststart.','.$posts;
+		$limposts = $postend - $poststart;
+		$limits = ' LIMIT '.$poststart.','.$limposts;
 	} elseif ($what_to_show == 'days') {
 		$poststart = intval($poststart);
 		$postend = intval($postend);
-		$posts = $postend - $poststart;
+		$limposts = $postend - $poststart;
 		$lastpostdate = get_lastpostdate();
 		$lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
 		$lastpostdate = mysql2date('U',$lastpostdate);
