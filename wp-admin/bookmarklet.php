@@ -52,6 +52,11 @@ window.close()
     } else {
         $post_title = $popuptitle;
     }
+// I'm not sure why we're using $edited_post_title in the edit-form.php, but we are
+// and that is what is being included below. For this reason, I am just duplicating
+// the var instead of changing the assignment on the lines above. 
+// -- Alex King 2004-01-07
+    $edited_post_title = $post_title;
     
     $content = $_REQUEST['content'];
     if (!empty($content)) {
