@@ -121,7 +121,7 @@ default:
 	if (!$error) {
 	?> 
   <form name="template" action="templates.php" method="post"> 
-     <textarea cols="80" rows="21" style="width:100%; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea> 
+     <textarea cols="80" rows="21" style="width:98%; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea> 
      <input type="hidden" name="action" value="update" /> 
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 
      <p class="submit">
