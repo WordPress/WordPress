@@ -391,7 +391,7 @@ $now_gmt = current_time('mysql', 1);
                     $port    = 80;
                     $timeout = 3;
                     // Open a socket connection to the host
-                    $fp = fsockopen($host, $port, &$err_num, &$err_msg, $timeout);
+                    $fp = fsockopen($host, $port, $err_num, $err_msg, $timeout);
                     if( $fp ) {
                         // Send request for the page
                         fputs($fp, $headers );
