@@ -519,7 +519,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  $catnames = $content_struct['categories'];
-	  logio('O', 'Post cats: ' . printr($catnames,true));
+	  logIO('O', 'Post cats: ' . printr($catnames,true));
 	  $post_category = array();
 
 	  if ($catnames) {
