@@ -252,10 +252,10 @@ if ($pagenow != 'b2edit.php') {
 		gzip_compression();
 	}
 }
-$where .= ' AND post_status = "publish"';
+$where .= ' AND (post_status = "publish"';
 
 // Get private posts
-if ('' != intval($user_ID)) $where .= " OR post_author = $user_ID AND post_status != 'draft'";
+if ('' != intval($user_ID)) $where .= " OR post_author = $user_ID AND post_status != 'draft')"; else $where .= ')';
 $request = " SELECT $distinct * FROM $tableposts WHERE 1=1".$where." ORDER BY post_$orderby $limits";
 
 
@@ -268,6 +268,7 @@ if ($preview) {
 	}
 }
 
+//error_log("$request");
 //echo $request;
 $posts = $wpdb->get_results($request);
 ?>
