@@ -504,7 +504,7 @@ function allowed_tags() {
 
 function the_date_xml() {
     global $post;
-    echo mysql2date('Y-m-d',$post->post_date);
+    echo mysql2date('Y-m-d', get_date_from_gmt($post->post_date));
     //echo ""+$post->post_date;
 }
 
@@ -514,9 +514,9 @@ function the_date($d='', $before='', $after='', $echo = true) {
     if ($day != $previousday) {
         $the_date .= $before;
         if ($d=='') {
-            $the_date .= mysql2date(get_settings('date_format'), $post->post_date);
+	    $the_date .= mysql2date(get_settings('date_format'), get_date_from_gmt($post->post_date));
         } else {
-            $the_date .= mysql2date($d, $post->post_date);
+	    $the_date .= mysql2date($d, get_date_from_gmt($post->post_date));
         }
         $the_date .= $after;
         $previousday = $day;
@@ -532,9 +532,9 @@ function the_date($d='', $before='', $after='', $echo = true) {
 function the_time($d='', $echo = true) {
     global $id, $post;
     if ($d=='') {
-        $the_time = mysql2date(get_settings('time_format'), $post->post_date);
+        $the_time = mysql2date(get_settings('time_format'), get_date_from_gmt($post->post_date));
     } else {
-        $the_time = mysql2date($d, $post->post_date);
+        $the_time = mysql2date($d, get_date_from_gmt($post->post_date));
     }
     $the_time = apply_filters('the_time', $the_time);
     if ($echo) {
@@ -546,7 +546,7 @@ function the_time($d='', $echo = true) {
 
 function the_weekday() {
     global $weekday, $id, $post;
-    $the_weekday = $weekday[mysql2date('w', $post->post_date)];
+    $the_weekday = $weekday[mysql2date('w', get_date_from_gmt($post->post_date))];
     $the_weekday = apply_filters('the_weekday', $the_weekday);
     echo $the_weekday;
 }
@@ -556,7 +556,7 @@ function the_weekday_date($before='',$after='') {
     $the_weekday_date = '';
     if ($day != $previousweekday) {
         $the_weekday_date .= $before;
-        $the_weekday_date .= $weekday[mysql2date('w', $post->post_date)];
+        $the_weekday_date .= $weekday[mysql2date('w', get_date_from_gmt($post->post_date))];
         $the_weekday_date .= $after;
         $previousweekday = $day;
     }

@@ -1127,10 +1127,10 @@ function start_wp() {
 			);
 	}
 	$authordata = get_userdata($post->post_author);
-	$post->post_date_gmt = $post->post_date;
-	$post->post_date = get_date_from_gmt($post->post_date);
-	$day = mysql2date('d.m.y', $post->post_date);
-	$currentmonth = mysql2date('m', $post->post_date);
+	$post->post_date_local = get_date_from_gmt($post->post_date);
+#	$post->post_date = get_date_from_gmt($post->post_date);
+	$day = mysql2date('d.m.y', $post->post_date_local);
+	$currentmonth = mysql2date('m', $post->post_date_local);
 	$numpages = 1;
 	if (!$page)
 		$page = 1;
