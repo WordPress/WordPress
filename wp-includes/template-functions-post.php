@@ -234,6 +234,8 @@ function get_post_custom_values($key='') {
 }
 
 function post_custom( $key = '' ) {
+	global $id, $post_meta_cache;
+	
 	if ( 1 == count($post_meta_cache[$id][$key]) ) return $post_meta_cache[$id][$key][0];
 	else return $post_meta_cache[$id][$key];
 }
