@@ -27,8 +27,8 @@
 // Mike Little (mike@zed1.com)
 // *****************************************************************
 
-include_once('links.config.php');
-include_once('links.php');
+require_once('wp-links/links.config.php');
+require_once('wp-links/links.php');
 
 $title = "Link Categories";
 
@@ -52,11 +52,11 @@ switch ($action) {
   case "addcat":
   {
       $standalone = 1;
-      include_once("./b2header.php");
+      require_once("./b2header.php");
 
       if ($user_level < $minadminlevel)
           die ("Cheatin' uh ?");
-    
+
       $cat_name=addslashes($HTTP_POST_VARS["cat_name"]);
       $auto_toggle = $HTTP_POST_VARS["auto_toggle"];
       if ($auto_toggle != 'Y') {
@@ -65,15 +65,14 @@ switch ($action) {
 
       $query="INSERT INTO $tablelinkcategories (cat_id,cat_name, auto_toggle) VALUES ('0', '$cat_name', '$auto_toggle')";
       $result=mysql_query($query) or die("Couldn't add category <b>$cat_name</b>".mysql_error());
-      
+
       header("Location: linkcategories.php");
     break;
   } // end addcat
   case "Delete":
   {
     $standalone = 1;
-    include_once("./b2header.php");
-    include_once("./links.php");
+    require_once("./b2header.php");
 
     $cat_id = $HTTP_POST_VARS["cat_id"];
     $cat_name=get_linkcatname($cat_id);
@@ -84,10 +83,10 @@ switch ($action) {
 
     if ($user_level < $minadminlevel)
     die ("Cheatin' uh ?");
-    
+
     $query="DELETE FROM $tablelinkcategories WHERE cat_id=\"$cat_id\"";
     $result=mysql_query($query) or die("Couldn't delete link category <b>$cat_name</b>".mysql_error());
-    
+
     $query="UPDATE $tablelinks SET link_category=1 WHERE link_category='$cat_id'";
     $result=mysql_query($query) or die("Couldn't reset category on links where category was <b>$cat_name</b>");
 
@@ -96,11 +95,10 @@ switch ($action) {
   } // end delete
   case "Edit":
   {
-    include_once ("./b2header.php");
-    include_once("./links.php");
+    require_once ("./b2header.php");
     $cat_id = $HTTP_POST_VARS["cat_id"];
     $cat_name=get_linkcatname($cat_id);
-    $cat_name=addslashes($cat_name);
+    //$cat_name=addslashes($cat_name);
     $auto_toggle=get_autotoggle($cat_id);
 ?>
   <?php echo $blankline; ?>
@@ -112,10 +110,11 @@ switch ($action) {
       <input type="hidden" name="action" value="editedcat" />
       <input type="hidden" name="cat_id" value="<?php echo $HTTP_POST_VARS["cat_id"] ?>" />
       <input type="text" name="cat_name" value="<?php echo $cat_name ?>" /><br />
-      <input type="checkbox" name="auto_toggle" value="Y" <?php echo $auto_toggle = "Y" ? '"checked"' : ''; ?>/> auto-toggle?<br />
+      <input type="checkbox" name="auto_toggle" value="Y" <?php echo $auto_toggle == "Y" ? '"checked"' : ''; ?>/> auto-toggle?<br />
       <input type="submit" name="submit" value="Edit it !" class="search" />
     </form>
   </p>
+  <p>Back to <a href="linkcategories.php">manage link categories</a></p>
   <?php echo $tablebottom; ?>
 <?php
     break;
@@ -123,25 +122,25 @@ switch ($action) {
   case "editedcat":
   {
     $standalone = 1;
-    include_once("./b2header.php");
+    require_once("./b2header.php");
 
     if ($user_level < $minadminlevel)
       die ("Cheatin' uh ?");
-    
+
     $cat_name=addslashes($HTTP_POST_VARS["cat_name"]);
     $cat_id=$HTTP_POST_VARS["cat_id"];
     $auto_toggle=$HTTP_POST_VARS["auto_toggle"];
 
     $query="UPDATE $tablelinkcategories SET cat_name='$cat_name', auto_toggle='$auto_toggle' WHERE cat_id=$cat_id";
     $result=mysql_query($query) or die("Couldn't edit link category <b>$cat_name</b>: ".$query.mysql_error());
-    
+
     header("Location: linkcategories.php");
     break;
-  } // end edit
+  } // end editedcat
   default:
   {
     $standalone=0;
-    include_once ("./b2header.php");
+    require_once ("./b2header.php");
     if ($user_level < $minadminlevel) {
       die("You have no right to edit the link categories for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
     }

@@ -22,7 +22,6 @@
 <body>
 <h1 id="header"><a href="<?php echo $siteurl; ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 
-
 <div id="content">
 
 <!-- // b2 loop start -->
@@ -105,8 +104,8 @@
 		<li><a href="b2register.php">register</a></li>
 	</ul>
  </li>
- <?php include_once('links.php') ?>
- <?php include_once('links.weblogs.com.php') ?>
+ <?php require_once('wp-links/links.php') ?>
+ <?php require_once('wp-links/links.weblogs.com.php') ?>
  <li>Links:
 	<ul>
 		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, 1 )?>

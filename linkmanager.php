@@ -27,8 +27,8 @@
 // Mike Little (mike@zed1.com)
 // *****************************************************************
 
-include_once('links.config.php');
-include_once("./links.php");
+require_once('wp-links/links.config.php');
+require_once("wp-links/links.php");
 
 $title = "Manage Links";
 
@@ -75,7 +75,7 @@ switch ($action) {
   case "Add":
   {
     $standalone = 1;
-    include_once("./b2header.php");
+    require_once("./b2header.php");
 
     $link_url = $HTTP_POST_VARS["linkurl"];
     $link_name = $HTTP_POST_VARS["name"];
@@ -124,7 +124,7 @@ switch ($action) {
       $links_show_cat_id = $cat_id;
 
       $standalone = 1;
-      include_once("./b2header.php");
+      require_once("./b2header.php");
 
       $link_id = $HTTP_POST_VARS["link_id"];
       $link_url = $HTTP_POST_VARS["linkurl"];
@@ -167,7 +167,7 @@ switch ($action) {
   case "Delete":
   {
     $standalone = 1;
-    include_once("./b2header.php");
+    require_once("./b2header.php");
 
     $link_id = $HTTP_POST_VARS["link_id"];
 
@@ -192,7 +192,7 @@ switch ($action) {
   case "linkedit":
   {
     $standalone=0;
-    include_once ("./b2header.php");
+    require_once ("./b2header.php");
     if ($user_level < $minadminlevel) {
       die("You have no right to edit the links for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
     }
@@ -326,7 +326,7 @@ switch ($action) {
         $order_by = 'order_id';
     setcookie('links_show_cat_id', $links_show_cat_id, time()+600);
     $standalone=0;
-    include_once ("./b2header.php");
+    require_once ("./b2header.php");
     if ($user_level < $minadminlevel) {
       die("You have no right to edit the links for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
     }
