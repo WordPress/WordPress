@@ -164,7 +164,13 @@ if ($action != 'editcomment') {
 		</td>
 	</tr>
 </table>
-<textarea rows="9" cols="40" style="width:100%" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
+<?php
+ $rows = get_settings('default_post_edit_rows');
+ if (($rows < 3) || ($rows > 100)) {
+     $rows = 9;
+ }
+?>
+<textarea rows="<?php echo $rows; ?>" cols="40" style="width:100%" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
