@@ -164,15 +164,15 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	}
 
 
-	$oldies = print_r($old_categories,1);
-	$newbies = print_r($post_categories,1);
+	$oldies = printr($old_categories,1);
+	$newbies = printr($post_categories,1);
 
 	logio("O","Old: $oldies\nNew: $newbies\n");
 
 	// Delete any?
 	$delete_cats = array_diff($old_categories,$post_categories);
 
-	logio("O","Delete: " . print_r($delete_cats,1));
+	logio("O","Delete: " . printr($delete_cats,1));
 		
 	if ($delete_cats) {
 		foreach ($delete_cats as $del) {
@@ -189,7 +189,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	// Add any?
 	$add_cats = array_diff($post_categories, $old_categories);
 
-	logio("O","Add: " . print_r($add_cats,1));
+	logio("O","Add: " . printr($add_cats,1));
 		
 	if ($add_cats) {
 		foreach ($add_cats as $new_cat) {
