@@ -151,7 +151,7 @@ echo $comments_nav_bar;
 				echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
 				echo " | <a href=\"wp-post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> | ";
 			} // end if any comments to show
-			?> <a href="wp-post.php?p=<?php echo $comment->comment_post_ID; ?>">View Post</a></p>
+			?> <a href="edit.php?p=<?php echo $comment->comment_post_ID; ?>">View Post</a></p>
 		</li>
 
 

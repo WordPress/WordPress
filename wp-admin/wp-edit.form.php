@@ -193,18 +193,20 @@ edCanvas = document.getElementById('content');
 </script>
 <?php
 }
-if (get_settings('use_geo_positions')) {
-    if (empty($edited_lat)) {
-        if (get_settings('use_default_geourl')) {
-            $edited_lat = get_settings('default_geourl_lat');
-            $edited_lon = get_settings('default_geourl_lon');
+if ($action != 'editcomment') {
+    if (get_settings('use_geo_positions')) {
+        if (empty($edited_lat)) {
+            if (get_settings('use_default_geourl')) {
+                $edited_lat = get_settings('default_geourl_lat');
+                $edited_lon = get_settings('default_geourl_lon');
+            }
         }
-    }
 ?>
 <label for="post_latf">Latitude:</label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
 <label for="post_lonf">Longitude:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <a href="http://www.geourl.org/resources.html" rel="external" >click for Geo Info</a>
 <br>
 <?php
+    }
 }
 ?>
 
@@ -216,9 +218,13 @@ if (get_settings('use_geo_positions')) {
 </p>
 
 
-<?php if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel) && (in_array($user_login, $allowed_users) || (trim($fileupload_allowedusers)=="")) ) { ?>
+<?php
+if ($action != 'editcomment') {
+    if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel)
+         && (in_array($user_login, $allowed_users) || (trim($fileupload_allowedusers)=="")) ) { ?>
 <input type="button" value="upload a file/image" onclick="launchupload();" class="search"  tabindex="10" />
 <?php }
+}
 
 echo $form_trackback;
 
