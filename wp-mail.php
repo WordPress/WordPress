@@ -24,14 +24,6 @@ for ($i=1; $i <= $count; $i++) :
 
 	$message = $pop3->get($i);
 
-	if(!$pop3->delete($i)) {
-		echo '<p>Oops '.$pop3->ERROR.'</p></div>';
-		$pop3->reset();
-		exit;
-	} else {
-		echo "<p>Mission complete, message <strong>$i</strong> deleted.</p>";
-	}
-
 	$content = '';
 	$content_type = '';
 	$boundary = '';
@@ -144,6 +136,11 @@ for ($i=1; $i <= $count; $i++) :
 
 	$post_ID = wp_insert_post($post_data);
 
+	if (!$post_ID) {
+		// we couldn't post, for whatever reason. better move forward to the next email
+		continue;
+	}
+
 	do_action('publish_phone', $post_ID);
 
 	echo "\n<p><b>Author:</b> $post_author</p>";
@@ -152,20 +149,28 @@ for ($i=1; $i <= $count; $i++) :
 
 	if (!$post_categories) $post_categories[] = 1;
 	foreach ($post_categories as $post_category) :
-	$post_category = intval($post_category);
+		$post_category = intval($post_category);
 
-	// Double check it's not there already
-	$exists = $wpdb->get_row("SELECT * FROM $wpdb->post2cat WHERE post_id = $post_ID AND category_id = $post_category");
+		// Double check it's not there already
+		$exists = $wpdb->get_row("SELECT * FROM $wpdb->post2cat WHERE post_id = $post_ID AND category_id = $post_category");
 
-	 if (!$exists && $result) { 
-		$wpdb->query("
-		INSERT INTO $wpdb->post2cat
-		(post_id, category_id)
-		VALUES
-		($post_ID, $post_category)
-		");
+		if (!$exists && $result) { 
+			$wpdb->query("
+			INSERT INTO $wpdb->post2cat
+			(post_id, category_id)
+			VALUES
+			($post_ID, $post_category)
+			");
+		}
+	endforeach;
+
+	if(!$pop3->delete($i)) {
+		echo '<p>Oops '.$pop3->ERROR.'</p></div>';
+		$pop3->reset();
+		exit;
+	} else {
+		echo "<p>Mission complete, message <strong>$i</strong> deleted.</p>";
 	}
-endforeach;
 
 endfor;
 
