@@ -40,7 +40,29 @@ ob_start();
 	<li><a href="edit-comments.php">Latest Comments</a></li>
 	<li class="last"><a href="moderation.php">Comments Awaiting Moderation</a></li>
 </ul>
-
+<?php
+get_currentuserinfo();
+$drafts = $wpdb->get_results("SELECT ID, post_title FROM $tableposts WHERE post_status = 'draft' AND post_author = $user_ID");
+if ($drafts) {
+	?>
+	<div class="wrap">
+	<p><strong>Your Drafts:</strong>
+	<?php
+	$i = 0;
+	foreach ($drafts as $draft) {
+		if (0 != $i)
+			echo ', ';
+		$draft->post_title = stripslashes($draft->post_title);
+		if ($draft->post_title == '')
+			$draft->post_title = 'Post #'.$draft->ID;
+		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
+		++$i;
+		}
+	?>.</p>
+	</div>
+	<?php
+}
+?>
 <div class="wrap">
 <table width="100%">
   <tr>

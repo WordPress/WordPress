@@ -71,10 +71,6 @@ window.onload = focusit;
       <legend><a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Categories</a></legend> 
 	  <div><?php dropdown_categories($default_post_cat); ?></div>
     </fieldset>
-    <fieldset id="postpassworddiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#post_password" title="Help on post password">Post Password</a></legend> 
-	  <div><input name="post_password" type="text" size="18" tabindex="3" id="post_password" value="<?php echo $post_password ?>" /></div>
-    </fieldset>
 
 <br />
 <fieldset style="clear:both">

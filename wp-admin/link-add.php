@@ -54,7 +54,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
         }
     }
 }
-
+$link_url = stripslashes($HTTP_GET_VARS['linkurl']);
+$link_name = htmlentities(stripslashes(urldecode($HTTP_GET_VARS['name'])));
 require('admin-header.php');
 ?>
 <ul id="adminmenu2">

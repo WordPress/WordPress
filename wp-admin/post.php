@@ -58,9 +58,12 @@ switch($action) {
 				}
 			}
 			$post_status = $HTTP_POST_VARS['post_status'];
+			if (empty($post_status)) $post_status = get_settings('default_post_status');
 			$comment_status = $HTTP_POST_VARS['comment_status'];
+			if (empty($comment_status)) $comment_status = get_settings('default_comment_status');
 			$ping_status = $HTTP_POST_VARS['ping_status'];
-			$post_password = addslashes($HTTP_POST_VARS['post_password']);
+			if (empty($ping_status)) $ping_status = get_settings('default_ping_status');
+			$post_password = addslashes(stripslashes($HTTP_POST_VARS['post_password']));
 			$post_name = sanitize_title($post_title);
 			$trackback = $HTTP_POST_VARS['trackback_url'];
 		// Format trackbacks
@@ -262,8 +265,11 @@ switch($action) {
 			}
 			$post_status = $HTTP_POST_VARS['post_status'];
 			$prev_status = $HTTP_POST_VARS['prev_status'];
+			$post_status = $HTTP_POST_VARS['post_status'];
 			$comment_status = $HTTP_POST_VARS['comment_status'];
+			if (empty($comment_status)) $post_status = get_settings('default_comment_status');
 			$ping_status = $HTTP_POST_VARS['ping_status'];
+			if (empty($ping_status)) $post_status = get_settings('default_ping_status');
 			$post_password = addslashes($HTTP_POST_VARS['post_password']);
 			$post_name = sanitize_title($post_title);
 			$trackback = $HTTP_POST_VARS['trackback_url'];
