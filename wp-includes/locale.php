@@ -12,22 +12,22 @@ $weekday[6] = __('Saturday');
 
 // The first letter of each day.  Note that marking single characters for
 // translation is useless, but here it is.
-$weekday_initial['Sunday']    = __('S');
-$weekday_initial['Monday']    = __('M');
-$weekday_initial['Tuesday']   = __('T');
-$weekday_initial['Wednesday'] = __('W');
-$weekday_initial['Thursday']  = __('T');
-$weekday_initial['Friday']    = __('F');
-$weekday_initial['Saturday']  = __('S');
+$weekday_initial[__('Sunday')]    = __('S');
+$weekday_initial[__('Monday')]    = __('M');
+$weekday_initial[__('Tuesday')]   = __('T');
+$weekday_initial[__('Wednesday')] = __('W');
+$weekday_initial[__('Thursday')]  = __('T');
+$weekday_initial[__('Friday')]    = __('F');
+$weekday_initial[__('Saturday')]  = __('S');
 
 // Abbreviations for each day.
-$weekday_abbrev['Sunday']    = __('Sun');
-$weekday_abbrev['Monday']    = __('Mon');
-$weekday_abbrev['Tuesday']   = __('Tue');
-$weekday_abbrev['Wednesday'] = __('Wed');
-$weekday_abbrev['Thursday']  = __('Thu');
-$weekday_abbrev['Friday']    = __('Fri');
-$weekday_abbrev['Saturday']  = __('Sat');
+$weekday_abbrev[__('Sunday')]    = __('Sun');
+$weekday_abbrev[__('Monday')]    = __('Mon');
+$weekday_abbrev[__('Tuesday')]   = __('Tue');
+$weekday_abbrev[__('Wednesday')] = __('Wed');
+$weekday_abbrev[__('Thursday')]  = __('Thu');
+$weekday_abbrev[__('Friday')]    = __('Fri');
+$weekday_abbrev[__('Saturday')]  = __('Sat');
 
 // The Months
 $month['01'] = __('January');
@@ -44,16 +44,16 @@ $month['11'] = __('November');
 $month['12'] = __('December');
 
 // Abbreviations for each month.
-$month_abbrev['January'] = __('Jan');
-$month_abbrev['February'] = __('Feb');
-$month_abbrev['March'] = __('Mar');
-$month_abbrev['April'] = __('Apr');
-$month_abbrev['May'] = __('May');
-$month_abbrev['June'] = __('Jun');
-$month_abbrev['July'] = __('Jul');
-$month_abbrev['August'] = __('Aug');
-$month_abbrev['September'] = __('Sep');
-$month_abbrev['October'] = __('Oct');
-$month_abbrev['November'] = __('Nov');
-$month_abbrev['December'] = __('Dec');
+$month_abbrev[__('January')] = __('Jan');
+$month_abbrev[__('February')] = __('Feb');
+$month_abbrev[__('March')] = __('Mar');
+$month_abbrev[__('April')] = __('Apr');
+$month_abbrev[__('May')] = __('May');
+$month_abbrev[__('June')] = __('Jun');
+$month_abbrev[__('July')] = __('Jul');
+$month_abbrev[__('August')] = __('Aug');
+$month_abbrev[__('September')] = __('Sep');
+$month_abbrev[__('October')] = __('Oct');
+$month_abbrev[__('November')] = __('Nov');
+$month_abbrev[__('December')] = __('Dec');
 ?>
