@@ -71,6 +71,8 @@ add_filter('the_excerpt', 'convert_smilies');
 add_filter('the_excerpt', 'convert_chars');
 add_filter('the_excerpt', 'wpautop');
 
+add_filter('get_the_excerpt', 'wp_trim_excerpt');
+
 add_filter('sanitize_title', 'sanitize_title_with_dashes');
 
 add_action('publish_post', 'generic_ping');

@@ -642,4 +642,28 @@ function human_time_diff( $from, $to = '' ) {
 	return $since;
 }
 
+function wp_trim_excerpt( $text ) { // Fakes an excerpt if needed
+	global $post;
+	if ( '' == $text ) {
+		$text = $post->post_content;
+		$text = strip_tags( $text );
+		$blah = explode(' ', $text);
+		$excerpt_length = 55;
+		if (count($blah) > $excerpt_length) {
+		$k = $excerpt_length;
+		$use_dotdotdot = 1;
+		} else {
+		$k = count($blah);
+		$use_dotdotdot = 0;
+		}
+		$excerpt = '';
+		for ($i=0; $i<$k; $i++) {
+		$excerpt .= $blah[$i].' ';
+		}
+		$excerpt .= ($use_dotdotdot) ? '[...]' : '';
+		$text = $excerpt;
+	} // end if no excerpt
+	return $text;
+}
+
 ?>
