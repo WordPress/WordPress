@@ -8,6 +8,11 @@ define('RSSFILE', '');
 $post_author = 1; // Author to import posts as author ID
 $timezone_offset = 0; // GMT offset of posts your importing
 
+function unhtmlentities($string) { // From php.net for < 4.3 compat
+   $trans_tbl = get_html_translation_table(HTML_ENTITIES);
+   $trans_tbl = array_flip($trans_tbl);
+   return strtr($string, $trans_tbl);
+}
 
 $add_hours = intval($timezone_offset);
 $add_minutes = intval(60 * ($timezone_offset - $add_hours));
@@ -57,14 +62,14 @@ switch($step) {
 <p><code>define('RSSFILE', '');</code></p>
 <p>You want to define where the RSS file we'll be working with is, for example: </p>
 <p><code>define('RSSFILE', 'rss.xml');</code></p>
-<p>You have to do this manually for security reasons.</p>
-<p>If you've done that and you&#8217;re all ready, <a href="import-rss.php?step=1">let's go</a>!</p>
+<p>You have to do this manually for security reasons. When you're done reload this page and we'll take you to the next step.</p>
+<?php if ('' != RSSFILE) : ?>
+<h2 style="text-align: right;"><a href="import-rss.php?step=1">Begin RSS Import &raquo;</a></h2>
+<?php endif; ?>
 <?php
 	break;
-	
+
 	case 1:
-if ('' != RSSFILE && !file_exists(RSSFILE)) die("The file you specified does not seem to exist. Please check the path you've given.");
-if ('' == RSSFILE) die("You must edit the RSSFILE line as described on the <a href='import-rss.php'>previous page</a> to continue.");
 
 // Bring in the data
 set_magic_quotes_runtime(0);
@@ -93,7 +98,7 @@ if (!$date) : // if we don't already have something from pubDate
 	$date = strtotime($date);
 endif;
 
-$post_date = date('Y-m-d H:i:s', $date);
+$post_date = gmdate('Y-m-d H:i:s', $date);
 
 preg_match_all('|<category>(.*?)</category>|is', $post, $categories);
 $categories = $categories[1];
@@ -108,11 +113,24 @@ $content = str_replace( array('<![CDATA[', ']]>'), '', addslashes( trim($content
 
 if (!$content) : // This is for feeds that put content in description
 	preg_match('|<description>(.*?)</description>|is', $post, $content);
-	$content = addslashes( trim($content[1]) );
+	$content = $wpdb->escape( unhtmlentities( trim($content[1]) ) );
+endif;
+
+// Clean up content
+$content = preg_replace('|<(/?[A-Z]+)|e', "'<' . strtolower('$1')", $content);
+$content = str_replace('<br>', '<br />', $content);
+$content = str_replace('<hr>', '<hr />', $content);
+
+// This can mess up on posts with no titles, but checking content is much slower
+// So we do it as a last resort
+if ('' == $title) : 
+	$dupe = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_content = '$content' AND post_date = '$post_date'");
+else :
+	$dupe = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_title = '$title' AND post_date = '$post_date'");
 endif;
 
 // Now lets put it in the DB
-if ($wpdb->get_var("SELECT ID FROM $tableposts WHERE post_title = '$title' AND post_date = '$post_date'")) :
+if ($dupe) :
 	echo 'Post already imported';
 else : 
 	
@@ -124,6 +142,7 @@ else :
 	if (!$post_id) die("couldn't get post ID");
 	if (0 != count($categories)) :
 		foreach ($categories as $post_category) :
+		$post_category = unhtmlentities($post_category);
 		// See if the category exists yet
 		$cat_id = $wpdb->get_var("SELECT cat_ID from $tablecategories WHERE cat_name = '$post_category'");
 		if (!$cat_id && '' != trim($post_category)) {
