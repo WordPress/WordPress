@@ -52,9 +52,13 @@ function bloginfo_unicode($show='') {
 function get_bloginfo($show='') {
 
 	switch($show) {
-	case 'url':
-	case 'siteurl':
+	case 'url' :
+	case 'home' : 
+	case 'siteurl' :
 		$output = get_settings('home');
+		break;
+	case 'wpurl' :
+		$output = get_settings('siteurl');
 		break;
 	case 'description':
 		$output = get_settings('blogdescription');

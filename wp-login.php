@@ -1,51 +1,34 @@
 <?php
 require('./wp-config.php');
 
-function login() {
-	global $wpdb, $log, $pwd, $error, $user_ID;
-	global $pass_is_md5;
-	$user_login = &$log;
-	$pwd = md5($pwd);
-	$password = &$pwd;
-	if (!$user_login) {
-		$error = __('<strong>Error</strong>: the login field is empty.');
+function login($username, $password, $already_md5 = false) {
+	global $wpdb, $error;
+	if ( !$already_md5 )
+		$pwd = md5($password);
+
+	if ( !$username )
+		return false;
+
+	if ( !$password ) {
+		$error = __('<strong>Error</strong>: The password field is empty.');
 		return false;
 	}
 
-	if (!$password) {
-		$error = __('<strong>Error</strong>: the password field is empty.');
-		return false;
-	}
-
-	$query = "SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$user_login' AND user_pass = '$password'";
-
-	$login = $wpdb->get_row($query);
+	$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
 
 	if (!$login) {
-		$error = __('<strong>Error</strong>: wrong login or password.');
+		$error = __('<strong>Error</strong>: Wrong login.');
 		$pwd = '';
 		return false;
 	} else {
-	$user_ID = $login->ID;
-		if (($pass_is_md5 == 0 && $login->user_login == $user_login && $login->user_pass == $password) || ($pass_is_md5 == 1 && $login->user_login == $user_login && $login->user_pass == md5($password))) {
+
+		if ( $login->user_login == $username && $login->user_pass == $pwd ) {
 			return true;
 		} else {
-			$error = __('<strong>Error</strong>: wrong login or password.');
+			$error = __('<strong>Error</strong>: Incorrect password.');
 			$pwd = '';
-		return false;
+			return false;
 		}
-	}
-}
-
-function checklogin() {
-	global $user_login, $user_pass_md5, $user_ID;
-
-	$userdata = get_userdatabylogin($user_login);
-
-	if ($user_pass_md5 != md5($userdata->user_pass)) {
-		return false;
-	} else {
-		return true;
 	}
 }
 
@@ -68,7 +51,7 @@ if (!get_magic_quotes_gpc()) {
 	$_COOKIE = add_magic_quotes($_COOKIE);
 }
 
-$wpvarstoreset = array('action','mode','error','text','popupurl','popuptitle');
+$wpvarstoreset = array('action');
 
 for ($i = 0; $i < count($wpvarstoreset); $i = $i + 1) {
 	$wpvar = $wpvarstoreset[$i];
@@ -84,7 +67,7 @@ for ($i = 0; $i < count($wpvarstoreset); $i = $i + 1) {
 		}
 	}
 }
-
+$error = '';
 // If someone has moved WordPress let's try to detect it
 if ( dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) != get_settings('siteurl') )
 	update_option('siteurl', dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) );
@@ -93,27 +76,26 @@ switch($action) {
 
 case 'logout':
 
-    setcookie('wordpressuser_'.$cookiehash, " ", time() - 31536000, COOKIEPATH);
-    setcookie('wordpresspass_'.$cookiehash, " ", time() - 31536000, COOKIEPATH);
+    setcookie('wordpressuser_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
+    setcookie('wordpresspass_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
 	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Pragma: no-cache');
-	if ($is_IIS) {
+	if ($is_IIS)
 		header('Refresh: 0;url=wp-login.php');
-	} else {
+	else
 		header('Location: wp-login.php');
-	}
 	exit();
 
 break;
 
 case 'login':
 
-	if(!empty($_POST)) {
+	if( !empty($_POST) ) {
 		$log = $_POST['log'];
-		$pwd = stripslashes($_POST['pwd']);
-		$redirect_to = $_POST['redirect_to'];
+		$pwd = $_POST['pwd'];
+		$redirect_to = preg_replace('|[^a-z/.:_-]|i', '', $_POST['redirect_to']);
 	}
 	
 	$user = get_userdatabylogin($log);
@@ -122,20 +104,19 @@ case 'login':
 		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 	}
 
-	if (!login()) {
+	if ( !login($log, $pwd) ) {
 		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Pragma: no-cache');
-	if ($is_IIS) {
-		header('Refresh: 0;url=wp-login.php');
-	} else {
-		header('Location: wp-login.php');
-	}
+		if ($is_IIS)
+			header('Refresh: 0;url=wp-login.php');
+		else
+			header('Location: wp-login.php');
 		exit();
 	} else {
 		$user_login = $log;
-		$user_pass = $pwd;
+		$user_pass = md5($pwd);
 		setcookie('wordpressuser_'.$cookiehash, $user_login, time() + 31536000, COOKIEPATH);
 		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time() + 31536000, COOKIEPATH);
 
@@ -144,26 +125,10 @@ case 'login':
 		header('Cache-Control: no-cache, must-revalidate');
 		header('Pragma: no-cache');
 
-		switch($mode) {
-			case 'bookmarklet':
-				$location = "wp-admin/bookmarklet.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
-				break;
-			case 'sidebar':
-				$location = "wp-admin/sidebar.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
-				break;
-			case 'profile':
-				$location = "wp-admin/profile.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
-				break;
-			default:
-				$location = "$redirect_to";
-				break;
-		}
-
-		if ($is_IIS) {
-			header("Refresh: 0;url=$location");
-		} else {
-			header("Location: $location");
-		}
+		if ($is_IIS)
+			header("Refresh: 0;url=$redirect_to");
+		else
+			header("Location: $redirect_to");
 	}
 
 break;
@@ -175,8 +140,8 @@ case 'lostpassword':
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php _e('WordPress &raquo; Lost password ?') ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<title>WordPress &raquo; <?php _e('Lost Password') ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
 	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
@@ -187,48 +152,47 @@ case 'lostpassword':
 	</script>
 </head>
 <body>
-
-
 <div id="login">
-<p><?php _e('Please enter your information here. We will send you a new password.') ?> </p>
+<h1><a href="http://wordpress.org/">WordPress</a></h1>
+<p><?php _e('Please enter your information here. We will send you a new password.') ?></p>
 <?php
-if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
+if ($error)
+	echo "<div id='loginerror'>$error</div>";
 ?>
 
-<form name="" action="wp-login.php" method="post" id="lostpass">
+<form name="lostpass" action="wp-login.php" method="post" id="lostpass">
+<p>
 <input type="hidden" name="action" value="retrievepassword" />
-<label><?php _e('Login:') ?> <input type="text" name="user_login" id="user_login" value="" size="12" /></label><br />
-<label><?php _e('E-mail:') ?> <input type="text" name="email" id="email" value="" size="12" /></label><br />
-<input type="submit" name="Submit2" value="OK" class="search" />
-
+<label><?php _e('Login') ?>: <input type="text" name="user_login" id="user_login" value="" size="12" tabindex="1" /></label><br />
+<label><?php _e('E-mail') ?>: <input type="text" name="email" id="email" value="" size="12" tabindex="2" /></label><br />
+</p>
+<p class="submit"><input type="submit" name="submit" value="<?php _e('Retrieve Password'); ?> &raquo;" tabindex="3" /></p>
 </form>
 </div>
-
-
-
 </body>
 </html>
-	<?php
-
+<?php
 break;
 
 case 'retrievepassword':
 
-	$user_data = get_userdatabylogin($_POST["user_login"]);
+	$user_data = get_userdatabylogin($_POST['user_login']);
 	// redefining user_login ensures we return the right case in the email
 	$user_login = $user_data->user_login;
 	$user_email = $user_data->user_email;
 
-	if (!$user_email || $user_email != $_POST['email']) die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
- 	// Generate something random for a password... md5'ing current time with a rand salt
-    $user_pass = substr((MD5("time" . rand(1,16000))), 0, 6);
- 	// now insert the new pass md5'd into the db
- 	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
-	$message  = "Login: $user_login\r\n";
-	$message .= "Password: $user_pass\r\n";
-	$message .= 'Login at: ' . get_settings('siteurl') . '/wp-login.php';
+	if (!$user_email || $user_email != $_POST['email'])
+		die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
 
-	$m = mail($user_email, '[' . get_settings('blogname') . "] Your weblog's login/password", $message);
+	// Generate something random for a password... md5'ing current time with a rand salt
+	$user_pass = substr( MD5('time' . rand(1, 16000) ), 0, 6);
+	// now insert the new pass md5'd into the db
+ 	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
+	$message  = __('Login') . ": $user_login\r\n";
+	$message .= __('Password') . ": $user_pass\r\n";
+	$message .= get_settings('siteurl') . '/wp-login.php';
+
+	$m = mail($user_email, sprintf(__("[%s] Your login and password"), get_settings('blogname')), $message);
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -247,30 +211,29 @@ break;
 
 default:
 
-	if((!empty($_COOKIE['wordpressuser_'.$cookiehash])) && (!empty($_COOKIE['wordpresspass_'.$cookiehash]))) {
-		$user_login = $_COOKIE['wordpressuser_'.$cookiehash];
-		$user_pass_md5 = $_COOKIE['wordpresspass_'.$cookiehash];
+	if( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && !empty($_COOKIE['wordpresspass_' . COOKIEHASH]) ) {
+		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
+		$user_pass_md5 = $_COOKIE['wordpresspass_' . COOKIEHASH];
 	}
 
-	if ( !(checklogin()) ) {
-		if (!empty($_COOKIE['wordpressuser_'.$cookiehash])) {
-			$error="Error: wrong login/password"; //, or your session has expired.";
-		}
+	if ( !login($user_login, $user_pass_md5, true) ) {
+		if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
+			$error = 'Your session has expired.';
 	} else {
-		header("Expires: Wed, 5 Jun 1979 23:41:00 GMT"); /* private joke: this is Michel's birthdate - though officially it's on the 6th, since he's GMT+1 :) */
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); /* different all the time */
-		header("Cache-Control: no-cache, must-revalidate"); /* to cope with HTTP/1.1 */
-		header("Pragma: no-cache");
-		header("Location: wp-admin/");
+		header('Expires: Wed, 5 Jun 1979 23:41:00 GMT'); // Michel's birthday
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
+		header('Location: wp-admin/');
 		exit();
 	}
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php printf(__('WordPress > %s > Login form'), htmlspecialchars(get_settings('blogname'))) ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
-	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
+	<title>WordPress &rsaquo; <?php _e('Login') ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
+	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
@@ -282,36 +245,30 @@ default:
 <body>
 
 <div id="login">
-<p>
-	<a href="<?php echo get_settings('home'); ?>" title="<?php _e('Are you lost?') ?>"><?php _e('Back to blog?') ?></a><br />
-<?php if (get_settings('users_can_register')) { ?>
-	<a href="<?php echo get_settings('siteurl'); ?>/wp-register.php" title="<?php _e('Register to be an author') ?>"><?php _e('Register?') ?></a><br />
-<?php } ?>
-	<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a>
-</p>
-
+<h1><a href="http://wordpress.org/">WordPress</a></h1>
 <?php
-if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
+if ($error)
+	echo "<div id='login_error'>$error</div>";
 ?>
 
-<form name="login" id="loginform" action="wp-login.php" method="post">
-<?php if ($mode=="bookmarklet") { ?>
-	<input type="hidden" name="mode" value="<?php echo $mode ?>" />
-	<input type="hidden" name="text" value="<?php echo $text ?>" />
-	<input type="hidden" name="popupurl" value="<?php echo $popupurl ?>" />
-	<input type="hidden" name="popuptitle" value="<?php echo $popuptitle ?>" />
-<?php } ?>
+<form name="loginform" id="loginform" action="wp-login.php?action=login" method="post">
+<p><label><?php _e('Login') ?>: <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
+<p><label><?php _e('Password') ?>: <input type="password" name="pwd" value="" size="20" tabindex="2" /></label></p>
+<p class="submit"><input type="submit" name="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
 <?php if (isset($_GET["redirect_to"])) { ?>
 	<input type="hidden" name="redirect_to" value="<?php echo $_GET["redirect_to"] ?>" />
 <?php } else { ?>
 	<input type="hidden" name="redirect_to" value="wp-admin/" />
 <?php } ?>
-	<input type="hidden" name="action" value="login" />
-	<label><?php _e('Login:') ?> <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label><br />
-	<label><?php _e('Password:') ?> <input type="password" name="pwd" value="" size="20" tabindex="2" /></label><br />
-	<input type="submit" name="Submit2" value="OK" class="search" tabindex="3" />
+</p>
 </form>
-
+<ul>
+	<li><a href="<?php bloginfo('home'); ?>" title="<?php _e('Are you lost?') ?>">&laquo; <?php _e('Back to blog') ?></a></li>
+<?php if (get_settings('users_can_register')) : ?>
+	<li><a href="<?php bloginfo('wpurl'); ?>/wp-register.php"><?php _e('Register') ?></a></li>
+<?php endif; ?>
+	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
+</ul>
 </div>
 
 </body>

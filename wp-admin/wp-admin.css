@@ -325,27 +325,48 @@ textarea, input, select {
 }
 
 #login {
-	background: url(../wp-images/wp-small.png) #fff no-repeat top center;
-	border: 2px solid #333;
-	color: #333;
-	height: 170px;
-	left: 50%;
-	margin-left: -120px; /* half of width and height */
-	margin-top: -85px;
-	padding: 40px 5px 5px 5px;
-	position: absolute;
-	text-align: right;
-	top: 45%;
-	width: 240px;
+	background: #fff;
+	border: 2px solid #a2a2a2;
+	width: 25em;
+	margin: 5em auto;
+	padding: 1.5em;
 }
 
-#login textarea, #login input, #login select {
-	background: #f0f0f0;
-	border-color: #ccc;
-	border-style: solid;
-	border-width: 1px;
-	margin: 1px;
-	padding: 2px;
+#login form {
+	text-align: right;
+}
+#login #login_error {
+	background: #c00;
+	color: #fff;
+	padding: .5em;
+	border: 1px solid #a40000;
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+}
+#login h1 {
+	background: url(../wp-images/wp-small.png) no-repeat;
+	margin-top: 0;
+}
+#login h1 a {
+	display: block;
+	text-indent: -1000px;
+}
+
+#login ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	
+}
+#login ul li {
+	display: inline;
+	text-align: center;
+	margin-left: 1.4em;
+}
+
+#login input {
+	padding: 3px;
 }
 
 #metainfo, #postdiv {
