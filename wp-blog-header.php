@@ -82,7 +82,7 @@ if (!isset($doing_rss) || !$doing_rss) {
 } else {
 
 	// We're showing a feed, so WP is indeed the only thing that last changed
-	$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT')).' GMT';
+	$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT'), 0).' GMT';
 	$wp_etag = '"'.md5($wp_last_modified).'"';
 	@header('Last Modified: '.$wp_last_modified);
 	@header('ETag: '.$wp_etag);
@@ -97,9 +97,17 @@ if (!isset($doing_rss) || !$doing_rss) {
 	if ( ($client_last_modified && $client_etag) ?
 	    (($client_last_modified == $wp_last_modified) && ($client_etag == $wp_etag)) :
 	    (($client_last_modified == $wp_last_modified) || ($client_etag == $wp_etag)) ) {
-		header('HTTP/1.1 304 Not Modified');
-		echo "\r\n\r\n";
-		exit;
+		if ( preg_match('/cgi/',php_sapi_name()) ) {
+		    header('HTTP/1.1 304 Not Modified');
+		    echo "\r\n\r\n";
+		    exit;
+		} else {
+		    if (version_compare(phpversion(),'4.3.0','>=')) {
+		        header('Not Modified', TRUE, 304);
+		    } else {
+		        header('HTTP/1.x 304 Not Modified');
+		    }
+		}
 	}
 
 }
