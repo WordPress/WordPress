@@ -12,7 +12,10 @@ $query_vars = array();
 
 // Process PATH_INFO and 404.
 if ((isset($_GET['error']) && $_GET['error'] == '404') ||
-    (! empty( $_SERVER['PATH_INFO']) && '/' != $_SERVER['PATH_INFO'])) {
+		((! empty($_SERVER['PATH_INFO'])) &&
+		('/' != $_SERVER['PATH_INFO']) &&
+		(false === strpos($_SERVER['PATH_INFO'], $_SERVER['SCRIPT_NAME']))
+		)) {
 
 	// If we match a rewrite rule, this will be cleared.
 	$error = '404';
@@ -80,6 +83,8 @@ if ((isset($_GET['error']) && $_GET['error'] == '404') ||
  }
 
 $wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error');
+
+$wpvarstoreset = apply_filters('query_vars', $wpvarstoreset);
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
