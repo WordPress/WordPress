@@ -103,7 +103,7 @@ foreach ($options as $option) :
 	echo "
 <tr>
 	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
-	<td><input type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . htmlspecialchars($value, ENT_QUOTES) . "' /></td>
+	<td><input type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "' /></td>
 	<td>$option->option_description</td>
 </tr>";
 endforeach;
