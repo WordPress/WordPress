@@ -149,7 +149,10 @@ $wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comm
 $random_password = substr(md5(uniqid(microtime())), 0, 6);
 $wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_nickname, user_email, user_level, user_idmode) VALUES ( '1', 'admin', MD5('$random_password'), 'Administrator', '$admin_email', '10', 'nickname')");
 
-mail($admin_email, 'New WordPress Blog', "Your new WordPress blog has been sucessfully set up at:
+$from = 'From: '.$_POST['weblog_title'].' <wordpress@'.$_SERVER['SERVER_NAME'].'>';
+$message_headers = "$from";
+
+mail($admin_email, 'New WordPress Blog', "Your new WordPress blog has been successfully set up at:
 
 $guessurl
 
@@ -162,7 +165,7 @@ We hope you enjoy your new weblog. Thanks!
 
 --The WordPress Team
 http://wordpress.org/
-");
+", $message_headers);
 
 upgrade_all();
 ?>
