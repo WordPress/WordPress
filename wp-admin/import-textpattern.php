@@ -60,7 +60,7 @@ if ($connection && $database) {
 <?php
 } else {
 ?>
-<p><em>It doesn't look like your database information is incorrect. Please re-edit this file and double-check all the settings.</em></p>
+<p><em>It looks like your database information is incorrect. Please re-edit this file and double-check all the settings.</em></p>
 <?php
 }
 	break;
