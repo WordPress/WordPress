@@ -322,7 +322,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$thelist = "";
 	
 	foreach ($categories as $category) {
-		if ((intval($hide_empty) == 0 || isset($category_posts["$category->cat_ID"])) && (!$hierarchical || $category->category_parent == $child_of) && ($children || $category->category_parent == 0)) {
+		if ((intval($hide_empty) == 0 || isset($category_posts["$category->cat_ID"])) && (!$hierarchical || $category->category_parent == $child_of) ) {
 			$num_found++;
 			$link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" ';
 			if ($use_desc_for_title == 0 || empty($category->category_description)) {
@@ -353,7 +353,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 				$link .= '>';
 
 				if (! empty($feed_image)) {
-					$link .= "<img src=\"$feed_image\" border=\"0\"$alt$title" . ' />';
+					$link .= "<img src='$feed_image' $alt$title" . ' />';
 				} else {
 					$link .= $name;
 				}
