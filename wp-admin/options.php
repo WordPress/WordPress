@@ -52,7 +52,7 @@ case 'update':
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
                 $old_val = $option->option_value;
-                $new_val = wp_specialchars( trim($_POST[$option->option_name]) );
+                $new_val = htmlspecialchars( trim($_POST[$option->option_name]) );
                 if (!$new_val) {
                     if (3 == $option->option_type)
                         $new_val = '';
