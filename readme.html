@@ -66,14 +66,15 @@
       <h2>New users: 5-minute install.</h2>
       <ol>
         <li>Unzip the package in an empty directory.</li>
-        <li>Open b2config.php in a text editor, and modify the variables as explained 
-          in the comments. Comments are lines that start with # or /* or //</li>
+        <li>Copy wp-config.sample.php to wp-config.php. Open wp-config.php in a text editor
+            and modify the variables as explained in the comments. Comments are lines
+            that start with # or /* or //</li>
         <li>Upload everything. This release is designed to sit in your root folder, 
           IE the folder where your WordPress-powered page will reside.</li>
         <li>CHMOD 666 the <code>weblogs.com.changes.cache</code> file.</li>
         <li> Launch <a href="wp-admin/wp-install.php">wp-install.php</a> in your 
           browser. This should setup the MySQL database for your blog. If there 
-          is an error, double check your b2config.php file, and try again. If 
+          is an error, double check your wp-config.php file, and try again. If 
           it fails again, please go to the <a href="http://wordpress.org/support/">support 
           forums</a> and make a post with all the information about the failure 
           (error messages, etc), and your setup (the PHP and MySQL versions on 
@@ -108,7 +109,7 @@
         <li>The templates are so much better, and there is so much more going 
           on than before it's probably worth it to start from scratch and work 
           back to your design.</li>
-        <li>You <em>must</em> update your <code>b2config.php</code>. There's all 
+        <li>You <em>must</em> update your <code>wp-config.php</code>. There's all 
           sort of new stuff in there.</li>
         <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support 
           forums</a>.</li>
@@ -199,15 +200,15 @@
         This displays the day of the week when the post was made. It works like 
         the_time(), in that it would appear at every post. Weekdays can be obtained 
         with a custom date format string in the_time() or the_date(), but for 
-        non-english weekdays you have to edit b2config.php<br />
+        non-english weekdays you have to edit day-month-trans.php<br />
         <strong>Note: this tag is OBSOLETE, the_time() and the_date() now use 
-        weekdays/months from b2config.php</strong><br />
+        weekdays/months from day-month-trans.php</strong><br />
         <br />
         <strong>&lt;?php the_weekday_date() ?&gt;</strong> <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
         Like the_weekday(), but works like the_date(), in that it would appear 
         only on new days.<br />
         <strong>Note: this tag is OBSOLETE, the_time() and the_date() now use 
-        weekdays/months from b2config.php</strong><br />
+        weekdays/months from day-month-trans.php</strong><br />
         <div class="params">Parameters: 
           <ul>
             <li>string to display before the weekday_date (default is blank)</li>
@@ -453,7 +454,7 @@
         <div class="params">Parameters: 
           <ul>
             <li>string: can be 'name' to display the name of your weblog (you 
-              set it in b2config.php), 'url', 'description', 'admin_email', 'rss_url' 
+              set it in the options page), 'url', 'description', 'admin_email', 'rss_url' 
               to display the URL of your b2rss.xml file, 'pingback_url' to display 
               the URL of your xmlrpc.php file<br />
               (default string is 'name')</li>
@@ -880,10 +881,10 @@
       <p>&nbsp;</p>
       <a name="postviaemail"></a> <h1>Post via Email:</h1>
       <p>You can post news from an email client!<br />
-        But first you'll have to edit b2config.php, filling the appropriate values 
+        But first you'll have to edit the options on the options screen, filling the appropriate values 
         for your POP3 email account (this interface doesn't support IMAP yet, 
         only POP3, sorry).</p>
-      <p> Once you have edited the config options, you can make your webserver 
+      <p> Once you have edited the options, you can make your webserver 
         execute b2mail.php every set amount of time (depending on your host's 
         performance, this script can be resource intensive, so don't make it run 
         every minute or you'll be kicked).</p>
@@ -925,8 +926,8 @@
       <h2>Special cases for mobile phone email:</h2>
       <p> Some mobile phone service providers may allow you to send email with 
         your mobile phone or PDA, but on such devices you can't always include 
-        line breaks. In such case, you have to set <i>$use_phoneemail = 1</i> 
-        in b2config.php, and then here's how you write the email:</p>
+        line breaks. In such case, you have to set <i>use_phoneemail = true</i> 
+        in the options, and then here's how you write the email:</p>
       <div class="params"> <b>To:</b> address@domain.com<br />
         <b>Subject:</b> blog:the post's title <b>:::</b><br />
         <b>Body:</b><br>
@@ -965,7 +966,7 @@
       </ul>
       <p>Usually, you'll want to have a team of only level 1 users except you. 
         ;)</p>
-      <p><strong>Note:</strong> you can modify a variable in b2config.php, to 
+      <p><strong>Note:</strong> you can modify an option on the option screens, to 
         enable new users to post once they've registered.</p>
       <p>If you don't want users to register on your blog at all, just delete 
         b2register.php once you've registered your user account. </p>
