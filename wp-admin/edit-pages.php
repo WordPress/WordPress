@@ -12,7 +12,12 @@ get_currentuserinfo();
 
 <?php
 if (isset($user_ID) && ('' != intval($user_ID))) {
-    $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static' AND post_author = $user_ID");
+	$posts = $wpdb->get_results("
+	SELECT $wpdb->posts.*, $wpdb->users.user_level FROM $wpdb->posts
+	INNER JOIN $wpdb->users ON ($wpdb->posts.post_author = $wpdb->users.ID)
+	WHERE $wpdb->posts.post_status = 'static'
+	AND ($wpdb->users.user_level < $user_level OR $wpdb->posts.post_author = $user_ID)
+	");
 } else {
     $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static'");
 }
