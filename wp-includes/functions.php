@@ -941,10 +941,14 @@ function remove_action($tag, $function_to_remove, $priority = 10) {
 	remove_filter($tag, $function_to_remove, $priority);
 }
 
-function get_page_uri($page) {
-	global $wpdb;
-	$page = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$page'");
+function get_page_uri($page_id) {
+	global $wpdb, $cache_pages;
 
+	if (!isset($cache_pages[$page_id])) {
+		$cache_pages[$page_id] = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$page_id'");
+	}
+
+	$page = $cache_pages[$page_id];
 	$uri = urldecode($page->post_name);
 
 	// A page cannot be it's own parent.
