@@ -215,15 +215,14 @@ case 'retrievepassword':
 	$m = mail($user_email, '[' . get_settings('blogname') . "] Your weblog's login/password", $message);
 
 	if ($m == false) {
-		echo "<p><?php _e('The e-mail could not be sent.') ?><br />\n";
-		echo "<?php _e('Possible reason: your host may have disabled the mail() function...') ?></p>";
+		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
+         echo  __('Possible reason: your host may have disabled the mail() function...') . "</p>";
 		die();
 	} else {
-		echo "<p><?php _e('The e-mail was sent successfully to $user_login's e-mail address.') ?><br />
-		<?php _e('<a href='wp-login.php' title=\'Check your e-mail first, of course\'>Click here to login!</a>
-') ?></p>";
+		echo '<p>' .  sprintf(__("The e-mail was sent successfully to %s's e-mail address."), $user_login) . '<br />';
+        echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
 		// send a copy of password change notification to the admin
-		mail(get_settings('admin_email'), '[' . get_settings('blogname') . "] Password Lost/Change", "Password Lost and Changed for user: $user_login");
+		mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user_login));
 		die();
 	}
 
