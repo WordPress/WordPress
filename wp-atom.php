@@ -18,7 +18,6 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 	<modified><?php echo gmdate('Y-m-d\TH:i:s\Z'); ?></modified>
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
 	<generator url="http://wordpress.org/" version="<?php echo $wp_version ?>">WordPress</generator>
-	<id>tag:<?php echo str_replace('http://', '', $siteurl); ?>,<?php echo date('Y'); ?>:1984</id>
 	
 	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 	<entry>
@@ -37,7 +36,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 <?php
 } else { // use content
 ?>
-		<description><?php the_content_rss('', 0, '', $rss_excerpt_length, 2) ?></description>
+		<summary type="text/html"><?php the_content_rss('', 0, '', $rss_excerpt_length, 2) ?></summary>
 <?php
 } // end else use content
 ?>
