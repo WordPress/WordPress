@@ -54,7 +54,7 @@ require(ABSPATH . '/wp-admin/menu.php');
 
 // Handle plugin admin pages.
 if (isset($_GET['page'])) {
-	$plugin_page = basename($_GET['page']);
+	$plugin_page = plugin_basename($_GET['page']);
 	if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page")) {
 		die(sprintf(__('Cannot load %s.'), $plugin_page));
 	}

@@ -732,10 +732,14 @@ function get_admin_page_parent() {
 	return '';
 }
 
+function plugin_basename($file) {
+	return preg_replace('#^.*wp-content/plugins/#', '', $file);
+}
+
 function add_menu_page($page_title, $menu_title, $access_level, $file) {
 	global $menu;
 
-	$file = basename($file);
+	$file = plugin_basename($file);
 
 	$menu[] = array($menu_title, $access_level, $file, $page_title);
 }
@@ -743,7 +747,7 @@ function add_menu_page($page_title, $menu_title, $access_level, $file) {
 function add_submenu_page($parent, $page_title, $menu_title, $access_level, $file) {
 	global $submenu;
 
-	$file = basename($file);
+	$file = plugin_basename($file);
 
 	$submenu[$parent][] = array($menu_title, $access_level, $file, $page_title);
 }
@@ -884,8 +888,22 @@ function get_plugins() {
 	$plugins_dir = @ dir($plugin_root);
 	if ($plugins_dir) {
 		while(($file = $plugins_dir->read()) !== false) {
-			if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) ) 
-				$plugin_files[] = $file;
+			if ( preg_match('|^\.+$|', $file) )
+				continue;
+			if (is_dir($plugin_root . '/' . $file)) {
+				$plugins_subdir = @ dir($plugin_root . '/' . $file);
+				if ($plugins_subdir) {
+					while(($subfile = $plugins_subdir->read()) !== false) {
+						if ( preg_match('|^\.+$|', $subfile) )
+							continue;
+						if ( preg_match('|\.php$|', $subfile) )
+							$plugin_files[] = "$file/$subfile";
+					}
+				}
+			} else {
+				if ( preg_match('|\.php$|', $file) ) 
+					$plugin_files[] = $file;
+			}
 		}
 	}
 
@@ -902,7 +920,7 @@ function get_plugins() {
 			continue;
 		}
 
-		$wp_plugins[basename($plugin_file)] = $plugin_data;
+		$wp_plugins[plugin_basename($plugin_file)] = $plugin_data;
 	}
 
 	return $wp_plugins;

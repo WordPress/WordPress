@@ -20,29 +20,15 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-$plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
-if ($plugins_dir) {
-	while(($plug_file = $plugins_dir->read()) !== false) {
-		if ( !preg_match('|^\.+$|', $plug_file) && preg_match('|\.php$|', $plug_file) ) 
-			$plugin_files[] = "wp-content/plugins/$plug_file";
-	}
-}
-
-if (count($plugin_files)) {
-	natcasesort($plugin_files);
-}
-
-if (file_exists(ABSPATH . 'my-hacks.php')) {
-	$plugin_files[] = 'my-hacks.php';
-}
-
+$plugins = get_plugins();
+$plugin_files = array_keys($plugins);
 
 if (empty($file)) {
 	$file = $plugin_files[0];
 }
 
 $file = validate_file_to_edit($file, $plugin_files);
-$real_file = get_real_file_to_edit($file);
+$real_file = get_real_file_to_edit("wp-content/plugins/$file");
 
 switch($action) {
 
@@ -104,7 +90,7 @@ if ($plugin_files) :
 ?>
   <ul>
 <?php foreach($plugin_files as $plugin_file) : ?>
-		 <li><a href="plugin-editor.php?file=<?php echo "$plugin_file"; ?>"><?php echo get_file_description(basename($plugin_file)); ?></a></li>
+		 <li><a href="plugin-editor.php?file=<?php echo "$plugin_file"; ?>"><?php echo $plugins[$plugin_file]['Name']; ?></a></li>
 <?php endforeach; ?>
   </ul>
 <?php endif; ?>
