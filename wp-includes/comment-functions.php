@@ -615,6 +615,7 @@ function wp_get_comment_status($comment_id) {
     }
 }
 
+if ( ! function_exists('wp_notify_postauthor') ) {
 function wp_notify_postauthor($comment_id, $comment_type='') {
     global $wpdb;
     global $querystring_start, $querystring_equal, $querystring_separator;
@@ -637,21 +638,21 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$notify_message .= "E-mail : $comment->comment_author_email\r\n";
 		$notify_message .= "URI    : $comment->comment_author_url\r\n";
 		$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
-		$notify_message .= "Comment:\r\n".$comment->comment_content."\r\n\r\n";
+		$notify_message .= "Comment:\r\n $comment->comment_content \r\n\r\n";
 		$notify_message .= "You can see all comments on this post here: \r\n";
 		$subject = '[' . $blogname . '] Comment: "' .$post->post_title.'"';
 	} elseif ('trackback' == $comment_type) {
 		$notify_message  = "New trackback on your post #$comment_post_ID \"".$post->post_title."\"\r\n\r\n";
 		$notify_message .= "Website: $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
 		$notify_message .= "URI    : $comment->comment_author_url\r\n";
-		$notify_message .= "Excerpt: \n".$comment->comment_content."\r\n\r\n";
+		$notify_message .= "Excerpt: \n $comment->comment_content \r\n\r\n";
 		$notify_message .= "You can see all trackbacks on this post here: \r\n";
 		$subject = '[' . $blogname . '] Trackback: "' .$post->post_title.'"';
 	} elseif ('pingback' == $comment_type) {
 		$notify_message  = "New pingback on your post #$comment_post_ID \"".$post->post_title."\"\r\n\r\n";
 		$notify_message .= "Website: $comment->comment_author\r\n";
 		$notify_message .= "URI    : $comment->comment_author_url\r\n";
-		$notify_message .= "Excerpt: \n[...] $original_context [...]\r\n\r\n";
+		$notify_message .= "Excerpt: \n[...] $comment->comment_content [...]\r\n\r\n";
 		$notify_message .= "You can see all pingbacks on this post here: \r\n";
 		$subject = '[' . $blogname . '] Pingback: "' .$post->post_title.'"';
 	}
@@ -672,12 +673,14 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
    
     return true;
 }
+}
 
 /* wp_notify_moderator
    notifies the moderator of the blog (usually the admin)
    about a new comment that waits for approval
    always returns true
  */
+if ( !function_exists('wp_notify_moderator') ) {
 function wp_notify_moderator($comment_id) {
     global $wpdb;
 
@@ -714,6 +717,7 @@ function wp_notify_moderator($comment_id) {
     @wp_mail($admin_email, $subject, $notify_message, $message_headers);
     
     return true;
+}
 }
 
 function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) {
