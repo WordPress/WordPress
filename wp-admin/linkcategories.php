@@ -109,7 +109,7 @@ switch ($action) {
       <input type="hidden" name="action" value="editedcat" />
       <input type="hidden" name="cat_id" value="<?php echo $HTTP_POST_VARS["cat_id"] ?>" />
       <input type="text" name="cat_name" value="<?php echo $cat_name ?>" /><br />
-      <input type="checkbox" name="auto_toggle" value="Y" <?php echo $auto_toggle = "Y" ? '"checked"' : ''; ?>/> auto-toggle?<br />
+      <input type="checkbox" name="auto_toggle" value="Y" <?php echo $auto_toggle == 'Y' ? '"checked"' : ''; ?>/> auto-toggle?<br />
       <input type="submit" name="submit" value="Edit it !" class="search" />
     </form>
   </p>
