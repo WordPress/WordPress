@@ -1136,9 +1136,6 @@ function pingback($content, $post_ID) {
 
 function balanceTags($text, $is_comment = 0) {
 	global $use_balanceTags;
-	if ($use_balanceTags == 0) {
-		return $text;
-	}
 
 	if ($is_comment) {
 		// sanitise HTML attributes, remove frame/applet tags
@@ -1149,6 +1146,9 @@ function balanceTags($text, $is_comment = 0) {
 		$text = preg_replace('#\<(\/{0,1})([a-z]{0,2})(frame|applet)(.*?)\>#i', '', $text);
 	}
 	
+	if ($use_balanceTags == 0) {
+		return $text;
+	}
 	$tagstack = array();
 	$stacksize = 0;
 	$tagqueue = '';
