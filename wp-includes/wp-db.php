@@ -26,13 +26,9 @@
 		// ==================================================================
 		//	DB Constructor - connects to the server and selects a database
 
-		function wpdb($dbuser, $dbpassword, $dbname, $dbhost)
-		{
-
+		function wpdb($dbuser, $dbpassword, $dbname, $dbhost) {
 			$this->dbh = @mysql_connect($dbhost,$dbuser,$dbpassword);
-
-			if ( ! $this->dbh )
-			{
+			if ( ! $this->dbh )	{
 				die("<div>
 				<p><strong>Error establishing a database connection!</strong> This probably means that the connection information in youn <code>wp-config.php</code> file is incorrect. Double check it and try again.</p>
 				<ul>
@@ -44,19 +40,15 @@
 				</div>");
 			}
 
-
 			$this->select($dbname);
 			$this->querycount = 0;
-
 		}
 
 		// ==================================================================
 		//	Select a DB (if another one needs to be selected)
 
-		function select($db)
-		{
-			if ( !@mysql_select_db($db,$this->dbh))
-			{
+		function select($db)x{
+			if ( !@mysql_select_db($db,$this->dbh)) {
 				die("
 				<p>We're having a little trouble selecting the proper database for WordPress.</p>
 				<ul>
@@ -71,17 +63,14 @@
 		// ====================================================================
 		//	Format a string correctly for safe insert under all PHP conditions
 		
-		function escape($str)
-		{
+		function escape($str) {
 			return mysql_escape_string(stripslashes($str));				
 		}
 
 		// ==================================================================
 		//	Print SQL/DB error.
 
-		function print_error($str = '')
-		{
-			
+		function print_error($str = '') {
 			// All errors go to the global error array $EZSQL_ERROR..
 			global $EZSQL_ERROR;
 
@@ -96,17 +85,14 @@
 							);
 
 			// Is error output turned on or not..
-			if ( $this->show_errors )
-			{
+			if ( $this->show_errors ) {
 				// If there is an error then take note of it
 				print "<div id='error'>
 				<p><strong>SQL/DB Error:</strong><br />
 				[<span style='color: #007;'>$str</span>]<br />
 				<code>$this->last_query</code></p>
 				</div>";
-			}
-			else
-			{
+			} else {
 				return false;	
 			}
 
@@ -115,22 +101,18 @@
 		// ==================================================================
 		//	Turn error handling on or off..
 
-		function show_errors()
-		{
+		function show_errors() {
 			$this->show_errors = true;
 		}
 		
-		function hide_errors()
-		{
+		function hide_errors() {
 			$this->show_errors = false;
 		}
 
 		// ==================================================================
 		//	Kill cached query results
 
-		function flush()
-		{
-
+		function flush() {
 			// Get rid of these
 			$this->last_result = null;
 			$this->col_info = null;
@@ -141,8 +123,7 @@
 		// ==================================================================
 		//	Basic Query	- see docs for more detail
 
-		function query($query)
-		{
+		function query($query) {
 
 			// Flush cached values..
 			$this->flush();
@@ -165,44 +146,28 @@
 			$query_type = array('insert','delete','update','replace');
 
 			// loop through the above array
-			foreach ( $query_type as $word )
-			{
+			foreach ( $query_type as $word ) {
 				// This is true if the query starts with insert, delete or update
-				if ( preg_match("/^\\s*$word /i",$query) )
-				{
+				if ( preg_match("/^\\s*$word /i",$query) ) {
 					$this->rows_affected = mysql_affected_rows();
-					
 					// This gets the insert ID
-					if ( $word == 'insert' || $word == 'replace' )
-					{
+					if ( $word == 'insert' || $word == 'replace' ) {
 						$this->insert_id = mysql_insert_id($this->dbh);
 					}
-					
 					$this->result = false;
 				}
-				
 			}
    
-			if ( mysql_error() )
-			{
-
-				// If there is an error then take note of it..
+			if ( mysql_error() ) { // If there is an error then take note of it..
 				$this->print_error();
-
-			}
-			else
-			{
-
+			} else {
 				// In other words if this was a select statement..
-				if ( $this->result )
-				{
-
+				if ( $this->result ) {
 					// =======================================================
 					// Take note of column info
 
 					$i=0;
-					while ($i < @mysql_num_fields($this->result))
-					{
+					while ($i < @mysql_num_fields($this->result)) {
 						$this->col_info[$i] = @mysql_fetch_field($this->result);
 						$i++;
 					}
@@ -211,12 +176,9 @@
 					// Store Query Results
 
 					$i=0;
-					while ( $row = @mysql_fetch_object($this->result) )
-					{
-
+					while ( $row = @mysql_fetch_object($this->result) ) {
 						// Store relults as an objects within main array
 						$this->last_result[$i] = $row;
-
 						$i++;
 					}
 
@@ -227,19 +189,13 @@
 
 
 					// If there were results then return true for $db->query
-					if ( $i )
-					{
+					if ( $i ) {
 						return true;
-					}
-					else
-					{
+					} else {
 						return false;
 					}
 
-				}
-				else
-				{
-					// Update insert etc. was good..
+				} else { // Update insert etc. was good..
 					return true;
 				}
 			}
@@ -248,61 +204,52 @@
 		// ==================================================================
 		//	Get one variable from the DB - see docs for more detail
 
-		function get_var($query=null, $x=0, $y=0)
-		{
+		function get_var($query=null, $x=0, $y=0) {
 
 			// Log how the function was called
 			$this->func_call = "\$db->get_var(\"$query\",$x,$y)";
 
 			// If there is a query then perform it if not then use cached results..
-			if ( $query )
-			{
+			if ( $query ) {
 				$this->query($query);
 			}
 
 			// Extract var out of cached results based x,y vals
-			if ( $this->last_result[$y] )
-			{
+			if ( $this->last_result[$y] ) {
 				$values = array_values(get_object_vars($this->last_result[$y]));
 			}
 
 			// If there is a value return it else return null
-			return (isset($values[$x]) && $values[$x]!=='')?$values[$x]:null;
+			return (isset($values[$x]) && $values[$x]!=='') ? $values[$x] : null;
 		}
 
 		// ==================================================================
 		//	Get one row from the DB - see docs for more detail
 
-		function get_row($query=null, $output=OBJECT, $y=0)
-		{
+		function get_row($query=null, $output=OBJECT, $y=0) {
 
 			// Log how the function was called
 			$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
 
 			// If there is a query then perform it if not then use cached results..
-			if ( $query )
-			{
+			if ( $query ) {
 				$this->query($query);
 			}
 
 			// If the output is an object then return object using the row offset..
-			if ( $output == OBJECT )
-			{
+			if ( $output == OBJECT ) b{
 				return $this->last_result[$y]?$this->last_result[$y]:null;
 			}
 			// If the output is an associative array then return row as such..
-			elseif ( $output == ARRAY_A )
-			{
+			elseif ( $output == ARRAY_A ) {
 				return $this->last_result[$y]?get_object_vars($this->last_result[$y]):null;
 			}
 			// If the output is an numerical array then return row as such..
-			elseif ( $output == ARRAY_N )
-			{
+			elseif ( $output == ARRAY_N ) {
 				return $this->last_result[$y]?array_values(get_object_vars($this->last_result[$y])):null;
 			}
 			// If invalid output type was specified..
-			else
-			{
+			else {
 				$this->print_error(" \$db->get_row(string query, output type, int offset) -- Output type must be one of: OBJECT, ARRAY_A, ARRAY_N");
 			}
 
@@ -312,56 +259,40 @@
 		//	Function to get 1 column from the cached result set based in X index
 		// se docs for usage and info
 
-		function get_col($query=null,$x=0)
-		{
-
+		function get_col($query=null,$x=0) {
 			// If there is a query then perform it if not then use cached results..
-			if ( $query )
-			{
+			if ( $query ) {
 				$this->query($query);
 			}
-
 			// Extract the column values
-			for ( $i=0; $i < count($this->last_result); $i++ )
-			{
+			for ( $i=0; $i < count($this->last_result); $i++ ) {
 				$new_array[$i] = $this->get_var(null,$x,$i);
 			}
-
 			return $new_array;
 		}
 
 		// ==================================================================
 		// Return the the query as a result set - see docs for more details
 
-		function get_results($query=null, $output = OBJECT)
-		{
+		function get_results($query=null, $output = OBJECT){
 
 			// Log how the function was called
 			$this->func_call = "\$db->get_results(\"$query\", $output)";
 
 			// If there is a query then perform it if not then use cached results..
-			if ( $query )
-			{
+			if ( $query ) {
 				$this->query($query);
 			}
 
 			// Send back array of objects. Each row is an object
-			if ( $output == OBJECT )
-			{
+			if ( $output == OBJECT ) {
 				return $this->last_result;
-			}
-			elseif ( $output == ARRAY_A || $output == ARRAY_N )
-			{
-				if ( $this->last_result )
-				{
+			} elseif ( $output == ARRAY_A || $output == ARRAY_N ) {
+				if ( $this->last_result ) {
 					$i=0;
-					foreach( $this->last_result as $row )
-					{
-
-						$new_array[$i] = get_object_vars($row);
-
-						if ( $output == ARRAY_N )
-						{
+					foreach( $this->last_result as $row ) {
+						$new_array[$i] = (array) $row;
+						if ( $output == ARRAY_N ) {
 							$new_array[$i] = array_values($new_array[$i]);
 						}
 
@@ -369,9 +300,7 @@
 					}
 
 					return $new_array;
-				}
-				else
-				{
+				} else {
 					return null;
 				}
 			}
@@ -382,23 +311,17 @@
 		// Function to get column meta data info pertaining to the last query
 		// see docs for more info and usage
 
-		function get_col_info($info_type='name', $col_offset=-1)
-		{
+		function get_col_info($info_type='name', $col_offset=-1) {
 
-			if ( $this->col_info )
-			{
-				if ( $col_offset == -1 )
-				{
+			if ( $this->col_info ) {
+				if ( $col_offset == -1 ) {
 					$i=0;
-					foreach($this->col_info as $col )
-					{
+					foreach($this->col_info as $col ) {
 						$new_array[$i] = $col->{$info_type};
 						$i++;
 					}
 					return $new_array;
-				}
-				else
-				{
+				} else {
 					return $this->col_info[$col_offset]->{$info_type};
 				}
 
