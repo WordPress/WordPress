@@ -225,6 +225,10 @@ function convert_chars($content,$flag="html") { // html/unicode entities output,
 #	$content = str_replace("&amp;","&#38;",$content);
 	$content = strtr($content, $b2_htmltrans);
 
+	return $content;
+	
+	// the following is the slowest. code. ever.
+	/*
 	for ($i=0; $i<strlen($content); $i=$i+1) {
 		$j = substr($content,$i,1);
 		$jnext = substr($content,$i+1,1);
@@ -268,6 +272,7 @@ function convert_chars($content,$flag="html") { // html/unicode entities output,
 	$newcontent = str_replace("<hr>","<hr />",$newcontent);
 
 	return($newcontent);
+	*/
 }
 
 function convert_bbcode($content) {
