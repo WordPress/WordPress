@@ -92,6 +92,7 @@ if( isset( $_GET['m'] ) )
   </tr> 
 <?php
 if (empty($m)) $showposts = 15;
+$nopaging = true;
 include(ABSPATH.'wp-blog-header.php');
 
 if ($posts) {

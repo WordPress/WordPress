@@ -394,59 +394,47 @@ class WP_Query {
             }
         }
 
-        if ((!$whichcat) && (!$q['m']) && (!$q['p']) && (!$q['w']) && (!$q['s']) && empty($q['poststart']) && empty($q['postend'])) {
-            if ($q['what_to_show'] == 'posts') {
-                $limits = ' LIMIT '.$q['posts_per_page'];
-            } elseif ($q['what_to_show'] == 'days' && empty($q['monthnum']) && empty($q['year']) && empty($q['day'])) {
-                $lastpostdate = get_lastpostdate();
-                $lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
-                $lastpostdate = mysql2date('U',$lastpostdate);
-                $otherdate = date('Y-m-d H:i:s', ($lastpostdate - (($q['posts_per_page']-1) * 86400)));
-                $where .= " AND post_date > '$otherdate'";
-            }
-        }
+	// Paging
+	if ( !empty($q['postend']) && ($q['postend'] > $q['poststart']) ) {
+	  if ($q['what_to_show'] == 'posts') {
+	    $q['poststart'] = intval($q['poststart']);
+	    $q['postend'] = intval($q['postend']);
+	    $limposts = $q['postend'] - $q['poststart'];
+	    $limits = ' LIMIT '.$q['poststart'].','.$limposts;
+	  } elseif ($q['what_to_show'] == 'days') {
+	    $q['poststart'] = intval($q['poststart']);
+	    $q['postend'] = intval($q['postend']);
+	    $limposts = $q['postend'] - $q['poststart'];
+	    $lastpostdate = get_lastpostdate();
+	    $lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
+	    $lastpostdate = mysql2date('U',$lastpostdate);
+	    $startdate = date('Y-m-d H:i:s', ($lastpostdate - (($q['poststart'] -1) * 86400)));
+	    $otherdate = date('Y-m-d H:i:s', ($lastpostdate - (($q['postend'] -1) * 86400)));
+	    $where .= " AND post_date > '$otherdate' AND post_date < '$startdate'";
+	  }
+	} else if (empty($q['nopaging']) && ! is_single()) {
+	  $page = $q['paged'];
+	  if (empty($page)) {
+	    $page = 1;
+	  }
 
-        if ( !empty($q['postend']) && ($q['postend'] > $q['poststart']) && (!$q['m']) && empty($q['monthnum']) && empty($q['year']) && empty($q['day']) &&(!$q['w']) && (!$whichcat) && (!$q['s']) && (!$q['p'])) {
-            if ($q['what_to_show'] == 'posts') {
-                $q['poststart'] = intval($q['poststart']);
-                $q['postend'] = intval($q['postend']);
-                $limposts = $q['postend'] - $q['poststart'];
-                $limits = ' LIMIT '.$q['poststart'].','.$limposts;
-            } elseif ($q['what_to_show'] == 'days') {
-                $q['poststart'] = intval($q['poststart']);
-                $q['postend'] = intval($q['postend']);
-                $limposts = $q['postend'] - $q['poststart'];
-                $lastpostdate = get_lastpostdate();
-                $lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
-                $lastpostdate = mysql2date('U',$lastpostdate);
-                $startdate = date('Y-m-d H:i:s', ($lastpostdate - (($q['poststart'] -1) * 86400)));
-                $otherdate = date('Y-m-d H:i:s', ($lastpostdate - (($q['postend'] -1) * 86400)));
-                $where .= " AND post_date > '$otherdate' AND post_date < '$startdate'";
-            }
-        } else {
-            if (($q['what_to_show'] == 'posts') && (! is_single()) && (!$q['more'])) {
-                if ($pagenow != 'post.php') {
-                    $pgstrt = '';
-                    if ($q['paged']) {
-                        $pgstrt = (intval($q['paged']) -1) * $q['posts_per_page'] . ', ';
-                    }
-                    $limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
-                } else {
-                    if (($q['m']) || ($q['p']) || ($q['w']) || ($q['s']) || ($whichcat)) {
-                        $limits = '';
-                    } else {
-                        $pgstrt = '';
-                        if ($q['paged']) {
-                            $pgstrt = (intval($q['paged']) -1) * $q['posts_per_page'] . ', ';
-                        }
-                        $limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
-                    }
-                }
-            }
-            elseif (($q['m']) || ($q['p']) || ($q['w']) || ($q['s']) || ($whichcat) || ($q['author']) || $q['monthnum'] || $q['year'] || $q['day']) {
-                $limits = '';
-            }
-        }
+	  if (($q['what_to_show'] == 'posts')) {
+	    $pgstrt = '';
+	    $pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
+	    $limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
+	  } elseif ($q['what_to_show'] == 'days') {
+	    $lastpostdate = get_lastpostdate();
+	    $lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
+	    $lastpostdate = mysql2date('U',$lastpostdate);
+	    $startdate = date('Y-m-d H:i:s', ($lastpostdate - ((intval($page) -1) * ($q['posts_per_page']-1) * 86400)));
+	    $enddate = date('Y-m-d H:i:s', ($lastpostdate - (intval($page) * ($q['posts_per_page']-1) * 86400)));
+	    if ($page > 1) {
+	      $where .= " AND post_date > '$enddate' AND post_date < '$startdate'";
+	    } else {
+	      $where .= " AND post_date > '$enddate'";
+	    }
+	  }
+	}
 
         if ($q['p'] == 'all') {
             $where = '';

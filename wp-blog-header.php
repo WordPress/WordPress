@@ -124,11 +124,14 @@ if ( isset($showposts) && $showposts ) {
     $showposts = (int) $showposts;
     $posts_per_page = $showposts;
 }
+if ( !isset($nopaging) ) {
+  $nopaging = '';
+}
 
 $archive_mode = get_settings('archive_mode');
 $use_gzipcompression = get_settings('gzipcompression');
 
-$more_wpvars = array('posts_per_page', 'what_to_show', 'showposts');
+$more_wpvars = array('posts_per_page', 'what_to_show', 'showposts', 'nopaging');
 
 // Construct the query string.
 $query_string = '';
