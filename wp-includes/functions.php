@@ -488,40 +488,19 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 }
 
 function weblog_ping($server = '', $path = '') {
-	$debug = false;
-	include_once (ABSPATH . WPINC . '/class-xmlrpc.php');
-	include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 
-	$f = new xmlrpcmsg('weblogUpdates.ping',
-		array(new xmlrpcval(get_settings('blogname'), 'string'),
-			new xmlrpcval(get_settings('home') ,'string')));
-	$c = new xmlrpc_client($path, $server, 80);
-	$r = $c->send($f);
+	global $wp_version;
+	include_once (ABSPATH . WPINC . '/class-IXR.php');
 
-	if ('0' != $r) {	
-		if ($debug) {
-			echo "<h3>Response Object Dump:</h3>
-				<pre>\n";
-			print_r($r);
-			echo "</pre>\n";
-		}
+	// using a timeout of 3 seconds should be enough to cover slow servers
+	$client = new IXR_Client($server, (($path == '') ? false : $path));
+	$client->timeout = 3;
+	$client->useragent .= ' / WordPress '.$wp_version;
 
-		$v = @phpxmlrpc_decode($r->value());
-		if (!$r->faultCode()) {
-			$result['message'] =  "<p class=\"rpcmsg\">";
-			$result['message'] = $result['message'] .  $v["message"] . "<br />\n";
-			$result['message'] = $result['message'] . "</p>";
-		} else {
-			$result['err'] = $r->faultCode();
-			$result['message'] =  "<!--\n";
-			$result['message'] = $result['message'] . "Fault: ";
-			$result['message'] = $result['message'] . "Code: " . $r->faultCode();
-			$result['message'] = $result['message'] . " Reason '" .$r->faultString()."'<BR>";
-			$result['message'] = $result['message'] . "-->\n";
-		}
+	// when set to true, this outputs debug messages by itself
+	$client->debug = false;
+	$client->query('weblogUpdates.ping', get_settings('blogname'), get_settings('home'));
 
-		if ($debug) print '<blockquote>' . $result['message'] . '</blockquote>';
-	}
 }
 
 function generic_ping($post_id = 0) {
