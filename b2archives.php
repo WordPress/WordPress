@@ -5,8 +5,6 @@
 require_once('b2config.php');
 require_once($abspath.$b2inc.'/b2functions.php');
 
-dbconnect();
-
 // this is what will separate your archive links
 // this is what will separate dates on weekly archive links
 $archive_week_separator = '&#8211;';
@@ -52,24 +50,24 @@ if (!isset($querycount)) {
 $now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 
 if ($archive_mode == 'monthly') {
-	$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date) FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC";
+	$arc_sql="SELECT DISTINCT YEAR(post_date) AS yr, MONTH(post_date) AS mn  FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC";
 	$querycount++;
-	$arc_result=mysql_query($arc_sql) or die($arc_sql.'<br />'.mysql_error());
-	while($arc_row = mysql_fetch_array($arc_result)) {
-		$arc_year  = $arc_row['YEAR(post_date)'];
-		$arc_month = $arc_row['MONTH(post_date)'];
+	$arc_results = $wpdb->get_results($arc_sql);
+	foreach ($arc_results as $arc_row) {
+		$arc_year  = $arc_row->yr;
+		$arc_month = $arc_row->mn;
 		echo "<li><a href=\"$archive_link_m$arc_year".zeroise($arc_month,2).'">';
 		echo $month[zeroise($arc_month,2)].' '.$arc_year;
 		echo "</a></li>\n";
 	}
 } elseif ($archive_mode == 'daily') {
-	$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC";
+	$arc_sql="SELECT DISTINCT YEAR(post_date) AS yr, MONTH(post_date) AS mn, DAYOFMONTH(post_date) as dom FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC";
 	$querycount++;
-	$arc_result=mysql_query($arc_sql) or die($arc_sql.'<br />'.mysql_error());
-	while($arc_row = mysql_fetch_array($arc_result)) {
-		$arc_year  = $arc_row['YEAR(post_date)'];
-		$arc_month = $arc_row['MONTH(post_date)'];
-		$arc_dayofmonth = $arc_row['DAYOFMONTH(post_date)'];
+	$arc_results = $wpdb->get_results($arc_sql);
+	foreach ($arc_results as $arc_row) {
+		$arc_year  = $arc_row->yr;
+		$arc_month = $arc_row->mn;
+		$arc_dayofmonth = $arc_row->dom;
 		echo "<li><a href=\"$archive_link_m$arc_year".zeroise($arc_month,2).zeroise($arc_dayofmonth,2).'">';
 		echo mysql2date($archive_day_date_format, $arc_year.'-'.zeroise($arc_month,2).'-'.zeroise($arc_dayofmonth,2).' 00:00:00');
 		echo "</a></li>\n";
@@ -78,16 +76,16 @@ if ($archive_mode == 'monthly') {
 	if (!isset($start_of_week)) {
 		$start_of_week = 1;
 	}
-	$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date), WEEK(post_date) FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC";
+	$arc_sql="SELECT DISTINCT YEAR(post_date) AS yr, MONTH(post_date) AS mn, DAYOFMONTH(post_date) AS dom, WEEK(post_date) AS wk FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC";
 	$querycount++;
-	$arc_result=mysql_query($arc_sql) or die($arc_sql.'<br />'.mysql_error());
+	$arc_results = $wpdb->get_results($arc_sql);
 	$arc_w_last = '';
-	while($arc_row = mysql_fetch_array($arc_result)) {
-		$arc_year = $arc_row['YEAR(post_date)'];
-		$arc_w = $arc_row['WEEK(post_date)'];
+    foreach ($arc_results as $arc_row) {
+		$arc_year = $arc_row->yr;
+		$arc_w = $arc_row->wk;
 		if ($arc_w != $arc_w_last) {
 			$arc_w_last = $arc_w;
-			$arc_ymd = $arc_year.'-'.zeroise($arc_row['MONTH(post_date)'],2).'-' .zeroise($arc_row['DAYOFMONTH(post_date)'],2);
+			$arc_ymd = $arc_year.'-'.zeroise($arc_row->mn,2).'-' .zeroise($arc_row->dom,2);
 			$arc_week = get_weekstartend($arc_ymd, $start_of_week);
 			$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 			$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
@@ -97,10 +95,10 @@ if ($archive_mode == 'monthly') {
 		}
 	}
 } elseif ($archive_mode == 'postbypost') {
-	$requestarc = " SELECT ID,post_date,post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 ORDER BY post_date DESC";
+	$requestarc = " SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC";
 	$querycount++;
-	$resultarc = mysql_query($requestarc);
-	while($row=mysql_fetch_object($resultarc)) {
+	$resultarc = $wpdb->get_results($requestarc);
+	foreach ($resultarc as $row) {
 		if ($row->post_date != '0000-00-00 00:00:00') {
 			echo "<li><a href=\"$archive_link_p".$row->ID.'">';
 			$arc_title = stripslashes($row->post_title);
