@@ -2,7 +2,7 @@
 
 if (empty($doing_rss)) {
     $doing_rss = 1;
-    require('wp-blog-header.php');
+    require(dirname(__FILE__) . '/wp-blog-header.php');
 }
 
 // Remove the pad, if present.
@@ -13,23 +13,23 @@ if ($feed == '' || $feed == 'feed') {
 }
 
 if ( is_single() || ($withcomments == 1) ) {
-    require('wp-commentsrss2.php');
+    require(ABSPATH . 'wp-commentsrss2.php');
 } else {
     switch ($feed) {
     case 'atom':
-        require('wp-atom.php');
+        require(ABSPATH . 'wp-atom.php');
         break;
     case 'rdf':
-        require('wp-rdf.php');
+        require(ABSPATH . 'wp-rdf.php');
         break;
     case 'rss':
-        require('wp-rss.php');
+        require(ABSPATH . 'wp-rss.php');
         break;
     case 'rss2':
-        require('wp-rss2.php');
+        require(ABSPATH . 'wp-rss2.php');
         break;
     case 'comments-rss2':
-        require('wp-commentsrss2.php');
+        require(ABSPATH . 'wp-commentsrss2.php');
         break;
     }
 }
