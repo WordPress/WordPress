@@ -90,9 +90,10 @@ $title = addslashes( trim($title[1]) );
 $post_name = sanitize_title($title);
 
 preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $date);
-$date = strtotime($date[1]);
 
-if (!$date) : // if we don't already have something from pubDate
+if ($date) :
+	$date = strtotime($date[1]);
+else : // if we don't already have something from pubDate
 	preg_match('|<dc:date>(.*?)</dc:date>|is', $post, $date);
 	$date = preg_replace('|(-[0-9:]+)$|', '', $date[1]);
 	$date = strtotime($date);
