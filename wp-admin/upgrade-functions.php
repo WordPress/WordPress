@@ -134,10 +134,6 @@ function upgrade_110() {
 		$wpdb->query("UPDATE $wpdb->users SET user_registered = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 	}
 
-	// First we need to enlarge option_value so it can hold larger values:
-	$wpdb->query("ALTER TABLE `$wpdb->options` CHANGE `option_value` `option_value` TEXT NOT NULL");
-
-	$wpdb->query("ALTER TABLE `$wpdb->comments` CHANGE `comment_author_url` `comment_author_url` VARCHAR( 200 ) NOT NULL");
 }
 
 function upgrade_130() {

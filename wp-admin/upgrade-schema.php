@@ -5,10 +5,9 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   cat_ID int(4) NOT NULL auto_increment,
   cat_name varchar(55) NOT NULL default '',
   category_nicename varchar(200) NOT NULL default '',
-  category_description text NOT NULL,
+  category_description lengtext NOT NULL,
   category_parent int(4) NOT NULL default '0',
   PRIMARY KEY  (cat_ID),
-  UNIQUE KEY cat_name (cat_name),
   KEY category_nicename (category_nicename)
 );
 CREATE TABLE $wpdb->comments (
@@ -102,7 +101,7 @@ CREATE TABLE $wpdb->posts (
   post_author int(4) NOT NULL default '0',
   post_date datetime NOT NULL default '0000-00-00 00:00:00',
   post_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
-  post_content text NOT NULL,
+  post_content longtext NOT NULL,
   post_title text NOT NULL,
   post_category int(4) NOT NULL default '0',
   post_excerpt text NOT NULL,
@@ -144,7 +143,7 @@ CREATE TABLE $wpdb->users (
   user_idmode varchar(20) NOT NULL default '',
   user_activation_key varchar(60) NOT NULL default '',
   user_status int(11) NOT NULL default '0',
-  user_description TEXT NOT NULL default '',
+  user_description longtext NOT NULL default '',
   PRIMARY KEY  (ID),
   UNIQUE KEY user_login (user_login)
 );";
