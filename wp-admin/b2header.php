@@ -7,7 +7,6 @@ require_once($abspath.$b2inc.'/b2vars.php');
 require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc.'/xmlrpc.inc');
 require_once($abspath.$b2inc.'/xmlrpcs.inc');
-require_once($abspath.$b2inc.'/wp-db.php');
 
 if (!isset($use_cache))	$use_cache=1;
 if (!isset($blogID))	$blog_ID=1;

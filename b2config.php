@@ -49,6 +49,9 @@ $tableusers = 'b2users';
 $tablesettings = 'b2settings';
 $tablecategories = 'b2categories';
 $tablecomments = 'b2comments';
+// tables for link manager
+$tablelinks = "b2links";
+$tablelinkcategories = "b2linkcategories";
 
 
 // ** Post preview function **
@@ -315,11 +318,11 @@ $HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
 $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
 
-$server = $dbhost;
-$loginsql = $dbusername;
-$passsql = $dbpassword;
+$server = DB_HOST;
+$loginsql = DB_USER;
+$passsql = DB_PASSWORD;
 $path = $siteurl;
-$base = $dbname;
+$base = DB_NAME;
 
 
 // This should get us the relative path of WordPress and the absolute path on the server. Yipee!
@@ -331,4 +334,5 @@ for ($i = 3; $i < count($url); $i++) {
 $abspath =  getenv('DOCUMENT_ROOT') . $relpath . '/';
 $b2inc = "/$b2inc";
 $pathserver = &$siteurl;
+require_once($abspath.$b2inc.'/wp-db.php');
 ?>

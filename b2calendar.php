@@ -55,7 +55,6 @@ require('b2config.php');
 require_once($abspath.$b2inc.'/b2template.functions.php');
 require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc.'/b2vars.php');
-require_once($curpath.$b2inc.'/wp-db.php');
 
 if (isset($calendar) && ($calendar != '')) {
 	$thisyear = substr($calendar,0,4);
