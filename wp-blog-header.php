@@ -449,9 +449,11 @@ if ($posts) {
         WHERE post_status =  'publish' AND ID IN ($post_id_list)
         GROUP BY ID");
     
-    foreach ($comment_counts as $comment_count) {
-        $comment_count_cache["$comment_count->ID"] = $comment_count->ccount;
-    }
+	if ($comment_counts) {
+	    foreach ($comment_counts as $comment_count) {
+	        $comment_count_cache["$comment_count->ID"] = $comment_count->ccount;
+	    }
+	}
 
 	// Get post-meta info
 	if ( $meta_list = $wpdb->get_results("
