@@ -205,34 +205,35 @@ function remove_accents($string) {
 }
 
 function sanitize_title($title, $fallback_title = '') {
-    $title = strip_tags($title);
-    $title = apply_filters('sanitize_title', $title);
+	$title = strip_tags($title);
+	$title = apply_filters('sanitize_title', $title);
 
-    if (empty($title)) {
-        $title = $fallback_title;
-    }
+	if (empty($title)) {
+		$title = $fallback_title;
+	}
 
-    return $title;
+	return $title;
 }
 
 function sanitize_title_with_dashes($title) {
 	$title = strip_tags($title);
-    $title = remove_accents($title);
-		if (seems_utf8($title)) {
-			if (function_exists('mb_strtolower')) {
-				$title = mb_strtolower($title, 'UTF-8');
-			}
-			$title = utf8_uri_encode($title);
+	$title = preg_replace('|%|', '', $title);
+	$title = remove_accents($title);
+	if (seems_utf8($title)) {
+		if (function_exists('mb_strtolower')) {
+			$title = mb_strtolower($title, 'UTF-8');
 		}
+		$title = utf8_uri_encode($title);
+	}
 
-    $title = strtolower($title);
-    $title = preg_replace('/&.+?;/', '', $title); // kill entities
-    $title = preg_replace('/[^a-z0-9 _-]/', '', $title);
-    $title = preg_replace('/\s+/', '-', $title);
-    $title = preg_replace('|-+|', '-', $title);
-    $title = trim($title, '-');
+	$title = strtolower($title);
+	$title = preg_replace('/&.+?;/', '', $title); // kill entities
+	$title = preg_replace('/[^%a-z0-9 _-]/', '', $title);
+	$title = preg_replace('/\s+/', '-', $title);
+	$title = preg_replace('|-+|', '-', $title);
+	$title = trim($title, '-');
 
-    return $title;
+	return $title;
 }
 
 function convert_chars($content, $flag = 'obsolete') { 
