@@ -31,7 +31,7 @@ require_once (ABSPATH . WPINC . '/wp-db.php');
 
 $wpdb->hide_errors();
 $users = $wpdb->get_results("SELECT * FROM $tableusers");
-if (!$users && !strstr($_SERVER['REQUEST_URI'], 'install.php')) {
+if (!$users && !strstr($_SERVER['PHP_SELF'], 'install.php')) {
 	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
 }
 $wpdb->show_errors();
@@ -43,7 +43,7 @@ require (ABSPATH . WPINC . '/links.php');
 require (ABSPATH . WPINC . '/kses.php');
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
-if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST_URI'], 'wp-admin/import')) {
+if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF'], 'wp-admin/import')) {
 
     $querystring_start = '?';
     $querystring_equal = '=';
@@ -63,7 +63,7 @@ if (get_settings('hack_file')) {
 		require(ABSPATH . '/my-hacks.php');
 }
 
-if (!strstr($_SERVER['REQUEST_URI'], 'wp-admin/plugins.php') && get_settings('active_plugins')) {
+if (!strstr($_SERVER['PHP_SELF'], 'wp-admin/plugins.php') && get_settings('active_plugins')) {
 	$current_plugins = explode("\n", (get_settings('active_plugins')));
 	foreach ($current_plugins as $plugin) {
 		if (file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))
