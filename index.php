@@ -64,7 +64,7 @@ require_once($abspath.'wp-links/links.php');
 
 <?php trackback_rdf(); ?>
 
-<?php include('b2comments.php'); ?>
+<?php include($abspath . 'b2comments.php'); ?>
 
 <?php } } // end foreach, end if any posts ?>
 
