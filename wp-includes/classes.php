@@ -62,11 +62,12 @@ class WP_Query {
 		$this->query = $query;
 		$this->query_vars = $qv;
 		$qv['m'] =  (int) $qv['m'];
+		$qv['p'] =  (int) $qv['p'];
 
 		if ('' != $qv['name']) {
 			$this->is_single = true;
-		} elseif ( intval( $q['p'] ) != 0 && $qv['p'] != 'all' ) {
-			$this->is_single = true;            
+		} elseif ( $qv['p'] && $qv['p'] != 'all' ) {
+			$this->is_single = true;
 		} elseif (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
 			// If year, month, day, hour, minute, and second are set, a single 
 		  // post is being queried.        
@@ -77,7 +78,7 @@ class WP_Query {
 		} elseif (!empty($qv['s'])) {
 			$this->is_search = true;
 		} else {
-			// Look for archive queries.  Dates, categories, authors.
+	die('heree5');		// Look for archive queries.  Dates, categories, authors.
 
 			if ( (int) $qv['second']) {
 				$this->is_time = true;
