@@ -48,7 +48,7 @@ default:
     <li><code>%monthnum%</code> --- <?php _e('Month of the year, for example <code>05</code>') ?></li> 
     <li><code>%day% </code>--- <?php _e('Day of the month, for example <code>28</code>') ?></li> 
     <li><code>%postname%</code> --- <?php _e('A sanitized version of the title of the post. So &#8220;This Is A Great Post!&#8221; becomes &#8220;<code>this-is-a-great-post</code>&#8221; in the URI') ?> </li> 
-    <li><code>%post_id%</code> --- <?php _e('The unique ID # of the post, for example <code>423</code> <strong></strong>') ?></li> 
+    <li><code>%post_id%</code> --- <?php _e('The unique ID # of the post, for example <code>423</code>') ?></li> 
   </ul> 
   <?php _e('<p>So for example a value like:</p>
   <p><code>/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
