@@ -1233,7 +1233,7 @@ function is_new_day() {
 
 // Filters: these are the core of WP's plugin architecture
 
-function apply_filters($tag, $string) {
+function apply_filters($tag, $string, $filter = true) {
 	global $wp_filter;
 	if (isset($wp_filter['all'])) {
 		foreach ($wp_filter['all'] as $priority => $functions) {
@@ -1251,7 +1251,10 @@ function apply_filters($tag, $string) {
 		foreach ($wp_filter[$tag] as $priority => $functions) {
 			if (!is_null($functions)) {
 				foreach($functions as $function) {
-					$string = call_user_func($function, $string);
+					if ($filter)
+						$string = call_user_func($function, $string);
+					else
+						call_user_func($function, $string);
 				}
 			}
 		}
@@ -1285,7 +1288,8 @@ function remove_filter($tag, $function_to_remove, $priority = 10) {
 // The *_action functions are just aliases for the *_filter functions, they take special strings instead of generic content
 
 function do_action($tag, $string) {
-	return apply_filters($tag, $string);
+	apply_filters($tag, $string, false);
+	return $string;
 }
 
 function add_action($tag, $function_to_add, $priority = 10) {
