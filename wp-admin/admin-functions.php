@@ -284,7 +284,7 @@ function meta_form() {
 	</tr>
 
 </table>
-<p class="submit"><input type="submit" name="updatemeta" tabindex="7" value="<?php _e('Add Custom Field &raquo;') ?>"></p>
+<p class="submit"><input type="submit" name="updatemeta" tabindex="7" value="<?php _e('Add Custom Field &raquo;') ?>" /></p>
 <?php
 }
 
