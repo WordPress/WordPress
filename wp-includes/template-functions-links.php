@@ -56,6 +56,8 @@ function get_permalink($id = false) {
 
 		$cats = get_the_category($idpost->ID);
 		$category = $cats[0]->category_nicename;
+		if ($parent=$cats[0]->category_parent) $category = get_category_parents($parent, FALSE, '/', TRUE) . $category;
+
 		$authordata = get_userdata($idpost->post_author);
 		$author = $authordata->user_nicename;
 		$rewritereplace = 
