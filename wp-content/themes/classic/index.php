@@ -18,10 +18,6 @@ get_header();
             <?php wp_link_pages(); ?>
             <?php comments_popup_link(__('Comments (0)'), __('Comments (1)'), __('Comments (%)')); ?>
 	</div>
-	
-	<!--
-	<?php trackback_rdf(); ?>
-	-->
 
 </div>
 
