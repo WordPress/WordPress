@@ -262,10 +262,7 @@ uksort($wpsmiliestrans, 'smiliescmp');
 # generates smilies' search & replace arrays
 foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliessearch[] = $smiley;
-	$smiley_masked = '';
-	for ($i = 0; $i < strlen($smiley); $i = $i + 1) {
-		$smiley_masked .= substr($smiley, $i, 1).chr(160);
-	}
+	$smiley_masked = str_replace(' ', '', $smiley);
 	$wp_smiliesreplace[] = " <img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
 

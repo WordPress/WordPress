@@ -227,7 +227,7 @@ if (empty($orderby)) {
 if ((!$whichcat) && (!$m) && (!$p) && (!$w) && (!$s) && empty($poststart) && empty($postend)) {
 	if ($what_to_show == 'posts') {
 		$limits = ' LIMIT '.$posts_per_page;
-	} elseif ($what_to_show == 'days') {
+	} elseif ($what_to_show == 'days' && empty($monthnum) && empty($year) && empty($day)) {
 		$lastpostdate = get_lastpostdate();
 		$lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
 		$lastpostdate = mysql2date('U',$lastpostdate);
