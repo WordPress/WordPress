@@ -387,9 +387,14 @@ switch($action) {
 					</div>
 					<?php
 				}
+                //set defaults
+                $post_status = get_settings('default_post_status');
+                $comment_status = get_settings('default_comment_status');
+                $ping_status = get_settings('default_ping_status');
+                $post_pingback = get_settings('default_pingback_flag');
+                $default_post_cat = get_settings('default_post_category');
                 include('b2edit.form.php');
                 echo '<br /><br />';
-
             }
 
         } else {

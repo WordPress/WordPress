@@ -12,7 +12,9 @@ switch($action) {
 		$form_action = 'post';
 		$form_extra = '';
 		if ($use_pingback) {
-			$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" checked="checked" tabindex="7" id="pingback" /> <label for="pingback">PingBack the URLs in this post</label><br />';
+			$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
+            if ($post_pingback) $form_pingback .= 'checked="checked" ';
+            $form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback">PingBack the URLs in this post</label><br />';
 		} else {
 			$form_pingback = '';
 		}
@@ -69,7 +71,7 @@ window.onload = focusit;
 	</td>
 	<td>
 		<label for="category">Category:</label><br /> 
-		<?php dropdown_categories(); ?>
+		<?php dropdown_categories($blog_ID, $default_post_cat); ?>
 	</td>
 	<td>
 		<label for="post_status">Post Status:</label><br />          
@@ -90,7 +92,7 @@ window.onload = focusit;
 		<label for="ping_status">Pings:</label><br />	
 		<select name="ping_status" id="ping_status">
 			<option value="open"<?php selected($ping_status, 'open'); ?>>Open</option>
-			<option value="closed"<?php selected($ping_status, 'open'); ?>>Closed</option>
+			<option value="closed"<?php selected($ping_status, 'closed'); ?>>Closed</option>
 		</select>
 	</td>
 	<td>
