@@ -97,7 +97,7 @@ CREATE TABLE $wpdb->postmeta (
   KEY meta_key (meta_key)
 );
 CREATE TABLE $wpdb->posts (
-  ID int(10) unsigned NOT NULL auto_increment,
+  ID int(11) unsigned NOT NULL auto_increment,
   post_author int(4) NOT NULL default '0',
   post_date datetime NOT NULL default '0000-00-00 00:00:00',
   post_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
