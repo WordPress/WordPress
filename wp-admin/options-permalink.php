@@ -96,6 +96,14 @@ if (isset($_POST['submit'])) {
 	<dd>
 		<?php _e('The unique ID # of the post, for example <code>423</code>') ?>
 	</dd>
+	<dt><code>%category%</code></dt>
+	<dd>
+		<?php _e('A sanitized version of the category name.') ?>
+	</dd>
+	<dt><code>%author%</code></dt>
+	<dd>
+		<?php _e('A sanitized version of the author name.') ?>
+	</dd>
 </dl>
 
   <?php _e('<p>So for example a value like:</p>
@@ -123,7 +131,7 @@ if (isset($_POST['submit'])) {
 ?>
   <p><?php printf(__('Using the permalink structure value you currently have, <code>%s</code>, these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.'), $permalink_structure) ?></p>
 <form action="options-permalink.php" method="post">
-    <p>
+   <p>
 <textarea rows="5" style="width: 98%;" name="rules"><?php echo mod_rewrite_rules($permalink_structure); ?>
 </textarea>
     </p>
