@@ -38,26 +38,27 @@ case 'addcat':
 	header('Location: categories.php?message=1#addcat');
 break;
 
-case 'Delete':
+case 'delete':
 
-    check_admin_referer();
+	check_admin_referer();
 
-    $cat_ID = intval($_GET["cat_ID"]);
-    $cat_name = get_catname($cat_ID);
-    $category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
-    $cat_parent = $category->category_parent;
+	$cat_ID = (int) $_GET['cat_ID'];
+	$cat_name = get_catname($cat_ID);
+	$category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
+	$cat_parent = $category->category_parent;
 
-    if (1 == $cat_ID)
-        die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one"), $cat_name));
+	if ( 1 == $cat_ID )
+		die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
-    if ($user_level < 3)
-        die (__('Cheatin&#8217; uh?'));
+	if ( $user_level < 3 )
+		die (__('Cheatin&#8217; uh?'));
 
-    $wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
-    $wpdb->query("UPDATE $wpdb->categories SET category_parent = '$cat_parent' WHERE category_parent = '$cat_ID'");
-    $wpdb->query("UPDATE $wpdb->post2cat SET category_id='1' WHERE category_id='$cat_ID'");
+	$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
+	$wpdb->query("UPDATE $wpdb->categories SET category_parent = '$cat_parent' WHERE category_parent = '$cat_ID'");
+	// TODO: Only set categories to general if they're not in another category already
+	$wpdb->query("UPDATE $wpdb->post2cat SET category_id='1' WHERE category_id='$cat_ID'");
 
-    header('Location: categories.php?message=2');
+	header('Location: categories.php?message=2');
 
 break;
 
