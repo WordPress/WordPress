@@ -686,7 +686,7 @@ function get_the_excerpt($fakeit = false) {
 	global $id, $post;
 	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $preview;
 	$output = '';
-	$output = $post->post_excerpt;
+	$output = stripslashes($post->post_excerpt);
 	if (!empty($post->post_password)) { // if there's a password
 		if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
 			$output = "There is no excerpt because this is a protected post.";
