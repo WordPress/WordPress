@@ -7,7 +7,7 @@ if (!step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<title>WordPress > b2 Conversion</title>
+	<title>WordPress > .70 to .71 Upgrade</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<style media="screen" type="text/css">
 	body {
@@ -58,7 +58,7 @@ switch($step) {
     Right now.</li>
 </ul>
 <p><code></code>Have you looked at the <a href="../readme.html">readme</a>? If 
-  you&#8217;re all ready, <a href="b2-2-wp.php?step=1">let's go</a>! </p>
+  you&#8217;re all ready, <a href="upgrade-070-to-071.php?step=1">let's go</a>! </p>
 <?php
 	break;
 	
