@@ -1,4 +1,5 @@
 <?php
+$_wp_installing = 1;
 require_once('../wp-config.php');
 
 $step = $HTTP_GET_VARS['step'];

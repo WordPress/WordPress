@@ -1,4 +1,5 @@
 <?php
+$_wp_installing = 1;
 require_once('../wp-config.php');
 
 $step = $HTTP_GET_VARS['step'];
@@ -200,9 +201,9 @@ if ($got_row) {
 
 $query = "ALTER TABLE $tableposts ADD COLUMN post_excerpt text NOT NULL;";
 $q = $wpdb->query($query);
-$query = "ALTER TABLE $tableposts ADD `post_status` ENUM('publish','draft','private') NOT NULL,
-ADD `comment_status` ENUM('open','closed') NOT NULL,
-ADD `ping_status` ENUM('open','closed') NOT NULL,
+$query = "ALTER TABLE $tableposts ADD post_status ENUM('publish','draft','private') NOT NULL,
+ADD comment_status ENUM('open','closed') NOT NULL,
+ADD ping_status ENUM('open','closed') NOT NULL,
 ADD post_password varchar(20) NOT NULL;";
 $q = $wpdb->query($query);
 ?>
@@ -210,7 +211,7 @@ $q = $wpdb->query($query);
 <p>That went well! Now let's clean up the b2 database structure a bit...</p>
 
 <?php
-$query = "ALTER TABLE $tableposts DROP INDEX `ID`";
+$query = "ALTER TABLE $tableposts DROP INDEX ID";
 
 $q = $wpdb->query($query);
 ?>
@@ -219,7 +220,7 @@ $q = $wpdb->query($query);
 
 <?php
 
-$query="ALTER TABLE $tablesettings DROP INDEX `ID`";
+$query="ALTER TABLE $tablesettings DROP INDEX ID";
 $q = $wpdb->query($query);
 
 ?>
@@ -227,7 +228,7 @@ $q = $wpdb->query($query);
 <p>So far so good.</p>
 <?php
 
-$query="ALTER TABLE $tableposts DROP `post_karma`";
+$query="ALTER TABLE $tableposts DROP post_karma";
 $q = $wpdb->query($query);
 
 ?>
@@ -236,7 +237,7 @@ $q = $wpdb->query($query);
 
 <?php
 
-$query = "ALTER TABLE $tableusers DROP INDEX `ID`";
+$query = "ALTER TABLE $tableusers DROP INDEX ID";
 
 $q = $wpdb->query($query);
 
