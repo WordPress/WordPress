@@ -591,10 +591,17 @@ function dropdown_categories($blog_ID=1) {
 	echo "</select>";
 }
 
-function touch_time($edit=1) {
+function touch_time($edit = 1) {
 	global $month, $postdata, $time_difference;
 	// echo $postdata['Date'];
-	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">Edit timestamp</label><br />';
+	if ('draft' == $postdata['post_status']) {
+		$checked = 'checked="checked" ';
+		$edit = false;
+	} else {
+		$checked = ' ';
+	}
+
+	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">Edit timestamp</label><br />';
 	
 	$time_adj = time() + ($time_difference * 3600);
 	$jj = ($edit) ? mysql2date('d', $postdata['Date']) : date('d', $time_adj);
