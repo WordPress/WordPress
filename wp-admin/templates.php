@@ -100,7 +100,12 @@ echo '</ol>';
 endif;
 ?>
 <h3><?php _e('Common'); ?></h3>
-	<?php $common_files = array('index.php', 'wp-layout.css', 'wp-comments.php', 'wp-comments-popup.php', '.htaccess', 'my-hacks.php'); ?>
+	<?php $common_files = array('index.php', '.htaccess', 'my-hacks.php');
+ $old_files = array('wp-layout.css', 'wp-comments.php', 'wp-comments-popup.php');
+ foreach ($old_files as $old_file) {
+	 if (file_exists(ABSPATH . $old_file))
+		 $common_files[] = $old_file;
+ } ?>
   <ul>
 	 <?php foreach ($common_files as $common_file) : ?>
 	  <li><a href="templates.php?file=<?php echo $common_file?>"><?php echo get_file_description($common_file); ?></a></li>

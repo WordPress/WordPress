@@ -855,17 +855,11 @@ function get_real_file_to_edit($file) {
 $wp_file_descriptions = 
 	array(
 	'index.php' => __('Main Template'),
-	'wp-layout.css' => __('Stylesheet'),
 	'style.css' => __('Stylesheet'),
-	'wp-comments.php' => __('Comments Template'),
 	'comments.php' => __('Comments Template'),
-	'wp-comments-popup.php' => __('Popup Comments Template'),
 	'comments-popup.php' => __('Popup Comments Template'),
-	'wp-footer.php' => __('Footer Template'),
 	'footer.php' => __('Footer Template'),
-	'wp-header.php' => __('Header Template'),
 	'header.php' => __('Header Template'),
-	'wp-sidebar.php' => __('Sidebar Template'),
 	'sidebar.php' => __('Sidebar Template'),
 	'archive.php' => __('Archive Template'),
 	'category.php' => __('Category Template'),
@@ -874,7 +868,11 @@ $wp_file_descriptions =
 	'single.php' => __('Post Template'),
 	'404.php' => __('404 Template'),
 	'my-hacks.php' => __('my-hacks.php (legacy hacks support)'),
-	'.htaccess' => __('.htaccess (for rewrite rules)')
+	'.htaccess' => __('.htaccess (for rewrite rules)'),
+	// Deprecated files
+	'wp-layout.css' => __('Stylesheet'),
+	'wp-comments.php' => __('Comments Template'),
+	'wp-comments-popup.php' => __('Popup Comments Template')
 	);
 
 function get_file_description($file) {
