@@ -629,10 +629,8 @@ function xmlrpc_getposttitle($content) {
 function xmlrpc_getpostcategory($content) {
 	global $post_default_category;
 	if (preg_match('/<category>(.+?)<\/category>/is', $content, $matchcat)) {
-		$post_category = $matchcat[0];
-		$post_category = preg_replace('/<category>/si', '', $post_category);
-		$post_category = preg_replace('/<\/category>/si', '', $post_category);
-
+		$post_category = trim($matchcat[1], ',');
+		$post_category = explode(',', $post_category);
 	} else {
 		$post_category = $post_default_category;
 	}
