@@ -239,7 +239,6 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 
     $add_hours = intval(get_settings('gmt_offset'));
     $add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
-    $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
     $now = current_time('mysql');
 
@@ -323,7 +322,6 @@ function get_calendar($daylength = 1) {
 
     $add_hours = intval(get_settings('gmt_offset'));
     $add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
-    $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
     // Let's figure out when we are
     if (!empty($monthnum) && !empty($year)) {
@@ -465,7 +463,7 @@ function get_calendar($daylength = 1) {
             echo "\n\t</tr>\n\t<tr>\n\t\t";
         $newrow = false;
 
-        if ($day == date('j', (time() + (get_settings('gmt_offset') * 3600))) && $thismonth == date('m', time()+(get_settings('gmt_offset') * 3600)))
+        if ($day == gmdate('j', (time() + (get_settings('gmt_offset') * 3600))) && $thismonth == gmdate('m', time()+(get_settings('gmt_offset') * 3600)))
             echo '<td id="today">';
         else
             echo '<td>';
