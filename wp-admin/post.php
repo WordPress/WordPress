@@ -67,10 +67,13 @@ case 'post':
 		if (empty($ping_status)) $ping_status = get_settings('default_ping_status');
 		$post_password = $_POST['post_password'];
 		
-		if (empty($post_name))
-			$post_name = sanitize_title($post_title, $post_ID);
-		else
+		if (empty($post_name)) {
+			if (! empty($post_title)) {
+				$post_name = sanitize_title($post_title, $post_ID);
+			}
+		} else {
 			$post_name = sanitize_title($post_name, $post_ID);
+		}
 
 		$trackback = $_POST['trackback_url'];
 	// Format trackbacks
