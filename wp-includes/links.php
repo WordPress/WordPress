@@ -222,36 +222,6 @@ function get_links($category = -1, $before = '', $after = '<br />',
         if ($show_description && ($desc != '')) {
             echo($between.$desc);
         }
-
-        // now do the rating
-        if ($show_rating) {
-            
-            if (get_settings('links_rating_type') == 'number') {
-                if (($row->link_rating != 0) || (get_settings('links_rating_ignore_zero') != 1)) {
-                    echo($between." $row->link_rating\n");
-                }
-            } else if (get_settings('links_rating_type') == 'char') {
-                echo($between);
-                for ($r = $row->link_rating; $r > 0; $r--) {
-                    echo(get_settings('links_rating_char'));
-                }
-            } else if (get_settings('links_rating_type') == 'image') {
-                echo($between);
-                if (get_settings('links_rating_single_image')) {
-                    for ($r = $row->link_rating; $r > 0; $r--) {
-                        echo(' <img src="'.get_settings('links_rating_image0').'" alt="' .
-                             $row->link_rating.'" />'."\n");
-                    }
-                } else {
-                    if (($row->link_rating != 0) || (get_settings('links_rating_ignore_zero') != 1)) {
-                        $b = 'links_rating_image'.$row->link_rating;
-                        echo(' <img src="' .
-                             get_settings($b).'" alt="' .
-                             $row->link_rating.'" />'."\n");
-                    }
-                }
-            } // end if image
-        } // end if show_rating
         echo("$after\n");
     } // end while
 }
@@ -360,36 +330,8 @@ function get_linkobjects($category = -1, $orderby = 'name', $limit = -1) {
     return $newresults;
 }
 
-/** function get_linkrating()
- ** Returns the appropriate html for the link rating based on the configuration.
- ** Parameters:
- **   link  - The link object returned from get_linkobjects
- **/
 function get_linkrating($link) {
-    if (get_settings('links_rating_type') == 'number') {
-        if (($link->link_rating != 0) || (get_settings('links_rating_ignore_zero') != 1)) {
-            $s = "$link->link_rating";
-        }
-    } else if (get_settings('links_rating_type') == 'char') {
-        for ($r = $link->link_rating; $r > 0; $r--) {
-            $s .= get_settings('links_rating_char');
-        }
-    } else if (get_settings('links_rating_type') == 'image') {
-        if (get_settings('links_rating_single_image')) {
-            for ($r = $link->link_rating; $r > 0; $r--) {
-                $s .= '<img src="'.get_settings('links_rating_image0').'" alt="' .
-                      $link->link_rating.'" />'."\n";
-            }
-        } else {
-            if (($link->link_rating != 0) || (get_settings('links_rating_ignore_zero') != 1)) {
-                $b = 'links_rating_image'.$row->link_rating;
-                $s = ' <img src="' .
-                     get_settings($b).'" alt="' .
-                     $link->link_rating.'" />'."\n";
-            }
-        }
-    } // end if image
-    return $s;
+    return apply_filters('link_rating', $link->link_rating);
 }
 
 
