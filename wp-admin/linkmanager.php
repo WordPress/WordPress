@@ -42,7 +42,6 @@ function add_magic_quotes($array) {
     }
     return $array;
 }
-
 if (!get_magic_quotes_gpc()) {
     $HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
     $HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
@@ -52,7 +51,7 @@ if (!get_magic_quotes_gpc()) {
 $b2varstoreset = array('action','standalone','cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
                        'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
-                       'notes'. 'linkcheck');
+                       'notes', 'linkcheck');
 for ($i=0; $i<count($b2varstoreset); $i += 1) {
     $b2var = $b2varstoreset[$i];
     if (!isset($$b2var)) {
@@ -71,7 +70,8 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 $links_show_cat_id = $HTTP_COOKIE_VARS["links_show_cat_id"];
 $links_show_order = $HTTP_COOKIE_VARS["links_show_order"];
 
-// error_log("start, links_show_cat_id=$links_show_cat_id");
+if ($action2 != '')
+    $action = $action2;
 
 switch ($action) {
   case 'Assign':
@@ -540,7 +540,7 @@ LINKS;
             
             if ($show_buttons) {
               echo <<<LINKS
-        <td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit'; " value="Edit" class="search" /></td>
+        <td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit';" value="Edit" class="search" /></td>
         <td><input type="submit" name="delete" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
         <td><input type="checkbox" name="linkcheck[]" value="$link->link_id" /><td>
 LINKS;
@@ -569,7 +569,7 @@ LINKS;
     }
     echo "        </select>\n";
 ?>
-        <input type="submit" name="action" value="Assign" />
+        <input type="submit" name="action2" value="Assign" />
         </td>
         <td align="right">
           Toggle Checkboxes
