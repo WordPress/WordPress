@@ -1186,7 +1186,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
                 return;
             }
         }
-        echo "<a href=\"$siteurl/";
+        echo '<a href="$siteurl/';
         if ($b2commentsjavascript) {
             echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
             echo '" onclick="b2open(this.href); return false"';
@@ -1202,7 +1202,6 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         comments_number($zero, $one, $more);
         echo '</a>';
     }
-	
 }
 
 function comment_ID() {
