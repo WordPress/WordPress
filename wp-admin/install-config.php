@@ -6,7 +6,8 @@ if (file_exists('../wp-config.php'))
 
 if (!file_exists('../wp-config-sample.php'))
     die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
-    
+$configFile = file('../wp-config-sample.php');
+
 if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
 
 $step = $HTTP_GET_VARS['step'];
