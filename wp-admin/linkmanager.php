@@ -453,20 +453,21 @@ switch ($action) {
 
     // echo "$sql";
     $links = $wpdb->get_results($sql);
-    foreach ($links as $link) {
-      $short_url = str_replace('http://', '', $link->link_url);
-	  $short_url = str_replace('www.', '', $short_url);
-	  if ('/' == substr($short_url, -1)) $short_url = substr($short_url, 0, -1);
-      if (strlen($short_url) > 35) $short_url =  substr($short_url, 0, 32).'...';
+    if ($links) {
+        foreach ($links as $link) {
+            $short_url = str_replace('http://', '', $link->link_url);
+            $short_url = str_replace('www.', '', $short_url);
+            if ('/' == substr($short_url, -1)) $short_url = substr($short_url, 0, -1);
+            if (strlen($short_url) > 35) $short_url =  substr($short_url, 0, 32).'...';
 	  
-	  $link->link_name = stripslashes($link->link_name);
-	  $link->category = stripslashes($link->category);
-	  $link->link_rel = stripslashes($link->link_rel);
-	  $image = ($link->link_image != null) ? 'Yes' : 'No';
-	  $visible = ($link->link_visible == 'Y') ? 'Yes' : 'No';
-	  ++$i;
-	  $style = ($i % 2) ? ' class="alternate"' : '';
-echo <<<LINKS
+            $link->link_name = stripslashes($link->link_name);
+            $link->category = stripslashes($link->category);
+            $link->link_rel = stripslashes($link->link_rel);
+            $image = ($link->link_image != null) ? 'Yes' : 'No';
+            $visible = ($link->link_visible == 'Y') ? 'Yes' : 'No';
+            ++$i;
+            $style = ($i % 2) ? ' class="alternate"' : '';
+            echo <<<LINKS
 	<tr valign="middle"$style>
 		<td><strong>$link->link_name</strong><br />
 		Description: $link->link_description</td>
@@ -479,7 +480,8 @@ echo <<<LINKS
 		<td><input type="submit" name="delete" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
 	</tr>
 LINKS;
-	}
+        }
+    }
 ?>
 </table>
 </form>
