@@ -1407,8 +1407,8 @@ function trackback_rdf($timezone = 0) {
 
 /***** Permalink tags *****/
 function get_permalink($id=false) {
-	global $post, $wpdb, $tableposts, $siteurl;
-	global  $querystring_start, $querystring_equal; 
+	global $post, $wpdb, $tableposts;
+	global $file, $siteurl, $querystring_start, $querystring_equal;
 	$rewritecode = array(
 		'%year%',
 		'%monthnum%',
