@@ -249,7 +249,7 @@ function edToolbar() {
 function edInsertTag(myField, i) {
 	//IE support
 	if (document.selection) {
-		myField.focus();
+		myField.focus(); 
 	    sel = document.selection.createRange();
 		if (sel.text.length > 0) {
 			sel.text = edButtons[i].tagStart + sel.text + edButtons[i].tagEnd;
@@ -270,7 +270,7 @@ function edInsertTag(myField, i) {
 	else if (myField.selectionStart || myField.selectionStart == '0') {
 		var startPos = myField.selectionStart;
 		var endPos = myField.selectionEnd;
-		var cursorPos;
+		var cursorPos; 
 		if (startPos != endPos) {
 			myField.value = myField.value.substring(0, startPos)
 			              + edButtons[i].tagStart
@@ -279,7 +279,7 @@ function edInsertTag(myField, i) {
 			              + myField.value.substring(endPos, myField.value.length);
 			cursorPos = endPos 
 			          + edButtons[i].tagStart.length 
-			          + edButtons[i].length;
+			          + edButtons[i].tagEnd.length;
 		}
 		else {
 			if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
