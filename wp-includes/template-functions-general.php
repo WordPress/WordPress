@@ -307,7 +307,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 }
 
 function get_calendar($daylength = 1) {
-    global $wpdb, $m, $monthnum, $year, $timedifference, $month, $weekday, $tableposts, $posts;
+    global $wpdb, $m, $monthnum, $year, $timedifference, $month, $month_abbrev, $weekday, $weekday_initial, $weekday_abbrev, $tableposts, $posts;
 
     // Quick check. If we have no posts at all, abort!
     if (!$posts) {
@@ -367,8 +367,14 @@ function get_calendar($daylength = 1) {
     <caption>' . $month[zeroise($thismonth, 2)] . ' ' . date('Y', $unixmonth) . '</caption>
     <thead>
     <tr>';
+
+    $day_abbrev = $weekday_initial;
+    if ($daylength > 1) {
+        $day_abbrev = $weekday_abbrev;
+    }
+
     foreach ($weekday as $wd) {
-        echo "\n\t\t<th abbr=\"$wd\" scope=\"col\" title=\"$wd\">" . substr($wd, 0, $daylength) . '</th>';
+        echo "\n\t\t<th abbr=\"$wd\" scope=\"col\" title=\"$wd\">" . $day_abbrev[$wd] . '</th>';
     }
 
     echo '
@@ -380,8 +386,7 @@ function get_calendar($daylength = 1) {
 
     if ($previous) {
         echo "\n\t\t".'<td abbr="' . $month[zeroise($previous->month, 2)] . '" colspan="3" id="prev"><a href="' .
-                get_month_link($previous->year, $previous->month) . '" title="View posts for ' . $month[zeroise($previous->month, 2)] . ' ' .
-                date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year)) . '">&laquo; ' . substr($month[zeroise($previous->month, 2)], 0, 3) . '</a></td>';
+            get_month_link($previous->year, $previous->month) . '" title="' . sprintf(__('View posts for %1$s %2$s'), $month[zeroise($previous->month, 2)], date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year))) . '">&laquo; ' . $month_abbrev[$month[zeroise($previous->month, 2)]] . '</a></td>';
     } else {
         echo "\n\t\t".'<td colspan="3" id="prev" class="pad">&nbsp;</td>';
     }
