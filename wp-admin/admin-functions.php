@@ -377,7 +377,7 @@ function touch_time($edit = 1) {
 		$checked = ' ';
 	}
 
-	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">' . __('Edit timestamp') . '</label> <a href="http://wordpress.org/docs/reference/post/#edit_timestamp" title="' . __('Help on changing the timestamp') . '">?</a><br />';
+	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">' . __('Edit timestamp') . '</label></legend>';
 	
 	$time_adj = time() + (get_settings('gmt_offset') * 3600);
 	$post_date = $postdata->post_date;
@@ -388,7 +388,6 @@ function touch_time($edit = 1) {
 	$mn = ($edit) ? mysql2date('i', $post_date) : gmdate('i', $time_adj);
 	$ss = ($edit) ? mysql2date('s', $post_date) : gmdate('s', $time_adj);
 
-	echo '<input type="text" name="jj" value="'.$jj.'" size="2" maxlength="2" />'."\n";
 	echo "<select name=\"mm\">\n";
 	for ($i=1; $i < 13; $i=$i+1) {
 		echo "\t\t\t<option value=\"$i\"";
@@ -400,12 +399,15 @@ function touch_time($edit = 1) {
 			$ii = "$i";
 		}
 		echo ">".$month["$ii"]."</option>\n";
-	} ?>
+	} 
+
+?>
 </select>
+<input type="text" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" />
 <input type="text" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" /> @ 
 <input type="text" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" /> : 
-<input type="text" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" /> : 
-<input type="text" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" /> </p>
+<input type="text" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" /> 
+<input type="hidden" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" /> <?php _e('Existing timestamp'); ?>: <?php echo "{$month[$mm]} $jj, $aa @ $hh:$mn"; ?></fieldset>
 	<?php
 }
 
