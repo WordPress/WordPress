@@ -14,7 +14,9 @@ header('Content-type: text/xml', true);
 
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
-	xmlns:content="http://purl.org/rss/1.0/modules/content/">
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+>
 
 <channel>
 	<title><?php bloginfo_rss('name') ?></title>
@@ -38,7 +40,7 @@ header('Content-type: text/xml', true);
 		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 <?php endif; ?>
-		
+		<wfw:commentRSS><?php echo comments_rss(); ?></wfw:commentRSS>
 	</item>
 	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
 </channel>

@@ -89,8 +89,10 @@ if (!isset($doing_rss) || !$doing_rss) {
 	@header ('X-Pingback: ' . get_settings('siteurl') . '/xmlrpc.php');
 
 	// Support for Conditional GET
-	$client_last_modified = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-	$client_etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
+	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) $client_last_modified = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+	else $client_last_modified = false;
+	if (isset($_SERVER['HTTP_IF_NONE_MATCH'])) $client_etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
+	else $client_etag = false;
 
 	if ( ($client_last_modified && $client_etag) ?
 	    (($client_last_modified == $wp_last_modified) && ($client_etag == $wp_etag)) :

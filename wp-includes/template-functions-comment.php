@@ -216,16 +216,20 @@ function comment_time($d='') {
 }
 
 function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp-commentsrss2.php') {
+	$url = comments_rss($commentsrssfilename);
+	echo "<a href='$url'>$link_text</a>";
+}
+
+function comments_rss($commentsrssfilename = 'wp-commentsrss2.php') {
 	global $id;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 
 	if ('' != get_settings('permalink_structure')) {
-		$url = trailingslashit(get_permalink()) . 'rss2/';
+		$url = trailingslashit(get_permalink()) . 'feed/';
 	} else {
 		$url = get_settings('siteurl') . '/' . $commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
 	}
-
-	echo "<a href='$url'>$link_text</a>";
+	return $url;
 }
 
 function comment_author_rss() {
