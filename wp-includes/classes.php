@@ -212,7 +212,16 @@ class WP_Query {
 			$q['showposts'] = (int) $q['showposts'];
 			$q['posts_per_page'] = $q['showposts'];
 		}
-
+		if ( (isset($q['posts_per_archive_page']) && $q['posts_per_archive_page'] != 0) && (is_archive() || is_search()) )
+			$q['posts_per_page'] = $q['posts_per_archive_page'];
+		if ( !isset($q['nopaging']) ) {
+			if ($q['posts_per_page'] == -1) {
+				$q['nopaging'] = true;
+			} else {
+				$q['nopaging'] = false;
+			}
+		}
+	
 		$add_hours = intval(get_settings('gmt_offset'));
 		$add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
 		$wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
