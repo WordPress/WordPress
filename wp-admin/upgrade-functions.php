@@ -191,6 +191,11 @@ function upgrade_130() {
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiontypes');
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiongroups');
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiongroup_options');
+
+	// Update comments table to use comment_type
+	$wpdb->query("UPDATE $wpdb->comments SET comment_type='trackback', comment_content = REPLACE(comment_content, '<trackback />', '') WHERE comment_content LIKE '<trackback />%'");
+	$wpdb->query("UPDATE $wpdb->comments SET comment_type='trackback', comment_content = REPLACE(comment_content, '<pingback />', '') WHERE comment_content LIKE '<pingback />%'");
+
 }
 
 // The functions we use to actually do stuff
