@@ -473,12 +473,12 @@ function the_meta() {
 	global $id, $post_meta_cache;
 	
 	if ($keys = get_post_custom_keys()) {
-		echo "<ul>\n";
+		echo "<ul class='post-meta'>\n";
 		foreach ($keys as $key) {
 			$values = array_map('trim',$post_meta_cache[$id][$key]);
 			$value = implode($values,', ');
 			
-			echo "<li><b>$key:</b> $value</li>\n";
+			echo "<li><span class='post-meta-key'>$key:</span> $value</li>\n";
 		}
 		echo "</ul>\n";
 	}
