@@ -84,7 +84,7 @@ if (!isset($doing_rss) || !$doing_rss) {
 	@header ('X-Pingback: '. get_settings('siteurl') . '/xmlrpc.php');
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
-	@header('Last Modified: ' . gmdate(get_lastpostmodified()));
+	@header('Last Modified: ' . mysql2date("D, d M Y H:i:s", get_lastpostmodified('GMT')).' GMT');
 	@header ('X-Pingback: ' . get_settings('siteurl') . '/xmlrpc.php');
 }
 
