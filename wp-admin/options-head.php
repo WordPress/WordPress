@@ -1,7 +1,7 @@
 <?php
 
 if ($user_level <= 6) {
-	die("You have do not have sufficient permissions to edit the options for this blog.");
+	die(__("You have do not have sufficient permissions to edit the options for this blog."));
 }
 
 //we need to iterate through the available option groups.
@@ -16,17 +16,16 @@ foreach ($option_groups as $option_group) {
 	}
 }
 
-$submenu = <<<END
+$submenu = '
  <ul id="adminmenu2"> 
- 	<li><a href="options-general.php">General</a></li>
-	<li><a href="options-writing.php">Writing</a></li>
-	<li><a href="options-reading.php">Reading</a></li>
-	<li><a href="options-discussion.php">Discussion</a></li>
-	<li><a href="options-misc.php">Miscellaneous</a></li>
-	<li><a href="options-permalink.php">Permalinks</a></li> 
-	$groups
-</ul>
-END;
+ 	<li><a href="options-general.php">' . __('General') . '</a></li>
+	<li><a href="options-writing.php">' . __('Writing') . '</a></li>
+	<li><a href="options-reading.php">' . __('Reading') . '</a></li>
+	<li><a href="options-discussion.php">' . __('Discussion') . '</a></li>
+	<li><a href="options-misc.php">' . __('Miscellaneous') . '</a></li>
+	<li><a href="options-permalink.php">' . __('Permalinks') . '</a></li>' . 
+	$groups .
+    '</ul>';
 
 $sublines = split("\n", $submenu);
 $_SERVER['REQUEST_URI'] = str_replace('?updated=true', '', $_SERVER['REQUEST_URI']);
@@ -46,5 +45,5 @@ foreach ($sublines as $subline) {
 <br clear="all" />
 
 <?php if ($updated) : ?>
-<div class="updated"><p><strong>Options saved.</strong></p></div>
+<div class="updated"><p><strong><?php _e('Options saved.') ?></strong></p></div>
 <?php endif; ?>
