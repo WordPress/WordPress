@@ -25,10 +25,10 @@ function get_sidebar() {
 
 
 function wp_loginout() {
-	global $user_level;
+	global $user_ID;
 	get_currentuserinfo();
 
-	if (0 == $user_level) :
+	if ('' == $user_ID) :
 		$link = '<a href="' . get_settings('siteurl') . '/wp-login.php">' . __('Login') . '</a>';
 	else :
 		$link = '<a href="' . get_settings('siteurl') . '/wp-login.php?action=logout">' . __('Logout') . '</a>';
@@ -38,13 +38,13 @@ function wp_loginout() {
 }
 
 function wp_register( $before = '<li>', $after = '</li>' ) {
-	global $user_level;
+	global $user_ID;
 
 	get_currentuserinfo();
 
-	if (0 == $user_level && get_settings('users_can_register') ) :
+	if ('' == $user_ID && get_settings('users_can_register') ) :
 		$link = $before . '<a href="' . get_settings('siteurl') . '/wp-register.php">' . __('Register') . '</a>' . $after;
-	elseif (0 == $user_level && !get_settings('users_can_register') ) : 
+	elseif ('' == $user_ID && !get_settings('users_can_register') ) : 
 		$link = '';
 	else :
 		$link = $before . '<a href="' . get_settings('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>' . $after;
