@@ -24,7 +24,7 @@ $more = 1;
 	<title><?php bloginfo_rss('name'); ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
-	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), 0); ?></pubDate>
+	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php bloginfo_rss('version'); ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
 
@@ -33,7 +33,7 @@ $more = 1;
 		<title><?php the_title_rss() ?></title>
 		<link><?php permalink_single_rss() ?></link>
 		<comments><?php comments_link(); ?></comments>
-		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_the_time('Y-m-d H:i:s')); ?></pubDate>
+		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_the_time('Y-m-d H:i:s'), false); ?></pubDate>
 		<dc:creator><?php the_author() ?></dc:creator>
 		<?php the_category_rss() ?>
 

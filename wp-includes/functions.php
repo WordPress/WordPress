@@ -15,14 +15,14 @@ function get_profile($field, $user = false) {
 	return $wpdb->get_var("SELECT $field FROM $wpdb->users WHERE user_login = '$user'");
 }
 
-function mysql2date($dateformatstring, $mysqlstring, $use_b2configmonthsdays = 1) {
+function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	global $month, $weekday, $month_abbrev, $weekday_abbrev;
 	$m = $mysqlstring;
 	if (empty($m)) {
 		return false;
 	}
 	$i = mktime(substr($m,11,2),substr($m,14,2),substr($m,17,2),substr($m,5,2),substr($m,8,2),substr($m,0,4)); 
-	if (!empty($month) && !empty($weekday) && $use_b2configmonthsdays) {
+	if (!empty($month) && !empty($weekday) && $translate) {
 		$datemonth = $month[date('m', $i)];
 		$datemonth_abbrev = $month_abbrev[$datemonth];
 		$dateweekday = $weekday[date('w', $i)];

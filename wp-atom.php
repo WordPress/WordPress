@@ -20,8 +20,8 @@ $more = 1;
 	<title><?php bloginfo_rss('name') ?></title>
 	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('home') ?>" />
 	<tagline><?php bloginfo_rss("description") ?></tagline>
-	<modified><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></modified>
-	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate('blog')); ?></copyright>
+	<modified><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></modified>
+	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate('blog'), 0); ?></copyright>
 	<generator url="http://wordpress.org/" version="<?php bloginfo_rss('version'); ?>">WordPress</generator>
 	
 	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>

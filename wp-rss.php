@@ -18,7 +18,7 @@ $more = 1;
 	<title><?php bloginfo_rss('name') ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
-	<lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), 0); ?></lastBuildDate>
+	<lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></lastBuildDate>
 	<docs>http://backend.userland.com/rss092</docs>
 	<language><?php echo get_option('rss_language'); ?></language>
 

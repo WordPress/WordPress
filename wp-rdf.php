@@ -25,7 +25,7 @@ $more = 1;
 	<title><?php bloginfo_rss('name') ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
-	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></dc:date>
+	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></dc:date>
 	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $wp_version ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
@@ -42,7 +42,7 @@ $more = 1;
 <item rdf:about="<?php permalink_single_rss() ?>">
 	<title><?php the_title_rss() ?></title>
 	<link><?php permalink_single_rss() ?></link>
-	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt); ?></dc:date>
+	 <dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt, false); ?></dc:date>
 	<dc:creator><?php the_author() ?></dc:creator>
 	<?php the_category_rss('rdf') ?>
 <?php if (get_settings('rss_use_excerpt')) : ?>
