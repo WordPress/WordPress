@@ -50,7 +50,7 @@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-cache, must-revalidate, max-age=0');
 header('Pragma: no-cache');
 
-$location = get_permalink($comment_post_ID);
+$location = (empty($_POST['redirect_to'])) ? $_SERVER["HTTP_REFERER"] : $_POST['redirect_to']; 
 
 header("Location: $location");
 
