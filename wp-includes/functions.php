@@ -1177,52 +1177,47 @@ function is_new_day() {
 function apply_filters($tag, $string) {
 	global $wp_filter;
 	if (isset($wp_filter['all'])) {
-		$wp_filter['all'] = (is_string($wp_filter['all'])) ? array($wp_filter['all']) : $wp_filter['all'];
-        if (isset($wp_filter[$tag]))
-            $wp_filter[$tag] = array_merge($wp_filter['all'], $wp_filter[$tag]);
-        else
-            $wp_filter[$tag] = array_merge($wp_filter['all'], array());
-		$wp_filter[$tag] = array_unique($wp_filter[$tag]);
+		foreach ($wp_filter['all'] as $priority => $functions) {
+			if (isset($wp_filter[$tag][$priority]))
+				$wp_filter[$tag][$priority] = array_merge($wp_filter['all'][$priority], $wp_filter[$tag][$priority]);
+			else
+				$wp_filter[$tag][$priority] = array_merge($wp_filter['all'][$priority], array());
+			$wp_filter[$tag][$priority] = array_unique($wp_filter[$tag][$priority]);
+		}
+
 	}
+	
 	if (isset($wp_filter[$tag])) {
-		$wp_filter[$tag] = (is_string($wp_filter[$tag])) ? array($wp_filter[$tag]) : $wp_filter[$tag];
-		$functions = $wp_filter[$tag];
-		foreach($functions as $function) {
-            //error_log("apply_filters #1 applying filter $function");
-			$string = $function($string);
+		ksort($wp_filter[$tag]);
+		foreach ($wp_filter[$tag] as $priority => $functions) {
+			foreach($functions as $function) {
+					$string = $function($string);
+			}
 		}
 	}
 	return $string;
 }
 
-function add_filter($tag, $function_to_add) {
+function add_filter($tag, $function_to_add, $priority = 10) {
 	global $wp_filter;
-	if (isset($wp_filter[$tag])) {
-		$functions = $wp_filter[$tag];
-		if (is_array($functions)) {
-			foreach($functions as $function) {
-				$new_functions[] = $function;
-			}
-		} elseif (is_string($functions)) {
-			$new_functions[] = $functions;
-		}
-/* this is commented out because it just makes PHP die silently
-   for no apparent reason
-		if (is_array($function_to_add)) {
-			foreach($function_to_add as $function) {
-				if (!in_array($function, $wp_filter[$tag])) {
-					$new_functions[] = $function;
-				}
-			}
-		} else */if (is_string($function_to_add)) {
-			if (!@in_array($function_to_add, $wp_filter[$tag])) {
-				$new_functions[] = $function_to_add;
-			}
-		}
-		$wp_filter[$tag] = $new_functions;
-	} else {
-		$wp_filter[$tag] = array($function_to_add);
+	// So the format is wp_filter['tag']['array of priorities']['array of functions']
+	if (!@in_array($function_to_add, $wp_filter[$tag]["$priority"])) {
+		$wp_filter[$tag]["$priority"][] = $function_to_add;
 	}
+	return true;
+}
+
+function remove_filter($tag, $function_to_remove, $priority = 10) {
+	global $wp_filter;
+	if (@in_array($function_to_remove, $wp_filter[$tag]["$priority"])) {
+		foreach ($wp_filter[$tag]["$priority"] as $function) {
+			if ($function_to_remove != $function) {
+				$new_function_list[] = $function;
+			}
+		}
+		$wp_filter[$tag]["$priority"] = $new_function_list;
+	}
+	//die(var_dump($wp_filter));
 	return true;
 }
 
