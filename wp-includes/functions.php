@@ -1669,7 +1669,7 @@ function add_query_arg() {
 			$query = $parts[1];
 		}
 	}
-	else if (! ststr($uri, '/')) {
+	else if (strstr($uri, '/')) {
 		$base = $uri . '?';
 		$query = '';
 	}
