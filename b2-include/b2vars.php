@@ -268,9 +268,8 @@ foreach($b2smiliestrans as $smiley => $img) {
 	$b2_smiliesreplace[] = "<img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
 
-# sets curly quotes on or off from the config
-if (isset($use_smartquotes) && ($use_smartquotes)) {
-	add_filter('all', 'phpcurlme');
-}
+	add_filter('all', 'wptexturize');
+	add_filter('the_content', 'wpautop');
+	add_filter('comment_text', 'wpautop');
 
 ?>
