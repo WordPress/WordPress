@@ -106,7 +106,13 @@ if (!strstr($HTTP_SERVER_VARS['REQUEST_URI'], 'install.php') && !strstr($HTTP_SE
 
 } //end !$_wp_installing
 
-
-
 require_once (ABSPATH . WPINC . '/vars.php');
+
+
+// Check for hacks file if the option is enabled
+if (get_settings('hack_file')) {
+	if (file_exists(ABSPATH . '/my-hacks.php'))
+		require(ABSPATH . '/my-hacks.php');
+}
+
 ?>

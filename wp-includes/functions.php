@@ -1777,10 +1777,4 @@ function hilite($text) {
 	return $text;
 }
 
-
-// Check for hacks file if the option is enabled
-if (get_settings('hack_file')) {
-	if (file_exists(ABSPATH . '/my-hacks.php'))
-		require(ABSPATH . '/my-hacks.php');
-}
 ?>
