@@ -54,11 +54,12 @@ endif;
 if (isset($_GET['s'])) {
 	$s = $wpdb->escape($_GET['s']);
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments  WHERE
-		comment_author LIKE '%$s%' OR
+		(comment_author LIKE '%$s%' OR
 		comment_author_email LIKE '%$s%' OR
 		comment_author_url LIKE ('%$s%') OR
 		comment_author_IP LIKE ('%$s%') OR
-		comment_content LIKE ('%$s%')
+		comment_content LIKE ('%$s%') ) AND
+		comment_approved != 'spam'
 		ORDER BY comment_date DESC");
 } else {
 	if ( isset($_GET['offset']) )
