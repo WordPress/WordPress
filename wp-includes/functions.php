@@ -1303,6 +1303,11 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
     $pageregex = 'page/?([0-9]{1,})/?$';
     $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
+    $index = get_settings('blogfilename');
+    $prefix = '';
+    if (preg_match('#^/*' . $index . '#', $front)) {
+        $prefix = $index . '/';
+    }
 
     // If the permalink does not have year, month, and day, we need to create a
     // separate archive rule.
@@ -1314,15 +1319,15 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     }
 
     // Site feed
-    $sitefeedmatch = 'feed/?([_0-9a-z-]+)?/?$';
+    $sitefeedmatch = $prefix . 'feed/?([_0-9a-z-]+)?/?$';
     $sitefeedquery = 'index.php?feed=_' . preg_index(1, $matches);
 
     // Site comment feed
-    $sitecommentfeedmatch = 'comments/feed/?([_0-9a-z-]+)?/?$';
+    $sitecommentfeedmatch = $prefix . 'comments/feed/?([_0-9a-z-]+)?/?$';
     $sitecommentfeedquery = 'index.php?feed=_' . preg_index(1, $matches) . '&withcomments=1';
 
     // Site page
-    $sitepagematch = $pageregex;
+    $sitepagematch = $prefix . $pageregex;
     $sitepagequery = 'index.php?paged=' . preg_index(1, $matches);
 
     $site_rewrite = array(

@@ -134,6 +134,63 @@ function get_day_link($year, $month, $day) {
     }
 }
 
+function get_feed_link($feed='rss2') {
+    $do_perma = 0;
+    $feed_url = get_settings('siteurl');
+    $comment_feed_url = $feed_url;
+
+    $permalink = get_settings('permalink_structure');
+    if ('' != $permalink) {
+        $do_perma = 1;
+        $feed_url = get_settings('home');
+        $index = get_settings('blogfilename');
+        $prefix = '';
+        if (preg_match('#^/*' . $index . '#', $permalink)) {
+            $feed_url .= '/' . $index;
+        }
+
+        $comment_feed_url = $feed_url;
+        $feed_url .= '/feed';
+        $comment_feed_url .= '/comments/feed';
+    }
+
+    switch($feed) {
+        case 'rdf':
+            $output = $feed_url .'/wp-rdf.php';
+            if ($do_perma) {
+                $output = $feed_url . '/rdf/';
+            }
+            break;
+        case 'rss':
+            $output = $feed_url . '/wp-rss.php';
+            if ($do_perma) {
+                $output = $feed_url . '/rss/';
+            }
+            break;
+        case 'atom':
+            $output = $feed_url .'/wp-atom.php';
+            if ($do_perma) {
+                $output = $feed_url . '/atom/';
+            }
+            break;        
+        case 'comments_rss2':
+            $output = $feed_url .'/wp-commentsrss2.php';
+            if ($do_perma) {
+                $output = $comment_feed_url . '/rss2/';
+            }
+            break;
+        case 'rss2':
+        default:
+            $output = $feed_url .'/wp-rss2.php';
+            if ($do_perma) {
+                $output = $feed_url . '/rss2/';
+            }
+            break;
+    }
+
+    return $output;
+}
+
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {
     global $user_level, $post;
 
