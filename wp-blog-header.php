@@ -101,14 +101,11 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-if ( is_trackback() )
-	$doing_trackback = true;
-
 // Sending HTTP headers
 
-if ( is_404() ) {
+if ( !empty($error) && '404' == $error ) {
 	header('HTTP/1.x 404 Not Found');
-} else if ( !is_feed() ) {
+ } else if ( empty($feed) ) {
 	@header('X-Pingback: '. get_bloginfo('pingback_url'));
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
@@ -187,6 +184,9 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 	$wp_query->is_404 = true;
 	header('HTTP/1.x 404 Not Found');
 }
+
+if ( is_trackback() )
+	$doing_trackback = true;
 
 $wp_did_header = true;
 endif;
