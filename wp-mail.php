@@ -107,7 +107,8 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				}
 				$ddate_U = mktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
 
-				$post_date = gmdate('Y-m-d H:i:s', $ddate_U);
+				$post_date = gmdate('Y-m-d H:i:s', $ddate_U + ($time_difference * 3600));
+				$post_date_gmt = gmdate('Y-m-d H:i:s', $ddate_U);
 			}
 		}
 	}
@@ -226,9 +227,9 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				$content = preg_replace("|\n([^\n])|", " $1", $content);
 				$content = addslashes(trim($content));
                 if($flat > 500) {
-                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category) VALUES ($post_author, '$post_date', '$content', '$post_title', $post_category)";
+                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_category) VALUES ($post_author, '$post_date', '$post_date_gmt', '$content', '$post_title', $post_category)";
                 } else {
-                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category, post_lat, post_lon) VALUES ($post_author, '$post_date', '$content', '$post_title', $post_category, $flat, $flon)";
+                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_date_gmt, post_content, post_title, post_category, post_lat, post_lon) VALUES ($post_author, '$post_date', '$post_date_gmt', '$content', '$post_title', $post_category, $flat, $flon)";
                 }
 				$result = $wpdb->query($sql);
 				$post_ID = $wpdb->insert_id;
