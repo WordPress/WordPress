@@ -114,7 +114,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
         $file = $pagenow; //$_SERVER['PHP_SELF'];
     }
     $content = $pages[$page-1];
-    $content = explode('<!--more-->', $content);
+    $content = explode('<!--more-->', $content, 2);
     if ((preg_match('/<!--noteaser-->/', $post->post_content) && ((!$multipage) || ($page==1))))
         $stripteaser = 1;
     $teaser = $content[0];
