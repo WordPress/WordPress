@@ -682,7 +682,7 @@ foreach ($geo_option_data as $query) {
 <p>OK. We're nearly done now. We just need to ask you a couple of things:</p>
 <form action="install.php?step=3" method="post">
 <input type="hidden" name="step" value="3" />
-<p>What is the URL for your blog?<br />
+<p>What is the web address of your WordPress installation? (We probably guessed it for you correctly.) <br />
 <?php
 $guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
 ?>
