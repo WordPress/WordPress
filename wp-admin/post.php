@@ -85,7 +85,7 @@ switch($action) {
             $ss = ($ss > 59) ? $ss - 60 : $ss;
             $now = "$aa-$mm-$jj $hh:$mn:$ss";
         } else {
-            $now = date('Y-m-d H:i:s', (time() + ($time_difference * 3600)));
+            $now = current_time('mysql');
         }
 
 		if (!empty($HTTP_POST_VARS['mode'])) {
@@ -310,6 +310,7 @@ switch($action) {
         } else {
             $datemodif = '';
         }
+		$now = current_time('mysql');
 
         $result = $wpdb->query("
 			UPDATE $tableposts SET
@@ -323,7 +324,8 @@ switch($action) {
 				ping_status = '$ping_status',
 				post_password = '$post_password',
 				post_name = '$post_name',
-				to_ping = '$trackback'
+				to_ping = '$trackback',
+				post_modified = '$now'
 			WHERE ID = $post_ID ");
 
 
