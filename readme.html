@@ -4,9 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style>
 <!--
-body,p,li { font-family: arial,helvetica,sans-serif; font-size:12px; margin-left: 15px; }
-blockquote { font-family: arial,helvetica,sans-serif; font-size:12px; }
-h1 { font-family: georgia,times new roman,serif; font-size: 18px; font-weight: lighter; color: #000066; }
+	body {
+		font-family: Georgia, "Times New Roman", Times, serif;
+		margin-left: 15%;
+		margin-right: 15%;
+	}
+p, li {
+	line-height: 135%;
+	padding-bottom: 2px;
+}
+h1 { font-family: georgia,times new roman,serif; font-size: 18px; font-weight: lighter; color: #006; }
 .params {
 	border-color: #cccccc;
 	border-width: 1px;
@@ -17,7 +24,7 @@ h1 { font-family: georgia,times new roman,serif; font-size: 18px; font-weight: l
 	margin-right: 80px;
 	font-family: arial,helvetica,sans-serif; font-size:12px;
 }
-ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; }
+ul, ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; }
 -->
 </style>
 
@@ -25,236 +32,197 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
 
 <body bgcolor="#FFFFFF" text="#000000">
 <table width="600" border="0" cellspacing="0" cellpadding="0" align="center">
-  <tr>
-	<td> 
-      <p align="center"><img src="http://wordpress.org/images/wordpress.gif" alt="WordPress" /><br />
+  <tr> 
+    <td> <p align="center"><img src="http://wordpress.org/images/wordpress.gif" alt="WordPress" /><br />
         <font size="2" face="Georgia, Times New Roman, Times, serif">0.7</font></p>
-		
-	  <p align="center">Weblog / News Publishing Tool</p>
-
-	  <p align="center"><a href="#requirements">requirements</a> - <a href="#installation">installation</a> 
+      <p align="center">Weblog / News Publishing Tool</p>
+      <p align="center"><a href="#requirements">requirements</a> - <a href="#installation">installation</a> 
         - <a href="#templates">template(s)</a> - <a href="#usage">querystring 
-        usage</a> - <a href="#xmlrpc">xmlrpc (Blogger API)</a> - <a href="#postviaemail">post via email</a> - <a href="#notes">notes</a></p>
-
-	  <a name="requirements"></a>
-      <h1>Requirements:</h1>
-	  <p><strong>PHP4</strong> (version 4.0.5 or higher)<br />
-        <strong>MySQL</strong> (version 3.23.23 or higher)<br />
-        Perl (optional - only for the spellchecker)<br />
-        ... and a link to <a href="http://wordpress.org" target="_blank">http://wordpress.org</a> 
-        on your site.<br />
-        <br />
-        The link will help promote <a href="http://wordpress.org">WordPress</a> 
-        and is its only mean of promotion. 
+        usage</a> - <a href="#xmlrpc">xmlrpc (Blogger API)</a> - <a href="#postviaemail">post 
+        via email</a> - <a href="#notes">notes</a></p>
+      <a name="requirements"></a> <h1>Requirements:</h1>
+      <ul>
+        <li><strong>PHP4</strong> (version 4.0.5 or higher)</li>
+        <li><strong>MySQL</strong> (version 3.23.23 or higher)</li>
+        <li>Perl (optional - only for the spellchecker)</li>
+        <li>... and a link to <a href="http://wordpress.org" target="_blank">http://wordpress.org</a> 
+          on your site.</li>
+      </ul>
+      <p>The link will help promote <a href="http://wordpress.org">WordPress</a> 
+        and is its only mean of promotion. </p>
       <p>WordPress is built from b2, which comes from Michel V. We wouldn't be 
         here without him, so why don't you grab him something from his <a href="http://www.amazon.com/exec/obidos/registry-address-select-done/1XKLC38KDUPXR/103-8901342-4908609">wishlist</a>?</p>
       <p>This document is currently beta stage, we'll be updating it extensively 
         as WordPress matures.</p>
-
-	  <h1 id="installation">Installation:</h1>
-	  <p>New users:</p>
-	  <blockquote>
-	  
-	    <strong>1.</strong> Unzip the package in an empty directory.<br /><br />
-
-		<strong>2.</strong> Open b2config.php in a text editor, and modify the variables
-		as explained in the comments. Comments are lines that start with # or /* or //<br /><br />
-
-		<strong>3.</strong> Upload everything. This release is designed to sit in your root folder, 
-		IE the folder where your b2-powered page will reside.<br /><br />
-
-		<strong>4.</strong> a. This isn't necessary but ensures your security: With your FTP 
-		program, do a CHMOD 644 on the file b2config.php, so no-one can overwrite 
-		it except you. If your server is on Windows NT, then set the file on &quot;read-only&quot; mode.<br />
-
-		&nbsp;&nbsp;&nbsp;b. if you want to use the spellchecker, do a CHMOD 755 on sproxy.pl<br /><br />
-        <strong>5.</strong> Launch b2install.php in your browser. This should 
-        setup the MySQL database for your blog. If there is an error, double check 
-        your b2config.php file, and try again. If it fails again, please go to 
-        the <a href="http://wordpress.org/support/">support forums</a> and make 
-        a post with all the information about the failure (error messages, etc), 
-        and your setup (the PHP and MySQL versions on your server, and the browser 
-        you were using).<br />
+      <h1 id="installation">Installation:</h1>
+      <p>New users: 5-minute install.</p>
+      <ol>
+        <li>Unzip the package in an empty directory.</li>
+        <li>Open b2config.php in a text editor, and modify the variables as explained 
+          in the comments. Comments are lines that start with # or /* or //</li>
+        <li>Upload everything. This release is designed to sit in your root folder, 
+          IE the folder where your WordPress-powered page will reside.</li>
+        <li>CHMOD 666 the <code>weblogs.com.changes.cache</code> file.</li>
+        <li> Launch <a href="wp-admin/wp-install.php">wp-install.php</a> in your 
+          browser. This should setup the MySQL database for your blog. If there 
+          is an error, double check your b2config.php file, and try again. If 
+          it fails again, please go to the <a href="http://wordpress.org/support/">support 
+          forums</a> and make a post with all the information about the failure 
+          (error messages, etc), and your setup (the PHP and MySQL versions on 
+          your server, and the browser you were using). <strong>Note the password 
+          given to you.</strong></li>
+        <li> Go to <a href="b2login.php">b2login.php</a> and sign in with the 
+          login &quot;admin&quot; and the password given to you by the install 
+          script. Then click on the menu 'My Profile', and change the password. 
+          Note: you need javascript enabled to launch the profile popup window.</li>
+      </ol>
+      <p>Some notes:</p>
+      <ul>
+        <li>Whenever you want to post something, just open a browser and go to 
+          b2login.php to log in and post.</li>
+        <li>You can also use a bookmarklet and/or a sidebar (IE5+/NS6+) to post.</li>
+        <li> You can also post through the Blogger API, <a href="#xmlrpc">click 
+          here</a> for more info.</li>
+        <li> Your site's blog is on b2.php (simple template) and index.php (CSS 
+          template), you can rename this file to index.php or any other name you 
+          fancy (provided it bears the php extension or is interpreted as a php 
+          file by your server).</li>
+        <li> You can also copy b2.php into a new file and modify that new file, 
+          it will work too ;)</li>
+      </ul>
+      <p>Users upgrading from b2 v0.6.1 to WordPress v0.7:</p>
+      <ol>
+        <li>Coming soon! :) </li>
+      </ol>
+      <h1 id="templates">Template(s):</h1> <p>First notes:</p>
+      <ul>
+        <li>Enclosed is an example of a template, in the file b2.php. You can 
+          rename this file to &quot;index.php&quot;or something else (recent b2 
+          versions have a default index.php, which is an elaborate CSS-based template).</li>
+        <li>You can have any number of template files, since all they do is extract 
+          the posts from the database.</li>
+        <li>Pseudo-template for the comments is in b2comments.php. You needn't 
+          rename this file, but you can edit it.</li>
+        <li>The only thing to remember is that it's not actually a template, but 
+          a PHP file that you're manipulating. So when you see &quot;don't delete 
+          this line&quot;, you know you mustn't, unless you want to have a broken 
+          page.</li>
+        <li>Required lines are: the first lines that call blog.header.php, the 
+          lines with the &quot;while&quot; statement, and the ones with just &quot;}&quot; 
+          (it ends the while loop).</li>
+        <li>Between the &quot;while&quot; line and the &quot;}&quot;, is the template 
+          for your posts.</li>
+      </ul>
+      <p>Notes about parameters:</p>
+      <blockquote><strong>1.</strong> Some template tags can accept optional parameters 
+        between the parenthesis <strong>()</strong>.<br />
         <br />
-
-        <strong>6.</strong> Delete b2install.php - this is not necessary since 
-        v0.5, because there's no &quot;drop table&quot; instructions in the install 
-        script anymore, but it's better to delete it anyway (or rename it to a 
-        random name in case you need it again in the future).<br /><br />
-        <strong>7.</strong> Go to b2login.php and log in with the login &quot;admin&quot; 
-        and the password given to you before. Then click on the menu 'My Profile', 
-        and change the password. Note: you need javascript enabled to launch the 
-        profile popup window.<br />
+        <strong>2.</strong> To add a parameter to a tag, enclose it between quotes 
+        and put it between the <strong>()</strong>.<br />
+        Example: &lt;?php my_tag("my parameter"); ?><br />
         <br />
-        <strong>8.</strong> (Optional) If you don't want to blog as &quot;admin&quot;: 
-        log out, create an user account on b2register.php, then re-log in as &quot;admin&quot;, 
-        and update the level of the new user to 5 or more, so that you have all 
-        the admin rights. Logout, then log in as the new user.<br />
+        <strong>3.</strong> You may have to put several parameters, for that you 
+        separate them with commas.<br />
+        Example: &lt;?php my_tag("first param","second param"); ?><br />
         <br />
-
-		Whenever you want to post something, just open a browser and 
-		go to b2login.php to log in and post.<br />
-		You can also use a bookmarklet and/or a sidebar (IE5+/NS6+) to post.<br />
-		You can also post through the Blogger API, <a href="#xmlrpc">click here</a> for more info.<br />
-		Your site's blog is on b2.php (simple template) and index.php (CSS template), you 
-		can rename this file to index.php or any other name you fancy (provided 
-		it bears the php extension or is interpreted as a php file by your server).<br />
-		You can also copy b2.php into a new file and modify that new file, it will work too ;)<br />
-
-	  </blockquote>
-	  <p>Users upgrading from b2 v0.6.1 to WordPress v0.7:</p>
-      <blockquote> <strong>1.</strong> Unzip the package in an empty directory, 
-        to avoid deleting your existing b2config.php file.<br />
+        <strong>4.</strong> The order of parameters is important. If a function 
+        accepts 2 parameters and you only want to set the second one, you still 
+        have to provide the first one, and so on for any number of parameters.<br />
+        Example: &lt;?php my_tag("","second param"); ?><br />
         <br />
-		<strong>2.</strong> Open the new b2config.php file and your existing b2config.php file. Modify the new b2config.php file in order to use your existing settings there, in addition to the new settings. (There are a lot of additionnal settings, so it's best to edit the new config file than adding on the exisitng one.)<br /><br />
-		<strong>3.</strong> if you want to use the new spellchecker, do a CHMOD 755 on sproxy.pl<br /><br />
-
-        <strong>4.</strong> Edit <u>all</u> your templates and update your template tags 
-        to follow the changes to the template tags here, because there have been some 
-        modifications, and it would cause some errors if you didn't edit the templates. 
-        Tags noted with an orange asterisk <b><font face="Courier New, Courier, mono" color="#FF9900">*</font></b> 
-        are tags that were added or modified in v0.6, these are those you got 
-        to update in your templates.<br />
-        <strong>5.</strong> Upload the new files, and you're done. :)<br />
-      </blockquote>
-	  <p>&nbsp;</p>
-	  <a name="templates"></a>
-      <h1>Template(s):</h1>
-	  <p>First notes:</p>
-	  <blockquote>Enclosed is an example of a template, in the file b2.php. You can rename 
-		this file to &quot;index.php&quot;or something else (recent b2 versions have a default index.php, which is an elaborate CSS-based template).<br />
-		You can have any number of template files, since all they do is extract 
-		the posts from the database.<br />
-		Pseudo-template for the comments is in b2comments.php. You needn't rename this 
-		file, but you can edit it.<br />
-		The only thing to remember is that it's not actually a template, but a 
-		PHP file that you're manipulating. So when you see &quot;don't delete 
-		this line&quot;, you know you mustn't, unless you want to have a broken 
-		page.<br />
-		Required lines are: the first lines that call blog.header.php, the lines 
-		with the &quot;while&quot; statement, and the ones with just &quot;}&quot; 
-		(it ends the while loop).<br />
-        Between the &quot;while&quot; line and the &quot;}&quot;, is the template 
-        for your posts.<br />
+        <strong>5.</strong> Some template tags, like the_date(), display something 
+        only if in some conditions. They generally accept parameters to display 
+        something before and after them only when they display something.<br />
+        Example: &lt;?php the_title("&lt;h1>","&lt;/h1>"); ?> would display &lt;h1>title 
+        of the post&lt;/h1> only if the post has a title<br />
         <br />
       </blockquote>
-
-		<p>Notes about parameters:</p>
-	  <blockquote><strong>1.</strong> Some template tags can accept optional parameters
-	    between the	parenthesis <strong>()</strong>.<br /><br />
-		<strong>2.</strong> To add a parameter to a
-		tag, enclose it between quotes and put it between the <strong>()</strong>.<br />
-		Example: &lt;?php my_tag("my parameter"); ?><br /><br />
-		<strong>3.</strong> You may have to put several parameters, for that you separate
-		them with commas.<br />
-		Example: &lt;?php my_tag("first param","second param"); ?><br /><br />
-		<strong>4.</strong> The order of parameters is important. If a function accepts 2
-		parameters and you only want to set the second one, you still have to provide the
-		first one, and so on for any number of parameters.<br />
-		Example: &lt;?php my_tag("","second param"); ?><br /><br />
-		<strong>5.</strong> Some template tags, like the_date(), display something only
-		if in some conditions. They generally accept parameters to display something before
-		and after them only when they display something.<br />
-		Example: &lt;?php the_title("&lt;h1>","&lt;/h1>"); ?> would display &lt;h1>title
-		of the post&lt;/h1> only if the post has a title<br />
-		
-		<br /></blockquote>
-
-		<p>Template tags are these:</p>
-
-	  <blockquote>
-	  
-	    <strong>&lt;?php the_date() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
-		  the date of the post. example: 03.07.01 (default is dd.mm.yy).<br />
-		  the date is displayed only on new days. for example if you got 10 posts 
-		  on the same day, the date for this day is displayed only once.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>format string (default: "d.m.y")</li>
-		  <li>string to display before the date (default is blank)</li>
-		  <li>string to display after the date (default is blank)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<strong>&lt;?php the_time() ?&gt;</strong><br />
-		  the time of the post. example: 18:37:00 (default is hh:mm:ss)<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>format string (default: "H:i:s")</li>
-		  </ul>
-		  </div>
-
-		<br />
-		<strong>Note:</strong> you can change the way the date &amp; time are displayed 
-		in the Options page.<br />
+      <p>Template tags are these:</p>
+      <blockquote> <strong>&lt;?php the_date() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
+        the date of the post. example: 03.07.01 (default is dd.mm.yy).<br />
+        the date is displayed only on new days. for example if you got 10 posts 
+        on the same day, the date for this day is displayed only once.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>format string (default: "d.m.y")</li>
+            <li>string to display before the date (default is blank)</li>
+            <li>string to display after the date (default is blank)</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php the_time() ?&gt;</strong><br />
+        the time of the post. example: 18:37:00 (default is hh:mm:ss)<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>format string (default: "H:i:s")</li>
+          </ul>
+        </div>
+        <br />
+        <strong>Note:</strong> you can change the way the date &amp; time are 
+        displayed in the Options page.<br />
         once you understand the format strings for the date &amp; time (explained 
         in the Options page), you can change the display right on the template: 
-        for example, <strong>the_date(</strong><em>&quot;d.m.Y&quot;</em><strong>)</strong> to have 
-        dates like 25.12.2001, <strong>the_time(</strong><em>&quot;B&quot;</em><strong>)</strong> to 
-        have Swatch Internet Time.<br />
-		If you change the display of the date on the template, changing it from the
-		options page won't have any effect.br />
-		<br />
-		<strong>Note about the_date():</strong> if you want all your posts to bear the date, 
-		you'll have to use the_time() instead, with a date format string. for 
-		example, to have all your posts show like &quot;25.12.2001 @ 8:04:50 AM&quot; 
-		you'll have the_time(&quot;d.m.Y @ g:i:s A&quot;). you can also repeat 
-		this template tag 2 times with 2 different formats: the_time(&quot;d.m.Y&quot;) 
-		for the date, and then later the_time(&quot;g:i:s A&quot;) for the time 
-		of the day.<br />
-		<br />
-
-		<strong>&lt;?php the_weekday() ?&gt;</strong><br />
+        for example, <strong>the_date(</strong><em>&quot;d.m.Y&quot;</em><strong>)</strong> 
+        to have dates like 25.12.2001, <strong>the_time(</strong><em>&quot;B&quot;</em><strong>)</strong> 
+        to have Swatch Internet Time.<br />
+        If you change the display of the date on the template, changing it from 
+        the options page won't have any effect.br /> <br />
+        <strong>Note about the_date():</strong> if you want all your posts to 
+        bear the date, you'll have to use the_time() instead, with a date format 
+        string. for example, to have all your posts show like &quot;25.12.2001 
+        @ 8:04:50 AM&quot; you'll have the_time(&quot;d.m.Y @ g:i:s A&quot;). 
+        you can also repeat this template tag 2 times with 2 different formats: 
+        the_time(&quot;d.m.Y&quot;) for the date, and then later the_time(&quot;g:i:s 
+        A&quot;) for the time of the day.<br />
+        <br />
+        <strong>&lt;?php the_weekday() ?&gt;</strong><br />
         This displays the day of the week when the post was made. It works like 
         the_time(), in that it would appear at every post. Weekdays can be obtained 
         with a custom date format string in the_time() or the_date(), but for 
         non-english weekdays you have to edit b2config.php<br />
-		<strong>Note: this tag is OBSOLETE, the_time() and the_date() now use weekdays/months from b2config.php</strong><br />
+        <strong>Note: this tag is OBSOLETE, the_time() and the_date() now use 
+        weekdays/months from b2config.php</strong><br />
         <br />
-
-		<strong>&lt;?php the_weekday_date() ?&gt;</strong> <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        <strong>&lt;?php the_weekday_date() ?&gt;</strong> <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
         Like the_weekday(), but works like the_date(), in that it would appear 
         only on new days.<br />
-		<strong>Note: this tag is OBSOLETE, the_time() and the_date() now use weekdays/months from b2config.php</strong><br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>string to display before the weekday_date (default is blank)</li>
-		  <li>string to display after the weekday_date (default is blank)</li>
-		  </ul>
-		  </div>
-		  <br />
-
+        <strong>Note: this tag is OBSOLETE, the_time() and the_date() now use 
+        weekdays/months from b2config.php</strong><br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>string to display before the weekday_date (default is blank)</li>
+            <li>string to display after the weekday_date (default is blank)</li>
+          </ul>
+        </div>
         <br />
-		  <strong>&lt;?php the_ID() ?&gt;<br />
-		  </strong>the ID (number) of the post.<br />
-		  <br />
-		  <strong>&lt;?php the_title() ?&gt;<br />
-		  </strong>The title of the post.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>string to display before the title (default is blank)</li>
-		  <li>string to display after the title (default is blank)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		  <br />
-
-		<strong>&lt;?php the_content() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        <br />
+        <strong>&lt;?php the_ID() ?&gt;<br />
+        </strong>the ID (number) of the post.<br />
+        <br />
+        <strong>&lt;?php the_title() ?&gt;<br />
+        </strong>The title of the post.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>string to display before the title (default is blank)</li>
+            <li>string to display after the title (default is blank)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php the_content() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
         </strong>The text of the post.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>text to display for the link to the complete entry (default is <em>'(more...)'</em>)</li>
-		  <li>0 or 1, whether you want to show the teaser message or not, when showing 
-        the complete text (default is 1)</li>
-		  <li>a filename of another template, if you want the 'more' link to link 
-        to a different template for the complete text of the extended entry (default 
-        is the current template)</li>
-		  </ul>
-		  </div>
-		  <br />
-
+        <div class="params">Parameters: 
+          <ul>
+            <li>text to display for the link to the complete entry (default is 
+              <em>'(more...)'</em>)</li>
+            <li>0 or 1, whether you want to show the teaser message or not, when 
+              showing the complete text (default is 1)</li>
+            <li>a filename of another template, if you want the 'more' link to 
+              link to a different template for the complete text of the extended 
+              entry (default is the current template)</li>
+          </ul>
+        </div>
+        <br />
         For example <em>&lt;?php the_content(&quot;read more&quot;,&quot;0&quot;,&quot;blah.php&quot;) 
         ?&gt;</em> would display a link to <em>blah.php</em>, with the link text 
         <em>read more</em>, and won't display the teaser message.<br />
@@ -266,633 +234,733 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
         message, type <em>&lt;!--noteaser--&gt;</em> somewhere in your entry.<br />
         <br />
         <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span> 
-        To enter an entry with several pages, just type <em>&lt;!--nextpage--&gt;</em>
-		in your entry to start a new page.<br />
-        <br /><br />
-
-		<strong>&lt;?php next_post() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-        </strong>Displays a link to the next post(s). (Generally you might want to use that
-		tag only in single-post templates)<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>format string for the link (default is "%", where % is replaced with the title
-		  of the next post)</li>
-		  <li>text to display to announce the link (default is "next post: ")</li>
-		  <li>"yes" or "no": display the title of the post, or no (default is "yes")</li>
-		  <li>"yes" or "no": display a link to the next post only if the next post is in
-		  the same category (default is "no")</li>
-		  <li>number: which next post ? if you make it '2', the 2nd next post is linked
-		  instead of the 1st next one (default is "1", which means first next post)</li>
-		  </ul>
-		  </div>
-		  <br /><br />
-
-		<strong>&lt;?php previous_post() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-        </strong>Displays a link to the previous post(s). (Generally you might want to use
-		that tag only in single-post templates)<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>format string for the link (default is "%", where % is replaced with the title of the previous post)</li>
-		  <li>text to display to announce the link (default is "previous post: ")</li>
-		  <li>"yes" or "no": display the title of the post, or no (default is "yes")</li>
-		  <li>"yes" or "no": display a link to the next post only if the previous post is in
-		  the same category (default is "no")</li>
-		  <li>number: which previous post ? if you make it '2', the 2nd previous post is
-		  linked instead of the 1st previous post (default is "1", which means first previous post)</li>
-		  </ul>
-		  </div>
-		  <br /><br />
-
-		<strong>&lt;?php next_posts() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-	</strong>Display the URL portion of a link to the next set of posts. <br />
-
-	Generally you would use this in a template to navigate to the next "set" of posts 
-	when the "Show Options" settings for the site is set to "posts paged".  The displayed 
-	string can be used to construct a link.  When the site options are not set to 'posts paged", 
-	the next and previous functions will display nothing.<br />
-	  <div class="params">Parameters:<ul>
-	  <li>Max page number to use. Default "0"; no limit</li>
-	  </ul>
-	  </div>
-	  <br /><br />
-	
-	<strong>&lt;?php next_posts_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-
-	</strong>
-	Displays a full link to the next "set" of posts only if show options set to "posts paged"
-	and only if there is another page or partial page of data.<br />
-	  <div class="params">Parameters:<ul>
-	  <li>A user supplied string. Default "Next Page &gt;&gt;"</li>
-	  </ul>
-	  </div>
-	  <br /><br />
-
-	  
-	<strong>&lt;?php previous_posts() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-	</strong>Displays the URL portion of a link to the previous posts.<br />
-	Generally you would use this in a template to navigate to the previous "set" of posts 
-	when the "Show Options" settings for the site is set to "posts paged".  
-	The displayed string can then be used to construct a link. When the site options are not set to 'posts paged", 
-	the next and previous functions will display nothing.<br />
-	  <div class="params">Parameters:<ul>
-	  <li>No parameters.</li>
-
-	  </ul>
-	  </div>
-	  <br /><br />
-	
-	<strong>&lt;?php previous_posts_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-	</strong>
-	Displays a full link to the previous "set" of posts only if show options set to "posts paged" and if there is a previous set, otherwise nothing is displayed.<br />
-	  <div class="params">Parameters:<ul>
-
-	  <li>A user supplied string. Default "&lt;&lt; Previous Page"</li>
-	  </ul>
-	  </div>
-	  <br /><br />
-	   
- 	<strong>&lt;?php posts_nav_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-	 </strong>The function displays a complete navigation set of links including a user definable "separator" with the ability to supply a the text string to be used for the "previous" and "next" links.<br />
-		The default result will produce the following string:<br />
-		<p align="center">&lt;&lt; Previous Page :: Next Page &gt;&gt;</p>
-	  <div class="params">Parameters:<ul>
-
-	  <li>A user supplied "separator" string. Default " :: "</li>
-	  <li>A user supplied "previous" string. Default "&lt;&lt; Previous Page"</li>
-	  <li>A user supplied "next" string. Default "Next Page &gt;&gt;"</li>
-	  </ul>
-	  </div>
-	  <br /><br />
-	  
-	  <strong>&lt;?php link_pages() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-        </strong>Displays links to the pages of the post if it's a multiple pages post.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>string to display before the tag (default is "&lt;br />", a newline)</li>
-		  <li>string to display after the tag (default is "&lt;br />", a newline)</li>
-		  <li>"next" or "number": display links like "next/previous page" or links to each page with the number of the page "1 2 3 4 etc" (default is "number")</li>
-		  <li>string to display the "next page" link (default is "next page")</li>
-		  <li>string to display the "previous page" link (default is "previous page")</li>
-		  <li>format string for the "number of page" link (default is "%", where % is replaced by the number of the page)</li>
-		  <li>file name, in case you want to load the posts with multiple pages in a different template (default is the current template)</li>
-		  </ul>
-		  </div>
-		  <br /><br />
-
-		  <strong>&lt;?php the_author() ?&gt;</strong><br />
-		  The author of the post.<br />
+        To enter an entry with several pages, just type <em>&lt;!--nextpage--&gt;</em> 
+        in your entry to start a new page.<br />
+        <br />
+        <br />
+        <strong>&lt;?php next_post() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>Displays a link to the next post(s). (Generally you might want 
+        to use that tag only in single-post templates)<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>format string for the link (default is "%", where % is replaced 
+              with the title of the next post)</li>
+            <li>text to display to announce the link (default is "next post: ")</li>
+            <li>"yes" or "no": display the title of the post, or no (default is 
+              "yes")</li>
+            <li>"yes" or "no": display a link to the next post only if the next 
+              post is in the same category (default is "no")</li>
+            <li>number: which next post ? if you make it '2', the 2nd next post 
+              is linked instead of the 1st next one (default is "1", which means 
+              first next post)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php previous_post() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>Displays a link to the previous post(s). (Generally you might 
+        want to use that tag only in single-post templates)<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>format string for the link (default is "%", where % is replaced 
+              with the title of the previous post)</li>
+            <li>text to display to announce the link (default is "previous post: 
+              ")</li>
+            <li>"yes" or "no": display the title of the post, or no (default is 
+              "yes")</li>
+            <li>"yes" or "no": display a link to the next post only if the previous 
+              post is in the same category (default is "no")</li>
+            <li>number: which previous post ? if you make it '2', the 2nd previous 
+              post is linked instead of the 1st previous post (default is "1", 
+              which means first previous post)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php next_posts() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>Display the URL portion of a link to the next set of posts. <br />
+        Generally you would use this in a template to navigate to the next "set" 
+        of posts when the "Show Options" settings for the site is set to "posts 
+        paged". The displayed string can be used to construct a link. When the 
+        site options are not set to 'posts paged", the next and previous functions 
+        will display nothing.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>Max page number to use. Default "0"; no limit</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php next_posts_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong> Displays a full link to the next "set" of posts only if show 
+        options set to "posts paged" and only if there is another page or partial 
+        page of data.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>A user supplied string. Default "Next Page &gt;&gt;"</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php previous_posts() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>Displays the URL portion of a link to the previous posts.<br />
+        Generally you would use this in a template to navigate to the previous 
+        "set" of posts when the "Show Options" settings for the site is set to 
+        "posts paged". The displayed string can then be used to construct a link. 
+        When the site options are not set to 'posts paged", the next and previous 
+        functions will display nothing.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>No parameters.</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php previous_posts_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong> Displays a full link to the previous "set" of posts only if 
+        show options set to "posts paged" and if there is a previous set, otherwise 
+        nothing is displayed.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>A user supplied string. Default "&lt;&lt; Previous Page"</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php posts_nav_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>The function displays a complete navigation set of links including 
+        a user definable "separator" with the ability to supply a the text string 
+        to be used for the "previous" and "next" links.<br />
+        The default result will produce the following string:<br />
+        <p align="center">&lt;&lt; Previous Page :: Next Page &gt;&gt;</p>
+        <div class="params">Parameters: 
+          <ul>
+            <li>A user supplied "separator" string. Default " :: "</li>
+            <li>A user supplied "previous" string. Default "&lt;&lt; Previous 
+              Page"</li>
+            <li>A user supplied "next" string. Default "Next Page &gt;&gt;"</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php link_pages() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>Displays links to the pages of the post if it's a multiple pages 
+        post.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>string to display before the tag (default is "&lt;br />", a newline)</li>
+            <li>string to display after the tag (default is "&lt;br />", a newline)</li>
+            <li>"next" or "number": display links like "next/previous page" or 
+              links to each page with the number of the page "1 2 3 4 etc" (default 
+              is "number")</li>
+            <li>string to display the "next page" link (default is "next page")</li>
+            <li>string to display the "previous page" link (default is "previous 
+              page")</li>
+            <li>format string for the "number of page" link (default is "%", where 
+              % is replaced by the number of the page)</li>
+            <li>file name, in case you want to load the posts with multiple pages 
+              in a different template (default is the current template)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php the_author() ?&gt;</strong><br />
+        The author of the post.<br />
         Depending on the user's profile settings, it can display whether their 
         nickname, login name, first name, last name, both first&amp; last name, 
         or last &amp; first name. look below for more author-related template 
         tags. <br />
-		  <br />
-
-		  <strong>&lt;?php the_category() ?&gt;<br />
-		</strong>the name of the category the post belongs to. you can as an admin 
-		add categories, and rename them if needed. default category is 'General', 
-		you can rename it too.<br />
-		  <br />
-
-		  <strong>&lt;?php the_category_ID() ?&gt;<br />
-        </strong>The ID (number) of the category the post belongs to. This is static 
-        data thatyou can use, for example to associate a category to an image, 
-        or a css style.<br />
-		  <br />
-
-		  <strong>&lt;?php trackback_rdf() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
-        This will include the RDF data that can be used by some weblog tools to locate your posts' trackback URLs.<br />
-		You should put this tag after the &lt;?php the_content() ?&gt; tag in your template, or just before the end of the loop.<br />
-		  <br />
-
-		  <strong>&lt;?php dropdown_cats() ?&gt;<br />
-		</strong>this is a special tag, meant to be used in the template, but outside of the b2 loop. it will display a list of &lt;option name="<em>x</em>"><em>category-name</em>&lt;/option>, where <em>x</em> is the number of the category and <em>category-name</em> is the name of it.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>0 or 1, depending if you want to have an option to display all categories (default is 1)</li>
-		  <li>text to display for the option to show all categories (default is "All")</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		  you can use it like this: <br /><br />
-		  <code>&lt;form action="&lt;?php echo $PHP_SELF ?>" method="get"><br />
-		  &lt;?php dropdown_cats() ?><br />
-		  &lt;input type="submit" name="submit" value="view" /><br />
-		  &lt;/form></code>
-		  <br />
-		  <br />
-
-		  <strong>&lt;?php list_cats() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-		</strong>this is a special tag, meant to be used in the template, but outside of the b2 loop. it will display a list of the categories, with links to them. like in b2archive.php, each category is on a line, the only way you can change this is by editing b2.template.functions.php<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>0 or 1, depending if you want to have an option to display all categories (default is 1)</li>
-		  <li>text to display for the option to show all categories (default is 'All')</li>
-		  <li>sort by: possible values are 'name' and 'ID' (default is 'ID')</li>
-		  <li>sorting order: possible values are 'asc' for ascending or 'desc' for descending (default is 'asc')</li>
-		  <li>filename, in case you want to display the categories' posts in another template (default is current template)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-	    <strong>&lt;?php bloginfo() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
-		  This tag is out of the b2 loop.<br />
-		  It outputs info about your weblog.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>string: can be 'name' to display the name of your weblog (you set it in b2config.php), 'url', 'description', 'admin_email', 'rss_url' to display the URL of your b2rss.xml file, 'pingback_url' to display the URL of your xmlrpc.php file<br /> (default string is 'name')</li>
-		  </ul>
-		  </div>
-		  <br />
-
-	    <strong>&lt;?php single_post_title() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
-		  This tag is out of the b2 loop.<br />
-		  It outputs the title of the post when you load the page with ?p= (see 'Usage' section for explanation). When the weblog page is loaded without ?p=, this tag doesn't display anything. Generally, you could use it like this:<br />
-		  &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_post_title() ?&gt;&lt;/title&gt;<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>prefix string that will appear before the post's title (default is ' :: ')</li>
-		  </ul>
-		  </div>
-		  <br />
-	    <strong>&lt;?php single_cat_title() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
-		  This tag is out of the b2 loop.<br />
-		  It outputs the title of the category when you load the page with ?cat= (see 'Usage' section for explanation). When the weblog page is loaded without ?cat=, this tag doesn't display anything. Generally, you could use it like this:<br />
-		  &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_cat_title() ?&gt;&lt;/title&gt;<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>prefix string that will appear before the category's title (default is ' :: ')</li>
-		  </ul>
-		  </div>
-		  <br />
-	    <strong>&lt;?php single_month_title() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
-		  This tag is out of the b2 loop.<br />
-		  It outputs the name of the month when you load the page with ?m= (see 'Usage' section for explanation). When the weblog page is loaded without ?m=, this tag doesn't display anything. Generally, you could use it like this:<br />
-		  &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_month_title() ?&gt;&lt;/title&gt;<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>prefix string that will appear before the month's name (default is ' :: ')</li>
-		  </ul>
-		  </div>
-		  <br />
-		  <strong>Note:</strong> The above three functions can be used together to produce the Title of the page:<br>
-		  &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_post_title(' :: ') ?&gt;&lt;?php single_cat_title(' :: ') ?&gt;&lt;?php single_month_title(' :: ') ?&gt;&lt;/title&gt;<br />
-          Only one, if any, of these functions will produce output, thus the page Title can be customize to the task being done.
-          <br />
-		<br />
-		<br />
-		<strong>More about the author</strong> of the post ? Here goes:<br />
-		<br />
-		<strong>&lt;?php the_author_email() ?&gt; - </strong> the author's email.<br />
-		<strong>&lt;?php the_author_url() ?&gt;</strong> - the author's url.<br />
-		<strong>&lt;?php the_author_email() ?&gt;</strong> - the author's number of posts.<br />
-		<strong>&lt;?php the_author_icq() ?&gt;</strong> - the author's ICQ number.<br />
-		<strong>&lt;?php the_author_aim() ?&gt;</strong> - the author's AIM handle.<br />
-		<strong>&lt;?php the_author_yim() ?&gt;</strong> - the author's Yahoo Messenger 
-		handle.<br />
-		<strong>&lt;?php the_author_msn() ?&gt;</strong> - the author's MSN Messenger handle.<br />
-		<strong>&lt;?php the_author_posts() ?&gt;</strong> - the author's post count.<br />
-        <strong>&lt;?php the_author_login() ?&gt;</strong> - the author's login name in b2.
-		If you want some static data about the 
-        author, this is what you're searching for. You can, for example, associate 
-        a picture with an author, like this: <em>&lt;img src=&quot;pictures/&lt;?php 
-        the_author_login() ?&gt;.jpg&quot; border=&quot;0&quot;&gt;</em><br />
-        <strong>&lt;?php the_author_ID() ?&gt;</strong> 
-        - the author's ID number in b2. This number is automatically set when 
-        the user registers: to see the ID of an user, go to the Team page. This 
-        is static data too, so you can use it like the_author_login() in associating 
-        stuff with authors.<br />
-		<br />
-
-		<strong><br />
+        <br />
+        <strong>&lt;?php the_category() ?&gt;<br />
+        </strong>the name of the category the post belongs to. you can as an admin 
+        add categories, and rename them if needed. default category is 'General', 
+        you can rename it too.<br />
+        <br />
+        <strong>&lt;?php the_category_ID() ?&gt;<br />
+        </strong>The ID (number) of the category the post belongs to. This is 
+        static data thatyou can use, for example to associate a category to an 
+        image, or a css style.<br />
+        <br />
+        <strong>&lt;?php trackback_rdf() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
+        This will include the RDF data that can be used by some weblog tools to 
+        locate your posts' trackback URLs.<br />
+        You should put this tag after the &lt;?php the_content() ?&gt; tag in 
+        your template, or just before the end of the loop.<br />
+        <br />
+        <strong>&lt;?php dropdown_cats() ?&gt;<br />
+        </strong>this is a special tag, meant to be used in the template, but 
+        outside of the b2 loop. it will display a list of &lt;option name="<em>x</em>"><em>category-name</em>&lt;/option>, 
+        where <em>x</em> is the number of the category and <em>category-name</em> 
+        is the name of it.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>0 or 1, depending if you want to have an option to display all 
+              categories (default is 1)</li>
+            <li>text to display for the option to show all categories (default 
+              is "All")</li>
+          </ul>
+        </div>
+        <br />
+        you can use it like this: <br />
+        <br />
+        <code>&lt;form action="&lt;?php echo $PHP_SELF ?>" method="get"><br />
+        &lt;?php dropdown_cats() ?><br />
+        &lt;input type="submit" name="submit" value="view" /><br />
+        &lt;/form></code> <br />
+        <br />
+        <strong>&lt;?php list_cats() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>this is a special tag, meant to be used in the template, but 
+        outside of the b2 loop. it will display a list of the categories, with 
+        links to them. like in b2archive.php, each category is on a line, the 
+        only way you can change this is by editing b2.template.functions.php<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>0 or 1, depending if you want to have an option to display all 
+              categories (default is 1)</li>
+            <li>text to display for the option to show all categories (default 
+              is 'All')</li>
+            <li>sort by: possible values are 'name' and 'ID' (default is 'ID')</li>
+            <li>sorting order: possible values are 'asc' for ascending or 'desc' 
+              for descending (default is 'asc')</li>
+            <li>filename, in case you want to display the categories' posts in 
+              another template (default is current template)</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php bloginfo() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
+        This tag is out of the b2 loop.<br />
+        It outputs info about your weblog.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>string: can be 'name' to display the name of your weblog (you 
+              set it in b2config.php), 'url', 'description', 'admin_email', 'rss_url' 
+              to display the URL of your b2rss.xml file, 'pingback_url' to display 
+              the URL of your xmlrpc.php file<br />
+              (default string is 'name')</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php single_post_title() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
+        This tag is out of the b2 loop.<br />
+        It outputs the title of the post when you load the page with ?p= (see 
+        'Usage' section for explanation). When the weblog page is loaded without 
+        ?p=, this tag doesn't display anything. Generally, you could use it like 
+        this:<br />
+        &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_post_title() 
+        ?&gt;&lt;/title&gt;<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>prefix string that will appear before the post's title (default 
+              is ' :: ')</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php single_cat_title() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
+        This tag is out of the b2 loop.<br />
+        It outputs the title of the category when you load the page with ?cat= 
+        (see 'Usage' section for explanation). When the weblog page is loaded 
+        without ?cat=, this tag doesn't display anything. Generally, you could 
+        use it like this:<br />
+        &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_cat_title() 
+        ?&gt;&lt;/title&gt;<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>prefix string that will appear before the category's title (default 
+              is ' :: ')</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php single_month_title() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
+        This tag is out of the b2 loop.<br />
+        It outputs the name of the month when you load the page with ?m= (see 
+        'Usage' section for explanation). When the weblog page is loaded without 
+        ?m=, this tag doesn't display anything. Generally, you could use it like 
+        this:<br />
+        &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_month_title() 
+        ?&gt;&lt;/title&gt;<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>prefix string that will appear before the month's name (default 
+              is ' :: ')</li>
+          </ul>
+        </div>
+        <br />
+        <strong>Note:</strong> The above three functions can be used together 
+        to produce the Title of the page:<br>
+        &nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_post_title(' 
+        :: ') ?&gt;&lt;?php single_cat_title(' :: ') ?&gt;&lt;?php single_month_title(' 
+        :: ') ?&gt;&lt;/title&gt;<br />
+        Only one, if any, of these functions will produce output, thus the page 
+        Title can be customize to the task being done. <br />
+        <br />
+        <br />
+        <strong>More about the author</strong> of the post ? Here goes:<br />
+        <br />
+        <strong>&lt;?php the_author_email() ?&gt; - </strong> the author's email.<br />
+        <strong>&lt;?php the_author_url() ?&gt;</strong> - the author's url.<br />
+        <strong>&lt;?php the_author_email() ?&gt;</strong> - the author's number 
+        of posts.<br />
+        <strong>&lt;?php the_author_icq() ?&gt;</strong> - the author's ICQ number.<br />
+        <strong>&lt;?php the_author_aim() ?&gt;</strong> - the author's AIM handle.<br />
+        <strong>&lt;?php the_author_yim() ?&gt;</strong> - the author's Yahoo 
+        Messenger handle.<br />
+        <strong>&lt;?php the_author_msn() ?&gt;</strong> - the author's MSN Messenger 
+        handle.<br />
+        <strong>&lt;?php the_author_posts() ?&gt;</strong> - the author's post 
+        count.<br />
+        <strong>&lt;?php the_author_login() ?&gt;</strong> - the author's login 
+        name in b2. If you want some static data about the author, this is what 
+        you're searching for. You can, for example, associate a picture with an 
+        author, like this: <em>&lt;img src=&quot;pictures/&lt;?php the_author_login() 
+        ?&gt;.jpg&quot; border=&quot;0&quot;&gt;</em><br />
+        <strong>&lt;?php the_author_ID() ?&gt;</strong> - the author's ID number 
+        in b2. This number is automatically set when the user registers: to see 
+        the ID of an user, go to the Team page. This is static data too, so you 
+        can use it like the_author_login() in associating stuff with authors.<br />
+        <br />
+        <strong><br />
         Tags for permalinks</strong> are:<br />
-		<br />
-	
-		<strong>&lt;?php permalink_anchor() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
-		this will display &lt;a name=&quot;...&quot;&gt;&lt;/a&gt;, replacing 
-		&quot;...&quot; with the ID or the title of the post in the database.<br />
-		<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>string for kind of anchor: either 'id' that displays '50', or 'title' that displays 'title_of_post_50' (default is 'id')</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<strong>&lt;?php permalink_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-        </strong>this will display the name of the file followed by #ID to link to 
-        the post, in the month archive if archive-mode is "monthly".<br />
+        <br />
+        <strong>&lt;?php permalink_anchor() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
+        this will display &lt;a name=&quot;...&quot;&gt;&lt;/a&gt;, replacing 
+        &quot;...&quot; with the ID or the title of the post in the database.<br />
+        <br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>string for kind of anchor: either 'id' that displays '50', or 
+              'title' that displays 'title_of_post_50' (default is 'id')</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php permalink_link() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
+        </strong>this will display the name of the file followed by #ID to link 
+        to the post, in the month archive if archive-mode is "monthly".<br />
         note: this tag does not display the link, for this you've got to type 
         &lt;a href=&quot;&lt;?php permalink_link() ?&gt;&quot;&gt;text of the 
         link&lt;/a&gt;.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>file name, in case you want to link the archive to a different template (default is the current template)</li>
-		  <li>string for kind of link: either 'id' that appends '#50' to the link, or 'title' that appends '#title_of_post_50' (default is 'id')</li>
-		  </ul>
-		  </div>
-		  <br />
-
+        <div class="params">Parameters: 
+          <ul>
+            <li>file name, in case you want to link the archive to a different 
+              template (default is the current template)</li>
+            <li>string for kind of link: either 'id' that appends '#50' to the 
+              link, or 'title' that appends '#title_of_post_50' (default is 'id')</li>
+          </ul>
+        </div>
+        <br />
         <br />
         <strong>&lt;?php permalink_single() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span><br />
-        </strong>this will display the name of the file followed by #ID to link to 
-        the entire post (the linked page will also show the extended text on that post if it is an extended entry, and the comments).<br />
+        </strong>this will display the name of the file followed by #ID to link 
+        to the entire post (the linked page will also show the extended text on 
+        that post if it is an extended entry, and the comments).<br />
         note: this tag does not display the link, for this you've got to type 
         &lt;a href=&quot;&lt;?php permalink_single() ?&gt;&quot;&gt;text of the 
         link&lt;/a&gt;.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>file name, in case you want to use a different template for single posts (default is the current template)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<br />
-		<br />
-		<strong>Tags for comments, trackback, and pingback</strong> are:<br />
-		<br />
-
-		<strong>&lt;?php comments_popup_script() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
-        This will include the javascript that is required to open comments, trackback and pingback in popup windows.<br />
-		You should put this tag before the &lt;/head> tag in your template.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>width (default is 400)</li>
-		  <li>height (default is 400)</li>
-		  <li>file name, in case you want to use a different template for comments (default is b2commentspopup.php)</li>
-		  <li>file name, in case you want to use a different template for TrackBacks (default is b2trackbackpopup.php)</li>
-		  <li>file name, in case you want to use a different template for Pingbacks (default is b2pingbackspopup.php)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<br />
-		<strong>&lt;?php comments_popup_link() ?&gt;<span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
-        This will display the link to open comments in a popup window, with the number of comments.<br />
-		To edit the popup window's template, edit the file b2commentspopup.php (it's the default one for comments popup).<br />
-		<br />
-		Note:<br />
-		The same tags exist for TrackBack and Pingback, respectively named '<b>trackback_popup_link()</b>' and '<b>pingback_popup_link()</b>'. They take the same parameters.<br />
-		<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>string for comment-less posts (default is &quot;no comments&quot;)</li>
-		  <li>string for posts with one comment (default is &quot;1 comment&quot;)</li>
-		  <li>string for posts with 2 or more comments (default is &quot;% comments&quot;)<br />Note here that the sign &quot;%&quot; is then replaced by the number of 
-        comments.</li>
-		  <li>string for CSS class, so you can have a styled link with class="" (default is empty, no CSS class applied)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<br />
-		<strong>&lt;?php comments_link() ?&gt;<br />
-        </strong> This is a bit like permalink_link, it will display an URL to the 
-        comments page, but again you'll have to create the link tag.<br />
-		<br />
-		Note:<br />
-		The same tags exist for TrackBack and Pingback, respectively named '<b>trackback_link()</b>' and '<b>pingback_link()</b>'. They take the same parameters.<br />
-		<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>file name, in case you want to use a different template for comments (default is the current template)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>file name, in case you want to use a different template for single 
+              posts (default is the current template)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <br />
+        <strong>Tags for comments, trackback, and pingback</strong> are:<br />
+        <br />
+        <strong>&lt;?php comments_popup_script() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
+        This will include the javascript that is required to open comments, trackback 
+        and pingback in popup windows.<br />
+        You should put this tag before the &lt;/head> tag in your template.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>width (default is 400)</li>
+            <li>height (default is 400)</li>
+            <li>file name, in case you want to use a different template for comments 
+              (default is b2commentspopup.php)</li>
+            <li>file name, in case you want to use a different template for TrackBacks 
+              (default is b2trackbackpopup.php)</li>
+            <li>file name, in case you want to use a different template for Pingbacks 
+              (default is b2pingbackspopup.php)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php comments_popup_link() ?&gt;<span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
+        This will display the link to open comments in a popup window, with the 
+        number of comments.<br />
+        To edit the popup window's template, edit the file b2commentspopup.php 
+        (it's the default one for comments popup).<br />
+        <br />
+        Note:<br />
+        The same tags exist for TrackBack and Pingback, respectively named '<b>trackback_popup_link()</b>' 
+        and '<b>pingback_popup_link()</b>'. They take the same parameters.<br />
+        <br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>string for comment-less posts (default is &quot;no comments&quot;)</li>
+            <li>string for posts with one comment (default is &quot;1 comment&quot;)</li>
+            <li>string for posts with 2 or more comments (default is &quot;% comments&quot;)<br />
+              Note here that the sign &quot;%&quot; is then replaced by the number 
+              of comments.</li>
+            <li>string for CSS class, so you can have a styled link with class="" 
+              (default is empty, no CSS class applied)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        <strong>&lt;?php comments_link() ?&gt;<br />
+        </strong> This is a bit like permalink_link, it will display an URL to 
+        the comments page, but again you'll have to create the link tag.<br />
+        <br />
+        Note:<br />
+        The same tags exist for TrackBack and Pingback, respectively named '<b>trackback_link()</b>' 
+        and '<b>pingback_link()</b>'. They take the same parameters.<br />
+        <br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>file name, in case you want to use a different template for comments 
+              (default is the current template)</li>
+          </ul>
+        </div>
+        <br />
+        <br />
         <strong>&lt;?php comments_number() ?&gt;</strong> <br />
         This displays the number of comments that have been posted on this post. 
         Example: &quot;5 comments&quot;.<br />
-		<br />
-		Note:<br />
-		The same tags exist for TrackBack and Pingback, respectively named '<b>trackback_number()</b>' and '<b>pingback_number()</b>'. They take the same parameters.<br />
-		<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>string for comment-less posts (default is &quot;no comments&quot;)</li>
-		  <li>string for posts with one comment (default is &quot;1 comment&quot;)</li>
-		  <li>string for posts with 2 or more comments (default is &quot;% comments&quot;)<br />Note here that the sign &quot;%&quot; is then replaced by the number of 
-        comments.</li>
-		  </ul>
-		  </div>
-		  <br />
-
+        <br />
+        Note:<br />
+        The same tags exist for TrackBack and Pingback, respectively named '<b>trackback_number()</b>' 
+        and '<b>pingback_number()</b>'. They take the same parameters.<br />
+        <br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>string for comment-less posts (default is &quot;no comments&quot;)</li>
+            <li>string for posts with one comment (default is &quot;1 comment&quot;)</li>
+            <li>string for posts with 2 or more comments (default is &quot;% comments&quot;)<br />
+              Note here that the sign &quot;%&quot; is then replaced by the number 
+              of comments.</li>
+          </ul>
+        </div>
+        <br />
         Example: <em>&lt;?php comments_number(&quot;no comment&quot;,&quot;1 comment&quot;,&quot;% 
         comments&quot;) ?&gt;</em><br />
         <br />
         This tag differs from v0.5's tag because in v0.5 and prior, it would only 
         display a number, not a text with it, so you could have terrible things 
         like &quot;1 comments&quot; (doh !)<br />
-		<br />
-		<strong>Necessary: &lt;?php include(&quot;b2comments.php&quot;) ?&gt;</strong><br />
-		you'll put this line where you want the comments to be placed on your 
-		page.<br />
+        <br />
+        <strong>Necessary: &lt;?php include(&quot;b2comments.php&quot;) ?&gt;</strong><br />
+        you'll put this line where you want the comments to be placed on your 
+        page.<br />
         typically, under the post itself. don't worry, the comments only appear 
         if the page is called in the comments mode. (like this: url?c=1)<br />
-		<br />
-		<strong>Necessary: &lt;?php include(&quot;b2trackback.php&quot;) ?&gt;</strong><br />
-		you'll put this line where you want the TrackBacks to be placed on your 
-		page.<br />
+        <br />
+        <strong>Necessary: &lt;?php include(&quot;b2trackback.php&quot;) ?&gt;</strong><br />
+        you'll put this line where you want the TrackBacks to be placed on your 
+        page.<br />
         typically, under the post itself. don't worry, the TrackBacks only appear 
         if the page is called in the TrackBacks mode. (like this: url?tb=1)<br />
-		<br />
-		<strong>Necessary: &lt;?php include(&quot;b2pingbacks.php&quot;) ?&gt;</strong><br />
-		you'll put this line where you want the Pingbacks to be placed on your 
-		page.<br />
+        <br />
+        <strong>Necessary: &lt;?php include(&quot;b2pingbacks.php&quot;) ?&gt;</strong><br />
+        you'll put this line where you want the Pingbacks to be placed on your 
+        page.<br />
         typically, under the post itself. don't worry, the Pingbacks only appear 
         if the page is called in the Pingbacks mode. (like this: url?pb=1)<br />
-		<br />
-		<br />
-		<strong>Tags that go in b2comments.php, b2trackback.php, b2pingbacks.php:</strong> (these are easy too)<br />
-		<br />
-		<strong>&lt;?php comment_author() ?&gt;</strong><br />
-		<strong>&lt;?php comment_author_email() ?&gt; </strong> - displays the e-mail address, but not the link<br />
-        <strong>&lt;?php comment_author_url() ?&gt; </strong>- displays the url, but not the 
-        link<br />
-		<br />
-
-		<strong>&lt;?php comment_author_email_link() ?&gt; </strong> <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span>- displays a link to the comment's author's e-mail<br />
-        <strong>&lt;?php comment_author_url_link() ?&gt; </strong> <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span>- displays a link to the comment's author's website<br />
-
-		  <div class="params">Parameters for <strong>comment_author_email_link()</strong> and <strong>comment_author_url_link()</strong>:<ul>
-		  <li>string for the link (default: "email"/"url" depending on the tag)</li>
-		  <li>string to display before the link (default is " - ")</li>
-		  <li>string to display after the link (default is blank)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<strong>&lt;?php comment_author_IP() ?&gt;</strong>  
-        - displays the IP of the comment's author<br />
+        <br />
+        <br />
+        <strong>Tags that go in b2comments.php, b2trackback.php, b2pingbacks.php:</strong> 
+        (these are easy too)<br />
+        <br />
+        <strong>&lt;?php comment_author() ?&gt;</strong><br />
+        <strong>&lt;?php comment_author_email() ?&gt; </strong> - displays the 
+        e-mail address, but not the link<br />
+        <strong>&lt;?php comment_author_url() ?&gt; </strong>- displays the url, 
+        but not the link<br />
+        <br />
+        <strong>&lt;?php comment_author_email_link() ?&gt; </strong> <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span>- 
+        displays a link to the comment's author's e-mail<br />
+        <strong>&lt;?php comment_author_url_link() ?&gt; </strong> <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span>- 
+        displays a link to the comment's author's website<br />
+        <div class="params">Parameters for <strong>comment_author_email_link()</strong> 
+          and <strong>comment_author_url_link()</strong>: 
+          <ul>
+            <li>string for the link (default: "email"/"url" depending on the tag)</li>
+            <li>string to display before the link (default is " - ")</li>
+            <li>string to display after the link (default is blank)</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php comment_author_IP() ?&gt;</strong> - displays the IP 
+        of the comment's author<br />
         <strong>&lt;?php comment_text() ?&gt;<br />
-        &lt;?php comment_date() ?&gt; </strong>- unlike the_date(), this tag 
-        appears on every comment<strong><br />
+        &lt;?php comment_date() ?&gt; </strong>- unlike the_date(), this tag appears 
+        on every comment<strong><br />
         &lt;?php comment_time() ?&gt;</strong><br />
-
-		  <div class="params">Parameters for <strong>comment_date()</strong> and <strong>comment_time()</strong>:<ul>
-		  <li>format string (default is "d.m.y"/"H:i:s" depending on the tag)</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<strong>&lt;?php trackback_url() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
+        <div class="params">Parameters for <strong>comment_date()</strong> and 
+          <strong>comment_time()</strong>: 
+          <ul>
+            <li>format string (default is "d.m.y"/"H:i:s" depending on the tag)</li>
+          </ul>
+        </div>
+        <br />
+        <strong>&lt;?php trackback_url() ?&gt; <span style="font-family: Courier New, Courrier, mono; color: #ff9900; font-weight:bold;">*</span></strong><br />
         This tag is out of the b2 TrackBacks loop.<br />
-		It will output the URL to TrackBack the post, that other people can copy and use in b2's posting interface to trackback this post.<br />
-
-		  <div class="params">Parameters:<ul>
-		  <li>no parameter</li>
-		  </ul>
-		  </div>
-		  <br />
-
-		<br />
-		In b2comments.php b2trackback.php and b2pingbacks.php, like in the main template file, please keep the first 
-		PHP lines, the &quot;while&quot; lines, and the &quot;}&quot; lines.<br />
+        It will output the URL to TrackBack the post, that other people can copy 
+        and use in b2's posting interface to trackback this post.<br />
+        <div class="params">Parameters: 
+          <ul>
+            <li>no parameter</li>
+          </ul>
+        </div>
+        <br />
+        <br />
+        In b2comments.php b2trackback.php and b2pingbacks.php, like in the main 
+        template file, please keep the first PHP lines, the &quot;while&quot; 
+        lines, and the &quot;}&quot; lines.<br />
         You can modify the form, but do not remove &quot;&lt;?php echo ... ?&gt;&quot; 
         and all the name=&quot;...&quot; attributes.<br />
-		<br />
-		<br />
-		To <strong>include your archives:</strong><br />
-		<br />
-		<strong>&lt;?php include(&quot;b2archives.php&quot;) ?&gt;</strong><br />
-		this will include the links to your archives, one link per line.<br />
-		if your archive mode is &quot;monthly&quot;, it will display the names 
-		of the months and the years, like &quot;july 2001&quot;.<br />
-		if your archive mode is &quot;post by post&quot;, it will display the 
-		titles of your posts, one title per line. if a post is untitled it will 
-		display the ID (number) of this post.<br />
-		<br />
-		<br />
-		To <strong>include the calendar:</strong><br />
-		<br />
-		<strong>&lt;?php include(&quot;b2calendar.php&quot;) ?&gt;</strong><br />
-		this will include a table with the current month's calendar, each day when
-		you posted shows a link to this day's posts. You can customise this table
-		with CSS classes:
-		<div class="params">
-		<strong>.b2calendarmonth {}</strong><br /> &nbsp; &nbsp; <i>the style that is used to display the month and year</i><br />
-		<strong>.b2calendartable {}</strong><br /> &nbsp; &nbsp; <i>the style of the &lt;table> tag (border etc...)</i><br />
-		<strong>.b2calendarrow {}</strong><br /> &nbsp; &nbsp; <i>the style of the &lt;tr> tag</i><br />
-		<strong>.b2calendarheadercell {}</strong><br /> &nbsp; &nbsp; <i>the style of the &lt;td> tag that shows the weekdays on the top of the table</i><br />
-		<strong>.b2calendarcell {}</strong><br /> &nbsp; &nbsp; <i>the style of the &lt;td> tags that show the days</i><br />
-		<strong>.b2calendaremptycell {}</strong><br /> &nbsp; &nbsp; <i>the style of the &lt;td> tags that are empty</i><br />
-		<strong>.b2calendarlinkpost {}</strong><br /> &nbsp; &nbsp; <i>the style of the link to the post</i><br />
-		<strong>.b2calendartoday {}</strong><br /> &nbsp; &nbsp; <i>the style of the day if it is today</i>
-		</div></blockquote>
-	  <a name="usage"></a>
-      <h1>Usage:</h1>
-	  <p>WordPress relies a lot on the querystring, these variables passed with 
+        <br />
+        <br />
+        To <strong>include your archives:</strong><br />
+        <br />
+        <strong>&lt;?php include(&quot;b2archives.php&quot;) ?&gt;</strong><br />
+        this will include the links to your archives, one link per line.<br />
+        if your archive mode is &quot;monthly&quot;, it will display the names 
+        of the months and the years, like &quot;july 2001&quot;.<br />
+        if your archive mode is &quot;post by post&quot;, it will display the 
+        titles of your posts, one title per line. if a post is untitled it will 
+        display the ID (number) of this post.<br />
+        <br />
+        <br />
+        To <strong>include the calendar:</strong><br />
+        <br />
+        <strong>&lt;?php include(&quot;b2calendar.php&quot;) ?&gt;</strong><br />
+        this will include a table with the current month's calendar, each day 
+        when you posted shows a link to this day's posts. You can customise this 
+        table with CSS classes: 
+        <div class="params"> <strong>.b2calendarmonth {}</strong><br />
+          &nbsp; &nbsp; <i>the style that is used to display the month and year</i><br />
+          <strong>.b2calendartable {}</strong><br />
+          &nbsp; &nbsp; <i>the style of the &lt;table> tag (border etc...)</i><br />
+          <strong>.b2calendarrow {}</strong><br />
+          &nbsp; &nbsp; <i>the style of the &lt;tr> tag</i><br />
+          <strong>.b2calendarheadercell {}</strong><br />
+          &nbsp; &nbsp; <i>the style of the &lt;td> tag that shows the weekdays 
+          on the top of the table</i><br />
+          <strong>.b2calendarcell {}</strong><br />
+          &nbsp; &nbsp; <i>the style of the &lt;td> tags that show the days</i><br />
+          <strong>.b2calendaremptycell {}</strong><br />
+          &nbsp; &nbsp; <i>the style of the &lt;td> tags that are empty</i><br />
+          <strong>.b2calendarlinkpost {}</strong><br />
+          &nbsp; &nbsp; <i>the style of the link to the post</i><br />
+          <strong>.b2calendartoday {}</strong><br />
+          &nbsp; &nbsp; <i>the style of the day if it is today</i> </div>
+      </blockquote>
+      <a name="usage"></a> <h1>Usage:</h1>
+      <p>WordPress relies a lot on the querystring, these variables passed with 
         the URL (note: to pass variables in the querystring, preceed the first 
         variable name with a '?' question mark and every other variables with 
         a '&amp;' sign.)</p>
       <p>Most of the time you won't have to do anything about it, but if you want 
         to know how it works, it's here:</p>
-	  <p>How to use the QueryString:</p>
-	  <blockquote> index.php<strong>?m=200107</strong> will display the month of July 2001.<br />
-		  <br />
-		  index.php<strong>?m=20010701</strong> will display all posts from July 1st, 2001.<br />
-		  <br />
-  		  index.php<strong>?w=20</strong> will display the posts from the 20th week of the year, where January 1st is in the first week (according to PHP).<br />
-		  <br />
-		  index.php<strong>?p=50</strong> will display the post labeled #50 in the database.<br />
-		  <br />
-		  index.php<strong>?s=blue+house</strong> will display the posts that match the 
-		  search request &quot;blue house&quot;.<br />
-		here is the code for a simple search box:<br />
-		<br />
-		<code>&lt;form name=&quot;searchform&quot; action=&quot;&lt;?php echo 
-		$PHP_SELF ?&gt;&quot; method=&quot;get&quot;&gt;<br />
-		&lt;input type=&quot;text&quot; name=&quot;s&quot; /&gt;<br />
-		&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;search&quot; 
-		/&gt;<br />
-		&lt;/form&gt; </code><br />
-		<br />
-		index.php<strong>?cat=1</strong> will display all posts that belong to category #1 (1 
-		is the default). you can add/rename/delete categories from b2's interface.<br />
-		  <br />
-		index.php<strong>?author=1</strong> will display all posts from the author #1<br />
-		<br />
-        index.php<strong>?p=50&c=1</strong> will display the comments 
-        and a form to add a comment below the post.<br />
+      <p>How to use the QueryString:</p>
+      <blockquote> index.php<strong>?m=200107</strong> will display the month 
+        of July 2001.<br />
+        <br />
+        index.php<strong>?m=20010701</strong> will display all posts from July 
+        1st, 2001.<br />
+        <br />
+        index.php<strong>?w=20</strong> will display the posts from the 20th week 
+        of the year, where January 1st is in the first week (according to PHP).<br />
+        <br />
+        index.php<strong>?p=50</strong> will display the post labeled #50 in the 
+        database.<br />
+        <br />
+        index.php<strong>?s=blue+house</strong> will display the posts that match 
+        the search request &quot;blue house&quot;.<br />
+        here is the code for a simple search box:<br />
+        <br />
+        <code>&lt;form name=&quot;searchform&quot; action=&quot;&lt;?php echo 
+        $PHP_SELF ?&gt;&quot; method=&quot;get&quot;&gt;<br />
+        &lt;input type=&quot;text&quot; name=&quot;s&quot; /&gt;<br />
+        &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;search&quot; 
+        /&gt;<br />
+        &lt;/form&gt; </code><br />
+        <br />
+        index.php<strong>?cat=1</strong> will display all posts that belong to 
+        category #1 (1 is the default). you can add/rename/delete categories from 
+        b2's interface.<br />
+        <br />
+        index.php<strong>?author=1</strong> will display all posts from the author 
+        #1<br />
+        <br />
+        index.php<strong>?p=50&c=1</strong> will display the comments and a form 
+        to add a comment below the post.<br />
         you should use this variable only with <strong>p=</strong>, example: index.php<strong>?p=50&amp;c=1</strong>.<br />
         <br />
-        index.php<strong>?p=50&tb=1</strong> will display the TrackBacks to the post #50.<br />
+        index.php<strong>?p=50&tb=1</strong> will display the TrackBacks to the 
+        post #50.<br />
         you should use this variable only with <strong>p=</strong>, example: index.php<strong>?p=50&amp;tb=1</strong>.<br />
         <br />
-        index.php<strong>?p=50&pb=1</strong> will display the Pingbacks to the post #50.<br />
+        index.php<strong>?p=50&pb=1</strong> will display the Pingbacks to the 
+        post #50.<br />
         you should use this variable only with <strong>p=</strong>, example: index.php<strong>?p=50&amp;pb=1</strong>.<br />
         <br />
-        index.php<strong>?p=50&more=1</strong> will display the extended entries' text. this, 
-        too, should be used only with <strong>p=</strong>, for individual entries.<br />
-		  <br />
-        index.php<strong>?p=50&page=1</strong> will display the first page of post #50. this, 
-        again, should be used only with <strong>p=</strong>, for individual entries.<br />
-		  <br />
+        index.php<strong>?p=50&more=1</strong> will display the extended entries' 
+        text. this, too, should be used only with <strong>p=</strong>, for individual 
+        entries.<br />
+        <br />
+        index.php<strong>?p=50&page=1</strong> will display the first page of 
+        post #50. this, again, should be used only with <strong>p=</strong>, for 
+        individual entries.<br />
+        <br />
         You can also mix these variables, example: index.php<strong>?m=200107&amp;s=hotdog</strong> 
         will display the posts that match the search request &quot;hotdog&quot;, 
         but only in July 2001. </blockquote>
-	  <p>&nbsp;</p>
-	  <a name="xmlrpc"></a>
-      <h1>XMLRPC Interface:</h1>
-		
+      <p>&nbsp;</p>
+      <a name="xmlrpc"></a> <h1>XMLRPC Interface:</h1>
       <p>WordPress now has a XMLRPC interface. The only API available right now 
         is the Blogger API (complete specs <a href="http://www.tswoam.co.uk/blogger_method_listing.html">here</a>). 
         There are talks about a new API that would cover a lot of weblog/CMS systems 
         in the future: when it's ready, WordPress will support it.<br />
-		<br />
+        <br />
         The <a href="http://plant.blogger.com/api">Blogger API</a> has been completely 
         emulated on WordPress, with some little differences:</p>
-
-		<ul>
-		<li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns all
-		posts in the blog</li>
-		<li><em>blogger.getTemplate</em> fetches your file $blogfilename (as specified in
-		the config), while <em>blogger.setTemplate</em> overwrites it with the edited
-		data</li>
-		<li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' and
-		$blogname, since b2 supports only one blog as of now</li>
-		</ul>
-		
-		<p>If you use blogger.newPost, your post is submitted without title and in category
-		#1.<br /><br />
-		However, you can type &lt;title>my title&lt;/title> and/or &lt;category>2&lt;category>
-		in the body of your post to make its title be 'my title' and its category be #2
-		(refer to your categories section to find out the ID numbers of the categories). b2 would then delete that extra info from the body of your post once it is posted.<br /><br />
-		<br />
-		You can now post to your b2 blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.cjb.net">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), and other tools that support the Blogger API ! :)<br /><br />
-		Your XMLRPC server/path are as described here: if you login to b2 on http://mydomain.com/me/b2login.php, then you have:</p>
-
-		<ul>
-		<li>server: http://mydomain.com/me</li>
-		<li>path: /me/xmlrpc.php</li>
-		<li>complete URL (just in case): http://mydomain.com/me/xmlrpc.php</li>
-		</ul>
-
-		
+      <ul>
+        <li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns 
+          all posts in the blog</li>
+        <li><em>blogger.getTemplate</em> fetches your file $blogfilename (as specified 
+          in the config), while <em>blogger.setTemplate</em> overwrites it with 
+          the edited data</li>
+        <li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' 
+          and $blogname, since b2 supports only one blog as of now</li>
+      </ul>
+      <p>If you use blogger.newPost, your post is submitted without title and 
+        in category #1.<br />
+        <br />
+        However, you can type &lt;title>my title&lt;/title> and/or &lt;category>2&lt;category> 
+        in the body of your post to make its title be 'my title' and its category 
+        be #2 (refer to your categories section to find out the ID numbers of 
+        the categories). b2 would then delete that extra info from the body of 
+        your post once it is posted.<br />
+        <br />
+        <br />
+        You can now post to your b2 blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, 
+        <a href="http://bloggar.cjb.net">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> 
+        (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio 
+        Userland</a> (which means you can use Radio's email-to-blog feature), 
+        and other tools that support the Blogger API ! :)<br />
+        <br />
+        Your XMLRPC server/path are as described here: if you login to b2 on http://mydomain.com/me/b2login.php, 
+        then you have:</p>
+      <ul>
+        <li>server: http://mydomain.com/me</li>
+        <li>path: /me/xmlrpc.php</li>
+        <li>complete URL (just in case): http://mydomain.com/me/xmlrpc.php</li>
+      </ul>
       <p>There's also a b2-specific method: b2.getCategories. Request it with 
         3 strings: blog_ID (use '1'), username, password. The response is an array 
         of structs with strings categoryID and categoryName.<br />
-
-		<br />
-		</p>
-	  <p>&nbsp;</p>
-	  <a name="postviaemail"></a><h1>Post via Email:</h1>
-		
+        <br />
+      </p>
+      <p>&nbsp;</p>
+      <a name="postviaemail"></a> <h1>Post via Email:</h1>
       <p>You can post news from an email client!<br />
-		But first you'll have to edit b2config.php, filling the appropriate values for your POP3 email account (this interface doesn't support IMAP yet, only POP3, sorry).<br />
-		<br />
-		Once you have edited the config options, you can make your webserver execute b2mail.php every set amount of time (depending on your host's performance, this script can be resource intensive, so don't make it run every minute or you'll be kicked).<br />
-		You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your b2mail.php URL.<br />
-		<br />
-		<b>Preliminary advice:</b><br />
-		It is strongly advised to send your email as text-only (Outlook and Outlook Express default to 'html', which may cause problems), but HTML email could work (the script would strip all your html tags though...).<br />
-		It is also advised not to use your public email address, but create a new one especially for this script. If you use your public email address and the script goes crazy posting every email on your blog and deleting all your emails, I can't take responsibility for this.<br />
-		Make sure you delete any email sent to your blog in your 'Sent' folder too, just in case (you don't want someone to find your login and password in the 'Sent' folder).<br />
-		<br />
-		The script will <i>delete</i> the emails that were used to post stuff on your weblog if it successfully posted your stuff. If it didn't manage to post, the email is not deleted.<br />
-		<br />
-		<b>How to post:</b><br />
-		Now to post something, here's how your email should look like:</p>
-		<div class="params">
-		<b>To:</b> address@domain.com <span style='color: #999'>(you set it in the config file)</span><br />
-		<b>Subject:</b> blog:the post's title <span style='color: #999'>(you can change 'blog:' in the config file)</span><br />
-		<b>Body:</b><br>
-		login:password <span style='color: #999'>(example: <i>Jack:Starwars</i>)</span><br />
-		The content of the post, blah blah blah.<br />
-		More blah blah. ___
-		</div>
-		<p>
-		Subject must start with 'blog:', or any string you set in the config file (so that the script doesn't check EVERY email in your mailbox).<br />
-		Body's first line must always be login:password, else the script will just skip the email.<br />
-		If you don't use '___' (or any body terminator that you set in the config file), the script will post the whole body, which is not what you want if you send email with Yahoo or Hotmail (you don't want their ads on your blog, do you ?).<br />
-		<br />
-		<b>Special cases for mobile phone email:</b><br />
-		Some mobile phone service providers may allow you to send email with your mobile phone or PDA, but on such devices you can't always include line breaks. In such case, you have to set <i>$use_phoneemail = 1</i> in b2config.php, and then here's how you write the email:</p>
-		<div class="params">
-		<b>To:</b> address@domain.com<br />
-		<b>Subject:</b> blog:the post's title <b>:::</b><br />
-		<b>Body:</b><br>
-		login:password <b>:::</b> The content of the post, blah blah blah.___
-		</div>
-		<p>You will have to append ':::' (or whatever string you set in the config file) after the subject, and after the login:password.<br />
-		<br />
-		Some mobile phone service providers may not allow you to set a subject, and they'll make the subject be the first characters of the body, in which case you would send an email like this:</p>
-		<div class="params">
-		<b>To:</b> address@domain.com<br />
-		<b>Body:</b><br>
-		blog:the post's title <b>:::</b> login:password <b>:::</b> The content of the post, blah blah blah.___
-		</div>
-
-	  <p>&nbsp;</p>
-	  <a name="notes"></a>
-      <h1>Notes: </h1>
-	  <p>On multi-user:</p>
-	  <blockquote>You don't invite users, they can register on b2register.php.<br />
-		Then you (as an admin) click the &quot;+&quot; next to their name in the 
-		user-list, to upgrade their level to 1 or more, so they can post. If you 
-		don't want an user to post anymore, just click &quot;-&quot; until their 
-		level is 0.<br />
-		Note: you can now disable users registration altogether from the config file.<br />
-		<strong>Levels</strong> are these:<br />
-		0 - new user: can't post.<br />
-		1 - user: can post &amp; edit/delete their own posts.<br />
-		3 &amp; more - admin: can post, edit/delete other people's posts, and 
-		change the options.<br />
-		Any user whose level is higher than 1, can edit/delete the posts and change 
-		the level of users whose level is inferior. Example: a level 2 user is 
-		not an admin, but can edit the posts of level 1 users, and up the level 
-		of a new user from 0 to 1.<br />
-		  <br />
-		  Usually, you'll want to have a team of only level 1 users except you. 
-		;)<br />
-		<strong>Note:</strong> you can modify a variable in b2config.php, to enable new 
-		users to post once they've registered.<br />
+        But first you'll have to edit b2config.php, filling the appropriate values 
+        for your POP3 email account (this interface doesn't support IMAP yet, 
+        only POP3, sorry).<br />
+        <br />
+        Once you have edited the config options, you can make your webserver execute 
+        b2mail.php every set amount of time (depending on your host's performance, 
+        this script can be resource intensive, so don't make it run every minute 
+        or you'll be kicked).<br />
+        You can do it with Cron-jobs, or if your host doesn't support it you can 
+        look into the various website-monitoring services, and make them check 
+        your b2mail.php URL.<br />
+        <br />
+        <b>Preliminary advice:</b><br />
+        It is strongly advised to send your email as text-only (Outlook and Outlook 
+        Express default to 'html', which may cause problems), but HTML email could 
+        work (the script would strip all your html tags though...).<br />
+        It is also advised not to use your public email address, but create a 
+        new one especially for this script. If you use your public email address 
+        and the script goes crazy posting every email on your blog and deleting 
+        all your emails, I can't take responsibility for this.<br />
+        Make sure you delete any email sent to your blog in your 'Sent' folder 
+        too, just in case (you don't want someone to find your login and password 
+        in the 'Sent' folder).<br />
+        <br />
+        The script will <i>delete</i> the emails that were used to post stuff 
+        on your weblog if it successfully posted your stuff. If it didn't manage 
+        to post, the email is not deleted.<br />
+        <br />
+        <b>How to post:</b><br />
+        Now to post something, here's how your email should look like:</p>
+      <div class="params"> <b>To:</b> address@domain.com <span style='color: #999'>(you 
+        set it in the config file)</span><br />
+        <b>Subject:</b> blog:the post's title <span style='color: #999'>(you can 
+        change 'blog:' in the config file)</span><br />
+        <b>Body:</b><br>
+        login:password <span style='color: #999'>(example: <i>Jack:Starwars</i>)</span><br />
+        The content of the post, blah blah blah.<br />
+        More blah blah. ___ </div>
+      <p> Subject must start with 'blog:', or any string you set in the config 
+        file (so that the script doesn't check EVERY email in your mailbox).<br />
+        Body's first line must always be login:password, else the script will 
+        just skip the email.<br />
+        If you don't use '___' (or any body terminator that you set in the config 
+        file), the script will post the whole body, which is not what you want 
+        if you send email with Yahoo or Hotmail (you don't want their ads on your 
+        blog, do you ?).<br />
+        <br />
+        <b>Special cases for mobile phone email:</b><br />
+        Some mobile phone service providers may allow you to send email with your 
+        mobile phone or PDA, but on such devices you can't always include line 
+        breaks. In such case, you have to set <i>$use_phoneemail = 1</i> in b2config.php, 
+        and then here's how you write the email:</p>
+      <div class="params"> <b>To:</b> address@domain.com<br />
+        <b>Subject:</b> blog:the post's title <b>:::</b><br />
+        <b>Body:</b><br>
+        login:password <b>:::</b> The content of the post, blah blah blah.___ 
+      </div>
+      <p>You will have to append ':::' (or whatever string you set in the config 
+        file) after the subject, and after the login:password.<br />
+        <br />
+        Some mobile phone service providers may not allow you to set a subject, 
+        and they'll make the subject be the first characters of the body, in which 
+        case you would send an email like this:</p>
+      <div class="params"> <b>To:</b> address@domain.com<br />
+        <b>Body:</b><br>
+        blog:the post's title <b>:::</b> login:password <b>:::</b> The content 
+        of the post, blah blah blah.___ </div>
+      <p>&nbsp;</p>
+      <a name="notes"></a> <h1>Notes: </h1>
+      <p>On multi-user:</p>
+      <blockquote>You don't invite users, they can register on b2register.php.<br />
+        Then you (as an admin) click the &quot;+&quot; next to their name in the 
+        user-list, to upgrade their level to 1 or more, so they can post. If you 
+        don't want an user to post anymore, just click &quot;-&quot; until their 
+        level is 0.<br />
+        Note: you can now disable users registration altogether from the config 
+        file.<br />
+        <strong>Levels</strong> are these:<br />
+        0 - new user: can't post.<br />
+        1 - user: can post &amp; edit/delete their own posts.<br />
+        3 &amp; more - admin: can post, edit/delete other people's posts, and 
+        change the options.<br />
+        Any user whose level is higher than 1, can edit/delete the posts and change 
+        the level of users whose level is inferior. Example: a level 2 user is 
+        not an admin, but can edit the posts of level 1 users, and up the level 
+        of a new user from 0 to 1.<br />
+        <br />
+        Usually, you'll want to have a team of only level 1 users except you. 
+        ;)<br />
+        <strong>Note:</strong> you can modify a variable in b2config.php, to enable 
+        new users to post once they've registered.<br />
         If you don't want users to register on your blog at all, just delete b2register.php 
         once you've registered your user account.</blockquote>
-	  <p><br />
-		Final notes:</p>
-	  <blockquote>
+      <p><br />
+        Final notes:</p>
+      <blockquote> 
         <p>WordPress is functionnal, but a lot of coding and code clean-up remain 
           to be done.</p>
         <p>If you've got suggestions, ideas, or comments, or if you found a bug, 
@@ -900,13 +968,12 @@ ul,ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding
         <p>If you can code in PHP, you'll see the structure of b2 is flexible 
           enough to allow for more functions and sections to be added.</p>
       </blockquote>
-	  <p><br />
-		Copyright notes:</p>
-	  <blockquote><br />
-		Wherever third party code has been used, credit has been given in the 
-		code's comments.<br />
-        WordPress is released under the GPL (see license.txt).</blockquote>
-	</td>
+      <p><br />
+        Copyright notes:</p>
+      <blockquote><br />
+        Wherever third party code has been used, credit has been given in the 
+        code's comments.<br />
+        WordPress is released under the GPL (see license.txt).</blockquote></td>
   </tr>
 </table>
 <p>&nbsp;</p>
