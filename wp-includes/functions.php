@@ -1587,7 +1587,7 @@ function get_comments_popup_template() {
 	if ( file_exists( TEMPLATEPATH . '/comments-popup.php') )
 		$template = TEMPLATEPATH . '/comments-popup.php';
 	else
-		$template = get_theme_base() . '/default/comments-popup.php';
+		$template = get_theme_root() . '/default/comments-popup.php';
 
 	return apply_filters('comments_popup_template', $template);
 }
