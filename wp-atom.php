@@ -42,6 +42,7 @@ $more = 1;
 <?php else : ?>
 		<content type="text/html" mode="escaped" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_excerpt_rss() ?>]]></content>
 <?php endif; ?>
+<?php rss_enclosure(); ?>
 	</entry>
 	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
 </feed>
