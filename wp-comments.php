@@ -1,19 +1,8 @@
-<?php
-
-if ('wp-comments.php' == basename($_SERVER['SCRIPT_FILENAME']))
-	die ('Please do not load this page directly. Thanks!');
-
-if ( !empty($post->post_password) && $_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) :
-?>
+<?php if ( !empty($post->post_password) && $_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) : ?>
 <p><?php _e('Enter your password to view comments.'); ?></p>
-<?php
-	return;
-endif;
-?>
+<?php return; endif; ?>
 
-<!-- You can start editing here. -->
-
-<h2 id="comments"><?php comments_number(__("Comments"), __("1 Comment"), __("% Comments")); ?> 
+<h2 id="comments"><?php comments_number(__('No Comments'), __('1 Comment'), __('% Comments')); ?> 
 <?php if ( comments_open() ) : ?>
 	<a href="#postcomment" title="<?php _e("Leave a comment"); ?>">&raquo;</a>
 <?php endif; ?>
@@ -32,7 +21,7 @@ endif;
 
 </ol>
 
-<?php else : ?>
+<?php else : // If there are no comments yet ?>
 	<p><?php _e('No comments yet.'); ?></p>
 <?php endif; ?>
 
