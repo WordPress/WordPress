@@ -819,7 +819,7 @@ class WP_Rewrite {
 		} 
 
 		if (empty($this->date_structure)) {
-			$this->date_structure = $front . '%year%/%monthnum%/%day%';
+			$this->date_structure = $this->front . '%year%/%monthnum%/%day%';
 		}
 
 		return $this->date_structure;
