@@ -163,7 +163,9 @@ function user_pass_ok($user_login,$user_pass) {
 function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $cookiehash;
 	// *** retrieving user's data from cookies and db - no spoofing
-	$user_login = $_COOKIE['wordpressuser_' . $cookiehash];
+
+	if (isset($_COOKIE['wordpressuser_' . $cookiehash])) 
+		$user_login = $_COOKIE['wordpressuser_' . $cookiehash];
 	$userdata = get_userdatabylogin($user_login);
 	$user_level = $userdata->user_level;
 	$user_ID = $userdata->ID;

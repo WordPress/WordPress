@@ -441,7 +441,7 @@ function get_calendar($daylength = 1) {
                 $ak_titles_for_day['day_'.$ak_post_title->dom] = '';
             }
             if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
-                $ak_titles_for_day["$ak_post_title->dom"] .= htmlspecialchars(stripslashes($ak_post_title->post_title));
+                $ak_titles_for_day["$ak_post_title->dom"] = htmlspecialchars(stripslashes($ak_post_title->post_title));
             } else {
                 $ak_titles_for_day["$ak_post_title->dom"] .= $ak_title_separator . htmlspecialchars(stripslashes($ak_post_title->post_title));
             }

@@ -499,10 +499,10 @@ if ($posts) {
 			$mval = $metarow['meta_value'];
 			
 			// Force subkeys to be array type:
-			if (!is_array($post_meta_cache[$mpid]))
+			if (!isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]))
 				$post_meta_cache[$mpid] = array();
-			if (!is_array($post_meta_cache[$mpid][$mkey]))
-				$post_meta_cache[$mpid][$mkey] = array();
+			if (!isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]))
+				$post_meta_cache[$mpid]["$mkey"] = array();
 			
 			// Add a value to the current pid/key:
 			$post_meta_cache[$mpid][$mkey][] = $mval;

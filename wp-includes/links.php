@@ -123,7 +123,9 @@ function get_links($category = -1, $before = '', $after = '<br />',
     }
     if (get_settings('links_recently_updated_time')) {
         $recently_updated_test = ", IF (DATE_ADD(link_updated, INTERVAL ".get_settings('links_recently_updated_time')." MINUTE) >= NOW(), 1,0) as recently_updated ";
-    }
+    } else {
+		$recently_updated_test = '';
+	}
     if ($show_updated) {
         $get_updated = ", UNIX_TIMESTAMP(link_updated) AS link_updated_f ";
     }
@@ -167,6 +169,7 @@ function get_links($category = -1, $before = '', $after = '<br />',
         return;
     }
     foreach ($results as $row) {
+		if (!isset($row->recently_updated)) $row->recently_updated = false;
         echo($before);
         if ($show_updated && $row->recently_updated) {
             echo get_settings('links_recently_updated_prepend');
@@ -533,8 +536,8 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 	// if 'name' wasn't specified, assume 'id':
 	$cat_order = ('name' == $order) ? 'cat_name' : 'cat_id';
 
-
-	// Fetch the link category data as an array of hashes
+	if (!isset($direction)) $direction = '';
+	// Fetch the link category data as an array of hashesa
 	$cats = $wpdb->get_results("
 		SELECT DISTINCT link_category, cat_name, show_images, 
 			show_description, show_rating, show_updated, sort_order, 

@@ -264,8 +264,8 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
         $file = get_settings('home') . '/' . get_settings('blogfilename');
     }
 
+	$exclusions = '';
 	if (!empty($exclude)) {
-		$exclusions = ''; // initialize for safety
 		$excats = preg_split('/[\s,]+/',$exclude);
 		if (count($excats)) {
 			foreach ($excats as $excat) {
@@ -326,7 +326,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     $thelist = "";
     
     foreach ($categories as $category) {
-        if ((intval($hide_empty) == 0 || $category_posts["$category->cat_ID"] > 0) && (!$children || $category->category_parent == $child_of)) {
+        if ((intval($hide_empty) == 0 || isset($category_posts["$category->cat_ID"])) && (!$children || $category->category_parent == $child_of)) {
             $num_found++;
             $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" ';
             if ($use_desc_for_title == 0 || empty($category->category_description)) {
@@ -395,8 +395,10 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     if ($list && $child_of && $num_found && $recurse) {
         $pre = "\t\t<ul class='children'>";
         $post = "\t\t</ul>\n";
-    }
-    $thelist=$pre.$thelist.$post;
+    } else {
+		$pre = $post = '';
+	}
+    $thelist = $pre . $thelist . $post;
     if ($recurse) {
         return $thelist;
     }
