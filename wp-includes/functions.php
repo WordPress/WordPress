@@ -611,14 +611,23 @@ function &get_page(&$page, $output = OBJECT) {
 }
 
 // Retrieves category data given a category ID or category object. 
-// The category cache is fully populated by the blog header, so we don't
-// have to worry with managing it here.
+// Handles category caching.
 function &get_category(&$category, $output = OBJECT) {
-	global $cache_categories;
-	if (is_object($category))
+	global $cache_categories, $wpdb;
+
+	if (is_object($category)) {
+		if ( ! isset($cache_categories[$category->cat_ID]))
+			$cache_categories[$category->cat_ID] = &$category;
 		$category = & $cache_categories[$category->cat_ID];
-	else
-		$category = & $cache_categories[$category];
+	} else {
+		if ( !isset($cache_categories[$category]) ) {
+			$category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = $category");
+			$category->category_id = $category->cat_ID; // Alias.
+			$cache_categories[$category] = & $category;
+		} else {
+			$category = & $cache_categories[$category];
+		}
+	}
 
 	if ( $output == OBJECT ) {
 		return $category;
