@@ -141,28 +141,29 @@ function single_cat_title($prefix = '', $display = true ) {
 }
 
 function single_month_title($prefix = '', $display = true ) {
-    global $m, $month;
-    if(!empty($m)) {
-        $my_year = substr($m,0,4);
-        $my_month = $month[substr($m,4,2)];
-        if ($display)
-            echo $prefix.$my_month.$prefix.$my_year;
-        else
-            return $m;
-    }
+	global $m, $month;
+	if(!empty($m)) {
+		$my_year = substr($m, 0, 4);
+		$my_month = $month[substr($m, 4, 2)];
+		if ($display)
+			echo $prefix . $my_month . $prefix . $my_year;
+		else
+			return $m;
+	}
 }
 
 /* link navigation hack by Orien http://icecode.com/ */
-function get_archives_link($url, $text, $format = "html", $before = "", $after = "") {
-    if ('link' == $format) {
-        return "\t".'<link rel="archives" title="'.$text.'" href="'.$url.'" />'."\n";
-    } else if ('option' == $format) {
-        return '<option value="'.$url.'">'.$text.'</option>'."\n";
-    } else if ('html' == $format) {
-        return "\t".'<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a>'.$after.'</li>'."\n";
-    } else { // custom
-        return "\t".$before.'<a href="'.$url.'" title="'.$text.'">'.$text.'</a>'.$after."\n";
-    }
+function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
+	$text = wptexturize($text);
+	if ('link' == $format) {
+		return "\t<link rel='archives' title='$text' href='$url' />\n";
+	} elseif ('option' == $format) {
+		return "\t<option value='$url'>$text</option>\n";
+	} elseif ('html' == $format) {
+		return "\t<li>$before<a href='$url' title='$text'>$text</a>$after</li>\n";
+	} else { // custom
+		return "\t$before<a href='$url' title='$text'>$text</a>$after\n";
+	}
 }
 
 function wp_get_archives($args = '') {
