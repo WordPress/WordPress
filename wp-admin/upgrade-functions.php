@@ -579,13 +579,12 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		if ($lines) {
 			$f = fopen("$site_dir/$newfile", 'w');
 
-			$siteurl = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'");
 			foreach ($lines as $line) {
 				if (preg_match('/require.*wp-blog-header/', $line))
 					$line = '//' . $line;
 
 				// Update stylesheet references.
-				$line = str_replace("<?php echo $siteurl; ?>/wp-layout.css", "<?php bloginfo('stylesheet_url'); ?>", $line);
+				$line = str_replace("<?php echo __get_option('siteurl'); ?>/wp-layout.css", "<?php bloginfo('stylesheet_url'); ?>", $line);
 
 				// Update comments template inclusion.
 				$line = str_replace("<?php include(ABSPATH . 'wp-comments.php'); ?>", "<?php comments_template(); ?>", $line);
