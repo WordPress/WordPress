@@ -45,6 +45,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'blogger.getRecentPosts' => 'this:blogger_getRecentPosts',
 		  'blogger.getTemplate' => 'this:blogger_getTemplate',
 		  'blogger.setTemplate' => 'this:blogger_setTemplate',
+		  'blogger.newPost' => 'this:blogger_newPost',
+
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
 		));
@@ -316,7 +318,53 @@ class wp_xmlrpc_server extends IXR_Server {
 	  return true;
 	}
 
-}}
+
+	/* blogger.newPost ...creates a new post */
+	function blogger_newPost($args) {
+
+	  global $tableposts, $wpdb;
+
+	  $blog_ID    = $args[1]; /* though we don't use it yet */
+	  $user_login = $args[2];
+	  $user_pass  = $args[3];
+	  $content    = $args[4];
+	  $publish    = $args[5];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+	  if ($user_data->user_level < 1) {
+	    return new IXR_Error(401, 'Sorry, level 0 users can not post');
+	  }
+
+	  $post_status = ($publish) ? 'publish' : 'draft';
+
+	  $post_author = $user_data->ID;
+
+	  $post_title = addslashes(xmlrpc_getposttitle($content));
+	  $post_category = xmlrpc_getpostcategory($content);
+
+	  $content = xmlrpc_removepostdata($content);
+	  $post_content = format_to_post($content);
+
+	  $post_date = current_time('mysql');
+	  $post_date_gmt = current_time('mysql', 1);
+
+	  $post_data = compact('blog_ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status');
+
+	  $post_ID = wp_insert_post($post_data);
+
+	  if (!$post_ID) {
+	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
+	  }
+
+	  logIO('O', "Posted ! ID: $post_ID");
+
+	  return $post_ID;
+	}
+}
 
 $wp_xmlrpc_server = new wp_xmlrpc_server();
 
@@ -325,6 +373,111 @@ $wp_xmlrpc_server = new wp_xmlrpc_server();
 /* functions that we ought to relocate
  * and/or roll into a WP class as extension of wpdb
  */
+
+function wp_insert_post($postarr = array()) {
+	global $wpdb, $tableposts, $post_default_category;
+	
+	// export array as variables
+	extract($postarr);
+	
+	// Do some escapes for safety
+	$post_title = $wpdb->escape($post_title);
+	$post_name = sanitize_title($post_title);
+	$post_excerpt = $wpdb->escape($post_excerpt);
+	$post_content = $wpdb->escape($post_content);
+	$post_author = (int) $post_author;
+
+	// Make sure we set a valid category
+	if (0 == count($post_category) || !is_array($post_category)) {
+		$post_category = array($post_default_category);
+	}
+
+	$post_cat = $post_category[0];
+	
+	if (empty($post_date))
+		$post_date = current_time('mysql');
+	// Make sure we have a good gmt date:
+	if (empty($post_date_gmt)) 
+		$post_date_gmt = get_gmt_from_date($post_date);
+	
+	$sql = "INSERT INTO $tableposts 
+		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name) 
+		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name')";
+	
+	$result = $wpdb->query($sql);
+	$post_ID = $wpdb->insert_id;
+	$blog_ID = (isset($blog_ID)) ? $blog_ID : 1;
+
+	wp_set_post_cats($blog_ID, $post_ID, $post_category);
+	
+	// Return insert_id if we got a good result, otherwise return zero.
+	return $result ? $post_ID : 0;
+}
+
+
+function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
+	global $wpdb, $tablepost2cat;
+	// If $post_categories isn't already an array, make it one:
+	if (!is_array($post_categories)) {
+		if (!$post_categories) {
+			$post_categories = 1;
+		}
+		$post_categories = array($post_categories);
+	}
+
+	$post_categories = array_unique($post_categories);
+
+	// First the old categories
+	$old_categories = $wpdb->get_col("
+		SELECT category_id 
+		FROM $tablepost2cat 
+		WHERE post_id = $post_ID");
+	
+	if (!$old_categories) {
+		$old_categories = array();
+	} else {
+		$old_categories = array_unique($old_categories);
+	}
+
+
+	$oldies = print_r($old_categories,1);
+	$newbies = print_r($post_categories,1);
+
+	logio("O","Old: $oldies\nNew: $newbies\n");
+
+	// Delete any?
+	$delete_cats = array_diff($old_categories,$post_categories);
+
+	logio("O","Delete: " . print_r($delete_cats,1));
+		
+	if ($delete_cats) {
+		foreach ($delete_cats as $del) {
+			$wpdb->query("
+				DELETE FROM $tablepost2cat 
+				WHERE category_id = $del 
+					AND post_id = $post_ID 
+				");
+
+			logio("O","deleting post/cat: $post_ID, $del");
+		}
+	}
+
+	// Add any?
+	$add_cats = array_diff($post_categories, $old_categories);
+
+	logio("O","Add: " . print_r($add_cats,1));
+		
+	if ($add_cats) {
+		foreach ($add_cats as $new_cat) {
+			$wpdb->query("
+				INSERT INTO $tablepost2cat (post_id, category_id) 
+				VALUES ($post_ID, $new_cat)");
+
+				logio("O","adding post/cat: $post_ID, $new_cat");
+		}
+	}
+}
+
 
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 	global $wpdb, $tablepost2cat;
