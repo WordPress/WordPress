@@ -20,7 +20,7 @@ require($abspath.'wp-links/links.weblogs.com.php');
 	<link rel="alternate" type="text/xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-	<?php  comments_popup_script(); // off by default ?>
+	<?php // comments_popup_script(); // off by default ?>
 </head>
 
 <body>
