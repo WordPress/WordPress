@@ -132,9 +132,10 @@ ul.post-meta span.post-meta-key {
 	text-decoration: none;
 }
 
-#commentform input, #commentform textarea {
+#commentform #name, #commentform #email, #commentform #url, #commentform textarea {
 	background: #fff;
 	border: 1px solid #333;
+	padding: .2em;
 }
 
 #commentform textarea {
@@ -188,12 +189,11 @@ ul.post-meta span.post-meta-key {
 	margin: 0 0 0 13px;
 }
 
-#menu input {
+#menu input#s {
+	width: 80%;
 	background: #eee;
 	border: 1px solid #999;
 	color: #000;
-	letter-spacing: -0.05em;
-	width: 80%;
 }
 
 #menu ul {
