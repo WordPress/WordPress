@@ -241,7 +241,7 @@ if ( maybe_create_table($tablepost2cat, "
 	`category_id` INT NOT NULL ,
 	PRIMARY KEY ( `rel_id` ) ,
 	INDEX ( `post_id` , `category_id` )
-	);
+	)
 	") )
 	echo '<p>Table created successfully.</p>';
 	else echo '<p>New category table already created. Skipping.</p>';
