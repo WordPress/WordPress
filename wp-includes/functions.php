@@ -579,7 +579,7 @@ function weblog_ping($server = '', $path = '') {
     print "</pre>\n";
   }
 
-  $v=@xmlrpc_decode($r->value());
+  $v = @phpxmlrpc_decode($r->value());
   if (!$r->faultCode()) {
 	$result['message'] =  "<p class=\"rpcmsg\">";
 	$result['message'] = $result['message'] .  $v["message"] . "<br />\n";
