@@ -353,7 +353,7 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0) {
 	$queried_obj = $wp_query->get_queried_object();
 
 	if($depth)
-		$indent = join(array_fill(0,$depth,"\t"));
+		$indent = join('', array_fill(0,$depth,"\t"));
 
 	foreach($page_tree[$parent]['children'] as $page_id) {
 		$cur_page = $page_tree[$page_id];
