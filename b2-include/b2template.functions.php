@@ -494,9 +494,10 @@ function the_title($before='', $after='') {
 	$title = convert_bbcode($title);
 	$title = convert_gmcode($title);
 	$title = convert_smilies($title);
-	$title = apply_filters('the_title', $title);
 	if ($title) {
-		echo convert_chars($before.$title.$after, 'html');
+		$title = convert_chars($before.$title.$after);
+		$title = apply_filters('the_title', $title);
+		echo $title;
 	}
 }
 function the_title_rss() {
@@ -512,15 +513,15 @@ function the_title_unicode($before='',$after='') {
 	$title = get_the_title();
 	$title = convert_bbcode($title);
 	$title = convert_gmcode($title);
-	$title = apply_filters('the_title_unicode', $title);
-	if (trim($title)) {
-		echo convert_chars($before.$title.$after, 'unicode');
+	if ($title) {
+		$title = convert_chars($before.$title.$after);
+		$title = apply_filters('the_title_unicode', $title);
+		echo $title;
 	}
 }
 function get_the_title() {
 	global $id, $post;
 	$output = stripslashes($post->post_title);
-	$output = apply_filters('the_title', $output);
 	return($output);
 }
 
