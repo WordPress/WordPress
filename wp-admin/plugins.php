@@ -29,6 +29,16 @@ require_once('admin-header.php');
 // If any plugins don't exist, axe 'em
 
 $check_plugins = get_settings('active_plugins');
+
+// Sanity check.  If the active plugin list is not an array, make it an
+// empty array.
+if ( !is_array($check_plugins) ) {
+	$check_plugins = array();
+	update_option('active_plugins', $check_plugins);	
+}
+
+// If a plugin file does not exist, remove it from the list of active
+// plugins.
 foreach ($check_plugins as $check_plugin) {
 	if (!file_exists(ABSPATH . 'wp-content/plugins/' . $check_plugin)) {
 			$current = get_settings('active_plugins');
