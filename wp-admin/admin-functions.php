@@ -417,4 +417,60 @@ function check_admin_referer() {
   }
 }
 
+// insert_with_markers: Owen Winkler
+// Inserts an array of strings into a file (.htaccess), placing it between
+// BEGIN and END markers.  Replaces existing marked info.  Retains surrounding
+// data.  Creates file if none exists.
+// Returns true on write success, false on failure.
+function insert_with_markers($filename, $marker, $insertion) {
+    if (!file_exists($filename) || is_writeable($filename)) {
+        $markerdata = explode("\n", implode('', file($filename)));
+        $f = fopen($filename, 'w');
+        $foundit = false;
+        if ($markerdata) {
+            $state = true;
+            $newline = '';
+            foreach($markerdata as $markerline) {
+                if (strstr($markerline, "# BEGIN {$marker}")) $state = false;
+                if ($state) fwrite($f, "{$newline}{$markerline}");
+                if (strstr($markerline, "# END {$marker}")) {
+                    fwrite($f, "{$newline}# BEGIN {$marker}");
+                    if(is_array($insertion)) foreach($insertion as $insertline) fwrite($f, "{$newline}{$insertline}");
+                    fwrite($f, "{$newline}# END {$marker}");
+                    $state = true;
+                    $foundit = true;
+                }
+                $newline = "\n";
+            }
+        }
+        if (!$foundit) {
+            fwrite($f, "# BEGIN {$marker}\n");
+            foreach($insertion as $insertline) fwrite($f, "{$insertline}\n");
+            fwrite($f, "# END {$marker}");				
+        }
+        fclose($f);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// insert_with_markers: Owen Winkler
+// Returns an array of strings from a file (.htaccess) from between BEGIN
+// and END markers.
+function extract_from_markers($filename, $marker) {
+    $result = array();
+    if($markerdata = explode("\n", implode('', file($filename))));
+ {
+     $state = false;
+     foreach($markerdata as $markerline) {
+         if(strstr($markerline, "# END {$marker}"))	$state = false;
+         if($state) $result[] = $markerline;
+         if(strstr($markerline, "# BEGIN {$marker}")) $state = true;
+     }
+ }
+
+ return $result;
+}
+
 ?>

@@ -44,6 +44,21 @@ if (isset($_POST['submit'])) {
 <?php if (isset($_POST['submit'])) : ?>
 <div class="updated"><p><?php _e('Permalink structure updated.'); ?></p></div>
 <?php endif; ?>
+
+<?php if(isset($_POST['rules'])) {
+		$rules = explode("\n", $_POST['rules']);
+		if(insert_with_markers(ABSPATH.'.htaccess', 'WordPress', $rules)) {
+?>
+<div class="updated" id="htupdate"><p><?php _e('mod_rewrite rules written to .htaccess.'); ?></p></div>
+<?php
+		} else {
+?>
+<div class="updated" id="htupdate"><p><?php _e('Failed to write mod_rewrite rules to .htaccess.'); ?></p></div>
+<?php
+        }
+	}
+?>
+
 <div class="wrap"> 
   <h2><?php _e('Edit Permalink Structure') ?></h2> 
   <?php _e('<p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p>')?> 
@@ -107,35 +122,18 @@ if (isset($_POST['submit'])) {
  if ($permalink_structure) {
 ?>
   <p><?php printf(__('Using the permalink structure value you currently have, <code>%s</code>, these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.'), $permalink_structure) ?></p>
-  <?php
-$site_root = str_replace('http://', '', trim(get_settings('siteurl')));
-$site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
-if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';
-
-$home_root = str_replace('http://', '', trim(get_settings('home')));
-$home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
-if ('/' != substr($home_root, -1)) $home_root = $home_root . '/';
-
-?> 
-<form action="">
+<form action="options-permalink.php" method="post">
     <p>
-    	<textarea rows="5" style="width: 98%;">RewriteEngine On
-RewriteBase <?php echo $home_root; ?> 
-<?php
-$rewrite = rewrite_rules('', $permalink_structure);
-$rules = '';
-foreach ($rewrite as $match => $query) {
-	if (strstr($query, 'index.php')) {
-        $rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
-    } else {
-        $rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA]\n";
-    }
-}
-echo apply_filters('rewrite_rules', $rules);
-?>
+<textarea rows="5" style="width: 98%;" name="rules"><?php echo mod_rewrite_rules($permalink_structure); ?>
 </textarea>
     </p>
-    <?php printf(__('<p>If your <code>.htaccess</code> file is writable by WordPress, you can <a href="%s">edit it through your template interface</a>.</p>'), 'templates.php?file=.htaccess') ?>
+<?php
+if ((! file_exists(ABSPATH.'.htaccess') && is_writable(ABSPATH)) || is_writable(ABSPATH.'.htaccess')) {
+?>
+    <p class="submit"> 
+        <input type="submit" name="writerules" value="<?php _e('Write mod_rewrite rules to .htaccess &raquo;') ?>"> 
+	</p>
+<?php } ?>
 </form>
  
 <?php
