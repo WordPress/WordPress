@@ -108,7 +108,7 @@ switch ($action) {
 ?>
 
 <div class="wrap">
-  <h2>Edit &#8220;<?php echo wp_specialchars($row->cat_name)?>&#8221; Category </h2>
+  <h2><?php printf('Edit &#8220%s&#8221; Category', wp_specialchars($row->cat_name)); ?></h2>
 
   <form name="editcat" method="post">
       <input type="hidden" name="action" value="editedcat" />
@@ -305,24 +305,50 @@ $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images
 $i = 1;
 foreach ($results as $row) {
     if ($row->list_limit == -1) {
-        $row->list_limit = 'none';
+        $row->list_limit = __('none');
     }
     $style = ($i % 2) ? ' class="alternate"' : '';
+    /*
+    	Manually internationalize every sort order option.
+    */
+    switch ($row->sort_order) {
+    	case 'name':
+    		$row->sort_order = __('name');
+    		break;
+    	case 'id':
+    		$row->sort_order = __('id');
+    		break;
+    	case 'url':
+    		$row->sort_order = __('url');
+    		break;
+    	case 'rating':
+    		$row->sort_order = __('rating');
+    		break;
+    	case 'updated':
+    		$row->sort_order = __('updated');
+    		break;
+    	case 'rand':
+    		$row->sort_order = __('rand');
+    		break;
+    	case 'length':
+    		$row->sort_order = __('length');
+    		break;
+    }
 ?>
               <tr valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
                 <td><?php echo wp_specialchars($row->cat_name)?></td>
 				<td ><?php echo $row->cat_id?></td>
-                <td><?php echo $row->auto_toggle?></td>
-                <td><?php echo $row->show_images?></td>
-                <td><?php echo $row->show_description?></td>
-                <td><?php echo $row->show_rating?></td>
-                <td><?php echo $row->show_updated?></td>
-                <td><?php echo $row->sort_order?></td>
-                <td><?php echo $row->sort_desc?></td>
+                <td><?php echo $row->auto_toggle == 'Y' ? __('Y') : __('N') ?></td>
+                <td><?php echo $row->show_images == 'Y' ? __('Y') : __('N') ?></td>
+                <td><?php echo $row->show_description == 'Y' ? __('Y') : __('N') ?></td>
+                <td><?php echo $row->show_rating == 'Y' ? __('Y') : __('N') ?></td>
+                <td><?php echo $row->show_updated == 'Y' ? __('Y') : __('N') ?></td>
+                <td><?php echo $row->sort_order ?></td>
+                <td><?php echo $row->sort_desc == 'Y' ? __('Y') : __('N') ?></td>
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_before_link)?>&nbsp;</td>
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_after_link)?>&nbsp;</td>
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_after_all)?></td>
-                <td><?php echo $row->list_limit?></td>
+                <td><?php echo $row->list_limit ?></td>
                 <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Edit" class="edit"><?php _e('Edit') ?></a></td>
                 <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Delete" onclick="return confirm('<?php _e("You are about to delete this category.\\n  \'Cancel\' to stop, \'OK\' to delete.") ?>');" class="delete"><?php _e('Delete') ?></a></td>
               </tr>
