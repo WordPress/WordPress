@@ -279,12 +279,14 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		$categories = $wpdb->get_results($query);
 	}
 	if (!count($category_posts)) {
+		$now = current_time('mysql', 1);
 		$cat_counts = $wpdb->get_results("	SELECT cat_ID,
 		COUNT($wpdb->post2cat.post_id) AS cat_count
 		FROM $wpdb->categories 
 		INNER JOIN $wpdb->post2cat ON (cat_ID = category_id)
 		INNER JOIN $wpdb->posts ON (ID = post_id)
-		WHERE post_status = 'publish' $exclusions
+		WHERE post_status = 'publish'
+		AND post_date_gmt < '$now' $exclusions
 		GROUP BY category_id");
         if (! empty($cat_counts)) {
             foreach ($cat_counts as $cat_count) {
