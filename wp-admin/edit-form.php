@@ -119,7 +119,11 @@ edCanvas = document.getElementById('content');
   } ?>
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
-
+<?php
+    if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel)
+         && (in_array($user_login, $allowed_users) || (trim($fileupload_allowedusers)=="")) ) { ?>
+<p><input type="button" value="Upload a file or image" onclick="launchupload();" tabindex="10" /></p>
+<?php } ?>
 </div>
 </form>
 

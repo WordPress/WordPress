@@ -156,7 +156,7 @@ if ($action != 'editcomment') {
 if ($action != 'editcomment') {
     if ( ($use_fileupload) && ($user_level >= $fileupload_minlevel)
          && (in_array($user_login, $allowed_users) || (trim($fileupload_allowedusers)=="")) ) { ?>
-<input type="button" value="upload a file/image" onclick="launchupload();" class="search"  tabindex="10" />
+<p><input type="button" value="Upload a file or image" onclick="launchupload();" tabindex="10" /></p>
 <?php }
 }
 
