@@ -299,7 +299,7 @@ class WP_Query {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
-			$q['pagename'] = sanitize_title(basename($q['pagename']));
+			$q['pagename'] = sanitize_title(basename(str_replace('%2F', '/', urlencode($q['pagename']))));
 			$q['name'] = $q['pagename'];
 			$where .= " AND post_name = '" . $q['pagename'] . "'";
 		}
