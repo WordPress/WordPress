@@ -143,10 +143,11 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
     $whichcat .= ')';
 } 
 // author stuff
-if ((empty($author)) || ($author == 'all') || ($cat == '0')) {
+if ((empty($author)) || ($author == 'all') || ($author == '0')) {
 	$whichauthor='';
-} elseif (intval($author)) {
-	$author = intval($author);
+} else {
+	$author = ''.urldecode($author).'';
+	$author = addslashes_gpc($author);
 	if (stristr($author, '-')) {
 		$eq = '!=';
 		$andor = 'AND';
