@@ -201,8 +201,8 @@ case 'retrievepassword':
 
 	$user_login = $HTTP_POST_VARS["user_login"];
 	$user_data = get_userdatabylogin($user_login);
-	$user_email = $user_data["user_email"];
-	$user_pass = $user_data["user_pass"];
+	$user_email = $user_data->user_email;
+	$user_pass = $user_data->user_pass;
 
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
@@ -224,9 +224,9 @@ break;
 
 default:
 
-	if((!empty($HTTP_COOKIE_VARS["wordpressuser"])) && (!empty($HTTP_COOKIE_VARS["wordpresspass"]))) {
-		$user_login = $HTTP_COOKIE_VARS["wordpressuser"];
-		$user_pass_md5 = $HTTP_COOKIE_VARS["wordpresspass"];
+	if((!empty($HTTP_COOKIE_VARS['wordpressuser'])) && (!empty($HTTP_COOKIE_VARS['wordpresspass']))) {
+		$user_login = $HTTP_COOKIE_VARS['wordpressuser'];
+		$user_pass_md5 = $HTTP_COOKIE_VARS['wordpresspass'];
 	}
 
 	function checklogin() {
@@ -234,7 +234,7 @@ default:
 
 		$userdata = get_userdatabylogin($user_login);
 
-		if ($user_pass_md5 != md5($userdata["user_pass"])) {
+		if ($user_pass_md5 != md5($userdata->user_pass)) {
 			return false;
 		} else {
 			return true;
@@ -242,7 +242,7 @@ default:
 	} 
 
 	if ( !(checklogin()) ) {
-		if (!empty($HTTP_COOKIE_VARS["wordpressuser"])) {
+		if (!empty($HTTP_COOKIE_VARS['wordpressuser'])) {
 			$error="Error: wrong login/password"; //, or your session has expired.";
 		}
 	} else {
