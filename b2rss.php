@@ -2,7 +2,7 @@
          In every template you do, you got to copy them before the CaféLog 'loop' */
 $blog = 1; // enter your blog's ID
 $doing_rss=1;
-header('Content-type: text/xml');
+header('Content-type: text/xml',true);
 include('blog.header.php');
 
 // Handle Conditional GET
@@ -22,8 +22,8 @@ $slast = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
 $setag = $_SERVER['HTTP_IF_NONE_MATCH'];
 
 // send it in a Last-Modified header
-header("Last-Modified: " . $clast);
-header("Etag: " . $cetag);
+header("Last-Modified: " . $clast, true);
+header("Etag: " . $cetag, true);
 
 // compare it to aggregator's If-Modified-Since and If-None-Match headers
 // if they match, send a 304 and die
@@ -31,12 +31,12 @@ header("Etag: " . $cetag);
 // This logic says that if only one header is provided, just use that one,
 // but if both headers exist, they *both* must match up with the locally
 // generated values.
-if (($slast?($slast == $clast):true) && ($setag?($setag == $cetag):true)){
+//if (($slast?($slast == $clast):true) && ($setag?($setag == $cetag):true)){
+if (($slast && $setag)?(($slast == $clast) && ($setag == $cetag)):(($slast == $clast) || ($setag == $cetag))) { 
 	header("HTTP/1.1 304 Not Modified");
 	echo "\r\n\r\n";
 	exit;
 }
-
 
 if (!isset($rss_language)) { $rss_language = 'en'; }
 if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
