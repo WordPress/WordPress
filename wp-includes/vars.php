@@ -3,48 +3,6 @@
 /* This file sets various arrays and variables for use in WordPress */
 require(ABSPATH . 'wp-includes/version.php');
 
-# BBcode search and replace arrays
-$wp_bbcode['in'] = array(
-	'#\[b](.+?)\[/b]#is',		// Formatting tags
-	'#\[i](.+?)\[/i]#is',
-	'#\[u](.+?)\[/u]#is',
-	'#\[s](.+?)\[/s]#is',
-	'#\[color=(.+?)](.+?)\[/color]#is',
-	'#\[size=(.+?)](.+?)\[/size]#is',
-	'#\[font=(.+?)](.+?)\[/font]#is',
-	'#\[img](.+?)\[/img]#is',		// Image
-	'#\[url](.+?)\[/url]#is',		// URL
-	'#\[url=(.+?)](.+?)\[/url]#is',
-#	'#\[email](.+?)\[/email]#eis',		// E-mail
-#	'#\[email=(.+?)](.+?)\[/email]#eis'
-);
-$wp_bbcode['out'] = array(
-	'<strong>$1</strong>',		// Formatting tags
-	'<em>$1</em>',
-	'<span style="text-decoration:underline">$1</span>',
-	'<span style="text-decoration:line-through">$1</span>',
-	'<span style="color:$1">$2</span>',
-	'<span style="font-size:$1px">$2</span>',
-	'<span style="font-family:$1">$2</span>',
-	'<img src="$1" alt="" />',		// Image
-	'<a href="$1">$1</a>',		// URL
-	'<a href="$1" title="$2">$2</a>',
-#	"'<a href=\"mailto:'.antispambot('\\1').'\">'.antispambot('\\1').'</a>'",		// E-mail
-#	'<a href="mailto:$1">$2</a>'
-);
-
-# GreyMatter formatting search and replace arrays
-$wp_gmcode['in'] = array(
-	'#\\*\*(.+?)\\*\*#is',		// **bold**
-	'#\\\\(.+?)\\\\#is',		// \\italic\\
-	'#\__(.+?)\__#is'		// __underline__
-);
-$wp_gmcode['out'] = array(
-	'<strong>$1</strong>',
-	'<em>$1</em>',
-	'<span style="text-decoration:underline">$1</span>'
-);
-
 # Translation of HTML entities and special characters
 $wp_htmltrans = array_flip(get_html_translation_table(HTML_ENTITIES));
 $wp_htmltrans['<'] = '<';	# preserve HTML
@@ -132,8 +90,8 @@ $wp_htmltranswinuni = array(
 	'&#159;' => '&#376;'
 );
 
-# on which page are we ?
-$PHP_SELF = $HTTP_SERVER_VARS['PHP_SELF'];
+// On which page are we ?
+$PHP_SELF = $_SERVER['PHP_SELF'];
 $pagenow = explode('/', $PHP_SELF);
 $pagenow = trim($pagenow[(sizeof($pagenow)-1)]);
 $pagenow = explode('?', $pagenow);
@@ -142,7 +100,7 @@ if (($querystring_start == '/') && ($pagenow != 'post.php')) {
 	$pagenow = get_settings('siteurl') . '/' . get_settings('blogfilename');
 }
 
-# browser detection
+// Simple browser detection
 $is_lynx = 0; $is_gecko = 0; $is_winIE = 0; $is_macIE = 0; $is_opera = 0; $is_NS4 = 0;
 if (!isset($HTTP_USER_AGENT)) {
 	$HTTP_USER_AGENT = $HTTP_SERVER_VARS['HTTP_USER_AGENT'];
@@ -162,7 +120,7 @@ if (preg_match('/Lynx/', $HTTP_USER_AGENT)) {
 }
 $is_IE    = (($is_macIE) || ($is_winIE));
 
-# browser-specific javascript corrections
+// browser-specific javascript corrections
 $wp_macIE_correction['in'] = array(
 	'/\%uFFD4/', '/\%uFFD5/', '/\%uFFD2/', '/\%uFFD3/',
 	'/\%uFFA5/', '/\%uFFD0/', '/\%uFFD1/', '/\%uFFBD/',
@@ -192,11 +150,11 @@ $wp_gecko_correction['out'] = array(
 	'&euro;', '&#8201;'
 );
 
-# server detection
-$is_Apache = strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Apache') ? 1 : 0;
+// Server detection
+$is_apache = strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Apache') ? 1 : 0;
 $is_IIS = strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Microsoft-IIS') ? 1 : 0;
 
-# if the config file does not provide the smilies array, let's define it here
+// if the config file does not provide the smilies array, let's define it here
 if (!isset($wpsmiliestrans)) {
     $wpsmiliestrans = array(
         ' :)'        => 'icon_smile.gif',
@@ -247,7 +205,7 @@ if (!isset($wpsmiliestrans)) {
     );
 }
 
-# sorts the smilies' array
+// sorts the smilies' array
 if (!function_exists('smiliescmp')) {
 	function smiliescmp ($a, $b) {
 	   if (strlen($a) == strlen($b)) {
@@ -258,7 +216,7 @@ if (!function_exists('smiliescmp')) {
 }
 uksort($wpsmiliestrans, 'smiliescmp');
 
-# generates smilies' search & replace arrays
+// generates smilies' search & replace arrays
 foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliessearch[] = $smiley;
 	$smiley_masked = str_replace(' ', '', $smiley);
