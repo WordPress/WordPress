@@ -487,6 +487,15 @@ function the_author_posts() {
 
 /***** Post tags *****/
 
+function get_the_password_form() {
+	$output = "<form action='" . get_settings('siteurl') . "/wp-pass.php' method='post'>
+	<p>This post is password protected. To view it please enter your password below:</p>
+	<p><label>Password: <input name='post_password' type='text' size='20' /></label> <input type='submit' name='Submit' value='Submit' /></p>
+	</form>
+	";
+	return $output;
+}
+
 function the_ID() {
 	global $id;
 	echo $id;
@@ -596,11 +605,7 @@ function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file
 	
 	if (!empty($post->post_password)) { // if there's a password
 		if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
-			$output = "<form action='" . get_settings('siteurl') . "/wp-pass.php' method='post'>
-			<p>This post is password protected. To view it please enter your password below:</p>
-			<p><label>Password: <input name='post_password' type='text' size='20' /></label> <input type='submit' name='Submit' value='Submit' /></p>
-			</form>
-			";
+			$output = get_the_password_form();
 			return $output;
 		}
 	}
@@ -847,10 +852,6 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 		}
 	}
 }
-
-
-
-
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 	global $HTTP_SERVER_VARS, $siteurl, $blogfilename, $p, $paged, $what_to_show, $pagenow;
@@ -1309,6 +1310,46 @@ function comment_time($d='') {
 	} else {
 		echo mysql2date($d, $comment->comment_date);
 	}
+}
+
+function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp-commentsrss2.php') {
+	global $id;
+	global $querystring_start, $querystring_equal, $querystring_separator;
+	$url = $commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
+	$url = '<a href="'.$url.'">'.$link_text.'</a>';
+	echo $url;
+}
+
+function comment_author_rss() {
+	global $comment;
+	echo strip_tags(stripslashes($comment->comment_author));
+}
+
+function comment_text_rss() {
+	global $comment;
+	$comment_text = stripslashes($comment->comment_content);
+	$comment_text = str_replace('<trackback />', '', $comment_text);
+	$comment_text = str_replace('<pingback />', '', $comment_text);
+	$comment_text = convert_chars($comment_text);
+	$comment_text = convert_bbcode($comment_text);
+	$comment_text = convert_gmcode($comment_text);
+	$comment_text = convert_smilies($comment_text);
+	$comment_text = apply_filters('comment_text', $comment_text);
+	$comment_text = strip_tags($comment_text);
+	$comment_text = htmlspecialchars($comment_text);
+	echo $comment_text;
+}
+
+function comment_link_rss() {
+	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
+	global $querystring_start, $querystring_equal, $querystring_separator;
+	echo $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$comment->comment_post_ID.$querystring_separator.'c'.$querystring_equal.'1#comments';
+}
+
+function permalink_comments_rss() {
+	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
+	global $querystring_start, $querystring_equal, $querystring_separator;
+	echo $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$comment->comment_post_ID.$querystring_separator.'c'.$querystring_equal.'1';
 }
 
 /***** // Comment tags *****/
