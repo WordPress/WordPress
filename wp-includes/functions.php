@@ -1204,8 +1204,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'%second%',
 	'%postname%',
 	'%post_id%',
-    '%category%',
-    '%author%',
+	'%category%',
+	'%author%',
 	'%pagename%'
 	);
 
@@ -1234,9 +1234,9 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'second=',
 	'name=',
 	'p=',
-    'category_name=',
-    'author_name=',
-	'static=1&name=',    
+	'category_name=',
+	'author_name=',
+	'pagename=',    
 	);
 
     $feedregex = '(feed|rdf|rss|rss2|atom)/?$';

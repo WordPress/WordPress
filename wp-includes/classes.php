@@ -220,7 +220,14 @@ class WP_Query {
         if ('' != $q['name']) {
             $q['name'] = preg_replace('/[^a-z0-9-_]/', '', $q['name']);
             $where .= " AND post_name = '" . $q['name'] . "'";
+        } else if ('' != $q['pagename']) {
+	    // If pagename is set, set static to true and set name to pagename.
+	    $q['pagename'] = preg_replace('/[^a-z0-9-_]/', '', $q['pagename']);
+	    $q['name'] = $q['pagename'];
+	    $q['static'] = true;
+            $where .= " AND post_name = '" . $q['pagename'] . "'";
         }
+
 
         if ('' != $q['w']) {
             $q['w'] = ''.intval($q['w']);
