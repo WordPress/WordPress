@@ -1420,121 +1420,138 @@ function get_day_permastruct($permalink_structure = '') {
 	return get_date_permastruct($permalink_structure);
 }
 
-function generate_rewrite_rules($permalink_structure = '', $matches = '') {
-    $rewritecode = 
-	array(
-	'%year%',
-	'%monthnum%',
-	'%day%',
-	'%hour%',
-	'%minute%',
-	'%second%',
-	'%postname%',
-	'%post_id%',
-	'%category%',
-	'%author%',
-	'%pagename%',
-	'%search%'
-	);
+function generate_rewrite_rules($permalink_structure = '', $matches = '', $forcomments = false) {
+	$rewritecode = 
+		array(
+					'%year%',
+					'%monthnum%',
+					'%day%',
+					'%hour%',
+					'%minute%',
+					'%second%',
+					'%postname%',
+					'%post_id%',
+					'%category%',
+					'%author%',
+					'%pagename%',
+					'%search%'
+					);
 
-    $rewritereplace = 
-	array(
-	'([0-9]{4})',
-	'([0-9]{1,2})',
-	'([0-9]{1,2})',
-	'([0-9]{1,2})',
-	'([0-9]{1,2})',
-	'([0-9]{1,2})',
-	'([^/]+)',
-	'([0-9]+)',
-	'(.+?)',
-	'([^/]+)',
-	'([^/]+)',
-	'(.+)'
-	);
+	$rewritereplace = 
+		array(
+					'([0-9]{4})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([0-9]{1,2})',
+					'([^/]+)',
+					'([0-9]+)',
+					'(.+?)',
+					'([^/]+)',
+					'([^/]+)',
+					'(.+)'
+					);
 
-    $queryreplace = 
-	array (
-	'year=',
-	'monthnum=',
-	'day=',
-	'hour=',
-	'minute=',
-	'second=',
-	'name=',
-	'p=',
-	'category_name=',
-	'author_name=',
-	'pagename=',
-	's='
-	);
+	$queryreplace = 
+		array (
+					 'year=',
+					 'monthnum=',
+					 'day=',
+					 'hour=',
+					 'minute=',
+					 'second=',
+					 'name=',
+					 'p=',
+					 'category_name=',
+					 'author_name=',
+					 'pagename=',
+					 's='
+					 );
 
-    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
-    $trackbackregex = 'trackback/?$';
-    $pageregex = 'page/?([0-9]{1,})/?$';
+	$feedregex2 = '(feed|rdf|rss|rss2|atom)/?$';
+	$feedregex = 'feed/' . $feedregex2;
 
-    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
-    preg_match_all('/%.+?%/', $permalink_structure, $tokens);
+	$trackbackregex = 'trackback/?$';
+	$pageregex = 'page/?([0-9]{1,})/?$';
 
-    $num_tokens = count($tokens[0]);
+	$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
+	preg_match_all('/%.+?%/', $permalink_structure, $tokens);
 
-    $index = 'index.php';
-    $feedindex = $index;
-    $trackbackindex = $index;
-    for ($i = 0; $i < $num_tokens; ++$i) {
-             if (0 < $i) {
-                 $queries[$i] = $queries[$i - 1] . '&';
-             }
+	$num_tokens = count($tokens[0]);
+
+	$index = 'index.php';
+	$feedindex = $index;
+	$trackbackindex = $index;
+	for ($i = 0; $i < $num_tokens; ++$i) {
+		if (0 < $i) {
+			$queries[$i] = $queries[$i - 1] . '&';
+		}
              
-             $query_token = str_replace($rewritecode, $queryreplace, $tokens[0][$i]) . preg_index($i+1, $matches);
-             $queries[$i] .= $query_token;
-             }
+		$query_token = str_replace($rewritecode, $queryreplace, $tokens[0][$i]) . preg_index($i+1, $matches);
+		$queries[$i] .= $query_token;
+	}
 
-    $structure = $permalink_structure;
-    if ($front != '/') {
-        $structure = str_replace($front, '', $structure);
-    }
-    $structure = trim($structure, '/');
-    $dirs = explode('/', $structure);
-    $num_dirs = count($dirs);
+	$structure = $permalink_structure;
+	if ($front != '/') {
+		$structure = str_replace($front, '', $structure);
+	}
+	$structure = trim($structure, '/');
+	$dirs = explode('/', $structure);
+	$num_dirs = count($dirs);
 
-    $front = preg_replace('|^/+|', '', $front);
+	$front = preg_replace('|^/+|', '', $front);
 
-    $post_rewrite = array();
-    $struct = $front;
-    for ($j = 0; $j < $num_dirs; ++$j) {
-        $struct .= $dirs[$j] . '/';
-        $match = str_replace($rewritecode, $rewritereplace, $struct);
-        $num_toks = preg_match_all('/%.+?%/', $struct, $toks);
-        $query = $queries[$num_toks - 1];
+	$post_rewrite = array();
+	$struct = $front;
+	for ($j = 0; $j < $num_dirs; ++$j) {
+		$struct .= $dirs[$j] . '/';
+		$struct = ltrim($struct, '/');
+		$match = str_replace($rewritecode, $rewritereplace, $struct);
+		$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
+		$query = $queries[$num_toks - 1];
 
-        $pagematch = $match . $pageregex;
-        $pagequery = $index . '?' . $query . '&paged=' . preg_index($num_toks + 1, $matches);
+		$pagematch = $match . $pageregex;
+		$pagequery = $index . '?' . $query . '&paged=' . preg_index($num_toks + 1, $matches);
 
-        $feedmatch = $match . $feedregex;
-        $feedquery = $feedindex . '?' . $query . '&feed=' . preg_index($num_toks + 1, $matches);
+		$feedmatch = $match . $feedregex;
+		$feedquery = $feedindex . '?' . $query . '&feed=' . preg_index($num_toks + 1, $matches);
 
-        $post = 0;
-        if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
-            || (strstr($struct, '%year%') &&  strstr($struct, '%monthnum%') && strstr($struct, '%day%') && strstr($struct, '%hour%') && strstr($struct, '%minute') && strstr($struct, '%second%'))) {
-                $post = 1;
-                $trackbackmatch = $match . $trackbackregex;
-                $trackbackquery = $trackbackindex . '?' . $query . '&tb=1';
-                $match = $match . '?([0-9]+)?/?$';
-                $query = $index . '?' . $query . '&page=' . preg_index($num_toks + 1, $matches);
-        } else {
-            $match .= '?$';
-            $query = $index . '?' . $query;
-        }
-        
-        $post_rewrite = array($feedmatch => $feedquery, $pagematch => $pagequery, $match => $query) + $post_rewrite;
+		$feedmatch2 = $match . $feedregex2;
+		$feedquery2 = $feedindex . '?' . $query . '&feed=' . preg_index($num_toks + 1, $matches);
 
-        if ($post) {
-            $post_rewrite = array($trackbackmatch => $trackbackquery) + $post_rewrite;
-        }
-    }
+		if ($forcomments) {
+			$feedquery .= '&withcomments=1';
+			$feedquery2 .= '&withcomments=1';
+		}
+				
+		$rewrite = array($feedmatch => $feedquery, $feedmatch2 => $feedquery2, $pagematch => $pagequery);
 
-    return $post_rewrite;
+		if ($num_toks) {
+			$post = 0;
+			if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
+					|| (strstr($struct, '%year%') &&  strstr($struct, '%monthnum%') && strstr($struct, '%day%') && strstr($struct, '%hour%') && strstr($struct, '%minute') && strstr($struct, '%second%'))) {
+				$post = 1;
+				$trackbackmatch = $match . $trackbackregex;
+				$trackbackquery = $trackbackindex . '?' . $query . '&tb=1';
+				$match = $match . '?([0-9]+)?/?$';
+				$query = $index . '?' . $query . '&page=' . preg_index($num_toks + 1, $matches);
+			} else {
+				$match .= '?$';
+				$query = $index . '?' . $query;
+			}
+				        
+			$rewrite = $rewrite + array($match => $query);
+
+			if ($post) {
+				$rewrite = array($trackbackmatch => $trackbackquery) + $rewrite;
+			}
+		}
+
+		$post_rewrite = $rewrite + $post_rewrite;
+	}
+
+	return $post_rewrite;
 }
 
 /* rewrite_rules
@@ -1544,79 +1561,64 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
  * Returns an associate array of matches and queries.
  */
 function rewrite_rules($matches = '', $permalink_structure = '') {
-    $rewrite = array();
+	$rewrite = array();
 
-    if (empty($permalink_structure)) {
-        $permalink_structure = get_settings('permalink_structure');
+	if (empty($permalink_structure)) {
+		$permalink_structure = get_settings('permalink_structure');
         
-        if (empty($permalink_structure)) {
-            return $rewrite;
-        }
-    }
+		if (empty($permalink_structure)) {
+			return $rewrite;
+		}
+	}
 
-    $post_rewrite = generate_rewrite_rules($permalink_structure, $matches);
+	$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+	$index = 'index.php';
+	$prefix = '';
+	if (using_index_permalinks($permalink_structure)) {
+		$prefix = $index . '/';
+	}
 
-    $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
-    $pageregex = 'page/?([0-9]{1,})/?$';
-    $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
-    $index = 'index.php';
-    $prefix = '';
-    if (using_index_permalinks($permalink_structure)) {
-        $prefix = $index . '/';
-    }
+	// Post
+	$post_rewrite = generate_rewrite_rules($permalink_structure, $matches);
 
-		// Generate date rules.
-		$date_rewrite = generate_rewrite_rules(get_date_permastruct($permalink_structure), $matches);
+	// Date
+	$date_rewrite = generate_rewrite_rules(get_date_permastruct($permalink_structure), $matches);
+		
+	// Root
+	$root_rewrite = generate_rewrite_rules($prefix . '/', $matches);
 
-    // Site feed
-    $sitefeedmatch = $prefix . 'feed/?([_0-9a-z-]+)?/?$';
-    $sitefeedquery = 'index.php?feed=_' . preg_index(1, $matches);
+	// Comments
+	$comments_rewrite = generate_rewrite_rules($prefix . 'comments', $matches, true);
 
-    // Site comment feed
-    $sitecommentfeedmatch = $prefix . 'comments/feed/?([_0-9a-z-]+)?/?$';
-    $sitecommentfeedquery = 'index.php?feed=_' . preg_index(1, $matches) . '&withcomments=1';
+	// Search
+	$search_structure = $prefix . "search/%search%";
+	$search_rewrite = generate_rewrite_rules($search_structure, $matches);
 
-    // Site page
-    $sitepagematch = $prefix . $pageregex;
-    $sitepagequery = 'index.php?paged=' . preg_index(1, $matches);
-
-    $site_rewrite = array(
-                     $sitefeedmatch => $sitefeedquery,
-                     $sitecommentfeedmatch => $sitecommentfeedquery,
-                     $sitepagematch => $sitepagequery,
-                     );
-
-    // Search
-    $search_structure = $prefix . "search/%search%";
-    $search_rewrite = generate_rewrite_rules($search_structure, $matches);
-
-    // Categories
+	// Categories
 	if ( '' == get_settings('category_base') )
 		$category_structure = $front . 'category/';
 	else
-	    $category_structure = get_settings('category_base') . '/';
+		$category_structure = get_settings('category_base') . '/';
 
-    $category_structure = $category_structure . '%category%';
-    $category_rewrite = generate_rewrite_rules($category_structure, $matches);
+	$category_structure = $category_structure . '%category%';
+	$category_rewrite = generate_rewrite_rules($category_structure, $matches);
 
-    // Authors
-    $author_structure = $front . 'author/%author%';
-    $author_rewrite = generate_rewrite_rules($author_structure, $matches);
+	// Authors
+	$author_structure = $front . 'author/%author%';
+	$author_rewrite = generate_rewrite_rules($author_structure, $matches);
 
-    // Site static pages
-    $page_structure = $prefix . 'site/%pagename%';
-    $page_rewrite = generate_rewrite_rules($page_structure, $matches);
+	// Pages
+	$page_rewrite = page_rewrite_rules();
 
-		// Pages
-		$pages_rewrite = page_rewrite_rules();
+	// Deprecated style static pages
+	$page_structure = $prefix . 'site/%pagename%';
+	$old_page_rewrite = generate_rewrite_rules($page_structure, $matches);
 
-    // Put them together.
-    $rewrite = $pages_rewrite + $site_rewrite + $page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite;
+	// Put them together.
+	$rewrite = $page_rewrite + $root_rewrite + $comments_rewrite + $old_page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite + $post_rewrite;
 
-    $rewrite = $rewrite + $post_rewrite;
-
-    $rewrite = apply_filters('rewrite_rules_array', $rewrite);
-    return $rewrite;
+	$rewrite = apply_filters('rewrite_rules_array', $rewrite);
+	return $rewrite;
 }
 
 function mod_rewrite_rules ($permalink_structure) {
