@@ -184,7 +184,7 @@ function populate_options() {
 	add_option('posts_per_page', 10);
 	add_option('what_to_show', 'posts');
 	add_option('date_format', __('F j, Y'));
-	add_option('time_format', 'g:i a');
+	add_option('time_format', __('g:i a'));
 	add_option('links_updated_date_format', __('F j, Y g:i a'));
 	add_option('links_recently_updated_prepend', '<em>');
 	add_option('links_recently_updated_append', '</em>');
