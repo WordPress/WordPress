@@ -86,7 +86,7 @@ case 'lostpassword':
 <p><?php _e('Please enter your information here. We will send you a new password.') ?></p>
 <?php
 if ($error)
-	echo "<div id='loginerror'>$error</div>";
+	echo "<div id='login_error'>$error</div>";
 ?>
 
 <form name="lostpass" action="wp-login.php" method="post" id="lostpass">
@@ -140,44 +140,46 @@ break;
 case 'login' : 
 default:
 
+	$user_login = '';
+	$user_pass = '';
+	$redirect_to = '';
+	$using_cookie = false;
+
 	if( !empty($_POST) ) {
-		$log = $_POST['log'];
-		$pwd = $_POST['pwd'];
+		$user_login = $_POST['log'];
+		$user_pass = $_POST['pwd'];
 		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_POST['redirect_to']);
-	} else {
-		$log = '';
-		$pwd = '';
-		$redirect_to = '';
+	} elseif ( !empty($_COOKIE) ) {
+		if (! empty($_COOKIE['wordpressuser_' . COOKIEHASH]))
+			$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
+		if (! empty($_COOKIE['wordpresspass_' . COOKIEHASH])) {
+			$user_pass = $_COOKIE['wordpresspass_' . COOKIEHASH];
+			$using_cookie = true;
+		}
+		$redirect_to = 'wp-admin/';
 	}
 	
-	$user = get_userdatabylogin($log);
-	
+	$user = get_userdatabylogin($user_login);
 	if (0 == $user->user_level) {
 		$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 	}
 
-	if ($log && $pwd) {
-		if ( wp_login($log, $pwd) ) {
-			$user_login = $log;
-			$user_pass = md5(md5($pwd)); // Double hash the password in the cookie.
-			setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
-			setcookie('wordpresspass_'. COOKIEHASH, $user_pass, time() + 31536000, COOKIEPATH);
-			
+	if ($user_login && $user_pass) {
+		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
+			if (! $using_cookie) {
+				$user_pass = md5(md5($user_pass)); // Double hash the password in the cookie.
+				setcookie('wordpressuser_'. COOKIEHASH, $user_login, time() + 31536000, COOKIEPATH);
+				setcookie('wordpresspass_'. COOKIEHASH, $user_pass, time() + 31536000, COOKIEPATH);
+			}
+
 			if ($is_IIS)
 				header("Refresh: 0;url=$redirect_to");
 			else
 				header("Location: $redirect_to");
-		}
-	} else if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && !empty($_COOKIE['wordpresspass_' . COOKIEHASH]) ) {
-		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
-		$user_pass_md5 = $_COOKIE['wordpresspass_' . COOKIEHASH];
-
-		if ( wp_login($user_login, $user_pass_md5, true) ) {
-			header('Location: wp-admin/');
 			exit();
 		} else {
-			if ( !empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
-				$error = 'Your session has expired.';
+			if ($using_cookie)			
+				$error = __('Your session has expired.');
 		}
 	}
 
