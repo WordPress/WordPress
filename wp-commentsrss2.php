@@ -14,18 +14,19 @@ echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>';
 <channel>
 <?php
 $i = 0;
-if ($posts) { foreach ($posts as $post) { start_wp();
+if (have_posts()) :
+  while (have_posts()) : the_post();
 	if ($i < 1) {
 		$i++;
 ?>
-	<title><?php if (is_single()) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
+	<title><?php if (is_single() || is_page()) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
 	<link><?php (is_single()) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
 
 <?php 
-	  if (is_single()) {
+		if (is_single() || is_page()) {
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
 			comment_author_url, comment_date, comment_content, comment_post_ID, 
 			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
@@ -68,7 +69,7 @@ if ($posts) { foreach ($posts as $post) { start_wp();
 			}
 		}
 	}
-} }
+endwhile; endif;
 ?>
 </channel>
 </rss>
