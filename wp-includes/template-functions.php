@@ -73,8 +73,11 @@ function get_bloginfo($show='') {
 }
 
 function single_post_title($prefix = '', $display = true) {
-	global $p;
-	if (intval($p)) {
+	global $p, $name, $wpdb, $tableposts;
+	if (intval($p) || '' != $name) {
+		if (!$p) {
+			$p = $wpdb->get_var("SELECT ID FROM $tableposts WHERE post_name = '$name'");
+		}
 		$post_data = get_postdata($p);
 		$title = $post_data['Title'];
 		$title = apply_filters('single_post_title', $title);
