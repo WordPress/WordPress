@@ -166,7 +166,7 @@ function wp_title($sep = '&raquo;', $display = true) {
     }
 
     // If there's a post
-    if (is_single()) {
+    if (is_single() || is_page()) {
         $title = strip_tags($posts[0]->post_title);
         $title = apply_filters('single_post_title', $title);
     }
