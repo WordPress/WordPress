@@ -30,10 +30,14 @@ function wp_insert_post($postarr = array()) {
 	// Make sure we have a good gmt date:
 	if (empty($post_date_gmt)) 
 		$post_date_gmt = get_gmt_from_date($post_date);
+	if (empty($comment_status))
+		$comment_status = get_settings('default_comment_status');
+	if (empty($ping_status))
+		$ping_status = get_settings('default_ping_status');
 	
 	$sql = "INSERT INTO $wpdb->posts 
-		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name) 
-		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name')";
+		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name, comment_status, ping_status) 
+		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name', '$comment_status', '$ping_status')";
 	
 	$result = $wpdb->query($sql);
 	$post_ID = $wpdb->insert_id;
