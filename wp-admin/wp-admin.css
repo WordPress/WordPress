@@ -243,7 +243,7 @@ textarea, input, select {
 }
 
 #login {
-	background: url(http://wordpress.org/images/wp-small.png) #fff no-repeat top center;
+	background: url(../wp-images/wp-small.png) #fff no-repeat top center;
 	border: 2px solid #333;
 	color: #333;
 	height: 170px;
