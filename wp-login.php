@@ -108,7 +108,7 @@ default:
 
 	$user_login = '';
 	$user_pass = '';
-	$redirect_to = '';
+	$redirect_to = 'wp-admin/';
 	$using_cookie = false;
 
 	if( !empty($_POST) ) {
@@ -122,7 +122,6 @@ default:
 			$user_pass = $_COOKIE['wordpresspass_' . COOKIEHASH];
 			$using_cookie = true;
 		}
-		$redirect_to = 'wp-admin/';
 	}
 
 	if ($user_login && $user_pass) {
