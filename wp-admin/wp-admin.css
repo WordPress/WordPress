@@ -353,7 +353,7 @@ textarea, input, select {
 	padding: .3em;
 }
 
-#postcustom #updatemeta, #postcustom #deletemeta {
+#postcustom .updatemeta, #postcustom .deletemeta {
 	width: 90%;
 	margin: auto;
 }

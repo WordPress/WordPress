@@ -232,8 +232,8 @@ function list_meta($meta) {
 	<tr $style>
 		<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' value='{$entry['meta_key']}' /></td>
 		<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='40'>{$entry['meta_value']}</textarea></td>
-		<td align='center'><input name='updatemeta' type='submit' id='updatemeta' tabindex='6' value='" . __('Update') ."' /></td>
-		<td align='center'><input name='deletemeta[{$entry['meta_id']}]' type='submit' id='deletemeta' tabindex='6' value='" . __('Delete') ."' /></td>
+		<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='" . __('Update') ."' /></td>
+		<td align='center'><input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='" . __('Delete') ."' /></td>
 	</tr>
 ";
 	}
@@ -256,9 +256,15 @@ function get_meta_keys() {
 }
 
 function meta_form() {
-	$keys = get_meta_keys();
+	global $wpdb, $tablepostmeta;
+	$keys = $wpdb->get_col("
+		SELECT meta_key
+		FROM $tablepostmeta
+		GROUP BY meta_key
+		ORDER BY meta_id DESC
+		LIMIT 10");
 ?>
-<h3><?php _e('Add new custom data to this post:') ?></h3>
+<h3><?php _e('Add a new custom field to this post:') ?></h3>
 <table width="100%" cellspacing="3" cellpadding="3">
 	<tr>
 <th colspan="2"><?php _e('Key') ?></th>
@@ -279,7 +285,7 @@ function meta_form() {
 	</tr>
 
 </table>
-<p class="submit"><input type="submit" id="save" name="save" value="<?php _e('Add Custom Fields &raquo;') ?>"></p>
+<p class="submit"><input type="submit" name="updatemeta" value="<?php _e('Add Custom Field &raquo;') ?>"></p>
 <?php
 }
 
@@ -308,10 +314,16 @@ function add_meta($post_ID) {
 	}
 } // add_meta
 
-function del_meta($mid) {
+function delete_meta($mid) {
 	global $wpdb, $tablepostmeta;
 
 	$result = $wpdb->query("DELETE FROM $tablepostmeta WHERE meta_id = '$mid'");
+}
+
+function update_meta($mid, $mkey, $mvalue) {
+	global $wpdb, $tablepostmeta;
+
+	return $wpdb->query("UPDATE $tablepostmeta SET meta_key = '$mkey', meta_value = '$mvalue' WHERE meta_id = '$mid'");
 }
 
 ?>
