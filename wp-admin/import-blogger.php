@@ -15,16 +15,11 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 		}
 	}
 }
-
+	require_once('../wp-config.php');
+	require('upgrade_functions.php');
 switch ($action) {
 
 case "step1":
-
-	require_once('../wp-config.php');
-	require_once(ABSPATH.WPINC.'/template-functions.php');
-	require_once(ABSPATH.WPINC.'/functions.php');
-	require_once(ABSPATH.WPINC.'/vars.php');
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -158,7 +153,7 @@ case "step1":
 	   here's the bugfix: */
 	$result = $wpdb->query("DELETE FROM $tableposts WHERE post_date=\"0000-00-00 00:00:00\"");
 
-
+	upgrade_all();
 	?>
 </ul>
 <strong>Done</strong>

@@ -1,6 +1,13 @@
 <?php
 // Functions to be called in install and upgrade scripts
 
+function upgrade_all() {
+	upgrade_071();
+	upgrade_072();
+	upgrade_100();
+	upgrade_101();
+}
+
 // General
 function maybe_create_table($table_name, $create_ddl) {
     global $wpdb;

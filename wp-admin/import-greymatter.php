@@ -6,6 +6,7 @@
 
 require_once('../wp-config.php');
 require_once(ABSPATH.WPINC.'/functions.php');
+require('upgrade-functions.php');
 
 $wpvarstoreset = array('action', 'gmpath', 'archivespath');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -252,7 +253,9 @@ textarea,input,select {
 			}
 			echo "... <b>Done</b></li>";
 		}
-	} ?>
+	} 
+	upgrade_all();
+	?>
 </ul><b>Done</b></li></ul>
 <p>&nbsp;</p>
 <p>Completed GM 2 b2 import !</p>

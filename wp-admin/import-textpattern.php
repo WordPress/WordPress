@@ -2,14 +2,14 @@
 
 // For security reasons, fill in the connection details to your Textpattern database below:
 
-$tp_database_name = 'wordpres_test';
-$tp_database_username = 'wordpres_test';
-$tp_database_password = 'test';
+$tp_database_name = 'textpattern';
+$tp_database_username = 'username';
+$tp_database_password = 'password';
 $tp_database_host = 'localhost';
 
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
 require('../wp-config.php');
-require('install-helper.php');
+require('upgrade-functions.php');
 
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
@@ -29,14 +29,14 @@ if (!$step) $step = 0;
 		padding: 0;
 		background-image: url(http://wordpress.org/images/wordpress.gif);
 		background-repeat: no-repeat;
-		height: 72px;
+		height: 60px;
 		border-bottom: 4px solid #333;
 	}
 	#logo a {
 		display: block;
 		text-decoration: none;
 		text-indent: -100em;
-		height: 72px;
+		height: 60px;
 	}
 	p {
 		line-height: 140%;
@@ -60,7 +60,7 @@ if ($connection && $database) {
 <?php
 } else {
 ?>
-<p><em>It doesn't look like your database information is correct. Please re-edit this file and double-check all the settings.</em></p>
+<p><em>It doesn't look like your database information is incorrect. Please re-edit this file and double-check all the settings.</em></p>
 <?php
 }
 	break;
@@ -102,9 +102,9 @@ while ($post = mysql_fetch_array($posts)) {
 	$post_name = sanitize_title($title);
 
 	$wpdb->query("INSERT INTO $tableposts
-		(post_author, post_date, post_content, post_title, post_category, post_name)
+		(post_author, post_date, post_content, post_title, post_category, post_name, post_status)
 		VALUES
-		('$author', '$posted', '$content', '$title', '$category', '$post_name')");
+		('$author', '$posted', '$content', '$title', '$category', '$post_name', 'publish')");
 
 	// Get wordpress post id
 	$wp_post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
@@ -125,44 +125,13 @@ while ($post = mysql_fetch_array($posts)) {
 	}
 }
 
-?> 
-<p><strong>Done.</strong></p> 
-<p>Now let's populate the new field.</p> 
-<p>Working
- 
-  <strong>Done.</strong></p>
-  <p>Now on to <a href="upgrade-072-to-073.php?step=2">step 2</a>.</p>
-<?php
-	break;
-	case 2:
+upgrade_all();
 ?>
-    <h1>Step 2</h1> 
-    <p>Now we need to adjust some option data (don't worry this won't change any of your settings.) </p>
-    <p>Working
+<p><strong>All done.</strong> Wasn&#8217;t that fun? <a href="../">Have fun</a>.</p> 
 <?php
-        // fix timezone diff range
-        $wpdb->query("UPDATE $tableoptionvalues SET optionvalue_max = 23 , optionvalue_min = -23 WHERE option_id = 51");
-        echo ' .';
-        flush();
-        // fix upload users description
-        $wpdb->query("UPDATE $tableoptions SET option_description = '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'' WHERE option_id = 37");
-        echo ' .';
-        flush();
-        // and file types
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'accepted file types, separated by spaces. example: \'jpg gif png\'' WHERE option_id = 34");
-        echo ' .';
-        flush();
-        // add link to date format help page
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"help/en/dateformats.help.html\">help</a> for format characters' WHERE option_id = 52");
-        $wpdb->query("UPDATE $tableoptions SET option_description = 'see <a href=\"help/en/dateformats.help.html\">help</a> for format characters' WHERE option_id = 53");
-        echo ' .';
-        flush();
-?>
-    <strong>Done.</strong></p>
-<p>See, that didn&#8217;t hurt a bit. All done!</p>
-<?php
-	break;
+break;
 }
 ?> 
+
 </body>
 </html>
