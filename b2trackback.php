@@ -1,6 +1,4 @@
-<?php if (!empty($tb)) {
-
-} else {
+<?php
 
 if (!empty($HTTP_GET_VARS['tb_id'])) {
 	// trackback is done by a GET
@@ -24,19 +22,18 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 
 	@header('Content-Type: text/xml');
 
-
 	require_once('wp-config.php');
 	require_once($abspath.$b2inc.'/b2template.functions.php');
 	require_once($abspath.$b2inc.'/b2vars.php');
 	require_once($abspath.$b2inc.'/b2functions.php');
 
-	if (!$use_trackback) {
+	if (!$use_trackback)
 		trackback_response(1, 'Sorry, this weblog does not allow you to trackback its posts.');
-	}
+
 	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $tableposts WHERE ID = $tb_id");
 
 	if ('closed' == $pingstatus)
-		die('Sorry, trackbacks are closed for this item.');
+		trackback_response(1, 'Sorry, trackbacks are closed for this item.');
 
 	$tb_url = addslashes($tb_url);
 	$title = strip_tags($title);
@@ -47,7 +44,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	$blog_name = (strlen($blog_name) > 255) ? substr($blog_name, 0, 252).'...' : $blog_name;
 
 	$comment = '<trackback />';
-	$comment .= "<strong>$title</strong><br />$excerpt";
+	$comment .= "<strong>$title</strong>\n$excerpt";
 
 	$author = addslashes($blog_name);
 	$email = '';
@@ -57,7 +54,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 	$user_ip = $HTTP_SERVER_VARS['REMOTE_ADDR'];
 	$user_domain = gethostbyaddr($user_ip);
 	$time_difference = get_settings('time_difference');
-	$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
+	$now = current_time('mysql');
 
 	$comment = convert_chars($comment);
 	$comment = format_to_post($comment);
@@ -68,30 +65,30 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 
 	$author = addslashes($author);
 
-	$result = $wpdb->query("INSERT INTO $tablecomments VALUES ('0', '$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$comment', '0')");
+	$comment_moderation = get_settings('comment_moderation');
+	$moderation_notify = get_settings('moderation_notify');
+
+	if ('manual' == $comment_moderation) {
+		$approved = 0;
+	} else if ('auto' == $comment_moderation) {
+		$approved = 0;
+	} else { // none
+		$approved = 1;
+	}
+
+	$result = $wpdb->query("INSERT INTO $tablecomments 
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved)
+	VALUES 
+	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$comment', '$approved')
+	");
+
 	if (!$result) {
-		die ("There is an error with the database, it can't store your comment...<br />Contact the <a href=\"mailto:$admin_email\">webmaster</a>");
+		die ("There is an error with the database, it can't store your comment...<br />Please contact the <a href='mailto:$admin_email'>webmaster</a>.");
 	} else {
-			$postdata = get_postdata($comment_post_ID);
-			$authordata = get_userdata($postdata["Author_ID"]);
-		if ($comments_notify && '' != $authordata->user_email) {
-
-			$notify_message  = "New trackback on your post #$comment_post_ID \"".stripslashes($postdata['Title'])."\"\r\n\r\n";
-			$notify_message .= "Website: $comment_author (IP: $user_ip , $user_domain)\r\n";
-			$notify_message .= "URI    : $comment_author_url\r\n";
-			$notify_message .= "Excerpt: \n".stripslashes($original_comment)."\r\n\r\n";
-			$notify_message .= "You can see all trackbacks on this post here: \r\n";
-			$notify_message .= "$siteurl/$blogfilename?p=$comment_post_ID&c=1\r\n\r\n";
-
-			$subject = '[' . stripslashes($blogname) . '] Trackback: "' .stripslashes($postdata['Title']).'"';
-
-			$from = "From: wordpress@".$HTTP_SERVER_VARS['SERVER_NAME'];
-			$from .= "\r\nX-Mailer: WordPress $b2_version with PHP/" . phpversion();
-
-			@mail($authordata->user_email, $subject, $notify_message, $from);
-		}
+		$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
+		if ($comments_notify)
+			wp_notify_postauthor($comment_ID, 'trackback');
 		trackback_response(0);
 	}
-}
 }
 ?>

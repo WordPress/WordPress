@@ -93,28 +93,22 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	} else { // none
 		$approved = 1;
 	}
-	$wpdb->query("INSERT INTO $tablecomments (comment_ID,comment_post_ID,comment_author,comment_author_email,comment_author_url,comment_author_IP,comment_date,comment_content,comment_karma,comment_approved) VALUES ('0', '$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '0', '$approved')");
+	$wpdb->query("INSERT INTO $tablecomments 
+	(comment_ID, comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved) 
+	VALUES 
+	('0', '$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '$approved')
+	");
 
-/*
 	$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
 
-	$fp = fopen("/tmp/wpdebug.txt", "w+");
-	fwrite($fp, "comment_moderation: $comment_moderation\n");
-	fwrite($fp, "moderation_notify : $moderation_notify\n");
-	
 	if (($moderation_notify) && (!$approved)) {
 	    wp_notify_moderator($comment_ID);
-	    fwrite($fp, "notify moderator -> $comment_ID\n");
 	}
 	
 	if (($comment_notify) && ($approved)) {
-	    wp_notify_postauthor($comment_ID);
-	    fwrite($fp, "notify postauthor -> $comment_ID\n");
+	    wp_notify_postauthor($comment_ID, 'comment');
 	}
-	
-	fclose($fp);
 
-*/
 	if ($email == '')
 		$email = ' '; // this to make sure a cookie is set for 'no email'
 
