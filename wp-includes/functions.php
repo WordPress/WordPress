@@ -1486,7 +1486,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 		$notify_message .= "You can see all pingbacks on this post here: \r\n";
 		$subject = '[' . $blogname . '] Pingback: "' .stripslashes($post->post_title).'"';
 	}
-	$notify_message .= get_permalink() . '#comments';
+	$notify_message .= get_permalink($comment->comment_post_ID) . '#comments';
 
 	if ('' == $comment->comment_author_email || '' == $comment->comment_author) {
 		$from = "From: \"$blogname\" <wordpress@" . $HTTP_SERVER_VARS['SERVER_NAME'] . '>';
