@@ -6,10 +6,20 @@ $parent_file = 'edit.php';
 require_once('admin-header.php');
 
 get_currentuserinfo();
+
 $drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
-if ($drafts) {
-	?> 
-<div class="wrap"> 
+if (1 < $user_level) {
+	$editable = $wpdb->get_col("SELECT ID FROM $wpdb->users WHERE user_level <= '$user_level' AND ID != $user_ID");
+	$editable = join($editable, ',');
+	$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) ");
+} else {
+	$other_drafts = false;
+}
+
+if ($drafts || $other_drafts) {
+?> 
+<div class="wrap">
+<?php if ($drafts) { ?>
     <p><strong><?php _e('Your Drafts:') ?></strong> 
     <?php
 	$i = 0;
@@ -24,17 +34,9 @@ if ($drafts) {
 		}
 	?> 
     .</p> 
-</div> 
 <?php } ?>
 
-<?php
-if (1 < $user_level) {
-$editable = $wpdb->get_col("SELECT ID FROM $wpdb->users WHERE user_level <= '$user_level' AND ID != $user_ID");
-$editable = join($editable, ',');
-$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) ");
-if ($other_drafts) {
-	?> 
-<div class="wrap"> 
+<?php if ($other_drafts) { ?> 
     <p><strong><?php _e('Other&#8217;s Drafts:') ?></strong> 
     <?php
 	$i = 0;
@@ -49,20 +51,36 @@ if ($other_drafts) {
 		}
 	?> 
     .</p> 
-</div> 
-<?php } } ?> 
 
-<div class="wrap"> 
+<?php } ?>
+
+</div>
+<?php } ?>
+
+<div class="wrap">
+<h2>
 <?php
-if( isset( $_GET['m'] ) )
-{
-	echo '<h2>' . $month[substr( $_GET['m'], 4, 2 )]." ".substr( $_GET['m'], 0, 4 )."</h2>";
+if ( isset( $_GET['m'] ) ) {
+	echo $month[substr( $_GET['m'], 4, 2 )] . ' ' . substr( $_GET['m'], 0, 4 );
+} elseif ( isset( $_GET['s'] ) ) {
+	printf(__('Search for &#8220;%s&#8221;'), $_GET['s']);
+} else {
+	_e('Last 15 Posts');
 }
 ?>
+</h2>
 
-<form name="viewarc" action="" method="get" style="float: left; width: 20em;">
+<form name="searchform" action="" method="get" style="float: left; width: 16em; margin-right: 3em;"> 
+  <fieldset> 
+  <legend><?php _e('Search Posts&hellip;') ?></legend> 
+  <input type="text" name="s" value="<?php if (isset($s)) echo $s; ?>" size="17" /> 
+  <input type="submit" name="submit" value="<?php _e('Search') ?>"  /> 
+  </fieldset>
+</form>
+
+<form name="viewarc" action="" method="get" style="float: left; width: 20em; margin-bottom: 1em;">
 	<fieldset>
-	<legend><?php _e('Show Posts From Month of...') ?></legend>
+	<legend><?php _e('Browse Month&hellip;') ?></legend>
     <select name='m'>
 	<?php
 		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts ORDER BY post_date DESC");
@@ -84,13 +102,6 @@ if( isset( $_GET['m'] ) )
 		<input type="submit" name="submit" value="<?php _e('Show Month') ?>"  /> 
 	</fieldset>
 </form>
-<form name="searchform" action="" method="get" style="float: left; width: 20em; margin-left: 3em;"> 
-  <fieldset> 
-  <legend><?php _e('Show Posts That Contain...') ?></legend> 
-  <input type="text" name="s" value="<?php if (isset($s)) echo $s; ?>" size="17" /> 
-  <input type="submit" name="submit" value="<?php _e('Search') ?>"  /> 
-  </fieldset>
-</form>
 
 <br style="clear:both;" />
 
@@ -108,7 +119,7 @@ if( isset( $_GET['m'] ) )
   </tr> 
 <?php
 $what_to_show = 'posts';
-if (empty($m)) {
+if ( empty($m) && empty($s) ) {
   $showposts = 15;
 } else {
   $nopaging = true;
