@@ -76,7 +76,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$tb_u
 			$authordata = get_userdata($postdata["Author_ID"]);
 		if ($comments_notify && '' != $authordata->user_email) {
 
-			$notify_message  = "New trackback on your post #$comment_post_ID.\r\n\r\n";
+			$notify_message  = "New trackback on your post #$comment_post_ID \"".stripslashes($postdata['Title'])."\"\r\n\r\n";
 			$notify_message .= "Website: $comment_author (IP: $user_ip , $user_domain)\r\n";
 			$notify_message .= "URI    : $comment_author_url\r\n";
 			$notify_message .= "Excerpt: \n".stripslashes($original_comment)."\r\n\r\n";
