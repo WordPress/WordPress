@@ -14,6 +14,8 @@ if (empty($locale)) {
     $locale = 'en_US';
 }
 
+$locale = apply_filters('locale', $locale);
+
 require_once(ABSPATH . 'wp-includes/streams.php');
 require_once(ABSPATH . 'wp-includes/gettext.php');
 
