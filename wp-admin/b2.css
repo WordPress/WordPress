@@ -81,6 +81,9 @@ textarea, input, select {
 	width: 85%;
 }
 
+.helptext {
+}
+
 #adminmenu {
 	list-style: none outside;
 	margin: 5px 0 0 0;
@@ -112,6 +115,41 @@ textarea, input, select {
 	padding: 4px;
 	text-align: center;
 }
+
+#adminmenu2 {
+	list-style: none outside;
+	margin: 5px 0 0 0;
+    margin-left: 40px;
+	padding: 0;
+}
+
+#adminmenu2 li {
+	border-right: 1px solid #ccc;
+	display: block;
+	float: left;
+    padding: 4px;
+	text-align: center;
+}
+
+#adminmenu2 a {
+	border: 1px solid #fff;
+	color: #333;
+    padding: 3px 8px 3px 7px;
+	text-decoration: none;
+}
+
+#adminmenu2 a:hover, #current2 {
+	background-color: #e9e9e9;
+	border: 1px solid #808080;
+	color: #333;
+}
+
+#adminmenu2 #last2 {
+	border-right: none;
+}
+
+
+
 
 #login {
 	background: url(http://wordpress.org/images/wp-small.png) #fff no-repeat top center;
