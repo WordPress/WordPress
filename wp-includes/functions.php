@@ -816,7 +816,7 @@ function do_enclose( $content, $post_ID ) {
                     if( $fp ) {
                         fputs($fp, $headers );
                         $response = '';
-                        while (!feof($fp))
+                        while ( !feof($fp) && strpos( $response, "\r\n\r\n" ) == false )
                             $response .= fgets($fp, 2048);
                         fclose( $fp );
                     } else {
