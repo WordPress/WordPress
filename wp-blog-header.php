@@ -255,6 +255,11 @@ if ($pagenow == 'index.php') {
 			$wp_did_template_redirect = true;
 			include("$wp_template_dir/search.php");
 			exit;
+		} else if (is_paged() &&
+							 file_exists("$wp_template_dir/paged.php")) {
+			$wp_did_template_redirect = true;
+			include("$wp_template_dir/paged.php");
+			exit;
 		} else if (file_exists("$wp_template_dir/index.php"))
 			{
 				$wp_did_template_redirect = true;

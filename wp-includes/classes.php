@@ -176,7 +176,7 @@ class WP_Query {
 			$this->is_paged = true;
 		}
 
-		if ( ($this->is_date || $this->is_author || $this->is_category || $this->is_paged)
+		if ( ($this->is_date || $this->is_author || $this->is_category)
 				 && (! ($this->is_single || $this->is_page)) ) {
 			$this->is_archive = true;
 		}
