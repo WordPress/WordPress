@@ -10,36 +10,35 @@
 #
 # [kses strips evil scripts!]
 
+// You could override this in your my-hacks.php file
 $allowedtags = array(
 				'a' => array(
 					'href' => array(),
 					'title' => array(),
 					'rel' => array()),
-				'abbr' => array(),
-				'acronym' => array(),
 				'abbr' => array('title' => array()),
 				'acronym' => array('title' => array()),
 				'b' => array(),
-				'blockquote' => array('cite' => array()),
-				'br' => array(),
+//				'blockquote' => array('cite' => array()),
+//				'br' => array(),
 				'code' => array(),
-				'del' => array('datetime' => array()),
-				'dd' => array(),
-				'dl' => array(),
-				'dt' => array(),
+//				'del' => array('datetime' => array()),
+//				'dd' => array(),
+//				'dl' => array(),
+//				'dt' => array(),
 				'em' => array(),
 				'i' => array(),
-				'ins' => array('datetime' => array(), 'cite' => array()),
-				'li' => array(),
-				'ol' => array(),
-				'p' => array(),
-				'q' => array(),
+//				'ins' => array('datetime' => array(), 'cite' => array()),
+//				'li' => array(),
+//				'ol' => array(),
+//				'p' => array(),
+//				'q' => array(),
 				'strike' => array(),
 				'strong' => array(),
-				'sub' => array(),
-				'sup' => array(),
-				'u' => array(),
-				'ul' => array(),
+//				'sub' => array(),
+//				'sup' => array(),
+//				'u' => array(),
+//				'ul' => array(),
 				);
 
 function wp_kses($string, $allowed_html, $allowed_protocols =
