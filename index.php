@@ -1,14 +1,11 @@
 <?php 
-/* Don't remove these lines. */
-$blog = 1;
-require('wp-blog-header.php');
-// Uncomment the next line if you want to track blog updates from weblogs.com
-//include_once(ABSPATH.WPINC.'/links-update-xml.php');
+/* Don't remove this lines. */
+require('./wp-blog-header.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head  profile="http://gmpg.org/xfn/1">
+<head profile="http://gmpg.org/xfn/1">
 	<title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
@@ -20,22 +17,21 @@ require('wp-blog-header.php');
 	
 	<link rel="stylesheet" type="text/css" media="print" href="<?php echo get_settings('siteurl'); ?>/print.css" />
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?php bloginfo('rss2_url'); ?>" />
-	<link rel="alternate" type="application/rdf+xml" title="RDF" href="<?php bloginfo('rdf_url'); ?>" />
 	<link rel="alternate" type="text/xml" title="RSS .92" href="<?php bloginfo('rss_url'); ?>" />
 	<link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="<?php bloginfo('atom_url'); ?>" />
 	
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
     <?php get_archives('monthly', '', 'link'); ?>
 	<?php //comments_popup_script(); // off by default ?>
-
+	<?php wp_head(); ?>
 </head>
 
 <body>
 <div id="rap">
-<h1 id="header"><a href="<?php echo get_settings('siteurl'); ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
+<h1 id="header"><a href="<?php echo get_settings('siteurl'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 <div id="content">
-<?php if ($posts) { foreach ($posts as $post) { start_wp(); ?>
+<?php if ($posts) : foreach ($posts as $post) : start_wp(); ?>
 
 <?php the_date('','<h2>','</h2>'); ?>
 	
@@ -59,9 +55,9 @@ require('wp-blog-header.php');
 <?php include(ABSPATH . 'wp-comments.php'); ?>
 </div>
 
-<?php } } else { // end foreach, end if any posts ?>
+<?php endforeach; else: ?>
 <p><?php _e("Sorry, no posts matched your criteria."); ?></p>
-<?php } ?>
+<?php endif; ?>
 </div>
 
 
@@ -80,11 +76,11 @@ require('wp-blog-header.php');
    <form id="searchform" method="get" action="<?php echo $PHP_SELF; ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />
-		<input type="submit" name="submit" value="<?php _e("search"); ?>" />
+		<input type="submit" name="submit" value="<?php _e("Search"); ?>" />
 	</div>
 	</form>
  </li>
- <li id="archives"><?php _e("Archives"); ?>
+ <li id="archives"><?php _e("Archives:"); ?>
  	<ul>
 	 <?php get_archives('monthly'); ?>
  	</ul>
@@ -101,9 +97,9 @@ require('wp-blog-header.php');
  <li id="meta"><?php _e("Meta:"); ?>
  	<ul>
 		<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php _e("Syndicate this site using RSS"); ?>"><?php _e("<abbr title=\"Really Simple Syndication\">RSS</abbr> 2.0"); ?></a></li>
-		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php _e("The latest comments to all posts in RSS"); ?>"><?php _e("Comments <abbr title=\"Really Simple Syndication\">RSS</abbr> 2.0"); ?></a></li>
+		<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php _e("The latest comments to all posts in RSS"); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr> 2.0'); ?></a></li>
 		<li><a href="http://validator.w3.org/check/referer" title="<?php _e("This page validates as XHTML 1.0 Transitional"
-); ?>"><?php _e("Valid <abbr title=\"eXtensible HyperText Markup Language\">XHTML</abbr>"); ?></a></li>
+); ?>"><?php _e('Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr>'); ?></a></li>
 		<li><a href="http://wordpress.org" title="<?php _e("Powered by WordPress; state-of-the-art semantic personal publishing platform."); ?>">WP</a></li>
 	</ul>
  </li>
@@ -114,6 +110,6 @@ require('wp-blog-header.php');
 
 </div>
 
-<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <cite><?php echo sprintf(__("Powered by <a href=\"http://wordpress.org\" title=\"%s\"><strong>WordPress</strong></a></cite></p>"), __("Powered by WordPress, state-of-the-art semantic personal publishing platform")); ?>
+<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> &#8212; <cite><?php echo sprintf(__("Powered by <a href='http://wordpress.org' title='%s'><strong>WordPress</strong></a>"), __("Powered by WordPress, state-of-the-art semantic personal publishing platform")); ?></cite></p>
 </body>
 </html>

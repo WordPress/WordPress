@@ -111,6 +111,7 @@ if (!$plugins_dir || !$plugin_files) {
 
 		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
 			$action = "<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='Deactivate this plugin' class='delete'>Deactivate</a>";
+			$plugin = "<strong>$plugin</strong>";
 		} else {
 			$action = "<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='Activate this plugin' class='edit'>Activate</a>";
 		}

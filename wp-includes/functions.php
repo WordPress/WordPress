@@ -1162,113 +1162,6 @@ function remove_action($tag, $function_to_remove, $priority = 10) {
 	remove_filter($tag, $function_to_remove, $priority);
 }
 
-/* Highlighting code c/o Ryan Boren */
-function get_search_query_terms($engine = 'google') {
-    global $s, $s_array;
-	$referer = urldecode($_SERVER[HTTP_REFERER]);
-	$query_array = array();
-	switch ($engine) {
-	case 'google':
-		// Google query parsing code adapted from Dean Allen's
-		// Google Hilite 0.3. http://textism.com
-		$query_terms = preg_replace('/^.*q=([^&]+)&?.*$/i','$1', $referer);
-		$query_terms = preg_replace('/\'|"/', '', $query_terms);
-		$query_array = preg_split ("/[\s,\+\.]+/", $query_terms);
-		break;
-
-	case 'lycos':
-		$query_terms = preg_replace('/^.*query=([^&]+)&?.*$/i','$1', $referer);
-		$query_terms = preg_replace('/\'|"/', '', $query_terms);
-		$query_array = preg_split ("/[\s,\+\.]+/", $query_terms);
-		break;
-
-	case 'yahoo':
-		$query_terms = preg_replace('/^.*p=([^&]+)&?.*$/i','$1', $referer);
-		$query_terms = preg_replace('/\'|"/', '', $query_terms);
-		$query_array = preg_split ("/[\s,\+\.]+/", $query_terms);
-		break;
-
-    case 'wordpress':
-        // Check the search form vars if the search terms
-        // aren't in the referer.
-        if ( ! preg_match('/^.*s=/i', $referer)) {
-            if (isset($s_array)) {
-                $query_array = $s_array;
-            } else if (isset($s)) {
-                $query_array = array($s);
-            }
-
-            break;
-        }
-
-		$query_terms = preg_replace('/^.*s=([^&]+)&?.*$/i','$1', $referer);
-		$query_terms = preg_replace('/\'|"/', '', $query_terms);
-		$query_array = preg_split ("/[\s,\+\.]+/", $query_terms);
-        break;
-	}
-
-	return $query_array;
-}
-
-function is_referer_search_engine($engine = 'google') {
-	$siteurl = get_settings('siteurl');
-	$referer = urldecode($_SERVER['HTTP_REFERER']);
-    //echo "referer is: $referer<br />";
-	if ( ! $engine ) {
-		return 0;
-	}
-
-	switch ($engine) {
-	case 'google':
-		if (preg_match('/^http:\/\/w?w?w?\.?google.*/i', $referer)) {
-			return 1;
-		}
-		break;
-
-    case 'lycos':
-		if (preg_match('/^http:\/\/search\.lycos.*/i', $referer)) {
-			return 1;
-		}
-        break;
-
-    case 'yahoo':
-		if (preg_match('/^http:\/\/search\.yahoo.*/i', $referer)) {
-			return 1;
-		}
-        break;
-
-    case 'wordpress':
-        if (preg_match("#^$siteurl#i", $referer)) {
-            return 1;
-        }
-        break;
-	}
-
-	return 0;
-}
-
-function hilite($text) {
-	$search_engines = array('wordpress', 'google', 'lycos', 'yahoo');
-
-	foreach ($search_engines as $engine) {
-		if ( is_referer_search_engine($engine)) {
-			$query_terms = get_search_query_terms($engine);
-			foreach ($query_terms as $term) {
-				if (!empty($term) && $term != ' ') {
-					if (!preg_match('/<.+>/',$text)) {
-						$text = preg_replace('/(\b'.$term.'\b)/i','<span class="hilite">$1</span>',$text);
-					} else {
-						$text = preg_replace('/(?<=>)([^<]+)?(\b'.$term.'\b)/i','$1<span class="hilite">$2</span>',$text);
-					}
-				}
-			}
-			break;
-		}
-	}
-
-	return $text;
-}
-
 /* rewrite_rules
  * Construct rewrite matches and queries from permalink structure.
  * matches - The name of the match array to use in the query strings.
@@ -1448,6 +1341,10 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 	if ($number >= get_settings('comment_max_links')) return false;
 
 	return true;
+}
+
+function wp_head() {
+	do_action('wp_head', '');
 }
 
 ?>
