@@ -69,7 +69,7 @@ case 'adduser':
     $user_nicename = sanitize_title($user_nickname);
 	$user_firstname = addslashes(stripslashes($user_firstname));
 	$user_lastname = addslashes(stripslashes($user_lastname));
-	$now = current_time('mysql');
+	$now = gmdate('Y-m-d H:i:s');
 
 	$result = $wpdb->query("INSERT INTO $tableusers 
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode, user_firstname, user_lastname, user_nicename)
