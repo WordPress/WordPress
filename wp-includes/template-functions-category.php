@@ -60,7 +60,7 @@ function get_category_rss_link($echo = false, $category_id, $category_nicename) 
        return $link;
 }
 
-function the_category($seperator = '', $parents='') {
+function the_category($separator = '', $parents='') {
     $categories = get_the_category();
     if (empty($categories)) {
         _e('Uncategorized');
@@ -68,7 +68,7 @@ function the_category($seperator = '', $parents='') {
     }
 
     $thelist = '';
-    if ('' == $seperator) {
+    if ('' == $separator) {
         $thelist .= '<ul class="post-categories">';
         foreach ($categories as $category) {
             $category->cat_name = $category->cat_name;
@@ -97,7 +97,7 @@ function the_category($seperator = '', $parents='') {
         $i = 0;
         foreach ($categories as $category) {
             $category->cat_name = $category->cat_name;
-            if (0 < $i) $thelist .= $seperator . ' ';
+            if (0 < $i) $thelist .= $separator . ' ';
             switch(strtolower($parents)) {
                 case 'multiple':
                     if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, TRUE);
