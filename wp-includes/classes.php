@@ -854,8 +854,14 @@ class WP_Rewrite {
 			}
 		} 
 
+		// Do not allow the date tags and %post_id% to overlap in the permalink
+		// structure. If they do, move the date tags to $front/date/.  
+		$front = $this->front;
+		if ( false !== strpos($this->permalink_structure, $this->front . '%post_id%') )
+			$front = $front . 'date/';
+			 
 		if (empty($this->date_structure)) {
-			$this->date_structure = $this->front . '%year%/%monthnum%/%day%';
+			$this->date_structure = $front . '%year%/%monthnum%/%day%';
 		}
 
 		return $this->date_structure;
