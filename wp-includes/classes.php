@@ -65,7 +65,7 @@ class WP_Query {
 
 		if ('' != $qv['name']) {
 			$this->is_single = true;
-		} else 	if (($qv['p'] != '') && ($qv['p'] != 'all')) {
+		} else 	if (($qv['p'] != '') && ($qv['p'] != 'all') && (intval($q['p']) != 0)) {
 			$this->is_single = true;            
 		}	else if (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
 			// If year, month, day, hour, minute, and second are set, a single 
@@ -293,7 +293,7 @@ class WP_Query {
 		}
 
 		// If a post number is specified, load that post
-		if (($q['p'] != '') && ($q['p'] != 'all')) {
+		if (($q['p'] != '') && ($q['p'] != 'all') && intval($q['p']) != 0) {
 			$q['p'] =  (int) $q['p'];
 			$where = ' AND ID = ' . $q['p'];
 		}
