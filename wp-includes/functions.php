@@ -731,37 +731,21 @@ function do_enclose( $content, $post_ID ) {
 	global $wp_version, $wpdb;
 	include_once (ABSPATH . WPINC . '/class-IXR.php');
 
-	// original code by Mort (http://mort.mine.nu:8080)
-	$log = debug_fopen(ABSPATH . '/pingback.log', 'a');
+	$log = debug_fopen(ABSPATH . '/enclosures.log', 'a');
 	$post_links = array();
 	debug_fwrite($log, 'BEGIN '.date('YmdHis', time())."\n");
 
-	$pung = get_pung($post_ID);
+	$pung = get_enclosed( $post_ID );
 
-	// Variables
 	$ltrs = '\w';
 	$gunk = '/#~:.?+=&%@!\-';
 	$punc = '.:?\-';
 	$any = $ltrs . $gunk . $punc;
 
-	// Step 1
-	// Parsing the post, external links (if any) are stored in the $post_links array
-	// This regexp comes straight from phpfreaks.com
-	// http://www.phpfreaks.com/quickcode/Extract_All_URLs_on_a_Page/15.php
 	preg_match_all("{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp);
 
-	// Debug
 	debug_fwrite($log, 'Post contents:');
 	debug_fwrite($log, $content."\n");
-	
-	// Step 2.
-	// Walking thru the links array
-	// first we get rid of links pointing to sites, not to specific files
-	// Example:
-	// http://dummy-weblog.org
-	// http://dummy-weblog.org/
-	// http://dummy-weblog.org/post.php
-	// We don't wanna ping first and second types, even if they have a valid <link/>
 
 	foreach($post_links_temp[0] as $link_test) :
 		if ( !in_array($link_test, $pung) ) : // If we haven't pung it already
@@ -797,13 +781,12 @@ function do_enclose( $content, $post_ID ) {
                         $len = substr( $len, 0, strpos( $len, "\n" ) );
                         $type = substr( $response, strpos( $response, "Content-Type:" ) + 14 );
                         $type = substr( $type, 0, strpos( $type, "\n" ) + 1 );
-                        $allowed_types = array( "video", "audio" );
+                        $allowed_types = array( 'video', 'audio' );
                         if( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
                             $meta_value = "$url\n$len\n$type\n";
                             $query = "INSERT INTO `".$wpdb->postmeta."` ( `meta_id` , `post_id` , `meta_key` , `meta_value` )
                                 VALUES ( NULL, '$post_ID', 'enclosure' , '".$meta_value."')";
                             $wpdb->query( $query );
-                            add_ping( $post_ID, $url );
                         }
                     }
                 }
@@ -1021,9 +1004,8 @@ function update_post_caches($posts) {
     }
 
     // Get the categories for all the posts
-    foreach ($posts as $post) {
+    foreach ($posts as $post)
         $post_id_list[] = $post->ID;
-    }
     $post_id_list = implode(',', $post_id_list);
 
     $dogs = $wpdb->get_results("SELECT DISTINCT

@@ -208,10 +208,34 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
  * Post-meta: Custom per-post fields.
  */
  
-function get_post_custom() {
-	global $id, $post_meta_cache;
-
-	return $post_meta_cache[$id];
+function get_post_custom( $post_id = 0 ) {
+	global $id, $post_meta_cache, $wpdb;
+	if ( $post_id )
+		$id = $post_id;
+	if ( isset($post_meta_cache[$id]) ) {
+		return $post_meta_cache[$id];
+	} else {
+	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta  WHERE post_id = '$id' ORDER BY post_id, meta_key", ARRAY_A) ) {
+		
+	// Change from flat structure to hierarchical:
+	$post_meta_cache = array();
+		foreach ($meta_list as $metarow) {
+			$mpid = $metarow['post_id'];
+			$mkey = $metarow['meta_key'];
+			$mval = $metarow['meta_value'];
+			
+			// Force subkeys to be array type:
+			if (!isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]))
+			$post_meta_cache[$mpid] = array();
+			if (!isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]))
+			$post_meta_cache[$mpid]["$mkey"] = array();
+			
+			// Add a value to the current pid/key:
+			$post_meta_cache[$mpid][$mkey][] = $mval;
+		}
+	return $post_meta_cache[$mpid];
+    }
+	}
 }
 
 function get_post_custom_keys() {

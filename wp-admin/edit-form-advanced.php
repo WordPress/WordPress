@@ -37,9 +37,6 @@ if ('' != $pinged) {
 
 $saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="' . __('Save and Continue Editing') . '" />';
 
-$form_enclosure = '<p><label for="enclosure"><a href="http://www.thetwowayweb.com/payloadsforrss" title="' . __('Help on enclosures') . '">' . __('<strong>Enclosures</strong></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
-<input type="text" name="enclosure_url" style="width: 415px" id="enclosure" tabindex="8" value="'. str_replace("\n", ' ', $enclosure_url) .'" /></p>';
-
 if (empty($post_status)) $post_status = 'draft';
 
 ?>

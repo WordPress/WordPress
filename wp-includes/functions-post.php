@@ -527,6 +527,25 @@ function get_pung($post_id) { // Get URIs already pung for a post
 	return $pung;
 }
 
+function get_enclosed($post_id) { // Get enclosures already enclosed for a post
+	global $wpdb;
+	$custom_fields = get_post_custom( $post_id );
+	$pung = array();
+	if( is_array( $custom_fields ) ) {
+		while( list( $key, $val ) = each( $custom_fields ) ) { 
+			if( $key == 'enclosure' ) {
+				if (is_array($val)) {
+					foreach($val as $enc) {
+						$enclosure = split( "\n", $enc );
+						$pung[] = trim( $enclosure[ 0 ] );
+					}
+				}
+			}
+		}
+	}
+	return $pung;
+}
+
 function get_to_ping($post_id) { // Get any URIs in the todo list
 	global $wpdb;
 	$to_ping = $wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_id");

@@ -386,7 +386,7 @@ case 'editpost':
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 		do_trackbacks($post_ID);
-				do_enclose( $content, $post_ID );
+		do_enclose( $content, $post_ID );
 		if ( get_option('default_pingback_flag') )
 			pingback($content, $post_ID);
 	}
