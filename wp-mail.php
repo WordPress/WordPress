@@ -7,6 +7,9 @@ error_reporting(2037);
 
 $time_difference = get_settings('gmt_offset') * 3600;
 
+$phone_delim = get_settings('use_phoneemail');
+if (empty($phone_delim)) $phone_delim = '::';
+
 $pop3 = new POP3();
 
 if (!$pop3->connect(get_settings('mailserver_url'), get_settings('mailserver_port'))) :
@@ -59,10 +62,9 @@ for ($i=1; $i <= $count; $i++) :
 				if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject)) {
 				  $subject = wp_iso_descrambler($subject);
 				}
-				// Captures any text in the subject before :: as the subject
-				$subject = explode('::', $subject);
+				// Captures any text in the subject before $phone_delim as the subject
+				$subject = explode($phone_delim, $subject);
 				$subject = $subject[0];
-
 			}
 			if (preg_match('/Date: /i', $line)) { // of the form '20 Mar 2002 20:32:37'
 				$ddate = trim($line);
@@ -80,7 +82,6 @@ for ($i=1; $i <= $count; $i++) :
 				$ddate_m = $date_arr[1];
 				$ddate_d = $date_arr[0];
 				$ddate_Y = $date_arr[2];
-
 				for ($j=0; $j<12; $j++) {
 					if ($ddate_m == $dmonths[$j]) {
 						$ddate_m = $j+1;
@@ -88,17 +89,7 @@ for ($i=1; $i <= $count; $i++) :
 				}
 
 				$time_zn = intval($date_arr[4]) * 36;
-				if ( $time_zn < 0 ) {
-					if (abs($time_difference) > abs($time_zn)) {
-						$time_zn = abs($time_difference) - abs($time_zn);
-					} else {
-						$time_zn = abs($time_zn) - abs($time_difference);
-					}
-				} else {
-					$time_zn = abs($time_zn) + abs($time_difference);
-				}
-
-				$ddate_U = mktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
+				$ddate_U = gmmktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
 				$ddate_U = $ddate_U - $time_zn;
 				$post_date = gmdate('Y-m-d H:i:s', $ddate_U + $time_difference);
 				$post_date_gmt = gmdate('Y-m-d H:i:s', $ddate_U);
@@ -115,9 +106,9 @@ for ($i=1; $i <= $count; $i++) :
 		$content = strip_tags($content[1], '<img><p><br><i><b><u><em><strong><strike><font><span><div>');
 	}
 	$content = trim($content);
-	// Captures any text in the body after :: as the body
-	$content = explode('::', $content);
-	$content = $content[1];
+	// Captures any text in the body after $phone_delim as the body
+	$content = explode($phone_delim, $content);
+	$content[1] ? $content = $content[1] : $content = $content[0];
 
 	echo "<p><b>Content-type:</b> $content_type, <b>boundary:</b> $boundary</p>\n";
 	echo "<p><b>Raw content:</b><br /><pre>".$content.'</pre></p>';
@@ -137,7 +128,6 @@ for ($i=1; $i <= $count; $i++) :
 	$post_name = sanitize_title( $post_title );
 	$content = preg_replace("|\n([^\n])|", " $1", $content);
 	$content = addslashes(trim($content));
-
 
 	$sql = "INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_name, post_modified, post_modified_gmt) VALUES (1, '$post_date', '$post_date_gmt', '$content', '$post_title', '$post_name', '$post_date', '$post_date_gmt')";
 
