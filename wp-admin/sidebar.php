@@ -35,14 +35,23 @@ if ('b' == $HTTP_GET_VARS['a']) {
 ?><html>
 <head>
 <title>WordPress > Sidebar</title>
-<link rel="stylesheet" href="wp-admin.css" type="text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $admin_area_charset ?>" />
+<link rel="stylesheet" href="wp-admin.css" type="text/css" />
+<link rel="shortcut icon" href="wp-favicon.png" />
 <style type="text/css" media="screen">
 form {
 	padding: 3px;
 }
+.sidebar-categories {
+    display: block;
+    height: 6.6em;
+    overflow: auto;
+    background-color: #f4f4f4;
+}
 .sidebar-categories label {
 	font-size: 10px;
+    display: block;
+    width: 90%;
 }
 </style>
 </head>
@@ -55,8 +64,10 @@ form {
 <p>Title:
 <input type="text" name="post_title" size="20" tabindex="1" style="width: 100%;" />
 </p>
-<p class="sidebar-categories">Categories: 
+<p>Categories:
+<span class="sidebar-categories">
 <?php dropdown_categories(); ?>
+</span>
 </p>
 <p>
 Post:

@@ -66,8 +66,9 @@ window.close()
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress > Bookmarklet</title>
-<link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $admin_area_charset ?>" />
+<link rel="stylesheet" href="wp-admin.css" type="text/css" />
+<link rel="shortcut icon" href="wp-favicon.png" />
 <script type="text/javascript" language="javascript">
 <!--
 function launchupload() {

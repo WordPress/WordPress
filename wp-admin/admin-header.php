@@ -51,7 +51,8 @@ if ($standalone == 0) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress &rsaquo; <?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?></title>
-<link rel="stylesheet" href="wp-admin.css" type="text/css" />
+<link rel="stylesheet" href="../wp-images/wp-admin.css" type="text/css" />
+<link rel="shortcut icon" href="wp-favicon.png" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $admin_area_charset ?>" />
 <?php
 if ($redirect==1) {
