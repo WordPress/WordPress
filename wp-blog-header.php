@@ -210,6 +210,11 @@ if ($pagenow == 'index.php') {
 			$wp_did_template_redirect = true;
 			include(dirname(__FILE__) . '/wp-trackback.php');
 			exit;
+		} else if (is_404() &&
+							 file_exists("$wp_template_dir/404.php")) {
+			$wp_did_template_redirect = true;
+			include("$wp_template_dir/404.php");
+			exit;
 		} else if (is_home() && 
 				file_exists("$wp_template_dir/index.php")) {
 			$wp_did_template_redirect = true;
@@ -249,11 +254,6 @@ if ($pagenow == 'index.php') {
 							 file_exists("$wp_template_dir/search.php")) {
 			$wp_did_template_redirect = true;
 			include("$wp_template_dir/search.php");
-			exit;
-		} else if (is_404() &&
-							 file_exists("$wp_template_dir/404.php")) {
-			$wp_did_template_redirect = true;
-			include("$wp_template_dir/404.php");
 			exit;
 		} else if (file_exists("$wp_template_dir/index.php"))
 			{
