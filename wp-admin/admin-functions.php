@@ -457,7 +457,7 @@ function check_admin_referer() {
   $adminurl = strtolower(get_settings('siteurl')).'/wp-admin';
   $referer = strtolower($_SERVER['HTTP_REFERER']);
   if ( !strstr($referer, $adminurl) ) {
-    die('Sorry, you need to enable sending referrers, for this feature to work.');
+    die('Sorry, you need to <a href="http://codex.wordpress.org/Enable_Sending_Referrers">enable sending referrers</a> for this feature to work.');
   }
 }
 
