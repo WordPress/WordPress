@@ -1406,16 +1406,16 @@ function trackback_rdf($timezone = 0) {
 
 /***** Permalink tags *****/
 function get_permalink($id=false) {
-	global $post;
+	global $post, $wpdb, $tableposts;
+	$rewritecode = array(
+		'%year%',
+		'%monthnum%',
+		'%day%',
+		'%postname%'
+	);
 	if (!$id) {
-		if (get_settings('permalink_structure')) {
+		if ('' != get_settings('permalink_structure')) {
 			$unixtime = strtotime($post->post_date);
-			$rewritecode = array(
-				'%year%',
-				'%monthnum%',
-				'%day%',
-				'%postname%'
-			);
 			$rewritereplace = array(
 				date('Y', $unixtime),
 				date('n', $unixtime),
@@ -1424,6 +1424,20 @@ function get_permalink($id=false) {
 			);
 			return str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else { // if they're not using the fancy permalink option
+			return $file.$querystring_start.'p'.$querystring_equal.$post->ID;
+		}
+	} else { // if an ID is given
+		$post = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
+		if ('' != get_settings('permalink_structure')) {
+			$unixtime = strtotime($post->post_date);
+			$rewritereplace = array(
+				date('Y', $unixtime),
+				date('n', $unixtime),
+				date('j', $unixtime),
+				$post->post_name
+			);
+			return str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+		} else {
 			return $file.$querystring_start.'p'.$querystring_equal.$post->ID;
 		}
 	}
