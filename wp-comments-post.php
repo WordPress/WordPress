@@ -15,6 +15,7 @@ function add_magic_quotes($array) {
 if (!get_magic_quotes_gpc()) {
 	$_POST   = add_magic_quotes($_POST);
 	$_COOKIE = add_magic_quotes($_COOKIE);
+	$_SERVER = add_magic_quotes($_SERVER);
 }
 
 $author = trim(strip_tags($_POST['author']));
@@ -27,6 +28,8 @@ $url = trim(strip_tags($_POST['url']));
 $url = ((!stristr($url, '://')) && ($url != '')) ? 'http://'.$url : $url;
 if (strlen($url) < 7)
 	$url = '';
+
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
 $comment = trim($_POST['comment']);
 $comment_post_ID = intval($_POST['comment_post_ID']);
@@ -62,16 +65,16 @@ if (!empty($lasttime)) {
 
 // If we've made it this far, let's post.
 
-if(check_comment($author, $email, $url, $comment, $user_ip)) {
+if( check_comment($author, $email, $url, $comment, $user_ip, $user_agent) ) {
 	$approved = 1;
 } else {
 	$approved = 0;
 }
 
 $wpdb->query("INSERT INTO $wpdb->comments 
-(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved) 
+(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent) 
 VALUES 
-('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved')
+('$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved', '$user_agent')
 ");
 
 $comment_ID = $wpdb->get_var('SELECT last_insert_id()');

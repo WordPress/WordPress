@@ -54,6 +54,8 @@ if ((strlen(''.$tb_id)) && (empty($_GET['__mode'])) && (strlen(''.$tb_url))) {
 	$now = current_time('mysql');
 	$now_gmt = current_time('mysql', 1);
 
+	$user_agent = addslashes($_SERVER['HTTP_USER_AGENT']);
+
 	$comment = convert_chars($comment);
 	$comment = format_to_post($comment);
 
@@ -66,16 +68,16 @@ if ((strlen(''.$tb_id)) && (empty($_GET['__mode'])) && (strlen(''.$tb_url))) {
 	$comment_moderation = get_settings('comment_moderation');
 	$moderation_notify = get_settings('moderation_notify');
 
-	if(check_comment($author, $email, $url, $comment, $user_ip)) {
+	if(check_comment($author, $email, $url, $comment, $user_ip, $user_agent)) {
 		$approved = 1;
 	} else {
 		$approved = 0;
 	}
 
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
-	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved)
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent)
 	VALUES 
-	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved')
+	('$comment_post_ID', '$author', '$email', '$tb_url', '$user_ip', '$now', '$now_gmt', '$comment', '$approved', '$user_agent')
 	");
 
 	if (!$result) {
