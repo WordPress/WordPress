@@ -60,6 +60,8 @@ case 'update':
 	$item_approved = 0;
 	
 	foreach($comment as $key => $value) {
+	if ($feelinglucky && 'later' == $value)
+		$value = 'delete';
 	    switch($value) {
 			case 'later':
 				// do nothing with that comment
@@ -132,7 +134,7 @@ if ($comments) {
     // list all comments that are waiting for approval
     $file = basename(__FILE__);
 ?>
-    <?php _e('<p>The following comments are in the moderation queue:</p>') ?>
+    <p><?php _e('The following comments are in the moderation queue:') ?></p>
     <form name="approval" action="moderation.php" method="post">
     <input type="hidden" name="action" value="update" />
     <ol id="comments">
@@ -146,17 +148,22 @@ if ($comments) {
 			<p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('E-mail:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 <?php comment_text() ?>
 <p><?php
-echo "<a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit') . "</a>";
-echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\">" . __('Delete just this comment') . "</a> | "; ?><?php _e('Bulk action:') ?>
+echo '<a href="post.php?action=editcomment&amp;comment='.$comment->comment_ID.'">' . __('Edit') . '</a> | ';?>
+<a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a> | 
+<?php 
+echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\">" . __('Delete just this comment') . "</a> | "; ?>  <?php _e('Bulk action:') ?>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-approve" value="approve" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-approve"><?php _e('Approve') ?></label>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-delete" value="delete" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-delete"><?php _e('Delete') ?></label>
-	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-nothing" value="later" checked="checked" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-nothing"><?php _e('Defer') ?></label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-nothing" value="later" checked="checked" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-nothing"><?php _e('Defer until later') ?></label>
 
 	</li>
 <?php
     }
 ?>
     </ol>
+	<p>
+		<input name="feelinglucky" type="checkbox" id="feelinglucky" value="true" /> <label for="feelinglucky"><?php _e('Delete every comment marked "defer." <strong>Warning: This can&#8217;t be undone.</strong>'); ?></label>
+	</p>
     <p class="submit"><input type="submit" name="submit" value="<?php _e('Moderate Comments &raquo;') ?>" /></p>
     </form>
 <?php
