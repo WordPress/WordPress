@@ -20,7 +20,7 @@ switch ($action) {
 
 case "step1":
 
-	require_once('wp-config.php');
+	require_once('../wp-config.php');
 	require_once($abspath.$b2inc.'/b2template.functions.php');
 	require_once($abspath.$b2inc.'/b2functions.php');
 	require_once($abspath.$b2inc.'/b2vars.php');
@@ -29,11 +29,11 @@ case "step1":
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<title>Blogger to WordPress - Converting...</title>
-	<link rel="stylesheet" href="wp-admin/b2.css" type="text/css">
+	<link rel="stylesheet" href="b2.css" type="text/css">
 </head>
 <body>
 <div class="wrap">
-<h1>Blogger to <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<h1>Blogger to <img src="../b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
 <p>The importer is running...</p>
 <ul>
 	<li>Importing posts and users
@@ -44,7 +44,7 @@ case "step1":
 
 		$bgmm = zeroise($bgm,2);
 	
-		$archivefile = "$bgy"."_"."$bgmm"."_01_cafelog.php";
+		$archivefile = "../$bgy"."_"."$bgmm"."_01_cafelog.php";
 		
 		if (file_exists($archivefile)) {
 
@@ -166,7 +166,7 @@ case "step1":
 </ul>
 <p>&nbsp;</p>
 <p>Completed Blogger to WordPress import!</p>
-<p>Now you can go and <a href="b2login.php">log in</a>, have fun!</p>
+<p>Now you can go and <a href="../b2login.php">log in</a>, have fun!</p>
 </div>
 </body>
 </html>
@@ -179,12 +179,12 @@ default:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<title>Blogger to WordPress Import Utility</title>
-	<link rel="stylesheet" href="wp-admin/b2.css" type="text/css">
+	<link rel="stylesheet" href="b2.css" type="text/css">
 </head>
 
 <body>
 <div class="wrap">
-<h1>Blogger to <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<h1>Blogger to <img src="../b2-img/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
 <p>This is a basic Blogger to WordPress import script.</p>
 <p>What it does:</p>
 <ul>
@@ -198,7 +198,7 @@ default:
 </ul>
 
 <h2>First step: Install WordPress</h2>
-<p>Install the WordPress blog as explained in the <a href="readme.html">read me</a>, then immediately come back here.</p>
+<p>Install the WordPress blog as explained in the <a href="../readme.html">read me</a>, then immediately come back here.</p>
 
 <h3>Second step: let's play with Blogger</h3>
 <p>Log into your Blogger account.<br />
@@ -213,7 +213,8 @@ Check in your FTP that you've got the archive files published. They should look 
 <input type="hidden" name="action" value="step1" />
 <h3>Third step: w00t, let's click OK:</h3>
 <p>When you're ready, click OK to start importing: <input type="submit" name="submit" value="OK" /><br /><br />
-<i>Note: the script might take some time, like 1 second for 100 entries imported. DO NOT STOP IT or else you won't have a complete import, and running the script again might just make you have double posts.</i></p>
+<i>Note: the script might take some time, like 1 second for 100 entries
+imported. DO NOT STOP IT or else you won't have a complete import.</i></p>
 </form>
 </div>
 </body>
