@@ -1677,7 +1677,11 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 		// Skip empty lines
 		if (empty($word)) { continue; }
 
-		$pattern = "#$word#i";
+		// Do some escaping magic so that '#' chars in the 
+		// spam words don't break things:
+		$word = preg_replace('/(\\\\|#)/','\\\\$1',$word);
+		
+		$pattern = "#$word#i"; 
 		if ( preg_match($pattern, $author) ) return false;
 		if ( preg_match($pattern, $email) ) return false;
 		if ( preg_match($pattern, $url) ) return false;
