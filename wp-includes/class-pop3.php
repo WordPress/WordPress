@@ -655,8 +655,8 @@ class POP3 {
         $length = strlen($server_text);
         for($count =0; $count < $length; $count++)
         {
-            $digit = substr($server_text,$count,1);
-            if(!empty($digit))             {
+            $digit = substr($server_text, $count, 1);
+            if ( false !== $digit ) {
                 if( (!$outside) && ($digit != '<') && ($digit != '>') )
                 {
                     $banner .= $digit;
