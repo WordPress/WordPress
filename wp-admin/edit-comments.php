@@ -110,12 +110,6 @@ if ('view' == $mode) {
 
 <?php } // end foreach ?>
 </ol>
-<form action="" method="get">
-<p class="submit">
-<input type="hidden" name="offset" value="<?php echo $_GET['offset'] + 1; ?>" />
-<input type="submit" name="submit" value="<?php _e('View Next 20 Comments &raquo;');?>" />
-</p>
-</form>
 
 <?php
 	} else {
