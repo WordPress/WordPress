@@ -20,6 +20,9 @@ foreach ($posts as $post) { start_b2();
 <h1 id="header"><a href="" title="<?php echo $blogname ?>"><?php echo $blogname ?></a></h1>
 
 <h2>Comments</h2>
+
+<p><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php?p=<?php echo $post->ID; ?>">RSS feed for comments on this post.</a></p>
+
 <ol id="comments">
 <?php /* this line is b2's motor, do not delete it */ 
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");

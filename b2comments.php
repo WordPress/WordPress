@@ -21,6 +21,8 @@
 
 <h2>Comments</h2>
 
+<p><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php?p=<?php echo $id; ?>">RSS feed for comments on this post.</a></p>
+
 <?php if ('open' == $post->ping_status) { ?>
 <p>The URL to TrackBack this entry is:</p>
 <p><em><?php trackback_url() ?></em></p>
