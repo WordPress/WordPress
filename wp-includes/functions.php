@@ -390,6 +390,7 @@ function update_option($option_name, $newvalue) {
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
 function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	global $wpdb;
+	$original = $value;
 	if ( is_array($value) || is_object($value) )
 		$value = serialize($value);
 
@@ -401,7 +402,7 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 
 		if($wpdb->insert_id) {
 			global $cache_settings;
-			$cache_settings->{$name} = $value;
+			$cache_settings->{$name} = $original;
 		}
 	}
 	return;
