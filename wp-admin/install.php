@@ -129,6 +129,10 @@ $wpdb->query("UPDATE $wpdb->options SET option_value = '$admin_email' WHERE opti
 
 // Now drop in some default links
 $wpdb->query("INSERT INTO $wpdb->linkcategories (cat_id, cat_name) VALUES (1, 'Blogroll')");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://blog.carthik.net/index.php', 'Carthik', 1);");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://blogs.linux.ie/xeer/', 'Donncha.', 1);");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://zengun.org/weblog/', 'Michel', 1);");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://boren.nu/', 'Ryan', 1);");
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://photomatt.net/', 'Matt', 1);");
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://zed1.com/journalized/', 'Mike', 1);");
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://www.alexking.org/', 'Alex', 1);");
@@ -140,7 +144,9 @@ $wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name) VALUES ('0', 'Unc
 // First post
 $now = date('Y-m-d H:i:s');
 $now_gmt = gmdate('Y-m-d H:i:s');
-$wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_modified, post_modified_gmt) VALUES ('1', '$now', '$now_gmt', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '$now', '$now_gmt')");
+$wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_category, post_modified, post_modified_gmt) VALUES ('1', '$now', '$now_gmt', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '0', '$now', '$now_gmt')");
+
+$wpdb->query( "INSERT INTO `wp_main_post2cat` (`rel_id`, `post_id`, `category_id`) VALUES (1, 1, 0)" );
 
 // Default comment
 $wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content) VALUES ('1', 'Mr WordPress', 'mr@wordpress.org', 'http://wordpress.org', '127.0.0.1', '$now', '$now_gmt', 'Hi, this is a comment.<br />To delete a comment, just log in, and view the posts\' comments, there you will have the option to edit or delete them.')");
