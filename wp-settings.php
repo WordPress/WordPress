@@ -31,6 +31,10 @@ timer_start();
 // Change to E_ALL for development/debugging
 error_reporting(E_ALL ^ E_NOTICE);
 
+// For an advanced caching plugin to use, static because you would only want one
+if ( defined('WP_CACHE') )
+	require (ABSPATH . 'wp-content/advanced-cache.php');
+
 define('WPINC', 'wp-includes');
 require_once (ABSPATH . WPINC . '/wp-db.php');
 
@@ -89,13 +93,14 @@ require (ABSPATH . WPINC . '/kses.php');
 require (ABSPATH . WPINC . '/version.php');
 
 if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF'], 'wp-admin/import')) :
-
     // Used to guarantee unique hash cookies
     $cookiehash = md5(get_settings('siteurl')); // Remove in 1.4
 	define('COOKIEHASH', $cookiehash); 
 endif;
 
 require (ABSPATH . WPINC . '/vars.php');
+
+do_action('core_files_loaded');
 
 // Check for hacks file if the option is enabled
 if (get_settings('hack_file')) {
@@ -110,6 +115,11 @@ if ( get_settings('active_plugins') ) {
 			include_once(ABSPATH . 'wp-content/plugins/' . $plugin);
 	}
 }
+
+if ( defined('WP_CACHE') && function_exists('wp_cache_postload') )
+	wp_cache_postload();
+
+do_action('plugins_loaded');
 
 define('TEMPLATEPATH', get_template_directory());
 
