@@ -17,7 +17,8 @@ switch($action) {
 			$form_pingback = '';
 		}
 		if ($use_trackback) {
-			$form_trackback = '<p><label for="trackback"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym>:</label> (Seperate multiple URLs with commas.)<br /><input type="text" name="trackback_url" style="width: 415px" id="trackback" /></p>';
+			$form_trackback = '<p><label for="trackback"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym>:</label> (Seperate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with commas.)<br />
+			<input type="text" name="trackback_url" style="width: 415px" id="trackback" /></p>';
 		} else {
 			$form_trackback = '';
 		}
@@ -25,7 +26,7 @@ switch($action) {
 		break;
 	case "edit":
 		$submitbutton_text = 'Edit this!';
-		$toprow_title = 'Editing Post #' . $postdata["ID"];
+		$toprow_title = 'Editing Post #' . $postdata['ID'];
 		$form_action = 'editpost';
 		$form_extra = "' />\n<input type='hidden' name='post_ID' value='$post";
 		$colspan = 2;
@@ -35,7 +36,7 @@ switch($action) {
 		break;
 	case "editcomment":
 		$submitbutton_text = 'Edit this!';
-		$toprow_title = 'Editing Comment # '.$commentdata["comment_ID"];
+		$toprow_title = 'Editing Comment # '.$commentdata['comment_ID'];
 		$form_action = 'editedcomment';
 		$form_extra = "' />\n<input type='hidden' name='comment_ID' value='$comment' />\n<input type='hidden' name='comment_post_ID' value='".$commentdata["comment_post_ID"];
 		$colspan = 3;
@@ -46,7 +47,7 @@ switch($action) {
 
 ?>
 
-<form name="post" action="b2edit.php" method="POST">
+<form name="post" action="b2edit.php" method="post">
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
@@ -55,37 +56,44 @@ switch($action) {
 ?> 
       
 <table>
-      <tr> 
-        <td width="210"> <label for="title">Title:</label> <br /> <input type="text" name="post_title" size="25" tabindex="1" style="width: 190px;" value="<?php echo $edited_post_title; ?>" id="title" /> 
-        </td>
-        <td> <label for="category">Category :</label> <br /> 
-          <?php dropdown_categories(); ?>
-        </td>
-        <td><label for="post_status">Post Status:</label><br />
-          
-      <select name="post_status" id="post_status">
-        <option value="publish"<?php selected($post_status, 'publish'); ?>>Publish</option>
-            <option value="draft"<?php selected($post_status, 'draft'); ?>>Draft</option>
-            <option value="private"<?php selected($post_status, 'private'); ?>>Private</option>
-          </select> </td>
-        <td><label for="comment_status">Comments:</label><br />
-          
-      <select name="comment_status" id="comment_status">
-        <option value="open"<?php selected($comment_status, 'open'); ?>>Open</option>
-            <option value="closed"<?php selected($comment_status, 'closed'); ?>>Closed</option>
-          </select> </td>
-        <td><label for="ping_status">Pings:</label><br />
-          
-      <select name="ping_status" id="ping_status">
-        <option value="open"<?php selected($ping_status, 'open'); ?>>Open</option>
-            <option value="closed"<?php selected($ping_status, 'open'); ?>>Closed</option>
-          </select></td>
-        <td><label for="post_password">Post Password:</label>
-      <br />
-          <input name="post_password" type="text" id="post_password" value="<?php echo $post_password ?>" /> </td>
-      </tr>
-    </table>
-  <?php
+	<tr> 
+	<td width="210">
+		<label for="title">Title:</label><br />
+		<input type="text" name="post_title" size="25" tabindex="1" style="width: 190px;" value="<?php echo $edited_post_title; ?>" id="title" /> 
+	</td>
+	<td>
+		<label for="category">Category:</label><br /> 
+		<?php dropdown_categories(); ?>
+	</td>
+	<td>
+		<label for="post_status">Post Status:</label><br />          
+		<select name="post_status" id="post_status">
+			<option value="publish"<?php selected($post_status, 'publish'); ?>>Publish</option>
+			<option value="draft"<?php selected($post_status, 'draft'); ?>>Draft</option>
+			<option value="private"<?php selected($post_status, 'private'); ?>>Private</option>
+		</select>
+	</td>
+	<td>
+		<label for="comment_status">Comments:</label><br />
+		<select name="comment_status" id="comment_status">
+			<option value="open"<?php selected($comment_status, 'open'); ?>>Open</option>
+			<option value="closed"<?php selected($comment_status, 'closed'); ?>>Closed</option>
+		</select>
+	</td>
+	<td>
+		<label for="ping_status">Pings:</label><br />	
+		<select name="ping_status" id="ping_status">
+			<option value="open"<?php selected($ping_status, 'open'); ?>>Open</option>
+			<option value="closed"<?php selected($ping_status, 'open'); ?>>Closed</option>
+		</select>
+	</td>
+	<td>
+		<label for="post_password">Post Password:</label><br />
+		<input name="post_password" type="text" id="post_password" value="<?php echo $post_password ?>" />
+	</td>
+	</tr>
+</table>
+<?php
 
 } else {
   
@@ -94,30 +102,30 @@ switch($action) {
 <table>
 	<tr>
 	<td>
-	<label for="name">Name:</label>
-        <br />
-	<input type="text" name="newcomment_author" size="22" value="<?php echo format_to_edit($commentdata["comment_author"]) ?>" tabindex="1" id="name" /></td>
+		<label for="name">Name:</label><br />
+		<input type="text" name="newcomment_author" size="22" value="<?php echo format_to_edit($commentdata['comment_author']) ?>" tabindex="1" id="name" /></td>
 	<td>
-	<label for="email">E-mail:</label>
-        <br />
-	<input type="text" name="newcomment_author_email" size="30" value="<?php echo format_to_edit($commentdata["comment_author_email"]) ?>" tabindex="2" id="email" /></td>
+		<label for="email">E-mail:</label><br />
+		<input type="text" name="newcomment_author_email" size="30" value="<?php echo format_to_edit($commentdata['comment_author_email']) ?>" tabindex="2" id="email" />
+	</td>
 	<td>
-	<label for="URL">URL:</label>
-        <br />
-	<input type="text" name="newcomment_author_url" size="35" value="<?php echo format_to_edit($commentdata["comment_author_url"]) ?>" tabindex="3" id="URL" /></td>
+		<label for="URL">URL:</label><br />
+		<input type="text" name="newcomment_author_url" size="35" value="<?php echo format_to_edit($commentdata['comment_author_url']) ?>" tabindex="3" id="URL" />
+	</td>
 	</tr>
 </table>
-	<?php
+<?php
   
 } // end else comment editing
 
-	?>
+?>
 
 <?php
 if ($action != 'editcomment') {
-  echo '<label for="excerpt">Excerpt:</label>';
+  echo '<p><label for="excerpt">Excerpt:</label><br />';
 ?>
-<p><textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="excerpt"><?php echo $excerpt ?></textarea></p>
+
+<textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="excerpt"><?php echo $excerpt ?></textarea></p>
 
 <?php
 } // if not a comment
@@ -129,7 +137,7 @@ if ($action != 'editcomment') {
 if ($action != 'editcomment') {
 	echo '<label for="content">Post:</label>';
 } else {
-	echo '<br /><label for="content">Comment:</label>';
+	echo '<label for="content">Comment:</label>';
 }
 ?>
 		</td>
