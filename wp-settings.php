@@ -51,6 +51,9 @@ if (!$_wp_installing) {
     $emailtestonly = get_settings('emailtestonly');
     $use_phoneemail = get_settings('use_phoneemail');
     $phoneemail_separator = get_settings('phoneemail_separator');
+    $use_default_geourl = get_settings('use_default_geourl');
+    $default_geourl_lat = get_settings('default_geourl_lat');
+    $default_geourl_lon = get_settings('default_geourl_lon');
 
     /* not currently used
     if (get_settings('search_engine_friendly_urls')) {
