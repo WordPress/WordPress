@@ -174,6 +174,13 @@ foreach($wpsmiliestrans as $smiley => $img) {
 
 
 // Some default filters
-add_filter('all', 'wptexturize');
+add_filter('category_description', 'wptexturize');
+add_filter('list_cats', 'wptexturize');
+add_filter('comment_author', 'wptexturize');
+add_filter('comment_text', 'wptexturize');
+add_filter('single_post_title', 'wptexturize');
+add_filter('the_title', 'wptexturize');
+add_filter('the_content', 'wptexturize');
+add_filter('the_excerpt', 'wptexturize');
 
 ?>
