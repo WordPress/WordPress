@@ -846,7 +846,7 @@ include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 function doGeoUrlHeader($post_list = '') {
     global $posts;
 
-    if ($posts && 1 === count($posts)) {
+    if ($posts && 1 === count($posts) && ! empty($posts[0]->post_lat)) {
         // there's only one result  see if it has a geo code
         $row = $posts[0];
         $lat = $row->post_lat;
