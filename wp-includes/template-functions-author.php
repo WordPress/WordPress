@@ -168,7 +168,8 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
         
         if (! ($posts == 0 && $hide_empty)) echo "<li>";
         if ($posts == 0) {
-            if (! $hide_empty) echo $name;
+            if ( !$hide_empty )
+				$link = $name;
         } else {
             $link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="' . sprintf(__("Posts by %s"), wp_specialchars($author->user_nickname)) . '">' . $name . '</a>';
 
