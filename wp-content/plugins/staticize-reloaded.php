@@ -11,6 +11,8 @@ Author URI: http://photomatt.net/
 $http = false; // This controls whether we send etag and last-modified headers or not
 define(CACHE_PATH, trailingslashit( ABSPATH . 'wp-content/staticize-cache' ) );
 
+update_option('gzipcompression', 0);
+
 if ( !file_exists(CACHE_PATH) ) :
 	if ( is_writable( dirname(CACHE_PATH) ) )
 		$dir = mkdir( CACHE_PATH, 0777);
