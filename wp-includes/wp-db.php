@@ -159,9 +159,6 @@ class wpdb {
 			$return_val = $this->num_rows;
 		}
 
-		// If debug ALL queries
-		$this->trace || $this->debug_all ? $this->debug() : null ;
-
 		return $return_val;
 	}
 
