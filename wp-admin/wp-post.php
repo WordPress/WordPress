@@ -404,7 +404,7 @@ switch($action) {
 			WHERE comment_ID = $comment_ID"
 			);
 		
-		$referredby = $HTTP_SERVER_VARS['HTTP_REFERER'];
+		$referredby = $HTTP_POST_VARS['referredby'];
 		if (!empty($referredby)) header('Location: ' . $referredby);
         else header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
 
