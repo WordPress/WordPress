@@ -208,7 +208,7 @@ function has_meta($postid) {
 	return $wpdb->get_results("
 		SELECT meta_key, meta_value, meta_id, post_id
 		FROM $tablepostmeta
-		WHERE post_id = $postid
+		WHERE post_id = '$postid'
 		ORDER BY meta_key,meta_id",ARRAY_A);
 
 }
