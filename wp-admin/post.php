@@ -44,6 +44,16 @@ case 'post':
 	if ( isset($_POST['menu_order']) )
 		$menu_order = $_POST['menu_order'];
 
+	if (! empty($_POST['post_author_override'])) {
+		$post_author = (int) $_POST['post_author_override'];
+	} else if (! empty($_POST['post_author'])) {
+		$post_author = (int) $_POST['post_author'];
+	} else {
+		$post_author = (int) $_POST['user_ID'];
+	}
+	if ( !user_can_edit_user($user_ID, $post_author) )
+		die( __('You cannot post as this user.') );
+
 	if ( empty($post_status) )
 		$post_status = 'draft';
 	// Double-check
@@ -97,7 +107,7 @@ case 'post':
 	$postquery ="INSERT INTO $wpdb->posts
 			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order)
 			VALUES
-			('$post_ID', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent', '$menu_order')
+			('$post_ID', '$post_author', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent', '$menu_order')
 			";
 
 	$result = $wpdb->query($postquery);
