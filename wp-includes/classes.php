@@ -723,8 +723,16 @@ class WP_Rewrite {
 	var $permalink_structure;
 	var $category_base;
 	var $category_structure;
+	var $author_base = 'author';
 	var $author_structure;
 	var $date_structure;
+	var $page_structure;
+	var $search_base = 'search';
+	var $search_structure;
+	var $comments_base = 'comments';
+	var $feed_base = 'feed';
+	var $comments_feed_structure;
+	var $feed_structure;
 	var $front;
 	var $root = '';
 	var $index = 'index.php';
@@ -791,7 +799,7 @@ class WP_Rewrite {
     }
 
     // If the index is not in the permalink, we're using mod_rewrite.
-    if (preg_match('#^/*index.php#', $this->permalink_structure)) {
+    if (preg_match('#^/*' . $this->index . '#', $this->permalink_structure)) {
       return true;
     }
     
@@ -821,7 +829,7 @@ class WP_Rewrite {
 		$uris = get_settings('page_uris');
 
 		$rewrite_rules = array();
-		$page_structure = '/%pagename%';
+		$page_structure = $this->get_page_permastruct();
 		if( is_array( $uris ) )
 			{
 				foreach ($uris as $uri => $pagename) {
@@ -925,9 +933,69 @@ class WP_Rewrite {
 			return false;
 		}
 
-		$this->author_structure = $this->front . 'author/%author%';
+		$this->author_structure = $this->front . $this->author_base . '/%author%';
 
 		return $this->author_structure;
+	}
+
+	function get_search_permastruct() {
+		if (isset($this->search_structure)) {
+			return $this->search_structure;
+		}
+
+    if (empty($this->permalink_structure)) {
+			$this->search_structure = '';
+			return false;
+		}
+
+		$this->search_structure = $this->root . $this->search_base . '/%search%';
+
+		return $this->search_structure;
+	}
+
+	function get_page_permastruct() {
+		if (isset($this->page_structure)) {
+			return $this->page_structure;
+		}
+
+    if (empty($this->permalink_structure)) {
+			$this->page_structure = '';
+			return false;
+		}
+
+		$this->page_structure = $this->root . '%pagename%';
+
+		return $this->page_structure;
+	}
+
+	function get_feed_permastruct() {
+		if (isset($this->feed_structure)) {
+			return $this->feed_structure;
+		}
+
+    if (empty($this->permalink_structure)) {
+			$this->feed_structure = '';
+			return false;
+		}
+
+		$this->feed_structure = $this->root . $this->feed_base . '/%feed%';
+
+		return $this->feed_structure;
+	}
+
+	function get_comment_feed_permastruct() {
+		if (isset($this->comment_feed_structure)) {
+			return $this->comment_feed_structure;
+		}
+
+    if (empty($this->permalink_structure)) {
+			$this->comment_feed_structure = '';
+			return false;
+		}
+
+		$this->comment_feed_structure = $this->root . $this->comments_base . '/' . $this->feed_base . '/%feed%';
+
+		return $this->comment_feed_structure;
 	}
 
 	function add_rewrite_tag($tag, $pattern, $query) {
@@ -1068,11 +1136,11 @@ class WP_Rewrite {
 		$root_rewrite = apply_filters('root_rewrite_rules', $root_rewrite);
 
 		// Comments
-		$comments_rewrite = $this->generate_rewrite_rules($this->root . 'comments',true, true, true);
+		$comments_rewrite = $this->generate_rewrite_rules($this->root . $this->comments_base, true, true, true);
 		$comments_rewrite = apply_filters('comments_rewrite_rules', $comments_rewrite);
 
 		// Search
-		$search_structure = $this->root . "search/%search%";
+		$search_structure = $this->get_search_permastruct();
 		$search_rewrite = $this->generate_rewrite_rules($search_structure);
 		$search_rewrite = apply_filters('search_rewrite_rules', $search_rewrite);
 
@@ -1134,7 +1202,7 @@ class WP_Rewrite {
 				//nada.
 			}
 
-			if (strstr($query, 'index.php')) {
+			if (strstr($query, $this->index)) {
 				$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
 			} else {
 				$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA,L]\n";
@@ -1158,7 +1226,11 @@ class WP_Rewrite {
 		$this->category_base = get_settings('category_base');
 		unset($this->category_structure);
 		unset($this->author_structure);
-		unset($this->date_structure);		
+		unset($this->date_structure);
+		unset($this->page_structure);
+		unset($this->search_structure);
+		unset($this->feed_structure);
+		unset($this->comment_feed_structure);
 	}
 
 	function set_permalink_structure($permalink_structure) {

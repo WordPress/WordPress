@@ -74,10 +74,10 @@ function get_permalink($id = false) {
 			$author,
 			$idpost->post_name,
 		);
-		return get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink);
+		return apply_filters('post_link', get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink));
 	} else { // if they're not using the fancy permalink option
 		$permalink = get_settings('home') . '/?p=' . $idpost->ID;
-		return $permalink;
+		return apply_filters('post_link', $permalink);
 	}
 }
 
@@ -88,19 +88,17 @@ function get_page_link($id = false) {
 		$id = $post->ID;
 	}
 
-	$permalink = get_settings('permalink_structure');
+	$pagestruct = $wp_rewrite->get_page_permastruct();
 
-	if ('' != $permalink) {
+	if ('' != $pagestruct) {
 		$link = get_page_uri($id);
-		if ($wp_rewrite->using_index_permalinks()) {
-			$link = 'index.php/' . $link;
-		}
+		$link = str_replace('%pagename%', $link, $pagestruct);
 		$link = get_settings('home') . "/$link/";
 	} else {
-		$link = get_settings('home') . "/index.php?page_id=$id";
+		$link = get_settings('home') . "/?page_id=$id";
 	}
 
-	return $link;
+	return apply_filters('page_link', $link);
 }
 
 function get_year_link($year) {
@@ -109,9 +107,9 @@ function get_year_link($year) {
 		$yearlink = $wp_rewrite->get_year_permastruct();
     if (!empty($yearlink)) {
         $yearlink = str_replace('%year%', $year, $yearlink);
-        return get_settings('home') . trailingslashit($yearlink);
+        return apply_filters('year_link', get_settings('home') . trailingslashit($yearlink));
     } else {
-        return get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year;
+        return apply_filters('year_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year);
     }
 }
 
@@ -123,9 +121,9 @@ function get_month_link($year, $month) {
     if (!empty($monthlink)) {
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
-        return get_settings('home') . trailingslashit($monthlink);
+        return apply_filters('month_link', get_settings('home') . trailingslashit($monthlink));
     } else {
-        return get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
+        return apply_filters('month_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2));
     }
 }
 
@@ -140,68 +138,39 @@ function get_day_link($year, $month, $day) {
         $daylink = str_replace('%year%', $year, $daylink);
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
-        return get_settings('home') . trailingslashit($daylink);
+        return apply_filters('day_link', get_settings('home') . trailingslashit($daylink));
     } else {
-        return get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
+        return apply_filters('day_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2));
     }
 }
 
 function get_feed_link($feed='rss2') {
 	global $wp_rewrite;
-    $do_perma = 0;
-    $feed_url = get_settings('siteurl');
-    $comment_feed_url = $feed_url;
+	$do_perma = 0;
+	$feed_url = get_settings('siteurl');
+	$comment_feed_url = $feed_url;
 
-    $permalink = get_settings('permalink_structure');
-    if ('' != $permalink) {
-        $do_perma = 1;
-        $feed_url = get_settings('home');
-        $index = 'index.php';
-        $prefix = '';
-        if ($wp_rewrite->using_index_permalinks()) {
-            $feed_url .= '/' . $index;
-        }
+	$permalink = $wp_rewrite->get_feed_permastruct();
+	if ('' != $permalink) {
+		if ( false !== strpos($feed, 'comments_') ) {
+			$feed = str_replace('comments_', '', $feed);
+			$permalink = $wp_rewrite->get_comment_feed_permastruct();
+		}
 
-        $comment_feed_url = $feed_url;
-        $feed_url .= '/feed';
-        $comment_feed_url .= '/comments/feed';
-    }
+		if ( 'rss2' == $feed )
+			$feed = '';
 
-    switch($feed) {
-        case 'rdf':
-            $output = $feed_url .'/wp-rdf.php';
-            if ($do_perma) {
-                $output = $feed_url . '/rdf/';
-            }
-            break;
-        case 'rss':
-            $output = $feed_url . '/wp-rss.php';
-            if ($do_perma) {
-                $output = $feed_url . '/rss/';
-            }
-            break;
-        case 'atom':
-            $output = $feed_url .'/wp-atom.php';
-            if ($do_perma) {
-                $output = $feed_url . '/atom/';
-            }
-            break;        
-        case 'comments_rss2':
-            $output = $feed_url .'/wp-commentsrss2.php';
-            if ($do_perma) {
-                $output = $comment_feed_url . '/';
-            }
-            break;
-        case 'rss2':
-        default:
-            $output = $feed_url .'/wp-rss2.php';
-            if ($do_perma) {
-                $output = $feed_url . '/';
-            }
-            break;
-    }
+		$permalink = str_replace('%feed%', $feed, $permalink);
+		$output =  get_settings('home') . "/$permalink/";
+		$output = preg_replace('#/+#', '/', $output);
+	} else {
+		if ( false !== strpos($feed, 'comments_') )
+			$feed = str_replace('comments_', 'comments', $feed);
 
-    return $output;
+		$output = get_settings('siteurl') . "/wp-{$feed}.php";
+	}
+
+	return apply_filters('feed_link', $output);
 }
 
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {

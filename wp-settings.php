@@ -114,4 +114,6 @@ function shutdown_action_hook() {
 }
 register_shutdown_function('shutdown_action_hook');
 
+// Everything is loaded.
+do_action('init', '');
 ?>
