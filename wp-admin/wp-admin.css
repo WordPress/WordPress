@@ -547,5 +547,5 @@ textarea, input, select {
 
 .active td {background: #BEB;}
 .active .name {background: #9C9;}
-.active.alternate td {background: #ADA;}
-.active.alternate .name {background: #8B8;}
+.alternate.active td {background: #ADA;}
+.alternate.active .name {background: #8B8;}
