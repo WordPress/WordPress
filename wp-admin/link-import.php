@@ -5,7 +5,7 @@
 require_once('../wp-config.php');
 
 $parent_file = 'link-manager.php';
-$title = 'Import Blogroll';
+$title = __('Import Blogroll');
 $this_file = 'link-import.php';
 
 $step = $_POST['step'];
@@ -18,45 +18,45 @@ switch ($step) {
         $standalone = 0;
         include_once('admin-header.php');
         if ($user_level < get_settings('links_minadminlevel'))
-            die ("Cheatin&#8217; uh?");
+            die (__("Cheatin&#8217; uh?"));
 
         $opmltype = 'blogrolling'; // default.
 ?>
 
 <ul id="adminmenu2">
-	<li><a href="link-manager.php" >Manage Links</a></li>
-	<li><a href="link-add.php">Add Link</a></li>
-	<li><a href="link-categories.php">Link Categories</a></li>
-	<li class="last"><a href="link-import.php"  class="current">Import Blogroll</a></li>
+        <li><a href="link-manager.php" ><?php _e('Manage Links') ?></a></li>
+	<li><a href="link-add.php"><?php _e('Add Link') ?></a></li>
+	<li><a href="link-categories.php"><?php _e('Link Categories') ?></a></li>
+	<li class="last"><a href="link-import.php"  class="current"><?php _e('Import Blogroll') ?></a></li>
 </ul>
 
 <div class="wrap">
 
-    <h2>Import your blogroll from another system </h2>
+    <h2><?php _e('Import your blogroll from another system') ?> </h2>
 	<!-- <form name="blogroll" action="link-import.php" method="get"> -->
 	<form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 
 	<ol>
-    <li>Go to <a href="http://www.blogrolling.com">Blogrolling.com</a>
-    and sign in. Once you've done that, click on <strong>Get Code</strong>, and then
+    <li><?php _e('Go to <a href="http://www.blogrolling.com">Blogrolling.com</a>
+    and sign in. Once you&#8217;ve done that, click on <strong>Get Code</strong>, and then
     look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
-    code</strong><?php echo gethelp_link($this_file,'opml_code');?>.</li>
-    <li>Or go to <a href="http://blo.gs">Blo.gs</a> and sign in. Once you've done
-    that in the 'Welcome Back' box on the right, click on <strong>share</strong>, and then
+    code</strong>') ?><?php echo gethelp_link($this_file,'opml_code');?>.</li>
+    <li><?php _e('Or go to <a href="http://blo.gs">Blo.gs</a> and sign in. Once you&#8217;ve done
+    that in the \'Welcome Back\' box on the right, click on <strong>share</strong>, and then
     look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
-    link</strong> (favorites.opml)<?php echo gethelp_link($this_file,'opml_code');?>.</li>
-    <li>Select that text and copy it or copy the link/shortcut into the box below.<br />
+    link</strong> (favorites.opml).') ?><?php echo gethelp_link($this_file,'opml_code');?></li>
+    <li><?php _e('Select that text and copy it or copy the link/shortcut into the box below.') ?><br />
        <input type="hidden" name="step" value="1" />
-       Your OPML URL:<?php echo gethelp_link($this_file,'opml_code');?> <input type="text" name="opml_url" size="65" />
+       <?php _e('Your OPML URL:') ?><?php echo gethelp_link($this_file,'opml_code');?> <input type="text" name="opml_url" size="65" />
 	</li>
     <li>
-	   <strong>or</strong> you can upload an OPML file from your desktop aggregator:<br />
+	   <?php _e('<strong>or</strong> you can upload an OPML file from your desktop aggregator:') ?><br />
        <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-       <label>Upload this file: <input name="userfile" type="file" /></label>
+       <label><?php _e('Upload this file:') ?> <input name="userfile" type="file" /></label>
     </li>
 
-    <li>Now select a category you want to put these links in.<br />
-	Category: <?php echo gethelp_link($this_file,'link_category');?><select name="cat_id">
+    <li><?php _e('Now select a category you want to put these links in.') ?><br />
+	<?php _e('Category:') ?> <?php echo gethelp_link($this_file,'link_category');?><select name="cat_id">
 <?php
 	$categories = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
 	foreach ($categories as $category) {
@@ -69,7 +69,7 @@ switch ($step) {
 
 	</li>
 
-    <li><input type="submit" name="submit" value="Import!" /><?php echo gethelp_link($this_file,'import');?></li>
+    <li><input type="submit" name="submit" value="<?php _e('Import!') ?>" /><?php echo gethelp_link($this_file,'import');?></li>
 	</ol>
     </form>
 
@@ -82,11 +82,11 @@ switch ($step) {
                 $standalone = 0;
                 include_once('admin-header.php');
                 if ($user_level < get_settings('links_minadminlevel'))
-                    die ("Cheatin' uh ?");
+                    die (__("Cheatin' uh ?"));
 ?>
 <div class="wrap">
 
-     <h2>Importing...</h2>
+     <h2><?php _e('Importing...') ?></h2>
 <?php
                 $cat_id = $_POST['cat_id'];
                 if (($cat_id == '') || ($cat_id == 0)) {
@@ -108,7 +108,7 @@ switch ($step) {
 						$blogrolling = false;
 						$opml_url = $uploadfile;
 					} else {
-						echo "Upload error<p />";
+						echo __("Upload error<p />");
 					}
 				}
 
@@ -125,15 +125,15 @@ switch ($step) {
                         $query = "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner, link_rss)
                                 VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '', $cat_id, '".addslashes($descriptions[$i])."', $user_ID, '{$feeds[$i]}')\n";
                         $result = $wpdb->query($query);
-                        echo "<p>Inserted <strong>{$names[$i]}</strong></p>";
+                        echo sprintf(__("<p>Inserted <strong>%s</strong></p>"), $names[$i]);
                     }
 ?>
-     <p>Inserted <?php echo $link_count ?> links into category <?php echo $cat_id; ?>. All done! Go <a href="link-manager.php">manage those links</a>.</p>
+     <p><?php printf(__('Inserted %1$d links into category %2$s. All done! Go <a href="%3$s">manage those links</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>
 <?php
                 } // end if got url
                 else
                 {
-                    echo "<p>You need to supply your OPML url. Press back on your browser and try again</p>\n";
+                    echo "<p>" . __("You need to supply your OPML url. Press back on your browser and try again") . "</p>\n";
                 } // end else
 
 ?>
