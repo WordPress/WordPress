@@ -335,10 +335,12 @@ function get_pagenum_link($pagenum = 1){
    }
 
    $home_root = str_replace('http://', '', trim(get_settings('home')));
+   $home_root = preg_replace('|([^/]*)(.*)|i', '$2', $home_root);
    $home_root = preg_replace('|/+|i', '/', $home_root);
-   $qstr = str_replace($home_root . '/', '', $qstr);
+   $home_root = trailingslashit($home_root);
+   $qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
    $qstr = preg_replace('|^/+|', '', $qstr);
-   return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . trailingslashit($qstr) );
+   return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
 }
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
