@@ -511,6 +511,8 @@ function get_postdata($postid) {
 		'Excerpt' => $post->post_excerpt, 
 		'Title' => $post->post_title, 
 		'Category' => $post->post_category,
+		'Lat' => $post->post_lat,
+		'Lon' => $post->post_lon,
 		'post_status' => $post->post_status,
 		'comment_status' => $post->comment_status,
 		'ping_status' => $post->ping_status,
@@ -529,6 +531,8 @@ function get_postdata2($postid=0) { // less flexible, but saves DB queries
 		'Excerpt' => $post->post_excerpt,
 		'Title' => $post->post_title,
 		'Category' => $post->post_category,
+		'Lat' => $post->post_lat,
+		'Lon' => $post->post_lon,
 		'post_status' => $post->post_status,
 		'comment_status' => $post->comment_status,
 		'ping_status' => $post->ping_status,
@@ -1253,5 +1257,51 @@ function balanceTags($text, $is_comment = 0) {
 
 	return $newtext;
 }
+
+function doGeoUrlHeader($posts) {
+    global $use_default_geourl,$default_geourl_lat,$default_geourl_lon;
+    if (count($posts) == 1) {
+        // there's only one result  see if it has a geo code
+        $row = $posts[0];
+        $lat = $row->post_lat;
+        $lon = $row->post_lon;
+        $title = $row->post_title;
+        if(($lon != null) && ($lat != null) ) {
+            echo "<meta name=\"ICBM\" content=\"".$lat.", ".$lon."\" >\n";
+            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")." - ".$title."\">\n";
+            return;
+        }
+    } else {
+        if($use_default_geourl) {
+            // send the default here 
+            echo "<meta name=\"ICBM\" content=\"".$default_geourl_lat.", ".$default_geourl_lon."\" >\n";
+            echo "<meta name=\"DC.title\" content=\"".convert_chars(strip_tags(get_bloginfo("name")),"unicode")."\">\n";
+        }
+    }
+}
+
+function getRemoteFile($host,$path) {
+    $fp = fsockopen($host, 80, &$errno, &$errstr);
+    if ($fp) {
+        fputs($fp,"GET $path HTTP/1.0\r\nHost: $host\r\n\r\n");
+        while ($line = fgets($fp, 4096)) {
+            $lines[] = $line;
+        }
+        fclose($fp);
+        return $lines;
+    } else {
+        return false;
+    }
+}
+
+function pingGeoURL($blog_ID) {
+    global $blodotgsping_url;
+
+    $ourUrl = $blodotgsping_url."/index.php?p=".$blog_ID;
+    $host="geourl.org";
+    $path="/ping/?p=".$ourUrl;
+    getRemoteFile($host,$path); 
+}
+
 
 ?>

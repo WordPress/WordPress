@@ -192,6 +192,8 @@ $query = "CREATE TABLE $tableposts (
   post_title text NOT NULL,
   post_category int(4) NOT NULL default '0',
   post_excerpt text NOT NULL,
+  post_lat float,
+  post_lon float,
   post_status enum('publish','draft','private') NOT NULL default 'publish',
   comment_status enum('open','closed') NOT NULL default 'open',
   ping_status enum('open','closed') NOT NULL default 'open',
@@ -358,6 +360,8 @@ $option_data = array(
 "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (5, 'select')",
 "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (6, 'range')",
 "INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (7, 'sqlselect')",
+"INSERT INTO $tableoptiontypes (optiontype_id, optiontype_name) VALUES (8, 'float')",
+
 //base options from b2cofig
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(1,'siteurl', 3, 'http://example.com', 'siteurl is your blog\'s URL: for example, \'http://example.com/wordpress\' (no trailing slash !)', 8, 30)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(2,'blogfilename', 3, 'index.php', 'blogfilename is the name of the default file for your blog', 8, 20)",
@@ -617,6 +621,31 @@ foreach ($links_option_data as $query) {
 ?>
 
 <p>Links option data inserted okay.</p>
+
+<?php
+$geo_option_data = array(
+// data for geo settings
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(84,'use_geo_positions', 2, '1', 'Turns on the geo url features of WordPress', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(85,'use_default_geourl', 2, '1','enables placement of default GeoURL ICBM location even when no other specified', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(86,'default_geourl_lat ', 8, 0.0, 'The default Latitude ICBM value - <a href=\"http://www.geourl.org/resources.html\" target=\"_blank\">see here</a>', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(87,'default_geourl_lon', 8, 0.0, 'The default Longitude ICBM value', 8, 20)",
+
+"INSERT INTO $tableoptiongroups (group_id, group_name, group_desc) VALUES(9,'Geo Options',Settings which control the posting and display of Geo Options')",
+
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,84,1)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,85,1)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,86,1)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,87,1)",
+
+);
+
+foreach ($geo_option_data as $query) {
+    $q = $wpdb->query($query);
+}
+?>
+
+<p>Geo option data inserted okay.</p>
+
 
 <p>OK. We're nearly done now. We just need to ask you a couple of things:</p>
 <form action="wp-install.php?step=3" method="post">

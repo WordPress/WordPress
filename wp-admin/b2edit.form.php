@@ -171,6 +171,15 @@ if ($action != 'editcomment') {
  }
 ?>
 <textarea rows="<?php echo $rows; ?>" cols="40" style="width:100%" name="content" tabindex="4" wrap="virtual" id="content"><?php echo $content ?></textarea><br />
+<?php
+  if (get_settings('use_geo_positions')) {
+?>
+<label for="post_latf">Lat:</label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
+<label for="post_lonf">Lon:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <A href="http://www.geourl.org/resources.html" target="_blank" >click for Geo Info</A>
+<br>
+<?
+  }
+?>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>

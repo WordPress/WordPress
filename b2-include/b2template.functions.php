@@ -229,6 +229,12 @@ function get_archives($type='', $limit='', $format='html') {
 
 /***** Date/Time tags *****/
 
+function the_date_xml() {
+    global $post;
+    echo mysql2date("Y-m-d",$post->post_date);
+    //echo ""+$post->post_date;
+}
+
 function the_date($d='', $before='', $after='', $echo = true) {
 	global $id, $post, $day, $previousday, $dateformat, $newday;
 	$the_date = '';
@@ -287,6 +293,118 @@ function the_weekday_date($before='',$after='') {
 
 /***** // Date/Time tags *****/
 
+/**** // Geo Tags ****/
+function get_Lat() {
+    global $post;
+    return $post->post_lat;
+}
+
+function get_Lon() {
+    global $post;
+    return $post->post_lon;
+}
+
+function print_Lat() {
+    if(get_settings('use_geo_positions')) {
+        if(get_Lat() > 0) {
+            echo "".get_Lat()."N";
+        } else {
+            echo "".get_Lat()."S";
+        }
+    }
+}
+
+function print_Lon() {
+    global $id, $postdata;
+    if(get_settings('use_geo_positions')) {
+        if(get_Lon() < 0) {
+            $temp = get_Lon() * -1;
+            echo "".$temp."W";
+        } else {
+            echo "".get_Lon()."E";
+        }
+    }
+}
+
+function print_PopUpScript() {
+    echo "
+<SCRIPT LANGUAGE=\"JavaScript\">
+
+<!-- This script and many more are available free online at -->
+<!-- The JavaScript Source!! http://javascript.internet.com -->
+
+<!-- Begin
+function formHandler(form) {
+  var URL = form.site.options[form.site.selectedIndex].value;
+  if(URL != \".\") {
+    popup = window.open(URL,\"MenuPopup\");
+  }
+}
+// End -->
+</script> ";
+}
+
+function print_UrlPopNav() {
+    $sites = array( 
+                   array("http://www.acme.com/mapper/?lat=".get_Lat()."&long=".get_Lon()."&scale=11&theme=Image&width=3&height=2&dot=Yes","Acme Mapper"),
+                   array("http://geourl.org/near/?lat=".get_Lat()."&lon=".get_Lon()."&dist=500","GeoUrls near here"),
+                   array("http://www.geocaching.com/seek/nearest.aspx?origin_lat=".get_Lat()."&origin_long=".get_Lon()."&dist=5","Geocaches Near Nere"),
+                   array("http://www.mapquest.com/maps/map.adp?latlongtype=decimal&latitude=".get_Lat()."&longitude=".get_Lon(),"Mapquest map of this spot"),
+                   array("http://www.sidebit.com/ProjectGeoURLMap.php?lat=".get_Lat()."&lon=".get_Lon(),"SideBit URL Map of this spot"),
+                   array("http://confluence.org/confluence.php?lat=".get_Lat()."&lon=".get_Lon(),"Confluence.org near here"),
+                   array("http://www.topozone.com/map.asp?lat=".get_Lat()."&lon=".get_Lon(),"Topozone near here"),
+                   array("http://www.findu.com/cgi-bin/near.cgi?lat=".get_Lat()."&lon=".get_Lon(),"FindU near here"),
+                   array("http://mapserver.maptech.com/api/espn/index.cfm?lat=".get_Lat()."&lon=".get_Lon()."&scale=100000&zoom=50&type=1&icon=0&&scriptfile=http://mapserver.maptech.com/api/espn/index.cfm","Maptech near here")
+                  );
+    echo "<form name=form><select name=site SIZE=1 onchange=\"formHandler(this.form);\" >\n";
+    echo "<option value=\".\">Sites referencing ".get_Lat()." x ".get_Lon()."\n";
+    foreach($sites as $site) {
+        echo "<option value=\"".$site[0]."\">".$site[1]."\n";
+    }
+    echo "</select></form>";
+}
+
+function longitude_invalid() {
+    if (get_Lon() == null) return true;
+    if (get_Lon() > 360) return true;
+    if (get_Lon() < -360) return true;
+}
+
+function print_AcmeMap_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://www.acme.com/mapper/?lat=".get_Lat()."&long=".get_Lon()."&scale=11&theme=Image&width=3&height=2&dot=Yes";
+}
+
+function print_GeoURL_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://geourl.org/near/?lat=".get_Lat()."&lon=".get_Lon()."&dist=500";
+}
+
+function print_GeoCache_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://www.geocaching.com/seek/nearest.aspx?origin_lat=".get_Lat()."&origin_long=".get_Lon()."&dist=5";
+}
+
+function print_MapQuest_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://www.mapquest.com/maps/map.adp?latlongtype=decimal&latitude=".get_Lat()."&longitude=".get_Lon();
+}
+
+function print_SideBit_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://www.sidebit.com/ProjectGeoURLMap.php?lat=".get_Lat()."&lon=".get_Lon();
+}
+
+function print_DegreeConfluence_Url() {
+    if (!get_settings('use_geo_positions')) return;
+    if (longitude_invalid()) return;
+    echo "http://confluence.org/confluence.php?lat=".get_Lat()."&lon=".get_Lon();
+}
 
 
 

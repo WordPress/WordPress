@@ -1,5 +1,6 @@
 <?php
 require_once('../wp-config.php');
+$debug = 0;
 
 /**
  ** maybe_create_table()
@@ -32,8 +33,9 @@ function maybe_create_table($table_name, $create_ddl) {
  **           false on error
  */
 function maybe_add_column($table_name, $column_name, $create_ddl) {
-    global $wpdb;
+    global $wpdb, $debug;
     foreach ($wpdb->get_col("DESC $table_name",0) as $column ) {
+        if ($debug) echo("checking $column == $column_name<br />");
         if ($column == $column_name) {
             return true;
         }
@@ -90,15 +92,15 @@ function maybe_drop_column($table_name, $column_name, $drop_ddl) {
  **      Extra
  */
 function check_column($table_name, $col_name, $col_type, $is_null = null, $key = null, $default = null, $extra = null) {
-    global $wpdb;
+    global $wpdb, $debug;
     $diffs = 0;
     $results = $wpdb->get_results("DESC $table_name");
     
     foreach ($results as $row ) {
-        //print_r($row);
+        if ($debug > 1) print_r($row);
         if ($row->Field == $col_name) {
             // got our column, check the params
-            //echo ("checking $row->Type against $col_type\n");
+            if ($debug) echo ("checking $row->Type against $col_type\n");
             if (($col_type != null) && ($row->Type != $col_type)) {
                 ++$diffs;
             }
@@ -115,7 +117,7 @@ function check_column($table_name, $col_name, $col_type, $is_null = null, $key =
                 ++$diffs;
             }
             if ($diffs > 0) {
-                //echo ("diffs = $diffs returning false\n");
+                if ($debug) echo ("diffs = $diffs returning false\n");
                 return false;
             }
             return true;

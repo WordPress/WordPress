@@ -43,6 +43,7 @@ if (!$step) $step = 0;
 switch($step) {
 
 	case 0:
+    {
 ?>
 <p>Welcome to WordPress. You're already part of the family so this should be familiar 
   to you now. We think you'll find to like in this latest version, here are some 
@@ -69,9 +70,11 @@ switch($step) {
 <p><code></code>Have you looked at the <a href="../readme.html">readme</a>? If 
   you&#8217;re all ready, <a href="<?php echo $thisfile;?>?step=1">let's go</a>! </p>
 <?php
-	break;
+        break;
+    }
 
     case 1:
+    {
 ?>
 <h1>Step 1</h1>
 <p>There are some changes we need to make to the links tables with this version, so lets get those out of 
@@ -201,10 +204,57 @@ if ($error_count > 0) {
 <p>OK, that wasn't too bad was it? Let's move on to <a href="<?php echo $thisfile;?>?step=2">step 2</a>!</p>
 <?php
 }
-    break;
-	case 2:
+        break;
+    } // end case 1
+
+    case 2:
+    {
 ?>
 <h1>Step 2</h1>
+<p>There are some changes we need to make to the post table, we'll do those next.</p>
+<?php
+$error_count = 0;
+$tablename = $tableposts;
+
+$ddl = "ALTER TABLE $tableposts ADD COLUMN post_lon float ";
+maybe_add_column($tablename, 'post_lon', $ddl);
+if (check_column($tablename, 'post_lon', 'float')) {
+    $res .= $tablename . ' - ok <br />'."\n";
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />'."\n";
+    ++$error_count;
+}
+
+$ddl = "ALTER TABLE $tableposts ADD COLUMN post_lat float ";
+maybe_add_column($tablename, 'post_lat', $ddl);
+if (check_column($tablename, 'post_lat', 'float')) {
+    $res .= $tablename . ' - ok <br />'."\n";
+} else {
+    $res .= 'There was a problem with ' . $tablename . '<br />'."\n";
+    ++$error_count;
+}
+
+
+if ($error_count > 0) {
+    echo("<p>$res</p>");
+?>
+<p>Hmmm... there was some kind of error. If you cannot figure out
+   see from the output above how to correct the problems please
+   visit our <a href="http://wordpress.org/support/">support
+   forums</a> and report your problem.</p>
+<?php
+} else {
+?>
+<p>OK, another step completed. Let's move on to <a href="<?php echo $thisfile;?>?step=3">step 3</a>.</p>
+<?php
+}
+        break;
+    } // end case 2
+    
+	case 3:
+    {
+?>
+<h1>Step 3</h1>
 <p>There are a few new database tables with this version, so lets get those out of 
   the way.</p>
 <?php
@@ -523,6 +573,29 @@ $option_data = array(
 //}
 
 ?>
+<?php
+$geo_option_data = array(
+// data for geo settings
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(84,'use_geo_positions', 2, '1', 'Turns on the geo url features of WordPress', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(85,'use_default_geourl', 2, '1','enables placement of default GeoURL ICBM location even when no other specified', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(86,'default_geourl_lat ', 8, 0.0, 'The default Latitude ICBM value - <a href=\"http://www.geourl.org/resources.html\" target=\"_blank\">see here</a>', 8, 20)",
+"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(87,'default_geourl_lon', 8, 0.0, 'The default Longitude ICBM value', 8, 20)",
+
+"INSERT INTO $tableoptiongroups (group_id, group_name, group_desc) VALUES(9,'Geo Options', 'Settings which control the posting and display of Geo Options')",
+
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,84,1)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,85,1)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,86,1)",
+"INSERT INTO $tableoptiongroup_options (group_id, option_id, seq) VALUES(9,87,1)",
+);
+
+foreach ($geo_option_data as $query) {
+    $q = $wpdb->query($query);
+}
+?>
+
+<p>Geo option data inserted okay.</p>
+
 
 <p>Good, the option data was inserted okay.</p>
 
@@ -741,7 +814,8 @@ foreach ($links_option_data as $query) {
 <p>You can now go play with your <a href="<?php echo $siteurl ? $siteurl : '../index.php'; ?>">updated blog</a> </p>
 <?php
     } // end else no b2config
-	break;
+        break;
+    } // end case 3
 }
 ?>
 </body>

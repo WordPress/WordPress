@@ -156,6 +156,7 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 
 		$blah = explode("\n", $content);
 		$firstline = $blah[0];
+		$secondline = $blah[1];
 
 		if ($use_phoneemail) {
 			$btpos = strpos($firstline, $phoneemail_separator);
@@ -173,6 +174,24 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 			$userpassstring = $firstline;
 			$contentfirstline = '';
 		}
+
+        $flat = 999.0;
+        $flon = 999.0;
+        $secondlineParts = explode(':',$secondline);
+        if(strncmp($secondlineParts[0],"POS",3)==0) {
+            echo "Found POS:<br>\n";
+            //echo "Second parts is:".$secondlineParts[1];
+            // the second line is the postion listing line
+            $secLineParts = explode(',',$secondlineParts[1]);
+            $flatStr = $secLineParts[0];
+            $flonStr = $secLineParts[1];
+            //echo "String are ".$flatStr.$flonStr; 
+            $flat = floatval($secLineParts[0]);
+            $flon = floatval($secLineParts[1]);
+            //echo "values are ".$flat." and ".$flon;
+            // ok remove that position... we should not have it in the final output
+            $content = str_replace($secondline,'',$content);
+        }
 
 		$blah = explode(':', $userpassstring);
 		$user_login = $blah[0];
@@ -209,7 +228,11 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 			if (!$thisisforfunonly) {
 				$post_title = addslashes(trim($post_title));
 				$content = addslashes(trim($content));
-				$sql = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category) VALUES ($post_author, '$post_date', '$content', '$post_title', $post_category)";
+                if($flat > 500) {
+                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category) VALUES ($post_author, '$post_date', '$content', '$post_title', $post_category)";
+                } else {
+                    $sql = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category, post_lat, post_lon) VALUES ($post_author, '$post_date', '$content', '$post_title', $post_category, $flat, $flon)";
+                }
 				$result = $wpdb->query($sql);
 				$post_ID = $wpdb->insert_id;
 
@@ -218,7 +241,12 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				}
 
 				$blog_ID = 1;
-				rss_update($blog_ID);
+				if($flat < 500) {
+					pingGeoUrl($post_ID);	
+				}
+                // HACK HACK HACK this next line is commented out because I don't know what the word-press replacement
+                // is.  right now it's undefined and does not work				
+				//rss_update($blog_ID);
 				pingWeblogs($blog_ID);
 				pingCafelog($cafelogID, $post_title, $post_ID);
 				pingBlogs($blog_ID);

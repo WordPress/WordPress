@@ -15,6 +15,7 @@ function get_option_widget($option_result, $editable, $between)
     switch ($option_result->option_type) {
         case 1: // integer
         case 3: // string
+        case 8: // float
         case 6:  // range -- treat same as integer for now!
             if (($option_result->option_type == 1) || ($option_result->option_type == 1)) {
                 $width = 6;

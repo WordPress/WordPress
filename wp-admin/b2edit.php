@@ -11,7 +11,7 @@ function add_magic_quotes($array) {
         }
     }
     return $array;
-} 
+}
 
 if (!get_magic_quotes_gpc()) {
     $HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
@@ -40,7 +40,7 @@ switch($action) {
     case 'post':
 
 			$standalone = 1;
-			require_once('b2header.php');	
+			require_once('b2header.php');
 
 			$post_pingback = intval($HTTP_POST_VARS['post_pingback']);
 			$content = balanceTags($HTTP_POST_VARS['content']);
@@ -49,6 +49,14 @@ switch($action) {
 			$excerpt = format_to_post($excerpt);
 			$post_title = addslashes($HTTP_POST_VARS['post_title']);
 			$post_category = intval($HTTP_POST_VARS['post_category']);
+			if(get_settings('use_geo_positions')) {
+				$latstr = $HTTP_POST_VARS['post_latf'];
+				$lonstr = $HTTP_POST_VARS['post_lonf'];
+				if((strlen($latstr) > 2) && (strlen($lonstr) > 2 ) ) {
+					$post_latf = floatval($HTTP_POST_VARS['post_latf']);
+					$post_lonf = floatval($HTTP_POST_VARS['post_lonf']);
+				}
+			}
 			$post_status = $HTTP_POST_VARS['post_status'];
 			$comment_status = $HTTP_POST_VARS['comment_status'];
 			$ping_status = $HTTP_POST_VARS['ping_status'];
@@ -73,24 +81,36 @@ switch($action) {
             $now = date('Y-m-d H:i:s', (time() + ($time_difference * 3600)));
         }
 
-        $result = $wpdb->query("
-		  INSERT INTO $tableposts 
-		  	(ID, post_author, post_date, post_content, post_title, post_category, post_excerpt,  post_status, comment_status, ping_status, post_password)
-		  VALUES
-		  	('0','$user_ID','$now','$content','$post_title','$post_category','$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password')
-		  ");
+        if((get_settings('use_geo_positions')) && (strlen($latstr) > 2) && (strlen($lonstr) > 2) ) {
+		$postquery ="INSERT INTO $tableposts
+                (ID, post_author, post_date, post_content, post_title, post_category, post_lat, post_lon, post_excerpt,  post_status, comment_status, ping_status, post_password)
+                VALUES
+                ('0','$user_ID','$now','$content','$post_title','$post_category',$post_latf,$post_lonf,'$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password')
+                ";
+        } else {
+		$postquery ="INSERT INTO $tableposts
+                (ID, post_author, post_date, post_content, post_title, post_category,  post_excerpt,  post_status, comment_status, ping_status, post_password)
+                VALUES
+                ('0','$user_ID','$now','$content','$post_title','$post_category','$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password')
+                ";
+        }
+        $postquery =
+        $result = $wpdb->query($postquery);
 
         $post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
 
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
                 sleep($sleep_after_edit);
         }
-        
+
         if ($post_status == 'publish') {
+            if((get_settings('use_geo_positions')) && ($post_latf != null) && ($post_lonf != null)) {
+                pingGeoUrl($post_ID);
+            }
             pingWeblogs($blog_ID);
             pingCafelog($cafelogID, $post_title, $post_ID);
             pingBlogs($blog_ID);
-        
+
             if ($post_pingback) {
                 pingback($content, $post_ID);
             }
@@ -136,9 +156,11 @@ switch($action) {
 			$authordata = get_userdata($postdata['Author_ID']);
 			if ($user_level < $authordata->user_level)
 				die ('You don&#8217;t have the right to edit <strong>'.$authordata[1].'</strong>&#8217;s posts.');
-			
+
 			$content = $postdata['Content'];
 			$content = format_to_edit($content);
+			$edited_lat = $postdata["Lat"];
+			$edited_lon = $postdata["Lon"];
 			$excerpt = $postdata['Excerpt'];
 			$excerpt = format_to_edit($excerpt);
 			$edited_post_title = format_to_edit($postdata['Title']);
@@ -164,7 +186,7 @@ switch($action) {
 
         $standalone = 1;
         require_once('./b2header.php');
-        
+
         if ($user_level == 0)
             die ('Cheatin&#8217; uh?');
 
@@ -179,6 +201,17 @@ switch($action) {
 			$excerpt = balanceTags($HTTP_POST_VARS['excerpt']);
 			$excerpt = format_to_post($excerpt);
 			$post_title = addslashes($HTTP_POST_VARS['post_title']);
+			if(get_settings('use_geo_positions')) {
+				$latf = floatval($HTTP_POST_VARS["post_latf"]);
+        			$lonf = floatval($HTTP_POST_VARS["post_lonf"]);
+        			$latlonaddition = "";
+        			if( ($latf != null) && ($latf <= 90 ) && ($latf >= -90) && ($lonf != null) && ($lonf <= 360) && ($lonf >= -360) ) {
+                			pingGeoUrl($post_ID);
+					$latlonaddition = " post_lat=".$latf.", post_lon =".$lonf.", ";
+        			} else {
+					$latlonaddition = " post_lat=null, post_lon=null, ";
+				}
+			}
 			$post_status = $HTTP_POST_VARS['post_status'];
 			$prev_status = $HTTP_POST_VARS['prev_status'];
 			$comment_status = $HTTP_POST_VARS['comment_status'];
@@ -202,17 +235,17 @@ switch($action) {
         }
 
         $result = $wpdb->query("
-			UPDATE $tableposts SET 
-				post_content = '$content', 
-				post_excerpt = '$excerpt', 
-				post_title = '$post_title', 
-				post_category = '$post_category'".$datemodif.", 
-				post_status = '$post_status', 
-				comment_status = '$comment_status', 
-				ping_status = '$ping_status', 
-				post_password = '$post_password' 
-			WHERE ID = $post_ID
-");
+			UPDATE $tableposts SET
+				post_content = '$content',
+				post_excerpt = '$excerpt',
+				post_title = '$post_title',
+				post_category = '$post_category'".$datemodif.",
+				".$latlonaddition."
+				post_status = '$post_status',
+				comment_status = '$comment_status',
+				ping_status = '$ping_status',
+				post_password = '$post_password'
+			WHERE ID = $post_ID ");
 
         if (isset($sleep_after_edit) && $sleep_after_edit > 0) {
             sleep($sleep_after_edit);
@@ -223,7 +256,7 @@ switch($action) {
             pingWeblogs($blog_ID);
             pingCafelog($cafelogID, $post_title, $post_ID);
             pingBlogs($blog_ID);
-        
+
             if ($post_pingback) {
                 pingback($content, $post_ID);
             }
@@ -257,6 +290,15 @@ switch($action) {
 
         if ($user_level < $authordata->user_level)
             die ('You don&#8217;t have the right to delete <strong>'.$authordata[1].'</strong>&#8217;s posts.');
+
+        // send geoURL ping to "erase" from their DB
+        $query = "SELECT post_lat from $tableposts WHERE ID=$post";
+        $rows = $wpdb->query($query); 
+        $myrow = $rows[0];
+        $latf = $myrow->post_lat;
+        if($latf != null ) {
+            pingGeoUrl($post);
+        }
 
         $result = $wpdb->query("DELETE FROM $tableposts WHERE ID=$post");
         if (!$result)
@@ -348,11 +390,11 @@ switch($action) {
         $content = format_to_post($content);
 
         $result = $wpdb->query("
-			UPDATE $tablecomments SET 
-				comment_content = '$content', 
-				comment_author = '$newcomment_author', 
-				comment_author_email = '$newcomment_author_email', 
-				comment_author_url = '$newcomment_author_url'".$datemodif." 
+			UPDATE $tablecomments SET
+				comment_content = '$content',
+				comment_author = '$newcomment_author',
+				comment_author_email = '$newcomment_author_email',
+				comment_author_url = '$newcomment_author_url'".$datemodif."
 			WHERE comment_ID = $comment_ID"
 			);
 
