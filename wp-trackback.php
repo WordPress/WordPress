@@ -88,8 +88,7 @@ if ( !empty($tb_url) && !empty($title) && !empty($tb_url) ) {
 
 	wp_new_comment($commentdata);
 
-	trackback_response(0);
 	do_action('trackback_post', $wpdb->insert_id);
-
+	trackback_response(0);
 }
 ?>
