@@ -10,6 +10,8 @@ require_once('../b2config.php');
 function get_option_widget($option_result, $editable, $between)
 {
     global $wpdb, $tableoptionvalues;
+    $disabled = $editable ? '' : 'disabled';
+
     switch ($option_result->option_type)
     {
         case 1: // integer
@@ -22,7 +24,7 @@ function get_option_widget($option_result, $editable, $between)
                 $width = $option_result->option_width;
             return <<<TEXTINPUT
                     <label for="$option_result->option_name">$option_result->option_name</label>$between
-                    <input type="text" name="$option_result->option_name" size="$width" value="$option_result->option_value" />
+                    <input type="text" name="$option_result->option_name" size="$width" value="$option_result->option_value" $disabled/>
 TEXTINPUT;
             //break;
         }
@@ -32,7 +34,7 @@ TEXTINPUT;
             $false_selected = ($option_result->option_value == 'false') ? 'selected' : '';
             return <<<BOOLSELECT
                     <label for="$option_result->option_name">$option_result->option_name</label>$between
-                    <select name="$option_result->option_name">
+                    <select name="$option_result->option_name" $disabled>
                     <option $true_selected>true</option>
                     <option $false_selected>false</option>
                     </select>
@@ -43,7 +45,7 @@ BOOLSELECT;
         {
             $ret = <<<SELECT
                     <label for="$option_result->option_name">$option_result->option_name</label>$between
-                    <select name="$option_result->option_name">
+                    <select name="$option_result->option_name" $disabled>
 SELECT;
 
             $select = $wpdb->get_results("SELECT optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min "
