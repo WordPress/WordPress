@@ -2,7 +2,6 @@
 // Links
 // Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
 
-include_once('../wp-links/links.php');
 
 $title = 'Link Categories';
 $this_file='link-categories.php';
