@@ -820,7 +820,7 @@ function upgrade_110() {
 
 	// Option for category base
 	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'category_base'")) {
-		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('category_base', 3, '', 8)");
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('category_base', 3, 'category', 8)");
 	}
 
 	// Delete unused options
