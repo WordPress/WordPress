@@ -282,16 +282,16 @@ switch ($action) {
  	        <th rowspan="2" valign="bottom"><?php _e('Name') ?></th>
                 <th rowspan="2" valign="bottom"><?php _e('ID') ?></th>
                 <th rowspan="2" valign="bottom"><?php _e('Toggle?') ?></th>
-                <th colspan="4" valign="bottom"><?php _e('Show') ?></th>
+                <th colspan="4" valign="bottom" class="alternate"><?php _e('Show') ?></th>
                 <th rowspan="2" valign="bottom"><?php _e('Sort Order') ?></th>
                 <th rowspan="2" valign="bottom"><?php _e('Desc?') ?></th>
-                <th colspan="3" valign="bottom"><?php _e('Formatting') ?></th>
+                <th colspan="3" valign="bottom" class="alternate"><?php _e('Formatting') ?></th>
                 <th rowspan="2" valign="bottom"><?php _e('Limit') ?></th>
                 <th rowspan="2" colspan="2">&nbsp;</th>
               </tr>
               <tr>
                 <th valign="top"><?php _e('Images') ?></th>
-                <th valign="top"><?php _e('Desc.') ?></th>
+                <th valign="top"><?php _e('Description') ?></th>
                 <th valign="top"><?php _e('Rating') ?></th>
                 <th valign="top"><?php _e('Updated') ?></th>
                 <th valign="top"><?php _e('Before') ?></th>
