@@ -411,7 +411,7 @@ function get_calendar($daylength = 1) {
     if ($next) {
         echo "\n\t\t".'<td abbr="' . $month[zeroise($next->month, 2)] . '" colspan="3" id="next"><a href="' .
                 get_month_link($next->year, $next->month) . '" title="View posts for ' . $month[zeroise($next->month, 2)] . ' ' .
-                date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">' . substr($month[zeroise($next->month, 2)], 0, 3) . ' &raquo;</a></td>';
+                date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">' . $month_abbrev[$month[zeroise($next->month, 2)]] . ' &raquo;</a></td>';
     } else {
         echo "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
     }
