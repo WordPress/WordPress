@@ -251,7 +251,7 @@ function the_meta() {
 //
 
 function &get_pages($args = '') {
-	global $wpdb, $cache_pages;
+	global $wpdb, $page_cache;
 
 	parse_str($args, $r);
 
@@ -281,11 +281,11 @@ function &get_pages($args = '') {
 															"$exclusions " .
 															"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
 
-	// Update cache.
-	update_post_cache($pages);
-
 	if ( empty($pages) )
-		$pages = array();
+		return array();
+
+	// Update cache.
+	update_page_cache($pages);
 
 	return $pages;
 }

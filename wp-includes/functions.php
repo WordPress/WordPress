@@ -575,6 +575,43 @@ function &get_post(&$post, $output = OBJECT) {
 	}
 }
 
+// Retrieves page data given a page ID or page object. 
+// Handles page caching.
+function &get_page(&$page, $output = OBJECT) {
+	global $page_cache, $wpdb;
+
+	if ( empty($page) ) {
+		if ( isset($GLOBALS['page']) )
+			$page = & $GLOBALS['page'];
+		else
+			$page = null;
+	} elseif (is_object($page) ) {
+		if (! isset($page_cache[$page->ID]))
+			$page_cache[$page->ID] = &$page;
+		$page = & $page_cache[$page->ID];
+	} else {
+		if ( isset($GLOBALS['page']) && ($page == $GLOBALS['page']->ID) )
+			$page = & $GLOBALS['page'];
+		elseif (isset($page_cache[$page]))
+			$page = & $page_cache[$page];
+		else {
+			$query = "SELECT * FROM $wpdb->posts WHERE ID=$page";
+			$page_cache[$page] = & $wpdb->get_row($query);
+			$page = & $page_cache[$page];
+		}
+	}
+
+	if ( $output == OBJECT ) {
+		return $page;
+	} elseif ( $output == ARRAY_A ) {
+		return get_object_vars($page);
+	} elseif ( $output == ARRAY_N ) {
+		return array_values(get_object_vars($page));
+	} else {
+		return $page;
+	}
+}
+
 // Retrieves category data given a category ID or category object. 
 // The category cache is fully populated by the blog header, so we don't
 // have to worry with managing it here.
@@ -1046,7 +1083,7 @@ function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args
 }
 
 function get_page_uri($page_id) {
-	$page = get_post($page_id);
+	$page = get_page($page_id);
 	$uri = urldecode($page->post_name);
 
 	// A page cannot be it's own parent.
@@ -1055,7 +1092,7 @@ function get_page_uri($page_id) {
 	}
 	
 	while ($page->post_parent != 0) {
-		$page = get_post($page->post_parent);
+		$page = get_page($page->post_parent);
 		$uri = urldecode($page->post_name) . "/" . $uri;
 	}
 
@@ -1099,6 +1136,17 @@ function update_post_cache(&$posts) {
 
 	for ($i = 0; $i < count($posts); $i++) {
 		$post_cache[$posts[$i]->ID] = &$posts[$i];
+	}
+}
+
+function update_page_cache(&$pages) {
+	global $page_cache;
+
+	if ( !$pages )
+		return;
+
+	for ($i = 0; $i < count($pages); $i++) {
+		$page_cache[$pages[$i]->ID] = &$pages[$i];
 	}
 }
 
