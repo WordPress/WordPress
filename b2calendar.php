@@ -127,7 +127,13 @@ $end_of_week = (($start_of_week + 7) % 7);
 
 $calendarmonthwithpost = 0;
 while($calendarmonthwithpost == 0) {
-	$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) AS dom FROM $tableposts WHERE MONTH(post_date) = '$thismonth' AND YEAR(post_date) = '$thisyear' AND post_status = 'publish' ORDER BY post_date DESC";
+	$arc_sql="SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) AS dom "
+            ."FROM $tableposts "
+            ."WHERE MONTH(post_date) = '$thismonth' "
+            ."AND YEAR(post_date) = '$thisyear' "
+	        ."AND post_date < '".date("Y-m-d H:i:s")."' "
+            ."AND post_status = 'publish' "
+            ."ORDER BY post_date DESC";
 	$querycount++;
     $arc_results = $wpdb->get_results($arc_sql);
 	if ($wpdb->num_rows > 0) {
@@ -208,7 +214,13 @@ $k = 1;
 
 // original tooltip hack by Alex King
 if ($ak_use_tooltip_titles == 1) {
-	$ak_days_result = $wpdb->get_results("SELECT post_title, post_date FROM $tableposts WHERE YEAR(post_date) = '$thisyear' AND MONTH(post_date) = '$thismonth' AND post_status = 'publish'");
+	$ak_days_result = $wpdb->get_results("SELECT post_title, post_date "
+	                                    ."FROM $tableposts "
+	                                    ."WHERE YEAR(post_date) = '$thisyear' "
+	                                    ."AND MONTH(post_date) = '$thismonth' "
+	                                    ."AND post_date < '".date("Y-m-d H:i:s")."' "
+	                                    ."AND post_status = 'publish'"
+	                                    );
 
 	$ak_day_title_array = array();
     if ($ak_days_result) {
