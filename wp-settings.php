@@ -6,7 +6,6 @@ require ($abspath . 'wp-config-extra.php');
 require ($abspath . $b2inc . '/wp-db.php');
 require ($abspath . $b2inc . '/functions.php');
 require ($abspath . $b2inc . '/template-functions.php');
-require ($abspath . $b2inc . '/vars.php');
 require ($abspath . $b2inc . '/class-xmlrpc.php');
 require ($abspath . $b2inc . '/class-xmlrpcs.php');
 require ($abspath . '/wp-links/links.php');
@@ -40,12 +39,8 @@ if (!isset($_wp_installing) || !$_wp_installing) {
     $siteurl = get_settings('siteurl');
 	// "When trying to design a foolproof system, 
 	//  never underestimate the ingenuity of the fools :)"
-	//
-	// Strip trailing slashes from $siteurl. But don't do
-	// anything that could cause an infinite loop.
-	while (('/' == substr($siteurl, -1)) && (10 > $i++)) {
-		$siteurl = substr($siteurl, 0, -1);
-	}
+
+	$siteurl = preg_replace('|/+$|', '', $siteurl);
     $blogfilename = get_settings('blogfilename');
     $blogname = get_settings('blogname');
     $blogdescription = get_settings('blogdescription');
@@ -102,4 +97,6 @@ if (!isset($_wp_installing) || !$_wp_installing) {
     $cookiehash = md5($siteurl);
 
 } //end !$_wp_installing
+
+require ($abspath . $b2inc . '/vars.php');
 ?>
