@@ -80,17 +80,17 @@ function get_bloginfo($show='') {
 		case 'stylesheet_url':
 			$output = get_settings('stylesheet');;
 			if (empty($output) || $output == 'default') {
-				$output = get_settings('home') . "/wp-layout.css";
+				$output = get_settings('siteurl') . "/wp-layout.css";
 			} else {
-				$output = get_settings('home') . "/wp-content/themes/$output/style.css";
+				$output = get_settings('siteurl') . "/wp-content/themes/$output/style.css";
 			}
 			break;
 		case 'template_url':
 			$output = get_settings('template');;
 			if (empty($output) || $output == 'default') {
-				$output = get_settings('home');
+				$output = get_settings('siteurl');
 			} else {
-				$output = get_settings('home') . "/wp-content/themes/$output";
+				$output = get_settings('siteurl') . "/wp-content/themes/$output";
 			}
 			break;
         case 'admin_email':
