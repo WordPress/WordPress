@@ -143,8 +143,8 @@ default:
 <div class="wrap">
 
 	<?php
-	
-$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_approved = 0");
+$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_approved = '0'");
+
 if ($comments) {
     // list all comments that are waiting for approval
     $file = basename(__FILE__);
