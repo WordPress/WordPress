@@ -139,10 +139,10 @@ function comment_ID() {
 
 function get_comment_author() {
 	global $comment;
-	
-	if ( empty($author) )
+	if ( empty($comment->comment_author) )
 		$author = 'Anonymous';
-
+	else
+		$author = $comment->comment_author;
 	return apply_filters('get_comment_author', $author);
 }
 
