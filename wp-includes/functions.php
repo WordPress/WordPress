@@ -1570,13 +1570,13 @@ function htmlentities2($myHTML) {
 
 
 function wp_mail($to, $subject, $message, $headers = '', $more = '') {
-        if( $headers == '' ) {
-                $headers = "MIME-Version: 1.0\n" .
-                           "From: " . $to . " <" . $to . ">\n" .
-                           "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
-        }
+	if( $headers == '' ) {
+		$headers = "MIME-Version: 1.0\n" .
+		"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
+	}
+
 	if ( function_exists('mb_send_mail') )
-                return mb_send_mail($to, $subject, $message, $headers, $more);
+		return mb_send_mail($to, $subject, $message, $headers, $more);
 	else
 		return mail($to, $subject, $message, $headers, $more);
 }

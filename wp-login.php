@@ -103,7 +103,7 @@ case 'retrievepassword':
 	$message .= __('Login') . ": $user_login\r\n\r\n";
 	$message .= __("To reset your password visit the following address, otherwise just ignore this email and nothing will happen.\n\n");
 	$message .= get_settings('siteurl') . "/wp-login.php?action=resetpass&key=$key";
-mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
+
 	$m = wp_mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
 
 	do_action('retreive_password', $user_login);
@@ -128,9 +128,9 @@ case 'resetpass' :
 	if ( !$user )
 		die( __('Sorry, that key does not appear to be valid.') );
 
-	$new_pass = md5( substr( md5( uniqid( microtime() ) ), 0, 7) );
- 	$wpdb->query("UPDATE $wpdb->users SET user_pass = '$new_pass', user_activation_key = '' WHERE user_login = '$user->user_login'");
-	$message  = __('Login') . ": $user_login\r\n";
+	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
+ 	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$new_pass'), user_activation_key = '' WHERE user_login = '$user->user_login'");
+	$message  = __('Login') . ": $user->user_login\r\n";
 	$message .= __('Password') . ": $new_pass\r\n";
 	$message .= get_settings('siteurl') . '/wp-login.php';
 
@@ -145,11 +145,10 @@ case 'resetpass' :
 	} else {
 		echo '<p>' .  sprintf(__("Your new password is in the mail."), $user_login) . '<br />';
         echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
-		die();
-	}	
-	
 		// send a copy of password change notification to the admin
-		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user_login));
+		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user->user_login));
+		die();
+	}
 break;
 
 case 'login' : 
