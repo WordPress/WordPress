@@ -342,6 +342,6 @@ $base = $dbname;
 // Set this path separator appropriately for your OS: semi-colon on windows, colon on unix
 //$path_sep=';';
 $path_sep=':';
-ini_set('include_path', '.'.$path_sep.'..'.$path_sep."../$b2inc".$path_sep."./$b2inc");
+ini_set('include_path', ".$path_sep..$path_sep../$b2inc$path_sep./$b2inc");
 
 ?>
