@@ -1,14 +1,15 @@
-/* Default WordPress by Matthew Mullenweg http://photomatt.net
+/* Default WordPress by Dave Shea || http://mezzoblue.com
+	Tweaked by Matthew Mullenweg || http://photomatt.net
 	This is just a basic layout, with only the bare minimum defined.
 	Please tweak this and make it your own. :)
 */
 
-a img {
-    border: none;
-}
-
 a {
 	color: #675;
+}
+
+a img {
+	border: none;
 }
 
 a:visited {
@@ -36,37 +37,40 @@ blockquote {
 }
 
 body {
+	border: solid 2px #565;
+	border-bottom: solid 1px #565;
+	border-top: solid 3px #565;
 	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 	margin: 0;
-	border: solid 2px #565;
-	border-top: solid 3px #565;
-	border-bottom: solid 1px #565;
+}
+
+cite {
+	font-size: 90%;
+	font-style: normal;
 }
 
 h2 {
-	font-size: 80%;
-	font-family: "Times New Roman", Times, serif;
-	letter-spacing: 0.5em;
 	border-bottom: 1px dotted #ccc;
+	font: 80% "Times New Roman", Times, serif;
+	letter-spacing: 0.5em;
 	margin: 15px 0 2px 0;
 	padding-bottom: 2px;
 }
+
 h3 {
-	margin-top: 0;
+	border-bottom: dotted 1px #eee;
 	font-family: "Times New Roman", Times, serif;
 	letter-spacing: -0.05em;
-	border-bottom: dotted 1px #eee;
+	margin-top: 0;
+}
+
+ol#comments li p {
+	font-size: 100%;
 }
 
 p, li, .feedback {
-	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
-	font-size: 90%;
+	font: 90%/175% 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 	letter-spacing: -1px;
-	line-height: 175%;
-}
-cite {
-	font-style: normal;
-	font-size: 90%;
 }
 
 .b2calendarcell {
@@ -104,21 +108,22 @@ cite {
 }
 
 .credit {
-	font-size: 11px;
-	text-align: center;
+	background: #90a090;
 	border-top: double 3px #aba;
-	padding: 3px;
 	color: #fff;
-	background-color: #90a090;
+	font-size: 11px;
 	margin: 10px 0 0 0;
+	padding: 3px;
+	text-align: center;
 }
+
 .credit a:link, .credit a:hover {
 	color: #fff;
 }
 
 .feedback {
-	text-align: right;
 	color: #ccc;
+	text-align: right;
 }
 
 .meta, .meta a {
@@ -132,24 +137,30 @@ cite {
 	text-decoration: none;
 }
 
+#commentform input, #commentform textarea {
+	border: 1px solid #333;
+	background-color: #fff;
+}
+
+#commentform textarea {
+	width: 100%;
+}
+
 #content {
 	margin: 30px 220px 0 60px;
 	padding-right: 60px;
 }
 
 #header {
-	font-family: 'Times New Roman', Times, serif;
-	font-style: italic;
-	font-weight: normal;
-	font-size: 230%;
-	letter-spacing: 0.2em;
-	background-color: #90a090;
-	margin: 0;
-	padding: 15px 10px 15px 60px;
-	border-top: solid 1px #9a9;
+	background: #90a090;
 	border-bottom: double 3px #aba;
 	border-left: solid 1px #9a9;
 	border-right: solid 1px #565;
+	border-top: solid 1px #9a9;
+	font: italic normal 230% 'Times New Roman', Times, serif;
+	letter-spacing: 0.2em;
+	margin: 0;
+	padding: 15px 10px 15px 60px;
 }
 
 #header a {
@@ -157,17 +168,12 @@ cite {
 	text-decoration: none;
 }
 
-
 #header a:hover {
 	text-decoration: underline;
 }
 
-ol#comments li p {
-	font-size: 100%;
-}
-
-#menu {	
-	background-color: #fff;
+#menu {
+	background: #fff;
 	border-left: 1px dotted #ccc;
 	border-top: solid 3px #e0e6e0;
 	padding: 20px 0 10px 30px;
@@ -182,53 +188,45 @@ ol#comments li p {
 }
 
 #menu input {
-	background-color: #eee;
+	background: #eee;
 	border: 1px solid #999;
-	width: 80px;
 	letter-spacing: -0.05em;
+	width: 80px;
 }
 
 #menu ul {
 	color: #ccc;
-	text-transform: lowercase;
 	font-weight: bold;
 	list-style-type: none;
 	margin: 0;
 	padding-left: 3px;
+	text-transform: lowercase;
 }
+
 #menu ul li {
-	font-family: 'Times New Roman', Times, serif;
-	font-weight: normal;
-	font-style: italic;
-	font-size: 110%;
+	font: italic normal 110% 'Times New Roman', Times, serif;
 	letter-spacing: 0.1em;
 	margin-top: 10px;
-	padding-bottom: 2px;
-	/*border-bottom: dotted 1px #ccc;*/
+	padding-bottom: 2px; /*border-bottom: dotted 1px #ccc;*/
 }
 
 #menu ul ul {
+	font-style: list-style-type: none;
 	font-variant: normal;
 	font-weight: normal;
 	line-height: 100%;
-	font-style: 
-	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	text-align: left;
 }
 
 #menu ul ul li {
-	font-size: 70%;
-	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
-	font-weight: normal;
-	font-style: normal;
-	line-height: 115%;
-	padding-left: 12px;
+	border: 0;
+	font: normal normal 70%/115% 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 	letter-spacing: 0;
 	margin-top: 0;
 	padding: 0;
-	border: 0;
+	padding-left: 12px;
 }
 
 #menu ul ul li a {
