@@ -3,8 +3,6 @@ $parentpath = dirname(dirname(__FILE__));
  
 require_once($parentpath.'/wp-config.php');
 
-$curpath = dirname(__FILE__).'/';
-
 $locale = '';
 
 // WPLANG is defined in wp-config.
@@ -16,20 +14,8 @@ if (empty($locale)) {
     $locale = 'en_US';
 }
 
-$mofile = $curpath . "languages/$locale.mo";
-
-require($curpath . 'streams.php');
-require($curpath . 'gettext.php');
-
-// If the mo file does not exist or is not readable, or if the locale is
-// en_US, do not load the mo.
-if ( is_readable($mofile) && ($locale != 'en_US') ) {
-    $input = new FileReader($mofile);
-} else {
-    $input = false;
-}
-
-$l10n['default'] = new gettext_reader($input);
+require_once(ABSPATH . 'wp-includes/streams.php');
+require_once(ABSPATH . 'wp-includes/gettext.php');
 
 // Return a translated string.    
 function __($text, $domain = 'default') {
@@ -67,6 +53,10 @@ function __ngettext($single, $plural, $number, $domain = 'default') {
 function load_textdomain($domain, $mofile) {
 	global $l10n;
 
+	if (isset($l10n[$domain])) {
+		return;
+	}
+
 	if ( is_readable($mofile)) {
     $input = new FileReader($mofile);
 	}	else {
@@ -74,6 +64,14 @@ function load_textdomain($domain, $mofile) {
 	}
 
 	$l10n[$domain] = new gettext_reader($input);
+}
+
+function load_default_textdomain() {
+	global $l10n, $locale;
+
+	$mofile = ABSPATH . "wp-includes/languages/$locale.mo";
+	
+	load_textdomain('default', $mofile);
 }
 
 function load_plugin_textdomain($domain) {
@@ -89,6 +87,9 @@ function load_theme_textdomain($domain) {
 	$mofile = get_template_directory() . "/$locale.mo";
 	load_textdomain($domain, $mofile);
 }
+
+// Load the default domain.
+load_default_textdomain();
 
 require($curpath . 'locale.php');
 ?>

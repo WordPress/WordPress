@@ -115,6 +115,9 @@ class gettext_reader {
     $meta = $this->ORIGINALS[$num];
     $length = $meta[0];
     $offset = $meta[1];
+		if (! $length) {
+			return '';
+		}
     $this->STREAM->seekto($offset);
     $data = $this->STREAM->read($length);
     return (string)$data;
