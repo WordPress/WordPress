@@ -80,15 +80,15 @@ case 'upload':
 
 <?php //Makes sure they choose a file
 
-//print_r($HTTP_POST_FILES);
+//print_r($_FILES);
 //die();
 
 
-    $imgalt = (isset($_POST['imgalt'])) ? $_POST['imgalt'] : $imgalt;
+    $imgalt = basename( (isset($_POST['imgalt'])) ? $_POST['imgalt'] : '' );
 
-    $img1_name = (strlen($imgalt)) ? $_POST['imgalt'] : $HTTP_POST_FILES['img1']['name'];
-    $img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $HTTP_POST_FILES['img1']['type'];
-    $imgdesc = str_replace('"', '&amp;quot;', $_POST['imgdesc']);
+    $img1_name = (strlen($imgalt)) ? $imgalt : basename( $_FILES['img1']['name'] );
+    $img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $_FILES['img1']['type'];
+    $imgdesc = htmlentities2($imgdesc);
 
     $imgtype = explode(".",$img1_name);
     $imgtype = strtolower($imgtype[count($imgtype)-1]);
@@ -99,10 +99,10 @@ case 'upload':
 
     if (strlen($imgalt)) {
         $pathtofile = get_settings('fileupload_realpath')."/".$imgalt;
-        $img1 = $_POST['img1'];
+        $img1 = $_POST['img1']['tmp_name'];
     } else {
         $pathtofile = get_settings('fileupload_realpath')."/".$img1_name;
-        $img1 = $HTTP_POST_FILES['img1']['tmp_name'];
+        $img1 = $_FILES['img1']['tmp_name'];
     }
 
     // makes sure not to upload duplicates, rename duplicates
@@ -191,7 +191,7 @@ die();
             $max_side = 400;
         }
         elseif($_POST['thumbsize'] == 'custom') {
-            $max_side = $_POST['imgthumbsizecustom'];
+            $max_side = intval($_POST['imgthumbsizecustom']);
         }
         
         $result = wp_create_thumbnail($pathtofile, $max_side, NULL);
