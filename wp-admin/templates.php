@@ -12,6 +12,22 @@ function add_magic_quotes($array) {
 	return $array;
 } 
 
+function validate_file($file) {
+	if ('..' == substr($file,0,2))
+		die ('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.');
+	
+	if (':' == substr($file,1,1))
+		die ('Sorry, can&#8217;t call files with their real path.');
+
+	if ('/' == substr($file,0,1))
+		$file = '.' . $file;
+	
+	$file = stripslashes($file);
+	$file = str_replace('../', '', $file);
+
+    return $file;
+}
+
 if (!get_magic_quotes_gpc()) {
 	$HTTP_GET_VARS    = add_magic_quotes($HTTP_GET_VARS);
 	$HTTP_POST_VARS   = add_magic_quotes($HTTP_POST_VARS);
@@ -47,12 +63,17 @@ case 'update':
 
 	$newcontent = stripslashes($HTTP_POST_VARS['newcontent']);
 	$file = $HTTP_POST_VARS['file'];
-	$f = fopen($file, 'w+');
-	fwrite($f, $newcontent);
-	fclose($f);
+    $file = validate_file($file);
+	$real_file = '../' . $file;
+    if (is_writeable($real_file)) {
+        $f = fopen($real_file, 'w+');
+        fwrite($f, $newcontent);
+        fclose($f);
+        header("Location: templates.php?file=$file&a=te");
+    } else {
+        header("Location: templates.php?file=$file");
+    }
 
-	$file = str_replace('../', '', $file);
-	header("Location: templates.php?file=$file&a=te");
 	exit();
 
 break;
@@ -72,29 +93,19 @@ default:
 			$file = 'index.php';
 		}
 	}
-	
-	if ('..' == substr($file,0,2))
-		die ('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.');
-	
-	if (':' == substr($file,1,1))
-		die ('Sorry, can&#8217;t call files with their real path.');
 
-	if ('/' == substr($file,0,1))
-		$file = '.' . $file;
+    $file = validate_file($file);	
+	$real_file = '../' . $file;
 	
-	$file = stripslashes($file);
-	$file = str_replace('../', '', $file);
-	$file = '../' . $file;
-	
-	if (!is_file($file))
+	if (!is_file($real_file))
 		$error = 1;
 
 	if ((substr($file,0,2) == 'wp') and (substr($file,-4,4) == '.php') and ($file != 'wp.php'))
 		$warning = ' &#8212; this is a WordPress file, be careful when editing it!';
 	
 	if (!$error) {
-		$f = fopen($file, 'r');
-		$content = fread($f, filesize($file));
+		$f = fopen($real_file, 'r');
+		$content = fread($f, filesize($real_file));
 		$content = htmlspecialchars($content);
 //		$content = str_replace("</textarea","&lt;/textarea",$content);
 	}
@@ -114,7 +125,7 @@ default:
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 
      <br /> 
      <?php
-		if (is_writeable($file)) {
+		if (is_writeable($real_file)) {
 			echo "<input type='submit' name='submit' value='Update File' tabindex='2' />";
 		} else {
 			echo "<input type='button' name='oops' value='(You cannot update that file/template: must make it writable, e.g. CHMOD 666)' tabindex='2' />";
