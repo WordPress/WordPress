@@ -438,6 +438,7 @@ function get_catname($cat_ID) {
 
 function gzip_compression() {
 	global $gzip_compressed;
+	if (strstr($_SERVER['PHP_SELF'], 'wp-admin')) return true;
 		if (!$gzip_compressed) {
 		$phpver = phpversion(); //start gzip compression
 		if($phpver >= "4.0.4pl1") {
