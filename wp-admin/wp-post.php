@@ -150,7 +150,7 @@ switch($action) {
         break;
 
     case 'edit':
-	$title = 'Edit';
+        $title = 'Edit';
 
         $standalone = 0;
         require_once('b2header.php');
@@ -323,7 +323,7 @@ switch($action) {
         break;
 
     case 'editcomment':
-	$title = 'Edit Comment';
+        $title = 'Edit Comment';
         $standalone = 0;
         require_once ('b2header.php');
 
@@ -346,18 +346,18 @@ switch($action) {
 
 		$standalone = 1;
 		require_once('./b2header.php');
-		
+
 		if ($user_level == 0)
 			die ('Cheatin&#8217; uh?');
-		
+
 		$comment = $HTTP_GET_VARS['comment'];
 		$p = $HTTP_GET_VARS['p'];
 		$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="b2edit.php">Go back</a>!');
-		
+
 		$result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_ID=$comment");
-		
+
 		header ('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
-		
+
 		break;
 
     case 'editedcomment':
@@ -388,7 +388,7 @@ switch($action) {
             $hh = ($hh > 23) ? $hh - 24 : $hh;
             $mn = ($mn > 59) ? $mn - 60 : $mn;
             $ss = ($ss > 59) ? $ss - 60 : $ss;
-            $datemodif = ", comment_date = 'aa-$mm-$jj $hh:$mn:$ss'";
+            $datemodif = ", comment_date = '$aa-$mm-$jj $hh:$mn:$ss'";
         } else {
             $datemodif = '';
         }
@@ -403,7 +403,7 @@ switch($action) {
 				comment_author_url = '$newcomment_author_url'".$datemodif."
 			WHERE comment_ID = $comment_ID"
 			);
-		
+
 		$referredby = $HTTP_POST_VARS['referredby'];
 		if (!empty($referredby)) header('Location: ' . $referredby);
         else header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
@@ -428,8 +428,11 @@ switch($action) {
 					<?php
 					$i = 0;
 					foreach ($drafts as $draft) {
-						if (0 != $i) echo ', ';
-						$draft->post_title = stripslashes($draft->post_title);   if ($draft->post_title == '') $draft->post_title = 'post-'.$draft->ID;
+						if (0 != $i)
+                            echo ', ';
+						$draft->post_title = stripslashes($draft->post_title);
+                        if ($draft->post_title == '')
+                            $draft->post_title = 'post-'.$draft->ID;
 						echo "<a href='b2edit.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
 						++$i;
 						}
@@ -459,7 +462,7 @@ switch($action) {
 <?php
 
         }
-		
+
         break;
 } // end switch
 /* </Edit> */

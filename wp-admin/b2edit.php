@@ -406,7 +406,7 @@ switch($action) {
             $hh = ($hh > 23) ? $hh - 24 : $hh;
             $mn = ($mn > 59) ? $mn - 60 : $mn;
             $ss = ($ss > 59) ? $ss - 60 : $ss;
-            $datemodif = ", comment_date = 'aa-$mm-$jj $hh:$mn:$ss'";
+            $datemodif = ", comment_date = '$aa-$mm-$jj $hh:$mn:$ss'";
         } else {
             $datemodif = '';
         }
