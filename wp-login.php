@@ -66,9 +66,9 @@ if ($error)
 <form name="lostpass" action="wp-login.php" method="post" id="lostpass">
 <p>
 <input type="hidden" name="action" value="retrievepassword" />
-<label><?php _e('Login') ?>:<br />
+<label><?php _e('Username:') ?><br />
 <input type="text" name="user_login" id="user_login" value="" size="20" tabindex="1" /></label></p>
-<p><label><?php _e('E-mail') ?>:<br />
+<p><label><?php _e('E-mail:') ?><br />
 <input type="text" name="email" id="email" value="" size="25" tabindex="2" /></label><br />
 </p>
 <p class="submit"><input type="submit" name="submit" id="submit" value="<?php _e('Retrieve Password'); ?> &raquo;" tabindex="3" /></p>
@@ -101,8 +101,9 @@ case 'retrievepassword':
 	$key = substr( md5( uniqid( microtime() ) ), 0, 50);
 	// now insert the new pass md5'd into the db
  	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
-	$message .= __("Someone has asked to reset a password for the login this site\n\n " . get_option('siteurl') ) . "\n\n";
-	$message .= __('Login') . ": $user_login\r\n\r\n";
+	$message .= __("Someone has asked to reset the password for the following site and username.\n\n");
+	$message .= get_option('siteurl') . "\n\n";
+	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __("To reset your password visit the following address, otherwise just ignore this email and nothing will happen.\n\n");
 	$message .= get_settings('siteurl') . "/wp-login.php?action=resetpass&key=$key";
 
@@ -132,8 +133,8 @@ case 'resetpass' :
 
 	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
  	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$new_pass'), user_activation_key = '' WHERE user_login = '$user->user_login'");
-	$message  = __('Login') . ": $user->user_login\r\n";
-	$message .= __('Password') . ": $new_pass\r\n";
+	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
+	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
 	$message .= get_settings('siteurl') . '/wp-login.php';
 
 	$m = wp_mail($user->user_email, sprintf(__("[%s] Your new password"), get_settings('blogname')), $message);
@@ -222,8 +223,8 @@ if ( $error )
 ?>
 
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
-<p><label><?php _e('Login') ?>:<br /><input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
-<p><label><?php _e('Password') ?>:<br /> <input type="password" name="pwd" id="pwd" value="" size="20" tabindex="2" /></label></p>
+<p><label><?php _e('Username:') ?><br /><input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
+<p><label><?php _e('Password:') ?><br /> <input type="password" name="pwd" id="pwd" value="" size="20" tabindex="2" /></label></p>
 <p class="submit">
 	<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
 	<input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>" />

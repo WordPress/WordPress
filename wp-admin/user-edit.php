@@ -30,7 +30,7 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 
 /* checking the nickname has been typed */
 if (empty($_POST["new_nickname"])) {
-	die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your login)"));
+	die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your username)"));
 	return false;
 }
 
@@ -99,7 +99,7 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 <form name="edituser" id="edituser" action="user-edit.php" method="post">
 <table width="99%"  border="0" cellspacing="2" cellpadding="3">
 	<tr>
-		<th width="33%" scope="row"><?php _e('Login:') ?></th>
+		<th width="33%" scope="row"><?php _e('Username:') ?></th>
 		<td width="73%"><input type="text" name="new_user_login" id="new_user_login" value="<?php echo $edituser->user_login; ?>" /></td>
 	</tr>
 	<tr>

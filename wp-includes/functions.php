@@ -1678,7 +1678,7 @@ function wp_login($username, $password, $already_md5 = false) {
 	$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
 
 	if (!$login) {
-		$error = __('<strong>Error</strong>: Wrong login.');
+		$error = __('<strong>Error</strong>: Wrong username.');
 		return false;
 	} else {
 		// If the password is already_md5, it has been double hashed.

@@ -32,9 +32,9 @@ case 'adduser':
 	$user_lastname  = wp_specialchars($_POST['lastname']);
 	$user_uri       = wp_specialchars($_POST['uri']);
 		
-	/* checking login has been typed */
+	/* checking that username has been typed */
 	if ($user_login == '')
-		die (__('<strong>ERROR</strong>: Please enter a login.'));
+		die (__('<strong>ERROR</strong>: Please enter a username.'));
 
 	/* checking the password has been typed twice */
 	do_action('check_passwords', array($user_login, &$pass1, &$pass2));
@@ -47,10 +47,10 @@ case 'adduser':
 
 	$user_nickname = $user_login;
 
-	/* checking the login isn't already used by another user */
+	/* checking that the username isn't already used by another user */
 	$loginthere = $wpdb->get_var("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'");
     if ($loginthere)
-		die (__('<strong>ERROR</strong>: This login is already registered, please choose another one.'));
+		die (__('<strong>ERROR</strong>: This username is already registered, please choose another one.'));
 
 	/* checking e-mail address */
 	if (empty($_POST["email"])) {
@@ -82,7 +82,7 @@ case 'adduser':
 
 	$user_login = stripslashes($user_login);
 	$message  = 'New user registration on your blog ' . get_settings('blogname') . ":\r\n\r\n";
-	$message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
+	$message .= "Username: $user_login\r\n\r\nE-mail: $user_email";
 
 	@wp_mail(get_settings('admin_email'), '[' . get_settings('blogname') . '] New User Registration', $message);
 	header('Location: users.php');

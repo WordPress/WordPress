@@ -30,7 +30,7 @@ case 'update':
 
 	/* checking the nickname has been typed */
 	if (empty($_POST["newuser_nickname"])) {
-		die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your login)"));
+		die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your username)"));
 		return false;
 	}
 
@@ -144,7 +144,7 @@ if (isset($updated)) { ?>
 
   <table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
     <tr>
-      <th width="33%" scope="row"><?php _e('Login:') ?></th>
+      <th width="33%" scope="row"><?php _e('Username:') ?></th>
       <td width="67%"><?php echo $profiledata->user_login; ?></td>
     </tr>
     <tr>

@@ -28,9 +28,9 @@ case 'register':
 	$user_login = $_POST['user_login'];
 	$user_email = $_POST['user_email'];
 		
-	/* checking login has been typed */
+	/* checking that username has been typed */
 	if ($user_login == '') {
-		die (__('<strong>ERROR</strong>: Please enter a login.'));
+		die (__('<strong>ERROR</strong>: Please enter a username.'));
 	}
 
 	/* checking e-mail address */
@@ -40,10 +40,10 @@ case 'register':
 		die (__('<strong>ERROR</strong>: The email address isn&#8217;t correct.'));
 	}
 
-	/* checking the login isn't already used by another user */
+	/* checking the username isn't already used by another user */
 	$result = $wpdb->get_results("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'");
     if (count($result) >= 1) {
-		die (__('<strong>ERROR</strong>: This login is already registered, please choose another one.'));
+		die (__('<strong>ERROR</strong>: This username is already registered, please choose another one.'));
 	}
 
 	$user_ip = $_SERVER['REMOTE_ADDR'] ;
@@ -73,13 +73,13 @@ case 'register':
 		$stars .= '*';
 	}
 	
-	$message  = __('Login') . ": $user_login\r\n";
-	$message .= __('Password') . ": $password\r\n";
+	$message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
+	$message .= sprintf(__('Password: %s'), $password) . "\r\n";
 	$message .= get_settings('siteurl') . '/wp-login.php';
 	
-	wp_mail($user_email, sprintf(__("[%s] Your login information"), get_settings('blogname')), $message);
+	wp_mail($user_email, sprintf(__("[%s] Your username and password"), get_settings('blogname')), $message);
 
-	$message  = sprintf(__("New user registration on your blog %1\$s:\n\nLogin: %2\$s \n\nE-mail: %3\$s"), get_settings('blogname'), $user_login, $user_email);
+	$message  = sprintf(__("New user registration on your blog %1\$s:\n\nUsername: %2\$s \n\nE-mail: %3\$s"), get_settings('blogname'), $user_login, $user_email);
 
 	@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
 
@@ -100,9 +100,9 @@ case 'register':
 
 <div id="login"> 
 	<h2><?php _e('Registration Complete') ?></h2>
-	<p><?php _e('Login:') ?> <strong><?php echo $user_login; ?></strong><br />
-	<?php _e('Password:') ?> <strong>emailed to you</strong><br />
-	<?php _e('E-mail:') ?> <strong><?php echo $user_email; ?></strong></p>
+	<p><?php printf(__('Username: %s'), "<strong>$user_login</strong>") ?><br />
+	<?php printf(__('Password: %s'), '<strong>' . __('emailed to you') . '</strong>') ?> <br />
+	<?php printf(__('E-mail: %s'), "<strong>$user_email</strong>") ?></p>
 	<p class="submit"><a href="wp-login.php"><?php _e('Login'); ?> &raquo;</a></p>
 </div>
 </body>
@@ -160,8 +160,8 @@ default:
 
 <form method="post" action="wp-register.php" id="registerform">
 	<p><input type="hidden" name="action" value="register" />
-	<label for="user_login"><?php _e('Login:') ?></label><br /> <input type="text" name="user_login" id="user_login" size="20" maxlength="20" /><br /></p>
-	<p><label for="user_email"><?php _e('E-mail') ?></label>:<br /> <input type="text" name="user_email" id="user_email" size="25" maxlength="100" /></p>
+	<label for="user_login"><?php _e('Username:') ?></label><br /> <input type="text" name="user_login" id="user_login" size="20" maxlength="20" /><br /></p>
+	<p><label for="user_email"><?php _e('E-mail:') ?></label><br /> <input type="text" name="user_email" id="user_email" size="25" maxlength="100" /></p>
 	<p>A password will be emailed to you.</p>
 	<p class="submit"><input type="submit" value="<?php _e('Register') ?> &raquo;" id="submit" name="submit" /></p>
 </form>

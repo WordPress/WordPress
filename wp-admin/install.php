@@ -193,11 +193,11 @@ upgrade_all();
 
 <p><em><?php _e('Finished!'); ?></em></p>
 
-<p><?php printf(__('Now you can <a href="%1$s">log in</a> with the <strong>login</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $random_password); ?></p>
+<p><?php printf(__('Now you can <a href="%1$s">log in</a> with the <strong>username</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $random_password); ?></p>
 <p><?php _e('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you. If you lose it, you will have to delete the tables from the database yourself, and re-install WordPress. So to review:'); ?>
 </p>
 <dl>
-<dt><?php _e('Login'); ?></dt>
+<dt><?php _e('Username'); ?></dt>
 <dd><code>admin</code></dd>
 <dt><?php _e('Password'); ?></dt>
 <dd><code><?php echo $random_password; ?></code></dd>
