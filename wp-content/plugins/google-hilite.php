@@ -11,7 +11,7 @@ Author URI: http://rboren.nu
 /* Highlighting code c/o Ryan Boren */
 function get_search_query_terms($engine = 'google') {
     global $s, $s_array;
-	$referer = urldecode($_SERVER[HTTP_REFERER]);
+	$referer = urldecode($_SERVER['HTTP_REFERER']);
 	$query_array = array();
 	switch ($engine) {
 	case 'google':
@@ -58,6 +58,9 @@ function get_search_query_terms($engine = 'google') {
 
 function is_referer_search_engine($engine = 'google') {
 	$siteurl = get_settings('home');
+    if( empty($_SERVER['HTTP_REFERER']) ) {
+        return 0;
+    }
 	$referer = urldecode($_SERVER['HTTP_REFERER']);
     //echo "referer is: $referer<br />";
 	if ( ! $engine ) {
