@@ -783,7 +783,7 @@ function do_enclose( $content, $post_ID ) {
                         $len = substr( $len, 0, strpos( $len, "\n" ) );
                         $type = substr( $response, strpos( $response, "Content-Type:" ) + 14 );
                         $type = substr( $type, 0, strpos( $type, "\n" ) + 1 );
-                        $allowed_types = array( "video", "audio", "image" );
+                        $allowed_types = array( "video", "audio" );
                         if( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
                             $meta_value = "$url\n$len\n$type\n";
                             $query = "INSERT INTO `".$wpdb->postmeta."` ( `meta_id` , `post_id` , `meta_key` , `meta_value` )
