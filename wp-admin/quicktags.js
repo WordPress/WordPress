@@ -38,6 +38,23 @@ new edButton('ed_em'
 );
 
 edButtons[edButtons.length] = 
+new edButton('ed_link'
+,'link'
+,''
+,'</a>'
+,'a'
+); // special case
+
+edButtons[edButtons.length] = 
+new edButton('ed_block'
+,'b-quote'
+,'<blockquote>'
+,'</blockquote>'
+,'q'
+);
+
+
+edButtons[edButtons.length] = 
 new edButton('ed_del'
 ,'del'
 ,'<del>'
@@ -52,14 +69,6 @@ new edButton('ed_ins'
 ,'</ins>'
 ,'d'
 );
-
-edButtons[edButtons.length] = 
-new edButton('ed_link'
-,'link'
-,''
-,'</a>'
-,'a'
-); // special case
 
 edButtons[edButtons.length] = 
 new edButton('ed_img'
@@ -92,14 +101,6 @@ new edButton('ed_li'
 ,'\t<li>'
 ,'</li>\n'
 ,'l'
-);
-
-edButtons[edButtons.length] = 
-new edButton('ed_block'
-,'b-quote'
-,'<blockquote>'
-,'</blockquote>'
-,'q'
 );
 
 edButtons[edButtons.length] = 
