@@ -195,7 +195,7 @@ case 'post':
 
 	} // end if publish
 
-	if ($post_status = 'static') {
+	if ($post_status == 'static') {
 		generate_page_rewrite_rules();
 
 		add_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'], true);
@@ -478,7 +478,7 @@ $now_gmt = current_time('mysql', 1);
 		}
 	} // end if publish
 
-	if ($post_status = 'static') {
+	if ($post_status == 'static') {
 		generate_page_rewrite_rules();
 
 		if ( ! update_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'])) {
