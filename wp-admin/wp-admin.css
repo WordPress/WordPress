@@ -50,6 +50,14 @@ fieldset {
 	padding: 2px;
 }
 
+fieldset.options {
+	padding: 1em;
+}
+
+fieldset.options legend {
+	font-size: 16px;
+}
+
 fieldset label.selectit {
 	background: #f0f0f0;
 	display: block;
@@ -177,7 +185,7 @@ textarea, input, select {
 }
 
 .wrap h2 {
-	font-size: 18px;
+	font-size: 20px;
 	margin: 6px 0;
 }
 

@@ -34,8 +34,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 		}
 	}
 }
-
-require_once("optionhandler.php");
+$option_group_id = (int) $_GET['option_group_id'];
+require_once('./optionhandler.php');
 $non_was_selected = 0;
 if ($option_group_id == '') {
     $option_group_id = 1;
@@ -46,7 +46,7 @@ switch($action) {
 
 case 'update':
 	$standalone = 1;
-	include_once("./admin-header.php");
+	include_once('./admin-header.php');
     $any_changed = 0;
     
     // iterate through the list of options in this group

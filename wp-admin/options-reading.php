@@ -44,7 +44,7 @@ include('options-head.php');
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
 		<input type="hidden" name="page_options" value="'posts_per_page','what_to_show','rss_use_excerpt','blog_charset','gzipcompression' " /> 
-		<fieldset> 
+		<fieldset class="options"> 
 		<legend>Front Page</legend> 
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 			<tr valign="top"> 
@@ -59,7 +59,7 @@ include('options-head.php');
 		</table> 
 		</fieldset> 
 
-		<fieldset> 
+		<fieldset class="options"> 
 		<legend>Syndication Feeds</legend> 
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 			<tr valign="top"> 

@@ -44,7 +44,7 @@ include('options-head.php');
   <h2>General Options</h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset'" /> 
+	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset','date_format','time_format'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row">Weblog title: </th> 
@@ -78,7 +78,7 @@ This address is used only for admin purposes. </td>
       </tr> 
     </table> 
     <fieldset class="options"> 
-    <legend>Time</legend> 
+    <legend>Date and Time</legend> 
 	    <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr> 
         <th scope="row" width="33%"><acronym title="Greenwich Meridian Time">GMT</acronym> time is: </th> 
@@ -88,7 +88,19 @@ This address is used only for admin purposes. </td>
         <th scope="row">Times in the weblog should differ by: </th>
         <td><input name="gmt_offset" type="text" id="gmt_offset" size="2" value="<?php echo get_settings('gmt_offset'); ?>" /> 
         hours </td>
-      </tr> 
+      </tr>
+      <tr>
+      	<th scope="row">&nbsp;</th>
+      	<td>The following use the same syntax as the <a href="http://php.net/date">PHP <code>date()</code> function</a>. </td>
+      	</tr>
+      <tr>
+      	<th scope="row">Default date format:</th>
+      	<td><input name="date_format" type="text" id="date_format" size="30" value="<?php echo get_settings('date_format'); ?>" /></td>
+      	</tr>
+      <tr>
+      	<th scope="row">Default time format:</th>
+      	<td><input name="time_format" type="text" id="time_format" size="30" value="<?php echo get_settings('time_format'); ?>" /></td>
+      	</tr> 
 </table>
     </fieldset> 
     <p style="text-align: right;">

@@ -1,5 +1,5 @@
 <?php
-$title = 'Reading Options';
+$title = 'Writing Options';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -73,12 +73,40 @@ Advanced controls</label>
   WordPress should correct invalidly nested XHTML automatically</label></td>
       </tr>
     </table> 
-    <fieldset>
+    <fieldset class="options">
 	<legend>Update Services</legend>
-	<p>Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see [LINK TO SOMETHING]. Seperate multiple URIs by line breaks.</p>
+	<p>Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see <a href="http://wiki.wordpress.org/index.php/UpdateServices">Update Services</a> on the wiki. Seperate multiple URIs by line breaks.</p>
 	
 	<textarea name="ping_sites" id="ping_sites" style="width: 98%;"><?php echo get_settings('ping_sites'); ?></textarea>
 	</fieldset>
+    <fieldset class="options">
+	<legend>Writing by Email</legend>
+	<p>To post to WordPress by email you must set up a secret email account with POP3 access. Any mail received at this address will be posted, so it's a good idea to keep this address very secret. Here are three random strings you could use: <code><?php echo substr(md5(uniqid(microtime())),0,5); ?></code>, <code><?php echo substr(md5(uniqid(microtime())),0,5); ?></code>, <code><?php echo substr(md5(uniqid(microtime())),0,5); ?></code>.</p>
+	
+		<table width="100%" cellspacing="2" cellpadding="5" class="editform">
+        	<tr valign="top">
+        		<th scope="row"> Mail server:</th>
+        		<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php echo get_settings('mailserver_url'); ?>" size="40" />
+       			<label for="port">Port:</label> 
+				<input name="mailserver_port" type="text" id="mailserver_port" value="<?php echo get_settings('mailserver_port'); ?>" size="6" />
+       			</td>
+       		</tr>
+        	<tr valign="top">
+        		<th width="33%" scope="row"> Login name:</th>
+        		<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php echo get_settings('mailserver_login'); ?>" size="40" /></td>
+       		</tr>
+        	<tr valign="top">
+        		<th scope="row">Password:</th>
+        		<td>
+        			<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php echo get_settings('mailserver_pass'); ?>" size="40" />
+        		</td>
+       		</tr>
+        	<tr valign="top">
+        		<th scope="row">Usual category:</th>
+        		<td>&nbsp;</td>
+       		</tr>
+        	</table>
+		</fieldset>
     <p style="text-align: right;"> 
       <input type="submit" name="Submit" value="Update Options" /> 
     </p> 

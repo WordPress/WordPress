@@ -88,7 +88,8 @@ include('options-head.php');
 				User must fill out name and email </label> 
 			</li> 
 		</ul> 
-		<h3>Comment Moderation:</h3>
+<fieldset class="options">
+		<legend>Comment Moderation</legend>
 		<p>Hold a comment in the queue if it contains more than 
 			<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="<?php echo get_settings('comment_max_links'); ?>" /> 
 		links. (A common characteristic of comment spam is a large number of hyperlinks.)</p>
@@ -96,6 +97,7 @@ include('options-head.php');
 		<p> 
 			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%;"><?php echo get_settings('moderation_keys'); ?></textarea> 
 		</p> 
+</fieldset>
 		<p style="text-align: right;"> 
 			<input type="submit" name="Submit" value="Update Options" /> 
 		</p> 
