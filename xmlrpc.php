@@ -1237,10 +1237,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$pagelinkedfrom = addslashes($pagelinkedfrom);
 		$original_title = $title;
 		$title = addslashes(strip_tags(trim($title)));
-		$user_ip = $_SERVER['REMOTE_ADDR'];
-		$user_agent = addslashes($_SERVER['HTTP_USER_AGENT']);
-		$now = current_time('mysql');
-		$now_gmt = current_time('mysql', 1);
 
 		// Check if the entry allows pings
 		if( !check_comment($title, '', $pagelinkedfrom, $context, $user_ip, $user_agent) ) {
@@ -1248,13 +1244,15 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 
-		$consulta = $wpdb->query("INSERT INTO $wpdb->comments 
-			(comment_post_ID, comment_author, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type) 
-			VALUES 
-			($post_ID, '$title', '$pagelinkedfrom', '$user_ip', '$now', '$now_gmt', '$context', '1', '$user_agent', 'pingback')
-		");
+		$comment_post_ID = $post_ID;
+		$comment_author = $title;
+		$comment_author_url = $pagelinkedfrom;
+		$comment_content = $context;
+		$comment_type = 'pingback';
 
-		$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
+		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
+
+		$comment_ID = $wpdb->insert_id;
 
 		if (get_settings('comments_notify')) {
 			wp_notify_postauthor($comment_ID, 'pingback');
