@@ -34,6 +34,11 @@ $original_comment = $comment;
 $comment_autobr = $HTTP_POST_VARS["comment_autobr"];
 $comment_post_ID = $HTTP_POST_VARS["comment_post_ID"];
 
+$commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = $comment_post_ID");
+
+if ('closed' == $commentstatus)
+	die('Sorry, comments are closed for this item.');
+
 if ($require_name_email && ($email == "" || $email == "@" || $author == "" || $author == "name")) { //original fix by Dodo, and then Drinyth
 	echo "Error: please fill the required fields (name, email)";
 	exit;
@@ -81,6 +86,8 @@ if (!empty($lasttime)) {
 		$ok=0;
 }
 /* end flood-protection */
+
+
 
 if ($ok) {
 
