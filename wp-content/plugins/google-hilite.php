@@ -65,19 +65,19 @@ function is_referer_search_engine($engine = 'google') {
 
 	switch ($engine) {
 	case 'google':
-		if (preg_match('/^http:\/\/w?w?w?\.?google.*/i', $referer)) {
+		if (preg_match('|^http://(www)?\.?google.*|i', $referer)) {
 			return 1;
 		}
 		break;
 
     case 'lycos':
-		if (preg_match('/^http:\/\/search\.lycos.*/i', $referer)) {
+		if (preg_match('|^http://search\.lycos.*|i', $referer)) {
 			return 1;
 		}
         break;
 
     case 'yahoo':
-		if (preg_match('/^http:\/\/search\.yahoo.*/i', $referer)) {
+		if (preg_match('|^http://search\.yahoo.*|i', $referer)) {
 			return 1;
 		}
         break;
