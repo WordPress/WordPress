@@ -108,6 +108,7 @@ if ( !isset($doing_rss) || !$doing_rss ) {
 		    } else {
 		        header('HTTP/1.x 304 Not Modified');
 		    }
+			exit;
 		}
 	}
 }
