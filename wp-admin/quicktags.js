@@ -281,6 +281,8 @@ function edInsertTag(myField, i) {
 		var startPos = myField.selectionStart;
 		var endPos = myField.selectionEnd;
 		var cursorPos = endPos;
+		var scrollTop = myField.scrollTop;
+
 		if (startPos != endPos) {
 			myField.value = myField.value.substring(0, startPos)
 			              + edButtons[i].tagStart
@@ -308,6 +310,7 @@ function edInsertTag(myField, i) {
 		myField.focus();
 		myField.selectionStart = cursorPos;
 		myField.selectionEnd = cursorPos;
+		myField.scrollTop = scrollTop;
 	}
 	else {
 		if (!edCheckOpenTags(i) || edButtons[i].tagEnd == '') {
