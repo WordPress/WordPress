@@ -81,16 +81,18 @@ function wpautop($pee, $br = 1) {
 function sanitize_title($title) {
     $title = strtolower($title);
 	$title = preg_replace('/&.+?;/', '', $title); // kill entities
-    $title = preg_replace('/[^a-z0-9 -]/', '', $title);
-    $title = preg_replace('/\s+/', ' ', $title);
+    $title = preg_replace('/[^a-z0-9 _-]/', '', $title);
     $title = do_action('sanitize_title', $title);
     $title = trim($title);
 	return $title;
 }
 
 function convert_spaces_to_dashes($content) {
+    $content = preg_replace('/\s+/', ' ', $content);
     $content = str_replace(' ', '-', $content);
 	$content = preg_replace('|-+|', '-', $content);
+
+    return $content;
 }
 
 function convert_chars($content, $flag = 'obsolete') { 
