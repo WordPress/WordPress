@@ -744,9 +744,23 @@ function add_menu_page($page_title, $menu_title, $access_level, $file) {
 
 function add_submenu_page($parent, $page_title, $menu_title, $access_level, $file) {
 	global $submenu;
+	global $menu;
 
+	$parent = plugin_basename($parent);
 	$file = plugin_basename($file);
 
+	// If the parent doesn't already have a submenu, add a link to the parent
+	// as the first item in the submenu.  If the submenu file is the same as the
+	// parent file someone is trying to link back to the parent manually.  In
+	// this case, don't automatically add a link back to avoid duplication.
+	if (! isset($submenu[$parent]) && $file != $parent) {
+		foreach ($menu as $parent_menu) {
+			if ($parent_menu[2] == $parent) {
+				$submenu[$parent][] = $parent_menu;
+			}
+		}
+	}
+	
 	$submenu[$parent][] = array($menu_title, $access_level, $file, $page_title);
 }
 
