@@ -628,7 +628,6 @@ switch($action) {
                 $post_pingback = get_settings('default_pingback_flag');
                 $default_post_cat = get_settings('default_post_category');
                 include('edit-form.php');
-                echo '<br /><br />';
             }
 
         } else {
