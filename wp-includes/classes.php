@@ -490,44 +490,15 @@ class WP_Query {
 				$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
 				$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
 			} elseif ($q['what_to_show'] == 'days') {
-				$post_dates = $wpdb->get_col('SELECT post_date FROM ' . $wpdb->posts . "$join WHERE (1=1) " . $where . ' ORDER BY post_date DESC');
-				$number_of_days = $q['posts_per_page'];
-				$page_number = -1;
-				$day_number = $number_of_days;
-				foreach ($post_dates as $post_date) {
-					if (($day_number % $number_of_days) == 0) {
-						$previousDay = (int)mysql2date('d', $post_date);
-						$previousMonth = (int)mysql2date('m', $post_date);
-						$previousYear = (int)mysql2date('Y', $post_date);
-						$page_number++;
-						$day_number = 1;
-						if ($page_number == $page) {
-							$end_date = $post_date;
-							break;
-						} else {
-							$start_date = $post_date;
-							continue;
-						}
-					}
-
-					$thisDay = (int)mysql2date('d', $post_date);
-					$thisMonth = (int)mysql2date('m', $post_date);
-					$thisYear = (int)mysql2date('Y', $post_date);
-
-					if (($thisDay != $previousDay) || ($thisMonth != $previousMonth) ||
-							($thisYear != $previousYear)) {
-						$previousDay = (int)mysql2date('d', $post_date);
-						$previousMonth = (int)mysql2date('m', $post_date);
-						$previousYear = (int)mysql2date('Y', $post_date);
-						$previous_date = $post_date;
-						$day_number++;
-					}
-				}
+				$startrow = $q['posts_per_page'] * (intval($page)-1);
+				$start_date = $wpdb->get_var("SELECT max(post_date) FROM $wpdb->posts $join WHERE (1=1) $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $startrow,1");
+				$endrow = $startrow + $q['posts_per_page'];
+				$end_date = $wpdb->get_var("SELECT min(post_date) FROM $wpdb->posts GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $endrow,1");
 
 				if ($page > 1) {
-					$where .= " AND post_date > '$end_date' AND post_date <= '$start_date'";
+					$where .= " AND post_date >= '$end_date' AND post_date <= '$start_date'";
 				} else {
-					$where .= " AND post_date > '$end_date'";
+					$where .= " AND post_date >= '$end_date'";
 				}
 			}
 		}
