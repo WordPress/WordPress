@@ -291,43 +291,10 @@ function convert_chars($content, $flag = 'obsolete') {
 
 function funky_javascript_fix($text) {
 	// Fixes for browsers' javascript bugs
-	global $is_macIE, $is_winIE, $is_gecko;
-	$wp_macIE_correction['in'] = array(
-		'/\%uFFD4/', '/\%uFFD5/', '/\%uFFD2/', '/\%uFFD3/',
-		'/\%uFFA5/', '/\%uFFD0/', '/\%uFFD1/', '/\%uFFBD/',
-		'/\%uFF83%uFFC0/', '/\%uFF83%uFFC1/', '/\%uFF83%uFFC6/', '/\%uFF83%uFFC9/',
-		'/\%uFFB9/', '/\%uFF81%uFF8C/', '/\%uFF81%uFF8D/', '/\%uFF81%uFFDA/',
-		'/\%uFFDB/'
-	);
-	$wp_macIE_correction['out'] = array(
-		'&lsquo;', '&rsquo;', '&ldquo;', '&rdquo;',
-		'&bull;', '&ndash;', '&mdash;', '&Omega;',
-		'&beta;', '&gamma;', '&theta;', '&lambda;',
-		'&pi;', '&prime;', '&Prime;', '&ang;',
-		'&euro;'
-	);
-	$wp_gecko_correction['in'] = array(
-		'/\‘/', '/\’/', '/\“/', '/\”/',
-		'/\•/', '/\–/', '/\—/', '/\O/',
-		'/\ß/', '/\?/', '/\?/', '/\?/',
-		'/\p/', '/\'/', '/\?/', '/\/',
-		'/\€/', '/\?/'
-	);
-	$wp_gecko_correction['out'] = array(
-		'&8216;', '&rsquo;', '&ldquo;', '&rdquo;',
-		'&bull;', '&ndash;', '&mdash;', '&Omega;',
-		'&beta;', '&gamma;', '&theta;', '&lambda;',
-		'&pi;', '&prime;', '&Prime;', '&ang;',
-		'&euro;', '&#8201;'
-	);
-	if ( $is_macIE )
-		$text = preg_replace('/'.$wp_macIE_correction["in"].'/', '/'.$wp_macIE_correction["out"].'/', $text);
+	global $is_macIE, $is_winIE;
 	
-	if ( $is_winIE )
+	if ( $is_winIE || $is_macIE )
 		$text =  preg_replace("/\%u([0-9A-F]{4,4})/e",  "'&#'.base_convert('\\1',16,10).';'", $text);
-	
-	if ( $is_gecko )
-		$text = preg_replace('/'.$wp_gecko_correction["in"].'/','/'.$wp_gecko_correction["out"].'/',$text);
 	
 	return $text;
 }
@@ -452,10 +419,7 @@ function format_to_post($content) {
 }
 
 function zeroise($number,$threshold) { // function to add leading zeros when necessary
-	$l=strlen($number);
-	if ($l<$threshold)
-		for ($i=0; $i<($threshold-$l); $i=$i+1) { $number='0'.$number;	}
-	return $number;
+	return sprintf('%0'.$threshold.'s', $number);
 	}
 
 
