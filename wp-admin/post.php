@@ -287,8 +287,15 @@ case 'editpost':
 		if (empty($post_name)) {
 		  $post_name = $post_title;
 		}
-		$post_name = sanitize_title($post_name, $post_ID);
-		if (empty($post_name)) $post_name = sanitize_title($post_title);
+
+		if (empty($post_name)) {
+			if (! empty($post_title)) {
+				$post_name = sanitize_title($post_title, $post_ID);
+			}
+		} else {
+			$post_name = sanitize_title($post_name, $post_ID);
+		}
+
 		$trackback = $_POST['trackback_url'];
 	// Format trackbacks
 	$trackback = preg_replace('|\s+|', '\n', $trackback);
