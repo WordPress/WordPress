@@ -806,8 +806,8 @@ function upgrade_110() {
 
 	// Forward-thinking
 	$wpdb->query("ALTER TABLE `$tableposts` CHANGE `post_status` `post_status` ENUM( 'publish', 'draft', 'private', 'static' ) DEFAULT 'publish' NOT NULL");
-}
-
 	maybe_add_column($tableposts, 'post_parent', "ALTER TABLE `$tableposts` ADD `post_parent` INT NOT NULL ;");
+
+}
 
 ?>
