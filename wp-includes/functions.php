@@ -594,7 +594,7 @@ function weblog_ping($server = '', $path = '') {
 	$result['message'] = $result['message'] . "-->\n";
   }
 
-  print '<blockquote>' . $result['message'] . '</blockquote>';
+  if ($debug) print '<blockquote>' . $result['message'] . '</blockquote>';
 }
 
 function generic_ping($post_id = 0) {
