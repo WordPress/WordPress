@@ -10,8 +10,8 @@ $configFile = file('../wp-config-sample.php');
 
 if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
 
-$step = $_GET['step'];
-if (!$step) $step = 0;
+$step = 0;
+if(isset($_GET['step'])) $step = $_GET['step'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
