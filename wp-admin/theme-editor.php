@@ -26,7 +26,7 @@ if (empty($theme)) {
 	$theme = get_current_theme();
 }
 
-$allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $allowed_files, $themes[$theme]['Template Files']);
+$allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $themes[$theme]['Template Files']);
 
 if (empty($file)) {
 	$file = $allowed_files[0];
