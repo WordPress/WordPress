@@ -218,7 +218,7 @@ break;
 
 
 default:
-
+	$parent_file = 'users.php';
 	include_once('admin-header.php');
 	$profiledata=get_userdata($user_ID);
 
@@ -227,6 +227,10 @@ default:
 	$bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
 
 	?>
+<ul id="adminmenu2">
+	<li><a href="users.php"><?php _e('Authors &amp; Users') ?></a></li>
+    <li><a class="current"><?php _e('Your Profile') ?></a></li>
+</ul>
 <?php if (isset($updated)) { ?>
 <div class="updated">
 <p><strong><?php _e('Profile updated.') ?></strong></p>
