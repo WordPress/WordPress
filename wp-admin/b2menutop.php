@@ -11,7 +11,7 @@ foreach ($menu as $item) {
 	if ($continue) {
 		$item = explode("\t", $item);
 		// 0 = user level, 1 = file, 2 = name
-		if (substr($PHP_SELF, -6) == substr($item[1], -6)) $class = ' id="current"';
+		if (substr($PHP_SELF, -6) == substr($item[1], -6)) $class = ' class="current"';
 		if ($user_level >= $item[0]) echo "\n\t<li><a href='{$item[1]}'$class>{$item[2]}</a></li>";
 	}
 }
