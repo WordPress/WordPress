@@ -46,10 +46,10 @@ case 'addcat':
     if ($user_level < 3)
         die (__('Cheatin&#8217; uh?'));
     
-    $cat_name= addslashes(stripslashes(stripslashes($_POST['cat_name'])));
+    $cat_name= $_POST['cat_name'];
     $cat_ID = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories ORDER BY cat_ID DESC LIMIT 1") + 1;
     $category_nicename = sanitize_title($cat_name, $cat_ID);
-    $category_description = addslashes(stripslashes(stripslashes($_POST['category_description'])));
+    $category_description = $_POST['category_description'];
     $cat = intval($_POST['cat']);
 
     $wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
@@ -67,7 +67,6 @@ case 'Delete':
 
     $cat_ID = intval($_GET["cat_ID"]);
     $cat_name = get_catname($cat_ID);
-    $cat_name = addslashes($cat_name);
     $category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
     $cat_parent = $category->category_parent;
 
@@ -90,7 +89,7 @@ case 'edit':
     require_once ('admin-header.php');
     $cat_ID = intval($_GET['cat_ID']);
     $category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
-    $cat_name = stripslashes($category->cat_name);
+    $cat_name = $category->cat_name;
     ?>
 
 <div class="wrap">
@@ -125,10 +124,10 @@ case 'editedcat':
     if ($user_level < 3)
         die (__('Cheatin&#8217; uh?'));
     
-    $cat_name = $wpdb->escape(stripslashes($_POST['cat_name']));
+    $cat_name = $_POST['cat_name'];
     $cat_ID = (int) $_POST['cat_ID'];
     $category_nicename = sanitize_title($cat_name, $cat_ID);
-    $category_description = $wpdb->escape(stripslashes($_POST['category_description']));
+    $category_description = $_POST['category_description'];
 
     $wpdb->query("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$cat' WHERE cat_ID = '$cat_ID'");
     
