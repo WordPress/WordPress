@@ -218,11 +218,11 @@ class WP_Query {
         }
 
         if ('' != $q['name']) {
-            $q['name'] = preg_replace('/[^a-z0-9-_]/', '', $q['name']);
+  	    $q['name'] = sanitize_title($q['name']);
             $where .= " AND post_name = '" . $q['name'] . "'";
         } else if ('' != $q['pagename']) {
 	    // If pagename is set, set static to true and set name to pagename.
-	    $q['pagename'] = preg_replace('/[^a-z0-9-_]/', '', $q['pagename']);
+	    $q['pagename'] = sanitize_title($q['pagename']);
 	    $q['name'] = $q['pagename'];
 	    $q['static'] = true;
             $where .= " AND post_name = '" . $q['pagename'] . "'";
@@ -316,7 +316,7 @@ class WP_Query {
                     $q['category_name'] = $q['category_name'][count($q['category_name'])-2]; // there was a trailling slash
                 }
             }
-            $q['category_name'] = preg_replace('|[^a-z0-9-_]|i', '', $q['category_name']);
+            $q['category_name'] = sanitize_title($q['category_name']);
             $tables = ", $wpdb->post2cat, $wpdb->categories";
             $join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
             $whichcat = " AND (category_nicename = '" . $q['category_name'] . "'";
@@ -360,7 +360,7 @@ class WP_Query {
                     $q['author_name'] = $q['author_name'][count($q['author_name'])-2];#there was a trailling slash
                 }
             }
-            $q['author_name'] = preg_replace('|[^a-z0-9-_]|', '', strtolower($q['author_name']));
+            $q['author_name'] = sanitize_title($q['author_name']);
             $q['author'] = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_nicename='".$q['author_name']."'");
             $whichauthor .= ' AND (post_author = '.intval($q['author']).')';
         }
