@@ -1647,10 +1647,13 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 
 	// Comment whitelisting:
 	if ( 1 == get_settings('comment_whitelist')) {
-		$ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author_email = '$email' and comment_approved = '1' ");
-		if ( 1 == $ok_to_comment && false === strpos( $email, get_settings('moderation_keys')) )
+		if( $author != '' && $email != '' ) {
+		    $ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author_email = '$email' and comment_approved = '1' ");
+		    if ( 1 == $ok_to_comment && false === strpos( $email, get_settings('moderation_keys')) )
 			return true;
-	return false;
+		} else {
+			return false;
+		}
 	}
 
 	$mod_keys = trim( get_settings('moderation_keys') );
