@@ -122,8 +122,10 @@ $queryreplace = array (
 
 
 $match = str_replace('/', '/?', $permalink_structure);
-$match = str_replace($rewritecode, $rewritereplace, $match);
+$match = preg_replace('|/[?]|', '', $match, 1);
 
+$match = str_replace($rewritecode, $rewritereplace, $match);
+$match = preg_replace('|[?]|', '', $match, 1);
 preg_match_all('/%.+?%/', $permalink_structure, $tokens);
 
 $query = 'index.php?';
