@@ -724,21 +724,11 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent) {
 	// Comment whitelisting:
 	if ( 1 == get_settings('comment_whitelist')) {
 		if( $author != '' && $email != '' ) {
-		    $ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author_email = '$email' and comment_approved = '1' ");
+		    $ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author = '$author' AND comment_author_email = '$email' and comment_approved = '1' ");
 		    if ( 1 == $ok_to_comment && false === strpos( $email, get_settings('moderation_keys')) )
 			return true;
 		} else {
 			return false;
-		}
-	}
-
-	// Useless numeric encoding is a pretty good spam indicator:
-	// Extract entities:
-	if (preg_match_all('/&#(\d+);/',$comment,$chars)) {
-		foreach ($chars[1] as $char) {
-			// If it's an encoded char in the normal ASCII set, reject
-			if ($char < 128)
-				return false;
 		}
 	}
 

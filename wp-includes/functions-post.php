@@ -381,8 +381,45 @@ function user_can_edit_user($user_id, $other_user) {
 		return false;
 }
 
+function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
+	global $wpdb;
 
-function wp_new_comment( $commentdata ) {
+	if ( preg_match_all('/&#(\d+);/', $comment, $chars) ) {
+		foreach ($chars[1] as $char) {
+			// If it's an encoded char in the normal ASCII set, reject
+			if ($char < 128)
+				return true;
+		}
+	}
+
+	$mod_keys = trim( get_settings('blacklist_keys') );
+	if ('' == $mod_keys )
+		return false; // If moderation keys are empty
+	$words = explode("\n", $mod_keys );
+
+	foreach ($words as $word) {
+		$word = trim($word);
+
+		// Skip empty lines
+		if ( empty($word) ) { continue; }
+
+		// Do some escaping magic so that '#' chars in the 
+		// spam words don't break things:
+		$word = preg_quote($word, '#');
+		
+		$pattern = "#$word#i"; 
+		if ( preg_match($pattern, $author    ) ) return true;
+		if ( preg_match($pattern, $email     ) ) return true;
+		if ( preg_match($pattern, $url       ) ) return true;
+		if ( preg_match($pattern, $comment   ) ) return true;
+		if ( preg_match($pattern, $user_ip   ) ) return true;
+		if ( preg_match($pattern, $user_agent) ) return true;
+	}
+
+	return false;
+}
+
+function wp_new_comment( $commentdata, $spam = false ) {
 	global $wpdb;
 
 	$commentdata = apply_filters('preprocess_comment', $commentdata);
@@ -412,10 +449,12 @@ function wp_new_comment( $commentdata ) {
 			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
 	}
 
-	if( check_comment($author, $email, $url, $comment, $user_ip, $user_agent) )
+	if ( check_comment($author, $email, $url, $comment, $user_ip, $user_agent) )
 		$approved = 1;
 	else
 		$approved = 0;
+	if ( wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) )
+		$approved = 'spam';
 
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
 	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type)
@@ -426,11 +465,13 @@ function wp_new_comment( $commentdata ) {
 	$comment_id = $wpdb->insert_id;
 	do_action('comment_post', $comment_id);
 
-	if ( !$approved )
-		wp_notify_moderator($comment_id);
-
-	if ( get_settings('comments_notify') && $approved )
-		wp_notify_postauthor($comment_id, 'comment');
+	if ( 'spam' != $approved ) { // If it's spam save it silently for later crunching
+		if ( !$approved )
+			wp_notify_moderator($comment_id);
+	
+		if ( get_settings('comments_notify') && $approved )
+			wp_notify_postauthor($comment_id, 'comment');
+	}
 
 	return $result;
 }

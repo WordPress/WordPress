@@ -22,7 +22,7 @@ CREATE TABLE $wpdb->comments (
   comment_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
   comment_content text NOT NULL,
   comment_karma int(11) NOT NULL default '0',
-  comment_approved enum('0','1') NOT NULL default '1',
+  comment_approved enum('0','1','spam') NOT NULL default '1',
   comment_agent varchar(255) NOT NULL default '',
   comment_type varchar(20) NOT NULL default '',
   comment_parent int(11) NOT NULL default '0',
@@ -212,6 +212,7 @@ function populate_options() {
 	add_option('stylesheet', 'default');
 	add_option('comment_whitelist', 1);
 	add_option('page_uris');
+	add_option('blacklist_keys');
 
 	// Delete unused options
 	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'rss_language', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat', 'default_geourl_lon', 'use_default_geourl');
@@ -220,9 +221,10 @@ function populate_options() {
 	endforeach;
 
 	// Set up a few options not to load by default
-	$fatoptions = array( 'moderation_keys', 'recently_edited' );
+	$fatoptions = array( 'moderation_keys', 'recently_edited', 'blacklist_keys' );
 	foreach ($fatoptions as $fatoption) :
 		$wpdb->query("UPDATE $wpdb->options SET `autoload` = 'no' WHERE option_name = '$fatoption'");
 	endforeach;
 }
+
 ?>

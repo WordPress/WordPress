@@ -22,7 +22,7 @@ if ($action == 'retrospam') {
 	<h2><?php _e('Discussion Options') ?></h2> 
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
-		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_whitelist','comment_max_links','moderation_keys'" /> 
+		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_whitelist','comment_max_links','moderation_keys','blacklist_keys'" /> 
 <fieldset class="options">
         <legend><?php _e('Usual settings for an article: <em>(These settings may be overridden for individual articles.)</em>') ?></legend> 
 		<ul> 
@@ -79,8 +79,15 @@ if ($action == 'retrospam') {
 			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('moderation_keys'); ?></textarea> 
 		</p> 
 		<p>
-			<a id="retrospambutton" href="options-discussion.php?action=retrospam" title="Click this link to check old comments for spam that your current filters would catch.">Check past comments against current word list</a>
+			<a id="retrospambutton" href="options-discussion.php?action=retrospam"><?php _e('Check past comments against moderation list'); ?></a>
  		</p> 
+</fieldset>
+<fieldset class="options">
+    <legend><?php _e('Comment Blacklist') ?></legend>
+    <p><?php _e('This is a list of words that you want completely blacklisted from your blog. Be very careful what you add here, because if a comment matches something here it will be completely nuked and there will be no notification. Remember that partial words can match, so if there is any chance something here might match it would be better to put it in the moderation box above.') ?></p>
+		<p> 
+			<textarea name="blacklist_keys" cols="60" rows="4" id="blacklist_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('blacklist_keys'); ?></textarea> 
+		</p> 
 </fieldset>
 		<p class="submit"> 
     	<input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 

@@ -66,7 +66,7 @@ if (isset($_GET['s'])) {
 	else
 		$offset = 0;
 
-	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments ORDER BY comment_date DESC LIMIT $offset,20");
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1' ORDER BY comment_date DESC LIMIT $offset,20");
 }
 if ('view' == $mode) {
 	if ($comments) {
