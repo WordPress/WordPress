@@ -515,8 +515,8 @@ function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), w
 
 function weblog_ping($server = '', $path = '') {
   $f = new xmlrpcmsg('weblogUpdates.ping',
-				array(new xmlrpcval(get_settings('blog_name'), 'string'),
-					new xmlrpcval(get_settings('blog_url') ,'string')));
+				array(new xmlrpcval(get_settings('blogname'), 'string'),
+					new xmlrpcval(get_settings('siteurl') ,'string')));
   $c = new xmlrpc_client($path, $server, 80);
   $r = $c->send($f);
 
