@@ -35,8 +35,15 @@ $comment = trim($_POST['comment']);
 $comment_post_ID = intval($_POST['comment_post_ID']);
 $user_ip = $_SERVER['REMOTE_ADDR'];
 
-if ( 'closed' ==  $wpdb->get_var("SELECT comment_status FROM $wpdb->posts WHERE ID = '$comment_post_ID'") )
+$post_status = $wpdb->get_var("SELECT comment_status FROM $wpdb->posts WHERE ID = '$comment_post_ID'");
+
+if ( empty($post_status) ) {
+	// Post does not exist.  Someone is trolling.  Die silently.
+	// (Perhaps offer pluggable rebukes? Long delays, etc.)
+	die();
+} else if ( 'closed' ==  $post_status ) {
 	die( __('Sorry, comments are closed for this item.') );
+}
 
 if ( get_settings('require_name_email') && ('' == $email || '' == $author) )
 	die( __('Error: please fill the required fields (name, email).') );
