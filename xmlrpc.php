@@ -522,8 +522,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		
 	  // Do some timestamp voodoo
 	  $dateCreatedd = $content_struct['dateCreated'];
-	  $dateCreated = $dateCreatedd->getIso();
 	  if (!empty($dateCreated)) {
+	    $dateCreated = $dateCreatedd->getIso();
 	    $post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 	    $post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
 	  } else {
@@ -612,8 +612,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  // Do some timestamp voodoo
 	  $dateCreated = $content_struct['dateCreated'];
-	  $dateCreated = $dateCreated->getIso();
 	  if (!empty($dateCreated)) {
+	    $dateCreated = $dateCreatedd->getIso();
 	    $post_date     = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 	    $post_date_gmt = iso8601_to_datetime($dateCreated, GMT);
 	  } else {
