@@ -95,6 +95,16 @@ textarea, input, select {
 	padding: 0;
 }
 
+.post-categories {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.post-categories li {
+	display: inline;
+}
+
 .quicktags, .search {
 	background: #ccc;
 	color: #000;
