@@ -49,14 +49,16 @@ function mysql2date($dateformatstring, $mysqlstring, $use_b2configmonthsdays = 1
 	return $j;
 }
 
-function current_time($type) {
+function current_time($type, $gmt = 0) {
 	$time_difference = get_settings('time_difference');
 	switch ($type) {
 		case 'mysql':
-			return gmdate('Y-m-d H:i:s');
+			return ($gmt) ? gmdate('Y-m-d H:i:s')
+				: gmdate('Y-m-d H:i:s', (time() + ($time_difference * 3600)));;
 			break;
 		case 'timestamp':
-			return time();
+			return ($gmt) ? time()
+				: time() + ($time_difference * 3600);
 			break;
 	}
 }
@@ -457,13 +459,13 @@ function touch_time($edit = 1) {
 	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">Edit timestamp</label> <a href="http://wordpress.org/docs/reference/post/#edit_timestamp" title="Help on changing the timestamp">?</a><br />';
 	
 	$time_adj = time() + ($time_difference * 3600);
-	$post_date_localtime = get_date_from_gmt($postdata['Date']);
-	$jj = ($edit) ? mysql2date('d', $post_date_localtime) : date('d', $time_adj);
-	$mm = ($edit) ? mysql2date('m', $post_date_localtime) : date('m', $time_adj);
-	$aa = ($edit) ? mysql2date('Y', $post_date_localtime) : date('Y', $time_adj);
-	$hh = ($edit) ? mysql2date('H', $post_date_localtime) : date('H', $time_adj);
-	$mn = ($edit) ? mysql2date('i', $post_date_localtime) : date('i', $time_adj);
-	$ss = ($edit) ? mysql2date('s', $post_date_localtime) : date('s', $time_adj);
+	$post_date = $postdata['Date'];
+	$jj = ($edit) ? mysql2date('d', $post_date) : gmdate('d', $time_adj);
+	$mm = ($edit) ? mysql2date('m', $post_date) : gmdate('m', $time_adj);
+	$aa = ($edit) ? mysql2date('Y', $post_date) : gmdate('Y', $time_adj);
+	$hh = ($edit) ? mysql2date('H', $post_date) : gmdate('H', $time_adj);
+	$mn = ($edit) ? mysql2date('i', $post_date) : gmdate('i', $time_adj);
+	$ss = ($edit) ? mysql2date('s', $post_date) : gmdate('s', $time_adj);
 
 	echo '<input type="text" name="jj" value="'.$jj.'" size="2" maxlength="2" />'."\n";
 	echo "<select name=\"mm\">\n";
@@ -1198,10 +1200,8 @@ function start_wp() {
 			);
 	}
 	$authordata = get_userdata($post->post_author);
-	$post->post_date_local = get_date_from_gmt($post->post_date);
-#	$post->post_date = get_date_from_gmt($post->post_date);
-	$day = mysql2date('d.m.y', $post->post_date_local);
-	$currentmonth = mysql2date('m', $post->post_date_local);
+	$day = mysql2date('d.m.y', $post->post_date);
+	$currentmonth = mysql2date('m', $post->post_date);
 	$numpages = 1;
 	if (!$page)
 		$page = 1;
@@ -1557,7 +1557,7 @@ function get_posts($args) {
 	if (!isset($r['orderby'])) $r['orderby'] = '';
 	if (!isset($r['order'])) $r['order'] = '';
 
-	$now = gmdate('Y-m-d H:i:s');
+	$now = current_time('mysql');
 
 	$posts = $wpdb->get_results("SELECT DISTINCT * FROM $tableposts WHERE post_date <= '$now' AND (post_status = 'publish') GROUP BY $tableposts.ID ORDER BY post_date DESC LIMIT " . $r['offset'] . ',' . $r['numberposts']);
 	
