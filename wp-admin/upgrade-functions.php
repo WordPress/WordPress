@@ -620,7 +620,7 @@ function upgrade_110() {
 }
 
 function upgrade_130() {
-    global $wpdb;
+    global $wpdb, $table_prefix;
 
 	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'default_email_category'")) {
         $wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_description, option_admin_level) VALUES('default_email_category', 1, '1', 'by default posts by email will have this category', 8)");
