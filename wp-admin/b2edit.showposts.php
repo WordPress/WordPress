@@ -263,30 +263,30 @@ if ($i == "ASC")
 					?>
 
 					<h3>Comments</h3>
-				<ol id="comments">
-					<?php
-					foreach ($comments as $comment) {
-						$commentdata = $comment;
-					?>
+					<ol id="comments">
+						<?php
+						foreach ($comments as $comment) {
+							$commentdata = $comment;
+						?>
 				
 					<!-- comment -->
 					<li>
 					<b><?php comment_author() ?> ( <?php comment_author_email_link() ?> / <?php comment_author_url_link() ?> )</b> (IP: <?php comment_author_IP() ?>)
-					<?php comment_text() ?>
-					<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?> 
-					<?php 
-					if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-						echo "[ <a href=\"b2edit.php?action=editcomment&amp;comment=".$commentdata->comment_ID."\">Edit</a>";
-						echo " - <a href=\"b2edit.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$commentdata->comment_ID."\">Delete</a> ]";
-					}
-					?>
+							<?php comment_text() ?>
+							<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?> 
+							<?php 
+							if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
+								echo "[ <a href=\"b2edit.php?action=editcomment&amp;comment=".$commentdata->comment_ID."\">Edit</a>";
+								echo " - <a href=\"b2edit.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$commentdata->comment_ID."\">Delete</a> ]";
+							} // end if any comments to show
+							?>
 					</li>
 					<!-- /comment -->
 
-
-					<?php //end of the loop, don't delete
-					}
+						<?php //end of the loop, don't delete
+						} // end foreach
 					echo '</ol>';
+					}//end if comments
 					if ($comment_error)
 						echo "<p>Error: please fill the required fields (name & comment)</p>";
 					?>
@@ -304,15 +304,10 @@ if ($i == "ASC")
 						<input type="text" name="url" class="textarea" value="<?php echo $user_url ?>" size="20" tabindex="3" /><br />
 						<textarea cols="40" rows="4" name="comment" tabindex="4" class="textarea">comment</textarea><br />
 						<input type="submit" name="submit" class="buttonarea" value="ok" tabindex="5" />
-
 					</form>
-
-
 					<!-- /form -->
 
-
 					<?php // if you delete this the sky will fall on your head
-					}
 				}
 				?>
 			<br />
