@@ -28,7 +28,7 @@ if ($a=="b") {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="b2.css" type="text/css" />
+<link rel="stylesheet" href="wp-admin.css" type="text/css" />
 </head>
 <body>
 <br />

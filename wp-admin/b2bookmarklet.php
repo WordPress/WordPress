@@ -34,7 +34,7 @@ window.close()
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress > Bookmarklet</title>
-<link rel="stylesheet" href="b2.css" type="text/css" />
+<link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <script type="text/javascript" language="javascript">
 <!--
 function launchupload() {
@@ -181,7 +181,7 @@ if (!empty($content)) {
     <td width="415" align="left" height="40">
       <table width="415" cellpadding="0" cellspacing="0">
         <td align="left" valign="bottom"><b>Post</b></td>
-        <td align="right" valign="bottom"><?php if ($use_quicktags) include("b2quicktags.php"); ?></td>
+        <td align="right" valign="bottom"><?php if ($use_quicktags) include("wp-quicktags.php"); ?></td>
       </table>
 <?php
 if ((preg_match("/Nav/",$HTTP_USER_AGENT)) || (preg_match("/Mozilla\/4\.7/",$HTTP_USER_AGENT))) {
