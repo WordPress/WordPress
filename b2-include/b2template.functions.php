@@ -111,17 +111,19 @@ function single_month_title($prefix = '', $display = true ) {
 }
 
 /* link navigation hack by Orien http://icecode.com/ */
-function get_archives_link( $url, $text, $format ) {
+function get_archives_link($url, $text, $format) {
 	if ('link' == $format) {
-		echo '<link rel="Archives" title="'.$text.'" href="'.$url.'" />'."\n";
-	} else {
-		echo '<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>'."\n";
+		return '<link rel="Archives" title="'.$text.'" href="'.$url.'" />'."\n";
+	} else if ('option' == $format) {
+		return '<option value="'.$url.'">'.$text.'</option>'."\n";
+	} else { // 'html'
+		return '<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>'."\n";
 	}
 }
 
 function get_archives($type='', $limit='', $format='html') {
 	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
-    GLOBAL $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
+    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
 
     if ('' == $type) {
         $type = get_settings('archive_mode');
@@ -163,7 +165,7 @@ function get_archives($type='', $limit='', $format='html') {
 		foreach ($arcresults as $arcresult) {
 			$url  = sprintf("%s%d%02d", $archive_link_m,  $arcresult->year,   $arcresult->month);
 			$text = sprintf("%s %d",    $month[zeroise($arcresult->month,2)], $arcresult->year);
-			get_archives_link($url, $text, $format);
+			echo get_archives_link($url, $text, $format);
 		}
 	} elseif ('daily' == $type) {
 		++$querycount;
@@ -172,7 +174,7 @@ function get_archives($type='', $limit='', $format='html') {
 			$url  = sprintf("%s%d%02d%02d", $archive_link_m, $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
 			$date = sprintf("%d-%02d-%02d 00:00:00", $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
 			$text = mysql2date($archive_day_date_format, $date);
-			get_archives_link($url, $text, $format);
+			echo get_archives_link($url, $text, $format);
 		}
 	} elseif ('weekly' == $type) {
 		if (!isset($start_of_week)) {
@@ -192,7 +194,7 @@ function get_archives($type='', $limit='', $format='html') {
 													 $querystring_equal, $arc_year, $querystring_separator, 
 													 $querystring_equal, $arcresult->week);
 				$text = $arc_week_start . $archive_week_separator . $arc_week_end;
-				get_archives_link($url, $text, $format);
+				echo get_archives_link($url, $text, $format);
 			}
 		}
 	} elseif ('postbypost' == $type) {
@@ -207,7 +209,7 @@ function get_archives($type='', $limit='', $format='html') {
 				} else {
 					$text = $arcresult->ID;
 				}
-				get_archives_link($url, $text, $format);
+				echo get_archives_link($url, $text, $format);
 			}
 		}
 	}
@@ -858,8 +860,8 @@ function the_category_head($before='', $after='') {
 
 // out of the b2 loop
 function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
-                   $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
-	global $cat, $tablecategories, $tableposts, $querycount, $wpdb;
+                       $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
+    global $cat, $tablecategories, $tableposts, $querycount, $wpdb;
     $sort_column = 'cat_'.$sort_column;
 
     $query  = " SELECT cat_ID, cat_name,";
@@ -872,7 +874,6 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
         $query .= " HAVING cat_count > 0";
     }
     $query .= " ORDER BY $sort_column $sort_order, post_date DESC";
-
 
 	$categories = $wpdb->get_results($query);
 	++$querycount;
