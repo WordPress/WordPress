@@ -12,14 +12,6 @@ if (!function_exists('floatval')) {
 	}
 }
 
-function popuplinks($text) {
-	// Comment text in popup windows should be filtered through this.
-	// Right now it's a moderately dumb function, ideally it would detect whether
-	// a target or rel attribute was already there and adjust its actions accordingly.
-	$text = preg_replace('/<a (.+?)>/i', "<a $1 target='_blank' rel='external'>", $text);
-	return $text;
-}
-
 function mysql2date($dateformatstring, $mysqlstring, $use_b2configmonthsdays = 1) {
 	global $month, $weekday;
 	$m = $mysqlstring;
@@ -300,21 +292,18 @@ function url_to_postid($url = '') {
 
 function get_settings($setting) {
 	global $wpdb, $cache_settings;
-	if ( strstr($_SERVER['REQUEST_URI'], 'install.php') || strstr($_SERVER['REQUEST_URI'], 'upgrade.php') ) {
+	if ( strstr($_SERVER['REQUEST_URI'], 'install.php') || strstr($_SERVER['REQUEST_URI'], 'upgrade.php') )
 		return false;
-	}
 
-	if ( empty($cache_settings) ) {
+	if ( empty($cache_settings) )
 		$cache_settings = get_alloptions();
-	}
 
 	if ('home' == $setting && '' == $cache_settings->home) return $cache_settings->siteurl;
 
-	if (!isset($cache_settings->$setting)) {
-		return $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
-	} else {
+	if ( isset($cache_settings->$setting) )
 		return $cache_settings->$setting;
-	}
+	else
+		return $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
 }
 
 function get_alloptions() {
@@ -326,7 +315,6 @@ function get_alloptions() {
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-
 			$all_options->{$option->option_name} = stripslashes($option->option_value);
 		}
 	}
@@ -439,26 +427,11 @@ function get_catname($cat_ID) {
 }
 
 function gzip_compression() {
-	global $gzip_compressed;
-	if (strstr($_SERVER['PHP_SELF'], 'wp-admin')) return true;
-		if (!$gzip_compressed) {
-		$phpver = phpversion(); //start gzip compression
-		if($phpver >= "4.0.4pl1") {
-			if(extension_loaded("zlib")) { 
-				ob_start("ob_gzhandler"); 
-			}
-		} else if($phpver > "4.0") {
-			if(strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) {
-				if(extension_loaded("zlib")) { 
-					$do_gzip_compress = TRUE; 
-					ob_start(); 
-					ob_implicit_flush(0); 
-					header("Content-Encoding: gzip");
-				}
-			}
-		} //end gzip compression - that piece of script courtesy of the phpBB dev team
-		$gzip_compressed=1;
-	}
+	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') ) return false;
+	if ( !get_settings('gzipcompression') ) return false;
+
+	if( extension_loaded('zlib') )
+		ob_start('ob_gzhandler'); 
 }
 
 
@@ -466,24 +439,24 @@ function gzip_compression() {
 // ( or just any time between timer_start() and timer_stop() )
 
 function timer_start() {
-    global $timestart;
-    $mtime = microtime();
-    $mtime = explode(" ",$mtime);
-    $mtime = $mtime[1] + $mtime[0];
-    $timestart = $mtime;
-    return true;
+	global $timestart;
+	$mtime = microtime();
+	$mtime = explode(' ',$mtime);
+	$mtime = $mtime[1] + $mtime[0];
+	$timestart = $mtime;
+	return true;
 }
 
-function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), will echo $timetotal
-    global $timestart,$timeend;
-    $mtime = microtime();
-    $mtime = explode(" ",$mtime);
-    $mtime = $mtime[1] + $mtime[0];
-    $timeend = $mtime;
-    $timetotal = $timeend-$timestart;
-    if ($display)
-        echo number_format($timetotal,$precision);
-    return $timetotal;
+function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(1), will echo $timetotal
+	global $timestart, $timeend;
+	$mtime = microtime();
+	$mtime = explode(' ',$mtime);
+	$mtime = $mtime[1] + $mtime[0];
+	$timeend = $mtime;
+	$timetotal = $timeend-$timestart;
+	if ($display)
+		echo number_format($timetotal,$precision);
+	return $timetotal;
 }
 
 function weblog_ping($server = '', $path = '') {

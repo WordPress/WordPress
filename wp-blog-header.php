@@ -178,10 +178,8 @@ if ($pagenow != 'wp-trackback.php' && $tb == 1) {
 }
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
-    if ($use_gzipcompression) {
-        // gzipping the output of the script
+    if ( get_settings('gzipcompression') ) 
         gzip_compression();
-    }
 }
 
 ?>
