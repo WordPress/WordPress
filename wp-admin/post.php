@@ -44,8 +44,6 @@ case 'post':
 		die('You are not allowed to create posts or drafts on this blog.');
 	}
 
-	$post_ID = $wpdb->get_var("SELECT MAX(ID) FROM $wpdb->posts") + 1;
-
 	$post_pingback = intval($_POST['post_pingback']);
 	$content = apply_filters('content_save_pre', $_POST['content']);
 	$content = format_to_post($content);
@@ -73,13 +71,6 @@ case 'post':
 		$ping_status = get_option('default_ping_status');
 	$post_password = $_POST['post_password'];
 	
-	if ( empty($post_name) ) {
-		if ( !empty($post_title) )
-			$post_name = sanitize_title($post_title, $post_ID);
-	} else {
-		$post_name = sanitize_title($post_name, $post_ID);
-	}
-
 	$trackback = $_POST['trackback_url'];
 	$trackback = preg_replace('|\s+|', "\n", $trackback);
 
@@ -107,6 +98,16 @@ case 'post':
 	if ('' != $_POST['publish']) $post_status = 'publish';
 	if ('' != $_POST['advanced']) $post_status = 'draft';
 	if ('' != $_POST['savepage']) $post_status = 'static';
+
+	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
+	$post_ID = $id_result->Auto_increment;
+
+	if ( empty($post_name) ) {
+		if ( !empty($post_title) )
+			$post_name = sanitize_title($post_title, $post_ID);
+	} else {
+		$post_name = sanitize_title($post_name, $post_ID);
+	}
 
 	$postquery ="INSERT INTO $wpdb->posts
 			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent)
