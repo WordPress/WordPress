@@ -123,7 +123,7 @@ function get_the_excerpt($fakeit = true) {
         $output = $post->post_content;
         $output = strip_tags($output);
         $blah = explode(' ', $output);
-        $excerpt_length = 120;
+        $excerpt_length = 70;
         if (count($blah) > $excerpt_length) {
             $k = $excerpt_length;
             $use_dotdotdot = 1;
