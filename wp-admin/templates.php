@@ -57,7 +57,7 @@ case 'update':
 	$standalone = 1;
 	require_once("admin-header.php");
 
-	if ($user_level < 3) {
+	if ($user_level < 5) {
 		die('<p>You have do not have sufficient permissions to edit templates for this blog.</p>');
 	}
 
@@ -82,7 +82,7 @@ default:
 
 	require_once('admin-header.php');
 
-	if ($user_level <= 3) {
+	if ($user_level <= 5) {
 		die('<p>You have do not have sufficient permissions to edit templates for this blog.</p>');
 	}
 
@@ -111,11 +111,12 @@ default:
 	}
 
 	?>
+<?php if ('te' == $_GET['a']) : ?>
+<div class="updated"><p>File edited successfully.</p></div>
+<?php endif; ?>
  <div class="wrap"> 
   <?php
-	echo "Editing <strong>$file</strong> $warning";
-	if ('te' == $a)
-		echo "<em>File edited successfully.</em>";
+	echo "<p>Editing <strong>$file</strong> $warning</p>";
 	
 	if (!$error) {
 	?> 
@@ -123,18 +124,19 @@ default:
      <textarea cols="80" rows="20" style="width:100%; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea> 
      <input type="hidden" name="action" value="update" /> 
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 
-     <br /> 
+     <p class="submit">
      <?php
 		if (is_writeable($real_file)) {
-			echo "<input type='submit' name='submit' value='Update File' tabindex='2' />";
+			echo "<input type='submit' name='submit' value='Update File &raquo;' tabindex='2' />";
 		} else {
 			echo "<input type='button' name='oops' value='(You cannot update that file/template: must make it writable, e.g. CHMOD 666)' tabindex='2' />";
 		}
 		?> 
+</p>
    </form> 
   <?php
 	} else {
-		echo '<p>Oops, no such file exists! Double check the name and try again, merci.</p>';
+		echo '<div class="error"><p>Oops, no such file exists! Double check the name and try again, merci.</p></div>';
 	}
 	?> 
 </div> 
@@ -151,8 +153,25 @@ default:
     <li><a href="templates.php?file=wp-comments-popup.php">Popup comments </a></li>
     <li><a href="templates.php?file=.htaccess">.htaccess (for rewrite rules)</a></li>
     <li><a href="templates.php?file=my-hacks.php">my-hacks.php</a></li>
+    </ul>
+<?php
+$plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
+if ($plugins_dir) {
+	while(($file = $plugins_dir->read()) !== false) {
+	  if ( !preg_match('|^\.+$|', $file) && preg_match('|\.php$|', $file) ) 
+		$plugin_files[] = $file;
+	}
+}
+if ($plugins_dir || $plugin_files) :
+?>
+  <p>Plugin files:</p>
+  <ul>
+<?php foreach($plugin_files as $plugin_file) : ?>
+	<li><a href="templates.php?file=wp-content/plugins/<?php echo $plugin_file; ?>"><?php echo $plugin_file; ?></a></li>
+<?php endforeach; ?>
   </ul>
-  <p>Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don't have access to a text editor or FTP client.</p>
+<?php endif; ?>
+  <p>Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don&#8217;t have access to a text editor or FTP client.</p>
 </div> 
 <?php
 
