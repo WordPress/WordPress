@@ -243,8 +243,6 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 					pingGeoUrl($post_ID);	
 				}
 
-				pingWeblogs($blog_ID);
-				pingBlogs($blog_ID);
 				pingback($content, $post_ID);
 			}
 			echo "\n<p><b>Posted title:</b> $post_title<br />";

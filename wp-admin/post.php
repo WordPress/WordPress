@@ -373,8 +373,6 @@ switch($action) {
 
         // are we going from draft/private to published?
         if ((($prev_status == 'draft') || ($prev_status == 'private')) && ($post_status == 'publish')) {
-            pingWeblogs($blog_ID);
-            pingBlogs($blog_ID);
 		} // end if moving from draft/private to published
         if ($post_status == 'publish') {
 			do_action('publish_post', $post_ID);
