@@ -253,6 +253,7 @@ default:
 		<th><?php _e('Website') ?></th>
 		<th><?php _e('Level') ?></th>
 		<th></th>
+		<th></th>
 	</tr>
 <?php
 $style = '';
@@ -274,22 +275,25 @@ echo "\n<tr $style>
 <td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
 <td><a href='$url' title='website: $url'>$short_url</a></td>
 <td align='center'>";
-	if ($user_level >= 3)
-		echo " <a href=\"users.php?action=delete&amp;id=".$user_data->ID."\" style=\"color:red;font-weight:bold;\">X</a> ";
+
 	echo $user_data->user_level;
-	if ($user_level >= 2)
+	if ($user_level >= 6)
 		echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=up\">+</a> ";	
 	echo "</td>\n";
-}
 	echo '<td>';
-	if (($user_level >= 2) and ($user_level > $user_data->user_level))
+	if (($user_level >= 6) and ($user_level > $user_data->user_level))
 		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>Edit</a>";
-	echo '</td>';
-	echo '</tr>';
+	echo '</td><td>';
+	if ($user_level >= 6)
+		echo "<a href='users.php?action=delete&amp;id=$user_data->ID' class='delete'>Delete</a>";
+	echo '</td></tr>';
+
+}
+
 ?>
 	
 	</table>
-	  <p><?php _e('To delete an author or user, bring his level to zero, then click on the red X. <strong>Warning:</strong> Deleting a user also deletes all posts made by this user.') ?></p>
+	  <p><?php _e('Deleting a user also deletes all posts made by that user.') ?></p>
 </div>
 
 	<?php 
