@@ -63,16 +63,16 @@ function the_category($seperator = '', $parents='') {
             switch(strtolower($parents)) {
                 case 'multiple':
                     if ($category->category_parent)    echo get_category_parents($category->category_parent, TRUE);
-                    echo "<a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>$category->cat_name</a></li>";
+                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="View all posts in '.$category->cat_name.'">'.$category->cat_name.'</a></li>';
                     break;
                 case 'single':
-                    echo "<a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>";
+                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="View all posts in '.$category->cat_name.'>';
                     if ($category->category_parent)echo get_category_parents($category->category_parent, FALSE);
-                    echo "$category->cat_name</a></li>";
+                    echo $category->cat_name.'</a></li>';
                     break;
                 case '':
                 default:
-                    echo "<a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>$category->cat_name</a></li>";
+                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="View all posts in '.$category->cat_name.'">'.$category->cat_name.'</a></li>';
             }
         }
         echo '</ul>';
@@ -84,14 +84,14 @@ function the_category($seperator = '', $parents='') {
             switch(strtolower($parents)) {
                 case 'multiple':
                     if ($category->category_parent)    echo get_category_parents($category->category_parent, TRUE);
-                    echo "<a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>$category->cat_name</a>";
+                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="View all posts in '.$category->cat_name.'">'.$category->cat_name.'</a>';
                 case 'single':
-                    echo "<a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>";
-                    if ($category->category_parent)echo get_category_parents($category->category_parent, FALSE);
+                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="View all posts in '.$category->cat_name.'">';
+                    if ($category->category_parent)    echo get_category_parents($category->category_parent, FALSE);
                     echo "$category->cat_name</a>";
                 case '':
                 default:
-                    echo "<a href='" . get_category_link(0, $category->category_id, $category->category_nicename) . "' title='View all posts in $category->cat_name'>$category->cat_name</a>";
+                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="View all posts in '.$category->cat_name.'">'.$category->cat_name.'</a>';
             }
             ++$i;
         }
@@ -133,7 +133,7 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
     }
     if ($parent->category_parent) $chain .= get_category_parents($parent->category_parent, $link, $separator, $nicename);
     if ($link) {
-        $chain .= "<a href='" . get_category_link(0, $parent->cat_ID, $parent->category_nicename) . "' title='View all posts in $parent->cat_name'>$name</a>" . $separator;
+        $chain .= '<a href="' . get_category_link(0, $parent->cat_ID, $parent->category_nicename) . '" title="View all posts in "'.$parent->cat_name.'">'.$name.'</a>' . $separator;
     } else {
         $chain .= $name.$separator;
     }
