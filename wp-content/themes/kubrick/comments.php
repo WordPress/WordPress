@@ -14,7 +14,7 @@
         }
 
 		/* This variable is for alternating comment background */
-		$oddcomment = "graybox";
+		$oddcomment = 'graybox';
 ?>
 
 <!-- You can start editing here. -->
@@ -26,7 +26,7 @@
 
 	<?php foreach ($comments as $comment) : ?>
 
-		<li class="<?=$oddcomment;?>">
+		<li class="<?php echo $oddcomment; ?>">
 			<a name="comment-<?php comment_ID() ?>"></a><cite><?php comment_author_link() ?></cite> Says:<br />
 			<!--<small class="commentmetadata"><a href="#comment-<?php comment_ID() ?>" title="<?php comment_date('l, F jS, Y') ?> at <?php comment_time() ?>"><?php /* $entry_datetime = abs(strtotime($post->post_date)); $comment_datetime = abs(strtotime($comment->comment_date)); echo time_since($entry_datetime, $comment_datetime) */ ?></a> after publication. <?php edit_comment_link('e','',''); ?></small>-->
 			<small class="commentmetadata"><a href="#comment-<?php comment_ID() ?>" title=""><?php comment_date('F jS, Y') ?> at <?php comment_time() ?></a> <?php edit_comment_link('e','',''); ?></small>
@@ -36,8 +36,8 @@
 		</li>
 		
 		<?php /* Changes every other comment to a different class */	
-			if("graybox" == $oddcomment) {$oddcomment="";}
-			else { $oddcomment="graybox"; }
+			if('graybox' == $oddcomment) {$oddcomment="";}
+			else { $oddcomment = "graybox"; }
 		?>
 
 	<?php endforeach; /* end for each comment */ ?>
@@ -64,7 +64,6 @@
 
 <p><input type="text" name="author" id="author" class="styled" value="<?php echo $comment_author; ?>" size="22" tabindex="1" />
 <input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
-<input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" />
 <label for="author"><small>Name</small></label></p>
 
 <p><input type="text" name="email" id="email" value="<?php echo $comment_author_email; ?>" size="22" tabindex="2" />
@@ -77,14 +76,9 @@
 
 <p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
 
-<?php if ('none' != get_settings("comment_moderation")) { ?>
-	<p><small><strong>Please note:</strong> Comment moderation is enabled and may delay your comment. There is no need to resubmit your comment.</small></p>
-<?php } ?>
-
 <p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" /></p>
 
 
 </form>
 
-<?php // if you delete this the sky will fall on your head
-endif; ?>
+<?php endif; // if you delete this the sky will fall on your head ?>

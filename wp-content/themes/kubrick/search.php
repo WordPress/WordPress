@@ -1,4 +1,4 @@
-<?php include "header.php"; ?>
+<?php get_header(); ?>
 
 	<div id="content" class="narrowcolumn">
 
@@ -39,11 +39,12 @@
 	<?php else : ?>
 
 		<h2 class="center">Not Found</h2>
-		<?php include "searchform.php"; ?>
+		<?php include (TEMPLATEPATH . "/searchform.php"; ?>
 
 	<?php endif; ?>
 		
 	</div>
 
-<?php include "sidebar.php"; ?>
-<?php include "footer.php"; ?>
+<?php get_sidebar(); ?>
+
+<?php get_footer(); ?>

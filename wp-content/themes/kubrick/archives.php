@@ -1,12 +1,8 @@
-<?php /*
-			 Template Name: Archives
-			*/
-?>
-<?php include "header.php"; ?>
+<?php get_header(); ?>
 
 <div id="content" class="widecolumn">
 
-<?php include "searchform.php"; ?>
+<?php include (TEMPLATEPATH . '/searchform.php'; ?>
 
 <h2>Archives by Month:</h2>
   <ul>
@@ -20,4 +16,4 @@
 
 </div>	
 
-<?php include "footer.php"; ?>
+<?php get_footer(); ?>

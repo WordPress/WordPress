@@ -55,7 +55,7 @@
 <body>
 <div id="page">
 
-<? // Begin Header ?>
+
 <div id="header">
 	<div id="headerimg">
 		<h1><a href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
@@ -63,4 +63,3 @@
 	</div>
 </div>
 <hr />
-<? // End Header ?>

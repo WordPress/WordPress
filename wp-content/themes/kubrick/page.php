@@ -1,4 +1,4 @@
-<?php include "header.php"; ?>
+<?php get_header(); ?>
 
 	<div id="content" class="widecolumn">
 
@@ -14,4 +14,4 @@
 	  <?php endwhile; endif; ?>
 	</div>
 
-<?php include "footer.php"; ?>
+<?php get_footer(); ?>

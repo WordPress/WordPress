@@ -2,7 +2,7 @@
 		<ul>
 			
 			<li>
-				<?php include "searchform.php"; ?>
+				<?php include (TEMPLATEPATH . "/searchform.php"; ?>
 			</li>
 
 			<!-- Author information is disabled per default. Uncomment and fill in your details if you want to use it.

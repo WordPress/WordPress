@@ -1,4 +1,4 @@
-<? // Begin Footer ?>
+
 <hr />
 <div id="footer">
 	<p>
@@ -15,7 +15,6 @@
 	</p>
 </div>
 </div>
-<? // End Footer ?>
 
 
 <?php /* "Just what do you think you're doing Dave?" */ ?>

@@ -1,4 +1,4 @@
-<?php include "header.php"; ?>
+<?php get_header(); ?>
 
 	<div id="content" class="widecolumn">
 				
@@ -63,4 +63,4 @@
 	
 	</div>
 
-<?php include "footer.php"; ?>
+<?php get_footer(); ?>
