@@ -9,7 +9,6 @@ if (empty($doing_rss)) {
 $feed = preg_replace('/^_+/', '', $feed);
 
 if ($feed == '' || $feed == 'feed') {
-    // TODO:  Get default feed from options DB.
     $feed = 'rss2';
 }
 

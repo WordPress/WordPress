@@ -1,6 +1,8 @@
 <?php 
 if ( empty($feed) ) {
+	$feed = 'rss2';
 	$withcomments = 1;
+	$doing_rss = 1;
 	require('wp-blog-header.php');
 }
 

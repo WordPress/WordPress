@@ -2,6 +2,7 @@
 
 if (empty($feed)) {
     $blog = 1; // enter your blog's ID
+		$feed = 'rdf';
     $doing_rss = 1;
     require('wp-blog-header.php');
 }

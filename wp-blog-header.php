@@ -101,10 +101,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-if ( '' != $feed )
-	$doing_rss = true;
-
-
 if ( is_trackback() )
 	$doing_trackback = true;
 
@@ -112,7 +108,7 @@ if ( is_trackback() )
 
 if ( is_404() ) {
 	header('HTTP/1.x 404 Not Found');
-} else if ( !isset($doing_rss) || !$doing_rss ) {
+} else if ( !is_feed() ) {
 	@header('X-Pingback: '. get_bloginfo('pingback_url'));
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
@@ -207,7 +203,7 @@ if ($pagenow == 'index.php') {
 		// If $wp_template_redirect is set to false, template redirection
 		// should be skipped for everything except feeds and trackbacks.
 		$wp_template_redirect = true;
-		if ( is_feed() ) {
+		if ( is_feed() && empty($doing_rss) ) {
 			include(ABSPATH . '/wp-feed.php');
 			exit;
 		} else if ( is_trackback() ) {
@@ -217,7 +213,7 @@ if ($pagenow == 'index.php') {
 	} elseif ( !isset($wp_template_redirect) ) {
 		$wp_template_redirect = true;
 		do_action('template_redirect');
-		if ( is_feed() ) {
+		if ( is_feed() && empty($doing_rss) ) {
 			include(ABSPATH . '/wp-feed.php');
 			exit;
 		} else if ( is_trackback() ) {
