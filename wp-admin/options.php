@@ -38,7 +38,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 if (isset($_GET['option_group_id'])) $option_group_id = (int) $_GET['option_group_id'];
 require_once('./optionhandler.php');
 $non_was_selected = 0;
-if ('' == $_GET['option_group_id']) {
+if (!isset($_GET['option_group_id'])) {
     $option_group_id = 1;
     $non_was_selected = 1;
 }
@@ -74,7 +74,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
                 $old_val = stripslashes($option->option_value);
-                $new_val = $_POST[$option->option_name];
+                if(isset($_POST[$option->option_name])) $new_val = $_POST[$option->option_name];
 				if (!$new_val) {
 					if (3 == $option->option_type)
 						$new_val = '';
@@ -87,7 +87,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
 					$result = $wpdb->query($query);
 					//if( in_array($option->option_name, $nonbools)) die('boo'.$query);
 					if (!$result) {
-						$db_errors .= sprintf(__(" SQL error while saving %s. "), $this_name);
+						$dB_errors .= sprintf(__(" SQL error while saving %s. "), $this_name);
 					} else {
 						++$any_changed;
 					}
@@ -102,7 +102,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
         $message = sprintf(__('%d setting(s) saved... '), $any_changed);
     }
     
-    if (($dB_errors != '') || ($validation_message != '')) {
+    if ( isset($dB_errors)  || isset($validation_message) ) {
         if ($message != '') {
             $message .= '<br />';
         }

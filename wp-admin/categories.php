@@ -183,7 +183,7 @@ set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
         <p><?php _e('Category parent:') ?><br />
         <select name='cat' class='postform'>
         <option value='0'><?php _e('None') ?></option>
-        <?php wp_dropdown_cats(); ?></p>
+        <?php wp_dropdown_cats(0); ?></p>
         </select>
         <p><?php _e('Description: (optional)') ?> <br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
