@@ -1,4 +1,8 @@
-<?php /* Don't remove this line, it calls the b2 function files ! */ $blog=1; include ('blog.header.php'); ?>
+<?php /* Don't remove this line, it calls the b2 function files ! */ $blog=1;
+require('blog.header.php');
+require('wp-links/links.php');
+require('wp-links/links.weblogs.com.php');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -72,12 +76,9 @@
 <div id="menu">
 
 <ul>
- <li>Quick Links:
+<li>Links:
 	<ul>
-		<li><a href="http://wordpress.org" title="The Wordpress Organization">Wordpress</a></li>
-		<li><a href="http://www.cafelog.com" title="b2's homepage">cafelog.com</a></li>
-		<li><a href="http://some other site" title="another link">another link</a></li>
-		<li><a href="http://photomatt.net" title="another link">another link</a></li>
+		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, 1 )?>
 	</ul>
  </li>
  <li>Categories:
@@ -86,7 +87,7 @@
 	</ul>
  </li>
  <li>Search:
-	<form name="searchform" method="get" action="<?php echo $PHP_SELF; /*$siteurl."/".$blogfilename*/ ?>">
+	<form id="searchform" method="get" action="<?php echo $PHP_SELF; /*$siteurl."/".$blogfilename*/ ?>">
 	<div>
 		<input type="text" name="s" size="15" /><br />
 		<input type="submit" name="submit" value="search" />
@@ -104,17 +105,12 @@
 		<li><a href="b2register.php">register</a></li>
 	</ul>
  </li>
- <?php require_once('wp-links/links.php') ?>
- <?php require_once('wp-links/links.weblogs.com.php') ?>
- <li>Links:
-	<ul>
-		<?php get_links(-1, '<li>', '</li>', '', 0, '_updated', 0, 0, -1, 1 )?>
-	</ul>
- </li>
  <li>Misc:
  	<ul>
-		<li><a href="b2rss.php"><img src="b2-img/xml.gif" alt="view this weblog as RSS !" width="36" height="14" border="0"  /></a></li>
-		<li><a href="http://validator.w3.org/check/referer" title="this page validates as XHTML 1.0 Transitional"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" border="0" /></a></li>
+		<li><a href="b2rss.php">RSS .92</a></li>
+		<li><a href="b2rdf.php">RDF 1.0</a></li>
+		<li><a href="b2rss2.php">RSS 2.0</a></li>
+		<li><a href="http://validator.w3.org/check/referer" title="this page validates as XHTML 1.0 Transitional">Valid XHTML</a></li>
 	</ul>
  </li>
 </ul>
