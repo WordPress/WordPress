@@ -68,15 +68,6 @@ window.onload = focusit;
 	  <div><?php dropdown_categories(get_settings('default_category')); ?></div>
     </fieldset>
 
-    <fieldset id="poststatusdiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#post_status" title="<?php _e('Help on post status') ?>"><?php _e('Post Status') ?></a></legend>
-	  <div>
-<?php if ( 1 < $user_level || (1 == $user_level && 2 == get_option('new_users_can_blog')) ) : ?>
-<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Publish') ?></label>
-<?php endif; ?>
-	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label> 
-	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
-    </fieldset>
     <fieldset id="commentstatusdiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#comments" title="<?php _e('Help on comment status') ?>"><?php _e('Discussion') ?></a></legend> 
 	  <div><label for="comment_status" class="selectit">
@@ -140,6 +131,14 @@ if ('publish' != $post_status || 0 == $post_ID) {
 <h2><?php _e('Advanced'); ?></h2>
 
 <table width="100%" cellspacing="2" cellpadding="5" class="editform">
+	<tr>
+		<th scope="row" valign="top"><?php _e('Post Status') ?>:</th>
+		<td><?php if ( 1 < $user_level || (1 == $user_level && 2 == get_option('new_users_can_blog')) ) : ?>
+<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Published') ?></label><br />
+<?php endif; ?>
+	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label><br />
+	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> <?php _e('Private') ?></label></td>
+	</tr>
 	<tr>
 		<th scope="row" valign="top"><?php _e('Send trackbacks to'); ?>:</th>
 		<td><?php echo $form_trackback; ?> <br />

@@ -457,10 +457,6 @@ textarea, input, select {
 	width: 95%;
 }
 
-#poststatusdiv {
-	width: 6.5em;
-}
-
 #poststuff {
 	margin-right: 11em;
 }
@@ -495,15 +491,11 @@ textarea, input, select {
 	width: 14em;
 }
 
-#slugdiv {
-	width: 10.4em;
-}
-
 #simple #titlediv {
 	height: 4em;
 }
 
-#titlediv, #poststatusdiv, #commentstatusdiv, #slugdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv, #pageparent {
+#titlediv, #commentstatusdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv, #pageparent {
 	float: left;
 	height: 6em;
 	margin-right: 5px;
