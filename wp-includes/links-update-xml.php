@@ -51,7 +51,7 @@ function update_links() {
 function get_weblogs_updatedfile() {
 	global $ignore_weblogs_cache;
 	$update = false;
-	$file = ABSPATH . '/wp-content/links-update-cache.xml';
+	$file = ABSPATH . 'wp-content/links-update-cache.xml';
 	if ($ignore_weblogs_cache) {
 		$update = true;
 	} else {
@@ -76,7 +76,7 @@ function get_weblogs_updatedfile() {
 			$contents = preg_replace("/'/",'&#39;',$contents);
 			$contents = preg_replace('|[^[:space:][:punct:][:alpha:][:digit:]]|','',$contents);
 
-			$cachefp = fopen(ABSPATH . '/wp-content/links-update-cache.xml', "w");
+			$cachefp = fopen(ABSPATH . 'wp-content/links-update-cache.xml', "w");
 			fwrite($cachefp, $contents);
 			fclose($cachefp);
 		} else {
@@ -147,7 +147,7 @@ if (get_weblogs_updatedfile()) {
 	xml_set_element_handler($xml_parser, "startElement", "endElement");
 
 	// Open the XML file for reading
-	$fp = fopen(ABSPATH . '/wp-content/links-update-cache.xml', "r")
+	$fp = fopen(ABSPATH . 'wp-content/links-update-cache.xml', "r")
 		  or die("Error reading XML data.");
 
 	// Read the XML file 16KB at a time
