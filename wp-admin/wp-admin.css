@@ -516,4 +516,5 @@ textarea, input, select {
 
 #wphead h1 span {
 	font-size: .4em;
+	letter-spacing: 0;
 }
