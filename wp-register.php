@@ -147,7 +147,7 @@ case 'disabled':
 <div id="login">
 	<h2><?php _e('Registration Disabled') ?></h2>
 	<p><?php _e('User registration is currently not allowed.') ?><br />
-	<a href="<?php echo get_settings('siteurl') .'/'. get_settings('blogfilename'); ?>" title="<?php _e('Go back to the blog') ?>"><?php _e('Home') ?></a>
+	<a href="<?php echo get_settings('home') .'/'. get_settings('blogfilename'); ?>" title="<?php _e('Go back to the blog') ?>"><?php _e('Home') ?></a>
 	</p>
 </div>
 
