@@ -11,9 +11,7 @@
 </IfModule>
 
 
-# this is used to make b2 produce links like http://example.com/archives/m/200209
-# if you renamed the file 'archives' to another name, please change it here too
+# This activates content negotiation, so instead of /archives.php you could just call
+# a file as /archives . Same for any other file on your site. Try it out!
 
-<Files archives>
-	ForceType application/x-httpd-php
-</Files>
+Options +Multiviews
