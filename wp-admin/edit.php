@@ -104,7 +104,7 @@ $bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
       </a> 
     <?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?></td> 
     <td><?php the_category(','); ?></td> 
-    <td><a href="edit.php?p=<?php echo $id ?>&c=1"> 
+    <td><a href="edit.php?p=<?php echo $id ?>&amp;c=1"> 
       <?php comments_number(__('no comments'), __('1 comment'), __("% comments")) ?> 
       </a></td> 
     <td><?php the_author() ?></td> 

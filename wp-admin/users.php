@@ -219,11 +219,11 @@ default:
 	<td><a href='$url' title='website: $url'>$short_url</a></td>
 	<td align='center'>";
 	if (($user_level >= 2) and ($user_level > $user_data->user_level) and ($user_data->user_level > 0))
-		echo " <a href=\"users.php?action=promote&id=".$user_data->ID."&prom=down\">-</a> ";
+		echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=down\">-</a> ";
 	echo $user_data->user_level;
 	if (($user_level >= 2) and ($user_level > ($user_data->user_level + 1)))
-		echo " <a href=\"users.php?action=promote&id=".$user_data->ID."&prom=up\">+</a> ";
-	echo "<td align='right'>$numposts</td>";
+		echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=up\">+</a> ";
+	echo "</td><td align='right'>$numposts</td>";
 	echo '</tr>';
 	}
 	
@@ -261,16 +261,16 @@ default:
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
 echo "\n<tr $style>
 <td align='center'>$user_data->ID</td>
-<td><strong>$user_data->user_nickname</td>
+<td><strong>$user_data->user_nickname</strong></td>
 <td>$user_data->user_firstname $user_data->user_lastname</td>
 <td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
 <td><a href='$url' title='website: $url'>$short_url</a></td>
 <td align='center'>";
 		if ($user_level >= 3)
-			echo " <a href=\"users.php?action=delete&id=".$user_data->ID."\" style=\"color:red;font-weight:bold;\">X</a> ";
+			echo " <a href=\"users.php?action=delete&amp;id=".$user_data->ID."\" style=\"color:red;font-weight:bold;\">X</a> ";
 		echo $user_data->user_level;
 		if ($user_level >= 2)
-			echo " <a href=\"users.php?action=promote&id=".$user_data->ID."&prom=up\">+</a> ";	
+			echo " <a href=\"users.php?action=promote&amp;id=".$user_data->ID."&amp;prom=up\">+</a> ";	
 		echo "</td>\n</tr>\n";
 	}
 	?>
@@ -316,7 +316,7 @@ echo "\n<tr $style>
     </tr>
   </table>
   <p class="submit">
-    <input name="adduser" type="submit" id="adduser" value="<?php _e('Add User') ?> &raquo;">
+    <input name="adduser" type="submit" id="adduser" value="<?php _e('Add User') ?> &raquo;" />
   </p>
   </form>
 </div>

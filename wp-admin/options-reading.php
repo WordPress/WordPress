@@ -74,7 +74,7 @@ include('options-head.php');
                 <th scope="row"><?php _e('For each article, show:') ?> </th>
 				<td><label>
 					<input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>  />
-					full text</label>					<br>
+					full text</label>					<br />
 					<label>
 					<input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_settings('rss_use_excerpt')); ?> />
 					summary</label> </td>

@@ -83,7 +83,7 @@ th { text-align: right; }
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
            <th width="33%" scope="row"><?php _e('URI:') ?></th>
-           <td width="67%"><input type="text" name="linkurl" value="<?php echo $_GET['linkurl']; ?>" style="width: 95%; /"></td>
+           <td width="67%"><input type="text" name="linkurl" value="<?php echo $_GET['linkurl']; ?>" style="width: 95%;" /></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Link Name:') ?></th>
@@ -107,7 +107,7 @@ th { text-align: right; }
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
             <tr>
             	<th width="33%" scope="row"><?php _e('rel:') ?></th>
-            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value=""></td>
+            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="" /></td>
            	</tr>
             <tr>
             	<th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
@@ -115,7 +115,7 @@ th { text-align: right; }
             			<tr>
             				<th scope="row"> <?php _e('friendship') ?> </th>
             				<td><label for="label">
-            					<input class="valinp" type="radio" name="friendship" value="acquaintance" id="label"  />
+            					<input class="valinp" type="radio" name="friendship" value="acquaintance" id="label" />
 					<?php _e('acquaintance') ?></label>
                 					<label for="label2">
                 					<input class="valinp" type="radio" name="friendship" value="friend" id="label2" />
@@ -241,7 +241,7 @@ th { text-align: right; }
            <td><label>
              <input type="radio" name="visible" checked="checked" value="Y" />
 <?php _e('Yes') ?></label><br />
-<label><input type="radio" name="visible" value="N"> <input type="hidden" name="action" value="Add" /> 
+<label><input type="radio" name="visible" value="N" /> <input type="hidden" name="action" value="Add" /> 
 <?php _e('No') ?></label></td>
          </tr>
 </table>
@@ -254,7 +254,7 @@ th { text-align: right; }
 </div>
 
 <div class="wrap">
-<?php printf(__('<p>You can drag <a href="%s" title="Link add bookmarklet">Link This</a> to your toolbar and when you click it a window will pop up that will allow you to add whatever site you&#8217;re on to your links! Right now this only works on Mozilla or Netscape, but we&#8217;re working on it.</p>'), "javascript:void(linkmanpopup=window.open('" . get_settings('siteurl') . "/wp-admin/link-add.php?action=popup&linkurl='+escape(location.href)+'&name='+escape(document.title),'LinkManager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();") ?>
+<?php printf(__('<p>You can drag <a href="%s" title="Link add bookmarklet">Link This</a> to your toolbar and when you click it a window will pop up that will allow you to add whatever site you&#8217;re on to your links! Right now this only works on Mozilla or Netscape, but we&#8217;re working on it.</p>'), "javascript:void(linkmanpopup=window.open('" . get_settings('siteurl') . "/wp-admin/link-add.php?action=popup&amp;linkurl='+escape(location.href)+'&amp;name='+escape(document.title),'LinkManager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();") ?>
 </div>
 
 <?php

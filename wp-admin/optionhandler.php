@@ -29,8 +29,8 @@ TEXTINPUT;
             //break;
 
         case 2: // boolean
-            $true_selected = ($option_result->option_value == '1') ? 'selected' : '';
-            $false_selected = ($option_result->option_value == '0') ? 'selected' : '';
+            $true_selected = ($option_result->option_value == '1') ? 'selected="selected"' : '';
+            $false_selected = ($option_result->option_value == '0') ? 'selected="selected"' : '';
             return <<<BOOLSELECT
                     <label for="$option_result->option_name">$option_result->option_name</label>$between
                     <select name="$option_result->option_name" $disabled>
@@ -55,7 +55,7 @@ SELECT;
                     $ret .= '<option value="'.$option->optionvalue.'"';
                     //error_log("comparing [$option_result->option_value] == [$option->optionvalue]");
                     if ($option_result->option_value == $option->optionvalue) {
-                        $ret .=' selected';
+                        $ret .=' selected="selected"';
                     }
                     $ret .= ">$option->optionvalue_desc</option>\n";
                 }
@@ -85,7 +85,7 @@ SELECT;
                     $ret .= '<option value="'.$option->value.'"';
                     //error_log("comparing [$option_result->option_value] == [$option->optionvalue]");
                     if ($option_result->option_value == $option->value) {
-                        $ret .=' selected';
+                        $ret .=' selected="selected"';
                     }
                     $ret .= ">$option->label</option>\n";
                 }

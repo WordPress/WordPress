@@ -303,40 +303,42 @@ default:
       <td><select name="newuser_idmode">
         <option value="nickname"<?php
 	if ($profiledata->user_idmode == 'nickname')
-	echo " selected"; ?>><?php echo $profiledata->user_nickname ?></option>
+	echo ' selected="selected"'; ?>><?php echo $profiledata->user_nickname ?></option>
         <option value="login"<?php
 	if ($profiledata->user_idmode=="login")
-	echo " selected"; ?>><?php echo $profiledata->user_login ?></option>
+	echo ' selected="selected"'; ?>><?php echo $profiledata->user_login ?></option>
         <option value="firstname"<?php
 	if ($profiledata->user_idmode=="firstname")
-	echo " selected"; ?>><?php echo $profiledata->user_firstname ?></option>
+	echo ' selected="selected"'; ?>><?php echo $profiledata->user_firstname ?></option>
         <option value="lastname"<?php
 	if ($profiledata->user_idmode=="lastname")
-	echo " selected"; ?>><?php echo $profiledata->user_lastname ?></option>
+	echo ' selected="selected"'; ?>><?php echo $profiledata->user_lastname ?></option>
         <option value="namefl"<?php
 	if ($profiledata->user_idmode=="namefl")
-	echo " selected"; ?>><?php echo $profiledata->user_firstname." ".$profiledata->user_lastname ?></option>
+	echo ' selected="selected"'; ?>><?php echo $profiledata->user_firstname." ".$profiledata->user_lastname ?></option>
         <option value="namelf"<?php
 	if ($profiledata->user_idmode=="namelf")
-	echo " selected"; ?>><?php echo $profiledata->user_lastname." ".$profiledata->user_firstname ?></option>
+	echo ' selected="selected"'; ?>><?php echo $profiledata->user_lastname." ".$profiledata->user_firstname ?></option>
       </select>        </td>
     </tr>
     <tr>
       <th scope="row"><?php _e('New <strong>Password</strong> (Leave blank to stay the same.)') ?></th>
       <td><input type="password" name="pass1" size="16" value="" />
-      	<br>
+      	<br />
         <input type="password" name="pass2" size="16" value="" /></td>
     </tr>
   </table>
   <p class="submit">
     <input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" />
   </p>
-	</div>
 </form>
 </div>
+
+
 <?php if ($is_gecko && $profiledata->user_level != 0) { ?>
 <div class="wrap">
     <script language="JavaScript" type="text/javascript">
+//<![CDATA[
 function addPanel()
         {
           if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
@@ -344,6 +346,7 @@ function addPanel()
           else
             alert(<?php __("'No Sidebar found!  You must use Mozilla 0.9.4 or later!'") ?>);
         }
+//]]>
 </script>
     <strong><?php _e('SideBar') ?></strong><br />
     <?php _e('Add the <a href="#" onClick="addPanel()">WordPress Sidebar</a>!') ?> 
@@ -355,6 +358,7 @@ function addPanel()
     
 </div>
 <?php } ?>
+</div>
 	<?php
 
 break;

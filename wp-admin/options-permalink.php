@@ -100,7 +100,7 @@ if (isset($_POST['submit'])) {
   <input name="category_base" type="text" style="width: 98%;" value="<?php echo $category_base; ?>" /> 
      </p> 
     <p class="submit"> 
-      <input type="submit" name="submit" value="<?php _e('Update Permalink Structure &raquo;') ?>"> 
+      <input type="submit" name="submit" value="<?php _e('Update Permalink Structure &raquo;') ?>" /> 
     </p> 
   </form> 
 <?php

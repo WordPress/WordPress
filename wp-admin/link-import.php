@@ -137,11 +137,11 @@ switch ($step) {
                 } // end else
 
 ?>
+</div>
 <?php
                 break;
             } // end case 1
 } // end switch
 ?>
-</div>
 </body>
 </html>

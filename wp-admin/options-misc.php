@@ -70,13 +70,13 @@ include('options-head.php');
       </tr>
       <tr>
         <th scope="row"><?php _e('Maximum size:') ?> </th>
-      	<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo get_settings('fileupload_maxk'); ?>" size="4"> 
+      	<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo get_settings('fileupload_maxk'); ?>" size="4" /> 
         <?php _e('Kilobytes (KB)') ?></td>
       	</tr>
       <tr>
         <th valign="top" scope="row"><?php _e('Allowed file extensions:') ?></th>
-      	<td><input name="fileupload_allowedtypes" type="text" id="fileupload_allowedtypes" value="<?php echo get_settings('fileupload_allowedtypes'); ?>" size="40">
-      		<br>
+      	<td><input name="fileupload_allowedtypes" type="text" id="fileupload_allowedtypes" value="<?php echo get_settings('fileupload_allowedtypes'); ?>" size="40" />
+      		<br />
          <?php _e('Recommended: <code>jpg jpeg png gif </code>') ?></td>
       	</tr>
       <tr>

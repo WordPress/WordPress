@@ -102,7 +102,7 @@ case 'edit':
         <p><?php _e('Category parent:') ?><br />
         <select name='cat' class='postform'>
         <option value='0'<?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
-        <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?></p>
+        <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?>
         </select>
         </p>
 
@@ -183,8 +183,8 @@ set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
         <p><?php _e('Category parent:') ?><br />
         <select name='cat' class='postform'>
         <option value='0'><?php _e('None') ?></option>
-        <?php wp_dropdown_cats(0); ?></p>
-        </select>
+        <?php wp_dropdown_cats(0); ?>
+        </select></p>
         <p><?php _e('Description: (optional)') ?> <br />
         <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
         <p class="submit"><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add Category &raquo;') ?>" /></p>

@@ -343,7 +343,7 @@ th { text-align: right; }
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
            <th width="33%" scope="row"><?php _e('URI:') ?></th>
-           <td width="67%"><input type="text" name="linkurl" value="<?php echo $link_url; ?>" style="width: 95%; /"></td>
+           <td width="67%"><input type="text" name="linkurl" value="<?php echo $link_url; ?>" style="width: 95%;" /></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Link Name:') ?></th>
@@ -367,7 +367,7 @@ th { text-align: right; }
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
             <tr>
                 <th width="33%" scope="row"><?php _e('rel:') ?></th>
-            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="<?php echo $link_rel; ?>"></td>
+            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="<?php echo $link_rel; ?>" /></td>
            	</tr>
             <tr>
                 <th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
@@ -655,9 +655,9 @@ function checkAll(form)
 
 </div>
 
+<form name="links" id="links" method="post" action="">
 <div class="wrap">
 
-    <form name="links" id="links" method="post" action="">
     <input type="hidden" name="link_id" value="" />
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
@@ -726,7 +726,7 @@ LINKS;
 
             if ($show_buttons) {
         echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=linkedit" class="edit">' . __('Edit') . '</a></td>';
-        echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=Delete"' .  "onclick=\"return confirm('" . __("You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.") .  "');" . '" class="delete">' . __('Delete') . '</a></td>';
+        echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=Delete"' .  " onclick=\"return confirm('" . __("You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.") .  "');" . '" class="delete">' . __('Delete') . '</a></td>';
         echo '<td><input type="checkbox" name="linkcheck[]" value="' . $link->link_id . '" /></td>';
             } else {
               echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>\n";
@@ -773,8 +773,8 @@ LINKS;
 <?php
   } // end if !popup
 ?>
-</form>
 </div>
+</form>
 
 
 <?php

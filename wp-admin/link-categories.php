@@ -156,7 +156,7 @@ switch ($action) {
 	<th scope="row"><?php _e('Sort order:') ?></th>
 	<td>
 	<select name="sort_order" size="1">
-            <option value="name"    <?php echo ($row->sort_order == 'name') ? 'selected' : ''?>><?php _e('Name') ?></option>
+            <option value="name" <?php echo ($row->sort_order == 'name') ? 'selected="selected"' : ''?>><?php _e('Name') ?></option>
             <option value="id"      <?php echo ($row->sort_order == 'id') ? 'selected' : ''?>><?php _e('Id') ?></option>
             <option value="url"     <?php echo ($row->sort_order == 'url') ? 'selected' : ''?>><?php _e('URL') ?></option>
             <option value="rating"  <?php echo ($row->sort_order == 'rating') ? 'selected' : ''?>><?php _e('Rating') ?></option>
@@ -190,15 +190,15 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Before Link:') ?></th>
-	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo stripslashes($row->text_before_link)?>" /></td>
+	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo htmlspecialchars(stripslashes($row->text_before_link))?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Between Link and Description:') ?></th>
-<td><input type="text" name="text_after_link" size="45" value="<?php echo stripslashes($row->text_after_link)?>" /></td>
+<td><input type="text" name="text_after_link" size="45" value="<?php echo htmlspecialchars(stripslashes($row->text_after_link))?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('After Link:') ?></th>
-<td><input type="text" name="text_after_all" size="45" value="<?php echo stripslashes($row->text_after_all)?>"/></td>
+<td><input type="text" name="text_after_all" size="45" value="<?php echo htmlspecialchars(stripslashes($row->text_after_all))?>"/></td>
 </tr>
 </table>
 </fieldset>
