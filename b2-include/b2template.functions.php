@@ -1175,6 +1175,18 @@ function posts_nav_link($sep=' :: ', $prelabel='<< Previous Page', $nxtlabel='Ne
 
 /***** Category tags *****/
 
+function get_category_link($echo = false, $file='') {
+	global $post, $querystring_start, $querystring_equal, $siteurl, $blogfilename;
+	$cat_ID = $post->post_category;
+    if ($file == '') {
+        $file = "$siteurl/$blogfilename";
+    }
+    $link = $file.$querystring_start.'cat'.$querystring_equal.$cat_ID;
+    if ($echo)
+        echo($link);
+    return $link;
+}
+
 function the_category() {
 	$category = get_the_category();
 	$category = apply_filters('the_category', $category);
@@ -1280,10 +1292,10 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
                    $file = 'blah', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
 	global $tablecategories, $tableposts, $querycount, $wpdb;
-	global $pagenow;
+	global $pagenow, $siteurl, $blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
     if (($file == 'blah') || ($file == '')) {
-        $file = $pagenow;
+        $file = "$siteurl/$blogfilename";
     }
 	$sort_column = 'cat_'.$sort_column;
 
@@ -1396,7 +1408,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
                 return;
             }
         }
-        echo '<a href="';
+        echo '<a href="' . $siteurl . '/';
         if ($b2commentsjavascript) {
             echo get_permalink();
             echo '" onclick="b2open(this.href); return false"';
