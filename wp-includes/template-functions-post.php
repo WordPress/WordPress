@@ -321,21 +321,83 @@ function the_meta() {
 function wp_list_pages($args = '') {
 	global $wpdb;
 
-	// TODO: Hierarchy.
-
 	parse_str($args, $r);
-	if (!isset($r['sort_column'])) $r['sort_column'] = 'title';
-	if (!isset($r['sort_order'])) $r['sort_order'] = 'asc';
+	if (!isset($r['child_of'])) $r['child_of'] = 0;
+	if (!isset($r['depth'])) $r['depth'] = 0;
+	if (!isset($r['show_date'])) $r['show_date'] = '';
+	if (!isset($r['sort_column'])) $r['sort_column'] = 'post_title';
+	if (!isset($r['sort_order'])) $r['sort_order'] = 'ASC';
 
-	$pages = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'static' ORDER BY post_" . $r['sort_column'] . " " . $r['sort_order'] = 'asc');
 
-	foreach ($pages as $page) {
-		echo '<li>';
+	$exclusions = '';
+	if (!empty($r['exclude'])) {
+		$expages = preg_split('/[\s,]+/',$r['exclude']);
+		if (count($expages)) {
+			foreach ($expages as $expage) {
+				$exclusions .= ' AND ID <> ' . intval($expage) . ' ';
+			}
+		}
+	}
 
-		$title = apply_filters('the_title', $page->post_title);
+	$option_dates = '';
+	if (! empty($r['show_date'])) {
+		if ('modified' == $r['show_date'])
+			$option_dates = ",UNIX_TIMESTAMP(post_modified) AS ts";
+		else
+			$option_dates = ",UNIX_TIMESTAMP(post_date) AS ts";
+	}
 
-		echo '<a href="' . get_page_link($page->ID) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
-		echo '</li>';
+	$post_parent = '';
+	if ($r['child_of']) {
+		$post_parent = ' AND post_parent=' . $r['child_of'] . ' ';
+	}
+	$pages = $wpdb->get_results("SELECT " .
+															"ID, post_title,post_parent " .
+															"$option_dates " .
+															"FROM $wpdb->posts " .
+															"WHERE post_status = 'static' " .
+															"$post_parent" .
+															"$exclusions " .
+															"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
+	$page_tree = Array();
+	foreach($pages as $page) {
+		$page_tree[$page->ID]['title'] = $page->post_title;
+
+		if(!empty($r['show_date'])) {
+			$page_tree[$page->ID]['ts'] = $page->ts;
+		}
+		$page_tree[$page->post_parent]['children'][] = $page->ID;
+	}
+	page_level_out($r['child_of'],$page_tree, $r);
+}
+
+function page_level_out($parent, $page_tree, $args, $depth = 0) {
+	if($depth)
+		$indent = join(array_fill(0,$depth,"\t"));
+
+	foreach($page_tree[$parent]['children'] as $page_id) {
+		$cur_page = $page_tree[$page_id];
+		$title = $cur_page['title'];
+		echo $indent . '<li><a href="' . get_page_link($page_id) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
+		if(isset($cur_page['ts'])) {
+			$format = get_settings('date_format');
+			if(isset($args['date_format']))
+				$format = $args['date_format'];
+			echo " " . gmdate($format,$cur_page['ts']);
+		}
+		echo "\n";
+
+		if(isset($cur_page['children']) && is_array($cur_page['children'])) {
+			echo "$indent<ul>\n";
+			$new_depth = $depth + 1;
+
+			if(!$args['depth'] || $depth < ($args['depth']-1)) {
+				page_level_out($page_id,$page_tree, $args, $new_depth);
+			}
+			echo "$indent</ul>\n";
+		}
+		echo "$indent</li>\n";
+
 	}
 }
 
