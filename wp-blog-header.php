@@ -207,6 +207,8 @@ $wp_template_dir = get_template_directory();
 // Template redirection
 if ($pagenow == 'index.php') {
 	if (! isset($wp_did_template_redirect)) {
+		$wp_did_template_redirect = true;
+		do_action('template_redirect', '');
 		if (is_feed()) {
 			$wp_did_template_redirect = true;
 			include(dirname(__FILE__) . '/wp-feed.php');

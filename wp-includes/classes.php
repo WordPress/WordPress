@@ -704,9 +704,10 @@ class WP_Rewrite {
 	var $category_structure;
 	var $date_structure;
 	var $front;
-	var $prefix = '';
+	var $root = '';
 	var $index = 'index.php';
 	var $matches = '';
+	var $rules;
 	var $rewritecode = 
 		array(
 					'%year%',
@@ -876,7 +877,13 @@ class WP_Rewrite {
 		return $this->category_structure;
 	}
 
-	function generate_rewrite_rules($permalink_structure = '', $forcomments = false) {
+	function add_rewrite_tag($tag, $pattern, $query) {
+		$this->rewritecode[] = $tag;
+		$this->rewritereplace[] = $pattern;
+		$this->queryreplace[] = $query;
+	}
+
+	function generate_rewrite_rules($permalink_structure = '', $page = true, $feed = true, $forcomments = false) {
 		$feedregex2 = '(feed|rdf|rss|rss2|atom)/?$';
 		$feedregex = 'feed/' . $feedregex2;
 
@@ -932,8 +939,12 @@ class WP_Rewrite {
 				$feedquery .= '&withcomments=1';
 				$feedquery2 .= '&withcomments=1';
 			}
-				
-			$rewrite = array($feedmatch => $feedquery, $feedmatch2 => $feedquery2, $pagematch => $pagequery);
+
+			$rewrite = array();
+			if ($feed) 
+				$rewrite = array($feedmatch => $feedquery, $feedmatch2 => $feedquery2);
+			if ($page)
+				$rewrite = $rewrite + array($pagematch => $pagequery);
 
 			if ($num_toks) {
 				$post = 0;
@@ -980,13 +991,13 @@ class WP_Rewrite {
 		$date_rewrite = $this->generate_rewrite_rules($this->get_date_permastruct());
 		
 		// Root
-		$root_rewrite = $this->generate_rewrite_rules($this->prefix . '/');
+		$root_rewrite = $this->generate_rewrite_rules($this->root . '/');
 
 		// Comments
-		$comments_rewrite = $this->generate_rewrite_rules($this->prefix . 'comments', true);
+		$comments_rewrite = $this->generate_rewrite_rules($this->root . 'comments',true, true, true);
 
 		// Search
-		$search_structure = $this->prefix . "search/%search%";
+		$search_structure = $this->root . "search/%search%";
 		$search_rewrite = $this->generate_rewrite_rules($search_structure);
 
 		// Categories
@@ -1000,14 +1011,15 @@ class WP_Rewrite {
 		$page_rewrite = $this->page_rewrite_rules();
 
 		// Deprecated style static pages
-		$page_structure = $this->prefix . 'site/%pagename%';
+		$page_structure = $this->root . 'site/%pagename%';
 		$old_page_rewrite = $this->generate_rewrite_rules($page_structure);
 
 		// Put them together.
-		$this->rewrite = $page_rewrite + $root_rewrite + $comments_rewrite + $old_page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite + $post_rewrite;
+		$this->rules = $page_rewrite + $root_rewrite + $comments_rewrite + $old_page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite + $date_rewrite + $post_rewrite;
 
-		$this->rewrite = apply_filters('rewrite_rules_array', $this->rewrite);
-		return $this->rewrite;
+		do_action('generate_rewrite_rules', '');
+		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
+		return $this->rules;
 	}
 
 	function wp_rewrite_rules() {
@@ -1029,7 +1041,6 @@ class WP_Rewrite {
 		$rules .= "RewriteBase $home_root\n";
 		$this->matches = '';
 		$rewrite = $this->rewrite_rules();
-
 		$num_rules = count($rewrite);
 		$rules .= "RewriteCond %{REQUEST_FILENAME} -f [OR]\n" .
 			"RewriteCond %{REQUEST_FILENAME} -d\n" .
@@ -1061,9 +1072,9 @@ class WP_Rewrite {
 	function init() {
 		$this->permalink_structure = get_settings('permalink_structure');
 		$this->front = substr($this->permalink_structure, 0, strpos($this->permalink_structure, '%'));		
-		$this->prefix = '';
+		$this->root = '';
 		if ($this->using_index_permalinks()) {
-			$this->prefix = $this->index . '/';
+			$this->root = $this->index . '/';
 		}
 		$this->category_base = get_settings('category_base');
 		unset($this->category_structure);

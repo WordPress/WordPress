@@ -2056,4 +2056,13 @@ function add_query_arg() {
 function remove_query_arg($key, $query) {
 	add_query_arg($key, '', $query);
 }
+
+function load_template($file) {
+	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query,
+		$wp_rewrite, $wpdb;
+
+	extract($wp_query->query_vars);
+
+	include($file);
+}
 ?>
