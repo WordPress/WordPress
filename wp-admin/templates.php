@@ -51,9 +51,11 @@ break;
 default:
 
 	require_once('./admin-header.php');
-	if ($user_level <= 5) {
+	if ( $user_level <= 5 )
 		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
-	}
+
+	if ( strstr( $file, 'wp-config.php' ) )
+		die( __('<p>The config file cannot be edited or viewed through the web interface. Sorry!</p>') );
 
 	update_recently_edited($file);
 
