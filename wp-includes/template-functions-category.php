@@ -39,7 +39,7 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
 			$catlink = str_replace('%category%', $category_nicename, $catlink);
 			$catlink = get_settings('home') . trailingslashit($catlink);
     }
-		$catlink = apply_filters('category_link', $catlink);
+		$catlink = apply_filters('category_link', $catlink, $category_id, $category_nicename);
     if ($echo) echo $catlink;
     return $catlink;
 }
@@ -99,7 +99,7 @@ function the_category($separator = '', $parents='') {
             ++$i;
         }
     }
-    echo apply_filters('the_category', $thelist);
+    echo apply_filters('the_category', $thelist, $separator, $parents);
 }
 
 function get_the_category_by_ID($cat_ID) {
@@ -173,7 +173,7 @@ function category_description($category = 0) {
     global $cat, $wpdb, $cache_categories;
     if (!$category) $category = $cat;
     $category_description = $cache_categories[$category]->category_description;
-    $category_description = apply_filters('category_description', $category_description);
+    $category_description = apply_filters('category_description', $category_description, $category);
     return $category_description;
 }
 
@@ -212,7 +212,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
     if (intval($optionnone) == 1) echo "\t<option value='0'>None</option>\n";
     if ($categories) {
         foreach ($categories as $category) {
-            $cat_name = apply_filters('list_cats', $category->cat_name);
+            $cat_name = apply_filters('list_cats', $category->cat_name, $category);
             echo "\t<option value=\"".$category->cat_ID."\"";
             if ($category->cat_ID == $selected)
                 echo ' selected="selected"';
@@ -328,10 +328,10 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 			if ($use_desc_for_title == 0 || empty($category->category_description)) {
 				$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name)) . '"';
 			} else {
-				$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description)) . '"';
+				$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category)) . '"';
 			}
 			$link .= '>';
-			$link .= apply_filters('list_cats', $category->cat_name).'</a>';
+			$link .= apply_filters('list_cats', $category->cat_name, $category).'</a>';
 
 			if ( (! empty($feed_image)) || (! empty($feed)) ) {
 				

@@ -59,7 +59,7 @@ function wp_meta() {
 
 function bloginfo($show='') {
     $info = get_bloginfo($show);
-    $info = apply_filters('bloginfo', $info);
+    $info = apply_filters('bloginfo', $info, $show);
     echo convert_chars($info);
 }
 
@@ -595,7 +595,7 @@ function the_date($d='', $before='', $after='', $echo = true) {
         $the_date .= $after;
         $previousday = $day;
     }
-    $the_date = apply_filters('the_date', $the_date);
+    $the_date = apply_filters('the_date', $the_date, $d, $before, $after);
     if ($echo) {
         echo $the_date;
     } else {
@@ -604,7 +604,7 @@ function the_date($d='', $before='', $after='', $echo = true) {
 }
 
 function the_time( $d = '' ) {
-	echo apply_filters('the_time', get_the_time( $d ) );
+	echo apply_filters('the_time', get_the_time( $d ), $d);
 }
 
 function get_the_time( $d = '' ) {
@@ -612,7 +612,7 @@ function get_the_time( $d = '' ) {
 		$the_time = get_post_time(get_settings('time_format'));
 	else
 		$the_time = get_post_time($d);
-	return apply_filters('get_the_time', $the_time);
+	return apply_filters('get_the_time', $the_time, $d);
 }
 
 function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
@@ -623,7 +623,7 @@ function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
 		$time = $post->post_date;
 
 	$time = mysql2date($d, $time);
-	return apply_filters('get_the_time', $time);
+	return apply_filters('get_the_time', $time, $d, $gmt);
 }
 
 function the_weekday() {
@@ -642,7 +642,7 @@ function the_weekday_date($before='',$after='') {
         $the_weekday_date .= $after;
         $previousweekday = $day;
     }
-    $the_weekday_date = apply_filters('the_weekday_date', $the_weekday_date);
+    $the_weekday_date = apply_filters('the_weekday_date', $the_weekday_date, $before, $after);
     echo $the_weekday_date;
 }
 

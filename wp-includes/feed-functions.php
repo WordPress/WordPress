@@ -131,7 +131,7 @@ function the_category_rss($type = 'rss') {
             $the_list .= "\n\t<category>$category->cat_name</category>";
         }
     }
-    echo apply_filters('the_category_rss', $the_list);
+    echo apply_filters('the_category_rss', $the_list, $type);
 }
 
 function rss_enclosure() {

@@ -31,7 +31,7 @@ function the_ID() {
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
 	if (!empty($title)) {
-		$title = apply_filters('the_title', $before . $title . $after);
+		$title = apply_filters('the_title', $before . $title . $after, $before, $after);
 		if ($echo)
 			echo $title;
 		else

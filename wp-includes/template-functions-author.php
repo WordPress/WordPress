@@ -136,7 +136,7 @@ function get_author_link($echo = false, $author_id, $author_nicename) {
 				$link = get_settings('home') . trailingslashit($link);
     }
 
-		$link = apply_filters('author_link', $link);
+		$link = apply_filters('author_link', $link, $author_id, $author_nicename);
     if ($echo) echo $link;
     return $link;
 }

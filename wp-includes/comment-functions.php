@@ -598,7 +598,7 @@ function wp_set_comment_status($comment_id, $comment_status) {
     }
     
     if ($wpdb->query($query)) {
-		do_action('wp_set_comment_status', $comment_id);
+		do_action('wp_set_comment_status', $comment_id, $comment_status);
 		return true;
     } else {
 		return false;

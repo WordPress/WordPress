@@ -74,10 +74,10 @@ function get_permalink($id = false) {
 			$author,
 			$idpost->post_name,
 		);
-		return apply_filters('post_link', get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink));
+		return apply_filters('post_link', get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink), $idpost);
 	} else { // if they're not using the fancy permalink option
 		$permalink = get_settings('home') . '/?p=' . $idpost->ID;
-		return apply_filters('post_link', $permalink);
+		return apply_filters('post_link', $permalink, $idpost);
 	}
 }
 
@@ -98,7 +98,7 @@ function get_page_link($id = false) {
 		$link = get_settings('home') . "/?page_id=$id";
 	}
 
-	return apply_filters('page_link', $link);
+	return apply_filters('page_link', $link, $id);
 }
 
 function get_year_link($year) {
@@ -107,9 +107,9 @@ function get_year_link($year) {
 		$yearlink = $wp_rewrite->get_year_permastruct();
     if (!empty($yearlink)) {
         $yearlink = str_replace('%year%', $year, $yearlink);
-        return apply_filters('year_link', get_settings('home') . trailingslashit($yearlink));
+        return apply_filters('year_link', get_settings('home') . trailingslashit($yearlink), $year);
     } else {
-        return apply_filters('year_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year);
+        return apply_filters('year_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year, $year);
     }
 }
 
@@ -121,9 +121,9 @@ function get_month_link($year, $month) {
     if (!empty($monthlink)) {
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
-        return apply_filters('month_link', get_settings('home') . trailingslashit($monthlink));
+        return apply_filters('month_link', get_settings('home') . trailingslashit($monthlink), $year, $month);
     } else {
-        return apply_filters('month_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2));
+        return apply_filters('month_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2), $year, $month);
     }
 }
 
@@ -138,9 +138,9 @@ function get_day_link($year, $month, $day) {
         $daylink = str_replace('%year%', $year, $daylink);
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
-        return apply_filters('day_link', get_settings('home') . trailingslashit($daylink));
+        return apply_filters('day_link', get_settings('home') . trailingslashit($daylink), $year, $month, $day);
     } else {
-        return apply_filters('day_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2));
+        return apply_filters('day_link', get_settings('home') .'/'. $querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2), $year, $month, $day);
     }
 }
 
@@ -170,7 +170,7 @@ function get_feed_link($feed='rss2') {
 		$output = get_settings('siteurl') . "/wp-{$feed}.php";
 	}
 
-	return apply_filters('feed_link', $output);
+	return apply_filters('feed_link', $output, $feed);
 }
 
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {
@@ -264,7 +264,7 @@ function previous_post_link($format='&laquo; %link', $link='%title', $in_same_ca
     return;
   }
 
-  $title = apply_filters('the_title', $post->post_title);
+  $title = apply_filters('the_title', $post->post_title, $post);
 
   $string = '<a href="'.get_permalink($post->ID).'">';
 
@@ -284,7 +284,7 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
     return;
   }
 
-  $title = apply_filters('the_title', $post->post_title);
+  $title = apply_filters('the_title', $post->post_title, $post);
 
   $string = '<a href="'.get_permalink($post->ID).'">';
 
