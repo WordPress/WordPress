@@ -1332,14 +1332,18 @@ function posts_nav_link($sep=' :: ', $prelabel='<< Previous Page', $nxtlabel='Ne
 /***** Category tags *****/
 
 function get_the_category() {
-	global $post, $tablecategories, $tablepost2cat, $wpdb;
-	$categories = $wpdb->get_results("
-		SELECT category_id, cat_name, category_nicename, category_description 
-		FROM  $tablecategories, $tablepost2cat 
-		WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = $post->ID
-		");
-
-	return $categories;
+	global $post, $tablecategories, $tablepost2cat, $wpdb, $category_cache;
+	if ($category_cache[$post->ID]) {
+		return $category_cache[$post->ID];
+	} else {
+		$categories = $wpdb->get_results("
+			SELECT category_id, cat_name, category_nicename, category_description 
+			FROM  $tablecategories, $tablepost2cat 
+			WHERE $tablepost2cat.category_id = cat_ID AND $tablepost2cat.post_id = $post->ID
+			");
+	
+		return $categories;
+	}
 }
 
 function get_category_link($echo = false, $category_id, $category_nicename) {
