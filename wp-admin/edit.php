@@ -208,13 +208,13 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'control_edit':
 		?>
-		<td><?php if ( user_can_edit_user($user_level,$authordata->user_level) ) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td>
+		<td><?php if ( user_can_edit_user($user_ID,$authordata->ID) ) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td>
 		<?php
 		break;
 
 	case 'control_delete':
 		?>
-		<td><?php if ( user_can_edit_user($user_level,$authordata->user_level) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), wp_specialchars(get_the_title('', ''), 1) ) . "')\">" . __('Delete') . "</a>"; } ?></td>
+		<td><?php if ( user_can_edit_user($user_ID,$authordata->ID) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), wp_specialchars(get_the_title('', ''), 1) ) . "')\">" . __('Delete') . "</a>"; } ?></td>
 		<?php
 		break;
 
