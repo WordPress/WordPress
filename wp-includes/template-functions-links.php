@@ -50,6 +50,9 @@ function get_permalink($id=false) {
         '%year%',
         '%monthnum%',
         '%day%',
+		'%hour%',
+		'%minute%',
+		'%second%',
         '%postname%',
         '%post_id%'
     );
@@ -60,6 +63,9 @@ function get_permalink($id=false) {
                 date('Y', $unixtime),
                 date('m', $unixtime),
                 date('d', $unixtime),
+				date('H', $unixtime),
+				date('i', $unixtime),
+				date('s', $unixtime),
                 $post->post_name,
                 $post->ID
             );
@@ -75,6 +81,9 @@ function get_permalink($id=false) {
                 date('Y', $unixtime),
                 date('m', $unixtime),
                 date('d', $unixtime),
+				date('H', $unixtime),
+				date('i', $unixtime),
+				date('s', $unixtime),
                 $idpost->post_name,
                 $id
             );

@@ -246,11 +246,17 @@ function url_to_postid($url = '') {
 		'%year%',
 		'%monthnum%',
 		'%day%',
+		'%hour%',
+		'%minute%',
+		'%second%',
 		'%postname%',
 		'%post_id%'
 	);
 	$rewritereplace = array(
 		'([0-9]{4})?',
+		'([0-9]{1,2})?',
+		'([0-9]{1,2})?',
+		'([0-9]{1,2})?',
 		'([0-9]{1,2})?',
 		'([0-9]{1,2})?',
 		'([_0-9a-z-]+)?',
@@ -282,6 +288,9 @@ function url_to_postid($url = '') {
 	if ($year) $where .= " AND YEAR(post_date) = '" . intval($year) . "'";
 	if ($monthnum) $where .= " AND MONTH(post_date) = '" . intval($monthnum) . "'";
 	if ($day) $where .= " AND DAYOFMONTH(post_date) = '" . intval($day) . "'";
+	if ($hour) $where .= " AND HOUR(post_date) = '" . intval($hour) . "'";
+	if ($minute) $where .= " AND MINUTE(post_date) = '" . intval($minute) . "'";
+	if ($second) $where .= " AND SECOND(post_date) = '" . intval($second) . "'";
 	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
 
 	// Run the query to get the post ID:
@@ -1187,29 +1196,41 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
         }
     }
 
-    $rewritecode = array(
-                         '%year%',
-                         '%monthnum%',
-                         '%day%',
-                         '%postname%',
-                         '%post_id%'
-                         );
+    $rewritecode = 
+	array(
+	'%year%',
+	'%monthnum%',
+	'%day%',
+	'%hour%',
+	'%minute%',
+	'%second%',
+	'%postname%',
+	'%post_id%'
+	);
 
-    $rewritereplace = array(
-                            '([0-9]{4})?',
-                            '([0-9]{1,2})?',
-                            '([0-9]{1,2})?',
-                            '([_0-9a-z-]+)?',
-                            '([0-9]+)?'
-                            );
+    $rewritereplace = 
+	array(
+	'([0-9]{4})?',
+	'([0-9]{1,2})?',
+	'([0-9]{1,2})?',
+	'([0-9]{1,2})?',
+	'([0-9]{1,2})?',
+	'([0-9]{1,2})?',
+	'([_0-9a-z-]+)?',
+	'([0-9]+)?'
+	);
 
-    $queryreplace = array (
-                           'year=',
-                           'monthnum=',
-                           'day=',
-                           'name=',
-                           'p='
-                           );
+    $queryreplace = 
+	array (
+	'year=',
+	'monthnum=',
+	'day=',
+	'hour=',
+	'minute=',
+	'second=',
+	'name=',
+	'p='
+	);
 
 
     $match = str_replace('/', '/?', $permalink_structure);
@@ -1263,7 +1284,7 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 
     // Code for nice categories and authors, currently not very flexible
     $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-    $catmatch = $front . 'category/';
+    $catmatch = get_settings( 'category_base' ) . '/';
     $catmatch = preg_replace('|^/+|', '', $catmatch);
     
     $catfeedmatch = $catmatch . '(.*)/' . $feedregex;

@@ -25,8 +25,12 @@ require_once('./optionhandler.php');
 if ($_POST['submit']) {
 	update_option('permalink_structure', $_POST['permalink_structure']);
 	$permalink_structure = $_POST['permalink_structure'];
+
+	update_option('category_base', $_POST['category_base']);
+	$category_base = $_POST['category_base'];
 } else {
 	$permalink_structure = get_settings('permalink_structure');
+	$category_base = get_settings('category_base');
 }
 
 
@@ -43,13 +47,42 @@ if ($_POST['submit']) {
 <div class="wrap"> 
   <h2><?php _e('Edit Permalink Structure') ?></h2> 
   <?php _e('<p>WordPress offers you the ability to create a custom URI structure for your permalinks and archives. The following &#8220;tags&#8221; are available:</p>')?> 
-  <ul> 
-    <li><code>%year%</code> --- <?php _e('The year of the post, 4 digits, for example <code>2004</code>') ?> </li> 
-    <li><code>%monthnum%</code> --- <?php _e('Month of the year, for example <code>05</code>') ?></li> 
-    <li><code>%day% </code>--- <?php _e('Day of the month, for example <code>28</code>') ?></li> 
-    <li><code>%postname%</code> --- <?php _e('A sanitized version of the title of the post. So &#8220;This Is A Great Post!&#8221; becomes &#8220;<code>this-is-a-great-post</code>&#8221; in the URI') ?> </li> 
-    <li><code>%post_id%</code> --- <?php _e('The unique ID # of the post, for example <code>423</code>') ?></li> 
-  </ul> 
+
+<dl>
+	<dt><code>%year%</code></dt>
+	<dd>
+		<?php _e('The year of the post, 4 digits, for example <code>2004</code>') ?>
+	</dd>
+	<dt><code>%monthnum%</code></dt>
+	<dd>
+		<?php _e('Month of the year, for example <code>05</code>') ?>
+	</dd>
+	<dt><code>%day%</code></dt>
+	<dd>
+		<?php _e('Day of the month, for example <code>28</code>') ?>
+	</dd>
+	<dt><code>%hour%</code></dt>
+	<dd>
+		<?php _e('Hour of the day, for example <code>15</code>') ?>
+	</dd>
+	<dt><code>%minute%</code></dt>
+	<dd>
+		<?php _e('Minute of the hour, for example <code>43</code>') ?>
+	</dd>
+	<dt><code>%second%</code></dt>
+	<dd>
+		<?php _e('Second of the minute, for example <code>33</code>') ?>
+	</dd>
+	<dt><code>%postname%</code></dt>
+	<dd>
+		<?php _e('A sanitized version of the title of the post. So &#8220;This Is A Great Post!&#8221; becomes &#8220;<code>this-is-a-great-post</code>&#8221; in the URI') ?>
+	</dd>
+	<dt><code>%post_id%</code></dt>
+	<dd>
+		<?php _e('The unique ID # of the post, for example <code>423</code>') ?>
+	</dd>
+</dl>
+
   <?php _e('<p>So for example a value like:</p>
   <p><code>/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
   <p>would give you a permalink like:</p>
@@ -58,10 +91,14 @@ if ($_POST['submit']) {
   <p><code>/index.php/archives/%year%/%monthnum%/%day%/%postname%/</code> </p>
   <p>If you use this option you can ignore the mod_rewrite rules. </p>') ?>
   <form name="form" action="options-permalink.php" method="post"> 
-    <?php _e('<p>Use the template tags above to create a virtual site structure:</p>') ?> 
+    <p><?php _e('Use the template tags above to create a virtual site structure:') ?></p>
     <p> 
       <input name="permalink_structure" type="text" style="width: 98%;" value="<?php echo $permalink_structure; ?>" /> 
     </p> 
+	<p><?php _e('Enter a path without templates for your categories:') ?> FIXME[THIS WORDING MAKES NO SENSE]</p>
+	<p> 
+  <input name="category_base" type="text" style="width: 98%;" value="<?php echo $category_base; ?>" /> 
+     </p> 
     <p class="submit"> 
       <input type="submit" name="submit" value="<?php _e('Update Permalink Structure &raquo;') ?>"> 
     </p> 

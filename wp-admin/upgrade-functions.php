@@ -803,6 +803,11 @@ function upgrade_110() {
 		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('home', 3, '', 8)");
 	}
 
+	// Option for category base
+	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'category_base'")) {
+		$wpdb->query("INSERT INTO $tableoptions (option_name, option_type, option_value, option_admin_level) VALUES ('category_base', 3, '', 8)");
+	}
+
 	// Delete unused options
 	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file');
 	foreach ($unusedoptions as $option) :

@@ -50,7 +50,7 @@ if (! empty($_SERVER['PATH_INFO'])) {
     }    
 }
 
-$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name', 'category_name', 'feed', 'author_name');
+$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name');
 
     for ($i=0; $i<count($wpvarstoreset); $i += 1) {
         $wpvar = $wpvarstoreset[$i];
@@ -132,44 +132,58 @@ $add_hours = intval(get_settings('gmt_offset'));
 $add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
 $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
-// if a month is specified in the querystring, load that month
-if ($m != '') {
-    $m = ''.intval($m);
-    $where .= ' AND YEAR(post_date)='.substr($m,0,4);
+// If a month is specified in the querystring, load that month
+if ('' != $m) {
+    $m = '' . preg_replace('|[^0-9]|', '', $m);
+    $where .= ' AND YEAR(post_date)=' . substr($m, 0, 4);
     if (strlen($m)>5)
-        $where .= ' AND MONTH(post_date)='.substr($m,4,2);
+        $where .= ' AND MONTH(post_date)=' . substr($m, 4, 2);
     if (strlen($m)>7)
-        $where .= ' AND DAYOFMONTH(post_date)='.substr($m,6,2);
+        $where .= ' AND DAYOFMONTH(post_date)=' . substr($m, 6, 2);
     if (strlen($m)>9)
-        $where .= ' AND HOUR(post_date.)='.substr($m,8,2);
+        $where .= ' AND HOUR(post_date)=' . substr($m, 8, 2);
     if (strlen($m)>11)
-        $where .= ' AND MINUTE(post_date)='.substr($m,10,2);
+        $where .= ' AND MINUTE(post_date)=' . substr($m, 10, 2);
     if (strlen($m)>13)
-        $where .= ' AND SECOND(post_date)='.substr($m,12,2);
-
+        $where .= ' AND SECOND(post_date)=' . substr($m, 12, 2);
 }
 
-if ($year != '') {
+if ('' != $hour) {
+	$hour = '' . intval($hour);
+	$where .= " AND HOUR(post_date)='$hour'";
+}
+
+if ('' != $minute) {
+	$minute = '' . intval($minute);
+	$where .= " AND MINUTE(post_date)='$minute'";
+}
+
+if ('' != $second) {
+	$second = '' . intval($second);
+	$where .= " AND SECOND(post_date)='$second'";
+}
+
+if ('' != $year) {
     $year = '' . intval($year);
     $where .= " AND YEAR(post_date)='$year'";
 }
 
-if ($monthnum != '') {
+if ('' != $monthnum) {
     $monthnum = '' . intval($monthnum);
     $where .= " AND MONTH(post_date)='$monthnum'";
 }
 
-if ($day != '') {
+if ('' != $day) {
     $day = '' . intval($day);
     $where .= " AND DAYOFMONTH(post_date)='$day'";
 }
 
-if ($name != '') {
+if ('' != $name) {
     $name = preg_replace('/[^a-z0-9-]/', '', $name);
     $where .= " AND post_name = '$name'";
 }
 
-if ($w != '') {
+if ('' != $w) {
     $w = ''.intval($w);
     $where .= " AND WEEK(post_date, 1)='$w'";
 }
