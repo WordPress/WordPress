@@ -620,7 +620,10 @@ function human_time_diff( $from, $to = '' ) {
 	$diff = (int) ($to - $from);
 	if ($diff <= 3600) {
 		$mins = round($diff / 60);
-		$since = sprintf( __('%s mins'), $mins);
+		if ($mins <= 1)
+			$since = __('1 min');
+		else
+			$since = sprintf( __('%s mins'), $mins);
 	} else if (($diff <= 86400) && ($diff > 3600)) {
 		$hours = round($diff / 3600);
 		if ($hours <= 1)
