@@ -201,7 +201,8 @@ if ($got_row) {
 
 $query = "ALTER TABLE $tableposts ADD COLUMN post_excerpt text NOT NULL;";
 $q = $wpdb->query($query);
-$query = "ALTER TABLE $tableposts ADD `comment_status` ENUM('open','closed') NOT NULL,
+$query = "ALTER TABLE $tableposts ADD `post_status` ENUM('publish','draft','private') NOT NULL,
+ADD `comment_status` ENUM('open','closed') NOT NULL,
 ADD `ping_status` ENUM('open','closed') NOT NULL,
 ADD post_password varchar(20) NOT NULL;";
 $q = $wpdb->query($query);
