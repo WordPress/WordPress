@@ -53,7 +53,7 @@ if ($standalone == 0) {
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-<title>b2 > <?php echo $title; ?></title>
+<title>wordpress > <?php echo $title; ?></title>
 <link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
 <style type="text/css">
 <!--
@@ -77,6 +77,7 @@ textarea,input,select {
 	border-style: solid;
 	padding: 2px;
 	margin: 1px;
+	font-family: Georgia, "Times New Roman", Times, serif;
 }
 .checkbox {
 <?php
@@ -93,27 +94,9 @@ if ((preg_match("/MSIE/",$HTTP_USER_AGENT)) && (!preg_match("/Mac/",$HTTP_USER_A
 -->
 </style>
 <?php
-if ($use_spellchecker) {
-?><script type="text/javascript" language="javascript">
-<!--
-function DoSpell(formname, subject, body)
-{
-document.SPELLDATA.formname.value=formname
-document.SPELLDATA.subjectname.value=subject
-document.SPELLDATA.messagebodyname.value=body
-document.SPELLDATA.companyID.value="custom\\http://cafelog.com"
-document.SPELLDATA.language.value=1033
-document.SPELLDATA.opener.value="<?php echo $pathserver ?>/sproxy.pl"
-document.SPELLDATA.formaction.value="http://www.spellchecker.com/spell/startspelling.asp "
-window.open("<?php echo $pathserver ?>/b2spell.php","Spell",
-"toolbar=no,directories=no,location=yes,resizable=yes,width=620,height=400,top=100,left=100")
-}
-//-->
-</script><?php
-}
 if ($redirect==1) {
 ?>
-<script language="javascript">
+<script language="javascript" type="text/javascript">
 <!--
 function redirect() {
   window.location = "<?php echo $redirect_url; ?>";
@@ -124,7 +107,7 @@ setTimeout("redirect();", 600);
 <?php
 }
 ?>
-<script language="javascript">
+<script language="javascript" type="text/javascript">
 <!-- hiding from old terrible browsers
 
 	function profile(userID) {
@@ -154,7 +137,7 @@ setTimeout("redirect();", 600);
 //  End -->
 </script>
 </head>
-<body bgcolor="#ffffff" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body>
 
 <table width="100%" cellpadding="0" cellspacing="0" align="center">
 <?php
@@ -169,7 +152,6 @@ if ($profile==0) {
 }
 ?>
 <td valign="top">
-<img src="b2-img/blank.gif" border="0" width="35" height="24" />
 <div class="panelbody">
 <?php
 
