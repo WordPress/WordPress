@@ -128,13 +128,12 @@ if ($i == "ASC")
 		<select name="cat" style="width:140px;">
 		<option value="all">All Categories</option>
 		<?php
-	$query="SELECT * FROM $tablecategories";
-	$result=mysql_query($query);
+	$categories = $wpdb->get_results("SELECT * FROM $tablecategories");
 	$querycount++;
 	$width = ($mode=="sidebar") ? "100%" : "170px";
-	while($row = mysql_fetch_object($result)) {
-		echo "<option value=\"".$row->cat_ID."\"";
-		if ($row->cat_ID == $postdata["Category"])
+	foreach ($categories as $category) {
+		echo "<option value=\"".$category->cat_ID."\"";
+		if ($category->cat_ID == $postdata["Category"])
 			echo " selected='selected'";
 		echo ">".$row->cat_name."</option>";
 	}
@@ -230,18 +229,18 @@ if ($i == "ASC")
 	// these lines are b2's "motor", do not alter nor remove them
 	include($abspath.'blog.header.php');
 
-	while($row = mysql_fetch_object($result)) {
+	foreach ($posts as $post) {
 		$posts_per_page = 10;
 	start_b2(); ?>
 			<p>
-				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comment', '1 comment', "% comments") ?><?php trackback_number('', ', 1 trackback', ', % trackbacks') ?><?php pingback_number('', ', 1 pingback', ', % pingbacks') ?></a>
+				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comment', '1 comment', "% comments") ?></a>
 				<?php
 				if (($user_level > $authordata[13]) or ($user_login == $authordata[1])) {
-				echo " - <a href=\"b2edit.php?action=edit&amp;post=".$postdata["ID"];
+				echo " - <a href='b2edit.php?action=edit&amp;post=$id";
 				if ($m)
 				echo "&m=$m";
-				echo "\">Edit</a>";
-				echo " - <a href=\"b2edit.php?action=delete&amp;post=".$postdata["ID"]."\" onclick=\"return confirm('You are about to delete this post \'".$row->post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
+				echo "'>Edit</a>";
+				echo " - <a href='b2edit.php?action=delete&amp;post=$id' onclick=\"return confirm('You are about to delete this post \'".$row->post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
 				}
 				?>
 				]
@@ -249,11 +248,7 @@ if ($i == "ASC")
 				<font color="#999999"><b><a href="<?php permalink_single($blogfilename); ?>" title="permalink"><?php the_title() ?></a></b> by <b><?php the_author() ?> (<a href="javascript:profile(<?php the_author_ID() ?>)"><?php the_author_nickname() ?></a>)</b>, in <b><?php the_category() ?></b></font><br />
 				<?php permalink_anchor(); ?>
 				<?php
-				if ($safe_mode)
-					echo "<xmp>";
 				the_content();
-				if ($safe_mode)
-					echo "</xmp>";
 				?>
 			</p>
 				<?php
@@ -261,40 +256,37 @@ if ($i == "ASC")
 				// comments
 				if (($withcomments) or ($c)) {
 
-					$queryc = "SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date";
-					$resultc = mysql_query($queryc);
-					if ($resultc) {
+					$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+					if ($comments) {
 					?>
 
-					<h3 id="comments">comments</h3>
-
+					<h3>Comments</h3>
+				<ol id="comments">
 					<?php
-					while($rowc = mysql_fetch_object($resultc)) {
-						$commentdata = get_commentdata($rowc->comment_ID);
+					foreach ($comments as $comment) {
+						$commentdata = $comment;
 					?>
 				
 					<!-- comment -->
-					<p>
+					<li>
 					<b><?php comment_author() ?> ( <?php comment_author_email_link() ?> / <?php comment_author_url_link() ?> )</b> (IP: <?php comment_author_IP() ?>)
-					<br />
 					<?php comment_text() ?>
-					<br />
 					<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?> 
 					<?php 
 					if (($user_level > $authordata[13]) or ($user_login == $authordata[1])) {
-						echo "[ <a href=\"b2edit.php?action=editcomment&comment=".$commentdata["comment_ID"]."\">Edit</a>";
-						echo " - <a href=\"b2edit.php?action=deletecomment&p=".$postdata["ID"]."&comment=".$commentdata["comment_ID"]."\">Delete</a> ]";
+						echo "[ <a href=\"b2edit.php?action=editcomment&amp;comment=".$commentdata->comment_ID."\">Edit</a>";
+						echo " - <a href=\"b2edit.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$commentdata->comment_ID."\">Delete</a> ]";
 					}
 					?>
-					</p>
+					</li>
 					<!-- /comment -->
 
 
 					<?php //end of the loop, don't delete
 					}
-
+					echo '</ol>';
 					if ($comment_error)
-						echo "<p><font color=\"red\">Error: please fill the required fields (name & comment)</font></p>";
+						echo "<p>Error: please fill the required fields (name & comment)</p>";
 					?>
 
 					<h3>Leave Comment</h3>
