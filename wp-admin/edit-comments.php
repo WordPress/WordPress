@@ -39,21 +39,19 @@ function checkAll(form)
 </form>
 <p><a href="?mode=view"><?php _e('View Mode') ?></a> | <a href="?mode=edit"><?php _e('Mass Edit Mode') ?></a></p>
 <?php
-if (!empty($delete_comments)) {
-
-	// I had this all as one query but then realized we weren't checking permissions on each comment.
-	$del_comments = ''; $safe_delete_commeents = ''; $i = 0;
-	foreach ($delete_comments as $comment) { // Check the permissions on each
-		$comment = intval($comment);
+if ( !empty( $_POST['delete_comments'] ) ) :
+	$i = 0;
+	foreach ($delete_comments as $comment) : // Check the permissions on each
+		$comment = (int) $comment;
 		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
-		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id"));
-		if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
+		$authordata = get_userdata( $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id") );
+		if ( ($user_level > $authordata->user_level) || ($user_login == $authordata->user_login) ) :
 			$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_ID = $comment");
 			++$i;
-		}
-	}
+		endif;
+	endforeach;
 	echo "<div class='wrap'><p>" . sprintf(__('%s comments deleted.'), $i) . "</p></div>";
-}
+endif;
 
 if (isset($_GET['s'])) {
 	$s = $wpdb->escape($_GET['s']);
