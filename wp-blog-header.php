@@ -4,6 +4,8 @@ if (! isset($wp_did_header)):
 if ( !file_exists( dirname(__FILE__) . '/wp-config.php') )
     die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='wp-admin/setup-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.");
 
+$wp_did_header = true;
+
 require_once( dirname(__FILE__) . '/wp-config.php');
 
 $query_vars = array();
@@ -183,21 +185,9 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 if ( is_trackback() )
 	$doing_trackback = true;
 
-$wp_did_header = true;
-endif;
-
-$wp_template_dir = TEMPLATEPATH;
-
 // Template redirection
 if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	do_action('template_redirect');
-	if ( is_feed() && empty($doing_rss) ) {
-		include(ABSPATH . '/wp-feed.php');
-		exit;
-	} else if ( is_trackback() ) {
-		include(ABSPATH . '/wp-trackback.php');
-		exit;
-	}
 	if ( is_feed() && empty($doing_rss) ) {
 		include(ABSPATH . '/wp-feed.php');
 		exit;
@@ -238,6 +228,15 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		include(TEMPLATEPATH . "/index.php");
 		exit;
 	}
+} else {
+	// Process feeds and trackbacks even if not using themes.
+	if ( is_feed() && empty($doing_rss) ) {
+		include(ABSPATH . '/wp-feed.php');
+		exit;
+	} else if ( is_trackback() ) {
+		include(ABSPATH . '/wp-trackback.php');
+		exit;
+	}
 }
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
@@ -245,4 +244,5 @@ if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
 		gzip_compression();
 }
 
+endif;
 ?>
