@@ -79,6 +79,7 @@ function get_permalink($id=false) {
         if ($idpost->post_status == 'static') {
             $permalink .=  $querystring_separator . "static=1";
         }
+	return $permalink;
     }
 }
 
