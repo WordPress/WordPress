@@ -705,6 +705,7 @@ function upgrade_110() {
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 5");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 6");
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 7");
+	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 9");
 
 	$wpdb->query("UPDATE $tableoptiongroups SET group_name = 'Link Manager' WHERE group_id = 8");
 	$wpdb->query("UPDATE $tableoptiongroups SET group_name = 'Geo-data' WHERE group_id = 9");

@@ -47,7 +47,7 @@ include('options-head.php');
   <h2><?php _e('Miscellaneous Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> 		<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel'" /> 
+	<input type="hidden" name="action" value="update" /> 		<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel','use_geo_positions','default_geourl_lat','default_geourl_lon','use_default_geourl'" /> 
 <fieldset class="options">
 <legend>
 <input name="use_fileupload" type="checkbox" id="use_fileupload" value="1" <?php checked('1', get_settings('use_fileupload')); ?> />
@@ -91,6 +91,32 @@ else $selected = '';
 ?>
       		</select></td>
       	</tr>
+    </table> 
+</fieldset>
+<fieldset class="options">
+<legend>
+<input name="use_geo_positions" type="checkbox" id="use_geo_positions" value="1" <?php checked('1', get_settings('use_geo_positions')); ?> />
+<label for="use_geo_positions"><?php _e('Use Geographic Tracking Features') ?></label></legend>
+    <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+      <tr> 
+        <th width="33%" valign="top" scope="row"><?php _e('Default latitude:') ?> </th> 
+        <td>
+        	<input name="default_geourl_lat" type="text" id="default_geourl_lat" value="<?php echo get_settings('default_geourl_lat'); ?>" size="50" />
+        	</td> 
+      </tr> 
+      <tr>
+        <th valign="top" scope="row"><?php _e('Default longitude:') ?> </th>
+        <td>          
+        	<input name="default_geourl_lon" type="text" id="default_geourl_lon" value="<?php echo get_settings('default_geourl_lon'); ?>" size="50" />
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">  </th>
+      	<td><label>
+			<input type="checkbox" name="use_default_geourl" value="1" <?php checked('1', get_settings('use_default_geourl')); ?> /> 
+			<?php _e('Use default location values if none specified.') ?></label></td>
+      	</tr>
+
     </table> 
 </fieldset>
 		<p>
