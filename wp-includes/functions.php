@@ -1206,7 +1206,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'%post_id%',
 	'%category%',
 	'%author%',
-	'%pagename%'
+	'%pagename%',
+	'%search%'
 	);
 
     $rewritereplace = 
@@ -1222,6 +1223,7 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'([/_0-9a-z-]+)',
 	'([_0-9a-z-]+)',
 	'([_0-9a-z-]+)',
+	'(.+)'
 	);
 
     $queryreplace = 
@@ -1236,7 +1238,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 	'p=',
 	'category_name=',
 	'author_name=',
-	'pagename=',    
+	'pagename=',
+	's='
 	);
 
     $feedregex = '(feed|rdf|rss|rss2|atom)/?$';
@@ -1363,6 +1366,10 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
                      $sitepagematch => $sitepagequery,
                      );
 
+    // Search
+    $search_structure = $prefix . "search/%search%";
+    $search_rewrite = generate_rewrite_rules($search_structure, $matches);
+
     // Categories
 	if ( '' == get_settings('category_base') )
 		$category_structure = $front . 'category/';
@@ -1381,7 +1388,7 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     $page_rewrite = generate_rewrite_rules($page_structure, $matches);
 
     // Put them together.
-    $rewrite = $site_rewrite + $page_rewrite + $category_rewrite + $author_rewrite;
+    $rewrite = $site_rewrite + $page_rewrite + $search_rewrite + $category_rewrite + $author_rewrite;
 
     // Add on archive rewrite rules if needed.
     if ($doarchive) {
