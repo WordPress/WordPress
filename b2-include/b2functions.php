@@ -196,76 +196,36 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 	return $week;
 }
 
-function convert_chars($content,$flag="html") { // html/unicode entities output, defaults to html
-	$newcontent = "";
+function convert_chars($content,$flag='obsolete attribute left there for backwards compatibility') { // html/unicode entities output
 
-	global $convert_chars2unicode, $convert_entities2unicode, $leavecodealone, $use_htmltrans;
-	global $b2_htmltrans, $b2_htmltranswinuni;
+	global $use_htmltrans, $b2_htmltrans, $b2_htmltranswinuni;
 
-	### this is temporary - will be replaced by proper config stuff
-	$convert_chars2unicode = 1;
-	if (($leavecodealone) || (!$use_htmltrans)) {
-		$convert_chars2unicode = 0;
-	}
-	###
-
-
-	// converts HTML-entities to their display values in order to convert them again later
-
-	$content = preg_replace("/<title>(.+?)<\/title>/","",$content);
-	$content = preg_replace("/<category>(.+?)<\/category>/","",$content);
+	// removes metadata tags
+	$content = preg_replace('/<title>(.+?)<\/title>/','',$content);
+	$content = preg_replace('/<category>(.+?)<\/category>/','',$content);
 	
-#	$content = str_replace("&amp;","&#38;",$content);
-	$content = strtr($content, $b2_htmltrans);
+	if ($use_htmltrans) {
 
-	return $content;
-	
-	// the following is the slowest. code. ever.
-	/*
-	for ($i=0; $i<strlen($content); $i=$i+1) {
-		$j = substr($content,$i,1);
-		$jnext = substr($content,$i+1,1);
-		$jord = ord($j);
-		if ($convert_chars2unicode) {
-			switch($flag) {
-				case "unicode":
-	//				$j = str_replace("&","&#38;",$j);
-					if (($jord>=128) || ($j == "&") || (($jord>=128) && ($jord<=159))) {
-						$j = "&#".$jord.";";
-					}
-					break;
-				case "html":
-					if (($jord>=128) || (($jord>=128) && ($jord<=159))) {
-						$j = "&#".$jord.";"; // $j = htmlentities($j);
-					} elseif (($j == "&") && ($jnext != "#")) {
-						$j = "&amp;";
-					}
-					break;
-				case "xml":
-					if ($jord>=128) {
-						$j = "&#".$jord.";"; // $j = htmlentities($j);
-	//					$j = htmlentities($j);
-					} elseif (($j == "&") && ($jnext != "#")) {
-						$j = "&#38;";
-					}
-					break;
-			}
-		}
+		// converts lone & characters into &#38; (a.k.a. &amp;)
+		$content = preg_replace('/&[^#](?![a-z]*;)/ie', '"&#38;".substr("\0",1)', $content);
 
-		$newcontent .= $j;
+		// converts HTML-entities to their display values in order to convert them again later
+		$content = preg_replace('/['.chr(127).'-'.chr(255).']/e', '"&#".ord(\0).";"', $content );
+		$content = strtr($content, $b2_htmltrans);
+
+		// now converting: Windows CP1252 => Unicode (valid HTML)
+		// (if you've ever pasted text from MSWord, you'll understand)
+
+		$content = strtr($content, $b2_htmltranswinuni);
+
 	}
-
-	// now converting: Windows CP1252 => Unicode (valid HTML)
-	// (if you've ever pasted text from MSWord, you'll understand)
-
-	$newcontent = strtr($newcontent, $b2_htmltranswinuni);
 
 	// you can delete these 2 lines if you don't like <br /> and <hr />
-	$newcontent = str_replace("<br>","<br />",$newcontent);
-	$newcontent = str_replace("<hr>","<hr />",$newcontent);
+	$content = str_replace("<br>","<br />",$content);
+	$content = str_replace("<hr>","<hr />",$content);
 
-	return $newcontent;
-	*/
+	return $content;
+
 }
 
 function convert_bbcode($content) {
