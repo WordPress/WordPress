@@ -93,6 +93,7 @@ function sanitize_title($title) {
     $title = preg_replace('/\s+/', ' ', $title);
     $title = trim($title);
     $title = str_replace(' ', '-', $title);
+	$title = preg_replace('|[-]+|', '-', $title);
 	return $title;
 }
 
