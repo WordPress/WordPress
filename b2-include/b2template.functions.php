@@ -111,7 +111,8 @@ function single_month_title($prefix = '', $display = true ) {
 }
 
 function get_archives($type='', $limit='') {
-	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename, $querystring_start, $querystring_equal, $month, $wpdb, $start_of_week;
+	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
+    GLOBAL $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
 
     if ('' == $type) {
         $type = get_settings('archive_mode');
@@ -138,10 +139,6 @@ function get_archives($type='', $limit='') {
     // options for weekly archive (only if you over-ride the general date format)
     $archive_week_start_date_format = 'Y/m/d';
     $archive_week_end_date_format   = 'Y/m/d';
-
-
-    //$dateformat=get_settings('date_format');
-    //$time_difference=get_settings('time_difference');
 
     if (!$archive_date_format_over_ride) {
         $archive_day_date_format = $dateformat;
@@ -172,16 +169,16 @@ function get_archives($type='', $limit='') {
 			$start_of_week = 1;
 		}
 		++$querycount;
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS dom, WEEK(post_date) AS `week` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
 		foreach ($arcresults as $arcresult) {
 			if ($arcresult->week != $arc_w_last) {
+                $arc_year = $arcresult->yr;
 				$arc_w_last = $arcresult->week;
-				$arc_ymd = $arcresult->year.'-'.zeroise($arcresult->month, 2).'-' .zeroise($arcresult->dom, 2);
-				$arc_week = get_weekstartend($arc_ymd, $start_of_week);
+				$arc_week = get_weekstartend($arcresult->yyyymmdd, $start_of_week);
 				$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 				$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-				echo "<li><a href='$siteurl/".$blogfilename."?m=$arc_year&amp;w=$arc_w'>";
+				echo "<li><a href='$siteurl/$blogfilename$querystring_start"."m$querystring_equal$arc_year$querystring_separator"."w$querystring_equal$arcresult->week'>";
 				echo $arc_week_start.$archive_week_separator.$arc_week_end;
 				echo "</a></li>\n";
 			}
