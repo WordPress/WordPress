@@ -37,6 +37,7 @@ case 'adduser':
 	$user_email = $_POST['email'];
 	$user_firstname = $_POST['firstname'];
 	$user_lastname = $_POST['lastname'];
+	$user_uri = $_POST['uri'];
 		
 	/* checking login has been typed */
 	if ($user_login == '') {
@@ -75,13 +76,15 @@ case 'adduser':
     $user_nicename = sanitize_title($user_nickname);
 	$user_firstname = addslashes(stripslashes($user_firstname));
 	$user_lastname = addslashes(stripslashes($user_lastname));
+	$user_uri = addslashes(stripslashes($user_uri));
+	$user_uri = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $user_uri) ? $user_uri : 'http://' . $user_uri;
 	$now = gmdate('Y-m-d H:i:s');
 	$new_users_can_blog = get_settings('new_users_can_blog');
 
 	$result = $wpdb->query("INSERT INTO $wpdb->users 
-		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode, user_firstname, user_lastname, user_nicename)
+		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode, user_firstname, user_lastname, user_nicename, user_url)
 	VALUES 
-		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_firstname', '$user_lastname', '$user_nicename')");
+		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_firstname', '$user_lastname', '$user_nicename', '$user_uri')");
 	
 	if ($result == false) {
 		die (__('<strong>ERROR</strong>: Couldn&#8217;t register you!'));

@@ -93,6 +93,7 @@ case 'update':
 	$newuser_yim=addslashes(stripslashes($_POST['newuser_yim']));
 	$newuser_email=addslashes(stripslashes($_POST['newuser_email']));
 	$newuser_url=addslashes(stripslashes($_POST['newuser_url']));
+	$newuser_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $newuser_url) ? $newuser_url : 'http://' . $newuser_url; 
 	$newuser_idmode=addslashes(stripslashes($_POST['newuser_idmode']));
 	$user_description = addslashes(stripslashes($_POST['user_description']));
 
