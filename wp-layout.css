@@ -1,0 +1,238 @@
+/* Default WordPress by Matthew Mullenweg http://photomatt.net
+	This is just a basic layout, with only the bare minimum defined.
+	Please tweak this and make it your own. :)
+*/
+
+a {
+	color: #675;
+}
+
+a:visited {
+	color: #342;
+}
+
+a:hover {
+	color: #9a8;
+}
+
+acronym, abbr {
+	border-bottom: 1px dashed #333;
+}
+
+acronym, abbr, span.caps {
+	cursor: help;
+	font-size: 90%;
+	letter-spacing: .07em;
+}
+
+blockquote {
+	border-left: 5px solid #ccc;
+	margin-left: 1.5em;
+	padding-left: 5px;
+}
+
+body {
+	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+	margin: 0;
+	border: solid 2px #565;
+	border-top: solid 3px #565;
+	border-bottom: solid 1px #565;
+}
+
+h2 {
+	font-size: 80%;
+	font-family: "Times New Roman", Times, serif;
+	letter-spacing: 0.5em;
+	border-bottom: 1px dotted #ccc;
+	margin: 15px 0 2px 0;
+	padding-bottom: 2px;
+}
+h3 {
+	margin-top: 0;
+	font-family: "Times New Roman", Times, serif;
+	letter-spacing: -0.05em;
+	border-bottom: dotted 1px #eee;
+}
+
+p, li, .feedback {
+	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+	font-size: 90%;
+	letter-spacing: -1px;
+	line-height: 175%;
+}
+cite {
+	font-style: normal;
+	font-size: 90%;
+}
+
+.b2calendarcell {
+	color: #000;
+}
+
+.b2calendaremptycell {
+}
+
+.b2calendarheadercell {
+	background: #808080;
+	color: #ccc;
+}
+
+.b2calendarlinkpost {
+	color: #f00;
+	text-decoration: none;
+}
+
+.b2calendarmonth {
+	color: #aaa;
+}
+
+.b2calendarrow {
+	color: #0f0;
+}
+
+.b2calendartable {
+	background: #fff;
+	border: 1px solid #000;
+}
+
+.b2calendartoday {
+	color: #00f;
+}
+
+.credit {
+	font-size: 11px;
+	text-align: center;
+	border-top: double 3px #aba;
+	padding: 3px;
+	color: #fff;
+	background-color: #90a090;
+	margin: 10px 0 0 0;
+}
+.credit a:link, .credit a:hover {
+	color: #fff;
+}
+
+.feedback {
+	text-align: right;
+	color: #ccc;
+}
+
+.meta, .meta a {
+	color: #808080;
+	font-size: small;
+	font-weight: normal;
+	letter-spacing: 0;
+}
+
+.storytitle a {
+	text-decoration: none;
+}
+
+#content {
+	margin: 30px 220px 0 60px;
+	padding-right: 60px;
+}
+
+#header {
+	font-family: 'Times New Roman', Times, serif;
+	font-style: italic;
+	font-weight: normal;
+	font-size: 230%;
+	letter-spacing: 0.2em;
+	background-color: #90a090;
+	margin: 0;
+	padding: 15px 10px 15px 60px;
+	border-top: solid 1px #9a9;
+	border-bottom: double 3px #aba;
+	border-left: solid 1px #9a9;
+	border-right: solid 1px #565;
+}
+
+#header a {
+	color: #fff;
+	text-decoration: none;
+}
+
+
+#header a:hover {
+	text-decoration: underline;
+}
+
+ol#comments li p {
+	font-size: 100%;
+}
+
+#menu {	
+	background-color: #fff;
+	border-left: 1px dotted #ccc;
+	border-top: solid 3px #e0e6e0;
+	padding: 20px 0 10px 30px;
+	position: absolute;
+	right: 2px;
+	top: 0;
+	width: 180px;
+}
+
+#menu form {
+	margin: 0 0 0 13px;
+}
+
+#menu input {
+	background-color: #eee;
+	border: 1px solid #999;
+	width: 80px;
+	letter-spacing: -0.05em;
+}
+
+#menu ul {
+	color: #ccc;
+	text-transform: lowercase;
+	font-weight: bold;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 3px;
+}
+#menu ul li {
+	font-family: 'Times New Roman', Times, serif;
+	font-weight: normal;
+	font-style: italic;
+	font-size: 110%;
+	letter-spacing: 0.1em;
+	margin-top: 10px;
+	padding-bottom: 2px;
+	/*border-bottom: dotted 1px #ccc;*/
+}
+
+#menu ul ul {
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 100%;
+	font-style: 
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+
+#menu ul ul li {
+	font-size: 70%;
+	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	line-height: 115%;
+	padding-left: 12px;
+	letter-spacing: 0;
+	margin-top: 0;
+	padding: 0;
+	border: 0;
+}
+
+#menu ul ul li a {
+	color: #000;
+	height: 13px;
+	text-decoration: none;
+}
+
+#menu ul ul li a:hover {
+	border-bottom: 1px solid #809080;
+}
