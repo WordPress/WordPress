@@ -48,12 +48,12 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 <?php
              } // end if not first time
 ?>
-        <outline type="category" text="<?php echo($result->cat_name) ?>">
+        <outline type="category" text="<?php echo(htmlspecialchars(stripslashes($result->cat_name))) ?>">
 <?php
              $prev_cat_id = $result->link_category;
         } // end if new category
 ?>
-            <outline type="link" text="<?php echo($result->link_name) ?>" url="<?php echo($result->link_url) ?>"/>
+            <outline type="link" text="<?php echo(htmlspecialchars(stripslashes($result->link_name))) ?>" url="<?php echo($result->link_url) ?>"/>
 <?php
         } // end foreach
     } // end if
