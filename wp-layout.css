@@ -3,6 +3,10 @@
 	Please tweak this and make it your own. :)
 */
 
+a img {
+    border: none;
+}
+
 a {
 	color: #675;
 }

@@ -207,7 +207,7 @@ if (!empty($HTTP_POST_VARS)) { //$img1_name != "") {
 
 
 if ( ereg('image/',$img1_type)) {
-	$piece_of_code = "&lt;img src=&quot;$fileupload_url/$img1_name&quot; border=&quot;0&quot; alt=&quot;$imgdesc&quot; /&gt;"; 
+	$piece_of_code = "&lt;img src=&quot;$fileupload_url/$img1_name&quot; alt=&quot;$imgdesc&quot; /&gt;"; 
 } else {
 	$piece_of_code = "&lt;a href=&quot;$fileupload_url/$img1_name&quot; title=&quot;$imgdesc&quot; /&gt;$imgdesc&lt;/a&gt;"; 
 };
