@@ -308,6 +308,7 @@ function get_pagenum_link($pagenum = 1){
    $page_querystring = "paged"; 
    $page_modstring = "page/";
    $page_modregex = "page/?";
+   $permalink = 0;
 
    // if we already have a QUERY style page string
    if( stristr( $qstr, $page_querystring ) ) {
@@ -315,6 +316,7 @@ function get_pagenum_link($pagenum = 1){
       $qstr = preg_replace("/".$page_querystring."[^\d]+\d+/", $replacement, $qstr);
    // if we already have a mod_rewrite style page string
    } elseif ( preg_match( '|'.$page_modregex.'\d+|', $qstr ) ){
+      $permalink = 1;
       $qstr = preg_replace('|'.$page_modregex.'\d+|',"$page_modstring$pagenum",$qstr);
 
    // if we don't have a page string at all ...
@@ -328,6 +330,7 @@ function get_pagenum_link($pagenum = 1){
          $qstr .=  $querystring_separator.$page_querystring.$querystring_equal.$pagenum;
          // otherwise, it could be rewritten, OR just the default index ...
       } elseif( '' != get_settings('permalink_structure')) {
+         $permalink = 1;
          $qstr = preg_replace('|(.*)/[^/]*|', '$1/', $qstr).$page_modstring.$pagenum;
       } else {
          $qstr = get_settings('blogfilename') . $querystring_start.$page_querystring.$querystring_equal.$pagenum;
@@ -340,6 +343,7 @@ function get_pagenum_link($pagenum = 1){
    $home_root = trailingslashit($home_root);
    $qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
    $qstr = preg_replace('|^/+|', '', $qstr);
+   if ($permalink) $qstr = trailingslashit($qstr);
    return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
 }
 
