@@ -561,7 +561,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	$http_request .= $query_string;
 	if ( '' == $trackback_url['port'] )
 		$trackback_url['port'] = 80;
-	$fs = @fsockopen($trackback_url['host'], $trackback_url['port']);
+	$fs = @fsockopen($trackback_url['host'], $trackback_url['port'], $errno, $errstr, 4);
 	@fputs($fs, $http_request);
 /*
 	$debug_file = 'trackback.log';
@@ -720,7 +720,7 @@ include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 		$port = isset($bits['port']) ? $bits['port'] : 80;
 
 		// Try to connect to the server at $host
-		$fp = fsockopen($host, $port, $errno, $errstr, 30);
+		$fp = fsockopen($host, $port, $errno, $errstr, 3);
 		if (!$fp) {
 			debug_fwrite($log, 'Couldn\'t open a connection to '.$host."\n\n");
 			continue;
@@ -853,7 +853,7 @@ function doGeoUrlHeader($post_list = '') {
 }
 
 function getRemoteFile($host,$path) {
-    $fp = fsockopen($host, 80, $errno, $errstr);
+    $fp = fsockopen($host, 80, $errno, $errstr, 5);
     if ($fp) {
         fputs($fp,"GET $path HTTP/1.0\r\nHost: $host\r\n\r\n");
         while ($line = fgets($fp, 4096)) {
