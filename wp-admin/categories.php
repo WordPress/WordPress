@@ -23,20 +23,19 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch($action) {
 
 case 'addcat':
-
-    if ($user_level < 3)
-        die (__('Cheatin&#8217; uh?'));
-    
-    $cat_name= $_POST['cat_name'];
-    $cat_ID = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories ORDER BY cat_ID DESC LIMIT 1") + 1;
-    $category_nicename = sanitize_title($cat_name, $cat_ID);
-    $category_description = $_POST['category_description'];
-    $cat = intval($_POST['cat']);
-
-    $wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
-    
-    header('Location: categories.php?message=1#addcat');
-
+	if ($user_level < 3)
+		die (__('Cheatin&#8217; uh?'));
+	
+	$cat_name= $_POST['cat_name'];
+	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->categories'");
+	$cat_ID = $id_result->Auto_increment;
+	$category_nicename = sanitize_title($cat_name, $cat_ID);
+	$category_description = $_POST['category_description'];
+	$cat = intval($_POST['cat']);
+	
+	$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
+	
+	header('Location: categories.php?message=1#addcat');
 break;
 
 case 'Delete':
@@ -71,43 +70,51 @@ case 'edit':
     ?>
 
 <div class="wrap">
-    <h2><?php _e('Edit Category') ?></h2>
-    <form name="editcat" action="categories.php" method="post">
-        <input type="hidden" name="action" value="editedcat" />
-        <input type="hidden" name="cat_ID" value="<?php echo $cat_ID ?>" />
-        <p><?php _e('Category name:') ?><br />
-        <input type="text" name="cat_name" value="<?php echo htmlspecialchars($cat_name); ?>" /></p>
-        <p><?php _e('Category parent:') ?><br />
-        <select name='cat' class='postform'>
-        <option value='0'<?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
-        <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?>
-        </select>
-        </p>
-
-        <p><?php _e('Description:') ?><br />
-										     <textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlspecialchars($category->category_description, ENT_NOQUOTES); ?></textarea></p>
-        <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category &raquo;') ?>" /></p>
-    </form>
+ <h2><?php _e('Edit Category') ?></h2>
+ <form name="editcat" action="categories.php" method="post">
+	  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
+		<tr>
+		  <th width="33%" scope="row"><?php _e('Category name:') ?></th>
+		  <td width="67%"><input name="cat_name" type="text" value="<?php echo htmlspecialchars($cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
+<input type="hidden" name="cat_ID" value="<?php echo $cat_ID ?>" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><?php _e('Category slug:') ?></th>
+			<td><input name="category_nicename" type="text" value="<?php echo htmlspecialchars($category->category_nicename); ?>" size="40" /></td>
+		</tr>
+		<tr>
+			<th scope="row"><?php _e('Category parent:') ?></th>
+			<td>        
+			<select name='cat'>
+	  <option value='0' <?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
+	  <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?>
+	  </select></td>
+		</tr>
+		<tr>
+			<th scope="row"><?php _e('Description:') ?></th>
+			<td><textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlspecialchars($category->category_description, ENT_NOQUOTES); ?></textarea></td>
+		</tr>
+		</table>
+	  <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category') ?> &raquo;" /></p>
+ </form>
+ <p><a href="categories.php"><?php _e('&laquo; Return to category list'); ?></a></p>
 </div>
-
     <?php
 
 break;
 
 case 'editedcat':
+	if ($user_level < 3)
+		die (__('Cheatin&#8217; uh?'));
+	
+	$cat_name = $_POST['cat_name'];
+	$cat_ID = (int) $_POST['cat_ID'];
+	$category_nicename = sanitize_title($_POST['category_nicename'], $cat_ID);
+	$category_description = $_POST['category_description'];
+	
+	$wpdb->query("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$cat' WHERE cat_ID = '$cat_ID'");
 
-    if ($user_level < 3)
-        die (__('Cheatin&#8217; uh?'));
-    
-    $cat_name = $_POST['cat_name'];
-    $cat_ID = (int) $_POST['cat_ID'];
-    $category_nicename = sanitize_title($cat_name, $cat_ID);
-    $category_description = $_POST['category_description'];
-
-    $wpdb->query("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$cat' WHERE cat_ID = '$cat_ID'");
-    
-    header('Location: categories.php?message=3');
-
+	header('Location: categories.php?message=3');
 break;
 
 default:
