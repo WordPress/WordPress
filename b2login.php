@@ -290,7 +290,7 @@ default:
 if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0000\">$error</font><br />&nbsp;</div>";
 ?>
 
-<form name="login" id="loginform" action="<?php echo $siteurl; ?>/b2login.php" method="post">
+<form name="login" id="loginform" action="b2login.php" method="post">
 <?php if ($mode=="bookmarklet") { ?>
 	<input type="hidden" name="mode" value="<?php echo $mode ?>" />
 	<input type="hidden" name="text" value="<?php echo $text ?>" />
