@@ -17,7 +17,7 @@ switch($action) {
 			$form_pingback = '';
 		}
 		if ($use_trackback) {
-			$form_trackback = '<p><label for="trackback"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym>:</label> (Seperate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with commas.)<br />
+			$form_trackback = '<p><label for="trackback"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with commas.)<br />
 			<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" /></p>';
 		} else {
 			$form_trackback = '';
