@@ -249,8 +249,10 @@ class WP_Query {
 				$q['nopaging'] = false;
 			}
 		}
-		if ( $this->is_feed )
+		if ( $this->is_feed ) {
 			$q['posts_per_page'] = get_settings('posts_per_rss');
+			$q['what_to_show'] = 'posts';
+		}
 	
 		$add_hours = intval(get_settings('gmt_offset'));
 		$add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
