@@ -9,6 +9,7 @@ define('EZSQL_VERSION', 'WP1.25');
 define('OBJECT', 'OBJECT', true);
 define('ARRAY_A', 'ARRAY_A', false);
 define('ARRAY_N', 'ARRAY_N', false);
+
 if (!defined('SAVEQUERIES'))
 	define('SAVEQUERIES', false);
 
@@ -18,6 +19,7 @@ class wpdb {
 	var $num_queries = 0;	
 	var $last_query;
 	var $col_info;
+	var $queries;
 
 	// Our tables
 	var $posts;
@@ -38,7 +40,7 @@ class wpdb {
 	//	DB Constructor - connects to the server and selects a database
 
 	function wpdb($dbuser, $dbpassword, $dbname, $dbhost) {
-		$this->dbh = @mysql_connect($dbhost,$dbuser,$dbpassword);
+		$this->dbh = @mysql_connect($dbhost, $dbuser, $dbpassword);
 		if (!$this->dbh) {
 			$this->bail("
 <h1>Error establishing a database connection</h1>
@@ -59,7 +61,7 @@ class wpdb {
 	//	Select a DB (if another one needs to be selected)
 
 	function select($db) {
-		if (!@mysql_select_db($db,$this->dbh)) {
+		if (!@mysql_select_db($db, $this->dbh)) {
 			$this->bail("
 <h1>Can&#8217;t select database</h1>
 <p>We were able to connect to the database server (which means your username and password is okay) but not able to select the <code>$db</code> database.</p>
@@ -134,11 +136,14 @@ class wpdb {
 		$this->last_query = $query;
 
 		// Perform the query via std mysql_query function..
-		$this->result = @mysql_query($query,$this->dbh);
+		if (SAVEQUERIES)
+			$this->timer_start();
+		
+		$this->result = @mysql_query($query, $this->dbh);
 		++$this->num_queries;
-		if (SAVEQUERIES) {
-			$this->savedqueries[] = $query;
-		}
+
+		if (SAVEQUERIES)
+			$this->queries[] = array( $query, $this->timer_stop() );
 
 		// If there is an error then take note of it..
 		if ( mysql_error() ) {
@@ -278,60 +283,76 @@ class wpdb {
 		}
 	}
 
-	function bail($message) { // Just wraps errors in a nice header and footer
-echo <<<HEAD
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>WordPress &rsaquo; Installation</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<style media="screen" type="text/css">
-	<!--
-	html {
-		background: #eee;
-	}
-	body {
-		background: #fff;
-		color: #000;
-		font-family: Georgia, "Times New Roman", Times, serif;
-		margin-left: 25%;
-		margin-right: 25%;
-		padding: .2em 2em;
+	function timer_start() {
+		$mtime = microtime();
+		$mtime = explode(' ', $mtime);
+		$this->time_start = $mtime[1] + $mtime[0];
+		return true;
 	}
 	
-	h1 {
-		color: #006;
-		font-size: 18px;
-		font-weight: lighter;
-	}
-	
-	h2 {
-		font-size: 16px;
-	}
-	
-	p, li, dt {
-		line-height: 140%;
-		padding-bottom: 2px;
+	function timer_stop($precision = 3) {
+		$mtime = microtime();
+		$mtime = explode(' ', $mtime);
+		$time_end = $mtime[1] + $mtime[0];
+		$time_total = $time_end - $this->time_start;
+		return $timetotal;
 	}
 
-	ul, ol {
-		padding: 5px 5px 5px 20px;
-	}
-	#logo {
-		margin-bottom: 2em;
-	}
-	-->
-	</style>
-</head>
-<body>
-<h1 id="logo"><img alt="WordPress" src="http://static.wordpress.org/logo.png" /></h1>
+	function bail($message) { // Just wraps errors in a nice header and footer
+	if ( !$this->show_errors )
+		return false;
+	echo <<<HEAD
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>WordPress &rsaquo; Error</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style media="screen" type="text/css">
+		<!--
+		html {
+			background: #eee;
+		}
+		body {
+			background: #fff;
+			color: #000;
+			font-family: Georgia, "Times New Roman", Times, serif;
+			margin-left: 25%;
+			margin-right: 25%;
+			padding: .2em 2em;
+		}
+		
+		h1 {
+			color: #006;
+			font-size: 18px;
+			font-weight: lighter;
+		}
+		
+		h2 {
+			font-size: 16px;
+		}
+		
+		p, li, dt {
+			line-height: 140%;
+			padding-bottom: 2px;
+		}
+	
+		ul, ol {
+			padding: 5px 5px 5px 20px;
+		}
+		#logo {
+			margin-bottom: 2em;
+		}
+		-->
+		</style>
+	</head>
+	<body>
+	<h1 id="logo"><img alt="WordPress" src="http://static.wordpress.org/logo.png" /></h1>
 HEAD;
-echo $message;
-echo "</body></html>";
-die();
+	echo $message;
+	echo "</body></html>";
+	die();
 	}
 }
 
 $wpdb = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
-
 ?>
