@@ -155,6 +155,10 @@ textarea, input, select {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
+.submit {
+	text-align: right;
+}
+
 .updated {
 	background-color: #f0f8ff;
 	border: 1px solid #69c;

@@ -101,37 +101,37 @@ default:
 	<li class="last"><a href="moderation.php" class="current">Awaiting Moderation</a></li>
 </ul>
 <?php
+$ignored = $_GET['ignored'];
+$deleted = $_GET['deleted'];
+$approved = $_GET['approved'];
 
-	// if we come here after deleting/approving comments we give
-	// a short overview what has been done
-	if (($deleted) || ($approved) || ($ignored)) {
-	    echo "<div class=\"wrap\">\n";
-	    if ($approved) {
-		if ($approved == "1") {
-		    echo "1 comment approved <br />\n";
+if (($deleted) || ($approved) || ($ignored)) {
+	echo "<div class='updated'>\n<p>";
+	if ($approved) {
+		if ('1' == $approved) {
+		echo "1 comment approved <br />\n";
 		} else {
-		    echo "$approved comments approved <br />\n";
+		echo "$approved comments approved <br />\n";
 		}
-	    }
-	    if ($deleted) {
-		if ($deleted == "1") {
-		    echo "1 comment deleted <br />\n";
-		} else {
-		    echo "$approved comments deleted <br />\n";
-		}
-	    }
-	    if ($ignored) {
-		if ($deleted == "1") {
-		    echo "1 comment unchanged <br />\n";
-		} else {
-		    echo "$approved comments unchanged <br />\n";
-		}
-	    
-	    }
-	    echo "</div>\n";
 	}
+	if ($deleted) {
+		if ('1' == $deleted) {
+		echo "1 comment deleted <br />\n";
+		} else {
+		echo "$deleted comments deleted <br />\n";
+		}
+	}
+	if ($ignored) {
+		if ('1' == $ignored) {
+		echo "1 comment unchanged <br />\n";
+		} else {
+		echo "$ignored comments unchanged <br />\n";
+		}
+	}
+	echo "</p></div>\n";
+}
 
-	?>
+?>
 	
 <div class="wrap">
 <?php
@@ -141,7 +141,7 @@ if ($comments) {
     // list all comments that are waiting for approval
     $file = basename(__FILE__);
 ?>
-    <p>The following comments wait for approval:</p>
+    <p>The following comments are in the moderation queue:</p>
     <form name="approval" action="moderation.php" method="post">
     <input type="hidden" name="action" value="update" />
     <ol id="comments">
@@ -166,39 +166,18 @@ echo "<a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."
     }
 ?>
     </ol>
-    <input type="submit" name="submit" value="Moderate Comments" />
+    <p class="submit"><input type="submit" name="submit" value="Moderate Comments &raquo;" /></p>
     </form>
 <?php
 } else {
     // nothing to approve
-    echo "Currently there are no comments to be approved.\n";
+    echo "<p>Currently there are no comments to be approved.</p>\n";
 }
 ?>
 
 </div>
 
 <?php
-if ($comments) { 
-    // show this help text only if there are comments waiting
-?>
-
-<div class="wrap"> 
-	<p>For each comment you have to choose either <em>approve</em>, <em>delete</em> or <em>later</em>:</p>
-	<p><em>approve</em>: approves comment, so that it will be publically visible
-	<?php 
-	    if ('1' == get_settings('comments_notify')) {
-		echo "; the author of the post will be notified about the new comment on his post.</p>\n";
-	    } else {
-		echo ".</p>\n";
-	    }
-	?>	    
-	<p><em>delete</em>: remove the content from your blog (note: you won't be asked again, so you should double-check
-	that you really want to delete the comment - once deleted you can&#8242;t bring them back!)</p>
-	<p><em>later</em>: don&#8242;t change the comment&#8242;s status at all now.</p>
-</div>
-
-<?php
-} // if comments
 
 break;
 }
