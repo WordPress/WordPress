@@ -75,7 +75,7 @@ textarea,input,select {
 </style>
 </head>
 <body>
-<form name="post" action="b2edit.php" method="POST" accept-charset="iso-8859-1">
+<form name="post" action="wp-post.php" method="POST" accept-charset="iso-8859-1">
 <input type="hidden" name="action" value="post" />
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="mode" value="sidebar" />

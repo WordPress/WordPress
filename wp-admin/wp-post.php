@@ -291,7 +291,7 @@ switch($action) {
             die ('Cheatin&#8217; uh?');
 
         $post = $HTTP_GET_VARS['post'];
-        $postdata = get_postdata($post) or die('Oops, no post with this ID. <a href="b2edit.php">Go back</a>!');
+        $postdata = get_postdata($post) or die('Oops, no post with this ID. <a href="wp-post.php">Go back</a>!');
         $authordata = get_userdata($postdata['Author_ID']);
 
         if ($user_level < $authordata->user_level)
@@ -352,7 +352,7 @@ switch($action) {
 
 		$comment = $HTTP_GET_VARS['comment'];
 		$p = $HTTP_GET_VARS['p'];
-		$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="b2edit.php">Go back</a>!');
+		$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="wp-post.php">Go back</a>!');
 
 		$result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_ID=$comment");
 
@@ -433,7 +433,7 @@ switch($action) {
 						$draft->post_title = stripslashes($draft->post_title);
                         if ($draft->post_title == '')
                             $draft->post_title = 'post-'.$draft->ID;
-						echo "<a href='b2edit.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
+						echo "<a href='wp-post.php?action=edit&amp;post=$draft->ID' title='Edit this draft'>$draft->post_title</a>";
 						++$i;
 						}
 					?>.</p>

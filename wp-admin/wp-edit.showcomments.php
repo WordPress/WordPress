@@ -39,7 +39,7 @@ ob_start();
 
 <h2 id="comments">Comments</h2>
 
-<p class="anchors">Go to: <a href="b2edit.php#top">Post/Edit</a> | <a href="b2edit.php#posts">Posts</a> | <a href="b2edit.php#comments">Comments</a></p>
+<p class="anchors">Go to: <a href="wp-post.php#top">Post/Edit</a> | <a href="wp-post.php#posts">Posts</a> | <a href="wp-post.php#comments">Comments</a></p>
 
 <div class="wrap">
 <table width="100%">
@@ -149,11 +149,11 @@ echo $comments_nav_bar;
 			[ 
 			<?php 
 			if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-				echo "<a href=\"b2edit.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
-				echo " - <a href=\"b2edit.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> - ";
+				echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
+				echo " - <a href=\"wp-post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> - ";
 			} // end if any comments to show
 			?>
-			<a href="b2edit.php?p=<?php echo $comment->comment_post_ID; ?>&c=1">View Post</a> ]
+			<a href="wp-post.php?p=<?php echo $comment->comment_post_ID; ?>&c=1">View Post</a> ]
 			<br />
 			<strong><?php comment_author() ?> ( <?php comment_author_email_link() ?> / <?php comment_author_url_link() ?> )</strong> (IP: <?php comment_author_IP() ?>)
 			<?php comment_text() ?>

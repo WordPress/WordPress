@@ -59,7 +59,7 @@ $where = '';
 $limits = '';
 $distinct = '';
 
-if ($pagenow != 'b2edit.php') { timer_start(); }
+if ($pagenow != 'wp-post.php') { timer_start(); }
 
 if ($showposts) {
     $showposts = (int)$showposts;
@@ -245,7 +245,7 @@ if ( !empty($postend) && ($postend > $poststart) && (!$m) && empty($monthnum) &&
 	}
 } else {
 	if (($what_to_show == 'paged') && (!$p) && (!$more)) {
-		if ($pagenow != 'b2edit.php') {
+		if ($pagenow != 'wp-post.php') {
 			$pgstrt = '';
 			if ($paged) {
 				$pgstrt = (intval($paged) -1) * $posts_per_page . ', ';
@@ -274,7 +274,7 @@ if ($p == 'all') {
 
 $now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 
-if ($pagenow != 'b2edit.php') {
+if ($pagenow != 'wp-post.php') {
 	if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
 		$where .= ' AND post_date <= \''.$now.'\'';
 	}

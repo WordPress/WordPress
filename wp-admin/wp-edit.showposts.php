@@ -39,7 +39,7 @@ ob_start();
 
 <h2 id="posts">Posts</h2>
 
-<p class="anchors">Go to: <a href="b2edit.php#top">Post/Edit</a> | <a href="b2edit.php#posts">Posts</a> | <a href="b2edit.php#comments">Comments</a></p>
+<p class="anchors">Go to: <a href="wp-post.php#top">Post/Edit</a> | <a href="wp-post.php#posts">Posts</a> | <a href="wp-post.php#comments">Comments</a></p>
 
 <div class="wrap">
 <table width="100%">
@@ -133,14 +133,14 @@ echo $posts_nav_bar;
 <table width="100%">
   <tr>
 	<td valign="top" width="33%">
-		<form name="searchform" action="b2edit.php" method="get">
+		<form name="searchform" action="wp-post.php" method="get">
 			<input type="hidden" name="a" value="s" />
 			<input onfocus="this.value='';" onblur="if (this.value=='') {this.value='search...';}" type="text" name="s" value="search..." size="7" style="width: 100px;" />
 			<input type="submit" name="submit" value="search" class="search" />
 		</form>
 	</td>
     <td valign="top" width="33%" align="center">
-	  <form name="viewcat" action="b2edit.php" method="get">
+	  <form name="viewcat" action="wp-post.php" method="get">
 		<select name="cat" style="width:140px;">
 		<option value="all">All Categories</option>
 		<?php
@@ -159,7 +159,7 @@ echo $posts_nav_bar;
 	  </form>
     </td>
     <td valign="top" width="33%" align="right">
-    <form name="viewarc" action="b2edit.php" method="get">
+    <form name="viewarc" action="wp-post.php" method="get">
 	<?php
 
 	if ($archive_mode == "monthly") {
@@ -246,14 +246,14 @@ echo $posts_nav_bar;
         //$posts_per_page = 10;
         start_b2(); ?>
 			<p>
-				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
+				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="wp-post.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
 				<?php
 				if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-				echo " - <a href='b2edit.php?action=edit&amp;post=$id";
+				echo " - <a href='wp-post.php?action=edit&amp;post=$id";
 				if ($m)
 				echo "&m=$m";
 				echo "'>Edit</a>";
-				echo " - <a href='b2edit.php?action=delete&amp;post=$id' onclick=\"return confirm('You are about to delete this post \'".the_title('','',0)."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
+				echo " - <a href='wp-post.php?action=delete&amp;post=$id' onclick=\"return confirm('You are about to delete this post \'".the_title('','',0)."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
 				}
 				if ('private' == $post->post_status) echo ' - <strong>Private</strong>';
 				?>
@@ -285,8 +285,8 @@ echo $posts_nav_bar;
 							<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?> 
 							<?php 
 							if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-								echo "[ <a href=\"b2edit.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
-								echo " - <a href=\"b2edit.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ]";
+								echo "[ <a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
+								echo " - <a href=\"wp-post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ]";
 							} // end if any comments to show
 							?>
 						<br />

@@ -144,7 +144,7 @@ $pagenow = explode('/', $PHP_SELF);
 $pagenow = trim($pagenow[(sizeof($pagenow)-1)]);
 $pagenow = explode('?', $pagenow);
 $pagenow = $pagenow[0];
-if (($querystring_start == '/') && ($pagenow != 'b2edit.php')) {
+if (($querystring_start == '/') && ($pagenow != 'wp-post.php')) {
 	$pagenow = $siteurl.'/'.$blogfilename;
 }
 

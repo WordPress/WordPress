@@ -75,7 +75,7 @@ textarea {
 </style>
 </head>
 <body>
-<form name="post" action="b2edit.php" method="POST">
+<form name="post" action="wp-post.php" method="POST">
 <input type="hidden" name="action" value="post" />
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="mode" value="bookmarklet" />

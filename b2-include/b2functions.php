@@ -364,7 +364,7 @@ function get_lastpostdate() {
 	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb, $querycount;
 	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
 		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
-		if ($pagenow != 'b2edit.php') {
+		if ($pagenow != 'wp-post.php') {
 			$showcatzero = 'post_category > 0 AND';
 		} else {
 			$showcatzero = '';
