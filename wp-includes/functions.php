@@ -559,15 +559,6 @@ function gzip_compression() {
 // functions to count the page generation time (from phpBB2)
 // ( or just any time between timer_start() and timer_stop() )
 
-function timer_start() {
-	global $timestart;
-	$mtime = microtime();
-	$mtime = explode(' ',$mtime);
-	$mtime = $mtime[1] + $mtime[0];
-	$timestart = $mtime;
-	return true;
-}
-
 function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(1), will echo $timetotal
 	global $timestart, $timeend;
 	$mtime = microtime();

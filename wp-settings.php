@@ -9,6 +9,14 @@ $_SERVER['REQUEST_URI'] = ( isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_U
 if ( !(phpversion() >= '4.1') )
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
 
+function timer_start() {
+	global $timestart;
+	$mtime = explode(' ', microtime() );
+	$mtime = $mtime[1] + $mtime[0];
+	$timestart = $mtime;
+	return true;
+}
+timer_start();
 
 // Change to E_ALL for development/debugging
 error_reporting(E_ALL ^ E_NOTICE);
@@ -40,7 +48,6 @@ $tableoptions = $wpdb->options;
 $tablepostmeta = $wpdb->postmeta;
 
 require (ABSPATH . WPINC . '/functions.php');
-timer_start();
 require (ABSPATH . WPINC . '/functions-formatting.php');
 require (ABSPATH . WPINC . '/functions-user.php');
 require (ABSPATH . WPINC . '/classes.php');

@@ -34,6 +34,18 @@ $tb_url = $_POST['url'];
 $title = $_POST['title'];
 $excerpt = $_POST['excerpt'];
 $blog_name = $_POST['blog_name'];
+$charset = $_POST['charset'];
+
+if ($charset)
+	$charset = strtoupper( trim($charset) );
+else
+	$charset = 'auto';
+
+if ( function_exists('mb_convert_encoding') ) {
+	$title = mb_convert_encoding($title, get_settings('blog_charset'), $charset);
+	$excerpt = mb_convert_encoding($excerpt, get_settings('blog_charset'), $charset);
+	$blog_name = mb_convert_encoding($blog_name, get_settings('blog_charset'), $charset);
+}
 
 if ( is_single() ) 
     $tb_id = $posts[0]->ID;
