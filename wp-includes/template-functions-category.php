@@ -59,60 +59,67 @@ function get_category_rss_link($echo = false, $category_id, $category_nicename) 
 
 function the_category($seperator = '', $parents='') {
     $categories = get_the_category();
+    $thelist = '';
     if ('' == $seperator) {
-        echo '<ul class="post-categories">';
+        $thelist .= '<ul class="post-categories">';
         foreach ($categories as $category) {
             $category->cat_name = stripslashes($category->cat_name);
-            echo "\n\t<li>";
+            $thelist .= "\n\t<li>";
             switch(strtolower($parents)) {
                 case 'multiple':
-                    if ($category->category_parent)    echo get_category_parents($category->category_parent, TRUE);
-                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a></li>';
+                    if ($category->category_parent) {
+                        $thelist .= get_category_parents($category->category_parent, TRUE);
+                    }
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a></li>';
                     break;
                 case 'single':
-                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '>';
-                    if ($category->category_parent)echo get_category_parents($category->category_parent, FALSE);
-                    echo $category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '>';
+                    if ($category->category_parent) {
+                        $thelist .= get_category_parents($category->category_parent, FALSE);
+                    }
+                    $thelist .= $category->cat_name.'</a></li>';
                     break;
                 case '':
                 default:
-                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a></li>';
             }
         }
-        echo '</ul>';
+        $thelist .= '</ul>';
     } else {
         $i = 0;
         foreach ($categories as $category) {
             $category->cat_name = stripslashes($category->cat_name);
-            if (0 < $i) echo $seperator . ' ';
+            if (0 < $i) $thelist .= $seperator . ' ';
             switch(strtolower($parents)) {
                 case 'multiple':
-                    if ($category->category_parent)    echo get_category_parents($category->category_parent, TRUE);
-                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
+                    if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, TRUE);
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
                 case 'single':
-                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">';
-                    if ($category->category_parent)    echo get_category_parents($category->category_parent, FALSE);
-                    echo "$category->cat_name</a>";
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">';
+                    if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, FALSE);
+                    $thelist .= "$category->cat_name</a>";
                 case '':
                 default:
-                    echo '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
+                    $thelist .= '<a href="' . get_category_link(0, $category->category_id, $category->category_nicename) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
             }
             ++$i;
         }
     }
+    echo apply_filters('the_category', $thelist);
 }
 
 function the_category_rss($type = 'rss') {
     $categories = get_the_category();
+    $the_list = '';
     foreach ($categories as $category) {
         $category->cat_name = stripslashes(convert_chars($category->cat_name));
         if ('rdf' == $type) {
-            echo "\n\t<dc:subject>$category->cat_name</dc:subject>";
+            $the_list .= "\n\t<dc:subject>$category->cat_name</dc:subject>";
         } else {
-            echo "\n\t<category>$category->cat_name</category>";
+            $the_list .= "\n\t<category>$category->cat_name</category>";
         }
     }
-
+    echo apply_filters('the_category_rss', $the_list).'kgg';
 }
 
 function get_the_category_by_ID($cat_ID) {
@@ -403,6 +410,6 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     if ($recurse) {
         return $thelist;
     }
-    echo $thelist;
+    echo apply_filters('list_cats', $thelist);
 }
 ?>
