@@ -76,4 +76,10 @@ if (!strstr($_SERVER['REQUEST_URI'], 'wp-admin/plugins.php') && get_settings('ac
 			include(ABSPATH . 'wp-content/plugins/' . $plugin);
 	}
 }
+
+function shutdown_action_hook() {
+	do_action('shutdown', '');
+}
+register_shutdown_function('shutdown_action_hook');
+
 ?>
