@@ -1126,7 +1126,7 @@ function permalink_anchor($mode = 'id') {
 			break;
 		case 'id':
 		default:
-			echo '<a name="'.$id.'"></a>';
+			echo '<a name="post-'.$id.'"></a>';
 			break;
 	}
 }
@@ -1148,17 +1148,17 @@ function permalink_link($file='', $mode = 'id') {
 	$archive_mode = get_settings('archive_mode');
 	switch($archive_mode) {
 		case 'daily':
-			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).substr($post->post_date,5,2).substr($postdata['Date'],8,2).'#'.$anchor;
+			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).substr($post->post_date,5,2).substr($postdata['Date'],8,2).'#post-'.$anchor;
 			break;
 		case 'monthly':
-			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).substr($post->post_date,5,2).'#'.$anchor;
+			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).substr($post->post_date,5,2).'#post-'.$anchor;
 			break;
 		case 'weekly':
 			if((!isset($cacheweekly)) || (empty($cacheweekly[$postdata['Date']]))) {
 				$cacheweekly[$post->post_date] = $wpdb->get_var("SELECT WEEK('$post->post_date')");
 				++$querycount;
 			}
-			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).$querystring_separator.'w'.$querystring_equal.$cacheweekly[$post->post_date].'#'.$anchor;
+			echo $file.$querystring_start.'m'.$querystring_equal.substr($post->post_date,0,4).$querystring_separator.'w'.$querystring_equal.$cacheweekly[$post->post_date].'#post-'.$anchor;
 			break;
 		case 'postbypost':
 			echo $file.$querystring_start.'p'.$querystring_equal.$id;
