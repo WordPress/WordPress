@@ -38,7 +38,7 @@ QQQ;
 	<?php /* if you delete this the sky will fall on your head */ } ?>
 </ol>
 <h2>Leave a Comment</h2>
-<p>Line and paragraph breaks automatic, website trumps email, basic <acronym title="Hypertext Markup Language">HTML</acronym> allowed.</p>
+<p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities($comment_allowed_tags); ?></p>
 
 <!-- form to add a comment -->
 
