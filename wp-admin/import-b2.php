@@ -1,5 +1,4 @@
 <?php
-$_wp_installing = 1;
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config.sample.php with the proper database connection information and renamed it to wp-config.php.");
 require_once('../wp-config.php');
 
@@ -21,12 +20,12 @@ if (!$step) $step = 0;
 		padding: 0;
 		background-image: url(http://wordpress.org/images/wordpress.gif);
 		background-repeat: no-repeat;
-		height: 72px;
+		height: 60px;
 		border-bottom: 4px solid #333;
 	}
 	#logo a {
 		display: block;
-		height: 72px;
+		height: 60px;
 	}
 	#logo a span {
 		display: none;
@@ -43,13 +42,13 @@ switch($step) {
 
 	case 0:
 ?>
-<p>Welcome to WordPress. Since you're upgrading from b2 everything should be relatively 
+<p>Welcome to WordPress. Since you&#8217;re upgrading from b2 everything should be relatively 
   familiar to you. Here are some notes on upgrading:</p>
 <ul>
-  <li>If you're using an older version of b2, it's probably a good idea to upgrade 
+  <li>If you&#8217;re using an older version of b2, it's probably a good idea to upgrade 
     to at least .61 before making the leap to WordPress.</li>
   <li>The templates are so much better, and there is so much more going on than 
-    before it's probably worth it to start from scratch and work back to your 
+    before it&#8217;s probably worth it to start from scratch and work back to your 
     design.</li>
   <li>You need to transfer some of your settings from your old <code>b2config.php</code>
     to <code>wp-config.php</code> file [NEED MORE INFO].</li>
@@ -58,8 +57,8 @@ switch($step) {
   <li><strong>Back up</strong> your database before you do anything. Yes, you. 
     Right now.</li>
 </ul>
-<p><code></code>Have you looked at the <a href="../readme.html">readme</a>? If 
-  you&#8217;re all ready, <a href="import-b2.php.php?step=1">let&#8217;s go</a>!</p>
+<p>Have you looked at the <a href="../readme.html">readme</a>? If 
+  you&#8217;re all ready, <a href="import-b2.php?step=1">let&#8217;s go</a>!</p>
 <?php
 	break;
 	
@@ -188,7 +187,7 @@ if ($got_row) {
 }
 ?>
 <p>Did you defeat the boss monster at the end? Good, then you&#8217;re ready for 
-  <a href="import-b2.php.php?step=2">Step 2</a>.</p>
+  <a href="import-b2.php?step=2">Step 2</a>.</p>
 <?php
 	break;
 	case 2:
@@ -214,6 +213,7 @@ $q = $wpdb->query($query);
 $query = "ALTER TABLE $tableposts DROP INDEX ID";
 
 $q = $wpdb->query($query);
+
 ?>
 
 <p>One down, two to go...</p>
@@ -230,7 +230,7 @@ $q = $wpdb->query($query);
 
 $query="ALTER TABLE $tableposts DROP post_karma";
 $q = $wpdb->query($query);
-
+flush();
 ?>
 
 <p>Almost there...</p>
@@ -240,13 +240,14 @@ $q = $wpdb->query($query);
 $query = "ALTER TABLE $tableusers DROP INDEX ID";
 
 $q = $wpdb->query($query);
-
+upgrade_071();
+upgrade_072();
+upgrade_100();
 ?>
 
 <p>Don't forget to CHMOD the <code>weblogs.com.changes.cache</code> file and you'll 
   be A-okay. Welcome to the family.</p>
-<p>Now there is one more step to the upgrade process. <a href="upgrade-071-to-072.php">Continue upgrade</a></p>
-<?php
+  <?php
 	break;
 }
 ?>
