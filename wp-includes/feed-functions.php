@@ -1,8 +1,12 @@
 <?php
 
-function bloginfo_rss($show='') {
-    $info = strip_tags(get_bloginfo($show));
-    echo convert_chars($info);
+function get_bloginfo_rss($show = '') {
+	$info = strip_tags(get_bloginfo($show));
+	return convert_chars($info);
+}
+
+function bloginfo_rss($show = '') {
+	echo get_bloginfo_rss();
 }
 
 function the_title_rss() {
