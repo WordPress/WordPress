@@ -95,3 +95,26 @@ p {
 #menu ul ul li a:hover {
 	border-bottom: 1px solid #ccc;
 }
+
+.b2calendartable { 
+    background: #fff; border: 1px solid #000; 
+}
+.b2calendarmonth { 
+    color: #000; 
+}
+.b2calendarrow   { 
+    color: #0f0; 
+}
+.b2calendarheadercell { 
+    color: #ccc; background: #808080; 
+}
+.b2calendarcell { 
+    color: #000; 
+}
+.b2calendartoday { 
+    color: #00f; 
+}
+.b2calendaremptycell { }
+.b2calendarlinkpost { 
+    color: #f00; text-decoration: none; 
+}
