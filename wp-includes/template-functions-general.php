@@ -224,7 +224,7 @@ function single_month_title($prefix = '', $display = true ) {
 		$my_month = $month[$monthnum];
 	} elseif(!empty($m)) {
 		$my_year = substr($m, 0, 4);
-		$my_month = $month[substr($m, 4, 2)];
+		$my_month = $month[str_pad($monthnum, 2, '0', STR_PAD_LEFT)];
 	}
 
 	if (!empty($my_month) && $display) {
