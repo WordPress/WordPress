@@ -39,11 +39,11 @@ $commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID
 if ('closed' == $commentstatus)
 	die('Sorry, comments are closed for this item.');
 
-if ($require_name_email && ($email == "" || $email == "@" || $author == "" || $author == "name")) { //original fix by Dodo, and then Drinyth
-	echo "Error: please fill the required fields (name, email)";
+if ($require_name_email && ($email == '' || $email == '@' || $author == '' || $author == 'name')) { //original fix by Dodo, and then Drinyth
+	echo 'Error: please fill the required fields (name, email).';
 	exit;
 }
-if ($comment == "comment" || $comment == "") {
+if ($comment == 'comment' || $comment == '') {
 	echo "Error: please type a comment";
 	exit;
 }
@@ -102,14 +102,13 @@ if ($ok) {
 		$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$user_ip\r\n";
 		$notify_message .= "Comment: \n".stripslashes($original_comment)."\r\n\r\n";
 		$notify_message .= "You can see all comments on this post here: \r\n";
-		$notify_message .= comments_link('', false);
+		$notify_message .= "$siteurl/?p=$comment_post_ID&c=1";
  
 		$postdata = get_postdata($comment_post_ID);
 		$authordata = get_userdata($postdata['Author_ID']);
-		$recipient = $authordata['user_email'];
 		$subject = "[$blogname] Comment: \"".stripslashes($postdata['Title']).'"';
 
-		@mail($recipient, $subject, $notify_message, "From: \"$comment_author\" <$comment_author_email>\r\n"."X-Mailer: WordPress $b2_version with PHP/".phpversion());
+		@mail($authordata->user_email, $subject, $notify_message, "From: \"$comment_author\" <$comment_author_email>\r\n"."X-Mailer: WordPress $b2_version with PHP/".phpversion());
 		
 	}
 
