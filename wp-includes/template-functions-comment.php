@@ -260,7 +260,7 @@ function trackback_url($display = true) {
     $tb_url = $siteurl.'/wp-trackback.php/'.$id;
 
     if ('' != get_settings('permalink_structure')) {
-        $tb_url = get_permalink() . 'trackback/';
+        $tb_url = trailingslashit(get_permalink()) . 'trackback/';
     }
 
     if ($display) {
