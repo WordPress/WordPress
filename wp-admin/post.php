@@ -173,10 +173,9 @@ case 'edit':
 
 	$post = $post_ID = $p = (int) $_GET['post'];
 
-	if (!user_can_edit_post($user_ID, $post_ID)) {
+	if ( !user_can_edit_post($user_ID, $post_ID) )
 		die ('You are not allowed to edit this post.');
-	}
-
+		
 	$postdata = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
 	$content = $postdata->post_content;
 	$content = format_to_edit($content);
@@ -195,6 +194,9 @@ case 'edit':
 	$post_name = $postdata->post_name;
 	$post_parent = $postdata->post_parent;
 	$post_author = $postdata->post_author;
+
+	if( 'private' == $postdata->post_status && $postdata->post_author != $user_ID )
+		die ('You are not allowed to view other users\' private posts.');
 
 	if ($post_status == 'static') {
 		$page_template = get_post_meta($post_ID, '_wp_page_template', true);
