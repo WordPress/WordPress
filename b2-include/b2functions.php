@@ -519,7 +519,7 @@ function get_postdata($postid) {
 	return $postdata;
 }
 
-function get_postdata2($postid=0) { // less flexible, but saves mysql queries
+function get_postdata2($postid=0) { // less flexible, but saves DB queries
 	global $post;
 	$postdata = array (
 		'ID' => $post->ID, 
@@ -537,7 +537,7 @@ function get_postdata2($postid=0) { // less flexible, but saves mysql queries
 	return $postdata;
 }
 
-function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves mysql queries
+function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves DB queries
 	global $postc,$id,$commentdata,$tablecomments,$querycount, $wpdb;
 	if ($no_cache) {
         $myrow = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID", ARRAY_A);

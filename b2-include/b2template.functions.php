@@ -717,18 +717,21 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 }
 
 function next_posts_link($label='Next Page >>', $max_page=0) {
-	global $p, $paged, $result, $request, $posts_per_page, $what_to_show;
+	global $p, $paged, $result, $request, $posts_per_page, $what_to_show, $wpdb;
 	if ($what_to_show == 'paged') {
 		if (!$max_page) {
 			$nxt_request = $request;
+            //if the query includes a limit clause, call it again without that
+            //limit clause!
 			if ($pos = strpos(strtoupper($request), 'LIMIT')) {
 				$nxt_request = substr($request, 0, $pos);
 			}
-			$nxt_result = mysql_query($nxt_request);
-			$numposts = mysql_num_rows($nxt_result);
+			$nxt_result = $wpdb->query($nxt_request);
+			$numposts = $wpdb->num_rows;
 			$max_page = ceil($numposts / $posts_per_page);
 		}
-		if (!$paged) $paged = 1;
+		if (!$paged)
+            $paged = 1;
 		$nextpage = intval($paged) + 1;
 		if (empty($p) && (empty($paged) || $nextpage <= $max_page)) {
 			echo '<a href="';
@@ -774,14 +777,14 @@ function previous_posts_link($label='<< Previous Page') {
 }
 
 function posts_nav_link($sep=' :: ', $prelabel='<< Previous Page', $nxtlabel='Next Page >>') {
-	global $p, $what_to_show, $request, $posts_per_page;
+	global $p, $what_to_show, $request, $posts_per_page, $wpdb;
 	if (empty($p) && ($what_to_show == 'paged')) {
 		$nxt_request = $request;
 		if ($pos = strpos(strtoupper($request), 'LIMIT')) {
 			$nxt_request = substr($request, 0, $pos);
 		}
-		$nxt_result = mysql_query($nxt_request);
-		$numposts = mysql_num_rows($nxt_result);
+        $nxt_result = $wpdb->query($nxt_request);
+        $numposts = $wpdb->num_rows;
 		$max_page = ceil($numposts / $posts_per_page);
 		if ($max_page > 1) {
 			previous_posts_link($prelabel);
