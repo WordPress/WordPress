@@ -20,16 +20,24 @@ if ( $home != '' && $home != get_settings('siteurl') ) {
 	$home_path = ABSPATH;
 }
 
-if (isset($_POST['submit'])) {
-	$permalink_structure = preg_replace('#/+/#', '/', $_POST['permalink_structure']);
+if ( isset($_POST) ) {
+	if ( $_POST['permalink_structure'] )
+		$permalink_structure = preg_replace('#/+#', '/', '/' . $_POST['permalink_structure']);
+	else
+		$permalink_structure = $_POST['permalink_structure'];
+	
+	if ( $_POST['category_base'] )
+		$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
+	else
+		$category_base = $_POST['category_base'];
+	
 	update_option('permalink_structure', $permalink_structure);
-
-	update_option('category_base', $_POST['category_base']);
-	$category_base = $_POST['category_base'];
-} else {
-	$permalink_structure = get_settings('permalink_structure');
-	$category_base = get_settings('category_base');
+	update_option('category_base', $category_base);
 }
+
+$permalink_structure = get_settings('permalink_structure');
+$category_base = get_settings('category_base');
+
 
 generate_page_rewrite_rules();
 
