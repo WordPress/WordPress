@@ -215,10 +215,9 @@ if ($pagenow == 'index.php') {
 			$wp_did_template_redirect = true;
 			include("$wp_template_dir/single.php");
 			exit;
-		} else if (is_page() &&
-							 file_exists("$wp_template_dir/page.php")) {
+		} else if (is_page() && file_exists(get_page_template())) {
 			$wp_did_template_redirect = true;
-			include("$wp_template_dir/page.php");
+			include(get_page_template());
 			exit;
 		} else if (is_category() &&
 							 file_exists("$wp_template_dir/category.php")) {

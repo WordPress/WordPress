@@ -447,11 +447,15 @@ AND meta_key = '$key' AND meta_value = '$value'");
 	return true;
 }
 
-function get_post_meta($post_id, $key) {
+function get_post_meta($post_id, $key, $single = false) {
 	global $wpdb, $post_meta_cache;
 
 	if (isset($post_meta_cache[$post_id][$key])) {
-		return $post_meta_cache[$post_id][$key];
+		if ($single) {
+			return $post_meta_cache[$post_id][$key][0];
+		} else {
+			return $post_meta_cache[$post_id][$key];
+		}
 	}
 
 	$metalist = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key'", ARRAY_N);
@@ -463,11 +467,24 @@ function get_post_meta($post_id, $key) {
 		}
 	}
 
-	return $values;
+	if ($single) {
+		if (count($values)) {
+			return $values[0];
+		} else {
+			return '';
+		}
+	} else {
+		return $values;
+	}
 }
 
 function update_post_meta($post_id, $key, $value, $prev_value = '') {
 	global $wpdb, $post_meta_cache;
+
+		if(! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
+= '$key' AND post_id = '$post_id'") ) {
+			return false;
+		}
 
 	if (empty($prev_value)) {
 		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
@@ -1818,6 +1835,26 @@ function get_template_directory() {
 	}
 
 	return $template;
+}
+
+function get_page_template() {
+	global $wp_query;
+
+	$id = $wp_query->post->ID;	
+	$template_dir = get_template_directory();
+	$default = "$template_dir/page.php";
+
+	$template = get_post_meta($id, '_wp_page_template', true);
+
+	if (empty($template) || ($template == 'default')) {
+		return $default;
+	}
+
+	if (file_exists("$template_dir/$template")) {
+		return "$template_dir/$template";
+	}
+
+	return $default;
 }
 
 // Borrowed from the PHP Manual user notes. Convert entities, while

@@ -49,9 +49,9 @@ window.onload = focusit;
 	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>
     </fieldset>
     <fieldset id="pageparent">
-      <legend><?php _e('Page Parent') ?></a></legend> 
+      <legend><?php _e('Page Parent') ?></legend> 
 	  <div><select name="parent_id">
-		<option value='0'>Main Page (no parent)</option>
+	  <option value='0'><?php _e('Main Page (no parent)'); ?></option>
 			<?php parent_dropdown($post_parent); ?>
         </select>
 	  </div>
@@ -79,6 +79,22 @@ edCanvas = document.getElementById('content');
   <input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php _e('Create New Page') ?> &raquo;" /> 
   <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
+
+<fieldset id="pageoptions">
+	 <legend><?php _e('Page Options') ?></legend> 
+   <table width="100%" cellspacing="2" cellpadding="5" class="editform">
+	 <tr valign="top">
+	 <th scope="row"><?php _e('Page Template:') ?></th>
+   <td><div><select name="page_template">
+	 <option value='default'><?php _e('Default Template'); ?></option>
+	 <?php page_template_dropdown($page_template); ?>
+	 </select>
+	 </div>
+	 </td>
+	 </tr>
+	 </table>
+</fieldset>
+
 <?php do_action('edit_page_form', ''); ?>
 </form>
 

@@ -755,6 +755,37 @@ function validate_current_theme() {
 	return true;
 }
 
+function get_page_templates() {
+	$themes = get_themes();
+	$theme = get_current_theme();
+	$templates = $themes[$theme]['Template Files'];
+	$page_templates = array();
+
+	foreach ($templates as $template) {
+		$template_data = implode('', file(ABSPATH . $template));
+		preg_match("|Template Name:(.*)|i", $template_data, $name);
+		preg_match("|Description:(.*)|i", $template_data, $description);
+
+		$name = $name[1];
+		$description = $description[1];
+
+		if (! empty($name)) {
+			$page_templates[trim($name)] = basename($template);
+		}
+	}
+
+	return $page_templates;
+}
+
+function page_template_dropdown($default = '') {
+	$templates = get_page_templates();
+	foreach (array_keys($templates) as $template) :
+		if ($default == $templates[$template]) $selected = " selected='selected'";
+		else $selected = '';
+		echo "\n\t<option value='" . $templates[$template] . "' $selected>$template</option>";
+		endforeach;
+}
+
 function parent_dropdown($default = 0, $parent = 0, $level = 0) {
 	global $wpdb;
 	$items = $wpdb->get_results("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = $parent AND post_status = 'static' ORDER BY menu_order");

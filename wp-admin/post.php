@@ -200,6 +200,8 @@ case 'post':
 
 	if ($post_status = 'static') {
 		generate_page_rewrite_rules();
+
+		add_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'], true);
 	}
 
 	exit();
@@ -233,6 +235,8 @@ case 'edit':
 		$post_parent = $postdata->post_parent;
 
 		if ($post_status == 'static') {
+			$page_template = get_post_meta($post_ID, '_wp_page_template', true);
+
 			include('edit-page-form.php');
 		} else {
 			include('edit-form-advanced.php');
@@ -438,6 +442,10 @@ $now_gmt = current_time('mysql', 1);
 
 	if ($post_status = 'static') {
 		generate_page_rewrite_rules();
+
+		if ( ! update_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'])) {
+			add_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'], true);
+		}
 	}
 
 	do_action('edit_post', $post_ID);
