@@ -12,7 +12,8 @@
 			-->
 
 			<li>
-			<?php /* If this is a category archive */ if (is_category()) { ?>
+			<?php /* If this is a 404 page */ if (is_404()) { ?>
+			<?php /* If this is a category archive */ } elseif (is_category()) { ?>
 			<p>You are currently browsing the archives for the <?php single_cat_title(''); ?> category.</p>
 			
 			<?php /* If this is a yearly archive */ } elseif (is_day()) { ?>
