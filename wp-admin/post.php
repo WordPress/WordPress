@@ -4,18 +4,18 @@ require_once('admin.php');
 $wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder', 'enclosure_url' );
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-$wpvar = $wpvarstoreset[$i];
-if (!isset($$wpvar)) {
-	if (empty($_POST["$wpvar"])) {
-		if (empty($_GET["$wpvar"])) {
-			$$wpvar = '';
-		} else {
+	$wpvar = $wpvarstoreset[$i];
+	if (!isset($$wpvar)) {
+		if (empty($_POST["$wpvar"])) {
+			if (empty($_GET["$wpvar"])) {
+				$$wpvar = '';
+			} else {
 			$$wpvar = $_GET["$wpvar"];
+			}
+		} else {
+			$$wpvar = $_POST["$wpvar"];
 		}
-	} else {
-		$$wpvar = $_POST["$wpvar"];
 	}
-}
 }
 
 switch($action) {
@@ -148,7 +148,7 @@ case 'post':
 	if ('publish' == $post_status) {
 		if ($post_pingback)
 			pingback($content, $post_ID);
-                do_enclose( $content, $post_ID );
+		do_enclose( $content, $post_ID );
 		do_trackbacks($post_ID);
 		do_action('publish_post', $post_ID);
 	}
@@ -174,50 +174,50 @@ case 'edit':
 		die ('You are not allowed to edit this post.');
 	}
 
-		$postdata = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
-		$content = $postdata->post_content;
-		$content = format_to_edit($content);
-		$content = apply_filters('content_edit_pre', $content);
-		$excerpt = $postdata->post_excerpt;
-		$excerpt = format_to_edit($excerpt);
-		$excerpt = apply_filters('excerpt_edit_pre', $excerpt);
-		$edited_post_title = format_to_edit($postdata->post_title);
-		$edited_post_title = apply_filters('title_edit_pre', $edited_post_title);
-		$post_status = $postdata->post_status;
-		$comment_status = $postdata->comment_status;
-		$ping_status = $postdata->ping_status;
-		$post_password = $postdata->post_password;
-		$to_ping = $postdata->to_ping;
-		$pinged = $postdata->pinged;
-		$post_name = $postdata->post_name;
-		$post_parent = $postdata->post_parent;
+	$postdata = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
+	$content = $postdata->post_content;
+	$content = format_to_edit($content);
+	$content = apply_filters('content_edit_pre', $content);
+	$excerpt = $postdata->post_excerpt;
+	$excerpt = format_to_edit($excerpt);
+	$excerpt = apply_filters('excerpt_edit_pre', $excerpt);
+	$edited_post_title = format_to_edit($postdata->post_title);
+	$edited_post_title = apply_filters('title_edit_pre', $edited_post_title);
+	$post_status = $postdata->post_status;
+	$comment_status = $postdata->comment_status;
+	$ping_status = $postdata->ping_status;
+	$post_password = $postdata->post_password;
+	$to_ping = $postdata->to_ping;
+	$pinged = $postdata->pinged;
+	$post_name = $postdata->post_name;
+	$post_parent = $postdata->post_parent;
 
-		if ($post_status == 'static') {
-			$page_template = get_post_meta($post_ID, '_wp_page_template', true);
-			include('edit-page-form.php');
-		} else {
-			include('edit-form-advanced.php');
-		}
+	if ($post_status == 'static') {
+		$page_template = get_post_meta($post_ID, '_wp_page_template', true);
+		include('edit-page-form.php');
+	} else {
+		include('edit-form-advanced.php');
+	}
 
-		$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
-		?>
-<div id='preview' class='wrap'>
-	 <h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
-																		<h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php printf(__("Permanent Link: %s"), the_title()); ?>"><?php the_title(); ?></a></h3>
-																																																																					<div class="meta"><?php _e("Filed under:"); ?> <?php the_category(','); ?> &#8212; <?php the_author() ?> @ <?php the_time() ?></div>
+	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
+	?>
+	<div id='preview' class='wrap'>
+	<h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
+	<h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php printf(__("Permanent Link: %s"), the_title()); ?>"><?php the_title(); ?></a></h3>
+	<div class="meta"><?php _e("Filed under:"); ?> <?php the_category(','); ?> &#8212; <?php the_author() ?> @ <?php the_time() ?></div>
 
-<div class="storycontent">
-<?php 
-$content = apply_filters('the_content', $post->post_content);
-echo $content;
-?>
-</div>
-		</div>
-<?php
+	<div class="storycontent">
+	<?php 
+	$content = apply_filters('the_content', $post->post_content);
+	echo $content;
+	?>
+	</div>
+	</div>
+	<?php
 	break;
 
 case 'editpost':
-// die(var_dump('<pre>', $_POST));
+	// die(var_dump('<pre>', $_POST));
 	if (!isset($blog_ID)) {
 		$blog_ID = 1;
 	}
@@ -226,42 +226,42 @@ case 'editpost':
 	if (!user_can_edit_post($user_ID, $post_ID, $blog_ID)) {
 		die('You are not allowed to edit this post.');
 	}
-		$post_categories = $_POST['post_category'];
-		if (!$post_categories) $post_categories[] = 1;
-		$content = apply_filters('content_save_pre', $_POST['content']);
-		$content = format_to_post($content);
-		$excerpt = apply_filters('excerpt_save_pre', $_POST['excerpt']);
-		$excerpt = format_to_post($excerpt);
-		$post_title = $_POST['post_title'];
-		$prev_status = $_POST['prev_status'];
-		$post_status = $_POST['post_status'];
-		$comment_status = $_POST['comment_status'];
-		if (empty($comment_status)) $comment_status = 'closed';
-		//if (!$_POST['comment_status']) $comment_status = get_settings('default_comment_status');
+	$post_categories = $_POST['post_category'];
+	if (!$post_categories) $post_categories[] = 1;
+	$content = apply_filters('content_save_pre', $_POST['content']);
+	$content = format_to_post($content);
+	$excerpt = apply_filters('excerpt_save_pre', $_POST['excerpt']);
+	$excerpt = format_to_post($excerpt);
+	$post_title = $_POST['post_title'];
+	$prev_status = $_POST['prev_status'];
+	$post_status = $_POST['post_status'];
+	$comment_status = $_POST['comment_status'];
+	if (empty($comment_status)) $comment_status = 'closed';
+	//if (!$_POST['comment_status']) $comment_status = get_settings('default_comment_status');
 
-		$ping_status = $_POST['ping_status'];
-		if (empty($ping_status)) $ping_status = 'closed';
-		//if (!$_POST['ping_status']) $ping_status = get_settings('default_ping_status');
-		$post_password = $_POST['post_password'];
-		$post_name = $_POST['post_name'];
-		if (empty($post_name)) {
-		  $post_name = $post_title;
+	$ping_status = $_POST['ping_status'];
+	if (empty($ping_status)) $ping_status = 'closed';
+	//if (!$_POST['ping_status']) $ping_status = get_settings('default_ping_status');
+	$post_password = $_POST['post_password'];
+	$post_name = $_POST['post_name'];
+	if (empty($post_name)) {
+		$post_name = $post_title;
+	}
+
+	$post_parent = 0;
+	if (isset($_POST['parent_id'])) {
+		$post_parent = $_POST['parent_id'];
+	}
+
+	if (empty($post_name)) {
+		if (! empty($post_title)) {
+			$post_name = sanitize_title($post_title, $post_ID);
 		}
+	} else {
+		$post_name = sanitize_title($post_name, $post_ID);
+	}
 
-		$post_parent = 0;
-		if (isset($_POST['parent_id'])) {
-			$post_parent = $_POST['parent_id'];
-		}
-
-		if (empty($post_name)) {
-			if (! empty($post_title)) {
-				$post_name = sanitize_title($post_title, $post_ID);
-			}
-		} else {
-			$post_name = sanitize_title($post_name, $post_ID);
-		}
-
-		$trackback = $_POST['trackback_url'];
+	$trackback = $_POST['trackback_url'];
 	// Format trackbacks
 	$trackback = preg_replace('|\s+|', '\n', $trackback);
 	
@@ -301,8 +301,8 @@ case 'editpost':
 	}
 	header ('Location: ' . $location); // Send user on their way while we keep working
 
-        $now = current_time('mysql');
-        $now_gmt = current_time('mysql', 1);
+		$now = current_time('mysql');
+		$now_gmt = current_time('mysql', 1);
 
 	$result = $wpdb->query("
 		UPDATE $wpdb->posts SET
@@ -359,7 +359,7 @@ case 'editpost':
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 		do_trackbacks($post_ID);
-                do_enclose( $content, $post_ID );
+				do_enclose( $content, $post_ID );
 		if ( get_option('default_pingback_flag') )
 			pingback($content, $post_ID);
 	}
@@ -392,7 +392,7 @@ case 'delete':
 
 	$categories = $wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $post_id");
 
-    $meta = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $post_id");
+	$meta = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $post_id");
 
 	$sendback = $_SERVER['HTTP_REFERER'];
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
@@ -425,147 +425,148 @@ case 'editcomment':
 
 case 'confirmdeletecomment':
 
-require_once('./admin-header.php');
+	require_once('./admin-header.php');
 
-$comment = $_GET['comment'];
-$p = $_GET['p'];
-$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	$comment = $_GET['comment'];
+	$p = $_GET['p'];
+	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
-	die('You are not allowed to delete comments on this post.');
-}
+	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
+		die('You are not allowed to delete comments on this post.');
+	}
 
-echo "<div class=\"wrap\">\n";
-echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
-echo "<table border=\"0\">\n";
-echo "<tr><td>" . __('Author:') . "</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
-echo "<tr><td>" . __('E-mail:') . "</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
-echo "<tr><td>". __('URL:') . "</td><td>" . $commentdata["comment_author_url"] . "</td></tr>\n";
-echo "<tr><td>". __('Comment:') . "</td><td>" . stripslashes($commentdata["comment_content"]) . "</td></tr>\n";
-echo "</table>\n";
-echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
+	echo "<div class=\"wrap\">\n";
+	echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
+	echo "<table border=\"0\">\n";
+	echo "<tr><td>" . __('Author:') . "</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
+	echo "<tr><td>" . __('E-mail:') . "</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
+	echo "<tr><td>". __('URL:') . "</td><td>" . $commentdata["comment_author_url"] . "</td></tr>\n";
+	echo "<tr><td>". __('Comment:') . "</td><td>" . stripslashes($commentdata["comment_content"]) . "</td></tr>\n";
+	echo "</table>\n";
+	echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
 
-echo "<form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'>\n";
-echo "<input type=\"hidden\" name=\"action\" value=\"deletecomment\" />\n";
-echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
-echo "<input type=\"hidden\" name=\"comment\" value=\"$comment\" />\n";
-echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
-echo "<input type=\"submit\" value=\"" . __('Yes') . "\" />";
-echo "&nbsp;&nbsp;";
-echo "<input type=\"button\" value=\"" . __('No') . "\" onClick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
-echo "</form>\n";
-echo "</div>\n";
+	echo "<form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'>\n";
+	echo "<input type=\"hidden\" name=\"action\" value=\"deletecomment\" />\n";
+	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
+	echo "<input type=\"hidden\" name=\"comment\" value=\"$comment\" />\n";
+	echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
+	echo "<input type=\"submit\" value=\"" . __('Yes') . "\" />";
+	echo "&nbsp;&nbsp;";
+	echo "<input type=\"button\" value=\"" . __('No') . "\" onClick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
+	echo "</form>\n";
+	echo "</div>\n";
 
-break;
+	break;
 
 case 'deletecomment':
 
-check_admin_referer();
+	check_admin_referer();
 
-$comment = $_GET['comment'];
-$p = $_GET['p'];
-if (isset($_GET['noredir'])) {
-	$noredir = true;
-} else {
-	$noredir = false;
-}
+	$comment = $_GET['comment'];
+	$p = $_GET['p'];
+	if (isset($_GET['noredir'])) {
+		$noredir = true;
+	} else {
+		$noredir = false;
+	}
 
-$postdata = get_postdata($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
-$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
+	$postdata = get_postdata($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
 
-if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
-	die('You are not allowed to edit comments on this post.');
-}
+	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_id'])) {
+		die('You are not allowed to edit comments on this post.');
+	}
 
-wp_set_comment_status($comment, "delete");
-do_action('delete_comment', $comment);
+	wp_set_comment_status($comment, "delete");
+	do_action('delete_comment', $comment);
 
-if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
-	header('Location: ' . $_SERVER['HTTP_REFERER']);
-} else {
-	header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
-}
+	if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+	} else {
+		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+	}
+	clear_smarty_cache();
 
-break;
+	break;
 
 case 'unapprovecomment':
 
-require_once('./admin-header.php');
+	require_once('./admin-header.php');
 
-check_admin_referer();
+	check_admin_referer();
 
-$comment = $_GET['comment'];
-$p = $_GET['p'];
-if (isset($_GET['noredir'])) {
-	$noredir = true;
-} else {
-	$noredir = false;
-}
+	$comment = $_GET['comment'];
+	$p = $_GET['p'];
+	if (isset($_GET['noredir'])) {
+		$noredir = true;
+	} else {
+		$noredir = false;
+	}
 
-$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
-	die('You are not allowed to edit comments on this post, so you cannot disapprove this comment.');
-}
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+		die('You are not allowed to edit comments on this post, so you cannot disapprove this comment.');
+	}
 
-wp_set_comment_status($comment, "hold");
+	wp_set_comment_status($comment, "hold");
 
-if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
-	header('Location: ' . $_SERVER['HTTP_REFERER']);
-} else {
-	header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
-}
+	if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+	} else {
+		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+	}
 
-break;
+	break;
 
 case 'mailapprovecomment':
 
-$comment = (int) $_GET['comment'];
+	$comment = (int) $_GET['comment'];
 
-$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
-	die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
-}
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+		die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
+	}
 
-if ('1' != $commentdata['comment_approved']) {
-	wp_set_comment_status($comment, 'approve');
-	if (true == get_option('comments_notify'))
-		wp_notify_postauthor($comment);
-}
+	if ('1' != $commentdata['comment_approved']) {
+		wp_set_comment_status($comment, 'approve');
+		if (true == get_option('comments_notify'))
+			wp_notify_postauthor($comment);
+	}
 
-header('Location: ' . get_option('siteurl') . '/wp-admin/moderation.php?approved=1');
+	header('Location: ' . get_option('siteurl') . '/wp-admin/moderation.php?approved=1');
 
-break;
+	break;
 
 case 'approvecomment':
 
-$comment = $_GET['comment'];
-$p = $_GET['p'];
-if (isset($_GET['noredir'])) {
-	$noredir = true;
-} else {
-	$noredir = false;
-}
-$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	$comment = $_GET['comment'];
+	$p = $_GET['p'];
+	if (isset($_GET['noredir'])) {
+		$noredir = true;
+	} else {
+		$noredir = false;
+	}
+	$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
-	die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
-}
+	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_id'])) {
+		die('You are not allowed to edit comments on this post, so you cannot approve this comment.');
+	}
 
-wp_set_comment_status($comment, "approve");
-if (get_settings("comments_notify") == true) {
-	wp_notify_postauthor($comment);
-}
+	wp_set_comment_status($comment, "approve");
+	if (get_settings("comments_notify") == true) {
+		wp_notify_postauthor($comment);
+	}
 
- 
-if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
-	header('Location: ' . $_SERVER['HTTP_REFERER']);
-} else {
-	header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
-}
 
-break;
+	if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
+		header('Location: ' . $_SERVER['HTTP_REFERER']);
+	} else {
+		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+	}
+
+	break;
 
 case 'editedcomment':
 
@@ -607,8 +608,11 @@ case 'editedcomment':
 		);
 
 	$referredby = $_POST['referredby'];
-	if (!empty($referredby)) header('Location: ' . $referredby);
-	else header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
+	if (!empty($referredby)) {
+		header('Location: ' . $referredby);
+	} else {
+		header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
+	}
 	do_action('edit_comment', $comment_ID);
 	break;
 
@@ -662,7 +666,7 @@ default:
 <p>
 
 <?php
-$bookmarklet_height= (get_settings('use_trackback')) ? 460 : 420;
+$bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
 
 if ($is_NS4 || $is_gecko) {
 ?>
@@ -696,19 +700,16 @@ window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=50
 </p>
 </div>
 <?php
-	} else {
-
-
+} else {
 ?>
 <div class="wrap">
-		<p><?php printf(__('Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
+<p><?php printf(__('Since you&#8217;re a newcomer, you&#8217;ll have to wait for an admin to raise your level to 1, in order to be authorized to post.<br />
 You can also <a href="mailto:%s?subject=Promotion?">e-mail the admin</a> to ask for a promotion.<br />
 When you&#8217;re promoted, just reload this page and you&#8217;ll be able to blog. :)'), get_settings('admin_email')); ?>
-		</p>
+</p>
 </div>
 <?php
-
-	}
+}
 
 	break;
 } // end switch
