@@ -322,7 +322,7 @@ function get_settings($setting) {
 		$option = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
 
 		if (!$option) :
-			$cache_nonexistantoptions[] = $setting;
+			$cache_nonexistantoptions[$setting] = true;
 			return false;
 		endif;
 	  
