@@ -571,6 +571,12 @@ class WP_Query {
 		return $this->post;
 	}
 
+	function the_post() {
+		global $post;
+		$post = $this->next_post();
+		setup_postdata($post);
+	}
+
 	function have_posts() {
 		if ($this->current_post + 1 < $this->post_count) {
 			return true;

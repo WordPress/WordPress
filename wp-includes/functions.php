@@ -796,15 +796,20 @@ function do_enclose( $content, $post_ID ) {
         }
 }
 
-function start_wp($use_wp_query = false) {
-  global $post, $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages, $wp_query;
-	global $pagenow;
+// Deprecated.  Use the new post loop.
+function start_wp() {
+	global $wp_query, $post;
 
-	if ($use_wp_query) {
-	  $post = $wp_query->next_post();
-	} else {
-	  $wp_query->next_post();
-	}
+	// Since the old style loop is being used, advance the query iterator here.
+	$wp_query->next_post();
+
+	setup_postdata($post);
+}
+
+// Setup global post data.
+function setup_postdata($post) {
+  global $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages, $wp_query;
+	global $pagenow;
 
 	if (!$preview) {
 		$id = $post->ID;
@@ -831,11 +836,10 @@ function start_wp($use_wp_query = false) {
 	if (isset($p))
 		$more = 1;
 	$content = $post->post_content;
-	if (preg_match('/<!--nextpage-->/', $post->post_content)) {
+	if (preg_match('/<!--nextpage-->/', $content)) {
 		if ($page > 1)
 			$more = 1;
 		$multipage = 1;
-		$content = $post->post_content;
 		$content = str_replace("\n<!--nextpage-->\n", '<!--nextpage-->', $content);
 		$content = str_replace("\n<!--nextpage-->", '<!--nextpage-->', $content);
 		$content = str_replace("<!--nextpage-->\n", '<!--nextpage-->', $content);
@@ -1240,7 +1244,8 @@ function rewind_posts() {
 }
 
 function the_post() {
-    start_wp(true);
+    global $wp_query;
+    $wp_query->the_post();
 }
 
 function get_stylesheet() {

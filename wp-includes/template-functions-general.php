@@ -607,18 +607,20 @@ function the_time( $d = '' ) {
 
 function get_the_time( $d = '' ) {
 	if ( '' == $d )
-		$the_time = date( get_settings('time_format'), get_post_time() );
+		$the_time = get_post_time(get_settings('time_format'));
 	else
-		$the_time = date( $d, get_post_time() );
+		$the_time = get_post_time($d);
 	return apply_filters('get_the_time', $the_time);
 }
 
-function get_post_time( $gmt = false ) { // returns timestamp
+function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
 	global $post;
 	if ( $gmt )
-		$time = mysql2date('U', $post->post_date_gmt);
+		$time = $post->post_date_gmt;
 	else
-		$time = mysql2date('U', $post->post_date);
+		$time = $post->post_date;
+
+	$time = mysql2date($d, $time);
 	return apply_filters('get_the_time', $time);
 }
 
