@@ -473,7 +473,7 @@ function the_meta() {
 	global $id, $post_meta_cache;
 	
 	if ($keys = get_post_custom_keys()) {
-		echo "<strong>Meta:</strong><ul>\n";
+		echo "<ul>\n";
 		foreach ($keys as $key) {
 			$values = array_map('trim',$post_meta_cache[$id][$key]);
 			$value = implode($values,', ');
