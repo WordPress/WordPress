@@ -139,7 +139,7 @@ default:
 	if( !empty($_POST) ) {
 		$log = $_POST['log'];
 		$pwd = $_POST['pwd'];
-		$redirect_to = preg_replace('|[^a-z/.:_-]|i', '', $_POST['redirect_to']);
+		$redirect_to = preg_replace('|[^a-z/~.:_-]|i', '', $_POST['redirect_to']);
 	}
 	
 	$user = get_userdatabylogin($log);
