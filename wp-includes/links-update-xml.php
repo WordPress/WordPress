@@ -2,7 +2,10 @@
 // Links weblogs.com grabber
 // Copyright (C) 2003 Mike Little -- mike@zed1.com
 
-require_once('../wp-config.php');
+// Get the path of our parent directory:
+$parentpath = dirname(dirname(__FILE__));
+
+require_once($parentpath.'/wp-config.php');
 
 // globals to hold state
 $updated_timestamp = 0;
