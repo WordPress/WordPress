@@ -40,7 +40,7 @@
 </head>
 <body>
 <h1 style="text-align: center"><img alt="WordPress" src="http://wordpress.org/images/wordpress.gif" /> <br />
-	Version 1.2</h1>
+	Version 1.3</h1>
 <p style="text-align: center"> Semantic Personal Publishing Platform </p>
 <h1>First Things First</h1>
 <p>Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I'm proud to be a part of. Thousands of hours have gone into WordPress, and we're dedicated to making it better every day. Thank you for making it part of your world.</p>
@@ -48,8 +48,8 @@
 <h1>Online Resources</h1>
 <p>If you have any questions that aren't addressed in this document, please take advantage of WordPress' numerous online resources:</p>
 <dl>
-	<dt><a href="http://wiki.wordpress.org/">The WordPress Wiki</a></dt>
-	<dd>A wiki is like a web page than anyone can contribute to, and the WordPress wiki documentation has grown rich from the many who have contributed to it. It is usually up-to-date and well-hyperlinked. The only downside is it can be hard to find your way around your first time. Use the search box at the top.</dd>
+	<dt><a href="http://codex.wordpress.org/">The WordPress Codex </a></dt>
+	<dd>The Codex is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available. </dd>
 	<dt><a href="http://wordpress.org/docs/">The official documentation</a></dt>
 	<dd>The documentation on wordpress.org represents the official resources we've made available. Beyond reference, this includes tutorials and guides for doing different things with WordPress. As I write this, it is a little sparse, but we're doing our best to enrich this resource so by the time you read this sentence the docs may be bursting with information. </dd>
 	<dt><a href="http://wordpress.org/development/">The Development Blog</a></dt>
@@ -58,7 +58,7 @@
 	<dd>In addition to the FAQ on the wiki and the main website, there is a new FAQ blog that several members of the documentation team are updating. The FAQ itself is run with WordPress. </dd>
 	<dt><a href="http://wordpress.org/support/">WordPress Support Forums</a></dt>
 	<dd>If you've looked everywhere and still can't find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible. </dd>
-	<dt><a href="http://wiki.wordpress.org/index.php/IRC">WordPress IRC Channel</a></dt>
+	<dt><a href="http://codex.wordpress.org/IRC">WordPress IRC Channel</a></dt>
 	<dd>Finally, there is an online chat channel that is used for discussion amoung people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (irc.freenode.net #wordpresss) </dd>
 </dl>
 <h1 id="requirements">System Recommendations</h1>
@@ -67,7 +67,6 @@
 	<li>MySQL version <strong>3.23.23</strong> or higher</li>
 	<li>... and a link to <a href="http://wordpress.org">http://wordpress.org</a> on your site.</li>
 </ul>
-<p>The Apache <code>mod_rewrite</code> is required for some optional functionality. </p>
 <p>WordPress is the official continuation of <a href="http://cafelog.com/">b2/caf&eacute;log</a>, which came from Michel V. The work has been continued by the <a href="http://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="http://wordpress.org/donate/">donating</a>. </p>
 <h1 id="installation">Installation: Famous 5-minute install</h1>
 <ol>
@@ -81,26 +80,21 @@
 </ol>
 <h1>Upgrading</h1>
 <p>Before you upgrade anything, make sure you have backup copies of any files you may have modified such as <code>index.php</code>.</p>
-<h2>Upgrading from any previous WordPress to 1.2:</h2>
+<h2>Upgrading from any previous WordPress to 1.3:</h2>
 <ol>
 	<li>Upload the new files, and be careful not to overwrite anything important</li>
 	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a></span></li>
 	<li>You wanted more, perhaps? That's it!</li>
 </ol>
-<p>If you are coming from 1.0 or greater, your existing templates should work perfectly. If you are coming from a version earlier than 1.0 you will need to modify your templates slightly. Use the default <code>index.php</code> as your guide. </p>
+<p>If you are coming from 1.0 or greater, your existing templates should work perfectly with just one change to the way you call comments. If you are coming from a version earlier than 1.0 you will need to modify your templates slightly. Use the default <code>index.php</code> as your guide.</p>
 <h1>Upgrading from another system</h1>
-<p>WordPress can import from a number of systems. First you need to get WordPress installed and working as described above, then you can run one of the following import scripts:</p>
-<ul>
-	<li> <a href="wp-admin/import-mt.php"> Import Movable Type </a></li>
-	<li><a href="wp-admin/import-rss.php">Import RSS 2.0</a></li>
-	<li><a href="wp-admin/import-blogger.php">Import Blogger</a></li>
-	<li><a href="wp-admin/import-b2.php">Import b2</a></li>
-	<li><a href="wp-admin/import-livejournal.php">Import LiveJournal</a></li>
-	<li><a href="wp-admin/import-textpattern.php">Import Textpattern</a></li>
-	<li><a href="wp-admin/import-greymatter.php">Import Greymatter </a></li>
-</ul>
+<p>WordPress can <a href="wp-admin/import.php">import from a number of systems</a>. First you need to get WordPress installed and working as described above.</p>
 <h1 id="templates">Templates</h1>
-<p>The template tags are too numerous and flexible to adequetely document here, so please see our <a href="http://wordpress.org/docs/template/">online documentation</a>. </p>
+<p>The template tags are too numerous and flexible to adequetely document here, so please see our <a href="http://wordpress.org/docs/template/">online documentation</a>.</p>
+<h1 id="themes">Themes</h1>
+<p>Themes are a new way to switch the look and function of your site with just a click. TODO</p>
+<h1 id="plugins">Plugins</h1>
+<p>TODO</p>
 <h1>Query String Usage</h1>
 <p>WordPress can be manipulated quite a bit through the query string. To pass variables in the querystring, proceed the first variable name with a '?' question mark and every other variables with a '&amp;' sign. You may never use this, but it is useful to know. </p>
 <p>index.php<strong>?m=200107</strong> will display the month of July 2001.</p>
