@@ -14,67 +14,70 @@ $query_vars = array();
 if ((isset($_GET['error']) && $_GET['error'] == '404') ||
     (! empty( $_SERVER['PATH_INFO']))) {
 
-    // Fetch the rewrite rules.
-    $rewrite = rewrite_rules('matches');
+	// If we match a rewrite rule, this will be cleared.
+	$error = '404';
 
-    if (! empty($rewrite)) {
-        $pathinfo = $_SERVER['PATH_INFO'];
-	$req_uri = $_SERVER['REQUEST_URI'];      
-	$home_path = parse_url(get_settings('home'));
-	$home_path = $home_path['path'];
+	// Fetch the rewrite rules.
+	$rewrite = rewrite_rules('matches');
 
-	// Trim path info from the end and the leading home path from the
-	// front.  For path info requests, this leaves us with the requesting
-	// filename, if any.  For 404 requests, this leaves us with the
-	// requested permalink.	
-        $req_uri = str_replace($pathinfo, '', $req_uri);
-	$req_uri = str_replace($home_path, '', $req_uri);
-	$req_uri = trim($req_uri, '/');
-	$pathinfo = trim($pathinfo, '/');
+	if (! empty($rewrite)) {
+		$pathinfo = $_SERVER['PATH_INFO'];
+		$req_uri = $_SERVER['REQUEST_URI'];      
+		$home_path = parse_url(get_settings('home'));
+		$home_path = $home_path['path'];
 
-	// The requested permalink is in $pathinfo for path info requests and
-	//  $req_uri for other requests.
-	if (! empty($pathinfo)) {
-	  $request = $pathinfo;
-	} else {
-	  $request = $req_uri;
-	}
+		// Trim path info from the end and the leading home path from the
+		// front.  For path info requests, this leaves us with the requesting
+		// filename, if any.  For 404 requests, this leaves us with the
+		// requested permalink.	
+		$req_uri = str_replace($pathinfo, '', $req_uri);
+		$req_uri = str_replace($home_path, '', $req_uri);
+		$req_uri = trim($req_uri, '/');
+		$pathinfo = trim($pathinfo, '/');
 
-        // Look for matches.
-	$request_match = $request;
-        foreach ($rewrite as $match => $query) {
-            // If the requesting file is the anchor of the match, prepend it
-            // to the path info.
+		// The requested permalink is in $pathinfo for path info requests and
+		//  $req_uri for other requests.
+		if (! empty($pathinfo)) {
+			$request = $pathinfo;
+		} else {
+			$request = $req_uri;
+		}
+
+		// Look for matches.
+		$request_match = $request;
+		foreach ($rewrite as $match => $query) {
+			// If the requesting file is the anchor of the match, prepend it
+			// to the path info.
 	    if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0)) {
 	      $request_match = $req_uri . '/' . $request;
 	    }
 
-            if (preg_match("!^$match!", $request_match, $matches)) {
-                // Got a match.
-                // Trim the query of everything up to the '?'.
-                $query = preg_replace("!^.+\?!", '', $query);
+			if (preg_match("!^$match!", $request_match, $matches)) {
+				// Got a match.
+				// Trim the query of everything up to the '?'.
+				$query = preg_replace("!^.+\?!", '', $query);
 
-                // Substitute the substring matches into the query.
-                eval("\$query = \"$query\";");
+				// Substitute the substring matches into the query.
+				eval("\$query = \"$query\";");
 
-                // Parse the query.
-                parse_str($query, $query_vars);
+				// Parse the query.
+				parse_str($query, $query_vars);
 
-		// If we're processing a 404 request, clear the error var
-		// since we found something.
-		if (isset($_GET['error'])) {
-		    unset($_GET['error']);
+				// If we're processing a 404 request, clear the error var
+				// since we found something.
+				if (isset($_GET['error'])) {
+					unset($_GET['error']);
+				}
+
+				if (isset($error)) {
+					unset($error);
+				}
+
+				break;
+			}
 		}
-
-		if (isset($error)) {
-		    unset($error);
-		}
-
-                break;
-            }
-        }
-    }
-}
+	}
+ }
 
 $wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'error');
 
