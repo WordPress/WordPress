@@ -98,7 +98,7 @@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
 
-$location = get_permalink($comment_ID);
+$location = get_permalink($comment_post_ID);
 
 if ($is_IIS) {
 	header("Refresh: 0;url=$location");
