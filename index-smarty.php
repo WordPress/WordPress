@@ -8,10 +8,9 @@ $wpsmarty->template_dir = './wp-blogs/main/templates';
 $wpsmarty->compile_dir  = './wp-blogs/main/templates_c';
 $wpsmarty->cache_dir    = './wp-blogs/main/smartycache';
 $wpsmarty->plugin_dir    = './wp-plugins';
-require_once( 'b2-include/class-smarty.php' );
+require_once( 'wp-include/class-smarty.php' );
 $blog = 1;
 require_once('wp-blog-header.php');
-require_once(ABSPATH.'wp-links/links.php');
 // not on by default: require_once(ABSPATH.'wp-links/links.weblogs.com.php');
 
 define( 'NODISPLAY', false );
