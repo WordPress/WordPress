@@ -82,7 +82,7 @@ case 'register':
 
 	$user_ip = $_SERVER['REMOTE_ADDR'] ;
 	$user_domain = gethostbyaddr($_SERVER['REMOTE_ADDR'] );
-	$user_browser = $_SERVER['HTTP_USER_AGENT'];
+	$user_browser = addslashes($_SERVER['HTTP_USER_AGENT']);
 
 	$user_login = addslashes($user_login);
 	$pass1 = addslashes($pass1);
