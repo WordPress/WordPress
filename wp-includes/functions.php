@@ -1908,7 +1908,11 @@ function add_query_arg() {
 	else if (strstr($uri, '/')) {
 		$base = $uri . '?';
 		$query = '';
+	} else {
+		$base = '';
+		$query = $uri;
 	}
+
 	parse_str($query, $qs);
 	if (is_array(func_get_arg(0))) {
 		$kayvees = func_get_arg(0);
