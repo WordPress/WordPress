@@ -8,7 +8,7 @@ function get_the_category($id = false) {
     }
 
     if ($category_cache[$id]) {
-        return $category_cache[$id];
+			 $categories = $category_cache[$id];
     } else {
         $categories = $wpdb->get_results("
             SELECT category_id, cat_name, category_nicename, category_description, category_parent
@@ -16,8 +16,10 @@ function get_the_category($id = false) {
             WHERE $wpdb->post2cat.category_id = cat_ID AND $wpdb->post2cat.post_id = '$id'
             ");
     
-        return $categories;
     }
+
+		sort($categories);
+		return $categories;
 }
 
 function get_category_link($echo = false, $category_id, $category_nicename) {

@@ -52,7 +52,7 @@ function get_permalink($id = false) {
 	if ($idpost->post_status == 'static') {
 		return get_page_link();
 	}
-	
+
 	$permalink = get_settings('permalink_structure');
 
 	if ('' != $permalink) {
