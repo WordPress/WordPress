@@ -1403,9 +1403,13 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 
 // generic comments/trackbacks/pingbacks numbering
 
-function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments') {
+function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments', $include_unapproved = false) {
 	global $id, $comment, $tablecomments, $querycount, $wpdb;
-	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id");
+	$query = "SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = '$id'";
+	if (false == $include_unapproved) {
+	    $query .= " AND comment_approved = '1'";
+	}
+	$number = $wpdb->get_var($query);
 	if ($number == 0) {
 		$blah = $zero;
 	} elseif ($number == 1) {
@@ -1436,7 +1440,7 @@ function comments_popup_script($width=400, $height=400, $file='b2commentspopup.p
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
 	global $id, $b2commentspopupfile, $b2commentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
-	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id");
+	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
 	if (0 == $number && 'closed' == $post->comment_status) {
 		echo $none;
 		return;

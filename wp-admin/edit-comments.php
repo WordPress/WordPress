@@ -143,6 +143,13 @@ echo $comments_nav_bar;
 		foreach ($comments as $comment) {
 		?>		
 		<li style="border-bottom: 1px solid #ccc;">
+		<?php
+			$comment_status = wp_get_comment_status($comment->comment_ID);
+			
+			if ("unapproved" == $comment_status) {
+				echo "<span class=\"unapproved\">";
+			}
+		?>
 		<p><strong>Name:</strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong>Email:</strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong>URI:</strong> <?php comment_author_url_link() ?> <?php } ?>| <strong>IP:</strong> <?php comment_author_IP() ?></p>
 		
 		<?php comment_text() ?>

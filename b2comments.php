@@ -14,7 +14,7 @@
 		$comment_author_email = trim($HTTP_COOKIE_VARS["comment_author_email_".$cookiehash]);
 		$comment_author_url = trim($HTTP_COOKIE_VARS["comment_author_url_".$cookiehash]);
 
-        $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+        $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1' ORDER BY comment_date");
 ?>
 
 <!-- You can start editing here. -->
@@ -72,6 +72,19 @@ if ($comments) {
 	<br />
 	  <textarea name="comment" id="comment" cols="70" rows="4" tabindex="4"></textarea>
 	</p>
+
+<?php 
+if ('none' != get_settings("comment_moderation")) { 
+?>
+	<p>
+	<strong>Please note:</strong><br />
+	This blog uses comment moderation. In other words: your comment will need approval
+	by the administrator before it will appear in the blog. Approval usually happens 
+	within the next 24 hours. Please send your comment only once. Thank you.
+	</p>
+<?php
+} // comment_moderation != 'none'
+?>
 
 	<p>
 	  <input name="submit" type="submit" tabindex="5" value="Say it!" />

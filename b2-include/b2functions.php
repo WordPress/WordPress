@@ -546,10 +546,14 @@ function get_postdata2($postid=0) { // less flexible, but saves DB queries
 	return $postdata;
 }
 
-function get_commentdata($comment_ID,$no_cache=0) { // less flexible, but saves DB queries
+function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { // less flexible, but saves DB queries
 	global $postc,$id,$commentdata,$tablecomments,$querycount, $wpdb;
 	if ($no_cache) {
-        $myrow = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID", ARRAY_A);
+		$query = "SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID";
+		if (false == $include_unapproved) {
+		    $query .= " AND comment_approved = '1'";
+		}
+    		$myrow = $wpdb->get_row($query, ARRAY_A);
 		++$querycount;
 	} else {
 		$myrow['comment_ID']=$postc->comment_ID;
@@ -1308,6 +1312,147 @@ function pingGeoURL($blog_ID) {
     $host="geourl.org";
     $path="/ping/?p=".$ourUrl;
     getRemoteFile($host,$path); 
+}
+
+/* wp_set_comment_status:
+   part of otaku42's comment moderation hack
+   changes the status of a comment according to $comment_status.
+   allowed values:
+   hold   : set comment_approve field to 0
+   approve: set comment_approve field to 1
+   delete : remove comment out of database
+   
+   returns true if change could be applied
+   returns false on database error or invalid value for $comment_status
+ */
+function wp_set_comment_status($comment_id, $comment_status) {
+    global $wpdb, $tablecomments;
+
+    switch($comment_status) {
+    case 'hold':
+	$query = "UPDATE $tablecomments SET comment_approved='0' WHERE comment_ID='$comment_id' LIMIT 1";
+	break;
+    case 'approve':
+	$query = "UPDATE $tablecomments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
+	break;
+    case 'delete':
+	$query = "DELETE FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1";
+	break;
+    default:
+	return false;
+    }
+    
+    if ($wpdb->query($query)) {
+	return true;
+    } else {
+	return false;
+    }
+}
+
+
+/* wp_get_comment_status
+   part of otaku42's comment moderation hack
+   gets the current status of a comment
+
+   returned values:
+   "approved"  : comment has been approved
+   "unapproved": comment has not been approved
+   "deleted   ": comment not found in database
+
+   a (boolean) false signals an error
+ */
+function wp_get_comment_status($comment_id) {
+    global $wpdb, $tablecomments;
+    
+    $result = $wpdb->get_var("SELECT comment_approved FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
+    if ($result == NULL) {
+	return "deleted";
+    } else if ($result == "1") {
+	return "approved";
+    } else if ($result == "0") {
+	return "unapproved";
+    } else {
+	return false;
+    }
+}
+
+
+/* wp_notify_postauthor
+   notifies the author of a post about a new comment
+   needs the id of the new comment
+   always returns true
+ */
+function wp_notify_postauthor($comment_id) {
+    global $wpdb, $tablecomments, $tableposts, $tableusers;
+    global $querystring_start, $querystring_equal, $querystring_separator;
+    global $blogfilename, $blogname, $siteurl;
+    
+    $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
+    $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+    $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
+
+    if ("" != $user->user_email) {
+	$comment_author_domain = gethostbyaddr($comment->comment_author_IP);
+
+	$notify_message  = "New comment on your post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\"\r\n\r\n";
+	$notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
+	$notify_message .= "E-mail : $comment->comment_author_email\r\n";
+	$notify_message .= "URL    : $comment->comment_author_url\r\n";
+	$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
+	$notify_message .= "Comment:\r\n".stripslashes($comment->comment_content)."\r\n\r\n";
+	$notify_message .= "You can see all comments on this post here: \r\n";
+	$notify_message .= $siteurl.'/'.$blogfilename.'?p='.$comment_post_ID.'&c=1#comments';
+
+	$subject = '[' . stripslashes($blogname) . '] Comment: "' .stripslashes($post->post_title).'"';
+	if ('' != $comment->comment_author_email) {
+    	    $from = "From: \"$comment->comment_author\" <$comment->comment_author_email>";
+	} else {
+    	    $from = 'From: "' . stripslashes($comment->comment_author) . "\" <$user->user_email>";
+	}
+	$from .= "\nX-Mailer: WordPress $b2_version with PHP/" . phpversion();
+
+	@mail($user->user_email, $subject, $notify_message, $from);
+    }
+    
+    return true;
+}
+
+/* wp_notify_moderator
+   notifies the moderator of the blog (usually the admin)
+   about a new comment that waits for approval
+   always returns true
+ */
+function wp_notify_moderator($comment_id) {
+    global $wpdb, $tablecomments, $tableposts, $tableusers;
+    global $querystring_start, $querystring_equal, $querystring_separator;
+    global $blogfilename, $blogname, $siteurl;
+    
+    $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
+    $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+    $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
+
+    $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
+    $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $tablecomments WHERE comment_approved = '0'");
+
+    $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\" is waiting for your approval\r\n\r\n";
+    $notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
+    $notify_message .= "E-mail : $comment->comment_author_email\r\n";
+    $notify_message .= "URL    : $comment->comment_author_url\r\n";
+    $notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
+    $notify_message .= "Comment:\r\n".stripslashes($comment->comment_content)."\r\n\r\n";
+    $notify_message .= "To approve this comment, visit: $siteurl/wp-admin/wp-post.php?action=mailapprovecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
+    $notify_message .= "To delete this comment, visit: $siteurl/wp-admin/wp-post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
+    $notify_message .= "Currently $comments_waiting comments are waiting for approval. Please visit the moderation panel:\r\n";
+    $notify_message .= "$siteurl/wp-admin/wp-moderation.php\r\n";
+
+    $subject = '[' . stripslashes($blogname) . '] Please approve: "' .stripslashes($post->post_title).'"';
+    $admin_email = get_settings("admin_email");
+    $from  = "From: $admin_email";
+    $from .= "\nX-Mailer: WordPress $b2_version with PHP/" . phpversion();
+
+    @mail($admin_email, $subject, $notify_message, $from);
+    
+    return true;
 }
 
 

@@ -338,7 +338,7 @@ switch($action) {
         }
 
         $comment = $HTTP_GET_VARS['comment'];
-        $commentdata = get_commentdata($comment, 1) or die('Oops, no comment with this ID. <a href="javascript:history.go(-1)">Go back</a>!');
+        $commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="javascript:history.go(-1)">Go back</a>!');
         $content = $commentdata['comment_content'];
         $content = format_to_edit($content);
 
@@ -346,35 +346,163 @@ switch($action) {
 
         break;
 
+    case 'confirmdeletecomment':
+    
+	$standalone = 0;
+	require_once('./b2header.php');
+	
+	if ($user_level == 0)
+		die ('Cheatin&#8217; uh?');
+	
+	$comment = $HTTP_GET_VARS['comment'];
+	$p = $HTTP_GET_VARS['p'];
+	$commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
+	
+	echo "<div class=\"wrap\">\n";
+	echo "<p><strong>Caution:</strong> You are about to delete the following comment:</p>\n";
+	echo "<table border=\"0\">\n";
+	echo "<tr><td>Author:</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
+	echo "<tr><td>E-Mail:</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
+	echo "<tr><td>URL:</td><td>" . $commentdata["comment_author_url"] . "</td></tr>\n";
+	echo "<tr><td>Comment:</td><td>" . stripslashes($commentdata["comment_content"]) . "</td></tr>\n";
+	echo "</table>\n";
+	echo "<p>Are you sure you want to do that?</p>\n";
+	
+	echo "<form action=\"$siteurl/wp-admin/wp-post.php\" method=\"get\">\n";
+	echo "<input type=\"hidden\" name=\"action\" value=\"deletecomment\" />\n";
+	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
+	echo "<input type=\"hidden\" name=\"comment\" value=\"$comment\" />\n";
+	echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
+	echo "<input type=\"submit\" value=\"Yes\" />";
+	echo "&nbsp;&nbsp;";
+	echo "<input type=\"button\" value=\"No\" onClick=\"self.location='$siteurl/wp-admin/edit.php?p=$p&c=1#comments';\" />\n";
+	echo "</form>\n";
+	echo "</div>\n";
+	
+	break;
+
     case 'deletecomment':
 
-		$standalone = 1;
-		require_once('./b2header.php');
+	$standalone = 1;
+	require_once('./b2header.php');
 
-		if ($user_level == 0)
-			die ('Cheatin&#8217; uh?');
+	if ($user_level == 0)
+		die ('Cheatin&#8217; uh?');
 
 
-		$comment = $HTTP_GET_VARS['comment'];
-		$p = $HTTP_GET_VARS['p'];
+	$comment = $HTTP_GET_VARS['comment'];
+	$p = $HTTP_GET_VARS['p'];
+	if (isset($HTTP_GET_VARS['noredir'])) {
+	    $noredir = true;
+	} else {
+	    $noredir = false;
+	}
+	
+	$postdata = get_postdata($p) or die('Oops, no post with this ID. <a href="edit.php">Go back</a>!');
+	$commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="wp-post.php">Go back</a>!');
 
-		$postdata = get_postdata($p) or die('Oops, no post with this ID. <a href="wp-post.php">Go back</a>!');
-		$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="wp-post.php">Go back</a>!');
+	$authordata = get_userdata($postdata['Author_ID']);
+	if ($user_level < $authordata->user_level)
+		die ('You don&#8217;t have the right to delete <strong>'.$authordata->user_nickname.'</strong>&#8217;s post comments. <a href="wp-post.php">Go back</a>!');
 
-		$authordata = get_userdata($postdata['Author_ID']);
-		if ($user_level < $authordata->user_level)
-			die ('You don&#8217;t have the right to delete <strong>'.$authordata->user_nickname.'</strong>&#8217;s post comments. <a href="wp-post.php">Go back</a>!');
+	wp_set_comment_status($comment, "delete");
 
-		$result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_ID=$comment");
+	if (($HTTP_SERVER_VARS['HTTP_REFERER'] != "") && (false == $noredir)) {
+		header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
+	} else {
+		header('Location: '.$siteurl.'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+	}
 
-		if($HTTP_SERVER_VARS['HTTP_REFERER'] != "") {
-			header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
-		} else {
-			header('Location: '.$siteurl.'/wp-admin/');
-		}
+	break;
+	
+    case 'unapprovecomment':
+	
+	$standalone = 1;
+	require_once('./b2header.php');
+	
+	if ($user_level == 0)
+		die ('Cheatin&#8217; uh?');
+		
+	$comment = $HTTP_GET_VARS['comment'];
+	$p = $HTTP_GET_VARS['p'];
+	if (isset($HTTP_GET_VARS['noredir'])) {
+	    $noredir = true;
+	} else {
+	    $noredir = false;
+	}
 
-		break;
+	$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
+	
+	wp_set_comment_status($comment, "hold");
+	
+	if (($HTTP_SERVER_VARS['HTTP_REFERER'] != "") && (false == $noredir)) {
+		header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
+	} else {
+		header('Location: '.$siteurl.'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+	}
+	
+	break;
+	
+    case 'mailapprovecomment':
+    
+	$standalone = 0;
+	require_once('./b2header.php');
+	
+	if ($user_level == 0)
+		die ('Cheatin&#8217; uh?');
+	
+	$comment = $HTTP_GET_VARS['comment'];
+	$p = $HTTP_GET_VARS['p'];
+	$commentdata = get_commentdata($comment, 1, true) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
 
+	wp_set_comment_status($comment, "approve");
+	if (get_settings("comments_notify") == true) {
+		wp_notify_postauthor($comment);
+	}
+	
+	echo "<div class=\"wrap\">\n";
+	echo "<p>Comment has been approved.</p>\n";
+	
+	echo "<form action=\"$siteurl/wp-admin/edit.php?p=$p&c=1#comments\" method=\"get\">\n";
+	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
+	echo "<input type=\"hidden\" name=\"c\" value=\"1\" />\n";
+	echo "<input type=\"submit\" value=\"Ok\" />";
+	echo "</form>\n";
+	echo "</div>\n";
+	
+	break;
+
+    case 'approvecomment':
+    
+	$standalone = 1;
+	require_once('./b2header.php');
+	
+	if ($user_level == 0)
+		die ('Cheatin&#8217; uh?');
+		
+	$comment = $HTTP_GET_VARS['comment'];
+	$p = $HTTP_GET_VARS['p'];
+	if (isset($HTTP_GET_VARS['noredir'])) {
+	    $noredir = true;
+	} else {
+	    $noredir = false;
+	}
+	$commentdata = get_commentdata($comment) or die('Oops, no comment with this ID. <a href="edit.php">Go back</a>!');
+	
+	wp_set_comment_status($comment, "approve");
+	if (get_settings("comments_notify") == true) {
+		wp_notify_postauthor($comment);
+	}
+	
+	 
+	if (($HTTP_SERVER_VARS['HTTP_REFERER'] != "") && (false == $noredir)) {
+		header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
+	} else {
+		header('Location: '.$siteurl.'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+	}
+	
+	break;
+	
     case 'editedcomment':
 
         $standalone = 1;

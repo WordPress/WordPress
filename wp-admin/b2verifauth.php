@@ -41,7 +41,8 @@ function veriflog() {
 		if (!empty($HTTP_COOKIE_VARS["wordpressuser_".$cookiehash])) {
 			$error="<strong>Error</strong>: wrong login or password";
 		}
-		header("Location: $siteurl/b2login.php");
+		$redir = "Location: $siteurl/b2login.php?redirect_to=" . urlencode($HTTP_SERVER_VARS["REQUEST_URI"]);
+		header($redir);
 		exit();
 	}
 //}

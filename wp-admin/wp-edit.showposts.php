@@ -246,7 +246,7 @@ echo $posts_nav_bar;
         //$posts_per_page = 10;
         start_b2(); ?>
 			<p>
-				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="wp-post.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
+				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="wp-post.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments", true) ?></a>
 				<?php
 				if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
 				echo " - <a href='wp-post.php?action=edit&amp;post=$id";
@@ -286,7 +286,15 @@ echo $posts_nav_bar;
 							<?php 
 							if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
 								echo "[ <a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
-								echo " - <a href=\"wp-post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ]";
+								echo " - <a href=\"wp-post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
+								if ( ('none' != get_settings("comment_moderation")) && ($user_level >= 3) ) {
+									if ('approved' == wp_get_comment_status($comment->comment_ID)) {
+										echo " - <a href=\"b2edit.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Unapprove</a> ";
+									} else {
+										echo " - <a href=\"b2edit.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Approve</a> ";
+									}
+								}
+								echo " ]";
 							} // end if any comments to show
 							?>
 						<br />

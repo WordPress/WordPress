@@ -82,37 +82,40 @@ if (!empty($lasttime)) {
 
 
 if ($ok) { // if there was no comment from this IP in the last 10 seconds
+	$comment_moderation = get_settings("comment_moderation");
+	$moderation_notify = get_settings("moderation_notify");
+	
+	// o42: this place could be the hook for further comment spam checking
+	// $approved should be set according the final approval status
+	// of the new comment
+	if ('manual' == $comment_moderation) {
+		$approved = 0;
+	} else if ('auto' == $comment_moderation) {
+		$approved = 0;
+	} else { // none
+		$approved = 1;
+	}
+	$wpdb->query("INSERT INTO $tablecomments (comment_ID,comment_post_ID,comment_author,comment_author_email,comment_author_url,comment_author_IP,comment_date,comment_content,comment_karma,comment_approved) VALUES ('0', '$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '0', '$approved')");
 
-	$wpdb->query("INSERT INTO $tablecomments VALUES ('0', '$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '0')");
+	// o42: this should be changed as soon as other sql dbs are supported
+	// as it's proprietary to mysql
 	$comment_ID = $wpdb->get_var("SELECT last_insert_id()");
 
-	if ($comments_notify) {
-		$postdata = get_postdata($comment_post_ID);
-		$authordata = get_userdata($postdata['Author_ID']);
-
-		if('' != $authordata->user_email) {
-			$notify_message  = "New comment on your post #$comment_post_ID \"".stripslashes($postdata['Title'])."\"\r\n\r\n";
-			$notify_message .= "Author : $comment_author (IP: $user_ip , $user_domain)\r\n";
-			$notify_message .= "E-mail : $comment_author_email\r\n";
-			$notify_message .= "URL    : $comment_author_url\r\n";
-			$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$user_ip\r\n";
-			$notify_message .= "Delete : $siteurl/wp-admin/wp-post.php?action=deletecomment&p=$comment_post_ID&comment=$comment_ID \r\n";
-			$notify_message .= "Comment:\r\n".stripslashes($original_comment)."\r\n\r\n";
-			$notify_message .= "You can see all comments on this post here: \r\n";
-			$notify_message .= $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$comment_post_ID.$querystring_separator.'c'.$querystring_equal.'1#comments';
-
-			$subject = '[' . stripslashes($blogname) . '] Comment: "' .stripslashes($postdata['Title']).'"';
-
-			if ('' != $comment_author_email) {
-				$from = "From: \"$comment_author\" <$comment_author_email>\r\n";
-				} else {
-				$from = 'From: "' . stripslashes($comment_author) . "\" <$authordata->user_email>\r\n";
-				}
-			$from .= "X-Mailer: WordPress $b2_version with PHP/" . phpversion();
-
-			@mail($authordata->user_email, $subject, $notify_message, $from);
-		}
+	$fp = fopen("/tmp/wpdebug.txt", "w+");
+	fwrite($fp, "comment_moderation: $comment_moderation\n");
+	fwrite($fp, "moderation_notify : $moderation_notify\n");
+	
+	if (($moderation_notify) && (!$approved)) {
+	    wp_notify_moderator($comment_ID);
+	    fwrite($fp, "notify moderator -> $comment_ID\n");
 	}
+	
+	if (($comment_notify) && ($approved)) {
+	    wp_notify_postauthor($comment_ID);
+	    fwrite($fp, "notify postauthor -> $comment_ID\n");
+	}
+	
+	fclose($fp);
 
 	if ($email == '')
 		$email = ' '; // this to make sure a cookie is set for 'no email'
@@ -124,8 +127,8 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	setcookie('comment_author_email_'.$cookiehash, $email, time()+30000000);
 	setcookie('comment_author_url_'.$cookiehash, $url, time()+30000000);
 
-	header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate');
 	header('Pragma: no-cache');
 	$location = (!empty($HTTP_POST_VARS['redirect_to'])) ? $HTTP_POST_VARS['redirect_to'] : $HTTP_SERVER_VARS["HTTP_REFERER"];

@@ -66,7 +66,7 @@ case 'login':
 		$pwd = $HTTP_POST_VARS["pwd"];
 		$redirect_to = $HTTP_POST_VARS["redirect_to"];
 	}
-
+	
 	function login() {
 		global $wpdb, $log, $pwd, $error, $user_ID;
 		global $tableusers, $pass_is_md5;
@@ -297,7 +297,11 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 	<input type="hidden" name="popupurl" value="<?php echo $popupurl ?>" />
 	<input type="hidden" name="popuptitle" value="<?php echo $popuptitle ?>" />
 <?php } ?>
+<?php if (isset($HTTP_GET_VARS["redirect_to"])) { ?>
+	<input type="hidden" name="redirect_to" value="<?php echo $HTTP_GET_VARS["redirect_to"] ?>" />
+<?php } else { ?>
 	<input type="hidden" name="redirect_to" value="wp-admin/" />
+<?php } ?>
 	<input type="hidden" name="action" value="login" />
 	<label>Login: <input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label><br />
 	<label>Password: <input type="password" name="pwd" value="" size="20" tabindex="2" /></label><br />

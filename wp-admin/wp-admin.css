@@ -87,6 +87,22 @@ textarea, input, select {
 	margin: 6px 0;
 }
 
+.unapproved {
+	color: #888;
+}
+
+.unapproved a:link {
+	color: #B9BCFF;
+}
+
+.unapproved a:visited {
+	color: #696DFF;
+}
+
+.unapproved a:hover {
+	color: #009EF0;
+}
+
 #adminmenu .last, #adminmenu2 .last {
 	border-right: none;
 }
