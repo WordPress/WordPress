@@ -64,7 +64,8 @@ function wptexturize($text) {
 	return $output;
 	}
 
-function wpautop($pee, $br=1) { 
+function wpautop($pee, $br=1) {
+	$pee = $pee . "\n"; // just to make things a little easier, pad the end
 	$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
 	$pee = preg_replace('!(<(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])[^>]*>)!', "\n$1", $pee); // Space things out a little
 	$pee = preg_replace('!(</(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])>)!', "$1\n", $pee); // Space things out a little
@@ -72,12 +73,10 @@ function wpautop($pee, $br=1) {
 	$pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
 	$pee = preg_replace('/\n?(.+?)(\n\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end 
 	$pee = preg_replace('|<br />\s*</p>|', '</p>', $pee);
-	$pee = preg_replace('|<p>\s*<p>|', '<p>', $pee);
-	$pee = preg_replace('|</p>\s*</p>|', '</p>', $pee);
 	$pee = preg_replace('|<p><blockquote([^>]*)>|i', "<blockquote$1><p>", $pee);
 	$pee = str_replace('</blockquote></p>', '</p></blockquote>', $pee);
-	$pee = preg_replace('!<p>\s*(</?(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])[^>]*>)!', "$1", $pee);
-	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote|h[1-6])>)\s*</p>!', "$1", $pee); 
+	$pee = preg_replace('!<p>\s*(</?(?:table|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)!', "$1", $pee);
+	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote|p|h[1-6])>)\s*</p>!', "$1", $pee); 
 	if ($br) $pee = preg_replace('|(?<!<br />)\s*\n|', "<br />\n", $pee); // optionally make line breaks
 	$pee = preg_replace('!(</?(?:table|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $pee);
@@ -271,9 +270,18 @@ function convert_smilies($content) {
 	global $smilies_directory, $use_smilies;
 	global $b2_smiliessearch, $b2_smiliesreplace;
 	if ($use_smilies) {
-		$content = str_replace($b2_smiliessearch, $b2_smiliesreplace, $content);
+		// HTML loop taken from texturize function, could possible be consolidated
+		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
+		$stop = count($textarr);// loop stuff
+		for ($i = 0; $i < $stop; $i++) {
+			$content = $textarr[$i];
+			if ('<' != $curl{0}) { // If it's not a tag
+				$content = str_replace($b2_smiliessearch, $b2_smiliesreplace, $content);
+			}
+			$output .= $content;
+		}
 	}
-	return $content;
+	return $output;
 }
 
 function antispambot($emailaddy, $mailto=0) {
