@@ -1272,11 +1272,15 @@ function the_category($seperator = '') {
 	}
 }
 
-function the_category_rss() {
+function the_category_rss($type = 'rss') {
 	$categories = get_the_category();
 	foreach ($categories as $category) {
 		$category->cat_name = stripslashes(convert_chars($category->cat_name));
-		echo "\n<category>$category->cat_name</category>";
+		if ('rdf' == $type) {
+			echo "\n<dc:subject>$category->cat_name</dc:subject>";
+		} else {
+			echo "\n<category>$category->cat_name</category>";
+		}
 	}
 
 }
