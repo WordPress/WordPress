@@ -1358,7 +1358,7 @@ function get_category_link($echo = false, $category_id, $category_nicename) {
 		if ('' == $category_nicename) $category_nicename = $wpdb->get_var("SELECT category_nicename FROM $tablecategories WHERE cat_ID = $category_id");
 		// Get any static stuff from the front
 		$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-		$link = $siteurl . $front . 'category/' . $category_nicename;
+		$link = $siteurl . $front . 'category/' . $category_nicename . '/';
 	}
 
 	if ($echo) echo $link;
