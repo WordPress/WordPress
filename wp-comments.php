@@ -5,7 +5,7 @@ if ('wp-comments.php' == basename($_SERVER['SCRIPT_FILENAME']))
 
 if ( !empty($post->post_password) && $_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) :
 ?>
-<p><?php _e('Enter your password to view comments.'); ?><p>
+<p><?php _e('Enter your password to view comments.'); ?></p>
 <?php
 	return;
 endif;
