@@ -568,17 +568,6 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 }
 
 
-/* wp_set_comment_status:
-   part of otaku42's comment moderation hack
-   changes the status of a comment according to $comment_status.
-   allowed values:
-   hold   : set comment_approve field to 0
-   approve: set comment_approve field to 1
-   delete : remove comment out of database
-   
-   returns true if change could be applied
-   returns false on database error or invalid value for $comment_status
- */
 function wp_set_comment_status($comment_id, $comment_status) {
     global $wpdb;
 
@@ -589,6 +578,9 @@ function wp_set_comment_status($comment_id, $comment_status) {
 		case 'approve':
 			$query = "UPDATE $wpdb->comments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
 		break;
+ 		case 'spam':
+ 			$query = "UPDATE $wpdb->comments SET comment_approved='spam' WHERE comment_ID='$comment_id' LIMIT 1";
+ 		break;
 		case 'delete':
 			$query = "DELETE FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1";
 		break;
@@ -605,30 +597,21 @@ function wp_set_comment_status($comment_id, $comment_status) {
 }
 
 
-/* wp_get_comment_status
-   part of otaku42's comment moderation hack
-   gets the current status of a comment
-
-   returned values:
-   "approved"  : comment has been approved
-   "unapproved": comment has not been approved
-   "deleted   ": comment not found in database
-
-   a (boolean) false signals an error
- */
 function wp_get_comment_status($comment_id) {
-    global $wpdb;
-    
-    $result = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
-    if ($result == NULL) {
-        return "deleted";
-    } else if ($result == "1") {
-        return "approved";
-    } else if ($result == "0") {
-        return "unapproved";
-    } else {
-        return false;
-    }
+	global $wpdb;
+	
+	$result = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
+	if ($result == NULL) {
+		return 'deleted';
+	} else if ($result == '1') {
+		return 'approved';
+	} else if ($result == '0') {
+		return 'unapproved';
+	} else if ($result == 'spam') {
+		return 'spam';
+	} else {
+		return false;
+	}
 }
 
 if ( ! function_exists('wp_notify_postauthor') ) {

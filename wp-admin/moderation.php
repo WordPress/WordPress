@@ -4,7 +4,7 @@ require_once('admin.php');
 $title = __('Moderate comments');
 $parent_file = 'edit.php';
 
-$wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'feelinglucky');
+$wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'item_spam', 'feelinglucky');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -38,7 +38,8 @@ case 'update':
 	$item_ignored = 0;
 	$item_deleted = 0;
 	$item_approved = 0;
-	
+	$item_spam = 0;
+
 	foreach($comment as $key => $value) {
 	if ($feelinglucky && 'later' == $value)
 		$value = 'delete';
@@ -48,15 +49,17 @@ case 'update':
 				// wp_set_comment_status($key, "hold");
 				++$item_ignored;
 				break;
-			
 			case 'delete':
 				wp_set_comment_status($key, 'delete');
 				++$item_deleted;
 				break;
-			
+ 			case 'spam':
+ 				wp_set_comment_status($key, 'spam');
+ 				++$item_spam;
+ 				break;
 			case 'approve':
 				wp_set_comment_status($key, 'approve');
-				if (get_settings('comments_notify') == true) {
+				if ( get_settings('comments_notify') == true ) {
 					wp_notify_postauthor($key);
 				}
 				++$item_approved;
@@ -65,7 +68,7 @@ case 'update':
 	}
 
 	$file = basename(__FILE__);
-	header("Location: $file?ignored=$item_ignored&deleted=$item_deleted&approved=$item_approved");
+	header("Location: $file?ignored=$item_ignored&deleted=$item_deleted&approved=$item_approved&spam=$item_spam");
 	exit();
 
 break;
@@ -77,8 +80,9 @@ require_once('admin-header.php');
 if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored']) ) {
 	echo "<div class='updated'>\n<p>";
 	$approved = (int) $_GET['approved'];
-	$deleted = (int) $_GET['deleted'];
-	$ignored = (int) $_GET['ignored'];
+	$deleted  = (int) $_GET['deleted'];
+	$ignored  = (int) $_GET['ignored'];
+	$spam     = (int) $_GET['spam'];
 	if ($approved) {
 		if ('1' == $approved) {
 		 echo __("1 comment approved <br />") . "\n";
@@ -93,6 +97,13 @@ if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored
 		echo sprintf(__("%s comments deleted <br />"), $deleted) . "\n";
 		}
 	}
+ 	if ($spam) {
+ 		if ('1' == $spam) {
+ 		echo __("1 comment marked as spam <br />") . "\n";
+ 		} else {
+ 		echo sprintf(__("%s comments marked as spam <br />"), $spam) . "\n";
+ 		}
+ 	}
 	if ($ignored) {
 		if ('1' == $ignored) {
 		echo __("1 comment unchanged <br />") . "\n";
@@ -139,6 +150,7 @@ echo '<a href="post.php?action=editcomment&amp;comment='.$comment->comment_ID.'"
 <?php 
 echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\">" . __('Delete just this comment') . "</a> | "; ?>  <?php _e('Bulk action:') ?>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-approve" value="approve" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-approve"><?php _e('Approve') ?></label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-spam" value="spam" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-spam"><?php _e('Spam') ?></label>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-delete" value="delete" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-delete"><?php _e('Delete') ?></label>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-nothing" value="later" checked="checked" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-nothing"><?php _e('Defer until later') ?></label>
 	</p>
@@ -173,7 +185,14 @@ function markAllForDefer() {
 		}
 	}
 }
-document.write('<ul><li><a href="javascript:markAllForApprove()"><?php _e('Mark all for approval'); ?></a></li><li><a href="javascript:markAllForDelete()"><?php _e('Mark all for deletion'); ?></a></li><li><a href="javascript:markAllForDefer()"><?php _e('Mark all for later'); ?></a></li></ul>');
+function markAllAsSpam() {
+	for (var i=0; i< document.approval.length; i++) {
+		if (document.approval[i].value == "spam") {
+			document.approval[i].checked = true;
+		}
+	}
+}
+document.write('<ul><li><a href="javascript:markAllForApprove()"><?php _e('Mark all for approval'); ?></a></li><li><a href="javascript:markAllAsSpam()"><?php _e('Mark all as spam'); ?></a></li><li><a href="javascript:markAllForDelete()"><?php _e('Mark all for deletion'); ?></a></li><li><a href="javascript:markAllForDefer()"><?php _e('Mark all for later'); ?></a></li></ul>');
 // ]]>
 </script>
 
