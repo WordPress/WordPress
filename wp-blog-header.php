@@ -1,14 +1,13 @@
 <?php
 
-/* Including config and functions files */
 $curpath = dirname(__FILE__).'/';
 
 if (!file_exists($curpath . '/wp-config.php'))
-    die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='wp-admin/install-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.");
+    die(__("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='wp-admin/install-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file."));
 
 require_once($curpath . '/wp-config.php');
 
-/* Process PATH_INFO, if set. */
+// Process PATH_INFO, if set.
 $path_info = array();
 if (! empty($_SERVER['PATH_INFO'])) {
     // Fetch the rewrite rules.
@@ -70,7 +69,7 @@ $wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','e
     }
 
 
-/* Sending HTTP headers */
+// Sending HTTP headers
 
 if (!isset($doing_rss) || !$doing_rss) {
 	// It is presumptious to think that WP is the only thing that might change on the page.
@@ -103,7 +102,7 @@ if (!isset($doing_rss) || !$doing_rss) {
 
 }
 
-/* Getting settings from db */
+// Getting settings from DB
 if (isset($doing_rss) && $doing_rss == 1)
     $posts_per_page=get_settings('posts_per_rss');
 if (!isset($posts_per_page) || $posts_per_page == 0)
@@ -112,7 +111,7 @@ $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
 $use_gzipcompression = get_settings('gzipcompression');
 
-/* First let's clear some variables */
+// First let's clear some variables
 $whichcat = '';
 $whichauthor = '';
 $result = '';
@@ -188,18 +187,17 @@ if ('' != $w) {
     $where .= " AND WEEK(post_date, 1)='$w'";
 }
 
-// if a post number is specified, load that post
+// If a post number is specified, load that post
 if (($p != '') && ($p != 'all')) {
     $p = intval($p);
     $where = ' AND ID = '.$p;
 }
 
-// if a search pattern is specified, load the posts that match
+// If a search pattern is specified, load the posts that match
 if (!empty($s)) {
     $s = addslashes_gpc($s);
     $search = ' AND (';
-    // puts spaces instead of commas
-    $s = preg_replace('/, +/', '', $s);
+    $s = preg_replace('/, +/', ' ', $s);
     $s = str_replace(',', ' ', $s);
     $s = str_replace('"', ' ', $s);
     $s = trim($s);
@@ -221,7 +219,7 @@ if (!empty($s)) {
     }
 }
 
-// category stuff
+// Category stuff
 $dogs = $wpdb->get_results("SELECT * FROM $tablecategories WHERE 1=1");
 foreach ($dogs as $catt) {
     $cache_categories[$catt->cat_ID] = $catt;
@@ -260,7 +258,7 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0') ||
     }
     $whichcat .= ')';
     if ($eq == '!=') {
-        $cat = '-'.$cat; //put back the knowledge that we are excluding a category.
+        $cat = '-'.$cat; // Put back the knowledge that we are excluding a category.
     }
 }
 
@@ -270,12 +268,12 @@ if ('' != $category_name) {
     if (stristr($category_name,'/')) {
         $category_name = explode('/',$category_name);
         if ($category_name[count($category_name)-1]) {
-        $category_name = $category_name[count($category_name)-1];#no trailing slash
+        $category_name = $category_name[count($category_name)-1]; // no trailing slash
         } else {
-        $category_name = $category_name[count($category_name)-2];#there was a trailling slash
+        $category_name = $category_name[count($category_name)-2]; // there was a trailling slash
         }
     }
-    $category_name = preg_replace('|[^a-z0-9-]|', '', $category_name);
+    $category_name = preg_replace('|[^a-z0-9-]|i', '', $category_name);
     $tables = ", $tablepost2cat, $tablecategories";
     $join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) LEFT JOIN $tablecategories ON ($tablepost2cat.category_id = $tablecategories.cat_ID) ";
     $whichcat = " AND (category_nicename = '$category_name'";
@@ -285,7 +283,7 @@ if ('' != $category_name) {
 }
 
 // Author/user stuff
-$users = $wpdb->get_results("SELECT * FROM $tableusers WHERE 1=1");
+$users = $wpdb->get_results("SELECT * FROM $tableusers WHERE user_level > 0");
 foreach ($users as $user) {
     $cache_userdata[$user->ID] = $user;
 }
@@ -334,11 +332,11 @@ if ((empty($order)) || ((strtoupper($order) != 'ASC') && (strtoupper($order) != 
     $order='DESC';
 }
 
-// order by stuff
+// Order by
 if (empty($orderby)) {
     $orderby='date '.$order;
 } else {
-    // used to filter values
+    // Used to filter values
     $allowed_keys = array('author','date','category','title');
     $orderby = urldecode($orderby);
     $orderby = addslashes_gpc($orderby);
@@ -520,5 +518,5 @@ if ($posts) {
 				header('Location: ' . get_permalink($posts[0]->ID));
 		}
     }
-} // end if posts.
+} // End if posts.
 ?>
