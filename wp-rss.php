@@ -23,7 +23,7 @@ header("Etag: " . $cetag, true);
 */
 
 ?>
-<?php echo "<?xml version=\"1.0\"?".">"; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="0.92">
     <channel>

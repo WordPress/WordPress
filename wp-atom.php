@@ -8,7 +8,7 @@ if (! $feed) {
 header('Content-type: application/atom+xml', true);
 
 ?>
-<?php echo '<?xml version="1.0"?'.'>'; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
 <feed version="0.3"
   xmlns="http://purl.org/atom/ns#"
   xmlns:dc="http://purl.org/dc/elements/1.1/"

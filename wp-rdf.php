@@ -23,7 +23,7 @@ header("Etag: " . $cetag, true);
 
 add_filter('the_content', 'trim');
 ?>
-<?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">"; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rdf:RDF
 	xmlns="http://purl.org/rss/1.0/"
