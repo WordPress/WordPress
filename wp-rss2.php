@@ -1,7 +1,7 @@
 <?php 
 if (!isset($feed)) {
     $blog = 1;
-    $doing_rss = 1;
+    //    $doing_rss = 1;         # DEBUG
     require('wp-blog-header.php');
 }
 $more = 1;
@@ -23,7 +23,7 @@ header('Content-type: text/xml', true);
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
-	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT')); ?></pubDate>
+	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), 0); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
 
 	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
@@ -31,7 +31,7 @@ header('Content-type: text/xml', true);
 		<title><?php the_title_rss() ?></title>
 		<link><?php permalink_single_rss() ?></link>
 		<comments><?php comments_link(); ?></comments>
-		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $post->post_date_gmt); ?></pubDate>
+		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $post->post_date_gmt, 0); ?></pubDate>
 		<?php the_category_rss() ?>
 		<guid><?php the_permalink($id); ?></guid>
 <?php if (get_settings('rss_use_excerpt')) : ?>

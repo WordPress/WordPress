@@ -16,7 +16,7 @@ header('Content-type: text/xml', true);
         <title><?php bloginfo_rss('name') ?></title>
         <link><?php bloginfo_rss('url') ?></link>
         <description><?php bloginfo_rss('description') ?></description>
-        <lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT')); ?></lastBuildDate>
+	<lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), 0); ?></lastBuildDate>
         <docs>http://backend.userland.com/rss092</docs>
 
 <?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
