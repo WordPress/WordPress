@@ -142,7 +142,7 @@ for ($i=1; $i <= $count; $i++) :
 
 	$post_data = compact('post_content','post_title','post_date','post_date_gmt','post_author','post_category');
 
-	wp_insert_post($post_data);
+	$post_ID = wp_insert_post($post_data);
 
 	do_action('publish_phone', $post_ID);
 
