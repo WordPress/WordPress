@@ -103,7 +103,7 @@ case 'register':
 
 	$message  = sprintf(__("New user registration on your blog %1\$s:\n\nLogin: %2\$s \n\nE-mail: %3\$s"), get_settings('blogname'), $user_login, $user_email);
 
-	@mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
+	@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
 
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

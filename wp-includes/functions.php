@@ -1003,7 +1003,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 		. "$from\r\n"
 		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
 
-	@mail($user->user_email, $subject, $notify_message, $message_headers);
+	@wp_mail($user->user_email, $subject, $notify_message, $message_headers);
    
     return true;
 }
@@ -1046,7 +1046,7 @@ function wp_notify_moderator($comment_id) {
     	. "$from\r\n"
     	. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
 
-    @mail($admin_email, $subject, $notify_message, $message_headers);
+    @wp_mail($admin_email, $subject, $notify_message, $message_headers);
     
     return true;
 }
@@ -1794,6 +1794,14 @@ function htmlentities2($myHTML) {
 	$translation_table=get_html_translation_table (HTML_ENTITIES,ENT_QUOTES);
 	$translation_table[chr(38)] = '&';
 	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($myHTML, $translation_table));
+}
+
+
+function wp_mail($to, $subject, $message, $headers = '', $more = '') {
+	if ( function_exists('mb_send_mail') )
+		return mb_send_mail($to, $subject, $message, $headers, $more);
+	else
+		return mail($to, $subject, $message, $headers, $more);
 }
 
 ?>

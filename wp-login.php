@@ -148,7 +148,7 @@ case 'retrievepassword':
 	$message .= __('Password') . ": $user_pass\r\n";
 	$message .= get_settings('siteurl') . '/wp-login.php';
 
-	$m = mail($user_email, sprintf(__("[%s] Your login and password"), get_settings('blogname')), $message);
+	$m = wp_mail($user_email, sprintf(__("[%s] Your login and password"), get_settings('blogname')), $message);
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -158,7 +158,7 @@ case 'retrievepassword':
 		echo '<p>' .  sprintf(__("The e-mail was sent successfully to %s's e-mail address."), $user_login) . '<br />';
         echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
 		// send a copy of password change notification to the admin
-		mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user_login));
+		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user_login));
 		die();
 	}
 

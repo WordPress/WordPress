@@ -95,7 +95,7 @@ case 'adduser':
 	$message  = 'New user registration on your blog ' . get_settings('blogname') . ":\r\n\r\n";
 	$message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
-	@mail(get_settings('admin_email'), '[' . get_settings('blogname') . '] New User Registration', $message);
+	@wp_mail(get_settings('admin_email'), '[' . get_settings('blogname') . '] New User Registration', $message);
 	header('Location: users.php');
 break;
 
