@@ -38,6 +38,10 @@ label {
 	font-weight: bold;
 }
 
+li {
+	margin-bottom: 6px;
+}
+
 p {
 	line-height: 130%;
 }
