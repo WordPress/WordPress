@@ -37,7 +37,7 @@ require('./wp-blog-header.php');
 	
 <div class="post">
 	 <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h3>
-	<div class="meta"><?php _e("Filed under:"); ?> <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
+	<div class="meta"><?php _e("Filed under:"); ?> <?php the_category() ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(__('Edit This')); ?></div>
 	
 	<div class="storycontent">
 		<?php the_content(); ?>
