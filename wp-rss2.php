@@ -21,9 +21,6 @@ header("Last-Modified: " . $clast, true);
 header("Etag: " . $cetag, true);
 */
 
-if (!isset($rss_language)) { $rss_language = 'en'; }
-if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
-if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }
 ?>
 <?php echo '<?xml version="1.0"?'.'>'; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
@@ -48,18 +45,18 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 		<author><?php the_author() ?> (mailto:<?php the_author_email() ?>)</author>
 		<?php the_category_rss() ?>
 		<guid isPermaLink="false"><?php echo $id; ?>@<?php bloginfo_rss("url") ?></guid>
-<?php $more = 1; if ($rss_use_excerpt) {
+<?php $more = 1; if (get_settings('rss_use_excerpt')) {
 ?>
-		<description><?php the_excerpt_rss($rss_excerpt_length, 2) ?></description>
+		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
 <?php
 } else { // use content
 ?>
-		<description><?php the_content_rss('', 0, '', $rss_excerpt_length, 2) ?></description>
+		<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
 <?php
 } // end else use content
 ?>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 	</item>
-	<?php $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } } ?>
+	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
 </channel>
 </rss>

@@ -178,9 +178,9 @@ break;
 case 'IErightclick':
 
 
-	$bookmarklet_tbpb  = ($use_trackback) ? '&trackback=1' : '';
-	$bookmarklet_tbpb .= ($use_pingback)  ? '&pingback=1'  : '';
-	$bookmarklet_height= ($use_trackback) ? 590 : 550;
+	$bookmarklet_tbpb  = (get_settings('use_trackback')) ? '&trackback=1' : '';
+	$bookmarklet_tbpb .= (get_settings('use_pingback'))  ? '&pingback=1'  : '';
+	$bookmarklet_height= (get_settings('use_trackback')) ? 590 : 550;
 
 	?>
 
@@ -191,7 +191,7 @@ case 'IErightclick':
 
 	<p>To have a one-click bookmarklet, just copy and paste this<br />into a new text file:</p>
 	<?php
-	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ".$blogname."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('". get_settings('siteurl') ."/wp-admin/bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
+	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ". get_settings('blogname') ."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('". get_settings('siteurl') ."/wp-admin/bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
 	?>
 	<pre style="margin: 20px; background-color: #cccccc; border: 1px dashed #333333; padding: 5px; font-size: 12px;"><?php echo $regedit; ?></pre>
 	<p>Save it as wordpress.reg, and double-click on this file in an Explorer<br />
@@ -216,9 +216,9 @@ default:
 	include_once('admin-header.php');
 	$profiledata=get_userdata($user_ID);
 
-	$bookmarklet_tbpb  = ($use_trackback) ? '&trackback=1' : '';
-	$bookmarklet_tbpb .= ($use_pingback)  ? '&pingback=1'  : '';
-	$bookmarklet_height= ($use_trackback) ? 480 : 440;
+	$bookmarklet_tbpb  = (get_settings('use_trackback')) ? '&trackback=1' : '';
+	$bookmarklet_tbpb .= (get_settings('use_pingback'))  ? '&pingback=1'  : '';
+	$bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
 
 	?>
 <?php if ($updated) { ?>
@@ -323,7 +323,7 @@ default:
 function addPanel()
         {
           if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
-            window.sidebar.addPanel("WordPress Post: <?php echo $blogname ?>","<?php echo get_settings('siteurl'); ?>/wp-admin/sidebar.php","");
+            window.sidebar.addPanel("WordPress Post: <?php echo get_settings('blogname'); ?>","<?php echo get_settings('siteurl'); ?>/wp-admin/sidebar.php","");
           else
             alert('No Sidebar found!  You must use Mozilla 0.9.4 or later!');
         }

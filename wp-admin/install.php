@@ -419,7 +419,6 @@ $option_data = array(
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(25,'rss_use_excerpt', 2, '1', 'use the excerpt field for rss feed.', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(26,'use_weblogsping', 2, '0', 'set this to true if you want your site to be listed on http://weblogs.com when you add a new post', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(27,'use_blodotgsping', 2, '0', 'set this to true if you want your site to be listed on http://blo.gs when you add a new post', 8, 20)",
-"INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(28,'blodotgsping_url', 3, 'http://example.com', 'You shouldn\'t need to change this.', 8, 30)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(29,'use_trackback', 2, '1', 'set this to 0 or 1, whether you want to allow your posts to be trackback\'able or not note: setting it to zero would also disable sending trackbacks', 8, 20)",
 "INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(30,'use_pingback', 2, '1', 'set this to 0 or 1, whether you want to allow your posts to be pingback\'able or not note: setting it to zero would also disable sending pingbacks', 8, 20)",
 //file upload
@@ -699,8 +698,6 @@ $guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HO
 $url = $_POST['url'];
 if (isset($url)) {
     $query= "UPDATE $tableoptions set option_value='$url' where option_id=1"; //siteurl
-    $q = $wpdb->query($query);
-    $query= "UPDATE $tableoptions set option_value='$url' where option_id=28"; //blodotgsping_url
     $q = $wpdb->query($query);
     $query= "UPDATE $tableoptions set option_value='$url/wp-images/smilies' where option_id=17"; //smilies_directory
     $q = $wpdb->query($query);

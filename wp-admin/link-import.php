@@ -99,7 +99,7 @@ switch ($step) {
                 }
                 else // try to get the upload file.
 				{
-					$uploaddir = $fileupload_realpath;
+					$uploaddir = get_settings('fileupload_realpath');
 					$uploadfile = $uploaddir.'/'.$_FILES['userfile']['name'];
 
 					if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile))

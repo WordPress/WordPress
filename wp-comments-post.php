@@ -39,7 +39,7 @@ $commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID
 if ('closed' == $commentstatus)
 	die('Sorry, comments are closed for this item.');
 
-if ($require_name_email && ($email == '' || $author == '')) { //original fix by Dodo, and then Drinyth
+if (get_settings('require_name_email') && ($email == '' || $author == '')) { //original fix by Dodo, and then Drinyth
 	die('Error: please fill the required fields (name, email).');
 }
 if ($comment == 'comment' || $comment == '') {
@@ -101,7 +101,7 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 	    wp_notify_moderator($comment_ID);
 	}
 	
-	if (($comments_notify) && ($approved)) {
+	if ((get_settings('comments_notify')) && ($approved)) {
 	    wp_notify_postauthor($comment_ID, 'comment');
 	}
 

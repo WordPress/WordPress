@@ -162,7 +162,7 @@ case 'lostpassword':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &rsaquo; Lost password ?</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
@@ -213,7 +213,7 @@ case 'retrievepassword':
 	$message .= "Password: $user_pass\r\n";
 	$message .= 'Login at: ' . get_settings('siteurl') . '/wp-login.php';
 
-	$m = mail($user_email, "[$blogname] Your weblog's login/password", $message);
+	$m = mail($user_email, '[' . get_settings('blogname') . "] Your weblog's login/password", $message);
 
 	if ($m == false) {
 		echo "<p>The email could not be sent.<br />\n";
@@ -223,7 +223,7 @@ case 'retrievepassword':
 		echo "<p>The email was sent successfully to $user_login's email address.<br />
 		<a href='wp-login.php' title='Check your email first, of course'>Click here to login!</a></p>";
 		// send a copy of password change notification to the admin
-		mail($admin_email, "[$blogname] Password Lost/Change", "Password Lost and Changed for user: $user_login");
+		mail($admin_email, '[' . get_settings('blogname') . "] Password Lost/Change", "Password Lost and Changed for user: $user_login");
 		die();
 	}
 
@@ -266,7 +266,7 @@ default:
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress > <?php bloginfo('name') ?> > Login form</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {

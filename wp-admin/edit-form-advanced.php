@@ -2,7 +2,7 @@
 <div class="wrap">
 <?php
 
-$allowed_users = explode(" ", trim($fileupload_allowedusers));
+$allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
 $submitbutton_text = 'Save';
 $toprow_title = 'Editing Post #' . $postdata['ID'];
@@ -11,7 +11,7 @@ $form_extra = "' />\n<input type='hidden' name='post_ID' value='$post->ID";
 $colspan = 2;
 $form_pingback = '<input type="hidden" name="post_pingback" value="0" />';
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
-if ($use_trackback) {
+if (get_settings('use_trackback')) {
 	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a></label>
 	 (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
 	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';

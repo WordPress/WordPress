@@ -22,7 +22,7 @@ function bloginfo_unicode($show='') {
 }
 
 function get_bloginfo($show='') {
-    global $blogname, $admin_email;
+    global $admin_email;
 
     $do_perma = 0;
     $feed_url = get_settings('siteurl');
@@ -79,7 +79,7 @@ function get_bloginfo($show='') {
             break;
         case 'name':
         default:
-            $output = $blogname;
+            $output = get_settings('blogname');
             break;
     }
     return $output;
@@ -205,7 +205,7 @@ function get_archives_link($url, $text, $format = "html", $before = "", $after =
 
 function get_archives($type='', $limit='', $format='html', $before = "", $after = "", $show_post_count = false) {
     global $tableposts, $time_difference;
-    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
+    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb;
 
     if ('' == $type) {
         $type = get_settings('archive_mode');
@@ -270,9 +270,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             }
         }
     } elseif ('weekly' == $type) {
-        if (!isset($start_of_week)) {
-            $start_of_week = 1;
-        }
+	$start_of_week = get_settings('start_of_week');
         $arcresults = $wpdb->get_results("SELECT DISTINCT WEEK($wp_posts_post_date_field, $start_of_week) AS `week`, YEAR($wp_posts_post_date_field) AS yr, DATE_FORMAT($wp_posts_post_date_field, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         $arc_w_last = '';
         if ($arcresults) {
@@ -280,7 +278,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
                 if ($arcresult->week != $arc_w_last) {
                     $arc_year = $arcresult->yr;
                     $arc_w_last = $arcresult->week;
-                    $arc_week = get_weekstartend($arcresult->yyyymmdd, $start_of_week);
+                    $arc_week = get_weekstartend($arcresult->yyyymmdd, get_settings('start_of_week'));
                     $arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
                     $arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
                     $url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('siteurl'), get_settings('blogfilename'), $querystring_start,

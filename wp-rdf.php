@@ -22,7 +22,6 @@ header("Etag: " . $cetag, true);
 */
 
 add_filter('the_content', 'trim');
-if (!isset($rss_language)) { $rss_language = 'en'; }
 ?>
 <?php echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">"; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
@@ -38,7 +37,7 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 	<title><?php bloginfo_rss('name') ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
-	<dc:language><?php echo $rss_language ?></dc:language>
+	<dc:language><?php echo get_settings('rss_language'); ?></dc:language>
 	<dc:date><?php echo gmdate('Y-m-d\TH:i:s'); ?></dc:date>
 	<dc:creator><?php echo antispambot($admin_email) ?></dc:creator>
 	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $wp_version ?>"/>
@@ -50,7 +49,7 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 		<rdf:Seq>
 		<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 			<rdf:li rdf:resource="<?php permalink_single_rss() ?>"/>
-		<?php $wp_items[] = $row; $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } } ?>
+		<?php $wp_items[] = $row; $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
 		</rdf:Seq>
 	</items>
 </channel>
@@ -61,13 +60,13 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 	<dc:date><?php the_time('Y-m-d\TH:i:s'); ?></dc:date>
 	<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 	<?php the_category_rss('rdf') ?>
-<?php $more = 1; if ($rss_use_excerpt) {
+<?php $more = 1; if (get_settings('rss_use_excerpt')) {
 ?>
-	<description><?php the_excerpt_rss($rss_excerpt_length, 2) ?></description>
+	<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
 <?php
 } else { // use content
 ?>
-	<description><?php the_content_rss('', 0, '', $rss_excerpt_length, 2) ?></description>
+	<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
 <?php
 } // end else use content
 ?>

@@ -6,10 +6,10 @@ require_once('admin-header.php');
 if ($user_level == 0) //Checks to see if user has logged in
 	die ("Cheatin' uh ?");
 
-if (!$use_fileupload) //Checks if file upload is enabled in the config
+if (!get_settings('use_fileupload')) //Checks if file upload is enabled in the config
 	die ("The admin disabled this function");
 
-$allowed_types = explode(' ', trim($fileupload_allowedtypes));
+$allowed_types = explode(' ', trim(get_settings('fileupload_allowedtypes')));
 
 if ($HTTP_POST_VARS['submit']) {
 	$action = 'upload';
@@ -17,7 +17,7 @@ if ($HTTP_POST_VARS['submit']) {
 	$action = '';
 }
 
-if (!is_writable($fileupload_realpath))
+if (!is_writable(get_settings('fileupload_realpath')))
 	$action = 'not-writable';
 ?>
 
@@ -27,7 +27,7 @@ if (!is_writable($fileupload_realpath))
 switch ($action) {
 case 'not-writable':
 ?>
-<p>It doesn't look like you can use the file upload feature at this time because the directory you have specified (<code><?php echo $fileupload_realpath; ?></code>) doesn't appear to be writable by WordPress. Check the permissions on the directory and for typos.</p>
+<p>It doesn't look like you can use the file upload feature at this time because the directory you have specified (<code><?php echo $get_settings('fileupload_realpath'); ?></code>) doesn't appear to be writable by WordPress. Check the permissions on the directory and for typos.</p>
 
 <?php
 break;
@@ -42,7 +42,7 @@ case '':
     <p>
       <label for="img1">File:</label>
       <br />
-	<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $fileupload_maxk * 1024 ?>" />
+	<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_settings('fileupload_maxk') * 1024 ?>" />
     <input type="file" name="img1" id="img1" size="35" class="uploadform" /></p>
     <p>
       <label for="imgdesc">Description:</label><br />
@@ -96,10 +96,10 @@ case 'upload':
     }
 
     if (strlen($imgalt)) {
-        $pathtofile = $fileupload_realpath."/".$imgalt;
+        $pathtofile = get_settings('fileupload_realpath')."/".$imgalt;
         $img1 = $HTTP_POST_VARS['img1'];
     } else {
-        $pathtofile = $fileupload_realpath."/".$img1_name;
+        $pathtofile = get_settings('fileupload_realpath')."/".$img1_name;
         $img1 = $HTTP_POST_FILES['img1']['tmp_name'];
     }
 
@@ -118,8 +118,8 @@ case 'upload':
     }
 
     if (file_exists($pathtofile) && !strlen($imgalt)) {
-        $i = explode(" ",$fileupload_allowedtypes);
-        $i = implode(", ",array_slice($i, 1, count($i)-2));
+        $i = explode(' ', get_settings('fileupload_allowedtypes'));
+        $i = implode(', ',array_slice($i, 1, count($i)-2));
         $moved = move_uploaded_file($img1, $pathtofile2);
         // if move_uploaded_file() fails, try copy()
         if (!$moved) {
@@ -138,7 +138,7 @@ case 'upload':
     <p> filename '<?php echo $img1; ?>' moved to '<?php echo "$pathtofile2 - $img2_name"; ?>'</p>
     <p>Confirm or rename:</p>
     <form action="upload.php" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $fileupload_maxk*1024 ?>" />
+    <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo  get_settings('fileupload_maxk') *1024 ?>" />
     <input type="hidden" name="img1_type" value="<?php echo $img1_type;?>" />
     <input type="hidden" name="img1_name" value="<?php echo $img2_name;?>" />
     <input type="hidden" name="img1_size" value="<?php echo $img1_size;?>" />
@@ -197,9 +197,9 @@ die();
 
 
 if ( ereg('image/',$img1_type)) {
-    $piece_of_code = "&lt;img src=&quot;$fileupload_url/$img1_name&quot; alt=&quot;$imgdesc&quot; /&gt;";
+    $piece_of_code = "&lt;img src=&quot;". get_settings('fileupload_url') ."/$img1_name&quot; alt=&quot;$imgdesc&quot; /&gt;";
 } else {
-    $piece_of_code = "&lt;a href=&quot;$fileupload_url/$img1_name&quot; title=&quot;$imgdesc&quot; /&gt;$imgdesc&lt;/a&gt;";
+    $piece_of_code = "&lt;a href=&quot;". get_settings('fileupload_url') . "/$img1_name&quot; title=&quot;$imgdesc&quot; /&gt;$imgdesc&lt;/a&gt;";
 };
 
 ?>

@@ -81,13 +81,13 @@ function sanitize_title($title) {
 }
 
 function convert_chars($content, $flag='obsolete attribute left there for backwards compatibility') { // html/unicode entities output
-	global $use_htmltrans, $wp_htmltrans, $wp_htmltranswinuni;
+	global $wp_htmltrans, $wp_htmltranswinuni;
 
 	// removes metadata tags
 	$content = preg_replace('/<title>(.+?)<\/title>/','',$content);
 	$content = preg_replace('/<category>(.+?)<\/category>/','',$content);
 	
-	if ($use_htmltrans) {
+	if (get_settings('use_htmltrans')) {
 		// converts lone & characters into &#38; (a.k.a. &amp;)
 		$content = preg_replace('/&[^#](?![a-z]*;)/ie', '"&#38;".substr("\0",1)', $content);
 		// converts HTML-entities to their display values in order to convert them again later
@@ -124,9 +124,8 @@ function convert_chars($content, $flag='obsolete attribute left there for backwa
              1.0  First Version
 */
 function balanceTags($text, $is_comment = 0) {
-	global $use_balanceTags;
 	
-	if ($use_balanceTags == 0) {
+	if (get_settings('use_balanceTags') == 0) {
 		return $text;
 	}
 

@@ -8,9 +8,9 @@ foreach ($posts as $post) { start_wp();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title><?php echo $blogname ?> - Comments on "<?php the_title() ?>"</title>
+	<title><?php echo get_settings('blogname'); ?> - Comments on "<?php the_title() ?>"</title>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<style type="text/css" media="screen">
 		@import url( wp-layout.css );
 		body { margin: 3px; }
@@ -19,7 +19,7 @@ foreach ($posts as $post) { start_wp();
 </head>
 <body id="commentspopup">
 
-<h1 id="header"><a href="" title="<?php echo $blogname ?>"><?php echo $blogname ?></a></h1>
+<h1 id="header"><a href="" title="<?php echo get_settings('blogname'); ?>"><?php echo get_settings('blogname'); ?></a></h1>
 
 <h2 id="comments">Comments</h2>
 

@@ -86,10 +86,10 @@ case 'adduser':
 		$stars .= '*';
 	}
 
-	$message  = "New user registration on your blog $blogname:\r\n\r\n";
+	$message  = 'New user registration on your blog ' . get_settings('blogname') . ":\r\n\r\n";
 	$message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
-	@mail($admin_email, "[$blogname] New User Registration", $message);
+	@mail($admin_email, '[' . get_settings('blogname') . '] New User Registration', $message);
 	header('Location: users.php');
 break;
 

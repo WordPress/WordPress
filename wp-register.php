@@ -104,17 +104,17 @@ case 'register':
 		$stars .= '*';
 	}
 
-	$message  = "New user registration on your blog $blogname:\r\n\r\n";
+	$message  = 'New user registration on your blog ' . get_settings('blogname') . ":\r\n\r\n";
 	$message .= "Login: $user_login\r\n\r\nE-mail: $user_email";
 
-	@mail($admin_email, "[$blogname] New User Registration", $message);
+	@mail($admin_email, '[' . get_settings('blogname') . '] New User Registration', $message);
 
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; Registration Complete</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />	
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />	
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 </head>
 <body>
@@ -142,7 +142,7 @@ case 'disabled':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; Registration Currently Disabled</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>">
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>">
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
 </head>
 
@@ -168,7 +168,7 @@ default:
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; Registration Form</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset; ?>" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 </head>
 

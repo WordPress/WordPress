@@ -1,6 +1,6 @@
 <?php
 
-$allowed_users = explode(" ", trim($fileupload_allowedusers));
+$allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
 $submitbutton_text = 'Edit this!';
 $toprow_title = 'Editing Comment # '.$commentdata['comment_ID'];

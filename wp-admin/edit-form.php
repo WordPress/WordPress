@@ -2,20 +2,20 @@
 <div class="wrap">
 <?php
 
-$allowed_users = explode(" ", trim($fileupload_allowedusers));
+$allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
 $submitbutton_text = 'Blog this!';
 $toprow_title = 'New Post';
 $form_action = 'post';
 $form_extra = '';
-if ($use_pingback) {
+if (get_settings('use_pingback')) {
 	$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
 	if ($post_pingback) $form_pingback .= 'checked="checked" ';
 	$form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback"><strong>PingBack</strong> the <acronym title="Uniform Resource Locators">URL</acronym>s in this post</label> <a href="http://wordpress.org/docs/reference/post/#pingback" title="Help on Pingbacks">?</a><br />';
 } else {
 	$form_pingback = '';
 }
-if ($use_trackback) {
+if (get_settings('use_trackback')) {
 	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
 	<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>';
 	if ('' != $pinged) {

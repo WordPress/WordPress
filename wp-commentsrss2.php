@@ -5,7 +5,6 @@ if (! $feed) {
 
 header('Content-type: text/xml');
 
-if (!isset($rss_language)) { $rss_language = 'en'; }
 echo '<?xml version="1.0"?'.'>'; 
 ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
@@ -21,7 +20,7 @@ foreach ($posts as $post) { start_wp();
 	<title><?php if (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
 	<link><?php (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
-	<language><?php echo $rss_language ?></language>
+	<language><?php echo get_settings('rss_language'); ?></language>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
 
@@ -33,14 +32,14 @@ foreach ($posts as $post) { start_wp();
 			LEFT JOIN $tableposts ON comment_post_id = id WHERE comment_post_ID = '$id' 
 			AND $tablecomments.comment_approved = '1' AND $tableposts.post_status = 'publish' 
 			AND post_date < '".date("Y-m-d H:i:s")."' 
-			ORDER BY comment_date LIMIT $posts_per_rss");
+			ORDER BY comment_date LIMIT " . get_settings('posts_per_rss') );
 		} else { // if no post id passed in, we'll just ue the last 10 comments.
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
 			comment_author_url, comment_date, comment_content, comment_post_ID, 
 			$tableposts.ID, $tableposts.post_password FROM $tablecomments 
 			LEFT JOIN $tableposts ON comment_post_id = id WHERE $tableposts.post_status = 'publish' 
 			AND $tablecomments.comment_approved = '1' AND post_date < '".date("Y-m-d H:i:s")."'  
-			ORDER BY comment_date DESC LIMIT $posts_per_rss");
+			ORDER BY comment_date DESC LIMIT " . get_settings('posts_per_rss') );
 		}
 	// this line is WordPress' motor, do not delete it.
 		if ($comments) {

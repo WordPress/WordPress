@@ -22,9 +22,6 @@ header("Last-Modified: " . $clast, true);
 header("Etag: " . $cetag, true);
 */
 
-if (!isset($rss_language)) { $rss_language = 'en'; }
-if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
-if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }
 ?>
 <?php echo "<?xml version=\"1.0\"?".">"; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
@@ -37,7 +34,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
         <docs>http://backend.userland.com/rss092</docs>
         <managingEditor><?php echo antispambot($admin_email) ?></managingEditor>
         <webMaster><?php echo antispambot($admin_email) ?></webMaster>
-        <language><?php echo $rss_language ?></language>
+        <language><?php echo get_settings('rss_language'); ?></language>
 
 <?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
         <item>
@@ -47,18 +44,18 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 // so that it doesn't appear at all in the RSS
 //          echo "<category>"; the_category_unicode(); echo "</category>";
 $more = 1; 
-if ($rss_use_excerpt) {
+if (get_settings('rss_use_excerpt')) {
 ?>
-            <description><?php the_excerpt_rss($rss_excerpt_length, $rss_encoded_html) ?></description>
+            <description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?></description>
 <?php
 } else { // use content
 ?>
-            <description><?php the_content_rss('', 0, '', $rss_excerpt_length, $rss_encoded_html) ?></description>
+            <description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?></description>
 <?php
 } // end else use content
 ?>
             <link><?php permalink_single_rss() ?></link>
         </item>
-<?php $items_count++; if (($items_count == $posts_per_rss) && empty($m)) { break; } } } ?>
+<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
     </channel>
 </rss>

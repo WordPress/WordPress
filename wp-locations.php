@@ -15,14 +15,14 @@ for ($i = $start; $i >= 0; $i--) {
         <latitude><?php print_Lat() ?></latitude>
         <longitude><?php print_Lon() ?></longitude>
 <?php
-        if ($rss_use_excerpt) {
+        if (get_settings('rss_use_excerpt')) {
 ?>
-        <note><?php the_content_rss('', 0, '', $rss_excerpt_length, $rss_encoded_html) ?>
+        <note><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?>
         </note>
 <?php
         } else { // use content
 ?>
-        <note><?php the_excerpt_rss('', 0, '', $rss_excerpt_length, $rss_encoded_html) ?></note>
+        <note><?php the_excerpt_rss('', 0, '', get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?></note>
 <?php
         } // end else use content
 ?>

@@ -85,7 +85,7 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 	$day = mktime(0,0,0, $md, $mm, $my);
 	$weekday = date('w',$day);
 	$i = 86400;
-	while ($weekday > $start_of_week) {
+	while ($weekday > get_settings('start_of_week')) {
 		$weekday = date('w',$day);
 		$day = $day - 86400;
 		$i = 0;
@@ -565,10 +565,9 @@ function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), w
 // pings Weblogs.com
 function pingWeblogs($blog_ID = 1) {
 	// original function by Dries Buytaert for Drupal
-	global $use_weblogsping, $blogname;
-	if ((!(($blogname=="my weblog") && (get_settings('siteurl')=="http://example.com") && (get_settings('blogfilename') == "wp.php"))) && (!preg_match("/localhost\//", get_settings('siteurl'))) && ($use_weblogsping)) {
+	if ((!((get_settings('blogname')=="my weblog") && (get_settings('siteurl')=="http://example.com") && (get_settings('blogfilename') == "wp.php"))) && (!preg_match("/localhost\//", get_settings('siteurl'))) && (get_settings('use_weblogsping'))) {
 		$client = new xmlrpc_client("/RPC2", "rpc.weblogs.com", 80);
-		$message = new xmlrpcmsg("weblogUpdates.ping", array(new xmlrpcval($blogname), 
+		$message = new xmlrpcmsg("weblogUpdates.ping", array(new xmlrpcval(get_settings('blogname')), 
 		new xmlrpcval(get_settings('siteurl') . '/' . get_settings('blogfilename')
 		)));
 		$result = $client->send($message);
@@ -583,10 +582,10 @@ function pingWeblogs($blog_ID = 1) {
 
 // pings Weblogs.com/rssUpdates
 function pingWeblogsRss($blog_ID = 1, $rss_url) {
-	global $use_weblogsrssping, $blogname, $rss_url;
-	if ($blogname != 'my weblog' && $rss_url != 'http://example.com/b2rdf.php' && $use_weblogsrssping) {
+	global $use_weblogsrssping, $rss_url;
+	if (get_settings('blogname') != 'my weblog' && $rss_url != 'http://example.com/b2rdf.php' && $use_weblogsrssping) {
 		$client = new xmlrpc_client('/RPC2', 'rssrpc.weblogs.com', 80);
-		$message = new xmlrpcmsg('rssUpdate', array(new xmlrpcval($blogname), new xmlrpcval($rss_url)));
+		$message = new xmlrpcmsg('rssUpdate', array(new xmlrpcval(get_settings('blogname')), new xmlrpcval($rss_url)));
 		$result = $client->send($message);
 		if (!$result || $result->faultCode()) {
 			return false;
@@ -599,8 +598,8 @@ function pingWeblogsRss($blog_ID = 1, $rss_url) {
 
 // pings CaféLog.com
 function pingCafelog($cafelogID,$title='',$p='') {
-	global $use_cafelogping, $blogname;
-	if ((!(($blogname=="my weblog") && (get_settings('siteurl') == "http://example.com") && (get_settings('blogfilename')=="wp.php"))) && (!preg_match("/localhost\//", get_settings('siteurl'))) && ($use_cafelogping) && ($cafelogID != '')) {
+	global $use_cafelogping;
+	if ((!((get_settings('blogname')=="my weblog") && (get_settings('siteurl') == "http://example.com") && (get_settings('blogfilename')=="wp.php"))) && (!preg_match("/localhost\//", get_settings('siteurl'))) && ($use_cafelogping) && ($cafelogID != '')) {
 		$client = new xmlrpc_client("/xmlrpc.php", "cafelog.tidakada.com", 80);
 		$message = new xmlrpcmsg("b2.ping", array(new xmlrpcval($cafelogID), new xmlrpcval($title), new xmlrpcval($p)));
 		$result = $client->send($message);
@@ -615,14 +614,14 @@ function pingCafelog($cafelogID,$title='',$p='') {
 
 // pings Blo.gs
 function pingBlogs($blog_ID="1") {
-	global $use_blodotgsping, $blodotgsping_url, $use_rss, $blogname;
-	if ((!(($blogname=='my weblog') && (get_settings('siteurl')=='http://example.com') && (get_settings('blogfilename')=='wp.php'))) && (!preg_match('/localhost\//',get_settings('siteurl'))) && ($use_blodotgsping)) {
-		$url = ($blodotgsping_url == 'http://example.com') ? get_settings('siteurl').'/'.get_settings('blogfilename') : $blodotgsping_url;
+	global $use_rss;
+	if ((!((get_settings('blogname')=='my weblog') && (get_settings('siteurl')=='http://example.com') && (get_settings('blogfilename')=='wp.php'))) && (!preg_match('/localhost\//',get_settings('siteurl'))) && (get_settings('use_blodotgsping'))) {
+		$url = get_settings('siteurl').'/'.get_settings('blogfilename');
 		$client = new xmlrpc_client('/', 'ping.blo.gs', 80);
 		if ($use_rss) {
-			$message = new xmlrpcmsg('weblogUpdates.extendedPing', array(new xmlrpcval($blogname), new xmlrpcval($url), new xmlrpcval($url), new xmlrpcval(get_settings('siteurl').'/b2rss.xml')));
+			$message = new xmlrpcmsg('weblogUpdates.extendedPing', array(new xmlrpcval(get_settings('blogname')), new xmlrpcval($url), new xmlrpcval($url), new xmlrpcval(get_settings('siteurl').'/b2rss.xml')));
 		} else {
-			$message = new xmlrpcmsg('weblogUpdates.ping', array(new xmlrpcval($blogname), new xmlrpcval($url)));
+			$message = new xmlrpcmsg('weblogUpdates.ping', array(new xmlrpcval(get_settings('blogname')), new xmlrpcval($url)));
 		}
 		$result = $client->send($message);
 		if (!$result || $result->faultCode()) {
@@ -637,10 +636,10 @@ function pingBlogs($blog_ID="1") {
 
 // Send a Trackback
 function trackback($trackback_url, $title, $excerpt, $ID) {
-	global $blogname, $wpdb, $tableposts;
+	global $wpdb, $tableposts;
 	$title = urlencode(stripslashes($title));
 	$excerpt = urlencode(stripslashes($excerpt));
-	$blog_name = urlencode(stripslashes($blogname));
+	$blog_name = urlencode(stripslashes(get_settings('blogname')));
 	$tb_url = $trackback_url;
 	$url = urlencode(get_permalink($ID));
 	$query_string = "title=$title&url=$url&blog_name=$blog_name&excerpt=$excerpt";
@@ -971,9 +970,8 @@ function getRemoteFile($host,$path) {
 }
 
 function pingGeoURL($blog_ID) {
-    global $blodotgsping_url;
 
-    $ourUrl = $blodotgsping_url."/index.php?p=".$blog_ID;
+    $ourUrl = get_settings('siteurl') ."/index.php?p=".$blog_ID;
     $host="geourl.org";
     $path="/ping/?p=".$ourUrl;
     getRemoteFile($host,$path); 
@@ -1044,7 +1042,6 @@ function wp_get_comment_status($comment_id) {
 function wp_notify_postauthor($comment_id, $comment_type='comment') {
     global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    global $blogname, $blog_charset;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
@@ -1054,7 +1051,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 
 	$comment_author_domain = gethostbyaddr($comment->comment_author_IP);
 
-	$blogname = stripslashes($blogname);
+	$blogname = stripslashes(get_settings('blogname'));
 	
 	if ('comment' == $comment_type) {
 		$notify_message  = "New comment on your post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\"\r\n\r\n";
@@ -1090,7 +1087,7 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 
 	$message_headers = "MIME-Version: 1.0\r\n"
 		. "$from\r\n"
-		. "Content-Type: text/plain; charset=\"$blog_charset\"\r\n";
+		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
 
 	@mail($user->user_email, $subject, $notify_message, $message_headers);
    
@@ -1105,7 +1102,6 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 function wp_notify_moderator($comment_id) {
     global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    global $blogname, $blog_charset;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
@@ -1125,13 +1121,13 @@ function wp_notify_moderator($comment_id) {
     $notify_message .= "Currently $comments_waiting comments are waiting for approval. Please visit the moderation panel:\r\n";
     $notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 
-    $subject = '[' . stripslashes($blogname) . '] Please approve: "' .stripslashes($post->post_title).'"';
+    $subject = '[' . stripslashes(get_settings('blogname')) . '] Please approve: "' .stripslashes($post->post_title).'"';
     $admin_email = get_settings("admin_email");
     $from  = "From: $admin_email";
 
     $message_headers = "MIME-Version: 1.0\r\n"
     	. "$from\r\n"
-    	. "Content-Type: text/plain; charset=\"$blog_charset\"\r\n";
+    	. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
 
     @mail($admin_email, $subject, $notify_message, $message_headers);
     

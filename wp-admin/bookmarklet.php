@@ -71,7 +71,7 @@ window.close()
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress > Bookmarklet</title>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $blog_charset ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 <script type="text/javascript" language="javascript">
