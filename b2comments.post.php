@@ -84,6 +84,7 @@ if (!empty($lasttime)) {
 if ($ok) { // if there was no comment from this IP in the last 10 seconds
 
 	$wpdb->query("INSERT INTO $tablecomments VALUES ('0', '$comment_post_ID', '$author', '$email', '$url', '$user_ip', '$now', '$comment', '0')");
+	$comment_ID = $wpdb->get_var("SELECT last_insert_id()");
 
 	if ($comments_notify) {
 		$postdata = get_postdata($comment_post_ID);
@@ -95,6 +96,7 @@ if ($ok) { // if there was no comment from this IP in the last 10 seconds
 			$notify_message .= "E-mail : $comment_author_email\r\n";
 			$notify_message .= "URL    : $comment_author_url\r\n";
 			$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$user_ip\r\n";
+			$notify_message .= "Delete : $siteurl/wp-admin/wp-post.php?action=deletecomment&p=$comment_post_ID&comment=$comment_ID \r\n";
 			$notify_message .= "Comment:\r\n".stripslashes($original_comment)."\r\n\r\n";
 			$notify_message .= "You can see all comments on this post here: \r\n";
 			$notify_message .= $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal.$comment_post_ID.$querystring_separator.'c'.$querystring_equal.'1#comments';

@@ -356,7 +356,11 @@ switch($action) {
 
 		$result = $wpdb->query("DELETE FROM $tablecomments WHERE comment_ID=$comment");
 
-		header ('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
+		if($HTTP_SERVER_VARS['HTTP_REFERER'] != "") {
+			header('Location: ' . $HTTP_SERVER_VARS['HTTP_REFERER']);
+		} else {
+			header('Location: '.$siteurl.'/wp-admin/');
+		}
 
 		break;
 
