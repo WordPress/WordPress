@@ -197,7 +197,7 @@ case 'IErightclick':
 
 	$bookmarklet_tbpb  = ($use_trackback) ? '&trackback=1' : '';
 	$bookmarklet_tbpb .= ($use_pingback)  ? '&pingback=1'  : '';
-	$bookmarklet_height= ($use_trackback) ? 340 : 300;
+	$bookmarklet_height= ($use_trackback) ? 590 : 550;
 
 	?>
 
@@ -236,7 +236,7 @@ default:
 
 	$bookmarklet_tbpb  = ($use_trackback) ? '&trackback=1' : '';
 	$bookmarklet_tbpb .= ($use_pingback)  ? '&pingback=1'  : '';
-	$bookmarklet_height= ($use_trackback) ? 340 : 300;
+	$bookmarklet_height= ($use_trackback) ? 480 : 440;
 
 	?>
 <h1 id="wphead"><a href="http://wordpress.org" rel="external"><span>WordPress</span></a></h1> 
@@ -324,7 +324,7 @@ default:
     <?php
 if ($is_NS4 || $is_gecko) {
 ?>
-    <a href="javascript:Q=document.selection?document.selection.createRange().text:document.getSelection();void(window.open('<?php echo $path ?>/wp-admin/b2bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'b2 bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">WordPress 
+    <a href="javascript:Q=document.selection?document.selection.createRange().text:document.getSelection();void(window.open('<?php echo $path ?>/wp-admin/b2bookmarklet.php?text='+escape(Q)+'<?php echo $bookmarklet_tbpb ?>&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'WordPress bookmarklet','scrollbars=no,width=480,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));">WordPress 
     - <?php echo $blogname ?></a> 
     <?php
 } else if ($is_winIE) {
