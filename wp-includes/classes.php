@@ -764,6 +764,13 @@ class WP_Rewrite {
 					 's='
 					 );
 
+	function using_permalinks() {
+		if (empty($this->permalink_structure))
+			return false;
+		else
+			return true;
+	}					
+
 	function using_index_permalinks() {
     if (empty($this->permalink_structure)) {
 			return false;
@@ -776,6 +783,13 @@ class WP_Rewrite {
     
     return false;
 	}
+
+	function using_mod_rewrite_permalinks() {
+		if ( $this->using_permalinks() && ! $this->using_index_permalinks())
+			return true;
+		else
+			return false;
+	}					
 
 	function preg_index($number) {
     $match_prefix = '$';
@@ -1058,6 +1072,10 @@ class WP_Rewrite {
 	}
 
 	function mod_rewrite_rules () {
+		if ( ! $this->using_permalinks()) {
+			return '';
+		}
+
 		$site_root = str_replace('http://', '', trim(get_settings('siteurl')));
 		$site_root = preg_replace('|([^/]*)(.*)|i', '$2', $site_root);
 		if ('/' != substr($site_root, -1)) $site_root = $site_root . '/';

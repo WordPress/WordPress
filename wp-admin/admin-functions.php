@@ -497,20 +497,17 @@ function save_mod_rewrite_rules() {
 	global $is_apache, $wp_rewrite;
 	$home_path = get_home_path();
 
-	if ( (!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess') )
-		$writable = true;
-	else
-		$writable = false;
+	if (! $wp_rewrite->using_mod_rewrite_permalinks())
+		return;
 
-	if ($wp_rewrite->using_index_permalinks())
-		$usingpi = true;
-	else
-		$usingpi = false;
+	if ( ! ((!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess')) )
+		return;
 
-	if ( $writable && !$usingpi && $is_apache ) {
-		$rules = explode("\n", $wp_rewrite->mod_rewrite_rules());
-		insert_with_markers($home_path.'.htaccess', 'WordPress', $rules);
-	}
+	if (! $is_apache)
+		return;
+
+	$rules = explode("\n", $wp_rewrite->mod_rewrite_rules());
+	insert_with_markers($home_path.'.htaccess', 'WordPress', $rules);
 }
 
 function generate_page_rewrite_rules() {
