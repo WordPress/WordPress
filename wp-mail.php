@@ -65,6 +65,22 @@ for ($i=1; $i <= $count; $i++) :
 				$subject = explode($phone_delim, $subject);
 				$subject = $subject[0];
 			}
+
+			// Set the author using the email address (To or Reply-To, the last used)
+			// otherwise use the site admin
+			if (preg_match('/From: /', $line) | preg_match('Reply-To: /', $line))  {
+				$author=trim($line);
+			if ( ereg("([a-zA-Z0-9\_\-\.]+@[\a-zA-z0-9\_\-\.]+)", $author , $regs) ) {
+				echo "Author = {$regs[1]} <p>";
+				$result = $wpdb->get_row("SELECT ID FROM $tableusers WHERE user_email='$regs[1]' ORDER BY ID DESC LIMIT 1");
+				if (!$result)
+					$post_author = 1;
+				else
+					$post_author = $result->ID;
+			} else
+				$post_author = 1;
+			}
+
 			if (preg_match('/Date: /i', $line)) { // of the form '20 Mar 2002 20:32:37'
 				$ddate = trim($line);
 				$ddate = str_replace('Date: ', '', $ddate);
@@ -130,6 +146,7 @@ for ($i=1; $i <= $count; $i++) :
 
 	do_action('publish_phone', $post_ID);
 
+	echo "\n<p><b>Author:</b> $post_author</p>";
 	echo "\n<p><b>Posted title:</b> $post_title<br />";
 	echo "\n<b>Posted content:</b><br /><pre>".$content.'</pre></p>';
 
