@@ -119,7 +119,7 @@ function the_category_rss($type = 'rss') {
             $the_list .= "\n\t<category>$category->cat_name</category>";
         }
     }
-    echo apply_filters('the_category_rss', $the_list).'kgg';
+    echo apply_filters('the_category_rss', $the_list);
 }
 
 function get_the_category_by_ID($cat_ID) {
