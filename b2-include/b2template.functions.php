@@ -247,7 +247,7 @@ if (!empty($monthnum) && !empty($year)) {
 } elseif (!empty($w)) {
 	// We need to get the month from MySQL
 	$thisyear = ''.intval(substr($m, 0, 4));
-	$d = (($w - 1) * 7) + 6; //it seems mysqls weeks disagree with php's
+	$d = (($w - 1) * 7) + 6; //it seems MySQL's weeks disagree with PHP's
 	$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('${thisyear}0101', INTERVAL $d DAY) ), '%m')");
 } elseif (!empty($m)) {
 	$calendar = substr($m, 0, 6);
@@ -342,7 +342,7 @@ for ($day = 1; $day <= $daysinmonth; ++$day) {
 	if ($newrow) echo "\n  </tr>\n  <tr>\n\t";
 	$newrow = false;
 
-	if ($day == date('j', (time() + ($time_difference * 3600)))) echo '<td id="today">';
+	if ($day == date('j', (time() + ($time_difference * 3600))) && $thismonth == date('m', time()+($time_difference * 3600))) echo '<td id="today">';
 	else echo "<td>";
 
 	if (in_array($day, $daywithpost)) {
