@@ -712,42 +712,47 @@ function upgrade_110() {
 		$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (93, 'blog_charset', 3, 'utf-8', 'Your blog&#8217;s charset (here&#8217;s a <a href=\"http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html\">list of possible charsets</a>)', 8)");
 	}
 
-	// Convert all datetime fields' values to GMT, and update $time_difference
-	$time_difference = get_settings('time_difference');
+	// Convert all datetime fields' values to GMT, add a gmt_offset option
+	if (!get_settings('gmt_offset')) {
+		// echo '1';
+		$all_options = get_alloptions();
+		$time_difference = $all_options->time_difference;
 
-	$server_time = gmmktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
-	$w = date('Y-m-d H:i:s', time() + $time_difference*3600);
-	$weblogger_time = gmmktime(substr($w,11,13), substr($w,14,16), substr($w,17,19), substr($w,5,7), substr($w,8,10), substr($w,0,4));
-	$gmt_time = time();
+		$server_time = time()+date('Z');
+		$weblogger_time = $server_time + $time_difference*3600;
+		$gmt_time = time();
 
-	$diff_gmt_server = ($gmt_time - $server_time) / 3600;
-	$diff_weblogger_server = ($weblogger_time - $server_time) / 3600;
-	$diff_gmt_weblogger = $diff_gmt_server - $diff_weblogger_server;
+		$diff_gmt_server = ($gmt_time - $server_time) / 3600;
+		$diff_weblogger_server = ($weblogger_time - $server_time) / 3600;
+		$diff_gmt_weblogger = $diff_gmt_server - $diff_weblogger_server;
 
-	if (strval(current_time('timestamp') - $time_difference*3600) != gmdate('Y-m-d H:i:s', time())) {
+		if ($diff_gmt_weblogger != 0) {
+			//echo '<br>2: ';
+			$gmt_offset = -$diff_gmt_weblogger;
 
-		$new_time_difference = -$diff_gmt_weblogger;
+			$add_hours = intval($diff_gmt_weblogger);
+			$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
+			// echo $add_hours.':'.$add_minutes;
+			
+			// Add or substract time to all dates, to get GMT dates
+			$wpdb->query("UPDATE $tableposts SET post_date = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+			$wpdb->query("UPDATE $tableposts SET post_modified = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
+			$wpdb->query("UPDATE $tablecomments SET comment_date = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+			$wpdb->query("UPDATE $tableusers SET dateYMDhour = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 
-		$add_hours = intval($diff_gmt_weblogger);
-		$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
 
-		#the queries are simple
-		$wpdb->query("UPDATE $tableposts SET post_date = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
-		$wpdb->query("UPDATE $tableposts SET post_modified = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
-		$wpdb->query("UPDATE $tablecomments SET comment_date = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
-		$wpdb->query("UPDATE $tableusers SET dateYMDhour = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+		} else {
+			//echo '3';
+			$gmt_offset = 0;
+		}
 
-		#and then we update time_difference to use the new value
-		$wpdb->query("UPDATE $tableoptions SET option_value = '$new_time_difference' WHERE option_name = 'time_difference'");
-
-	} else {
-
-		#if the times are already stored as GMT, we shouldn't have anything to do
-		#except set time_difference to zero
-		$wpdb->query("UPDATE $tableoptions SET option_value = '0' WHERE option_name = 'time_difference'");
+		// Add gmt_field option, with value $gmt_offset
+		if(!$wpdb->get_var("SELECT * FROM $tableoptions WHERE option_name = 'gmt_offset'")) {
+			// echo "<br>4: $gmt_offset";
+			$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (94, 'gmt_offset', 8, $gmt_offset, 'The difference in hours between GMT and your timezone', 8)");
+		}
 
 	}
-
 }
 
 ?>
