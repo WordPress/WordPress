@@ -1331,7 +1331,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
         $post_rewrite = array($feedmatch => $feedquery, $pagematch => $pagequery, $match => $query) + $post_rewrite;
 
         if ($post) {
-            $post_rewrite = array($trackbackmatch => $trackbackquery) + $post_rewrite;
+            $post_rewrite = array($trackbackmatch =top
+> $trackbackquery) + $post_rewrite;
         }
     }
 
@@ -1442,6 +1443,9 @@ function mod_rewrite_rules ($permalink_structure) {
     $rules .= "RewriteBase $home_root\n";
     $rewrite = rewrite_rules('', $permalink_structure);
     foreach ($rewrite as $match => $query) {
+			// Apache 1.3 does not support the reluctant (non-greedy) modifier.
+			$match = str_replace('.+?', '.+', $match);
+
         if (strstr($query, 'index.php')) {
             $rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA]\n";
         } else {
