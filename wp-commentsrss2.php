@@ -17,14 +17,14 @@ foreach ($posts as $post) { start_wp();
 	if ($i < 1) {
 		$i++;
 ?>
-	<title><?php if (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
-	<link><?php (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
+	<title><?php if (is_single()) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
+	<link><?php (is_single()) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
 
 <?php 
-		if (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) {
+	  if (is_single()) {
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
 			comment_author_url, comment_date, comment_content, comment_post_ID, 
 			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
