@@ -1,5 +1,7 @@
 <?php
 define('MTEXPORT', '');
+
+
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must install WordPress before you import any entries.");
 require('../wp-config.php');
 
@@ -13,8 +15,8 @@ if (!$step) $step = 0;
 <style media="screen" type="text/css">
 	body {
 		font-family: Georgia, "Times New Roman", Times, serif;
-		margin-left: 15%;
-		margin-right: 15%;
+		margin-left: 20%;
+		margin-right: 20%;
 	}
 	#logo {
 		margin: 0;
@@ -41,14 +43,14 @@ switch($step) {
 
 	case 0:
 ?> 
-<p>Howdy! We're about to begin the process to import all of your Movable Type entries into WordPress. It's pretty easy, but it can possible take a little bit of time so be patient. Before we get started, you need to edit this file (<code>import-mt.php</code>) and change one line so we know where to find your MT export file. Look for the line that says:</p>
+<p>Howdy! We&#8217;re about to begin the process to import all of your Movable Type entries into WordPress. Before we get started, you need to edit this file (<code>import-mt.php</code>) and change one line so we know where to find your MT export file. To make this easy put the import file into the <code>wp-admin</code> directory. Look for the line that says:</p>
 <p><code>define('MTEXPORT', '');</code></p>
 <p>and change it to</p>
-<p><code>define('MTEXPORT', '/path/to/your/import.txt');</code></p>
+<p><code>define('MTEXPORT', 'import.txt');</code></p>
 <p>You have to do this manually for security reasons.</p>
 <p>If you've done that and you&#8217;re all ready, <a href="import-mt.php?step=1">let's go</a>! Remember that the import process may take a minute or so if you have a large number of entries and comments. Think of all the rebuilding time you'll be saving once it's done. :)</p>
 <p>On our test system, importing a blog of 1189 entries and about a thousand comments took 18 seconds. </p>
-<p>The importer is smart enough not to import duplicates, so you can run this multiple times without worry if for whatever reason it doesn't finish. </p>
+<p>The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn't finish. </p>
 <?php
 	break;
 	
@@ -69,15 +71,17 @@ function checkauthor($author) {
 }
 
 // Bring in the data
+set_magic_quotes_runtime(0);
 $datalines = file(MTEXPORT); // Read the file into an array
 $importdata = implode('', $datalines); // squish it
+$importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
+
 $posts = explode("--------", $importdata);
 $i = -1;
 echo "<ol>";
 foreach ($posts as $post) { if ('' != trim($post)) {
 	++$i;
 	unset($post_categories);
-	$post = preg_replace("/(\r\n|\n|\r)/", "\n", $post);
 	echo "<li>Importing post... ";
 
 	// Take the pings out first
