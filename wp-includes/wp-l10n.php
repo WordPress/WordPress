@@ -12,7 +12,7 @@ if (empty($locale)) {
     $locale = 'en_US';
 }
 
-$mofile = $curpath . "/languages/$locale.mo";
+$mofile = $curpath . "languages/$locale.mo";
 
 require($curpath . 'streams.php');
 require($curpath . 'gettext.php');
