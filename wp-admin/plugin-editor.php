@@ -59,7 +59,7 @@ default:
 		die(__('<p>You have do not have sufficient permissions to edit plugins for this blog.</p>'));
 	}
 
-	update_recently_edited($file);
+	update_recently_edited("wp-content/plugins/$file");
 	
 	if (!is_file($real_file))
 		$error = 1;
