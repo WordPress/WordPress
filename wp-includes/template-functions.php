@@ -1273,7 +1273,12 @@ function the_category($seperator = '') {
 }
 
 function the_category_rss() {
-	echo convert_chars(strip_tags(get_the_category()), 'xml');
+	$categories = get_the_category();
+	foreach ($categories as $category) {
+		$category->cat_name = stripslashes(convert_chars($category->cat_name));
+		echo "\n<category>$category->cat_name</category>";
+	}
+
 }
 function the_category_unicode() {
 	$category = get_the_category();
