@@ -158,7 +158,7 @@ function get_comment_author_link() {
 	if ( empty( $url ) )
 		$return = $author;
 	else
-		$return = "<a href='$url' rel='external'>$author</a>";
+		$return = "<a href='$url' rel='external nofollow'>$author</a>";
 	return apply_filters('get_comment_author_link', $return);
 }
 
