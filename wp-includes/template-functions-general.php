@@ -98,7 +98,7 @@ function get_bloginfo($show='') {
 
 function wp_title($sep = '&raquo;', $display = true) {
     global $wpdb;
-    global $m, $year, $monthnum, $day, $cat, $p, $name, $month, $posts, $single;
+    global $m, $year, $monthnum, $day, $cat, $p, $name, $month, $posts;
 
     // If there's a category
     if(!empty($cat)) {
@@ -128,7 +128,7 @@ function wp_title($sep = '&raquo;', $display = true) {
     }
 
     // If there's a post
-    if ($single) {
+    if (is_single()) {
         $title = strip_tags($posts[0]->post_title);
         $title = apply_filters('single_post_title', $title);
     }

@@ -1248,7 +1248,8 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
         $feedquery = $feedindex . '?' . $query . '&feed=' . preg_index($num_toks + 1, $matches);
 
         $post = 0;
-        if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')) {
+        if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
+            || (strstr($struct, '%year%') &&  strstr($struct, '%monthnum%') && strstr($struct, '%day%') && strstr($struct, '%hour%') && strstr($struct, '%minute') && strstr($struct, '%second%'))) {
                 $post = 1;
                 $trackbackmatch = $match . $trackbackregex;
                 $trackbackquery = $trackbackindex . '?' . $query . '&tb=1';

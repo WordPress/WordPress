@@ -149,7 +149,7 @@ update_category_cache();
 $posts = query_posts($query_string);
 
 if (1 == count($posts)) {
-	if ($p || $name) {
+	if (is_single()) {
 		$more = 1;
 		$single = 1;
 	}

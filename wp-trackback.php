@@ -15,7 +15,7 @@ if (! $doing_trackback) {
     require('wp-blog-header.php');
 }
 
-if ( (($p != '') && ($p != 'all')) || ($name != '') ) {
+if (is_single()) {
     $tb_id = $posts[0]->ID;
 }
 

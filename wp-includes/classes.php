@@ -65,6 +65,12 @@ class WP_Query_State {
             $this->date = true;
         }
 
+        // If year, month, day, hour, minute, and second are set, a single 
+        // post is being queried.        
+        if (('' != $hour) && ('' != $minute) &&('' != $second) && ('' != $year) && ('' != $monthnum) && ('' != $day)) {
+            $this->single = true;
+        }
+
         if (!empty($s)) {
             $this->search = true;
         }
