@@ -250,12 +250,11 @@ textarea, input, select {
 	width: 6.5em;
 }
 
-#postpassworddiv {
-	clear: both;
-}
-
 #poststuff {
 	margin-right: 11em;
+}
+
+* html #poststuff {
 	height: 100%; /* kill peekaboo bug in IE */
 }
 
