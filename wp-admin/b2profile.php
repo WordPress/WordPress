@@ -113,11 +113,8 @@ break;
 case 'viewprofile':
 
 	require_once('b2verifauth.php');
-/*	$profile=1;
 
-	get_currentuserinfo();
-
-*/	$profiledata = get_userdata($user);
+	$profiledata = get_userdata($user);
 	if ($HTTP_COOKIE_VARS['wordpressuser'] == $profiledata->user_login)
 		header ('Location: b2profile.php');
 	
@@ -125,84 +122,10 @@ case 'viewprofile':
 	include('b2header.php');
 	?>
 
-	<div class="menutop" align="center">
-	<?php echo $profiledata->user_login ?>
-	</div>
+<h1 id="wphead"><a href="http://wordpress.org" rel="external"><span>WordPress</span></a></h1> 
 
-	<form name="form" action="b2profile.php" method="post">
-	<input type="hidden" name="action" value="update" />
-	<table width="100%">
-	<tr><td width="250">
-
-	<table cellpadding="5" cellspacing="0">
-	<tr>
-	<td align="right"><strong>login</strong></td>
-	<td><?php echo $profiledata->user_login ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>first name</strong></td>
-	<td><?php echo $profiledata->user_firstname ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>last name</strong></td>
-	<td><?php echo $profiledata->user_lastname ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>nickname</strong></td>
-	<td><?php echo $profiledata->user_nickname ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>email</strong></td>
-	<td><?php echo make_clickable($profiledata->user_email) ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>URL</strong></td>
-	<td><?php echo $profiledata->user_url ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>ICQ</strong></td>
-	<td><?php if ($profiledata->user_icq > 0) { echo make_clickable("icq:".$profiledata->user_icq); } ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>AIM</strong></td>
-	<td><?php echo make_clickable("aim:".$profiledata->user_aim) ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>MSN IM</strong></td>
-	<td><?php echo $profiledata->user_msn ?></td>
-	</tr>
-	<tr>
-	<td align="right"><strong>YahooIM</strong></td>
-	<td><?php echo $profiledata->user_yim ?></td>
-	</tr>
-	</table>
-
-	</td>
-	<td valign="top">
-
-	<table cellpadding="5" cellspacing="0">
-	<tr>
-	<td>
-	<strong>ID</strong> <?php echo $profiledata->ID ?></td>
-	</tr>
-	<tr>
-	<td>
-	<strong>level</strong> <?php echo $profiledata->user_level ?>
-	</td>
-	</tr>
-	<tr>
-	<td>
-	<strong>posts</strong>
-	<?php
-	$posts = get_usernumposts($user);
-	echo $posts;
-	?>
-	</td>
-	</tr>
-	<tr>
-	<td>
-	<strong>identity</strong><br />
-	<?php
+<h2>View Profile &#8220;
+  <?php
 	switch($profiledata->user_idmode) {
 		case 'nickname':
 			$r = $profiledata->user_nickname;
@@ -225,14 +148,43 @@ case 'viewprofile':
 	}
 	echo $r;
 	?>
-	</td>
-	</tr>
-	</table>
+  &#8221;</h2>
+	  
+  <div id="profile">
+<p> 
+  <strong>Login</strong> <?php echo $profiledata->user_login ?>
+  | <strong>User #</strong> <?php echo $profiledata->ID ?> | <strong>Level</strong> 
+  <?php echo $profiledata->user_level ?> | <strong>Posts</strong> 
+  <?php
+	$posts = get_usernumposts($user);
+	echo $posts;
+	?>
+</p>
 
-	</td>
-	</table>
+<p> <strong>First:</strong> <?php echo $profiledata->user_firstname ?> </p>
+  
+<p> <strong>Last:</strong> <?php echo $profiledata->user_lastname ?> </p>
+  
+<p> <strong>Nickname:</strong> <?php echo $profiledata->user_nickname ?> </p>
+  
+<p> <strong>Email:</strong> <?php echo make_clickable($profiledata->user_email) ?> 
+</p>
+  
+<p> <strong>URL:</strong> <?php echo $profiledata->user_url ?> </p>
+  
+<p> <strong>ICQ:</strong> 
+  <?php if ($profiledata->user_icq > 0) { echo make_clickable("icq:".$profiledata->user_icq); } ?>
+</p>
+  
+<p> <strong>AIM:</strong> <?php echo make_clickable("aim:".$profiledata->user_aim) ?> 
+</p>
+  
+<p> <strong>MSN IM:</strong> <?php echo $profiledata->user_msn ?> </p>
+  
+<p> <strong>Yahoo IM:</strong> <?php echo $profiledata->user_yim ?> </p>
+  
+</div>
 
-	</form>
 	<?php
 
 break;
