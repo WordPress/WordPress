@@ -17,7 +17,7 @@ $table_prefix             = 'wp_';   // eg 'wp_' or 'b2' or 'mylogin_'
 
 $tableposts               = $table_prefix . 'posts';
 $tableusers               = $table_prefix . 'users';
-$tablesettings            = $table_prefix . 'settings';
+$tablesettings            = $table_prefix . 'settings'; // only used during upgrade
 $tablecategories          = $table_prefix . 'categories';
 $tablecomments            = $table_prefix . 'comments';
 $tablelinks               = $table_prefix . 'links';
@@ -33,14 +33,6 @@ $b2inc = 'b2-include';
 
 /* Stop editing */
 
-// setup your own smilies (if not there is a set in b2vars)
-if (file_exists('mysmilies.php')) {
-    include('mysmilies.php');
-}
-
-// pull in the day and month translations
-require_once('day-month-trans.php');
-
 $HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
 $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
@@ -51,6 +43,14 @@ $passsql = DB_PASSWORD;
 $base = DB_NAME;
 
 $abspath = dirname(__FILE__).'/';
+// setup your own smilies (if not there is a set in b2vars)
+if (file_exists($abspath.'mysmilies.php')) {
+    include($abspath.'mysmilies.php');
+}
+
+// pull in the day and month translations
+require_once($abspath.'day-month-trans.php');
+
 require_once($abspath.$b2inc.'/wp-db.php');
 require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.'wp-settings.php');
