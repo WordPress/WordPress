@@ -4,10 +4,10 @@ if (! $feed) {
     $doing_rss = 1;
     require('wp-blog-header.php');
 }
-
+$more = 1;
 $charset = get_settings('blog_charset');
 if (!$charset) $charset = 'UTF-8';
-header('Content-type: application/rss+xml', true);
+header('Content-type: text/xml', true);
 
 ?>
 <?php echo '<?xml version="1.0" encoding="' . $charset . '"?'.'>'; ?>
@@ -33,17 +33,13 @@ header('Content-type: application/rss+xml', true);
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $post->post_date_gmt); ?></pubDate>
 		<?php the_category_rss() ?>
 		<guid><?php the_permalink($id); ?></guid>
-<?php $more = 1; if (get_settings('rss_use_excerpt')) {
-?>
+<?php if (get_settings('rss_use_excerpt')) : ?>
 		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
-<?php
-} else { // use content
-?>
+<?php else : ?>
 		<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
-<?php
-} // end else use content
-?>
 		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
+<?php endif; ?>
+		
 	</item>
 	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
 </channel>

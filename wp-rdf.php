@@ -4,6 +4,7 @@ if (! $feed) {
     $doing_rss = 1;
     require('wp-blog-header.php');
 }
+$more = 1;
 
 header('Content-type: application/rss+xml', true);
 
@@ -44,17 +45,13 @@ add_filter('the_content', 'trim');
 	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt); ?></dc:date>
 	<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 	<?php the_category_rss('rdf') ?>
-<?php $more = 1; if (get_settings('rss_use_excerpt')) {
-?>
+<?php if (get_settings('rss_use_excerpt')) : ?>
 	<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>
-<?php
-} else { // use content
-?>
+<?php else : ?>
 	<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
-<?php
-} // end else use content
-?>
 	<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
+<?php endif; ?>
+	
 </item>
 <?php } }  ?>
 </rdf:RDF>
