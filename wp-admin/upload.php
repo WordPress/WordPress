@@ -200,7 +200,7 @@ die();
     }
 
 if ( ereg('image/',$img1_type) )
-	$piece_of_code = "<img src=';". get_settings('fileupload_url') ."/$img1_name' alt='$imgdesc' />";
+	$piece_of_code = "<img src='" . get_settings('fileupload_url') ."/$img1_name' alt='$imgdesc' />";
 else
 	$piece_of_code = "<a href='". get_settings('fileupload_url') . "/$img1_name' title='$imgdesc'>$imgdesc</a>";
 
