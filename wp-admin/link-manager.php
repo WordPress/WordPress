@@ -391,7 +391,7 @@ switch ($action) {
               </td>
             </tr>
             <tr>
-              <th scope="row"> family </th>
+              <th scope="row"> <?php _e('family') ?> </th>
               <td>
                 <label for="child">
                 <input class="valinp" type="radio" name="family" value="child" id="child" <?php xfn_check('family', 'child', 'radio'); ?>  />
