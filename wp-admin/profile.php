@@ -75,7 +75,7 @@ case 'update':
 		if ($HTTP_POST_VARS["pass1"] != $HTTP_POST_VARS["pass2"])
 			die ("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that.");
 		$newuser_pass = $HTTP_POST_VARS["pass1"];
-		$updatepassword = "user_pass='$newuser_pass', ";
+		$updatepassword = "user_pass=MD5('$newuser_pass'), ";
 		setcookie("wordpresspass_".$cookiehash,md5($newuser_pass),time()+31536000);
 	}
 
@@ -344,4 +344,5 @@ break;
 }
 
 /* </Profile | My Profile> */
-include('admin-footer.php') ?>
+include('admin-footer.php');
+ ?>

@@ -59,9 +59,9 @@ break;
 case 'login':
 
 	if(!empty($HTTP_POST_VARS)) {
-		$log = $HTTP_POST_VARS["log"];
-		$pwd = $HTTP_POST_VARS["pwd"];
-		$redirect_to = $HTTP_POST_VARS["redirect_to"];
+		$log = $HTTP_POST_VARS['log'];
+		$pwd = $HTTP_POST_VARS['pwd'];
+		$redirect_to = $HTTP_POST_VARS['redirect_to'];
 	}
 	
 	$user = get_userdatabylogin($log);
@@ -74,37 +74,32 @@ case 'login':
 		global $wpdb, $log, $pwd, $error, $user_ID;
 		global $tableusers, $pass_is_md5;
 		$user_login = &$log;
+		$pwd = md5($pwd);
 		$password = &$pwd;
 		if (!$user_login) {
-			$error="<strong>ERROR</strong>: the login field is empty";
+			$error = '<strong>Error</strong>: the login field is empty.';
 			return false;
 		}
 
 		if (!$password) {
-			$error="<strong>ERROR</strong>: the password field is empty";
+			$error = '<strong>Error</strong>: the password field is empty.';
 			return false;
 		}
 
-		if ('md5:' == substr($password, 0, 4)) {
-			$pass_is_md5 = 1;
-			$password = substr($password, 4, strlen($password));
-			$query = "SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND MD5(user_pass) = '$password'";
-		} else {
-			$pass_is_md5 = 0;
-			$query = "SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND user_pass = '$password'";
-		}
+		$query = "SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND user_pass = '$password'";
+	
 		$login = $wpdb->get_row($query);
 
 		if (!$login) {
-			$error = '<b>ERROR</b>: wrong login or password';
+			$error = '<strong>Error</strong>: wrong login or password.';
 			$pwd = '';
 			return false;
 		} else {
 		$user_ID = $login->ID;
-			if (($pass_is_md5 == 0 && $login->user_login == $user_login && $login->user_pass == $password) || ($pass_is_md5 == 1 && $login->user_login == $user_login && md5($login->user_pass) == $password)) {
+			if (($pass_is_md5 == 0 && $login->user_login == $user_login && $login->user_pass == $password) || ($pass_is_md5 == 1 && $login->user_login == $user_login && $login->user_pass == md5($password))) {
 				return true;
 			} else {
-				$error = '<b>ERROR</b>: wrong login or password';
+				$error = '<strong>Error</strong>: wrong login or password.';
 				$pwd = '';
 			return false;
 			}
@@ -126,11 +121,7 @@ case 'login':
 		$user_login = $log;
 		$user_pass = $pwd;
 		setcookie('wordpressuser_'.$cookiehash, $user_login, time()+31536000);
-		if ($pass_is_md5) {
-			setcookie('wordpresspass_'.$cookiehash, $user_pass, time()+31536000);
-		} else {
-			setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time()+31536000);
-		}
+		setcookie('wordpresspass_'.$cookiehash, md5($user_pass), time()+31536000);
 		if (empty($HTTP_COOKIE_VARS['wordpressblogid_'.$cookiehash])) {
 			setcookie('wordpressblogid_'.$cookiehash, 1,time()+31536000);
 		}
@@ -227,6 +218,8 @@ case 'retrievepassword':
 	} else {
 		echo "<p>The email was sent successfully to $user_login's email address.<br />
 		<a href='wp-login.php' title='Check your email first, of course'>Click here to login!</a></p>";
+		// send a copy of password change notification to the admin
+		mail($admin_email, "[$blogname] Password Lost/Change", "Password Lost and Changed for user: $user_login");
 		die();
 	}
 

@@ -2,7 +2,7 @@
 
 require_once('../wp-config.php');
 
-/* checking login & pass in the database */
+/* Checking login & pass in the database */
 function veriflog() {
 	global $HTTP_COOKIE_VARS,$cookiehash;
 	global $tableusers, $wpdb;
@@ -31,19 +31,18 @@ function veriflog() {
 		}
 	}
 }
-//if ( $user_login!="" && $user_pass!="" && $id_session!="" && $adresse_ip==$REMOTE_ADDR) {
-//	if ( !(veriflog()) AND !(verifcookielog()) ) {
-	if (!(veriflog())) {
-		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-		header('Cache-Control: no-cache, must-revalidate');
-		header('Pragma: no-cache');
-		if (!empty($HTTP_COOKIE_VARS["wordpressuser_".$cookiehash])) {
-			$error="<strong>Error</strong>: wrong login or password";
-		}
-		$redir = "Location: $siteurl/wp-login.php?redirect_to=" . urlencode($HTTP_SERVER_VARS["REQUEST_URI"]);
-		header($redir);
-		exit();
+
+if ( !veriflog() ) {
+	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+	header('Cache-Control: no-cache, must-revalidate');
+	header('Pragma: no-cache');
+	if (!empty($HTTP_COOKIE_VARS["wordpressuser_".$cookiehash])) {
+		$error="<strong>Error</strong>: wrong login or password.";
 	}
-//}
+	$redir = "Location: $siteurl/wp-login.php?redirect_to=" . urlencode($HTTP_SERVER_VARS["REQUEST_URI"]);
+	header($redir);
+	exit();
+}
+
 ?>
