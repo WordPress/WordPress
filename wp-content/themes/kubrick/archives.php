@@ -1,3 +1,9 @@
+<?php
+/*
+Template Name: Archives
+*/
+?>
+
 <?php get_header(); ?>
 
 <div id="content" class="widecolumn">
