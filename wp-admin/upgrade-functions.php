@@ -553,11 +553,13 @@ function upgrade_100() {
 			('$gid', '$oid', '$seq')");
 	}
 	// Get the title and ID of every post, post_name to check if it already has a value
-	$posts = $wpdb->get_results("SELECT ID, post_title, post_name FROM $tableposts");
-	foreach($posts as $post) {
-		if ('' == $post->post_name) { 
-			$newtitle = sanitize_title($post->post_title);
-			$wpdb->query("UPDATE $tableposts SET post_name = '$newtitle' WHERE ID = '$post->ID'");
+	$posts = $wpdb->get_results("SELECT ID, post_title, post_name FROM $tableposts WHERE post_name = ''");
+	if ($posts) {
+		foreach($posts as $post) {
+			if ('' == $post->post_name) { 
+				$newtitle = sanitize_title($post->post_title);
+				$wpdb->query("UPDATE $tableposts SET post_name = '$newtitle' WHERE ID = '$post->ID'");
+			}
 		}
 	}
 	
@@ -623,19 +625,32 @@ function upgrade_100() {
 		INDEX ( `post_id` , `category_id` )
 		)
 		");
-	$allposts = $wpdb->get_results("SELECT ID, post_category FROM $tableposts");
-	foreach ($allposts as $post) {
-		// Check to see if it's already been imported
-		$cat = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post->ID AND category_id = $post->post_category");
-		if (!$cat && 0 != $post->post_category) { // If there's no result
-			$wpdb->query("
-				INSERT INTO $tablepost2cat
-				(post_id, category_id)
-				VALUES
-				('$post->ID', '$post->post_category')
-				");
+
+	$done_ids = $wpdb->get_results("SELECT DISTINCT post_id FROM $tablepost2cat");
+	if ($done_ids) :
+		foreach ($done_ids as $done_id) :
+			$done_posts[] = $done_id->post_id;
+		endforeach;
+		$catwhere = ' AND ID NOT IN (' . implode(',', $done_posts) . ')';
+	else:
+		$catwhere = '';
+	endif;
+	
+	$allposts = $wpdb->get_results("SELECT ID, post_category FROM $tableposts WHERE post_category != '0' $catwhere");
+	if ($allposts) :
+		foreach ($allposts as $post) {
+			// Check to see if it's already been imported
+			$cat = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post->ID AND category_id = $post->post_category");
+			if (!$cat && 0 != $post->post_category) { // If there's no result
+				$wpdb->query("
+					INSERT INTO $tablepost2cat
+					(post_id, category_id)
+					VALUES
+					('$post->ID', '$post->post_category')
+					");
+			}
 		}
-	}
+	endif;
 }
 
 function upgrade_101() {

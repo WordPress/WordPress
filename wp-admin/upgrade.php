@@ -2,6 +2,7 @@
 $_wp_installing = 1;
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config-sample.php with the proper database connection information and renamed it to wp-config.php.");
 require('../wp-config.php');
+timer_start();
 require('upgrade-functions.php');
 
 $step = $_GET['step'];
@@ -54,6 +55,15 @@ switch($step) {
 ?> 
 <h2>Step 1</h2> 
 <p>There's actually only one step. So if you see this, you're done. <a href="../">Have fun</a>! </p>
+
+<!--
+<pre>
+<?php echo $wpdb->num_queries; ?> queries
+
+<?php timer_stop(1); ?> seconds
+</pre>
+-->
+
 <?php
 	break;
 }
