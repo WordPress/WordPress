@@ -151,9 +151,10 @@ case 'delete':
 		$wpdb->query("DELETE FROM $tablelinks WHERE link_owner = $id");
 		// Delete posts
 		$wpdb->query("DELETE FROM $tableposts WHERE post_author = $id");
-		// FINALLY, delete user
-		$wpdb->query("DELETE FROM $tableusers WHERE ID = $id");
 	}
+
+	// FINALLY, delete user
+	$wpdb->query("DELETE FROM $tableusers WHERE ID = $id");
 	header('Location: users.php?deleted=true');
 
 break;
