@@ -153,7 +153,7 @@ $messages[3] = __('Category updated.');
 <?php endif; ?>
 
 <div class="wrap">
-     <h2><?php printf(__('Current Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
+     <h2><?php printf(__('Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<th scope="col"><?php _e('ID') ?></th>

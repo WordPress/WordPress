@@ -134,16 +134,19 @@ if ($comments) {
     // list all comments that are waiting for approval
     $file = basename(__FILE__);
 ?>
-    <p><?php _e('The following comments are in the moderation queue:') ?></p>
+    <h2><?php _e('Moderation Queue') ?></h2>
     <form name="approval" action="moderation.php" method="post">
     <input type="hidden" name="action" value="update" />
-    <ol id="comments">
+    <ol id="comments" class="commentlist">
 <?php
+$i = 0;
     foreach($comments as $comment) {
+	++$i;
 	$comment_date = mysql2date(get_settings("date_format") . " @ " . get_settings("time_format"), $comment->comment_date);
 	$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID='$comment->comment_post_ID'");
-	
-	echo "\n\t<li id='comment-$comment->comment_ID'>"; 
+	if ($i % 2) $class = 'class="alternate"';
+	else $class = '';
+	echo "\n\t<li id='comment-$comment->comment_ID' $class>"; 
 	?>
 			<p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('E-mail:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 <?php comment_text() ?>

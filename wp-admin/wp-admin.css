@@ -145,6 +145,7 @@ textarea, input, select {
 
 .commentlist li {
 	border-bottom: 1px solid #369;
+	padding: .3em 1em;
 }
 
 .ed_button {
