@@ -339,7 +339,7 @@ switch ($action) {
     }
     $links_show_cat_id = $cat_id;
     if (!isset($order_by) || ($order_by == ''))
-        $order_by = 'order_id';
+        $order_by = 'order_name';
     setcookie('links_show_cat_id', $links_show_cat_id, time()+600);
     $standalone=0;
     include_once ("./b2header.php");
@@ -349,13 +349,13 @@ switch ($action) {
 
     switch ($order_by)
     {
-        case 'order_name':   $sqlorderby = 'name';        break;
+        case 'order_id':     $sqlorderby = 'id';          break;
         case 'order_url':    $sqlorderby = 'url';         break;
         case 'order_desc':   $sqlorderby = 'description'; break;
         case 'order_owner':  $sqlorderby = 'owner';       break;
         case 'order_rating': $sqlorderby = 'rating';      break;
-        case 'order_id':     //fall through
-        default:             $sqlorderby = 'id';          break;
+		case 'order_name':
+        default:             $sqlorderby = 'name';        break;
     }
     
   if ($action != "popup") {
@@ -416,25 +416,24 @@ switch ($action) {
 
 <div class="wrap">
 
-    <table width="100%" cellpadding="1" cellspacing="0" border="0">
-    <form name="links" id="links" method="post">
+     <form name="links" id="links" method="post">
     <input type="hidden" name="link_id" value="" />
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
-    <tr >
-      <td style="border-bottom: 1px dotted #9C9A9C;"><b>URL</b></td>
-      <td style="border-bottom: 1px dotted #9C9A9C;"><b>Name</b></td>
-      <td style="border-bottom: 1px dotted #9C9A9C;"><b>Img?</b></td>
-      <td style="border-bottom: 1px dotted #9C9A9C;"><b>Vis?</b></td>
-      <td style="border-bottom: 1px dotted #9C9A9C;"><b>Category</b></td>
-      <td style="border-bottom: 1px dotted #9C9A9C;">&nbsp;</td>
-      <td style="border-bottom: 1px dotted #9C9A9C;">&nbsp;</td>
-    </tr>
+  <table width="100%" border="0" cellspacing="0" cellpadding="5">
+    <tr> 
+      <th width="15%">Name</th>
+      <th>URL</th>
+      <th>Category</th>
+      <th>Relevance</th>
+      <th>Image</th>
+      <th>Visible</th>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+  </tr>
 <?php
-    $sql = "SELECT link_url, link_name, link_image, link_description, link_visible, link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id, link_rating, link_rel "
-           . " FROM $tablelinks LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id "
-           . " LEFT JOIN $tableusers on $tableusers.ID = $tablelinks.link_owner ";
+    $sql = "SELECT link_url, link_name, link_image, link_description, link_visible, link_category AS cat_id, cat_name AS category, $tableusers.user_login, link_id, link_rating, link_rel FROM $tablelinks LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id LEFT JOIN $tableusers on $tableusers.ID = $tablelinks.link_owner ";
     // have we got a where clause?
     if (($use_adminlevels) || (isset($cat_id) && ($cat_id != 'All')) ) {
         $sql .= " WHERE ";
@@ -450,49 +449,40 @@ switch ($action) {
       }
       $sql .= " link_category = $cat_id ";
     }
-    $sql .= " ORDER BY link_".$sqlorderby;
+    $sql .= ' ORDER BY link_' . $sqlorderby;
 
-    //echo "$sql";
-    $result = mysql_query($sql) or die("Couldn't execute query.".mysql_error());
-    while ($row = mysql_fetch_object($result)) {
-      $short_url = str_replace('http://', '', $row->link_url);
-      if (strlen($short_url) > 35) {
-        $short_url =  substr($short_url, 0, 32).'...';
-      }
-      echo("<tr>\n");
-      echo("  <td ><a href=\"".$row->link_url."\">".$short_url."</a></td>\n");
-      echo("  <td >".stripslashes($row->link_name)."</td>\n");
-      if ($row->link_image != null) {
-        echo("  <td align=\"center\">Y</td>\n");
-      } else {
-        echo("  <td align=\"center\">N</td>\n");
-      }
-      if ($row->link_visible == 'Y') {
-        echo("  <td align=\"center\">Y</td>\n");
-      } else {
-        echo("  <td align=\"center\">N</td>\n");
-      }
-      echo("  <td>".stripslashes($row->category)."</td>\n");
-      echo("  <td><input type=\"submit\" name=\"edit\" onclick=\"document.forms['links'].link_id.value='$row->link_id'; document.forms['links'].action.value='linkedit'; \" value=\"Edit\" class=\"search\" /></td>\n");
-      echo("  <td><input type=\"submit\" name=\"delete\" onclick=\"document.forms['links'].link_id.value='$row->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); \" value=\"Delete\" class=\"search\" /></td>\n");
-      echo("</tr>\n");
-
-      echo("<tr>\n");
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" colspan=\"2\"><b>Desc:</b>&nbsp;".stripslashes($row->link_description)."</td>\n");
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" ><b>Rel:</b></td>\n");
-      $my_rel = stripslashes($row->link_rel);
-      if ($my_rel == '') {
-          $my_rel = '&nbsp;';
-      }
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" >$my_rel</td>\n");
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" ><b>Rating:</b>&nbsp;".$row->link_rating."</td>\n");
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" valign=\"top\"><b>Owner:</b></td>\n");
-      echo("  <td style=\"border-bottom: 1px dotted #9C9A9C;\" valign=\"top\">".$row->user_login."</td>\n");
-      echo("</tr>\n");
-    }
+    // echo "$sql";
+    $links = $wpdb->get_results($sql);
+    foreach ($links as $link) {
+      $short_url = str_replace('http://', '', $link->link_url);
+	  $short_url = str_replace('www.', '', $short_url);
+	  if ('/' == substr($short_url, -1)) $short_url = substr($short_url, 0, -1);
+      if (strlen($short_url) > 35) $short_url =  substr($short_url, 0, 32).'...';
+	  
+	  $link->link_name = stripslashes($link->link_name);
+	  $link->category = stripslashes($link->category);
+	  $link->link_rel = stripslashes($link->link_rel);
+	  $image = ($link->link_image != null) ? 'Yes' : 'No';
+	  $visible = ($link->link_visible == 'Y') ? 'Yes' : 'No';
+	  ++$i;
+	  $style = ($i % 2) ? ' class="alternate"' : '';
+echo <<<LINKS
+	<tr valign="middle"$style>
+		<td><strong>$link->link_name</strong><br />
+		Description: $link->link_description</td>
+		<td><a href="$link->link_url" title="Visit $link->link_name">$short_url</a></td>
+		<td>$link->category</td>
+		<td>$link->link_rel</td>
+		<td>$image</td>
+		<td>$visible</td>
+		<td><input type="submit" name="edit" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='linkedit'; " value="Edit" class="search" /></td>
+		<td><input type="submit" name="delete" onclick="document.forms['links'].link_id.value='$link->link_id'; document.forms['links'].action.value='Delete'; return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.'); " value="Delete" class="search" /></td>
+	</tr>
+LINKS;
+	}
 ?>
-    </form>
-    </table>
+</table>
+</form>
 <?php
   } // end if !popup
 ?>
