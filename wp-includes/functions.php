@@ -209,7 +209,7 @@ function get_userdatabylogin($user_login) {
 
 function get_usernumposts($userid) {
 	global $wpdb;
-	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid'");
+	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid' AND post_status = 'publish'");
 }
 
 // examine a url (supposedly from this blog) and try to
