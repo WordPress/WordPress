@@ -129,14 +129,14 @@ $wpdb->query("UPDATE $wpdb->options SET option_value = '$admin_email' WHERE opti
 
 // Now drop in some default links
 $wpdb->query("INSERT INTO $wpdb->linkcategories (cat_id, cat_name) VALUES (1, 'Blogroll')");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://blog.carthik.net/index.php', 'Carthik', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://blogs.linux.ie/xeer/', 'Donncha', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://zengun.org/weblog/', 'Michel', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://boren.nu/', 'Ryan', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://photomatt.net/', 'Matt', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://zed1.com/journalized/', 'Mike', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://www.alexking.org/', 'Alex', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://dougal.gunters.org/', 'Dougal', 1);");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://blog.carthik.net/index.php', 'Carthik', 1' 'http://blog.carthik.net/feed/');");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://blogs.linux.ie/xeer/', 'Donncha', 1, 'http://blogs.linux.ie/xeer/feed/');");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://zengun.org/weblog/', 'Michel', 1, 'http://zengun.org/weblog/feed/');");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://boren.nu/', 'Ryan', 1, 'http://boren.nu/feed/');");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://photomatt.net/', 'Matt', 1, 'http://xml.photomatt.net/feed/');");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://zed1.com/journalized/', 'Mike', 1, 'http://zed1.com/journalized/feed/');");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://www.alexking.org/', 'Alex', 1, 'http://www.alexking.org/blog/wp-rss2.php');");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss) VALUES ('http://dougal.gunters.org/', 'Dougal', 1, 'http://dougal.gunters.org/feed/');");
 
 // Default category
 $wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name) VALUES ('0', 'Uncategorized')");
