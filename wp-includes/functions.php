@@ -425,12 +425,13 @@ function touch_time($edit = 1) {
 	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">Edit timestamp</label> <a href="http://wordpress.org/docs/reference/post/#edit_timestamp" title="Help on changing the timestamp">?</a><br />';
 	
 	$time_adj = time() + ($time_difference * 3600);
-	$jj = ($edit) ? mysql2date('d', $postdata['Date']) : date('d', $time_adj);
-	$mm = ($edit) ? mysql2date('m', $postdata['Date']) : date('m', $time_adj);
-	$aa = ($edit) ? mysql2date('Y', $postdata['Date']) : date('Y', $time_adj);
-	$hh = ($edit) ? mysql2date('H', $postdata['Date']) : date('H', $time_adj);
-	$mn = ($edit) ? mysql2date('i', $postdata['Date']) : date('i', $time_adj);
-	$ss = ($edit) ? mysql2date('s', $postdata['Date']) : date('s', $time_adj);
+	$post_date_localtime = get_date_from_gmt($postdata['Date']);
+	$jj = ($edit) ? mysql2date('d', $post_date_localtime) : date('d', $time_adj);
+	$mm = ($edit) ? mysql2date('m', $post_date_localtime) : date('m', $time_adj);
+	$aa = ($edit) ? mysql2date('Y', $post_date_localtime) : date('Y', $time_adj);
+	$hh = ($edit) ? mysql2date('H', $post_date_localtime) : date('H', $time_adj);
+	$mn = ($edit) ? mysql2date('i', $post_date_localtime) : date('i', $time_adj);
+	$ss = ($edit) ? mysql2date('s', $post_date_localtime) : date('s', $time_adj);
 
 	echo '<input type="text" name="jj" value="'.$jj.'" size="2" maxlength="2" />'."\n";
 	echo "<select name=\"mm\">\n";
