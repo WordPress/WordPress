@@ -29,37 +29,20 @@ window.close()
 <head>
 <title>WordPress > Bookmarklet</title>
 <link rel="stylesheet" href="b2.css" type="text/css" />
-<?php
-if ($use_spellchecker) {
-?><script type="text/javascript" language="javascript">
+<script type="text/javascript" language="javascript">
 <!--
-
-function DoSpell(formname, subject, body) {
-	document.SPELLDATA.formname.value=formname
-	document.SPELLDATA.subjectname.value=subject
-	document.SPELLDATA.messagebodyname.value=body
-	document.SPELLDATA.companyID.value="custom\\http://cafelog.com"
-	document.SPELLDATA.language.value=1033
-	document.SPELLDATA.opener.value="sproxy.pl"
-	document.SPELLDATA.formaction.value="http://www.spellchecker.com/spell/startspelling.asp "
-	window.open("b2spell.php","Spell",
-	"toolbar=no,directories=no,location=yes,urlbar=yes,resizable=yes,width=620,height=600,top=100,left=100")
-}
-
 function preview(form) {
 	var preview_date = "<?php echo date("Y-m-d H:i:s"); ?>";
 	var preview_userid = "<?php echo $user_ID ?>";
 	var preview_title = form.post_title.value;
 	var preview_category = form.post_category.value;
 	var preview_content = form.content.value;
-	var preview_autobr = form.post_autobr.value;
 	preview_date = escape(preview_date);
 	preview_userid = escape(preview_userid);
 	preview_title = escape(preview_title);
 	preview_category = escape(preview_category);
 	preview_content = escape(preview_content);
-	preview_autobr = escape(preview_autobr);
-	window.open ("<?php echo "$siteurl/$blogfilename" ?>?preview=1&preview_date="+preview_date +"&preview_userid="+preview_userid +"&preview_title="+preview_title +"&preview_category="+preview_category +"&preview_content="+preview_content +"&preview_autobr="+preview_autobr ,"Preview", "location=0,menubar=1,resizable=1,scrollbars=yes,status=1,toolbar=0");
+	window.open ("<?php echo "$siteurl/$blogfilename" ?>?preview=1&preview_date="+preview_date +"&preview_userid="+preview_userid +"&preview_title="+preview_title +"&preview_category="+preview_category +"&preview_content="+preview_content,"Preview", "location=0,menubar=1,resizable=1,scrollbars=yes,status=1,toolbar=0");
 }
 
 function launchupload() {
@@ -68,9 +51,6 @@ function launchupload() {
 
 //-->
 </script>
-<?php
-}
-?>
 <style type="text/css">
 <!--
 body {
@@ -199,7 +179,7 @@ preg_match("/\%u[1-9A-F][1-9A-F][1-9A-F][1-9A-F]/is", $text, $stufftofix);
 <?php } ?>
 </table>
 
-<?php if ($use_preview) { ?>
+<?php if (0 /*$use_preview*/) { ?>
 <input type="button" value="preview" onClick="preview(this.form);" class="search" tabindex="8" />
 <?php } ?>
 

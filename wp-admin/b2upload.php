@@ -14,8 +14,6 @@ die ("The admin disabled this function");
 <head>
 <title>b2 > upload images/files</title>
 <link rel="stylesheet" href="<?php echo $b2inc; ?>/b2.css" type="text/css">
-<?php if ($use_spellchecker) { ?>
-<script type="text/javascript" language="javascript" src="<?php echo $spch_url; ?>"></script><?php } ?>
 <style type="text/css">
 <!--
 body {
