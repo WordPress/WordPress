@@ -164,7 +164,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
-                $url  = sprintf("%s%d%02d", $archive_link_m,  $arcresult->year,   $arcresult->month);
+                $url  = get_month_link($arcresult->year,   $arcresult->month);
                 if ($show_post_count) {
                     $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
                     $after = " ($arcresult->posts)";
@@ -179,7 +179,7 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
-                $url  = sprintf("%s%d%02d%02d", $archive_link_m, $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
+                $url  = get_day_link($arcresult->year, $arcresult->month, $arcresult->dayofmonth);
                 $date = sprintf("%d-%02d-%02d 00:00:00", $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
                 $text = mysql2date($archive_day_date_format, $date);
                 echo get_archives_link($url, $text, $format, $before, $after);
@@ -761,6 +761,7 @@ function the_content($more_link_text='(more...)', $stripteaser=0, $more_file='')
 	$content = apply_filters('the_content', $content);
 	echo $content;
 }
+
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = convert_bbcode($content);
