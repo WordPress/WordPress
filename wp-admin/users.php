@@ -70,7 +70,9 @@ case 'adduser':
 		return false;
 	}
 
-    $user_nicename = sanitize_title($user_nickname);
+	$user_ID = $wpdb->get_var("SELECT ID FROM $wpdb->users ORDER BY ID DESC LIMIT 1") + 1;
+
+	$user_nicename = sanitize_title($user_nickname, $user_ID);
 	$user_uri = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $user_uri) ? $user_uri : 'http://' . $user_uri;
 	$now = gmdate('Y-m-d H:i:s');
 	$new_users_can_blog = get_settings('new_users_can_blog');
