@@ -1338,6 +1338,7 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 
     $rewrite = $rewrite + $post_rewrite;
 
+    $rewrite = apply_filters('rewrite_rules_array', $rewrite);
     return $rewrite;
 }
 
