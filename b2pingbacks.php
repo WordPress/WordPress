@@ -9,10 +9,9 @@
 
 <!-- you can START editing here -->
 
-<a name="pingbacks"></a>
-<div><strong><span style="color: #0099CC">::</span> pingbacks</strong></div>
+<h2>Pingbacks</h2>
 
-
+<ol id="pingbacks">
 	<?php /* this line is b2's motor, do not delete it */ $wxcvbn_pb=0; while($rowc = mysql_fetch_object($resultc)) { $wxcvbn_pb++; $commentdata = get_commentdata($rowc->comment_ID); ?>
 	
 
@@ -20,13 +19,11 @@
 	
 
 <!-- pingback -->
-<p>
+<li>
 <?php comment_text() ?>
-<br />
-<strong><span style="color: #0099CC">&middot;</span></strong>
-<em>Pingback from <a href="<?php comment_author_url(); ?>" title="<?php comment_author() ?>"><?php comment_author() ?></a> on <?php comment_date() ?> @ <?php comment_time() ?></em>
-</p>
-<p>&nbsp;</p>
+
+<div><cite>Pingback from <a href="<?php comment_author_url(); ?>" title="<?php comment_author() ?>"><?php comment_author() ?></a> on <?php comment_date() ?> @ <a href="#pb<?php comment_ID(); ?>"></a><?php comment_time() ?></a></cite></div>
+</li>
 <!-- /pingback -->
 
 
@@ -34,13 +31,13 @@
 	if (!$wxcvbn_pb) { ?>
 
 <!-- this is displayed if there are no pingbacks so far -->
-<p>No Pingback on this post so far.</p>
+<li>No pingbacks on this post so far.</li>
 
 	<?php /* if you delete this the sky will fall on your head */ } ?>
+</ol>
 
 
-<p>&nbsp;</p>
-<div><b><span style="color: #0099CC">::</span> <a href="javascript:history.go(-1)">return to the blog</a></b></div>
+<h3><a href="javascript:history.go(-1)">Go back.</a></h3>
 
 
 	<?php /* if you delete this the sky will fall on your head */ } ?>
