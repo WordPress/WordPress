@@ -526,6 +526,9 @@ function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), w
 }
 
 function weblog_ping($server = '', $path = '') {
+include_once (ABSPATH . WPINC . '/class-xmlrpc.php');
+include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
+
   $f = new xmlrpcmsg('weblogUpdates.ping',
 				array(new xmlrpcval(get_settings('blogname'), 'string'),
 					new xmlrpcval(get_settings('siteurl') ,'string')));
@@ -699,6 +702,8 @@ function debug_fclose($fp) {
 }
 
 function pingback($content, $post_ID) {
+include_once (ABSPATH . WPINC . '/class-xmlrpc.php');
+include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 	// original code by Mort (http://mort.mine.nu:8080)
 	global $wp_version;
 	$log = debug_fopen('./pingback.log', 'a');

@@ -1,11 +1,6 @@
 <?php
 
-// 1. save as gm-2-b2.php
-// 2. upload on your server in the directory where your b2 files are
-// 3. load in the browser from there
-
 require_once('../wp-config.php');
-require_once(ABSPATH.WPINC.'/functions.php');
 require('upgrade-functions.php');
 
 $wpvarstoreset = array('action', 'gmpath', 'archivespath');

@@ -24,7 +24,9 @@ $tableoptionvalues        = $table_prefix . 'optionvalues';
 $tableoptiongroups        = $table_prefix . 'optiongroups';
 $tableoptiongroup_options = $table_prefix . 'optiongroup_options';
 $tablepostmeta            = $table_prefix . 'postmeta';
+
 define('WPINC', 'wp-includes');
+
 require_once (ABSPATH . WPINC . '/wp-db.php');
 
 $wpdb->hide_errors();
@@ -34,22 +36,13 @@ if (!$users && !strstr($_SERVER['REQUEST_URI'], 'install.php')) {
 }
 $wpdb->show_errors();
 
-// This is the name of the include directory. No "/" allowed.
-
-require_once (ABSPATH . WPINC . '/functions.php');
-require_once (ABSPATH . 'wp-config-extra.php');
-require_once (ABSPATH . WPINC . '/template-functions.php');
-require_once (ABSPATH . WPINC . '/class-xmlrpc.php');
-require_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
-require_once (ABSPATH . WPINC . '/links.php');
-require_once (ABSPATH . WPINC . '/kses.php');
+require (ABSPATH . WPINC . '/functions.php');
+require (ABSPATH . 'wp-config-extra.php');
+require (ABSPATH . WPINC . '/template-functions.php');
+require (ABSPATH . WPINC . '/links.php');
+require (ABSPATH . WPINC . '/kses.php');
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
-//setup the old globals from b2config.php
-//
-// We should eventually migrate to either calling
-// get_settings() wherever these are needed OR
-// accessing a single global $all_settings var
 if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST_URI'], 'wp-admin/import')) {
 
     $querystring_start = '?';
@@ -61,7 +54,7 @@ if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST
 
 } //end !$_wp_installing
 
-require_once (ABSPATH . WPINC . '/vars.php');
+require (ABSPATH . WPINC . '/vars.php');
 
 
 // Check for hacks file if the option is enabled
