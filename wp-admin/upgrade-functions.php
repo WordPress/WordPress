@@ -207,6 +207,8 @@ function upgrade_130() {
 			$wpdb->query("DELETE FROM $wpdb->options WHERE option_id IN ($dupe_ids)");
 		}
 	}
+
+	make_site_theme();
 }
 
 // The functions we use to actually do stuff
@@ -525,4 +527,63 @@ function make_db_current_silent() {
 	$alterations = dbDelta($wp_queries);
 }
 
+// Create a site theme from the default theme.
+function make_site_theme() {
+	// Name the theme after the blog.
+	$site = get_option('blogname');
+	$template = sanitize_title($site);
+	$site_dir = ABSPATH . "wp-content/themes/$template";
+
+	// If the theme already exists, nothing to do.
+	if ( is_dir($site_dir)) {
+		return;
+	}
+
+	// We must be able to write to the themes dir.
+	if (! is_writable(ABSPATH . "wp-content/themes")) {
+		return;
+	}
+
+	if (! mkdir($site_dir, 0777)) {
+		return;
+	}
+
+	// Copy files from the default theme to the new site theme.
+	// TODO: Copy wp-* template files from the blog root when upgrading from
+	//       pre-theme releases.
+	$default_dir = ABSPATH . 'wp-content/themes/default';
+	$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
+
+	foreach ($files as $file) {
+		if (! copy("$default_dir/$file", "$site_dir/$file")) {
+			return;
+		}
+
+		chmod("$site_dir/$file", 0777);
+	}
+
+	// Rewrite the theme header.
+	$stylelines = explode("\n", implode('', file("$site_dir/style.css")));
+	if ($stylelines) {
+		$f = fopen("$site_dir/style.css", 'w');
+
+		foreach ($stylelines as $line) {
+			if (strstr($line, "Theme Name:")) $line = "Theme Name: $site";
+			elseif (strstr($line, "Theme URI:")) $line = "Theme URI: " . get_option('siteurl');
+			elseif (strstr($line, "Description:")) $line = "Description: Your theme";
+			elseif (strstr($line, "Version:")) $line = "Version: 1";
+			elseif (strstr($line, "Author:")) $line = "Author: You";
+			fwrite($f, "{$line}\n");
+		}
+		fclose($f);
+	}
+
+	// Make the new site theme active.
+	$current_template = get_option('template');
+	if ($current_template == 'default') {
+		update_option('template', $template);
+		update_option('stylesheet', $template);
+	}
+	return $template;
+}
 ?>
