@@ -95,7 +95,7 @@ if ($_POST['submit']) {
     <p> 
       <input name="permalink_structure" type="text" style="width: 98%;" value="<?php echo $permalink_structure; ?>" /> 
     </p> 
-	<p><?php _e('Enter a path without templates for your categories:') ?> FIXME[THIS WORDING MAKES NO SENSE]</p>
+	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/taxonomy/categorias</code> would make your category links like <code>http://example.org/taxonomy/categorias/general/</code>. If you leave this blank the default will be used.') ?></p>
 	<p> 
   <input name="category_base" type="text" style="width: 98%;" value="<?php echo $category_base; ?>" /> 
      </p> 

@@ -331,6 +331,7 @@ function get_alloptions() {
 			//  never underestimate the ingenuity of the fools :)"
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 
 			$all_options->{$option->option_name} = $option->option_value;
 		}
@@ -1278,7 +1279,10 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
 
     // Code for nice categories and authors, currently not very flexible
     $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
-    $catmatch = get_settings( 'category_base' ) . '/';
+	if ( '' == get_settings('category_base') )
+		$catmatch = $front . 'category/';
+	else
+	    $catmatch = get_settings('category_base') . '/';
     $catmatch = preg_replace('|^/+|', '', $catmatch);
     
     $catfeedmatch = $catmatch . '(.*)/' . $feedregex;
