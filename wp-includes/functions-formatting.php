@@ -217,7 +217,13 @@ function sanitize_title($title, $fallback_title = '') {
 
 function sanitize_title_with_dashes($title) {
 	$title = strip_tags($title);
-	$title = preg_replace('|%|', '', $title);
+	// Preserve escaped octets.
+	$title = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $title);
+	// Remove percent signs that are not part of an octet.
+	$title = str_replace('%', '', $title);
+	// Restore octets.
+	$title = preg_replace('|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $title);
+
 	$title = remove_accents($title);
 	if (seems_utf8($title)) {
 		if (function_exists('mb_strtolower')) {
