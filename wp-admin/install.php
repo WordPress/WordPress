@@ -383,28 +383,6 @@ CREATE TABLE $wpdb->optiongroup_options (
 ";
 $q = $wpdb->query($query);
 
-
-// $query = "DROP TABLE IF EXISTS $wpdb->optionvalues";
-// $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$wpdb->optionvalues\" in the database.");
-
-$query = "
-CREATE TABLE $wpdb->optionvalues (
-  option_id int(11) NOT NULL,
-  optionvalue tinytext,
-  optionvalue_desc varchar(255),
-  optionvalue_max int(11),
-  optionvalue_min int(11),
-  optionvalue_seq int(11),
-  UNIQUE (option_id, optionvalue(255)),
-  INDEX (option_id, optionvalue_seq)
-)
-";
-$q = $wpdb->query($query);
-
-?>
-
-<?php
-
 $option_data = array(
 "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (1, 'integer')",
 "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (2, 'boolean')",
@@ -530,22 +508,6 @@ $option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(6,8,7)",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(6,54,8)",
 
-// select data for what to show
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (49, 'days',  'days',        null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (49, 'posts', 'posts',       null,null,2)",
-// select data for archive mode
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'daily',     'daily',       null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'weekly',    'weekly',      null,null,2)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'monthly',   'monthly',     null,null,3)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'postbypost','post by post',null,null,4)",
-// select data for time diff
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (51, 'hours', 'hours', 23, -23, null)",
-// select data for start of week
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (9, '0', 'Sunday',   null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (9, '1', 'Monday',   null,null,2)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (9, '6', 'Saturday', null,null,3)",
-
-
 // Add in a new page for POST DEFAULTS
 
 // default_post_status  select one of publish draft private
@@ -569,25 +531,6 @@ $option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(7,59,5 )",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(7,83,5 )",
 
-// select data for post_status
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (55, 'publish', 'Publish', null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (55, 'draft',   'Draft',   null,null,2)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (55, 'private', 'Private', null,null,3)",
-
-// select data for comment_status
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (56, 'open', 'Open',   null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (56, 'closed', 'Closed', null,null,2)",
-
-// select data for ping_status (aargh duplication!)
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (57, 'open', 'Open',   null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (57, 'closed', 'Closed', null,null,2)",
-
-// select data for pingback flag
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (58, '1', 'Checked',   null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (58, '0', 'Unchecked', null,null,2)",
-
-// sql select data for default
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (59, 'SELECT cat_id AS value, cat_name AS label FROM $wpdb->categories order by cat_name', '', null,null,1)",
 );
 
 foreach ($option_data as $query) {
@@ -647,11 +590,6 @@ $links_option_data = array(
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(8,80,21)",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(8,81,22)",
 "INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES(8,82,23)",
-
-// select data for rating_type
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'number', 'Number',    null,null,1)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'char',   'Character', null,null,2)",
-"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'image',  'Image',     null,null,3)",
 );
 
 foreach ($links_option_data as $query) {

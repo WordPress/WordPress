@@ -39,60 +39,6 @@ TEXTINPUT;
                     </select>
 BOOLSELECT;
             //break;
-            
-        case 5: // select
-            $ret = <<<SELECT
-                    <label for="$option_result->option_name">$option_result->option_name</label>$between
-                    <select name="$option_result->option_name" id="$option_result->option_name" $disabled>
-SELECT;
-
-            $select = $wpdb->get_results("SELECT optionvalue, optionvalue_desc "
-                                         ."FROM $wpdb->optionvalues "
-                                         ."WHERE option_id = $option_result->option_id "
-                                         ."ORDER BY optionvalue_seq");
-            if ($select) {
-                foreach($select as $option) {
-                    $ret .= '<option value="'.$option->optionvalue.'"';
-                    //error_log("comparing [$option_result->option_value] == [$option->optionvalue]");
-                    if ($option_result->option_value == $option->optionvalue) {
-                        $ret .=' selected="selected"';
-                    }
-                    $ret .= ">$option->optionvalue_desc</option>\n";
-                }
-            }
-            $ret .= '</select>';
-            return $ret;
-            //break;
-        
-        case 7: // SQL select
-            // first get the sql to run
-            $sql = $wpdb->get_var("SELECT optionvalue FROM $wpdb->optionvalues WHERE option_id = $option_result->option_id");
-            if (!$sql) {
-                return $option_result->option_name . $editable;
-            }
-
-            // now we may need to do table name substitution
-           eval("include('../wp-config.php');\$sql = \"$sql\";");
-
-            $ret = <<<SELECT
-                    <label for="$option_result->option_name">$option_result->option_name</label>$between
-                    <select name="$option_result->option_name" $disabled>
-SELECT;
-	
-            $select = $wpdb->get_results("$sql");
-            if ($select) {
-                foreach($select as $option) {
-                    $ret .= '<option value="'.$option->value.'"';
-                    //error_log("comparing [$option_result->option_value] == [$option->optionvalue]");
-                    if ($option_result->option_value == $option->value) {
-                        $ret .=' selected="selected"';
-                    }
-                    $ret .= ">$option->label</option>\n";
-                }
-            }
-            $ret .= '</select>';
-            return $ret;
-            //break;
 
     } // end switch
     return $option_result->option_name . $editable;
@@ -102,16 +48,6 @@ SELECT;
 function validate_option($option, $name, $val) {
     global $wpdb;
     $msg = '';
-    switch ($option->option_type) {
-        case 6: // range
-            // get range
-            $range = $wpdb->get_row("SELECT optionvalue_max, optionvalue_min FROM $wpdb->optionvalues WHERE option_id = $option->option_id");
-            if ($range) {
-                if (($val < $range->optionvalue_min) || ($val > $range->optionvalue_max)) {
-                    $msg = "$name is outside the valid range ($range->optionvalue_min - $range->optionvalue_max). ";
-                }
-            }
-    } // end switch
     return $msg;
 } // end validate_option
     

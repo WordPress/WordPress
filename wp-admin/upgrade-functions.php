@@ -97,16 +97,6 @@ CREATE TABLE $wpdb->optiontypes (
   optiontype_name varchar(64) NOT NULL default '',
   PRIMARY KEY  (optiontype_id)
 );
-CREATE TABLE $wpdb->optionvalues (
-  option_id int(11) NOT NULL default '0',
-  optionvalue tinytext,
-  optionvalue_desc varchar(255) default NULL,
-  optionvalue_max int(11) default NULL,
-  optionvalue_min int(11) default NULL,
-  optionvalue_seq int(11) default NULL,
-  UNIQUE KEY option_id (option_id,optionvalue(255)),
-  KEY option_id_2 (option_id,optionvalue_seq)
-);
 CREATE TABLE $wpdb->post2cat (
   rel_id int(11) NOT NULL auto_increment,
   post_id int(11) NOT NULL default '0',
@@ -254,18 +244,6 @@ function upgrade_072() {
 	  option_id int(11) NOT NULL,
 	  seq int(11) NOT NULL,
 	  PRIMARY KEY (group_id, option_id)
-	)
-	");
-	maybe_create_table($wpdb->optionvalues, "
-	CREATE TABLE $wpdb->optionvalues (
-	  option_id int(11) NOT NULL,
-	  optionvalue tinytext,
-	  optionvalue_desc varchar(255),
-	  optionvalue_max int(11),
-	  optionvalue_min int(11),
-	  optionvalue_seq int(11),
-	  UNIQUE (option_id, optionvalue(255)),
-	  INDEX (option_id, optionvalue_seq)
 	)
 	");
 	
@@ -502,68 +480,6 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 			$wpdb->query($query);
 			}
 	}	
-	
-	$option_values = array(
-		// select data for what to show
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (49, 'days',  'days',        null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (49, 'posts', 'posts',       null,null,2)",
-		// select data for archive mode
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'daily',     'daily',       null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'weekly',    'weekly',      null,null,2)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'monthly',   'monthly',     null,null,3)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (50, 'postbypost','post by post',null,null,4)",
-		// select data for time diff
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (51, 'hours', 'hours', 23, -23, null)",
-		// select data for start of week
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (9, '0', 'Sunday',   null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (9, '1', 'Monday',   null,null,2)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (9, '6', 'Saturday', null,null,3)",
-		
-		
-		// Add in a new page for POST DEFAULTS
-		
-		// default_post_status  select one of publish draft private
-		// default_comment_status select one of open closed
-		// default_ping_status select one of open closed
-		// default_pingback_flag select one of checked unchecked
-		// default_post_category sql_select "SELECT cat_id AS value, cat_name AS label FROM $wpdb->categories order by cat_name"
-		
-	
-
-		
-		// select data for post_status
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (55, 'publish', 'Publish', null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (55, 'draft',   'Draft',   null,null,2)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (55, 'private', 'Private', null,null,3)",
-		
-		// select data for comment_status
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (56, 'open', 'Open',   null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (56, 'closed', 'Closed', null,null,2)",
-		
-		// select data for ping_status (aargh duplication!)
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (57, 'open', 'Open',   null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (57, 'closed', 'Closed', null,null,2)",
-		
-		// select data for pingback flag
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (58, '1', 'Checked',   null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (58, '0', 'Unchecked', null,null,2)",
-		
-		// sql select data for default
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (59, 'SELECT cat_id AS value, cat_name AS label FROM $wpdb->categories order by cat_name', '', null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'number', 'Number',    null,null,1)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'char',   'Character', null,null,2)",
-		"INSERT INTO $wpdb->optionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (62, 'image',  'Image',     null,null,3)"
-		);
-		
-	foreach ($option_values as $query) {
-		preg_match("|VALUES \(([0-9]+), '([^']+)'|", $query, $matches);
-		$option_id = $matches[1];
-		$value = $matches[2];
-		if(!$wpdb->get_var("SELECT * FROM $wpdb->optionvalues WHERE option_id = '$option_id' AND optionvalue = '$value'")) {
-			$wpdb->query($query);
-			}
-	}	
-		
 
 	    if (file_exists('../wp-links/links.config.php')) {
         include('../wp-links/links.config.php');
@@ -635,26 +551,7 @@ function upgrade_100() {
 		VALUES 
 		('$gid', '$oid', '$seq')");
 	}
-	  
-	if (!$wpdb->get_row("SELECT * FROM $wpdb->optionvalues WHERE option_id = $oid AND optionvalue = 'auto'")) {
-		$wpdb->query("INSERT INTO $wpdb->optionvalues 
-		(option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq)
-		VALUES 
-		('$oid','auto', 'Automatic', NULL, NULL, 3)");
-	}
-	if (!$wpdb->get_row("SELECT * FROM $wpdb->optionvalues WHERE option_id = $oid AND optionvalue = 'none'")) {
-		$wpdb->query("INSERT INTO $wpdb->optionvalues 
-		(option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq)
-		VALUES 
-		('$oid', 'none', 'None', NULL, NULL, 1)");
-	}
-	if (!$wpdb->get_row("SELECT * FROM $wpdb->optionvalues WHERE option_id = $oid AND optionvalue = 'manual'")) {
-		$wpdb->query("INSERT INTO $wpdb->optionvalues 
-		(option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq)
-		VALUES 
-		('$oid', 'manual', 'Manual', NULL, NULL, 2)");
-	}
-	
+
 	if (!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'moderation_notify'")) {
 		$wpdb->query("INSERT INTO $wpdb->options 
 			(option_id, blog_id, option_name, option_can_override, option_type, option_value, option_width, option_height, option_description, option_admin_level) 
@@ -720,7 +617,6 @@ function upgrade_100() {
 			(2, $optionid, 5)");
 	}
 
-	$wpdb->query("UPDATE $wpdb->optionvalues SET optionvalue_max = 23 , optionvalue_min = -23 WHERE option_id = 51");
 	// fix upload users description
 	$wpdb->query("UPDATE $wpdb->options SET option_description = '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'' WHERE option_id = 37");
 	// and file types
@@ -774,14 +670,7 @@ function upgrade_100() {
 
 function upgrade_101() {
 	global $wpdb;
-	// Fix possible duplicate problem from CVS, we can REMOVE this later
-	$option59 = $wpdb->get_results("SELECT * FROM $wpdb->optionvalues WHERE option_id  = '59'");
-	if (1 < count($option59)) {
-		$wpdb->query("DELETE FROM $wpdb->optionvalues WHERE option_id = '59' AND optionvalue LIKE('%FROM  order%')");
-	}
-	
-	// Remove 'automatic' option for comment moderation until it actually does something
-	$wpdb->query("DELETE FROM $wpdb->optionvalues WHERE optionvalue = 'auto'");
+
 	// Less intrusive default
 	$wpdb->query("ALTER TABLE `$wpdb->linkcategories` CHANGE `show_description` `show_description` ENUM( 'Y', 'N' ) DEFAULT 'N' NOT NULL"); 
 	
@@ -1014,7 +903,7 @@ function upgrade_130() {
 		update_option('active_plugins', $plugins);
 	}
 
-
+	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optionvalues');
 }
 
 // The functions we use to actually do stuff
