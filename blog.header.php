@@ -13,7 +13,7 @@ require_once ($curpath.$b2inc.'/b2functions.php');
 require_once ($curpath.$b2inc.'/xmlrpc.inc');
 require_once ($curpath.$b2inc.'/xmlrpcs.inc');
 
-$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'monthnum');
+$b2varstoreset = array('m','p','posts','w','c', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'name');
 
 	for ($i=0; $i<count($b2varstoreset); $i += 1) {
 		$b2var = $b2varstoreset[$i];
@@ -226,7 +226,7 @@ if ((!$whichcat) && (!$m) && (!$p) && (!$w) && (!$s) && empty($poststart) && emp
 	}
 }
 
-if ( !empty($postend) && ($postend > $poststart) && (!$m) && !$month && !$year && !$day &&(!$w) && (!$whichcat) && (!$s) && (!$p)) {
+if ( !empty($postend) && ($postend > $poststart) && (!$m) && empty($monthnum) && empty($year) && empty($day) &&(!$w) && (!$whichcat) && (!$s) && (!$p)) {
 	if ($what_to_show == 'posts' || ($what_to_show == 'paged' && (!$paged))) {
 		$poststart = intval($poststart);
 		$postend = intval($postend);
