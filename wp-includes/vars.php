@@ -43,7 +43,7 @@ $wp_htmltranswinuni = array(
 $PHP_SELF = $_SERVER['PHP_SELF'];
 if (preg_match('#([^/]+.php)#', $PHP_SELF, $self_matches)) {
 	$pagenow = $self_matches[1];
-} else {
+} else if (strstr($PHP_SELF, '?')) {
 	$pagenow = explode('/', $PHP_SELF);
 	$pagenow = trim($pagenow[(sizeof($pagenow)-1)]);
 	$pagenow = explode('?', $pagenow);
@@ -51,6 +51,8 @@ if (preg_match('#([^/]+.php)#', $PHP_SELF, $self_matches)) {
 	if (($querystring_start == '/') && ($pagenow != 'post.php')) {
 		$pagenow = get_settings('siteurl') . '/' . get_settings('blogfilename');
 	}
+} else {
+	$pagenow = 'index.php';
 }
 
 // Simple browser detection
