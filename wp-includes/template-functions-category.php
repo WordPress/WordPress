@@ -327,17 +327,14 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
         }
 	}
 	
-	if (intval($optiondates) == 1) {
-		$cat_dates = $wpdb->get_results("	SELECT cat_ID,
-		DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
-		FROM $wpdb->categories 
-		LEFT JOIN $wpdb->post2cat ON (cat_ID = category_id)
-		LEFT JOIN $wpdb->posts ON (ID = post_id)
-		WHERE post_status = 'publish' $exclusions
+	if ( $optiondates ) {
+		$cat_dates = $wpdb->get_results("	SELECT category_id,
+		UNIX_TIMESTAMP( MAX(post_date) ) AS ts
+		FROM $wpdb->posts, $wpdb->post2cat
+		WHERE post_status = 'publish' AND post_id = ID $exclusions
 		GROUP BY category_id");
 		foreach ($cat_dates as $cat_date) {
-			$category_lastday["$cat_date->cat_ID"] = $cat_date->lastday;
-			$category_lastmonth["$cat_date->cat_ID"] = $cat_date->lastmonth;
+			$category_timestamp["$cat_date->category_id"] = $cat_date->ts;
 		}
 	}
 	
@@ -401,8 +398,9 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 			if (intval($optioncount) == 1) {
 				$link .= ' ('.intval($category_posts["$category->cat_ID"]).')';
 			}
-			if (intval($optiondates) == 1) {
-				$link .= ' '.$category_lastday["$category->cat_ID"].'/'.$category_lastmonth["$category->cat_ID"];
+			if ( $optiondates ) {
+				if ( $optiondates == 1 ) $optiondates = 'Y-m-d';
+				$link .= ' ' . gmdate($optiondates, $category_timestamp["$category->cat_ID"]);
 			}
 			if ($list) {
 				$thelist .= "\t<li>$link\n";
