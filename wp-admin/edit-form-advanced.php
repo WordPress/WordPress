@@ -102,10 +102,8 @@ window.onload = focusit;
        <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
 		<div id="quicktags">
 <?php
-if ( get_settings('use_quicktags') ) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="' .  __('Help with quicktags') . '">' . __('Quicktags') . '</a>: ';
 	include('quicktags.php');
-}
 ?>
 </div>
 <?php
@@ -118,7 +116,6 @@ if ( get_settings('use_quicktags') ) {
 </fieldset>
 
 <?php
-if ( get_settings('use_quicktags') ) {
 ?>
 <script type="text/javascript" language="JavaScript">
 <!--
@@ -126,7 +123,6 @@ edCanvas = document.getElementById('content');
 //-->
 </script>
 <?php
-}
 if ($action != 'editcomment') {
     if (get_settings('use_geo_positions')) {
         if (empty($edited_lat)) {

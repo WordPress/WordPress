@@ -169,7 +169,7 @@ uksort($wpsmiliestrans, 'smiliescmp');
 foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliessearch[] = $smiley;
 	$smiley_masked = str_replace(' ', '', $smiley);
-	$wp_smiliesreplace[] = " <img src='" . get_settings('smilies_directory') . "/$img' alt='$smiley_masked' />";
+	$wp_smiliesreplace[] = " <img src='" . get_settings('siteurl') . "/wp-images/smilies/$img' alt='$smiley_masked' />";
 }
 
 

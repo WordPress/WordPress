@@ -38,7 +38,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 $option_group_id = (int) $_GET['option_group_id'];
 require_once('./optionhandler.php');
 $non_was_selected = 0;
-if ($option_group_id == '') {
+if ('' == $_GET['option_group_id']) {
     $option_group_id = 1;
     $non_was_selected = 1;
 }
@@ -155,18 +155,24 @@ include('options-head.php');
   <input type="hidden" name="option_group_id" value="<?php echo $option_group_id; ?>" />
   <table width="90%" cellpadding="2" cellspacing="2" border="0">
 <?php
-    //Now display all the options for the selected group.
-    $options = $wpdb->get_results("SELECT $tableoptions.option_id, option_name, option_type, option_value, option_width, option_height, option_description, option_admin_level "
-                                  . "FROM $tableoptions "
-                                  . "LEFT JOIN $tableoptiongroup_options ON $tableoptions.option_id = $tableoptiongroup_options.option_id "
-                                  . "WHERE group_id = $option_group_id "
-                                  . "ORDER BY seq");
-    if ($options) {
-        foreach ($options as $option) {
-            echo('    <tr><td width="10%" valign="top">'. get_option_widget($option, ($user_level >= $option->option_admin_level), '</td><td width="15%" valign="top" style="border: 1px solid #ccc">'));
-            echo("    </td><td  valign='top' class='helptext'>$option->option_description</td></tr>\n");
-        }
-    }
+//Now display all the options for the selected group.
+if ('all' == $_GET['option_group_id']) :
+$options = $wpdb->get_results("SELECT * FROM $tableoptions LEFT JOIN $tableoptiongroup_options ON $tableoptions.option_id = $tableoptiongroup_options.option_id ORDER BY option_name");
+else :
+$options = $wpdb->get_results("
+SELECT 
+$tableoptions.option_id, option_name, option_type, option_value, option_width, option_height, option_description, option_admin_level 
+FROM $tableoptions  LEFT JOIN $tableoptiongroup_options ON $tableoptions.option_id = $tableoptiongroup_options.option_id
+WHERE group_id = $option_group_id
+ORDER BY seq
+");
+endif;
+
+foreach ($options as $option) :
+	if ('all' == $_GET['option_group_id']) $option->option_type = 3;
+	echo "\t<tr><td width='10%' valign='top'>" . get_option_widget($option, ($user_level >= $option->option_admin_level), '</td><td width="15%" valign="top" style="border: 1px solid #ccc">');
+	echo "\t</td><td  valign='top' class='helptext'>$option->option_description</td></tr>\n";
+endforeach;
 ?>
     <tr><td colspan="3">&nbsp;</td></tr>
     <tr><td align="center" colspan="3"><input type="submit" name="Update" value="Update Settings" /></td></tr>

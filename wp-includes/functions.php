@@ -357,6 +357,16 @@ function add_option($name, $value='') {
 	return;
 }
 
+function delete_option($name) {
+	global $wpdb, $tableoptions, $tableoptiongroup_options;
+	// Get the ID, if no ID then return
+	$option_id = $wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = '$name'");
+	if (!$option_id) return false;
+	$wpdb->query("DELETE FROM $tableoptiongroup_options WHERE option_id = '$option_id'");
+	$wpdb->query("DELETE FROM $tableoptions WHERE option_name = '$name'");
+	return true;
+}
+
 function get_postdata($postid) {
 	global $post, $tableposts, $wpdb;
 

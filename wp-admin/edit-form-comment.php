@@ -43,10 +43,8 @@ window.onload = focusit;
         <legend><?php _e('Comment') ?></legend>
 		<div id="quicktags">
 <?php
-if (get_settings('use_quicktags')) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="' . __('Help with quicktags') . '">' . __('Quicktags') . '</a>: ';
 	include('quicktags.php');
-}
 ?>
 </div>
 <?php
@@ -58,17 +56,11 @@ if (get_settings('use_quicktags')) {
 <div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $content ?></textarea></div>
 </fieldset>
 
-<?php
-if (get_settings('use_quicktags')) {
-?>
 <script type="text/javascript" language="JavaScript">
 <!--
 edCanvas = document.getElementById('content');
 //-->
 </script>
-<?php
-}
-?>
 
 <p class="submit"><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
