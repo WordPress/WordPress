@@ -571,7 +571,6 @@ function weblog_ping($server = '', $path = '') {
 					new xmlrpcval(get_settings('blog_url') ,'string')));
   $c = new xmlrpc_client($path, $server, 80);
   $r = $c->send($f);
-  if (!$r) { die("send failed"); }
 
   if ($debug) {
     print "<h3>Response Object Dump:</h3>\n";
@@ -600,10 +599,12 @@ function weblog_ping($server = '', $path = '') {
 function generic_ping($post_id = 0) {
 	$services = get_settings('ping_sites');
 	$services = preg_replace("|(\s)+|", '$1', $services); // Kill dupe lines
-	$services = explode("\n", trim($services));
-	foreach ($services as $service) {
-		$uri = parse_url($service);
-		weblog_ping($uri['host'], $uri['path']);
+	if ('' != trim($services)) {
+		$services = explode("\n", trim($services));
+		foreach ($services as $service) {
+			$uri = parse_url($service);
+			weblog_ping($uri['host'], $uri['path']);
+		}
 	}
 }
 
