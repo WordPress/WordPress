@@ -1117,9 +1117,11 @@ function apply_filters($tag, $string) {
 	if (isset($wp_filter[$tag])) {
 		ksort($wp_filter[$tag]);
 		foreach ($wp_filter[$tag] as $priority => $functions) {
-			foreach($functions as $function) {
+			if (!is_null($functions)) {
+                foreach($functions as $function) {
 					$string = $function($string);
-			}
+                }
+            }
 		}
 	}
 	return $string;
