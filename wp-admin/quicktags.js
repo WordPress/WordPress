@@ -57,7 +57,7 @@ new edButton('ed_block'
 edButtons[edButtons.length] = 
 new edButton('ed_del'
 ,'del'
-,'<del>'
+,'<del datetime="' + datetime + '">'
 ,'</del>'
 ,'d'
 );
@@ -67,7 +67,7 @@ new edButton('ed_ins'
 ,'ins'
 ,'<ins datetime="' + datetime + '">'
 ,'</ins>'
-,'d'
+,'s'
 );
 
 edButtons[edButtons.length] = 
@@ -108,6 +108,7 @@ new edButton('ed_pre'
 ,'code'
 ,'<code>'
 ,'</code>'
+,'c'
 );
 
 edButtons[edButtons.length] = 
