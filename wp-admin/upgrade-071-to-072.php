@@ -61,7 +61,13 @@ switch($step) {
   configure in this file is your database connection info, and your table names.
   All other configuration info is now held in the database.</li>
 
-  <li>It is a fairly common error to have the table names wrong in wp-config.php if you&#8217;re coming from a legacy b2 installation. In a clean WordPress installation the tables are named things like <code>wp_posts</code> and <code>wp_comments</code>, but if you&#8217;re coming from b2 you probably have table names like <code>b2posts</code> and <code>b2comments</code>. Double-check the <code>$table_prefix</code> variable to make sure this has what is appropiate to your installation.</li>
+  <li>It is a fairly common error to have the table names wrong in wp-config.php
+  if you&#8217;re coming from a legacy b2 installation. In a clean WordPress
+  installation the tables are named things like <code>wp_posts</code> and
+  <code>wp_comments</code>, but if you&#8217;re coming from b2 you probably have
+  table names like <code>b2posts</code> and <code>b2comments</code>.
+  Double-check the <code>$table_prefix</code> variable to make sure this has
+  what is appropiate to your installation.</li>
 
   <li>If you have any troubles check out the <a
   href="http://wordpress.org/support/">support forums</a>.</li>
