@@ -37,6 +37,22 @@ function checkAll(form)
 </form>
 <p><a href="?mode=view">View Mode</a> | <a href="?mode=edit">Mass Edit Mode</a></p>
 <?php
+if (!empty($delete_comments)) {
+
+	// I had this all as one query but then realized we weren't checking permissions on each comment.
+	$del_comments = ''; $safe_delete_commeents = ''; $i = 0;
+	foreach ($delete_comments as $comment) { // Check the permissions on each
+		$comment = intval($comment);
+		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $tablecomments WHERE comment_ID = $comment");
+		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $tableposts WHERE ID = $post_id"));
+		if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
+			$wpdb->query("DELETE FROM $tablecomments WHERE comment_ID = $comment");
+			++$i;
+		}
+	}
+	echo "<div class='wrap'><p>$i comments deleted.</p></div>";
+}
+
 if ($s) {
 	$s = $wpdb->escape($s);
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments  WHERE
@@ -53,6 +69,7 @@ if ('view' == $mode) {
 	if ($comments) {
 		echo '<ol>';
 		foreach ($comments as $comment) {
+		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $tableposts WHERE ID = $comment->comment_post_ID"));
 			$comment_status = wp_get_comment_status($comment->comment_ID);
 			if ('unapproved' == $comment_status) {
 				echo '<li class="unapproved" style="border-bottom: 1px solid #ccc;">';
@@ -86,6 +103,7 @@ if ('view' == $mode) {
 		<?php
 	} // end if ($comments)
 } elseif ('edit' == $mode) {
+
 	if ($comments) {
 		echo '<form name="deletecomments" id="deletecomments" action="" method="post"> 
 		<table width="100%" cellpadding="3" cellspacing="3">
@@ -95,18 +113,21 @@ if ('view' == $mode) {
     <th scope="col">Email</th>
     <th scope="col">IP</th>
     <th scope="col">Comment Excerpt</th>
+	<th scope="col">View</th>
     <th scope="col">Edit</th>
     <th scope="col">Delete</th>
   </tr>';
 		foreach ($comments as $comment) {
+		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $tableposts WHERE ID = $comment->comment_post_ID"));
 		$bgcolor = ('#eee' == $bgcolor) ? 'none' : '#eee';
 ?>
   <tr style='background-color: <?php echo $bgcolor; ?>'>
-    <td><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /></td>
+    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <th scope="row"><?php comment_author_link() ?></th>
     <td><?php comment_author_email_link() ?></td>
     <td><a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></td>
     <td><?php comment_excerpt(); ?></td>
+	<td><a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php comment_ID() ?>" class="edit">View</a></td>
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
 				echo "<a href='post.php?action=editcomment&amp;comment=$comment->comment_ID' class='edit'>Edit</a>"; } ?></td>
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
@@ -120,13 +141,11 @@ if ('view' == $mode) {
   </form>
 <?php
 	} else {
-
-		?>
-		<p>
-		<strong>No results found.</strong>
-		</p>
-		
-		<?php
+?>
+<p>
+<strong>No results found.</strong>
+</p>
+<?php
 	} // end if ($comments)
 }
 	?>
