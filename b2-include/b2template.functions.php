@@ -121,7 +121,7 @@ function get_archives_link($url, $text, $format = "html", $before = "", $after =
 	}
 }
 
-function get_archives($type='', $limit='', $format='html', $before = "", $after = "") {
+function get_archives($type='', $limit='', $format='html', $before = "", $after = "", $show_post_count = false) {
 	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
     global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week, $querycount;
 
@@ -161,11 +161,14 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 
 	if ('monthly' == $type) {
 		++$querycount;
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 $url  = sprintf("%s%d%02d", $archive_link_m,  $arcresult->year,   $arcresult->month);
-                $text = sprintf("%s %d",    $month[zeroise($arcresult->month,2)], $arcresult->year);
+                if ($show_post_count)
+                    $text = sprintf("%s %d (%d)", $month[zeroise($arcresult->month,2)], $arcresult->year, $arcresult->posts);
+                else
+                    $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
                 echo get_archives_link($url, $text, $format, $before, $after);
             }
         }
