@@ -1,6 +1,6 @@
 <?php
 
-require_once('../b2config.php');
+require_once('../wp-config.php');
 
 /* checking login & pass in the database */
 function veriflog() {
@@ -41,7 +41,7 @@ function veriflog() {
 		if (!empty($HTTP_COOKIE_VARS["wordpressuser"])) {
 			$error="<strong>Error</strong>: wrong login or password";
 		}
-		header("Location: $path/b2login.php");
+		header("Location: $siteurl/b2login.php");
 		exit();
 	}
 //}
