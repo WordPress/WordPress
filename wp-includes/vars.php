@@ -133,11 +133,6 @@ $b2_htmltranswinuni = array(
 	'&#159;' => '&#376;'
 );
 
-# these are used for b2's interface design
-$tabletop = "\t<table cellspacing=\"0\" cellpadding=\"1\" width=\"85%\" border=\"0\" bgcolor=\"#cccccc\" align=\"center\">\n\t<td align=\"left\">\n\t\t<table cellspacing=\"0\" cellpadding=\"15\" width=\"100%\" border=\"0\"bgcolor=\"#ffffff\" align=\"center\">\n\t\t<td align=\"left\">\n";
-$tablebottom = "\t\t</td>\n\t</table>\n\t</td>\n\t</table>\n";
-$blankline = '<img src="../wp-images/blank.gif" width="10" height="5" border="0" /><br />';
-
 # on which page are we ?
 $PHP_SELF = $HTTP_SERVER_VARS['PHP_SELF'];
 $pagenow = explode('/', $PHP_SELF);
