@@ -1451,7 +1451,7 @@ function wp_get_comment_status($comment_id) {
     }
 }
 
-function wp_notify_postauthor($comment_id, $comment_type) {
+function wp_notify_postauthor($comment_id, $comment_type='comment') {
     global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $blogfilename, $blogname, $siteurl;
