@@ -1,6 +1,28 @@
 <?php
-$title = 'Manage Plugins';
 
+if ($_GET['action']) {
+	$standalone = 1;
+	require_once('admin-header.php');
+	if ('activate' == $_GET['action']) {
+		$current = "\n" . get_settings('active_plugins') . "\n";
+		$current = preg_replace("|(\n)+\s*|", "\n", $current);
+		$current = trim($current) . "\n " . trim($_GET['plugin']);
+		$current = trim($current);
+		$current = preg_replace('|\n\s*|', '\n', $current); // I don't know where this is coming from
+		update_option('active_plugins', $current);
+		header('Location: plugins.php');
+	}
+	
+	if ('deactivate' == $_GET['action']) {
+		$current = "\n" . get_settings('active_plugins') . "\n";
+		$current = str_replace("\n" . $_GET['plugin'], '', $current);
+		$current = preg_replace("|(\n)+\s*|", "\n", $current);
+		update_option('active_plugins', trim($current));
+		header('Location: plugins.php');
+	}
+}
+
+$title = 'Manage Plugins';
 require_once('admin-header.php');
 
 if ($user_level < 9) // Must be at least level 9
@@ -20,23 +42,6 @@ foreach ($check_plugins as $check_plugin) {
 }
 
 
-if ('activate' == $_GET['action']) {
-	$current = "\n" . get_settings('active_plugins') . "\n";
-	$current = preg_replace("|(\n)+\s*|", "\n", $current);
-	$current = trim($current) . "\n " . trim($_GET['plugin']);
-	$current = trim($current);
-	$current = preg_replace('|\n\s*|', '\n', $current); // I don't know where this is coming from
-	update_option('active_plugins', $current);
-	header('Location: plugins.php');
-}
-
-if ('deactivate' == $_GET['action']) {
-	$current = "\n" . get_settings('active_plugins') . "\n";
-	$current = str_replace("\n" . $_GET['plugin'], '', $current);
-	$current = preg_replace("|(\n)+\s*|", "\n", $current);
-	update_option('active_plugins', trim($current));
-	header('Location: plugins.php');
-}
 
 ?>
 <div class="wrap">
@@ -60,6 +65,7 @@ if (!$plugins_dir || !$plugin_files) {
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<th>Plugin</th>
+		<th>Version</th>
 		<th>Author</th>
 		<th>Description</th>
 		<th>Action</th>
@@ -73,6 +79,7 @@ if (!$plugins_dir || !$plugin_files) {
 		preg_match("|Description:(.*)|i", $plugin_data, $description);
 		preg_match("|Author:(.*)|i", $plugin_data, $author_name);
 		preg_match("|Author URI:(.*)|i", $plugin_data, $author_uri);
+		preg_match("|Version:(.*)|i", $plugin_data, $version);
 		$description = wptexturize(wp_filter_kses($description[1]));
 
 		if ('' == $plugin_uri) {
@@ -99,6 +106,7 @@ if (!$plugins_dir || !$plugin_files) {
 		echo "
 	<tr $style>
 		<td>$plugin</td>
+		<td>{$version[1]}</td>
 		<td>$author</td>
 		<td>$description</td>
 		<td>$action</td>
