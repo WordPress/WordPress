@@ -88,12 +88,12 @@ function wpautop($pee, $br = 1) {
 
 function sanitize_title($title) {
     $title = strtolower($title);
-	$title = preg_replace('/&.+;/', '', $title); // kill entities
+	$title = preg_replace('/&.+?;/', '', $title); // kill entities
     $title = preg_replace('/[^a-z0-9 -]/', '', $title);
     $title = preg_replace('/\s+/', ' ', $title);
     $title = trim($title);
     $title = str_replace(' ', '-', $title);
-	$title = preg_replace('|[-]+|', '-', $title);
+	$title = preg_replace('|-+|', '-', $title);
 	return $title;
 }
 
