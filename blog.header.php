@@ -263,7 +263,7 @@ if ( !empty($postend) && ($postend > $poststart) && (!$m) && empty($monthnum) &&
 			}
 		}
 	}
-	elseif (($m) || ($p) || ($w) || ($s) || ($whichcat) || ($author)) {
+	elseif (($m) || ($p) || ($w) || ($s) || ($whichcat) || ($author) || $monthnum || $year || $day) {
 		$limits = '';
 	}
 }
@@ -306,7 +306,7 @@ if ($preview) {
 $posts = $wpdb->get_results($request);
 
 if (1 == count($posts)) {
-	if ($id || $name) {
+	if ($p || $name) {
 		$more = 1;
 		$c = 1;
 		$single = 1;
