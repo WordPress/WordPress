@@ -130,15 +130,15 @@ if ((empty($cat)) || ($cat == 'all') || ($cat == '0')) {
 		$eq = '!=';
 		$andor = 'AND';
 		$cat = explode('-',$cat);
-		$cat = $cat[1];
+		$cat = intval($cat[1]);
 	} else {
 		$eq = '=';
 		$andor = 'OR';
 	}
 	$cat_array = explode(' ',$cat);
-    $whichcat .= ' AND (post_category '.$eq.' '.$cat_array[0];
+    $whichcat .= ' AND (post_category '.$eq.' '.intval($cat_array[0]);
     for ($i = 1; $i < (count($cat_array)); $i = $i + 1) {
-        $whichcat .= ' '.$andor.' post_category '.$eq.' '.$cat_array[$i];
+        $whichcat .= ' '.$andor.' post_category '.$eq.' '.intval($cat_array[$i]);
     }
     $whichcat .= ')';
 } 
@@ -151,15 +151,15 @@ if ((empty($author)) || ($author == 'all') || ($cat == '0')) {
 		$eq = '!=';
 		$andor = 'AND';
 		$author = explode('-', $author);
-		$author = $author[1];
+		$author = ''.intval($author[1]);
 	} else {
 		$eq = '=';
 		$andor = 'OR';
 	}
 	$author_array = explode(' ', $author);
-	$whichauthor .= ' AND post_author '.$eq.' '.$author_array[0];
+	$whichauthor .= ' AND post_author '.$eq.' '.intval($author_array[0]);
 	for ($i = 1; $i < (count($author_array)); $i = $i + 1) {
-		$whichauthor .= ' '.$andor.' post_author '.$eq.' '.$author_array[$i];
+		$whichauthor .= ' '.$andor.' post_author '.$eq.' '.intval($author_array[$i]);
 	}
 }
 
@@ -173,13 +173,21 @@ if ((empty($order)) || ((strtoupper($order) != 'ASC') && (strtoupper($order) != 
 if (empty($orderby)) {
 	$orderby='date '.$order;
 } else {
+	// used to filter values
+	$allowed_keys = array('author','date','category','title');
 	$orderby = urldecode($orderby);
 	$orderby = addslashes_gpc($orderby);
 	$orderby_array = explode(' ',$orderby);
+	if (!in_array($orderby_array[0],$allowed_keys) {
+		$orderby_array[0] = 'date';
+	}
 	$orderby = $orderby_array[0].' '.$order;
 	if (count($orderby_array)>1) {
 		for ($i = 1; $i < (count($orderby_array)); $i = $i + 1) {
-			$orderby .= ',post_'.$orderby_array[$i].' '.$order;
+			// Only allow certain values for safety
+			if (in_array($orderby_array[$i],$allowed_keys) {
+				$orderby .= ',post_'.$orderby_array[$i].' '.$order;
+			}
 		}
 	}
 }
