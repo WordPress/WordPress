@@ -28,7 +28,7 @@ function category_dropdown($fieldname, $selected = 0) {
 		echo "\n\t<option value='$row->cat_id'";
 		if ($row->cat_id == $selected)
 			echo " selected='selected'";
-		echo ">$row->cat_id: $row->cat_name";
+		echo ">$row->cat_id: ".htmlspecialchars($row->cat_name);
 		if ('Y' == $row->auto_toggle)
 			echo ' (auto toggle)';
 		echo "</option>\n";
@@ -627,7 +627,7 @@ function checkAll(form)
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $cat_id)
         echo " selected='selected'";
-        echo ">".$row->cat_id.": ".$row->cat_name;
+        echo ">".$row->cat_id.": ".htmlspecialchars($row->cat_name);
         if ($row->auto_toggle == 'Y')
             echo ' (auto toggle)';
         echo "</option>\n";
