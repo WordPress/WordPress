@@ -215,6 +215,7 @@ textarea, input, select {
 .wrap {
 	background: #fff;
 	border: 1px solid #ccc;
+	clear: both;
 	margin: 15px 5%;
 	padding: .5em 1em;
 }
