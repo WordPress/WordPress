@@ -269,7 +269,7 @@ echo "\n<tr $style>
 		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>".__('Edit')."</a>";
 	echo '</td><td>';
 	if ($user_level >= 6)
-		echo "<a href='users.php?action=delete&amp;id=$user_data->ID' class='delete'>" . __('Delete'). '</a>';
+		echo "<a href='users.php?action=delete&amp;id=$user_data->ID' class='delete' onclick='return confirm(\"" . __('You are about to delete this user \n  OK to delete, Cancel to stop.') . "\")'>" . __('Delete'). '</a>';
 	echo '</td></tr>';
 
 }
