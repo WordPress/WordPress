@@ -6,6 +6,10 @@ $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
 // Fix for IIS, which doesn't set REQUEST_URI
 $_SERVER['REQUEST_URI'] = ( isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['SCRIPT_NAME'] . (( isset($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '')));
 
+if ( !(phpversion() >= '4.1') )
+	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
+
+
 // Change to E_ALL for development/debugging
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -43,17 +47,15 @@ $tableoptiongroups = $wpdb->optiongroups;
 $tableoptiongroup_options = $wpdb->optiongroup_options;
 $tablepostmeta = $wpdb->postmeta;
 
-if ( !(phpversion() >= '4.1') )
-	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
-
-
-require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/functions.php');
 timer_start();
 require (ABSPATH . WPINC . '/functions-formatting.php');
+require (ABSPATH . WPINC . '/functions-user.php');
+require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/template-functions.php');
 require (ABSPATH . WPINC . '/links.php');
 require (ABSPATH . WPINC . '/kses.php');
+
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
 $wpdb->hide_errors();
@@ -83,7 +85,7 @@ if (get_settings('hack_file')) {
 if ( get_settings('active_plugins') ) {
 	$current_plugins = get_settings('active_plugins');
 	foreach ($current_plugins as $plugin) {
-		if (file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))
+		if ('' != $plugin && file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))
 			include(ABSPATH . 'wp-content/plugins/' . $plugin);
 	}
 }
