@@ -439,7 +439,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 	}
 	
 	if ( isset($_SERVER['REMOTE_ADDR']) ) {
-		if ( $wp_proxy_check($_SERVER['REMOTE_ADDR']) ) return true;
+		if ( wp_proxy_check($_SERVER['REMOTE_ADDR']) ) return true;
 	}
 
 	return false;
