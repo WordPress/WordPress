@@ -559,7 +559,9 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
 	$http_request .= "\r\n";
 	$http_request .= $query_string;
-	$fs = @fsockopen($trackback_url['host'], 80);
+	if ( '' == $trackback_url['port'] )
+		$trackback_url['port'] = 80;
+	$fs = @fsockopen($trackback_url['host'], $trackback_url['port']);
 	@fputs($fs, $http_request);
 /*
 	$debug_file = 'trackback.log';
