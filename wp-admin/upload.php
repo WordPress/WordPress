@@ -11,6 +11,9 @@ if ($user_level == 0) //Checks to see if user has logged in
 if (!get_settings('use_fileupload')) //Checks if file upload is enabled in the config
 	die (__("The admin disabled this function"));
 
+if ( !get_settings('fileupload_minlevel') )
+	die (__("You are not allowed to upload files"));
+
 $allowed_types = explode(' ', trim(strtolower(get_settings('fileupload_allowedtypes'))));
 
 if ($_POST['submit']) {
@@ -80,11 +83,11 @@ case 'upload':
 	$imgalt = basename( (isset($_POST['imgalt'])) ? $_POST['imgalt'] : '' );
 
 	$img1_name = (strlen($imgalt)) ? $imgalt : basename( $_FILES['img1']['name'] );
-	$img1_name = preg_replace('/[^a-z0-9.]/i', '', $img1_name); 
+	$img1_name = preg_replace('/[^a-z0-9_.]/i', '', $img1_name); 
 	$img1_size = $_POST['img1_size'] ? intval($_POST['img1_size']) : intval($_FILES['img1']['size']);
 
 	$img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $_FILES['img1']['type'];
-	$imgdesc = htmlentities2($imgdesc);
+	$imgdesc = htmlentities2($_POST['imgdesc']);
 
 	$pi = pathinfo($img1_name);
 	$imgtype = strtolower($pi['extension']);
