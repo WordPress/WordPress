@@ -543,7 +543,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		else
 			$oldpath = ABSPATH;
 
-		if (! copy("$oldpath/$oldfile", "$site_dir/$newfile"))
+		if (! @copy("$oldpath/$oldfile", "$site_dir/$newfile"))
 			return false;
 
 		chmod("$site_dir/$newfile", 0777);
@@ -596,7 +596,7 @@ function make_site_theme_from_default($theme_name, $template) {
 	$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
 
 	foreach ($files as $file) {
-		if (! copy("$default_dir/$file", "$site_dir/$file"))
+		if (! @copy("$default_dir/$file", "$site_dir/$file"))
 			return;
 
 		chmod("$site_dir/$file", 0777);
