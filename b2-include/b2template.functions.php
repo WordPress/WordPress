@@ -343,7 +343,7 @@ function print_UrlPopNav() {
                    array('http://www.acme.com/mapper/?lat='.get_Lat().'&amp;long='.get_Lon().'&amp;scale=11&amp;theme=Image&amp;width=3&amp;height=2&amp;dot=Yes',
                          'Acme Mapper'),
                    array('http://geourl.org/near/?lat='.get_Lat().'&amp;lon='.get_Lon().'&amp;dist=500',
-                         'GeoUrls near here'),
+                         'GeoURLs near here'),
                    array('http://www.geocaching.com/seek/nearest.aspx?origin_lat='.get_Lat().'&amp;origin_long='.get_Lon().'&amp;dist=5',
                          'Geocaches Near Nere'),
                    array('http://www.mapquest.com/maps/map.adp?latlongtype=decimal&amp;latitude='.get_Lat().'&amp;longitude='.get_Lon(),
@@ -359,12 +359,14 @@ function print_UrlPopNav() {
                    array('http://mapserver.maptech.com/api/espn/index.cfm?lat='.get_Lat().'&amp;lon='.get_Lon().'&amp;scale=100000&amp;zoom=50&amp;type=1&amp;icon=0&amp;&amp;scriptfile=http://mapserver.maptech.com/api/espn/index.cfm',
                          'Maptech near here')
                   );
-    echo '<form name="form"><select name="site" size="1" onchange="formHandler(this.form);" >'."\n";
+    echo '<form name="form">
+<select name="site" size="1" onchange="formHandler(this.form);" >'."\n";
     echo '<option value=".">Sites referencing '.get_Lat().' x '.get_Lon()."\n";
     foreach($sites as $site) {
-        echo '<option value="'.$site[0].'">'.$site[1]."\n";
+        echo '\t<option value="'.$site[0].'">'.$site[1]."</option>\n";
     }
-    echo '</select></form>'."\n";
+    echo '</select>
+</form>'."\n";
 }
 
 function longitude_invalid() {
