@@ -139,12 +139,13 @@ function wp_update_post($postarr = array()) {
 		WHERE ID = $ID";
 		
 	$result = $wpdb->query($sql);
+	$rows_affected = $wpdb->rows_affected;
 
-	wp_set_post_cats('', $ID, $post_category);
+	wp_set_post_cats('', $ID, $post_category)
 
 	do_action('edit_post', $ID);
 
-	return $wpdb->rows_affected;
+	return $rows_affected;
 }
 
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
