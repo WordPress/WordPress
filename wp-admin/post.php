@@ -650,6 +650,7 @@ default:
 		$post_pingback = get_settings('default_pingback_flag');
 		$default_post_cat = get_settings('default_category');
 
+		$content = htmlspecialchars($content);
 		$content = apply_filters('default_content', $content);
 		$edited_post_title = apply_filters('default_title', $edited_post_title);
 		$excerpt = apply_filters('default_excerpt', $excerpt);

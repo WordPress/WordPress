@@ -55,7 +55,7 @@ window.close()
 // $post_pingback needs to be set in any file that includes edit-form.php
     $post_pingback = get_settings('default_pingback_flag');
     
-    $content = $_REQUEST['content'];
+    $content = htmlspecialchars($_REQUEST['content']);
     if (!empty($content)) {
         $content =  stripslashes($content);
     } else {
