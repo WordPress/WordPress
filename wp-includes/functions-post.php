@@ -34,10 +34,12 @@ function wp_insert_post($postarr = array()) {
 		$comment_status = get_settings('default_comment_status');
 	if (empty($ping_status))
 		$ping_status = get_settings('default_ping_status');
+	if ( empty($post_parent) )
+		$post_parent = 0;
 	
 	$sql = "INSERT INTO $wpdb->posts 
-		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name, comment_status, ping_status) 
-		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name', '$comment_status', '$ping_status')";
+		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name, comment_status, ping_status, post_parent) 
+		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name', '$comment_status', '$ping_status', '$post_parent')";
 	
 	$result = $wpdb->query($sql);
 	$post_ID = $wpdb->insert_id;
