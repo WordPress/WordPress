@@ -1397,13 +1397,13 @@ function get_theme_data($theme_file) {
 	$name = trim($name);
 	$theme = $name;
 	if ('' != $theme_uri[1] && '' != $name) {
-		$theme = __("<a href='{$theme_uri[1]}' title='Visit theme homepage'>{$theme}</a>");
+		$theme = '<a href="' . $theme_uri[1] . '" title="' . __('Visit theme homepage') . '">' . $theme . '</a>';
 	}
 
 	if ('' == $author_uri[1]) {
 		$author = $author_name[1];
 	} else {
-		$author = __("<a href='{$author_uri[1]}' title='Visit author homepage'>{$author_name[1]}</a>");
+		$author = '<a href="' . $author_uri[1] . '" title="' . __('Visit author homepage') . '">' . $author_name[1] . '</a>';
 	}
 
 	return array('Name' => $name, 'Title' => $theme, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1]);

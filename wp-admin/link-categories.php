@@ -338,13 +338,13 @@ foreach ($results as $row) {
               <tr valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
                 <td><?php echo wp_specialchars($row->cat_name)?></td>
 				<td ><?php echo $row->cat_id?></td>
-                <td><?php echo $row->auto_toggle == 'Y' ? __('Y') : __('N') ?></td>
-                <td><?php echo $row->show_images == 'Y' ? __('Y') : __('N') ?></td>
-                <td><?php echo $row->show_description == 'Y' ? __('Y') : __('N') ?></td>
-                <td><?php echo $row->show_rating == 'Y' ? __('Y') : __('N') ?></td>
-                <td><?php echo $row->show_updated == 'Y' ? __('Y') : __('N') ?></td>
+                <td><?php echo $row->auto_toggle == 'Y' ? __('Yes') : __('No') ?></td>
+                <td><?php echo $row->show_images == 'Y' ? __('Yes') : __('No') ?></td>
+                <td><?php echo $row->show_description == 'Y' ? __('Yes') : __('No') ?></td>
+                <td><?php echo $row->show_rating == 'Y' ? __('Yes') : __('No') ?></td>
+                <td><?php echo $row->show_updated == 'Y' ? __('Yes') : __('No') ?></td>
                 <td><?php echo $row->sort_order ?></td>
-                <td><?php echo $row->sort_desc == 'Y' ? __('Y') : __('N') ?></td>
+                <td><?php echo $row->sort_desc == 'Y' ? __('Yes') : __('No') ?></td>
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_before_link)?>&nbsp;</td>
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_after_link)?>&nbsp;</td>
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_after_all)?></td>

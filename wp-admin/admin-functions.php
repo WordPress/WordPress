@@ -974,13 +974,13 @@ function get_plugin_data($plugin_file) {
 	$name = trim($name);
 	$plugin = $name;
 	if ('' != $plugin_uri[1] && '' != $name) {
-		$plugin = __("<a href='{$plugin_uri[1]}' title='Visit plugin homepage'>{$plugin}</a>");
+		$plugin = '<a href="' . $plugin_uri[1] . '" title="' . __('Visit plugin homepage') . '">' . $plugin . '</a>';
 	}
 
 	if ('' == $author_uri[1]) {
 		$author = $author_name[1];
 	} else {
-		$author = __("<a href='{$author_uri[1]}' title='Visit author homepage'>{$author_name[1]}</a>");
+		$author = '<a href="' . $author_uri[1] . '" title="' . __('Visit author homepage') . '">' . $author_name[1] . '</a>';
 	}
 
 	return array('Name' => $name, 'Title' => $plugin, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1]);
