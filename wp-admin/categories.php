@@ -59,7 +59,7 @@ case 'Delete':
 	$standalone = 1;
 	require_once('b2header.php');
 
-	$cat_ID = intval($HTTP_POST_VARS["cat_ID"]);
+	$cat_ID = intval($HTTP_GET_VARS["cat_ID"]);
 	$cat_name = get_catname($cat_ID);
 	$cat_name = addslashes($cat_name);
 
@@ -76,22 +76,23 @@ case 'Delete':
 
 break;
 
-case 'Rename':
+case 'edit':
 
 	require_once ('b2header.php');
-	$cat_name = get_catname($HTTP_POST_VARS['cat_ID']);
-	$cat_name = stripslashes($cat_name);
+	$category = $wpdb->get_row("SELECT * FROM $tablecategories WHERE cat_ID = " . $HTTP_GET_VARS['cat_ID']);
+	$cat_name = stripslashes($category->cat_name);
 	?>
 
 <div class="wrap">
-	<p><strong>Old</strong> name: <?php echo $cat_name ?></p>
-	<p>
-	<form name="renamecat" action="categories.php" method="post">
-		<strong>New</strong> name:<br />
+	<h2>Edit Category</h2>
+	<form name="editcat" action="categories.php" method="post">
 		<input type="hidden" name="action" value="editedcat" />
-		<input type="hidden" name="cat_ID" value="<?php echo $HTTP_POST_VARS['cat_ID'] ?>" />
-		<input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /><br />
-		<input type="submit" name="submit" value="Edit it !" class="search" />
+		<input type="hidden" name="cat_ID" value="<?php echo $HTTP_GET_VARS['cat_ID'] ?>" />
+		<p>Category name:<br />
+		<input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /></p>
+		<p>Description:<br />
+		<textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo htmlentities($category->category_description); ?></textarea></p>
+		<p><input type="submit" name="submit" value="Edit it!" class="search" /></p>
 	</form>
 </div>
 
@@ -110,8 +111,9 @@ case 'editedcat':
 	$cat_name = addslashes(stripslashes(stripslashes($HTTP_POST_VARS['cat_name'])));
 	$cat_ID = addslashes($HTTP_POST_VARS['cat_ID']);
 	$category_nicename = sanitize_title($cat_name);
+	$category_description = $HTTP_POST_VARS['category_description'];
 
-	$wpdb->query("UPDATE $tablecategories SET cat_name = '$cat_name', category_nicename = '$category_nicename' WHERE cat_ID = $cat_ID");
+	$wpdb->query("UPDATE $tablecategories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description' WHERE cat_ID = $cat_ID");
 	
 	header('Location: categories.php');
 
@@ -127,33 +129,41 @@ default:
 	?>
 
 <div class="wrap">
-	<form name="cats" method="post">
-	<h3><label for="cat_ID">Edit a category:</label></h3>
-	<p>
+	<h2>Current Categories</h2>
+	<table width="100%">
+	<tr>
+		<th>Category Name</th>
+		<th>Description</th>
+		<th># Posts</th>
+		<th>Edit</th>
+		<th>Delete</th>
+	</tr>
 	<?php
-	$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_ID");
-	echo "<select name='cat_ID' id='cat_ID'>\n";
+	$categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY cat_name");
 	foreach ($categories as $category) {
-		echo "\t<option value='$category->cat_ID'";
-		if ($category->cat_ID == $cat)
-			echo ' selected="selected"';
-		echo ">".$category->cat_ID.": ".$category->cat_name."</option>\n";
+		$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $tablepost2cat WHERE category_id = $category->cat_ID");
+		$bgcolor = ('#eeeeee' == $bgcolor) ? '' : '#eeeeee';
+		echo "<tr bgcolor='$bgcolor'><td>$category->cat_name</td>
+		<td>$category->category_description</td>
+		<td>$count</td>
+		<td><a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID'>Edit</a></td><td><a href='categories.php?action=Delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('You are about to delete the category \'$category->cat_name\' and all its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop.')\">Delete</a></td>
+		</tr>";
 	}
-	echo "</select>\n";
-	?></p>
-	<p>
-	<input type="submit" name="action" value="Delete" class="search" />
-	<input type="submit" name="action" value="Rename" class="search" /></p>
-	</form>
-	
-	
+	?>
+	</table>
+
+</div>
+<div class="wrap">
+	<h2>Add New Category</h2>
 	<form name="addcat" action="categories.php" method="post">
-	<h3><label>Add a category:
-	<input type="text" name="cat_name" /></label><input type="hidden" name="action" value="addcat" /></h3>
-	<input type="submit" name="submit" value="Add it!" class="search" />
+		
+		<p>Category name:<br />
+		<input type="text" name="cat_name" value="" /></p>
+		<p>Description:<br />
+		<textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
+		<p><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="Add" class="search" /></p>
 	</form>
 </div>
-
 
 
 <div class="wrap"> 
