@@ -115,7 +115,7 @@ function get_archives_link($url, $text, $format = "html", $before = "", $after =
 	} else if ('option' == $format) {
 		return '<option value="'.$url.'">'.$text.'</option>'."\n";
 	} else if ('html' == $format) {
-		return "\t".'<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>'."\n";
+		return "\t".'<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a>'.$after.'</li>'."\n";
 	} else { // custom 
 		return "\t".$before.'<a href="'.$url.'" title="'.$text.'">'.$text.'</a>'.$after."\n";
 	}
@@ -165,10 +165,12 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
                 $url  = sprintf("%s%d%02d", $archive_link_m,  $arcresult->year,   $arcresult->month);
-                if ($show_post_count)
-                    $text = sprintf("%s %d (%d)", $month[zeroise($arcresult->month,2)], $arcresult->year, $arcresult->posts);
-                else
+                if ($show_post_count) {
                     $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
+                    $after = " ($arcresult->posts)";
+                } else {
+                    $text = sprintf("%s %d", $month[zeroise($arcresult->month,2)], $arcresult->year);
+                }
                 echo get_archives_link($url, $text, $format, $before, $after);
             }
         }
