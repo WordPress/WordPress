@@ -1354,8 +1354,7 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 }
 
 function query_posts($query) {
-    global $wpdb,
-        $pagenow;
+    global $wpdb, $pagenow, $request;
 
     parse_str($query);
 
