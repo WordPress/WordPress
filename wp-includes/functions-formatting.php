@@ -120,8 +120,9 @@ function remove_accents($string) {
 }
 
 function sanitize_title($title, $fallback_title = '') {
-    $title = apply_filters('sanitize_title', $title);
     $title = strip_tags($title);
+    $title = apply_filters('sanitize_title', $title);
+
     if (empty($title)) {
         $title = $fallback_title;
     }

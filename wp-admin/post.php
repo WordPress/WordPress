@@ -302,7 +302,11 @@ case 'editpost':
 		if (empty($ping_status)) $ping_status = 'closed';
 		//if (!$_POST['ping_status']) $ping_status = get_settings('default_ping_status');
 		$post_password = $_POST['post_password'];
-		$post_name = sanitize_title($_POST['post_name'], $post_ID);
+		$post_name = $_POST['post_name'];
+		if (empty($post_name)) {
+		  $post_name = $post_title;
+		}
+		$post_name = sanitize_title($post_name, $post_ID);
 		if (empty($post_name)) $post_name = sanitize_title($post_title);
 		$trackback = $_POST['trackback_url'];
 	// Format trackbacks
