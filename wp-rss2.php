@@ -32,7 +32,7 @@ header('Content-type: application/rss+xml', true);
 		<comments><?php comments_link(); ?></comments>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', $post->post_date_gmt); ?></pubDate>
 		<?php the_category_rss() ?>
-		<guid><?php echo get_permalink($id); ?></guid>
+		<guid><?php the_permalink($id); ?></guid>
 <?php $more = 1; if (get_settings('rss_use_excerpt')) {
 ?>
 		<description><?php the_excerpt_rss(get_settings('rss_excerpt_length'), 2) ?></description>

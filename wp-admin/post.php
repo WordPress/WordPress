@@ -248,7 +248,7 @@ switch($action) {
 			?>
 	<div id='preview' class='wrap'>
          <h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
-                                                                            <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="<?php printf(__("Permanent Link: %s"), the_title()); ?>"><?php the_title(); ?></a></h3>
+                                                                            <h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php printf(__("Permanent Link: %s"), the_title()); ?>"><?php the_title(); ?></a></h3>
                                                                                                                                                                                                                                                                                         <div class="meta"><?php printf(__("Filed under: %s"), the_category()); ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
 	
 	<div class="storycontent">
