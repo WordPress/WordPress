@@ -120,7 +120,7 @@ case 'post':
 			('0', '$user_ID', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt')
 			";
 	}
-	$postquery =
+
 	$result = $wpdb->query($postquery);
 
 	$post_ID = $wpdb->get_var("SELECT ID FROM $wpdb->posts ORDER BY ID DESC LIMIT 1");
