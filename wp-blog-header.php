@@ -109,7 +109,10 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 // Sending HTTP headers
 
 if ( !empty($error) && '404' == $error ) {
-	@header('HTTP/1.x 404 Not Found');
+	if ( preg_match('/cgi/', php_sapi_name()) )
+		@header('Status: 404 Not Found');
+	else
+		@header('HTTP/1.x 404 Not Found');
  } else if ( empty($feed) ) {
 	@header('X-Pingback: '. get_bloginfo('pingback_url'));
 	@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
@@ -134,7 +137,7 @@ if ( !empty($error) && '404' == $error ) {
 	    (($client_last_modified == $wp_last_modified) && ($client_etag == $wp_etag)) :
 	    (($client_last_modified == $wp_last_modified) || ($client_etag == $wp_etag)) ) {
 		if ( preg_match('/cgi/',php_sapi_name()) ) {
-		    header('HTTP/1.1 304 Not Modified');
+		    header('Status: 304 Not Modified');
 		    echo "\r\n\r\n";
 		    exit;
 		} else {
@@ -183,7 +186,10 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 		 && !empty($_SERVER['QUERY_STRING']) &&
 		 (false === strpos($_SERVER['REQUEST_URI'], '?')) ) {
 	$wp_query->is_404 = true;
-	header('HTTP/1.x 404 Not Found');
+	if ( preg_match('/cgi/', php_sapi_name()) )
+		@header('Status: 404 Not Found');
+	else
+		@header('HTTP/1.x 404 Not Found');
 }
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
