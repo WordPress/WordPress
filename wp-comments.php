@@ -1,6 +1,7 @@
 <?php // Do not delete these lines
 	if ('wp-comments.php' == basename($_SERVER['SCRIPT_FILENAME']))
 		die ('Please do not load this page directly. Thanks!');
+	$req = get_settings('require_name_email');
 	if (($withcomments) or ($single)) {
 
         if (!empty($post->post_password)) { // if there's a password
@@ -52,14 +53,14 @@
 <form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
-	   <label for="author"><?php _e("Name"); ?></label>
+	   <label for="author"><?php _e("Name"); ?></label> <?php if ($req) _e('(required)'); ?>
 	<input type="hidden" name="comment_post_ID" value="<?php echo $id; ?>" />
 	<input type="hidden" name="redirect_to" value="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" />
 	</p>
 
 	<p>
 	  <input type="text" name="email" id="email" value="<?php echo $comment_author_email; ?>" size="28" tabindex="2" />
-	   <label for="email"><?php _e("E-mail"); ?></label>
+	   <label for="email"><?php _e("E-mail"); ?></label> <?php if ($req) _e('(required)'); ?>
 	</p>
 
 	<p>
