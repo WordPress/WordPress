@@ -1721,7 +1721,7 @@ function update_post_caches($posts) {
         
     if (!empty($dogs)) {
         foreach ($dogs as $catt) {
-            $category_cache[$catt->ID][] = $catt;
+					$category_cache[$catt->ID][$catt->category_id] = $catt;
         }
     }
 
