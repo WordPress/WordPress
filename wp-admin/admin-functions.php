@@ -904,7 +904,7 @@ function get_file_description($file) {
 
 	if ( isset($wp_file_descriptions[basename($file)] ) ) {
 		return $wp_file_descriptions[basename($file)];
-	} else {
+	} elseif ( file_exists( ABSPATH . $file ) ) {
 		$template_data = implode('', file(ABSPATH . $file));
 		if ( preg_match("|Template Name:(.*)|i", $template_data, $name) )
 			return $name[1];

@@ -543,6 +543,15 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 		else
 			$oldpath = ABSPATH;
 
+		if ($oldfile == 'index.php') { // Check to make sure it's not a new index
+			$index = implode('', file("$oldpath/$oldfile"));
+			if ( strstr( $index, 'WP_USE_THEMES' ) ) {
+				if (! @copy(ABSPATH . 'wp-content/themes/default/index.php', "$site_dir/$newfile"))
+					return false;
+				continue; // Don't copy anything
+				}
+		}
+
 		if (! @copy("$oldpath/$oldfile", "$site_dir/$newfile"))
 			return false;
 
@@ -570,7 +579,7 @@ function make_site_theme_from_oldschool($theme_name, $template) {
 	}
 
 	// Add a theme header.
-	$header = "/*\nTheme Name: $theme_name\nTheme URI: " . get_option('siteurl') . "\nDescription: Your theme.\nVersion: 1\nAuthor: You\n*/\n";
+	$header = "/*\nTheme Name: $theme_name\nTheme URI: " . get_option('siteurl') . "\nDescription: A theme automatically created by the upgrade.\nVersion: 1.0\nAuthor: Moi\n*/\n";
 
 	$stylelines = file_get_contents("$site_dir/style.css");
 	if ($stylelines) {
