@@ -3,7 +3,7 @@
 require_once('../wp-config.php');
 require('upgrade-functions.php');
 
-$wpvarstoreset = array('action', 'gmpath', 'archivespath');
+$wpvarstoreset = array('action', 'gmpath', 'archivespath', 'lastentry');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
