@@ -79,7 +79,8 @@ case 'update':
 			die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
 		$newuser_pass = $_POST["pass1"];
 		$updatepassword = "user_pass=MD5('$newuser_pass'), ";
-		setcookie("wordpresspass_".$cookiehash,md5($newuser_pass),time()+31536000);
+		setcookie('wordpresspass_'.$cookiehash, " ", time() - 31536000, COOKIEPATH);
+		setcookie('wordpresspass_'.$cookiehash, md5(md5($newuser_pass)), time() + 31536000, COOKIEPATH);
 	}
 
 	$newuser_firstname=addslashes(stripslashes($_POST['newuser_firstname']));
@@ -246,6 +247,10 @@ default:
 	th { text-align: right; }
 	</style>
   <table width="99%"  border="0" cellspacing="2" cellpadding="3">
+    <tr>
+      <th width="33%" scope="row"><?php _e('Login:') ?></th>
+      <td width="73%"><?php echo $profiledata->user_login; ?></td>
+    </tr>	
     <tr>
       <th width="33%" scope="row"><?php _e('First name:') ?></th>
       <td width="73%"><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" /></td>

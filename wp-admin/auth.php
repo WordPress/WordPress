@@ -14,7 +14,7 @@ function veriflog() {
 		return false;
 	}
 
-	if (!($user_login != ''))
+	if ('' == $user_login)
 		return false;
 	if (!$user_pass_md5)
 		return false;
@@ -23,6 +23,7 @@ function veriflog() {
 
 	if (!$login) {
 		return false;
+
 	} else {
 		if ($login->user_login == $user_login && md5($login->user_pass) == $user_pass_md5) {
 			return true;
