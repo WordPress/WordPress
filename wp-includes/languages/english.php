@@ -17,16 +17,18 @@ $lang->strings = array(
 ,"archives" => "Archives:"
 ,"by" => "by"
 ,"categories" => "Categories:"
+,"close_window" => "Close this window."
+,"comment_body" => "Your Comment"
 ,"comment_count_0" => "Comments (0)"
 ,"comment_count_1" => "Comments (1)"
 ,"comment_count_n" => "Comments (%)"
-,"comments" => "Comments"
-,"comments_closed" => "Sorry, the comment form is closed at this time."
-,"comments_instruction" => 'Line and paragraph breaks automatic, e-mail address never displayed, <acronym title="Hypertext Markup Language">HTML</acronym> allowed:'
-,"comment_body" => "Your Comment"
 ,"comment_email" => "E-mail"
 ,"comment_name" => "Name"
 ,"comment_uri" => '<acronym title="Uniform Resource Identifier">URI</acronym>'
+,"comments" => "Comments"
+,"comments_closed" => "Sorry, the comment form is closed at this time."
+,"comments_instruction" => 'Line and paragraph breaks automatic, e-mail address never displayed, <acronym title="Hypertext Markup Language">HTML</acronym> allowed:'
+,"comments_on" => "Comments on __0" // post title
 ,"comments_password" => "Enter your password to view comments."
 ,"comments_rss_2" => 'Comments <abbr title="Really Simple Syndication">RSS</abbr> 2.0'
 ,"comments_rss_2_title" => "The latest comments to all posts in RSS"
@@ -40,8 +42,8 @@ $lang->strings = array(
 ,"no_posts_matched" => "Sorry, no posts matched your criteria."
 ,"other" => "Other:"
 ,"pages" => "Pages:"
-,"powered_by" => "Powered by "
-,"powered_by_title" => "Powered by WordPress, state-of-the-art semantic personal publishing platform"
+,"powered_by_title" => "Powered by WordPress; state-of-the-art semantic personal publishing platform."
+,"powered_by_wordpress" => '<cite>Powered by <a href="http://wordpress.org" title="__0"><strong>Wordpress</strong></a></cite>' // powered_by_title
 ,"register" => "Register"
 ,"rss_2" => '<abbr title="Really Simple Syndication">RSS</abbr> 2.0'
 ,"rss_2_title" => "Syndicate this site using RSS"

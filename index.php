@@ -113,6 +113,6 @@ require('wp-blog-header.php');
 
 </div>
 
-<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <cite><?php $lang->str('powered_by'); ?> <a href="http://wordpress.org" title="<?php $lang->str('powered_by_title'); ?>"><strong><?php $lang->str('wordpress'); ?></strong></a></cite></p>
+<p class="credit"><!--<?php echo $wpdb->querycount; ?> queries.--> <?php timer_stop(1); ?> || <?php $lang->str('powered_by_wordpress',$lang->str('powered_by_title','',1)); ?></p>
 </body>
 </html>
