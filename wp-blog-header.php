@@ -275,7 +275,7 @@ if ('' != $category_name) {
         $category_name = $category_name[count($category_name)-2]; // there was a trailling slash
         }
     }
-    $category_name = preg_replace('|[^a-z0-9-]|i', '', $category_name);
+    $category_name = preg_replace('|[^a-z0-9-_]|i', '', $category_name);
     $tables = ", $tablepost2cat, $tablecategories";
     $join = " LEFT JOIN $tablepost2cat ON ($tableposts.ID = $tablepost2cat.post_id) LEFT JOIN $tablecategories ON ($tablepost2cat.category_id = $tablecategories.cat_ID) ";
     $whichcat = " AND (category_nicename = '$category_name'";
@@ -323,7 +323,7 @@ if ('' != $author_name) {
         $author_name = $author_name[count($author_name)-2];#there was a trailling slash
         }
     }
-    $author_name = preg_replace('|[^a-z0-9-]|', '', strtolower($author_name));
+    $author_name = preg_replace('|[^a-z0-9-_]|', '', strtolower($author_name));
     $author = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_nicename='".$author_name."'");
     $whichauthor .= ' AND (post_author = '.intval($author).')';
 }
