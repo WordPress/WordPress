@@ -376,8 +376,8 @@ switch($action) {
         if ($user_level == 0)
             die ('Cheatin&#8217; uh?');
 
-        $post_id = $HTTP_GET_VARS['post'];
-        $postdata = get_postdata($post) or die('Oops, no post with this ID. <a href="post.php">Go back</a>!');
+        $post_id = intval($HTTP_GET_VARS['post']);
+        $postdata = get_postdata($post_id) or die('Oops, no post with this ID. <a href="post.php">Go back</a>!');
         $authordata = get_userdata($postdata['Author_ID']);
 
         if ($user_level < $authordata->user_level)
