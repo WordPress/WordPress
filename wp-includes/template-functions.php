@@ -1506,9 +1506,9 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 
     if (intval($hide_empty) == 1) {
 		$cat_counts = $wpdb->get_results("	SELECT cat_ID,
-		COUNT(wp_post2cat.post_id) AS cat_count
-		FROM wp_categories LEFT JOIN wp_post2cat ON (cat_ID = category_id)
-		LEFT JOIN wp_posts ON (ID = post_id)
+		COUNT($tablepost2cat.post_id) AS cat_count
+		FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
+		LEFT JOIN $tableposts ON (ID = post_id)
 		GROUP BY category_id");
 		foreach ($cat_counts as $cat_count) {
 			$category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
