@@ -98,7 +98,8 @@
 				// If there is an error then take note of it
 				print "<div id='error'>
 				<p><strong>SQL/DB Error:</strong><br />
-				[<span style='color: #007;'>$str</span>]</p>
+				[<span style='color: #007;'>$str</span>]<br />
+				<code>$this->last_query</code></p>
 				</div>";
 			}
 			else
