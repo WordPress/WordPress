@@ -194,7 +194,18 @@ if ((preg_match("/Nav/",$HTTP_USER_AGENT)) || (preg_match("/Mozilla\/4\.7/",$HTT
 preg_match("/\%u[1-9A-F][1-9A-F][1-9A-F][1-9A-F]/is", $text, $stufftofix);
 // ... and so on. currently coding the fix
 ?>
-      <textarea rows="<?php echo $rows ?>" cols="48" style="width:415px;" name="content" tabindex="2" class="postform"><?php echo $content ?></textarea><br />
+      <textarea rows="<?php echo $rows ?>" cols="48" style="width:415px;" name="content" id="content" tabindex="2" class="postform"><?php echo $content ?></textarea><br />
+<?php
+if ($use_quicktags) {
+?>
+<script language="JavaScript">
+<!--
+edCanvas = document.getElementById('content');
+//-->
+</script>
+<?php
+}
+?>
       <table cellpadding="0" cellspacing="0">
         <td align="left" width="90"></td>
 <?php if ($pingback) { ?>
