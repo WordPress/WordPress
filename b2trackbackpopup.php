@@ -4,51 +4,42 @@ $blog=1; include ("blog.header.php"); while($row = mysql_fetch_object($result)) 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo $blogname ?> - trackbacks on '<?php the_title() ?>'</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<meta http-equiv="reply-to" content="you@yourdomain.com" />
-<meta http-equiv="imagetoolbar" content="no" />
-<meta content="TRUE" name="MSSmartTagsPreventParsing" />
-
-<style type="text/css" media="screen">
-@import url( layout2b.css );
-</style>
-<link rel="stylesheet" type="text/css" media="print" href="b2-include/print.css" />
-<link rel="alternate" type="text/xml" title="XML" href="<?php echo $siteurl ?>/b2rss.php" />
-
+	<title><?php echo $blogname ?> - Trackbacks on "<?php the_title() ?>"</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	
+	<style type="text/css" media="screen">
+		@import url( layout2b.css );
+		body { margin: 3px; }
+	</style>
+	<link rel="stylesheet" type="text/css" media="print" href="b2-include/print.css" />
 </head>
+
 <body>
-<div id="header"><a title="<?php echo $blogname ?>"><?php echo $blogname ?></a></div>
+<h1 id="header"><a title="<?php echo $blogname ?>"><?php echo $blogname ?></a></h1>
 
 <div id="contentcomments">
 
 <div class="storyContent">
 
-<p>
-The URL to TrackBack this entry is:<br />
-&nbsp;&nbsp;<em><?php trackback_url() ?></em>
-</p>
+<p>The URL to TrackBack this entry is:</p>
+<p><em><?php trackback_url() ?></em></p>
+
 
 	<?php /* do not delete this line */ $queryc = "SELECT * FROM $tablecomments WHERE comment_post_ID = $id AND comment_content LIKE '%<trackback />%' ORDER BY comment_date"; $resultc = mysql_query($queryc); if ($resultc) { ?>
 
-<a name="trackbacks"></a>
-<p>&nbsp;</p>
-<div><strong><span style="color: #0099CC">::</span> trackbacks</strong></div>
-<p>&nbsp;</p>
-
+<h2>Trackbacks</h2>
+<ol id="trackbacks">
 	<?php /* this line is b2's motor, do not delete it */ $wxcvbn_tb=0; while($rowc = mysql_fetch_object($resultc)) { $commentdata = get_commentdata($rowc->comment_ID); $wxcvbn_tb++; ?>
 	
 <a name="tb<?php comment_ID() ?>"></a>
 	
 <!-- trackback -->
-<p>
-<?php comment_text() ?>
-<br />
-<strong><span style="color: #0099CC">&middot;</span></strong>
-<em>Tracked on <a href="<?php comment_author_url(); ?>" title="<?php comment_author() ?>"><?php comment_author() ?></a> on <?php comment_date() ?> @ <?php comment_time() ?></em>
-</p>
-<p>&nbsp;</p>
+	<li id="trackback-<?php comment_ID() ?>">
+	<?php comment_text() ?>
+	
+	<p><cite>Tracked on <a href="<?php comment_author_url(); ?>" title="<?php comment_author() ?>"><?php comment_author() ?></a> on <?php comment_date() ?> @ <?php comment_time() ?></cite></p>
+	</li>
 <!-- /trackback -->
 
 
@@ -56,12 +47,13 @@ The URL to TrackBack this entry is:<br />
 	if (!$wxcvbn_tb) { ?>
 
 <!-- this is displayed if there are no trackbacks so far -->
-<p>No Trackback on this post so far.</p>
+	<li>No trackbacks yet.</li>
+
 
 	<?php /* if you delete this the sky will fall on your head */ } ?>
+</ol>
 
-<p>&nbsp;</p>
-<div><b><span style="color: #0099CC">::</span> <a href="javascript:window.close()">close this window</a></b></div>
+<div><strong><a href="javascript:window.close()">close this window</a></strong></div>
 
 	<?php /* if you delete this the sky will fall on your head */ } ?>
 
@@ -71,9 +63,7 @@ The URL to TrackBack this entry is:<br />
 
 </div>
 
-<p class="centerP">
-[powered by <a href="http://cafelog.com" target="_blank"><b>b2</b></a>.]
-</p>
+<p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite></p>
 
 
 </body>

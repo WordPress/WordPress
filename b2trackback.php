@@ -6,7 +6,7 @@
 	$resultc = mysql_query($queryc); if ($resultc) {
 	?>
 
-<h2 id="trackback">Trackbacks</h2>
+<h2>Trackbacks</h2>
 
 <p>The URL to TrackBack this entry is:</p>
 <p><em><?php trackback_url() ?></em></p>

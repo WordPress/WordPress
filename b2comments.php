@@ -14,7 +14,7 @@
 
 <!-- you can start editing here -->
 
-<h2 id="comment">Comments</h2>
+<h2>Comments</h2>
 <ol id="comments">
 	<?php /* this line is b2's motor, do not delete it */ $wxcvbn_c=0; while($rowc = mysql_fetch_object($resultc)) { $wxcvbn_c++; $commentdata = get_commentdata($rowc->comment_ID); ?>
 	
@@ -27,7 +27,7 @@
 QQQ;
 } else {
 	echo $commentdata["comment_author"];
-} ?> <?php comment_date() ?> @ <?php comment_time() ?></cite></p>
+} ?> <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
 </li>
 <!-- /comment -->
 	<?php /* end of the loop, don't delete */ } if (!$wxcvbn_c) { ?>

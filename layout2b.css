@@ -25,7 +25,7 @@ h2 {
 	margin-bottom: 2px;
 }
 
-p {
+p, li {
 	line-height: 130%;
 }
 
@@ -116,5 +116,6 @@ p {
 }
 .b2calendaremptycell { }
 .b2calendarlinkpost { 
-    color: #f00; text-decoration: none; 
+    color: #f00;
+	text-decoration: none; 
 }
