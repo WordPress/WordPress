@@ -9,7 +9,7 @@
 
 /* Start editing */
 
-// $siteurl is your blog's URL: for example, 'http://mydomain.com' (no trailing slash !)
+// $siteurl is your blog's URL: for example, 'http://mydomain.com/wordpress' (no trailing slash !)
 // $blogfilename is the name of the default file for your blog
 // $blogname is the name of your blog
 
@@ -18,9 +18,16 @@ $blogfilename = 'index.php';
 $blogname = "my weblog";
 $blogdescription = "babblings !";
 
-// your email (obvious eh ?)
+// Your email (obvious eh?)
 $admin_email = 'you@example.com';
 
+// ** MySQL settings **
+
+// fill with your database details
+$dbname = 'b2';			// the name of the database
+$dbusername = 'user';			// your MySQL username
+$dbpassword = 'pass';		// ...and password
+$dbhost = 'localhost';		// 99% chances you won't need to change this value
 
 // set this to 0 or 1, whether you want new users to be able to post entries once they registered
 $new_users_can_blog = 0;
@@ -34,13 +41,6 @@ $users_can_register = 1;
 $start_of_week = 1;
 
 
-// ** MySQL settings **
-
-// fill with your database details
-$dbname = 'b2';			// the name of the database
-$dbusername = 'user';			// your MySQL username
-$dbpassword = 'pass';		// ...and password
-$dbhost = 'localhost';		// 99% chances you won't need to change this value
 
 // database tables' names (change them if you want to have multiple b2's in a single database)
 $tableposts = 'b2posts';
@@ -84,7 +84,7 @@ $use_balanceTags = 1;
 
 
 // set this to 0 to disable file upload, or 1 to enable it
-$use_fileupload = 1;
+$use_fileupload = 0;
 
 // enter the real path of the directory where you'll upload the pictures
 //   if you're unsure about what your real path is, please ask your host's support staff
@@ -148,8 +148,8 @@ $use_weblogsping = 0;
 // set this to 1 if you want your site to be listed on http://blo.gs when you add a new post
 $use_blodotgsping = 0;
 
-// if you ping blo.gs, this is the URL that will be sent to it (enter your blog's URL):
-$blodotgsping_url = 'http://example.com';
+// You shouldn't need to change this.
+$blodotgsping_url = $siteurl;
 
 
 
@@ -174,7 +174,7 @@ $require_name_email = 0;
 //  you can add tags to the list, just add them in the string,
 //  add only the opening tag: for example, only '<a>' instead of '<a href=""></a>'
 
-$comment_allowed_tags = '<b><i><u><strong><em><code><blockquote><p><br><strike><a>';
+$comment_allowed_tags = '<b><i><strong><em><code><blockquote><p><br><strike><a>';
 
 // set this to 1 to let every author be notified about comments on their posts
 $comments_notify = 1;
@@ -188,7 +188,7 @@ $comments_notify = 1;
 $use_smilies = 0;
 
 // the directory where your smilies are (no trailing slash)
-$smilies_directory = 'http://example.com/b2-img/smilies';
+$smilies_directory = $siteurl . '/b2-img/smilies';
 
 // here's the conversion table, you can modify it if you know what you're doing
 $b2smiliestrans = array(
@@ -319,9 +319,9 @@ $phoneemail_separator = ':::';
 /* Stop editing */
 
 
-$HTTP_HOST=getenv('HTTP_HOST');  /* domain name */
-$REMOTE_ADDR=getenv('REMOTE_ADDR'); /* visitor's IP */
-$HTTP_USER_AGENT=getenv('HTTP_USER_AGENT'); /* visitor's browser */
+$HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
+$REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
+$HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
 
 $server = $dbhost;
 $loginsql = $dbusername;
@@ -332,6 +332,6 @@ $base = $dbname;
 // This is so the new admin location works
 // Set this path separator appropriately for your OS: semi-colon on windows, colon on unix
 //$path_sep=';';
-$path_sep=':';
+$path_sep = ':';
 ini_set('include_path', ".$path_sep..$path_sep../$b2inc$path_sep./$b2inc");
 ?>
