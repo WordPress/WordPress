@@ -1,6 +1,6 @@
 
 <div class="wrap">
-
+<h2><?php _e('Write Post'); ?></h2>
 <form name="post" action="post.php" method="post" id="simple">
 
 <?php if (isset($mode) && 'bookmarklet' == $mode) : ?>
