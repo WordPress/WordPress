@@ -546,22 +546,15 @@ function previous_posts_link($label='&laquo; Previous Page') {
 }
 
 function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
-    global $request, $posts_per_page, $wpdb;
-    if (! is_single()) {
-        $show_what = get_query_var('what_to_show');
+	global $posts_per_page, $wpdb;
+	if (! is_single()) {
 
-	if (get_query_var('what_to_show') == 'posts') {
-	  $nxt_request = $request;
-	  if ($pos = strpos(strtoupper($request), 'LIMIT')) {
-            $nxt_request = substr($request, 0, $pos);
-	  }
-
-	  $nxt_result = $wpdb->query($nxt_request);
-	  $numposts = $wpdb->num_rows;
-	  $max_page = ceil($numposts / $posts_per_page);
-	} else {
-	  $max_page = 999999;
-	}
+		if (get_query_var('what_to_show') == 'posts') {
+			$numposts = $wpdb->get_var("SELECT COUNT(ID) FROM $wpdb->posts WHERE post_date_gmt <= '".gmdate('Y-m-d H:i:s')."' AND post_status = 'publish'");
+			$max_page = ceil($numposts / $posts_per_page);
+		} else {
+			$max_page = 999999;
+		}
 
         if ($max_page > 1) {
             previous_posts_link($prelabel);
