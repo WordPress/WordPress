@@ -12,6 +12,13 @@ if (!function_exists('floatval')) {
 	}
 }
 
+function get_profile($field, $user = false) {
+	global $wpdb;
+	if (!$user)
+		$user = $wpdb->escape($_COOKIE['wordpressuser_' . COOKIEHASH]);
+	return $wpdb->get_var("SELECT $field FROM $wpdb->users WHERE user_login = '$user'");
+}
+
 function mysql2date($dateformatstring, $mysqlstring, $use_b2configmonthsdays = 1) {
 	global $month, $weekday;
 	$m = $mysqlstring;
@@ -165,6 +172,7 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 
 function get_userdata($userid) {
 	global $wpdb, $cache_userdata;
+	$userid = (int) $userid;
 	if ( empty($cache_userdata[$userid]) ) {
         $cache_userdata[$userid] = 
             $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$userid'");

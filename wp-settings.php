@@ -61,16 +61,15 @@ if ( !update_user_cache() && !strstr($_SERVER['PHP_SELF'], 'install.php') )
 	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
 $wpdb->show_errors();
 
-if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF'], 'wp-admin/import')) {
-
+if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF'], 'wp-admin/import')) :
     $querystring_start = '?';
     $querystring_equal = '=';
     $querystring_separator = '&amp;';
-    //}
-    // Used to guarantee unique cookies
-    $cookiehash = md5(get_settings('siteurl'));
 
-} //end !$_wp_installing
+    // Used to guarantee unique hash cookies
+    $cookiehash = md5(get_settings('siteurl'));
+	define('COOKIEHASH', $cookiehash); 
+endif;
 
 require (ABSPATH . WPINC . '/vars.php');
 
