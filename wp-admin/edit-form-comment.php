@@ -100,5 +100,5 @@ if ($user_level > 4) {
 ?>
 
 </form>
-
+<p><a href="post.php?action=deletecomment&amp;noredir=true&amp;comment=<?php echo $commentdata['comment_ID']; ?>&amp;p=<?php echo $commentdata['comment_post_ID']; ?>">Delete this comment</a>.</p>
 </div>

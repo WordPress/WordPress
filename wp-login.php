@@ -200,7 +200,6 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 
 break;
 
-
 case 'retrievepassword':
 
 	$user_login = $HTTP_POST_VARS["user_login"];
@@ -211,6 +210,7 @@ case 'retrievepassword':
 	if (!$user_email) die('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username?');
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
+	$message .= "Login at: $siteurl/wp-login.php";
 
 	$m = mail($user_email, "[$blogname] Your weblog's login/password", $message);
 

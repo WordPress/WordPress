@@ -209,17 +209,18 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 		if ($user_level > 0) {
 
 			$post_title = xmlrpc_getposttitle($content);
-			$post_category = xmlrpc_getpostcategory($content);
+			$post_categories[] = xmlrpc_getpostcategory($content);
 
 			if ($post_title == '') {
 				$post_title = $subject;
 			}
-			if ($post_category == '') {
-				$post_category = $default_category;
+			if (empty($post_categories)) {
+				$post_categories[] = $default_category;
 			}
 
 			if (!$thisisforfunonly) {
 				$post_title = addslashes(trim($post_title));
+				$content = preg_replace("|\n([^\n])|", " $1", $content);
 				$content = addslashes(trim($content));
                 if($flat > 500) {
                     $sql = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category) VALUES ($post_author, '$post_date', '$content', '$post_title', $post_category)";
@@ -237,16 +238,28 @@ for ($iCount=1; $iCount<=$Count; $iCount++) {
 				if($flat < 500) {
 					pingGeoUrl($post_ID);	
 				}
-                // HACK HACK HACK this next line is commented out because I don't know what the word-press replacement
-                // is.  right now it's undefined and does not work				
-				//rss_update($blog_ID);
+
 				pingWeblogs($blog_ID);
-				pingCafelog($cafelogID, $post_title, $post_ID);
 				pingBlogs($blog_ID);
 				pingback($content, $post_ID);
 			}
 			echo "\n<p><b>Posted title:</b> $post_title<br />";
 			echo "\n<b>Posted content:</b><br /><pre>".$content.'</pre></p>';
+
+		if (!$post_categories) $post_categories[] = 1;
+		foreach ($post_categories as $post_category) {
+			// Double check it's not there already
+			$exists = $wpdb->get_row("SELECT * FROM $tablepost2cat WHERE post_id = $post_ID AND category_id = $post_category");
+
+			 if (!$exists && $result) { 
+			 	$wpdb->query("
+				INSERT INTO $tablepost2cat
+				(post_id, category_id)
+				VALUES
+				($post_ID, $post_category)
+				");
+			}
+		}
 
 			if(!$pop3->delete($iCount)) {
 				echo '<p>Oops '.$pop3->ERROR.'</p></div>';
