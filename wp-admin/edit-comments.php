@@ -10,7 +10,7 @@ else $mode = $_GET['mode'];
 <ul id="adminmenu2">
 	<li><a href="edit.php"><?php _e('Posts') ?></a></li>
     <li><a href="edit-comments.php" class="current"><?php _e('Comments') ?></a></li>
-    <li class="last"><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li>
+    <li><a href="moderation.php"><?php _e('Awaiting Moderation') ?></a></li>
 </ul>
 <script type="text/javascript">
 <!--
@@ -67,17 +67,17 @@ if (isset($_GET['s'])) {
 }
 if ('view' == $mode) {
 	if ($comments) {
-		echo '<ol>';
+		echo '<ol class="commentlist">';
 		foreach ($comments as $comment) {
 		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
 			$comment_status = wp_get_comment_status($comment->comment_ID);
 			if ('unapproved' == $comment_status) {
-				echo '<li class="unapproved" style="border-bottom: 1px solid #ccc;">';
+				echo '<li class="unapproved">';
 			} else {
-				echo '<li style="border-bottom: 1px solid #ccc;">';
+				echo '<li>';
 			}
 		?>		
-        <p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('E-mail:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_email) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
+        <p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('E-mail:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 		
 		<?php comment_text() ?>
 
