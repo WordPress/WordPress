@@ -132,9 +132,6 @@ case 'resetpass' :
 		die( __('Sorry, that key does not appear to be valid.') );
 
 	do_action('password_reset');
-echo "doing password reset for : {$user->user_login}<br/>";
-exit;
-
 
 	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
  	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$new_pass'), user_activation_key = '' WHERE user_login = '$user->user_login'");
