@@ -110,17 +110,16 @@ function single_month_title($prefix = '', $display = true ) {
 	}
 }
 
+/* link navigation hack by Orien http://icecode.com/ */
 function get_archives_link( $url, $text, $format ) {
 	if ('link' == $format) {
-		echo "	<link rel='Archives' title='$text' href='$url' />\n";
+		echo '<link rel="Archives" title="'.$text.'" href="'.$url.'" />'."\n";
 	} else {
-		echo "<li><a href='$url'>";
-		echo $text;
-		echo "</a></li>\n";
+		echo '<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>'."\n";
 	}
 }
 
-function get_archives($type='', $limit='',$format='html') {
+function get_archives($type='', $limit='', $format='html') {
 	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
     GLOBAL $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
 
