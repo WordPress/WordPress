@@ -297,8 +297,8 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
         $cat_counts = $wpdb->get_results("    SELECT cat_ID,
         COUNT($tablepost2cat.post_id) AS cat_count
         FROM $tablecategories 
-	LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
-        LEFT JOIN $tableposts ON (ID = post_id)
+	INNER JOIN $tablepost2cat ON (cat_ID = category_id)
+        INNER JOIN $tableposts ON (ID = post_id)
 	WHERE 1 = 1 $exclusions
         GROUP BY category_id");
         foreach ($cat_counts as $cat_count) {
