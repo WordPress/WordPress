@@ -20,6 +20,8 @@ function get_the_category($id = false) {
 
 		if (!empty($categories))
 			sort($categories);
+ 		else
+ 			$categories = array();
 
 		return $categories;
 }
