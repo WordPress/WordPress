@@ -45,14 +45,15 @@ case "update":
 	$newwhat_to_show=addslashes($HTTP_POST_VARS["newwhat_to_show"]);
 	$newarchive_mode=addslashes($HTTP_POST_VARS["newarchive_mode"]);
 	$newtime_difference=addslashes($HTTP_POST_VARS["newtime_difference"]);
-	$newautobr=addslashes($HTTP_POST_VARS["newautobr"]);
+	//no longer use this? $newautobr=addslashes($HTTP_POST_VARS["newautobr"]);
+    $newautobr = 0;
 	$newtime_format=addslashes($HTTP_POST_VARS["newtime_format"]);
 	$newdate_format=addslashes($HTTP_POST_VARS["newdate_format"]);
 	
 	$query = "UPDATE $tablesettings SET posts_per_page=$newposts_per_page, what_to_show='$newwhat_to_show', archive_mode='$newarchive_mode', time_difference=$newtime_difference, AutoBR=$newautobr, time_format='$newtime_format', date_format='$newdate_format' WHERE ID = 1";
 	$result = mysql_query($query);
 	if ($result==false) {
-		$oops = "<b>ERROR</b>: couldn't update the options... please contact the <a href=\"mailto:$admin_email\">webmaster</a> !<br /><br />".mysql_errno().": ".mysql_error();
+		$oops = "<b>ERROR</b>: couldn't update the options... please contact the <a href=\"mailto:$admin_email\">webmaster</a> !<br />$query<br />".mysql_errno().": ".mysql_error();
 		die ($oops);
 	}
 	
