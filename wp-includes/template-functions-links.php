@@ -341,7 +341,7 @@ function get_pagenum_link($pagenum = 1){
    $home_root = preg_replace('|/+|i', '/', $home_root);
    $qstr = str_replace($home_root . '/', '', $qstr);
    $qstr = preg_replace('|^/+|', '', $qstr);
-   return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit(get_settings('home')).$qstr);
+   return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . trailingslashit($qstr) );
 }
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
