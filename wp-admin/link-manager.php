@@ -306,7 +306,7 @@ switch ($action) {
     if ($user_level < get_settings('links_minadminlevel')) {
       die(__('You do not have sufficient permissions to edit the links for this blog.'));
     }
-
+    $link_id = $_GET["link_id"];
     $row = $wpdb->get_row("SELECT * 
 	FROM $wpdb->links 
 	WHERE link_id = $link_id");
