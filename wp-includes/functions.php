@@ -322,7 +322,8 @@ function get_alloptions() {
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
-		if (@ $value =  unserialize($option->option_value) ) return $value;
+		if (@ $value =  unserialize($option->option_value) )
+			$all_options->{$option->option_name} = $value;
 		else $value = $option->option_value;
 			$all_options->{$option->option_name} = $value;
 		}
@@ -1509,7 +1510,7 @@ function update_post_caches($posts) {
 
 function update_category_cache() {
     global $cache_categories, $wpdb;
-    $dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE 1=1");
+    $dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
     foreach ($dogs as $catt) {
         $cache_categories[$catt->cat_ID] = $catt;
     }
