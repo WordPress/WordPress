@@ -296,6 +296,11 @@ It will display a list of &lt;option name="<em>x</em>"&gt;<em>category-name</em>
   <ul> 
     <li>0 or 1, depending if you want to have an option to display all categories (default is 1)</li> 
     <li>text to display for the option to show all categories (default is "All")</li> 
+    <li>sort by: possible values are 'name' and 'ID' (default is 'ID')</li> 
+    <li>sorting order: possible values are 'asc' for ascending or 'desc' for descending (default is 'asc')</li> 
+    <li>0 or 1. 1 means to display the date of the last post in each category (default is 0)</li>
+    <li>0 or 1. 1 means to display a count of posts in each category (default is 0)</li>
+    <li>0 or 1. 1 means to hide empty categories (default is 1)</li>
   </ul> 
 </div>
 <br /> 
@@ -308,14 +313,18 @@ you can use it like this: <br />
 <br /> 
 <strong>&lt;?php list_cats() ?&gt; <br /> 
 </strong>This tag is out of the WordPress loop.<br /> 
-It will display a list of the categories, with links to them. like in b2archive.php, each category is on a line, the only way you can change this is by editing b2.template.functions.php<br /> 
+It will display a list of the categories, with links to them.
 <div class="params">Parameters:
   <ul> 
-    <li>0 or 1, depending if you want to have an option to display all categories (default is 1)</li> 
+    <li>0 or 1. 1 means to display all an extra 'all' category (default is 1)</li> 
     <li>text to display for the option to show all categories (default is 'All')</li> 
     <li>sort by: possible values are 'name' and 'ID' (default is 'ID')</li> 
     <li>sorting order: possible values are 'asc' for ascending or 'desc' for descending (default is 'asc')</li> 
     <li>filename, in case you want to display the categories' posts in another template (default is current template)</li> 
+    <li>0 or 1. 1 means to generate the items inside &lt;li&gt; tags, to build an HTML list. 0 means to just follow each link with a &lt;br /&gt; tag. (default is 1)</li>
+    <li>0 or 1. 1 means to display the date of the last post in each category (default is 0)</li>
+    <li>0 or 1. 1 means to display a count of posts in each category (default is 0)</li>
+    <li>0 or 1. 1 means to hide empty categories (default is 1)</li>
   </ul> 
 </div>
 <br /> 
@@ -506,19 +515,29 @@ typically, under the post itself. don't worry, the comments only appear if the p
 This tag is out of the b2 TrackBacks loop.<br /> 
 It will output the URL to TrackBack the post, that other people can copy and use in b2's posting interface to trackback this post.<br /> 
 <p>  In b2comments.php, like in the main template file, please keep the first PHP lines, the "while" lines, and the "}" lines.</p>
-<p>You can modify the form, but do not remove "&lt;?php echo ... ?&gt;" and all the name="..." attributes.<br /> 
-  <br />
-To <strong>include your archives:</strong><br /> 
-<br /> 
-<strong>&lt;?php get_archives('archivetype') ?&gt;</strong></p>
-<p>&quot;archivetype&quot; can be any of the following:</p>
-<ul>
-  <li>postbypost</li>
-  <li>daily</li>
-  <li>weekly</li>
-  <li>monthly</li>
-</ul>
-<p>To <strong>include the calendar:</strong></p>
+<p>You can modify the form, but do not remove "&lt;?php echo ... ?&gt;" and all the name="..." attributes.</p>
+<br />
+<p><strong>To include your archives:</strong></p>
+<p><strong>&lt;?php get_archives() ?&gt;</strong></p>
+<div class="params">Parameters for <strong>get_archives()</strong>:
+  <ul> 
+    <li>archivetype: 'postbypost', 'daily', 'weekly', or 'monthly' (default is to use the archive_mode setting from the admin interface)</li>
+    <li>limit: how many archive links to display (default is to show all)</li>
+    <li>format:
+      <ul>
+        <li>'html': create as &lt;li&gt; items for an HTML list (default)</li>
+        <li>'option': create option values for a &lt;select&gt; dropdown menu</li>
+        <li>'link': create &lt;link&gt; elements for the &lt;head&gt; section of a page</li>
+        <li>'custom': use before and after values to format links</li>
+      </ul>
+    </li>
+    <li>before: text to prepend to link</li>
+    <li>after: text to append to link</li>
+    <li>0 or 1: 1 means to display link counts</li>
+  </ul> 
+</div>
+<br />
+<p><strong>To include the calendar:</strong></p>
 <p><strong>&lt;?php include("b2calendar.php") ?&gt;</strong><br />
   this will include a table with the current month's calendar, each day when you posted shows a link to this day's posts. You can customise this table with CSS classes: </p>
 <div class="params"> <strong>.b2calendarmonth {}</strong><br /> 
