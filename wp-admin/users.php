@@ -57,6 +57,14 @@ case 'adduser':
 		die (__('<strong>ERROR</strong>: This login is already registered, please choose another one.'));
 	}
 
+	/* checking e-mail address */
+	if (empty($_POST["email"])) {
+		die (__("<strong>ERROR</strong>: please type an e-mail address"));
+		return false;
+	} else if (!is_email($_POST["email"])) {
+		die (__("<strong>ERROR</strong>: the email address isn't correct"));
+		return false;
+	}
 
 	$user_login = addslashes(stripslashes($user_login));
 	$pass1 = addslashes(stripslashes($pass1));
