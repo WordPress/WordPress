@@ -12,6 +12,10 @@ class WP_Query {
     var $is_single = false;
     var $is_archive = false;
     var $is_date = false;
+    var $is_year = false;
+    var $is_month = false;
+    var $is_day = false;
+    var $is_time = false;
     var $is_author = false;
     var $is_category = false;
     var $is_search = false;
@@ -22,6 +26,10 @@ class WP_Query {
         $this->is_single = false;
         $this->is_archive = false;
         $this->is_date = false;
+	$this->is_year = false;
+	$this->is_month = false;
+	$this->is_day = false;
+	$this->is_time = false;
         $this->is_author = false;
         $this->is_category = false;
         $this->is_search = false;
@@ -49,33 +57,55 @@ class WP_Query {
             $this->is_single = true;            
         }
 
-        if ('' != $qv['m']) {
+        if ('' != $qv['second']) {
+            $this->is_time = true;
+            $this->is_date = true;
+        }
+
+        if ('' != $qv['minute']) {
+            $this->is_time = true;
             $this->is_date = true;
         }
 
         if ('' != $qv['hour']) {
-            $this->is_date = true;            
-        }
-
-        if ('' != $qv['minute']) {
-            $this->is_date = true;
-        }
-
-        if ('' != $qv['second']) {
-            $this->is_date = true;
-        }
-
-        if ('' != $qv['year']) {
-            $this->is_date = true;
-        }
-
-        if ('' != $qv['monthnum']) {
-            $this->is_date = true;
+  	    $this->is_time = true;
+	    $this->is_date = true;
         }
 
         if ('' != $qv['day']) {
+	  if (! $this->is_date) {
+	    $this->is_day = true;
             $this->is_date = true;
+	  }
         }
+
+        if ('' != $qv['monthnum']) {
+	  if (! $this->is_date) {
+	    $this->is_month = true;
+            $this->is_date = true;
+	  }
+        }
+
+        if ('' != $qv['year']) {
+	  if (! $this->is_date) {
+	    $this->is_year = true;
+            $this->is_date = true;
+	  }
+        }
+
+        if ('' != $qv['m']) {
+            $this->is_date = true;
+
+            if (strlen($qv['m']) > 9) {
+	      $this->is_time = true;
+	    } else if (strlen($qv['m']) > 7) {
+	      $this->is_day = true;
+	    } else if (strlen($qv['m']) > 5) {
+	      $this->is_month = true;
+	    } else {
+	      $this->is_year = true;
+	    }
+	}
 
         if ('' != $qv['w']) {
             $this->is_date = true;

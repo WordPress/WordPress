@@ -1602,6 +1602,30 @@ function is_date () {
     return $wp_query->is_date;
 }
 
+function is_year () {
+    global $wp_query;
+
+    return $wp_query->is_year;
+}
+
+function is_month () {
+    global $wp_query;
+
+    return $wp_query->is_month;
+}
+
+function is_day () {
+    global $wp_query;
+
+    return $wp_query->is_day;
+}
+
+function is_time () {
+    global $wp_query;
+
+    return $wp_query->is_time;
+}
+
 function is_author () {
     global $wp_query;
 
