@@ -6,7 +6,7 @@ $parent_file = 'edit.php';
 
 require_once('admin-header.php');
 if (empty($_GET['mode'])) $mode = 'view';
-else $mode = $_GET['mode'];
+else $mode = htmlspecialchars($_GET['mode']);
 ?>
 
 <script type="text/javascript">
@@ -106,7 +106,7 @@ if ('view' == $mode) {
 </ol>
 <form action="" method="get">
 <p class="submit">
-<input type="hidden" name="offset" value="<?php echo $_GET['offset']+ 1; ?>" />
+<input type="hidden" name="offset" value="<?php echo $_GET['offset'] + 1; ?>" />
 <input type="submit" name="submit" value="<?php _e('View Next 20 Comments &raquo;');?>" />
 </p>
 </form>

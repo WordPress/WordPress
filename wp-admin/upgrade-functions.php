@@ -33,8 +33,8 @@ function upgrade_100() {
 
 
 	$wpdb->query("UPDATE $wpdb->options SET option_value = REPLACE(option_value, 'wp-links/links-images/', 'wp-images/links/')
-                                                      WHERE option_name LIKE 'links_rating_image%'
-                                                      AND option_value LIKE 'wp-links/links-images/%'");
+	WHERE option_name LIKE 'links_rating_image%'
+	AND option_value LIKE 'wp-links/links-images/%'");
 
 	$done_ids = $wpdb->get_results("SELECT DISTINCT post_id FROM $wpdb->post2cat");
 	if ($done_ids) :
@@ -148,7 +148,7 @@ function upgrade_130() {
             $post_title = addslashes(deslash($post->post_title));
             $post_excerpt = addslashes(deslash($post->post_excerpt));
 			if ( empty($post->guid) )
-				$guid = get_option('home') . '/' . get_permalink();
+				$guid = get_permalink($post->ID);
 			else
 				$guid = $post->guid;
 
@@ -194,7 +194,7 @@ function upgrade_130() {
 
 	// Update comments table to use comment_type
 	$wpdb->query("UPDATE $wpdb->comments SET comment_type='trackback', comment_content = REPLACE(comment_content, '<trackback />', '') WHERE comment_content LIKE '<trackback />%'");
-	$wpdb->query("UPDATE $wpdb->comments SET comment_type='trackback', comment_content = REPLACE(comment_content, '<pingback />', '') WHERE comment_content LIKE '<pingback />%'");
+	$wpdb->query("UPDATE $wpdb->comments SET comment_type='pingback', comment_content = REPLACE(comment_content, '<pingback />', '') WHERE comment_content LIKE '<pingback />%'");
 
 }
 
