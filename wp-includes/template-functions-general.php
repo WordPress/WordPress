@@ -340,7 +340,7 @@ function get_calendar($daylength = 1) {
         if (strlen($m) < 6) {
             $thismonth = '01';
         } else {
-	    $thismonth = ''.zeroise(intval(substr($m, 4, 2), 2));
+            $thismonth = ''.zeroise(intval(substr($m, 4, 2)), 2);
         }
     } else {
         $thisyear = gmdate('Y', current_time('timestamp'));
