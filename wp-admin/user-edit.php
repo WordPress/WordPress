@@ -58,9 +58,9 @@ $new_email       = $_POST['new_email'];
 $new_url         = $_POST['new_url'];
 $new_url         = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $new_url) ? $new_url : 'http://' . $new_url; 
 $new_idmode      = $_POST['new_idmode'];
-$new_description = $_POST['user_description'];
+$new_description = $_POST['new_description'];
 
-$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', user_firstname = '$new_firstname', $updatepassword user_lastname='$new_lastname', user_nickname='$new_nickname', user_icq='$new_icq', user_email='$new_email', user_url='$new_url', user_aim='$new_aim', user_msn='$new_msn', user_yim='$new_yim', user_idmode='$new_idmode', user_description = '$user_description', user_nicename = '$new_nicename' WHERE ID = $user_id");
+$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', user_firstname = '$new_firstname', $updatepassword user_lastname='$new_lastname', user_nickname='$new_nickname', user_icq='$new_icq', user_email='$new_email', user_url='$new_url', user_aim='$new_aim', user_msn='$new_msn', user_yim='$new_yim', user_idmode='$new_idmode', user_description = '$new_description', user_nicename = '$new_nicename' WHERE ID = $user_id");
 
 header("Location: user-edit.php?user_id=$user_id&updated=true");
 
@@ -87,7 +87,7 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
     <li><a href="profile.php"><?php _e('Your Profile') ?></a></li>
 </ul>
 
-<?php if ( isset($updated) ) : ?>
+<?php if ( isset($_GET['updated']) ) : ?>
 <div class="updated">
 	<p><strong><?php _e('User updated.') ?></strong></p>
 </div>
