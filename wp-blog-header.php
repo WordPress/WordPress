@@ -82,7 +82,7 @@ if ((isset($_GET['error']) && $_GET['error'] == '404') ||
 	}
  }
 
-$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','poststart','postend','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error');
+$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error');
 
 $wpvarstoreset = apply_filters('query_vars', $wpvarstoreset);
 

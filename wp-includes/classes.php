@@ -66,7 +66,7 @@ class WP_Query {
 
 		if ('' != $qv['name']) {
 			$this->is_single = true;
-		} elseif ( $qv['p'] && $qv['p'] != 'all' ) {
+		} elseif ( $qv['p'] ) {
 			$this->is_single = true;
 		} elseif (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
 			// If year, month, day, hour, minute, and second are set, a single 
@@ -133,7 +133,7 @@ class WP_Query {
 				$this->is_date = true;
 			}
 
-			if (empty($qv['cat']) || ($qv['cat'] == 'all') || ($qv['cat'] == '0')) {
+			if (empty($qv['cat']) || ($qv['cat'] == '0')) {
 				$this->is_category = false;
 			} else {
 				if (stristr($qv['cat'],'-')) {
@@ -147,7 +147,7 @@ class WP_Query {
 				$this->is_category = true;
 			}
             
-			if ((empty($qv['author'])) || ($qv['author'] == 'all') || ($qv['author'] == '0')) {
+			if ((empty($qv['author'])) || ($qv['author'] == '0')) {
 				$this->is_author = false;
 			} else {
 				$this->is_author = true;
@@ -298,12 +298,12 @@ class WP_Query {
 		}
 
 		// If a post number is specified, load that post
-		if (($q['p'] != '') && ($q['p'] != 'all') && intval($q['p']) != 0) {
+		if (($q['p'] != '') && intval($q['p']) != 0) {
 			$q['p'] =  (int) $q['p'];
 			$where = ' AND ID = ' . $q['p'];
 		}
 
-		if (($q['page_id'] != '') && ($q['page_id'] != 'all')) {
+		if (($q['page_id'] != '') && (intval($q['page_id']) != 0)) {
 			$q['page_id'] = intval($q['page_id']);
 			$q['p'] = $q['page_id'];
 			$where = ' AND ID = '.$q['page_id'];
@@ -338,7 +338,7 @@ class WP_Query {
 
 		// Category stuff
 
-		if ((empty($q['cat'])) || ($q['cat'] == 'all') || ($q['cat'] == '0') || 
+		if ((empty($q['cat'])) || ($q['cat'] == '0') || 
 				// Bypass cat checks if fetching specific posts
 				(
 				 intval($q['year']) || intval($q['monthnum']) || intval($q['day']) || intval($q['w']) ||
@@ -397,7 +397,7 @@ class WP_Query {
 
 		// Author/user stuff
 
-		if ((empty($q['author'])) || ($q['author'] == 'all') || ($q['author'] == '0')) {
+		if ((empty($q['author'])) || ($q['author'] == '0')) {
 			$whichauthor='';
 		} else {
 			$q['author'] = ''.urldecode($q['author']).'';
@@ -464,17 +464,10 @@ class WP_Query {
 			}
 		}
 
-		if ($q['p'] == 'all') {
-			$where = '';
-		}
-
 		$now = gmdate('Y-m-d H:i:59');
 
 		if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
-			if ((empty($q['poststart'])) || (empty($q['postend'])) || !($q['postend'] > $q['poststart'])) {
-				$where .= " AND post_date_gmt <= '$now'";
-			}
-
+			$where .= " AND post_date_gmt <= '$now'";
 			$distinct = 'DISTINCT';
 		}
 
@@ -496,24 +489,7 @@ class WP_Query {
 		$join = apply_filters('posts_join', $join);
 
 		// Paging
-		if ( !empty($q['postend']) && ($q['postend'] > $q['poststart']) ) {
-			if ($q['what_to_show'] == 'posts') {
-				$q['poststart'] = intval($q['poststart']);
-				$q['postend'] = intval($q['postend']);
-				$limposts = $q['postend'] - $q['poststart'];
-				$limits = ' LIMIT '.$q['poststart'].','.$limposts;
-			} elseif ($q['what_to_show'] == 'days') {
-				$q['poststart'] = intval($q['poststart']);
-				$q['postend'] = intval($q['postend']);
-				$limposts = $q['postend'] - $q['poststart'];
-				$lastpostdate = get_lastpostdate();
-				$lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
-				$lastpostdate = mysql2date('U',$lastpostdate);
-				$startdate = date('Y-m-d H:i:s', ($lastpostdate - (($q['poststart'] -1) * 86400)));
-				$otherdate = date('Y-m-d H:i:s', ($lastpostdate - (($q['postend'] -1) * 86400)));
-				$where .= " AND post_date > '$otherdate' AND post_date < '$startdate'";
-			}
-		} else if (empty($q['nopaging']) && ! is_single()) {
+		if (empty($q['nopaging']) && ! is_single()) {
 			$page = $q['paged'];
 			if (empty($page)) {
 				$page = 1;
