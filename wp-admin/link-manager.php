@@ -607,10 +607,10 @@ function checkAll(form)
     <table width="75%" cellpadding="3" cellspacing="3">
       <tr>
         <td>
-          <strong>Show</strong> links in category:<?php echo gethelp_link($this_file,'link_categories');?><br />
+        <?php printf(__('<strong>Show</strong> links in category: %s'), gethelp_link($this_file,'link_categories'));?><br />
         </td>
         <td>
-          <strong>Order</strong> by:<?php echo gethelp_link($this_file,'order_by');?>
+          <?php printf(__('<strong>Order</strong> by: %s'), gethelp_link($this_file,'order_by'));?>
         </td>
 		<td>&nbsp;</td>
       </tr>
@@ -622,7 +622,7 @@ function checkAll(form)
     echo "          <option value=\"All\"";
     if ($cat_id == 'All')
       echo " selected='selected'";
-    echo "> All</option>\n";
+    echo "> " . __('All') . "</option>\n";
     foreach ($results as $row) {
       echo "          <option value=\"".$row->cat_id."\"";
       if ($row->cat_id == $cat_id)
@@ -706,12 +706,13 @@ function checkAll(form)
             ++$i;
             $style = ($i % 2) ? ' class="alternate"' : '';
             echo <<<LINKS
- 
- 
+
     <tr valign="middle" $style>
         <td><strong>$link->link_name</strong><br />
-        Description: $link->link_description</td>
-        <td><a href="$link->link_url" title="Visit $link->link_name">$short_url</a></td>
+LINKS;
+        echo sprintf(__('Description: %s'), $link->link_description) . "</td>";
+        echo "<td><a href=\"$link->link_url\" title=\"" . sprintf(__('Visit %s'), $link->link_name) . "\">$short_url</a></td>";
+        echo <<<LINKS
         <td>$link->category</td>
         <td>$link->link_rel</td>
         <td align='center'>$image</td>
@@ -724,11 +725,9 @@ LINKS;
             }
 
             if ($show_buttons) {
-              echo <<<LINKS
-        <td><a href="link-manager.php?link_id=$link->link_id&amp;action=linkedit" class="edit">Edit</a></td>
-        <td><a href="link-manager.php?link_id=$link->link_id&amp;action=Delete" onclick="return confirm('You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.');" class="delete">Delete</a></td>
-        <td><input type="checkbox" name="linkcheck[]" value="$link->link_id" /></td>
-LINKS;
+        echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=linkedit" class="edit">' . __('Edit') . '</a></td>';
+        echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=Delete"' .  "onclick=\"return confirm('" . __("You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.") .  "');" . '" class="delete">' . __('Delete') . '</a></td>';
+        echo '<td><input type="checkbox" name="linkcheck[]" value="' . $link->link_id . '" /></td>';
             } else {
               echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>\n";
             }

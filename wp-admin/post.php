@@ -773,8 +773,8 @@ window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=50
 </script>
 <br />
 <br />
-One-click bookmarklet:<br />
-<a href="javascript:oneclickbookmarklet(0);">click here</a> 
+<?php _e('One-click bookmarklet:') ?><br />
+<a href="javascript:oneclickbookmarklet(0);"><?php _e('click here') ?></a> 
 <?php
 } else if ($is_opera) {
 ?>

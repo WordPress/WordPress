@@ -54,9 +54,9 @@ include('options-head.php');
                 <th width="33%" scope="row"><?php _e('Show the most recent:') ?></th> 
 				<td><input name="posts_per_page" type="text" id="posts_per_page" value="<?php echo get_settings('posts_per_page'); ?>" size="3" /> 
 					<select name="what_to_show" id="what_to_show" > 
-						<option value="days" <?php selected('days', get_settings('what_to_show')); ?>>days</option> 
-						<option value="posts" <?php selected('posts', get_settings('what_to_show')); ?>>posts</option> 
-						<option value="paged" <?php selected('paged', get_settings('what_to_show')); ?>>posts paged</option> 
+                                                <option value="days" <?php selected('days', get_settings('what_to_show')); ?>><?php _e('days') ?></option> 
+						<option value="posts" <?php selected('posts', get_settings('what_to_show')); ?>><?php _e('posts') ?></option> 
+						<option value="paged" <?php selected('paged', get_settings('what_to_show')); ?>><?php _e('posts paged') ?></option> 
 					</select> </td> 
 			</tr> 
 		</table> 

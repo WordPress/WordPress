@@ -344,14 +344,13 @@ function addPanel()
             alert(<?php __("'No Sidebar found!  You must use Mozilla 0.9.4 or later!'") ?>);
         }
 </script>
-    <strong>SideBar</strong><br />
-    Add the <a href="#" onClick="addPanel()">WordPress Sidebar</a>! 
+    <strong><?php _e('SideBar') ?></strong><br />
+    <?php _e('Add the <a href="#" onClick="addPanel()">WordPress Sidebar</a>!') ?> 
     <?php } elseif (($is_winIE) || ($is_macIE)) { ?>
-    <strong>SideBar</strong><br />
-    Add this link to your favorites:<br />
-    <a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo get_settings('siteurl');
-	 ?>/wp-admin/sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))">WordPress 
-    Sidebar</a>. 
+    <strong><?php _e('SideBar') ?></strong><br />
+    <?php __('Add this link to your favorites:') ?><br />
+<a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo get_settings('siteurl');
+	 ?>/wp-admin/sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))"><?php _e('WordPress Sidebar') ?></a>. 
     
 </div>
 <?php } ?>

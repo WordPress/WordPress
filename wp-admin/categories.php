@@ -101,7 +101,7 @@ case 'edit':
         <input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /></p>
         <p><?php _e('Category parent:') ?><br />
         <select name='cat' class='postform'>
-        <option value='0'<?php if (!$category->category_parent) echo " selected='selected'"; ?>>None</option>
+        <option value='0'<?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
         <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?></p>
         </select>
         </p>
