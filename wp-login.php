@@ -80,7 +80,7 @@ case 'retrievepassword':
 		die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
 
 	// Generate something random for a password... md5'ing current time with a rand salt
-	$user_pass = substr( MD5('time' . rand(1, 16000) ), 0, 6);
+	$user_pass = substr(md5(uniqid(microtime())), 0, 6);
 	// now insert the new pass md5'd into the db
  	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$user_pass') WHERE user_login = '$user_login'");
 	$message  = __('Login') . ": $user_login\r\n";
