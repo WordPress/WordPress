@@ -1604,7 +1604,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         }
         echo '<a href="';
         if ($wpcommentsjavascript) {
-            echo $wpcommentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+            echo $siteurl.'/'.$wpcommentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
             //echo get_permalink();
             echo '" onclick="wpopen(this.href); return false"';
         } else {
