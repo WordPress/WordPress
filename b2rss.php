@@ -3,31 +3,41 @@
 $blog = 1; // enter your blog's ID
 $doing_rss=1;
 header('Content-type: text/xml');
+include('blog.header.php');
 
 // Handle Conditional GET
 
 // Get the time of the most recent article
 $sql = "SELECT max(post_date) FROM $tableposts";
 
-$maxdate = $wbdp->get_var($sql);
+$maxdate = $wpdb->get_var($sql);
 
 $unixtime = strtotime($maxdate);
 
 // format timestamp for Last-Modified header
-$last = gmdate("D, d M Y H:i:s \G\M\T",$unixtime);
+$clast = gmdate("D, d M Y H:i:s \G\M\T",$unixtime);
+$cetag = md5($last);
+
+$slast = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+$setag = $_SERVER['HTTP_IF_NONE_MATCH'];
 
 // send it in a Last-Modified header
-header("Last-Modified: $last");
+header("Last-Modified: " . $clast);
+header("Etag: " . $cetag);
 
-// compare it to aggregator's If_Modified_Since
+// compare it to aggregator's If-Modified-Since and If-None-Match headers
 // if they match, send a 304 and die
-if ($_SERVER[HTTP_IF_MODIFIED_SINCE] == $last){
+
+// This logic says that if only one header is provided, just use that one,
+// but if both headers exist, they *both* must match up with the locally
+// generated values.
+if (($slast?($slast == $clast):true) && ($setag?($setag == $cetag):true)){
 	header("HTTP/1.1 304 Not Modified");
+	echo "\r\n\r\n";
 	exit;
 }
 
 
-include('blog.header.php');
 if (!isset($rss_language)) { $rss_language = 'en'; }
 if (!isset($rss_encoded_html)) { $rss_encoded_html = 0; }
 if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_length = 0; }
