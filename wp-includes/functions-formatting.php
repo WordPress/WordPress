@@ -227,7 +227,7 @@ function sanitize_title_with_dashes($title) {
 
     $title = strtolower($title);
     $title = preg_replace('/&.+?;/', '', $title); // kill entities
-    $title = preg_replace('/[^%a-z0-9 _-]/', '', $title);
+    $title = preg_replace('/[^a-z0-9 _-]/', '', $title);
     $title = preg_replace('/\s+/', '-', $title);
     $title = preg_replace('|-+|', '-', $title);
     $title = trim($title, '-');
