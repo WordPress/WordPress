@@ -626,8 +626,8 @@ function dropdown_categories($blog_ID=1) {
 
 function touch_time($edit=1) {
 	global $month, $postdata, $time_difference;
-	echo $postdata['Date'];
-	echo '<br /><br /><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /><label for="timestamp"> Edit timestamp</label><br />';
+	// echo $postdata['Date'];
+	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">Edit timestamp</label><br />';
 	
 	$time_adj = time() + ($time_difference * 3600);
 	$jj = ($edit) ? mysql2date('d', $postdata['Date']) : date('d', $time_adj);
@@ -654,7 +654,7 @@ function touch_time($edit=1) {
 <input type="text" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" /> @ 
 <input type="text" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" /> : 
 <input type="text" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" /> : 
-<input type="text" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" />
+<input type="text" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" /> </p>
 	<?php
 }
 
