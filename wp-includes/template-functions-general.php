@@ -239,7 +239,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 	if ('link' == $format) {
 		return "\t<link rel='archives' title='$title_text' href='$url' />\n";
 	} elseif ('option' == $format) {
-		return "\t<option value='$url'>$text</option>\n";
+		return "\t<option value='$url'>$before $text $after</option>\n";
 	} elseif ('html' == $format) {
 		return "\t<li>$before<a href='$url' title='$title_text'>$text</a>$after</li>\n";
 	} else { // custom
