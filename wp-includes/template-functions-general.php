@@ -3,27 +3,24 @@
 /* Note: these tags go anywhere in the template */
 
 function get_header() {
-	global $wpdb, $wp_query;
 	if ( file_exists( TEMPLATEPATH . '/header.php') )
-		require_once( TEMPLATEPATH . '/header.php');
+		load_template( TEMPLATEPATH . '/header.php');
 	else
-		require_once( ABSPATH . 'wp-includes/wp-header.php');
+		load_template( ABSPATH . 'wp-includes/wp-header.php');
 }
 
 function get_footer() {
-	global $wpdb, $wp_query;
 	if ( file_exists( TEMPLATEPATH . '/footer.php') )
-		require_once( TEMPLATEPATH . '/footer.php');
+		load_template( TEMPLATEPATH . '/footer.php');
 	else
-		require_once( ABSPATH . 'wp-includes/wp-footer.php');
+		load_template( ABSPATH . 'wp-includes/wp-footer.php');
 }
 
 function get_sidebar() {
-	global $wpdb, $wp_query;
 	if ( file_exists( TEMPLATEPATH . '/sidebar.php') )
-		require_once( TEMPLATEPATH . '/sidebar.php');
+		load_template( TEMPLATEPATH . '/sidebar.php');
 	else
-		require_once( ABSPATH . 'wp-includes/wp-sidebar.php');
+		load_template( ABSPATH . 'wp-includes/wp-sidebar.php');
 }
 
 

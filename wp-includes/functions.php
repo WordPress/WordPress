@@ -1649,7 +1649,7 @@ function load_template($file) {
 
 	extract($wp_query->query_vars);
 
-	include($file);
+	require_once($file);
 }
 
 function add_magic_quotes($array) {
