@@ -344,8 +344,6 @@ function get_alloptions() {
 	global $wpdb, $wp_queries;
 	$wpdb->hide_errors();
 	if (!$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'")) {
-		include_once(ABSPATH . '/wp-admin/upgrade-functions.php');
-		make_db_current_silent();
 		$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
 	}
 	$wpdb->show_errors();
