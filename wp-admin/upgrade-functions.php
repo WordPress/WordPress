@@ -923,6 +923,11 @@ function upgrade_130() {
     if ($wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'what_to_show'") == 'paged') {
         $wpdb->query("UPDATE $wpdb->options SET option_value = 'posts' WHERE option_name = 'what_to_show'");
     }
+
+	if ( !is_array( get_settings('active_plugins') ) ) {
+		$plugins = explode("\n", get_settings('active_plugins') );
+		update_option('active_plugins', $plugins);
+	}
 }
 
 ?>

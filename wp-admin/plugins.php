@@ -1,26 +1,23 @@
 <?php
 
-if (isset($_GET['action'])) {
+if ( isset($_GET['action']) ) {
 	$standalone = 1;
 	require_once('admin-header.php');
 
 	check_admin_referer();
 
 	if ('activate' == $_GET['action']) {
-		$current = "\n" . get_settings('active_plugins') . "\n";
-		$current = preg_replace("|(\n)+\s*|", "\n", $current);
-		$current = trim($current) . "\n " . trim($_GET['plugin']);
-		$current = trim($current);
-		$current = preg_replace("|\n\s*|", "\n", $current); // I don't know where this is coming from
+		$current = get_settings('active_plugins');
+		$current[] = trim( $_GET['plugin'] );
+		sort($current);
 		update_option('active_plugins', $current);
 		header('Location: plugins.php?activate=true');
 	}
 	
 	if ('deactivate' == $_GET['action']) {
-		$current = "\n" . get_settings('active_plugins') . "\n";
-		$current = str_replace("\n" . $_GET['plugin'], '', $current);
-		$current = preg_replace("|(\n)+\s*|", "\n", $current);
-		update_option('active_plugins', trim($current));
+		$current = get_settings('active_plugins');
+		array_splice($current, array_search( $_GET['plugin'], $current), 1 ); // Array-fu!
+		update_option('active_plugins', $current);
 		header('Location: plugins.php?deactivate=true');
 	}
 }
@@ -30,23 +27,19 @@ $title = __('Manage Plugins');
 require_once('admin-header.php');
 
 if ($user_level < 9) // Must be at least level 9
-	die (__("Sorry, you must be at least a level 8 user to modify plugins."));
+	die (__('Sorry, you must be at least a level 8 user to modify plugins.'));
 
 // Clean up options
-// if any files are in the option that don't exist, axe 'em
+// If any plugins don't exist, axe 'em
 
-$check_plugins = explode("\n", (get_settings('active_plugins')));
+$check_plugins = get_settings('active_plugins');
 foreach ($check_plugins as $check_plugin) {
 	if (!file_exists(ABSPATH . 'wp-content/plugins/' . $check_plugin)) {
-			$current = get_settings('active_plugins') . "\n";
-			$current = str_replace($check_plugin . "\n", '', $current);
-			$current = preg_replace("|\n+|", "\n", $current);
-			update_option('active_plugins', trim($current));
+			$current = get_settings('active_plugins');
+			unset($current[$_GET['plugin']]);
+			update_option('active_plugins', $current);
 	}
 }
-
-
-
 ?>
 
 <?php if (isset($_GET['activate'])) : ?>
@@ -60,7 +53,7 @@ foreach ($check_plugins as $check_plugin) {
 
 <div class="wrap">
 <h2><?php _e('Plugin Management'); ?></h2>
-<p><?php _e('Plugins are files you usually download separately from WordPress that add functionality. To install a plugin you generally just need to put the plugin file into your <code>wp-content/plugins</code> directory. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
+<p><?php _e('Plugins are files you usually download separately from WordPress that add functionality. To install a plugin you generally just need to put the plugin file into your <code>wp-content/plugins</code> directory. Once a plugin is installed, you may activate it or deactivate it here. If something goes wrong with a plugin and you can&#8217;t use WordPress, delete that plugin from the <code>wp-content/plugins</code> directory and it will be automatically deactivated.'); ?></p>
 <?php
 // Files in wp-content/plugins directory
 $plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
@@ -71,9 +64,8 @@ if ($plugins_dir) {
 	}
 }
 
-if ('' != trim(get_settings('active_plugins'))) {
-	$current_plugins = explode("\n", (get_settings('active_plugins')));
-}
+if ( get_settings('active_plugins') )
+	$current_plugins = get_settings('active_plugins');
 
 if (!$plugins_dir || !$plugin_files) {
 	_e("<p>Couldn't open plugins directory or there are no plugins available.</p>"); // TODO: make more helpful

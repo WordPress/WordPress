@@ -81,7 +81,7 @@ if (get_settings('hack_file')) {
 }
 
 if ( get_settings('active_plugins') ) {
-	$current_plugins = explode("\n", get_settings('active_plugins') );
+	$current_plugins = get_settings('active_plugins');
 	foreach ($current_plugins as $plugin) {
 		if (file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))
 			include(ABSPATH . 'wp-content/plugins/' . $plugin);
