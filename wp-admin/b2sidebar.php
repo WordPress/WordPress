@@ -73,7 +73,7 @@ window.open("<?php echo $siteurl ?>/b2spell.php","Spell",
 <style type="text/css">
 <!--
 body {
-	background-image: url('../b2-img/b2minilogo.png');
+	background-image: url('../b2-img/wpminilogo.png');
 	background-repeat: no-repeat;
 	background-position: 50px 90px;
 	padding: 3px;
@@ -106,7 +106,6 @@ textarea,input,select {
 </style>
 </head>
 <body>
-
 <form name="post" action="b2edit.php" method="POST" accept-charset="iso-8859-1">
 <input type="hidden" name="action" value="post" />
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />

@@ -63,7 +63,7 @@ textarea,input,select {
 </style>
 </head>
 <body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="b2-img/b2minilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
+<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
 <p>The importer is running...</p>
 <ul>
 <li>importing users... <ul><?php
@@ -274,7 +274,7 @@ textarea,input,select {
 </style>
 </head>
 <body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="b2-img/b2minilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
+<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="b2-img/wpminilogo.png" width="50" height="50" border="0" alt="b2" align="top" /></font></p>
 <p>This is a basic GreyMatter to b2 import script.</p>
 <p>What it does:</p>
 <ul>
