@@ -73,7 +73,6 @@ switch ($step) {
 	Category: <?php echo gethelp_link($this_file,'link_category');?><select name="cat_id">
 <?php
 	$categories = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
-    ++$querycount;
 	foreach ($categories as $category) {
 ?>
     <option value="<?php echo $category->cat_id; ?>"><?php echo $category->cat_id.': '.$category->cat_name; ?></option>

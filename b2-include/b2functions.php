@@ -373,7 +373,7 @@ function strip_all_but_one_link($text, $mylink) {
 
 
 function get_lastpostdate() {
-	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb, $querycount;
+	global $tableposts, $cache_lastpostdate, $use_cache, $time_difference, $pagenow, $wpdb;
 	if ((!isset($cache_lastpostdate)) OR (!$use_cache)) {
 		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
 		if ($pagenow != 'wp-post.php') {
@@ -382,7 +382,6 @@ function get_lastpostdate() {
 			$showcatzero = '';
 		}
 		$lastpostdate = $wpdb->get_var("SELECT post_date FROM $tableposts WHERE $showcatzero post_date <= '$now' ORDER BY post_date DESC LIMIT 1");
-		++$querycount;
 		$cache_lastpostdate = $lastpostdate;
 //		echo $lastpostdate;
 	} else {
@@ -415,7 +414,7 @@ function get_currentuserinfo() { // a bit like get_userdata(), on steroids
 }
 
 function get_userdata($userid) {
-	global $wpdb, $querycount, $cache_userdata, $use_cache, $tableusers;
+	global $wpdb, $cache_userdata, $use_cache, $tableusers;
 	if ((empty($cache_userdata[$userid])) || (!$use_cache)) {
 		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID = $userid");
         $user->user_nickname = stripslashes($user->user_nickname);
@@ -423,7 +422,6 @@ function get_userdata($userid) {
         $user->user_lastname = stripslashes($user->user_lastname);
         $user->user_firstname =  stripslashes($user->user_firstname);
         $user->user_lastname = stripslashes($user->user_lastname);
-        ++$querycount;
 		$cache_userdata[$userid] = $user;
 	} else {
 		$user = $cache_userdata[$userid];
@@ -445,10 +443,9 @@ function get_userdata2($userid) { // for team-listing
 }
 
 function get_userdatabylogin($user_login) {
-	global $tableusers, $querycount, $cache_userdata, $use_cache, $wpdb;
+	global $tableusers, $cache_userdata, $use_cache, $wpdb;
 	if ((empty($cache_userdata["$user_login"])) OR (!$use_cache)) {
 		$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE user_login = '$user_login'");
-		++$querycount;
 		$cache_userdata["$user_login"] = $user;
 	} else {
 		$user = $cache_userdata["$user_login"];
@@ -457,11 +454,10 @@ function get_userdatabylogin($user_login) {
 }
 
 function get_userid($user_login) {
-	global $tableusers, $querycount, $cache_userdata, $use_cache, $wpdb;
+	global $tableusers, $cache_userdata, $use_cache, $wpdb;
 	if ((empty($cache_userdata["$user_login"])) OR (!$use_cache)) {
 		$user_id = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$user_login'");
 
-		++$querycount;
 		$cache_userdata["$user_login"] = $user_id;
 	} else {
 		$user_id = $cache_userdata["$user_login"];
@@ -470,15 +466,14 @@ function get_userid($user_login) {
 }
 
 function get_usernumposts($userid) {
-	global $tableposts, $tablecomments, $querycount, $wpdb;
-	++$querycount;
+	global $tableposts, $tablecomments, $wpdb;
 	return $wpdb->get_var("SELECT COUNT(*) FROM $tableposts WHERE post_author = $userid");
 }
 
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
 function url_to_postid($url = '') {
-	global $wpdb, $querycount, $tableposts, $siteurl;
+	global $wpdb, $tableposts, $siteurl;
 
 	// Take a link like 'http://example.com/blog/something'
 	// and extract just the '/something':
@@ -536,7 +531,6 @@ function url_to_postid($url = '') {
 	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
 
 	// Run the query to get the post ID:
-    ++$querycount;
     return intval($wpdb->get_var("SELECT ID FROM $tableposts WHERE 1 = 1 " . $where));
 }
 
@@ -544,7 +538,7 @@ function url_to_postid($url = '') {
 /* Options functions */
 
 function get_settings($setting) {
-	global $wpdb, $cache_settings, $use_cache, $querycount;
+	global $wpdb, $cache_settings, $use_cache;
 	if ((empty($cache_settings)) OR (!$use_cache)) {
 		$settings = get_alloptions();
 		$cache_settings = $settings;
@@ -558,9 +552,8 @@ function get_settings($setting) {
 }
 
 function get_alloptions() {
-    global $tableoptions, $wpdb, $querycount;
+    global $tableoptions, $wpdb;
     $options = $wpdb->get_results("SELECT option_name, option_value FROM $tableoptions");
-    ++$querycount;
     if ($options) {
         foreach ($options as $option) {
             $all_options->{$option->option_name} = $option->option_value;
@@ -582,9 +575,8 @@ function add_option() {
 }
 
 function get_postdata($postid) {
-	global $tableusers, $tablecategories, $tableposts, $tablecomments, $querycount, $wpdb;
+	global $tableusers, $tablecategories, $tableposts, $tablecomments, $wpdb;
 	$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = $postid");
-	++$querycount;
 	
 	$postdata = array (
 		'ID' => $post->ID, 
@@ -625,14 +617,13 @@ function get_postdata2($postid=0) { // less flexible, but saves DB queries
 }
 
 function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { // less flexible, but saves DB queries
-	global $postc,$id,$commentdata,$tablecomments,$querycount, $wpdb;
+	global $postc,$id,$commentdata,$tablecomments, $wpdb;
 	if ($no_cache) {
 		$query = "SELECT * FROM $tablecomments WHERE comment_ID = $comment_ID";
 		if (false == $include_unapproved) {
 		    $query .= " AND comment_approved = '1'";
 		}
     		$myrow = $wpdb->get_row($query, ARRAY_A);
-		++$querycount;
 	} else {
 		$myrow['comment_ID']=$postc->comment_ID;
 		$myrow['comment_post_ID']=$postc->comment_post_ID;
@@ -655,10 +646,9 @@ function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { //
 }
 
 function get_catname($cat_ID) {
-	global $tablecategories,$cache_catnames,$use_cache,$querycount, $wpdb;
+	global $tablecategories,$cache_catnames,$use_cache, $wpdb;
 	if ((!$cache_catnames) || (!$use_cache)) {
         $results = $wpdb->get_results("SELECT * FROM $tablecategories") or die('Oops, couldn\'t query the db for categories.');
-		$querycount++;
 		foreach ($results as $post) {
 			$cache_catnames[$post->cat_ID] = $post->cat_name;
 		}
@@ -673,16 +663,14 @@ function profile($user_login) {
 }
 
 function dropdown_categories($blog_ID=1, $default=1) {
-	global $postdata,$tablecategories,$mode,$querycount, $wpdb;
+	global $postdata,$tablecategories,$mode, $wpdb;
 	$query="SELECT * FROM $tablecategories ORDER BY cat_name";
 	$results = $wpdb->get_results($query);
-	++$querycount;
 	$width = ($mode=="sidebar") ? "100%" : "170px";
 	echo '<select name="post_category" style="width:'.$width.';" tabindex="2" id="category">';
     if ($postdata["Category"] != '') {
         $default = $postdata["Category"];
     }
-	++$querycount;
 	foreach($results as $post) {
 		echo "<option value=\"".$post->cat_ID."\"";
 		if ($post->cat_ID == $default)
@@ -1441,10 +1429,9 @@ function wp_set_comment_status($comment_id, $comment_status) {
    a (boolean) false signals an error
  */
 function wp_get_comment_status($comment_id) {
-    global $wpdb, $querycount, $tablecomments;
+    global $wpdb, $tablecomments;
     
     $result = $wpdb->get_var("SELECT comment_approved FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
-    ++$querycount;
     if ($result == NULL) {
         return "deleted";
     } else if ($result == "1") {
@@ -1457,16 +1444,13 @@ function wp_get_comment_status($comment_id) {
 }
 
 function wp_notify_postauthor($comment_id, $comment_type) {
-    global $wpdb, $querycount, $tablecomments, $tableposts, $tableusers;
+    global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $blogfilename, $blogname, $siteurl;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
-    ++$querycount;
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
-    ++$querycount;
     $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
-    ++$querycount;
 
     if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
@@ -1517,20 +1501,16 @@ function wp_notify_postauthor($comment_id, $comment_type) {
    always returns true
  */
 function wp_notify_moderator($comment_id) {
-    global $wpdb, $querycount, $tablecomments, $tableposts, $tableusers;
+    global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
     global $blogfilename, $blogname, $siteurl;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
-    ++$querycount;
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
-    ++$querycount;
     $user = $wpdb->get_row("SELECT * FROM $tableusers WHERE ID='$post->post_author' LIMIT 1");
-    ++$querycount;
 
     $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
     $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $tablecomments WHERE comment_approved = '0'");
-    ++$querycount;
 
     $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".stripslashes($post->post_title)."\" is waiting for your approval\r\n\r\n";
     $notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";

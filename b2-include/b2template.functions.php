@@ -126,7 +126,7 @@ function get_archives_link($url, $text, $format = "html", $before = "", $after =
 
 function get_archives($type='', $limit='', $format='html', $before = "", $after = "", $show_post_count = false) {
 	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
-    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week, $querycount;
+    global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
 
     if ('' == $type) {
         $type = get_settings('archive_mode');
@@ -163,7 +163,6 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 	$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 
 	if ('monthly' == $type) {
-		++$querycount;
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
@@ -178,7 +177,6 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             }
         }
 	} elseif ('daily' == $type) {
-		++$querycount;
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
@@ -192,7 +190,6 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 		if (!isset($start_of_week)) {
 			$start_of_week = 1;
 		}
-		++$querycount;
 		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
         if ($arcresults) {
@@ -212,7 +209,6 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
             }
         }
 	} elseif ('postbypost' == $type) {
-		++$querycount;
 		$arcresults = $wpdb->get_results("SELECT ID, post_date, post_title FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
         if ($arcresults) {
             foreach ($arcresults as $arcresult) {
@@ -232,12 +228,11 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 }
 
 function get_calendar($daylength = 1) {
-	global $wpdb, $HTTP_GET_VARS, $m, $monthnum, $year, $timedifference, $month, $weekday, $tableposts, $posts, $querycount;
+	global $wpdb, $HTTP_GET_VARS, $m, $monthnum, $year, $timedifference, $month, $weekday, $tableposts, $posts;
 
     // Quick check. If we have no posts at all, abort!
     if (!$posts) {
         $gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
-        ++$querycount;
         if (!$gotsome)
             return;
     }
@@ -254,7 +249,6 @@ function get_calendar($daylength = 1) {
 		$thisyear = ''.intval(substr($m, 0, 4));
 		$d = (($w - 1) * 7) + 6; //it seems MySQL's weeks disagree with PHP's
 		$thismonth = $wpdb->get_var("SELECT DATE_FORMAT((DATE_ADD('${thisyear}0101', INTERVAL $d DAY) ), '%m')");
-        ++$querycount;
 	} elseif (!empty($m)) {
 		$calendar = substr($m, 0, 6);
 		$thisyear = ''.intval(substr($m, 0, 4));
@@ -277,7 +271,6 @@ function get_calendar($daylength = 1) {
 			AND post_status = 'publish'
 							  ORDER BY post_date DESC
 							  LIMIT 1");
-    ++$querycount;
 	$next = $wpdb->get_row("SELECT  DISTINCT MONTH( post_date ) AS month, YEAR( post_date ) AS year
 			FROM $tableposts
 			WHERE post_date >  '$thisyear-$thismonth-01'
@@ -285,7 +278,6 @@ function get_calendar($daylength = 1) {
 			AND post_status = 'publish'
 							  ORDER  BY post_date ASC
 							  LIMIT 1");
-    ++$querycount;
 
 	echo '<table id="wp-calendar">
 	<caption>' . $month[zeroise($thismonth, 2)] . ' ' . date('Y', $unixmonth) . '</caption>
@@ -333,7 +325,6 @@ function get_calendar($daylength = 1) {
 			AND YEAR(post_date) = $thisyear
 			AND post_status = 'publish'
 			AND post_date < '" . date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."'", ARRAY_N);
-    ++$querycount;
 	if ($dayswithposts) {
 		foreach ($dayswithposts as $daywith) {
 			$daywithpost[] = $daywith[0];
@@ -359,7 +350,6 @@ function get_calendar($daylength = 1) {
 										 ."AND post_date < '".date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."' "
 										 ."AND post_status = 'publish'"
 										);
-    ++$querycount;
 	if ($ak_post_titles) {
 		foreach ($ak_post_titles as $ak_post_title) {
 			if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
@@ -410,7 +400,7 @@ function get_calendar($daylength = 1) {
 /***** Links *****/
 function get_permalink($id=false) {
 	global $post, $wpdb, $tableposts;
-	global $siteurl, $blogfilename, $querystring_start, $querystring_equal, $querycount;
+	global $siteurl, $blogfilename, $querystring_start, $querystring_equal;
 
 	$rewritecode = array(
 		'%year%',
@@ -434,7 +424,6 @@ function get_permalink($id=false) {
 		}
 	} else { // if an ID is given
 		$idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
-        ++$querycount;
 		if ('' != get_settings('permalink_structure')) {
 			$unixtime = strtotime($idpost->post_date);
 			$rewritereplace = array(
@@ -1034,7 +1023,7 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 
 
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
-	global $tableposts, $id, $post, $siteurl, $blogfilename, $querycount, $wpdb;
+	global $tableposts, $id, $post, $siteurl, $blogfilename, $wpdb;
 	global $p, $posts, $posts_per_page, $s, $single;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 
@@ -1059,7 +1048,6 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 
 		$limitprev--;
 		$lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $tableposts WHERE post_date < '$current_post_date' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
-		++$querycount;
 		if ($lastpost) {
 			$string = '<a href="'.get_permalink($lastpost->ID).'">'.$previous;
 			if ($title == 'yes') {
@@ -1073,7 +1061,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 }
 
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-	global $tableposts, $p, $posts, $id, $post, $siteurl, $blogfilename, $querycount, $wpdb;
+	global $tableposts, $p, $posts, $id, $post, $siteurl, $blogfilename, $wpdb;
 	global $time_difference, $single;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if(($p) || ($posts==1) || 1 == $single) {
@@ -1100,7 +1088,6 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 		$limitnext--;
 
 		$nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $tableposts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_category > 0 AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date ASC LIMIT $limitnext,1");
-		++$querycount;
 		if ($nextpost) {
 			$string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
 			if ($title=='yes') {
@@ -1285,10 +1272,9 @@ function the_category_unicode() {
 
 
 function get_the_category_by_ID($cat_ID) {
-	global $tablecategories, $querycount, $cache_categories, $use_cache, $wpdb;
+	global $tablecategories, $cache_categories, $use_cache, $wpdb;
 	if ((!$cache_categories[$cat_ID]) OR (!$use_cache)) {
 		$cat_name = $wpdb->get_var("SELECT cat_name FROM $tablecategories WHERE cat_ID = '$cat_ID'");
-		++$querycount;
 		$cache_categories[$cat_ID] = $cat_name;
 	} else {
 		$cat_name = $cache_categories[$cat_ID];
@@ -1318,7 +1304,7 @@ function the_category_head($before='', $after='') {
 // out of the b2 loop
 function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
                        $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
-    global $cat, $tablecategories, $tableposts, $querycount, $wpdb;
+    global $cat, $tablecategories, $tableposts, $wpdb;
     $sort_column = 'cat_'.$sort_column;
 
     $query  = " SELECT cat_ID, cat_name,";
@@ -1333,7 +1319,6 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
     $query .= " ORDER BY $sort_column $sort_order, post_date DESC";
 
 	$categories = $wpdb->get_results($query);
-	++$querycount;
 	echo "<select name='cat' class='postform'>\n";
 	if (intval($optionall) == 1) {
 		$all = apply_filters('list_cats', $all);
@@ -1361,7 +1346,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 // out of the b2 loop
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
                    $file = 'blah', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
-	global $tablecategories, $tableposts, $querycount, $wpdb;
+	global $tablecategories, $tableposts, $wpdb;
 	global $pagenow, $siteurl, $blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
     if (($file == 'blah') || ($file == '')) {
@@ -1381,7 +1366,6 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     $query .= " ORDER BY $sort_column $sort_order, post_date DESC";
 
 	$categories = $wpdb->get_results($query);
-	++$querycount;
 	if (!$categories) {
 		if ($list) {
 			$before = '<li>';
@@ -1434,13 +1418,12 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 // generic comments/trackbacks/pingbacks numbering
 
 function comments_number($zero='No Comments', $one='1 Comment', $more='% Comments', $include_unapproved = false) {
-	global $id, $comment, $tablecomments, $querycount, $wpdb;
+	global $id, $comment, $tablecomments, $wpdb;
 	$query = "SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id";
 	if (false == $include_unapproved) {
 	    $query .= " AND comment_approved = '1'";
 	}
 	$number = $wpdb->get_var($query);
-	++$querycount;
 	if ($number == 0) {
 		$blah = $zero;
 	} elseif ($number == 1) {
@@ -1469,10 +1452,9 @@ function comments_popup_script($width=400, $height=400, $file='b2commentspopup.p
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
-	global $id, $b2commentspopupfile, $b2commentsjavascript, $post, $wpdb, $querycount, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
+	global $id, $b2commentspopupfile, $b2commentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS, $cookiehash;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
 	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id AND comment_approved = '1'");
-	++$querycount;
 	if (0 == $number && 'closed' == $post->comment_status) {
 		echo $none;
 		return;

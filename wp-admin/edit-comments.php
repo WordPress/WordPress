@@ -136,7 +136,6 @@ echo $comments_nav_bar;
 									ORDER BY comment_date $commentorder 
 									LIMIT $commentstart, $commentend"
 	                              );
-    ++$querycount;
 
 // need to account for offet, etc.
 

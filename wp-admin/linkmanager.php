@@ -33,10 +33,9 @@ $title = 'Manage Links';
 $this_file = 'linkmanager.php';
 
 function category_dropdown($fieldname, $selected = 0) {
-    global $wpdb, $querycount, $tablelinkcategories;
+    global $wpdb, $tablelinkcategories;
 
     $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
-    ++$querycount;
     echo '        <select name="'.$fieldname.'" size="1">'."\n";
     foreach ($results as $row) {
       echo "          <option value=\"".$row->cat_id."\"";
@@ -110,7 +109,6 @@ switch ($action) {
     }
     $all_links = join(',', $linkcheck);
     $results = $wpdb->get_results("SELECT link_id, link_owner, user_level FROM $tablelinks LEFT JOIN $tableusers ON link_owner = ID WHERE link_id in ($all_links)");
-    ++$querycount;
     foreach ($results as $row) {
       if (!get_settings('links_use_adminlevels') || ($user_level >= $row->user_level)) { // ok to proceed
         $ids_to_change[] = $row->link_id;
@@ -140,7 +138,6 @@ switch ($action) {
     }
     $all_links = join(',', $linkcheck);
     $results = $wpdb->get_results("SELECT link_id, link_visible FROM $tablelinks WHERE link_id in ($all_links)");
-    ++$querycount;
     foreach ($results as $row) {
         if ($row->link_visible == 'Y') { // ok to proceed
             $ids_to_turnoff[] = $row->link_id;
@@ -307,7 +304,6 @@ switch ($action) {
     $row = $wpdb->get_row("SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel, link_notes " .
       " FROM $tablelinks " .
       " WHERE link_id = $link_id");
-    ++$querycount;
 
     if ($row) {
       $link_url = stripslashes($row->link_url);
@@ -502,7 +498,6 @@ function checkAll(form)
         <td>
 <?php
     $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $tablelinkcategories ORDER BY cat_id");
-    ++$querycount;
     echo "        <select name=\"cat_id\">\n";
     echo "          <option value=\"All\"";
     if ($cat_id == 'All')
@@ -565,7 +560,6 @@ function checkAll(form)
             FROM $tablelinks
             LEFT JOIN $tablelinkcategories ON $tablelinks.link_category = $tablelinkcategories.cat_id
             LEFT JOIN $tableusers ON $tableusers.ID = $tablelinks.link_owner ";
-    ++$querycount;
 
     if (isset($cat_id) && ($cat_id != 'All')) {
       $sql .= " WHERE link_category = $cat_id ";
@@ -636,7 +630,6 @@ LINKS;
           <input type="submit" name="action2" value="Assign" /> ownership <?php echo gethelp_link($this_file,'assign_ownership');?> to:
 <?php
     $results = $wpdb->get_results("SELECT ID, user_login FROM $tableusers WHERE user_level > 0 ORDER BY ID");
-    ++$querycount;
     echo "          <select name=\"newowner\" size=\"1\">\n";
     foreach ($results as $row) {
       echo "            <option value=\"".$row->ID."\"";

@@ -139,7 +139,6 @@ textarea,input,select {
 			// we'll check the author is registered, or if it's a deleted author
 			$sql = "SELECT * FROM $tableusers WHERE user_login = '$post_author'";
 			$result = mysql_query($sql);
-            ++$querycount;
 			if (!mysql_num_rows($result)) { // if deleted from GM, we register the author as a level 0 user in b2
 				$user_ip="127.0.0.1";
 				$user_domain="localhost";
@@ -160,7 +159,6 @@ textarea,input,select {
 			}
 
 			$sql = "SELECT * FROM $tableusers WHERE user_login = '$post_author'";
-            ++$querycount;
 			$result = mysql_query($sql);
 			$myrow = mysql_fetch_array($result);
 			$post_author_ID=$myrow[0];
@@ -197,7 +195,6 @@ textarea,input,select {
 				die ("Error in posting... contact the <a href=\"mailto:$admin_email\">webmaster</a>");
 			
 			$sql2 = "SELECT * FROM $tableposts WHERE 1=1 ORDER BY ID DESC LIMIT 1";
-            ++$querycount;
 			$result2 = mysql_query($sql2);
 			$myrow2 = mysql_fetch_array($result2);
 			$post_ID=$myrow2[0];

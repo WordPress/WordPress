@@ -69,7 +69,6 @@ case "step1":
 			$post_author = trim(addslashes($postinfo[1]));
 			// we'll check the author is registered already
 			$user = $wpdb->get_row("SELECT * FROM $tableusers WHERE user_login = '$post_author'");
-            ++$querycount;
 			if (!$user) { // seems s/he's not, so let's register
 				$user_ip = '127.0.0.1';
 				$user_domain = 'localhost';
@@ -112,7 +111,6 @@ case "step1":
 			}
 
 			$post_author_ID = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_login = '$post_author'");
-            ++$querycount;
 
 			$post_date = explode(' ', $post_date);
 			$post_date_Ymd = explode('/', $post_date[0]);
@@ -136,7 +134,6 @@ case "step1":
 			
 			// Quick-n-dirty check for dups:
 			$dupcheck = $wpdb->get_results("SELECT ID,post_date,post_title FROM $tableposts WHERE post_date='$post_date' AND post_title='$post_title' LIMIT 1",ARRAY_A);
-            ++$querycount;
 			if ($dupcheck[0]['ID']) {
 				print "<br />\nSkipping duplicate post, ID = '" . $dupcheck[0]['ID'] . "'<br />\n";
 				print "Timestamp: " . $post_date . "<br />\n";

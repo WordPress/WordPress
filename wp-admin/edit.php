@@ -145,7 +145,6 @@ echo $posts_nav_bar;
 		<option value="all">All Categories</option>
 		<?php
 	$categories = $wpdb->get_results("SELECT * FROM $tablecategories");
-	$querycount++;
 	$width = ($mode=="sidebar") ? "100%" : "170px";
 	foreach ($categories as $category) {
 		echo "<option value=\"".$category->cat_ID."\"";
@@ -164,7 +163,6 @@ echo $posts_nav_bar;
 
 	if ($archive_mode == "monthly") {
 		echo "<select name=\"m\" style=\"width:120px;\">";
-		$querycount++;
 		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date) FROM $tableposts ORDER BY post_date DESC",ARRAY_A);
 		foreach ($arc_result as $arc_row) {
 			$arc_year  = $arc_row["YEAR(post_date)"];
@@ -176,7 +174,6 @@ echo $posts_nav_bar;
 	} elseif ($archive_mode == "daily") {
 		echo "<select name=\"d\" style=\"width:120px;\">";
 		$archive_day_date_format = "Y/m/d";
-		$querycount++;
 		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) FROM $tableposts ORDER BY post_date DESC", ARRAY_A);
 		foreach ($arc_result as $arc_row) {
 			$arc_year  = $arc_row["YEAR(post_date)"];
@@ -194,7 +191,6 @@ echo $posts_nav_bar;
 		$archive_week_start_date_format = "Y/m/d";
 		$archive_week_end_date_format   = "Y/m/d";
 		$archive_week_separator = " - ";
-		$querycount++;
 		$arc_result=$wpdb->geT_results("SELECT DISTINCT YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date), WEEK(post_date) FROM $tableposts ORDER BY post_date DESC", ARRAY_A);
 		$arc_w_last = '';
         foreach ($arc_result as $arc_row) {
@@ -214,7 +210,6 @@ echo $posts_nav_bar;
 	} elseif ($archive_mode == "postbypost") {
 		echo '<input type="hidden" name="more" value="1" />';
 		echo '<select name="p" style="width:120px;">';
-        $querycount++;
 		$resultarc = $wpdb->get_results("SELECT ID,post_date,post_title FROM $tableposts ORDER BY post_date DESC");
 		foreach ($resultarc as $row) {
 			if ($row->post_date != "0000-00-00 00:00:00") {
@@ -268,7 +263,6 @@ foreach ($posts as $post) { start_b2();
 				if (($withcomments) or ($c)) {
 
 					$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
-                    ++$querycount;
 					if ($comments) {
 					?>
 

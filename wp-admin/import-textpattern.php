@@ -80,12 +80,9 @@ $database = @mysql_select_db($tp_database_name);
 
 // For now we're going to give everything the same author and same category
 $author = $wpdb->get_var("SELECT ID FROM $tableusers WHERE user_level = 10 LIMIT 1");
-++$querycount;
 $category = $wpdb->get_var("SELECT cat_ID FROM $tablecategories LIMIT 1");
-++$querycount;
 
 $posts = mysql_query('SELECT * FROM textpattern', $connection);
-++$querycount;
 
 while ($post = mysql_fetch_array($posts)) {
 	//  ID, AuthorID, LastMod, LastModID, Posted, Title, Body, Body_html, Abstract, Category1, Category2, Annotate, AnnotateInvite, Status, Listing1, Listing2, Section
@@ -111,12 +108,10 @@ while ($post = mysql_fetch_array($posts)) {
 
 	// Get wordpress post id
 	$wp_post_ID = $wpdb->get_var("SELECT ID FROM $tableposts ORDER BY ID DESC LIMIT 1");
-    ++$querycount;
 	
 	// Now let's insert comments if there are any for the TP post
 	$tp_id = $post['ID'];
 	$comments = mysql_query("SELECT * FROM txp_Discuss WHERE parentid = $tp_id");
-    ++$querycount;
 	if ($comments) {
 		while($comment = mysql_fetch_object($comments)) {
 			//  discussid, parentid, name, email, web, ip, posted, message
