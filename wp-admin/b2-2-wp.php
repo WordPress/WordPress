@@ -227,7 +227,7 @@ $q = $wpdb->query($query);
 <p>So far so good.</p>
 <?php
 
-$query="ALTER TABLE $tablesettings DROP `post_karma`";
+$query="ALTER TABLE $tableposts DROP `post_karma`";
 $q = $wpdb->query($query);
 
 ?>
