@@ -4,7 +4,7 @@ require_once('admin.php');
 $title = __('Moderate comments');
 $parent_file = 'edit.php';
 
-$wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'feelinglucky');
+$wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'feelinglucky', 'ignored', 'deleted', 'approved');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -72,9 +72,9 @@ break;
 
 default:
 
-	require_once('admin-header.php');
+require_once('admin-header.php');
 
-if (isset($deleted) || isset($approved) || isset($ignored)) {
+if ( isset($deleted) || isset($approved) || isset($ignored) ) {
 	echo "<div class='updated'>\n<p>";
 	if ($approved) {
 		if ('1' == $approved) {
