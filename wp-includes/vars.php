@@ -3,7 +3,7 @@
 /* This file sets various arrays and variables for use in WordPress */
 
 # WordPress version
-$wp_version = '1.0';
+$wp_version = '1.0.1';
 
 # BBcode search and replace arrays
 $wp_bbcode['in'] = array(
