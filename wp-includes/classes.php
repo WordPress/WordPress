@@ -479,6 +479,11 @@ class WP_Query {
 		else
 			$where .= ')';
 
+		// Apply filters on where and join prior to paging so that any
+		// manipulations to them are reflected in the paging by day queries.
+		$where = apply_filters('posts_where', $where);
+		$join = apply_filters('posts_join', $join);
+
 		// Paging
 		if ( !empty($q['postend']) && ($q['postend'] > $q['poststart']) ) {
 			if ($q['what_to_show'] == 'posts') {
@@ -521,9 +526,11 @@ class WP_Query {
 			}
 		}
 
-		$where = apply_filters('posts_where', $where);
+		// Apply post-paging filters on where and join.  Only plugins that
+		// manipulate paging queries should use these hooks.
+		$where = apply_filters('posts_where_paged', $where);
 		$where .= " GROUP BY $wpdb->posts.ID";
-		$join = apply_filters('posts_join', $join);
+		$join = apply_filters('posts_join_paged', $join);
 		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY post_" . $q['orderby'] . " $limits";
 
 		if ($q['preview']) {
