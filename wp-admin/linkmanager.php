@@ -1,31 +1,7 @@
 <?php
-// $Id$
-//
 // Links
 // Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
-//
-// This is an add-on to b2/WordPress weblog / news publishing tool
-// b2 is copyright (c)2001, 2002 by Michel Valdrighi - m@tidakada.com
-//
-// **********************************************************************
-// Copyright (C) 2002, 2003 Mike Little
-//
-// This program is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-// General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//
-// Mike Little (mike@zed1.com)
-// *****************************************************************
+
 require_once('../wp-config.php');
 require_once("../wp-links/links.php");
 
@@ -322,41 +298,41 @@ switch ($action) {
 
 <div class="wrap">
 
-  <table width="95%" cellpadding="5" cellspacing="0" border="0">
+  <table width="100%" cellpadding="3" cellspacing="3">
   <form name="editlink" method="post">
     <input type="hidden" name="action" value="editlink" />
     <input type="hidden" name="link_id" value="<?php echo $link_id; ?>" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
     <tr>
-      <td colspan="2"><b>Edit</b> a link:</td>
+      <td colspan="2"><strong>Edit</strong> a link:</td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">URL:</td>
+    <tr>
+      <td align="right">URL:</td>
       <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">Display Name/Alt text:</td>
+    <tr>
+      <td align="right">Display Name/Alt text:</td>
       <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">Image:</td>
+    <tr>
+      <td align="right">Image:</td>
       <td><input type="text" name="image" size="80" value="<?php echo $link_image; ?>"></td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">Description:</td>
+    <tr>
+      <td align="right">Description:</td>
       <td><input type="text" name="description" size="80" value="<?php echo $link_description; ?>"></td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">Rel:</td>
+    <tr>
+      <td align="right">Rel:</td>
       <td><input type="text" name="rel" size="80" value="<?php echo $link_rel; ?>"></td>
     </tr>
-    <tr height="20">
-      <td height="20" valign="top" align="right">Notes:</td>
+    <tr>
+      <td valign="top" align="right">Notes:</td>
       <td><textarea name="notes" cols="80" rows="10"><?php echo $link_notes; ?></textarea></td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">Rating:</td>
+    <tr>
+      <td align="right">Rating:</td>
       <td>
         <select name="rating" size="1">
 <?php
@@ -370,15 +346,15 @@ switch ($action) {
         </select>&nbsp;(Leave at 0 for no rating.)
       </td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">Target:</td>
+    <tr>
+      <td align="right">Target:</td>
       <td><label><input type="radio" name="target" value="_blank"   <?php echo(($link_target == '_blank') ? 'checked="checked"' : ''); ?>> _blank</label>
         &nbsp;<label><input type="radio" name="target" value="_top" <?php echo(($link_target == '_top') ? 'checked="checked"' : ''); ?>> _top</label>
         &nbsp;<label><input type="radio" name="target" value=""     <?php echo(($link_target == '') ? 'checked="checked"' : ''); ?>> none</label>
       </td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right">Visible:</td>
+    <tr>
+      <td align="right">Visible:</td>
       <td><label>
         <input type="radio" name="visible" <?php if ($link_visible == 'Y') echo "checked"; ?> value="Y">
         Yes</label>
@@ -387,13 +363,13 @@ switch ($action) {
         No</label>
       </td>
     </tr>
-    <tr height="20">
-      <td height="20" align="right"><label for="category">Category</label>:</td>
+    <tr>
+      <td align="right"><label for="category">Category</label>:</td>
       <td>
 <?php category_dropdown('category', $link_category); ?>
       </td>
     </tr>
-    <tr height="20">
+    <tr>
       <td colspan="2" align="center">
         <input type="submit" name="submit" value="Save" class="search">&nbsp;
         <input type="submit" name="submit" value="Cancel" class="search">
@@ -477,22 +453,22 @@ function checkAll(form)
 }
 //-->
 </script>
-
+<ul id="adminmenu2">
+	<li><a href="linkmanager.php" class="current">Manage Links</a></li>
+	<li><a href="linkcategories.php">Link Categories</a></li>
+	<li class="last"><a href="links.import.php">Import Blogroll</a></li>
+</ul>
 <div class="wrap">
     <form name="cats" method="post">
-    <table width="75%" cellpadding="5" cellspacing="0" border="0">
-      <tr>
-        <td><b>Link Categories:</b></td>
-        <td><a href="linkcategories.php">Manage Link Categories</a><?php echo gethelp_link($this_file,'manage_link_categories');?></td>
-        <td><a href="links.import.php">Import Blogroll</a><?php echo gethelp_link($this_file,'import_blogroll');?></td>
-      </tr>
+    <table width="75%" cellpadding="3" cellspacing="3">
       <tr>
         <td>
-          <b>Show</b> links in category:<?php echo gethelp_link($this_file,'link_categories');?><br />
+          <strong>Show</strong> links in category:<?php echo gethelp_link($this_file,'link_categories');?><br />
         </td>
         <td>
-          <b>Order</b> by:<?php echo gethelp_link($this_file,'order_by');?>
+          <strong>Order</strong> by:<?php echo gethelp_link($this_file,'order_by');?>
         </td>
+		<td>&nbsp;</td>
       </tr>
       <tr>
         <td>
@@ -541,16 +517,15 @@ function checkAll(form)
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
-  <table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <table width="100%" cellpadding="3" cellspacing="3">
     <tr>
       <th width="15%"><?php echo gethelp_link($this_file,'list_o_links');?> Name</th>
-      <th>URL</th>
+      <th>URI</th>
       <th>Category</th>
-      <th>Rel</th>
+      <th>rel</th>
       <th>Image</th>
       <th>Visible</th>
-      <th>&nbsp;</th>
-      <th>&nbsp;</th>
+      <th colspan="2">Action</th>
       <th>&nbsp;</th>
   </tr>
 <?php
@@ -586,14 +561,16 @@ function checkAll(form)
             ++$i;
             $style = ($i % 2) ? ' class="alternate"' : '';
             echo <<<LINKS
-    <tr valign="middle"$style>
+ 
+ 
+    <tr valign="middle" $style>
         <td><strong>$link->link_name</strong><br />
         Description: $link->link_description</td>
         <td><a href="$link->link_url" title="Visit $link->link_name">$short_url</a></td>
         <td>$link->category</td>
         <td>$link->link_rel</td>
-        <td>$image</td>
-        <td>$visible</td>
+        <td align='center'>$image</td>
+        <td align='center'>$visible</td>
 LINKS;
             $show_buttons = 1; // default
 
@@ -608,21 +585,18 @@ LINKS;
         <td><input type="checkbox" name="linkcheck[]" value="$link->link_id" /><td>
 LINKS;
             } else {
-              echo <<<LINKS
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-LINKS;
+              echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>\n";
             }
+		echo "\n\t</tr>";
         }
     }
 ?>
-    </tr>
 </table>
+
 </div>
 
 <div class="wrap">
-  <table width="100%" border="0" cellspacing="0" cellpadding="3">
+  <table width="100%" cellpadding="3" cellspacing="3">
     <tr><th colspan="4">Manage Multiple Links:</th></tr>
     <tr><td colspan="4">Use the checkboxes on the right to select multiple links and choose an action below:</td></tr>
     <tr>
@@ -659,36 +633,36 @@ LINKS;
 
 <div class="wrap">
 
-    <table width="95%" cellpadding="5" cellspacing="0" border="0">
-    <form name="addlink" method="post">
+    <table width="100%" cellpadding="3" cellspacing="3">
+    <form name="addlink" method="post" action="">
     <input type="hidden" name="action" value="Add" />
-    <tr><td colspan="2"><b>Add</b> a link:<?php echo gethelp_link($this_file,'add_a_link');?></td></tr>
-      <tr height="20">
-        <td height="20" align="right">URL:</td>
+    <tr><td colspan="2"><strong>Add</strong> a link:<?php echo gethelp_link($this_file,'add_a_link');?></td></tr>
+      <tr>
+        <td align="right">URL:</td>
         <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right">Display Name/Alt text:</td>
+      <tr>
+        <td align="right">Display Name/Alt text:</td>
         <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>"></td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right">Image:</td>
+      <tr>
+        <td align="right">Image:</td>
         <td><input type="text" name="image" size="80" value=""></td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right">Description:</td>
+      <tr>
+        <td align="right">Description:</td>
         <td><input type="text" name="description" size="80" value=""></td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right">Rel:</td>
+      <tr>
+        <td align="right">rel:</td>
         <td><input type="text" name="rel" size="80" value=""></td>
       </tr>
-      <tr height="20">
-        <td height="20" valign="top" align="right">Notes:</td>
+      <tr>
+        <td valign="top" align="right">Notes:</td>
         <td><textarea name="notes" cols="80" rows="10"></textarea></td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right">Rating:</td>
+      <tr>
+        <td align="right">Rating:</td>
         <td>
           <select name="rating" size="1">
 <?php
@@ -699,15 +673,15 @@ LINKS;
             </select>&nbsp;(Leave at 0 for no rating.)
         </td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right">Target:</td>
+      <tr>
+        <td align="right">Target:</td>
         <td><label><input type="radio" name="target" value="_blank"> _blank</label>
         &nbsp;<label><input type="radio" name="target" value="_top"> _top</label>
         &nbsp;<label><input type="radio" name="target" value="" checked="checked"> none</label>
         </td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right">Visible:</td>
+      <tr>
+        <td align="right">Visible:</td>
         <td><label>
           <input type="radio" name="visible" checked="checked" value="Y">
           Yes</label>
@@ -716,13 +690,13 @@ LINKS;
           No</label>
         </td>
       </tr>
-      <tr height="20">
-        <td height="20" align="right"><label for="category">Category</label>:</td>
+      <tr>
+        <td align="right"><label for="category">Category</label>:</td>
         <td>
 <?php category_dropdown('category'); ?>
         </td>
       </tr>
-      <tr height="20">
+      <tr>
         <td colspan="2" align="center">
           <input type="submit" name="submit" value="Add" class="search">
         </td>

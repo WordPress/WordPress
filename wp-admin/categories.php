@@ -147,7 +147,7 @@ default:
 </style>
 <div class="wrap">
 	<h2>Current Categories</h2>
-	<table width="100%">
+	<table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<th scope="col">Name</th>
 		<th scope="col">Description</th>

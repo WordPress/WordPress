@@ -1,5 +1,6 @@
 <?php
-$title = "Moderate comments";
+$title = 'Moderate comments';
+$parent_file = 'edit.php';
 /* <Moderation> */
 
 function add_magic_quotes($array) {

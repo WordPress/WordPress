@@ -158,6 +158,10 @@ textarea, input, select {
 	color: #171717;
 }
 
+#adminmenu .current {
+	font-weight: bold;
+}
+
 #adminmenu li, #adminmenu2 li {
 	display: inline;
 	line-height: 2.0em;
@@ -287,16 +291,18 @@ textarea, input, select {
 }
 
 #wphead {
-	background: url(../b2-img/wp-small.png) no-repeat;
-	border-bottom: 4px solid #333;
-	height: 42px;
-	margin: 0 2px;
+	height: 44px;
+	margin: 0;
+	background: repeat-x url(../b2-img/header-shadow.png) #f2f2f2;
 }
 
 #wphead a {
 	display: block;
-	height: 42px;
+	background: url(../b2-img/wp-small.png) no-repeat;
+	height: 44px;
 	text-decoration: none;
 	text-indent: -1000px;
 	width: 200px;
+	border-bottom: none;
+	margin: 3px 0 0 5px;
 }

@@ -1,5 +1,6 @@
 <?php
 $title = 'Edit Comments';
+$parent_file = 'edit.php';
 require_once('b2header.php');
 
 if (!$showcomments) {
