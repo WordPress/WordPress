@@ -530,6 +530,8 @@ function generic_ping($post_id = 0) {
 			weblog_ping($uri['host'], $uri['path']);
 		}
 	}
+
+	return $post_id;
 }
 
 add_action('publish_post', 'generic_ping');
