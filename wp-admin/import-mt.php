@@ -4,6 +4,7 @@ define('MTEXPORT', '');// enter the relative path of the import.txt file contain
 
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must install WordPress before you import any entries.");
 require('../wp-config.php');
+require ('upgrade-functions.php');
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 ?>
