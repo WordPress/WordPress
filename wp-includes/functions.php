@@ -1320,7 +1320,7 @@ function get_themes() {
 	if ($themes_dir) {
 		while(($theme_dir = $themes_dir->read()) !== false) {
 			if (is_dir($theme_root . '/' . $theme_dir)) {
-				if ($theme_dir == '.' || $theme_dir == '..') {
+				if ($theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS') {
 					continue;
 				}
 				$stylish_dir = @ dir($theme_root . '/' . $theme_dir);
