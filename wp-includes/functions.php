@@ -598,7 +598,8 @@ function weblog_ping($server = '', $path = '') {
 
 	// when set to true, this outputs debug messages by itself
 	$client->debug = false;
-	$client->query('weblogUpdates.ping', get_settings('blogname'), get_settings('home'));
+	$home = trailingslashit( get_option('home') );
+	$client->query('weblogUpdates.ping', get_settings('blogname'), $home);
 
 }
 
