@@ -113,9 +113,7 @@ if ('view' == $mode) {
     <th scope="col">Email</th>
     <th scope="col">IP</th>
     <th scope="col">Comment Excerpt</th>
-	<th scope="col">View</th>
-    <th scope="col">Edit</th>
-    <th scope="col">Delete</th>
+	<th scope="col" colspan="3">Actions</th>
   </tr>';
 		foreach ($comments as $comment) {
 		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $tableposts WHERE ID = $comment->comment_post_ID"));
@@ -123,7 +121,7 @@ if ('view' == $mode) {
 ?>
   <tr style='background-color: <?php echo $bgcolor; ?>'>
     <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
-    <th scope="row"><?php comment_author_link() ?></th>
+    <td><?php comment_author_link() ?></td>
     <td><?php comment_author_email_link() ?></td>
     <td><a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></td>
     <td><?php comment_excerpt(); ?></td>

@@ -121,7 +121,7 @@ default:
 	if (!$error) {
 	?> 
   <form name="template" action="templates.php" method="post"> 
-     <textarea cols="80" rows="20" style="width:100%; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea> 
+     <textarea cols="80" rows="21" style="width:100%; font-family: 'Courier New', Courier, monopace; font-size:small;" name="newcontent" tabindex="1"><?php echo $content ?></textarea> 
      <input type="hidden" name="action" value="update" /> 
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 
      <p class="submit">
@@ -141,12 +141,12 @@ default:
 	?> 
 </div> 
 <div class="wrap">
-  <p>To edit a file, type its name here. You can edit any file writable by the server, e.g. CHMOD 766.</p> 
+  <p>To edit a file, type its name here. You can edit any file <a href="http://wiki.wordpress.org/index.php/MakeWritable" title="Read more about making files writable">writable by the server</a>, e.g. CHMOD 666.</p> 
   <form name="file" action="templates.php" method="get"> 
     <input type="text" name="file" /> 
-    <input type="submit" name="submit"  class="search" value="go" /> 
+    <input type="submit" name="submit"  value="Edit file &raquo;" /> 
   </form> 
-  <p>Common files:</p>
+  <p>Common files: (click to edit)</p>
   <ul>
     <li><a href="templates.php?file=index.php">Main Index </a></li>
     <li><a href="templates.php?file=wp-comments.php">Comments</a></li>

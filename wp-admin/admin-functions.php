@@ -1,5 +1,9 @@
 <?php
 
+function wp_admin_head() {
+	do_action('wp_head', '');
+}
+
 function url_shorten ($url) {
 	$short_url = str_replace('http://', '', stripslashes($url));
 	$short_url = str_replace('www.', '', $short_url);

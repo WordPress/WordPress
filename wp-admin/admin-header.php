@@ -133,6 +133,8 @@ function blurry() {
 window.onload = blurry;
 //]]>
 </script>
+
+<?php wp_admin_head(); ?>
 </head>
 <body>
 <h1 id="wphead"><a href="http://wordpress.org" rel="external" title="Visit WordPress.org">WordPress</a></h1>

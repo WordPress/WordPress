@@ -1,6 +1,6 @@
 <?php
 $title = 'Permalink Options';
-$this_file = 'options.php';
+$parent_file = 'options-general.php';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -77,8 +77,8 @@ default:
     <p> 
       <input name="permalink_structure" type="text" style="width: 100%;" value="<?php echo $permalink_structure; ?>" /> 
     </p> 
-    <p> 
-      <input type="submit" name="Submit" value="Update"> 
+    <p class="submit"> 
+      <input type="submit" name="Submit" value="Update Permalink Structure"> 
     </p> 
   </form> 
 <?php

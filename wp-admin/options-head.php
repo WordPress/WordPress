@@ -29,6 +29,7 @@ $submenu = <<<END
 END;
 
 $sublines = split("\n", $submenu);
+$_SERVER['REQUEST_URI'] = str_replace('?updated=true', '', $_SERVER['REQUEST_URI']);
 foreach ($sublines as $subline) {
 	preg_match('/href="([^"]+)"/', $subline, $url);
 	if (substr($_SERVER['REQUEST_URI'], -8) == substr($url[1], -8)) {

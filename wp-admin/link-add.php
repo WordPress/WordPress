@@ -2,6 +2,7 @@
 
 $title = 'Add Link';
 $this_file = 'link-manager.php';
+$parent_file = 'link-manager.php';
 
 function category_dropdown($fieldname, $selected = 0) {
     global $wpdb, $tablelinkcategories;
@@ -83,7 +84,7 @@ th { text-align: right; }
            <td><input type="text" name="name" value="<?php echo urldecode($_GET['name']); ?>" style="width: 95%" /></td>
          </tr>
          <tr>
-         	<th scope="row">Description:</th>
+         	<th scope="row">Short description:</th>
          	<td><input type="text" name="description" value="" style="width: 95%" /></td>
          	</tr>
         <tr>
@@ -93,7 +94,7 @@ th { text-align: right; }
 </table>
 </fieldset>
        <p class="submit">
-         <input type="submit" name="submit" value="Add Link &raquo;" > 
+         <input type="submit" name="submit" value="Add Link &raquo;" /> 
        </p>
 	<fieldset class="options">
 	<legend>Link Relationship (XFN)</legend>
@@ -188,26 +189,22 @@ th { text-align: right; }
 </table>
 </fieldset>
        <p class="submit">
-         <input type="submit" name="submit" value="Add Link &raquo;" > 
+         <input type="submit" name="submit" value="Add Link &raquo;" /> 
        </p>
 <fieldset class="options">
 	<legend>Advanced</legend>
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
-           <th width="33%" scope="row">Image:</th>
-           <td width="67%"><input type="text" name="image" size="50" value=""></td>
+           <th width="33%" scope="row">Image URI:</th>
+           <td width="67%"><input type="text" name="image" size="50" value="" style="width: 95%" /></td>
          </tr>
 <tr>
            <th scope="row">RSS URI: </th>
-           <td><input name="rss_uri" type="text" id="rss_uri" value="" size="50"></td>
-         </tr>
-         <tr>
-           <th scope="row">Description</th>
-           <td>&nbsp;</td>
+           <td><input name="rss_uri" type="text" id="rss_uri" value="" size="50" style="width: 95%" /></td>
          </tr>
          <tr>
            <th scope="row">Notes:</th>
-           <td><textarea name="notes" cols="50" rows="10"></textarea></td>
+           <td><textarea name="notes" cols="50" rows="10" style="width: 95%"></textarea></td>
          </tr>
          <tr>
            <th scope="row">Rating:</th>
@@ -223,33 +220,29 @@ th { text-align: right; }
          <tr>
            <th scope="row">Target</th>
            <td><label>
-             <input type="radio" name="target" value="_blank">
+             <input type="radio" name="target" value="_blank" />
              <code>_blank</code></label>
-&nbsp;
-<label>
-<br>
-<input type="radio" name="target" value="_top">
+<br />
+<label><input type="radio" name="target" value="_top" />
 <code>_top</code></label>
-&nbsp;
-<label>
-<br>
-<input type="radio" name="target" value="" checked="checked">
+<br />
+<label><input type="radio" name="target" value="" checked="checked" />
 none</label>
 (Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)</td>
          </tr>
          <tr>
            <th scope="row">Visible:</th>
            <td><label>
-             <input type="radio" name="visible" checked="checked" value="Y">
-Yes</label><label><br>
-<input type="radio" name="visible" value="N"> <input type="hidden" name="action" value="Add" /> 
+             <input type="radio" name="visible" checked="checked" value="Y" />
+Yes</label><br />
+<label><input type="radio" name="visible" value="N"> <input type="hidden" name="action" value="Add" /> 
 No</label></td>
          </tr>
 </table>
 </fieldset>
 
        <p class="submit">
-         <input type="submit" name="submit" value="Add Link &raquo;" > 
+         <input type="submit" name="submit" value="Add Link &raquo;" /> 
        </p>
   </form>
 </div>

@@ -222,7 +222,7 @@ default:
 
 	?>
 <?php if ($updated) { ?>
-<div class="wrap">
+<div class="updated">
 <p><strong>Profile updated.</strong></p>
 </div>
 <?php } ?>

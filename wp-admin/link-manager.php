@@ -323,35 +323,41 @@ th { text-align: right; }
 </style>
 <div class="wrap"> 
   <form action="" method="post" name="editlink" id="editlink"> 
-  <h3>Edit a link:</h3>
-    <table width="100%"  border="0" cellspacing="5" cellpadding="3">
-      <tr>
-        <th scope="row">URI:</th>
-        <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>" /></td>
-      </tr>
-      <tr>
-        <th scope="row">Link Name: </th>
-        <td><input type="text" name="name" size="80" value="<?php echo $link_name; ?>" /></td>
-      </tr>
-      <tr>
-        <th scope="row">RSS URI: </th>
-        <td><input name="rss_uri" type="text" id="rss_uri" value="<?php echo $link_rss_uri; ?>" size="80"></td>
-      </tr>
-      <tr>
-        <th scope="row">Image:</th>
-        <td><input type="text" name="image" size="80" value="<?php echo $link_image; ?>" /></td>
-      </tr>
-      <tr>
-        <th scope="row">Description:</th>
-        <td><input type="text" name="description" size="80" value="<?php echo $link_description; ?>" /></td>
-      </tr>
-      <tr>
-        <th scope="row">rel:</th>
-        <td><input type="text" name="rel" id="rel" size="80" value="<?php echo $link_rel; ?>" /></td>
-      </tr>
-      <tr>
-        <th scope="row"><a href="http://gmpg.org/xfn/">XFN</a>:</th>
-        <td><table cellpadding="3" cellspacing="5">
+  <h2>Edit a link:</h2>
+<fieldset class="options">
+	<legend>Basics</legend>
+        <table class="editform" width="100%" cellspacing="2" cellpadding="5">
+         <tr>
+           <th width="33%" scope="row">URI:</th>
+           <td width="67%"><input type="text" name="linkurl" value="<?php echo $link_url; ?>" style="width: 95%; /"></td>
+         </tr>
+         <tr>
+           <th scope="row">Link Name:</th>
+           <td><input type="text" name="name" value="<?php echo $link_name; ?>" style="width: 95%" /></td>
+         </tr>
+         <tr>
+         	<th scope="row">Short description:</th>
+         	<td><input type="text" name="description" value="<?php echo $link_description; ?>" style="width: 95%" /></td>
+         	</tr>
+        <tr>
+           <th scope="row">Category:</th>
+           <td><?php category_dropdown('category'); ?></td>
+         </tr>
+</table>
+</fieldset>
+       <p class="submit">
+         <input type="submit" name="submit" value="Save Changes &raquo;" />
+       </p>
+	<fieldset class="options">
+	<legend>Link Relationship (XFN)</legend>
+        <table class="editform" width="100%" cellspacing="2" cellpadding="5">
+            <tr>
+            	<th width="33%" scope="row">rel:</th>
+            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="<?php echo $link_rel; ?>"></td>
+           	</tr>
+            <tr>
+            	<th scope="row"><a href="http://gmpg.org/xfn/">XFN</a> Creator:</th>
+            	<td><table cellpadding="3" cellspacing="5">
             <tr>
               <th scope="row"> friendship </th>
               <td>
@@ -435,15 +441,31 @@ th { text-align: right; }
               </td>
             </tr>
         </table></td>
-      </tr>
-      <tr>
-        <th scope="row">Notes:</th>
-        <td><textarea name="notes" cols="80" rows="10"><?php echo $link_notes; ?></textarea></td>
-      </tr>
-      <tr>
-        <th scope="row">Rating:</th>
-        <td><select name="rating" size="1">
-          <?php
+           	</tr>
+</table>
+</fieldset>
+       <p class="submit">
+         <input type="submit" name="submit" value="Save Changes &raquo;" />
+       </p>
+<fieldset class="options">
+	<legend>Advanced</legend>
+        <table class="editform" width="100%" cellspacing="2" cellpadding="5">
+         <tr>
+           <th width="33%" scope="row">Image URI:</th>
+           <td width="67%"><input type="text" name="image" size="50" value="<?php echo $link_image; ?>" style="width: 95%" /></td>
+         </tr>
+<tr>
+           <th scope="row">RSS URI: </th>
+           <td><input name="rss_uri" type="text" id="rss_uri" value="<?php echo $link_rss_uri; ?>" size="50" style="width: 95%" /></td>
+         </tr>
+         <tr>
+           <th scope="row">Notes:</th>
+           <td><textarea name="notes" cols="50" rows="10" style="width: 95%"><?php echo $link_notes; ?></textarea></td>
+         </tr>
+         <tr>
+           <th scope="row">Rating:</th>
+           <td><select name="rating" size="1">
+<?php
     for ($r = 0; $r < 10; $r++) {
       echo('            <option value="'.$r.'" ');
       if ($link_rating == $r)
@@ -451,45 +473,37 @@ th { text-align: right; }
       echo('>'.$r.'</option>');
     }
 ?>
-        </select> (Leave at 0 for no rating.) </td>
-      </tr>
-      <tr>
-        <th scope="row">Target:</th>
-        <td><label>
+           </select>
+           &nbsp;(Leave at 0 for no rating.) </td>
+         </tr>
+         <tr>
+           <th scope="row">Target</th>
+           <td><label>
           <input type="radio" name="target" value="_blank"   <?php echo(($link_target == '_blank') ? 'checked="checked"' : ''); ?> />
-          <code>_blank</code></label>
-&nbsp;<label>
+          <code>_blank</code></label><br />
+<label>
 <input type="radio" name="target" value="_top" <?php echo(($link_target == '_top') ? 'checked="checked"' : ''); ?> />
-<code>_top</code></label>
-&nbsp;
+<code>_top</code></label><br />
 <label>
 <input type="radio" name="target" value=""     <?php echo(($link_target == '') ? 'checked="checked"' : ''); ?> />
-none (Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)</label></td>
-      </tr>
-      <tr>
-        <th scope="row">Visible:</th>
-        <td><label>
-          <input type="radio" name="visible" <?php if ($link_visible == 'Y') echo "checked"; ?> value="Y" />
-Yes</label>
-&nbsp;
-<label>
-<input type="radio" name="visible" <?php if ($link_visible == 'N') echo "checked"; ?> value="N" />
+none</label><br />
+(Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)</td>
+         </tr>
+         <tr>
+           <th scope="row">Visible:</th>
+           <td><label>
+             <input type="radio" name="visible" <?php if ($link_visible == 'Y') echo "checked='checked'"; ?> value="Y" />
+Yes</label><br /><label>
+<input type="radio" name="visible" <?php if ($link_visible == 'N') echo "checked='checked'"; ?> value="N" />
 No</label></td>
-      </tr>
-      <tr>
-        <th scope="row">Category:</th>
-        <td><?php category_dropdown('category', $link_category); ?></td>
-      </tr>
-      <tr>
-        <td colspan="2" align="center"><input type="submit" name="submit" value="Save Changes" class="search" />
-          &nbsp;
-          <input type="submit" name="submit" value="Cancel" class="search" />
+         </tr>
+</table>
+</fieldset>
+<p class="submit"><input type="submit" name="submit" value="Save Changes &raquo;" />
           <input type="hidden" name="action" value="editlink" />
           <input type="hidden" name="link_id" value="<?php echo $link_id; ?>" />
           <input type="hidden" name="order_by" value="<?php echo $order_by ?>" />
-          <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" /></td>
-      </tr>
-    </table>
+          <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" /></p>
   </form> 
 </div>
 <?php

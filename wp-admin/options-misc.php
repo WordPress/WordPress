@@ -1,5 +1,6 @@
 <?php
 $title = 'Miscellaneous Options';
+$parent_file = 'options-general.php';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {

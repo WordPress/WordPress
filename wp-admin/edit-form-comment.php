@@ -2,7 +2,7 @@
 
 $allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
-$submitbutton_text = 'Edit this!';
+$submitbutton_text = 'Edit Comment &raquo;';
 $toprow_title = 'Editing Comment # '.$commentdata['comment_ID'];
 $form_action = 'editedcomment';
 $form_extra = "' />\n<input type='hidden' name='comment_ID' value='$comment' />\n<input type='hidden' name='comment_post_ID' value='".$commentdata["comment_post_ID"];
@@ -70,7 +70,7 @@ edCanvas = document.getElementById('content');
 }
 ?>
 
-<p><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
+<p class="submit"><input type="submit" name="submit" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
 
@@ -86,5 +86,5 @@ if ($user_level > 4) {
 ?>
 
 </form>
-<p><a href="post.php?action=deletecomment&amp;noredir=true&amp;comment=<?php echo $commentdata['comment_ID']; ?>&amp;p=<?php echo $commentdata['comment_post_ID']; ?>">Delete this comment</a>.</p>
+<p><a class="delete" href="post.php?action=deletecomment&amp;noredir=true&amp;comment=<?php echo $commentdata['comment_ID']; ?>&amp;p=<?php echo $commentdata['comment_post_ID']; ?>">Delete comment</a></p>
 </div>

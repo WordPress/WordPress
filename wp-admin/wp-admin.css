@@ -249,6 +249,7 @@ textarea, input, select {
 	padding: 0;
 	border-bottom: none;
 	background-color: #707070;
+	height: 20px;
 }
 #adminmenu2 li {
 	line-height: 1.7em;
