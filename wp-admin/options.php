@@ -58,24 +58,24 @@ case 'update':
 
 // HACK
 // Options that if not there have 0 value but need to be something like "closed"
-$nonbools = array('default_ping_status', 'default_comment_status');
+    $nonbools = array('default_ping_status', 'default_comment_status');
     if ($options) {
         foreach ($options as $option) {
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
                 $old_val = $option->option_value;
                 $new_val = $_POST[$option->option_name];
-				if (!$new_val) {
-					if (3 == $option->option_type)
-						$new_val = '';
-					else
-						$new_val = 0;
-				}
-				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_val = 'closed';
-                if ($new_val !== $old_val)
-					$result = $wpdb->query("UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'");
+                if (!$new_val) {
+                    if (3 == $option->option_type)
+                        $new_val = '';
+                    else
+                        $new_val = 0;
                 }
+                if( in_array($option->option_name, $nonbools) && $new_val == '0' ) $new_val = 'closed';
+                if ($new_val !== $old_val)
+                    $result = $wpdb->query("UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'");
             }
+        }
         unset($cache_settings); // so they will be re-read
         get_settings('siteurl'); // make it happen now
     } // end if options
