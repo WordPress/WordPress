@@ -712,6 +712,49 @@ function upgrade_110() {
 		$wpdb->query("INSERT INTO $tableoptions (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (93, 'blog_charset', 3, 'utf-8', 'Your blog&#8217;s charset (here&#8217;s a <a href=\"http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html\">list of possible charsets</a>)', 8)");
 	}
 
+	/* for GMT dates: this is commented until all of WP can deal with GMT
+	$time_difference = get_settings('time_difference');
+
+	$server_time = gmmktime(date('H'), date('i'), date('s'), date('m'), date('d'), date('Y'));
+	$w = date('Y-m-d H:i:s', time() + $time_difference*3600);
+	$weblogger_time = gmmktime(substr($w,11,13), substr($w,14,16), substr($w,17,19), substr($w,5,7), substr($w,8,10), substr($w,0,4));
+	$gmt_time = time();
+
+	$diff_gmt_server = ($gmt_time - $server_time) / 3600;
+	$diff_weblogger_server = ($weblogger_time - $server_time) / 3600;
+	$diff_gmt_weblogger = $diff_gmt_server - $diff_weblogger_server;
+
+	if (strval(current_time('timestamp') - $time_difference*3600) != gmdate('Y-m-d H:i:s', time())) {
+
+		$new_time_difference = -$diff_gmt_weblogger;
+
+		$add_hours = intval($diff_gmt_weblogger);
+		$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
+
+		#field names to update:
+		#wp_posts.post_date
+		#wp_posts.post_modified
+		#wp_comments.comment_date
+		#wp_users.dateYMDhour
+
+		#the queries are simple
+		$wpdb->query("UPDATE $tableposts SET post_date = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+		$wpdb->query("UPDATE $tableposts SET post_modified = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
+		$wpdb->query("UPDATE $tablecomments SET comment_date = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE");
+		$wpdb->query("UPDATE $tableusers SET dateYMDhour = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
+
+		#and then we update time_difference to use the new value
+		$wpdb->query("UPDATE $tableoptions SET option_value = '$new_time_difference' WHERE option_name = 'time_difference'");
+
+	} else {
+
+		#if the times are already stored as GMT, we shouldn't have anything to do
+		#except set time_difference to zero
+		$wpdb->query("UPDATE $tableoptions SET option_value = '0' WHERE option_name = 'time_difference'");
+
+	}
+	*/
+
 }
 
 ?>
