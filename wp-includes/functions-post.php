@@ -386,7 +386,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 
 	do_action('wp_blacklist_check', '');
 
-	if ( preg_match_all('/&#(\d+);/', $comment, $chars) ) {
+	if ( preg_match_all('/&#(\d+);/', $comment . $author . $url, $chars) ) {
 		foreach ($chars[1] as $char) {
 			// If it's an encoded char in the normal ASCII set, reject
 			if ($char < 128)
