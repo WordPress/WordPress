@@ -61,11 +61,21 @@ if (isset($_GET['s'])) {
 		comment_content LIKE ('%$s%')
 		ORDER BY comment_date DESC");
 } else {
-	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments ORDER BY comment_date DESC LIMIT 20");
+	if ( isset($_GET['offset']) )
+		$offset = (int) $_GET['offset'] * 20;
+	else
+		$offset = 0;
+
+	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments ORDER BY comment_date DESC LIMIT $offset,20");
 }
 if ('view' == $mode) {
 	if ($comments) {
-		echo '<ol class="commentlist">';
+		if ($offset)
+			$start = " start='$offset'";
+		else
+			$start = '';
+
+		echo "<ol class='commentlist' $start>";
 		$i = 0;
 		foreach ($comments as $comment) {
 		++$i; $class = '';
@@ -92,9 +102,16 @@ if ('view' == $mode) {
 			?> <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), stripslashes($post_title)); ?></a> | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a></p>
 		</li>
 
-		<?php 
-		} // end foreach
-	echo '</ol>';
+<?php } // end foreach ?>
+</ol>
+<form action="" method="get">
+<p class="submit">
+<input type="hidden" name="offset" value="<?php echo $_GET['offset']+ 1; ?>" />
+<input type="submit" name="submit" value="<?php _e('View Next 20 Comments &raquo;');?>" />
+</p>
+</form>
+
+<?php
 	} else {
 
 		?>
