@@ -748,40 +748,51 @@ function do_enclose( $content, $post_ID ) {
 		endif;
 	endforeach;
 
-	foreach ($post_links as $url){
-                if( $url != '' && in_array($url, $pung) == false ) {
-                    set_time_limit( 60 ); 
-                    $file = str_replace( "http://", "", $url );
-                    $host = substr( $file, 0, strpos( $file, "/" ) );
-                    $file = substr( $file, strpos( $file, "/" ) );
-                    $headers = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
-                    $port    = 80;
-                    $timeout = 3;
-                    $fp = @fsockopen($host, $port, $err_num, $err_msg, $timeout);
-                    if( $fp ) {
-                        fputs($fp, $headers );
-                        $response = '';
-                        while ( !feof($fp) && strpos( $response, "\r\n\r\n" ) == false )
-                            $response .= fgets($fp, 2048);
-                        fclose( $fp );
-                    } else {
-                        $response = '';
-                    }
-                    if( $response != '' ) {
-                        $len = substr( $response, strpos( $response, "Content-Length:" ) + 16 );
-                        $len = substr( $len, 0, strpos( $len, "\n" ) );
-                        $type = substr( $response, strpos( $response, "Content-Type:" ) + 14 );
-                        $type = substr( $type, 0, strpos( $type, "\n" ) + 1 );
-                        $allowed_types = array( 'video', 'audio' );
-                        if( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
-                            $meta_value = "$url\n$len\n$type\n";
-                            $query = "INSERT INTO `".$wpdb->postmeta."` ( `meta_id` , `post_id` , `meta_key` , `meta_value` )
-                                VALUES ( NULL, '$post_ID', 'enclosure' , '".$meta_value."')";
-                            $wpdb->query( $query );
-                        }
-                    }
-                }
-        }
+	foreach ($post_links as $url) :
+		if ( $url != '' && in_array($url, $pung) == false ) {
+			if ( $headers = wp_get_http_headers( $url) ) {
+				$len  = $headers['content-length'];
+				$type = $headers['content-type'];
+				$allowed_types = array( 'video', 'audio' );
+				if( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
+					$meta_value = "$url\n$len\n$type\n";
+					$wpdb->query( "INSERT INTO `".$wpdb->postmeta."` ( `post_id` , `meta_key` , `meta_value` )
+					VALUES ( '$post_ID', 'enclosure' , '".$meta_value."')" );
+				}
+			}
+		}
+	endforeach;
+}
+
+function wp_get_http_headers( $url ) {
+	set_time_limit( 60 ); 
+	$parts = parse_url( $url );
+	$file  = $parts['path'] . $parts['query'];
+	$host  = $parts['host'];
+	if ( !isset( $parts['port'] ) )
+		$parts['port'] = 80;
+
+	$head = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
+
+	$fp = @fsockopen($host, $parts['port'], $err_num, $err_msg, 3);
+	if ( !$fp )
+		return false;
+
+	$response = '';
+	fputs( $fp, $head );
+	while ( !feof( $fp ) && strpos( $response, "\r\n\r\n" ) == false )
+		$response .= fgets( $fp, 2048 );
+	fclose( $fp );
+	preg_match_all('/(.*?): (.*)\r/', $response, $matches);
+	$count = count($matches[1]);
+	for ( $i = 0; $i < $count; $i++) {
+		$key = strtolower($matches[1][$i]);
+		$headers["$key"] = $matches[2][$i];
+	}
+
+	preg_match('/.*([0-9]{3}).*/', $response, $return);
+	$headers['response'] = $return[1]; // HTTP response code eg 204, 200, 404
+	return $headers;
 }
 
 // Deprecated.  Use the new post loop.
@@ -863,6 +874,7 @@ function merge_filters($tag) {
 		}
 
 	}
+}
 
 	if (isset($wp_filter[$tag]))
 		ksort($wp_filter[$tag]);

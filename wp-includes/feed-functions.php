@@ -146,7 +146,7 @@ function rss_enclosure() {
 				if (is_array($val)) {
 					foreach($val as $enc) {
 						$enclosure = split( "\n", $enc );
-						print "<enclosure url='".trim( $enclosure[ 0 ] )."' length='".trim( $enclosure[ 1 ] )."' type='".trim( $enclosure[ 2 ] )."'/>\n";
+						print "<enclosure url='".trim( htmlspecialchars($enclosure[ 0 ]) )."' length='".trim( $enclosure[ 1 ] )."' type='".trim( $enclosure[ 2 ] )."'/>\n";
 					}
 				}
 			}
