@@ -218,7 +218,7 @@ textarea, input, select {
 	padding: 0 2px;
 }
 
-#adminmenu .current, #adminmenu2 .current {
+#adminmenu .current, #adminmenu2 .current, #ed_strong {
 	font-weight: bold;
 }
 
@@ -309,10 +309,6 @@ textarea, input, select {
 
 #ed_em {
 	font-style: italic;
-}
-
-#ed_strong {
-	font-weight: bold;
 }
 
 #excerpt {
