@@ -1484,73 +1484,80 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 	echo "</select>\n";
 }
 
-// out of the WordPress loop
+// Out of the WordPress loop
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 0) {
-	global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
-	global $pagenow, $siteurl, $blogfilename;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-	// Optiondates does not currently work
+    global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
+    global $pagenow, $siteurl, $blogfilename;
+    global $querystring_start, $querystring_equal, $querystring_separator;
+    // Optiondates now works
     if ('' == $file) {
         $file = "$siteurl/$blogfilename";
     }
-	$sort_column = 'cat_'.$sort_column;
+    $sort_column = 'cat_'.$sort_column;
 
     $query  = "
-		SELECT cat_ID, cat_name, category_nicename, category_description
-		FROM $tablecategories
-		WHERE cat_ID > 0 
-		ORDER BY $sort_column $sort_order";
+        SELECT cat_ID, cat_name, category_nicename, category_description
+        FROM $tablecategories
+        WHERE cat_ID > 0
+        ORDER BY $sort_column $sort_order";
 
-	$categories = $wpdb->get_results($query);
+    $categories = $wpdb->get_results($query);
 
-    if (intval($hide_empty) == 1) {
-		$cat_counts = $wpdb->get_results("	SELECT cat_ID,
-		COUNT($tablepost2cat.post_id) AS cat_count
-		FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
-		LEFT JOIN $tableposts ON (ID = post_id)
-		GROUP BY category_id");
-		foreach ($cat_counts as $cat_count) {
-			$category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
-		}
+    if (intval($hide_empty) == 1 || intval($optioncount) == 1) {
+        $cat_counts = $wpdb->get_results("    SELECT cat_ID,
+        COUNT($tablepost2cat.post_id) AS cat_count
+        FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
+        LEFT JOIN $tableposts ON (ID = post_id)
+        GROUP BY category_id");
+        foreach ($cat_counts as $cat_count) {
+            $category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
+        }
+    }
+    
+    if (intval($optiondates) == 1) {
+        $cat_dates = $wpdb->get_results("    SELECT cat_ID,
+        DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
+        FROM $tablecategories LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
+        LEFT JOIN $tableposts ON (ID = post_id)
+        GROUP BY category_id");
+        foreach ($cat_dates as $cat_date) {
+            $category_lastday["$cat_date->cat_ID"] = $cat_date->lastday;
+            $category_lastmonth["$cat_date->cat_ID"] = $cat_date->lastmonth;
+        }
     }
 
-   if (intval($optioncount) == 1) {
-		$link .= '&nbsp;('.$category->cat_count.')';
-	}
-
-	if (!$categories) {
-		if ($list) {
-			$before = '<li>';
-			$after = '</li>';
-		}
-		echo $before . "No categories" . $after . "\n";
-		return;
-	}
-
-	foreach ($categories as $category) {
-        $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" ';
-        if ($use_desc_for_title == 0 || empty($category->category_description)) {
-	        $link .= 'title="View all posts filed under ' . htmlspecialchars($category->cat_name) . '"';
-	    }
-	    else {
-	        $link .= 'title="' . htmlspecialchars($category->category_description) . '"';
-	    }
-        $link .= '>';
-        $link .= stripslashes($category->cat_name).'</a>';
-        if (intval($optioncount) == 1) {
-            $link .= ' ('.$category_posts["$category->cat_ID"].')';
+    if (!$categories) {
+        if ($list) {
+            $before = '<li>';
+            $after = '</li>';
         }
-        if (intval($optiondates) == 1) {
-            $link .= ' '.$category->lastday.'/'.$category->lastmonth;
+        echo $before . "No categories" . $after . "\n";
+        return;
+    }
+
+    foreach ($categories as $category) {
+        if (intval($hide_empty) == 0 || $category_posts["$category->cat_ID"] > 0) {
+            $link = '<a href="'.get_category_link(0, $category->cat_ID, $category->category_nicename).'" ';
+            if ($use_desc_for_title == 0 || empty($category->category_description)) {
+                $link .= 'title="View all posts filed under ' . htmlspecialchars($category->cat_name) . '"';
+            } else {
+                $link .= 'title="' . htmlspecialchars($category->category_description) . '"';
+            }
+            $link .= '>';
+            $link .= stripslashes($category->cat_name).'</a>';
+            if (intval($optioncount) == 1) {
+                $link .= ' ('.intval($category_posts["$category->cat_ID"]).')';
+            }
+            if (intval($optiondates) == 1) {
+                $link .= ' '.$category_lastday["$category->cat_ID"].'/'.$category_lastmonth["$category->cat_ID"];
+            }
+            if ($list) {
+                echo "\t<li>$link</li>\n";
+            } else {
+                echo "\t$link<br />\n";
+            }
         }
-        if (!$hide_empty || $category_posts[$category->cat_ID]) {
-			if ($list) {
-				echo "\t<li>$link</li>\n";
-			} else {
-				echo "\t$link<br />\n";
-			}
-		}
-	}
+    }
 }
 
 /***** // Category tags *****/
@@ -1649,9 +1656,8 @@ function comment_author() {
 	$author = apply_filters('comment_auther', $author);
 	$author = convert_chars($author);
 	if (!empty($author)) {
-		echo $comment->comment_author;
-	}
-	else {
+		echo $author;
+	} else {
 		echo "Anonymous";
 	}
 }
