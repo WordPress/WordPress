@@ -606,11 +606,10 @@ function the_time( $d = '' ) {
 }
 
 function get_the_time( $d = '' ) {
-	global $id, $post;
 	if ( '' == $d )
 		$the_time = date( get_settings('time_format'), get_post_time() );
 	else
-		$the_time = mysql2date( $d, get_post_time() );
+		$the_time = date( $d, get_post_time() );
 	return apply_filters('get_the_time', $the_time);
 }
 
