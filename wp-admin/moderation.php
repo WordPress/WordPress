@@ -148,6 +148,7 @@ echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID
 
     <p class="submit"><input type="submit" name="submit" value="<?php _e('Moderate Comments &raquo;') ?>" /></p>
 <script type="text/javascript">
+// <![CDATA[
 function markAllForDelete() {
 	for (var i=0; i< document.approval.length; i++) {
 		if (document.approval[i].value == "delete") {
@@ -170,6 +171,7 @@ function markAllForDefer() {
 	}
 }
 document.write('<ul><li><a href="javascript:markAllForApprove()"><?php _e('Mark all for approval'); ?></a></li><li><a href="javascript:markAllForDelete()"><?php _e('Mark all for deletion'); ?></a></li><li><a href="javascript:markAllForDefer()"><?php _e('Mark all for later'); ?></a></li></ul>');
+// ]]>
 </script>
 
 <noscript>
