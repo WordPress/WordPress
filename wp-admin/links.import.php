@@ -103,12 +103,13 @@ switch ($step) {
                 else
                 {
                     $opml = implode('', file($opml_url));
-                    preg_match_all('/<outline text="(.*?)" type="(.*?)" url="(.*?)" title="(.*?)" target="(.*?)"  \/>/', $opml, $items);
+                    // Updated for new format thanks to Rantor http://wordpress.org/support/2/769
+                    preg_match_all('/<outline text="(.*?)" type="(.*?)" url="(.*?)" (lastmod="(.*?)"|) target="(.*?)"*? \/>/',$opml,$items);
                     $names = $items[1];
                     $types = $items[2];
                     $urls = $items[3];
-                    $titles = $items[4];
-                    $targets = $items[5];
+                    $titles = $items[5];
+                    $targets = $items[6];
                     $link_count = count($names);
                     for ($i = 0; $i < $link_count; $i++) {
                         if ('Last' == substr($titles[$i], 0, 4))
