@@ -751,21 +751,19 @@ function upgrade_110() {
 
 	}
 
-	// Add post_date_gmt, post_modified_gmt, comment_date_gmt fields
-	$got_gmt_fields = 0;
-	foreach ($wpdb->get_col("DESC $tableposts", 0) as $column ) {
-		if ($debug) echo("checking $column == $column_name<br />");
-		if ($column == 'post_date_gmt') {
-			$got_gmt_fields++;
-		}
-	}
+	// Check if we already set the GMT fields (if we did, then
+	// MAX(post_date_gmt) can't be '0000-00-00 00:00:00'
+	// <michel_v> I just slapped myself silly for not thinking about it earlier
+	$got_gmt_fields = ($wpdb->get_var("SELECT MAX(post_date_gmt) FROM $tableposts") == '0000-00-00 00:00:00') ? false : true;
+
 	if (!$got_gmt_fields) {
 
 		// Add or substract time to all dates, to get GMT dates
 		$add_hours = intval($diff_gmt_weblogger);
 		$add_minutes = intval(60 * ($diff_gmt_weblogger - $add_hours));
 		$wpdb->query("UPDATE $tableposts SET post_date_gmt = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
-		$wpdb->query("UPDATE $tableposts SET post_modified_gmt = DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
+		$wpdb->query("UPDATE $tableposts SET post_modified = post_date");
+		$wpdb->query("UPDATE $tableposts SET post_modified_gmt = DATE_ADD(post_modified, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE) WHERE post_modified != '0000-00-00 00:00:00'");
 		$wpdb->query("UPDATE $tablecomments SET comment_date_gmt = DATE_ADD(comment_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 		$wpdb->query("UPDATE $tableusers SET dateYMDhour = DATE_ADD(dateYMDhour, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)");
 	}
