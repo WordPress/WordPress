@@ -76,7 +76,7 @@ th { text-align: right; }
 <div class="updated"><p>Link added.</p></div>
 <?php endif; ?>
 <div class="wrap">
-<h2><?php _e('<strong>Add</strong> a link:') ?> <?php echo gethelp_link($this_file,'add_a_link');?></h2>
+<h2><?php _e('<strong>Add</strong> a link:') ?></h2>
      <form name="addlink" method="post" action="link-manager.php">
 <fieldset class="options">
 	<legend><?php _e('Basics') ?></legend>

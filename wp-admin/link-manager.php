@@ -609,10 +609,10 @@ function checkAll(form)
     <table width="75%" cellpadding="3" cellspacing="3">
       <tr>
         <td>
-        <?php printf(__('<strong>Show</strong> links in category: %s'), gethelp_link($this_file,'link_categories'));?><br />
+        <?php _e('<strong>Show</strong> links in category:'); ?><br />
         </td>
         <td>
-          <?php printf(__('<strong>Order</strong> by: %s'), gethelp_link($this_file,'order_by'));?>
+          <?php _e('<strong>Order</strong> by:');?>
         </td>
 		<td>&nbsp;</td>
       </tr>
@@ -649,7 +649,6 @@ function checkAll(form)
         </td>
         <td>
           <input type="submit" name="action" value="<?php _e('Show') ?>" />
-          <?php echo gethelp_link($this_file,'show');?>
         </td>
       </tr>
     </table>
@@ -666,7 +665,7 @@ function checkAll(form)
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
   <table width="100%" cellpadding="3" cellspacing="3">
     <tr>
-      <th width="15%"><?php echo gethelp_link($this_file,'list_o_links');?> <?php _e('Name') ?></th>
+      <th width="15%"><?php _e('Name') ?></th>
       <th><?php _e('URI') ?></th>
       <th><?php _e('Category') ?></th>
       <th><?php _e('rel') ?></th>
@@ -747,7 +746,7 @@ LINKS;
     <tr><td colspan="4"><?php _e('Use the checkboxes on the right to select multiple links and choose an action below:') ?></td></tr>
     <tr>
         <td>
-          <?php _e('Assign ownership to:'); echo ' ' . gethelp_link($this_file,'assign_ownership'); ?>
+          <?php _e('Assign ownership to:'); ?>
 <?php
     $results = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level > 0 ORDER BY ID");
     echo "          <select name=\"newowner\" size=\"1\">\n";
@@ -761,13 +760,13 @@ LINKS;
         <input name="assign" type="submit" id="assign" value="<?php _e('Go') ?>" />
         </td>
         <td>
-          <input name="visibility" type="submit" id="visibility" value="<?php _e('Toggle Visibility') ?>" /><?php echo gethelp_link($this_file,'toggle_visibility');?>
+          <input name="visibility" type="submit" id="visibility" value="<?php _e('Toggle Visibility') ?>" />
         </td>
         <td>
-          <?php _e('Move to category:'); echo ' ' . gethelp_link($this_file,'move_to_cat'); category_dropdown('category'); ?> <input name="move" type="submit" id="move" value="<?php _e('Go') ?>" />
+          <?php _e('Move to category:'); category_dropdown('category'); ?> <input name="move" type="submit" id="move" value="<?php _e('Go') ?>" />
         </td>
         <td align="right">
-          <a href="#" onClick="checkAll(document.getElementById('links')); return false; "><?php _e('Toggle Checkboxes') ?></a><?php echo gethelp_link($this_file,'toggle_checkboxes');?>
+          <a href="#" onClick="checkAll(document.getElementById('links')); return false; "><?php _e('Toggle Checkboxes') ?></a>
         </td>
     </tr>
 </table>

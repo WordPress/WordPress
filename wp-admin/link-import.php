@@ -40,14 +40,14 @@ switch ($step) {
     <li><?php _e('Go to <a href="http://www.blogrolling.com">Blogrolling.com</a>
     and sign in. Once you&#8217;ve done that, click on <strong>Get Code</strong>, and then
     look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
-    code</strong>') ?><?php echo gethelp_link($this_file,'opml_code');?>.</li>
+    code</strong>') ?>.</li>
     <li><?php _e('Or go to <a href="http://blo.gs">Blo.gs</a> and sign in. Once you&#8217;ve done
     that in the \'Welcome Back\' box on the right, click on <strong>share</strong>, and then
     look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
-    link</strong> (favorites.opml).') ?><?php echo gethelp_link($this_file,'opml_code');?></li>
+    link</strong> (favorites.opml).') ?></li>
     <li><?php _e('Select that text and copy it or copy the link/shortcut into the box below.') ?><br />
        <input type="hidden" name="step" value="1" />
-       <?php _e('Your OPML URL:') ?><?php echo gethelp_link($this_file,'opml_code');?> <input type="text" name="opml_url" size="65" />
+       <?php _e('Your OPML URL:') ?> <input type="text" name="opml_url" size="65" />
 	</li>
     <li>
 	   <?php _e('<strong>or</strong> you can upload an OPML file from your desktop aggregator:') ?><br />
@@ -56,7 +56,7 @@ switch ($step) {
     </li>
 
     <li><?php _e('Now select a category you want to put these links in.') ?><br />
-	<?php _e('Category:') ?> <?php echo gethelp_link($this_file,'link_category');?><select name="cat_id">
+	<?php _e('Category:') ?> <select name="cat_id">
 <?php
 	$categories = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
 	foreach ($categories as $category) {
@@ -69,7 +69,7 @@ switch ($step) {
 
 	</li>
 
-    <li><input type="submit" name="submit" value="<?php _e('Import!') ?>" /><?php echo gethelp_link($this_file,'import');?></li>
+    <li><input type="submit" name="submit" value="<?php _e('Import!') ?>" /></li>
 	</ol>
     </form>
 

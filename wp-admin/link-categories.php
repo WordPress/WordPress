@@ -298,7 +298,7 @@ switch ($action) {
 	<li class="last"><a href="link-import.php"><?php _e('Import Blogroll') ?></a></li>
 </ul>
 <div class="wrap">
-            <h2><?php _e('Link Categories:') ?><?php echo gethelp_link($this_file,'edit_link_category');?></h2>
+            <h2><?php _e('Link Categories:') ?></h2>
             <table width="100%" cellpadding="5" cellspacing="0" border="0">
               <tr>
  	        <th rowspan="2" valign="bottom"><?php _e('Name') ?></th>
@@ -360,7 +360,7 @@ foreach ($results as $row) {
 <div class="wrap">
     <form name="addcat" method="post">
       <input type="hidden" name="action" value="addcat" />
-	  <h2><?php _e('Add a Link Category:') ?><?php echo gethelp_link($this_file,'add_link_category');?></h2>
+	  <h2><?php _e('Add a Link Category:') ?></h2>
 <fieldset class="options">
 <legend><?php _e('Category Options') ?></legend>
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
