@@ -13,9 +13,6 @@ require_once($abspath.'wp-links/links.php');
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<meta name="generator" content="WordPress .72" /> <!-- leave this for stats -->
 
-	<?php if(get_settings('use_geo_positions')) {
-		doGeoUrlHeader($posts);
-	} ?>
 	<style type="text/css" media="screen">
 		@import url( <?php echo $siteurl; ?>/wp-layout.css );
 	</style>
