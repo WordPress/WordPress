@@ -20,8 +20,8 @@ $form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_p
 
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 
-$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
-<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
+$form_trackback = '<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" />';
+
 if ('' != $pinged) {
 	$pings .= '<p>'. __('Already pinged:') . '</p><ul>';
 	$already_pinged = explode("\n", trim($pinged));
@@ -83,10 +83,6 @@ window.onload = focusit;
 		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
 </div>
 </fieldset>
-<fieldset id="slugdiv">
-<legend><?php _e('Post Slug') ?></legend>
-<div><input name="post_name" type="text" size="17" id="post_name" value="<?php echo $post_name ?>" /></div>
-</fieldset>
     <fieldset id="postpassworddiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#post_password" title="<?php _e('Help on post password') ?>"><?php _e('Post Password') ?></a></legend> 
 	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>
@@ -118,7 +114,7 @@ edCanvas = document.getElementById('content');
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
-<?php echo $form_trackback; ?>
+
 
 <p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="6" /> 
 <?php 
@@ -132,19 +128,58 @@ if ('publish' != $post_status || 0 == $post_ID) {
 ?>
 	<input name="referredby" type="hidden" id="referredby" value="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
-<?php
-if ('' != $pinged) {
-	echo $pings;
-}
 
-// if the level is 5+, allow user to edit the timestamp - not on 'new post' screen though
-// if (($user_level > 4) && ($action != "post"))
-if ($user_level > 4) {
-	touch_time(($action == 'edit'));
-}
-?>
+<?php do_action('edit_form_advanced', ''); ?>
+</div>
+
+</div>
+
+<div class="wrap">
+<h2><?php _e('Advanced'); ?></h2>
+
+<table width="100%" cellspacing="2" cellpadding="5" class="editform">
+	<tr>
+		<th scope="row" valign="top"><?php _e('Send trackbacks to'); ?>:</th>
+		<td><?php echo $form_trackback; ?> <br />
+		<?php _e('Separate multiple URIs with spaces'); ?></td>
+	</tr>
+	<tr valign="top">
+		<th scope="row" width="25%"><?php _e('Post slug') ?>:</th>
+		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
+	</tr>
+<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login, user_firstname, user_lastname FROM $wpdb->users WHERE user_level <= $user_level") ) : ?>
+	<tr>
+		<th scope="row"><?php _e('Post author'); ?>:</th>
+		<td>
+		<select name="post_author" id="post_author">
+		<?php 
+		foreach ($users as $o) :
+			if ( $post_author == $o->ID ) $selected = 'selected="selected"';
+			else $selected = '';
+			echo "<option value='$o->ID' $selected>$o->user_login ($o->user_firstname $o->user_lastname)</option>";
+		endforeach;
+		?>
+		</select>
+		</td>
+	</tr>
+<?php endif; ?>
+<?php if ($user_level > 4) : ?>
+	<tr>
+		<th scope="row"><?php _e('Edit time'); ?>:</th>
+		<td><?php touch_time(($action == 'edit')); ?></td>
+	</tr>
+<?php endif; ?>
+	<tr>
+		<th scope="row"><?php _e('Delete'); ?>:</th>
+		<td><?php if ('edit' == $action) : ?>
+		<input name="deletepost" class="delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this post') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title) ) . "')\""; ?> />
+<?php endif; ?></td>
+	</tr>
+</table>
+
 <fieldset id="postcustom">
 <legend><?php _e('Custom Fields') ?></legend>
+<div id="postcustomstuff">
 <?php 
 if($metadata = has_meta($post_ID)) {
 ?>
@@ -155,11 +190,12 @@ if($metadata = has_meta($post_ID)) {
 }
 	meta_form();
 ?>
-</fieldset>
-<?php do_action('edit_form_advanced', ''); ?>
 </div>
-</form>
-<?php if ('edit' == $action) echo "
-<p><a class='delete' href='post.php?action=delete&amp;post=$post_ID' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title)) . "')\">" .  __('Delete this post') . "</a></p>";
+</fieldset>
+<?php 
+if ('' != $pinged)
+	echo $pings;
 ?>
 </div>
+
+</form>

@@ -190,6 +190,7 @@ case 'edit':
 	$pinged = $postdata->pinged;
 	$post_name = $postdata->post_name;
 	$post_parent = $postdata->post_parent;
+	$post_author = $postdata->post_author;
 
 	if ($post_status == 'static') {
 		$page_template = get_post_meta($post_ID, '_wp_page_template', true);
@@ -222,9 +223,9 @@ case 'editpost':
 	}
 	$post_ID = $_POST['post_ID'];
 
-	if (!user_can_edit_post($user_ID, $post_ID, $blog_ID)) {
+	if (!user_can_edit_post($user_ID, $post_ID, $blog_ID))
 		die('You are not allowed to edit this post.');
-	}
+
 	$post_categories = $_POST['post_category'];
 	if (!$post_categories) $post_categories[] = 1;
 	$content = apply_filters('content_save_pre', $_POST['content']);
@@ -234,6 +235,10 @@ case 'editpost':
 	$post_title = $_POST['post_title'];
 	$prev_status = $_POST['prev_status'];
 	$post_status = $_POST['post_status'];
+	$post_author = (int) $_POST['post_author'];
+	if ( !user_can_edit_user($user_ID, $post_author) )
+		die( __('You cannot post as this user.') );
+
 	$comment_status = $_POST['comment_status'];
 	if (empty($comment_status)) $comment_status = 'closed';
 	//if (!$_POST['comment_status']) $comment_status = get_settings('default_comment_status');
@@ -313,6 +318,7 @@ case 'editpost':
 			post_status = '$post_status',
 			comment_status = '$comment_status',
 			ping_status = '$ping_status',
+			post_author = '$post_author',
 			post_password = '$post_password',
 			post_name = '$post_name',
 			to_ping = '$trackback',

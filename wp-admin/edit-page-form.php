@@ -82,17 +82,17 @@ edCanvas = document.getElementById('content');
 
 <fieldset id="pageoptions">
 	 <legend><?php _e('Page Options') ?></legend> 
-   <table width="100%" cellspacing="2" cellpadding="5" class="editform">
-	 <tr valign="top">
-	 <th scope="row"><?php _e('Page Template:') ?></th>
-   <td><div><select name="page_template">
-	 <option value='default'><?php _e('Default Template'); ?></option>
-	 <?php page_template_dropdown($page_template); ?>
-	 </select>
-	 </div>
-	 </td>
-	 </tr>
-	 </table>
+<table width="100%" cellspacing="2" cellpadding="5" class="editform">
+	<tr valign="top">
+		<th scope="row" width="30%"><?php _e('Page Template:') ?></th>
+		<td><div><select name="page_template">
+		<option value='default'><?php _e('Default Template'); ?></option>
+		<?php page_template_dropdown($page_template); ?>
+		</select>
+		</div>
+		</td>
+	</tr>
+</table>
 </fieldset>
 
 <?php do_action('edit_page_form', ''); ?>

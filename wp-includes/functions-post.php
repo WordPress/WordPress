@@ -379,6 +379,15 @@ function user_can_delete_post_comments($user_id, $post_id, $blog_id = 1) {
 	return user_can_edit_post_comments($user_id, $post_id, $blog_id);
 }
 
+function user_can_edit_user($user_id, $other_user) {
+	$user  = get_userdata($user_id);
+	$other = get_userdata($other_user);
+	if ( $user->user_level > $other->user_level || $user->user_level > 8 || $user->ID == $other->ID )
+		return true;
+	else
+		return false;
+}
+
 
 function wp_new_comment($commentdata) {
 	global $wpdb;
