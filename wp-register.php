@@ -75,11 +75,13 @@ case 'register':
 	
 	$message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $password) . "\r\n";
-	$message .= get_settings('siteurl') . '/wp-login.php';
+	$message .= get_settings('siteurl') . "/wp-login.php\r\n";
 	
-	wp_mail($user_email, sprintf(__("[%s] Your username and password"), get_settings('blogname')), $message);
+	wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_settings('blogname')), $message);
 
-	$message  = sprintf(__("New user registration on your blog %1\$s:\n\nUsername: %2\$s \n\nE-mail: %3\$s"), get_settings('blogname'), $user_login, $user_email);
+	$message  = sprintf(__('New user registration on your blog %s:'), get_settings('blogname')) . "\r\n\r\n";
+	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
+	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
 
 	@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
 

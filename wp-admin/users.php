@@ -81,10 +81,11 @@ case 'adduser':
 		$stars .= '*';
 
 	$user_login = stripslashes($user_login);
-	$message  = 'New user registration on your blog ' . get_settings('blogname') . ":\r\n\r\n";
-	$message .= "Username: $user_login\r\n\r\nE-mail: $user_email";
+	$message  = sprintf(__('New user registration on your blog %s:'), get_settings('blogname')) . "\r\n\r\n";
+	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
+	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
 
-	@wp_mail(get_settings('admin_email'), '[' . get_settings('blogname') . '] New User Registration', $message);
+	@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
 	header('Location: users.php');
 break;
 

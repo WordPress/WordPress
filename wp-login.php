@@ -102,13 +102,13 @@ do_action('retrieve_password', $user_login);
 	$key = substr( md5( uniqid( microtime() ) ), 0, 50);
 	// now insert the new pass md5'd into the db
  	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
-	$message .= __("Someone has asked to reset the password for the following site and username.\n\n");
-	$message .= get_option('siteurl') . "\n\n";
+	$message .= __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
+	$message .= get_option('siteurl') . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-	$message .= __("To reset your password visit the following address, otherwise just ignore this email and nothing will happen.\n\n");
-	$message .= get_settings('siteurl') . "/wp-login.php?action=resetpass&key=$key";
+	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
+	$message .= get_settings('siteurl') . "/wp-login.php?action=resetpass&key=$key\r\n";
 
-	$m = wp_mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
+	$m = wp_mail($user_email, sprintf(__('[%s] Password Reset'), get_settings('blogname')), $message);
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -138,19 +138,20 @@ case 'resetpass' :
  	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$new_pass'), user_activation_key = '' WHERE user_login = '$user->user_login'");
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
-	$message .= get_settings('siteurl') . '/wp-login.php';
+	$message .= get_settings('siteurl') . "/wp-login.php\r\n";
 
-	$m = wp_mail($user->user_email, sprintf(__("[%s] Your new password"), get_settings('blogname')), $message);
+	$m = wp_mail($user->user_email, sprintf(__('[%s] Your new password'), get_settings('blogname')), $message);
 
 	if ($m == false) {
-		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
-         echo  __('Possible reason: your host may have disabled the mail() function...') . "</p>";
+		echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
+		echo  __('Possible reason: your host may have disabled the mail() function...') . '</p>';
 		die();
 	} else {
-		echo '<p>' .  sprintf(__("Your new password is in the mail."), $user_login) . '<br />';
+		echo '<p>' .  sprintf(__('Your new password is in the mail.'), $user_login) . '<br />';
         echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
 		// send a copy of password change notification to the admin
-		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), sprintf(__('Password Lost and Changed for user: %s'), $user->user_login));
+		$message = sprintf(__('Password Lost and Changed for user: %s'), $user->user_login) . "\r\n";
+		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), $message);
 		die();
 	}
 break;

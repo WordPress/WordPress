@@ -631,31 +631,31 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	if ( empty( $comment_type ) ) $comment_type = 'comment';
 	
 	if ('comment' == $comment_type) {
-		$notify_message  = "New comment on your post #$comment->comment_post_ID \"".$post->post_title."\"\r\n\r\n";
-		$notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
-		$notify_message .= "E-mail : $comment->comment_author_email\r\n";
-		$notify_message .= "URI    : $comment->comment_author_url\r\n";
-		$notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
-		$notify_message .= "Comment:\r\n $comment->comment_content \r\n\r\n";
-		$notify_message .= "You can see all comments on this post here: \r\n";
-		$subject = '[' . $blogname . '] Comment: "' .$post->post_title.'"';
+		$notify_message  = sprintf( __('New comment on your post #%1$s "%2$s"'), $comment->comment_post_ID, $post->post_title ) . "\r\n";
+		$notify_message .= sprintf( __('Author : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+		$notify_message .= sprintf( __('E-mail : %s'), $comment->comment_author_email ) . "\r\n";
+		$notify_message .= sprintf( __('URI    : %s'), $comment->comment_author_url ) . "\r\n";
+		$notify_message .= sprintf( __('Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=%s'), $comment->comment_author_IP ) . "\r\n";
+		$notify_message .= __('Comment: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
+		$notify_message .= __('You can see all comments on this post here: ') . "\r\n";
+		$subject = sprintf( __('[%1$s] Comment: "%2$s"'), $blogname, $post->post_title );
 	} elseif ('trackback' == $comment_type) {
-		$notify_message  = "New trackback on your post #$comment_post_ID \"".$post->post_title."\"\r\n\r\n";
-		$notify_message .= "Website: $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
-		$notify_message .= "URI    : $comment->comment_author_url\r\n";
-		$notify_message .= "Excerpt: \n $comment->comment_content \r\n\r\n";
-		$notify_message .= "You can see all trackbacks on this post here: \r\n";
-		$subject = '[' . $blogname . '] Trackback: "' .$post->post_title.'"';
+		$notify_message  = sprintf( __('New trackback on your post #%1$s "%2$s"'), $comment->comment_post_ID, $post->post_title ) . "\r\n";
+		$notify_message .= sprintf( __('Website: %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+		$notify_message .= sprintf( __('URI    : %s'), $comment->comment_author_url ) . "\r\n";
+		$notify_message .= __('Excerpt: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
+		$notify_message .= __('You can see all trackbacks on this post here: ') . "\r\n";
+		$subject = sprintf( __('[%1$s] Trackback: "%2$s"'), $blogname, $post->post_title );
 	} elseif ('pingback' == $comment_type) {
-		$notify_message  = "New pingback on your post #$comment_post_ID \"".$post->post_title."\"\r\n\r\n";
-		$notify_message .= "Website: $comment->comment_author\r\n";
-		$notify_message .= "URI    : $comment->comment_author_url\r\n";
-		$notify_message .= "Excerpt: \n[...] $comment->comment_content [...]\r\n\r\n";
-		$notify_message .= "You can see all pingbacks on this post here: \r\n";
-		$subject = '[' . $blogname . '] Pingback: "' .$post->post_title.'"';
+		$notify_message  = sprintf( __('New pingback on your post #%1$s "%2$s"'), $comment->comment_post_ID, $post->post_title ) . "\r\n";
+		$notify_message .= sprintf( __('Website: %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+		$notify_message .= sprintf( __('URI    : %s'), $comment->comment_author_url ) . "\r\n";
+		$notify_message .= __('Excerpt: ') . "\r\n" . sprintf( __('[...] %s [...]'), $comment->comment_content ) . "\r\n\r\n";
+		$notify_message .= __('You can see all pingbacks on this post here: ') . "\r\n";
+		$subject = sprintf( __('[%1$s] Pingback: "%2$s"'), $blogname, $post->post_title );
 	}
-	$notify_message .= get_permalink($comment->comment_post_ID) . '#comments';
-	$notify_message .= "\r\n\r\nTo delete this comment:\r\n" . get_settings('siteurl') . "/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id";
+	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
+	$notify_message .= sprintf( __('To delete this comment, visit: %s'), get_settings('siteurl').'/wp-admin/post.php?action=confirmdeletecomment&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
 
 	if ('' == $comment->comment_author_email || '' == $comment->comment_author) {
 		$from = "From: \"$blogname\" <wordpress@" . $_SERVER['SERVER_NAME'] . '>';
@@ -663,9 +663,9 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$from = 'From: "' . $comment->comment_author . "\" <$comment->comment_author_email>";
 	}
 
-	$message_headers = "MIME-Version: 1.0\n"
-		. "$from\n"
-		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
+	$message_headers = "MIME-Version: 1.0\r\n"
+		. "$from\r\n"
+		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
 
 	@wp_mail($user->user_email, $subject, $notify_message, $message_headers);
    
@@ -692,27 +692,21 @@ function wp_notify_moderator($comment_id) {
     $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
     $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
 
-    $notify_message  = "A new comment on the post #$post->ID \"$post->post_title\" is waiting for your approval\r\n";
-	$notify_message .= get_permalink($comment->comment_post_ID);
-    $notify_message .= "\n\nAuthor : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
-    $notify_message .= "E-mail : $comment->comment_author_email\r\n";
-    $notify_message .= "URL    : $comment->comment_author_url\r\n";
-    $notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
-    $notify_message .= "Comment:\r\n".$comment->comment_content."\r\n\r\n";
-    $notify_message .= "To approve this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=mailapprovecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
-    $notify_message .= "To delete this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id\r\n";
-    $notify_message .= "Currently $comments_waiting comments are waiting for approval. Please visit the moderation panel:\r\n";
-    $notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
+		$notify_message  = sprintf( __('A new comment on the post #%1$s "%2$s" is waiting for your approval'), $post->ID, $post->post_title ) . "\r\n";
+		$notify_message .= get_permalink($comment->comment_post_ID) . "\r\n\r\n";
+		$notify_message .= sprintf( __('Author : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+		$notify_message .= sprintf( __('E-mail : %s'), $comment->comment_author_email ) . "\r\n";
+		$notify_message .= sprintf( __('URI    : %s'), $comment->comment_author_url ) . "\r\n";
+		$notify_message .= sprintf( __('Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=%s'), $comment->comment_author_IP ) . "\r\n";
+		$notify_message .= __('Comment: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
+		$notify_message .= sprintf( __('To approve this comment, visit: %s'),  get_settings('siteurl').'/wp-admin/post.php?action=mailapprovecomment&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
+		$notify_message .= sprintf( __('To delete this comment, visit: %s'), get_settings('siteurl').'/wp-admin/post.php?action=confirmdeletecomment&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
+		$notify_message .= sprintf( __('Currently %s comments are waiting for approval. Please visit the moderation panel:'), $comments_waiting ) . "\r\n";
+		$notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 
-    $subject = '[' . get_settings('blogname') . '] Please moderate: "' .$post->post_title.'"';
-    $admin_email = get_settings("admin_email");
-    $from  = "From: $admin_email";
+		$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), get_settings('blogname'), $post->post_title );
 
-    $message_headers = "MIME-Version: 1.0\n"
-    	. "$from\n"
-    	. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
-
-    @wp_mail($admin_email, $subject, $notify_message, $message_headers);
+    @wp_mail($admin_email, $subject, $notify_message);
     
     return true;
 }

@@ -1653,9 +1653,9 @@ function htmlentities2($myHTML) {
 
 function wp_mail($to, $subject, $message, $headers = '') {
 	if( $headers == '' ) {
-		$headers = "MIME-Version: 1.0\n" .
-		"From: " . get_settings('admin_email') . "\n" . 
-		"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
+		$headers = "MIME-Version: 1.0\r\n" .
+		"From: " . get_settings('admin_email') . "\r\n" . 
+		"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
 	}
 
 	return @mail($to, $subject, $message, $headers);
