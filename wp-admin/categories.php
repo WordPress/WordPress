@@ -140,7 +140,7 @@ default:
     ?>
 
 <div class="wrap">
-<h2>Current Categories</h2>
+<h2>Current Categories (<a href="#addcat">add new</a>) </h2>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<th scope="col">Name</th>

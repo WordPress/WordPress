@@ -46,41 +46,37 @@ include('options-head.php');
     <input type="hidden" name="action" value="update" /> 
 	<input type="hidden" name="action" value="update" /> 		<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk'" /> 
 <fieldset class="options">
-<legend>File Uploads</legend>
+<legend>
+<input name="use_fileupload" type="checkbox" id="use_fileupload" value="1" <?php checked('1', get_settings('use_fileupload')); ?> />
+<label for="use_fileupload">Allow File Uploads</label></legend>
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
-      <tr valign="top">
-        <th scope="row"><label for="use_fileupload">Allow file uploads:</label></th>
-        <td>
-        	<input name="use_fileupload" type="checkbox" id="use_fileupload" value="1" <?php checked('1', get_settings('use_fileupload')); ?> />
-       </td>
-      </tr>
-      <tr valign="top"> 
-        <th width="33%" scope="row"> Destination directory: </th> 
+      <tr> 
+        <th width="33%" valign="top" scope="row"> Destination directory: </th> 
         <td>
         	<input name="fileupload_realpath" type="text" id="fileupload_realpath" value="<?php echo get_settings('fileupload_realpath'); ?>" size="50" /><br />
 Recommended: <code><?php echo ABSPATH . 'wp-content'; ?></code>
   
         	</td> 
       </tr> 
-      <tr valign="top">
-        <th scope="row">URI of this directory: </th>
+      <tr>
+        <th valign="top" scope="row">URI of this directory: </th>
         <td>          
         	<input name="fileupload_url" type="text" id="fileupload_url" value="<?php echo get_settings('fileupload_url'); ?>" size="50" /><br />
 Recommended: <code><?php echo get_settings('siteurl') . '/wp-content'; ?></code>
         </td>
       </tr>
-      <tr valign="top">
+      <tr>
       	<th scope="row">Maximum size: </th>
       	<td><input name="fileupload_maxk" type="text" id="fileupload_maxk" value="<?php echo get_settings('fileupload_maxk'); ?>" size="4"> 
       		Kilobytes (KB)</td>
       	</tr>
-      <tr valign="top">
-      	<th scope="row">Allowed file extensions:</th>
+      <tr>
+      	<th valign="top" scope="row">Allowed file extensions:</th>
       	<td><input name="fileupload_allowedtypes" type="text" id="fileupload_allowedtypes" value="<?php echo get_settings('fileupload_allowedtypes'); ?>" size="40">
       		<br>
       		Recommended: <code>jpg jpeg png gif </code></td>
       	</tr>
-      <tr valign="top">
+      <tr>
       	<th scope="row">Minimum level to upload:</th>
       	<td><select name="fileupload_minlevel" id="fileupload_minlevel">
 <?php

@@ -618,7 +618,8 @@ function checkAll(form)
           </select>
         </td>
         <td>
-          <input type="submit" name="action" value="Show" class="search" /><?php echo gethelp_link($this_file,'show');?>
+          <input type="submit" name="action" value="Show" />
+          <?php echo gethelp_link($this_file,'show');?>
         </td>
       </tr>
     </table>
@@ -737,7 +738,7 @@ LINKS;
 <?php category_dropdown('category'); ?>
         </td>
         <td align="right">
-          <a href="#" onclick="checkAll(document.getElementById('links')); return false; ">Toggle Checkboxes</a><?php echo gethelp_link($this_file,'toggle_checkboxes');?>
+          <a href="#" onClick="checkAll(document.getElementById('links')); return false; ">Toggle Checkboxes</a><?php echo gethelp_link($this_file,'toggle_checkboxes');?>
         </td>
     </tr>
 </table>

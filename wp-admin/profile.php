@@ -244,8 +244,8 @@ default:
 	</style>
   <table width="99%"  border="0" cellspacing="2" cellpadding="3">
     <tr>
-      <th width="15%" scope="row">First name:</th>
-      <td><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" /></td>
+      <th width="33%" scope="row">First name:</th>
+      <td width="73%"><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" /></td>
     </tr>
     <tr>
       <th scope="row">Last name:</th>
@@ -312,8 +312,9 @@ default:
         <input type="password" name="pass2" size="16" value="" /></td>
     </tr>
   </table>
-  <p style=" text-align: center;">
-    <input class="search" type="submit" value="Update" name="submit" /></p>
+  <p class="submit">
+    <input type="submit" value="Update &raquo;" name="submit" />
+  </p>
 	</div>
 </form>
 </div>
@@ -329,7 +330,7 @@ function addPanel()
         }
 </script>
     <strong>SideBar</strong><br />
-    Add the <a href="#" onclick="addPanel()">WordPress Sidebar</a>! 
+    Add the <a href="#" onClick="addPanel()">WordPress Sidebar</a>! 
     <?php } elseif (($is_winIE) || ($is_macIE)) { ?>
     <strong>SideBar</strong><br />
     Add this link to your favorites:<br />

@@ -44,17 +44,18 @@ include('options-head.php');
 	<form name="form1" method="post" action="options.php"> 
 		<input type="hidden" name="action" value="update" /> 
 		<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_max_links','moderation_keys'" /> 
-		<h3>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></h3> 
+<fieldset class="options">
+		<legend>Usual settings for an article: <em>(These settings may be overidden for individual articles.)</em></legend> 
 		<ul> 
 			<li> 
 				<label for="default_pingback_flag"> 
 				<input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked('1', get_settings('default_pingback_flag')); ?> /> 
-				Attempt to notify any Weblogs linked to from the article. (Slows down posting.)</label> 
+				Attempt to notify any Weblogs linked to from the article (slows down posting.)</label> 
 			</li> 
 			<li> 
 				<label for="default_ping_status"> 
 				<input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked('open', get_settings('default_ping_status')); ?> /> 
-				Allow link notifications from other Weblogs. (Pingbacks and trackbacks.)</label> 
+				Allow link notifications from other Weblogs (pingbacks and trackbacks.)</label> 
 			</li> 
 			<li> 
 				<label for="default_comment_status"> 
@@ -62,7 +63,9 @@ include('options-head.php');
 				Allow people to post comments on the article</label> 
 			</li> 
 		</ul> 
-		<h3>Email me whenever:</h3> 
+</fieldset>
+<fieldset class="options">
+		<legend>Email me whenever:</legend> 
 		<ul> 
 			<li> 
 				<label for="comments_notify"> 
@@ -75,7 +78,9 @@ include('options-head.php');
 				A comment is approved or declined </label> 
 			</li> 
 		</ul> 
-		<h3>Before a comment appears:</h3> 
+</fieldset>
+<fieldset class="options">
+		<legend>Before a comment appears:</legend> 
 		<ul> 
 			<li> 
 				<label for="comment_moderation"> 
@@ -88,6 +93,7 @@ include('options-head.php');
 				User must fill out name and email </label> 
 			</li> 
 		</ul> 
+</fieldset>
 <fieldset class="options">
 		<legend>Comment Moderation</legend>
 		<p>Hold a comment in the queue if it contains more than 
@@ -95,7 +101,7 @@ include('options-head.php');
 		links. (A common characteristic of comment spam is a large number of hyperlinks.)</p>
 		<p>When a comment contains any of these words in its content, name, URI,  email, or IP, hold it in the moderation queue: (Seperate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.</p>
 		<p> 
-			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%;"><?php echo get_settings('moderation_keys'); ?></textarea> 
+			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php echo get_settings('moderation_keys'); ?></textarea> 
 		</p> 
 </fieldset>
 		<p style="text-align: right;"> 
