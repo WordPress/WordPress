@@ -74,7 +74,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 		<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 		<dc:subject><?php the_category_rss() ?></dc:subject>
 		<guid isPermaLink="false"><?php echo $id; ?>@<?php bloginfo_rss("url") ?></guid>
-<?php if ($rss_use_excerpt) {
+<?php $more = 1; if ($rss_use_excerpt) {
 ?>
 		<description><?php the_excerpt_rss($rss_excerpt_length, 2) ?></description>
 <?php

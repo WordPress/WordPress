@@ -62,6 +62,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 // we might use this in the future, but not now, that's why it's commented in PHP
 // so that it doesn't appear at all in the RSS
 //          echo "<category>"; the_category_unicode(); echo "</category>";
+$more = 1; 
 if ($rss_use_excerpt) {
 ?>
             <description><?php the_excerpt_rss($rss_excerpt_length, $rss_encoded_html) ?></description>

@@ -78,7 +78,7 @@ if (!isset($rss_language)) { $rss_language = 'en'; }
 	<dc:date><?php the_time('Y-m-d\TH:i:s'); ?></dc:date>
 	<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
 	<dc:subject><?php the_category_rss() ?></dc:subject>
-<?php if ($rss_use_excerpt) {
+<?php $more = 1; if ($rss_use_excerpt) {
 ?>
 	<description><?php the_excerpt_rss($rss_excerpt_length, 2) ?></description>
 <?php
