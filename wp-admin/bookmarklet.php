@@ -1,8 +1,6 @@
 <?php
 $mode = 'bookmarklet';
-
-$standalone = 1;
-require_once('admin-header.php');
+require_once('admin.php');
 
 if ($user_level == 0)
 	die ("Cheatin' uh?");
