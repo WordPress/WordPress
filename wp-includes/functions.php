@@ -999,7 +999,7 @@ function wp_get_comment_status($comment_id) {
 function wp_notify_postauthor($comment_id, $comment_type='comment') {
     global $wpdb, $tablecomments, $tableposts, $tableusers;
     global $querystring_start, $querystring_equal, $querystring_separator;
-    global $blogfilename, $blogname, $siteurl;
+    global $blogfilename, $blogname, $siteurl, $blog_charset;
     
     $comment = $wpdb->get_row("SELECT * FROM $tablecomments WHERE comment_ID='$comment_id' LIMIT 1");
     $post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID='$comment->comment_post_ID' LIMIT 1");
@@ -1043,7 +1043,11 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
 		$from = 'From: "' . stripslashes($comment->comment_author) . "\" <$comment->comment_author_email>";
 	}
 
-	@mail($user->user_email, $subject, $notify_message, $from);
+	$message_headers = "MIME-Version: 1.0\r\n"
+		. "$from\r\n"
+		. "Content-Type: text/plain; charset=\"$blog_charset\"\r\n";
+
+	@mail($user->user_email, $subject, $notify_message, $message_headers);
    
     return true;
 }
@@ -1080,7 +1084,11 @@ function wp_notify_moderator($comment_id) {
     $admin_email = get_settings("admin_email");
     $from  = "From: $admin_email";
 
-    @mail($admin_email, $subject, $notify_message, $from);
+    $message_headers = "MIME-Version: 1.0\r\n"
+    	. "$from\r\n"
+    	. "Content-Type: text/plain; charset=\"$blog_charset\"\r\n";
+
+    @mail($admin_email, $subject, $notify_message, $message_headers);
     
     return true;
 }
