@@ -91,7 +91,7 @@ form, label input {
 h2 {
 	border-bottom: 2px solid #69c;
 	color: #333;
-	font: normal 22px/18px normal;
+	font: normal 22px/18px serif;
 	margin: 5px 10px;
 }
 
@@ -141,7 +141,7 @@ textarea, input, select {
 }
 
 .code {
-	font-family: "Courier New", Courier, mono;
+	font-family: "Courier New", Courier, monospace;
 }
 
 .commentlist li {
@@ -392,7 +392,7 @@ textarea, input, select {
 	padding: 0;
 }
 #template textarea {
-	font-family: 'Courier New', Courier, monopace;
+	font-family: 'Courier New', Courier, monospace;
 	font-size: small;
 	width: 99%;
 }
