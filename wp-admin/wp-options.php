@@ -43,8 +43,8 @@ if ($option_group_id == '') {
 switch($action) {
 
 case "update":
-	$standalone = 1;
-	include("./b2header.php");
+	$standalone = 0;
+	include_once("./b2header.php");
     $any_changed = 0;
     
     // iterate through the list of options in this group
@@ -100,7 +100,7 @@ case "update":
 
 default:
 	$standalone = 0;
-	include ("./b2header.php");
+	include_once("./b2header.php");
 	if ($user_level <= 3) {
 		die("You have no right to edit the options for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
 	}
