@@ -37,15 +37,17 @@ function wp_loginout() {
 	echo apply_filters('loginout', $link);
 }
 
-function wp_register() {
+function wp_register( $before = '<li>', $after = '</li>' ) {
 	global $user_level;
 
 	get_currentuserinfo();
 
 	if (0 == $user_level && get_settings('users_can_register') ) :
-		$link = '<a href="' . get_settings('siteurl') . '/wp-register.php">' . __('Register') . '</a>';
+		$link = $before . '<a href="' . get_settings('siteurl') . '/wp-register.php">' . __('Register') . '</a>' . $after;
+	elseif (0 == $user_level && !get_settings('users_can_register') ) : 
+		$link = '';
 	else :
-		$link = '<a href="' . get_settings('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>';
+		$link = $before . '<a href="' . get_settings('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>' . $after;
 	endif;
 
 	echo apply_filters('register', $link);
