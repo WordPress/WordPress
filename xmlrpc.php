@@ -13,7 +13,7 @@ include_once(ABSPATH . WPINC . '/functions-post.php');
 $post_default_title = ""; // posts submitted via the xmlrpc interface get that title
 $post_default_category = 1; // posts submitted via the xmlrpc interface go into that category
 
-$xmlrpc_logging = 1;
+$xmlrpc_logging = 0;
 
 function logIO($io,$msg) {
 	global $xmlrpc_logging;
@@ -34,17 +34,16 @@ function starify($string) {
 
 logIO("I", $HTTP_RAW_POST_DATA);
 
-function printr ( $var, $do_not_echo = false )
-{
-   ob_start();
-   print_r($var);
-   $code =  htmlentities(ob_get_contents());
-   ob_clean();
-   if ( !$do_not_echo )
-   {
-       echo "<pre>$code</pre>";
-   }
-   return $code;
+function printr($var, $do_not_echo = false) {
+	// from php.net/print_r user contributed notes 
+	ob_start();
+	print_r($var);
+	$code =  htmlentities(ob_get_contents());
+	ob_clean();
+	if (!$do_not_echo) {
+	  echo "<pre>$code</pre>";
+	}
+	return $code;
 }
 
 class wp_xmlrpc_server extends IXR_Server {
@@ -66,6 +65,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'metaWeblog.getPost' => 'this:mw_getPost',
 		  'metaWeblog.getRecentPosts' => 'this:mw_getRecentPosts',
 		  'metaWeblog.getCategories' => 'this:mw_getCategories',
+		  'metaWeblog.newMediaObject' => 'this:mw_newMediaObject',
 
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
@@ -169,7 +169,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $struct = array(
 	    'userid'    => $post_data['post_author'],
-	    'dateCreated' => new IXR_Date(mysql2date('Ymd\TH:i:s\Z', $post_data['post_date_gmt'])),
+	    'dateCreated' => new IXR_Date(mysql2date('Ymd\TH:i:s', $post_data['post_date'])),
 	    'content'     => $content,
 	    'postid'  => $post_data['ID']
 	  );
@@ -201,7 +201,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  foreach ($posts_list as $entry) {
 	  
-	    $post_date = mysql2date('Ymd\TH:i:s\Z', $entry['post_date_gmt']);
+	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 	    $categories = implode(',', wp_get_post_cats(1, $entry['ID']));
 
 	    $content  = '<title>'.stripslashes($entry['post_itle']).'</title>';
@@ -477,8 +477,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  $catnames = $content_struct['categories'];
-	  // FIXME: commented until a fix to print_r is found: logio('O', 'Post cats: ' . print_r($catnames,true));
-	  //logio('O', 'Post cats: ' . printr($catnames,true));
+	  logio('O', 'Post cats: ' . printr($catnames,true));
 	  $post_category = array();
 
 	  if ($catnames) {
@@ -594,7 +593,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  if ($postdata['post_date'] != '') {
 
-	    $post_date = mysql2date('Ymd\TH:i:s\Z', $postdata['post_date_gmt']);
+	    $post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date']);
 
 	    $categories = array();
 	    $catids = wp_get_post_cats('', $post_ID);
@@ -652,7 +651,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  foreach ($posts_list as $entry) {
 	  
-	    $post_date = mysql2date('Ymd\TH:i:s\Z', $entry['post_date_gmt']);
+	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 	    $categories = array();
 	    $catids = wp_get_post_cats('', $entry['ID']);
 	    foreach($catids as $catid) {
@@ -721,6 +720,74 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  return $categories_struct;
+	}
+
+
+	/* metaweblog.newMediaObject uploads a file, following your settings */
+	function mw_newMediaObject($args) {
+	  // adapted from a patch by Johann Richard
+	  // http://mycvs.org/archives/2004/06/30/file-upload-to-wordpress-in-ecto/
+
+	  $blog_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+	  $data        = $args[3];
+
+	  $name = $data['name'];
+	  $type = $data['type'];
+	  $bits = $data['bits'];
+
+	  $file_realpath = get_settings('fileupload_realpath'); 
+	  $file_url = get_settings('fileupload_url');
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+
+	  if(!get_settings('use_fileupload')) {
+	    // Uploads not allowed
+	    logIO('O', '(MW) Uploads not allowed');
+	    $this->error = new IXR_Error(405, 'No uploads allowed for this site.');
+	    return $this->error;
+	  } 
+
+	  if(get_settings('fileupload_minlevel') > $userlevel) {
+	    // User has not enough privileges
+	    logIO('O', '(MW) Not enough privilege: user level too low');
+	    $this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.');
+	    return $this->error;
+	  }
+
+	  if(trim($file_realpath) == '' || trim($file_url) == '' ) {
+	    // WordPress is not correctly configured
+	    logIO('O', '(MW) Bad configuration. Real/URL path not defined');
+	    $this->error = new IXR_Error(500, 'Please configure WordPress with valid paths for file upload.');
+	    return $this->error;
+	  }
+
+	  $prefix = '/';
+
+	  if(!strlen(trim($name))) {
+	    // Create the path
+	    $localpath = $file_realpath.$prefix.$name;
+	    $url = $file_url.$prefix.$name;
+
+	    /* encode & write data (binary) */
+	    $ifp = fopen($localpath, 'wb');
+	    $success = fwrite($ifp, $bits);
+	    fclose($ifp);
+	    @chmod($localpath, 0666);
+
+	    if( $success ) {
+	      $resp = array($url);
+	      return $resp;
+	    } else {
+	      logIO('O', '(MW) Could not write file '.$name.' to '.$localpath);
+	      return new IXR_Error(500, 'Could not write file '.$name.' to '.$localpath);
+	    }
+	  }
 	}
 
 }
