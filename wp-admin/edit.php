@@ -121,7 +121,7 @@ if ( isset( $_GET['m'] ) ) {
   </tr> 
 <?php
 $what_to_show = 'posts';
-if ( empty($m) && empty($s) ) {
+if ( empty($_GET['m']) && empty($_GET['s']) ) {
   $showposts = 15;
 } else {
   $nopaging = true;
