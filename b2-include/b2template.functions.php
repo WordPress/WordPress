@@ -590,7 +590,7 @@ function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file
 	
 	if (!empty($post->post_password)) { // if there's a password
 		if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
-			$output = "<form action='$siteurl/wp-pass.php' method='post'>
+			$output = "<form action='" . get_settings('siteurl') . "/wp-pass.php' method='post'>
 			<p>This post is password protected. To view it please enter your password below:</p>
 			<p><label>Password: <input name='post_password' type='text' size='20' /></label> <input type='submit' name='Submit' value='Submit' /></p>
 			</form>
