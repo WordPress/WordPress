@@ -119,6 +119,7 @@ switch($step) {
 
     // We'll fail here if the values are no good.
     require_once('../wp-includes/wp-db.php');
+	$handle = fopen('../wp-config.php', 'w');
 
     foreach ($configFile as $line_num => $line) {
         switch (substr($line,0,16)) {
