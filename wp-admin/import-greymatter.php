@@ -63,7 +63,7 @@ textarea,input,select {
 </style>
 </head>
 <body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WP" align="top" /></font></p>
+<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WP" align="top" /></font></p>
 <p>The importer is running...</p>
 <ul>
 <li>importing users... <ul><?php
@@ -291,23 +291,23 @@ textarea,input,select {
 </style>
 </head>
 <body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WP" align="top" /></font></p>
-<p>This is a basic GreyMatter to b2 import script.</p>
+<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WP" align="top" /></font></p>
+<p>This is a basic GreyMatter to WordPress import script.</p>
 <p>What it does:</p>
 <ul>
 <li>parses gm-authors.cgi to import authors: everyone is imported at level 1</li>
-<li>parses the entries cgi files to import posts, comments, and karma on posts (although karma is not used on b2 yet)<br />if authors are found not to be in gm-authors.cgi, imports them at level 0</li>
+<li>parses the entries cgi files to import posts, comments, and karma on posts (although karma is not used on WordPress yet)<br />if authors are found not to be in gm-authors.cgi, imports them at level 0</li>
 </ul>
 <p>What it does not:</p>
 <ul>
 <li>parse gm-counter.cgi (what's the use of that file ?), gm-banlist.cgi, gm-cplog.cgi (you can make a CP log hack if you really feel like it, but I question the need of a CP log)</li>
-<li>import gm-templates. you'll start with the basic template b2.php</li>
+<li>import gm-templates. you'll start with the basic template wp.php</li>
 <li>doesn't keep entries on top</li>
 </ul>
 <p>&nbsp;</p>
 
-<h3>First step: install b2</h3>
-<p>Install the b2 blog as explained in the <a href="readme.html" target="_blank">ReadMe</a>, then immediately come back here.</p>
+<h3>First step: install WordPress</h3>
+<p>Install the WordPress blog as explained in the <a href="../readme.html" target="_blank">ReadMe</a>, then immediately come back here.</p>
 
 <form name="stepOne" method="get">
 <input type="hidden" name="action" value="step1" />
