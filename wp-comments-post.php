@@ -13,10 +13,10 @@ if ( empty($post_status) ) {
 	die( __('Sorry, comments are closed for this item.') );
 }
 
-$comment_author       = $_POST['author'];
-$comment_author_email = $_POST['email'];
-$comment_author_url   = $_POST['url'];
-$comment_content      = $_POST['comment'];
+$comment_author       = trim($_POST['author']);
+$comment_author_email = trim($_POST['email']);
+$comment_author_url   = trim($_POST['url']);
+$comment_content      = trim($_POST['comment']);
 
 // If the user is logged in
 get_currentuserinfo();
