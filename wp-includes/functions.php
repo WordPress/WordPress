@@ -1752,6 +1752,7 @@ function add_magic_quotes($array) {
 	return $array;
 }
 
+if ( !function_exists('wp_setcookie') ) :
 function wp_setcookie($username, $password, $already_md5 = false, $home = '', $siteurl = '') {
 	if ( !$already_md5 )
 		$password = md5( md5($password) ); // Double hash the password in the cookie.
@@ -1777,12 +1778,14 @@ function wp_setcookie($username, $password, $already_md5 = false, $home = '', $s
 		setcookie('wordpresspass_'. $cookiehash, $password, time() + 31536000, $sitecookiepath);
 	}
 }
+endif;
 
+if ( !function_exists('wp_clearcookie') ) :
 function wp_clearcookie() {
 	setcookie('wordpressuser_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
 	setcookie('wordpresspass_' . COOKIEHASH, ' ', time() - 31536000, COOKIEPATH);
 	setcookie('wordpressuser_' . COOKIEHASH, ' ', time() - 31536000, SITECOOKIEPATH);
 	setcookie('wordpresspass_' . COOKIEHASH, ' ', time() - 31536000, SITECOOKIEPATH);
 }
-
+endif;
 ?>
