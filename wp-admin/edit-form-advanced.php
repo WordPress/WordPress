@@ -4,10 +4,17 @@
 
 $allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
+$post_ID = intval($postdata['ID']);
+
 $submitbutton_text = 'Save';
-$toprow_title = 'Editing Post #' . $postdata['ID'];
-$form_action = 'editpost';
-$form_extra = "' />\n<input type='hidden' name='post_ID' value='$post->ID";
+$toprow_title = 'Editing Post #' . $post_ID;
+if (0 == $post_ID) {
+	$form_action = 'post';
+} else {
+	$form_action = 'editpost';
+	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
+}
+
 $colspan = 2;
 $form_pingback = '<input type="hidden" name="post_pingback" value="0" />';
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
@@ -33,7 +40,8 @@ $saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="S
 
 <form name="post" action="post.php" method="post" id="post">
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
-<input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
+<input type="hidden" name="action" value='<?php echo $form_action ?>' />
+<?php echo $form_extra ?>
 
 <script type="text/javascript">
 <!--
@@ -153,7 +161,7 @@ if ($user_level > 4) {
 	touch_time(($action == 'edit'));
 }
 if ('edit' == $action) echo "
-<p><a href='post.php?action=delete&amp;post=$post->ID' onclick=\"return confirm('You are about to delete this post \'".addslashes($edited_post_title)."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete this post</a></p>";
+<p><a href='post.php?action=delete&amp;post=$post_ID' onclick=\"return confirm('You are about to delete this post \'".addslashes($edited_post_title)."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete this post</a></p>";
 ?>
 
 </div>
