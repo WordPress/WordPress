@@ -21,6 +21,9 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+if ($user_level < 6)
+	die ( __('Cheatin&#8217; uh?') );
+
 switch($action) {
 
 case 'update':
