@@ -208,6 +208,7 @@ case 'retrievepassword':
 	$user_email = $user_data->user_email;
 	$user_pass = $user_data->user_pass;
 
+	if (!$user_email) die('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username?');
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
 
