@@ -565,7 +565,7 @@ function get_themes() {
 	}
 	
 	// The default theme always exists.
-	$themes['Default'] = array('Name' => 'Default', 'Title' => 'Default', 'Description' => 'The default theme', 'Author' => '', 'Version' => '1.3', 'Template' => 'default', 'Stylesheet' => 'default', 'Template Files' => $default_template_files, 'Stylesheet Files' => $default_stylesheet_files, 'Template Dir' => '/', 'Stylesheet Dir' => '/', 'Parent Theme' => '');
+	$themes['Default'] = array('Name' => 'Default', 'Title' => 'WordPress Default', 'Description' => 'The default theme included with WordPress.', 'Author' => 'Dave Shea', 'Version' => '1.3', 'Template' => 'default', 'Stylesheet' => 'default', 'Template Files' => $default_template_files, 'Stylesheet Files' => $default_stylesheet_files, 'Template Dir' => '/', 'Stylesheet Dir' => '/', 'Parent Theme' => '');
 
 	if (!$themes_dir || !$theme_files) {
 		return $themes;

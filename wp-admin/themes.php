@@ -15,7 +15,7 @@ if ( isset($_GET['action']) ) {
 	    update_option('stylesheet', $_GET['stylesheet']);
 	  }
 
-	  header('Location: themes.php?activate=true');
+	  header('Location: themes.php?activated=true');
 	}
  }
 
@@ -24,13 +24,19 @@ $title = __('Manage Themes');
 $parent_file = 'themes.php';
 require_once('admin-header.php');
 
-if ($user_level < 9) // Must be at least level 9
-	die (__('Sorry, you must be at least a level 8 user to modify themes.'));
+if ($user_level < 9)
+	die (__('Sorry, you must be at least a level 9 user to modify themes.'));
 ?>
+
+<?php if ( isset($activated) ) : ?>
+<div class="updated"><p><?php _e('New theme activated'); ?></p></div>
+<?php endif; ?>
 
 <?php
 $themes = get_themes();
 $current_theme = get_current_theme();
+$current_title = $themes[$current_theme]['Title'];
+$current_version = $themes[$current_theme]['Version'];
 $current_parent_theme = $themes[$current_theme]['Parent Theme'];
 $current_template_dir = $themes[$current_theme]['Template Dir'];
 $current_stylesheet_dir = $themes[$current_theme]['Stylesheet Dir'];
@@ -38,25 +44,25 @@ $current_template = $themes[$current_theme]['Template'];
 $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 ?>
 
-<?php if ($current_parent_theme) { ?>
-	<div class="updated"><p><?php printf(__('The active theme is <strong>%s</strong>.  The template files are located in <code>%s</code>.  The stylesheet files are located in <code>%s</code>.  <strong>%s</strong> uses templates from <strong>%s</strong>.  Changes made to the templates will affect both themes.'), $current_theme, $current_template_dir, $current_stylesheet_dir, $current_theme, $current_parent_theme); ?></p></div>
-<?php } else { ?>
-	<div class="updated"><p><?php printf(__('The active theme is <strong>%s</strong>.  The template files are located in <code>%s</code>.  The stylesheet files are located in <code>%s</code>.'), $current_theme, $current_template_dir, $current_stylesheet_dir); ?></p></div>
-<?php } ?>
-
 <div class="wrap">
-<h2><?php _e('Theme Management'); ?></h2>
-<p><?php _e('Themes are usually downloaded separately from WordPress. To install a theme you generally just need to put the theme file or files into your <code>wp-content/themes</code> directory. Once a theme is installed, you may select it here.'); ?></p>
-<?php
+<h2><?php _e('Current Theme'); ?></h2>
+<div id="currenttheme">
+<h3><?php printf(__('%s %s by %s'), $current_title, $current_version, $themes[$current_theme]['Author']) ; ?></h3>
+<p><?php echo $themes[$current_theme]['Description']; ?></p>
+<?php if ($current_parent_theme) { ?>
+	<p><?php printf(__('The active theme is <strong>%s</strong>.  The template files are located in <code>%s</code>.  The stylesheet files are located in <code>%s</code>.  <strong>%s</strong> uses templates from <strong>%s</strong>.  Changes made to the templates will affect both themes.'), $current_theme, $current_template_dir, $current_stylesheet_dir, $current_theme, $current_parent_theme); ?></p>
+<?php } else { ?>
+	<p><?php printf(__('The active theme is <strong>%s</strong>.  The template files are located in <code>%s</code>.  The stylesheet files are located in <code>%s</code>.'), $current_theme, $current_template_dir, $current_stylesheet_dir); ?></p>
+<?php } ?>
+</div>
 
-if (empty($themes)) {
-	_e("<p>Couldn't open themes directory or there are no themes available.</p>"); // TODO: make more helpful
-} else {
-?>
+<h2><?php _e('Other Themes'); ?></h2>
+<p><?php _e('Themes are usually downloaded separately from WordPress. To install a theme you generally just need to put the theme file or files into your <code>wp-content/themes</code> directory. Once a theme is installed, you may select it here.'); ?></p>
+
+<?php if ( 1 < count($themes) ) { ?>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
-		<th><?php _e('Theme'); ?></th>
-		<th><?php _e('Version'); ?></th>
+		<th><?php _e('Name'); ?></th>
 		<th><?php _e('Author'); ?></th>
 		<th><?php _e('Description'); ?></th>
 		<th><?php _e('Select'); ?></th>
@@ -76,7 +82,7 @@ if (empty($themes)) {
 		$author = $themes[$theme_name]['Author'];
 
 		if ($template == $current_template && $stylesheet == $current_stylesheet) {
-			$action = "<a href='themes.php' title='" . __('Active theme') . "' class='edit'>" . __('Active Theme') . '</a>';
+			$action = __('Active Theme');
 		} else {
 			$action = "<a href='themes.php?action=activate&amp;template=$template&amp;stylesheet=$stylesheet' title='" . __('Select this theme') . "' class='edit'>" . __('Select') . '</a>';
 		}
@@ -84,11 +90,10 @@ if (empty($themes)) {
 		$theme = ('class="alternate"' == $theme) ? '' : 'class="alternate"';
 		echo "
 	  <tr $theme>
-	     <td>$title</td>
-	     <td>$version</td>
-	     <td>$author</td>
+	     <td>$title $version</td>
+	     <td align='center'>$author</td>
 	     <td>$description</td>
-	     <td>$action</td>
+	     <td align='center'>$action</td>
 	  </tr>";
 	}
 ?>
