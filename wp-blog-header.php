@@ -386,7 +386,7 @@ $now = gmdate('Y-m-d H:i:00');
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
     if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
-        $where .= " AND $wp_posts_post_date_field <= '$now'";
+        $where .= " AND post_date <= '$now'";
     }
 
     $distinct = 'DISTINCT';
