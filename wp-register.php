@@ -34,7 +34,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-if (!$users_can_register) {
+if (!get_settings('users_can_register')) {
 	$action = 'disabled';
 }
 
@@ -88,6 +88,7 @@ case 'register':
 	$pass1 = addslashes($pass1);
 	$user_nickname = addslashes($user_nickname);
 	$now = gmdate('Y-m-d H:i:s');
+	$new_users_can_blog = get_settings('new_users_can_blog');
 
 	$result = $wpdb->query("INSERT INTO $tableusers 
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_idmode)

@@ -22,7 +22,7 @@ function bloginfo_unicode($show='') {
 }
 
 function get_bloginfo($show='') {
-    global $blogname, $blogdescription, $admin_email;
+    global $blogname, $admin_email;
 
     $do_perma = 0;
     $feed_url = get_settings('siteurl');
@@ -39,7 +39,7 @@ function get_bloginfo($show='') {
             $output = get_settings('siteurl') .'/'. get_settings('blogfilename');
             break;
         case 'description':
-            $output = $blogdescription;
+            $output = get_settings('blogdescription');
             break;
         case 'rdf_url':
             $output = get_settings('siteurl') .'/wp-rdf.php';

@@ -294,12 +294,7 @@ function make_clickable($text) { // original function: phpBB, extended here for 
     return $ret;
 }
 
-function convert_bbcode($content) {
-	global $wp_bbcode, $use_bbcode;
-	if ($use_bbcode) {
-		$content = preg_replace($wp_bbcode["in"], $wp_bbcode["out"], $content);
-	}
-	$content = convert_bbcode_email($content);
+function convert_bbcode($content) { // depreciated
 	return $content;
 }
 
@@ -318,11 +313,7 @@ function convert_bbcode_email($content) {
 	return $content;
 }
 
-function convert_gmcode($content) {
-	global $wp_gmcode, $use_gmcode;
-	if ($use_gmcode) {
-		$content = preg_replace($wp_gmcode["in"], $wp_gmcode["out"], $content);
-	}
+function convert_gmcode($content) { // depreciated
 	return $content;
 }
 

@@ -707,6 +707,7 @@ function upgrade_110() {
 	}
 	
 	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 6");
+	$wpdb->query("DELETE FROM $tableoptiongroups WHERE group_id = 7");
 
 	// Add blog_charset option
 	if(!$wpdb->get_var("SELECT option_id FROM $tableoptions WHERE option_name = 'blog_charset'")) {

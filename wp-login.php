@@ -281,7 +281,7 @@ default:
 <div id="login">
 <p>
 	<a href="<?php echo get_settings('siteurl'); ?>" title="Are you lost?">Back to blog?</a><br />
-<?php if ($users_can_register) { ?>
+<?php if (get_settings('users_can_register')) { ?>
 	<a href="<?php echo get_settings('siteurl'); ?>/wp-register.php" title="Register to be an author">Register?</a><br />
 <?php } ?>
 	<a href="<?php echo get_settings('siteurl'); ?>/wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>

@@ -75,7 +75,7 @@ window.onload = focusit;
 <legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Post</a></legend>
 		<div id="quicktags">
 <?php
-if ($use_quicktags && 'bookmarklet' != $mode) {
+if (get_settings('use_quicktags') && 'bookmarklet' != $mode) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
 	include('quicktags.php');
 }
@@ -91,7 +91,7 @@ if ($use_quicktags && 'bookmarklet' != $mode) {
 </fieldset>
 
 <?php
-if ($use_quicktags) {
+if (get_settings('use_quicktags')) {
 ?>
 <script type="text/javascript" language="JavaScript">
 <!--

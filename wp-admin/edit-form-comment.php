@@ -43,7 +43,7 @@ window.onload = focusit;
 <legend>Comment</legend>
 		<div id="quicktags">
 <?php
-if ($use_quicktags) {
+if (get_settings('use_quicktags')) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
 	include('quicktags.php');
 }
@@ -59,7 +59,7 @@ if ($use_quicktags) {
 </fieldset>
 
 <?php
-if ($use_quicktags) {
+if (get_settings('use_quicktags')) {
 ?>
 <script type="text/javascript" language="JavaScript">
 <!--
