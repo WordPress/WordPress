@@ -495,7 +495,7 @@ function weblog_ping($server = '', $path = '') {
 	// using a timeout of 3 seconds should be enough to cover slow servers
 	$client = new IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));
 	$client->timeout = 3;
-	$client->useragent .= ' / WordPress '.$wp_version;
+	$client->useragent .= ' -- WordPress/'.$wp_version;
 
 	// when set to true, this outputs debug messages by itself
 	$client->debug = false;
@@ -631,10 +631,11 @@ function debug_fclose($fp) {
 }
 
 function pingback($content, $post_ID) {
-include_once (ABSPATH . WPINC . '/class-xmlrpc.php');
-include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
-	// original code by Mort (http://mort.mine.nu:8080)
+
 	global $wp_version;
+	include_once (ABSPATH . WPINC . '/class-IXR.php');
+
+	// original code by Mort (http://mort.mine.nu:8080)
 	$log = debug_fopen('./pingback.log', 'a');
 	$post_links = array();
 	debug_fwrite($log, 'BEGIN '.time()."\n");
@@ -750,22 +751,6 @@ include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 			debug_fwrite($log, "Pingback server not found\n\n*************************\n\n");
 			@fclose($fp);
 		} else {
-			debug_fwrite($log,"\n\nPingback server data\n");
-
-			// Assuming there's a "http://" bit, let's get rid of it
-			$host_clear = substr($pingback_server_url, 7);
-
-			//  the trailing slash marks the end of the server name
-			$host_end = strpos($host_clear, '/');
-
-			// Another clear cut
-			$host_len = $host_end-$host_start;
-			$host = substr($host_clear, 0, $host_len);
-			debug_fwrite($log, 'host: '.$host."\n");
-
-			// If we got the server name right, the rest of the string is the server path
-			$path = substr($host_clear,$host_end);
-			debug_fwrite($log, 'path: '.$path."\n\n");
 
 			 // Now, the RPC call
 			$method = 'pingback.ping';
@@ -774,26 +759,18 @@ include_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
 			$pagelinkedfrom = get_permalink($post_ID);
 			debug_fwrite($log, $pagelinkedfrom."\n");
 
-			$client = new xmlrpc_client($path, $host, 80);
-			$message = new xmlrpcmsg($method, array(new xmlrpcval($pagelinkedfrom), new xmlrpcval($pagelinkedto)));
-			$result = $client->send($message);
-			if ($result){
-				if (!$result->value()){
-					debug_fwrite($log, $result->faultCode().' -- '.$result->faultString());
-				} else {
-					$value = phpxmlrpc_decode($result->value());
-					if (is_array($value)) {
-						$value_arr = '';
-						foreach($value as $blah) {
-							$value_arr .= $blah.' |||| ';
-						}
-						debug_fwrite($log, $value_arr);
-					} else {
-						debug_fwrite($log, $value);
-					}
-				}
+			// using a timeout of 3 seconds should be enough to cover slow servers
+			$client = new IXR_Client($pingback_server_url);
+			$client->timeout = 3;
+			$client->useragent .= ' -- WordPress/'.$wp_version;
+
+			// when set to true, this outputs debug messages by itself
+			$client->debug = false;
+			$client->query('pingback.ping', array($pagelinkedfrom, $pagelinkedto)); 
+
+			if (!$client->query('pingback.ping', array($pagelinkedfrom, $pagelinkedto))) {
+				debug_fwrite($log, "Error.\n Fault code: ".$client->getErrorCode()." : ".$client->getErrorMessage()."\n");
 			}
-			@fclose($fp);
 		}
 	}
 
