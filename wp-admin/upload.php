@@ -76,16 +76,15 @@ case '':
 </div><?php 
 break;
 case 'upload':
-?>
 
-<?php //Makes sure they choose a file
+//Makes sure they choose a file
 
 //print_r($_FILES);
 //die();
 
 
     $imgalt = basename( (isset($_POST['imgalt'])) ? $_POST['imgalt'] : '' );
-
+  
     $img1_name = (strlen($imgalt)) ? $imgalt : basename( $_FILES['img1']['name'] );
     $img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $_FILES['img1']['type'];
     $imgdesc = htmlentities2($imgdesc);
@@ -99,7 +98,7 @@ case 'upload':
 
     if (strlen($imgalt)) {
         $pathtofile = get_settings('fileupload_realpath')."/".$imgalt;
-        $img1 = $_POST['img1']['tmp_name'];
+        $img1 = $_POST['img1'];
     } else {
         $pathtofile = get_settings('fileupload_realpath')."/".$img1_name;
         $img1 = $_FILES['img1']['tmp_name'];
@@ -158,6 +157,7 @@ case 'upload':
     </form>
 </div>
 <?php 
+
 require('admin-footer.php');
 die();
 
