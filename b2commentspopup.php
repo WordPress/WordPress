@@ -24,28 +24,36 @@ foreach ($posts as $post) { start_b2();
 
 <?php /* this line is b2's motor, do not delete it */ 
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
-$commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = $id");
+$commentstatus = $wpdb->get_row("SELECT comment_status, post_password FROM $tableposts WHERE ID = $id");
 // this line is WordPress' motor, do not delete it.
 if ($comments) {
-	foreach ($comments as $comment) {
+	if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass'] != $commentstatus->post_password) {  // and it doesn't match the cookie
+		echo("<li>Enter your password to view comments.</li>");
+	}
+	else {
+		foreach ($comments as $comment) {
 ?>
-	
 <!-- comment -->
 <li id="comment-<?php comment_ID() ?>">
 <?php comment_text() ?>
 <p><cite><?php comment_type(); ?> by <?php comment_author_link() ?> <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
 </li>
-<?php } // end for each comment
+
+<?php 	} // end for each comment
+	} // end password check
 } else { // this is displayed if there are no comments so far 
 ?>
 	<li>No comments yet.</li>
 
 <?php } ?>
 </ol>
+<?php 
+if (!empty($commentstatus->post_password) && $HTTP_COOKIE_VARS['wp-postpass'] != $commentstatus->post_password) {
+// no authorization for private comments
+}
+else if ('open' == $commentstatus->comment_status) { ?>
 <h2>Leave a Comment</h2>
-<?php if ('open' == $commentstatus) { ?>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities($comment_allowed_tags); ?></p>
-
 
 <form action="<?php echo $siteurl; ?>/b2comments.post.php" method="post" id="commentform">
 	<p>
