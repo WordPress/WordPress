@@ -1,3 +1,28 @@
+#zeitgeist {
+	width: 27%;
+	float: right;
+	font-size: 90%;
+	background-color: #eee;
+	padding: 1em;
+	border: 1px solid #ccc;
+}
+
+#zeitgeist h2 {
+	border-bottom: none;
+}
+#zeitgeist ul {
+	margin: 0 0 .3em .6em;
+	padding: 0 0 0 .6em;
+}
+#zeitgeist li, #zeitgeist p {
+	margin: .2em 0;
+}
+#zeitgeist h3 {
+	border-top: 1px solid #ccc;
+	font-size: 16px;
+	margin: .5em 0;
+}
+
 * html #poststuff {
 	height: 100%; /* kill peekaboo bug in IE */
 }

@@ -46,13 +46,16 @@ function the_title_rss() {
 	echo $title;
 }
 
-function get_the_title() {
-	global $post;
-	$output = $post->post_title;
-	if (!empty($post->post_password)) { // if there's a password
-		$output = 'Protected: ' . $output;
+function get_the_title($id = 0) {
+	global $post, $wpdb;
+	$title = $post->post_title;
+	if ( 0 != $id )
+		$title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $id");
+
+	if ( !empty($post->post_password) ) { // if there's a password
+		$title = 'Protected: ' . $title;
 	}
-	return $output;
+	return $title;
 }
 
 function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {

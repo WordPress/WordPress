@@ -550,4 +550,27 @@ function sanitize_email($email) {
 	return preg_replace('/[^a-z0-9+_.@-]/i', '', $email);
 }
 
+function human_time_diff( $from, $to = '' ) {     
+	if ( empty($to) )
+		$to = time();
+	$diff = (int) ($to - $from);
+	if ($diff <= 3600) {
+		$mins = round($diff / 60);
+		$since = sprintf( __('%s mins', $mins) );
+	} else if (($diff <= 86400) && ($diff > 3600)) {
+		$hours = round($diff / 3600);
+		if ($hours <= 1)
+			$since = __('1 hour');
+		else 
+			$since = sprintf( __('%s hours'), $hours );
+	} elseif ($diff >= 86400) {
+		$days = round($diff / 86400);
+		if ($days <= 1)
+			$since = __('1 day');
+		else
+			$since = sprintf( __('%s days'), $days );
+	}
+	return $since;
+}
+
 ?>
