@@ -111,7 +111,7 @@ $rewritereplace = array(
 	'([0-9]{4})?',
 	'([0-9]{1,2})?',
 	'([0-9]{1,2})?',
-	'([0-9a-z-]+)?',
+	'([0-9a-z-_]+)?',
 	'([0-9]+)?'
 );
 $queryreplace = array (
@@ -166,11 +166,11 @@ $trackbackregex = 'trackback/?';
 $trackbackmatch .= $trackbackregex;
 
 // Site feed
-$sitefeedmatch = 'feed/?([0-9a-z-]+)?/?$';
+$sitefeedmatch = 'feed/?([0-9a-z-_]+)?/?$';
 $sitefeedquery = $site_root . 'wp-feed.php?feed=$1';
 
 // Site comment feed
-$sitecommentfeedmatch = 'comments/feed/?([0-9a-z-]+)?/?$';
+$sitecommentfeedmatch = 'comments/feed/?([0-9a-z-_]+)?/?$';
 $sitecommentfeedquery = $site_root . 'wp-feed.php?feed=$1&withcomments=1';
 
 // Code for nice categories, currently not very flexible
