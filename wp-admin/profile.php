@@ -146,16 +146,16 @@ case 'viewprofile':
 	?>
 </p>
 
-<p> <strong>First:</strong> <?php echo $profiledata->user_firstname ?> </p>
+<p> <strong>First name:</strong> <?php echo $profiledata->user_firstname ?> </p>
   
-<p> <strong>Last:</strong> <?php echo $profiledata->user_lastname ?> </p>
+<p> <strong>Last name:</strong> <?php echo $profiledata->user_lastname ?> </p>
   
 <p> <strong>Nickname:</strong> <?php echo $profiledata->user_nickname ?> </p>
   
 <p> <strong>Email:</strong> <?php echo make_clickable($profiledata->user_email) ?> 
 </p>
   
-<p> <strong>URL:</strong> <?php echo $profiledata->user_url ?> </p>
+<p> <strong>Website:</strong> <?php echo $profiledata->user_url ?> </p>
   
 <p> <strong>ICQ:</strong> 
   <?php if ($profiledata->user_icq > 0) { echo make_clickable("icq:".$profiledata->user_icq); } ?>
@@ -200,9 +200,9 @@ case 'IErightclick':
 	'Post to WP' to make the bookmarklet appear. :)</p>
 
 	<p align="center">
-		<form>
+	  <form>
 		<input class="search" type="button" value="1" name="Close this window" />
-		</form>
+	  </form>
 	</p>
 	</td></tr>
 	</table>
@@ -228,32 +228,31 @@ default:
 <?php } ?>
 <div class="wrap">
 <form name="profile" id="profile" action="profile.php" method="post">
-	<h2>Edit Your Profile</h2>
-  <p>
+	<p>
     <input type="hidden" name="action" value="update" />
     <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
   </p>
-  <p><strong>User ID:</strong> <?php echo $profiledata->ID ?> | <strong>Level:</strong> 
+  <p><strong>Login:</strong> <?php echo $profiledata->user_login ?> | <strong>Level:</strong> 
     <?php echo $profiledata->user_level ?> | <strong>Posts:</strong> 
     <?php
 	$posts = get_usernumposts($user_ID);
 	echo $posts;
 	?>
-    | <strong>Login:</strong> <?php echo $profiledata->user_login ?></p>
+    </p>
 	<style type="text/css" media="screen">
 	th { text-align: right; }
 	</style>
   <table width="99%"  border="0" cellspacing="2" cellpadding="3">
     <tr>
-      <th width="15%" scope="row">First:</th>
+      <th width="15%" scope="row">First name:</th>
       <td><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">Last:</th>
+      <th scope="row">Last name:</th>
       <td><input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->user_lastname ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">Description:</th>
+      <th scope="row">Profile:</th>
       <td><textarea name="user_description" rows="5" id="textarea2" style="width: 99%; "><?php echo $profiledata->user_description ?></textarea></td>
     </tr>
     <tr>
@@ -265,7 +264,7 @@ default:
       <td><input type="text" name="newuser_email" id="newuser_email2" value="<?php echo $profiledata->user_email ?>" /></td>
     </tr>
     <tr>
-      <th scope="row">URI:</th>
+      <th scope="row">Website:</th>
       <td><input type="text" name="newuser_url" id="newuser_url2" value="<?php echo $profiledata->user_url ?>" /></td>
     </tr>
     <tr>
@@ -316,9 +315,9 @@ default:
   <p style=" text-align: center;">
     <input class="search" type="submit" value="Update" name="submit" /></p>
 	</div>
-  </form>
+</form>
 </div>
-<?php if ($is_gecko) { ?>
+<?php if ($is_gecko && $profiledata->user_level != 0) { ?>
 <div class="wrap">
     <script language="JavaScript" type="text/javascript">
 function addPanel()
