@@ -13,6 +13,7 @@ if (!$step) $step = 0;
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <style media="screen" type="text/css">
 	body {
+		background-color: white;
 		font-family: Georgia, "Times New Roman", Times, serif;
 		margin-left: 15%;
 		margin-right: 15%;

@@ -14,6 +14,7 @@ if (!$step) $step = 0;
 	<style media="screen" type="text/css">
     <!--
 	body {
+		background-color: white;
 		font-family: Georgia, "Times New Roman", Times, serif;
 		margin-left: 15%;
 		margin-right: 15%;
@@ -707,7 +708,7 @@ $guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HO
 
 
 <?php
-$url = $_POST['url'];
+$url = $_REQUEST['url'];
 if (isset($url)) {
     $query= "UPDATE $tableoptions set option_value='$url' where option_id=1"; //siteurl
     $q = $wpdb->query($query);
