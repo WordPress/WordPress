@@ -429,6 +429,8 @@ case 'editcomment':
 	$content = $commentdata['comment_content'];
 	$content = format_to_edit($content);
 	$content = apply_filters('comment_edit_pre', $content);
+	
+	$comment_status = $commentdata['comment_approved'];
 
 	include('edit-form-comment.php');
 
@@ -585,6 +587,7 @@ case 'editedcomment':
 	$newcomment_author = $_POST['newcomment_author'];
 	$newcomment_author_email = $_POST['newcomment_author_email'];
 	$newcomment_author_url = $_POST['newcomment_author_url'];
+	$comment_status = $_POST['comment_status'];
 
 	if (!user_can_edit_post_comments($user_ID, $comment_post_ID)) {
 		die('You are not allowed to edit comments on this post, so you cannot edit this comment.');
@@ -612,6 +615,7 @@ case 'editedcomment':
 			comment_content = '$content',
 			comment_author = '$newcomment_author',
 			comment_author_email = '$newcomment_author_email',
+			comment_approved = '$comment_status',
 			comment_author_url = '$newcomment_author_url'".$datemodif."
 		WHERE comment_ID = $comment_ID"
 		);

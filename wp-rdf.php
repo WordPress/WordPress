@@ -43,7 +43,7 @@ add_filter('the_content', 'trim');
 	<title><?php the_title_rss() ?></title>
 	<link><?php permalink_single_rss() ?></link>
 	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt); ?></dc:date>
-	<dc:creator><?php the_author() ?> (mailto:<?php the_author_email() ?>)</dc:creator>
+	<dc:creator><?php the_author() ?></dc:creator>
 	<?php the_category_rss('rdf') ?>
 <?php if (get_settings('rss_use_excerpt')) : ?>
 	<description><?php the_excerpt_rss() ?></description>

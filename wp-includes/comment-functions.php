@@ -7,10 +7,16 @@ function comments_template() {
 
 	if ( is_single() || is_page() || $withcomments ) :
 		$req = get_settings('require_name_email');
-        $comment_author = isset($_COOKIE['comment_author_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_'.COOKIEHASH])) : '';
+		$comment_author = isset($_COOKIE['comment_author_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_'.COOKIEHASH])) : '';
 		$comment_author_email = isset($_COOKIE['comment_author_email_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_email_'.COOKIEHASH])) : '';
 		$comment_author_url = isset($_COOKIE['comment_author_url_'.COOKIEHASH]) ? trim(stripslashes($_COOKIE['comment_author_url_'.COOKIEHASH])) : '';
+	if ( empty($comment_author) ) {
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
+	} else {
+		$author_db = addslashes($comment_author);
+		$email_db  = addslashes($comment_author_email);
+		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND ( comment_approved = '1' OR ( comment_author = '$author_db' AND comment_author_email = '$email_db' AND comment_approved = '0' ) ) ORDER BY comment_date");
+	}
 
 	if ( file_exists( TEMPLATEPATH . '/comments.php') )
 		require( TEMPLATEPATH . '/comments.php');
@@ -661,7 +667,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$subject = '[' . $blogname . '] Pingback: "' .$post->post_title.'"';
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . '#comments';
-	$notify_message .= "\r\n\r\nTo delete this comment, visit: " . get_settings('siteurl') . "/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id";
+	$notify_message .= "\r\n\r\nTo delete this comment:\r\n" . get_settings('siteurl') . "/wp-admin/post.php?action=confirmdeletecomment&p=".$comment->comment_post_ID."&comment=$comment_id";
 
 	if ('' == $comment->comment_author_email || '' == $comment->comment_author) {
 		$from = "From: \"$blogname\" <wordpress@" . $_SERVER['SERVER_NAME'] . '>';
@@ -732,25 +738,6 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 	if ( (count(explode('http:', $comment)) - 1) >= get_settings('comment_max_links') )
 		return false; // Check # of external links
 
-	// Comment whitelisting:
-	if ( 1 == get_settings('comment_whitelist')) {
-		if ( 'trackback' == $comment_type || 'pingback' == $comment_type ) { // check if domain is in blogroll
-			$uri = parse_url($url);
-			$domain = $uri['host'];
-			$in_blogroll = $wpdb->get_var("SELECT link_id FROM $wpdb->links WHERE link_url LIKE ('%$domain%') LIMIT 1");
-			if ( $in_blogroll )
-				return true;
-		} elseif( $author != '' && $email != '' ) {
-			$ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author = '$author' AND comment_author_email = '$email' and comment_approved = '1' ");
-			if ( 1 == $ok_to_comment && false === strpos( $email, get_settings('moderation_keys')) )
-				return true;
-			else
-				return false;
-		} else {
-			return false;
-		}
-	}
-
 	$mod_keys = trim( get_settings('moderation_keys') );
 	if ('' == $mod_keys )
 		return true; // If moderation keys are empty
@@ -773,6 +760,24 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 		if ( preg_match($pattern, $comment) ) return false;
 		if ( preg_match($pattern, $user_ip) ) return false;
 		if ( preg_match($pattern, $user_agent) ) return false;
+	}
+
+	// Comment whitelisting:
+	if ( 1 == get_settings('comment_whitelist')) {
+		if ( 'trackback' == $comment_type || 'pingback' == $comment_type ) { // check if domain is in blogroll
+			$uri = parse_url($url);
+			$domain = $uri['host'];
+			if ( $wpdb->get_var("SELECT link_id FROM $wpdb->links WHERE link_url LIKE ('%$domain%') LIMIT 1") )
+				return true;
+		} elseif( $author != '' && $email != '' ) {
+			$ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author = '$author' AND comment_author_email = '$email' and comment_approved = '1' ");
+			if ( 1 == $ok_to_comment && false === strpos( $email, get_settings('moderation_keys')) )
+				return true;
+			else
+				return false;
+		} else {
+			return false;
+		}
 	}
 
 	return true;
