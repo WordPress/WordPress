@@ -304,6 +304,7 @@ if (isset($user_ID) && ('' != intval($user_ID)))
     $where .= " OR post_author = $user_ID AND post_status != 'draft')";
 else
     $where .= ')';
+$where .= " GROUP BY $tableposts.ID";
 $request = " SELECT $distinct * FROM $tableposts $join WHERE 1=1".$where." ORDER BY post_$orderby $limits";
 
 
