@@ -59,6 +59,7 @@ function get_the_title() {
 function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
     $content = get_the_content($more_link_text, $stripteaser, $more_file);
     $content = apply_filters('the_content', $content);
+    $content = str_replace(']]>', ']]&gt;', $content);
     echo $content;
 }
 
@@ -91,6 +92,7 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 		$excerpt .= ($use_dotdotdot) ? '...' : '';
 		$content = $excerpt;
 	}
+	$content = str_replace(']]>', ']]&gt;', $content);
 	echo $content;
 }
 
@@ -151,6 +153,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
         $output = make_url_footnote($output);
     } elseif ($encode_html == 2) {
         $output = strip_tags($output);
+        $output = str_replace('&', '&amp;', $output);
     }
     if ($cut) {
         $excerpt = '';
@@ -168,6 +171,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
         $excerpt .= ($use_dotdotdot) ? '...' : '';
         $output = $excerpt;
     }
+    $output = str_replace(']]>', ']]&gt;', $output);
     echo $output;
 }
 
