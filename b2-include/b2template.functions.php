@@ -857,19 +857,43 @@ function the_category_head($before='', $after='') {
 }
 
 // out of the b2 loop
-function dropdown_cats($optionall = 1, $all = 'All') {
-	global $cat, $tablecategories, $querycount, $wpdb;
-	$categories = $wpdb->get_results("SELECT cat_ID, cat_name FROM $tablecategories");
+function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
+                   $optiondates = 0, $optioncount = 0, $hide_empty = 1) {
+	global $cat, $tablecategories, $tableposts, $querycount, $wpdb;
+    $sort_column = 'cat_'.$sort_column;
+
+    $query  = " SELECT cat_ID, cat_name,";
+    $query .= "  COUNT($tableposts.ID) AS cat_count,";
+    $query .= "  DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth";
+    $query .= " FROM $tablecategories LEFT JOIN $tableposts ON cat_ID = post_category";
+    $query .= " WHERE cat_ID > 0 ";
+    $query .= " GROUP BY post_category ";
+    if (intval($hide_empty) == 1) {
+        $query .= " HAVING cat_count > 0";
+    }
+    $query .= " ORDER BY $sort_column $sort_order, post_date DESC";
+
+
+	$categories = $wpdb->get_results($query);
 	++$querycount;
 	echo "<select name='cat' class='postform'>\n";
 	if (intval($optionall) == 1) {
+		$all = apply_filters('list_cats', $all);
 		echo "\t<option value='all'>$all</option>\n";
 	}
 	foreach ($categories as $category) {
+		$cat_name = apply_filters('list_cats', $category->cat_name);
 		echo "\t<option value=\"".$category->cat_ID."\"";
 		if ($category->cat_ID == $cat)
 			echo ' selected="selected"';
-		echo '>'.stripslashes($category->cat_name)."</option>\n";
+		echo '>'.stripslashes($cat_name);
+        if (intval($optioncount) == 1) {
+            echo '&nbsp;&nbsp;('.$category->cat_count.')';
+        }
+        if (intval($optiondates) == 1) {
+            echo '&nbsp;&nbsp;'.$category->lastday.'/'.$category->lastmonth;
+        }
+        echo "</option>\n";
 	}
 	echo "</select>\n";
 }
