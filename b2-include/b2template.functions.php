@@ -366,7 +366,7 @@ echo "\n  </tr>\n</tbody>\n</table>";
 /***** Links *****/
 function get_permalink($id=false) {
 	global $post, $wpdb, $tableposts;
-	global $file, $siteurl, $querystring_start, $querystring_equal;
+	global $siteurl, $blogfilename, $querystring_start, $querystring_equal;
 	$rewritecode = array(
 		'%year%',
 		'%monthnum%',
@@ -384,7 +384,7 @@ function get_permalink($id=false) {
 			);
 			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else { // if they're not using the fancy permalink option
-			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$post->ID;
+			return $siteurl . $blogfilename.$querystring_start.'p'.$querystring_equal.$post->ID;
 		}
 	} else { // if an ID is given
 		$idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
@@ -398,7 +398,7 @@ function get_permalink($id=false) {
 			);
 			return $siteurl . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else {
-			return $siteurl . $file.$querystring_start.'p'.$querystring_equal.$idpost->ID;
+			return $siteurl . $blogfilename.$querystring_start.'p'.$querystring_equal.$idpost->ID;
 		}
 	}
 }
@@ -1408,9 +1408,10 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
                 return;
             }
         }
-        echo '<a href="' . $siteurl . '/';
+        echo '<a href="';
         if ($b2commentsjavascript) {
-            echo get_permalink();
+            echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+            //echo get_permalink();
             echo '" onclick="b2open(this.href); return false"';
         } else {
             // if comments_popup_script() is not in the template, display simple comment link
@@ -1577,13 +1578,13 @@ function comment_text_rss() {
 function comment_link_rss() {
 	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
-	echo $siteurl.get_permalink($comment->comment_post_ID).'#comments';
+	echo get_permalink($comment->comment_post_ID).'#comments';
 }
 
 function permalink_comments_rss() {
 	global $comment,$postdata,$pagenow,$siteurl,$blogfilename;
 	global $querystring_start, $querystring_equal, $querystring_separator;
-	echo $siteurl.get_permalink($comment->comment_post_ID);
+	echo get_permalink($comment->comment_post_ID);
 }
 
 /***** // Comment tags *****/
@@ -1662,7 +1663,7 @@ function permalink_single($file = '') {
 
 function permalink_single_rss($file = '') {
 	global $siteurl;
-	echo $siteurl . get_permalink();
+	echo get_permalink();
 }
 
 /***** // Permalink tags *****/
