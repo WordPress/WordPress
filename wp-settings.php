@@ -6,6 +6,7 @@
 // accessing a single global $all_settings var
 if (!$_wp_installing) {
     $siteurl = get_settings('siteurl');
+	if ('/' == substr($siteurl, -1)) $siteurl = substr($siteurl, 0, -1);
     $blogfilename = get_settings('blogfilename');
     $blogname = get_settings('blogname');
     $blogdescription = get_settings('blogdescription');
