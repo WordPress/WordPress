@@ -1,6 +1,6 @@
 <?php
 
-require_once('b2config.php');
+require_once('../b2config.php');
 
 /* connecting the db */
 $connexion = @mysql_connect($server,$loginsql,$passsql) or die("Can't connect to the database<br>".mysql_error());

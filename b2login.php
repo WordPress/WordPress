@@ -1,6 +1,6 @@
 <?php
 
-require('./b2config.php');
+require('b2config.php');
 require_once($b2inc.'/b2template.functions.php');
 require_once($b2inc.'/b2functions.php');
 require_once($b2inc.'/b2vars.php');
