@@ -403,6 +403,7 @@ function get_commentdata($comment_ID,$no_cache=0,$include_unapproved=false) { //
 		$myrow['comment_date']=$postc->comment_date;
 		$myrow['comment_content']=$postc->comment_content;
 		$myrow['comment_karma']=$postc->comment_karma;
+        $myrow['comment_approved']=$postc->comment_approved;
 		if (strstr($myrow['comment_content'], '<trackback />')) {
 			$myrow['comment_type'] = 'trackback';
 		} elseif (strstr($myrow['comment_content'], '<pingback />')) {
