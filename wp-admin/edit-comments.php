@@ -43,7 +43,7 @@ if ( !empty( $_POST['delete_comments'] ) ) :
 		$comment = (int) $comment;
 		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
 		$authordata = get_userdata( $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id") );
-		if ( ($user_level > $authordata->user_level) || ($user_login == $authordata->user_login) ) :
+		if ( user_can_delete_post_comments($user_ID, $post_id) ) :
 			$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_ID = $comment");
 			++$i;
 		endif;
@@ -91,15 +91,20 @@ if ('view' == $mode) {
 		
 		<?php comment_text() ?>
 
-        <p><?php _e('Posted'); echo ' '; comment_date('M j, g:i A'); ?> | <?php 
-			if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
-				echo "<a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit Comment') . "</a>";
+        <p><?php _e('Posted'); echo ' '; comment_date('M j, g:i A');  
+			if ( user_can_edit_post_comments($user_ID, $comment->comment_post_ID) ) {
+				echo " | <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit Comment') . "</a>";
+			}
+			if ( user_can_delete_post_comments($user_ID, $comment->comment_post_ID) ) {
 				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\">" . __('Delete Comment') . "</a> &#8212; ";
 			} // end if any comments to show
 			// Get post title
-			$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $comment->comment_post_ID");
-			$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
-			?> <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), stripslashes($post_title)); ?></a> | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a></p>
+			if ( user_can_edit_post($user_ID, $comment->comment_post_ID) ) {
+				$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $comment->comment_post_ID");
+				$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
+				?> <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), stripslashes($post_title)); ?></a>
+				<?php } ?>
+			 | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a></p>
 		</li>
 
 <?php } // end foreach ?>
@@ -138,15 +143,15 @@ if ('view' == $mode) {
 		$class = ('alternate' == $class) ? '' : 'alternate';
 ?>
   <tr class='<?php echo $class; ?>'>
-    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
+    <td><?php if (user_can_delete_post_comments($user_ID, $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td><?php comment_author_link() ?></td>
     <td><?php comment_author_email_link() ?></td>
     <td><a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></td>
     <td><?php comment_excerpt(); ?></td>
     <td><a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php comment_ID() ?>" class="edit"><?php _e('View') ?></a></td>
-    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
+    <td><?php if ( user_can_edit_post_comments($user_ID, $comment->comment_post_ID) ) {
 	echo "<a href='post.php?action=editcomment&amp;comment=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a>"; } ?></td>
-    <td><?php if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
+    <td><?php if ( user_can_delete_post_comments($user_ID, $comment->comment_post_ID) ) {
             echo "<a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\"    class='delete'>" . __('Delete') . "</a>"; } ?></td>
   </tr>
 		<?php 

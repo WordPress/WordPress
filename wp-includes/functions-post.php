@@ -342,7 +342,8 @@ function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
 	$post_author_data = get_userdata($post_data['Author_ID']);
 
 	if ( ($user_id == $post_author_data->ID)
-	     || ($author_data->user_level > $post_author_data->user_level) ) {
+	     || ($author_data->user_level > $post_author_data->user_level)
+	     || ($author_data->user_level >= 10) ) {
 		return true;
 	} else {
 		return false;
