@@ -464,7 +464,7 @@ function the_excerpt() {
 }
 
 function the_excerpt_rss($cut = 0, $encode_html = 0) {
-	$excerpt = get_the_excerpt();
+	$excerpt = get_the_excerpt(true);
 	$excerpt = convert_bbcode($excerpt);
 	$excerpt = convert_gmcode($excerpt);
 	$excerpt = convert_chars($excerpt, 'unicode');
@@ -507,13 +507,13 @@ function the_excerpt_unicode() {
 	echo $excerpt;
 }
 
-function get_the_excerpt() {
+function get_the_excerpt($fakeit = false) {
 	global $id,$postdata;
 	global $HTTP_SERVER_VARS, $preview;
 	$output = '';
 	$output = $postdata['Excerpt'];
     //if we haven't got an excerpt, make one in the style of the rss ones
-    if ($output == '') {
+    if (($output == '') && $fakeit) {
         $output = get_the_content();
         $output = strip_tags($output);
         $blah = explode(' ', $output);
