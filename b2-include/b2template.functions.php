@@ -918,7 +918,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 	echo "<a href=\"$siteurl/";
 	if ($b2commentsjavascript) {
 		echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
-		echo '\' onclick="b2open(this.href); return false"';
+		echo '" onclick="b2open(this.href); return false"';
 	} else {
 		// if comments_popup_script() is not in the template, display simple comment link
 		comments_link();
