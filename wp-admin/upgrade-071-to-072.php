@@ -568,9 +568,9 @@ $option_data = array(
 "INSERT INTO $tableoptionvalues (option_id, optionvalue, optionvalue_desc, optionvalue_max, optionvalue_min, optionvalue_seq) VALUES (59, 'SELECT cat_id AS value, cat_name AS label FROM $tablecategories order by cat_name', '', null,null,1)",
 );
 
-//foreach ($option_data as $query) {
-//    $q = $wpdb->query($query);
-//}
+foreach ($option_data as $query) {
+    $q = $wpdb->query($query);
+}
 
 ?>
 <?php
