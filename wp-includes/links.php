@@ -545,7 +545,7 @@ WHERE link_visible =  'Y'
 			$orderby = (bool_from_yn($cat['sort_desc'])?'_':'') . $orderby;
 
 			// Display the category name
-			echo '	<li class="'.sanitize_title($cat['cat_name']).'">' . stripslashes($cat['cat_name']) . "\n\t<ul>\n";
+			echo '	<li id="'.sanitize_title($cat['cat_name']).'">' . stripslashes($cat['cat_name']) . "\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
 			get_links($cat['link_category'],
 				'<li>',"</li>","\n",
