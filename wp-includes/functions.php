@@ -621,7 +621,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_settings('blog_charset')."\r\n";
 	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
 	$http_request .= "User-Agent: WordPress/" . get_settings('version');
-	$http_request .= "\r\n";
+	$http_request .= "\r\n\r\n";
 	$http_request .= $query_string;
 	if ( '' == $trackback_url['port'] )
 		$trackback_url['port'] = 80;
