@@ -256,7 +256,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
     global $querystring_start, $querystring_equal, $querystring_separator;
     // Optiondates now works
     if ('' == $file) {
-        $file = "$siteurl/" . get_settings('blogfilename');
+        $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
     }
     if (intval($categories)==0){
         $sort_column = 'cat_'.$sort_column;
