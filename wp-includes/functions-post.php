@@ -434,7 +434,7 @@ function wp_new_comment( $commentdata, $spam = false ) {
 	$url     = apply_filters('pre_comment_author_url', $comment_author_url);
 	$comment = apply_filters('pre_comment_content', $comment_content);
 	$comment = apply_filters('post_comment_text', $comment); // Deprecated
-	$comment = apply_filters('comment_content_presave', $comment_content); // Deprecated
+	$comment = apply_filters('comment_content_presave', $comment); // Deprecated
 
 	$user_ip     = apply_filters('pre_comment_user_ip', $_SERVER['REMOTE_ADDR']);
 	$user_domain = apply_filters('pre_comment_user_domain', gethostbyaddr($user_ip) );
