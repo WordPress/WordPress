@@ -161,8 +161,8 @@ function get_feed_link($feed='rss2') {
 			$feed = '';
 
 		$permalink = str_replace('%feed%', $feed, $permalink);
-		$output =  get_settings('home') . "/$permalink/";
-		$output = preg_replace('#/+#', '/', $output);
+		$permalink = preg_replace('#/+#', '/', "/$permalink/");
+		$output =  get_settings('home') . $permalink;
 	} else {
 		if ( false !== strpos($feed, 'comments_') )
 			$feed = str_replace('comments_', 'comments', $feed);
