@@ -47,7 +47,7 @@ include('options-head.php');
   <h2><?php _e('General Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset','date_format','time_format','home','start_of_week'" /> 
+	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','gmt_offset','date_format','time_format','home','start_of_week'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"><?php _e('Weblog title:') ?></th> 
@@ -78,10 +78,7 @@ include('options-head.php');
         <td> <label for="users_can_register"> 
           <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked('1', get_settings('users_can_register')); ?> /> 
           <?php _e('Anyone can register') ?></label> 
-          <br /> 
-          <label for="new_users_can_blog"> 
-          <input name="new_users_can_blog" type="checkbox" id="new_users_can_blog" value="1" <?php checked('1', get_settings('new_users_can_blog')); ?> /> 
-          <?php _e('Newly registered members can publish articles') ?> </label></td> 
+</td> 
       </tr> 
     </table> 
     <fieldset class="options"> 

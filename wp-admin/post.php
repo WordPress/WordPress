@@ -66,6 +66,9 @@ case 'post':
 		$post_name = $_POST['post_name'];
 
 		if (empty($post_status)) $post_status = 'draft';
+		// Double-check
+		if ( 'publish' == $post_status && 1 == $user_level && 2 != get_option('new_users_can_blog') )
+			$post_status = 'draft';
 		$comment_status = $_POST['comment_status'];
 		if (empty($comment_status)) $comment_status = get_settings('default_comment_status');
 		$ping_status = $_POST['ping_status'];
@@ -322,6 +325,9 @@ case 'editpost':
 	$trackback = preg_replace('|\s+|', '\n', $trackback);
 	
 	if (isset($_POST['publish'])) $post_status = 'publish';
+	// Double-check
+	if ( 'publish' == $post_status && 1 == $user_level && 2 != get_option('new_users_can_blog') )
+		$post_status = 'draft';
 
 	if (($user_level > 4) && (!empty($_POST['edit_date']))) {
 		$aa = $_POST['aa'];

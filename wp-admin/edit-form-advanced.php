@@ -65,7 +65,10 @@ window.onload = focusit;
 
     <fieldset id="poststatusdiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#post_status" title="<?php _e('Help on post status') ?>"><?php _e('Post Status') ?></a></legend>
-	  <div><label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Publish') ?></label> 
+	  <div>
+<?php if ( 2 == get_option('new_users_can_blog') && 1 != $user_level ) : ?>
+<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Publish') ?></label>
+<?php endif; ?>
 	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label> 
 	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
     </fieldset>
@@ -142,7 +145,9 @@ if ($action != 'editcomment') {
 <?php 
 if ('publish' != $post_status || 0 == $post_ID) {
 ?>
+<?php if ( 2 == get_option('new_users_can_blog') && 1 != $user_level ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="10" value="<?php _e('Publish') ?>" /> 
+<?php endif; ?>
 <?php
 }
 ?>
