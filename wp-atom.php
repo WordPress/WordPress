@@ -15,7 +15,7 @@ if (!isset($rss_excerpt_length) || ($rss_encoded_html == 1)) { $rss_excerpt_leng
 	<title><?php bloginfo_rss('name') ?></title>
 	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('url') ?>" />
 	<tagline><?php bloginfo_rss("description") ?></tagline>
-	<modified><?php echo gmdate('Y-m-d\TG:i:s\Z'); ?></modified>
+	<modified><?php echo gmdate('Y-m-d\TH:i:s\Z'); ?></modified>
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
 	<generator url="http://wordpress.org/" version="<?php echo $wp_version ?>">WordPress</generator>
 	<id>tag:<?php echo str_replace('http://', '', $siteurl); ?>,<?php echo date('Y'); ?>:1984</id>
