@@ -83,9 +83,42 @@ if (!isset($doing_rss) || !$doing_rss) {
 	@header("Pragma: no-cache");                                     // HTTP/1.0
 	@header ('X-Pingback: '. get_settings('siteurl') . '/xmlrpc.php');
 } else {
+
 	// We're showing a feed, so WP is indeed the only thing that last changed
-	@header('Last Modified: ' . mysql2date("D, d M Y H:i:s", get_lastpostmodified('GMT')).' GMT');
+	$last_modified_date = mysql2date("D, d M Y H:i:s", get_lastpostmodified('GMT')).' GMT';
+	@header('Last Modified: '.$last_modified_date);
+	@header('ETag: "'.md5($last_modified_date).'"');
 	@header ('X-Pingback: ' . get_settings('siteurl') . '/xmlrpc.php');
+
+	// Checking If-Modified-Since and If-None-Match,
+	// works only on Apache but should fail gracefully elsewhere
+	$request_headers = getallheaders();
+
+	if ( !empty($request_headers['If-Modified-Since']) OR !empty($request_headers['If-None-Match']) ) {
+
+	  $_match_ifmodifiedsince = 0;
+	  $_match_ifnonematch = 0;
+
+	  if (!empty($request_headers['If-Modified-Since'])) {
+	    if (strtotime($request_headers['If-Modified-Since']) <= strtotime($last_modified_date)) {
+	      $_match_ifmodifiedsince = 1;
+	    } else {
+	      $_match_ifmodifiedsince = -1;
+	    }
+	  }
+	  if (!empty($request_headers['If-None-Match'])) {
+	    if ($request_headers['If-None-Match'] == md5($last_modified_date)) {
+	      $_match_ifnonematch = 1;
+	    } else {
+	      $_match_ifnonematch = -1;
+	    }
+	  }
+
+	  // if one element is present but doesn't match the header, the -1 makes this <=0
+	  if ($_match_ifmodifiedsince + $_match_ifnonematch) {
+	    header("HTTP/1.1 304 Not Modified\n\n");
+	  }
+	}
 }
 
 /* Getting settings from db */
