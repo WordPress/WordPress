@@ -46,6 +46,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'blogger.getTemplate' => 'this:blogger_getTemplate',
 		  'blogger.setTemplate' => 'this:blogger_setTemplate',
 		  'blogger.newPost' => 'this:blogger_newPost',
+		  'blogger.editPost' => 'this:blogger_editPost',
+		  'blogger.deletePost' => 'this:blogger_deletePost',
 
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
@@ -148,14 +150,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $content  = '<title>'.stripslashes($post_data['Title']).'</title>';
 	  $content .= '<category>'.$categories.'</category>';
 	  $content .= stripslashes($post_data['Content']);
-	  
+
 	  $struct = array(
 	    'userid'    => $post_data['Author_ID'],
 	    'dateCreateed' => mysql2date('Ymd\TH:i:s', $post_data['Date']),
 	    'content'     => $content,
 	    'postid'  => $post_data['ID']
 	  );
-	  
+
 	  return $struct;
 	}
 
@@ -273,7 +275,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
 	  $filename = get_settings('home').'/'.get_settings('blogfilename');
 	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
-	  
+
 	  $f = fopen($filename, 'r');
 	  $content = fread($f, filesize($filename));
 	  fclose($f);
@@ -307,7 +309,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
 	  $filename = get_settings('home').'/'.get_settings('blogfilename');
 	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
-	  
+
 	  if ($f = fopen($filename, 'w+')) {
 	    fwrite($f, $content);
 	    fclose($f);
@@ -343,7 +345,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $post_author = $user_data->ID;
 
-	  $post_title = addslashes(xmlrpc_getposttitle($content));
+	  $post_title = xmlrpc_getposttitle($content);
 	  $post_category = xmlrpc_getpostcategory($content);
 
 	  $content = xmlrpc_removepostdata($content);
@@ -364,7 +366,94 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  return $post_ID;
 	}
+
+
+	/* blogger.editPost ...edits a post */
+	function blogger_editPost($args) {
+
+	  global $wpdb;
+
+	  $post_ID     = $args[1];
+	  $user_login  = $args[2];
+	  $user_pass   = $args[3];
+	  $new_content = $args[4];
+	  $publish     = $args[5];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $actual_post = wp_get_single_post($post_ID,ARRAY_A);
+
+	  if (!$actual_post) {
+	  	return new IXR_Error(404, 'Sorry, no such post.');
+	  }
+
+	  $post_author_data = get_userdata($actual_post['post_author']);
+	  $user_data = get_userdatabylogin($user_login);
+
+	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	    return new IXR_Error(401, 'Sorry, you do not have the right to edit this post.');
+	  }
+
+	  extract($actual_post);
+	  $content = $newcontent;
+
+	  $post_title = xmlrpc_getposttitle($content);
+	  $post_category = xmlrpc_getpostcategory($content);
+
+	  $content = xmlrpc_removepostdata($content);
+	  $post_content = format_to_post($content);
+
+	  $postdata = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt');
+
+	  $result = wp_update_post($postdata);
+
+	  if (!$result) {
+	  	return new IXR_Error(500, 'For some strange yet very annoying reason, this post could not be edited.');
+	  }
+
+	  return true;
+	}
+
+
+	/* blogger.deletePost ...deletes a post */
+	function blogger_deletePost($args) {
+
+	  global $wpdb;
+
+	  $post_ID     = $args[1];
+	  $user_login  = $args[2];
+	  $user_pass   = $args[3];
+	  $publish     = $args[4];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $actual_post = wp_get_single_post($post_ID,ARRAY_A);
+
+	  if (!$actual_post) {
+	  	return new IXR_Error(404, 'Sorry, no such post.');
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+
+	  if (!user_can_delete_post($user_data->ID, $post_ID)) {
+	    return new IXR_Error(401, 'Sorry, you do not have the right to delete this post.');
+	  }
+
+	  $result = wp_delete_post($post_ID);
+
+	  if (!$result) {
+	  	return new IXR_Error(500, 'For some strange yet very annoying reason, this post could not be deleted.');
+	  }
+
+	  return true;
+	}
+
 }
+
 
 $wp_xmlrpc_server = new wp_xmlrpc_server();
 
