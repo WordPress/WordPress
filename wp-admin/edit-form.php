@@ -1,24 +1,14 @@
 
 <div class="wrap">
 <?php
-
-$allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
-
 $form_action = 'post';
 $form_extra = '';
 
-if (get_settings('use_pingback')) {
-	$form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_pingback" />';
-} else {
-	$form_pingback = '';
-}
+$form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_pingback" />';
 
-if (get_settings('use_trackback')) {
-	$form_trackback = '<p><label for="trackback">' . sprintf(__('<a href="%s" title="Help on trackbacks"><strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>:</label> (Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)<br />'), 'http://wordpress.org/docs/reference/post/#trackback') .
+$form_trackback = '<p><label for="trackback">' . sprintf(__('<a href="%s" title="Help on trackbacks"><strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>:</label> (Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)<br />'), 'http://wordpress.org/docs/reference/post/#trackback') .
 	'<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>';
-} else {
-	$form_trackback = '';
-}
+
 
 $saveasdraft = '';
 

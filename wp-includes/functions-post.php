@@ -217,53 +217,8 @@ function wp_delete_post($postid = 0) {
 /**** Misc ****/
 
 // get permalink from post ID
-function post_permalink($post_ID=0, $mode = 'id') {
-    global $wpdb;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-
-	$blog_URL = get_settings('home') .'/'. get_settings('blogfilename');
-
-	$postdata = get_postdata($post_ID);
-
-	// this will probably change to $blog_ID = $postdata['Blog_ID'] one day.
-	$blog_ID = 1;
-
-	if (!($postdata===false)) {
-	
-		switch(strtolower($mode)) {
-			case 'title':
-				$title = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $postdata['Title']);
-				break;
-			case 'id':
-			default:
-				$title = "post-$post_ID";
-				break;
-		}
-
-		// this code is blatantly derived from permalink_link()
-		$archive_mode = get_settings('archive_mode');
-		switch($archive_mode) {
-			case 'daily':
-				$post_URL = $blog_URL.$querystring_start.'m'.$querystring_equal.substr($postdata['Date'],0,4).substr($postdata['Date'],5,2).substr($postdata['Date'],8,2).'#'.$title;
-				break;
-			case 'monthly':
-				$post_URL = $blog_URL.$querystring_start.'m'.$querystring_equal.substr($postdata['Date'],0,4).substr($postdata['Date'],5,2).'#'.$title;
-				break;
-			case 'weekly':
-				if((!isset($cacheweekly)) || (empty($cacheweekly[$postdata['Date']]))) {
-					$sql = "SELECT WEEK('".$postdata['Date']."') as wk";
-	                    $row = $wpdb->get_row($sql);
-					$cacheweekly[$postdata['Date']] = $row->wk;
-				}
-				$post_URL = $blog_URL.$querystring_start.'m'.$querystring_equal.substr($postdata['Date'],0,4).$querystring_separator.'w'.$querystring_equal.$cacheweekly[$postdata['Date']].'#'.$title;
-				break;
-			case 'postbypost':
-				$post_URL = $blog_URL.$querystring_start.'p'.$querystring_equal.$post_ID;
-				break;
-		}
-	} 
-
-	return $post_URL;
+function post_permalink($post_id = 0, $mode = '') { // $mode legacy
+	return get_permalink($post_id);
 }
 
 // Get the name of a category from its ID

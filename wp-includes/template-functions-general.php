@@ -222,7 +222,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
     global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb;
 
     if ('' == $type) {
-        $type = get_settings('archive_mode');
+        $type = 'monthly';
     }
 
     if ('' != $limit) {

@@ -9,8 +9,6 @@ $messages[3] = __('Custom field deleted.');
 <div class="wrap">
 <?php
 
-$allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
-
 if (0 == $post_ID) {
 	$form_action = 'post';
 } else {
@@ -18,15 +16,10 @@ if (0 == $post_ID) {
 	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
 }
 
-if (get_settings('use_pingback')) {
-	$form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_pingback" />';
-} else {
-	$form_pingback = '';
-}
+$form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_pingback" />';
 
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 
-if (get_settings('use_trackback')) {
 	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
 	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
 	if ('' != $pinged) {
@@ -37,9 +30,7 @@ if (get_settings('use_trackback')) {
 		}
 		$pings .= '</ul>';
 	}
-} else {
-	$form_trackback = '';
-}
+
 $saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="' . __('Save and Continue Editing') . '" />';
 
 if (empty($post_status)) $post_status = 'draft';

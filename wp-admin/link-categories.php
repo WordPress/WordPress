@@ -28,7 +28,7 @@ switch ($action) {
       $standalone = 1;
       include_once('admin-header.php');
 
-      if ($user_level < get_settings('links_minadminlevel'))
+      if ($user_level < 5)
           die (__("Cheatin' uh ?"));
 
       $cat_name = addslashes($_POST['cat_name']);
@@ -91,7 +91,7 @@ switch ($action) {
     if ($cat_id=="1")
         die(sprintf(__("Can't delete the <strong>%s</strong> link category: this is the default one"), $cat_name));
 
-    if ($user_level < get_settings('links_minadminlevel'))
+    if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
     $wpdb->query("DELETE FROM $wpdb->linkcategories WHERE cat_id='$cat_id'");
@@ -207,7 +207,7 @@ switch ($action) {
     $standalone = 1;
     include_once("./admin-header.php");
 
-    if ($user_level < get_settings('links_minadminlevel'))
+    if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
     $submit=$_POST["submit"];
@@ -280,7 +280,7 @@ switch ($action) {
   {
     $standalone=0;
     include_once ("./admin-header.php");
-    if ($user_level < get_settings('links_minadminlevel')) {
+    if ($user_level < 5) {
       die(__("You have do not have sufficient permissions to edit the link categories for this blog. :)"));
     }
 ?>

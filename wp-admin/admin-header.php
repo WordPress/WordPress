@@ -13,7 +13,6 @@ get_currentuserinfo();
 
 $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');
-$archive_mode = get_settings('archive_mode');
 $date_format = get_settings('date_format');
 $time_format = get_settings('time_format');
 

@@ -103,12 +103,12 @@ include('options-head.php');
 
     <p><?php _e('When a comment contains any of these words in its content, name, URI, e-mail, or IP, hold it in the moderation queue: (Separate multiple words with new lines.) <a href="http://wiki.wordpress.org/index.php/SpamWords">Common spam words</a>.') ?></p>
 		<p> 
-			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php echo get_settings('moderation_keys'); ?></textarea> 
+			<textarea name="moderation_keys" cols="60" rows="4" id="moderation_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('moderation_keys'); ?></textarea> 
 		</p> 
 </fieldset>
 		<p class="submit"> 
     	<input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 
 		</p> 
 	</form> 
-</div> 
-<?php include("admin-footer.php") ?>
+</div>
+<?php include('./admin-footer.php'); ?>

@@ -51,25 +51,25 @@ include('options-head.php');
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"><?php _e('Weblog title:') ?></th> 
-        <td><input name="blogname" type="text" id="blogname" value="<?php echo htmlspecialchars(get_settings('blogname')); ?>" size="40" /></td> 
+        <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="40" /></td> 
       </tr> 
       <tr valign="top"> 
         <th scope="row"><?php _e('Tagline:') ?></th> 
-        <td><input name="blogdescription" type="text" id="blogdescription" style="width: 95%" value="<?php echo htmlspecialchars(get_settings('blogdescription')); ?>" size="45" />
+        <td><input name="blogdescription" type="text" id="blogdescription" style="width: 95%" value="<?php form_option('blogdescription'); ?>" size="45" />
         <br />
 <?php _e('In a few words, explain what this weblog is about.') ?></td> 
       </tr> 
       <tr valign="top"> 
         <th scope="row"><?php _e('WordPress address (URI):') ?></th> 
-        <td><input name="siteurl" type="text" id="siteurl" value="<?php echo get_settings('siteurl'); ?>" size="40" class="code" /></td> 
+        <td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" size="40" class="code" /></td> 
       </tr> 
       <tr valign="top">
       	<th scope="row"><?php _e('Blog address (URI):') ?></th>
-      	<td><input name="home" type="text" id="home" value="<?php echo get_settings('home'); ?>" size="40" class="code" /><br /><?php _e('If you want your blog homepage to be different than the directory you installed WordPress in, enter that address here. '); ?></td>
+      	<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" size="40" class="code" /><br /><?php _e('If you want your blog homepage to be different than the directory you installed WordPress in, enter that address here. '); ?></td>
       	</tr>
       <tr valign="top"> 
         <th scope="row"><?php _e('E-mail address:') ?> </th> 
-        <td><input name="admin_email" type="text" id="admin_email" value="<?php echo get_settings('admin_email'); ?>" size="40" class="code" />
+        <td><input name="admin_email" type="text" id="admin_email" value="<?php form_option('admin_email'); ?>" size="40" class="code" />
         <br />
 <?php _e('This address is used only for admin purposes.') ?></td> 
       </tr>
@@ -93,7 +93,7 @@ include('options-head.php');
       </tr>
       <tr>
         <th scope="row"><?php _e('Times in the weblog should differ by:') ?> </th>
-        <td><input name="gmt_offset" type="text" id="gmt_offset" size="2" value="<?php echo get_settings('gmt_offset'); ?>" /> 
+        <td><input name="gmt_offset" type="text" id="gmt_offset" size="2" value="<?php form_option('gmt_offset'); ?>" /> 
         <?php _e('hours') ?> </td>
       </tr>
       <tr>
@@ -102,12 +102,12 @@ include('options-head.php');
       	</tr>
       <tr>
       	<th scope="row"><?php _e('Default date format:') ?></th>
-      	<td><input name="date_format" type="text" id="date_format" size="30" value="<?php echo get_settings('date_format'); ?>" /><br />
+      	<td><input name="date_format" type="text" id="date_format" size="30" value="<?php form_option('date_format'); ?>" /><br />
 <?php _e('Output:') ?> <strong><?php echo gmdate(get_settings('date_format'), current_time('timestamp')); ?></strong></td>
       	</tr>
       <tr>
         <th scope="row"><?php _e('Default time format:') ?></th>
-      	<td><input name="time_format" type="text" id="time_format" size="30" value="<?php echo get_settings('time_format'); ?>" /><br />
+      	<td><input name="time_format" type="text" id="time_format" size="30" value="<?php form_option('time_format'); ?>" /><br />
 <?php _e('Output:') ?> <strong><?php echo gmdate(get_settings('time_format'), current_time('timestamp')); ?></strong></td>
       	</tr> 
 </table>

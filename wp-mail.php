@@ -7,8 +7,7 @@ error_reporting(2037);
 
 $time_difference = get_settings('gmt_offset') * 3600;
 
-$phone_delim = get_settings('use_phoneemail');
-if (empty($phone_delim)) $phone_delim = '::';
+$phone_delim = '::';
 
 $pop3 = new POP3();
 

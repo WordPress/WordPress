@@ -30,8 +30,6 @@ if ($home != '' && $home != get_settings('siteurl')) {
   $home_path = ABSPATH;
 }
 
-require_once('./optionhandler.php');
-
 if (isset($_POST['submit'])) {
 	update_option('permalink_structure', $_POST['permalink_structure']);
 	$permalink_structure = $_POST['permalink_structure'];

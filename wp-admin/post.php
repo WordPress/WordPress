@@ -732,7 +732,6 @@ case 'editedcomment':
 		$comment_status = get_settings('default_comment_status');
 		$ping_status = get_settings('default_ping_status');
 		$post_pingback = get_settings('default_pingback_flag');
-		$default_post_cat = get_settings('default_post_category');
 
         include('edit-page-form.php');
 	} else {
@@ -782,7 +781,6 @@ default:
 		$comment_status = get_settings('default_comment_status');
 		$ping_status = get_settings('default_ping_status');
 		$post_pingback = get_settings('default_pingback_flag');
-		$default_post_cat = get_settings('default_post_category');
 
 		if (get_settings('advanced_edit')) {
 			include('edit-form-advanced.php');
@@ -796,7 +794,7 @@ default:
 <p>
 
 <?php
-$bookmarklet_height= (get_settings('use_trackback')) ? 460 : 420;
+$bookmarklet_height= 420;
 
 if ($is_NS4 || $is_gecko) {
 ?>

@@ -30,7 +30,7 @@ if (get_settings('rss_use_excerpt')) {
 <?php
 } else { // use content
 ?>
-            <description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?></description>
+            <description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length')) ?></description>
 <?php
 } // end else use content
 ?>

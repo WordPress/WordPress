@@ -58,7 +58,7 @@ function get_weblogs_updatedfile() {
 		if (file_exists($file)) {
 			// is it old?
 			$modtime = filemtime($file);
-			if ((time() - $modtime) > (get_settings('weblogs_cacheminutes') * 60)) {
+			if ((time() - $modtime) > (1.5 * 60)) {
 				$update = true;
 			}
 		} else { // doesn't exist

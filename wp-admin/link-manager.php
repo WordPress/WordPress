@@ -89,7 +89,7 @@ switch ($action) {
     check_admin_referer();
 
     // check the current user's level first.
-    if ($user_level < get_settings('links_minadminlevel'))
+    if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
     //for each link id (in $linkcheck[]): if the current user level >= the
@@ -102,7 +102,7 @@ switch ($action) {
     $all_links = join(',', $linkcheck);
     $results = $wpdb->get_results("SELECT link_id, link_owner, user_level FROM $wpdb->links LEFT JOIN $wpdb->users ON link_owner = ID WHERE link_id in ($all_links)");
     foreach ($results as $row) {
-      if (!get_settings('links_use_adminlevels') || ($user_level >= $row->user_level)) { // ok to proceed
+      if (($user_level >= $row->user_level)) { // ok to proceed
         $ids_to_change[] = $row->link_id;
       }
     }
@@ -122,7 +122,7 @@ switch ($action) {
     check_admin_referer();
 
     // check the current user's level first.
-    if ($user_level < get_settings('links_minadminlevel'))
+    if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
     //for each link id (in $linkcheck[]): toggle the visibility
@@ -162,7 +162,7 @@ switch ($action) {
     check_admin_referer();
 
     // check the current user's level first.
-    if ($user_level < get_settings('links_minadminlevel'))
+    if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
     //for each link id (in $linkcheck[]) change category to selected value
@@ -199,7 +199,7 @@ switch ($action) {
 	$link_rss_uri =  $_POST['rss_uri'];
     $auto_toggle = get_autotoggle($link_category);
 
-    if ($user_level < get_settings('links_minadminlevel'))
+    if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
     // if we are in an auto toggle category and this one is visible then we
@@ -250,7 +250,7 @@ switch ($action) {
 	  $link_rss_uri =  $_POST['rss_uri'];
       $auto_toggle = get_autotoggle($link_category);
 
-      if ($user_level < get_settings('links_minadminlevel'))
+      if ($user_level < 5)
         die (__("Cheatin' uh ?"));
 
       // if we are in an auto toggle category and this one is visible then we
@@ -283,7 +283,7 @@ switch ($action) {
 
     $link_id = (int) $_GET['link_id'];
 
-    if ($user_level < get_settings('links_minadminlevel'))
+    if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
     $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = $link_id");
@@ -306,7 +306,7 @@ switch ($action) {
     $standalone=0;
 	$xfn = true;
     include_once ('admin-header.php');
-    if ($user_level < get_settings('links_minadminlevel')) {
+    if ($user_level < 5) {
       die(__('You do not have sufficient permissions to edit the links for this blog.'));
     }
     $link_id = (int) $_GET['link_id'];
@@ -571,7 +571,7 @@ switch ($action) {
     setcookie('links_show_order_'.$cookiehash, $links_show_order, time()+600);
     $standalone=0;
     include_once ("./admin-header.php");
-    if ($user_level < get_settings('links_minadminlevel')) {
+    if ($user_level < 5) {
       die(__("You do not have sufficient permissions to edit the links for this blog."));
     }
 
@@ -721,7 +721,7 @@ LINKS;
 LINKS;
             $show_buttons = 1; // default
 
-            if (get_settings('links_use_adminlevels') && ($link->user_level > $user_level)) {
+            if ($link->user_level > $user_level) {
               $show_buttons = 0;
             }
 

@@ -1,7 +1,5 @@
 <?php
 
-$allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
-
 $submitbutton_text = __('Edit Comment &raquo;');
 $toprow_title = sprintf(__('Editing Comment # %s'), $commentdata['comment_ID']);
 $form_action = 'editedcomment';

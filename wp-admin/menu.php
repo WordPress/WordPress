@@ -36,9 +36,8 @@ $submenu['options-general.php'][5] = array(__('General'), 5, 'options-general.ph
 $submenu['options-general.php'][10] = array(__('Writing'), 5, 'options-writing.php');
 $submenu['options-general.php'][15] = array(__('Reading'), 5, 'options-reading.php');
 $submenu['options-general.php'][20] = array(__('Discussion'), 5, 'options-discussion.php');
-$submenu['options-general.php'][25] = array(__('Miscellaneous'), 5, 'options-misc.php');
-$submenu['options-general.php'][30] = array(__('Permalinks'), 5, 'options-permalink.php');
-$submenu['options-general.php'][35] = array(__('Link Manager'), 5, 'options.php?option_group_id=8');
+$submenu['options-general.php'][25] = array(__('Permalinks'), 5, 'options-permalink.php');
+$submenu['options-general.php'][30] = array(__('Miscellaneous'), 5, 'options-misc.php');
 
 $self = preg_replace('|.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 if (!isset($parent_file)) $parent_file = '';

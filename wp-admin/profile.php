@@ -107,10 +107,7 @@ break;
 
 case 'IErightclick':
 
-
-	$bookmarklet_tbpb  = (get_settings('use_trackback')) ? '&trackback=1' : '';
-	$bookmarklet_tbpb .= (get_settings('use_pingback'))  ? '&pingback=1'  : '';
-	$bookmarklet_height= (get_settings('use_trackback')) ? 590 : 550;
+	$bookmarklet_height= 550;
 
 	?>
 
@@ -146,9 +143,7 @@ default:
 	include_once('admin-header.php');
 	$profiledata=get_userdata($user_ID);
 
-	$bookmarklet_tbpb  = (get_settings('use_trackback')) ? '&trackback=1' : '';
-	$bookmarklet_tbpb .= (get_settings('use_pingback'))  ? '&pingback=1'  : '';
-	$bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
+	$bookmarklet_height= 440;
 
 if (isset($updated)) { ?>
 <div class="updated">

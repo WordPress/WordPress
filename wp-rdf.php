@@ -25,7 +25,6 @@ add_filter('the_content', 'trim');
 	<title><?php bloginfo_rss('name') ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
-	<dc:language><?php echo get_settings('rss_language'); ?></dc:language>
 	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></dc:date>
 	<admin:generatorAgent rdf:resource="http://wordpress.org/?v=<?php echo $wp_version ?>"/>
 	<sy:updatePeriod>hourly</sy:updatePeriod>

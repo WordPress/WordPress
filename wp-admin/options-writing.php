@@ -63,7 +63,7 @@ include('options-head.php');
       </tr>
       <tr valign="top"> 
         <th width="33%" scope="row"> <?php _e('Size of the writing box:') ?></th> 
-        <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php echo get_settings('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
+        <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
          <?php _e('lines') ?></td> 
       </tr> 
       <tr valign="top">
@@ -92,7 +92,7 @@ endforeach;
 	<legend><?php _e('Update Services') ?></legend>
           <p><?php printf(__('Enter the sites that you would like to notify when you publish a new post. For a list of some recommended sites to ping please see <a href="%s">Update Services</a> on the wiki. Separate multiple URIs by line breaks.'), 'http://wiki.wordpress.org/index.php/UpdateServices') ?></p>
 	
-	<textarea name="ping_sites" id="ping_sites" style="width: 98%;"><?php echo get_settings('ping_sites'); ?></textarea>
+	<textarea name="ping_sites" id="ping_sites" style="width: 98%;"><?php form_option('ping_sites'); ?></textarea>
 	</fieldset>
     <fieldset class="options">
 	<legend><?php _e('Writing by e-mail') ?></legend>
@@ -101,19 +101,19 @@ endforeach;
 		<table width="100%" cellspacing="2" cellpadding="5" class="editform">
         	<tr valign="top">
                 <th scope="row"><?php _e('Mail server:') ?></th>
-        		<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php echo get_settings('mailserver_url'); ?>" size="40" />
+        		<td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />
                 <label for="port"><?php _e('Port:') ?></label> 
-				<input name="mailserver_port" type="text" id="mailserver_port" value="<?php echo get_settings('mailserver_port'); ?>" size="6" />
+				<input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" size="6" />
        			</td>
        		</tr>
         	<tr valign="top">
                 <th width="33%" scope="row"><?php _e('Login name:') ?></th>
-        		<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php echo get_settings('mailserver_login'); ?>" size="40" /></td>
+        		<td><input name="mailserver_login" type="text" id="mailserver_login" value="<?php form_option('mailserver_login'); ?>" size="40" /></td>
        		</tr>
         	<tr valign="top">
                 <th scope="row"><?php _e('Password:') ?></th>
         		<td>
-        			<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php echo get_settings('mailserver_pass'); ?>" size="40" />
+        			<input name="mailserver_pass" type="text" id="mailserver_pass" value="<?php form_option('mailserver_pass'); ?>" size="40" />
         		</td>
        		</tr>
         	<tr valign="top">

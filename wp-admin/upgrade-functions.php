@@ -152,19 +152,81 @@ CREATE TABLE $wpdb->users (
 
 
 function upgrade_all() {
+	populate_options();
 	upgrade_071();
 	upgrade_072();
 	upgrade_100();
 	upgrade_101();
 	upgrade_110();
 	upgrade_130();
-
-	// Options that should not exist
-	$obs_options = array('');
 }
 
+function populate_options() {
 
-// .71 stuff
+	$guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	add_option('siteurl', $guessurl, 'WordPress web address');
+	add_option('blogfilename', '', 'Default file for blog');
+	add_option('blogname', 'My Weblog', 'Blog title');
+	add_option('blogdescription', '', 'Short tagline');
+	add_option('new_users_can_blog', 0);
+	add_option('users_can_register', 1);
+	add_option('admin_email', 'you@example.com');
+	add_option('start_of_week', 1);
+	add_option('use_balanceTags', 1);
+	add_option('use_smilies', 1);
+	add_option('require_name_email', 1);
+	add_option('comments_notify', 1);
+	add_option('posts_per_rss', 10);
+	add_option('rss_excerpt_length', 50);
+	add_option('rss_use_excerpt', 0);
+	add_option('use_fileupload', 0);
+	add_option('fileupload_realpath', ABSPATH . 'wp-content');
+	add_option('fileupload_url', get_option('siteurl') . '/wp-content');
+	add_option('fileupload_allowedtypes', 'jpg jpeg gif png');
+	add_option('fileupload_maxk', 300);
+	add_option('fileupload_minlevel', 6);
+	add_option('mailserver_url', 'mail.example.com');
+	add_option('mailserver_login', 'login@example.com');
+	add_option('mailserver_pass', 'password');
+	add_option('mailserver_port', 110);
+	add_option('default_category', 1);
+	add_option('default_comment_status', 'open');
+	add_option('default_ping_status', 'open');
+	add_option('default_pingback_flag', 1);
+	add_option('default_post_edit_rows', 9);
+	add_option('posts_per_page', 10);
+	add_option('what_to_show', 'posts');
+	add_option('date_format', 'F j, Y');
+	add_option('time_format', 'g:i a');
+	add_option('use_geo_positions', 0);
+	add_option('use_default_geourl', 0);
+	add_option('default_geourl_lat', 0);
+	add_option('default_geourl_lon', 0);
+	add_option('weblogs_xml_url', 'http://static.wordpress.org/changes.xml');
+	add_option('links_updated_date_format', 'F j, Y g:i a');
+	add_option('links_recently_updated_prepend', '<em>');
+	add_option('links_recently_updated_append', '</em>');
+	add_option('links_recently_updated_time', 120);
+	add_option('comment_moderation', 0);
+	add_option('moderation_notify', 1);
+	add_option('permalink_structure');
+	add_option('gzipcompression', 0);
+	add_option('hack_file', 0);
+	add_option('blog_charset', 'utf-8');
+	add_option('moderation_keys');
+	add_option('active_plugins');
+	add_option('home');
+	add_option('category_base');
+	add_option('ping_sites', 'http://rpc.pingomatic.com/');
+	add_option('advanced_edit', 0);
+	add_option('comment_max_links', 2);
+
+	// Delete unused options
+	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'rss_language', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls');
+	foreach ($unusedoptions as $option) :
+		delete_option($option);
+	endforeach;
+}
 
 function upgrade_071() {
 	global $wpdb;
@@ -204,130 +266,6 @@ function upgrade_072() {
 	  PRIMARY KEY (option_id, blog_id, option_name)
 	)
 	");
-
-	// Guess a site URI
-$guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
-	$option_data = array(		//base options from b2cofig
-		"1" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (1,'siteurl', 3, '$guessurl', 'siteurl is your blog\'s URL: for example, \'http://example.com/wordpress\'', 8, 30)",
-		"2" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (2,'blogfilename', 3, 'index.php', 'blogfilename is the name of the default file for your blog', 8, 20)",
-		"3" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (3,'blogname', 3, 'my weblog', 'blogname is the name of your blog', 8, 20)",
-		"4" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (4,'blogdescription', 3, 'babblings!', 'blogdescription is the description of your blog', 8, 40)",
-		//"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (6,'search_engine_friendly_urls', 2, '0', 'Querystring Configuration ** (don\'t change if you don\'t know what you\'re doing)', 8, 20)",
-		"7" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (7,'new_users_can_blog', 2, '0', 'whether you want new users to be able to post entries once they have registered', 8, 20)",
-		"8" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (8,'users_can_register', 2, '1', 'whether you want to allow users to register on your blog', 8, 20)",
-		"54" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (54,'admin_email', 3, 'you@example.com', 'Your email (obvious eh?)', 8, 20)",
-		// general blog setup
-		"9" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (9 ,'start_of_week', 5, '1', 'day at the start of the week', 8, 20)",
-		//"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (10,'use_preview', 2, '1', 'Do you want to use the \'preview\' function', 8, 20)",
-		"14" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (14,'use_htmltrans', 2, '1', 'IMPORTANT! set this to false if you are using Chinese, Japanese, Korean, or other double-bytes languages', 8, 20)",
-		"15" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (15,'use_balanceTags', 2, '1', 'this could help balance your HTML code. if it gives bad results, set it to false', 8, 20)",
-		"16" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (16,'use_smilies', 2, '1', 'set this to true to enable smiley conversion in posts (note: this makes smiley conversion in ALL posts)', 8, 20)",
-		"17" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (17,'smilies_directory', 3, 'http://example.com/wp-images/smilies', 'the directory where your smilies are (no trailing slash)', 8, 40)",
-		"18" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (18,'require_name_email', 2, '0', 'set this to true to require e-mail and name, or false to allow comments without e-mail/name', 8, 20)",
-		"20" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (20,'comments_notify', 2, '1', 'set this to true to let every author be notified about comments on their posts', 8, 20)",
-		//rss/rdf feeds
-		"21" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (21,'posts_per_rss', 1, '10', 'number of last posts to syndicate', 8, 20)",
-		"22" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (22,'rss_language', 3, 'en', 'the language of your blog ( see this: http://backend.userland.com/stories/storyReader$16 )', 8, 20)",
-		"23" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (23,'rss_encoded_html', 2, '0', 'for b2rss.php: allow encoded HTML in &lt;description> tag?', 8, 20)",
-		"24" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (24,'rss_excerpt_length', 1, '50', 'length (in words) of excerpts in the RSS feed? 0=unlimited note: in b2rss.php, this will be set to 0 if you use encoded HTML', 8, 20)",
-		"25" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (25,'rss_use_excerpt', 2, '1', 'use the excerpt field for rss feed.', 8, 20)",
-		"29" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (29,'use_trackback', 2, '1', 'set this to false or true, whether you want to allow your posts to be trackback\'able or not note: setting it to false would also disable sending trackbacks', 8, 20)",
-		"30" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (30,'use_pingback', 2, '1', 'set this to false or true, whether you want to allow your posts to be pingback\'able or not note: setting it to false would also disable sending pingbacks', 8, 20)",
-		//file upload
-		"31" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (31,'use_fileupload', 2, '0', 'set this to false to disable file upload, or true to enable it', 8, 20)",
-		"32" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (32,'fileupload_realpath', 3, '/home/your/site/wordpress/images', 'enter the real path of the directory where you\'ll upload the pictures \nif you\'re unsure about what your real path is, please ask your host\'s support staff \nnote that the  directory must be writable by the webserver (chmod 766) \nnote for windows-servers users: use forwardslashes instead of backslashes', 8, 40)",
-		"33" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (33,'fileupload_url', 3, 'http://example.com/images', 'enter the URL of that directory (it\'s used to generate the links to the uploded files)', 8, 40)",
-		"34" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (34,'fileupload_allowedtypes', 3, ' jpg gif png ', 'accepted file types, separated by spaces. example: \'jpg gif png\'', 8, 20)",
-		"35" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (35,'fileupload_maxk', 1, '96', 'by default, most servers limit the size of uploads to 2048 KB, if you want to set it to a lower value, here it is (you cannot set a higher value than your server limit)', 8, 20)",
-		"36" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (36,'fileupload_minlevel', 1, '1', 'you may not want all users to upload pictures/files, so you can set a minimum level for this', 8, 20)",
-		"37" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (37,'fileupload_allowedusers', 3, '', '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'', 8, 30)",
-		// email settings
-		"38" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (38,'mailserver_url', 3, 'mail.example.com', 'mailserver settings', 8, 20)",
-		"39" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (39,'mailserver_login', 3, 'login@example.com', 'mailserver settings', 8, 20)",
-		"40" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (40,'mailserver_pass', 3, 'password', 'mailserver settings', 8, 20)",
-		"41" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (41,'mailserver_port', 1, '110', 'mailserver settings', 8, 20)",
-		"42" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (42,'default_category', 1, '1', 'by default posts will have this category', 8, 20)",
-		"46" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (46,'use_phoneemail', 2, '0', 'some mobile phone email services will send identical subject & content on the same line if you use such a service, set use_phoneemail to true, and indicate a separator string', 8, 20)",
-		
-		// default post stuff
-		
-		"55" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(55,'default_post_status',    5, 'publish', 'The default state of each new post', 8, 20)",
-		"56" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(56,'default_comment_status', 5, 'open', 'The default state of comments for each new post', 8, 20)",
-		"57" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(57,'default_ping_status',    5, 'open', 'The default ping state for each new post', 8, 20)",
-		"58" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(58,'default_pingback_flag',  5, '1', 'Whether the \'PingBack the URLs in this post\' checkbox should be checked by default', 8, 20)",
-		"59" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(59,'default_post_category',  7, '1', 'The default category for each new post', 8, 20)",
-		"83" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(83,'default_post_edit_rows', 1, '9', 'The number of rows in the edit post form (min 3, max 100)', 8, 5)",
-
-		// original options from options page
-		"48" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (48,'posts_per_page', 1, '20','How many posts/days to show on the index page.', 4, 20)",
-		"49" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (49,'what_to_show', 5, 'posts','Posts or days', 4, 20)",
-		"50" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (50,'archive_mode', 5, 'monthly','Which \'unit\' to use for archives.', 4, 20)",
-		"51" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (51,'time_difference', 6, '0', 'if you\'re not on the timezone of your server', 4, 20)",
-		"52" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (52,'date_format', 3, 'n/j/Y', 'see note for format characters', 4, 20)",
-		"53" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (53,'time_format', 3, 'g:i a', 'see note for format characters', 4, 20)",		"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (84,'use_geo_positions', 2, '0', 'Turns on the geo url features of WordPress', 8, 20)",
-		"85" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (85,'use_default_geourl', 2, '1','enables placement of default GeoURL ICBM location even when no other specified', 8, 20)",
-		"86" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (86,'default_geourl_lat ', 8, 0.0, 'The default Latitude ICBM value - <a href=\"http://www.geourl.org/resources.html\" target=\"_blank\">see here</a>', 8, 20)",
-		"87" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (87,'default_geourl_lon', 8, 0.0, 'The default Longitude ICBM value', 8, 20)",
-		"60" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (60,'links_minadminlevel',             1, '5', 'The minimum admin level to edit links', 8, 10)",
-		"61" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (61,'links_use_adminlevels',           2, '1', 'set this to false to have all links visible and editable to everyone in the link manager', 8, 20)",
-		"62" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (62,'links_rating_type',               5, 'image', 'Set this to the type of rating indication you wish to use', 8, 10)",
-		"63" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (63,'links_rating_char',               3, '*', 'If we are set to \'char\' which char to use.', 8, 5)",
-		"64" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (64,'links_rating_ignore_zero',        2, '1', 'What do we do with a value of zero? set this to true to output nothing, 0 to output as normal (number/image)', 8, 20)",
-		"65" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (65,'links_rating_single_image',       2, '1', 'Use the same image for each rating point? (Uses links_rating_image[0])', 8, 20)",
-		"66" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (66,'links_rating_image0',             3, 'wp-links/links-images/tick.png', 'Image for rating 0 (and for single image)', 8, 40)",
-		"67" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (67,'links_rating_image1',             3, 'wp-links/links-images/rating-1.gif', 'Image for rating 1', 8, 40)",
-		"68" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (68,'links_rating_image2',             3, 'wp-links/links-images/rating-2.gif', 'Image for rating 2', 8, 40)",
-		"69" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (69,'links_rating_image3',             3, 'wp-links/links-images/rating-3.gif', 'Image for rating 3', 8, 40)",
-		"70" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (70,'links_rating_image4',             3, 'wp-links/links-images/rating-4.gif', 'Image for rating 4', 8, 40)",
-		"71" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (71,'links_rating_image5',             3, 'wp-links/links-images/rating-5.gif', 'Image for rating 5', 8, 40)",
-		"72" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (72,'links_rating_image6',             3, 'wp-links/links-images/rating-6.gif', 'Image for rating 6', 8, 40)",
-		"73" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (73,'links_rating_image7',             3, 'wp-links/links-images/rating-7.gif', 'Image for rating 7', 8, 40)",
-		"74" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (74,'links_rating_image8',             3, 'wp-links/links-images/rating-8.gif', 'Image for rating 8', 8, 40)",
-		"75" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (75,'links_rating_image9',             3, 'wp-links/links-images/rating-9.gif', 'Image for rating 9', 8, 40)",
-		"77" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (77,'weblogs_xml_url',                 3, 'http://www.weblogs.com/changes.xml', 'Which file to grab from weblogs.com', 8, 40)",
-		"78" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (78,'weblogs_cacheminutes',            1, '60', 'cache time in minutes (if it is older than this get a new copy)', 8, 10)",
-		"79" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (79,'links_updated_date_format',       3, 'd/m/Y h:i', 'The date format for the updated tooltip', 8, 25)",
-		"80" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (80,'links_recently_updated_prepend',  3, '&gt;&gt;', 'The text to prepend to a recently updated link', 8, 10)",
-		"81" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (81,'links_recently_updated_append',   3, '&lt;&lt;', 'The text to append to a recently updated link', 8, 20)",
-		"82" => "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES (82,'links_recently_updated_time',     1, '120', 'The time in minutes to consider a link recently updated', 8, 20)"
-		);
-
-	foreach ($option_data as $option_id => $query) {
-		if(!$wpdb->get_var("SELECT * FROM $wpdb->options WHERE option_id = '$option_id'")) {
-			$wpdb->query($query);
-		}
-	}
-
-	    if (file_exists('../wp-links/links.config.php')) {
-        include('../wp-links/links.config.php');
-    
-        // now update the database with those settings
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_minadminlevel           )."' WHERE option_id=60"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_use_adminlevels         )."' WHERE option_id=61"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_type             )."' WHERE option_id=62"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_char             )."' WHERE option_id=63"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_ignore_zero      )."' WHERE option_id=64"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_single_image     )."' WHERE option_id=65"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image0           )."' WHERE option_id=66"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image1           )."' WHERE option_id=67"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image2           )."' WHERE option_id=68"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image3           )."' WHERE option_id=69"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image4           )."' WHERE option_id=70"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image5           )."' WHERE option_id=71"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image6           )."' WHERE option_id=72"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image7           )."' WHERE option_id=73"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image8           )."' WHERE option_id=74"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_rating_image9           )."' WHERE option_id=75"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($weblogs_cache_file            )."' WHERE option_id=76"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($weblogs_xml_url               )."' WHERE option_id=77"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($weblogs_cacheminutes          )."' WHERE option_id=78"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_updated_date_format     )."' WHERE option_id=79"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_recently_updated_prepend)."' WHERE option_id=80"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_recently_updated_append )."' WHERE option_id=81"; $q = $wpdb->query($query);
-        $query = "UPDATE $wpdb->options SET option_value='".addslashes($links_recently_updated_time   )."' WHERE option_id=82"; $q = $wpdb->query($query);
-    // end if links.config.php exists
-    }
-
 }
 
 function upgrade_100() {
@@ -349,22 +287,6 @@ function upgrade_100() {
 	add_clean_index($wpdb->categories, 'category_nicename');
 	add_clean_index($wpdb->comments, 'comment_approved');
 
-
-	// Options stuff
-	if (!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'comment_moderation'")) {
-		$wpdb->query("INSERT INTO $wpdb->options
-			(option_id, blog_id, option_name, option_can_override, option_type, option_value, option_width, option_height, option_description, option_admin_level)
-			VALUES 
-			('0', '0', 'comment_moderation', 'Y', '5',' none', 20, 8, 'If enabled, comments will only be shown after they have been approved.', 8)");
-	}
-
-	if (!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'moderation_notify'")) {
-		$wpdb->query("INSERT INTO $wpdb->options 
-			(option_id, blog_id, option_name, option_can_override, option_type, option_value, option_width, option_height, option_description, option_admin_level) 
-			VALUES 
-			('0', '0', 'moderation_notify' , 'Y', '2', '1', 20, 8, 'Set this to true if you want to be notified about new comments that wait for approval', 8)");
-	}
-	
 	// Get the title and ID of every post, post_name to check if it already has a value
 	$posts = $wpdb->get_results("SELECT ID, post_title, post_name FROM $wpdb->posts WHERE post_name = ''");
 	if ($posts) {
@@ -383,40 +305,12 @@ function upgrade_100() {
 			$wpdb->query("UPDATE $wpdb->categories SET category_nicename = '$newtitle' WHERE cat_ID = '$category->cat_ID'");
 		}
 	}
-	
-	if (!$wpdb->get_var("SELECT option_name FROM $wpdb->options WHERE option_name = 'permalink_structure'")) { // If it's not already there
-		$wpdb->query("INSERT INTO `$wpdb->options` 
-			(`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) 
-			VALUES 
-			('', '0', 'permalink_structure', 'Y', '3', '', '20', '8', 'How the permalinks for your site are constructed. See <a href=\"options-permalink.php\">permalink options page</a> for necessary mod_rewrite rules and more information.', '8');");
-		}
-		
-	if (!$wpdb->get_var("SELECT option_name FROM $wpdb->options WHERE option_name = 'gzipcompression'")) { // If it's not already there
-		$wpdb->query("INSERT INTO `$wpdb->options` 
-			(`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) 
-			VALUES 
-			('', '0', 'gzipcompression', 'Y', '2', '0', '20', '8', 'Whether your output should be gzipped or not. Enable this if you don&#8217;t already have mod_gzip running.', '8');");
-}
-	if (!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'hack_file'")) {
-		$wpdb->query("INSERT INTO `$wpdb->options` 
-			( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` )
-			VALUES 
-			('', '0', 'hack_file', 'Y', '2', '0', '20', '8', 'Set this to true if you plan to use a hacks file. This is a place for you to store code hacks that won&#8217;t be overwritten when you upgrade. The file must be in your wordpress root and called <code>my-hacks.php</code>', '8')");
-	}
 
-	// fix upload users description
-	$wpdb->query("UPDATE $wpdb->options SET option_description = '...or you may authorize only some users. enter their logins here, separated by spaces. if you leave this variable blank, all users who have the minimum level are authorized to upload. example: \'barbara anne george\'' WHERE option_id = 37");
-	// and file types
-	$wpdb->query("UPDATE $wpdb->options SET option_description = 'accepted file types, separated by spaces. example: \'jpg gif png\'' WHERE option_id = 34");
-	// add link to php date format. this could be to a wordpress.org page in the future
-	$wpdb->query("UPDATE $wpdb->options SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 52");
-	$wpdb->query("UPDATE $wpdb->options SET option_description = 'see <a href=\"http://php.net/date\">help</a> for format characters' WHERE option_id = 53");
+
 	$wpdb->query("UPDATE $wpdb->options SET option_value = REPLACE(option_value, 'wp-links/links-images/', 'wp-images/links/')
                                                       WHERE option_name LIKE 'links_rating_image%'
                                                       AND option_value LIKE 'wp-links/links-images/%'");
-	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name = 'comment_allowed_tags'");
-	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name = 'use_preview'");
-	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name = 'search_engine_friendly_urls'");
+
 	// Multiple categories
 	maybe_create_table($wpdb->post2cat, "
 		CREATE TABLE `$wpdb->post2cat` (
@@ -495,7 +389,6 @@ function upgrade_110() {
 	}
 
 	// Convert passwords to MD5 and update table appropiately
-
 	$user_table = $wpdb->get_row("DESCRIBE $wpdb->users user_pass");
 	if ($user_table->Type != 'varchar(32)') {
 		$wpdb->query("ALTER TABLE $wpdb->users MODIFY user_pass varchar(64) not null");
@@ -508,10 +401,6 @@ function upgrade_110() {
 		}
 	}
 
-	// Add blog_charset option
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'blog_charset'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('blog_charset', 3, 'utf-8', 8)");
-	}
 
 	// Get the GMT offset, we'll use that later on
 	$all_options = get_alloptions_110();
@@ -528,12 +417,7 @@ function upgrade_110() {
 	$gmt_offset = -$diff_gmt_weblogger;
 
 	// Add a gmt_offset option, with value $gmt_offset
-	if (!get_settings('gmt_offset')) {
-		if(!$wpdb->get_var("SELECT * FROM $wpdb->options WHERE option_name = 'gmt_offset'")) {
-			$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_description, option_admin_level) VALUES ('gmt_offset', 8, $gmt_offset, 'The difference in hours between GMT and your timezone', 8)");
-		}
-
-	}
+	add_option('gmt_offset', $gmt_offset);
 
 	// Check if we already set the GMT fields (if we did, then
 	// MAX(post_date_gmt) can't be '0000-00-00 00:00:00'
@@ -567,49 +451,9 @@ function upgrade_110() {
 
 	// First we need to enlarge option_value so it can hold larger values:
 	$wpdb->query("ALTER TABLE `$wpdb->options` CHANGE `option_value` `option_value` TEXT NOT NULL");
-	
-	// Now an option for blog pinging
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'ping_sites'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('ping_sites', 3, 'http://rpc.pingomatic.com/', 8)");
-	}
-	
-	// Option for using the advanced edit screen by default
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'advanced_edit'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('advanced_edit', 5, '0', 8)");
-	}
+
 	// Fix for CVS versions
 	$wpdb->query("UPDATE $wpdb->options SET option_type = '5' WHERE option_name = 'advanced_edit'");
-	
-	// Now an option for moderation words
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'moderation_keys'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('moderation_keys', 3, '', 8)");
-	}
-
-	// Option for plugins
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'active_plugins'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('active_plugins', 3, '', 8)");
-	}
-
-	// Option for max # of links per comment
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'comment_max_links'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('comment_max_links', 3, '5', 8)");
-	}
-
-	// Option for different blog URL
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'home'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('home', 3, '', 8)");
-	}
-
-	// Option for category base
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'category_base'")) {
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('category_base', 3, '', 8)");
-	}
-
-	// Delete unused options
-	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file');
-	foreach ($unusedoptions as $option) :
-		delete_option($option);
-	endforeach;
 
 	// Forward-thinking
 	$wpdb->query("ALTER TABLE `$wpdb->posts` CHANGE `post_status` `post_status` ENUM( 'publish', 'draft', 'private', 'static' ) DEFAULT 'publish' NOT NULL");
@@ -622,13 +466,9 @@ function upgrade_110() {
 function upgrade_130() {
     global $wpdb, $table_prefix;
 
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'default_email_category'")) {
-        $wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_description, option_admin_level) VALUES('default_email_category', 1, '1', 'by default posts by email will have this category', 8)");
-    }
-
-	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'recently_edited'")) {
-        $wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('recently_edited', 3, '', 8)");
-    }
+	add_option('default_email_category', 1, 'Posts by email go to this category');
+	add_option('recently_edited');
+	add_option('use_linksupdate', 0);
 
 	maybe_add_column($wpdb->options, 'autoload', "ALTER TABLE `$wpdb->options` ADD `autoload` ENUM( 'yes', 'no' ) NOT NULL ;");
 

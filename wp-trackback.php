@@ -28,9 +28,6 @@ if ((strlen(''.$tb_id)) && (empty($_GET['__mode'])) && (strlen(''.$tb_url))) {
 
 	@header('Content-Type: text/xml; charset=' . get_settings('blog_charset'));
 
-	if (!get_settings('use_trackback'))
-		trackback_response(1, 'Sorry, this weblog does not allow you to trackback its posts.');
-
 	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $tb_id");
 
 	if ('closed' == $pingstatus)

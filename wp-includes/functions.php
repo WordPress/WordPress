@@ -313,6 +313,14 @@ function get_settings($setting) {
 	endif;
 }
 
+function get_option($option) {
+	return get_settings($option);
+}
+
+function form_option($option) {
+	echo htmlspecialchars( get_option($option) );
+}
+
 function get_alloptions() {
 	global $wpdb;
 	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'")) {
@@ -351,8 +359,7 @@ function update_option($option_name, $newvalue) {
 
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
-function add_option($name, $value = '') {
-	// Adds an option if it doesn't already exist
+function add_option($name, $value = '', $description = '') {
 	global $wpdb;
 	if ( is_array($value) || is_object($value) )
 		$value = serialize($value);
@@ -360,7 +367,8 @@ function add_option($name, $value = '') {
 	if(!get_settings($name)) {
 		$name = $wpdb->escape($name);
 		$value = $wpdb->escape($value);
-		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value) VALUES ('$name', '$value')");
+		$description = $wpdb->escape($description);
+		$wpdb->query("INSERT INTO $wpdb->options (option_name, option_value, option_description) VALUES ('$name', '$value', '$description')");
 
 		if($wpdb->insert_id) {
 			global $cache_settings;

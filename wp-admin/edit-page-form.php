@@ -1,9 +1,6 @@
 
 <div class="wrap">
 <?php
-
-$allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
-
 $form_action = 'post';
 $form_extra = '';
 ?>

@@ -22,7 +22,7 @@ if (!get_magic_quotes_gpc()) {
 	$_COOKIE = add_magic_quotes($_COOKIE);
 }
 
-$wpvarstoreset = array('action','standalone', 'option_group_id');
+$wpvarstoreset = array('action','standalone');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -37,13 +37,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 		}
 	}
 }
-if (isset($_GET['option_group_id'])) $option_group_id = (int) $_GET['option_group_id'];
-require_once('./optionhandler.php');
-$non_was_selected = 0;
-if (!isset($_GET['option_group_id'])) {
-    $option_group_id = 1;
-    $non_was_selected = 1;
-}
 
 switch($action) {
 
@@ -52,10 +45,6 @@ case 'update':
 	include_once('./admin-header.php');
     $any_changed = 0;
     
-    // iterate through the list of options in this group
-    // pull the vars from the post
-    // validate ranges etc.
-    // update the values
 	if (!$_POST['page_options']) {
 		foreach ($_POST as $key => $value) {
 			$option_names[] = "'$key'";
@@ -66,7 +55,6 @@ case 'update':
 	}
 
     $options = $wpdb->get_results("SELECT $wpdb->options.option_id, option_name, option_type, option_value, option_admin_level FROM $wpdb->options WHERE option_name IN ($option_names)");
-//	die(var_dump($options));
 
 // HACK
 // Options that if not there have 0 value but need to be something like "closed"
@@ -84,18 +72,10 @@ $nonbools = array('default_ping_status', 'default_comment_status');
 						$new_val = 0;
 				}
 				if( in_array($option->option_name, $nonbools) && $new_val == 0 ) $new_val = 'closed';
-                if ($new_val !== $old_val) {
-					$query = "UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'";
-					$result = $wpdb->query($query);
-					//if( in_array($option->option_name, $nonbools)) die('boo'.$query);
-					if (!$result) {
-						$dB_errors .= sprintf(__(" SQL error while saving %s. "), $this_name);
-					} else {
-						++$any_changed;
-					}
+                if ($new_val !== $old_val)
+					$result = $wpdb->query("UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'");
                 }
             }
-        } // end foreach
         unset($cache_settings); // so they will be re-read
         get_settings('siteurl'); // make it happen now
     } // end if options
@@ -104,22 +84,14 @@ $nonbools = array('default_ping_status', 'default_comment_status');
         $message = sprintf(__('%d setting(s) saved... '), $any_changed);
     }
     
-    if ( isset($dB_errors)  || isset($validation_message) ) {
-        if ($message != '') {
-            $message .= '<br />';
-        }
-        $message .= $dB_errors . '<br />' . $validation_message;
-    }
-
-	$referred = str_replace(array('&updated=true', '?updated=true') , '', $_SERVER['HTTP_REFERER']);
-	 if (strstr($referred, '?')) $goback = $referred . '&updated=true';
-	else $goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
+	$referred = str_replace('?updated=true' , '', $_SERVER['HTTP_REFERER']);
+	$goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
     header('Location: ' . $goback);
     break;
 
 default:
 	$standalone = 0;
-	include_once("./admin-header.php");
+	include_once('./admin-header.php');
 	if ($user_level <= 6) {
 		die(__("You have do not have sufficient permissions to edit the options for this blog."));
 	}
@@ -128,21 +100,21 @@ default:
 <?php include('options-head.php'); ?>
 
 <div class="wrap">
-  <h2><?php echo $current_desc; ?></h2>
-  <form name="form" action="<?php echo $this_file; ?>" method="post">
+  <h2>All options</h2>
+  <form name="form" action="options.php" method="post">
   <input type="hidden" name="action" value="update" />
-  <input type="hidden" name="option_group_id" value="<?php echo $option_group_id; ?>" />
-  <table width="90%" cellpadding="2" cellspacing="2" border="0">
+  <table width="98%">
 <?php
-//Now display all the options for the selected group.
-if ('all' == $_GET['option_group_id']) :
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
-endif;
 
 foreach ($options as $option) :
-	if ('all' == $_GET['option_group_id']) $option->option_type = 3;
-	echo "\t<tr><td width='10%' valign='top'>" . get_option_widget($option, ($user_level >= $option->option_admin_level), '</td><td width="15%" valign="top" style="border: 1px solid #ccc">');
-	echo "\t</td><td  valign='top' class='helptext'>$option->option_description</td></tr>\n";
+	$value = htmlspecialchars($option->option_value);
+	echo "
+<tr>
+	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
+	<td><input type='text' name='$option->option_name' id='$option->option_name' size='30' value='$value' /></td>
+	<td>$option->option_description</td>
+</tr>";
 endforeach;
 ?>
   </table>
@@ -150,15 +122,8 @@ endforeach;
   </form>
 </div>
 
-<div class="wrap">
+
 <?php
-if ($current_long_desc != '') {
-	echo $current_long_desc;
-}
-?>
-</div>
-<?php
-} // end else a group was selected
 break;
 } // end switch
 

@@ -17,7 +17,7 @@ switch ($step) {
     {
         $standalone = 0;
         include_once('admin-header.php');
-        if ($user_level < get_settings('links_minadminlevel'))
+        if ($user_level < 5)
             die (__("Cheatin&#8217; uh?"));
 
         $opmltype = 'blogrolling'; // default.
@@ -74,7 +74,7 @@ switch ($step) {
     case 1: {
                 $standalone = 0;
                 include_once('admin-header.php');
-                if ($user_level < get_settings('links_minadminlevel'))
+                if ($user_level < 5)
                     die (__("Cheatin' uh ?"));
 ?>
 <div class="wrap">

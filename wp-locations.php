@@ -17,12 +17,12 @@ for ($i = $start; $i >= 0; $i--) {
 <?php
         if (get_settings('rss_use_excerpt')) {
 ?>
-        <note><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?>
+        <note><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length')) ?>
         </note>
 <?php
         } else { // use content
 ?>
-        <note><?php the_excerpt_rss('', 0, '', get_settings('rss_excerpt_length'), get_settings('rss_encoded_html')) ?></note>
+        <note><?php the_excerpt_rss('', 0, '', get_settings('rss_excerpt_length')) ?></note>
 <?php
         } // end else use content
 ?>

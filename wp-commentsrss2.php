@@ -20,7 +20,6 @@ foreach ($posts as $post) { start_wp();
 	<title><?php if (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
 	<link><?php (isset($_REQUEST["p"]) || isset($_REQUEST["name"])) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
-	<language><?php echo get_settings('rss_language'); ?></language>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
 	<generator>http://wordpress.org/?v=<?php echo $wp_version ?></generator>
 
