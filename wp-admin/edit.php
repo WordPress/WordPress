@@ -38,7 +38,7 @@ if ($drafts) {
 <?php
 if( isset( $_GET['m'] ) )
 {
-	print "<h3>Showing Posts From ".$month[substr( $_GET['m'], 4, 2 )]." ".substr( $_GET['m'], 0, 4 )."</h3>";
+	echo '<h2>' . $month[substr( $_GET['m'], 4, 2 )]." ".substr( $_GET['m'], 0, 4 )."</h2>";
 }
 ?>
 
