@@ -40,30 +40,26 @@ for ($i = 0; $i < count($b2varstoreset); $i = $i + 1) {
 	}
 }
 
-/* connecting the db */
-$connexion = @mysql_connect($server,$loginsql,$passsql) or die("Can't connect to the database<br>".mysql_error());
-mysql_select_db("$base");
-
 switch($action) {
 
-case "logout":
+case 'logout':
 
-	setcookie("wordpressuser");
-	setcookie("wordpresspass");
-	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-	header("Cache-Control: no-cache, must-revalidate"); // for HTTP/1.1
-	header("Pragma: no-cache");
+	setcookie('wordpressuser');
+	setcookie('wordpresspass');
+		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
 	if ($is_IIS) {
-		header("Refresh: 0;url=b2login.php");
+		header('Refresh: 0;url=b2login.php');
 	} else {
-		header("Location: b2login.php");
+		header('Location: b2login.php');
 	}
 	exit();
 
 break;
 
-case "login":
+case 'login':
 
 	if(!empty($HTTP_POST_VARS)) {
 		$log = $HTTP_POST_VARS["log"];
@@ -72,88 +68,86 @@ case "login":
 	}
 
 	function login() {
-		global $server,$loginsql,$passsql,$base,$log,$pwd,$error,$user_ID;
+		global $wpdb, $log, $pwd, $error, $user_ID;
 		global $tableusers, $pass_is_md5;
-		$user_login=$log;
-		$password=$pwd;
+		$user_login = &$log;
+		$password = &$pwd;
 		if (!$user_login) {
-			$error="<b>ERROR</b>: the login field is empty";
+			$error="<strong>ERROR</strong>: the login field is empty";
 			return false;
 		}
 
 		if (!$password) {
-			$error="<b>ERROR</b>: the password field is empty";
+			$error="<strong>ERROR</strong>: the password field is empty";
 			return false;
 		}
 
-		if (substr($password,0,4)=="md5:") {
+		if ('md5:' == substr($password, 0, 4)) {
 			$pass_is_md5 = 1;
-			$password = substr($password,4,strlen($password));
-			$query =  " SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND MD5(user_pass) = '$password' ";
+			$password = substr($password, 4, strlen($password));
+			$query = "SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND MD5(user_pass) = '$password'";
 		} else {
 			$pass_is_md5 = 0;
-			$query =  " SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND user_pass = '$password' ";
+			$query = "SELECT ID, user_login, user_pass FROM $tableusers WHERE user_login = '$user_login' AND user_pass = '$password'";
 		}
-		$result = mysql_query($query) or die("Incorrect Login/Password request: ".mysql_error());
+		$login = $wpdb->get_row($query);
 
-		$lines = mysql_num_rows($result);
-		if ($lines<1) {
-			$error="<b>ERROR</b>: wrong login or password";
-			$pwd="";
+		if (!$login) {
+			$error = '<b>ERROR</b>: wrong login or password';
+			$pwd = '';
 			return false;
 		} else {
-		$res=mysql_fetch_row($result);
-		$user_ID=$res[0];
-			if (($pass_is_md5==0 && $res[1]==$user_login && $res[2]==$password) || ($pass_is_md5==1 && $res[1]==$user_login && md5($res[2])==$password)) {
+		$user_ID = $login->ID;
+			if (($pass_is_md5 == 0 && $login->user_login == $user_login && $login->user_pass == $password) || ($pass_is_md5 == 1 && $login->user_login == $user_login && md5($login->user_pass) == $password)) {
 				return true;
 			} else {
-				$error="<b>ERROR</b>: wrong login or password";
-				$pwd="";
+				$error = '<b>ERROR</b>: wrong login or password';
+				$pwd = '';
 			return false;
 			}
 		}
 	}
 
 	if (!login()) {
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Pragma: no-cache");
-		if ($is_IIS) {
-			header("Refresh: 0;url=b2login.php");
-		} else {
-			header("Location: b2login.php");
-		}
+		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
+	if ($is_IIS) {
+		header('Refresh: 0;url=b2login.php');
+	} else {
+		header('Location: b2login.php');
+	}
 		exit();
 	} else {
-		$user_login=$log;
-		$user_pass=$pwd;
-		setcookie("wordpressuser",$user_login,time()+31536000);
+		$user_login = $log;
+		$user_pass = $pwd;
+		setcookie('wordpressuser', $user_login, time()+31536000);
 		if ($pass_is_md5) {
-			setcookie("wordpresspass",$user_pass,time()+31536000);
+			setcookie('wordpresspass', $user_pass, time()+31536000);
 		} else {
-			setcookie("wordpresspass",md5($user_pass),time()+31536000);
+			setcookie('wordpresspass', md5($user_pass), time()+31536000);
 		}
-		if (empty($HTTP_COOKIE_VARS["wordpressblogid"])) {
-			setcookie("wordpressblogid","1",time()+31536000);
+		if (empty($HTTP_COOKIE_VARS['wordpressblogid'])) {
+			setcookie('wordpressblogid', 1,time()+31536000);
 		}
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Pragma: no-cache");
+		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
 
 		switch($mode) {
-			case "bookmarklet":
-				$location="wp-admin/b2bookmarklet.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
+			case 'bookmarklet':
+				$location = "wp-admin/b2bookmarklet.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
 				break;
-			case "sidebar":
-				$location="wp-admin/sidebar.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
+			case 'sidebar':
+				$location = "wp-admin/sidebar.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
 				break;
-			case "profile":
-				$location="wp-admin/profile.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
+			case 'profile':
+				$location = "wp-admin/profile.php?text=$text&popupurl=$popupurl&popuptitle=$popuptitle";
 				break;
 			default:
-				$location="$redirect_to";
+				$location = "$redirect_to";
 				break;
 		}
 
@@ -167,7 +161,7 @@ case "login":
 break;
 
 
-case "lostpassword":
+case 'lostpassword':
 
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -176,29 +170,9 @@ case "lostpassword":
 	<title>WordPress > Lost password ?</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
-	<style type="text/css">
-	<!--
-	<?php
-	if (!preg_match("/Nav/",$HTTP_USER_AGENT)) {
-	?>
-	textarea, input, select {
-		background-color: #f0f0f0;
-		border-width: 1px;
-		border-color: #cccccc;
-		border-style: solid;
-		padding: 2px;
-		margin: 1px;
-	}
-	<?php
-	}
-	?>
-	-->
-	</style>
 </head>
 <body>
 
-<table width="100%" height="100%">
-<td align="center" valign="middle">
 
 <div id="login">
 <p>Type your login here and click OK. You will receive an email with your password.</p>
@@ -214,9 +188,7 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 </form>
 </div>
 
-</td>
-</tr>
-</table>
+
 
 </body>
 </html>
@@ -225,7 +197,7 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 break;
 
 
-case "retrievepassword":
+case 'retrievepassword':
 
 	$user_login = $HTTP_POST_VARS["user_login"];
 	$user_data = get_userdatabylogin($user_login);
@@ -235,15 +207,15 @@ case "retrievepassword":
 	$message  = "Login: $user_login\r\n";
 	$message .= "Password: $user_pass\r\n";
 
-	$m = mail($user_email, "your weblog's login/password", $message);
+	$m = mail($user_email, "Your weblog's login/password", $message);
 
 	if ($m == false) {
 		echo "<p>The email could not be sent.<br />\n";
 		echo "Possible reason: your host may have disabled the mail() function...</p>";
 		die();
 	} else {
-		echo "<p>The email was sent successfully to $user_login's email address.<br />\n";
-		echo "<a href=\"b2login.php\">Click here to login !</a></p>";
+		echo "<p>The email was sent successfully to $user_login's email address.<br />
+		<a href='b2login.php' title='Check your email first, of course'>Click here to login!</a></p>";
 		die();
 	}
 
@@ -258,8 +230,7 @@ default:
 	}
 
 	function checklogin() {
-		global $server,$loginsql,$passsql,$base;
-		global $user_login,$user_pass_md5,$user_ID;
+		global $user_login, $user_pass_md5, $user_ID;
 
 		$userdata = get_userdatabylogin($user_login);
 
@@ -275,7 +246,7 @@ default:
 			$error="Error: wrong login/password"; //, or your session has expired.";
 		}
 	} else {
-		header("Expires: Wed, 5 Jun 1979 23:41:00 GMT"); /* private joke: this is my birthdate - though officially it's on the 6th, since I'm GMT+1 :) */
+		header("Expires: Wed, 5 Jun 1979 23:41:00 GMT"); /* private joke: this is Michel's birthdate - though officially it's on the 6th, since he's GMT+1 :) */
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); /* different all the time */
 		header("Cache-Control: no-cache, must-revalidate"); /* to cope with HTTP/1.1 */
 		header("Pragma: no-cache");
@@ -286,31 +257,12 @@ default:
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress > Login form</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css">
-<style type="text/css">
-<!--
-<?php
-if (!preg_match("/Nav/",$HTTP_USER_AGENT)) {
-?>
-textarea, input, select {
-	background-color: #f0f0f0;
-	border-width: 1px;
-	border-color: #cccccc;
-	border-style: solid;
-	padding: 2px;
-	margin: 1px;
-}
-<?php
-}
-?>
--->
-</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" href="<?php echo $siteurl; ?>/wp-admin/b2.css" type="text/css" />
 </head>
 <body>
 
-<table width="100%" height="100%">
-<td align="center" valign="middle">
+
 
 <div id="login">
 <p><a href="<?php echo $siteurl?>">Back to blog?</a><br />
@@ -339,9 +291,6 @@ if ($error) echo "<div align=\"right\" style=\"padding:4px;\"><font color=\"#FF0
 </form>
 
 </div>
-</td>
-</tr>
-</table>
 
 </body>
 </html>
