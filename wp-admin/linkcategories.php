@@ -217,6 +217,7 @@ switch ($action) {
     if ($user_level < get_settings('links_minadminlevel'))
       die ("Cheatin' uh ?");
 
+    $submit=$HTTP_POST_VARS["submit"];
     if (isset($submit) && ($submit == "Save")) {
 
     $cat_id=$HTTP_POST_VARS["cat_id"];
