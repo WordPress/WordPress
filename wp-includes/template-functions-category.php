@@ -299,7 +299,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
         FROM $tablecategories 
 	INNER JOIN $tablepost2cat ON (cat_ID = category_id)
         INNER JOIN $tableposts ON (ID = post_id)
-	WHERE 1 = 1 $exclusions
+	WHERE post_status = 'publish' $exclusions
         GROUP BY category_id");
         foreach ($cat_counts as $cat_count) {
             $category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
@@ -312,7 +312,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
         FROM $tablecategories 
 	LEFT JOIN $tablepost2cat ON (cat_ID = category_id)
         LEFT JOIN $tableposts ON (ID = post_id)
-	WHERE 1 = 1 $exclusions
+	WHERE post_status = 'publish' $exclusions
         GROUP BY category_id");
         foreach ($cat_dates as $cat_date) {
             $category_lastday["$cat_date->cat_ID"] = $cat_date->lastday;
