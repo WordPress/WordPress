@@ -206,40 +206,43 @@ case 'edit':
 	$standalone = 0;
 	require_once('admin-header.php');
 
-	$post = $_GET['post'];
+	$post = $post_ID = $p = (int) $_GET['post'];
 	if ($user_level > 0) {
-		$postdata = get_postdata($post);
-		$authordata = get_userdata($postdata['Author_ID']);
+		$postdata = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$post_ID'");
+		$authordata = get_userdata($postdata->post_author);
 		if ($user_level < $authordata->user_level)
 			die ('You don&#8217;t have the right to edit <strong>'.$authordata[1].'</strong>&#8217;s posts.');
 
-		$content = $postdata['Content'];
+		$content = $postdata->post_content;
 		$content = format_to_edit($content);
-		$edited_lat = $postdata["Lat"];
-		$edited_lon = $postdata["Lon"];
-		$excerpt = $postdata['Excerpt'];
+		$edited_lat = $postdata->post_lat;
+		$edited_lon = $postdata->post_lon;
+		$excerpt = $postdata->post_excerpt;
 		$excerpt = format_to_edit($excerpt);
-		$edited_post_title = format_to_edit($postdata['Title']);
-		$post_status = $postdata['post_status'];
-		$comment_status = $postdata['comment_status'];
-		$ping_status = $postdata['ping_status'];
-		$post_password = $postdata['post_password'];
-		$to_ping = $postdata['to_ping'];
-		$pinged = $postdata['pinged'];
-		$post_name = $postdata['post_name'];
+		$edited_post_title = format_to_edit($postdata->post_title);
+		$post_status = $postdata->post_status;
+		$comment_status = $postdata->comment_status;
+		$ping_status = $postdata->ping_status;
+		$post_password = $postdata->post_password;
+		$to_ping = $postdata->to_ping;
+		$pinged = $postdata->pinged;
+		$post_name = $postdata->post_name;
 
 		include('edit-form-advanced.php');
-		$p = $_GET['post'];
+
 		include(ABSPATH.'wp-blog-header.php');
-		start_wp();
+		$post = $wpdb->get_row("SELECT * FROM $tableposts WHERE ID = '$post_ID'");
 		?>
 <div id='preview' class='wrap'>
 	 <h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
 																		<h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php printf(__("Permanent Link: %s"), the_title()); ?>"><?php the_title(); ?></a></h3>
-																																																																					<div class="meta"><?php _e("Filed under:"); ?> <?php the_category(','); ?> &#8212; <?php the_author() ?> @ <?php the_time() ?> <?php edit_post_link(); ?></div>
+																																																																					<div class="meta"><?php _e("Filed under:"); ?> <?php the_category(','); ?> &#8212; <?php the_author() ?> @ <?php the_time() ?></div>
 
 <div class="storycontent">
-	<?php the_content(); ?>
+<?php 
+$content = apply_filters('the_content', $post->post_content);
+echo $content;
+?>
 </div>
 		</div>
 <?php
@@ -254,7 +257,7 @@ When you&#8217;re promoted, just reload this page and you&#8217;ll be able to bl
 	break;
 
 case 'editpost':
-//die(var_dump('<pre>', $_POST));
+// die(var_dump('<pre>', $_POST));
 	$standalone = 1;
 	require_once('./admin-header.php');
 
@@ -287,9 +290,12 @@ case 'editpost':
 		$prev_status = $_POST['prev_status'];
 		$post_status = $_POST['post_status'];
 		$comment_status = $_POST['comment_status'];
-		if (empty($comment_status)) $comment_status = get_settings('default_comment_status');
+		if (empty($comment_status)) $comment_status = 'closed';
+		//if (!$_POST['comment_status']) $comment_status = get_settings('default_comment_status');
+
 		$ping_status = $_POST['ping_status'];
-		if (empty($ping_status)) $ping_status = get_settings('default_ping_status');
+		if (empty($ping_status)) $ping_status = 'closed';
+		//if (!$_POST['ping_status']) $ping_status = get_settings('default_ping_status');
 		$post_password = addslashes($_POST['post_password']);
 		$post_name = sanitize_title($_POST['post_name']);
 		if (empty($post_name)) $post_name = sanitize_title($post_title);
@@ -410,6 +416,7 @@ $now_gmt = current_time('mysql', 1);
 	}
 	header ('Location: ' . $location);
 	do_action('edit_post', $post_ID);
+	exit();
 	break;
 
 case 'delete':

@@ -366,7 +366,7 @@ textarea, input, select {
 	margin-right: 11em;
 }
 
-#content {
+#content, #excerpt {
 	margin-left: 1%;
 	width: 97%;
 }

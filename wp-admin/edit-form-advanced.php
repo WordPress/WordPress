@@ -11,8 +11,6 @@ $messages[3] = __('Custom field deleted.');
 
 $allowed_users = explode(" ", trim(get_settings('fileupload_allowedusers')));
 
-$post_ID = intval($postdata['ID']);
-
 $submitbutton_text = __('Save');
 $toprow_title = sprintf(__('Editing Post #%s'), $post_ID);
 if (0 == $post_ID) {
@@ -73,7 +71,7 @@ window.onload = focusit;
 
     <fieldset id="categorydiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#category" title="<?php _e('Help on categories') ?>"><?php _e('Categories') ?></a></legend> 
-	  <div><?php dropdown_categories($default_post_cat); ?></div>
+	  <div><?php dropdown_categories(get_settings('default_category')); ?></div>
     </fieldset>
 
     <fieldset id="poststatusdiv">

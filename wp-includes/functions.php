@@ -436,48 +436,6 @@ function get_catname($cat_ID) {
 	return $cat_name;
 }
 
-function touch_time($edit = 1) {
-	global $month, $postdata;
-	// echo $postdata['Date'];
-	if ('draft' == $postdata['post_status']) {
-		$checked = 'checked="checked" ';
-		$edit = false;
-	} else {
-		$checked = ' ';
-	}
-
-	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">' . __('Edit timestamp') . '</label> <a href="http://wordpress.org/docs/reference/post/#edit_timestamp" title="' . __('Help on changing the timestamp') . '">?</a><br />';
-	
-	$time_adj = time() + (get_settings('gmt_offset') * 3600);
-	$post_date = $postdata['Date'];
-	$jj = ($edit) ? mysql2date('d', $post_date) : gmdate('d', $time_adj);
-	$mm = ($edit) ? mysql2date('m', $post_date) : gmdate('m', $time_adj);
-	$aa = ($edit) ? mysql2date('Y', $post_date) : gmdate('Y', $time_adj);
-	$hh = ($edit) ? mysql2date('H', $post_date) : gmdate('H', $time_adj);
-	$mn = ($edit) ? mysql2date('i', $post_date) : gmdate('i', $time_adj);
-	$ss = ($edit) ? mysql2date('s', $post_date) : gmdate('s', $time_adj);
-
-	echo '<input type="text" name="jj" value="'.$jj.'" size="2" maxlength="2" />'."\n";
-	echo "<select name=\"mm\">\n";
-	for ($i=1; $i < 13; $i=$i+1) {
-		echo "\t\t\t<option value=\"$i\"";
-		if ($i == $mm)
-		echo " selected='selected'";
-		if ($i < 10) {
-			$ii = "0".$i;
-		} else {
-			$ii = "$i";
-		}
-		echo ">".$month["$ii"]."</option>\n";
-	} ?>
-</select>
-<input type="text" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" /> @ 
-<input type="text" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" /> : 
-<input type="text" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" /> : 
-<input type="text" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" /> </p>
-	<?php
-}
-
 function gzip_compression() {
 	global $gzip_compressed;
 		if (!$gzip_compressed) {
