@@ -320,18 +320,22 @@ function trackback_url_list($tb_list, $post_id) {
 
 
 // query user capabilities
+// rather simplistic. shall evolve with future permission system overhaul
+// $blog_id and $category_id are there for future usage
 
-/* returns true if a given $user_id can create a new post.
-   note: optional $blog_id and $category_id for future usage? */
+/* returns true if $user_id can create a new post */
 function user_can_create_post($user_id, $blog_id = 1, $category_id = 'None') {
-	// rather simplistic. shall evolve with future permission system overhaul
 	$author_data = get_userdata($user_id);
 	return ($author_data->user_level > 1);
 }
 
+/* returns true if $user_id can create a new post */
+function user_can_create_draft($user_id, $blog_id = 1, $category_id = 'None') {
+	$author_data = get_userdata($user_id);
+	return ($author_data->user_level >= 1);
+}
 
-/* returns true if a given $user_id can edit a given $post_id.
-   note: optional $blog_id for future usage?                   */
+/* returns true if $user_id can edit $post_id */
 function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
 	$author_data = get_userdata($user_id);
 	$post_data   = get_postdata($post_id);
@@ -345,12 +349,36 @@ function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
 	}
 }
 
-/* returns true if a given $user_id can delete a given $post_id.
-   note: optional $blog_id for future usage?                   */
+/* returns true if $user_id can delete $post_id */
 function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
 	// right now if one can edit, one can delete
 	return user_can_edit_post($user_id, $post_id, $blog_id);
 }
+
+/* returns true if $user_id can set new posts' dates on $blog_id */
+function user_can_set_post_date($user_id, $blog_id = 1, $category_id = 'None') {
+	$author_data = get_userdata($user_id);
+	return (($author_data->user_level > 4) && user_can_create_post($user_id, $blog_id, $category_id));
+}
+
+/* returns true if $user_id can edit $post_id's date */
+function user_can_edit_post_date($user_id, $post_id, $blog_id = 1) {
+	$author_data = get_userdata($user_id);
+	return (($author_data->user_level > 4) && user_can_edit_post($user_id, $post_id, $blog_id));
+}
+
+/* returns true if $user_id can edit $post_id's comments */
+function user_can_edit_post_comments($user_id, $post_id, $blog_id = 1) {
+	// right now if one can edit a post, one can edit comments made on it
+	return user_can_edit_post($user_id, $post_id, $blog_id);
+}
+
+/* returns true if $user_id can delete $post_id's comments */
+function user_can_delete_post_comments($user_id, $post_id, $blog_id = 1) {
+	// right now if one can edit comments, one can delete comments
+	return user_can_edit_post_comments($user_id, $post_id, $blog_id);
+}
+
 
 function wp_new_comment($commentdata) {
 	global $wpdb;
