@@ -38,7 +38,7 @@ function checkAll(form)
 <?php
 if ( !empty( $_POST['delete_comments'] ) ) :
 	$i = 0;
-	foreach ($delete_comments as $comment) : // Check the permissions on each
+	foreach ($_POST['delete_comments'] as $comment) : // Check the permissions on each
 		$comment = (int) $comment;
 		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
 		$authordata = get_userdata( $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id") );
