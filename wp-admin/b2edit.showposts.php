@@ -251,14 +251,6 @@ if ($i == "ASC")
 				<?php
 				if ($safe_mode)
 					echo "<xmp>";
-                the_excerpt();
-                echo '<br />';
-				if ($safe_mode)
-					echo "</xmp>";
-				?>
-				<?php
-				if ($safe_mode)
-					echo "<xmp>";
 				the_content();
 				if ($safe_mode)
 					echo "</xmp>";
