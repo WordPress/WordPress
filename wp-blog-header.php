@@ -12,7 +12,7 @@ $query_vars = array();
 
 // Process PATH_INFO and 404.
 if ((isset($_GET['error']) && $_GET['error'] == '404') ||
-    (! empty( $_SERVER['PATH_INFO']))) {
+    (! empty( $_SERVER['PATH_INFO']) && '/' != $_SERVER['PATH_INFO'])) {
 
 	// If we match a rewrite rule, this will be cleared.
 	$error = '404';
