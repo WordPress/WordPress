@@ -35,7 +35,7 @@ if (have_posts()) :
 			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE comment_post_ID = '$id' 
 			AND $wpdb->comments.comment_approved = '1' AND ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_status = 'page') 
 			AND post_date < '".date("Y-m-d H:i:59")."' 
-			ORDER BY comment_date LIMIT " . get_settings('posts_per_rss') );
+			ORDER BY comment_date DESC LIMIT " . get_settings('posts_per_rss') );
 		} else { // if no post id passed in, we'll just ue the last 10 comments.
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
 			comment_author_url, comment_date, comment_content, comment_post_ID, 
