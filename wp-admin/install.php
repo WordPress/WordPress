@@ -150,7 +150,7 @@ $wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name) VALUES ('0', 'Unc
 // First post
 $now = date('Y-m-d H:i:s');
 $now_gmt = gmdate('Y-m-d H:i:s');
-$wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_category, post_modified, post_modified_gmt) VALUES ('1', '$now', '$now_gmt', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '0', '$now', '$now_gmt')");
+$wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_title, post_category, post_name, post_modified, post_modified_gmt) VALUES ('1', '$now', '$now_gmt', 'Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!', 'Hello world!', '0', 'hello-world', '$now', '$now_gmt')");
 
 $wpdb->query( "INSERT INTO $wpdb->post2cat (`rel_id`, `post_id`, `category_id`) VALUES (1, 1, 1)" );
 
