@@ -619,7 +619,7 @@ function sanitize_email($email) {
 function human_time_diff( $from, $to = '' ) {     
 	if ( empty($to) )
 		$to = time();
-	$diff = (int) ($to - $from);
+	$diff = (int) abs($to - $from);
 	if ($diff <= 3600) {
 		$mins = round($diff / 60);
 		if ($mins <= 1)
