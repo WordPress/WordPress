@@ -347,7 +347,7 @@ switch($action) {
 				post_password = '$post_password',
 				post_name = '$post_name',
 				to_ping = '$trackback',
-				post_modified = '$now'
+				post_modified = '$now',
 				post_modified_gmt = '$now_gmt'
 			WHERE ID = $post_ID ");
 
