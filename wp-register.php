@@ -61,7 +61,9 @@ case 'register':
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_browser, user_registered, user_level, user_idmode, user_nicename)
 	VALUES 
 		('$user_login', MD5('$password'), '$user_nickname', '$user_email', '$user_ip', '$user_browser', '$now', '$user_level', 'nickname', '$user_nicename')");
-	
+
+	do_action('user_register', $wpdb->insert_id);
+
 	if ($result == false) {
 		die (sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_settings('admin_email')));
 	}

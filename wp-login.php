@@ -22,6 +22,7 @@ switch($action) {
 case 'logout':
 
 	wp_clearcookie();
+	do_action('wp_logout');
 	header('Expires: Mon, 11 Jan 1984 05:00:00 GMT');
 	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	header('Cache-Control: no-cache, must-revalidate, max-age=0');
@@ -105,6 +106,8 @@ case 'retrievepassword':
 mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
 	$m = wp_mail($user_email, sprintf(__("[%s] Password Reset"), get_settings('blogname')), $message);
 
+	do_action('retreive_password', $user_login);
+
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
          echo  __('Possible reason: your host may have disabled the mail() function...') . "</p>";
@@ -132,6 +135,8 @@ case 'resetpass' :
 	$message .= get_settings('siteurl') . '/wp-login.php';
 
 	$m = wp_mail($user->user_email, sprintf(__("[%s] Your new password"), get_settings('blogname')), $message);
+
+	do_action('password_reset');
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -177,7 +182,7 @@ default:
 			if (! $using_cookie) {
 				wp_setcookie($user_login, $user_pass);
 			}
-
+			do_action('wp_login', $user_login);
 			header("Location: $redirect_to");
 			exit();
 		} else {
