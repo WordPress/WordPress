@@ -98,6 +98,8 @@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
 $location = (empty($_POST['redirect_to'])) ? $_SERVER["HTTP_REFERER"] : $_POST['redirect_to'];
+$location = preg_replace('|[^a-z?=&/~.:_-]|i', '', $location);
+
 if ($is_IIS) {
 	header("Refresh: 0;url=$location");
 } else {

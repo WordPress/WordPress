@@ -458,6 +458,7 @@ case 'delete':
 
 	$sendback = $_SERVER['HTTP_REFERER'];
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
+	$sendback = preg_replace('|[^a-z?=&/~.:_-]|i', '', $sendback);
 	header ('Location: ' . $sendback);
 	do_action('delete_post', $post_id);
 	break;

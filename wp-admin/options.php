@@ -86,6 +86,7 @@ case 'update':
     
 	$referred = str_replace('?updated=true' , '', $_SERVER['HTTP_REFERER']);
 	$goback = str_replace('?updated=true', '', $_SERVER['HTTP_REFERER']) . '?updated=true';
+	$goback = preg_replace('|[^a-z?=&/~.:_-]|i', '', $goback);
     header('Location: ' . $goback);
     break;
 
