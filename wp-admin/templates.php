@@ -161,9 +161,10 @@ update_option('recently_edited', array(1, 2, 3) );
   </form> 
   <p><?php _e('Common files: (click to edit)') ?></p>
   <ul>
-    <li><a href="templates.php?file=index.php"><?php _e('Main Index') ?> </a></li>
-    <li><a href="templates.php?file=wp-comments.php">Comments</a></li>
-    <li><a href="templates.php?file=wp-comments-popup.php"><?php _e('Popup comments') ?> </a></li>
+    <li><a href="templates.php?file=index.php"><?php _e('Main Index') ?></a></li>
+    <li><a href="templates.php?file=wp-layout.css"><?php _e('Main Stylesheet') ?></a></li>
+    <li><a href="templates.php?file=wp-comments.php"><?php _e('Comments') ?></a></li>
+    <li><a href="templates.php?file=wp-comments-popup.php"><?php _e('Popup comments') ?></a></li>
     <li><a href="templates.php?file=.htaccess"><?php _e('.htaccess (for rewrite rules)') ?></a></li>
     <li><a href="templates.php?file=my-hacks.php"><?php _e('my-hacks.php (legacy hacks support)') ?></a></li>
     </ul>
