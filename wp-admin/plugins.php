@@ -60,7 +60,7 @@ foreach ($check_plugins as $check_plugin) {
 
 <div class="wrap">
 <h2><?php _e('Plugin Management'); ?></h2>
-<p><?php _e('Plugins are files you usually download seperately from WordPress that add functionality. To install a plugin you generally just need to put the plugin file into your <code>wp-content/plugins</code> directory. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
+<p><?php _e('Plugins are files you usually download separately from WordPress that add functionality. To install a plugin you generally just need to put the plugin file into your <code>wp-content/plugins</code> directory. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
 <?php
 // Files in wp-content/plugins directory
 $plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
