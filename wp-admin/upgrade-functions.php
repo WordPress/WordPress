@@ -592,14 +592,18 @@ function make_site_theme_from_default($theme_name, $template) {
 	$site_dir = ABSPATH . "wp-content/themes/$template";
 	$default_dir = ABSPATH . 'wp-content/themes/default';
 
-// Copy files from the default theme to the site theme.
-	$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
+	// Copy files from the default theme to the site theme.
+	//$files = array('index.php', 'comments.php', 'comments-popup.php', 'footer.php', 'header.php', 'sidebar.php', 'style.css');
 
-	foreach ($files as $file) {
-		if (! @copy("$default_dir/$file", "$site_dir/$file"))
-			return;
-
-		chmod("$site_dir/$file", 0777);
+	$theme_dir = @ dir("$default_dir");
+	if ($theme_dir) {
+		while(($theme_file = $theme_dir->read()) !== false) {
+			if (is_dir("$default_dir/$theme_file"))
+				continue;
+			if (! @copy("$default_dir/$theme_file", "$site_dir/$theme_file"))
+				return;
+			chmod("$site_dir/$theme_file", 0777);
+		}
 	}
 
 	// Rewrite the theme header.
@@ -616,6 +620,23 @@ function make_site_theme_from_default($theme_name, $template) {
 			fwrite($f, "{$line}\n");
 		}
 		fclose($f);
+	}
+
+	// Copy the images.
+	umask(0);
+	if (! mkdir("$site_dir/images", 0777)) {
+		return false;
+	}
+
+	$images_dir = @ dir("$default_dir/images");
+	if ($images_dir) {
+		while(($image = $images_dir->read()) !== false) {
+			if (is_dir("$default_dir/images/$image"))
+				continue;
+			if (! @copy("$default_dir/images/$image", "$site_dir/images/$image"))
+				return;
+			chmod("$site_dir/images/$image", 0777);
+		}
 	}
 }
 
