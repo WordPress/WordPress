@@ -2,9 +2,8 @@
 $blog=1;
 include('blog.header.php');
 add_filter('comment_text', 'popuplinks');
-while($row = mysql_fetch_object($result)) { start_b2();
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+foreach ($posts as $post) { start_b2();
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title><?php echo $blogname ?> - Comments on "<?php the_title() ?>"</title>
@@ -24,37 +23,27 @@ while($row = mysql_fetch_object($result)) { start_b2();
 <ol id="comments">
 
 <?php /* this line is b2's motor, do not delete it */ 
-$queryc = "SELECT * FROM $tablecomments WHERE comment_post_ID = $id AND comment_content NOT LIKE '%<trackback />%' ORDER BY comment_date";
-$resultc = mysql_query($queryc);
-if ($resultc) {
-while($rowc = mysql_fetch_object($resultc)) {
-	$commentdata = get_commentdata($rowc->comment_ID);
+$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+// this line is WordPress' motor, do not delete it.
+if ($comments) {
+	foreach ($comments as $comment) {
 ?>
 	
 <!-- comment -->
 <li id="comment-<?php comment_ID() ?>">
 <?php comment_text() ?>
-<p><cite>By <?php if ($commentdata["comment_author_url"] && $commentdata["comment_author_url"] != 'http://url') {
-	echo <<<QQQ
-<a href="{$commentdata["comment_author_url"]}">{$commentdata["comment_author"]}</a>
-QQQ;
-} else {
-	echo $commentdata["comment_author"];
-} ?> <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
+<p><cite><?php comment_type(); ?> by <?php comment_author_link() ?> <?php comment_date() ?> @ <a href="#comment-<?php comment_ID() ?>"><?php comment_time() ?></a></cite></p>
 </li>
-<!-- /comment -->
-
-	<?php } /* end of the loop, don't delete */ } if (!$resultc) { ?>
-
-<!-- this is displayed if there are no comments so far -->
+<?php } // end for each comment
+} else { // this is displayed if there are no comments so far 
+?>
 	<li>No comments yet.</li>
 
-	<?php /* if you delete this the sky will fall on your head */ } ?>
+<?php } ?>
 </ol>
 <h2>Leave a Comment</h2>
-<p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities(str_replace('>', '> ', $comment_allowed_tags)); ?></p>
+<p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities($comment_allowed_tags); ?></p>
 
-<!-- form to add a comment -->
 
 <form action="<?php echo $siteurl; ?>/b2comments.post.php" method="post" id="commentform">
 	<p>
@@ -66,28 +55,24 @@ QQQ;
 
 	<p>
 	  <input type="text" name="email" id="email" value="<?php echo $comment_author_email; ?>" size="28" tabindex="2" />
-	   <label for="email">email</label>
+	   <label for="email">Email</label>
 	</p>
 
 	<p>
 	  <input type="text" name="url" id="url" value="<?php echo $comment_author_url; ?>" size="28" tabindex="3" />
-	   <label for="url"><acronym title="Uniform Resource Locator">url</acronym></label>
+	   <label for="url"><acronym title="Uniform Resource Locator">URL</acronym></label>
 	</p>
 
 	<p>
-	  <label for="comment">your comment</label>
+	  <label for="comment">Your Comment</label>
 	<br />
-	  <textarea name="comment" id="comment" cols="30" rows="4" tabindex="4" style="width: 90%"></textarea>
+	  <textarea name="comment" id="comment" cols="70" rows="4" tabindex="4"></textarea>
 	</p>
 
 	<p>
 	  <input name="submit" type="submit" tabindex="5" value="Say it!" />
 	</p>
-
 </form>
-
-<!-- /form -->
-
 
 
 <div><strong><a href="javascript:window.close()">Close this window</a>.</strong></div>
