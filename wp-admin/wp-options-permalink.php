@@ -37,7 +37,7 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 
 require_once('optionhandler.php');
 
-if ($HTTP_POST_VARS['permalink_structure'] != '') {
+if ($HTTP_POST_VARS['Submit'] == 'Update') {
 	update_option('permalink_structure', $HTTP_POST_VARS['permalink_structure']);
 	$permalink_structure = $HTTP_POST_VARS['permalink_structure'];
 } else {
