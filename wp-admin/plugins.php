@@ -75,10 +75,10 @@ if (empty($plugins)) {
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
 
 		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
-			$action = __("<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='Deactivate this plugin' class='delete'>Deactivate</a>");
-			$plugin = __("<strong>$plugin</strong>");
+			$action = "<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
+			$plugin = "<strong>$plugin</strong>";
 		} else {
-			$action = __("<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='Activate this plugin' class='edit'>Activate</a>");
+			$action = "<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
 		echo "
 	<tr $style>
