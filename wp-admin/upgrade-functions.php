@@ -673,7 +673,7 @@ function upgrade_101() {
 }
 
 function upgrade_110() {
-	global $wpdb, $tableusers, $tablecomments, $tableposts, $tableoptiongroups;
+  global $wpdb, $tableusers, $tablecomments, $tableposts, $tableoptiongroups, $tableoptiongroup_options, $tableoptions;
 	
 	maybe_add_column($tablecomments, 'user_id', "ALTER TABLE `$tablecomments` ADD `user_id` INT DEFAULT '0' NOT NULL ;");
 	maybe_add_column($tableusers, 'user_activation_key', "ALTER TABLE `$tableusers` ADD `user_activation_key` VARCHAR( 60 ) NOT NULL ;");
