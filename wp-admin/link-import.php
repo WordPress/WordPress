@@ -123,7 +123,7 @@ switch ($step) {
                         if ('http' == substr($titles[$i], 0, 4))
                             $titles[$i] = '';
                         $query = "INSERT INTO $tablelinks (link_url, link_name, link_target, link_category, link_description, link_owner, link_rss)
-                                  VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '', $cat_id, '".addslashes($descriptions[$i])."', $user_ID, {$feeds[$i]})\n";
+                                VALUES('{$urls[$i]}', '".addslashes($names[$i])."', '', $cat_id, '".addslashes($descriptions[$i])."', $user_ID, '{$feeds[$i]}')\n";
                         $result = $wpdb->query($query);
                         echo "<p>Inserted <strong>{$names[$i]}</strong></p>";
                     }
