@@ -31,8 +31,12 @@ endif;
 
 $comment_type = '';
 
-if ( (get_settings('require_name_email') && !$user_ID) && ('' == $comment_author_email || '' == $comment_author) )
-	die( __('Error: please fill the required fields (name, email).') );
+if ( get_settings('require_name_email') && !$user_ID ) {
+	if ('' == $comment_author_email || '' == $comment_author)
+		die( __('Error: please fill the required fields (name, email).') );
+	elseif ( !is_email($comment_author_email))
+		die( __('Error: please enter a valid email address.') );
+}
 
 if ( '' == $comment_content )
 	die( __('Error: please type a comment.') );
