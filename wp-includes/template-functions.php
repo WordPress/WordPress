@@ -1239,7 +1239,7 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 		if (!$paged) $paged = 1;
 		$nextpage = intval($paged) + 1;
 		if (!$max_page || $max_page >= $nextpage) {
-			echo  $pagenow.$querystring_start.
+			echo  $siteurl.'/'.$pagenow.$querystring_start.
 				($qstr == '' ? '' : $qstr.$querystring_separator) .
 				'paged'.$querystring_equal.$nextpage;
 		}
@@ -1265,7 +1265,7 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 		$nextpage = intval($paged) + 1;
 		if (empty($p) && (empty($paged) || $nextpage <= $max_page)) {
 			echo '<a href="';
-			echo next_posts($max_page);
+			next_posts($max_page);
 			echo '">'. htmlspecialchars($label) .'</a>';
 		}
 	}
@@ -1291,7 +1291,7 @@ function previous_posts() { // original by cfactor at cooltux.org
 		}
 		$nextpage = intval($paged) - 1;
 		if ($nextpage < 1) $nextpage = 1;
-		echo  $pagenow.$querystring_start.
+		echo  $siteurl.'/'.$pagenow.$querystring_start.
 			($qstr == '' ? '' : $qstr.$querystring_separator) .
 			'paged'.$querystring_equal.$nextpage;
 	}
@@ -1301,7 +1301,7 @@ function previous_posts_link($label='&laquo; Previous Page') {
 	global $p, $paged, $what_to_show;
 	if (empty($p)  && ($paged > 1) && ($what_to_show == 'paged')) {
 		echo '<a href="';
-		echo previous_posts();
+		previous_posts();
 		echo '">'.  htmlspecialchars($label) .'</a>';
 	}
 }
