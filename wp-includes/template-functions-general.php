@@ -20,7 +20,7 @@ function wp_register() {
 
 	get_currentuserinfo();
 
-	if (0 == $user_level) :
+	if (0 == $user_level && get_settings('users_can_register') ) :
 		$link = '<a href="' . get_settings('siteurl') . '/wp-register.php">' . __('Register') . '</a>';
 	else :
 		$link = '<a href="' . get_settings('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>';
