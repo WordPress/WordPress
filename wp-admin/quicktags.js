@@ -23,7 +23,7 @@ var datetime = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate() + 
 
 edButtons[edButtons.length] = 
 new edButton('ed_strong'
-,'strong'
+,'str'
 ,'<strong>'
 ,'</strong>'
 ,'b'

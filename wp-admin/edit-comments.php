@@ -101,7 +101,7 @@ if ('view' == $mode) {
 
 		?>
 		<p>
-        <strong><?php _e('No results found.') ?></strong></p>
+        <strong><?php _e('No comments found.') ?></strong></p>
 		
 		<?php
 	} // end if ($comments)
