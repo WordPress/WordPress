@@ -98,12 +98,12 @@ include('options-head.php');
       <tr>
       	<th scope="row"><?php _e('Default date format:') ?></th>
       	<td><input name="date_format" type="text" id="date_format" size="30" value="<?php echo get_settings('date_format'); ?>" /><br />
-Output: <strong><?php echo date(get_settings('date_format'), current_time('timestamp', true)); ?></strong></td>
+<?php _e('Output:') ?> <strong><?php echo date(get_settings('date_format'), current_time('timestamp', true)); ?></strong></td>
       	</tr>
       <tr>
         <th scope="row"><?php _e('Default time format:') ?></th>
       	<td><input name="time_format" type="text" id="time_format" size="30" value="<?php echo get_settings('time_format'); ?>" /><br />
-Output: <strong><?php echo date(get_settings('time_format'), current_time('timestamp', true)); ?></strong></td>
+<?php _e('Output:') ?> <strong><?php echo date(get_settings('time_format'), current_time('timestamp', true)); ?></strong></td>
       	</tr> 
 </table>
     </fieldset> 
