@@ -42,7 +42,7 @@ ul, ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; paddin
         via email</a> - <a href="#notes">notes</a></p>
       <a name="requirements"></a> <h1>Requirements:</h1>
       <ul>
-        <li><strong>PHP4</strong> (version 4.0.5 or higher)</li>
+        <li><strong>PHP4</strong> (version 4.0.6 or higher)</li>
         <li><strong>MySQL</strong> (version 3.23.23 or higher)</li>
         <li>Perl (optional - only for the spellchecker)</li>
         <li>... and a link to <a href="http://wordpress.org" target="_blank">http://wordpress.org</a> 
@@ -91,9 +91,23 @@ ul, ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; paddin
           it will work too ;)</li>
       </ul>
       <p>Users upgrading from b2 v0.6.1 to WordPress v0.7:</p>
-      <ol>
-        <li>Coming soon! :) </li>
-      </ol>
+      <ul>
+        <li>All you <em>really</em> have to do is replace all the files with newer 
+          versions and run <a href="javascript:window.close()">b2-2-wp.php</a> 
+          and you should be ready to go.</li>
+        <li>If you're using an older version of b2, it's probably a good idea 
+          to upgrade to at least .6.1 before making the leap to WordPress.</li>
+        <li>The templates are so much better, and there is so much more going 
+          on than before it's probably worth it to start from scratch and work 
+          back to your design.</li>
+        <li>You can keeep your <code>b2config.php</code> file if you want to, 
+          but it is <strong>very important</strong> that you take the last few 
+          lines from the WordPress and add those in, otherwise, nothing will work.</li>
+        <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support 
+          forums</a>.</li>
+        <li><strong>Back up</strong> your database before you do anything. Yes, 
+          you. Right now.</li>
+      </ul>
       <h1 id="templates">Template(s):</h1> <p>First notes:</p>
       <ul>
         <li>Enclosed is an example of a template, in the file b2.php. You can 
