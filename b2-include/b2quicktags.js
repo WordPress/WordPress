@@ -3,7 +3,7 @@
 
 // Define the quick tags
 bbcode = new Array();
-bbtags = new Array('<b>','</b>','<i>','</i>','<u>','</u>','<strike>','</strike>','<blockquote>','</blockquote>','<p>','</p>','<li>','</li>','<img src="" border="0" alt="" />','','<a href="">','</a>');
+bbtags = new Array('<strong>','</strong>','<em>','</em>','<u>','</u>','<del>','</del>','<blockquote>','</blockquote>','<p>','</p>','<li>','</li>','<img src="" border="0" alt="" />','','<a href="">','</a>');
 imageTag = false;
 
 // Replacement for arrayname.length property
