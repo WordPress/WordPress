@@ -172,6 +172,8 @@ foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliesreplace[] = " <img src='" . get_settings('siteurl') . "/wp-images/smilies/$img' alt='$smiley_masked' />";
 }
 
+// Path for cookies
+define('COOKIEPATH', preg_replace('|http://[^/]+|i', '', get_settings('home') . '/' ) );
 
 // Some default filters
 add_filter('category_description', 'wptexturize');
