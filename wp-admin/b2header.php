@@ -8,6 +8,12 @@ require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.$b2inc.'/xmlrpc.inc');
 require_once($abspath.$b2inc.'/xmlrpcs.inc');
 
+function gethelp_link($this_file, $helptag) {
+    $url = 'help/en/'.$this_file.'.help.html#'.$helptag;
+    $s = '&nbsp;<a href="'.$url.'" onclick="javascript:helpWindow(\''.$url.'\'); return false;" title="Click here for help"><span class="helplink">[?]</span></a>';
+    return $s;
+}
+
 if (!isset($use_cache))	$use_cache=1;
 if (!isset($blogID))	$blog_ID=1;
 if (!isset($debug))		$debug=0;
@@ -76,6 +82,11 @@ setTimeout("redirect();", 600);
 	function launchupload() {
 		window.open ("b2upload.php", "b2upload", "width=380,height=360,location=0,menubar=0,resizable=1,scrollbars=yes,status=1,toolbar=0");
 	}
+
+    function helpWindow(url) {
+		window.open(url, "Help", "width=640, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=60, left=60, screenY=60, top=60");
+	}
+
 
 //  End -->
 </script>

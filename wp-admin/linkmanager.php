@@ -2,13 +2,13 @@
 // $Id$
 //
 // Links
-// Copyright (C) 2002 Mike Little -- mike@zed1.com
+// Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
 //
-// This is an add-on to b2 weblog / news publishing tool
+// This is an add-on to b2/WordPress weblog / news publishing tool
 // b2 is copyright (c)2001, 2002 by Michel Valdrighi - m@tidakada.com
 //
 // **********************************************************************
-// Copyright (C) 2002 Mike Little
+// Copyright (C) 2002, 2003 Mike Little
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -483,15 +483,15 @@ function checkAll(form)
     <table width="75%" cellpadding="5" cellspacing="0" border="0">
       <tr>
         <td><b>Link Categories:</b></td>
-        <td><a href="linkcategories.php">Manage Link Categories</a></td>
-        <td><a href="links.import.php">Import Blogroll</a></td>
+        <td><a href="linkcategories.php">Manage Link Categories</a><?php echo gethelp_link($this_file,'manage_link_categories');?></td>
+        <td><a href="links.import.php">Import Blogroll</a><?php echo gethelp_link($this_file,'import_blogroll');?></td>
       </tr>
       <tr>
         <td>
-          <b>Show</b> links in category:<br />
+          <b>Show</b> links in category:<?php echo gethelp_link($this_file,'link_categories');?><br />
         </td>
         <td>
-          <b>Order</b> by:
+          <b>Order</b> by:<?php echo gethelp_link($this_file,'order_by');?>
         </td>
       </tr>
       <tr>
@@ -526,7 +526,7 @@ function checkAll(form)
           </select>
         </td>
         <td>
-          <input type="submit" name="action" value="Show" class="search" />
+          <input type="submit" name="action" value="Show" class="search" /><?php echo gethelp_link($this_file,'show');?>
         </td>
       </tr>
     </table>
@@ -543,7 +543,7 @@ function checkAll(form)
     <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>" />
   <table width="100%" border="0" cellspacing="0" cellpadding="3">
     <tr>
-      <th width="15%">Name</th>
+      <th width="15%"><?php echo gethelp_link($this_file,'list_o_links');?> Name</th>
       <th>URL</th>
       <th>Category</th>
       <th>Rel</th>
@@ -627,7 +627,7 @@ LINKS;
     <tr><td colspan="4">Use the checkboxes on the right to select multiple links and choose an action below:</td></tr>
     <tr>
         <td>
-          <input type="submit" name="action2" value="Assign" /> ownership to:
+          <input type="submit" name="action2" value="Assign" /> ownership <?php echo gethelp_link($this_file,'assign_ownership');?> to:
 <?php
     $results = $wpdb->get_results("SELECT ID, user_login FROM $tableusers WHERE user_level > 0 ORDER BY ID");
     echo "          <select name=\"newowner\" size=\"1\">\n";
@@ -640,14 +640,14 @@ LINKS;
 ?>
         </td>
         <td>
-          Toggle <input type="submit" name="action2" value="Visibility" />
+          Toggle <input type="submit" name="action2" value="Visibility" /><?php echo gethelp_link($this_file,'toggle_visibility');?>
         </td>
         <td>
-          <input type="submit" name="action2" value="Move" /> to category
+          <input type="submit" name="action2" value="Move" /><?php echo gethelp_link($this_file,'move_to_cat');?> to category
 <?php category_dropdown('category'); ?>
         </td>
         <td align="right">
-          <a href="#" onclick="checkAll(document.getElementById('links')); return false; ">Toggle Checkboxes</a>
+          <a href="#" onclick="checkAll(document.getElementById('links')); return false; ">Toggle Checkboxes</a><?php echo gethelp_link($this_file,'toggle_checkboxes');?>
         </td>
     </tr>
 </table>
@@ -662,7 +662,7 @@ LINKS;
     <table width="95%" cellpadding="5" cellspacing="0" border="0">
     <form name="addlink" method="post">
     <input type="hidden" name="action" value="Add" />
-    <tr><td colspan="2"><b>Add</b> a link:</td></tr>
+    <tr><td colspan="2"><b>Add</b> a link:<?php echo gethelp_link($this_file,'add_a_link');?></td></tr>
       <tr height="20">
         <td height="20" align="right">URL:</td>
         <td><input type="text" name="linkurl" size="80" value="<?php echo $link_url; ?>"></td>
