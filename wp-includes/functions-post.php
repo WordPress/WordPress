@@ -36,7 +36,20 @@ function wp_insert_post($postarr = array()) {
 		$ping_status = get_settings('default_ping_status');
 	if ( empty($post_parent) )
 		$post_parent = 0;
-	
+
+	if ('publish' == $post_status) {
+		$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
+		if ($post_name_check) {
+			$suffix = 2;
+			while ($post_name_check) {
+				$alt_post_name = $post_name . "-$suffix";
+				$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
+				$suffix++;
+			}
+			$post_name = $alt_post_name;
+		}
+	}
+
 	$sql = "INSERT INTO $wpdb->posts 
 		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name, comment_status, ping_status, post_parent) 
 		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name', '$comment_status', '$ping_status', '$post_parent')";

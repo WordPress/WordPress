@@ -96,13 +96,28 @@ case 'post':
 	if ('' != $_POST['advanced']) $post_status = 'draft';
 	if ('' != $_POST['savepage']) $post_status = 'static';
 
+
+
 	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
 	$post_ID = $id_result->Auto_increment;
 
 	if ( empty($post_name) ) {
-			$post_name = sanitize_title($post_title, $post_ID);
+		$post_name = sanitize_title($post_title, $post_ID);
 	} else {
 		$post_name = sanitize_title($post_name, $post_ID);
+	}
+
+	if ('publish' == $post_status) {
+		$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
+		if ($post_name_check) {
+			$suffix = 2;
+			while ($post_name_check) {
+				$alt_post_name = $post_name . "-$suffix";
+				$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
+				$suffix++;
+			}
+			$post_name = $alt_post_name;
+		}
 	}
 
 	$postquery ="INSERT INTO $wpdb->posts
@@ -281,12 +296,6 @@ case 'editpost':
 		$post_parent = $_POST['parent_id'];
 	}
 
-	if (empty($post_name)) {
-		$post_name = sanitize_title($post_title, $post_ID);
-	} else {
-		$post_name = sanitize_title($post_name, $post_ID);
-	}
-
 	$trackback = $_POST['trackback_url'];
 	// Format trackbacks
 	$trackback = preg_replace('|\s+|', '\n', $trackback);
@@ -295,6 +304,25 @@ case 'editpost':
 	// Double-check
 	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) && 2 != get_option('new_users_can_blog') )
 		$post_status = 'draft';
+
+	if (empty($post_name)) {
+		$post_name = sanitize_title($post_title, $post_ID);
+	} else {
+		$post_name = sanitize_title($post_name, $post_ID);
+	}
+
+	if ('publish' == $post_status) {
+		$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
+		if ($post_name_check) {
+			$suffix = 2;
+			while ($post_name_check) {
+				$alt_post_name = $post_name . "-$suffix";
+				$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
+				$suffix++;
+			}
+			$post_name = $alt_post_name;
+		}
+	}
 
 	if (user_can_edit_post_date($user_ID, $post_ID) && (!empty($_POST['edit_date']))) {
 		$aa = $_POST['aa'];
