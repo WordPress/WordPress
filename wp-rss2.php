@@ -1,7 +1,7 @@
 <?php 
 if (!isset($feed)) {
     $blog = 1;
-    //    $doing_rss = 1;         # DEBUG
+    $doing_rss = 1;
     require('wp-blog-header.php');
 }
 $more = 1;
