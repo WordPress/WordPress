@@ -6,7 +6,7 @@
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
 <link rel="stylesheet" href="<?php echo get_settings('siteurl') ?>/wp-admin/wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 
 <script type="text/javascript">
 //<![CDATA[

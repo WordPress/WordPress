@@ -15,7 +15,7 @@ if ('b' == $_GET['a']) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress &#8250; Posted</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=UTF-8" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 </head>
 <body
@@ -30,7 +30,7 @@ if ('b' == $_GET['a']) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>WordPress &#8250; Sidebar</title>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('blog_charset'); ?>" />
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('blog_charset'); ?>" />
 <link rel="stylesheet" href="wp-admin.css" type="text/css" />
 <link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 <style type="text/css" media="screen">

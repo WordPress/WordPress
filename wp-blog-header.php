@@ -112,7 +112,7 @@ if ( !empty($error) && '404' == $error ) {
 	@header('HTTP/1.x 404 Not Found');
  } else if ( empty($feed) ) {
 	@header('X-Pingback: '. get_bloginfo('pingback_url'));
-	@header('Content-type: text/html; charset=' . get_option('blog_charset'));
+	@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
 	if ( $withcomments )

@@ -88,7 +88,7 @@ case 'register':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Complete') ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />	
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />	
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 	<style type="text/css">
 	.submit {
@@ -118,7 +118,7 @@ case 'disabled':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Currently Disabled') ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>">
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>">
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
 </head>
 
@@ -144,7 +144,7 @@ default:
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Form') ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 	<style type="text/css">
 	#user_email, #user_login, #submit {

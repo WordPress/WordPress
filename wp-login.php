@@ -39,7 +39,7 @@ case 'lostpassword':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Lost Password') ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
@@ -196,7 +196,7 @@ default:
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &rsaquo; <?php _e('Login') ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php bloginfo('charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {

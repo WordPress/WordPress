@@ -10,7 +10,7 @@ foreach ($posts as $post) { start_wp();
 <head>
      <title><?php echo get_settings('blogname'); ?> - <?php echo sprintf(__("Comments on %s"), the_title('','',false)); ?></title>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<style type="text/css" media="screen">
 		@import url( <?php bloginfo('stylesheet_url'); ?> );
 		body { margin: 3px; }

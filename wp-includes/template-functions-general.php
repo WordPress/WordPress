@@ -112,6 +112,9 @@ function get_bloginfo($show='') {
 		$output = get_settings('blog_charset');
 		if ('' == $output) $output = 'UTF-8';
 		break;
+	case 'html_type' :
+		$output = get_option('html_type');
+		break;
 	case 'version':
 		global $wp_version;
 		$output = $wp_version;

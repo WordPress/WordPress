@@ -7,7 +7,7 @@ require_once('./wp-blog-header.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<meta name="generator" content="WordPress <?php $wp_version ?>" /> <!-- leave this for stats -->
 	<link rel="alternate" type="text/xml" title="RSS" href="<?php bloginfo('rss2_url'); ?>" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
