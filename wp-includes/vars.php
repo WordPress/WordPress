@@ -174,8 +174,8 @@ uksort($wpsmiliestrans, 'smiliescmp');
 // generates smilies' search & replace arrays
 foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliessearch[] = $smiley;
-	$smiley_masked = str_replace(' ', '', $smiley);
-	$wp_smiliesreplace[] = " <img src='" . get_settings('siteurl') . "/wp-images/smilies/$img' alt='$smiley_masked' />";
+	$smiley_masked = htmlspecialchars( trim($smiley) , ENT_QUOTES);
+	$wp_smiliesreplace[] = " <img src='" . get_settings('siteurl') . "/wp-images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
 }
 
 // Path for cookies
