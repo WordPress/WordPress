@@ -1,8 +1,5 @@
 <?php
 
-/* This file sets various arrays and variables for use in WordPress */
-require(ABSPATH . 'wp-includes/version.php');
-
 // On which page are we ?
 $PHP_SELF = $_SERVER['PHP_SELF'];
 if (preg_match('#([^/]+.php)#', $PHP_SELF, $self_matches)) {

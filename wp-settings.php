@@ -35,15 +35,15 @@ define('WPINC', 'wp-includes');
 require_once (ABSPATH . WPINC . '/wp-db.php');
 
 // Table names
-$wpdb->posts               = $table_prefix . 'posts';
-$wpdb->users               = $table_prefix . 'users';
-$wpdb->categories          = $table_prefix . 'categories';
-$wpdb->post2cat            = $table_prefix . 'post2cat';
-$wpdb->comments            = $table_prefix . 'comments';
-$wpdb->links               = $table_prefix . 'links';
-$wpdb->linkcategories      = $table_prefix . 'linkcategories';
-$wpdb->options             = $table_prefix . 'options';
-$wpdb->postmeta            = $table_prefix . 'postmeta';
+$wpdb->posts            = $table_prefix . 'posts';
+$wpdb->users            = $table_prefix . 'users';
+$wpdb->categories       = $table_prefix . 'categories';
+$wpdb->post2cat         = $table_prefix . 'post2cat';
+$wpdb->comments         = $table_prefix . 'comments';
+$wpdb->links            = $table_prefix . 'links';
+$wpdb->linkcategories   = $table_prefix . 'linkcategories';
+$wpdb->options          = $table_prefix . 'options';
+$wpdb->postmeta         = $table_prefix . 'postmeta';
 
 if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;
@@ -76,9 +76,16 @@ $wpdb->show_errors();
 require (ABSPATH . WPINC . '/functions-formatting.php');
 require (ABSPATH . WPINC . '/functions-post.php');
 require (ABSPATH . WPINC . '/classes.php');
-require (ABSPATH . WPINC . '/template-functions.php');
+require (ABSPATH . WPINC . '/template-functions-general.php');
+require (ABSPATH . WPINC . '/template-functions-links.php');
+require (ABSPATH . WPINC . '/template-functions-author.php');
+require (ABSPATH . WPINC . '/template-functions-post.php');
+require (ABSPATH . WPINC . '/template-functions-category.php');
+require (ABSPATH . WPINC . '/comment-functions.php');
+require (ABSPATH . WPINC . '/feed-functions.php');
 require (ABSPATH . WPINC . '/links.php');
 require (ABSPATH . WPINC . '/kses.php');
+require (ABSPATH . WPINC . '/version.php');
 
 if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF'], 'wp-admin/import')) :
     $querystring_start = '?';
