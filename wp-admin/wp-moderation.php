@@ -47,16 +47,6 @@ case 'update':
 	if ($user_level < 3) {
 		die('<p>Your level is not high enough to moderate comments. Ask for a promotion from your <a href="mailto:$admin_email">blog admin</a>. :)</p>');
 	}
-	
-	// check if comment moderation is turned on in the settings
-	// if not, just give a short note and stop
-	if ('none' == get_settings('comment_moderation')) {
-	    echo '<div class="wrap">
-		<p>Comment moderation has been turned off.</p>
-		</div>';
-	    require('b2footer.php');
-	    exit;
-	}	
 
 	$item_ignored = 0;
 	$item_deleted = 0;
@@ -105,15 +95,6 @@ default:
 	<li class="last"><a href="wp-moderation.php" class="current">Comments Awaiting Moderation</a></li>
 </ul>
 <?php
-	// check if comment moderation is turned on in the settings
-	// if not, just give a short note and stop
-	if ('none' == get_settings('comment_moderation')) {
-	    echo '<div class="wrap">
-		<p>Comment moderation has been turned off.</p>
-		</div>';
-	    include("b2footer.php");
-	    exit;
-	}	
 
 	// if we come here after deleting/approving comments we give
 	// a short overview what has been done
@@ -170,9 +151,9 @@ if ($comments) {
 <p><?php
 echo "<a href=\"wp-post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">Edit</a>";
 				echo " | <a href=\"wp-post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete just this comment</a> | "; ?>Bulk action:
-	<label><input type="radio" name="comment[$comment->comment_ID]" value="approve" /> Approve</label>
-	<label><input type="radio" name="comment[$comment->comment_ID]" value="delete" /> Delete</label>
-	<label><input type="radio" name="comment[$comment->comment_ID]" value="later" checked="checked" /> Do nothing</label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-approve" value="approve" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-approve">Approve</label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-delete" value="delete" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-delete">Delete</label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-nothing" value="later" checked="checked" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-nothing">Do nothing</label>
 
 	</li>
 <?php
