@@ -92,22 +92,11 @@
 <p>WordPress is the official continuation of <a href="http://cafelog.com/">b2/caf&eacute;log</a>, which came from Michel V. The work has been continued by the <a href="http://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="http://wordpress.org/donate/">donating</a>. </p>
 
 <h1>Upgrading from another system</h1>
-<p>WordPress can <a href="wp-admin/import.php">import from a number of systems</a>. First you need to get WordPress installed and working as described above.</p>
+<p>WordPress can <a href="http://codex.wordpress.org/Importing_from_other_blogging_software">import from a number of systems</a>. First you need to get WordPress installed and working as described above.</p>
+
 <h1 id="templates">XML-RPC Interface</h1>
-<p>WordPress has an XMLRPC interface. We currently support the <a href="http://www.blogger.com/developers/api/1_docs/">Blogger API</a>, <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog API</a>, and the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a>. </p>
-<p>The <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog</a> and <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType</a> APIs are currently supported with the following exceptions:</p>
-<ul>
-	<li>mt.supportedTextFilters is a dummy stub function that returns an empty string</li>
-	<li>keywords are not supported in the MovableType API</li>
-</ul>
-<p>Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a> are automatically converted to/from the WordPress <code>&lt;!--more--&gt;</code> tag.</p>
-<p>You can now post to your WordPress blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :)</p>
-<p>Your XMLRPC server/path are as described here: if you login to WordPress on <code>http://example.com/me/wp-login.php</code>, then you have:</p>
-<ul>
-	<li>Server: <code>http://example.com/</code> (some tools will just want the 'example.com' hostname part)</li>
-	<li>Path: <code>/me/xmlrpc.php</code></li>
-	<li>complete URL (just in case): <code>http://example.com/me/xmlrpc.php</code></li>
-</ul>
+<p>You can now post to your WordPress blog with tools like <a href="http://ecto.kung-foo.tv/">Ecto</a>, <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :) You can read more about <a href="http://codex.wordpress.org/XML-RPC_Support">XML-RPC support on the Codex</a>.</p>
+
 <h1>Post via Email</h1>
 <p>You can post from an email client! To set this up go to your &quot;Writing&quot; options screen and fill in the connection details for your secret POP3 account. Then you need to set up <code>wp-mail.php</code> to execute periodically to check the mailbox for new posts. You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your <code>wp-mail.php</code> URL. </p>
 <p> Posting is easy: Any email sent to the address you specify will be posted, with the subject as the title. It is best to keep the address dicrete. The script will <i>delete</i> emails that are successfully posted. </p>
@@ -124,9 +113,14 @@
 <h1> Final notes</h1>
 <ul>
 	<li>If you have any suggestions, ideas, comments, or if you (gasp!) found a bug, join us in the <a href="http://wordpress.org/support/">Support Forums</a></li>
-	<li>WordPress now has a robust plugin API that makes extending the code easy. If you are a developer interested in utilizing this see the documentation in the wiki. In most all cases you shouldn't modify any of the core code.</li>
+	<li>WordPress now has a robust plugin API that makes extending the code easy. If you are a developer interested in utilizing this see the <a href="http://codex.wordpress.org/Plugin_API">plugin documentation in the Codex</a>. In most all cases you shouldn't modify any of the core code.</li>
 </ul>
+
+<h1>Share the Love</h1>
+<p>WordPress has no multi-million dollar marketing campaign or celebrity sponsors, but we do have something even better&#8212;you. If you enjoy WordPress please consider telling a friend, setting it up for someone less knowledgable than yourself, or writing the author of a media article that overlooks us.</p>
+
 <h1>Copyright</h1>
-<p>WordPress is released under the <acronym title="GNU Public License">GPL</acronym> (see <a href="license.txt">license.txt</a>).</p>
+<p>WordPress is released under the <abbr title="GNU Public License">GPL</abbr> (see <a href="license.txt">license.txt</a>).</p>
+
 </body>
 </html>
