@@ -327,9 +327,9 @@ function wp_list_pages($args = '') {
 		// ts field.
 		if (! empty($r['show_date'])) {
 			if ('modified' == $r['show_date'])
-				$page_tree[$page->ID]['ts'] = $page->date_modified;
+				$page_tree[$page->ID]['ts'] = $page->time_modified;
 			else
-				$page_tree[$page->ID]['ts'] = $page->date_created;				
+				$page_tree[$page->ID]['ts'] = $page->time_created;
 		}
 
 		// The tricky bit!!
