@@ -67,6 +67,9 @@ function StaticizeCallback($buffer) {
 		return $buffer;
 	endif;
 
+	if ( strstr($buffer, 'wpdberror') )
+		return $buffer;
+
 	$fr = fopen(CACHE_PATH . $staticFileName, 'a');
 	chmod(CACHE_PATH . $staticFileName, 0666);
 	if (!$fr)
@@ -141,7 +144,7 @@ function staticize_header() {
 	}
 }
 
-if(function_exists('add_action')) {
+if( function_exists('add_action') ) {
 	StaticizeInit();
 
 	add_action('publish_post', 'postChange', 0);

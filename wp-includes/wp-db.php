@@ -93,7 +93,7 @@ class wpdb {
 		if ( $this->show_errors ) {
 			// If there is an error then take note of it
 			print "<div id='error'>
-			<p><strong>Database error:</strong> [$str]<br />
+			<p class='wpdberror'><strong>WordPress database error:</strong> [$str]<br />
 			<code>$this->last_query</code></p>
 			</div>";
 		} else {
