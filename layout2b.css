@@ -1,183 +1,97 @@
-/* 
-credit for the original concept and core of the layout comes courtesy of Rob Chandanais via:
-http://bluerobot.com/web/layouts/layout2.html
-
-used as default layout for b2, with permission from Dean Peters,
-who first adapted it ( http://www.deanpeters.com/b2 )
+/* Default WordPress by Matthew Mullenweg http://photomatt.net
+    This is just a basic layout, with only the bare minimum defined.
+	 Please tweak this and make it your own. :)
 */
 
-body {
-	margin:0px;
-	padding:0px;
-	font-family:verdana, arial, helvetica, sans-serif;
-	color:#333;
-	background-color:white;
-	}
-h2 {
-	border-bottom:1px solid #999;
-	border-right:1px solid #999;
-	margin:15px 300px 15px 0px;
-	padding:6px;
-	font-size:14px;
-	line-height:14px;
-	font-weight:700;
-	background-color:#eee;
-	color:#09c;
-}
-
-h1, h4, h5, .storyTitle, .storyCategory, .storyAuthor {
-	margin:15px 0px 10px 0px;
-	padding:0px;
-	font-size:28px;
-	line-height:28px;
-	font-weight:900;
-	color:#ccc;
-	}
-h4, h5, .storyTitle, .storyCategory, .storyAuthor { 
-	font-size:12px;
-	line-height:12px;
-	font-weight:800;
-	color:#999;
-
-}	
-.storyCategory, .storyAuthor {
-	font-size:10px;
-	line-height:10px;
-}
-h5, .storyAuthor {
-	font-size:10px;
-	font-style:italic;
-}
-p, .storyContent {
-	font:11px/20px verdana, arial, helvetica, sans-serif;
-	margin:0px 15px 0px 20px;
-	padding:0px;
-	}
-#content>p {margin:0px;}
-#content>p+p {text-indent:30px;}
-
-.storyContent {
-	font:11px/16px verdana, arial, helvetica, sans-serif;
-}
-
-#content>.storyContent {margin:0px;}
-#content>.storyContent+.storyContent {text-indent:30px;}
-
-.storyExcerpt {
-	font:12px/18px verdana, arial, helvetica, sans-serif;
-	font-weight: bold;
-}
-
 a {
-	color:#09c;
-	font-size:11px;
-	text-decoration:none;
-	font-weight:600;
-	font-family:verdana, arial, helvetica, sans-serif;
-	}
-a:link {color:#09c;}
-a:visited {color:#07a;}
-a:hover {background-color:#eee;}
+	color: #069;
+}
 
-#header {
-	margin:50px 0px 10px 0px;
-	padding:17px 0px 0px 20px;
-	/* For IE5/Win's benefit height = [correct height] + [top padding] + [top and bottom border widths] */
-	height:33px; /* 14px + 17px + 2px = 33px */
-/*	border-style:solid;
-	border-color:black;
-	border-width:1px 0px;
-*/ /* top and bottom borders: 1px; left and right borders: 0px */
-	border-bottom:1px solid #999;
-	border-right:1px solid #999;
-	line-height:11px;
-	background-color:#eee;
+a:visited {
+	color: #039;
+}
 
-/* Here is the ugly brilliant hack that protects IE5/Win from its own stupidity. 
-Thanks to Tantek Celik for the hack and to Eric Costello for publicizing it. 
-IE5/Win incorrectly parses the "\"}"" value, prematurely closing the style 
-declaration. The incorrect IE5/Win value is above, while the correct value is 
-below. See http://glish.com/css/hacks.asp for details. */
-	voice-family: "\"}\"";
-	voice-family:inherit;
-	height:14px; /* the correct height */
-	}
-/* I've heard this called the "be nice to Opera 5" rule. Basically, it feeds correct 
-length values to user agents that exhibit the parsing error exploited above yet get 
-the CSS box model right and understand the CSS2 parent-child selector. ALWAYS include
-a "be nice to Opera 5" rule every time you use the Tantek Celik hack (above). */
-body>#header {height:14px;}
+a:hover {
+	color: #39c;
+}
 
+body {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	margin: 0;
+}
 
-#header a {
-	font-size:18px;
-	font-weight:800;
+h2 {
+	border-bottom: 2px solid #ccc;
+	margin-bottom: 2px;
+}
+
+p {
+	line-height: 130%;
+}
+
+.credit {
+	font-size: 11px;
+	text-align: center;
+}
+
+.feedback {
+	text-align: right;
 }
 
 #content {
-	margin:0px 210px 50px 10px;
-	padding:10px;
-	}
+	: ;
+	margin: 0 160px 0 20px;
+}
 
-#contentcomments {
-	margin:0px 0px 50px 10px;
-	padding:10px;
-	}
+#header {
+	background-color: #808080;
+	padding-left: 10px;
+}
+
+#header a {
+	color: #fff;
+	text-decoration: none;
+}
 
 #menu {
-	position:absolute;
-	top:100px;
-	right:20px;
-	width:172px;
-	padding:10px;
-	background-color:#eee;
-	border-bottom:1px solid #999;
-	border-right:1px solid #999;
-	line-height:17px;
-/* Again, the ugly brilliant hack. */
-	voice-family: "\"}\"";
-	voice-family:inherit;
-	width:150px;
-	}
-/* Again, "be nice to Opera 5". */
-body>#menu {width:150px;}
-
-#menu a {
-   margin: 0px 0px 0px 0px;
-   padding: 0px 0px 0px 10px;
+	background-color: #000;
+	border-left: 2px solid #666;
+	position: absolute;
+	right: 0;
+	top: 70px;
+	width: 150px;
 }
 
-#menu h4 {
-	margin: 12px 0px 4px 0px;
+#menu ul {
+	color: #ccc;
+	font-variant: small-caps;
+	font-weight: bold;
+	list-style-type: none;
+	margin: 0;
+	padding-left: 3px;
 }
 
-#chaff {
-    text-align: right; 
-}
-#chaff a {
-   color: #fff;
-   font-size:2px;
-}
-#chaff a:link { color: #fff; }
-#chaff a:visited { color: #fff; }
-#chaff a:hover { background-color:#fff; }
-
-.centerP {
-    text-align: center; 
+#menu ul ul {
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 100%;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
 }
 
-#contentcomments input, #content input, #menu input {
-	margin: 1px;
-	padding: 1px 1px 4px 1px;
-	border: 1px solid #ccc;
-	font:11px/14px verdana, arial, helvetica, sans-serif;
+#menu ul ul li {
+	line-height: 115%;
+	padding-left: 12px;
 }
-#contentcomments textarea, #content textarea, #menu textarea {
-	margin: 1px;
-	padding: 1px;
-	border: 1px solid #ccc;
-	font:11px/14px verdana, arial, helvetica, sans-serif;
+
+#menu ul ul li a {
+	color: #fff;
+	height: 13px;
+	text-decoration: none;
 }
-.commentfield {
-	margin-bottom: 4px;
+
+#menu ul ul li a:hover {
+	border-bottom: 1px solid #ccc;
 }
