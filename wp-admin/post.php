@@ -342,21 +342,8 @@ case 'editpost':
 		$datemodif_gmt = '';
 	}
 
-	if ($_POST['save']) {
-		$location = $_SERVER['HTTP_REFERER'];
-	} elseif ($_POST['updatemeta']) {
-		$location = $_SERVER['HTTP_REFERER'] . '&message=2#postcustom';
-	} elseif ($_POST['deletemeta']) {
-		$location = $_SERVER['HTTP_REFERER'] . '&message=3#postcustom';
-	} elseif (isset($_POST['referredby']) && $_POST['referredby'] != $_SERVER['HTTP_REFERER']) {
-		$location = $_POST['referredby'];
-	} else {
-		$location = 'post.php';
-	}
-	header ('Location: ' . $location); // Send user on their way while we keep working
-
-		$now = current_time('mysql');
-		$now_gmt = current_time('mysql', 1);
+	$now = current_time('mysql');
+	$now_gmt = current_time('mysql', 1);
 
 	$result = $wpdb->query("
 		UPDATE $wpdb->posts SET
@@ -377,6 +364,21 @@ case 'editpost':
 			menu_order = '$menu_order',
 			post_parent = '$post_parent'
 		WHERE ID = $post_ID ");
+
+	if ($_POST['save']) {
+		$location = $_SERVER['HTTP_REFERER'];
+	} elseif ($_POST['updatemeta']) {
+		$location = $_SERVER['HTTP_REFERER'] . '&message=2#postcustom';
+	} elseif ($_POST['deletemeta']) {
+		$location = $_SERVER['HTTP_REFERER'] . '&message=3#postcustom';
+	} elseif (isset($_POST['referredby']) && $_POST['referredby'] != $_SERVER['HTTP_REFERER']) {
+		$location = $_POST['referredby'];
+		if ( $_POST['referredby'] == 'redo' )
+			$location = get_permalink( $post_ID );
+	} else {
+		$location = 'post.php';
+	}
+	header ('Location: ' . $location); // Send user on their way while we keep working
 
 	// Meta Stuff
 	if ($_POST['meta']) :

@@ -9,6 +9,13 @@ if (0 == $post_ID) {
 	$form_action = 'editpost';
 	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
 }
+
+$sendto = $_SERVER['HTTP_REFERER'];
+
+if ( $sendto == get_permalink($post) )
+	$sendto = 'redo';
+$sendto = wp_specialchars( $sendto );
+
 ?>
 
 <form name="post" action="post.php" method="post" id="post">
@@ -79,7 +86,7 @@ edCanvas = document.getElementById('content');
 
 <p class="submit">
   <input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Edit Page') :_e('Create New Page') ?> &raquo;" /> 
-  <input name="referredby" type="hidden" id="referredby" value="<?php if (isset($_SERVER['HTTP_REFERER'])) echo wp_specialchars($_SERVER['HTTP_REFERER']); ?>" />
+  <input name="referredby" type="hidden" id="referredby" value="<?php echo $sendto; ?>" />
 </p>
 
 <fieldset id="pageoptions">
