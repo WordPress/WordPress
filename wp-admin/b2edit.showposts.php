@@ -225,6 +225,7 @@ if ($i == "ASC")
 	// these lines are b2's "motor", do not alter nor remove them
 	include($abspath.'blog.header.php');
 
+	if ($posts) {
 	foreach ($posts as $post) {
         $posts_per_page = 10;
         start_b2(); ?>
@@ -315,6 +316,17 @@ if ($i == "ASC")
 	<?php
 
 	} // end b2 loop
+	
+	} else {
+
+		?>
+		<p>
+		<strong>No results found.</strong>
+		</p>
+		
+		<?php
+	} // end if ($posts)
+
 	?>
 
 </div>
