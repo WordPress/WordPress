@@ -81,6 +81,7 @@ case 'upload':
 
 	$img1_name = (strlen($imgalt)) ? $imgalt : basename( $_FILES['img1']['name'] );
 	$img1_name = preg_replace('/[^a-z0-9.]/i', '', $img1_name); 
+	$img1_size = $_POST['img1_size'] ? intval($_POST['img1_size']) : intval($_FILES['img1']['size']);
 
 	$img1_type = (strlen($imgalt)) ? $_POST['img1_type'] : $_FILES['img1']['type'];
 	$imgdesc = htmlentities2($imgdesc);
