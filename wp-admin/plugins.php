@@ -76,7 +76,7 @@ if (empty($plugins)) {
 
 		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
 			$action = "<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
-			$plugin = "<strong>$plugin</strong>";
+			$plugin_data['Title'] = "<strong>{$plugin_data['Title']}</strong>";
 		} else {
 			$action = "<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
