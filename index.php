@@ -27,7 +27,7 @@ require($abspath.'wp-links/links.php');
 
 <div id="content">
 
-<?php foreach ($posts as $post) { start_b2(); ?>
+<?php if ($posts) { foreach ($posts as $post) { start_b2(); ?>
 <?php the_date('','<h2>','</h2>'); ?>
 
  <h3 class="storytitle">
@@ -49,11 +49,11 @@ require($abspath.'wp-links/links.php');
 
 <?php include('b2comments.php'); ?>
 
-	<?php } ?> 
+	<?php } } // end foreach, end if any posts ?> 
 
 </div>
 
-<p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite></p>
+<p class="credit"><?php timer_stop(1); ?> <cite>Powered by <a href="http://wordpress.org"><strong>WordPress</strong></a></cite></p>
 
 
 <div id="menu">
