@@ -45,8 +45,8 @@ header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
 
 // If someone has moved WordPress let's try to detect it
-if ( dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) != get_settings('siteurl') )
-	update_option('siteurl', dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) );
+if ( dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']) != get_settings('siteurl') )
+	update_option('siteurl', dirname('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME']) );
 
 switch($action) {
 
