@@ -2,8 +2,11 @@
 $_wp_installing = 1;
 if (!file_exists('../wp-config.php')) 
     die("There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started. Need more help? <a href='http://wordpress.org/docs/faq/#wp-config'>We got it</a>. You can <a href='wp-admin/setup-config.php'>create a <code>wp-config.php</code> file through a web interface</a>, but this doesn't work for all server setups. The safest way is to manually create the file.");
+
 require_once('../wp-config.php');
 require('upgrade-functions.php');
+
+$guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
 
 if (isset($_GET['step']))
 	$step = $_GET['step'];
@@ -14,72 +17,109 @@ else
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &rsaquo; Installation</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<style media="screen" type="text/css">
-
+	<!--
+	html {
+		background: #eee;
+	}
 	body {
-		background-color: white;
-		color: black;
+		background: #fff;
+		color: #000;
 		font-family: Georgia, "Times New Roman", Times, serif;
-		margin-left: 15%;
-		margin-right: 15%;
+		margin-left: 20%;
+		margin-right: 20%;
+		padding: .2em 2em;
+	}
+	
+	h1 {
+		color: #006;
+		font-size: 18px;
+		font-weight: lighter;
+	}
+	
+	h2 {
+		font-size: 16px;
+	}
+	
+	p, li, dt {
+		line-height: 140%;
+		padding-bottom: 2px;
+	}
+
+	ul, ol {
+		padding: 5px 5px 5px 20px;
 	}
 	#logo {
-		margin: 0;
-		padding: 0;
-		background-image: url(http://wordpress.org/images/wordpress.gif);
-		background-repeat: no-repeat;
-		height: 60px;
-		border-bottom: 4px solid #333;
+		margin-bottom: 2em;
 	}
-	#logo a {
-		display: block;
-		height: 60px;
-	}
-	#logo a span {
-		display: none;
-	}
-	p, li {
-		line-height: 140%;
-	}
-
+.step a, .step input {
+	font-size: 2em;
+}
+.step, th {
+	text-align: right;
+}
+#footer {
+text-align: center; border-top: 1px solid #ccc; padding-top: 1em; font-style: italic;
+}
+	-->
 	</style>
 </head>
 <body>
-<h1 id="logo"><a href="http://wordpress.org"><span>WordPress</span></a></h1>
+<h1 id="logo"><img alt="WordPress" src="http://static.wordpress.org/logo.png" /></h1>
 <?php
-// Let's check to make sure WP isn't already installed.
 
+// Let's check to make sure WP isn't already installed.
 $wpdb->hide_errors();
 $installed = $wpdb->get_results("SELECT * FROM $wpdb->users");
-if ($installed) die(__('<p>You appear to already have WordPress installed. If you would like to reinstall please clear your old database files first.</p></body></html>'));
+if ($installed) die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p></body></html>'));
 $wpdb->show_errors();
+
 switch($step) {
 
 	case 0:
 ?>
-<p>Welcome to WordPress. We&#8217;re now going to go through a few steps to get
-  you up and running with the latest in personal publishing platforms. Before
-  we get started, remember that we require a PHP version of at least 4.1.0, you
-  have <?php echo phpversion(); ?>. Look good? You also need to set up the database
-  connection information in <code>wp-config.php</code>. Have you looked at the
-  <a href="../readme.html">readme</a>? If you&#8217;re all ready, <a href="install.php?step=1">let's
-  go</a>! </p>
+<p>Welcome to WordPress installation. We&#8217;re now going to go through a few steps to get you up and running with the latest in personal publishing platforms. You may want to peruse the <a href="../readme.html">ReadMe documentation</a> at your leisure.</p>
+<h2 class="step"><a href="install.php?step=1">First Step &raquo;</a></h2>
 <?php
 	break;
 
 	case 1:
 ?>
-<h1>Step 1</h1>
-<p>Okay first we&#8217;re going to set up the links database. This will allow you to host your own blogroll, complete with Weblogs.com updates.</p>
+<h1>First Step</h1>
+<p>Before we begin we need a little bit of information. Don't worry, you can always change these later. </p>
+
+<form name="form1" id="form1" method="post" action="install.php?step=2">
+<table width="100%">
+<tr>
+<th width="33%">Weblog title:</th>
+<td><input name="weblog_title" type="text" id="weblog_title" size="25" /></td>
+</tr>
+<tr>
+	<th>Your e-mail:</th>
+	<td><input name="admin_email" type="text" id="admin_email" size="25" /></td>
+</tr>
+</table>
+<h2 class="step">
+	<input type="submit" name="Submit" value="Continue to Second Step &raquo;" />
+</h2>
+</form>
+
+<?php
+	break;
+	case 2:
+$weblog_title = addslashes(stripslashes(stripslashes($_POST['weblog_title'])));
+$admin_email = addslashes(stripslashes(stripslashes($_POST['admin_email'])));
+?>
+<h1>Second Step</h1>
+<p>Now we&#8217;re going to create the database tables and fill them with some default data.</p>
+
 <?php
 
 $got_links = false;
 $got_cats = false;
 $got_row = false;
 ?>
-<p>Installing WP-Links.</p>
-<p>Checking for tables...</p>
 <?php
 $result = mysql_list_tables(DB_NAME);
 if (!$result) {
@@ -96,7 +136,6 @@ while ($row = mysql_fetch_row($result)) {
     //print "Table: $row[0]<br />\n";
 }
 if (!$got_cats) {
-    echo "<p>Can't find table '$wpdb->linkcategories', gonna create it...</p>\n";
     $sql = "CREATE TABLE $wpdb->linkcategories ( " .
            " cat_id int(11) NOT NULL auto_increment, " .
            " cat_name tinytext NOT NULL, ".
@@ -115,15 +154,12 @@ if (!$got_cats) {
            ") ";
     $result = mysql_query($sql) or print ("Can't create the table '$wpdb->linkcategories' in the database.<br />" . $sql . "<br />" . mysql_error());
     if ($result != false) {
-        echo "<p>Table '$wpdb->linkcategories' created OK</p>\n";
         $got_cats = true;
     }
 } else {
-    echo "<p>Found table '$wpdb->linkcategories', don't need to create it...</p>\n";
         $got_cats = true;
 }
 if (!$got_links) {
-    echo "<p>Can't find '$wpdb->links', gonna create it...</p>\n";
     $sql = "CREATE TABLE $wpdb->links ( " .
            " link_id int(11) NOT NULL auto_increment,           " .
            " link_url varchar(255) NOT NULL default '',         " .
@@ -149,47 +185,29 @@ if (!$got_links) {
 
 
     if ($result != false) {
-        echo "<p>Table '$wpdb->links' created OK</p>\n";
         $got_links = true;
     }
 } else {
-    echo "<p>Found table '$wpdb->links', don't need to create it...</p>\n";
         $got_links = true;
 }
 
 if ($got_links && $got_cats) {
-    echo "<p>Looking for category 1...</p>\n";
     $sql = "SELECT * FROM $wpdb->linkcategories WHERE cat_id=1 ";
     $result = mysql_query($sql) or print ("Can't query '$wpdb->linkcategories'.<br />" . $sql . "<br />" . mysql_error());
     if ($result != false) {
         if ($row = mysql_fetch_object($result)) {
-            echo "<p>You have at least 1 category. Good!</p>\n";
             $got_row = true;
         } else {
-            echo "<p>Gonna insert category 1...</p>\n";
             $sql = "INSERT INTO $wpdb->linkcategories (cat_id, cat_name) VALUES (1, 'Links')";
             $result = mysql_query($sql) or print ("Can't query insert category.<br />" . $sql . "<br />" . mysql_error());
             if ($result != false) {
-                echo "<p>Inserted category Ok</p>\n";
                 $got_row = true;
             }
         }
     }
 }
 
-if ($got_row) {
-    echo "<p>All done!</p>\n";
-}
 ?>
-<p>Did you defeat the boss monster at the end? Great! You&#8217;re ready for <a href="install.php?step=2">Step
-  2</a>.</p>
-<?php
-	break;
-	case 2:
-?>
-<h1>Step 2</h1>
-<p>First we&#8217;re going to create the necessary blog tables in the database...</p>
-
 <?php
 # Note: if you want to start again with a clean b2 database,
 #       just remove the // in this file
@@ -228,8 +246,6 @@ $query = "CREATE TABLE $wpdb->posts (
 $q = $wpdb->query($query);
 ?>
 
-<p>The first table has been created! ...</p>
-
 <?php
 $now = date('Y-m-d H:i:s');
 $now_gmt = gmdate('Y-m-d H:i:s');
@@ -237,8 +253,6 @@ $query = "INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_
 
 $q = $wpdb->query($query);
 ?>
-
-<p>The test post has been inserted correctly...</p>
 
 <?php
 // $query = "DROP TABLE IF EXISTS $wpdb->categories";
@@ -260,8 +274,6 @@ $q = $wpdb->query($query);
 $query = "UPDATE $wpdb->posts SET post_category = 1";
 $result = $wpdb->query($query);
 ?>
-
-<p>Categories are up and running...</p>
 
 <?php
 // $query = "DROP TABLE IF EXISTS $wpdb->comments";
@@ -290,8 +302,6 @@ $query = "INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_
 $q = $wpdb->query($query);
 ?>
 
-<p>Comments are groovy...</p>
-
 <?php
 $query = "
 	CREATE TABLE $wpdb->postmeta (
@@ -309,8 +319,6 @@ $q = $wpdb->query($query);
 
 
 ?>
-
-<p>Post metadata table ready to go...</p>
 
 <?php
 // $query = "DROP TABLE IF EXISTS $wpdb->options";
@@ -394,8 +402,6 @@ $q = $wpdb->query($query);
 
 ?>
 
-<p>Option Tables created okay.</p>
-
 <?php
 
 $option_data = array(
@@ -409,14 +415,14 @@ $option_data = array(
 "INSERT INTO $wpdb->optiontypes (optiontype_id, optiontype_name) VALUES (8, 'float')",
 
 //base options from b2cofig
-"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(1,'siteurl', 3, 'http://example.com', 'siteurl is your blog\'s URL: for example, \'http://example.com/wordpress\' (no trailing slash !)', 8, 30)",
+"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(1,'siteurl', 3, '$guessurl', 'siteurl is your blog\'s URL: for example, \'http://example.com/wordpress\' (no trailing slash !)', 8, 30)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(2,'blogfilename', 3, 'index.php', 'blogfilename is the name of the default file for your blog', 8, 20)",
-"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(3,'blogname', 3, 'My Weblog', 'blogname is the name of your blog', 8, 20)",
+"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(3,'blogname', 3, '$weblog_title', 'blogname is the name of your blog', 8, 20)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(4,'blogdescription', 3, 'My WordPress weblog', 'blogdescription is the description of your blog', 8, 40)",
 //"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(6,'search_engine_friendly_urls', 2, '0', 'Querystring Configuration ** (don\'t change if you don\'t know what you\'re doing)', 8, 20)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(7,'new_users_can_blog', 2, '0', 'whether you want new users to be able to post entries once they have registered', 8, 20)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(8,'users_can_register', 2, '1', 'whether you want to allow users to register on your blog', 8, 20)",
-"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(54,'admin_email', 3, 'you@example.com', 'Your email (obvious eh?)', 8, 20)",
+"INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(54,'admin_email', 3, '$admin_email', 'Your email (obvious eh?)', 8, 20)",
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level) VALUES (93, 'blog_charset', 3, 'utf-8', 'Your blog&#8217;s charset (here&#8217;s a <a href=\'http://developer.apple.com/documentation/macos8/TextIntlSvcs/TextEncodingConversionManager/TEC1.5/TEC.b0.html\'>list of possible charsets</a>)', 8)",
 // general blog setup
 "INSERT INTO $wpdb->options (option_id, option_name, option_type, option_value, option_description, option_admin_level, option_width) VALUES(9 ,'start_of_week', 5, '1', 'day at the start of the week', 8, 20)",
@@ -589,7 +595,6 @@ foreach ($option_data as $query) {
 }
 ?>
 
-<p>Option Data inserted okay.</p>
 
 
 <?php
@@ -654,7 +659,6 @@ foreach ($links_option_data as $query) {
 }
 ?>
 
-<p>Links option data inserted okay.</p>
 
 <?php
 $geo_option_data = array(
@@ -678,37 +682,16 @@ foreach ($geo_option_data as $query) {
 }
 ?>
 
-<p>Geo option data inserted okay.</p>
-
-
-<p>OK. We're nearly done now. We just need to ask you a couple of things:</p>
-<form action="install.php?step=3" method="post">
-<input type="hidden" name="step" value="3" />
-<p>What is the web address of your WordPress installation? (We probably guessed it for you correctly.) <br />
-<?php
-$guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
-?>
-  <input name="url" type="text" size="60" value="<?php echo $guessurl; ?>" />
-</p>
-<p>On to 
-    <input type="submit" value="Step 3..." />
-</p>
-</form>
+<p>Groovy. We're almost done.</p>
+<h2 class="step"><a href="install.php?step=3">Final Step &raquo;</a></h2>
 
 <?php
 	break;
 	case 3:
 ?>
-<h1>Step 3</h1>
 
-
+<h1>Third Step</h1>
 <?php
-$url = $_REQUEST['url'];
-if (isset($url)) {
-    $query= "UPDATE $wpdb->options set option_value='$url' where option_id=1"; //siteurl
-    $q = $wpdb->query($query);
-}
-
 // $query = "DROP TABLE IF EXISTS $wpdb->users";
 // $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$wpdb->users\" in the database.");
 
@@ -753,12 +736,19 @@ upgrade_all();
   "<code>admin</code>" and <strong>password</strong> "<code><?php echo $random_password; ?></code>".</p>
 <p><strong><em>Note that password</em></strong> carefully! It is a <em>random</em>
   password that was generated just for you. If you lose it, you
-  will have to delete the tables from the database yourself, and re-install WordPress.
+  will have to delete the tables from the database yourself, and re-install WordPress. So to review:
 </p>
+<dl>
+<dt>Login</dt>
+<dd><code>admin</code></dd>
+<dt>Password</dt>
+<dd><code><?php echo $random_password; ?></code></dd>
+</dl>
 <p>Were you expecting more steps? Sorry to disappoint. All done!</p>
 <?php
 	break;
 }
 ?>
+<p id="footer"><a href="http://wordpress.org/">WordPress</a>, personal publishing platform.</p>
 </body>
 </html>
