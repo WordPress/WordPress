@@ -66,7 +66,7 @@
 </head>
 <body> 
 <p style="text-align: center"><img alt="WordPress" src="http://wordpress.org/images/wordpress.gif" /> <br />
-1.0</p> 
+Version 1.0</p> 
 <p style="text-align: center">Weblog / News Publishing Tool</p> 
 <p style="text-align: center"><a href="#requirements">Requirements</a> - <a href="#installation">Installation</a> - <a href="#templates">Template(s)</a> - <a href="#usage">Query String Usage</a> - <a href="#xmlrpc">XML-RPC (Blogging APIs)</a> - <a href="#postviaemail">Post Via Email</a> - <a href="#notes">Notes</a></p> 
 <h1 id="requirements">Requirements:</h1> 
@@ -76,23 +76,24 @@
   <li>... and a link to <a href="http://wordpress.org">http://wordpress.org</a> on your site.</li> 
 </ul> 
 <p>The link will help promote <a href="http://wordpress.org">WordPress</a> and is its only mean of promotion. </p> 
-<p>WordPress is built from b2, which comes from Michel V. We wouldn't be here without him, so why don't you grab him something from his <a href="http://www.amazon.com/exec/obidos/registry-address-select-done/1XKLC38KDUPXR/103-8901342-4908609">wishlist</a>? You can also support the <a href="http://wordpress.org/about/">WordPress developers</a>. </p> 
+<p>WordPress is the official continuation of <a href="http://cafelog.com/">b2</a>, which comes from Michel V. The work has been continued by the <a href="http://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="htp://wordpress.org/donate/">donating</a>. </p> 
 <p>This document is currently <em>beta</em> stage, we'll be updating it extensively as WordPress matures. There is also <a href="http://wordpress.org/docs/">online documentation</a> under development, as well as a <a href="http://wiki.wordpress.org">wiki</a>.</p> 
 <h1 id="installation">Installation:</h1> 
 <h2>New users: 5-minute install.</h2> 
 <ol> 
   <li>Unzip the package in an empty directory.</li> 
   <li>Upload everything. This release is designed to sit in your root folder; i.e, the folder where your WordPress-powered page will reside.</li> 
-  <li>The weblogs.com cache file needs to be writable by the web server. <a href="http://www.evolt.org/article/A_quick_and_dirty_chmod_Tutorial/18/541/">CHMOD 666</a> the <span class="file"><code>weblogs.com.changes.cache</code></span> file. </li> 
-<li>Point your browser to <span class="file">wp-admin/install-config.php</span>.  This will create a configuration file for your installation.  You'll need to know your database name, username, password, and host name.</li>
- <li>Alternately, you may open <span class="file">wp-config-sample.php</span> in a text editor and insert your database name, username, password, and host name as indicated in the comments. (Comments are lines that start with <code>/*</code> or <code>//</code>.)  Save this file as <span class="file">wp-config.php</span>, and upload it.</li>
- <li> Launch <span class="file">/wpfolder/wp-admin/install.php</a></span> in your browser. This should setup the MySQL database for your blog. <strong>Note the password given to you.</strong> If there is an error, double check your <span class="file">wp-config.php</span> file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). </li>
-  <li> During step 2 of the installation, make sure you enter a fully-qualified domain name for your blog url. For example: <span class="file">http://www.yoursite.com/wordpress</span> .  Make sure there is no trailing slash at the end of the url.</li>
- <li> The install script should then send you to the login page.  Sign in with the username "admin" and the password generated during the installation.  Then click on the item 'My Profile', and change the password.  The login page may also be accessed by going to <span class="file">/wpfolder/wp-login.php</span>. Note: you need javascript enabled to launch the profile popup window.</li> 
+  <li>(Optional) If you're going to use it, the weblogs.com cache file needs to be writable by the web server. <a href="http://www.evolt.org/article/A_quick_and_dirty_chmod_Tutorial/18/541/">CHMOD 666</a> the <span class="file"><code>weblogs.com.changes.cache</code></span> file. </li> 
+  <li>
+    <p>Point your browser to <span class="file">wp-admin/install-config.php</span>.  This will create a configuration file for your installation.  You'll need to know your database name, username, password, and host name.</p>
+    <p>Alternately, you may open <span class="file">wp-config-sample.php</span> in a text editor and insert your database name, username, password, and host name as indicated in the comments. (Comments are lines that start with <code>/*</code> or <code>//</code>.)  Save this file as <span class="file">wp-config.php</span>, and upload it.</p>
+  </li>
+  <li> Launch <span class="file"><a href="wp-admin/install.php">/wp-admin/install.php</a></a></span> in your browser. This should setup the MySQL database for your blog. <strong>Note the password given to you.</strong> If there is an error, double check your <span class="file">wp-config.php</span> file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> and make a post with all the information about the failure (error messages, etc), and your setup (the PHP and MySQL versions on your server, and the browser you were using). </li>
+  <li> The install script should then send you to the login page.  Sign in with the username "admin" and the password generated during the installation.  Then click on the item 'My Profile', and change the password.  The login page may also be accessed by going to <span class="file"><a href="wp-login.php">wp-login.php</a></span>.</li> 
 </ol> 
 <h2>Some notes:</h2> 
 <ul> 
-  <li>Whenever you want to post something, just open a browser and go to <span class="file">wp-login.php</span> to log in and post.</li> 
+  <li>Whenever you want to post something, just open a browser and go to <span class="file"><a href="wp-login.php">wp-login.php</a></span> to log in and post.</li> 
   <li>You can also use a bookmarklet and/or a sidebar (IE5+/NS6+) to post.</li> 
   <li> You can also post through the Blogger, MetaWeblog, and MovableType APIs, <a href="#xmlrpc">click here</a> for more info.</li> 
   <li> By default, your site's blog is located at <span class="file">index.php</span>, which is an elaborate .CSS-based template.  There is a non-.CSS template you can also use, called <span class="file">wp.php</span>. You can rename either of these files as any other name you fancy (provided it bears the php extension or is interpreted as a php file by your server).</li>  
@@ -102,13 +103,13 @@
  <ul><li><strong>Back up</strong> your database before you do anything. </li> 
   <li>If you haven't already, we strongly suggest that you <strong>BACK UP</strong> your database.</li>
   <li>Have you <strong>BACKED UP</strong> your database? Yeah? GREAT!</li>
-  <li>If you don't know how to do this, <a href="http://wordpress.org/support/10/1384">this script</a> can help.</li>
-  </ul>
+  <li>If you don't know how to do this, <a href="http://wordpress.org/support/10/1384">this script</a> may help.</li>
+</ul>
 
-<h2>Upgrading from WordPress v0.7x to v1.0:</h2>
+<h2>Upgrading from any previous WordPress to v1.0:</h2>
 <ul>
 	<li><strong>Backup your database.</strong>  Yes, you.  Right now.</li>
-	<li>Point your browser to <span class="file">/wp-admin/upgrade.php.</span></li>
+	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a>.</span></li>
 	<li>You wanted more, perhaps?  That's it!</li>
 </ul>
 <h2>Note on upgrading to v1.0:</h2>
@@ -126,502 +127,20 @@
   <li>WordPress issues should be discussed in our <a href="http://wordpress.org/support/">support forums</a>.</li> 
 </ul> 
 
-<h2>Upgrading to WordPress v1.0 from Textpattern, GreyMatter, & Blogger</h2>
+<h2>Upgrading to WordPress v1.0 from Movable Type, Textpattern, GreyMatter, & Blogger</h2>
 <ul>
 <li>Did we mention <strong>BACKING UP</strong> your database first?</li>
 <li>Each of these tools has an import script available.  They are all located in the wp-admin directory, and must first be configured with your database information before they are executed.  
 <li>Detailed importing instructions are given during the execution of the import script.
-<li>Textpattern:  run <span class="file">wp-admin/import-textpattern.php</span>.</li>
-<li>GreyMatter: run <span class="file">wp-admin/import-greymatter.php</span>.</li>
-<li>Blogger: run <span class="file">wp-admin/import-blogger.php</span>.</li>
+<li>Textpattern:  run <span class="file"><a href="wp-admin/import-textpattern.php">wp-admin/import-textpattern.php</a></span>.</li>
+<li>GreyMatter: run <span class="file"><a href="wp-admin/import-greymatter.php">wp-admin/import-greymatter.php</a></span>.</li>
+<li>Blogger: run <span class="file"><a href="wp-admin/import-blogger.php">wp-admin/import-blogger.php</a></span>.</li>
+<li>Movable Type: run <a href="wp-admin/import-mt.php" class="file">wp-admin/import-mt.php</a>. </li>
 </ul>
 
-<h1 id="templates">Templates:</h1> 
+<h1 id="templates">Templates:</h1>
+<p>For information about WordPress templates, please see our <a href="http://wordpress.org/docs/template/">online documentation on them</a>. </p>
 <h2>First notes:</h2> 
-<ul> 
-  <li>Enclosed is an example of a template, in the file <span class="file">wp.php</span>. You can rename this file to "index.php"or something else (WordPress 1.0 has a default index.php, which is an elaborate CSS-based template).</li> 
-  <li>You can have any number of template files, since all they do is extract the posts from the database.</li> 
-  <li>The pseudo-template for the comments is in wp-comments.php. You needn't rename this file, but you can edit it.</li> 
-  <li>The only thing to remember is that it's not actually a template, but a PHP file that you're manipulating. So when you see "don't delete this line", you know you mustn't, unless you want to have a broken page.</li> 
-  <li>Required lines are: the first lines that call wp-blog-header.php, the lines with the "while" statement, and the ones with just "}" (it ends the while loop).</li> 
-  <li>Between the "while" line and the "}", is the template for your posts.</li> 
-</ul> 
-<h2>Notes about parameters:</h2> 
-<ol> 
-  <li> Some template tags can accept optional parameters between the parentheses <strong>()</strong>.</li> 
-  <li>To add a parameter to a tag, enclose it between quotes and put it between the <strong>()</strong>.<br /> 
-    Example: <code>&lt;?php my_tag('my parameter'); ?&gt;</code></li> 
-  <li>You may have to put several parameters, for that you separate them with commas.<br /> 
-    Example: <code>&lt;?php my_tag("first param", "second param"); ?&gt;</code></li> 
-  <li>The order of parameters is important. If a function accepts 2 parameters and you only want to set the second one, you still have to provide the first one, and so on for any number of parameters.<br /> 
-    Example: <code>&lt;?php my_tag("", "second param"); ?&gt;</code></li> 
-  <li>Some template tags, like the_date(), display something only in certain conditions. They generally accept parameters to display something before and after them only when they display something.<br />
-  Example: <code>&lt;?php the_title("&lt;h1&gt;", "&lt;/h1&gt;"); ?&gt;</code> would display &lt;h1&gt;title of the post&lt;/h1&gt; only if the post has a title </li> 
-</ol> 
-<h1>Template tags:</h1> 
-
-
-<ul><h2>Blog data tag:</h2>
-<li><strong><span class="tag">&lt;?php bloginfo() ?&gt;</span></strong> <br /> </li>
-This tag is out of the WordPress loop.<br /> 
-It outputs info about your weblog.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>string: can be 'name' to display the name of your weblog (you set it in the options page), 'url', 'description', 'admin_email', 'rss_url' to display the URL of your wp-rss2.php file, 'pingback_url' to display the URL of your xmlrpc.php file<br /> 
-      (default string is 'name')</li> 
-  </ul> 
-</div>
-</ul>
-
-
-<ul><h2> Date and Time tags: </h2>
-
-<li><strong><span class="tag">&lt;?php the_date() ?&gt;</span></strong> <br /></li> 
-The date of the post. example: 03.07.01 (default is dd.mm.yy).<br /> 
-The date is displayed only on new days. For example, if you write 10 posts on the same day, the date is displayed only once.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>format string (default: "d.m.y")</li> 
-    <li>string to display before the date (default is blank)</li> 
-    <li>string to display after the date (default is blank)</li> 
-  </ul> 
-</div>
-<strong>Note about the_date():</strong> If you want all your posts to bear the date, you'll have to use the_time() instead, with a date format string. For example, to have all your posts show as "25.12.2001 @ 8:04:50 AM" you'll have the_time("d.m.Y @ g:i:s A"). You can also repeat this template tag 2 times with 2 different formats: the_time("d.m.Y") for the date, and then later the_time("g:i:s A") for the time of the day.<br />
-<br /> 
-<li><strong><span class="tag">&lt;?php the_time() ?&gt;</span></strong><br /> </li>
-The time of the post. Example: 18:37:00 (default is hh:mm:ss)<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>format string (default: "H:i:s")</li> 
-  </ul> 
-</div>
-<br /> 
-<strong>Note:</strong> You can change the way the date &amp; time are displayed in the Options page.<br />
-Once you understand the format strings for the date &amp; time (explained in the Options page), you can change the display right on the template: for example, you can change <strong>the_date(</strong><em>"d.m.Y"</em><strong>)</strong> to have dates like 25.12.2001, or <strong>the_time(</strong><em>"B"</em><strong>)</strong> to have Swatch Internet Time.<br />
-If you change the display of the date on the template, changing it from the options page won't have any effect. <br /> 
- </ul>
-<br /> 
-<h2>Deprecated date/time tags:</h2>
-<ul>
-<li><span class="tag">&lt;?php the_weekday() ?&gt;</span><br /> </li>
-This displays the day of the week when the post was made. It works like the_time(), in that it would appear at every post. Weekdays can be obtained with a custom date format string in the_time() or the_date(), but for non-english weekdays you have to edit day-month-trans.php<br /> 
-<strong>Note: this tag is OBSOLETE, as the_time() and the_date() now use weekdays/months from day-month-trans.php</strong><br /> 
-<br /> 
-<li><span class="tag">&lt;?php the_weekday_date() ?&gt;</span> <br /> </li>
-Like the_weekday(), but works like the_date(), in that it will appear only on new days.<br /> 
-<strong>Note: this tag is OBSOLETE, the_time() and the_date() now use weekdays/months from day-month-trans.php</strong><br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>string to display before the weekday_date (default is blank)</li> 
-    <li>string to display after the weekday_date (default is blank)</li> 
-  </ul> 
-</div>
-</ul>
-<br /> 
-<br /> 
-<ul><h2>Post/Content tags:</h2>
-
-<li><strong><span class="tag">&lt;?php the_ID() ?&gt;</span></strong><br /></li> 
-The ID (number) of the post. <br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php the_title() ?&gt;</span></strong><br /> </li>
-The title of the post.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>string to display before the title (default is blank)</li> 
-    <li>string to display after the title (default is blank)</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php the_content() ?&gt; </span></strong><br /></li> 
-The text of the post.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>text to display for the link to the complete entry (default is <em>'(more...)'.</em>)</li> 
-    <li>0 or 1, indicating whether you want to show the teaser message when showing the complete text (default is 1).</li> 
-    <li>a filename of another template, if you want the 'more' link to link to a different template for the complete text of the extended entry (default is the current template).</li> 
-  </ul> 
-</div>
-<br /> 
-For example <em>&lt;?php the_content("read more","0","blah.php") ?&gt;</em> would display a link to <em>blah.php</em>, with the link text <em>read more</em>, and won't display the teaser message.<br /> 
-<br /> 
- To enter an extended entry, just type <em>&lt;!--more--&gt;</em> in your entry. The part before that comment is the teaser, the part after it is the extended entry. To force the extended entry to not to show the teaser message, type <em>&lt;!--noteaser--&gt;</em> somewhere in your entry.<br /> 
-<br /> 
- To enter an entry with several pages, just type <em>&lt;!--nextpage--&gt;</em> in your entry to start a new page.<br /> 
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php single_post_title() ?&gt;</span></strong> <br /></li> 
-This tag is out of the WordPress loop.<br /> 
-It outputs the title of the post when you load the page with ?p= (see 'Usage' section for explanation). When the weblog page is loaded without ?p=, this tag doesn't display anything. Generally, you could use it like this:<br />
-&nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_post_title() ?&gt;&lt;/title&gt;<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>prefix string that will appear before the post's title (default is ' :: ')</li> 
-  </ul> 
-</div>
-<br />
-<br />
-<li><strong><span class="tag">&lt;?php next_post() ?&gt;</span></strong> <br /></li>
-Displays a link to the next post(s). (Generally you might want to use this only in single-post templates)<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>format string for the link (default is "%", where % is replaced with the title of the next post)</li> 
-    <li>text to display to announce the link (default is "next post: ")</li> 
-    <li>"yes" or "no": display the title of the post, or no (default is "yes")</li> 
-    <li>"yes" or "no": display a link to the next post only if the next post is in the same category (default is "no")</li> 
-    <li>number: which next post ? If you make it '2', the 2nd next post is linked instead of the 1st next one (default is "1", which means first next post)</li> 
-  </ul> 
-</div>
-<br /> 
-<br />
-<li><strong><span class="tag">&lt;?php single_month_title() ?&gt;</span></strong><br /><li> 
-This tag is out of the WordPress loop.<br /> 
-It outputs the name of the month when you load the page with ?m= (see 'Usage' section for explanation). When the weblog page is loaded without ?m=, this tag doesn't display anything. Generally, you could use it like this:<br />
-&nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_month_title() ?&gt;&lt;/title&gt;<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>prefix string that will appear before the month's name (default is ' :: ')</li> 
-  </ul> 
-</div>
-<br />
-<br />
-<li><strong><span class="tag">&lt;?php previous_post() ?&gt;</span></strong><br /></li>
-Displays a link to the previous post(s). (Generally you might want to use this only in single-post templates)<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>format string for the link (default is "%", where % is replaced with the title of the previous post)</li> 
-    <li>text to display to announce the link (default is "previous post: ")</li> 
-    <li>"yes" or "no": display the title of the post, or no (default is "yes")</li> 
-    <li>"yes" or "no": display a link to the next post only if the previous post is in the same category (default is "no")</li> 
-    <li>number: which previous post ? If you make it '2', the 2nd previous post is linked instead of the 1st previous post (default is "1", which means first previous post)</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php next_posts() ?&gt;</span></strong> <br /></li> 
-Display the URL portion of a link to the next set of posts. <br />
-Generally you would use this in a template to navigate to the next "set" of posts when the "Show Options" settings for the site is set to "posts paged". The displayed string can be used to construct a link. When the site options are not set to 'posts paged", the next_posts() and previous_posts() functions will display nothing.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>Max page number to use. Default "0"; no limit</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php next_posts_link() ?&gt;</span></strong> <br /></li>
-Displays a full link to the next "set" of posts only if show options set to "posts paged" and only if there is another page or partial page of data.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>A user supplied string. Default "Next Page &gt;&gt;"</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php previous_posts() ?&gt;</span></strong> <br /></li>
-Displays the URL portion of a link to the previous posts.<br />
-Generally you would use this in a template to navigate to the previous "set" of posts when the "Show Options" settings for the site is set to "posts paged". The displayed string can then be used to construct a link. When the site options are not set to 'posts paged", the next_posts() and previous_posts() functions will display nothing.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>No parameters.</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php previous_posts_link() ?&gt;</span></strong><br /></li> 
- Displays a full link to the previous "set" of posts only if show options set to "posts paged" and if there is a previous set, otherwise nothing is displayed.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>A user supplied string. Default "&lt;&lt; Previous Page"</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php posts_nav_link() ?&gt;</span></strong> <br /></li>
-The function displays a complete navigation set of links including a user definable "separator" with the ability to supply the text string to be used for the "previous" and "next" links.<br /> 
-The default result will produce the following string:<br /> 
-<p style="text-align: center">&lt;&lt; Previous Page :: Next Page &gt;&gt;</p>
-<div class="params">Parameters:
-  <ul> 
-    <li>A user supplied "separator" string. Default " :: "</li> 
-    <li>A user supplied "previous" string. Default "&lt;&lt; Previous Page"</li> 
-    <li>A user supplied "next" string. Default "Next Page &gt;&gt;"</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php link_pages() ?&gt;</span></strong> <br /></li>
-Displays links to the pages of the post if it's a multiple pages post.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>string to display before the tag (default is "&lt;br /&gt;", a newline)</li> 
-    <li>string to display after the tag (default is "&lt;br /&gt;", a newline)</li> 
-    <li>"next" or "number": display links like "next/previous page" or links to each page with the number of the page "1 2 3 4 etc" (default is "number")</li> 
-    <li>string to display the "next page" link (default is "next page")</li> 
-    <li>string to display the "previous page" link (default is "previous page")</li> 
-    <li>format string for the "number of page" link (default is "%", where % is replaced by the number of the page)</li> 
-    <li>file name, in case you want to load the posts with multiple pages in a different template (default is the current template)</li> 
-  </ul> 
-</div>
-</ul>
-<br /> 
-<br /> 
-
-<ul><h2>Author tags:</h2>
-<li><strong><span class="tag">&lt;?php the_author() ?&gt;<span></strong><br /></li>
-The author of the post.<br />
-Depending on the user's profile settings, it can display whether their nickname, login name, first name, last name, both first&amp; last name, or last &amp; first name. See below for more author-related template tags. <br /> 
-<br /> 
-<strong>Want more</strong> about the author of the post? Here goes:<br /> 
-<br /> 
-<strong><span class="tag">&lt;?php the_author_email() ?&gt;</span>- </strong> the author's email.<br /> 
-<strong><span class="tag">&lt;?php the_author_url() ?&gt;</span></strong> - the author's url.<br />  
-<strong<span class="tag">>&lt;?php the_author_icq() ?&gt;</span></strong> - the author's ICQ number.<br /> 
-<strong><span class="tag">&lt;?php the_author_aim() ?&gt;</span></strong> - the author's AIM handle.<br /> 
-<strong><span class="tag">&lt;?php the_author_yim() ?&gt;</span></strong> - the author's Yahoo Messenger handle.<br /> 
-<strong><span class="tag">&lt;?php the_author_msn() ?&gt;</span></strong> - the author's MSN Messenger handle.<br /> 
-<strong><span class="tag">&lt;?php the_author_posts() ?&gt;</span></strong> - the author's post count.<br /> 
-<strong><span class="tag">&lt;?php the_author_login() ?&gt;</span></strong> - the author's login name in WordPress. If you want some static data about the author, this is what you're searching for. You can, for example, associate a picture with an author, like this: <em>&lt;img src="pictures/&lt;?php the_author_login() ?&gt;.jpg" border="0"&gt;</em><br /> 
-<strong><span class="tag">&lt;?php the_author_ID() ?&gt;</span></strong> - the author's ID number in WordPress. This number is automatically set when the user registers: to see the ID of an user, go to the Team page. This is static data too, so you can use it like the_author_login() in associating stuff with authors.<br /> 
-</ul>
-<br />
-<br />
-<ul><h2>Category tags:</h2>
-<li><strong><span class="tag">&lt;?php the_category() ?&gt;</span></strong><br /></li>
-The name of the category the post belongs to. You can add categories, and rename them if needed. The default category is 'General'; you can rename it too.<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php the_category_ID() ?&gt;</span></strong><br /></li> 
-The ID (number) of the category the post belongs to. This is static data that you can use; for example, to associate a category to an image, or a css style.<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php get_links_list() ?&gt;</span></strong><br /></li> 
-</strong>This tag is out of the WordPress loop.<br />
-It will output a list of all links defined in the Links Manager, listed by category, with category headings, using the settings in the Links Manager to control the display and sorting of links within the categories. It outputs this data as a nested HTML unordered list. That sounds more complicated that it really is.&nbsp; 
-<div class="params">Parameters:
-  <ul> 
-    <li>a string to determine category sort order (e.g. 'name', 'updated', 'id')</li> 
-  </ul> 
-</div>
-
-<br /> 
-<li><strong><span class="tag">&lt;?php dropdown_cats() ?&gt;</span></strong><br /></li> 
-This tag is out of the WordPress loop.<br />
-It will display a list of &lt;option name="<em>x</em>"&gt;<em>category-name</em>&lt;/option&gt;, where <em>x</em> is the number of the category and <em>category-name</em> is the name of it.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>0 or 1, depending if you want to have an option to display all categories (default is 1)</li> 
-    <li>text to display for the option to show all categories (default is "All")</li> 
-    <li>sort by: possible values are 'name' and 'ID' (default is 'ID')</li> 
-    <li>sorting order: possible values are 'asc' for ascending or 'desc' for descending (default is 'asc')</li> 
-    <li>0 or 1. 1 means display the date of the last post in each category (default is 0)</li>
-    <li>0 or 1. 1 means display a count of posts in each category (default is 0)</li>
-    <li>0 or 1. 1 means hide empty categories (default is 1)</li>
-  </ul> 
-</div>
-<br /> 
-You can use it like this: <br /> 
-<br /> 
-<code>&lt;form action="&lt;?php echo $PHP_SELF ?&gt;" method="get"&gt;<br /> 
-&lt;?php dropdown_cats() ?&gt;<br /> 
-&lt;input type="submit" name="submit" value="view" /&gt;<br /> 
-&lt;/form&gt;</code> <br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php list_cats() ?&gt;</span></strong> <br /></li> 
-This tag is out of the WordPress loop.<br /> 
-It will display a list of the categories, with links to them.
-<div class="params">Parameters:
-  <ul> 
-    <li>0 or 1. 1 means display an extra 'all' category (default is 1)</li> 
-    <li>text to display for the option to show all categories (default is 'All')</li> 
-    <li>sort by: possible values are 'name' and 'ID' (default is 'ID')</li> 
-    <li>sorting order: possible values are 'asc' for ascending or 'desc' for descending (default is 'asc')</li> 
-    <li>filename, in case you want to display the categories' posts in another template (default is current template)</li> 
-    <li>0 or 1. 1 means generate the items inside &lt;li&gt; tags, to build an HTML list. 0 means to just follow each link with a &lt;br /&gt; tag. (default is 1)</li>
-    <li>0 or 1. 1 means display the date of the last post in each category (default is 0)</li>
-    <li>0 or 1. 1 means display a count of posts in each category (default is 0)</li>
-    <li>0 or 1. 1 means hide empty categories (default is 1)</li>
-  </ul> 
-</div>
-</ul>
-<br /> 
-
-<br /> 
-<li><strong><span class="tag">&lt;?php single_cat_title() ?&gt;</span></strong> <br /></li> 
-This tag is out of the WordPress loop.<br /> 
-It outputs the title of the category when you load the page with ?cat= (see 'Usage' section for explanation). When the weblog page is loaded without ?cat=, this tag doesn't display anything. Generally, you could use it like this:<br />
-&nbsp; &nbsp;&lt;title&gt;&lt;?php bloginfo('name') ?&gt;&lt;?php single_cat_title() ?&gt;&lt;/title&gt;<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>prefix string that will appear before the category's title (default is ' :: ')</li> 
-  </ul> 
-</div>
-
-<br /> 
-
-<br /> 
-
-<ul><h2>Permalink tags:</h2>
-<br /> 
-<li><strong><span class="tag">&lt;?php permalink_anchor() ?&gt;</span> </strong><br /></li>
-This will display &lt;a name="..."&gt;&lt;/a&gt;, replacing "..." with the ID or the title of the post in the database.<br /> 
-<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>string for kind of anchor: either 'id' that displays '50', or 'title' that displays 'title_of_post_50' (default is 'id')</li> 
-  </ul> 
-</div>
-<br /> 
-<li><strong><span class="tag">&lt;?php permalink_link() ?&gt;</span></strong> <br /></li>
-This will display the name of the file followed by #ID to link to the post, in the month archive if archive-mode is "monthly".<br />
-Note: This tag does not display the link. For that, you've got to type &lt;a href="&lt;?php permalink_link() ?&gt;"&gt;text of the link&lt;/a&gt;.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>file name, in case you want to link the archive to a different template (default is the current template)</li> 
-    <li>string for kind of link: either 'id' that appends '#50' to the link, or 'title' that appends '#title_of_post_50' (default is 'id')</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php permalink_single() ?&gt;</span></strong><br /></li> 
-This will display the name of the file followed by #ID to link to the entire post (the linked page will also show the extended text on that post if it is an extended entry, and the comments).<br />
-Note: This tag does not display the link. For this you've got to type &lt;a href="&lt;?php permalink_single() ?&gt;"&gt;text of the link&lt;/a&gt;.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>file name, in case you want to use a different template for single posts (default is the current template)</li> 
-  </ul> 
-  </ul>
-</div>
-<br /> 
-<br /> 
-<br /> 
-<ul><h2>Comments, Trackback, and Pingback tags:</h2>
-<br /> 
-<li><strong><span class="tag">&lt;?php comments_popup_script() ?&gt;</span> </strong><br /> </li>
-This will include the javascript that is required to open comments, trackback and pingback in popup windows.<br />
-You should put this tag before the &lt;/head&gt; tag in your template.<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>width (default is 400)</li> 
-    <li>height (default is 400)</li> 
-    <li>file name, in case you want to use a different template for comments (default is wp-comments-popup.php)</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php comments_popup_link() ?&gt;</span></strong><br /></li> 
-This will display the link to open comments in a popup window, with the number of comments.<br /> 
-To edit the popup window's template, edit the file <span class="file">wp-comments-popup.php</span>. (It's the default one for comments popup).<br /> 
-<br /> 
-<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>string for comment-less posts (default is "no comments")</li> 
-    <li>string for posts with one comment (default is "1 comment")</li> 
-    <li>string for posts with 2 or more comments (default is "% comments")<br /> 
-      Note here that the sign "%" is then replaced by the number of comments.</li> 
-    <li>string for CSS class, so you can have a styled link with class="" (default is empty, no CSS class applied)</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php comments_link() ?&gt;</span></strong><br /></li> 
- This is a bit like permalink_link. It will display an URL to the comments page, but again you'll have to create the link tag.<br /> 
-<br /> 
-Note:<br /> 
-The same tags exist for TrackBack and Pingback, respectively named '<span class="tag">trackback_link()</span>' and '<span class="tag">pingback_link()</span>'. They take the same parameters.<br /> 
-<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>file name, in case you want to use a different template for comments (default is the current template)</li> 
-  </ul> 
-</div>
-<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php comments_number() ?&gt;</span></strong> <br /></li>
-This displays the number of comments that have been posted on this post. Example: "5 comments".<br /> 
-<br /> 
-<br /> 
-<div class="params">Parameters:
-  <ul> 
-    <li>string for comment-less posts (default is "no comments")</li> 
-    <li>string for posts with one comment (default is "1 comment")</li> 
-    <li>string for posts with 2 or more comments (default is "% comments")<br /> 
-      Note here that the sign "%" is then replaced by the number of comments.</li> 
-  </ul> 
-</div>
-<br /> 
-Example: <em>&lt;?php comments_number("no comment","1 comment","% comments") ?&gt;</em><br /> 
-<br />
-This tag differs from v0.5's tag because in v0.5 and prior, it would only display a number, not a text with it, so you could have terrible things like "1 comments" (doh !)<br /> 
-<br /> 
-<strong>Necessary: &lt;?php include("wp-comments.php") ?&gt;</strong><br /> 
-you'll put this line where you want the comments to be placed on your page.<br /> 
-typically, under the post itself. don't worry, the comments only appear if the page is called in the comments mode. (like this: url?c=1)<br /> 
-<br /> 
-<br /> 
-<strong>Tags that go in wp-comments.php:</strong> (these are easy too)<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php comment_author() ?&gt;</span></strong><br /></li> 
-<li><strong><span class="tag">&lt;?php comment_author_email() ?&gt;</span> </strong></li> - displays the e-mail address, but not the link<br /> 
-<li><strong><span class="tag">&lt;?php comment_author_url() ?&gt;</span> </strong></li>- displays the url, but not the link<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php comment_author_email_link() ?&gt;</span> </strong></li> - displays a link to the comment's author's e-mail<br /> 
-<li><strong><span class="tag">&lt;?php comment_author_url_link() ?&gt;</span> </strong></li> - displays a link to the comment's author's website<br /> 
-<div class="params">Parameters for <strong>comment_author_email_link()</strong> and <strong>comment_author_url_link()</strong>:
-  <ul> 
-    <li>string for the link (default: "email"/"url" depending on the tag)</li> 
-    <li>string to display before the link (default is " - ")</li> 
-    <li>string to display after the link (default is blank)</li> 
-  </ul> 
-</div>
-<br /> 
-<li><strong><span class="tag">&lt;?php comment_author_IP() ?&gt;</span></strong><br /></li> - displays the IP of the comment's author<br /> 
-<li><strong><span class="tag">&lt;?php comment_text() ?&gt;</span></strong><br /><li> - the content of the comment. 
-<li><strong><span class="tag">&lt;?php comment_date() ?&gt;</span> </strong><br /></li>- unlike the_date(), this tag appears on every comment<br /> 
-<li><strong><span class="tag">&lt;?php comment_time() ?&gt;</span></strong><br /></li> -
-Time the comment was posted.
-<div class="params">Parameters for <strong>comment_date()</strong> and <strong>comment_time()</strong>:
-  <ul> 
-    <li>format string (default is "d.m.y"/"H:i:s" depending on the tag)</li> 
-  </ul> 
-</div>
-<br /> 
-<li><strong><span class="tag">&lt;?php trackback_rdf() ?&gt; </span></strong><br /></li> 
-This will include the RDF data that can be used by some weblog tools to locate your posts' trackback URLs.<br />
-You should put this tag after the &lt;?php the_content() ?&gt; tag in your template, or just before the end of the loop.<br /> 
-<br /> 
-<li><strong><span class="tag">&lt;?php trackback_url() ?&gt;</span> </strong><br /></li> 
-This tag is out of the WordPress TrackBacks loop.<br /> 
-It will output the URL to TrackBack the post that other people can copy and use in WordPress's posting interface to trackback this post.<br /> 
-<p>  In wp-comments.php, like in the main template file, please keep the first PHP lines, the "while" lines, and the "}" lines.</p>
-<p>You can modify the form, but do not remove "&lt;?php echo ... ?&gt;" and all the name="..." attributes.</p>
-</ul>
-<br />
-<ul><h2>Archives tag:</h2>
-<br />
-<li><strong><span class="tag">&lt;?php get_archives() ?&gt;</span></strong></li> This will include your archived posts.
-<div class="params">Parameters for <strong>get_archives()</strong>:
-  <ul> 
-    <li>archivetype: 'postbypost', 'daily', 'weekly', or 'monthly' (default is to use the archive_mode setting from the admin interface)</li>
-    <li>limit: how many archive links to display (default is to show all)</li>
-    <li>format:
-      <ul>
-        <li>'html': create as &lt;li&gt; items for an HTML list (default)</li>
-        <li>'option': create option values for a &lt;select&gt; dropdown menu</li>
-        <li>'link': create &lt;link&gt; elements for the &lt;head&gt; section of a page</li>
-        <li>'custom': use before and after values to format links</li>
-      </ul>
-    </li>
-    <li>before: text to prepend to link</li>
-    <li>after: text to append to link</li>
-    <li>0 or 1: 1 means to display link counts</li>
-  </ul> 
-</div>
-</ul>
-<br />
-<br />
-<ul><h2>Calendar tag:</h2>
-<li><strong><span class="tag">&lt;?php get_calendar(); ?&gt;</span></strong><br /></li>This will display the calendar.
-
 <h1 id="usage">Query String Usage:</h1> 
 <p>WordPress relies a lot on the query string. These variables passed with the URL (note: to pass variables in the querystring, preceed the first variable name with a '?' question mark and every other variables with a '&amp;' sign.)</p>
 <p>Most of the time you won't have to do anything about it, but if you want to know how it works, it's here:</p>
@@ -720,7 +239,6 @@ Extended entries in the <a href="http://www.movabletype.org/docs/mtmanual_progra
 <p>If you don't want users to register on your blog at all, just delete wp-register.php once you've registered your user account. </p> 
 <h1> Final notes:</h1> 
 <ul> 
-  <li>WordPress is functional, but a lot of coding and code clean-up remain to be done.</li> 
   <li>If you've got suggestions, ideas, or comments, or if you found a bug, why not joining us in the <a href="http://wordpress.org/support/">Support Forums</a>?</li> 
   <li>If you can code in PHP, you'll see the structure of WordPress is flexible enough to allow for more functions and sections to be added.</li> 
 </ul> 
