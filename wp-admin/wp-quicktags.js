@@ -8,6 +8,7 @@ function edButton() {
 	this.tagStart = ''; // open tag
 	this.tagEnd = '';	// close tag
 	this.open = 0;		// set to -1 if tag does not need to be closed
+	this.access = ''; // access key
 }
 
 var edOpenTags = new Array();
@@ -51,111 +52,105 @@ function edCloseAllTags() {
 	}
 }
 
+/*
+** TODO: Make it so ins and del have proper datetime attributes, formatted as so: **
+1999-02-22T16:03:30-08:00
+
+** Here's my start **
+var now = new Date();
+var datetime = now.getFullYear() + '-' + 
+
+*/
+
 var ed0 = new edButton();
-ed0.id = 'ed_bold';
+ed0.id = 'ed_strong';
 ed0.display = 'B';
 ed0.tagStart = '<strong>';
 ed0.tagEnd = '</strong>';
+ed0.access = 'b';
 
 var ed1 = new edButton();
-ed1.id = 'ed_italic';
-ed1.display = 'I';
+ed1.id = 'ed_em';
+ed1.display = 'i';
 ed1.tagStart = '<em>';
 ed1.tagEnd = '</em>';
+ed1.access = 'i';
 
 var ed2 = new edButton();
-ed2.id = 'ed_under';
-ed2.display = 'U';
-ed2.tagStart = '<u>';
-ed2.tagEnd = '</u>';
+ed2.id = 'ed_del';
+ed2.display = 'del';
+ed2.tagStart = '<del>';
+ed2.tagEnd = '</del>';
+ed2.access = 'd';
 
 var ed3 = new edButton();
-ed3.id = 'ed_strike';
-ed3.display = 'S';
-ed3.tagStart = '<s>';
-ed3.tagEnd = '</s>';
+ed3.id = 'ed_ins';
+ed3.display = 'ins';
+ed3.tagStart = '<ins>';
+ed3.tagEnd = '</ins>';
+ed3.access = 'n';
 
 var ed4 = new edButton();
-ed4.id = 'ed_quot';
-ed4.display = '&#34;';
-ed4.tagStart = '&#34;';
-ed4.tagEnd = '&#34;';
-ed4.open = -1;
+ed4.id = 'ed_link';
+ed4.display = 'link';
+ed4.tagStart = ''; // special case
+ed4.tagEnd = '</a>';
+ed4.access = 'a';
 
 var ed5 = new edButton();
-ed5.id = 'ed_amp';
-ed5.display = '&#38;';
-ed5.tagStart = '&#38;';
+ed5.id = 'ed_img';
+ed5.display = 'img';
+ed5.tagStart = ''; // special case
 ed5.tagEnd = '';
 ed5.open = -1;
+ed5.access = 'm';
 
 var ed6 = new edButton();
-ed6.id = 'ed_nbsp';
-ed6.display = 'nbsp';
-ed6.tagStart = '&#160;';
-ed6.tagEnd = '';
-ed6.open = -1;
+ed6.id = 'ed_ul';
+ed6.display = 'ul';
+ed6.tagStart = '<ul>\n';
+ed6.tagEnd = '</ul>';
+ed6.access = 'u';
 
 var ed7 = new edButton();
-ed7.id = 'ed_nobr';
-ed7.display = 'nobr';
-ed7.tagStart = '<nobr>';
-ed7.tagEnd = '</nobr>';
+ed7.id = 'ed_ol';
+ed7.display = 'ol';
+ed7.tagStart = '<ol>\n';
+ed7.tagEnd = '</ol>';
+ed7.access = 'o';
 
 var ed8 = new edButton();
-ed8.id = 'ed_link';
-ed8.display = 'link';
-ed8.tagStart = ''; // special case
-ed8.tagEnd = '</a>';
+ed8.id = 'ed_li';
+ed8.display = 'li';
+ed8.tagStart = '\t<li>';
+ed8.tagEnd = '</li>\n';
+ed8.access = 'l';
 
 var ed9 = new edButton();
-ed9.id = 'ed_img';
-ed9.display = 'img';
-ed9.tagStart = ''; // special case
-ed9.tagEnd = '';
-ed9.open = -1;
+ed9.id = 'ed_block';
+ed9.display = 'b-quote';
+ed9.tagStart = '<blockquote>';
+ed9.tagEnd = '</blockquote>';
+ed9.access = 'q';
 
 var ed10 = new edButton();
-ed10.id = 'ed_ul';
-ed10.display = 'UL';
-ed10.tagStart = '<ul>';
-ed10.tagEnd = '</ul>';
+ed10.id = 'ed_pre';
+ed10.display = 'pre';
+ed10.tagStart = '<pre>';
+ed10.tagEnd = '</pre>';
+ed10.access = '';
 
-var ed11 = new edButton();
-ed11.id = 'ed_ol';
-ed11.display = 'OL';
-ed11.tagStart = '<ol>';
-ed11.tagEnd = '</ol>';
-
-var ed12 = new edButton();
-ed12.id = 'ed_li';
-ed12.display = 'LI';
-ed12.tagStart = '<li>';
-ed12.tagEnd = '</li>';
-
-var ed13 = new edButton();
-ed13.id = 'ed_block';
-ed13.display = 'b-quote';
-ed13.tagStart = '<blockquote>';
-ed13.tagEnd = '</blockquote>';
-
-var ed14 = new edButton();
-ed14.id = 'ed_pre';
-ed14.display = 'pre';
-ed14.tagStart = '<pre>';
-ed14.tagEnd = '</pre>';
-
-var edButtonCount = 15;
+var edButtonCount = 11;
 
 function edShowButton(button, i) {
 	if (button.id == 'ed_img') {
-		document.write('<input type="button" id="' + button.id + '" class="ed_button" onclick="edInsertImage(edCanvas);" value="' + button.display + '" />');
+		document.write('<input type="button" id="' + button.id + '" accesskey="' + button.access + '" class="ed_button" onclick="edInsertImage(edCanvas);" value="' + button.display + '" />');
 	}
 	else if (button.id == 'ed_link') {
-		document.write('<input type="button" id="' + button.id + '" class="ed_button" onclick="edInsertLink(edCanvas, ' + i + ');" value="' + button.display + '" />');
+		document.write('<input type="button" id="' + button.id + '" accesskey="' + button.access + '" class="ed_button" onclick="edInsertLink(edCanvas, ' + i + ');" value="' + button.display + '" />');
 	}
 	else {
-		document.write('<input type="button" id="' + button.id + '" class="ed_button" onclick="edInsertTag(edCanvas, ' + i + ');" value="' + button.display + '" />');
+		document.write('<input type="button" id="' + button.id + '" accesskey="' + button.access + '" class="ed_button" onclick="edInsertTag(edCanvas, ' + i + ');" value="' + button.display + '"  />');
 	}
 }
 
@@ -167,7 +162,7 @@ function edLink() {
 
 var edLink0 = new edLink;
 edLink0.display = 'WordPress';
-edLink0.URL = 'http://www.wordpress.org/';
+edLink0.URL = 'http://wordpress.org/';
 
 var edLink1 = new edLink;
 edLink1.display = 'alexking.org';
@@ -225,8 +220,8 @@ function edToolbar() {
 	for (i = 0; i < edButtonCount; i++) {
 		edShowButton(eval('ed' + i), i);
 	}
-	document.write('<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" value="Close Tags" />');
-	document.write('<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" value="Dict" />');
+	document.write('<input type="button" id="ed_spell" class="ed_button" onclick="edSpell(edCanvas);" title="Dictionary lookup" value="Dict." />');
+	document.write('<input type="button" id="ed_close" class="ed_button" onclick="edCloseAllTags();" title="Close all open tags" value="Close Tags" />');
 //	edShowLinks(); // disabled by default
 	document.write('</div>');
 }
@@ -325,7 +320,7 @@ function edInsertContent(myField, myValue) {
 
 function edInsertLink(myField, i) {
 	if (!edCheckOpenTags(i)) {
-		eval('ed' + i + '.tagStart = \'<a href="\' + prompt(\'Enter the URL\', \'http://\') + \'" target="_blank">\'');
+		eval('ed' + i + '.tagStart = \'<a href="\' + prompt(\'Enter the URL\', \'http://\') + \'">\'');
 	}
 	edInsertTag(myField, i);
 }

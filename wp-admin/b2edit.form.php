@@ -162,7 +162,7 @@ if ($action != 'editcomment') {
 }
 ?>
 		</td>
-		<td align="right">
+		<td id="quicktags">
 <?php
 if ($use_quicktags) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
@@ -192,7 +192,7 @@ edCanvas = document.getElementById('content');
 if (get_settings('use_geo_positions')) {
 ?>
 <label for="post_latf">Latitude:</label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
-<label for="post_lonf">Longitude:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <A href="http://www.geourl.org/resources.html" target="_blank" >click for Geo Info</A>
+<label for="post_lonf">Longitude:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <a href="http://www.geourl.org/resources.html" rel="external" >click for Geo Info</a>
 <br>
 <?
 }
