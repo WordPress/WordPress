@@ -74,7 +74,7 @@ function mkdir_p($target) {
 class wp_xmlrpc_server extends IXR_Server {
 
 	function wp_xmlrpc_server() {
-		$this->IXR_Server(array(
+		$this->methods = array(
 		  // Blogger API
 		  'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
 		  'blogger.getUserInfo' => 'this:blogger_getUserInfo',
@@ -86,7 +86,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'blogger.editPost' => 'this:blogger_editPost',
 		  'blogger.deletePost' => 'this:blogger_deletePost',
 
-		  // MetaWeblog API
+		  // MetaWeblog API (with MT extensions to structs)
 		  'metaWeblog.newPost' => 'this:mw_newPost',
 		  'metaWeblog.editPost' => 'this:mw_editPost',
 		  'metaWeblog.getPost' => 'this:mw_getPost',
@@ -101,12 +101,23 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'metaWeblog.setTemplate' => 'this:blogger_setTemplate',
 		  'metaWeblog.getUsersBlogs' => 'this:blogger_getUsersBlogs',
 
+		  // MovableType API
+		  'mt.getCategoryList' => 'this:mt_getCategoryList',
+		  'mt.getRecentPostTitles' => 'this:mt_getRecentPostTitles',
+		  'mt.getPostCategories' => 'this:mt_getPostCategories',
+		  'mt.setPostCategories' => 'this:mt_setPostCategories',
+		  'mt.supportedMethods' => 'this:mt_supportedMethods',
+		  'mt.supportedTextFilters' => 'this:mt_supportedTextFilters',
+		  'mt.getTrackbackPings' => 'this:mt_getTrackbackPings',
+		  'mt.publishPost' => 'this:mt_publishPost',
+
 		  // PingBack
 		  'pingback.ping' => 'this:pingback_ping',
 
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
-		));
+		);
+		$this->IXR_Server($this->methods);
 	}
 
 	function sayHello($args) {
@@ -665,9 +676,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	      'title' => $postdata['post_title'],
 	      'link' => $link,
 	      'permaLink' => $link,
-// commented out because no other tool seems to use them
+// commented out because no other tool seems to use this
 //	      'content' => $entry['post_content'],
-//	      'categories' => $categories
+	      'categories' => $categories,
 	      'mt_excerpt' => $postdata['post_excerpt'],
 	      'mt_text_more' => $post['extended'],
 	      'mt_allow_comments' => $allow_comments,
@@ -723,9 +734,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	      'title' => $entry['post_title'],
 	      'link' => $link,
 	      'permaLink' => $link,
-// commented out because no other tool seems to use them
+// commented out because no other tool seems to use this
 //	      'content' => $entry['post_content'],
-//	      'categories' => $categories
+	      'categories' => $categories,
 	      'mt_excerpt' => $entry['post_excerpt'],
 	      'mt_text_more' => $post['extended'],
 	      'mt_allow_comments' => $allow_comments,
@@ -923,6 +934,150 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  return $categories_struct;
+	}
+
+
+	/* mt.getPostCategories ...returns a post's categories */
+	function mt_getPostCategories($args) {
+
+	  $post_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $categories = array();
+	  $catids = wp_get_post_cats('', intval($post_ID));
+	  // first listed category will be the primary category
+	  $isPrimary = true;
+	  foreach($catids as $catid) {
+	    $categories[] = array(
+	      'categoryName' => get_cat_name($catid),
+	      'categoryId' => $catid,
+	      'isPrimary' => $isPrimary
+	    );
+	    $isPrimary = false;
+	  }
+ 
+	  return $categories;
+	}
+
+
+	/* mt.setPostCategories ...sets a post's categories */
+	function mt_setPostCategories($args) {
+
+	  $post_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+	  $categories  = $args[3];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
+	  }
+
+	  foreach($categories as $cat) {
+	    $catids[] = $cat['categoryId'];
+	  }
+	
+	  wp_set_post_cats('', $post_ID, $catids);
+
+	  return true;
+	}
+
+
+	/* mt.supportedMethods ...returns an array of methods supported by this server */
+	function mt_supportedMethods($args) {
+
+	  $supported_methods = array();
+	  foreach($this->methods as $key=>$value) {
+	    $supported_methods[] = $key;
+	  }
+
+	  return $supported_methods;
+	}
+
+
+	/* mt.supportedTextFilters ...returns an empty array because we don't
+	   support per-post text filters yet */
+	function mt_supportedTextFilters($args) {
+	  return array();
+	}
+
+
+	/* mt.getTrackbackPings ...returns trackbacks sent to a given post */
+	function mt_getTrackbackPings($args) {
+
+	  global $wpdb;
+
+	  $post_ID = intval($args[0]);
+
+	  $actual_post = wp_get_single_post($post_ID, ARRAY_A);
+
+	  if (!$actual_post) {
+	  	return new IXR_Error(404, 'Sorry, no such post.');
+	  }
+
+	  $comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
+
+	  if (!$comments) {
+	  	return array();
+	  }
+
+	  $trackback_pings = array();
+	  foreach($comments as $comment) {
+	    if ((strpos($comment->comment_content, '<trackback />') === 0)
+	        || ('trackback' == $comment->comment_type)) {
+	      // FIXME: would be nicer to have a comment_title field?
+	      // FIXME: assumption: here we make the assumption that trackback
+	      //        titles are stored as <strong>title</strong>
+	      $content = str_replace('<trackback />', '', $comment->comment_content);
+	      $title = substr($content, 8, (strpos($content, '</strong>') - 8));
+	      $trackback_pings[] = array(
+	        'pingTitle' => $title,
+	        'pingURL'   => $comment->comment_author_url,
+	        'pingIP'    => $comment->comment_author_IP
+	      );
+		}
+	  }
+
+	  return $trackback_pings;
+	}
+
+
+	/* mt.publishPost ...sets a post's publish status to 'publish' */
+	function mt_publishPost($args) {
+
+	  $post_ID     = $args[0];
+	  $user_login  = $args[1];
+	  $user_pass   = $args[2];
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
+	  }
+
+	  $postdata = wp_get_single_post($post_ID,ARRAY_A);
+
+	  $postdata['post_status'] = 'publish';
+
+	  // retain old cats
+	  $cats = wp_get_post_cats('',$post_ID);
+	  $postdata['post_category'] = $cats;
+
+	  $result = wp_update_post($postdata);
+
+	  return $result;
 	}
 
 
