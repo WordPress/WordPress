@@ -241,7 +241,7 @@ if ($i == "ASC")
 				if ($m)
 				echo "&m=$m";
 				echo "'>Edit</a>";
-				echo " - <a href='b2edit.php?action=delete&amp;post=$id' onclick=\"return confirm('You are about to delete this post \'".$row->post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
+				echo " - <a href='b2edit.php?action=delete&amp;post=$id' onclick=\"return confirm('You are about to delete this post \'".the_title('','',0)."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
 				}
 				if ('private' == $post->post_status) echo ' - <strong>Private</strong>';
 				?>
