@@ -166,6 +166,7 @@ case 'post':
 	if ('publish' == $post_status) {
 		if ($post_pingback)
 			pingback($content, $post_ID);
+                do_enclose( $content, $post_ID );
 		do_trackbacks($post_ID);
 		do_action('publish_post', $post_ID);
 	}
@@ -320,8 +321,8 @@ case 'editpost':
 	}
 	header ('Location: ' . $location); // Send user on their way while we keep working
 
-$now = current_time('mysql');
-$now_gmt = current_time('mysql', 1);
+        $now = current_time('mysql');
+        $now_gmt = current_time('mysql', 1);
 
 	$result = $wpdb->query("
 		UPDATE $wpdb->posts SET
@@ -338,7 +339,7 @@ $now_gmt = current_time('mysql', 1);
 			to_ping = '$trackback',
 			post_modified = '$now',
 			post_modified_gmt = '$now_gmt',
-      post_parent = '$post_parent'
+			post_parent = '$post_parent'
 		WHERE ID = $post_ID ");
 
 	// Meta Stuff
@@ -372,47 +373,13 @@ $now_gmt = current_time('mysql', 1);
 			$wpdb->query("INSERT INTO $wpdb->post2cat (post_id, category_id) VALUES ($post_ID, $new_cat)");
 	}
 
-        // Enclosures
-        $enclosures = split( " ", $enclosure_url );
-        if( is_array( $enclosures ) ) {
-            while( list( $key, $url ) = each( $enclosures ) ) {
-                if( $url != '' ) {
-                    // READ INFO FROM REMOTE HOST
-                    $file = str_replace( "http://", "", $url );
-                    $host = substr( $file, 0, strpos( $file, "/" ) );
-                    $file = substr( $file, strpos( $file, "/" ) );
-                    $headers = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
-                    $port    = 80;
-                    $timeout = 3;
-                    $fp = fsockopen($host, $port, $errno, $errstr, $timeout);
-                    if( $fp ) {
-                        fputs($fp, $headers );
-                        $response = '';
-                        while (!feof($fp))
-                            $response .= fgets($fp, 2048);
-                    } else {
-                        $response = '';
-                    }
-                    if( $response != '' ) {
-                        $len = substr( $response, strpos( $response, "Content-Length:" ) + 16 );
-                        $len = substr( $len, 0, strpos( $len, "\n" ) );
-                        $type = substr( $response, strpos( $response, "Content-Type:" ) + 14 );
-                        $type = substr( $type, 0, strpos( $type, "\n" ) + 1 );
-                        $meta_value = "$url\n$len\n$type\n";
-                        $query = "INSERT INTO `".$wpdb->postmeta."` ( `meta_id` , `post_id` , `meta_key` , `meta_value` )
-                                  VALUES ( NULL, '$post_ID', 'enclosure' , '".$meta_value."')";
-                        $wpdb->query( $query );
-                    }
-                }
-            } 
-        }
-
 	if ($prev_status != 'publish' && $post_status == 'publish')
 		do_action('private_to_published', $post_ID);
 
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 		do_trackbacks($post_ID);
+                do_enclose( $content, $post_ID );
 		if ( get_option('default_pingback_flag') )
 			pingback($content, $post_ID);
 	}

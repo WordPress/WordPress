@@ -757,6 +757,89 @@ function debug_fclose($fp) {
 	}
 }
 
+function do_enclose( $content, $post_ID ) {
+	global $wp_version, $wpdb;
+	include_once (ABSPATH . WPINC . '/class-IXR.php');
+
+	// original code by Mort (http://mort.mine.nu:8080)
+	$log = debug_fopen(ABSPATH . '/pingback.log', 'a');
+	$post_links = array();
+	debug_fwrite($log, 'BEGIN '.date('YmdHis', time())."\n");
+
+	$pung = get_pung($post_ID);
+
+	// Variables
+	$ltrs = '\w';
+	$gunk = '/#~:.?+=&%@!\-';
+	$punc = '.:?\-';
+	$any = $ltrs . $gunk . $punc;
+
+	// Step 1
+	// Parsing the post, external links (if any) are stored in the $post_links array
+	// This regexp comes straight from phpfreaks.com
+	// http://www.phpfreaks.com/quickcode/Extract_All_URLs_on_a_Page/15.php
+	preg_match_all("{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp);
+
+	// Debug
+	debug_fwrite($log, 'Post contents:');
+	debug_fwrite($log, $content."\n");
+	
+	// Step 2.
+	// Walking thru the links array
+	// first we get rid of links pointing to sites, not to specific files
+	// Example:
+	// http://dummy-weblog.org
+	// http://dummy-weblog.org/
+	// http://dummy-weblog.org/post.php
+	// We don't wanna ping first and second types, even if they have a valid <link/>
+
+	foreach($post_links_temp[0] as $link_test) :
+		if ( !in_array($link_test, $pung) ) : // If we haven't pung it already
+			$test = parse_url($link_test);
+			if (isset($test['query']))
+				$post_links[] = $link_test;
+			elseif(($test['path'] != '/') && ($test['path'] != ''))
+				$post_links[] = $link_test;
+		endif;
+	endforeach;
+
+	foreach ($post_links as $url){
+                if( $url != '' && in_array($url, $pung) == false ) {
+                    set_time_limit( 60 ); 
+                    $file = str_replace( "http://", "", $url );
+                    $host = substr( $file, 0, strpos( $file, "/" ) );
+                    $file = substr( $file, strpos( $file, "/" ) );
+                    $headers = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
+                    $port    = 80;
+                    $timeout = 3;
+                    $fp = fsockopen($host, $port, $err_num, $err_msg, $timeout);
+                    if( $fp ) {
+                        fputs($fp, $headers );
+                        $response = '';
+                        while (!feof($fp))
+                            $response .= fgets($fp, 2048);
+                        fclose( $fp );
+                    } else {
+                        $response = '';
+                    }
+                    if( $response != '' ) {
+                        $len = substr( $response, strpos( $response, "Content-Length:" ) + 16 );
+                        $len = substr( $len, 0, strpos( $len, "\n" ) );
+                        $type = substr( $response, strpos( $response, "Content-Type:" ) + 14 );
+                        $type = substr( $type, 0, strpos( $type, "\n" ) + 1 );
+                        $allowed_types = array( "video", "audio", "image" );
+                        if( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
+                            $meta_value = "$url\n$len\n$type\n";
+                            $query = "INSERT INTO `".$wpdb->postmeta."` ( `meta_id` , `post_id` , `meta_key` , `meta_value` )
+                                VALUES ( NULL, '$post_ID', 'enclosure' , '".$meta_value."')";
+                            $wpdb->query( $query );
+                            add_ping( $post_ID, $url );
+                        }
+                    }
+                }
+        }
+}
+
 function pingback($content, $post_ID) {
 	global $wp_version, $wpdb;
 	include_once (ABSPATH . WPINC . '/class-IXR.php');
@@ -808,6 +891,7 @@ function pingback($content, $post_ID) {
 		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
 
 		if ($pingback_server_url) {
+                        set_time_limit( 60 ); 
 			 // Now, the RPC call
 			debug_fwrite($log, "Page Linked To: $pagelinkedto \n");
 			debug_fwrite($log, 'Page Linked From: ');
