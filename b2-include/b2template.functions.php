@@ -111,11 +111,11 @@ function single_month_title($prefix = '', $display = true ) {
 /* link navigation hack by Orien http://icecode.com/ */
 function get_archives_link($url, $text, $format) {
 	if ('link' == $format) {
-		return '<link rel="archives" title="'.$text.'" href="'.$url.'" />'."\n";
+		return "\t".'<link rel="archives" title="'.$text.'" href="'.$url.'" />'."\n";
 	} else if ('option' == $format) {
 		return '<option value="'.$url.'">'.$text.'</option>'."\n";
 	} else { // 'html'
-		return '<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>'."\n";
+		return "\t".'<li><a href="'.$url.'" title="'.$text.'">'.$text.'</a></li>'."\n";
 	}
 }
 
