@@ -93,5 +93,5 @@ function load_theme_textdomain($domain) {
 // Load the default domain.
 load_default_textdomain();
 
-require($curpath . 'locale.php');
+require_once(ABSPATH . WPINC . '/locale.php');
 ?>
