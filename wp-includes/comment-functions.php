@@ -303,7 +303,7 @@ function comment_time( $d = '' ) {
 
 function get_trackback_url() {
 	global $id;
-	$tb_url = get_settings('siteurl') . '/wp-trackback.php/' . $id;
+	$tb_url = get_settings('siteurl') . '/wp-trackback.php?p=' . $id;
 
 	if ( '' != get_settings('permalink_structure') )
 		$tb_url = trailingslashit(get_permalink()) . 'trackback/';
