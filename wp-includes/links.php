@@ -530,10 +530,14 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 
 
 	// Fetch the link category data as an array of hashes
-	$cats = $wpdb->get_results("SELECT DISTINCT link_category, cat_name, show_images,
-		show_description, show_rating, show_updated, sort_order, sort_desc, list_limit
-FROM `$tablelinks` LEFT JOIN `$tablelinkcategories` ON (link_category = cat_id)
-WHERE link_visible =  'Y'
+	$cats = $wpdb->get_results("
+		SELECT DISTINCT link_category, cat_name, show_images, 
+			show_description, show_rating, show_updated, sort_order, 
+			sort_desc, list_limit
+		FROM `$tablelinks` 
+		LEFT JOIN `$tablelinkcategories` ON (link_category = cat_id)
+		WHERE link_visible =  'Y'
+			AND list_limit <> 0
 		ORDER BY $cat_order $direction ", ARRAY_A);
 
 	// Display each category
