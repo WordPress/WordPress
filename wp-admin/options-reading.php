@@ -77,7 +77,7 @@ include('options-head.php');
 					<?php _e('full text') ?></label>					<br>
 					<label>
 					<input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_settings('rss_use_excerpt')); ?> />
-					<?php _('summary') ?></label> </td>
+					<?php _e('summary') ?></label> </td>
 			</tr> 
 		</table> 
 		</fieldset> 
