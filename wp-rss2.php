@@ -16,6 +16,7 @@ $more = 1;
 <rss version="2.0" 
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
 >
 
 <channel>
@@ -31,6 +32,7 @@ $more = 1;
 		<link><?php permalink_single_rss() ?></link>
 		<comments><?php comments_link(); ?></comments>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_the_time('Y-m-d H:i:s')); ?></pubDate>
+		<dc:creator><?php the_author() ?></dc:creator>
 		<?php the_category_rss() ?>
 
 		<guid><?php the_permalink($id); ?></guid>
