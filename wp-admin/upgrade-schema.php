@@ -119,7 +119,7 @@ CREATE TABLE $wpdb->posts (
   guid varchar(255) NOT NULL default '',
   menu_order int(11) NOT NULL default '0',
   PRIMARY KEY  (ID),
-  KEY post_name (post_name),
+  KEY post_name (post_name)
 );
 CREATE TABLE $wpdb->users (
   ID int(10) unsigned NOT NULL auto_increment,
