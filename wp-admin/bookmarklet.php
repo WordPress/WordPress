@@ -38,7 +38,7 @@ window.close()
 <script type="text/javascript" language="javascript">
 <!--
 function launchupload() {
-	window.open ("upload.php", "b2upload", "width=380,height=360,location=0,menubar=0,resizable=1,scrollbars=yes,status=1,toolbar=0");
+	window.open ("upload.php", "wpupload", "width=380,height=360,location=0,menubar=0,resizable=1,scrollbars=yes,status=1,toolbar=0");
 }
 
 //-->

@@ -1462,7 +1462,7 @@ function comments_popup_script($width=400, $height=400, $file='wp-comments-popup
 	global $b2commentspopupfile, $b2trackbackpopupfile, $b2pingbackpopupfile, $b2commentsjavascript;
 	$b2commentspopupfile = $file;
 	$b2commentsjavascript = 1;
-	$javascript = "<script type='text/javascript'>\nfunction b2open (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
+	$javascript = "<script type='text/javascript'>\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
 	echo $javascript;
 }
 
@@ -1484,7 +1484,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
         if ($b2commentsjavascript) {
             echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
             //echo get_permalink();
-            echo '" onclick="b2open(this.href); return false"';
+            echo '" onclick="wpopen(this.href); return false"';
         } else {
             // if comments_popup_script() is not in the template, display simple comment link
             comments_link();

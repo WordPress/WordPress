@@ -820,7 +820,7 @@ function timer_stop($display=0,$precision=3) { //if called like timer_stop(1), w
 function pingWeblogs($blog_ID = 1) {
 	// original function by Dries Buytaert for Drupal
 	global $use_weblogsping, $blogname,$siteurl,$blogfilename;
-	if ((!(($blogname=="my weblog") && ($siteurl=="http://example.com") && ($blogfilename=="b2.php"))) && (!preg_match("/localhost\//",$siteurl)) && ($use_weblogsping)) {
+	if ((!(($blogname=="my weblog") && ($siteurl=="http://example.com") && ($blogfilename=="wp.php"))) && (!preg_match("/localhost\//",$siteurl)) && ($use_weblogsping)) {
 		$client = new xmlrpc_client("/RPC2", "rpc.weblogs.com", 80);
 		$message = new xmlrpcmsg("weblogUpdates.ping", array(new xmlrpcval($blogname), new xmlrpcval($siteurl."/".$blogfilename)));
 		$result = $client->send($message);
@@ -852,7 +852,7 @@ function pingWeblogsRss($blog_ID = 1, $rss_url) {
 // pings CaféLog.com
 function pingCafelog($cafelogID,$title='',$p='') {
 	global $use_cafelogping, $blogname, $siteurl, $blogfilename;
-	if ((!(($blogname=="my weblog") && ($siteurl=="http://example.com") && ($blogfilename=="b2.php"))) && (!preg_match("/localhost\//",$siteurl)) && ($use_cafelogping) && ($cafelogID != '')) {
+	if ((!(($blogname=="my weblog") && ($siteurl=="http://example.com") && ($blogfilename=="wp.php"))) && (!preg_match("/localhost\//",$siteurl)) && ($use_cafelogping) && ($cafelogID != '')) {
 		$client = new xmlrpc_client("/xmlrpc.php", "cafelog.tidakada.com", 80);
 		$message = new xmlrpcmsg("b2.ping", array(new xmlrpcval($cafelogID), new xmlrpcval($title), new xmlrpcval($p)));
 		$result = $client->send($message);
@@ -868,7 +868,7 @@ function pingCafelog($cafelogID,$title='',$p='') {
 // pings Blo.gs
 function pingBlogs($blog_ID="1") {
 	global $use_blodotgsping, $blodotgsping_url, $use_rss, $blogname, $siteurl, $blogfilename;
-	if ((!(($blogname=='my weblog') && ($siteurl=='http://example.com') && ($blogfilename=='b2.php'))) && (!preg_match('/localhost\//',$siteurl)) && ($use_blodotgsping)) {
+	if ((!(($blogname=='my weblog') && ($siteurl=='http://example.com') && ($blogfilename=='wp.php'))) && (!preg_match('/localhost\//',$siteurl)) && ($use_blodotgsping)) {
 		$url = ($blodotgsping_url == 'http://example.com') ? $siteurl.'/'.$blogfilename : $blodotgsping_url;
 		$client = new xmlrpc_client('/', 'ping.blo.gs', 80);
 		if ($use_rss) {

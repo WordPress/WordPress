@@ -59,7 +59,7 @@ switch($step) {
     Right now.</li>
 </ul>
 <p><code></code>Have you looked at the <a href="../readme.html">readme</a>? If 
-  you&#8217;re all ready, <a href="b2-2-wp.php?step=1">let&#8217;s go</a>!</p>
+  you&#8217;re all ready, <a href="import-b2.php.php?step=1">let&#8217;s go</a>!</p>
 <?php
 	break;
 	
@@ -188,7 +188,7 @@ if ($got_row) {
 }
 ?>
 <p>Did you defeat the boss monster at the end? Good, then you&#8217;re ready for 
-  <a href="b2-2-wp.php?step=2">Step 2</a>.</p>
+  <a href="import-b2.php.php?step=2">Step 2</a>.</p>
 <?php
 	break;
 	case 2:

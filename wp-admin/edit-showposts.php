@@ -284,9 +284,9 @@ echo $posts_nav_bar;
 								echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('You are about to delete this comment by \'".$comment->comment_author."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
 								if ( ('none' != get_settings("comment_moderation")) && ($user_level >= 3) ) {
 									if ('approved' == wp_get_comment_status($comment->comment_ID)) {
-										echo " - <a href=\"b2edit.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Unapprove</a> ";
+										echo " - <a href=\"edit.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Unapprove</a> ";
 									} else {
-										echo " - <a href=\"b2edit.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Approve</a> ";
+										echo " - <a href=\"edit.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">Approve</a> ";
 									}
 								}
 								echo " ]";

@@ -93,7 +93,7 @@ require_once('wp-blog-header.php');
  <li>Other:
 	<ul>
 		<li><a href="<?php echo $siteurl; ?>/wp-login.php">login</a></li>
-		<li><a href="<?php echo $siteurl; ?>/b2register.php">register</a></li>
+		<li><a href="<?php echo $siteurl; ?>/wp-register.php">register</a></li>
 	</ul>
  </li>
  <li>Meta:

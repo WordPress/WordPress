@@ -46,7 +46,7 @@ if ($a=="b") {
 ?><html>
 <head>
 <title>WordPress > sidebar</title>
-<link rel="stylesheet" href="b2.css" type="text/css">
+<link rel="stylesheet" href="wp-admin.css" type="text/css">
 
 <style type="text/css">
 <!--
