@@ -553,9 +553,7 @@ function &get_post(&$post, $output = OBJECT) {
 			$post_cache[$post->ID] = &$post;
 		$post = & $post_cache[$post->ID];
 	} else {
-		if ( isset($GLOBALS['post']) && ($post == $GLOBALS['post']->ID) )
-			$post = & $GLOBALS['post'];
-		elseif (isset($post_cache[$post]))
+		if (isset($post_cache[$post]))
 			$post = & $post_cache[$post];
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID=$post";
