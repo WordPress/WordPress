@@ -438,14 +438,17 @@ textarea, input, select {
 
 #wphead {
 	background: url(../wp-images/header-shadow.png) #f2f2f2 repeat-x bottom;
-	padding: 4px 0 0 5px;
+	padding: 1px 5px 11px;
 }
 
 #wphead h1 {
 	font-size: 2.5em;
 	font-weight: normal;
-	height: 1.5em;
 	margin: 0;
+}
+
+#wphead h1 span {
+	font-size: .4em;
 }
 
 /* keep labels and their form controls together: */

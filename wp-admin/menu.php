@@ -62,7 +62,6 @@ get_settings('use_fileupload') &&
 }
 
 ?>
-    <li><a href="<?php echo get_settings('home') . '/' . get_settings('blogfilename'); ?>" title="<?php _e('View your site') ?>"><?php _e('View site') ?> &raquo;</a></li>
 	<li class="last"><a href="<?php echo get_settings('siteurl')
 	 ?>/wp-login.php?action=logout" title="<?php _e('Log out of this account') ?>"><?php printf(__('Logout (%s)'), $user_nickname) ?></a></li>
 </ul>
