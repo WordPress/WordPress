@@ -45,29 +45,7 @@
 <h1>First Things First</h1>
 <p>Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I'm proud to be a part of. Thousands of hours have gone into WordPress, and we're dedicated to making it better every day. Thank you for making it part of your world.</p>
 <p style="text-align: right;">&#8212; Matt Mullenweg </p>
-<h1>Online Resources</h1>
-<p>If you have any questions that aren't addressed in this document, please take advantage of WordPress' numerous online resources:</p>
-<dl>
-	<dt><a href="http://codex.wordpress.org/">The WordPress Codex </a></dt>
-	<dd>The Codex is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available. </dd>
-	<dt><a href="http://wordpress.org/docs/">The official documentation</a></dt>
-	<dd>The documentation on wordpress.org represents the official resources we've made available. Beyond reference, this includes tutorials and guides for doing different things with WordPress. As I write this, it is a little sparse, but we're doing our best to enrich this resource so by the time you read this sentence the docs may be bursting with information. </dd>
-	<dt><a href="http://wordpress.org/development/">The Development Blog</a></dt>
-	<dd>This is where you'll find the latest updates and news related to WordPress. Bookmark and check often. </dd>
-	<dt><a href="http://faq.wordpress.net/">Frequently Asked Questions Blog </a></dt>
-	<dd>In addition to the FAQ on the wiki and the main website, there is a new FAQ blog that several members of the documentation team are updating. The FAQ itself is run with WordPress. </dd>
-	<dt><a href="http://wordpress.org/support/">WordPress Support Forums</a></dt>
-	<dd>If you've looked everywhere and still can't find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible. </dd>
-	<dt><a href="http://codex.wordpress.org/IRC">WordPress IRC Channel</a></dt>
-	<dd>Finally, there is an online chat channel that is used for discussion amoung people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (irc.freenode.net #wordpresss) </dd>
-</dl>
-<h1 id="requirements">System Recommendations</h1>
-<ul>
-	<li>PHP version <strong>4.1</strong> or higher</li>
-	<li>MySQL version <strong>3.23.23</strong> or higher</li>
-	<li>... and a link to <a href="http://wordpress.org">http://wordpress.org</a> on your site.</li>
-</ul>
-<p>WordPress is the official continuation of <a href="http://cafelog.com/">b2/caf&eacute;log</a>, which came from Michel V. The work has been continued by the <a href="http://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="http://wordpress.org/donate/">donating</a>. </p>
+
 <h1 id="installation">Installation: Famous 5-minute install</h1>
 <ol>
 	<li>Unzip the package in an empty directory</li>
@@ -78,44 +56,46 @@
 	<li><strong>Note the password given to you.</strong></li>
 	<li> The install script should then send you to the <a href="wp-login.php">login page</a>. Sign in with the username <code>admin</code> and the password generated during the installation. You can then click on 'Profile' to change the password.</li>
 </ol>
+
 <h1>Upgrading</h1>
 <p>Before you upgrade anything, make sure you have backup copies of any files you may have modified such as <code>index.php</code>.</p>
 <h2>Upgrading from any previous WordPress to 1.5:</h2>
 <ol>
-	<li>Upload the new files, and be careful not to overwrite anything important</li>
+	<li>Delete your old WP files, saving ones you've modified </li>
+	<li>Upload the new files</li>
 	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a></span></li>
 	<li>You wanted more, perhaps? That's it!</li>
 </ol>
-<p>If you are coming from 1.0 or greater, your existing templates should work perfectly with just one change to the way you call comments. If you are coming from a version earlier than 1.0 you will need to modify your templates slightly. Use the default <code>index.php</code> as your guide.</p>
+<h2>Template Changes</h2>
+<p>If you have customized your templates you will probably have to make some changes to them. If you're converting your 1.2 or earlier templates, <a href="http://codex.wordpress.org/Upgrade_1.2_to_1.5">we've created a special guide for you</a>. </p>
+<h1>Online Resources</h1>
+<p>If you have any questions that aren't addressed in this document, please take advantage of WordPress' numerous online resources:</p>
+<dl>
+	<dt><a href="http://codex.wordpress.org/">The WordPress Codex </a></dt>
+	<dd>The Codex is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available. </dd>
+	<dt>&nbsp;</dt>
+	<dt><a href="http://wordpress.org/development/">The Development Blog</a></dt>
+	<dd>This is where you'll find the latest updates and news related to WordPress. Bookmark and check often. </dd>
+	<dt><a href="http://planet.wordpress.org/">WordPress Planet </a></dt>
+	<dd>The WordPress Planet is a news aggregator that brings together posts from WordPress blogs around the web. </dd>
+	<dt><a href="http://wordpress.org/support/">WordPress Support Forums</a></dt>
+	<dd>If you've looked everywhere and still can't find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible. </dd>
+	<dt><a href="http://codex.wordpress.org/IRC">WordPress IRC Channel</a></dt>
+	<dd>Finally, there is an online chat channel that is used for discussion amoung people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (irc.freenode.net #wordpresss) </dd>
+</dl>
+
+<h1 id="requirements">System Recommendations</h1>
+<ul>
+	<li>PHP version <strong>4.1</strong> or higher</li>
+	<li>MySQL version <strong>3.23.23</strong> or higher</li>
+	<li>... and a link to <a href="http://wordpress.org">http://wordpress.org</a> on your site.</li>
+</ul>
+<p>WordPress is the official continuation of <a href="http://cafelog.com/">b2/caf&eacute;log</a>, which came from Michel V. The work has been continued by the <a href="http://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="http://wordpress.org/donate/">donating</a>. </p>
+
 <h1>Upgrading from another system</h1>
 <p>WordPress can <a href="wp-admin/import.php">import from a number of systems</a>. First you need to get WordPress installed and working as described above.</p>
-<h1 id="templates">Templates</h1>
-<p>The template tags are too numerous and flexible to adequetely document here, so please see our <a href="http://wordpress.org/docs/template/">online documentation</a>.</p>
-<h1 id="themes">Themes</h1>
-<p>Themes are a new way to switch the look and function of your site with just a click. TODO</p>
-<h1 id="plugins">Plugins</h1>
-<p>TODO</p>
-<h1>Query String Usage</h1>
-<p>WordPress can be manipulated quite a bit through the query string. To pass variables in the querystring, proceed the first variable name with a '?' question mark and every other variables with a '&amp;' sign. You may never use this, but it is useful to know. </p>
-<p>index.php<strong>?m=200107</strong> will display the month of July 2001.</p>
-<p>index.php<strong>?m=20010701</strong> will display all posts from July 1st, 2001.</p>
-<p>index.php<strong>?w=20</strong> will display the posts from the 20th week of the year, where January 1st is in the first week (according to PHP).</p>
-<p>index.php<strong>?p=50</strong> will display the post labeled #50 in the database.</p>
-<p>index.php<strong>?s=blue+house</strong> will display the posts that match the search request "blue house".</p>
-<p>index.php<strong>?cat=1</strong> will display all posts that belong to category #1 (1 is the default). you can add/rename/delete categories from WordPress's interface.</p>
-<p>index.php<strong>?author=1</strong> will display all posts from the author #1</p>
-<p>index.php<strong>?p=50&amp;page=1</strong> will display the first page of post #50. this, again, should be used only with <strong>p=</strong>, for individual entries.</p>
-<p>You can also mix these variables, example: index.php<strong>?m=200107&amp;s=hotdog</strong> will display the posts that match the search request "hotdog", but only in July 2001.</p>
-<h1 id="xmlrpc">XML-RPC Interface</h1>
+<h1 id="templates">XML-RPC Interface</h1>
 <p>WordPress has an XMLRPC interface. We currently support the <a href="http://www.blogger.com/developers/api/1_docs/">Blogger API</a>, <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog API</a>, and the <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType API</a>. </p>
-<p> The <a href="http://www.blogger.com/developers/api/1_docs/">Blogger API</a> has been completely emulated on WordPress, with some little differences:</p>
-<ul>
-	<li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns all posts in the blog</li>
-	<li><em>blogger.getTemplate</em> fetches your file $blogfilename (as specified in the config), while <em>blogger.setTemplate</em> overwrites it with the edited data</li>
-	<li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' and $blogname, since WordPress supports only one blog as of now</li>
-</ul>
-<p>If you use blogger.newPost, your post is submitted without title and in category #1.</p>
-<p> However, you can type <code>&lt;title&gt;my title&lt;/title&gt;</code> and/or <code>&lt;category&gt;2&lt;category&gt;</code> in the body of your post to make its title be 'my title' and its category be #2 (refer to your categories section to find out the ID numbers of the categories). WordPress would then delete that extra info from the body of your post once it is posted.</p>
 <p>The <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog</a> and <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType</a> APIs are currently supported with the following exceptions:</p>
 <ul>
 	<li>mt.supportedTextFilters is a dummy stub function that returns an empty string</li>
