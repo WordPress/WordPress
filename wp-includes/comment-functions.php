@@ -168,6 +168,10 @@ function comment_author_link() {
 
 function get_comment_type() {
 	global $comment;
+
+	if ( '' == $comment->comment_type )
+		$comment->comment_type = 'comment';
+
 	return apply_filters('get_comment_type', $comment->comment_type);
 }
 
