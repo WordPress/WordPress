@@ -1757,8 +1757,8 @@ function comment_time($d='') {
 
 function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp-commentsrss2.php') {
 	global $id;
-	global $querystring_start, $querystring_equal, $querystring_separator;
-	$url = $commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
+	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
+	$url = $siteurl.'/'.$commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
 	$url = '<a href="'.$url.'">'.$link_text.'</a>';
 	echo $url;
 }

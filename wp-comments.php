@@ -21,7 +21,7 @@
 
 <h2 id="comments">Comments</h2>
 
-<p><a href="<?php echo $siteurl; ?>/wp-commentsrss2.php?p=<?php echo $id; ?>"><abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.</a></p>
+<p><?php comments_rss_link('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'); ?></p>
 
 <?php if ('open' == $post->ping_status) { ?>
 <p>The <acronym title="Uniform Resource Identifier">URI</acronym> to TrackBack this entry is: <em><?php trackback_url() ?></em></p>
