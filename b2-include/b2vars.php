@@ -3,7 +3,7 @@
 /* This file sets various arrays and variables for use in b2 */
 
 #b2 version
-$b2_version = '0.6.1';
+$b2_version = '0.7';
 
 #BBcode search and replace arrays
 $b2_bbcode['in'] = array(
@@ -267,9 +267,12 @@ foreach($b2smiliestrans as $smiley => $img) {
 	}
 	$b2_smiliesreplace[] = "<img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
+include_once('textile.php');
 
 	add_filter('all', 'wptexturize');
 	add_filter('the_content', 'wpautop');
 	add_filter('comment_text', 'wpautop');
-
+	// Uncomment the next line for Textile support
+	// add_filter('the_content', 'textile');
+	// There is some duplication of effore so textile.php really should be tweaked to eliminate that.
 ?>
