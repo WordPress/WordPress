@@ -20,7 +20,7 @@ $_POST   = add_magic_quotes($_POST);
 $_COOKIE = add_magic_quotes($_COOKIE);
 }
 
-$wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder');
+$wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder', 'enclosure_url' );
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 $wpvar = $wpvarstoreset[$i];
@@ -38,10 +38,7 @@ if (!isset($$wpvar)) {
 }
 
 switch($action) {
-
-
 case 'post':
-
 		$standalone = 1;
 		require_once('admin-header.php');
 
@@ -412,6 +409,45 @@ $now_gmt = current_time('mysql', 1);
 		sleep($sleep_after_edit);
 	}
 
+        // Enclosures
+        $enclosures = split( "   ", $enclosure_url );
+        if( is_array( $enclosures ) ) {
+            while( list( $key, $url ) = each( $enclosures ) ) {
+                if( $url != '' ) {
+                    // READ INFO FROM REMOTE HOST
+                    $file = str_replace( "http://", "", $url );
+                    $host = substr( $file, 0, strpos( $file, "/" ) );
+                    $file = substr( $file, strpos( $file, "/" ) );
+                    $headers = "HEAD $file HTTP/1.1\r\nHOST: $host\r\n\r\n";
+                    $port    = 80;
+                    $timeout = 3;
+                    // Open a socket connection to the host
+                    $fp = fsockopen($host, $port, &$err_num, &$err_msg, $timeout);
+                    if( $fp ) {
+                        // Send request for the page
+                        fputs($fp, $headers );
+
+                        // Get the response
+                        $response = '';
+                        while (!feof($fp))
+                            $response .= fgets($fp, 2048);
+                    } else {
+                        $response = '';
+                    }
+                    if( $response != '' ) {
+                        $len = substr( $response, strpos( $response, "Content-Length:" ) + 16 );
+                        $len = substr( $len, 0, strpos( $len, "\n" ) );
+                        $type = substr( $response, strpos( $response, "Content-Type:" ) + 14 );
+                        $type = substr( $type, 0, strpos( $type, "\n" ) + 1 );
+                        $meta_value = "$url\n$len\n$type\n";
+                        $query = "INSERT INTO `".$wpdb->postmeta."` ( `meta_id` , `post_id` , `meta_key` , `meta_value` )
+                                  VALUES ( NULL, '$post_ID', 'enclosure' , '".$meta_value."')";
+                        $wpdb->query( $query );
+                    }
+                }
+            } 
+        }
+
 	// are we going from draft/private to published?
 	if ($prev_status != 'publish' && $post_status == 'publish') {
 		if ($post_pingback) {
@@ -774,7 +810,7 @@ default:
 <p>
 
 <?php
-$bookmarklet_height= 420;
+$bookmarklet_height= (get_settings('use_trackback')) ? 460 : 420;
 
 if ($is_NS4 || $is_gecko) {
 ?>

@@ -20,18 +20,21 @@ $form_pingback = '<input type="hidden" name="post_pingback" value="1" id="post_p
 
 $form_prevstatus = '<input type="hidden" name="prev_status" value="'.$post_status.'" />';
 
-	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
-	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
-	if ('' != $pinged) {
-		$pings .= '<p>'. __('Already pinged:') . '</p><ul>';
-		$already_pinged = explode("\n", trim($pinged));
-		foreach ($already_pinged as $pinged_url) {
-			$pings .= "\n\t<li>$pinged_url</li>";
-		}
-		$pings .= '</ul>';
+$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="' . __('Help on trackbacks') . '">' . __('<strong>TrackBack</strong> a <abbr title="Universal Resource Identifier">URI</abbr></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
+<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" value="'. str_replace("\n", ' ', $to_ping) .'" /></p>';
+if ('' != $pinged) {
+	$pings .= '<p>'. __('Already pinged:') . '</p><ul>';
+	$already_pinged = explode("\n", trim($pinged));
+	foreach ($already_pinged as $pinged_url) {
+		$pings .= "\n\t<li>$pinged_url</li>";
 	}
+	$pings .= '</ul>';
+}
 
 $saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="' . __('Save and Continue Editing') . '" />';
+
+$form_enclosure = '<p><label for="enclosure"><a href="http://www.thetwowayweb.com/payloadsforrss" title="' . __('Help on enclosures') . '">' . __('<strong>Enclosures</strong></a>') . '</label> ' . __('(Separate multiple <abbr title="Universal Resource Identifier">URI</abbr>s with spaces.)') . '<br />
+<input type="text" name="enclosure_url" style="width: 415px" id="enclosure" tabindex="8" value="'. str_replace("\n", ' ', $enclosure_url) .'" /></p>';
 
 if (empty($post_status)) $post_status = 'draft';
 
@@ -121,11 +124,6 @@ function ReloadTextDiv()
 <div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="5" onkeyup="ReloadTextDiv();" id="content"><?php echo $content ?></textarea></div>
 <input onclick='ReloadTextDiv();' name="use_instant_preview" type="checkbox" id="use_instant_preview" value="1" checked /> <label for='use_instant_preview'>Use Instant Preview</label> <br />
 </fieldset>
-<fieldset id="previewdiv">
-<legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Preview</a></legend>
-<div><p id="TextDisplay"></p></div>
-</fieldset>
-
 <?php
 ?>
 <script type="text/javascript">
@@ -137,7 +135,6 @@ edCanvas = document.getElementById('content');
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 <?php echo $form_trackback; ?>
-
 
 <p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="6" /> 
 <?php 
@@ -151,6 +148,12 @@ if ('publish' != $post_status || 0 == $post_ID) {
 ?>
 	<input name="referredby" type="hidden" id="referredby" value="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
+<fieldset id="previewdiv">
+<legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Preview</a></legend>
+<div><p id="TextDisplay"></p></div>
+</fieldset>
+<?php echo $form_enclosure; ?>
+
 <?php
 if ('' != $pinged) {
 	echo $pings;
