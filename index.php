@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<h1 id="header"><a href="" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
+<h1 id="header"><a href="<?php echo $siteurl; ?>" title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></h1>
 
 
 <div id="content">

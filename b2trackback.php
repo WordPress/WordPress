@@ -6,45 +6,28 @@
 	$resultc = mysql_query($queryc); if ($resultc) {
 	?>
 
-<a name="trackbacks"></a>
-<div><strong><span style="color: #0099CC">::</span> trackbacks</strong></div>
+<h2 id="trackback">Trackbacks</h2>
 
-<p>
-( The URL to TrackBack this entry is:<br />
-&nbsp;&nbsp;<em><?php trackback_url() ?></em> )
-</p>
+<p>The URL to TrackBack this entry is:</p>
+<p><em><?php trackback_url() ?></em></p>
 
+<ol id="trackbacks">
 	<?php /* this line is b2's motor, do not delete it */ while($rowc = mysql_fetch_object($resultc)) { $commentdata = get_commentdata($rowc->comment_ID); ?>
+	<li id="trackback-<?php comment_ID() ?>">
+	<?php comment_text() ?>
 	
+	<p><cite>Tracked on <a href="<?php comment_author_url(); ?>" title="<?php comment_author() ?>"><?php comment_author() ?></a> on <?php comment_date() ?> @ <?php comment_time() ?></cite></p>
+	</li>
 
-<a name="tb<?php comment_ID() ?>"></a>
-	
+	<?php /* end of the loop, don't delete */ } if (!$wxcvbn_c) { ?>
 
-<!-- trackback -->
-<p>
-<?php comment_text() ?>
-<br />
-<strong><span style="color: #0099CC">&middot;</span></strong>
-<em>Tracked on <a href="<?php comment_author_url(); ?>" title="<?php comment_author() ?>"><?php comment_author() ?></a> on <?php comment_date() ?> @ <?php comment_time() ?></em>
-</p>
-<p>&nbsp;</p>
-<!-- /trackback -->
-
-
-	<?php /* end of the loop, don't delete */ } ?>
-
-
-<p>&nbsp;</p>
-<div><b><span style="color: #0099CC">::</span> <a href="javascript:history.go(-1)">return to the blog</a></b></div>
-
+<!-- this is displayed if there are no trackbacks so far -->
+	<li>No trackbacks yet.</li>
 
 	<?php /* if you delete this the sky will fall on your head */ } ?>
-
-
-</div>
-
-
-
+</ol>
+<div><a href="javascript:history.go(-1)">Go back</a></div>
+	<?php /* if you delete this the sky will fall on your head */ } ?>
 <!-- STOP editing there -->
 
 <?php
