@@ -53,15 +53,21 @@ else
 	#logo {
 		margin-bottom: 2em;
 	}
-.step a, .step input {
-	font-size: 2em;
-}
-.step, th {
-	text-align: right;
-}
-#footer {
-text-align: center; border-top: 1px solid #ccc; padding-top: 1em; font-style: italic;
-}
+	.step a, .step input {
+		font-size: 2em;
+	}
+	td input {
+		font-size: 1.5em;
+	}
+	.step, th {
+		text-align: right;
+	}
+	#footer {
+		text-align: center; 
+		border-top: 1px solid #ccc; 
+		padding-top: 1em; 
+		font-style: italic;
+	}
 	-->
 	</style>
 </head>
@@ -88,7 +94,7 @@ switch($step) {
 <h1>First Step</h1>
 <p>Before we begin we need a little bit of information. Don't worry, you can always change these later. </p>
 
-<form name="setup" id="setup" method="post" action="install.php?step=2">
+<form id="setup" method="post" action="install.php?step=2">
 <table width="100%">
 <tr>
 <th width="33%">Weblog title:</th>
