@@ -24,6 +24,7 @@ foreach ($posts as $post) { start_b2();
 
 <?php /* this line is b2's motor, do not delete it */ 
 $comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+$commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = $id");
 // this line is WordPress' motor, do not delete it.
 if ($comments) {
 	foreach ($comments as $comment) {
@@ -42,6 +43,7 @@ if ($comments) {
 <?php } ?>
 </ol>
 <h2>Leave a Comment</h2>
+<?php if ('open' == $commentstatus) { ?>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities($comment_allowed_tags); ?></p>
 
 
@@ -74,6 +76,9 @@ if ($comments) {
 	</p>
 </form>
 
+<?php } else { // comments are closed ?>
+<p>Sorry, comments are closed at this time.</p>
+<?php } ?>
 
 <div><strong><a href="javascript:window.close()">Close this window</a>.</strong></div>
 

@@ -8,6 +8,7 @@
 		$comment_author_url = (empty($HTTP_COOKIE_VARS["comment_author"])) ? "url" : trim($HTTP_COOKIE_VARS["comment_author_url"]);
 
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
+	$commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = $id");
 ?>
 
 <!-- you can start editing here -->
@@ -35,6 +36,7 @@ if ($comments) {
 <?php } ?>
 </ol>
 <h2>Leave a Comment</h2>
+<?php if ('open' == $commentstatus) { ?>
 <p>Line and paragraph breaks automatic, website trumps email, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <?php echo htmlentities($comment_allowed_tags); ?></p>
 
 
@@ -66,7 +68,9 @@ if ($comments) {
 	  <input name="submit" type="submit" tabindex="5" value="Say it!" />
 	</p>
 </form>
-
+<?php } else { // comments are closed ?>
+<p>Sorry, comments are closed at this time.</p>
+<?php } ?>
 
 <div><a href="javascript:history.go(-1)">Go back</a>.</div>
 
