@@ -725,7 +725,6 @@ function wp_notify_postauthor($comment_id, $comment_type='comment') {
  */
 function wp_notify_moderator($comment_id) {
     global $wpdb;
-    global $querystring_start, $querystring_equal, $querystring_separator;
 
     if( get_settings( "moderation_notify" ) == 0 )
         return true; 
@@ -737,8 +736,9 @@ function wp_notify_moderator($comment_id) {
     $comment_author_domain = gethostbyaddr($comment->comment_author_IP);
     $comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
 
-    $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".$post->post_title."\" is waiting for your approval\r\n\r\n";
-    $notify_message .= "Author : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
+    $notify_message  = "A new comment on the post #$comment->comment_post_ID \"".$post->post_title."\" is waiting for your approval\n";
+	$notify_message .= get_permalink($comment->comment_post_ID);
+    $notify_message .= "\n\nAuthor : $comment->comment_author (IP: $comment->comment_author_IP , $comment_author_domain)\r\n";
     $notify_message .= "E-mail : $comment->comment_author_email\r\n";
     $notify_message .= "URL    : $comment->comment_author_url\r\n";
     $notify_message .= "Whois  : http://ws.arin.net/cgi-bin/whois.pl?queryinput=$comment->comment_author_IP\r\n";
@@ -748,7 +748,7 @@ function wp_notify_moderator($comment_id) {
     $notify_message .= "Currently $comments_waiting comments are waiting for approval. Please visit the moderation panel:\r\n";
     $notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 
-    $subject = '[' . get_settings('blogname') . '] Please approve: "' .$post->post_title.'"';
+    $subject = '[' . get_settings('blogname') . '] Please moderate: "' .$post->post_title.'"';
     $admin_email = get_settings("admin_email");
     $from  = "From: $admin_email";
 
