@@ -2,6 +2,37 @@
 
 /* Note: these tags go anywhere in the template */
 
+function wp_loginout() {
+	global $user_level;
+	get_currentuserinfo();
+
+	if (0 == $user_level) :
+		$link = '<a href="' . get_settings('siteurl') . '/wp-login.php">' . __('Login') . '</a>';
+	else :
+		$link = '<a href="' . get_settings('siteurl') . '/wp-login.php?action=logout">' . __('Logout') . '</a>';
+	endif;
+
+	echo apply_filters('loginout', $link);
+}
+
+function wp_register() {
+	global $user_level;
+
+	get_currentuserinfo();
+
+	if (0 == $user_level) :
+		$link = '<a href="' . get_settings('siteurl') . '/wp-register.php">' . __('Register') . '</a>';
+	else :
+		$link = '<a href="' . get_settings('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>';
+	endif;
+
+	echo apply_filters('register', $link);
+}
+
+function wp_meta() {
+	do_action('wp_meta', 1);
+}
+
 function bloginfo($show='') {
     $info = get_bloginfo($show);
     $info = apply_filters('bloginfo', $info);
