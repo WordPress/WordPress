@@ -34,7 +34,7 @@ window.onload = focusit;
 </script>
     <fieldset id="titlediv">
       <legend><?php _e('Page Title') ?></legend> 
-	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
+ 	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
     </fieldset>
 <fieldset id="commentstatusdiv">
       <legend><?php _e('Discussion') ?></legend> 

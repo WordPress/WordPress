@@ -615,10 +615,17 @@ function page_template_dropdown($default = '') {
 }
 
 function parent_dropdown($default = 0, $parent = 0, $level = 0) {
-	global $wpdb;
+	global $wpdb, $post_ID;
 	$items = $wpdb->get_results("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = $parent AND post_status = 'static' ORDER BY menu_order");
+
 	if ($items) {
 		foreach ($items as $item) {
+			// A page cannot be it's own parent.
+			if (!empty($post_ID)) {
+				if ($item->ID == $post_ID) {
+					continue;
+				}
+			}
 			$pad = str_repeat('&nbsp;', $level * 3);
 			if ($item->ID == $default)
 				$current = ' selected="selected"';

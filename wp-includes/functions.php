@@ -1332,9 +1332,14 @@ function preg_index($number, $matches = '') {
 
 function get_page_uri($page) {
 	global $wpdb;
-	$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page'");
+	$page = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$page'");
 
 	$uri = urldecode($page->post_name);
+
+	// A page cannot be it's own parent.
+	if ($page->post_parent == $page->ID) {
+		return $uri;
+	}
 
 	while ($page->post_parent != 0) {
 		$page = $wpdb->get_row("SELECT post_name, post_parent FROM $wpdb->posts WHERE ID = '$page->post_parent'");
