@@ -560,4 +560,73 @@ if (! isset($wp_query)) {
     $wp_query = new WP_Query();
 }
 
+class retrospam_mgr {
+	var $spam_words;
+	var $comments_list;
+	var $found_comments;
+
+	function retrospam_mgr() {
+		global $wpdb;
+
+		$list = explode("\n", get_settings('moderation_keys') );
+		$list = array_unique( $list );
+		$this->spam_words = $list;
+
+		$this->comment_list = $wpdb->get_results("SELECT comment_ID AS ID, comment_content AS text, comment_approved AS approved, comment_author_url AS url, comment_author_ip AS ip, comment_author_email AS email FROM $wpdb->comments ORDER BY comment_ID ASC");
+	}	// End of class constructor
+
+	function move_spam( $id_list ) {
+		global $wpdb;
+		$cnt = 0;
+		$id_list = explode( ',', $id_list );
+
+		foreach ( $id_list as $comment ) {
+			if ( $wpdb->query("update $wpdb->comments set comment_approved = '0' where comment_ID = '$comment'") ) {
+				$cnt++;
+			}
+		}
+		echo "<div class='updated'><p>$cnt comment";
+		if ($cnt != 1 ) echo "s";
+		echo " moved to the moderation queue.</p></div>\n";
+	}	// End function move_spam
+
+	function find_spam() {
+		$in_queue = 0;
+
+		foreach( $this->comment_list as $comment ) {
+			if( $comment->approved == 1 ) {
+				foreach( $this->spam_words as $word ) {
+					$fulltext = strtolower($comment->email.' '.$comment->url.' '.$comment->ip.' '.$comment->text);
+					if( strpos( $fulltext, strtolower(trim($word)) ) != FALSE ) {
+						$this->found_comments[] = $comment->ID;
+						break;
+					}
+				}
+			} else {
+				$in_queue++;
+			}
+		}
+		return array( 'found' => $this->found_comments, 'in_queue' => $in_queue );
+	}	// End function find_spam
+
+	function display_edit_form( $counters ) {
+		$numfound = count($counters[found]);
+		$numqueue = $counters[in_queue];
+
+		$body = '<p>' . sprintf(__('Suspected spam comments: <strong>%s</strong>'), $numfound) . '</p>';
+
+		if ( count($counters[found]) > 0 ) {
+			$id_list = implode( ',', $counters[found] );
+			$body .= '<p><a href="options-discussion.php?action=retrospam&move=true&ids='.$id_list.'">'. __('Move suspect comments to moderation queue &raquo;') . '</a></p>';
+
+		}
+		$head = '<div class="wrap"><h2>' . __('Check Comments Results:') . '</h2>';
+
+		$foot .= '<p><a href="options-discussion.php">' . __('&laquo; Return to Discussion Options page.') . '</a></p></div>';
+		
+		return $head . $body . $foot;
+	} 	// End function display_edit_form
+
+}
+
 ?>
