@@ -110,8 +110,12 @@ function single_month_title($prefix = '', $display = true ) {
 	}
 }
 
-function get_archives($type, $limit='') {
+function get_archives($type='', $limit='') {
 	global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename, $querystring_start, $querystring_equal, $month, $wpdb, $start_of_week;
+
+    if ('' == $type) {
+        $type = get_settings('archive_mode');
+    }
 
 	if ('' != $limit) {
         $limit = (int) $limit;
@@ -124,7 +128,7 @@ function get_archives($type, $limit='') {
 	$archive_link_m = $siteurl.'/'.$blogfilename.$querystring_start.'m'.$querystring_equal;	# monthly archive;
 	$archive_link_w = $siteurl.'/'.$blogfilename.$querystring_start.'w'.$querystring_equal;	# weekly archive;
 	$archive_link_p = $siteurl.'/'.$blogfilename.$querystring_start.'p'.$querystring_equal;	# post-by-post archive;
-	
+
     // over-ride general date format ? 0 = no: use the date format set in Options, 1 = yes: over-ride
     $archive_date_format_over_ride = 0;
 
@@ -144,9 +148,9 @@ function get_archives($type, $limit='') {
         $archive_week_start_date_format = $dateformat;
         $archive_week_end_date_format   = $dateformat;
     }
-	
+
 	$now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
-	
+
 	if ('monthly' == $type) {
 		++$querycount;
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month` FROM $tableposts WHERE post_date < '$now' AND post_category > 0 AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
@@ -598,7 +602,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 	global $querystring_start, $querystring_equal, $querystring_separator;
 
 	if(($p) || ($posts_per_page==1)) {
-		
+
 		$current_post_date = $post->post_date;
 		$current_category = $post->post_category;
 
@@ -634,7 +638,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 	global $time_difference;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	if(($p) || ($posts==1)) {
-		
+
 		$current_post_date = $post->post_date;
 		$current_category = $post->post_category;
 
@@ -683,10 +687,10 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 			$qstr = preg_replace("/&paged=\d{0,}/","",$qstr);
 			$qstr = preg_replace("/paged=\d{0,}/","",$qstr);
 		} elseif (stristr($HTTP_SERVER_VARS['REQUEST_URI'], $HTTP_SERVER_VARS['SCRIPT_NAME'] )) {
-			if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '', 
+			if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '',
 											$HTTP_SERVER_VARS['REQUEST_URI']) ) {
 				$qstr = preg_replace("/^\//", "", $qstr);
-				$qstr = preg_replace("/paged\/\d{0,}\//", "", $qstr);		
+				$qstr = preg_replace("/paged\/\d{0,}\//", "", $qstr);
 				$qstr = preg_replace("/paged\/\d{0,}/", "", $qstr);
 				$qstr = preg_replace("/\/$/", "", $qstr);
 			}
@@ -733,10 +737,10 @@ function previous_posts() { // original by cfactor at cooltux.org
 			$qstr = preg_replace("/&paged=\d{0,}/","",$qstr);
 			$qstr = preg_replace("/paged=\d{0,}/","",$qstr);
 		} elseif (stristr($HTTP_SERVER_VARS['REQUEST_URI'], $HTTP_SERVER_VARS['SCRIPT_NAME'] )) {
-			if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '', 
+			if ('' != $qstr = str_replace($HTTP_SERVER_VARS['SCRIPT_NAME'], '',
 											$HTTP_SERVER_VARS['REQUEST_URI']) ) {
 				$qstr = preg_replace("/^\//", "", $qstr);
-				$qstr = preg_replace("/paged\/\d{0,}\//", "", $qstr);		
+				$qstr = preg_replace("/paged\/\d{0,}\//", "", $qstr);
 				$qstr = preg_replace("/paged\/\d{0,}/", "", $qstr);
 				$qstr = preg_replace("/\/$/", "", $qstr);
 			}
@@ -747,7 +751,7 @@ function previous_posts() { // original by cfactor at cooltux.org
 			($qstr == '' ? '' : $qstr.$querystring_separator) .
 			'paged'.$querystring_equal.$nextpage;
 	}
-} 
+}
 
 function previous_posts_link($label='<< Previous Page') {
 	global $p, $paged, $what_to_show;
@@ -978,7 +982,7 @@ function comment_author_link() {
 	$author = stripslashes(&$comment->comment_author);
 
 	$url = str_replace('http://url', '', $url);
-	
+
 	if (empty($url) && empty($email)) return $author;
 	echo '<a href="';
 	if ($url) {
@@ -1193,7 +1197,7 @@ function start_b2() {
 	} else {
 		$id = 0;
 		$postdata = array (
-			'ID' => 0, 
+			'ID' => 0,
 			'Author_ID' => $HTTP_GET_VARS['preview_userid'],
 			'Date' => $HTTP_GET_VARS['preview_date'],
 			'Content' => $HTTP_GET_VARS['preview_content'],
