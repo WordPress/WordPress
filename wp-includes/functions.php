@@ -432,10 +432,7 @@ function gzip_compression() {
 	if ( !get_settings('gzipcompression') ) return false;
 
 	if( extension_loaded('zlib') ) {
-		$ob_status = ob_get_status();
-		if (empty($ob_status) || $ob_status['name'] != 'ob_gzhandler') {
-			ob_start('ob_gzhandler');
-		}
+		ob_start('ob_gzhandler');
 	}
 }
 
