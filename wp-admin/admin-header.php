@@ -1,4 +1,6 @@
-<?php if (!isset($_GET["page"])) require_once('admin.php'); ?>
+<?php 
+@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+if (!isset($_GET["page"])) require_once('admin.php'); ?>
 <?php get_admin_page_title(); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
