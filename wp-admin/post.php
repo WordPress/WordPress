@@ -376,6 +376,9 @@ $now_gmt = current_time('mysql', 1);
 	// are we going from draft/private to published?
 	if ($prev_status != 'publish' && $post_status == 'publish') {
 		generic_ping();
+		if ($post_pingback) {
+			pingback($content, $post_ID);
+		}
 	} // end if moving from draft/private to published
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
