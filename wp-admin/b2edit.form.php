@@ -14,12 +14,12 @@ switch($action) {
 		if ($use_pingback) {
 			$form_pingback = '<input type="checkbox" class="checkbox" name="post_pingback" value="1" ';
             if ($post_pingback) $form_pingback .= 'checked="checked" ';
-            $form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback">PingBack the URLs in this post</label><br />';
+            $form_pingback .= 'tabindex="7" id="pingback" /> <label for="pingback"><strong>PingBack</strong> the <acronym title="Uniform Resource Locators">URL</acronym>s in this post</label> <a href="http://wordpress.org/docs/reference/post/#pingback" title="Help on Pingbacks">?</a><br />';
 		} else {
 			$form_pingback = '';
 		}
 		if ($use_trackback) {
-			$form_trackback = '<p><label for="trackback"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with commas.)<br />
+			$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with commas.)<br />
 			<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" /></p>';
 		} else {
 			$form_trackback = '';
@@ -66,15 +66,19 @@ window.onload = focusit;
 <table>
 	<tr> 
 	<td width="210">
-		<label for="title">Title:</label><br />
+		<label for="title"><a href="http://wordpress.org/docs/reference/post/#title" title="Help on titles">Title</a>:</label>		
+		<br />
 		<input type="text" name="post_title" size="25" tabindex="1" style="width: 190px;" value="<?php echo $edited_post_title; ?>" id="title" /> 
-	</td>
+		</td>
 	<td>
-		<label for="category">Category:</label><br /> 
+		<label for="category"><a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Category</a>:</label>
+		<br /> 
 		<?php dropdown_categories($blog_ID, $default_post_cat); ?>
 	</td>
 	<td>
-		<label for="post_status">Post Status:</label><br />          
+		<label for="post_status"><a href="http://wordpress.org/docs/reference/post/#post_status" title="Help on post status">Post
+		Status</a>:</label>
+		<br />          
 		<select name="post_status" id="post_status">
 			<option value="publish"<?php selected($post_status, 'publish'); ?>>Publish</option>
 			<option value="draft"<?php selected($post_status, 'draft'); ?>>Draft</option>
@@ -82,21 +86,25 @@ window.onload = focusit;
 		</select>
 	</td>
 	<td>
-		<label for="comment_status">Comments:</label><br />
+		<label for="comment_status"><a href="http://wordpress.org/docs/reference/post/#comments" title="Help on comment status">Comments</a>:</label>
+		<br />
 		<select name="comment_status" id="comment_status">
 			<option value="open"<?php selected($comment_status, 'open'); ?>>Open</option>
 			<option value="closed"<?php selected($comment_status, 'closed'); ?>>Closed</option>
 		</select>
 	</td>
 	<td>
-		<label for="ping_status">Pings:</label><br />	
+		<label for="ping_status"><a href="http://wordpress.org/docs/reference/post/#pings" title="Help on ping status">Pings</a>:</label>		
+		<br />	
 		<select name="ping_status" id="ping_status">
 			<option value="open"<?php selected($ping_status, 'open'); ?>>Open</option>
 			<option value="closed"<?php selected($ping_status, 'closed'); ?>>Closed</option>
 		</select>
 	</td>
 	<td>
-		<label for="post_password">Post Password:</label><br />
+		<label for="post_password"><a href="http://wordpress.org/docs/reference/post/#post_password" title="Help on post password">Post
+		Password</a>:</label>		
+		<br />
 		<input name="post_password" type="text" id="post_password" value="<?php echo $post_password ?>" />
 	</td>
 	</tr>
@@ -137,9 +145,9 @@ window.onload = focusit;
 
 <?php
 if ($action != 'editcomment') {
-  echo '<p><label for="excerpt">Excerpt:</label><br />';
 ?>
-
+<p><label for="excerpt"><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a>:</label>
+<br />
 <textarea rows="3" cols="40" style="width:100%" name="excerpt" tabindex="4" wrap="virtual" id="excerpt"><?php echo $excerpt ?></textarea></p>
 
 <?php
@@ -150,7 +158,7 @@ if ($action != 'editcomment') {
 		<td>
 <?php
 if ($action != 'editcomment') {
-	echo '<label for="content">Post:</label>';
+	echo '<label for="content"><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Post</a>:</label>';
 } else {
 	echo '<label for="content">Comment:</label>';
 }
@@ -158,6 +166,7 @@ if ($action != 'editcomment') {
 		</td>
 		<td align="right">
 <?php if ($use_quicktags) {
+	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
 	include('b2quicktags.php');
 	}
 ?>
@@ -174,8 +183,8 @@ if ($action != 'editcomment') {
 <?php
   if (get_settings('use_geo_positions')) {
 ?>
-<label for="post_latf">Lat:</label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
-<label for="post_lonf">Lon:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <A href="http://www.geourl.org/resources.html" target="_blank" >click for Geo Info</A>
+<label for="post_latf">Latitude:</label><input size="8" type="text" value="<?php echo $edited_lat; ?>" name="post_latf">&nbsp;
+<label for="post_lonf">Longitude:</label><input size="8" type="text" value="<?php echo $edited_lon; ?>" name="post_lonf">&nbsp; <A href="http://www.geourl.org/resources.html" target="_blank" >click for Geo Info</A>
 <br>
 <?
   }

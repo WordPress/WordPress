@@ -574,7 +574,7 @@ function touch_time($edit = 1) {
 		$checked = ' ';
 	}
 
-	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">Edit timestamp</label><br />';
+	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">Edit timestamp</label> <a href="http://wordpress.org/docs/reference/post/#edit_timestamp" title="Help on changing the timestamp">?</a><br />';
 	
 	$time_adj = time() + ($time_difference * 3600);
 	$jj = ($edit) ? mysql2date('d', $postdata['Date']) : date('d', $time_adj);
