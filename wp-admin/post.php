@@ -334,6 +334,8 @@ case 'editpost':
 		$location = $_SERVER['HTTP_REFERER'] . '&message=2#postcustom';
 	} elseif ($_POST['deletemeta']) {
 		$location = $_SERVER['HTTP_REFERER'] . '&message=3#postcustom';
+	} elseif (isset($_POST['referredby']) && $_POST['referredby'] != $_SERVER['HTTP_REFERER']) {
+		$location = $_POST['referredby'];
 	} else {
 		$location = 'post.php';
 	}

@@ -163,7 +163,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 <?php
 }
 ?>
-	<input name="referredby" type="hidden" id="referredby" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
+	<input name="referredby" type="hidden" id="referredby" value="<?php echo htmlspecialchars($_SERVER['HTTP_REFERER']); ?>" />
 </p>
 <?php
 if ('' != $pinged) {
