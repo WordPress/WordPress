@@ -72,7 +72,7 @@ CREATE TABLE $wpdb->options (
   option_name varchar(64) NOT NULL default '',
   option_can_override enum('Y','N') NOT NULL default 'Y',
   option_type int(11) NOT NULL default '1',
-  option_value text NOT NULL,
+  option_value longtext NOT NULL,
   option_width int(11) NOT NULL default '20',
   option_height int(11) NOT NULL default '8',
   option_description tinytext NOT NULL,

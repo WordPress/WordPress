@@ -505,7 +505,12 @@ textarea, input, select {
 #zeitgeist h3 {
 	border-bottom: 1px solid #ccc;
 	font-size: 16px;
-	margin: 1em 0;
+	margin: 1em 0 0;
+}
+
+#zeitgeist h3 cite {
+	font-size: 12px;
+	font-style: normal;
 }
 
 #zeitgeist li, #zeitgeist p {

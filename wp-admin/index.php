@@ -84,6 +84,23 @@ if (0 < $numcats) $numcats = number_format($numcats);
 <p>There are currently <?php echo $numposts ?> <a href="edit.php" title="posts">posts</a> and <?php echo $numcomms ?> <a href="edit-comments.php" title="Comments">comments</a>, contained within <?php echo $numcats ?> <a href="categories.php" title="categories">categories</a>.</p>
 </div>
 
+<?php
+$rss = @fetch_rss('http://feedster.com/links.php?url='. trailingslashit(get_option('home')) .'&type=rss&limit=6');
+if ( isset($rss->items) && 0 != count($rss->items) ) {
+?>
+<div>
+<h3><?php _e('Incoming Links'); ?> <cite><a href="http://feedster.com/links.php?url=<?php echo trailingslashit(get_option('home')); ?>"><?php _e('More'); ?> &raquo;</a></cite></h3>
+<ul>
+<?php
+$rss->items = array_slice($rss->items, 0, 6);
+foreach ($rss->items as $item ) {
+?>
+	<li><a href="<?php echo wp_filter_kses($item['link']); ?>"><?php echo wp_specialchars($item['title']); ?></a></li>
+<?php } ?>
+</ul>
+</div>
+<?php } ?>
+
 </div>
 
 <h2><?php _e('Dashboard'); ?></h2>
@@ -94,15 +111,36 @@ if ( $rss ) {
 ?>
 <h3>WordPress Development Blog</h3>
 <?php
-$rss->items = array_slice($rss->items, 0, 4);
+$rss->items = array_slice($rss->items, 0, 3);
 foreach ($rss->items as $item ) {
 ?>
-<h4><a href='<?php echo $item['link']; ?>'><?php echo wp_specialchars($item['title']); ?></a> &#8212; <?php echo human_time_diff( strtotime($item['pubdate'], time() ) ); ?> <?php _e('ago'); ?></h4>
+<h4><a href='<?php echo wp_filter_kses($item['link']); ?>'><?php echo wp_specialchars($item['title']); ?></a> &#8212; <?php echo human_time_diff( strtotime($item['pubdate'], time() ) ); ?> <?php _e('ago'); ?></h4>
 <p><?php echo $item['description']; ?></p>
 <?php
 	}
 }
 ?>
+
+<?php
+$rss = @fetch_rss('http://planet.wordpress.org/feed/');
+//var_dump($rss);
+if ( $rss ) {
+?>
+<h3><?php _e('Other WordPress News'); ?> <a href="http://planet.wordpress.org/"><?php _e('more'); ?> &raquo;</a></h3>
+<ul>
+<?php
+$rss->items = array_slice($rss->items, 0, 20);
+foreach ($rss->items as $item ) {
+?>
+<li><a href='<?php echo wp_filter_kses($item['link']); ?>'><?php echo wp_specialchars($item['title']); ?></a></li>
+<?php
+	}
+?>
+</ul>
+<?php
+}
+?>
+
 <br clear="all" />
 </div>
 <?php
