@@ -128,8 +128,11 @@ case 'upload':
         if (!$moved) {
             die("Couldn't Upload Your File to $pathtofile2.");
         } else {
+			chmod($pathtofile2, 0666);
             @unlink($img1);
         }
+
+	// 
     
     // duplicate-renaming function contributed by Gary Lawrence Murphy
     ?>
@@ -162,13 +165,14 @@ die();
         @$moved = move_uploaded_file($img1, $pathtofile); //Path to your images directory, chmod the dir to 777
         // move_uploaded_file() can fail if open_basedir in PHP.INI doesn't
         // include your tmp directory. Try copy instead?
-        if(!moved) {
+        if(!$moved) {
             $moved = copy($img1, $pathtofile);
         }
         // Still couldn't get it. Give up.
         if (!moved) {
             die("Couldn't Upload Your File to $pathtofile.");
         } else {
+			chmod($pathtofile, 0666);
             @unlink($img1);
         }
         
@@ -219,7 +223,7 @@ Type:
 <?php echo $img1_type; ?>
 </p>
 </div>
-<p><a href="upload.php">Start over</a>.</p>
+<p><a href="upload.php">Upload another</a>.</p>
 <?php
 break;
 }
