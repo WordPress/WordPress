@@ -475,4 +475,17 @@ function extract_from_markers($filename, $marker) {
  return $result;
 }
 
+function the_quicktags () {
+// Browser detection sucks, but until Safari supports the JS needed for this to work people just assume it's a bug in WP
+if ( !strstr($_SERVER['HTTP_USER_AGENT'], 'Safari') ) :
+	echo '
+	<div id="quicktags">
+	<a href="http://wordpress.org/docs/reference/post/#quicktags" title="' .  __('Help with quicktags') . '">' . __('Quicktags') . '</a>:
+	<script src="quicktags.js" type="text/javascript"></script>
+	<script type="text/javascript">edToolbar();</script>
+';
+	echo '</div>';
+endif;
+}
+
 ?>

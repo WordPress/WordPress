@@ -49,14 +49,7 @@ window.onload = focusit;
 <br />
 <fieldset id="postdiv">
     <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
-		<div id="quicktags">
-<?php
-if ('bookmarklet' != $mode) {
-	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="' . __('Help with quicktags') . '">' . __('Quicktags') . '</a>: ';
-	include('quicktags.php');
-}
-?>
-</div>
+<?php the_quicktags(); ?>
 <?php
  $rows = get_settings('default_post_edit_rows');
  if (($rows < 3) || ($rows > 100)) {

@@ -39,12 +39,7 @@ window.onload = focusit;
 
 <fieldset style="clear: both;">
         <legend><?php _e('Comment') ?></legend>
-		<div id="quicktags">
-<?php
-	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="' . __('Help with quicktags') . '">' . __('Quicktags') . '</a>: ';
-	include('quicktags.php');
-?>
-</div>
+<?php the_quicktags(); ?>
 <?php
  $rows = get_settings('default_post_edit_rows');
  if (($rows < 3) || ($rows > 100)) {
