@@ -1,8 +1,7 @@
 <?php
 $mode = 'sidebar';
 
-$standalone = 1;
-require_once('admin-header.php');
+require_once('admin.php');
 
 get_currentuserinfo();
 
