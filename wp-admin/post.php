@@ -486,7 +486,7 @@ case 'delete':
 	$sendback = $_SERVER['HTTP_REFERER'];
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
 	header ('Location: ' . $sendback);
-	do_action('delete_post', $post_ID);
+	do_action('delete_post', $post_id);
 	break;
 
 case 'editcomment':
