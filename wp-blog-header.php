@@ -285,7 +285,7 @@ if ($p == 'all') {
 
 $now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
 
-if ($pagenow != 'post.php') {
+if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
 	if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
 		$where .= ' AND post_date <= \''.$now.'\'';
 	}
