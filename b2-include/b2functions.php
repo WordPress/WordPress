@@ -1262,7 +1262,7 @@ function doGeoUrlHeader($posts) {
 }
 
 function getRemoteFile($host,$path) {
-    $fp = fsockopen($host, 80, &$errno, &$errstr);
+    $fp = fsockopen($host, 80, $errno, $errstr);
     if ($fp) {
         fputs($fp,"GET $path HTTP/1.0\r\nHost: $host\r\n\r\n");
         while ($line = fgets($fp, 4096)) {
