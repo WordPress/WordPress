@@ -28,14 +28,8 @@ switch ($step) {
 	<form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 
 	<ol>
-    <li><?php _e('Go to <a href="http://www.blogrolling.com">Blogrolling.com</a>
-    and sign in. Once you&#8217;ve done that, click on <strong>Get Code</strong>, and then
-    look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
-    code</strong>') ?>.</li>
-    <li><?php _e('Or go to <a href="http://blo.gs">Blo.gs</a> and sign in. Once you&#8217;ve done
-    that in the \'Welcome Back\' box on the right, click on <strong>share</strong>, and then
-    look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr>
-    link</strong> (favorites.opml).') ?></li>
+    <li><?php _e('Go to <a href="http://www.blogrolling.com">Blogrolling.com</a> and sign in. Once you&#8217;ve done that, click on <strong>Get Code</strong>, and then look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr> code</strong>') ?>.</li>
+    <li><?php _e('Or go to <a href="http://blo.gs">Blo.gs</a> and sign in. Once you&#8217;ve done that in the \'Welcome Back\' box on the right, click on <strong>share</strong>, and then look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr> link</strong> (favorites.opml).') ?></li>
     <li><?php _e('Select that text and copy it or copy the link/shortcut into the box below.') ?><br />
        <input type="hidden" name="step" value="1" />
        <?php _e('Your OPML URL:') ?> <input type="text" name="opml_url" size="65" />

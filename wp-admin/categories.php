@@ -154,9 +154,7 @@ cat_rows();
 
 <?php if ( $user_level > 3 ) : ?>
 <div class="wrap">
-    <p><?php printf(__('<strong>Note:</strong><br />
-Deleting a category does not delete posts from that category, it will just
-set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
+    <p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete posts from that category, it will just set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
   </p>
 </div>
 
