@@ -80,6 +80,8 @@ switch($step) {
 $query = "
 CREATE TABLE $tableoptions (
   option_id int(11) NOT NULL auto_increment,
+  blog_id int(11) not null default 0,
+  option_can_override enum ('Y','N') NOT NULL default 'Y',
   option_name varchar(64) UNIQUE NOT NULL default '',
   option_type int(11) NOT NULL default 1,
   option_value varchar(255) NOT NULL default '',
@@ -87,7 +89,7 @@ CREATE TABLE $tableoptions (
   option_height int NOT NULL default 8,
   option_description tinytext NOT NULL default '',
   option_admin_level int NOT NULL DEFAULT '1',
-  PRIMARY KEY (option_id)
+  PRIMARY KEY (option_id, blog_id)
 )
 ";
 $q = $wpdb->query($query);
@@ -417,7 +419,7 @@ foreach ($option_data as $query) {
 ?>
 <p>OK. All settings transferred.</p>
 <p>Congratulations! You have updated to the latest version of WordPress</p>
-<p>You can now delete your b2config.php file</p>
+<p>You can now delete your b2config.php file, and go play with your <a href="<?php echo $siteurl; ?>">updated blog</a> </p>
 <?php
 	break;
 }
