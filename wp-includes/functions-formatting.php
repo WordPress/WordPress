@@ -70,7 +70,7 @@ function wpautop($pee, $br = 1) {
 	if ($br) $pee = preg_replace('|(?<!<br />)\s*\n|', "<br />\n", $pee); // optionally make line breaks
 	$pee = preg_replace('!(</?(?:table|thead|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|p|h[1-6])[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)!', '$1', $pee);
-	$pee = preg_replace('!(<pre.*?>)(.*?)</pre>!ise', " '$1' .  clean_pre('$2')  . '</pre>' ", $pee);
+	$pee = preg_replace('!(<pre.*?>)(.*?)</pre>!ise', " stripslashes('$1') .  clean_pre('$2')  . '</pre>' ", $pee);
 	$pee = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $pee);
 	
 	return $pee; 
@@ -224,6 +224,7 @@ function autobrize($content) {
 	$content = preg_replace("/(\015\012)|(\015)|(\012)/", "<br />\n", $content);
 	return $content;
 }
+
 function unautobrize($content) {
 	$content = preg_replace("/<br>\n/", "\n", $content);   //for PHP versions before 4.0.5
 	$content = preg_replace("/<br \/>\n/", "\n", $content);
@@ -232,16 +233,15 @@ function unautobrize($content) {
 
 
 function format_to_edit($content) {
-	global $autobr;
 	$content = stripslashes($content);
-	if ($autobr) { $content = unautobrize($content); }
 	$content = htmlspecialchars($content);
 	return $content;
 }
+
 function format_to_post($content) {
-	global $post_autobr,$comment_autobr;
-	$content = addslashes($content);
-	if ($post_autobr || $comment_autobr) { $content = autobrize($content); }
+	global $wpdb;
+	$content = stripslashes(stripslashes($content));
+	$content = $wpdb->escape($content);
 	return $content;
 }
 
