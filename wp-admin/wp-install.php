@@ -1,20 +1,7 @@
 <?php
 require('../b2config.php');
 
-function mysql_doh($msg,$sql,$error) {
-	echo "<p>$msg</p>";
-	echo "<p>query:<br />$sql</p>";
-	echo "<p>error:<br />$error</p>";
-	die();
-}
 
-$connexion = mysql_connect($server, $loginsql, $passsql) or die("<h1>Check your b2config.php file!</h1>Can't connect to the database<br />".mysql_error());
-$dbconnexion = mysql_select_db($base, $connexion);
-
-if (!$dbconnexion) {
-	echo mysql_error();
-	die();
-}
 $step = $HTTP_GET_VARS['step'];
 if (!$step) $step = 0;
 ?>
@@ -79,7 +66,7 @@ $got_row = false;
 <p>Installing WP-Links.</p>
 <p>Checking for tables...</p>
 <?php
-$result = mysql_list_tables($dbname);
+$result = mysql_list_tables(DB_NAME);
 if (!$result) {
     print "DB Error, could not list tables\n";
     print 'MySQL Error: ' . mysql_error();
@@ -168,14 +155,14 @@ if ($got_row) {
     echo "<p>All done!</p>\n";
 }
 ?>
-<p>Did you defeat the boss monster at the end? Good, then you&#8217;re ready for <a href="wp-install.php?step=2">Step 
+<p>Did you defeat the boss monster at the end? Great! You&#8217;re ready for <a href="wp-install.php?step=2">Step 
   2</a>.</p>
 <?php
 	break;
 	case 2:
 ?>
 <h1>Step 2</h1>
-<p>First we&#8217;re going to create the necessary tables in the database...</p>
+<p>First we&#8217;re going to create the necessary blog tables in the database...</p>
 
 <?php
 # Note: if you want to start again with a clean b2 database,
@@ -191,12 +178,16 @@ $query = "CREATE TABLE $tableposts (
   post_content text NOT NULL,
   post_title text NOT NULL,
   post_category int(4) NOT NULL default '0',
-  post_karma int(11) NOT NULL default '0',
   post_excerpt text NOT NULL,
-  PRIMARY KEY  (ID)
+  post_status enum('publish','draft','private') NOT NULL default 'publish',
+  comment_status enum('open','closed') NOT NULL default 'open',
+  ping_status enum('open','closed') NOT NULL default 'open',
+  post_password varchar(20) NOT NULL default '',
+  PRIMARY KEY  (ID),
+  KEY post_status (post_status)
 )
 ";
-$q = mysql_query($query) or mysql_doh("Doh, can't create the table \"$tableposts\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 ?>
 
 <p>The first table has been created! ...</p>
@@ -205,7 +196,7 @@ $q = mysql_query($query) or mysql_doh("Doh, can't create the table \"$tableposts
 $now = date('Y-m-d H:i:s');
 $query = "INSERT INTO $tableposts (post_author, post_date, post_content, post_title, post_category) VALUES ('1', '$now', 'Welcome to WordPress. This is the first post. Edit or delete it, then start blogging!', 'Hello world!', '1')";
 
-$q = mysql_query($query) or mysql_doh("Doh, can't insert a first post in the table \"$tableposts\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 ?>
 
 <p>The test post has been inserted correctly...</p>
@@ -214,20 +205,20 @@ $q = mysql_query($query) or mysql_doh("Doh, can't insert a first post in the tab
 // $query = "DROP TABLE IF EXISTS $tablecategories";
 // $q = mysql_query($query) or mysql_doh("doh, can't drop the table \"$tablecategories\" in the database.");
 
-$query="
+$query = "
 CREATE TABLE $tablecategories (
   cat_ID int(4) NOT NULL auto_increment,
   cat_name varchar(55) NOT NULL default '',
   PRIMARY KEY  (cat_ID)
 )
 ";
-$q = mysql_query($query) or mysql_doh("doh, can't create the table \"$tablecategories\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 
 $query = "INSERT INTO $tablecategories (cat_ID, cat_name) VALUES ('0', 'General')";
-$q = mysql_query($query) or mysql_doh("doh, can't set the default category in the table \"$tablecategories\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 
 $query = "UPDATE $tableposts SET post_category = 1";
-$result = mysql_query($query) or mysql_doh("Oops, can't set the default category on $tableposts.", $query, mysql_error());
+$result = $wpdb->query($query);
 ?>
 
 <p>Categories are up and running...</p>
@@ -250,11 +241,11 @@ CREATE TABLE $tablecomments (
   PRIMARY KEY  (comment_ID)
 )
 ";
-$q = mysql_query($query) or mysql_doh("doh, can't create the table \"$tablecomments\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 
 $now = date('Y-m-d H:i:s');
 $query = "INSERT INTO $tablecomments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content) VALUES ('1', 'Mr WordPress', 'mr@wordpress.org', 'http://wordpress.org', '127.0.0.1', '$now', 'Hi, this is a comment.<br />To delete a comment, just log in, and view the posts\' comments, there you will have the option to edit or delete them.')";
-$q = mysql_query($query) or mysql_doh("doh, can't insert a first comment in the table \"$tablecomments\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 ?>
 
 <p>Comments are groovy...</p>
@@ -276,10 +267,10 @@ CREATE TABLE $tablesettings (
   PRIMARY KEY  (ID)
 )
 ";
-$q = mysql_query($query) or mysql_doh("doh, can't create the table \"$tablesettings\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 
 $query = "INSERT INTO $tablesettings ( ID, posts_per_page, what_to_show, archive_mode, time_difference, AutoBR, time_format, date_format) VALUES ( '1', '20', 'posts', 'monthly', '0', '1', 'g:i a', 'n/j/Y')";
-$q = mysql_query($query) or mysql_doh("doh, can't set the default settings in the table \"$tablesettings\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 ?>
 
 <p>Settings are okay.</p>
@@ -312,12 +303,12 @@ CREATE TABLE $tableusers (
   UNIQUE KEY (user_login)
 )
 ";
-$q = mysql_query($query) or mysql_doh("doh, can't create the table \"$tableusers\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 
 $random_password = substr(md5(uniqid(microtime())),0,6);
 
 $query = "INSERT INTO $tableusers (ID, user_login, user_pass, user_firstname, user_lastname, user_nickname, user_icq, user_email, user_url, user_ip, user_domain, user_browser, dateYMDhour, user_level, user_aim, user_msn, user_yim, user_idmode) VALUES ( '1', 'admin', '$random_password', '', '', 'admin', '0', '$admin_email', '', '127.0.0.1', '127.0.0.1', '', '00-00-0000 00:00:01', '10', '', '', '', 'nickname')";
-$q = mysql_query($query) or mysql_doh("doh, can't set the default user in the table \"$tableusers\" in the database.", $query, mysql_error());
+$q = $wpdb->query($query);
 
 ?>
 
