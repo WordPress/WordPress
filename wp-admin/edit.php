@@ -111,18 +111,36 @@ if ( $_GET['m'] ) {
 
 <br style="clear:both;" />
 
+<?php
+
+// define the columns to display, the syntax is 'internal name' => 'display name'
+$posts_columns = array(
+  'id'         => __('ID'),
+  'date'       => __('When'),
+  'title'      => __('Title'),
+  'categories' => __('Categories'),
+  'comments'   => __('Comments'),
+  'author'     => __('Author')
+);
+$posts_columns = apply_filters('manage_posts_columns', $posts_columns);
+
+// you can not edit these at the moment
+$posts_columns['control_view']   = '';
+$posts_columns['control_edit']   = '';
+$posts_columns['control_delete'] = '';
+
+print_r($posts_columns);
+
+?>
+
 <table width="100%" cellpadding="3" cellspacing="3"> 
-  <tr> 
-    <th scope="col"><?php _e('ID') ?></th> 
-    <th scope="col"><?php _e('When') ?></th> 
-    <th scope="col"><?php _e('Title') ?></th> 
-    <th scope="col"><?php _e('Categories') ?></th> 
-    <th scope="col"><?php _e('Comments') ?></th> 
-    <th scope="col"><?php _e('Author') ?></th> 
-	<th scope="col"></th> 
-    <th scope="col"></th> 
-    <th scope="col"></th> 
-  </tr> 
+	<tr>
+
+<?php foreach($posts_columns as $column_display_name) { ?>
+	<th scope="col"><?php echo $column_display_name; ?></th>
+<?php } ?>
+
+	</tr>
 <?php
 $what_to_show = 'posts';
 if ( empty($_GET['m']) || 0 == $_GET['m'] && empty($_GET['s']) ) {
@@ -138,21 +156,79 @@ $bgcolor = '';
 foreach ($posts as $post) { start_wp();
 $class = ('alternate' == $class) ? '' : 'alternate';
 ?> 
-  <tr class='<?php echo $class; ?>'> 
-    <th scope="row"><?php echo $id ?></th> 
-    <td><?php the_time('Y-m-d \<\b\r \/\> g:i:s a'); ?></td> 
-    <td>
-      <?php the_title() ?> 
-    <?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?></td> 
-    <td><?php the_category(','); ?></td> 
-    <td><a href="edit.php?p=<?php echo $id ?>&amp;c=1"> 
+	<tr class='<?php echo $class; ?>'>
+
+<?php
+
+foreach($posts_columns as $column_name=>$column_display_name) {
+
+	switch($column_name) {
+	
+	case 'id':
+		?>
+		<th scope="row"><?php echo $id ?></th>
+		<?php
+		break;
+
+	case 'date':
+		?>
+		<td><?php the_time('Y-m-d \<\b\r \/\> g:i:s a'); ?></td>
+		<?php
+		break;
+	case 'title':
+		?>
+		<td><?php the_title() ?>
+		<?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?></td>
+		<?php
+		break;
+
+	case 'categories':
+		?>
+		<td><?php the_category(','); ?></td>
+		<?php
+		break;
+
+	case 'comments':
+		?>
+		<td><a href="edit.php?p=<?php echo $id ?>&amp;c=1"> 
       <?php comments_number(__('0'), __('1'), __('%')) ?> 
-      </a></td> 
-    <td><?php the_author() ?></td> 
-	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
-    <td><?php if ( user_can_edit_user($user_level,$authordata->user_level) ) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
-    <td><?php if ( user_can_edit_user($user_level,$authordata->user_level) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), wp_specialchars(get_the_title('', ''), 1) ) . "')\">" . __('Delete') . "</a>"; } ?></td> 
-  </tr> 
+      </a></td>
+		<?php
+		break;
+
+	case 'author':
+		?>
+		<td><?php the_author() ?></td>
+		<?php
+		break;
+
+	case 'control_view':
+		?>
+		<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
+		<?php
+		break;
+
+	case 'control_edit':
+		?>
+		<td><?php if ( user_can_edit_user($user_level,$authordata->user_level) ) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td>
+		<?php
+		break;
+
+	case 'control_delete':
+		?>
+		<td><?php if ( user_can_edit_user($user_level,$authordata->user_level) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), wp_specialchars(get_the_title('', ''), 1) ) . "')\">" . __('Delete') . "</a>"; } ?></td>
+		<?php
+		break;
+
+	default:
+		?>
+		<td><?php do_action('manage_posts_custom_column', $column_name, $id); ?></td>
+		<?php
+		break;
+	}
+}
+?>
+	</tr> 
 <?php
 }
 } else {
