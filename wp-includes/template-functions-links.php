@@ -349,8 +349,14 @@ function get_pagenum_link($pagenum = 1){
          $permalink = 1;
 
 	 // If it's not a path info permalink structure, trim the index.
-	 if ( ! preg_match('#^/*' . get_settings('blogfilename') . '#', get_settings('permalink_structure'))) {
+	 if (using_mod_rewrite()) {
 	   $qstr = preg_replace("#/*" . get_settings('blogfilename') . "/*#", '/', $qstr);
+	 } else {
+	   // If using path info style permalinks, make sure the index is in
+	   // the URI.
+	   if (! strstr($qstr, get_settings('blogfilename'))) {
+	     $qstr = '/' . get_settings('blogfilename') . $qstr;
+	   }
 	 }
 
 	 $qstr =  trailingslashit($qstr) . $page_modstring . $pagenum;

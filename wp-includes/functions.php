@@ -1163,6 +1163,23 @@ function remove_action($tag, $function_to_remove, $priority = 10) {
 	remove_filter($tag, $function_to_remove, $priority);
 }
 
+function using_mod_rewrite($permalink_structure = '') {
+    if (empty($permalink_structure)) {
+        $permalink_structure = get_settings('permalink_structure');
+	
+        if (empty($permalink_structure)) {
+            return false;
+        }
+    }
+
+    // If the index is not in the permalink, we're using mod_rewrite.
+    if (! preg_match('#^/*' . get_settings('blogfilename') . '#', $permalink_structure)) {
+      return true;
+    }
+    
+    return false;
+}
+
 function preg_index($number, $matches = '') {
     $match_prefix = '$';
     $match_suffix = '';
@@ -1251,9 +1268,9 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
 
     $num_tokens = count($tokens[0]);
 
-    $index = 'index.php';
-    $feedindex = 'index.php';
-    $trackbackindex = 'index.php';
+    $index = get_settings('blogfilename');;
+    $feedindex = $index;
+    $trackbackindex = $index;
     for ($i = 0; $i < $num_tokens; ++$i) {
              if (0 < $i) {
                  $queries[$i] = $queries[$i - 1] . '&';
@@ -1334,7 +1351,7 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));    
     $index = get_settings('blogfilename');
     $prefix = '';
-    if (preg_match('#^/*' . $index . '#', $front)) {
+    if (! using_mod_rewrite($permalink_structure)) {
         $prefix = $index . '/';
     }
 
