@@ -48,6 +48,7 @@ if ( !(phpversion() >= '4.1') )
 
 
 require (ABSPATH . WPINC . '/functions.php');
+timer_start();
 require (ABSPATH . WPINC . '/functions-formatting.php');
 require (ABSPATH . WPINC . '/template-functions.php');
 require (ABSPATH . WPINC . '/links.php');

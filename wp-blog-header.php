@@ -145,8 +145,6 @@ foreach (array_merge($wpvarstoreset, $more_wpvars) as $wpvar) {
     }
 }
 
-if ($pagenow != 'post.php') { timer_start(); }
-
 // Update some caches.
 update_category_cache();
 

@@ -12,7 +12,6 @@ function gethelp_link($this_file, $helptag) {
 
 if (!isset($blogID))    $blog_ID=1;
 if (!isset($debug))        $debug=0;
-timer_start();
 
 $dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE 1=1");
 foreach ($dogs as $catt) {
