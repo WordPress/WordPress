@@ -37,6 +37,7 @@ case 'post':
 	$post_name = $_POST['post_name'];
 	$post_parent = 0;
 	$menu_order  = 0;
+	
 
 	if ( isset($_POST['parent_id']) )
 		$post_parent = $_POST['parent_id'];
@@ -60,10 +61,10 @@ case 'post':
 	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) && 2 != get_option('new_users_can_blog') )
 		$post_status = 'draft';
 	$comment_status = $_POST['comment_status'];
-	if ( empty($comment_status) )
+	if ( empty($comment_status) && !isset($_POST['advanced_view']) )
 		$comment_status = get_option('default_comment_status');
 	$ping_status = $_POST['ping_status'];
-	if ( empty($ping_status) )
+	if ( empty($ping_status) && !isset($_POST['advanced_view']) )
 		$ping_status = get_option('default_ping_status');
 	$post_password = $_POST['post_password'];
 	

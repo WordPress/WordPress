@@ -70,7 +70,9 @@ window.onload = focusit;
 
     <fieldset id="commentstatusdiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#comments" title="<?php _e('Help on comment status') ?>"><?php _e('Discussion') ?></a></legend> 
-	  <div><label for="comment_status" class="selectit">
+	  <div>
+	  <input name="advanced_view" type="hidden" value="1" />
+	  <label for="comment_status" class="selectit">
 	      <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($comment_status, 'open'); ?> />
          <?php _e('Allow Comments') ?></label> 
 		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
