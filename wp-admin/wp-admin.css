@@ -250,6 +250,10 @@ textarea, input, select {
 	width: 6.5em;
 }
 
+#postpassworddiv {
+	clear: both;
+}
+
 #poststuff {
 	margin-right: 11em;
 }

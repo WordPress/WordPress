@@ -142,7 +142,8 @@ window.onload = focusit;
 <?php
 if ($action != 'editcomment') {
 ?>
-<fieldset style="clear: both">
+<br />
+<fieldset style="clear:both">
 <legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="Help with excerpts">Excerpt</a></legend>
 <div><textarea rows="2" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
 </fieldset>
