@@ -22,7 +22,7 @@ $allowedtags = array(
 				'abbr' => array('title' => array()),
 				'acronym' => array('title' => array()),
 				'b' => array(),
-//				'blockquote' => array('cite' => array()),
+				'blockquote' => array('cite' => array()),
 //				'br' => array(),
 				'code' => array(),
 //				'del' => array('datetime' => array()),
