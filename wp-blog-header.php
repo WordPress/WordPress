@@ -113,36 +113,41 @@ if (isset($showposts) && $showposts) {
     $showposts = (int)$showposts;
     $posts_per_page = $showposts;
 }
+
+$add_hours = intval($time_difference);
+$add_minutes = intval(60 * ($time_difference - $add_hours));
+$wp_posts_post_date_field = "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
+
 // if a month is specified in the querystring, load that month
 if ($m != '') {
     $m = ''.intval($m);
-    $where .= ' AND YEAR(post_date)='.substr($m,0,4);
+    $where .= " AND YEAR($wp_posts_post_date_fieldpost_date)=".substr($m,0,4);
     if (strlen($m)>5)
-        $where .= ' AND MONTH(post_date)='.substr($m,4,2);
+        $where .= " AND MONTH($wp_posts_post_date_field)=".substr($m,4,2);
     if (strlen($m)>7)
-        $where .= ' AND DAYOFMONTH(post_date)='.substr($m,6,2);
+        $where .= " AND DAYOFMONTH($wp_posts_post_date_field)=".substr($m,6,2);
     if (strlen($m)>9)
-        $where .= ' AND HOUR(post_date)='.substr($m,8,2);
+        $where .= " AND HOUR($wp_posts_post_date_field.)=".substr($m,8,2);
     if (strlen($m)>11)
-        $where .= ' AND MINUTE(post_date)='.substr($m,10,2);
+        $where .= " AND MINUTE($wp_posts_post_date_field)=".substr($m,10,2);
     if (strlen($m)>13)
-        $where .= ' AND SECOND(post_date)='.substr($m,12,2);
+        $where .= " AND SECOND($wp_posts_post_date_field)=".substr($m,12,2);
 
 }
 
 if ($year != '') {
     $year = '' . intval($year);
-    $where .= ' AND YEAR(post_date)=' . $year;
+    $where .= " AND YEAR($wp_posts_post_date_field)='$year'";
 }
 
 if ($monthnum != '') {
     $monthnum = '' . intval($monthnum);
-    $where .= ' AND MONTH(post_date)=' . $monthnum;
+    $where .= " AND MONTH($wp_posts_post_date_field)='$monthnum'";
 }
 
 if ($day != '') {
     $day = '' . intval($day);
-    $where .= ' AND DAYOFMONTH(post_date)=' . $day;
+    $where .= " AND DAYOFMONTH($wp_posts_post_date_field)='$day'";
 }
 
 if ($name != '') {
@@ -152,7 +157,7 @@ if ($name != '') {
 
 if ($w != '') {
     $w = ''.intval($w);
-    $where .= ' AND WEEK(post_date, 1)=' . $w;
+    $where .= " AND WEEK($wp_posts_post_date_field, 1)='$w'";
 }
 
 // if a post number is specified, load that post
@@ -327,7 +332,7 @@ if ((!$whichcat) && (!$m) && (!$p) && (!$w) && (!$s) && empty($poststart) && emp
         $lastpostdate = mysql2date('Y-m-d 00:00:00',$lastpostdate);
         $lastpostdate = mysql2date('U',$lastpostdate);
         $otherdate = date('Y-m-d H:i:s', ($lastpostdate - (($posts_per_page-1) * 86400)));
-        $where .= ' AND post_date > \''.$otherdate.'\'';
+        $where .= " AND $wp_posts_post_date_field > '$otherdate'";
     }
 }
 
@@ -346,7 +351,7 @@ if ( !empty($postend) && ($postend > $poststart) && (!$m) && empty($monthnum) &&
         $lastpostdate = mysql2date('U',$lastpostdate);
         $startdate = date('Y-m-d H:i:s', ($lastpostdate - (($poststart -1) * 86400)));
         $otherdate = date('Y-m-d H:i:s', ($lastpostdate - (($postend -1) * 86400)));
-        $where .= ' AND post_date > \''.$otherdate.'\' AND post_date < \''.$startdate.'\'';
+        $where .= " AND $wp_posts_post_date_field > '$otherdate' AND $wp_posts_post_date_field < '$startdate'";
     }
 } else {
     if (($what_to_show == 'paged') && (!$p) && (!$more)) {
@@ -381,7 +386,7 @@ $now = gmdate('Y-m-d H:i:00');
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
     if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
-        $where .= ' AND post_date <= \''.$now.'\'';
+        $where .= " AND $wp_posts_post_date_field <= '$now'";
     }
 
     $distinct = 'DISTINCT';
