@@ -60,7 +60,7 @@ function the_author_msn() {
 }
 
 function the_author_posts() {
-    global $id,$postdata;    $posts=get_usernumposts($post->post_author);    echo $posts;
+    global $id,$post;    $posts=get_usernumposts($post->post_author);    echo $posts;
 }
 
 function get_author_link($echo = false, $author_id, $author_nicename) {
