@@ -43,14 +43,9 @@ $passsql = DB_PASSWORD;
 $base = DB_NAME;
 
 $abspath = dirname(__FILE__).'/';
-// setup your own smilies (if not there is a set in b2vars)
-if (file_exists($abspath.'mysmilies.php')) {
-    include($abspath.'mysmilies.php');
-}
 
-// pull in the day and month translations
-require_once($abspath.'day-month-trans.php');
-
+// pull in the day and month translations and the smilies
+require_once($abspath.'wp-config-extra.php');
 require_once($abspath.$b2inc.'/wp-db.php');
 require_once($abspath.$b2inc.'/b2functions.php');
 require_once($abspath.'wp-settings.php');
