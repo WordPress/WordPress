@@ -40,9 +40,9 @@ case 'update':
 
     $options = $wpdb->get_results("SELECT $wpdb->options.option_id, option_name, option_type, option_value, option_admin_level FROM $wpdb->options WHERE option_name IN ($option_names)");
 
-		// Save for later.
-		$old_siteurl = get_settings('siteurl');
-		$old_home = get_settings('home');
+	// Save for later.
+	$old_siteurl = get_settings('siteurl');
+	$old_home = get_settings('home');
 
 // HACK
 // Options that if not there have 0 value but need to be something like "closed"
@@ -52,18 +52,15 @@ case 'update':
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
                 $old_val = $option->option_value;
-                $new_val = htmlspecialchars( trim($_POST[$option->option_name]) );
-                if (!$new_val) {
-                    if (3 == $option->option_type)
-                        $new_val = '';
-                    else
-                        $new_val = 0;
-                }
-                if( in_array($option->option_name, $nonbools) && $new_val == '0' ) $new_val = 'closed';
+                $new_val = trim($_POST[$option->option_name]);
+                if ( !$new_val && $old_val != 0 )
+                    $new_val = '';
+                if( in_array($option->option_name, $nonbools) && $new_val == '0' )
+					$new_val = 'closed';
                 if ($new_val !== $old_val) {
                     $result = $wpdb->query("UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'");
-										$any_changed++;
-								}
+					$any_changed++;
+				}
             }
         }
         unset($cache_settings); // so they will be re-read
