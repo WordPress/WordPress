@@ -1243,10 +1243,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$comment_ID = $wpdb->insert_id;
 
-		if (get_settings('comments_notify')) {
-			wp_notify_postauthor($comment_ID, 'pingback');
-		}
-
 		do_action('pingback_post', $comment_ID);
 		
 		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
