@@ -14,7 +14,7 @@ echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>';
 <channel>
 <?php
 $i = 0;
-foreach ($posts as $post) { start_wp();
+if ($posts) { foreach ($posts as $post) { start_wp();
 	if ($i < 1) {
 		$i++;
 ?>
@@ -68,7 +68,7 @@ foreach ($posts as $post) { start_wp();
 			}
 		}
 	}
-}
+} }
 ?>
 </channel>
 </rss>
