@@ -225,41 +225,38 @@ if ($pagenow == 'index.php') {
 		} else if ( is_trackback() ) {
 			include(ABSPATH . '/wp-trackback.php');
 			exit;
-		} else if ( is_404() && file_exists("$wp_template_dir/404.php") ) {
-			include("$wp_template_dir/404.php");
+		} else if ( is_404() && get_404_template() ) {
+			include(get_404_template());
 			exit;
-		} else if ( is_home() && file_exists("$wp_template_dir/index.php") ) {
-			include("$wp_template_dir/index.php");
+		} else if ( is_home() && get_home_template() ) {
+			include(get_home_template());
 			exit;
-		} else if ( is_single() && file_exists("$wp_template_dir/single.php") ) {
-			include("$wp_template_dir/single.php");
+		} else if ( is_single() && get_single_template() ) {
+			include(get_single_template());
 			exit;
-		} else if ( is_page() && file_exists(get_page_template()) ) {
+		} else if ( is_page() && get_page_template() ) {
 			include(get_page_template());
 			exit;
-		} else if ( is_category() && file_exists("$wp_template_dir/category-" . get_query_var('cat') . '.php') ) {
-			include("$wp_template_dir/category-" . get_query_var('cat') . '.php');
+		} else if ( is_category() && get_category_template()) {
+			include(get_category_template());
 			exit;		
-		} else if ( is_category() && file_exists("$wp_template_dir/category.php") ) {
-			include("$wp_template_dir/category.php");
+		} else if ( is_author() && get_author_template() ) {
+			include(get_author_template());
 			exit;
-		} else if ( is_author() && file_exists("$wp_template_dir/author.php") ) {
-			include("$wp_template_dir/author.php");
+		} else if ( is_date() && get_date_template() ) {
+			include(get_date_template());
 			exit;
-		} else if ( is_date() && file_exists("$wp_template_dir/date.php") ) {
-			include("$wp_template_dir/date.php");
+		} else if ( is_archive() && get_archive_template() ) {
+			include(get_archive_template());
 			exit;
-		} else if ( is_archive() && file_exists("$wp_template_dir/archive.php") ) {
-			include("$wp_template_dir/archive.php");
+		} else if ( is_search() && get_search_template() ) {
+			include(get_search_template());
 			exit;
-		} else if ( is_search() && file_exists("$wp_template_dir/search.php") ) {
-			include("$wp_template_dir/search.php");
+		} else if ( is_paged() && get_paged_template() ) {
+			include(get_paged_template());
 			exit;
-		} else if ( is_paged() && file_exists("$wp_template_dir/paged.php") ) {
-			include("$wp_template_dir/paged.php");
-			exit;
-		} else if ( file_exists("$wp_template_dir/index.php") ) {
-			include("$wp_template_dir/index.php");
+		} else if ( file_exists(TEMPLATEPATH . "/index.php") ) {
+			include(TEMPLATEPATH . "/index.php");
 			exit;
 		}
 	}

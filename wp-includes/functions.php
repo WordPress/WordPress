@@ -1452,24 +1452,77 @@ function get_current_theme() {
 	return $current_theme;
 }
 
+function get_query_template($type) {
+	$template = '';
+	if ( file_exists(TEMPLATEPATH . "/{$type}.php") )
+		$template = TEMPLATEPATH . "/{$type}.php";
+
+	return apply_filters("{$type}_template", $template);
+}
+
+function get_404_template() {
+	return get_query_template('404');
+}
+
+function get_archive_template() {
+	return get_query_template('archive');
+}
+
+function get_author_template() {
+	return get_query_template('author');
+}
+
+function get_category_template() {
+	$template = '';
+	if ( file_exists(TEMPLATEPATH . "/category-" . get_query_var('cat') . '.php') )
+		$template = TEMPLATEPATH . "/category-" . get_query_var('cat') . '.php';
+	else if ( file_exists(TEMPLATEPATH . "/category.php") )
+		$template = TEMPLATEPATH . "/category.php";
+
+	return apply_filters('category_template', $template);
+}
+
+function get_date_template() {
+	return get_query_template('date');
+}
+
+function get_home_template() {
+	$template = '';
+	if ( file_exists(TEMPLATEPATH . "/index.php") )
+		$template = TEMPLATEPATH . "/index.php";
+
+	return apply_filters('home_template', $template);
+}
+
 function get_page_template() {
 	global $wp_query;
 
 	$id = $wp_query->post->ID;	
-	$template_dir = get_template_directory();
-	$default = "$template_dir/page.php";
-
 	$template = get_post_meta($id, '_wp_page_template', true);
 
-	if (empty($template) || ($template == 'default')) {
-		return $default;
-	}
+	if ( 'default' == $template )
+		$template = '';
 
-	if (file_exists("$template_dir/$template")) {
-		return "$template_dir/$template";
-	}
+	if ( ! empty($template) && file_exists(TEMPLATEPATH . "/$template") )
+		$template = TEMPLATEPATH . "/$template";
+	else if ( file_exists(TEMPLATEPATH .  "/page.php") )
+		$template = TEMPLATEPATH .  "/page.php";
+	else
+		$template = '';
 
-	return $default;
+	return apply_filters('page_template', $template);
+}
+
+function get_paged_template() {
+	return get_query_template('paged');
+}
+
+function get_search_template() {
+	return get_query_template('search');
+}
+
+function get_single_template() {
+	return get_query_template('single');
 }
 
 // Borrowed from the PHP Manual user notes. Convert entities, while
