@@ -170,9 +170,7 @@ function comment_author_url_link($linktext='', $before='', $after='') {
 
 	if ((!empty($url)) && ($url != 'http://') && ($url != 'http://url')) {
 	$display = ($linktext != '') ? $linktext : stripslashes($url);
-		echo $before;
-		echo '<a href="'.$url.'" rel="external">'.$display.'</a>';
-		echo $after;
+		echo "$before<a href='$url' rel='external'>$display</a>$after";
 	}
 }
 
@@ -237,7 +235,7 @@ function comments_rss_link($link_text='Comments RSS', $commentsrssfilename = 'wp
 		$url = $siteurl.'/'.$commentsrssfilename.$querystring_start.'p'.$querystring_equal.$id;
 	}
 
-	echo '<a href="'.$url.'">'.$link_text.'</a>';
+	echo "<a href='$url'>$link_text</a>";
 }
 
 function comment_author_rss() {
