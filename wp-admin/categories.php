@@ -41,15 +41,16 @@ case 'addcat':
 
 	$standalone = 1;
 	require_once('b2header.php');
-
+	
 	if ($user_level < 3)
 		die ('Cheatin&#8217; uh?');
 	
-	$cat_name=addslashes($HTTP_POST_VARS["cat_name"]);
-
-    $wpdb->query("INSERT INTO $tablecategories (cat_ID,cat_name) VALUES ('0', '$cat_name')");
+	$cat_name= addslashes(stripslashes(stripslashes($HTTP_POST_VARS['cat_name'])));
+	$category_nicename = sanitize_title($cat_name);
 	
-	header('Location: b2categories.php');
+	$wpdb->query("INSERT INTO $tablecategories (cat_ID, cat_name, category_nicename) VALUES ('0', '$cat_name', '$category_nicename')");
+	
+	header('Location: categories.php');
 
 break;
 
@@ -69,27 +70,27 @@ case 'Delete':
 		die ('Cheatin&#8217; uh?');
 
 	$wpdb->query("DELETE FROM $tablecategories WHERE cat_ID = $cat_ID");
-	$wpdb->query("UPDATE $tableposts SET post_category='1' WHERE post_category='$cat_ID'");
+	$wpdb->query("UPDATE $tablepost2cat SET category_id='1' WHERE category_id='$cat_ID'");
 
-	header('Location: b2categories.php');
+	header('Location: categories.php');
 
 break;
 
 case 'Rename':
 
 	require_once ('b2header.php');
-	$cat_name = get_catname($HTTP_POST_VARS["cat_ID"]);
-	$cat_name = addslashes($cat_name);
+	$cat_name = get_catname($HTTP_POST_VARS['cat_ID']);
+	$cat_name = stripslashes($cat_name);
 	?>
 
 <div class="wrap">
 	<p><strong>Old</strong> name: <?php echo $cat_name ?></p>
 	<p>
-	<form name="renamecat" action="b2categories.php" method="post">
+	<form name="renamecat" action="categories.php" method="post">
 		<strong>New</strong> name:<br />
 		<input type="hidden" name="action" value="editedcat" />
-		<input type="hidden" name="cat_ID" value="<?php echo $HTTP_POST_VARS["cat_ID"] ?>" />
-		<input type="text" name="cat_name" value="<?php echo $cat_name ?>" /><br />
+		<input type="hidden" name="cat_ID" value="<?php echo $HTTP_POST_VARS['cat_ID'] ?>" />
+		<input type="text" name="cat_name" value="<?php echo $cat_name; ?>" /><br />
 		<input type="submit" name="submit" value="Edit it !" class="search" />
 	</form>
 </div>
@@ -106,12 +107,13 @@ case 'editedcat':
 	if ($user_level < 3)
 		die ('Cheatin&#8217; uh?');
 	
-	$cat_name = addslashes($HTTP_POST_VARS["cat_name"]);
-	$cat_ID = addslashes($HTTP_POST_VARS["cat_ID"]);
+	$cat_name = addslashes(stripslashes(stripslashes($HTTP_POST_VARS['cat_name'])));
+	$cat_ID = addslashes($HTTP_POST_VARS['cat_ID']);
+	$category_nicename = sanitize_title($cat_name);
 
-	$wpdb->query("UPDATE $tablecategories SET cat_name='$cat_name' WHERE cat_ID = $cat_ID");
+	$wpdb->query("UPDATE $tablecategories SET cat_name = '$cat_name', category_nicename = '$category_nicename' WHERE cat_ID = $cat_ID");
 	
-	header('Location: b2categories.php');
+	header('Location: categories.php');
 
 break;
 
@@ -145,7 +147,7 @@ default:
 	</form>
 	
 	
-	<form name="addcat" action="b2categories.php" method="post">
+	<form name="addcat" action="categories.php" method="post">
 	<h3><label>Add a category:
 	<input type="text" name="cat_name" /></label><input type="hidden" name="action" value="addcat" /></h3>
 	<input type="submit" name="submit" value="Add it!" class="search" />

@@ -2,7 +2,7 @@
 1	edit.php	Edit
 3	b2team.php	Team
 4	wp-options.php	Options
-3	b2categories.php	Categories
+3	categories.php	Categories
 4	b2template.php	Template
 5	linkmanager.php	Manage Links
 ***
