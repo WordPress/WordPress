@@ -20,9 +20,9 @@ switch ($action) {
 
 case "step1":
 
-	include("b2config.php");
-	include("$b2inc/b2functions.php");
-	include("$b2inc/b2vars.php");
+	require("b2config.php");
+	require("$b2inc/b2functions.php");
+	require("$b2inc/b2vars.php");
 	
 ?>
 <html>
