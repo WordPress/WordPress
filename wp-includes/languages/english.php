@@ -15,21 +15,40 @@ $lang->strings = array(
 // Blog template strings
 
 ,"archives" => "Archives:"
+,"by" => "by"
 ,"categories" => "Categories:"
+,"comment_count_0" => "Comments (0)"
+,"comment_count_1" => "Comments (1)"
+,"comment_count_n" => "Comments (%)"
+,"comments" => "Comments"
+,"comments_closed" => "Sorry, the comment form is closed at this time."
+,"comments_instruction" => 'Line and paragraph breaks automatic, e-mail address never displayed, <acronym title="Hypertext Markup Language">HTML</acronym> allowed:'
+,"comment_body" => "Your Comment"
+,"comment_email" => "E-mail"
+,"comment_name" => "Name"
+,"comment_uri" => '<acronym title="Uniform Resource Identifier">URI</acronym>'
+,"comments_password" => "Enter your password to view comments."
 ,"comments_rss_2" => 'Comments <abbr title="Really Simple Syndication">RSS</abbr> 2.0'
 ,"comments_rss_2_title" => "The latest comments to all posts in RSS"
+,"comments_rss_post" => '<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'
+,"edit_this" => "Edit This"
 ,"filed_under" => "Filed under:"
+,"leave_a_comment" => "Leave a comment"
 ,"login" => "Login"
 ,"meta" => "Meta:"
+,"no_comments" => "No comments yet."
 ,"no_posts_matched" => "Sorry, no posts matched your criteria."
 ,"other" => "Other:"
+,"pages" => "Pages:"
 ,"powered_by" => "Powered by "
 ,"powered_by_title" => "Powered by WordPress, state-of-the-art semantic personal publishing platform"
 ,"register" => "Register"
 ,"rss_2" => '<abbr title="Really Simple Syndication">RSS</abbr> 2.0'
 ,"rss_2_title" => "Syndicate this site using RSS"
+,"say_it" => "Say It!"
 ,"search" => "Search:"
-,"search_buttom" => "search"
+,"search_button" => "search"
+,"trackback_uri" => 'The <acronym title="Uniform Resource Identifier">URI</acronym> to TrackBack this entry is:'
 ,"valid_xhtml" => 'Valid <abbr title="eXtensible HyperText Markup Language">XHTML</abbr>'
 ,"valid_xhtml_title" => "This page validates as XHTML 1.0 Transitional"
 

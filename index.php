@@ -48,8 +48,8 @@ require('wp-blog-header.php');
 	</div>
 	
 	<div class="feedback">
-		<?php link_pages('<br />Pages: ', '<br />', 'number'); ?> 
-		<?php comments_popup_link('Comments (0)', 'Comments (1)', 'Comments (%)'); ?> 
+		<?php link_pages('<br />'.$lang->str('pages','',1).' ', '<br />', 'number'); ?> 
+		<?php comments_popup_link($lang->str('comment_count_0','',1), $lang->str('comment_count_1','',1), $lang->str('comment_count_n','',1)); ?> 
 	</div>
 	
 	<!--
