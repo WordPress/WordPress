@@ -5,6 +5,8 @@ require_once(ABSPATH.WPINC.'/class-pop3.php');
 
 error_reporting(2037);
 
+$time_difference = get_settings('gmt_offset');
+
 $pop3 = new POP3();
 
 if (!$pop3->connect(get_settings('mailserver_url'), get_settings('mailserver_port'))) :
@@ -40,7 +42,7 @@ for ($i=1; $i <= $count; $i++) :
 		if ($bodysignal) {
 			$content .= $line;
 		} else {
-			if (preg_match('/Content-Type: /', $line)) {
+			if (preg_match('/Content-Type: /i', $line)) {
 				$content_type = trim($line);
 				$content_type = substr($content_type, 14, strlen($content_type)-14);
 				$content_type = explode(';', $content_type);
@@ -51,14 +53,14 @@ for ($i=1; $i <= $count; $i++) :
 				$boundary = explode('"', $boundary);
 				$boundary = $boundary[1];
 			}
-			if (preg_match('/Subject: /', $line)) {
+			if (preg_match('/Subject: /i', $line)) {
 				$subject = trim($line);
 				$subject = substr($subject, 9, strlen($subject)-9);
 				if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject)) {
 				  $subject = wp_iso_descrambler($subject);
 				}
 			}
-			if (preg_match('/Date: /', $line)) { // of the form '20 Mar 2002 20:32:37'
+			if (preg_match('/Date: /i', $line)) { // of the form '20 Mar 2002 20:32:37'
 				$ddate = trim($line);
 				$ddate = str_replace('Date: ', '', $ddate);
 				if (strpos($ddate, ',')) {
