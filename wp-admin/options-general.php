@@ -66,7 +66,7 @@ if ($user_level <= 3) {
   <h2>General Options</h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','time_difference'" /> 
+	<input type="hidden" name="action" value="update" /> <input type="hidden" name="page_options" value="'blogname','blogdescription','siteurl','admin_email','users_can_register','new_users_can_blog','gmt_offset'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row">Weblog title: </th> 
@@ -108,7 +108,7 @@ This address is used only for admin purposes. </td>
       </tr>
       <tr>
         <th scope="row">Times in the weblog should differ by: </th>
-        <td><input name="time_difference" type="text" id="time_difference" size="2" value="<?php echo get_settings('time_difference'); ?>" /> 
+        <td><input name="gmt_offset" type="text" id="gmt_offset" size="2" value="<?php echo get_settings('gmt_offset'); ?>" /> 
         hours </td>
       </tr> 
 </table>
