@@ -8,7 +8,7 @@ if (!step) $step = 0;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<title>WordPress&rsaquo;.72 to .73 Upgrade</title>
+<title>WordPress &rsaquo; .72 to .73 Upgrade</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <style media="screen" type="text/css">
 	body {
@@ -49,7 +49,7 @@ switch($step) {
 	case 1:
 ?> 
 <h1>Step 1</h1> 
-<p>If it isn't there already, let's add a field new to this version.</p> 
+<p>If it isn&#8217;t there already, let&#8217;s add a field new to this version.</p> 
 <?php
 // Create post_name field
 $query = "ALTER TABLE `$tableposts` ADD `post_name` VARCHAR(200) NOT NULL";
@@ -78,7 +78,7 @@ foreach($posts as $post) {
 
 ?> 
   <strong>Done.</strong> </p> 
-<p>See, that didn't hurt a bit. All done!</p> 
+<p>See, that didn&#8217;t hurt a bit. All done!</p> 
 <?php
 	break;
 }
