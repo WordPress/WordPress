@@ -76,9 +76,9 @@ require_once('admin-header.php');
 
 if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored']) ) {
 	echo "<div class='updated'>\n<p>";
-	$_GET['approved'] = (int) $_GET['approved'];
-	$_GET['deleted'] = (int) $_GET['deleted'];
-	$_GET['ignored'] = (int) $_GET['ignored'];
+	$approved = (int) $_GET['approved'];
+	$deleted = (int) $_GET['deleted'];
+	$ignored = (int) $_GET['ignored'];
 	if ($approved) {
 		if ('1' == $approved) {
 		 echo __("1 comment approved <br />") . "\n";
