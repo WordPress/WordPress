@@ -1,13 +1,11 @@
-<?php /* Don't remove this line, it calls the b2 function files ! */ $blog=1; include ("blog.header.php"); ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php /* Don't remove this line, it calls the b2 function files ! */ $blog=1; include ('blog.header.php'); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<!-- layout credits goto http://bluerobot.com/web/layouts/layout2.html -->
 
 <head>
 	<title><?php bloginfo('name') ?><?php single_post_title(' :: ') ?><?php single_cat_title(' :: ') ?><?php single_month_title(' :: ') ?></title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta http-equiv="imagetoolbar" content="no" />
 	
 	<style type="text/css" media="screen">
 		@import url( layout2b.css );
@@ -32,7 +30,7 @@
 
 <?php the_date('','<h2>','</h2>'); ?>
 
-<h3 class="storyTitle"><?php the_title(); ?> <span class="storyCategory"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</span></a> - <span class="storyAuthor"><?php the_author() ?></span> @ <a href="<?php permalink_link() ?>"><?php the_time() ?></a>
+<h3 class="storyTitle"><a href="<?php permalink_link() ?>"><?php the_title(); ?></a> <a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>" class="storyCategory">[<?php the_category() ?>]</a> - <span class="storyAuthor"><?php the_author() ?></span> @ <?php the_time() ?>
 </h3>
 
 <div class="storyContent">
@@ -85,8 +83,9 @@
 	</ul>
  </li>
  <li>Categories:
-
-<?php list_cats(0, 'All', 'name'); // fix this ?>
+	<ul>
+	<?php list_cats(0, 'All', 'name'); ?>
+	</ul>
  </li>
  <li>Search:
 	<form name="searchform" method="get" action="<?php echo $PHP_SELF; /*$siteurl."/".$blogfilename*/ ?>">
@@ -97,7 +96,9 @@
 	</form>
  </li>
  <li>Archives:
- <?php include("b2archives.php"); // fix this too ?>
+ 	<ul>
+	 <?php include("b2archives.php"); // fix this too ?>
+ 	</ul>
  </li>
  <li>Other:
 	<ul>
@@ -115,10 +116,6 @@
 
 </div>
 
-<div id="chaff">
-<a href="mailto:abuse@[127.0.0.1]" title="anti sp@mbot addrss">4 sp@mbots e-mail me</a>
-</div>
-<!-- BlueRobot was here. -->
+
 </body>
 </html>
-

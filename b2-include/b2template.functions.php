@@ -763,8 +763,8 @@ function dropdown_cats($optionall = 1, $all = 'All') {
 }
 
 // out of the b2 loop
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = 'blah') {
-	global $tablecategories,$querycount;
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = 'blah', $list=true) {
+	global $tablecategories, $querycount;
 	global $pagenow;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 	$file = ($file == 'blah') ? $pagenow : $file;
@@ -774,13 +774,19 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$querycount++;
 	if (intval($optionall) == 1) {
 		$all = apply_filters('list_cats', $all);
-		echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a><br />\n";
+		if ($list) echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a></li>";
+		else echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.'all">'.$all."</a><br />\n";
 	}
 	while($row = mysql_fetch_object($result)) {
 		$cat_name = $row->cat_name;
 		$cat_name = apply_filters('list_cats', $cat_name);
-		echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$row->cat_ID.'">';
-		echo stripslashes($cat_name)."</a><br />\n";
+		if ($list) {
+			echo "\n\t<li><a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$row->cat_ID.'">';
+			echo stripslashes($cat_name)."</a></li>";
+		} else {
+			echo "\t<a href=\"".$file.$querystring_start.'cat'.$querystring_equal.$row->cat_ID.'">';
+			echo stripslashes($cat_name)."</a><br />\n";
+		}
 	}
 }
 
