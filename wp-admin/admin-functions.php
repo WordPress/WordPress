@@ -626,16 +626,18 @@ function get_page_templates() {
 	$templates = $themes[$theme]['Template Files'];
 	$page_templates = array();
 
-	foreach ($templates as $template) {
-		$template_data = implode('', file(ABSPATH . $template));
-		preg_match("|Template Name:(.*)|i", $template_data, $name);
-		preg_match("|Description:(.*)|i", $template_data, $description);
+	if( is_array( $templates ) ) {
+		foreach ($templates as $template) {
+			$template_data = implode('', file(ABSPATH . $template));
+			preg_match("|Template Name:(.*)|i", $template_data, $name);
+			preg_match("|Description:(.*)|i", $template_data, $description);
 
-		$name = $name[1];
-		$description = $description[1];
+			$name = $name[1];
+			$description = $description[1];
 
-		if (! empty($name)) {
-			$page_templates[trim($name)] = basename($template);
+			if (! empty($name)) {
+				$page_templates[trim($name)] = basename($template);
+			}
 		}
 	}
 
