@@ -230,8 +230,8 @@ if ($i == "ASC")
 	include($abspath.'blog.header.php');
 
 	foreach ($posts as $post) {
-		$posts_per_page = 10;
-	start_b2(); ?>
+        $posts_per_page = 10;
+        start_b2(); ?>
 			<p>
 				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comments', '1 comment', "% comments") ?></a>
 				<?php
