@@ -263,6 +263,10 @@ textarea, input, select {
 	clear: both;
 }
 
+#postdiv {
+    clear: both;
+}
+
 #poststatusdiv, #commentstatusdiv, #pingstatusdiv {
 	width: 6.5em;
 }

@@ -25,7 +25,7 @@ if ($use_pingback) {
 }
 if ($use_trackback) {
 	$form_trackback = '<p><label for="trackback"><a href="http://wordpress.org/docs/reference/post/#trackback" title="Help on trackbacks"><strong>TrackBack</strong> an <acronym title="Uniform Resource Locator">URL</acronym></a>:</label> (Separate multiple <acronym title="Uniform Resource Locator">URL</acronym>s with spaces.)<br />
-	<input type="text" name="trackback_url" style="width: 415px" id="trackback" tabindex="7" /></p>';
+	<input type="text" name="trackback_url" style="width: 360px" id="trackback" tabindex="7" /></p>';
 	if ('' != $pinged) {
 		$form_trackback .= '<p>Already pinged:</p><ul>';
 		$already_pinged = explode("\n", trim($pinged));
@@ -44,6 +44,12 @@ $saveasdraft = '';
 ?>
 
 <form name="post" action="post.php" method="post" id="post">
+
+<?php
+if ('bookmarklet' == $mode) {
+    echo '<input type="hidden" name="mode" value="bookmarklet" />';
+}
+?>
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
@@ -73,11 +79,11 @@ window.onload = focusit;
     </fieldset>
 
 <br />
-<fieldset style="clear:both">
+<fieldset id="postdiv">
 <legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Post</a></legend>
 		<div id="quicktags">
 <?php
-if ($use_quicktags) {
+if ($use_quicktags && 'bookmarklet' != $mode) {
 	echo '<a href="http://wordpress.org/docs/reference/post/#quicktags" title="Help with quicktags">Quicktags</a>: ';
 	include('quicktags.php');
 }
@@ -108,7 +114,9 @@ edCanvas = document.getElementById('content');
 <p><input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="Save as Draft" /> 
   <input name="saveasprivate" type="submit" id="saveasprivate" tabindex="10" value="Save as Private" /> 
   <input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="Publish" /> 
-  <input name="advanced" type="submit" id="advancededit" tabindex="7" value="Advanced Editing &raquo;" />
+  <?php if ('bookmarklet' != $mode) {
+      echo '<input name="advanced" type="submit" id="advancededit" tabindex="7" value="Advanced Editing &raquo;" />';
+  } ?>
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $HTTP_SERVER_VARS['HTTP_REFERER']; ?>" />
 </p>
 

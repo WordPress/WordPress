@@ -92,7 +92,7 @@ window.onload = focusit;
 <div><textarea rows="2" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
 </fieldset>
 
-<fieldset>
+<fieldset id="postdiv">
 <legend><a href="http://wordpress.org/docs/reference/post/#post" title="Help with post field">Post</a></legend>
 		<div id="quicktags">
 <?php
