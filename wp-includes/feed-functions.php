@@ -6,7 +6,7 @@ function get_bloginfo_rss($show = '') {
 }
 
 function bloginfo_rss($show = '') {
-	echo get_bloginfo_rss();
+	echo get_bloginfo_rss($show);
 }
 
 function the_title_rss() {
