@@ -170,6 +170,7 @@ switch ($action) {
             <option value="rating"  <?php echo ($row->sort_order == 'rating') ? 'selected' : ''?>>Rating</option>
             <option value="updated" <?php echo ($row->sort_order == 'updated') ? 'selected' : ''?>>Updated</option>
             <option value="rand"  <?php echo ($row->sort_order == 'rand') ? 'selected' : ''?>>Random</option>
+            <option value="length"  <?php echo ($row->sort_order == 'length') ? 'selected' : ''?>>Name Length</option>
           </select>&nbsp;&nbsp;
           <input type="checkbox" name="sort_desc" <?php echo ($row->sort_desc  == 'Y') ? 'checked' : '';?> value="Y" /> Descending?<br />
         </td>
