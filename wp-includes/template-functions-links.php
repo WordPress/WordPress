@@ -94,6 +94,9 @@ function get_page_link($id = false) {
 
 	if ('' != $permalink) {
 		$link = get_page_uri($id);
+		if (using_index_permalinks()) {
+			$link = 'index.php/' . $link;
+		}
 		$link = get_settings('home') . "/$link/";
 	} else {
 		$link = get_settings('home') . "/index.php?page_id=$id";
