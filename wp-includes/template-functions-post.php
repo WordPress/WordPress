@@ -10,8 +10,8 @@ add_filter('the_content', 'convert_smilies');
 add_filter('the_content', 'convert_chars');
 add_filter('the_content', 'wpautop');
 
+add_filter('the_excerpt', 'remove_slashes', 5);
 add_filter('the_excerpt', 'convert_smilies');
-add_filter('the_excerpt', 'autop');
 add_filter('the_excerpt', 'convert_chars');
 add_filter('the_excerpt', 'wpautop');
 
@@ -173,7 +173,7 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
 
 function get_the_excerpt($fakeit = true) {
     global $id, $post;
-    global $HTTP_SERVER_VARS, $preview, $cookiehash;
+    global $cookiehash;
     $output = '';
     $output = stripslashes($post->post_excerpt);
     if (!empty($post->post_password)) { // if there's a password
@@ -182,9 +182,10 @@ function get_the_excerpt($fakeit = true) {
             return $output;
         }
     }
-    //if we haven't got an excerpt, make one in the style of the rss ones
+
+    // If we haven't got an excerpt, make one in the style of the rss ones
     if (($output == '') && $fakeit) {
-        $output = get_the_content();
+        $output = $post->post_content;
         $output = strip_tags($output);
         $blah = explode(' ', $output);
         $excerpt_length = 120;
@@ -202,9 +203,6 @@ function get_the_excerpt($fakeit = true) {
         $excerpt .= ($use_dotdotdot) ? '...' : '';
         $output = $excerpt;
     } // end if no excerpt
-    if ($preview) { // preview fix for javascript bug with foreign languages
-        $output =  preg_replace('/\%u([0-9A-F]{4,4})/e',  "'&#'.base_convert('\\1',16,10).';'", $output);
-    }
     return $output;
 }
 
