@@ -1046,14 +1046,14 @@ function start_wp() {
 		if ($page > 1)
 			$more = 1;
 		$multipage = 1;
-		$content = stripslashes($post->post_content);
+		$content = $post->post_content;
 		$content = str_replace("\n<!--nextpage-->\n", '<!--nextpage-->', $content);
 		$content = str_replace("\n<!--nextpage-->", '<!--nextpage-->', $content);
 		$content = str_replace("<!--nextpage-->\n", '<!--nextpage-->', $content);
 		$pages = explode('<!--nextpage-->', $content);
 		$numpages = count($pages);
 	} else {
-		$pages[0] = stripslashes($post->post_content);
+		$pages[0] = $post->post_content;
 		$multipage = 0;
 	}
 	return true;
