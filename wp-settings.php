@@ -27,11 +27,14 @@ $wpdb->optiongroups        = $table_prefix . 'optiongroups';
 $wpdb->optiongroup_options = $table_prefix . 'optiongroup_options';
 $wpdb->postmeta            = $table_prefix . 'postmeta';
 
+if ( !(phpversion() >= '4.1') )
+	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
+
+
 $wpdb->hide_errors();
 $users = $wpdb->get_results("SELECT * FROM $wpdb->users");
-if (!$users && !strstr($_SERVER['PHP_SELF'], 'install.php')) {
+if ( !$users && !strstr($_SERVER['PHP_SELF'], 'install.php') )
 	die("It doesn't look like you've installed WP yet. Try running <a href='wp-admin/install.php'>install.php</a>.");
-}
 $wpdb->show_errors();
 
 require (ABSPATH . WPINC . '/functions.php');
