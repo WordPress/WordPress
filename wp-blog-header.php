@@ -85,40 +85,24 @@ if (!isset($doing_rss) || !$doing_rss) {
 } else {
 
 	// We're showing a feed, so WP is indeed the only thing that last changed
-	$last_modified_date = mysql2date("D, d M Y H:i:s", get_lastpostmodified('GMT')).' GMT';
-	@header('Last Modified: '.$last_modified_date);
-	@header('ETag: "'.md5($last_modified_date).'"');
+	$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT')).' GMT';
+	$wp_etag = '"'.md5($wp_last_modified).'"';
+	@header('Last Modified: '.$wp_last_modified);
+	@header('ETag: '.$wp_etag);
 	@header ('X-Pingback: ' . get_settings('siteurl') . '/xmlrpc.php');
 
-	// Checking If-Modified-Since and If-None-Match,
-	// works only on Apache but should fail gracefully elsewhere
-	$request_headers = getallheaders();
+	// Support for Conditional GET
+	$client_last_modified = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
+	$client_etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 
-	if ( !empty($request_headers['If-Modified-Since']) OR !empty($request_headers['If-None-Match']) ) {
-
-	  $_match_ifmodifiedsince = 0;
-	  $_match_ifnonematch = 0;
-
-	  if (!empty($request_headers['If-Modified-Since'])) {
-	    if (strtotime($request_headers['If-Modified-Since']) >= strtotime($last_modified_date)) {
-	      $_match_ifmodifiedsince = 1;
-	    } else {
-	      $_match_ifmodifiedsince = -1;
-	    }
-	  }
-	  if (!empty($request_headers['If-None-Match'])) {
-	    if ($request_headers['If-None-Match'] == '"'.md5($last_modified_date).'"') {
-	      $_match_ifnonematch = 1;
-	    } else {
-	      $_match_ifnonematch = -1;
-	    }
-	  }
-
-	  // if one element is present but doesn't match the header, the -1 makes this <=0
-	  if ($_match_ifmodifiedsince + $_match_ifnonematch > 0) {
-	    header("HTTP/1.1 304 Not Modified\n\n");
-	  }
+	if ( ($client_last_modified && $client_etag) ?
+	    (($client_last_modified == $wp_last_modified) && ($client_etag == $wp_etag)) :
+	    (($client_last_modified == $wp_last_modified) || ($client_etag == $wp_etag)) ) {
+		header('HTTP/1.1 304 Not Modified');
+		echo "\r\n\r\n";
+		exit;
 	}
+
 }
 
 /* Getting settings from db */
