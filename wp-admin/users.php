@@ -25,7 +25,7 @@ case 'adduser':
 	$standalone = 1;
 	require_once('admin-header.php');
 
-	check_admin_referer()
+	check_admin_referer();
 
 	function filter($value)	{
 		return ereg('^[a-zA-Z0-9\_-\|]+$',$value);
@@ -104,7 +104,7 @@ case 'promote':
 	$standalone = 1;
 	require_once('admin-header.php');
 
-	check_admin_referer()
+	check_admin_referer();
 
 	if (empty($_GET['prom'])) {
 		header('Location: users.php');
@@ -138,7 +138,7 @@ case 'delete':
 	$standalone = 1;
 	require_once('admin-header.php');
 
-	check_admin_referer()
+	check_admin_referer();
 
 	$id = intval($_GET['id']);
 
