@@ -89,6 +89,8 @@ $query = "INSERT INTO $tableusers (ID, user_login, user_pass, user_firstname, us
 $q = mysql_query($query) or mysql_doh("doh, can't set the default user in the table \"$tableusers\" in the database.", $query, mysql_error());
 
 echo "users: OK<br />";
+
+require_once("wp-links/links.install.php");
 ?>
 
 <br />
