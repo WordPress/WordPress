@@ -2,7 +2,7 @@
 $_wp_installing = 1;
 
 if (file_exists('../wp-config.php')) 
-	die("The file 'wp-config.php already exists. If you need to reset any of the configuration items in this file, please delete it first.");
+	die("The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first.");
 
 if (!file_exists('../wp-config-sample.php'))
     die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
