@@ -194,14 +194,16 @@ function single_month_title($prefix = '', $display = true ) {
 /* link navigation hack by Orien http://icecode.com/ */
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
 	$text = wptexturize($text);
+    $title_text = htmlspecialchars($text);
+
 	if ('link' == $format) {
-		return "\t<link rel='archives' title='$text' href='$url' />\n";
+		return "\t<link rel='archives' title='$title_text' href='$url' />\n";
 	} elseif ('option' == $format) {
 		return "\t<option value='$url'>$text</option>\n";
 	} elseif ('html' == $format) {
-		return "\t<li>$before<a href='$url' title='$text'>$text</a>$after</li>\n";
+		return "\t<li>$before<a href='$url' title='$title_text'>$text</a>$after</li>\n";
 	} else { // custom
-		return "\t$before<a href='$url' title='$text'>$text</a>$after\n";
+		return "\t$before<a href='$url' title='$title_text'>$text</a>$after\n";
 	}
 }
 
