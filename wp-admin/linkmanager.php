@@ -30,7 +30,7 @@
 include_once('../wp-links/links.config.php');
 include_once("../wp-links/links.php");
 
-$title = "Manage Links";
+$title = 'Manage Links';
 
 function add_magic_quotes($array) {
 	foreach ($array as $k => $v) {
@@ -69,13 +69,13 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 
 $links_show_cat_id = $HTTP_COOKIE_VARS["links_show_cat_id"];
 
-//error_log("start, links_show_cat_id=$links_show_cat_id");  
+// error_log("start, links_show_cat_id=$links_show_cat_id");  
 
 switch ($action) {
-  case "Add":
+  case 'Add':
   {
     $standalone = 1;
-    include_once("./b2header.php");
+    include_once('b2header.php');
 
     $link_url = $HTTP_POST_VARS["linkurl"];
     $link_name = $HTTP_POST_VARS["name"];
@@ -106,11 +106,11 @@ switch ($action) {
 
     $sql_result = mysql_query($sql) or die("Couldn't execute query."."sql=[$sql]". mysql_error());
 
-    header("Location: linkmanager.php");
+    header('Location: linkmanager.php');
     break;
   } // end Add
 
-  case "editlink":
+  case 'editlink':
   {
     if (isset($submit) && ($submit == "Save")) {
 
@@ -124,7 +124,7 @@ switch ($action) {
       $links_show_cat_id = $cat_id;
 
       $standalone = 1;
-      include_once("./b2header.php");
+      include_once('b2header.php');
 
       $link_id = $HTTP_POST_VARS["link_id"];
       $link_url = $HTTP_POST_VARS["linkurl"];
@@ -164,10 +164,10 @@ switch ($action) {
     break;
   } // end Save
 
-  case "Delete":
+  case 'Delete':
   {
     $standalone = 1;
-    include_once("./b2header.php");
+    include_once('b2header.php');
 
     $link_id = $HTTP_POST_VARS["link_id"];
 
@@ -189,12 +189,13 @@ switch ($action) {
     header("Location: linkmanager.php");
     break;
   } // end Delete
-  case "linkedit":
+ 
+  case 'linkedit':
   {
     $standalone=0;
-    include_once ("./b2header.php");
+    include_once ('b2header.php');
     if ($user_level < $minadminlevel) {
-      die("You have no right to edit the links for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
+      die("You have no right to edit the links for this blog.<br />Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a>. :)");
     }
 
     $sql = "SELECT link_url, link_name, link_image, link_target, link_description, link_visible, link_category AS cat_id, link_rating, link_rel " .
@@ -215,8 +216,8 @@ switch ($action) {
     }
 
 ?>
-    <?php echo $blankline ?>
-    <?php echo $tabletop ?>
+
+<div class="wrap">
     <table width="95%" cellpadding="5" cellspacing="0" border="0">
     <form name="editlink" method="post">
     <input type="hidden" name="action" value="editlink" />
@@ -293,7 +294,7 @@ switch ($action) {
         </td>
       </tr>
     </table>
-
+</div>
 <?php
     break;
   } // end linkedit
@@ -344,8 +345,8 @@ switch ($action) {
     
   if ($action != "popup") {
 ?>
-    <?php echo $blankline ?>
-    <?php echo $tabletop ?>
+
+<div class="wrap">
     <form name="cats" method="post">
     <table width="50%" cellpadding="5" cellspacing="0" border="0">
       <tr><td><b>Link Categories:</b></td><td colspan="2"><a href="linkcategories.php">Manage Link Categories</a></td></tr>
@@ -396,9 +397,9 @@ switch ($action) {
     </table>
     </form>
 
-    <?php echo $tablebottom ?>
-    <?php echo $blankline ?>
-    <?php echo $tabletop ?>
+</div>
+
+<div class="wrap">
 
     <table width="100%" cellpadding="1" cellspacing="0" border="0">
     <form name="links" method="post">
@@ -480,10 +481,9 @@ switch ($action) {
 <?php
   } // end if !popup
 ?>
-    <?php echo $tablebottom ?>
-    <?php echo $blankline ?>
+</div>
 
-    <?php echo $tabletop ?>
+<div class="wrap">
 
     <table width="95%" cellpadding="5" cellspacing="0" border="0">
     <form name="addlink" method="post">
@@ -555,13 +555,17 @@ switch ($action) {
         </td>
       </tr>
     </table>
+</div>
 
+<div class="wrap">
+<p>You can drag <a href="javascript:void(linkmanpopup=window.open('<?php echo $siteurl; ?>/wp-admin/linkmanager.php?action=popup&linkurl='+escape(location.href)+'&name='+escape(document.title),'Link Manager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();" title="Link add bookmarklet">link this</a> to your toolbar and when you click it a window will pop up that will allow you to add whatever site you're on to your links! Right now this only works on Mozilla or Netscape, but we're working on it.</p>
+</div>
 <?php
     break;
   } // end default
 } // end case
 ?>
 
-<?php echo $tablebottom ?>
 
-<?php include("b2footer.php") ?>
+
+<?php include('b2footer.php'); ?>

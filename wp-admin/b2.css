@@ -12,7 +12,9 @@
 #wphead a span {
 	display: none;
 }
-
+p {
+	line-height: 130%;
+}
 #adminmenu {
 	list-style: none outside;
 	padding: 0;
@@ -65,10 +67,13 @@ a:hover {
 	color: #069;
 }
 
-.panelbody {
-	/* empty style - for you to customize it.
-	   this style applies to b2's interface, the part where the sections are displayed */
+h2 {
+	margin: 0 5px 2px 5px;
+	padding: 3px;
+	color: #333;
+	border-bottom: 2px solid #333;
 }
+
 .table {
 	color: #000000; 
 	font-size: 10pt;
@@ -134,3 +139,33 @@ xmp { /* Just in case */
 	padding: 10px;
 }
 form { margin: 0; padding: 0; } /* thanks #mozilla */
+
+td.menutop {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	border-color: #999999;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-style: dashed;
+}
+textarea, input, select {
+	background-color: #f0f0f0;
+	border-width: 1px;
+	border-color: #cccccc;
+	border-style: solid;
+	padding: 2px;
+	margin: 1px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+.checkbox {
+	background-color: #ffffff;
+	border-width: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+label {
+	font-weight: bold;
+}

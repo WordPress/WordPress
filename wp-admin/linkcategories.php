@@ -101,8 +101,7 @@ switch ($action) {
     $cat_name=addslashes($cat_name);
     $auto_toggle=get_autotoggle($cat_id);
 ?>
-  <?php echo $blankline; ?>
-  <?php echo $tabletop; ?>
+<div class="wrap">
   <p><b>Old</b> name: <?php echo $cat_name ?></p>
   <p>
     <form name="editcat" method="post">
@@ -114,7 +113,7 @@ switch ($action) {
       <input type="submit" name="submit" value="Edit it !" class="search" />
     </form>
   </p>
-  <?php echo $tablebottom; ?>
+</div>
 <?php
     break;
   } // end Edit
@@ -144,8 +143,7 @@ switch ($action) {
       die("You have no right to edit the link categories for this blog.<br>Ask for a promotion to your <a href=\"mailto:$admin_email\">blog admin</a> :)");
     }
 ?>
-<?php echo $blankline ?>
-<?php echo $tabletop ?>
+<div class="wrap">
     <table width="" cellpadding="5" cellspacing="0" border="0">
       <tr><td><b>Link Categories:</b></td></tr>
       <tr>
@@ -186,16 +184,13 @@ $result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
       </tr>
     </table>
 
-<?php echo $tablebottom ?>
-<?php echo $blankline ?>
+</div>
 
-<?php echo $tabletop ?>
+<div class="wrap">
     <b>Note:</b><br />
     Deleting a link category does not delete links from that category.<br />It will
     just set them back to the default category <b><?php echo get_linkcatname(1) ?></b>.
-<?php echo $tablebottom ?>
-
-<?php echo $blankline ?>
+</div>
 <?php
     break;
   } // end default
@@ -203,4 +198,4 @@ $result = mysql_query($query) or die("Couldn't execute query. ".mysql_error());
 ?>
 </table>
 
-<?php include("b2footer.php") ?>
+<?php include('b2footer.php'); ?>

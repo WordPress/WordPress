@@ -40,7 +40,7 @@ switch($action) {
 case 'post':
 
 	$standalone = 1;
-	require_once('./b2header.php');
+	require_once('b2header.php');
 
 	$post_autobr = intval($HTTP_POST_VARS["post_autobr"]);
 	$post_pingback = intval($HTTP_POST_VARS["post_pingback"]);
@@ -52,7 +52,7 @@ case 'post':
 	$post_category = intval($HTTP_POST_VARS["post_category"]);
 
 	if ($user_level == 0)
-	die ("Cheatin' uh ?");
+		die ("Cheatin' uh ?");
 
 	if (($user_level > 4) && (!empty($HTTP_POST_VARS["edit_date"]))) {
 		$aa = $HTTP_POST_VARS["aa"];
@@ -67,10 +67,10 @@ case 'post':
 		$ss = ($ss > 59) ? $ss - 60 : $ss;
 		$now = "$aa-$mm-$jj $hh:$mn:$ss";
 	} else {
-		$now = date("Y-m-d H:i:s",(time() + ($time_difference * 3600)));
+		$now = date("Y-m-d H:i:s", (time() + ($time_difference * 3600)));
 	}
 
-	$query = "INSERT INTO $tableposts (ID, post_author, post_date, post_content, post_title, post_category, post_excerpt) VALUES ('0','$user_ID','$now','$content','".$post_title."','".$post_category."','".$excerpt."')";
+	$query = "INSERT INTO $tableposts (ID, post_author, post_date, post_content, post_title, post_category, post_excerpt) VALUES ('0','$user_ID','$now','$content','$post_title','$post_category','$excerpt')";
 	$result = mysql_query($query) or mysql_oops($query);
 
 	$post_ID = mysql_insert_id();
@@ -79,7 +79,6 @@ case 'post':
 		sleep($sleep_after_edit);
 	}
 
-	rss_update($blog_ID);
 	pingWeblogs($blog_ID);
 	pingCafelog($cafelogID, $post_title, $post_ID);
 	pingBlogs($blog_ID);
@@ -117,25 +116,24 @@ case 'post':
 
 break;
 
-case "edit":
+case 'edit':
 
-	$standalone=0;
-	require_once ("./b2header.php");
-	$post = $HTTP_GET_VARS["post"];
+	$standalone = 0;
+	require_once('b2header.php');
+	$post = $HTTP_GET_VARS['post'];
 	if ($user_level > 0) {
-		$postdata=get_postdata($post) or die("Oops, no post with this ID. <a href=\"b2edit.php\">Go back</a> !");
+		$postdata=get_postdata($post) or die('Oops, no post with this ID. <a href="b2edit.php">Go back</a>!');
 		$authordata = get_userdata($postdata["Author_ID"]);
 	if ($user_level < $authordata[13])
-	die ("You don't have the right to edit <b>".$authordata[1]."</b>'s posts.");
+	die ('You don&#8217;t have the right to edit <strong>'.$authordata[1].'</strong>&#8217;s posts.');
 
-	$content = $postdata["Content"];
+	$content = $postdata['Content'];
 	$content = format_to_edit($content);
-	$excerpt = $postdata["Excerpt"];
+	$excerpt = $postdata['Excerpt'];
 	$excerpt = format_to_edit($excerpt);
-	$edited_post_title = format_to_edit($postdata["Title"]);
+	$edited_post_title = format_to_edit($postdata['Title']);
 
-	echo $blankline;
-	include("b2edit.form.php");
+	include('b2edit.form.php');
 
 	} else {
 	?>
@@ -190,7 +188,6 @@ case "editpost":
 		sleep($sleep_after_edit);
 	}
 
-	rss_update($blog_ID);
 //	pingWeblogs($blog_ID);
 
 	$location = "Location: b2edit.php";
@@ -225,31 +222,29 @@ case "delete":
 		sleep($sleep_after_edit);
 	}
 
-	rss_update($blog_ID);
 //	pingWeblogs($blog_ID);
 
-	header ("Location: b2edit.php");
+	header ('Location: b2edit.php');
 
 break;
 
-case "editcomment":
+case 'editcomment':
 
-	$standalone=0;
-	require_once ("./b2header.php");
+	$standalone = 0;
+	require_once ('b2header.php');
 
 	get_currentuserinfo();
 
 	if ($user_level == 0) {
-		die ("Cheatin' uh ?");
+		die ('Cheatin&#8217; uh?');
 	}
 
 	$comment = $HTTP_GET_VARS['comment'];
-	$commentdata = get_commentdata($comment,1) or die("Oops, no comment with this ID. <a href=\"javascript:history.go(-1)\">Go back</a> !");
-	$content = $commentdata["comment_content"];
+	$commentdata = get_commentdata($comment, 1) or die('Oops, no comment with this ID. <a href="javascript:history.go(-1)">Go back</a>!');
+	$content = $commentdata['comment_content'];
 	$content = format_to_edit($content);
-	
-	echo $blankline;
-	include("b2edit.form.php");
+
+	include('b2edit.form.php');
 
 break;
 

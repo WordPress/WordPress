@@ -24,7 +24,8 @@ while ($j != "") {
 }
 ?>
 <li><a href="<?php echo $siteurl."/".$blogfilename; ?>">View site</a></li>
-<li><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout</a></li>
+<li id="last"><a href="<?php echo $siteurl ?>/b2login.php?action=logout">Logout</a></li>
 </ul>
+<br clear="all" />
 
 <h2><?php echo $title; ?></h2>

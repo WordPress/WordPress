@@ -1,5 +1,5 @@
 <?php
-$title = "Team management";
+$title = 'Team management';
 /* <Team> */
 	
 $b2varstoreset = array('action','standalone','redirect','profile');
@@ -20,79 +20,75 @@ for ($i=0; $i<count($b2varstoreset); $i += 1) {
 
 switch ($action) {
 	
-case "promote":
+case 'promote':
 
 	$standalone = 1;
-	require_once("./b2header.php");
+	require_once('b2header.php');
 
 	if (empty($HTTP_GET_VARS["prom"])) {
-		header("Location: b2team.php");
+		header('Location: b2team.php');
 	}
 
 	$id = $HTTP_GET_VARS["id"];
 	$prom = $HTTP_GET_VARS["prom"];
 
-	$user_data=get_userdata($id);
-	$usertopromote_level=$user_data[13];
+	$user_data = get_userdata($id);
+	$usertopromote_level = $user_data[13];
 
 	if ($user_level <= $usertopromote_level) {
-		die("Can't change the level of an user whose level is higher than yours.");
+		die('Can&#8217;t change the level of an user whose level is higher than yours.');
 	}
 
-	if ($prom == "up") {
+	if ('up' == $prom) {
 		$sql="UPDATE $tableusers SET user_level=user_level+1 WHERE ID = $id";
-	} elseif ($prom == "down") {
+	} elseif ('down' == $prom) {
 		$sql="UPDATE $tableusers SET user_level=user_level-1 WHERE ID = $id";
 	}
-	$result=mysql_query($sql) or die("Couldn't change $id's level.");
+	$result = mysql_query($sql) or die("Couldn't change $id's level.");
 
-	header("Location: b2team.php");
+	header('Location: b2team.php');
 
 break;
 
-case "delete":
+case 'delete':
 
 	$standalone = 1;
-	require_once("./b2header.php");
+	require_once('b2header.php');
 
 	$id = $HTTP_GET_VARS["id"];
 
 	if (!$id) {
-		header("Location: b2team.php");
+		header('Location: b2team.php');
 	}
 
-	$user_data=get_userdata($id);
-	$usertodelete_level=$user_data[13];
+	$user_data = get_userdata($id);
+	$usertodelete_level = $user_data[13];
 
 	if ($user_level <= $usertodelete_level)
-	die("Can't delete an user whose level is higher than yours.");
+		die('Can&#8217;t delete an user whose level is higher than yours.');
 
 	$sql="DELETE FROM $tableusers WHERE ID = $id";
-	$result=mysql_query($sql) or die("Couldn't delete user #$id.");
+	$result = mysql_query($sql) or die("Couldn&#8217;t delete user #$id.");
 
 	$sql="DELETE FROM $tableposts WHERE post_author = $id";
-	$result=mysql_query($sql) or die("Couldn't delete user #$id's posts.");
+	$result = mysql_query($sql) or die("Couldn&#8217;t delete user #$id&#8217;s posts.");
 
-	header("Location: b2team.php");
+	header('Location: b2team.php');
 
 break;
 
 default:
 	
-	$standalone=0;
-	include ("./b2header.php");
+	$standalone = 0;
+	include ('b2header.php');
 	?>
-<?php echo $blankline.$tabletop ?>
-	<table cellspacing="0" cellpadding="5" border="0" width="100%">
-	<tr>
-	<td>Click on an user's login name to see his/her complete Profile.<br />
-	To edit your Profile, click on your login name.</td>
-	</tr>
-</table>
-<?php echo $tablebottom ?>
-<br />
-<?php echo $tabletop ?>
-	<p><b>Active users</b>
+
+<div class="wrap"><p>Click on an user&#8217;s login name to see his complete profile.<br />
+	To edit your profile, click on your login name.</p>
+</div>
+
+<div class="wrap">
+	<h3>Active users</h3>
 	<table cellpadding="5" cellspacing="0">
 	<tr>
 	<td class="tabletoprow">ID</td>
@@ -106,7 +102,7 @@ default:
 	<?php } ?>
 	</tr>
 	<?php
-	$request = " SELECT * FROM $tableusers WHERE user_level>0 ORDER BY ID";
+	$request = "SELECT * FROM $tableusers WHERE user_level>0 ORDER BY ID";
 	$result = mysql_query($request);
 	while($row = mysql_fetch_object($result)) {
 		$user_data = get_userdata2($row->ID);
@@ -138,16 +134,16 @@ default:
 	?>
 	
 	</table>
-	</p>
-<?php echo $tablebottom ?>
+
+</div>
+
 <?php
 	$request = " SELECT * FROM $tableusers WHERE user_level=0 ORDER BY ID";
 	$result = mysql_query($request);
 	if (mysql_num_rows($result)) {
 ?>
-<br />
-<?php echo $tabletop ?>
-	<p><b>Inactive users (level 0)</b>
+<div class="wrap">
+	<h3>Inactive users (level 0)</h3>
 	<table cellpadding="5" cellspacing="0">
 	<tr>
 	<td class="tabletoprow">ID</td>
@@ -191,17 +187,16 @@ default:
 	?>
 	
 	</table>
-	</p>
-<?php echo $tablebottom ?>
+</div>
 
 	<?php 
 	}
 	if ($user_level >= 3) { ?>
-	<br />
-<?php echo $tabletop ?>
-	To delete an user, bring his/her level to zero, then click on the red cross.<br />
-	<b>Warning:</b> deleting an user also deletes all posts made by this user.
-<?php echo $tablebottom ?>
+<div class="wrap"> 
+  <p>To delete an user, bring his level to zero, then click on the red X.<br />
+    <strong>Warning:</strong> deleting an user also deletes all posts made by this user. 
+  </p>
+</div>
 	<?php
 }
 
@@ -209,4 +204,5 @@ break;
 }
 	
 /* </Team> */
-include("b2footer.php") ?>
+include('b2footer.php');
+?>

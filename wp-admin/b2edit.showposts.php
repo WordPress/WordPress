@@ -1,6 +1,6 @@
+<div class="wrap">
 <?php
 
-echo $tabletop;
 require_once('b2config.php');
 
 if (!$posts) {
@@ -44,7 +44,7 @@ if ($previousXstart < 0) {
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td colspan="2" align="center"><!-- show next/previous X posts -->
-            <form name="previousXposts" method="get">
+            <form name="previousXposts" method="get" action="">
 <?php
 if ($previousXstart > 0) {
 ?>
@@ -57,7 +57,7 @@ if ($previousXstart > 0) {
             </form>
           </td>
           <td>
-            <form name="nextXposts" method="get">
+            <form name="nextXposts" method="get" action="">
               <input type="hidden" name="poststart" value="<?php echo $nextXstart; ?>" />
               <input type="hidden" name="postend" value="<?php echo $nextXend; ?>" />
               <input type="submit" name="submitnext" class="search" value="<?php echo $posts ?> >" />
@@ -69,59 +69,57 @@ if ($previousXstart > 0) {
   </tr>
   <tr>
     <td valign="top" width="200"><!-- show X first/last posts -->
-      <form name="showXfirstlastposts" method="get">
+      <form name="showXfirstlastposts" method="get" action="">
         <input type="text" name="posts" value="<?php echo $posts ?>" style="width:40px;" /?>
 <?php
 if (!isset($order))
   $order="DESC";
 $i = $order;
 if ($i == "DESC")
- $besp_selected = "selected";
+ $besp_selected = "selected='selected'";
 ?>
-        <select name="order">&nbsp;
-          <option value="DESC" "<?= $besp_selected ?>">last posts</option>
+        <select name="order">
+          <option value="DESC" <?php echo $besp_selected ?>>last posts</option>
 <?php
 $besp_selected = "";
 if ($i == "ASC")
-$besp_selected = "selected";
+$besp_selected = "selected='selected'";
 ?>
-          <option value="ASC" "<?= $besp_selected?>">first posts</option>
+          <option value="ASC" <?php echo $besp_selected?>>first posts</option>
         </select>&nbsp;
         <input type="submit" name="submitfirstlast" class="search" value="OK" />
       </form>
     </td>
     <td valign="top"><!-- show post X to post X -->
-      <form name="showXfirstlastposts" method="get">
+      <form name="showXfirstlastposts" method="get" action="">
         <input type="text" name="poststart" value="<?php echo $poststart ?>" style="width:40px;" /?>&nbsp;to&nbsp;<input type="text" name="postend" value="<?php echo $postend ?>" style="width:40px;" /?>&nbsp;
         <select name="order">
 <?php
 $besp_selected = "";
 $i = $order;
 if ($i == "DESC")
-  $besp_selected = "selected";
+  $besp_selected = "selected='selected'";
 ?>
-          <option value="DESC" "<?= $besp_selected ?>">from the end</option>
+          <option value="DESC" "<?php echo $besp_selected ?>">from the end</option>
 <?php
 $besp_selected = "";
 if ($i == "ASC")
-  $besp_selected = "selected";
-?>        <option value="ASC" "<?= $besp_selected ?>">from the start</option>
+  $besp_selected = "selected='selected'";
+?>        <option value="ASC" "<?php echo $besp_selected ?>">from the start</option>
         </select>&nbsp;
         <input type="submit" name="submitXtoX" class="search" value="OK" />
       </form>
     </td>
   </tr>
 </table>
-<?php echo $tablebottom ?>
+</div>
 
-<br />
-
-<?php echo $tabletop ?>
+<div class="wrap">
 <table width="100%">
 	<td valign="top" width="33%">
 		<form name="searchform" action="b2edit.php" method="get">
 			<input type="hidden" name="a" value="s" />
-			<input onFocus="this.value='';" onBlur="if (this.value=='') {this.value='search...';}" type="text" name="s" value="search..." size="7" style="width: 100px;" />
+			<input onfocus="this.value='';" onblur="if (this.value=='') {this.value='search...';}" type="text" name="s" value="search..." size="7" style="width: 100px;" />
 			<input type="submit" name="submit" value="search" class="search" />
 		</form>
 	</td>
@@ -137,7 +135,7 @@ if ($i == "ASC")
 	while($row = mysql_fetch_object($result)) {
 		echo "<option value=\"".$row->cat_ID."\"";
 		if ($row->cat_ID == $postdata["Category"])
-			echo " selected";
+			echo " selected='selected'";
 		echo ">".$row->cat_name."</option>";
 	}
 		?>
@@ -227,9 +225,7 @@ if ($i == "ASC")
 </td>
 
 </table>
-<br />
 
-<table cellspacing="0" cellpadding="5" border="0" width="100%">
 	<?php
 	// these lines are b2's "motor", do not alter nor remove them
 	include("blog.header.php");
@@ -237,17 +233,15 @@ if ($i == "ASC")
 	while($row = mysql_fetch_object($result)) {
 		$posts_per_page = 10;
 	start_b2(); ?>
-		<tr>
-		<td>
 			<p>
-				<b><?php the_time('Y/m/d @ H:i:s'); ?></b> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comment', '1 comment', "% comments") ?><?php trackback_number('', ', 1 trackback', ', % trackbacks') ?><?php pingback_number('', ', 1 pingback', ', % pingbacks') ?></a>
+				<strong><?php the_time('Y/m/d @ H:i:s'); ?></strong> [ <a href="b2edit.php?p=<?php echo $id ?>&c=1"><?php comments_number('no comment', '1 comment', "% comments") ?><?php trackback_number('', ', 1 trackback', ', % trackbacks') ?><?php pingback_number('', ', 1 pingback', ', % pingbacks') ?></a>
 				<?php
 				if (($user_level > $authordata[13]) or ($user_login == $authordata[1])) {
-				echo " - <a href=\"b2edit.php?action=edit&post=".$postdata["ID"];
+				echo " - <a href=\"b2edit.php?action=edit&amp;post=".$postdata["ID"];
 				if ($m)
 				echo "&m=$m";
 				echo "\">Edit</a>";
-				echo " - <a href=\"b2edit.php?action=delete&post=".$postdata["ID"]."\" onclick=\"return confirm('You are about to delete this post \'".$row->post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
+				echo " - <a href=\"b2edit.php?action=delete&amp;post=".$postdata["ID"]."\" onclick=\"return confirm('You are about to delete this post \'".$row->post_title."\'\\n  \'Cancel\' to stop, \'OK\' to delete.')\">Delete</a> ";
 				}
 				?>
 				]
@@ -280,8 +274,7 @@ if ($i == "ASC")
 					if ($resultc) {
 					?>
 
-					<a name="comments"></a>
-					<p><b><font color="#ff3300">::</font> comments</b></p>
+					<h3 id="comments">comments</h3>
 
 					<?php
 					while($rowc = mysql_fetch_object($resultc)) {
@@ -294,7 +287,7 @@ if ($i == "ASC")
 					<br />
 					<?php comment_text() ?>
 					<br />
-					<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?><br />
+					<?php comment_date('Y/m/d') ?> @ <?php comment_time() ?> 
 					<?php 
 					if (($user_level > $authordata[13]) or ($user_login == $authordata[1])) {
 						echo "[ <a href=\"b2edit.php?action=editcomment&comment=".$commentdata["comment_ID"]."\">Edit</a>";
@@ -312,7 +305,7 @@ if ($i == "ASC")
 						echo "<p><font color=\"red\">Error: please fill the required fields (name & comment)</font></p>";
 					?>
 
-					<p><b><font color="#ff3300">::</font> leave a comment</b></p>
+					<h3>Leave Comment</h3>
 
 
 					<!-- form to add a comment -->
@@ -324,7 +317,6 @@ if ($i == "ASC")
 						<input type="text" name="email" class="textarea" value="<?php echo $user_email ?>" size="20" tabindex="2" /><br />
 						<input type="text" name="url" class="textarea" value="<?php echo $user_url ?>" size="20" tabindex="3" /><br />
 						<textarea cols="40" rows="4" name="comment" tabindex="4" class="textarea">comment</textarea><br />
-						<input type="checkbox" name="comment_autobr" value="1" checked tabindex="6" class="checkbox" /> Auto-BR (line-breaks become &lt;br> tags)<br />
 						<input type="submit" name="submit" class="buttonarea" value="ok" tabindex="5" />
 
 					</form>
@@ -338,19 +330,18 @@ if ($i == "ASC")
 				}
 				?>
 			<br />
-			</td>
-		</tr>
+
 	<?php
 
 	}
 	?>
-	</table>
-<?php echo $tablebottom ?>
-<br />
-<?php echo $tabletop ?>
+
+</div>
+
+<div class="wrap">
 <table width="100%">
   <tr>
-    <td valign="top" width="200">Show posts: </td>
+    <td valign="top" width="200">Show posts:</td>
     <td>
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
@@ -409,4 +400,4 @@ echo " selected";
       </td>
     </tr>
   </table>
-<?php echo $tablebottom ?>
+</div>
