@@ -925,7 +925,7 @@ function upgrade_130() {
     }
 
 	if ( !is_array( get_settings('active_plugins') ) ) {
-		$plugins = explode("\n", get_settings('active_plugins') );
+		$plugins = explode("\n", trim(get_settings('active_plugins')) );
 		update_option('active_plugins', $plugins);
 	}
 }
