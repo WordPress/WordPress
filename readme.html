@@ -115,10 +115,9 @@
 	<li><em>blogger.getUsersBlogs</em> is a dummy function that returns '1' and $blogname, since WordPress supports only one blog as of now</li>
 </ul>
 <p>If you use blogger.newPost, your post is submitted without title and in category #1.</p>
-<p> However, you can type <code>&lt;title&gt;my title&lt;/title&gt;</code> and/or <code>&lt;category&gt;2&lt;category&gt;</code> in the body of your post to make its title be 'my title' and its category be #2 (refer to your categories section to find out the ID numbers of the categories). b2 would then delete that extra info from the body of your post once it is posted.</p>
+<p> However, you can type <code>&lt;title&gt;my title&lt;/title&gt;</code> and/or <code>&lt;category&gt;2&lt;category&gt;</code> in the body of your post to make its title be 'my title' and its category be #2 (refer to your categories section to find out the ID numbers of the categories). WordPress would then delete that extra info from the body of your post once it is posted.</p>
 <p>The <a href="http://www.xmlrpc.com/metaWeblogApi">metaWeblog</a> and <a href="http://www.movabletype.org/docs/mtmanual_programmatic.html">MovableType</a> APIs are currently supported with the following exceptions:</p>
 <ul>
-	<li>metaWeblog.newMediaObject,&nbsp; mt.getRecentPostTitles,&nbsp; and mt.getTrackbackPings are not yet implemented</li>
 	<li>mt.supportedTextFilters is a dummy stub function that returns an empty string</li>
 	<li>keywords are not supported in the MovableType API</li>
 </ul>
