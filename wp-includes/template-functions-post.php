@@ -394,13 +394,13 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0) {
 		echo "\n";
 
 		if(isset($cur_page['children']) && is_array($cur_page['children'])) {
-			echo "$indent<ul>\n";
 			$new_depth = $depth + 1;
 
 			if(!$args['depth'] || $depth < ($args['depth']-1)) {
+				echo "$indent<ul>\n";
 				_page_level_out($page_id,$page_tree, $args, $new_depth);
+				echo "$indent</ul>\n";
 			}
-			echo "$indent</ul>\n";
 		}
 		echo "$indent</li>\n";
 	}
