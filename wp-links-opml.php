@@ -18,7 +18,7 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
         }
     }
 }
-?><?php echo "<?xml version=\"1.0\"?".">\n"; ?>
+?><?php echo '<?xml version="1.0"?'.">\n"; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <opml version="1.0">
     <head>
@@ -26,7 +26,7 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
         <dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
     </head>
     <body>
-<?php $sql = "SELECT $wpdb->links.link_url, link_rss, $wpdb->links.link_name, $wpdb->links.link_category, $wpdb->linkcategories.cat_name 
+<?php $sql = "SELECT $wpdb->links.link_url, link_rss, $wpdb->links.link_name, $wpdb->links.link_category, $wpdb->linkcategories.cat_name, link_updated 
 FROM $wpdb->links 
  LEFT JOIN $wpdb->linkcategories on $wpdb->links.link_category = $wpdb->linkcategories.cat_id
  $sql_cat
@@ -48,7 +48,7 @@ FROM $wpdb->links
              $prev_cat_id = $result->link_category;
         } // end if new category
 ?>
-            <outline title="<?php echo wp_specialchars($result->link_name); ?>" type="link" xmlUrl="<?php echo $result->link_rss; ?>" htmlUrl="<?php echo(wp_specialchars($result->link_url)) ?>"/>
+            <outline title="<?php echo wp_specialchars($result->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($result->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($result->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $result->link_updated) echo $result->link_updated; ?>" />
 <?php
         } // end foreach
     } // end if
