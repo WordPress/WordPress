@@ -75,12 +75,12 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 $links_show_cat_id = $_COOKIE['links_show_cat_id_' . $cookiehash];
 $links_show_order = $_COOKIE['links_show_order_' . $cookiehash];
 
-if (!empty($action2)) {
-    $action = $action2;
-}
+if ('' != $_POST['assign']) $action = 'assign';
+if ('' != $_POST['visibility']) $action = 'visibility';
+if ('' != $_POST['move']) $action = 'move';
 
 switch ($action) {
-  case 'Assign':
+  case 'assign':
   {
     $standalone = 1;
     include_once('admin-header.php');
@@ -111,7 +111,7 @@ switch ($action) {
     header('Location: ' . $this_file);
     break;
   }
-  case 'Visibility':
+  case 'visibility':
   {
     $standalone = 1;
     include_once('admin-header.php');
@@ -149,7 +149,7 @@ switch ($action) {
     header('Location: ' . $this_file);
     break;
   }
-  case 'Move':
+  case 'move':
   {
     $standalone = 1;
     include_once('admin-header.php');
@@ -728,11 +728,11 @@ LINKS;
 
 <div class="wrap">
   <table width="100%" cellpadding="3" cellspacing="3">
-    <tr><th colspan="4">Manage Multiple Links:</th></tr>
-    <tr><td colspan="4">Use the checkboxes on the right to select multiple links and choose an action below:</td></tr>
+    <tr><th colspan="4"><?php _e('Manage Multiple Links:') ?></th></tr>
+    <tr><td colspan="4"><?php _e('Use the checkboxes on the right to select multiple links and choose an action below:') ?></td></tr>
     <tr>
         <td>
-          <input type="submit" name="action2" value="Assign" /> ownership <?php echo gethelp_link($this_file,'assign_ownership');?> to:
+          <?php _e('Assign ownership to:'); echo ' ' . gethelp_link($this_file,'assign_ownership'); ?>
 <?php
     $results = $wpdb->get_results("SELECT ID, user_login FROM $tableusers WHERE user_level > 0 ORDER BY ID");
     echo "          <select name=\"newowner\" size=\"1\">\n";
@@ -743,16 +743,16 @@ LINKS;
     }
     echo "          </select>\n";
 ?>
+        <input name="assign" type="submit" id="assign" value="<?php _e('Go') ?>" />
         </td>
         <td>
-          Toggle <input type="submit" name="action2" value="Visibility" /><?php echo gethelp_link($this_file,'toggle_visibility');?>
+          <input name="visibility" type="submit" id="visibility" value="<?php _e('Toggle Visibility') ?>" /><?php echo gethelp_link($this_file,'toggle_visibility');?>
         </td>
         <td>
-          <input type="submit" name="action2" value="Move" /><?php echo gethelp_link($this_file,'move_to_cat');?> to category
-<?php category_dropdown('category'); ?>
+          <?php _e('Move to category:'); echo ' ' . gethelp_link($this_file,'move_to_cat'); category_dropdown('category'); ?> <input name="move" type="submit" id="move" value="<?php _e('Go') ?>" />
         </td>
         <td align="right">
-          <a href="#" onClick="checkAll(document.getElementById('links')); return false; ">Toggle Checkboxes</a><?php echo gethelp_link($this_file,'toggle_checkboxes');?>
+          <a href="#" onClick="checkAll(document.getElementById('links')); return false; "><?php _e('Toggle Checkboxes') ?></a><?php echo gethelp_link($this_file,'toggle_checkboxes');?>
         </td>
     </tr>
 </table>
