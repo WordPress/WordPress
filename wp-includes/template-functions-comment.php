@@ -16,6 +16,12 @@ add_filter('comment_text', 'convert_smilies', 20);
 
 add_filter('comment_excerpt', 'convert_chars');
 
+function comments_template() {
+	global $withcomments, $single, $post, $wpdb, $id, $comment;
+	if ( $single || $withcomments )
+		include(ABSPATH . 'wp-comments.php');
+}
+
 function clean_url($url) {
 	if ('' == $url) return $url;
 	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $url);
