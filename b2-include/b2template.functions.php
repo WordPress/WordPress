@@ -231,8 +231,6 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
 function get_calendar($daylength = 1) {
 	global $wpdb, $HTTP_GET_VARS, $m, $monthnum, $year, $timedifference, $month, $weekday, $tableposts, $posts;
 
-	$ak_use_tooltip_titles = 1; // set this to 1 to have the day's post titles as tooltips to the calendar date.
-
     // Quick check. If we have no posts at all, abort!
     if (!$posts) {
         $gotsome = $wpdb->get_var("SELECT ID from $tableposts WHERE post_status = 'publish' AND post_category > 0 ORDER BY post_date DESC LIMIT 1");
@@ -302,17 +300,17 @@ function get_calendar($daylength = 1) {
 				get_month_link($previous->year, $previous->month) . '" title="View posts for ' . $month[zeroise($previous->month, 2)] . ' ' .
 				date('Y', mktime(0, 0 , 0, $previous->month, 1, $previous->year)) . '">&laquo; ' . substr($month[zeroise($previous->month, 2)], 0, 3) . '</a></td>';
 	} else {
-		echo "\n\t\t".'<td colspan="3" id="prev">&laquo;</td>';
+		echo "\n\t\t".'<td colspan="3" id="prev" class="pad">&nbsp;</td>';
 	}
 
-	echo "\n\t\t".'<td>&nbsp;</td>';
+	echo "\n\t\t".'<td class="pad">&nbsp;</td>';
 
 	if ($next) {
 		echo "\n\t\t".'<td abbr="' . $month[zeroise($next->month, 2)] . '" colspan="3" id="next"><a href="' .
 				get_month_link($previous->year, $next->month) . '" title="View posts for ' . $month[zeroise($next->month, 2)] . ' ' .
 				date('Y', mktime(0, 0 , 0, $next->month, 1, $next->year)) . '">' . substr($month[zeroise($next->month, 2)], 0, 3) . ' &raquo;</a></td>';
 	} else {
-		echo "\n\t\t".'<td colspan="3" id="next">&raquo;</td>';
+		echo "\n\t\t".'<td colspan="3" id="next" class="pad">&nbsp;</td>';
 	}
 
 	echo '
@@ -338,36 +336,36 @@ function get_calendar($daylength = 1) {
 	}
 
 
-	if ($ak_use_tooltip_titles == 1) {
-		if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") ||
-			  strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "camino")) {
-			$ak_title_separator = "\n";
-		} else {
-			$ak_title_separator = ", ";
-		}
 
-		$ak_titles_for_day = array();
-		$ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH(post_date) as dom "
-											 ."FROM $tableposts "
-											 ."WHERE YEAR(post_date) = '$thisyear' "
-											 ."AND MONTH(post_date) = '$thismonth' "
-											 ."AND post_date < '".date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."' "
-											 ."AND post_status = 'publish'"
-											);
-		if ($ak_post_titles) {
-			foreach ($ak_post_titles as $ak_post_title) {
-				if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
-					$ak_titles_for_day["$ak_post_title->dom"] .= htmlspecialchars(stripslashes($ak_post_title->post_title));
-				} else {
-					$ak_titles_for_day["$ak_post_title->dom"] .= $ak_title_separator . htmlspecialchars(stripslashes($ak_post_title->post_title));
-				}
+	if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") ||
+		  strstr(strtolower($_SERVER["HTTP_USER_AGENT"]), "camino")) {
+		$ak_title_separator = "\n";
+	} else {
+		$ak_title_separator = ", ";
+	}
+
+	$ak_titles_for_day = array();
+	$ak_post_titles = $wpdb->get_results("SELECT post_title, DAYOFMONTH(post_date) as dom "
+										 ."FROM $tableposts "
+										 ."WHERE YEAR(post_date) = '$thisyear' "
+										 ."AND MONTH(post_date) = '$thismonth' "
+										 ."AND post_date < '".date("Y-m-d H:i:s", (time() + ($time_difference * 3600)))."' "
+										 ."AND post_status = 'publish'"
+										);
+	if ($ak_post_titles) {
+		foreach ($ak_post_titles as $ak_post_title) {
+			if (empty($ak_titles_for_day["$ak_post_title->dom"])) { // first one
+				$ak_titles_for_day["$ak_post_title->dom"] .= htmlspecialchars(stripslashes($ak_post_title->post_title));
+			} else {
+				$ak_titles_for_day["$ak_post_title->dom"] .= $ak_title_separator . htmlspecialchars(stripslashes($ak_post_title->post_title));
 			}
 		}
 	}
 
+
 	// See how much we should pad in the beginning
 	$pad = intval(date('w', $unixmonth));
-	if (0 != $pad) echo "\n\t\t<td colspan='$pad'>&nbsp;</td>";
+	if (0 != $pad) echo "\n\t\t<td colspan='$pad' class='pad'>&nbsp;</td>";
 
 	$daysinmonth = intval(date('t', $unixmonth));
 	for ($day = 1; $day <= $daysinmonth; ++$day) {
@@ -381,22 +379,19 @@ function get_calendar($daylength = 1) {
 			echo "<td>";
 
 		if (in_array($day, $daywithpost)) { // any posts today?
-			if ($ak_use_tooltip_titles == 1) { // check to see if we want to show the tooltip titles
-				echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"$ak_titles_for_day[$day]\">$day</a>";
-			} else {
-				echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\">$day</a>";
-			}
+			echo '<a href="' . get_day_link($thisyear, $thismonth, $day) . "\" title=\"$ak_titles_for_day[$day]\">$day</a>";
 		} else {
 			echo $day;
 		}
-
 		echo '</td>';
+
 		if (6 == date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear)))
 			$newrow = true;
 	}
+
 	$pad = 7 - date('w', mktime(0, 0 , 0, $thismonth, $day, $thisyear));
 	if (0 != $pad)
-		echo "\n\t\t<td class='empty' colspan='$pad'>&nbsp;</td>";
+		echo "\n\t\t<td class='pad' colspan='$pad'>&nbsp;</td>";
 
 	echo "\n\t</tr>\n\t</tbody>\n\t</table>";
 }

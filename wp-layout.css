@@ -73,7 +73,6 @@ p, li, .feedback {
 	letter-spacing: -1px;
 }
 
-
 .credit {
 	background: #90a090;
 	border-top: double 3px #aba;
@@ -105,8 +104,8 @@ p, li, .feedback {
 }
 
 #commentform input, #commentform textarea {
+	background: #fff;
 	border: 1px solid #333;
-	background-color: #fff;
 }
 
 #commentform textarea {
@@ -190,6 +189,7 @@ p, li, .feedback {
 #menu ul ul li {
 	border: 0;
 	font: normal normal 70%/115% 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+	height: 14px;
 	letter-spacing: 0;
 	margin-top: 0;
 	padding: 0;
@@ -198,7 +198,7 @@ p, li, .feedback {
 
 #menu ul ul li a {
 	color: #000;
-	height: 13px;
+	display: block;
 	text-decoration: none;
 }
 
@@ -242,9 +242,13 @@ p, li, .feedback {
 #wp-calendar td {
 	color: #ccc;
 	font: normal 12px 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
-	text-align: center;
-	padding: 2px 0;
 	letter-spacing: normal;
+	padding: 2px 0;
+	text-align: center;
+}
+
+#wp-calendar td.pad:hover {
+	background: #fff;
 }
 
 #wp-calendar td:hover, #wp-calendar #today {
