@@ -59,13 +59,6 @@ endforeach;
 </table>
 
 <fieldset class="options">
-	<legend><?php _e('Update Services') ?></legend>
-          <p><?php printf(__('When you publish a new post WordPress can notify site update services. For more about this see <a href="%s">Update Services</a> on the Codex. Separate multiple service URIs with line breaks.'), 'http://codex.wordpress.org/Update_Services') ?></p>
-	
-	<textarea name="ping_sites" id="ping_sites" style="width: 98%;" rows="5" cols="50"><?php form_option('ping_sites'); ?></textarea>
-</fieldset>
-
-<fieldset class="options">
 	<legend><?php _e('Writing by e-mail') ?></legend>
 	<p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5)) ?></p>
 	
@@ -102,6 +95,14 @@ endforeach;
 		</tr>
 	</table>
 </fieldset>
+
+<fieldset class="options">
+	<legend><?php _e('Update Services') ?></legend>
+          <p><?php printf(__('When you publish a new post WordPress can notify site update services. For more about this see <a href="%s">Update Services</a> on the Codex. Separate multiple service URIs with line breaks.'), 'http://codex.wordpress.org/Update_Services') ?></p>
+	
+	<textarea name="ping_sites" id="ping_sites" style="width: 98%;" rows="3" cols="50"><?php form_option('ping_sites'); ?></textarea>
+</fieldset>
+
 <p class="submit"> 
 	<input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" /> 
 </p>
