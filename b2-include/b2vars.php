@@ -198,53 +198,53 @@ $is_IIS = strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Microsoft-IIS') ? 1 : 0;
 
 # if the config file does not provide the smilies array, let's define it here
 if (!isset($b2smiliestrans)) {
-	$b2smiliestrans = array(
-		':)'		=> 'icon_smile.gif',
-		':D'		=> 'icon_biggrin.gif',
-		':-D'		=> 'icon_biggrin.gif',
-		':grin:'		=> 'icon_biggrin.gif',
-		':)'		=> 'icon_smile.gif',
-		':-)'		=> 'icon_smile.gif',
-		':smile:'		=> 'icon_smile.gif',
-		':('		=> 'icon_sad.gif',
-		':-('		=> 'icon_sad.gif',
-		':sad:'		=> 'icon_sad.gif',
-		':o'		=> 'icon_surprised.gif',
-		':-o'		=> 'icon_surprised.gif',
-		':eek:'		=> 'icon_surprised.gif',
-		'8O'		=> 'icon_eek.gif',
-		'8-O'		=> 'icon_eek.gif',
-		':shock:'		=> 'icon_eek.gif',
-		':?'		=> 'icon_confused.gif',
-		':-?'		=> 'icon_confused.gif',
-		':???:'		=> 'icon_confused.gif',
-		'8)'		=> 'icon_cool.gif',
-		'8-)'		=> 'icon_cool.gif',
-		':cool:'		=> 'icon_cool.gif',
-		':lol:'		=> 'icon_lol.gif',
-		':x'		=> 'icon_mad.gif',
-		':-x'		=> 'icon_mad.gif',
-		':mad:'		=> 'icon_mad.gif',
-		':P'		=> 'icon_razz.gif',
-		':-P'		=> 'icon_razz.gif',
-		':razz:'		=> 'icon_razz.gif',
-		':oops:'		=> 'icon_redface.gif',
-		':cry:'		=> 'icon_cry.gif',
-		':evil:'		=> 'icon_evil.gif',
-		':twisted:'		=> 'icon_twisted.gif',
-		':roll:'		=> 'icon_rolleyes.gif',
-		':wink:'		=> 'icon_wink.gif',
-		';)'		=> 'icon_wink.gif',
-		';-)'		=> 'icon_wink.gif',
-		':!:'		=> 'icon_exclaim.gif',
-		':?:'		=> 'icon_question.gif',
-		':idea:'		=> 'icon_idea.gif',
-		':arrow:'		=> 'icon_arrow.gif',
-		':|'		=> 'icon_neutral.gif',
-		':-|'		=> 'icon_neutral.gif',
-		':neutral:'		=> 'icon_neutral.gif',
-		':mrgreen:'		=> 'icon_mrgreen.gif',
-	);
+    $b2smiliestrans = array(
+        ':)'        => 'icon_smile.gif',
+        ':D'        => 'icon_biggrin.gif',
+        ':-D'       => 'icon_biggrin.gif',
+        ':grin:'    => 'icon_biggrin.gif',
+        ':)'        => 'icon_smile.gif',
+        ':-)'       => 'icon_smile.gif',
+        ':smile:'   => 'icon_smile.gif',
+        ':('        => 'icon_sad.gif',
+        ':-('       => 'icon_sad.gif',
+        ':sad:'     => 'icon_sad.gif',
+        ':o'        => 'icon_surprised.gif',
+        ':-o'       => 'icon_surprised.gif',
+        ':eek:'     => 'icon_surprised.gif',
+        '8O'        => 'icon_eek.gif',
+        '8-O'       => 'icon_eek.gif',
+        ':shock:'   => 'icon_eek.gif',
+        ':?'        => 'icon_confused.gif',
+        ':-?'       => 'icon_confused.gif',
+        ':???:'     => 'icon_confused.gif',
+        '8)'        => 'icon_cool.gif',
+        '8-)'       => 'icon_cool.gif',
+        ':cool:'    => 'icon_cool.gif',
+        ':lol:'     => 'icon_lol.gif',
+        ':x'        => 'icon_mad.gif',
+        ':-x'       => 'icon_mad.gif',
+        ':mad:'     => 'icon_mad.gif',
+        ':P'        => 'icon_razz.gif',
+        ':-P'       => 'icon_razz.gif',
+        ':razz:'    => 'icon_razz.gif',
+        ':oops:'    => 'icon_redface.gif',
+        ':cry:'     => 'icon_cry.gif',
+        ':evil:'    => 'icon_evil.gif',
+        ':twisted:' => 'icon_twisted.gif',
+        ':roll:'    => 'icon_rolleyes.gif',
+        ':wink:'    => 'icon_wink.gif',
+        ';)'        => 'icon_wink.gif',
+        ';-)'       => 'icon_wink.gif',
+        ':!:'       => 'icon_exclaim.gif',
+        ':?:'       => 'icon_question.gif',
+        ':idea:'    => 'icon_idea.gif',
+        ':arrow:'   => 'icon_arrow.gif',
+        ':|'        => 'icon_neutral.gif',
+        ':-|'       => 'icon_neutral.gif',
+        ':neutral:' => 'icon_neutral.gif',
+        ':mrgreen:' => 'icon_mrgreen.gif',
+    );
 }
 
 # sorts the smilies' array
@@ -268,11 +268,11 @@ foreach($b2smiliestrans as $smiley => $img) {
 	$b2_smiliesreplace[] = "<img src='$smilies_directory/$img' alt='$smiley_masked' />";
 }
 
-	add_filter('all', 'wptexturize');
-	add_filter('the_content', 'wpautop');
+    add_filter('all', 'wptexturize');
+    add_filter('the_content', 'wpautop');
 	add_filter('comment_text', 'wpautop');
 	// Uncomment the following for Textile support
-	// include_once('textile.php');
-	// add_filter('the_content', 'textile');
-	// There is some duplication of effore so textile.php really should be tweaked to eliminate that.
+	//include_once('textile.php');
+    //add_filter('the_content', 'textile');
+	// There is some duplication of effort so textile.php really should be tweaked to eliminate that.
 ?>
