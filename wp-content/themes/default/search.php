@@ -7,8 +7,8 @@
 		<h2 class="pagetitle">Search Results</h2>
 		
 		<div class="navigation">
-			<div class="alignleft"><?php posts_nav_link('','','&laquo; Previous Entries') ?></div>
-			<div class="alignright"><?php posts_nav_link('','Next Entries &raquo;','') ?></div>
+			<div class="alignleft"><?php next_posts_link('&laquo; Previous Entries') ?></div>
+			<div class="alignright"><?php previous_posts_link('Next Entries &raquo;') ?></div>
 		</div>
 
 
@@ -28,8 +28,8 @@
 		<?php endwhile; ?>
 
 		<div class="navigation">
-			<div class="alignleft"><?php posts_nav_link('','','&laquo; Previous Entries') ?></div>
-			<div class="alignright"><?php posts_nav_link('','Next Entries &raquo;','') ?></div>
+			<div class="alignleft"><?php next_posts_link('&laquo; Previous Entries') ?></div>
+			<div class="alignright"><?php previous_posts_link('Next Entries &raquo;') ?></div>
 		</div>
 	
 	<?php else : ?>
