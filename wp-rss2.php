@@ -46,9 +46,12 @@ $custom_fields = get_post_custom();
 if( is_array( $custom_fields ) ) {
     while( list( $key, $val ) = each( $custom_fields ) ) { 
         if( $key == 'enclosure' ) {
-            $enclosure = $val[ 0 ];
-            $enclosure = split( "\n", $enclosure );
-            print "<enclosure url='".trim( $enclosure[ 0 ] )."' length='".trim( $enclosure[ 1 ] )."' type='".trim( $enclosure[ 2 ] )."'/>\n";
+			if (is_array($val)) {
+				foreach($val as $enc) {
+		            $enclosure = split( "\n", $enc );
+		            print "<enclosure url='".trim( $enclosure[ 0 ] )."' length='".trim( $enclosure[ 1 ] )."' type='".trim( $enclosure[ 2 ] )."'/>\n";
+	            }
+            }
         }
     }
 }
