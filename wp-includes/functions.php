@@ -1656,6 +1656,16 @@ function check_comment($author, $email, $url, $comment, $user_ip) {
 		}
 	}
 
+	// Useless numeric encoding is a pretty good spam indicator:
+	// Extract entities:
+	if (preg_match_all('/&#(\d+);/',$comment,$chars)) {
+		foreach ($chars[1] as $char) {
+			// If it's an encoded char in the normal ASCII set, reject
+			if ($char < 128)
+				return false;
+		}
+	}
+
 	$mod_keys = trim( get_settings('moderation_keys') );
 	if ('' == $mod_keys )
 		return true; // If moderation keys are empty
