@@ -176,7 +176,7 @@ $wpsmarty->register_function( 'the_author', 'the_author' );
 
 function smarty_the_content( $params )
 {
-	$more_link_text='(more...)';
+	$more_link_text= __('(more...)');
 	$stripteaser=0;
 	$more_file='';
 	extract( $params );
