@@ -38,43 +38,36 @@ function get_permalink($id=false) {
 		'%minute%',
 		'%second%',
         '%postname%',
-        '%post_id%'
+        '%post_id%',
+        '%category%'
     );
-    if (!$id) {
-        if ('' != get_settings('permalink_structure')) {
-	    $unixtime = strtotime($post->post_date);
-            $rewritereplace = array(
-                date('Y', $unixtime),
-                date('m', $unixtime),
-                date('d', $unixtime),
-				date('H', $unixtime),
-				date('i', $unixtime),
-				date('s', $unixtime),
-                $post->post_name,
-                $post->ID
-            );
-            return get_settings('home') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
-        } else { // if they're not using the fancy permalink option
-            return get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$post->ID;
-        }
-    } else { // if an ID is given
-        $idpost = $wpdb->get_row("SELECT post_date, post_name FROM $wpdb->posts WHERE ID = $id");
-        if ('' != get_settings('permalink_structure')) {
+
+    if ($id) {
+        $idpost = $wpdb->get_row("SELECT ID, post_date, post_name FROM $wpdb->posts WHERE ID = $id");
+    } else {
+        $idpost = $post;
+    }
+       
+    if ('' != get_settings('permalink_structure')) {
 	    $unixtime = strtotime($idpost->post_date);
-            $rewritereplace = array(
-                date('Y', $unixtime),
-                date('m', $unixtime),
-                date('d', $unixtime),
-				date('H', $unixtime),
-				date('i', $unixtime),
-				date('s', $unixtime),
-                $idpost->post_name,
-                $id
-            );
-            return get_settings('home') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
-        } else {
-            return get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$id;
-        }
+
+        $cats = get_the_category($idpost->ID);
+        $category = $cats[0]->category_nicename;
+
+        $rewritereplace = array(
+                                date('Y', $unixtime),
+                                date('m', $unixtime),
+                                date('d', $unixtime),
+                                date('H', $unixtime),
+                                date('i', $unixtime),
+                                date('s', $unixtime),
+                                $idpost->post_name,
+                                $idpost->ID,
+                                $category
+                                );
+        return get_settings('home') . str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
+    } else { // if they're not using the fancy permalink option
+        return get_settings('home') . '/' . get_settings('blogfilename').$querystring_start.'p'.$querystring_equal.$idpost->ID;
     }
 }
 
