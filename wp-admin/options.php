@@ -87,7 +87,7 @@ $nonbools = array('default_ping_status', 'default_comment_status');
 					$result = $wpdb->query($query);
 					//if( in_array($option->option_name, $nonbools)) die('boo'.$query);
 					if (!$result) {
-						$db_errors .= " SQL error while saving $this_name. ";
+						$db_errors .= sprintf(__(" SQL error while saving %s. "), $this_name);
 					} else {
 						++$any_changed;
 					}
@@ -99,12 +99,12 @@ $nonbools = array('default_ping_status', 'default_comment_status');
     } // end if options
     
     if ($any_changed) {
-        $message = $any_changed . ' setting(s) saved... ';
+        $message = sprintf(__('%d setting(s) saved... '), $any_changed);
     }
     
     if (($dB_errors != '') || ($validation_message != '')) {
         if ($message != '') {
-            $message .= '<br />and ';
+            $message .= '<br />';
         }
         $message .= $dB_errors . '<br />' . $validation_message;
     }
@@ -117,7 +117,7 @@ default:
 	$standalone = 0;
 	include_once("./admin-header.php");
 	if ($user_level <= 6) {
-		die("You have do not have sufficient permissions to edit the options for this blog.");
+		die(__("You have do not have sufficient permissions to edit the options for this blog."));
 	}
 ?>
 
@@ -133,13 +133,13 @@ if ($non_was_selected) { // no group pre-selected, display opening page
         echo("  <dt><a href=\"$this_file?option_group_id={$option_group->group_id}\" title=\"{$option_group->group_desc}\">{$option_group->group_name}</a></dt>\n");
         $current_long_desc = $option_group->group_longdesc;
         if ($current_long_desc == '') {
-            $current_long_desc = 'No help for this group of options.';
+            $current_long_desc = __('No help for this group of options.');
         }
         echo("  <dd>{$option_group->group_desc}: $current_long_desc</dd>\n");
     } // end for each group
 ?>
-  <dt><a href="options-permalink.php">Permalinks</a></dt>
-  <dd>Permanent link configuration</dd>
+  <dt><a href="options-permalink.php"><?php _e('Permalinks') ?></a></dt>
+  <dd><?php _e('Permanent link configuration') ?></dd>
 </dl>
 </div>
 <?php    
@@ -175,7 +175,7 @@ foreach ($options as $option) :
 endforeach;
 ?>
     <tr><td colspan="3">&nbsp;</td></tr>
-    <tr><td align="center" colspan="3"><input type="submit" name="Update" value="Update Settings" /></td></tr>
+    <tr><td align="center" colspan="3"><input type="submit" name="Update" value="<?php _e('Update Settings') ?>" /></td></tr>
     <tr><td colspan="3"><?php echo $message; ?></td></tr>
   </table>
   </form>
