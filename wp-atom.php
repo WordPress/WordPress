@@ -16,8 +16,8 @@ header('Content-type: application/atom+xml', true);
 	<title><?php bloginfo_rss('name') ?></title>
 	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('url') ?>" />
 	<tagline><?php bloginfo_rss("description") ?></tagline>
-	<modified><?php echo gmdate('Y-m-d\TH:i:s\Z'); ?></modified>
-	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate()); ?></copyright>
+	<modified><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></modified>
+	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate('blog')); ?></copyright>
 	<generator url="http://wordpress.org/" version="<?php echo $wp_version ?>">WordPress</generator>
 	
 	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
@@ -28,8 +28,8 @@ header('Content-type: application/atom+xml', true);
 		<title><?php the_title_rss() ?></title>
 		<link rel="alternate" type="text/html" href="<?php permalink_single_rss() ?>" />
 		<id><?php bloginfo_rss("url") ?>?p=<?php echo $id; ?></id>
-		<modified><?php the_time('Y-m-d\TH:i:s\Z'); ?></modified>
-		<issued><?php the_time('Y-m-d\TH:i:s\Z'); ?></issued>
+		<modified><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_modified_gmt); ?></modified>
+		<issued><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt); ?></issued>
 		<?php the_category_rss('rdf') ?>
 <?php $more = 1; if (get_settings('rss_use_excerpt')) {
 ?>
