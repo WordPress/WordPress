@@ -2,7 +2,7 @@
 // Links weblogs.com grabber
 // Copyright (C) 2003 Mike Little -- mike@zed1.com
 
-require_once('wp-config.php');
+require_once('../wp-config.php');
 
 // globals to hold state
 $updated_timestamp = 0;
@@ -46,15 +46,15 @@ function update_links() {
  ** otherwise return false (nothing to do)
  **/
 function get_weblogs_updatedfile() {
-	global $ignore_weblogs_cache,ABSPATH;
+	global $ignore_weblogs_cache;
 	$update = false;
-
+	$file = ABSPATH . get_settings('weblogs_cache_file');
 	if ($ignore_weblogs_cache) {
 		$update = true;
 	} else {
-		if (file_exists(get_settings('weblogs_cache_file'))) {
+		if (file_exists($file)) {
 			// is it old?
-			$modtime = filemtime(get_settings('weblogs_cache_file'));
+			$modtime = filemtime($file);
 			if ((time() - $modtime) > (get_settings('weblogs_cacheminutes') * 60)) {
 				$update = true;
 			}
@@ -73,7 +73,7 @@ function get_weblogs_updatedfile() {
 			$contents = preg_replace("/'/",'&#39;',$contents);
 			$contents = preg_replace('|[^[:space:][:punct:][:alpha:][:digit:]]|','',$contents);
 
-			$cachefp = fopen(get_settings('weblogs_cache_file'), "w");
+			$cachefp = fopen(ABSPATH . get_settings('weblogs_cache_file'), "w");
 			fwrite($cachefp, $contents);
 			fclose($cachefp);
 		} else {
@@ -119,7 +119,6 @@ function endElement($parser, $tagName) {
  ** trailing slash
  **/
 function transform_url($url) {
-	global ABSPATH;
 	//echo("transform_url(): $url ");
 	$url = str_replace('www.', '', $url);
 	$url = str_replace('WWW.', '', $url);
@@ -145,7 +144,7 @@ if (get_weblogs_updatedfile()) {
 	xml_set_element_handler($xml_parser, "startElement", "endElement");
 
 	// Open the XML file for reading
-	$fp = fopen(ABSPATH.get_settings('weblogs_cache_file'), "r")
+	$fp = fopen(ABSPATH . get_settings('weblogs_cache_file'), "r")
 		  or die("Error reading XML data.");
 
 	// Read the XML file 16KB at a time
