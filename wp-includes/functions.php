@@ -299,12 +299,15 @@ function url_to_postid($url = '') {
 /* Options functions */
 
 function get_settings($setting) {
-	global $wpdb, $cache_settings;
+  global $wpdb, $cache_settings, $cache_nonexistantoptions;
 	if ( strstr($_SERVER['REQUEST_URI'], 'wp-admin/install.php') || strstr($_SERVER['REQUEST_URI'], 'wp-admin/upgrade.php') )
 		return false;
 
 	if ( empty($cache_settings) )
 		$cache_settings = get_alloptions();
+
+	if ( empty($cache_nonexistantoptions) )
+		$cache_nonexistantoptions = array();
 
 	if ('home' == $setting && '' == $cache_settings->home)
 		return $cache_settings->siteurl;
@@ -312,7 +315,17 @@ function get_settings($setting) {
 	if ( isset($cache_settings->$setting) ) :
 		return $cache_settings->$setting;
 	else :
+		// for these cases when we're asking for an unknown option
+		if ( isset($cache_nonexistantoptions[$setting]) )
+			return false;
+
 		$option = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
+
+		if (!$option) :
+			$cache_nonexistantoptions[] = $setting;
+			return false;
+		endif;
+	  
 		if (@ $kellogs =  unserialize($option) ) return $kellogs;
 		else return $option;
 	endif;
