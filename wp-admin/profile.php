@@ -21,7 +21,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 }
 
 require_once('../wp-config.php');
-require_once('auth.php');
+auth_redirect();
 switch($action) {
 
 case 'update':

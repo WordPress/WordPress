@@ -1,7 +1,7 @@
 <?php
 
 require('../wp-config.php');
-require_once('auth.php');
+auth_redirect();
 
 get_currentuserinfo();
 

@@ -1,9 +1,9 @@
 <?php
 require_once('../wp-config.php');
 require_once(ABSPATH . 'wp-includes/wp-l10n.php');
+require_once(ABSPATH . 'wp-admin/admin-functions.php');
+auth_redirect();
 
-require_once(ABSPATH . 'wp-admin/auth.php');
-require(ABSPATH . 'wp-admin/admin-functions.php');
 
 $dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
 foreach ($dogs as $catt) {
