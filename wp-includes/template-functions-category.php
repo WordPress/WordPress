@@ -236,7 +236,26 @@ function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_
 }
 
 // out of the WordPress loop
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 0, $children=FALSE, $child_of=0, $categories=0, $recurse=0) {
+function wp_list_cats($args = '') {
+	parse_str($args, $r);
+	if (!$r['optionall']) $r['optionall'] = 1;
+	if (!$r['all']) $r['all'] = 'All';
+	if (!$r['sort_column']) $r['sort_column'] = 'ID';
+	if (!$r['file']) $r['file'] = '';
+	if (!$r['list']) $r['list'] = true;
+	if (!$r['optiondates']) $r['optiondates'] = 0;
+	if (!$r['hide_empty']) $r['hide_empty'] = 1;
+	if (!$r['use_desc_for_title']) $r['use_desc_for_title'] = 1;
+	if (!$r['children']) $r['children'] = true;
+	if (!$r['child_of']) $r['child_of'] = 0;
+	if (!$r['categories']) $r['categories'] = 0;
+	if (!$r['recurse']) $r['recurse'] = 0;
+	list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],
+	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'],
+	$r['children'], $r['child_of'], $r['categories'], $r['recurse']);
+}
+
+function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0) {
     global $tablecategories, $tableposts, $tablepost2cat, $wpdb;
     global $pagenow, $siteurl, $blogfilename;
     global $querystring_start, $querystring_equal, $querystring_separator;

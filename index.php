@@ -72,7 +72,7 @@ require('wp-blog-header.php');
 	<?php get_links_list(); ?>
  <li id="categories">Categories:
 	<ul>
-	<?php list_cats(0, 'All', 'name'); ?>
+	<?php wp_list_cats(); ?>
 	</ul>
  </li>
  <li id="search">Search:
