@@ -404,11 +404,11 @@ if ($p == 'all') {
     $where = '';
 }
 
-$now = gmdate('Y-m-d H:i:59', time() + ($time_difference * 3600));
+$now = gmdate('Y-m-d H:i:59');
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
     if ((empty($poststart)) || (empty($postend)) || !($postend > $poststart)) {
-        $where .= " AND post_date <= '$now'";
+        $where .= " AND post_date_gmt <= '$now'";
     }
 
     $distinct = 'DISTINCT';
