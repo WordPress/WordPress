@@ -30,7 +30,7 @@ require($abspath.'wp-links/links.php');
 <?php if ($posts) { foreach ($posts as $post) { start_b2(); ?>
 <?php the_date('','<h2>','</h2>'); ?>
 
- <h3 class="storytitle">
+ <h3 class="storytitle" id="post-<?php the_ID(); ?>">
   <a href="<?php permalink_link() ?>" rel="bookmark"><?php the_title(); ?></a> 
   <span class="meta"><a href="?cat=<?php the_category_ID() ?>" title="Category: <?php the_category() ?>">[<?php the_category() ?>]</a> &#8212; <?php the_author() ?> @ <?php the_time() ?>
   </span>
@@ -49,7 +49,7 @@ require($abspath.'wp-links/links.php');
 
 <?php include('b2comments.php'); ?>
 
-	<?php } } // end foreach, end if any posts ?> 
+<?php } } // end foreach, end if any posts ?> 
 
 </div>
 
