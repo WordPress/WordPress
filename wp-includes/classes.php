@@ -490,7 +490,7 @@ class WP_Query {
 				$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
 				$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
 			} elseif ($q['what_to_show'] == 'days') {
-				$post_dates = $wpdb->get_col('SELECT post_date FROM ' . $wpdb->posts . ' WHERE (1=1) ' . $where . ' ORDER BY post_date DESC');
+				$post_dates = $wpdb->get_col('SELECT post_date FROM ' . $wpdb->posts . "$join WHERE (1=1) " . $where . ' ORDER BY post_date DESC');
 				$number_of_days = $q['posts_per_page'];
 				$page_number = -1;
 				$day_number = $number_of_days;
