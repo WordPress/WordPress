@@ -1469,4 +1469,21 @@ function remove_slashes($string) {
 	return stripslashes(stripslashes($string));
 }
 
+function get_posts($args) {
+	global $wpdb, $tableposts;
+	parse_str($args, $r);
+	if (!isset($r['numberposts'])) $r['numberposts'] = 5;
+	if (!isset($r['offset'])) $r['offset'] = 0;
+	// The following not implemented yet
+	if (!isset($r['category'])) $r['category'] = '';
+	if (!isset($r['orderby'])) $r['orderby'] = '';
+	if (!isset($r['order'])) $r['order'] = '';
+
+	$now = current_time('mysql');
+
+	$posts = $wpdb->get_results("SELECT DISTINCT * FROM $tableposts WHERE post_date <= '$now' AND (post_status = 'publish') GROUP BY $tableposts.ID ORDER BY post_date DESC LIMIT " . $r['offset'] . ',' . $r['numberposts']);
+	
+	return $posts;
+}
+
 ?>
