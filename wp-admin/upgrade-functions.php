@@ -841,6 +841,18 @@ function upgrade_130() {
 	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'default_email_category'")) {
         $wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_description, option_admin_level) VALUES('default_email_category', 1, '1', 'by default posts by email will have this category', 8)");
     }
+
+	if(!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'recently_edited'")) {
+        $wpdb->query("INSERT INTO $wpdb->options (option_name, option_type, option_value, option_admin_level) VALUES ('recently_edited', 3, '', 8)");
+    }
+
+	maybe_add_column($wpdb->options, 'autoload', "ALTER TABLE `$wpdb->options` ADD `autoload` ENUM( 'yes', 'no' ) NOT NULL ;");
+
+	// Set up a few options not to load by default
+	$fatoptions = array( 'moderation_keys', 'recently_edited' );
+	foreach ($fatoptions as $fatoption) :
+		$wpdb->query("UPDATE $wpdb->options SET `autoload` = 'no' WHERE option_name = '$fatoption'");
+	endforeach;
 }
 
 ?>

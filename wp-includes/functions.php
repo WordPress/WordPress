@@ -188,7 +188,7 @@ function get_userdata($userid) {
 
 function get_userdatabylogin($user_login) {
 	global $cache_userdata, $wpdb;
-	if ( empty($cache_userdata["$user_login"]) ) {
+	if ( !empty($user_login) && empty($cache_userdata["$user_login"]) ) {
 		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'");
 		$cache_userdata["$user_login"] = $user;
 	} else {
@@ -199,7 +199,7 @@ function get_userdatabylogin($user_login) {
 
 function get_userid($user_login) {
 	global $cache_userdata, $wpdb;
-	if ( empty($cache_userdata["$user_login"]) ) {
+	if ( !empty($user_login) && empty($cache_userdata["$user_login"]) ) {
 		$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$user_login'");
 
 		$cache_userdata["$user_login"] = $user_id;
@@ -300,38 +300,34 @@ function url_to_postid($url = '') {
 
 function get_settings($setting) {
 	global $wpdb, $cache_settings;
-	if (strstr($_SERVER['REQUEST_URI'], 'install.php')) {
+	if ( strstr($_SERVER['REQUEST_URI'], 'install.php') || strstr($_SERVER['REQUEST_URI'], 'upgrade.php') ) {
 		return false;
 	}
 
-	if ( (empty($cache_settings)) ) {
-		$settings = get_alloptions();
-		$cache_settings = $settings;
-	} else {
-		$settings = $cache_settings;
+	if ( empty($cache_settings) ) {
+		$cache_settings = get_alloptions();
 	}
 
-	if ('home' == $setting && '' == $settings->home) return $settings->siteurl;
+	if ('home' == $setting && '' == $cache_settings->home) return $cache_settings->siteurl;
 
-	if (!isset($settings->$setting)) {
-		return false;
+	if (!isset($cache_settings->$setting)) {
+		return $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
 	} else {
-		return stripslashes($settings->$setting);
+		return $cache_settings->$setting;
 	}
 }
 
 function get_alloptions() {
 	global $wpdb;
-	$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
-	if ($options) {
+	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'")) {
 		foreach ($options as $option) {
 			// "When trying to design a foolproof system, 
-			//  never underestimate the ingenuity of the fools :)"
+			//  never underestimate the ingenuity of the fools :)" -- Dougal
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('category_base' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 
-			$all_options->{$option->option_name} = $option->option_value;
+			$all_options->{$option->option_name} = stripslashes($option->option_value);
 		}
 	}
 	return $all_options;
@@ -1811,10 +1807,14 @@ function update_category_cache() {
 function update_user_cache() {
     global $cache_userdata, $wpdb;
 
-    $users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level > 0");
-    foreach ($users as $user) {
-        $cache_userdata[$user->ID] = $user;
-    }
+    if ( $users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level > 0") ) :
+		foreach ($users as $user) :
+			$cache_userdata[$user->ID] = $user;
+		endforeach;
+		return true;
+	else: 
+		return false;
+	endif;
 }
 
 function wp_head() {
