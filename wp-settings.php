@@ -21,7 +21,7 @@ $tableoptionvalues        = $table_prefix . 'optionvalues';
 $tableoptiongroups        = $table_prefix . 'optiongroups';
 $tableoptiongroup_options = $table_prefix . 'optiongroup_options';
 define('WPINC', 'wp-includes');
-require (ABSPATH . WPINC . '/wp-db.php');
+require_once (ABSPATH . WPINC . '/wp-db.php');
 
 $wpdb->hide_errors();
 if (!$wpdb->get_row("SELECT * FROM $tableusers LIMIT 1") && !strstr($HTTP_SERVER_VARS['REQUEST_URI'], 'install.php')) {
@@ -31,13 +31,13 @@ $wpdb->show_errors();
 
 // This is the name of the include directory. No "/" allowed.
 
-require (ABSPATH . WPINC . '/functions.php');
-require (ABSPATH . 'wp-config-extra.php');
-require (ABSPATH . WPINC . '/template-functions.php');
-require (ABSPATH . WPINC . '/class-xmlrpc.php');
-require (ABSPATH . WPINC . '/class-xmlrpcs.php');
-require (ABSPATH . WPINC . '/links.php');
-require (ABSPATH . WPINC . '/kses.php');
+require_once (ABSPATH . WPINC . '/functions.php');
+require_once (ABSPATH . 'wp-config-extra.php');
+require_once (ABSPATH . WPINC . '/template-functions.php');
+require_once (ABSPATH . WPINC . '/class-xmlrpc.php');
+require_once (ABSPATH . WPINC . '/class-xmlrpcs.php');
+require_once (ABSPATH . WPINC . '/links.php');
+require_once (ABSPATH . WPINC . '/kses.php');
 
 //setup the old globals from b2config.php
 //
@@ -108,5 +108,5 @@ if (!strstr($HTTP_SERVER_VARS['REQUEST_URI'], 'install.php') && !strstr($HTTP_SE
 
 
 
-require (ABSPATH . WPINC . '/vars.php');
+require_once (ABSPATH . WPINC . '/vars.php');
 ?>
