@@ -5,7 +5,7 @@ if (! $feed) {
 
 header('Content-type: text/xml');
 
-echo '<?xml version="1.0"?'.'>'; 
+echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; 
 ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
