@@ -200,6 +200,7 @@ function sanitize_title($title, $fallback_title = '') {
 }
 
 function sanitize_title_with_dashes($title) {
+	$title = strip_tags($title);
     $title = remove_accents($title);
 		if (seems_utf8($title)) {
 			if (function_exists('mb_strtolower')) {
