@@ -5,6 +5,7 @@ function the_author($idmode = '', $echo = true) {
     if (empty($idmode)) {
         $idmode = $authordata->user_idmode;
     }
+
     if ($idmode == 'nickname')    $id = $authordata->user_nickname;
     if ($idmode == 'login')    $id = $authordata->user_login;
     if ($idmode == 'firstname')    $id = $authordata->user_firstname;
@@ -76,7 +77,7 @@ function the_author_posts_link($idmode='') {
 
 
 function get_author_link($echo = false, $author_id, $author_nicename) {
-    global $wpdb, $tableusers, $post, $querystring_start, $querystring_equal, $cache_authors;
+    global $wpdb, $tableusers, $post, $querystring_start, $querystring_equal, $cache_userdata;
     $auth_ID = $author_id;
     $permalink_structure = get_settings('permalink_structure');
     
@@ -84,7 +85,7 @@ function get_author_link($echo = false, $author_id, $author_nicename) {
         $file = get_settings('siteurl') . '/' . get_settings('blogfilename');
         $link = $file.$querystring_start.'author'.$querystring_equal.$auth_ID;
     } else {
-        if ('' == $author_nicename) $author_nicename = $cache_authors[$author_id]->author_nicename;
+        if ('' == $author_nicename) $author_nicename = $cache_userdata[$author_id]->author_nicename;
         // Get any static stuff from the front
         $front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
         $link = get_settings('siteurl') . $front . 'author/';

@@ -270,9 +270,10 @@ if ('' != $category_name) {
     $whichcat .= ")";
 }
 
-// author stuff
-foreach ($users as $auteur) {
-    $cache_authors[$auteur->ID] = $auteur;
+// Author/user stuff
+$users = $wpdb->get_results("SELECT * FROM $tableusers WHERE 1=1");
+foreach ($users as $user) {
+    $cache_userdata[$user->ID] = $user;
 }
 
 if ((empty($author)) || ($author == 'all') || ($author == '0')) {
