@@ -36,10 +36,10 @@ function clean_url( $url ) {
 function get_comments_number( $comment_id ) {
 	global $wpdb, $comment_count_cache;
 	$comment_id = (int) $comment_id;
-	if ('' == $comment_count_cache["$id"]) 
+	if (!isset($comment_count_cache[$comment_id])) 
 		$number =  $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$comment_id' AND comment_approved = '1'");
 	else 
-		$number =  $comment_count_cache["$id"];
+		$number =  $comment_count_cache[$comment_id];
 	return apply_filters('get_comments_number', $number);
 }
 
