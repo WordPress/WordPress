@@ -3,6 +3,13 @@
 		die ('Please do not load this page directly. Thanks!');
 	if (($withcomments) or ($c)) {
 
+        if (!empty($post->post_password)) { // if there's a password
+            if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
+                echo("Enter your password to view comments");
+                return;
+            }
+        }
+
 		$comment_author = (empty($HTTP_COOKIE_VARS["comment_author"])) ? "name" : $HTTP_COOKIE_VARS["comment_author"];
 		$comment_author_email = (empty($HTTP_COOKIE_VARS["comment_author"])) ? "email" : trim($HTTP_COOKIE_VARS["comment_author_email"]);
 		$comment_author_url = (empty($HTTP_COOKIE_VARS["comment_author"])) ? "url" : trim($HTTP_COOKIE_VARS["comment_author_url"]);

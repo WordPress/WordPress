@@ -1157,29 +1157,36 @@ function comments_popup_script($width=400, $height=400, $file='b2commentspopup.p
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
-	global $id, $b2commentspopupfile, $b2commentsjavascript, $post, $wpdb, $tablecomments;
+	global $id, $b2commentspopupfile, $b2commentsjavascript, $post, $wpdb, $tablecomments, $HTTP_COOKIE_VARS;
 	global $querystring_start, $querystring_equal, $querystring_separator, $siteurl;
 	$number = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_post_ID = $id");
 	if (0 == $number && 'closed' == $post->comment_status) {
 		echo $none;
 		return;
 	} else {
-		echo "<a href=\"$siteurl/";
-		if ($b2commentsjavascript) {
-			echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
-			echo '" onclick="b2open(this.href); return false"';
-		} else {
-			// if comments_popup_script() is not in the template, display simple comment link
-			comments_link();
-			echo '"';
-		}
-		if (!empty($CSSclass)) {
-			echo ' class="'.$CSSclass.'"';
-		}
-		echo '>';
-		comments_number($zero, $one, $more);
-		echo '</a>';
-	}
+        if (!empty($post->post_password)) { // if there's a password
+            if ($HTTP_COOKIE_VARS['wp-postpass'] != $post->post_password) {  // and it doesn't match the cookie
+                echo("Enter your password to view comments");
+                return;
+            }
+        }
+        echo "<a href=\"$siteurl/";
+        if ($b2commentsjavascript) {
+            echo $b2commentspopupfile.$querystring_start.'p'.$querystring_equal.$id.$querystring_separator.'c'.$querystring_equal.'1';
+            echo '" onclick="b2open(this.href); return false"';
+        } else {
+            // if comments_popup_script() is not in the template, display simple comment link
+            comments_link();
+            echo '"';
+        }
+        if (!empty($CSSclass)) {
+            echo ' class="'.$CSSclass.'"';
+        }
+        echo '>';
+        comments_number($zero, $one, $more);
+        echo '</a>';
+    }
+	
 }
 
 function comment_ID() {
