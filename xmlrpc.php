@@ -1106,7 +1106,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Check if the page linked to is in our site
 		$pos1 = strpos($pagelinkedto, str_replace('http://', '', str_replace('www.', '', get_settings('home'))));
 		if(!$pos1) {
-			return '0';
+	  		return new IXR_Error(0, '');
 		}
 
 
@@ -1142,13 +1142,13 @@ class wp_xmlrpc_server extends IXR_Server {
 				$sql = "SELECT ID FROM $wpdb->posts WHERE post_title RLIKE '$title'";
 				if (! ($post_ID = $wpdb->get_var($sql)) ) {
 					// returning unknown error '0' is better than die()ing
-					return '0';
+			  		return new IXR_Error(0, '');
 				}
 				$way = 'from the fragment (title)';
 			}
 		} else {
 			// TODO: Attempt to extract a post ID from the given URL
-			return '0x0021';
+	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 		}
 
 
@@ -1159,7 +1159,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if (!$wpdb->num_rows) {
 			// Post_ID not found
-			return '0x0021';
+	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 		}
 
 
@@ -1173,7 +1173,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ($wpdb->num_rows) {
 			// We already have a Pingback from this URL
-			return '0x0030';
+	  		return new IXR_Error(48, 'The pingback has already been registered.');
 		}
 
 
@@ -1184,7 +1184,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$fp = @fopen($pagelinkedfrom, 'r');
 		if (!$fp) {
 			// The source URI does not exist
-			return '0x0010';
+	  		return new IXR_Error(16, 'The source URI does not exist.');
 		}
 
 		$puntero = 4096;
@@ -1216,14 +1216,14 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if (empty($context)) {
 			// URL pattern not found
-			return '0x0011';
+	  		return new IXR_Error(17, 'The source URI does not contain a link to the target URI, and so cannot be used as a source.');
 		}
 
 
 		// Check if pings are on, inelegant exit
 		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $post_ID");
 		if ('closed' == $pingstatus) {
-			return '0x0021';
+	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 		}
 
 
@@ -1244,7 +1244,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Check if the entry allows pings
 		if( !check_comment($title, '', $pagelinkedfrom, $context, $user_ip, $user_agent) ) {
-			return '0x0031';
+	  		return new IXR_Error(49, 'Pingbacks not allowed on this entry.');
 		}
 
 
@@ -1278,14 +1278,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_ID = url_to_postid($url);
 		if (!$post_ID) {
 			// We aren't sure that the resource is available and/or pingback enabled
-			return '0x0021';
+	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 		}
 
 		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
 
 		if (!$actual_post) {
 			// No such post = resource not found
-			return '0x0020';
+	  		return new IXR_Error(32, 'The specified target URI does not exist.');
 		}
 
 		$comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
