@@ -630,7 +630,11 @@ case 'editedcomment':
 default:
 	$title = __('Create New Post');
 	require_once ('./admin-header.php');
-
+?>
+<?php if ( isset($_GET['posted']) ) : ?>
+<div class="updated"><p>Post saved. <a href="<?php bloginfo('home'); ?>">View site &raquo;</a></p></div>
+<?php endif; ?>
+<?php
 	if (user_can_create_draft($user_ID)) {
 		$action = 'post';
 		get_currentuserinfo();
