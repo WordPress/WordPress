@@ -341,7 +341,7 @@ th { text-align: right; }
          	</tr>
         <tr>
            <th scope="row">Category:</th>
-           <td><?php category_dropdown('category'); ?></td>
+           <td><?php category_dropdown('category', $link_category); ?></td>
          </tr>
 </table>
 </fieldset>
