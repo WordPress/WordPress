@@ -63,19 +63,18 @@ function focusit() {
 }
 window.onload = focusit;
 </script>
-<table>
-	<tr> 
-	<td width="210">
+
+<div id="titlediv">
 		<label for="title"><a href="http://wordpress.org/docs/reference/post/#title" title="Help on titles">Title</a>:</label>		
 		<br />
 		<input type="text" name="post_title" size="25" tabindex="1" style="width: 190px;" value="<?php echo $edited_post_title; ?>" id="title" /> 
-		</td>
-	<td>
+		</div>
+	<div id="categorydiv">
 		<label for="category"><a href="http://wordpress.org/docs/reference/post/#category" title="Help on categories">Category</a>:</label>
 		<br /> 
 		<?php dropdown_categories($blog_ID, $default_post_cat); ?>
-	</td>
-	<td>
+	</div>
+	<div id="poststatusdiv">
 		<label for="post_status"><a href="http://wordpress.org/docs/reference/post/#post_status" title="Help on post status">Post
 		Status</a>:</label>
 		<br />          
@@ -84,31 +83,30 @@ window.onload = focusit;
 			<option value="draft"<?php selected($post_status, 'draft'); ?>>Draft</option>
 			<option value="private"<?php selected($post_status, 'private'); ?>>Private</option>
 		</select>
-	</td>
-	<td>
+	</div>
+	<div id="commentstatusdiv">
 		<label for="comment_status"><a href="http://wordpress.org/docs/reference/post/#comments" title="Help on comment status">Comments</a>:</label>
 		<br />
 		<select name="comment_status" id="comment_status">
 			<option value="open"<?php selected($comment_status, 'open'); ?>>Open</option>
 			<option value="closed"<?php selected($comment_status, 'closed'); ?>>Closed</option>
 		</select>
-	</td>
-	<td>
+	</div>
+	<div id="pingstatusdiv">
 		<label for="ping_status"><a href="http://wordpress.org/docs/reference/post/#pings" title="Help on ping status">Pings</a>:</label>		
 		<br />	
 		<select name="ping_status" id="ping_status">
 			<option value="open"<?php selected($ping_status, 'open'); ?>>Open</option>
 			<option value="closed"<?php selected($ping_status, 'closed'); ?>>Closed</option>
 		</select>
-	</td>
-	<td>
+	</div>
+	<div id="postpassworddiv">
 		<label for="post_password"><a href="http://wordpress.org/docs/reference/post/#post_password" title="Help on post password">Post
 		Password</a>:</label>		
 		<br />
 		<input name="post_password" type="text" id="post_password" value="<?php echo $post_password ?>" />
-	</td>
-	</tr>
-</table>
+	</div>
+<br clear="all" />
 <?php
 
 } else {
