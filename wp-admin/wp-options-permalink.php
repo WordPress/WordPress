@@ -81,7 +81,7 @@ default:
     <li><code>%postname%</code> --- A sanitized version of the title of the post. So &quot;This Is A Great Post!&quot; becomes &quot;this-is-a-great-post&quot; </li> 
     <li><code>%category%</code> --- Category name of the post. For example &quot;general&quot;. <strong>Not done yet. </strong></li> 
   </ul> 
-  <p>So for example a value like <code>/%year%/%monthnum%/%day%/%postname%</code> could give you a permalink like <code>/2003/05/23/my-cheese-sandwich</code> . For this to work you'll need mod_rewrite installed on your server for the rule generation rule to work below. In the future there may be other options. </p> 
+  <p>So for example a value like <code>/%year%/%monthnum%/%day%/%postname%/</code> could give you a permalink like <code>/2003/05/23/my-cheese-sandwich</code> . For this to work you'll need mod_rewrite installed on your server for the rule generation rule to work below. In the future there may be other options. </p> 
   <form name="form" action="wp-options-permalink.php" method="post"> 
     <p>Use the template tags above to create a virtual site structure:</p> 
     <p> 
