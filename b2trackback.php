@@ -65,8 +65,10 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url)
 	if (!$use_trackback) {
 		trackback_response(1, 'Sorry, this weblog does not allow you to trackback its posts.');
 	}
+	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $tableposts WHERE ID = $tb_id");
 
-	dbconnect();
+	if ('closed' == $pingstatus)
+		die('Sorry, trackbacks are closed for this item.');
 
 	$url = addslashes($url);
 	$title = strip_tags($title);
@@ -77,7 +79,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url)
 	$blog_name = (strlen($blog_name) > 255) ? substr($blog_name, 0, 252).'...' : $blog_name;
 
 	$comment = '<trackback />';
-	$comment .= "<b>$title</b><br />$excerpt";
+	$comment .= "<strong>$title</strong><br />$excerpt";
 
 	$author = addslashes($blog_name);
 	$email = '';
@@ -100,9 +102,9 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url)
 	$author = addslashes($author);
 
 	$query = "INSERT INTO $tablecomments VALUES ('0','$comment_post_ID','$author','$email','$url','$user_ip','$now','$comment','0')";
-	$result = mysql_query($query);
+	$result = $wpdb->query($query);
 	if (!$result) {
-		die ("There is an error with the database, it can't store your comment...<br>Contact the <a href=\"mailto:$admin_email\">webmaster</a>");
+		die ("There is an error with the database, it can't store your comment...<br />Contact the <a href=\"mailto:$admin_email\">webmaster</a>");
 	} else {
 
 		if ($comments_notify) {
@@ -119,7 +121,7 @@ if ((strlen(''.$tb_id)) && (empty($HTTP_GET_VARS['__mode'])) && (strlen(''.$url)
 			$recipient = $authordata["user_email"];
 			$subject = "trackback on post #$comment_post_ID \"".$postdata["Title"]."\"";
 
-			@mail($recipient, $subject, $notify_message, "From: b2@".$HTTP_SERVER_VARS['SERVER_NAME']."\r\n"."X-Mailer: b2 $b2_version - PHP/" . phpversion());
+			@mail($recipient, $subject, $notify_message, "From: wordpress@".$HTTP_SERVER_VARS['SERVER_NAME']."\r\n"."X-Mailer: WordPress $b2_version - PHP/" . phpversion());
 			
 		}
 

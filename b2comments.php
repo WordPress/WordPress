@@ -9,13 +9,17 @@
 
 	$comments = $wpdb->get_results("SELECT * FROM $tablecomments WHERE comment_post_ID = $id ORDER BY comment_date");
 	$commentstatus = $wpdb->get_var("SELECT comment_status FROM $tableposts WHERE ID = $id");
+	$pingstatus = $wpdb->get_var("SELECT ping_status FROM $tableposts WHERE ID = $id");
 ?>
 
 <!-- you can start editing here -->
 
 <h2>Comments</h2>
+
+<?php if ('open' == $pingstatus) { ?>
 <p>The URL to TrackBack this entry is:</p>
 <p><em><?php trackback_url() ?></em></p>
+<?php } ?>
 
 <ol id="comments">
 <?php 
