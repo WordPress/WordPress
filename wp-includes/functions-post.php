@@ -321,6 +321,15 @@ function trackback_url_list($tb_list, $post_id) {
 
 // query user capabilities
 
+/* returns true if a given $user_id can create a new post.
+   note: optional $blog_id and $category_id for future usage? */
+function user_can_create_post($user_id, $blog_id = 1, $category_id = 'None') {
+	// rather simplistic. shall evolve with future permission system overhaul
+	$author_data = get_userdata($user_id);
+	return ($author_data->user_level > 1);
+}
+
+
 /* returns true if a given $user_id can edit a given $post_id.
    note: optional $blog_id for future usage?                   */
 function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
