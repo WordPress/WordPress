@@ -1993,12 +1993,14 @@ function get_theme_data($theme_file) {
 
 function get_themes() {
 	global $wp_themes;
+	global $wp_broken_themes;
 
 	if (isset($wp_themes)) {
 		return $wp_themes;
 	}
 
 	$themes = array();
+	$wp_broken_themes = array();
 	$theme_loc = 'wp-content/themes';
 	$theme_root = ABSPATH . $theme_loc;
 
@@ -2007,11 +2009,20 @@ function get_themes() {
 	if ($themes_dir) {
 		while(($theme_dir = $themes_dir->read()) !== false) {
 			if (is_dir($theme_root . '/' . $theme_dir)) {
+				if ($theme_dir == '.' || $theme_dir == '..') {
+					continue;
+				}
 				$stylish_dir = @ dir($theme_root . '/' . $theme_dir);
+				$found_stylesheet = false;
 				while(($theme_file = $stylish_dir->read()) !== false) {
 					if ( $theme_file == 'style.css' ) {
 						$theme_files[] = $theme_dir . '/' . $theme_file;
+						$found_stylesheet = true;
+						break;
 					}
+				}
+				if (!$found_stylesheet) {
+					$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
 				}
 			}
 		}
@@ -2062,6 +2073,11 @@ function get_themes() {
 		$template = $theme_data['Template'];
 		$stylesheet = dirname($theme_file);
 
+		if (empty($name)) {
+			$name = dirname($theme_file);
+			$title = $name;
+		}
+
 		if (empty($template)) {
 			if (file_exists(dirname("$theme_root/$theme_file/index.php"))) {
 				$template = dirname($theme_file);
@@ -2073,12 +2089,8 @@ function get_themes() {
 		$template = trim($template);
 
 		if (($template != 'default') && (! file_exists("$theme_root/$template/index.php"))) {
+			$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
 			continue;
-		}
-
-		if (empty($name)) {
-			$name = dirname($theme_file);
-			$title = $name;
 		}
 		
 		$stylesheet_files = array();

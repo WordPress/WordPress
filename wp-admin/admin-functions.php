@@ -572,6 +572,13 @@ function validate_current_theme() {
 	return true;
 }
 
+function get_broken_themes() {
+	global $wp_broken_themes;
+
+	get_themes();
+	return $wp_broken_themes;
+}
+
 function get_page_templates() {
 	$themes = get_themes();
 	$theme = get_current_theme();

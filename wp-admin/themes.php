@@ -99,6 +99,44 @@ $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 <?php
 }
 ?>
+
+<?php
+// List broken themes, if any.
+$broken_themes = get_broken_themes();
+if (count($broken_themes)) {
+?>
+
+<h2><?php _e('Broken Themes'); ?></h2>
+<p><?php _e('The following themes are installed but incomplete.  Themes must have a stylesheet and a template.'); ?></p>
+
+<table width="100%" cellpadding="3" cellspacing="3">
+	<tr>
+		<th><?php _e('Name'); ?></th>
+		<th><?php _e('Description'); ?></th>
+	</tr>
+<?php
+	$theme = '';
+	
+	$theme_names = array_keys($broken_themes);
+	natcasesort($theme_names);
+
+	foreach ($theme_names as $theme_name) {
+		$title = $broken_themes[$theme_name]['Title'];
+		$description = $broken_themes[$theme_name]['Description'];
+
+		$theme = ('class="alternate"' == $theme) ? '' : 'class="alternate"';
+		echo "
+	  <tr $theme>
+	     <td>$title</td>
+	     <td>$description</td>
+	  </tr>";
+	}
+?>
+</table>
+<?php
+}
+?>
+
 </div>
 
 <?php
