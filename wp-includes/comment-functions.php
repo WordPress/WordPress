@@ -727,27 +727,27 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 		return false; // Check # of external links
 
 	$mod_keys = trim( get_settings('moderation_keys') );
-	if ('' == $mod_keys )
-		return true; // If moderation keys are empty
-	$words = explode("\n", $mod_keys );
+	if ( !empty($mod_keys) ) {
+		$words = explode("\n", $mod_keys );
 
-	foreach ($words as $word) {
-		$word = trim($word);
+		foreach ($words as $word) {
+			$word = trim($word);
 
-		// Skip empty lines
-		if (empty($word)) { continue; }
+			// Skip empty lines
+			if (empty($word)) { continue; }
 
-		// Do some escaping magic so that '#' chars in the 
-		// spam words don't break things:
-		$word = preg_quote($word, '#');
+			// Do some escaping magic so that '#' chars in the 
+			// spam words don't break things:
+			$word = preg_quote($word, '#');
 		
-		$pattern = "#$word#i"; 
-		if ( preg_match($pattern, $author) ) return false;
-		if ( preg_match($pattern, $email) ) return false;
-		if ( preg_match($pattern, $url) ) return false;
-		if ( preg_match($pattern, $comment) ) return false;
-		if ( preg_match($pattern, $user_ip) ) return false;
-		if ( preg_match($pattern, $user_agent) ) return false;
+			$pattern = "#$word#i"; 
+			if ( preg_match($pattern, $author) ) return false;
+			if ( preg_match($pattern, $email) ) return false;
+			if ( preg_match($pattern, $url) ) return false;
+			if ( preg_match($pattern, $comment) ) return false;
+			if ( preg_match($pattern, $user_ip) ) return false;
+			if ( preg_match($pattern, $user_agent) ) return false;
+		}
 	}
 
 	// Comment whitelisting:
