@@ -50,7 +50,6 @@ if ($comment == 'comment' || $comment == '') {
 $now = current_time('mysql');
 
 $comment = balanceTags($comment, 1);
-$comment = convert_chars($comment);
 $comment = format_to_post($comment);
 
 $comment_author = $author;
