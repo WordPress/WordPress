@@ -201,6 +201,7 @@ if ($got_row) {
 
 $query = "ALTER TABLE $tableposts ADD COLUMN post_excerpt text NOT NULL;";
 $q = $wpdb->query($query);
+// 0.71 mods
 $query = "ALTER TABLE $tableposts ADD post_status ENUM('publish','draft','private') NOT NULL,
 ADD comment_status ENUM('open','closed') NOT NULL,
 ADD ping_status ENUM('open','closed') NOT NULL,
@@ -247,6 +248,7 @@ $q = $wpdb->query($query);
 
 <p>Don't forget to CHMOD the <code>weblogs.com.changes.cache</code> file and you'll 
   be A-okay. Welcome to the family.</p>
+<p>Now there is one more step to the upgrade process. <a href="upgrade-071-to-072.php">Continue upgrade</a></p>
 <?php
 	break;
 }
