@@ -25,8 +25,6 @@ $wpdb->comments            = $table_prefix . 'comments';
 $wpdb->links               = $table_prefix . 'links';
 $wpdb->linkcategories      = $table_prefix . 'linkcategories';
 $wpdb->options             = $table_prefix . 'options';
-$wpdb->optiongroups        = $table_prefix . 'optiongroups';
-$wpdb->optiongroup_options = $table_prefix . 'optiongroup_options';
 $wpdb->postmeta            = $table_prefix . 'postmeta';
 
 // We're going to need to keep this around for a few months even though we're not using it internally
@@ -39,8 +37,6 @@ $tablecomments = $wpdb->comments;
 $tablelinks = $wpdb->links;
 $tablelinkcategories = $wpdb->linkcategories;
 $tableoptions = $wpdb->options;
-$tableoptiongroups = $wpdb->optiongroups;
-$tableoptiongroup_options = $wpdb->optiongroup_options;
 $tablepostmeta = $wpdb->postmeta;
 
 require (ABSPATH . WPINC . '/functions.php');

@@ -375,7 +375,6 @@ function delete_option($name) {
 	// Get the ID, if no ID then return
 	$option_id = $wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = '$name'");
 	if (!$option_id) return false;
-	$wpdb->query("DELETE FROM $wpdb->optiongroup_options WHERE option_id = '$option_id'");
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name = '$name'");
 	return true;
 }

@@ -136,15 +136,7 @@ default:
 <?php
 //Now display all the options for the selected group.
 if ('all' == $_GET['option_group_id']) :
-$options = $wpdb->get_results("SELECT * FROM $wpdb->options LEFT JOIN $wpdb->optiongroup_options ON $wpdb->options.option_id = $wpdb->optiongroup_options.option_id ORDER BY option_name");
-else :
-$options = $wpdb->get_results("
-SELECT 
-$wpdb->options.option_id, option_name, option_type, option_value, option_width, option_height, option_description, option_admin_level 
-FROM $wpdb->options  LEFT JOIN $wpdb->optiongroup_options ON $wpdb->options.option_id = $wpdb->optiongroup_options.option_id
-WHERE group_id = $option_group_id
-ORDER BY seq
-");
+$options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
 endif;
 
 foreach ($options as $option) :

@@ -65,12 +65,6 @@ CREATE TABLE $wpdb->links (
   KEY link_category (link_category),
   KEY link_visible (link_visible)
 );
-CREATE TABLE $wpdb->optiongroup_options (
-  group_id int(11) NOT NULL default '0',
-  option_id int(11) NOT NULL default '0',
-  seq int(11) NOT NULL default '0',
-  PRIMARY KEY  (group_id,option_id)
-);
 CREATE TABLE $wpdb->options (
   option_id int(11) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default '0',
@@ -210,14 +204,6 @@ function upgrade_072() {
 	  PRIMARY KEY (option_id, blog_id, option_name)
 	)
 	");
-	maybe_create_table($wpdb->optiongroup_options, "
-	CREATE TABLE $wpdb->optiongroup_options (
-	  group_id int(11) NOT NULL,
-	  option_id int(11) NOT NULL,
-	  seq int(11) NOT NULL,
-	  PRIMARY KEY (group_id, option_id)
-	)
-	");
 
 	// Guess a site URI
 $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUEST_URI);
@@ -311,112 +297,6 @@ $guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $HTTP_HOST . $REQUES
 			$wpdb->query($query);
 		}
 	}
-	
-	$optiongroup_options = array (		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,48,1 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,49,2 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,50,3 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,51,4 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,52,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (1,53,6 )",
-		
-		
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,9 ,1 )",
-		//"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,10,2 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,11,3 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,12,4 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,13,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,14,6 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,15,7 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,16,8 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,17,9 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,18,10)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,19,11)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (2,20,12)",
-		
-		
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,21,1 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,22,2 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,23,3 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,24,4 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,25,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,26,6 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,27,7 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,28,8 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,29,9 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (3,30,10)",
-		
-		
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (4,31,1 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (4,32,2 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (4,33,3 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (4,34,4 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (4,35,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (4,36,6 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (4,37,7 )",
-		
-		
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,38,1 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,39,2 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,40,3 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,41,4 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,42,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,43,6 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,44,7 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,45,8 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,46,9 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (5,47,10)",
-		
-		
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,1,1)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,2,2)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,3,3)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,4,4)",
-		//"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,6,5)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,7,6)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,8,7)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (6,54,8)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (7,55,1 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (7,56,2 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (7,57,3 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (7,58,4 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (7,59,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (7,83,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,60,1 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,61,2 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,62,3 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,63,4 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,64,5 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,65,6 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,66,7 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,67,8 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,68,9 )",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,69,10)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,70,11)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,71,12)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,72,13)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,73,14)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,74,15)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,75,16)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,76,17)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,77,18)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,78,19)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,79,20)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,80,21)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,81,22)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (8,82,23)",
-			"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (9,84,1)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (9,85,1)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (9,86,1)",
-		"INSERT INTO $wpdb->optiongroup_options (group_id, option_id, seq) VALUES (9,87,1)",
-	);
-
-	foreach ($optiongroup_options as $query) {
-		preg_match('|VALUES \([0-9]+,([0-9]+)|', $query, $matches);
-		$option_id = $matches[1];
-		if(!$wpdb->get_var("SELECT * FROM $wpdb->optiongroup_options WHERE option_id = '$option_id'")) {
-			$wpdb->query($query);
-			}
-	}	
 
 	    if (file_exists('../wp-links/links.config.php')) {
         include('../wp-links/links.config.php');
@@ -478,16 +358,6 @@ function upgrade_100() {
 			('0', '0', 'comment_moderation', 'Y', '5',' none', 20, 8, 'If enabled, comments will only be shown after they have been approved.', 8)");
 	}
 
-	$oid = $wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'comment_moderation'");	    
-	$seq = $wpdb->get_var("SELECT MAX(seq) FROM $wpdb->optiongroup_options WHERE group_id = '$gid'");
-	++$seq;
-	if (!$wpdb->get_row("SELECT * FROM $wpdb->optiongroup_options WHERE group_id = '$gid' AND option_id = '$oid'")) {
-		$wpdb->query("INSERT INTO $wpdb->optiongroup_options 
-		(group_id, option_id, seq) 
-		VALUES 
-		('$gid', '$oid', '$seq')");
-	}
-
 	if (!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'moderation_notify'")) {
 		$wpdb->query("INSERT INTO $wpdb->options 
 			(option_id, blog_id, option_name, option_can_override, option_type, option_value, option_width, option_height, option_description, option_admin_level) 
@@ -495,15 +365,6 @@ function upgrade_100() {
 			('0', '0', 'moderation_notify' , 'Y', '2', '1', 20, 8, 'Set this to true if you want to be notified about new comments that wait for approval', 8)");
 	}
 	
-	$oid = $wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'moderation_notify'");	    
-	$seq = $wpdb->get_var("SELECT MAX(seq) FROM $wpdb->optiongroup_options WHERE group_id = '$gid'");
-	++$seq;
-	if (!$wpdb->get_row("SELECT * FROM $wpdb->optiongroup_options WHERE group_id = '$gid' AND option_id = '$oid'")) {
-		$wpdb->query("INSERT INTO $wpdb->optiongroup_options 
-			(group_id, option_id, seq)
-			VALUES 
-			('$gid', '$oid', '$seq')");
-	}
 	// Get the title and ID of every post, post_name to check if it already has a value
 	$posts = $wpdb->get_results("SELECT ID, post_title, post_name FROM $wpdb->posts WHERE post_name = ''");
 	if ($posts) {
@@ -535,22 +396,12 @@ function upgrade_100() {
 			(`option_id`, `blog_id`, `option_name`, `option_can_override`, `option_type`, `option_value`, `option_width`, `option_height`, `option_description`, `option_admin_level`) 
 			VALUES 
 			('', '0', 'gzipcompression', 'Y', '2', '0', '20', '8', 'Whether your output should be gzipped or not. Enable this if you don&#8217;t already have mod_gzip running.', '8');");
-		$optionid = $wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'gzipcompression'");
-		$wpdb->query("INSERT INTO $wpdb->optiongroup_options
-			(group_id, option_id, seq)
-			VALUES
-			(2, $optionid, 5)");
-		}
+}
 	if (!$wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'hack_file'")) {
 		$wpdb->query("INSERT INTO `$wpdb->options` 
 			( `option_id` , `blog_id` , `option_name` , `option_can_override` , `option_type` , `option_value` , `option_width` , `option_height` , `option_description` , `option_admin_level` )
 			VALUES 
 			('', '0', 'hack_file', 'Y', '2', '0', '20', '8', 'Set this to true if you plan to use a hacks file. This is a place for you to store code hacks that won&#8217;t be overwritten when you upgrade. The file must be in your wordpress root and called <code>my-hacks.php</code>', '8')");
-		$optionid = $wpdb->get_var("SELECT option_id FROM $wpdb->options WHERE option_name = 'hack_file'");
-		$wpdb->query("INSERT INTO $wpdb->optiongroup_options
-			(group_id, option_id, seq)
-			VALUES
-			(2, $optionid, 5)");
 	}
 
 	// fix upload users description
@@ -832,6 +683,7 @@ function upgrade_130() {
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optionvalues');
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiontypes');
 	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiongroups');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiongroup_options');
 }
 
 // The functions we use to actually do stuff
