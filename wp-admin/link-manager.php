@@ -290,7 +290,7 @@ switch ($action) {
       $link_name = stripslashes($row->link_name);
       $link_image = $row->link_image;
       $link_target = $row->link_target;
-      $link_category = $row->cat_id;
+      $link_category = $row->link_category;
       $link_description = stripslashes($row->link_description);
       $link_visible = $row->link_visible;
       $link_rating = $row->link_rating;
