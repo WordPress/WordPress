@@ -49,10 +49,6 @@ require_once (ABSPATH . WPINC . '/kses.php');
 // accessing a single global $all_settings var
 if (!strstr($_SERVER['REQUEST_URI'], 'install.php') && !strstr($_SERVER['REQUEST_URI'], 'wp-admin/import')) {
     $siteurl = get_settings('siteurl');
-	// "When trying to design a foolproof system, 
-	//  never underestimate the ingenuity of the fools :)"
-
-	$siteurl = preg_replace('|/+$|', '', $siteurl);
     $blogfilename = get_settings('blogfilename');
     $blogname = get_settings('blogname');
     $blogdescription = get_settings('blogdescription');

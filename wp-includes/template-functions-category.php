@@ -103,17 +103,12 @@ function the_category_rss($type = 'rss') {
     foreach ($categories as $category) {
         $category->cat_name = stripslashes(convert_chars($category->cat_name));
         if ('rdf' == $type) {
-            echo "\n<dc:subject>$category->cat_name</dc:subject>";
+            echo "\n\t<dc:subject>$category->cat_name</dc:subject>";
         } else {
-            echo "\n<category>$category->cat_name</category>";
+            echo "\n\t<category>$category->cat_name</category>";
         }
     }
 
-}
-function the_category_unicode() {
-    $category = get_the_category();
-    $category = apply_filters('the_category_unicode', $category);
-    echo convert_chars($category, 'unicode');
 }
 
 function get_the_category_by_ID($cat_ID) {
@@ -127,7 +122,7 @@ function get_the_category_by_ID($cat_ID) {
     return(stripslashes($cat_name));
 }
 
-function get_category_parents($id, $link=FALSE, $separator=' / ', $nicename=FALSE){
+function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
     global $tablecategories, $cache_categories;
     $chain = "";
     $parent = $cache_categories[$id];
@@ -145,10 +140,10 @@ function get_category_parents($id, $link=FALSE, $separator=' / ', $nicename=FALS
     return $chain;
 }
 
-function get_category_children($id, $before=' / ', $after='') {
+function get_category_children($id, $before = '/', $after = '') {
     global $tablecategories, $cache_categories;
-    $c_cache=$cache_categories; // Can't do recursive foreach on a global, have to make a copy
-    $chain = "";
+    $c_cache = $cache_categories; // Can't do recursive foreach on a global, have to make a copy
+    $chain = '';
     foreach ($c_cache as $category){
         if ($category->category_parent == $id){
             $chain .= $before.$category->cat_ID.$after;
@@ -158,7 +153,7 @@ function get_category_children($id, $before=' / ', $after='') {
     return $chain;
 }
 
-function the_category_ID($echo=true) {
+function the_category_ID($echo = true) {
     global $post;
     if ($echo)
         echo $post->post_category;

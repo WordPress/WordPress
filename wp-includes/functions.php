@@ -264,33 +264,37 @@ function url_to_postid($url = '') {
 /* Options functions */
 
 function get_settings($setting) {
-  global $wpdb, $cache_settings, $use_cache;
+	global $wpdb, $cache_settings, $use_cache;
 	if (strstr($_SERVER['REQUEST_URI'], 'install.php')) {
 		return false;
 	}
+
 	if ((empty($cache_settings)) OR (!$use_cache)) {
 		$settings = get_alloptions();
 		$cache_settings = $settings;
 	} else {
 		$settings = $cache_settings;
 	}
-    if (!isset($settings->$setting)) {
-        return false;
-    }
-    else {
-		return $settings->$setting;
+
+	if (!isset($settings->$setting)) {
+		return false;
+	} else {
+		return stripslashes($settings->$setting);
 	}
 }
 
 function get_alloptions() {
-    global $tableoptions, $wpdb;
-    $options = $wpdb->get_results("SELECT option_name, option_value FROM $tableoptions");
-    if ($options) {
-        foreach ($options as $option) {
-            $all_options->{$option->option_name} = $option->option_value;
-        }
-    }
-    return $all_options;
+	global $tableoptions, $wpdb;
+	$options = $wpdb->get_results("SELECT option_name, option_value FROM $tableoptions");
+	if ($options) {
+		foreach ($options as $option) {
+			// "When trying to design a foolproof system, 
+			//  never underestimate the ingenuity of the fools :)"
+			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
+			$all_options->{$option->option_name} = $option->option_value;
+		}
+	}
+	return $all_options;
 }
 
 function update_option($option_name, $newvalue) {
@@ -1459,6 +1463,10 @@ function rewrite_rules($matches = '') {
                      );
 
     return $rewrite;
+}
+
+function remove_slashes($string) {
+	return stripslashes(stripslashes($string));
 }
 
 ?>

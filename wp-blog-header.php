@@ -88,8 +88,6 @@ if (!isset($posts_per_page) || $posts_per_page == 0)
     $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
-$dateformat = stripslashes(get_settings('date_format'));
-$timeformat = stripslashes(get_settings('time_format'));
 $time_difference = get_settings('time_difference');
 $use_gzipcompression = get_settings('gzipcompression');
 

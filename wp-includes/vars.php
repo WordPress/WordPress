@@ -268,9 +268,6 @@ foreach($wpsmiliestrans as $smiley => $img) {
 
 // Some default filters
 add_filter('all', 'wptexturize');
-add_filter('the_content', 'wpautop');
-add_filter('comment_text', 'wpautop');
-add_filter('the_excerpt', 'wpautop');
 
 // Uncomment the following for Textile support
 // include_once('textile.php');

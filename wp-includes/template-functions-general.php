@@ -204,7 +204,7 @@ function get_archives_link($url, $text, $format = "html", $before = "", $after =
 }
 
 function get_archives($type='', $limit='', $format='html', $before = "", $after = "", $show_post_count = false) {
-    global $tableposts, $dateformat, $time_difference, $siteurl, $blogfilename;
+    global $tableposts, $time_difference, $siteurl, $blogfilename;
     global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb, $start_of_week;
 
     if ('' == $type) {
@@ -234,9 +234,9 @@ function get_archives($type='', $limit='', $format='html', $before = "", $after 
     $archive_week_end_date_format   = 'Y/m/d';
 
     if (!$archive_date_format_over_ride) {
-        $archive_day_date_format = $dateformat;
-        $archive_week_start_date_format = $dateformat;
-        $archive_week_end_date_format   = $dateformat;
+        $archive_day_date_format = get_settings('date_format');
+        $archive_week_start_date_format = get_settings('date_format');
+        $archive_week_end_date_format = get_settings('date_format');
     }
 
     $now = date('Y-m-d H:i:s',(time() + ($time_difference * 3600)));
@@ -502,12 +502,12 @@ function the_date_xml() {
 }
 
 function the_date($d='', $before='', $after='', $echo = true) {
-    global $id, $post, $day, $previousday, $dateformat, $newday;
+    global $id, $post, $day, $previousday, $newday;
     $the_date = '';
     if ($day != $previousday) {
         $the_date .= $before;
         if ($d=='') {
-            $the_date .= mysql2date($dateformat, $post->post_date);
+            $the_date .= mysql2date(get_settings('date_format'), $post->post_date);
         } else {
             $the_date .= mysql2date($d, $post->post_date);
         }
@@ -523,9 +523,9 @@ function the_date($d='', $before='', $after='', $echo = true) {
 }
 
 function the_time($d='', $echo = true) {
-    global $id, $post, $timeformat;
+    global $id, $post;
     if ($d=='') {
-        $the_time = mysql2date($timeformat, $post->post_date);
+        $the_time = mysql2date(get_settings('time_format'), $post->post_date);
     } else {
         $the_time = mysql2date($d, $post->post_date);
     }

@@ -1,5 +1,19 @@
 <?php
 
+// Default filters
+add_filter('the_title', 'convert_chars');
+add_filter('the_title', 'trim');
+
+add_filter('the_title_rss', 'strip_tags');
+
+add_filter('the_content', 'convert_smilies');
+add_filter('the_content', 'convert_chars');
+add_filter('the_content', 'wpautop');
+
+add_filter('the_excerpt', 'convert_smilies');
+add_filter('the_excerpt', 'autop');
+add_filter('the_excerpt', 'convert_chars');
+add_filter('the_excerpt', 'wpautop');
 
 function get_the_password_form() {
     $output = "<form action='" . get_settings('siteurl') . "/wp-pass.php' method='post'>
@@ -7,115 +21,87 @@ function get_the_password_form() {
     <p><label>Password: <input name='post_password' type='text' size='20' /></label> <input type='submit' name='Submit' value='Submit' /></p>
     </form>
     ";
-    return $output;
+	return $output;
 }
 
 function the_ID() {
-    global $id;
-    echo $id;
+	global $id;
+	echo $id;
 }
 
 function the_title($before = '', $after = '', $echo = true) {
-    $title = get_the_title();
-    $title = convert_smilies($title);
-    if (!empty($title)) {
-        $title = convert_chars($before.$title.$after);
-        $title = apply_filters('the_title', $title);
-        if ($echo)
-            echo $title;
-        else
-            return $title;
-    }
-}
-function the_title_rss() {
-    $title = get_the_title();
-    $title = strip_tags($title);
-    if (trim($title)) {
-        echo convert_chars($title, 'unicode');
-    }
-}
-function the_title_unicode($before='',$after='') {
-    $title = get_the_title();
-    $title = convert_bbcode($title);
-    $title = convert_gmcode($title);
-    if ($title) {
-        $title = convert_chars($before.$title.$after);
-        $title = apply_filters('the_title_unicode', $title);
-        echo $title;
-    }
-}
-function get_the_title() {
-    global $post;
-    $output = stripslashes($post->post_title);
-    if (!empty($post->post_password)) { // if there's a password
-        $output = 'Protected: ' . $output;
-    }
-    return $output;
+	$title = get_the_title();
+	if (!empty($title)) {
+		$title = apply_filters('the_title', $before . $title . $after);
+		if ($echo)
+			echo $title;
+		else
+			return $title;
+	}
 }
 
-function the_content($more_link_text='(more...)', $stripteaser=0, $more_file='') {
+function the_title_rss() {
+	$title = get_the_title();
+	$title = apply_filters('the_title', $title);
+	$title = apply_filters('the_title_rss', $title):
+	echo $title;
+}
+
+function get_the_title() {
+	global $post;
+	$output = stripslashes($post->post_title);
+	if (!empty($post->post_password)) { // if there's a password
+		$output = 'Protected: ' . $output;
+	}
+	return $output;
+}
+
+function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
     $content = get_the_content($more_link_text, $stripteaser, $more_file);
-    $content = convert_bbcode($content);
-    $content = convert_gmcode($content);
-    $content = convert_smilies($content);
-    $content = convert_chars($content, 'html');
     $content = apply_filters('the_content', $content);
     echo $content;
 }
 
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
-    $content = get_the_content($more_link_text, $stripteaser, $more_file);
-    $content = convert_bbcode($content);
-    $content = convert_gmcode($content);
-    $content = convert_chars($content, 'unicode');
-    if ($cut && !$encode_html) {
-        $encode_html = 2;
-    }
-    if ($encode_html == 1) {
-        $content = htmlspecialchars($content);
-        $cut = 0;
-    } elseif ($encode_html == 0) {
-        $content = make_url_footnote($content);
-    } elseif ($encode_html == 2) {
-        $content = strip_tags($content);
-    }
-    if ($cut) {
-        $blah = explode(' ', $content);
-        if (count($blah) > $cut) {
-            $k = $cut;
-            $use_dotdotdot = 1;
-        } else {
-            $k = count($blah);
-            $use_dotdotdot = 0;
-        }
-        for ($i=0; $i<$k; $i++) {
-            $excerpt .= $blah[$i].' ';
-        }
-        $excerpt .= ($use_dotdotdot) ? '...' : '';
-        $content = $excerpt;
-    }
-    echo $content;
+	$content = get_the_content($more_link_text, $stripteaser, $more_file);
+	$content = apply_filters('the_content', $content);
+	if ($cut && !$encode_html) {
+		$encode_html = 2;
+	}
+	if ($encode_html == 1) {
+		$content = htmlspecialchars($content);
+		$cut = 0;
+	} elseif ($encode_html == 0) {
+		$content = make_url_footnote($content);
+	} elseif ($encode_html == 2) {
+		$content = strip_tags($content);
+	}
+	if ($cut) {
+		$blah = explode(' ', $content);
+		if (count($blah) > $cut) {
+			$k = $cut;
+			$use_dotdotdot = 1;
+		} else {
+			$k = count($blah);
+			$use_dotdotdot = 0;
+		}
+		for ($i=0; $i<$k; $i++) {
+			$excerpt .= $blah[$i].' ';
+		}
+		$excerpt .= ($use_dotdotdot) ? '...' : '';
+		$content = $excerpt;
+	}
+	echo $content;
 }
 
-function the_content_unicode($more_link_text='(more...)', $stripteaser=0, $more_file='') {
-    $content = get_the_content($more_link_text, $stripteaser, $more_file);
-    $content = convert_bbcode($content);
-    $content = convert_gmcode($content);
-    $content = convert_smilies($content);
-    $content = convert_chars($content, 'unicode');
-    $content = apply_filters('the_content_unicode', $content);
-    echo $content;
-}
-
-function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file='') {
+function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
     global $id, $post, $more, $single, $withcomments, $page, $pages, $multipage, $numpages;
-    global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $preview, $cookiehash;
-    global $querystring_start, $querystring_equal, $querystring_separator;
+    global $HTTP_SERVER_VARS, $preview, $cookiehash;
     global $pagenow;
     $output = '';
 
     if (!empty($post->post_password)) { // if there's a password
-        if ($HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
+        if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
             $output = get_the_password_form();
             return $output;
         }
@@ -148,20 +134,13 @@ function get_the_content($more_link_text='(more...)', $stripteaser=0, $more_file
 }
 
 function the_excerpt() {
-    $excerpt = get_the_excerpt();
-    $excerpt = convert_bbcode($excerpt);
-    $excerpt = convert_gmcode($excerpt);
-    $excerpt = convert_smilies($excerpt);
-    $excerpt = convert_chars($excerpt, 'html');
-    $excerpt = apply_filters('the_excerpt', $excerpt);
-    echo $excerpt;
+    echo apply_filters('the_excerpt', get_the_excerpt());
 }
 
 function the_excerpt_rss($cut = 0, $encode_html = 0) {
     $output = get_the_excerpt(true);
-    $output = convert_bbcode($output);
-    $output = convert_gmcode($output);
-    $output = convert_chars($output, 'unicode');
+
+    $output = convert_chars($output);
     if ($cut && !$encode_html) {
         $encode_html = 2;
     }
@@ -192,23 +171,13 @@ function the_excerpt_rss($cut = 0, $encode_html = 0) {
     echo $output;
 }
 
-function the_excerpt_unicode() {
-    $excerpt = get_the_excerpt();
-    $excerpt = convert_bbcode($excerpt);
-    $excerpt = convert_gmcode($excerpt);
-    $excerpt = convert_smilies($excerpt);
-    $excerpt = convert_chars($excerpt, 'unicode');
-    $excerpt = apply_filters('the_excerpt_unicode', $excerpt);
-    echo $excerpt;
-}
-
 function get_the_excerpt($fakeit = true) {
     global $id, $post;
-    global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $preview, $cookiehash;
+    global $HTTP_SERVER_VARS, $preview, $cookiehash;
     $output = '';
     $output = stripslashes($post->post_excerpt);
     if (!empty($post->post_password)) { // if there's a password
-        if ($HTTP_COOKIE_VARS['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
+        if ($_COOKIE['wp-postpass_'.$cookiehash] != $post->post_password) {  // and it doesn't match the cookie
             $output = "There is no excerpt because this is a protected post.";
             return $output;
         }
