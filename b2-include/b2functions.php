@@ -275,7 +275,7 @@ function convert_smilies($text) {
 		$stop = count($textarr);// loop stuff
 		for ($i = 0; $i < $stop; $i++) {
 			$content = $textarr[$i];
-			if ('<' != $curl{0}) { // If it's not a tag
+			if ('<' != $content{0}) { // If it's not a tag
 				$content = str_replace($b2_smiliessearch, $b2_smiliesreplace, $content);
 			}
 			$output .= $content;
