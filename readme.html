@@ -13,7 +13,14 @@
 		line-height: 135%;
 		padding-bottom: 2px;
 	}
-	h1 { font-family: georgia,times new roman,serif; font-size: 18px; font-weight: lighter; color: #006; }
+	h1 {
+	font-size: 18px;
+	font-weight: lighter;
+	color: #006;
+	}
+	h2 {
+		font-size: 16px;
+	}
 	.params {
 		border-color: #cccccc;
 		border-width: 1px;
@@ -22,7 +29,8 @@
 		margin: 5px;
 		margin-left: 20px;
 		margin-right: 80px;
-		font-family: arial,helvetica,sans-serif; font-size:12px;
+		font-family: arial,helvetica,sans-serif;
+		font-size:12px;
 	}
 	ul, ol { margin: 0px; padding: 0px; padding-left: 20px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; }
 -->
@@ -36,10 +44,10 @@
     <td> <p align="center"><img src="http://wordpress.org/images/wordpress.gif" alt="WordPress" /><br />
         <font size="2" face="Georgia, Times New Roman, Times, serif">0.7</font></p>
       <p align="center">Weblog / News Publishing Tool</p>
-      <p align="center"><a href="#requirements">requirements</a> - <a href="#installation">installation</a> 
-        - <a href="#templates">template(s)</a> - <a href="#usage">querystring 
-        usage</a> - <a href="#xmlrpc">xmlrpc (Blogger API)</a> - <a href="#postviaemail">post 
-        via email</a> - <a href="#notes">notes</a></p>
+      <p align="center"><a href="#requirements">Requirements</a> - <a href="#installation">Installation</a> 
+        - <a href="#templates">Template(s)</a> - <a href="#usage">Query String 
+        Usage</a> - <a href="#xmlrpc">XML-RPC (Blogger API)</a> - <a href="#postviaemail">Post 
+        Via Email</a> - <a href="#notes">Notes</a></p>
       <a name="requirements"></a> <h1>Requirements:</h1>
       <ul>
         <li><strong>PHP4</strong> (version 4.0.6 or higher)</li>
@@ -55,7 +63,7 @@
       <p>This document is currently beta stage, we'll be updating it extensively 
         as WordPress matures.</p>
       <h1 id="installation">Installation:</h1>
-      <p>New users: 5-minute install.</p>
+      <h2>New users: 5-minute install.</h2>
       <ol>
         <li>Unzip the package in an empty directory.</li>
         <li>Open b2config.php in a text editor, and modify the variables as explained 
@@ -76,7 +84,7 @@
           script. Then click on the menu 'My Profile', and change the password. 
           Note: you need javascript enabled to launch the profile popup window.</li>
       </ol>
-      <p>Some notes:</p>
+      <h2>Some notes:</h2>
       <ul>
         <li>Whenever you want to post something, just open a browser and go to 
           b2login.php to log in and post.</li>
@@ -90,7 +98,7 @@
         <li> You can also copy b2.php into a new file and modify that new file, 
           it will work too ;)</li>
       </ul>
-      <p>Users upgrading from b2 v0.6.1 to WordPress v0.7:</p>
+      <h2>Users upgrading from b2 v0.6.1 to WordPress v0.7:</h2>
       <ul>
         <li>All you <em>really</em> have to do is replace all the files with newer 
           versions and run <a href="javascript:window.close()">b2-2-wp.php</a> 
@@ -108,7 +116,8 @@
         <li><strong>Back up</strong> your database before you do anything. Yes, 
           you. Right now.</li>
       </ul>
-      <h1 id="templates">Template(s):</h1> <p>First notes:</p>
+      <h1 id="templates">Template(s):</h1>
+      <h2>First notes:</h2>
       <ul>
         <li>Enclosed is an example of a template, in the file b2.php. You can 
           rename this file to &quot;index.php&quot;or something else (recent b2 
@@ -127,31 +136,29 @@
         <li>Between the &quot;while&quot; line and the &quot;}&quot;, is the template 
           for your posts.</li>
       </ul>
-      <p>Notes about parameters:</p>
-      <blockquote><strong>1.</strong> Some template tags can accept optional parameters 
-        between the parenthesis <strong>()</strong>.<br />
-        <br />
-        <strong>2.</strong> To add a parameter to a tag, enclose it between quotes 
-        and put it between the <strong>()</strong>.<br />
-        Example: &lt;?php my_tag("my parameter"); ?><br />
-        <br />
-        <strong>3.</strong> You may have to put several parameters, for that you 
-        separate them with commas.<br />
-        Example: &lt;?php my_tag("first param","second param"); ?><br />
-        <br />
-        <strong>4.</strong> The order of parameters is important. If a function 
-        accepts 2 parameters and you only want to set the second one, you still 
-        have to provide the first one, and so on for any number of parameters.<br />
-        Example: &lt;?php my_tag("","second param"); ?><br />
-        <br />
-        <strong>5.</strong> Some template tags, like the_date(), display something 
-        only if in some conditions. They generally accept parameters to display 
-        something before and after them only when they display something.<br />
-        Example: &lt;?php the_title("&lt;h1>","&lt;/h1>"); ?> would display &lt;h1>title 
-        of the post&lt;/h1> only if the post has a title<br />
-        <br />
-      </blockquote>
-      <p>Template tags are these:</p>
+      <h2>Notes about parameters:</h2>
+      <ol>
+        <li> Some template tags can accept optional parameters between the parenthesis 
+          <strong>()</strong>.</li>
+        <li>To add a parameter to a tag, enclose it between quotes and put it 
+          between the <strong>()</strong>.<br />
+          Example: <code>&lt;?php my_tag("my parameter"); ?></code></li>
+        <li>You may have to put several parameters, for that you separate them 
+          with commas.<br />
+          Example: <code>&lt;?php my_tag("first param","second param"); ?></code></li>
+        <li>The order of parameters is important. If a function accepts 2 parameters 
+          and you only want to set the second one, you still have to provide the 
+          first one, and so on for any number of parameters.<br />
+          Example: <code>&lt;?php my_tag("","second param"); ?></code></li>
+        <li>Some template tags, like the_date(), display something only if in 
+          some conditions. They generally accept parameters to display something 
+          before and after them only when they display something.<br />
+          Example: <code>&lt;?php the_title("&lt;h1>","&lt;/h1>"); ?></code> would 
+          display &lt;h1>title of the post&lt;/h1> only if the post has a title<br />
+          <br />
+        </li>
+      </ol>
+      <h1>Template tags:</h1>
       <blockquote> <strong>&lt;?php the_date() ?&gt;</strong> <span style="font-family: 'Courier New',Courrier,mono; color: #ff9900; font-weight: bold;">*</span><br />
         the date of the post. example: 03.07.01 (default is dd.mm.yy).<br />
         the date is displayed only on new days. for example if you got 10 posts 
@@ -769,14 +776,14 @@
           <strong>.b2calendartoday {}</strong><br />
           &nbsp; &nbsp; <i>the style of the day if it is today</i> </div>
       </blockquote>
-      <a name="usage"></a> <h1>Usage:</h1>
-      <p>WordPress relies a lot on the querystring, these variables passed with 
+      <a name="usage"></a> <h1>Query String Usage:</h1>
+      <p>WordPress relies a lot on the query string, these variables passed with 
         the URL (note: to pass variables in the querystring, preceed the first 
         variable name with a '?' question mark and every other variables with 
         a '&amp;' sign.)</p>
       <p>Most of the time you won't have to do anything about it, but if you want 
         to know how it works, it's here:</p>
-      <p>How to use the QueryString:</p>
+      <p>How to use the query string:</p>
       <blockquote> index.php<strong>?m=200107</strong> will display the month 
         of July 2001.<br />
         <br />
@@ -831,14 +838,13 @@
         will display the posts that match the search request &quot;hotdog&quot;, 
         but only in July 2001. </blockquote>
       <p>&nbsp;</p>
-      <a name="xmlrpc"></a> <h1>XMLRPC Interface:</h1>
+      <a name="xmlrpc"></a> <h1>XML-RPC Interface:</h1>
       <p>WordPress now has a XMLRPC interface. The only API available right now 
         is the Blogger API (complete specs <a href="http://www.tswoam.co.uk/blogger_method_listing.html">here</a>). 
         There are talks about a new API that would cover a lot of weblog/CMS systems 
-        in the future: when it's ready, WordPress will support it.<br />
-        <br />
-        The <a href="http://plant.blogger.com/api">Blogger API</a> has been completely 
-        emulated on WordPress, with some little differences:</p>
+        in the future: when it's ready, WordPress will support it.</p>
+      <p> The <a href="http://plant.blogger.com/api">Blogger API</a> has been 
+        completely emulated on WordPress, with some little differences:</p>
       <ul>
         <li>using <em>blogger.getRecentPosts</em> with the number 'zero' returns 
           all posts in the blog</li>
@@ -849,23 +855,19 @@
           and $blogname, since b2 supports only one blog as of now</li>
       </ul>
       <p>If you use blogger.newPost, your post is submitted without title and 
-        in category #1.<br />
-        <br />
-        However, you can type &lt;title>my title&lt;/title> and/or &lt;category>2&lt;category> 
+        in category #1.</p>
+      <p> However, you can type &lt;title>my title&lt;/title> and/or &lt;category>2&lt;category> 
         in the body of your post to make its title be 'my title' and its category 
         be #2 (refer to your categories section to find out the ID numbers of 
         the categories). b2 would then delete that extra info from the body of 
-        your post once it is posted.<br />
-        <br />
-        <br />
-        You can now post to your b2 blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, 
+        your post once it is posted.</p>
+      <p> You can now post to your b2 blog with tools like <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, 
         <a href="http://bloggar.cjb.net">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> 
         (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio 
         Userland</a> (which means you can use Radio's email-to-blog feature), 
-        and other tools that support the Blogger API ! :)<br />
-        <br />
-        Your XMLRPC server/path are as described here: if you login to b2 on http://mydomain.com/me/b2login.php, 
-        then you have:</p>
+        and other tools that support the Blogger API ! :)</p>
+      <p>Your XMLRPC server/path are as described here: if you login to b2 on 
+        http://mydomain.com/me/b2login.php, then you have:</p>
       <ul>
         <li>server: http://mydomain.com/me</li>
         <li>path: /me/xmlrpc.php</li>
@@ -881,34 +883,30 @@
       <p>You can post news from an email client!<br />
         But first you'll have to edit b2config.php, filling the appropriate values 
         for your POP3 email account (this interface doesn't support IMAP yet, 
-        only POP3, sorry).<br />
-        <br />
-        Once you have edited the config options, you can make your webserver execute 
-        b2mail.php every set amount of time (depending on your host's performance, 
-        this script can be resource intensive, so don't make it run every minute 
-        or you'll be kicked).<br />
-        You can do it with Cron-jobs, or if your host doesn't support it you can 
-        look into the various website-monitoring services, and make them check 
-        your b2mail.php URL.<br />
-        <br />
-        <b>Preliminary advice:</b><br />
-        It is strongly advised to send your email as text-only (Outlook and Outlook 
-        Express default to 'html', which may cause problems), but HTML email could 
-        work (the script would strip all your html tags though...).<br />
-        It is also advised not to use your public email address, but create a 
+        only POP3, sorry).</p>
+      <p> Once you have edited the config options, you can make your webserver 
+        execute b2mail.php every set amount of time (depending on your host's 
+        performance, this script can be resource intensive, so don't make it run 
+        every minute or you'll be kicked).</p>
+      <p>You can do it with Cron-jobs, or if your host doesn't support it you 
+        can look into the various website-monitoring services, and make them check 
+        your b2mail.php URL.</p>
+      <h2> Preliminary advice:</h2>
+      <p> It is strongly advised to send your email as text-only (Outlook and 
+        Outlook Express default to 'html', which may cause problems), but HTML 
+        email could work (the script would strip all your html tags though...).</p>
+      <p>It is also advised not to use your public email address, but create a 
         new one especially for this script. If you use your public email address 
         and the script goes crazy posting every email on your blog and deleting 
-        all your emails, I can't take responsibility for this.<br />
-        Make sure you delete any email sent to your blog in your 'Sent' folder 
+        all your emails, I can't take responsibility for this.</p>
+      <p>Make sure you delete any email sent to your blog in your 'Sent' folder 
         too, just in case (you don't want someone to find your login and password 
-        in the 'Sent' folder).<br />
-        <br />
-        The script will <i>delete</i> the emails that were used to post stuff 
+        in the 'Sent' folder).</p>
+      <p> The script will <i>delete</i> the emails that were used to post stuff 
         on your weblog if it successfully posted your stuff. If it didn't manage 
-        to post, the email is not deleted.<br />
-        <br />
-        <b>How to post:</b><br />
-        Now to post something, here's how your email should look like:</p>
+        to post, the email is not deleted.</p>
+      <h2>How to post:</h2>
+      <p>Now to post something, here's how your email should look like:</p>
       <div class="params"> <b>To:</b> address@domain.com <span style='color: #999'>(you 
         set it in the config file)</span><br />
         <b>Subject:</b> blog:the post's title <span style='color: #999'>(you can 
@@ -918,19 +916,18 @@
         The content of the post, blah blah blah.<br />
         More blah blah. ___ </div>
       <p> Subject must start with 'blog:', or any string you set in the config 
-        file (so that the script doesn't check EVERY email in your mailbox).<br />
-        Body's first line must always be login:password, else the script will 
+        file (so that the script doesn't check EVERY email in your mailbox).</p>
+      <p>Body's first line must always be login:password, else the script will 
         just skip the email.<br />
         If you don't use '___' (or any body terminator that you set in the config 
         file), the script will post the whole body, which is not what you want 
         if you send email with Yahoo or Hotmail (you don't want their ads on your 
-        blog, do you ?).<br />
-        <br />
-        <b>Special cases for mobile phone email:</b><br />
-        Some mobile phone service providers may allow you to send email with your 
-        mobile phone or PDA, but on such devices you can't always include line 
-        breaks. In such case, you have to set <i>$use_phoneemail = 1</i> in b2config.php, 
-        and then here's how you write the email:</p>
+        blog, do you ?).</p>
+      <h2>Special cases for mobile phone email:</h2>
+      <p> Some mobile phone service providers may allow you to send email with 
+        your mobile phone or PDA, but on such devices you can't always include 
+        line breaks. In such case, you have to set <i>$use_phoneemail = 1</i> 
+        in b2config.php, and then here's how you write the email:</p>
       <div class="params"> <b>To:</b> address@domain.com<br />
         <b>Subject:</b> blog:the post's title <b>:::</b><br />
         <b>Body:</b><br>
@@ -949,45 +946,48 @@
       <p>&nbsp;</p>
       <a name="notes"></a> <h1>Notes: </h1>
       <p>On multi-user:</p>
-      <blockquote>You don't invite users, they can register on b2register.php.<br />
-        Then you (as an admin) click the &quot;+&quot; next to their name in the 
-        user-list, to upgrade their level to 1 or more, so they can post. If you 
+      <p>New users can register with <code>b2register.php</code>. Then you (as 
+        an admin) click the &quot;+&quot; next to their name on the Team page 
+        in admin to upgrade their level to 1 or more, so they can post. If you 
         don't want an user to post anymore, just click &quot;-&quot; until their 
-        level is 0.<br />
-        Note: you can now disable users registration altogether from the config 
-        file.<br />
-        <strong>Levels</strong> are these:<br />
-        0 - new user: can't post.<br />
-        1 - user: can post &amp; edit/delete their own posts.<br />
-        3 &amp; more - admin: can post, edit/delete other people's posts, and 
-        change the options.<br />
-        Any user whose level is higher than 1, can edit/delete the posts and change 
-        the level of users whose level is inferior. Example: a level 2 user is 
-        not an admin, but can edit the posts of level 1 users, and up the level 
-        of a new user from 0 to 1.<br />
-        <br />
-        Usually, you'll want to have a team of only level 1 users except you. 
-        ;)<br />
-        <strong>Note:</strong> you can modify a variable in b2config.php, to enable 
-        new users to post once they've registered.<br />
-        If you don't want users to register on your blog at all, just delete b2register.php 
-        once you've registered your user account.</blockquote>
-      <p><br />
-        Final notes:</p>
-      <blockquote> 
-        <p>WordPress is functionnal, but a lot of coding and code clean-up remain 
-          to be done.</p>
-        <p>If you've got suggestions, ideas, or comments, or if you found a bug, 
-          why not joining us in the <a href="http://wordpress.org/support/">Forums</a>?</p>
-        <p>If you can code in PHP, you'll see the structure of b2 is flexible 
-          enough to allow for more functions and sections to be added.</p>
-      </blockquote>
-      <p><br />
-        Copyright notes:</p>
-      <blockquote><br />
-        Wherever third party code has been used, credit has been given in the 
-        code's comments.<br />
-        WordPress is released under the GPL (see license.txt).</blockquote></td>
+        level is 0.</p>
+      <p>Note: you can now disable users registration altogether from the config 
+        file.</p>
+      <p><strong>Levels</strong>:</p>
+      <ul>
+        <li> 0 - new user: can't post.</li>
+        <li>1 - user: can post &amp; edit/delete their own posts.</li>
+        <li>3 &amp; more - admin: can post, edit/delete other people's posts, 
+          and change the options.</li>
+        <li>Any user whose level is higher than 1, can edit/delete the posts and 
+          change the level of users whose level is inferior. Example: a level 
+          2 user is not an admin, but can edit the posts of level 1 users, and 
+          up the level of a new user from 0 to 1.</li>
+      </ul>
+      <p>Usually, you'll want to have a team of only level 1 users except you. 
+        ;)</p>
+      <p><strong>Note:</strong> you can modify a variable in b2config.php, to 
+        enable new users to post once they've registered.</p>
+      <p>If you don't want users to register on your blog at all, just delete 
+        b2register.php once you've registered your user account. </p>
+      <h1><br />
+        Final notes:</h1>
+      <ul>
+        <li>WordPress is functionnal, but a lot of coding and code clean-up remain 
+          to be done.</li>
+        <li>If you've got suggestions, ideas, or comments, or if you found a bug, 
+          why not joining us in the <a href="http://wordpress.org/support/">Support 
+          Forums</a>?</li>
+        <li>If you can code in PHP, you'll see the structure of b2 is flexible 
+          enough to allow for more functions and sections to be added.</li>
+      </ul>
+      <h1><br />
+        Copyright notes:</h1>
+      <ul>
+        <li> Wherever third party code has been used, credit has been given in 
+          the code's comments.</li>
+        <li>WordPress is released under the GPL (see license.txt).</li>
+      </ul></td>
   </tr>
 </table>
 <p>&nbsp;</p>
