@@ -84,7 +84,7 @@ case 'update':
 		$referred = remove_query_arg('updated' , $_SERVER['HTTP_REFERER']);
 		$goback = add_query_arg('updated', 'true', $_SERVER['HTTP_REFERER']);
 		$goback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $goback);
-    header('Location: ' . $goback);
+		wp_redirect($goback);
     break;
 
 default:

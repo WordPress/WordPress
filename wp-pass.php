@@ -7,6 +7,5 @@ if ( get_magic_quotes_gpc() )
 // 10 days
 setcookie('wp-postpass_' . COOKIEHASH, $_POST['post_password'], time() + 864000, COOKIEPATH);
 
-header('Location: ' . $_SERVER['HTTP_REFERER']);
-
+wp_redirect($_SERVER['HTTP_REFERER']);
 ?>

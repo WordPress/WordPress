@@ -184,7 +184,7 @@ default:
 				wp_setcookie($user_login, $user_pass);
 			}
 			do_action('wp_login', $user_login);
-			header("Location: $redirect_to");
+			wp_redirect($redirect_to);
 			exit();
 		} else {
 			if ($using_cookie)			

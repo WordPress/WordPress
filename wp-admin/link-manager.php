@@ -243,7 +243,7 @@ switch ($action) {
 	  WHERE link_id=$link_id");
     } // end if save
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
-    header('Location: ' . $this_file);
+    wp_redirect($this_file);
     break;
   } // end Save
 
@@ -267,7 +267,7 @@ switch ($action) {
     }
     $links_show_cat_id = $cat_id;
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
-    header('Location: '.$this_file);
+    wp_redirect($this_file);
     break;
   } // end Delete
 

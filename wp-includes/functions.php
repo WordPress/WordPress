@@ -1711,6 +1711,19 @@ function auth_redirect() {
 }
 endif;
 
+// Cookie safe redirect.  Works around IIS Set-Cookie bug.
+// http://support.microsoft.com/kb/q176113/
+if ( !function_exists('wp_redirect') ) :
+function wp_redirect($location) {
+	global $is_IIS;
+
+	if ($is_IIS)
+		header("Refresh: 0;url=$location");
+	else
+		header("Location: $location");
+}
+endif;
+
 function is_plugin_page() {
 	global $plugin_page;
 

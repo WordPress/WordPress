@@ -52,6 +52,5 @@ header('Pragma: no-cache');
 
 $location = (empty($_POST['redirect_to'])) ? $_SERVER["HTTP_REFERER"] : $_POST['redirect_to']; 
 
-header("Location: $location");
-
+wp_redirect($location);
 ?>
