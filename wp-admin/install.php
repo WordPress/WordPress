@@ -130,7 +130,7 @@ $wpdb->query("UPDATE $wpdb->options SET option_value = '$admin_email' WHERE opti
 // Now drop in some default links
 $wpdb->query("INSERT INTO $wpdb->linkcategories (cat_id, cat_name) VALUES (1, 'Blogroll')");
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://blog.carthik.net/index.php', 'Carthik', 1);");
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://blogs.linux.ie/xeer/', 'Donncha.', 1);");
+$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://blogs.linux.ie/xeer/', 'Donncha', 1);");
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://zengun.org/weblog/', 'Michel', 1);");
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://boren.nu/', 'Ryan', 1);");
 $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category) VALUES ('http://photomatt.net/', 'Matt', 1);");
