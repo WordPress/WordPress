@@ -69,22 +69,44 @@ function wp_get_linksbyname($category) {
  ** Gets the links associated with category n.
  ** Parameters:
  **   category (no default)  - The category to use.
+ ** or:
+ **   a query string
  **/
-function wp_get_links($category) {
-    global $wpdb;
+function wp_get_links($args = '') {
+	global $wpdb;
 
-    $cat = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
-         . " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
-         . " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_id=$category");
-    if ($cat) {
-        if ($cat->sort_desc == 'Y') {
-            $cat->sort_order = '_'.$cat->sort_order;
-        }
-        get_links($cat->cat_id, $cat->text_before_link, $cat->text_after_all,
-                  $cat->text_after_link, bool_from_yn($cat->show_images), $cat->sort_order,
-                   bool_from_yn($cat->show_description), bool_from_yn($cat->show_rating),
-                   $cat->list_limit, bool_from_yn($cat->show_updated));
-    }
+	if (!empty($args) && false === strpos($args, '=')) {
+		// If args is not a query string, it's a category id.
+		$category = $args;
+		$cat = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
+													. " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
+													. " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_id=$category");
+		if ($cat) {
+			if ($cat->sort_desc == 'Y') {
+				$cat->sort_order = '_'.$cat->sort_order;
+			}
+			get_links($cat->cat_id, $cat->text_before_link, $cat->text_after_all,
+								$cat->text_after_link, bool_from_yn($cat->show_images), $cat->sort_order,
+								bool_from_yn($cat->show_description), bool_from_yn($cat->show_rating),
+								$cat->list_limit, bool_from_yn($cat->show_updated));
+		}
+	} else {
+		parse_str($args);
+
+		if (! isset($category))	$category = -1;
+		if (! isset($before)) $before = '';
+		if (! isset($after)) $after = '<br />';
+		if (! isset($between))	$between = ' ';
+		if (! isset($show_images)) $show_images = true;
+		if (! isset($orderby)) $orderby = 'name';
+		if (! isset($show_description)) $show_description = true;
+		if (! isset($show_rating)) $show_rating = false;
+		if (! isset($limit)) $limit = -1;
+		if (! isset($show_updated)) $show_updated = 1;
+		if (! isset($echo)) $echo = true;
+
+		get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
+	}
 } // end wp_get_links
 
 /** function get_links()
