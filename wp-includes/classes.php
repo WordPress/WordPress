@@ -3,6 +3,8 @@
 class WP_Query {
 	var $query;
 	var $query_vars;
+	var $queried_object;
+	var $queried_object_id;
 
 	var $posts;
 	var $post_count = 0;
@@ -43,6 +45,8 @@ class WP_Query {
 		unset($this->posts);
 		unset($this->query);
 		unset($this->query_vars);
+		unset($this->queried_object);
+		unset($this->queried_object_id);
 		$this->post_count = 0;
 		$this->current_post = -1;
 	}
@@ -522,7 +526,7 @@ class WP_Query {
 		$this->posts = apply_filters('the_posts', $this->posts);
 		$this->post_count = count($this->posts);
 		if ($this->post_count > 0) {
-			$this->post = $posts[0];
+			$this->post = $this->posts[0];
 		}
 
 		update_post_caches($this->posts);
@@ -551,6 +555,47 @@ class WP_Query {
 	function query($query) {
 		$this->parse_query($query);
 		return $this->get_posts();
+	}
+
+	function get_queried_object() {
+		if (isset($this->queried_object)) {
+			return $this->queried_object;
+		}
+
+		$this->queried_object = NULL;
+		$this->queried_object_id = 0;
+
+		if ($this->is_category) {
+			global $cache_categories;
+			if (isset($cache_categories[$this->get('cat')])) {
+				$this->queried_object = $cache_categories[$this->get('cat')];
+				$this->queried_object_id = $this->get('cat');
+			}
+		} else if ($this->is_single) {
+			$this->queried_object = $this->post;
+			$this->queried_object_id = $this->post->ID;
+		} else if ($this->is_page) {
+			$this->queried_object = $this->post;
+			$this->queried_object_id = $this->post->ID;
+		} else if ($this->is_author) {
+			global $cache_userdata;
+			if (isset($cache_userdata[$this->get('author')])) {
+				$this->queried_object = $cache_userdata[$this->get('author')];
+				$this->queried_object_id = $this->get('author');
+			}
+		}
+
+		return $this->queried_object;
+	}
+
+	function get_queried_object_id() {
+		$this->get_queried_object();
+
+		if (isset($this->queried_object_id)) {
+			return $this->queried_object_id;
+		}
+
+		return 0;
 	}
 
 	function WP_Query ($query = '') {

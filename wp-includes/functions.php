@@ -1604,16 +1604,52 @@ function wp_head() {
 	do_action('wp_head', '');
 }
 
-function is_single () {
-    global $wp_query;
+function is_single ($post = '') {
+	global $wp_query;
 
-    return $wp_query->is_single;
+	if (! $wp_query->is_single) {
+		return false;
+	}
+
+	if (empty($post)) {
+		return true;
+	}
+
+	$post_obj = $wp_query->get_queried_object();
+
+	if ($post == $post_obj->ID) {
+		return true;
+	} else if ($post == $post_obj->post_title) {
+		return true;
+	} else if ($post == $post_obj->post_name) {
+		return true;
+	}
+
+	return false;
 }
 
-function is_page () {
-    global $wp_query;
+function is_page ($page = '') {
+	global $wp_query;
 
-    return $wp_query->is_page;
+	if (! $wp_query->is_page) {
+		return false;
+	}
+
+	if (empty($page)) {
+		return true;
+	}
+
+	$page_obj = $wp_query->get_queried_object();
+		
+	if ($page == $page_obj->ID) {
+		return true;
+	} else if ($page == $page_obj->post_title) {
+		return true;
+	} else if ($page == $page_obj->post_name) {
+		return true;
+	}
+
+	return false;
 }
 
 function is_archive () {
@@ -1652,16 +1688,52 @@ function is_time () {
     return $wp_query->is_time;
 }
 
-function is_author () {
-    global $wp_query;
+function is_author ($author = '') {
+	global $wp_query;
 
-    return $wp_query->is_author;
+	if (! $wp_query->is_author) {
+		return false;
+	}
+
+	if (empty($author)) {
+		return true;
+	}
+
+	$author_obj = $wp_query->get_queried_object();
+		
+	if ($author == $author_obj->ID) {
+		return true;
+	} else if ($author == $author_obj->user_nickname) {
+		return true;
+	} else if ($author == $author_obj->user_nicename) {
+		return true;
+	}
+
+	return false;
 }
 
-function is_category () {
-    global $wp_query;
+function is_category ($category = '') {
+	global $wp_query;
 
-    return $wp_query->is_category;
+	if (! $wp_query->is_category) {
+		return false;
+	}
+
+	if (empty($category)) {
+		return true;
+	}
+
+	$cat_obj = $wp_query->get_queried_object();
+		
+	if ($category == $cat_obj->cat_ID) {
+		return true;
+	} else if ($category == $cat_obj->cat_name) {
+		return true;
+	} else if ($category == $cat_obj->category_nicename) {
+		return true;
+	}
+
+	return false;
 }
 
 function is_search () {
