@@ -2,7 +2,8 @@
 
 /* 
    IXR - The Inutio XML-RPC Library - (c) Incutio Ltd 2002
-   Version 1.61 - Simon Willison, 11th July 2003 (htmlentities -> htmlspecialchars)
+   Version 1.62WP - Simon Willison, 11th July 2003 (htmlentities -> htmlspecialchars)
+           ^^^^^^ (We've made some changes)
    Site:   http://scripts.incutio.com/xmlrpc/
    Manual: http://scripts.incutio.com/xmlrpc/manual.php
    Made available under the BSD License: http://www.opensource.org/licenses/bsd-license.php
@@ -344,11 +345,15 @@ EOD;
             $result = $this->$method($args);
         } else {
             // It's a function - does it exist?
-            if (!function_exists($method)) {
+            if (is_array($method)) {
+            	if (!method_exists($method[0], $method[1])) {
+                return new IXR_Error(-32601, 'server error. requested object method "'.$method[1].'" does not exist.');
+            	}
+            } else if (!function_exists($method)) {
                 return new IXR_Error(-32601, 'server error. requested function "'.$method.'" does not exist.');
             }
             // Call the function
-            $result = $method($args);
+            $result = call_user_func($method, $args);
         }
         return $result;
     }
