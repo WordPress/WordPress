@@ -438,8 +438,16 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		if ( preg_match($pattern, $user_agent) ) return true;
 	}
 	
-	if ( get_option('open_proxy_check') && isset($_SERVER['REMOTE_ADDR']) ) {
-		$rev_ip = implode( '.', array_reverse( explode( '.', $_SERVER['REMOTE_ADDR'] ) ) );
+	if ( isset($_SERVER['REMOTE_ADDR']) ) {
+		if ( $wp_proxy_check($_SERVER['REMOTE_ADDR']) ) return true;
+	}
+
+	return false;
+}
+
+function wp_proxy_check($ipnum) {
+	if ( get_option('open_proxy_check') && isset($ipnum) ) {
+		$rev_ip = implode( '.', array_reverse( explode( '.', $ipnum ) ) );
 		$lookup = $rev_ip . '.opm.blitzed.org';
 		if ( $lookup != gethostbyname( $lookup ) )
 			return true;
