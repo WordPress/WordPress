@@ -87,8 +87,8 @@ function get_permalink($id=false) {
 
 function get_month_link($year, $month) {
     global $querystring_start, $querystring_equal;
-    if (!$year) $year = gmdate('Y', time()+($time_difference * 3600));
-    if (!$month) $month = gmdate('m', time()+($time_difference * 3600));
+    if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
+    if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
     if ('' != get_settings('permalink_structure')) {
         $off = strpos(get_settings('permalink_structure'), '%monthnum%');
         $offset = $off + 11;
@@ -105,9 +105,9 @@ function get_month_link($year, $month) {
 
 function get_day_link($year, $month, $day) {
     global $querystring_start, $querystring_equal;
-    if (!$year) $year = gmdate('Y', time()+($time_difference * 3600));
-    if (!$month) $month = gmdate('m', time()+($time_difference * 3600));
-    if (!$day) $day = gmdate('j', time()+($time_difference * 3600));
+    if (!$year) $year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
+    if (!$month) $month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
+    if (!$day) $day = gmdate('j', time()+(get_settings('gmt_offset') * 3600));
     if ('' != get_settings('permalink_structure')) {
         $off = strpos(get_settings('permalink_structure'), '%day%');
         $offset = $off + 6;

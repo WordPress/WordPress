@@ -9,8 +9,6 @@ get_currentuserinfo();
 if ($user_level == 0)
 	die ("Cheatin' uh ?");
 
-$time_difference = get_settings('time_difference');
-
 if ('b' == $_GET['a']) {
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

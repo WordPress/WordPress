@@ -110,7 +110,6 @@ if (!isset($posts_per_page) || $posts_per_page == 0)
     $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
-$time_difference = get_settings('time_difference');
 $use_gzipcompression = get_settings('gzipcompression');
 
 /* First let's clear some variables */
@@ -129,8 +128,8 @@ if (isset($showposts) && $showposts) {
     $posts_per_page = $showposts;
 }
 
-$add_hours = intval($time_difference);
-$add_minutes = intval(60 * ($time_difference - $add_hours));
+$add_hours = intval(get_settings('gmt_offset'));
+$add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
 $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
 // if a month is specified in the querystring, load that month

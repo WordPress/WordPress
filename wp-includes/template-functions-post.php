@@ -315,7 +315,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
     global $tableposts, $p, $posts, $id, $post, $wpdb;
-    global $time_difference, $single;
+    global $single;
     global $querystring_start, $querystring_equal, $querystring_separator;
     if(($p) || ($posts==1) || 1 == $single) {
 

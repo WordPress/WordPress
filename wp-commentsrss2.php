@@ -31,7 +31,7 @@ foreach ($posts as $post) { start_wp();
 			$tableposts.ID, $tableposts.post_password FROM $tablecomments 
 			LEFT JOIN $tableposts ON comment_post_id = id WHERE comment_post_ID = '$id' 
 			AND $tablecomments.comment_approved = '1' AND $tableposts.post_status = 'publish' 
-			AND post_date < '".date("Y-m-d H:i:s")."' 
+			AND post_date < '".date("Y-m-d H:i:59")."' 
 			ORDER BY comment_date LIMIT " . get_settings('posts_per_rss') );
 		} else { // if no post id passed in, we'll just ue the last 10 comments.
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 

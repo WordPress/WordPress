@@ -349,20 +349,18 @@ function wp_iso_descrambler($string) {
 // give it a date, it will give you the same date as GMT
 function get_gmt_from_date($string) {
   // note: this only substracts $time_difference from the given date
-  $time_difference = get_settings('time_difference');
   preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
   $string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-  $string_gmt = gmdate('Y-m-d H:i:s', $string_time - $time_difference*3600);
+  $string_gmt = gmdate('Y-m-d H:i:s', $string_time - get_settings('gmt_offset') * 3600);
   return $string_gmt;
 }
 
 // give it a GMT date, it will give you the same date with $time_difference added
 function get_date_from_gmt($string) {
   // note: this only adds $time_difference to the given date
-  $time_difference = get_settings('time_difference');
   preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
   $string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-  $string_localtime = gmdate('Y-m-d H:i:s', $string_time + $time_difference*3600);
+  $string_localtime = gmdate('Y-m-d H:i:s', $string_time + get_settings('gmt_offset')*3600);
   return $string_localtime;
 }
 

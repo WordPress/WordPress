@@ -219,7 +219,7 @@ function wp_get_archives($args = '') {
 }
 
 function get_archives($type='', $limit='', $format='html', $before = '', $after = '', $show_post_count = false) {
-    global $tableposts, $time_difference;
+    global $tableposts;
     global $querystring_start, $querystring_equal, $querystring_separator, $month, $wpdb;
 
     if ('' == $type) {
@@ -254,8 +254,8 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
         $archive_week_end_date_format = get_settings('date_format');
     }
 
-    $add_hours = intval($time_difference);
-    $add_minutes = intval(60 * ($time_difference - $add_hours));
+    $add_hours = intval(get_settings('gmt_offset'));
+    $add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
     $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
     $now = current_time('mysql');
@@ -336,9 +336,9 @@ function get_calendar($daylength = 1) {
     if (isset($_GET['w'])) {
         $w = ''.intval($_GET['w']);
     }
-    $time_difference = get_settings('time_difference');
-    $add_hours = intval($time_difference);
-    $add_minutes = intval(60 * ($time_difference - $add_hours));
+
+    $add_hours = intval(get_settings('gmt_offset'));
+    $add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
     $wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
     // Let's figure out when we are
@@ -359,8 +359,8 @@ function get_calendar($daylength = 1) {
             $thismonth = ''.zeroise(intval(substr($m, 4, 2)), 2);
         }
     } else {
-        $thisyear = gmdate('Y', current_time('timestamp') + $time_difference * 3600);
-        $thismonth = gmdate('m', current_time('timestamp') + $time_difference * 3600);
+        $thisyear = gmdate('Y', current_time('timestamp') + get_settings('gmt_offset') * 3600);
+        $thismonth = gmdate('m', current_time('timestamp') + get_settings('gmt_offset') * 3600);
     }
 
     $unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
@@ -476,7 +476,7 @@ function get_calendar($daylength = 1) {
             echo "\n\t</tr>\n\t<tr>\n\t\t";
         $newrow = false;
 
-        if ($day == date('j', (time() + ($time_difference * 3600))) && $thismonth == date('m', time()+($time_difference * 3600)))
+        if ($day == date('j', (time() + (get_settings('gmt_offset') * 3600))) && $thismonth == date('m', time()+(get_settings('gmt_offset') * 3600)))
             echo '<td id="today">';
         else
             echo '<td>';

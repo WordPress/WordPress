@@ -51,7 +51,6 @@ if ((strlen(''.$tb_id)) && (empty($_GET['__mode'])) && (strlen(''.$tb_url))) {
 
 	$user_ip = $_SERVER['REMOTE_ADDR'];
 	$user_domain = gethostbyaddr($user_ip);
-	$time_difference = get_settings('time_difference');
 	$now = current_time('mysql');
 	$now_gmt = current_time('mysql', 1);
 

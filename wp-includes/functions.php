@@ -53,12 +53,14 @@ function current_time($type, $gmt = 0) {
 	$time_difference = get_settings('time_difference');
 	switch ($type) {
 		case 'mysql':
-			return ($gmt) ? gmdate('Y-m-d H:i:s')
-				: gmdate('Y-m-d H:i:s', (time() + ($time_difference * 3600)));;
+			if ($gmt) $d = gmdate('Y-m-d H:i:s');
+			else $d = gmdate('Y-m-d H:i:s', (time() + (get_settings('gmt_offset') * 3600)));
+			return $d;
 			break;
 		case 'timestamp':
-			return ($gmt) ? time()
-				: time() + ($time_difference * 3600);
+			if ($gmt) $d = time();
+			else $d = time() + (get_settings('gmt_offset') * 3600);
+			return $d;
 			break;
 	}
 }
@@ -435,7 +437,7 @@ function get_catname($cat_ID) {
 }
 
 function touch_time($edit = 1) {
-	global $month, $postdata, $time_difference;
+	global $month, $postdata;
 	// echo $postdata['Date'];
 	if ('draft' == $postdata['post_status']) {
 		$checked = 'checked="checked" ';
@@ -446,7 +448,7 @@ function touch_time($edit = 1) {
 
 	echo '<p><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">' . __('Edit timestamp') . '</label> <a href="http://wordpress.org/docs/reference/post/#edit_timestamp" title="' . __('Help on changing the timestamp') . '">?</a><br />';
 	
-	$time_adj = time() + ($time_difference * 3600);
+	$time_adj = time() + (get_settings('gmt_offset') * 3600);
 	$post_date = $postdata['Date'];
 	$jj = ($edit) ? mysql2date('d', $post_date) : gmdate('d', $time_adj);
 	$mm = ($edit) ? mysql2date('m', $post_date) : gmdate('m', $time_adj);

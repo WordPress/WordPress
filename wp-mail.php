@@ -7,7 +7,6 @@ require_once(ABSPATH.WPINC.'/class-pop3.php');
 timer_start();
 
 $output_debugging_info = 0;	# =1 if you want to output debugging info
-$time_difference = get_settings('time_difference');
 
 if (get_settings('use_phoneemail')) {
 	// if you're using phone email, the email will already be in your timezone

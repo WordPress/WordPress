@@ -186,7 +186,7 @@ function get_links($category = -1, $before = '', $after = '<br />',
 
         if ($show_updated) {
            if (substr($row->link_updated_f,0,2) != '00') {
-                $title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $row->link_updated_f + (get_settings('time_difference') * 3600)) .')';
+                $title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $row->link_updated_f + (get_settings('gmt_offset') * 3600)) .')';
             }
         }
 

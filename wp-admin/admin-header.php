@@ -24,7 +24,6 @@ get_currentuserinfo();
 $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
-$time_difference = get_settings('time_difference');
 $date_format = stripslashes(get_settings('date_format'));
 $time_format = stripslashes(get_settings('time_format'));
 
