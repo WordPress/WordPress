@@ -636,6 +636,7 @@ function make_site_theme() {
 		return false;
 	}
 
+	umask(0);
 	if (! mkdir($site_dir, 0777)) {
 		return false;
 	}
