@@ -1238,7 +1238,10 @@ function generate_rewrite_rules($permalink_structure = '', $matches = '') {
              $queries[$i] .= $query_token;
              }
 
-    $structure = str_replace($front, '', $permalink_structure);
+    $structure = $permalink_structure;
+    if ($front != '/') {
+        $structure = str_replace($front, '', $structure);
+    }
     $structure = trim($structure, '/');
     $dirs = explode('/', $structure);
     $num_dirs = count($dirs);
@@ -1312,7 +1315,8 @@ function rewrite_rules($matches = '', $permalink_structure = '') {
     // If the permalink does not have year, month, and day, we need to create a
     // separate archive rule.
     $doarchive = false;
-    if (! (strstr($permalink_structure, '%year') && strstr($permalink_structure, '%monthnum') && strstr($permalink_structure, '%day')) ) {
+    if (! (strstr($permalink_structure, '%year%') && strstr($permalink_structure, '%monthnum%') && strstr($permalink_structure, '%day%')) ||
+        preg_match('/%category%.*(%year%|%monthnum%|%day%)/', $permalink_structure)) {
         $doarchive = true;
         $archive_structure = $front . '%year%/%monthnum%/%day%/';
         $archive_rewrite =  generate_rewrite_rules($archive_structure, $matches);

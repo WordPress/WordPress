@@ -80,7 +80,8 @@ function get_month_link($year, $month) {
 
         // If the permalink structure does not contain year and month, make
         // one that does.
-        if (! (strstr($permalink, '%year') && strstr($permalink, '%monthnum')) ) {
+        if (! (strstr($permalink, '%year%') && strstr($permalink, '%monthnum%'))
+            || preg_match('/%category%.*(%year%|%monthnum%|%day%)/', $permalink)) {
             $front = substr($permalink, 0, strpos($permalink, '%'));
             $permalink = $front . '%year%/%monthnum%/';
         }
@@ -92,6 +93,7 @@ function get_month_link($year, $month) {
         $monthlink = str_replace('%year%', $year, $monthlink);
         $monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
         $monthlink = str_replace('%post_id%', '', $monthlink);
+        $monthlink = str_replace('%category%', '', $monthlink);
         return get_settings('home') . $monthlink;
     } else {
         return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2);
@@ -108,7 +110,8 @@ function get_day_link($year, $month, $day) {
 
         // If the permalink structure does not contain year, month, and day,
         // make one that does.
-        if (! (strstr($permalink, '%year') && strstr($permalink, '%monthnum')) ) {
+        if (! (strstr($permalink, '%year%') && strstr($permalink, '%monthnum%')&& strstr($permalink, '%day%'))
+            || preg_match('/%category%.*(%year%|%monthnum%|%day%)/', $permalink)) {
             $front = substr($permalink, 0, strpos($permalink, '%'));
             $permalink = $front . '%year%/%monthnum%/%day%/';
         }
@@ -121,6 +124,7 @@ function get_day_link($year, $month, $day) {
         $daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
         $daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
         $daylink = str_replace('%post_id%', '', $daylink);
+        $daylink = str_replace('%category%', '', $daylink);
         return get_settings('home') . $daylink;
     } else {
         return get_settings('home') .'/'. get_settings('blogfilename') .$querystring_start.'m'.$querystring_equal.$year.zeroise($month, 2).zeroise($day, 2);
