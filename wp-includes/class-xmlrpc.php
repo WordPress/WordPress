@@ -757,8 +757,9 @@ class xmlrpcmsg {
 	  if ($_xh[$parser]['isf']) {
 		$f=$v->structmem("faultCode");
 		$fs=$v->structmem("faultString");
-		$r=new xmlrpcresp($v, $f->scalarval(), 
-						  $fs->scalarval());
+		$r=new xmlrpcresp($v, 
+			$f->scalarval(), 
+			$fs->scalarval());
 	  } else {
 		$r=new xmlrpcresp($v);
 	  }
