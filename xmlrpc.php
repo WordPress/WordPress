@@ -43,6 +43,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'blogger.getUserInfo' => 'this:blogger_getUserInfo',
 		  'blogger.getPost' => 'this:blogger_getPost',
 		  'blogger.getRecentPosts' => 'this:blogger_getRecentPosts',
+		  'blogger.getTemplate' => 'this:blogger_getTemplate',
+		  'blogger.setTemplate' => 'this:blogger_setTemplate',
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
 		));
@@ -246,7 +248,75 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  return $recent_posts;
 	}
-}
+
+
+	/* blogger.getTemplate returns your blog_filename */
+	function blogger_getTemplate($args) {
+
+	  $blog_ID    = $args[1];
+	  $user_login = $args[2];
+	  $user_pass  = $args[3];
+	  $template   = $args[4]; /* could be 'main' or 'archiveIndex', but we don't use it */
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+
+	  if ($user_data->user_level < 3) {
+	    return new IXR_Error(401, 'Sorry, users whose level is less than 3, can not edit the template.');
+	  }
+
+	  /* warning: here we make the assumption that the weblog's URI is on the same server */
+	  $filename = get_settings('home').'/'.get_settings('blogfilename');
+	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
+	  
+	  $f = fopen($filename, 'r');
+	  $content = fread($f, filesize($filename));
+	  fclose($f);
+
+	  /* so it is actually editable with a windows/mac client */
+	  $content = str_replace("\n", "\r\n", $content); 
+
+	  return $content;
+	}
+
+
+	/* blogger.setTemplate updates the content of blog_filename */
+	function blogger_setTemplate($args) {
+
+	  $blog_ID    = $args[1];
+	  $user_login = $args[2];
+	  $user_pass  = $args[3];
+	  $content    = $args[4];
+	  $template   = $args[5]; /* could be 'main' or 'archiveIndex', but we don't use it */
+
+	  if (!$this->login_pass_ok($user_login, $user_pass)) {
+	    return $this->error;
+	  }
+
+	  $user_data = get_userdatabylogin($user_login);
+
+	  if ($user_data->user_level < 3) {
+	    return new IXR_Error(401, 'Sorry, users whose level is less than 3, can not edit the template.');
+	  }
+
+	  /* warning: here we make the assumption that the weblog's URI is on the same server */
+	  $filename = get_settings('home').'/'.get_settings('blogfilename');
+	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
+	  
+	  if ($f = fopen($filename, 'w+')) {
+	    fwrite($f, $content);
+	    fclose($f);
+	  } else {
+	    return new IXR_Error(500, 'Either the file is not writable, or something wrong happened. The file has not been updated.');
+	  }
+
+	  return true;
+	}
+
+}}
 
 $wp_xmlrpc_server = new wp_xmlrpc_server();
 
