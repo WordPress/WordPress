@@ -777,10 +777,10 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
 	global $tableposts, $id, $post, $siteurl, $blogfilename, $querycount, $wpdb;
-	global $p, $posts, $posts_per_page, $s;
+	global $p, $posts, $posts_per_page, $s, $single;
 	global $querystring_start, $querystring_equal, $querystring_separator;
 
-	if(($p) || ($posts_per_page==1)) {
+	if(($p) || ($posts_per_page == 1) || 1 == $single) {
 
 		$current_post_date = $post->post_date;
 		$current_category = $post->post_category;
@@ -816,9 +816,9 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
 
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
 	global $tableposts, $p, $posts, $id, $post, $siteurl, $blogfilename, $querycount, $wpdb;
-	global $time_difference;
+	global $time_difference, $single;
 	global $querystring_start, $querystring_equal, $querystring_separator;
-	if(($p) || ($posts==1)) {
+	if(($p) || ($posts==1) || 1 == $single) {
 
 		$current_post_date = $post->post_date;
 		$current_category = $post->post_category;
@@ -1428,18 +1428,18 @@ function get_permalink($id=false) {
 			return $file.$querystring_start.'p'.$querystring_equal.$post->ID;
 		}
 	} else { // if an ID is given
-		$post = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
+		$idpost = $wpdb->get_row("SELECT post_date, post_name FROM $tableposts WHERE ID = $id");
 		if ('' != get_settings('permalink_structure')) {
-			$unixtime = strtotime($post->post_date);
+			$unixtime = strtotime($idpost->post_date);
 			$rewritereplace = array(
 				date('Y', $unixtime),
 				date('n', $unixtime),
 				date('j', $unixtime),
-				$post->post_name
+				$idpost->post_name
 			);
 			return str_replace($rewritecode, $rewritereplace, get_settings('permalink_structure'));
 		} else {
-			return $file.$querystring_start.'p'.$querystring_equal.$post->ID;
+			return $file.$querystring_start.'p'.$querystring_equal.$idpost->ID;
 		}
 	}
 }
