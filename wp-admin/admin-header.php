@@ -71,12 +71,9 @@ setTimeout("redirect();", 600);
 } // redirect
 ?>
 
+<?php if ($xfn) : ?>
 <script language="javascript" type="text/javascript">
 //<![CDATA[
-
-function helpWindow(url) {
-	window.open(url, "Help", "width=640, height=450, location=0, menubar=0, resizable=0, scrollbars=1, status=1, titlebar=0, toolbar=0, screenX=60, left=60, screenY=60, top=60");
-}
 
 function GetElementsWithClassName(elementName, className) {
 	var allElements = document.getElementsByTagName(elementName);
@@ -131,16 +128,14 @@ function blurry() {
 window.onload = blurry;
 //]]>
 </script>
+<?php endif; ?>
 
 <?php wp_admin_head(); ?>
 </head>
 <body>
 <h1 id="wphead"><a href="http://wordpress.org" rel="external" title="<?php _e('Visit WordPress.org') ?>"><?php _e('WordPress') ?></a></h1>
+
 <?php
-if ($profile==0) {
-    include('menu.php');
-}
-?>
-<?php
+require('./menu.php');
 endif;
 ?>

@@ -202,7 +202,7 @@ switch ($action) {
            . addslashes($link_image) . "', '$link_target', $link_category, '"
            . addslashes($link_description) . "', '$link_visible', $user_ID, $link_rating, '" . addslashes($link_rel) . "', '" . addslashes($link_notes) . "', '$link_rss_uri')");
 
-    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    header('Location: ' . $_SERVER['HTTP_REFERER'] . '?added=true');
     break;
   } // end Add
 
@@ -288,6 +288,7 @@ switch ($action) {
   case 'linkedit':
   {
     $standalone=0;
+	$xfn = true;
     include_once ('admin-header.php');
     if ($user_level < get_settings('links_minadminlevel')) {
       die(__('You do not have sufficient permissions to edit the links for this blog.'));

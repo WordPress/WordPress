@@ -59,6 +59,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 $link_url = stripslashes($_GET['linkurl']);
 $link_name = htmlentities(stripslashes(urldecode($_GET['name'])));
 
+
+$xfn = true;
 require('admin-header.php');
 ?>
 <ul id="adminmenu2">
@@ -70,6 +72,9 @@ require('admin-header.php');
 <style type="text/css" media="screen">
 th { text-align: right; }
 </style>
+<?php if ($_GET['added']) : ?>
+<div class="updated"><p>Link added.</p></div>
+<?php endif; ?>
 <div class="wrap">
 <h2><?php _e('<strong>Add</strong> a link:') ?> <?php echo gethelp_link($this_file,'add_a_link');?></h2>
      <form name="addlink" method="post" action="link-manager.php">
