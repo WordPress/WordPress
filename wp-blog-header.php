@@ -14,7 +14,7 @@ $query_vars = array();
 if ((isset($_GET['error']) && $_GET['error'] == '404') ||
 		((! empty($_SERVER['PATH_INFO'])) &&
 		('/' != $_SERVER['PATH_INFO']) &&
-		(false === strpos($_SERVER['PATH_INFO'], $_SERVER['PHP_SELF']))
+		 (false === strpos($_SERVER['PATH_INFO'], 'index.php'))
 		)) {
 
 	// If we match a rewrite rule, this will be cleared.
