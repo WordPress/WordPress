@@ -178,14 +178,14 @@ if (empty($orderby)) {
 	$orderby = urldecode($orderby);
 	$orderby = addslashes_gpc($orderby);
 	$orderby_array = explode(' ',$orderby);
-	if (!in_array($orderby_array[0],$allowed_keys) {
+	if (!in_array($orderby_array[0],$allowed_keys)) {
 		$orderby_array[0] = 'date';
 	}
 	$orderby = $orderby_array[0].' '.$order;
 	if (count($orderby_array)>1) {
 		for ($i = 1; $i < (count($orderby_array)); $i = $i + 1) {
 			// Only allow certain values for safety
-			if (in_array($orderby_array[$i],$allowed_keys) {
+			if (in_array($orderby_array[$i],$allowed_keys)) {
 				$orderby .= ',post_'.$orderby_array[$i].' '.$order;
 			}
 		}
