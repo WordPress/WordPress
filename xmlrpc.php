@@ -75,6 +75,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	function wp_xmlrpc_server() {
 		$this->IXR_Server(array(
+		  // Blogger API
 		  'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
 		  'blogger.getUserInfo' => 'this:blogger_getUserInfo',
 		  'blogger.getPost' => 'this:blogger_getPost',
@@ -85,12 +86,23 @@ class wp_xmlrpc_server extends IXR_Server {
 		  'blogger.editPost' => 'this:blogger_editPost',
 		  'blogger.deletePost' => 'this:blogger_deletePost',
 
+		  // MetaWeblog API
 		  'metaWeblog.newPost' => 'this:mw_newPost',
 		  'metaWeblog.editPost' => 'this:mw_editPost',
 		  'metaWeblog.getPost' => 'this:mw_getPost',
 		  'metaWeblog.getRecentPosts' => 'this:mw_getRecentPosts',
 		  'metaWeblog.getCategories' => 'this:mw_getCategories',
 		  'metaWeblog.newMediaObject' => 'this:mw_newMediaObject',
+
+		  // MetaWeblog API aliases for Blogger API
+		  // see http://www.xmlrpc.com/stories/storyReader$2460
+		  'metaWeblog.deletePost' => 'this:blogger_deletePost',
+		  'metaWeblog.getTemplate' => 'this:blogger_getTemplate',
+		  'metaWeblog.setTemplate' => 'this:blogger_setTemplate',
+		  'metaWeblog.getUsersBlogs' => 'this:blogger_getUsersBlogs',
+
+		  // PingBack
+		  'pingback.ping' => 'this:pingback_ping',
 
 		  'demo.sayHello' => 'this:sayHello',
 		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
@@ -913,6 +925,187 @@ class wp_xmlrpc_server extends IXR_Server {
 	  return $categories_struct;
 	}
 
+
+
+	/* PingBack functions
+	 * specs on www.hixie.ch/specs/pingback/pingback
+	 */
+
+	/* pingback.ping gets a pingback and registers it */
+	function pingback_ping($args) {
+		// original code by Mort (http://mort.mine.nu:8080 -- site seems dead)
+		// refactored to return error codes and avoid deep ifififif headaches
+		global $wpdb, $wp_version; 
+
+		$pagelinkedfrom = $args[0];
+		$pagelinkedto   = $args[1];
+
+		$title = '';
+
+		$pagelinkedfrom = str_replace('&amp;', '&', $pagelinkedfrom);
+		$pagelinkedto   = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedto);
+
+		$error_code = -1;
+
+		// Check if the page linked to is in our site
+		$pos1 = strpos($pagelinkedto, str_replace('http://', '', str_replace('www.', '', get_settings('home'))));
+		if(!$pos1) {
+			return '0';
+		}
+
+
+		// let's find which post is linked to
+		$urltest = parse_url($pagelinkedto);
+		if ($post_ID = url_to_postid($pagelinkedto)) {
+			$way = 'url_to_postid()';
+		} elseif (preg_match('#p/[0-9]{1,}#', $urltest['path'], $match)) {
+			// the path defines the post_ID (archives/p/XXXX)
+			$blah = explode('/', $match[0]);
+			$post_ID = $blah[1];
+			$way = 'from the path';
+		} elseif (preg_match('#p=[0-9]{1,}#', $urltest['query'], $match)) {
+			// the querystring defines the post_ID (?p=XXXX)
+			$blah = explode('=', $match[0]);
+			$post_ID = $blah[1];
+			$way = 'from the querystring';
+		} elseif (isset($urltest['fragment'])) {
+			// an #anchor is there, it's either...
+			if (intval($urltest['fragment'])) {
+				// ...an integer #XXXX (simpliest case)
+				$post_ID = $urltest['fragment'];
+				$way = 'from the fragment (numeric)';
+			} elseif (preg_match('/post-[0-9]+/',$urltest['fragment'])) {
+				// ...a post id in the form 'post-###'
+				$post_ID = preg_replace('/[^0-9]+/', '', $urltest['fragment']);
+				$way = 'from the fragment (post-###)';
+			} elseif (is_string($urltest['fragment'])) {
+				// ...or a string #title, a little more complicated
+				$title = preg_replace('/[^a-zA-Z0-9]/', '.', $urltest['fragment']);
+				$sql = "SELECT ID FROM $wpdb->posts WHERE post_title RLIKE '$title'";
+				if (! ($post_ID = $wpdb->get_var($sql)) ) {
+					// returning unknown error '0' is better than die()ing
+					return '0';
+				}
+				$way = 'from the fragment (title)';
+			}
+		} else {
+			// TODO: Attempt to extract a post ID from the given URL
+			return '0x0021';
+		}
+
+
+		logIO("O","(PB) URI='$pagelinkedto' ID='$post_ID' Found='$way'");
+
+		$sql = 'SELECT post_author FROM '.$wpdb->posts.' WHERE ID = '.$post_ID;
+		$result = $wpdb->get_results($sql);
+
+		if (!$wpdb->num_rows) {
+			// Post_ID not found
+			return '0x0021';
+		}
+
+
+		// Let's check that the remote site didn't already pingback this entry
+		$sql = 'SELECT * FROM '.$wpdb->comments.' 
+			WHERE comment_post_ID = '.$post_ID.' 
+				AND comment_author_url = \''.$pagelinkedfrom.'\' 
+				AND comment_type = \'pingback\'';
+		$result = $wpdb->get_results($sql);
+//return($sql);
+
+		if ($wpdb->num_rows) {
+			// We already have a Pingback from this URL
+			return '0x0030';
+		}
+
+
+		// very stupid, but gives time to the 'from' server to publish !
+		sleep(1);
+
+		// Let's check the remote site
+		$fp = @fopen($pagelinkedfrom, 'r');
+		if (!$fp) {
+			// The source URI does not exist
+			return '0x0010';
+		}
+
+		$puntero = 4096;
+		while($remote_read = fread($fp, $puntero)) {
+			$linea .= $remote_read;
+		}
+
+		// Work around bug in strip_tags():
+		$linea = str_replace('<!DOCTYPE','<DOCTYPE',$linea);
+		$linea = strip_tags($linea, '<title><a>');
+		$linea = strip_all_but_one_link($linea, $pagelinkedto);
+		// I don't think we need this? -- emc3
+		//$linea = preg_replace('#&([^amp\;])#is', '&amp;$1', $linea);
+		if (empty($matchtitle)) {
+			preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
+		}
+		$pos2 = strpos($linea, $pagelinkedto);
+		$pos3 = strpos($linea, str_replace('http://www.', 'http://', $pagelinkedto));
+		if (is_integer($pos2) || is_integer($pos3)) {
+			// The page really links to us :)
+			$pos4 = (is_integer($pos2)) ? $pos2 : $pos3;
+			$start = $pos4-100;
+			$context = substr($linea, $start, 250);
+			$context = str_replace("\n", ' ', $context);
+			$context = str_replace('&amp;', '&', $context);
+		}
+					
+		fclose($fp);
+
+		if (empty($context)) {
+			// URL pattern not found
+			return '0x0011';
+		}
+
+
+		// Check if pings are on, inelegant exit
+		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $post_ID");
+		if ('closed' == $pingstatus) {
+			return '0x0021';
+		}
+
+
+		$pagelinkedfrom = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedfrom);
+		$title = (!strlen($matchtitle[1])) ? $pagelinkedfrom : $matchtitle[1];
+		$original_context = strip_tags($context);
+		$context = '[...] ';
+		$context = htmlspecialchars($original_context);
+		$context .= ' [...]';
+		$original_pagelinkedfrom = $pagelinkedfrom;
+		$pagelinkedfrom = addslashes($pagelinkedfrom);
+		$original_title = $title;
+		$title = addslashes(strip_tags(trim($title)));
+		$user_ip = $_SERVER['REMOTE_ADDR'];
+		$user_agent = addslashes($_SERVER['HTTP_USER_AGENT']);
+		$now = current_time('mysql');
+		$now_gmt = current_time('mysql', 1);
+
+		// Check if the entry allows pings
+		if( !check_comment($title, '', $pagelinkedfrom, $context, $user_ip, $user_agent) ) {
+			return '0x0031';
+		}
+
+
+		$consulta = $wpdb->query("INSERT INTO $wpdb->comments 
+			(comment_post_ID, comment_author, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type) 
+			VALUES 
+			($post_ID, '$title', '$pagelinkedfrom', '$user_ip', '$now', '$now_gmt', '$context', '1', '$user_agent', 'pingback')
+		");
+
+		$comment_ID = $wpdb->get_var('SELECT last_insert_id()');
+
+		if (get_settings('comments_notify')) {
+			wp_notify_postauthor($comment_ID, 'pingback');
+		}
+
+		do_action('pingback_post', $comment_ID);
+		
+		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
+	}
 }
 
 
