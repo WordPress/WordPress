@@ -182,6 +182,9 @@ update_category_cache();
 // Call query posts to do the work.
 $posts = query_posts($query_string);
 
+// Extract updated query vars back into global namespace.
+extract($wp_query->query_vars);
+
 if (1 == count($posts)) {
 	if (is_single()) {
 		$more = 1;
