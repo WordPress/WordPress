@@ -49,7 +49,7 @@ include('admin-header.php');
     <legend><?php _e('Date and Time') ?></legend> 
 	    <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr> 
-          <th scope="row" width="33%"><?php _e('<acronym title="Greenwich Meridian Time">GMT</acronym> time is:') ?> </th> 
+          <th scope="row" width="33%"><?php _e('<abbr title="Coordinated Universal Time">UTC</abbr> time is:') ?> </th> 
         <td><code><?php echo gmdate('Y-m-d g:i:s a'); ?></code></td> 
       </tr>
       <tr>
