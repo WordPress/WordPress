@@ -78,21 +78,6 @@ function wpautop($pee, $br = 1) {
 	return $pee; 
 }
 
-function removeaccents($string){
-    $encoded_ligatures = array('Þ' => 'TH', 'þ' => 'th', 'Ð' => 'DH',
-                               'ð' => 'dh', 'ß' => 'ss', 'Œ' => 'OE',
-                               '°' => 'oe', 'Æ' => 'AE', 'æ' => 'ae',
-                                       'µ' => 'u');
-
-    foreach ($encoded_ligatures as $key => $value) {
-        $ligatures[utf8_decode($key)] = $value;
-    }
-
-    return strtr(strtr($string,
-                       utf8_decode('ŠŽšžŸÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖØÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöøùúûüýÿ'),
-                       'SZszYAAAAAACEEEEIIIINOOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy'), $ligatures);
-}
-
 function sanitize_title($title) {
     $title = do_action('sanitize_title', $title);
 
@@ -100,7 +85,6 @@ function sanitize_title($title) {
 }
 
 function sanitize_title_with_dashes($title) {
-    $title = removeaccents($title);
     $title = strtolower($title);
     $title = preg_replace('/&.+?;/', '', $title); // kill entities
     $title = preg_replace('/[^a-z0-9 _-]/', '', $title);
