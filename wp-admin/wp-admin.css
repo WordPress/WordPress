@@ -293,6 +293,10 @@ textarea, input, select {
 	height: 1.5em;
 }
 
+#footer {
+	text-align: center;
+}
+
 #login {
 	background: url(../wp-images/wp-small.png) #fff no-repeat top center;
 	border: 2px solid #333;

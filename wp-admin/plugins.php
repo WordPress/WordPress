@@ -55,6 +55,8 @@ foreach ($check_plugins as $check_plugin) {
 <?php endif; ?>
 
 <div class="wrap">
+<h2><?php _e('Plugin Management'); ?></h2>
+<p><?php _e('Plugins are files you usually download seperately from WordPress that add functionality. To install a plugin you generally just need to put the plugin file into your <code>wp-content/plugins</code> directory. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
 <?php
 // Files in wp-content/plugins directory
 $plugins_dir = @ dir(ABSPATH . 'wp-content/plugins');
@@ -70,16 +72,16 @@ if ('' != trim(get_settings('active_plugins'))) {
 }
 
 if (!$plugins_dir || !$plugin_files) {
-	echo "<p>Couldn't open plugins directory or there are no plugins available.</p>"; // TODO: make more helpful
+	_e("<p>Couldn't open plugins directory or there are no plugins available.</p>"); // TODO: make more helpful
 } else {
 ?>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
-		<th>Plugin</th>
-		<th>Version</th>
-		<th>Author</th>
-		<th>Description</th>
-		<th>Action</th>
+		<th><?php _e('Plugin'); ?></th>
+		<th><?php _e('Version'); ?></th>
+		<th><?php _e('Author'); ?></th>
+		<th><?php _e('Description'); ?></th>
+		<th><?php _e('Action'); ?></th>
 	</tr>
 <?php
 	sort($plugin_files); // Alphabetize by filename. Better way?
@@ -96,13 +98,13 @@ if (!$plugins_dir || !$plugin_files) {
 		if ('' == $plugin_uri) {
 			$plugin = $plugin_name[1];
 		} else {
-			$plugin = wp_filter_kses("<a href='{$plugin_uri[1]}' title='Visit plugin homepage'>{$plugin_name[1]}</a>");
+			$plugin = wp_filter_kses( __("<a href='{$plugin_uri[1]}' title='Visit plugin homepage'>{$plugin_name[1]}</a>") );
 		}
 
 		if ('' == $author_uri) {
 			$author = $author_name[1];
 		} else {
-			$author = wp_filter_kses("<a href='{$author_uri[1]}' title='Visit author homepage'>{$author_name[1]}</a>");
+			$author = wp_filter_kses( __("<a href='{$author_uri[1]}' title='Visit author homepage'>{$author_name[1]}</a>") );
 		}
 
 
@@ -110,10 +112,10 @@ if (!$plugins_dir || !$plugin_files) {
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
 
 		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
-			$action = "<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='Deactivate this plugin' class='delete'>Deactivate</a>";
-			$plugin = "<strong>$plugin</strong>";
+			$action = __("<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='Deactivate this plugin' class='delete'>Deactivate</a>");
+			$plugin = __("<strong>$plugin</strong>");
 		} else {
-			$action = "<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='Activate this plugin' class='edit'>Activate</a>";
+			$action = __("<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='Activate this plugin' class='edit'>Activate</a>");
 		}
 		echo "
 	<tr $style>
