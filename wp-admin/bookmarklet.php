@@ -101,6 +101,8 @@ window.close()
 
 <?php require('edit-form.php'); ?>
 
+<?php do_action('admin_footer', ''); ?>
+
 </body>
 </html><?php
 }
