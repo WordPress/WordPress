@@ -216,14 +216,15 @@ function single_cat_title($prefix = '', $display = true ) {
 }
 
 function single_month_title($prefix = '', $display = true ) {
-	global $m, $month;
-	if(!empty($m)) {
-		$my_year = substr($m, 0, 4);
-		$my_month = $month[substr($m, 4, 2)];
-		if ($display)
-			echo $prefix . $my_month . $prefix . $my_year;
-		else
-			return $m;
+	global $monthnum, $month, $year;
+	if(!empty($monthnum)) {
+		$my_year = $year;
+		$my_month = $month[$monthnum];
+		if ($display) {
+			echo $prefix . $my_month . $prefix . " " . $my_year;
+		} else {
+			return $monthnum;
+		}
 	}
 }
 
