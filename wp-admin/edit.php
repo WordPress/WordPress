@@ -1,4 +1,4 @@
-un<?php
+<?php
 require_once('../wp-includes/wp-l10n.php');
 
 $title = __('Posts');
@@ -44,7 +44,7 @@ if( isset( $_GET['m'] ) )
 
 <form name="viewarc" action="" method="get" style="float: left; width: 20em;">
 	<fieldset>
-	<legend><?php _e('Show Posts From Month of ...') ?></legend>
+	<legend><?php _e('Show Posts From Month of...') ?></legend>
     
 	<?php
 		echo "<select name=\"m\" style=\"width:120px;\">";
@@ -67,7 +67,7 @@ if( isset( $_GET['m'] ) )
 		<input type="submit" name="submit" value="<?php _e('Show Month') ?>"  /> 
 	</fieldset>
 </form>
-<form name="searchform" action="" method="get"> 
+<form name="searchform" action="" method="get" style="float: left; width: 20em; margin-left: 3em;"> 
   <fieldset> 
   <legend><?php _e('Show Posts That Contain...') ?></legend> 
   <input type="text" name="s" value="<?php echo $s; ?>" size="17" /> 
@@ -75,7 +75,7 @@ if( isset( $_GET['m'] ) )
   </fieldset>
 </form>
 
-<br clear="both" />
+<br style="clear:both;" />
 
 <table width="100%" cellpadding="3" cellspacing="3"> 
   <tr> 

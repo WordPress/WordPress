@@ -19,12 +19,12 @@ $menu = array(
               array(__('Profile'), 0, 'profile.php')
 );
 
-$self = str_replace('/wp-admin/', '', $PHP_SELF);
+$self = preg_replace('|.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 foreach ($menu as $item) {
 	$class = '';
 
     // 0 = name, 1 = user_level, 2 = file
-    if ((substr($self, -20) == substr($item[1], -20) && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
+    if ((substr($self, -10) == substr($item[2], -10) && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
     
     if ($user_level >= $item[1]) {
         if (('upload.php' == $item[2] && get_settings('use_fileupload') && ($user_level >= get_settings('fileupload_minlevel'))

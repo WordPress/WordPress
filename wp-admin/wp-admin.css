@@ -35,7 +35,7 @@ a:hover {
 }
 
 body	{
-	background-color: #fff;
+	background: #fff;
 	color: #000;
 	margin: 0;
 	padding: 0;
@@ -48,14 +48,6 @@ body, td {
 fieldset {
 	border: 1px solid #ddd;
 	padding: 2px;
-}
-
-fieldset.options {
-	padding: 1em;
-}
-
-fieldset.options legend {
-	font-size: 16px;
 }
 
 fieldset label.selectit {
@@ -73,9 +65,21 @@ fieldset legend {
 	padding: .1em .3em;
 }
 
+fieldset legend a {
+	border-bottom: none;
+}
+
 fieldset span.cat-nest {
 	display: block;
 	margin-left: 10px;
+}
+
+fieldset.options {
+	padding: 1em;
+}
+
+fieldset.options legend {
+	font-size: 16px;
 }
 
 form, label input {
@@ -155,15 +159,8 @@ textarea, input, select {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
-.submit {
+.submit, #quicktags, .editform th, #postcustomsubmit {
 	text-align: right;
-}
-
-.updated {
-	background-color: #f0f8ff;
-	border: 1px solid #69c;
-	margin: 5px 5% 10px;
-	padding: 0 1em 0 1em;
 }
 
 .unapproved {
@@ -182,6 +179,13 @@ textarea, input, select {
 	color: #009ef0;
 }
 
+.updated {
+	background: #f0f8ff;
+	border: 1px solid #69c;
+	margin: 5px 5% 10px;
+	padding: 0 1em 0 1em;
+}
+
 .wrap {
 	border: 1px solid #ccc;
 	margin: 15px 5%;
@@ -190,6 +194,12 @@ textarea, input, select {
 
 .wrap h2 {
 	margin: 6px 0;
+}
+
+#adminmenu {
+	border-bottom: 2px solid #707070;
+	margin: 2px 2px 0 2px;
+	padding: 0 2px;
 }
 
 #adminmenu .current, #adminmenu2 .current {
@@ -206,24 +216,6 @@ textarea, input, select {
 	text-decoration: none;
 }
 
-#adminmenu2 a {
-	border: none;
-	color: #fff;
-	font-size: 16px;
-	font-weight: normal;
-	margin: 0;
-	padding: 3px 5px;
-	text-decoration: none;
-}
-#adminmenu2 a:hover {
-	background-color: #f0f0f0;
-	color: black;
-}
-#adminmenu2 .current {
-	background-color: #fff;
-	color: #000;
-}
-
 #adminmenu a:hover, .current {
 	background: #eaeaea;
 	border: 1px solid #9d9d9d;
@@ -237,25 +229,40 @@ textarea, input, select {
 	text-align: center;
 }
 
-#adminmenu {
-	border-bottom: 2px solid #707070;
-	margin: 2px 2px 0 2px;
-	padding: 0 2px;
-}
-
 #adminmenu2 {
+	background: #707070;
+	border-bottom: none;
+	height: 20px;
 	margin: 0 2px;
 	padding: 0;
-	border-bottom: none;
-	background-color: #707070;
-	height: 20px;
 }
-#adminmenu2 li {
-	line-height: 1.7em;
+
+#adminmenu2 .current {
+	background: #fff;
+	color: #000;
+}
+
+#adminmenu2 a {
+	border: none;
+	color: #fff;
+	font-size: 16px;
+	font-weight: normal;
+	margin: 0;
+	padding: 3px 5px;
+	text-decoration: none;
 }
 
 #adminmenu2 a {
 	font-size: 12px;
+}
+
+#adminmenu2 a:hover {
+	background: #f0f0f0;
+	color: #000;
+}
+
+#adminmenu2 li {
+	line-height: 1.7em;
 }
 
 #categorydiv {
@@ -327,9 +334,13 @@ textarea, input, select {
 
 #postcustom {
 	border: 1px solid #aaa;
-	margin: 0.25em;
-	padding: 0.25em;
-	width: 98%;
+	padding: .5em;
+	width: 97%;
+}
+
+#postcustom .updatemeta, #postcustom .deletemeta {
+	margin: auto;
+	width: 5em;
 }
 
 #postcustom p {
@@ -339,35 +350,12 @@ textarea, input, select {
 #postcustom table {
 	border: 1px solid #ccc;
 	margin: .5em;
-	width: 100%;
-	
+	width: 98%;
 }
+
 
 #postcustom table input, #postcustom table textarea {
-	width: 97%;
-}
-
-#postcustom td, #postcustom th {
-	color: #000;
-	margin: 0.2em;
-	padding: .3em;
-}
-
-#postcustom .updatemeta, #postcustom .deletemeta {
-	width: 90%;
-	margin: auto;
-}
-
-fieldset legend a {
-	border-bottom: none;
-}
-#postcustomvals {
-	float: right;
-	width: 49%;
-}
-
-#save {
-	width: 13em;
+	width: 95%;
 }
 
 #poststatusdiv {
@@ -378,10 +366,9 @@ fieldset legend a {
 	margin-right: 11em;
 }
 
-#poststuff textarea {
+#content {
+	margin-left: 1%;
 	width: 97%;
-	margin-left:1%;
-
 }
 
 #profile {
@@ -406,12 +393,12 @@ fieldset legend a {
 	margin: 0 0 4px 0;
 }
 
-#quicktags, .editform th, #postcustomsubmit {
-	text-align: right;
-}
-
 #quicktags {
 	margin-right: 1%;
+}
+
+#save {
+	width: 13em;
 }
 
 #slugdiv {
@@ -426,17 +413,20 @@ fieldset legend a {
 
 #wphead {
 	background: url(../wp-images/header-shadow.png) #f2f2f2 repeat-x bottom;
-	height: 44px;
-	margin: 0;
 	padding: 4px 0 0 5px;
 }
 
 #wphead a {
-	background: url(../wp-images/wp-small.png) no-repeat;
 	border-bottom: none;
 	display: block;
 	height: 44px;
 	text-decoration: none;
 	text-indent: -1000px;
 	width: 200px;
+}
+
+#wphead h1 {
+	background: url(../wp-images/wp-small.png) no-repeat;
+	height: 44px;
+	margin: 0;
 }

@@ -133,7 +133,9 @@ window.onload = blurry;
 <?php wp_admin_head(); ?>
 </head>
 <body>
-<h1 id="wphead"><a href="http://wordpress.org" rel="external" title="<?php _e('Visit WordPress.org') ?>"><?php _e('WordPress') ?></a></h1>
+<div id="wphead">
+<h1><a href="http://wordpress.org" rel="external" title="<?php _e('Visit WordPress.org') ?>"><?php _e('WordPress') ?></a></h1>
+</div>
 
 <?php
 require('./menu.php');

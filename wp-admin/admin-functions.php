@@ -218,7 +218,7 @@ function list_meta($meta) {
 	// Exit if no meta
 	if (!$meta) return;	
 ?>
-<table id='meta-list' width='98%'>
+<table id='meta-list' cellpadding="3">
 	<tr>
 		<th><?php _e('Key') ?></th>
 		<th><?php _e('Value') ?></th>
@@ -230,10 +230,10 @@ function list_meta($meta) {
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
 		echo "
 	<tr $style>
-		<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' value='{$entry['meta_key']}' /></td>
-		<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='40'>{$entry['meta_value']}</textarea></td>
-		<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='" . __('Update') ."' /></td>
-		<td align='center'><input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='" . __('Delete') ."' /></td>
+		<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>
+		<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>
+		<td align='center' width='10%'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='" . __('Update') ."' /></td>
+		<td align='center' width='10%'><input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='" . __('Delete') ."' /></td>
 	</tr>
 ";
 	}
@@ -265,23 +265,22 @@ function meta_form() {
 		LIMIT 10");
 ?>
 <h3><?php _e('Add a new custom field to this post:') ?></h3>
-<table width="100%" cellspacing="3" cellpadding="3">
+<table cellspacing="3" cellpadding="3">
 	<tr>
 <th colspan="2"><?php _e('Key') ?></th>
 <th><?php _e('Value') ?></th>
-<th></th>
 </tr>
 	<tr valign="top">
-		<td align="right"><select id="metakeyselect" name="metakeyselect" tabindex="7">
+		<td align="right" width="18%"><select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#">- Select -</option>
 <?php
 	foreach($keys as $key) {
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>
-</select> or </td><td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
+</select> or </td>
+<td><input type="text" id="metakeyinput" name="metakeyinput" tabindex="7" /></td>
 		<td><textarea id="metavalue" name="metavalue" rows="3" cols="25" tabindex="7"></textarea></td>
-		<td></td>
 	</tr>
 
 </table>
