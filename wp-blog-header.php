@@ -109,7 +109,8 @@ if (isset($doing_rss) && $doing_rss == 1)
     $posts_per_page=get_settings('posts_per_rss');
 if (!isset($posts_per_page) || $posts_per_page == 0)
     $posts_per_page = get_settings('posts_per_page');
-$what_to_show = get_settings('what_to_show');
+if (!isset($what_to_show))
+    $what_to_show = get_settings('what_to_show');
 $archive_mode = get_settings('archive_mode');
 $use_gzipcompression = get_settings('gzipcompression');
 
