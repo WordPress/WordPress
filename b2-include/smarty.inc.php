@@ -1,6 +1,6 @@
 <?php
 
-if( is_object( $smarty ) == false )
+if( is_object( $wpsmarty ) == false )
 {
 	return;
 }
@@ -12,7 +12,7 @@ function smarty_bloginfo( $params )
 	extract( $params );
 	return bloginfo($show, $display);
 }
-$smarty->register_function( 'bloginfo', 'smarty_bloginfo' );
+$wpsmarty->register_function( 'bloginfo', 'smarty_bloginfo' );
 
 function smarty_bloginfo_rss( $params )
 {
@@ -20,7 +20,7 @@ function smarty_bloginfo_rss( $params )
 	extract( $params );
 	return bloginfo_rss($show);
 }
-$smarty->register_function( 'bloginfo_rss', 'smarty_bloginfo_rss' );
+$wpsmarty->register_function( 'bloginfo_rss', 'smarty_bloginfo_rss' );
 
 function smarty_bloginfo_unicode( $params )
 {
@@ -28,7 +28,7 @@ function smarty_bloginfo_unicode( $params )
 	extract( $params );
 	return bloginfo_unicode( $show );
 }
-$smarty->register_function( 'bloginfo_unicode', 'smarty_bloginfo_unicode' );
+$wpsmarty->register_function( 'bloginfo_unicode', 'smarty_bloginfo_unicode' );
 
 function smarty_get_bloginfo( $params )
 {
@@ -36,7 +36,7 @@ function smarty_get_bloginfo( $params )
 	extract( $params );
 	return get_bloginfo( $show );
 }
-$smarty->register_function( 'get_bloginfo', 'smarty_get_bloginfo' );
+$wpsmarty->register_function( 'get_bloginfo', 'smarty_get_bloginfo' );
 
 function smarty_single_post_title( $params )
 {
@@ -45,7 +45,7 @@ function smarty_single_post_title( $params )
 	extract( $params );
 	return single_post_title( $prefix, $display );
 }
-$smarty->register_function( 'single_post_title', 'smarty_single_post_title' );
+$wpsmarty->register_function( 'single_post_title', 'smarty_single_post_title' );
 
 function smarty_single_cat_title( $params )
 {
@@ -54,7 +54,7 @@ function smarty_single_cat_title( $params )
 	extract( $params );
 	return single_cat_title( $prefix, $display );
 }
-$smarty->register_function( 'single_cat_title', 'smarty_single_cat_title' );
+$wpsmarty->register_function( 'single_cat_title', 'smarty_single_cat_title' );
 
 function smarty_single_month_title( $params )
 {
@@ -63,7 +63,7 @@ function smarty_single_month_title( $params )
 	extract( $params );
 	return single_month_title( $prefix, $display );
 }
-$smarty->register_function( 'single_month_title', 'smarty_single_month_title' );
+$wpsmarty->register_function( 'single_month_title', 'smarty_single_month_title' );
 
 function smarty_get_archives_link( $params )
 {
@@ -73,7 +73,7 @@ function smarty_get_archives_link( $params )
 	extract( $params );
 	return get_archives_link( $url, $text, $format, $before, $after );
 }
-$smarty->register_function( 'single_month_title', 'smarty_single_month_title' );
+$wpsmarty->register_function( 'single_month_title', 'smarty_single_month_title' );
 
 function smarty_get_archives( $params )
 {
@@ -85,13 +85,13 @@ function smarty_get_archives( $params )
 	extract( $params );
 	return get_archives( $type, $limit, $format, $before, $after );
 }
-$smarty->register_function( 'get_archives', 'smarty_get_archives' );
+$wpsmarty->register_function( 'get_archives', 'smarty_get_archives' );
 
 function smarty_the_date_xml()
 {
 	return the_date_xml();
 }
-$smarty->register_function( 'the_date_xml', 'smarty_the_date_xml' );
+$wpsmarty->register_function( 'the_date_xml', 'smarty_the_date_xml' );
 
 function smarty_the_date( $params )
 {
@@ -102,7 +102,7 @@ function smarty_the_date( $params )
 	extract( $params );
 	return the_date( $d, $before, $after, $echo );
 }
-$smarty->register_function( 'the_date', 'smarty_the_date' );
+$wpsmarty->register_function( 'the_date', 'smarty_the_date' );
 
 function smarty_the_time( $params )
 {
@@ -111,13 +111,13 @@ function smarty_the_time( $params )
 	extract( $params );
 	return the_time( $d, $echo );
 }
-$smarty->register_function( 'the_time', 'smarty_the_time' );
+$wpsmarty->register_function( 'the_time', 'smarty_the_time' );
 
 function smarty_the_weekday()
 {
 	return the_weekday();
 }
-$smarty->register_function( 'the_weekday', 'smarty_the_weekday' );
+$wpsmarty->register_function( 'the_weekday', 'smarty_the_weekday' );
 
 function smarty_the_weekday_date( $params )
 {
@@ -127,23 +127,23 @@ function smarty_the_weekday_date( $params )
 	return the_weekday_date( $before, $after );
 
 }
-$smarty->register_function( 'the_weekday_date', 'smarty_the_weekday_date' );
+$wpsmarty->register_function( 'the_weekday_date', 'smarty_the_weekday_date' );
 
 function smarty_get_Lat() {
 	return get_Lat();
 }
-$smarty->register_function( 'get_Lat', 'smarty_get_Lat' );
+$wpsmarty->register_function( 'get_Lat', 'smarty_get_Lat' );
 
 function smarty_get_Lon() {
 	return get_Lon();
 }
-$smarty->register_function( 'get_Lon', 'smarty_get_Lon' );
+$wpsmarty->register_function( 'get_Lon', 'smarty_get_Lon' );
 
 function smarty_the_ID()
 {
 	return the_ID();
 }
-$smarty->register_function( 'the_ID', 'smarty_the_ID' );
+$wpsmarty->register_function( 'the_ID', 'smarty_the_ID' );
 
 function smarty_permalink_link( $params )
 {
@@ -152,7 +152,7 @@ function smarty_permalink_link( $params )
 	extract( $params );
 	return permalink_link( $file, $mode );
 }
-$smarty->register_function( 'permalink_link', 'smarty_permalink_link' );
+$wpsmarty->register_function( 'permalink_link', 'smarty_permalink_link' );
 
 function smarty_the_title( $params )
 {
@@ -162,7 +162,7 @@ function smarty_the_title( $params )
 	extract( $params );
 	return the_title( $before, $after, $echo);
 }
-$smarty->register_function( 'the_title', 'smarty_the_title' );
+$wpsmarty->register_function( 'the_title', 'smarty_the_title' );
 
 function smarty_the_category_ID( $params )
 {
@@ -170,9 +170,9 @@ function smarty_the_category_ID( $params )
 	extract( $params );
 	return the_category_ID( $echo );
 }
-$smarty->register_function( 'the_category_ID', 'smarty_the_category_ID' );
-$smarty->register_function( 'the_category', 'the_category' );
-$smarty->register_function( 'the_author', 'the_author' );
+$wpsmarty->register_function( 'the_category_ID', 'smarty_the_category_ID' );
+$wpsmarty->register_function( 'the_category', 'the_category' );
+$wpsmarty->register_function( 'the_author', 'the_author' );
 
 function smarty_the_content( $params )
 {
@@ -182,7 +182,7 @@ function smarty_the_content( $params )
 	extract( $params );
 	return the_content( $more_link_text, $stripteaser, $more_file );
 }
-$smarty->register_function( 'the_content', 'smarty_the_content' );
+$wpsmarty->register_function( 'the_content', 'smarty_the_content' );
 
 function smarty_link_pages( $params )
 {
@@ -196,7 +196,7 @@ function smarty_link_pages( $params )
 	extract( $params );
 	return link_pages( $before, $after, $next_or_number, $nextpagelink, $previouspagelink, $pagelink, $more_file);
 }
-$smarty->register_function( 'link_pages', 'smarty_link_pages' );
+$wpsmarty->register_function( 'link_pages', 'smarty_link_pages' );
 
 function smarty_comments_popup_link( $params )
 {
@@ -208,7 +208,7 @@ function smarty_comments_popup_link( $params )
 	extract( $params );
 	return comments_popup_link( $zero, $one, $more, $CSSclass, $none );
 }
-$smarty->register_function( 'comments_popup_link', 'smarty_comments_popup_link' );
+$wpsmarty->register_function( 'comments_popup_link', 'smarty_comments_popup_link' );
 
 function smarty_trackback_rdf( $params )
 {
@@ -216,7 +216,7 @@ function smarty_trackback_rdf( $params )
 	extract( $params );
 	return trackback_rdf( $timezone );
 }
-$smarty->register_function( 'trackback_rdf', 'smarty_trackback_rdf' );
+$wpsmarty->register_function( 'trackback_rdf', 'smarty_trackback_rdf' );
 
 function smarty_comments_popup_script( $params )
 {
@@ -226,21 +226,21 @@ function smarty_comments_popup_script( $params )
 	extract( $params );
 	return comments_popup_script( $width, $height, $file );
 }
-$smarty->register_function( 'comments_popup_script', 'smarty_comments_popup_script' );
+$wpsmarty->register_function( 'comments_popup_script', 'smarty_comments_popup_script' );
 
 function smarty_get_links( $params )
 {
 	extract($params);
         get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, true );
 }
-$smarty->register_function( 'get_links', 'smarty_get_links' );
+$wpsmarty->register_function( 'get_links', 'smarty_get_links' );
 
 function smarty_list_cats( $params )
 {
 	extract($params);
 	list_cats($optionall, $all, $sort_column, $sort_order, $file, $list, $optiondates, $optioncount, $hide_empty);
 }
-$smarty->register_function( 'list_cats', 'smarty_list_cats' );
+$wpsmarty->register_function( 'list_cats', 'smarty_list_cats' );
 
 function smarty_timer_stop( $params )
 {
@@ -249,7 +249,7 @@ function smarty_timer_stop( $params )
 	extract($params);
 	timer_stop( $display, $precision );
 }
-$smarty->register_function( 'timer_stop', 'smarty_timer_stop' );
+$wpsmarty->register_function( 'timer_stop', 'smarty_timer_stop' );
 
 function smarty_get_calendar( $params )
 {
@@ -257,6 +257,6 @@ function smarty_get_calendar( $params )
 	extract($params);
 	get_calendar( $daylength );
 }
-$smarty->register_function( 'get_calendar', 'smarty_get_calendar' );
+$wpsmarty->register_function( 'get_calendar', 'smarty_get_calendar' );
 
 ?>
