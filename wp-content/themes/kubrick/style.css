@@ -34,11 +34,13 @@ body {
 	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	background-color: #d5d6d7;
 	color: #333;
+	text-align: center;
 	}
 
 #page {
 	background-color: white;
 	border: 1px solid #959596;
+	text-align: left;
 	}
 
 #header {
@@ -244,7 +246,7 @@ body {
 
 .widecolumn {
 	padding: 10px 0 20px 0;
-	margin: 5px auto;
+	margin: 5px 0 0 150px;
 	width: 450px;
 	}
 	
