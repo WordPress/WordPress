@@ -35,7 +35,7 @@ function get_nested_categories($default = 0) {
    $checked_categories[] = $default;
  }
 
- $categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY category_parent DESC");
+ $categories = $wpdb->get_results("SELECT * FROM $tablecategories ORDER BY category_parent DESC, cat_name ASC");
  $result = array();
  foreach($categories as $category) {
    $array_category = get_object_vars($category);
