@@ -1246,6 +1246,10 @@ function wp_head() {
 	do_action('wp_head');
 }
 
+function wp_footer() {
+	do_action('wp_footer');
+}
+
 function is_single ($post = '') {
 	global $wp_query;
 
