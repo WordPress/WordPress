@@ -85,6 +85,7 @@ if (!empty($commentstatus->post_password) && $_COOKIE['wp-postpass_'. COOKIEHASH
 	<p>
 	  <input name="submit" type="submit" tabindex="5" value="<?php _e("Say It!"); ?>" />
 	</p>
+	<?php do_action('comment_form', $post->ID); ?>
 </form>
 <?php } else { // comments are closed ?>
 <p><?php _e("Sorry, the comment form is closed at this time."); ?></p>

@@ -63,6 +63,7 @@
 	<p>
 	  <input name="submit" id="submit" type="submit" tabindex="5" value="<?php _e('Say It!'); ?>" />
 	</p>
+	<?php do_action('comment_form', $post->ID); ?>
 </form>
 
 <?php else : // Comments are closed ?>
