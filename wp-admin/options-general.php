@@ -1,9 +1,10 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('General Options');
+$parent_file = 'options-general.php';
 
-include('options-head.php');
+include('admin-header.php');
 ?>
  
 <div class="wrap"> 

@@ -1,8 +1,10 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('Permalink Options');
-require('./options-head.php');
+$parent_file = 'options-general.php';
+
+include('admin-header.php');
 
 $home = get_settings('home');
 if ( $home != '' && $home != get_settings('siteurl') ) {

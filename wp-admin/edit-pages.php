@@ -1,6 +1,5 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
-
+require_once('admin.php');
 $title = __('Pages');
 $parent_file = 'edit.php';
 require_once('admin-header.php');

@@ -1,5 +1,5 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('Edit Comments');
 $parent_file = 'edit.php';

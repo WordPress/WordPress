@@ -1,19 +1,8 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __("Template &amp; file editing");
 $parent_file = 'themes.php';
-
-function add_magic_quotes($array) {
-	foreach ($array as $k => $v) {
-		if (is_array($v)) {
-			$array[$k] = add_magic_quotes($v);
-		} else {
-			$array[$k] = addslashes($v);
-		}
-	}
-	return $array;
-} 
 
 function validate_file($file) {
 	if ('..' == substr($file,0,2))
@@ -31,13 +20,7 @@ function validate_file($file) {
     return $file;
 }
 
-if (!get_magic_quotes_gpc()) {
-	$_GET    = add_magic_quotes($_GET);
-	$_POST   = add_magic_quotes($_POST);
-	$_COOKIE = add_magic_quotes($_COOKIE);
-}
-
-$wpvarstoreset = array('action','standalone','redirect','profile','error','warning','a','file', 'theme');
+$wpvarstoreset = array('action','redirect','profile','error','warning','a','file', 'theme');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -56,9 +39,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch($action) {
 
 case 'update':
-
-	$standalone = 1;
-	require_once("admin-header.php");
 
 	if ($user_level < 5) {
 		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));

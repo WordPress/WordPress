@@ -1,24 +1,9 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('Edit User');
 
-function add_magic_quotes($array) {
-  foreach ($array as $k => $v) {
-    if (is_array($v)) {
-      $array[$k] = add_magic_quotes($v);
-    } else {
-      $array[$k] = addslashes($v);
-    }
-  }
-  return $array;
-}
-
-if (!get_magic_quotes_gpc()) {
-	$_POST   = add_magic_quotes($_POST);
-}
-
-$wpvarstoreset = array('action', 'standalone', 'redirect', 'profile', 'user_id');
+$wpvarstoreset = array('action', 'redirect', 'profile', 'user_id');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -83,9 +68,6 @@ break;
 
 case 'switchposts':
 
-$standalone = 1;
-require_once('admin-header.php');
-
 check_admin_referer();
 
 /* TODO: Switch all posts from one user to another user */
@@ -94,7 +76,6 @@ break;
 
 default:
 	
-$standalone = 0;
 include ('admin-header.php');
 
 $edituser = get_userdata($user_id);

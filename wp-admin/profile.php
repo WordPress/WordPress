@@ -1,27 +1,10 @@
 <?php 
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = "Profile";
 $parent_file = 'profile.php';
 
-function add_magic_quotes($array) {
-	foreach ($array as $k => $v) {
-		if (is_array($v)) {
-			$array[$k] = add_magic_quotes($v);
-		} else {
-			$array[$k] = addslashes($v);
-		}
-	}
-	return $array;
-} 
-
-if (!get_magic_quotes_gpc()) {
-	$_GET    = add_magic_quotes($_GET);
-	$_POST   = add_magic_quotes($_POST);
-	$_COOKIE = add_magic_quotes($_COOKIE);
-}
-
-$wpvarstoreset = array('action','standalone','redirect','profile','user');
+$wpvarstoreset = array('action','redirect','profile','user');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {

@@ -1,27 +1,10 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('Categories');
 $parent_file = 'edit.php';
 
-function add_magic_quotes($array) {
-    foreach ($array as $k => $v) {
-        if (is_array($v)) {
-            $array[$k] = add_magic_quotes($v);
-        } else {
-            $array[$k] = addslashes($v);
-        }
-    }
-    return $array;
-}
-
-if (!get_magic_quotes_gpc()) {
-    $_GET    = add_magic_quotes($_GET);
-    $_POST   = add_magic_quotes($_POST);
-    $_COOKIE = add_magic_quotes($_COOKIE);
-}
-
-$wpvarstoreset = array('action','standalone','cat');
+$wpvarstoreset = array('action','cat');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     $wpvar = $wpvarstoreset[$i];
     if (!isset($$wpvar)) {
@@ -41,9 +24,6 @@ switch($action) {
 
 case 'addcat':
 
-    $standalone = 1;
-    require_once('admin-header.php');
-    
     if ($user_level < 3)
         die (__('Cheatin&#8217; uh?'));
     
@@ -60,9 +40,6 @@ case 'addcat':
 break;
 
 case 'Delete':
-
-    $standalone = 1;
-    require_once('admin-header.php');
 
     check_admin_referer();
 
@@ -119,9 +96,6 @@ break;
 
 case 'editedcat':
 
-    $standalone = 1;
-    require_once('admin-header.php');
-
     if ($user_level < 3)
         die (__('Cheatin&#8217; uh?'));
     
@@ -138,7 +112,6 @@ break;
 
 default:
 
-    $standalone = 0;
     require_once ('admin-header.php');
     if ($user_level < 3) {
         die(sprintf(__("You have no right to edit the categories for this blog.<br />Ask for a promotion to your <a href='mailto:%s'>blog admin</a>. :)"), get_settings('admin_email')));

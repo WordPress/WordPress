@@ -1,9 +1,7 @@
 <?php
+require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
-	$standalone = 1;
-	require_once('admin-header.php');
-
 	check_admin_referer();
 
 	if ('activate' == $_GET['action']) {
@@ -24,12 +22,8 @@ if ( isset($_GET['action']) ) {
 	}
 }
 
-require_once('../wp-includes/wp-l10n.php');
 $title = __('Manage Plugins');
 require_once('admin-header.php');
-
-if ($user_level < 9) // Must be at least level 9
-	die (__('Sorry, you must be at least a level 8 user to modify plugins.'));
 
 // Clean up options
 // If any plugins don't exist, axe 'em

@@ -1,8 +1,11 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('Miscellaneous Options');
-include('options-head.php');
+$parent_file = 'options-general.php';
+
+include('admin-header.php');
+
 ?>
  
 <div class="wrap"> 

@@ -1,12 +1,12 @@
 <?php
 // Links
 // Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 $title = __('Link Categories');
 $this_file='link-categories.php';
 $parent_file = 'link-manager.php';
 
-$wpvarstoreset = array('action','standalone','cat', 'auto_toggle');
+$wpvarstoreset = array('action', 'cat', 'auto_toggle');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     $wpvar = $wpvarstoreset[$i];
     if (!isset($$wpvar)) {
@@ -25,9 +25,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch ($action) {
   case 'addcat':
   {
-      $standalone = 1;
-      include_once('admin-header.php');
-
       if ($user_level < 5)
           die (__("Cheatin' uh ?"));
 
@@ -82,9 +79,6 @@ switch ($action) {
   } // end addcat
   case 'Delete':
   {
-    $standalone = 1;
-    include_once('admin-header.php');
-
     $cat_id = $_GET['cat_id'];
     $cat_name=get_linkcatname($cat_id);
 
@@ -204,9 +198,6 @@ switch ($action) {
   } // end Edit
   case "editedcat":
   {
-    $standalone = 1;
-    include_once("./admin-header.php");
-
     if ($user_level < 5)
       die (__("Cheatin' uh ?"));
 
@@ -278,8 +269,7 @@ switch ($action) {
   } // end editcat
   default:
   {
-    $standalone=0;
-    include_once ("./admin-header.php");
+    include_once ("admin-header.php");
     if ($user_level < 5) {
       die(__("You have do not have sufficient permissions to edit the link categories for this blog. :)"));
     }

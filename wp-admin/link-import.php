@@ -2,8 +2,7 @@
 // Links
 // Copyright (C) 2002 Mike Little -- mike@zed1.com
 
-require_once('../wp-config.php');
-
+require_once('admin.php');
 $parent_file = 'link-manager.php';
 $title = __('Import Blogroll');
 $this_file = 'link-import.php';
@@ -15,7 +14,6 @@ if (!$step) $step = 0;
 switch ($step) {
     case 0:
     {
-        $standalone = 0;
         include_once('admin-header.php');
         if ($user_level < 5)
             die (__("Cheatin&#8217; uh?"));
@@ -72,7 +70,6 @@ switch ($step) {
             } // end case 0
 
     case 1: {
-                $standalone = 0;
                 include_once('admin-header.php');
                 if ($user_level < 5)
                     die (__("Cheatin' uh ?"));

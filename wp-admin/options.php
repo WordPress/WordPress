@@ -1,28 +1,11 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('Options');
 $this_file = 'options.php';
 $parent_file = 'options-general.php';
 
-function add_magic_quotes($array) {
-	foreach ($array as $k => $v) {
-		if (is_array($v)) {
-			$array[$k] = add_magic_quotes($v);
-		} else {
-			$array[$k] = addslashes($v);
-		}
-	}
-	return $array;
-}
-
-if (!get_magic_quotes_gpc()) {
-	$_GET    = add_magic_quotes($_GET);
-	$_POST   = add_magic_quotes($_POST);
-	$_COOKIE = add_magic_quotes($_COOKIE);
-}
-
-$wpvarstoreset = array('action','standalone');
+$wpvarstoreset = array('action');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
 	if (!isset($$wpvar)) {
@@ -41,8 +24,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch($action) {
 
 case 'update':
-	$standalone = 1;
-	include_once('./admin-header.php');
     $any_changed = 0;
     
 	if (!$_POST['page_options']) {
@@ -91,14 +72,7 @@ case 'update':
     break;
 
 default:
-	$standalone = 0;
-	include_once('./admin-header.php');
-	if ($user_level <= 6) {
-		die(__("You have do not have sufficient permissions to edit the options for this blog."));
-	}
-?>
-
-<?php include('options-head.php'); ?>
+	include('admin-header.php'); ?>
 
 <div class="wrap">
   <h2>All options</h2>

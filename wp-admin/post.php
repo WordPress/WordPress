@@ -1,22 +1,5 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
-
-function add_magic_quotes($array) {
-foreach ($array as $k => $v) {
-	if (is_array($v)) {
-		$array[$k] = add_magic_quotes($v);
-	} else {
-		$array[$k] = addslashes($v);
-	}
-}
-return $array;
-}
-
-if (!get_magic_quotes_gpc()) {
-	$_GET    = add_magic_quotes($_GET);
-	$_POST   = add_magic_quotes($_POST);
-	$_COOKIE = add_magic_quotes($_COOKIE);
-}
+require_once('admin.php');
 
 $wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'poststart', 'postend', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder', 'enclosure_url' );
 
@@ -37,7 +20,6 @@ if (!isset($$wpvar)) {
 
 switch($action) {
 case 'post':
-	$standalone = 1;
 	require_once('admin-header.php');
 
 	if (!user_can_create_draft($user_ID)) {
@@ -183,7 +165,6 @@ case 'post':
 case 'edit':
 	$title = __('Edit');
 
-	$standalone = 0;
 	require_once('admin-header.php');
 
 	$post = $post_ID = $p = (int) $_GET['post'];
@@ -236,9 +217,6 @@ echo $content;
 
 case 'editpost':
 // die(var_dump('<pre>', $_POST));
-	$standalone = 1;
-	require_once('./admin-header.php');
-
 	if (!isset($blog_ID)) {
 		$blog_ID = 1;
 	}
@@ -398,10 +376,6 @@ case 'editpost':
 	break;
 
 case 'delete':
-
-	$standalone = 1;
-	require_once('./admin-header.php');
-
 	check_admin_referer();
 
 	$post_id = intval($_GET['post']);
@@ -428,7 +402,6 @@ case 'delete':
 
 case 'editcomment':
 	$title = __('Edit Comment');
-	$standalone = 0;
 	$parent_file = 'edit.php';
 	require_once ('admin-header.php');
 
@@ -451,7 +424,6 @@ case 'editcomment':
 
 case 'confirmdeletecomment':
 
-$standalone = 0;
 require_once('./admin-header.php');
 
 $comment = $_GET['comment'];
@@ -487,9 +459,6 @@ break;
 
 case 'deletecomment':
 
-$standalone = 1;
-require_once('./admin-header.php');
-
 check_admin_referer();
 
 $comment = $_GET['comment'];
@@ -520,7 +489,6 @@ break;
 
 case 'unapprovecomment':
 
-$standalone = 1;
 require_once('./admin-header.php');
 
 check_admin_referer();
@@ -551,9 +519,6 @@ break;
 
 case 'mailapprovecomment':
 
-$standalone = 1;
-require_once('./admin-header.php');
-
 $comment = (int) $_GET['comment'];
 
 $commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
@@ -573,9 +538,6 @@ header('Location: ' . get_option('siteurl') . '/wp-admin/moderation.php?approved
 break;
 
 case 'approvecomment':
-
-$standalone = 1;
-require_once('./admin-header.php');
 
 $comment = $_GET['comment'];
 $p = $_GET['p'];
@@ -605,9 +567,6 @@ if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
 break;
 
 case 'editedcomment':
-
-	$standalone = 1;
-	require_once('./admin-header.php');
 
 	$comment_ID = $_POST['comment_ID'];
 	$comment_post_ID = $_POST['comment_post_ID'];
@@ -653,7 +612,6 @@ case 'editedcomment':
 	break;
 
 default:
-	$standalone = 0;
 	$title = __('Create New Post');
 	require_once ('./admin-header.php');
 

@@ -1,5 +1,5 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = __('Users');
 $parent_file = 'users.php';
@@ -22,9 +22,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 
 switch ($action) {
 case 'adduser':
-	$standalone = 1;
-	require_once('admin-header.php');
-
 	check_admin_referer();
 
 	function filter($value)	{
@@ -100,10 +97,6 @@ case 'adduser':
 break;
 
 case 'promote':
-
-	$standalone = 1;
-	require_once('admin-header.php');
-
 	check_admin_referer();
 
 	if (empty($_GET['prom'])) {
@@ -134,9 +127,6 @@ case 'promote':
 break;
 
 case 'delete':
-
-	$standalone = 1;
-	require_once('admin-header.php');
 
 	check_admin_referer();
 
@@ -176,7 +166,6 @@ break;
 
 default:
 	
-	$standalone = 0;
 	include ('admin-header.php');
 	?>
 

@@ -1,54 +1,10 @@
-<?php
-
-if (strstr($_SERVER['PHP_SELF'], 'plugins/')) {
-	$wp_admin_path = '../../wp-admin/';
-	$wp_path = '../../';
-} else {
-	$wp_admin_path = './';
-	$wp_path = '../';
-}
-
-require_once($wp_path . 'wp-config.php');
-
-require_once(ABSPATH . '/wp-admin/auth.php');
-require(ABSPATH . '/wp-admin/admin-functions.php');
-
-$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
-foreach ($dogs as $catt) {
-	$cache_categories[$catt->cat_ID] = $catt;
-}
-
-get_currentuserinfo();
-
-$posts_per_page = get_settings('posts_per_page');
-$what_to_show = get_settings('what_to_show');
-$date_format = get_settings('date_format');
-$time_format = get_settings('time_format');
-
-$wpvarstoreset = array('profile','standalone','redirect','redirect_url','a','popuptitle','popupurl','text', 'trackback', 'pingback');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-    $wpvar = $wpvarstoreset[$i];
-    if (!isset($$wpvar)) {
-        if (empty($_POST["$wpvar"])) {
-            if (empty($_GET["$wpvar"])) {
-                $$wpvar = '';
-            } else {
-                $$wpvar = $_GET["$wpvar"];
-            }
-        } else {
-            $$wpvar = $_POST["$wpvar"];
-        }
-    }
-}
-
-if ($standalone == 0) :
-
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php get_admin_page_title(); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
-<link rel="stylesheet" href="<?php echo $wp_admin_path; ?>wp-admin.css" type="text/css" />
-<link rel="shortcut icon" href="<?php echo $wp_path; ?>wp-images/wp-favicon.png" />
+<link rel="stylesheet" href="wp-admin.css" type="text/css" />
+<link rel="shortcut icon" href="../wp-images/wp-favicon.png" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo get_settings('blog_charset'); ?>" />
 
 <?php if (isset($xfn)) : ?>
@@ -119,6 +75,9 @@ window.onload = blurry;
 </div>
 
 <?php
-require(ABSPATH . '/wp-admin/menu.php');
-endif;
+require(ABSPATH . '/wp-admin/menu-header.php');
+
+if ( $parent_file == 'options-general.php' ) {
+	require(ABSPATH . '/wp-admin/options-head.php');
+}
 ?>

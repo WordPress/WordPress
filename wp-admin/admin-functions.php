@@ -661,10 +661,65 @@ function user_can_access_admin_page() {
 	return true;
 }
 
-function add_options_menu($title, $access_level, $file) {
+function get_admin_page_title() {
+	global $title;
 	global $submenu;
-	
-	$submenu['options-general.php'][] = array($title, $access_level, $file);
+	global $pagenow;
+	global $plugin_page;
+
+	if (isset($title) && ! empty($title)) {
+		return $title;
+	}
+
+	foreach (array_keys($submenu) as $parent) {
+		foreach ($submenu[$parent] as $submenu_array) {
+			if (isset($submenu_array[3])) {
+				if ($submenu_array[2] == $pagenow) {
+					$title = $submenu_array[3];
+					return $submenu_array[3];
+				} else if (isset($plugin_page) && ($plugin_page == $submenu_array[2])) {
+					$title = $submenu_array[3];
+					return $submenu_array[3];
+				}
+			}
+		}
+	}
+
+	return '';
+}
+
+function get_admin_page_parent() {
+	global $parent_file;
+	global $submenu;
+	global $pagenow;
+	global $plugin_page;
+
+	if (isset($parent_file) && ! empty($parent_file)) {
+		return $parent_file;
+	}
+
+	foreach (array_keys($submenu) as $parent) {
+		foreach ($submenu[$parent] as $submenu_array) {
+			if ($submenu_array[2] == $pagenow) {
+				$parent_file = $parent;
+				return $parent;
+			} else if (isset($plugin_page) && ($plugin_page == $submenu_array[2])) {
+				$parent_file = $parent;
+				return $parent;
+			}
+		}
+	}
+
+	$parent_file = '';
+	return '';
+}
+
+function add_options_page($page_title, $menu_title, $access_level, $file) {
+	global $submenu;
+
+	$file = basename($file);
+
+	$submenu['options-general.php'][] = array($menu_title, $access_level, $file, $page_title);
 }
 
 ?>

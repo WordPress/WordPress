@@ -2,7 +2,7 @@
 // Links
 // Copyright (C) 2002, 2003 Mike Little -- mike@zed1.com
 
-require_once('../wp-config.php');
+require_once('admin.php');
 
 $title = __('Manage Links');
 $this_file = $parent_file = 'link-manager.php';
@@ -37,23 +37,7 @@ function category_dropdown($fieldname, $selected = 0) {
 	echo "\n</select>\n";
 }
 
-function add_magic_quotes($array) {
-    foreach ($array as $k => $v) {
-        if (is_array($v)) {
-            $array[$k] = add_magic_quotes($v);
-        } else {
-            $array[$k] = addslashes($v);
-        }
-    }
-    return $array;
-}
-if (!get_magic_quotes_gpc()) {
-    $_GET    = add_magic_quotes($_GET);
-    $_POST   = add_magic_quotes($_POST);
-    $_COOKIE = add_magic_quotes($_COOKIE);
-}
-
-$wpvarstoreset = array('action','standalone','cat_id', 'linkurl', 'name', 'image',
+$wpvarstoreset = array('action','cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
                        'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
                        'notes', 'linkcheck[]');
@@ -83,9 +67,6 @@ if ('' != $_POST['move']) $action = 'move';
 switch ($action) {
   case 'assign':
   {
-    $standalone = 1;
-    include_once('admin-header.php');
-
     check_admin_referer();
 
     // check the current user's level first.
@@ -116,9 +97,6 @@ switch ($action) {
   }
   case 'visibility':
   {
-    $standalone = 1;
-    include_once('admin-header.php');
-
     check_admin_referer();
 
     // check the current user's level first.
@@ -156,9 +134,6 @@ switch ($action) {
   }
   case 'move':
   {
-    $standalone = 1;
-    include_once('admin-header.php');
-
     check_admin_referer();
 
     // check the current user's level first.
@@ -180,9 +155,6 @@ switch ($action) {
 
   case 'Add':
   {
-    $standalone = 1;
-    include_once('admin-header.php');
-
     check_admin_referer();
 
     $link_url = $_POST['linkurl'];
@@ -230,9 +202,6 @@ switch ($action) {
       }
       $links_show_cat_id = $cat_id;
 
-      $standalone = 1;
-      include_once('admin-header.php');
-
       check_admin_referer();
 
       $link_id = $_POST['link_id'];
@@ -276,9 +245,6 @@ switch ($action) {
 
   case 'Delete':
   {
-    $standalone = 1;
-    include_once('admin-header.php');
-
     check_admin_referer();
 
     $link_id = (int) $_GET['link_id'];
@@ -303,7 +269,6 @@ switch ($action) {
 
   case 'linkedit':
   {
-    $standalone=0;
 	$xfn = true;
     include_once ('admin-header.php');
     if ($user_level < 5) {
@@ -569,7 +534,6 @@ switch ($action) {
 
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     setcookie('links_show_order_' . COOKIEHASH, $links_show_order, time()+600);
-    $standalone=0;
     include_once ("./admin-header.php");
     if ($user_level < 5) {
       die(__("You do not have sufficient permissions to edit the links for this blog."));

@@ -1,5 +1,5 @@
 <?php
-require_once('../wp-includes/wp-l10n.php');
+require_once('admin.php');
 
 $title = 'Add Link';
 $this_file = 'link-manager.php';
@@ -22,23 +22,7 @@ function category_dropdown($fieldname, $selected = 0) {
     echo "        </select>\n";
 }
 
-function add_magic_quotes($array) {
-    foreach ($array as $k => $v) {
-        if (is_array($v)) {
-            $array[$k] = add_magic_quotes($v);
-        } else {
-            $array[$k] = addslashes($v);
-        }
-    }
-    return $array;
-}
-if (!get_magic_quotes_gpc()) {
-    $_GET    = add_magic_quotes($_GET);
-    $_POST   = add_magic_quotes($_POST);
-    $_COOKIE = add_magic_quotes($_COOKIE);
-}
-
-$wpvarstoreset = array('action','standalone','cat_id', 'linkurl', 'name', 'image',
+$wpvarstoreset = array('action', 'cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
                        'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
                        'notes', 'linkcheck[]');

@@ -1,9 +1,7 @@
 <?php
+require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
-	$standalone = 1;
-	require_once('admin-header.php');
-
 	check_admin_referer();
 
 	if ('activate' == $_GET['action']) {
@@ -21,15 +19,10 @@ if ( isset($_GET['action']) ) {
 	}
  }
 
-require_once('../wp-includes/wp-l10n.php');
 $title = __('Manage Themes');
 $parent_file = 'themes.php';
 require_once('admin-header.php');
-
-if ($user_level < 9)
-	die (__('Sorry, you must be at least a level 9 user to modify themes.'));
 ?>
-
 <?php if ( ! validate_current_theme() ) : ?>
 <div class="updated"><p><?php _e('The active theme is broken.  Reverting to the default theme.'); ?></p></div>
 <?php elseif ( isset($activated) ) : ?>
