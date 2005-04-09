@@ -1052,9 +1052,8 @@ function get_posts($args) {
 	if (!isset($r['numberposts'])) $r['numberposts'] = 5;
 	if (!isset($r['offset'])) $r['offset'] = 0;
 	if (!isset($r['category'])) $r['category'] = '';
-	// The following not implemented yet
-	if (!isset($r['orderby'])) $r['orderby'] = '';
-	if (!isset($r['order'])) $r['order'] = '';
+	if (!isset($r['orderby'])) $r['orderby'] = 'post_date';
+	if (!isset($r['order'])) $r['order'] = 'DESC';
 
 	$now = current_time('mysql');
 
@@ -1063,8 +1062,8 @@ function get_posts($args) {
 		( empty( $r['category'] ) ? "" : ", $wpdb->post2cat " ) .
 		" WHERE post_date <= '$now' AND (post_status = 'publish') ".
 		( empty( $r['category'] ) ? "" : "AND $wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $r['category']. " " ) .
-		" GROUP BY $wpdb->posts.ID ORDER BY post_date DESC LIMIT " . $r['offset'] . ',' . $r['numberposts'] );
-
+		" GROUP BY $wpdb->posts.ID ORDER BY " . $r['orderby'] . " " . $r['order'] . "  LIMIT " . $r['offset'] . ',' . $r['numberposts'] );
+	
     update_post_caches($posts);
 	
 	return $posts;
