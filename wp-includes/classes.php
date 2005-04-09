@@ -493,16 +493,17 @@ class WP_Query {
 		}
 
 		if ($this->is_page) {
-			$where .= ' AND (post_status = "static"';
+			$where .= ' AND (post_status = "static")';
+		} elseif ($this->is_single) {
+			$where .= ' AND (post_status != "static")';
 		} else {
 			$where .= ' AND (post_status = "publish"';
-		}
 
-		// Get private posts
-		if (isset($user_ID) && ('' != intval($user_ID)))
-			$where .= " OR post_author = $user_ID AND post_status != 'draft' AND post_status != 'static')";
-		else
-			$where .= ')';
+			if (isset($user_ID) && ('' != intval($user_ID)))
+				$where .= " OR post_author = $user_ID AND post_status != 'draft' AND post_status != 'static')";
+			else
+				$where .= ')';				
+		}
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.
@@ -543,16 +544,27 @@ class WP_Query {
 		$orderby = apply_filters('posts_orderby', $orderby); 
 		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY " . $orderby . " $limits";
 
-		if ($q['preview']) {
-			$request = 'SELECT 1-1'; // dummy mysql query for the preview
-			// little funky fix for IEwin, rawk on that code
-			$is_winIE = ((preg_match('/MSIE/',$HTTP_USER_AGENT)) && (preg_match('/Win/',$HTTP_USER_AGENT)));
-			if (($is_winIE) && (!isset($IEWin_bookmarklet_fix))) {
-				$preview_content =  preg_replace('/\%u([0-9A-F]{4,4})/e',  "'&#'.base_convert('\\1',16,10).';'", $preview_content);
+		$this->posts = $wpdb->get_results($request);
+
+		// Check post status to determine if post should be displayed.
+		if ($this->is_single) {
+			if ('publish' != $this->posts[0]->post_status) {
+				if ( ! (isset($user_ID) && ('' != intval($user_ID))) ) {
+					// User must be logged in to view unpublished posts.
+					$this->posts = array();
+				} else {
+					if ('draft' == $this->posts[0]->post_status) {
+						// User must have edit permissions on the draft to preview.
+						if (! user_can_edit_post($user_ID, $this->posts[0]->ID))
+							$this->posts = array();
+					} elseif ('private' == $this->posts[0]->post_status) {
+						if ($this->posts[0]->post_author != $user_ID)
+							$this->posts = array();
+					}
+				}
 			}
 		}
 
-		$this->posts = $wpdb->get_results($request);
 		$this->posts = apply_filters('the_posts', $this->posts);
 		$this->post_count = count($this->posts);
 		if ($this->post_count > 0) {

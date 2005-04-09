@@ -351,10 +351,10 @@ function user_can_create_draft($user_id, $blog_id = 1, $category_id = 'None') {
 /* returns true if $user_id can edit $post_id */
 function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
 	$author_data = get_userdata($user_id);
-	$post_data   = get_postdata($post_id);
-	$post_author_data = get_userdata($post_data['Author_ID']);
+	$post = get_post($post_id);
+	$post_author_data = get_userdata($post->post_author);
 
-	if ( (($user_id == $post_author_data->ID) && !($post_data['post_status'] == 'publish' &&  $author_data->user_level < 2))
+	if ( (($user_id == $post_author_data->ID) && !($post->post_status == 'publish' &&  $author_data->user_level < 2))
 	     || ($author_data->user_level > $post_author_data->user_level)
 	     || ($author_data->user_level >= 10) ) {
 		return true;

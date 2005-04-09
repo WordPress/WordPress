@@ -44,7 +44,7 @@ function get_permalink($id = 0) {
 
 	$permalink = get_settings('permalink_structure');
 
-	if ('' != $permalink) {
+	if ('' != $permalink && 'draft' != $post->post_status) {
 		$unixtime = strtotime($post->post_date);
 
 		$category = '';

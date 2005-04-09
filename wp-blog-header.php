@@ -85,7 +85,7 @@ if ((isset($_GET['error']) && $_GET['error'] == '404') ||
 	}
  }
 
-$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence','preview','debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup');
+$wpvarstoreset = array('m','p','posts','w', 'cat','withcomments','s','search','exact', 'sentence', 'debug', 'calendar','page','paged','more','tb', 'pb','author','order','orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup');
 
 $wpvarstoreset = apply_filters('query_vars', $wpvarstoreset);
 
@@ -167,6 +167,7 @@ foreach (array_merge($wpvarstoreset, $more_wpvars) as $wpvar) {
 $query_string = apply_filters('query_string', $query_string);
 
 update_category_cache();
+get_currentuserinfo();
 
 // Call query posts to do the work.
 $posts = & query_posts($query_string);

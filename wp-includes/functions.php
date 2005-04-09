@@ -856,24 +856,11 @@ function start_wp() {
 
 // Setup global post data.
 function setup_postdata($post) {
-  global $id, $postdata, $authordata, $day, $preview, $page, $pages, $multipage, $more, $numpages, $wp_query;
+  global $id, $postdata, $authordata, $day, $page, $pages, $multipage, $more, $numpages, $wp_query;
 	global $pagenow;
 
-	if (!$preview) {
-		$id = $post->ID;
-	} else {
-		$id = 0;
-		$postdata = array (
-			'ID' => 0,
-			'Author_ID' => $_GET['preview_userid'],
-			'Date' => $_GET['preview_date'],
-			'Content' => $_GET['preview_content'],
-			'Excerpt' => $_GET['preview_excerpt'],
-			'Title' => $_GET['preview_title'],
-			'Category' => $_GET['preview_category'],
-			'Notify' => 1
-			);
-	}
+	$id = $post->ID;
+
 	$authordata = get_userdata($post->post_author);
 
 	$day = mysql2date('d.m.y', $post->post_date);
@@ -1158,7 +1145,7 @@ function update_post_caches(&$posts) {
 	$comment_counts = $wpdb->get_results("SELECT ID, COUNT( comment_ID ) AS ccount
 	FROM $wpdb->posts
 	LEFT JOIN $wpdb->comments ON ( comment_post_ID = ID  AND comment_approved =  '1')
-	WHERE post_status =  'publish' AND ID IN ($post_id_list)
+	WHERE ID IN ($post_id_list)
 	GROUP BY ID");
 	
 	if ($comment_counts) {
