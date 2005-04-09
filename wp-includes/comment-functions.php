@@ -42,11 +42,10 @@ function clean_url( $url ) {
 function get_comments_number( $comment_id ) {
 	global $wpdb, $comment_count_cache;
 	$comment_id = (int) $comment_id;
-	if (!isset($comment_count_cache[$comment_id])) 
-		$number =  $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$comment_id' AND comment_approved = '1'");
-	else 
-		$number =  $comment_count_cache[$comment_id];
-	return apply_filters('get_comments_number', $number);
+	if (!isset($comment_count_cache[$comment_id]))
+		$comment_count_cache[$comment_id] =  $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$comment_id' AND comment_approved = '1'");
+	
+	return apply_filters('get_comments_number', $comment_count_cache[$comment_id]);
 }
 
 function comments_number( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $number = '' ) {
@@ -94,11 +93,11 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
     global $comment_count_cache;
 
 	if (! is_single() && ! is_page()) {
-    if ('' == $comment_count_cache["$id"]) {
-        $number = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved = '1';");
-    } else {
-        $number = $comment_count_cache["$id"];
-    }
+    if ( !isset($comment_count_cache[$id]))
+			$comment_count_cache[$id] = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved = '1';");
+
+		$number = $comment_count_cache[$id];
+
     if (0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status) {
         echo $none;
         return;
