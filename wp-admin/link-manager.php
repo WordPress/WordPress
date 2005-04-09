@@ -675,11 +675,10 @@ function checkAll(form)
             $visible = ($link->link_visible == 'Y') ? __('Yes') : __('No');
             ++$i;
             $style = ($i % 2) ? ' class="alternate"' : '';
-            echo <<<LINKS
-
-    <tr valign="middle" $style>
-        <td><strong>$link->link_name</strong><br />
-LINKS;
+?>
+    <tr valign="middle" <?php echo $style; ?>>
+		<td><strong><?php echo $link->link_name; ?></strong><br />
+<?php			
         echo sprintf(__('Description: %s'), $link->link_description) . "</td>";
         echo "<td><a href=\"$link->link_url\" title=\"" . sprintf(__('Visit %s'), $link->link_name) . "\">$short_url</a></td>";
         echo <<<LINKS
