@@ -207,7 +207,7 @@ case 'edit':
 	if ( !user_can_edit_post($user_ID, $post_ID) )
 		die ( __('You are not allowed to edit this post.') );
 		
-	$postdata = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
+	$postdata = &get_post($post_ID);
 	$content = $postdata->post_content;
 	$content = format_to_edit($content);
 	$content = apply_filters('content_edit_pre', $content);
@@ -237,7 +237,7 @@ case 'edit':
 		include('edit-form-advanced.php');
 	}
 
-	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$post_ID'");
+	$post = &$postdata;
 	?>
 	<div id='preview' class='wrap'>
 	<h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
@@ -527,7 +527,7 @@ case 'deletecomment':
 		$noredir = false;
 	}
 
-	$postdata = get_postdata($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	$postdata = get_post($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
 
 	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID'])) {

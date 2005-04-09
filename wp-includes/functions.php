@@ -461,30 +461,27 @@ meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
 	return true;
 }
 
+// Deprecated.  Use get_post().
 function get_postdata($postid) {
-	global $post, $wpdb;
-
- 	if ( $postid == $post->ID )
- 		$a_post = $post;
- 	else 
-		$a_post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$postid'");
+	$post = &get_post($postid);
 	
 	$postdata = array (
-		'ID' => $a_post->ID, 
-		'Author_ID' => $a_post->post_author, 
-		'Date' => $a_post->post_date, 
-		'Content' => $a_post->post_content, 
-		'Excerpt' => $a_post->post_excerpt, 
-		'Title' => $a_post->post_title, 
-		'Category' => $a_post->post_category,
-		'post_status' => $a_post->post_status,
-		'comment_status' => $a_post->comment_status,
-		'ping_status' => $a_post->ping_status,
-		'post_password' => $a_post->post_password,
-		'to_ping' => $a_post->to_ping,
-		'pinged' => $a_post->pinged,
-		'post_name' => $a_post->post_name
+		'ID' => $post->ID, 
+		'Author_ID' => $post->post_author, 
+		'Date' => $post->post_date, 
+		'Content' => $post->post_content, 
+		'Excerpt' => $post->post_excerpt, 
+		'Title' => $post->post_title, 
+		'Category' => $post->post_category,
+		'post_status' => $post->post_status,
+		'comment_status' => $post->comment_status,
+		'ping_status' => $post->ping_status,
+		'post_password' => $post->post_password,
+		'to_ping' => $post->to_ping,
+		'pinged' => $post->pinged,
+		'post_name' => $post->post_name
 	);
+
 	return $postdata;
 }
 
