@@ -84,13 +84,21 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 	$day = mktime(0,0,0, $md, $mm, $my);
 	$weekday = date('w',$day);
 	$i = 86400;
+
+	if ($weekday < get_settings('start_of_week'))
+		$weekday = 7 - (get_settings('start_of_week') - $weekday);
+
 	while ($weekday > get_settings('start_of_week')) {
 		$weekday = date('w',$day);
+		if ($weekday < get_settings('start_of_week'))
+			$weekday = 7 - (get_settings('start_of_week') - $weekday);
+
 		$day = $day - 86400;
 		$i = 0;
 	}
 	$week['start'] = $day + 86400 - $i;
-	$week['end']   = $day + 691199;
+	//$week['end']   = $day - $i + 691199;
+	$week['end'] = $week['start'] + 604799;
 	return $week;
 }
 

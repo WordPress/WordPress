@@ -53,8 +53,6 @@ case 'update':
             if ($user_level >= $option->option_admin_level) {
                 $old_val = $option->option_value;
                 $new_val = trim($_POST[$option->option_name]);
-                if ( !$new_val && $old_val != 0 )
-                    $new_val = '';
                 if( in_array($option->option_name, $nonbools) && ( $new_val == '0' || $new_val == '') )
 					$new_val = 'closed';
                 if ($new_val !== $old_val) {
