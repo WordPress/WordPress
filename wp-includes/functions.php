@@ -185,9 +185,9 @@ function url_to_postid($url = '') {
 	if ($uri == $siteurl) 
 		return 0;
 		
-	// First, check to see if there is a 'p=N' to match against:
-	preg_match('#[?&]p=(\d+)#', $uri, $values);
-	$p = intval($values[1]);
+	// First, check to see if there is a 'p=N' or 'page_id=N' to match against:
+	preg_match('#[?&](p|page_id)=(\d+)#', $uri, $values);
+	$p = intval($values[2]);
 	if ($p) return $p;
 	
 	// Match $uri against our permalink structure
@@ -235,7 +235,7 @@ function url_to_postid($url = '') {
 	
 	// If using %post_id%, we're done:
 	if (intval($post_id)) return intval($post_id);
-
+	
 	// Otherwise, build a WHERE clause, making the values safe along the way:
 	if ($year) $where .= " AND YEAR(post_date) = '" . intval($year) . "'";
 	if ($monthnum) $where .= " AND MONTH(post_date) = '" . intval($monthnum) . "'";
@@ -250,6 +250,14 @@ function url_to_postid($url = '') {
 		return false;
 	}
 
+	// if all we got was a postname, it's probably a page, so we'll want to check for a possible subpage
+	if ($postname && !$year && !$monthnum && !$day && !$hour && !$minute && !$second) {
+	$postname = rtrim(strstr($uri, $postname), '/');
+	$uri_array = explode('/', $postname);
+	$postname = $uri_array[count($uri_array) - 1];
+	$where = " AND post_name = '" . $wpdb->escape($postname) . "' ";
+	}
+	
 	// Run the query to get the post ID:
 	$id = intval($wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE 1 = 1 " . $where));
 
