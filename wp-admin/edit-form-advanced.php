@@ -157,7 +157,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 		<select name="post_author_override" id="post_author_override">
 		<?php 
 		foreach ($users as $o) :
-			if ( $post_author == $o->ID ) $selected = 'selected="selected"';
+			if ( $post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
 			else $selected = '';
 			echo "<option value='$o->ID' $selected>$o->user_login ($o->user_firstname $o->user_lastname)</option>";
 		endforeach;
