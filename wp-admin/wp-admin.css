@@ -296,13 +296,13 @@ textarea, input, select {
 #adminmenu2 {
 	background: #a3a3a3;
 	border-bottom: none;
-	height: 21px;
 	margin: 0;
-	padding: 0 2em;
+	padding: 3px 2em 0;
 }
 
 #adminmenu2 .current {
 	background: #f2f2f2;
+	border-top: 1px solid #9a9a9a;
 	border-right: 2px solid #4f4f4f;
 	color: #000;
 }
@@ -311,7 +311,7 @@ textarea, input, select {
 	border: none;
 	color: #fff;
 	font-size: 12px;
-	padding: 3px 5px 4px;
+	padding: .3em .4em .33em;
 }
 
 #adminmenu2 a:hover {
