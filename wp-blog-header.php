@@ -133,20 +133,20 @@ if ( !empty($error) && '404' == $error ) {
 	if (isset($_SERVER['HTTP_IF_NONE_MATCH'])) $client_etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 	else $client_etag = false;
 
-	if ( ($client_last_modified && $client_etag) ?
-	    ((strtotime($client_last_modified) >= strtotime($wp_last_modified)) && ($client_etag == $wp_etag)) :
-	    ((strtotime($client_last_modified) >= strtotime($wp_last_modified)) || ($client_etag == $wp_etag)) ) {
-		if ( preg_match('/cgi/',php_sapi_name()) ) {
-		    header('Status: 304 Not Modified');
-		    echo "\r\n\r\n";
-		    exit;
-		} else {
-		    if ( version_compare(phpversion(), '4.3.0', '>=') ) {
-		        header('Not Modified', TRUE, 304);
-		    } else {
-		        header('HTTP/1.x 304 Not Modified');
-		    }
-			exit;
+	if ( $client_last_modified && $client_etag ) {
+		if ( (strtotime($client_last_modified) <= strtotime($wp_last_modified)) || ($client_etag == $wp_etag) ) {
+			if ( preg_match('/cgi/',php_sapi_name()) ) {
+				 header('Status: 304 Not Modified');
+				 echo "\r\n\r\n";
+				 exit;
+			} else {
+				 if ( version_compare(phpversion(), '4.3.0', '>=') ) {
+					  header('Not Modified', TRUE, 304);
+				 } else {
+					  header('HTTP/1.x 304 Not Modified');
+				 }
+				exit;
+			}
 		}
 	}
 }
