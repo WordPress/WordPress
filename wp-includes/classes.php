@@ -253,6 +253,11 @@ class WP_Query {
 			$q['posts_per_page'] = get_settings('posts_per_rss');
 			$q['what_to_show'] = 'posts';
 		}
+
+		if (isset($q['page'])) {
+			$q['page'] = trim($q['page'], '/');
+			$q['page'] = (int) $q['page'];
+		}
 	
 		$add_hours = intval(get_settings('gmt_offset'));
 		$add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
@@ -1123,7 +1128,8 @@ class WP_Rewrite {
 					$post = 1;
 					$trackbackmatch = $match . $trackbackregex;
 					$trackbackquery = $trackbackindex . '?' . $query . '&tb=1';
-					$match = $match . '?([0-9]+)?/?$';
+					$match = rtrim($match, '/');
+					$match = $match . '(/[0-9]+)?/?$';
 					$query = $index . '?' . $query . '&page=' . $this->preg_index($num_toks + 1);
 				} else {
 					$match .= '?$';

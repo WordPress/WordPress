@@ -879,9 +879,10 @@ function setup_postdata($post) {
 	$day = mysql2date('d.m.y', $post->post_date);
 	$currentmonth = mysql2date('m', $post->post_date);
 	$numpages = 1;
+	$page = get_query_var('page');
 	if (!$page)
 		$page = 1;
-	if (isset($p))
+	if (is_single() || is_page())
 		$more = 1;
 	$content = $post->post_content;
 	if (preg_match('/<!--nextpage-->/', $content)) {
