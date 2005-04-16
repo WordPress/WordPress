@@ -172,11 +172,13 @@ if ('publish' != $post_status || 0 == $post_ID) {
 		<td><?php touch_time(($action == 'edit')); ?></td>
 	</tr>
 <?php endif; ?>
+<?php if ('edit' == $action) : ?>
 	<tr>
 		<th scope="row"><?php _e('Delete'); ?>:</th>
-		<td><?php if ('edit' == $action) : ?>
+		<td>
 		<input name="deletepost" class="button" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this post') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title) ) . "')\""; ?> />
-<?php endif; ?></td>
+</td>
+<?php endif; ?>
 	</tr>
 </table>
 
