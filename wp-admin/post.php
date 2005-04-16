@@ -25,6 +25,8 @@ $action = "delete";
 	// Fix submenu highlighting for pages.
 if (false !== strpos($_SERVER['HTTP_REFERER'], 'edit-pages.php')) $submenu_file = 'page-new.php';
 
+$editing = true;
+
 switch($action) {
 case 'post':
 

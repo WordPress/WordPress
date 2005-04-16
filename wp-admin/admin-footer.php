@@ -9,5 +9,11 @@
 
 <?php do_action('admin_footer', ''); ?>
 
+<?php if ( isset( $editing ) ) : ?>
+<script type="text/javascript">
+WhenLoaded();
+</script> 
+<?php endif; ?>
+
 </body>
 </html>
