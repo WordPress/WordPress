@@ -293,6 +293,7 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
   echo $format;	    
 }
 
+// Deprecated.  Use previous_post_link().
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
     global $id, $post, $wpdb;
     global $posts, $posts_per_page, $s;
@@ -321,7 +322,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
         if ($lastpost) {
             $string = '<a href="'.get_permalink($lastpost->ID).'">'.$previous;
             if ($title == 'yes') {
-                $string .= wptexturize($lastpost->post_title);
+							$string .= apply_filters('the_title', $lastpost->post_title, $lastpost);
             }
             $string .= '</a>';
             $format = str_replace('%', $string, $format);
@@ -330,6 +331,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
     }
 }
 
+// Deprecated.  Use next_post_link().
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
     global $posts_per_page, $post, $wpdb;
     if(1 == $posts_per_page || is_single()) {
@@ -359,7 +361,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
         if ($nextpost) {
             $string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
             if ($title=='yes') {
-                $string .= wptexturize($nextpost->post_title);
+							$string .= apply_filters('the_title', $nextpost->post_title, $nextpost);
             }
             $string .= '</a>';
             $format = str_replace('%', $string, $format);
