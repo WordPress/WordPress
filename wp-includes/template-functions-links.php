@@ -198,59 +198,69 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
 // Navigation links
 
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
-    global $post, $wpdb;
+	global $post, $wpdb;
 
-    if(! is_single()) {
-      return null;
-    }
+	if(! is_single()) {
+		return null;
+	}
     
-    $current_post_date = $post->post_date;
-    $current_category = $post->post_category;
+	$current_post_date = $post->post_date;
     
-    $sqlcat = '';
-    if ($in_same_cat) {
-      $sqlcat = " AND post_category = '$current_category' ";
-    }
+	$join = '';
+	if ($in_same_cat) {
+		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
+		$cat_array = get_the_category($post->ID);
+	 	$join .= ' AND (category_id = ' . intval($cat_array[0]->cat_ID);
+		for ($i = 1; $i < (count($cat_array)); $i++) {
+			$join .= ' OR category_id = ' . intval($cat_array[$i]->cat_ID);
+		}
+		$join .= ')'; 
+	}
 
-    $sql_exclude_cats = '';
-    if (!empty($excluded_categories)) {
-      $blah = explode('and', $excluded_categories);
-      foreach($blah as $category) {
-	$category = intval($category);
-	$sql_exclude_cats .= " AND post_category != $category";
-      }
-    }
+	$sql_exclude_cats = '';
+	if (!empty($excluded_categories)) {
+		$blah = explode('and', $excluded_categories);
+		foreach($blah as $category) {
+			$category = intval($category);
+			$sql_exclude_cats .= " AND post_category != $category";
+		}
+	}
 
-    return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT 1");
+	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT 1");
 }
 
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
-    global $post, $wpdb;
+	global $post, $wpdb;
 
-    if(! is_single()) {
-      return null;
-    }
+	if(! is_single()) {
+		return null;
+	}
 
-    $current_post_date = $post->post_date;
-    $current_category = $post->post_category;
+	$current_post_date = $post->post_date;
     
-    $sqlcat = '';
-    if ($in_same_cat) {
-      $sqlcat = " AND post_category = '$current_category' ";
-    }
+	$join = '';
+	if ($in_same_cat) {
+		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
+		$cat_array = get_the_category($post->ID);
+	 	$join .= ' AND (category_id = ' . intval($cat_array[0]->cat_ID);
+		for ($i = 1; $i < (count($cat_array)); $i++) {
+			$join .= ' OR category_id = ' . intval($cat_array[$i]->cat_ID);
+		}
+		$join .= ')'; 
+	}
 
-    $sql_exclude_cats = '';
-    if (!empty($excluded_categories)) {
-      $blah = explode('and', $excluded_categories);
-      foreach($blah as $category) {
-	$category = intval($category);
-	$sql_exclude_cats .= " AND post_category != $category";
-      }
-    }
+	$sql_exclude_cats = '';
+	if (!empty($excluded_categories)) {
+		$blah = explode('and', $excluded_categories);
+		foreach($blah as $category) {
+			$category = intval($category);
+			$sql_exclude_cats .= " AND post_category != $category";
+		}
+	}
 
-    $now = current_time('mysql');
+	$now = current_time('mysql');
     
-    return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
+	return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts $join WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
 }
 
 function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
@@ -295,79 +305,48 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 
 // Deprecated.  Use previous_post_link().
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
-    global $id, $post, $wpdb;
-    global $posts, $posts_per_page, $s;
 
-    if(($posts_per_page == 1) || is_single()) {
+	if ( empty($in_same_cat) || 'no' == $in_same_cat )
+		$in_same_cat = false;
+	else
+		$in_same_cat = true;
 
-        $current_post_date = $post->post_date;
-        $current_category = $post->post_category;
+  $post = get_previous_post($in_same_cat, $excluded_categories);
 
-        $sqlcat = '';
-        if ($in_same_cat != 'no') {
-            $sqlcat = " AND post_category = '$current_category' ";
-        }
+  if(! $post) {
+    return;
+  }
 
-        $sql_exclude_cats = '';
-        if (!empty($excluded_categories)) {
-            $blah = explode('and', $excluded_categories);
-            foreach($blah as $category) {
-                $category = intval($category);
-                $sql_exclude_cats .= " AND post_category != $category";
-            }
-        }
-
-        $limitprev--;
-        $lastpost = @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT $limitprev, 1");
-        if ($lastpost) {
-            $string = '<a href="'.get_permalink($lastpost->ID).'">'.$previous;
-            if ($title == 'yes') {
-							$string .= apply_filters('the_title', $lastpost->post_title, $lastpost);
-            }
-            $string .= '</a>';
-            $format = str_replace('%', $string, $format);
-            echo $format;
-        }
-    }
+	$string = '<a href="'.get_permalink($post->ID).'">'.$previous;
+	if ($title == 'yes') {
+		$string .= apply_filters('the_title', $post->post_title, $post);
+	}
+	$string .= '</a>';
+	$format = str_replace('%', $string, $format);
+	echo $format;
 }
 
 // Deprecated.  Use next_post_link().
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-    global $posts_per_page, $post, $wpdb;
-    if(1 == $posts_per_page || is_single()) {
+	
+	if ( empty($in_same_cat) || 'no' == $in_same_cat )
+		$in_same_cat = false;
+	else
+		$in_same_cat = true;
 
-        $current_post_date = $post->post_date;
-        $current_category = $post->post_category;
+  $post = get_next_post($in_same_cat, $excluded_categories);
 
-        $sqlcat = '';
-        if ($in_same_cat != 'no') {
-            $sqlcat = " AND post_category='$current_category' ";
-        }
+  if(! $post) {
+    return;
+  }
 
-        $sql_exclude_cats = '';
-        if (!empty($excluded_categories)) {
-            $blah = explode('and', $excluded_categories);
-            foreach($blah as $category) {
-                $category = intval($category);
-                $sql_exclude_cats .= " AND post_category != $category";
-            }
-        }
-
-        $now = current_time('mysql', 1);
-
-        $limitnext--;
-
-        $nextpost = @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts WHERE post_date > '$current_post_date' AND post_date_gmt < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT $limitnext,1");
-        if ($nextpost) {
-            $string = '<a href="'.get_permalink($nextpost->ID).'">'.$next;
-            if ($title=='yes') {
-							$string .= apply_filters('the_title', $nextpost->post_title, $nextpost);
-            }
-            $string .= '</a>';
-            $format = str_replace('%', $string, $format);
-            echo $format;
-        }
-    }
+	$string = '<a href="'.get_permalink($post->ID).'">'.$next;
+	if ($title=='yes') {
+		$string .= apply_filters('the_title', $post->post_title, $nextpost);
+	}
+	$string .= '</a>';
+	$format = str_replace('%', $string, $format);
+	echo $format;
 }
 
 function get_pagenum_link($pagenum = 1) {
