@@ -1189,11 +1189,9 @@ function update_post_caches(&$posts) {
 
 function update_category_cache() {
 	global $cache_categories, $wpdb;
-	$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
-	foreach ($dogs as $catt) {
-		$catt->category_id = $catt->cat_ID; // Alias.
+	$dogs = $wpdb->get_results("SELECT *, cat_ID as category_id FROM $wpdb->categories");
+	foreach ($dogs as $catt)
 		$cache_categories[$catt->cat_ID] = $catt;
-	}
 }
 
 function update_user_cache() {
