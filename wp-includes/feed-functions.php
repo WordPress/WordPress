@@ -106,8 +106,7 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
        return $link;
 }
 
-function get_category_rss_link($echo = false, $category_id, $category_nicename) {
-       $cat_ID = $category_id;
+function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
        $permalink_structure = get_settings('permalink_structure');
 
        if ('' == $permalink_structure) {

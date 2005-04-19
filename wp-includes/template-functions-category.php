@@ -56,10 +56,10 @@ function get_the_category_list($separator = '', $parents='') {
                     if ($category->category_parent) {
                         $thelist .= get_category_parents($category->category_parent, TRUE);
                     }
-                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
                     break;
                 case 'single':
-                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . ' rel="category tag">';
+                    $thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . ' rel="category tag">';
                     if ($category->category_parent) {
                         $thelist .= get_category_parents($category->category_parent, FALSE);
                     }
@@ -67,7 +67,7 @@ function get_the_category_list($separator = '', $parents='') {
                     break;
                 case '':
                 default:
-                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
+                    $thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a></li>';
             }
         }
         $thelist .= '</ul>';
@@ -79,16 +79,16 @@ function get_the_category_list($separator = '', $parents='') {
             switch(strtolower($parents)) {
                 case 'multiple':
                     if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, TRUE);
-                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
+                    $thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
                     break;
                 case 'single':
-                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">';
+                    $thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">';
                     if ($category->category_parent)    $thelist .= get_category_parents($category->category_parent, FALSE);
                     $thelist .= "$category->cat_name</a>";
                     break;
                 case '':
                 default:
-                    $thelist .= '<a href="' . get_category_link($category->category_id) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
+                    $thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '" rel="category tag">'.$category->cat_name.'</a>';
             }
             ++$i;
         }
@@ -139,7 +139,7 @@ function get_category_children($id, $before = '/', $after = '') {
 function the_category_ID($echo = true) {
     // Grab the first cat in the list.
     $categories = get_the_category();
-    $cat = $categories[0]->category_id;
+    $cat = $categories[0]->cat_ID;
     
     if ($echo) echo $cat;
 
@@ -288,13 +288,13 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	}
 	
 	if ( $optiondates ) {
-		$cat_dates = $wpdb->get_results("	SELECT category_id,
+		$cat_dates = $wpdb->get_results("	SELECT cat_ID,
 		UNIX_TIMESTAMP( MAX(post_date) ) AS ts
 		FROM $wpdb->posts, $wpdb->post2cat
 		WHERE post_status = 'publish' AND post_id = ID $exclusions
 		GROUP BY category_id");
 		foreach ($cat_dates as $cat_date) {
-			$category_timestamp["$cat_date->category_id"] = $cat_date->ts;
+			$category_timestamp["$cat_date->cat_ID"] = $cat_date->ts;
 		}
 	}
 	
@@ -386,7 +386,7 @@ function in_category($category) { // Check if the current post is in the given c
 	global $post, $category_cache;
 	$cats = '';
 	foreach ($category_cache[$post->ID] as $cat) :
-		$cats[] = $cat->category_id;
+		$cats[] = $cat->cat_ID;
 	endforeach;
 
 	if ( in_array($category, $cats) )

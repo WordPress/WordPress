@@ -591,7 +591,6 @@ function &get_category(&$category, $output = OBJECT) {
 	} else {
 		if ( !isset($cache_categories[$category]) ) {
 			$category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = $category");
-			$category->category_id = $category->cat_ID; // Alias.
 			$cache_categories[$category->cat_ID] = & $category;
 		} else {
 			$category = & $cache_categories[$category];
@@ -1123,7 +1122,7 @@ function update_post_category_cache($post_ids) {
 		$post_ids = implode(',', $post_ids);
 
 	$dogs = $wpdb->get_results("SELECT DISTINCT
-	post_id, category_id FROM $wpdb->categories, $wpdb->post2cat
+	post_id, cat_ID FROM $wpdb->categories, $wpdb->post2cat
 	WHERE category_id = cat_ID AND post_id IN ($post_ids)");
 
 	if (! isset($cache_categories))
@@ -1131,7 +1130,7 @@ function update_post_category_cache($post_ids) {
 		
 	if ( !empty($dogs) ) {
 		foreach ($dogs as $catt) {
-			$category_cache[$catt->post_id][$catt->category_id] = &$cache_categories[$catt->category_id];
+			$category_cache[$catt->post_id][$catt->cat_ID] = &$cache_categories[$catt->cat_ID];
 		}
 	}
 }
@@ -1189,7 +1188,7 @@ function update_post_caches(&$posts) {
 
 function update_category_cache() {
 	global $cache_categories, $wpdb;
-	$dogs = $wpdb->get_results("SELECT *, cat_ID as category_id FROM $wpdb->categories");
+	$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
 	foreach ($dogs as $catt)
 		$cache_categories[$catt->cat_ID] = $catt;
 }
