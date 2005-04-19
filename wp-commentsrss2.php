@@ -30,7 +30,7 @@ if (have_posts()) :
 <?php 
 		if (is_single() || is_page()) {
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
-			comment_author_url, comment_date, comment_content, comment_post_ID, 
+			comment_author_url, comment_date, comment_date_gmt, comment_content, comment_post_ID, 
 			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
 			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE comment_post_ID = '$id' 
 			AND $wpdb->comments.comment_approved = '1' AND ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_status = 'static') 
@@ -38,7 +38,7 @@ if (have_posts()) :
 			ORDER BY comment_date DESC LIMIT " . get_settings('posts_per_rss') );
 		} else { // if no post id passed in, we'll just ue the last 10 comments.
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
-			comment_author_url, comment_date, comment_content, comment_post_ID, 
+			comment_author_url, comment_date, comment_date_gmt, comment_content, comment_post_ID, 
 			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
 			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE ($wpdb->posts.post_status = 'publish' OR $wpdb->posts.post_status = 'static') 
 			AND $wpdb->comments.comment_approved = '1' AND post_date < '".date("Y-m-d H:i:s")."'  
@@ -51,7 +51,7 @@ if (have_posts()) :
 	<item>
 		<title>by: <?php comment_author_rss() ?></title>
 		<link><?php comment_link() ?></link>
-		<pubDate><?php comment_time('r'); ?></pubDate>
+		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid><?php comment_link() ?></guid>
 			<?php 
 			if (!empty($comment->post_password) && $_COOKIE['wp-postpass'] != $comment->post_password) {
