@@ -32,7 +32,7 @@ function wptexturize($text) {
 			$curl = preg_replace("/ \(tm\)/i", ' &#8482;', $curl);
 			$curl = str_replace("''", '&#8221;', $curl);
 			
-			$curl = preg_replace('/(d+)x(\d+)/', "$1&#215;$2", $curl);
+			$curl = preg_replace('/(\d+)x(\d+)/', "$1&#215;$2", $curl);
 
 		} elseif (strstr($curl, '<code') || strstr($curl, '<pre') || strstr($curl, '<kbd' || strstr($curl, '<style') || strstr($curl, '<script'))) {
 			// strstr is fast
