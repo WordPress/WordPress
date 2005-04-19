@@ -106,7 +106,7 @@ function auth_redirect() {
 	if ( (!empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && 
 				!wp_login($_COOKIE['wordpressuser_' . COOKIEHASH], $_COOKIE['wordpresspass_' . COOKIEHASH], true)) ||
 			 (empty($_COOKIE['wordpressuser_' . COOKIEHASH])) ) {
-		header('Expires: Mon, 11 Jan 1984 05:00:00 GMT');
+		header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Cache-Control: no-cache, must-revalidate, max-age=0');
 		header('Pragma: no-cache');
