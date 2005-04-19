@@ -17,9 +17,10 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
-if (!get_settings('users_can_register')) {
+if ( !get_settings('users_can_register') )
 	$action = 'disabled';
-}
+
+header( 'Content-Type: ' . get_bloginfo('html_type') . '; charset=' . get_bloginfo('charset') );
 
 switch($action) {
 

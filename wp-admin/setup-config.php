@@ -2,7 +2,7 @@
 define('WP_INSTALLING', true);
 
 if (file_exists('../wp-config.php')) 
-	die("The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first.");
+	die("The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.");
 
 if (!file_exists('../wp-config-sample.php'))
     die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
@@ -12,6 +12,7 @@ if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have
 
 $step = 0;
 if(isset($_GET['step'])) $step = $_GET['step'];
+header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
