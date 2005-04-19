@@ -467,7 +467,6 @@ function pingback($content, $post_ID) {
 
 			// when set to true, this outputs debug messages by itself
 			$client->debug = false;
-			$client->query('pingback.ping', array($pagelinkedfrom, $pagelinkedto)); 
 			
 			if ( !$client->query('pingback.ping', array($pagelinkedfrom, $pagelinkedto) ) )
 				debug_fwrite($log, "Error.\n Fault code: ".$client->getErrorCode()." : ".$client->getErrorMessage()."\n");
