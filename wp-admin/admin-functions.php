@@ -1072,4 +1072,14 @@ function get_plugin_page_hook($plugin_page, $parent_page) {
 		return '';
 }
 
+function pimp_firefox() {
+	if ( strstr( $_SERVER['HTTP_USER_AGENT'], 'Firefox' ) )
+		return;
+	$getit = __('WordPress recommends the open-source Firefox browser');
+	echo '
+	<p id="firefoxlink" style="text-align: center;"><a href="http://spreadfirefox.com/community/?q=affiliates&amp;id=2490&amp;t=1" title="' . $getit . '"><img src="../wp-images/get-firefox.png" alt="Get Firefox" /></a></p>
+	';
+}
+add_action('admin_footer', 'pimp_firefox');
+
 ?>
