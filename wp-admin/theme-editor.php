@@ -26,7 +26,11 @@ if (empty($theme)) {
 	$theme = get_current_theme();
 } else {
 	$theme = stripslashes($theme);
-}
+ }
+
+
+if ( ! isset($themes[$theme]) )
+	die(__('The requested theme does not exist.'));
 
 $allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $themes[$theme]['Template Files']);
 
