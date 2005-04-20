@@ -485,6 +485,13 @@ function wp_new_comment( $commentdata, $spam = false ) {
 		$post_author = $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = '$comment_post_ID' LIMIT 1");
 	}
 
+	// Simple duplicate check
+	$dupe = "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND ( comment_author = '$author' ";
+	if ( $email ) $dupe .= "OR comment_author_email = '$email' ";
+	$dupe .= ") AND comment_content = '$comment' LIMIT 1";
+	if ( $wpdb->get_var($dupe) )
+		die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
+
 	// Simple flood-protection
 	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' OR comment_author_email = '$email' ORDER BY comment_date DESC LIMIT 1") ) {
 		$time_lastcomment = mysql2date('U', $lasttime);
