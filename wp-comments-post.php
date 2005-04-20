@@ -32,7 +32,7 @@ endif;
 $comment_type = '';
 
 if ( get_settings('require_name_email') && !$user_ID ) {
-	if ( 7 > strlen($comment_author_email) || '' == $comment_author )
+	if ( 6 > strlen($comment_author_email) || '' == $comment_author )
 		die( __('Error: please fill the required fields (name, email).') );
 	elseif ( !is_email($comment_author_email))
 		die( __('Error: please enter a valid email address.') );
