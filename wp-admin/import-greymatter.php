@@ -1,4 +1,5 @@
 <?php
+if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must install WordPress before you import any entries.");
 
 require_once('../wp-config.php');
 require('upgrade-functions.php');
@@ -20,7 +21,46 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 }
 
 header( 'Content-Type: text/html; charset=utf-8' );
+?>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<title>WordPress &rsaquo; Import from GreyMatter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style media="screen" type="text/css">
+	body {
+		font-family: Georgia, "Times New Roman", Times, serif;
+		margin-left: 20%;
+		margin-right: 20%;
+	}
+	#logo {
+		margin: 0;
+		padding: 0;
+		background-image: url(http://wordpress.org/images/logo.png);
+		background-repeat: no-repeat;
+		height: 60px;
+		border-bottom: 4px solid #333;
+	}
+	#logo a {
+		display: block;
+		text-decoration: none;
+		text-indent: -100em;
+		height: 60px;
+	}
+	p {
+		line-height: 140%;
+	}
+	#authors li 	{
+		padding:3px;
+		border: 1px solid #ccc;
+		width: 40%;
+		margin-bottom:2px;
+	}
+	</style>
+</head><body> 
+<h1 id="logo"><a href="http://wordpress.org">WordPress</a></h1> 
+
+<?php
 switch ($action) {
 
 case "step1":
@@ -30,37 +70,13 @@ case "step1":
 		return($string);
 	}
 
-	if (!chdir($archivespath))
+	if (!@chdir($archivespath))
 		die("Wrong path, $archivespath\ndoesn't exist\non the server");
 
-	if (!chdir($gmpath))
+	if (!@chdir($gmpath))
 		die("Wrong path, $gmpath\ndoesn't exist\non the server");
 ?>
-<html>
-<head>
-<title>GM 2 WordPress - converting...</title>
-<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
-<style type="text/css">
-<!--
-<?php
-if (!preg_match("/Nav/",$HTTP_USER_AGENT)) {
-?>
-textarea,input,select {
-	background-color: #f0f0f0;
-	border-width: 1px;
-	border-color: #cccccc;
-	border-style: solid;
-	padding: 2px;
-	margin: 1px;
-}
-<?php
-}
-?>
--->
-</style>
-</head>
-<body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></font></p>
+
 <p>The importer is running...</p>
 <ul>
 <li>importing users... <ul><?php
@@ -252,43 +268,14 @@ textarea,input,select {
 	<?php
 	break;
 
-
-
-
-
-
 default:
+?>
 
-	?><html>
-<head>
-<title>GM 2 WordPress importer utility</title>
-<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
-<style type="text/css">
-<!--
-<?php
-if (!preg_match("/Nav/",$HTTP_USER_AGENT)) {
-?>
-textarea,input,select {
-	background-color: #f0f0f0;
-	border-width: 1px;
-	border-color: #cccccc;
-	border-style: solid;
-	padding: 2px;
-	margin: 1px;
-}
-<?php
-}
-?>
--->
-</style>
-</head>
-<body style="margin: 20px;">
-<p><font face="times new roman" style="font-size: 39px;">gm 2 <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></font></p>
 <p>This is a basic GreyMatter to WordPress import script.</p>
 <p>What it does:</p>
 <ul>
 <li>parses gm-authors.cgi to import authors: everyone is imported at level 1</li>
-<li>parses the entries cgi files to import posts, comments, and karma on posts (although karma is not used on WordPress yet)<br />if authors are found not to be in gm-authors.cgi, imports them at level 0</li>
+<li>parses the entries cgi files to import posts, comments, and karma on posts (although karma is not used on WordPress); if authors are found not to be in gm-authors.cgi, imports them at level 0</li>
 </ul>
 <p>What it does not:</p>
 <ul>
@@ -296,15 +283,14 @@ textarea,input,select {
 <li>import gm-templates. you'll start with the basic template wp.php</li>
 <li>doesn't keep entries on top</li>
 </ul>
-<p>&nbsp;</p>
 
-<h3>First step: install WordPress</h3>
+<h3>First step: Install WordPress</h3>
 <p>Install the WordPress blog as explained in the <a href="../readme.html" target="_blank">ReadMe</a>, then immediately come back here.</p>
 
 <form name="stepOne" method="get">
 <input type="hidden" name="action" value="step1" />
-<h3>Second step: GreyMatter details:</h3>
-<p><table cellpadding="0">
+<h3>Second step: Provide GreyMatter details</h3>
+<table cellpadding="0">
 <tr>
 <td>Path to GM files:</td>
 <td><input type="text" style="width:300px" name="gmpath" value="/home/my/site/cgi-bin/greymatter/" /></td>
@@ -313,15 +299,17 @@ textarea,input,select {
 <td>Path to GM entries:</td>
 <td><input type="text" style="width:300px" name="archivespath" value="/home/my/site/cgi-bin/greymatter/archives/" /></td>
 </tr>
-<tr>
-<td colspan="2"><br />This importer will search for files 00000001.cgi to 000-whatever.cgi,<br />so you need to enter the number of the last GM post here.<br />(if you don't know that number, just log into your FTP and look it out<br />in the entries' folder)</td>
-</tr>
+</table>
+
+<p>This importer will search for files 00000001.cgi to 000-whatever.cgi, so you need to enter the number of the last GM post here. (If you don't know that number, just log into your FTP and look it up in the entries' folder)</p>
+
+<table>
 <tr>
 <td>Last entry's number:</td>
 <td><input type="text" name="lastentry" value="00000001" /></td>
 </tr>
 </table>
-</p>
+
 <p>When you're ready, click OK to start importing: <input type="submit" name="submit" value="OK" class="search" /></p>
 </form>
 
@@ -329,7 +317,6 @@ textarea,input,select {
 </html>
 	<?php
 	break;
-
 }
 
 ?>
