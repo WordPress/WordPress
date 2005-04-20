@@ -480,6 +480,11 @@ function wp_new_comment( $commentdata, $spam = false ) {
 	$now     = current_time('mysql');
 	$now_gmt = current_time('mysql', 1);
 
+	if ( $user_id ) {
+		$userdata = get_userdata($user_id);
+		$post_author = $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = '$comment_post_ID' LIMIT 1");
+	}
+
 	// Simple flood-protection
 	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$user_ip' OR comment_author_email = '$email' ORDER BY comment_date DESC LIMIT 1") ) {
 		$time_lastcomment = mysql2date('U', $lasttime);
@@ -496,7 +501,9 @@ function wp_new_comment( $commentdata, $spam = false ) {
 		$approved = 0;
 	if ( wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) )
 		$approved = 'spam';
-	
+	if ( $userdata && ( $user_id == $post_author || $userdata['user_level'] >= 9 ) )
+		$approved = 1;
+
 	$approved = apply_filters('pre_comment_approved', $approved);
 
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
