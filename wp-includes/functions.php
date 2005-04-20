@@ -810,15 +810,15 @@ function do_enclose( $content, $post_ID ) {
 	endforeach;
 
 	foreach ($post_links as $url) :
-		if ( $url != '' && in_array($url, $pung) == false ) {
+		if ( $url != '' && !$wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE post_id = '$post_ID' AND meta_key = 'enclosure' AND meta_value LIKE ('$url%')") ) {
 			if ( $headers = wp_get_http_headers( $url) ) {
-				$len  = $headers['content-length'];
-				$type = $headers['content-type'];
+				$len  = (int) $headers['content-length'];
+				$type = addslashes( $headers['content-type'] );
 				$allowed_types = array( 'video', 'audio' );
 				if( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
 					$meta_value = "$url\n$len\n$type\n";
-					$wpdb->query( "INSERT INTO `".$wpdb->postmeta."` ( `post_id` , `meta_key` , `meta_value` )
-					VALUES ( '$post_ID', 'enclosure' , '".$meta_value."')" );
+					$wpdb->query( "INSERT INTO `$wpdb->postmeta` ( `post_id` , `meta_key` , `meta_value` )
+					VALUES ( '$post_ID', 'enclosure' , '$meta_value')" );
 				}
 			}
 		}
