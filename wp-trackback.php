@@ -27,9 +27,11 @@ function trackback_response($error = 0, $error_message = '') {
 // trackback is done by a POST
 $request_array = 'HTTP_POST_VARS';
 
-if (!$tb_id) {
+if ( empty($_GET['tb_id']) ) {
 	$tb_id = explode('/', $_SERVER['REQUEST_URI']);
 	$tb_id = intval($tb_id[count($tb_id)-1]);
+} else {
+	$tb_id = intval($_GET['tb_id']);
 }
 
 $tb_url    = $_POST['url'];
