@@ -41,7 +41,7 @@ $charset   = $_POST['charset'];
 if ($charset)
 	$charset = strtoupper( trim($charset) );
 else
-	$charset = 'auto';
+	$charset = 'ASCII, UTF-8, ISO-8859-1, JIS, EUC-JP, SJIS';
 
 if ( function_exists('mb_convert_encoding') ) { // For international trackbacks
 	$title     = mb_convert_encoding($title, get_settings('blog_charset'), $charset);
