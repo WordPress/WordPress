@@ -652,7 +652,9 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 		if ( 'trackback' == $comment_type || 'pingback' == $comment_type ) { // check if domain is in blogroll
 			$uri = parse_url($url);
 			$domain = $uri['host'];
-			if ( $wpdb->get_var("SELECT link_id FROM $wpdb->links WHERE link_url LIKE ('%$domain%') LIMIT 1") )
+			$uri = parse_url( get_option('home') );
+			$home_domain = $uri['host'];
+			if ( $wpdb->get_var("SELECT link_id FROM $wpdb->links WHERE link_url LIKE ('%$domain%') LIMIT 1") || $domain == $home_domain )
 				return true;
 			else
 				return false;
