@@ -487,7 +487,7 @@ case 'confirmdeletecomment':
 	require_once('./admin-header.php');
 
 	$comment = $_GET['comment'];
-	$p = $_GET['p'];
+	$p = (int) $_GET['p'];
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID'])) {
