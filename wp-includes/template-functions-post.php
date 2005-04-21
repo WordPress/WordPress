@@ -16,7 +16,7 @@ function the_ID() {
 
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
-	if (!empty($title)) {
+	if ( strlen($title) > 0 ) {
 		$title = apply_filters('the_title', $before . $title . $after, $before, $after);
 		if ($echo)
 			echo $title;
