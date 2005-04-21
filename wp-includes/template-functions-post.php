@@ -308,18 +308,20 @@ function &get_pages($args = '') {
 
 function wp_list_pages($args = '') {
 	parse_str($args, $r);
-	if (!isset($r['depth'])) $r['depth'] = 0;
-	if (!isset($r['show_date'])) $r['show_date'] = '';
-	if (!isset($r['child_of'])) $r['child_of'] = 0;
+	if ( !isset($r['depth']) ) $r['depth'] = 0;
+	if ( !isset($r['show_date']) ) $r['show_date'] = '';
+	if ( !isset($r['child_of']) ) $r['child_of'] = 0;
 	if ( !isset($r['title_li']) ) $r['title_li'] = __('Pages');
-
+	if ( !isset($r['echo']) ) $r['echo'] = 1;
+	
+	$output = '';
 
 	// Query pages.
 	$pages = & get_pages($args);
 	if ( $pages ) :
 
 	if ( $r['title_li'] )
-		echo '<li id="pagenav">' . $r['title_li'] . '<ul>';
+		$output .= '<li id="pagenav">' . $r['title_li'] . '<ul>';
 	// Now loop over all pages that were selected
 	$page_tree = Array();
 	foreach($pages as $page) {
@@ -349,16 +351,23 @@ function wp_list_pages($args = '') {
 	}
 	// Output of the pages starting with child_of as the root ID.
 	// child_of defaults to 0 if not supplied in the query.
-	_page_level_out($r['child_of'],$page_tree, $r);
+	$output .= _page_level_out($r['child_of'],$page_tree, $r, 0, false);
 	if ( $r['title_li'] )
-		echo '</ul></li>';
+		$output .= '</ul></li>';
 	endif;
+	
+	if ( $r['echo'] )
+		echo $output;
+	else 
+		return $output;
 }
 
-function _page_level_out($parent, $page_tree, $args, $depth = 0) {
+function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
 	global $wp_query;
 
 	$queried_obj = $wp_query->get_queried_object();
+
+	$output = '';
 
 	if($depth)
 		$indent = str_repeat("\t", $depth);
@@ -373,13 +382,13 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0) {
 			$css_class .= ' current_page_item';
 		}
 
-		echo $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page_id) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
+		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page_id) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
 
 		if(isset($cur_page['ts'])) {
 			$format = get_settings('date_format');
 			if(isset($args['date_format']))
 				$format = $args['date_format'];
-			echo " " . mysql2date($format,$cur_page['ts']);
+			$output .= " " . mysql2date($format, $cur_page['ts']);
 		}
 		echo "\n";
 
@@ -387,13 +396,17 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0) {
 			$new_depth = $depth + 1;
 
 			if(!$args['depth'] || $depth < ($args['depth']-1)) {
-				echo "$indent<ul>\n";
-				_page_level_out($page_id,$page_tree, $args, $new_depth);
-				echo "$indent</ul>\n";
+				$output .= "$indent<ul>\n";
+				$output .= _page_level_out($page_id, $page_tree, $args, $new_depth, false);
+				$output .= "$indent</ul>\n";
 			}
 		}
-		echo "$indent</li>\n";
+		$output .= "$indent</li>\n";
 	}
+	if ( $echo )
+		echo $output;
+	else
+		return $output;
 }
 
 ?>
