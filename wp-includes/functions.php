@@ -1593,6 +1593,24 @@ function get_themes() {
 
 		if (empty($template_dir)) $template_dir = '/';
 		if (empty($stylesheet_dir)) $stylesheet_dir = '/';
+
+		// Check for theme name collision.  This occurs if a theme is copied to
+		// a new theme directory and the theme header is not updated.  Whichever
+		// theme is first keeps the name.  Subsequent themes get a suffix applied.
+		// The Default and Classic themes always trump their pretenders.
+		if ( isset($themes[$name]) ) {
+			if ( ('WordPress Default' == $name || 'WordPress Classic' == $name) &&
+					 ('default' == $stylesheet || 'classic' == $stylesheet) ) {
+				// If another theme has claimed to be one of our default themes, move
+				// them aside.
+				$suffix = $themes[$name]['Stylesheet'];
+				$new_name = "$name/$suffix";
+				$themes[$new_name] = $themes[$name];
+				$themes[$new_name]['Name'] = $new_name;
+			} else {
+				$name = "$name/$stylesheet";
+			}
+		}
 		
 		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status']);
 	}
@@ -1632,13 +1650,14 @@ function get_current_theme() {
 	$theme_names = array_keys($themes);
 	$current_template = get_settings('template');
 	$current_stylesheet = get_settings('stylesheet');
-	$current_theme = 'Default';
+	$current_theme = 'WordPress Default';
 
 	if ($themes) {
 		foreach ($theme_names as $theme_name) {
 			if ($themes[$theme_name]['Stylesheet'] == $current_stylesheet &&
 					$themes[$theme_name]['Template'] == $current_template) {
 				$current_theme = $themes[$theme_name]['Name'];
+				break;
 			}
 		}
 	}
