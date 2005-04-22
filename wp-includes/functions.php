@@ -650,7 +650,8 @@ function weblog_ping($server = '', $path = '') {
 	// when set to true, this outputs debug messages by itself
 	$client->debug = false;
 	$home = trailingslashit( get_option('home') );
-	$client->query('weblogUpdates.ping', get_settings('blogname'), $home);
+	if ( !$client->query('weblogUpdates.extendedPing', get_settings('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
+		$client->query('weblogUpdates.ping', get_settings('blogname'), $home);
 }
 
 function generic_ping($post_id = 0) {
