@@ -48,7 +48,7 @@
 
 			<li><h2>Categories</h2>
 				<ul>
-				<?php list_cats(0, '', 'name', 'asc', '', 1, 0, 1, 1, 1, 1, 0,'','','','','') ?>
+				<?php wp_list_cats('sort_column=name&optioncount=1&hierarchical=0'); ?>
 				</ul>
 			</li>
 
