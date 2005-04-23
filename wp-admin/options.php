@@ -91,7 +91,7 @@ default:
 	include('admin-header.php'); ?>
 
 <div class="wrap">
-  <h2>All options</h2>
+  <h2><?php _e('All options'); ?></h2>
   <form name="form" action="options.php" method="post">
   <input type="hidden" name="action" value="update" />
   <table width="98%">
