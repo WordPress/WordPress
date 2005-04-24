@@ -65,12 +65,23 @@ case 'post':
 	// Double-check
 	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) )
 		$post_status = 'draft';
+		
 	$comment_status = $_POST['comment_status'];
-	if ( empty($comment_status) && !isset($_POST['advanced_view']) )
-		$comment_status = get_option('default_comment_status');
+	if ( empty($comment_status) ) {
+		if ( !isset($_POST['advanced_view']) )
+			$comment_status = get_option('default_comment_status');
+		else
+			$comment_status = 'closed';
+		}
+
 	$ping_status = $_POST['ping_status'];
-	if ( empty($ping_status) && !isset($_POST['advanced_view']) )
-		$ping_status = get_option('default_ping_status');
+	if ( empty($ping_status) ) {
+		if ( !isset($_POST['advanced_view']) )
+			$ping_status = get_option('default_ping_status');			
+		else
+			$ping_status = 'closed';
+		}
+
 	$post_password = $_POST['post_password'];
 	
 	$trackback = $_POST['trackback_url'];
