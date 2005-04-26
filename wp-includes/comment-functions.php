@@ -480,6 +480,7 @@ function pingback($content, $post_ID) {
 }
 
 function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
+	global $wp_version;
 
 	$byte_count = 0;
 	$contents = '';
