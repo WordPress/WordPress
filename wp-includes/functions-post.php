@@ -502,14 +502,16 @@ function wp_new_comment( $commentdata, $spam = false ) {
 		}
 	}
 
-	if ( check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) )
+	if ( $userdata && ( $user_id == $post_author || $userdata->user_level >= 9 ) ) {
 		$approved = 1;
-	else
-		$approved = 0;
-	if ( wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) )
-		$approved = 'spam';
-	if ( $userdata && ( $user_id == $post_author || $userdata['user_level'] >= 9 ) )
-		$approved = 1;
+	} else {
+		if ( check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) )
+			$approved = 1;
+		else
+			$approved = 0;
+		if ( wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) )
+			$approved = 'spam';
+	}
 
 	$approved = apply_filters('pre_comment_approved', $approved);
 
