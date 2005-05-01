@@ -10,8 +10,9 @@ function wptexturize($text) {
 
 		if (isset($curl{0}) && '<' != $curl{0} && $next) { // If it's not a tag
 			$curl = str_replace('---', '&#8212;', $curl);
-			$curl = preg_replace('/(\s)--(\s)/', '$1&#8212;$2', $curl);
+			$curl = str_replace(' -- ', ' &#8212; ', $curl);
 			$curl = str_replace('--', '&#8211;', $curl);
+			$curl = str_replace('xn&#8211;', 'xn--', $curl);
 			$curl = str_replace('...', '&#8230;', $curl);
 			$curl = str_replace('``', '&#8220;', $curl);
 
