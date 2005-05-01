@@ -9,8 +9,8 @@
 			<div class="alignright"><?php next_post_link('%link &raquo;') ?></div>
 		</div>
 	
-		<div class="post">
-			<h2 id="post-<?php the_ID(); ?>"><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h2>
+		<div class="post" id="post-<?php the_ID(); ?>">
+			<h2><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h2>
 	
 			<div class="entrytext">
 				<?php the_content('<p class="serif">Read the rest of this entry &raquo;</p>'); ?>
