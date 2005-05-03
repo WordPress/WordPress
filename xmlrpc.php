@@ -1162,16 +1162,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		sleep(1);
 
 		// Let's check the remote site
-		$fp = @fopen($pagelinkedfrom, 'r');
-		if (!$fp) {
-			// The source URI does not exist
+		$linea = wp_remote_fopen( $pagelinkedfrom );
+		if ( !$linea )
 	  		return new IXR_Error(16, 'The source URI does not exist.');
-		}
-
-		$puntero = 4096;
-		while($remote_read = fread($fp, $puntero)) {
-			$linea .= $remote_read;
-		}
 
 		// Work around bug in strip_tags():
 		$linea = str_replace('<!DOCTYPE','<DOCTYPE',$linea);
@@ -1179,7 +1172,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$linea = strip_all_but_one_link($linea, $pagelinkedto);
 		// I don't think we need this? -- emc3
 		//$linea = preg_replace('#&([^amp\;])#is', '&amp;$1', $linea);
-		if (empty($matchtitle)) {
+		if ( empty($matchtitle) ) {
 			preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
 		}
 		$pos2 = strpos($linea, $pagelinkedto);

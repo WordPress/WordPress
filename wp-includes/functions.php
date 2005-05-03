@@ -1858,4 +1858,24 @@ function add_magic_quotes($array) {
 	return $array;
 }
 
+function wp_remote_fopen( $uri ) {
+	if ( function_exists('curl_init') ) {
+		$handle = curl_init();
+		curl_setopt ($handle, CURLOPT_URL, $uri);
+		curl_setopt ($handle, CURLOPT_CONNECTTIMEOUT, 1);
+		curl_setopt ($handle, CURLOPT_RETURNTRANSFER, 1);
+		$buffer = curl_exec($handle);
+		curl_close($handle);
+		return $buffer;
+	} else {
+		$fp = fopen( $uri, 'r' );
+		if ( !$fp )
+			return false;
+		$linea = '';
+		while( $remote_read = fread($fp, 4096) )
+			$linea .= $remote_read;
+		return $linea;
+	}	
+}
+
 ?>
