@@ -3,14 +3,17 @@ require( dirname(__FILE__) . '/wp-config.php' );
 
 $comment_post_ID = (int) $_POST['comment_post_ID'];
 
-$post_status = $wpdb->get_var("SELECT comment_status FROM $wpdb->posts WHERE ID = '$comment_post_ID'");
+$status = $wpdb->get_row("SELECT post_status, comment_status FROM $wpdb->posts WHERE ID = '$comment_post_ID'");
 
-if ( empty($post_status) ) {
+if ( empty($status->comment_status) ) {
 	do_action('comment_id_not_found', $comment_post_ID);
 	exit;
-} elseif ( 'closed' ==  $post_status ) {
+} elseif ( 'closed' ==  $status->comment_status ) {
 	do_action('comment_closed', $comment_post_ID);
 	die( __('Sorry, comments are closed for this item.') );
+} elseif ( 'draft' == $status->post_status ) {
+	do_action('comment_on_draft', $comment_post_ID);
+	exit;
 }
 
 $comment_author       = trim($_POST['author']);
