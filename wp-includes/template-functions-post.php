@@ -356,6 +356,8 @@ function wp_list_pages($args = '') {
 		$output .= '</ul></li>';
 	endif;
 	
+	$output = apply_filters('wp_list_pages', $output);
+	
 	if ( $r['echo'] )
 		echo $output;
 	else 
