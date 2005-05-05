@@ -1,7 +1,7 @@
 <?php
 
-// This just holds the version number, in a separate file so we can bump it without cluttering the CVS
+// This just holds the version number, in a separate file so we can bump it without cluttering the SVN
 
-$wp_version = '1.5.1-alpha';
+$wp_version = '1.5.1-RC-2.7182818';
 
 ?>
