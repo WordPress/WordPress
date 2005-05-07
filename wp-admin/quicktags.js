@@ -251,7 +251,7 @@ function edSpell(myField) {
 	if (word == '') {
 		word = prompt('Enter a word to look up:', '');
 	}
-	if (word != '') {
+	if (word !== null && /^\w[\w ]*$/.test(word)) {
 		window.open('http://www.answers.com/' + escape(word));
 	}
 }
