@@ -321,7 +321,7 @@ function wp_list_pages($args = '') {
 	if ( $pages ) :
 
 	if ( $r['title_li'] )
-		$output .= '<li id="pagenav">' . $r['title_li'] . '<ul>';
+		$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
 	// Now loop over all pages that were selected
 	$page_tree = Array();
 	foreach($pages as $page) {
