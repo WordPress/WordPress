@@ -108,6 +108,10 @@ if (empty($plugins)) {
 <?php
 }
 ?>
+
+<h2><?php _e('Get More Plugins'); ?></h2>
+<p><?php _e('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>. To install a plugin you generally just need to upload the plugin file into your <code>wp-content/plugins</code> directory. Once a plugin is uploaded, you may activate it here.'); ?></p>
+
 </div>
 
 <?php
