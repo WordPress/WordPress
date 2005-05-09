@@ -110,9 +110,9 @@ function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
        $permalink_structure = get_settings('permalink_structure');
 
        if ('' == $permalink_structure) {
-				 $link = get_settings('home') . '?feed=rss2&amp;cat=' . $category_id;
+				 $link = get_settings('home') . '?feed=rss2&amp;cat=' . $cat_ID;
        } else {
-				 $link = get_category_link($category_id);
+				 $link = get_category_link($cat_ID);
 				 $link = $link . "feed/";
        }
 
