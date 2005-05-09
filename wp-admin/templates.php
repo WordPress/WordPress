@@ -137,7 +137,7 @@ endif;
 <div class="wrap">
 <h2><?php _e('Other Files') ?></h2>
 
-  <p><?php _e('To edit a file, type its name here. You can edit any file <a href="http://wiki.wordpress.org/index.php/MakeWritable" title="Read more about making files writable">writable by the server</a>, e.g. CHMOD 666.') ?></p> 
+  <p><?php _e('To edit a file, type its name here. You can edit any file <a href="http://codex.wordpress.org/Changing_File_Permissions" title="Read more about making files writable">writable by the server</a>, e.g. CHMOD 666.') ?></p> 
   <form name="file" action="templates.php" method="get"> 
     <input type="text" name="file" /> 
     <input type="submit" name="submit"  value="<?php _e('Edit file &raquo;') ?>" /> 
