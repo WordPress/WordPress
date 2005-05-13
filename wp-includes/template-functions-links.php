@@ -365,7 +365,7 @@ function get_pagenum_link($pagenum = 1) {
 	$qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
 	$qstr = preg_replace('|^/+|', '', $qstr);
 
-	$index = $_SERVER['SCRIPT_NAME'];
+	$index = $_SERVER['PHP_SELF'];
 	$index = preg_replace('|^'. $home_root . '|', '', $index);
 	$index = preg_replace('|^/+|', '', $index);
 
