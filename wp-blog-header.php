@@ -128,14 +128,19 @@ if ( !empty($error) && '404' == $error ) {
 	@header('X-Pingback: ' . get_bloginfo('pingback_url'));
 
 	// Support for Conditional GET
-	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) $client_last_modified = $_SERVER['HTTP_IF_MODIFIED_SINCE'];
-	else $client_last_modified = false;
 	if (isset($_SERVER['HTTP_IF_NONE_MATCH'])) $client_etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 	else $client_etag = false;
 
+	$client_last_modified = trim( $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+	// If string is empty, return 0. If not, attempt to parse into a timestamp
+	$client_modified_timestamp = $client_last_modified ? strtotime($client_last_modified) : 0;
+
+	// Make a timestamp for our most recent modification...	
+	$wp_modified_timestamp = strtotime($wp_last_modified);
+
 	if ( ($client_last_modified && $client_etag) ?
-		((strtotime($client_last_modified) >= strtotime($wp_last_modified)) && ($client_etag == $wp_etag)) :
-		((strtotime($client_last_modified) >= strtotime($wp_last_modified)) || ($client_etag == $wp_etag)) ) {
+		(($client_modified_timestamp >= $wp_modified_timestamp) && ($client_etag == $wp_etag)) :
+		(($client_modified_timestamp >= $wp_modified_timestamp) || ($client_etag == $wp_etag)) ) {
 		if ( preg_match('/cgi/',php_sapi_name()) ) {
 			header('Status: 304 Not Modified');
 			echo "\r\n\r\n";
