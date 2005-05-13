@@ -288,13 +288,13 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	}
 	
 	if ( $optiondates ) {
-		$cat_dates = $wpdb->get_results("	SELECT cat_ID,
+		$cat_dates = $wpdb->get_results("	SELECT category_id,
 		UNIX_TIMESTAMP( MAX(post_date) ) AS ts
 		FROM $wpdb->posts, $wpdb->post2cat
 		WHERE post_status = 'publish' AND post_id = ID $exclusions
 		GROUP BY category_id");
 		foreach ($cat_dates as $cat_date) {
-			$category_timestamp["$cat_date->cat_ID"] = $cat_date->ts;
+			$category_timestamp["$cat_date->category_id"] = $cat_date->ts;
 		}
 	}
 	
