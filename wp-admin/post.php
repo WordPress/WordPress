@@ -193,11 +193,12 @@ case 'post':
 	do_action('save_post', $post_ID);
 
 	if ('publish' == $post_status) {
+		do_action('publish_post', $post_ID);
 		if ($post_pingback)
 			pingback($content, $post_ID);
 		do_enclose( $content, $post_ID );
 		do_trackbacks($post_ID);
-		do_action('publish_post', $post_ID);
+		
 	}
 
 	if ($post_status == 'static') {
@@ -429,6 +430,8 @@ case 'editpost':
 	if ($prev_status != 'publish' && $post_status == 'publish')
 		do_action('private_to_published', $post_ID);
 
+	do_action('edit_post', $post_ID);
+
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 		do_trackbacks($post_ID);
@@ -445,7 +448,6 @@ case 'editpost':
 		}
 	}
 
-	do_action('edit_post', $post_ID);
 	exit();
 	break;
 
