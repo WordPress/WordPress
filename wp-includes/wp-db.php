@@ -301,7 +301,7 @@ class wpdb {
 	function bail($message) { // Just wraps errors in a nice header and footer
 	if ( !$this->show_errors )
 		return false;
-	header( 'Content-Type: ' . get_bloginfo('html_type') . '; charset=' . get_bloginfo('charset') );	
+	header( 'Content-Type: text/html; charset=utf-8');		
 	echo <<<HEAD
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml">
