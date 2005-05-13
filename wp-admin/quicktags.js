@@ -25,14 +25,13 @@ function zeroise(number, threshold) {
 }
 
 var now = new Date();
-var datetime = now.getFullYear() + '-' + 
-				zeroise(now.getMonth() + 1, 2) + '-' +
-				zeroise(now.getDate(), 2) + 'T' + 
-				zeroise(now.getHours(), 2) + ':' + 
-				zeroise(now.getMinutes(), 2) + ':' + 
-				zeroise(now.getSeconds() ,2) +
-				// FIXME: we could try handling timezones like +05:30 and the like
-				zeroise((now.getTimezoneOffset()/60), 2) + ':' + '00';
+var datetime = now.getUTCFullYear() + '-' + 
+zeroise(now.getUTCMonth() + 1, 2) + '-' +
+zeroise(now.getUTCDate(), 2) + 'T' + 
+zeroise(now.getUTCHours(), 2) + ':' + 
+zeroise(now.getUTCMinutes(), 2) + ':' + 
+zeroise(now.getUTCSeconds() ,2) +
+'+00:00';
 
 edButtons[edButtons.length] = 
 new edButton('ed_strong'
