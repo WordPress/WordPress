@@ -1185,8 +1185,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			$context = str_replace("\n", ' ', $context);
 			$context = str_replace('&amp;', '&', $context);
 		}
-					
-		fclose($fp);
 
 		if (empty($context)) {
 			// URL pattern not found
