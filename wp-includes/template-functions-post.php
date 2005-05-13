@@ -140,7 +140,7 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
                     if ('' == get_settings('permalink_structure')) {
                         echo '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
                     } else {
-                        echo '<a href="' . get_permalink() . $i . '/">';
+                        echo '<a href="' . trailingslashit( get_permalink() ) . $i . '/">';
                     }
                 }
                 echo $j;
