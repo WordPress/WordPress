@@ -60,9 +60,9 @@ endif;
 if ( !function_exists('wp_mail') ) :
 function wp_mail($to, $subject, $message, $headers = '') {
 	if( $headers == '' ) {
-		$headers = "MIME-Version: 1.0\r\n" .
-			"From: " . get_settings('admin_email') . "\r\n" . 
-			"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
+		$headers = "MIME-Version: 1.0\n" .
+			"From: " . get_settings('admin_email') . "\n" . 
+			"Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 	}
 
 	return @mail($to, $subject, $message, $headers);
@@ -216,9 +216,9 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$from = 'From: "' . $comment->comment_author . "\" <$comment->comment_author_email>";
 	}
 
-	$message_headers = "MIME-Version: 1.0\r\n"
-		. "$from\r\n"
-		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\r\n";
+	$message_headers = "MIME-Version: 1.0\n"
+		. "$from\n"
+		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 
 	@wp_mail($user->user_email, $subject, $notify_message, $message_headers);
    
