@@ -173,95 +173,57 @@ function get_usernumposts($userid) {
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
 function url_to_postid($url = '') {
-	global $wpdb;
+	global $wp_rewrite;
 
-	$siteurl = get_settings('home');
-	// Take a link like 'http://example.com/blog/something'
-	// and extract just the '/something':
-	$uri = preg_replace("#$siteurl#i", '', $url);
-
-	// on failure, preg_replace just returns the subject string
-	// so if $uri and $siteurl are the same, they didn't match:
-	if ($uri == $siteurl) 
-		return 0;
-		
 	// First, check to see if there is a 'p=N' or 'page_id=N' to match against:
-	preg_match('#[?&](p|page_id)=(\d+)#', $uri, $values);
-	$p = intval($values[2]);
-	if ($p) return $p;
+	preg_match('#[?&](p|page_id)=(\d+)#', $url, $values);
+	$id = intval($values[2]);
+	if ($id) return $id;
+
+	// URI is probably a permalink.
+	$rewrite = $wp_rewrite->wp_rewrite_rules();
+
+	if ( empty($rewrite) )
+		return 0;
+
+	$req_uri = $url;
+	$home_path = parse_url(get_settings('home'));
+	$home_path = $home_path['path'];
 	
-	// Match $uri against our permalink structure
-	$permalink_structure = get_settings('permalink_structure');
+	// Trim path info from the end and the leading home path from the
+	// front.  For path info requests, this leaves us with the requesting
+	// filename, if any.  For 404 requests, this leaves us with the
+	// requested permalink.	
+	$req_uri = str_replace($pathinfo, '', $req_uri);
+	$req_uri = str_replace($home_path, '', $req_uri);
+	$req_uri = trim($req_uri, '/');
+	$request = $req_uri;
 	
-	// Matt's tokenizer code
-	$rewritecode = array(
-		'%year%',
-		'%monthnum%',
-		'%day%',
-		'%hour%',
-		'%minute%',
-		'%second%',
-		'%postname%',
-		'%post_id%'
-	);
-	$rewritereplace = array(
-		'([0-9]{4})?',
-		'([0-9]{1,2})?',
-		'([0-9]{1,2})?',
-		'([0-9]{1,2})?',
-		'([0-9]{1,2})?',
-		'([0-9]{1,2})?',
-		'([_0-9a-z-]+)?',
-		'([0-9]+)?'
-	);
+	// Look for matches.
+	$request_match = $request;
+	foreach ($rewrite as $match => $query) {
+		// If the requesting file is the anchor of the match, prepend it
+		// to the path info.
+		if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0)) {
+			$request_match = $req_uri . '/' . $request;
+		}
 
-	// Turn the structure into a regular expression
-	$matchre = str_replace('/', '/?', $permalink_structure);
-	$matchre = str_replace($rewritecode, $rewritereplace, $matchre);
-
-	// Extract the key values from the uri:
-	preg_match("#$matchre#",$uri,$values);
-
-	// Extract the token names from the structure:
-	preg_match_all("#%(.+?)%#", $permalink_structure, $tokens);
-
-	for($i = 0; $i < count($tokens[1]); $i++) {
-		$name = $tokens[1][$i];
-		$value = $values[$i+1];
-
-		// Create a variable named $year, $monthnum, $day, $postname, or $post_id:
-		$$name = $value;
-	}
-	
-	// If using %post_id%, we're done:
-	if (intval($post_id)) return intval($post_id);
-	
-	// Otherwise, build a WHERE clause, making the values safe along the way:
-	if ($year) $where .= " AND YEAR(post_date) = '" . intval($year) . "'";
-	if ($monthnum) $where .= " AND MONTH(post_date) = '" . intval($monthnum) . "'";
-	if ($day) $where .= " AND DAYOFMONTH(post_date) = '" . intval($day) . "'";
-	if ($hour) $where .= " AND HOUR(post_date) = '" . intval($hour) . "'";
-	if ($minute) $where .= " AND MINUTE(post_date) = '" . intval($minute) . "'";
-	if ($second) $where .= " AND SECOND(post_date) = '" . intval($second) . "'";
-	if ($postname) $where .= " AND post_name = '" . $wpdb->escape($postname) . "' ";
-
-	// We got no indication, so we return false:
-	if (!strlen($where)) {
-		return false;
+		if (preg_match("!^$match!", $request_match, $matches)) {
+			// Got a match.
+			// Trim the query of everything up to the '?'.
+			$query = preg_replace("!^.+\?!", '', $query);
+			
+			// Substitute the substring matches into the query.
+			eval("\$query = \"$query\";");
+			$query = new WP_Query($query);
+			if ( !empty($query->post) )
+				return $query->post->ID;
+			else
+				return 0;
+		}
 	}
 
-	// if all we got was a postname, it's probably a page, so we'll want to check for a possible subpage
-	if ($postname && !$year && !$monthnum && !$day && !$hour && !$minute && !$second) {
-	$postname = rtrim(strstr($uri, $postname), '/');
-	$uri_array = explode('/', $postname);
-	$postname = $uri_array[count($uri_array) - 1];
-	$where = " AND post_name = '" . $wpdb->escape($postname) . "' ";
-	}
-	
-	// Run the query to get the post ID:
-	$id = intval($wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE 1 = 1 " . $where));
-
-	return $id;
+	return 0;
 }
 
 
