@@ -172,7 +172,7 @@ function get_usernumposts($userid) {
 
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
-function url_to_postid($url = '') {
+function url_to_postid($url) {
 	global $wp_rewrite;
 
 	// First, check to see if there is a 'p=N' or 'page_id=N' to match against:
@@ -187,11 +187,15 @@ function url_to_postid($url = '') {
 		return 0;
 
 	$req_uri = $url;
-	$home_path = parse_url(get_settings('home'));
-	$home_path = $home_path['path'];
 
-	$req_uri = str_replace(get_settings('home'), '', $req_uri);	
-	$req_uri = str_replace($home_path, '', $req_uri);
+	if ( false !== strpos($req_uri, get_settings('home')) ) {
+		$req_uri = str_replace(get_settings('home'), '', $req_uri);
+	} else {
+		$home_path = parse_url(get_settings('home'));
+		$home_path = $home_path['path'];
+		$req_uri = str_replace($home_path, '', $req_uri);
+	}
+
 	$req_uri = trim($req_uri, '/');
 	$request = $req_uri;
 	
