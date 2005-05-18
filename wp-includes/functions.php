@@ -189,12 +189,8 @@ function url_to_postid($url = '') {
 	$req_uri = $url;
 	$home_path = parse_url(get_settings('home'));
 	$home_path = $home_path['path'];
-	
-	// Trim path info from the end and the leading home path from the
-	// front.  For path info requests, this leaves us with the requesting
-	// filename, if any.  For 404 requests, this leaves us with the
-	// requested permalink.	
-	$req_uri = str_replace($pathinfo, '', $req_uri);
+
+	$req_uri = str_replace(get_settings('home'), '', $req_uri);	
 	$req_uri = str_replace($home_path, '', $req_uri);
 	$req_uri = trim($req_uri, '/');
 	$request = $req_uri;
