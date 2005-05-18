@@ -633,6 +633,10 @@ function generic_ping($post_id = 0) {
 // Send a Trackback
 function trackback($trackback_url, $title, $excerpt, $ID) {
 	global $wpdb, $wp_version;
+
+	if (empty($trackback_url))
+		return;
+
 	$title = urlencode($title);
 	$excerpt = urlencode($excerpt);
 	$blog_name = urlencode(get_settings('blogname'));
@@ -791,7 +795,7 @@ function do_enclose( $content, $post_ID ) {
 function wp_get_http_headers( $url ) {
 	set_time_limit( 60 ); 
 	$parts = parse_url( $url );
-	$file  = $parts['path'] . $parts['query'];
+	$file  = $parts['path'] . ($parts['query'] ? '?'.$parts['query'] : '');
 	$host  = $parts['host'];
 	if ( !isset( $parts['port'] ) )
 		$parts['port'] = 80;

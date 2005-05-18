@@ -541,7 +541,8 @@ function do_trackbacks($post_id) {
 	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $post_id");
 	$to_ping = get_to_ping($post_id);
 	$pinged  = get_pung($post_id);
-
+	if ( empty($to_ping) )
+		return;
 	if (empty($post->post_excerpt))
 		$excerpt = apply_filters('the_content', $post->post_content);
 	else
@@ -591,7 +592,7 @@ function get_to_ping($post_id) { // Get any URIs in the todo list
 	global $wpdb;
 	$to_ping = $wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_id");
 	$to_ping = trim($to_ping);
-	$to_ping = preg_split('/\s/', $to_ping);
+	$to_ping = preg_split('/\s/', $to_ping, -1, PREG_SPLIT_NO_EMPTY);
 	return $to_ping;
 }
 
