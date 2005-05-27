@@ -543,6 +543,8 @@ function &get_category(&$category, $output = OBJECT) {
 	if ( empty($category) )
 		return null;
 
+	$category = (int) $category;
+
 	if ( ! isset($cache_categories))
 		update_category_cache();
 

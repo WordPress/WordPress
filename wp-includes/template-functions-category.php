@@ -101,6 +101,7 @@ function the_category($separator = '', $parents='') {
 }
 
 function get_the_category_by_ID($cat_ID) {
+	$cat_ID = (int) $cat_ID;
 	$category = &get_category($cat_ID);
 	return $category->cat_name;
 }

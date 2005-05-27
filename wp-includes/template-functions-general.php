@@ -205,16 +205,16 @@ function single_post_title($prefix = '', $display = true) {
 }
 
 function single_cat_title($prefix = '', $display = true ) {
-	  $cat = get_query_var('cat');
-    if(!empty($cat) && !(strtoupper($cat) == 'ALL')) {
-        $my_cat_name = get_the_category_by_ID($cat);
-        if(!empty($my_cat_name)) {
-            if ($display)
-                echo $prefix.strip_tags($my_cat_name);
-            else
-                return strip_tags($my_cat_name);
-        }
-    }
+	$cat = intval( get_query_var('cat') );
+	if( !empty($cat) && !(strtoupper($cat) == 'ALL') ) {
+		$my_cat_name = get_the_category_by_ID($cat);
+		if( !empty($my_cat_name) ) {
+			if ($display)
+				echo $prefix.strip_tags($my_cat_name);
+			else
+				return strip_tags($my_cat_name);
+		}
+	}
 }
 
 function single_month_title($prefix = '', $display = true ) {
