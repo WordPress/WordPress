@@ -591,20 +591,6 @@ function is_email($user_email) {
 	}
 }
 
-
-function strip_all_but_one_link($text, $mylink) {
-	$match_link = '#(<a.+?href.+?'.'>)(.+?)(</a>)#';
-	preg_match_all($match_link, $text, $matches);
-	$count = count($matches[0]);
-	for ($i=0; $i<$count; $i++) {
-		if (!strstr($matches[0][$i], $mylink)) {
-			$text = str_replace($matches[0][$i], $matches[2][$i], $text);
-		}
-	}
-	return $text;
-}
-
-
 // used by wp-mail to handle charsets in email subjects
 function wp_iso_descrambler($string) {
   /* this may only work with iso-8859-1, I'm afraid */

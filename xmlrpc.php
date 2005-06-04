@@ -1075,8 +1075,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* pingback.ping gets a pingback and registers it */
 	function pingback_ping($args) {
-		// original code by Mort (http://mort.mine.nu:8080 -- site seems dead)
-		// refactored to return error codes and avoid deep ifififif headaches
 		global $wpdb, $wp_version; 
 
 		$pagelinkedfrom = $args[0];
@@ -1091,10 +1089,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Check if the page linked to is in our site
 		$pos1 = strpos($pagelinkedto, str_replace('http://', '', str_replace('www.', '', get_settings('home'))));
-		if(!$pos1) {
-	  		return new IXR_Error(0, '');
-		}
-
+		if( !$pos1 )
+	  		return new IXR_Error(0, 'Is there no link to us?');
 
 		// let's find which post is linked to
 		// FIXME: does url_to_postid() cover all these cases already?
@@ -1124,7 +1120,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$way = 'from the fragment (post-###)';
 			} elseif (is_string($urltest['fragment'])) {
 				// ...or a string #title, a little more complicated
-				$title = preg_replace('/[^a-zA-Z0-9]/', '.', $urltest['fragment']);
+				$title = preg_replace('/[^a-z0-9]/i', '.', $urltest['fragment']);
 				$sql = "SELECT ID FROM $wpdb->posts WHERE post_title RLIKE '$title'";
 				if (! ($post_ID = $wpdb->get_var($sql)) ) {
 					// returning unknown error '0' is better than die()ing
@@ -1136,27 +1132,25 @@ class wp_xmlrpc_server extends IXR_Server {
 			// TODO: Attempt to extract a post ID from the given URL
 	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 		}
+		$post_ID = (int) $post_ID;
 
 
 		logIO("O","(PB) URI='$pagelinkedto' ID='$post_ID' Found='$way'");
 
-		$sql = 'SELECT post_author FROM '.$wpdb->posts.' WHERE ID = '.$post_ID;
-		$result = $wpdb->get_results($sql);
+		$post = $wpdb->get_row("SELECT post_author FROM $wpdb->posts WHERE ID = '$post_ID'");
 
-		if (!$wpdb->num_rows) {
-			// Post_ID not found
+		if ( !$post ) // Post_ID not found
 	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
-		}
 
+		// Check if pings are on
+		if ( 'closed' == $post->ping_status )
+	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 
 		// Let's check that the remote site didn't already pingback this entry
 		$result = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_ID' AND comment_author_url = '$pagelinkedfrom'");
 
-		if ($wpdb->num_rows) {
-			// We already have a Pingback from this URL
+		if ( $wpdb->num_rows ) // We already have a Pingback from this URL
 	  		return new IXR_Error(48, 'The pingback has already been registered.');
-		}
-
 
 		// very stupid, but gives time to the 'from' server to publish !
 		sleep(1);
@@ -1167,46 +1161,42 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(16, 'The source URI does not exist.');
 
 		// Work around bug in strip_tags():
-		$linea = str_replace('<!DOCTYPE','<DOCTYPE',$linea);
-		$linea = strip_tags($linea, '<title><a>');
-		$linea = strip_all_but_one_link($linea, $pagelinkedto);
-		// I don't think we need this? -- emc3
-		//$linea = preg_replace('#&([^amp\;])#is', '&amp;$1', $linea);
-		if ( empty($matchtitle) ) {
-			preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
-		}
-		$pos2 = strpos($linea, $pagelinkedto);
-		$pos3 = strpos($linea, str_replace('http://www.', 'http://', $pagelinkedto));
-		if (is_integer($pos2) || is_integer($pos3)) {
-			// The page really links to us :)
-			$pos4 = (is_integer($pos2)) ? $pos2 : $pos3;
-			$start = $pos4-100;
-			$context = substr($linea, $start, 250);
-			$context = str_replace("\n", ' ', $context);
-			$context = str_replace('&amp;', '&', $context);
-		}
+		$linea = str_replace('<!DOC', '<DOC', $linea);
+		$linea = preg_replace( '/[\s\r\n\t]+/', ' ', $linea ); // normalize spaces
+		$linea = preg_replace( "/ <(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $linea );
 
-		if (empty($context)) {
-			// URL pattern not found
-	  		return new IXR_Error(17, 'The source URI does not contain a link to the target URI, and so cannot be used as a source.');
+		preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
+		$title = $matchtitle[1];
+		if ( empty( $title ) )
+			return new IXR_Error(32, 'We cannot find a title on that page.');
+
+		$linea = strip_tags( $linea, '<a>' ); // just keep the tag we need
+
+		$p = explode( "\n\n", $linea );
+		
+		$sem_regexp_pb = "/(\\/|\\\|\*|\?|\+|\.|\^|\\$|\(|\)|\[|\]|\||\{|\})/";
+		$sem_regexp_fix = "\\\\$1";
+		$link = preg_replace( $sem_regexp_pb, $sem_regexp_fix, $pagelinkedfrom );
+		
+		$finished = false;
+		foreach ( $p as $para ) {
+			if ( $finished )
+				continue;
+			if ( strstr( $para, $pagelinkedto ) ) {
+				$context = preg_replace( "/.*<a[^>]+".$link."[^>]*>([^>]+)<\/a>.*/", "$1", $para );
+				$excerpt = strip_tags( $para );
+				$excerpt = trim( $excerpt );
+				$use     = preg_quote( $context );
+				$excerpt = preg_replace("|.*?\s(.{0,100}$use.{0,100})\s|s", "$1", $excerpt);
+				$finished = true;
+			}
 		}
-
-
-		// Check if pings are on
-		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $post_ID");
-		if ('closed' == $pingstatus) {
-	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
-		}
-
 
 		$pagelinkedfrom = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedfrom);
-		$title = (!strlen($matchtitle[1])) ? $pagelinkedfrom : $matchtitle[1];
-		$original_context = strip_tags($context);
-		$context = '[...] ';
-		$context .= wp_specialchars($original_context);
-		$context .= ' [...]';
+
+		$context = '[...] ' . wp_specialchars( $excerpt ) . ' [...]';
 		$original_pagelinkedfrom = $pagelinkedfrom;
-		$pagelinkedfrom = addslashes($pagelinkedfrom);
+		$pagelinkedfrom = addslashes( $pagelinkedfrom );
 		$original_title = $title;
 
 		$comment_post_ID = $post_ID;
@@ -1214,11 +1204,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment_author_url = $pagelinkedfrom;
 		$comment_content = $context;
 		$comment_type = 'pingback';
-
-		$pingstatus = $wpdb->get_var("SELECT ping_status FROM $wpdb->posts WHERE ID = $post_ID");
-	
-		if ('open' != $pingstatus)
-			die('Sorry, pingbacks are closed for this item.');
 
 		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
 
