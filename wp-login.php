@@ -4,10 +4,8 @@ require( dirname(__FILE__) . '/wp-config.php' );
 $action = $_REQUEST['action'];
 $error = '';
 
-header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-header('Cache-Control: no-cache, must-revalidate');
-header('Pragma: no-cache');
+nocache_headers();
+
 header('Content-Type: '.get_bloginfo('html_type').'; charset='.get_bloginfo('charset'));
 
 if ( defined('RELOCATE') ) { // Move flag is set
@@ -24,10 +22,7 @@ case 'logout':
 
 	wp_clearcookie();
 	do_action('wp_logout');
-	header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-	header('Cache-Control: no-cache, must-revalidate, max-age=0');
-	header('Pragma: no-cache');
+	nocache_headers();
 	wp_redirect('wp-login.php');
 	exit();
 

@@ -107,14 +107,11 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 }
 
 // Sending HTTP headers
+@header('X-Pingback: '. get_bloginfo('pingback_url'));
 
 if ( !empty($error) && '404' == $error ) {
-	if ( preg_match('/cgi/', php_sapi_name()) )
-		@header('Status: 404 Not Found');
-	else
-		@header('HTTP/1.x 404 Not Found');
+	status_header( 404 );
  } else if ( empty($feed) ) {
-	@header('X-Pingback: '. get_bloginfo('pingback_url'));
 	@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 } else {
 	// We're showing a feed, so WP is indeed the only thing that last changed
@@ -125,7 +122,6 @@ if ( !empty($error) && '404' == $error ) {
 	$wp_etag = '"' . md5($wp_last_modified) . '"';
 	@header("Last-Modified: $wp_last_modified");
 	@header("ETag: $wp_etag");
-	@header('X-Pingback: ' . get_bloginfo('pingback_url'));
 
 	// Support for Conditional GET
 	if (isset($_SERVER['HTTP_IF_NONE_MATCH'])) $client_etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
@@ -141,17 +137,8 @@ if ( !empty($error) && '404' == $error ) {
 	if ( ($client_last_modified && $client_etag) ?
 		(($client_modified_timestamp >= $wp_modified_timestamp) && ($client_etag == $wp_etag)) :
 		(($client_modified_timestamp >= $wp_modified_timestamp) || ($client_etag == $wp_etag)) ) {
-		if ( preg_match('/cgi/',php_sapi_name()) ) {
-			header('Status: 304 Not Modified');
-			echo "\r\n\r\n";
-			exit;
-		} else {
-			if ( version_compare(phpversion(), '4.3.0', '>=') )
-				header('Not Modified', TRUE, 304);
-			else
-				header('HTTP/1.x 304 Not Modified');
-			exit;
-		}
+		status_header( 304 );
+		exit;
 	}
 }
 
@@ -191,10 +178,9 @@ if ( (0 == count($posts)) && !is_404() && !is_search()
 		&& ( isset($rewrite) || (!empty($_SERVER['QUERY_STRING']) &&
 		(false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
 	$wp_query->is_404 = true;
-	if ( preg_match('/cgi/', php_sapi_name()) )
-		@header('Status: 404 Not Found');
-	else
-		@header('HTTP/1.x 404 Not Found');
+	status_header( 404 );
+} else {
+	status_header( 200 );
 }
 
 if ($pagenow != 'post.php' && $pagenow != 'edit.php') {

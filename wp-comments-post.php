@@ -52,10 +52,7 @@ setcookie('comment_author_' . COOKIEHASH, stripslashes($comment_author), time() 
 setcookie('comment_author_email_' . COOKIEHASH, stripslashes($comment_author_email), time() + 30000000, COOKIEPATH);
 setcookie('comment_author_url_' . COOKIEHASH, stripslashes($comment_author_url), time() + 30000000, COOKIEPATH);
 
-header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-header('Cache-Control: no-cache, must-revalidate, max-age=0');
-header('Pragma: no-cache');
+nocache_headers();
 
 $location = (empty($_POST['redirect_to'])) ? $_SERVER["HTTP_REFERER"] : $_POST['redirect_to']; 
 

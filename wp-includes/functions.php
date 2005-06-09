@@ -1849,4 +1849,36 @@ function wp_remote_fopen( $uri ) {
 	}	
 }
 
+function status_header( $header ) {
+	if ( 200 == $header ) {
+		$text = 'OK';
+	} elseif ( 301 == $header ) {
+		$text = 'Moved Permanently';
+	} elseif ( 302 == $header ) {
+		$text = 'Moved Temporarily';
+	} elseif ( 304 == $header ) {
+		$text = 'Not Modified';
+	} elseif ( 404 == $header ) {
+		$text = 'Not Found';
+	} elseif ( 410 == $header ) {
+		$text = 'Gone';
+	}
+	if ( preg_match('/cgi/',php_sapi_name()) ) {
+		@header("Status: $header $text");
+		echo "\r\n\r\n";
+	} else {
+		if ( version_compare(phpversion(), '4.3.0', '>=') )
+			@header($text, TRUE, $header);
+		else
+			@header("HTTP/1.x $header $text");
+	}
+}
+
+function nocache_headers() {
+	@ header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+	@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+	@ header('Cache-Control: no-cache, must-revalidate, max-age=0');
+	@ header('Pragma: no-cache');
+}
+
 ?>
