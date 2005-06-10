@@ -86,6 +86,8 @@ case 'update':
 
 	$result = $wpdb->query("UPDATE $wpdb->users SET user_firstname='$newuser_firstname', $updatepassword user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode', user_description = '$user_description', user_nicename = '$newuser_nicename' WHERE ID = $user_ID");
 
+	do_action('profile_update', $user_ID);
+
 	wp_redirect('profile.php?updated=true');
 break;
 
