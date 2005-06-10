@@ -1849,6 +1849,11 @@ function wp_remote_fopen( $uri ) {
 	}	
 }
 
+function wp($query_vars = '') {
+	global $wp;
+	$wp->main($query_vars);
+}
+
 function status_header( $header ) {
 	if ( 200 == $header ) {
 		$text = 'OK';

@@ -1,10 +1,8 @@
 <?php /* RDF 1.0 generator, original version by garym@teledyn.com */
 
-if (empty($feed)) {
-    $blog = 1; // enter your blog's ID
-		$feed = 'rdf';
-    $doing_rss = 1;
-    require('wp-blog-header.php');
+if (empty($wp)) {
+	require_once('wp-config.php');
+	wp('feed=rdf');
 }
 
 header('Content-type: application/rdf+xml; charset=' . get_settings('blog_charset'), true);

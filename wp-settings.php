@@ -145,6 +145,10 @@ function shutdown_action_hook() {
 }
 register_shutdown_function('shutdown_action_hook');
 
-// Everything is loaded.
+$wp_query = new WP_Query();
+$wp_rewrite = new WP_Rewrite();
+$wp = new WP();
+
+// Everything is loaded and initialized.
 do_action('init');
 ?>

@@ -1,10 +1,8 @@
 <?php
 
-if (empty($feed)) {
-    $blog = 1;
-		$feed = 'atom';
-    $doing_rss = 1;
-    require('wp-blog-header.php');
+if (empty($wp)) {
+	require_once('wp-config.php');
+	wp('feed=atom');
 }
 
 header('Content-type: application/atom+xml; charset=' . get_settings('blog_charset'), true);
