@@ -131,7 +131,7 @@ function get_author_link($echo = false, $author_id, $author_nicename) {
         $file = get_settings('home') . '/';
         $link = $file . '?author=' . $auth_ID;
     } else {
-        if ('' == $author_nicename) $author_nicename = $cache_userdata[$author_id]->author_nicename;
+        if ('' == $author_nicename) $author_nicename = $cache_userdata[$author_id]->user_nicename;
 				$link = str_replace('%author%', $author_nicename, $link);
 				$link = get_settings('home') . trailingslashit($link);
     }
