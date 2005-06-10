@@ -48,6 +48,7 @@ case 'update':
 // Options that if not there have 0 value but need to be something like "closed"
     $nonbools = array('default_ping_status', 'default_comment_status');
     if ($options) {
+		$options = apply_filters( 'options_to_update' , $options );
         foreach ($options as $option) {
             // should we even bother checking?
             if ($user_level >= $option->option_admin_level) {
