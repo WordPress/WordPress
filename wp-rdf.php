@@ -20,6 +20,7 @@ $more = 1;
 	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
 	xmlns:admin="http://webns.net/mvcb/"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	<?php do_action('rdf_ns'); ?>
 >
 <channel rdf:about="<?php bloginfo_rss("url") ?>">
 	<title><?php bloginfo_rss('name') ?></title>
@@ -30,6 +31,7 @@ $more = 1;
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
 	<sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>
+	<?php do_action('rdf_header'); ?>
 	<items>
 		<rdf:Seq>
 		<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
@@ -51,7 +53,7 @@ $more = 1;
 	<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
 	<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 <?php endif; ?>
-	
+	<?php do_action('rdf_item'); ?>
 </item>
 <?php } }  ?>
 </rdf:RDF>
