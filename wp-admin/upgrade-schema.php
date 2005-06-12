@@ -6,7 +6,7 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   cat_name varchar(55) NOT NULL default '',
   category_nicename varchar(200) NOT NULL default '',
   category_description longtext NOT NULL,
-  category_parent int(4) NOT NULL default '0',
+  category_parent bigint(20) NOT NULL default '0',
   PRIMARY KEY  (cat_ID),
   KEY category_nicename (category_nicename)
 );
@@ -24,8 +24,8 @@ CREATE TABLE $wpdb->comments (
   comment_approved enum('0','1','spam') NOT NULL default '1',
   comment_agent varchar(255) NOT NULL default '',
   comment_type varchar(20) NOT NULL default '',
-  comment_parent int(11) NOT NULL default '0',
-  user_id int(11) NOT NULL default '0',
+  comment_parent bigint(20) NOT NULL default '0',
+  user_id bigint(20) NOT NULL default '0',
   PRIMARY KEY  (comment_ID),
   KEY comment_approved (comment_approved),
   KEY comment_post_ID (comment_post_ID)
@@ -98,7 +98,7 @@ CREATE TABLE $wpdb->postmeta (
 );
 CREATE TABLE $wpdb->posts (
   ID bigint(20) unsigned NOT NULL auto_increment,
-  post_author int(4) NOT NULL default '0',
+  post_author bigint(20) NOT NULL default '0',
   post_date datetime NOT NULL default '0000-00-00 00:00:00',
   post_date_gmt datetime NOT NULL default '0000-00-00 00:00:00',
   post_content longtext NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE $wpdb->posts (
   post_modified datetime NOT NULL default '0000-00-00 00:00:00',
   post_modified_gmt datetime NOT NULL default '0000-00-00 00:00:00',
   post_content_filtered text NOT NULL,
-  post_parent int(11) NOT NULL default '0',
+  post_parent bigint(20) NOT NULL default '0',
   guid varchar(255) NOT NULL default '',
   menu_order int(11) NOT NULL default '0',
   PRIMARY KEY  (ID),
