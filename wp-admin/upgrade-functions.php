@@ -9,6 +9,7 @@ function upgrade_all() {
 	upgrade_101();
 	upgrade_110();
 	upgrade_130();
+	upgrade_160();
 	save_mod_rewrite_rules();
 }
 
@@ -211,6 +212,44 @@ function upgrade_130() {
 	}
 
 	make_site_theme();
+}
+
+function upgrade_160() {
+	global $wpdb, $table_prefix;
+	$users = $wpdb->get_results("SELECT * FROM $wpdb->users");
+	foreach ( $users as $user ) :
+		if ( !empty( $user->user_firstname ) )
+			update_usermeta( $user->ID, 'first_name', $user->user_firstname );
+		if ( !empty( $user->user_lastname ) )
+			update_usermeta( $user->ID, 'last_name', $user->user_lastname );
+		if ( !empty( $user->user_nickname ) )
+			update_usermeta( $user->ID, 'nickname', $user->user_nickname );
+		if ( !empty( $user->user_level ) )
+			update_usermeta( $user->ID, $table_prefix . 'user_level', $user->user_level );
+		if ( !empty( $user->user_icq ) )
+			update_usermeta( $user->ID, 'icq', $user->user_icq );
+		if ( !empty( $user->user_aim ) )
+			update_usermeta( $user->ID, 'aim', $user->user_aim );
+		if ( !empty( $user->user_msn ) )
+			update_usermeta( $user->ID, 'msn', $user->user_msn );
+		if ( !empty( $user->user_yim ) )
+			update_usermeta( $user->ID, 'yim', $user->user_icq );
+		if ( !empty( $user->user_description ) )
+			update_usermeta( $user->ID, 'description', $user->user_description );
+		$idmode = $user->user_idmode;
+		if ($idmode == 'nickname') $id = $user->user_nickname;
+		if ($idmode == 'login') $id = $user->user_login;
+		if ($idmode == 'firstname') $id = $user->user_firstname;
+		if ($idmode == 'lastname') $id = $user->user_lastname;
+		if ($idmode == 'namefl') $id = $user->user_firstname.' '.$user->user_lastname;
+		if ($idmode == 'namelf') $id = $user->user_lastname.' '.$user->user_firstname;
+		if (!$idmode) $id = $user->user_nickname;
+		$id = addslashes( $id );
+		$wpdb->query("UPDATE $wpdb->users SET display_name = '$id' WHERE ID = '$user->ID'");
+	endforeach;
+	$old_user_fields = array( 'user_firstname', 'user_lastname', 'user_icq', 'user_aim', 'user_msn', 'user_yim', 'user_idmode', 'user_ip', 'user_domain', 'user_browser', 'user_description', 'user_nickname' );
+	foreach ( $old_user_fields as $old )
+		$wpdb->query("ALTER TABLE $wpdb->users DROP $old");
 }
 
 // The functions we use to actually do stuff

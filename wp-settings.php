@@ -48,6 +48,7 @@ $wpdb->links            = $table_prefix . 'links';
 $wpdb->linkcategories   = $table_prefix . 'linkcategories';
 $wpdb->options          = $table_prefix . 'options';
 $wpdb->postmeta         = $table_prefix . 'postmeta';
+$wpdb->usermeta         = $table_prefix . 'usermeta';
 
 if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;

@@ -91,7 +91,7 @@ CREATE TABLE $wpdb->postmeta (
   meta_id bigint(20) NOT NULL auto_increment,
   post_id bigint(20) NOT NULL default '0',
   meta_key varchar(255) default NULL,
-  meta_value text,
+  meta_value longtext,
   PRIMARY KEY  (meta_id),
   KEY post_id (post_id),
   KEY meta_key (meta_key)
@@ -144,8 +144,18 @@ CREATE TABLE $wpdb->users (
   user_activation_key varchar(60) NOT NULL default '',
   user_status int(11) NOT NULL default '0',
   user_description longtext NOT NULL default '',
+  display_name varchar(250) NOT NULL default '',
   PRIMARY KEY  (ID),
   UNIQUE KEY user_login (user_login)
+);
+CREATE TABLE $wpdb->usermeta (
+  umeta_id bigint(20) NOT NULL auto_increment,
+  user_id bigint(20) NOT NULL default '0',
+  meta_key varchar(255) default NULL,
+  meta_value longtext,
+  PRIMARY KEY  (umeta_id),
+  KEY user_id (user_id),
+  KEY meta_key (meta_key)
 );";
 
 function populate_options() {

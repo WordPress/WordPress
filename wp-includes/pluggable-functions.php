@@ -31,29 +31,42 @@ function get_currentuserinfo() {
 endif;
 
 if ( !function_exists('get_userdata') ) :
-function get_userdata($userid) {
+function get_userdata( $user_id ) {
 	global $wpdb, $cache_userdata;
-	$userid = (int) $userid;
-	if ( empty($cache_userdata[$userid]) && $userid != 0) {
-		$cache_userdata[$userid] = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = $userid");
-		$cache_userdata[$cache_userdata[$userid]->user_login] =& $cache_userdata[$userid];
-	} 
+	$user_id = (int) $user_id;
+	if ( $user_id == 0 )
+		return false;
 
-	return $cache_userdata[$userid];
+	if ( isset( $cache_userdata[$user_id] ) ) 
+		return $cache_userdata[$user_id];
+
+	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$user_id'") )
+		return $cache_userdata[$user_id] = false;
+
+	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
+
+	foreach ( $metavalues as $meta )
+		$user->{$meta->meta_key} = $meta->meta_value;
+
+	die(var_dump($user));
+	$cache_userdata[$cache_userdata[$userid]->user_login] =& $cache_userdata[$user_id];
+
+	return $cache_userdata[$user_id];
 }
 endif;
 
 if ( !function_exists('get_userdatabylogin') ) :
 function get_userdatabylogin($user_login) {
 	global $cache_userdata, $wpdb;
-	if ( !empty($user_login) && empty($cache_userdata[$user_login]) ) {
-		$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'"); /* todo: get rid of this intermediate var */
-		$cache_userdata[$user->ID] = $user;
-		$cache_userdata[$user_login] =& $cache_userdata[$user->ID];
-	} else {
-		$user = $cache_userdata[$user_login];
-	}
-	return $user;
+	$user_login = addslashes( $user_login );
+	if ( empty( $user_login ) )
+		return false;
+	if ( isset( $cache_userdata[$user_login] ) )
+		return $cache_userdata[$user_login];
+	
+	$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$user_login'");
+
+	return get_userdata( $user_id );
 }
 endif;
 

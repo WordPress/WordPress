@@ -1886,4 +1886,19 @@ function nocache_headers() {
 	@ header('Pragma: no-cache');
 }
 
+function update_usermeta( $user_id, $meta_key, $meta_value ) {
+	global $wpdb;
+	$user_id = (int) $user_id;
+	$meta_key = preg_replace('|a-z0-9_|i', '', $meta_key);
+	$cur = $wpdb->get_row("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
+	if ( !$cur ) {
+		$wpdb->query("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )
+		VALUES
+		( '$user_id', '$meta_key', '$meta_value' )");
+		return true;
+	}
+	if ( $cur->meta_value != $meta_value )
+		$wpdb->query("UPDATE $wpdb->usermeta SET meta_value = '$meta_value' WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
+}
+
 ?>
