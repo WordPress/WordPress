@@ -267,31 +267,7 @@ function get_cat_ID($cat_name='General') {
 function get_author_name( $auth_id ) {
 	$authordata = get_userdata( $auth_id );
 
-	switch( $authordata['user_idmode'] ) {
-		case 'nickname':
-			$authorname = $authordata['user_nickname'];
-			break;
-		case 'login':
-			$authorname = $authordata['user_login'];
-			break;
-		case 'firstname':
-			$authorname = $authordata['user_firstname'];
-			break;
-		case 'lastname':
-			$authorname = $authordata['user_lastname'];
-			break;
-		case 'namefl':
-			$authorname = $authordata['user_firstname'].' '.$authordata['user_lastname'];
-			break;
-		case 'namelf':
-			$authorname = $authordata['user_lastname'].' '.$authordata['user_firstname'];
-			break;
-		default:
-			$authorname = $authordata['user_nickname'];
-			break;
-	}
-
-	return $authorname;
+	return $authordata->display_name;
 }
 
 // get extended entry info (<!--more-->)

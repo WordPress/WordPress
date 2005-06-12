@@ -1,20 +1,10 @@
 <?php
+
 function get_the_author($idmode = '') {
     global $authordata;
-    if (empty($idmode)) {
-        $idmode = $authordata->user_idmode;
-    }
-
-    if ($idmode == 'nickname')    $id = $authordata->user_nickname;
-    if ($idmode == 'login')    $id = $authordata->user_login;
-    if ($idmode == 'firstname')    $id = $authordata->user_firstname;
-    if ($idmode == 'lastname')    $id = $authordata->user_lastname;
-    if ($idmode == 'namefl')    $id = $authordata->user_firstname.' '.$authordata->user_lastname;
-    if ($idmode == 'namelf')    $id = $authordata->user_lastname.' '.$authordata->user_firstname;
-    if (!$idmode) $id = $authordata->user_nickname;
-    
-    return $id;
+    return $author_data->display_name;
 }
+
 function the_author($idmode = '', $echo = true) {
 	if ($echo) echo get_the_author($idmode);
 	return get_the_author($idmode);

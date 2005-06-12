@@ -17,4 +17,5 @@ gzip_compression();
 require_once(ABSPATH . WPINC . '/template-loader.php');
 
 endif;
+
 ?>
