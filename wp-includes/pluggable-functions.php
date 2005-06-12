@@ -58,7 +58,7 @@ endif;
 if ( !function_exists('get_userdatabylogin') ) :
 function get_userdatabylogin($user_login) {
 	global $cache_userdata, $wpdb;
-	$user_login = addslashes( $user_login );
+	$user_login = sanitize_user( $user_login );
 	if ( empty( $user_login ) )
 		return false;
 	if ( isset( $cache_userdata[$user_login] ) )

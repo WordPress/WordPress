@@ -84,7 +84,16 @@ case 'update':
 	$newuser_idmode = wp_specialchars($_POST['newuser_idmode']);
 	$user_description = $_POST['user_description'];
 
-	$result = $wpdb->query("UPDATE $wpdb->users SET user_firstname='$newuser_firstname', $updatepassword user_lastname='$newuser_lastname', user_nickname='$newuser_nickname', user_icq='$newuser_icq', user_email='$newuser_email', user_url='$newuser_url', user_aim='$newuser_aim', user_msn='$newuser_msn', user_yim='$newuser_yim', user_idmode='$newuser_idmode', user_description = '$user_description', user_nicename = '$newuser_nicename' WHERE ID = $user_ID");
+	$result = $wpdb->query("UPDATE $wpdb->users SET $updatepassword user_email='$newuser_email', user_url='$newuser_url', user_nicename = '$newuser_nicename' WHERE ID = $user_ID");
+
+	update_user_meta( $user_ID, 'first_name', $newuser_firstname );
+	update_user_meta( $user_ID, 'last_name', $newuser_lastname );
+	update_user_meta( $user_ID, 'nickname', $newuser_nickname );
+	update_user_meta( $user_ID, 'description', $user_description );
+	update_user_meta( $user_ID, 'icq', $newuser_icq );
+	update_user_meta( $user_ID, 'aim', $newuser_aim );
+	update_user_meta( $user_ID, 'msn', $newuser_msn );
+	update_user_meta( $user_ID, 'yim', $newuser_yim );
 
 	do_action('profile_update', $user_ID);
 

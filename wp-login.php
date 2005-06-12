@@ -121,7 +121,7 @@ break;
 case 'resetpass' :
 
 	// Generate something random for a password... md5'ing current time with a rand salt
-	$key = $_GET['key'];
+	$key = preg_replace('/a-z0-9/i', '', $_GET['key']);
 	if ( empty($key) )
 		die( __('Sorry, that key does not appear to be valid.') );
 	$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_activation_key = '$key'");

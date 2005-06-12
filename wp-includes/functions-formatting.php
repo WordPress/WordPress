@@ -265,6 +265,10 @@ function remove_accents($string) {
 	return $string;
 }
 
+function sanitize_user( $username ) {
+	return preg_replace('|a-z0-9 _.-|i', '', $username);
+}
+
 function sanitize_title($title, $fallback_title = '') {
 	$title = strip_tags($title);
 	$title = apply_filters('sanitize_title', $title);

@@ -26,13 +26,11 @@ switch($action) {
 
 case 'register':
 
-	$user_login = $_POST['user_login'];
+	$user_login = sanitize_user( $_POST['user_login'] );
 	$user_email = $_POST['user_email'];
 		
-	/* checking that username has been typed */
-	if ($user_login == '') {
+	if ( $user_login == '' )
 		die (__('<strong>ERROR</strong>: Please enter a username.'));
-	}
 
 	/* checking e-mail address */
 	if ($user_email == '') {
@@ -41,19 +39,16 @@ case 'register':
 		die (__('<strong>ERROR</strong>: The email address isn&#8217;t correct.'));
 	}
 
-	/* checking the username isn't already used by another user */
-	$result = $wpdb->get_results("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'");
-    if (count($result) >= 1) {
+    if ( $result = $wpdb->get_row("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'") )
 		die (__('<strong>ERROR</strong>: This username is already registered, please choose another one.'));
-	}
 
 	$user_ip = $_SERVER['REMOTE_ADDR'] ;
 
 	$user_browser = $wpdb->escape($_SERVER['HTTP_USER_AGENT']);
 
-	$user_login = $wpdb->escape( preg_replace('|a-z0-9 _.-|i', '', $user_login) );
+	$user_login = $wpdb->escape( sanitize_user($user_login) ) );
 	$user_nickname = $user_login;
-   $user_nicename = sanitize_title($user_nickname);
+	$user_nicename = sanitize_title($user_nickname);
 	$now = gmdate('Y-m-d H:i:s');
 	$user_level = get_settings('new_users_can_blog');
 	$password = substr( md5( uniqid( microtime() ) ), 0, 7);

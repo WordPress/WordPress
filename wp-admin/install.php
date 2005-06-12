@@ -164,11 +164,11 @@ $wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, p
 $wpdb->query( "INSERT INTO $wpdb->post2cat (`rel_id`, `post_id`, `category_id`) VALUES (1, 1, 1)" );
 
 // Default comment
-$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content) VALUES ('1', '".addslashes(__('Mr WordPress'))."', '', 'http://wordpress.org', '127.0.0.1', '$now', '$now_gmt', '".addslashes(__('Hi, this is a comment.<br />To delete a comment, just log in, and view the posts\' comments, there you will have the option to edit or delete them.'))."')");
+$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_date, comment_date_gmt, comment_content) VALUES ('1', '".addslashes(__('Mr WordPress'))."', '', 'http://wordpress.org', '$now', '$now_gmt', '".addslashes(__('Hi, this is a comment.<br />To delete a comment, just log in, and view the posts\' comments, there you will have the option to edit or delete them.'))."')");
 
 // Set up admin user
 $random_password = substr(md5(uniqid(microtime())), 0, 6);
-$wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_nickname, user_email, user_level, user_idmode, user_registered) VALUES ( '1', 'admin', MD5('$random_password'), '".addslashes(__('Administrator'))."', '$admin_email', '10', 'nickname', NOW() )");
+$wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_email, user_level, user_registered) VALUES ( '1', 'admin', MD5('$random_password'), '$admin_email', '10', NOW() )");
 
 $message_headers = 'From: ' . stripslashes($_POST['weblog_title']) . ' <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
 $message = sprintf(__("Your new WordPress blog has been successfully set up at:

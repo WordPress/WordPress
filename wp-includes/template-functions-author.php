@@ -156,10 +156,11 @@ function wp_list_authors($args = '') {
 function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
     global $wpdb;
 
-    $query = "SELECT ID, user_nickname, user_firstname, user_lastname, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY user_nickname";
+    $query = "SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name";
     $authors = $wpdb->get_results($query);
 
     foreach($authors as $author) {
+		$author = get_userdata( $author->ID );
         $posts = get_usernumposts($author->ID);
         $name = $author->user_nickname;
 

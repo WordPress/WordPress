@@ -66,7 +66,16 @@ $new_url         = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $new_ur
 $new_idmode      = wp_specialchars($_POST['new_idmode']);
 $new_description = $_POST['new_description'];
 
-$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', user_firstname = '$new_firstname', $updatepassword user_lastname='$new_lastname', user_nickname='$new_nickname', user_icq='$new_icq', user_email='$new_email', user_url='$new_url', user_aim='$new_aim', user_msn='$new_msn', user_yim='$new_yim', user_idmode='$new_idmode', user_description = '$new_description', user_nicename = '$new_nicename' WHERE ID = $user_id");
+$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', $updatepassword user_email='$new_email', user_url='$new_url', user_nicename = '$new_nicename' WHERE ID = '$user_id'");
+
+update_user_meta( $user_ID, 'first_name', $new_firstname );
+update_user_meta( $user_ID, 'last_name', $new_lastname );
+update_user_meta( $user_ID, 'nickname', $new_nickname );
+update_user_meta( $user_ID, 'description', $new_description );
+update_user_meta( $user_ID, 'icq', $new_icq );
+update_user_meta( $user_ID, 'aim', $new_aim );
+update_user_meta( $user_ID, 'msn', $new_msn );
+update_user_meta( $user_ID, 'yim', $new_yim );
 
 header("Location: user-edit.php?user_id=$user_id&updated=true");
 
