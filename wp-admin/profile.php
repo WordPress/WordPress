@@ -140,7 +140,6 @@ default:
 
 	$bookmarklet_height= 440;
 
-var_dump( $profiledata );
 if (isset($updated)) { ?>
 <div class="updated">
 <p><strong><?php _e('Profile updated.') ?></strong></p>
