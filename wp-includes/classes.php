@@ -626,9 +626,10 @@ class WP_Query {
 		$this->queried_object_id = 0;
 
 		if ($this->is_category) {
-			$category = &get_category($this->get('cat'));
+			$cat = $this->get('cat');
+			$category = &get_category($cat);
 			$this->queried_object = &$category;
-			$this->queried_object_id = $this->get('cat');
+			$this->queried_object_id = $cat;
 		} else if ($this->is_single) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = $this->post->ID;
@@ -753,6 +754,7 @@ class WP_Rewrite {
 	var $index = 'index.php';
 	var $matches = '';
 	var $rules;
+	var $use_verbose_rules = false;
 	var $rewritecode = 
 		array(
 					'%year%',
@@ -1219,29 +1221,37 @@ class WP_Rewrite {
 		$rules = "<IfModule mod_rewrite.c>\n";
 		$rules .= "RewriteEngine On\n";
 		$rules .= "RewriteBase $home_root\n";
-		$this->matches = '';
-		$rewrite = $this->rewrite_rules();
-		$num_rules = count($rewrite);
-		$rules .= "RewriteCond %{REQUEST_FILENAME} -f [OR]\n" .
-			"RewriteCond %{REQUEST_FILENAME} -d\n" .
-			"RewriteRule ^.*$ - [S=$num_rules]\n";
 
-		foreach ($rewrite as $match => $query) {
-			// Apache 1.3 does not support the reluctant (non-greedy) modifier.
-			$match = str_replace('.+?', '.+', $match);
+		if ($this->use_verbose_rules) {
+			$this->matches = '';
+			$rewrite = $this->rewrite_rules();
+			$num_rules = count($rewrite);
+			$rules .= "RewriteCond %{REQUEST_FILENAME} -f [OR]\n" .
+				"RewriteCond %{REQUEST_FILENAME} -d\n" .
+				"RewriteRule ^.*$ - [S=$num_rules]\n";
+		
+			foreach ($rewrite as $match => $query) {
+				// Apache 1.3 does not support the reluctant (non-greedy) modifier.
+				$match = str_replace('.+?', '.+', $match);
 
-			// If the match is unanchored and greedy, prepend rewrite conditions
-			// to avoid infinite redirects and eclipsing of real files.
-			if ($match == '(.+)/?$' || $match == '([^/]+)/?$' ) {
-				//nada.
+				// If the match is unanchored and greedy, prepend rewrite conditions
+				// to avoid infinite redirects and eclipsing of real files.
+				if ($match == '(.+)/?$' || $match == '([^/]+)/?$' ) {
+					//nada.
+				}
+			
+				if (strstr($query, $this->index)) {
+					$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
+				} else {
+					$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA,L]\n";
+				}
 			}
-
-			if (strstr($query, $this->index)) {
-				$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
-			} else {
-				$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA,L]\n";
-			}
+		} else {
+			$rules .= "RewriteCond %{REQUEST_FILENAME} !-f\n" .
+				"RewriteCond %{REQUEST_FILENAME} !-d\n" .
+				"RewriteRule . {$home_root}{$this->index}\n";
 		}
+
 		$rules .= "</IfModule>\n";
 
 		$rules = apply_filters('mod_rewrite_rules', $rules);
@@ -1303,12 +1313,16 @@ class WP {
 		if (! empty($extra_query_vars))
 			parse_str($extra_query_vars, $extra_query_vars);
 
-		// Process PATH_INFO and 404.
+		// Process PATH_INFO, REQUEST_URI, and 404 for permalinks.
 		if ((isset($_GET['error']) && $_GET['error'] == '404') ||
 				((! empty($_SERVER['PATH_INFO'])) &&
 				 ('/' != $_SERVER['PATH_INFO']) &&
 				 (false === strpos($_SERVER['PATH_INFO'], '.php'))
-				 )) {
+				 ) ||
+				(empty($_SERVER['QUERY_STRING']) &&
+				 (false === strpos($_SERVER['REQUEST_URI'], '.php')) &&
+				 ('/' != $_SERVER['REQUEST_URI']))
+				) {
 
 			$this->did_permalink = true;
 
