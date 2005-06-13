@@ -2,7 +2,7 @@
 
 function get_the_author($idmode = '') {
     global $authordata;
-    return $author_data->display_name;
+    return $authordata->display_name;
 }
 
 function the_author($idmode = '', $echo = true) {
