@@ -6,27 +6,22 @@
 
 if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
-	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $user_identity;
-	// *** retrieving user's data from cookies and db - no spoofing
+	global $user_login, $userdata, $user_level, $user_ID, $user_id, $user_email, $user_url, $user_pass_md5, $user_identity;
 
-	if (isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
-		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
-	$userdata = get_userdatabylogin($user_login);
-	$user_level = $userdata->user_level;
-	$user_ID = $userdata->ID;
-	$user_nickname = $userdata->user_nickname;
-	$user_email = $userdata->user_email;
-	$user_url = $userdata->user_url;
+	if ( !isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
+		return false;
+
+	$user_login  = $_COOKIE['wordpressuser_' . COOKIEHASH];
+	$userdata    = get_userdatabylogin($user_login);
+	$user_level  = $userdata->user_level;
+	$user_ID     = $userdata->ID;
+	$user_id     = $userdata->ID;
+	$user_email  = $userdata->user_email;
+	$user_url    = $userdata->user_url;
+
 	$user_pass_md5 = md5($userdata->user_pass);
 
-	$idmode = $userdata->user_idmode;
-	if ($idmode == 'nickname')  $user_identity = $userdata->user_nickname;
-	if ($idmode == 'login')     $user_identity = $userdata->user_login;
-	if ($idmode == 'firstname') $user_identity = $userdata->user_firstname;
-	if ($idmode == 'lastname')  $user_identity = $userdata->user_lastname;
-	if ($idmode == 'namefl')    $user_identity = $userdata->user_firstname.' '.$userdata->user_lastname;
-	if ($idmode == 'namelf')    $user_identity = $userdata->user_lastname.' '.$userdata->user_firstname;
-	if (!$idmode) $user_identity = $userdata->user_nickname;
+	$user_identity = $userdata->display_name;
 }
 endif;
 
