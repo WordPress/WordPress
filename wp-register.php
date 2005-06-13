@@ -42,21 +42,16 @@ case 'register':
     if ( $result = $wpdb->get_row("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'") )
 		die (__('<strong>ERROR</strong>: This username is already registered, please choose another one.'));
 
-	$user_ip = $_SERVER['REMOTE_ADDR'] ;
-
-	$user_browser = $wpdb->escape($_SERVER['HTTP_USER_AGENT']);
-
 	$user_login = $wpdb->escape( sanitize_user($user_login) ) );
-	$user_nickname = $user_login;
 	$user_nicename = sanitize_title($user_nickname);
 	$now = gmdate('Y-m-d H:i:s');
 	$user_level = get_settings('new_users_can_blog');
 	$password = substr( md5( uniqid( microtime() ) ), 0, 7);
 
 	$result = $wpdb->query("INSERT INTO $wpdb->users 
-		(user_login, user_pass, user_nickname, user_email, user_ip, user_browser, user_registered, user_level, user_idmode, user_nicename)
+		(user_login, user_pass, user_email, user_registered, user_level, user_nicename)
 	VALUES 
-		('$user_login', MD5('$password'), '$user_nickname', '$user_email', '$user_ip', '$user_browser', '$now', '$user_level', 'nickname', '$user_nicename')");
+		('$user_login', MD5('$password'), '$user_email', '$now', '$user_level', '$user_nicename')");
 
 	do_action('user_register', $wpdb->insert_id);
 

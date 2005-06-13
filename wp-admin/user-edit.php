@@ -63,19 +63,19 @@ $new_yim         = wp_specialchars($_POST['new_yim']);
 $new_email       = wp_specialchars($_POST['new_email']);
 $new_url         = wp_specialchars($_POST['new_url']);
 $new_url         = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $new_url) ? $new_url : 'http://' . $new_url; 
-$new_idmode      = wp_specialchars($_POST['new_idmode']);
+$display_name    = wp_specialchars($_POST['display_name']);
 $new_description = $_POST['new_description'];
 
-$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', $updatepassword user_email='$new_email', user_url='$new_url', user_nicename = '$new_nicename' WHERE ID = '$user_id'");
+$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', $updatepassword user_email='$new_email', user_url='$new_url', user_nicename = '$new_nicename', display_name = '$display_name' WHERE ID = '$user_id'");
 
-update_user_meta( $user_ID, 'first_name', $new_firstname );
-update_user_meta( $user_ID, 'last_name', $new_lastname );
-update_user_meta( $user_ID, 'nickname', $new_nickname );
-update_user_meta( $user_ID, 'description', $new_description );
-update_user_meta( $user_ID, 'icq', $new_icq );
-update_user_meta( $user_ID, 'aim', $new_aim );
-update_user_meta( $user_ID, 'msn', $new_msn );
-update_user_meta( $user_ID, 'yim', $new_yim );
+update_usermeta( $user_ID, 'first_name', $new_firstname );
+update_usermeta( $user_ID, 'last_name', $new_lastname );
+update_usermeta( $user_ID, 'nickname', $new_nickname );
+update_usermeta( $user_ID, 'description', $new_description );
+update_usermeta( $user_ID, 'icq', $new_icq );
+update_usermeta( $user_ID, 'aim', $new_aim );
+update_usermeta( $user_ID, 'msn', $new_msn );
+update_usermeta( $user_ID, 'yim', $new_yim );
 
 header("Location: user-edit.php?user_id=$user_id&updated=true");
 
@@ -127,11 +127,11 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 <?php } ?>
 	<tr>
 		<th scope="row"><?php _e('First name:') ?></th>
-		<td><input type="text" name="new_firstname" id="new_firstname" value="<?php echo $edituser->user_firstname ?>" /></td>
+		<td><input type="text" name="new_firstname" id="new_firstname" value="<?php echo $edituser->first_name ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Last name:') ?></th>
-		<td><input type="text" name="new_lastname" id="new_lastname2" value="<?php echo $edituser->user_lastname ?>" /></td>
+		<td><input type="text" name="new_lastname" id="new_lastname2" value="<?php echo $edituser->last_name ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Profile:') ?></th>
@@ -139,7 +139,7 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Nickname:') ?></th>
-		<td><input type="text" name="new_nickname" id="new_nickname" value="<?php echo $edituser->user_nickname ?>" /></td>
+		<td><input type="text" name="new_nickname" id="new_nickname" value="<?php echo $edituser->nickname ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('E-mail:') ?></th>
@@ -151,46 +151,41 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('ICQ:') ?></th>
-		<td><input type="text" name="new_icq" id="new_icq" value="<?php if ($edituser->user_icq > 0) { echo $edituser->user_icq; } ?>" /></td>
+		<td><input type="text" name="new_icq" id="new_icq" value="<?php if ($edituser->icq > 0) { echo $edituser->icq; } ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('AIM:') ?></th>
-		<td><input type="text" name="new_aim" id="new_aim" value="<?php echo $edituser->user_aim ?>" /></td>
+		<td><input type="text" name="new_aim" id="new_aim" value="<?php echo $edituser->aim ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('MSN IM:') ?>
 		</th>
-		<td><input type="text" name="new_msn" id="new_msn" value="<?php echo $edituser->user_msn ?>" /></td>
+		<td><input type="text" name="new_msn" id="new_msn" value="<?php echo $edituser->msn ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Yahoo IM:') ?>
 		</th>
-		<td><input type="text" name="new_yim" id="new_yim" value="<?php echo $edituser->user_yim ?>" />
+		<td><input type="text" name="new_yim" id="new_yim" value="<?php echo $edituser->yim ?>" />
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Identity on blog:') ?>
 		</th>
-		<td><select name="new_idmode">
-				<option value="nickname"<?php
-	if ($edituser->user_idmode == 'nickname')
-	echo ' selected="selected"'; ?>><?php echo $edituser->user_nickname ?></option>
-				<option value="login"<?php
-	if ($edituser->user_idmode=="login")
-	echo ' selected="selected"'; ?>><?php echo $edituser->user_login ?></option>
-				<option value="firstname"<?php
-	if ($edituser->user_idmode=="firstname")
-	echo ' selected="selected"'; ?>><?php echo $edituser->user_firstname ?></option>
-				<option value="lastname"<?php
-	if ($edituser->user_idmode=="lastname")
-	echo ' selected="selected"'; ?>><?php echo $edituser->user_lastname ?></option>
-				<option value="namefl"<?php
-	if ($edituser->user_idmode=="namefl")
-	echo ' selected="selected"'; ?>><?php echo $edituser->user_firstname." ".$edituser->user_lastname ?></option>
-				<option value="namelf"<?php
-	if ($edituser->user_idmode=="namelf")
-	echo ' selected="selected"'; ?>><?php echo $edituser->user_lastname." ".$edituser->user_firstname ?></option>
-			</select>
+		<td>	<select name="display_name">
+		<option value="<?php echo $profiledata->display_name; ?>"><?php echo $profiledata->display_name; ?></option>
+        <option value="<?php echo $profiledata->nickname ?>"><?php echo $profiledata->nickname ?></option>
+        <option value="<?php echo $profiledata->user_login ?>"><?php echo $profiledata->user_login ?></option>
+	<?php if ( !empty( $profiledata->first_name ) ) : ?>
+        <option value="<?php echo $profiledata->first_name ?>"><?php echo $profiledata->first_name ?></option>
+	<?php endif; ?>
+	<?php if ( !empty( $profiledata->last_name ) ) : ?>
+        <option value="<?php echo $profiledata->last_name ?>"><?php echo $profiledata->last_name ?></option>
+	<?php endif; ?>
+	<?php if ( !empty( $profiledata->first_name ) && !empty( $profiledata->last_name ) ) : ?>
+        <option value="<?php echo $profiledata->first_name." ".$profiledata->last_name ?>"><?php echo $profiledata->first_name." ".$profiledata->last_name ?></option>
+        <option value="<?php echo $profiledata->last_name." ".$profiledata->first_name ?>"><?php echo $profiledata->last_name." ".$profiledata->first_name ?></option>
+	<?php endif; ?>
+      </select>
 		</td>
 	</tr>
 <?php

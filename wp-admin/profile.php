@@ -72,6 +72,7 @@ case 'update':
 
 	$newuser_firstname = wp_specialchars($_POST['newuser_firstname']);
 	$newuser_lastname = wp_specialchars($_POST['newuser_lastname']);
+	$new_display_name = wp_specialchars($_POST['display_name']);
 	$newuser_nickname = $_POST['newuser_nickname'];
 	$newuser_nicename = sanitize_title($newuser_nickname);
 	$newuser_icq = wp_specialchars($_POST['newuser_icq']);
@@ -81,19 +82,18 @@ case 'update':
 	$newuser_email = wp_specialchars($_POST['newuser_email']);
 	$newuser_url = wp_specialchars($_POST['newuser_url']);
 	$newuser_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $newuser_url) ? $newuser_url : 'http://' . $newuser_url; 
-	$newuser_idmode = wp_specialchars($_POST['newuser_idmode']);
 	$user_description = $_POST['user_description'];
 
-	$result = $wpdb->query("UPDATE $wpdb->users SET $updatepassword user_email='$newuser_email', user_url='$newuser_url', user_nicename = '$newuser_nicename' WHERE ID = $user_ID");
+	$result = $wpdb->query("UPDATE $wpdb->users SET $updatepassword user_email='$newuser_email', user_url='$newuser_url', user_nicename = '$newuser_nicename', display_name = '$new_display_name' WHERE ID = $user_ID");
 
-	update_user_meta( $user_ID, 'first_name', $newuser_firstname );
-	update_user_meta( $user_ID, 'last_name', $newuser_lastname );
-	update_user_meta( $user_ID, 'nickname', $newuser_nickname );
-	update_user_meta( $user_ID, 'description', $user_description );
-	update_user_meta( $user_ID, 'icq', $newuser_icq );
-	update_user_meta( $user_ID, 'aim', $newuser_aim );
-	update_user_meta( $user_ID, 'msn', $newuser_msn );
-	update_user_meta( $user_ID, 'yim', $newuser_yim );
+	update_usermeta( $user_ID, 'first_name', $newuser_firstname );
+	update_usermeta( $user_ID, 'last_name', $newuser_lastname );
+	update_usermeta( $user_ID, 'nickname', $newuser_nickname );
+	update_usermeta( $user_ID, 'description', $user_description );
+	update_usermeta( $user_ID, 'icq', $newuser_icq );
+	update_usermeta( $user_ID, 'aim', $newuser_aim );
+	update_usermeta( $user_ID, 'msn', $newuser_msn );
+	update_usermeta( $user_ID, 'yim', $newuser_yim );
 
 	do_action('profile_update', $user_ID);
 
@@ -136,10 +136,11 @@ break;
 default:
 	$parent_file = 'profile.php';
 	include_once('admin-header.php');
-	$profiledata=get_userdata($user_ID);
+	$profiledata = get_userdata($user_ID);
 
 	$bookmarklet_height= 440;
 
+var_dump( $profiledata );
 if (isset($updated)) { ?>
 <div class="updated">
 <p><strong><?php _e('Profile updated.') ?></strong></p>
@@ -171,44 +172,32 @@ if (isset($updated)) { ?>
     </tr>
     <tr>
       <th scope="row"><?php _e('First name:') ?></th>
-      <td><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->user_firstname ?>" /></td>
+      <td><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->first_name ?>" /></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('Last name:') ?></th>
-      <td><input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->user_lastname ?>" /></td>
+      <td><input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->last_name ?>" /></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('Nickname:') ?></th>
-      <td><input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->user_nickname ?>" /></td>
+      <td><input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->nickname ?>" /></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('How to display name:') ?> </th>
-      <td><select name="newuser_idmode">
-        <option value="nickname"<?php
-	if ($profiledata->user_idmode == 'nickname')
-	echo ' selected="selected"'; ?>><?php echo $profiledata->user_nickname ?></option>
-        <option value="login"<?php
-	if ($profiledata->user_idmode=="login")
-	echo ' selected="selected"'; ?>><?php echo $profiledata->user_login ?></option>
-	<?php if ( !empty( $profiledata->user_firstname ) ) : ?>
-        <option value="firstname"<?php
-	if ($profiledata->user_idmode=="firstname")
-	echo ' selected="selected"'; ?>><?php echo $profiledata->user_firstname ?></option>
+      <td>
+	<select name="display_name">
+		<option value="<?php echo $profiledata->display_name; ?>"><?php echo $profiledata->display_name; ?></option>
+        <option value="<?php echo $profiledata->nickname ?>"><?php echo $profiledata->nickname ?></option>
+        <option value="<?php echo $profiledata->user_login ?>"><?php echo $profiledata->user_login ?></option>
+	<?php if ( !empty( $profiledata->first_name ) ) : ?>
+        <option value="<?php echo $profiledata->first_name ?>"><?php echo $profiledata->first_name ?></option>
 	<?php endif; ?>
-	<?php if ( !empty( $profiledata->user_lastname ) ) : ?>
-        <option value="lastname"<?php
-	if ($profiledata->user_idmode=="lastname")
-	echo ' selected="selected"'; ?>><?php echo $profiledata->user_lastname ?></option>
+	<?php if ( !empty( $profiledata->last_name ) ) : ?>
+        <option value="<?php echo $profiledata->last_name ?>"><?php echo $profiledata->last_name ?></option>
 	<?php endif; ?>
-	<?php if ( !empty( $profiledata->user_firstname ) && !empty( $profiledata->user_lastname ) ) : ?>
-        <option value="namefl"<?php
-	if ($profiledata->user_idmode=="namefl")
-	echo ' selected="selected"'; ?>><?php echo $profiledata->user_firstname." ".$profiledata->user_lastname ?></option>
-	<?php endif; ?>
-	<?php if ( !empty( $profiledata->user_firstname ) && !empty( $profiledata->user_lastname ) ) : ?>
-        <option value="namelf"<?php
-	if ($profiledata->user_idmode=="namelf")
-	echo ' selected="selected"'; ?>><?php echo $profiledata->user_lastname." ".$profiledata->user_firstname ?></option>
+	<?php if ( !empty( $profiledata->first_name ) && !empty( $profiledata->last_name ) ) : ?>
+        <option value="<?php echo $profiledata->first_name." ".$profiledata->last_name ?>"><?php echo $profiledata->first_name." ".$profiledata->last_name ?></option>
+        <option value="<?php echo $profiledata->last_name." ".$profiledata->first_name ?>"><?php echo $profiledata->last_name." ".$profiledata->first_name ?></option>
 	<?php endif; ?>
       </select>        </td>
     </tr>
@@ -222,19 +211,19 @@ if (isset($updated)) { ?>
     </tr>
     <tr>
       <th scope="row"><?php _e('ICQ:') ?></th>
-      <td><input type="text" name="newuser_icq" id="newuser_icq2" value="<?php if ($profiledata->user_icq > 0) { echo $profiledata->user_icq; } ?>" /></td>
+      <td><input type="text" name="newuser_icq" id="newuser_icq2" value="<?php if ($profiledata->icq > 0) { echo $profiledata->icq; } ?>" /></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('AIM:') ?></th>
-      <td><input type="text" name="newuser_aim" id="newuser_aim2" value="<?php echo $profiledata->user_aim ?>" /></td>
+      <td><input type="text" name="newuser_aim" id="newuser_aim2" value="<?php echo $profiledata->aim ?>" /></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('MSN IM:') ?> </th>
-      <td><input type="text" name="newuser_msn" id="newuser_msn2" value="<?php echo $profiledata->user_msn ?>" /></td>
+      <td><input type="text" name="newuser_msn" id="newuser_msn2" value="<?php echo $profiledata->msn ?>" /></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('Yahoo IM:') ?> </th>
-      <td>        <input type="text" name="newuser_yim" id="newuser_yim2" value="<?php echo $profiledata->user_yim ?>" />      </td>
+      <td>        <input type="text" name="newuser_yim" id="newuser_yim2" value="<?php echo $profiledata->yim ?>" />      </td>
     </tr>
     <tr>
       <th scope="row"><?php _e('Profile:') ?></th>

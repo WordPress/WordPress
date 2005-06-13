@@ -108,16 +108,17 @@ edCanvas = document.getElementById('content');
 		<th scope="row" width="30%"><?php _e('Page slug') ?>:</th>
 		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
 	</tr>
-<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login, user_firstname, user_lastname FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
+<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
 	<tr>
 		<th scope="row" width="30%"><?php _e('Page owner'); ?>:</th>
 		<td>
 		<select name="post_author" id="post_author">
 		<?php 
 		foreach ($users as $o) :
+			$o = get_userdata( $O->ID );
 			if ( $post_author == $o->ID ) $selected = 'selected="selected"';
 			else $selected = '';
-			echo "<option value='$o->ID' $selected>$o->user_login ($o->user_firstname $o->user_lastname)</option>";
+			echo "<option value='$o->ID' $selected>$o->user_login ($o->first_name $o->last_name)</option>";
 		endforeach;
 		?>
 		</select>

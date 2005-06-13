@@ -1164,9 +1164,13 @@ function update_category_cache() {
 
 function update_user_cache() {
 	global $cache_userdata, $wpdb;
-	
-	if ( $users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level > 0") ) :
+	$query = apply_filters('user_cache_query', "SELECT * FROM $wpdb->users WHERE user_level > 0");
+	if ( $users = $wpdb->get_results( $query ) ) :
 		foreach ($users as $user) :
+			$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user->ID'");
+		
+			foreach ( $metavalues as $meta )
+				$user->{$meta->meta_key} = $meta->meta_value;
 			$cache_userdata[$user->ID] = $user;
 			$cache_userdata[$user->user_login] =& $cache_userdata[$user->ID];
 		endforeach;
@@ -1280,7 +1284,7 @@ function is_author ($author = '') {
 		
 	if ($author == $author_obj->ID) {
 		return true;
-	} else if ($author == $author_obj->user_nickname) {
+	} else if ($author == $author_obj->nickname) {
 		return true;
 	} else if ($author == $author_obj->user_nicename) {
 		return true;

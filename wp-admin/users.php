@@ -197,8 +197,8 @@ default:
 		echo "
 <tr $style>
 	<td align='center'>$user_data->ID</td>
-	<td><strong>$user_data->user_nickname</strong></td>
-	<td>$user_data->user_firstname $user_data->user_lastname</td>
+	<td><strong>$user_data->user_login</strong></td>
+	<td>$user_data->first_name $user_data->last_name</td>
 	<td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
 	<td><a href='$url' title='website: $url'>$short_url</a></td>
 	<td align='center'>";
@@ -252,8 +252,8 @@ foreach ($users as $user) {
 	$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
 echo "\n<tr $style>
 <td align='center'>$user_data->ID</td>
-<td><strong>$user_data->user_nickname</strong></td>
-<td>$user_data->user_firstname $user_data->user_lastname</td>
+<td><strong>$user_data->user_login</strong></td>
+<td>$user_data->first_name $user_data->last_name</td>
 <td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
 <td><a href='$url' title='website: $url'>$short_url</a></td>
 <td align='center'>";

@@ -66,13 +66,9 @@ case "step1":
 			// we'll check the author is registered already
 			$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$post_author'");
 			if (!$user) { // seems s/he's not, so let's register
-				$user_ip = '127.0.0.1';
-				$user_domain = 'localhost';
-				$user_browser = 'server';
 				$user_joindate = '1979-06-06 00:41:00'; // that's my birthdate (gmt+1) - I could choose any other date. You could change the date too. Just remember the year must be >=1970 or the world would just randomly fall on your head (everything might look fine, and then blam! major headache!)
 				$user_login = addslashes($post_author);
 				$pass1 = addslashes('password');
-				$user_nickname = addslashes($post_author);
 				$user_email = addslashes('user@wordpress.org');
 				$user_url = addslashes('');
 				$user_joindate = addslashes($user_joindate);
@@ -80,27 +76,17 @@ case "step1":
 				INSERT INTO $wpdb->users (
 					user_login,
 					user_pass,
-					user_nickname,
 					user_email,
 					user_url,
-					user_ip,
-					user_domain,
-					user_browser,
 					user_registered,
 					user_level,
-					user_idmode
 				) VALUES (
 					'$user_login',
 					'$pass1',
-					'$user_nickname',
 					'$user_email',
 					'$user_url',
-					'$user_ip',
-					'$user_domain',
-					'$user_browser',
 					'$user_joindate',
 					'1',
-					'nickname'
 				)");
 
 				echo ": Registered user <strong>$user_login</strong>";

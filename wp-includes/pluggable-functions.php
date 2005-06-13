@@ -43,6 +43,8 @@ function get_userdata( $user_id ) {
 	foreach ( $metavalues as $meta )
 		$user->{$meta->meta_key} = $meta->meta_value;
 
+	$cache_userdata[$user_id] = $user;
+
 	$cache_userdata[$cache_userdata[$userid]->user_login] =& $cache_userdata[$user_id];
 
 	return $cache_userdata[$user_id];

@@ -172,12 +172,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $user_data = get_userdatabylogin($user_login);
 
 	  $struct = array(
-	    'nickname'  => $user_data->user_nickname,
+	    'nickname'  => $user_data->nickname,
 	    'userid'    => $user_data->ID,
 	    'url'       => $user_data->user_url,
 	    'email'     => $user_data->user_email,
-	    'lastname'  => $user_data->user_lastname,
-	    'firstname' => $user_data->user_firstname
+	    'lastname'  => $user_data->last_name,
+	    'firstname' => $user_data->first_name
 	  );
 
 	  return $struct;

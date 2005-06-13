@@ -87,10 +87,6 @@ case "step1":
 	foreach($userbase as $user) {
 		$userdata=explode("|", $user);
 
-		$user_ip="127.0.0.1";
-		$user_domain="localhost";
-		$user_browser="server";
-
 		$s=$userdata[4];
 		$user_joindate=substr($s,6,4)."-".substr($s,0,2)."-".substr($s,3,2)." 00:00:00";
 
@@ -107,7 +103,7 @@ case "step1":
 			continue;
 		}
 
-		$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,user_registered,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','1','nickname')";
+		$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_email,user_url,user_registered,user_level) VALUES ('$user_login','$pass1','$user_email','$user_url','$user_joindate','1')";
 		$result = $wpdb->query($query);
 		if ($result==false) {
 			die ("<strong>ERROR</strong>: couldn't register an user!");
@@ -156,9 +152,6 @@ case "step1":
 			$sql = "SELECT * FROM $wpdb->users WHERE user_login = '$post_author'";
 			$result = $wpdb->query($sql);
 			if (! $result) { // if deleted from GM, we register the author as a level 0 user in wp
-				$user_ip="127.0.0.1";
-				$user_domain="localhost";
-				$user_browser="server";
 				$user_joindate="1979-06-06 00:41:00";
 				$user_login=addslashes($post_author);
 				$pass1=addslashes("password");
@@ -166,7 +159,7 @@ case "step1":
 				$user_email=addslashes("user@deleted.com");
 				$user_url=addslashes("");
 				$user_joindate=addslashes($user_joindate);
-				$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_nickname,user_email,user_url,user_ip,user_domain,user_browser,user_registered,user_level,user_idmode) VALUES ('$user_login','$pass1','$user_nickname','$user_email','$user_url','$user_ip','$user_domain','$user_browser','$user_joindate','0','nickname')";
+				$query = "INSERT INTO $wpdb->users (user_login,user_pass,user_email,user_url,user_registered,user_level) VALUES ('$user_login','$pass1','$user_email','$user_url','$user_joindate','0')";
 				$result = $wpdb->query($query);
 				if ($result==false) {
 					die ("<strong>ERROR</strong>: couldn't register an user!");

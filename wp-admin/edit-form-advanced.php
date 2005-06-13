@@ -150,16 +150,17 @@ if ('publish' != $post_status || 0 == $post_ID) {
 		<th scope="row" width="25%"><?php _e('Post slug') ?>:</th>
 		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
 	</tr>
-<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login, user_firstname, user_lastname FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
+<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
 	<tr>
 		<th scope="row"><?php _e('Post author'); ?>:</th>
 		<td>
 		<select name="post_author_override" id="post_author_override">
 		<?php 
 		foreach ($users as $o) :
+			$o = get_userdata( $o->ID );
 			if ( $post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
 			else $selected = '';
-			echo "<option value='$o->ID' $selected>$o->user_login ($o->user_firstname $o->user_lastname)</option>";
+			echo "<option value='$o->ID' $selected>$o->user_login ($o->first_name $o->last_name)</option>";
 		endforeach;
 		?>
 		</select>
