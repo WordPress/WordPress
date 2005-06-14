@@ -58,38 +58,80 @@ window.onload = focusit;
 </script>
 <?php endif; ?>
 <div id="poststuff">
-    <fieldset id="titlediv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#title" title="<?php _e('Help on titles') ?>"><?php _e('Title') ?></a></legend> 
-	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
-    </fieldset>
 
-    <fieldset id="categorydiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#category" title="<?php _e('Help on categories') ?>"><?php _e('Categories') ?></a></legend> 
-	  <div><?php dropdown_categories(get_settings('default_category')); ?></div>
-    </fieldset>
+<div id="moremeta">
+<div id="grabit" class="dbx-group">
 
-    <fieldset id="commentstatusdiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#comments" title="<?php _e('Help on comment status') ?>"><?php _e('Discussion') ?></a></legend> 
-	  <div>
-	  <input name="advanced_view" type="hidden" value="1" />
-	  <label for="comment_status" class="selectit">
-	      <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($comment_status, 'open'); ?> />
-         <?php _e('Allow Comments') ?></label> 
-		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
+<fieldset id="commentstatusdiv" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Discussion') ?></h3>
+<div class="dbx-content">
+<input name="advanced_view" type="hidden" value="1" />
+<label for="comment_status" class="selectit">
+<input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($comment_status, 'open'); ?> />
+<?php _e('Allow Comments') ?></label> 
+<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
 </div>
 </fieldset>
-    <fieldset id="postpassworddiv">
-      <legend><a href="http://wordpress.org/docs/reference/post/#post_password" title="<?php _e('Help on post password') ?>"><?php _e('Post Password') ?></a></legend> 
-	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>
-    </fieldset>
 
-<br />
-<fieldset id="postexcerpt">
-<legend><a href="http://wordpress.org/docs/reference/post/#excerpt" title="<?php _e('Help with excerpts') ?>"><?php _e('Excerpt') ?></a></legend>
-<div><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
+<fieldset id="passworddiv" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Password-Protect Post') ?></h3> 
+<div class="dbx-content"><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>
 </fieldset>
+
+<fieldset id="slugdiv" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Post slug') ?></h3> 
+<div class="dbx-content"><input name="post_name" type="text" size="13" id="post_name" value="<?php echo $post_name ?>" /></div>
+</fieldset>
+
+<fieldset id="categorydiv" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Categories') ?></h3> 
+<div class="dbx-content"><?php dropdown_categories(get_settings('default_category')); ?></div>
+</fieldset>
+
+<fieldset class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Post Status') ?></h3> 
+<div class="dbx-content"><?php if ( user_can_create_post($user_ID) ) : ?>
+<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Published') ?></label>
+<?php endif; ?>
+	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
+	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
+</fieldset>
+
+<?php if ($user_level > 4) : ?>
+<fieldset class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Post Timestamp'); ?>:</h3>
+<div class="dbx-content"><?php touch_time(($action == 'edit')); ?></div>
+</fieldset>
+<?php endif; ?>
+
+<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
+<fieldset id="authordiv" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Post author'); ?>:</h3>
+<div class="dbx-content">
+<select name="post_author_override" id="post_author_override">
+<?php 
+foreach ($users as $o) :
+$o = get_userdata( $o->ID );
+if ( $post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
+else $selected = '';
+echo "<option value='$o->ID' $selected>$o->display_name</option>";
+endforeach;
+?>
+</select>
+</div>
+</fieldset>
+<?php endif; ?>
+
+</div>
+</div>
+
+<fieldset id="titlediv">
+  <legend><?php _e('Title') ?></legend> 
+  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
+</fieldset>
+
 <fieldset id="postdiv">
-       <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
+       <legend><?php _e('Post') ?></legend>
 <?php the_quicktags(); ?>
 <?php
  $rows = get_settings('default_post_edit_rows');
@@ -99,8 +141,6 @@ window.onload = focusit;
 ?>
 <div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="5" id="content"><?php echo $content ?></textarea></div>
 </fieldset>
-<?php
-?>
 <script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
@@ -125,67 +165,27 @@ if ('publish' != $post_status || 0 == $post_ID) {
 </p>
 
 <?php do_action('edit_form_advanced', ''); ?>
+
+<div id="advancedstuff" class="dbx-group" >
+
+<fieldset id="postexcerpt" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>
+<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $excerpt ?></textarea></div>
+</fieldset>
+
+<fieldset class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Trackbacks') ?></h3>
+<div class="dbx-content"><?php _e('Send trackbacks to'); ?>: <?php echo $form_trackback; ?> (<?php _e('Separate multiple URIs with spaces'); ?>)
+<?php 
+if ('' != $pinged)
+	echo $pings;
+?>
 </div>
+</fieldset>
 
-</div>
-
-<div class="wrap">
-<h2><?php _e('Advanced'); ?></h2>
-
-<table width="100%" cellspacing="2" cellpadding="5" class="editform">
-	<tr>
-		<th scope="row" valign="top"><?php _e('Post Status') ?>:</th>
-		<td><?php if ( user_can_create_post($user_ID) ) : ?>
-<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post_status, 'publish'); ?> /> <?php _e('Published') ?></label><br />
-<?php endif; ?>
-	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post_status, 'draft'); ?> /> <?php _e('Draft') ?></label><br />
-	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post_status, 'private'); ?> /> <?php _e('Private') ?></label></td>
-	</tr>
-	<tr>
-		<th scope="row" valign="top"><?php _e('Send trackbacks to'); ?>:</th>
-		<td><?php echo $form_trackback; ?> <br />
-		<?php _e('Separate multiple URIs with spaces'); ?></td>
-	</tr>
-	<tr valign="top">
-		<th scope="row" width="25%"><?php _e('Post slug') ?>:</th>
-		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
-	</tr>
-<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
-	<tr>
-		<th scope="row"><?php _e('Post author'); ?>:</th>
-		<td>
-		<select name="post_author_override" id="post_author_override">
-		<?php 
-		foreach ($users as $o) :
-			$o = get_userdata( $o->ID );
-			if ( $post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
-			else $selected = '';
-			echo "<option value='$o->ID' $selected>$o->user_login ($o->first_name $o->last_name)</option>";
-		endforeach;
-		?>
-		</select>
-		</td>
-	</tr>
-<?php endif; ?>
-<?php if ($user_level > 4) : ?>
-	<tr>
-		<th scope="row"><?php _e('Edit time'); ?>:</th>
-		<td><?php touch_time(($action == 'edit')); ?></td>
-	</tr>
-<?php endif; ?>
-<?php if ('edit' == $action) : ?>
-	<tr>
-		<th scope="row"><?php _e('Delete'); ?>:</th>
-		<td>
-		<input name="deletepost" class="button" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this post') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title) ) . "')\""; ?> />
-</td>
-<?php endif; ?>
-	</tr>
-</table>
-
-<fieldset id="postcustom">
-<legend><?php _e('Custom Fields') ?></legend>
-<div id="postcustomstuff">
+<fieldset id="postcustom" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Custom Fields') ?></h3>
+<div id="postcustomstuff" class="dbx-content">
 <?php 
 if($metadata = has_meta($post_ID)) {
 ?>
@@ -198,10 +198,15 @@ if($metadata = has_meta($post_ID)) {
 ?>
 </div>
 </fieldset>
-<?php 
-if ('' != $pinged)
-	echo $pings;
-?>
+
+</div>
+
+<?php if ('edit' == $action) : ?>
+<p><input name="deletepost" class="button" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this post') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title) ) . "')\""; ?> /></p>
+<?php endif; ?>
+
+</div>
+
 </div>
 
 </form>

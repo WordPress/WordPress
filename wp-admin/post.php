@@ -731,11 +731,7 @@ default:
 		$edited_post_title = apply_filters('default_title', $edited_post_title);
 		$excerpt = apply_filters('default_excerpt', $excerpt);
 
-		if (get_settings('advanced_edit')) {
-			include('edit-form-advanced.php');
-		} else {
-			include('edit-form.php');
-		}
+		include('edit-form-advanced.php');
 ?>
 <div class="wrap">
 <?php _e('<h3>WordPress bookmarklet</h3>

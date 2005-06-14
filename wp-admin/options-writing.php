@@ -11,21 +11,10 @@ include('admin-header.php');
   <h2><?php _e('Writing Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','advanced_edit','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category','default_email_category','new_users_can_blog'" /> 
+    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category','default_email_category','new_users_can_blog'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
-      <tr valign="top">
-        <th scope="row"> <?php _e('When starting a post, show:') ?> </th>
-        <td><?php get_settings('advanced_edit') ?><label>
-          <input name="advanced_edit" type="radio" value="0" <?php checked('0', get_settings('advanced_edit')); ?> />
-<?php _e('Simple controls') ?></label>
-          <br />
-          <label for="advanced_edit">
-          <input name="advanced_edit" id="advanced_edit" type="radio" value="1" <?php checked('1', get_settings('advanced_edit')); ?> />
-<?php _e('Advanced controls') ?></label>
-		</td>
-      </tr>
       <tr valign="top"> 
-        <th width="33%" scope="row"> <?php _e('Size of the writing box:') ?></th> 
+        <th width="33%" scope="row"> <?php _e('Size of the post box:') ?></th> 
         <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
          <?php _e('lines') ?></td> 
       </tr> 

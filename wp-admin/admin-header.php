@@ -78,8 +78,14 @@ function blurry() {
 window.onload = blurry;
 <?php endif; ?>
 
+
 //]]>
 </script>
+
+<?php if ( isset( $editing ) ) : ?>
+<script type="text/javascript" src="dbx.js"></script>
+<script type="text/javascript" src="dbx-key.js"></script>
+<?php endif; ?>
 
 <?php do_action('admin_head', ''); ?>
 </head>

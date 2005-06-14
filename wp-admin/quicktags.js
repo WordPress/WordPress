@@ -116,7 +116,7 @@ new edButton('ed_li'
 );
 
 edButtons[edButtons.length] = 
-new edButton('ed_pre'
+new edButton('ed_code'
 ,'code'
 ,'<code>'
 ,'</code>'

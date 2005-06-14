@@ -55,19 +55,18 @@ a:hover {
 }
 
 body	{
-	background: #f2f2f2;
+	background: #fff;
 	color: #000;
 	margin: 0;
 	padding: 0;
 }
 
 body, td {
-	font: 10pt Georgia, "Times New Roman", Times, serif;
+	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
 }
 
 fieldset {
-	border: 1px solid #ddd;
-	-moz-border-radius: 5px;
+	border: none;
 	padding: 3px;
 }
 
@@ -136,7 +135,7 @@ textarea, input, select {
 	background: #f4f4f4;
 	border: 1px solid #b2b2b2;
 	color: #000;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	font:  13px Verdana, Arial, Helvetica, sans-serif;
 	margin: 1px;
 	padding: 3px;
 }
@@ -220,7 +219,7 @@ textarea, input, select {
 	border-top-color: #999;
 }
 
-.submit, #quicktags, .editform th, #postcustomsubmit {
+.submit, .editform th, #postcustomsubmit {
 	text-align: right;
 }
 
@@ -266,7 +265,7 @@ textarea, input, select {
 	padding: .2em;
 }
 
-#adminmenu .current, #adminmenu2 .current, #ed_strong {
+#adminmenu .current, #adminmenu2 .current {
 	font-weight: bold;
 }
 
@@ -323,25 +322,13 @@ textarea, input, select {
 	line-height: 170%;
 }
 
-#categorydiv {
-	line-height: 130%;
-	margin-right: 15px;
-	position: absolute;
-	right: 5%;
-	width: 9em;
-}
-
-#categorydiv div {
-	height: 27em;
-	overflow: auto;
-}
 
 #categorydiv input, #poststatusdiv input, #commentstatusdiv input, #pingstatusdiv input {
 	border: none;
 }
 
-#content, #excerpt {
-	margin-left: 1%;
+#content, #titlediv input, #quicktags {
+	margin-left: 2%;
 	width: 97%;
 }
 
@@ -350,12 +337,25 @@ textarea, input, select {
 	color: #fff;
 }
 
-#ed_del {
+#quicktags #ed_strong {
+	font-weight: bold;
+}
+
+#quicktags #ed_link {
+	color: blue;
+	text-decoration: underline;
+}
+
+#quicktags #ed_del {
 	text-decoration: line-through;
 }
 
-#ed_em {
+#quicktags #ed_em {
 	font-style: italic;
+}
+
+#quicktags #ed_code {
+	font-family: "Courier New", Courier, mono;
 }
 
 #excerpt {
@@ -411,15 +411,6 @@ textarea, input, select {
 	text-align: center;
 }
 
-#metainfo, #postdiv, #postexcerpt {
-	clear: both;
-}
-
-#postcustom {
-	border: 1px solid #aaa;
-	padding: .5em;
-	width: 97%;
-}
 
 #postcustom .updatemeta, #postcustom .deletemeta {
 	margin: auto;
@@ -437,7 +428,7 @@ textarea, input, select {
 }
 
 #poststuff {
-	margin-right: 11em;
+	margin-right: 16em;
 }
 
 #profile {
@@ -462,16 +453,8 @@ textarea, input, select {
 	margin: 0 0 4px 0;
 }
 
-#quicktags {
-	margin-right: 1%;
-}
-
 #save {
-	width: 14em;
-}
-
-#simple #titlediv {
-	height: 4em;
+	width: 15em;
 }
 
 #template div {
@@ -498,12 +481,6 @@ textarea, input, select {
 	padding: 0;
 }
 
-#titlediv, #commentstatusdiv, #postpassworddiv, #namediv, #uridiv, #emaildiv, #pageparent {
-	float: left;
-	height: 6em;
-	margin-right: 5px;
-}
-
 #wphead {
 	background: url(../wp-images/header-shadow.png) #f2f2f2 repeat-x bottom;
 	padding: 1px 5px 11px;
@@ -514,6 +491,7 @@ textarea, input, select {
 	font-weight: normal;
 	letter-spacing: -.05em;
 	margin: 0;
+	font-family: Georgia, "Times New Roman", Times, serif
 }
 
 #wphead h1 span {
@@ -557,10 +535,148 @@ textarea, input, select {
 	padding: 0 0 0 .6em;
 }
 
+.active td {
+	background: #BEB;
+}
+.active .name {
+	background: #9C9;
+}
+.alternate.active td {
+	background: #ADA;
+}
+.alternate.active .name {
+	background: #8B8;
+}
 
-/* emeyer additions */
+/* Box stuff */
+.dbx-clone {
+	position:absolute;
+	visibility:hidden;
+}
+.dbx-clone, .dbx-clone .dbx-handle-cursor {
+	cursor:move !important;
+}
+.dbx-dummy {
+	display:block;
+	width:0;
+	height:0;
+	overflow:hidden;
+}
+.dbx-group, .dbx-box, .dbx-handle {
+	position:relative;
+	display:block;
+}
 
-.active td {background: #BEB;}
-.active .name {background: #9C9;}
-.alternate.active td {background: #ADA;}
-.alternate.active .name {background: #8B8;}
+
+/****************************************************************
+  avoid padding, margins or borders on dbx-box, 
+  to reduce visual discrepancies between it and the clone.  
+  overall, dbx-box is best left as visually unstyled as possible 
+*****************************************************************/
+.dbx-box {
+	margin:0;
+	padding:0;
+	border:none;
+}
+
+/* Can change this */
+#moremeta fieldset, #advancedstuff fieldset {
+	margin-bottom: 1em;
+}
+#moremeta fieldset div {
+	margin-left: 5px;
+}
+#moremeta {
+	line-height: 130%;
+	margin-right: 15px;
+	position: absolute;
+	right: 5%;
+	width: 14.5em;
+	border-left: 1px solid #dfe8f1;
+}
+
+#slugdiv input, #passworddiv input, #authordiv select {
+	margin-top: .5em;
+	width: 95%;
+}
+
+#moremeta h3, #advancedstuff h3 {
+	padding: 3px;
+	font-weight: normal;
+	font-size: 13px;
+}
+
+#advancedstuff div {
+	margin-top: .5em;
+	margin-left: 2%;
+}
+
+/* default box styles */
+.dbx-box {
+}
+
+/* box when toggle is open */
+.dbx-box-open {
+}
+
+/* box when toggle is closed */
+.dbx-box-closed {
+}
+
+/* toggle state of inner content area */
+.dbx-box-open .dbx-content {
+	display:block;
+}
+.dbx-box-closed .dbx-content {
+	display:none;
+}
+
+/* handles */
+.dbx-handle {
+	background-color: #dfe8f1;
+	margin: 0;
+	padding: 0;
+}
+
+/* handle cursors */
+.dbx-handle-cursor {
+	cursor:move;
+}
+	
+/* toggle images */
+a.dbx-toggle, a.dbx-toggle:visited {
+	display:block;
+	width: 12px;
+	height: 12px;
+	overflow: hidden;
+	background-image: url( toggle.png );
+	position: absolute;
+	top: .3em;
+	right: .3em;
+	border-bottom: 0;
+	background-position: 0 0;
+}
+	
+a.dbx-toggle-open, a.dbx-toggle-open:visited {
+	background-position: 0;
+}
+	
+a.dbx-toggle-closed, a.dbx-toggle-closed:visited {
+	background-position: -12px 0;
+}
+	
+a.dbx-toggle-hilite-open, a.dbx-toggle-hilite-open:visited {
+	background-position: 0;
+}
+	
+a.dbx-toggle-hilite-closed, a.dbx-toggle-hilite-closed:visited {
+	background-position: -12px 0;
+}
+
+/* additional clone styles */
+.dbx-clone {
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+	-khtml-opacity: 0.8;
+	filter: alpha(opacity=80);
+}
