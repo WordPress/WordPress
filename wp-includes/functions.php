@@ -1408,7 +1408,7 @@ function get_stylesheet_directory() {
 }
 
 function get_stylesheet_directory_uri() {
-	$stylesheet = get_stylesheet();
+	$stylesheet = rawurlencode( get_stylesheet() );
 	$stylesheet_dir_uri = get_theme_root_uri() . "/$stylesheet";
 	return apply_filters('stylesheet_directory_uri', $stylesheet_dir_uri, $stylesheet);
 }
