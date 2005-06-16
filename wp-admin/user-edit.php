@@ -68,14 +68,14 @@ $new_description = $_POST['new_description'];
 
 $result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', $updatepassword user_email='$new_email', user_url='$new_url', user_nicename = '$new_nicename', display_name = '$display_name' WHERE ID = '$user_id'");
 
-update_usermeta( $user_ID, 'first_name', $new_firstname );
-update_usermeta( $user_ID, 'last_name', $new_lastname );
-update_usermeta( $user_ID, 'nickname', $new_nickname );
-update_usermeta( $user_ID, 'description', $new_description );
-update_usermeta( $user_ID, 'icq', $new_icq );
-update_usermeta( $user_ID, 'aim', $new_aim );
-update_usermeta( $user_ID, 'msn', $new_msn );
-update_usermeta( $user_ID, 'yim', $new_yim );
+update_usermeta( $user_id, 'first_name', $new_firstname );
+update_usermeta( $user_id, 'last_name', $new_lastname );
+update_usermeta( $user_id, 'nickname', $new_nickname );
+update_usermeta( $user_id, 'description', $new_description );
+update_usermeta( $user_id, 'icq', $new_icq );
+update_usermeta( $user_id, 'aim', $new_aim );
+update_usermeta( $user_id, 'msn', $new_msn );
+update_usermeta( $user_id, 'yim', $new_yim );
 
 header("Location: user-edit.php?user_id=$user_id&updated=true");
 

@@ -6,7 +6,7 @@
 
 if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
-	global $user_login, $userdata, $user_level, $user_ID, $user_id, $user_email, $user_url, $user_pass_md5, $user_identity;
+	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;
 
 	if ( !isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
 		return false;
@@ -15,7 +15,6 @@ function get_currentuserinfo() {
 	$userdata    = get_userdatabylogin($user_login);
 	$user_level  = $userdata->user_level;
 	$user_ID     = $userdata->ID;
-	$user_id     = $userdata->ID;
 	$user_email  = $userdata->user_email;
 	$user_url    = $userdata->user_url;
 
