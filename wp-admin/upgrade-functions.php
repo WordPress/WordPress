@@ -238,16 +238,19 @@ function upgrade_160() {
 			update_usermeta( $user->ID, 'yim', addslashes($user->user_icq) );
 		if ( !empty( $user->user_description ) )
 			update_usermeta( $user->ID, 'description', addslashes($user->user_description) );
-		$idmode = $user->user_idmode;
-		if ($idmode == 'nickname') $id = $user->user_nickname;
-		if ($idmode == 'login') $id = $user->user_login;
-		if ($idmode == 'firstname') $id = $user->user_firstname;
-		if ($idmode == 'lastname') $id = $user->user_lastname;
-		if ($idmode == 'namefl') $id = $user->user_firstname.' '.$user->user_lastname;
-		if ($idmode == 'namelf') $id = $user->user_lastname.' '.$user->user_firstname;
-		if (!$idmode) $id = $user->user_nickname;
-		$id = addslashes( $id );
-		$wpdb->query("UPDATE $wpdb->users SET display_name = '$id' WHERE ID = '$user->ID'");
+
+		if ( !isset( $user->user_idmode ) ):
+			$idmode = $user->user_idmode;
+			if ($idmode == 'nickname') $id = $user->user_nickname;
+			if ($idmode == 'login') $id = $user->user_login;
+			if ($idmode == 'firstname') $id = $user->user_firstname;
+			if ($idmode == 'lastname') $id = $user->user_lastname;
+			if ($idmode == 'namefl') $id = $user->user_firstname.' '.$user->user_lastname;
+			if ($idmode == 'namelf') $id = $user->user_lastname.' '.$user->user_firstname;
+			if (!$idmode) $id = $user->user_nickname;
+			$id = addslashes( $id );
+			$wpdb->query("UPDATE $wpdb->users SET display_name = '$id' WHERE ID = '$user->ID'");
+		endif;
 	endforeach;
 	$old_user_fields = array( 'user_firstname', 'user_lastname', 'user_icq', 'user_aim', 'user_msn', 'user_yim', 'user_idmode', 'user_ip', 'user_domain', 'user_browser', 'user_description', 'user_nickname' );
 	$wpdb->hide_errors();
