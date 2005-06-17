@@ -70,7 +70,7 @@ $what_to_show = 'posts';
 $posts_per_page = 15;
 $posts_per_archive_page = -1;
 
-include(ABSPATH.'wp-blog-header.php');
+wp();
 
 if ( is_month() ) {
 	single_month_title(' ');
