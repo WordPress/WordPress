@@ -30,121 +30,9 @@ $editing = true;
 switch($action) {
 case 'post':
 
-	if ( !user_can_create_draft($user_ID) )
-		die( __('You are not allowed to create posts or drafts on this blog.') );
+	write_post();
 
-	$post_pingback = (int) $_POST['post_pingback'];
-	$content         = apply_filters('content_save_pre',  $_POST['content']);
-	$excerpt         = apply_filters('excerpt_save_pre',  $_POST['excerpt']);
-	$post_title      = apply_filters('title_save_pre',    $_POST['post_title']);
-	$post_categories = apply_filters('category_save_pre', $_POST['post_category']);
-	$post_status     = apply_filters('status_save_pre',   $_POST['post_status']);
-	$post_name       = apply_filters('name_save_pre',     $_POST['post_name']);
-	$post_parent = 0;
-	$menu_order  = 0;
-	
-
-	if ( isset($_POST['parent_id']) )
-		$post_parent = (int) $_POST['parent_id'];
-
-	if ( isset($_POST['menu_order']) )
-		$menu_order = (int) $_POST['menu_order'];
-
-	if (! empty($_POST['post_author_override'])) {
-		$post_author = (int) $_POST['post_author_override'];
-	} else if (! empty($_POST['post_author'])) {
-		$post_author = (int) $_POST['post_author'];
-	} else {
-		$post_author = (int) $_POST['user_ID'];
-	}
-	if ( !user_can_edit_user($user_ID, $post_author) )
-		die( __('You cannot post as this user.') );
-
-	if ( empty($post_status) )
-		$post_status = 'draft';
-	// Double-check
-	if ( 'publish' == $post_status && (!user_can_create_post($user_ID)) )
-		$post_status = 'draft';
-		
-	$comment_status = $_POST['comment_status'];
-	if ( empty($comment_status) ) {
-		if ( !isset($_POST['advanced_view']) )
-			$comment_status = get_option('default_comment_status');
-		else
-			$comment_status = 'closed';
-		}
-
-	$ping_status = $_POST['ping_status'];
-	if ( empty($ping_status) ) {
-		if ( !isset($_POST['advanced_view']) )
-			$ping_status = get_option('default_ping_status');			
-		else
-			$ping_status = 'closed';
-		}
-
-	$post_password = $_POST['post_password'];
-	
-	$trackback = $_POST['trackback_url'];
-	$trackback = preg_replace('|\s+|', "\n", $trackback);
-
-	if (user_can_set_post_date($user_ID) && (!empty($_POST['edit_date']))) {
-		$aa = $_POST['aa'];
-		$mm = $_POST['mm'];
-		$jj = $_POST['jj'];
-		$hh = $_POST['hh'];
-		$mn = $_POST['mn'];
-		$ss = $_POST['ss'];
-		$jj = ($jj > 31) ? 31 : $jj;
-		$hh = ($hh > 23) ? $hh - 24 : $hh;
-		$mn = ($mn > 59) ? $mn - 60 : $mn;
-		$ss = ($ss > 59) ? $ss - 60 : $ss;
-		$now = "$aa-$mm-$jj $hh:$mn:$ss";
-		$now_gmt = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
-	} else {
-		$now = current_time('mysql');
-		$now_gmt = current_time('mysql', 1);
-	}
-
-	// What to do based on which button they pressed
-	if ('' != $_POST['saveasdraft']) $post_status = 'draft';
-	if ('' != $_POST['saveasprivate']) $post_status = 'private';
-	if ('' != $_POST['publish']) $post_status = 'publish';
-	if ('' != $_POST['advanced']) $post_status = 'draft';
-	if ('' != $_POST['savepage']) $post_status = 'static';
-
-
-
-	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
-	$post_ID = $id_result->Auto_increment;
-
-	if ( empty($post_name) ) {
-		if ( 'draft' != $post_status )
-			$post_name = sanitize_title($post_title, $post_ID);
-	} else {
-		$post_name = sanitize_title($post_name, $post_ID);
-	}
-
-	if ('publish' == $post_status) {
-		$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
-		if ($post_name_check) {
-			$suffix = 2;
-			while ($post_name_check) {
-				$alt_post_name = $post_name . "-$suffix";
-				$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
-				$suffix++;
-			}
-			$post_name = $alt_post_name;
-		}
-	}
-
-	$postquery ="INSERT INTO $wpdb->posts
-			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order)
-			VALUES
-			('$post_ID', '$post_author', '$now', '$now_gmt', '$content', '$post_title', '$excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback', '$now', '$now_gmt', '$post_parent', '$menu_order')
-			";
-
-	$result = $wpdb->query($postquery);
-
+	// Redirect.
 	if (!empty($_POST['mode'])) {
 	switch($_POST['mode']) {
 		case 'bookmarklet':
@@ -167,47 +55,7 @@ case 'post':
 	if ( '' != $_POST['advanced'] || isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
 
-	header("Location: $location"); // Send user on their way while we keep working
-
-	// Insert categories
-	// Check to make sure there is a category, if not just set it to some default
-	if (!$post_categories) $post_categories[] = get_option('default_category');
-	foreach ($post_categories as $post_category) {
-		// Double check it's not there already
-		$exists = $wpdb->get_row("SELECT * FROM $wpdb->post2cat WHERE post_id = $post_ID AND category_id = $post_category");
-
-		 if (!$exists) { 
-			$wpdb->query("
-			INSERT INTO $wpdb->post2cat
-			(post_id, category_id)
-			VALUES
-			($post_ID, $post_category)
-			");
-		}
-	}
-
-	add_meta($post_ID);
-
-	$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
-
-	do_action('save_post', $post_ID);
-
-	if ('publish' == $post_status) {
-		do_action('publish_post', $post_ID);
-		if ($post_pingback)
-			pingback($content, $post_ID);
-		do_enclose( $content, $post_ID );
-		do_trackbacks($post_ID);
-		
-	}
-
-	if ($post_status == 'static') {
-		generate_page_rewrite_rules();
-		add_post_meta($post_ID, '_wp_page_template',  $_POST['page_template'], true);
-	}
-
-	require_once('admin-header.php');
-
+	header("Location: $location");
 	exit();
 	break;
 

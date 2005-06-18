@@ -1,5 +1,58 @@
 <?php
 
+// Creates a new post from the "Write Post" form.
+function write_post() {
+	global $user_ID;
+
+	if ( !user_can_create_draft($user_ID) )
+		die( __('You are not allowed to create posts or drafts on this blog.') );
+
+	// Rename.
+	$_POST['post_content']  = $_POST['content'];
+	$_POST['post_excerpt']  = $_POST['excerpt'];
+	$_POST['post_parent'] = $_POST['parent_id'];
+
+	if (! empty($_POST['post_author_override'])) {
+		$_POST['$post_author'] = (int) $_POST['post_author_override'];
+	} else if (! empty($_POST['post_author'])) {
+		$_POST['post_author'] = (int) $_POST['post_author'];
+	} else {
+		$_POST['post_author'] = (int) $_POST['user_ID'];
+	}
+
+	if ( !user_can_edit_user($user_ID, $post_author) )
+		die( __('You cannot post as this user.') );
+	
+	if ( 'publish' == $_POST['post_status'] && (!user_can_create_post($user_ID)) )
+		$_POST['post_status'] = 'draft';
+	
+	// What to do based on which button they pressed
+	if ('' != $_POST['saveasdraft']) $_POST['post_status'] = 'draft';
+	if ('' != $_POST['saveasprivate']) $_POST['post_status'] = 'private';
+	if ('' != $_POST['publish']) $_POST['post_status'] = 'publish';
+	if ('' != $_POST['advanced']) $_POST['post_status'] = 'draft';
+	if ('' != $_POST['savepage']) $_POST['post_status'] = 'static';
+		
+	if (user_can_set_post_date($user_ID) && (!empty($_POST['edit_date']))) {
+		$aa = $_POST['aa'];
+		$mm = $_POST['mm'];
+		$jj = $_POST['jj'];
+		$hh = $_POST['hh'];
+		$mn = $_POST['mn'];
+		$ss = $_POST['ss'];
+		$jj = ($jj > 31) ? 31 : $jj;
+		$hh = ($hh > 23) ? $hh - 24 : $hh;
+		$mn = ($mn > 59) ? $mn - 60 : $mn;
+		$ss = ($ss > 59) ? $ss - 60 : $ss;
+		$_POST['post_date'] = "$aa-$mm-$jj $hh:$mn:$ss";
+		$_POST['post_date_gmt'] = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
+	} 
+
+	// Create the post.
+	$post_ID = wp_insert_post($_POST);
+	add_meta($post_ID);
+}
+
 function url_shorten ($url) {
 	$short_url = str_replace('http://', '', stripslashes($url));
 	$short_url = str_replace('www.', '', $short_url);

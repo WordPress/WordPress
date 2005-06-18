@@ -6,36 +6,73 @@
  * generic function for inserting data into the posts table.
  */
 function wp_insert_post($postarr = array()) {
-	global $wpdb, $post_default_category, $allowedtags;
+	global $wpdb, $post_default_category, $allowedtags, $user_ID;
 	
 	// export array as variables
 	extract($postarr);
-	
-	// Do some escapes for safety
-	$post_title = $wpdb->escape($post_title);
-	$post_name = sanitize_title($post_title);
-	$post_excerpt = $wpdb->escape($post_excerpt);
-	$post_content = $wpdb->escape($post_content);
-	$post_author = (int) $post_author;
 
+	// Get the basics.
+	$post_content    = apply_filters('content_save_pre',  $post_content);
+	$post_excerpt    = apply_filters('excerpt_save_pre',  $post_excerpt);
+	$post_title      = apply_filters('title_save_pre',    $post_title);
+	$post_category   = apply_filters('category_save_pre', $post_category);
+	$post_status     = apply_filters('status_save_pre',   $post_status);
+	$post_name       = apply_filters('name_save_pre',     $post_name);
+	
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
 		$post_category = array($post_default_category);
 	}
-
 	$post_cat = $post_category[0];
+
+	if ( empty($post_author) )
+		$post_author = $user_ID;
+
+	if ( empty($post_status) )
+		$post_status = 'draft';
+	
+	// Get the next post ID.
+	$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
+	$post_ID = $id_result->Auto_increment;
+
+	// Create a valid post name.  Drafts are allowed to have an empty
+	// post name.
+	if ( empty($post_name) ) {
+		if ( 'draft' != $post_status )
+			$post_name = sanitize_title($post_title, $post_ID);
+	} else {
+		$post_name = sanitize_title($post_name, $post_ID);
+	}
 	
 	if (empty($post_date))
 		$post_date = current_time('mysql');
-	// Make sure we have a good gmt date:
 	if (empty($post_date_gmt)) 
-		$post_date_gmt = get_gmt_from_date($post_date);
+		$post_date_gmt = current_time('mysql', 1);
+
 	if (empty($comment_status))
 		$comment_status = get_settings('default_comment_status');
 	if (empty($ping_status))
 		$ping_status = get_settings('default_ping_status');
-	if ( empty($post_parent) )
+	if ( empty($post_pingback) )
+		$post_pingback = get_option('default_pingback_flag');
+
+	if ( isset($trackback_url) )
+		$trackback_url = preg_replace('|\s+|', "\n", $trackback_url);
+	else
+		$trackback_url = '';
+	
+	if ( isset($post_parent) )
+		$post_parent = (int) $post_parent;
+	else
 		$post_parent = 0;
+
+	if ( isset($menu_order) )
+		$menu_order = (int) $menu_order;
+	else
+		$menu_order = 0;
+
+	if ( !isset($post_password) )
+		$post_password = '';
 
 	if ('publish' == $post_status) {
 		$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1");
@@ -50,23 +87,34 @@ function wp_insert_post($postarr = array()) {
 		}
 	}
 
-	$sql = "INSERT INTO $wpdb->posts 
-		(post_author, post_date, post_date_gmt, post_modified, post_modified_gmt, post_content, post_title, post_excerpt, post_category, post_status, post_name, comment_status, ping_status, post_parent) 
-		VALUES ('$post_author', '$post_date', '$post_date_gmt', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_cat', '$post_status', '$post_name', '$comment_status', '$ping_status', '$post_parent')";
+	$postquery = "INSERT INTO $wpdb->posts
+			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order)
+			VALUES
+			('$post_ID', '$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$trackback_url', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order')
+			";
 	
-	$result = $wpdb->query($sql);
+	$result = $wpdb->query($postquery);
 	$post_ID = $wpdb->insert_id;
 
 	// Set GUID
 	$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
 	
 	wp_set_post_cats('', $post_ID, $post_category);
+
+	$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
 	
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
+		if ($post_pingback)
+			pingback($post_content, $post_ID);
+		do_enclose( $post_content, $post_ID );
+		do_trackbacks($post_ID);
+	}	else if ($post_status == 'static') {
+		if ( empty($page_template) )
+			$page_template = 'Default Template';
+		generate_page_rewrite_rules();
+		add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
 	}
-
-	pingback($content, $post_ID);
 
 	// Return insert_id if we got a good result, otherwise return zero.
 	return $result ? $post_ID : 0;
