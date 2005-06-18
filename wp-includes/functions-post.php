@@ -6,7 +6,7 @@
  * generic function for inserting data into the posts table.
  */
 function wp_insert_post($postarr = array()) {
-	global $wpdb, $post_default_category, $allowedtags, $user_ID;
+	global $wpdb, $allowedtags, $user_ID;
 	
 	// export array as variables
 	extract($postarr);
@@ -21,7 +21,7 @@ function wp_insert_post($postarr = array()) {
 	
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
-		$post_category = array($post_default_category);
+		$post_category = array(get_option('default_category'));
 	}
 	$post_cat = $post_category[0];
 
