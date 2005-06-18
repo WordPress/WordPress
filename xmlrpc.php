@@ -470,7 +470,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* metaweblog.newPost creates a post */
 	function mw_newPost($args) {
 
-	  global $wpdb;
+	  global $wpdb, $post_default_category;
 
 	  $blog_ID     = $args[0]; // we will support this in the near future
 	  $user_login  = $args[1];
@@ -528,7 +528,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      $post_category[] = get_cat_ID($cat);
 	    }
 	  } else {
-	    $post_category[] = 1;
+	    $post_category[] = $post_default_category;
 	  }
 		
 	  // We've got all the data -- post it:
@@ -552,7 +552,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* metaweblog.editPost ...edits a post */
 	function mw_editPost($args) {
 
-	  global $wpdb;
+	  global $wpdb, $post_default_category;
 
 	  $post_ID     = $args[0];
 	  $user_login  = $args[1];
@@ -581,7 +581,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      $post_category[] = get_cat_ID($cat);
 	    }
 	  } else {
-	    $post_category[] = 1;
+	    $post_category[] = $post_default_category;
 	  }
 
 	  $post_excerpt = $content_struct['mt_excerpt'];
