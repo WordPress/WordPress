@@ -149,6 +149,9 @@ function get_default_post_to_edit() {
 	$post->post_content = apply_filters('default_content', $content);
 	$post->post_title = apply_filters('default_title', $edited_post_title);
 	$post->post_excerpt = apply_filters('default_excerpt', $excerpt);
+	$post->page_template = 'default';
+	$post->post_parent = 0;
+	$post->menu_order = 0;
 
 	return $post;
 }

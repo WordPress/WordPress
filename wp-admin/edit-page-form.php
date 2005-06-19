@@ -115,8 +115,8 @@ edCanvas = document.getElementById('content');
 		<select name="post_author" id="post_author">
 		<?php 
 		foreach ($users as $o) :
-			$o = get_userdata( $O->ID );
-			if ( $post->post_author == $o->ID ) $selected = 'selected="selected"';
+			$o = get_userdata( $o->ID );
+			if ( $post->post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
 			else $selected = '';
 			echo "<option value='$o->ID' $selected>$o->user_login ($o->first_name $o->last_name)</option>";
 		endforeach;

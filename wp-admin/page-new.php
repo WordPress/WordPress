@@ -15,13 +15,9 @@ get_currentuserinfo();
 if ($user_level > 0) {
 	$action = 'post';
 	get_currentuserinfo();
-	//set defaults
-	$post_status = 'static';
-	$comment_status = get_settings('default_comment_status');
-	$ping_status = get_settings('default_ping_status');
-	$post_pingback = get_settings('default_pingback_flag');
-	$post_parent = 0;
-	$page_template = 'default';
+	
+	$post = get_default_post_to_edit();
+	$post->post_status = 'static';
 
 	include('edit-page-form.php');
 }
