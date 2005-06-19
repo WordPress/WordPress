@@ -11,6 +11,7 @@ function write_post() {
 	$_POST['post_content']  = $_POST['content'];
 	$_POST['post_excerpt']  = $_POST['excerpt'];
 	$_POST['post_parent'] = $_POST['parent_id'];
+	$_POST['to_ping'] = $_POST['trackback_url'];
 
 	if (! empty($_POST['post_author_override'])) {
 		$_POST['$post_author'] = (int) $_POST['post_author_override'];
@@ -20,7 +21,7 @@ function write_post() {
 		$_POST['post_author'] = (int) $_POST['user_ID'];
 	}
 
-	if ( !user_can_edit_user($user_ID, $post_author) )
+	if ( !user_can_edit_user($user_ID, $_POST['post_author']) )
 		die( __('You cannot post as this user.') );
 	
 	if ( 'publish' == $_POST['post_status'] && (!user_can_create_post($user_ID)) )
@@ -50,6 +51,68 @@ function write_post() {
 
 	// Create the post.
 	$post_ID = wp_insert_post($_POST);
+	add_meta($post_ID);
+}
+
+function edit_post() {
+	global $user_ID;
+
+	if ( !isset($blog_ID) ) 
+		$blog_ID = 1;
+
+	$post_ID = $_POST['post_ID'];
+
+	if (!user_can_edit_post($user_ID, $post_ID, $blog_ID))
+		die( __('You are not allowed to edit this post.') );
+
+	// Rename.
+	$_POST['ID'] = $_POST['post_ID'];
+	$_POST['post_content']  = $_POST['content'];
+	$_POST['post_excerpt']  = $_POST['excerpt'];
+	$_POST['post_parent'] = $_POST['parent_id'];
+	$_POST['to_ping'] = $_POST['trackback_url'];
+
+	if (! empty($_POST['post_author_override'])) {
+		$_POST['$post_author'] = (int) $_POST['post_author_override'];
+	} else if (! empty($_POST['post_author'])) {
+		$_POST['post_author'] = (int) $_POST['post_author'];
+	} else {
+		$_POST['post_author'] = (int) $_POST['user_ID'];
+	}
+
+	if ( !user_can_edit_user($user_ID, $_POST['post_author']) )
+		die( __('You cannot post as this user.') );
+
+	if (user_can_set_post_date($user_ID) && (!empty($_POST['edit_date']))) {
+		$aa = $_POST['aa'];
+		$mm = $_POST['mm'];
+		$jj = $_POST['jj'];
+		$hh = $_POST['hh'];
+		$mn = $_POST['mn'];
+		$ss = $_POST['ss'];
+		$jj = ($jj > 31) ? 31 : $jj;
+		$hh = ($hh > 23) ? $hh - 24 : $hh;
+		$mn = ($mn > 59) ? $mn - 60 : $mn;
+		$ss = ($ss > 59) ? $ss - 60 : $ss;
+		$_POST['post_date'] = "$aa-$mm-$jj $hh:$mn:$ss";
+		$_POST['post_date_gmt'] = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
+	} 
+
+	wp_update_post($_POST);
+
+	// Meta Stuff
+	if ($_POST['meta']) :
+		foreach ($_POST['meta'] as $key => $value) :
+			update_meta($key, $value['key'], $value['value']);
+		endforeach;
+	endif;
+
+	if ($_POST['deletemeta']) :
+		foreach ($_POST['deletemeta'] as $key => $value) :
+			delete_meta($key);
+		endforeach;
+	endif;
+
 	add_meta($post_ID);
 }
 
