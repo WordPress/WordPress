@@ -507,7 +507,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if ($post_more) {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
 	  }
-		
+
+		$to_ping = $content_struct['mt_tb_ping_urls'];
+
 	  // Do some timestamp voodoo
 	  $dateCreatedd = $content_struct['dateCreated'];
 	  if (!empty($dateCreatedd)) {
@@ -532,7 +534,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 		
 	  // We've got all the data -- post it:
-	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status');
+	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping');
 
 	  $post_ID = wp_insert_post($postdata);
 
@@ -541,9 +543,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  logIO('O', "Posted ! ID: $post_ID");
-
-	  // FIXME: do we pingback always? pingback($content, $post_ID);
-	  trackback_url_list($content_struct['mt_tb_ping_urls'],$post_ID);
 
 	  return strval($post_ID);
 	}
@@ -592,6 +591,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
 	  }
 
+		$to_ping = $content_struct['mt_tb_ping_urls'];
+
 	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
 	    get_settings('default_comment_status')
 	    : $content_struct['mt_allow_comments'];
@@ -612,17 +613,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  // We've got all the data -- post it:
-	  $newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt');
+	  $newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping');
 
-	  $post_ID = wp_update_post($newpost);
-	  if (!$post_ID) {
+	  $result = wp_update_post($newpost);
+	  if (!$result) {
 	    return new IXR_Error(500, 'Sorry, your entry could not be edited. Something wrong happened.');
 	  }
 
 	  logIO('O',"(MW) Edited ! ID: $post_ID");
-
-	  // FIXME: do we pingback always? pingback($content, $post_ID);
-	  trackback_url_list($content_struct['mt_tb_ping_urls'], $post_ID);
 
 	  return true;
 	}
