@@ -30,7 +30,7 @@ $editing = true;
 switch($action) {
 case 'post':
 
-	write_post();
+	$post_ID = write_post();
 
 	// Redirect.
 	if (!empty($_POST['mode'])) {
