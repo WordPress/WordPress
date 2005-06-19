@@ -64,42 +64,21 @@ case 'edit':
 
 	require_once('admin-header.php');
 
-	$post = $post_ID = $p = (int) $_GET['post'];
+	$post_ID = $p = (int) $_GET['post'];
 
 	if ( !user_can_edit_post($user_ID, $post_ID) )
 		die ( __('You are not allowed to edit this post.') );
-		
-	$postdata = &get_post($post_ID);
-	$content = $postdata->post_content;
-	$content = format_to_edit($content);
-	$content = apply_filters('content_edit_pre', $content);
-	$excerpt = $postdata->post_excerpt;
-	$excerpt = format_to_edit($excerpt);
-	$excerpt = apply_filters('excerpt_edit_pre', $excerpt);
-	$edited_post_title = format_to_edit($postdata->post_title);
-	$edited_post_title = apply_filters('title_edit_pre', $edited_post_title);
-	$post_status = $postdata->post_status;
-	$comment_status = $postdata->comment_status;
-	$ping_status = $postdata->ping_status;
-	$post_password = $postdata->post_password;
-	$to_ping = $postdata->to_ping;
-	$pinged = $postdata->pinged;
-	$post_name = $postdata->post_name;
-	$post_parent = $postdata->post_parent;
-	$post_author = $postdata->post_author;
-	$menu_order = $postdata->menu_order;
 
-	if( 'private' == $postdata->post_status && $postdata->post_author != $user_ID )
-		die ( __('You are not allowed to view other users\' private posts.') );
+	if ( !user_can_edit_post($user_ID, $post_ID) )
+		die ( __('You are not allowed to view other users\' private posts.') );		
 
-	if ($post_status == 'static') {
-		$page_template = get_post_meta($post_ID, '_wp_page_template', true);
+	$post = get_post_to_edit($post_ID);
+	
+	if ($post->post_status == 'static')
 		include('edit-page-form.php');
-	} else {
+	else
 		include('edit-form-advanced.php');
-	}
 
-	$post = &$postdata;
 	?>
 	<div id='preview' class='wrap'>
 	<h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
@@ -108,8 +87,7 @@ case 'edit':
 
 	<div class="storycontent">
 	<?php 
-	$content = apply_filters('the_content', $post->post_content);
-	echo $content;
+	echo apply_filters('the_content', $post->post_content);
 	?>
 	</div>
 	</div>
@@ -153,8 +131,6 @@ case 'delete':
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	header ('Location: ' . $sendback);
-	generate_page_rewrite_rules();
-	do_action('delete_post', $post_id);
 	break;
 
 case 'editcomment':
@@ -405,17 +381,8 @@ default:
 			</div>
 			<?php
 		}
-		//set defaults
-		$post_status = 'draft';
-		$comment_status = get_settings('default_comment_status');
-		$ping_status = get_settings('default_ping_status');
-		$post_pingback = get_settings('default_pingback_flag');
-		$default_post_cat = get_settings('default_category');
 
-		$content = wp_specialchars($content);
-		$content = apply_filters('default_content', $content);
-		$edited_post_title = apply_filters('default_title', $edited_post_title);
-		$excerpt = apply_filters('default_excerpt', $excerpt);
+		$post = get_default_post_to_edit();
 
 		include('edit-form-advanced.php');
 ?>

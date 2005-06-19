@@ -303,6 +303,11 @@ function wp_delete_post($postid = 0) {
 	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $postid");
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
+
+	if ( 'static' == $post->post_status )
+		generate_page_rewrite_rules();
+
+	do_action('delete_post', $postid);
 	
 	return $post;
 }
@@ -652,6 +657,26 @@ function add_ping($post_id, $uri) { // Add a URI to those already pung
 	$pung[] = $uri;
 	$new = implode("\n", $pung);
 	return $wpdb->query("UPDATE $wpdb->posts SET pinged = '$new' WHERE ID = $post_id");
+}
+
+function generate_page_rewrite_rules() {
+	global $wpdb;
+	$posts = $wpdb->get_results("SELECT ID, post_name FROM $wpdb->posts WHERE post_status = 'static' ORDER BY post_parent DESC");
+
+	$page_rewrite_rules = array();
+	
+	if ($posts) {
+		foreach ($posts as $post) {
+			// URI => page name
+			$uri = get_page_uri($post->ID);
+			
+			$page_rewrite_rules[$uri] = $post->post_name;
+		}
+		
+		update_option('page_uris', $page_rewrite_rules);
+		
+		save_mod_rewrite_rules();
+	}
 }
 
 ?>

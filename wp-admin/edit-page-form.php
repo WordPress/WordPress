@@ -41,27 +41,27 @@ window.onload = focusit;
 </script>
     <fieldset id="titlediv">
       <legend><?php _e('Page Title') ?></legend> 
- 	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
+ 	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $post->post_title; ?>" id="title" /></div>
     </fieldset>
 <fieldset id="commentstatusdiv">
       <legend><?php _e('Discussion') ?></legend> 
 	  <div>
 	  <input name="advanced_view" type="hidden" value="1" />
 	  <label for="comment_status" class="selectit">
-	      <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($comment_status, 'open'); ?> />
+	      <input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked($post->comment_status, 'open'); ?> />
          <?php _e('Allow Comments') ?></label> 
-		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
+		 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
 	</div>
 </fieldset>
     <fieldset id="postpassworddiv">
       <legend><?php _e('Page Password') ?></legend> 
-	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post_password ?>" /></div>
+	  <div><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post->post_password ?>" /></div>
     </fieldset>
     <fieldset id="pageparent">
       <legend><?php _e('Page Parent') ?></legend> 
 	  <div><select name="parent_id">
 	  <option value='0'><?php _e('Main Page (no parent)'); ?></option>
-			<?php parent_dropdown($post_parent); ?>
+			<?php parent_dropdown($post->post_parent); ?>
         </select>
 	  </div>
     </fieldset>
@@ -74,7 +74,7 @@ window.onload = focusit;
      $rows = 10;
  }
 ?>
-<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo $content ?></textarea></div>
+<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo $post->post_content ?></textarea></div>
 </fieldset>
 
 
@@ -97,7 +97,7 @@ edCanvas = document.getElementById('content');
 		<th scope="row" width="30%"><?php _e('Page Template:') ?></th>
 		<td><div><select name="page_template">
 		<option value='default'><?php _e('Default Template'); ?></option>
-		<?php page_template_dropdown($page_template); ?>
+		<?php page_template_dropdown($post->page_template); ?>
 		</select>
 		
 		</div>
@@ -106,7 +106,7 @@ edCanvas = document.getElementById('content');
 <?php } ?>
 	<tr valign="top">
 		<th scope="row" width="30%"><?php _e('Page slug') ?>:</th>
-		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post_name ?>" /></td>
+		<td><input name="post_name" type="text" size="25" id="post_name" value="<?php echo $post->post_name ?>" /></td>
 	</tr>
 <?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
 	<tr>
@@ -116,7 +116,7 @@ edCanvas = document.getElementById('content');
 		<?php 
 		foreach ($users as $o) :
 			$o = get_userdata( $O->ID );
-			if ( $post_author == $o->ID ) $selected = 'selected="selected"';
+			if ( $post->post_author == $o->ID ) $selected = 'selected="selected"';
 			else $selected = '';
 			echo "<option value='$o->ID' $selected>$o->user_login ($o->first_name $o->last_name)</option>";
 		endforeach;
@@ -127,12 +127,12 @@ edCanvas = document.getElementById('content');
 <?php endif; ?>
 	<tr>
 		<th scope="row" width="25%"><?php _e('Page Order') ?>:</th>
-		<td><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $menu_order ?>" /></td>
+		<td><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Delete'); ?>:</th>
 		<td><?php if ('edit' == $action) : ?>
-		<input name="deletepost" class="delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this page') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this page \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($edited_post_title) ) . "')\""; ?> />
+		<input name="deletepost" class="delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this page') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this page \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($post->post_title) ) . "')\""; ?> />
 <?php endif; ?></td>
 	</tr>
 </table>

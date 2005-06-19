@@ -1,6 +1,6 @@
 <?php
 
-// Creates a new post from the "Write Post" form.
+// Creates a new post from the "Write Post" form using $_POST information.
 function write_post() {
 	global $user_ID;
 
@@ -54,6 +54,7 @@ function write_post() {
 	add_meta($post_ID);
 }
 
+// Update an existing post with values provided in $_POST.
 function edit_post() {
 	global $user_ID;
 
@@ -114,6 +115,42 @@ function edit_post() {
 	endif;
 
 	add_meta($post_ID);
+}
+
+// Get an existing post and format it for editing.
+function get_post_to_edit($id) {
+	$post = get_post($id);
+
+	$post->post_content = format_to_edit($post->post_content);
+	$post->post_content = apply_filters('content_edit_pre', $post->post_content);
+
+	$post->post_excerpt = format_to_edit($post->post_excerpt);
+	$post->post_excerpt = apply_filters('excerpt_edit_pre', $post->post_excerpt);
+
+	$post->post_title = format_to_edit($post->post_title);
+	$post->post_title = apply_filters('title_edit_pre', $post->post_title);
+
+	if ($post->post_status == 'static')
+		$post->page_template = get_post_meta($id, '_wp_page_template', true);	
+
+	return $post;
+}
+
+// Default post information to use when populating the "Write Post" form.
+function get_default_post_to_edit() {
+	global $content, $excerpt, $edited_post_title;
+
+	$post->post_status = 'draft';
+	$post->comment_status = get_settings('default_comment_status');
+	$post->ping_status = get_settings('default_ping_status');
+	$post->post_pingback = get_settings('default_pingback_flag');
+	$post->post_category = get_settings('default_category');
+	$content = wp_specialchars($content);
+	$post->post_content = apply_filters('default_content', $content);
+	$post->post_title = apply_filters('default_title', $edited_post_title);
+	$post->post_excerpt = apply_filters('default_excerpt', $excerpt);
+
+	return $post;
 }
 
 function url_shorten ($url) {
@@ -670,26 +707,6 @@ function save_mod_rewrite_rules() {
 
 	$rules = explode("\n", $wp_rewrite->mod_rewrite_rules());
 	insert_with_markers($home_path.'.htaccess', 'WordPress', $rules);
-}
-
-function generate_page_rewrite_rules() {
-	global $wpdb;
-	$posts = $wpdb->get_results("SELECT ID, post_name FROM $wpdb->posts WHERE post_status = 'static' ORDER BY post_parent DESC");
-
-	$page_rewrite_rules = array();
-	
-	if ($posts) {
-		foreach ($posts as $post) {
-			// URI => page name
-			$uri = get_page_uri($post->ID);
-			
-			$page_rewrite_rules[$uri] = $post->post_name;
-		}
-		
-		update_option('page_uris', $page_rewrite_rules);
-		
-		save_mod_rewrite_rules();
-	}
 }
 
 function the_quicktags () {

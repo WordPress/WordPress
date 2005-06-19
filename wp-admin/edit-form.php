@@ -22,12 +22,12 @@ window.onload = focusit;
 <div id="poststuff">
     <fieldset id="titlediv">
       <legend><a href="http://wordpress.org/docs/reference/post/#title" title="<?php _e('Help on titles') ?>"><?php _e('Title') ?></a></legend> 
-	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $edited_post_title; ?>" id="title" /></div>
+	  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $post->post_title; ?>" id="title" /></div>
     </fieldset>
 
     <fieldset id="categorydiv">
       <legend><a href="http://wordpress.org/docs/reference/post/#category" title="<?php _e('Help on categories') ?>"><?php _e('Categories') ?></a></legend> 
-	  <div><?php dropdown_categories($default_post_cat); ?></div>
+	  <div><?php dropdown_categories($post->post_category); ?></div>
     </fieldset>
 
 <br />
@@ -40,7 +40,7 @@ window.onload = focusit;
      $rows = 10;
  }
 ?>
-<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo $content ?></textarea></div>
+<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo $post->post_content ?></textarea></div>
 </fieldset>
 
 
