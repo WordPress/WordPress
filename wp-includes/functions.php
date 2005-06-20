@@ -1808,7 +1808,7 @@ function add_query_arg() {
 }
 
 function remove_query_arg($key, $query) {
-	add_query_arg($key, '', $query);
+	return add_query_arg($key, '', $query);
 }
 
 function load_template($file) {
