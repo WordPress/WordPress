@@ -113,7 +113,7 @@ function wp_get_links($args = '') {
 		if (! isset($show_updated)) $show_updated = 1;
 		if (! isset($echo)) $echo = true;
 
-		get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
+		return get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
 	}
 } // end wp_get_links
 
