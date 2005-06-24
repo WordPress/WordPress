@@ -98,7 +98,7 @@ do_action('retrieve_password', $user_login);
 	$key = substr( md5( uniqid( microtime() ) ), 0, 50);
 	// now insert the new pass md5'd into the db
  	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
-	$message .= __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
+	$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
 	$message .= get_option('siteurl') . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
