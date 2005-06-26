@@ -481,7 +481,7 @@ function &get_post(&$post, $output = OBJECT) {
 		if (isset($post_cache[$post]))
 			$_post = & $post_cache[$post];
 		else {
-			$query = "SELECT * FROM $wpdb->posts WHERE ID=$post";
+			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post'";
 			$post_cache[$post] = & $wpdb->get_row($query);
 			$_post = & $post_cache[$post];
 		}
@@ -518,7 +518,7 @@ function &get_page(&$page, $output = OBJECT) {
 		elseif (isset($page_cache[$page]))
 			$_page = & $page_cache[$page];
 		else {
-			$query = "SELECT * FROM $wpdb->posts WHERE ID=$page";
+			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page'";
 			$page_cache[$page] = & $wpdb->get_row($query);
 			$_page = & $page_cache[$page];
 		}
@@ -552,7 +552,7 @@ function &get_category(&$category, $output = OBJECT) {
 		$_category = & $cache_categories[$category->cat_ID];
 	} else {
 		if ( !isset($cache_categories[$category]) ) {
-			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = $category");
+			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category'");
 			$cache_categories[$category->cat_ID] = & $_category;
 		} else {
 			$_category = & $cache_categories[$category];
