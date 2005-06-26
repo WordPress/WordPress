@@ -470,31 +470,31 @@ function &get_post(&$post, $output = OBJECT) {
 
 	if ( empty($post) ) {
 		if ( isset($GLOBALS['post']) )
-			$post = & $GLOBALS['post'];
+			$_post = & $GLOBALS['post'];
 		else
-			$post = null;
+			$_post = null;
 	} elseif (is_object($post) ) {
 		if (! isset($post_cache[$post->ID]))
 			$post_cache[$post->ID] = &$post;
-		$post = & $post_cache[$post->ID];
+		$_post = & $post_cache[$post->ID];
 	} else {
 		if (isset($post_cache[$post]))
-			$post = & $post_cache[$post];
+			$_post = & $post_cache[$post];
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID=$post";
 			$post_cache[$post] = & $wpdb->get_row($query);
-			$post = & $post_cache[$post];
+			$_post = & $post_cache[$post];
 		}
 	}
 
 	if ( $output == OBJECT ) {
-		return $post;
+		return $_post;
 	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($post);
+		return get_object_vars($_post);
 	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($post));
+		return array_values(get_object_vars($_post));
 	} else {
-		return $post;
+		return $_post;
 	}
 }
 
@@ -505,33 +505,33 @@ function &get_page(&$page, $output = OBJECT) {
 
 	if ( empty($page) ) {
 		if ( isset($GLOBALS['page']) )
-			$page = & $GLOBALS['page'];
+			$_page = & $GLOBALS['page'];
 		else
-			$page = null;
+			$_page = null;
 	} elseif (is_object($page) ) {
 		if (! isset($page_cache[$page->ID]))
 			$page_cache[$page->ID] = &$page;
-		$page = & $page_cache[$page->ID];
+		$_page = & $page_cache[$page->ID];
 	} else {
 		if ( isset($GLOBALS['page']) && ($page == $GLOBALS['page']->ID) )
-			$page = & $GLOBALS['page'];
+			$_page = & $GLOBALS['page'];
 		elseif (isset($page_cache[$page]))
-			$page = & $page_cache[$page];
+			$_page = & $page_cache[$page];
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID=$page";
 			$page_cache[$page] = & $wpdb->get_row($query);
-			$page = & $page_cache[$page];
+			$_page = & $page_cache[$page];
 		}
 	}
 
 	if ( $output == OBJECT ) {
-		return $page;
+		return $_page;
 	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($page);
+		return get_object_vars($_page);
 	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($page));
+		return array_values(get_object_vars($_page));
 	} else {
-		return $page;
+		return $_page;
 	}
 }
 
@@ -543,32 +543,62 @@ function &get_category(&$category, $output = OBJECT) {
 	if ( empty($category) )
 		return null;
 
-	$category = (int) $category;
-
 	if ( ! isset($cache_categories))
 		update_category_cache();
 
 	if (is_object($category)) {
 		if ( ! isset($cache_categories[$category->cat_ID]))
 			$cache_categories[$category->cat_ID] = &$category;
-		$category = & $cache_categories[$category->cat_ID];
+		$_category = & $cache_categories[$category->cat_ID];
 	} else {
 		if ( !isset($cache_categories[$category]) ) {
-			$category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = $category");
-			$cache_categories[$category->cat_ID] = & $category;
+			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = $category");
+			$cache_categories[$category->cat_ID] = & $_category;
 		} else {
-			$category = & $cache_categories[$category];
+			$_category = & $cache_categories[$category];
 		}
 	}
 
 	if ( $output == OBJECT ) {
-		return $category;
+		return $_category;
 	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($category);
+		return get_object_vars($_category);
 	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($category));
+		return array_values(get_object_vars($_category));
 	} else {
-		return $category;
+		return $_category;
+	}
+}
+
+// Retrieves comment data given a comment ID or comment object. 
+// Handles comment caching.
+function &get_comment(&$comment, $output = OBJECT) {
+	global $comment_cache, $wpdb;
+
+	if ( empty($comment) )
+		return null;
+
+	if (is_object($comment)) {
+		if ( ! isset($comment_cache[$comment->comment_ID]))
+			$comment_cache[$comment->comment_ID] = &$comment;
+		$_comment = & $comment_cache[$comment->comment_ID];
+	} else {
+		if ( !isset($comment_cache[$comment]) ) {
+			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment'");
+			$comment_cache[$comment->comment_ID] = & $_comment;
+		} else {
+			$_comment = & $comment_cache[$comment];
+		}
+	}
+
+	if ( $output == OBJECT ) {
+		return $_comment;
+	} elseif ( $output == ARRAY_A ) {
+		return get_object_vars($_comment);
+	} elseif ( $output == ARRAY_N ) {
+		return array_values(get_object_vars($_comment));
+	} else {
+		return $_comment;
 	}
 }
 

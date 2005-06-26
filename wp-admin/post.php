@@ -140,18 +140,15 @@ case 'editcomment':
 
 	get_currentuserinfo();
 
-	$comment = $_GET['comment'];
-	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
+	$comment = (int) $_GET['comment'];
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
+	if ( ! $comment = get_comment($comment) )
+		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
+
+	if ( !user_can_edit_post_comments($user_ID, $comment->comment_post_ID) )
 		die( __('You are not allowed to edit comments on this post.') );
-	}
 
-	$content = $commentdata['comment_content'];
-	$content = format_to_edit($content);
-	$content = apply_filters('comment_edit_pre', $content);
-	
-	$comment_status = $commentdata['comment_approved'];
+	$comment = get_comment_to_edit($comment);
 
 	include('edit-form-comment.php');
 
@@ -161,21 +158,22 @@ case 'confirmdeletecomment':
 
 	require_once('./admin-header.php');
 
-	$comment = $_GET['comment'];
+	$comment = (int) $_GET['comment'];
 	$p = (int) $_GET['p'];
-	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID'])) {
+	if ( ! $comment = get_comment($comment) )
+		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+
+	if ( !user_can_delete_post_comments($user_ID, $comment->comment_post_ID) )
 		die( __('You are not allowed to delete comments on this post.') );
-	}
 
 	echo "<div class=\"wrap\">\n";
 	echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
 	echo "<table border=\"0\">\n";
-	echo "<tr><td>" . __('Author:') . "</td><td>" . $commentdata["comment_author"] . "</td></tr>\n";
-	echo "<tr><td>" . __('E-mail:') . "</td><td>" . $commentdata["comment_author_email"] . "</td></tr>\n";
-	echo "<tr><td>". __('URL:') . "</td><td>" . $commentdata["comment_author_url"] . "</td></tr>\n";
-	echo "<tr><td>". __('Comment:') . "</td><td>" . stripslashes($commentdata["comment_content"]) . "</td></tr>\n";
+	echo "<tr><td>" . __('Author:') . "</td><td>" . $comment->comment_author . "</td></tr>\n";
+	echo "<tr><td>" . __('E-mail:') . "</td><td>" . $comment->comment_author_email . "</td></tr>\n";
+	echo "<tr><td>". __('URL:') . "</td><td>" . $comment->comment_author_url . "</td></tr>\n";
+	echo "<tr><td>". __('Comment:') . "</td><td>" . $comment->comment_content . "</td></tr>\n";
 	echo "</table>\n";
 	echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
 
@@ -196,8 +194,8 @@ case 'deletecomment':
 
 	check_admin_referer();
 
-	$comment = $_GET['comment'];
-	$p = $_GET['p'];
+	$comment = (int) $_GET['comment'];
+	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
@@ -205,14 +203,15 @@ case 'deletecomment':
 	}
 
 	$postdata = get_post($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
-	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
 
-	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID'])) {
+	if ( ! $comment = get_comment($comment) )
+			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
+
+	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID']))
 		die( __('You are not allowed to edit comments on this post.') );
-	}
 
-	wp_set_comment_status($comment, "delete");
-	do_action('delete_comment', $comment);
+	wp_set_comment_status($comment->comment_ID, "delete");
+	do_action('delete_comment', $comment->comment_ID);
 
 	if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -228,21 +227,21 @@ case 'unapprovecomment':
 
 	check_admin_referer();
 
-	$comment = $_GET['comment'];
-	$p = $_GET['p'];
+	$comment = (int) $_GET['comment'];
+	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
 		$noredir = false;
 	}
 
-	$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	if ( ! $comment = get_comment($comment) )
+		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
+	if ( !user_can_edit_post_comments($user_ID, $comment->comment_post_ID) )
 		die( __('You are not allowed to edit comments on this post, so you cannot disapprove this comment.') );
-	}
 
-	wp_set_comment_status($comment, "hold");
+	wp_set_comment_status($comment->comment_ID, "hold");
 
 	if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -256,16 +255,16 @@ case 'mailapprovecomment':
 
 	$comment = (int) $_GET['comment'];
 
-	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	if ( ! $comment = get_comment($comment) )
+			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
+	if ( !user_can_edit_post_comments($user_ID, $comment->comment_post_ID) )
 		die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
-	}
 
-	if ('1' != $commentdata['comment_approved']) {
-		wp_set_comment_status($comment, 'approve');
+	if ('1' != $comment->comment_approved) {
+		wp_set_comment_status($comment->comment_ID, 'approve');
 		if (true == get_option('comments_notify'))
-			wp_notify_postauthor($comment);
+			wp_notify_postauthor($comment->comment_ID);
 	}
 
 	header('Location: ' . get_option('siteurl') . '/wp-admin/moderation.php?approved=1');
@@ -274,22 +273,23 @@ case 'mailapprovecomment':
 
 case 'approvecomment':
 
-	$comment = $_GET['comment'];
-	$p = $_GET['p'];
+	$comment = (int) $_GET['comment'];
+	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
 		$noredir = false;
 	}
-	$commentdata = get_commentdata($comment) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
+	if ( ! $comment = get_comment($comment) )
+		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+
+	if ( !user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID']))
 		die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
-	}
 
-	wp_set_comment_status($comment, "approve");
+	wp_set_comment_status($comment->comment_ID, "approve");
 	if (get_settings("comments_notify") == true) {
-		wp_notify_postauthor($comment);
+		wp_notify_postauthor($comment->comment_ID);
 	}
 
 
@@ -303,43 +303,7 @@ case 'approvecomment':
 
 case 'editedcomment':
 
-	$comment_ID = $_POST['comment_ID'];
-	$comment_post_ID = $_POST['comment_post_ID'];
-	$newcomment_author = $_POST['newcomment_author'];
-	$newcomment_author_email = $_POST['newcomment_author_email'];
-	$newcomment_author_url = $_POST['newcomment_author_url'];
-	$comment_status = $_POST['comment_status'];
-
-	if (!user_can_edit_post_comments($user_ID, $comment_post_ID)) {
-		die( __('You are not allowed to edit comments on this post, so you cannot edit this comment.') );
-	}
-
-	if (user_can_edit_post_date($user_ID, $post_ID) && (!empty($_POST['edit_date']))) {
-		$aa = $_POST['aa'];
-		$mm = $_POST['mm'];
-		$jj = $_POST['jj'];
-		$hh = $_POST['hh'];
-		$mn = $_POST['mn'];
-		$ss = $_POST['ss'];
-		$jj = ($jj > 31) ? 31 : $jj;
-		$hh = ($hh > 23) ? $hh - 24 : $hh;
-		$mn = ($mn > 59) ? $mn - 60 : $mn;
-		$ss = ($ss > 59) ? $ss - 60 : $ss;
-		$datemodif = ", comment_date = '$aa-$mm-$jj $hh:$mn:$ss'";
-	} else {
-		$datemodif = '';
-	}
-	$content = apply_filters('comment_save_pre', $_POST['content']);
-
-	$result = $wpdb->query("
-		UPDATE $wpdb->comments SET
-			comment_content = '$content',
-			comment_author = '$newcomment_author',
-			comment_author_email = '$newcomment_author_email',
-			comment_approved = '$comment_status',
-			comment_author_url = '$newcomment_author_url'".$datemodif."
-		WHERE comment_ID = $comment_ID"
-		);
+	edit_comment();
 
 	$referredby = $_POST['referredby'];
 	if (!empty($referredby)) {
@@ -347,7 +311,7 @@ case 'editedcomment':
 	} else {
 		header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
 	}
-	do_action('edit_comment', $comment_ID);
+
 	break;
 
 default:

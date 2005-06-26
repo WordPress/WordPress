@@ -162,8 +162,7 @@ function wp_insert_post($postarr = array()) {
 			add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
 	}
 
-	// Return insert_id if we got a good result, otherwise return zero.
-	return $result ? $post_ID : 0;
+	return $rval;
 }
 
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
@@ -586,6 +585,41 @@ function wp_new_comment( $commentdata, $spam = false ) {
 	}
 
 	return $result;
+}
+
+function wp_update_comment($commentarr) {
+	global $wpdb;
+
+	// First, get all of the original fields
+	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
+
+	// Escape data pulled from DB.
+	foreach ($comment as $key => $value)
+		$comment[$key] = $wpdb->escape($value);
+
+	// Merge old and new fields with new fields overwriting old ones.
+	$commentarr = array_merge($comment, $commentarr);
+
+	// Now extract the merged array.
+	extract($commentarr);
+
+	$comment_content = apply_filters('comment_save_pre', $comment_content);
+
+	$result = $wpdb->query(
+		"UPDATE $wpdb->comments SET
+			comment_content = '$comment_content',
+			comment_author = '$comment_author',
+			comment_author_email = '$comment_author_email',
+			comment_approved = '$comment_approved',
+			comment_author_url = '$comment_author_url',
+			comment_date = '$comment_date'
+		WHERE comment_ID = $comment_ID" );
+
+	$rval = $wpdb->rows_affected;
+
+	do_action('edit_comment', $comment_ID);
+
+	return $rval;	
 }
 
 function do_trackbacks($post_id) {
