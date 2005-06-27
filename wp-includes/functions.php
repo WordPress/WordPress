@@ -170,42 +170,73 @@ function get_usernumposts($userid) {
 	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid' AND post_status = 'publish'");
 }
 
+
 // examine a url (supposedly from this blog) and try to
 // determine the post ID it represents.
 function url_to_postid($url) {
 	global $wp_rewrite;
 
-	// First, check to see if there is a 'p=N' or 'page_id=N' to match against:
+	// First, check to see if there is a 'p=N' or 'page_id=N' to match against
 	preg_match('#[?&](p|page_id)=(\d+)#', $url, $values);
 	$id = intval($values[2]);
 	if ($id) return $id;
 
-	// URI is probably a permalink.
+	// Check to see if we are using rewrite rules
 	$rewrite = $wp_rewrite->wp_rewrite_rules();
 
+	// Not using rewrite rules, and 'p=N' and 'page_id=N' methods failed, so we're out of options
 	if ( empty($rewrite) )
 		return 0;
+	
+	// $url cleanup by Mark Jaquith
+	// This fixes things like #anchors, ?query=strings, missing 'www.',
+	// added 'www.', or added 'index.php/' that will mess up our WP_Query
+	// and return a false negative
+		
+	// Get rid of the #anchor
+	$url_split = explode('#', $url);
+	$url = $url_split[0];
+	
+	// Get rid of URI ?query=string
+	$url_split = explode('?', $url);
+	$url = $url_split[0];
+		
+	// Add 'www.' if it is absent and should be there
+	if ( false !== strpos(get_settings('home'), '://www.') && false === strpos($url, '://www.') )
+		$url = str_replace('://', '://www.', $url);
+		
+	// Strip 'www.' if it is present and shouldn't be
+	if ( false === strpos(get_settings('home'), '://www.') )
+		$url = str_replace('://www.', '://', $url);
+		
+	// Strip 'index.php/' if we're not using path info permalinks
+	if ( false === strpos($rewrite, 'index.php/') )
+		$url = str_replace('index.php/', '', $url);
 
-	$req_uri = $url;
-
-	if ( false !== strpos($req_uri, get_settings('home')) ) {
-		$req_uri = str_replace(get_settings('home'), '', $req_uri);
+	// Chop off http://domain.com
+	if ( false !== strpos($url, get_settings('home')) ) {
+		$url = str_replace(get_settings('home'), '', $url);
 	} else {
+	// Chop off /path/to/blog
 		$home_path = parse_url(get_settings('home'));
 		$home_path = $home_path['path'];
-		$req_uri = str_replace($home_path, '', $req_uri);
+		$url = str_replace($home_path, '', $url);
 	}
 
-	$req_uri = trim($req_uri, '/');
-	$request = $req_uri;
+	// Trim leading and lagging slashes
+	$url = trim($url, '/');
+	
+	$request = $url;
+	
+	// Done with cleanup
 	
 	// Look for matches.
 	$request_match = $request;
 	foreach ($rewrite as $match => $query) {
 		// If the requesting file is the anchor of the match, prepend it
 		// to the path info.
-		if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0)) {
-			$request_match = $req_uri . '/' . $request;
+		if ((! empty($url)) && (strpos($match, $url) === 0)) {
+			$request_match = $url . '/' . $request;
 		}
 
 		if (preg_match("!^$match!", $request_match, $matches)) {
@@ -216,7 +247,7 @@ function url_to_postid($url) {
 			// Substitute the substring matches into the query.
 			eval("\$query = \"$query\";");
 			$query = new WP_Query($query);
-			if ( !empty($query->post) )
+			if ( $query->is_post || $query->is_page )
 				return $query->post->ID;
 			else
 				return 0;
