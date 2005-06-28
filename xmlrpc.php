@@ -127,8 +127,17 @@ class wp_xmlrpc_server extends IXR_Server {
 	  return true;
 	}
 
+	function escape(&$array) {
+		global $wpdb;
 
-
+		foreach ($array as $k => $v) {
+			if (is_array($v)) {
+				$this->escape($array[$k]);
+			} else {
+				$array[$k] = $wpdb->escape($v);
+			}
+		}
+	}
 
 	/* Blogger API functions
 	 * specs on http://plant.blogger.com/api and http://groups.yahoo.com/group/bloggerDev/
@@ -137,6 +146,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* blogger.getUsersBlogs will make more sense once we support multiple blogs */
 	function blogger_getUsersBlogs($args) {
+
+		$this->escape($args);
 
 	  $user_login = $args[1];
 	  $user_pass  = $args[2];
@@ -162,6 +173,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* blogger.getUsersInfo gives your client some info about you, so you don't have to */
 	function blogger_getUserInfo($args) {
 
+		$this->escape($args);
+
 	  $user_login = $args[1];
 	  $user_pass  = $args[2];
 
@@ -186,6 +199,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* blogger.getPost ...gets a post */
 	function blogger_getPost($args) {
+
+		$this->escape($args);
 
 	  $post_ID    = $args[1];
 	  $user_login = $args[2];
@@ -219,6 +234,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	function blogger_getRecentPosts($args) {
 
 	  global $wpdb;
+
+		$this->escape($args);
 
 	  $blog_ID    = $args[1]; /* though we don't use it yet */
 	  $user_login = $args[2];
@@ -266,6 +283,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* blogger.getTemplate returns your blog_filename */
 	function blogger_getTemplate($args) {
 
+		$this->escape($args);
+
 	  $blog_ID    = $args[1];
 	  $user_login = $args[2];
 	  $user_pass  = $args[3];
@@ -298,6 +317,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* blogger.setTemplate updates the content of blog_filename */
 	function blogger_setTemplate($args) {
+
+		$this->escape($args);
 
 	  $blog_ID    = $args[1];
 	  $user_login = $args[2];
@@ -334,6 +355,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	function blogger_newPost($args) {
 
 	  global $wpdb;
+
+		$this->escape($args);
 
 	  $blog_ID    = $args[1]; /* though we don't use it yet */
 	  $user_login = $args[2];
@@ -382,6 +405,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  global $wpdb;
 
+		$this->escape($args);
+
 	  $post_ID     = $args[1];
 	  $user_login  = $args[2];
 	  $user_pass   = $args[3];
@@ -398,6 +423,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	  	return new IXR_Error(404, 'Sorry, no such post.');
 	  }
 
+		$this->escape($actual_post);
+
 	  $post_author_data = get_userdata($actual_post['post_author']);
 	  $user_data = get_userdatabylogin($user_login);
 
@@ -406,6 +433,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  extract($actual_post);
+
 	  $content = $newcontent;
 
 	  $post_title = xmlrpc_getposttitle($content);
@@ -430,6 +458,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	function blogger_deletePost($args) {
 
 	  global $wpdb;
+
+		$this->escape($args);
 
 	  $post_ID     = $args[1];
 	  $user_login  = $args[2];
@@ -471,6 +501,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	function mw_newPost($args) {
 
 	  global $wpdb, $post_default_category;
+
+		$this->escape($args);
 
 	  $blog_ID     = $args[0]; // we will support this in the near future
 	  $user_login  = $args[1];
@@ -553,6 +585,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  global $wpdb, $post_default_category;
 
+		$this->escape($args);
+
 	  $post_ID     = $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
@@ -570,6 +604,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
 	  extract($postdata);
+		$this->escape($postdata);
 
 	  $post_title = $content_struct['title'];
 	  $post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
@@ -631,6 +666,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  global $wpdb;
 
+		$this->escape($args);
+
 	  $post_ID     = $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
@@ -683,6 +720,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* metaweblog.getRecentPosts ...returns recent posts */
 	function mw_getRecentPosts($args) {
+
+		$this->escape($args);
 
 	  $blog_ID     = $args[0];
 	  $user_login  = $args[1];
@@ -748,6 +787,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  global $wpdb;
 
+		$this->escape($args);
+
 	  $blog_ID     = $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
@@ -779,6 +820,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	function mw_newMediaObject($args) {
 	  // adapted from a patch by Johann Richard
 	  // http://mycvs.org/archives/2004/06/30/file-upload-to-wordpress-in-ecto/
+
+		$this->escape($args);
 
 	  $blog_ID     = $args[0];
 	  $user_login  = $args[1];
@@ -859,6 +902,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* mt.getRecentPostTitles ...returns recent posts' titles */
 	function mt_getRecentPostTitles($args) {
 
+		$this->escape($args);
+
 	  $blog_ID     = $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
@@ -902,6 +947,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  global $wpdb;
 
+		$this->escape($args);
+
 	  $blog_ID     = $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
@@ -928,6 +975,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* mt.getPostCategories ...returns a post's categories */
 	function mt_getPostCategories($args) {
+
+		$this->escape($args);
 
 	  $post_ID     = $args[0];
 	  $user_login  = $args[1];
@@ -956,6 +1005,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* mt.setPostCategories ...sets a post's categories */
 	function mt_setPostCategories($args) {
+
+		$this->escape($args);
 
 	  $post_ID     = $args[0];
 	  $user_login  = $args[1];
@@ -1039,6 +1090,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* mt.publishPost ...sets a post's publish status to 'publish' */
 	function mt_publishPost($args) {
 
+		$this->escape($args);
+
 	  $post_ID     = $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
@@ -1059,6 +1112,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  // retain old cats
 	  $cats = wp_get_post_cats('',$post_ID);
 	  $postdata['post_category'] = $cats;
+		$this->escape($postdata);
 
 	  $result = wp_update_post($postdata);
 
@@ -1074,6 +1128,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* pingback.ping gets a pingback and registers it */
 	function pingback_ping($args) {
 		global $wpdb, $wp_version; 
+
+		$this->escape($args);
 
 		$pagelinkedfrom = $args[0];
 		$pagelinkedto   = $args[1];
@@ -1218,6 +1274,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	function pingback_extensions_getPingbacks($args) {
 
 		global $wpdb;
+
+		$this->escape($args);
 
 		$url = $args;
 
