@@ -273,7 +273,7 @@ case 'editpost':
 	if (!isset($blog_ID)) {
 		$blog_ID = 1;
 	}
-	$post_ID = $_POST['post_ID'];
+	$post_ID = (int) $_POST['post_ID'];
 
 	if (!user_can_edit_post($user_ID, $post_ID, $blog_ID))
 		die( __('You are not allowed to edit this post.') );
@@ -308,7 +308,7 @@ case 'editpost':
 
 	$post_parent = 0;
 	if (isset($_POST['parent_id'])) {
-		$post_parent = $_POST['parent_id'];
+		$post_parent = (int) $_POST['parent_id'];
 	}
 
 	$trackback = $_POST['trackback_url'];
@@ -478,7 +478,7 @@ case 'editcomment':
 
 	get_currentuserinfo();
 
-	$comment = $_GET['comment'];
+	$comment = (int) $_GET['comment'];
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
 
 	if (!user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID'])) {
@@ -499,7 +499,7 @@ case 'confirmdeletecomment':
 
 	require_once('./admin-header.php');
 
-	$comment = $_GET['comment'];
+	$comment = (int) $_GET['comment'];
 	$p = (int) $_GET['p'];
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
@@ -534,8 +534,8 @@ case 'deletecomment':
 
 	check_admin_referer();
 
-	$comment = $_GET['comment'];
-	$p = $_GET['p'];
+	$comment = (int) $_GET['comment'];
+	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
@@ -566,8 +566,8 @@ case 'unapprovecomment':
 
 	check_admin_referer();
 
-	$comment = $_GET['comment'];
-	$p = $_GET['p'];
+	$comment = (int) $_GET['comment'];
+	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
@@ -612,8 +612,8 @@ case 'mailapprovecomment':
 
 case 'approvecomment':
 
-	$comment = $_GET['comment'];
-	$p = $_GET['p'];
+	$comment = (int) $_GET['comment'];
+	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
@@ -641,8 +641,8 @@ case 'approvecomment':
 
 case 'editedcomment':
 
-	$comment_ID = $_POST['comment_ID'];
-	$comment_post_ID = $_POST['comment_post_ID'];
+	$comment_ID = (int) $_POST['comment_ID'];
+	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	$newcomment_author = $_POST['newcomment_author'];
 	$newcomment_author_email = $_POST['newcomment_author_email'];
 	$newcomment_author_url = $_POST['newcomment_author_url'];
