@@ -185,12 +185,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $user_data = get_userdatabylogin($user_login);
 
 	  $struct = array(
-	    'nickname'  => $user_data->nickname,
+	    'nickname'  => $user_data->user_nickname,
 	    'userid'    => $user_data->ID,
 	    'url'       => $user_data->user_url,
 	    'email'     => $user_data->user_email,
-	    'lastname'  => $user_data->last_name,
-	    'firstname' => $user_data->first_name
+	    'lastname'  => $user_data->user_lastname,
+	    'firstname' => $user_data->user_firstname
 	  );
 
 	  return $struct;
@@ -576,6 +576,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  logIO('O', "Posted ! ID: $post_ID");
 
+	  // FIXME: do we pingback always? pingback($content, $post_ID);
+	  trackback_url_list($content_struct['mt_tb_ping_urls'],$post_ID);
+
 	  return strval($post_ID);
 	}
 
@@ -656,6 +659,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  logIO('O',"(MW) Edited ! ID: $post_ID");
+
+	  // FIXME: do we pingback always? pingback($content, $post_ID);
+	  trackback_url_list($content_struct['mt_tb_ping_urls'], $post_ID);
 
 	  return true;
 	}
