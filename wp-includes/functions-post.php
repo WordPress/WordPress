@@ -11,11 +11,7 @@ function wp_insert_post($postarr = array()) {
 	// export array as variables
 	extract($postarr);
 	
-	// Do some escapes for safety
-	$post_title = $wpdb->escape($post_title);
 	$post_name = sanitize_title($post_title);
-	$post_excerpt = $wpdb->escape($post_excerpt);
-	$post_content = $wpdb->escape($post_content);
 	$post_author = (int) $post_author;
 
 	// Make sure we set a valid category
@@ -115,11 +111,6 @@ function wp_update_post($postarr = array()) {
 	// Make sure we set a valid category
 	if ( 0 == count($post_category) || !is_array($post_category) )
 		$post_category = array($post_default_category);
-
-	// Do some escapes for safety
-	$post_title   = $wpdb->escape($post_title);
-	$post_excerpt = $wpdb->escape($post_excerpt);
-	$post_content = $wpdb->escape($post_content);
 
 	$post_modified = current_time('mysql');
 	$post_modified_gmt = current_time('mysql', 1);
