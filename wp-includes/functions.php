@@ -1936,7 +1936,6 @@ function status_header( $header ) {
 	}
 	if ( preg_match('/cgi/',php_sapi_name()) ) {
 		@header("Status: $header $text");
-		echo "\r\n\r\n";
 	} else {
 		if ( version_compare(phpversion(), '4.3.0', '>=') )
 			@header($text, TRUE, $header);
