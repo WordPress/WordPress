@@ -1200,7 +1200,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		logIO("O","(PB) URI='$pagelinkedto' ID='$post_ID' Found='$way'");
 
-		$post = $wpdb->get_row("SELECT post_author FROM $wpdb->posts WHERE ID = '$post_ID'");
+		$post = get_post($post_ID);
 
 		if ( !$post ) // Post_ID not found
 	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
