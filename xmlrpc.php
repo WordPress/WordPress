@@ -823,11 +823,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	  // adapted from a patch by Johann Richard
 	  // http://mycvs.org/archives/2004/06/30/file-upload-to-wordpress-in-ecto/
 
-		$this->escape($args);
-
-	  $blog_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
+		global $wpdb;
+		
+	  $blog_ID     = $wpdb->escape($args[0]);
+	  $user_login  = $wpdb->escape($args[1]);
+		$user_pass   = $wpdb->escape($args[2]);
 	  $data        = $args[3];
 
 	  $name = $data['name'];
