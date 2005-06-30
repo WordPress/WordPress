@@ -6,7 +6,7 @@
  * generic function for inserting data into the posts table.
  */
 function wp_insert_post($postarr = array()) {
-	global $wpdb, $post_default_category, $allowedtags;
+	global $wpdb, $allowedtags;
 	
 	// export array as variables
 	extract($postarr);
@@ -16,7 +16,7 @@ function wp_insert_post($postarr = array()) {
 
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
-		$post_category = array($post_default_category);
+		$post_category = array(get_option('default_category'));
 	}
 
 	$post_cat = $post_category[0];
@@ -110,7 +110,7 @@ function wp_update_post($postarr = array()) {
 
 	// Make sure we set a valid category
 	if ( 0 == count($post_category) || !is_array($post_category) )
-		$post_category = array($post_default_category);
+		$post_category = array(get_option('default_category'));
 
 	$post_modified = current_time('mysql');
 	$post_modified_gmt = current_time('mysql', 1);
@@ -157,7 +157,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	// If $post_categories isn't already an array, make it one:
 	if (!is_array($post_categories)) {
 		if (!$post_categories) {
-			$post_categories = 1;
+			$post_categories = get_option('default_category');
 		}
 		$post_categories = array($post_categories);
 	}
