@@ -10,7 +10,6 @@ include_once(ABSPATH . WPINC . '/class-IXR.php');
 // error_reporting(0);
 
 $post_default_title = ""; // posts submitted via the xmlrpc interface get that title
-$post_default_category = 1; // posts submitted via the xmlrpc interface go into that category
 
 $xmlrpc_logging = 0;
 
@@ -563,9 +562,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
-	  } else {
-	    $post_category[] = $post_default_category;
-	  }
+	  } else if ( !empty($catnames) ) {
+			$post_category = array(get_cat_ID($catnames));
+		}
 		
 	  // We've got all the data -- post it:
 	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping');
@@ -614,14 +613,16 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_title = $content_struct['title'];
 	  $post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
 	  $catnames = $content_struct['categories'];
+
+	  $post_category = array();
 		
 	  if (is_array($catnames)) {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
-	  } else {
-	    $post_category[] = $post_default_category;
-	  }
+	  } else if ( !empty($catnames) ) {
+			$post_category = array(get_cat_ID($catnames));
+		}
 
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
@@ -829,11 +830,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	  // adapted from a patch by Johann Richard
 	  // http://mycvs.org/archives/2004/06/30/file-upload-to-wordpress-in-ecto/
 
-		$this->escape($args);
+		global $wpdb;
 
-	  $blog_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
+	  $blog_ID     = $wpdb->escape($args[0]);
+	  $user_login  = $wpdb->escape($args[1]);
+		$user_pass   = $wpdb->escape($args[2]);
 	  $data        = $args[3];
 
 	  $name = $data['name'];
@@ -1199,7 +1200,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		logIO("O","(PB) URI='$pagelinkedto' ID='$post_ID' Found='$way'");
 
-		$post = $wpdb->get_row("SELECT post_author FROM $wpdb->posts WHERE ID = '$post_ID'");
+		$post = get_post($post_ID);
 
 		if ( !$post ) // Post_ID not found
 	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
