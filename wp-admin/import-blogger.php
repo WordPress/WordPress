@@ -16,7 +16,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 require_once('../wp-config.php');
-require('upgrade-functions.php');
+require_once('upgrade-functions.php');
 header( 'Content-Type: text/html; charset=utf-8' );
 switch ($action) {
 

@@ -1,7 +1,7 @@
 <?php
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. Double check that you updated wp-config-sample.php with the proper database connection information and renamed it to wp-config.php.");
 require_once('../wp-config.php');
-require('upgrade-functions.php');
+require_once('upgrade-functions.php');
 $step = $_GET['step'];
 if (!$step) $step = 0;
 header( 'Content-Type: text/html; charset=utf-8' );

@@ -2,7 +2,7 @@
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must install WordPress before you import any entries.");
 
 require_once('../wp-config.php');
-require('upgrade-functions.php');
+require_once('upgrade-functions.php');
 
 $wpvarstoreset = array('action', 'gmpath', 'archivespath', 'lastentry');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {

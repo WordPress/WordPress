@@ -13,7 +13,7 @@ $add_hours = intval($timezone_offset);
 $add_minutes = intval(60 * ($timezone_offset - $add_hours));
 
 if (!file_exists('../wp-config.php')) die("There doesn't seem to be a wp-config.php file. You must install WordPress before you import any entries.");
-require('../wp-config.php');
+require_once('../wp-config.php');
 
 $step = $_GET['step'];
 if (!$step) $step = 0;
