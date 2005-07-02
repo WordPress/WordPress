@@ -229,6 +229,9 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 
 	$result = $wpdb->get_col($sql);
 
+	if ( !$result )
+		$result = array();
+
 	return array_unique($result);
 }
 
