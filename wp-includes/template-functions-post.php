@@ -392,7 +392,7 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
 				$format = $args['date_format'];
 			$output .= " " . mysql2date($format, $cur_page['ts']);
 		}
-		echo "\n";
+		$output .= "\n";
 
 		if(isset($cur_page['children']) && is_array($cur_page['children'])) {
 			$new_depth = $depth + 1;
