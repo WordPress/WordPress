@@ -562,9 +562,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
-	  } else if ( !empty($catnames) ) {
-			$post_category = array(get_cat_ID($catnames));
-		}
+	  }
 		
 	  // We've got all the data -- post it:
 	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping');
@@ -620,9 +618,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
-	  } else if ( !empty($catnames) ) {
-			$post_category = array(get_cat_ID($catnames));
-		}
+	  }
 
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
