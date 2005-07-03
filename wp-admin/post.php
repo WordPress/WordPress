@@ -167,24 +167,24 @@ case 'confirmdeletecomment':
 	if ( !user_can_delete_post_comments($user_ID, $comment->comment_post_ID) )
 		die( __('You are not allowed to delete comments on this post.') );
 
-	echo "<div class=\"wrap\">\n";
+	echo "<div class='wrap'>\n";
 	echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
-	echo "<table border=\"0\">\n";
-	echo "<tr><td>" . __('Author:') . "</td><td>" . $comment->comment_author . "</td></tr>\n";
-	echo "<tr><td>" . __('E-mail:') . "</td><td>" . $comment->comment_author_email . "</td></tr>\n";
-	echo "<tr><td>". __('URL:') . "</td><td>" . $comment->comment_author_url . "</td></tr>\n";
-	echo "<tr><td>". __('Comment:') . "</td><td>" . $comment->comment_content . "</td></tr>\n";
+	echo "<table border='0'>\n";
+	echo "<tr><td>" . __('Author:') . "</td><td>$comment->comment_author</td></tr>\n";
+	echo "<tr><td>" . __('E-mail:') . "</td><td>$comment->comment_author_email</td></tr>\n";
+	echo "<tr><td>". __('URL:') . "</td><td>$comment->comment_author_url</td></tr>\n";
+	echo "<tr><td>". __('Comment:') . "</td><td>$comment->comment_content</td></tr>\n";
 	echo "</table>\n";
 	echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
 
 	echo "<form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'>\n";
-	echo "<input type=\"hidden\" name=\"action\" value=\"deletecomment\" />\n";
-	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
-	echo "<input type=\"hidden\" name=\"comment\" value=\"{$comment->comment_ID}\" />\n";
-	echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
-	echo "<input type=\"submit\" value=\"" . __('Yes') . "\" />";
+	echo "<input type='hidden' name='action' value='deletecomment' />\n";
+	echo "<input type='hidden' name='p' value='$p' />\n";
+	echo "<input type='hidden' name='comment' value='{$comment->comment_ID}' />\n";
+	echo "<input type='hidden' name='noredir' value='1' />\n";
+	echo "<input type='submit' value='" . __('Yes') . "' />";
 	echo "&nbsp;&nbsp;";
-	echo "<input type=\"button\" value=\"" . __('No') . "\" onclick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&amp;c=1#comments';\" />\n";
+	echo "<input type='button' value='" . __('No') . "' onclick='self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&amp;c=1#comments';' />\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
