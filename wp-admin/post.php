@@ -180,7 +180,7 @@ case 'confirmdeletecomment':
 	echo "<form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'>\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"deletecomment\" />\n";
 	echo "<input type=\"hidden\" name=\"p\" value=\"$p\" />\n";
-	echo "<input type=\"hidden\" name=\"comment\" value=\"$comment\" />\n";
+	echo "<input type=\"hidden\" name=\"comment\" value=\"{$comment->comment_ID}\" />\n";
 	echo "<input type=\"hidden\" name=\"noredir\" value=\"1\" />\n";
 	echo "<input type=\"submit\" value=\"" . __('Yes') . "\" />";
 	echo "&nbsp;&nbsp;";
