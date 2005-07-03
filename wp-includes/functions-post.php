@@ -202,12 +202,11 @@ function wp_update_post($postarr = array()) {
 	$post = wp_get_single_post($postarr['ID'], ARRAY_A);	
 
 	// Escape data pulled from DB.
-	foreach ($post as $key => $value)
-		$post[$key] = $wpdb->escape($value);
+	$post = add_magic_quotes($post);
 
-	// Passed post category list takes overwrites existing
-	// category list.
- 	if ( isset($postarr['post_category']) )
+	// Passed post category list overwrites existing category list if not empty.
+ 	if ( isset($postarr['post_category']) && is_array($postarr['post_category'])
+			 && 0 != count($postarr['post_category']) )
  		$post_cats = $postarr['post_category'];
  	else 
  		$post_cats = $post['post_category'];
@@ -238,13 +237,9 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
 	global $wpdb;
 	// If $post_categories isn't already an array, make it one:
-	if (!is_array($post_categories)) {
-		if (!$post_categories) {
-			$post_categories = 1;
-		}
-		$post_categories = array($post_categories);
-	}
-
+	if (!is_array($post_categories) || 0 == count($post_categories))
+		$post_categories = array(get_option('default_category'));
+	
 	$post_categories = array_unique($post_categories);
 
 	// First the old categories

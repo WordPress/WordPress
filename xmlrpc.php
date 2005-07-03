@@ -148,10 +148,16 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* blogger.getUsersBlogs will make more sense once we support multiple blogs */
 	function blogger_getUsersBlogs($args) {
 
+	  logIO('O', " User login :  {$args[1]}");
+	  logIO('O', " User pass :  {$args[2]}");
+
 		$this->escape($args);
 
 	  $user_login = $args[1];
 	  $user_pass  = $args[2];
+
+	  logIO('O', " User login :  $user_login");
+	  logIO('O', " User pass :  $user_pass");
 
 	  if (!$this->login_pass_ok($user_login, $user_pass)) {
 	    return $this->error;
@@ -562,9 +568,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
-	  } else if ( !empty($catnames) ) {
-			$post_category = array(get_cat_ID($catnames));
-		}
+	  }
 		
 	  // We've got all the data -- post it:
 	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping');
@@ -617,9 +621,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
 	    }
-	  } else if ( !empty($catnames) ) {
-			$post_category = array(get_cat_ID($catnames));
-		}
+	  }
 
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
