@@ -204,6 +204,103 @@ function get_comment_to_edit($id) {
 	return $comment;
 }
 
+function get_category_to_edit($id) {
+	$category = get_category($id);
+
+	return $category;
+}
+
+function wp_insert_category($catarr) {
+	global $wpdb;
+
+	extract($catarr);
+
+	$cat_ID = (int) $cat_ID;
+
+	// Are we updating or creating?
+	if ( !empty($cat_ID) ) {
+		$update = true;
+	} else {
+		$update = false;
+		$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->categories'");
+		$cat_ID = $id_result->Auto_increment;
+	}
+
+	$cat_name = wp_specialchars($cat_name);
+
+	if ( empty($category_nicename) )
+		$category_nicename = sanitize_title($cat_name, $cat_ID);
+	else
+		$category_nicename = sanitize_title($category_nicename, $cat_ID);
+
+	if ( empty($category_description) )
+		$category_description = '';
+
+	if ( empty($category_parent) )
+		$category_parent = 0;
+
+	if ( !$update)
+		$query = "INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')";
+	else
+		$query = "UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent' WHERE cat_ID = '$cat_ID'";
+
+	$result = $wpdb->query($query);
+
+	if ( $update ) {
+		$rval = $wpdb->rows_affected;
+		do_action('edit_category', $cat_ID);
+	} else {
+		$rval = $wpdb->insert_id;
+		do_action('create_category', $cat_ID);
+	}
+
+	return $rval;
+}
+
+function wp_update_category($catarr) {
+	global $wpdb;
+
+	$cat_ID = (int) $catarr['cat_ID'];
+	
+	// First, get all of the original fields
+	$category = get_category($cat_ID, ARRAY_A);	
+
+	// Escape data pulled from DB.
+	$category = add_magic_quotes($category);
+
+	// Merge old and new fields with new fields overwriting old ones.
+	$catarr = array_merge($category, $catarr);
+
+	return wp_insert_category($catarr);
+}
+
+function wp_delete_category($cat_ID) {
+	global $wpdb;
+
+	$cat_ID = (int) $cat_ID;
+
+	// Don't delete the default cat.
+	if ( 1 == $cat_ID )
+		return 0;
+
+	$category = get_category($cat_ID);
+
+	$parent = $category->category_parent;
+
+	// Delete the category.
+	$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
+
+	// Update children to point to new parent.
+	$wpdb->query("UPDATE $wpdb->categories SET category_parent = '$parent' WHERE category_parent = '$cat_ID'");
+
+	// TODO: Only set categories to general if they're not in another category already
+	$wpdb->query("UPDATE $wpdb->post2cat SET category_id='1' WHERE category_id='$cat_ID'");
+
+	do_action('delete_category', $cat_ID);
+
+	return 1;
+}
+
 function url_shorten ($url) {
 	$short_url = str_replace('http://', '', stripslashes($url));
 	$short_url = str_replace('www.', '', $short_url);
