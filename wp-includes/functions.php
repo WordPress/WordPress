@@ -1966,4 +1966,20 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 		$wpdb->query("UPDATE $wpdb->usermeta SET meta_value = '$meta_value' WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 }
 
+function register_activation_hook($file, $function) {
+	$file = plugin_basename($file);
+	
+	add_action('activate_' . $file, $function);
+}
+
+function register_deactivation_hook($file, $function) {
+	$file = plugin_basename($file);
+	
+	add_action('deactivate_' . $file, $function);
+}
+
+function plugin_basename($file) {
+	return preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', $file);
+}
+
 ?>

@@ -3,21 +3,22 @@ require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
 	check_admin_referer();
-
+	
 	if ('activate' == $_GET['action']) {
 		$current = get_settings('active_plugins');
 		if (!in_array($_GET['plugin'], $current)) {
 			$current[] = trim( $_GET['plugin'] );
+			sort($current);
+			update_option('active_plugins', $current);
+			include(ABSPATH . 'wp-content/plugins/' . trim( $_GET['plugin'] ));
+			do_action('activate_' . trim( $_GET['plugin'] ));
 		}
-		sort($current);
-		update_option('active_plugins', $current);
 		header('Location: plugins.php?activate=true');
-	}
-	
-	if ('deactivate' == $_GET['action']) {
+	} else if ('deactivate' == $_GET['action']) {
 		$current = get_settings('active_plugins');
 		array_splice($current, array_search( $_GET['plugin'], $current), 1 ); // Array-fu!
 		update_option('active_plugins', $current);
+		do_action('deactivate_' . trim( $_GET['plugin'] ));
 		header('Location: plugins.php?deactivate=true');
 	}
 }

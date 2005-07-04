@@ -1072,10 +1072,6 @@ function get_admin_page_parent() {
 	return '';
 }
 
-function plugin_basename($file) {
-	return preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', $file);
-}
-
 function add_menu_page($page_title, $menu_title, $access_level, $file, $function = '') {
 	global $menu, $admin_page_hooks;
 
