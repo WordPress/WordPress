@@ -135,24 +135,8 @@ case 'delete':
 	if ($user_level <= $usertodelete_level)
 		die(__('Can&#8217;t delete a user whose level is higher than yours.'));
 
-	$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");
-	if ($post_ids) {
-		$post_ids = implode(',', $post_ids);
-		
-		// Delete comments, *backs
-		$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID IN ($post_ids)");
-		// Clean cats
-		$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id IN ($post_ids)");
-		// Clean post_meta
-		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id IN ($post_ids)");
-		// Clean links
-		$wpdb->query("DELETE FROM $wpdb->links WHERE link_owner = $id");
-		// Delete posts
-		$wpdb->query("DELETE FROM $wpdb->posts WHERE post_author = $id");
-	}
+	wp_delete_user($id);
 
-	// FINALLY, delete user
-	$wpdb->query("DELETE FROM $wpdb->users WHERE ID = $id");
 	header('Location: users.php?deleted=true');
 
 break;
