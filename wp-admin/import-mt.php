@@ -206,7 +206,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 	
 	// We want the excerpt
 	preg_match("|-----\nEXCERPT:(.*)|s", $post, $excerpt);
-	$excerpt = addslashes(trim($excerpt[1]));
+	$excerpt = $wpdb->escape(trim($excerpt[1]));
 	$post = preg_replace("|(-----\nEXCERPT:.*)|s", '', $post);
 	
 	// We're going to put extended body into main body with a more tag
@@ -218,7 +218,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 	// Now for the main body
 	preg_match("|-----\nBODY:(.*)|s", $post, $body);
 	$body = trim($body[1]);
-	$post_content = addslashes($body . $extended);
+	$post_content = $wpdb->escape($body . $extended);
 	$post = preg_replace("|(-----\nBODY:.*)|s", '', $post);
 	
 	// Grab the metadata from what's left
@@ -235,7 +235,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
                 $post_author = $value;
                 break;
             case 'TITLE':
-                $post_title = addslashes($value);
+                $post_title = $wpdb->escape($value);
 				echo '<i>'.stripslashes($post_title).'</i>... ';
 				$post_name = sanitize_title($post_title);
                 break;
@@ -264,10 +264,10 @@ foreach ($posts as $post) { if ('' != trim($post)) {
                 }
                 break;
             case 'PRIMARY CATEGORY':
-				$post_categories[] = addslashes($value);
+				$post_categories[] = $wpdb->escape($value);
                 break;
             case 'CATEGORY':    
-				$post_categories[] = addslashes($value);
+				$post_categories[] = $wpdb->escape($value);
                 break;
 			case 'DATE':
 				$post_date = strtotime($value);
@@ -323,11 +323,11 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 		if ('' != trim($comment)) {
 			// Author
 			preg_match("|AUTHOR:(.*)|", $comment, $comment_author);
-			$comment_author = addslashes(trim($comment_author[1]));
+			$comment_author = $wpdb->escape(trim($comment_author[1]));
 			$comment = preg_replace('|(\n?AUTHOR:.*)|', '', $comment);
 
 			preg_match("|EMAIL:(.*)|", $comment, $comment_email);
-			$comment_email = addslashes(trim($comment_email[1]));
+			$comment_email = $wpdb->escape(trim($comment_email[1]));
 			$comment = preg_replace('|(\n?EMAIL:.*)|', '', $comment);
 
 			preg_match("|IP:(.*)|", $comment, $comment_ip);
@@ -335,7 +335,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$comment = preg_replace('|(\n?IP:.*)|', '', $comment);
 
 			preg_match("|URL:(.*)|", $comment, $comment_url);
-			$comment_url = addslashes(trim($comment_url[1]));
+			$comment_url = $wpdb->escape(trim($comment_url[1]));
 			$comment = preg_replace('|(\n?URL:.*)|', '', $comment);
 
 			preg_match("|DATE:(.*)|", $comment, $comment_date);
@@ -343,7 +343,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$comment_date = date('Y-m-d H:i:s', strtotime($comment_date));
 			$comment = preg_replace('|(\n?DATE:.*)|', '', $comment);
 
-			$comment_content = addslashes(trim($comment));
+			$comment_content = $wpdb->escape(trim($comment));
 			$comment_content = str_replace('-----', '', $comment_content);
 
 			// Check if it's already there
@@ -364,7 +364,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 		if ('' != trim($ping)) {
 			// 'Author'
 			preg_match("|BLOG NAME:(.*)|", $ping, $comment_author);
-			$comment_author = addslashes(trim($comment_author[1]));
+			$comment_author = $wpdb->escape(trim($comment_author[1]));
 			$ping = preg_replace('|(\n?BLOG NAME:.*)|', '', $ping);
 
 			$comment_email = '';
@@ -374,7 +374,7 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$ping = preg_replace('|(\n?IP:.*)|', '', $ping);
 
 			preg_match("|URL:(.*)|", $ping, $comment_url);
-			$comment_url = addslashes(trim($comment_url[1]));
+			$comment_url = $wpdb->escape(trim($comment_url[1]));
 			$ping = preg_replace('|(\n?URL:.*)|', '', $ping);
 
 			preg_match("|DATE:(.*)|", $ping, $comment_date);
@@ -383,10 +383,10 @@ foreach ($posts as $post) { if ('' != trim($post)) {
 			$ping = preg_replace('|(\n?DATE:.*)|', '', $ping);
       
  			preg_match("|TITLE:(.*)|", $ping, $ping_title);
-			$ping_title = addslashes(trim($ping_title[1]));
+			$ping_title = $wpdb->escape(trim($ping_title[1]));
 			$ping = preg_replace('|(\n?TITLE:.*)|', '', $ping);
 
-			$comment_content = addslashes(trim($ping));
+			$comment_content = $wpdb->escape(trim($ping));
 			$comment_content = str_replace('-----', '', $comment_content);
 			
 			$comment_content = "<strong>$ping_title</strong>\n\n$comment_content";

@@ -843,7 +843,7 @@ function do_enclose( $content, $post_ID ) {
 		if ( $url != '' && !$wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE post_id = '$post_ID' AND meta_key = 'enclosure' AND meta_value LIKE ('$url%')") ) {
 			if ( $headers = wp_get_http_headers( $url) ) {
 				$len  = (int) $headers['content-length'];
-				$type = addslashes( $headers['content-type'] );
+				$type = $wpdb->escape( $headers['content-type'] );
 				$allowed_types = array( 'video', 'audio' );
 				if( in_array( substr( $type, 0, strpos( $type, "/" ) ), $allowed_types ) ) {
 					$meta_value = "$url\n$len\n$type\n";
@@ -1882,11 +1882,13 @@ function load_template($file) {
 }
 
 function add_magic_quotes($array) {
+	global $wpdb;
+
 	foreach ($array as $k => $v) {
 		if (is_array($v)) {
 			$array[$k] = add_magic_quotes($v);
 		} else {
-			$array[$k] = addslashes($v);
+			$array[$k] = $wpdb->escape($v);
 		}
 	}
 	return $array;

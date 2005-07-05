@@ -24,9 +24,9 @@ $comment_content      = trim($_POST['comment']);
 // If the user is logged in
 get_currentuserinfo();
 if ( $user_ID ) :
-	$comment_author       = addslashes($user_identity);
-	$comment_author_email = addslashes($user_email);
-	$comment_author_url   = addslashes($user_url);
+	$comment_author       = $wpdb->escape($user_identity);
+	$comment_author_email = $wpdb->escape($user_email);
+	$comment_author_url   = $wpdb->escape($user_url);
 else :
 	if ( get_option('comment_registration') )
 		die( __('Sorry, you must be logged in to post a comment.') );

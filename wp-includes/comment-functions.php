@@ -13,8 +13,8 @@ function comments_template( $file = '/comments.php' ) {
 	if ( empty($comment_author) ) {
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND comment_approved = '1' ORDER BY comment_date");
 	} else {
-		$author_db = addslashes($comment_author);
-		$email_db  = addslashes($comment_author_email);
+		$author_db = $wpdb->escape($comment_author);
+		$email_db  = $wpdb->escape($comment_author_email);
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND ( comment_approved = '1' OR ( comment_author = '$author_db' AND comment_author_email = '$email_db' AND comment_approved = '0' ) ) ORDER BY comment_date");
 	}
 

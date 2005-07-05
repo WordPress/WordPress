@@ -87,7 +87,7 @@ $title = $date = $categories = $content = $post_id =  '';
 echo "<li>Importing post... ";
 
 preg_match('|<title>(.*?)</title>|is', $post, $title);
-$title = addslashes( trim($title[1]) );
+$title = $wpdb->escape( trim($title[1]) );
 $post_name = sanitize_title($title);
 
 preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $date);
@@ -112,11 +112,11 @@ if (!$categories) :
 endif;
 
 preg_match('|<guid.+?>(.*?)</guid>|is', $post, $guid);
-if ($guid) $guid = addslashes( trim($guid[1]) );
+if ($guid) $guid = $wpdb->escape( trim($guid[1]) );
 else $guid = '';
 
 preg_match('|<content:encoded>(.*?)</content:encoded>|is', $post, $content);
-$content = str_replace( array('<![CDATA[', ']]>'), '', addslashes( trim($content[1]) ) );
+$content = str_replace( array('<![CDATA[', ']]>'), '', $wpdb->escape( trim($content[1]) ) );
 
 if (!$content) : // This is for feeds that put content in description
 	preg_match('|<description>(.*?)</description>|is', $post, $content);

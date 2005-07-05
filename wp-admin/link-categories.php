@@ -60,9 +60,9 @@ switch ($action) {
       if ($sort_desc != 'Y') {
           $sort_desc = 'N';
       }
-      $text_before_link = addslashes($_POST['text_before_link']);
-      $text_after_link = addslashes($_POST['text_after_link']);
-      $text_after_all = addslashes($_POST['text_after_all']);
+      $text_before_link = $_POST['text_before_link'];
+      $text_after_link = $_POST['text_after_link'];
+      $text_after_all = $_POST['text_after_all'];
 
       $list_limit = $_POST['list_limit'];
       if ($list_limit == '')
@@ -238,9 +238,9 @@ switch ($action) {
     if ($sort_desc != 'Y') {
         $sort_desc = 'N';
     }
-    $text_before_link = addslashes($_POST["text_before_link"]);
-    $text_after_link = addslashes($_POST["text_after_link"]);
-    $text_after_all = addslashes($_POST["text_after_all"]);
+    $text_before_link = $_POST["text_before_link"];
+    $text_after_link = $_POST["text_after_link"];
+    $text_after_all = $_POST["text_after_all"];
 
     $list_limit = $_POST["list_limit"];
     if ($list_limit == '')

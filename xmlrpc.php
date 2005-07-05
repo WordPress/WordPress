@@ -1249,7 +1249,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$context = '[...] ' . wp_specialchars( $excerpt ) . ' [...]';
 		$original_pagelinkedfrom = $pagelinkedfrom;
-		$pagelinkedfrom = addslashes( $pagelinkedfrom );
+		$pagelinkedfrom = $wpdb->escape( $pagelinkedfrom );
 		$original_title = $title;
 
 		$comment_post_ID = $post_ID;

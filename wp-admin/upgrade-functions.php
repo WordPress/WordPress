@@ -221,23 +221,23 @@ function upgrade_160() {
 	$users = $wpdb->get_results("SELECT * FROM $wpdb->users");
 	foreach ( $users as $user ) :
 		if ( !empty( $user->user_firstname ) )
-			update_usermeta( $user->ID, 'first_name', addslashes($user->user_firstname) );
+			update_usermeta( $user->ID, 'first_name', $wpdb->escape($user->user_firstname) );
 		if ( !empty( $user->user_lastname ) )
-			update_usermeta( $user->ID, 'last_name', addslashes($user->user_lastname) );
+			update_usermeta( $user->ID, 'last_name', $wpdb->escape($user->user_lastname) );
 		if ( !empty( $user->user_nickname ) )
-			update_usermeta( $user->ID, 'nickname', addslashes($user->user_nickname) );
+			update_usermeta( $user->ID, 'nickname', $wpdb->escape($user->user_nickname) );
 		if ( !empty( $user->user_level ) )
 			update_usermeta( $user->ID, $table_prefix . 'user_level', $user->user_level );
 		if ( !empty( $user->user_icq ) )
-			update_usermeta( $user->ID, 'icq', addslashes($user->user_icq) );
+			update_usermeta( $user->ID, 'icq', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_aim ) )
-			update_usermeta( $user->ID, 'aim', addslashes($user->user_aim) );
+			update_usermeta( $user->ID, 'aim', $wpdb->escape($user->user_aim) );
 		if ( !empty( $user->user_msn ) )
-			update_usermeta( $user->ID, 'msn', addslashes($user->user_msn) );
+			update_usermeta( $user->ID, 'msn', $wpdb->escape($user->user_msn) );
 		if ( !empty( $user->user_yim ) )
-			update_usermeta( $user->ID, 'yim', addslashes($user->user_icq) );
+			update_usermeta( $user->ID, 'yim', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_description ) )
-			update_usermeta( $user->ID, 'description', addslashes($user->user_description) );
+			update_usermeta( $user->ID, 'description', $wpdb->escape($user->user_description) );
 
 		if ( !isset( $user->user_idmode ) ):
 			$idmode = $user->user_idmode;
@@ -248,7 +248,7 @@ function upgrade_160() {
 			if ($idmode == 'namefl') $id = $user->user_firstname.' '.$user->user_lastname;
 			if ($idmode == 'namelf') $id = $user->user_lastname.' '.$user->user_firstname;
 			if (!$idmode) $id = $user->user_nickname;
-			$id = addslashes( $id );
+			$id = $wpdb->escape( $id );
 			$wpdb->query("UPDATE $wpdb->users SET display_name = '$id' WHERE ID = '$user->ID'");
 		endif;
 	endforeach;

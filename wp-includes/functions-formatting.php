@@ -523,10 +523,13 @@ function trailingslashit($string) {
 }
 
 function addslashes_gpc($gpc) {
-	if (!get_magic_quotes_gpc()) {
-		$gpc = addslashes($gpc);
+	global $wpdb;
+
+	if (get_magic_quotes_gpc()) {
+		$gpc = stripslashes($gpc);
 	}
-	return $gpc;
+
+	return $wpdb->escape($gpc);
 }
 
 function antispambot($emailaddy, $mailto=0) {

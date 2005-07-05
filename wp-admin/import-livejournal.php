@@ -82,7 +82,7 @@ $title = $date = $categories = $content = $post_id =  '';
 echo "<li>Importing post... ";
 
 preg_match('|<subject>(.*?)</subject>|is', $post, $title);
-$title = addslashes( trim($title[1]) );
+$title = $wpdb->escape( trim($title[1]) );
 $post_name = sanitize_title($title);
 
 preg_match('|<eventtime>(.*?)</eventtime>|is', $post, $date);
@@ -92,7 +92,7 @@ $post_date = date('Y-m-d H:i:s', $date);
 
 
 preg_match('|<event>(.*?)</event>|is', $post, $content);
-$content = str_replace( array('<![CDATA[', ']]>'), '', addslashes( trim($content[1]) ) );
+$content = str_replace( array('<![CDATA[', ']]>'), '', $wpdb->escape( trim($content[1]) ) );
 
 // Now lets put it in the DB
 if ($wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$title' AND post_date = '$post_date'")) :

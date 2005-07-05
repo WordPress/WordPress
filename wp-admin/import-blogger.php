@@ -62,16 +62,16 @@ case "step1":
 			//$post_number = $postinfo[3];
 			$post_title = $postinfo[4];
 
-			$post_author = trim(addslashes($postinfo[1]));
+			$post_author = trim($wpdb->escape($postinfo[1]));
 			// we'll check the author is registered already
 			$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$post_author'");
 			if (!$user) { // seems s/he's not, so let's register
 				$user_joindate = '1979-06-06 00:41:00'; // that's my birthdate (gmt+1) - I could choose any other date. You could change the date too. Just remember the year must be >=1970 or the world would just randomly fall on your head (everything might look fine, and then blam! major headache!)
-				$user_login = addslashes($post_author);
-				$pass1 = addslashes('password');
-				$user_email = addslashes('user@wordpress.org');
-				$user_url = addslashes('');
-				$user_joindate = addslashes($user_joindate);
+				$user_login = $wpdb->escape($post_author);
+				$pass1 = $wpdb->escape('password');
+				$user_email = $wpdb->escape('user@wordpress.org');
+				$user_url = $wpdb->escape('');
+				$user_joindate = $wpdb->escape($user_joindate);
 				$result = $wpdb->query("
 				INSERT INTO $wpdb->users (
 					user_login,
@@ -111,10 +111,10 @@ case "step1":
 
 			$post_date = "$postyear-$postmonth-$postday $posthour:$postminute:$postsecond";
 
-			$post_content = addslashes($post_content);
+			$post_content = $wpdb->escape($post_content);
 			$post_content = str_replace('<br>', '<br />', $post_content); // the XHTML touch... ;)
 			
-			$post_title = addslashes($post_title);
+			$post_title = $wpdb->escape($post_title);
 			
 			// Quick-n-dirty check for dups:
 			$dupcheck = $wpdb->get_results("SELECT ID,post_date,post_title FROM $wpdb->posts WHERE post_date='$post_date' AND post_title='$post_title' LIMIT 1",ARRAY_A);

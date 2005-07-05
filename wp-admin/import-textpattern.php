@@ -98,8 +98,8 @@ while ($post = mysql_fetch_array($posts)) {
 	$timestamp = mktime($hour, $minute, $second, $month, $day, $year);
 	$posted = date('Y-m-d H:i:s', $timestamp);
 	
-	$content = addslashes($post['Body_html']);
-	$title = addslashes($post['Title']);
+	$content = $wpdb->escape($post['Body_html']);
+	$title = $wpdb->escape($post['Title']);
 	$post_name = sanitize_title($title);
 
 	$wpdb->query("INSERT INTO $wpdb->posts

@@ -36,8 +36,8 @@ if( false !== ( $fs = fsockopen('api.pingomatic.com', 80, $errno, $errstr, 5) ) 
 	$returns = explode("\n", $body);
     
 	foreach ($returns as $return) :
-		$time = addslashes( substr($return, 0, 19) );
-		$uri = addslashes( preg_replace('/(.*?) | (.*?)/', '$2', $return) );
+		$time = $wpdb->escape( substr($return, 0, 19) );
+		$uri = $wpdb->escape( preg_replace('/(.*?) | (.*?)/', '$2', $return) );
 		$wpdb->query("UPDATE $wpdb->links SET link_updated = '$time' WHERE link_url = '$uri'");
 	endforeach;
 }
