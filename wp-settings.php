@@ -138,10 +138,10 @@ require_once(ABSPATH . WPINC . '/locale.php');
 
 // If already slashed, strip.
 if ( get_magic_quotes_gpc() ) {
-	$_GET    = stripslashes($_GET   );
-	$_POST   = stripslashes($_POST  );
-	$_COOKIE = stripslashes($_COOKIE);
-	$_SERVER = stripslashes($_SERVER);
+	$_GET    = stripslashes_deep($_GET   );
+	$_POST   = stripslashes_deep($_POST  );
+	$_COOKIE = stripslashes_deep($_COOKIE);
+	$_SERVER = stripslashes_deep($_SERVER);
 }
 
 // Escape with wpdb.

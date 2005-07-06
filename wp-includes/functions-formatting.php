@@ -532,6 +532,16 @@ function addslashes_gpc($gpc) {
 	return $wpdb->escape($gpc);
 }
 
+
+function stripslashes_deep($value)
+{
+   $value = is_array($value) ?
+               array_map('stripslashes_deep', $value) :
+               stripslashes($value);
+
+   return $value;
+}
+
 function antispambot($emailaddy, $mailto=0) {
 	$emailNOSPAMaddy = '';
 	srand ((float) microtime() * 1000000);
