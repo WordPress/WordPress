@@ -1388,4 +1388,8 @@ function pimp_firefox() {
 }
 add_action('admin_footer', 'pimp_firefox');
 
+function documentation_link( $for ) {
+	return;
+}
+
 ?>

@@ -51,6 +51,16 @@ if ( $comments = $wpdb->get_results("SELECT comment_author, comment_author_url, 
 ?>
 <div>
 <h3><?php _e('Comments'); ?> <a href="edit-comments.php" title="<?php _e('More comments...'); ?>">&raquo;</a></h3>
+
+<?php 
+if ( $numcomments = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_approved = '0'") ) :
+?>
+<p><strong><a href="moderation.php"><?php echo sprintf(__('Comments in moderation (%s)'), number_format($numcomments) ); ?> &raquo;</a></strong></p>
+<?php endif; ?>
+</div>
+
+<?php endif; ?>
+
 <ul>
 <?php 
 foreach ($comments as $comment) {
@@ -60,14 +70,6 @@ foreach ($comments as $comment) {
 }
 ?>
 </ul>
-<?php 
-if ( $numcomments = $wpdb->get_var("SELECT COUNT(*) FROM $tablecomments WHERE comment_approved = '0'") ) :
-?>
-<p><strong><a href="moderation.php"><?php echo sprintf(__('There are comments in moderation (%s)'), number_format($numcomments) ); ?> &raquo;</a></strong></p>
-<?php endif; ?>
-</div>
-
-<?php endif; ?>
 
 <div>
 <h3><?php _e('Blog Stats'); ?></h3>
@@ -146,28 +148,7 @@ foreach ($rss->items as $item ) {
 <br clear="all" />
 </div>
 </div>
-<?php
-$drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
-if ($drafts) {
-?>
-<div class="wrap">
 
-    <p><strong><?php _e('Your Drafts:') ?></strong> 
-    <?php
-	$i = 0;
-	foreach ($drafts as $draft) {
-		if (0 != $i)
-			echo ', ';
-		$draft->post_title = stripslashes($draft->post_title);
-		if ($draft->post_title == '')
-			$draft->post_title = sprintf(__('Post #%s'), $draft->ID);
-		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
-		++$i;
-		}
-	?> 
-    .</p> 
-</div>
-<?php } ?>
 <?php
 require('./admin-footer.php');
 ?>

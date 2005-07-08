@@ -5,6 +5,7 @@ else
     require_once('../wp-config.php');
     
 require_once(ABSPATH . 'wp-admin/admin-functions.php');
+require_once(ABSPATH . 'wp-admin/admin-db.php');
 auth_redirect();
 
 nocache_headers();

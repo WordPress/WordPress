@@ -50,6 +50,8 @@ $wpdb->options          = $table_prefix . 'options';
 $wpdb->postmeta         = $table_prefix . 'postmeta';
 $wpdb->usermeta         = $table_prefix . 'usermeta';
 
+$wpdb->prefix           = $table_prefix;
+
 if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;
 if ( defined('CUSTOM_USER_META_TABLE') )

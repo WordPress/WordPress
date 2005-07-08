@@ -322,26 +322,28 @@ default:
 <div class="updated"><p><?php printf(__('Post saved. <a href="%s">View site &raquo;</a>'), get_bloginfo('home')); ?></p></div>
 <?php endif; ?>
 <?php
-	if (user_can_create_draft($user_ID)) {
+	if ( user_can_create_draft($user_ID) ) {
 		$action = 'post';
 		get_currentuserinfo();
-		$drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_ID");
-		if ($drafts) {
+		if ( $drafts = get_users_drafts( $user_ID ) ) {
 			?>
 			<div class="wrap">
 			<p><strong><?php _e('Your Drafts:') ?></strong>
 			<?php
-			$i = 0;
-			foreach ($drafts as $draft) {
-				if (0 != $i)
+			for ( $i = 0; $i < 15; $i++ ) {
+				$draft = $drafts[$i];
+				if ( 0 != $i )
 					echo ', ';
 				$draft->post_title = stripslashes($draft->post_title);
-				if ($draft->post_title == '')
+				if ( empty($draft->post_title) )
 					$draft->post_title = sprintf(__('Post # %s'), $draft->ID);
 				echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
-				++$i;
-				}
-			?>.</p>
+			}
+			?>
+			<?php if ( 15 < count($drafts) ) { ?>
+			, <a href="edit.php"><?php echo sprintf(__('and %s more'), (count($drafts) - 15) ); ?> &raquo;</a>
+			<?php } ?>
+			.</p>
 			</div>
 			<?php
 		}
