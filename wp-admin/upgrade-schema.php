@@ -130,7 +130,6 @@ CREATE TABLE $wpdb->users (
   user_email varchar(100) NOT NULL default '',
   user_url varchar(100) NOT NULL default '',
   user_registered datetime NOT NULL default '0000-00-00 00:00:00',
-  user_level int(2) unsigned NOT NULL default '0',
   user_activation_key varchar(60) NOT NULL default '',
   user_status int(11) NOT NULL default '0',
   display_name varchar(250) NOT NULL default '',

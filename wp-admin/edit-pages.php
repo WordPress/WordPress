@@ -11,6 +11,7 @@ get_currentuserinfo();
 <h2><?php _e('Page Management'); ?></h2>
 
 <?php
+/*
 if (isset($user_ID) && ('' != intval($user_ID))) {
 	$posts = $wpdb->get_results("
 	SELECT $wpdb->posts.*, $wpdb->users.user_level FROM $wpdb->posts
@@ -18,9 +19,9 @@ if (isset($user_ID) && ('' != intval($user_ID))) {
 	WHERE $wpdb->posts.post_status = 'static'
 	AND ($wpdb->users.user_level < $user_level OR $wpdb->posts.post_author = $user_ID)
 	");
-} else {
+} else { */
     $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static'");
-}
+// } FIXME
 
 if ($posts) {
 ?>

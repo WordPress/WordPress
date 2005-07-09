@@ -1,24 +1,11 @@
 <?php
 require_once('admin.php');
+require_once( ABSPATH . WPINC . '/registration-functions.php');
 
 $title = __('Users');
 $parent_file = 'profile.php';
 	
-$wpvarstoreset = array('action');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+$action = $_REQUEST['action'];
 
 switch ($action) {
 case 'adduser':
@@ -47,35 +34,24 @@ case 'adduser':
 
 	$user_nickname = $user_login;
 
-	/* checking that the username isn't already used by another user */
-	$loginthere = $wpdb->get_var("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'");
-    if ($loginthere)
+    if ( username_exists( $user_login ) )
 		die (__('<strong>ERROR</strong>: This username is already registered, please choose another one.'));
 
 	/* checking e-mail address */
-	if (empty($_POST["email"])) {
+	if (empty($user_email)) {
 		die (__("<strong>ERROR</strong>: please type an e-mail address"));
 		return false;
-	} else if (!is_email($_POST["email"])) {
+	} else if (!is_email($user_email)) {
 		die (__("<strong>ERROR</strong>: the email address isn't correct"));
 		return false;
 	}
 
-	$user_ID = $wpdb->get_var("SELECT ID FROM $wpdb->users ORDER BY ID DESC LIMIT 1") + 1;
+	$user_ID = create_user( $user_login, $pass1, $user_email, 0 );
 
-	$user_nicename = sanitize_title($user_nickname, $user_ID);
-	$user_uri = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $user_uri) ? $user_uri : 'http://' . $user_uri;
-	$now = gmdate('Y-m-d H:i:s');
-	$new_users_can_blog = get_settings('new_users_can_blog');
-
-	$result = $wpdb->query("INSERT INTO $wpdb->users 
-		(user_login, user_pass, user_email, user_registered, user_level, user_nicename, user_url)
-	VALUES 
-		('$user_login', MD5('$pass1'), '$user_email', '$now', '$new_users_can_blog', '$user_nicename', '$user_uri')");
+	update_usermeta( $user_ID, 'first_name', $user_firstname);
+	update_usermeta( $user_ID, 'last_name', $user_lastname);
+	update_usermeta( $user_ID, 'first_name', $user_firstname);
 	
-	if ($result == false)
-		die (__('<strong>ERROR</strong>: Couldn&#8217;t register you!'));
-
 	$stars = '';
 	for ($i = 0; $i < strlen($pass1); $i = $i + 1)
 		$stars .= '*';
@@ -96,24 +72,22 @@ case 'promote':
 		header('Location: users.php');
 	}
 
-	$id = $_GET['id'];
+	$id = (int) $_GET['id'];
 	$prom = $_GET['prom'];
 
 	$user_data = get_userdata($id);
+
 	$usertopromote_level = $user_data->user_level;
 
-	if ($user_level <= $usertopromote_level) {
+	if ( $user_level <= $usertopromote_level )
 		die(__('Can&#8217;t change the level of a user whose level is higher than yours.'));
-	}
 
 	if ('up' == $prom) {
 		$new_level = $usertopromote_level + 1;
-		$sql="UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
 	} elseif ('down' == $prom) {
 		$new_level = $usertopromote_level - 1;
-		$sql="UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
 	}
-	$result = $wpdb->query($sql);
+	update_usermeta( $id, $wpdb->prefix . 'user_level', $new_level);
 
 	header('Location: users.php');
 
@@ -163,10 +137,11 @@ default:
 	<th>&nbsp;</th>
 	</tr>
 	<?php
-	$users = $wpdb->get_results("SELECT ID FROM $wpdb->users WHERE user_level > 0 ORDER BY ID");
+	$authors = 
+	$users = get_author_user_ids();
 	$style = '';
 	foreach ($users as $user) {
-		$user_data = get_userdata($user->ID);
+		$user_data = get_userdata($user);
 		$email = $user_data->user_email;
 		$url = $user_data->user_url;
 		$short_url = str_replace('http://', '', $url);
@@ -176,7 +151,7 @@ default:
 		if (strlen($short_url) > 35)
 		$short_url =  substr($short_url, 0, 32).'...';
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
-		$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = $user->ID and post_status = 'publish'");
+		$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$user' and post_status = 'publish'");
 		if (0 < $numposts) $numposts = "<a href='edit.php?author=$user_data->ID' title='" . __('View posts') . "'>$numposts</a>";
 		echo "
 <tr $style>
@@ -205,7 +180,7 @@ default:
 </div>
 
 <?php
-$users = $wpdb->get_results("SELECT * FROM $wpdb->users WHERE user_level = 0 ORDER BY ID");
+$users = get_nonauthor_user_ids();
 if ($users) {
 ?>
 <div class="wrap">
@@ -224,7 +199,7 @@ if ($users) {
 <?php
 $style = '';
 foreach ($users as $user) {
-	$user_data = get_userdata($user->ID);
+	$user_data = get_userdata($user);
 	$email = $user_data->user_email;
 	$url = $user_data->user_url;
 	$short_url = str_replace('http://', '', $url);

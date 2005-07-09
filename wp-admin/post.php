@@ -354,7 +354,7 @@ default:
 ?>
 <div class="wrap">
 <?php _e('<h3>WordPress bookmarklet</h3>
-<p>You can drag the following link to your links bar or add it to your bookmarks and when you "Press it" it will open up a popup window with information and a link to the site you&#8217;re currently browsing so you can make a quick post about it. Try it out:</p>') ?>
+<p>Right click on the following link and choose "Add to favorites" to create a posting shortcut.</p>') ?>
 <p>
 
 <?php

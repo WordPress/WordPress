@@ -6,7 +6,7 @@
 
 if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;
+	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
 
 	if ( !isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
 		return false;
@@ -17,10 +17,9 @@ function get_currentuserinfo() {
 	$user_ID     = $userdata->ID;
 	$user_email  = $userdata->user_email;
 	$user_url    = $userdata->user_url;
-
 	$user_pass_md5 = md5($userdata->user_pass);
-
 	$user_identity = $userdata->display_name;
+	$current_user  = $userdata;
 }
 endif;
 
@@ -39,8 +38,12 @@ function get_userdata( $user_id ) {
 
 	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
 
-	foreach ( $metavalues as $meta )
+	foreach ( $metavalues as $meta ) {
 		$user->{$meta->meta_key} = $meta->meta_value;
+		// We need to set user_level from meta, not row
+		if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
+			$user->user_level = $meta->meta_value;
+	}
 
 	$cache_userdata[$user_id] = $user;
 

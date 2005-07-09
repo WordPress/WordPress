@@ -172,18 +172,18 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 		<th scope="row"><?php _e('Identity on blog:') ?>
 		</th>
 		<td>	<select name="display_name">
-		<option value="<?php echo $profiledata->display_name; ?>"><?php echo $profiledata->display_name; ?></option>
-        <option value="<?php echo $profiledata->nickname ?>"><?php echo $profiledata->nickname ?></option>
-        <option value="<?php echo $profiledata->user_login ?>"><?php echo $profiledata->user_login ?></option>
-	<?php if ( !empty( $profiledata->first_name ) ) : ?>
-        <option value="<?php echo $profiledata->first_name ?>"><?php echo $profiledata->first_name ?></option>
+		<option value="<?php echo $edituser->display_name; ?>"><?php echo $edituser->display_name; ?></option>
+        <option value="<?php echo $edituser->nickname ?>"><?php echo $edituser->nickname ?></option>
+        <option value="<?php echo $edituser->user_login ?>"><?php echo $edituser->user_login ?></option>
+	<?php if ( !empty( $edituser->first_name ) ) : ?>
+        <option value="<?php echo $edituser->first_name ?>"><?php echo $edituser->first_name ?></option>
 	<?php endif; ?>
-	<?php if ( !empty( $profiledata->last_name ) ) : ?>
-        <option value="<?php echo $profiledata->last_name ?>"><?php echo $profiledata->last_name ?></option>
+	<?php if ( !empty( $edituser->last_name ) ) : ?>
+        <option value="<?php echo $edituser->last_name ?>"><?php echo $edituser->last_name ?></option>
 	<?php endif; ?>
-	<?php if ( !empty( $profiledata->first_name ) && !empty( $profiledata->last_name ) ) : ?>
-        <option value="<?php echo $profiledata->first_name." ".$profiledata->last_name ?>"><?php echo $profiledata->first_name." ".$profiledata->last_name ?></option>
-        <option value="<?php echo $profiledata->last_name." ".$profiledata->first_name ?>"><?php echo $profiledata->last_name." ".$profiledata->first_name ?></option>
+	<?php if ( !empty( $edituser->first_name ) && !empty( $edituser->last_name ) ) : ?>
+        <option value="<?php echo $edituser->first_name." ".$edituser->last_name ?>"><?php echo $edituser->first_name." ".$edituser->last_name ?></option>
+        <option value="<?php echo $edituser->last_name." ".$edituser->first_name ?>"><?php echo $edituser->last_name." ".$edituser->first_name ?></option>
 	<?php endif; ?>
       </select>
 		</td>

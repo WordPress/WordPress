@@ -104,13 +104,13 @@ window.onload = focusit;
 </fieldset>
 <?php endif; ?>
 
-<?php if ($user_level > 7 && $users = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level <= $user_level AND user_level > 0") ) : ?>
+<?php if ( $authors = get_editable_authors( $current_user->ID ) ) : // TODO: ROLE SYSTEM ?>
 <fieldset id="authordiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Post author'); ?>:</h3>
 <div class="dbx-content">
 <select name="post_author_override" id="post_author_override">
 <?php 
-foreach ($users as $o) :
+foreach ($authors as $o) :
 $o = get_userdata( $o->ID );
 if ( $post->post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
 else $selected = '';

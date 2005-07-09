@@ -1,28 +1,14 @@
 <?php
 require('./wp-config.php');
+require_once( ABSPATH . WPINC . '/registration-functions.php');
 
-$wpvarstoreset = array('action');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
-
+$action = $_REQUEST['action'];
 if ( !get_settings('users_can_register') )
 	$action = 'disabled';
 
 header( 'Content-Type: ' . get_bloginfo('html_type') . '; charset=' . get_bloginfo('charset') );
 
-switch($action) {
+switch( $action ) {
 
 case 'register':
 
@@ -39,23 +25,17 @@ case 'register':
 		die (__('<strong>ERROR</strong>: The email address isn&#8217;t correct.'));
 	}
 
-    if ( $result = $wpdb->get_row("SELECT user_login FROM $wpdb->users WHERE user_login = '$user_login'") )
+    if ( username_exists( $user_login ) )
 		die (__('<strong>ERROR</strong>: This username is already registered, please choose another one.'));
 
-	$user_login = $wpdb->escape( sanitize_user($user_login) ) );
-	$user_nicename = sanitize_title($user_nickname);
-	$now = gmdate('Y-m-d H:i:s');
 	$user_level = get_settings('new_users_can_blog');
 	$password = substr( md5( uniqid( microtime() ) ), 0, 7);
 
-	$result = $wpdb->query("INSERT INTO $wpdb->users 
-		(user_login, user_pass, user_email, user_registered, user_level, user_nicename)
-	VALUES 
-		('$user_login', MD5('$password'), '$user_email', '$now', '$user_level', '$user_nicename')");
+	$user_id = create_user( $user_login, $password, $user_email, $user_level );
 
-	do_action('user_register', $wpdb->insert_id);
+	do_action('user_register', $user_id);
 
-	if ($result == false) {
+	if ( !$user_id ) {
 		die (sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_settings('admin_email')));
 	}
 
