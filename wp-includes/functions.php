@@ -1218,32 +1218,11 @@ function update_post_caches(&$posts) {
 
 function update_category_cache() {
 	global $cache_categories, $wpdb;
-	$dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories");
-	foreach ($dogs as $catt)
-		$cache_categories[$catt->cat_ID] = $catt;
-}
-
-function update_user_cache() {
-	global $cache_userdata, $wpdb;
-	$level_key = $wpdb->prefix . 'user_level';
-	$user_ids = $wpdb->get_col("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$level_key'");
-	$user_ids = join(',', $user_ids);
-	$query = apply_filters('user_cache_query', "SELECT * FROM $wpdb->users WHERE ID IN ($user_ids)");
-	if ( $users = $wpdb->get_results( $query ) ) :
-		foreach ($users as $user) :
-			$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user->ID'");
-			foreach ( $metavalues as $meta ) {
-				$user->{$meta->meta_key} = $meta->meta_value;
-				// We need to set user_level from meta, not row
-				if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
-					$user->user_level = $meta->meta_value;
-			}
-
-			$cache_userdata[$user->ID] = $user;
-			$cache_userdata[$user->user_login] =& $cache_userdata[$user->ID];
-		endforeach;
+	if($dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories")):
+		foreach ($dogs as $catt)
+			$cache_categories[$catt->cat_ID] = $catt;
 		return true;
-	else : 
+	else:
 		return false;
 	endif;
 }
@@ -1959,11 +1938,38 @@ function nocache_headers() {
 	@ header('Pragma: no-cache');
 }
 
+function get_usermeta( $user_id, $meta_key = '') {
+	global $wpdb;
+	$user_id = (int) $user_id;
+
+	if ( !empty($meta_key) ) {
+		$meta_key = preg_replace('|a-z0-9_|i', '', $meta_key);
+		$metas = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
+	} else {
+		$metas = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id'");
+	}
+
+	foreach ($metas as $index => $meta) {
+		@ $value = unserialize($meta->meta_key);
+		if ($value !== FALSE)
+			$metas[$index]->meta_key = $value;			
+	}
+
+	if ( !empty($meta_key) )
+		return $metas[0];
+	else
+		return $metas;
+}
+
 function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	global $wpdb;
 	if ( !is_numeric( $user_id ) )
 		return false;
 	$meta_key = preg_replace('|a-z0-9_|i', '', $meta_key);
+
+	if ( is_array($meta_value) || is_object($meta_value) )
+		$meta_value = serialize($meta_value);
+
 	$cur = $wpdb->get_row("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 	if ( !$cur ) {
 		$wpdb->query("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )

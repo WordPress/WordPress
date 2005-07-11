@@ -74,7 +74,7 @@ require (ABSPATH . WPINC . '/default-filters.php');
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
 $wpdb->hide_errors();
-if ( !update_user_cache() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {
+if ( !update_category_cache() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {
 	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
 		$link = 'install.php';
 	else
@@ -85,6 +85,7 @@ $wpdb->show_errors();
 
 require (ABSPATH . WPINC . '/functions-formatting.php');
 require (ABSPATH . WPINC . '/functions-post.php');
+require (ABSPATH . WPINC . '/capabilities.php');
 require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/template-functions-general.php');
 require (ABSPATH . WPINC . '/template-functions-links.php');
@@ -160,6 +161,7 @@ register_shutdown_function('shutdown_action_hook');
 $wp_query = new WP_Query();
 $wp_rewrite = new WP_Rewrite();
 $wp = new WP();
+$wp_roles = new WP_Roles();
 
 // Everything is loaded and initialized.
 do_action('init');

@@ -66,7 +66,7 @@ case 'edit':
 
 	$post_ID = $p = (int) $_GET['post'];
 
-	if ( !user_can_edit_post($user_ID, $post_ID) )
+	if ( !current_user_can('edit_post', $post_ID) )
 		die ( __('You are not allowed to edit this post.') );
 
 	if ( !user_can_edit_post($user_ID, $post_ID) )

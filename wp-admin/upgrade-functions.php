@@ -226,8 +226,11 @@ function upgrade_160() {
 			update_usermeta( $user->ID, 'last_name', $wpdb->escape($user->user_lastname) );
 		if ( !empty( $user->user_nickname ) )
 			update_usermeta( $user->ID, 'nickname', $wpdb->escape($user->user_nickname) );
-		if ( !empty( $user->user_level ) )
+		if ( !empty( $user->user_level ) ) {
 			update_usermeta( $user->ID, $table_prefix . 'user_level', $user->user_level );
+			$role = translate_level_to_role($user->user_level);
+			update_usermeta( $user->ID, $table_prefix . 'capabilities', array($role => true) );
+		}
 		if ( !empty( $user->user_icq ) )
 			update_usermeta( $user->ID, 'icq', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_aim ) )
@@ -749,4 +752,27 @@ function make_site_theme() {
 	}
 	return $template;
 }
+
+function translate_level_to_role($level) {
+	switch ($level) {
+	case 10:
+	case 9:
+	case 8:
+		return 'publisher';
+	case 7:
+	case 6:
+	case 5:
+		return 'managing_editor';
+	case 4:
+	case 3:
+		return 'copy_editor';
+	case 2:
+		return 'staff_writer';
+	case 1:
+		return 'freelancer';
+	case 0:
+		return 'visitor';
+	}
+}
+
 ?>

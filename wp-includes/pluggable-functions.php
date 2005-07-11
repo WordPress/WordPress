@@ -19,7 +19,9 @@ function get_currentuserinfo() {
 	$user_url    = $userdata->user_url;
 	$user_pass_md5 = md5($userdata->user_pass);
 	$user_identity = $userdata->display_name;
-	$current_user  = $userdata;
+
+	if ( empty($current_user) )
+		$current_user = new WP_User($user_ID);
 }
 endif;
 
@@ -29,7 +31,7 @@ function get_userdata( $user_id ) {
 	$user_id = (int) $user_id;
 	if ( $user_id == 0 )
 		return false;
-
+		
 	if ( isset( $cache_userdata[$user_id] ) ) 
 		return $cache_userdata[$user_id];
 
@@ -39,7 +41,11 @@ function get_userdata( $user_id ) {
 	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
 
 	foreach ( $metavalues as $meta ) {
-		$user->{$meta->meta_key} = $meta->meta_value;
+		@ $value = unserialize($meta->meta_value);
+		if ($value === FALSE)
+			$value = $meta->meta_value;
+		$user->{$meta->meta_key} = $value;
+
 		// We need to set user_level from meta, not row
 		if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
 			$user->user_level = $meta->meta_value;

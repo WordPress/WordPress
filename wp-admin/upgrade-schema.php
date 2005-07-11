@@ -216,6 +216,8 @@ function populate_options() {
 	// 1.5.1
 	add_option('use_trackback', 0);
 
+	populate_roles();
+
 	// Delete unused options
 	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat', 'default_geourl_lon', 'use_default_geourl', 'weblogs_xml_url');
 	foreach ($unusedoptions as $option) :
@@ -229,4 +231,80 @@ function populate_options() {
 	endforeach;
 }
 
+function populate_roles() {
+	global $table_prefix;
+
+	$roles = array ('administrator' =>
+									array('name' => __('Administrator'),
+											'capabilities' => array(
+												'edit_posts' => true,
+												'edit_others_posts' => true,
+												'edit_published_posts' => true,
+												'publish_posts' => true,
+												'edit_pages' => true,
+												'manage_categories' => true,
+												'manage_links' => true,
+												'upload_images' => true,
+												'manage_options' => true,
+												'switch_themes' => true,
+												'edit_themes' => true,
+												'activate_plugins' => true,
+												'edit_plugins' => true,
+												'edit_users' => true,
+												'edit_files' => true,
+												'read' => true,
+												'level_10' => true,
+												'level_9' => true,
+												'level_8' => true
+												)),
+
+									'editor' =>
+									array('name' => __('Editor'),
+											'capabilities' => array(
+												'edit_posts' => true,
+												'edit_others_posts' => true,
+												'edit_published_posts' => true,
+												'publish_posts' => true,
+												'edit_pages' => true,
+												'manage_categories' => true,
+												'manage_links' => true,
+												'upload_images' => true,
+												'read' => true,
+												'level_7' => true,
+												'level_6' => true,
+												'level_5' => true
+												)),
+
+									'author' =>
+									array('name' => __('Author'),
+											'capabilities' => array(
+												'edit_posts' => true,
+												'publish_posts' => true,
+												'upload_images' => true,
+												'read' => true,
+												'level_2' => true
+												)),
+
+									'contributor' =>
+									array('name' => __('Contributor'),
+											'capabilities' => array(
+												'edit_posts' => true,
+												'read' => true,
+												'level_1' => true
+												)),
+											
+									'subscriber' =>
+									array('name' => __('Subscriber'),
+											'capabilities' => array(
+												'read' => true,
+												'level_0' => true
+												)),
+
+									'inactive' =>
+									array('name' => __('Inactive'),
+												'capabilities' => array())
+									);
+
+	add_option($table_prefix . 'user_roles', $roles);
+}
 ?>
