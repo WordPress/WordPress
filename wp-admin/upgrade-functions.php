@@ -758,20 +758,19 @@ function translate_level_to_role($level) {
 	case 10:
 	case 9:
 	case 8:
-		return 'publisher';
+		return 'administrator';
 	case 7:
 	case 6:
 	case 5:
-		return 'managing_editor';
+		return 'editor';
 	case 4:
 	case 3:
-		return 'copy_editor';
 	case 2:
-		return 'staff_writer';
+		return 'author';
 	case 1:
-		return 'freelancer';
+		return 'contributor';
 	case 0:
-		return 'visitor';
+		return 'subscriber';
 	}
 }
 

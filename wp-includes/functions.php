@@ -1219,10 +1219,10 @@ function update_post_caches(&$posts) {
 function update_category_cache() {
 	global $cache_categories, $wpdb;
 	if($dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories")):
-		foreach ($dogs as $catt)
-			$cache_categories[$catt->cat_ID] = $catt;
+	foreach ($dogs as $catt)
+		$cache_categories[$catt->cat_ID] = $catt;
 		return true;
-	else:
+	else : 
 		return false;
 	endif;
 }

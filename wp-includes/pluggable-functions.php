@@ -31,7 +31,7 @@ function get_userdata( $user_id ) {
 	$user_id = (int) $user_id;
 	if ( $user_id == 0 )
 		return false;
-		
+
 	if ( isset( $cache_userdata[$user_id] ) ) 
 		return $cache_userdata[$user_id];
 
@@ -52,10 +52,39 @@ function get_userdata( $user_id ) {
 	}
 
 	$cache_userdata[$user_id] = $user;
-
 	$cache_userdata[$cache_userdata[$userid]->user_login] =& $cache_userdata[$user_id];
 
 	return $cache_userdata[$user_id];
+}
+endif;
+
+if ( !function_exists('update_user_cache') ) :
+function update_user_cache() {
+	global $cache_userdata, $wpdb;
+	$level_key = $wpdb->prefix . 'user_level';
+	$user_ids = $wpdb->get_col("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$level_key'");
+	$user_ids = join(',', $user_ids);
+	$query = apply_filters('user_cache_query', "SELECT * FROM $wpdb->users WHERE ID IN ($user_ids)");
+	if ( $users = $wpdb->get_results( $query ) ) :
+		foreach ($users as $user) :
+			$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user->ID'");
+			foreach ( $metavalues as $meta ) {
+				@ $value = unserialize($meta->meta_value);
+				if ($value === FALSE)
+					$value = $meta->meta_value;
+				$user->{$meta->meta_key} = $value;
+				// We need to set user_level from meta, not row
+				if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
+					$user->user_level = $meta->meta_value;
+			}
+
+			$cache_userdata[$user->ID] = $user;
+			$cache_userdata[$user->user_login] =& $cache_userdata[$user->ID];
+		endforeach;
+		return true;
+	else : 
+		return false;
+	endif;
 }
 endif;
 

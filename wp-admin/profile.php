@@ -24,6 +24,38 @@ require_once('../wp-config.php');
 auth_redirect();
 switch($action) {
 
+case 'IErightclick':
+
+	$bookmarklet_height= 550;
+
+	?>
+
+	<div class="menutop">&nbsp;IE one-click bookmarklet</div>
+
+	<table width="100%" cellpadding="20">
+	<tr><td>
+
+	<p>To have a one-click bookmarklet, just copy and paste this<br />into a new text file:</p>
+	<?php
+	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ". get_settings('blogname') ."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('". get_settings('siteurl') ."/wp-admin/bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
+	?>
+	<pre style="margin: 20px; background-color: #cccccc; border: 1px dashed #333333; padding: 5px; font-size: 12px;"><?php echo $regedit; ?></pre>
+	<p>Save it as wordpress.reg, and double-click on this file in an Explorer<br />
+	window. Answer Yes to the question, and restart Internet Explorer.<br /><br />
+	That's it, you can now right-click in an IE window and select <br />
+	'Post to WP' to make the bookmarklet appear. :)</p>
+
+	<p align="center">
+	  <form>
+		<input class="search" type="button" value="1" name="Close this window" />
+	  </form>
+	</p>
+	</td></tr>
+	</table>
+	<?php
+
+break;
+
 case 'update':
 
 	get_currentuserinfo();
@@ -100,43 +132,12 @@ case 'update':
 	wp_redirect('profile.php?updated=true');
 break;
 
-case 'IErightclick':
-
-	$bookmarklet_height= 550;
-
-	?>
-
-	<div class="menutop">&nbsp;IE one-click bookmarklet</div>
-
-	<table width="100%" cellpadding="20">
-	<tr><td>
-
-	<p>To have a one-click bookmarklet, just copy and paste this<br />into a new text file:</p>
-	<?php
-	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ". get_settings('blogname') ."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('". get_settings('siteurl') ."/wp-admin/bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
-	?>
-	<pre style="margin: 20px; background-color: #cccccc; border: 1px dashed #333333; padding: 5px; font-size: 12px;"><?php echo $regedit; ?></pre>
-	<p>Save it as wordpress.reg, and double-click on this file in an Explorer<br />
-	window. Answer Yes to the question, and restart Internet Explorer.<br /><br />
-	That's it, you can now right-click in an IE window and select <br />
-	'Post to WP' to make the bookmarklet appear. :)</p>
-
-	<p align="center">
-	  <form>
-		<input class="search" type="button" value="1" name="Close this window" />
-	  </form>
-	</p>
-	</td></tr>
-	</table>
-	<?php
-
-break;
-
 
 default:
 	$parent_file = 'profile.php';
 	include_once('admin-header.php');
-	$profiledata = get_userdata($user_ID);
+	$profileuser = new WP_User($user_ID);
+	$profiledata = &$profileuser->data;
 
 	$bookmarklet_height= 440;
 
@@ -159,8 +160,15 @@ if (isset($updated)) { ?>
       <td width="67%"><?php echo $profiledata->user_login; ?></td>
     </tr>
     <tr>
-      <th scope="row"><?php _e('Level:') ?></th>
-      <td><?php echo $profiledata->user_level; ?></td>
+      <th scope="row"><?php _e('Role:') ?></th>
+      <td><?php 
+			$output = '';
+			foreach($profileuser->roles as $role => $value) {
+				if($output != '') $output .= ', ';
+				$output .= $wp_roles->role_names[$role];
+			}
+			echo $output;
+			?></td>
     </tr>
     <tr>
       <th scope="row"><?php _e('Posts:') ?></th>
@@ -169,6 +177,25 @@ if (isset($updated)) { ?>
 	echo $posts;
 	?></td>
     </tr>
+    <?php
+    if(count($profileuser->caps) > count($profileuser->roles)):
+    ?>
+    <tr>
+      <th scope="row"><?php _e('Additional Capabilities:') ?></th>
+      <td><?php 
+			$output = '';
+			foreach($profileuser->caps as $cap => $value) {
+				if(!$wp_roles->is_role($cap)) {
+					if($output != '') $output .= ', ';
+					$output .= $value ? $cap : "Denied: {$cap}";
+				}
+			}
+			echo $output;
+			?></td>
+    </tr>
+    <?php
+    endif;
+    ?>
     <tr>
       <th scope="row"><?php _e('First name:') ?></th>
       <td><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->first_name ?>" /></td>
@@ -229,6 +256,8 @@ if (isset($updated)) { ?>
       <td><textarea name="user_description" rows="5" id="textarea2" style="width: 99%; "><?php echo $profiledata->user_description ?></textarea></td>
     </tr>
 <?php
+do_action('show_user_profile');
+
 $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>

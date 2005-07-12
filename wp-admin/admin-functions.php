@@ -301,26 +301,33 @@ function wp_delete_category($cat_ID) {
 	return 1;
 }
 
-function wp_delete_user($id) {
+function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 
 	$id = (int) $id;
-
-	$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");
-
-	if ($post_ids) {
-		$post_ids = implode(',', $post_ids);
-		
-		// Delete comments, *backs
-		$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID IN ($post_ids)");
-		// Clean cats
-		$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id IN ($post_ids)");
-		// Clean post_meta
-		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id IN ($post_ids)");
+	
+	if($reassign == 'novalue') {
+		$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");
+	
+		if ($post_ids) {
+			$post_ids = implode(',', $post_ids);
+			
+			// Delete comments, *backs
+			$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID IN ($post_ids)");
+			// Clean cats
+			$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id IN ($post_ids)");
+			// Clean post_meta
+			$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id IN ($post_ids)");
+			// Delete posts
+			$wpdb->query("DELETE FROM $wpdb->posts WHERE post_author = $id");
+		}
+	
 		// Clean links
 		$wpdb->query("DELETE FROM $wpdb->links WHERE link_owner = $id");
-		// Delete posts
-		$wpdb->query("DELETE FROM $wpdb->posts WHERE post_author = $id");
+	} else {
+		$reassign = (int)$reassign;
+		$wpdb->query("UPDATE $wpdb->posts SET post_author = {$reassign} WHERE post_author = {$id}");
+		$wpdb->query("UPDATE $wpdb->links SET link_owner = {$reassign} WHERE link_owner = {$id}");
 	}
 
 	// FINALLY, delete user

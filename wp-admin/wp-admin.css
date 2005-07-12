@@ -246,6 +246,13 @@ textarea, input, select {
 	padding: 0 1em 0 1em;
 }
 
+.error {
+	background: #FFEFF7;
+	border: 1px solid #c69;
+	margin: 1em 5% 10px;
+	padding: 0 1em 0 1em;
+}
+
 .wrap {
 	background: #fff;
 	border: 1px solid #ccc;

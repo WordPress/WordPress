@@ -22,16 +22,27 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 }
 
 switch ($action) {
+case 'switchposts':
+
+check_admin_referer();
+
+/* TODO: Switch all posts from one user to another user */
+
+break;
+
 case 'update':
 
-get_currentuserinfo();
-$edituser = get_userdata($user_id);
-if ($edituser->user_level >= $user_level) die( __('You do not have permission to edit this user.') );
+$errors = array();
+if(empty($wp_user)) {
+	$wp_user = new WP_User($user_id);
+	$edituser = &$wp_user->data;
+}
+
+if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permission to edit this user.');
 
 /* checking the nickname has been typed */
 if (empty($_POST["new_nickname"])) {
-	die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your username)"));
-	return false;
+	$errors['nickname'] = __("<strong>ERROR</strong>: please enter your nickname (can be the same as your username)");
 }
 
 $new_user_login  = wp_specialchars($_POST['new_user_login']);
@@ -41,65 +52,75 @@ do_action('check_passwords', array($new_user_login, &$pass1, &$pass2));
 
 if ( '' == $pass1 ) {
 	if ( '' != $pass2 )
-		die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
+		$errors['pass'] = __("<strong>ERROR</strong>: you typed your new password only once.");
 	$updatepassword = '';
 } else {
 	if ( '' == $pass2)
-		die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
+		$errors['pass'] = __("<strong>ERROR</strong>: you typed your new password only once.");
 	if ( $pass1 != $pass2 )
-		die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
+		$errors['pass'] = __("<strong>ERROR</strong>: you typed two different passwords.");
 	$new_pass = $pass1;
 	$updatepassword = "user_pass=MD5('$new_pass'), ";
 }
 
-$new_firstname   = wp_specialchars($_POST['new_firstname']);
-$new_lastname    = wp_specialchars($_POST['new_lastname']);
-$new_nickname    = $_POST['new_nickname'];
-$new_nicename    = sanitize_title($new_nickname, $user_id);
-$new_icq         = wp_specialchars($_POST['new_icq']);
-$new_aim         = wp_specialchars($_POST['new_aim']);
-$new_msn         = wp_specialchars($_POST['new_msn']);
-$new_yim         = wp_specialchars($_POST['new_yim']);
-$new_email       = wp_specialchars($_POST['new_email']);
-$new_url         = wp_specialchars($_POST['new_url']);
-$new_url         = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $new_url) ? $new_url : 'http://' . $new_url; 
-$display_name    = wp_specialchars($_POST['display_name']);
-$new_description = $_POST['new_description'];
+$edituser->user_login       = wp_specialchars($_POST['new_user_login']);
+$edituser->user_nicename    = sanitize_title($new_nickname, $user_id);
+$edituser->user_email       = wp_specialchars($_POST['new_email']);
+$edituser->user_url         = wp_specialchars($_POST['new_url']);
+$edituser->user_url         = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $edituser->user_url) ? $edituser->user_url : 'http://' . $edituser->user_url; 
+$edituser->display_name     = wp_specialchars($_POST['display_name']);
 
-$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$new_user_login', $updatepassword user_email='$new_email', user_url='$new_url', user_nicename = '$new_nicename', display_name = '$display_name' WHERE ID = '$user_id'");
+$edituser->first_name  = wp_specialchars($_POST['new_firstname']);
+$edituser->last_name   = wp_specialchars($_POST['new_lastname']);
+$edituser->nickname    = $_POST['new_nickname'];
+$edituser->icq         = wp_specialchars($_POST['new_icq']);
+$edituser->aim         = wp_specialchars($_POST['new_aim']);
+$edituser->msn         = wp_specialchars($_POST['new_msn']);
+$edituser->yim         = wp_specialchars($_POST['new_yim']);
+$edituser->description = $_POST['new_description'];
 
-update_usermeta( $user_id, 'first_name', $new_firstname );
-update_usermeta( $user_id, 'last_name', $new_lastname );
-update_usermeta( $user_id, 'nickname', $new_nickname );
-update_usermeta( $user_id, 'description', $new_description );
-update_usermeta( $user_id, 'icq', $new_icq );
-update_usermeta( $user_id, 'aim', $new_aim );
-update_usermeta( $user_id, 'msn', $new_msn );
-update_usermeta( $user_id, 'yim', $new_yim );
-
-header("Location: user-edit.php?user_id=$user_id&updated=true");
-
-break;
-
-case 'switchposts':
-
-check_admin_referer();
-
-/* TODO: Switch all posts from one user to another user */
-
-break;
+if(count($errors) == 0) {
+	$result = $wpdb->query("UPDATE $wpdb->users SET user_login = '$edituser->user_login', $updatepassword user_email='$edituser->user_email', user_url='$edituser->user_url', user_nicename = '$edituser->user_nicename', display_name = '$edituser->display_name' WHERE ID = '$user_id'");
+	
+	update_usermeta( $user_id, 'first_name', $edituser->firstname );
+	update_usermeta( $user_id, 'last_name', $edituser->lastname );
+	update_usermeta( $user_id, 'nickname', $edituser->nickname );
+	update_usermeta( $user_id, 'description', $edituser->description );
+	update_usermeta( $user_id, 'icq', $edituser->icq );
+	update_usermeta( $user_id, 'aim', $edituser->aim );
+	update_usermeta( $user_id, 'msn', $edituser->msn );
+	update_usermeta( $user_id, 'yim', $edituser->yim );
+	
+	$wp_user->set_role($_POST['new_role']);
+	
+	header("Location: user-edit.php?user_id=$user_id&updated=true");
+} else {
+	$wp_user->roles = array($_POST['new_role'] => true);
+}
 
 default:
 include ('admin-header.php');
 
-$edituser = get_userdata($user_id);
+if(empty($wp_user)) {
+	$wp_user = new WP_User($user_id);
+	$edituser = &$wp_user->data;
+}
 
-if ($edituser->user_level >= $user_level) die( __('You do not have permission to edit this user.') );
+if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permission to edit this user.');
 ?>
 
 <?php if ( isset($_GET['updated']) ) : ?>
 <div class="updated">
 	<p><strong><?php _e('User updated.') ?></strong></p>
+</div>
+<?php endif; ?>
+<?php if ( isset($errors) ) : ?>
+<div class="error">
+	<ul>
+	<?php
+	foreach($errors as $error) echo "<li>$error</li>";
+	?>
+	</ul>
 </div>
 <?php endif; ?>
 
@@ -112,14 +133,19 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 		<td width="73%"><input type="text" name="new_user_login" id="new_user_login" value="<?php echo $edituser->user_login; ?>" /></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php _e('Level:') ?></th>
-		<td><?php echo $edituser->user_level; ?></td>
+		<th scope="row"><?php _e('Role:') ?></th>
+		<td><select name="new_role" id="new_role"><?php 
+		foreach($wp_roles->role_names as $role => $name) {
+			$selected = (empty($wp_user->roles[$role])) ? '' : 'selected="selected"';
+			echo "<option {$selected} value=\"{$role}\">{$name}</option>";
+		}
+		?></select></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Posts:') ?></th>
 		<td><?php echo get_usernumposts($edituser->ID); ?></td>
 	</tr>
-<?php if ( '0000-00-00 00:00:00' != $edituser->user_registered ) { ?>
+<?php if ( isset($edituser->user_registered) && ('0000-00-00 00:00:00' != $edituser->user_registered) ) { ?>
 	<tr>
 		<th scope="row"><?php _e('Registered on:') ?></th>
 		<td><?php echo substr($edituser->user_registered, 0, 11); ?></td>
@@ -135,7 +161,7 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Profile:') ?></th>
-		<td><textarea name="new_description" rows="5" id="new_description" style="width: 99%; "><?php echo $edituser->user_description ?></textarea></td>
+		<td><textarea name="new_description" rows="5" id="new_description" style="width: 99%; "><?php echo $edituser->description ?></textarea></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Nickname:') ?></th>
@@ -189,6 +215,8 @@ if ($edituser->user_level >= $user_level) die( __('You do not have permission to
 		</td>
 	</tr>
 <?php
+do_action('edit_user_profile');
+
 $show_password_fields = apply_filters('show_password_fields', true);
 if ( $show_password_fields ) :
 ?>
