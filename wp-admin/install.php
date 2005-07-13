@@ -172,7 +172,10 @@ $wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, p
 
 // Set up admin user
 $random_password = substr(md5(uniqid(microtime())), 0, 6);
-$wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_email, user_level, user_registered) VALUES ( '1', 'admin', MD5('$random_password'), '$admin_email', '10', NOW() )");
+$wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_email, user_registered) VALUES ( '1', 'admin', MD5('$random_password'), '$admin_email', NOW() )");
+$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$table_prefix}user_level', '10');");
+$admin_caps = serialize(array('administrator' => true));
+$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$table_prefix}capabilities', '{$admin_caps}');");
 
 $message_headers = 'From: ' . stripslashes($_POST['weblog_title']) . ' <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
 $message = sprintf(__("Your new WordPress blog has been successfully set up at:
