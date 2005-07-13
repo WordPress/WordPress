@@ -246,7 +246,7 @@ function populate_roles() {
 												'edit_pages' => true,
 												'manage_categories' => true,
 												'manage_links' => true,
-												'upload_images' => true,
+												'upload_files' => true,
 												'manage_options' => true,
 												'switch_themes' => true,
 												'edit_themes' => true,

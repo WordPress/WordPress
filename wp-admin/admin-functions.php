@@ -1003,14 +1003,13 @@ function user_can_access_admin_page() {
 	global $pagenow;
 	global $menu;
 	global $submenu;
-	global $user_level;
 
 	$parent = get_admin_page_parent();
 
 	foreach ($menu as $menu_array) {
 		//echo "parent array: " . $menu_array[2];
 		if ($menu_array[2] == $parent) {
-			if ($user_level < $menu_array[1]) {
+			if ( !current_user_can($menu_array[1]) ) {
 				return false;
 			} else {
 				break;
@@ -1021,7 +1020,7 @@ function user_can_access_admin_page() {
 	if (isset($submenu[$parent])) {
 		foreach ($submenu[$parent] as $submenu_array) {
 			if ($submenu_array[2] == $pagenow) {
-				if ($user_level < $submenu_array[1]) {
+				if ( !current_user_can($submenu_array[1]) ) {
 					return false;
 				} else {
 					return true;

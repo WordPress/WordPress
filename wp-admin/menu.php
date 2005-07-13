@@ -4,49 +4,49 @@
 // Menu item name
 // The minimum level the user needs to access the item: between 0 and 10
 // The URL of the item's file
-$menu[0] = array(__('Dashboard'), 0, 'index.php');
-$menu[5] = array(__('Write'), 1, 'post.php');
-$menu[10] = array(__('Manage'), 1, 'edit.php');
-$menu[20] = array(__('Links'), 5, 'link-manager.php');
-$menu[25] = array(__('Presentation'), 8, 'themes.php');
-$menu[30] = array(__('Plugins'), 8, 'plugins.php');
-$menu[35] = array(__('Users'), 0, 'profile.php');
-$menu[40] = array(__('Options'), 6, 'options-general.php');
+$menu[0] = array(__('Dashboard'), 'read', 'index.php');
+$menu[5] = array(__('Write'), 'edit_posts', 'post.php');
+$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
+$menu[20] = array(__('Links'), 'manage_links', 'link-manager.php');
+$menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
+$menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
+$menu[35] = array(__('Users'), 'read', 'profile.php');
+$menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
 
 if ( get_option('use_fileupload') )
-	$menu[45] = array(__('Upload'), get_settings('fileupload_minlevel'), 'upload.php');
+	$menu[45] = array(__('Upload'), 'upload_files', 'upload.php');
 
-$submenu['post.php'][5] = array(__('Write Post'), 1, 'post.php');
-$submenu['post.php'][10] = array(__('Write Page'), 5, 'page-new.php');
+$submenu['post.php'][5] = array(__('Write Post'), 'edit_posts', 'post.php');
+$submenu['post.php'][10] = array(__('Write Page'), 'edit_pages', 'page-new.php');
 
-$submenu['edit.php'][5] = array(__('Posts'), 1, 'edit.php');
-$submenu['edit.php'][10] = array(__('Pages'), 5, 'edit-pages.php');
-$submenu['edit.php'][15] = array(__('Categories'), 1, 'categories.php');
-$submenu['edit.php'][20] = array(__('Comments'), 1, 'edit-comments.php');
+$submenu['edit.php'][5] = array(__('Posts'), 'edit_posts', 'edit.php');
+$submenu['edit.php'][10] = array(__('Pages'), 'edit_pages', 'edit-pages.php');
+$submenu['edit.php'][15] = array(__('Categories'), 'manage_categories', 'categories.php');
+$submenu['edit.php'][20] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
-$submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), $awaiting_mod), 1, 'moderation.php');
-$submenu['edit.php'][30] = array(__('Files'), 8, 'templates.php');
+$submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), $awaiting_mod), 'edit_posts', 'moderation.php');
+$submenu['edit.php'][30] = array(__('Files'), 'edit_files', 'templates.php');
 
-$submenu['link-manager.php'][5] = array(__('Manage Links'), 5, 'link-manager.php');
-$submenu['link-manager.php'][10] = array(__('Add Link'), 5, 'link-add.php');
-$submenu['link-manager.php'][15] = array(__('Link Categories'), 5, 'link-categories.php');
-$submenu['link-manager.php'][20] = array(__('Import Links'), 5, 'link-import.php');
+$submenu['link-manager.php'][5] = array(__('Manage Links'), 'manage_links', 'link-manager.php');
+$submenu['link-manager.php'][10] = array(__('Add Link'), 'manage_links', 'link-add.php');
+$submenu['link-manager.php'][15] = array(__('Link Categories'), 'manage_links', 'link-categories.php');
+$submenu['link-manager.php'][20] = array(__('Import Links'), 'manage_links', 'link-import.php');
 
-$submenu['profile.php'][5] = array(__('Your Profile'), 0, 'profile.php');
-$submenu['profile.php'][10] = array(__('Authors &amp; Users'), 5, 'users.php');
+$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
+$submenu['profile.php'][10] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
 
-$submenu['options-general.php'][5] = array(__('General'), 6, 'options-general.php');
-$submenu['options-general.php'][10] = array(__('Writing'), 6, 'options-writing.php');
-$submenu['options-general.php'][15] = array(__('Reading'), 6, 'options-reading.php');
-$submenu['options-general.php'][20] = array(__('Discussion'), 6, 'options-discussion.php');
-$submenu['options-general.php'][25] = array(__('Permalinks'), 6, 'options-permalink.php');
-$submenu['options-general.php'][30] = array(__('Miscellaneous'), 6, 'options-misc.php');
+$submenu['options-general.php'][5] = array(__('General'), 'manage_options', 'options-general.php');
+$submenu['options-general.php'][10] = array(__('Writing'), 'manage_options', 'options-writing.php');
+$submenu['options-general.php'][15] = array(__('Reading'), 'manage_options', 'options-reading.php');
+$submenu['options-general.php'][20] = array(__('Discussion'), 'manage_options', 'options-discussion.php');
+$submenu['options-general.php'][25] = array(__('Permalinks'), 'manage_options', 'options-permalink.php');
+$submenu['options-general.php'][30] = array(__('Miscellaneous'), 'manage_options', 'options-misc.php');
 
-$submenu['plugins.php'][5] = array(__('Plugins'), 8, 'plugins.php');
-$submenu['plugins.php'][10] = array(__('Plugin Editor'), 8, 'plugin-editor.php');
+$submenu['plugins.php'][5] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
+$submenu['plugins.php'][10] = array(__('Plugin Editor'), 'edit_plugins', 'plugin-editor.php');
 
-$submenu['themes.php'][5] = array(__('Themes'), 8, 'themes.php');
-$submenu['themes.php'][10] = array(__('Theme Editor'), 8, 'theme-editor.php');
+$submenu['themes.php'][5] = array(__('Themes'), 'switch_themes', 'themes.php');
+$submenu['themes.php'][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
 
 // Create list of page plugin hook names.
 foreach ($menu as $menu_page) {
