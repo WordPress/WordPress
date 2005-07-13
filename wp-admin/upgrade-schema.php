@@ -257,7 +257,15 @@ function populate_roles() {
 												'read' => true,
 												'level_10' => true,
 												'level_9' => true,
-												'level_8' => true
+												'level_8' => true,
+												'level_7' => true,
+												'level_6' => true,
+												'level_5' => true,
+												'level_4' => true,
+												'level_3' => true,
+												'level_2' => true,
+												'level_1' => true,
+												'level_0' => true
 												)),
 
 									'editor' =>
@@ -274,7 +282,12 @@ function populate_roles() {
 												'read' => true,
 												'level_7' => true,
 												'level_6' => true,
-												'level_5' => true
+												'level_5' => true,
+												'level_4' => true,
+												'level_3' => true,
+												'level_2' => true,
+												'level_1' => true,
+												'level_0' => true
 												)),
 
 									'author' =>
@@ -284,7 +297,9 @@ function populate_roles() {
 												'publish_posts' => true,
 												'upload_images' => true,
 												'read' => true,
-												'level_2' => true
+												'level_2' => true,
+												'level_1' => true,
+												'level_0' => true
 												)),
 
 									'contributor' =>
@@ -292,7 +307,8 @@ function populate_roles() {
 											'capabilities' => array(
 												'edit_posts' => true,
 												'read' => true,
-												'level_1' => true
+												'level_1' => true,
+												'level_0' => true
 												)),
 											
 									'subscriber' =>
