@@ -69,9 +69,6 @@ case 'edit':
 	if ( !current_user_can('edit_post', $post_ID) )
 		die ( __('You are not allowed to edit this post.') );
 
-	if ( !user_can_edit_post($user_ID, $post_ID) )
-		die ( __('You are not allowed to view other users\' private posts.') );		
-
 	$post = get_post_to_edit($post_ID);
 	
 	if ($post->post_status == 'static')
@@ -120,9 +117,8 @@ case 'delete':
 
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
 	
-	if (!user_can_delete_post($user_ID, $post_id)) {
+	if ( !current_user_can('edit_post', $post_id) )	
 		die( __('You are not allowed to delete this post.') );
-	}
 
 	if (! wp_delete_post($post_id))
 		die( __('Error in deleting...') );
@@ -145,7 +141,7 @@ case 'editcomment':
 	if ( ! $comment = get_comment($comment) )
 		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
 
-	if ( !user_can_edit_post_comments($user_ID, $comment->comment_post_ID) )
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
 		die( __('You are not allowed to edit comments on this post.') );
 
 	$comment = get_comment_to_edit($comment);
@@ -164,7 +160,7 @@ case 'confirmdeletecomment':
 	if ( ! $comment = get_comment($comment) )
 		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if ( !user_can_delete_post_comments($user_ID, $comment->comment_post_ID) )
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
 		die( __('You are not allowed to delete comments on this post.') );
 
 	echo "<div class='wrap'>\n";
@@ -207,7 +203,7 @@ case 'deletecomment':
 	if ( ! $comment = get_comment($comment) )
 			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'post.php'));
 
-	if (!user_can_delete_post_comments($user_ID, $commentdata['comment_post_ID']))
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
 		die( __('You are not allowed to edit comments on this post.') );
 
 	wp_set_comment_status($comment->comment_ID, "delete");
@@ -238,7 +234,7 @@ case 'unapprovecomment':
 	if ( ! $comment = get_comment($comment) )
 		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if ( !user_can_edit_post_comments($user_ID, $comment->comment_post_ID) )
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
 		die( __('You are not allowed to edit comments on this post, so you cannot disapprove this comment.') );
 
 	wp_set_comment_status($comment->comment_ID, "hold");
@@ -258,7 +254,7 @@ case 'mailapprovecomment':
 	if ( ! $comment = get_comment($comment) )
 			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if ( !user_can_edit_post_comments($user_ID, $comment->comment_post_ID) )
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
 		die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 
 	if ('1' != $comment->comment_approved) {
@@ -284,7 +280,7 @@ case 'approvecomment':
 	if ( ! $comment = get_comment($comment) )
 		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
-	if ( !user_can_edit_post_comments($user_ID, $commentdata['comment_post_ID']))
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
 		die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 
 	wp_set_comment_status($comment->comment_ID, "approve");
@@ -322,7 +318,7 @@ default:
 <div class="updated"><p><?php printf(__('Post saved. <a href="%s">View site &raquo;</a>'), get_bloginfo('home')); ?></p></div>
 <?php endif; ?>
 <?php
-	if ( user_can_create_draft($user_ID) ) {
+	if ( current_user_can('edit_posts') ) {
 		$action = 'post';
 		get_currentuserinfo();
 		if ( $drafts = get_users_drafts( $user_ID ) ) {

@@ -155,7 +155,7 @@ edCanvas = document.getElementById('content');
 <?php 
 if ('publish' != $post_status || 0 == $post_ID) {
 ?>
-<?php if ( user_can_create_post($user_ID) ) : ?>
+<?php if ( current_user_can('publish_posts') ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="10" value="<?php _e('Publish') ?>" /> 
 <?php endif; ?>
 <?php
