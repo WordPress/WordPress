@@ -131,14 +131,6 @@ if ( defined('WP_CACHE') && function_exists('wp_cache_postload') )
 
 do_action('plugins_loaded');
 
-define('TEMPLATEPATH', get_template_directory());
-
-// Load the default text localization domain.
-load_default_textdomain();
-
-// Pull in locale data after loading text domain.
-require_once(ABSPATH . WPINC . '/locale.php');
-
 // If already slashed, strip.
 if ( get_magic_quotes_gpc() ) {
 	$_GET    = stripslashes_deep($_GET   );
@@ -153,15 +145,23 @@ $_POST   = add_magic_quotes($_POST  );
 $_COOKIE = add_magic_quotes($_COOKIE);
 $_SERVER = add_magic_quotes($_SERVER);
 
-function shutdown_action_hook() {
-	do_action('shutdown');
-}
-register_shutdown_function('shutdown_action_hook');
-
 $wp_query = new WP_Query();
 $wp_rewrite = new WP_Rewrite();
 $wp = new WP();
 $wp_roles = new WP_Roles();
+
+define('TEMPLATEPATH', get_template_directory());
+
+// Load the default text localization domain.
+load_default_textdomain();
+
+// Pull in locale data after loading text domain.
+require_once(ABSPATH . WPINC . '/locale.php');
+
+function shutdown_action_hook() {
+	do_action('shutdown');
+}
+register_shutdown_function('shutdown_action_hook');
 
 // Everything is loaded and initialized.
 do_action('init');
