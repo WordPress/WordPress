@@ -242,7 +242,7 @@ function upgrade_160() {
 		if ( !empty( $user->user_description ) )
 			update_usermeta( $user->ID, 'description', $wpdb->escape($user->user_description) );
 
-		if ( !isset( $user->user_idmode ) ):
+		if ( isset( $user->user_idmode ) ):
 			$idmode = $user->user_idmode;
 			if ($idmode == 'nickname') $id = $user->user_nickname;
 			if ($idmode == 'login') $id = $user->user_login;
