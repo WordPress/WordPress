@@ -52,7 +52,7 @@ function get_userdata( $user_id ) {
 	}
 
 	$cache_userdata[$user_id] = $user;
-	$cache_userdata[$cache_userdata[$userid]->user_login] =& $cache_userdata[$user_id];
+	$cache_userdata[$cache_userdata[$user_id]->user_login] =& $cache_userdata[$user_id];
 
 	return $cache_userdata[$user_id];
 }

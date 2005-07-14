@@ -62,9 +62,9 @@ class WP_Roles {
 		return $this->role_names;
 	}
 
-	function is_role($caps)
+	function is_role($role)
 	{
-		return empty($this->role_names[$cap]);
+		return empty($this->role_names[$role]);
 	}	
 }
 
