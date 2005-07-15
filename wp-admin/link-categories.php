@@ -25,7 +25,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch ($action) {
   case 'addcat':
   {
-      if ($user_level < 5)
+      if ( !current_user_can('manage_links') )
           die (__("Cheatin' uh ?"));
 
       $cat_name = wp_specialchars($_POST['cat_name']);
@@ -85,7 +85,7 @@ switch ($action) {
     if ($cat_id=="1")
         die(sprintf(__("Can't delete the <strong>%s</strong> link category: this is the default one"), $cat_name));
 
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     $wpdb->query("DELETE FROM $wpdb->linkcategories WHERE cat_id='$cat_id'");
@@ -198,7 +198,7 @@ switch ($action) {
   } // end Edit
   case "editedcat":
   {
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     $submit=$_POST["submit"];
@@ -270,9 +270,8 @@ switch ($action) {
   default:
   {
     include_once ("admin-header.php");
-    if ($user_level < 5) {
+    if ( !current_user_can('manage_links') )
       die(__("You have do not have sufficient permissions to edit the link categories for this blog. :)"));
-    }
 ?>
 
 <div class="wrap">

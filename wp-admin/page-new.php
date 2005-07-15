@@ -3,8 +3,6 @@ require_once('admin.php');
 $title = __('New Page');
 $parent_file = 'post.php';
 require_once('admin-header.php');
-
-get_currentuserinfo();
 ?>
 
 <?php if ( isset($_GET['saved']) ) : ?>
@@ -12,7 +10,7 @@ get_currentuserinfo();
 <?php endif; ?>
 
 <?php
-if ($user_level > 0) {
+if ( current_user_can('edit_pages') ) {
 	$action = 'post';
 	get_currentuserinfo();
 	

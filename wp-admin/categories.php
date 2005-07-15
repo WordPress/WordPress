@@ -24,7 +24,7 @@ switch($action) {
 
 case 'addcat':
 
-	if ($user_level < 3)
+	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
 	
 	wp_insert_category($_POST);
@@ -36,7 +36,7 @@ case 'delete':
 
 	check_admin_referer();
 
-	if ( $user_level < 3 )
+	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
 
 	$cat_ID = (int) $_GET['cat_ID'];
@@ -93,7 +93,7 @@ case 'edit':
 break;
 
 case 'editedcat':
-	if ($user_level < 3)
+	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
 	
 	wp_update_category($_POST);
@@ -115,7 +115,7 @@ $messages[3] = __('Category updated.');
 <?php endif; ?>
 
 <div class="wrap">
-<?php if ( $user_level > 3 ) : ?>
+<?php if ( current_user_can('manage_categories') ) : ?>
 	<h2><?php printf(__('Categories (<a href="%s">add new</a>)'), '#addcat') ?> </h2>
 <?php else : ?>
 	<h2><?php _e('Categories') ?> </h2>
@@ -135,7 +135,7 @@ cat_rows();
 
 </div>
 
-<?php if ( $user_level > 3 ) : ?>
+<?php if ( current_user_can('manage_categories') ) : ?>
 <div class="wrap">
     <p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete posts from that category, it will just set them back to the default category <strong>%s</strong>.'), get_catname(1)) ?>
   </p>

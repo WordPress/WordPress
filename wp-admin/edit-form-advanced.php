@@ -97,7 +97,7 @@ window.onload = focusit;
 	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
 </fieldset>
 
-<?php if ($user_level > 4) : ?>
+<?php if ( current_user_can('edit_posts') ) : ?>
 <fieldset class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Post Timestamp'); ?>:</h3>
 <div class="dbx-content"><?php touch_time(($action == 'edit')); ?></div>

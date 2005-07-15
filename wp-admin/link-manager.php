@@ -74,7 +74,7 @@ switch ($action) {
     check_admin_referer();
 
     // check the current user's level first.
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     //for each link id (in $linkcheck[]): if the current user level >= the
@@ -85,11 +85,9 @@ switch ($action) {
         exit;
     }
     $all_links = join(',', $linkcheck);
-    $results = $wpdb->get_results("SELECT link_id, link_owner, user_level FROM $wpdb->links LEFT JOIN $wpdb->users ON link_owner = ID WHERE link_id in ($all_links)");
+    $results = $wpdb->get_results("SELECT link_id, link_owner FROM $wpdb->links LEFT JOIN $wpdb->users ON link_owner = ID WHERE link_id in ($all_links)");
     foreach ($results as $row) {
-      if (($user_level >= $row->user_level)) { // ok to proceed
-        $ids_to_change[] = $row->link_id;
-      }
+       $ids_to_change[] = $row->link_id;
     }
 
     // should now have an array of links we can change
@@ -104,7 +102,7 @@ switch ($action) {
     check_admin_referer();
 
     // check the current user's level first.
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     //for each link id (in $linkcheck[]): toggle the visibility
@@ -141,7 +139,7 @@ switch ($action) {
     check_admin_referer();
 
     // check the current user's level first.
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     //for each link id (in $linkcheck[]) change category to selected value
@@ -175,7 +173,7 @@ switch ($action) {
 	$link_rss_uri =  wp_specialchars($_POST['rss_uri']);
     $auto_toggle = get_autotoggle($link_category);
 
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     // if we are in an auto toggle category and this one is visible then we
@@ -223,7 +221,7 @@ switch ($action) {
 	  $link_rss_uri =  $_POST['rss_uri'];
       $auto_toggle = get_autotoggle($link_category);
 
-      if ($user_level < 5)
+      if ( !current_user_can('manage_links') )
         die (__("Cheatin' uh ?"));
 
       // if we are in an auto toggle category and this one is visible then we
@@ -253,7 +251,7 @@ switch ($action) {
 
     $link_id = (int) $_GET['link_id'];
 
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = $link_id");
@@ -274,7 +272,7 @@ switch ($action) {
   case 'linkedit': {
 	$xfn = true;
     include_once ('admin-header.php');
-    if ($user_level < 5)
+    if ( !current_user_can('manage_links') )
       die(__('You do not have sufficient permissions to edit the links for this blog.'));
 
     $link_id = (int) $_GET['link_id'];
@@ -540,9 +538,8 @@ switch ($action) {
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     setcookie('links_show_order_' . COOKIEHASH, $links_show_order, time()+600);
     include_once ("./admin-header.php");
-    if ($user_level < 5) {
+    if ( !current_user_can('manage_links') )
       die(__("You do not have sufficient permissions to edit the links for this blog."));
-    }
 
     switch ($order_by)
     {
@@ -646,7 +643,7 @@ function checkAll(form)
 <?php
     $sql = "SELECT link_url, link_name, link_image, link_description, link_visible,
             link_category AS cat_id, cat_name AS category, $wpdb->users.user_login, link_id,
-            link_rating, link_rel, $wpdb->users.user_level
+            link_rating, link_rel
             FROM $wpdb->links
             LEFT JOIN $wpdb->linkcategories ON $wpdb->links.link_category = $wpdb->linkcategories.cat_id
             LEFT JOIN $wpdb->users ON $wpdb->users.ID = $wpdb->links.link_owner ";
@@ -689,10 +686,6 @@ function checkAll(form)
 LINKS;
             $show_buttons = 1; // default
 
-            if ($link->user_level > $user_level) {
-              $show_buttons = 0;
-            }
-
             if ($show_buttons) {
         echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=linkedit" class="edit">' . __('Edit') . '</a></td>';
         echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=Delete"' .  " onclick=\"return confirm('" . __("You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.") .  "');" . '" class="delete">' . __('Delete') . '</a></td>';
@@ -716,7 +709,7 @@ LINKS;
         <td>
           <?php _e('Assign ownership to:'); ?>
 <?php
-    $results = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users WHERE user_level > 0 ORDER BY ID");
+    $results = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users ORDER BY ID");
     echo "          <select name=\"newowner\" size=\"1\">\n";
     foreach ($results as $row) {
       echo "            <option value=\"".$row->ID."\"";

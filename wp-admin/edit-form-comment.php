@@ -71,7 +71,7 @@ edCanvas = document.getElementById('content');
 	  <label for="comment_status_spam" class="selectit"><input id="comment_status_spam" name="comment_status" type="radio" value="spam" <?php checked($comment->comment_approved, 'spam'); ?> /> <?php _e('Spam') ?></label></td>
 	</tr>
 
-<?php if ($user_level > 4) : ?>
+<?php if ( current_user_can('edit_posts') ) : ?>
 	<tr>
 		<th scope="row"><?php _e('Edit time'); ?>:</th>
 		<td><?php touch_time(('editcomment' == $action), 0); ?></td>

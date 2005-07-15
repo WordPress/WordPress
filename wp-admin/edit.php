@@ -252,7 +252,7 @@ $comment_status = wp_get_comment_status($comment->comment_ID);
   @
   <?php comment_time('g:m:s a') ?> 
   <?php 
-			if (($user_level > $authordata->user_level) or ($user_login == $authordata->user_login)) {
+			if ( current_user_can('edit_post', $post->ID) ) {
 				echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" .  __('Edit') . "</a>";
 				echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), $comment->comment_author) . "')\">" . __('Delete') . "</a> ";
 				if ( ('none' != $comment_status) && ($user_level >= 3) ) {

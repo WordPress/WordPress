@@ -45,9 +45,8 @@ switch($action) {
 
 case 'update':
 
-	if ($user_level < 5) {
+	if ( !current_user_can('edit_themes') )
 		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
-	}
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	$theme = urlencode($theme);
@@ -67,9 +66,8 @@ break;
 default:
 	
 	require_once('admin-header.php');
-	if ($user_level <= 5) {
+	if ( !current_user_can('edit_themes') )
 		die(__('<p>You have do not have sufficient permissions to edit themes for this blog.</p>'));
-	}
 
 	update_recently_edited($file);
 	

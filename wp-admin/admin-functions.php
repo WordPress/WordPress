@@ -444,9 +444,7 @@ function dropdown_categories($default = 0) {
 
 // Dandy new recursive multiple category stuff.
 function cat_rows($parent = 0, $level = 0, $categories = 0) {
-	global $wpdb, $class, $current_user;
-
-	$user_level = $current_user->user_level;
+	global $wpdb, $class;
 
 	if ( !$categories )
 		$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
@@ -457,7 +455,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				$category->cat_name = wp_specialchars($category->cat_name);
 				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 				$pad = str_repeat('&#8212; ', $level);
-				if ( $user_level > 3 )
+				if ( current_user_can('manage_categories') )
 					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>" . __('Edit') . "</a></td><td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('".  sprintf(__("You are about to delete the category \'%s\'.  All of its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop."), $wpdb->escape($category->cat_name)) . "')\" class='delete'>" .  __('Delete') . "</a>";
 				else
 					$edit = '';
@@ -477,7 +475,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 }
 
 function page_rows( $parent = 0, $level = 0, $pages = 0 ) {
-	global $wpdb, $class, $user_level, $post;
+	global $wpdb, $class, $post;
 	if (!$pages)
 		$pages = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static' ORDER BY menu_order");
 

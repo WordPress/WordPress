@@ -123,6 +123,8 @@ class WP_User {
 		$this->id = $this->data->ID;
 		$this->cap_key = $table_prefix . 'capabilities';
 		$this->caps = &$this->data->{$this->cap_key};
+		if ( ! is_array($this->caps) )
+			$this->caps = array();
 		$this->get_role_caps();
 	}
 	
