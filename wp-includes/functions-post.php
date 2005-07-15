@@ -532,6 +532,7 @@ function wp_new_comment( $commentdata, $spam = false ) {
 
 	if ( $user_id ) {
 		$userdata = get_userdata($user_id);
+		$user = new WP_User($user_id);
 		$post_author = $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = '$comment_post_ID' LIMIT 1");
 	}
 
@@ -552,7 +553,7 @@ function wp_new_comment( $commentdata, $spam = false ) {
 		}
 	}
 
-	if ( $userdata && ( $user_id == $post_author || $userdata->user_level >= 9 ) ) {
+	if ( $userdata && ( $user_id == $post_author || $user->has_cap('level_9') ) ) {
 		$approved = 1;
 	} else {
 		if ( check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) )

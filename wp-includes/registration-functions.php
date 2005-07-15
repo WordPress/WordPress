@@ -26,6 +26,9 @@ function create_user( $username, $password, $email, $user_level ) {
 
 	$user_level = (int) $user_level;
 	update_usermeta( $user_id, $wpdb->prefix . 'user_level', $user_level);
+	$user = new WP_User($user_id);
+	$user->set_role(get_settings('default_role'));
+	
 	return $user_id;
 }
 

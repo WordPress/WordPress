@@ -176,8 +176,9 @@ default:
 	do_action('wp_authenticate', array(&$user_login, &$user_pass));
 
 	if ($user_login && $user_pass) {
-		$user = get_userdatabylogin($user_login);
-		if ( 0 == $user->user_level )
+		$user = new WP_User($user_login);
+		// If the user can't edit posts, send them to their profile.
+		if ( ! $user->has_cap('edit_posts') )
 			$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {

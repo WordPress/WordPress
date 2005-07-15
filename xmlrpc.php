@@ -157,8 +157,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-	  $is_admin = $user_data->user_level > 3;
+	  $user = new WP_User($user_login);
+	  $is_admin = $user->has_cap('level_8');
 
 	  $struct = array(
 	    'isAdmin'  => $is_admin,
@@ -295,10 +295,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-
-	  if ($user_data->user_level < 3) {
-	    return new IXR_Error(401, 'Sorry, users whose level is less than 3, can not edit the template.');
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('edit_themes') ) {
+	    return new IXR_Error(401, 'Sorry, this user can not edit the template.');
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
@@ -331,10 +330,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-
-	  if ($user_data->user_level < 3) {
-	    return new IXR_Error(401, 'Sorry, users whose level is less than 3, can not edit the template.');
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('edit_themes') ) {
+	    return new IXR_Error(401, 'Sorry, this user can not edit the template.');
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
@@ -849,9 +847,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  } 
 
-	  if(get_settings('fileupload_minlevel') > $user_data->user_level) {
-	    // User has not enough privileges
-	    logIO('O', '(MW) Not enough privilege: user level too low');
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('upload_files') ) {
+	    logIO('O', '(MW) User does not have upload_files capability');
 	    $this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.');
 	    return $this->error;
 	  }

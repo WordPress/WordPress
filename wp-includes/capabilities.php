@@ -102,16 +102,25 @@ class WP_Role {
 
 class WP_User {
 	var $data;
-	var $id;
-	var $caps;
+	var $id = 0;
+	var $caps = array();
 	var $cap_key;
-	var $roles;
-	var $allcaps;
+	var $roles = array();
+	var $allcaps = array();
 
 	function WP_User($id) {
 		global $wp_roles, $table_prefix;
-		$this->id = $id;
-		$this->data = get_userdata($id);
+
+		if ( is_numeric($id) ) {
+			$this->data = get_userdata($id);
+		} else {
+			$this->data = get_userdatabylogin($id);
+		}
+
+		if ( empty($this->data->ID) )
+			return;
+
+		$this->id = $this->data->ID;
 		$this->cap_key = $table_prefix . 'capabilities';
 		$this->caps = &$this->data->{$this->cap_key};
 		$this->get_role_caps();
@@ -140,8 +149,9 @@ class WP_User {
 	}
 	
 	function remove_role($role) {
-		if(!empty($this->roles[$role]) && (count($this->roles) > 1))
-		unset($this->caps[$cap]);
+		if ( empty($this->roles[$role]) || (count($this->roles) <= 1) )
+			return;
+		unset($this->caps[$role]);
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 		$this->get_role_caps();
 	}
@@ -177,7 +187,7 @@ class WP_User {
 	}
 
 	function remove_cap($cap) {
-		if(!empty($this->roles[$role])) return;
+		if ( empty($this->roles[$cap]) ) return;
 		unset($this->caps[$cap]);
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 	}
