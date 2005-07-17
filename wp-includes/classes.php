@@ -9,6 +9,7 @@ class WP_Query {
 	var $posts;
 	var $post_count = 0;
 	var $current_post = -1;
+	var $in_the_loop = false;
 	var $post;
 
 	var $is_single = false;
@@ -55,6 +56,7 @@ class WP_Query {
 		unset($this->queried_object_id);
 		$this->post_count = 0;
 		$this->current_post = -1;
+		$this->in_the_loop = false;
 	}
 
 	// Reparse the query vars.
@@ -593,6 +595,7 @@ class WP_Query {
 
 	function the_post() {
 		global $post;
+		$this->in_the_loop = true;
 		$post = $this->next_post();
 		setup_postdata($post);
 	}
@@ -600,8 +603,12 @@ class WP_Query {
 	function have_posts() {
 		if ($this->current_post + 1 < $this->post_count) {
 			return true;
+		} elseif ($this->current_post + 1 == $this->post_count) {
+			// Do some cleaning up after the loop
+			$this->rewind_posts();
 		}
 
+		$this->in_the_loop = false;
 		return false;
 	}
 

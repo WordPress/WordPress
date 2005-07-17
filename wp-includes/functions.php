@@ -1413,6 +1413,12 @@ function is_paged () {
     return $wp_query->is_paged;
 }
 
+function in_the_loop() {
+	global $wp_query;
+	
+	return $wp_query->in_the_loop;
+}
+
 function get_query_var($var) {
   global $wp_query;
 
