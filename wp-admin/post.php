@@ -326,7 +326,9 @@ default:
 			<div class="wrap">
 			<p><strong><?php _e('Your Drafts:') ?></strong>
 			<?php
-			for ( $i = 0; $i < 15; $i++ ) {
+			$num_drafts = count($drafts);
+			if ( $num_drafts > 15 ) $num_drafts = 15;
+			for ( $i = 0; $i < $num_drafts; $i++ ) {
 				$draft = $drafts[$i];
 				if ( 0 != $i )
 					echo ', ';

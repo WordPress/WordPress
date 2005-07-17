@@ -24,16 +24,16 @@ function write_post() {
 	if ( ($_POST['post_author'] != $_POST['user_ID']) && ! current_user_can('edit_others_posts') )
 		die( __('You cannot post as this user.') );
 	
-	if ( 'publish' == $_POST['post_status'] && ! current_user_can('publish_posts') )
-		$_POST['post_status'] = 'draft';
-	
 	// What to do based on which button they pressed
 	if ('' != $_POST['saveasdraft']) $_POST['post_status'] = 'draft';
 	if ('' != $_POST['saveasprivate']) $_POST['post_status'] = 'private';
 	if ('' != $_POST['publish']) $_POST['post_status'] = 'publish';
 	if ('' != $_POST['advanced']) $_POST['post_status'] = 'draft';
 	if ('' != $_POST['savepage']) $_POST['post_status'] = 'static';
-		
+
+	if ( 'publish' == $_POST['post_status'] && ! current_user_can('publish_posts') )
+		$_POST['post_status'] = 'draft';
+
 	if ( !empty($_POST['edit_date']) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
@@ -60,9 +60,6 @@ function write_post() {
 function edit_post() {
 	global $user_ID;
 
-	if ( !isset($blog_ID) ) 
-		$blog_ID = 1;
-
 	$post_ID = (int) $_POST['post_ID'];
 
 	if ( ! current_user_can('edit_post', $post_ID) )
@@ -86,6 +83,16 @@ function edit_post() {
 	if ( ($_POST['post_author'] != $_POST['user_ID']) && ! current_user_can('edit_others_posts') )
 		die( __('You cannot post as this user.') );
 
+	// What to do based on which button they pressed
+	if ('' != $_POST['saveasdraft']) $_POST['post_status'] = 'draft';
+	if ('' != $_POST['saveasprivate']) $_POST['post_status'] = 'private';
+	if ('' != $_POST['publish']) $_POST['post_status'] = 'publish';
+	if ('' != $_POST['advanced']) $_POST['post_status'] = 'draft';
+	if ('' != $_POST['savepage']) $_POST['post_status'] = 'static';
+
+	if ( 'publish' == $_POST['post_status'] && ! current_user_can('publish_posts') )
+		$_POST['post_status'] = 'draft';
+		
 	if ( !empty($_POST['edit_date']) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
