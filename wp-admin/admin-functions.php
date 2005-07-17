@@ -749,8 +749,8 @@ function update_meta($mid, $mkey, $mvalue) {
 }
 
 function touch_time($edit = 1, $for_post = 1) {
-	global $month, $postdata, $commentdata;
-	if ( $for_post && ('draft' == $postdata->post_status) ) {
+	global $month, $post, $comment;
+	if ( $for_post && ('draft' == $post->post_status) ) {
 		$checked = 'checked="checked" ';
 		$edit = false;
 	} else {
@@ -760,7 +760,7 @@ function touch_time($edit = 1, $for_post = 1) {
 	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">' . __('Edit timestamp') . '</label></legend>';
 	
 	$time_adj = time() + (get_settings('gmt_offset') * 3600);
-	$post_date = ($for_post) ? $postdata->post_date : $commentdata['comment_date'];
+	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
 	$jj = ($edit) ? mysql2date('d', $post_date) : gmdate('d', $time_adj);
 	$mm = ($edit) ? mysql2date('m', $post_date) : gmdate('m', $time_adj);
 	$aa = ($edit) ? mysql2date('Y', $post_date) : gmdate('Y', $time_adj);
@@ -791,7 +791,7 @@ function touch_time($edit = 1, $for_post = 1) {
 <?php _e('Existing timestamp'); ?>: 
 	<?php
 		// We might need to readjust to display proper existing timestamp
-		if ( $for_post && ('draft' == $postdata->post_status) ) {
+		if ( $for_post && ('draft' == $post->post_status) ) {
 			$jj = mysql2date('d', $post_date);
 			$mm = mysql2date('m', $post_date);
 			$aa = mysql2date('Y', $post_date);
