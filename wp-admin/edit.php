@@ -7,8 +7,6 @@ require_once('admin-header.php');
 
 $_GET['m'] = (int) $_GET['m'];
 
-get_currentuserinfo();
-
 $drafts = get_users_drafts( $user_ID );
 $other_drafts = get_others_drafts( $user_ID);
 
@@ -255,7 +253,7 @@ $comment_status = wp_get_comment_status($comment->comment_ID);
 			if ( current_user_can('edit_post', $post->ID) ) {
 				echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" .  __('Edit') . "</a>";
 				echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), $comment->comment_author) . "')\">" . __('Delete') . "</a> ";
-				if ( ('none' != $comment_status) && ($user_level >= 3) ) {
+				if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
 					if ('approved' == wp_get_comment_status($comment->comment_ID)) {
 						echo " - <a href=\"post.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">" . __('Unapprove') . "</a> ";
 					} else {

@@ -58,8 +58,6 @@ break;
 
 case 'update':
 
-	get_currentuserinfo();
-
 	/* checking the nickname has been typed */
 	if (empty($_POST["newuser_nickname"])) {
 		die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your username)"));
@@ -276,7 +274,7 @@ if ( $show_password_fields ) :
 </div>
 
 
-<?php if ($is_gecko && $profiledata->user_level != 0) { ?>
+<?php if ( $is_gecko && current_user_can('edit_posts') ) { ?>
 <div class="wrap">
     <script type="text/javascript">
 //<![CDATA[

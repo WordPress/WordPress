@@ -2,7 +2,7 @@
 $mode = 'bookmarklet';
 require_once('admin.php');
 
-if ($user_level == 0)
+if ( ! current_user_can('edit_posts') )
 	die ("Cheatin' uh?");
 
 if ('b' == $a) {

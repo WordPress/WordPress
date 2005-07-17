@@ -31,9 +31,8 @@ switch($action) {
 
 case 'update':
 
-	if ($user_level < 3) {
+	if ( ! current_user_can('moderate_comments') )
 		die(__('<p>Your level is not high enough to moderate comments.</p>'));
-	}
 
 	$item_ignored = 0;
 	$item_deleted = 0;
@@ -119,7 +118,7 @@ if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored
 <div class="wrap">
 
 <?php
-if ($user_level > 3)
+if ( current_user_can('moderate_comments') )
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_approved = '0'");
 else
 	$comments = '';

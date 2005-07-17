@@ -8,7 +8,7 @@ get_admin_page_parent();
 foreach ($menu as $item) {
 	$class = '';
 
-	// 0 = name, 1 = user_level, 2 = file
+	// 0 = name, 1 = capability, 2 = file
 	if (( strcmp($self, $item[2]) == 0 && empty($parent_file)) || ($parent_file && ($item[2] == $parent_file))) $class = ' class="current"';
     
 	if ( current_user_can($item[1]) ) {
