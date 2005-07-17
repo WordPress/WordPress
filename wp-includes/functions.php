@@ -328,8 +328,9 @@ function get_alloptions() {
 function update_option($option_name, $newvalue) {
 	global $wpdb, $cache_settings;
 
-	$newvalue = trim($newvalue); // I can't think of any situation we wouldn't want to trim
-
+	if ( is_string($newvalue) )
+		$newvalue = trim($newvalue);
+	
 	// If the new and old values are the same, no need to update.
 	if ( $newvalue == get_option($option_name) )
 		return true;
