@@ -254,6 +254,14 @@ function upgrade_160() {
 			$id = $wpdb->escape( $id );
 			$wpdb->query("UPDATE $wpdb->users SET display_name = '$id' WHERE ID = '$user->ID'");
 		endif;
+		
+		// FIXME: Temporary code to reset roles and caps if flag is set.
+		if ( defined('RESET_CAPS') ) {
+			$level = get_usermeta($user->ID, $table_prefix . 'user_level');
+			$role = translate_level_to_role($level);
+			update_usermeta( $user->ID, $table_prefix . 'capabilities', array($role => true) );
+		}
+			
 	endforeach;
 	$old_user_fields = array( 'user_firstname', 'user_lastname', 'user_icq', 'user_aim', 'user_msn', 'user_yim', 'user_idmode', 'user_ip', 'user_domain', 'user_browser', 'user_description', 'user_nickname', 'user_level' );
 	$wpdb->hide_errors();

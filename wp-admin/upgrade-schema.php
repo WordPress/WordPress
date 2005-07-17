@@ -324,7 +324,10 @@ function populate_roles() {
 									array('name' => __('Inactive'),
 												'capabilities' => array())
 									);
-
-	add_option($table_prefix . 'user_roles', $roles);
+	// FIXME: Temporary code to reset roles and caps if flag is set.
+	if ( defined('RESET_CAPS') )
+		update_option($table_prefix . 'user_roles', $roles);
+	else
+		add_option($table_prefix . 'user_roles', $roles);
 }
 ?>
