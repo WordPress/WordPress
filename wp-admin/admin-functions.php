@@ -4,7 +4,7 @@
 function write_post() {
 	global $user_ID;
 
-	if ( !user_can_create_draft($user_ID) )
+	if ( ! current_user_can('edit_posts') )
 		die( __('You are not allowed to create posts or drafts on this blog.') );
 
 	// Rename.
@@ -21,10 +21,10 @@ function write_post() {
 		$_POST['post_author'] = (int) $_POST['user_ID'];
 	}
 
-	if ( !user_can_edit_user($user_ID, $_POST['post_author']) )
+	if ( ($_POST['post_author'] != $_POST['user_ID']) && ! current_user_can('edit_others_posts') )
 		die( __('You cannot post as this user.') );
 	
-	if ( 'publish' == $_POST['post_status'] && (!user_can_create_post($user_ID)) )
+	if ( 'publish' == $_POST['post_status'] && ! current_user_can('publish_posts') )
 		$_POST['post_status'] = 'draft';
 	
 	// What to do based on which button they pressed
@@ -34,7 +34,7 @@ function write_post() {
 	if ('' != $_POST['advanced']) $_POST['post_status'] = 'draft';
 	if ('' != $_POST['savepage']) $_POST['post_status'] = 'static';
 		
-	if (user_can_set_post_date($user_ID) && (!empty($_POST['edit_date']))) {
+	if ( !empty($_POST['edit_date']) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
 		$jj = $_POST['jj'];
@@ -65,7 +65,7 @@ function edit_post() {
 
 	$post_ID = (int) $_POST['post_ID'];
 
-	if (!user_can_edit_post($user_ID, $post_ID, $blog_ID))
+	if ( ! current_user_can('edit_post', $post_ID) )
 		die( __('You are not allowed to edit this post.') );
 
 	// Rename.
@@ -83,10 +83,10 @@ function edit_post() {
 		$_POST['post_author'] = (int) $_POST['user_ID'];
 	}
 
-	if ( !user_can_edit_user($user_ID, $_POST['post_author']) )
+	if ( ($_POST['post_author'] != $_POST['user_ID']) && ! current_user_can('edit_others_posts') )
 		die( __('You cannot post as this user.') );
 
-	if (user_can_set_post_date($user_ID) && (!empty($_POST['edit_date']))) {
+	if ( !empty($_POST['edit_date']) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
 		$jj = $_POST['jj'];
@@ -125,7 +125,7 @@ function edit_comment() {
 	$comment_ID = (int) $_POST['comment_ID'];
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 
-	if (!user_can_edit_post_comments($user_ID, $comment_post_ID))
+	if ( ! current_user_can('edit_post', $comment_post_ID) )
 		die( __('You are not allowed to edit comments on this post, so you cannot edit this comment.') );
 
 	$_POST['comment_author'] = $_POST['newcomment_author'];
@@ -135,7 +135,7 @@ function edit_comment() {
 	$_POST['comment_content'] = $_POST['content'];
 	$_POST['comment_ID'] = (int) $_POST['comment_ID'];
  
-	if (user_can_edit_post_date($user_ID, $post_ID) && (!empty($_POST['edit_date']))) {
+	if ( !empty($_POST['edit_date']) ) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
 		$jj = $_POST['jj'];
