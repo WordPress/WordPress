@@ -1952,21 +1952,23 @@ function get_usermeta( $user_id, $meta_key = '') {
 
 	if ( !empty($meta_key) ) {
 		$meta_key = preg_replace('|a-z0-9_|i', '', $meta_key);
-		$metas = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
+		$metas = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 	} else {
-		$metas = $wpdb->get_results("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id'");
+		$metas = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
 	}
 
 	foreach ($metas as $index => $meta) {
-		@ $value = unserialize($meta->meta_key);
-		if ($value !== FALSE)
-			$metas[$index]->meta_key = $value;			
+		@ $value = unserialize($meta->meta_value);
+		if ($value === FALSE)
+			$value = $meta->meta_value;
+			
+		$values[] = $value;
 	}
 
-	if ( !empty($meta_key) )
-		return $metas[0];
+	if ( count($values) == 1 )
+		return $values[0];
 	else
-		return $metas;
+		return $values;
 }
 
 function update_usermeta( $user_id, $meta_key, $meta_value ) {
