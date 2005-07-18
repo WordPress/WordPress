@@ -56,7 +56,7 @@ if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;
 if ( defined('CUSTOM_USER_META_TABLE') )
 	$wpdb->usermeta = CUSTOM_USER_META_TABLE;
-
+	
 // We're going to need to keep this around for a few months even though we're not using it internally
 
 $tableposts = $wpdb->posts;
@@ -103,6 +103,17 @@ if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF']
     $cookiehash = md5(get_settings('siteurl')); // Remove in 1.4
 	define('COOKIEHASH', $cookiehash); 
 endif;
+
+if ( !defined('USER_COOKIE') )
+	define('USER_COOKIE', 'wordpressuser_'. COOKIEHASH);
+if ( !defined('PASS_COOKIE') )
+	define('PASS_COOKIE', 'wordpresspass_'. COOKIEHASH);
+if ( !defined('COOKIEPATH') )
+	define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('home') . '/' ) );
+if ( !defined('SITECOOKIEPATH') )
+	define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('siteurl') . '/' ) );
+if ( !defined('COOKIE_DOMAIN') )
+	define('COOKIE_DOMAIN', false);
 
 require (ABSPATH . WPINC . '/vars.php');
 
