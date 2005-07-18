@@ -165,10 +165,10 @@ default:
 		$user_pass  = $_POST['pwd'];
 		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_POST['redirect_to']);
 	} elseif ( !empty($_COOKIE) ) {
-		if (! empty($_COOKIE['wordpressuser_' . COOKIEHASH]) )
-			$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
-		if (! empty($_COOKIE['wordpresspass_' . COOKIEHASH]) ) {
-			$user_pass = $_COOKIE['wordpresspass_' . COOKIEHASH];
+		if (! empty($_COOKIE[USER_COOKIE]) )
+			$user_login = $_COOKIE[USER_COOKIE];
+		if (! empty($_COOKIE[PASS_COOKIE]) ) {
+			$user_pass = $_COOKIE[PASS_COOKIE];
 			$using_cookie = true;
 		}
 	}

@@ -11,7 +11,7 @@ if (!function_exists('_')) {
 function get_profile($field, $user = false) {
 	global $wpdb;
 	if (!$user)
-		$user = $wpdb->escape($_COOKIE['wordpressuser_' . COOKIEHASH]);
+		$user = $wpdb->escape($_COOKIE[USER_COOKIE]);
 	return $wpdb->get_var("SELECT $field FROM $wpdb->users WHERE user_login = '$user'");
 }
 

@@ -8,10 +8,10 @@ if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
 
-	if ( !isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
+	if ( !isset($_COOKIE[USER_COOKIE])) 
 		return false;
 
-	$user_login  = $_COOKIE['wordpressuser_' . COOKIEHASH];
+	$user_login  = $_COOKIE[USER_COOKIE];
 	$userdata    = get_userdatabylogin($user_login);
 	$user_level  = $userdata->user_level;
 	$user_ID     = $userdata->ID;
@@ -149,9 +149,9 @@ endif;
 if ( !function_exists('auth_redirect') ) :
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
-	if ( (!empty($_COOKIE['wordpressuser_' . COOKIEHASH]) && 
-				!wp_login($_COOKIE['wordpressuser_' . COOKIEHASH], $_COOKIE['wordpresspass_' . COOKIEHASH], true)) ||
-			 (empty($_COOKIE['wordpressuser_' . COOKIEHASH])) ) {
+	if ( (!empty($_COOKIE[USER_COOKIE]) && 
+				!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true)) ||
+			 (empty($_COOKIE[USER_COOKIE])) ) {
 		nocache_headers();
 	
 		header('Location: ' . get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
