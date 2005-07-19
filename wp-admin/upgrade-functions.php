@@ -226,11 +226,8 @@ function upgrade_160() {
 			update_usermeta( $user->ID, 'last_name', $wpdb->escape($user->user_lastname) );
 		if ( !empty( $user->user_nickname ) )
 			update_usermeta( $user->ID, 'nickname', $wpdb->escape($user->user_nickname) );
-		if ( !empty( $user->user_level ) ) {
+		if ( !empty( $user->user_level ) )
 			update_usermeta( $user->ID, $table_prefix . 'user_level', $user->user_level );
-			$role = translate_level_to_role($user->user_level);
-			update_usermeta( $user->ID, $table_prefix . 'capabilities', array($role => true) );
-		}
 		if ( !empty( $user->user_icq ) )
 			update_usermeta( $user->ID, 'icq', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_aim ) )
@@ -255,8 +252,9 @@ function upgrade_160() {
 			$wpdb->query("UPDATE $wpdb->users SET display_name = '$id' WHERE ID = '$user->ID'");
 		endif;
 		
-		// FIXME: Temporary code to reset roles and caps if flag is set.
-		if ( defined('RESET_CAPS') ) {
+		// FIXME: RESET_CAPS is temporary code to reset roles and caps if flag is set.
+		$caps = get_usermeta( $user->ID, $table_prefix . 'capabilities');
+		if ( empty($caps) || defined('RESET_CAPS') ) {
 			$level = get_usermeta($user->ID, $table_prefix . 'user_level');
 			$role = translate_level_to_role($level);
 			update_usermeta( $user->ID, $table_prefix . 'capabilities', array($role => true) );

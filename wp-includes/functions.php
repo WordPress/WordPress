@@ -1957,6 +1957,13 @@ function get_usermeta( $user_id, $meta_key = '') {
 		$metas = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
 	}
 
+	if ( empty($metas) ) {
+		if ( empty($meta_key) )
+			return array();
+		else
+			return '';
+	}
+	
 	foreach ($metas as $index => $meta) {
 		@ $value = unserialize($meta->meta_value);
 		if ($value === FALSE)
