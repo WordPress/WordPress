@@ -11,7 +11,7 @@ include('admin-header.php');
   <h2><?php _e('Writing Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category','default_email_category'," /> 
+    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category','default_email_category'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"> <?php _e('Size of the post box:') ?></th> 
