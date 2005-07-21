@@ -139,7 +139,7 @@ endforeach;
      $rows = 10;
  }
 ?>
-<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="5" id="content"><?php echo $post->post_content ?></textarea></div>
+<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo $post->post_content ?></textarea></div>
 </fieldset>
 <script type="text/javascript">
 <!--
@@ -151,12 +151,12 @@ edCanvas = document.getElementById('content');
 <?php echo $form_prevstatus ?>
 
 
-<p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="6" /> 
+<p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 
 if ('publish' != $post_status || 0 == $post_ID) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
-	<input name="publish" type="submit" id="publish" tabindex="10" value="<?php _e('Publish') ?>" /> 
+	<input name="publish" type="submit" id="publish" tabindex="6" accesskey="p" value="<?php _e('Publish') ?>" /> 
 <?php endif; ?>
 <?php
 }
@@ -170,7 +170,7 @@ if ('publish' != $post_status || 0 == $post_ID) {
 
 <fieldset id="postexcerpt" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>
-<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="4" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
+<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="7" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
 </fieldset>
 
 <fieldset class="dbx-box">
