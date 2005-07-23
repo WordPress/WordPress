@@ -174,7 +174,7 @@ function wp_redirect($location) {
 endif;
 
 if ( !function_exists('wp_setcookie') ) :
-function wp_setcookie($username, $password, $already_md5 = false, $home = '', $siteurl = '') {
+function wp_setcookie($username, $password, $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
 	if ( !$already_md5 )
 		$password = md5( md5($password) ); // Double hash the password in the cookie.
 
@@ -191,12 +191,17 @@ function wp_setcookie($username, $password, $already_md5 = false, $home = '', $s
 		$cookiehash = md5($siteurl);
 	}
 
-	setcookie(USER_COOKIE, $username, time() + 31536000, $cookiepath, COOKIE_DOMAIN);
-	setcookie(PASS_COOKIE, $password, time() + 31536000, $cookiepath, COOKIE_DOMAIN);
+	if ( $remember )
+		$expire = time() + 31536000;
+	else
+		$expire = 0;
+
+	setcookie(USER_COOKIE, $username, $expire, $cookiepath, COOKIE_DOMAIN);
+	setcookie(PASS_COOKIE, $password, $expire, $cookiepath, COOKIE_DOMAIN);
 
 	if ( $cookiepath != $sitecookiepath ) {
-		setcookie(USER_COOKIE, $username, time() + 31536000, $sitecookiepath, COOKIE_DOMAIN);
-		setcookie(PASS_COOKIE, $password, time() + 31536000, $sitecookiepath, COOKIE_DOMAIN);
+		setcookie(USER_COOKIE, $username, $expire, $sitecookiepath, COOKIE_DOMAIN);
+		setcookie(PASS_COOKIE, $password, $expire, $sitecookiepath, COOKIE_DOMAIN);
 	}
 }
 endif;

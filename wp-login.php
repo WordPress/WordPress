@@ -163,6 +163,7 @@ default:
 	if( !empty($_POST) ) {
 		$user_login = $_POST['log'];
 		$user_pass  = $_POST['pwd'];
+		$rememberme = $_POST['rememberme'];
 		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_POST['redirect_to']);
 	} elseif ( !empty($_COOKIE) ) {
 		if (! empty($_COOKIE[USER_COOKIE]) )
@@ -182,8 +183,8 @@ default:
 			$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
-			if (! $using_cookie) {
-				wp_setcookie($user_login, $user_pass);
+			if ( !$using_cookie) {
+				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
 			}
 			do_action('wp_login', $user_login);
 			wp_redirect($redirect_to);
@@ -226,6 +227,9 @@ if ( $error )
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
 <p><label><?php _e('Username:') ?><br /><input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
 <p><label><?php _e('Password:') ?><br /> <input type="password" name="pwd" id="pwd" value="" size="20" tabindex="2" /></label></p>
+<p>
+  <label><input name="rememberme" type="checkbox" id="rememberme" value="forever" checked="checked" /> 
+  <?php _e('Remember me'); ?></label></p>
 <p class="submit">
 	<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
 	<input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>" />
