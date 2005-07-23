@@ -1982,7 +1982,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	global $wpdb;
 	if ( !is_numeric( $user_id ) )
 		return false;
-	$meta_key = preg_replace('|a-z0-9_|i', '', $meta_key);
+	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
 
 	if ( is_array($meta_value) || is_object($meta_value) )
 		$meta_value = serialize($meta_value);
