@@ -365,6 +365,10 @@ textarea, input, select {
 	font-family: "Courier New", Courier, mono;
 }
 
+#title {
+	font-size: 1.5em;
+}
+
 #excerpt {
 	height: 1.8em;
 	width: 98%;
@@ -618,8 +622,18 @@ textarea, input, select {
 	margin-left: 2%;
 }
 
+#categorydiv div div {
+	height: 12em;
+	overflow: auto;
+}
+
+#ajaxcat input {
+	border: 1px solid #ccc;
+}
+
 /* default box styles */
 .dbx-box {
+background: #fff;
 }
 
 /* box when toggle is open */

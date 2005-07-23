@@ -266,6 +266,14 @@ function upgrade_160() {
 	foreach ( $old_user_fields as $old )
 		$wpdb->query("ALTER TABLE $wpdb->users DROP $old");
 	$wpdb->show_errors();
+	
+	if ( 0 == $wpdb->get_var("SELECT SUM(category_count) FROM $wpdb->categories") ) { // Create counts
+		$categories = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
+		foreach ( $categories as $cat_id ) {
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat WHERE category_id = '$cat_id'");
+			$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
+		}
+	}
 }
 
 // The functions we use to actually do stuff
