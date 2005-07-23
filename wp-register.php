@@ -146,7 +146,7 @@ case 'disabled':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Currently Disabled') ?></title>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>">
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
 </head>
 
