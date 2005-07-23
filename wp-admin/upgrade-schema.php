@@ -216,7 +216,7 @@ function populate_options() {
 	// 1.5.1
 	add_option('use_trackback', 0);
 	// 1.6
-	add_option('default_role', 'Inactive');
+	add_option('default_role', 'inactive');
 
 	populate_roles();
 
