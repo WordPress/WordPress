@@ -228,7 +228,7 @@ if ( $error )
 <p><label><?php _e('Username:') ?><br /><input type="text" name="log" id="log" value="" size="20" tabindex="1" /></label></p>
 <p><label><?php _e('Password:') ?><br /> <input type="password" name="pwd" id="pwd" value="" size="20" tabindex="2" /></label></p>
 <p>
-  <label><input name="rememberme" type="checkbox" id="rememberme" value="forever" checked="checked" /> 
+  <label><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> 
   <?php _e('Remember me'); ?></label></p>
 <p class="submit">
 	<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="3" />
