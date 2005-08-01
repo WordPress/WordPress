@@ -1198,7 +1198,7 @@ function get_real_file_to_edit($file) {
 
 $wp_file_descriptions = 
 	array(
-	'index.php' => __('Main Template'),
+	'index.php' => __('Main Index Template'),
 	'style.css' => __('Stylesheet'),
 	'comments.php' => __('Comments Template'),
 	'comments-popup.php' => __('Popup Comments Template'),
