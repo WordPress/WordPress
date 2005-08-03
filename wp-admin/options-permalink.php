@@ -7,45 +7,45 @@ $parent_file = 'options-general.php';
 function add_js() {
 ?>
 <script type="text/javascript">
-    //<![CDATA[
-		function GetElementsWithClassName(elementName, className) {
-		   var allElements = document.getElementsByTagName(elementName);
-		   var elemColl = new Array();
-		   for (i = 0; i < allElements.length; i++) {
-		       if (allElements[i].className == className) {
-		           elemColl[elemColl.length] = allElements[i];
-		       }
-		   }
-		   return elemColl;
-		}
-		
-		function upit() {
-		   var inputColl = GetElementsWithClassName('input', 'tog');
-		   var structure = document.getElementById('permalink_structure');
-		   var inputs = '';
-		   for (i = 0; i < inputColl.length; i++) {
-		       if ( inputColl[i].checked && inputColl[i].value != '') {
-					inputs += inputColl[i].value + ' ';
-		            }
-		       }
-		   inputs = inputs.substr(0,inputs.length - 1);
-			if ( 'custom' != inputs )
-			   structure.value = inputs;
-		   }
-		
-		function blurry() {
-		   if (!document.getElementById) return;
-		
-		   var aInputs = document.getElementsByTagName('input');
-		
-		   for (var i = 0; i < aInputs.length; i++) {		
-		       aInputs[i].onclick = aInputs[i].onkeyup = upit;
-		   }
-		}
-		
-		window.onload = blurry;
-    //]]>
-    </script>
+//<![CDATA[
+function GetElementsWithClassName(elementName, className) {
+var allElements = document.getElementsByTagName(elementName);
+var elemColl = new Array();
+for (i = 0; i < allElements.length; i++) {
+if (allElements[i].className == className) {
+elemColl[elemColl.length] = allElements[i];
+}
+}
+return elemColl;
+}
+
+function upit() {
+var inputColl = GetElementsWithClassName('input', 'tog');
+var structure = document.getElementById('permalink_structure');
+var inputs = '';
+for (i = 0; i < inputColl.length; i++) {
+if ( inputColl[i].checked && inputColl[i].value != '') {
+inputs += inputColl[i].value + ' ';
+}
+}
+inputs = inputs.substr(0,inputs.length - 1);
+if ( 'custom' != inputs )
+structure.value = inputs;
+}
+
+function blurry() {
+if (!document.getElementById) return;
+
+var aInputs = document.getElementsByTagName('input');
+
+for (var i = 0; i < aInputs.length; i++) {		
+aInputs[i].onclick = aInputs[i].onkeyup = upit;
+}
+}
+
+window.onload = blurry;
+//]]>
+</script>
 <?php
 }
 add_filter('admin_head', 'add_js');
