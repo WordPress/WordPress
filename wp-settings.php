@@ -4,8 +4,8 @@ $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
 
 // Fix for IIS, which doesn't set REQUEST_URI
-if (! isset($_SERVER['REQUEST_URI'])) {
-	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME']; // Does this work under CGI?
 	
 	// Append the query string if it exists and isn't null
 	if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
