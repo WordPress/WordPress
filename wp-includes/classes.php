@@ -598,12 +598,16 @@ class WP_Query {
 		$this->in_the_loop = true;
 		$post = $this->next_post();
 		setup_postdata($post);
+
+		if ( $this->current_post == 0 ) // loop has just started
+			do_action('loop_start');
 	}
 
 	function have_posts() {
 		if ($this->current_post + 1 < $this->post_count) {
 			return true;
 		} elseif ($this->current_post + 1 == $this->post_count) {
+			do_action('loop_end');
 			// Do some cleaning up after the loop
 			$this->rewind_posts();
 		}
