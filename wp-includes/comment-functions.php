@@ -447,6 +447,7 @@ function pingback($content, $post_ID) {
 				$post_links[] = $link_test;
 			elseif(($test['path'] != '/') && ($test['path'] != ''))
 				$post_links[] = $link_test;
+			do_action('pre_ping',  &$post_links, &$pung);
 		endif;
 	endforeach;
 

@@ -581,6 +581,7 @@ function get_pung($post_id) { // Get URIs already pung for a post
 	$pung = $wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_id");
 	$pung = trim($pung);
 	$pung = preg_split('/\s/', $pung);
+	$pung = apply_filters('get_pung', $pung);
 	return $pung;
 }
 
@@ -588,18 +589,18 @@ function get_enclosed($post_id) { // Get enclosures already enclosed for a post
 	global $wpdb;
 	$custom_fields = get_post_custom( $post_id );
 	$pung = array();
-	if( is_array( $custom_fields ) ) {
-		while( list( $key, $val ) = each( $custom_fields ) ) { 
-			if( $key == 'enclosure' ) {
-				if (is_array($val)) {
-					foreach($val as $enc) {
-						$enclosure = split( "\n", $enc );
-						$pung[] = trim( $enclosure[ 0 ] );
-					}
-				}
-			}
+	if ( !is_array( $custom_fields ) )
+		return $pung;
+
+	foreach ( $custom_fields as $key => $val ) {
+		if ( 'enclosure' != $key || !is_array( $val ) )
+			continue;
+		foreach( $val as $enc ) {
+			$enclosure = split( "\n", $enc );
+			$pung[] = trim( $enclosure[ 0 ] );
 		}
 	}
+	$pung = apply_filters('get_enclosed', $pung);
 	return $pung;
 }
 
@@ -608,6 +609,7 @@ function get_to_ping($post_id) { // Get any URIs in the todo list
 	$to_ping = $wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_id");
 	$to_ping = trim($to_ping);
 	$to_ping = preg_split('/\s/', $to_ping, -1, PREG_SPLIT_NO_EMPTY);
+	$to_ping = apply_filters('get_to_ping',  $to_ping);
 	return $to_ping;
 }
 
@@ -618,6 +620,7 @@ function add_ping($post_id, $uri) { // Add a URI to those already pung
 	$pung = preg_split('/\s/', $pung);
 	$pung[] = $uri;
 	$new = implode("\n", $pung);
+	$new = apply_filters('add_ping', $new);
 	return $wpdb->query("UPDATE $wpdb->posts SET pinged = '$new' WHERE ID = $post_id");
 }
 
