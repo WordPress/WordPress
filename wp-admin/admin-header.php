@@ -87,7 +87,7 @@ window.onload = blurry;
 <script type="text/javascript" src="dbx-key.js"></script>
 <?php endif; ?>
 
-<?php do_action('admin_head', ''); ?>
+<?php do_action('admin_head'); ?>
 </head>
 <body>
 

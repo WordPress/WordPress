@@ -4,6 +4,52 @@ require_once('admin.php');
 $title = __('Permalink Options');
 $parent_file = 'options-general.php';
 
+function add_js() {
+?>
+<script type="text/javascript">
+    //<![CDATA[
+		function GetElementsWithClassName(elementName, className) {
+		   var allElements = document.getElementsByTagName(elementName);
+		   var elemColl = new Array();
+		   for (i = 0; i < allElements.length; i++) {
+		       if (allElements[i].className == className) {
+		           elemColl[elemColl.length] = allElements[i];
+		       }
+		   }
+		   return elemColl;
+		}
+		
+		function upit() {
+		   var inputColl = GetElementsWithClassName('input', 'tog');
+		   var structure = document.getElementById('permalink_structure');
+		   var inputs = '';
+		   for (i = 0; i < inputColl.length; i++) {
+		       if ( inputColl[i].checked && inputColl[i].value != '') {
+					inputs += inputColl[i].value + ' ';
+		            }
+		       }
+		   inputs = inputs.substr(0,inputs.length - 1);
+			if ( 'custom' != inputs )
+			   structure.value = inputs;
+		   }
+		
+		function blurry() {
+		   if (!document.getElementById) return;
+		
+		   var aInputs = document.getElementsByTagName('input');
+		
+		   for (var i = 0; i < aInputs.length; i++) {		
+		       aInputs[i].onclick = aInputs[i].onkeyup = upit;
+		   }
+		}
+		
+		window.onload = blurry;
+    //]]>
+    </script>
+<?php
+}
+add_filter('admin_head', 'add_js');
+
 include('admin-header.php');
 
 $home_path = get_home_path();
@@ -52,47 +98,46 @@ else
 <?php endif; ?>
 
 <div class="wrap"> 
-  <h2><?php _e('Edit Permalink Structure') ?></h2> 
-  <p><?php _e('By default WordPress uses web URIs which have question marks and lots of numbers in them, however WordPress offers you the ability to create a custom URI structure for your permalinks and archives. This can improve the aesthetics, usability, and longevity of your links. A <a href="http://codex.wordpress.org/Using_Permalinks">number of tags are available</a>, and here are some examples to get you started.'); ?></p>
+  <h2><?php _e('Customize Permalink Structure') ?></h2> 
+  <p><?php _e('By default WordPress uses web URIs which have question marks and lots of numbers in them, however WordPress offers you the ability to create a custom URI structure for your permalinks and archives. This can improve the aesthetics, usability, and forward-compatibility of your links. A <a href="http://codex.wordpress.org/Using_Permalinks">number of tags are available</a>, and here are some examples to get you started.'); ?></p>
 
+<?php
+$prefix = '';
+if ( !$is_apache )
+	$prefix = '/index.php';
+?>
+<form name="form" action="options-permalink.php" method="post"> 
+<h3><?php _e('Common options:'); ?></h3>
+<p>
+	<label>
+<input name="selection" type="radio" value="<?php echo $prefix; ?>/%year%/%monthnum%/%day%/%postname%/" class="tog" <?php checked( $prefix . '/%year%/%monthnum%/%day%/%postname%/', $permalink_structure); ?> /> 
+<?php _e('Date and name based, example:'); ?> <code><?php echo get_settings('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code>
+   </label>
+</p>
+<p>
+	<label>
+<input name="selection" type="radio" value="<?php echo $prefix; ?>/archives/%post_id%" class="tog" <?php checked( $prefix . '/archives/%post_id%', $permalink_structure); ?> /> 
+<?php _e('Numeric, example:'); ?> <code><?php echo get_settings('home') . $prefix  ; ?>/archives/123</code>
+   </label>
+</p>
+<p>
+<label>
+<input name="selection" type="radio" value="custom" class="tog"
+<?php if ( $permalink_structure != $prefix . '/archives/%post_id%' && $permalink_structure != $prefix . '/%year%/%monthnum%/%day%/%postname%/' ) { ?>
+checked="checked"
+<?php } ?>
+ /> 
+<?php _e('Custom, specify below'); ?>	
+</label>
+<br />
+</p>
+<p id="customstructure"><?php _e('Custom structure'); ?>: <input name="permalink_structure" id="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo $permalink_structure; ?>" size="50" /></p>
+
+<h3><?php _e('Optional'); ?></h3>
 <?php if ($is_apache) : ?>
-<dl>
-<dt><?php _e('Structure'); ?>: <code>/%year%/%monthnum%/%day%/%postname%/</code></dt>
-	<strong>
-	<dd><?php _e('Result'); ?>: <code><?php echo get_settings('home') . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></dd>
-	</strong>
-	<dt><?php _e('Structure'); ?>: <code>/archives/%post_id%</code></dt>
-	<strong>
-	<dd><?php _e('Result'); ?>: <code><?php echo get_settings('home'); ?>/archives/123</code></dd>
-	</strong>
-	<dt></dt>
-</dl>
-
-<p><?php _e('For the above to work you must have something called <code>mod_rewrite</code> installed on your server. (Ask your host.) If that isn&#8217;t available, you can prefix the structure with <code>/index.php/</code> . This is the recommend method if you are on any web server but Apache.'); ?></p>
-
+	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/taxonomy/tags</code> would make your category links like <code>http://example.org/taxonomy/tags/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
 <?php else : ?>
-<dl>
-<dt><?php _e('Structure'); ?>: <code>/index.php/%year%/%monthnum%/%day%/%postname%/</code></dt>
-	<strong>
-	<dd><?php _e('Result'); ?>: <code><?php echo get_settings('home') . '/index.php/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></dd>
-	</strong>
-	<dt><?php _e('Structure'); ?>: <code>/index.php/archives/%post_id%</code></dt>
-	<strong>
-	<dd><?php _e('Result'); ?>: <code><?php echo get_settings('home'); ?>/index.php/archives/123</code></dd>
-	</strong>
-	<dt></dt>
-</dl>
-<?php endif; ?>
-
-  <form name="form" action="options-permalink.php" method="post"> 
-    <p><?php _e('Use the template tags above to create a virtual site structure:') ?></p>
-    <p> 
-      <?php _e('Structure'); ?>: <input name="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo $permalink_structure; ?>" size="50" /> 
-    </p> 
-<?php if ($is_apache) : ?>
-	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/taxonomy/categorias</code> would make your category links like <code>http://example.org/taxonomy/categorias/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
-<?php else : ?>
-	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/index.php/taxonomy/categorias</code> would make your category links like <code>http://example.org/index.php/taxonomy/categorias/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
+	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/index.php/taxonomy/tags</code> would make your category links like <code>http://example.org/index.php/taxonomy/tags/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
 <?php endif; ?>
 	<p> 
   <?php _e('Category base'); ?>: <input name="category_base" type="text" class="code"  value="<?php echo $category_base; ?>" size="30" /> 
