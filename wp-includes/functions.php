@@ -1541,7 +1541,7 @@ function get_themes() {
 	$themes_dir = @ dir($theme_root);
 	if ($themes_dir) {
 		while(($theme_dir = $themes_dir->read()) !== false) {
-			if (is_dir($theme_root . '/' . $theme_dir)) {
+			if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
 				if ($theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS') {
 					continue;
 				}
