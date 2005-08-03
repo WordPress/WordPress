@@ -1243,6 +1243,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			}
 		}
 
+		if ( empty($context) ) // URL pattern not found
+			return new IXR_Error(17, 'The source URI does not contain a link to the target URI, and so cannot be used as a source.');
+
 		$pagelinkedfrom = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedfrom);
 
 		$context = '[...] ' . wp_specialchars( $excerpt ) . ' [...]';
