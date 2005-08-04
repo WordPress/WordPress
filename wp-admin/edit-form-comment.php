@@ -38,21 +38,23 @@ window.onload = focusit;
 
 <fieldset style="clear: both;">
         <legend><?php _e('Comment') ?></legend>
+<?php if ( !get_option('rich_editing') ) : ?>
 <?php the_quicktags(); ?>
+<script type="text/javascript">
+<!--
+edCanvas = document.getElementById('content');
+//-->
+</script>
+<?php endif; ?>
 <?php
  $rows = get_settings('default_post_edit_rows');
  if (($rows < 3) || ($rows > 100)) {
      $rows = 10;
  }
 ?>
-<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $comment->comment_content ?></textarea></div>
+<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $comment->comment_content ?></textarea></div>
 </fieldset>
 
-<script type="text/javascript">
-<!--
-edCanvas = document.getElementById('content');
-//-->
-</script>
 
 <p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
