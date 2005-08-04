@@ -136,21 +136,23 @@ endforeach;
 </fieldset>
 
 <fieldset id="postdiv">
-       <legend><?php _e('Post') ?></legend>
+<legend><?php _e('Post') ?></legend>
+<?php if ( !get_option('rich_editing') ) : ?>
 <?php the_quicktags(); ?>
-<?php
- $rows = get_settings('default_post_edit_rows');
- if (($rows < 3) || ($rows > 100)) {
-     $rows = 10;
- }
-?>
-<div><textarea rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo $post->post_content ?></textarea></div>
-</fieldset>
 <script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
 //-->
 </script>
+<?php endif; ?>
+<?php
+ $rows = get_settings('default_post_edit_rows');
+ if (($rows < 3) || ($rows > 100)) {
+     $rows = 12;
+ }
+?>
+<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo $post->post_content ?></textarea></div>
+</fieldset>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>

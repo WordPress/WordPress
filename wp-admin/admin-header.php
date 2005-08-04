@@ -9,6 +9,26 @@ if (!isset($_GET["page"])) require_once('admin.php'); ?>
 <link rel="stylesheet" href="<?php echo get_settings('siteurl') ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 
+<?php if ( get_option('rich_editing') ) :?>
+<script type="text/javascript" src="tinymce/tiny_mce_gzip.php"></script>
+<script type="text/javascript">
+tinyMCE.init({
+	mode : "specific_textareas",
+	textarea_trigger : "title",
+	theme : "advanced",
+	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,separator,undo,redo,code",
+	theme_advanced_buttons2 : "",
+	theme_advanced_buttons3 : "",
+	theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",
+	theme_advanced_path_location : "bottom",
+	entity_encoding : "numeric",
+	extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|width|height|align],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+	plugins : "emotions"
+});
+</script>
+<?php endif; ?>
+
 <script type="text/javascript">
 //<![CDATA[
 

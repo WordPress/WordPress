@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>{$lang_insert_emotions_title}</title>
+<script language="javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+	function insertEmotion(file_name) {
+		if (window.opener) {
+			tinyMCE.insertImage(tinyMCE.baseURL + "/plugins/emotions/images/" + file_name);
+			window.close();
+		}
+	}
+</script>
+</head>
+<body onload="">
+<div align="center">
+<div class="title">{$lang_insert_emotions_title}:<br /><br /></div>
+<table border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-cool.gif');"><img src="images/smiley-cool.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-cry.gif');"><img src="images/smiley-cry.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-embarassed.gif');"><img src="images/smiley-embarassed.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-foot-in-mouth.gif');"><img src="images/smiley-foot-in-mouth.gif" width="18" height="18" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-frown.gif');"><img src="images/smiley-frown.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-innocent.gif');"><img src="images/smiley-innocent.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-kiss.gif');"><img src="images/smiley-kiss.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-laughing.gif');"><img src="images/smiley-laughing.gif" width="18" height="18" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-money-mouth.gif');"><img src="images/smiley-money-mouth.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-sealed.gif');"><img src="images/smiley-sealed.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-smile.gif');"><img src="images/smiley-smile.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-surprised.gif');"><img src="images/smiley-surprised.gif" width="18" height="18" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-tongue-out.gif');"><img src="images/smiley-tongue-out.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-undecided.gif');"><img src="images/smiley-undecided.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-wink.gif');"><img src="images/smiley-wink.gif" width="18" height="18" border="0" /></a></td>
+    <td><a href="javascript:void(0);" onmousedown="insertEmotion('smiley-yell.gif');"><img src="images/smiley-yell.gif" width="18" height="18" border="0" /></a></td>
+  </tr>
+</table>
+</div>
+</body>
+</html>

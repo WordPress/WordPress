@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>{$lang_theme_code_title}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript">
+<!--
+	tinyMCE.setWindowArg('mce_windowresize', false);
+
+    function saveContent() {
+        if (window.opener) {
+            window.opener.tinyMCE.setContent(document.getElementById('htmlSource').value);
+            window.close();
+        }
+    }
+
+    // Fixes some charcode issues
+    function fixContent(html) {
+        html = html.replace(new RegExp('<(p|hr|table|tr|td|ol|ul|object|embed|li|blockquote)', 'gi'),'\n<$1');
+        html = html.replace(new RegExp('<\/(p|ol|ul|li|table|tr|td|blockquote|object)>', 'gi'),'</$1>\n');
+        html = tinyMCE.regexpReplace(html, '<br />','<br />\n','gi');
+        html = tinyMCE.regexpReplace(html, '\n\n','\n','gi');
+        return html;
+    }
+
+    function onLoadInit() {
+        document.forms[0].htmlSource.value = fixContent(tinyMCE.getContent(tinyMCE.getWindowArg('editor_id')));
+        resizeInputs();
+        setWrap('off');
+    }
+
+    function setWrap(val) {
+        // hard soft off
+        document.forms[0].htmlSource.wrap = val;
+    }
+
+	function toggleWordWrap(elm) {
+		if (elm.checked)
+			setWrap('soft');
+		else
+			setWrap('off');
+	}
+
+    var wHeight=0, wWidth=0, owHeight=0, owWidth=0;
+
+    function resizeInputs() {
+        if (!tinyMCE.isMSIE) {
+             wHeight = self.innerHeight-80;
+             wWidth = self.innerWidth-25;
+        } else {
+             wHeight = document.body.clientHeight-80;
+             wWidth = document.body.clientWidth-25;
+        }
+
+        document.forms[0].htmlSource.style.height = Math.abs(wHeight) + 'px';
+        document.forms[0].htmlSource.style.width  = Math.abs(wWidth) + 'px';
+            
+    }
+//-->
+</script>
+</head>
+<body scroll="no" onload="onLoadInit();" onresize="resizeInputs();">
+<form name="source" onsubmit="saveContent();">
+    <table border="0" cellpadding="0" cellspacing="2" align="center">
+        <tr>
+            <td class="title">{$lang_theme_code_title}</td>
+            <td align="right"><script language="javascript" type="text/javascript">
+<!--
+    if (tinyMCE.isMSIE) {
+        document.write('<input type="checkbox" name="wraped" id="wraped" onclick="toggleWordWrap(this);" class="wordWrapCode" /><label for="wraped">{$lang_theme_code_wordwrap}</label>');
+    }
+//-->
+            </script></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 100%; height: 100%; font-family: 'Courier New',Courier,mono; font-size: 12px;" dir="ltr" wrap="soft"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right"><input type="button" id="insert" name="insert" value="{$lang_update}" onclick="saveContent();" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

@@ -11,21 +11,24 @@ include('admin-header.php');
   <h2><?php _e('Writing Options') ?></h2> 
   <form name="form1" method="post" action="options.php"> 
     <input type="hidden" name="action" value="update" /> 
-    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','use_balanceTags','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category','default_email_category'" /> 
+    <input type="hidden" name="page_options" value="'default_post_edit_rows','use_smilies','rich_editing','ping_sites','mailserver_url', 'mailserver_port','mailserver_login','mailserver_pass','default_category','default_email_category'" /> 
     <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
       <tr valign="top"> 
         <th width="33%" scope="row"> <?php _e('Size of the post box:') ?></th> 
         <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
          <?php _e('lines') ?></td> 
       </tr> 
-      <tr valign="top">
-        <th scope="row"><?php _e('Formatting:') ?></th>
-        <td>          <label for="label">
-          <input name="use_smilies" type="checkbox" id="label" value="1" <?php checked('1', get_settings('use_smilies')); ?> />
-          <?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label> <br />          <label for="label2">
-  <input name="use_balanceTags" type="checkbox" id="label2" value="1" <?php checked('1', get_settings('use_balanceTags')); ?> />
-          <?php _e('WordPress should correct invalidly nested XHTML automatically') ?></label></td>
-      </tr>
+<tr valign="top">
+<th scope="row"><?php _e('Formatting:') ?></th>
+<td>
+<label for="rich_editing">
+<input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', get_settings('rich_editing')); ?> />
+<?php _e('Use the visual rich editor when writing') ?></label><br />
+<label for="use_smilies">
+<input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked('1', get_settings('use_smilies')); ?> />
+<?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label>
+</td>
+</tr>
         	<tr valign="top">
                 <th scope="row"><?php _e('Default post category:') ?></th>
         		<td><select name="default_category" id="default_category">

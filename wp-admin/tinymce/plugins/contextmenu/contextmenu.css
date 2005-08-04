@@ -1,0 +1,60 @@
+.contextMenuIEPopup {
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	overflow: hidden;
+}
+
+.contextMenu {
+	position: absolute;
+	cursor: default;
+	z-index: 1000;
+	border: 1px solid #D4D0C8;
+	background-color: #FFFFFF;
+}
+
+.contextMenuItem, .contextMenuItemOver {
+}
+
+.contextMenuItemOver {
+	background-color: #B6BDD2;
+}
+
+.contextMenuSeparator {
+	width: 100%;
+	background-color: #D4D0C8;
+	border: 0px;
+}
+
+.contextMenuImage, .contextMenuItemDisabled {
+	border: 0px;
+}
+
+.contextMenuIcon {
+	background-color: #F0F0EE;
+}
+
+.contextMenuItemOver .contextMenuIcon {
+	background-color: #B6BDD2;
+}
+
+.contextMenuIcon {
+	background-color: #F0F0EE;
+}
+
+.contextMenuItemDisabled img {
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);
+	-moz-opacity:0.3;
+	opacity: 0.3;
+}
+
+.contextMenuText {
+	font-family: Tahoma, Verdana, Arial, Helvetica;
+	font-size: 11px;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.contextMenuItemDisabled {
+	color: #AAAAAA;
+}

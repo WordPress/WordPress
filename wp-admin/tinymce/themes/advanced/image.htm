@@ -1,0 +1,185 @@
+<html>
+<head>
+<title>{$lang_insert_image_title}</title>
+<script language="javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript">
+var url = tinyMCE.getParam("external_image_list_url");
+if (url != null) {
+	// Fix relative
+	if (url.charAt(0) != '/')
+		url = tinyMCE.documentBasePath + "/" + url;
+
+	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
+}
+</script>
+<script language="javascript">
+	function insertImage() {
+		if (window.opener) {
+			var src = document.forms[0].src.value;
+			var alt = document.forms[0].alt.value;
+			var border = document.forms[0].border.value;
+			var vspace = document.forms[0].vspace.value;
+			var hspace = document.forms[0].hspace.value;
+			var width = document.forms[0].width.value;
+			var height = document.forms[0].height.value;
+			var align = document.forms[0].align.options[document.forms[0].align.selectedIndex].value;
+
+			window.opener.tinyMCE.insertImage(src, alt, border, hspace, vspace, width, height, align);
+			top.close();
+		}
+	}
+
+	function init() {
+		var formObj = document.forms[0];
+
+		for (var i=0; i<document.forms[0].align.options.length; i++) {
+			if (document.forms[0].align.options[i].value == tinyMCE.getWindowArg('align'))
+				document.forms[0].align.options.selectedIndex = i;
+		}
+
+		formObj.src.value = tinyMCE.getWindowArg('src');
+		formObj.alt.value = tinyMCE.getWindowArg('alt');
+		formObj.border.value = tinyMCE.getWindowArg('border');
+		formObj.vspace.value = tinyMCE.getWindowArg('vspace');
+		formObj.hspace.value = tinyMCE.getWindowArg('hspace');
+		formObj.width.value = tinyMCE.getWindowArg('width');
+		formObj.height.value = tinyMCE.getWindowArg('height');
+		formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
+
+		// Handle file browser
+		if (tinyMCE.getParam("file_browser_callback") != null) {
+			document.getElementById('src').style.width = '180px';
+
+			var html = '';
+
+			html += '<img id="browserBtn" src="images/browse.gif"';
+			html += ' onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');"';
+			html += ' onmouseout="tinyMCE.restoreClass(this);"';
+			html += ' onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');"';
+			html += ' onclick="javascript:tinyMCE.openFileBrowser(\'src\',document.forms[0].src.value,\'image\',window);"';
+			html += ' width="20" height="18" border="0" title="' + tinyMCE.getLang('lang_browse') + '"';
+			html += ' class="mceButtonNormal" alt="' + tinyMCE.getLang('lang_browse') + '" />';
+
+			document.getElementById('browser').innerHTML = html;
+		}
+
+		// Auto select image in list
+		if (typeof(tinyMCEImageList) != "undefined" && tinyMCEImageList.length > 0) {
+			for (var i=0; i<formObj.image_list.length; i++) {
+				if (formObj.image_list.options[i].value == tinyMCE.getWindowArg('src'))
+					formObj.image_list.options[i].selected = true;
+			}
+		}
+	}
+
+	function cancelAction() {
+		tinyMCE.closeDialog();
+	}
+
+	var preloadImg = new Image();
+
+	function resetImageData() {
+		var formObj = document.forms[0];
+		formObj.width.value = formObj.height.value = "";	
+	}
+
+	function updateImageData() {
+		var formObj = document.forms[0];
+
+		if (formObj.width.value == "")
+			formObj.width.value = preloadImg.width;
+
+		if (formObj.height.value == "")
+			formObj.height.value = preloadImg.height;
+	}
+
+	function getImageData() {
+		preloadImg = new Image();
+		tinyMCE.addEvent(preloadImg, "load", updateImageData);
+		tinyMCE.addEvent(preloadImg, "error", function () {var formObj = document.forms[0];formObj.width.value = formObj.height.value = "";});
+		preloadImg.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], document.forms[0].src.value);
+	}
+</script>
+</head>
+<body onload="init();">
+<form onsubmit="insertImage();return false;">
+  <table border="0" cellpadding="0" cellspacing="0" width="200">
+    <tr>
+      <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+          <tr>
+            <td colspan="2" class="title" nowrap="nowrap">{$lang_insert_image_title}</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">{$lang_insert_image_src}:</td>
+            <td><table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><input name="src" type="text" id="src" value="http://" style="width: 200px" onchange="getImageData();"></td>
+                  <td id="browser"></td>
+                </tr>
+              </table></td>
+          </tr>
+		  <!-- Image list -->
+		  <script language="javascript">
+			if (typeof(tinyMCEImageList) != "undefined" && tinyMCEImageList.length > 0) {
+				var html = "";
+
+				html += '<tr><td>{$lang_image_list}:</td>';
+				html += '<td><select name="image_list" style="width: 200px" onchange="this.form.src.value=this.options[this.selectedIndex].value;resetImageData();getImageData();">';
+				html += '<option value="">---</option>';
+
+				for (var i=0; i<tinyMCEImageList.length; i++)
+					html += '<option value="' + tinyMCEImageList[i][1] + '">' + tinyMCEImageList[i][0] + '</option>';
+
+				html += '</select></td></tr>';
+
+				document.write(html);
+			}
+		  </script>
+		  <!-- /Image list -->
+          <tr>
+            <td nowrap="nowrap">{$lang_insert_image_alt}:</td>
+            <td><input name="alt" type="text" id="alt" value="" style="width: 200px"></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">{$lang_insert_image_align}:</td>
+            <td><select name="align">
+                <option value="">{$lang_insert_image_align_default}</option>
+                <option value="baseline">{$lang_insert_image_align_baseline}</option>
+                <option value="top">{$lang_insert_image_align_top}</option>
+                <option value="middle">{$lang_insert_image_align_middle}</option>
+                <option value="bottom">{$lang_insert_image_align_bottom}</option>
+                <option value="texttop">{$lang_insert_image_align_texttop}</option>
+                <option value="absmiddle">{$lang_insert_image_align_absmiddle}</option>
+                <option value="absbottom">{$lang_insert_image_align_absbottom}</option>
+                <option value="left">{$lang_insert_image_align_left}</option>
+                <option value="right">{$lang_insert_image_align_right}</option>
+              </select></td>
+          </tr>
+          <tr style="display: none;">
+            <td nowrap="nowrap">{$lang_insert_image_dimensions}:</td>
+            <td><input name="width" type="text" id="width" value="" size="3" maxlength="3">
+              x
+              <input name="height" type="text" id="height" value="" size="3" maxlength="3"></td>
+          </tr>
+          <tr style="display: none;">
+            <td nowrap="nowrap">{$lang_insert_image_border}:</td>
+            <td><input name="border" type="text" id="border" value="" size="3" maxlength="3"></td>
+          </tr>
+          <tr style="display: none;">
+            <td nowrap="nowrap">{$lang_insert_image_vspace}:</td>
+            <td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3"></td>
+          </tr>
+          <tr style="display: none;">
+            <td nowrap="nowrap">{$lang_insert_image_hspace}:</td>
+            <td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3"></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onClick="cancelAction();"></td>
+            <td align="right"><input type="button" id="insert" name="insert" value="{$lang_insert}" onClick="insertImage();">            </td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

@@ -13,6 +13,10 @@ a.delete:hover {
 	color: #fff;
 }
 
+#postdiv div {
+	margin-left: 1em;
+}
+
 #planetnews ul {
 	list-style: none;
 	margin: 0;

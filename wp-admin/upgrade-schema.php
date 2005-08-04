@@ -178,7 +178,7 @@ function populate_options() {
 	add_option('default_comment_status', 'open');
 	add_option('default_ping_status', 'open');
 	add_option('default_pingback_flag', 1);
-	add_option('default_post_edit_rows', 9);
+	add_option('default_post_edit_rows', 10);
 	add_option('posts_per_page', 10);
 	add_option('what_to_show', 'posts');
 	add_option('date_format', __('F j, Y'));
@@ -217,6 +217,7 @@ function populate_options() {
 	add_option('use_trackback', 0);
 	// 1.6
 	add_option('default_role', 'inactive');
+	add_option('rich_editing', 'true');
 
 	populate_roles();
 

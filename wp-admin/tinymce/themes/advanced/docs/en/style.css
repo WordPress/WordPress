@@ -1,0 +1,28 @@
+body { background-color: #FFFFFF; }
+body, td, .content { font-family: Verdana, Arial, helvetica, sans-serif; font-size: 12px; }
+.title { font-family: Verdana, Arial, helvetica, sans-serif; font-size: 16px; font-weight: bold; }
+.subtitle { font-size: 12px; font-weight: bold; }
+
+.toc_ul, .toc_li { margin-left: 8 px; line-height: 16px; }
+.step_ol, .step_li { margin-left: 11 px; line-height: 16px; }
+img { border: #000000 solid 1px; }
+
+a:visited { color: #666666; text-decoration: underline; }
+a:active { color: #666666; text-decoration: underline; }
+a:hover { color: #666666; text-decoration: underline; }
+a { color: #666666; text-decoration: underline; }
+
+.pageheader { border: #E0E0E0 solid 1px; }
+.pagefooter { border: #E0E0E0 solid 1px; }
+.sample { background-color: #FFFFFF; border: #000000 solid 1px; }
+.samplecontent { font-size: 10px; }
+
+.code { background-color: #FFFFFF; border: #000000 solid 1px; }
+.codecontent { font-size: 10px; }
+.codecontent a:visited { color: #666666; text-decoration: none; font-weight: bold }
+.codecontent a:active { color: #666666; text-decoration: none; font-weight: bold  }
+.codecontent a:hover { color: #666666; text-decoration: none; font-weight: bold  }
+.codecontent a { color: #666666; text-decoration: none; font-weight: bold  }
+
+hr { height: 1px; }
+

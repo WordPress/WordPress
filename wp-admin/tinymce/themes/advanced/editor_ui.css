@@ -1,0 +1,199 @@
+.mceButtonNormal, .mceButtonOver, .mceButtonDown, .mceSeparator, .mceButtonDisabled, .mceButtonSelected {
+	margin-top: 1px;
+	margin-left: 1px;
+}
+
+.mceButtonNormal {
+	border-top: 1px solid;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	border-right: 1px solid;
+	border-color: #F0F0EE;
+	cursor: arrow;
+}
+
+.mceButtonOver {
+/*	border-top: 1px solid buttonhighlight;
+	border-left: 1px solid buttonhighlight;
+	border-bottom: 1px solid buttonshadow;
+	border-right: 1px solid buttonshadow;*/
+	border: 1px solid #0A246A;
+	cursor: arrow;
+	background-color: #B6BDD2;
+}
+
+.mceButtonDown {
+/*	border-bottom: 1px solid buttonhighlight;
+	border-right: 1px solid buttonhighlight;
+	border-top: 1px solid buttonshadow;
+	border-left: 1px solid buttonshadow;*/
+	cursor: arrow;
+	border: 1px solid #0A246A;
+	background-color: #8592B5;
+}
+
+.mceButtonSelected {
+	border: 1px solid;
+	border-color: #C0C0BB;
+	cursor: arrow;
+}
+
+.mceButtonDisabled {
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);
+	-moz-opacity:0.3;
+	opacity: 0.3;
+	border-top: 1px solid;
+	border-left: 1px solid;
+	border-bottom: 1px solid;
+	border-right: 1px solid;
+	border-color: #F0F0EE;
+	cursor: arrow;
+}
+
+.mceSeparator {
+	border-top: 1px solid buttonhighlight;
+	border-left: 1px solid buttonhighlight;
+	border-bottom: 1px solid buttonshadow;
+	border-right: 1px solid buttonshadow;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+
+.mceSeparatorLine {
+	margin:2px;
+	margin-left: 4px;
+	background-color: #F0F0EE;
+	border-top: 1px solid buttonshadow;
+	border-left: 1px solid buttonshadow;
+	border-bottom: 1px solid buttonhighlight;
+	border-right: 1px solid buttonhighlight;
+	width: 0px;
+	height: 15px;
+}
+
+.mceSelectList {
+	font-family: "MS Sans Serif";
+	font-size: 7pt;
+	font-weight: normal;
+	margin-top: 3px;
+	padding: 0px;
+	display: inline;
+	vertical-align: top;
+	background-color: #F0F0EE
+}
+
+.mceLabel, .mceLabelDisabled {
+	font-family: "MS Sans Serif";
+	font-size: 9pt;
+}
+
+.mceLabel {
+	color: #000000;
+}
+
+.mceLabelDisabled {
+	cursor: text;
+	color: #999999;
+}
+
+.mceEditor {
+	background: #F0F0EE;
+	border: 1px solid #cccccc;
+}
+
+.mceEditorArea {
+	font-family: "MS Sans Serif";
+	background: #FFFFFF;
+}
+
+.mceToolbarTop, .mceToolbarBottom {
+	background: #F0F0EE;
+}
+
+.mceToolbarTop {
+	border-bottom: 1px solid #cccccc;
+}
+
+.mceToolbarBottom {
+	border-top: 1px solid #cccccc;
+}
+
+.mcePathTop, .mcePathBottom, .mcePath {
+	font-family: "MS Sans Serif";
+	font-size: 9pt;
+	padding: 2px;
+	height: 20px;
+}
+
+.mcePathTop {
+	border-bottom: 1px solid #cccccc;
+}
+
+.mcePathBottom {
+	border-top: 1px solid #cccccc;
+}
+
+.mcePathItem, .mcePathItem:link, .mcePathItem:visited, .mcePathItem:hover {
+	text-decoration: none;
+	font-family: "MS Sans Serif";
+	font-size: 9pt;
+	color: #000000;
+}
+
+.mcePathItem:hover {
+	text-decoration: underline;
+}
+
+.mcePath {
+	border-bottom: 1px solid #cccccc;
+}
+
+.mceDialog {
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	z-index: 1000;
+}
+
+.mceDialogHeader {
+	background: #F0F0EE;
+	width: 100%;
+	height: 16px;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid black;
+	border-bottom: 0px;
+}
+
+.mceDialogTitle {
+	float: left;
+	font-family: "MS Sans Serif";
+	font-size: 9pt;
+	height: 14px;
+}
+
+.mceDialogClose {
+	float: right;
+	width: 16px;
+	height: 16px;
+	background-image: url('images/close.gif');
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	margin: 0px;
+	padding: 0px;
+}
+
+.mceDialogClose a {
+	width: 16px;
+	height: 14px;
+	display: block;
+	font-family: "MS Sans Serif";
+	font-size: 9pt;
+	margin: 0px;
+	padding: 0px;
+}
+
+.mceDialogIFrameWrapper {
+	border: 1px solid black;
+	clear: both;
+}
