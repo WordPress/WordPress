@@ -30,6 +30,8 @@ if (url != null) {
 	}
 
 	function init() {
+		// Focus form field
+		document.getElementById('src').focus();
 		var formObj = document.forms[0];
 
 		for (var i=0; i<document.forms[0].align.options.length; i++) {
@@ -99,6 +101,7 @@ if (url != null) {
 		tinyMCE.addEvent(preloadImg, "error", function () {var formObj = document.forms[0];formObj.width.value = formObj.height.value = "";});
 		preloadImg.src = tinyMCE.convertRelativeToAbsoluteURL(tinyMCE.settings['base_href'], document.forms[0].src.value);
 	}
+
 </script>
 </head>
 <body onload="init();">
