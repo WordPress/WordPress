@@ -20,12 +20,14 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	// Get the basics.
-	$post_content    = apply_filters('content_save_pre',  $post_content);
-	$post_excerpt    = apply_filters('excerpt_save_pre',  $post_excerpt);
-	$post_title      = apply_filters('title_save_pre',    $post_title);
-	$post_category   = apply_filters('category_save_pre', $post_category);
-	$post_status     = apply_filters('status_save_pre',   $post_status);
-	$post_name       = apply_filters('name_save_pre',     $post_name);
+	$post_content    = apply_filters('content_save_pre',   $post_content);
+	$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
+	$post_title      = apply_filters('title_save_pre',     $post_title);
+	$post_category   = apply_filters('category_save_pre',  $post_category);
+	$post_status     = apply_filters('status_save_pre',    $post_status);
+	$post_name       = apply_filters('name_save_pre',      $post_name);
+	$comment_status  = apply_filters('comment_status_pre', $comment_status);
+	$ping_status     = apply_filters('ping_status_pre',    $ping_status);
 	
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
@@ -61,9 +63,13 @@ function wp_insert_post($postarr = array()) {
 	if (empty($post_date_gmt)) 
 		$post_date_gmt = current_time('mysql', 1);
 
-	if (empty($comment_status))
-		$comment_status = get_settings('default_comment_status');
-	if (empty($ping_status))
+	if ( empty($comment_status) ) {
+		if ( $update )
+			$comment_status = 'closed';
+		else
+			$comment_status = get_settings('default_comment_status');
+	}
+	if ( empty($ping_status) )
 		$ping_status = get_settings('default_ping_status');
 	if ( empty($post_pingback) )
 		$post_pingback = get_option('default_pingback_flag');
