@@ -90,7 +90,7 @@ if (url != null) {
 	function insertLink() {
 		if (window.opener) {
 			var href = document.forms[0].href.value;
-			var target = document.forms[0].target.options[document.forms[0].target.selectedIndex].value;
+			var target = null;
 			var title = document.forms[0].linktitle.value;
 			var style_class = document.forms[0].styleSelect.value;
 			var dummy;
@@ -143,7 +143,7 @@ if (url != null) {
           <tr style="display: none;">
             <td nowrap="nowrap">{$lang_insert_link_target}:</td>
             <td><select name="target" style="width: 200px">
-                <option value="_self">{$lang_insert_link_target_same}</option>
+                <option value="">{$lang_insert_link_target_same}</option>
                 <option value="_blank">{$lang_insert_link_target_blank}</option>
 				<script language="javascript">
 					var targets = tinyMCE.getParam('theme_advanced_link_targets', '').split(';');
