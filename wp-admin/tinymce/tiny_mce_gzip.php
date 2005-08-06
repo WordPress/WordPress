@@ -5,7 +5,7 @@
 	 * $Date: 2005/06/14 18:55:34 $
 	 *
 	 * @author Moxiecode
-	 * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
+	 * @copyright Copyright  2004, Moxiecode Systems AB, All rights reserved.
 	 *
 	 * This file compresses the TinyMCE JavaScript using GZip and
 	 * enables the browser to do two requests instead of one for each .js file.
@@ -16,7 +16,7 @@
 	 */
 
 	// General options
-	$suffix = "";							// Set to "_src" to use source version
+	$suffix = "_src";							// Set to "_src" to use source version
 	$expiresOffset = 3600 * 24 * 10;		// 10 days util client cache expires
 
 	// Get data to load

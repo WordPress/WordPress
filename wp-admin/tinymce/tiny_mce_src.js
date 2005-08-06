@@ -4,7 +4,7 @@
  * $Date: 2005/06/23 12:04:41 $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright  2004, Moxiecode Systems AB, All rights reserved.
  */
 
 function TinyMCE() {
@@ -531,7 +531,7 @@ TinyMCE.prototype._createIFrame = function(replace_element) {
 	iframe.setAttribute("leftMargin", "0");
 	iframe.setAttribute("topMargin", "0");
 	iframe.setAttribute("width", tinyMCE.settings['area_width']);
-	iframe.setAttribute("height", tinyMCE.settings['area_height']);
+	iframe.setAttribute("height", "98%");
 	iframe.setAttribute("allowtransparency", "true");
 
 	if (tinyMCE.settings["auto_resize"])
