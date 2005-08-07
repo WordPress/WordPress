@@ -53,7 +53,7 @@ $current_stylesheet = $themes[$current_theme]['Stylesheet'];
 <?php } ?>
 </div>
 
-<h2><?php _e('Themes Available'); ?></h2>
+<h2><?php _e('Available Themes'); ?></h2>
 <?php if ( 1 < count($themes) ) { ?>
 <table width="100%" cellpadding="3" cellspacing="3">
 	<tr>
@@ -145,7 +145,7 @@ if (count($broken_themes)) {
 ?>
 
 <h2><?php _e('Get More Themes'); ?></h2>
-<p><?php _e('You can find additional themes for your site in the <a href="http://wordpress.org/extend/themes/">WordPress theme directory</a>. To install a theme you generally just need to upload the theme folder into your <code>wp-content/themes</code> directory. Once a theme is uploaded, you may activate it here.'); ?></p>
+<p><?php _e('You can find additional themes for your site in the <a href="http://wordpress.org/extend/themes/">WordPress theme directory</a>. To install a theme you generally just need to upload the theme folder into your <code>wp-content/themes</code> directory. Once a theme is uploaded, you may activate it on this page.'); ?></p>
 
 </div>
 

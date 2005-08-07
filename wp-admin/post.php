@@ -84,7 +84,7 @@ case 'edit':
 
 	<div class="storycontent">
 	<?php 
-	echo apply_filters('the_content', $post->post_content);
+	echo apply_filters('the_content', html_entity_decode($post->post_content) );
 	?>
 	</div>
 	</div>

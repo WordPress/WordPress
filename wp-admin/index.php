@@ -103,10 +103,11 @@ foreach ($rss->items as $item ) {
 </div>
 <?php } ?>
 
+<?php do_action('activity_box_end'); ?>
 </div>
 
 <h2><?php _e('Dashboard'); ?></h2>
-<p><?php _e('Below is the latest news from the official WordPress development blog, click on a title to read the full entry.'); ?></p>
+<p><?php _e("Below is the latest news from the official WordPress development blog, click on a title to read the full entry. If you need help with WordPress please see our <a href='http://codex.wordpress.org/'>great documentation</a> or if that doesn't help visit the <a href='http://wordpress.org/support/'>support forums</a>."); ?></p>
 <?php
 $rss = @fetch_rss('http://wordpress.org/development/feed/');
 if ( isset($rss->items) && 0 != count($rss->items) ) {

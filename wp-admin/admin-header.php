@@ -22,8 +22,8 @@ tinyMCE.init({
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_path_location : "bottom",
-	entity_encoding : "numeric",
-	extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|width|height|align],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+	entity_encoding : "raw",
+	extended_valid_elements : "a[id|href|title|onclick],img[class|src|alt|title|width|height|align]",
 	plugins : "emotions"
 });
 </script>

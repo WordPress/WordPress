@@ -541,7 +541,7 @@ TinyMCE.prototype._createIFrame = function(replace_element) {
 	if (tinyMCE.isMSIE)
 		iframe.setAttribute("src", this.settings['default_document']);
 
-	iframe.style.width = "98%";
+	iframe.style.width = tinyMCE.settings['area_width'];
 	iframe.style.height = tinyMCE.settings['area_height'];
 
 	// MSIE 5.0 issue
