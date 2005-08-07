@@ -10,7 +10,7 @@ if (!isset($_GET["page"])) require_once('admin.php'); ?>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 
 <?php if ( get_option('rich_editing') ) :?>
-<script type="text/javascript" src="tinymce/tiny_mce_gzip.php"></script>
+<script type="text/javascript" src="tinymce/tiny_mce_src.js"></script>
 <script type="text/javascript">
 tinyMCE.init({
 	mode : "specific_textareas",
@@ -114,6 +114,9 @@ window.onload = blurry;
 <div id="wphead">
 <h1><?php echo wptexturize(get_settings(('blogname'))); ?> <span>(<a href="<?php echo get_settings('home') . '/'; ?>"><?php _e('View site') ?> &raquo;</a>)</span></h1>
 </div>
+
+<div id="user_info"><p><?php printf(__('Howdy, <strong>%s</strong>.'), $user_identity) ?> [<a href="<?php echo get_settings('siteurl')
+	 ?>/wp-login.php?action=logout" title="<?php _e('Log out of this account') ?>"><?php _e('Sign Out'); ?></a>, <a href="profile.php"><?php _e('My Account'); ?></a>] </p></div>
 
 <?php
 require(ABSPATH . '/wp-admin/menu-header.php');

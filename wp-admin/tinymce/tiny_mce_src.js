@@ -531,7 +531,7 @@ TinyMCE.prototype._createIFrame = function(replace_element) {
 	iframe.setAttribute("leftMargin", "0");
 	iframe.setAttribute("topMargin", "0");
 	iframe.setAttribute("width", tinyMCE.settings['area_width']);
-	iframe.setAttribute("height", "98%");
+	iframe.setAttribute("height", tinyMCE.settings['area_height']);
 	iframe.setAttribute("allowtransparency", "true");
 
 	if (tinyMCE.settings["auto_resize"])
@@ -541,7 +541,7 @@ TinyMCE.prototype._createIFrame = function(replace_element) {
 	if (tinyMCE.isMSIE)
 		iframe.setAttribute("src", this.settings['default_document']);
 
-	iframe.style.width = tinyMCE.settings['area_width'];
+	iframe.style.width = "98%";
 	iframe.style.height = tinyMCE.settings['area_height'];
 
 	// MSIE 5.0 issue

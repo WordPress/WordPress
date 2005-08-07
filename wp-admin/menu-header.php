@@ -20,8 +20,6 @@ foreach ($menu as $item) {
 }
 
 ?>
-	<li class="last"><a href="<?php echo get_settings('siteurl')
-	 ?>/wp-login.php?action=logout" title="<?php _e('Log out of this account') ?>"><?php printf(__('Logout (%s)'), $user_identity) ?></a></li>
 </ul>
 
 <?php
