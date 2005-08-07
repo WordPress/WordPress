@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 $title = __('Permalink Options');
-$parent_file = 'options-general.php';
+$parent_file = 'options-personal.php';
 
 function add_js() {
 ?>

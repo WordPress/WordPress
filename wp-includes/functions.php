@@ -299,6 +299,16 @@ function get_option($option) {
 	return get_settings($option);
 }
 
+function get_user_option( $option ) {
+	global $wpdb, $current_user;
+	if ( isset( $current_user->data->{$wpdb->prefix . $option} ) ) // Blog specific
+		return $current_user->data->{$wpdb->prefix . $option};
+	elseif ( isset( $current_user->data->{$option} ) ) // User specific and cross-blog
+		return $current_user->data->{$option};
+	else // Blog global
+		return get_option( $option );
+}
+
 function form_option($option) {
 	echo htmlspecialchars( get_option($option), ENT_QUOTES );
 }
@@ -349,6 +359,12 @@ function update_option($option_name, $newvalue) {
 	return true;
 }
 
+function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
+	global $wpdb;
+	if ( !$global )
+		$option_name = $wpdb->prefix . $option_name;
+	return update_usermeta( $user_id, $option_name, $newvalue );
+}
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
 function add_option($name, $value = '', $description = '', $autoload = 'yes') {
