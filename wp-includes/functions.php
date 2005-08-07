@@ -1511,9 +1511,6 @@ function get_theme_data($theme_file) {
 	$name = $theme_name[1];
 	$name = trim($name);
 	$theme = $name;
-	if ('' != $theme_uri[1] && '' != $name) {
-		$theme = '<a href="' . $theme_uri[1] . '" title="' . __('Visit theme homepage') . '">' . $theme . '</a>';
-	}
 
 	if ('' == $author_uri[1]) {
 		$author = $author_name[1];
@@ -1569,7 +1566,7 @@ function get_themes() {
 
 	foreach($theme_files as $theme_file) {
 		$theme_data = get_theme_data("$theme_root/$theme_file");
-	  
+
 		$name = $theme_data['Name']; 
 		$title = $theme_data['Title'];
 		$description = wptexturize($theme_data['Description']);
@@ -1577,6 +1574,12 @@ function get_themes() {
 		$author = $theme_data['Author'];
 		$template = $theme_data['Template'];
 		$stylesheet = dirname($theme_file);
+
+		$screenshot = glob("$theme_root/$stylesheet/screenshot.png");
+		if ( !empty( $screenshot ) )
+			$screenshot = basename( $screenshot[0] );
+		else
+			$screenshot = false;
 
 		if (empty($name)) {
 			$name = dirname($theme_file);
@@ -1640,7 +1643,7 @@ function get_themes() {
 			}
 		}
 		
-		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status']);
+		$themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template, 'Stylesheet' => $stylesheet, 'Template Files' => $template_files, 'Stylesheet Files' => $stylesheet_files, 'Template Dir' => $template_dir, 'Stylesheet Dir' => $stylesheet_dir, 'Status' => $theme_data['Status'], 'Screenshot' => $screenshot);
 	}
 
 	// Resolve theme dependencies.

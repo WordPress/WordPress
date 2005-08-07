@@ -160,6 +160,26 @@ textarea, input, select {
 	margin: 10px 20px 10px 20px;
 }
 
+.available-theme {
+	width: 250px;
+	margin-right: 2.5em;
+	float: left;
+	text-align: center;
+}
+
+.available-theme span {
+	width: 250px;
+	height: 187px;
+	display: block;
+	margin: auto;
+	background: #f1f1f1;
+	border: 1px solid #ccc;
+}
+
+.available-theme img {
+	width: 100%;
+}
+
 .checkbox {
 	background: #fff;
 	border: none;
@@ -267,6 +287,7 @@ textarea, input, select {
 
 .wrap h2 {
 	margin: .8em 0 .5em;
+	clear: both;
 }
 
 #adminmenu {
@@ -339,6 +360,13 @@ textarea, input, select {
 #content, #titlediv input, #quicktags {
 	margin-left: 2%;
 	width: 97%;
+}
+
+#currenttheme img {
+	float: left;
+	border: 1px solid #666;
+	margin-right: 1em;
+	margin-bottom: 1.5em;
 }
 
 #deletepost:hover {
