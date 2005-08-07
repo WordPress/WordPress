@@ -2,9 +2,9 @@
 /*
 Plugin Name: Hello Dolly
 Plugin URI: http://wordpress.org/#
-Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong. Hello, Dolly. This is, by the way, the world's first official WordPress plugin. When enabled you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
+Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
 Author: Matt Mullenweg
-Version: 1.0
+Version: 1.5
 Author URI: http://photomatt.net/
 */ 
 
@@ -58,11 +58,11 @@ function dolly_css() {
 	<style type='text/css'>
 	#dolly {
 		position: absolute;
-		top: 5px;
+		top: 2.3em;
 margin: 0; padding: 0;
-		right: 3em;
-		font-size: 20px;
-		color: #666;
+		right: 1em;
+		font-size: 16px;
+		color: #f1f1f1;
 	}
 	</style>
 	";
