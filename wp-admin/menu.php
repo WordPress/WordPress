@@ -14,7 +14,7 @@ if ( current_user_can('edit_users') )
 	$menu[35] = array(__('Users'), 'read', 'profile.php');
 else
 	$menu[35] = array(__('Profile'), 'read', 'profile.php');
-$menu[40] = array(__('Options'), 'read', 'options-personal.php');-
+$menu[40] = array(__('Options'), 'read', 'options-personal.php');
 
 if ( get_option('use_fileupload') )
 	$menu[45] = array(__('Upload'), 'upload_files', 'upload.php');
