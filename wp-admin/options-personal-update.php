@@ -2,6 +2,8 @@
 
 require_once('admin.php');
 
+check_admin_referer();
+
 if ( isset( $_POST['action'] ) ) {
 	if ( !isset( $_POST['rich_editing'] ) )
 		$_POST['rich_editing'] = 'false';

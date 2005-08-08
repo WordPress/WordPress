@@ -9,27 +9,6 @@ if (!isset($_GET["page"])) require_once('admin.php'); ?>
 <link rel="stylesheet" href="<?php echo get_settings('siteurl') ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 
-<?php if ( get_option('rich_editing') ) :?>
-<script type="text/javascript" src="tinymce/tiny_mce_src.js"></script>
-<script type="text/javascript">
-tinyMCE.init({
-	mode : "specific_textareas",
-	textarea_trigger : "title",
-	theme : "advanced",
-	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,separator,undo,redo,code",
-	theme_advanced_buttons2 : "",
-	theme_advanced_buttons3 : "",
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_path_location : "bottom",
-	entity_encoding : "raw",
-	extended_valid_elements : "a[id|href|title|onclick],img[class|src|alt|title|width|height|align]",
-	plugins : "emotions"
-	<?php do_action('mce_options'); ?>
-});
-</script>
-<?php endif; ?>
-
 <script type="text/javascript">
 //<![CDATA[
 
@@ -93,13 +72,31 @@ function blurry() {
 }
 
 addLoadEvent(blurry);
-
 <?php endif; ?>
-
-
 //]]>
 </script>
 <script type="text/javascript" src="fat.js"></script>
+<?php if ( get_option('rich_editing') ) :?>
+<script type="text/javascript" src="tinymce/tiny_mce_src.js"></script>
+<script type="text/javascript">
+tinyMCE.init({
+	mode : "specific_textareas",
+	textarea_trigger : "title",
+	width : "100%",
+	theme : "advanced",
+	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,separator,undo,redo,code",
+	theme_advanced_buttons2 : "",
+	theme_advanced_buttons3 : "",
+	theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",
+	theme_advanced_path_location : "bottom",
+	entity_encoding : "raw",
+	extended_valid_elements : "a[id|href|title|onclick],img[class|src|alt|title|width|height|align]",
+	plugins : "emotions"
+	<?php do_action('mce_options'); ?>
+});
+</script>
+<?php endif; ?>
 <?php if ( isset( $editing ) ) : ?>
 <script type="text/javascript" src="dbx.js"></script>
 <script type="text/javascript" src="dbx-key.js"></script>

@@ -7,6 +7,7 @@ require_once('admin-header.php');
 
 <div class="wrap">
 <h2><?php _e('Page Management'); ?></h2>
+<p><?php _e('Pages are like posts except they live outside of the normal blog chronology and can be hierarchical. You can use pages to organize and manage any amount of content.'); ?> <a href="page-new.php"><?php _e('Create a new page'); ?> &raquo;</a></p>
 
 <?php
 $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static'");
@@ -32,9 +33,9 @@ if ($posts) {
 <?php
 } // end if ($posts)
 ?> 
-<p><?php _e('Pages are like posts except they live outside of the normal blog chronology. You can use pages to organize and manage any amount of content.'); ?></p>
-<h3><a href="page-new.php"><?php _e('Create New Page'); ?> &raquo;</a></h3>
-</div> 
 
+<h3><a href="page-new.php"><?php _e('Create New Page'); ?> &raquo;</a></h3>
+
+</div>
 
 <?php include('admin-footer.php'); ?> 

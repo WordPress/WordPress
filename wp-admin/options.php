@@ -28,6 +28,8 @@ switch($action) {
 
 case 'update':
 	$any_changed = 0;
+	
+	check_admin_referer();
     
 	if (!$_POST['page_options']) {
 		foreach ($_POST as $key => $value) {
