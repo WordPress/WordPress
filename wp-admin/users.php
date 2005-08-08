@@ -190,17 +190,17 @@ default:
 		switch($_GET['update']) {
 		case 'del':
 		?>
-			<div class="updated"><p><?php _e('User deleted.'); ?></p></div>
+			<div id="message" class="updated fade"><p><?php _e('User deleted.'); ?></p></div>
 		<?php
 			break;
 		case 'add':
 		?>
-			<div class="updated"><p><?php _e('New user created.'); ?></p></div>
+			<div id="message" class="updated fade"><p><?php _e('New user created.'); ?></p></div>
 		<?php
 			break;
 		case 'promote':
 		?>
-			<div class="updated"><p><?php _e('Changed roles.'); ?></p></div>
+			<div id="message" class="updated fade"><p><?php _e('Changed roles.'); ?></p></div>
 		<?php
 			break;
 		}

@@ -32,11 +32,10 @@ if (isset($mode) && 'bookmarklet' == $mode) {
 
 <script type="text/javascript">
 <!--
-function focusit() {
-	// focus on first input field
+function focusit() { // focus on first input field
 	document.post.title.focus();
 }
-window.onload = focusit;
+addLoadEvent(focusit);
 //-->
 </script>
 <div id="poststuff">

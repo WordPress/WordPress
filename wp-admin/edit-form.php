@@ -11,11 +11,10 @@
 
 <script type="text/javascript">
 <!--
-function focusit() {
-	// focus on first input field
+function focusit() { // focus on first input field
 	document.getElementById('title').focus();
 }
-window.onload = focusit;
+addLoadEvent(focusit);
 //-->
 </script>
 

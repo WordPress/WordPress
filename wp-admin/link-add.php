@@ -65,7 +65,7 @@ require('admin-header.php');
 ?>
 
 <?php if ($_GET['added']) : ?>
-<div class="updated"><p><?php _e('Link added.'); ?></p></div>
+<div id="message" class="updated fade"><p><?php _e('Link added.'); ?></p></div>
 <?php endif; ?>
 <div class="wrap">
 <h2><?php _e('<strong>Add</strong> a link:') ?></h2>

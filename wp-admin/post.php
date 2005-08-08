@@ -315,7 +315,7 @@ default:
 	require_once ('./admin-header.php');
 ?>
 <?php if ( isset($_GET['posted']) ) : ?>
-<div class="updated"><p><?php printf(__('Post saved. <a href="%s">View site &raquo;</a>'), get_bloginfo('home')); ?></p></div>
+<div id="message" class="updated fade"><p><?php printf(__('Post saved. <a href="%s">View site &raquo;</a>'), get_bloginfo('home')); ?></p></div>
 <?php endif; ?>
 <?php
 	if ( current_user_can('edit_posts') ) {

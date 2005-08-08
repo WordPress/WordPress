@@ -50,11 +50,11 @@ foreach ($check_plugins as $check_plugin) {
 ?>
 
 <?php if (isset($_GET['activate'])) : ?>
-<div class="updated"><p><?php _e('Plugin <strong>activated</strong>.') ?></p>
+<div id="message" class="updated fade"><p><?php _e('Plugin <strong>activated</strong>.') ?></p>
 </div>
 <?php endif; ?>
 <?php if (isset($_GET['deactivate'])) : ?>
-<div class="updated"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p>
+<div id="message" class="updated fade"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p>
 </div>
 <?php endif; ?>
 

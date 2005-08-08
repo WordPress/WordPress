@@ -25,13 +25,25 @@ tinyMCE.init({
 	entity_encoding : "raw",
 	extended_valid_elements : "a[id|href|title|onclick],img[class|src|alt|title|width|height|align]",
 	plugins : "emotions"
-	do_action('mce_options');
+	<?php do_action('mce_options'); ?>
 });
 </script>
 <?php endif; ?>
 
 <script type="text/javascript">
 //<![CDATA[
+
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {
+    window.onload = function() {
+      oldonload();
+      func();
+    }
+  }
+}
 
 <?php if ( isset($xfn) ) : ?>
 
@@ -80,13 +92,14 @@ function blurry() {
 	}
 }
 
-window.onload = blurry;
+addLoadEvent(blurry);
+
 <?php endif; ?>
 
 
 //]]>
 </script>
-
+<script type="text/javascript" src="fat.js"></script>
 <?php if ( isset( $editing ) ) : ?>
 <script type="text/javascript" src="dbx.js"></script>
 <script type="text/javascript" src="dbx-key.js"></script>

@@ -20,5 +20,5 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 <br clear="all" />
 
 <?php if (isset($_GET['updated'])) : ?>
-<div class="updated"><p><strong><?php _e('Options saved.') ?></strong></p></div>
+<div id="message" class="updated fade"><p><strong><?php _e('Options saved.') ?></strong></p></div>
 <?php endif; ?>

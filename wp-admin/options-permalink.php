@@ -89,7 +89,7 @@ save_mod_rewrite_rules();
 ?>
 
 <?php if (isset($_POST['submit'])) : ?>
-<div class="updated"><p><?php
+<div id="message" class="updated fade"><p><?php
 if ($writable)
 	_e('Permalink structure updated.');
 else

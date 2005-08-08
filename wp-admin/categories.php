@@ -111,7 +111,7 @@ $messages[3] = __('Category updated.');
 ?>
 
 <?php if (isset($_GET['message'])) : ?>
-<div class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">

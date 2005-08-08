@@ -70,7 +70,7 @@ default:
 
 	?>
 <?php if (isset($_GET['a'])) : ?>
- <div class="updated"><p><?php _e('File edited successfully.') ?></p></div>
+ <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
 <?php endif; ?>
  <div class="wrap"> 
   <?php

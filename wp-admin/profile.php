@@ -140,7 +140,7 @@ default:
 	$bookmarklet_height= 440;
 
 if (isset($updated)) { ?>
-<div class="updated">
+<div id="message" class="updated fade">
 <p><strong><?php _e('Profile updated.') ?></strong></p>
 </div>
 <?php } ?>

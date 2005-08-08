@@ -110,7 +110,7 @@ if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permi
 ?>
 
 <?php if ( isset($_GET['updated']) ) : ?>
-<div class="updated">
+<div id="message" class="updated fade">
 	<p><strong><?php _e('User updated.') ?></strong></p>
 </div>
 <?php endif; ?>

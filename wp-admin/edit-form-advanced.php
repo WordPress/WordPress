@@ -4,7 +4,7 @@ $messages[2] = __('Custom field updated');
 $messages[3] = __('Custom field deleted.');
 ?>
 <?php if (isset($_GET['message'])) : ?>
-<div class="updated"><p><?php echo $messages[$_GET['message']]; ?></p></div>
+<div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
 
 <form name="post" action="post.php" method="post" id="post">
@@ -52,7 +52,7 @@ function focusit() {
 	// focus on first input field
 	document.post.title.focus();
 }
-window.onload = focusit;
+addLoadEvent(focusit);
 </script>
 <?php endif; ?>
 <div id="poststuff">

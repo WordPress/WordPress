@@ -371,6 +371,7 @@ table .vers, table .name {
 	border: 1px solid #666;
 	margin-right: 1em;
 	margin-bottom: 1.5em;
+	width: 300px;
 }
 
 #deletepost:hover {

@@ -11,11 +11,10 @@ $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment-
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
 
 <script type="text/javascript">
-function focusit() {
-	// focus on first input field
+function focusit() { // focus on first input field
 	document.post.name.focus();
 }
-window.onload = focusit;
+addLoadEvent(focusit);
 </script>
 <fieldset id="namediv">
     <legend><?php _e('Name:') ?></legend>

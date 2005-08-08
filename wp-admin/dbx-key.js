@@ -1,7 +1,7 @@
 
 
 //initialisation function
-window.onload = function()
+addLoadEvent( function()
 {
 	//initialise the docking boxes manager 
 	var manager = new dbxManager('postmeta'); 	//session ID [/-_a-zA-Z0-9/]
@@ -41,4 +41,4 @@ window.onload = function()
 		', or press the enter key to %toggle% it',  // pattern-match sentence-fragment for "(open|close) this box" by keyboard
 		'%mytitle%  [%dbxtitle%]' // pattern-match syntax for title-attribute conflicts
 		);
-};
+});
