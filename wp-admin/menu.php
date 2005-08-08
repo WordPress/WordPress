@@ -10,8 +10,11 @@ $menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
 $menu[20] = array(__('Links'), 'manage_links', 'link-manager.php');
 $menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
-$menu[35] = array(__('Users'), 'read', 'profile.php');
-$menu[40] = array(__('Options'), 'read', 'options-personal.php');
+if ( current_user_can('edit_users') )
+	$menu[35] = array(__('Users'), 'read', 'profile.php');
+else
+	$menu[35] = array(__('Profile'), 'read', 'profile.php');
+$menu[40] = array(__('Options'), 'read', 'options-personal.php');-
 
 if ( get_option('use_fileupload') )
 	$menu[45] = array(__('Upload'), 'upload_files', 'upload.php');
