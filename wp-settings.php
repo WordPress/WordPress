@@ -1,18 +1,19 @@
 <?php
+// Turn register globals off
+if ( ini_get('register_globals') ) {
+	$superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
+	if ( isset($_SESSION) )
+		array_unshift($superglobals, $_SESSION);
+	
+	foreach ( $superglobals as $superglobal )
+		foreach ( $superglobal as $global => $value )
+			if ( 'table_prefix' != $global )
+				unset( $GLOBALS[$global] );
+}
+
 $HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
 $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
-
-// Turn register globals off
-if ( ini_get('register_globals') ) {
-   $superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
-   if ( isset($_SESSION) )
-		array_unshift($superglobals, $_SESSION);
-
-   foreach ( $superglobals as $superglobal )
-       foreach ( $superglobal as $global => $value )
-           unset( $GLOBALS[$global] );
-}
 
 // Fix for IIS, which doesn't set REQUEST_URI
 if ( empty( $_SERVER['REQUEST_URI'] ) ) {
