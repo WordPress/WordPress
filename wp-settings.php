@@ -3,10 +3,16 @@ $HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
 $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
 
-// Turn register globals off - Christian Schmidt
-if ( ini_get('register_globals') )
-	foreach ( array_merge($_REQUEST, $_SERVER, $_ENV) as $name => $value )
-		unset($name, $value);
+// Turn register globals off
+if ( ini_get('register_globals') ) {
+   $superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
+   if ( isset($_SESSION) )
+		array_unshift($superglobals, $_SESSION);
+
+   foreach ( $superglobals as $superglobal )
+       foreach ( $superglobal as $global => $value )
+           unset( $GLOBALS[$global] );
+}
 
 // Fix for IIS, which doesn't set REQUEST_URI
 if ( empty( $_SERVER['REQUEST_URI'] ) ) {
