@@ -76,6 +76,7 @@ addLoadEvent(blurry);
 //]]>
 </script>
 <script type="text/javascript" src="fat.js"></script>
+<?php if ( isset( $editing ) ) : ?>
 <?php if ( get_option('rich_editing') ) :?>
 <script type="text/javascript" src="tinymce/tiny_mce_src.js"></script>
 <script type="text/javascript">
@@ -97,9 +98,105 @@ tinyMCE.init({
 });
 </script>
 <?php endif; ?>
-<?php if ( isset( $editing ) ) : ?>
 <script type="text/javascript" src="dbx.js"></script>
 <script type="text/javascript" src="dbx-key.js"></script>
+<script type="text/javascript" src="tw-sack.js"></script>
+<script type="text/javascript">
+var ajaxCat = new sack();
+
+function getResponseElement() {
+var p = document.getElementById('ajaxcatresponse');
+	if (!p) {
+		p = document.createElement('p');
+		document.getElementById('categorydiv').appendChild(p);
+		p.id = 'ajaxcatresponse';
+	}
+	return p;
+}
+
+function newCatLoading() {
+	var p = getResponseElement();
+	p.innerHTML = 'Sending Data...';
+}
+
+function newCatLoaded() {
+	var p = getResponseElement();
+	p.innerHTML = 'Data Sent...';
+}
+
+function newCatInteractive() {
+	var p = getResponseElement();
+	p.innerHTML = 'Processing Data...';
+}
+
+function newCatCompletion() {
+	var p = getResponseElement();
+	var id = ajaxCat.response;
+	if ( id == '-1' ) {
+		p.innerHTML = "You don't have permission to do that.";
+		return;
+	}
+	if ( id == '0' ) {
+		p.innerHTML = "That category name is invalid.  Try something else.";
+		return;
+	}
+	p.parentNode.removeChild(p);
+	var exists = document.getElementById('category-' + id);
+	if (exists) {
+		exists.checked = 'checked';
+		exists.parentNode.setAttribute('id', 'new-category-' + id);
+		var nowClass = exists.parentNode.getAttribute('class');
+		exists.parentNode.setAttribute('class', nowClass + ' fade');
+		Fat.fade_all();
+		exists.parentNode.setAttribute('class', nowClass);
+	} else {
+		var catDiv = document.getElementById('categorychecklist');
+		var newLabel = document.createElement('label');
+		catDiv.insertBefore(newLabel, catDiv.firstChild);
+		newLabel.setAttribute('for', 'category-' + id);
+		newLabel.setAttribute('id', 'new-category-' + id);
+		newLabel.setAttribute('class', 'selectit fade');
+
+		var newCheck = document.createElement('input');
+		newLabel.appendChild(newCheck);
+		newCheck.value = id;
+		newCheck.type = 'checkbox';
+		newCheck.checked = 'checked';
+		newCheck.name = 'post_category[]';
+		newCheck.id = 'category-' + id;
+
+		var newLabelText = document.createTextNode(' ' + document.getElementById('newcat').value);
+		newLabel.appendChild(newLabelText);
+		Fat.fade_all();
+		newLabel.setAttribute('class', 'selectit');
+	}
+}
+
+function ajaxNewCatKeyUp(e) {
+	if (!e) {
+		if (window.event) {
+			e = window.event;
+		} else {
+			return;
+		}
+	}
+	if (e.keyCode == 13) {
+		ajaxNewCat();
+	}
+}
+
+function ajaxNewCat() {
+	var newcat = document.getElementById('newcat');
+	var catString = 'ajaxnewcat=' + newcat.value;
+	ajaxCat.requestFile = 'edit-form-ajax-cat.php';
+	ajaxCat.method = 'GET';
+	ajaxCat.onLoading = newCatLoading;
+	ajaxCat.onLoaded = newCatLoaded;
+	ajaxCat.onInteractive = newCatInteractive;
+	ajaxCat.onCompletion = newCatCompletion;
+	ajaxCat.runAJAX(catString);
+}
+</script>
 <?php endif; ?>
 
 <?php do_action('admin_head'); ?>
