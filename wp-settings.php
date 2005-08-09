@@ -13,6 +13,17 @@ if (! isset($_SERVER['REQUEST_URI'])) {
 	}
 }
 
+// Turn register globals off
+if ( ini_get('register_globals') ) {
+   $superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
+   if ( isset($_SESSION) )
+		array_unshift($superglobals, $_SESSION);
+
+   foreach ( $superglobals as $superglobal )
+       foreach ( $superglobal as $global => $value )
+           unset( $GLOBALS[$global] );
+}
+
 if ( !(phpversion() >= '4.1') )
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
 
