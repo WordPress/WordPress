@@ -3,6 +3,10 @@ $HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
 $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
 
+// Turn register globals off - Christian Schmidt
+foreach ( array_merge($_REQUEST, $_SERVER, $_ENV) as $name => $value )
+	unset($$name);
+
 // Fix for IIS, which doesn't set REQUEST_URI
 if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME']; // Does this work under CGI?
@@ -68,6 +72,8 @@ $tablelinks = $wpdb->links;
 $tablelinkcategories = $wpdb->linkcategories;
 $tableoptions = $wpdb->options;
 $tablepostmeta = $wpdb->postmeta;
+
+$wp_filters = array();
 
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/default-filters.php');
