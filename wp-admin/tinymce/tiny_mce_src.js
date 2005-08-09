@@ -206,7 +206,7 @@ TinyMCE.prototype.init = function(settings) {
 	if (this.configs.length == 0) {
 		// Is Safari enabled
 		if (this.isSafari)
-			alert("Safari support is very limited and should be considered experimental.\nSo there is no need to even submit bugreports on this early version.");
+			// alert("Safari support is very limited and should be considered experimental.\nSo there is no need to even submit bugreports on this early version.");
 
 		tinyMCE.addEvent(window, "load", TinyMCE.prototype.onLoad);
 
