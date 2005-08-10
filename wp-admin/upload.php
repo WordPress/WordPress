@@ -210,7 +210,7 @@ $piece_of_code = htmlspecialchars( $piece_of_code );
 <p><code><?php echo $piece_of_code; ?></code>
 </p>
 <p><strong><?php _e('Image Details') ?></strong>: <br />
-Name:
+<?php _e('Name:'); ?>
 <?php echo $img1_name; ?>
 <br />
 <?php _e('Size:') ?>
