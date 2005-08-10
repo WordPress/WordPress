@@ -100,12 +100,40 @@ tinyMCE.init({
 <?php endif; ?>
 <script type="text/javascript" src="dbx.js"></script>
 <script type="text/javascript" src="dbx-key.js"></script>
+
+<?php if ( current_user_can('manage_categories') ) : ?>
 <script type="text/javascript" src="tw-sack.js"></script>
 <script type="text/javascript">
 var ajaxCat = new sack();
+var newcat;
+ 
+function newCatAddIn() {
+	var ajaxcat = document.createElement('p');
+	ajaxcat.id = 'ajaxcat';
+
+	newcat = document.createElement('input');
+	newcat.type = 'text';
+	newcat.name = 'newcat';
+	newcat.id = 'newcat';
+	newcat.size = '16';
+	newcat.setAttribute('autocomplete', 'off');
+	newcat.setAttribute('onkeypress', 'return ajaxNewCatKeyPress(event);');
+
+	var newcatSub = document.createElement('input');
+	newcatSub.type = 'button';
+	newcatSub.name = 'Button';
+	newcatSub.value = '+';
+	newcatSub.setAttribute('onclick', 'ajaxNewCat();');
+
+	ajaxcat.appendChild(newcat);
+	ajaxcat.appendChild(newcatSub);
+	document.getElementById('categorychecklist').parentNode.appendChild(ajaxcat);
+}
+
+addLoadEvent(newCatAddIn);
 
 function getResponseElement() {
-var p = document.getElementById('ajaxcatresponse');
+	var p = document.getElementById('ajaxcatresponse');
 	if (!p) {
 		p = document.createElement('p');
 		document.getElementById('categorydiv').appendChild(p);
@@ -165,14 +193,15 @@ function newCatCompletion() {
 		newCheck.name = 'post_category[]';
 		newCheck.id = 'category-' + id;
 
-		var newLabelText = document.createTextNode(' ' + document.getElementById('newcat').value);
+		var newLabelText = document.createTextNode(' ' + newcat.value);
 		newLabel.appendChild(newLabelText);
 		Fat.fade_all();
 		newLabel.setAttribute('class', 'selectit');
 	}
+	newcat.value = '';
 }
 
-function ajaxNewCatKeyUp(e) {
+function ajaxNewCatKeyPress(e) {
 	if (!e) {
 		if (window.event) {
 			e = window.event;
@@ -182,6 +211,9 @@ function ajaxNewCatKeyUp(e) {
 	}
 	if (e.keyCode == 13) {
 		ajaxNewCat();
+		e.returnValue = false;
+		e.cancelBubble = true;
+		return false;
 	}
 }
 
@@ -197,6 +229,8 @@ function ajaxNewCat() {
 	ajaxCat.runAJAX(catString);
 }
 </script>
+<?php endif; ?>
+
 <?php endif; ?>
 
 <?php do_action('admin_head'); ?>

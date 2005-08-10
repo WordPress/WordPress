@@ -83,12 +83,7 @@ addLoadEvent(focusit);
 
 <fieldset id="categorydiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Categories') ?></h3> 
-<div class="dbx-content"><div id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></div>
-<p id="ajaxcat">
-  <input type="text" name="newcat" id="newcat" size="16" onkeyup="ajaxNewCatKeyUp(event);" /> 
-  <input type="button" name="Button" value="+" onclick="ajaxNewCat();" />
-</p>
-</div>
+<div class="dbx-content"><div id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></div></div>
 </fieldset>
 
 <fieldset class="dbx-box">
