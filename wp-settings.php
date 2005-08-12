@@ -1,4 +1,16 @@
 <?php
+// Turn register globals off
+if ( ini_get('register_globals') ) {
+	$superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
+	if ( isset($_SESSION) )
+		array_unshift($superglobals, $_SESSION);
+	
+	foreach ( $superglobals as $superglobal )
+		foreach ( $superglobal as $global => $value )
+			if ( 'table_prefix' != $global )
+				unset( $GLOBALS[$global] );
+}
+
 $HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
 $REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
@@ -11,17 +23,6 @@ if (! isset($_SERVER['REQUEST_URI'])) {
 	if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
 		$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 	}
-}
-
-// Turn register globals off
-if ( ini_get('register_globals') ) {
-   $superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
-   if ( isset($_SESSION) )
-		array_unshift($superglobals, $_SESSION);
-
-   foreach ( $superglobals as $superglobal )
-       foreach ( $superglobal as $global => $value )
-           unset( $GLOBALS[$global] );
 }
 
 if ( !(phpversion() >= '4.1') )
