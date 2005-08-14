@@ -85,12 +85,17 @@ edCanvas = document.getElementById('content');
 </script>
 
 <p class="submit">
-  <input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Edit Page') :_e('Create New Page') ?> &raquo;" /> 
-  <input name="referredby" type="hidden" id="referredby" value="<?php echo $sendto; ?>" />
+<?php if ( $post_ID ) : ?>
+<input name="save" type="submit" id="save" tabindex="5" value=" <?php _e('Save and Continue Editing'); ?> "/> 
+<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Edit Page') : _e('Create New Page') ?> &raquo;" /> 
+<?php else : ?>
+<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php _e('Create New Page') ?> &raquo;" /> 
+<?php endif; ?>
+<input name="referredby" type="hidden" id="referredby" value="<?php echo $sendto; ?>" />
 </p>
 
 <fieldset id="pageoptions">
-	 <legend><?php _e('Page Options') ?></legend> 
+	 <legend><?php _e('Page Options') ?></legend>
 <table width="100%" cellspacing="2" cellpadding="5" class="editform">
 <?php if ( 0 != count( get_page_templates() ) ) { ?>
 	<tr valign="top">

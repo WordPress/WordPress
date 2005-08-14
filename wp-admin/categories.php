@@ -34,6 +34,7 @@ case 'addcat':
 	$cat = intval($_POST['cat']);
 	
 	$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
+	do_action('add_category', $wpdb->insert_id);
 	
 	header('Location: categories.php?message=1#addcat');
 break;
@@ -57,6 +58,7 @@ case 'delete':
 	$wpdb->query("UPDATE $wpdb->categories SET category_parent = '$cat_parent' WHERE category_parent = '$cat_ID'");
 	// TODO: Only set categories to general if they're not in another category already
 	$wpdb->query("UPDATE $wpdb->post2cat SET category_id='1' WHERE category_id='$cat_ID'");
+	do_action('delete_category', $cat_ID);
 
 	header('Location: categories.php?message=2');
 

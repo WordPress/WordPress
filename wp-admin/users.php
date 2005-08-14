@@ -72,7 +72,9 @@ case 'adduser':
 		(user_login, user_pass, user_nickname, user_email, user_ip, user_domain, user_browser, user_registered, user_level, user_idmode, user_firstname, user_lastname, user_nicename, user_url)
 	VALUES 
 		('$user_login', MD5('$pass1'), '$user_nickname', '$user_email', '$user_ip', '$user_domain', '$user_browser', '$now', '$new_users_can_blog', 'nickname', '$user_firstname', '$user_lastname', '$user_nicename', '$user_uri')");
-	
+
+	do_action('user_register', $wpdb->insert_id);
+
 	if ($result == false)
 		die (__('<strong>ERROR</strong>: Couldn&#8217;t register you!'));
 
@@ -96,7 +98,7 @@ case 'promote':
 		header('Location: users.php');
 	}
 
-	$id = $_GET['id'];
+	$id = (int) $_GET['id'];
 	$prom = $_GET['prom'];
 
 	$user_data = get_userdata($id);
@@ -108,12 +110,11 @@ case 'promote':
 
 	if ('up' == $prom) {
 		$new_level = $usertopromote_level + 1;
-		$sql="UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
+		$wpdb->query("UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level");
 	} elseif ('down' == $prom) {
 		$new_level = $usertopromote_level - 1;
-		$sql="UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level";
+		$wpdb->query("UPDATE $wpdb->users SET user_level=$new_level WHERE ID = $id AND $new_level < $user_level");
 	}
-	$result = $wpdb->query($sql);
 
 	header('Location: users.php');
 

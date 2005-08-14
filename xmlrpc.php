@@ -576,7 +576,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	  logIO('O', "Posted ! ID: $post_ID");
 
 	  // FIXME: do we pingback always? pingback($content, $post_ID);
-	  trackback_url_list($content_struct['mt_tb_ping_urls'],$post_ID);
+	  // trackback_url_list($content_struct['mt_tb_ping_urls'],$post_ID);
+
+		if ('publish' == $post_status) {
+			if ($post_pingback) pingback($content, $post_ID);
+			do_enclose( $content, $post_ID );
+			do_trackbacks($post_ID);
+			do_action('publish_post', $post_ID);
+		}  
 
 	  return strval($post_ID);
 	}
@@ -660,7 +667,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	  logIO('O',"(MW) Edited ! ID: $post_ID");
 
 	  // FIXME: do we pingback always? pingback($content, $post_ID);
-	  trackback_url_list($content_struct['mt_tb_ping_urls'], $post_ID);
+	  // trackback_url_list($content_struct['mt_tb_ping_urls'], $post_ID);
+		if ('publish' == $post_status) {
+			if ($post_pingback) pingback($content, $post_ID);
+			do_enclose( $content, $post_ID );
+			do_trackbacks($post_ID);
+			do_action('publish_post', $post_ID);
+		}	
+		do_action('edit_post', $post_ID);
 
 	  return true;
 	}
