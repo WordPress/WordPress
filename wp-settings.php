@@ -1,19 +1,25 @@
 <?php
 // Turn register globals off
-if ( ini_get('register_globals') ) {
-	$superglobals = array($_SERVER, $_ENV, $_FILES, $_COOKIE, $_POST, $_GET);
-	if ( isset($_SESSION) )
-		array_unshift($superglobals, $_SESSION);
+function unregister_GLOBALS() {
+	if ( !ini_get('register_globals') )
+		return;
+
+	if ( isset($_REQUEST['GLOBALS']) )
+		die('GLOBALS overwrite attempt detected');
+
+	// Variables that shouldn't be unset
+	$noUnset = array('GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix');
 	
-	foreach ( $superglobals as $superglobal )
-		foreach ( $superglobal as $global => $value )
-			if ( 'table_prefix' != $global )
-				unset( $GLOBALS[$global] );
+	$input = array_merge($_GET, $_POST, $_COOKIE, $_SERVER, $_ENV, $_FILES, isset($_SESSION) && is_array($_SESSION) ? $_SESSION : array());
+	foreach ( $input as $k => $v ) 
+		if ( !in_array($k, $noUnset) && isset($GLOBALS[$k]) )
+			unset($GLOBALS[$k]);
 }
 
-$HTTP_HOST = getenv('HTTP_HOST');  /* domain name */
-$REMOTE_ADDR = getenv('REMOTE_ADDR'); /* visitor's IP */
-$HTTP_USER_AGENT = getenv('HTTP_USER_AGENT'); /* visitor's browser */
+unregister_GLOBALS(); 
+
+$HTTP_USER_AGENT = getenv('HTTP_USER_AGENT');
+unset( $wp_filter, $cache_userdata, $cache_lastcommentmodified, $cache_lastpostdate, $cache_settings, $category_cache, $cache_categories );
 
 // Fix for IIS, which doesn't set REQUEST_URI
 if ( empty( $_SERVER['REQUEST_URI'] ) ) {
