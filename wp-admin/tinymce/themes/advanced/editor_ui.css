@@ -1,3 +1,5 @@
+/* This file contains the CSS data for the editor UI of TinyMCE instances */
+
 .mceButtonNormal, .mceButtonOver, .mceButtonDown, .mceSeparator, .mceButtonDisabled, .mceButtonSelected {
 	margin-top: 1px;
 	margin-left: 1px;
@@ -13,20 +15,12 @@
 }
 
 .mceButtonOver {
-/*	border-top: 1px solid buttonhighlight;
-	border-left: 1px solid buttonhighlight;
-	border-bottom: 1px solid buttonshadow;
-	border-right: 1px solid buttonshadow;*/
 	border: 1px solid #0A246A;
 	cursor: arrow;
 	background-color: #B6BDD2;
 }
 
 .mceButtonDown {
-/*	border-bottom: 1px solid buttonhighlight;
-	border-right: 1px solid buttonhighlight;
-	border-top: 1px solid buttonshadow;
-	border-left: 1px solid buttonshadow;*/
 	cursor: arrow;
 	border: 1px solid #0A246A;
 	background-color: #8592B5;
@@ -118,19 +112,27 @@
 	border-top: 1px solid #cccccc;
 }
 
-.mcePathTop, .mcePathBottom, .mcePath {
-	font-family: "MS Sans Serif";
-	font-size: 9pt;
-	padding: 2px;
+.mceStatusbarTop, .mceStatusbarBottom, .mceStatusbar {
 	height: 20px;
 }
 
-.mcePathTop {
+.mceStatusbarTop .mceStatusbarPathText, .mceStatusbarBottom .mceStatusbarPathText, .mceStatusbar .mceStatusbarPathText {
+	font-family: "MS Sans Serif";
+	font-size: 9pt;
+	padding: 2px;
+	line-height: 16px;
+}
+
+.mceStatusbarTop {
 	border-bottom: 1px solid #cccccc;
 }
 
-.mcePathBottom {
+.mceStatusbarBottom {
 	border-top: 1px solid #cccccc;
+}
+
+.mceStatusbar {
+	border-bottom: 1px solid #cccccc;
 }
 
 .mcePathItem, .mcePathItem:link, .mcePathItem:visited, .mcePathItem:hover {
@@ -144,56 +146,22 @@
 	text-decoration: underline;
 }
 
-.mcePath {
-	border-bottom: 1px solid #cccccc;
-}
-
-.mceDialog {
-	position: absolute;
-	left: 100px;
-	top: 100px;
-	z-index: 1000;
-}
-
-.mceDialogHeader {
-	background: #F0F0EE;
-	width: 100%;
-	height: 16px;
-	margin: 0px;
-	padding: 0px;
-	border: 1px solid black;
-	border-bottom: 0px;
-}
-
-.mceDialogTitle {
+.mceStatusbarPathText {
 	float: left;
-	font-family: "MS Sans Serif";
-	font-size: 9pt;
-	height: 14px;
 }
 
-.mceDialogClose {
+.mceStatusbarResize {
 	float: right;
-	width: 16px;
-	height: 16px;
-	background-image: url('images/close.gif');
+	background-image: url('images/statusbar_resize.gif');
 	background-repeat: no-repeat;
-	background-position: 0px 1px;
-	margin: 0px;
-	padding: 0px;
+	width: 11px;
+	height: 20px;
+	cursor: se-resize;
 }
 
-.mceDialogClose a {
-	width: 16px;
-	height: 14px;
-	display: block;
-	font-family: "MS Sans Serif";
-	font-size: 9pt;
-	margin: 0px;
-	padding: 0px;
-}
-
-.mceDialogIFrameWrapper {
-	border: 1px solid black;
-	clear: both;
+.mceResizeBox {
+	width: 10px;
+	height: 10px;
+	display: none;
+	border: 1px dotted gray;
 }

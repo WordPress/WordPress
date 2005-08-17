@@ -5,6 +5,7 @@ tinyMCE.importThemeLanguagePack('advanced');
 var TinyMCE_advanced_autoImportCSSClasses = true;
 var TinyMCE_advanced_foreColor = "#000000";
 var TinyMCE_advanced_anchorName = "";
+var TinyMCE_advanced_resizer = new Object();
 var TinyMCE_advanced_buttons = [
 	// Control id, button img, button title, command, user_interface, value
 	['bold', '{$lang_bold_img}', '{$lang_bold_desc}', 'Bold'],
@@ -181,16 +182,13 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 			var inputColor = TinyMCE_advanced_foreColor;
 
 			if (!inputColor)
-			{
 				inputColor = "#000000";
-			}
 
 			template['file'] = 'color_picker.htm';
-			template['width'] = 210;
-			template['height'] = 200;
+			template['width'] = 220;
+			template['height'] = 240;
 
-			tinyMCE.openWindow(template, {editor_id : editor_id, command : "forecolor", input_color : inputColor});
-			//mceForeColor
+			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", command : "forecolor", input_color : inputColor});
 		return true;
 
 		case "mceBackColor":
@@ -206,8 +204,25 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 			template['width'] = 210;
 			template['height'] = 200;
 
-			tinyMCE.openWindow(template, {editor_id : editor_id, command : "HiliteColor", input_color : inputColor});
+			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", command : "HiliteColor", input_color : inputColor});
 			//mceBackColor
+		return true;
+
+		case "mceColorPicker":
+			if (user_interface) {
+				var template = new Array();
+				var inputColor = value['document'].getElementById(value['element_id']).value;
+
+				template['file'] = 'color_picker.htm';
+				template['width'] = 220;
+				template['height'] = 210;
+
+				tinyMCE.lastColorPickerValue = value;
+				tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", command : "mceColorPicker", input_color : inputColor});
+			} else {
+				var savedVal = tinyMCE.lastColorPickerValue;
+				savedVal['document'].getElementById(savedVal['element_id']).value = value;
+			}
 		return true;
 
 		case "mceCodeEditor":
@@ -217,7 +232,7 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 			template['width'] = tinyMCE.getParam("theme_advanced_source_editor_width", 500);
 			template['height'] = tinyMCE.getParam("theme_advanced_source_editor_height", 400);
 
-			tinyMCE.openWindow(template, {editor_id : editor_id, resizable : "yes", scrollbars : "no"});
+			tinyMCE.openWindow(template, {editor_id : editor_id, resizable : "yes", scrollbars : "no", inline : "yes"});
 			//mceCodeEditor
 		return true;
 
@@ -228,7 +243,7 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 			template['width'] = 550;
 			template['height'] = 280;
 
-			tinyMCE.openWindow(template, {editor_id : editor_id});
+			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes"});
 			//mceCharMap
 		return true;
 
@@ -239,8 +254,7 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 			template['width'] = 320;
 			template['height'] = 130;
 
-			tinyMCE.openWindow(template, {editor_id : editor_id, name : TinyMCE_advanced_anchorName, action : (TinyMCE_advanced_anchorName == "" ? "insert" : "update")});
-			//mceInsertAnchor
+			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", name : TinyMCE_advanced_anchorName, action : (TinyMCE_advanced_anchorName == "" ? "insert" : "update")});
 		return true;
 
 		case "mceNewDocument":
@@ -297,7 +311,9 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 	var template = new Array();
 	var deltaHeight = 0;
 
-	var pathHTML = '<span class="tinyMCEPath">{$lang_theme_path}: <span id="{$editor_id}_path">&nbsp;</span></span>';
+	var resizing = tinyMCE.getParam("theme_advanced_resizing", false);
+	var path = tinyMCE.getParam("theme_advanced_path", true);
+	var statusbarHTML = '<div id="{$editor_id}_path" class="mceStatusbarPathText" style="display: ' + (path ? "block" : "none") + '">&nbsp;</div><div id="{$editor_id}_resize" class="mceStatusbarResize" style="display: ' + (resizing ? "block" : "none") + '" onmousedown="TinyMCE_advanced_setResizing(event,\'{$editor_id}\',true);"></div><br style="clear: both" />';
 	var layoutManager = tinyMCE.getParam("theme_advanced_layout_manager", "SimpleLayout");
 
 	// Setup style select options -- MOVED UP FOR EXTERNAL TOOLBAR COMPATABILITY!
@@ -325,7 +341,8 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 			var toolbarHTML = "";
 			var toolbarLocation = tinyMCE.getParam("theme_advanced_toolbar_location", "bottom");
 			var toolbarAlign = tinyMCE.getParam("theme_advanced_toolbar_align", "center");
-			var pathLocation = tinyMCE.getParam("theme_advanced_path_location", "none");
+			var pathLocation = tinyMCE.getParam("theme_advanced_path_location", "none"); // Compatiblity
+			var statusbarLocation = tinyMCE.getParam("theme_advanced_statusbar_location", pathLocation);
 
 			// Render row 1
 			var buttonNamesRow1 = tinyMCE.getParam("theme_advanced_buttons1", "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,styleselect,formatselect", true, ',');
@@ -385,9 +402,9 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 				template['html'] += '<tr><td class="mceToolbarTop" align="' + toolbarAlign + '" height="1" nowrap="nowrap">' + toolbarHTML + '</td></tr>';
 			}
 
-			if (pathLocation == "top")
+			if (statusbarLocation == "top")
 			{
-				template['html'] += '<tr><td class="mcePathTop" height="1">' + pathHTML + '</td></tr>';
+				template['html'] += '<tr><td class="mceStatusbarTop" height="1">' + statusbarHTML + '</td></tr>';
 				deltaHeight -= 23;
 			}
 
@@ -425,9 +442,9 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 				tinyMCE.isExternalToolbar = false;
 			}
 
-			if (pathLocation == "bottom")
+			if (statusbarLocation == "bottom")
 			{
-				template['html'] += '<tr><td class="mcePathBottom" height="1">' + pathHTML + '</td></tr>';
+				template['html'] += '<tr><td class="mceStatusbarBottom" height="1">' + statusbarHTML + '</td></tr>';
 				deltaHeight -= 23;
 			}
 
@@ -451,24 +468,24 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 												<span id="{$editor_id}"></span>\
 												</td></tr>';
 				}
-				else if (containers[i] == "mceElementpath") // ... mceElementpath:
+				else if (containers[i] == "mceElementpath" || containers[i] == "mceStatusbar") // ... mceElementpath:
 				{
-					var pathClass = "mcePath";
+					var pathClass = "mceStatusbar";
 
 					if (i == containers.length-1)
 					{
-						pathClass = "mcePathBottom";
+						pathClass = "mceStatusbarBottom";
 					}
 					else if (i == 0)
 					{
-						pathClass = "mcePathTop";
+						pathClass = "mceStatusbar";
 					}
 					else
 					{
 						deltaHeight-=2;
 					}
 
-					template['html'] += '<tr><td class="' + pathClass + '" height="1">' + pathHTML + '</td></tr>';
+					template['html'] += '<tr><td class="' + pathClass + '" height="1">' + statusbarHTML + '</td></tr>';
 					deltaHeight -= 22;
 				}
 				else //Render normal Container:
@@ -516,11 +533,153 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 		break;
 	}
 
+	template['html'] += '<div id="{$editor_id}_resize_box" class="mceResizeBox"></div>';
 	template['html'] = tinyMCE.replaceVar(template['html'], 'style_select_options', styleSelectHTML);
 	template['delta_width'] = 0;
 	template['delta_height'] = deltaHeight;
 
 	return template;
+}
+
+/**
+ * Starts/stops the editor resizing.
+ */
+function TinyMCE_advanced_setResizing(e, editor_id, state) {
+	e = typeof(e) == "undefined" ? window.event : e;
+
+	var resizer = TinyMCE_advanced_resizer;
+	var editorContainer = document.getElementById(editor_id + '_parent');
+	var editorArea = document.getElementById(editor_id + '_parent').firstChild;
+	var resizeBox = document.getElementById(editor_id + '_resize_box');
+	var inst = tinyMCE.getInstanceById(editor_id);
+
+	if (state) {
+		// Place box over editor area
+		var width = editorArea.clientWidth;
+		var height = editorArea.clientHeight;
+
+		if (tinyMCE.isMSIE) {
+			width += 2;
+			height += 2;
+		}
+
+		resizeBox.style.width = width + "px";
+		resizeBox.style.height = height + "px";
+
+		resizer.iframeWidth = inst.iframeElement.clientWidth;
+		resizer.iframeHeight = inst.iframeElement.clientHeight;
+
+		// Hide editor and show resize box
+		editorArea.style.display = "none";
+		resizeBox.style.display = "block";
+
+		// Add event handlers, only once
+		if (!resizer.eventHandlers) {
+			if (tinyMCE.isMSIE)
+				tinyMCE.addEvent(document, "mousemove", TinyMCE_advanced_resizeEventHandler);
+			else
+				tinyMCE.addEvent(window, "mousemove", TinyMCE_advanced_resizeEventHandler);
+
+			tinyMCE.addEvent(document, "mouseup", TinyMCE_advanced_resizeEventHandler);
+
+			resizer.eventHandlers = true;
+		}
+
+		resizer.resizing = true;
+		resizer.downX = e.screenX;
+		resizer.downY = e.screenY;
+		resizer.width = parseInt(resizeBox.style.width);
+		resizer.height = parseInt(resizeBox.style.height);
+		resizer.editorId = editor_id;
+		resizer.resizeBox = resizeBox;
+		resizer.horizontal = tinyMCE.getParam("theme_advanced_resize_horizontal", false);
+	} else {
+		resizer.resizing = false;
+		resizeBox.style.display = "none";
+		editorArea.style.display = "block";
+		inst.getDoc().designMode = "On";
+	}
+}
+
+/**
+ * Handles resizing events.
+ */
+function TinyMCE_advanced_resizeEventHandler(e) {
+	var resizer = TinyMCE_advanced_resizer;
+
+	// Do nothing
+	if (!resizer.resizing)
+		return;
+
+	e = typeof(e) == "undefined" ? window.event : e;
+
+	var dx = e.screenX - resizer.downX;
+	var dy = e.screenY - resizer.downY;
+	var resizeBox = resizer.resizeBox;
+	var editorId = resizer.editorId;
+
+	switch (e.type) {
+		case "mousemove":
+			if (resizer.horizontal)
+				resizeBox.style.width = (resizer.width + dx) + "px";
+
+			resizeBox.style.height = (resizer.height + dy) + "px";
+			break;
+
+		case "mouseup":
+			resizer.resizing = false;
+			TinyMCE_advanced_setResizing(e, editorId, false);
+
+			var editorContainer = document.getElementById(editorId + '_parent');
+			var tableElm = editorContainer.firstChild;
+			var inst = tinyMCE.getInstanceById(editorId);
+			var width = resizer.width + dx;
+			var height = resizer.height + dy;
+
+			if (resizer.horizontal)
+				var iframeWidth = resizer.iframeWidth + dx;
+
+			var iframeHeight = resizer.iframeHeight + dy;
+
+			if (tinyMCE.isGecko) {
+				width += 2;
+				height += 2;
+			}
+
+			// Range check
+			if (iframeHeight < 40)
+				return;
+
+			// Resize editor container
+			if (resizer.horizontal)
+				tableElm.style.width = width + "px";
+
+			tableElm.style.height = height + "px";
+
+			// Resize iframe
+			if (resizer.horizontal)
+				inst.iframeElement.style.width = iframeWidth + "px";
+
+			// Fixes 100% bug
+			if (tinyMCE.isGecko && !resizer.horizontal)
+				inst.iframeElement.style.width = resizer.iframeWidth + "px";
+
+			inst.iframeElement.style.height = iframeHeight +  "px";
+
+			// Is it to small, make it bigger again
+			if (resizer.horizontal) {
+				var tableBodyElm = tableElm.firstChild;
+				var minIframeWidth = tableBodyElm.scrollWidth;
+				if (inst.iframeElement.clientWidth < minIframeWidth) {
+					dx = minIframeWidth - inst.iframeElement.clientWidth;
+
+					tableElm.style.width = (width + dx) + "px";
+					inst.iframeElement.style.width = (iframeWidth + dx) + "px";
+				}
+			}
+
+			break;
+	}
 }
 
 /**
@@ -640,14 +799,10 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 				nodeData += "id: " + path[i].getAttribute('id') + " ";
 			}
 
-			if (getAttrib(path[i], 'class') != "")
+			var className = tinyMCE.getVisualAidClass(getAttrib(path[i], "className"), false);
+			if (className != "")
 			{
-				nodeData += "class: " + path[i].getAttribute('class') + " ";
-			}
-
-			if (getAttrib(path[i], 'className') != "")
-			{
-				nodeData += "class: " + path[i].getAttribute('className') + " ";
+				nodeData += "class: " + className + " ";
 			}
 
 			if (getAttrib(path[i], 'src') != "")
@@ -668,13 +823,10 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 
 			if (getAttrib(path[i], 'name').indexOf("mce_") != 0)
 			{
-				if (getAttrib(path[i], "className") != "")
+				var className = tinyMCE.getVisualAidClass(getAttrib(path[i], "className"), false);
+				if (className != "")
 				{
-					nodeName += "." + getAttrib(path[i], "className");
-				}
-				else if (getAttrib(path[i], "class") != "")
-				{
-					nodeName += "." + getAttrib(path[i], "class");
+					nodeName += "." + className;
 				}
 			}
 
@@ -693,7 +845,7 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 			}
 		}
 
-		pathElm.innerHTML = html + "&nbsp;";
+		pathElm.innerHTML = tinyMCE.getLang('lang_theme_path') + ": " + html + "&nbsp;";
 	}
 
 	// Get element color
