@@ -160,8 +160,11 @@
 }
 
 .mceResizeBox {
-	width: 10px;
-	height: 10px;
-	display: none;
-	border: 1px dotted gray;
+   width: 10px;
+   height: 10px;
+   display: none;
+   border: 1px dotted gray;
+   margin: 0px;
+   padding: 0px;
 }
+
