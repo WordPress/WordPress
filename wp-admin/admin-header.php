@@ -91,6 +91,7 @@ tinyMCE.init({
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_path_location : "bottom",
+	theme_advanced_resizing : true,
 	entity_encoding : "raw",
 	extended_valid_elements : "a[id|href|title|onclick],img[class|src|alt|title|width|height|align]",
 	plugins : "emotions"
