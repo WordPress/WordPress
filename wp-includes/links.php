@@ -125,7 +125,7 @@ function wp_get_links($args = '') {
  **   before (default '')  - the html to output before the link
  **   after (default '<br />')  - the html to output after the link
  **   between (default ' ')  - the html to output between the link/image
- **     and it's description. Not used if no image or show_images == true
+ **     and its description. Not used if no image or show_images == true
  **   show_images (default true) - whether to show images (if defined).
  **   orderby (default 'id') - the order to output the links. E.g. 'id', 'name',
  **     'url', 'description', or 'rating'. Or maybe owner. If you start the
@@ -138,136 +138,133 @@ function wp_get_links($args = '') {
  **   limit (default -1) - Limit to X entries. If not specified, all entries
  **     are shown.
  **   show_updated (default 0) - whether to show last updated timestamp
+ **   echo (default true) - whether to echo the results, or return them instead
  */
-function get_links($category = -1, $before = '', $after = '<br />',
-                   $between = ' ', $show_images = true, $orderby = 'name',
-                   $show_description = true, $show_rating = false,
-                   $limit = -1, $show_updated = 1, $echo = true) {
+function get_links($category = -1,
+			$before = '',
+			$after = '<br />',
+			$between = ' ',
+			$show_images = true,
+			$orderby = 'name',
+			$show_description = true,
+			$show_rating = false,
+			$limit = -1,
+			$show_updated = 1,
+			$echo = true) {
 
-    global $wpdb;
+	global $wpdb;
 
-    $direction = ' ASC';
-    $category_query = "";
-    if ($category != -1) {
-        $category_query = " AND link_category = $category ";
-    }
-    if (get_settings('links_recently_updated_time')) {
-        $recently_updated_test = ", IF (DATE_ADD(link_updated, INTERVAL ".get_settings('links_recently_updated_time')." MINUTE) >= NOW(), 1,0) as recently_updated ";
-    } else {
+	$direction = ' ASC';
+	$category_query = '';
+	if ($category != -1) {
+		$category_query = " AND link_category = $category ";
+	}
+	if (get_settings('links_recently_updated_time')) {
+		$recently_updated_test = ", IF (DATE_ADD(link_updated, INTERVAL " . get_settings('links_recently_updated_time') . " MINUTE) >= NOW(), 1,0) as recently_updated ";
+	} else {
 		$recently_updated_test = '';
 	}
-    if ($show_updated) {
-        $get_updated = ", UNIX_TIMESTAMP(link_updated) AS link_updated_f ";
-    }
-
-    $orderby=strtolower($orderby);
-    if ($orderby == '')
-        $orderby = 'id';
-    if (substr($orderby,0,1) == '_') {
-        $direction = ' DESC';
-        $orderby = substr($orderby,1);
-    }
-
-    switch($orderby) {
-        case 'length':
-        $length = ",CHAR_LENGTH(link_name) AS length";
-        break;
-        case 'rand':
-            $orderby = 'rand()';
-            break;
-        default:
-            $orderby = " link_" . $orderby;
-    }
-
-    if (!isset($length)) {
-		$length = "";
+	if ($show_updated) {
+		$get_updated = ", UNIX_TIMESTAMP(link_updated) AS link_updated_f ";
 	}
 
-    $sql = "SELECT link_url, link_name, link_image, link_target,
-            link_description, link_rating, link_rel $length $recently_updated_test $get_updated
-            FROM $wpdb->links
-            WHERE link_visible = 'Y' " .
-           $category_query;
-    $sql .= ' ORDER BY ' . $orderby;
-    $sql .= $direction;
-    /* The next 2 lines implement LIMIT TO processing */
-    if ($limit != -1)
-        $sql .= " LIMIT $limit";
-    //echo $sql;
-    $results = $wpdb->get_results($sql);
-    if (!$results) {
-        return;
-    }
-    
-    $output = "";
-    
-    foreach ($results as $row) {
+	$orderby = strtolower($orderby);
+	if ($orderby == '')
+		$orderby = 'id';
+	if (substr($orderby, 0, 1) == '_') {
+		$direction = ' DESC';
+		$orderby = substr($orderby, 1);
+	}
+
+	switch($orderby) {
+		case 'length':
+		$length = ", CHAR_LENGTH(link_name) AS length";
+		break;
+		case 'rand':
+			$orderby = 'rand()';
+			break;
+		default:
+			$orderby = " link_" . $orderby;
+	}
+
+	if (!isset($length)) {
+		$length = '';
+	}
+
+	$sql = "SELECT link_url, link_name, link_image, link_target, link_description, link_rating, link_rel $length $recently_updated_test $get_updated FROM $wpdb->links WHERE link_visible = 'Y' " . $category_query;
+	$sql .= ' ORDER BY ' . $orderby . $direction;
+	/* The next 2 lines implement LIMIT TO processing */
+	if ($limit != -1)
+		$sql .= " LIMIT $limit";
+	$results = $wpdb->get_results($sql);
+	if (!$results) {
+		return;
+	}
+
+	$output = '';
+
+	foreach ($results as $row) {
 		if (!isset($row->recently_updated)) $row->recently_updated = false;
-        $output .= ($before);
-        
-        if ($show_updated && $row->recently_updated) {
-            $output .= get_settings('links_recently_updated_prepend');
-        }
-        
-        $the_link = '#';
-        
-        if ( !empty($row->link_url) )
-            $the_link = wp_specialchars($row->link_url);
-        $rel = $row->link_rel;
-        
-        if ($rel != '') {
-            $rel = " rel='$rel'";
-        }
-        
-        $desc = wp_specialchars($row->link_description, ENT_QUOTES);
-        $name = wp_specialchars($row->link_name, ENT_QUOTES);
+			$output .= $before;
+		if ($show_updated && $row->recently_updated) {
+			$output .= get_settings('links_recently_updated_prepend');
+		}
 
-        $title = $desc;
+		$the_link = '#';
+		if (!empty($row->link_url))
+			$the_link = wp_specialchars($row->link_url);
 
-        if ($show_updated) {
-           if (substr($row->link_updated_f,0,2) != '00') {
-                $title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $row->link_updated_f + (get_settings('gmt_offset') * 3600)) .')';
-            }
-        }
+		$rel = $row->link_rel;
+		if ($rel != '') {
+			$rel = ' rel="' . $rel . '"';
+		}
 
-        if ('' != $title) {
-            $title = " title='$title'";
-        }
+		$desc = wp_specialchars($row->link_description, ENT_QUOTES);
+		$name = wp_specialchars($row->link_name, ENT_QUOTES);
+		$title = $desc;
 
-        $alt = " alt='$name'";
-            
-        $target = $row->link_target;
-        if ('' != $target) {
-            $target = " target='$target'";
-        }
-        
-        $output.= "<a href='$the_link'";
-        $output.= $rel . $title . $target;
-        $output.= '>';
-        
-        if (($row->link_image != null) && $show_images) {
+		if ($show_updated) {
+			if (substr($row->link_updated_f, 0, 2) != '00') {
+				$title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $row->link_updated_f + (get_settings('gmt_offset') * 3600)) . ')';
+			}
+		}
+
+		if ('' != $title) {
+			$title = ' title="' . $title . '"';
+		}
+
+		$alt = ' alt="' . $name . '"';
+
+		$target = $row->link_target;
+		if ('' != $target) {
+			$target = ' target="' . $target . '"';
+		}
+
+		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
+
+		if (($row->link_image != null) && $show_images) {
 			if (strstr($row->link_image, 'http'))
-				$output.= "<img src='$row->link_image' $alt $title />";
+				$output .= "<img src=\"$row->link_image\" $alt $title />";
 			else // If it's a relative path
-            	$output.= "<img src='" . get_settings('siteurl') . "$row->link_image' $alt $title />";
-        } else {
-            $output.= $name;
-        }
-        
-        $output.= '</a>';
-        
-        if ($show_updated && $row->recently_updated) {
-            $output.= get_settings('links_recently_updated_append');
-        }
+				$output .= "<img src=\"" . get_settings('siteurl') . "$row->link_image\" $alt $title />";
+		} else {
+			$output .= $name;
+		}
 
-        if ($show_description && ($desc != '')) {
-            $output.= $between.$desc;
-        }
-        $output.= "$after\n";
-    } // end while
-    
-    if($echo) {
-	    echo $output;
+		$output .= '</a>';
+
+		if ($show_updated && $row->recently_updated) {
+			$output .= get_settings('links_recently_updated_append');
+		}
+
+		if ($show_description && ($desc != '')) {
+			$output .= $between . $desc;
+		}
+		$output .= "$after\n";
+	} // end while
+
+	if ($echo) {
+		echo $output;
 	} else {
 		return $output;
 	}
