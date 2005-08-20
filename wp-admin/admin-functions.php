@@ -1139,7 +1139,7 @@ function add_submenu_page($parent, $page_title, $menu_title, $access_level, $fil
 }
 
 function add_options_page($page_title, $menu_title, $access_level, $file, $function = '') {
-	return add_submenu_page('options-general.php', $page_title, $menu_title, $access_level, $file, $function);
+	return add_submenu_page('options-personal.php', $page_title, $menu_title, $access_level, $file, $function);
 }
 
 function add_management_page($page_title, $menu_title, $access_level, $file, $function = '') {
