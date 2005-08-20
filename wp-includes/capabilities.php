@@ -64,7 +64,7 @@ class WP_Roles {
 
 	function is_role($role)
 	{
-		return empty($this->role_names[$role]);
+		return isset($this->role_names[$role]);
 	}	
 }
 
@@ -132,11 +132,11 @@ class WP_User {
 		global $wp_roles;
 		//Filter out caps that are not role names and assign to $this->roles
 		if(is_array($this->caps))
-			$this->roles = array_filter($this->caps, array(&$wp_roles, 'is_role'));
+			$this->roles = array_filter(array_keys($this->caps), array(&$wp_roles, 'is_role'));
 
 		//Build $allcaps from role caps, overlay user's $caps
 		$this->allcaps = array();
-		foreach($this->roles as $role => $value) {
+		foreach($this->roles as $role) {
 			$role = $wp_roles->get_role($role);
 			$this->allcaps = array_merge($this->allcaps, $role->capabilities);
 		}
@@ -159,7 +159,7 @@ class WP_User {
 	}
 	
 	function set_role($role) {
-		foreach($this->roles as $oldrole => $value)
+		foreach($this->roles as $oldrole) 
 			unset($this->caps[$oldrole]);
 		$this->caps[$role] = true;
 		$this->roles = array($role => true);
