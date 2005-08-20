@@ -229,7 +229,7 @@ default:
 	<tr>
 	<th colspan="8" align="left">
   <h3><?php echo $wp_roles->role_names[$role]; ?></h3>
-  </th>
+  </th></tr>
 
 	<tr>
 	<th><?php _e('ID') ?></th>
@@ -288,10 +288,10 @@ foreach($wp_roles->role_names as $role => $name) {
 $role_select .= '</select>';
 ?>  
   <ul style="list-style:none;">
-  	<li><input type="radio" name="action" id="action0" value="delete"> <label for="action0"><?php _e('Delete checked users.'); ?></label></li>
-  	<li><input type="radio" name="action" id="action1" value="promote"> <?php echo sprintf(__('<label for="action1">Set the Role of checked users to:</label> %s'), $role_select); ?></li>
+  	<li><input type="radio" name="action" id="action0" value="delete" /> <label for="action0"><?php _e('Delete checked users.'); ?></label></li>
+  	<li><input type="radio" name="action" id="action1" value="promote" /> <?php echo sprintf(__('<label for="action1">Set the Role of checked users to:</label> %s'), $role_select); ?></li>
   </ul>
-	<p class="submit"><input type="submit" value="<?php _e('Update &raquo;'); ?>"></p>
+	<p class="submit"><input type="submit" value="<?php _e('Update &raquo;'); ?>" /></p>
 </div>
 </form>
 
