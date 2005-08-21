@@ -1382,4 +1382,16 @@ function documentation_link( $for ) {
 	return;
 }
 
+function register_importer($id, $name, $description, $callback) {
+	global $wp_importers;
+	
+	$wp_importers[$id] = array($name, $description, $callback);
+}
+
+function get_importers() {
+	global $wp_importers;
+
+	return $wp_importers;
+}
+
 ?>

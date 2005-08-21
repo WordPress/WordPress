@@ -118,7 +118,7 @@ require (ABSPATH . WPINC . '/links.php');
 require (ABSPATH . WPINC . '/kses.php');
 require (ABSPATH . WPINC . '/version.php');
 
-if (!strstr($_SERVER['PHP_SELF'], 'install.php') && !strstr($_SERVER['PHP_SELF'], 'wp-admin/import')) :
+if (!strstr($_SERVER['PHP_SELF'], 'install.php')) :
     // Used to guarantee unique hash cookies
     $cookiehash = md5(get_settings('siteurl')); // Remove in 1.4
 	define('COOKIEHASH', $cookiehash); 

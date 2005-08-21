@@ -64,6 +64,32 @@ if (isset($_GET['page'])) {
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	exit();
+} else if (isset($_GET['import'])) {
+	
+	$importer = $_GET['import'];
+
+	if ( validate_file($importer) ) {
+		die(__('Invalid importer.'));
+	}
+		
+	if (! file_exists(ABSPATH . "wp-admin/import/$importer.php"))
+		die(__('Cannot load importer.'));
+
+	include(ABSPATH . "wp-admin/import/$importer.php");
+
+	$parent_file = 'import.php';
+	$title = __('Import');
+	
+	if (! isset($_GET['noheader']))
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
+
+	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+
+	call_user_func($wp_importers[$importer][2]);
+			
+	include(ABSPATH . 'wp-admin/admin-footer.php');
+
+	exit();
 }
 
 ?>

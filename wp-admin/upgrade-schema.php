@@ -256,6 +256,7 @@ function populate_roles() {
 												'edit_plugins' => true,
 												'edit_users' => true,
 												'edit_files' => true,
+												'import' => true,
 												'read' => true,
 												'level_10' => true,
 												'level_9' => true,
