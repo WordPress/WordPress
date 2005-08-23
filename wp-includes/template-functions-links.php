@@ -409,7 +409,14 @@ function get_pagenum_link($pagenum = 1) {
 
 	$qstr = preg_replace('|^/+|', '', $qstr);
 	if ($permalink) $qstr = trailingslashit($qstr);
-	return preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
+	$qstr = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
+	
+	// showing /page/1/ or ?paged=1 is redundant
+	if ($pagenum === 1) {
+		$qstr = str_replace('page/1/', '', $qstr); // for mod_rewrite style
+		$qstr = remove_query_arg('paged', $qstr); // for query style
+	}
+	return $qstr;
 }
 
 function next_posts($max_page = 0) { // original by cfactor at cooltux.org
