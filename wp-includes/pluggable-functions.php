@@ -135,7 +135,7 @@ function wp_login($username, $password, $already_md5 = false) {
 	} else {
 		// If the password is already_md5, it has been double hashed.
 		// Otherwise, it is plain text.
-		if ( ($already_md5 && $login->user_login == $username && md5($login->user_pass) == $password) || ($login->user_login == $username && $login->user_pass == md5($password)) ) {
+		if ( ($already_md5 && md5($login->user_pass) == $password) || ($login->user_login == $username && $login->user_pass == md5($password)) ) {
 			return true;
 		} else {
 			$error = __('<strong>Error</strong>: Incorrect password.');
