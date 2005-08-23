@@ -93,11 +93,15 @@
 .mceEditor {
 	background: #F0F0EE;
 	border: 1px solid #cccccc;
+	padding: 0px;
+	margin: 0px;
 }
 
 .mceEditorArea {
 	font-family: "MS Sans Serif";
 	background: #FFFFFF;
+	padding: 0px;
+	margin: 0px;
 }
 
 .mceToolbarTop, .mceToolbarBottom {
@@ -121,6 +125,7 @@
 	font-size: 9pt;
 	padding: 2px;
 	line-height: 16px;
+	overflow: visible;
 }
 
 .mceStatusbarTop {
@@ -160,11 +165,10 @@
 }
 
 .mceResizeBox {
-   width: 10px;
-   height: 10px;
-   display: none;
-   border: 1px dotted gray;
-   margin: 0px;
-   padding: 0px;
+	width: 10px;
+	height: 10px;
+	display: none;
+	border: 1px dotted gray;
+	margin: 0px;
+	padding: 0px;
 }
-
