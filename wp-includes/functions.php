@@ -1591,7 +1591,7 @@ function get_themes() {
 		$template = $theme_data['Template'];
 		$stylesheet = dirname($theme_file);
 
-		$screenshot = glob("$theme_root/$stylesheet/screenshot.png");
+		$screenshot = glob("$theme_root/$stylesheet/screenshot.*");
 		if ( !empty( $screenshot ) )
 			$screenshot = basename( $screenshot[0] );
 		else
