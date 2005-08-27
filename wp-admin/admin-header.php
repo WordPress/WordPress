@@ -75,10 +75,10 @@ addLoadEvent(blurry);
 <?php endif; ?>
 //]]>
 </script>
-<script type="text/javascript" src="fat.js"></script>
+<script type="text/javascript" src="../wp-includes/js/fat.js"></script>
 <?php if ( isset( $editing ) ) : ?>
 <?php if ( 'true' == get_user_option('rich_editing') ) :?>
-<script type="text/javascript" src="tinymce/tiny_mce_src.js"></script>
+<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_src.js"></script>
 <script type="text/javascript">
 tinyMCE.init({
 	mode : "specific_textareas",
@@ -100,11 +100,11 @@ tinyMCE.init({
 });
 </script>
 <?php endif; ?>
-<script type="text/javascript" src="dbx.js"></script>
-<script type="text/javascript" src="dbx-key.js"></script>
+<script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
+<script type="text/javascript" src="../wp-includes/js/dbx-key.js"></script>
 
 <?php if ( current_user_can('manage_categories') ) : ?>
-<script type="text/javascript" src="tw-sack.js"></script>
+<script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
 <script type="text/javascript">
 var ajaxCat = new sack();
 var newcat;

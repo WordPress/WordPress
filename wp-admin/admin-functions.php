@@ -883,7 +883,7 @@ function the_quicktags () {
 if ( !strstr($_SERVER['HTTP_USER_AGENT'], 'Safari') ) :
 	echo '
 	<div id="quicktags">
-	<script src="quicktags.js" type="text/javascript"></script>
+	<script src="../wp-includes/js/quicktags.js" type="text/javascript"></script>
 	<script type="text/javascript">edToolbar();</script>
 ';
 	echo '</div>';
