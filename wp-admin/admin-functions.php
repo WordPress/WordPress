@@ -1373,7 +1373,7 @@ function pimp_firefox() {
 		return;
 	$getit = __('WordPress recommends the open-source Firefox browser');
 	echo '
-	<p id="firefoxlink" style="text-align: center;"><a href="http://spreadfirefox.com/community/?q=affiliates&amp;id=2490&amp;t=1" title="' . $getit . '"><img src="../wp-images/get-firefox.png" alt="Get Firefox" /></a></p>
+	<p id="firefoxlink" style="text-align: center;"><a href="http://spreadfirefox.com/community/?q=affiliates&amp;id=2490&amp;t=1" title="' . $getit . '"><img src="images/get-firefox.png" alt="Get Firefox" /></a></p>
 	';
 }
 add_action('admin_footer', 'pimp_firefox');

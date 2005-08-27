@@ -29,7 +29,7 @@ case "step1":
 </head>
 <body>
 <div class="wrap">
-<h1>Blogger to <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<h1>Blogger to <img src="../wp-includes/images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
 <p>The importer is running...</p>
 <ul>
 	<li>Importing posts and users
@@ -164,7 +164,7 @@ default:
 
 <body>
 <div class="wrap">
-<h1>Blogger to <img src="../wp-images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
+<h1>Blogger to <img src="../wp-includes/images/wpminilogo.png" width="50" height="50" border="0" alt="WordPress" align="top" /></h1>
 <p>This is a basic Blogger to WordPress import script.</p>
 <p>What it does:</p>
 <ul>

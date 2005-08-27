@@ -1,5 +1,5 @@
 
-<div id="footer"><p><a href="http://wordpress.org/"><img src="../wp-images/wp-small.png" alt="WordPress" /></a><br />
+<div id="footer"><p><a href="http://wordpress.org/"><img src="../wp-includes/images/wp-small.png" alt="WordPress" /></a><br />
 <?php bloginfo('version'); ?> <br /> 
 <a href="http://codex.wordpress.org/"><?php _e('Documentation'); ?></a> &#8212; <a href="http://wordpress.org/support/"><?php _e('Support Forums'); ?></a> <br />
 <?php printf(__('%s seconds'), number_format(timer_stop(), 2)); ?>

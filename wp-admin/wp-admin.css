@@ -228,7 +228,7 @@ textarea, input, select {
 }
 
 .submit input, .submit input:focus, .button {
-	background: url(../wp-images/fade-butt.png);
+	background: url( images/fade-butt.png );
 	border: 3px double #999;
 	border-left-color: #ccc;
 	border-top-color: #ccc;
@@ -432,7 +432,7 @@ table .vers, table .name {
 }
 
 #login h1 {
-	background: url(../wp-images/wp-small.png) no-repeat;
+	background: url(../wp-includes/images/wp-small.png) no-repeat;
 	margin-top: 0;
 }
 
@@ -726,7 +726,7 @@ a.dbx-toggle, a.dbx-toggle:visited {
 	width: 12px;
 	height: 12px;
 	overflow: hidden;
-	background-image: url( toggle.png );
+	background-image: url( images/toggle.png );
 	position: absolute;
 	top: .3em;
 	right: .3em;
