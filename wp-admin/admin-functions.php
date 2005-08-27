@@ -668,7 +668,7 @@ function meta_form() {
 		ORDER BY meta_id DESC
 		LIMIT 10");
 ?>
-<h3><?php _e('Add a new custom field to this post:') ?></h3>
+<h3><?php _e('Add a new custom field:') ?></h3>
 <table cellspacing="3" cellpadding="3">
 	<tr>
 <th colspan="2"><?php _e('Key') ?></th>
