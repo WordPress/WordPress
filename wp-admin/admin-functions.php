@@ -1371,7 +1371,7 @@ function get_plugin_page_hook($plugin_page, $parent_page) {
 function browse_happy() {
 	$getit = __('WordPress recommends a better browser');
 	echo '
-	<p id="bh" style="text-align: center;"><a href="http://browsehappy.com/" title="' . $getit . '"><img src="images/browse-happy.png" alt="Browse Happy" /></a></p>
+	<p id="bh" style="text-align: center;"><a href="http://browsehappy.com/" title="' . $getit . '"><img src="images/browse-happy.gif" alt="Browse Happy" /></a></p>
 	';
 }
 if ( strstr( $_SERVER['HTTP_USER_AGENT'], 'MSIE' ) )
