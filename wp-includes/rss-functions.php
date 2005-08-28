@@ -39,20 +39,13 @@ class MagpieRSS {
 		
 		# if PHP xml isn't compiled in, die
 		#
-		if (!function_exists('xml_parser_create')) {
-			die( "Failed to load PHP's XML Extension. " . 
-						  "http://www.php.net/manual/en/ref.xml.php",
-						   E_USER_ERROR );
-		}
+		if ( !function_exists('xml_parser_create') )
+			die( "Failed to load PHP's XML Extension. http://www.php.net/manual/en/ref.xml.php" );
 		
 		$parser = @xml_parser_create();
 		
-		if (!is_resource($parser))
-		{
-			die( "Failed to create an instance of PHP's XML parser. " .
-						  "http://www.php.net/manual/en/ref.xml.php",
-						  E_USER_ERROR );
-		}
+		if ( !is_resource($parser) )
+			die( "Failed to create an instance of PHP's XML parser. http://www.php.net/manual/en/ref.xml.php");
 
 		
 		$this->parser = $parser;
