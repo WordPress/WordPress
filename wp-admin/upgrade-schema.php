@@ -195,7 +195,9 @@ function populate_options() {
 	add_option('blog_charset', 'UTF-8');
 	add_option('moderation_keys');
 	add_option('active_plugins');
-	add_option('home');
+	add_option('home', $guessurl);
+	// in case it is set, but blank, update "home"
+	if ( !__get_option('home') ) update_option('home', $guessurl);
 	add_option('category_base');
 	add_option('ping_sites', 'http://rpc.pingomatic.com/');
 	add_option('advanced_edit', 0);
