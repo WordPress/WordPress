@@ -189,6 +189,10 @@ load_default_textdomain();
 // Pull in locale data after loading text domain.
 require_once(ABSPATH . WPINC . '/locale.php');
 
+// Load functions for active theme.
+if ( file_exists(TEMPLATEPATH . "/functions.php") )
+	include(TEMPLATEPATH . "/functions.php");
+
 function shutdown_action_hook() {
 	do_action('shutdown');
 }

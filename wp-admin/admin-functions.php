@@ -1144,6 +1144,11 @@ function add_management_page($page_title, $menu_title, $access_level, $file, $fu
 	return add_submenu_page('edit.php', $page_title, $menu_title, $access_level, $file, $function);
 }
 
+function add_theme_page($page_title, $menu_title, $access_level, $file, $function = '') {
+        return add_submenu_page('themes.php', $page_title, $menu_title, $access_level, $file, $function);
+}
+
+
 function validate_file($file, $allowed_files = '') {
 	if ( false !== strpos($file, './'))
 		return 1;
