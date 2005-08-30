@@ -122,7 +122,7 @@ if ( isset($rss->items) && 0 != count($rss->items) ) {
 $rss->items = array_slice($rss->items, 0, 3);
 foreach ($rss->items as $item ) {
 ?>
-<h4><a href='<?php echo wp_filter_kses($item['link']); ?>'><?php echo wp_specialchars($item['title']); ?></a> &#8212; <?php echo human_time_diff( strtotime($item['pubdate'], time() ) ); ?> <?php _e('ago'); ?></h4>
+<h4><a href='<?php echo wp_filter_kses($item['link']); ?>'><?php echo wp_specialchars($item['title']); ?></a> &#8212; <?php printf(__('%s ago'), human_time_diff(strtotime($item['pubdate'], time() ) ) ); ?></h4>
 <p><?php echo $item['description']; ?></p>
 <?php
 	}
