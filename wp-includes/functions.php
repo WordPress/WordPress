@@ -247,7 +247,7 @@ function url_to_postid($url) {
 			// Substitute the substring matches into the query.
 			eval("\$query = \"$query\";");
 			$query = new WP_Query($query);
-			if ( $query->is_post || $query->is_page )
+			if ( $query->is_single || $query->is_page )
 				return $query->post->ID;
 			else
 				return 0;
