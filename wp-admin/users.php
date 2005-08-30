@@ -148,7 +148,7 @@ case 'adduser':
 
 	if(count($errors) == 0) {	
 		$user_ID = create_user( $new_user_login, $new_pass1, $new_user_email, 0 );
-	
+
 		update_usermeta( $user_ID, 'first_name', $new_user_firstname);
 		update_usermeta( $user_ID, 'last_name', $new_user_lastname);
 		update_usermeta( $user_ID, 'first_name', $new_user_firstname);
@@ -166,6 +166,9 @@ case 'adduser':
 		$message .= sprintf(__('E-mail: %s'), $new_user_email) . "\r\n";
 	
 		@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
+
+		do_action('user_register', $user_id);
+
 		header('Location: users.php?update=add');
 		die();
 	}
