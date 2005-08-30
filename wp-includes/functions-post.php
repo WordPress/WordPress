@@ -155,9 +155,9 @@ function wp_insert_post($postarr = array()) {
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 		if ($post_pingback)
-			pingback($post_content, $post_ID);
-		do_enclose( $post_content, $post_ID );
-		do_trackbacks($post_ID);
+			register_shutdown_function('pingback', $content, $post_ID);
+		register_shutdown_function('do_enclose', $content, $post_ID );
+		register_shutdown_function('do_trackbacks', $post_ID);
 	}	else if ($post_status == 'static') {
 		generate_page_rewrite_rules();
 
