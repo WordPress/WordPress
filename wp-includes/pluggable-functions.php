@@ -221,7 +221,6 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
     
 	$comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
 	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");
-	$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID='$post->post_author' LIMIT 1");
 
 	if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
@@ -268,6 +267,10 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		. "$from\n"
 		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 
+	$notify_message = apply_filters('comment_notification_text', $notify_message);
+	$subject = apply_filters('comment_notification_subject', $subject);
+	$message_headers = apply_filters('comment_notification_headers', $message_headers);
+
 	@wp_mail($user->user_email, $subject, $notify_message, $message_headers);
    
 	return true;
@@ -305,7 +308,10 @@ function wp_notify_moderator($comment_id) {
 	$notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 
 	$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), get_settings('blogname'), $post->post_title );
-	$admin_email = get_settings("admin_email");
+	$admin_email = get_settings('admin_email');
+
+	$notify_message = apply_filters('comment_moderation_text', $notify_message);
+	$subject = apply_filters('comment_moderation_subject', $subject);
 
 	@wp_mail($admin_email, $subject, $notify_message);
     
