@@ -262,6 +262,8 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		}
 	}
 
+	$exclusions = apply_filters('list_cats_exclusions', $exclusions );
+
 	if (intval($categories)==0){
 		$sort_column = 'cat_'.$sort_column;
 
