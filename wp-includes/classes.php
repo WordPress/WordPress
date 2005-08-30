@@ -1330,8 +1330,7 @@ class WP {
 				 ('/' != $_SERVER['PATH_INFO']) &&
 				 (false === strpos($_SERVER['PATH_INFO'], '.php'))
 				 ) ||
-				(empty($_SERVER['QUERY_STRING']) &&
-				 (false === strpos($_SERVER['REQUEST_URI'], '.php')) &&
+				((false === strpos($_SERVER['REQUEST_URI'], '.php')) &&
 				 ('/' != $_SERVER['REQUEST_URI']))
 				) {
 
@@ -1345,7 +1344,11 @@ class WP {
 
 			if (! empty($rewrite)) {
 				$pathinfo = $_SERVER['PATH_INFO'];
-				$req_uri = $_SERVER['REQUEST_URI'];      
+				$pathinfo_array = explode('?', $pathinfo);
+				$pathinfo = $pathinfo_array[0];
+				$req_uri = $_SERVER['REQUEST_URI'];
+				$req_uri_array = explode('?', $req_uri);
+				$req_uri = $req_uri_array[0];
 				$home_path = parse_url(get_settings('home'));
 				$home_path = $home_path['path'];
 
