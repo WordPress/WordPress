@@ -119,13 +119,13 @@ function newCatAddIn() {
 	newcat.id = 'newcat';
 	newcat.size = '16';
 	newcat.setAttribute('autocomplete', 'off');
-	newcat.setAttribute('onkeypress', 'return ajaxNewCatKeyPress(event);');
+	newcat.onkeypress = ajaxNewCatKeyPress;
 
 	var newcatSub = document.createElement('input');
 	newcatSub.type = 'button';
 	newcatSub.name = 'Button';
 	newcatSub.value = '+';
-	newcatSub.setAttribute('onclick', 'ajaxNewCat();');
+	newcat.onkeypress = ajaxNewCatKeyPress;
 
 	ajaxcat.appendChild(newcat);
 	ajaxcat.appendChild(newcatSub);
@@ -161,7 +161,7 @@ function newCatInteractive() {
 
 function newCatCompletion() {
 	var p = getResponseElement();
-	var id = ajaxCat.response;
+	var id = parseInt(ajaxCat.response, 10);
 	if ( id == '-1' ) {
 		p.innerHTML = "You don't have permission to do that.";
 		return;
@@ -173,32 +173,38 @@ function newCatCompletion() {
 	p.parentNode.removeChild(p);
 	var exists = document.getElementById('category-' + id);
 	if (exists) {
+		var moveIt = exists.parentNode;
+		var container = moveIt.parentNode;
+		container.removeChild(moveIt);
+		container.insertBefore(moveIt, container.firstChild);
+		moveIt.id = 'new-category-' + id;
 		exists.checked = 'checked';
-		exists.parentNode.setAttribute('id', 'new-category-' + id);
-		var nowClass = exists.parentNode.getAttribute('class');
-		exists.parentNode.setAttribute('class', nowClass + ' fade');
+		var nowClass = moveIt.className;
+		moveIt.className = nowClass + ' fade';
 		Fat.fade_all();
-		exists.parentNode.setAttribute('class', nowClass);
+		moveIt.className = nowClass;
 	} else {
 		var catDiv = document.getElementById('categorychecklist');
 		var newLabel = document.createElement('label');
-		catDiv.insertBefore(newLabel, catDiv.firstChild);
 		newLabel.setAttribute('for', 'category-' + id);
-		newLabel.setAttribute('id', 'new-category-' + id);
-		newLabel.setAttribute('class', 'selectit fade');
+		newLabel.id = 'new-category-' + id;
+		newLabel.className = 'selectit fade';
 
 		var newCheck = document.createElement('input');
-		newLabel.appendChild(newCheck);
-		newCheck.value = id;
 		newCheck.type = 'checkbox';
-		newCheck.checked = 'checked';
+		newCheck.value = id;
 		newCheck.name = 'post_category[]';
 		newCheck.id = 'category-' + id;
+		newLabel.appendChild(newCheck);
 
 		var newLabelText = document.createTextNode(' ' + newcat.value);
 		newLabel.appendChild(newLabelText);
+
+		catDiv.insertBefore(newLabel, catDiv.firstChild);
+		newCheck.checked = 'checked';
+
 		Fat.fade_all();
-		newLabel.setAttribute('class', 'selectit');
+		newLabel.className = 'selectit';
 	}
 	newcat.value = '';
 }
@@ -221,7 +227,7 @@ function ajaxNewCatKeyPress(e) {
 
 function ajaxNewCat() {
 	var newcat = document.getElementById('newcat');
-	var catString = 'ajaxnewcat=' + newcat.value;
+	var catString = 'ajaxnewcat=' + encodeURIComponent(newcat.value);
 	ajaxCat.requestFile = 'edit-form-ajax-cat.php';
 	ajaxCat.method = 'GET';
 	ajaxCat.onLoading = newCatLoading;

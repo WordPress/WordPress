@@ -12,10 +12,14 @@ function grab_id() {
 	$new_cat_id = func_get_arg(0);
 }
 
+function get_out_now() { exit; }
+
+
 add_action('edit_category', 'grab_id');
 add_action('create_category', 'grab_id');
+add_action('shutdown', 'get_out_now', -1);
 
-$cat_name = stripslashes($_GET['ajaxnewcat']);
+$cat_name = rawurldecode($_GET['ajaxnewcat']);
 
 if ( !$category_nicename = sanitize_title($cat_name) )
 	die('0');
@@ -25,5 +29,5 @@ if ( $already = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE categ
 $cat_name = $wpdb->escape($cat_name);
 $cat_array = compact('cat_name', 'category_nicename');
 wp_insert_category($cat_array);
-echo $new_cat_id;
+die($new_cat_id);
 ?>
