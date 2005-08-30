@@ -264,7 +264,8 @@ function wp_insert_category($catarr) {
 		do_action('edit_category', $cat_ID);
 	} else {
 		$rval = $wpdb->insert_id;
-		do_action('create_category', $cat_ID);
+		do_action('create_category', $rval);
+		do_action('add_category', $rval);
 	}
 
 	return $rval;
