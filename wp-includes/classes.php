@@ -1323,6 +1323,8 @@ class WP {
 
 		if (! empty($extra_query_vars))
 			parse_str($extra_query_vars, $extra_query_vars);
+		else
+			$extra_query_vars = array();
 
 		// Process PATH_INFO, REQUEST_URI, and 404 for permalinks.
 		if ((isset($_GET['error']) && $_GET['error'] == '404') ||
