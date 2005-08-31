@@ -130,7 +130,7 @@ if ($comments) {
     <h2><?php _e('Moderation Queue') ?></h2>
     <form name="approval" action="moderation.php" method="post">
     <input type="hidden" name="action" value="update" />
-    <ol id="comments" class="commentlist">
+    <ol id="the-list" class="commentlist">
 <?php
 $i = 0;
     foreach($comments as $comment) {
@@ -147,7 +147,7 @@ $i = 0;
 echo '<a href="post.php?action=editcomment&amp;comment='.$comment->comment_ID.'">' . __('Edit') . '</a> | ';?>
 <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a> | 
 <?php 
-echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\">" . __('Delete just this comment') . "</a> | "; ?>  <?php _e('Bulk action:') ?>
+echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete just this comment') . "</a> | "; ?>  <?php _e('Bulk action:') ?>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-approve" value="approve" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-approve"><?php _e('Approve') ?></label>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-spam" value="spam" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-spam"><?php _e('Spam') ?></label>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-delete" value="delete" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-delete"><?php _e('Delete') ?></label>
@@ -159,6 +159,8 @@ echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID
     }
 ?>
     </ol>
+
+<div id="ajax-response"></div>
 
     <p class="submit"><input type="submit" name="submit" value="<?php _e('Moderate Comments &raquo;') ?>" /></p>
 <script type="text/javascript">

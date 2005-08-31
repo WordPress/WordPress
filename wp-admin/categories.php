@@ -120,7 +120,7 @@ $messages[3] = __('Category updated.');
 <?php else : ?>
 	<h2><?php _e('Categories') ?> </h2>
 <?php endif; ?>
-<table width="100%" cellpadding="3" cellspacing="3">
+<table id="the-list-x" width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<th scope="col"><?php _e('ID') ?></th>
         <th scope="col"><?php _e('Name') ?></th>
@@ -132,6 +132,8 @@ $messages[3] = __('Category updated.');
 cat_rows();
 ?>
 </table>
+
+<div id="ajax-response"></div>
 
 </div>
 

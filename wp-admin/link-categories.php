@@ -276,7 +276,7 @@ switch ($action) {
 
 <div class="wrap">
             <h2><?php _e('Link Categories:') ?></h2>
-            <table width="100%" cellpadding="5" cellspacing="0" border="0">
+            <table id="the-list" width="100%" cellpadding="5" cellspacing="0" border="0">
               <tr>
  	        <th rowspan="2" valign="bottom"><?php _e('Name') ?></th>
                 <th rowspan="2" valign="bottom"><?php _e('ID') ?></th>
@@ -334,7 +334,7 @@ foreach ($results as $row) {
     		break;
     }
 ?>
-              <tr valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
+              <tr id="link-category-<?php echo $row->cat_id; ?>" valign="middle" align="center" <?php echo $style ?> style="border-bottom: 1px dotted #9C9A9C;">
                 <td><?php echo wp_specialchars($row->cat_name)?></td>
 				<td ><?php echo $row->cat_id?></td>
                 <td><?php echo $row->auto_toggle == 'Y' ? __('Yes') : __('No') ?></td>
@@ -349,7 +349,7 @@ foreach ($results as $row) {
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_after_all)?></td>
                 <td><?php echo $row->list_limit ?></td>
                 <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Edit" class="edit"><?php _e('Edit') ?></a></td>
-                <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Delete" onclick="return confirm('<?php _e("You are about to delete this category.\\n  \'Cancel\' to stop, \'OK\' to delete.") ?>');" class="delete"><?php _e('Delete') ?></a></td>
+                <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Delete" onclick="return deleteSomething( 'link category', <?php echo $row->cat_id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; link category.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($row->cat_name,1)); ?>' );" class="delete"><?php _e('Delete') ?></a></td>
               </tr>
 <?php
         ++$i;
@@ -357,6 +357,8 @@ foreach ($results as $row) {
 ?>
             </table>
 <p><?php _e('These are the defaults for when you call a link category with no additional arguments. All of these settings may be overwritten.') ?></p>
+
+<div id="ajax-response"></div>
 
 </div>
 

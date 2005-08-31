@@ -76,6 +76,8 @@ addLoadEvent(blurry);
 //]]>
 </script>
 <script type="text/javascript" src="../wp-includes/js/fat.js"></script>
+<script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
+<script type="text/javascript" src="list-manipulation.js"></script>
 <?php if ( isset( $editing ) ) : ?>
 <?php if ( 'true' == get_user_option('rich_editing') ) :?>
 <script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_src.js"></script>
@@ -104,7 +106,6 @@ tinyMCE.init({
 <script type="text/javascript" src="../wp-includes/js/dbx-key.js"></script>
 
 <?php if ( current_user_can('manage_categories') ) : ?>
-<script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
 <script type="text/javascript">
 var ajaxCat = new sack();
 var newcat;

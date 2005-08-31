@@ -629,7 +629,7 @@ function checkAll(form)
     <input type="hidden" name="action" value="" />
     <input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
     <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
-  <table width="100%" cellpadding="3" cellspacing="3">
+  <table id="the-list-x" width="100%" cellpadding="3" cellspacing="3">
     <tr>
       <th width="15%"><?php _e('Name') ?></th>
       <th><?php _e('URI') ?></th>
@@ -671,9 +671,9 @@ function checkAll(form)
             $image = ($link->link_image != null) ? __('Yes') : __('No');
             $visible = ($link->link_visible == 'Y') ? __('Yes') : __('No');
             ++$i;
-            $style = ($i % 2) ? ' class="alternate"' : '';
+            $style = ($i % 2) ? '' : ' class="alternate"';
 ?>
-    <tr valign="middle" <?php echo $style; ?>>
+    <tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>>
 		<td><strong><?php echo $link->link_name; ?></strong><br />
 <?php			
         echo sprintf(__('Description: %s'), $link->link_description) . "</td>";
@@ -688,16 +688,18 @@ LINKS;
 
             if ($show_buttons) {
         echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=linkedit" class="edit">' . __('Edit') . '</a></td>';
-        echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=Delete"' .  " onclick=\"return confirm('" . __("You are about to delete this link.\\n  \'Cancel\' to stop, \'OK\' to delete.") .  "');" . '" class="delete">' . __('Delete') . '</a></td>';
+        echo '<td><a href="link-manager.php?link_id=' . $link->link_id . '&amp;action=Delete"' .  " onclick=\"return deleteSomething( 'link', $link->link_id , '" . sprintf(__("You are about to delete the &quot;%s&quot; link to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($link->link_name,1), wp_specialchars($link->link_url)) . '\' );" class="delete">' . __('Delete') . '</a></td>';
         echo '<td><input type="checkbox" name="linkcheck[]" value="' . $link->link_id . '" /></td>';
             } else {
               echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>\n";
             }
-		echo "\n\t</tr>";
+		echo "\n    </tr>\n";
         }
     }
 ?>
 </table>
+
+<div id="ajax-response"></div>
 
 </div>
 

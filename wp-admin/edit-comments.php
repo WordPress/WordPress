@@ -76,7 +76,7 @@ if ('view' == $mode) {
 		else
 			$start = '';
 
-		echo "<ol class='commentlist' $start>";
+		echo "<ol id='the-list' class='commentlist' $start>";
 		$i = 0;
 		foreach ($comments as $comment) {
 		++$i; $class = '';
@@ -86,7 +86,7 @@ if ('view' == $mode) {
 				$class .= ' unapproved';
 			if ($i % 2)
 				$class .= ' alternate';
-			echo "<li class='$class'>";
+			echo "<li id='comment-$comment->comment_ID' class='$class'>";
 ?>		
         <p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('E-mail:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url ) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 		
@@ -97,7 +97,7 @@ if ('view' == $mode) {
 				echo " | <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit Comment') . "</a>";
 			}
 			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\">" . __('Delete Comment') . "</a> &#8212; ";
+				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Delete Comment') . "</a> &#8212; ";
 			} // end if any comments to show
 			// Get post title
 			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
@@ -110,6 +110,8 @@ if ('view' == $mode) {
 
 <?php } // end foreach ?>
 </ol>
+
+<div id="ajax-response"></div>
 
 <?php
 	} else {

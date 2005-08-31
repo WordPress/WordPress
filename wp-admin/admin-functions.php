@@ -442,12 +442,12 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 				$pad = str_repeat('&#8212; ', $level);
 				if ( current_user_can('manage_categories') )
-					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>" . __('Edit') . "</a></td><td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return confirm('".  sprintf(__("You are about to delete the category \'%s\'.  All of its posts will go to the default category.\\n  \'OK\' to delete, \'Cancel\' to stop."), $wpdb->escape($category->cat_name)) . "')\" class='delete'>" .  __('Delete') . "</a>";
+					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>" . __('Edit') . "</a></td><td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts will go to the default category.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars($category->cat_name, 1))  . "' );\" class='delete'>" .  __('Delete') . "</a>";
 				else
 					$edit = '';
 				
 				$class = ('alternate' == $class) ? '' : 'alternate';
-				echo "<tr class='$class'><th scope='row'>$category->cat_ID</th><td>$pad $category->cat_name</td>
+				echo "<tr id='cat-$category->cat_ID' class='$class'><th scope='row'>$category->cat_ID</th><td>$pad $category->cat_name</td>
 				<td>$category->category_description</td>
 				<td>$count</td>
 				<td>$edit</td>
@@ -473,7 +473,7 @@ function page_rows( $parent = 0, $level = 0, $pages = 0 ) {
 				$id = $post->ID;
 				$class = ('alternate' == $class) ? '' : 'alternate';
 ?>
-  <tr class='<?php echo $class; ?>'> 
+  <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'> 
     <th scope="row"><?php echo $post->ID; ?></th> 
     <td>
       <?php echo $pad; ?><?php the_title() ?> 
@@ -482,7 +482,7 @@ function page_rows( $parent = 0, $level = 0, $pages = 0 ) {
     <td><?php echo mysql2date('Y-m-d g:i a', $post->post_modified); ?></td> 
 	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
     <td><?php if ( current_user_can('edit_pages') ) { echo "<a href='post.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
-    <td><?php if ( current_user_can('edit_pages') ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), the_title('','',0)) . "')\">" . __('Delete') . "</a>"; } ?></td> 
+    <td><?php if ( current_user_can('edit_pages') ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return deleteSomething( 'page', " . $id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; page.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars(get_the_title('','',0), 1)) . "' );\">" . __('Delete') . "</a>"; } ?></td> 
   </tr> 
 
 <?php

@@ -14,7 +14,7 @@ $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'sta
 
 if ($posts) {
 ?>
-<table width="100%" cellpadding="3" cellspacing="3"> 
+<table id="the-list-x" width="100%" cellpadding="3" cellspacing="3"> 
   <tr> 
     <th scope="col"><?php _e('ID') ?></th> 
     <th scope="col"><?php _e('Title') ?></th> 
@@ -26,6 +26,9 @@ if ($posts) {
   </tr> 
 <?php page_rows(); ?>
 </table> 
+
+<div id="ajax-response"></div>
+
 <?php
 } else {
 ?>

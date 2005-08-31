@@ -128,7 +128,7 @@ $posts_columns['control_delete'] = '';
 
 ?>
 
-<table width="100%" cellpadding="3" cellspacing="3"> 
+<table id="the-list-x" width="100%" cellpadding="3" cellspacing="3"> 
 	<tr>
 
 <?php foreach($posts_columns as $column_display_name) { ?>
@@ -142,7 +142,7 @@ $bgcolor = '';
 foreach ($posts as $post) { start_wp();
 $class = ('alternate' == $class) ? '' : 'alternate';
 ?> 
-	<tr class='<?php echo $class; ?>'>
+	<tr id='post-<?php echo $id; ?>' class='<?php echo $class; ?>'>
 
 <?php
 
@@ -202,7 +202,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'control_delete':
 		?>
-		<td><?php if ( current_user_can('edit_post',$post->ID) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), wp_specialchars(get_the_title('', ''), 1) ) . "')\">" . __('Delete') . "</a>"; } ?></td>
+		<td><?php if ( current_user_can('edit_post',$post->ID) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return deleteSomething( 'post', " . $id . ", '" . sprintf(__("You are about to delete this post &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars(get_the_title('', ''), 1) ) . "' );\">" . __('Delete') . "</a>"; } ?></td>
 		<?php
 		break;
 
@@ -225,7 +225,9 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 <?php
 } // end if ($posts)
 ?> 
-</table> 
+</table>
+
+<div id="ajax-response"></div>
 
 <div class="navigation">
 <div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries')) ?></div>
