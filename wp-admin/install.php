@@ -194,7 +194,7 @@ We hope you enjoy your new weblog. Thanks!
 http://wordpress.org/
 "), $guessurl, $random_password);
 
-@mail($admin_email, __('New WordPress Blog'), $message, $message_headers);
+@wp_mail($admin_email, __('New WordPress Blog'), $message, $message_headers);
 
 upgrade_all();
 ?>
