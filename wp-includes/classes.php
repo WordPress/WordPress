@@ -915,7 +915,7 @@ class WP_Rewrite {
 	}
 
 	function get_year_permastruct() {
-		$structure = $this->get_date_permastruct($permalink_structure);
+		$structure = $this->get_date_permastruct($this->permalink_structure);
 
 		if (empty($structure)) {
 			return false;
@@ -930,7 +930,7 @@ class WP_Rewrite {
 	}
 
 	function get_month_permastruct() {
-		$structure = $this->get_date_permastruct($permalink_structure);
+		$structure = $this->get_date_permastruct($this->permalink_structure);
 
 		if (empty($structure)) {
 			return false;
@@ -944,7 +944,7 @@ class WP_Rewrite {
 	}
 
 	function get_day_permastruct() {
-		return $this->get_date_permastruct($permalink_structure);
+		return $this->get_date_permastruct($this->permalink_structure);
 	}
 
 	function get_category_permastruct() {
