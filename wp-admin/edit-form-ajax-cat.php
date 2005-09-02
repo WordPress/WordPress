@@ -24,10 +24,10 @@ $cat_name = rawurldecode($_GET['ajaxnewcat']);
 if ( !$category_nicename = sanitize_title($cat_name) )
 	die('0');
 if ( $already = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename'") )
-	die($already);
+	die((string) $already);
 
 $cat_name = $wpdb->escape($cat_name);
 $cat_array = compact('cat_name', 'category_nicename');
 wp_insert_category($cat_array);
-die($new_cat_id);
+die((string) $new_cat_id);
 ?>
