@@ -6,7 +6,7 @@
 </p>
 
 </div>
-
+<?php check_for_pings(); ?>
 <?php do_action('admin_footer', ''); ?>
 
 </body>

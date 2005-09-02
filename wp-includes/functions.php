@@ -827,6 +827,19 @@ function debug_fclose($fp) {
 	}
 }
 
+function check_for_pings() {
+	global $wpdb;
+	$doping = false;
+	if($wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != '' LIMIT 1")) {
+		$doping = true;
+	}
+	if($wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_pingme' OR meta_key = '_encloseme' LIMIT 1")) {
+		$doping = true;
+	}
+	if($doping) 
+		echo '<iframe src="' .  get_settings('siteurl') .'/wp-admin/execute-pings.php?time=' . time() . '" style="border:none;width:1px;height:1px;"></iframe>';
+}
+
 function do_enclose( $content, $post_ID ) {
 	global $wp_version, $wpdb;
 	include_once (ABSPATH . WPINC . '/class-IXR.php');

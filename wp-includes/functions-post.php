@@ -155,9 +155,17 @@ function wp_insert_post($postarr = array()) {
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 		if ($post_pingback)
-			register_shutdown_function('pingback', $content, $post_ID);
-		register_shutdown_function('do_enclose', $content, $post_ID );
-		register_shutdown_function('do_trackbacks', $post_ID);
+			$result = $wpdb->query("
+				INSERT INTO $wpdb->postmeta 
+				(post_id,meta_key,meta_value) 
+				VALUES ('$post_ID','_pingme','1')
+			");
+		$result = $wpdb->query("
+			INSERT INTO $wpdb->postmeta 
+			(post_id,meta_key,meta_value) 
+			VALUES ('$post_ID','_encloseme','1')
+		");
+		//register_shutdown_function('do_trackbacks', $post_ID);
 	}	else if ($post_status == 'static') {
 		generate_page_rewrite_rules();
 
