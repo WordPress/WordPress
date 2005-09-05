@@ -256,7 +256,7 @@ function ajaxNewCat() {
 <?php
 require(ABSPATH . '/wp-admin/menu-header.php');
 
-if ( $parent_file == 'options-general.php' ) {
+if ( $parent_file == 'options-personal.php' ) {
 	require(ABSPATH . '/wp-admin/options-head.php');
 }
 ?>
