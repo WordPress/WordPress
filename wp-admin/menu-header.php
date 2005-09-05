@@ -26,7 +26,7 @@ foreach ($menu as $item) {
 // Sub-menu
 if ( isset($submenu["$parent_file"]) ) :
 ?>
-<ul id="adminmenu2">
+<ul id="submenu">
 <?php 
 foreach ($submenu["$parent_file"] as $item) : 
 	 if ( !current_user_can($item[1]) )

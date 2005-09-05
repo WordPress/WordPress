@@ -1399,4 +1399,20 @@ function get_importers() {
 	return $wp_importers;
 }
 
+function current_theme_info() {
+	$themes = get_themes();
+	$current_theme = get_current_theme();
+	$ct->title = $themes[$current_theme]['Title'];
+	$ct->version = $themes[$current_theme]['Version'];
+	$ct->parent_theme = $themes[$current_theme]['Parent Theme'];
+	$ct->template_dir = $themes[$current_theme]['Template Dir'];
+	$ct->stylesheet_dir = $themes[$current_theme]['Stylesheet Dir'];
+	$ct->template = $themes[$current_theme]['Template'];
+	$ct->stylesheet = $themes[$current_theme]['Stylesheet'];
+	$ct->screenshot = $themes[$current_theme]['Screenshot'];
+	$ct->description = $themes[$current_theme]['Description'];
+	$ct->author = $themes[$current_theme]['Author'];
+	return $ct;
+}
+
 ?>
