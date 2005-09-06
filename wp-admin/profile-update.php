@@ -38,7 +38,7 @@ $aim = wp_specialchars($_POST['aim']);
 $yim = wp_specialchars($_POST['yim']);
 $email = wp_specialchars($_POST['email']);
 $url = wp_specialchars($_POST['url']);
-$url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $newuser_url) ? $newuser_url : 'http://' . $newuser_url; 
+$url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $url) ? $url : 'http://' . $url; 
 $user_description = $_POST['user_description'];
 
 $result = $wpdb->query("UPDATE $wpdb->users SET $updatepassword user_email='$email', user_url='$url', user_nicename = '$nicename', display_name = '$display_name' WHERE ID = '$user_ID'");
