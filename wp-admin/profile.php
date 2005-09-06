@@ -1,68 +1,9 @@
 <?php 
 require_once('admin.php');
 
-$title = 'Profile';
-$parent_file = 'profile.php';
+if ( $_POST['action'] == 'update' ) {
 
-$wpvarstoreset = array('action', 'profile', 'user');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
-
-require_once('../wp-config.php');
-auth_redirect();
-switch($action) {
-
-case 'IErightclick':
-
-	$bookmarklet_height= 550;
-
-	?>
-
-	<div class="menutop">&nbsp;IE one-click bookmarklet</div>
-
-	<table width="100%" cellpadding="20">
-	<tr><td>
-
-	<p>To have a one-click bookmarklet, just copy and paste this<br />into a new text file:</p>
-	<?php
-	$regedit = "REGEDIT4\r\n[HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt\Post To &WP : ". get_settings('blogname') ."]\r\n@=\"javascript:doc=external.menuArguments.document;Q=doc.selection.createRange().text;void(btw=window.open('". get_settings('siteurl') ."/wp-admin/bookmarklet.php?text='+escape(Q)+'".$bookmarklet_tbpb."&popupurl='+escape(doc.location.href)+'&popuptitle='+escape(doc.title),'bookmarklet','scrollbars=no,width=480,height=".$bookmarklet_height.",left=100,top=150,status=yes'));btw.focus();\"\r\n\"contexts\"=hex:31\"";
-	?>
-	<pre style="margin: 20px; background-color: #cccccc; border: 1px dashed #333333; padding: 5px; font-size: 12px;"><?php echo $regedit; ?></pre>
-	<p>Save it as wordpress.reg, and double-click on this file in an Explorer<br />
-	window. Answer Yes to the question, and restart Internet Explorer.<br /><br />
-	That's it, you can now right-click in an IE window and select <br />
-	'Post to WP' to make the bookmarklet appear. :)</p>
-
-	<p align="center">
-	  <form>
-		<input class="search" type="button" value="1" name="Close this window" />
-	  </form>
-	</p>
-	</td></tr>
-	</table>
-	<?php
-
-break;
-
-case 'update':
-
-	/* checking the nickname has been typed */
-	if (empty($_POST["newuser_nickname"])) {
-		die (__("<strong>ERROR</strong>: please enter your nickname (can be the same as your username)"));
-		return false;
-	}
+	check_admin_referer();
 
 	/* if the ICQ UIN has been entered, check to see if it has only numbers */
 	if (!empty($_POST["newuser_icq"])) {
@@ -81,19 +22,19 @@ case 'update':
 		return false;
 	}
 
-	$pass1 = $_POST["pass1"];
-	$pass2 = $_POST["pass2"];
+	$pass1 = $_POST['pass1'];
+	$pass2 = $_POST['pass2'];
 	do_action('check_passwords', array($user_login, &$pass1, &$pass2));
 
 	if ( '' == $pass1 ) {
 		if ( '' != $pass2 )
-			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
-		$updatepassword = "";
+			die (__('<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice.'));
+		$updatepassword = '';
 	} else {
 		if ('' == $pass2)
-			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
+			die (__('<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice.'));
 		if ( $pass1 != $pass2 )
-			die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
+			die (__('<strong>ERROR</strong>: you typed two different passwords. Go back to correct that.'));
 		$newuser_pass = $pass1;
 		$updatepassword = "user_pass=MD5('$newuser_pass'), ";
 		wp_clearcookie();
@@ -128,53 +69,114 @@ case 'update':
 	do_action('profile_update', $user_ID);
 
 	wp_redirect('profile.php?updated=true');
-break;
+	exit;
+}
 
+$title = 'Profile';
 
-default:
-	$parent_file = 'profile.php';
-	include_once('admin-header.php');
-	$profileuser = new WP_User($user_ID);
-	$profiledata = &$profileuser->data;
+$parent_file = 'profile.php';
+include_once('admin-header.php');
+$profileuser = new WP_User($user_ID);
+$profiledata = &$profileuser->data;
 
-	$bookmarklet_height= 440;
+$bookmarklet_height= 440;
+?>
 
-if (isset($updated)) { ?>
+<?php if ( isset($_GET['updated']) ) { ?>
 <div id="message" class="updated fade">
 <p><strong><?php _e('Profile updated.') ?></strong></p>
 </div>
 <?php } ?>
-<div class="wrap">
-<h2><?php _e('Profile'); ?></h2>
-<form name="profile" id="profile" action="profile.php" method="post">
-	<p>
-    <input type="hidden" name="action" value="update" />
-    <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
-  </p>
 
+<div class="wrap">
+<h2><?php _e('Your Profile'); ?></h2>
+<form name="profile" id="your-profile" action="profile.php" method="post">
+<p>
+<input type="hidden" name="action" value="update" />
+<input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
+</p>
+
+<fieldset>
+<legend><?php _e('Name'); ?></legend>
+<p><label><?php _e('Username: (no editing)'); ?><br />
+<input type="text" name="username" value="<?php echo $profiledata->user_login; ?>" disabled="disabled" />
+</label></p>
+<p><label><?php _e('First name:') ?><br />
+<input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->first_name ?>" /></label></p>
+
+<p><label><?php _e('Last name:') ?><br />
+<input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->last_name ?>" /></label></p>
+
+<p><label><?php _e('Nickname:') ?><br />
+<input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->nickname ?>" /></label></p>
+
+</p><label><?php _e('Display name publicly as:') ?> <br />
+<select name="display_name">
+<option value="<?php echo $profiledata->display_name; ?>"><?php echo $profiledata->display_name; ?></option>
+<option value="<?php echo $profiledata->nickname ?>"><?php echo $profiledata->nickname ?></option>
+<option value="<?php echo $profiledata->user_login ?>"><?php echo $profiledata->user_login ?></option>
+<?php if ( !empty( $profiledata->first_name ) ) : ?>
+<option value="<?php echo $profiledata->first_name ?>"><?php echo $profiledata->first_name ?></option>
+<?php endif; ?>
+<?php if ( !empty( $profiledata->last_name ) ) : ?>
+<option value="<?php echo $profiledata->last_name ?>"><?php echo $profiledata->last_name ?></option>
+<?php endif; ?>
+<?php if ( !empty( $profiledata->first_name ) && !empty( $profiledata->last_name ) ) : ?>
+<option value="<?php echo $profiledata->first_name." ".$profiledata->last_name ?>"><?php echo $profiledata->first_name." ".$profiledata->last_name ?></option>
+<option value="<?php echo $profiledata->last_name." ".$profiledata->first_name ?>"><?php echo $profiledata->last_name." ".$profiledata->first_name ?></option>
+<?php endif; ?>
+</select></label></p>
+</fieldset>
+
+<fieldset>
+<legend><?php _e('Contact Info'); ?></legend>
+
+<p><label><?php _e('E-mail: (required)') ?><br />
+<input type="text" name="newuser_email" id="newuser_email2" value="<?php echo $profiledata->user_email ?>" /></label></p>
+
+<p><label><?php _e('Website:') ?><br />
+<input type="text" name="newuser_url" id="newuser_url2" value="<?php echo $profiledata->user_url ?>" />
+</label></p>
+
+<p><label><?php _e('AIM:') ?><br />
+<input type="text" name="newuser_aim" id="newuser_aim2" value="<?php echo $profiledata->aim ?>" />
+</label></p>
+
+<p><label><?php _e('Yahoo IM:') ?><br />
+<input type="text" name="newuser_yim" id="newuser_yim2" value="<?php echo $profiledata->yim ?>" />
+</label></p>
+
+<p><label><?php _e('Jabber / Google Talk:') ?>
+<input type="text" name="jabber" id="jabber" value="<?php echo $profiledata->jabber ?>" /></label>
+</p>
+</fieldset>
+<br clear="all" />
+<fieldset>
+<legend><?php _e('About yourself'); ?></legend>
+<p class="desc"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p>
+<p><textarea name="user_description" rows="5" cols="30"><?php echo $profiledata->user_description ?></textarea></p>
+</fieldset>
+
+<?php
+$show_password_fields = apply_filters('show_password_fields', true);
+if ( $show_password_fields ) :
+?>
+<fieldset>
+<legend><?php _e('Update Your Password'); ?></legend>
+<p class="desc"><?php _e('If you would like to change your password type a new one twice below. Otherwise leave this blank.'); ?></p>
+<p><label><?php _e('New Password:'); ?><br />
+<input type="password" name="pass1" size="16" value="" />
+</label></p>
+<p><label><?php _e('Type it one more time:'); ?><br />
+<input type="password" name="pass2" size="16" value="" />
+</label></p>
+</fieldset>
+<?php endif; ?>
+
+<?php do_action('show_user_profile'); ?>
+
+<br clear="all" />
   <table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
-    <tr>
-      <th width="33%" scope="row"><?php _e('Username:') ?></th>
-      <td width="67%"><?php echo $profiledata->user_login; ?></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('Role:') ?></th>
-      <td><?php 
-			$output = '';
-			foreach($profileuser->roles as $role => $value) {
-				if($output != '') $output .= ', ';
-				$output .= $wp_roles->role_names[$role];
-			}
-			echo $output;
-			?></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('Posts:') ?></th>
-      <td>    <?php
-	$posts = get_usernumposts($user_ID);
-	echo $posts;
-	?></td>
-    </tr>
     <?php
     if(count($profileuser->caps) > count($profileuser->roles)):
     ?>
@@ -194,115 +196,12 @@ if (isset($updated)) { ?>
     <?php
     endif;
     ?>
-    <tr>
-      <th scope="row"><?php _e('First name:') ?></th>
-      <td><input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->first_name ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('Last name:') ?></th>
-      <td><input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->last_name ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('Nickname:') ?></th>
-      <td><input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->nickname ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('How to display name:') ?> </th>
-      <td>
-	<select name="display_name">
-		<option value="<?php echo $profiledata->display_name; ?>"><?php echo $profiledata->display_name; ?></option>
-        <option value="<?php echo $profiledata->nickname ?>"><?php echo $profiledata->nickname ?></option>
-        <option value="<?php echo $profiledata->user_login ?>"><?php echo $profiledata->user_login ?></option>
-	<?php if ( !empty( $profiledata->first_name ) ) : ?>
-        <option value="<?php echo $profiledata->first_name ?>"><?php echo $profiledata->first_name ?></option>
-	<?php endif; ?>
-	<?php if ( !empty( $profiledata->last_name ) ) : ?>
-        <option value="<?php echo $profiledata->last_name ?>"><?php echo $profiledata->last_name ?></option>
-	<?php endif; ?>
-	<?php if ( !empty( $profiledata->first_name ) && !empty( $profiledata->last_name ) ) : ?>
-        <option value="<?php echo $profiledata->first_name." ".$profiledata->last_name ?>"><?php echo $profiledata->first_name." ".$profiledata->last_name ?></option>
-        <option value="<?php echo $profiledata->last_name." ".$profiledata->first_name ?>"><?php echo $profiledata->last_name." ".$profiledata->first_name ?></option>
-	<?php endif; ?>
-      </select>        </td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('E-mail:') ?></th>
-      <td><input type="text" name="newuser_email" id="newuser_email2" value="<?php echo $profiledata->user_email ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('Website:') ?></th>
-      <td><input type="text" name="newuser_url" id="newuser_url2" value="<?php echo $profiledata->user_url ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('ICQ:') ?></th>
-      <td><input type="text" name="newuser_icq" id="newuser_icq2" value="<?php if ($profiledata->icq > 0) { echo $profiledata->icq; } ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('AIM:') ?></th>
-      <td><input type="text" name="newuser_aim" id="newuser_aim2" value="<?php echo $profiledata->aim ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('MSN IM:') ?> </th>
-      <td><input type="text" name="newuser_msn" id="newuser_msn2" value="<?php echo $profiledata->msn ?>" /></td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('Yahoo IM:') ?> </th>
-      <td>        <input type="text" name="newuser_yim" id="newuser_yim2" value="<?php echo $profiledata->yim ?>" />      </td>
-    </tr>
-    <tr>
-      <th scope="row"><?php _e('Profile:') ?></th>
-      <td><textarea name="user_description" rows="5" id="textarea2" style="width: 99%; "><?php echo $profiledata->user_description ?></textarea></td>
-    </tr>
-<?php
-do_action('show_user_profile');
-
-$show_password_fields = apply_filters('show_password_fields', true);
-if ( $show_password_fields ) :
-?>
-    <tr>
-      <th scope="row"><?php _e('New <strong>Password</strong> (Leave blank to stay the same.)') ?></th>
-      <td><input type="password" name="pass1" size="16" value="" />
-      	<br />
-        <input type="password" name="pass2" size="16" value="" /></td>
-    </tr>
-<?php endif; ?>
   </table>
-  <p class="submit">
-    <input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" />
-  </p>
+<p class="submit">
+<input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" />
+</p>
 </form>
+
 </div>
 
-
-<?php if ( $is_gecko && current_user_can('edit_posts') ) { ?>
-<div class="wrap">
-    <script type="text/javascript">
-//<![CDATA[
-function addPanel()
-        {
-          if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
-            window.sidebar.addPanel("WordPress Post: <?php echo get_settings('blogname'); ?>","<?php echo get_settings('siteurl'); ?>/wp-admin/sidebar.php","");
-          else
-            alert(<?php __("'No Sidebar found!  You must use Mozilla 0.9.4 or later!'") ?>);
-        }
-//]]>
-</script>
-    <strong><?php _e('SideBar') ?></strong><br />
-    <?php _e('Add the <a href="#" onclick="addPanel()">WordPress Sidebar</a>!') ?> 
-    <?php } elseif (($is_winIE) || ($is_macIE)) { ?>
-    <strong><?php _e('SideBar') ?></strong><br />
-    <?php __('Add this link to your favorites:') ?><br />
-<a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(_search=open('<?php echo get_settings('siteurl');
-	 ?>/wp-admin/sidebar.php?text='+escape(Q)+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title),'_search'))"><?php _e('WordPress Sidebar') ?></a>. 
-    
-</div>
-<?php } ?>
-</div>
-	<?php
-
-break;
-}
-
-/* </Profile | My Profile> */
-include('admin-footer.php');
- ?>
+<?php include('admin-footer.php'); ?>

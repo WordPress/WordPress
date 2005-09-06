@@ -485,28 +485,6 @@ table .vers, table .name {
 	margin-right: 16em;
 }
 
-#profile {
-	margin: 10px;
-}
-
-#profile .left {
-	border-right: 1px dashed #ccc;
-	float: left;
-	margin-right: 5px;
-	padding-right: 5px;
-}
-
-#profile label {
-	float: left;
-	padding-right: 3px;
-	text-align: right;
-	width: 85px;
-}
-
-#profile p {
-	margin: 0 0 4px 0;
-}
-
 #save {
 	width: 15em;
 }
@@ -693,6 +671,25 @@ table .vers, table .name {
 
 #ajaxcat input {
 	border: 1px solid #ccc;
+}
+
+#your-profile fieldset {
+	border: 1px solid #ccc;
+	float: left;
+	width: 40%;
+	padding: .5em 2em;
+	margin: 1em; 
+}
+
+#your-profile fieldset input {
+	width: 100%;
+	font-size: 20px;
+	padding: 2px;
+}
+
+#your-profile legend {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 22px;
 }
 
 /* default box styles */
