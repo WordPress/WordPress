@@ -4,22 +4,10 @@ require_once('admin.php');
 
 check_admin_referer();
 
-/* if the ICQ UIN has been entered, check to see if it has only numbers */
-if (!empty($_POST["newuser_icq"])) {
-	if ((ereg("^[0-9]+$",$_POST["newuser_icq"]))==false) {
-		die (__("<strong>ERROR</strong>: your ICQ UIN can only be a number, no letters allowed"));
-		return false;
-	}
-}
-
-/* checking e-mail address */
-if (empty($_POST["newuser_email"])) {
+if ( empty($_POST['email']) )
 	die (__("<strong>ERROR</strong>: please type your e-mail address"));
-	return false;
-} else if (!is_email($_POST["newuser_email"])) {
+elseif ( !is_email($_POST['email']) )
 	die (__("<strong>ERROR</strong>: the e-mail address isn't correct"));
-	return false;
-}
 
 $pass1 = $_POST['pass1'];
 $pass2 = $_POST['pass2'];
@@ -40,28 +28,28 @@ if ( '' == $pass1 ) {
 	wp_setcookie($user_login, $newuser_pass);
 }
 
-$newuser_firstname = wp_specialchars($_POST['newuser_firstname']);
-$newuser_lastname = wp_specialchars($_POST['newuser_lastname']);
-$new_display_name = wp_specialchars($_POST['display_name']);
-$newuser_nickname = $_POST['newuser_nickname'];
-$newuser_nicename = sanitize_title($newuser_nickname);
+$first_name = wp_specialchars($_POST['first_name']);
+$last_name = wp_specialchars($_POST['last_name']);
+$display_name = wp_specialchars($_POST['display_name']);
+$nickname = $_POST['nickname'];
+$nicename = sanitize_title($nickname);
 $jabber = wp_specialchars($_POST['jabber']);
-$newuser_aim = wp_specialchars($_POST['newuser_aim']);
-$newuser_yim = wp_specialchars($_POST['newuser_yim']);
-$newuser_email = wp_specialchars($_POST['newuser_email']);
-$newuser_url = wp_specialchars($_POST['newuser_url']);
-$newuser_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $newuser_url) ? $newuser_url : 'http://' . $newuser_url; 
+$aim = wp_specialchars($_POST['aim']);
+$yim = wp_specialchars($_POST['yim']);
+$email = wp_specialchars($_POST['email']);
+$url = wp_specialchars($_POST['url']);
+$url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $newuser_url) ? $newuser_url : 'http://' . $newuser_url; 
 $user_description = $_POST['user_description'];
 
-$result = $wpdb->query("UPDATE $wpdb->users SET $updatepassword user_email='$newuser_email', user_url='$newuser_url', user_nicename = '$newuser_nicename', display_name = '$new_display_name' WHERE ID = $user_ID");
+$result = $wpdb->query("UPDATE $wpdb->users SET $updatepassword user_email='$email', user_url='$url', user_nicename = '$nicename', display_name = '$display_name' WHERE ID = '$user_ID'");
 
-update_usermeta( $user_ID, 'first_name', $newuser_firstname );
-update_usermeta( $user_ID, 'last_name', $newuser_lastname );
-update_usermeta( $user_ID, 'nickname', $newuser_nickname );
+update_usermeta( $user_ID, 'first_name', $first_name );
+update_usermeta( $user_ID, 'last_name', $last_name );
+update_usermeta( $user_ID, 'nickname', $nickname );
 update_usermeta( $user_ID, 'description', $user_description );
 update_usermeta( $user_ID, 'jabber', $jabber );
-update_usermeta( $user_ID, 'aim', $newuser_aim );
-update_usermeta( $user_ID, 'yim', $newuser_yim );
+update_usermeta( $user_ID, 'aim', $aim );
+update_usermeta( $user_ID, 'yim', $yim );
 
 do_action('profile_update', $user_ID);
 

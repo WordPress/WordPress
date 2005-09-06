@@ -31,13 +31,13 @@ $bookmarklet_height= 440;
 <input type="text" name="username" value="<?php echo $profiledata->user_login; ?>" disabled="disabled" />
 </label></p>
 <p><label><?php _e('First name:') ?><br />
-<input type="text" name="newuser_firstname" id="newuser_firstname" value="<?php echo $profiledata->first_name ?>" /></label></p>
+<input type="text" name="first_name" value="<?php echo $profiledata->first_name ?>" /></label></p>
 
 <p><label><?php _e('Last name:') ?><br />
-<input type="text" name="newuser_lastname" id="newuser_lastname2" value="<?php echo $profiledata->last_name ?>" /></label></p>
+<input type="text" name="last_name"  value="<?php echo $profiledata->last_name ?>" /></label></p>
 
 <p><label><?php _e('Nickname:') ?><br />
-<input type="text" name="newuser_nickname" id="newuser_nickname2" value="<?php echo $profiledata->nickname ?>" /></label></p>
+<input type="text" name="nickname" value="<?php echo $profiledata->nickname ?>" /></label></p>
 
 </p><label><?php _e('Display name publicly as:') ?> <br />
 <select name="display_name">
@@ -61,22 +61,22 @@ $bookmarklet_height= 440;
 <legend><?php _e('Contact Info'); ?></legend>
 
 <p><label><?php _e('E-mail: (required)') ?><br />
-<input type="text" name="newuser_email" id="newuser_email2" value="<?php echo $profiledata->user_email ?>" /></label></p>
+<input type="text" name="email" value="<?php echo $profiledata->user_email ?>" /></label></p>
 
 <p><label><?php _e('Website:') ?><br />
-<input type="text" name="newuser_url" id="newuser_url2" value="<?php echo $profiledata->user_url ?>" />
+<input type="text" name="url" value="<?php echo $profiledata->user_url ?>" />
 </label></p>
 
 <p><label><?php _e('AIM:') ?><br />
-<input type="text" name="newuser_aim" id="newuser_aim2" value="<?php echo $profiledata->aim ?>" />
+<input type="text" name="aim" value="<?php echo $profiledata->aim ?>" />
 </label></p>
 
 <p><label><?php _e('Yahoo IM:') ?><br />
-<input type="text" name="newuser_yim" id="newuser_yim2" value="<?php echo $profiledata->yim ?>" />
+<input type="text" name="yim" value="<?php echo $profiledata->yim ?>" />
 </label></p>
 
 <p><label><?php _e('Jabber / Google Talk:') ?>
-<input type="text" name="jabber" id="jabber" value="<?php echo $profiledata->jabber ?>" /></label>
+<input type="text" name="jabber" value="<?php echo $profiledata->jabber ?>" /></label>
 </p>
 </fieldset>
 <br clear="all" />
