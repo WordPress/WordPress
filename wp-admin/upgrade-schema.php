@@ -53,7 +53,7 @@ CREATE TABLE $wpdb->links (
   link_name varchar(255) NOT NULL default '',
   link_image varchar(255) NOT NULL default '',
   link_target varchar(25) NOT NULL default '',
-  link_category int(11) NOT NULL default '0',
+  link_category bigint(20) NOT NULL default '0',
   link_description varchar(255) NOT NULL default '',
   link_visible enum('Y','N') NOT NULL default 'Y',
   link_owner int(11) NOT NULL default '1',
