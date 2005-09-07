@@ -181,7 +181,7 @@ default:
 	
 	foreach($userids as $userid) {
 		$tmp_user = new WP_User($userid);
-		$roles = array_keys($tmp_user->roles);
+		$roles = $tmp_user->roles;
 		$role = $roles[0];
 		$roleclasses[$role][$tmp_user->data->user_login] = $tmp_user;
 	}	
