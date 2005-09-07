@@ -366,15 +366,16 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if (!$this->login_pass_ok($user_login, $user_pass)) {
 	    return $this->error;
 	  }
+	  
+	  $cap = ($publish) ? 'publish_posts' : 'edit_posts';
 
-	  $user_data = get_userdatabylogin($user_login);
-	  if (!user_can_create_post($user_data->ID, $blog_ID)) {
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap($cap) )
 	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
-	  }
 
 	  $post_status = ($publish) ? 'publish' : 'draft';
 
-	  $post_author = $user_data->ID;
+	  $post_author = $user->ID;
 
 	  $post_title = xmlrpc_getposttitle($content);
 	  $post_category = xmlrpc_getpostcategory($content);
@@ -424,12 +425,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($actual_post);
 
-	  $post_author_data = get_userdata($actual_post['post_author']);
-	  $user_data = get_userdatabylogin($user_login);
-
-	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you do not have the right to edit this post.');
-	  }
 
 	  extract($actual_post);
 
@@ -475,11 +473,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	  	return new IXR_Error(404, 'Sorry, no such post.');
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-
-	  if (!user_can_delete_post($user_data->ID, $post_ID)) {
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you do not have the right to delete this post.');
-	  }
 
 	  $result = wp_delete_post($post_ID);
 
@@ -513,12 +509,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-	  if (!user_can_create_post($user_data->ID, $blog_ID)) {
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('publish_posts', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
-	  }
 
-	  $post_author = $user_data->ID;
+	  $post_author = $user->ID;
 
 	  $post_title = $content_struct['title'];
 	  $post_content = apply_filters( 'content_save_pre', $content_struct['description'] );
@@ -594,10 +589,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
-	  }
 
 	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
 	  extract($postdata);
@@ -1014,10 +1008,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
-	  }
 
 	  foreach($categories as $cat) {
 	    $catids[] = $cat['categoryId'];
@@ -1097,10 +1090,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user_data = get_userdatabylogin($user_login);
-	  if (!user_can_edit_post($user_data->ID, $post_ID)) {
+	  $user = new WP_User($user_login);
+	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
-	  }
 
 	  $postdata = wp_get_single_post($post_ID,ARRAY_A);
 
