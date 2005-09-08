@@ -97,7 +97,7 @@ switch ($step) {
 				}
 
                 if (isset($opml_url) && $opml_url != '') {
-                    $opml = implode('', file($opml_url));
+                    $opml = wp_remote_fopen($opml_url);
                     include_once('link-parse-opml.php');
 
                     $link_count = count($names);
