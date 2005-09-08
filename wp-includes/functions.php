@@ -368,7 +368,12 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
 function add_option($name, $value = '', $description = '', $autoload = 'yes') {
-	global $wpdb;
+	global $wpdb, $cache_settings;
+
+	// Make sure the option doesn't already exist
+	if ( isset($cache_settings->$name) )
+		return;
+
 	$original = $value;
 	if ( is_array($value) || is_object($value) )
 		$value = serialize($value);
