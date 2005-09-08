@@ -189,7 +189,7 @@ class WP_User {
 	}
 
 	function remove_cap($cap) {
-		if ( empty($this->roles[$cap]) ) return;
+		if ( empty($this->caps[$cap]) ) return;
 		unset($this->caps[$cap]);
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 	}
