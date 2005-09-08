@@ -130,6 +130,8 @@ function edit_post() {
 	endif;
 
 	add_meta($post_ID);
+	
+	return $post_ID;
 }
 
 function edit_comment() {

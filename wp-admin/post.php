@@ -92,7 +92,7 @@ case 'edit':
 	break;
 
 case 'editpost':
-	edit_post();
+	$post_ID = edit_post();
 
 	if ($_POST['save']) {
 		$location = $_SERVER['HTTP_REFERER'];
