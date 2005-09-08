@@ -1365,7 +1365,7 @@ class WP {
 
 				// The requested permalink is in $pathinfo for path info requests and
 				//  $req_uri for other requests.
-				if (! empty($pathinfo)) {
+				if (! empty($pathinfo) && ($wp_rewrite->index != $pathinfo)) {
 					$request = $pathinfo;
 				} else {
 					$request = $req_uri;
