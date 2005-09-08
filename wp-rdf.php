@@ -32,13 +32,13 @@ $more = 1;
 	<?php do_action('rdf_header'); ?>
 	<items>
 		<rdf:Seq>
-		<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
+		<?php while (have_posts()): the_post(); ?>
 			<rdf:li rdf:resource="<?php permalink_single_rss() ?>"/>
-		<?php $wp_items[] = $row; $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
+		<?php endwhile; ?>
 		</rdf:Seq>
 	</items>
 </channel>
-<?php if ($posts) { foreach ($posts as $post) { start_wp(); ?>
+<?php rewind_posts(); while (have_posts()): the_post(); ?>
 <item rdf:about="<?php permalink_single_rss() ?>">
 	<title><?php the_title_rss() ?></title>
 	<link><?php permalink_single_rss() ?></link>
@@ -53,5 +53,5 @@ $more = 1;
 <?php endif; ?>
 	<?php do_action('rdf_item'); ?>
 </item>
-<?php } }  ?>
+<?php endwhile;  ?>
 </rdf:RDF>
