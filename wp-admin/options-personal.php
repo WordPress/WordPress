@@ -10,6 +10,7 @@ include('admin-header.php');
 <div class="wrap"> 
 <h2><?php _e('Personal Options') ?></h2> 
 <form id="personal-options" method="post" action="options-personal-update.php"> 
+<fieldset>
 <p><?php _e('Personal options are just for you, they don&#8217;t affect other users on blog.'); ?><input type="hidden" name="action" value="update" /> 
 <input type="hidden" name="page_options" value="'rich_editing'<?php do_action('personal_option_list'); ?>" /></p>
 <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
