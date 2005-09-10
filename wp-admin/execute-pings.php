@@ -30,7 +30,7 @@ function execute_all_pings() {
 	if($trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != ''")) {
 		foreach($trackbacks as $trackback) {
 			//echo "trackback : $trackback->ID<br/>";
-			do_trackback($trackback->ID);
+			do_trackbacks($trackback->ID);
 		}
 	}
 }
