@@ -320,6 +320,22 @@ function wp_create_category($cat_name) {
 	return wp_insert_category($cat_array);
 }
 
+
+function wp_create_categories($categories, $post_id = '') {
+	$cat_ids = array();
+	foreach ($categories as $category) {
+		if ( $id = category_exists($category) )
+			$cat_ids[] = $id;
+		else if ( $id = wp_create_category($category) )
+			$cat_ids[] = $id;				
+	}
+	
+	if ( $post_id )
+		wp_set_post_cats('', $post_id, $cat_ids);
+		
+	return $cat_ids;
+}
+
 function category_exists($cat_name) {
 	global $wpdb;
 	if ( !$category_nicename = sanitize_title($cat_name) )
@@ -363,6 +379,21 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	do_action('delete_user', $id);
 
 	return true;
+}
+
+
+function post_exists($title, $content = '', $post_date = '') {
+	global $wpdb;
+	
+	if ( !empty($post_date) )
+		$post_date = "AND post_date = '$post_date'";
+
+	if ( ! empty($title) )
+		return $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$title' $post_date");
+	else if ( ! empty($content) )
+		return $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_content = '$content' $post_date");
+
+	return 0;
 }
 
 function url_shorten ($url) {
