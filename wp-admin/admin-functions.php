@@ -262,15 +262,13 @@ function wp_insert_category($catarr) {
 	$result = $wpdb->query($query);
 
 	if ( $update ) {
-		$rval = $wpdb->rows_affected;
 		do_action('edit_category', $cat_ID);
 	} else {
-		$rval = $wpdb->insert_id;
 		do_action('create_category', $rval);
 		do_action('add_category', $rval);
 	}
 
-	return $rval;
+	return $cat_ID;
 }
 
 function wp_update_category($catarr) {
@@ -315,6 +313,19 @@ function wp_delete_category($cat_ID) {
 	do_action('delete_category', $cat_ID);
 
 	return 1;
+}
+
+function wp_create_category($cat_name) {
+	$cat_array = compact('cat_name');
+	return wp_insert_category($cat_array);
+}
+
+function category_exists($cat_name) {
+	global $wpdb;
+	if ( !$category_nicename = sanitize_title($cat_name) )
+		return 0;
+		
+	return $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename'");
 }
 
 function wp_delete_user($id, $reassign = 'novalue') {
