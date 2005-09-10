@@ -154,7 +154,7 @@ function wp_insert_post($postarr = array()) {
 
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
-		if ($post_pingback)
+		if ($post_pingback && !defined('WP_IMPORTING'))
 			$result = $wpdb->query("
 				INSERT INTO $wpdb->postmeta 
 				(post_id,meta_key,meta_value) 

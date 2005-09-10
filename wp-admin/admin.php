@@ -74,7 +74,7 @@ if (isset($_GET['page'])) {
 		
 	if (! file_exists(ABSPATH . "wp-admin/import/$importer.php"))
 		die(__('Cannot load importer.'));
-
+	
 	include(ABSPATH . "wp-admin/import/$importer.php");
 
 	$parent_file = 'import.php';
@@ -84,6 +84,8 @@ if (isset($_GET['page'])) {
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
+
+	define('WP_IMPORTING', true);
 
 	call_user_func($wp_importers[$importer][2]);
 			
