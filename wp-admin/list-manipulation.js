@@ -44,9 +44,9 @@ function removeThisItem(id) {
 	if ( -1 == response ) { ajaxDel.myResponseElement.innerHTML = "You don't have permission to do that."; }
 	else if ( 0 == response ) { ajaxDel.myResponseElement.interHTML = "Something odd happened.  Try refreshing the page? Either that or what you tried to delete never existed in the first place."; }
 	else if ( 1 == response ) {
-		item = document.getElementById(id);
-		Fat.fade_element(item.id,null,700,'#FF3333');
-		setTimeout('item.parentNode.removeChild(item)', 705);
+		theItem = document.getElementById(id);
+		Fat.fade_element(id,null,700,'#FF3333');
+		setTimeout('theItem.parentNode.removeChild(theItem)', 705);
 		var pos = getListPos(id);
 		listItems.splice(pos,1);
 		recolorList(pos);
