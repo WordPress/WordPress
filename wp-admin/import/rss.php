@@ -24,18 +24,13 @@ class RSS_Import {
 	}
 	
 	function greet() {
-		$this->header();
-?>
-<p>Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. To get started you must edit the following line in this file (<code>import/rss.php</code>) </p>
+		_e("<p>Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. To get started you must edit the following line in this file (<code>import/rss.php</code>) </p>
 <p><code>define('RSSFILE', '');</code></p>
 <p>You want to define where the RSS file we'll be working with is, for example: </p>
 <p><code>define('RSSFILE', 'rss.xml');</code></p>
-<p>You have to do this manually for security reasons. When you're done reload this page and we'll take you to the next step.</p>
-<?php if ('' != RSSFILE) : ?>
-<a href="admin.php?import=rss&amp;step=1">Begin RSS Import &raquo;</a>
-<?php
-		endif;
-		$this->footer();
+<p>You have to do this manually for security reasons. When you're done reload this page and we'll take you to the next step.</p>");
+		if ('' != RSSFILE)
+			echo '<a href="admin.php?import=rss&amp;step=1">' . __('Begin RSS Import &raquo;') . '</a>';
 	}
 
 	function get_posts() {
@@ -154,6 +149,8 @@ class RSS_Import {
 		else
 			$step = (int) $_GET['step'];
 
+		$this->header();
+		
 		switch ($step) {
 			case 0 :
 				$this->greet();
@@ -162,6 +159,8 @@ class RSS_Import {
 				$this->import();
 				break;
 		}
+		
+		$this->footer();
 	}
 
 	function RSS_Import() {
@@ -171,5 +170,5 @@ class RSS_Import {
 
 $rss_import = new RSS_Import();
 
-register_importer('rss', 'RSS', 'Import posts from and RSS feed', array ($rss_import, 'dispatch'));
+register_importer('rss', 'RSS', __('Import posts from an RSS feed'), array ($rss_import, 'dispatch'));
 ?>
