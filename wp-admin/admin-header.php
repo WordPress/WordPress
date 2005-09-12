@@ -96,6 +96,7 @@ tinyMCE.init({
 	theme_advanced_resizing : true,
 	theme_advanced_resize_horizontal : false,
 	entity_encoding : "raw",
+	relative_urls : false,
 	extended_valid_elements : "a[id|href|title|onclick],img[class|src|alt|title|width|height|align]",
 	plugins : "emotions,wordpress"
 	<?php do_action('mce_options'); ?>
