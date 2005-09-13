@@ -77,7 +77,7 @@ default:
 require_once('admin-header.php');
 
 if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored']) ) {
-	echo "<div id='moderated' class='updated'>\n<p>";
+	echo "<div id='moderated' class='updated fade'>\n<p>";
 	$approved = (int) $_GET['approved'];
 	$deleted  = (int) $_GET['deleted'];
 	$ignored  = (int) $_GET['ignored'];
