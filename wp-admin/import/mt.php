@@ -35,13 +35,16 @@ class MT_Import {
 		$importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
 		$importdata = preg_replace("/\n--------\n/", "--MT-ENTRY--\n", $importdata);
 		$this->posts = explode("--MT-ENTRY--", $importdata);
+		unset($importdata);
+		
+		
 	}
 	
 	function import() {
 		if ('' != MTEXPORT && !file_exists(MTEXPORT)) die("The file you specified does not seem to exist. Please check the path you've given.");
 		if ('' == MTEXPORT) die("You must edit the MTEXPORT line as described on the <a href='import-mt.php'>previous page</a> to continue.");
 	
-		$this->get_entries();	
+		$this->get_entries();
 	}
 	
 	function dispatch() {

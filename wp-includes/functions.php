@@ -1263,6 +1263,11 @@ function update_category_cache() {
 	endif;
 }
 
+function clean_user_cache($id) {
+	if ( isset( $cache_userdata[$id] ) )
+		unset( $cache_userdata[$id] );
+}
+
 function wp_head() {
 	do_action('wp_head');
 }

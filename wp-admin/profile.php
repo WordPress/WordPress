@@ -28,7 +28,7 @@ $bookmarklet_height= 440;
 <fieldset>
 <legend><?php _e('Name'); ?></legend>
 <p><label><?php _e('Username: (no editing)'); ?><br />
-<input type="text" name="username" value="<?php echo $profiledata->user_login; ?>" disabled="disabled" />
+<input type="text" name="user_login" value="<?php echo $profiledata->user_login; ?>" disabled="disabled" />
 </label></p>
 <p><label><?php _e('First name:') ?><br />
 <input type="text" name="first_name" value="<?php echo $profiledata->first_name ?>" /></label></p>
@@ -83,7 +83,7 @@ $bookmarklet_height= 440;
 <fieldset>
 <legend><?php _e('About yourself'); ?></legend>
 <p class="desc"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p>
-<p><textarea name="user_description" rows="5" cols="30"><?php echo $profiledata->user_description ?></textarea></p>
+<p><textarea name="description" rows="5" cols="30"><?php echo $profiledata->description ?></textarea></p>
 </fieldset>
 
 <?php

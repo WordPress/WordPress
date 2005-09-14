@@ -344,6 +344,103 @@ function category_exists($cat_name) {
 	return $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename'");
 }
 
+// Creates a new user from the "Users" form using $_POST information.
+
+function add_user() {
+	return update_user();	
+}
+
+function update_user($user_id = 0) {
+	
+	if ( $user_id != 0 ) {
+		$update = true;
+		$user->ID = $user_id;
+		$userdata = get_userdata($user_id);
+		$user->user_login = $userdata->user_login;
+	} else {
+		$update = false;
+		$user = '';
+	}
+	
+	if ( isset($_POST['user_login']) )
+		$user->user_login = wp_specialchars(trim($_POST['user_login']));
+
+	$pass1 = $pass2 = '';
+	if ( isset($_POST['pass1']) )
+		$pass1 = $_POST['pass1'];
+	if ( isset($_POST['pass2']) )
+		$pass2 = $_POST['pass2'];
+
+	if ( isset($_POST['email']) )
+		$user->user_email = wp_specialchars(trim($_POST['email']));
+	if ( isset($_POST['url']) ) {
+		$user->user_url = wp_specialchars(trim($_POST['url']));
+		$user->user_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $user->user_url) ? $user->user_url : 'http://' . $user->user_url; 
+	}
+	if ( isset($_POST['first_name']) )
+		$user->first_name = wp_specialchars(trim($_POST['first_name']));
+	if ( isset($_POST['last_name']) )
+		$user->last_name = wp_specialchars(trim($_POST['last_name']));
+	if ( isset($_POST['nickname']) )
+		$user->nickname = wp_specialchars(trim($_POST['nickname']));
+	if ( isset($_POST['display_name']) )
+		$user->display_name = wp_specialchars(trim($_POST['display_name']));
+	if ( isset($_POST['description']) )
+		$user->description = wp_specialchars(trim($_POST['description']));
+	if ( isset($_POST['jabber']) )
+		$user->jabber = wp_specialchars(trim($_POST['jabber']));
+	if ( isset($_POST['aim']) )
+		$user->aim = wp_specialchars(trim($_POST['aim']));
+	if ( isset($_POST['yim']) )
+		$user->yim = wp_specialchars(trim($_POST['yim']));
+
+	$errors = array();
+		
+	/* checking that username has been typed */
+	if ($user->user_login == '')
+		$errors['user_login'] = __('<strong>ERROR</strong>: Please enter a username.');
+
+	/* checking the password has been typed twice */
+	do_action('check_passwords', array($user->user_login, &$pass1, &$pass2));
+	
+	if ( !$update ) {
+		if ( $pass1 == '' || $pass2 == '' )
+			$errors['pass'] = __('<strong>ERROR</strong>: Please enter your password twice.');
+	} else {
+		if ( ( empty($pass1) && !empty($pass2) ) || ( empty($pass2) && !empty($pass1) ) )
+			$errors['pass'] = __("<strong>ERROR</strong>: you typed your new password only once.");
+	}
+	
+	/* checking the password has been typed twice the same */
+	if ($pass1 != $pass2)
+		$errors['pass'] = __('<strong>ERROR</strong>: Please type the same password in the two password fields.');
+
+	if ( !empty($pass1) )
+		$user->user_pass = $pass1;
+	
+	if ( !$update && username_exists( $user_login ) )
+		$errors['user_login'] = __('<strong>ERROR</strong>: This username is already registered, please choose another one.');
+
+	/* checking e-mail address */
+	if (empty($user->user_email)) {
+		$errors['user_email'] = __("<strong>ERROR</strong>: please type an e-mail address");
+	} else if (!is_email($user->user_email)) {
+		$errors['user_email'] = __("<strong>ERROR</strong>: the email address isn't correct");
+	}
+
+	if ( count($errors) != 0 )
+		return $errors;
+	
+	if ( $update ) {
+		$user_id = wp_update_user(get_object_vars($user));
+	} else {
+		$user_id = wp_insert_user(get_object_vars($user));
+		wp_new_user_notification($user_id);
+	}
+	
+	return $errors;
+}
+
 function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 

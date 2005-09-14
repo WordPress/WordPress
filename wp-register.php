@@ -30,37 +30,18 @@ case 'register':
   if ( username_exists( $user_login ) )
 		$errors['user_login'] = __('<strong>ERROR</strong>: This username is already registered, please choose another one.');
 
-	$password = substr( md5( uniqid( microtime() ) ), 0, 7);
+	if ( 0 == count($errors) ) {
+		$password = substr( md5( uniqid( microtime() ) ), 0, 7);
 
-	$user_id = create_user( $user_login, $password, $user_email, 0 );
-	if ( !$user_id ) {
-		$errors['user_id'] = sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_settings('admin_email'));
+		$user_id = wp_create_user( $user_login, $password, $user_email );
+		if ( !$user_id )
+			$errors['user_id'] = sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_settings('admin_email'));
+		else
+			wp_new_user_notification($user_id, $password);
 	}
-
-	if(count($errors) == 0) {
-		$user = new WP_User($user_id);
-		$user->set_role(get_settings('default_role'));
 	
-		do_action('user_register', $user_id);
-	
-	
-		$stars = '';
-		for ($i = 0; $i < strlen($pass1); $i = $i + 1) {
-			$stars .= '*';
-		}
-		
-		$message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
-		$message .= sprintf(__('Password: %s'), $password) . "\r\n";
-		$message .= get_settings('siteurl') . "/wp-login.php\r\n";
-		
-		wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_settings('blogname')), $message);
-	
-		$message  = sprintf(__('New user registration on your blog %s:'), get_settings('blogname')) . "\r\n\r\n";
-		$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-		$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
-	
-		@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
-
+	if ( 0 == count($errors) ) {
+			
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

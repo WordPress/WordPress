@@ -319,4 +319,33 @@ function wp_notify_moderator($comment_id) {
 }
 endif;
 
+if ( !function_exists('wp_new_user_notification') ) :
+function wp_new_user_notification($user_id, $plaintext_pass = '') {
+	$user = new WP_User($user_id);
+	
+	$stars = '';
+	for ($i = 0; $i < strlen($pass1); $i = $i + 1)
+		$stars .= '*';
+	
+	$user_login = stripslashes($user->data->user_login);
+	$user_email = stripslashes($user->data->user_email);
+	
+	$message  = sprintf(__('New user registration on your blog %s:'), get_settings('blogname')) . "\r\n\r\n";
+	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
+	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
+	
+	@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
+
+	if ( empty($plaintext_pass) )
+		return;
+
+	$message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
+	$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
+	$message .= get_settings('siteurl') . "/wp-login.php\r\n";
+		
+	wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_settings('blogname')), $message);
+	
+}
+endif;
+
 ?>
