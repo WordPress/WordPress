@@ -157,14 +157,17 @@ default:
 
 	$user_login = '';
 	$user_pass = '';
-	$redirect_to = 'wp-admin/';
 	$using_cookie = false;
+	if ( !isset( $_REQUEST['redirect_to'] ) )
+		$redirect_to = 'wp-admin/';
+	else
+		$redirect_to = $_REQUEST['redirect_to'];
+	$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $redirect_to);
 
 	if( !empty($_POST) ) {
 		$user_login = $_POST['log'];
 		$user_pass  = $_POST['pwd'];
 		$rememberme = $_POST['rememberme'];
-		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_POST['redirect_to']);
 	} elseif ( !empty($_COOKIE) ) {
 		if (! empty($_COOKIE[USER_COOKIE]) )
 			$user_login = $_COOKIE[USER_COOKIE];
@@ -194,8 +197,6 @@ default:
 				$error = __('Your session has expired.');
 		}
 	}
-	if ( isset($_REQUEST['redirect_to']) )
-		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_REQUEST['redirect_to']);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
