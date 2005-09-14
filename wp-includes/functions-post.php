@@ -134,20 +134,24 @@ function wp_insert_post($postarr = array()) {
 	}
 	
 	$result = $wpdb->query($postquery);
-	if ( $update )
-		$rval = $wpdb->rows_affected;
-	else 
-		$rval = $wpdb->insert_id;
+
+	wp_set_post_cats('', $post_ID, $post_category);
+
+	if ( 'static' == $post_status )
+		clean_page_cache($post_ID);
+	else
+		clean_post_cache($post_ID);
 
 	// Set GUID
 	if ( ! $update )
 		$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
-	
-	wp_set_post_cats('', $post_ID, $post_category);
 
 	if ( $update) {
-		if ($previous_status != 'publish' && $post_status == 'publish')
+		if ($previous_status != 'publish' && $post_status == 'publish') {
+			// Reset GUID if transitioning to publish.
+			$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
 			do_action('private_to_published', $post_ID);
+		}
 		
 		do_action('edit_post', $post_ID);
 	}

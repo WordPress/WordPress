@@ -1167,6 +1167,13 @@ function update_post_cache(&$posts) {
 	}
 }
 
+function clean_post_cache($id) {
+	global $post_cache;
+	
+	if ( isset( $post_cache[$id] ) )
+		unset( $post_cache[$id] );
+}
+
 function update_page_cache(&$pages) {
 	global $page_cache;
 
@@ -1176,6 +1183,14 @@ function update_page_cache(&$pages) {
 	for ($i = 0; $i < count($pages); $i++) {
 		$page_cache[$pages[$i]->ID] = &$pages[$i];
 	}
+}
+
+
+function clean_page_cache($id) {
+	global $page_cache;
+	
+	if ( isset( $page_cache[$id] ) )
+		unset( $page_cache[$id] );
 }
 
 function update_post_category_cache($post_ids) {
@@ -1264,6 +1279,8 @@ function update_category_cache() {
 }
 
 function clean_user_cache($id) {
+	global $cache_userdata;
+
 	if ( isset( $cache_userdata[$id] ) )
 		unset( $cache_userdata[$id] );
 }
