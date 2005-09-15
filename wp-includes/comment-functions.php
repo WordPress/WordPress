@@ -39,13 +39,17 @@ function clean_url( $url ) {
 	return $url;
 }
 
-function get_comments_number( $comment_id ) {
-	global $wpdb, $comment_count_cache;
-	$comment_id = (int) $comment_id;
-	if (!isset($comment_count_cache[$comment_id]))
-		$comment_count_cache[$comment_id] =  $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$comment_id' AND comment_approved = '1'");
+function get_comments_number( $post_id = 0 ) {
+	global $wpdb, $comment_count_cache, $id;
+	$post_id = (int) $post_id;
+
+	if ( !$post_id )
+		$post_id = $id;
+
+	if ( !isset($comment_count_cache[$post_id]) )
+		$comment_count_cache[$post_id] =  $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1'");
 	
-	return apply_filters('get_comments_number', $comment_count_cache[$comment_id]);
+	return apply_filters('get_comments_number', $comment_count_cache[$post_id]);
 }
 
 function comments_number( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $number = '' ) {
