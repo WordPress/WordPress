@@ -35,7 +35,7 @@ function wp_insert_user($userdata) {
 		$user_registered = gmdate('Y-m-d H:i:s');
 
 	if ( $update ) {
-		$query = "UPDATE $wpdb->users SET user_pass='$user_pass' user_email='$user_email', user_url='$user_url', user_nicename = '$user_nicename', display_name = '$display_name' WHERE ID = '$ID'";
+		$query = "UPDATE $wpdb->users SET user_pass='$user_pass', user_email='$user_email', user_url='$user_url', user_nicename = '$user_nicename', display_name = '$display_name' WHERE ID = '$ID'";
 		$query = apply_filters('update_user_query', $query);
 		$wpdb->query( $query );
 		$user_id = $ID;
