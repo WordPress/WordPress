@@ -180,7 +180,7 @@ function wp_insert_post($postarr = array()) {
 			add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
 	}
 
-	return $rval;
+	return $post_ID;
 }
 
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
