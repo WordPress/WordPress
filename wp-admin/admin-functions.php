@@ -963,9 +963,9 @@ function insert_with_markers($filename, $marker, $insertion) {
 		if ($markerdata) {
 			$state = true;
 			foreach($markerdata as $markerline) {
-				if (strstr($markerline, "# BEGIN {$marker}\n")) $state = false;
+				if (strstr($markerline, "# BEGIN {$marker}")) $state = false;
 				if ($state) fwrite($f, "{$markerline}\n");
-				if (strstr($markerline, "# END {$marker}\n")) {
+				if (strstr($markerline, "# END {$marker}")) {
 					fwrite($f, "# BEGIN {$marker}\n");
 					if(is_array($insertion)) foreach($insertion as $insertline) fwrite($f, "{$insertline}\n");
 					fwrite($f, "# END {$marker}\n");
