@@ -30,7 +30,7 @@ class WP_Query {
 	var $is_comments_popup = false;
 	var $is_admin = false;
 
-	function init () {
+	function init_query_flags() {
 		$this->is_single = false;
 		$this->is_page = false;
 		$this->is_archive = false;
@@ -48,7 +48,9 @@ class WP_Query {
 		$this->is_404 = false;
 		$this->is_paged = false;
 		$this->is_admin = false;
-
+	}
+	
+	function init () {
 		unset($this->posts);
 		unset($this->query);
 		unset($this->query_vars);
@@ -57,6 +59,8 @@ class WP_Query {
 		$this->post_count = 0;
 		$this->current_post = -1;
 		$this->in_the_loop = false;
+		
+		$this->init_query_flags();
 	}
 
 	// Reparse the query vars.
@@ -71,6 +75,14 @@ class WP_Query {
 			parse_str($query, $qv);
 			$this->query = $query;
 			$this->query_vars = $qv;
+		}
+
+		if ('404' == $qv['error']) {
+			$this->is_404 = true;
+			if ( !empty($query) ) {
+				do_action('parse_query', array(&$this));
+			}
+			return;
 		}
 
 		$qv['m'] =  (int) $qv['m'];
@@ -182,10 +194,6 @@ class WP_Query {
 			$this->is_trackback = true;
 		}
 
-		if ('404' == $qv['error']) {
-			$this->is_404 = true;
-		}
-
 		if ('' != $qv['paged']) {
 			$this->is_paged = true;
 		}
@@ -207,6 +215,11 @@ class WP_Query {
 		}
 	}
 
+	function set_404() {
+		$this->init_query_flags();
+		$this->is_404 = true;	
+	}
+	
 	function get($query_var) {
 		if (isset($this->query_vars[$query_var])) {
 			return $this->query_vars[$query_var];
@@ -1518,7 +1531,7 @@ class WP {
 		if ( (0 == count($wp_query->posts)) && !is_404() && !is_search()
 				 && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) &&
 																	(false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
-			$wp_query->is_404 = true;
+			$wp_query->set_404();
 			status_header( 404 );
 		}	else {
 			status_header( 200 );
