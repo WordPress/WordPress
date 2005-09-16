@@ -86,10 +86,10 @@ function load_default_textdomain() {
 	load_textdomain('default', $mofile);
 }
 
-function load_plugin_textdomain($domain) {
+function load_plugin_textdomain($domain, $path = 'wp-content/plugins') {
 	$locale = get_locale();
 	
-	$mofile = ABSPATH . "wp-content/plugins/$domain-$locale.mo";
+	$mofile = ABSPATH . "$path/$domain-$locale.mo";
 	load_textdomain($domain, $mofile);
 }
 
