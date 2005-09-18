@@ -75,19 +75,19 @@ require('admin-header.php');
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
            <th width="33%" scope="row"><?php _e('URI:') ?></th>
-           <td width="67%"><input type="text" name="linkurl" value="<?php echo wp_specialchars($_GET['linkurl'], 1); ?>" style="width: 95%;" /></td>
+           <td width="67%"><input type="text" name="link_url" value="<?php echo wp_specialchars($_GET['linkurl'], 1); ?>" style="width: 95%;" /></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Link Name:') ?></th>
-           <td><input type="text" name="name" value="<?php echo wp_specialchars( urldecode($_GET['name']), 1 ); ?>" style="width: 95%" /></td>
+           <td><input type="text" name="link_name" value="<?php echo wp_specialchars( urldecode($_GET['name']), 1 ); ?>" style="width: 95%" /></td>
          </tr>
          <tr>
          	<th scope="row"><?php _e('Short description:') ?></th>
-         	<td><input type="text" name="description" value="" style="width: 95%" /></td>
+         	<td><input type="text" name="link_description" value="" style="width: 95%" /></td>
          	</tr>
         <tr>
            <th scope="row"><?php _e('Category:') ?></th>
-           <td><?php category_dropdown('category'); ?></td>
+           <td><?php category_dropdown('link_category'); ?></td>
          </tr>
 </table>
 </fieldset>
@@ -99,7 +99,7 @@ require('admin-header.php');
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
             <tr>
                 <th width="33%" scope="row"><?php _e('rel:') ?></th>
-            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="<?php echo $link_rel; ?>" /></td>
+            	<td width="67%"><input type="text" name="link_rel" id="rel" size="50" value="<?php echo $link_rel; ?>" /></td>
            	</tr>
             <tr>
                 <th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
@@ -212,19 +212,19 @@ require('admin-header.php');
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
            <th width="33%" scope="row"><?php _e('Image URI:') ?></th>
-           <td width="67%"><input type="text" name="image" size="50" value="" style="width: 95%" /></td>
+           <td width="67%"><input type="text" name="link_image" size="50" value="" style="width: 95%" /></td>
          </tr>
 <tr>
            <th scope="row"><?php _e('RSS URI:') ?> </th>
-           <td><input name="rss_uri" type="text" id="rss_uri" value="" size="50" style="width: 95%" /></td>
+           <td><input name="link_rss" type="text" id="rss_uri" value="" size="50" style="width: 95%" /></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Notes:') ?></th>
-           <td><textarea name="notes" cols="50" rows="10" style="width: 95%"></textarea></td>
+           <td><textarea name="link_notes" cols="50" rows="10" style="width: 95%"></textarea></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Rating:') ?></th>
-           <td><select name="rating" size="1">
+           <td><select name="link_rating" size="1">
              <?php
     for ($r = 0; $r < 10; $r++) {
       echo('            <option value="'.$r.'">'.$r.'</option>');
@@ -236,22 +236,22 @@ require('admin-header.php');
          <tr>
            <th scope="row"><?php _e('Target') ?></th>
            <td><label>
-             <input type="radio" name="target" value="_blank" />
+             <input type="radio" name="link_target" value="_blank" />
              <code>_blank</code></label>
 <br />
-<label><input type="radio" name="target" value="_top" />
+<label><input type="radio" name="link_target" value="_top" />
 <code>_top</code></label>
 <br />
-<label><input type="radio" name="target" value="" checked="checked" />
+<label><input type="radio" name="link_target" value="" checked="checked" />
 <?php _e('none') ?></label>
 <?php _e('(Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)') ?></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Visible:') ?></th>
            <td><label>
-             <input type="radio" name="visible" checked="checked" value="Y" />
+             <input type="radio" name="link_visible" checked="checked" value="Y" />
 <?php _e('Yes') ?></label><br />
-<label><input type="radio" name="visible" value="N" /> <input type="hidden" name="action" value="Add" /> 
+<label><input type="radio" name="link_visible" value="N" /> <input type="hidden" name="action" value="Add" /> 
 <?php _e('No') ?></label></td>
          </tr>
 </table>

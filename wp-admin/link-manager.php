@@ -159,87 +159,29 @@ switch ($action) {
   {
     check_admin_referer();
 
-    $link_url = wp_specialchars($_POST['linkurl']);
-    $link_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $link_url) ? $link_url : 'http://' . $link_url; 
-    $link_name = wp_specialchars($_POST['name']);
-    $link_image = wp_specialchars($_POST['image']);
-    $link_target = $_POST['target'];
-    $link_category = $_POST['category'];
-    $link_description = $_POST['description'];
-    $link_visible = $_POST['visible'];
-    $link_rating = $_POST['rating'];
-    $link_rel = $_POST['rel'];
-    $link_notes = $_POST['notes'];
-	$link_rss_uri =  wp_specialchars($_POST['rss_uri']);
-    $auto_toggle = get_autotoggle($link_category);
-
-    if ( !current_user_can('manage_links') )
-      die (__("Cheatin' uh ?"));
-
-    // if we are in an auto toggle category and this one is visible then we
-    // need to make the others invisible before we add this new one.
-    if (($auto_toggle == 'Y') && ($link_visible == 'Y')) {
-      $wpdb->query("UPDATE $wpdb->links set link_visible = 'N' WHERE link_category = $link_category");
-    }
-    $wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_image, link_target, link_category, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) " .
-      " VALUES('" . $link_url . "','"
-           . $link_name . "', '"
-           . $link_image . "', '$link_target', $link_category, '"
-           . $link_description . "', '$link_visible', $user_ID, $link_rating, '" . $link_rel . "', '" . $link_notes . "', '$link_rss_uri')");
-
+	add_link();
+	
     header('Location: ' . $_SERVER['HTTP_REFERER'] . '?added=true');
     break;
   } // end Add
 
   case 'editlink':
   {
-    if (isset($submit)) {
+ 
+	check_admin_referer();
+ 	
+	if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
+		$cat_id = $links_show_cat_id;
 
-      if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
-        $cat_id = $links_show_cat_id;
+	if (!isset($cat_id) || ($cat_id == '')) {
+		if (!isset($links_show_cat_id) || ($links_show_cat_id == ''))
+			$cat_id = 'All';
+	}
+	$links_show_cat_id = $cat_id;
 
-      if (!isset($cat_id) || ($cat_id == '')) {
-        if (!isset($links_show_cat_id) || ($links_show_cat_id == ''))
-          $cat_id = 'All';
-      }
-      $links_show_cat_id = $cat_id;
-
-      check_admin_referer();
-
-      $link_id = (int) $_POST['link_id'];
-      $link_url = wp_specialchars($_POST['linkurl']);
-      $link_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $link_url) ? $link_url : 'http://' . $link_url; 
-      $link_name = wp_specialchars($_POST['name']);
-      $link_image = wp_specialchars($_POST['image']);
-      $link_target = wp_specialchars($_POST['target']);
-      $link_category = $_POST['category'];
-      $link_description = $_POST['description'];
-      $link_visible = $_POST['visible'];
-      $link_rating = $_POST['rating'];
-      $link_rel = $_POST['rel'];
-      $link_notes = $_POST['notes'];
-	  $link_rss_uri =  $_POST['rss_uri'];
-      $auto_toggle = get_autotoggle($link_category);
-
-      if ( !current_user_can('manage_links') )
-        die (__("Cheatin' uh ?"));
-
-      // if we are in an auto toggle category and this one is visible then we
-      // need to make the others invisible before we update this one.
-      if (($auto_toggle == 'Y') && ($link_visible == 'Y')) {
-        $wpdb->query("UPDATE $wpdb->links set link_visible = 'N' WHERE link_category = $link_category");
-      }
-
-      $wpdb->query("UPDATE $wpdb->links SET link_url='" . $link_url . "',
-	  link_name='" . $link_name . "',\n link_image='" . $link_image . "',
-	  link_target='$link_target',\n link_category=$link_category,
-	  link_visible='$link_visible',\n link_description='" . $link_description . "',
-	  link_rating=$link_rating,
-	  link_rel='" . $link_rel . "',
-	  link_notes='" . $link_notes . "',
-	  link_rss = '$link_rss_uri'
-	  WHERE link_id=$link_id");
-    } // end if save
+	$link_id = (int) $_POST['link_id'];
+	edit_link($link_id);
+	
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     wp_redirect($this_file);
     break;
@@ -249,13 +191,13 @@ switch ($action) {
   {
     check_admin_referer();
 
-    $link_id = (int) $_GET['link_id'];
-
     if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
-    $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = $link_id");
+    $link_id = (int) $_GET['link_id'];
 
+	wp_delete_link($link_id);
+	
     if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
         $cat_id = $links_show_cat_id;
 
@@ -276,24 +218,9 @@ switch ($action) {
       die(__('You do not have sufficient permissions to edit the links for this blog.'));
 
     $link_id = (int) $_GET['link_id'];
-    $row = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = $link_id");
-
-    if ($row) {
-      $link_url = wp_specialchars($row->link_url, 1);
-      $link_name = wp_specialchars($row->link_name, 1);
-      $link_image = $row->link_image;
-      $link_target = $row->link_target;
-      $link_category = $row->link_category;
-      $link_description = wp_specialchars($row->link_description);
-      $link_visible = $row->link_visible;
-      $link_rating = $row->link_rating;
-      $link_rel = $row->link_rel;
-      $link_notes = wp_specialchars($row->link_notes);
-	  $link_rss_uri = wp_specialchars($row->link_rss);
-    } else {
-		die( __('Link not found.') ); 
-	}
-
+ 
+	if ( !$link = get_link_to_edit($link_id) )
+		die( __('Link not found.') );
 ?>
 
 <div class="wrap"> 
@@ -304,19 +231,19 @@ switch ($action) {
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
            <th width="33%" scope="row"><?php _e('URI:') ?></th>
-           <td width="67%"><input type="text" name="linkurl" value="<?php echo $link_url; ?>" style="width: 95%;" /></td>
+           <td width="67%"><input type="text" name="link_url" value="<?php echo $link->link_url; ?>" style="width: 95%;" /></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Link Name:') ?></th>
-           <td><input type="text" name="name" value="<?php echo $link_name; ?>" style="width: 95%" /></td>
+           <td><input type="text" name="link_name" value="<?php echo $link->link_name; ?>" style="width: 95%" /></td>
          </tr>
          <tr>
             <th scope="row"><?php _e('Short description:') ?></th>
-         	<td><input type="text" name="description" value="<?php echo $link_description; ?>" style="width: 95%" /></td>
+         	<td><input type="text" name="link_description" value="<?php echo $link->link_description; ?>" style="width: 95%" /></td>
          	</tr>
         <tr>
            <th scope="row"><?php _e('Category:') ?></th>
-           <td><?php category_dropdown('category', $link_category); ?></td>
+           <td><?php category_dropdown('link_category', $link->link_category); ?></td>
          </tr>
 </table>
 </fieldset>
@@ -328,7 +255,7 @@ switch ($action) {
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
             <tr>
                 <th width="33%" scope="row"><?php _e('rel:') ?></th>
-            	<td width="67%"><input type="text" name="rel" id="rel" size="50" value="<?php echo $link_rel; ?>" /></td>
+            	<td width="67%"><input type="text" name="link_rel" id="rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
            	</tr>
             <tr>
                 <th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
@@ -441,23 +368,23 @@ switch ($action) {
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
          <tr>
            <th width="33%" scope="row"><?php _e('Image URI:') ?></th>
-           <td width="67%"><input type="text" name="image" size="50" value="<?php echo $link_image; ?>" style="width: 95%" /></td>
+           <td width="67%"><input type="text" name="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
          </tr>
 <tr>
            <th scope="row"><?php _e('RSS URI:') ?> </th>
-           <td><input name="rss_uri" type="text" id="rss_uri" value="<?php echo $link_rss_uri; ?>" size="50" style="width: 95%" /></td>
+           <td><input name="link_rss" type="text" id="rss_uri" value="<?php echo $link->link_rss; ?>" size="50" style="width: 95%" /></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Notes:') ?></th>
-           <td><textarea name="notes" cols="50" rows="10" style="width: 95%"><?php echo $link_notes; ?></textarea></td>
+           <td><textarea name="link_notes" cols="50" rows="10" style="width: 95%"><?php echo $link->link_notes; ?></textarea></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Rating:') ?></th>
-           <td><select name="rating" size="1">
+           <td><select name="link_rating" size="1">
 <?php
     for ($r = 0; $r < 10; $r++) {
       echo('            <option value="'.$r.'" ');
-      if ($link_rating == $r)
+      if ($link->link_rating == $r)
         echo 'selected="selected"';
       echo('>'.$r.'</option>');
     }
@@ -468,22 +395,22 @@ switch ($action) {
          <tr>
            <th scope="row"><?php _e('Target') ?></th>
            <td><label>
-          <input type="radio" name="target" value="_blank"   <?php echo(($link_target == '_blank') ? 'checked="checked"' : ''); ?> />
+          <input type="radio" name="target" value="_blank"   <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
           <code>_blank</code></label><br />
 <label>
-<input type="radio" name="target" value="_top" <?php echo(($link_target == '_top') ? 'checked="checked"' : ''); ?> />
+<input type="radio" name="target" value="_top" <?php echo(($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
 <code>_top</code></label><br />
 <label>
-<input type="radio" name="target" value=""     <?php echo(($link_target == '') ? 'checked="checked"' : ''); ?> />
+<input type="radio" name="link_target" value=""     <?php echo(($link->link_target == '') ? 'checked="checked"' : ''); ?> />
 <?php _e('none') ?></label><br />
 <?php _e('(Note that the <code>target</code> attribute is illegal in XHTML 1.1 and 1.0 Strict.)') ?></td>
          </tr>
          <tr>
            <th scope="row"><?php _e('Visible:') ?></th>
            <td><label>
-             <input type="radio" name="visible" <?php if ($link_visible == 'Y') echo "checked='checked'"; ?> value="Y" />
+             <input type="radio" name="link_visible" <?php if ($link->link_visible == 'Y') echo "checked='checked'"; ?> value="Y" />
 <?php _e('Yes') ?></label><br /><label>
-<input type="radio" name="visible" <?php if ($link_visible == 'N') echo "checked='checked'"; ?> value="N" />
+<input type="radio" name="visible" <?php if ($link->link_visible == 'N') echo "checked='checked'"; ?> value="N" />
 <?php _e('No') ?></label></td>
          </tr>
 </table>

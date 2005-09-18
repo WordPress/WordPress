@@ -4,7 +4,7 @@ require_once('admin.php');
 
 check_admin_referer();
 
-$errors = update_user($user_ID);
+$errors = edit_user($user_ID);
 
 if (count($errors) != 0) {
 	foreach ($errors as $id => $error) {
