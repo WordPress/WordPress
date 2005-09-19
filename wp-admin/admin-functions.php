@@ -520,6 +520,20 @@ function get_link_to_edit($link_id) {
 	return $link;
 }
 
+function get_default_link_to_edit() {
+	if ( isset($_GET['linkurl']) )
+		$link->link_url = wp_specialchars($_GET['linkurl'], 1);
+	else
+		$link->link_url = '';
+	
+	if ( isset($_GET['name']) )
+		$link->link_name = wp_specialchars($_GET['name'], 1);
+	else
+		$link->link_name = '';
+		
+	return $link;
+}
+
 function add_link() {
 	return edit_link();	
 }
@@ -797,6 +811,23 @@ function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $lev
 	} else {
 		return false;
 	}
+}
+
+function link_category_dropdown($fieldname, $selected = 0) {
+	global $wpdb;
+	
+	$results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
+	echo "\n<select name='$fieldname' size='1'>\n";
+	foreach ($results as $row) {
+		echo "\n\t<option value='$row->cat_id'";
+		if ($row->cat_id == $selected)
+			echo " selected='selected'";
+		echo ">$row->cat_id : " . wp_specialchars($row->cat_name);
+		if ($row->auto_toggle == 'Y')
+			echo ' (auto toggle)';
+		echo "</option>";
+	}
+	echo "\n</select>\n";
 }
 
 function wp_create_thumbnail($file, $max_side, $effect = '') {
