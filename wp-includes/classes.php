@@ -724,10 +724,11 @@ class retrospam_mgr {
 		foreach( $this->comment_list as $comment ) {
 			if( $comment->approved == 1 ) {
 				foreach( $this->spam_words as $word ) {
-					if ( empty( trim($word) ) )
+					$word = trim($word);
+					if ( empty( $word ) )
 						continue;
 					$fulltext = strtolower($comment->email.' '.$comment->url.' '.$comment->ip.' '.$comment->text);
-					if( strpos( $fulltext, strtolower(trim($word)) ) != FALSE ) {
+					if( strpos( $fulltext, strtolower($word) ) != FALSE ) {
 						$this->found_comments[] = $comment->ID;
 						break;
 					}
