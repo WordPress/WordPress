@@ -25,6 +25,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     }
 }
 
+$xfn = true;
 require('admin-header.php');
 ?>
 
