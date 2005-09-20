@@ -74,7 +74,7 @@ function wp_insert_user($userdata) {
 }
 
 function wp_update_user($userdata) {
-	global $wpdb;
+	global $wpdb, $current_user;
 
 	$ID = (int) $userdata['ID'];
 	
@@ -95,9 +95,11 @@ function wp_update_user($userdata) {
 	$user_id = wp_insert_user($userdata);
 
 	// Update the cookies if the password changed.	
-	if ( isset($plaintext_pass) ) {
-		wp_clearcookie();
-		wp_setcookie($userdata['user_login'], $plaintext_pass);
+	if( $current_user->id == $ID ) {
+		if ( isset($plaintext_pass) ) {
+			wp_clearcookie();
+			wp_setcookie($userdata['user_login'], $plaintext_pass);
+		}
 	}
 	
 	return $user_id;
