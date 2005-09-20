@@ -22,7 +22,10 @@ class WP_Roles {
 		}
 	}
 
-	function add_role($role, $capabilities, $display_name) {
+	function add_role($role, $display_name, $capabilities = '') {
+		if ( isset($this->roles[$role]) )
+			return;
+
 		$this->roles[$role] = array('name' => $display_name,
 																'capabilities' => $capabilities);
 		update_option($this->role_key, $this->roles);
@@ -41,7 +44,7 @@ class WP_Roles {
 		update_option($this->role_key, $this->roles);
 	}
 
-	function add_cap($role, $cap, $grant) {
+	function add_cap($role, $cap, $grant = true) {
 		$this->roles[$role]['capabilities'][$cap] = $grant;
 		update_option($this->role_key, $this->roles);
 	}
@@ -77,7 +80,7 @@ class WP_Role {
 		$this->capabilities = $capabilities;
 	}
 
-	function add_cap($cap, $grant) {
+	function add_cap($cap, $grant = true) {
 		global $wp_roles;
 
 		$this->capabilities[$cap] = $grant;

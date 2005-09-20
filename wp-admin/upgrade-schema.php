@@ -237,99 +237,91 @@ function populate_options() {
 }
 
 function populate_roles() {
-	global $table_prefix;
+	global $wp_roles;
 
-	$roles = array ('administrator' =>
-									array('name' => __('Administrator'),
-											'capabilities' => array(
-												'edit_posts' => true,
-												'edit_others_posts' => true,
-												'edit_published_posts' => true,
-												'publish_posts' => true,
-												'edit_pages' => true,
-												'moderate_comments' => true,
-												'manage_categories' => true,
-												'manage_links' => true,
-												'upload_files' => true,
-												'manage_options' => true,
-												'switch_themes' => true,
-												'edit_themes' => true,
-												'activate_plugins' => true,
-												'edit_plugins' => true,
-												'edit_users' => true,
-												'edit_files' => true,
-												'unfiltered_html' => true,
-												'import' => true,
-												'read' => true,
-												'level_10' => true,
-												'level_9' => true,
-												'level_8' => true,
-												'level_7' => true,
-												'level_6' => true,
-												'level_5' => true,
-												'level_4' => true,
-												'level_3' => true,
-												'level_2' => true,
-												'level_1' => true,
-												'level_0' => true
-												)),
-
-									'editor' =>
-									array('name' => __('Editor'),
-											'capabilities' => array(
-												'edit_posts' => true,
-												'edit_others_posts' => true,
-												'edit_published_posts' => true,
-												'publish_posts' => true,
-												'edit_pages' => true,
-												'moderate_comments' => true,
-												'manage_categories' => true,
-												'manage_links' => true,
-												'upload_files' => true,
-												'unfiltered_html' => true,
-												'read' => true,
-												'level_7' => true,
-												'level_6' => true,
-												'level_5' => true,
-												'level_4' => true,
-												'level_3' => true,
-												'level_2' => true,
-												'level_1' => true,
-												'level_0' => true
-												)),
-
-									'author' =>
-									array('name' => __('Author'),
-											'capabilities' => array(
-												'edit_posts' => true,
-												'publish_posts' => true,
-												'upload_files' => true,
-												'read' => true,
-												'level_2' => true,
-												'level_1' => true,
-												'level_0' => true
-												)),
-
-									'contributor' =>
-									array('name' => __('Contributor'),
-											'capabilities' => array(
-												'edit_posts' => true,
-												'read' => true,
-												'level_1' => true,
-												'level_0' => true
-												)),
-											
-									'subscriber' =>
-									array('name' => __('Subscriber'),
-											'capabilities' => array(
-												'read' => true,
-												'level_0' => true
-												))
-									);
-	// FIXME: Temporary code to reset roles and caps if flag is set.
-	if ( defined('RESET_CAPS') )
-		update_option($table_prefix . 'user_roles', $roles);
-	else
-		add_option($table_prefix . 'user_roles', $roles);
+	// Add roles
+	$wp_roles->add_role('administrator', __('Administrator'));
+	$wp_roles->add_role('editor', __('Editor'));
+	$wp_roles->add_role('author', __('Author'));
+	$wp_roles->add_role('contributor', __('Contributor'));
+	$wp_roles->add_role('subscriber', __('Subscriber'));
+	
+	// Add caps for Administrator role
+	$role = $wp_roles->get_role('administrator');
+	$role->add_cap('switch_themes');
+	$role->add_cap('edit_themes');
+	$role->add_cap('activate_plugins');
+	$role->add_cap('edit_plugins');
+	$role->add_cap('edit_users');
+	$role->add_cap('edit_files');
+	$role->add_cap('manage_options');
+	$role->add_cap('moderate_comments');
+	$role->add_cap('manage_categories');
+	$role->add_cap('manage_links');
+	$role->add_cap('upload_files');
+	$role->add_cap('import');
+	$role->add_cap('unfiltered_html');
+	$role->add_cap('edit_posts');
+	$role->add_cap('edit_others_posts');
+	$role->add_cap('edit_published_posts');
+	$role->add_cap('publish_posts');
+	$role->add_cap('edit_pages');
+	$role->add_cap('read');
+	$role->add_cap('level_10');
+	$role->add_cap('level_9');
+	$role->add_cap('level_8');
+	$role->add_cap('level_7');
+	$role->add_cap('level_6');
+	$role->add_cap('level_6');
+	$role->add_cap('level_4');
+	$role->add_cap('level_3');
+	$role->add_cap('level_2');
+	$role->add_cap('level_1');
+	$role->add_cap('level_0');
+	
+	// Add caps for Editor role
+	$role = $wp_roles->get_role('editor');
+	$role->add_cap('moderate_comments');
+	$role->add_cap('manage_categories');
+	$role->add_cap('manage_links');
+	$role->add_cap('upload_files');
+	$role->add_cap('unfiltered_html');
+	$role->add_cap('edit_posts');
+	$role->add_cap('edit_others_posts');
+	$role->add_cap('edit_published_posts');
+	$role->add_cap('publish_posts');
+	$role->add_cap('edit_pages');
+	$role->add_cap('read');
+	$role->add_cap('level_7');
+	$role->add_cap('level_6');
+	$role->add_cap('level_6');
+	$role->add_cap('level_4');
+	$role->add_cap('level_3');
+	$role->add_cap('level_2');
+	$role->add_cap('level_1');
+	$role->add_cap('level_0');
+	
+	// Add caps for Author role
+	$role = $wp_roles->get_role('author');
+	$role->add_cap('upload_files');
+	$role->add_cap('edit_posts');
+	$role->add_cap('publish_posts');
+	$role->add_cap('read');
+	$role->add_cap('level_2');
+	$role->add_cap('level_1');
+	$role->add_cap('level_0');
+	
+	// Add caps for Contributor role
+	$role = $wp_roles->get_role('contributor');
+	$role->add_cap('edit_posts');
+	$role->add_cap('read');
+	$role->add_cap('level_1');
+	$role->add_cap('level_0');
+	
+	// Add caps for Subscriber role
+	$role = $wp_roles->get_role('subscriber');
+	$role->add_cap('read');
+	$role->add_cap('level_0');
 }
+
 ?>
