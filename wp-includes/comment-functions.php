@@ -30,6 +30,151 @@ function comments_template( $file = '/comments.php' ) {
 	endif;
 }
 
+function wp_new_comment( $commentdata ) {
+	$commentdata = apply_filters('preprocess_comment', $commentdata);
+
+	$commentdata['comment_post_ID'] = (int) $commentdata['comment_post_ID'];
+	$commentdata['comment_author_IP'] = $_SERVER['REMOTE_ADDR'];
+	$commentdata['comment_agent'] = $_SERVER['HTTP_USER_AGENT'];
+	$commentdata['comment_date'] = current_time('mysql');
+	$commentdata['comment_date_gmt'] = current_time('mysql', 1);
+
+	$commentdata = wp_filter_comment($commentdata);
+
+	$commentdata['comment_approved'] = wp_allow_comment($commentdata);
+
+	$comment_ID = wp_insert_comment($commentdata);
+
+	do_action('comment_post', $comment_ID, $commentdata['approved']);
+
+	if ( 'spam' !== $commentdata['comment_approved'] ) { // If it's spam save it silently for later crunching
+		if ( '0' == $commentdata['comment_approved'] )
+			wp_notify_moderator($comment_ID);
+	
+		if ( get_settings('comments_notify') && $commentdata['comment_approved'] )
+			wp_notify_postauthor($comment_ID, $commentdata['comment_type']);
+	}
+
+	return $comment_id;
+}
+
+function wp_insert_comment($commentdata) {
+	global $wpdb;
+	extract($commentdata);
+
+	if ( ! isset($comment_author_IP) )
+		$comment_author_IP = $_SERVER['REMOTE_ADDR'];
+	if ( ! isset($comment_date) )
+		$comment_date = current_time('mysql');
+	if ( ! isset($comment_date_gmt) )
+		$comment_date_gmt = gmdate('Y-m-d H:i:s', strtotime($comment_date) );
+
+	$result = $wpdb->query("INSERT INTO $wpdb->comments 
+	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type, comment_parent, user_id)
+	VALUES 
+	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$comment_author_IP', '$comment_date', '$comment_date_gmt', '$comment_content', '$comment_approved', '$comment_agent', '$comment_type', '$comment_parent', '$user_id')
+	");
+
+	return $wpdb->insert_id;
+}
+
+function wp_filter_comment($commentdata) {
+	$commentdata['user_id'] = apply_filters('pre_user_id', $commentdata['user_ID']);
+	$commentdata['comment_agent'] = apply_filters('pre_comment_user_agent', $commentdata['comment_agent']);
+	$commentdata['comment_author'] = apply_filters('pre_comment_author_name', $commentdata['comment_author']);
+	$commentdata['comment_content'] = apply_filters('pre_comment_content', $commentdata['comment_content']);
+	$commentdata['comment_author_IP'] = apply_filters('pre_comment_user_ip', $commentdata['comment_author_IP']);
+	$commentdata['comment_author_url'] = apply_filters('pre_comment_author_url', $commentdata['comment_author_url']);
+	$commentdata['comment_author_email'] = apply_filters('pre_comment_author_email', $commentdata['comment_author_email']);
+	$commentdata['filtered'] = true;
+	return $commentdata;
+}
+
+function wp_allow_comment($commentdata) {
+	global $wpdb;
+	extract($commentdata);
+
+	$comment_user_domain = apply_filters('pre_comment_user_domain', gethostbyaddr($comment_author_ip) );
+
+	// Simple duplicate check
+	$dupe = "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND ( comment_author = '$comment_author' ";
+	if ( $comment_author_email )
+		$dupe .= "OR comment_author_email = '$comment_author_email' ";
+	$dupe .= ") AND comment_content = '$comment_content' LIMIT 1";
+	if ( $wpdb->get_var($dupe) )
+		die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
+
+	// Simple flood-protection
+	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$comment_author_IP' OR comment_author_email = '$comment_author_email' ORDER BY comment_date DESC LIMIT 1") ) {
+		$time_lastcomment = mysql2date('U', $lasttime);
+		$time_newcomment  = mysql2date('U', $comment_date_gmt);
+		if ( ($time_newcomment - $time_lastcomment) < 15 ) {
+			do_action('comment_flood_trigger', $time_lastcomment, $time_newcomment);
+			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
+		}
+	}
+
+	if ( $user_id ) {
+		$userdata = get_userdata($user_id);
+		$user = new WP_User($user_id);
+		$post_author = $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = '$comment_post_ID' LIMIT 1");
+	}
+
+	// The author and the admins get respect.
+	if ( $userdata && ( $user_id == $post_author || $user->has_cap('level_9') ) ) {
+		$approved = 1;
+	}
+
+	// Everyone else's comments will be checked.
+	else {
+		if ( check_comment($comment_author, $comment_author_email, $comment_author_url, $comment_content, $comment_author_IP, $comment_agent, $comment_type) )
+			$approved = 1;
+		else
+			$approved = 0;
+		if ( wp_blacklist_check($comment_author, $comment_author_email, $comment_author_url, $comment_content, $comment_author_IP, $comment_agent) )
+			$approved = 'spam';
+	}
+
+	$approved = apply_filters('pre_comment_approved', $approved);
+	return $approved;
+}
+
+
+function wp_update_comment($commentarr) {
+	global $wpdb;
+
+	// First, get all of the original fields
+	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
+
+	// Escape data pulled from DB.
+	foreach ($comment as $key => $value)
+		$comment[$key] = $wpdb->escape($value);
+
+	// Merge old and new fields with new fields overwriting old ones.
+	$commentarr = array_merge($comment, $commentarr);
+
+	// Now extract the merged array.
+	extract($commentarr);
+
+	$comment_content = apply_filters('comment_save_pre', $comment_content);
+
+	$result = $wpdb->query(
+		"UPDATE $wpdb->comments SET
+			comment_content = '$comment_content',
+			comment_author = '$comment_author',
+			comment_author_email = '$comment_author_email',
+			comment_approved = '$comment_approved',
+			comment_author_url = '$comment_author_url',
+			comment_date = '$comment_date'
+		WHERE comment_ID = $comment_ID" );
+
+	$rval = $wpdb->rows_affected;
+
+	do_action('edit_comment', $comment_ID);
+
+	return $rval;	
+}
+
 function clean_url( $url ) {
 	if ('' == $url) return $url;
 	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $url);
