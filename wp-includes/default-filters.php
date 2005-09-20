@@ -25,7 +25,6 @@ add_filter('pre_comment_author_url', 'trim');
 add_filter('pre_comment_author_url', 'clean_url');
 
 add_filter('pre_comment_content', 'stripslashes', 1);
-add_filter('pre_comment_content', 'wp_filter_kses');
 add_filter('pre_comment_content', 'wp_rel_nofollow', 15);
 add_filter('pre_comment_content', 'balanceTags', 30);
 add_filter('pre_comment_content', 'addslashes', 50);
