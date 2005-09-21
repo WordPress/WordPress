@@ -512,7 +512,7 @@ function wp_filter_kses($data) {
 
 function wp_filter_post_kses($data) {
 	global $allowedposttags;
-	return wp_kses($data, $allowedposttags);
+	return addslashes ( wp_kses(stripslashes( $data ), $allowedposttags) );
 }
 
 function kses_init() {
