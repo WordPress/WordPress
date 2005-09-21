@@ -12,34 +12,27 @@ function get_others_drafts( $user_id ) {
 	global $wpdb;
 	$user = get_userdata( $user_id );
 	$level_key = $wpdb->prefix . 'user_level';
-	if ( 1 < $user->user_level ) {
-		$editable = get_editable_user_ids( $user_id );
+
+	$editable = get_editable_user_ids( $user_id );
 	
-		if( !$editable ) {
-				$other_drafts = '';
-		} else {
-			$editable = join(',', $editable);
-			$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) AND post_author != '$user_id' ");
-		}
+	if( !$editable ) {
+		$other_drafts = '';
 	} else {
-		$other_drafts = false;
+		$editable = join(',', $editable);
+		$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) AND post_author != '$user_id' ");
 	}
+
 	return apply_filters('get_others_drafts', $other_drafts);
 }
 
 function get_editable_authors( $user_id ) {
 	global $wpdb;
-	$user = get_userdata( $user_id );
-	$level_key = $wpdb->prefix . 'user_level';
-
-	if ( 7 > $user->user_level ) // TODO: ROLE SYSTEM
-		return false;
 
 	$editable = get_editable_user_ids( $user_id );
 
-	if( !$editable )
-			return false;
-	else {
+	if( !$editable ) {
+		return false;
+	} else {
 		$editable = join(',', $editable);
 		$authors = $wpdb->get_results( "SELECT * FROM $wpdb->users WHERE ID IN ($editable)" );
 	}
@@ -49,24 +42,24 @@ function get_editable_authors( $user_id ) {
 
 function get_editable_user_ids( $user_id, $exclude_zeros = true ) {
 	global $wpdb;
-	$user = get_userdata( $user_id );
+	
+	$user = new WP_User( $user_id );
+	
+	if ( ! $user->has_cap('edit_others_posts') ) {
+			echo "no cap<br/>";
+		if ( $user->has_cap('edit_posts') || $exclude_zeros == false )
+			return array($user->id);
+		else 
+			return false;
+	}
+
 	$level_key = $wpdb->prefix . 'user_level';
 
-	$query = "SELECT * FROM $wpdb->usermeta WHERE meta_key = '$level_key'";
+	$query = "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '$level_key'";
 	if ( $exclude_zeros )
 		$query .= " AND meta_value != '0'";
-	$possible = $wpdb->get_results( $query );
-
-	if ( !$possible )
-		return false;	
-
-	$user_ids = array();
-	foreach ( $possible as $mark )
-		if ( intval($mark->meta_value) <= $user->user_level )
-			$user_ids[] = $mark->user_id;
-	if ( empty( $user_ids ) )
-		return false;
-	return $user_ids;
+		
+	return $wpdb->get_col( $query );
 }
 
 function get_author_user_ids() {

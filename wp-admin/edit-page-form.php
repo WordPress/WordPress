@@ -83,7 +83,7 @@ addLoadEvent(focusit);
 <div class="dbx-content"><input name="post_name" type="text" size="13" id="post_name" value="<?php echo $post->post_name ?>" /></div>
 </fieldset>
 
-<?php if ( $authors = get_editable_authors( $current_user->ID ) ) : // TODO: ROLE SYSTEM ?>
+<?php if ( $authors = get_editable_authors( $current_user->id ) ) : // TODO: ROLE SYSTEM ?>
 <fieldset id="authordiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Post author'); ?>:</h3>
 <div class="dbx-content">
