@@ -84,7 +84,7 @@ class WP_Role {
 		global $wp_roles;
 
 		$this->capabilities[$cap] = $grant;
-		$wp_roles->add_cap($this->name, $cap);
+		$wp_roles->add_cap($this->name, $cap, $grant);
 	}
 
 	function remove_cap($cap) {
