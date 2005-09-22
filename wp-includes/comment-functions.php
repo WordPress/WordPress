@@ -45,7 +45,7 @@ function wp_new_comment( $commentdata ) {
 
 	$comment_ID = wp_insert_comment($commentdata);
 
-	do_action('comment_post', $comment_ID, $commentdata['approved']);
+	do_action('comment_post', $comment_ID, $commentdata['comment_approved']);
 
 	if ( 'spam' !== $commentdata['comment_approved'] ) { // If it's spam save it silently for later crunching
 		if ( '0' == $commentdata['comment_approved'] )
@@ -55,7 +55,7 @@ function wp_new_comment( $commentdata ) {
 			wp_notify_postauthor($comment_ID, $commentdata['comment_type']);
 	}
 
-	return $comment_id;
+	return $comment_ID;
 }
 
 function wp_insert_comment($commentdata) {
