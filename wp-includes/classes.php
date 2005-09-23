@@ -29,6 +29,7 @@ class WP_Query {
 	var $is_404 = false;
 	var $is_comments_popup = false;
 	var $is_admin = false;
+	var $is_object = false;
 
 	function init_query_flags() {
 		$this->is_single = false;
@@ -48,6 +49,7 @@ class WP_Query {
 		$this->is_404 = false;
 		$this->is_paged = false;
 		$this->is_admin = false;
+		$this->is_object = false;
 	}
 	
 	function init () {
@@ -524,6 +526,9 @@ class WP_Query {
 			else
 				$where .= ')';				
 		}
+
+		if (! $this->is_object )
+			$where .= ' AND post_status != "object"';
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.
