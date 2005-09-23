@@ -10,7 +10,9 @@ $messages[3] = __('Custom field deleted.');
 <form name="post" action="post.php" method="post" id="post">
 
 <div class="wrap">
-<h2><?php _e('Write Post'); ?></h2>
+<a id="write-post"></a>
+<h2><?php _e('Write Post'); ?><?php if ( 0 != $post_ID ) : ?>
+ <small class="quickjump"><a href="#preview-post"><?php _e('preview &darr;'); ?></a></small><?php endif; ?></h2>
 <?php
 
 if (0 == $post_ID) {

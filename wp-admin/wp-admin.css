@@ -114,6 +114,19 @@ h2 {
 	margin: 5px 10px;
 }
 
+h2 small.quickjump {
+	display: block;
+	text-align: right;
+}
+
+h2 small.quickjump a {
+	text-decoration: none;
+	border-bottom: 0;
+	font-size: 15px;
+	background: #f0f8ff;
+	padding: 5px 10px;
+}
+
 img, #footer a {
 	border: 0;
 }

@@ -78,15 +78,9 @@ case 'edit':
 
 	?>
 	<div id='preview' class='wrap'>
-	<h2><?php _e('Post Preview (updated when post is saved)'); ?></h2>
-	<h3 class="storytitle" id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php printf(__("Permanent Link: %s"), get_the_title()); ?>"><?php the_title(); ?></a></h3>
-	<div class="meta"><?php _e("Filed under:"); ?> <?php the_category(','); ?> &#8212; <?php the_author() ?> @ <?php the_time() ?></div>
-
-	<div class="storycontent">
-	<?php 
-	echo apply_filters('the_content', html_entity_decode($post->post_content) );
-	?>
-	</div>
+	<a id="preview-post"></a>
+	<h2><?php _e('Post Preview (updated when post is saved)'); ?> <small class="quickjump"><a href="#write-post"><?php _e('edit &uarr;'); ?></a></small></h2>
+		<iframe src="<?php the_permalink(); ?>" width="100%" height="600" />
 	</div>
 	<?php
 	break;
