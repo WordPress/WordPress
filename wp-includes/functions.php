@@ -402,7 +402,7 @@ function delete_option($name) {
 }
 
 function add_post_meta($post_id, $key, $value, $unique = false) {
-	global $wpdb;
+	global $wpdb, $post_meta_cache;
 	
 	if ($unique) {
 		if( $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
@@ -411,16 +411,22 @@ function add_post_meta($post_id, $key, $value, $unique = false) {
 		}
 	}
 
+	$original = $value;
+	if ( is_array($value) || is_object($value) )
+		$value = $wpdb->escape(serialize($value));
+
 	$wpdb->query("INSERT INTO $wpdb->postmeta
                                 (post_id,meta_key,meta_value) 
                                 VALUES ('$post_id','$key','$value')
                         ");
-	
+
+	$post_meta_cache['$post_id'][$key][] = $original;
+
 	return true;
 }
 
 function delete_post_meta($post_id, $key, $value = '') {
-	global $wpdb;
+	global $wpdb, $post_meta_cache;
 
 	if (empty($value)) {
 		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE
@@ -435,10 +441,17 @@ post_id = '$post_id' AND meta_key = '$key' AND meta_value = '$value'");
 	if (empty($value)) {
 		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
 AND meta_key = '$key'");
+		unset($post_meta_cache['$post_id'][$key]);
 	} else {
 		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
 AND meta_key = '$key' AND meta_value = '$value'");
+		$cache_key = $post_meta_cache['$post_id'][$key];
+		foreach ( $cache_key as $index => $data )
+			if ( $data == $value )
+				unset($post_meta_cache['$post_id'][$key][$index]);
 	}
+
+	unset($post_meta_cache['$post_id'][$key]);
         
 	return true;
 }
@@ -465,29 +478,49 @@ function get_post_meta($post_id, $key, $single = false) {
 
 	if ($single) {
 		if (count($values)) {
-			return $values[0];
+			$return = $values[0];
 		} else {
 			return '';
 		}
 	} else {
-		return $values;
+		$return = $values;
 	}
+
+	@ $kellogs = unserialize($return);
+	if ($kellogs !== FALSE)
+		return $kellogs;
+	else return $return;
 }
 
 function update_post_meta($post_id, $key, $value, $prev_value = '') {
 	global $wpdb, $post_meta_cache;
 
-		if(! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
+	$original_value = $value;
+	if ( is_array($value) || is_object($value) )
+		$value = $wpdb->escape(serialize($value));
+
+	$original_prev = $prev_value;
+	if ( is_array($prev_value) || is_object($prev_value) )
+		$prev_value = serialize($value);
+		
+	if(! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
 = '$key' AND post_id = '$post_id'") ) {
-			return false;
-		}
+		return false;
+	}
 
 	if (empty($prev_value)) {
 		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
 meta_key = '$key' AND post_id = '$post_id'");
+		$cache_key = $post_meta_cache['$post_id'][$key];
+		foreach ($cache_key as $index => $data)
+			$post_meta_cache['$post_id'][$key][$index] = $original_value;
 	} else {
 		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
 meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
+		$cache_key = $post_meta_cache['$post_id'][$key];
+		foreach ($cache_key as $index => $data)
+			if ( $data == $original_prev )
+				$post_meta_cache['$post_id'][$key][$index] = $original_value;
 	}
 
 	return true;
@@ -842,7 +875,7 @@ function check_for_pings() {
 		$doping = true;
 	}
 	if($doping) 
-		echo '<iframe src="' .  get_settings('siteurl') .'/wp-admin/execute-pings.php?time=' . time() . '" style="border:none;width:1px;height:1px;"></iframe>';
+		echo '<iframe id="pingcheck" src="' .  get_settings('siteurl') .'/wp-admin/execute-pings.php?time=' . time() . '" style="border:none;width:1px;height:1px;"></iframe>';
 }
 
 function do_enclose( $content, $post_ID ) {
@@ -2047,7 +2080,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 		$meta_value = serialize($meta_value);
 
 	$cur = $wpdb->get_row("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-	if ( !$cur && !empty( $meta_value ) ) {
+	if ( !$cur ) {
 		$wpdb->query("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )
 		VALUES
 		( '$user_id', '$meta_key', '$meta_value' )");
@@ -2055,8 +2088,6 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	}
 	if ( $cur->meta_value != $meta_value )
 		$wpdb->query("UPDATE $wpdb->usermeta SET meta_value = '$meta_value' WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-	if ( empty( $meta_value ) )
-		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 }
 
 function register_activation_hook($file, $function) {
