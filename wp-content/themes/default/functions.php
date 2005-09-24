@@ -126,7 +126,7 @@ function kubrick_add_theme_page() {
 		}
 		add_action('admin_head', 'kubrick_theme_page_head');
 	}
-	add_theme_page("Kubrick Theme Options", "Current Theme Options", 5, basename(__FILE__), 'kubrick_theme_page');
+	add_theme_page("Kubrick Theme Options", "Current Theme Options", 'edit_themes', basename(__FILE__), 'kubrick_theme_page');
 }
 
 function kubrick_theme_page_head() {
