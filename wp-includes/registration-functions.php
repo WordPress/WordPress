@@ -105,7 +105,7 @@ function wp_update_user($userdata) {
 	return $user_id;
 }
 
-function wp_create_user( $username, $password, $email ) {
+function wp_create_user( $username, $password, $email = '') {
 	global $wpdb;
 	
 	$user_login = $wpdb->escape( $username );

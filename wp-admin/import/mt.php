@@ -59,26 +59,25 @@ class MT_Import {
 	function checkauthor($author) {
 		global $wpdb;
 		//mtnames is an array with the names in the mt import file
-		$md5pass = md5(changeme);
+		$pass = 'changeme';
 		if (!(in_array($author, $this->mtnames))) { //a new mt author name is found
 			++ $this->j;
 			$this->mtnames[$this->j] = $author; //add that new mt author name to an array 
-			$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$this->newauthornames[$j]'"); //check if the new author name defined by the user is a pre-existing wp user
+			$user_id = username_exists($this->newauthornames[$j]); //check if the new author name defined by the user is a pre-existing wp user
 			if (!$user_id) { //banging my head against the desk now. 
 				if ($newauthornames[$this->j] == 'left_blank') { //check if the user does not want to change the authorname
-					$wpdb->query("INSERT INTO $wpdb->users (user_level, user_login, user_pass, user_nickname) VALUES ('1', '$author', '$md5pass', '$author')"); // if user does not want to change, insert the authorname $author
-					$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '$author'");
+					$user_id = wp_create_user($author, $pass);
 					$this->newauthornames[$this->j] = $author; //now we have a name, in the place of left_blank.
 				} else {
 					$wpdb->query("INSERT INTO $wpdb->users (user_level, user_login, user_pass, user_nickname) VALUES ('1', '{$this->newauthornames[$this->j]}', '$md5pass', '{$this->newauthornames[$this->j]}')"); //if not left_blank, insert the user specified name
-					$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '{$this->newauthornames[$this->j]}'");
+					$user_id = wp_create_user($this->newauthornames[$this->j], $pass);
 				}
 			} else {
 				return $user_id; // return pre-existing wp username if it exists
 			}
 		} else {
 			$key = array_search($author, $this->mtnames); //find the array key for $author in the $mtnames array
-			$user_id = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_login = '{$this->newauthornames[$key]}'"); //use that key to get the value of the author's name from $newauthornames
+			$user_id = username_exists($this->newauthornames[$key]); //use that key to get the value of the author's name from $newauthornames
 		}
 
 		return $user_id;
@@ -277,20 +276,21 @@ class MT_Import {
 				} // End foreach
 
 				// Let's check to see if it's in already
-				if (posts_exists($post_title, '', $post_date)) {
+				if ($post_id = posts_exists($post_title, '', $post_date)) {
 					echo "Post already imported.";
 				} else {
 					$post_author = checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
 
 					$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt');
 					$post_id = wp_insert_post($postdata);
-
 					// Add categories.
 					if (0 != count($post_categories)) {
 						wp_create_categories($post_categories);
 					}
 					echo " Post imported successfully...";
 				}
+
+				$comment_post_ID = $post_id;
 
 				// Now for comments
 				$comments = explode("-----\nCOMMENT:", $comments[0]);
@@ -300,16 +300,16 @@ class MT_Import {
 						preg_match("|AUTHOR:(.*)|", $comment, $comment_author);
 						$comment_author = $wpdb->escape(trim($comment_author[1]));
 						$comment = preg_replace('|(\n?AUTHOR:.*)|', '', $comment);
-						preg_match("|EMAIL:(.*)|", $comment, $comment_email);
-						$comment_email = $wpdb->escape(trim($comment_email[1]));
+						preg_match("|EMAIL:(.*)|", $comment, $comment_author_email);
+						$comment_author_email = $wpdb->escape(trim($comment_author_email[1]));
 						$comment = preg_replace('|(\n?EMAIL:.*)|', '', $comment);
 
-						preg_match("|IP:(.*)|", $comment, $comment_ip);
-						$comment_ip = trim($comment_ip[1]);
+						preg_match("|IP:(.*)|", $comment, $comment_author_IP);
+						$comment_author_IP = trim($comment_author_IP[1]);
 						$comment = preg_replace('|(\n?IP:.*)|', '', $comment);
 
-						preg_match("|URL:(.*)|", $comment, $comment_url);
-						$comment_url = $wpdb->escape(trim($comment_url[1]));
+						preg_match("|URL:(.*)|", $comment, $comment_author_url);
+						$comment_author_url = $wpdb->escape(trim($comment_author_url[1]));
 						$comment = preg_replace('|(\n?URL:.*)|', '', $comment);
 
 						preg_match("|DATE:(.*)|", $comment, $comment_date);
@@ -320,10 +320,10 @@ class MT_Import {
 						$comment_content = $wpdb->escape(trim($comment));
 						$comment_content = str_replace('-----', '', $comment_content);
 						// Check if it's already there
-						if (!$wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_date = '$comment_date' AND comment_content = '$comment_content'")) {
-							$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved)
-																								VALUES
-																								($post_id, '$comment_author', '$comment_email', '$comment_url', '$comment_ip', '$comment_date', '$comment_content', '1')");
+						if (!comment_exists($comment_author, $comment_date)) {
+							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content');
+							$commentdata = wp_filter_comment($commentdata);
+							wp_insert_comment($commentdata);
 							echo "Comment added.";
 						}
 					}
@@ -340,14 +340,12 @@ class MT_Import {
 						$comment_author = $wpdb->escape(trim($comment_author[1]));
 						$ping = preg_replace('|(\n?BLOG NAME:.*)|', '', $ping);
 
-						$comment_email = '';
-
-						preg_match("|IP:(.*)|", $ping, $comment_ip);
-						$comment_ip = trim($comment_ip[1]);
+						preg_match("|IP:(.*)|", $ping, $comment_author_IP);
+						$comment_author_IP = trim($comment_author_IP[1]);
 						$ping = preg_replace('|(\n?IP:.*)|', '', $ping);
 
-						preg_match("|URL:(.*)|", $ping, $comment_url);
-						$comment_url = $wpdb->escape(trim($comment_url[1]));
+						preg_match("|URL:(.*)|", $ping, $comment_author_url);
+						$comment_author_url = $wpdb->escape(trim($comment_author_url[1]));
 						$ping = preg_replace('|(\n?URL:.*)|', '', $ping);
 
 						preg_match("|DATE:(.*)|", $ping, $comment_date);
@@ -364,14 +362,15 @@ class MT_Import {
 
 						$comment_content = "<strong>$ping_title</strong>\n\n$comment_content";
 
-						// Check if it's already there
-						if (!$wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_date = '$comment_date' AND comment_content = '$comment_content'")) {
-							$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_content, comment_approved, comment_type)
-																												VALUES
-																												($post_id, '$comment_author', '$comment_email', '$comment_url', '$comment_ip', '$comment_date', '$comment_content', '1', 'trackback')");
-							echo " Comment added.";
-						}
+						$comment_type = 'trackback';
 
+						// Check if it's already there
+						if (!comment_exists($comment_author, $comment_date)) {
+							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_type');
+							$commentdata = wp_filter_comment($commentdata);
+							wp_insert_comment($commentdata);
+							echo "Comment added.";
+						}
 					}
 				}
 				echo "</li>";
@@ -379,7 +378,6 @@ class MT_Import {
 			flush();
 		}
 
-		upgrade_all();
 		echo '</ol>';
 		echo '<h3>'.sprintf(__('All done. <a href="%s">Have fun!</a>'), get_option('home')).'</h3>';
 	}
