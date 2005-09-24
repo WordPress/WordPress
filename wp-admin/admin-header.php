@@ -97,8 +97,8 @@ tinyMCE.init({
 	theme_advanced_resize_horizontal : false,
 	entity_encoding : "raw",
 	relative_urls : false,
-	extended_valid_elements : "a[id|href|title|onclick],img[class|src|alt|title|width|height|align]",
-	plugins : "emotions,wordpress"
+	valid_elements : "a[href|title],strong/b,em/i,strike,u,p[class|align],ol,ul,li,br,img[class|src|alt|title|width|height|align],sub,sup,blockquote,table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],div[dir|class|align],span[class|align],pre[class],address,h1[class|align],h2[class|align],h3[class|align],h4[class|align],h5[class|align],h6[class|align],hr",
+	plugins : ""
 	<?php do_action('mce_options'); ?>
 });
 </script>
