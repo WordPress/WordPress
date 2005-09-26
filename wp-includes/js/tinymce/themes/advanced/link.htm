@@ -1,111 +1,11 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>{$lang_insert_link_title}</title>
-<script language="javascript" src="../../tiny_mce_popup.js"></script>
-<script language="javascript">
-var url = tinyMCE.getParam("external_link_list_url");
-if (url != null) {
-	// Fix relative
-	if (url.charAt(0) != '/')
-		url = tinyMCE.documentBasePath + "/" + url;
-
-	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
-}
-</script>
-<script language="javascript">
-	function init() {
-		for (var i=0; i<document.forms[0].target.options.length; i++) {
-			var option = document.forms[0].target.options[i];
-
-			if (option.value == tinyMCE.getWindowArg('target'))
-				option.selected = true;
-		}
-
-		document.forms[0].href.value = tinyMCE.getWindowArg('href');
-		document.forms[0].linktitle.value = tinyMCE.getWindowArg('title');
-		document.forms[0].insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
-
-		var className = tinyMCE.getWindowArg('className');
-		var styleSelectElm = document.forms[0].styleSelect;
-		var stylesAr = tinyMCE.getParam('theme_advanced_styles', false);
-		if (stylesAr) {
-			stylesAr = stylesAr.split(';');
-
-			for (var i=0; i<stylesAr.length; i++) {
-				var key, value;
-
-				key = stylesAr[i].split('=')[0];
-				value = stylesAr[i].split('=')[1];
-
-				styleSelectElm.options[styleSelectElm.length] = new Option(key, value);
-				if (value == className)
-					styleSelectElm.options.selectedIndex = styleSelectElm.options.length-1;
-			}
-		} else {
-			var csses = tinyMCE.getCSSClasses(tinyMCE.getWindowArg('editor_id'));
-			for (var i=0; i<csses.length; i++) {
-				styleSelectElm.options[styleSelectElm.length] = new Option(csses[i], csses[i]);
-				if (csses[i] == className)
-					styleSelectElm.options.selectedIndex = styleSelectElm.options.length-1;
-			}
-		}
-
-		// Hide it if there is no styles
-		if (styleSelectElm.options.length == 1) {
-			document.getElementById('styleSelectRow').style.display = "none";
-			document.getElementById('styleSelectRow').style.overflow = "hidden";
-			document.getElementById('styleSelectRow').style.height = "0px";
-		}
-
-		// Handle file browser
-		if (tinyMCE.getParam("file_browser_callback") != null) {
-			document.getElementById('href').style.width = '180px';
-
-			var html = '';
-
-			html += '<img id="browserBtn" src="images/browse.gif"';
-			html += ' onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');"';
-			html += ' onmouseout="tinyMCE.restoreClass(this);"';
-			html += ' onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');"';
-			html += ' onclick="javascript:tinyMCE.openFileBrowser(\'href\',document.forms[0].href.value,\'file\',window);"';
-			html += ' width="20" height="18" border="0" title="' + tinyMCE.getLang('lang_browse') + '"';
-			html += ' class="mceButtonNormal" alt="' + tinyMCE.getLang('lang_browse') + '" />';
-
-			document.getElementById('browser').innerHTML = html;
-		}
-
-		// Auto select link in list
-		if (typeof(tinyMCELinkList) != "undefined" && tinyMCELinkList.length > 0) {
-			var formObj = document.forms[0];
-
-			for (var i=0; i<formObj.link_list.length; i++) {
-				if (formObj.link_list.options[i].value == tinyMCE.getWindowArg('href'))
-					formObj.link_list.options[i].selected = true;
-			}
-		}
-		// Focus form field
-		document.getElementById('href').focus();
-	}
-
-	function insertLink() {
-		if (window.opener) {
-			var href = document.forms[0].href.value;
-			var target = null;
-			var title = document.forms[0].linktitle.value;
-			var style_class = document.forms[0].styleSelect.value;
-			var dummy;
-
-			window.opener.tinyMCE.insertLink(href, target, title, dummy, style_class);
-			tinyMCE.closeDialog();
-		}
-	}
-
-	function cancelAction() {
-		tinyMCE.closeDialog();
-	}
-</script>
+	<title>{$lang_insert_link_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/link.js"></script>
 </head>
-<body onload="init();">
+<body onload="init();" style="display: none">
 <form onsubmit="insertLink();return false;">
   <table border="0" cellpadding="0" cellspacing="0" width="100">
     <tr>
@@ -117,8 +17,8 @@ if (url != null) {
             <td nowrap="nowrap">{$lang_insert_link_url}:</td>
             <td>              <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input name="href" type="text" id="href" value="http://" style="width: 200px"></td>
-                  <td id="browser"></td>
+                  <td><input name="href" type="text" id="href" value="" style="width: 200px"></td>
+                  <td><script language="javascript" type="text/javascript">renderBrowser('hrefbrowser','href','file','theme_advanced_link');</script></td>
                 </tr>
               </table></td>
           </tr>
@@ -140,12 +40,13 @@ if (url != null) {
 			}
 		  </script>
 		  <!-- /Link list -->
-          <tr style="display: none;">
+          <tr>
             <td nowrap="nowrap">{$lang_insert_link_target}:</td>
             <td><select name="target" style="width: 200px">
-                <option value="">{$lang_insert_link_target_same}</option>
+                <option value="_self">{$lang_insert_link_target_same}</option>
                 <option value="_blank">{$lang_insert_link_target_blank}</option>
 				<script language="javascript">
+					var html = "";
 					var targets = tinyMCE.getParam('theme_advanced_link_targets', '').split(';');
 
 					for (var i=0; i<targets.length; i++) {
@@ -168,18 +69,19 @@ if (url != null) {
             <td nowrap="nowrap">{$lang_theme_insert_link_titlefield}:</td>
             <td><input name="linktitle" type="text" id="linktitle" value="" style="width: 200px"></td>
           </tr>
-          <tr id="styleSelectRow" style="display: none;">
-            <td>{$lang_class}:</td>
+          <tr id="styleSelectRow">
+            <td>{$lang_class_name}:</td>
             <td>
-			 <select name="styleSelect">
+			 <select id="styleSelect" name="styleSelect">
                 <option value="" selected>{$lang_theme_style_select}</option>
              </select></td>
             <td align="right">&nbsp;</td>
             <td align="right">&nbsp;</td>
           </tr>
           <tr>
-            <td><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onClick="cancelAction();"></td>
-            <td align="right"><input type="submit" id="insert" name="insert" value="Create hyperlink" onClick="insertLink();"> </td>
+            <td><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="insertLink();">
+            </td>
+            <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();"></td>
           </tr>
         </table></td>
     </tr>

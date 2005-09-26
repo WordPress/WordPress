@@ -3,7 +3,6 @@ tinyMCE.importThemeLanguagePack('advanced');
 
 // Variable declarations
 var TinyMCE_advanced_autoImportCSSClasses = true;
-var TinyMCE_advanced_foreColor = "#000000";
 var TinyMCE_advanced_resizer = new Object();
 var TinyMCE_advanced_buttons = [
 	// Control id, button img, button title, command, user_interface, value
@@ -69,13 +68,13 @@ function TinyMCE_advanced_getControlHTML(button_name)
 				{
 					if (buttonTileMap[x] == but[1])
 					{
-						return '<img id="{$editor_id}_' + but[0] +'" src="{$themeurl}/images/spacer.gif" style="background-image:url({$themeurl}/images/buttons.gif); background-position: ' + (0-(x*20)) + 'px 0px" title="' + but[2] + '" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ')">';
+						return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ')" onmousedown="return false;"><img id="{$editor_id}_' + but[0] +'" src="{$themeurl}/images/spacer.gif" style="background-image:url({$themeurl}/images/buttons.gif); background-position: ' + (0-(x*20)) + 'px 0px" title="' + but[2] + '" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 					}
 				}
 			}
 
 			// Old style
-			return '<img id="{$editor_id}_' + but[0] + '" src="{$themeurl}/images/' + but[1] + '" title="' + but[2] + '" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ')">';
+			return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'' + but[3] + '\', ' + (but.length > 4 ? but[4] : false) + (but.length > 5 ? ', \'' + but[5] + '\'' : '') + ')" onmousedown="return false;"><img id="{$editor_id}_' + but[0] + '" src="{$themeurl}/images/' + but[1] + '" title="' + but[2] + '" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 		}
 	}
 
@@ -83,7 +82,7 @@ function TinyMCE_advanced_getControlHTML(button_name)
 	switch (button_name)
 	{
 		case "formatselect":
-			var html = '<select id="{$editor_id}_formatSelect" name="{$editor_id}_formatSelect" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FormatBlock\',false,this.options[this.selectedIndex].value);" class="mceSelectList">';
+			var html = '<select id="{$editor_id}_formatSelect" name="{$editor_id}_formatSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FormatBlock\',false,this.options[this.selectedIndex].value);" class="mceSelectList">';
 			var formats = tinyMCE.getParam("theme_advanced_blockformats", "p,address,pre,h1,h2,h3,h4,h5,h6", true).split(',');
 			var lookup = [
 				['p', '{$lang_theme_paragraph}'],
@@ -117,35 +116,27 @@ function TinyMCE_advanced_getControlHTML(button_name)
 
 		case "styleselect":
 			//styleselect
-		return '<select id="{$editor_id}_styleSelect" onmousedown="TinyMCE_advanced_setupCSSClasses(\'{$editor_id}\');" name="{$editor_id}_styleSelect" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceSetCSSClass\',false,this.options[this.selectedIndex].value);" class="mceSelectList">{$style_select_options}</select>';
+		return '<select id="{$editor_id}_styleSelect" onmousedown="TinyMCE_advanced_setupCSSClasses(\'{$editor_id}\');" name="{$editor_id}_styleSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceSetCSSClass\',false,this.options[this.selectedIndex].value);" class="mceSelectList">{$style_select_options}</select>';
 
 		case "fontselect":
-			//fontselect
-		return '<select id="{$editor_id}_fontNameSelect" name="{$editor_id}_fontNameSelect" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FontName\',false,this.options[this.selectedIndex].value);" class="mceSelectList">\
-		<option value="">{$lang_theme_fontdefault}</option>\
-		<option value="andale mono,times">Andale Mono</option>\
-		<option value="arial,helvetica,sans-serif">Arial</option>\
-		<option value="arial black,avant garde">Arial Black</option>\
-		<option value="book antiqua,palatino">Book Antiqua</option>\
-		<option value="comic sans ms,sand">Comic Sans MS</option>\
-		<option value="courier new,courier">Courier New</option>\
-		<option value="georgia,palatino">Georgia</option>\
-		<option value="helvetica">Helvetica</option>\
-		<option value="impact,chicago">Impact</option>\
-		<option value="symbol">Symbol</option>\
-		<option value="tahoma,arial,helvetica,sans-serif">Tahoma</option>\
-		<option value="terminal,monaco">Terminal</option>\
-		<option value="times new roman,times">Times New Roman</option>\
-		<option value="trebuchet ms,geneva">Trebuchet MS</option>\
-		<option value="verdana,geneva">Verdana</option>\
-		<option value="webdings">Webdings</option>\
-		<option value="wingdings,zapf dingbats">Wingdings</option>\
-		</select>';
+			var fontHTML = '<select id="{$editor_id}_fontNameSelect" name="{$editor_id}_fontNameSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FontName\',false,this.options[this.selectedIndex].value);" class="mceSelectList"><option value="">{$lang_theme_fontdefault}</option>';
+			var iFonts = 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;Georgia=georgia,times new roman,times,serif;Tahoma=tahoma,arial,helvetica,sans-serif;Times New Roman=times new roman,times,serif;Verdana=verdana,arial,helvetica,sans-serif;Impact=impact;WingDings=wingdings';
+			var nFonts = 'Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sand;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats';
+			var fonts = tinyMCE.getParam("theme_advanced_fonts", nFonts).split(';');
+			for (var i=0; i<fonts.length; i++) {
+				if (fonts[i] != '') {
+					var parts = fonts[i].split('=');
+					fontHTML += '<option value="' + parts[1] + '">' + parts[0] + '</option>';
+				}
+			}
+
+			fontHTML += '</select>';
+			return fontHTML;
 
 		case "fontsizeselect":
 			//fontsizeselect
-		return '<select id="{$editor_id}_fontSizeSelect" name="{$editor_id}_fontSizeSelect" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FontSize\',false,this.options[this.selectedIndex].value);" class="mceSelectList">\
-		<option value="0">-- {$lang_theme_font_size} --</option>\
+		return '<select id="{$editor_id}_fontSizeSelect" name="{$editor_id}_fontSizeSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FontSize\',false,this.options[this.selectedIndex].value);" class="mceSelectList">\
+		<option value="0">{$lang_theme_font_size}</option>\
 		<option value="1">1 (8 pt)</option>\
 		<option value="2">2 (10 pt)</option>\
 		<option value="3">3 (12 pt)</option>\
@@ -178,30 +169,36 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 	{
 		case "mceForeColor":
 			var template = new Array();
-			var inputColor = TinyMCE_advanced_foreColor;
+			var elm = tinyMCE.selectedInstance.getFocusElement();
+			var inputColor = tinyMCE.getAttrib(elm, "color");
+
+			if (inputColor == '')
+				inputColor = elm.style.color;
 
 			if (!inputColor)
 				inputColor = "#000000";
 
 			template['file'] = 'color_picker.htm';
 			template['width'] = 220;
-			template['height'] = 240;
+			template['height'] = 190;
 
 			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", command : "forecolor", input_color : inputColor});
 		return true;
 
 		case "mceBackColor":
 			var template = new Array();
-			var inputColor = TinyMCE_advanced_foreColor;
+			var elm = tinyMCE.selectedInstance.getFocusElement();
+			var inputColor = elm.style.backgroundColor;
 
 			if (!inputColor)
-			{
 				inputColor = "#000000";
-			}
 
 			template['file'] = 'color_picker.htm';
-			template['width'] = 210;
-			template['height'] = 200;
+			template['width'] = 220;
+			template['height'] = 190;
+
+			template['width'] += tinyMCE.getLang('lang_theme_advanced_backcolor_delta_width', 0);
+			template['height'] += tinyMCE.getLang('lang_theme_advanced_backcolor_delta_height', 0);
 
 			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", command : "HiliteColor", input_color : inputColor});
 			//mceBackColor
@@ -214,7 +211,10 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 
 				template['file'] = 'color_picker.htm';
 				template['width'] = 220;
-				template['height'] = 210;
+				template['height'] = 190;
+
+				template['width'] += tinyMCE.getLang('lang_theme_advanced_colorpicker_delta_width', 0);
+				template['height'] += tinyMCE.getLang('lang_theme_advanced_colorpicker_delta_height', 0);
 
 				if (typeof(value['store_selection']) == "undefined")
 					value['store_selection'] = true;
@@ -233,8 +233,8 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 			var template = new Array();
 
 			template['file'] = 'source_editor.htm';
-			template['width'] = tinyMCE.getParam("theme_advanced_source_editor_width", 500);
-			template['height'] = tinyMCE.getParam("theme_advanced_source_editor_height", 400);
+			template['width'] = parseInt(tinyMCE.getParam("theme_advanced_source_editor_width", 500));
+			template['height'] = parseInt(tinyMCE.getParam("theme_advanced_source_editor_height", 400));
 
 			tinyMCE.openWindow(template, {editor_id : editor_id, resizable : "yes", scrollbars : "no", inline : "yes"});
 			//mceCodeEditor
@@ -245,7 +245,10 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 
 			template['file'] = 'charmap.htm';
 			template['width'] = 550;
-			template['height'] = 280;
+			template['height'] = 250;
+	
+			template['width'] += tinyMCE.getLang('lang_theme_advanced_charmap_delta_width', 0);
+			template['height'] += tinyMCE.getLang('lang_theme_advanced_charmap_delta_height', 0);
 
 			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes"});
 			//mceCharMap
@@ -256,7 +259,10 @@ function TinyMCE_advanced_execCommand(editor_id, element, command, user_interfac
 
 			template['file'] = 'anchor.htm';
 			template['width'] = 320;
-			template['height'] = 110;
+			template['height'] = 90;
+
+			template['width'] += tinyMCE.getLang('lang_theme_advanced_anchor_delta_width', 0);
+			template['height'] += tinyMCE.getLang('lang_theme_advanced_anchor_delta_height', 0);
 
 			tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes"});
 		return true;
@@ -405,7 +411,6 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 				toolbarHTML = tinyMCE.replaceVars(toolbarHTML, tinyMCELang);
 				toolbarHTML = tinyMCE.replaceVar(toolbarHTML, 'style_select_options', styleSelectHTML);
 				toolbarHTML = tinyMCE.replaceVar(toolbarHTML, "editor_id", editorId);
-				toolbarHTML = tinyMCE.replaceVar(toolbarHTML, "default_document", tinyMCE.baseURL + "/blank.htm");
 				toolbarHTML = tinyMCE.applyTemplate(toolbarHTML);
 
 				elm.className = "mceToolbarExternal";
@@ -579,10 +584,12 @@ function TinyMCE_advanced_setResizing(e, editor_id, state) {
 }
 
 function TinyMCE_advanced_initInstance(inst) {
-	var w = TinyMCE_advanced_getCookie("TinyMCE_" + inst.editorId + "_width");
-	var h = TinyMCE_advanced_getCookie("TinyMCE_" + inst.editorId + "_height");
+	if (tinyMCE.getParam("theme_advanced_resizing", false)) {
+		var w = TinyMCE_advanced_getCookie("TinyMCE_" + inst.editorId + "_width");
+		var h = TinyMCE_advanced_getCookie("TinyMCE_" + inst.editorId + "_height");
 
-	TinyMCE_advanced_resizeTo(inst, w, h, tinyMCE.getParam("theme_advanced_resize_horizontal", true));
+		TinyMCE_advanced_resizeTo(inst, w, h, tinyMCE.getParam("theme_advanced_resize_horizontal", true));
+	}
 }
 
 function TinyMCE_advanced_setCookie(name, value, expires, path, domain, secure) {
@@ -718,8 +725,8 @@ function TinyMCE_advanced_getInsertLinkTemplate()
 	var template = new Array();
 
 	template['file'] = 'link.htm';
-	template['width'] = 300;
-	template['height'] = 150;
+	template['width'] = 330;
+	template['height'] = 170;
 
 	// Language specific width and height addons
 	template['width'] += tinyMCE.getLang('lang_insert_link_delta_width', 0);
@@ -737,7 +744,7 @@ function TinyMCE_advanced_getInsertImageTemplate()
 
 	template['file'] = 'image.htm?src={$src}';
 	template['width'] = 340;
-	template['height'] = 280;
+	template['height'] = 245;
 
 	// Language specific width and height addons
 	template['width'] += tinyMCE.getLang('lang_insert_image_delta_width', 0);
@@ -827,11 +834,9 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 				nodeData += "id: " + path[i].getAttribute('id') + " ";
 			}
 
-			var className = tinyMCE.getVisualAidClass(getAttrib(path[i], "className"), false);
+			var className = tinyMCE.getVisualAidClass(tinyMCE.getAttrib(path[i], "class"), false);
 			if (className != "" && className.indexOf('mceItem') == -1)
-			{
 				nodeData += "class: " + className + " ";
-			}
 
 			if (getAttrib(path[i], 'src') != "")
 			{
@@ -858,11 +863,9 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 
 			if (getAttrib(path[i], 'name').indexOf("mce_") != 0)
 			{
-				var className = tinyMCE.getVisualAidClass(tinyMCE.getAttrib(path[i], "className"), false);
+				var className = tinyMCE.getVisualAidClass(tinyMCE.getAttrib(path[i], "class"), false);
 				if (className != "" && className.indexOf('mceItem') == -1)
-				{
 					nodeName += "." + className;
-				}
 			}
 
 			if (tinyMCE.isMSIE)
@@ -881,14 +884,6 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 		}
 
 		pathElm.innerHTML = tinyMCE.getLang('lang_theme_path') + ": " + html + '&nbsp;';
-	}
-
-	// Get element color
-	var colorElm = tinyMCE.getParentElement(node, "font", "color");
-	
-	if (colorElm)
-	{
-		TinyMCE_advanced_foreColor = "" + colorElm.color.toUpperCase();
 	}
 
 	// Reset old states
@@ -911,7 +906,7 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 	tinyMCE.switchClassSticky(editor_id + '_image', 'mceButtonNormal');
 	tinyMCE.switchClassSticky(editor_id + '_hr', 'mceButtonNormal');
 
-	if (node.nodeName == "IMG" && tinyMCE.getAttrib(node, "class").indexOf('mceItemAnchor') != -1)
+	if (node.nodeName == "A" && tinyMCE.getAttrib(node, "class").indexOf('mceItemAnchor') != -1)
 		tinyMCE.switchClassSticky(editor_id + '_anchor', 'mceButtonSelected');
 
 	// Get link
@@ -999,36 +994,44 @@ function TinyMCE_advanced_handleNodeChange (editor_id, node, undo_index,
 
 	// Select fontselect
 	var selectElm = document.getElementById(editor_id + "_fontNameSelect");
-	
-	if (selectElm)
-	{
-		var elm = tinyMCE.getParentElement(node, "font", "face");
-		
-		if (elm)
-		{
-			selectByValue(selectElm, elm.getAttribute("face"));
-		}
-		else
-		{
+	if (selectElm) {
+		var elm = tinyMCE.getParentElement(node);
+
+		if (elm) {
+			var family = tinyMCE.getAttrib(elm, "face");
+			if (family == '')
+				family = '' + elm.style.fontFamily;
+
+			if (!selectByValue(selectElm, family))
+				selectByValue(selectElm, "");
+		} else
 			selectByValue(selectElm, "");
-		}
 	}
 
 	// Select fontsize
 	var selectElm = document.getElementById(editor_id + "_fontSizeSelect");
+	if (selectElm) {
+		var elm = tinyMCE.getParentElement(node);
 
-	if (selectElm)
-	{
-		var elm = tinyMCE.getParentElement(node, "font", "size");
-		
-		if (elm && getAttrib(elm, "size") != "")
-		{
-			selectByValue(selectElm, elm.getAttribute("size"));
-		}
-		else
-		{
+		if (elm) {
+			var size = tinyMCE.getAttrib(elm, "size");
+			if (size == '') {
+				var sizes = new Array('', '8px', '10px', '12px', '14px', '18px', '24px', '36px');
+
+				size = '' + elm.style.fontSize;
+
+				for (var i=0; i<sizes.length; i++) {
+					if (('' + sizes[i]) == size) {
+						size = i;
+						break;
+					}
+				}
+			}
+
+			if (!selectByValue(selectElm, size))
+				selectByValue(selectElm, "");
+		} else
 			selectByValue(selectElm, "0");
-		}
 	}
 
 	// Handle align attributes

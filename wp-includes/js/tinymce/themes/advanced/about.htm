@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{$lang_about_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/about.js"></script>
+	<link href="css/dialog_about.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="about" onload="init();" style="display: none">
+		<div class="tabs">
+			<ul>
+				<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{$lang_about}</a></span></li>
+				<li id="help_tab"><span><a href="javascript:mcTabs.displayTab('help_tab','help_panel');" onmousedown="return false;">{$lang_help}</a></span></li>
+				<li id="plugins_tab"><span><a href="javascript:mcTabs.displayTab('plugins_tab','plugins_panel');" onmousedown="return false;">{$lang_plugins}</a></span></li>
+			</ul>
+		</div>
+
+		<div class="panel_wrapper">
+			<div id="general_panel" class="panel current">
+				<h3>{$lang_about_title}</h3>
+				<p>Version: {$tinymce_version} ({$tinymce_releasedate})</p>
+				<p>TinyMCE is a platform independent web based Javascript HTML WYSIWYG editor control released as Open Source under <a href="../../license.txt" target="_blank">LGPL</a>
+				by Moxiecode Systems AB. It has the ability to convert HTML TEXTAREA fields or other HTML elements to editor instances.</p>
+				<p>Copyright &copy; 2005, <a href="http://www.moxiecode.com" target="_blank">Moxiecode Systems AB</a>, All rights reserved.</p>
+				<p>For more information about this software visit the <a href="http://tinymce.moxiecode.com" target="_blank">TinyMCE website</a>.</p>
+
+				<div id="buttoncontainer"></div>
+			</div>
+
+			<div id="plugins_panel" class="panel">
+				<div id="pluginscontainer">
+					<h3>{$lang_loaded_plugins}</h3>
+
+					<div id="plugintablecontainer">
+					</div>
+
+					<p>&nbsp;</p>
+				</div>
+			</div>
+
+			<div id="help_panel" class="panel noscroll" style="overflow: visible;">
+				<div id="iframecontainer"></div>
+			</div>
+		</div>
+
+		<div class="mceActionPanel">
+			<div style="float: right">
+				<input type="button" id="cancel" name="cancel" value="{$lang_close}" onclick="tinyMCEPopup.close();" />
+			</div>
+		</div>
+</body>
+</html>

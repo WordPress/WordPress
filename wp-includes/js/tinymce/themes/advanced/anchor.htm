@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{$lang_insert_anchor_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/anchor.js"></script>
+</head>
+<body onload="init();" style="display: none">
+<form onsubmit="insertAnchor();return false;" action="#">
+
+	<table border="0" cellpadding="4" cellspacing="0">
+		<tr>
+			<td colspan="2" class="title">{$lang_insert_anchor_title}</td>
+		</tr>
+		<tr>
+			<td nowrap="nowrap">{$lang_insert_anchor_name}:</td>
+			<td><input name="anchorName" type="text" id="anchorName" value="" style="width: 200px" /></td>
+		</tr>
+	</table>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="insert" name="insert" value="{$lang_update}" onclick="insertAnchor();" />
+		</div>
+
+		<div style="float: right">
+			<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+	</div>
+
+</form>
+</body>
+</html>

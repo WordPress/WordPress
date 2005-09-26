@@ -1,0 +1,55 @@
+/* This file contains the CSS data for the editable area(iframe) of TinyMCE */
+/* You can extend this CSS by adding your own CSS file with the the content_css option */
+
+body {
+	background-color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	scrollbar-3dlight-color: #F0F0EE;
+	scrollbar-arrow-color: #676662;
+	scrollbar-base-color: #F0F0EE;
+	scrollbar-darkshadow-color: #DDDDDD;
+	scrollbar-face-color: #E0E0DD;
+	scrollbar-highlight-color: #F0F0EE;
+	scrollbar-shadow-color: #F0F0EE;
+	scrollbar-track-color: #F5F5F5;
+}
+
+td {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+pre {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+.mceVisualAid {
+	border: 1px dashed #BBBBBB !important;
+}
+
+.mceItemAnchor {
+	width: 12px;
+	line-height: 6px;
+	overflow: hidden;
+	padding-left: 12px;
+	background-image: url('../images/anchor_symbol.gif');
+	background-position: bottom;
+	background-repeat: no-repeat;
+}
+
+/* Important is needed in Gecko browsers inorder to style links */
+/*
+a {
+	color: green !important;
+}
+*/
+
+/* Style selection range colors in Gecko browsers */
+/*
+::-moz-selection {
+	background-color: red;
+	color: green;
+}
+*/
