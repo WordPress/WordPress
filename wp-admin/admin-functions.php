@@ -60,7 +60,17 @@ function write_post() {
 	$post_ID = wp_insert_post($_POST);
 	add_meta($post_ID);
 
+	// Reunite any orphaned subposts with their parent
+	if ( $_POST['temp_ID'] )
+		relocate_children($_POST['temp_ID'], $post_ID);
+
 	return $post_ID;
+}
+
+// Move child posts to a new parent
+function relocate_children($old_ID, $new_ID) {
+	global $wpdb;
+	$wpdb->query("UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID");
 }
 
 // Update an existing post with values provided in $_POST.
@@ -1739,4 +1749,46 @@ function current_theme_info() {
 	$ct->author = $themes[$current_theme]['Author'];
 	return $ct;
 }
+
+// Returns an array containing the current upload directory's path and url, or an error message.
+function wp_upload_dir() {
+        if ( defined('UPLOADS') )
+                $dir = UPLOADS;
+        else
+                $dir = 'wp-content/uploads';
+
+	$path = ABSPATH . $dir;
+
+        // Make sure we have an uploads dir
+        if ( ! file_exists( $path ) ) {
+                if ( ! mkdir( $path ) )
+                        return array('error' => "Unable to create directory $path. Is its parent directory writable by the server?");
+		@ chmod( ABSPATH . $path, 0774 );
+	}
+
+        // Generate the yearly and monthly dirs
+        $time = current_time( 'mysql' );
+        $y = substr( $time, 0, 4 );
+        $m = substr( $time, 5, 2 );
+        $pathy = "$path/$y";
+        $pathym = "$path/$y/$m";
+
+        // Make sure we have a yearly dir
+        if ( ! file_exists( $pathy ) ) {
+                if ( ! mkdir( $pathy ) )
+                        return array('error' => "Unable to create directory $pathy. Is $path writable?");
+		@ chmod( $pathy, 0774 );
+	}
+
+        // Make sure we have a monthly dir
+        if ( ! file_exists( $pathym ) ) {
+                if ( ! mkdir( $pathym ) )
+                        return array('error' => "Unable to create directory $pathym. Is $pathy writable?");
+		@ chmod( $pathym, 0774 );
+	}
+
+        $uploads = array('path' => $pathym, 'url' => get_bloginfo('home') . "/$dir/$y/$m", 'error' => false);
+	return apply_filters('upload_dir', $uploads);
+}
+
 ?>

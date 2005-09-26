@@ -148,13 +148,21 @@ p, li, dl, dd, dt {
 	line-height: 130%;
 }
 
-textarea, input, select {
+textarea, input, select, iframe#imageup {
 	background: #f4f4f4;
 	border: 1px solid #b2b2b2;
 	color: #000;
 	font:  13px Verdana, Arial, Helvetica, sans-serif;
 	margin: 1px;
 	padding: 3px;
+}
+
+iframe#imageup {
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #ccc;
+	height: 13em;
+	width: 98%;
 }
 
 .alignleft {

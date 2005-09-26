@@ -17,6 +17,8 @@ $messages[3] = __('Custom field deleted.');
 
 if (0 == $post_ID) {
 	$form_action = 'post';
+	$temp_ID = -1 * time();
+	$form_extra = "<input type='hidden' name='temp_ID' value='$temp_ID' />";
 } else {
 	$form_action = 'editpost';
 	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
@@ -171,6 +173,11 @@ if ('publish' != $post_status || 0 == $post_ID) {
 <?php do_action('edit_form_advanced'); ?>
 
 <div id="advancedstuff" class="dbx-group" >
+
+<fieldset id="imageuploading" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Image Uploading') ?></h3>
+<div class="dbx-content"><iframe src="image-uploading.php?action=view&amp;post=<?php echo 0 == $post_ID ? $temp_ID : $post_ID; ?>" id="imageup"></iframe></div>
+</fieldset>
 
 <fieldset id="postexcerpt" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>

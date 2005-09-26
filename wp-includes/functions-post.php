@@ -128,9 +128,9 @@ function wp_insert_post($postarr = array()) {
 	} else {
 		$postquery =
 			"INSERT INTO $wpdb->posts
-			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order)
+			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type)
 			VALUES
-			('$post_ID', '$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order')";
+			('$post_ID', '$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type')";
 	}
 	
 	$result = $wpdb->query($postquery);
@@ -182,6 +182,124 @@ function wp_insert_post($postarr = array()) {
 
 	do_action('wp_insert_post', $post_ID);
 
+	return $post_ID;
+}
+
+function wp_attach_object($object, $post_parent = 0) {
+	global $wpdb, $user_ID;
+	
+	// Export array as variables
+	extract($object);
+
+	// Get the basics.
+	$post_content    = apply_filters('content_save_pre',   $post_content);
+	$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
+	$post_title      = apply_filters('title_save_pre',     $post_title);
+	$post_category   = apply_filters('category_save_pre',  $post_category);
+	$post_name       = apply_filters('name_save_pre',      $post_name);
+	$comment_status  = apply_filters('comment_status_pre', $comment_status);
+	$ping_status     = apply_filters('ping_status_pre',    $ping_status);
+	$post_type       = apply_filters('post_type_pre',      $post_type);
+
+	// Make sure we set a valid category
+	if (0 == count($post_category) || !is_array($post_category)) {
+		$post_category = array(get_option('default_category'));
+	}
+	$post_cat = $post_category[0];
+
+	if ( empty($post_author) )
+		$post_author = $user_ID;
+
+	$post_status = 'object';
+
+	// Get the post ID.
+	if ( $update ) {
+		$post_ID = $ID;
+	} else {
+		$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
+		$post_ID = $id_result->Auto_increment;
+	}
+
+	// Create a valid post name.
+	if ( empty($post_name) ) {
+		$post_name = sanitize_title($post_title, $post_ID);
+	} else {
+		$post_name = sanitize_title($post_name, $post_ID);
+	}
+	
+	if (empty($post_date))
+		$post_date = current_time('mysql');
+	if (empty($post_date_gmt)) 
+		$post_date_gmt = current_time('mysql', 1);
+
+	if ( empty($comment_status) ) {
+		if ( $update )
+			$comment_status = 'closed';
+		else
+			$comment_status = get_settings('default_comment_status');
+	}
+	if ( empty($ping_status) )
+		$ping_status = get_settings('default_ping_status');
+	if ( empty($post_pingback) )
+		$post_pingback = get_option('default_pingback_flag');
+
+	if ( isset($to_ping) )
+		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
+	else
+		$to_ping = '';
+	
+	$post_parent = (int) $post_parent;
+
+	if ( isset($menu_order) )
+		$menu_order = (int) $menu_order;
+	else
+		$menu_order = 0;
+
+	if ( !isset($post_password) )
+		$post_password = '';
+
+	if ($update) {
+		$postquery =
+			"UPDATE $wpdb->posts SET
+			post_author = '$post_author',
+			post_date = '$post_date',
+			post_date_gmt = '$post_date_gmt',
+			post_content = '$post_content',
+			post_title = '$post_title',
+			post_excerpt = '$post_excerpt',
+			post_status = '$post_status',
+			comment_status = '$comment_status',
+			ping_status = '$ping_status',
+			post_password = '$post_password',
+			post_name = '$post_name',
+			to_ping = '$to_ping',
+			post_modified = '$post_date',
+			post_modified_gmt = '$post_date_gmt',
+			post_parent = '$post_parent',
+			menu_order = '$menu_order',
+			post_type = '$post_type',
+			guid = '$guid'
+			WHERE ID = $post_ID";
+	} else {
+		$postquery =
+			"INSERT INTO $wpdb->posts
+			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type, guid)
+			VALUES
+			('$post_ID', '$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type', '$guid')";
+	}
+	
+	$result = $wpdb->query($postquery);
+
+	wp_set_post_cats('', $post_ID, $post_category);
+
+	clean_post_cache($post_ID);
+
+	if ( $update) {
+		do_action('edit_object', $post_ID);
+	} else {
+		do_action('attach_object', $post_ID);
+	}
+	
 	return $post_ID;
 }
 
