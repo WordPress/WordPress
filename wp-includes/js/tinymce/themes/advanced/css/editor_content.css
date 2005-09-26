@@ -2,17 +2,11 @@
 /* You can extend this CSS by adding your own CSS file with the the content_css option */
 
 body {
-	background-color: #FFFFFF;
+	background-color: #fff;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	scrollbar-3dlight-color: #F0F0EE;
-	scrollbar-arrow-color: #676662;
-	scrollbar-base-color: #F0F0EE;
-	scrollbar-darkshadow-color: #DDDDDD;
-	scrollbar-face-color: #E0E0DD;
-	scrollbar-highlight-color: #F0F0EE;
-	scrollbar-shadow-color: #F0F0EE;
-	scrollbar-track-color: #F5F5F5;
+	font-size: 13px;
+	line-height: 130%;
+	padding: 1em;
 }
 
 td {

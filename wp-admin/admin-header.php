@@ -80,7 +80,7 @@ addLoadEvent(blurry);
 <script type="text/javascript" src="list-manipulation.js"></script>
 <?php if ( isset( $editing ) ) : ?>
 <?php if ( 'true' == get_user_option('rich_editing') ) :?>
-<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_src.js"></script>
+<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php"></script>
 <script type="text/javascript">
 tinyMCE.init({
 	mode : "specific_textareas",
@@ -94,11 +94,13 @@ tinyMCE.init({
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_path_location : "bottom",
 	theme_advanced_resizing : true,
+	browsers : "msie,gecko",
+	dialog_type : "modal",
 	theme_advanced_resize_horizontal : false,
 	entity_encoding : "raw",
 	relative_urls : false,
 	valid_elements : "a[href|title],strong/b,em/i,strike,u,p[class|align],ol,ul,li,br,img[class|src|alt|title|width|height|align],sub,sup,blockquote,table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],div[dir|class|align],span[class|align],pre[class],address,h1[class|align],h2[class|align],h3[class|align],h4[class|align],h5[class|align],h6[class|align],hr",
-	plugins : ""
+	plugins : "autosave, contextmenu"
 	<?php do_action('mce_options'); ?>
 });
 </script>
