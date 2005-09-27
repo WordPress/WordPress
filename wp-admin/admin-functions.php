@@ -70,7 +70,9 @@ function write_post() {
 // Move child posts to a new parent
 function relocate_children($old_ID, $new_ID) {
 	global $wpdb;
-	$wpdb->query("UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID");
+	$old_ID = (int) $old_ID;
+	$new_ID = (int) $new_ID;
+	return $wpdb->query("UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID");
 }
 
 // Update an existing post with values provided in $_POST.
