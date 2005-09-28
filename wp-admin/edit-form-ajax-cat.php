@@ -18,7 +18,6 @@ if ( !$category_nicename = sanitize_title($cat_name) )
 if ( $already = category_exists($cat_name) )
 	die((string) $already);
 
-$cat_name = $wpdb->escape($cat_name);
 $new_cat_id = wp_create_category($cat_name);
 die((string) $new_cat_id);
 ?>
