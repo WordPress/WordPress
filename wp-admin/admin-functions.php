@@ -15,7 +15,7 @@ function write_post() {
 	$_POST['to_ping'] = $_POST['trackback_url'];
 
 	if (!empty ($_POST['post_author_override'])) {
-		$_POST['$post_author'] = (int) $_POST['post_author_override'];
+		$_POST['post_author'] = (int) $_POST['post_author_override'];
 	} else
 		if (!empty ($_POST['post_author'])) {
 			$_POST['post_author'] = (int) $_POST['post_author'];
