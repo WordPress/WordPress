@@ -172,12 +172,9 @@ if ('publish' != $post_status || 0 == $post_ID) {
 
 <?php do_action('edit_form_advanced'); ?>
 
-<div id="advancedstuff" class="dbx-group" >
+<iframe border="0" src="image-uploading.php?action=view&amp;post=<?php echo 0 == $post_ID ? $temp_ID : $post_ID; ?>" id="imageup">This feature requires iframe support.</iframe>
 
-<fieldset id="imageuploading" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Image Uploading') ?></h3>
-<div class="dbx-content"><iframe src="image-uploading.php?action=view&amp;post=<?php echo 0 == $post_ID ? $temp_ID : $post_ID; ?>" id="imageup"></iframe></div>
-</fieldset>
+<div id="advancedstuff" class="dbx-group" >
 
 <fieldset id="postexcerpt" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>

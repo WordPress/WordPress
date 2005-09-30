@@ -1,4 +1,5 @@
 <?php
+
 require_once('admin.php');
 
 if (!current_user_can('edit_posts'))
@@ -22,6 +23,16 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 }
 
 $post = (int) $post;
+$images_width = 1;
+
+function get_udims($width, $height) {
+	if ( $height < 96 && $width < 128 )
+		return array($width, $height);
+	elseif ( $width / $height > 4 / 3 )
+		return array(128, (int) ($height / $width * 128));
+	else
+		return array((int) ($width / $height * 96), 96);
+}
 
 switch($action) {
 case 'save':
@@ -113,16 +124,7 @@ $id = wp_attach_object($object, $post);
 $imagesize = getimagesize($file);
 $imagedata['width'] = $imagesize['0'];
 $imagedata['height'] = $imagesize['1'];
-if ( $imagedata['height'] < 96 && $imagedata['width'] < 128 ) {
-	$uheight = $imagedata['height'];
-	$uwidth = $imagedata['width'];
-} elseif ( $imagedata['width'] / $imagedata['height'] > 4 / 3 ) {
-	$uwidth = 128;
-	$uheight = $imagedata['height'] / $imagedata['width'] * $uwidth;
-} else {
-	$uheight = 96;
-	$uwidth = $imagedata['width'] / $imagedata['height'] * $uheight;
-}
+list($uwidth, $uheight) = get_udims($imagedata['width'], $imagedata['height']);
 $imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 $imagedata['file'] = $file;
 
@@ -133,73 +135,26 @@ header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&last=tr
 die;
 
 case 'upload':
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<script type="text/javascript">
-			function validateImageName() {
-				/* This is more for convenience than security. Server-side validation is very thorough.*/
-				obj = document.getElementById('upload');
-				r = /.jpg$|.gif$|.png$/i;
-				if ( obj.value.match(r) )
-					return true;
-				alert('Please select a JPG, PNG or GIF file.');
-				obj.parentNode.reset();
-				return false;
-			}
-			function cancelUpload() {
-				o = document.getElementById('uploadForm');
-				o.method = 'GET';
-				o.action.value = 'view';
-				o.submit();
-			}
-		</script>
-		<style type="text/css">
-			label {
-				float: left;
-				width: 18%;
-			}
-			#title, #descr {
-				width: 80%;
-				margin-top: 2px;
-			}
-			#descr {
-				height: 3em;
-				v-align: top;
-			}
-			#buttons {
-				width: 98%;
-				text-align: right;
-			}
-		</style>
-	</head>
-	<body>
-		<form enctype="multipart/form-data" id="uploadForm" method="POST" action="image-uploading.php" onsubmit="return validateImageName()">
-			<label for="upload">Image:</label><input type="file" id="upload" name="image" onchange="validateImageName()" /><br />
-			<label for="title">Title:</label><input type="text" id="title" name="imgtitle" /><br />
-			<label for="descr">Description:</label><input type="textarea" name="descr" id="descr" value="" /><br />
-			<input type="hidden" name="action" value="save" />
-			<input type="hidden" name="post" value="<?php echo $post; ?>" />
-			<input type="hidden" name="all" value="<?php echo $all; ?>" />
-			<div id="buttons">
-				<input type="submit" value="Upload" />
-				<input type="button" value="Cancel" onclick="cancelUpload()" />
-			</div>
-		</form>
-	</body>
-</html>
-<?php
 
+$current_1 = ' class="current"';
+$back = $next = false;
 break;
 
 case 'view':
 
-if ( $post && empty($all) )
+// How many images do we show? How many do we query?
+$num = 5;
+$double = $num * 2;
+
+if ( $post && empty($all) ) {
 	$and_post = "AND post_parent = '$post'";
+	$current_2 = ' class="current"';
+} else {
+	$current_3 = ' class="current"';
+}
 
 if ( $last )
-	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'object' AND left(post_type, 5) = 'image' $and_post") - 5;
+	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'object' AND left(post_type, 5) = 'image' $and_post") - $num;
 else
 	$start = (int) $start;
 
@@ -209,124 +164,213 @@ if ( $start < 0 )
 if ( '' == $sort )
 	$sort = "ID";
 
-$images = $wpdb->get_results("SELECT ID, post_date, post_title, guid FROM $wpdb->posts WHERE post_status = 'object' AND left(post_type, 5) = 'image' $and_post ORDER BY $sort LIMIT $start, 10", ARRAY_A);
+$images = $wpdb->get_results("SELECT ID, post_date, post_title, guid FROM $wpdb->posts WHERE post_status = 'object' AND left(post_type, 5) = 'image' $and_post ORDER BY $sort LIMIT $start, $double", ARRAY_A);
 
-//if ( count($images) == 0 )
-//	header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=upload");
-
-if ( count($images) > 5 ) {
-	$next = $start + count($images) - 5;
+if ( count($images) > $num ) {
+	$next = $start + count($images) - $num;
 } else {
 	$next = false;
 }
 
 if ( $start > 0 ) {
-	$back = $start - 5;
+	$back = $start - $num;
 	if ( $back < 1 )
 		$back = '0';
 } else {
 	$back = false;
 }
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<style type="text/css">
-		form {
-			display: inline;
-		}
-		#images, #buttons {
-			position: absolute;
-			left: 0px;
-			width: 98%;
-			text-align: center;
-		}
-		#images {
-			top: 0px;
-		}
-		#buttons {
-			top: 112px;
-		}
-	</style>
-</head>
-<body>
-	<div id="images">
-<?php
+$uwidth_sum = 0;
+$images_html = '';
 if ( count($images) > 0 ) {
-	$imagerow = '';
-	$i = 1;
-	foreach ( $images as $image ) {
-		if ( $i++ > 5 ) break;
+	$images = array_slice( $images, 0, $num );
+	foreach ( $images as $key => $image ) {
 		$image = array_merge($image, get_post_meta($image['ID'], 'imagedata', true) );
-?>
-	<a href="<?php echo $image['guid']; ?>" disabled="true">
-		<img src="<?php echo $image['guid']; ?>" alt="<?php echo $image['post_title']; ?>" <?php echo $image['hwstring_small']; ?> />
-	</a>
-<?php
+		list($image['uwidth'], $image['uheight']) = get_udims($image['width'], $image['height']);
+		$uwidth_sum += $image['uwidth'];
+		$images_html .= "<div class='image left'><a href='{$image['guid']}' onclick='return false;' title='{$image['post_title']}'><img src='{$image['guid']}' alt='{$image['post_title']}' {$image['hwstring_small']} /></a></div>\n";
 	}
 }
-?>
-	<div>
-	<div id="buttons">
-	<form action="image-uploading.php" method="GET">
-		<input type="hidden" name="action" value="view" />
-		<input type="hidden" name="all" value="<?php echo $all; ?>" />
-		<input type="hidden" name="post" value="<?php echo $post; ?>" />
-		<input type="hidden" name="start" value="0" />
-		<input type="submit" value="| < <" <?php if ( false === $back ) echo 'disabled="true" ' ?>/>
-	</form>
-	<form action="image-uploading.php" method="GET">
-		<input type="hidden" name="action" value="view" />
-		<input type="hidden" name="all" value="<?php echo $all; ?>" />
-		<input type="hidden" name="post" value="<?php echo $post; ?>" />
-		<input type="hidden" name="start" value="<?php echo $back; ?>" />
-		<input type="submit" value="< < < < <" <?php if ( false === $back ) echo 'disabled="true" ' ?>/>
-	</form>
-	<form action="image-uploading.php" method="GET">
-		<input type="hidden" name="action" value="upload" />
-		<input type="hidden" name="all" value="<?php echo $all; ?>" />
-		<input type="hidden" name="post" value="<?php echo $post; ?>" />
-		<input type="submit" value="Upload New" />
-	</form>
-<?php if ( $all ) : ?>
-	<form action="image-uploading.php" method="GET">
-		<input type="hidden" name="action" value="view" />
-		<input type="hidden" name="all" value="" />
-		<input type="hidden" name="post" value="<?php echo $post; ?>" />
-		<input type="submit" value="Browse Attached" />
-	</form>
-<?php else : ?>
-	<form action="image-uploading.php" method="GET">
-		<input type="hidden" name="action" value="view" />
-		<input type="hidden" name="all" value="true" />
-		<input type="hidden" name="post" value="<?php echo $post; ?>" />
-		<input type="submit" value="Browse All" />
-	</form>
-<?php endif; ?>
-	<form action="image-uploading.php" method="GET">
-		<input type="hidden" name="action" value="view" />
-		<input type="hidden" name="all" value="<?php echo $all; ?>" />
-		<input type="hidden" name="post" value="<?php echo $post; ?>" />
-		<input type="hidden" name="start" value="<?php echo $next; ?>" />
-		<input type="submit" value="> > > > >" <?php if ( false === $next ) echo 'disabled="true" ' ?>/>
-	</form>
-	<form action="image-uploading.php" method="GET">
-		<input type="hidden" name="action" value="view" />
-		<input type="hidden" name="all" value="<?php echo $all; ?>" />
-		<input type="hidden" name="post" value="<?php echo $post; ?>" />
-		<input type="hidden" name="last" value="true" />
-		<input type="submit" value="> > |" <?php if ( false === $next ) echo 'disabled="true" ' ?>/>
-	</form>
-	</div>
-<?php // echo "<pre>".print_r($images,1)."</pre>";
-?>
-</body>
-</html>
-<?php
-die;
+
+$images_width = $uwidth_sum + ( count($images) * 5 ) + 15;
+
+break;
 
 default:
 die('This script was not meant to be called directly.');
 }
+
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="imagetoolbar" content="no" />
+<script type="text/javascript">
+function validateImageName() {
+/* This is more for convenience than security. Server-side validation is very thorough.*/
+obj = document.getElementById('upload');
+r = /.jpg$|.gif$|.png$/i;
+if ( obj.value.match(r) )
+return true;
+alert('Please select a JPG, PNG or GIF file.');
+return false;
+}
+function cancelUpload() {
+o = document.getElementById('uploadForm');
+o.method = 'GET';
+o.action.value = 'view';
+o.submit();
+}
+</script>
+<style type="text/css">
+body {
+font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
+border: none;
+margin: 0px;
+height: 150px;
+background: rgb(223, 232, 241);
+}
+form {
+margin: 6px 2px 0px 6px;
+}
+#wrap {
+clear: both;
+margin: 0px;
+padding: 0px;
+height: 133px;
+width: 100%;
+overflow: auto;
+}
+#images {
+clear: both;
+margin: 0px;
+padding: 5px 5px;
+height: 100px;
+width: <?php echo $images_width; ?>px;
+}
+.image {
+margin-right: 5px;
+}
+.image * {
+margin: 0px;
+padding: 0px;
+border: 0px;
+}
+.image a, .image a img, .image a:hover img, .image a:visited img, .image a:active img {
+text-decoration: none;
+float: left;
+display: block;
+text-align: center;
+}
+#menu {
+margin: 0px;
+list-style: none;
+background: rgb(109, 166, 209);
+padding: 4px 0px 0px 8px;
+text-align: left;
+border-bottom: 3px solid rgb(68, 138, 189);
+}
+#menu li {
+display: inline;
+margin: 0px;
+}
+#menu a, #menu a:visited, #menu a:active {
+padding: 1px 3px 3px;
+text-decoration: none;
+color: #345;
+background: transparent;
+}
+#menu a:hover {
+background: rgb(203, 214, 228);
+color: #000;
+}
+#menu .current a, #menu .current a:hover, #menu .current a:visited, #menu .current a:active {
+background: rgb(223, 232, 241);
+color: #000;
+border-right: 2px solid rgb(20, 86, 138);
+}
+.tip {
+color: rgb(109, 166, 209);
+padding: 1px 3px;
+}
+.inactive {
+color: #68a;
+padding: 1px 3px;
+}
+.left {
+float: left;
+}
+.right {
+float: right;
+}
+.center {
+text-align: center;
+}
+#menu li.spacer {
+margin-left: 40px;
+}
+label {
+float: left;
+width: 18%;
+}
+#title, #descr {
+width: 80%;
+margin-top: 2px;
+}
+#descr {
+height: 35px;
+v-align: top;
+}
+#buttons {
+width: 98%;
+margin-top: 2px;
+text-align: right;
+}
+</style>
+</head>
+<body>
+<ul id="menu">
+<li<?php echo $current_1; ?>><a href="image-uploading.php?action=upload&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>">Upload Photo</a></li>
+<li<?php echo $current_2; ?>><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>">Browse Attached</a></li>
+<li<?php echo $current_3; ?>><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=true">Browse All</a></li>
+<li> </li>
+<?php if ( false !== $back ) : ?>
+<li class="spacer"><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=0" title="First">|&lt;</a></li>
+<li><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $back; ?>" title="Back">&lt;&lt;</a></li>
+<?php else : ?>
+<li class="inactive spacer">|&lt;</li>
+<li class="inactive">&lt;&lt;</li>
+<?php endif; ?>
+<?php if ( false !== $next ) : ?>
+<li><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>" title="Next">&gt;&gt;</a></li>
+<li><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;last=true" title="Last">&gt;|</a></li>
+<?php else : ?>
+<li class="inactive">&gt;&gt;</li>
+<li class="inactive">&gt;|</li>
+<?php endif; ?>
+</ul>
+<?php if ( $action == 'view' ) : ?>
+<span class="left tip">Drag and drop photos to post</span>
+<span class="right tip">Click photos for more options</span>
+<div id="wrap">
+<div id="images">
+<?php echo $images_html; ?>
+</div>
+</div>
+<?php elseif ( $action = 'upload' ) : ?>
+<div class="center tip">Duplicated filenames will be numbered (photo.jpg, photo1.jpg, etc.)</div>
+<form enctype="multipart/form-data" id="uploadForm" method="POST" action="image-uploading.php" onsubmit="return validateImageName()">
+<label for="upload">Image:</label><input type="file" id="upload" name="image" onchange="validateImageName()" />
+<label for="title">Title:</label><input type="text" id="title" name="imgtitle" />
+<label for="descr">Description:</label><input type="textarea" name="descr" id="descr" value="" />
+<input type="hidden" name="action" value="save" />
+<input type="hidden" name="post" value="<?php echo $post; ?>" />
+<input type="hidden" name="all" value="<?php echo $all; ?>" />
+<div id="buttons">
+<input type="submit" value="Upload" />
+<input type="button" value="Cancel" onclick="cancelUpload()" />
+</div>
+</form>
+<?php endif; ?>
+</body>
+</html>

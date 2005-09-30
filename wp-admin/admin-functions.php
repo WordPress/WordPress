@@ -1789,7 +1789,7 @@ function wp_upload_dir() {
 		@ chmod( $pathym, 0774 );
 	}
 
-        $uploads = array('path' => $pathym, 'url' => get_bloginfo('home') . "/$dir/$y/$m", 'error' => false);
+    $uploads = array('path' => $pathym, 'url' => get_option('siteurl') . "/$dir/$y/$m", 'error' => false);
 	return apply_filters('upload_dir', $uploads);
 }
 
