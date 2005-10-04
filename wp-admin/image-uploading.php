@@ -5,7 +5,7 @@ require_once('admin.php');
 if (!current_user_can('edit_posts'))
 	die('You do not have permission to edit posts.');
 
-$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr');
+$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'object');
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
@@ -35,6 +35,13 @@ function get_udims($width, $height) {
 }
 
 switch($action) {
+case 'delete':
+
+wp_delete_object($object);
+
+header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&start=$start");
+die;
+
 case 'save':
 
 // Define acceptable image extentions/types here. Tests will apply strtolower().
@@ -101,7 +108,8 @@ while ( file_exists($uploads['path'] . "/$filename") )
 
 // Move the file to the uploads dir
 $file = $uploads['path'] . "/$filename";
-move_uploaded_file($_FILES['image']['tmp_name'], $file);
+if ( false === move_uploaded_file($_FILES['image']['tmp_name'], $file) )
+	die('The uploaded file could not be moved to $file.');
 chmod($file, 0775);
 
 // Compute the URL
@@ -180,19 +188,36 @@ if ( $start > 0 ) {
 	$back = false;
 }
 
+$i = 0;
 $uwidth_sum = 0;
 $images_html = '';
+$images_style = '';
 if ( count($images) > 0 ) {
 	$images = array_slice( $images, 0, $num );
 	foreach ( $images as $key => $image ) {
 		$image = array_merge($image, get_post_meta($image['ID'], 'imagedata', true) );
 		list($image['uwidth'], $image['uheight']) = get_udims($image['width'], $image['height']);
-		$uwidth_sum += $image['uwidth'];
-		$images_html .= "<div class='image left'><a href='{$image['guid']}' onclick='return false;' title='{$image['post_title']}'><img src='{$image['guid']}' alt='{$image['post_title']}' {$image['hwstring_small']} /></a></div>\n";
+		$uwidth_sum += 128; //$image['uwidth'];
+		$xpadding = (128 - $image['uwidth']) / 2;
+		$ypadding = (96 - $image['uheight']) / 2;
+		$object = $image['ID'];
+		$images_style .= "#target$i img { padding: {$ypadding}px {$xpadding}px; }\n";
+		$images_html .= <<<HERE
+<div id='target$i' class='imagewrap left'>
+	<div id='popup$i' class='popup'>
+		<a onclick='return confirm("Delete this photo from the server?")' href='image-uploading.php?action=delete&amp;object=$object&amp;all=$all&amp;start=$start&amp;post=$post'>DELETE</a>
+		<a onclick="popup.style.display='none';return false;" href="javascript:void()">CANCEL</a>
+	</div>
+	<a id='link$i' class='imagelink' href='{$image['guid']}' onclick='imagePopup($i);return false;' title='{$image['post_title']}'>
+		<img id='image$i' src='{$image['guid']}' alt='{$image['post_title']}' {$image['hwstring_small']} />
+	</a>
+</div>
+HERE;
+		$i++;
 	}
 }
 
-$images_width = $uwidth_sum + ( count($images) * 5 ) + 15;
+$images_width = $uwidth_sum + ( count($images) * 5 ) + 30;
 
 break;
 
@@ -221,6 +246,18 @@ o.method = 'GET';
 o.action.value = 'view';
 o.submit();
 }
+function imagePopup(i) {
+if ( popup )
+popup.style.display = 'none';
+target = document.getElementById('target'+i);
+popup = document.getElementById('popup'+i);
+//popup.style.top = (target.offsetTop + 3) + 'px';
+popup.style.left = (target.offsetLeft) + 'px';
+popup.style.display = 'block';
+}
+function init() {
+popup = false;
+}
 </script>
 <style type="text/css">
 body {
@@ -244,19 +281,23 @@ overflow: auto;
 #images {
 clear: both;
 margin: 0px;
-padding: 5px 5px;
-height: 100px;
+padding: 5px 15px;
+height: 96px;
 width: <?php echo $images_width; ?>px;
 }
-.image {
+#images img {
+background-color: rgb(209, 226, 239);
+}
+<?php echo $images_style; ?>
+.imagewrap {
 margin-right: 5px;
 }
-.image * {
+.imagewrap * {
 margin: 0px;
 padding: 0px;
 border: 0px;
 }
-.image a, .image a img, .image a:hover img, .image a:visited img, .image a:active img {
+.imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img {
 text-decoration: none;
 float: left;
 display: block;
@@ -277,7 +318,7 @@ margin: 0px;
 #menu a, #menu a:visited, #menu a:active {
 padding: 1px 3px 3px;
 text-decoration: none;
-color: #345;
+color: #234;
 background: transparent;
 }
 #menu a:hover {
@@ -286,15 +327,16 @@ color: #000;
 }
 #menu .current a, #menu .current a:hover, #menu .current a:visited, #menu .current a:active {
 background: rgb(223, 232, 241);
+padding-bottom: 3px;
 color: #000;
 border-right: 2px solid rgb(20, 86, 138);
 }
 .tip {
-color: rgb(109, 166, 209);
+color: rgb(68, 138, 189);
 padding: 1px 3px;
 }
 .inactive {
-color: #68a;
+color: #579;
 padding: 1px 3px;
 }
 .left {
@@ -326,9 +368,34 @@ width: 98%;
 margin-top: 2px;
 text-align: right;
 }
+.popup {
+margin: 23px 9px;
+padding: 5px;
+position: absolute;
+width: 100px;
+height: 40px;
+display: none;
+background-color: rgb(223, 232, 241);
+opacity: .90;
+filter:alpha(opacity=90);
+text-align: center;
+}
+.popup a, .popup a:visited, .popup a:active {
+margin-bottom: 3px;
+background-color: transparent;
+display: block;
+width: 100%;
+text-decoration: none;
+color: #246;
+}
+.popup a:hover {
+margin-bottom: 3px;
+background-color: #fff;
+color: #000;
+}
 </style>
 </head>
-<body>
+<body onload="init()">
 <ul id="menu">
 <li<?php echo $current_1; ?>><a href="image-uploading.php?action=upload&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>">Upload Photo</a></li>
 <li<?php echo $current_2; ?>><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>">Browse Attached</a></li>

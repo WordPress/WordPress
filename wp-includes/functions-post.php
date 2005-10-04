@@ -303,6 +303,33 @@ function wp_attach_object($object, $post_parent = 0) {
 	return $post_ID;
 }
 
+function wp_delete_object($postid) {
+	global $wpdb;
+	$postid = (int) $postid;
+
+	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
+		return $post;
+
+	if ( 'object' != $post->post_status )
+		return false;
+
+	$obj_meta = get_post_meta($postid, 'imagedata', true);
+
+	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
+
+	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
+
+	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $postid");
+
+	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
+
+	@ unlink($obj_meta['file']);
+
+	do_action('delete_object', $postid);
+
+	return $post;
+}
+
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	global $wpdb;
 
