@@ -242,6 +242,9 @@ function kubrick_theme_page_head() {
 	#headwrap {
 		text-align: center;
 	}
+	#kubrick-header {
+		font-size: 80%;
+	}
 	#kubrick-header .hibrowser {
 		width: 780px;
 		height: 260px;
@@ -251,6 +254,8 @@ function kubrick_theme_page_head() {
 		display: none;
 	}
 	#kubrick-header #header h1 {
+		font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Arial, Sans-Serif;
+		font-weight: bold;
 		font-size: 4em;
 		text-align: center;
 		padding-top: 70px;
@@ -258,6 +263,7 @@ function kubrick_theme_page_head() {
 	}
 
 	#kubrick-header #header .description {
+		font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 		font-size: 1.2em;
 		text-align: center;
 	}	
