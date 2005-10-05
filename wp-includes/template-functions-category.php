@@ -297,7 +297,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	if ( $optiondates ) {
 		$cat_dates = $wpdb->get_results("	SELECT category_id,
 		UNIX_TIMESTAMP( MAX(post_date) ) AS ts
-		FROM $wpdb->posts, $wpdb->post2cat
+		FROM $wpdb->posts, $wpdb->post2cat,  $wpdb->categories 
 		WHERE post_status = 'publish' AND post_id = ID $exclusions
 		GROUP BY category_id");
 		foreach ($cat_dates as $cat_date) {
