@@ -43,8 +43,11 @@ if ( !is_array($check_plugins) ) {
 foreach ($check_plugins as $check_plugin) {
 	if (!file_exists(ABSPATH . 'wp-content/plugins/' . $check_plugin)) {
 			$current = get_settings('active_plugins');
-			unset($current[$_GET['plugin']]);
-			update_option('active_plugins', $current);
+			$key = array_search($check_plugin, $current);
+			if ( false !== $key && NULL !== $key ) {
+				unset($current[$key]);
+				update_option('active_plugins', $current);
+			}
 	}
 }
 ?>
