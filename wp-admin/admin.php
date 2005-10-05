@@ -88,6 +88,7 @@ if (isset($_GET['page'])) {
 	require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
 
 	define('WP_IMPORTING', true);
+	kses_init_filters();  // Always filter imported data with kses.
 
 	call_user_func($wp_importers[$importer][2]);
 			
