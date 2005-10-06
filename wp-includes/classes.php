@@ -237,6 +237,8 @@ class WP_Query {
 	function &get_posts() {
 		global $wpdb, $pagenow, $request, $user_ID;
 
+		do_action('pre_get_posts', array(&$this));
+
 		// Shorthand.
 		$q = $this->query_vars;	
 
