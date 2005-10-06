@@ -58,9 +58,13 @@ function wp_meta() {
 }
 
 function bloginfo($show='') {
-    $info = get_bloginfo($show);
+  $info = get_bloginfo($show);
+  if ( ! strstr($info, 'url') ) {
     $info = apply_filters('bloginfo', $info, $show);
-    echo convert_chars($info);
+    $info = convert_chars($info);
+  }
+
+  echo $info;
 }
 
 function get_bloginfo($show='') {
