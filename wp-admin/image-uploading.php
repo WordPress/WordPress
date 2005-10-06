@@ -3,7 +3,7 @@
 require_once('admin.php');
 
 if (!current_user_can('edit_posts'))
-	die('You do not have permission to edit posts.');
+	die(__('You do not have permission to edit posts.'));
 
 $wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'object');
 
@@ -49,12 +49,12 @@ $exts = array('gif' => IMAGETYPE_GIF, 'jpg' => IMAGETYPE_JPEG, 'png' => IMAGETYP
 
 // Define the error messages for bad uploads.
 $upload_err = array(false,
-	"The uploaded file exceeds the <code>upload_max_filesize</code> directive in <code>php.ini</code>.",
-	"The uploaded file exceeds the <em>MAX_FILE_SIZE</em> directive that was specified in the HTML form.",
-	"The uploaded file was only partially uploaded.",
-	"No file was uploaded.",
-	"Missing a temporary folder.",
-	"Failed to write file to disk.");
+	__("The uploaded file exceeds the <code>upload_max_filesize</code> directive in <code>php.ini</code>."),
+	__("The uploaded file exceeds the <em>MAX_FILE_SIZE</em> directive that was specified in the HTML form."),
+	__("The uploaded file was only partially uploaded."),
+	__("No file was uploaded."),
+	__("Missing a temporary folder."),
+	__("Failed to write file to disk."));
 
 $iuerror = false;
 
@@ -62,7 +62,7 @@ $iuerror = false;
 
 // A correct form post will pass this test.
 if ( !isset($_POST['action']) || $_POST['action'] != 'save' || count($_FILES) != 1 || ! isset($_FILES['image']) || is_array($_FILES['image']['name']) )
-	$error = 'Invalid form submission. Only submit approved forms.';
+	$error = __('Invalid form submission. Only submit approved forms.');
 
 // A successful upload will pass this test.
 elseif ( $_FILES['image']['error'] > 0 )
@@ -70,27 +70,27 @@ elseif ( $_FILES['image']['error'] > 0 )
 
 // A non-empty file will pass this test.
 elseif ( 0 == $_FILES['image']['size'] )
-	$error = 'File is empty. Please upload something more substantial.';
+	$error = __('File is empty. Please upload something more substantial.');
 
 // A correct MIME category will pass this test. Full types are not consistent across browsers.
 elseif ( ! 'image/' == substr($_FILES['image']['type'], 0, 6) )
-	$error = 'Bad MIME type submitted by your browser.';
+	$error = __('Bad MIME type submitted by your browser.');
 
 // An acceptable file extension will pass this test.
 elseif ( ! ( ( 0 !== preg_match('#\.?([^\.]*)$#', $_FILES['image']['name'], $matches) ) && ( $ext = strtolower($matches[1]) ) && array_key_exists($ext, $exts) ) )
-	$error = 'Bad file extension.';
+	$error = __('Bad file extension.');
 
 // A valid uploaded file will pass this test. 
 elseif ( ! is_uploaded_file($_FILES['image']['tmp_name']) )
-	$error = 'Bad temp file. Try renaming the file and uploading again.';
+	$error = __('Bad temp file. Try renaming the file and uploading again.');
 
 // A valid image file will pass this test.
 elseif ( function_exists('exif_imagetype') && $exts[$ext] != $imagetype = exif_imagetype($_FILES['image']['tmp_name']) )
-	$error = 'Bad image file. Try again, or try recreating it.';
+	$error = __('Bad image file. Try again, or try recreating it.');
 
 // An image with at least one pixel will pass this test.
 elseif ( ! ( ( $imagesize = getimagesize($_FILES['image']['tmp_name']) ) && $imagesize[0] > 1 && $imagesize[1] > 1 ) )
-	$error = 'The image has no pixels. Isn\'t that odd?';
+	$error = __('The image has no pixels. Isn\'t that odd?');
 
 // A writable uploads dir will pass this test.
 elseif ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
