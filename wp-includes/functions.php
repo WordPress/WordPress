@@ -926,6 +926,7 @@ function do_enclose( $content, $post_ID ) {
 }
 
 function wp_get_http_headers( $url ) {
+	global $wp_version;
 	@set_time_limit( 60 );
 	$parts = parse_url( $url );
 	$file = $parts['path'] . ($parts['query'] ? '?'.$parts['query'] : '');
@@ -933,7 +934,7 @@ function wp_get_http_headers( $url ) {
 	if ( !isset( $parts['port'] ) )
 		$parts['port'] = 80;
 
-	$head = "HEAD $file HTTP/1.1\r\nHOST: $host\r\nUser-Agent: WordPress/" . $wp_version . " PHP/" . phpversion() . "\r\n";
+	$head = "HEAD $file HTTP/1.1\r\nHOST: $host\r\nUser-Agent: WordPress/" . $wp_version . "\r\n\r\n";
 
 	$fp = @fsockopen($host, $parts['port'], $err_num, $err_msg, 3);
 	if ( !$fp )

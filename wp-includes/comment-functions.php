@@ -661,7 +661,7 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 	}
 
 	// Send the GET request
-	$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: WordPress/$wp_version PHP/" . phpversion() . "\r\n\r\n";
+	$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: WordPress/$wp_version \r\n\r\n";
 //	ob_end_flush();
 	fputs($fp, $request);
 
