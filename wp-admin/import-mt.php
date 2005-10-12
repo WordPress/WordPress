@@ -45,7 +45,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	}
 	</style>
 </head><body> 
-<h1 id="logo"><a href="http://wordpress.org">WordPress</a></h1> 
+<h1 id="logo"><a href="http://wordpress.org/">WordPress</a></h1> 
 <?php
 switch($step) {
 

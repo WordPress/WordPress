@@ -236,7 +236,7 @@ class Blogger_Import {
 			if ( ! count( $blogsary[1] < 1 ) )
 				die(__('No blogs found for this user.'));
 			$this->import['blogs'] = array();
-			$template = '<MainPage><br /><br /><br /><p>'.__('Are you looking for %title%? It is temporarily out of service. Please try again in a few minutes. Meanwhile, discover <a href="http://wordpress.org">a better blogging tool</a>.').'</p><BloggerArchives><a class="archive" href="<$BlogArchiveURL$>"><$BlogArchiveName$></a><br /></BloggerArchives></MainPage><ArchivePage><Blogger><wordpresspost><$BlogItemDateTime$>|W|P|<$BlogItemAuthorNickname$>|W|P|<$BlogItemBody$>|W|P|<$BlogItemNumber$>|W|P|<$BlogItemTitle$>|W|P|<$BlogItemAuthorEmail$><BlogItemCommentsEnabled><BlogItemComments><wordpresscomment><$BlogCommentDateTime$>|W|P|<$BlogCommentAuthor$>|W|P|<$BlogCommentBody$></BlogItemComments></BlogItemCommentsEnabled></Blogger></ArchivePage>';
+			$template = '<MainPage><br /><br /><br /><p>'.__('Are you looking for %title%? It is temporarily out of service. Please try again in a few minutes. Meanwhile, discover <a href="http://wordpress.org/">a better blogging tool</a>.').'</p><BloggerArchives><a class="archive" href="<$BlogArchiveURL$>"><$BlogArchiveName$></a><br /></BloggerArchives></MainPage><ArchivePage><Blogger><wordpresspost><$BlogItemDateTime$>|W|P|<$BlogItemAuthorNickname$>|W|P|<$BlogItemBody$>|W|P|<$BlogItemNumber$>|W|P|<$BlogItemTitle$>|W|P|<$BlogItemAuthorEmail$><BlogItemCommentsEnabled><BlogItemComments><wordpresscomment><$BlogCommentDateTime$>|W|P|<$BlogCommentAuthor$>|W|P|<$BlogCommentBody$></BlogItemComments></BlogItemCommentsEnabled></Blogger></ArchivePage>';
 			foreach ( $blogsary[1] as $key => $id ) {
 				// Define the required Blogger options.
 				$blog_opts = array(

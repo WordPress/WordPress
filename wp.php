@@ -37,7 +37,7 @@ require_once('./wp-blog-header.php');
 <p><?php _e('Sorry, no posts matched your criteria.'); ?></p>
 <?php endif; ?>
 
-<div align="right"><cite>Powered by <a href="http://wordpress.org"><strong>Wordpress</strong></a></cite><br />
+<div align="right"><cite>Powered by <a href="http://wordpress.org/"><strong>Wordpress</strong></a></cite><br />
 <br />
 <a href="wp-login.php">login</a><br />
 <a href="wp-register.php">register</a>
