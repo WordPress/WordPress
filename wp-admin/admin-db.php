@@ -107,18 +107,16 @@ function wp_insert_category($catarr) {
 		$category_parent = 0;
 
 	if (!$update) {
-		$query = "INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')";
+		$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')");
 		$cat_ID = $wpdb->insert_id;
 	} else {
-		$query = "UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent' WHERE cat_ID = '$cat_ID'";
+		$wpdb->query ("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent' WHERE cat_ID = '$cat_ID'");
 	}
 	
 	if ( $category_nicename == '' ) {
 		$category_nicename = sanitize_title($cat_name, $cat_ID );
 		$wpdb->query( "UPDATE $wpdb->categories SET category_nicename = '$category_nicename' WHERE cat_ID = '$cat_ID'" );
 	}
-	
-	$result = $wpdb->query($query);
 
 	if ($update) {
 		do_action('edit_category', $cat_ID);
