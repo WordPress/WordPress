@@ -42,20 +42,16 @@ function wp_insert_post($postarr = array()) {
 		$post_status = 'draft';
 	
 	// Get the post ID.
-	if ( $update ) {
+	if ( $update )
 		$post_ID = $ID;
-	} else {
-		$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
-		$post_ID = $id_result->Auto_increment;
-	}
 
 	// Create a valid post name.  Drafts are allowed to have an empty
 	// post name.
 	if ( empty($post_name) ) {
 		if ( 'draft' != $post_status )
-			$post_name = sanitize_title($post_title, $post_ID);
+			$post_name = sanitize_title($post_title);
 	} else {
-		$post_name = sanitize_title($post_name, $post_ID);
+		$post_name = sanitize_title($post_name);
 	}
 	
 	if (empty($post_date))
@@ -106,7 +102,7 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	if ($update) {
-		$postquery =
+		$wpdb->query(
 			"UPDATE $wpdb->posts SET
 			post_author = '$post_author',
 			post_date = '$post_date',
@@ -124,16 +120,20 @@ function wp_insert_post($postarr = array()) {
 			post_modified_gmt = '$post_date_gmt',
 			post_parent = '$post_parent',
 			menu_order = '$menu_order'
-			WHERE ID = $post_ID";
+			WHERE ID = $post_ID");
 	} else {
-		$postquery =
+		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type)
+			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type)
 			VALUES
-			('$post_ID', '$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type')";
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type')");
+			$post_ID = $wpdb->insert_id;			
 	}
-	
-	$result = $wpdb->query($postquery);
+
+	if ( empty($post_name) && 'draft' != $post_status ) {
+		$post_name = sanitize_title($post_title, $post_ID);
+		$wpdb->query( "UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = '$post_ID'" );
+	}
 
 	wp_set_post_cats('', $post_ID, $post_category);
 
