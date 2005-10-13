@@ -88,20 +88,17 @@ function wp_insert_category($catarr) {
 	$cat_ID = (int) $cat_ID;
 
 	// Are we updating or creating?
-	if (!empty ($cat_ID)) {
+	if (!empty ($cat_ID))
 		$update = true;
-	} else {
+	else
 		$update = false;
-		$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->categories'");
-		$cat_ID = $id_result->Auto_increment;
-	}
 
 	$cat_name = wp_specialchars($cat_name);
 
 	if (empty ($category_nicename))
-		$category_nicename = sanitize_title($cat_name, $cat_ID);
+		$category_nicename = sanitize_title($cat_name);
 	else
-		$category_nicename = sanitize_title($category_nicename, $cat_ID);
+		$category_nicename = sanitize_title($category_nicename);
 
 	if (empty ($category_description))
 		$category_description = '';
@@ -109,18 +106,25 @@ function wp_insert_category($catarr) {
 	if (empty ($category_parent))
 		$category_parent = 0;
 
-	if (!$update)
+	if (!$update) {
 		$query = "INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$cat')";
-	else
+		$cat_ID = $wpdb->insert_id;
+	} else {
 		$query = "UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent' WHERE cat_ID = '$cat_ID'";
-
+	}
+	
+	if ( $category_nicename == '' ) {
+		$category_nicename = sanitize_title($cat_name, $cat_ID );
+		$wpdb->query( "UPDATE $wpdb->categories SET category_nicename = '$category_nicename' WHERE cat_ID = '$cat_ID'" );
+	}
+	
 	$result = $wpdb->query($query);
 
 	if ($update) {
 		do_action('edit_category', $cat_ID);
 	} else {
-		do_action('create_category', $rval);
-		do_action('add_category', $rval);
+		do_action('create_category', $cat_ID);
+		do_action('add_category', $cat_ID);
 	}
 
 	return $cat_ID;
