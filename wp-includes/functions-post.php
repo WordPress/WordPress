@@ -213,19 +213,14 @@ function wp_attach_object($object, $post_parent = 0) {
 	$post_status = 'object';
 
 	// Get the post ID.
-	if ( $update ) {
+	if ( $update )
 		$post_ID = $ID;
-	} else {
-		$id_result = $wpdb->get_row("SHOW TABLE STATUS LIKE '$wpdb->posts'");
-		$post_ID = $id_result->Auto_increment;
-	}
 
 	// Create a valid post name.
-	if ( empty($post_name) ) {
-		$post_name = sanitize_title($post_title, $post_ID);
-	} else {
-		$post_name = sanitize_title($post_name, $post_ID);
-	}
+	if ( empty($post_name) )
+		$post_name = sanitize_title($post_title);
+	else
+		$post_name = sanitize_title($post_name);
 	
 	if (empty($post_date))
 		$post_date = current_time('mysql');
@@ -259,7 +254,7 @@ function wp_attach_object($object, $post_parent = 0) {
 		$post_password = '';
 
 	if ($update) {
-		$postquery =
+		$wpdb->query(
 			"UPDATE $wpdb->posts SET
 			post_author = '$post_author',
 			post_date = '$post_date',
@@ -279,16 +274,20 @@ function wp_attach_object($object, $post_parent = 0) {
 			menu_order = '$menu_order',
 			post_type = '$post_type',
 			guid = '$guid'
-			WHERE ID = $post_ID";
+			WHERE ID = $post_ID");
 	} else {
-		$postquery =
+		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(ID, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type, guid)
+			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type, guid)
 			VALUES
-			('$post_ID', '$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type', '$guid')";
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type', '$guid')");
+			$post_ID = $wpdb->insert_id;			
 	}
 	
-	$result = $wpdb->query($postquery);
+	if ( empty($post_name) ) {
+		$post_name = sanitize_title($post_title, $post_ID);
+		$wpdb->query( "UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = '$post_ID'" );
+	}
 
 	wp_set_post_cats('', $post_ID, $post_category);
 
@@ -455,6 +454,8 @@ function wp_delete_post($postid = 0) {
 	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
 		return $post;
 
+	do_action('delete_post', $postid);
+
 	if ( 'static' == $post->post_status )
 		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_status = 'static'");
 
@@ -468,8 +469,6 @@ function wp_delete_post($postid = 0) {
 
 	if ( 'static' == $post->post_status )
 		generate_page_rewrite_rules();
-
-	do_action('delete_post', $postid);
 	
 	return $post;
 }
