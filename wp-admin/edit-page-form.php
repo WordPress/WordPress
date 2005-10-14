@@ -4,7 +4,8 @@
 <?php
 if (0 == $post_ID) {
 	$form_action = 'post';
-	$form_extra = '';
+	$temp_ID = -1 * time();
+	$form_extra = "<input type='hidden' name='temp_ID' value='$temp_ID' />";
 } else {
 	$form_action = 'editpost';
 	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
@@ -145,6 +146,11 @@ edCanvas = document.getElementById('content');
 <input name="referredby" type="hidden" id="referredby" value="<?php echo $sendto; ?>" />
 </p>
 
+<?php
+$frame_src = 'image-uploading.php?action=view&amp;post=' . ((0 == $post_ID) ? $temp_ID : $post_ID);
+$frame_src = apply_filters('upload_frame_src', $frame_src, ((0 == $post_ID) ? $temp_ID : $post_ID));
+?>
+<iframe border="0" src="<?php echo $frame_src; ?>" id="imageup"><?php _e('This feature requires iframe support.'); ?></iframe>
 
 <div id="advancedstuff" class="dbx-group">
 
