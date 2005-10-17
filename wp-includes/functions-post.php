@@ -164,11 +164,12 @@ function wp_insert_post($postarr = array()) {
 				(post_id,meta_key,meta_value) 
 				VALUES ('$post_ID','_pingme','1')
 			");
-		$result = $wpdb->query("
-			INSERT INTO $wpdb->postmeta 
-			(post_id,meta_key,meta_value) 
-			VALUES ('$post_ID','_encloseme','1')
-		");
+		if ( !defined('WP_IMPORTING') )
+			$result = $wpdb->query("
+				INSERT INTO $wpdb->postmeta 
+				(post_id,meta_key,meta_value) 
+				VALUES ('$post_ID','_encloseme','1')
+			");
 		//register_shutdown_function('do_trackbacks', $post_ID);
 	}	else if ($post_status == 'static') {
 		generate_page_rewrite_rules();
@@ -694,4 +695,21 @@ function generate_page_rewrite_rules() {
 	}
 }
 
+function get_post_status($post = false) {
+	global $wpdb, $posts;
+
+	if ( false === $post )
+		$post = $posts[0];
+	elseif ( (int) $post )
+		$post = get_post($post, OBJECT);
+
+	if ( is_object($post) ) {
+		if ( ('object' == $post->post_status) && $post->post_parent && ($post->ID != $post->post_parent) )
+			return get_post_status($post->post_parent);
+		else
+			return $post->post_status;
+	}
+
+	return false;
+}
 ?>
