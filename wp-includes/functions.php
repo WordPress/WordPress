@@ -925,9 +925,13 @@ function do_enclose( $content, $post_ID ) {
 	endforeach;
 }
 
-function wp_get_http_headers( $url ) {
+function wp_get_http_headers( $url, $red = 1 ) {
 	global $wp_version;
 	@set_time_limit( 60 );
+
+	if ( $red > 5 )
+	   return false;
+
 	$parts = parse_url( $url );
 	$file = $parts['path'] . ($parts['query'] ? '?'.$parts['query'] : '');
 	$host = $parts['host'];
@@ -951,6 +955,13 @@ function wp_get_http_headers( $url ) {
 		$key = strtolower($matches[1][$i]);
 		$headers["$key"] = $matches[2][$i];
 	}
+
+    $code = preg_replace('/.*?(\d{3}).*/i', '$1', $response);
+    
+    $headers['status_code'] = $code;
+    
+    if ( '302' == $code || '301' == $code )
+        return wp_get_http_headers( $url, ++$red );
 
 	preg_match('/.*([0-9]{3}).*/', $response, $return);
 	$headers['response'] = $return[1]; // HTTP response code eg 204, 200, 404
