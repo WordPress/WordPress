@@ -135,9 +135,16 @@ $imagedata['height'] = $imagesize['1'];
 list($uwidth, $uheight) = get_udims($imagedata['width'], $imagedata['height']);
 $imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 $imagedata['file'] = $file;
+$imagedata['thumb'] = "thumb-$filename";
 
-if ( false == add_post_meta($id, 'imagedata', $imagedata) )
-	die("failed to add_post_meta");
+add_post_meta($id, 'imagedata', $imagedata);
+
+if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
+	if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
+		$error = wp_create_thumbnail($file, 128);
+	elseif ( $imagedata['height'] > 96 )
+		$error = wp_create_thumbnail($file, 96);
+}
 
 header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&last=true");
 die;
@@ -192,24 +199,56 @@ $i = 0;
 $uwidth_sum = 0;
 $images_html = '';
 $images_style = '';
+$images_script = '';
 if ( count($images) > 0 ) {
 	$images = array_slice( $images, 0, $num );
+	$__delete = __('DELETE');
+	$__subpost_on = __('SUBPOST <strong>ON</strong>');
+	$__subpost_off = __('SUBPOST <strong>OFF</strong>');
+	$__thumbnail_on = __('THUMBNAIL <strong>ON</strong>');
+	$__thumbnail_off = __('THUMBNAIL <strong>OFF</strong>');
+	$__no_thumbnail = __('<del>THUMBNAIL</del>');
+	$__close = __('CLOSE');
+	$__confirmdelete = __('Delete this photo from the server?');
+	$__nothumb = __('There is no thumbnail associated with this photo.');
+	$images_script .= "subposton = '$__subpost_on';\nsubpostoff = '$__subpost_off';\n";
+	$images_script .= "thumbnailon = '$__thumbnail_on';\nthumbnailoff = '$__thumbnail_off';\n";
 	foreach ( $images as $key => $image ) {
-		$image = array_merge($image, get_post_meta($image['ID'], 'imagedata', true) );
+		$meta = get_post_meta($image['ID'], 'imagedata', true);
+		if (!is_array($meta)) {
+			wp_delete_object($image['ID']);
+			continue;
+		}
+		$image = array_merge($image, $meta);
+		if ( ($image['width'] > 128 || $image['height'] > 96) && !empty($image['thumb']) && file_exists(dirname($image['file']).'/'.$image['thumb']) ) {
+			$src = str_replace(basename($image['guid']), '', $image['guid']) . $image['thumb'];
+			$images_script .= "src".$i."a = '$src';\nsrc".$i."b = '".$image['guid']."';\n";
+			$thumb = 'true';
+			$thumbtext = $__thumbnail_on;
+		} else {
+			$src = $image['guid'];
+			$thumb = 'false';
+			$thumbtext = $__no_thumbnail;
+		}
 		list($image['uwidth'], $image['uheight']) = get_udims($image['width'], $image['height']);
-		$uwidth_sum += 128; //$image['uwidth'];
+		$height_width = 'height="'.$image['uheight'].'" width="'.$image['uwidth'].'"';
+		$uwidth_sum += 128;
 		$xpadding = (128 - $image['uwidth']) / 2;
 		$ypadding = (96 - $image['uheight']) / 2;
 		$object = $image['ID'];
 		$images_style .= "#target$i img { padding: {$ypadding}px {$xpadding}px; }\n";
+		$href = get_subpost_link($object);
+		$images_script .= "href".$i."a = '$href';\nhref".$i."b = '{$image['guid']}';\n";
 		$images_html .= <<<HERE
 <div id='target$i' class='imagewrap left'>
 	<div id='popup$i' class='popup'>
-		<a onclick='return confirm("Delete this photo from the server?")' href='image-uploading.php?action=delete&amp;object=$object&amp;all=$all&amp;start=$start&amp;post=$post'>DELETE</a>
-		<a onclick="popup.style.display='none';return false;" href="javascript:void()">CANCEL</a>
+		<a id="L$i" onclick="toggleLink($i);return false;" href="javascript:void();">$__subpost_on</a>
+		<a id="I$i" onclick="if($thumb)toggleImage($i);else alert('$__nothumb');return false;" href="javascript:void();">$thumbtext</a>
+		<a onclick="return confirm('$__confirmdelete')" href="image-uploading.php?action=delete&amp;object=$object&amp;all=$all&amp;start=$start&amp;post=$post">$__delete</a>
+		<a onclick="popup.style.display='none';return false;" href="javascript:void()">$__close</a>
 	</div>
-	<a id='link$i' class='imagelink' href='{$image['guid']}' onclick='imagePopup($i);return false;' title='{$image['post_title']}'>
-		<img id='image$i' src='{$image['guid']}' alt='{$image['post_title']}' {$image['hwstring_small']} />
+	<a id="link$i" class="imagelink" href="$href" onclick="imagePopup($i);return false;" title="{$image['post_title']}">
+		<img id='image$i' src='$src' alt='{$image['post_title']}' $height_width />
 	</a>
 </div>
 HERE;
@@ -231,6 +270,9 @@ die('This script was not meant to be called directly.');
 <head>
 <meta http-equiv="imagetoolbar" content="no" />
 <script type="text/javascript">
+/* Define any variables we'll need, such as alternate URLs. */
+<?php echo $images_script; ?>
+
 function validateImageName() {
 /* This is more for convenience than security. Server-side validation is very thorough.*/
 obj = document.getElementById('upload');
@@ -257,6 +299,28 @@ popup.style.display = 'block';
 }
 function init() {
 popup = false;
+}
+function toggleLink(n) {
+	o=document.getElementById('link'+n);
+	oi=document.getElementById('L'+n);
+	if ( oi.innerHTML == subposton ) {
+		o.href = eval('href'+n+'b');
+		oi.innerHTML = subpostoff;
+	} else {
+		o.href = eval('href'+n+'a');
+		oi.innerHTML = subposton;
+	}
+}
+function toggleImage(n) {
+	o = document.getElementById('image'+n);
+	oi = document.getElementById('I'+n);
+	if ( oi.innerHTML == thumbnailon ) {
+		o.src = eval('src'+n+'b');
+		oi.innerHTML = thumbnailoff;
+	} else {
+		o.src = eval('src'+n+'a');
+		oi.innerHTML = thumbnailon;
+	}
 }
 </script>
 <style type="text/css">
@@ -369,11 +433,11 @@ margin-top: 2px;
 text-align: right;
 }
 .popup {
-margin: 23px 9px;
-padding: 5px;
+margin: 4px 4px;
+padding: 3px;
 position: absolute;
-width: 100px;
-height: 40px;
+width: 114px;
+height: 82px;
 display: none;
 background-color: rgb(223, 232, 241);
 opacity: .90;
@@ -381,7 +445,6 @@ filter:alpha(opacity=90);
 text-align: center;
 }
 .popup a, .popup a:visited, .popup a:active {
-margin-bottom: 3px;
 background-color: transparent;
 display: block;
 width: 100%;
@@ -389,7 +452,6 @@ text-decoration: none;
 color: #246;
 }
 .popup a:hover {
-margin-bottom: 3px;
 background-color: #fff;
 color: #000;
 }

@@ -438,4 +438,22 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
 		return $output;
 }
 
+function prepend_object($content) {
+	global $post;
+
+	$p = '<p class="subpostobject">';
+
+	if ( '' != $post->guid ) {
+		if ( substr($post->post_type, 0, 6) == 'image/' )
+			$p .= '<a href="' . $post->guid . '" title="Click for full-size image" ><img class="subpostimage" src="' . $post->guid . '" alt="' . $post->post_title . '" /></a>';
+		else
+			$p .= __('Attachment') . ' (' . $post->post_type . ')';
+	} else {
+		$p .= __('Missing attachment');
+	}
+
+	$p .= '</p>';
+
+	return "$p\n$content";
+}
 ?>

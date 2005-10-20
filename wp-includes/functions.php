@@ -1384,6 +1384,12 @@ function is_page ($page = '') {
 	return false;
 }
 
+function is_subpost () {
+	global $wp_query;
+
+	return $wp_query->is_subpost;
+}
+
 function is_archive () {
 	global $wp_query;
 
@@ -1867,6 +1873,19 @@ function get_search_template() {
 
 function get_single_template() {
 	return get_query_template('single');
+}
+
+function get_subpost_template() {
+	global $posts;
+	$type = explode('/', $posts[0]->post_type);
+	if ( $template = get_query_template($type[0]) )
+		return $template;
+	elseif ( $template = get_query_template($type[1]) )
+		return $template;
+	elseif ( $template = get_query_template("$type[0]_$type[1]") )
+		return $template;
+	else
+		return get_query_template('subpost');
 }
 
 function get_comments_popup_template() {

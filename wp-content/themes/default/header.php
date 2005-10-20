@@ -48,7 +48,7 @@
 <?php wp_head(); ?>
 </head>
 <body>
-
+<?php echo $GLOBALS['dump_top']; ?>
 <div id="page">
 
 

@@ -44,6 +44,8 @@ function get_permalink($id = 0) {
 	$post = &get_post($id);
 	if ( $post->post_status == 'static' )
 		return get_page_link($post->ID);
+	elseif ($post->post_status == 'object')
+		return get_subpost_link($post->ID);
 
 	$permalink = get_settings('permalink_structure');
 
@@ -98,6 +100,30 @@ function get_page_link($id = false) {
 	}
 
 	return apply_filters('page_link', $link, $id);
+}
+
+function get_subpost_link($id = false) {
+	global $post, $wp_rewrite;
+
+	$link = false;
+
+	if (! $id) {
+		$id = $post->ID;
+	}
+
+	$object = get_post($id);
+	if ( $wp_rewrite->using_permalinks() && ($object->post_parent > 0) ) {
+		$parent = get_post($object->post_parent);
+		$parentlink = get_permalink($object->post_parent);
+		if (! strstr($parentlink, '?') )
+			$link = trim($parentlink, '/') . '/' . $object->post_name . '/';
+	}
+
+	if (! $link ) {
+		$link = get_bloginfo('home') . "/?subpost_id=$id";
+	}
+
+	return apply_filters('object_link', $link, $id);
 }
 
 function get_year_link($year) {
@@ -183,8 +209,9 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 
 	get_currentuserinfo();
 
-	if ( !user_can_edit_post($user_ID, $post->ID) )
+	if ( !user_can_edit_post($user_ID, $post->ID) || is_subpost() ) {
 		return;
+	}
 
 	$location = get_settings('siteurl') . "/wp-admin/post.php?action=edit&amp;post=$post->ID";
 	echo $before . "<a href=\"$location\">$link</a>" . $after;
@@ -207,11 +234,11 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	global $post, $wpdb;
 
-	if ( !is_single() )
+	if( !is_single() || is_subpost() )
 		return null;
 
 	$current_post_date = $post->post_date;
-	
+
 	$join = '';
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
@@ -238,7 +265,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	global $post, $wpdb;
 
-	if ( !is_single() )
+	if( !is_single() || is_subpost() )
 		return null;
 
 	$current_post_date = $post->post_date;
@@ -270,7 +297,13 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 
 
 function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
-	$post = get_previous_post($in_same_cat, $excluded_categories);
+	if ( is_subpost() ) {
+		$post = & get_post($GLOBALS['post']->post_parent);
+		$pre = __('Belongs to ');
+	} else {
+		$post = get_previous_post($in_same_cat, $excluded_categories);
+		$pre = '';
+	}
 
 	if ( !$post )
 		return;
@@ -278,10 +311,10 @@ function previous_post_link($format='&laquo; %link', $link='%title', $in_same_ca
 	$title = apply_filters('the_title', $post->post_title, $post);
 	$string = '<a href="'.get_permalink($post->ID).'">';
 	$link = str_replace('%title', $title, $link);
-	$link = $string . $link . '</a>';
-	$format = str_replace('%link', $link, $format);
+	$link = $pre . $string . $link . '</a>';
 
-	echo $format;
+	$format = str_replace('%link', $link, $format);
+	echo $format;	    
 }
 
 function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = false, $excluded_categories = '') {
@@ -296,7 +329,7 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 	$link = $string . $link . '</a>';
 	$format = str_replace('%link', $link, $format);
 
-	echo $format;
+	echo $format;	    
 }
 
 

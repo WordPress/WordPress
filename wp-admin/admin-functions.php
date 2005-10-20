@@ -669,6 +669,8 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
 			}
 
 		}
+	} else {
+		$error = __('File not found');
 	}
 
 	if (!empty ($error)) {
