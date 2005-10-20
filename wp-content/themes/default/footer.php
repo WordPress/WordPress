@@ -15,6 +15,5 @@
 <?php /* "Just what do you think you're doing Dave?" */ ?>
 
 		<?php wp_footer(); ?>
-<?php echo $GLOBALS['dump_bot']; ?>
 </body>
 </html>

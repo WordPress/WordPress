@@ -1431,7 +1431,6 @@ class WP {
 					// to the path info.
 					if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0) && ($req_uri != $request)) {
 						$request_match = $req_uri . '/' . $request;
-die("$request_match $match<br />");
 					}
 
 					if (preg_match("!^$match!", $request_match, $matches)) {
