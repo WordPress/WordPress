@@ -48,7 +48,7 @@ FROM $wpdb->links
              $prev_cat_id = $result->link_category;
         } // end if new category
 ?>
-            <outline title="<?php echo wp_specialchars($result->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($result->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($result->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $result->link_updated) echo $result->link_updated; ?>" />
+            <outline text="<?php echo wp_specialchars($result->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($result->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($result->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $result->link_updated) echo $result->link_updated; ?>" />
 <?php
         } // end foreach
     } // end if
