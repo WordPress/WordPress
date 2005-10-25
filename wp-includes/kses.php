@@ -517,6 +517,7 @@ function kses_init_filters() {
 		add_filter('pre_comment_author', 'wp_filter_kses');
 		add_filter('pre_comment_content', 'wp_filter_kses');
 		add_filter('content_save_pre', 'wp_filter_post_kses');
+		add_filter('title_save_pre', 'wp_filter_kses');
 }
 
 function kses_init() {
