@@ -34,7 +34,7 @@ if (preg_match('/Lynx/', $HTTP_USER_AGENT)) {
 $is_IE    = (($is_macIE) || ($is_winIE));
 
 // Server detection
-$is_apache = strstr($_SERVER['SERVER_SOFTWARE'], 'Apache') ? 1 : 0;
+$is_apache = ( strstr($_SERVER['SERVER_SOFTWARE'], 'Apache') || strstr($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') ) ? 1 : 0;
 $is_IIS = strstr($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') ? 1 : 0;
 
 // if the config file does not provide the smilies array, let's define it here
