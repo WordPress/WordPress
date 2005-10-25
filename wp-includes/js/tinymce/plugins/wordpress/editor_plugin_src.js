@@ -9,7 +9,7 @@ function TinyMCE_wordpress_initInstance(inst) {
 function TinyMCE_wordpress_getControlHTML(control_name) {
     switch (control_name) {
         case "wordpress":
-            return '<img id="{$editor_id}_wordpress_more" src="{$pluginurl}/images/more.gif" title="More..." width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\');" /><img id="{$editor_id}_wordpress_page" src="{$pluginurl}/images/page.gif" title="...Page..." width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\');" />';
+            return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\')" target="_self" onmousedown="return false;"><img id="{$editor_id}_wordpress_more" src="{$pluginurl}/images/more.gif" title="More..." width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a><!--<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\')" target="_self" onmousedown="return false;"><img id="{$editor_id}_wordpress_page" src="{$pluginurl}/images/page.gif" title="...Page..." width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>-->';
     }
 
     return "";
@@ -65,58 +65,58 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 		return elm.getAttribute(name) ? elm.getAttribute(name) : "";
 	}
 
-    // Handle commands
-    switch (command) {
+	// Handle commands
+	switch (command) {
 			case "mcewordpressmore":
-				var name = "";
+				var flag = "";
 				var template = new Array();
 				var inst = tinyMCE.getInstanceById(editor_id);
 				var focusElm = inst.getFocusElement();
 	
 				// Is selection a image
 				if (focusElm != null && focusElm.nodeName.toLowerCase() == "img") {
-					name = getAttrib(focusElm, 'name');
+					flag = getAttrib(focusElm, 'class');
 	
-					if (name != 'mce_plugin_wordpress_more') // Not a wordpress
+					if (flag != 'mce_plugin_wordpress_more') // Not a wordpress
 						return true;
 	
 					action = "update";
 				}
 	
 				html = ''
-	      	+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
+					+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
 					+ ' width="100%" height="10px" '
 					+ 'alt="More..." title="More..." class="mce_plugin_wordpress_more" name="mce_plugin_wordpress_more" />';
-	      tinyMCE.execCommand("mceInsertContent",true,html);
+				tinyMCE.execCommand("mceInsertContent",true,html);
 				tinyMCE.selectedInstance.repaint();
 				return true;
 			case "mcewordpresspage":
-				var name = "";
+				var flag = "";
 				var template = new Array();
 				var inst = tinyMCE.getInstanceById(editor_id);
 				var focusElm = inst.getFocusElement();
 	
 				// Is selection a image
 				if (focusElm != null && focusElm.nodeName.toLowerCase() == "img") {
-					name = getAttrib(focusElm, 'name');
+					flag = getAttrib(focusElm, 'name');
 	
-					if (name != 'mce_plugin_wordpress_page') // Not a wordpress
+					if (flag != 'mce_plugin_wordpress_page') // Not a wordpress
 						return true;
 	
 					action = "update";
 				}
 	
 				html = ''
-	      	+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
+					+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
 					+ ' width="100%" height="10px" '
 					+ 'alt="More..." title="More..." class="mce_plugin_wordpress_page" name="mce_plugin_wordpress_page" />';
-	      tinyMCE.execCommand("mceInsertContent",true,html);
+				tinyMCE.execCommand("mceInsertContent",true,html);
 				tinyMCE.selectedInstance.repaint();
 				return true;
-   }
+	}
 
-   // Pass to next handler in chain
-   return false;
+	// Pass to next handler in chain
+	return false;
 }
 
 function TinyMCE_wordpress_cleanup(type, content) {
@@ -130,9 +130,9 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				// Insert image
 				var contentAfter = content.substring(startPos + 11);
 				content = content.substring(0, startPos);
-	      content += '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" ';
+				content += '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" ';
 				content += ' width="100%" height="10px" ';
-				content += 'alt="More..." title="More..." class="mce_plugin_wordpress_more" name="mce_plugin_wordpress_more" />';
+				content += 'alt="More..." title="More..." class="mce_plugin_wordpress_more" />';
 				content += contentAfter;
 
 				startPos++;
@@ -144,9 +144,9 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				// Insert image
 				var contentAfter = content.substring(startPos + 15);
 				content = content.substring(0, startPos);
-	      content += '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" ';
+				content += '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" ';
 				content += ' width="100%" height="10px" ';
-				content += 'alt="...Next Page..." title="...Next Page..." class="mce_plugin_wordpress_page" name="mce_plugin_wordpress_page" />';
+				content += 'alt="...Next Page..." title="...Next Page..." class="mce_plugin_wordpress_page" />';
 				content += contentAfter;
 
 				startPos++;
@@ -160,7 +160,7 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				var endPos = content.indexOf('/>', startPos);
 				var attribs = TinyMCE_wordpress_parseAttributes(content.substring(startPos + 4, endPos));
 
-				if (attribs['name'] == "mce_plugin_wordpress_more") {
+				if (attribs['class'] == "mce_plugin_wordpress_more") {
 					endPos += 2;
 	
 					var embedHTML = '<!--more-->';
@@ -170,7 +170,7 @@ function TinyMCE_wordpress_cleanup(type, content) {
 					chunkAfter = content.substring(endPos);
 					content = chunkBefore + embedHTML + chunkAfter;
 				}
-				if (attribs['name'] == "mce_plugin_wordpress_page") {
+				if (attribs['class'] == "mce_plugin_wordpress_page") {
 					endPos += 2;
 	
 					var embedHTML = '<!--nextpage-->';
@@ -181,6 +181,14 @@ function TinyMCE_wordpress_cleanup(type, content) {
 					content = chunkBefore + embedHTML + chunkAfter;
 				}
 			}
+
+			// Handle TinyMCE weirdness without messing up the core
+			//alert("Content before TinyMCE_wordpress_cleanup\n\n'"+content+"'");
+
+			// Strip any trailing <br /> and whitespace.
+			content = content.replace(new RegExp('<br ?/?>[ \t]*$', ''), '');
+
+			//alert("Content after TinyMCE_wordpress_cleanup\n\n'"+content+"'");
 			break;
 	}
 
@@ -200,9 +208,9 @@ function TinyMCE_wordpress_handleNodeChange(editor_id, node, undo_index, undo_le
 		return;
 
 	do {
-		if (node.nodeName.toLowerCase() == "img" && getAttrib(node, 'name').indexOf('mce_plugin_wordpress_more') == 0)
+		if (node.nodeName.toLowerCase() == "img" && getAttrib(node, 'class').indexOf('mce_plugin_wordpress_more') == 0)
 			tinyMCE.switchClassSticky(editor_id + '_wordpress_more', 'mceButtonSelected');
-		if (node.nodeName.toLowerCase() == "img" && getAttrib(node, 'name').indexOf('mce_plugin_wordpress_page') == 0)
+		if (node.nodeName.toLowerCase() == "img" && getAttrib(node, 'class').indexOf('mce_plugin_wordpress_page') == 0)
 			tinyMCE.switchClassSticky(editor_id + '_wordpress_page', 'mceButtonSelected');
 	} while ((node = node.parentNode));
 

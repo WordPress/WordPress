@@ -87,7 +87,7 @@ tinyMCE.init({
 	textarea_trigger : "title",
 	width : "100%",
 	theme : "advanced",
-	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,outdent,indent,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,separator,undo,redo,wordpress,code",
+	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,outdent,indent,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,separator,wordpress,separator,undo,redo,code",
 	theme_advanced_buttons2 : "",
 	theme_advanced_buttons3 : "",
 	theme_advanced_toolbar_location : "top",
@@ -99,8 +99,9 @@ tinyMCE.init({
 	theme_advanced_resize_horizontal : false,
 	entity_encoding : "raw",
 	relative_urls : false,
+	remove_script_host : false,
 	valid_elements : "a[href|title],strong/b,em/i,strike,u,p[class|align],ol,ul,li,br,img[class|src|alt|title|width|height|align],sub,sup,blockquote,table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],div[dir|class|align],span[class|align],pre[class],address,h1[class|align],h2[class|align],h3[class|align],h4[class|align],h5[class|align],h6[class|align],hr",
-	plugins : "autosave, contextmenu"
+	plugins : "contextmenu,wordpress"
 	<?php do_action('mce_options'); ?>
 });
 </script>
