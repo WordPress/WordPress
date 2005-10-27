@@ -138,6 +138,7 @@ flush();
 // Set everything up
 make_db_current_silent();
 populate_options();
+populate_roles();
 
 $wpdb->query("UPDATE $wpdb->options SET option_value = '$weblog_title' WHERE option_name = 'blogname'");
 $wpdb->query("UPDATE $wpdb->options SET option_value = '$admin_email' WHERE option_name = 'admin_email'");
@@ -196,7 +197,6 @@ http://wordpress.org/
 
 @wp_mail($admin_email, __('New WordPress Blog'), $message, $message_headers);
 
-upgrade_all();
 ?>
 
 <p><em><?php _e('Finished!'); ?></em></p>

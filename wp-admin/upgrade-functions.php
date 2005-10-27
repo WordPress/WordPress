@@ -4,13 +4,38 @@ require_once(ABSPATH . '/wp-admin/admin-functions.php');
 require_once(ABSPATH . '/wp-admin/upgrade-schema.php');
 // Functions to be called in install and upgrade scripts
 function upgrade_all() {
+	global $wp_current_db_version, $wp_db_version;
+	$wp_current_db_version = __get_option('db_version');
+
+	// We are up-to-date.  Nothing to do.
+	if ( $wp_db_version == $wp_current_db_version )
+		return;
+
+	// If the version is not set in the DB, try to guess the version.
+	if ( empty($wp_current_db_version) ) {
+		$wp_current_db_version = 0;
+
+		// If the template option exists, we have 1.5.
+		$template = __get_option('template');
+		if ( !empty($template) )
+			$wp_current_db_version = 2541;
+	}
+	
 	populate_options();
-	upgrade_100();
-	upgrade_101();
-	upgrade_110();
-	upgrade_130();
-	upgrade_160();
+
+	if ( $wp_current_db_version < 2541 ) {
+		upgrade_100();
+		upgrade_101();
+		upgrade_110();
+		upgrade_130();
+	}
+	
+	if ( $wp_current_db_version < 2966 )
+		upgrade_160();
+
 	save_mod_rewrite_rules();
+	
+	update_option('db_version', $wp_db_version);
 }
 
 function upgrade_100() {
@@ -82,18 +107,16 @@ function upgrade_101() {
 
 
 function upgrade_110() {
-  global $wpdb;
+	global $wpdb;
 	
     // Set user_nicename.
-	// FIXME: user_nickname is no longer in the user table.  Need to update and
-	// move this code to where the new usermeta table is setup.
-//  $users = $wpdb->get_results("SELECT ID, user_nickname, user_nicename FROM $wpdb->users");
-// 	foreach ($users as $user) {
-// 		if ('' == $user->user_nicename) { 
-// 			$newname = sanitize_title($user->user_nickname);
-// 			$wpdb->query("UPDATE $wpdb->users SET user_nicename = '$newname' WHERE ID = '$user->ID'");
-// 		}
-// 	}
+	$users = $wpdb->get_results("SELECT ID, user_nickname, user_nicename FROM $wpdb->users");
+ 	foreach ($users as $user) {
+ 		if ('' == $user->user_nicename) { 
+ 			$newname = sanitize_title($user->user_nickname);
+ 			$wpdb->query("UPDATE $wpdb->users SET user_nicename = '$newname' WHERE ID = '$user->ID'");
+ 		}
+ 	}
 
 	$users = $wpdb->get_results("SELECT ID, user_pass from $wpdb->users");
 	foreach ($users as $row) {
@@ -218,6 +241,9 @@ function upgrade_130() {
 
 function upgrade_160() {
 	global $wpdb, $table_prefix;
+	
+	populate_roles_160();
+
 	$users = $wpdb->get_results("SELECT * FROM $wpdb->users");
 	foreach ( $users as $user ) :
 		if ( !empty( $user->user_firstname ) )
