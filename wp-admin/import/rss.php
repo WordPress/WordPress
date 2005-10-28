@@ -98,7 +98,6 @@ class RSS_Import {
 
 			$post_author = 1;
 			$post_status = 'publish';
-			$post_date_gmt = $post_date; // FIXME
 			$this->posts[$index] = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_status', 'guid', 'categories');
 			$index++;
 		}
