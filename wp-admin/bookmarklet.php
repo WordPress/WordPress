@@ -5,8 +5,7 @@ require_once('admin.php');
 if ( ! current_user_can('edit_posts') )
 	die ("Cheatin' uh?");
 
-if ('b' == $a) {
-
+if ('b' == $a):
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,33 +18,32 @@ window.close()
 <body></body>
 </html>
 <?php
-} else {
-	$popuptitle = wp_specialchars(stripslashes($popuptitle));
-	$text       = wp_specialchars(stripslashes(urldecode($text)));
-	
-	$popuptitle = funky_javascript_fix($popuptitle);
-	$text       = funky_javascript_fix($text);
-	
-	$post_title = wp_specialchars($_REQUEST['post_title']);
-	if (!empty($post_title)) {
-		$post_title =  stripslashes($post_title);
-	} else {
-		$post_title = $popuptitle;
-	}
-	
-	$edited_post_title = wp_specialchars($post_title);
+exit;
+endif;
 
-// $post_pingback needs to be set in any file that includes edit-form.php
-    $post_pingback = get_settings('default_pingback_flag');
-    
-    $content  = wp_specialchars($_REQUEST['content']);
-	$popupurl = wp_specialchars($_REQUEST['popupurl']);
+$post = get_default_post_to_edit();
+
+$popuptitle = wp_specialchars(stripslashes($popuptitle));
+$text       = wp_specialchars(stripslashes(urldecode($text)));
+	
+$popuptitle = funky_javascript_fix($popuptitle);
+$text       = funky_javascript_fix($text);
+	
+$post_title = wp_specialchars($_REQUEST['post_title']);
+if (!empty($post_title))
+	$post->post_title =  stripslashes($post_title);
+else
+	$post->post_title = $popuptitle;
+	
+  
+$content  = wp_specialchars($_REQUEST['content']);
+$popupurl = wp_specialchars($_REQUEST['popupurl']);
     if ( !empty($content) ) {
-        $content = wp_specialchars( stripslashes($_REQUEST['content']) );
+        $post->post_content = wp_specialchars( stripslashes($_REQUEST['content']) );
     } else {
-        $content = '<a href="'.$popupurl.'">'.$popuptitle.'</a>'."\n$text";
+        $post->post_content = '<a href="'.$popupurl.'">'.$popuptitle.'</a>'."\n$text";
     }
-    
+
     /* /big funky fixes */
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -103,6 +101,4 @@ window.close()
 <?php do_action('admin_footer', ''); ?>
 
 </body>
-</html><?php
-}
-?>
+</html>
