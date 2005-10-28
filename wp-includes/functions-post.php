@@ -57,7 +57,7 @@ function wp_insert_post($postarr = array()) {
 	if (empty($post_date))
 		$post_date = current_time('mysql');
 	if (empty($post_date_gmt)) 
-		$post_date_gmt = current_time('mysql', 1);
+		$post_date_gmt = get_gmt_from_date($post_date);
 
 	if ( empty($comment_status) ) {
 		if ( $update )
