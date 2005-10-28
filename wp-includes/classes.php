@@ -434,20 +434,32 @@ class WP_Query {
 
 		// Category stuff for nice URIs
 
+		global $cache_categories;
 		if ('' != $q['category_name']) {
-			if (stristr($q['category_name'],'/')) {
-				$q['category_name'] = explode('/',$q['category_name']);
-				if ($q['category_name'][count($q['category_name'])-1]) {
-					$q['category_name'] = $q['category_name'][count($q['category_name'])-1]; // no trailing slash
-				} else {
-					$q['category_name'] = $q['category_name'][count($q['category_name'])-2]; // there was a trailling slash
-				}
+			$cat_paths = '/' . trim(urldecode($q['category_name']), '/');
+			$q['category_name'] = sanitize_title(basename($cat_paths));
+			$cat_paths = explode('/', $cat_paths);
+			foreach($cat_paths as $pathdir)
+				$cat_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
+
+			$q['cat'] = array_reduce(
+				$cache_categories, 
+				create_function('$a, $b', 'return ($b->fullpath == "'.$cat_path.'") ? $b->cat_ID : $a;'),
+				0
+			);
+
+			// If full path not found, look for last dir as category ignoring parent
+			if($q['cat'] == 0) {
+				$q['cat'] = array_reduce(
+					$cache_categories, 
+					create_function('$a, $b', 'return ($b->category_nicename == "'.$q['category_name'].'") ? $b->cat_ID : $a;'),
+					0
+				);
 			}
-			$q['category_name'] = sanitize_title($q['category_name']);
+			
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
-			$whichcat = " AND (category_nicename = '" . $q['category_name'] . "'";
-			$q['cat'] = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '" . $q['category_name'] . "'");
+			$whichcat = " AND (category_id = '" . $q['cat'] . "'";
 			$whichcat .= get_category_children($q['cat'], " OR category_id = ");
 			$whichcat .= ")";
 		}
