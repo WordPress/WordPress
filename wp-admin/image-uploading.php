@@ -110,7 +110,7 @@ while ( file_exists($uploads['path'] . "/$filename") )
 $file = $uploads['path'] . "/$filename";
 if ( false === move_uploaded_file($_FILES['image']['tmp_name'], $file) )
 	die('The uploaded file could not be moved to $file.');
-chmod($file, 0775);
+chmod($file, 0666);  // FIXME: Need to set this according to rw bits on parent dir.
 
 // Compute the URL
 $url = $uploads['url'] . "/$filename";

@@ -1505,12 +1505,16 @@ function wp_upload_dir() {
                 $dir = 'wp-content/uploads';
 
 	$path = ABSPATH . $dir;
+	
+	// Give the new dirs the same perms as wp-content.
+	$stat = stat(ABSPATH . 'wp-content');
+	$dir_perms = $stat['mode'] & 0000777;  // Get the permission bits.
 
         // Make sure we have an uploads dir
         if ( ! file_exists( $path ) ) {
                 if ( ! mkdir( $path ) )
                         return array('error' => "Unable to create directory $path. Is its parent directory writable by the server?");
-		@ chmod( ABSPATH . $path, 0774 );
+		@ chmod( $path, $dir_perms );
 	}
 
         // Generate the yearly and monthly dirs
@@ -1524,14 +1528,14 @@ function wp_upload_dir() {
         if ( ! file_exists( $pathy ) ) {
                 if ( ! mkdir( $pathy ) )
                         return array('error' => "Unable to create directory $pathy. Is $path writable?");
-		@ chmod( $pathy, 0774 );
+		@ chmod( $pathy, $dir_perms );
 	}
 
         // Make sure we have a monthly dir
         if ( ! file_exists( $pathym ) ) {
                 if ( ! mkdir( $pathym ) )
                         return array('error' => "Unable to create directory $pathym. Is $pathy writable?");
-		@ chmod( $pathym, 0774 );
+		@ chmod( $pathym, $dir_perms );
 	}
 
     $uploads = array('path' => $pathym, 'url' => get_option('siteurl') . "/$dir/$y/$m", 'error' => false);
