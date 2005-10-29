@@ -78,8 +78,7 @@ case 'edit':
 
 	?>
 	<div id='preview' class='wrap'>
-	<a id="preview-post"></a>
-	<h2><?php _e('Post Preview (updated when post is saved)'); ?> <small class="quickjump"><a href="#write-post"><?php _e('edit &uarr;'); ?></a></small></h2>
+	<h2 id="preview-post"><?php _e('Post Preview (updated when post is saved)'); ?> <small class="quickjump"><a href="#write-post"><?php _e('edit &uarr;'); ?></a></small></h2>
 		<iframe src="<?php the_permalink(); ?>" width="100%" height="600" />
 	</div>
 	<?php

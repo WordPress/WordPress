@@ -1,6 +1,7 @@
 
 <div class="wrap">
-<h2><?php _e('Write Page'); ?></h2>
+<h2 id="write-post"><?php _e('Write Page'); ?><?php if ( 0 != $post_ID ) : ?>
+<small class="quickjump"><a href="#preview-post"><?php _e('preview &darr;'); ?></a></small><?php endif; ?></h2>
 <?php
 if (0 == $post_ID) {
 	$form_action = 'post';
