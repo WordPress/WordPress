@@ -1293,11 +1293,11 @@ function update_post_caches(&$posts) {
 	if ( $comment_counts ) {
 		foreach ($comment_counts as $comment_count) {
 			$comment_count_cache["$comment_count->comment_post_ID"] = $comment_count->ccount;
-			$got_count[] = $comment_count->comment_post_ID;
+			$has_comments[] = $comment_count->comment_post_ID;
 		}
-		foreach ( $post_id_array as $id )
-			if ( !in_array( $id, $got_count ) )
-				$comment_count_cache["$id"] = 0;
+		$no_comments = array_diff( $post_id_array, $has_comments );
+		foreach ( $no_comments as $id )
+			$comment_count_cache["$id"] = 0;
 	}
 
 	// Get post-meta info
