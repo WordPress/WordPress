@@ -203,6 +203,7 @@ function populate_options() {
 	add_option('ping_sites', 'http://rpc.pingomatic.com/');
 	add_option('advanced_edit', 0);
 	add_option('comment_max_links', 2);
+	add_option('gmt_offset', date('Z') / 3600);
 	// 1.5
 	add_option('default_email_category', 1, __('Posts by email go to this category'));
 	add_option('recently_edited');
