@@ -24,7 +24,7 @@ function get_category_link($category_id) {
 	$catlink = $wp_rewrite->get_category_permastruct();
 
 	if ( empty($catlink) ) {
-		$file = get_settings('home') . '/' . get_settings('blogfilename');
+		$file = get_settings('home') . '/';
 		$catlink = $file . '?cat=' . $category_id;
 	} else {
 		$category = &get_category($category_id);

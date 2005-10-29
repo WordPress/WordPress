@@ -1275,24 +1275,29 @@ function update_post_caches(&$posts) {
 
 	// Get the categories for all the posts
 	for ($i = 0; $i < count($posts); $i++) {
-		$post_id_list[] = $posts[$i]->ID;
+		$post_id_array[] = $posts[$i]->ID;
 		$post_cache[$posts[$i]->ID] = &$posts[$i];
 	}
 
-	$post_id_list = implode(',', $post_id_list);
+	$post_id_list = implode(',', $post_id_array);
 
 	update_post_category_cache($post_id_list);
 
 	// Do the same for comment numbers
-	$comment_counts = $wpdb->get_results("SELECT ID, COUNT( comment_ID ) AS ccount
-	FROM $wpdb->posts
-	LEFT JOIN $wpdb->comments ON ( comment_post_ID = ID AND comment_approved = '1')
-	WHERE ID IN ($post_id_list)
-	GROUP BY ID");
+	$comment_counts = $wpdb->get_results("SELECT comment_post_ID, COUNT( comment_ID ) AS ccount
+	FROM $wpdb->comments
+	WHERE comment_post_ID IN ($post_id_list)
+	AND comment_approved = '1'
+	GROUP BY comment_post_ID");
 
 	if ( $comment_counts ) {
-		foreach ($comment_counts as $comment_count)
-			$comment_count_cache["$comment_count->ID"] = $comment_count->ccount;
+		foreach ($comment_counts as $comment_count) {
+			$comment_count_cache["$comment_count->comment_post_ID"] = $comment_count->ccount;
+			$got_count[] = $comment_count->comment_post_ID;
+		}
+		foreach ( $post_id_array as $id )
+			if ( !in_array( $id, $got_count ) )
+				$comment_count_cache["$id"] = 0;
 	}
 
 	// Get post-meta info
