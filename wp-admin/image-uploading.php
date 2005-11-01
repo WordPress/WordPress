@@ -5,7 +5,7 @@ require_once('admin.php');
 if (!current_user_can('edit_posts'))
 	die(__('You do not have permission to edit posts.'));
 
-$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'object');
+$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'object', 'flickrtag');
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
@@ -26,7 +26,7 @@ $post = (int) $post;
 $images_width = 1;
 
 function get_udims($width, $height) {
-	if ( $height < 96 && $width < 128 )
+	if ( $height <= 96 && $width <= 128 )
 		return array($width, $height);
 	elseif ( $width / $height > 4 / 3 )
 		return array(128, (int) ($height / $width * 128));
@@ -44,76 +44,16 @@ die;
 
 case 'save':
 
-// Define acceptable image extentions/types here. Tests will apply strtolower().
-$exts = array('gif' => IMAGETYPE_GIF, 'jpg' => IMAGETYPE_JPEG, 'png' => IMAGETYPE_PNG);
+$overrides = array('action'=>'save');
 
-// Define the error messages for bad uploads.
-$upload_err = array(false,
-	__("The uploaded file exceeds the <code>upload_max_filesize</code> directive in <code>php.ini</code>."),
-	__("The uploaded file exceeds the <em>MAX_FILE_SIZE</em> directive that was specified in the HTML form."),
-	__("The uploaded file was only partially uploaded."),
-	__("No file was uploaded."),
-	__("Missing a temporary folder."),
-	__("Failed to write file to disk."));
+$file = wp_handle_upload($_FILES['image'], $overrides);
 
-$iuerror = false;
+if ( isset($file['error']) )
+	die($file['error'] . '<a href="' . basename(__FILE__) . '?action=upload&post="' . $post . '">Back to Image Uploading</a>');
 
-// Failing any single one of the following tests is fatal.
-
-// A correct form post will pass this test.
-if ( !isset($_POST['action']) || $_POST['action'] != 'save' || count($_FILES) != 1 || ! isset($_FILES['image']) || is_array($_FILES['image']['name']) )
-	$error = __('Invalid form submission. Only submit approved forms.');
-
-// A successful upload will pass this test.
-elseif ( $_FILES['image']['error'] > 0 )
-	$error = $upload_err[$_FILES['image']['error']];
-
-// A non-empty file will pass this test.
-elseif ( 0 == $_FILES['image']['size'] )
-	$error = __('File is empty. Please upload something more substantial.');
-
-// A correct MIME category will pass this test. Full types are not consistent across browsers.
-elseif ( ! 'image/' == substr($_FILES['image']['type'], 0, 6) )
-	$error = __('Bad MIME type submitted by your browser.');
-
-// An acceptable file extension will pass this test.
-elseif ( ! ( ( 0 !== preg_match('#\.?([^\.]*)$#', $_FILES['image']['name'], $matches) ) && ( $ext = strtolower($matches[1]) ) && array_key_exists($ext, $exts) ) )
-	$error = __('Bad file extension.');
-
-// A valid uploaded file will pass this test. 
-elseif ( ! is_uploaded_file($_FILES['image']['tmp_name']) )
-	$error = __('Bad temp file. Try renaming the file and uploading again.');
-
-// A valid image file will pass this test.
-elseif ( function_exists('exif_imagetype') && $exts[$ext] != $imagetype = exif_imagetype($_FILES['image']['tmp_name']) )
-	$error = __('Bad image file. Try again, or try recreating it.');
-
-// An image with at least one pixel will pass this test.
-elseif ( ! ( ( $imagesize = getimagesize($_FILES['image']['tmp_name']) ) && $imagesize[0] > 1 && $imagesize[1] > 1 ) )
-	$error = __('The image has no pixels. Isn\'t that odd?');
-
-// A writable uploads dir will pass this test.
-elseif ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
-	$error = $uploads['error'];
-
-if ( $error )
-	// Something wasn't right. Abort and never touch the temp file again.
-	die("$error <a href='".basename(__FILE__)."?action=upload&post=$post'>Back to Image Uploading</a>");
-
-// Increment the file number until we have a unique file to save in $dir
-$number = '';
-$filename = $_FILES['image']['name'];
-while ( file_exists($uploads['path'] . "/$filename") )
-	$filename = str_replace("$number.$ext", ++$number . ".$ext", $filename);
-
-// Move the file to the uploads dir
-$file = $uploads['path'] . "/$filename";
-if ( false === move_uploaded_file($_FILES['image']['tmp_name'], $file) )
-	die('The uploaded file could not be moved to $file.');
-chmod($file, 0666);  // FIXME: Need to set this according to rw bits on parent dir.
-
-// Compute the URL
-$url = $uploads['url'] . "/$filename";
+$url = $file['url'];
+$file = $file['file'];
+$filename = basename($file);
 
 // Construct the object array
 $object = array(
@@ -141,7 +81,7 @@ add_post_meta($id, 'imagedata', $imagedata);
 
 if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
 	if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
-		$error = wp_create_thumbnail($file, 128);
+		$error = wp_create_thumbnail($file['file'], 128);
 	elseif ( $imagedata['height'] > 96 )
 		$error = wp_create_thumbnail($file, 96);
 }
@@ -260,6 +200,139 @@ $images_width = $uwidth_sum + ( count($images) * 5 ) + 30;
 
 break;
 
+case 'flickr':
+
+require_once ABSPATH . WPINC . '/class-snoopy.php';
+
+function flickr_api_call($method, $params = '') {
+	$api_key = '7cd7b7dea9c9d3069caf99d12471008e';  // An API key reserved for WordPress
+	$searchurl = 'http://www.flickr.com/services/rest/?method=' . $method . '&api_key=' . $api_key . '&' . $params;
+	$client = new Snoopy();
+	$client->agent = 'WordPress/Flickr Browser';
+	$client->read_timeout = 2;
+	$client->use_gzip = true;
+	@$client->fetch($searchurl);
+	return $client->results;
+}
+
+// How many images do we show? How many do we query?
+$num = 5;
+$double = $num * 2;
+
+$flickr_user_id = get_user_option('flickr_userid');
+if($flickr_user_id == '') {
+	$flickr_username = get_user_option('flickr_username');
+	$user_xml = flickr_api_call('flickr.people.findByUsername', "username={$flickr_username}");
+	if(preg_match('/nsid="(.*?)">/', $user_xml, $matches)) {
+		$flickr_user_id = $matches[1];
+	}
+	else die("Failed to find Flickr ID for '$flickr_username'"); // Oh, dear - no Flickr user_id!
+
+	// Store the found Flickr user_id in usermeta...
+	// Don't forget on the options page to update the user_id along with the username!
+	update_user_option($current_user->id, 'flickr_userid', $flickr_user_id, true);
+}
+
+// Fetch photo list from Flickr
+$ustart = $start + 1;
+//$photos_xml = flickr_api_call('flickr.photos.search', array('per_page' => $num,  'user_id' => $flickr_user_id));
+if($flickrtag == '') {
+	$all = '0';
+	$photos_xml = flickr_api_call('flickr.people.getPublicPhotos', "per_page={$num}&user_id={$flickr_user_id}&page={$ustart}");
+}
+else {
+	$photos_xml = flickr_api_call('flickr.photos.search', "per_page={$num}&user_id={$flickr_user_id}&page={$ustart}&tags={$flickrtag}");
+	$all = '0&flickrtag=' . $flickrtag;
+}
+//echo "<pre>" . htmlentities($photos_xml) . "</pre>";  // Displays the XML returned by Flickr for the photo list
+
+//Get Page Count
+preg_match('/<photos.*pages="([0-9]+)"/', $photos_xml, $page_counta);
+$page_count = $page_counta[1];
+if($page_count == 0) {
+	$back = false;
+	$next = false;
+	break;
+}
+if($start < $page_count) $next = $start + 1; else $next = false;
+if($start > 0) $back = $start - 1; else $back = false;
+if($last != '') {
+	$photos_xml = flickr_api_call('flickr.people.getPublicPhotos', "per_page={$num}&user_id={$flickr_user_id}&page={$page_count}");
+	$back = $page_count -1;
+	$next = false;
+}
+
+//Get Photos
+preg_match_all('/<photo.*?id="([0-9]+)".*?secret="([0-9a-f]+)".*?server="([0-9]+)".*?title="([^"]*)".*?\/>/', $photos_xml, $matches, PREG_SET_ORDER);
+foreach($matches as $match) {
+	$img['post_title'] = $match[4];
+
+	$sizes_xml = flickr_api_call('flickr.photos.getSizes', "photo_id={$match[1]}");
+	preg_match_all('/<size.*?label="([^"]+)".*?width="([0-9]+)".*?height="([0-9]+)".*?source="([^"]+)".*?\/>/', $sizes_xml, $sizes, PREG_SET_ORDER);
+
+	$max_size = '';
+	foreach($sizes as $size) {
+		$img_size[$size[1]]['width'] = $size[2];
+		$img_size[$size[1]]['height'] = $size[3];
+		$img_size[$size[1]]['url'] = $size[4];
+		if($max_size == '' || $img_size[$size[1]]['width'] > $img_size[$max_size]['width']) {
+			$max_size = $size[1];
+		}
+	}
+
+	$images[] = array(
+		'post_title' => $match[4],
+		'thumbnail' => $img_size['Thumbnail']['url'],
+		'full' => $img_size[$max_size]['url'],
+		'href' => "http://flickr.com/photos/{$flickr_user_id}/{$match[1]}/",
+		'width' => $img_size['Thumbnail']['width'],
+		'height' => $img_size['Thumbnail']['height'],
+		'size_info' => $img_size,
+	);
+}
+
+$current_flickr = ' class="current"';
+
+$__use_size = __('Use %s');
+$__close = __('CLOSE');
+
+$images_script .= "var flickr_src = new Array();\n";
+
+$i=0;
+foreach($images as $image) {
+		list($uwidth, $uheight) = get_udims($image['width'], $image['height']);
+		$xpadding = (128 - $uwidth) / 2;
+		$ypadding = (96 - $uheight) / 2;
+		$height_width = 'height="'.$uheight.'" width="'.$uwidth.'"';
+		$images_style .= "#target$i img { padding: {$ypadding}px {$xpadding}px; }\n";
+		$images_html .= "
+			<div id='target$i' class='imagewrap left'>
+				<div id='popup$i' class='popup'>
+		";
+
+		$images_script .= "flickr_src[$i] = new Array();\n";
+		foreach($image['size_info'] as $szkey => $size) {
+			$images_script .= "flickr_src[$i]['{$szkey}']= '{$size['url']}';\n";
+			$use = sprintf($__use_size, $szkey);
+			$prefix = ($szkey == 'Thumbnail') ? '<strong>':'';
+			$postfix = ($szkey == 'Thumbnail') ? '</strong>':'';
+			$images_html .= "<a id=\"I{$i}_{$szkey}\" onclick=\"toggleSize($i,'$szkey');return false;\" href=\"javascript:void();\">{$prefix}{$use}{$postfix}</a>\n";
+		}
+		$images_html .= "
+					<a onclick=\"popup.style.display='none';return false;\" href=\"javascript:void()\">$__close</a>
+				</div>
+				<a id=\"link$i\" class=\"imagelink\" href=\"{$image['href']}\" onclick=\"imagePopup($i);return false;\" title=\"{$image['post_title']}\">
+					<img id=\"image$i\" src=\"{$image['thumbnail']}\" alt=\"{$image['post_title']}\" $height_width />
+				</a>
+			</div>
+		";
+		$i++;
+}
+
+$images_width = ( count($images) * 133 ) + 5;
+
+break;
+
 default:
 die('This script was not meant to be called directly.');
 }
@@ -322,6 +395,22 @@ function toggleImage(n) {
 		oi.innerHTML = thumbnailon;
 	}
 }
+function toggleSize(n,sz) {
+	o = document.getElementById('image'+n);
+	oi = document.getElementById('popup'+n);
+	o.src = flickr_src[n][sz];
+	if (!document.getElementsByTagName) return;
+	var anchors = document.getElementsByTagName("a");
+	var re_id = 'I'+n+'_'; // /i[0-9]+_.+/i;
+	var re_strip = /<.*?>/i;
+	for (var i=0; i< anchors.length; i++) {
+		var anchor = anchors[i];
+		if (anchor.getAttribute("href") && anchor.id.match(re_id))
+			anchor.innerHTML = anchor.innerHTML.replace(re_strip, '');
+	}
+ 	var anchor = document.getElementById('I'+n+'_'+sz);
+ 	anchor.innerHTML = '<strong>' + anchor.innerHTML + '</strong>';
+}
 </script>
 <style type="text/css">
 body {
@@ -347,6 +436,7 @@ clear: both;
 margin: 0px;
 padding: 5px 15px;
 height: 96px;
+white-space: nowrap;
 width: <?php echo $images_width; ?>px;
 }
 #images img {
@@ -355,6 +445,8 @@ background-color: rgb(209, 226, 239);
 <?php echo $images_style; ?>
 .imagewrap {
 margin-right: 5px;
+height: 96px;
+overflow: hidden;
 }
 .imagewrap * {
 margin: 0px;
@@ -364,7 +456,7 @@ border: 0px;
 .imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img {
 text-decoration: none;
 float: left;
-display: block;
+/*display: block;*/
 text-align: center;
 }
 #menu {
@@ -455,38 +547,62 @@ color: #246;
 background-color: #fff;
 color: #000;
 }
+#flickrtags {
+	display: inline;
+}
+#flickrtags input {
+	border:0px;
+}
+input#flickrtag {
+	background-color: white;
+	color: black;
+	width:65px;
+}
+input#flickrsubmit {
+	background-color: #dfe8f1;
+	color: black;
+}
 </style>
 </head>
 <body onload="init()">
 <ul id="menu">
 <li<?php echo $current_1; ?>><a href="image-uploading.php?action=upload&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>">Upload Photo</a></li>
+<li<?php echo $current_flickr; ?>><a href="image-uploading.php?action=flickr&amp;post=<?php echo $post; ?>">Browse Flickr</a></li>
 <li<?php echo $current_2; ?>><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>">Browse Attached</a></li>
 <li<?php echo $current_3; ?>><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=true">Browse All</a></li>
 <li> </li>
 <?php if ( false !== $back ) : ?>
-<li class="spacer"><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=0" title="First">|&lt;</a></li>
-<li><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $back; ?>" title="Back">&lt;&lt;</a></li>
+<li class="spacer"><a href="image-uploading.php?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=0" title="First">|&lt;</a></li>
+<li><a href="image-uploading.php?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $back; ?>" title="Back">&lt;&lt;</a></li>
 <?php else : ?>
 <li class="inactive spacer">|&lt;</li>
 <li class="inactive">&lt;&lt;</li>
 <?php endif; ?>
+
+<?php if($action == 'flickr') : ?>
+<form id="flickrtags" method="get"><?php echo sprintf(__('Tag: %s'), '<input type="text" id="flickrtag" name="flickrtag" value="' . $flickrtag . '" />'); ?><input id="flickrsubmit" type="submit" value="Filter" /><?php 
+parse_str($_SERVER['QUERY_STRING'], $formquery);
+foreach($formquery as $k=>$v) if($k!='flickrtag') echo "<input type=\"hidden\" name=\"$k\" value=\"$v\" />";
+?></form>
+<?php endif; ?>
+
 <?php if ( false !== $next ) : ?>
-<li><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>" title="Next">&gt;&gt;</a></li>
-<li><a href="image-uploading.php?action=view&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;last=true" title="Last">&gt;|</a></li>
+<li><a href="image-uploading.php?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>" title="Next">&gt;&gt;</a></li>
+<li><a href="image-uploading.php?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;last=true" title="Last">&gt;|</a></li>
 <?php else : ?>
 <li class="inactive">&gt;&gt;</li>
 <li class="inactive">&gt;|</li>
 <?php endif; ?>
 </ul>
-<?php if ( $action == 'view' ) : ?>
-<span class="left tip">Drag and drop photos to post</span>
-<span class="right tip">Click photos for more options</span>
+<?php if ( $action == 'view' || $action == 'flickr' ) : ?>
+<span class="left tip"><?php _e('Drag and drop photos to post'); ?></span>
+<span class="right tip"><?php _e('Click photos for more options'); ?></span>
 <div id="wrap">
 <div id="images">
 <?php echo $images_html; ?>
 </div>
 </div>
-<?php elseif ( $action = 'upload' ) : ?>
+<?php elseif ( $action == 'upload' ) : ?>
 <div class="center tip">Duplicated filenames will be numbered (photo.jpg, photo1.jpg, etc.)</div>
 <form enctype="multipart/form-data" id="uploadForm" method="POST" action="image-uploading.php" onsubmit="return validateImageName()">
 <label for="upload">Image:</label><input type="file" id="upload" name="image" onchange="validateImageName()" />
@@ -503,3 +619,6 @@ color: #000;
 <?php endif; ?>
 </body>
 </html>
+
+
+

@@ -1,6 +1,5 @@
 <?php
 
-
 // Creates a new post from the "Write Post" form using $_POST information.
 function write_post() {
 	global $user_ID;
@@ -285,6 +284,8 @@ function edit_user($user_id = 0) {
 	}
 	if (isset ($_POST['first_name']))
 		$user->first_name = wp_specialchars(trim($_POST['first_name']));
+	if (isset ($_POST['middle_name']))
+		$user->middle_name = wp_specialchars(trim($_POST['middle_name']));
 	if (isset ($_POST['last_name']))
 		$user->last_name = wp_specialchars(trim($_POST['last_name']));
 	if (isset ($_POST['nickname']))
@@ -299,6 +300,8 @@ function edit_user($user_id = 0) {
 		$user->aim = wp_specialchars(trim($_POST['aim']));
 	if (isset ($_POST['yim']))
 		$user->yim = wp_specialchars(trim($_POST['yim']));
+	if (isset ($_POST['flickr_username']))
+		$user->flickr_username = wp_specialchars(trim($_POST['flickr_username']));
 
 	$errors = array ();
 
@@ -1540,6 +1543,147 @@ function wp_upload_dir() {
 
     $uploads = array('path' => $pathym, 'url' => get_option('siteurl') . "/$dir/$y/$m", 'error' => false);
 	return apply_filters('upload_dir', $uploads);
+}
+
+// array wp_handle_upload ( array &file [, array overrides] )
+// file: reference to a single element of $_FILES. Call the function once for each uploaded file.
+// overrides: an associative array of names=>values to override default variables with extract($overrides, EXTR_OVERWRITE).
+// On success, returns an associative array of file attributes.
+// On failure, returns $overrides['upload_error_handler'](&$file, $message) or array('error'=>$message).
+function wp_handle_upload(&$file, $overrides = false) {
+	// The default error handler.
+	function wp_handle_upload_error(&$file, $message) {
+		return array('error'=>$message);
+	}
+
+	// You may define your own function and pass the name in $overrides['upload_error_handler']
+	$upload_error_handler = 'wp_handle_upload_error';
+
+	// $_POST['action'] must be set and its value must equal $overrides['action'] or this:
+	$action = 'wp_handle_upload';
+
+	// Courtesy of php.net, the strings that describe the error indicated in $_FILES[{form field}]['error'].
+	$upload_error_strings = array(false,
+		__("The uploaded file exceeds the <code>upload_max_filesize</code> directive in <code>php.ini</code>."),
+		__("The uploaded file exceeds the <em>MAX_FILE_SIZE</em> directive that was specified in the HTML form."),
+		__("The uploaded file was only partially uploaded."),
+		__("No file was uploaded."),
+		__("Missing a temporary folder."),
+		__("Failed to write file to disk."));
+
+	// Accepted MIME types are set here as PCRE. Override with $override['mimes'].
+	$mimes = apply_filters('upload_mimes', array(
+			'image/jpeg'	=>	'jpg|jpeg|jpe',
+			'image/gif'	=>	'gif',
+			'image/(png|x-png)'	=>	'png',
+			'image/(bmp|x-bmp|x-ms-bmp)'	=>	'bmp',
+			'image/(tiff|x-tiff)'	=>	'tif|tiff',
+			'image/(ico|x-ico)'	=>	'ico',
+			'video/(asf|x-asf|x-ms-asf)'	=>	'asf|asx|wma|wax|wmv|wmx',
+			'video/(wmv|x-wmv|x-ms-wmv)'	=>	'wmv',
+			'video/(msvideo|x-msvideo)'	=>	'avi',
+			'video/(quicktime|x-quicktime)'	=>	'mov|qt',
+			'video/(mpeg|x-mpeg)'	=>	'mpeg|mpg|mpe',
+			'text/plain'	=>	'txt|c|cc|h|php',
+			'text/richtext'	=>	'rtx',
+			'text/css'	=>	'css',
+			'text/html'	=>	'htm|html',
+			'text/javascript'	=>	'js',
+			'audio/(mpeg|x-mpeg|mpeg3|x-mpeg3)'	=>	'mp3',
+			'audio/x-realaudio'	=>	'ra|ram',
+			'audio/(wav|x-wav)'	=>	'wav',
+			'audio/(ogg|x-ogg)'	=>	'ogg',
+			'audio/(midi|x-midi)'	=>	'mid|midi',
+			'application/pdf'	=>	'pdf',
+			'application/msword'	=>	'doc',
+			'application/mspowerpoint'	=>	'pot|pps|ppt',
+			'application/mswrite'	=>	'wri',
+			'application/(msexcel|vnd.ms-excel)'	=>	'xla|xls|xlt|xlw',
+			'application/msaccess'	=>	'mdb',
+			'application/msproject'	=>	'mpp',
+			'application/x-shockwave-flash'	=>	'swf',
+			'application/java'	=>	'class',
+			'application/x-tar'	=>	'tar',
+			'application/(zip|x-zip-compressed)'	=>	'zip',
+			'application/(x-gzip|x-gzip-compressed)'	=>	'gz|gzip'));
+
+	// For security, we never trust HTTP Content-Type headers unless the user overrides this.
+	$trust_content_type = false;
+
+	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
+	$test_form = true;
+	$test_size = true;
+	$test_type = true;
+
+	// Install user overrides. Did we mention that this voids your warranty?
+	if ( is_array($overrides) )
+		extract($overrides, EXTR_OVERWRITE);
+
+	// A correct form post will pass this test.
+	if ( $test_form && (!isset($_POST['action']) || ($_POST['action'] != $action)) )
+		return $upload_error_handler($file, __('Invalid form submission.'));
+
+	// A successful upload will pass this test. It makes no sense to override this one.
+	if ( $file['error'] > 0 )
+		return $upload_error_handler($file, $upload_error_strings[$file['error']]);
+
+	// A non-empty file will pass this test.
+	if ( $test_size && !($file['size'] > 0) )
+		return $upload_error_handler($file, __('File is empty. Please upload something more substantial.'));
+
+	// A properly uploaded file will pass this test. There should be no reason to override this one.
+	if (! is_uploaded_file($file['tmp_name']) )
+		return $upload_error_handler($file, __('Specified file failed upload test.'));
+
+	// A correct MIME type will pass this test. We can't always determine it programatically, so we'll trust the HTTP headers.
+	if ( $test_type ) {
+		$type = false;
+		$ext = false;
+		foreach ($mimes as $mime_preg => $ext_preg) {
+			$mime_preg = '!^' . $mime_preg . '$!i';
+			$ext_preg = '![^.]\.(' . $ext_preg . ')$!i';
+			if ( preg_match($mime_preg, $file['type'], $type) ) {
+				if ( preg_match($ext_preg, $file['name'], $ext) ) {
+					break;
+				} else {
+					return $upload_error_handler($file, __('File extension does not match file type. Try another.'));
+				}
+			}
+		}
+		if (! $type && $ext )
+			return $upload_error_handler($file, __('File type does not meet security guidelines. Try another.'));
+		$type = $type[0];
+		$ext = $ext[1];
+	}
+
+	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
+	if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
+		return $upload_error_handler($file, $uploads['error']);
+
+	// Increment the file number until we have a unique file to save in $dir. Use $override['unique_filename_callback'] if supplied.
+	if ( isset($unique_filename_callback) && function_exists($unique_filename_callback) ) {
+		$filename = $unique_filename_callback($uploads['path'], $file['name']);
+	} else {
+		$number = '';
+		$filename = $file['name'];
+		while ( file_exists($uploads['path'] . "/$filename") )
+			$filename = str_replace("$number.$ext", ++$number . ".$ext", $filename);
+	}
+
+	// Move the file to the uploads dir
+	$new_file = $uploads['path'] . "/$filename";
+	if ( false === move_uploaded_file($file['tmp_name'], $new_file) )
+		die('The uploaded file could not be moved to $file.');
+
+	// Set correct file permissions
+	$stat = stat(dirname($new_file));
+	$perms = $stat['mode'] & 0000777;
+	@ chmod($new_file, $perms);
+
+	// Compute the URL
+	$url = $uploads['url'] . "/$filename";
+
+	return array('file' => $new_file, 'url' => $url);
 }
 
 ?>
