@@ -415,7 +415,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 }
 
 function in_category($category) { // Check if the current post is in the given category
-	global $category_cache;
+	global $category_cache, $post;
 
 	if ( isset( $category_cache[$post->ID][$category] ) )
 		return true;
