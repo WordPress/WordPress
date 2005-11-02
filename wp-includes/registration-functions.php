@@ -53,12 +53,15 @@ function wp_insert_user($userdata) {
 	clean_user_cache($user_login);
 
 	update_usermeta( $user_id, 'first_name', $first_name);
+	update_usermeta( $user_id, 'middle_name', $middle_name);
 	update_usermeta( $user_id, 'last_name', $last_name);
 	update_usermeta( $user_id, 'nickname', $nickname );
 	update_usermeta( $user_id, 'description', $description );
 	update_usermeta( $user_id, 'jabber', $jabber );
 	update_usermeta( $user_id, 'aim', $aim );
 	update_usermeta( $user_id, 'yim', $yim );
+	update_usermeta( $user_id, 'flickr_username', $flickr_username );
+	
 	
 	if ( !$update ) {
 		$user = new WP_User($user_id);
