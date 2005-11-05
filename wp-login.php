@@ -169,9 +169,9 @@ default:
 		$user_pass  = $_POST['pwd'];
 		$rememberme = $_POST['rememberme'];
 	} elseif ( !empty($_COOKIE) ) {
-		if (! empty($_COOKIE[USER_COOKIE]) )
+		if ( !empty($_COOKIE[USER_COOKIE]) )
 			$user_login = $_COOKIE[USER_COOKIE];
-		if (! empty($_COOKIE[PASS_COOKIE]) ) {
+		if ( !empty($_COOKIE[PASS_COOKIE]) ) {
 			$user_pass = $_COOKIE[PASS_COOKIE];
 			$using_cookie = true;
 		}
@@ -181,19 +181,19 @@ default:
 
 	if ($user_login && $user_pass) {
 		$user = new WP_User($user_login);
+
 		// If the user can't edit posts, send them to their profile.
-		if ( ! $user->has_cap('edit_posts') )
-			$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
+		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
+ 			$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
 
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
-			if ( !$using_cookie) {
+			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
-			}
 			do_action('wp_login', $user_login);
 			wp_redirect($redirect_to);
-			exit();
+			exit;
 		} else {
-			if ($using_cookie)			
+			if ( $using_cookie )			
 				$error = __('Your session has expired.');
 		}
 	}
