@@ -1179,6 +1179,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$post ) // Post_ID not found
 	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 
+		if ( $post_ID == url_to_postid($pagelinkedfrom) )
+			return new IXR_Error(0, 'The source URI and the target URI cannot both point to the same resource.');
+
 		// Check if pings are on
 		if ( 'closed' == $post->ping_status )
 	  		return new IXR_Error(33, 'The specified target URI cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');

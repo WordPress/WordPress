@@ -590,7 +590,7 @@ function pingback($content, $post_ID) {
 	// We don't wanna ping first and second types, even if they have a valid <link/>
 
 	foreach($post_links_temp[0] as $link_test) :
-		if ( !in_array($link_test, $pung) ) : // If we haven't pung it already
+		if ( !in_array($link_test, $pung) && url_to_postid($link_test) != $post_ID) : // If we haven't pung it already and it isn't a link to itself
 			$test = parse_url($link_test);
 			if (isset($test['query']))
 				$post_links[] = $link_test;
