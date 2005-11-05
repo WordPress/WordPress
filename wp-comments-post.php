@@ -1,6 +1,8 @@
 <?php
 require( dirname(__FILE__) . '/wp-config.php' );
 
+nocache_headers();
+
 $comment_post_ID = (int) $_POST['comment_post_ID'];
 
 $status = $wpdb->get_row("SELECT post_status, comment_status FROM $wpdb->posts WHERE ID = '$comment_post_ID'");
@@ -46,7 +48,7 @@ if ( '' == $comment_content )
 
 $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'user_ID');
 
-wp_new_comment($commentdata);
+wp_new_comment( $commentdata );
 
 if ( !$user_ID ) :
 	setcookie('comment_author_' . COOKIEHASH, stripslashes($comment_author), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
@@ -54,9 +56,8 @@ if ( !$user_ID ) :
 	setcookie('comment_author_url_' . COOKIEHASH, stripslashes($comment_author_url), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
 endif;
 
-nocache_headers();
+$location = ( empty( $_POST['redirect_to'] ) ) ? get_permalink( $comment_post_ID ) : $_POST['redirect_to']; 
 
-$location = (empty($_POST['redirect_to'])) ? $_SERVER["HTTP_REFERER"] : $_POST['redirect_to']; 
+wp_redirect( $location );
 
-wp_redirect($location);
 ?>
