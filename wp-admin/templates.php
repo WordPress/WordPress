@@ -125,7 +125,7 @@ endif;
 ?>
 </p>
 <?php else : ?>
-<p><em><?php _e('If this file was writable you could edit it.'); ?></em></p>
+<p><em><?php _e('If this file were writable you could edit it.'); ?></em></p>
 <?php endif; ?>
    </form> 
   <?php
