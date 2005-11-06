@@ -27,7 +27,7 @@ function execute_all_pings() {
 		}
 	}
 	// Do Trackbacks
-	if($trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != ''")) {
+	if($trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != '' AND post_status != 'draft'")) {
 		foreach($trackbacks as $trackback) {
 			//echo "trackback : $trackback->ID<br/>";
 			do_trackbacks($trackback->ID);
