@@ -439,7 +439,11 @@ function checked($checked, $current) {
 
 function return_categories_list($parent = 0) {
 	global $wpdb;
-	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY category_count DESC");
+	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent");
+}
+
+function sort_cats($cat1, $cat2) {
+	return strcasecmp($cat1['cat_name'], $cat2['cat_name']);
 }
 
 function get_nested_categories($default = 0, $parent = 0) {
@@ -472,6 +476,8 @@ function get_nested_categories($default = 0, $parent = 0) {
 			$result[$cat]['cat_name'] = get_the_category_by_ID($cat);
 		}
 	}
+	
+	usort($result, 'sort_cats');
 
 	return $result;
 }
