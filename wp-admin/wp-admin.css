@@ -59,7 +59,7 @@ a:hover {
 }
 
 body	{
-	background: #fff;
+	background: #f9fcfe;
 	color: #000;
 	margin: 0;
 	padding: 0;
@@ -226,10 +226,6 @@ textarea, input, select {
 	padding: .3em 1em;
 }
 
-.ed_button {
-	padding: 1px;
-}
-
 .hidden {
 	display: none;
 }
@@ -294,10 +290,10 @@ textarea, input, select {
 }
 
 .updated {
-	background: #f0f8ff;
-	border: 1px solid #69c;
+	background: #CFEBF7 url(images/notice.gif) no-repeat 1em ;
+	border: 1px solid #2580B2;
 	margin: 1em 5% 10px;
-	padding: 0 1em 0 1em;
+	padding: 0 1em 0 3em;
 }
 
 .error {
@@ -364,7 +360,7 @@ table .vers, table .name {
 }
 
 #submenu .current {
-	background: #ddeaf4;
+	background: #f9fcfe;
 	border-top: 1px solid #045290;
 	border-right: 2px solid #045290;
 	color: #000;
