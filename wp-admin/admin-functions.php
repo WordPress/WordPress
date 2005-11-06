@@ -865,11 +865,11 @@ function touch_time($edit = 1, $for_post = 1) {
 	}
 ?>
 </select>
-<input type="text" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" />
-<input type="text" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" /> @ 
-<input type="text" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" /> : 
-<input type="text" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" /> 
-<input type="hidden" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" /> 
+<input type="text" id="jj" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" />
+<input type="text" id="aa" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" /> @ 
+<input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" /> : 
+<input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" /> 
+<input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" /> 
 <?php _e('Existing timestamp'); ?>: 
 	<?php
 
