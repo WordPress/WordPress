@@ -22,8 +22,6 @@
 		if ( ! function_exists('__') ) {
 			return $text;
 		} else {
-			header('Content-Type: text/plain');
-
 			$search1 = "/^tinyMCELang\\[(['\"])(.*)\\1\]( ?= ?)(['\"])(.*)\\4/uem";
 			$replace1 = "'tinyMCELang[\\1\\2\\1]\\3'.stripslashes('\\4').__('\\5').stripslashes('\\4')";
 
