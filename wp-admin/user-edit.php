@@ -82,6 +82,18 @@ if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permi
 <p><label><?php _e('Username: (no editing)'); ?><br />
 <input type="text" name="user_login" value="<?php echo $profiledata->user_login; ?>" disabled="disabled" />
 </label></p>
+
+<p><label><?php _e('Role:') ?><br />
+<?php
+// print_r($profileuser);
+echo '<select name="role">';
+foreach($wp_roles->role_names as $role => $name) {
+	$selected = ($profileuser->roles[0] == $role) ? ' selected="selected"' : '';
+	echo "<option value=\"{$role}\"{$selected}>{$name}</option>";
+}
+echo '</select>';
+?></label></p>
+
 <p><label><?php _e('First name:') ?><br />
 <input type="text" name="first_name" value="<?php echo $profiledata->first_name ?>" /></label></p>
 

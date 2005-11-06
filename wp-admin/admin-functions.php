@@ -256,6 +256,7 @@ function add_user() {
 }
 
 function edit_user($user_id = 0) {
+	global $current_user, $wp_roles;
 
 	if ($user_id != 0) {
 		$update = true;
@@ -276,6 +277,14 @@ function edit_user($user_id = 0) {
 	if (isset ($_POST['pass2']))
 		$pass2 = $_POST['pass2'];
 
+	if (isset ($_POST['role'])) {
+		if($user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap('edit_users'))
+			$user->role = $_POST['role'];
+	}
+
+	if (isset ($_POST['role'])) {
+		$user->role = $_POST['role'];
+	}
 	if (isset ($_POST['email']))
 		$user->user_email = wp_specialchars(trim($_POST['email']));
 	if (isset ($_POST['url'])) {

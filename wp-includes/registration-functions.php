@@ -59,7 +59,12 @@ function wp_insert_user($userdata) {
 	update_usermeta( $user_id, 'jabber', $jabber );
 	update_usermeta( $user_id, 'aim', $aim );
 	update_usermeta( $user_id, 'yim', $yim );
-	
+
+	if ($update && !empty($role)) {
+		$user = new WP_User($user_id);
+		$user->set_role($role);
+	}
+
 	if ( !$update ) {
 		$user = new WP_User($user_id);
 		$user->set_role(get_settings('default_role'));
