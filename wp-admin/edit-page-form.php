@@ -148,10 +148,12 @@ edCanvas = document.getElementById('content');
 </p>
 
 <?php
-$frame_src = 'image-uploading.php?action=view&amp;post=' . ((0 == $post_ID) ? $temp_ID : $post_ID);
-$frame_src = apply_filters('upload_frame_src', $frame_src, ((0 == $post_ID) ? $temp_ID : $post_ID));
+$uploading_iframe_ID = (0 == $post_ID ? $temp_ID : $post_ID);
+$uploading_iframe_src = "inline-uploading.php?action=view&amp;post=$uploading_iframe_ID";
+$uploading_iframe_src = apply_filters('uploading_iframe_src', $uploading_iframe_src);
+if ( false != $uploading_iframe_src )
+	echo '<iframe id="uploading" border="0" src="' . $uploading_iframe_src . '">' . __('This feature requires iframe support.') . '</iframe>';
 ?>
-<iframe border="0" src="<?php echo $frame_src; ?>" id="imageup"><?php _e('This feature requires iframe support.'); ?></iframe>
 
 <div id="advancedstuff" class="dbx-group">
 

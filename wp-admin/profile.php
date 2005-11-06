@@ -33,9 +33,6 @@ $bookmarklet_height= 440;
 <p><label><?php _e('First name:') ?><br />
 <input type="text" name="first_name" value="<?php echo $profiledata->first_name ?>" /></label></p>
 
-<p><label><?php _e('Middle name:') ?><br />
-<input type="text" name="middle_name" value="<?php echo $profiledata->middle_name ?>" /></label></p>
-
 <p><label><?php _e('Last name:') ?><br />
 <input type="text" name="last_name"  value="<?php echo $profiledata->last_name ?>" /></label></p>
 
@@ -56,9 +53,6 @@ $bookmarklet_height= 440;
 <?php if ( !empty( $profiledata->first_name ) && !empty( $profiledata->last_name ) ) : ?>
 <option value="<?php echo $profiledata->first_name." ".$profiledata->last_name ?>"><?php echo $profiledata->first_name." ".$profiledata->last_name ?></option>
 <option value="<?php echo $profiledata->last_name." ".$profiledata->first_name ?>"><?php echo $profiledata->last_name." ".$profiledata->first_name ?></option>
-<?php if ( !empty( $profiledata->middle_name ) ) : ?>
-<option value="<?php echo $n = $profiledata->first_name." ".$profiledata->middle_name." ".$profiledata->last_name ?>"><?php echo $n ?></option>
-<?php endif; ?>
 <?php endif; ?>
 </select></label></p>
 </fieldset>
@@ -71,10 +65,6 @@ $bookmarklet_height= 440;
 
 <p><label><?php _e('Website:') ?><br />
 <input type="text" name="url" value="<?php echo $profiledata->user_url ?>" />
-</label></p>
-
-<p><label><?php _e('Flickr Username:') ?><br />
-<input type="text" name="flickr_username" value="<?php echo $profiledata->flickr_username ?>" />
 </label></p>
 
 <p><label><?php _e('AIM:') ?><br />
