@@ -1404,6 +1404,12 @@ function is_subpost () {
 	return $wp_query->is_subpost;
 }
 
+function is_preview() {
+	global $wp_query;
+	
+	return $wp_query->is_preview;
+}
+
 function is_archive () {
 	global $wp_query;
 

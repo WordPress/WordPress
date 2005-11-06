@@ -13,6 +13,7 @@ class WP_Query {
 	var $post;
 
 	var $is_single = false;
+	var $is_preview = false;
 	var $is_page = false;
 	var $is_archive = false;
 	var $is_date = false;
@@ -534,8 +535,10 @@ class WP_Query {
 		}
 
 		$now = gmdate('Y-m-d H:i:59');
-
-		if ($pagenow != 'post.php' && $pagenow != 'edit.php') {
+		
+		//only select past-dated posts, except if a logged in user is viewing a single: then, if they
+		//can edit the post, we let them through
+		if ($pagenow != 'post.php' && $pagenow != 'edit.php' && !($this->is_single && $user_ID)) {
 			$where .= " AND post_date_gmt <= '$now'";
 			$distinct = 'DISTINCT';
 		}
@@ -609,11 +612,21 @@ class WP_Query {
 				} else {
 					if ('draft' == $status) {
 						// User must have edit permissions on the draft to preview.
-						if (! user_can_edit_post($user_ID, $this->posts[0]->ID))
+						if (! user_can_edit_post($user_ID, $this->posts[0]->ID)) {
 							$this->posts = array();
+						} else {
+							$this->is_preview = true;
+						}
 					} elseif ('private' == $status) {
 						if ($this->posts[0]->post_author != $user_ID)
 							$this->posts = array();
+					}
+				}
+			} else {
+				if (mysql2date('U', $this->posts[0]->post_date) > mysql2date('U', $now)) { //it's future dated
+					$this->is_preview = true;
+					if (!current_user_can('edit_post', $this->posts[0]->ID)) {
+						$this->posts = array ( );
 					}
 				}
 			}
