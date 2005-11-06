@@ -622,8 +622,10 @@ function do_trackbacks($post_id) {
 
 	if ($to_ping) : foreach ($to_ping as $tb_ping) :
 		$tb_ping = trim($tb_ping);
-		if ( !in_array($tb_ping, $pinged) )
-		 trackback($tb_ping, $post_title, $excerpt, $post_id);
+		if ( !in_array($tb_ping, $pinged) ) {
+			trackback($tb_ping, $post_title, $excerpt, $post_id);
+			$pinged[] = $tb_ping;
+		}
 	endforeach; endif;
 }
 
