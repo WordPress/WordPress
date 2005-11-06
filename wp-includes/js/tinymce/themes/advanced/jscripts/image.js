@@ -1,7 +1,7 @@
 var url = tinyMCE.getParam("external_image_list_url");
 if (url != null) {
 	// Fix relative
-	if (url.charAt(0) != '/')
+	if (url.charAt(0) != '/' && url.indexOf('://') == -1)
 		url = tinyMCE.documentBasePath + "/" + url;
 
 	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
@@ -25,6 +25,8 @@ function insertImage() {
 
 function init() {
 	tinyMCEPopup.resizeToInnerSize();
+
+	document.getElementById('srcbrowsercontainer').innerHTML = getBrowserHTML('srcbrowser','src','image','theme_advanced_image');
 
 	var formObj = document.forms[0];
 

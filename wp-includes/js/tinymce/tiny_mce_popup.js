@@ -1,7 +1,7 @@
 /**
  * $RCSfile: tiny_mce_popup.js,v $
- * $Revision: 1.14 $
- * $Date: 2005/08/23 17:01:39 $
+ * $Revision: 1.18 $
+ * $Date: 2005/10/29 19:13:20 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
@@ -20,6 +20,7 @@ TinyMCEPopup.prototype.init = function() {
 
 	window.opener = win;
 	this.windowOpener = win;
+	this.onLoadEval = "";
 
 	// Setup parent references
 	tinyMCE = win.tinyMCE;
@@ -32,6 +33,9 @@ TinyMCEPopup.prototype.init = function() {
 
 	this.isWindow = tinyMCE.getWindowArg('mce_inside_iframe', false) == false;
 	this.storeSelection = tinyMCE.isMSIE && !this.isWindow && tinyMCE.getWindowArg('mce_store_selection', true);
+
+	if (this.isWindow)
+		window.focus();
 
 	// Store selection
 	if (this.storeSelection)
@@ -62,6 +66,13 @@ TinyMCEPopup.prototype.init = function() {
 TinyMCEPopup.prototype.onLoad = function() {
 	var body = document.body;
 
+	body.onkeydown = function (e) {
+		e = e ? e : window.event;
+		if ( e.keyCode == 27 && !e.shiftKey && !e.controlKey && !e.altKey ) {
+			tinyMCEPopup.close();
+		}
+	}
+
 	if (tinyMCE.getWindowArg('mce_replacevariables', true))
 		body.innerHTML = tinyMCE.applyTemplate(body.innerHTML, tinyMCE.windowArgs);
 
@@ -76,9 +87,27 @@ TinyMCEPopup.prototype.onLoad = function() {
 
 	if (body.style.display == 'none')
 		body.style.display = 'block';
+
+	// Execute real onload (Opera fix)
+	if (tinyMCEPopup.onLoadEval != "") {
+		eval(tinyMCEPopup.onLoadEval);
+	}
+};
+
+TinyMCEPopup.prototype.executeOnLoad = function(str) {
+	if (tinyMCE.isOpera)
+		this.onLoadEval = str;
+	else
+		eval(str);
 };
 
 TinyMCEPopup.prototype.resizeToInnerSize = function() {
+	// Netscape 7.1 workaround
+	if (this.isWindow && tinyMCE.isNS71) {
+		window.resizeBy(0, 10);
+		return;
+	}
+
 	if (this.isWindow) {
 		var doc = document;
 		var body = doc.body;
@@ -114,7 +143,7 @@ TinyMCEPopup.prototype.resizeToInnerSize = function() {
 		// Create iframe
 		iframe = document.createElement("iframe");
 		iframe.id = "mcWinIframe";
-		iframe.src = "about:blank";
+		iframe.src = document.location.href.toLowerCase().indexOf('https') == -1 ? "about:blank" : tinyMCE.settings['default_document'];
 		iframe.width = "100%";
 		iframe.height = "100%";
 		iframe.style.margin = '0px';

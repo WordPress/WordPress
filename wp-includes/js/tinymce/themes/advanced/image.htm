@@ -5,7 +5,7 @@
 	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/image.js"></script>
 </head>
-<body onload="init();" style="display: none">
+<body onload="tinyMCEPopup.executeOnLoad('init();');document.getElementById('src').focus();" style="display: none">
 <form onsubmit="insertImage();return false;">
   <table border="0" cellpadding="0" cellspacing="0" width="200">
     <tr>
@@ -18,7 +18,7 @@
             <td><table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td><input name="src" type="text" id="src" value="" style="width: 200px" onchange="getImageData();"></td>
-                  <td><script language="javascript" type="text/javascript">renderBrowser('srcbrowser','src','image','theme_advanced_image');</script></td>
+                  <td id="srcbrowsercontainer">&nbsp;</td>
                 </tr>
               </table></td>
           </tr>
@@ -78,7 +78,7 @@
             <td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3"></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><input type="button" id="insert" name="insert" value="{$lang_insert}" onclick="insertImage();">
+            <td nowrap="nowrap"><input type="submit" id="insert" name="insert" value="{$lang_insert}" onclick="insertImage();">
             </td>
             <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();"></td>
           </tr>

@@ -1,7 +1,7 @@
 var url = tinyMCE.getParam("external_link_list_url");
 if (url != null) {
 	// Fix relative
-	if (url.charAt(0) != '/')
+	if (url.charAt(0) != '/' && url.indexOf('://') == -1)
 		url = tinyMCE.documentBasePath + "/" + url;
 
 	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
@@ -9,6 +9,8 @@ if (url != null) {
 
 function init() {
 	tinyMCEPopup.resizeToInnerSize();
+
+	document.getElementById('hrefbrowsercontainer').innerHTML = getBrowserHTML('hrefbrowser','href','file','theme_advanced_link');
 
 	var formObj = document.forms[0];
 
@@ -48,6 +50,13 @@ function insertLink() {
 		var title = document.forms[0].linktitle.value;
 		var style_class = document.forms[0].styleSelect.value;
 		var dummy;
+
+		// Make anchors absolute
+		if (href.charAt(0) == '#')
+			href = tinyMCE.settings['document_base_url'] + href;
+
+		if (target == '_self')
+			target = '';
 
 		window.opener.tinyMCE.insertLink(href, target, title, dummy, style_class);
 		tinyMCEPopup.close();

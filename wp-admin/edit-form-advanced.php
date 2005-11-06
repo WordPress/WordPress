@@ -38,7 +38,7 @@ if ('' != $pinged) {
 	$pings .= '</ul>';
 }
 
-$saveasdraft = '<input name="save" type="submit" id="save" tabindex="6" value="' . __('Save and Continue Editing') . '" />';
+$saveasdraft = '<input name="save" type="submit" id="save" tabindex="3" value="' . __('Save and Continue Editing') . '" />';
 
 if (empty($post->post_status)) $post->post_status = 'draft';
 
@@ -150,6 +150,43 @@ endforeach;
 edCanvas = document.getElementById('content');
 //-->
 </script>
+<?php else : ?>
+<script type="text/javascript">
+<!--
+// This code is meant to allow tabbing from Title to Post (TinyMCE).
+if ( tinyMCE.isMSIE )
+	document.getElementById('title').onkeydown = function (e)
+		{
+			e = e ? e : window.event;
+			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				var i = tinyMCE.selectedInstance;
+				if(typeof i ==  'undefined')
+					return true;
+                                tinyMCE.execCommand("mceStartTyping");
+				this.blur();
+				i.contentWindow.focus();
+				e.returnValue = false;
+				return false;
+			}
+		}
+else
+	document.getElementById('title').onkeypress = function (e)
+		{
+			e = e ? e : window.event;
+			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				var i = tinyMCE.selectedInstance;
+				if(typeof i ==  'undefined')
+					return true;
+                                tinyMCE.execCommand("mceStartTyping");
+				this.blur();
+				i.contentWindow.focus();
+				e.returnValue = false;
+				return false;
+			}
+		}
+
+//-->
+</script>
 <?php endif; ?>
 
 <?php echo $form_pingback ?>
@@ -158,10 +195,10 @@ edCanvas = document.getElementById('content');
 
 <p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 
-if ( 'publish' != $post->post_status || 0 == $post_ID ) {
+if ('publish' != $post_status || 0 == $post_ID) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
-	<input name="publish" type="submit" id="publish" tabindex="6" accesskey="p" value="<?php _e('Publish') ?>" /> 
+	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" /> 
 <?php endif; ?>
 <?php
 }
@@ -175,13 +212,19 @@ else
 
 <?php do_action('edit_form_advanced'); ?>
 
-<iframe border="0" src="image-uploading.php?action=view&amp;post=<?php echo 0 == $post_ID ? $temp_ID : $post_ID; ?>" id="imageup">This feature requires iframe support.</iframe>
+<?php
+$uploading_iframe_ID = (0 == $post_ID ? $temp_ID : $post_ID);
+$uploading_iframe_src = "image-uploading.php?action=view&amp;post=$uploading_iframe_ID";
+$uploading_iframe_src = apply_filters('uploading_iframe_src', $uploading_iframe_src);
+if ( false != $uploading_iframe_src )
+	echo '<iframe id="uploading" border="0" src="' . $uploading_iframe_src . '">' . __('This feature requires iframe support.') . '</iframe>';
+?>
 
 <div id="advancedstuff" class="dbx-group" >
 
 <fieldset id="postexcerpt" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>
-<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="7" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
+<div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
 </fieldset>
 
 <fieldset class="dbx-box">

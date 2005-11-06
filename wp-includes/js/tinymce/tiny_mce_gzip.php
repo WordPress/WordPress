@@ -1,11 +1,12 @@
 <?php
 	/**
 	 * $RCSfile: tiny_mce_gzip.php,v $
-	 * $Revision: 1.1 $
-	 * $Date: 2005/06/14 18:55:34 $
+	 * $Revision: $
+	 * $Date: $
 	 *
+	 * @version 1.02
 	 * @author Moxiecode
-	 * @copyright Copyright © 2004, Moxiecode Systems AB, All rights reserved.
+	 * @copyright Copyright © 2005, Moxiecode Systems AB, All rights reserved.
 	 *
 	 * This file compresses the TinyMCE JavaScript using GZip and
 	 * enables the browser to do two requests instead of one for each .js file.
@@ -15,6 +16,29 @@
 	 *  - Add local file cache for the GZip:ed version.
 	 */
 
+	@ include('../../../wp-config.php');
+
+	function wp_translate_tinymce_lang($text) {
+		if ( ! function_exists('__') ) {
+			return $text;
+		} else {
+			header('Content-Type: text/plain');
+
+			$search1 = "/^tinyMCELang\\[(['\"])(.*)\\1\]( ?= ?)(['\"])(.*)\\4/uem";
+			$replace1 = "'tinyMCELang[\\1\\2\\1]\\3'.stripslashes('\\4').__('\\5').stripslashes('\\4')";
+
+			$search2 = "/ : (['\"])(.*)\\1/uem";
+			$replace2 = "' : '.stripslashes('\\1').__('\\2').stripslashes('\\1')";
+
+			$search = array($search1, $search2);
+			$replace = array($replace1, $replace2);
+
+			$text = preg_replace($search, $replace, $text);
+
+			return $text;
+		}
+	}
+
 	// General options
 	$suffix = "";							// Set to "_src" to use source version
 	$expiresOffset = 3600 * 24 * 10;		// 10 days util client cache expires
@@ -23,44 +47,66 @@
 	$theme = isset($_REQUEST['theme']) ? $_REQUEST['theme'] : "";
 	$language = isset($_REQUEST['language']) ? $_REQUEST['language'] : "";
 	$plugins = isset($_REQUEST['plugins']) ? $_REQUEST['plugins'] : "";
+	$lang = isset($_REQUEST['lang']) ? $_REQUEST['lang'] : "en";
+	$index = isset($_REQUEST['index']) ? $_REQUEST['index'] : -1;
 
-	// GZip compress and cache it for 10 days
-	ob_start ("ob_gzhandler");
+	// Only gzip the contents if clients and server support it
+	$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
+	if (in_array('gzip', $encodings) && function_exists('ob_gzhandler'))
+		ob_start("ob_gzhandler");
+
+	// Output rest of headers
 	header("Content-type: text/javascript; charset: UTF-8");
-	header("Cache-Control: must-revalidate");
+	// header("Cache-Control: must-revalidate");
+	header("Vary: Accept-Encoding"); // Handle proxies
 	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
 
-	if ($theme) {
+	if ($index > -1) {
 		// Write main script and patch some things
-		echo file_get_contents(realpath("tiny_mce" . $suffix . ".js"));
-		echo 'TinyMCE.prototype.loadScript = function() {};';
-		echo "tinyMCE.init(TinyMCECompressed_settings);";
+		if ($index == 0) {
+			echo file_get_contents(realpath("tiny_mce" . $suffix . ".js"));
+			echo "\n\n";
+			echo "TinyMCE.prototype.loadScript = function() {};\n";
+		}
+
+		// WP
+		$lang = $language = 'en';
+		echo "\n/* WP Cancels all TinyMCE language handling */\n";
+		echo "TinyMCE.prototype.importThemeLanguagePack = function() {};\n";
+		echo "TinyMCE.prototype.importPluginLanguagePack = function() {};\n\n";
+
+		// Do init based on index
+// WP		echo "tinyMCE.init(tinyMCECompressed.configs[" . $index . "]);\n\n";
 
 		// Load theme, language pack and theme language packs
-		echo file_get_contents(realpath("themes/" . $theme . "/editor_template" . $suffix . ".js"));
-		echo file_get_contents(realpath("themes/" . $theme . "/langs/" . $language . ".js"));
-		echo file_get_contents(realpath("langs/" . $language . ".js"));
+		if ($theme) {
+			echo file_get_contents(realpath("themes/" . $theme . "/editor_template" . $suffix . ".js"));
+			echo wp_translate_tinymce_lang(file_get_contents(realpath("themes/" . $theme . "/langs/" . $lang . ".js")));
+		}
+
+		if ($language)
+			echo wp_translate_tinymce_lang(file_get_contents(realpath("langs/" . $language . ".js")));
 
 		// Load all plugins and their language packs
 		$plugins = explode(",", $plugins);
 		foreach ($plugins as $plugin) {
 			$pluginFile = realpath("plugins/" . $plugin . "/editor_plugin" . $suffix . ".js");
-			$languageFile = realpath("plugins/" . $plugin . "/langs/" . $language . ".js");
+			$languageFile = realpath("plugins/" . $plugin . "/langs/" . $lang . ".js");
 
 			if ($pluginFile)
 				echo file_get_contents($pluginFile);
 
 			if ($languageFile)
-				echo file_get_contents($languageFile);
+				echo wp_translate_tinymce_lang(file_get_contents($languageFile));
 		}
 
 		die;
 	}
 ?>
 
-var TinyMCECompressed_settings = null;
-
 function TinyMCECompressed() {
+	this.configs = new Array();
+	this.loadedFiles = new Array();
 }
 
 TinyMCECompressed.prototype.init = function(settings) {
@@ -78,11 +124,43 @@ TinyMCECompressed.prototype.init = function(settings) {
 	settings["plugins"] = typeof(settings["plugins"]) != "undefined" ? settings["plugins"] : "";
 	settings["language"] = typeof(settings["language"]) != "undefined" ? settings["language"] : "en";
 	settings["button_tile_map"] = typeof(settings["button_tile_map"]) != "undefined" ? settings["button_tile_map"] : true;
+	this.configs[this.configs.length] = settings;
+	this.settings = settings;
 
-	scriptURL += "?theme=" + escape(settings["theme"]) + "&language=" + escape(settings["language"]) + "&plugins=" + escape(settings["plugins"]);
+	scriptURL += "?theme=" + escape(this.getOnce(settings["theme"])) + "&language=" + escape(this.getOnce(settings["language"])) + "&plugins=" + escape(this.getOnce(settings["plugins"])) + "&lang=" + settings["language"] + "&index=" + escape(this.configs.length-1);
 	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + scriptURL + '"></script>');
+}
 
-	TinyMCECompressed_settings = settings;
+TinyMCECompressed.prototype.getOnce = function(str) {
+	var ar = str.split(',');
+
+	for (var i=0; i<ar.length; i++) {
+		if (ar[i] == '')
+			continue;
+
+		// Skip load
+		for (var x=0; x<this.loadedFiles.length; x++) {
+			if (this.loadedFiles[x] == ar[i])
+				ar[i] = null;
+		}
+
+		this.loadedFiles[this.loadedFiles.length] = ar[i];
+	}
+
+	// Glue
+	str = "";
+	for (var i=0; i<ar.length; i++) {
+		if (ar[i] == null)
+			continue;
+
+		str += ar[i];
+
+		if (i != ar.length-1)
+			str += ",";
+	}
+
+	return str;
 }
 
 var tinyMCE = new TinyMCECompressed();
+var tinyMCECompressed = tinyMCE;

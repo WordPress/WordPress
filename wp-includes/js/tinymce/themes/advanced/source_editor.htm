@@ -1,11 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<title>{$lang_theme_code_title}</title>
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/source_editor.js"></script>
 </head>
-<body onload="onLoadInit();" onresize="resizeInputs();" style="display: none">
+<body onload="tinyMCEPopup.executeOnLoad('onLoadInit();');document.getElementById('htmlSource').focus();" onresize="resizeInputs();" style="display: none">
 	<form name="source" onsubmit="saveContent();" action="#">
 		<div style="float: left" class="title">{$lang_theme_code_title}</div>
 

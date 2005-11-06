@@ -39,13 +39,12 @@ function resizeInputs() {
 		 wHeight = self.innerHeight-80;
 		 wWidth = self.innerWidth-16;
 	} else {
-		 wHeight = document.body.clientHeight-80;
-		 wWidth = document.body.clientWidth-16;
+		 wHeight = document.body.clientHeight - 80;
+		 wWidth = document.body.clientWidth - 16;
 	}
 
 	document.forms[0].htmlSource.style.height = Math.abs(wHeight) + 'px';
 	document.forms[0].htmlSource.style.width  = Math.abs(wWidth) + 'px';
-		
 }
 
 function renderWordWrap() {

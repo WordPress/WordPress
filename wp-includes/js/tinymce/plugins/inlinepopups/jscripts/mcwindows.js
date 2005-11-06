@@ -1,7 +1,7 @@
 /**
  * $RCSfile: mcwindows.js,v $
- * $Revision: 1.1 $
- * $Date: 2005/08/10 21:21:00 $
+ * $Revision: 1.2 $
+ * $Date: 2005/10/18 13:59:43 $
  *
  * Moxiecode DHTML Windows script.
  *
@@ -64,6 +64,8 @@ MCWindows.prototype.eventDispatcher = function(e) {
 
 		for (var n in mcWindows.windows) {
 			var win = mcWindows.windows[n];
+			if (typeof(win) == 'function')
+				continue;
 
 			if (win.headElement == elm || win.resizeElement == elm) {
 				win.focus();
@@ -408,10 +410,6 @@ MCWindow.prototype.onMouseMove = function(e) {
 	}
 };
 
-function debug(msg) {
-	document.getElementById('debug').value += msg + "\n";
-}
-
 MCWindow.prototype.onMouseUp = function(e) {
 	mcWindows.action = "none";
 };
@@ -422,6 +420,8 @@ MCWindow.prototype.onFocus = function(e) {
 
 	for (var n in mcWindows.windows) {
 		var win = mcWindows.windows[n];
+		if (typeof(win) == 'function')
+			continue;
 
 		if (winRef.name == win.id) {
 			win.focus();

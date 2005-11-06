@@ -7,9 +7,11 @@ function TinyMCE_wordpress_initInstance(inst) {
 }
 
 function TinyMCE_wordpress_getControlHTML(control_name) {
-    switch (control_name) {
-        case "wordpress":
-            return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\')" target="_self" onmousedown="return false;"><img id="{$editor_id}_wordpress_more" src="{$pluginurl}/images/more.gif" title="More..." width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a><!--<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\')" target="_self" onmousedown="return false;"><img id="{$editor_id}_wordpress_page" src="{$pluginurl}/images/page.gif" title="...Page..." width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>-->';
+	switch (control_name) {
+		case "wordpress":
+			var titleMore = tinyMCE.getLang('lang_wordpress_more_button');
+			var titlePage = tinyMCE.getLang('lang_wordpress_page_button');
+			return '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\')" target="_self" onmousedown="return false;"><img id="{$editor_id}_wordpress_more" src="{$pluginurl}/images/more.gif" title="'+titleMore+'" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a><!--<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\')" target="_self" onmousedown="return false;"><img id="{$editor_id}_wordpress_page" src="{$pluginurl}/images/page.gif" title="'+titlePage+'" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>-->';
     }
 
     return "";
@@ -22,6 +24,8 @@ function TinyMCE_wordpress_parseAttributes(attribute_string) {
 	var withInValue;
 	var attributes = new Array();
 	var whiteSpaceRegExp = new RegExp('^[ \n\r\t]+', 'g');
+	var titleText = tinyMCE.getLang('lang_wordpress_more');
+	var titleTextPage = tinyMCE.getLang('lang_wordpress_page');
 
 	if (attribute_string == null || attribute_string.length < 2)
 		return null;
@@ -72,7 +76,8 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 				var template = new Array();
 				var inst = tinyMCE.getInstanceById(editor_id);
 				var focusElm = inst.getFocusElement();
-	
+				var altMore = tinyMCE.getLang('lang_wordpress_more_alt');
+
 				// Is selection a image
 				if (focusElm != null && focusElm.nodeName.toLowerCase() == "img") {
 					flag = getAttrib(focusElm, 'class');
@@ -86,7 +91,7 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 				html = ''
 					+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
 					+ ' width="100%" height="10px" '
-					+ 'alt="More..." title="More..." class="mce_plugin_wordpress_more" name="mce_plugin_wordpress_more" />';
+					+ 'alt="'+altMore+'" title="'+altMore+'" class="mce_plugin_wordpress_more" name="mce_plugin_wordpress_more" />';
 				tinyMCE.execCommand("mceInsertContent",true,html);
 				tinyMCE.selectedInstance.repaint();
 				return true;
@@ -95,6 +100,7 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 				var template = new Array();
 				var inst = tinyMCE.getInstanceById(editor_id);
 				var focusElm = inst.getFocusElement();
+				var altPage = tinyMCE.getLang('lang_wordpress_more_alt');
 	
 				// Is selection a image
 				if (focusElm != null && focusElm.nodeName.toLowerCase() == "img") {
@@ -109,7 +115,7 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 				html = ''
 					+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
 					+ ' width="100%" height="10px" '
-					+ 'alt="More..." title="More..." class="mce_plugin_wordpress_page" name="mce_plugin_wordpress_page" />';
+					+ 'alt="'+altPage+'" title="'+altPage+'" class="mce_plugin_wordpress_page" name="mce_plugin_wordpress_page" />';
 				tinyMCE.execCommand("mceInsertContent",true,html);
 				tinyMCE.selectedInstance.repaint();
 				return true;
@@ -124,6 +130,8 @@ function TinyMCE_wordpress_cleanup(type, content) {
 	
 		case "insert_to_editor":
 			var startPos = 0;
+			var altMore = tinyMCE.getLang('lang_wordpress_more_alt');
+			var altPage = tinyMCE.getLang('lang_wordpress_page_alt');
 
 			// Parse all <!--more--> tags and replace them with images
 			while ((startPos = content.indexOf('<!--more-->', startPos)) != -1) {
@@ -132,7 +140,7 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				content = content.substring(0, startPos);
 				content += '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" ';
 				content += ' width="100%" height="10px" ';
-				content += 'alt="More..." title="More..." class="mce_plugin_wordpress_more" />';
+				content += 'alt="'+altMore+'" title="'+altMore+'" class="mce_plugin_wordpress_more" />';
 				content += contentAfter;
 
 				startPos++;
@@ -146,7 +154,7 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				content = content.substring(0, startPos);
 				content += '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" ';
 				content += ' width="100%" height="10px" ';
-				content += 'alt="...Next Page..." title="...Next Page..." class="mce_plugin_wordpress_page" />';
+				content += 'alt="'+altPage+'" title="'+altPage+'" class="mce_plugin_wordpress_page" />';
 				content += contentAfter;
 
 				startPos++;
@@ -182,13 +190,6 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				}
 			}
 
-			// Handle TinyMCE weirdness without messing up the core
-			//alert("Content before TinyMCE_wordpress_cleanup\n\n'"+content+"'");
-
-			// Strip any trailing <br /> and whitespace.
-			content = content.replace(new RegExp('<br ?/?>[ \t]*$', ''), '');
-
-			//alert("Content after TinyMCE_wordpress_cleanup\n\n'"+content+"'");
 			break;
 	}
 

@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.2 $
- * $Date: 2005/08/23 20:28:34 $
+ * $Revision: 1.3 $
+ * $Date: 2005/10/18 13:59:43 $
  *
  * Moxiecode DHTML Windows script.
  *
@@ -54,8 +54,12 @@ TinyMCE.prototype.openWindow = function(template, args) {
 	height += 18;
 
 	// Replace all args as variables in URL
-	for (var name in args)
+	for (var name in args) {
+		if (typeof(args[name]) == 'function')
+			continue;
+
 		url = tinyMCE.replaceVar(url, name, escape(args[name]));
+	}
 
 	var elm = document.getElementById(this.selectedInstance.editorId + '_parent');
 	var pos = tinyMCE.getAbsPosition(elm);
@@ -79,6 +83,8 @@ TinyMCE.prototype.closeWindow = function(win) {
 TinyMCE.prototype.setWindowTitle = function(win_ref, title) {
 	for (var n in mcWindows.windows) {
 		var win = mcWindows.windows[n];
+		if (typeof(win) == 'function')
+			continue;
 
 		if (win_ref.name == win.id + "_iframe")
 			window.frames[win.id + "_iframe"].document.getElementById(win.id + '_title').innerHTML = title;
@@ -279,9 +285,9 @@ MCWindows.prototype.open = function(url, name, features) {
 	html += '  <div id="' + id + '_title" class="mceWindowTitle"';
 	html += '  onselectstart="return false;" unselectable="on" style="-moz-user-select: none !important;"></div>';
 	html += '    <div class="mceWindowHeadTools">';
-	html += '      <a href="javascript:parent.mcWindows.windows[\'' + name + '\'].close();" onmousedown="return false;" class="mceWindowClose"><img border="0" src="' + imgPath + '/window_close.gif" /></a>';
-//	html += '      <a href="javascript:mcWindows.windows[\'' + name + '\'].maximize();" onmousedown="return false;" class="mceWindowMaximize"></a>';
-//	html += '      <a href="javascript:mcWindows.windows[\'' + name + '\'].minimize();" onmousedown="return false;" class="mceWindowMinimize"></a>';
+	html += '      <a href="javascript:parent.mcWindows.windows[\'' + name + '\'].close();" target="_self" onmousedown="return false;" class="mceWindowClose"><img border="0" src="' + imgPath + '/window_close.gif" /></a>';
+//	html += '      <a href="javascript:mcWindows.windows[\'' + name + '\'].maximize();" target="_self" onmousedown="return false;" class="mceWindowMaximize"></a>';
+//	html += '      <a href="javascript:mcWindows.windows[\'' + name + '\'].minimize();" target="_self" onmousedown="return false;" class="mceWindowMinimize"></a>';
 	html += '    </div>';
 	html += '</div><div id="' + id + '_body" class="mceWindowBody" style="width: ' + width + 'px; height: ' + height + 'px;">';
 	html += '<iframe id="' + id + '_iframe" name="' + id + '_iframe" frameborder="0" width="' + iframeWidth + '" height="' + iframeHeight + '" src="' + url + '" class="mceWindowBodyIframe" scrolling="' + features['scrollbars'] + '"></iframe></div>';
@@ -524,6 +530,8 @@ MCWindow.prototype.close = function() {
 	var mcWindowsNew = new Array();
 	for (var n in mcWindows.windows) {
 		var win = mcWindows.windows[n];
+		if (typeof(win) == 'function')
+			continue;
 
 		if (win.name != this.name)
 			mcWindowsNew[n] = win;
@@ -604,6 +612,8 @@ MCWindow.prototype.onFocus = function(e) {
 
 	for (var n in mcWindows.windows) {
 		var win = mcWindows.windows[n];
+		if (typeof(win) == 'function')
+			continue;
 
 		if (winRef.name == win.id + "_iframe") {
 			win.focus();

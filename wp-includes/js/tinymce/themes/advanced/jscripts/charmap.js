@@ -282,10 +282,9 @@ function renderCharMapHTML() {
 				+ ' onmouseover="tinyMCE.switchClass(this,\'charmapOver\');'
 				+ 'previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');"'
 				+ ' onmouseout="tinyMCE.restoreClass(this,\'charmapOver\');"'
-				+ ' onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');return false;"'
-				+ ' title="' + charmap[i][3] + '" nowrap="nowrap">'
+				+ ' nowrap="nowrap" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');"><a style="text-decoration: none;" onfocus="previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');" href="javascript:insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + '">'
 				+ charmap[i][1]
-				+ '</td>';
+				+ '</a></td>';
 			if ((cols+1) % charsPerRow == 0)
 				html += '</tr><tr height="' + tdHeight + '">';
 		}
