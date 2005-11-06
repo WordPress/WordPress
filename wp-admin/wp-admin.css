@@ -75,14 +75,13 @@ fieldset {
 }
 
 fieldset label.selectit {
-	background: #f0f0f0;
 	display: block;
 	font-size: 11px;
 	padding: 0 2px;
 }
 
 fieldset label.selectit:hover {
-	background: #dadada;
+	background: #e9e9e9;
 }
 
 fieldset legend {
@@ -663,12 +662,11 @@ table .vers, table .name {
 	position: absolute;
 	right: 5%;
 	width: 14.5em;
-	border-left: 1px solid #dfe8f1;
 }
 
 #slugdiv input, #passworddiv input, #authordiv select {
 	margin-top: .5em;
-	width: 95%;
+	width: 90%;
 }
 
 #moremeta h3, #advancedstuff h3 {
@@ -716,66 +714,67 @@ table .vers, table .name {
 }
 
 /* default box styles */
-.dbx-box {
-background: #fff;
-}
-
-/* box when toggle is open */
-.dbx-box-open {
-}
-
-/* box when toggle is closed */
-.dbx-box-closed {
-}
 
 /* toggle state of inner content area */
 .dbx-box-open .dbx-content {
-	display:block;
+	display: block;
 }
 .dbx-box-closed .dbx-content {
-	display:none;
+	display: none;
+}
+
+#moremeta .dbx-content {
+	background: url(images/box-butt.gif) no-repeat bottom right;
+	padding-bottom: 15px;
+	padding-right: 2px;
 }
 
 /* handles */
-.dbx-handle {
-	background-color: #dfe8f1;
+
+.dbx-handle  {
+	background: #2685af;
+	padding: 6px 1em 2px;
+	font-size: 12px;
 	margin: 0;
-	padding: 0;
+	color: #E3EFF5;
+}
+
+#moremeta .dbx-handle {
+	padding: 6px 1em 2px;
+	font-size: 12px;
+	background: url(images/box-head.gif) no-repeat;
+}
+
+#moremeta .dbx-box {
+	background: url(images/box-bg.gif) repeat-y right;
 }
 
 /* handle cursors */
 .dbx-handle-cursor {
-	cursor:move;
+	cursor: move;
 }
 	
 /* toggle images */
 a.dbx-toggle, a.dbx-toggle:visited {
 	display:block;
-	width: 12px;
-	height: 12px;
+	width: 9px;
+	height: 9px;
 	overflow: hidden;
-	background-image: url( images/toggle.png );
+	background-image: url( images/toggle.gif );
 	position: absolute;
-	top: .3em;
-	right: .3em;
+	top: 10px;
+	right: 14px;
+	background-repeat: none;
 	border-bottom: 0;
-	background-position: 0 0;
+	background-position: 0 9px;
 }
 	
 a.dbx-toggle-open, a.dbx-toggle-open:visited {
-	background-position: 0;
+	background-position: 0 0;
 }
-	
-a.dbx-toggle-closed, a.dbx-toggle-closed:visited {
-	background-position: -12px 0;
-}
-	
-a.dbx-toggle-hilite-open, a.dbx-toggle-hilite-open:visited {
-	background-position: 0;
-}
-	
-a.dbx-toggle-hilite-closed, a.dbx-toggle-hilite-closed:visited {
-	background-position: -12px 0;
+
+#categorychecklist {
+	margin-right: 6px;
 }
 
 /* additional clone styles */
