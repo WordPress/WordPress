@@ -742,7 +742,7 @@ table .vers, table .name {
 #moremeta .dbx-handle {
 	padding: 6px 1em 2px;
 	font-size: 12px;
-	background: url(images/box-head.gif) no-repeat;
+	background: url(images/box-head.gif) no-repeat right;
 }
 
 #moremeta .dbx-box {
