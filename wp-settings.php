@@ -21,6 +21,9 @@ unregister_GLOBALS();
 $HTTP_USER_AGENT = getenv('HTTP_USER_AGENT');
 unset( $wp_filter, $cache_userdata, $cache_lastcommentmodified, $cache_lastpostdate, $cache_settings, $category_cache, $cache_categories );
 
+if ( ! isset($blog_id) )
+	$blog_id = 1;
+
 // Fix for IIS, which doesn't set REQUEST_URI
 if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 	$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME']; // Does this work under CGI?
@@ -74,7 +77,7 @@ if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;
 if ( defined('CUSTOM_USER_META_TABLE') )
 	$wpdb->usermeta = CUSTOM_USER_META_TABLE;
-	
+
 // We're going to need to keep this around for a few months even though we're not using it internally
 
 $tableposts = $wpdb->posts;
@@ -87,6 +90,17 @@ $tablelinkcategories = $wpdb->linkcategories;
 $tableoptions = $wpdb->options;
 $tablepostmeta = $wpdb->postmeta;
 
+if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
+	require (ABSPATH . 'wp-content/object-cache.php');
+else
+	require (ABSPATH . WPINC . '/cache.php');
+
+// For now, disable persistent caching by default.  To enable, comment out
+// the following line.
+define('DISABLE_CACHE', true);
+
+wp_cache_init();
+
 $wp_filters = array();
 
 require (ABSPATH . WPINC . '/functions.php');
@@ -94,7 +108,8 @@ require (ABSPATH . WPINC . '/default-filters.php');
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
 
 $wpdb->hide_errors();
-if ( !update_category_cache() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {
+$db_check = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'");
+if ( !$db_check && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {
 	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
 		$link = 'install.php';
 	else
@@ -194,6 +209,7 @@ if ( file_exists(TEMPLATEPATH . "/functions.php") )
 	include(TEMPLATEPATH . "/functions.php");
 
 function shutdown_action_hook() {
+	wp_cache_close();
 	do_action('shutdown');
 }
 register_shutdown_function('shutdown_action_hook');

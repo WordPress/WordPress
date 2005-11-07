@@ -137,10 +137,12 @@ function wp_insert_post($postarr = array()) {
 
 	wp_set_post_cats('', $post_ID, $post_category);
 
-	if ( 'static' == $post_status )
+	if ( 'static' == $post_status ) {
 		clean_page_cache($post_ID);
-	else
+		wp_cache_delete($post_ID, 'pages');
+	} else {
 		clean_post_cache($post_ID);
+	}
 
 	// Set GUID
 	if ( ! $update )

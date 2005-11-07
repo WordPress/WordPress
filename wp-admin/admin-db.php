@@ -118,9 +118,12 @@ function wp_insert_category($catarr) {
 		$wpdb->query( "UPDATE $wpdb->categories SET category_nicename = '$category_nicename' WHERE cat_ID = '$cat_ID'" );
 	}
 
+	wp_cache_set($cat_ID, get_category($cat_ID), 'category');
+
 	if ($update) {
 		do_action('edit_category', $cat_ID);
 	} else {
+		wp_cache_delete('all_category_ids', 'category');
 		do_action('create_category', $cat_ID);
 		do_action('add_category', $cat_ID);
 	}
@@ -166,6 +169,9 @@ function wp_delete_category($cat_ID) {
 
 	// TODO: Only set categories to general if they're not in another category already
 	$wpdb->query("UPDATE $wpdb->post2cat SET category_id='1' WHERE category_id='$cat_ID'");
+
+	wp_cache_delete($cat_ID, 'category');
+	wp_cache_delete('all_category_ids', 'category');
 
 	do_action('delete_category', $cat_ID);
 
@@ -232,6 +238,9 @@ function wp_delete_user($id, $reassign = 'novalue') {
 
 	// FINALLY, delete user
 	$wpdb->query("DELETE FROM $wpdb->users WHERE ID = $id");
+
+	wp_cache_delete($id, 'users');
+	// TODO: Need to delete username keyed cache object.
 
 	do_action('delete_user', $id);
 

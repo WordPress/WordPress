@@ -27,16 +27,18 @@ endif;
 
 if ( !function_exists('get_userdata') ) :
 function get_userdata( $user_id ) {
-	global $wpdb, $cache_userdata;
+	global $wpdb;
 	$user_id = (int) $user_id;
 	if ( $user_id == 0 )
 		return false;
 
-	if ( isset( $cache_userdata[$user_id] ) ) 
-		return $cache_userdata[$user_id];
+	$user = wp_cache_get($user_id, 'users');
+	
+	if ( $user )
+		return $user;
 
 	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$user_id'") )
-		return $cache_userdata[$user_id] = false;
+		return false;
 
 	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
 
@@ -51,10 +53,10 @@ function get_userdata( $user_id ) {
 			$user->user_level = $meta->meta_value;
 	}
 
-	$cache_userdata[$user_id] = $user;
-	$cache_userdata[$cache_userdata[$user_id]->user_login] =& $cache_userdata[$user_id];
-
-	return $cache_userdata[$user_id];
+	wp_cache_add($user_id, $user, 'users');
+	wp_cache_add($user->user_login, $user, 'users');
+	
+	return $user;
 }
 endif;
 
@@ -95,9 +97,10 @@ function get_userdatabylogin($user_login) {
 
 	if ( empty( $user_login ) )
 		return false;
-
-	if ( isset( $cache_userdata[$user_login] ) )
-		return $cache_userdata[$user_login];
+		
+	$userdata = wp_cache_get($user_login, 'users');
+	if ( $userdata )
+		return $userdata;
 
 	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'") )
 		return $cache_userdata[$user_login] = false;
@@ -147,7 +150,8 @@ function wp_login($username, $password, $already_md5 = false) {
 		return false;
 	}
 
-	$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
+	$login = get_userdatabylogin($username);
+	//$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
 
 	if (!$login) {
 		$error = __('<strong>Error</strong>: Wrong username.');

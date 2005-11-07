@@ -126,14 +126,12 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 }
 
 function get_category_children($id, $before = '/', $after = '') {
-	global $cache_categories;
+	$cat_ids = get_all_category_ids();
+	foreach ( $cat_ids as $cat_id ) {
+		if ( $cat_id == $id)
+			continue;
 
-	if ( !isset($cache_categories) )
-		update_category_cache();
-
-	$c_cache = $cache_categories; // Can't do recursive foreach on a global, have to make a copy
-	$chain = '';
-	foreach ( $c_cache as $category ) {
+		$category = get_category($cat_id);
 		if ( $category->category_parent == $id ) {
 			$chain .= $before.$category->cat_ID.$after;
 			$chain .= get_category_children($category->cat_ID, $before, $after);

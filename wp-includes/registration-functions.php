@@ -3,9 +3,11 @@
 function username_exists( $username ) {
 	global $wpdb;
 	$username = sanitize_user( $username );
-	$query = "SELECT user_login FROM $wpdb->users WHERE user_login = '$username'";
-	$query = apply_filters('username_exists', $query);
-	return $wpdb->get_var( $query );
+	$user = get_userdatabylogin($username);
+	if ( $user )
+		return $user->user_login;
+
+	return null;
 }
 
 function wp_insert_user($userdata) {
@@ -49,9 +51,6 @@ function wp_insert_user($userdata) {
 		$user_id = $wpdb->insert_id;
 	}
 	
-	clean_user_cache($user_id);
-	clean_user_cache($user_login);
-
 	update_usermeta( $user_id, 'first_name', $first_name);
 	update_usermeta( $user_id, 'last_name', $last_name);
 	update_usermeta( $user_id, 'nickname', $nickname );
@@ -69,6 +68,9 @@ function wp_insert_user($userdata) {
 		$user = new WP_User($user_id);
 		$user->set_role(get_settings('default_role'));
 	}
+
+	wp_cache_delete($user_id, 'users');
+	wp_cache_delete($user_login, 'users');
 	
 	if ( $update )
 		do_action('profile_update', $user_id);

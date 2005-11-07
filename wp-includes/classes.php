@@ -443,21 +443,16 @@ class WP_Query {
 			foreach($cat_paths as $pathdir)
 				$cat_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 
-			$q['cat'] = array_reduce(
-				$cache_categories, 
-				create_function('$a, $b', 'return ($b->fullpath == "'.$cat_path.'") ? $b->cat_ID : $a;'),
-				0
-			);
-
-			// If full path not found, look for last dir as category ignoring parent
-			if($q['cat'] == 0) {
-				$q['cat'] = array_reduce(
-					$cache_categories, 
-					create_function('$a, $b', 'return ($b->category_nicename == "'.$q['category_name'].'") ? $b->cat_ID : $a;'),
-					0
-				);
+			$all_cat_ids = get_all_category_ids();
+			$q['cat'] = 0;			
+			foreach ( $all_cat_ids as $cat_id ) {
+				$cat = get_category($cat_id);
+				if ( $cat->fullpath == $cat_path ) {
+					$q['cat'] = $cat_id;
+					break;
+				}
 			}
-			
+
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
 			$whichcat = " AND (category_id = '" . $q['cat'] . "'";
