@@ -37,6 +37,11 @@ $is_IE    = (($is_macIE) || ($is_winIE));
 $is_apache = ( strstr($_SERVER['SERVER_SOFTWARE'], 'Apache') || strstr($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') ) ? 1 : 0;
 $is_IIS = strstr($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') ? 1 : 0;
 
+// On OS X Server, $_SERVER['REMOTE_ADDR'] is the server's address. Workaround this 
+// by using $_SERVER['HTTP_PC_REMOTE_ADDR'], which *is* the remote address.
+if ( isset($_SERVER['HTTP_PC_REMOTE_ADDR']) )
+	$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_PC_REMOTE_ADDR'];
+
 // if the config file does not provide the smilies array, let's define it here
 if (!isset($wpsmiliestrans)) {
 	$wpsmiliestrans = array(
