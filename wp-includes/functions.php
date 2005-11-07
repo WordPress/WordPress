@@ -557,7 +557,7 @@ function &get_post(&$post, $output = OBJECT) {
 		if ( isset($post_cache[$post]) )
 			$_post = & $post_cache[$post];
 		else {
-			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post'";
+			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post' LIMIT 1";
 			$post_cache[$post] = & $wpdb->get_row($query);
 			$_post = & $post_cache[$post];
 		}
@@ -596,7 +596,7 @@ function &get_page(&$page, $output = OBJECT) {
 		} elseif ( $_page = wp_cache_get($page, 'pages') ) {
 			// Got it.
 		} else {
-			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page'";
+			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1";
 			$_page = & $wpdb->get_row($query);
 			wp_cache_add($_page->ID, $_page, 'pages');
 		}
@@ -640,7 +640,7 @@ function &get_category(&$category, $output = OBJECT) {
 		$_category = $category;
 	} else {
 		if ( ! $_category = wp_cache_get($category, 'category') ) {
-			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category'");
+			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category' LIMIT 1");
 			wp_cache_add($category, $_category, 'category');
 		}
 	}
@@ -675,7 +675,7 @@ function &get_comment(&$comment, $output = OBJECT) {
 		$_comment = & $comment_cache[$comment->comment_ID];
 	} else {
 		if ( !isset($comment_cache[$comment]) ) {
-			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment'");
+			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment' LIMIT 1");
 			$comment_cache[$comment->comment_ID] = & $_comment;
 		} else {
 			$_comment = & $comment_cache[$comment];
