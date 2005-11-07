@@ -83,5 +83,6 @@ add_filter('the_author', 'ent2ncr', 8);
 
 // Actions
 add_action('publish_post', 'generic_ping');
+add_action('wp_head', 'rsd_link');
 
 ?>

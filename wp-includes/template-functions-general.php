@@ -653,4 +653,8 @@ function the_weekday_date($before='',$after='') {
 	echo $the_weekday_date;
 }
 
+function rsd_link() {
+	echo '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="' . get_bloginfo('url') . "/xmlrpc.php?rsd\" />\n";
+}
+
 ?>

@@ -4,6 +4,28 @@
 $HTTP_RAW_POST_DATA = trim($HTTP_RAW_POST_DATA);
 
 include('./wp-config.php');
+
+if ( isset( $_GET['rsd'] ) ) { // http://archipelago.phrasewise.com/rsd 
+header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
+
+?>
+<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
+<rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd">
+  <service>
+    <engineName>WordPress</engineName>
+    <engineLink>http://wordpress.org/</engineLink>
+    <homePageLink><?php bloginfo_rss('url') ?></homePageLink>
+    <apis>
+      <api name="Movable Type" blogID="1" preferred="true" apiLink="<?php bloginfo_rss('url') ?>/xmlrpc.php" />
+      <api name="MetaWeblog" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('url') ?>/xmlrpc.php" />
+      <api name="Blogger" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('url') ?>/xmlrpc.php" />
+    </apis>
+  </service>
+</rsd>
+<?php
+exit;
+}
+
 include_once(ABSPATH . WPINC . '/class-IXR.php');
 
 // Turn off all warnings and errors.
