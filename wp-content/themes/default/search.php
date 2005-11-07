@@ -17,12 +17,8 @@
 			<div class="post">
 				<h3 id="post-<?php the_ID(); ?>"><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h3>
 				<small><?php the_time('l, F jS, Y') ?></small>
-				
-				<div class="entry">
-					<?php the_excerpt() ?>
-				</div>
 		
-				<p class="postmetadata">Posted in <?php the_category(', ') ?> <strong>|</strong> <?php edit_post_link('Edit','','<strong>|</strong>'); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+				<p class="postmetadata">Posted in <?php the_category(', ') ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
 			</div>
 	
 		<?php endwhile; ?>
@@ -34,7 +30,7 @@
 	
 	<?php else : ?>
 
-		<h2 class="center">Not Found</h2>
+		<h2 class="center">No posts found. Try a different search?</h2>
 		<?php include (TEMPLATEPATH . '/searchform.php'); ?>
 
 	<?php endif; ?>

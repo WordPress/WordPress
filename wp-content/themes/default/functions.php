@@ -1,10 +1,10 @@
 <?php
 
 function kubrick_head() {
-	$head = "<style type=\"text/css\">\n";
+	$head = "<style type='text/css'>\n<!--";
 	$output = '';
 	if ( kubrick_header_image() ) {
-		$url = kubrick_header_image_url();
+		$url =  kubrick_header_image_url() ;
 		$output .= "#header { background: url('$url') no-repeat bottom center; }\n";
 	}
 	if ( false !== ( $color = kubrick_header_color() ) ) {
@@ -13,7 +13,7 @@ function kubrick_head() {
 	if ( false !== ( $display = kubrick_header_display() ) ) {
 		$output .= "#headerimg { display: $display }\n";
 	}
-	$foot = "</style>\n";
+	$foot = "--></style>\n";
 	if ( '' != $output )
 		echo $head . $output . $foot;
 }
