@@ -240,7 +240,8 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	global $wpdb;
     
 	$comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
-	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID='$comment->comment_post_ID' LIMIT 1");
+	$post    = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$comment->comment_post_ID' LIMIT 1");
+	$user    = get_userdata( $post->post_author );
 
 	if ('' == $user->user_email) return false; // If there's no email to send the comment to
 
