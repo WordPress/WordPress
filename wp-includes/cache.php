@@ -105,7 +105,7 @@ class WP_Object_Cache {
 			return false;
 		}
 
-		$cache_file = $this->cache_dir . $this->get_group_dir($group) . "/" . md5($id);
+		$cache_file = $this->cache_dir . $this->get_group_dir($group) . "/" . md5($id . DB_PASSWORD);
 		if (!file_exists($cache_file)) {
 			$this->cache_misses += 1;
 			return false;
@@ -166,6 +166,10 @@ class WP_Object_Cache {
 						break;
 					@ chmod($this->cache_dir . $make_dir, $perms);
 			}
+
+			if (!file_exists($this->cache_dir . $make_dir . "index.php")) {
+				touch($this->cache_dir . $make_dir . "index.php");
+			}
 		}
 		
 		return $this->cache_dir . "$group_dir/";
@@ -191,7 +195,7 @@ class WP_Object_Cache {
 	}
 	
 	function save() {
-		//$this->stats();
+		$this->stats();
 
 		if (!$this->cache_enabled)
 			return;
@@ -208,6 +212,10 @@ class WP_Object_Cache {
 			if (!mkdir($this->cache_dir))
 				return;
 			@ chmod($this->cache_dir, $dir_perms);
+		}
+		
+		if (!file_exists($this->cache_dir . "index.php")) {
+			touch($this->cache_dir . "index.php");
 		}
 
 		// Acquire a write lock.  Semaphore preferred.  Fallback to flock.
@@ -229,7 +237,7 @@ class WP_Object_Cache {
 			foreach ($ids as $id) {
 				// TODO:  If the id is no longer in the cache, it was deleted and
 				// the file should be removed.
-				$cache_file = $group_dir . md5($id);
+				$cache_file = $group_dir . md5($id . DB_PASSWORD);
 				$temp_file = tempnam($group_dir, 'tmp');
 				$serial = serialize($this->cache[$group][$id]);
 				$fd = fopen($temp_file, 'w');
