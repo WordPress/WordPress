@@ -195,7 +195,7 @@ class WP_Object_Cache {
 	}
 	
 	function save() {
-		$this->stats();
+		//$this->stats();
 
 		if (!$this->cache_enabled)
 			return;
