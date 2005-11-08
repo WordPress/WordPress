@@ -13,10 +13,6 @@ a.delete:hover {
 	color: #fff;
 }
 
-#postdiv div {
-	margin-left: 1em;
-}
-
 #planetnews ul {
 	list-style: none;
 	margin: 0;
@@ -54,7 +50,7 @@ a:visited {
 }
 
 a:hover {
-	border-bottom: 1px solid #3a75ae;
+/*	border-bottom: 1px solid #3a75ae;*/
 	color: #069;
 }
 
@@ -193,7 +189,7 @@ textarea, input, select {
 .available-theme a.screenshot {
 	width: 250px;
 	height: 200px;
-	display: block;
+	display: inline-block;
 	margin: auto;
 	background: #f1f1f1;
 	border: 1px solid #ccc;
@@ -202,7 +198,7 @@ textarea, input, select {
 }
 
 .available-theme a.screenshot:hover {
-	border: 1px solid #666;
+/*	border: 1px solid #666;*/
 }
 
 .available-theme img {
@@ -352,7 +348,7 @@ table .vers, table .name {
 }
 
 #submenu {
-	background: #0d324f;;
+	background: #0d324f;
 	border-bottom: none;
 	margin: 0;
 	padding: 3px 2em 0 3em;
@@ -386,9 +382,33 @@ table .vers, table .name {
 	border: none;
 }
 
-#content, #titlediv input, #quicktags {
-	margin-left: 2%;
-	width: 97%;
+#titlediv {
+	margin: 0 8px 0 0;
+	padding: 0px;
+}
+
+#postdiv {
+	margin: 0 8px 0 0;
+	padding: 0px;
+}
+
+#postdivrich {
+	margin: 0px;
+	padding: 0px;
+}
+
+#content {
+	margin: 0 0 0 0;
+	width: 100%;
+}
+
+#titlediv input {
+	margin: 0px;
+	width: 100%;
+}
+
+#quicktags {
+	margin-left: -1px;
 }
 
 #currenttheme img {
@@ -429,9 +449,14 @@ table .vers, table .name {
 	font-size: 1.5em;
 }
 
+#postexcerpt div {
+	margin-right: 8px;
+}
+
 #excerpt {
+	margin: 0px;
 	height: 4em;
-	width: 98%;
+	width: 100%;
 }
 
 #footer {
@@ -490,8 +515,8 @@ table .vers, table .name {
 
 #postcustom table {
 	border: 1px solid #ccc;
-	margin: .5em;
-	width: 98%;
+	margin: 0px;
+	width: 100%;
 }
 
 #postcustom table input, #postcustom table textarea {
@@ -654,7 +679,7 @@ table .vers, table .name {
 	margin-bottom: 1em;
 }
 #moremeta fieldset div {
-	margin-left: 5px;
+	margin: 2px 0 0 5px;
 }
 #moremeta {
 	line-height: 130%;
@@ -677,7 +702,6 @@ table .vers, table .name {
 
 #advancedstuff div {
 	margin-top: .5em;
-	margin-left: 2%;
 }
 
 #categorydiv div div {

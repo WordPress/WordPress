@@ -190,6 +190,9 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				}
 			}
 
+			// The Curse of the Trailing <br />
+			content = content.replace(new RegExp('<br ?/?>[ \t]*$', ''), '');
+
 			break;
 	}
 

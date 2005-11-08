@@ -117,7 +117,7 @@ endforeach;
 </fieldset>
 
 
-<fieldset id="postdiv">
+<fieldset id="<?php echo ( 'true' != get_user_option('rich_editing') ) ? 'postdiv' : 'postdivrich'; ?>">
     <legend><?php _e('Page Content') ?></legend>
 <?php
  $rows = get_settings('default_post_edit_rows');

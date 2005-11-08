@@ -131,7 +131,7 @@ endforeach;
   <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $post->post_title; ?>" id="title" /></div>
 </fieldset>
 
-<fieldset id="postdiv">
+<fieldset id="<?php echo ( 'true' != get_user_option('rich_editing') ) ? 'postdiv' : 'postdivrich'; ?>">
 <legend><?php _e('Post') ?></legend>
 
 <?php
