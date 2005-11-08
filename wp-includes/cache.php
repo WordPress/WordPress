@@ -292,5 +292,3 @@ class WP_Object_Cache {
 	}
 }
 ?>
-
-
