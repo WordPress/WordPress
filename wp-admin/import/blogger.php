@@ -12,7 +12,14 @@ class Blogger_Import {
 		$noiframes = __('This feature requires iframe support.');
 		$warning = __('This will delete everything saved by the Blogger importer except your posts and comments. Are you sure you want to do this?');
 		$reset = __('Reset this importer');
-		echo "<div class='wrap'><h2>$title</h2><p>$welcome</p><iframe src='admin.php?import=blogger&amp;noheader=true' height='350px' width = '99%'>$noiframes</iframe><p><a href='admin.php?import=blogger&amp;restart=true&amp;noheader=true' onclick='return confirm(\"$warning\")'>$reset</a></p></div>\n";
+		$incompat = __('Your web server is not properly configured to use this importer. Please enable the CURL extension for PHP and then reload this page.');
+
+		echo "<div class='wrap'><h2>$title</h2><p>$welcome</p>";
+		if ( function_exists('curl_init') )
+			echo "<iframe src='admin.php?import=blogger&amp;noheader=true' height='350px' width = '99%'>$noiframes</iframe><p><a href='admin.php?import=blogger&amp;restart=true&amp;noheader=true' onclick='return confirm(\"$warning\")'>$reset</a></p>";
+		else
+			echo "<p>$incompat</p>";
+		echo "</div>\n";
 	}
 
 	// Deletes saved data and redirect.
