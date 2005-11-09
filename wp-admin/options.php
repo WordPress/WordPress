@@ -58,6 +58,7 @@ case 'update':
 				$new_val = 'closed';
             if ($new_val !== $old_val) {
                 $result = $wpdb->query("UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'");
+                wp_cache_set($option->option_name, $new_val, 'options');
 				$any_changed++;
 			}
         }

@@ -267,8 +267,11 @@ function get_settings($setting) {
 	$value = wp_cache_get($setting, 'options');
 
 	if ( false === $value ) {
-		$value = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
-		wp_cache_add($setting, $value, 'options');
+		$value = $wpdb->get_row("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
+		if( is_object( $value ) ) {
+			$value = $value->option_value;
+			wp_cache_set($setting, $value, 'options');
+		}
 	}
 
 	// If home is not set use siteurl.
@@ -343,7 +346,7 @@ function update_option($option_name, $newvalue) {
 
 	// If it's not there add it
 	if ( !$wpdb->get_var("SELECT option_name FROM $wpdb->options WHERE option_name = '$option_name'") )
-		add_option($option_name);
+		add_option($option_name, $newvalue);
 
 	wp_cache_set($option_name, $newvalue, 'options');
 
@@ -365,14 +368,14 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	global $wpdb;
 
 	// Make sure the option doesn't already exist
-	if ( false !== get_option($name, 'options') )
+	if ( false !== get_option($name) )
 		return;
 
 	$original = $value;
 	if ( is_array($value) || is_object($value) )
 		$value = serialize($value);
 
-	wp_cache_add($name, $value, 'options');
+	wp_cache_set($name, $value, 'options');
 
 	$name = $wpdb->escape($name);
 	$value = $wpdb->escape($value);
