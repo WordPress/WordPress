@@ -2134,7 +2134,9 @@ function register_deactivation_hook($file, $function) {
 }
 
 function plugin_basename($file) {
-	return preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', $file);
+	$file = preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', $file)
+	$file = stripslashes($file);
+	return $file;
 }
 
 ?>
