@@ -51,12 +51,14 @@ define('CACHE_SERIAL_FOOTER', "\n?".">");
 class WP_Object_Cache {
 	var $cache_dir;
 	var $cache_enabled = false;
+	var $expiration_time = 86400;
 	var $use_flock = false;
 	var $flock_filename = 'wp_object_cache.lock';
 	var $sem_id = 5454;
 	var $mutex;
 	var $cache = array ();
 	var $dirty_objects = array ();
+	var $non_existant_objects = array();
 	var $global_groups = array('users', 'usermeta');
 	var $blog_id;
 	var $cold_cache_hits = 0;
@@ -67,7 +69,7 @@ class WP_Object_Cache {
 		if ( empty($group) )
 			$group = 'default';
 
-		if (isset ($this->cache[$group][$id]))
+		if ( false !== $this->get($id, $group, false) )
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
@@ -77,22 +79,27 @@ class WP_Object_Cache {
 		if ( empty($group) )
 			$group = 'default';
 
-		if (!isset ($this->cache[$group][$id]))
+		if ( false === $this->get($id, $group, false) )
 			return false;
 
 		unset ($this->cache[$group][$id]);
+		$this->non_existant_objects[$group][$id] = true;
 		$this->dirty_objects[$group][] = $id;
 		return true;
 	}
 
-	function get($id, $group = 'default') {
+	function get($id, $group = 'default', $count_hits = true) {
 		if ( empty($group) )
 			$group = 'default';
 
 		if (isset ($this->cache[$group][$id])) {
-			$this->warm_cache_hits += 1;
+			if ( $count_hits )
+				$this->warm_cache_hits += 1;
 			return $this->cache[$group][$id];
 		}
+
+		if ( isset($this->non_existant_objects[$group][$id]) )
+			return false;
 
 		//  If caching is not enabled, we have to fall back to pulling from the DB.
 		if (!$this->cache_enabled) {
@@ -104,18 +111,31 @@ class WP_Object_Cache {
 				return $this->cache[$group][$id];
 			}
 
+			$this->non_existant_objects[$group][$id] = true;
 			$this->cache_misses += 1;
 			return false;
 		}
 
 		$cache_file = $this->cache_dir . $this->get_group_dir($group) . "/" . md5($id . DB_PASSWORD) . '.php';
 		if (!file_exists($cache_file)) {
+			$this->non_existant_objects[$group][$id] = true;
 			$this->cache_misses += 1;
 			return false;
 		}
+
+		// If the object has expired, remove it from the cache and return false to force
+		// a refresh.
+		$now = time();
+		if ( (filemtime($cache_file) + $this->expiration_time) <= $now ) {
+			$this->cache_misses += 1;
+			$this->delete($id, $group);
+			return false;
+		}
+
 		$this->cache[$group][$id] = unserialize(substr(@ file_get_contents($cache_file), strlen(CACHE_SERIAL_HEADER), -strlen(CACHE_SERIAL_FOOTER)));
 		if ( false === $this->cache[$group][$id])
 			$this->cache[$group][$id] = '';
+
 		$this->cold_cache_hits += 1;
 		return $this->cache[$group][$id];
 	}
@@ -182,7 +202,7 @@ class WP_Object_Cache {
 		if ( empty($group) )
 			$group = 'default';
 
-		if (!isset ($this->cache[$group][$id]))
+		if ( false === $this->get($id, $group, false) )
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
@@ -192,11 +212,16 @@ class WP_Object_Cache {
 		if ( empty($group) )
 			$group = 'default';
 
+		if ( NULL == $data)
+			$data = '';
+
 		$this->cache[$group][$id] = $data;
+		unset($this->non_existant_objects[$group][$id]);
 		$this->dirty_objects[$group][] = $id;
+
 		return true;
 	}
-	
+
 	function save() {
 		//$this->stats();
 
@@ -238,9 +263,16 @@ class WP_Object_Cache {
 
 			$ids = array_unique($ids);
 			foreach ($ids as $id) {
-				// TODO:  If the id is no longer in the cache, it was deleted and
-				// the file should be removed.
 				$cache_file = $group_dir . md5($id . DB_PASSWORD) . '.php';
+
+				// Remove the cache file if the key is not set.
+				if ( ! isset($this->cache[$group][$id]) ) {
+					echo "Deleting $group $id<br/>";
+					if ( file_exists($cache_file) )
+						unlink($cache_file);
+					continue;
+				}
+
 				$temp_file = tempnam($group_dir, 'tmp');
 				$serial = CACHE_SERIAL_HEADER . serialize($this->cache[$group][$id]) . CACHE_SERIAL_FOOTER;
 				$fd = fopen($temp_file, 'w');
@@ -302,7 +334,10 @@ class WP_Object_Cache {
 		} else if (is_writable(ABSPATH.'wp-content')) {
 			$this->cache_enabled = true;
 		}
-		
+
+		if ( defined('CACHE_EXPIRATION_TIME') )
+			$this->expiration_time = CACHE_EXPIRATION_TIME;
+
 		$this->blog_id = md5($blog_id);
 	}
 }
