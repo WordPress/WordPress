@@ -45,6 +45,9 @@ function wp_cache_set($key, $data, $flag = '', $expire = 0) {
 	return $wp_object_cache->set($key, $data, $flag, $expire);
 }
 
+define('CACHE_SERIAL_HEADER', "<?php\n//");
+define('CACHE_SERIAL_FOOTER', "\n?".">");
+
 class WP_Object_Cache {
 	var $cache_dir;
 	var $cache_enabled = false;
@@ -105,12 +108,12 @@ class WP_Object_Cache {
 			return false;
 		}
 
-		$cache_file = $this->cache_dir . $this->get_group_dir($group) . "/" . md5($id . DB_PASSWORD);
+		$cache_file = $this->cache_dir . $this->get_group_dir($group) . "/" . md5($id . DB_PASSWORD) . '.php';
 		if (!file_exists($cache_file)) {
 			$this->cache_misses += 1;
 			return false;
 		}
-		$this->cache[$group][$id] = unserialize(@ file_get_contents($cache_file));
+		$this->cache[$group][$id] = unserialize(substr(@ file_get_contents($cache_file), strlen(CACHE_SERIAL_HEADER), -strlen(CACHE_SERIAL_FOOTER)));
 		if ( false === $this->cache[$group][$id])
 			$this->cache[$group][$id] = '';
 		$this->cold_cache_hits += 1;
@@ -237,13 +240,17 @@ class WP_Object_Cache {
 			foreach ($ids as $id) {
 				// TODO:  If the id is no longer in the cache, it was deleted and
 				// the file should be removed.
-				$cache_file = $group_dir . md5($id . DB_PASSWORD);
+				$cache_file = $group_dir . md5($id . DB_PASSWORD) . '.php';
 				$temp_file = tempnam($group_dir, 'tmp');
-				$serial = serialize($this->cache[$group][$id]);
+				$serial = CACHE_SERIAL_HEADER . serialize($this->cache[$group][$id]) . CACHE_SERIAL_FOOTER;
 				$fd = fopen($temp_file, 'w');
 				fputs($fd, $serial);
-				fclose($fd);
-				rename($temp_file, $cache_file);
+				fclose($fd);				
+				if (!@rename($temp_file, $cache_file)) {
+					if (copy ($temp_file, $cache_file)) {
+						unlink($temp_file);
+					}
+				}
 			}
 		}
 
