@@ -267,7 +267,6 @@ class WP_Object_Cache {
 
 				// Remove the cache file if the key is not set.
 				if ( ! isset($this->cache[$group][$id]) ) {
-					echo "Deleting $group $id<br/>";
 					if ( file_exists($cache_file) )
 						unlink($cache_file);
 					continue;
