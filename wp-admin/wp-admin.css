@@ -643,6 +643,19 @@ table .vers, table .name {
 	background: #8B8;
 }
 
+/* A handy div class for hiding controls.
+   Some browsers will disable them when you
+   set display:none; */
+.zerosize {
+	height: 0px;
+	width: 0px;
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: absolute;
+}
+
 /* Box stuff */
 .dbx-clone {
 	position:absolute;
