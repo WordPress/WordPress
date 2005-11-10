@@ -272,7 +272,7 @@ function wp_list_cats($args = '') {
 }
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
-	global $wpdb, $category_posts;
+	global $wpdb, $category_posts, $wp_query;;
 	// Optiondates now works
 	if ( '' == $file )
 		$file = get_settings('home') . '/';
@@ -381,10 +381,15 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 				$link .= ' ' . gmdate($optiondates, $category_timestamp["$category->cat_ID"]);
 			}
 
-			if ( $list )
-				$thelist .= "\t<li>$link\n";
-			else
+			if ( $list ) {
+				$thelist .= "\t<li";
+				if (($category->cat_ID == $wp_query->get_queried_object_id()) && is_category()) {
+					$thelist .=  ' class="current-cat"';
+				}
+				$thelist .= ">$link\n";
+			} else {
 				$thelist .= "\t$link<br />\n";
+			}
 
 			if ($hierarchical && $children)
 				$thelist .= list_cats($optionall, $all, $sort_column, $sort_order, $file, $list, $optiondates, $optioncount, $hide_empty, $use_desc_for_title, $hierarchical, $category->cat_ID, $categories, 1, $feed, $feed_image, $exclude, $hierarchical);
