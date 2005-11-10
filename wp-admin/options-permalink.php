@@ -103,27 +103,40 @@ else
 
 <?php
 $prefix = '';
-if ( !$is_apache )
+
+if ( ! got_mod_rewrite() )
 	$prefix = '/index.php';
+
+$structures = array(
+	'',
+	$prefix . '/%year%/%monthnum%/%day%/%postname%/',
+	$prefix . '/archives/%post_id%'
+	);
 ?>
 <form name="form" action="options-permalink.php" method="post"> 
 <h3><?php _e('Common options:'); ?></h3>
 <p>
 	<label>
-<input name="selection" type="radio" value="<?php echo $prefix; ?>/%year%/%monthnum%/%day%/%postname%/" class="tog" <?php checked( $prefix . '/%year%/%monthnum%/%day%/%postname%/', $permalink_structure); ?> /> 
-<?php _e('Date and name based, example:'); ?> <code><?php echo get_settings('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code>
+<input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> 
+<?php _e('Default'); ?><br /> <span> &raquo; <code><?php echo get_settings('home'); ?>/?p=123</code></span>
    </label>
 </p>
 <p>
 	<label>
-<input name="selection" type="radio" value="<?php echo $prefix; ?>/archives/%post_id%" class="tog" <?php checked( $prefix . '/archives/%post_id%', $permalink_structure); ?> /> 
-<?php _e('Numeric, example:'); ?> <code><?php echo get_settings('home') . $prefix  ; ?>/archives/123</code>
+<input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> 
+<?php _e('Date and name based'); ?><br /> <span> &raquo; <code><?php echo get_settings('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></span>
+   </label>
+</p>
+<p>
+	<label>
+<input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> 
+<?php _e('Numeric'); ?><br /> <span> &raquo; <code><?php echo get_settings('home') . $prefix  ; ?>/archives/123</code></span>
    </label>
 </p>
 <p>
 <label>
 <input name="selection" type="radio" value="custom" class="tog"
-<?php if ( $permalink_structure != $prefix . '/archives/%post_id%' && $permalink_structure != $prefix . '/%year%/%monthnum%/%day%/%postname%/' ) { ?>
+<?php if ( !in_array($permalink_structure, $structures) ) { ?>
 checked="checked"
 <?php } ?>
  /> 

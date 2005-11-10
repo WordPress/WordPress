@@ -975,6 +975,29 @@ function extract_from_markers($filename, $marker) {
 	return $result;
 }
 
+function got_mod_rewrite() {
+	global $is_apache;
+
+	// take 3 educated guesses as to whether or not mod_rewrite is available
+	if ( !$is_apache )
+		return false;
+
+	if ( function_exists('apache_get_modules') ) {
+		if ( !in_array('mod_rewrite', apache_get_modules()) )
+			return false;
+	}
+
+	if ( function_exists('ob_get_clean') ) {
+	  ob_start();
+	  phpinfo(INFO_MODULES);
+	  $php_modules = ob_get_clean();
+	  if ( strpos($php_modules, 'mod_rewrite') === false)
+	    return false;
+	}
+
+	return true;
+}
+
 function save_mod_rewrite_rules() {
 	global $is_apache, $wp_rewrite;
 	$home_path = get_home_path();
@@ -985,7 +1008,7 @@ function save_mod_rewrite_rules() {
 	if (!((!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess')))
 		return;
 
-	if (!$is_apache)
+	if (! got_mod_rewrite())
 		return;
 
 	$rules = explode("\n", $wp_rewrite->mod_rewrite_rules());
