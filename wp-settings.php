@@ -34,6 +34,14 @@ if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 	}
 }
 
+// Fix for PHP as CGI hosts that set SCRIPT_FILENAME to something ending in php.cgi for all requests
+if ( strpos($_SERVER['SCRIPT_FILENAME'], 'php.cgi') == strlen($_SERVER['SCRIPT_FILENAME']) - 7 )
+	$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
+
+// Fix for PHP as CGI hosts that set PATH_INFO to PHP_SELF value
+if ( $_SERVER['PATH_INFO'] == $_SERVER['PHP_SELF'] )
+	unset($_SERVER['PATH_INFO']);
+
 if ( !(phpversion() >= '4.1') )
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
 
