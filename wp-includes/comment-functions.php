@@ -34,10 +34,14 @@ function wp_new_comment( $commentdata ) {
 	$commentdata = apply_filters('preprocess_comment', $commentdata);
 
 	$commentdata['comment_post_ID'] = (int) $commentdata['comment_post_ID'];
+	$commentdata['user_ID']         = (int) $commentdata['user_ID'];
+
 	$commentdata['comment_author_IP'] = $_SERVER['REMOTE_ADDR'];
-	$commentdata['comment_agent'] = $_SERVER['HTTP_USER_AGENT'];
-	$commentdata['comment_date'] = current_time('mysql');
+	$commentdata['comment_agent']     = $_SERVER['HTTP_USER_AGENT'];
+
+	$commentdata['comment_date']     = current_time('mysql');
 	$commentdata['comment_date_gmt'] = current_time('mysql', 1);
+	
 
 	$commentdata = wp_filter_comment($commentdata);
 
@@ -50,8 +54,10 @@ function wp_new_comment( $commentdata ) {
 	if ( 'spam' !== $commentdata['comment_approved'] ) { // If it's spam save it silently for later crunching
 		if ( '0' == $commentdata['comment_approved'] )
 			wp_notify_moderator($comment_ID);
-	
-		if ( get_settings('comments_notify') && $commentdata['comment_approved'] )
+
+		$post = &get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
+
+		if ( get_settings('comments_notify') && $commentdata['comment_approved'] && $post->post_author != $commentdata['user_ID'] )
 			wp_notify_postauthor($comment_ID, $commentdata['comment_type']);
 	}
 
@@ -79,12 +85,12 @@ function wp_insert_comment($commentdata) {
 }
 
 function wp_filter_comment($commentdata) {
-	$commentdata['user_id'] = apply_filters('pre_user_id', $commentdata['user_ID']);
-	$commentdata['comment_agent'] = apply_filters('pre_comment_user_agent', $commentdata['comment_agent']);
-	$commentdata['comment_author'] = apply_filters('pre_comment_author_name', $commentdata['comment_author']);
-	$commentdata['comment_content'] = apply_filters('pre_comment_content', $commentdata['comment_content']);
-	$commentdata['comment_author_IP'] = apply_filters('pre_comment_user_ip', $commentdata['comment_author_IP']);
-	$commentdata['comment_author_url'] = apply_filters('pre_comment_author_url', $commentdata['comment_author_url']);
+	$commentdata['user_id']              = apply_filters('pre_user_id', $commentdata['user_ID']);
+	$commentdata['comment_agent']        = apply_filters('pre_comment_user_agent', $commentdata['comment_agent']);
+	$commentdata['comment_author']       = apply_filters('pre_comment_author_name', $commentdata['comment_author']);
+	$commentdata['comment_content']      = apply_filters('pre_comment_content', $commentdata['comment_content']);
+	$commentdata['comment_author_IP']    = apply_filters('pre_comment_user_ip', $commentdata['comment_author_IP']);
+	$commentdata['comment_author_url']   = apply_filters('pre_comment_author_url', $commentdata['comment_author_url']);
 	$commentdata['comment_author_email'] = apply_filters('pre_comment_author_email', $commentdata['comment_author_email']);
 	$commentdata['filtered'] = true;
 	return $commentdata;
