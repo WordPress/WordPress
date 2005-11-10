@@ -81,12 +81,14 @@ if ( is_month() ) {
   </fieldset>
 </form>
 
+<?php $arc_result = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts ORDER BY post_date DESC");
+if ( count($arc_result) ) { ?>
+
 <form name="viewarc" action="" method="get" style="float: left; width: 20em; margin-bottom: 1em;">
 	<fieldset>
 	<legend><?php _e('Browse Month&hellip;') ?></legend>
     <select name='m'>
 	<?php
-		$arc_result=$wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts ORDER BY post_date DESC");
 		foreach ($arc_result as $arc_row) {			
 			$arc_year  = $arc_row->yyear;
 			$arc_month = $arc_row->mmonth;
@@ -105,6 +107,8 @@ if ( is_month() ) {
 		<input type="submit" name="submit" value="<?php _e('Show Month') ?>"  /> 
 	</fieldset>
 </form>
+
+<?php } ?>
 
 <br style="clear:both;" />
 
