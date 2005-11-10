@@ -179,19 +179,19 @@ if ( count($images) > 0 ) {
 		$images_style .= "#target$i img { padding: {$ypadding}px {$xpadding}px; }\n";
 		$href = get_subpost_link($object);
 		$images_script .= "href".$i."a = '$href';\nhref".$i."b = '{$image['guid']}';\n";
-		$images_html .= <<<HERE
+		$images_html .= "
 <div id='target$i' class='imagewrap left'>
 	<div id='popup$i' class='popup'>
-		<a id="L$i" onclick="toggleLink($i);return false;" href="javascript:void();">$__subpost_on</a>
-		<a id="I$i" onclick="if($thumb)toggleImage($i);else alert('$__nothumb');return false;" href="javascript:void();">$thumbtext</a>
-		<a onclick="return confirm('$__confirmdelete')" href="<?php echo basename(__FILE__); ?>?action=delete&amp;object=$object&amp;all=$all&amp;start=$start&amp;post=$post">$__delete</a>
-		<a onclick="popup.style.display='none';return false;" href="javascript:void()">$__close</a>
+		<a id=\"L$i\" onclick=\"toggleLink($i);return false;\" href=\"javascript:void();\">$__subpost_on</a>
+		<a id=\"I$i\" onclick=\"if($thumb)toggleImage($i);else alert('$__nothumb');return false;\" href=\"javascript:void();\">$thumbtext</a>
+		<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;object=$object&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
+		<a onclick=\"popup.style.display='none';return false;\" href=\"javascript:void()\">$__close</a>
 	</div>
-	<a id="link$i" class="imagelink" href="$href" onclick="imagePopup($i);return false;" title="{$image['post_title']}">
+	<a id=\"link$i\" class=\"imagelink\" href=\"$href\" onclick=\"imagePopup($i);return false;\" title=\"{$image['post_title']}\">		
 		<img id='image$i' src='$src' alt='{$image['post_title']}' $height_width />
 	</a>
 </div>
-HERE;
+";
 		$i++;
 	}
 }
