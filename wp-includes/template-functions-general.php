@@ -632,6 +632,33 @@ function get_post_time( $d = 'U', $gmt = false ) { // returns timestamp
 }
 
 
+function the_modified_time($d = '') {
+	echo apply_filters('the_modified_time', get_the_modified_time($d), $d);
+}
+
+
+function get_the_modified_time($d = '') {
+	if ( '' == $d )
+		$the_time = get_post_modified_time(get_settings('time_format'));
+	else
+		$the_time = get_post_modified_time($d);
+	return apply_filters('get_the_modified_time', $the_time, $d);
+}
+
+
+function get_post_modified_time( $d = 'U', $gmt = false ) { // returns timestamp
+	global $post;
+
+	if ( $gmt )
+		$time = $post->post_modified_gmt;
+	else
+		$time = $post->post_modified;
+	$time = mysql2date($d, $time);
+
+	return apply_filters('get_the_modified_time', $time, $d, $gmt);
+}
+
+
 function the_weekday() {
 	global $weekday, $id, $post;
 	$the_weekday = $weekday[mysql2date('w', $post->post_date)];
