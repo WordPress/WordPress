@@ -271,6 +271,8 @@ function get_settings($setting) {
 		if( is_object( $value ) ) {
 			$value = $value->option_value;
 			wp_cache_set($setting, $value, 'options');
+		} else {
+			return false;
 		}
 	}
 
