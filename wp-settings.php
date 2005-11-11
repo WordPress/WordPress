@@ -39,7 +39,7 @@ if ( strpos($_SERVER['SCRIPT_FILENAME'], 'php.cgi') == strlen($_SERVER['SCRIPT_F
 	$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
 
 // Fix for PHP as CGI hosts that set PATH_INFO to PHP_SELF value
-if ( $_SERVER['PATH_INFO'] == $_SERVER['PHP_SELF'] )
+if ( isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] == $_SERVER['PHP_SELF'] )
 	unset($_SERVER['PATH_INFO']);
 
 if ( !(phpversion() >= '4.1') )
