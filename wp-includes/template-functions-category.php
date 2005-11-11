@@ -272,7 +272,7 @@ function wp_list_cats($args = '') {
 }
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
-	global $wpdb, $category_posts, $wp_query;;
+	global $wpdb, $wp_query;
 	// Optiondates now works
 	if ( '' == $file )
 		$file = get_settings('home') . '/';
@@ -293,29 +293,12 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 		$sort_column = 'cat_'.$sort_column;
 
 		$query = "
-			SELECT cat_ID, cat_name, category_nicename, category_description, category_parent
+			SELECT cat_ID, cat_name, category_nicename, category_description, category_parent, category_count
 			FROM $wpdb->categories
 			WHERE cat_ID > 0 $exclusions
 			ORDER BY $sort_column $sort_order";
 
 		$categories = $wpdb->get_results($query);
-	}
-	if ( !count($category_posts) ) {
-		$now = current_time('mysql', 1);
-		$cat_counts = $wpdb->get_results("	SELECT cat_ID,
-		COUNT($wpdb->post2cat.post_id) AS cat_count
-		FROM $wpdb->categories
-		INNER JOIN $wpdb->post2cat ON (cat_ID = category_id)
-		INNER JOIN $wpdb->posts ON (ID = post_id)
-		WHERE post_status = 'publish'
-		AND post_date_gmt < '$now' $exclusions
-		GROUP BY category_id");
-		if ( !empty($cat_counts) ) {
-			foreach ( $cat_counts as $cat_count ) {
-				if ( 1 != intval($hide_empty) || $cat_count > 0 )
-					$category_posts["$cat_count->cat_ID"] = $cat_count->cat_count;
-			}
-		}
 	}
 
 	if ( $optiondates ) {
@@ -333,7 +316,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$thelist = "";
 
 	foreach ( $categories as $category ) {
-		if ( (intval($hide_empty) == 0 || isset($category_posts["$category->cat_ID"])) && (!$hierarchical || $category->category_parent == $child_of) ) {
+		if ( ( intval($hide_empty) == 0 || $category->category_count) && (!$hierarchical || $category->category_parent == $child_of) ) {
 			$num_found++;
 			$link = '<a href="'.get_category_link($category->cat_ID).'" ';
 			if ( $use_desc_for_title == 0 || empty($category->category_description) )
@@ -373,7 +356,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 			}
 
 			if ( intval($optioncount) == 1 )
-				$link .= ' ('.intval($category_posts["$category->cat_ID"]).')';
+				$link .= ' ('.intval($category->category_count).')';
 
 			if ( $optiondates ) {
 				if ( $optiondates == 1 )
