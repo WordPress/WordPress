@@ -1724,4 +1724,13 @@ function wp_handle_upload(&$file, $overrides = false) {
 	return array('file' => $new_file, 'url' => $url);
 }
 
+function wp_shrink_dimensions($width, $height, $wmax = 128, $hmax = 96) {
+	if ( $height <= $hmax && $width <= $wmax )
+		return array($width, $height);
+	elseif ( $width / $height > $wmax / $hmax )
+		return array($wmax, (int) ($height / $width * $wmax));
+	else
+		return array((int) ($width / $height * $hmax), $hmax);
+}
+
 ?>
