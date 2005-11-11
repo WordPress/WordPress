@@ -73,10 +73,6 @@ foreach($wp_roles->role_names as $role => $name) {
 <?php _e('hours') ?> </td>
 </tr>
 <tr>
-<th scope="row">&nbsp;</th>
-<td><?php _e('The following use the same syntax as the <a href="http://php.net/date">PHP <code>date()</code> function</a>. Save option to update sample output.') ?> </td>
-</tr>
-<tr>
 <th scope="row"><?php _e('Default date format:') ?></th>
 <td><input name="date_format" type="text" id="date_format" size="30" value="<?php form_option('date_format'); ?>" /><br />
 <?php _e('Output:') ?> <strong><?php echo mysql2date(get_settings('date_format'), current_time('mysql')); ?></strong></td>
@@ -86,6 +82,10 @@ foreach($wp_roles->role_names as $role => $name) {
 <td><input name="time_format" type="text" id="time_format" size="30" value="<?php form_option('time_format'); ?>" /><br />
 <?php _e('Output:') ?> <strong><?php echo gmdate(get_settings('time_format'), current_time('timestamp')); ?></strong></td>
 </tr> 
+<tr>
+<th scope="row">&nbsp;</th>
+<td><?php _e('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Save option to update sample output.') ?> </td>
+</tr>
 <tr>
 <th scope="row"><?php _e('Weeks in the calendar should start on:') ?></th>
 <td><select name="start_of_week" id="start_of_week">
