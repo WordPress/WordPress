@@ -396,7 +396,7 @@ function edit_link($link_id = '') {
 		die(__("Cheatin' uh ?"));
 
 	$_POST['link_url'] = wp_specialchars($_POST['link_url']);
-	//$link_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $link_url) ? $link_url : 'http://'.$link_url;
+	$_POST['link_url'] = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $_POST['link_url']) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
 	$_POST['link_name'] = wp_specialchars($_POST['link_name']);
 	$_POST['link_image'] = wp_specialchars($_POST['link_image']);
 	$_POST['link_rss'] = wp_specialchars($_POST['link_rss']);
