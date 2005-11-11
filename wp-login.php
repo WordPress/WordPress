@@ -24,7 +24,12 @@ case 'logout':
 	wp_clearcookie();
 	do_action('wp_logout');
 	nocache_headers();
-	wp_redirect('wp-login.php');
+
+	$redirect_to = 'wp-login.php';
+	if ( isset($_REQUEST['redirect_to']) )
+		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_REQUEST['redirect_to']);
+			
+	wp_redirect($redirect_to);
 	exit();
 
 break;
