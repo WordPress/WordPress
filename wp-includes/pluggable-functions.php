@@ -282,11 +282,17 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
 	$notify_message .= sprintf( __('To delete this comment, visit: %s'), get_settings('siteurl').'/wp-admin/post.php?action=confirmdeletecomment&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
 
-	if ('' == $comment->comment_author_email || '' == $comment->comment_author) {
-		$from = "From: \"$blogname\" <wordpress@" . $_SERVER['SERVER_NAME'] . '>';
-	} else {
-		$from = 'From: "' . $comment->comment_author . "\" <$comment->comment_author_email>";
-	}
+	$admin_email = get_settings('admin_email');
+
+	if ( '' == $comment->comment_author ) {
+		$from = "From: \"$blogname\" <$admin_email>";
+		if ( '' != $comment->comment_author_email )
+			$reply_to = "Reply-To: $comment->comment_author_email";
+ 	} else {
+		$from = "From: \"$comment->comment_author\" <$admin_email>";
+		if ( '' != $comment->comment_author_email )
+			$reply_to = "Reply-To: \"$comment->comment_author_email\" <$comment->comment_author_email>";
+ 	}
 
 	$message_headers = "MIME-Version: 1.0\n"
 		. "$from\n"
