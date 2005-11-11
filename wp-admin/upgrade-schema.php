@@ -150,7 +150,8 @@ CREATE TABLE $wpdb->usermeta (
 function populate_options() {
 	global $wpdb;
 
-	$guessurl = preg_replace('|/wp-admin/.*|i', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
+	$guessurl = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 	add_option('siteurl', $guessurl, __('WordPress web address'));
 	add_option('blogname', __('My Weblog'), __('Blog title'));
 	add_option('blogdescription', __('Just another WordPress weblog'), __('Short tagline'));

@@ -324,7 +324,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
 	  $filename = get_settings('home') . '/';
-	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
+	  $filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
 	  $f = fopen($filename, 'r');
 	  $content = fread($f, filesize($filename));
@@ -359,7 +359,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  /* warning: here we make the assumption that the weblog's URI is on the same server */
 	  $filename = get_settings('home') . '/';
-	  $filename = preg_replace('#http://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
+	  $filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
 	  if ($f = fopen($filename, 'w+')) {
 	    fwrite($f, $content);
@@ -1147,7 +1147,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$error_code = -1;
 
 		// Check if the page linked to is in our site
-		$pos1 = strpos($pagelinkedto, str_replace('http://', '', str_replace('www.', '', get_settings('home'))));
+		$pos1 = strpos($pagelinkedto, str_replace(array('http://www.','http://','https://www.','https://'), '', get_settings('home')));
 		if( !$pos1 )
 	  		return new IXR_Error(0, 'Is there no link to us?');
 

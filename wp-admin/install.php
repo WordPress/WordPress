@@ -6,7 +6,8 @@ if (!file_exists('../wp-config.php'))
 require_once('../wp-config.php');
 require_once('./upgrade-functions.php');
 
-$guessurl = str_replace('/wp-admin/install.php?step=2', '', 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) );
+$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
+$guessurl = str_replace('/wp-admin/install.php?step=2', '', $schema . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) );
 
 if (isset($_GET['step']))
 	$step = $_GET['step'];
