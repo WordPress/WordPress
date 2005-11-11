@@ -300,6 +300,9 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		. "$from\n"
 		. "Content-Type: text/plain; charset=\"" . get_settings('blog_charset') . "\"\n";
 
+	if ( isset($reply_to) )
+		$message_headers .= $reply_to . "\n";
+
 	$notify_message = apply_filters('comment_notification_text', $notify_message);
 	$subject = apply_filters('comment_notification_subject', $subject);
 	$message_headers = apply_filters('comment_notification_headers', $message_headers);
