@@ -105,7 +105,7 @@ else
 
 // For now, disable persistent caching by default.  To enable, comment out
 // the following line.
-define('DISABLE_CACHE', true);
+//define('DISABLE_CACHE', true);
 
 wp_cache_init();
 
