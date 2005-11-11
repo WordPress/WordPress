@@ -199,10 +199,10 @@ $_POST   = add_magic_quotes($_POST  );
 $_COOKIE = add_magic_quotes($_COOKIE);
 $_SERVER = add_magic_quotes($_SERVER);
 
-$wp_query = new WP_Query();
+$wp_query   = new WP_Query();
 $wp_rewrite = new WP_Rewrite();
-$wp = new WP();
-$wp_roles = new WP_Roles();
+$wp         = new WP();
+$wp_roles   = new WP_Roles();
 
 define('TEMPLATEPATH', get_template_directory());
 
@@ -224,4 +224,5 @@ register_shutdown_function('shutdown_action_hook');
 
 // Everything is loaded and initialized.
 do_action('init');
+
 ?>
