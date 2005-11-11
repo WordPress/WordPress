@@ -340,15 +340,17 @@ function update_option($option_name, $newvalue) {
 		$newvalue = trim($newvalue);
 
 	// If the new and old values are the same, no need to update.
-	if ( $newvalue == get_option($option_name) )
+	$oldvalue = get_option($option_name);
+	if ( $newvalue == $oldvalue )
 		return true;
+
+        if ( false === $oldvalue ) {
+                add_option($option_name, $newvalue);
+                return true;
+	}
 
 	if ( is_array($newvalue) || is_object($newvalue) )
 		$newvalue = serialize($newvalue);
-
-	// If it's not there add it
-	if ( !$wpdb->get_var("SELECT option_name FROM $wpdb->options WHERE option_name = '$option_name'") )
-		add_option($option_name, $newvalue);
 
 	wp_cache_set($option_name, $newvalue, 'options');
 
@@ -373,7 +375,6 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	if ( false !== get_option($name) )
 		return;
 
-	$original = $value;
 	if ( is_array($value) || is_object($value) )
 		$value = serialize($value);
 
