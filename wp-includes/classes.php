@@ -1500,7 +1500,10 @@ class WP {
 	}
 
 	function send_headers() {
+		global $current_user;
 		@header('X-Pingback: '. get_bloginfo('pingback_url'));
+		if ( $current_user )
+			nocache_headers();
 		if ( !empty($this->query_vars['error']) && '404' == $this->query_vars['error'] ) {
 			status_header( 404 );
 		} else if ( empty($this->query_vars['feed']) ) {
@@ -1600,8 +1603,8 @@ class WP {
 
 	function main($query_args = '') {
 		$this->parse_request($query_args);
-		$this->send_headers();
 		$this->prime_caches();
+		$this->send_headers();
 		$this->query_posts();
 		$this->handle_404();
 		$this->register_globals();
