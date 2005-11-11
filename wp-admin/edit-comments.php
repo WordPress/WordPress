@@ -95,8 +95,6 @@ if ('view' == $mode) {
         <p><?php _e('Posted'); echo ' '; comment_date('M j, g:i A');  
 			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 				echo " | <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit Comment') . "</a>";
-			}
-			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Delete Comment') . "</a> &#8212; ";
 			} // end if any comments to show
 			// Get post title
