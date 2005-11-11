@@ -42,16 +42,18 @@ function get_userdata( $user_id ) {
 
 	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
 
-	foreach ( $metavalues as $meta ) {
-		@ $value = unserialize($meta->meta_value);
-		if ($value === FALSE)
-			$value = $meta->meta_value;
-		$user->{$meta->meta_key} = $value;
+	if ($metavalues) {
+		foreach ( $metavalues as $meta ) {
+			@ $value = unserialize($meta->meta_value);
+			if ($value === FALSE)
+				$value = $meta->meta_value;
+			$user->{$meta->meta_key} = $value;
 
-		// We need to set user_level from meta, not row
-		if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
-			$user->user_level = $meta->meta_value;
-	}
+			// We need to set user_level from meta, not row
+			if ( $wpdb->prefix . 'user_level' == $meta->meta_key )
+				$user->user_level = $meta->meta_value;
+		} // end foreach
+	} //end if
 
 	wp_cache_add($user_id, $user, 'users');
 	wp_cache_add($user->user_login, $user, 'users');
