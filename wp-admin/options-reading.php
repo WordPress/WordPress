@@ -55,7 +55,7 @@ include('admin-header.php');
 </p>
 <p class="submit">
 <input type="hidden" name="action" value="update" /> 
-<input type="hidden" name="page_options" value="'posts_per_page','what_to_show','posts_per_rss','rss_use_excerpt','blog_charset','gzipcompression' " /> 
+<input type="hidden" name="page_options" value="posts_per_page,what_to_show,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression" /> 
 <input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" /> 
 </p> 
 </form> 

@@ -63,7 +63,7 @@ echo "\n\t<option value='$i' $selected>$i</option>";
 </p>
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="'hack_file','use_fileupload','fileupload_realpath','fileupload_url','fileupload_allowedtypes','fileupload_maxk','fileupload_maxk','fileupload_minlevel','use_geo_positions','use_linksupdate'" /> 
+<input type="hidden" name="page_options" value="hack_file,use_fileupload,fileupload_realpath,fileupload_url,fileupload_allowedtypes,fileupload_maxk,fileupload_maxk,fileupload_minlevel,use_geo_positions,use_linksupdate" /> 
 	<input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" />
 </p>
 </form> 

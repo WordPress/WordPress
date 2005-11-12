@@ -92,7 +92,7 @@ if ($action == 'retrospam') {
 </fieldset>
 <p class="submit">
 <input type="hidden" name="action" value="update" /> 
-<input type="hidden" name="page_options" value="'default_pingback_flag','default_ping_status','default_comment_status','comments_notify','moderation_notify','comment_moderation','require_name_email','comment_whitelist','comment_max_links','moderation_keys','blacklist_keys','open_proxy_check'" /> 
+<input type="hidden" name="page_options" value="default_pingback_flag,default_ping_status,default_comment_status,comments_notify,moderation_notify,comment_moderation,require_name_email,comment_whitelist,comment_max_links,moderation_keys,blacklist_keys,open_proxy_check" /> 
 <input type="submit" name="Submit" value="<?php _e('Update Options') ?>" /> 
 </p> 
 </form> 

@@ -33,40 +33,32 @@ case 'update':
     
 	if (!$_POST['page_options']) {
 		foreach ($_POST as $key => $value) {
-			$option_names[] = "'$key'";
+			$options[] = "'$key'";
 		}
-		$option_names = implode(',', $option_names);
 	} else {
-		$option_names = stripslashes($_POST['page_options']);
+		$options = explode(',', stripslashes($_POST['page_options']));
 	}
-
-    $options = $wpdb->get_results("SELECT $wpdb->options.option_id, option_name, option_type, option_value, option_admin_level FROM $wpdb->options WHERE option_name IN ($option_names)");
 
 	// Save for later.
 	$old_siteurl = get_settings('siteurl');
 	$old_home = get_settings('home');
 
-// HACK
-// Options that if not there have 0 value but need to be something like "closed"
-    $nonbools = array('default_ping_status', 'default_comment_status');
-    if ($options) {
-		$options = apply_filters( 'options_to_update' , $options );
-        foreach ($options as $option) {
-            $old_val = $option->option_value;
-            $new_val = trim($_POST[$option->option_name]);
-            if( in_array($option->option_name, $nonbools) && ( $new_val == '0' || $new_val == '') )
-				$new_val = 'closed';
-            if ($new_val !== $old_val) {
-                $result = $wpdb->query("UPDATE $wpdb->options SET option_value = '$new_val' WHERE option_name = '$option->option_name'");
-                wp_cache_set($option->option_name, $new_val, 'options');
-				$any_changed++;
-			}
+	// HACK
+	// Options that if not there have 0 value but need to be something like "closed"
+	$nonbools = array('default_ping_status', 'default_comment_status');
+	if ($options) {
+	  foreach ($options as $option) {
+	    $option = trim($option);
+	    $value = trim(stripslashes($_POST[$option]));
+            if( in_array($option, $nonbools) && ( $value == '0' || $value == '') )
+	      $value = 'closed';
+
+	    if ( update_option($option, $value) )
+	      $any_changed++;
+	  }
         }
-        unset($cache_settings); // so they will be re-read
-        get_settings('siteurl'); // make it happen now
-    } // end if options
     
-    if ($any_changed) {
+	if ($any_changed) {
 			// If siteurl or home changed, reset cookies.
 			if ( get_settings('siteurl') != $old_siteurl || get_settings('home') != $old_home ) {
 				// If home changed, write rewrite rules to new location.
