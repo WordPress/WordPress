@@ -356,9 +356,22 @@ class MagpieRSS {
 		}
 	}
 
-function map_attrs($k, $v) {
-	return "$k=\"$v\"";
+	function map_attrs($k, $v) {
+		return "$k=\"$v\"";
 	}
+
+	function error( $errormsg, $lvl = E_USER_WARNING ) {
+		// append PHP's error message if track_errors enabled
+		if ( isset($php_errormsg) ) {
+			$errormsg .= " ($php_errormsg)";
+		}
+		if ( MAGPIE_DEBUG ) {
+			trigger_error( $errormsg, $lvl);
+		} else {
+			error_log( $errormsg, 0);
+		}
+	}
+
 }
 require_once( dirname(__FILE__) . '/class-snoopy.php');
 
