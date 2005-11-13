@@ -31,9 +31,6 @@ $bookmarklet_height= 440;
 <input type="text" name="user_login" value="<?php echo $profiledata->user_login; ?>" disabled="disabled" />
 </label></p>
 
-<p><label><?php _e('Role: (no editing)') ?><br />
-<input type="text" name="role" value="<?php echo $wp_roles->role_names[$profileuser->roles[0]] ?>" disabled="disabled" /></label></p>
-
 <p><label><?php _e('First name:') ?><br />
 <input type="text" name="first_name" value="<?php echo $profiledata->first_name ?>" /></label></p>
 
