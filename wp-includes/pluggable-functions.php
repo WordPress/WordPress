@@ -192,6 +192,8 @@ if ( !function_exists('wp_redirect') ) :
 function wp_redirect($location) {
 	global $is_IIS;
 
+	$location = str_replace( array("\n", "\r"), '', $location);
+
 	if ($is_IIS)
 		header("Refresh: 0;url=$location");
 	else
