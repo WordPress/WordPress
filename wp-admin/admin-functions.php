@@ -282,9 +282,6 @@ function edit_user($user_id = 0) {
 			$user->role = $_POST['role'];
 	}
 
-	if (isset ($_POST['role'])) {
-		$user->role = $_POST['role'];
-	}
 	if (isset ($_POST['email']))
 		$user->user_email = wp_specialchars(trim($_POST['email']));
 	if (isset ($_POST['url'])) {
