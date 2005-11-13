@@ -6,6 +6,7 @@ $title = __('Users');
 $parent_file = 'profile.php';
 	
 $action = $_REQUEST['action'];
+$update = '';
 
 switch ($action) {
 
@@ -19,13 +20,20 @@ case 'promote':
 	if ( !current_user_can('edit_users') )
 		die(__('You can&#8217;t edit users.'));
 
-	$userids = $_POST['users'];
-	foreach($userids as $id) {
-		$user = new WP_User($id);
-		$user->set_role($_POST['new_role']);
-	}
+ 	$userids = $_POST['users'];
+	$update = 'promote';
+ 	foreach($userids as $id) {
+		// The new role of the current user must also have edit_users caps
+		if($id == $current_user->id && !$wp_roles->role_objects[$_POST['new_role']]->has_cap('edit_users')) {
+			$update = 'err_admin_role';
+			continue;
+		}
+
+ 		$user = new WP_User($id);
+ 		$user->set_role($_POST['new_role']);
+ 	}
 		
-	header('Location: users.php?update=promote');
+	header('Location: users.php?update=' . $update);
 
 break;
 
@@ -33,7 +41,7 @@ case 'dodelete':
 
 	check_admin_referer();
 
-	if (empty($_POST['users'])) {
+	if ( empty($_POST['users']) ) {
 		header('Location: users.php');
 	}
 
@@ -42,8 +50,13 @@ case 'dodelete':
 
 	$userids = $_POST['users'];
 	
-	foreach($userids as $id) {
-		switch($_POST['delete_option']) {
+	$update = 'del';
+ 	foreach ($userids as $id) {
+		if($id == $current_user->id) {
+			$update = 'err_admin_del';
+			continue;
+		}
+ 		switch($_POST['delete_option']) {
 		case 'delete':
 			wp_delete_user($id);
 			break;
@@ -53,7 +66,7 @@ case 'dodelete':
 		}
 	}
 
-	header('Location: users.php?update=del');
+	header('Location: users.php?update=' . $update);
 
 break;
 
@@ -74,26 +87,32 @@ case 'delete':
 ?>
 <form action="" method="post" name="updateusers" id="updateusers">
 <div class="wrap">
-	<h2><?php _e('Delete Users'); ?></h2>
-	<p><?php _e('You have specified these users for deletion:'); ?></p>
-	<ul>
-	<?php
-	foreach($userids as $id) {
-		$user = new WP_User($id);
-		echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />";
-		echo "{$id}: {$user->data->user_login}</li>\n";
-	}
-	$all_logins = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users ORDER BY user_login");
-	$user_dropdown = '<select name="reassign_user">';
-	foreach($all_logins as $login) {
-		if(!in_array($login->ID, $userids)) {
-			$user_dropdown .= "<option value=\"{$login->ID}\">{$login->user_login}</option>";
+<h2><?php _e('Delete Users'); ?></h2>
+<p><?php _e('You have specified these users for deletion:'); ?></p>
+<ul>
+<?php
+	$go_delete = false;
+ 	foreach ($userids as $id) {
+ 		$user = new WP_User($id);
+		if ($id == $current_user->id) {
+			echo "<li>" . sprintf('ID #%1s: %2s <strong>The current user will not be deleted.</strong>', $id, $user->data->user_login) . "</li>\n";
+		} else {
+			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf('ID #%1s: %2s', $id, $user->data->user_login) . "</li>\n";
+			$go_delete = true;
 		}
-	}
-	$user_dropdown .= '</select>';
-	?>
-	</ul>
-	<p><?php _e('What should be done with posts and links owned by this user?'); ?></p>
+ 	}
+ 	$all_logins = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users ORDER BY user_login");
+ 	$user_dropdown = '<select name="reassign_user">';
+ 	foreach ($all_logins as $login) {
+		if ( $login->ID == $current_user->id || !in_array($login->ID, $userids) ) {
+ 			$user_dropdown .= "<option value=\"{$login->ID}\">{$login->user_login}</option>";
+ 		}
+ 	}
+ 	$user_dropdown .= '</select>';
+ 	?>
+ 	</ul>
+<?php if($go_delete) : ?>
+ 	<p><?php _e('What should be done with posts and links owned by this user?'); ?></p>
 	<ul style="list-style:none;">
 		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" checked="checked" />
 		<?php _e('Delete all posts and links.'); ?></label></li>
@@ -102,6 +121,9 @@ case 'delete':
 	</ul>
 	<input type="hidden" name="action" value="dodelete" />
 	<p class="submit"><input type="submit" name="submit" value="<?php _e('Confirm Deletion'); ?>" /></p>
+<?php else : ?>
+	<p><?php _e('There are no valid users selected for deletion.'); ?></p>
+<?php endif; ?>
 </div>
 </form>
 <?php
@@ -149,6 +171,18 @@ default:
 		case 'promote':
 		?>
 			<div id="message" class="updated fade"><p><?php _e('Changed roles.'); ?></p></div>
+		<?php
+			break;
+		case 'err_admin_role':
+		?>
+			<div id="message" class="error"><p><?php _e("The current user's role must have user editing capabilities."); ?></p></div>
+			<div id="message" class="updated fade"><p><?php _e('Other user roles have been changed.'); ?></p></div>
+		<?php
+			break;
+		case 'err_admin_del':
+		?>
+			<div id="message" class="error"><p><?php _e("You can't delete the current user."); ?></p></div>
+			<div id="message" class="updated fade"><p><?php _e('Other users have been deleted.'); ?></p></div>
 		<?php
 			break;
 		}
