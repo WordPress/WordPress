@@ -41,7 +41,7 @@ function wptexturize($text) {
 		} else {
 			$next = true;
 		}
-		$curl = preg_replace('/&([^#])(?![a-z12]{1,8};)/', '&#038;$1', $curl);
+		$curl = preg_replace('/&([^#])(?![a-z1-4]{1,8};)/', '&#038;$1', $curl);
 		$output .= $curl;
 	}
 	return $output;
@@ -98,7 +98,7 @@ function seems_utf8($Str) { # by bmorel at ssi dot fr
 
 function wp_specialchars( $text, $quotes = 0 ) {
 	// Like htmlspecialchars except don't double-encode HTML entities
-	$text = preg_replace('/&([^#])(?![a-z12]{1,8};)/', '&#038;$1', $text);-
+	$text = preg_replace('/&([^#])(?![a-z1-4]{1,8};)/', '&#038;$1', $text);-
 	$text = str_replace('<', '&lt;', $text);
 	$text = str_replace('>', '&gt;', $text);
 	if ( $quotes ) {
@@ -349,7 +349,7 @@ function convert_chars($content, $flag = 'obsolete') {
 	$content = preg_replace('/<category>(.+?)<\/category>/','',$content);
 
 	// Converts lone & characters into &#38; (a.k.a. &amp;)
-	$content = preg_replace('/&([^#])(?![a-z]{1,8};)/i', '&#038;$1', $content);
+	$content = preg_replace('/&([^#])(?![a-z1-4]{1,8};)/i', '&#038;$1', $content);
 
 	// Fix Word pasting
 	$content = strtr($content, $wp_htmltranswinuni);
