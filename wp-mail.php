@@ -50,9 +50,7 @@ for ($i=1; $i <= $count; $i++) :
 			if (preg_match('/Subject: /i', $line)) {
 				$subject = trim($line);
 				$subject = substr($subject, 9, strlen($subject)-9);
-				if (!preg_match('#\=\?(.+)\?Q\?(.+)\?\=#i', $subject)) {
-				  $subject = wp_iso_descrambler($subject);
-				}
+				$subject = wp_iso_descrambler($subject);
 				// Captures any text in the subject before $phone_delim as the subject
 				$subject = explode($phone_delim, $subject);
 				$subject = $subject[0];
