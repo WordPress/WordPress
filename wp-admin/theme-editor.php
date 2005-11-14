@@ -146,7 +146,8 @@ if ($allowed_files) :
 	} else {
 		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 	}
-	?> 
+	?>
+<div class="clear"> &nbsp; </div>
 </div> 
 <?php
 break;

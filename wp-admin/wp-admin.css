@@ -221,6 +221,11 @@ textarea, input, select {
 	padding: .3em 1em;
 }
 
+.clear {
+	clear: both;
+	height: 2px;
+}
+
 .hidden {
 	display: none;
 }
@@ -460,6 +465,7 @@ table .vers, table .name {
 }
 
 #footer {
+	clear: both;
 	text-align: center;
 }
 
