@@ -19,6 +19,8 @@ function wp_cache_delete($id, $flag = '') {
 
 function wp_cache_flush() {
 	global $wp_object_cache;
+	
+	return $wp_object_cache->flush();
 }
 
 function wp_cache_get($id, $flag = '') {
@@ -88,6 +90,10 @@ class WP_Object_Cache {
 		return true;
 	}
 
+	function flush() {
+		return $this->rm($this->cache_dir . '*');		
+	}
+	
 	function get($id, $group = 'default', $count_hits = true) {
 		if ( empty($group) )
 			$group = 'default';
@@ -196,6 +202,27 @@ class WP_Object_Cache {
 		}
 		
 		return $this->cache_dir . "$group_dir/";
+	}
+
+	function rm($fileglob) {
+       if (is_file($fileglob)) {
+           return @unlink($fileglob);
+       } else if (is_dir($fileglob)) {
+           $ok = $this->rm("$fileglob/*");
+           if (! $ok) {
+               return false;
+           }
+           return @rmdir($fileglob);
+       } else {
+           $matching = glob($fileglob);
+           if ($matching === false)
+               return true;
+           $rcs = array_map(array('WP_Object_Cache', 'rm'), $matching);
+           if (in_array(false, $rcs)) {
+               return false;
+           }
+       }
+	   return true;
 	}
 
 	function replace($id, $data, $group = 'default', $expire = '') {
