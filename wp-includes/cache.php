@@ -75,11 +75,11 @@ class WP_Object_Cache {
 		return $this->set($id, $data, $group, $expire);
 	}
 
-	function delete($id, $group = 'default') {
+	function delete($id, $group = 'default', $force = false) {
 		if ( empty($group) )
 			$group = 'default';
 
-		if ( false === $this->get($id, $group, false) )
+		if ( !$force && false === $this->get($id, $group, false) )
 			return false;
 
 		unset ($this->cache[$group][$id]);
@@ -128,7 +128,7 @@ class WP_Object_Cache {
 		$now = time();
 		if ( (filemtime($cache_file) + $this->expiration_time) <= $now ) {
 			$this->cache_misses += 1;
-			$this->delete($id, $group);
+			$this->delete($id, $group, true);
 			return false;
 		}
 
