@@ -19,7 +19,7 @@ function wp_cache_delete($id, $flag = '') {
 
 function wp_cache_flush() {
 	global $wp_object_cache;
-	
+
 	return $wp_object_cache->flush();
 }
 
@@ -60,28 +60,28 @@ class WP_Object_Cache {
 	var $mutex;
 	var $cache = array ();
 	var $dirty_objects = array ();
-	var $non_existant_objects = array();
-	var $global_groups = array('users', 'usermeta');
+	var $non_existant_objects = array ();
+	var $global_groups = array ('users', 'usermeta');
 	var $blog_id;
 	var $cold_cache_hits = 0;
 	var $warm_cache_hits = 0;
 	var $cache_misses = 0;
 
 	function add($id, $data, $group = 'default', $expire = '') {
-		if ( empty($group) )
+		if (empty ($group))
 			$group = 'default';
 
-		if ( false !== $this->get($id, $group, false) )
+		if (false !== $this->get($id, $group, false))
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
 	}
 
 	function delete($id, $group = 'default', $force = false) {
-		if ( empty($group) )
+		if (empty ($group))
 			$group = 'default';
 
-		if ( !$force && false === $this->get($id, $group, false) )
+		if (!$force && false === $this->get($id, $group, false))
 			return false;
 
 		unset ($this->cache[$group][$id]);
@@ -91,20 +91,24 @@ class WP_Object_Cache {
 	}
 
 	function flush() {
-		return $this->rm($this->cache_dir . '*');		
+		$this->rm($this->cache_dir.'*');
+		$this->cache = array ();
+		$this->dirty_objects = array ();
+		$this->non_existant_objects = array ();
+		return true;
 	}
-	
+
 	function get($id, $group = 'default', $count_hits = true) {
-		if ( empty($group) )
+		if (empty ($group))
 			$group = 'default';
 
 		if (isset ($this->cache[$group][$id])) {
-			if ( $count_hits )
+			if ($count_hits)
 				$this->warm_cache_hits += 1;
 			return $this->cache[$group][$id];
 		}
 
-		if ( isset($this->non_existant_objects[$group][$id]) )
+		if (isset ($this->non_existant_objects[$group][$id]))
 			return false;
 
 		//  If caching is not enabled, we have to fall back to pulling from the DB.
@@ -122,7 +126,7 @@ class WP_Object_Cache {
 			return false;
 		}
 
-		$cache_file = $this->cache_dir . $this->get_group_dir($group) . "/" . md5($id . DB_PASSWORD) . '.php';
+		$cache_file = $this->cache_dir.$this->get_group_dir($group)."/".md5($id.DB_PASSWORD).'.php';
 		if (!file_exists($cache_file)) {
 			$this->non_existant_objects[$group][$id] = true;
 			$this->cache_misses += 1;
@@ -132,14 +136,14 @@ class WP_Object_Cache {
 		// If the object has expired, remove it from the cache and return false to force
 		// a refresh.
 		$now = time();
-		if ( (filemtime($cache_file) + $this->expiration_time) <= $now ) {
+		if ((filemtime($cache_file) + $this->expiration_time) <= $now) {
 			$this->cache_misses += 1;
 			$this->delete($id, $group, true);
 			return false;
 		}
 
 		$this->cache[$group][$id] = unserialize(substr(@ file_get_contents($cache_file), strlen(CACHE_SERIAL_HEADER), -strlen(CACHE_SERIAL_FOOTER)));
-		if ( false === $this->cache[$group][$id])
+		if (false === $this->cache[$group][$id])
 			$this->cache[$group][$id] = '';
 
 		$this->cold_cache_hits += 1;
@@ -147,7 +151,7 @@ class WP_Object_Cache {
 	}
 
 	function get_group_dir($group) {
-		if ( false !== array_search($group, $this->global_groups) )
+		if (false !== array_search($group, $this->global_groups))
 			return $group;
 
 		return "{$this->blog_id}/$group";
@@ -172,78 +176,79 @@ class WP_Object_Cache {
 					$this->cache['category'][$catt->cat_ID]->fullpath = $fullpath;
 				}
 			}
-		} else if ( 'options' == $group ) {
-			$wpdb->hide_errors();
-			if ( !$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'") ) {
-				$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
-			}
-			$wpdb->show_errors();
+		} else
+			if ('options' == $group) {
+				$wpdb->hide_errors();
+				if (!$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'")) {
+					$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
+				}
+				$wpdb->show_errors();
 
-			foreach ($options as $option) {	
-				$this->cache['options'][$option->option_name] = $option->option_value;
+				foreach ($options as $option) {
+					$this->cache['options'][$option->option_name] = $option->option_value;
+				}
 			}
-		}
 	}
 
 	function make_group_dir($group, $perms) {
 		$group_dir = $this->get_group_dir($group);
 		$make_dir = '';
-		foreach ( split('/', $group_dir) as $subdir) {
+		foreach (split('/', $group_dir) as $subdir) {
 			$make_dir .= "$subdir/";
-			if (!file_exists($this->cache_dir . $make_dir)) {
-					if (!mkdir($this->cache_dir . $make_dir))
-						break;
-					@ chmod($this->cache_dir . $make_dir, $perms);
+			if (!file_exists($this->cache_dir.$make_dir)) {
+				if (!mkdir($this->cache_dir.$make_dir))
+					break;
+				@ chmod($this->cache_dir.$make_dir, $perms);
 			}
 
-			if (!file_exists($this->cache_dir . $make_dir . "index.php")) {
-				touch($this->cache_dir . $make_dir . "index.php");
+			if (!file_exists($this->cache_dir.$make_dir."index.php")) {
+				touch($this->cache_dir.$make_dir."index.php");
 			}
 		}
-		
-		return $this->cache_dir . "$group_dir/";
+
+		return $this->cache_dir."$group_dir/";
 	}
 
 	function rm($fileglob) {
-       if (is_file($fileglob)) {
-           return @unlink($fileglob);
-       } else if (is_dir($fileglob)) {
-           $ok = $this->rm("$fileglob/*");
-           if (! $ok) {
-               return false;
-           }
-           return @rmdir($fileglob);
-       } else {
-           $matching = glob($fileglob);
-           if ($matching === false)
-               return true;
-           $rcs = array_map(array('WP_Object_Cache', 'rm'), $matching);
-           if (in_array(false, $rcs)) {
-               return false;
-           }
-       }
-	   return true;
+		if (is_file($fileglob)) {
+			return @ unlink($fileglob);
+		} else
+			if (is_dir($fileglob)) {
+				$ok = WP_Object_Cache::rm("$fileglob/*");
+				if (!$ok)
+					return false;
+				return @ rmdir($fileglob);
+			} else {
+				$matching = glob($fileglob);
+				if ($matching === false)
+					return true;
+				$rcs = array_map(array ('WP_Object_Cache', 'rm'), $matching);
+				if (in_array(false, $rcs)) {
+					return false;
+				}
+			}
+		return true;
 	}
 
 	function replace($id, $data, $group = 'default', $expire = '') {
-		if ( empty($group) )
+		if (empty ($group))
 			$group = 'default';
 
-		if ( false === $this->get($id, $group, false) )
+		if (false === $this->get($id, $group, false))
 			return false;
 
 		return $this->set($id, $data, $group, $expire);
 	}
 
 	function set($id, $data, $group = 'default', $expire = '') {
-		if ( empty($group) )
+		if (empty ($group))
 			$group = 'default';
 
-		if ( NULL == $data)
+		if (NULL == $data)
 			$data = '';
 
 		$this->cache[$group][$id] = $data;
-		unset($this->non_existant_objects[$group][$id]);
+		unset ($this->non_existant_objects[$group][$id]);
 		$this->dirty_objects[$group][] = $id;
 
 		return true;
@@ -268,9 +273,9 @@ class WP_Object_Cache {
 				return;
 			@ chmod($this->cache_dir, $dir_perms);
 		}
-		
-		if (!file_exists($this->cache_dir . "index.php")) {
-			touch($this->cache_dir . "index.php");
+
+		if (!file_exists($this->cache_dir."index.php")) {
+			touch($this->cache_dir."index.php");
 		}
 
 		// Acquire a write lock.  Semaphore preferred.  Fallback to flock.
@@ -290,22 +295,22 @@ class WP_Object_Cache {
 
 			$ids = array_unique($ids);
 			foreach ($ids as $id) {
-				$cache_file = $group_dir . md5($id . DB_PASSWORD) . '.php';
+				$cache_file = $group_dir.md5($id.DB_PASSWORD).'.php';
 
 				// Remove the cache file if the key is not set.
-				if ( ! isset($this->cache[$group][$id]) ) {
-					if ( file_exists($cache_file) )
+				if (!isset ($this->cache[$group][$id])) {
+					if (file_exists($cache_file))
 						unlink($cache_file);
 					continue;
 				}
 
 				$temp_file = tempnam($group_dir, 'tmp');
-				$serial = CACHE_SERIAL_HEADER . serialize($this->cache[$group][$id]) . CACHE_SERIAL_FOOTER;
+				$serial = CACHE_SERIAL_HEADER.serialize($this->cache[$group][$id]).CACHE_SERIAL_FOOTER;
 				$fd = fopen($temp_file, 'w');
 				fputs($fd, $serial);
-				fclose($fd);				
-				if (!@rename($temp_file, $cache_file)) {
-					if (copy ($temp_file, $cache_file)) {
+				fclose($fd);
+				if (!@ rename($temp_file, $cache_file)) {
+					if (copy($temp_file, $cache_file)) {
 						unlink($temp_file);
 					}
 				}
@@ -333,35 +338,36 @@ class WP_Object_Cache {
 			echo "<pre>";
 			print_r($cache);
 			echo "</pre>";
-			if ( isset($this->dirty_objects[$group]) ) {
+			if (isset ($this->dirty_objects[$group])) {
 				echo "<strong>Dirty Objects:</strong>";
 				echo "<pre>";
 				print_r(array_unique($this->dirty_objects[$group]));
 				echo "</pre>";
 				echo "</p>";
-			}				
+			}
 		}
 	}
 
 	function WP_Object_Cache() {
 		global $blog_id;
 
-		if ( defined('DISABLE_CACHE') )
+		if (defined('DISABLE_CACHE'))
 			return;
 
-		if ( defined('CACHE_PATH') )
+		if (defined('CACHE_PATH'))
 			$this->cache_dir = CACHE_PATH;
 		else
 			$this->cache_dir = ABSPATH.'wp-content/cache/';
 
-		if ( is_dir($this->cache_dir) ) {
-			if ( is_writable($this->cache_dir) )
+		if (is_dir($this->cache_dir)) {
+			if (is_writable($this->cache_dir))
 				$this->cache_enabled = true;
-		} else if (is_writable(ABSPATH.'wp-content')) {
-			$this->cache_enabled = true;
-		}
+		} else
+			if (is_writable(ABSPATH.'wp-content')) {
+				$this->cache_enabled = true;
+			}
 
-		if ( defined('CACHE_EXPIRATION_TIME') )
+		if (defined('CACHE_EXPIRATION_TIME'))
 			$this->expiration_time = CACHE_EXPIRATION_TIME;
 
 		$this->blog_id = md5($blog_id);

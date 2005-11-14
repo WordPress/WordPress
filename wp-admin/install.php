@@ -137,6 +137,7 @@ if (empty($admin_email)) {
 flush();
 
 // Set everything up
+wp_cache_flush();
 make_db_current_silent();
 populate_options();
 populate_roles();
@@ -198,6 +199,7 @@ http://wordpress.org/
 
 @wp_mail($admin_email, __('New WordPress Blog'), $message, $message_headers);
 
+wp_cache_flush();
 ?>
 
 <p><em><?php _e('Finished!'); ?></em></p>
