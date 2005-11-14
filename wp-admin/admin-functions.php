@@ -512,8 +512,15 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				$category->cat_name = wp_specialchars($category->cat_name);
 				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 				$pad = str_repeat('&#8212; ', $level);
-				if (current_user_can('manage_categories'))
-					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td><td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts will go to the default category.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars($category->cat_name, 1))."' );\" class='delete'>".__('Delete')."</a>";
+				if ( current_user_can('manage_categories') ) {
+					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td>";
+					$default_cat_id = get_option('default_category');
+					
+					if ($category->cat_ID != $default_cat_id)
+						$edit .= "<td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts will go to the default category.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars($category->cat_name, 1))."' );\" class='delete'>".__('Delete')."</a>";
+					else
+						$edit .= "<td style='text-align:center'>".__("Default");
+				}
 				else
 					$edit = '';
 
