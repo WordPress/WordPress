@@ -41,6 +41,8 @@ if (empty($file)) {
 $file = validate_file_to_edit($file, $allowed_files);
 $real_file = get_real_file_to_edit($file);
 
+$file_show = basename( $file );
+
 switch($action) {
 
 case 'update':
@@ -104,10 +106,10 @@ default:
 
  <div class="wrap"> 
   <?php
-	if (is_writeable($real_file)) {
-		echo '<h2>' . sprintf(__('Editing <code>%s</code>'), $file) . '</h2>';
+	if ( is_writeable($real_file) ) {
+		echo '<h2>' . sprintf(__('Editing <code>%s</code>'), $file_show) . '</h2>';
 	} else {
-		echo '<h2>' . sprintf(__('Browsing <code>%s</code>'), $file) . '</h2>';
+		echo '<h2>' . sprintf(__('Browsing <code>%s</code>'), $file_show) . '</h2>';
 	}
 	?>
 	<div id="templateside">
