@@ -836,14 +836,11 @@ function update_meta($mid, $mkey, $mvalue) {
 
 function touch_time($edit = 1, $for_post = 1) {
 	global $month, $post, $comment;
-	if ($for_post && ('draft' == $post->post_status)) {
-		$checked = 'checked="checked" ';
-		$edit = false;
-	} else {
-		$checked = ' ';
-	}
 
-	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" '.$checked.'/> <label for="timestamp">'.__('Edit timestamp').'</label></legend>';
+	if ( $for_post )
+		$edit = ( ('draft' == $post->post_status) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date) ) ? false : true;
+ 
+	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">'.__('Edit timestamp').'</label></legend>';
 
 	$time_adj = time() + (get_settings('gmt_offset') * 3600);
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
@@ -873,19 +870,11 @@ function touch_time($edit = 1, $for_post = 1) {
 <input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" /> : 
 <input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" /> 
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" /> 
-<?php _e('Existing timestamp'); ?>: 
-	<?php
-
-	// We might need to readjust to display proper existing timestamp
-	if ($for_post && ('draft' == $post->post_status)) {
-		$jj = mysql2date('d', $post_date);
-		$mm = mysql2date('m', $post_date);
-		$aa = mysql2date('Y', $post_date);
-		$hh = mysql2date('H', $post_date);
-		$mn = mysql2date('i', $post_date);
-		$ss = mysql2date('s', $post_date);
+<?php
+	if ( $edit ) {
+		_e('Existing timestamp');
+		echo ": {$month[$mm]} $jj, $aa @ $hh:$mn";
 	}
-	echo "{$month[$mm]} $jj, $aa @ $hh:$mn";
 ?>
 </fieldset>
 	<?php
