@@ -22,41 +22,40 @@ switch ($step) {
 ?>
 
 <div class="wrap">
+<h2><?php _e('Import your blogroll from another system') ?> </h2>
+<form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 
-    <h2><?php _e('Import your blogroll from another system') ?> </h2>
-	<!-- <form name="blogroll" action="link-import.php" method="get"> -->
-	<form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
+<p><?php _e('If a program or website you use allows you to export your links or subscriptions as OPML you may import them here.'); ?>
+<div style="width: 70%; margin: auto; height: 8em;">
+<input type="hidden" name="step" value="1" />
+<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+<div style="width: 48%; float: left;">
+<h3><?php _e('Specify an OPML URL:'); ?></h3>
+<input type="text" name="opml_url" size="50" style="width: 90%;" value="http://" />
+</div>
 
-	<ol>
-    <li><?php _e('Go to <a href="http://www.blogrolling.com">Blogrolling.com</a> and sign in. Once you&#8217;ve done that, click on <strong>Get Code</strong>, and then look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr> code</strong>') ?>.</li>
-    <li><?php _e('Or go to <a href="http://blo.gs">Blo.gs</a> and sign in. Once you&#8217;ve done that in the \'Welcome Back\' box on the right, click on <strong>share</strong>, and then look for the <strong><abbr title="Outline Processor Markup Language">OPML</abbr> link</strong> (favorites.opml).') ?></li>
-    <li><?php _e('Select that text and copy it or copy the link/shortcut into the box below.') ?><br />
-       <input type="hidden" name="step" value="1" />
-       <?php _e('Your OPML URL:') ?> <input type="text" name="opml_url" size="65" />
-	</li>
-    <li>
-	   <?php _e('<strong>or</strong> you can upload an OPML file from your desktop aggregator:') ?><br />
-       <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-       <label><?php _e('Upload this file:') ?> <input name="userfile" type="file" /></label>
-    </li>
+<div style="width: 48%; float: left;">
+<h3><?php _e('Or choose from your local disk:'); ?></h3>
+<input name="userfile" type="file" size="30" />
+</div>
 
-    <li><?php _e('Now select a category you want to put these links in.') ?><br />
-	<?php _e('Category:') ?> <select name="cat_id">
+
+</div>
+
+<p style="clear: both; margin-top: 1em;"><?php _e('Now select a category you want to put these links in.') ?><br />
+<?php _e('Category:') ?> <select name="cat_id">
 <?php
-	$categories = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
-	foreach ($categories as $category) {
+$categories = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
+foreach ($categories as $category) {
 ?>
-    <option value="<?php echo $category->cat_id; ?>"><?php echo $category->cat_id.': '.$category->cat_name; ?></option>
+<option value="<?php echo $category->cat_id; ?>"><?php echo $category->cat_id.': '.$category->cat_name; ?></option>
 <?php
-        } // end foreach
+} // end foreach
 ?>
-    </select>
+</select></p>
 
-	</li>
-
-    <li><input type="submit" name="submit" value="<?php _e('Import!') ?>" /></li>
-	</ol>
-    </form>
+<p class="submit"><input type="submit" name="submit" value="<?php _e('Import OPML File') ?> &raquo;" /></p>
+</form>
 
 </div>
 <?php
