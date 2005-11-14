@@ -267,14 +267,16 @@ function get_settings($setting) {
 	if ( false === $value ) {
 		if ( defined('WP_INSTALLING') )
 			$wpdb->hide_errors();
-		$value = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1");
+		$row = $wpdb->get_row("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1");
 		if ( defined('WP_INSTALLING') )
 			$wpdb->show_errors();
 
-		if( $value )
+		if( is_object( $row) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
+			$value = $row->option_value;
 			wp_cache_set($setting, $value, 'options');
-		else
+		} else {
 			return false;
+		}
 	}
 
 	// If home is not set use siteurl.
