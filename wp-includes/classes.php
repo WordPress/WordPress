@@ -618,7 +618,7 @@ class WP_Query {
 					}
 				}
 			} else {
-				if (mysql2date('U', $this->posts[0]->post_date) > mysql2date('U', $now)) { //it's future dated
+				if (mysql2date('U', $this->posts[0]->post_date_gmt) > mysql2date('U', $now)) { //it's future dated
 					$this->is_preview = true;
 					if (!current_user_can('edit_post', $this->posts[0]->ID)) {
 						$this->posts = array ( );
