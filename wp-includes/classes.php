@@ -511,7 +511,7 @@ class WP_Query {
 			$q['orderby']='date '.$q['order'];
 		} else {
 			// Used to filter values
-			$allowed_keys = array('author','date','category','title');
+			$allowed_keys = array('author', 'date', 'category', 'title', 'modified');
 			$q['orderby'] = urldecode($q['orderby']);
 			$q['orderby'] = addslashes_gpc($q['orderby']);
 			$orderby_array = explode(' ',$q['orderby']);
