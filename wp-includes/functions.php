@@ -267,16 +267,14 @@ function get_settings($setting) {
 	if ( false === $value ) {
 		if ( defined('WP_INSTALLING') )
 			$wpdb->hide_errors();
-		$value = $wpdb->get_row("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
+		$value = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting' LIMIT 1");
 		if ( defined('WP_INSTALLING') )
 			$wpdb->show_errors();
 
-		if( is_object( $value ) ) {
-			$value = $value->option_value;
+		if( $value )
 			wp_cache_set($setting, $value, 'options');
-		} else {
+		else
 			return false;
-		}
 	}
 
 	// If home is not set use siteurl.
