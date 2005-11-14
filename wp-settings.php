@@ -38,9 +38,10 @@ if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 if ( strpos($_SERVER['SCRIPT_FILENAME'], 'php.cgi') == strlen($_SERVER['SCRIPT_FILENAME']) - 7 )
 	$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
 
-// Fix for PHP as CGI hosts that set PATH_INFO to PHP_SELF value
-if ( isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] == $_SERVER['PHP_SELF'] )
+// Fix for Dreamhost and other PHP as CGI hosts
+if ( strstr( $_SERVER['SCRIPT_NAME'], 'php.cgi' ) )
 	unset($_SERVER['PATH_INFO']);
+
 
 if ( !(phpversion() >= '4.1') )
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
