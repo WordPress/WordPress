@@ -261,13 +261,16 @@ function url_to_postid($url) {
 
 function get_settings($setting) {
 	global $wpdb;
-	if ( strstr($_SERVER['REQUEST_URI'], 'wp-admin/install.php') || defined('WP_INSTALLING') )
-		return false;
 
 	$value = wp_cache_get($setting, 'options');
 
 	if ( false === $value ) {
+		if ( defined('WP_INSTALLING') )
+			$wpdb->hide_errors();
 		$value = $wpdb->get_row("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
+		if ( defined('WP_INSTALLING') )
+			$wpdb->show_errors();
+
 		if( is_object( $value ) ) {
 			$value = $value->option_value;
 			wp_cache_set($setting, $value, 'options');

@@ -141,8 +141,8 @@ make_db_current_silent();
 populate_options();
 populate_roles();
 
-$wpdb->query("UPDATE $wpdb->options SET option_value = '$weblog_title' WHERE option_name = 'blogname'");
-$wpdb->query("UPDATE $wpdb->options SET option_value = '$admin_email' WHERE option_name = 'admin_email'");
+update_option('blogname', $weblog_title);
+update_option('admin_email', $admin_email);
 
 // Now drop in some default links
 $wpdb->query("INSERT INTO $wpdb->linkcategories (cat_id, cat_name) VALUES (1, '".$wpdb->escape(__('Blogroll'))."')");
