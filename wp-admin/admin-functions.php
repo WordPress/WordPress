@@ -326,6 +326,10 @@ function edit_user($user_id = 0) {
 			$errors['pass'] = __("<strong>ERROR</strong>: you typed your new password only once.");
 	}
 
+	/* Check for "\" in password */
+	if( strpos( " ".$pass1, "\\" ) )
+		$errors['pass'] = __('<strong>ERROR</strong>: Passwords may not contain the character "\\".');
+
 	/* checking the password has been typed twice the same */
 	if ($pass1 != $pass2)
 		$errors['pass'] = __('<strong>ERROR</strong>: Please type the same password in the two password fields.');
