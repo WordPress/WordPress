@@ -30,7 +30,7 @@ function upgrade_all() {
 		upgrade_130();
 	}
 	
-	if ( $wp_current_db_version < 2966 )
+	if ( $wp_current_db_version < 3091 )
 		upgrade_160();
 
 	save_mod_rewrite_rules();
@@ -296,7 +296,7 @@ function upgrade_160() {
 	if ( 0 == $wpdb->get_var("SELECT SUM(category_count) FROM $wpdb->categories") ) { // Create counts
 		$categories = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
 		foreach ( $categories as $cat_id ) {
-			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat WHERE category_id = '$cat_id'");
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
 			$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
 		}
 	}

@@ -167,6 +167,14 @@ function wp_insert_post($postarr = array()) {
 
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
+
+		// Update category counts.
+		foreach ( $post_category as $cat_id ) {
+			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
+			$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
+			wp_cache_delete($cat_id, 'category');		
+		}
+
 		if ($post_pingback && !defined('WP_IMPORTING'))
 			$result = $wpdb->query("
 				INSERT INTO $wpdb->postmeta 
@@ -476,6 +484,16 @@ function wp_delete_post($postid = 0) {
 		return $post;
 
 	do_action('delete_post', $postid);
+
+	if ( 'publish' == $post->post_status) {
+		$categories = wp_get_post_cats('', $post->ID);
+		if( is_array( $categories ) ) {
+			foreach ( $categories as $cat_id ) {
+				$wpdb->query("UPDATE $wpdb->categories SET category_count = category_count - 1 WHERE cat_ID = '$cat_id'");
+				wp_cache_delete($cat_id, 'category');
+			}
+		}
+	}
 
 	if ( 'static' == $post->post_status )
 		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_status = 'static'");
