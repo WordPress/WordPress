@@ -385,10 +385,6 @@ function wp_update_post($postarr = array()) {
  	else 
  		$post_cats = $post['post_category'];
 
-	// Merge old and new fields with new fields overwriting old ones.
-	$postarr = array_merge($post, $postarr);
-	$postarr['post_category'] = $post_cats;	
-
 	// Drafts shouldn't be assigned a date unless explicitly done so by the user
 	if ( 'draft' == $post['post_status'] && empty($postarr['edit_date']) && empty($postarr['post_date']) && 
 	     ('0000-00-00 00:00:00' == $post['post_date']) )
