@@ -1730,4 +1730,54 @@ function wp_shrink_dimensions($width, $height, $wmax = 128, $hmax = 96) {
 		return array((int) ($width / $height * $hmax), $hmax);
 }
 
+function wp_import_cleanup($file) {
+	wp_delete_attachment($file['id']);
+}
+
+function wp_import_upload_form($action) {
+?>
+<script type="text/javascript">
+function cancelUpload() {
+o = document.getElementById('uploadForm');
+o.method = 'GET';
+o.action.value = 'view';
+o.submit();
+}
+</script>
+<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo $action ?>">
+<label for="upload"><?php _e('File:'); ?></label><input type="file" id="upload" name="import" />
+<input type="hidden" name="action" value="save" />
+<div id="buttons">
+<input type="submit" value="<?php _e('Import'); ?>" />
+<input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
+</div>
+</form>
+<?php	
+}
+
+function wp_import_handle_upload() {
+	$overrides = array('test_form' => false, 'test_type' => false);
+	$file = wp_handle_upload($_FILES['import'], $overrides);
+
+	if ( isset($file['error']) )
+		return $file;
+
+	$url = $file['url'];
+	$file = $file['file'];
+	$filename = basename($file);
+
+	// Construct the object array
+	$object = array(
+		'post_title' => $filename,
+		'post_content' => $url,
+		'post_mime_type' => 'import',
+		'guid' => $url
+	);
+
+	// Save the data
+	$id = wp_insert_attachment($object, $file);
+
+	return array('file' => $file, 'id' => $id);
+}
+
 ?>

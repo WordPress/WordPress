@@ -7,6 +7,7 @@ define('RSSFILE', 'rss.xml');
 class RSS_Import {
 
 	var $posts = array ();
+	var $file;
 
 	function header() {
 		echo '<div class="wrap">';
@@ -24,20 +25,15 @@ class RSS_Import {
 	}
 	
 	function greet() {
-		_e("<p>Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. To get started you must edit the following line in this file (<code>import/rss.php</code>) </p>
-<p><code>define('RSSFILE', '');</code></p>
-<p>You want to define where the RSS file we'll be working with is, for example: </p>
-<p><code>define('RSSFILE', 'rss.xml');</code></p>
-<p>You have to do this manually for security reasons. When you're done reload this page and we'll take you to the next step.</p>");
-		if ('' != RSSFILE)
-			echo '<a href="admin.php?import=rss&amp;step=1">' . __('Begin RSS Import &raquo;') . '</a>';
+		_e("<p>Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.</p>");
+		wp_import_upload_form("admin.php?import=rss&amp;step=1");
 	}
 
 	function get_posts() {
 		global $wpdb;
 		
 		set_magic_quotes_runtime(0);
-		$datalines = file(RSSFILE); // Read the file into an array
+		$datalines = file($this->file); // Read the file into an array
 		$importdata = implode('', $datalines); // squish it
 		$importdata = str_replace(array ("\r\n", "\r"), "\n", $importdata);
 
@@ -115,9 +111,11 @@ class RSS_Import {
 				echo __('Post already imported');
 			} else {
 				$post_id = wp_insert_post($post);
-				if (!$post_id)
-					die(__("Couldn't get post ID"));
-	
+				if (!$post_id) {
+					echo(__("Couldn't get post ID"));
+					return;
+				}
+
 				if (0 != count($categories))
 					wp_create_categories($categories, $post_id);
 				echo __('Done !');
@@ -130,15 +128,17 @@ class RSS_Import {
 	}
 
 	function import() {
-		// FIXME:  Don't die
-		if ('' == RSSFILE)
-			die("You must edit the RSSFILE line as described on the <a href='import-mt.php'>previous page</a> to continue.");
+		$file = wp_import_handle_upload();
+		if ( isset($file['error']) ) {
+			echo $file['error'];
+			return;
+		}
 
-		if (!file_exists(RSSFILE))
-			die("The file you specified does not seem to exist. Please check the path you've given.");
-
+		$this->file = $file['file'];
 		$this->get_posts();
 		$this->import_posts();
+		wp_import_cleanup($file);
+
 		echo '<h3>All done. <a href="' . get_option('home') . '">Have fun!</a></h3>';
 	}
 
