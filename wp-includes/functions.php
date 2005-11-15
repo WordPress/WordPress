@@ -1397,10 +1397,10 @@ function is_page ($page = '') {
 	return false;
 }
 
-function is_subpost () {
+function is_attachment () {
 	global $wp_query;
 
-	return $wp_query->is_subpost;
+	return $wp_query->is_attachment;
 }
 
 function is_preview() {
@@ -1894,9 +1894,9 @@ function get_single_template() {
 	return get_query_template('single');
 }
 
-function get_subpost_template() {
+function get_attachment_template() {
 	global $posts;
-	$type = explode('/', $posts[0]->post_type);
+	$type = explode('/', $posts[0]->post_mime_type);
 	if ( $template = get_query_template($type[0]) )
 		return $template;
 	elseif ( $template = get_query_template($type[1]) )
@@ -1904,7 +1904,7 @@ function get_subpost_template() {
 	elseif ( $template = get_query_template("$type[0]_$type[1]") )
 		return $template;
 	else
-		return get_query_template('subpost');
+		return get_query_template('attachment');
 }
 
 function get_comments_popup_template() {

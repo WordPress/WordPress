@@ -5,7 +5,7 @@ require_once('admin.php');
 if (!current_user_can('edit_posts'))
 	die(__('You do not have permission to edit posts.'));
 
-$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'object', 'flickrtag');
+$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'attachment', 'flickrtag');
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
@@ -37,7 +37,7 @@ function get_udims($width, $height) {
 switch($action) {
 case 'delete':
 
-wp_delete_object($object);
+wp_delete_attachment($attachment);
 
 header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&start=$start");
 die;
@@ -55,20 +55,20 @@ $url = $file['url'];
 $file = $file['file'];
 $filename = basename($file);
 
-// Construct the object array
-$object = array(
+// Construct the attachment array
+$attachment = array(
 	'post_title' => $imgtitle ? $imgtitle : $filename,
 	'post_content' => $descr,
-	'post_status' => 'object',
+	'post_status' => 'attachment',
 	'post_parent' => $post,
-	'post_type' => $_FILES['image']['type'],
+	'post_mime_type' => $_FILES['image']['type'],
 	'guid' => $url
 	);
 
 // Save the data
-$id = wp_attach_object($object, $post);
+$id = wp_insert_attachment($attachment, $file, $post);
 
-// Generate the object's postmeta.
+// Generate the attachment's postmeta.
 $imagesize = getimagesize($file);
 $imagedata['width'] = $imagesize['0'];
 $imagedata['height'] = $imagesize['1'];
@@ -81,7 +81,7 @@ add_post_meta($id, 'imagedata', $imagedata);
 
 if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
 	if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
-		$error = wp_create_thumbnail($file['file'], 128);
+		$error = wp_create_thumbnail($file, 128);
 	elseif ( $imagedata['height'] > 96 )
 		$error = wp_create_thumbnail($file, 96);
 }
@@ -109,7 +109,7 @@ if ( $post && empty($all) ) {
 }
 
 if ( $last )
-	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'object' AND left(post_type, 5) = 'image' $and_post") - $num;
+	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image' $and_post") - $num;
 else
 	$start = (int) $start;
 
@@ -119,7 +119,7 @@ if ( $start < 0 )
 if ( '' == $sort )
 	$sort = "ID";
 
-$images = $wpdb->get_results("SELECT ID, post_date, post_title, guid FROM $wpdb->posts WHERE post_status = 'object' AND left(post_type, 5) = 'image' $and_post ORDER BY $sort LIMIT $start, $double", ARRAY_A);
+$images = $wpdb->get_results("SELECT ID, post_date, post_title, guid FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image' $and_post ORDER BY $sort LIMIT $start, $double", ARRAY_A);
 
 if ( count($images) > $num ) {
 	$next = $start + count($images) - $num;
@@ -143,20 +143,19 @@ $images_script = '';
 if ( count($images) > 0 ) {
 	$images = array_slice( $images, 0, $num );
 	$__delete = __('DELETE');
-	$__subpost_on = __('SUBPOST <strong>ON</strong>');
-	$__subpost_off = __('SUBPOST <strong>OFF</strong>');
+	$__attachment_on = __('ATTACHMENT <strong>ON</strong>');
 	$__thumbnail_on = __('THUMBNAIL <strong>ON</strong>');
 	$__thumbnail_off = __('THUMBNAIL <strong>OFF</strong>');
 	$__no_thumbnail = __('<del>THUMBNAIL</del>');
 	$__close = __('CLOSE');
 	$__confirmdelete = __('Delete this photo from the server?');
 	$__nothumb = __('There is no thumbnail associated with this photo.');
-	$images_script .= "subposton = '$__subpost_on';\nsubpostoff = '$__subpost_off';\n";
+	$images_script .= "attachmenton = '$__attachment_on';\nattachmentoff = '$__attachment_off';\n";
 	$images_script .= "thumbnailon = '$__thumbnail_on';\nthumbnailoff = '$__thumbnail_off';\n";
 	foreach ( $images as $key => $image ) {
 		$meta = get_post_meta($image['ID'], 'imagedata', true);
 		if (!is_array($meta)) {
-			wp_delete_object($image['ID']);
+			wp_delete_attachment($image['ID']);
 			continue;
 		}
 		$image = array_merge($image, $meta);
@@ -175,16 +174,16 @@ if ( count($images) > 0 ) {
 		$uwidth_sum += 128;
 		$xpadding = (128 - $image['uwidth']) / 2;
 		$ypadding = (96 - $image['uheight']) / 2;
-		$object = $image['ID'];
+		$attachment = $image['ID'];
 		$images_style .= "#target$i img { padding: {$ypadding}px {$xpadding}px; }\n";
-		$href = get_subpost_link($object);
+		$href = get_attachment_link($attachment);
 		$images_script .= "href".$i."a = '$href';\nhref".$i."b = '{$image['guid']}';\n";
 		$images_html .= "
 <div id='target$i' class='imagewrap left'>
 	<div id='popup$i' class='popup'>
-		<a id=\"L$i\" onclick=\"toggleLink($i);return false;\" href=\"javascript:void();\">$__subpost_on</a>
+		<a id=\"L$i\" onclick=\"toggleLink($i);return false;\" href=\"javascript:void();\">$__attachment_on</a>
 		<a id=\"I$i\" onclick=\"if($thumb)toggleImage($i);else alert('$__nothumb');return false;\" href=\"javascript:void();\">$thumbtext</a>
-		<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;object=$object&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
+		<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment=$attachment&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
 		<a onclick=\"popup.style.display='none';return false;\" href=\"javascript:void()\">$__close</a>
 	</div>
 	<a id=\"link$i\" class=\"imagelink\" href=\"$href\" onclick=\"imagePopup($i);return false;\" title=\"{$image['post_title']}\">		
@@ -244,12 +243,12 @@ popup = false;
 function toggleLink(n) {
 	o=document.getElementById('link'+n);
 	oi=document.getElementById('L'+n);
-	if ( oi.innerHTML == subposton ) {
+	if ( oi.innerHTML == attachmenton ) {
 		o.href = eval('href'+n+'b');
-		oi.innerHTML = subpostoff;
+		oi.innerHTML = attachmentoff;
 	} else {
 		o.href = eval('href'+n+'a');
-		oi.innerHTML = subposton;
+		oi.innerHTML = attachmenton;
 	}
 }
 function toggleImage(n) {

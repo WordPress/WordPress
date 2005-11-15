@@ -30,7 +30,7 @@ function upgrade_all() {
 		upgrade_130();
 	}
 	
-	if ( $wp_current_db_version < 3091 )
+	if ( $wp_current_db_version < 3092 )
 		upgrade_160();
 
 	save_mod_rewrite_rules();
@@ -240,8 +240,8 @@ function upgrade_130() {
 }
 
 function upgrade_160() {
-	global $wpdb, $table_prefix;
-	
+	global $wpdb, $table_prefix, $wp_current_db_version;
+
 	populate_roles_160();
 
 	$users = $wpdb->get_results("SELECT * FROM $wpdb->users");
@@ -298,6 +298,23 @@ function upgrade_160() {
 		foreach ( $categories as $cat_id ) {
 			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
 			$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
+		}
+	}
+	
+	// Some alpha versions used a post status of object instead of attachment and put
+	// the mime type in post_type instead of post_mime_type.
+	if ( $wp_current_db_version > 2541 && $wp_current_db_version <= 3091 ) {
+		$objects = $wpdb->get_results("SELECT ID, post_type FROM $wpdb->posts WHERE post_status = 'object'");
+		foreach ($objects as $object) {
+			$wpdb->query("UPDATE $wpdb->posts SET post_status = 'attachment',
+			post_mime_type = '$object->post_type',
+			post_type = '',
+			guid = '$guid'
+			WHERE ID = $object->ID");
+			
+			$meta = get_post_meta($postid, 'imagedata', true);
+			if ( ! empty($meta['file']) )
+				add_post_meta($object->ID, '_wp_attached_file', $meta['file']);
 		}
 	}
 }

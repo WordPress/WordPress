@@ -106,7 +106,7 @@ CREATE TABLE $wpdb->posts (
   post_title text NOT NULL,
   post_category int(4) NOT NULL default '0',
   post_excerpt text NOT NULL,
-  post_status enum('publish','draft','private','static','object') NOT NULL default 'publish',
+  post_status enum('publish','draft','private','static','object','attachment') NOT NULL default 'publish',
   comment_status enum('open','closed','registered_only') NOT NULL default 'open',
   ping_status enum('open','closed') NOT NULL default 'open',
   post_password varchar(20) NOT NULL default '',
@@ -120,6 +120,7 @@ CREATE TABLE $wpdb->posts (
   guid varchar(255) NOT NULL default '',
   menu_order int(11) NOT NULL default '0',
   post_type varchar(100) NOT NULL,
+  post_mime_type varchar(100) NOT NULL,
   PRIMARY KEY  (ID),
   KEY post_name (post_name)
 );

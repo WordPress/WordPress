@@ -59,7 +59,7 @@ function write_post() {
 	$post_ID = wp_insert_post($_POST);
 	add_meta($post_ID);
 
-	// Reunite any orphaned subposts with their parent
+	// Reunite any orphaned attachments with their parent
 	if ( $_POST['temp_ID'] )
 		relocate_children($_POST['temp_ID'], $post_ID);
 

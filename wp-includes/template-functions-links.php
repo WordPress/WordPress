@@ -44,8 +44,8 @@ function get_permalink($id = 0) {
 	$post = &get_post($id);
 	if ( $post->post_status == 'static' )
 		return get_page_link($post->ID);
-	elseif ($post->post_status == 'object')
-		return get_subpost_link($post->ID);
+	elseif ($post->post_status == 'attachment')
+		return get_attachment_link($post->ID);
 
 	$permalink = get_settings('permalink_structure');
 
@@ -102,7 +102,7 @@ function get_page_link($id = false) {
 	return apply_filters('page_link', $link, $id);
 }
 
-function get_subpost_link($id = false) {
+function get_attachment_link($id = false) {
 	global $post, $wp_rewrite;
 
 	$link = false;
@@ -120,10 +120,10 @@ function get_subpost_link($id = false) {
 	}
 
 	if (! $link ) {
-		$link = get_bloginfo('home') . "/?subpost_id=$id";
+		$link = get_bloginfo('home') . "/?attachment_id=$id";
 	}
 
-	return apply_filters('object_link', $link, $id);
+	return apply_filters('attachment_link', $link, $id);
 }
 
 function get_year_link($year) {
@@ -209,7 +209,7 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 
 	get_currentuserinfo();
 
-	if ( !user_can_edit_post($user_ID, $post->ID) || is_subpost() ) {
+	if ( !user_can_edit_post($user_ID, $post->ID) || is_attachment() ) {
 		return;
 	}
 
@@ -234,7 +234,7 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
 function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 	global $post, $wpdb;
 
-	if( !is_single() || is_subpost() )
+	if( !is_single() || is_attachment() )
 		return null;
 
 	$current_post_date = $post->post_date;
@@ -265,7 +265,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
 	global $post, $wpdb;
 
-	if( !is_single() || is_subpost() )
+	if( !is_single() || is_attachment() )
 		return null;
 
 	$current_post_date = $post->post_date;
@@ -297,7 +297,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 
 
 function previous_post_link($format='&laquo; %link', $link='%title', $in_same_cat = false, $excluded_categories = '') {
-	if ( is_subpost() ) {
+	if ( is_attachment() ) {
 		$post = & get_post($GLOBALS['post']->post_parent);
 		$pre = __('Belongs to ');
 	} else {

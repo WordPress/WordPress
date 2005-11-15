@@ -131,9 +131,9 @@ function wp_insert_post($postarr = array()) {
 	} else {
 		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type)
+			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type')");
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
 			$post_ID = $wpdb->insert_id;			
 	}
 
@@ -203,7 +203,7 @@ function wp_insert_post($postarr = array()) {
 	return $post_ID;
 }
 
-function wp_attach_object($object, $post_parent = 0) {
+function wp_insert_attachment($object, $file, $post_parent = 0) {
 	global $wpdb, $user_ID;
 	
 	// Export array as variables
@@ -217,7 +217,7 @@ function wp_attach_object($object, $post_parent = 0) {
 	$post_name       = apply_filters('name_save_pre',      $post_name);
 	$comment_status  = apply_filters('comment_status_pre', $comment_status);
 	$ping_status     = apply_filters('ping_status_pre',    $ping_status);
-	$post_type       = apply_filters('post_type_pre',      $post_type);
+	$post_mime_type  = apply_filters('post_mime_type_pre', $post_mime_type);
 
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
@@ -228,7 +228,7 @@ function wp_attach_object($object, $post_parent = 0) {
 	if ( empty($post_author) )
 		$post_author = $user_ID;
 
-	$post_status = 'object';
+	$post_status = 'attachment';
 
 	// Get the post ID.
 	if ( $update )
@@ -290,15 +290,15 @@ function wp_attach_object($object, $post_parent = 0) {
 			post_modified_gmt = '$post_date_gmt',
 			post_parent = '$post_parent',
 			menu_order = '$menu_order',
-			post_type = '$post_type',
+			post_mime_type = '$post_mime_type',
 			guid = '$guid'
 			WHERE ID = $post_ID");
 	} else {
 		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_type, guid)
+			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_type', '$guid')");
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
 			$post_ID = $wpdb->insert_id;			
 	}
 	
@@ -309,28 +309,31 @@ function wp_attach_object($object, $post_parent = 0) {
 
 	wp_set_post_cats('', $post_ID, $post_category);
 
+	add_post_meta($post_ID, '_wp_attached_file', $file);
+
 	clean_post_cache($post_ID);
 
 	if ( $update) {
-		do_action('edit_object', $post_ID);
+		do_action('edit_attachment', $post_ID);
 	} else {
-		do_action('attach_object', $post_ID);
+		do_action('add_attachment', $post_ID);
 	}
 	
 	return $post_ID;
 }
 
-function wp_delete_object($postid) {
+function wp_delete_attachment($postid) {
 	global $wpdb;
 	$postid = (int) $postid;
 
 	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
 		return $post;
 
-	if ( 'object' != $post->post_status )
+	if ( 'attachment' != $post->post_status )
 		return false;
 
-	$obj_meta = get_post_meta($postid, 'imagedata', true);
+	$meta = get_post_meta($postid, 'imagedata', true);
+	$file = get_post_meta($postid, '_wp_attached_file', true);
 
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
 
@@ -340,9 +343,13 @@ function wp_delete_object($postid) {
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
-	@ unlink($obj_meta['file']);
+	if ( ! empty($meta['file']) )
+		@ unlink($meta['file']);
 
-	do_action('delete_object', $postid);
+	if ( ! empty($file) )
+		@ unlink($file);
+
+	do_action('delete_attachment', $postid);
 
 	return $post;
 }
@@ -744,7 +751,7 @@ function get_post_status($post = false) {
 		$post = get_post($post, OBJECT);
 
 	if ( is_object($post) ) {
-		if ( ('object' == $post->post_status) && $post->post_parent && ($post->ID != $post->post_parent) )
+		if ( ('attachment' == $post->post_status) && $post->post_parent && ($post->ID != $post->post_parent) )
 			return get_post_status($post->post_parent);
 		else
 			return $post->post_status;

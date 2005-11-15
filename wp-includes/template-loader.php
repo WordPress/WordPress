@@ -16,17 +16,17 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	} else if ( is_home() && get_home_template() ) {
 		include(get_home_template());
 		exit;
-	} else if ( is_subpost() && get_subpost_template() ) {
-		include(get_subpost_template());
+	} else if ( is_attachment() && get_attachment_template() ) {
+		include(get_attachment_template());
 		exit;
 	} else if ( is_single() && get_single_template() ) {
-		if ( is_subpost() )
-			add_filter('the_content', 'prepend_object');
+		if ( is_attachment() )
+			add_filter('the_content', 'prepend_attachment');
 		include(get_single_template());
 		exit;
 	} else if ( is_page() && get_page_template() ) {
-		if ( is_subpost() )
-			add_filter('the_content', 'prepend_object');
+		if ( is_attachment() )
+			add_filter('the_content', 'prepend_attachment');
 		include(get_page_template());
 		exit;
 	} else if ( is_category() && get_category_template()) {

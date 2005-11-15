@@ -30,7 +30,7 @@ class WP_Query {
 	var $is_404 = false;
 	var $is_comments_popup = false;
 	var $is_admin = false;
-	var $is_subpost = false;
+	var $is_attachment = false;
 
 	function init_query_flags() {
 		$this->is_single = false;
@@ -50,7 +50,7 @@ class WP_Query {
 		$this->is_404 = false;
 		$this->is_paged = false;
 		$this->is_admin = false;
-		$this->is_subpost = false;
+		$this->is_attachment = false;
 	}
 	
 	function init () {
@@ -91,9 +91,15 @@ class WP_Query {
 		$qv['m'] =  (int) $qv['m'];
 		$qv['p'] =  (int) $qv['p'];
 
-		if ( ('' != $qv['subpost']) || $qv['subpost_id'] ) {
+		// Compat.  Map subpost to attachment.
+		if ( '' != $qv['subpost'] )
+			$qv['attachment'] = $qv['subpost'];
+		if ( '' != $qv['subpost_id'] )
+			$qv['attachment_id'] = $qv['subpost_id'];
+			
+		if ( ('' != $qv['attachment']) || $qv['attachment_id'] ) {
 			$this->is_single = true;
-			$this->is_subpost = true;
+			$this->is_attachment = true;
 		}
 
 		if ('' != $qv['name']) {
@@ -214,7 +220,7 @@ class WP_Query {
 			$this->is_admin = true;
 		}
 
-		if ( ! ($this->is_subpost || $this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) {
+		if ( ! ($this->is_attachment || $this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) {
 			$this->is_home = true;
 		}
 
@@ -334,6 +340,12 @@ class WP_Query {
 			$where .= " AND DAYOFMONTH(post_date)='" . $q['day'] . "'";
 		}
 
+		// Compat.  Map subpost to attachment.
+		if ( '' != $q['subpost'] )
+			$q['attachment'] = $q['subpost'];
+		if ( '' != $q['subpost_id'] )
+			$q['attachment_id'] = $q['subpost_id'];
+
 		if ('' != $q['name']) {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND post_name = '" . $q['name'] . "'";
@@ -341,10 +353,10 @@ class WP_Query {
 			$q['pagename'] = sanitize_title(basename(str_replace('%2F', '/', urlencode($q['pagename']))));
 			$q['name'] = $q['pagename'];
 			$where .= " AND post_name = '" . $q['pagename'] . "'";
-		} elseif ('' != $q['subpost']) {
-			$q['subpost'] = sanitize_title($q['subpost']);
-			$q['name'] = $q['subpost'];
-			$where .= " AND post_name = '" . $q['subpost'] . "'";
+		} elseif ('' != $q['attachment']) {
+			$q['attachment'] = sanitize_title($q['attachment']);
+			$q['name'] = $q['attachment'];
+			$where .= " AND post_name = '" . $q['attachment'] . "'";
 		}
 
 		if ( (int) $q['w'] ) {
@@ -355,9 +367,9 @@ class WP_Query {
 		if ( intval($q['comments_popup']) )
 			$q['p'] = intval($q['comments_popup']);
 
-		// If a subpost is requested by number, let it supercede any post number.
-		if ( ($q['subpost_id'] != '') && (intval($q['subpost_id']) != 0) )
-			$q['p'] = (int) $q['subpost_id'];
+		// If a attachment is requested by number, let it supercede any post number.
+		if ( ($q['attachment_id'] != '') && (intval($q['attachment_id']) != 0) )
+			$q['p'] = (int) $q['attachment_id'];
 
 		// If a post number is specified, load that post
 		if (($q['p'] != '') && intval($q['p']) != 0) {
@@ -538,8 +550,8 @@ class WP_Query {
 			$distinct = 'DISTINCT';
 		}
 
-		if ( $this->is_subpost ) {
-			$where .= ' AND (post_status = "object")';
+		if ( $this->is_attachment ) {
+			$where .= ' AND (post_status = "attachment")';
 		} elseif ($this->is_page) {
 			$where .= ' AND (post_status = "static")';
 		} elseif ($this->is_single) {
@@ -553,8 +565,8 @@ class WP_Query {
 				$where .= ')';				
 		}
 
-		if (! $this->is_subpost )
-			$where .= ' AND post_status != "object"';
+		if (! $this->is_attachment )
+			$where .= ' AND post_status != "attachment"';
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.
@@ -1199,12 +1211,12 @@ class WP_Rewrite {
 					$sub1feed = $sub1 . $feedregex;
 					$sub1feed2 = $sub1 . $feedregex2;
 					$sub1 .= '?$';
-					$sub2 = $submatchbase . '/subpost/([^/]+)/';
+					$sub2 = $submatchbase . '/attachment/([^/]+)/';
 					$sub2tb = $sub2 . $trackbackregex;
 					$sub2feed = $sub2 . $feedregex;
 					$sub2feed2 = $sub2 . $feedregex2;
 					$sub2 .= '?$';
-					$subquery = $index . '?subpost=' . $this->preg_index(1);
+					$subquery = $index . '?attachment=' . $this->preg_index(1);
 					$subtbquery = $subquery . '&tb=1';
 					$subfeedquery = $subquery . '&feed=' . $this->preg_index(2);
 					$match = $match . '(/[0-9]+)?/?$';
@@ -1381,7 +1393,7 @@ class WP_Rewrite {
 }
 
 class WP {
-	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'subpost', 'subpost_id');
+	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id');
 
 	var $private_query_vars = array('posts_per_page', 'posts_per_archive_page', 'what_to_show', 'showposts', 'nopaging');
 
