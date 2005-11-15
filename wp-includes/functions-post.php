@@ -168,13 +168,6 @@ function wp_insert_post($postarr = array()) {
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 
-		// Update category counts.
-		foreach ( $post_category as $cat_id ) {
-			$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
-			$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
-			wp_cache_delete($cat_id, 'category');		
-		}
-
 		if ($post_pingback && !defined('WP_IMPORTING'))
 			$result = $wpdb->query("
 				INSERT INTO $wpdb->postmeta 
@@ -480,6 +473,13 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 				INSERT INTO $wpdb->post2cat (post_id, category_id) 
 				VALUES ($post_ID, $new_cat)");
 		}
+	}
+	
+	// Update category counts.
+	foreach ( $post_categories as $cat_id ) {
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
+		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
+		wp_cache_delete($cat_id, 'category');		
 	}
 }	// wp_set_post_cats()
 
