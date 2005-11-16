@@ -1417,8 +1417,7 @@ class WP {
 				 ('/' != $_SERVER['PATH_INFO']) &&
 				 (false === strpos($_SERVER['PATH_INFO'], '.php'))
 				 ) ||
-				((false === strpos($_SERVER['REQUEST_URI'], '.php')) &&
-				 ('/' != $_SERVER['REQUEST_URI']))
+				(false === strpos($_SERVER['REQUEST_URI'], '.php'))
 				) {
 
 			$this->did_permalink = true;
