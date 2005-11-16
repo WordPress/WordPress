@@ -316,11 +316,10 @@ function upgrade_160() {
 		foreach ($objects as $object) {
 			$wpdb->query("UPDATE $wpdb->posts SET post_status = 'attachment',
 			post_mime_type = '$object->post_type',
-			post_type = '',
-			guid = '$guid'
+			post_type = ''
 			WHERE ID = $object->ID");
 			
-			$meta = get_post_meta($postid, 'imagedata', true);
+			$meta = get_post_meta($object->ID, 'imagedata', true);
 			if ( ! empty($meta['file']) )
 				add_post_meta($object->ID, '_wp_attached_file', $meta['file']);
 		}
