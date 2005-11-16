@@ -1412,85 +1412,66 @@ class WP {
 			$extra_query_vars = array();
 
 		// Process PATH_INFO, REQUEST_URI, and 404 for permalinks.
-		if ((isset($_GET['error']) && $_GET['error'] == '404') ||
-				((! empty($_SERVER['PATH_INFO'])) &&
-				 ('/' != $_SERVER['PATH_INFO']) &&
-				 (false === strpos($_SERVER['PATH_INFO'], '.php'))
-				 ) ||
-				(false === strpos($_SERVER['REQUEST_URI'], '.php'))
-				) {
 
-			$this->did_permalink = true;
+		// Fetch the rewrite rules.
+		$rewrite = $wp_rewrite->wp_rewrite_rules();
 
+		if (! empty($rewrite)) {
 			// If we match a rewrite rule, this will be cleared.
 			$error = '404';
+			$this->did_permalink = true;
 
-			// Fetch the rewrite rules.
-			$rewrite = $wp_rewrite->wp_rewrite_rules();
+			$pathinfo = $_SERVER['PATH_INFO'];
+			$pathinfo_array = explode('?', $pathinfo);
+			$pathinfo = $pathinfo_array[0];
+			$req_uri = $_SERVER['REQUEST_URI'];
+			$req_uri_array = explode('?', $req_uri);
+			$req_uri = $req_uri_array[0];
+			$self = $_SERVER['PHP_SELF'];
+			$home_path = parse_url(get_settings('home'));
+			$home_path = $home_path['path'];
 
-			if (! empty($rewrite)) {
-				$pathinfo = $_SERVER['PATH_INFO'];
-				$pathinfo_array = explode('?', $pathinfo);
-				$pathinfo = $pathinfo_array[0];
-				$req_uri = $_SERVER['REQUEST_URI'];
-				$req_uri_array = explode('?', $req_uri);
-				$req_uri = $req_uri_array[0];
-				$home_path = parse_url(get_settings('home'));
-				$home_path = $home_path['path'];
+			// Trim path info from the end and the leading home path from the
+			// front.  For path info requests, this leaves us with the requesting
+			// filename, if any.  For 404 requests, this leaves us with the
+			// requested permalink.	
+			$req_uri = str_replace($pathinfo, '', $req_uri);
+			$req_uri = str_replace($home_path, '', $req_uri);
+			$req_uri = trim($req_uri, '/');
+			$pathinfo = trim($pathinfo, '/');
+			$self = str_replace($home_path, '', $self);
+			$self = trim($self, '/');
 
-				// Trim path info from the end and the leading home path from the
-				// front.  For path info requests, this leaves us with the requesting
-				// filename, if any.  For 404 requests, this leaves us with the
-				// requested permalink.	
-				$req_uri = str_replace($pathinfo, '', $req_uri);
-				$req_uri = str_replace($home_path, '', $req_uri);
-				$req_uri = trim($req_uri, '/');
-				$pathinfo = trim($pathinfo, '/');
+			// The requested permalink is in $pathinfo for path info requests and
+			//  $req_uri for other requests.
+			if (! empty($pathinfo) && ($wp_rewrite->index != $pathinfo)) {
+				$request = $pathinfo;
+			} else {
+				$request = $req_uri;
+			}
 
-				// The requested permalink is in $pathinfo for path info requests and
-				//  $req_uri for other requests.
-				if (! empty($pathinfo) && ($wp_rewrite->index != $pathinfo)) {
-					$request = $pathinfo;
-				} else {
-					$request = $req_uri;
+			// Look for matches.
+			$request_match = $request;
+			foreach ($rewrite as $match => $query) {
+				// If the requesting file is the anchor of the match, prepend it
+				// to the path info.
+				if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0) && ($req_uri != $request)) {
+					$request_match = $req_uri . '/' . $request;
 				}
 
-				// Look for matches.
-				$request_match = $request;
-				foreach ($rewrite as $match => $query) {
-					// If the requesting file is the anchor of the match, prepend it
-					// to the path info.
-					if ((! empty($req_uri)) && (strpos($match, $req_uri) === 0) && ($req_uri != $request)) {
-						$request_match = $req_uri . '/' . $request;
-					}
+				if (preg_match("!^$match!", $request_match, $matches)) {
+					// Got a match.
+					// Trim the query of everything up to the '?'.
+					$query = preg_replace("!^.+\?!", '', $query);
 
-					if (preg_match("!^$match!", $request_match, $matches)) {
-						// Got a match.
-						// Trim the query of everything up to the '?'.
-						$query = preg_replace("!^.+\?!", '', $query);
+					// Substitute the substring matches into the query.
+					eval("\$query = \"$query\";");
 
-						// Substitute the substring matches into the query.
-						eval("\$query = \"$query\";");
+					// Parse the query.
+					parse_str($query, $query_vars);
 
-						// Parse the query.
-						parse_str($query, $query_vars);
-
-						// If we're processing a 404 request, clear the error var
-						// since we found something.
-						if (isset($_GET['error'])) {
-							unset($_GET['error']);
-						}
-
-						if (isset($error)) {
-							unset($error);
-						}
-
-						break;
-					}
-				}
-
-				// If req_uri is empty, the home page was requested.  Unset error.
-				if ( empty($req_uri) ) {
+					// If we're processing a 404 request, clear the error var
+					// since we found something.
 					if (isset($_GET['error'])) {
 						unset($_GET['error']);
 					}
@@ -1498,6 +1479,19 @@ class WP {
 					if (isset($error)) {
 						unset($error);
 					}
+
+					break;
+				}
+			}
+
+			// If req_uri is empty or if it is a request for ourself, unset error.
+			if ( empty($request) || $req_uri == $self ) {
+				if (isset($_GET['error'])) {
+					unset($_GET['error']);
+				}
+
+				if (isset($error)) {
+					unset($error);
 				}
 			}
 		}
