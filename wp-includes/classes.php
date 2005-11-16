@@ -1488,6 +1488,17 @@ class WP {
 						break;
 					}
 				}
+
+				// If req_uri is empty, the home page was requested.  Unset error.
+				if ( empty($req_uri) ) {
+					if (isset($_GET['error'])) {
+						unset($_GET['error']);
+					}
+
+					if (isset($error)) {
+						unset($error);
+					}
+				}
 			}
 		}
 
@@ -1508,6 +1519,9 @@ class WP {
 			else
 				$this->query_vars[$wpvar] = '';
 		}
+
+		if ( isset($error) )
+			$this->query_vars['error'] = $error;
 	}
 
 	function send_headers() {
@@ -1602,12 +1616,10 @@ class WP {
 		// issue a 404 if one was already issued, if the request was a search,
 		// or if the request was a regular query string request rather than a
 		// permalink request.
-		if ( (0 == count($wp_query->posts)) && !is_404() && !is_search()
-				 && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) &&
-																	(false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
+		if ( (0 == count($wp_query->posts)) && !is_404() && !is_search() && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) && (false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
 			$wp_query->set_404();
 			status_header( 404 );
-		}	else {
+		}	elseif( is_404() != true ) {
 			status_header( 200 );
 		}
 	}
