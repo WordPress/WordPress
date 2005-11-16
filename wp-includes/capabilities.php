@@ -123,9 +123,13 @@ class WP_User {
 		if ( empty($this->data->ID) )
 			return;
 
-		$this->id = $this->data->ID;
+		foreach (get_object_vars($this->data) as $key => $value) {
+			$this->{$key} = $value;
+		}
+
+		$this->id = $this->ID;
 		$this->cap_key = $table_prefix . 'capabilities';
-		$this->caps = &$this->data->{$this->cap_key};
+		$this->caps = &$this->{$this->cap_key};
 		if ( ! is_array($this->caps) )
 			$this->caps = array();
 		$this->get_role_caps();
@@ -182,8 +186,8 @@ class WP_User {
 	
 	function update_user_level_from_caps() {
 	    global $table_prefix;
-	    $this->data->user_level = array_reduce(array_keys($this->allcaps), 	array(&$this, 'level_reduction'), 0);
-	    update_usermeta($this->id, $table_prefix.'user_level', $this->data->user_level);
+	    $this->user_level = array_reduce(array_keys($this->allcaps), 	array(&$this, 'level_reduction'), 0);
+	    update_usermeta($this->id, $table_prefix.'user_level', $this->user_level);
 	}
 	
 	function add_cap($cap, $grant = true) {

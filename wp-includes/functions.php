@@ -299,10 +299,10 @@ function get_option($option) {
 
 function get_user_option( $option ) {
 	global $wpdb, $current_user;
-	if ( isset( $current_user->data->{$wpdb->prefix . $option} ) ) // Blog specific
-		return $current_user->data->{$wpdb->prefix . $option};
-	elseif ( isset( $current_user->data->{$option} ) ) // User specific and cross-blog
-		return $current_user->data->{$option};
+	if ( isset( $current_user->{$wpdb->prefix . $option} ) ) // Blog specific
+		return $current_user->{$wpdb->prefix . $option};
+	elseif ( isset( $current_user->{$option} ) ) // User specific and cross-blog
+		return $current_user->{$option};
 	else // Blog global
 		return get_option( $option );
 }

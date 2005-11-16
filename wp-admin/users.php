@@ -95,9 +95,9 @@ case 'delete':
  	foreach ($userids as $id) {
  		$user = new WP_User($id);
 		if ($id == $current_user->id) {
-			echo "<li>" . sprintf('ID #%1s: %2s <strong>The current user will not be deleted.</strong>', $id, $user->data->user_login) . "</li>\n";
+			echo "<li>" . sprintf('ID #%1s: %2s <strong>The current user will not be deleted.</strong>', $id, $user->user_login) . "</li>\n";
 		} else {
-			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf('ID #%1s: %2s', $id, $user->data->user_login) . "</li>\n";
+			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf('ID #%1s: %2s', $id, $user->user_login) . "</li>\n";
 			$go_delete = true;
 		}
  	}
@@ -150,7 +150,7 @@ default:
 		$tmp_user = new WP_User($userid);
 		$roles = $tmp_user->roles;
 		$role = $roles[0];
-		$roleclasses[$role][$tmp_user->data->user_login] = $tmp_user;
+		$roleclasses[$role][$tmp_user->user_login] = $tmp_user;
 	}	
 	
 	?>
@@ -225,9 +225,8 @@ default:
 	<?php
 	$style = '';
 	foreach ($roleclass as $user_object) {
-		$user_data = &$user_object->data;
-		$email = $user_data->user_email;
-		$url = $user_data->user_url;
+		$email = $user_object->user_email;
+		$url = $user_object->user_url;
 		$short_url = str_replace('http://', '', $url);
 		$short_url = str_replace('www.', '', $short_url);
 		if ('/' == substr($short_url, -1))
@@ -235,19 +234,19 @@ default:
 		if (strlen($short_url) > 35)
 		$short_url =  substr($short_url, 0, 32).'...';
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
-		$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$user_data->ID' and post_status = 'publish'");
-		if (0 < $numposts) $numposts = "<a href='edit.php?author=$user_data->ID' title='" . __('View posts') . "'>$numposts</a>";
+		$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$user_object->ID' and post_status = 'publish'");
+		if (0 < $numposts) $numposts = "<a href='edit.php?author=$user_object->ID' title='" . __('View posts') . "'>$numposts</a>";
 		echo "
 <tr $style>
-	<td><input type='checkbox' name='users[]' id='user_{$user_data->ID}' value='{$user_data->ID}' /> <label for='user_{$user_data->ID}'>{$user_data->ID}</label></td>
-	<td><label for='user_{$user_data->ID}'><strong>$user_data->user_login</strong></label></td>
-	<td><label for='user_{$user_data->ID}'>$user_data->first_name $user_data->last_name</label></td>
+	<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' value='{$user_object->ID}' /> <label for='user_{$user_object->ID}'>{$user_object->ID}</label></td>
+	<td><label for='user_{$user_object->ID}'><strong>$user_object->user_login</strong></label></td>
+	<td><label for='user_{$user_object->ID}'>$user_object->first_name $user_object->last_name</label></td>
 	<td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
 	<td><a href='$url' title='website: $url'>$short_url</a></td>";
 	echo "<td align='right'>$numposts</td>";
 	echo '<td>';
 	if (current_user_can('edit_users'))
-		echo "<a href='user-edit.php?user_id=$user_data->ID' class='edit'>".__('Edit')."</a>";
+		echo "<a href='user-edit.php?user_id=$user_object->ID' class='edit'>".__('Edit')."</a>";
 	echo '</td>';
 	echo '</tr>';
 	}

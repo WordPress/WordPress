@@ -365,8 +365,8 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	for ($i = 0; $i < strlen($pass1); $i = $i + 1)
 		$stars .= '*';
 	
-	$user_login = stripslashes($user->data->user_login);
-	$user_email = stripslashes($user->data->user_email);
+	$user_login = stripslashes($user->user_login);
+	$user_email = stripslashes($user->user_email);
 	
 	$message  = sprintf(__('New user registration on your blog %s:'), get_settings('blogname')) . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
