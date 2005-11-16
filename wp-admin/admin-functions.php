@@ -1449,6 +1449,9 @@ function get_plugins() {
 	sort($plugin_files);
 
 	foreach ($plugin_files as $plugin_file) {
+		if ( !is_readable("$plugin_root/$plugin_file"))
+			continue;
+
 		$plugin_data = get_plugin_data("$plugin_root/$plugin_file");
 
 		if (empty ($plugin_data['Name'])) {

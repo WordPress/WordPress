@@ -1686,6 +1686,11 @@ function get_themes() {
 	sort($theme_files);
 
 	foreach($theme_files as $theme_file) {
+		if ( ! is_readable("$theme_root/$theme_file") ) {
+			$wp_broken_themes[$theme_file] = array('Name' => $theme_file, 'Title' => $theme_file, 'Description' => __('File not readable.'));
+			continue;
+		}
+
 		$theme_data = get_theme_data("$theme_root/$theme_file");
 
 		$name = $theme_data['Name'];
