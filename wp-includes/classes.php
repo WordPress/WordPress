@@ -619,7 +619,7 @@ class WP_Query {
 				} else {
 					if ('draft' == $status) {
 						// User must have edit permissions on the draft to preview.
-						if (! user_can_edit_post($user_ID, $this->posts[0]->ID)) {
+						if (! current_user_can('edit_post', $this->posts[0]->ID)) {
 							$this->posts = array();
 						} else {
 							$this->is_preview = true;
