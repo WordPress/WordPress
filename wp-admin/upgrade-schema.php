@@ -223,7 +223,7 @@ function populate_options() {
 	// 1.5.1
 	add_option('use_trackback', 0);
 	// 1.6
-	add_option('default_role', 'inactive');
+	add_option('default_role', 'subscriber');
 	add_option('rich_editing', 'true');
 
 	// Delete unused options
