@@ -199,13 +199,13 @@ class WP_Object_Cache {
 		foreach (split('/', $group_dir) as $subdir) {
 			$make_dir .= "$subdir/";
 			if (!file_exists($this->cache_dir.$make_dir)) {
-				if (!mkdir($this->cache_dir.$make_dir))
+				if (! @ mkdir($this->cache_dir.$make_dir))
 					break;
 				@ chmod($this->cache_dir.$make_dir, $perms);
 			}
 
 			if (!file_exists($this->cache_dir.$make_dir."index.php")) {
-				touch($this->cache_dir.$make_dir."index.php");
+				@ touch($this->cache_dir.$make_dir."index.php");
 			}
 		}
 
@@ -278,7 +278,7 @@ class WP_Object_Cache {
 		}
 
 		if (!file_exists($this->cache_dir."index.php")) {
-			touch($this->cache_dir."index.php");
+			@ touch($this->cache_dir."index.php");
 		}
 
 		// Acquire a write lock.  Semaphore preferred.  Fallback to flock.
@@ -313,8 +313,8 @@ class WP_Object_Cache {
 				fputs($fd, $serial);
 				fclose($fd);
 				if (!@ rename($temp_file, $cache_file)) {
-					if (copy($temp_file, $cache_file)) {
-						unlink($temp_file);
+					if (@ copy($temp_file, $cache_file)) {
+						@ unlink($temp_file);
 					}
 				}
 			}
