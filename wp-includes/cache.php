@@ -91,6 +91,9 @@ class WP_Object_Cache {
 	}
 
 	function flush() {
+		if ( !$this->cache_enabled )
+			return;
+		
 		$this->rm($this->cache_dir.'*');
 		$this->cache = array ();
 		$this->dirty_objects = array ();
