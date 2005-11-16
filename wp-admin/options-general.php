@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 $title = __('General Options');
-$parent_file = 'options-personal.php';
+$parent_file = 'options-general.php';
 
 include('admin-header.php');
 ?>

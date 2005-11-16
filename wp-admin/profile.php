@@ -105,6 +105,14 @@ if ( $show_password_fields ) :
 <?php do_action('show_user_profile'); ?>
 
 <br clear="all" />
+
+<h3><?php _e('Personal Options'); ?></h3>
+
+<p><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', get_user_option('rich_editing')); ?> />
+<?php _e('Use the visual rich editor when writing') ?></label></p>
+
+<?php do_action('profile_personal_options'); ?>
+
   <table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
     <?php
     if(count($profileuser->caps) > count($profileuser->roles)):
