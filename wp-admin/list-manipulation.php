@@ -56,8 +56,7 @@ case 'delete-comment' :
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
 		die('-1');
 
-	if ( wp_set_comment_status($comment->comment_ID, "delete") ) {
-		do_action('delete_comment', $comment->comment_ID);
+	if ( wp_delete_comment($comment->comment_ID) ) {
 		die('1');
 	} else {
 		die('0');

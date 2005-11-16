@@ -30,7 +30,7 @@ function upgrade_all() {
 		upgrade_130();
 	}
 	
-	if ( $wp_current_db_version < 3092 )
+	if ( $wp_current_db_version < 3104 )
 		upgrade_160();
 
 	save_mod_rewrite_rules();
@@ -300,7 +300,15 @@ function upgrade_160() {
 			$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
 		}
 	}
-	
+
+	// populate comment_count field of posts table
+	$comments = $wpdb->get_results( "SELECT comment_post_ID, COUNT(*) as c FROM $wpdb->comments GROUP BY comment_post_ID" );
+	if( is_array( $comments ) ) {
+		foreach ($comments as $comment) {
+			$wpdb->query( "UPDATE $wpdb->posts SET comment_count = $comment->c WHERE ID = '$comment->comment_post_ID}'" );
+		}
+	}
+
 	// Some alpha versions used a post status of object instead of attachment and put
 	// the mime type in post_type instead of post_mime_type.
 	if ( $wp_current_db_version > 2541 && $wp_current_db_version <= 3091 ) {

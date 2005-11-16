@@ -1306,11 +1306,7 @@ function update_post_caches(&$posts) {
 	update_post_category_cache($post_id_list);
 
 	// Do the same for comment numbers
-	$comment_counts = $wpdb->get_results("SELECT comment_post_ID, COUNT( comment_ID ) AS ccount
-	FROM $wpdb->comments
-	WHERE comment_post_ID IN ($post_id_list)
-	AND comment_approved = '1'
-	GROUP BY comment_post_ID");
+	$comment_counts = $wpdb->get_results( "SELECT ID as comment_post_ID, comment_count as ccount FROM $wpdb->posts WHERE ID in ($post_id_list)" );
 
 	if ( $comment_counts ) {
 		foreach ($comment_counts as $comment_count) {

@@ -81,7 +81,12 @@ function wp_insert_comment($commentdata) {
 	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$comment_author_IP', '$comment_date', '$comment_date_gmt', '$comment_content', '$comment_approved', '$comment_agent', '$comment_type', '$comment_parent', '$user_id')
 	");
 
-	return $wpdb->insert_id;
+	$id = $wpdb->insert_id;
+
+	if ( $comment_approved == 1)
+		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = comment_count + 1 WHERE ID = '$comment_post_ID'" );
+	
+	return $id;
 }
 
 function wp_filter_comment($commentdata) {
@@ -176,9 +181,30 @@ function wp_update_comment($commentarr) {
 
 	$rval = $wpdb->rows_affected;
 
+	$c = $wpdb->get_row( "SELECT count(*) as c FROM {$wpdb->comments} WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'" );
+	if( is_object( $c ) )
+		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = '$c->c' WHERE ID = '$comment_post_ID'" );
+
 	do_action('edit_comment', $comment_ID);
 
-	return $rval;	
+	return $rval;
+}
+
+function wp_delete_comment($comment_id) {
+	global $wpdb;
+	do_action('delete_comment', $comment_id);
+
+	$comment = get_comment($comment_id);
+
+	if ( ! $wpdb->query("DELETE FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1") )
+		return false;
+
+	$post_id = $comment->comment_post_ID;
+	if ( $post_id )
+		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = comment_count - 1 WHERE ID = '$post_id'" );
+
+	do_action('wp_set_comment_status', $comment_id, 'delete');
+	return true;
 }
 
 function clean_url( $url ) {
@@ -198,7 +224,7 @@ function get_comments_number( $post_id = 0 ) {
 		$post_id = $id;
 
 	if ( !isset($comment_count_cache[$post_id]) )
-		$comment_count_cache[$post_id] =  $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1'");
+		$comment_count_cache[$id] = $wpdb->get_var("SELECT comment_count FROM $wpdb->posts WHERE ID = '$post_id'");
 	
 	return apply_filters('get_comments_number', $comment_count_cache[$post_id]);
 }
@@ -742,7 +768,7 @@ function wp_set_comment_status($comment_id, $comment_status) {
  			$query = "UPDATE $wpdb->comments SET comment_approved='spam' WHERE comment_ID='$comment_id' LIMIT 1";
  		break;
 		case 'delete':
-			$query = "DELETE FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1";
+			return wp_delete_comment($comment_id);
 		break;
 		default:
 			return false;
@@ -750,6 +776,12 @@ function wp_set_comment_status($comment_id, $comment_status) {
     
     if ($wpdb->query($query)) {
 		do_action('wp_set_comment_status', $comment_id, $comment_status);
+		
+		$comment = get_comment($comment_id);
+		$comment_post_ID = $comment->comment_post_ID;
+		$c = $wpdb->get_row( "SELECT count(*) as c FROM {$wpdb->comments} WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'" );
+		if( is_object( $c ) )
+			$wpdb->query( "UPDATE $wpdb->posts SET comment_count = '$c->c' WHERE ID = '$comment_post_ID'" );
 		return true;
     } else {
 		return false;
