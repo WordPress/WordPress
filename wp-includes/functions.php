@@ -2146,4 +2146,9 @@ function plugin_basename($file) {
 	return $file;
 }
 
+function get_num_queries() {
+	global $wpdb;
+	return $wpdb->num_queries;
+}
+
 ?>
