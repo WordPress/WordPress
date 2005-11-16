@@ -8,6 +8,8 @@ define('MTEXPORT', 'import.txt');
 class MT_Import {
 
 	var $posts = array ();
+	var $file;
+	var $id;
 	var $mtnames = array ();
 	var $newauthornames = array ();
 	var $j = -1;
@@ -24,12 +26,8 @@ class MT_Import {
 	function greet() {
 		$this->header();
 ?>
-<p>Howdy! We&#8217;re about to begin the process to import all of your Movable Type entries into WordPress. Before we get started, you need to edit this file (<code>import/mt.php</code>) and change one line so we know where to find your MT export file. To make this easy put the import file into the <code>wp-admin/import</code> directory. Look for the line that says:</p>
-<p><code>define('MTEXPORT', '');</code></p>
-<p>and change it to</p>
-<p><code>define('MTEXPORT', 'import.txt');</code></p>
-<p>You have to do this manually for security reasons.</p>
-<p>If you've done that and you&#8217;re all ready, <a href="<?php echo add_query_arg('step', 1)  ?>">let's go</a>! Remember that the import process may take a minute or so if you have a large number of entries and comments. Think of all the rebuilding time you'll be saving once it's done. :)</p>
+<p>Howdy! We&#8217;re about to begin the process to import all of your Movable Type entries into WordPress. To begin, select a file to upload and click Import.</p>
+<?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
 <p>The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn't finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces. </p>
 <?php
 
@@ -85,7 +83,7 @@ class MT_Import {
 
 	function get_entries() {
 		set_magic_quotes_runtime(0);
-		$importdata = file(MTEXPORT); // Read the file into an array
+		$importdata = file($this->file); // Read the file into an array
 		$importdata = implode('', $importdata); // squish it
 		$importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
 		$importdata = preg_replace("/\n--------\n/", "--MT-ENTRY--\n", $importdata);
@@ -152,7 +150,7 @@ class MT_Import {
 
 		$authors = $this->get_mt_authors();
 		echo '<ol id="authors">';
-		echo '<form action="?import=mt&amp;step=2" method="post">';
+		echo '<form action="?import=mt&amp;step=2&amp;id=' . $this->id . '" method="post">';
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
@@ -169,13 +167,17 @@ class MT_Import {
 	}
 
 	function select_authors() {
-		if ('' != MTEXPORT && !file_exists(MTEXPORT))
-			die("The file you specified does not seem to exist. Please check the path you've given.");
-		if ('' == MTEXPORT)
-			die("You must edit the MTEXPORT line as described on the <a href='import-mt.php'>previous page</a> to continue.");
+		$file = wp_import_handle_upload();
+		if ( isset($file['error']) ) {
+			echo $file['error'];
+			return;
+		}
+		$this->file = $file['file'];
+		$this->id = $file['id'];
 
 		$this->get_entries();
 		$this->mt_authors_form();
+		wp_import_cleanup($this->id);
 	}
 
 	function process_posts() {
@@ -400,6 +402,9 @@ class MT_Import {
 				break;
 			case 1 :
 				$this->select_authors();
+				break;
+			case 2:
+				echo "ID: {$_GET['id']}<br/>";
 				break;
 		}
 	}

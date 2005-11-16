@@ -1730,8 +1730,8 @@ function wp_shrink_dimensions($width, $height, $wmax = 128, $hmax = 96) {
 		return array((int) ($width / $height * $hmax), $hmax);
 }
 
-function wp_import_cleanup($file) {
-	wp_delete_attachment($file['id']);
+function wp_import_cleanup($id) {
+	wp_delete_attachment($id);
 }
 
 function wp_import_upload_form($action) {

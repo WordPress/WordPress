@@ -137,7 +137,7 @@ class RSS_Import {
 		$this->file = $file['file'];
 		$this->get_posts();
 		$this->import_posts();
-		wp_import_cleanup($file);
+		wp_import_cleanup($file['id']);
 
 		echo '<h3>All done. <a href="' . get_option('home') . '">Have fun!</a></h3>';
 	}
