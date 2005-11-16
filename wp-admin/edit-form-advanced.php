@@ -195,7 +195,7 @@ else
 
 <p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 
-if ('publish' != $post_status || 0 == $post_ID) {
+if ('publish' != $post->post_status || 0 == $post_ID) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" /> 
