@@ -117,7 +117,7 @@ if ( $start < 0 )
 	$start = 0;
 
 if ( '' == $sort )
-	$sort = "ID";
+	$sort = "post_date_gmt DESC";
 
 $images = $wpdb->get_results("SELECT ID, post_date, post_title, guid FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image' $and_post ORDER BY $sort LIMIT $start, $double", ARRAY_A);
 
@@ -142,12 +142,13 @@ $images_style = '';
 $images_script = '';
 if ( count($images) > 0 ) {
 	$images = array_slice( $images, 0, $num );
-	$__delete = __('DELETE');
-	$__attachment_on = __('ATTACHMENT <strong>ON</strong>');
-	$__thumbnail_on = __('THUMBNAIL <strong>ON</strong>');
-	$__thumbnail_off = __('THUMBNAIL <strong>OFF</strong>');
-	$__no_thumbnail = __('<del>THUMBNAIL</del>');
-	$__close = __('CLOSE');
+	$__delete = __('Delete');
+	$__attachment_on = __('Link to Page');
+	$__attachment_off = __('Link to Image');
+	$__thumbnail_on = __('Use Thumbnail');
+	$__thumbnail_off = __('Use Full Image');
+	$__no_thumbnail = __('<del>No Thumbnail</del>');
+	$__close = __('Close Options');
 	$__confirmdelete = __('Delete this photo from the server?');
 	$__nothumb = __('There is no thumbnail associated with this photo.');
 	$images_script .= "attachmenton = '$__attachment_on';\nattachmentoff = '$__attachment_off';\n";
@@ -265,165 +266,172 @@ function toggleImage(n) {
 </script>
 <style type="text/css">
 body {
-font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
-border: none;
-margin: 0px;
-height: 150px;
-background: rgb(223, 232, 241);
+	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
+	border: none;
+	margin: 0px;
+	height: 150px;
+	background: #dfe8f1;
 }
 form {
-margin: 6px 2px 0px 6px;
+	margin: 6px 2px 0px 6px;
 }
 #wrap {
-clear: both;
-margin: 0px;
-padding: 0px;
-height: 133px;
-width: 100%;
-overflow: auto;
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+	height: 133px;
+	width: 100%;
+	overflow: auto;
 }
 #images {
-clear: both;
-margin: 0px;
-padding: 5px 15px;
-height: 96px;
-white-space: nowrap;
-width: <?php echo $images_width; ?>px;
+	clear: both;
+	margin: 0px;
+	padding: 5px 15px;
+	height: 96px;
+	white-space: nowrap;
+	width: <?php echo $images_width; ?>px;
 }
 #images img {
-background-color: rgb(209, 226, 239);
+	background-color: rgb(209, 226, 239);
 }
 <?php echo $images_style; ?>
 .imagewrap {
-margin-right: 5px;
-height: 96px;
-overflow: hidden;
+	margin-right: 5px;
+	height: 96px;
+	overflow: hidden;
 }
 .imagewrap * {
-margin: 0px;
-padding: 0px;
-border: 0px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
 }
 .imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img {
-text-decoration: none;
-float: left;
-/*display: block;*/
-text-align: center;
+	text-decoration: none;
+	float: left;
+	text-align: center;
 }
-#menu {
-margin: 0px;
-list-style: none;
-background: rgb(109, 166, 209);
-padding: 4px 0px 0px 8px;
-text-align: left;
-border-bottom: 3px solid rgb(68, 138, 189);
+
+#upload-menu {
+	background: #fff;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	height: 2em;
+	border-bottom: 1px solid #448abd;
 }
-#menu li {
-display: inline;
-margin: 0px;
+
+#upload-menu li {
+	float: left;
+	margin: 0 0 0 1em;
 }
-#menu a, #menu a:visited, #menu a:active {
-padding: 1px 3px 3px;
-text-decoration: none;
-color: #234;
-background: transparent;
+
+#upload-menu a {
+	display: block;
+	padding: 5px;
+	text-decoration: none;
+	color: #000;
+	border-top: 3px solid #fff;
 }
-#menu a:hover {
-background: rgb(203, 214, 228);
-color: #000;
+
+#upload-menu .current a {
+	background: #dfe8f1;
+	border-right: 2px solid #448abd;
+	
 }
-#menu .current a, #menu .current a:hover, #menu .current a:visited, #menu .current a:active {
-background: rgb(223, 232, 241);
-padding-bottom: 3px;
-color: #000;
-border-right: 2px solid rgb(20, 86, 138);
+
+#upload-menu a:hover {
+	background: #dfe8f1;
+	color: #000;
 }
+
+
 .tip {
-color: rgb(68, 138, 189);
-padding: 1px 3px;
+	color: rgb(68, 138, 189);
+	padding: 2px 1em;
 }
 .inactive {
-color: #579;
-padding: 1px 3px;
+	color: #fff;
+	padding: 1px 3px;
 }
 .left {
-float: left;
+	float: left;
 }
 .right {
-float: right;
+	float: right;
 }
 .center {
-text-align: center;
+	text-align: center;
 }
-#menu li.spacer {
-margin-left: 40px;
+#upload-menu li.spacer {
+	margin-left: 40px;
 }
-label {
-float: left;
-width: 18%;
-}
+
 #title, #descr {
-width: 80%;
-margin-top: 2px;
+	width: 80%;
+	margin-top: 2px;
 }
 #descr {
-height: 35px;
-v-align: top;
+	height: 35px;
+	v-align: top;
 }
 #buttons {
-width: 98%;
-margin-top: 2px;
-text-align: right;
+	width: 98%;
+	margin-top: 2px;
+	text-align: right;
 }
 .popup {
-margin: 4px 4px;
-padding: 3px;
-position: absolute;
-width: 114px;
-height: 82px;
-display: none;
-background-color: rgb(223, 232, 241);
-opacity: .90;
-filter:alpha(opacity=90);
-text-align: center;
+	margin: 4px 4px;
+	padding: 3px;
+	position: absolute;
+	width: 114px;
+	height: 82px;
+	display: none;
+	background-color: rgb(223, 232, 241);
+	opacity: .90;
+	filter:alpha(opacity=90);
+	text-align: center;
 }
 .popup a, .popup a:visited, .popup a:active {
-background-color: transparent;
-display: block;
-width: 100%;
-text-decoration: none;
-color: #246;
+	background-color: transparent;
+	display: block;
+	width: 100%;
+	text-decoration: none;
+	color: #246;
 }
 .popup a:hover {
-background-color: #fff;
-color: #000;
+	background-color: #fff;
+	color: #000;
 }
 </style>
 </head>
 <body onload="init()">
-<ul id="menu">
-<li<?php echo $current_1; ?>><a href="<?php echo basename(__FILE__); ?>?action=upload&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>"><?php _e('Upload File'); ?></a></li>
-<li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>"><?php _e('Browse Attached'); ?></a></li>
-<li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=true"><?php _e('Browse All'); ?></a></li>
+<ul id="upload-menu">
+<li<?php echo $current_1; ?>><a href="<?php echo basename(__FILE__); ?>?action=upload&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>"><?php _e('Upload Image'); ?></a></li>
+<?php if ( $attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$post'") ) { ?>
+<li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>"><?php _e('Attached Images'); ?></a></li>
+<?php } ?>
+<li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=true"><?php _e('All Images'); ?></a></li>
 <li> </li>
+<?php if ( $action != 'upload' ) { ?>
 <?php if ( false !== $back ) : ?>
-<li class="spacer"><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=0" title="<?php _e('First'); ?>">|&lt;</a></li>
-<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $back; ?>" title="<?php _e('Back'); ?>">&lt;&lt;</a></li>
+<li class="spacer"><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=0" title="<?php _e('First'); ?>">|&laquo;</a></li>
+<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $back; ?>"">&laquo; <?php _e('Back'); ?></a></li>
 <?php else : ?>
 <li class="inactive spacer">|&lt;</li>
 <li class="inactive">&lt;&lt;</li>
 <?php endif; ?>
 <?php if ( false !== $next ) : ?>
-<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>" title="<?php _e('Next'); ?>">&gt;&gt;</a></li>
-<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;last=true" title="<?php _e('Last'); ?>">&gt;|</a></li>
+<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>"><?php _e('Next'); ?> &raquo;</a></li>
+<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;last=true" title="<?php _e('Last'); ?>">&raquo;|</a></li>
 <?php else : ?>
 <li class="inactive">&gt;&gt;</li>
 <li class="inactive">&gt;|</li>
 <?php endif; ?>
+<?php } // endif not upload?>
 </ul>
 <?php if ( $action == 'view' ) : ?>
-<span class="left tip"><?php _e('Drag and drop photos to post'); ?></span>
-<span class="right tip"><?php _e('Click photos for more options'); ?></span>
+<span class="left tip"><?php _e('You can drag and drop these photos into your post. Click on the thumbnail for more options.'); ?></span>
+<span class="right tip"></span>
 <div id="wrap">
 <div id="images">
 <?php echo $images_html; ?>
@@ -432,13 +440,24 @@ color: #000;
 <?php elseif ( $action == 'upload' ) : ?>
 <div class="tip"></div>
 <form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo basename(__FILE__); ?>" onsubmit="return validateImageName()">
-<label for="upload"><?php _e('Image:'); ?></label><input type="file" id="upload" name="image" onchange="validateImageName()" />
-<label for="title"><?php _e('Title:'); ?></label><input type="text" id="title" name="imgtitle" />
-<label for="descr"><?php _e('Description:'); ?></label><input type="textarea" name="descr" id="descr" value="" />
+<table style="width: 100%">
+<tr>
+<th scope="row" style="width: 6em; text-align: right;"><label for="upload"><?php _e('Image:'); ?></label></th>
+<td><input type="file" id="upload" name="image" onchange="validateImageName()" /></td>
+</tr>
+<tr>
+<th scope="row" style="text-align: right;"><label for="title"><?php _e('Title:'); ?></label></th>
+<td><input type="text" id="title" name="imgtitle" /></td>
+</tr>
+<tr>
+<th scope="row" style="text-align: right;"><label for="descr"><?php _e('Description:'); ?></th>
+<td><input type="textarea" name="descr" id="descr" value="" /></td>
+</tr>
+</table>
+<p class="submit">
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="post" value="<?php echo $post; ?>" />
 <input type="hidden" name="all" value="<?php echo $all; ?>" />
-<div id="buttons">
 <input type="submit" value="<?php _e('Upload'); ?>" />
 <input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
 </div>

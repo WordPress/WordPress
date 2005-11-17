@@ -150,6 +150,8 @@ edCanvas = document.getElementById('content');
 <?php
 $uploading_iframe_ID = (0 == $post_ID ? $temp_ID : $post_ID);
 $uploading_iframe_src = "inline-uploading.php?action=view&amp;post=$uploading_iframe_ID";
+if ( !$attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$uploading_iframe_ID'") )
+	$uploading_iframe_src = "inline-uploading.php?action=upload&amp;post=$uploading_iframe_ID";
 $uploading_iframe_src = apply_filters('uploading_iframe_src', $uploading_iframe_src);
 if ( false != $uploading_iframe_src )
 	echo '<iframe id="uploading" border="0" src="' . $uploading_iframe_src . '">' . __('This feature requires iframe support.') . '</iframe>';
