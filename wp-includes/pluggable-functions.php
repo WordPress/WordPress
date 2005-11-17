@@ -144,10 +144,10 @@ if ( !function_exists('wp_login') ) :
 function wp_login($username, $password, $already_md5 = false) {
 	global $wpdb, $error;
 
-	if ( !$username )
+	if ( '' == $username )
 		return false;
 
-	if ( !$password ) {
+	if ( '' == $password ) {
 		$error = __('<strong>Error</strong>: The password field is empty.');
 		return false;
 	}
