@@ -54,10 +54,7 @@ class WP_Object_Cache {
 	var $cache_dir;
 	var $cache_enabled = false;
 	var $expiration_time = 86400;
-	var $use_flock = false;
 	var $flock_filename = 'wp_object_cache.lock';
-	var $sem_id = 5454;
-	var $mutex;
 	var $cache = array ();
 	var $dirty_objects = array ();
 	var $non_existant_objects = array ();
@@ -281,16 +278,9 @@ class WP_Object_Cache {
 			@ touch($this->cache_dir."index.php");
 		}
 
-		// Acquire a write lock.  Semaphore preferred.  Fallback to flock.
-		if (function_exists('sem_get')) {
-			$this->use_flock = false;
-			$mutex = sem_get($this->sem_id, 1, 0644 | IPC_CREAT, 1);
-			sem_acquire($mutex);
-		} else {
-			$this->use_flock = true;
-			$mutex = fopen($this->cache_dir.$this->flock_filename, 'w');
-			flock($mutex, LOCK_EX);
-		}
+		// Acquire a write lock. 
+		$mutex = fopen($this->cache_dir.$this->flock_filename, 'w');
+		flock($mutex, LOCK_EX);
 
 		// Loop over dirty objects and save them.
 		foreach ($this->dirty_objects as $group => $ids) {
@@ -321,10 +311,8 @@ class WP_Object_Cache {
 		}
 
 		// Release write lock.
-		if ($this->use_flock)
-			flock($mutex, LOCK_UN);
-		else
-			sem_release($mutex);
+		flock($mutex, LOCK_UN);
+		fclose($mutex);
 	}
 
 	function stats() {
