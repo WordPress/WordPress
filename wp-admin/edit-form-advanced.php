@@ -7,11 +7,9 @@ $messages[3] = __('Custom field deleted.');
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
 
+<?php $richedit = ( 'true' != get_user_option('rich_editing') ) ? false : true; ?>
+
 <form name="post" action="post.php" method="post" id="post">
-<?php if ( (isset($mode) && 'bookmarklet' == $mode) ||
-			isset($_GET['popupurl']) ): ?>
-<input type="hidden" name="mode" value="bookmarklet" />
-<?php endif; ?>
 
 <div class="wrap">
 <h2 id="write-post"><?php _e('Write Post'); ?><?php if ( 0 != $post_ID ) : ?>
@@ -137,7 +135,7 @@ endforeach;
   <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $post->post_title; ?>" id="title" /></div>
 </fieldset>
 
-<fieldset id="<?php echo ( 'true' != get_user_option('rich_editing') ) ? 'postdiv' : 'postdivrich'; ?>">
+<fieldset id="<?php echo $richedit ? 'postdivrich' : 'postdiv'; ?>">
 <legend><?php _e('Post') ?></legend>
 
 <?php
@@ -146,11 +144,12 @@ endforeach;
      $rows = 12;
  }
 ?>
-<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo $post->post_content ?></textarea></div>
+<?php if ( !$richedit ) the_quicktags(); ?>
+
+<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo $richedit ? wp_richedit_pre($post->post_content) : $post->post_content; ?></textarea></div>
 </fieldset>
 
-<?php if ( 'true' != get_user_option('rich_editing') ) : ?>
-<?php the_quicktags(); ?>
+<?php if ( !$richedit ) : ?>
 <script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
@@ -201,7 +200,7 @@ else
 
 <p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 
-if ('publish' != $post->post_status || 0 == $post_ID) {
+if ('publish' != $post_status || 0 == $post_ID) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" /> 
@@ -210,9 +209,7 @@ if ('publish' != $post->post_status || 0 == $post_ID) {
 }
 ?>
 <input name="referredby" type="hidden" id="referredby" value="<?php 
-if ( !empty($_REQUEST['popupurl']) )
-	echo wp_specialchars($_REQUEST['popupurl']);
-else if ( url_to_postid($_SERVER['HTTP_REFERER']) == $post_ID )
+if ( url_to_postid($_SERVER['HTTP_REFERER']) == $post_ID )
 	echo 'redo';
 else
 	echo wp_specialchars($_SERVER['HTTP_REFERER']);
@@ -223,8 +220,6 @@ else
 <?php
 $uploading_iframe_ID = (0 == $post_ID ? $temp_ID : $post_ID);
 $uploading_iframe_src = "inline-uploading.php?action=view&amp;post=$uploading_iframe_ID";
-if ( !$attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$uploading_iframe_ID'") )
-	$uploading_iframe_src = "inline-uploading.php?action=upload&amp;post=$uploading_iframe_ID";
 $uploading_iframe_src = apply_filters('uploading_iframe_src', $uploading_iframe_src);
 if ( false != $uploading_iframe_src )
 	echo '<iframe id="uploading" border="0" src="' . $uploading_iframe_src . '">' . __('This feature requires iframe support.') . '</iframe>';

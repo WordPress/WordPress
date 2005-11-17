@@ -5,6 +5,9 @@ function saveContent() {
 
 // Fixes some charcode issues
 function fixContent(html) {
+	// WP
+	return html;
+
 	html = html.replace(new RegExp('<(p|hr|table|tr|td|ol|ul|object|embed|li|blockquote)', 'gi'),'\n<$1');
 	html = html.replace(new RegExp('<\/(p|ol|ul|li|table|tr|td|blockquote|object)>', 'gi'),'</$1>\n');
 	html = tinyMCE.regexpReplace(html, '<br />','<br />\n','gi');

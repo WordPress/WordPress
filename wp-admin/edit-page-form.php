@@ -20,6 +20,8 @@ $sendto = wp_specialchars( $sendto );
 
 ?>
 
+<?php $richedit = ( 'true' != get_user_option('rich_editing') ) ? false : true; ?>
+
 <form name="post" action="post.php" method="post" id="post">
 
 <?php
@@ -117,7 +119,7 @@ endforeach;
 </fieldset>
 
 
-<fieldset id="<?php echo ( 'true' != get_user_option('rich_editing') ) ? 'postdiv' : 'postdivrich'; ?>">
+<fieldset id="<?php echo ( $richedit) ? 'postdivrich' : 'postdiv'; ?>">
     <legend><?php _e('Page Content') ?></legend>
 <?php
  $rows = get_settings('default_post_edit_rows');
@@ -125,11 +127,12 @@ endforeach;
      $rows = 10;
  }
 ?>
-<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo $post->post_content ?></textarea></div>
+<?php if (! $richedit ) the_quicktags(); ?>
+
+<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo $richedit ? wp_richedit_pre($post->post_content) : $post->post_content; ?></textarea></div>
 </fieldset>
 
-<?php if ( 'true' != get_user_option('rich_editing') ) : ?>
-<?php the_quicktags(); ?>
+<?php if ( !$richedit ) : ?>
 <script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
@@ -140,7 +143,7 @@ edCanvas = document.getElementById('content');
 <p class="submit">
 <?php if ( $post_ID ) : ?>
 <input name="save" type="submit" id="save" tabindex="5" value=" <?php _e('Save and Continue Editing'); ?> "/> 
-<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Save') : _e('Create New Page') ?> &raquo;" style="font-weight: bold;"/> 
+<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Edit Page') : _e('Create New Page') ?> &raquo;" /> 
 <?php else : ?>
 <input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php _e('Create New Page') ?> &raquo;" /> 
 <?php endif; ?>
@@ -150,8 +153,6 @@ edCanvas = document.getElementById('content');
 <?php
 $uploading_iframe_ID = (0 == $post_ID ? $temp_ID : $post_ID);
 $uploading_iframe_src = "inline-uploading.php?action=view&amp;post=$uploading_iframe_ID";
-if ( !$attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$uploading_iframe_ID'") )
-	$uploading_iframe_src = "inline-uploading.php?action=upload&amp;post=$uploading_iframe_ID";
 $uploading_iframe_src = apply_filters('uploading_iframe_src', $uploading_iframe_src);
 if ( false != $uploading_iframe_src )
 	echo '<iframe id="uploading" border="0" src="' . $uploading_iframe_src . '">' . __('This feature requires iframe support.') . '</iframe>';

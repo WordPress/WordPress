@@ -62,7 +62,7 @@ function wpautop($pee, $br = 1) {
 	$pee = preg_replace('!(</(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6])>)!', "$1\n", $pee);
 	$pee = str_replace(array("\r\n", "\r"), "\n", $pee); // cross-platform newlines 
 	$pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
-	$pee = preg_replace('/\n?(.+?)(?:\n\s*\n|\z)/s', "\t<p>$1</p>\n", $pee); // make paragraphs, including one at the end 
+	$pee = preg_replace('/\n?(.+?)(?:\n\s*\n|\z)/s', "<p>$1</p>\n", $pee); // make paragraphs, including one at the end 
 	$pee = preg_replace('|<p>\s*?</p>|', '', $pee); // under certain strange conditions it could create a P of entirely whitespace 
     $pee = preg_replace('!<p>\s*(</?(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|hr|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)\s*</p>!', "$1", $pee); // don't pee all over a tag
 	$pee = preg_replace("|<p>(<li.+?)</p>|", "$1", $pee); // problem with nested lists
@@ -991,6 +991,23 @@ function ent2ncr($text) {
 		$text = str_replace($entity, $ncr, $text);
 	}
 	return $text;
+}
+
+function wp_richedit_pre($text) {
+	// Filtering a blank results in an annoying <br />\n
+	if ( empty($text) ) return '';
+
+	$output = $text;
+	$output = html_entity_decode($output); // undoes format_to_edit()
+	$output = wptexturize($output);
+	$output = convert_chars($output);
+	$output = wpautop($output);
+
+	// These must be double-escaped or planets will collide.
+	$output = str_replace('&lt;', '&amp;lt;', $output);
+	$output = str_replace('&gt;', '&amp;gt;', $output);
+
+	return $output;
 }
 
 ?>

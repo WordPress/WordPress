@@ -4,6 +4,7 @@ $toprow_title = sprintf(__('Editing Comment # %s'), $comment->comment_ID);
 $form_action = 'editedcomment';
 $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment->comment_ID . "' />\n<input type='hidden' name='comment_post_ID' value='".$comment->comment_post_ID;
 ?>
+<?php $richedit = ( 'true' != get_user_option('rich_editing') ) ? false : true; ?>
 
 <form name="post" action="post.php" method="post" id="post">
 <div class="wrap">
@@ -37,14 +38,8 @@ addLoadEvent(focusit);
 
 <fieldset style="clear: both;">
         <legend><?php _e('Comment') ?></legend>
-<?php if ( 'true' != get_user_option('rich_editing') ) : ?>
-<?php the_quicktags(); ?>
-<script type="text/javascript">
-<!--
-edCanvas = document.getElementById('content');
-//-->
-</script>
-<?php endif; ?>
+<?php if ( !$richedit ) the_quicktags(); ?>
+
 <?php
  $rows = get_settings('default_post_edit_rows');
  if (($rows < 3) || ($rows > 100)) {
@@ -54,6 +49,13 @@ edCanvas = document.getElementById('content');
 <div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $comment->comment_content ?></textarea></div>
 </fieldset>
 
+<?php if ( !$richedit ) : ?>
+<script type="text/javascript">
+<!--
+edCanvas = document.getElementById('content');
+//-->
+</script>
+<?php endif; ?>
 
 <p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />

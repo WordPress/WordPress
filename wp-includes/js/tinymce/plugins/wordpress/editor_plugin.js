@@ -11,20 +11,24 @@ function TinyMCE_wordpress_getControlHTML(control_name) {
 		case "wordpress":
 			var titleMore = tinyMCE.getLang('lang_wordpress_more_button');
 			var titlePage = tinyMCE.getLang('lang_wordpress_page_button');
-			var buttons = '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\')" target="_self" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\');return false;"><img id="{$editor_id}_wordpress_more" src="{$pluginurl}/images/more.gif" title="'+titleMore+'" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a><!--<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\')" target="_self" onclick="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\');return false;"><img id="{$editor_id}_wordpress_page" src="{$pluginurl}/images/page.gif" title="'+titlePage+'" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>-->';
+			var titleHelp = tinyMCE.getLang('lang_wordpress_help_button');
+			var buttons = '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\')" target="_self" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\');return false;"><img id="{$editor_id}_wordpress_more" src="{$pluginurl}/images/more.gif" title="'+titleMore+'" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>'
+			+ '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresshelp\')" target="_self" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresshelp\');return false;"><img id="{$editor_id}_wordpress_help" src="{$pluginurl}/images/help.gif" title="'+titleHelp+'" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
+			// Add this to the buttons var to put the Page button into the toolbar.
+			// '<a href="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\')" target="_self" onclick="javascript:tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpresspage\');return false;"><img id="{$editor_id}_wordpress_page" src="{$pluginurl}/images/page.gif" title="'+titlePage+'" width="20" height="20" class="mceButtonNormal" onmouseover="tinyMCE.switchClass(this,\'mceButtonOver\');" onmouseout="tinyMCE.restoreClass(this);" onmousedown="tinyMCE.restoreAndSwitchClass(this,\'mceButtonDown\');" /></a>';
 			var hiddenControls = '<div class="zerosize">'
 			+ '<input type="button" accesskey="b" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Bold\',false);" />'
 			+ '<input type="button" accesskey="i" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Italic\',false);" />'
 			+ '<input type="button" accesskey="d" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Strikethrough\',false);" />'
-			+ '<input type="button" accesskey="n" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'InsertUnorderedList\',false);" />'
+			+ '<input type="button" accesskey="l" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'InsertUnorderedList\',false);" />'
 			+ '<input type="button" accesskey="o" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'InsertOrderedList\',false);" />'
-			+ '<input type="button" accesskey="a" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Outdent\',false);" />'
-			+ '<input type="button" accesskey="s" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Indent\',false);" />'
+			+ '<input type="button" accesskey="w" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Outdent\',false);" />'
+			+ '<input type="button" accesskey="q" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Indent\',false);" />'
 			+ '<input type="button" accesskey="f" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'JustifyLeft\',false);" />'
 			+ '<input type="button" accesskey="c" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'JustifyCenter\',false);" />'
 			+ '<input type="button" accesskey="r" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'JustifyRight\',false);" />'
-			+ '<input type="button" accesskey="l" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceLink\',true);" />'
-			+ '<input type="button" accesskey="k" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'unlink\',false);" />'
+			+ '<input type="button" accesskey="a" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceLink\',true);" />'
+			+ '<input type="button" accesskey="s" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'unlink\',false);" />'
 			+ '<input type="button" accesskey="m" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceImage\',true);" />'
 			+ '<input type="button" accesskey="t" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mcewordpressmore\');" />'
 			+ '<input type="button" accesskey="u" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Undo\',false);" />'
@@ -86,6 +90,10 @@ function TinyMCE_wordpress_parseAttributes(attribute_string) {
 }
 
 function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interface, value) {
+	var inst = tinyMCE.getInstanceById(editor_id);
+	var focusElm = inst.getFocusElement();
+	var doc = inst.getDoc();
+
 	function getAttrib(elm, name) {
 		return elm.getAttribute(name) ? elm.getAttribute(name) : "";
 	}
@@ -95,8 +103,6 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 			case "mcewordpressmore":
 				var flag = "";
 				var template = new Array();
-				var inst = tinyMCE.getInstanceById(editor_id);
-				var focusElm = inst.getFocusElement();
 				var altMore = tinyMCE.getLang('lang_wordpress_more_alt');
 
 				// Is selection a image
@@ -119,8 +125,6 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 			case "mcewordpresspage":
 				var flag = "";
 				var template = new Array();
-				var inst = tinyMCE.getInstanceById(editor_id);
-				var focusElm = inst.getFocusElement();
 				var altPage = tinyMCE.getLang('lang_wordpress_more_alt');
 	
 				// Is selection a image
@@ -139,6 +143,10 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 					+ 'alt="'+altPage+'" title="'+altPage+'" class="mce_plugin_wordpress_page" name="mce_plugin_wordpress_page" />';
 				tinyMCE.execCommand("mceInsertContent",true,html);
 				tinyMCE.selectedInstance.repaint();
+				return true;
+			case "mcewordpresshelp":
+				var helpText = tinyMCE.getLang('lang_wordpress_help_text');
+				alert(helpText);
 				return true;
 	}
 
@@ -180,6 +188,10 @@ function TinyMCE_wordpress_cleanup(type, content) {
 
 				startPos++;
 			}
+
+			// It's supposed to be WYSIWYG, right?
+			content = content.replace(new RegExp('&', 'g'), '&amp;');
+
 			break;
 
 		case "get_from_editor":
@@ -211,12 +223,17 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				}
 			}
 
-			// The Curse of the Trailing <br />
-			content = content.replace(new RegExp('<br ?/?>[ \t]*$', ''), '');
+			// If it says & in the WYSIWYG editor, it should say &amp; in the html.
+			content = content.replace(new RegExp('&', 'g'), '&amp;');
 
-			// The Curse of the Trailing <br />
-			content = content.replace(new RegExp('<br ?/?>[ \t]*$', ''), '');
-
+			// Pretty it up for the source editor.
+			var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\d|pre|p';
+			content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
+			content = content.replace(new RegExp('\\s*<(('+blocklist+')[^>]*)>\\s*', 'mg'), '\n<$1>');
+			content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
+			content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'mg'), '<br />\n');
+			content = content.replace(new RegExp('^\\s*', ''), '');
+			content = content.replace(new RegExp('\\s*$', ''), '');
 			break;
 	}
 
@@ -243,4 +260,38 @@ function TinyMCE_wordpress_handleNodeChange(editor_id, node, undo_index, undo_le
 	} while ((node = node.parentNode));
 
 	return true;
+}
+
+function wp_save_callback(el, content, body) {
+	// We have a TON of cleanup to do.
+
+	// Mark </p> if it has any attributes.
+	content = content.replace(new RegExp('(<p[^>]+>.*?)</p>', 'mg'), '$1</p#>');
+
+	// Decode the ampersands of time.
+	content = content.replace(new RegExp('&amp;', 'g'), '&');
+
+	// Get it ready for wpautop.
+	content = content.replace(new RegExp('[\\s]*<p>[\\s]*', 'mgi'), '');
+	content = content.replace(new RegExp('[\\s]*</p>[\\s]*', 'mgi'), '\n\n');
+	content = content.replace(new RegExp('\\n\\s*\\n\\s*\\n*', 'mgi'), '\n\n');
+	content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '\n');
+
+	// Fix some block element newline issues
+	var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\d|pre';
+	content = content.replace(new RegExp('\\s*<(('+blocklist+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
+	content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
+	content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
+
+	// Unmark special paragraph closing tags
+	content = content.replace(new RegExp('</p#>', 'g'), '</p>\n');
+	content = content.replace(new RegExp('\\s*(<p[^>]+>.*</p>)', 'mg'), '\n$1');
+
+	// Trim any whitespace
+	content = content.replace(new RegExp('^\\s*', ''), '');
+	content = content.replace(new RegExp('\\s*$', ''), '');
+
+	// Hope.
+	return content;
+
 }

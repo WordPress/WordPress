@@ -360,7 +360,7 @@ function TinyMCE_advanced_getEditorTemplate(settings, editorId)
 			};
 
 			// Add accessibility control
-			toolbarHTML += '<a href="#" accesskey="q" title="' + tinyMCE.getLang("lang_toolbar_focus") + '"></a>';
+			//toolbarHTML += '<a href="#" accesskey="q" title="' + tinyMCE.getLang("lang_toolbar_focus") + '"></a>';
 
 			// Render rows
 			for (var i=1; i<100; i++) {
