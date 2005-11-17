@@ -349,16 +349,13 @@ default:
 <p>
 
 <?php
-$bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
-
 if ($is_NS4 || $is_gecko) {
 ?>
-
 <a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}location.href='<?php echo get_settings('siteurl') ?>/wp-admin/post.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);"><?php printf(__('Press It - %s'), wp_specialchars(get_settings('blogname'))); ?></a> 
 <?php
 } else if ($is_winIE) {
 ?>
-<a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;void(btw=window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+encodeURIComponent(Q)+'<?php echo $bookmarklet_tbpb ?>&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title),'bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a>
+<a href="javascript:Q='';if(top.frames.length==0)Q=document.selection.createRange().text;location.href='<?php echo get_settings('siteurl') ?>/wp-admin/post.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a>
 <script type="text/javascript">
 <!--
 function oneclickbookmarklet(blah) {
@@ -373,11 +370,11 @@ window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=50
 <?php
 } else if ($is_opera) {
 ?>
-<a href="javascript:void(window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a> 
+<a href="javascript:location.href='<?php echo get_settings('siteurl'); ?>/wp-admin/post.php?popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a> 
 <?php
 } else if ($is_macIE) {
 ?>
-<a href="javascript:Q='';if(top.frames.length==0);void(btw=window.open('<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title)+'<?php echo $bookmarklet_tbpb ?>','bookmarklet','scrollbars=yes,width=600,height=<?php echo $bookmarklet_height ?>,left=100,top=150,status=yes'));btw.focus();"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a> 
+<a href="javascript:Q='';location.href='<?php echo get_settings('siteurl'); ?>/wp-admin/bookmarklet.php?text='+escape(document.getSelection())+'&popupurl='+escape(location.href)+'&popuptitle='+escape(document.title);"><?php printf(__('Press it - %s'), get_settings('blogname')); ?></a> 
 <?php
 }
 ?>
