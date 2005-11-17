@@ -62,7 +62,7 @@ text-align: center; border-top: 1px solid #ccc; padding-top: 1em; font-style: it
 	</style>
 </head>
 <body>
-<h1 id="logo"><img alt="WordPress" src="http://static.wordpress.org/logo.png" /></h1>
+<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 <?php
 switch($step) {
 

@@ -74,7 +74,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 	</style>
 </head>
 <body>
-<h1 id="logo"><img alt="WordPress" src="http://static.wordpress.org/logo.png" /></h1>
+<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 <?php
 // Let's check to make sure WP isn't already installed.
 $wpdb->hide_errors();

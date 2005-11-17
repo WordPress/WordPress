@@ -156,7 +156,7 @@ textarea, input, select {
 	border-style: none;
 	padding: 0px;
 	margin-bottom: 16px;
-	height: 180px;
+	height: 15em;
 	width: 100%;
 	overflow-y: hidden;
 }
