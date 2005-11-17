@@ -110,6 +110,32 @@ tinyMCE.init({
 <script type="text/javascript" src="../wp-includes/js/dbx-key.js"></script>
 
 <?php if ( current_user_can('manage_categories') ) : ?>
+<style type="text/css">
+#newcat { width: 120px; margin-right: 5px; }
+input#catadd { 	background: #a4a4a4;
+	border-bottom: 1px solid #898989;
+	border-left: 1px solid #bcbcbc;
+	border-right: 1px solid #898989;
+	border-top: 1px solid #bcbcbc;
+	color: #fff;
+	font-size: 10px;
+	padding: 0;
+	margin: 0;
+	font-weight: bold;
+	height: 20px;
+	margin-bottom: 2px;
+	text-align: center;
+	width: 37px; }
+#howto {
+	font-size: 11px;
+	margin: 0 5px;
+	display: block;
+}
+#jaxcat {
+	margin: 0;
+	padding: 0;
+}
+</style>
 <script type="text/javascript">
 var ajaxCat = new sack();
 var newcat;
@@ -129,12 +155,18 @@ function newCatAddIn() {
 	var newcatSub = document.createElement('input');
 	newcatSub.type = 'button';
 	newcatSub.name = 'Button';
-	newcatSub.value = '+';
-	newcat.onkeypress = ajaxNewCatKeyPress;
+	newcatSub.id = 'catadd';
+	newcatSub.value = '<?php _e('Add'); ?>';
+	newcatSub.onclick = ajaxNewCat;
 
 	ajaxcat.appendChild(newcat);
 	ajaxcat.appendChild(newcatSub);
-	document.getElementById('categorychecklist').parentNode.appendChild(ajaxcat);
+	document.getElementById('jaxcat').appendChild(ajaxcat);
+
+	howto = document.createElement('span');
+	howto.innerHTML = '<?php _e('Separate multiple categories with commas.'); ?>';
+	howto.id = 'howto';
+	ajaxcat.appendChild(howto);
 }
 
 addLoadEvent(newCatAddIn);
@@ -143,7 +175,7 @@ function getResponseElement() {
 	var p = document.getElementById('ajaxcatresponse');
 	if (!p) {
 		p = document.createElement('p');
-		document.getElementById('categorydiv').appendChild(p);
+		document.getElementById('jaxcat').appendChild(p);
 		p.id = 'ajaxcatresponse';
 	}
 	return p;
@@ -161,57 +193,73 @@ function newCatLoaded() {
 
 function newCatInteractive() {
 	var p = getResponseElement();
-	p.innerHTML = 'Processing Data...';
+	p.innerHTML = 'Processing Request...';
 }
 
 function newCatCompletion() {
 	var p = getResponseElement();
-	var id = parseInt(ajaxCat.response, 10);
-	if ( id == '-1' ) {
-		p.innerHTML = "You don't have permission to do that.";
-		return;
-	}
-	if ( id == '0' ) {
-		p.innerHTML = "That category name is invalid.  Try something else.";
-		return;
+//	alert(ajaxCat.response);
+	var id    = 0;
+	var ids   = new Array();
+	var names = new Array();
+	
+	ids   = myPload( ajaxCat.response );
+	names = myPload( newcat.value );
+
+	for ( i = 0; i < ids.length; i++ ) {
+		id = ids[i];
+//		alert(id);
+		if ( id == '-1' ) {
+			p.innerHTML = "You don't have permission to do that.";
+			return;
+		}
+		if ( id == '0' ) {
+			p.innerHTML = "That category name is invalid.  Try something else.";
+			return;
+		}
+		
+		var exists = document.getElementById('category-' + id);
+		
+		if (exists) {
+			var moveIt = exists.parentNode;
+			var container = moveIt.parentNode;
+			container.removeChild(moveIt);
+			container.insertBefore(moveIt, container.firstChild);
+			moveIt.id = 'new-category-' + id;
+			exists.checked = 'checked';
+			var nowClass = moveIt.className;
+			moveIt.className = nowClass + ' fade';
+			Fat.fade_all();
+			moveIt.className = nowClass;
+		} else {
+			var catDiv = document.getElementById('categorychecklist');
+			var newLabel = document.createElement('label');
+			newLabel.setAttribute('for', 'category-' + id);
+			newLabel.id = 'new-category-' + id;
+			newLabel.className = 'selectit fade';
+	
+			var newCheck = document.createElement('input');
+			newCheck.type = 'checkbox';
+			newCheck.value = id;
+			newCheck.name = 'post_category[]';
+			newCheck.id = 'category-' + id;
+			newLabel.appendChild(newCheck);
+	
+			var newLabelText = document.createTextNode(' ' + names[i]);
+			newLabel.appendChild(newLabelText);
+	
+			catDiv.insertBefore(newLabel, catDiv.firstChild);
+			newCheck.checked = 'checked';
+	
+			Fat.fade_all();
+			newLabel.className = 'selectit';
+		}
+		newcat.value = '';
 	}
 	p.parentNode.removeChild(p);
-	var exists = document.getElementById('category-' + id);
-	if (exists) {
-		var moveIt = exists.parentNode;
-		var container = moveIt.parentNode;
-		container.removeChild(moveIt);
-		container.insertBefore(moveIt, container.firstChild);
-		moveIt.id = 'new-category-' + id;
-		exists.checked = 'checked';
-		var nowClass = moveIt.className;
-		moveIt.className = nowClass + ' fade';
-		Fat.fade_all();
-		moveIt.className = nowClass;
-	} else {
-		var catDiv = document.getElementById('categorychecklist');
-		var newLabel = document.createElement('label');
-		newLabel.setAttribute('for', 'category-' + id);
-		newLabel.id = 'new-category-' + id;
-		newLabel.className = 'selectit fade';
+//	var id = parseInt(ajaxCat.response, 10);
 
-		var newCheck = document.createElement('input');
-		newCheck.type = 'checkbox';
-		newCheck.value = id;
-		newCheck.name = 'post_category[]';
-		newCheck.id = 'category-' + id;
-		newLabel.appendChild(newCheck);
 
-		var newLabelText = document.createTextNode(' ' + newcat.value);
-		newLabel.appendChild(newLabelText);
-
-		catDiv.insertBefore(newLabel, catDiv.firstChild);
-		newCheck.checked = 'checked';
-
-		Fat.fade_all();
-		newLabel.className = 'selectit';
-	}
-	newcat.value = '';
 }
 
 function ajaxNewCatKeyPress(e) {
@@ -232,7 +280,10 @@ function ajaxNewCatKeyPress(e) {
 
 function ajaxNewCat() {
 	var newcat = document.getElementById('newcat');
-	var catString = 'ajaxnewcat=' + encodeURIComponent(newcat.value);
+	var split_cats = new Array(1);
+	var catString = '';
+
+	catString = 'ajaxnewcat=' + encodeURIComponent(newcat.value);
 	ajaxCat.requestFile = 'edit-form-ajax-cat.php';
 	ajaxCat.method = 'GET';
 	ajaxCat.onLoading = newCatLoading;
@@ -241,6 +292,30 @@ function ajaxNewCat() {
 	ajaxCat.onCompletion = newCatCompletion;
 	ajaxCat.runAJAX(catString);
 }
+
+function myPload( str ) {
+	var fixedExplode = new Array();
+	var comma = new String(',');
+	var count = 0;
+	var currentElement = '';
+
+	for( x=0; x < str.length; x++) {
+		andy = str.charAt(x);
+		if ( comma.indexOf(andy) != -1 ) {
+			fixedExplode[count] = currentElement;
+			currentElement = "";
+			count++;
+		} else {
+			if ( ' ' != andy )
+				currentElement += andy;
+		}
+	}
+
+	if ( currentElement != "" )
+		fixedExplode[count] = currentElement;
+	return fixedExplode;
+}
+
 </script>
 <?php endif; ?>
 

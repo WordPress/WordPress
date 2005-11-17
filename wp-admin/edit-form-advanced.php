@@ -89,8 +89,10 @@ addLoadEvent(focusit);
 </fieldset>
 
 <fieldset id="categorydiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Categories') ?></h3> 
-<div class="dbx-content"><div id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></div></div>
+<h3 class="dbx-handle"><?php _e('Categories') ?></h3>
+<div class="dbx-content">
+<p id="jaxcat"></p>
+<div id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></div></div>
 </fieldset>
 
 <fieldset class="dbx-box">
