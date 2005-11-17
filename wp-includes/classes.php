@@ -601,11 +601,13 @@ class WP_Query {
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 		$where = apply_filters('posts_where_paged', $where);
-		$where .= " GROUP BY $wpdb->posts.ID";
+		$groupby = " $wpdb->posts.ID ";
+		$groupby = apply_filters('posts_groupby', $groupby);
 		$join = apply_filters('posts_join_paged', $join);
 		$orderby = "post_" . $q['orderby'];
 		$orderby = apply_filters('posts_orderby', $orderby); 
-		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1".$where." ORDER BY " . $orderby . " $limits";
+		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1" . $where . " GROUP BY " . $groupby . " ORDER BY " . $orderby . " $limits";
+		$request = apply_filters('posts_request', $request);
 
 		$this->posts = $wpdb->get_results($request);
 
