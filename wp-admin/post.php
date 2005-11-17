@@ -36,7 +36,7 @@ case 'post':
 	if (!empty($_POST['mode'])) {
 	switch($_POST['mode']) {
 		case 'bookmarklet':
-			$location = 'bookmarklet.php?a=b';
+			$location = $_POST['referredby'];
 			break;
 		case 'sidebar':
 			$location = 'sidebar.php?a=b';
@@ -52,7 +52,7 @@ case 'post':
 	if ( 'static' == $_POST['post_status'] )
 		$location = "page-new.php?saved=true";
 
-	if ( '' != $_POST['advanced'] || isset($_POST['save']) )
+	if ( isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
 
 	header("Location: $location");
@@ -353,7 +353,8 @@ $bookmarklet_height= (get_settings('use_trackback')) ? 480 : 440;
 
 if ($is_NS4 || $is_gecko) {
 ?>
-<a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}void(window.open('<?php echo get_settings('siteurl') ?>/wp-admin/bookmarklet.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title),'<?php _e('WordPress bookmarklet') ?>','scrollbars=yes,width=600,height=460,left=100,top=150,status=yes'));"><?php printf(__('Press It - %s'), wp_specialchars(get_settings('blogname'))); ?></a> 
+
+<a href="javascript:if(navigator.userAgent.indexOf('Safari') >= 0){Q=getSelection();}else{Q=document.selection?document.selection.createRange().text:document.getSelection();}location.href='<?php echo get_settings('siteurl') ?>/wp-admin/post.php?text='+encodeURIComponent(Q)+'&amp;popupurl='+encodeURIComponent(location.href)+'&amp;popuptitle='+encodeURIComponent(document.title);"><?php printf(__('Press It - %s'), wp_specialchars(get_settings('blogname'))); ?></a> 
 <?php
 } else if ($is_winIE) {
 ?>

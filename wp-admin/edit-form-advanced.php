@@ -8,6 +8,10 @@ $messages[3] = __('Custom field deleted.');
 <?php endif; ?>
 
 <form name="post" action="post.php" method="post" id="post">
+<?php if ( (isset($mode) && 'bookmarklet' == $mode) ||
+			isset($_GET['popupurl']) ): ?>
+<input type="hidden" name="mode" value="bookmarklet" />
+<?php endif; ?>
 
 <div class="wrap">
 <h2 id="write-post"><?php _e('Write Post'); ?><?php if ( 0 != $post_ID ) : ?>
@@ -204,7 +208,9 @@ if ('publish' != $post->post_status || 0 == $post_ID) {
 }
 ?>
 <input name="referredby" type="hidden" id="referredby" value="<?php 
-if ( url_to_postid($_SERVER['HTTP_REFERER']) == $post_ID )
+if ( !empty($_REQUEST['popupurl']) )
+	echo wp_specialchars($_REQUEST['popupurl']);
+else if ( url_to_postid($_SERVER['HTTP_REFERER']) == $post_ID )
 	echo 'redo';
 else
 	echo wp_specialchars($_SERVER['HTTP_REFERER']);
