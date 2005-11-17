@@ -41,6 +41,7 @@ require(ABSPATH . '/wp-admin/menu.php');
 
 // Handle plugin admin pages.
 if (isset($_GET['page'])) {
+	$plugin_page = stripslashes($_GET['page']);
 	$plugin_page = plugin_basename($_GET['page']);
 	$page_hook = get_plugin_page_hook($plugin_page, $pagenow);
 
