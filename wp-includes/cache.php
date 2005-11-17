@@ -184,6 +184,9 @@ class WP_Object_Cache {
 				}
 				$wpdb->show_errors();
 
+				if ( ! $options )
+					return;
+
 				foreach ($options as $option) {
 					$this->cache['options'][$option->option_name] = $option->option_value;
 				}
