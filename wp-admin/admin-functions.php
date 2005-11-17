@@ -984,14 +984,6 @@ function got_mod_rewrite() {
 			return false;
 	}
 
-	if ( function_exists('ob_get_clean') ) {
-	  ob_start();
-	  phpinfo(INFO_MODULES);
-	  $php_modules = ob_get_clean();
-	  if ( strpos($php_modules, 'mod_rewrite') === false)
-	    return false;
-	}
-
 	return true;
 }
 
