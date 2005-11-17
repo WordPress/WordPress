@@ -362,8 +362,7 @@ class WP_Object_Cache {
 		else
 			$this->cache_dir = ABSPATH.'wp-content/cache/';
 
-		if (is_dir($this->cache_dir)) {
-			if (is_writable($this->cache_dir))
+		if (is_writable($this->cache_dir) && is_dir($this->cache_dir)) {
 				$this->cache_enabled = true;
 		} else
 			if (is_writable(ABSPATH.'wp-content')) {
