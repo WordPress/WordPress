@@ -18,7 +18,7 @@ function the_title_rss() {
 
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
-	$content = apply_filters('the_content', $content);
+	$content = apply_filters('the_content_rss', $content);
 	if ($cut && !$encode_html) {
 		$encode_html = 2;
 	}
