@@ -16,7 +16,10 @@ Many thanks to Owen (http://asymptomatic.net/wp/) for his patch
 
 // CHANGE THIS IF YOU WANT TO USE A 
 // DIFFERENT BACKUP LOCATION
-define('WP_BACKUP_DIR', 'wp-content/backup');
+
+$rand = substr( md5( md5( DB_PASSWORD ) ), -5 );
+
+define('WP_BACKUP_DIR', 'wp-content/backup-' . $rand);
 
 define('ROWS_PER_SEGMENT', 100);
 
@@ -209,6 +212,7 @@ class wpdbBackup {
 			
 			nextStep();
 			//--></script>
+			</div>
 		';
 	}
 
@@ -726,14 +730,28 @@ class wpdbBackup {
 		if ('' != $feedback) {
 			echo $feedback;
 		}
-		
-		if (! is_dir(ABSPATH . $this->backup_dir)) {
-			echo '<div class="updated error"><p align="center">' . __('WARNING: Your backup directory does not exist!', 'wp-db-backup') . '<br />' . ABSPATH . $this->backup_dir . "</p></div>";
+
+		// Give the new dirs the same perms as wp-content.
+		$stat = stat( ABSPATH . 'wp-content' );
+		$dir_perms = $stat['mode'] & 0000777; // Get the permission bits.
+
+		if ( !file_exists( ABSPATH . $this->backup_dir) ) {
+			if ( @ mkdir( ABSPATH . $this->backup_dir) ) {
+				@ chmod( ABSPATH . $this->backup_dir, $dir_perms);
+			} else {
+				echo '<div class="updated error"><p align="center">' . __('WARNING: Your wp-content directory is <strong>NOT</strong> writable! We can not create the backup directory.', 'wp-db-backup') . '<br />' . ABSPATH . "</p></div>";
 			$WHOOPS = TRUE;
-		}elseif (! is_writable(ABSPATH . $this->backup_dir)) {
-			echo '<div class="updated error"><p align="center">' . __('WARNING: Your backup directory is <strong>NOT</strong> writable!', 'wp-db-backup') . '<br />' . ABSPATH . $this->backup_dir . "</p></div>";
-			$WHOOPS = TRUE;
+			}
 		}
+		
+		if ( !is_writable( ABSPATH . $this->backup_dir) ) {
+			echo '<div class="updated error"><p align="center">' . __('WARNING: Your backup directory is <strong>NOT</strong> writable! We can not create the backup directory.', 'wp-db-backup') . '<br />' . ABSPATH . "</p></div>";
+		}
+
+		if ( !file_exists( ABSPATH . $this->backup_dir . 'index.php') ) {
+			@ touch( ABSPATH . $this->backup_dir . "index.php");
+		}
+
 		echo "<div class='wrap'>";
 		echo '<h2>' . __('Backup', 'wp-db-backup') . '</h2>';
 		echo '<fieldset class="options"><legend>' . __('Tables', 'wp-db-backup') . '</legend>';
