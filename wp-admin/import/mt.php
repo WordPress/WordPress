@@ -416,5 +416,5 @@ class MT_Import {
 
 $mt_import = new MT_Import();
 
-register_importer('mt', 'Movable Type', 'Import posts and comments from your Movable Type blog', array ($mt_import, 'dispatch'));
+//register_importer('mt', 'Movable Type', 'Import posts and comments from your Movable Type blog', array ($mt_import, 'dispatch'));
 ?>
