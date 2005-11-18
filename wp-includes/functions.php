@@ -812,8 +812,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 
 	$tb_url = addslashes( $tb_url );
 	$wpdb->query("UPDATE $wpdb->posts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = '$ID'");
-	$wpdb->query("UPDATE $wpdb->posts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = '$ID'");
-	return $result;
+	return $wpdb->query("UPDATE $wpdb->posts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = '$ID'");
 }
 
 function make_url_footnote($content) {
