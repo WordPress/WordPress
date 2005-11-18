@@ -339,10 +339,6 @@ if ( !function_exists('wp_new_user_notification') ) :
 function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$user = new WP_User($user_id);
 	
-	$stars = '';
-	for ($i = 0; $i < strlen($pass1); $i = $i + 1)
-		$stars .= '*';
-	
 	$user_login = stripslashes($user->user_login);
 	$user_email = stripslashes($user->user_email);
 	
