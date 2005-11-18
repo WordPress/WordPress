@@ -307,12 +307,12 @@ function myPload( str ) {
 	for( x=0; x < str.length; x++) {
 		andy = str.charAt(x);
 		if ( comma.indexOf(andy) != -1 ) {
+			currentElement = currentElement.replace(new RegExp('^\\s*(.*?)\\s*$', ''), '$1'); // trim
 			fixedExplode[count] = currentElement;
 			currentElement = "";
 			count++;
 		} else {
-			if ( ' ' != andy )
-				currentElement += andy;
+			currentElement += andy;
 		}
 	}
 
