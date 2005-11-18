@@ -77,7 +77,7 @@ $imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 $imagedata['file'] = $file;
 $imagedata['thumb'] = "thumb-$filename";
 
-add_post_meta($id, 'imagedata', $imagedata);
+add_post_meta($id, '_wp_attachment_metadata', $imagedata);
 
 if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
 	if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
@@ -135,7 +135,6 @@ if ( $start > 0 ) {
 	$back = false;
 }
 
-$i = 0;
 $uwidth_sum = 0;
 $images_html = '';
 $images_style = '';
@@ -154,15 +153,20 @@ if ( count($images) > 0 ) {
 	$images_script .= "attachmenton = '$__attachment_on';\nattachmentoff = '$__attachment_off';\n";
 	$images_script .= "thumbnailon = '$__thumbnail_on';\nthumbnailoff = '$__thumbnail_off';\n";
 	foreach ( $images as $key => $image ) {
-		$meta = get_post_meta($image['ID'], 'imagedata', true);
+		$attachment_ID = $image['ID'];
+		$meta = get_post_meta($attachment_ID, '_wp_attachment_metadata', true);
 		if (!is_array($meta)) {
-			wp_delete_attachment($image['ID']);
-			continue;
+			$meta = get_post_meta($attachment_ID, 'imagedata', true); // Try 1.6 Alpha meta key
+			if (!is_array($meta)) {
+				continue;
+			} else {
+				add_post_meta($attachment_ID, '_wp_attachment_metadata', $meta);
+			}
 		}
 		$image = array_merge($image, $meta);
 		if ( ($image['width'] > 128 || $image['height'] > 96) && !empty($image['thumb']) && file_exists(dirname($image['file']).'/'.$image['thumb']) ) {
 			$src = str_replace(basename($image['guid']), '', $image['guid']) . $image['thumb'];
-			$images_script .= "src".$i."a = '$src';\nsrc".$i."b = '".$image['guid']."';\n";
+			$images_script .= "src".$attachment_ID."a = '$src';\nsrc".$attachment_ID."b = '".$image['guid']."';\n";
 			$thumb = 'true';
 			$thumbtext = $__thumbnail_on;
 		} else {
@@ -175,24 +179,22 @@ if ( count($images) > 0 ) {
 		$uwidth_sum += 128;
 		$xpadding = (128 - $image['uwidth']) / 2;
 		$ypadding = (96 - $image['uheight']) / 2;
-		$attachment = $image['ID'];
-		$images_style .= "#target$i img { padding: {$ypadding}px {$xpadding}px; }\n";
-		$href = get_attachment_link($attachment);
-		$images_script .= "href".$i."a = '$href';\nhref".$i."b = '{$image['guid']}';\n";
+		$images_style .= "#target{$attachment_ID} img { padding: {$ypadding}px {$xpadding}px; }\n";
+		$href = get_attachment_link($attachment_ID);
+		$images_script .= "href{$attachment_ID}a = '$href';\nhref{$attachment_ID}b = '{$image['guid']}';\n";
 		$images_html .= "
-<div id='target$i' class='imagewrap left'>
-	<div id='popup$i' class='popup'>
-		<a id=\"L$i\" onclick=\"toggleLink($i);return false;\" href=\"javascript:void();\">$__attachment_on</a>
-		<a id=\"I$i\" onclick=\"if($thumb)toggleImage($i);else alert('$__nothumb');return false;\" href=\"javascript:void();\">$thumbtext</a>
-		<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment=$attachment&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
+<div id='target{$attachment_ID}' class='imagewrap left'>
+	<div id='popup{$attachment_ID}' class='popup'>
+		<a id=\"L{$attachment_ID}\" onclick=\"toggleLink({$attachment_ID});return false;\" href=\"javascript:void();\">$__attachment_on</a>
+		<a id=\"I{$attachment_ID}\" onclick=\"if($thumb)toggleImage({$attachment_ID});else alert('$__nothumb');return false;\" href=\"javascript:void();\">$thumbtext</a>
+		<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment={$attachment_ID}&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
 		<a onclick=\"popup.style.display='none';return false;\" href=\"javascript:void()\">$__close</a>
 	</div>
-	<a id=\"link$i\" class=\"imagelink\" href=\"$href\" onclick=\"imagePopup($i);return false;\" title=\"{$image['post_title']}\">		
-		<img id='image$i' src='$src' alt='{$image['post_title']}' $height_width />
+	<a id=\"{$attachment_ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"imagePopup({$attachment_ID});return false;\" title=\"{$image['post_title']}\">		
+		<img id=\"image{$attachment_ID}\" src=\"$src\" alt=\"{$attachment_ID}\" $height_width />
 	</a>
 </div>
 ";
-		$i++;
 	}
 }
 
@@ -242,7 +244,7 @@ function init() {
 popup = false;
 }
 function toggleLink(n) {
-	o=document.getElementById('link'+n);
+	o=document.getElementById(n);
 	oi=document.getElementById('L'+n);
 	if ( oi.innerHTML == attachmenton ) {
 		o.href = eval('href'+n+'b');

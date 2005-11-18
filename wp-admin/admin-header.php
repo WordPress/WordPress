@@ -105,7 +105,7 @@ tinyMCE.init({
 	convert_newlines_to_brs : false,
 	remove_linebreaks : true,
 	save_callback : "wp_save_callback",
-	valid_elements : "-a[href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],address,-h1[class|align],-h2[class|align],-h3[class|align],-h4[class|align],-h5[class|align],-h6[class|align],hr",
+	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],address,-h1[class|align],-h2[class|align],-h3[class|align],-h4[class|align],-h5[class|align],-h6[class|align],hr",
 	plugins : "wordpress,autosave"
 	<?php do_action('mce_options'); ?>
 });

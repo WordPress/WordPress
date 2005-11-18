@@ -63,6 +63,9 @@ function write_post() {
 	if ( $_POST['temp_ID'] )
 		relocate_children($_POST['temp_ID'], $post_ID);
 
+	// Now that we have an ID we can fix any attachment anchor hrefs
+	fix_attachment_links($post_ID);
+
 	return $post_ID;
 }
 
@@ -72,6 +75,40 @@ function relocate_children($old_ID, $new_ID) {
 	$old_ID = (int) $old_ID;
 	$new_ID = (int) $new_ID;
 	return $wpdb->query("UPDATE $wpdb->posts SET post_parent = $new_ID WHERE post_parent = $old_ID");
+}
+
+// Replace hrefs of attachment anchors with up-to-date permalinks.
+function fix_attachment_links($post_ID) {
+	global $wp_rewrite;
+
+	// Relevance check.
+	if ( false == $wp_rewrite->using_permalinks() )
+		return;
+
+	$post = & get_post($post_ID);
+
+	$search = "#<a[^>]+rel=('|\")[^'\"]*attachment[^>]*>#ie";
+
+	// See if we have any rel="attachment" links
+	if ( 0 == preg_match_all($search, $post->post_content, $anchor_matches, PREG_PATTERN_ORDER) )
+		return;
+
+	$i = 0;
+	$search = "# id=(\"|)(\d+)\\1#i";
+	foreach ( $anchor_matches[0] as $anchor ) {
+		echo "$search\n$anchor\n";
+		if ( 0 == preg_match($search, $anchor, $id_matches) )
+			continue;
+
+		$id = $id_matches[2];
+		$post_search[$i] = $anchor;
+		$post_replace[$i] = preg_replace("#href=(\"|')[^'\"]*\\1#e", "stripslashes('href=\\1').get_attachment_link($id).stripslashes('\\1')", $anchor);
+		++$i;
+	}
+
+	$post->post_content = str_replace($post_search, $post_replace, $post->post_content);
+
+	return wp_update_post($post);
 }
 
 // Update an existing post with values provided in $_POST.
@@ -139,6 +176,9 @@ function edit_post() {
 	}
 
 	wp_update_post($_POST);
+
+	// Now that we have an ID we can fix any attachment anchor hrefs
+	fix_attachment_links($_POST['ID']);
 
 	// Meta Stuff
 	if ($_POST['meta'])

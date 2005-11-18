@@ -622,7 +622,8 @@ function pingback($content, $post_ID) {
 	// We don't wanna ping first and second types, even if they have a valid <link/>
 
 	foreach($post_links_temp[0] as $link_test) :
-		if ( !in_array($link_test, $pung) && url_to_postid($link_test) != $post_ID) : // If we haven't pung it already and it isn't a link to itself
+		if ( !in_array($link_test, $pung) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
+				&& !is_local_attachment($link_test) ) : // Also, let's never ping local attachments.
 			$test = parse_url($link_test);
 			if (isset($test['query']))
 				$post_links[] = $link_test;
@@ -753,6 +754,18 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 	return false;
 }
 
+function is_local_attachment($url) {
+	if ( !strstr($url, get_bloginfo('home') ) )
+		return false;
+	if ( strstr($url, get_bloginfo('home') . '/?attachment_id=') )
+		return true;
+	if ( $id = url_to_postid($url) ) {
+		$post = & get_post($id);
+		if ( 'attachment' == $post->post_status )
+			return true;
+	}		
+	return false;
+}
 
 function wp_set_comment_status($comment_id, $comment_status) {
     global $wpdb;
@@ -787,7 +800,6 @@ function wp_set_comment_status($comment_id, $comment_status) {
 		return false;
     }
 }
-
 
 function wp_get_comment_status($comment_id) {
 	global $wpdb;
