@@ -999,7 +999,6 @@ function wp_richedit_pre($text) {
 
 	$output = $text;
 	$output = html_entity_decode($output); // undoes format_to_edit()
-	$output = wptexturize($output);
 	$output = convert_chars($output);
 	$output = wpautop($output);
 
