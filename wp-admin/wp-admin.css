@@ -708,7 +708,8 @@ table .vers, table .name {
 	margin-bottom: 1em;
 }
 #moremeta fieldset div {
-	margin: 2px 0 0 5px;
+	margin: 2px 0 0 0px;
+	padding-left: 7px;
 }
 #moremeta {
 	line-height: 130%;
@@ -810,20 +811,39 @@ table .vers, table .name {
 /* toggle images */
 a.dbx-toggle, a.dbx-toggle:visited {
 	display:block;
-	width: 9px;
-	height: 9px;
 	overflow: hidden;
 	background-image: url( images/toggle.gif );
 	position: absolute;
-	top: 10px;
-	right: 14px;
+	top: 0px;
+	right: 0px;
 	background-repeat: no-repeat;
-	border-bottom: 0;
-	background-position: 0 9px;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
 }
-	
-a.dbx-toggle-open, a.dbx-toggle-open:visited {
-	background-position: 0 0;
+
+#moremeta a.dbx-toggle, #moremeta a.dbx-toggle-open:visited {
+	height: 25px;
+	width: 27px;
+	background-position: 0 0px;
+}
+
+#moremeta a.dbx-toggle-open, #moremeta a.dbx-toggle-open:visited {
+	height: 25px;
+	width: 27px;
+	background-position: 0 -25px;
+}
+
+#advancedstuff a.dbx-toggle, #advancedstuff a.dbx-toggle-open:visited {
+	height: 22px;
+	width: 22px;
+	background-position: 0 -3px;
+}
+
+#advancedstuff a.dbx-toggle-open, #advancedstuff a.dbx-toggle-open:visited {
+	height: 22px;
+	width: 22px;
+	background-position: 0 -28px;
 }
 
 #categorychecklist {
