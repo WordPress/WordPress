@@ -340,7 +340,7 @@ function myPload( str ) {
 <?php
 require(ABSPATH . '/wp-admin/menu-header.php');
 
-if ( $parent_file == 'options-personal.php' ) {
+if ( $parent_file == 'options-general.php' ) {
 	require(ABSPATH . '/wp-admin/options-head.php');
 }
 ?>

@@ -10,6 +10,10 @@ $messages[3] = __('Custom field deleted.');
 <?php $richedit = ( 'true' != get_user_option('rich_editing') ) ? false : true; ?>
 
 <form name="post" action="post.php" method="post" id="post">
+<?php if ( (isset($mode) && 'bookmarklet' == $mode) || 
+            isset($_GET['popupurl']) ): ?>
+<input type="hidden" name="mode" value="bookmarklet" />
+<?php endif; ?>
 
 <div class="wrap">
 <h2 id="write-post"><?php _e('Write Post'); ?><?php if ( 0 != $post_ID ) : ?>
@@ -200,7 +204,7 @@ else
 
 <p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 
-if ('publish' != $post_status || 0 == $post_ID) {
+if ('publish' != $post->post_status || 0 == $post_ID) {
 ?>
 <?php if ( current_user_can('publish_posts') ) : ?>
 	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" /> 
@@ -209,7 +213,9 @@ if ('publish' != $post_status || 0 == $post_ID) {
 }
 ?>
 <input name="referredby" type="hidden" id="referredby" value="<?php 
-if ( url_to_postid($_SERVER['HTTP_REFERER']) == $post_ID )
+if ( !empty($_REQUEST['popupurl']) )
+	echo wp_specialchars($_REQUEST['popupurl']);
+else if ( url_to_postid($_SERVER['HTTP_REFERER']) == $post_ID )
 	echo 'redo';
 else
 	echo wp_specialchars($_SERVER['HTTP_REFERER']);
