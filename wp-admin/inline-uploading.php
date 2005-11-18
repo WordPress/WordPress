@@ -121,7 +121,10 @@ if ( '' == $sort )
 
 $images = $wpdb->get_results("SELECT ID, post_date, post_title, guid FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image' $and_post ORDER BY $sort LIMIT $start, $double", ARRAY_A);
 
-if ( count($images) > $num ) {
+if ( count($images) == 0 ) {
+	header("Location: ".basename(__FILE__)."?post=$post&action=upload");
+	die;
+} elseif ( count($images) > $num ) {
 	$next = $start + count($images) - $num;
 } else {
 	$next = false;
