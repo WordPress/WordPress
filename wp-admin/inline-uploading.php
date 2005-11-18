@@ -377,7 +377,6 @@ form {
 }
 #descr {
 	height: 35px;
-	v-align: top;
 }
 #buttons {
 	width: 98%;
@@ -455,7 +454,7 @@ form {
 <td><input type="text" id="title" name="imgtitle" /></td>
 </tr>
 <tr>
-<th scope="row" style="text-align: right;"><label for="descr"><?php _e('Description:'); ?></th>
+<th scope="row" style="text-align: right;"><label for="descr"><?php _e('Description:'); ?></label></th>
 <td><input type="textarea" name="descr" id="descr" value="" /></td>
 </tr>
 </table>
