@@ -464,11 +464,9 @@ form {
 <input type="hidden" name="all" value="<?php echo $all; ?>" />
 <input type="submit" value="<?php _e('Upload'); ?>" />
 <input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
+</p>
 </div>
 </form>
 <?php endif; ?>
 </body>
 </html>
-
-
-
