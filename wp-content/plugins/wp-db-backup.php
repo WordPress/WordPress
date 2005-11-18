@@ -212,7 +212,7 @@ class wpdbBackup {
 			
 			nextStep();
 			//--></script>
-			</div>
+	</div>
 		';
 	}
 
