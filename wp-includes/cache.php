@@ -302,7 +302,9 @@ class WP_Object_Cache {
 
 				$temp_file = tempnam($group_dir, 'tmp');
 				$serial = CACHE_SERIAL_HEADER.serialize($this->cache[$group][$id]).CACHE_SERIAL_FOOTER;
-				$fd = fopen($temp_file, 'w');
+				$fd = @fopen($temp_file, 'w');
+				if ( false === $fd )
+					continue;
 				fputs($fd, $serial);
 				fclose($fd);
 				if (!@ rename($temp_file, $cache_file)) {
