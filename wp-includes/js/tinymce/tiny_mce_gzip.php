@@ -22,10 +22,10 @@
 		if ( ! function_exists('__') ) {
 			return $text;
 		} else {
-			$search1 = "/^tinyMCELang\\[(['\"])(.*)\\1\]( ?= ?)(['\"])(.*)\\4/uem";
+			$search1 = "/^tinyMCELang\\[(['\"])(.*)\\1\]( ?= ?)(['\"])(.*)\\4/Uem";
 			$replace1 = "'tinyMCELang[\\1\\2\\1]\\3'.stripslashes('\\4').__('\\5').stripslashes('\\4')";
 
-			$search2 = "/ : (['\"])(.*)\\1/uem";
+			$search2 = "/ : (['\"])(.*)\\1/Uem";
 			$replace2 = "' : '.stripslashes('\\1').__('\\2').stripslashes('\\1')";
 
 			$search = array($search1, $search2);
