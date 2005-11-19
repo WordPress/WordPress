@@ -10,7 +10,7 @@ if (url != null) {
 function init() {
 	tinyMCEPopup.resizeToInnerSize();
 
-	document.getElementById('hrefbrowsercontainer').innerHTML = getBrowserHTML('hrefbrowser','href','file','theme_advanced_link');
+//	document.getElementById('hrefbrowsercontainer').innerHTML = getBrowserHTML('hrefbrowser','href','file','theme_advanced_link');
 
 	var formObj = document.forms[0];
 
@@ -25,8 +25,8 @@ function init() {
 	document.forms[0].linktitle.value = tinyMCE.getWindowArg('title');
 	document.forms[0].insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
 
-	addClassesToList('styleSelect', 'theme_advanced_link_styles');
-	selectByValue(formObj, 'styleSelect', tinyMCE.getWindowArg('className'), true);
+//	addClassesToList('styleSelect', 'theme_advanced_link_styles');
+//	selectByValue(formObj, 'styleSelect', tinyMCE.getWindowArg('className'), true);
 
 	// Handle file browser
 	if (isVisible('hrefbrowser'))
@@ -48,7 +48,7 @@ function insertLink() {
 		var href = document.forms[0].href.value;
 		var target = document.forms[0].target.options[document.forms[0].target.selectedIndex].value;
 		var title = document.forms[0].linktitle.value;
-		var style_class = document.forms[0].styleSelect.value;
+		var style_class = '';//document.forms[0].styleSelect.value;
 		var dummy;
 
 		// Make anchors absolute

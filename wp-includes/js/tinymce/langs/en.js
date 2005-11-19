@@ -1,22 +1,22 @@
 // UK lang variables
 
-tinyMCELang['lang_bold_desc'] = 'Bold';
-tinyMCELang['lang_italic_desc'] = 'Italic';
+tinyMCELang['lang_bold_desc'] = 'Bold (Alt+b)';
+tinyMCELang['lang_italic_desc'] = 'Italic (Alt+i)';
 tinyMCELang['lang_underline_desc'] = 'Underline';
-tinyMCELang['lang_striketrough_desc'] = 'Striketrough';
-tinyMCELang['lang_justifyleft_desc'] = 'Align left';
-tinyMCELang['lang_justifycenter_desc'] = 'Align center';
-tinyMCELang['lang_justifyright_desc'] = 'Align right';
+tinyMCELang['lang_striketrough_desc'] = 'Striketrough (Alt-d)';
+tinyMCELang['lang_justifyleft_desc'] = 'Align left (Alt-f)';
+tinyMCELang['lang_justifycenter_desc'] = 'Align center (Alt-c)';
+tinyMCELang['lang_justifyright_desc'] = 'Align right (Alt-r)';
 tinyMCELang['lang_justifyfull_desc'] = 'Align full';
-tinyMCELang['lang_bullist_desc'] = 'Unordered list';
-tinyMCELang['lang_numlist_desc'] = 'Ordered list';
-tinyMCELang['lang_outdent_desc'] = 'Outdent';
-tinyMCELang['lang_indent_desc'] = 'Indent';
-tinyMCELang['lang_undo_desc'] = 'Undo';
-tinyMCELang['lang_redo_desc'] = 'Redo';
-tinyMCELang['lang_link_desc'] = 'Insert/edit link';
-tinyMCELang['lang_unlink_desc'] = 'Unlink';
-tinyMCELang['lang_image_desc'] = 'Insert/edit image';
+tinyMCELang['lang_bullist_desc'] = 'Unordered list (Alt-l)';
+tinyMCELang['lang_numlist_desc'] = 'Ordered list (Alt-o)';
+tinyMCELang['lang_outdent_desc'] = 'Outdent (Alt-w)';
+tinyMCELang['lang_indent_desc'] = 'Indent/Blockquote (Alt-q)';
+tinyMCELang['lang_undo_desc'] = 'Undo (Alt-u)';
+tinyMCELang['lang_redo_desc'] = 'Redo (Alt-y)';
+tinyMCELang['lang_link_desc'] = 'Insert/edit link (Alt-a)';
+tinyMCELang['lang_unlink_desc'] = 'Unlink (Alt-s)';
+tinyMCELang['lang_image_desc'] = 'Insert/edit image (Alt-m)';
 tinyMCELang['lang_cleanup_desc'] = 'Cleanup messy code';
 tinyMCELang['lang_focus_alert'] = 'A editor instance must be focused before using this command.';
 tinyMCELang['lang_edit_confirm'] = 'Do you want to use the WYSIWYG mode for this textarea?';

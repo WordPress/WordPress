@@ -4,6 +4,28 @@
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/image.js"></script>
+	<style type="text/css">
+		#insert, #cancel {
+			font: 13px Verdana, Arial, Helvetica, sans-serif;
+			height:auto;
+			width: auto;
+			background-color: transparent;
+			background-image: url(../../../../../wp-admin/images/fade-butt.png);
+			background-repeat: repeat;
+			border: 3px double;
+			border-right-color: rgb(153, 153, 153);
+			border-bottom-color: rgb(153, 153, 153);
+			border-left-color: rgb(204, 204, 204);
+			border-top-color: rgb(204, 204, 204);
+			color: rgb(51, 51, 51);
+			padding: 0.25em 1em;
+		}
+		#insert:active, #cancel:active {
+			background: #f4f4f4;
+			border-left-color: #999;
+			border-top-color: #999;
+		}
+	</style>
 </head>
 <body onload="tinyMCEPopup.executeOnLoad('init();');document.getElementById('src').focus();" style="display: none">
 <form onsubmit="insertImage();return false;">
@@ -60,12 +82,12 @@
               </select></td>
           </tr>
           <tr>
-            <td nowrap="nowrap">{$lang_insert_image_dimensions}:</td>
+            <td nowrap="nowrap"><!--{$lang_insert_image_dimensions}:</td>
             <td><input name="width" type="text" id="width" value="" size="3" maxlength="3">
               x
-              <input name="height" type="text" id="height" value="" size="3" maxlength="3"></td>
+              <input name="height" type="text" id="height" value="" size="3" maxlength="3">--></td>
           </tr>
-          <tr>
+<!--          <tr>
             <td nowrap="nowrap">{$lang_insert_image_border}:</td>
             <td><input name="border" type="text" id="border" value="" size="3" maxlength="3"></td>
           </tr>
@@ -77,7 +99,7 @@
             <td nowrap="nowrap">{$lang_insert_image_hspace}:</td>
             <td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3"></td>
           </tr>
-          <tr>
+-->          <tr>
             <td nowrap="nowrap"><input type="submit" id="insert" name="insert" value="{$lang_insert}" onclick="insertImage();">
             </td>
             <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();"></td>

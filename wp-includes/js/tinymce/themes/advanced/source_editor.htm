@@ -4,6 +4,28 @@
 	<title>{$lang_theme_code_title}</title>
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/source_editor.js"></script>
+	<style type="text/css">
+		#insert, #cancel {
+			font: 13px Verdana, Arial, Helvetica, sans-serif;
+			height: auto;
+			width: auto;
+			background-color: transparent;
+			background-image: url(../../../../../wp-admin/images/fade-butt.png);
+			background-repeat: repeat;
+			border: 3px double;
+			border-right-color: rgb(153, 153, 153);
+			border-bottom-color: rgb(153, 153, 153);
+			border-left-color: rgb(204, 204, 204);
+			border-top-color: rgb(204, 204, 204);
+			color: rgb(51, 51, 51);
+			padding: 0.25em 0.75em;
+		}
+		#insert:active, #cancel:active {
+			background: #f4f4f4;
+			border-left-color: #999;
+			border-top-color: #999;
+		}
+	</style>
 </head>
 <body onload="tinyMCEPopup.executeOnLoad('onLoadInit();');document.getElementById('htmlSource').focus();" onresize="resizeInputs();" style="display: none">
 	<form name="source" onsubmit="saveContent();" action="#">

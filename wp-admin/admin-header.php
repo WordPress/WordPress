@@ -80,14 +80,14 @@ addLoadEvent(blurry);
 <script type="text/javascript" src="list-manipulation.js"></script>
 <?php if ( isset( $editing ) ) : ?>
 <?php if ( 'true' == get_user_option('rich_editing') ) :?>
-<script language="javascript" type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?index=0&theme=advanced&plugins=wordpress,autosave"></script>
+<script language="javascript" type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?index=0&theme=advanced&plugins=wordpress,autosave,wphelp"></script>
 <script type="text/javascript">
 tinyMCE.init({
 	mode : "specific_textareas",
 	textarea_trigger : "title",
 	width : "100%",
 	theme : "advanced",
-	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,outdent,indent,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,separator,wordpress,separator,undo,redo,code",
+	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,outdent,indent,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,wordpress,separator,undo,redo,code,wphelp",
 	theme_advanced_buttons2 : "",
 	theme_advanced_buttons3 : "",
 	theme_advanced_toolbar_location : "top",
@@ -105,8 +105,8 @@ tinyMCE.init({
 	convert_newlines_to_brs : false,
 	remove_linebreaks : true,
 	save_callback : "wp_save_callback",
-	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],address,-h1[class|align],-h2[class|align],-h3[class|align],-h4[class|align],-h5[class|align],-h6[class|align],hr",
-	plugins : "wordpress,autosave"
+	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align],-h2[class|align],-h3[class|align],-h4[class|align],-h5[class|align],-h6[class|align],hr",
+	plugins : "wordpress,autosave,wphelp"
 	<?php do_action('mce_options'); ?>
 });
 </script>
@@ -210,7 +210,6 @@ function newCatCompletion() {
 	
 	ids   = myPload( ajaxCat.response );
 	names = myPload( newcat.value );
-
 	for ( i = 0; i < ids.length; i++ ) {
 		id = ids[i];
 //		alert(id);
