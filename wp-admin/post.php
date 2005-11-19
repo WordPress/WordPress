@@ -22,8 +22,9 @@ if (isset($_POST['deletepost'])) {
 $action = "delete";
 }
 
-	// Fix submenu highlighting for pages.
-if (false !== strpos($_SERVER['HTTP_REFERER'], 'edit-pages.php')) $submenu_file = 'page-new.php';
+// Fix submenu highlighting for pages.
+if ( isset($_REQUEST['post']) && 'static' == get_post_status($_REQUEST['post']) )
+	$submenu_file = 'page-new.php';
 
 $editing = true;
 
