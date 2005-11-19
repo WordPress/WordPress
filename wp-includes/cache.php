@@ -282,7 +282,9 @@ class WP_Object_Cache {
 		}
 
 		// Acquire a write lock. 
-		$mutex = fopen($this->cache_dir.$this->flock_filename, 'w');
+		$mutex = @fopen($this->cache_dir.$this->flock_filename, 'w');
+		if ( false == $mutex)
+			return;
 		flock($mutex, LOCK_EX);
 
 		// Loop over dirty objects and save them.
