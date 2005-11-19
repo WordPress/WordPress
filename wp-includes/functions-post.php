@@ -742,13 +742,8 @@ function generate_page_rewrite_rules() {
 	}
 }
 
-function get_post_status($post = false) {
-	global $wpdb, $posts;
-
-	if ( false === $post )
-		$post = $posts[0];
-	elseif ( (int) $post )
-		$post = get_post($post, OBJECT);
+function get_post_status($ID = '') {
+	$post = get_post($ID);
 
 	if ( is_object($post) ) {
 		if ( ('attachment' == $post->post_status) && $post->post_parent && ($post->ID != $post->post_parent) )
@@ -759,4 +754,15 @@ function get_post_status($post = false) {
 
 	return false;
 }
+
+// Takes a post ID, returns its mime type.
+function get_post_mime_type($ID = '') {
+	$post = & get_post($ID);
+
+	if ( is_object($post) )
+		return $post->post_mime_type;
+
+	return false;
+}
+
 ?>
