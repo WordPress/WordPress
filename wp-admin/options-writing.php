@@ -21,7 +21,7 @@ include('admin-header.php');
 <td>
 <label for="rich_editing">
 <input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', get_settings('rich_editing')); ?> />
-<?php _e('Use the visual rich editor when writing') ?></label><br />
+<?php _e('Users should use the visual rich editor by default') ?></label><br />
 <label for="use_smilies">
 <input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked('1', get_settings('use_smilies')); ?> />
 <?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label>
