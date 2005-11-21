@@ -30,7 +30,7 @@ function upgrade_all() {
 		upgrade_130();
 	}
 	
-	if ( $wp_current_db_version < 3104 )
+	if ( $wp_current_db_version < 3183 )
 		upgrade_160();
 
 	save_mod_rewrite_rules();
