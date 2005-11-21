@@ -350,8 +350,6 @@ function edit_user($user_id = 0) {
 	}
 	if (isset ($_POST['first_name']))
 		$user->first_name = wp_specialchars(trim($_POST['first_name']));
-	if (isset ($_POST['middle_name']))
-		$user->middle_name = wp_specialchars(trim($_POST['middle_name']));
 	if (isset ($_POST['last_name']))
 		$user->last_name = wp_specialchars(trim($_POST['last_name']));
 	if (isset ($_POST['nickname']))
@@ -366,8 +364,6 @@ function edit_user($user_id = 0) {
 		$user->aim = wp_specialchars(trim($_POST['aim']));
 	if (isset ($_POST['yim']))
 		$user->yim = wp_specialchars(trim($_POST['yim']));
-	if (isset ($_POST['flickr_username']))
-		$user->flickr_username = wp_specialchars(trim($_POST['flickr_username']));
 
 	$errors = array ();
 
@@ -397,7 +393,7 @@ function edit_user($user_id = 0) {
 	if (!empty ($pass1))
 		$user->user_pass = $pass1;
 
-	if (!$update && username_exists($user_login))
+	if (!$update && username_exists($user->user_login))
 		$errors['user_login'] = __('<strong>ERROR</strong>: This username is already registered, please choose another one.');
 
 	/* checking e-mail address */
