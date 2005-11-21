@@ -323,7 +323,8 @@ function wp_update_link($linkdata) {
 function wp_delete_link($link_id) {
 	global $wpdb;
 
-    return $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$link_id'");	
+	do_action('delete_link', $link_id);
+	return $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$link_id'");	
 }
 
 function post_exists($title, $content = '', $post_date = '') {
