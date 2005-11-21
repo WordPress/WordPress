@@ -414,7 +414,9 @@ form {
 <?php if ( $attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$post'") ) { ?>
 <li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>"><?php _e('Attached Images'); ?></a></li>
 <?php } ?>
+<?php if ($wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image'")) { ?>
 <li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=true"><?php _e('All Images'); ?></a></li>
+<?php } ?>
 <li> </li>
 <?php if ( $action != 'upload' ) { ?>
 <?php if ( false !== $back ) : ?>
