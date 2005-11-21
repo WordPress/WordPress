@@ -526,7 +526,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  $user = new WP_User($user_login);
-	  if ( !$user->has_cap('publish_posts', $post_ID) )
+	  if ( !$user->has_cap('publish_posts') )
 	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
 
 	  $post_author = $user->ID;
