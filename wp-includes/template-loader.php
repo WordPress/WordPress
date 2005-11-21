@@ -48,6 +48,8 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 		include(get_paged_template());
 		exit;
 	} else if ( file_exists(TEMPLATEPATH . "/index.php") ) {
+		if ( is_attachment() )
+			add_filter('the_content', 'prepend_attachment');
 		include(TEMPLATEPATH . "/index.php");
 		exit;
 	}
