@@ -414,7 +414,7 @@ function __get_option($setting) {
 
 	$option = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
 
-	if ( 'home' == $setting && '' == $value )
+	if ( 'home' == $setting && '' == $option )
 		return __get_option('siteurl');
 
 	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
