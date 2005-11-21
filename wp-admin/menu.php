@@ -14,7 +14,7 @@ if ( current_user_can('edit_users') )
 	$menu[35] = array(__('Users'), 'read', 'profile.php');
 else
 	$menu[35] = array(__('Profile'), 'read', 'profile.php');
-$menu[40] = array(__('Options'), 'read', 'options-general.php');
+$menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
 $menu[45] = array(__('Import'), 'import', 'import.php');
 
 $submenu['post.php'][5] = array(__('Write Post'), 'edit_posts', 'post.php');
