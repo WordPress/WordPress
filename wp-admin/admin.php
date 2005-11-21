@@ -3,6 +3,9 @@ if ( defined('ABSPATH') )
 	require_once( ABSPATH . 'wp-config.php');
 else
     require_once('../wp-config.php');
+
+if ( get_option('db_version') != $wp_db_version )
+	die (sprintf(__("Your database is out-of-date.  Please run <a href='%s'>upgrade.php</a>."), get_option('siteurl') . '/wp-admin/upgrade.php'));
     
 require_once(ABSPATH . 'wp-admin/admin-functions.php');
 require_once(ABSPATH . 'wp-admin/admin-db.php');
