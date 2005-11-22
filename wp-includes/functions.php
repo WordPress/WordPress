@@ -510,15 +510,17 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
 meta_key = '$key' AND post_id = '$post_id'");
 		$cache_key = $post_meta_cache['$post_id'][$key];
-		foreach ($cache_key as $index => $data)
-			$post_meta_cache['$post_id'][$key][$index] = $original_value;
+		if ( !empty($cache_key) )
+			foreach ($cache_key as $index => $data)
+				$post_meta_cache['$post_id'][$key][$index] = $original_value;
 	} else {
 		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
 meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
 		$cache_key = $post_meta_cache['$post_id'][$key];
-		foreach ($cache_key as $index => $data)
-			if ( $data == $original_prev )
-				$post_meta_cache['$post_id'][$key][$index] = $original_value;
+		if ( !empty($cache_key) )
+			foreach ($cache_key as $index => $data)
+				if ( $data == $original_prev )
+					$post_meta_cache['$post_id'][$key][$index] = $original_value;
 	}
 
 	return true;

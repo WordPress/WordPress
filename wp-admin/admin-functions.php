@@ -175,25 +175,23 @@ function edit_post() {
 		$_POST['post_date_gmt'] = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
 	}
 
+	// Meta Stuff
+	if ($_POST['meta']) {
+		foreach ($_POST['meta'] as $key => $value)
+			update_meta($key, $value['key'], $value['value']);
+	}
+	
+	if ($_POST['deletemeta']) {
+		foreach ($_POST['deletemeta'] as $key => $value)
+			delete_meta($key);
+	}
+
+	add_meta($post_ID);
+
 	wp_update_post($_POST);
 
 	// Now that we have an ID we can fix any attachment anchor hrefs
-	fix_attachment_links($_POST['ID']);
-
-	// Meta Stuff
-	if ($_POST['meta'])
-		: foreach ($_POST['meta'] as $key => $value)
-			: update_meta($key, $value['key'], $value['value']);
-	endforeach;
-	endif;
-
-	if ($_POST['deletemeta'])
-		: foreach ($_POST['deletemeta'] as $key => $value)
-			: delete_meta($key);
-	endforeach;
-	endif;
-
-	add_meta($post_ID);
+	fix_attachment_links($post_ID);
 
 	return $post_ID;
 }

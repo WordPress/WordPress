@@ -184,11 +184,9 @@ function wp_insert_post($postarr = array()) {
 	}	else if ($post_status == 'static') {
 		generate_page_rewrite_rules();
 
-		if ( empty($page_template) )
-			$page_template = 'Default Template';
-
-		if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
-			add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
+		if ( !empty($page_template) )
+			if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
+				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
 	}
 
 	do_action('wp_insert_post', $post_ID);
