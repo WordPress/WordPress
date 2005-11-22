@@ -83,9 +83,10 @@ function wp_insert_comment($commentdata) {
 
 	$id = $wpdb->insert_id;
 
-	if ( $comment_approved == 1)
-		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = comment_count + 1 WHERE ID = '$comment_post_ID'" );
-	
+	if ( $comment_approved == 1) {
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'");
+		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = $count WHERE ID = '$comment_post_ID'" );
+	}
 	return $id;
 }
 
