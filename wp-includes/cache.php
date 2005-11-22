@@ -272,7 +272,7 @@ class WP_Object_Cache {
 
 		// Make the base cache dir.
 		if (!file_exists($this->cache_dir)) {
-			if (!mkdir($this->cache_dir))
+			if (! @ mkdir($this->cache_dir))
 				return;
 			@ chmod($this->cache_dir, $dir_perms);
 		}
