@@ -1401,6 +1401,9 @@ class WP {
 
 	var $query_vars;
 	var $query_string;
+	var $request;
+	var $matched_rule;
+	var $matched_query;
 	var $did_permalink = false;
 
 	function parse_request($extra_query_vars = '') {
@@ -1451,6 +1454,7 @@ class WP {
 			} else {
 				$request = $req_uri;
 			}
+			$this->request = $request;
 
 			// Look for matches.
 			$request_match = $request;
@@ -1463,11 +1467,14 @@ class WP {
 
 				if (preg_match("!^$match!", $request_match, $matches)) {
 					// Got a match.
+					$this->matched_rule = $match;
+
 					// Trim the query of everything up to the '?'.
 					$query = preg_replace("!^.+\?!", '', $query);
 
 					// Substitute the substring matches into the query.
 					eval("\$query = \"$query\";");
+					$this->matched_query = $query;
 
 					// Parse the query.
 					parse_str($query, $query_vars);
