@@ -46,6 +46,9 @@ if (have_posts()) :
 	// this line is WordPress' motor, do not delete it.
 		if ($comments) {
 			foreach ($comments as $comment) {
+				// Some plugins may need to know the metadata
+				// associated with this comment's post:
+				get_post_custom($comment->comment_post_ID);
 ?>
 	<item>
 		<title>by: <?php comment_author_rss() ?></title>
