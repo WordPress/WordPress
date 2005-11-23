@@ -112,6 +112,17 @@ if (0 < $numcats) $numcats = number_format($numcats);
 <?php do_action('activity_box_end'); ?>
 </div>
 
+<h3><?php _e('Welcome to WordPress'); ?></h3>
+
+<p><?php _e('Use these links to get started:'); ?></p>
+
+<ul>
+<li><a href="post.php"><?php _e('Write a post'); ?></a></li>
+<li><a href="profile.php"><?php _e('Update your profile or change your password'); ?></a></li>
+<li><a href="link-add.php"><?php _e('Add a link to your blogroll'); ?></a></li>
+<li><a href="themes.php"><?php _e('Change your site&#8217;s look or theme'); ?></a></li>
+</ul>
+
 <p><?php _e("Below is the latest news from the official WordPress development blog, click on a title to read the full entry. If you need help with WordPress please see our <a href='http://codex.wordpress.org/'>great documentation</a> or if that doesn't help visit the <a href='http://wordpress.org/support/'>support forums</a>."); ?></p>
 <?php
 $rss = @fetch_rss('http://wordpress.org/development/feed/');
