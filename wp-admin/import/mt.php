@@ -1,10 +1,5 @@
 <?php
 
-
-// enter the relative path of the import.txt file containing the mt entries. If the file is called import.txt and it is /wp-admin, then this line
-//should be define('MTEXPORT', 'import.txt');
-define('MTEXPORT', 'import.txt');
-
 class MT_Import {
 
 	var $posts = array ();
@@ -30,8 +25,6 @@ class MT_Import {
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
 <p>The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn't finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces. </p>
 <?php
-
-
 		$this->footer();
 	}
 
@@ -67,7 +60,6 @@ class MT_Import {
 					$user_id = wp_create_user($author, $pass);
 					$this->newauthornames[$this->j] = $author; //now we have a name, in the place of left_blank.
 				} else {
-					$wpdb->query("INSERT INTO $wpdb->users (user_level, user_login, user_pass, user_nickname) VALUES ('1', '{$this->newauthornames[$this->j]}', '$md5pass', '{$this->newauthornames[$this->j]}')"); //if not left_blank, insert the user specified name
 					$user_id = wp_create_user($this->newauthornames[$this->j], $pass);
 				}
 			} else {
@@ -177,7 +169,6 @@ class MT_Import {
 
 		$this->get_entries();
 		$this->mt_authors_form();
-		wp_import_cleanup($this->id);
 	}
 
 	function process_posts() {
@@ -381,10 +372,15 @@ class MT_Import {
 		}
 
 		echo '</ol>';
+
+		wp_import_cleanup($this->id);
+
 		echo '<h3>'.sprintf(__('All done. <a href="%s">Have fun!</a>'), get_option('home')).'</h3>';
 	}
 
 	function import() {
+		$this->id = (int) $_GET['id'];
+		$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
 		$this->get_entries();
 		$this->process_posts();
@@ -404,7 +400,7 @@ class MT_Import {
 				$this->select_authors();
 				break;
 			case 2:
-				echo "ID: {$_GET['id']}<br/>";
+				$this->import();
 				break;
 		}
 	}
