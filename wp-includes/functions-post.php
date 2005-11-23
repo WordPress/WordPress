@@ -8,6 +8,9 @@
 function wp_insert_post($postarr = array()) {
 	global $wpdb, $allowedtags, $user_ID;
 
+	if ( is_object($postarr) )
+		$postarr = get_object_vars($postarr);
+
 	// export array as variables
 	extract($postarr);
 
@@ -196,6 +199,9 @@ function wp_insert_post($postarr = array()) {
 
 function wp_insert_attachment($object, $file, $post_parent = 0) {
 	global $wpdb, $user_ID;
+
+	if ( is_object($object) )
+		$object = get_object_vars($object);
 	
 	// Export array as variables
 	extract($object);
@@ -221,9 +227,12 @@ function wp_insert_attachment($object, $file, $post_parent = 0) {
 
 	$post_status = 'attachment';
 
-	// Get the post ID.
-	if ( $update )
-		$post_ID = $ID;
+	// Are we updating or creating?
+	$update = false;
+	if ( !empty($ID) ) {
+		$update = true;
+		$post_ID = $ID;	
+	}
 
 	// Create a valid post name.
 	if ( empty($post_name) )
@@ -377,6 +386,9 @@ function wp_get_recent_posts($num = 10) {
 
 function wp_update_post($postarr = array()) {
 	global $wpdb;
+
+	if ( is_object($postarr) )
+		$postarr = get_object_vars($postarr);
 
 	// First, get all of the original fields
 	$post = wp_get_single_post($postarr['ID'], ARRAY_A);	
