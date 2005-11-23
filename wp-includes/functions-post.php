@@ -775,4 +775,7 @@ function get_post_mime_type($ID = '') {
 	return false;
 }
 
+function get_attached_file($attachment_id) {
+	return get_post_meta($attachment_id, '_wp_attached_file', true);
+}
 ?>
