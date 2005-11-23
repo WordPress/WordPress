@@ -1443,13 +1443,14 @@ class WP {
 			$req_uri = str_replace($pathinfo, '', $req_uri);
 			$req_uri = str_replace($home_path, '', $req_uri);
 			$req_uri = trim($req_uri, '/');
+			$pathinfo = str_replace($home_path, '', $pathinfo);
 			$pathinfo = trim($pathinfo, '/');
 			$self = str_replace($home_path, '', $self);
 			$self = trim($self, '/');
 
 			// The requested permalink is in $pathinfo for path info requests and
 			//  $req_uri for other requests.
-			if (! empty($pathinfo) && ($wp_rewrite->index != $pathinfo)) {
+			if ( ! empty($pathinfo) && ($wp_rewrite->index != $pathinfo) ) {
 				$request = $pathinfo;
 			} else {
 				$request = $req_uri;
