@@ -13,7 +13,7 @@ function the_author($idmode = '', $echo = true) {
 
 function get_the_author_description() {
 	global $authordata;
-	return $authordata->user_description;
+	return $authordata->description;
 }
 function the_author_description() {
 	echo get_the_author_description();
