@@ -494,7 +494,7 @@ function checked($checked, $current) {
 
 function return_categories_list($parent = 0) {
 	global $wpdb;
-	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent");
+	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY category_count DESC LIMIT 100");
 }
 
 function sort_cats($cat1, $cat2) {
