@@ -12,7 +12,9 @@ if ( ! empty($link_id) ) {
 }
 
 function xfn_check($class, $value = '', $type = 'check') {
-	global $link_rel;
+	global $link;
+
+	$link_rel = $link->link_rel;
 	$rels = preg_split('/\s+/', $link_rel);
 
 	if ('' != $value && in_array($value, $rels) ) {
@@ -61,7 +63,7 @@ function xfn_check($class, $value = '', $type = 'check') {
         <table class="editform" width="100%" cellspacing="2" cellpadding="5">
             <tr>
                 <th width="33%" scope="row"><?php _e('rel:') ?></th>
-            	<td width="67%"><input type="text" name="link_rel" id="rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
+            	<td width="67%"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
            	</tr>
             <tr>
                 <th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
