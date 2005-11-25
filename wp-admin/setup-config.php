@@ -105,11 +105,11 @@ switch($step) {
 	break;
 	
 	case 2:
-	$dbname = $_POST['dbname'];
-    $uname = $_POST['uname'];
-    $passwrd = $_POST['pwd'];
-    $dbhost = $_POST['dbhost'];
-	$prefix = $_POST['prefix'];
+	$dbname  = trim($_POST['dbname']);
+    $uname   = trim($_POST['uname']);
+    $passwrd = trim($_POST['pwd']);
+    $dbhost  = trim($_POST['dbhost']);
+	$prefix  = trim($_POST['prefix']);
 	if (empty($prefix)) $prefix = 'wp_';
 
     // Test the db connection.
