@@ -739,7 +739,7 @@ class wpdbBackup {
 			if ( @ mkdir( ABSPATH . $this->backup_dir) ) {
 				@ chmod( ABSPATH . $this->backup_dir, $dir_perms);
 			} else {
-				echo '<div class="updated error"><p align="center">' . __('WARNING: Your wp-content directory is <strong>NOT</strong> writable! We can not create the backup directory.', 'wp-db-backup') . '<br />' . ABSPATH . "</p></div>";
+				echo '<div class="updated error"><p align="center">' . __('WARNING: Your wp-content directory is <strong>NOT</strong> writable! We can not create the backup directory.', 'wp-db-backup') . '<br />' . ABSPATH . $this->backup_dir . "</p></div>";
 			$WHOOPS = TRUE;
 			}
 		}
