@@ -114,7 +114,7 @@ tinyMCE.init({
 <script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
 <script type="text/javascript" src="../wp-includes/js/dbx-key.js"></script>
 
-<?php if ( current_user_can('manage_categories') ) : ?>
+<?php if ( isset($editing) && current_user_can('manage_categories') ) : ?>
 <style type="text/css">
 #newcat { width: 120px; margin-right: 5px; }
 input#catadd { 	background: #a4a4a4;
@@ -319,7 +319,6 @@ function myPload( str ) {
 		fixedExplode[count] = currentElement;
 	return fixedExplode;
 }
-
 </script>
 <?php endif; ?>
 
