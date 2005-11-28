@@ -869,7 +869,7 @@ function add_meta($post_ID) {
 	$metakeyinput = $wpdb->escape(stripslashes(trim($_POST['metakeyinput'])));
 	$metavalue = $wpdb->escape(stripslashes(trim($_POST['metavalue'])));
 
-	if (!empty ($metavalue) && ((('#NONE#' != $metakeyselect) && !empty ($metakeyselect)) || !empty ($metakeyinput))) {
+	if ( ('0' === $metavalue || !empty ($metavalue)) && ((('#NONE#' != $metakeyselect) && !empty ($metakeyselect)) || !empty ($metakeyinput)) ) {
 		// We have a key/value pair. If both the select and the 
 		// input for the key have data, the input takes precedence:
 
