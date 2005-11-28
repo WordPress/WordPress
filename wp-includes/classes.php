@@ -1482,27 +1482,28 @@ class WP {
 
 					// If we're processing a 404 request, clear the error var
 					// since we found something.
-					if (isset($_GET['error'])) {
+					if (isset($_GET['error']))
 						unset($_GET['error']);
-					}
 
-					if (isset($error)) {
+					if (isset($error))
 						unset($error);
-					}
 
 					break;
 				}
 			}
 
 			// If req_uri is empty or if it is a request for ourself, unset error.
-			if ( empty($request) || $req_uri == $self ) {
-				if (isset($_GET['error'])) {
+			if ( empty($request) || $req_uri == $self || strstr($_SERVER['PHP_SELF'], 'wp-admin/') ) {
+				if (isset($_GET['error']))
 					unset($_GET['error']);
-				}
 
-				if (isset($error)) {
+				if (isset($error))
 					unset($error);
-				}
+					
+				if ( isset($query_vars) )
+					unset($query_vars);
+					
+				$this->did_permalink = false;
 			}
 		}
 
