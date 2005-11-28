@@ -1300,24 +1300,12 @@ function update_post_caches(&$posts) {
 	for ($i = 0; $i < count($posts); $i++) {
 		$post_id_array[] = $posts[$i]->ID;
 		$post_cache[$posts[$i]->ID] = &$posts[$i];
+		$comment_count_cache[$posts[$i]->ID] = $posts[$i]->comment_count;
 	}
 
 	$post_id_list = implode(',', $post_id_array);
 
 	update_post_category_cache($post_id_list);
-
-	// Do the same for comment numbers
-	$comment_counts = $wpdb->get_results( "SELECT ID as comment_post_ID, comment_count as ccount FROM $wpdb->posts WHERE ID in ($post_id_list)" );
-
-	if ( $comment_counts ) {
-		foreach ($comment_counts as $comment_count) {
-			$comment_count_cache["$comment_count->comment_post_ID"] = $comment_count->ccount;
-			$has_comments[] = $comment_count->comment_post_ID;
-		}
-		$no_comments = array_diff( $post_id_array, $has_comments );
-		foreach ( $no_comments as $id )
-			$comment_count_cache["$id"] = 0;
-	}
 
 	// Get post-meta info
 	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN($post_id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
