@@ -709,7 +709,7 @@ table .vers, table .name {
 }
 #moremeta fieldset div {
 	margin: 2px 0 0 0px;
-	padding-left: 7px;
+	padding: 7px;
 }
 #moremeta {
 	line-height: 130%;
