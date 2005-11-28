@@ -5,7 +5,7 @@ require_once('admin.php');
 if (!current_user_can('edit_posts'))
 	die(__('You do not have permission to edit posts.'));
 
-$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'attachment', 'flickrtag');
+$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'attachment');
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	$wpvar = $wpvarstoreset[$i];
@@ -36,6 +36,9 @@ function get_udims($width, $height) {
 
 switch($action) {
 case 'delete':
+
+if ( !current_user_can('edit_post', (int) $attachment) )	
+	die(printf(__('You are not allowed to delete this attachment. %sGo back</a>'), '<a href="'.basename(__FILE__)."?post=$post&amp;all=$all&amp;action=upload\">") );
 
 wp_delete_attachment($attachment);
 
@@ -68,22 +71,26 @@ $attachment = array(
 // Save the data
 $id = wp_insert_attachment($attachment, $file, $post);
 
-// Generate the attachment's postmeta.
-$imagesize = getimagesize($file);
-$imagedata['width'] = $imagesize['0'];
-$imagedata['height'] = $imagesize['1'];
-list($uwidth, $uheight) = get_udims($imagedata['width'], $imagedata['height']);
-$imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
-$imagedata['file'] = $file;
-$imagedata['thumb'] = "thumb-$filename";
+if ( preg_match('!^image/!', $attachment['post_mime_type']) ) {
+	// Generate the attachment's postmeta.
+	$imagesize = getimagesize($file);
+	$imagedata['width'] = $imagesize['0'];
+	$imagedata['height'] = $imagesize['1'];
+	list($uwidth, $uheight) = get_udims($imagedata['width'], $imagedata['height']);
+	$imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
+	$imagedata['file'] = $file;
+	$imagedata['thumb'] = "thumb-$filename";
 
-add_post_meta($id, '_wp_attachment_metadata', $imagedata);
+	add_post_meta($id, '_wp_attachment_metadata', $imagedata);
 
-if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
-	if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
-		$error = wp_create_thumbnail($file, 128);
-	elseif ( $imagedata['height'] > 96 )
-		$error = wp_create_thumbnail($file, 96);
+	if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
+		if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
+			$error = wp_create_thumbnail($file, 128);
+		elseif ( $imagedata['height'] > 96 )
+			$error = wp_create_thumbnail($file, 96);
+	}
+} else {
+	add_post_meta($id, '_wp_attachment_metadata', array());
 }
 
 header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&last=true");
@@ -108,8 +115,11 @@ if ( $post && empty($all) ) {
 	$current_3 = ' class="current"';
 }
 
+if (! current_user_can('edit_others_posts') )
+	$and_user = "AND post_author = " . $user_ID;
+
 if ( $last )
-	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image' $and_post") - $num;
+	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment' $and_user $and_post") - $num;
 else
 	$start = (int) $start;
 
@@ -119,13 +129,13 @@ if ( $start < 0 )
 if ( '' == $sort )
 	$sort = "post_date_gmt DESC";
 
-$images = $wpdb->get_results("SELECT ID, post_date, post_title, guid FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image' $and_post ORDER BY $sort LIMIT $start, $double", ARRAY_A);
+$attachments = $wpdb->get_results("SELECT ID, post_date, post_title, post_mime_type, guid FROM $wpdb->posts WHERE post_status = 'attachment' $and_type $and_post $and_user ORDER BY $sort LIMIT $start, $double", ARRAY_A);
 
-if ( count($images) == 0 ) {
+if ( count($attachments) == 0 ) {
 	header("Location: ".basename(__FILE__)."?post=$post&action=upload");
 	die;
-} elseif ( count($images) > $num ) {
-	$next = $start + count($images) - $num;
+} elseif ( count($attachments) > $num ) {
+	$next = $start + count($attachments) - $num;
 } else {
 	$next = false;
 }
@@ -139,69 +149,94 @@ if ( $start > 0 ) {
 }
 
 $uwidth_sum = 0;
-$images_html = '';
-$images_style = '';
-$images_script = '';
-if ( count($images) > 0 ) {
-	$images = array_slice( $images, 0, $num );
+$html = '';
+$style = '';
+$script = '';
+if ( count($attachments) > 0 ) {
+	$attachments = array_slice( $attachments, 0, $num );
 	$__delete = __('Delete');
-	$__attachment_on = __('Link to Page');
-	$__attachment_off = __('Link to Image');
-	$__thumbnail_on = __('Use Thumbnail');
-	$__thumbnail_off = __('Use Full Image');
+	$__not_linked = __('Not Linked');
+	$__linked_to_page = __('Linked to Page');
+	$__linked_to_image = __('Linked to Image');
+	$__using_thumbnail = __('Using Thumbnail');
+	$__using_original = __('Using Original');
 	$__no_thumbnail = __('<del>No Thumbnail</del>');
 	$__close = __('Close Options');
-	$__confirmdelete = __('Delete this photo from the server?');
+	$__confirmdelete = __('Delete this file from the server?');
 	$__nothumb = __('There is no thumbnail associated with this photo.');
-	$images_script .= "attachmenton = '$__attachment_on';\nattachmentoff = '$__attachment_off';\n";
-	$images_script .= "thumbnailon = '$__thumbnail_on';\nthumbnailoff = '$__thumbnail_off';\n";
-	foreach ( $images as $key => $image ) {
-		$attachment_ID = $image['ID'];
-		$meta = get_post_meta($attachment_ID, '_wp_attachment_metadata', true);
+	$script .= "notlinked = '$__not_linked';
+linkedtoimage = '$__linked_to_image';
+linkedtopage = '$__linked_to_page';
+usingthumbnail = '$__using_thumbnail';
+usingoriginal = '$__using_original';
+";
+	foreach ( $attachments as $key => $attachment ) {
+		$ID = $attachment['ID'];
+		$meta = get_post_meta($ID, '_wp_attachment_metadata', true);
 		if (!is_array($meta)) {
-			$meta = get_post_meta($attachment_ID, 'imagedata', true); // Try 1.6 Alpha meta key
+			$meta = get_post_meta($ID, 'imagedata', true); // Try 1.6 Alpha meta key
 			if (!is_array($meta)) {
-				continue;
-			} else {
-				add_post_meta($attachment_ID, '_wp_attachment_metadata', $meta);
+				$meta = array();
 			}
+			add_post_meta($ID, '_wp_attachment_metadata', $meta);
 		}
-		$image = array_merge($image, $meta);
-		if ( ($image['width'] > 128 || $image['height'] > 96) && !empty($image['thumb']) && file_exists(dirname($image['file']).'/'.$image['thumb']) ) {
-			$src = str_replace(basename($image['guid']), '', $image['guid']) . $image['thumb'];
-			$images_script .= "src".$attachment_ID."a = '$src';\nsrc".$attachment_ID."b = '".$image['guid']."';\n";
-			$thumb = 'true';
-			$thumbtext = $__thumbnail_on;
-		} else {
-			$src = $image['guid'];
-			$thumb = 'false';
-			$thumbtext = $__no_thumbnail;
-		}
-		list($image['uwidth'], $image['uheight']) = get_udims($image['width'], $image['height']);
-		$height_width = 'height="'.$image['uheight'].'" width="'.$image['uwidth'].'"';
-		$uwidth_sum += 128;
-		$xpadding = (128 - $image['uwidth']) / 2;
-		$ypadding = (96 - $image['uheight']) / 2;
-		$images_style .= "#target{$attachment_ID} img { padding: {$ypadding}px {$xpadding}px; }\n";
-		$href = get_attachment_link($attachment_ID);
-		$images_script .= "href{$attachment_ID}a = '$href';\nhref{$attachment_ID}b = '{$image['guid']}';\n";
-		$images_html .= "
-<div id='target{$attachment_ID}' class='imagewrap left'>
-	<div id='popup{$attachment_ID}' class='popup'>
-		<a id=\"L{$attachment_ID}\" onclick=\"toggleLink({$attachment_ID});return false;\" href=\"javascript:void();\">$__attachment_on</a>
-		<a id=\"I{$attachment_ID}\" onclick=\"if($thumb)toggleImage({$attachment_ID});else alert('$__nothumb');return false;\" href=\"javascript:void();\">$thumbtext</a>
-		<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment={$attachment_ID}&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
+		$attachment = array_merge($attachment, $meta);
+		$delete_cancel = "<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment={$ID}&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
 		<a onclick=\"popup.style.display='none';return false;\" href=\"javascript:void()\">$__close</a>
+";
+		$uwidth_sum += 128;
+		if ( preg_match('!^image/!', $attachment['post_mime_type'] ) ) {
+			$image = & $attachment;
+			if ( ($image['width'] > 128 || $image['height'] > 96) && !empty($image['thumb']) && file_exists(dirname($image['file']).'/'.$image['thumb']) ) {
+				$src = str_replace(basename($image['guid']), $image['thumb'], $image['guid']);
+				$script .= "src{$ID}a = '$src';
+src{$ID}b = '{$image['guid']}';
+";
+				$thumb = 'true';
+				$thumbtext = $__using_thumbnail;
+			} else {
+				$src = $image['guid'];
+				$thumb = 'false';
+				$thumbtext = $__no_thumbnail;
+			}
+			list($image['uwidth'], $image['uheight']) = get_udims($image['width'], $image['height']);
+			$height_width = 'height="'.$image['uheight'].'" width="'.$image['uwidth'].'"';
+			$xpadding = (128 - $image['uwidth']) / 2;
+			$ypadding = (96 - $image['uheight']) / 2;
+			$style .= "#target{$ID} img { padding: {$ypadding}px {$xpadding}px; }\n";
+			$href = get_attachment_link($ID);
+			$script .= "a{$ID}a = '<a id=\"{$ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
+a{$ID}b = '<a class=\"imagelink\" href=\"{$image['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
+img{$ID}a = '<img id=\"image{$ID}\" src=\"$src\" alt=\"{$image['post_title']}\" $height_width />';
+img{$ID}b = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['post_title']}\" $height_width />';
+";
+			$html .= "<div id='target{$ID}' class='attwrap left'>
+	<div id='popup{$ID}' class='popup'>
+		<a id=\"I{$ID}\" onclick=\"if($thumb)toggleImage({$ID});else alert('$__nothumb');return false;\" href=\"javascript:void()\">$thumbtext</a>
+		<a id=\"L{$ID}\" onclick=\"toggleLink({$ID});return false;\" href=\"javascript:void()\">$__not_linked</a>
+		{$delete_cancel}
 	</div>
-	<a id=\"{$attachment_ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"imagePopup({$attachment_ID});return false;\" title=\"{$image['post_title']}\">		
-		<img id=\"image{$attachment_ID}\" src=\"$src\" alt=\"{$attachment_ID}\" $height_width />
-	</a>
+	<div id='div{$ID}' class='imagewrap' onclick=\"doPopup({$ID});\">
+		<img id=\"image{$ID}\" src=\"$src\" alt=\"{$image['post_title']}\" $height_width />
+	</div>
 </div>
 ";
+		} else {
+			$html .= "<div id='target{$ID}' class='attwrap left'>
+	<div id='popup{$ID}' class='popup'>
+		<div class='filetype'>File Type: ".str_replace('/',"/\n",$attachment['post_mime_type'])."</div>
+		{$delete_cancel}
+	</div>
+	<div id='div{$ID}' class='otherwrap' onmousedown=\"selectLink({$ID})\" onclick=\"doPopup({$ID});return false;\">
+		<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onmousedown=\"selectLink({$ID});\" onclick=\"return false;\">{$attachment['post_title']}</a>
+	</div>
+</div>
+";
+		}
 	}
 }
 
-$images_width = $uwidth_sum + ( count($images) * 5 ) + 30;
+$images_width = $uwidth_sum + ( count($images) * 6 ) + 35;
 
 break;
 
@@ -217,55 +252,62 @@ die('This script was not meant to be called directly.');
 <meta http-equiv="imagetoolbar" content="no" />
 <script type="text/javascript">
 /* Define any variables we'll need, such as alternate URLs. */
-<?php echo $images_script; ?>
+<?php echo $script; ?>
 
-function validateImageName() {
-/* This is more for convenience than security. Server-side validation is very thorough.*/
-obj = document.getElementById('upload');
-r = /.jpg$|.gif$|.png$/i;
-if ( obj.value.match(r) )
-return true;
-alert('Please select a JPG, PNG or GIF file.');
-return false;
-}
 function cancelUpload() {
-o = document.getElementById('uploadForm');
-o.method = 'GET';
-o.action.value = 'view';
-o.submit();
+	o = document.getElementById('uploadForm');
+	o.method = 'GET';
+	o.action.value = 'view';
+	o.submit();
 }
-function imagePopup(i) {
-if ( popup )
-popup.style.display = 'none';
-target = document.getElementById('target'+i);
-popup = document.getElementById('popup'+i);
-//popup.style.top = (target.offsetTop + 3) + 'px';
-popup.style.left = (target.offsetLeft) + 'px';
-popup.style.display = 'block';
+function doPopup(i) {
+	if ( popup )
+	popup.style.display = 'none';
+	target = document.getElementById('target'+i);
+	popup = document.getElementById('popup'+i);
+	popup.style.left = (target.offsetLeft) + 'px';
+	popup.style.display = 'block';
 }
 function init() {
-popup = false;
+	popup = false;
+}
+function selectLink(n) {
+	o=document.getElementById('div'+n);
+	r = document.body.createTextRange();
+	if ( typeof r != 'undefined' ) {
+		r.moveToElementText(o);
+		r.select();
+	}
 }
 function toggleLink(n) {
-	o=document.getElementById(n);
-	oi=document.getElementById('L'+n);
-	if ( oi.innerHTML == attachmenton ) {
-		o.href = eval('href'+n+'b');
-		oi.innerHTML = attachmentoff;
+	od=document.getElementById('div'+n);
+	ol=document.getElementById('L'+n);
+	oi=document.getElementById('I'+n);
+	if ( oi.innerHTML == usingthumbnail ) {
+		img = eval('img'+n+'a');
 	} else {
-		o.href = eval('href'+n+'a');
-		oi.innerHTML = attachmenton;
+		img = eval('img'+n+'b');
+	}
+	if ( ol.innerHTML == notlinked ) {
+		od.innerHTML = eval('a'+n+'b')+img+'</a>';
+		ol.innerHTML = linkedtoimage;
+	} else if ( ol.innerHTML == linkedtoimage ) {
+		od.innerHTML = eval('a'+n+'a')+img+'</a>';
+		ol.innerHTML = linkedtopage;
+	} else {
+		od.innerHTML = img;
+		ol.innerHTML = notlinked;
 	}
 }
 function toggleImage(n) {
 	o = document.getElementById('image'+n);
 	oi = document.getElementById('I'+n);
-	if ( oi.innerHTML == thumbnailon ) {
+	if ( oi.innerHTML == usingthumbnail ) {
 		o.src = eval('src'+n+'b');
-		oi.innerHTML = thumbnailoff;
+		oi.innerHTML = usingoriginal;
 	} else {
 		o.src = eval('src'+n+'a');
-		oi.innerHTML = thumbnailon;
+		oi.innerHTML = usingthumbnail;
 	}
 }
 </script>
@@ -278,56 +320,73 @@ body {
 	background: #dfe8f1;
 }
 form {
-	margin: 6px 2px 0px 6px;
+	margin: 3px 2px 0px 6px;
 }
 #wrap {
 	clear: both;
-	margin: 0px;
 	padding: 0px;
-	height: 133px;
 	width: 100%;
-	overflow: auto;
 }
 #images {
 	clear: both;
 	margin: 0px;
-	padding: 5px 15px;
+	padding: 3px 15px;
 	height: 96px;
-	white-space: nowrap;
+/*	white-space: nowrap;*/
 	width: <?php echo $images_width; ?>px;
 }
 #images img {
 	background-color: rgb(209, 226, 239);
 }
-<?php echo $images_style; ?>
-.imagewrap {
-	margin-right: 5px;
-	height: 96px;
-	overflow: hidden;
-}
-.imagewrap * {
+<?php echo $style; ?>
+.attwrap, .attwrap * {
+	overflow: none;
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
 }
-.imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img {
-	text-decoration: none;
+.imagewrap {
+	margin-right: 5px;
+	height: 96px;
+	overflow: hidden;
 	float: left;
-	text-align: center;
+}
+.otherwrap {
+	margin-right: 5px;
+	height: 90px;
+	overflow: hidden;
+	background-color: #f9fcfe;
+	float: left;
+	padding: 3px;
+}
+.otherwrap a {
+	display: block;
+	width: 122px;
+}
+.otherwrap a, .otherwrap a:hover, .otherwrap a:active, .otherwrap a:visited {
+	color: blue;
+}
+.filetype {
+	font-size: 80%;
+	border-bottom: 3px double #89a
+}
+.imagewrap, .imagewrap img, .imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img {
+	text-decoration: none;
 }
 
 #upload-menu {
 	background: #fff;
-	margin: 0;
+	margin: 0px;
 	padding: 0;
 	list-style: none;
 	height: 2em;
 	border-bottom: 1px solid #448abd;
+	width: 100%;
 }
 
 #upload-menu li {
 	float: left;
-	margin: 0 0 0 1em;
+	margin: 0 0 0 .75em;
 }
 
 #upload-menu a {
@@ -341,7 +400,6 @@ form {
 #upload-menu .current a {
 	background: #dfe8f1;
 	border-right: 2px solid #448abd;
-	
 }
 
 #upload-menu a:hover {
@@ -370,16 +428,14 @@ form {
 #upload-menu li.spacer {
 	margin-left: 40px;
 }
-
 #title, #descr {
-	width: 80%;
-	margin-top: 2px;
+	width: 100%;
+	margin-top: 1px;
 }
 #descr {
-	height: 35px;
+	height: 36px;
 }
 #buttons {
-	width: 98%;
 	margin-top: 2px;
 	text-align: right;
 }
@@ -391,9 +447,14 @@ form {
 	height: 82px;
 	display: none;
 	background-color: rgb(223, 232, 241);
+	text-align: center;
+}
+.imagewrap .popup {
 	opacity: .90;
 	filter:alpha(opacity=90);
-	text-align: center;
+}
+.otherwrap .popup {
+	padding-top: 20px;
 }
 .popup a, .popup a:visited, .popup a:active {
 	background-color: transparent;
@@ -410,12 +471,12 @@ form {
 </head>
 <body onload="init()">
 <ul id="upload-menu">
-<li<?php echo $current_1; ?>><a href="<?php echo basename(__FILE__); ?>?action=upload&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>"><?php _e('Upload Image'); ?></a></li>
+<li<?php echo $current_1; ?>><a href="<?php echo basename(__FILE__); ?>?action=upload&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>"><?php _e('Upload'); ?></a></li>
 <?php if ( $attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$post'") ) { ?>
-<li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>"><?php _e('Attached Images'); ?></a></li>
+<li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>"><?php _e('Browse'); ?></a></li>
 <?php } ?>
-<?php if ($wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment' AND left(post_mime_type, 5) = 'image'")) { ?>
-<li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=true"><?php _e('All Images'); ?></a></li>
+<?php if ($wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment'")) { ?>
+<li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=true"><?php _e('Browse All'); ?></a></li>
 <?php } ?>
 <li> </li>
 <?php if ( $action != 'upload' ) { ?>
@@ -423,33 +484,32 @@ form {
 <li class="spacer"><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=0" title="<?php _e('First'); ?>">|&laquo;</a></li>
 <li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $back; ?>"">&laquo; <?php _e('Back'); ?></a></li>
 <?php else : ?>
-<li class="inactive spacer">|&lt;</li>
-<li class="inactive">&lt;&lt;</li>
+<li class="inactive spacer">|&laquo;</li>
+<li class="inactive">&laquo; <?php _e('Back'); ?></li>
 <?php endif; ?>
 <?php if ( false !== $next ) : ?>
 <li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>"><?php _e('Next'); ?> &raquo;</a></li>
 <li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;last=true" title="<?php _e('Last'); ?>">&raquo;|</a></li>
 <?php else : ?>
-<li class="inactive">&gt;&gt;</li>
-<li class="inactive">&gt;|</li>
+<li class="inactive"><?php _e('Next'); ?> &raquo;</li>
+<li class="inactive">&raquo;|</li>
 <?php endif; ?>
 <?php } // endif not upload?>
 </ul>
 <?php if ( $action == 'view' ) : ?>
-<span class="left tip"><?php _e('You can drag and drop these photos into your post. Click on the thumbnail for more options.'); ?></span>
-<span class="right tip"></span>
 <div id="wrap">
+<div class="tip"><?php _e('You can drag and drop these items into your post. Click on one for more options.'); ?></div>
 <div id="images">
-<?php echo $images_html; ?>
+<?php echo $html; ?>
 </div>
 </div>
 <?php elseif ( $action == 'upload' ) : ?>
 <div class="tip"></div>
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo basename(__FILE__); ?>" onsubmit="return validateImageName()">
-<table style="width: 100%">
+<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo basename(__FILE__); ?>">
+<table style="width:99%;">
 <tr>
-<th scope="row" style="width: 6em; text-align: right;"><label for="upload"><?php _e('Image:'); ?></label></th>
-<td><input type="file" id="upload" name="image" onchange="validateImageName()" /></td>
+<th scope="row" style="width: 4.5em;text-align: right;"><label for="upload"><?php _e('File:'); ?></label></th>
+<td><input type="file" id="upload" name="image" /></td>
 </tr>
 <tr>
 <th scope="row" style="text-align: right;"><label for="title"><?php _e('Title:'); ?></label></th>
@@ -459,14 +519,17 @@ form {
 <th scope="row" style="text-align: right;"><label for="descr"><?php _e('Description:'); ?></label></th>
 <td><input type="textarea" name="descr" id="descr" value="" /></td>
 </tr>
-</table>
-<p class="submit">
+<tr id="buttons">
+<th></th>
+<td>
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="post" value="<?php echo $post; ?>" />
 <input type="hidden" name="all" value="<?php echo $all; ?>" />
 <input type="submit" value="<?php _e('Upload'); ?>" />
 <input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
-</p>
+</td>
+</tr>
+</table>
 </div>
 </form>
 <?php endif; ?>
