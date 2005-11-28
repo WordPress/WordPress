@@ -403,6 +403,9 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
 		$indent = str_repeat("\t", $depth);
 		//$indent = join('', array_fill(0,$depth,"\t"));
 
+	if ( !is_array($page_tree[$parent]['children']) )
+		return false;
+
 	foreach ( $page_tree[$parent]['children'] as $page_id ) {
 		$cur_page = $page_tree[$page_id];
 		$title = $cur_page['title'];
