@@ -81,10 +81,6 @@ function relocate_children($old_ID, $new_ID) {
 function fix_attachment_links($post_ID) {
 	global $wp_rewrite;
 
-	// Relevance check.
-	if ( false == $wp_rewrite->using_permalinks() )
-		return;
-
 	$post = & get_post($post_ID);
 
 	$search = "#<a[^>]+rel=('|\")[^'\"]*attachment[^>]*>#ie";
