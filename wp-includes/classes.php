@@ -1620,7 +1620,7 @@ class WP {
 		// issue a 404 if one was already issued, if the request was a search,
 		// or if the request was a regular query string request rather than a
 		// permalink request.
-		if ( (0 == count($wp_query->posts)) && !is_404() && !is_search() && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) && (false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
+		if ( (0 == count($wp_query->posts)) && !is_404() && !is_category() && !is_search() && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) && (false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
 			$wp_query->set_404();
 			status_header( 404 );
 		}	elseif( is_404() != true ) {
