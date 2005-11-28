@@ -1277,15 +1277,13 @@ function update_post_category_cache($post_ids) {
 	if ( is_array($post_ids) )
 		$post_ids = implode(',', $post_ids);
 
-	$dogs = $wpdb->get_results("SELECT DISTINCT
-	post_id, cat_ID FROM $wpdb->categories, $wpdb->post2cat
-	WHERE category_id = cat_ID AND post_id IN ($post_ids)");
+	$dogs = $wpdb->get_results("SELECT post_id, category_id FROM $wpdb->post2cat WHERE post_id IN ($post_ids)");
 
 	if ( empty($dogs) )
 		return;
 		
 	foreach ($dogs as $catt)
-		$category_cache[$catt->post_id][$catt->cat_ID] = &get_category($catt->cat_ID);
+		$category_cache[$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
 }
 
 function update_post_caches(&$posts) {
