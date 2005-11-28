@@ -161,7 +161,7 @@ function populate_options() {
 	add_option('users_can_register', 0);
 	add_option('admin_email', 'you@example.com');
 	add_option('start_of_week', 1);
-	add_option('use_balanceTags', 1);
+	add_option('use_balanceTags', 0);
 	add_option('use_smilies', 1);
 	add_option('require_name_email', 1);
 	add_option('comments_notify', 1);

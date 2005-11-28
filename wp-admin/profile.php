@@ -17,7 +17,7 @@ $bookmarklet_height= 440;
 <?php } ?>
 
 <div class="wrap">
-<h2><?php _e('Your Profile'); ?></h2>
+<h2><?php _e('Your Profile and Personal Options'); ?></h2>
 <form name="profile" id="your-profile" action="profile-update.php" method="post">
 <p>
 <input type="hidden" name="from" value="profile" />

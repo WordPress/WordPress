@@ -392,9 +392,8 @@ function funky_javascript_fix($text) {
 */
 function balanceTags($text, $is_comment = 0) {
 	
-	if (get_settings('use_balanceTags') == 0) {
+	if ( get_option('use_balanceTags') == 0)
 		return $text;
-	}
 
 	$tagstack = array(); $stacksize = 0; $tagqueue = ''; $newtext = '';
 

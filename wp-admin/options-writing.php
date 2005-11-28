@@ -24,7 +24,8 @@ include('admin-header.php');
 <?php _e('Users should use the visual rich editor by default') ?></label><br />
 <label for="use_smilies">
 <input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked('1', get_settings('use_smilies')); ?> />
-<?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label>
+<?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label><br />
+<label for="use_balanceTags"><input name="use_balanceTags" type="checkbox" id="use_balanceTags" value="1" <?php checked('1', get_settings('use_balanceTags')); ?> /> <?php _e('WordPress should correct invalidly nested XHTML automatically') ?></label>
 </td>
 </tr>
 <tr valign="top">
@@ -89,7 +90,7 @@ endforeach;
 
 <p class="submit">
 <input type="hidden" name="action" value="update" /> 
-<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,rich_editing,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category" /> 
+<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,rich_editing,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags" /> 
 <input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" /> 
 </p>
 </form> 
