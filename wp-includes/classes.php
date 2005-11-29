@@ -1518,7 +1518,7 @@ class WP {
 				if (isset($error))
 					unset($error);
 					
-				if ( isset($query_vars) )
+				if ( isset($query_vars) && strstr($_SERVER['PHP_SELF'], 'wp-admin/') )
 					unset($query_vars);
 					
 				$this->did_permalink = false;
