@@ -257,6 +257,13 @@ function url_to_postid($url) {
 }
 
 
+function maybe_unserialize($original) {
+	if ( $gm = @ unserialize($original) )
+		return $gm;
+	else
+		return $original;
+}
+
 /* Options functions */
 
 function get_settings($setting) {
@@ -286,11 +293,7 @@ function get_settings($setting) {
 	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
 		$value = preg_replace('|/+$|', '', $value);
 
-	@ $kellogs = unserialize($value);
-	if ( $kellogs !== FALSE )
-		return apply_filters('option_' . $setting, $kellogs);
-	else
-		return apply_filters('option_' . $setting, $value);
+	return apply_filters( 'option_' . $setting, maybe_unserialize($value) );
 }
 
 function get_option($option) {
@@ -328,9 +331,7 @@ function get_alloptions() {
 			$option->option_value = preg_replace('|/+$|', '', $option->option_value);
 		if ( 'category_base' == $option->option_name )
 			$option->option_value = preg_replace('|/+$|', '', $option->option_value);
-		@ $value = unserialize($option->option_value);
-		if ( $value === FALSE )
-			$value = $option->option_value;
+		$value = maybe_unserialize($option->option_value);
 		$all_options->{$option->option_name} = apply_filters('pre_option_' . $option->option_name, $value);
 	}
 	return apply_filters('all_options', $all_options);
@@ -459,9 +460,9 @@ function get_post_meta($post_id, $key, $single = false) {
 
 	if ( isset($post_meta_cache[$post_id][$key]) ) {
 		if ( $single ) {
-			return $post_meta_cache[$post_id][$key][0];
+			return maybe_unserialize( $post_meta_cache[$post_id][$key][0] );
 		} else {
-			return $post_meta_cache[$post_id][$key];
+			return maybe_unserialize( $post_meta_cache[$post_id][$key][0] );
 		}
 	}
 
@@ -476,7 +477,7 @@ function get_post_meta($post_id, $key, $single = false) {
 
 	if ( $single ) {
 		if ( count($values) ) {
-			$return = $values[0];
+			$return = maybe_unserialize( $values[0] );
 		} else {
 			return '';
 		}
@@ -484,10 +485,7 @@ function get_post_meta($post_id, $key, $single = false) {
 		$return = $values;
 	}
 
-	@ $kellogs = unserialize($return);
-	if ( $kellogs !== FALSE )
-		return $kellogs;
-	else return $return;
+	return maybe_unserialize($return);
 }
 
 function update_post_meta($post_id, $key, $value, $prev_value = '') {
