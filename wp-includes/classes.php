@@ -257,6 +257,7 @@ class WP_Query {
 		// First let's clear some variables
 		$whichcat = '';
 		$whichauthor = '';
+		$whichpage = '';
 		$result = '';
 		$where = '';
 		$limits = '';
@@ -350,9 +351,25 @@ class WP_Query {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
-			$q['pagename'] = sanitize_title(basename(str_replace('%2F', '/', urlencode($q['pagename']))));
+			$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
+			$page_paths = '/' . trim($q['pagename'], '/');
+			$q['pagename'] = sanitize_title(basename($page_paths));
 			$q['name'] = $q['pagename'];
-			$where .= " AND post_name = '" . $q['pagename'] . "'";
+			$page_paths = explode('/', $page_paths);
+			foreach($page_paths as $pathdir)
+				$page_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
+				
+			$all_page_ids = get_all_page_ids();
+			$reqpage = 0;			
+			foreach ( $all_page_ids as $page_id ) {
+				$page = get_page($page_id);
+				if ( $page->fullpath == $page_path ) {
+					$reqpage = $page_id;
+					break;
+				}
+			}
+			
+			$where .= " AND (ID = '$reqpage')";
 		} elseif ('' != $q['attachment']) {
 			$q['attachment'] = sanitize_title($q['attachment']);
 			$q['name'] = $q['attachment'];
@@ -511,7 +528,7 @@ class WP_Query {
 			$q['author'] = $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_nicename='".$q['author_name']."'");
 			$whichauthor .= ' AND (post_author = '.intval($q['author']).')';
 		}
-
+		
 		$where .= $search.$whichcat.$whichauthor;
 
 		if ((empty($q['order'])) || ((strtoupper($q['order']) != 'ASC') && (strtoupper($q['order']) != 'DESC'))) {
@@ -1466,7 +1483,8 @@ class WP {
 					$request_match = $req_uri . '/' . $request;
 				}
 
-				if (preg_match("!^$match!", $request_match, $matches)) {
+				if (preg_match("!^$match!", $request_match, $matches) ||
+					preg_match("!^$match!", urldecode($request_match), $matches)) {
 					// Got a match.
 					$this->matched_rule = $match;
 

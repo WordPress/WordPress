@@ -585,6 +585,20 @@ function &get_post(&$post, $output = OBJECT) {
 	}
 }
 
+function set_page_path($page) {
+	$page->fullpath = '/' . $page->post_name;
+	$path = $page->fullpath;
+	$curpage = $page;
+	while ($curpage->post_parent != 0) {
+		$curpage = get_page($curpage->post_parent);
+		$path = '/' . $curpage->post_name . $path;
+	}
+	
+	$page->fullpath = $path;
+
+	return $page;
+}
+
 // Retrieves page data given a page ID or page object.
 // Handles page caching.
 function &get_page(&$page, $output = OBJECT) {
@@ -611,6 +625,11 @@ function &get_page(&$page, $output = OBJECT) {
 			$_page = & $wpdb->get_row($query);
 			wp_cache_add($_page->ID, $_page, 'pages');
 		}
+	}
+	
+	if (!isset($_page->fullpath)) {
+		$_page = set_page_path($_page);
+		wp_cache_replace($_page->cat_ID, $_page, 'pages');
 	}
 
 	if ( $output == OBJECT ) {
@@ -718,6 +737,17 @@ function get_all_category_ids() {
 	}
 	
 	return $cat_ids;
+}
+
+function get_all_page_ids() {
+	global $wpdb;
+	
+	if ( ! $page_ids = wp_cache_get('all_page_ids', 'posts') ) {
+		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_status='static'");
+		wp_cache_add('all_page_ids', $page_ids, 'pages');
+	}
+	
+	return $page_ids;
 }
 
 function gzip_compression() {

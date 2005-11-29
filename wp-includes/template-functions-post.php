@@ -283,7 +283,6 @@ function &get_page_children($page_id, $pages) {
 				$page_list = array_merge($page_list, $children);
 		}
 	}
-
 	return $page_list;
 }
 
