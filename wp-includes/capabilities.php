@@ -279,6 +279,13 @@ function current_user_can($capability) {
 	return call_user_func_array(array(&$current_user, 'has_cap'), $args);
 }
 
+// Convenience wrapper around $wp_roles.
+function get_role($role) {
+	global $wp_roles;
+
+	return $wp_roles->get_role($role);
+}
+
 //
 // These are deprecated.  Use current_user_can().
 //
