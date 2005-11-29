@@ -21,9 +21,6 @@ $txpcfg['table_prefix'] = '';
 
 // STOP EDITING
 
-add_option('tpre',$txpcfg['table_prefix']);
-
-
 /**
 	Add These Functions to make our lives easier
 **/
@@ -604,6 +601,8 @@ class Textpattern_Import {
 	
 	function dispatch() 
 	{
+		global $txpdb, $txpcfg;
+
 		if (empty ($_GET['step']))
 			$step = 0;
 		else
@@ -611,6 +610,11 @@ class Textpattern_Import {
 
 		$this->header();
 		
+		if ( $step > 0 ) {
+			add_option('tpre',$txpcfg['table_prefix']);
+			$txpdb = new wpdb($txpcfg['user'], $txpcfg['pass'], $txpcfg['db'], $txpcfg['host']);
+		}
+
 		switch ($step) 
 		{
 			default:
@@ -645,8 +649,6 @@ class Textpattern_Import {
 		// Nothing.	
 	}
 }
-
-$txpdb = new wpdb($txpcfg['user'], $txpcfg['pass'], $txpcfg['db'], $txpcfg['host']);
 
 $txp_import = new Textpattern_Import();
 register_importer('textpattern', 'Textpattern', __('Import posts from a Textpattern Blog'), array ($txp_import, 'dispatch'));
