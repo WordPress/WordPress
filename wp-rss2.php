@@ -36,7 +36,7 @@ $more = 1;
 		<dc:creator><?php the_author() ?></dc:creator>
 		<?php the_category_rss() ?>
 
-		<guid><?php the_permalink($id); ?></guid>
+		<guid isPermaLink="false"><?php the_guid(); ?></guid>
 <?php if (get_settings('rss_use_excerpt')) : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php else : ?>
