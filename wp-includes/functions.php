@@ -258,7 +258,7 @@ function url_to_postid($url) {
 
 
 function maybe_unserialize($original) {
-	if ( $gm = @ unserialize($original) )
+	if ( false !== $gm = @ unserialize($original) )
 		return $gm;
 	else
 		return $original;
