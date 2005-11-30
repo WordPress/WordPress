@@ -2147,6 +2147,25 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	// FIXME: Need to delete username keyed cache object.
 }
 
+function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
+	global $wpdb;
+	if ( !is_numeric( $user_id ) )
+		return false;
+	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
+
+	if ( is_array($meta_value) || is_object($meta_value) )
+		$meta_value = serialize($meta_value);
+	$meta_value = trim( $meta_value );
+
+	if ( ! empty($meta_value) )
+		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key' AND meta_value = '$meta_value'");
+	else
+		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
+		
+	wp_cache_delete($user_id, 'users');
+	// FIXME: Need to delete username keyed cache object.
+}
+
 function register_activation_hook($file, $function) {
 	$file = plugin_basename($file);
 
