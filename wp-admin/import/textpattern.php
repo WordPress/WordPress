@@ -1,26 +1,4 @@
 <?php
-
-/*
-This Import Script is written by Aaron Brazell of Technosailor.com
-
-It was developed using a large blog running Textpattern 4.0.2 and
-  successfully imported nearly 3000 records at a time.  Higher
-  scalability is uncertain.
-  
-  BACKUP YOUR DATABASE PRIOR TO RUNNING THIS IMPORT SCRIPT
-*/
-
-// BEGIN EDITING
-
-// $txpconfig options can be found in the Textpattern %textpattern%/config.php file
-$txpcfg['db'] = 'textpattern';
-$txpcfg['user'] = 'root';
-$txpcfg['pass'] = '';
-$txpcfg['host'] = 'localhost';
-$txpcfg['table_prefix'] = '';
-
-// STOP EDITING
-
 /**
 	Add These Functions to make our lives easier
 **/
@@ -60,13 +38,11 @@ if(!function_exists('link_exists'))
 **/
 class Textpattern_Import {
 
-	var $posts = array ();
-	var $file;
-
 	function header() 
 	{
 		echo '<div class="wrap">';
 		echo '<h2>'.__('Import Textpattern').'</h2>';
+		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.</p>');
 	}
 
 	function footer() 
@@ -76,17 +52,10 @@ class Textpattern_Import {
 	
 	function greet() 
 	{
-		global $txpcfg;
-		
 		_e('<p>Howdy! This importer allows you to extract posts from any Textpattern 4.0.2+ into your blog. This has not been tested on previous versions of Textpattern.  Mileage may vary.</p>');
 		_e('<p>Your Textpattern Configuration settings are as follows:</p>');
-		_e('<ul><li><strong>Textpattern Database Name:</strong> '.$txpcfg['db'].'</li>');
-		_e('<li><strong>Textpattern Database User:</strong> '.$txpcfg['user'].'</li>');
-		_e('<li><strong>Textpattern Database Password:</strong> '.$txpcfg['pass'].'</li>');
-		_e('<li><strong>Textpattern Database Host:</strong> '.$txpcfg['host'].'</li>');
-		_e('</ul>');
-		_e('<p>If this is incorrect, please modify settings in wp-admin/import/textpattern.php</p>');
 		_e('<form action="admin.php?import=textpattern&amp;step=1" method="post">');
+		$this->db_form();
 		_e('<input type="submit" name="submit" value="Import Categories" />');
 		_e('</form>');
 	}
@@ -94,7 +63,7 @@ class Textpattern_Import {
 	function get_txp_links()
 	{
 		//General Housekeeping
-		global $txpdb;
+		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
 		
@@ -107,21 +76,13 @@ class Textpattern_Import {
 										description
 									  FROM '.$prefix.'txp_link', 
 									  ARRAY_A);						  
-									  echo'SELECT 
-										id,
-										date,
-										category,
-										url,
-										linkname,
-										description
-									  FROM '.$prefix.'txp_link';
 	}
 	
 	function get_txp_cats() 
 	{
-		
+		global $wpdb;
 		// General Housekeeping
-		global $txpdb;
+		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
 		
@@ -135,10 +96,29 @@ class Textpattern_Import {
 									 ARRAY_A);
 	}
 	
+	function get_txp_users()
+	{
+		global $wpdb;
+		// General Housekeeping
+		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
+		set_magic_quotes_runtime(0);
+		$prefix = get_option('tpre');
+		
+		// Get Users
+		
+		return $txpdb->get_results('SELECT
+										user_id,
+										name,
+										RealName,
+										email,
+										privs
+							   		FROM '.$prefix.'txp_users', ARRAY_A);
+	}
+	
 	function get_txp_posts()
 	{
 		// General Housekeeping
-		global $txpdb;
+		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
 		
@@ -156,17 +136,16 @@ class Textpattern_Import {
 										Status,
 										Keywords,
 										url_title,
-										comments_count,
-										ADDDATE(Posted, "INTERVAL '.get_settings('gmt_offset').' HOURS") AS post_date_gmt,
-										ADDDATE(LastMod, "INTERVAL '.get_settings('gmt_offset').' HOURS") AS post_modified_gmt
+										comments_count
 							   		FROM '.$prefix.'textpattern
 							   		', ARRAY_A);
 	}
 	
 	function get_txp_comments()
 	{
+		global $wpdb;
 		// General Housekeeping
-		global $txpdb;
+		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
 		
@@ -174,23 +153,6 @@ class Textpattern_Import {
 		return $txpdb->get_results('SELECT * FROM '.$prefix.'txp_discuss', ARRAY_A);
 	}
 	
-	function get_txp_users()
-	{
-		// General Housekeeping
-		global $txpdb;
-		set_magic_quotes_runtime(0);
-		$prefix = get_option('tpre');
-		
-		// Get Users
-		$users = $txpdb->get_results('SELECT
-										user_id,
-										name,
-										RealName,
-										email,
-										privs
-							   		FROM '.$prefix.'txp_users', ARRAY_A);
-		return $users;
-	}
 	
 	function links2wp($links='')
 	{
@@ -239,7 +201,7 @@ class Textpattern_Import {
 			echo __('<p>Done! <strong>'.$count.'</strong> Links imported.<br /><br /></p>');
 			return true;
 		}
-		echo 'No Links to Import!';
+		echo __('No Links to Import!');
 		return false;
 	}
 	
@@ -312,7 +274,7 @@ class Textpattern_Import {
 			return true;
 		}// End if(is_array($users)
 		
-		echo 'No Users to Import!';
+		echo __('No Users to Import!');
 		return false;
 		
 	}// End function user2wp()
@@ -323,7 +285,6 @@ class Textpattern_Import {
 		global $wpdb;
 		$count = 0;
 		$txpcat2wpcat = array();
-		
 		// Do the Magic
 		if(is_array($categories))
 		{
@@ -354,7 +315,7 @@ class Textpattern_Import {
 			echo __('<p>Done! <strong>'.$count.'</strong> categories imported.<br /><br /></p>');
 			return true;
 		}
-		echo 'No Categories to Import!';
+		echo __('No Categories to Import!');
 		return false;
 		
 	}
@@ -504,7 +465,7 @@ class Textpattern_Import {
 			echo __('<p>Done! <strong>'.$count.'</strong> comments imported.<br /><br /></p>');
 			return true;
 		}
-		echo 'No Comments to Import!';
+		echo __('No Comments to Import!');
 		return false;
 	}
 		
@@ -577,42 +538,60 @@ class Textpattern_Import {
 		delete_option('txpposts2wpposts');
 		delete_option('txpcm2wpcm');
 		delete_option('txplinks2wplinks');
+		delete_option('txpuser');
+		delete_option('txppass');
+		delete_option('txpname');
+		delete_option('txphost');
 		$this->tips();
 	}
 	
 	function tips()
 	{
-		echo'<p>Welcome to WordPress.  We hope (and expect!) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Textpattern, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.</p>';
-		echo'<h3>Users</h3>';
-		echo'<p>You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn\'t have that login in Textpattern, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and Textpattern uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  This includes you.  So <a href="/wp-login.php">Login</a> and change it.</p>';
-		echo'<h3>Preserving Authors</h3>';
-		echo'<p>Secondly, we have attempted to preserve post authors.  If you are the only author or contributor to your blog, then you are safe.  In most cases, we are successful in this preservation endeavor.  However, if we cannot ascertain the name of the writer due to discrepancies between database tables, we assign it to you, the administrative user.</p>';
-		echo'<h3>Textile</h3>';
-		echo'<p>Also, since you\'re coming from Textpattern, you probably have been using Textile to format your comments and posts.  If this is the case, we recommend downloading and installing <a href="http://www.huddledmasses.org/2004/04/19/wordpress-plugin-textile-20/">Textile for WordPress</a>.  Trust me... You\'ll want it.</p>';
-		echo'<h3>WordPress Resources</h3>';
-		echo'<p>Finally, there are numerous WordPress resources around the internet.  Some of them are:</p>';
-		echo'<ul>';
-		echo'<li><a href="http://www.wordpress.org">The official WordPress site</a></li>';
-		echo'<li><a href="http://wordpress.org/support/">The WordPress support forums</li>';
-		echo'<li><a href="http://codex.wordpress.org">The Codex (In other words, the WordPress Bible)</a></li>';
-		echo'</ul>';
-		echo'<p>That\'s it! What are you waiting for? Go <a href="/wp-login.php">login</a>!</p>';
+		echo __('<p>Welcome to WordPress.  We hope (and expect!) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Textpattern, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.</p>');
+		echo __('<h3>Users</h3>');
+		echo __('<p>You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn\'t have that login in Textpattern, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and Textpattern uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  So <a href="/wp-login.php">Login</a> and change it.</p>');
+		echo __('<h3>Preserving Authors</h3>');
+		echo __('<p>Secondly, we have attempted to preserve post authors.  If you are the only author or contributor to your blog, then you are safe.  In most cases, we are successful in this preservation endeavor.  However, if we cannot ascertain the name of the writer due to discrepancies between database tables, we assign it to you, the administrative user.</p>');
+		echo __('<h3>Textile</h3>');
+		echo __('<p>Also, since you\'re coming from Textpattern, you probably have been using Textile to format your comments and posts.  If this is the case, we recommend downloading and installing <a href="http://www.huddledmasses.org/2004/04/19/wordpress-plugin-textile-20/">Textile for WordPress</a>.  Trust me... You\'ll want it.</p>');
+		echo __('<h3>WordPress Resources</h3>');
+		echo __('<p>Finally, there are numerous WordPress resources around the internet.  Some of them are:</p>');
+		echo __('<ul>');
+		echo __('<li><a href="http://www.wordpress.org">The official WordPress site</a></li>');
+		echo __('<li><a href="http://wordpress.org/support/">The WordPress support forums</li>');
+		echo __('<li><a href="http://codex.wordpress.org">The Codex (In other words, the WordPress Bible)</a></li>');
+		echo __('</ul>');
+		echo __('<p>That\'s it! What are you waiting for? Go <a href="/wp-login.php">login</a>!</p>');
+	}
+	
+	function db_form()
+	{
+		_e('<ul>');
+		_e('<li><label for="dbuser">Textpattern Database User:</label> <input type="text" name="dbuser" /></li>');
+		_e('<li><label for="dbpass">Textpattern Database Password:</label> <input type="password" name="dbpass" /></li>');
+		_e('<li><label for="dbname">Textpattern Database Name:</label> <input type="text" name="dbname" /></li>');
+		_e('<li><label for="dbhost">Textpattern Database Host:</label> <input type="text" name="dbhost" value="localhost" /></li>');
+		_e('<li><label for="dbprefix">Textpattern Table prefix (if any)t:</label> <input type="text" name="dbprefix" /></li>');
+		_e('</ul>');		
 	}
 	
 	function dispatch() 
 	{
-		global $txpdb, $txpcfg;
 
 		if (empty ($_GET['step']))
 			$step = 0;
 		else
 			$step = (int) $_GET['step'];
-
 		$this->header();
 		
-		if ( $step > 0 ) {
-			add_option('tpre',$txpcfg['table_prefix']);
-			$txpdb = new wpdb($txpcfg['user'], $txpcfg['pass'], $txpcfg['db'], $txpcfg['host']);
+		if ( $step == 1 ) 
+		{
+			if(false !== get_option('txpuser')) {add_option('txpuser',$_POST['dbuser']); }
+			if(false !== get_option('txppass')) {add_option('txppass',$_POST['dbpass']); }
+			if(false !== get_option('txpname')) {add_option('txpname',$_POST['dbname']); }
+			if(false !== get_option('txphost')) {add_option('txphost',$_POST['dbhost']); }
+			if(false !== get_option('tpre')) { add_option('tpre', $tpre); }
+
 		}
 
 		switch ($step) 
