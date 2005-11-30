@@ -31,6 +31,7 @@ class WP_Roles {
 		update_option($this->role_key, $this->roles);
 		$this->role_objects[$role] = new WP_Role($role, $capabilities);
 		$this->role_names[$role] = $display_name;
+		return $this->role_objects[$role];
 	}
 	
 	function remove_role($role) {
