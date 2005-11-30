@@ -91,7 +91,7 @@ if (!function_exists('array_change_key_case')) {
 
 /* Added in PHP 4.3.0 */
 
-if( !(function_exists('glob')) ):
+if( !function_exists('glob') ):
 function glob($pattern) {
 	// get pathname (everything up until the last / or \)
 	$path=$output=null;
