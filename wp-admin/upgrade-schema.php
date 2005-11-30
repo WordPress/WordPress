@@ -307,6 +307,7 @@ function populate_roles_160() {
 	$role = $wp_roles->get_role('author');
 	$role->add_cap('upload_files');
 	$role->add_cap('edit_posts');
+	$role->add_cap('edit_published_posts');
 	$role->add_cap('publish_posts');
 	$role->add_cap('read');
 	$role->add_cap('level_2');
