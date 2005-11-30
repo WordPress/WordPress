@@ -79,15 +79,20 @@ addLoadEvent(blurry);
 <script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
 <script type="text/javascript" src="list-manipulation.js"></script>
 <?php if ( isset( $editing ) ) : ?>
-<?php if ( 'true' == get_user_option('rich_editing') ) :?>
-<script language="javascript" type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?index=0&theme=advanced&plugins=wordpress,autosave,wphelp"></script>
+<?php if ( $editing && 'true' == get_user_option('rich_editing') ) :
+$mce_plugins = apply_filters('mce_plugins', array('wordpress', 'autosave', 'wphelp'));
+$mce_plugins = implode($mce_plugins, ',');
+$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright' ,'separator', 'link', 'unlink', 'image', 'emotions', 'wordpress', 'separator', 'undo', 'redo', 'code', 'wphelp'));
+$mce_buttons = implode($mce_buttons, ',');
+?>
+<script language="javascript" type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?index=0&theme=advanced&plugins=<?php echo $mce_plugins; ?>"></script>
 <script type="text/javascript">
 tinyMCE.init({
 	mode : "specific_textareas",
 	textarea_trigger : "title",
 	width : "100%",
 	theme : "advanced",
-	theme_advanced_buttons1 : "bold,italic,strikethrough,separator,bullist,numlist,outdent,indent,separator,justifyleft,justifycenter,justifyright,separator,link,unlink,image,emotions,wordpress,separator,undo,redo,code,wphelp",
+	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",
 	theme_advanced_buttons2 : "",
 	theme_advanced_buttons3 : "",
 	theme_advanced_toolbar_location : "top",
@@ -105,8 +110,8 @@ tinyMCE.init({
 	convert_newlines_to_brs : false,
 	remove_linebreaks : true,
 	save_callback : "wp_save_callback",
-	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote,-table[border=0|cellspacing|cellpadding|width|height|class|align],tr[class|rowspan|width|height|align|valign],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align],-h2[class|align],-h3[class|align],-h4[class|align],-h5[class|align],-h6[class|align],hr",
-	plugins : "wordpress,autosave,wphelp"
+	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align|dir],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote[dir],-table[border=0|cellspacing|cellpadding|width|height|class|align|dir],tr[class|rowspan|width|height|align|valign|dir],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align|dir],-h2[class|align|dir],-h3[class|align|dir],-h4[class|align|dir],-h5[class|align|dir],-h6[class|align|dir],hr",
+	plugins : "<?php echo $mce_plugins; ?>"
 	<?php do_action('mce_options'); ?>
 });
 </script>

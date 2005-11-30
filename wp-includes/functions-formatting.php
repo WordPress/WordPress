@@ -994,7 +994,7 @@ function ent2ncr($text) {
 
 function wp_richedit_pre($text) {
 	// Filtering a blank results in an annoying <br />\n
-	if ( empty($text) ) return '';
+	if ( empty($text) ) return '<p> </p>';
 
 	$output = $text;
 	$output = html_entity_decode($output); // undoes format_to_edit()
