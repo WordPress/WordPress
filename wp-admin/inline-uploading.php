@@ -158,6 +158,7 @@ if ( count($attachments) > 0 ) {
 	$__not_linked = __('Not Linked');
 	$__linked_to_page = __('Linked to Page');
 	$__linked_to_image = __('Linked to Image');
+	$__linked_to_file = __('Linked to File');
 	$__using_thumbnail = __('Using Thumbnail');
 	$__using_original = __('Using Original');
 	$__no_thumbnail = __('<del>No Thumbnail</del>');
@@ -167,11 +168,13 @@ if ( count($attachments) > 0 ) {
 	$script .= "notlinked = '$__not_linked';
 linkedtoimage = '$__linked_to_image';
 linkedtopage = '$__linked_to_page';
+linkedtofile = '$__linked_to_file';
 usingthumbnail = '$__using_thumbnail';
 usingoriginal = '$__using_original';
 ";
 	foreach ( $attachments as $key => $attachment ) {
 		$ID = $attachment['ID'];
+		$href = get_attachment_link($ID);
 		$meta = get_post_meta($ID, '_wp_attachment_metadata', true);
 		if (!is_array($meta)) {
 			$meta = get_post_meta($ID, 'imagedata', true); // Try 1.6 Alpha meta key
@@ -204,7 +207,6 @@ src{$ID}b = '{$image['guid']}';
 			$xpadding = (128 - $image['uwidth']) / 2;
 			$ypadding = (96 - $image['uheight']) / 2;
 			$style .= "#target{$ID} img { padding: {$ypadding}px {$xpadding}px; }\n";
-			$href = get_attachment_link($ID);
 			$script .= "a{$ID}a = '<a id=\"{$ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
 a{$ID}b = '<a class=\"imagelink\" href=\"{$image['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
 img{$ID}a = '<img id=\"image{$ID}\" src=\"$src\" alt=\"{$image['post_title']}\" $height_width />';
@@ -222,9 +224,13 @@ img{$ID}b = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['post
 </div>
 ";
 		} else {
+			$script .= "a{$ID}a = '<a id=\"{$ID}\" rel=\"attachment\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$attachment['post_title']}\">{$attachment['post_title']}</a>';
+a{$ID}b = '<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$attachment['post_title']}\">{$attachment['post_title']}</a>';
+";
 			$html .= "<div id='target{$ID}' class='attwrap left'>
 	<div id='popup{$ID}' class='popup'>
 		<div class='filetype'>File Type: ".str_replace('/',"/\n",$attachment['post_mime_type'])."</div>
+		<a id=\"L{$ID}\" onclick=\"toggleOtherLink({$ID});return false;\" href=\"javascript:void()\">$__linked_to_file</a>
 		{$delete_cancel}
 	</div>
 	<div id='div{$ID}' class='otherwrap' onmousedown=\"selectLink({$ID})\" onclick=\"doPopup({$ID});return false;\">
@@ -297,6 +303,17 @@ function toggleLink(n) {
 	} else {
 		od.innerHTML = img;
 		ol.innerHTML = notlinked;
+	}
+}
+function toggleOtherLink(n) {
+	od=document.getElementById('div'+n);
+	ol=document.getElementById('L'+n);
+	if ( ol.innerHTML == linkedtofile ) {
+		od.innerHTML = eval('a'+n+'a');
+		ol.innerHTML = linkedtopage;
+	} else {
+		od.innerHTML = eval('a'+n+'b');
+		ol.innerHTML = linkedtofile;
 	}
 }
 function toggleImage(n) {

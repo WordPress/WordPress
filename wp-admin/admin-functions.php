@@ -97,6 +97,14 @@ function fix_attachment_links($post_ID) {
 			continue;
 
 		$id = $id_matches[2];
+
+		// While we have the attachment ID, let's adopt any orphans.
+		$attachment = & get_post($id);
+		if ( ! is_object(get_post($attachment->post_parent)) ) {
+			$attachment->post_parent = $post_ID;
+			wp_update_post($attachment);
+		}
+
 		$post_search[$i] = $anchor;
 		$post_replace[$i] = preg_replace("#href=(\"|')[^'\"]*\\1#e", "stripslashes('href=\\1').get_attachment_link($id).stripslashes('\\1')", $anchor);
 		++$i;
