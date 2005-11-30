@@ -26,8 +26,9 @@ class WP_Roles {
 		if ( isset($this->roles[$role]) )
 			return;
 
-		$this->roles[$role] = array('name' => $display_name,
-																'capabilities' => $capabilities);
+		$this->roles[$role] = array(
+			'name' => $display_name,
+			'capabilities' => $capabilities);
 		update_option($this->role_key, $this->roles);
 		$this->role_objects[$role] = new WP_Role($role, $capabilities);
 		$this->role_names[$role] = $display_name;
