@@ -825,81 +825,41 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* metaweblog.newMediaObject uploads a file, following your settings */
 	function mw_newMediaObject($args) {
-	  // adapted from a patch by Johann Richard
-	  // http://mycvs.org/archives/2004/06/30/file-upload-to-wordpress-in-ecto/
+		// adapted from a patch by Johann Richard
+		// http://mycvs.org/archives/2004/06/30/file-upload-to-wordpress-in-ecto/
 
 		global $wpdb;
 
-	  $blog_ID     = $wpdb->escape($args[0]);
-	  $user_login  = $wpdb->escape($args[1]);
+		$blog_ID     = $wpdb->escape($args[0]);
+		$user_login  = $wpdb->escape($args[1]);
 		$user_pass   = $wpdb->escape($args[2]);
-	  $data        = $args[3];
+		$data        = $args[3];
 
-	  $name = $data['name'];
-	  $type = $data['type'];
-	  $bits = $data['bits'];
+		$name = $data['name'];
+		$type = $data['type'];
+		$bits = $data['bits'];
 
-	  $file_realpath = get_settings('fileupload_realpath'); 
-	  $file_url = get_settings('fileupload_url');
+		logIO('O', '(MW) Received '.strlen($bits).' bytes');
 
-	  logIO('O', '(MW) Received '.strlen($bits).' bytes');
+		if ( !$this->login_pass_ok($user_login, $user_pass) )
+			return $this->error;
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		$user = new WP_User($user_login);
 
-	  $user_data = get_userdatabylogin($user_login);
+		if ( !$user->has_cap('upload_files') ) {
+			logIO('O', '(MW) User does not have upload_files capability');
+			$this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.');
+			return $this->error;
+		}
 
-	  if(!get_settings('use_fileupload')) {
-	    // Uploads not allowed
-	    logIO('O', '(MW) Uploads not allowed');
-	    $this->error = new IXR_Error(405, 'No uploads allowed for this site.');
-	    return $this->error;
-	  } 
-
-	  $user = new WP_User($user_login);
-	  if ( !$user->has_cap('upload_files') ) {
-	    logIO('O', '(MW) User does not have upload_files capability');
-	    $this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.');
-	    return $this->error;
-	  }
-
-	  if(trim($file_realpath) == '' || trim($file_url) == '' ) {
-	    // WordPress is not correctly configured
-	    logIO('O', '(MW) Bad configuration. Real/URL path not defined');
-	    $this->error = new IXR_Error(500, 'Please configure WordPress with valid paths for file upload.');
-	    return $this->error;
-	  }
-
-	  $prefix = '/';
-
-	  if(!empty($name)) {
-	    // Create the path
-	    $localpath = $file_realpath.$prefix.$name;
-	    $url = $file_url.$prefix.$name;
-
-	    if (mkdir_p(dirname($localpath))) {
-
-	      /* encode & write data (binary) */
-	      $ifp = fopen($localpath, 'wb');
-	      $success = fwrite($ifp, $bits);
-	      fclose($ifp);
-	      @chmod($localpath, 0666);
-
-	      if($success) {
-	        $resp = array('url' => $url);
-	        return $resp;
-	      } else {
-	        logIO('O', '(MW) Could not write file '.$name.' to '.$localpath);
-	        return new IXR_Error(500, 'Could not write file '.$name);
-	      }
-
-	    } else {
-	      return new IXR_Error(500, 'Could not create directories for '.$name);
-	    }
-	  }
+		$upload = wp_upload_bits($name, $type, $bits);
+		if ( $upload['error'] !== false ) {
+			logIO('O', '(MW) Could not write file '.$name);
+			return new IXR_Error(500, 'Could not write file '.$name);
+		}
+		
+		return array('url' => $upload['url']);
 	}
-
 
 
 	/* MovableType API functions

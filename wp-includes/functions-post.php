@@ -778,4 +778,37 @@ function get_post_mime_type($ID = '') {
 function get_attached_file($attachment_id) {
 	return get_post_meta($attachment_id, '_wp_attached_file', true);
 }
+
+function wp_upload_bits($name, $type, $bits) {
+	if ( empty($name) )
+		return array('error' => "Empty filename");
+
+	$upload = wp_upload_dir();
+	
+	if ( $upload['error'] !== false )
+		return $upload;
+
+	$number = '';
+	$filename = $name;
+	while ( file_exists($upload['path'] . "/$filename") )
+		$filename = str_replace("$number.$ext", ++$number . ".$ext", $filename);
+
+	$new_file = $uploads['path'] . "/$filename";
+	$ifp = @ fopen($new_file, 'wb');
+	if ( ! $ifp )
+		return array('error' => "Could not write file $new_file.");
+		
+	$success = @ fwrite($ifp, $bits);
+	fclose($ifp);
+	// Set correct file permissions
+	$stat = @ stat(dirname($new_file));
+	$perms = $stat['mode'] & 0000777;
+	@ chmod($new_file, $perms);
+
+	// Compute the URL
+	$url = $upload['url'] . "/$filename";
+
+	return array('file' => $new_file, 'url' => $url);
+}
+
 ?>
