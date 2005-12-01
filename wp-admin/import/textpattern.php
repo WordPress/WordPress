@@ -2,7 +2,7 @@
 /**
 	Add These Functions to make our lives easier
 **/
-if(!function_exists('get_cat_nicename'))
+if(!function_exists('get_catbynicename'))
 {
 	function get_catbynicename($category_nicename) 
 	{
@@ -60,24 +60,6 @@ class Textpattern_Import {
 		_e('</form>');
 	}
 
-	function get_txp_links()
-	{
-		//General Housekeeping
-		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
-		set_magic_quotes_runtime(0);
-		$prefix = get_option('tpre');
-		
-		return $txpdb->get_results('SELECT 
-										id,
-										date,
-										category,
-										url,
-										linkname,
-										description
-									  FROM '.$prefix.'txp_link', 
-									  ARRAY_A);						  
-	}
-	
 	function get_txp_cats() 
 	{
 		global $wpdb;
@@ -153,55 +135,61 @@ class Textpattern_Import {
 		return $txpdb->get_results('SELECT * FROM '.$prefix.'txp_discuss', ARRAY_A);
 	}
 	
+		function get_txp_links()
+	{
+		//General Housekeeping
+		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
+		set_magic_quotes_runtime(0);
+		$prefix = get_option('tpre');
+		
+		return $txpdb->get_results('SELECT 
+										id,
+										date,
+										category,
+										url,
+										linkname,
+										description
+									  FROM '.$prefix.'txp_link', 
+									  ARRAY_A);						  
+	}
 	
-	function links2wp($links='')
+	function cat2wp($categories='') 
 	{
 		// General Housekeeping
 		global $wpdb;
 		$count = 0;
-		
-		// Deal with the links
-		if(is_array($links))
+		$txpcat2wpcat = array();
+		// Do the Magic
+		if(is_array($categories))
 		{
-			echo __('<p>Importing Links...<br /><br /></p>');
-			foreach($links as $link)
+			echo __('<p>Importing Categories...<br /><br /></p>');
+			foreach ($categories as $category) 
 			{
 				$count++;
-				extract($link);
+				extract($category);
 				
-				// Make nice vars
-				$category = $wpdb->escape($category);
-				$linkname = $wpdb->escape($linkname);
-				$description = $wpdb->escape($description);
 				
-				if($linfo = link_exists($linkname))
+				// Make Nice Variables
+				$name = $wpdb->escape($name);
+				$title = $wpdb->escape($title);
+				
+				if($cinfo = category_exists($name))
 				{
-					$ret_id = wp_insert_link(array(
-								'link_id'			=> $linfo,
-								'link_url'			=> $url,
-								'link_name'			=> $linkname,
-								'link_category'		=> $category,
-								'link_description'	=> $description,
-								'link_updated'		=> $date)
-								);
+					$ret_id = wp_insert_category(array('cat_ID' => $cinfo, 'category_nicename' => $name, 'cat_name' => $title));
 				}
-				else 
+				else
 				{
-					$ret_id = wp_insert_link(array(
-								'link_url'			=> $url,
-								'link_name'			=> $linkname,
-								'link_category'		=> $category,
-								'link_description'	=> $description,
-								'link_updated'		=> $date)
-								);
+					$ret_id = wp_insert_category(array('category_nicename' => $name, 'cat_name' => $title));
 				}
-				$txplinks2wplinks[$link_id] = $ret_id;
+				$txpcat2wpcat[$id] = $ret_id;
 			}
-			add_option('txplinks2wplinks',$txplinks2wplinks);
-			echo __('<p>Done! <strong>'.$count.'</strong> Links imported.<br /><br /></p>');
+			
+			// Store category translation for future use
+			add_option('txpcat2wpcat',$txpcat2wpcat);
+			echo __('<p>Done! <strong>'.$count.'</strong> categories imported.<br /><br /></p>');
 			return true;
 		}
-		echo __('No Links to Import!');
+		echo __('No Categories to Import!');
 		return false;
 	}
 	
@@ -278,47 +266,6 @@ class Textpattern_Import {
 		return false;
 		
 	}// End function user2wp()
-	
-	function cat2wp($categories='') 
-	{
-		// General Housekeeping
-		global $wpdb;
-		$count = 0;
-		$txpcat2wpcat = array();
-		// Do the Magic
-		if(is_array($categories))
-		{
-			echo __('<p>Importing Categories...<br /><br /></p>');
-			foreach ($categories as $category) 
-			{
-				$count++;
-				extract($category);
-				
-				
-				// Make Nice Variables
-				$name = $wpdb->escape($name);
-				$title = $wpdb->escape($title);
-				
-				if($cinfo = category_exists($name))
-				{
-					$ret_id = wp_insert_category(array('cat_ID' => $cinfo, 'category_nicename' => $name, 'cat_name' => $title));
-				}
-				else
-				{
-					$ret_id = wp_insert_category(array('category_nicename' => $name, 'cat_name' => $title));
-				}
-				$txpcat2wpcat[$id] = $ret_id;
-			}
-			
-			// Store category translation for future use
-			add_option('txpcat2wpcat',$txpcat2wpcat);
-			echo __('<p>Done! <strong>'.$count.'</strong> categories imported.<br /><br /></p>');
-			return true;
-		}
-		echo __('No Categories to Import!');
-		return false;
-		
-	}
 	
 	function posts2wp($posts='')
 	{
@@ -420,6 +367,7 @@ class Textpattern_Import {
 				
 				// WordPressify Data
 				$comment_ID = ltrim($discussid, '0');
+				$comment_post_ID = $postarr[$parentid];
 				$comment_approved = (1 == $visible) ? 1 : 0;
 				$name = $wpdb->escape($name);
 				$email = $wpdb->escape($email);
@@ -431,6 +379,7 @@ class Textpattern_Import {
 					// Update comments
 					$ret_id = wp_update_comment(array(
 							'comment_ID'			=> $cinfo,
+							'comment_post_ID'		=> $comment_post_ID,
 							'comment_author'		=> $name,
 							'comment_author_email'	=> $email,
 							'comment_author_url'	=> $web,
@@ -443,7 +392,7 @@ class Textpattern_Import {
 				{
 					// Insert comments
 					$ret_id = wp_insert_comment(array(
-							'comment_post_ID'		=> $postarr[$parentid],
+							'comment_post_ID'		=> $comment_post_ID,
 							'comment_author'		=> $name,
 							'comment_author_email'	=> $email,
 							'comment_author_url'	=> $web,
@@ -466,6 +415,57 @@ class Textpattern_Import {
 			return true;
 		}
 		echo __('No Comments to Import!');
+		return false;
+	}
+	
+	function links2wp($links='')
+	{
+		// General Housekeeping
+		global $wpdb;
+		$count = 0;
+		
+		// Deal with the links
+		if(is_array($links))
+		{
+			echo __('<p>Importing Links...<br /><br /></p>');
+			foreach($links as $link)
+			{
+				$count++;
+				extract($link);
+				
+				// Make nice vars
+				$category = $wpdb->escape($category);
+				$linkname = $wpdb->escape($linkname);
+				$description = $wpdb->escape($description);
+				
+				if($linfo = link_exists($linkname))
+				{
+					$ret_id = wp_insert_link(array(
+								'link_id'			=> $linfo,
+								'link_url'			=> $url,
+								'link_name'			=> $linkname,
+								'link_category'		=> $category,
+								'link_description'	=> $description,
+								'link_updated'		=> $date)
+								);
+				}
+				else 
+				{
+					$ret_id = wp_insert_link(array(
+								'link_url'			=> $url,
+								'link_name'			=> $linkname,
+								'link_category'		=> $category,
+								'link_description'	=> $description,
+								'link_updated'		=> $date)
+								);
+				}
+				$txplinks2wplinks[$link_id] = $ret_id;
+			}
+			add_option('txplinks2wplinks',$txplinks2wplinks);
+			echo __('<p>Done! <strong>'.$count.'</strong> Links imported.<br /><br /></p>');
+			return true;
+		}
+		echo __('No Links to Import!');
 		return false;
 	}
 		
@@ -584,13 +584,40 @@ class Textpattern_Import {
 			$step = (int) $_GET['step'];
 		$this->header();
 		
-		if ( $step == 1 ) 
+		if ( $step > 0 ) 
 		{
-			if(false !== get_option('txpuser')) {add_option('txpuser',$_POST['dbuser']); }
-			if(false !== get_option('txppass')) {add_option('txppass',$_POST['dbpass']); }
-			if(false !== get_option('txpname')) {add_option('txpname',$_POST['dbname']); }
-			if(false !== get_option('txphost')) {add_option('txphost',$_POST['dbhost']); }
-			if(false !== get_option('tpre')) { add_option('tpre', $tpre); }
+			if($_POST['dbuser'])
+			{
+				if(get_option('txpuser'))
+					delete_option('txpuser');	
+				add_option('txpuser',$_POST['dbuser']);
+			}
+			if($_POST['dbpass'])
+			{
+				if(get_option('txppass'))
+					delete_option('txppass');	
+				add_option('txppass',$_POST['dbpass']);
+			}
+			
+			if($_POST['dbname'])
+			{
+				if(get_option('txpname'))
+					delete_option('txpname');	
+				add_option('txpname',$_POST['dbname']);
+			}
+			if($_POST['dbhost'])
+			{
+				if(get_option('txphost'))
+					delete_option('txphost');
+				add_option('txphost',$_POST['dbhost']); 
+			}
+			if($_POST['dbprefix'])
+			{
+				if(get_option('tpre'))
+					delete_option('tpre');
+				add_option('tpre',$_POST['dbprefix']); 
+			}			
+
 
 		}
 
