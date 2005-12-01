@@ -1470,8 +1470,12 @@ class WP {
 			if ( ! empty($pathinfo) && ($wp_rewrite->index != $pathinfo) ) {
 				$request = $pathinfo;
 			} else {
+				// If the request uri is the index, blank it out so that we don't try to match it against a rule.
+				if ( $req_uri == $wp_rewrite->index )
+					$req_uri = '';
 				$request = $req_uri;
 			}
+
 			$this->request = $request;
 
 			// Look for matches.
