@@ -210,6 +210,7 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	global $wpdb;
 
 	$id = (int) $id;
+	$user = get_userdata($id);
 
 	if ($reassign == 'novalue') {
 		$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");
@@ -239,7 +240,7 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	$wpdb->query("DELETE FROM $wpdb->users WHERE ID = $id");
 
 	wp_cache_delete($id, 'users');
-	// TODO: Need to delete username keyed cache object.
+	wp_cache_delete($user->user_login, 'users');
 
 	do_action('delete_user', $id);
 

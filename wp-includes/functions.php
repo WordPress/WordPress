@@ -2138,13 +2138,17 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 		$wpdb->query("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )
 		VALUES
 		( '$user_id', '$meta_key', '$meta_value' )");
-		return true;
-	}
-	if ( $cur->meta_value != $meta_value )
+	} else if ( $cur->meta_value != $meta_value ) {
 		$wpdb->query("UPDATE $wpdb->usermeta SET meta_value = '$meta_value' WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-
+	} else {
+		return false;	
+	}
+	
+	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
-	// FIXME: Need to delete username keyed cache object.
+	wp_cache_delete($user->user_login, 'users');
+	
+	return true;
 }
 
 function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
@@ -2162,8 +2166,11 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 	else
 		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 		
+	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
-	// FIXME: Need to delete username keyed cache object.
+	wp_cache_delete($user->user_login, 'users');
+	
+	return true;
 }
 
 function register_activation_hook($file, $function) {
