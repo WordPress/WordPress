@@ -47,7 +47,7 @@ function meChecked() {
 function upit() {
 	var isMe = meChecked(); //document.getElementById('me').checked;
 	var inputColl = GetElementsWithClassName('input', 'valinp');
-	var results = document.getElementById('rel');
+	var results = document.getElementById('link_rel');
 	var linkText, linkUrl, inputs = '';
 	for (i = 0; i < inputColl.length; i++) {
 		 inputColl[i].disabled = isMe;
