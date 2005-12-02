@@ -780,7 +780,7 @@ class wpdbBackup {
 		echo '<label style="display:block;"><input type="radio" name="deliver" value="none" /> ' . __('Save to server') . " ({$this->backup_dir})</label>";
 		echo '<label style="display:block;"><input type="radio" checked="checked" name="deliver" value="http" /> ' . __('Download to your computer') . '</label>';
 		echo '<div><input type="radio" name="deliver" id="do_email" value="smtp" /> ';
-		echo '<label for="do_email">'.__('Email backup to:').'</label><input type="text" name="backup_recipient" size="20" value="' . get_settings('admin_email') . '" />');
+		echo '<label for="do_email">'.__('Email backup to:').'</label><input type="text" name="backup_recipient" size="20" value="' . get_settings('admin_email') . '" />';
 		
 		// Check DB dize.
 		$table_status = $wpdb->get_results("SHOW TABLE STATUS FROM " . $this->backquote(DB_NAME));
