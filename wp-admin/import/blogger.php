@@ -222,13 +222,13 @@ class Blogger_Import {
 		if ( ( ! $this->import['user'] && ! is_array($this->import['cookies']) ) ) {
 			// The user must provide a Blogger username and password.
 			if ( ! ( $_POST['user'] && $_POST['pass'] ) ) {
-				$this->login_form(__('The script will log into your Blogger account, change some settings so it can read your blog, and restore the original settings when it\'s done. Here\'s what you do:</p><ol><li>Back up your Blogger template.</li><li>Back up any other Blogger settings you might need later.</li><li>Log out of Blogger</li><li>Log in <em>here</em> with your Blogger username and password.</li><li>On the next screen, click one of your Blogger blogs.</li><li>Do not close this window or navigate away until the process is complete.</li></ol>'));
+				$this->login_form(__('The script will log into your Blogger account, change some settings so it can read your blog, and restore the original settings when it\'s done. Here\'s what you do:').'</p><ol><li>'.__('Back up your Blogger template.').'</li><li>'.__('Back up any other Blogger settings you might need later.').'</li><li>'.__('Log out of Blogger').'</li><li>'.__('Log in <em>here</em> with your Blogger username and password.').'</li><li>'.__('On the next screen, click one of your Blogger blogs.').'</li><li>'.__('Do not close this window or navigate away until the process is complete.').'</li></ol>');
 			}
 		
 			// Try logging in. If we get an array of cookies back, we at least connected.		
 			$this->import['cookies'] = $this->login_blogger($_POST['user'], $_POST['pass']);
 			if ( !is_array( $this->import['cookies'] ) ) {
-				$this->login_form("Login failed. Please enter your credentials again.");
+				$this->login_form(__('Login failed. Please enter your credentials again.'));
 			}
 			
 			// Save the password so we can log the browser in when it's time to publish.
@@ -237,7 +237,7 @@ class Blogger_Import {
 
 			// Get the Blogger welcome page and scrape the blog numbers and names from it
 			$response = $this->get_blogger('http://www.blogger.com/home', $this->import['cookies']);
-			if (! stristr($response['body'], 'signed in as') ) $this->login_form("Login failed. Please re-enter your username and password.");
+			if (! stristr($response['body'], 'signed in as') ) $this->login_form(__('Login failed. Please re-enter your username and password.'));
 			$blogsary = array();
 			preg_match_all('#posts\.g\?blogID=(\d+)">([^<]+)</a>#U', $response['body'], $blogsary);
 			if ( ! count( $blogsary[1] < 1 ) )
@@ -290,7 +290,7 @@ class Blogger_Import {
 
 	// Step 2: Backup the Blogger options pages, updating some of them.
 	function backup_settings() {
-		$output.= "<h1>Backing up Blogger options</h1>\n";
+		$output.= '<h1>'.__('Backing up Blogger options')."</h1>\n";
 		$form = false;
 		foreach ($this->import['blogs'][$_GET['blog']]['options'] as $blog_opt => $optary) {
 			if ( $blog_opt == $_GET['form'] ) {
@@ -420,7 +420,7 @@ class Blogger_Import {
 							$user_email = $wpdb->escape($post_author_email);
 							$user_password = substr(md5(uniqid(microtime())), 0, 6);
 							$result = wp_create_user( $user_login, $user_password, $user_email );
-							$status.= "Registered user <strong>$user_login</strong>. ";
+							$status.= sprintf('Registered user <strong>%s</strong>.', $user_login);
 							$this->import['blogs'][$_GET['blog']]['newusers'][] = $user_login;
 						}
 						$userdata = get_userdatabylogin( $post_author_name );
@@ -508,7 +508,9 @@ class Blogger_Import {
 						}
 					}
 				}
-				$status = "$postcount ".__('post(s) parsed,')." $skippedpostcount ".__('skipped...')." $commentcount ".__('comment(s) parsed,')." $skippedcommentcount ".__('skipped...').' <strong>'.__('Done').'</strong>';
+				$status = sprintf(__('%s post(s) parsed, %s skipped...'), $postcount,  $skippedpostcount).' '.
+					sprintf(__('%s comment(s) parsed, %s skipped...'), $commentcoun, $skippedcommentcount).' '.
+					' <strong>'.__('Done').'</strong>';
 				$import = $this->import;
 				$import['blogs'][$_GET['blog']]['archives']["$url"] = $status;
 				update_option('import-blogger', $import);
@@ -552,11 +554,11 @@ class Blogger_Import {
 					if ( $response['code'] >= 400 || strstr($response['body'], 'There are errors on this form') ) {
 						$this->import['blogs'][$_GET['blog']]['options']["$blog_opt"]['error'] = true;
 						update_option('import-blogger', $this->import);
-						$output .= "<p><strong>$blog_opt</strong> ".__('failed. Trying again.').'</p>';
+						$output .= sprintf(__('%s failed. Trying again.'), "<p><strong>$blog_opt</strong> ").'</p>';
 					} else {
 						$this->import['blogs'][$_GET['blog']]['options']["$blog_opt"]['restored'] = true;
 						update_option('import-blogger', $this->import);
-						$output .= "<p><strong>$blog_opt</strong> ".__('restored.').'</p>';
+						$output .= sprintf(__('%s restored.'), "<p><strong>$blog_opt</strong> ").'</p>';
 					}
 				}
 				$did_one = true;
@@ -585,7 +587,7 @@ class Blogger_Import {
 		if ( count($this->import['blogs']) > 1 )
 			echo '<li>'.__('In case you haven\'t done it already, you can import the posts from your other blogs:'). $this->show_blogs() . '</li>';
 		if ( $n = count($this->import['blogs'][$_GET['blog']]['newusers']) )
-			echo '<li>'.__('Go to <a href="users.php" target="_parent">Authors & Users</a>, where you can modify the new user(s) or delete them. If you want to make all of the imported posts yours, you will be given that option when you delete the new authors.').'</li>';
+			echo '<li>'.sptintf(__('Go to <a href="%s" target="%s">Authors &amp; Users</a>, where you can modify the new user(s) or delete them. If you want to make all of the imported posts yours, you will be given that option when you delete the new authors.'), 'users.php', '_parent').'</li>';
 		echo '<li>'.__('For security, click the link below to reset this importer. That will clear your Blogger credentials and options from the database.').'</li>';
 		echo '</ul>';
 	}
