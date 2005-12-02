@@ -458,6 +458,10 @@ table .vers, table .name {
 	margin-right: 8px;
 }
 
+* html #postexcerpt .dbx-toggle-open {
+	padding-right: 8px;
+}
+
 #excerpt {
 	margin: 0px;
 	height: 4em;
