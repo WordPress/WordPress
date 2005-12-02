@@ -345,8 +345,8 @@ default:
 		include('edit-form-advanced.php');
 ?>
 <div class="wrap">
-<?php _e('<h3>WordPress bookmarklet</h3>
-<p>Right click on the following link and choose "Add to favorites" to create a posting shortcut.</p>') ?>
+<?php echo '<h3>'.__('WordPress bookmarklet').'</h3>
+<p>'.__('Right click on the following link and choose "Add to favorites" to create a posting shortcut.').'</p>'; ?>
 <p>
 
 <?php

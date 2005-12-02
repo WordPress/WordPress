@@ -27,7 +27,7 @@ if ($imports_dir) {
 $importers = get_importers();
 
 if (empty ($importers)) {
-	_e("<p>No importers are available.</p>"); // TODO: make more helpful
+	echo '<p>'.__('No importers are available.').'</p>'; // TODO: make more helpful
 } else {
 ?>
 <table width="100%" cellpadding="3" cellspacing="3">

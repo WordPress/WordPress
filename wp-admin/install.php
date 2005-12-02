@@ -79,7 +79,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 // Let's check to make sure WP isn't already installed.
 $wpdb->hide_errors();
 $installed = $wpdb->get_results("SELECT * FROM $wpdb->users");
-if ($installed) die(__('<h1>Already Installed</h1><p>You appear to have already installed WordPress. To reinstall please clear your old database tables first.</p>') . '</body></html>');
+if ($installed) die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');
 $wpdb->show_errors();
 
 switch($step) {

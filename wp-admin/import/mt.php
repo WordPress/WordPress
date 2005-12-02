@@ -21,9 +21,9 @@ class MT_Import {
 	function greet() {
 		$this->header();
 ?>
-<p>Howdy! We&#8217;re about to begin the process to import all of your Movable Type entries into WordPress. To begin, select a file to upload and click Import.</p>
+<p><?php _e('Howdy! We&#8217;re about to begin the process to import all of your Movable Type entries into WordPress. To begin, select a file to upload and click Import.'); ?></p>
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
-<p>The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn't finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces. </p>
+	<p><?php _e('The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn\'t finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces.'); ?> </p>
 <?php
 		$this->footer();
 	}
@@ -178,7 +178,7 @@ class MT_Import {
 			if ('' != trim($post)) {
 				++ $i;
 				unset ($post_categories);
-				echo "<li>Processing post... ";
+				echo '<li>'.__('Processing post...');
 
 				// Take the pings out first
 				preg_match("|(-----\n\nPING:.*)|s", $post, $pings);
@@ -270,7 +270,7 @@ class MT_Import {
 
 				// Let's check to see if it's in already
 				if ($post_id = posts_exists($post_title, '', $post_date)) {
-					echo "Post already imported.";
+					_e('Post already imported.');
 				} else {
 					$post_author = checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
 
@@ -280,7 +280,7 @@ class MT_Import {
 					if (0 != count($post_categories)) {
 						wp_create_categories($post_categories);
 					}
-					echo " Post imported successfully...";
+					_e(' Post imported successfully...');
 				}
 
 				$comment_post_ID = $post_id;
@@ -362,7 +362,7 @@ class MT_Import {
 							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_type');
 							$commentdata = wp_filter_comment($commentdata);
 							wp_insert_comment($commentdata);
-							echo "Comment added.";
+							_e('Comment added.');
 						}
 					}
 				}

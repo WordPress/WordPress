@@ -38,7 +38,7 @@ switch($action) {
 case 'delete':
 
 if ( !current_user_can('edit_post', (int) $attachment) )	
-	die(printf(__('You are not allowed to delete this attachment. %sGo back</a>'), '<a href="'.basename(__FILE__)."?post=$post&amp;all=$all&amp;action=upload\">") );
+die(__('You are not allowed to delete this attachment.').' <a href="'.basename(__FILE__)."?post=$post&amp;all=$all&amp;action=upload\">".__('Go back').'</a>');
 
 wp_delete_attachment($attachment);
 
@@ -52,7 +52,7 @@ $overrides = array('action'=>'save');
 $file = wp_handle_upload($_FILES['image'], $overrides);
 
 if ( isset($file['error']) )
-	die($file['error'] . '<a href="' . basename(__FILE__) . '?action=upload&post="' . $post . '">Back to Image Uploading</a>');
+	die($file['error'] . '<a href="' . basename(__FILE__) . '?action=upload&post="' . $post . '">'.__('Back to Image Uploading').'</a>');
 
 $url = $file['url'];
 $file = $file['file'];
@@ -94,7 +94,7 @@ if ( preg_match('!^image/!', $attachment['post_mime_type']) ) {
 }
 
 header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&last=true");
-die;
+die();
 
 case 'upload':
 
@@ -161,7 +161,7 @@ if ( count($attachments) > 0 ) {
 	$__linked_to_file = __('Linked to File');
 	$__using_thumbnail = __('Using Thumbnail');
 	$__using_original = __('Using Original');
-	$__no_thumbnail = __('<del>No Thumbnail</del>');
+	$__no_thumbnail = '<del>'.__('No Thumbnail').'</del>';
 	$__close = __('Close Options');
 	$__confirmdelete = __('Delete this file from the server?');
 	$__nothumb = __('There is no thumbnail associated with this photo.');
@@ -247,7 +247,7 @@ $images_width = $uwidth_sum + ( count($images) * 6 ) + 35;
 break;
 
 default:
-die('This script was not meant to be called directly.');
+die(__('This script was not meant to be called directly.'));
 }
 
 ?>

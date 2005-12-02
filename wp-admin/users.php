@@ -117,7 +117,7 @@ case 'delete':
 		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" checked="checked" />
 		<?php _e('Delete all posts and links.'); ?></label></li>
 		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
-		<?php echo sprintf(__('<label for="delete_option1">Attribute all posts and links to:</label> %s'), $user_dropdown); ?></li>
+		<?php echo '<label for="delete_option1">'.__('Attribute all posts and links to:')."</label> $user_dropdown"; ?></li>
 	</ul>
 	<input type="hidden" name="action" value="dodelete" />
 	<p class="submit"><input type="submit" name="submit" value="<?php _e('Confirm Deletion'); ?>" /></p>
@@ -270,7 +270,7 @@ $role_select .= '</select>';
 ?>  
   <ul style="list-style:none;">
   	<li><input type="radio" name="action" id="action0" value="delete" /> <label for="action0"><?php _e('Delete checked users.'); ?></label></li>
-  	<li><input type="radio" name="action" id="action1" value="promote" /> <?php echo sprintf(__('<label for="action1">Set the Role of checked users to:</label> %s'), $role_select); ?></li>
+  	<li><input type="radio" name="action" id="action1" value="promote" /> <?php echo '<label for="action1">'.__('Set the Role of checked users to:')."</label> $role_select"; ?></li>
   </ul>
 	<p class="submit"><input type="submit" value="<?php _e('Update &raquo;'); ?>" /></p>
 </div>
@@ -278,7 +278,7 @@ $role_select .= '</select>';
 
 <div class="wrap">
 <h2><?php _e('Add New User') ?></h2>
-<?php printf(__('<p>Users can <a href="%s/wp-register.php">register themselves</a> or you can manually create users here.</p>'), get_settings('siteurl')); ?>
+<?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_settings('siteurl').'/wp-register.php').'</p>'; ?>
 <form action="" method="post" name="adduser" id="adduser">
   <table class="editform" width="100%" cellspacing="2" cellpadding="5">
     <tr>

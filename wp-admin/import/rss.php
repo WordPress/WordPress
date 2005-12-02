@@ -25,7 +25,7 @@ class RSS_Import {
 	}
 	
 	function greet() {
-		_e("<p>Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.</p>");
+		echo '<p>'.__('Howdy! This importer allows you to extract posts from any RSS 2.0 file into your blog. This is useful if you want to import your posts from a system that is not handled by a custom import tool. Pick an RSS file to upload and click Import.').'</p>';
 		wp_import_upload_form("admin.php?import=rss&amp;step=1");
 	}
 
@@ -108,17 +108,17 @@ class RSS_Import {
 			extract($post);
 
 			if ($post_id = post_exists($post_title, $post_content, $post_date)) {
-				echo __('Post already imported');
+				_e('Post already imported');
 			} else {
 				$post_id = wp_insert_post($post);
 				if (!$post_id) {
-					echo(__("Couldn't get post ID"));
+					_e("Couldn't get post ID");
 					return;
 				}
 
 				if (0 != count($categories))
 					wp_create_categories($categories, $post_id);
-				echo __('Done !');
+				_e('Done !');
 			}
 			echo '</li>';
 		}
@@ -138,8 +138,10 @@ class RSS_Import {
 		$this->get_posts();
 		$this->import_posts();
 		wp_import_cleanup($file['id']);
-
-		echo '<h3>All done. <a href="' . get_option('home') . '">Have fun!</a></h3>';
+		
+		echo '<h3>';
+		printf(__('All done. <a href="%s">Have fun!</a>'), get_option('home'));
+		echo '</h3>';
 	}
 
 	function dispatch() {
