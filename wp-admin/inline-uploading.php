@@ -171,6 +171,12 @@ linkedtopage = '$__linked_to_page';
 linkedtofile = '$__linked_to_file';
 usingthumbnail = '$__using_thumbnail';
 usingoriginal = '$__using_original';
+var aa = new Array();
+var ab = new Array();
+var imga = new Array();
+var imgb = new Array();
+var srca = new Array();
+var srcb = new Array();
 ";
 	foreach ( $attachments as $key => $attachment ) {
 		$ID = $attachment['ID'];
@@ -192,8 +198,8 @@ usingoriginal = '$__using_original';
 			$image = & $attachment;
 			if ( ($image['width'] > 128 || $image['height'] > 96) && !empty($image['thumb']) && file_exists(dirname($image['file']).'/'.$image['thumb']) ) {
 				$src = str_replace(basename($image['guid']), $image['thumb'], $image['guid']);
-				$script .= "src{$ID}a = '$src';
-src{$ID}b = '{$image['guid']}';
+				$script .= "srca[{$ID}] = '$src';
+srcb[{$ID}] = '{$image['guid']}';
 ";
 				$thumb = 'true';
 				$thumbtext = $__using_thumbnail;
@@ -207,10 +213,10 @@ src{$ID}b = '{$image['guid']}';
 			$xpadding = (128 - $image['uwidth']) / 2;
 			$ypadding = (96 - $image['uheight']) / 2;
 			$style .= "#target{$ID} img { padding: {$ypadding}px {$xpadding}px; }\n";
-			$script .= "a{$ID}a = '<a id=\"{$ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
-a{$ID}b = '<a class=\"imagelink\" href=\"{$image['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
-img{$ID}a = '<img id=\"image{$ID}\" src=\"$src\" alt=\"{$image['post_title']}\" $height_width />';
-img{$ID}b = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['post_title']}\" $height_width />';
+			$script .= "aa[{$ID}] = '<a id=\"{$ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
+ab[{$ID}] = '<a class=\"imagelink\" href=\"{$image['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
+imga[{$ID}] = '<img id=\"image{$ID}\" src=\"$src\" alt=\"{$image['post_title']}\" $height_width />';
+imgb[{$ID}] = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['post_title']}\" $height_width />';
 ";
 			$html .= "<div id='target{$ID}' class='attwrap left'>
 	<div id='popup{$ID}' class='popup'>
@@ -290,15 +296,15 @@ function toggleLink(n) {
 	ol=document.getElementById('L'+n);
 	oi=document.getElementById('I'+n);
 	if ( oi.innerHTML == usingthumbnail ) {
-		img = eval('img'+n+'a');
+		img = imga[n];
 	} else {
-		img = eval('img'+n+'b');
+		img = imgb[n];
 	}
 	if ( ol.innerHTML == notlinked ) {
-		od.innerHTML = eval('a'+n+'b')+img+'</a>';
+		od.innerHTML = ab[n]+img+'</a>';
 		ol.innerHTML = linkedtoimage;
 	} else if ( ol.innerHTML == linkedtoimage ) {
-		od.innerHTML = eval('a'+n+'a')+img+'</a>';
+		od.innerHTML = aa[n]+img+'</a>';
 		ol.innerHTML = linkedtopage;
 	} else {
 		od.innerHTML = img;
@@ -309,10 +315,10 @@ function toggleOtherLink(n) {
 	od=document.getElementById('div'+n);
 	ol=document.getElementById('L'+n);
 	if ( ol.innerHTML == linkedtofile ) {
-		od.innerHTML = eval('a'+n+'a');
+		od.innerHTML = aa[n];
 		ol.innerHTML = linkedtopage;
 	} else {
-		od.innerHTML = eval('a'+n+'b');
+		od.innerHTML = ab[n];
 		ol.innerHTML = linkedtofile;
 	}
 }
@@ -320,10 +326,10 @@ function toggleImage(n) {
 	o = document.getElementById('image'+n);
 	oi = document.getElementById('I'+n);
 	if ( oi.innerHTML == usingthumbnail ) {
-		o.src = eval('src'+n+'b');
+		o.src = srcb[n];
 		oi.innerHTML = usingoriginal;
 	} else {
-		o.src = eval('src'+n+'a');
+		o.src = srca[n];
 		oi.innerHTML = usingthumbnail;
 	}
 }
