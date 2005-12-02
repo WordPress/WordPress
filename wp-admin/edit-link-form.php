@@ -203,10 +203,10 @@ function xfn_check($class, $value = '', $type = 'check') {
          <tr>
            <th scope="row"><?php _e('Target') ?></th>
            <td><label>
-          <input type="radio" name="target" value="_blank"   <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
+          <input type="radio" name="link_target" value="_blank"   <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
           <code>_blank</code></label><br />
 <label>
-<input type="radio" name="target" value="_top" <?php echo(($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
+<input type="radio" name="link_target" value="_top" <?php echo(($link->link_target == '_top') ? 'checked="checked"' : ''); ?> />
 <code>_top</code></label><br />
 <label>
 <input type="radio" name="link_target" value=""     <?php echo(($link->link_target == '') ? 'checked="checked"' : ''); ?> />
@@ -218,7 +218,7 @@ function xfn_check($class, $value = '', $type = 'check') {
            <td><label>
              <input type="radio" name="link_visible" <?php if ($link->link_visible == 'Y') echo "checked='checked'"; ?> value="Y" />
 <?php _e('Yes') ?></label><br /><label>
-<input type="radio" name="visible" <?php if ($link->link_visible == 'N') echo "checked='checked'"; ?> value="N" />
+<input type="radio" name="link_visible" <?php if ($link->link_visible == 'N') echo "checked='checked'"; ?> value="N" />
 <?php _e('No') ?></label></td>
          </tr>
 </table>
