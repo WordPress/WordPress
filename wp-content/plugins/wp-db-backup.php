@@ -113,7 +113,14 @@ class wpdbBackup {
 		//echo "<pre>" . print_r($_POST, 1) . "</pre>";
 		echo '<h2>' . __('Backup') . '</h2>
 			<fieldset class="options"><legend>' . __('Progress') . '</legend>
-			' . __('<p><strong>DO NOT DO THE FOLLOWING AS IT WILL CAUSE YOUR BACKUP TO FAIL:</strong></p> <ol><li>Close this browser</li><li>Reload this page</li><li>Click the Stop or Back buttons in your browser</li></ol>') . '
+			<p><strong>' .
+				__('DO NOT DO THE FOLLOWING AS IT WILL CAUSE YOUR BACKUP TO FAIL:').
+			'</strong></p>
+			<ol>
+				<li>'.__('Close this browser').'</li>
+				<li>'.__('Reload this page').'</li>
+				<li>'.__('Click the Stop or Back buttons in your browser').'</li>
+			</ol>
 			<p><strong>' . __('Progress:') . '</strong></p>
 			<div id="meterbox" style="height:11px;width:80%;padding:3px;border:1px solid #659fff;"><div id="meter" style="height:11px;background-color:#659fff;width:0%;text-align:center;font-size:6pt;">&nbsp;</div></div>
 			<div id="progress_message"></div>
@@ -221,7 +228,7 @@ class wpdbBackup {
 		echo "$table:$segment:$filename";
 		
 		if($table == '') {
-			$msg = __("Creating backup file...");
+			$msg = __('Creating backup file...');
 		} else {
 			if($segment == -1) {
 				$msg = sprintf(__('Finished backing up table \\"%s\\".'), $table);
@@ -607,7 +614,7 @@ class wpdbBackup {
 		$diskfile = ABSPATH . $this->backup_dir . $filename;
 		if ('http' == $delivery) {
 			if (! file_exists($diskfile)) {
-				$msg = sprintf(__('File not found:<br /><strong>%1s</strong><br />'), $filename);
+				$msg = sprintf(__('File not found:%s'), "<br /><strong>$filename</strong><br />");
 				$this_basename = preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', __FILE__);
 				$msg .= '<br /><a href="' . get_settings('siteurl') . "/wp-admin/edit.php?page={$this_basename}" . '">' . __('Return to Backup');
 			die($msg);
@@ -687,13 +694,13 @@ class wpdbBackup {
 				break;
 			case 'none':
 				$feedback .= '<br />' . __('Your backup file has been saved on the server. If you would like to download it now, right click and select "Save As"');
-				$feedback .= ':<br /> <a href="' . get_settings('siteurl') . "/{$this->backup_dir}$file\">$file</a> : " . filesize(ABSPATH . $this->backup_dir . $file) . __(' bytes');
+				$feedback .= ':<br /> <a href="' . get_settings('siteurl') . "/{$this->backup_dir}$file\">$file</a> : " . sprintf(__('%s bytes'), filesize(ABSPATH . $this->backup_dir . $file));
 			}
 			$feedback .= '</p></div>';
 		}
 		
 		if (count($this->backup_errors)) {
-			$feedback .= '<div class="updated error">' . __('The following errors were reported') . ":<pre>";
+			$feedback .= '<div class="updated error">' . __('The following errors were reported:') . "<pre>";
 			foreach($this->backup_errors as $error) {
 				$feedback .= "{$error}\n";  //Errors are already localized
 			}
@@ -756,24 +763,24 @@ class wpdbBackup {
 		echo '<fieldset class="options"><legend>' . __('Tables') . '</legend>';
 		echo '<form method="post">';
 		echo '<table align="center" cellspacing="5" cellpadding="5"><tr><td width="50%" align="left" class="alternate" valign="top">';
-		echo __('These core WordPress tables will always be backed up') . ': <br /><ul>';
+		echo __('These core WordPress tables will always be backed up:') . '<br /><ul>';
 		foreach ($wp_backup_default_tables as $table) {
 			echo "<li><input type='hidden' name='core_tables[]' value='$table' />$table</li>";
 		}
 		echo '</ul></td><td width="50%" align="left" valign="top">';
 		if (count($other_tables) > 0) {
-			echo __('You may choose to include any of the following tables') . ': <br />';
+			echo __('You may choose to include any of the following tables:') . ' <br />';
 			foreach ($other_tables as $table) {
 				echo "<label style=\"display:block;\"><input type='checkbox' name='other_tables[]' value='{$table}' /> {$table}</label>";
 			}
 		}
 		echo '</tr></table></fieldset>';
 		echo '<fieldset class="options"><legend>' . __('Backup Options') . '</legend>';
-		echo __('What to do with the backup file') . ":<br />";
+		echo __('What to do with the backup file:') . "<br />";
 		echo '<label style="display:block;"><input type="radio" name="deliver" value="none" /> ' . __('Save to server') . " ({$this->backup_dir})</label>";
 		echo '<label style="display:block;"><input type="radio" checked="checked" name="deliver" value="http" /> ' . __('Download to your computer') . '</label>';
 		echo '<div><input type="radio" name="deliver" id="do_email" value="smtp" /> ';
-		echo sprintf(__('<label for="do_email">Email backup to:</label> %s'), '<input type="text" name="backup_recipient" size="20" value="' . get_settings('admin_email') . '" />');
+		echo '<label for="do_email">'.__('Email backup to:').'</label><input type="text" name="backup_recipient" size="20" value="' . get_settings('admin_email') . '" />');
 		
 		// Check DB dize.
 		$table_status = $wpdb->get_results("SHOW TABLE STATUS FROM " . $this->backquote(DB_NAME));
@@ -822,14 +829,14 @@ class wpdbBackup {
 			if (! is_email($cron_recipient)) {
 				$cron_recipient = get_settings('admin_email');
 			}
-			echo __('Email backup to') . ': <input type="text" name="cron_backup_recipient" size="20" value="' . $cron_recipient . '" />';
+			echo __('Email backup to:') . ' <input type="text" name="cron_backup_recipient" size="20" value="' . $cron_recipient . '" />';
 			echo '</td></tr>';
 			$cron_tables = get_option('wp_cron_backup_tables');
 			if (! is_array($cron_tables)) {
 				$cron_tables = array();
 			}
 			if (count($other_tables) > 0) {
-				echo '<tr><td colspan="2" align="left">' . __('Tables to include') . ':<br />';
+				echo '<tr><td colspan="2" align="left">' . __('Tables to include:') . '<br />';
 				foreach ($other_tables as $table) {
 					echo '<input type="checkbox" ';
 					if (in_array($table, $cron_tables)) {
