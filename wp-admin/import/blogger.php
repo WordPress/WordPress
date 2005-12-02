@@ -341,7 +341,7 @@ class Blogger_Import {
 				$form = "<div style='height:0px;width:0px;overflow:hidden;'>";
 				$form.= $body;
 				$form.= "</div><script type='text/javascript'>forms=document.getElementsByTagName('form');for(i=0;i<forms.length;i++){if(forms[i].action.search('{$blog_opt}')){forms[i].submit();break;}}</script>";
-				$output.= "<p><strong>$blog_opt</strong> in progress, please wait...</p>\n";
+				$output.= '<p>'.sprintf('<strong>%s</strong> in progress, please wait...', $blog_opt)."</p>\n";
 			} else {
 				$output.= "<p>$blog_opt</p>\n";
 			}
