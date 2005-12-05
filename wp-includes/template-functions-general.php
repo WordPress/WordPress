@@ -195,11 +195,18 @@ function wp_title($sep = '&raquo;', $display = true) {
 		$title = apply_filters('single_post_title', $title);
 	}
 
+	$prefix = '';
+	if ( isset($title) )
+		$prefix = " $sep ";
+
+	$title = $prefix . $title;
+	$title = apply_filters('wp_title', $title, $sep);
+
 	// Send it out
-	if ( $display && isset($title) )
-		echo " $sep $title";
-	elseif ( !$display && isset($title) )
-		return " $sep $title";
+	if ( $display )
+		echo $title;
+	else
+		return $title;
 }
 
 
