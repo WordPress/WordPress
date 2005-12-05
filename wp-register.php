@@ -109,7 +109,7 @@ default:
 	<p><input type="hidden" name="action" value="register" />
 	<label for="user_login"><?php _e('Username:') ?></label><br /> <input type="text" name="user_login" id="user_login" size="20" maxlength="20" value="<?php echo $user_login; ?>" /><br /></p>
 	<p><label for="user_email"><?php _e('E-mail:') ?></label><br /> <input type="text" name="user_email" id="user_email" size="25" maxlength="100" value="<?php echo $user_email; ?>" /></p>
-	<p>A password will be emailed to you.</p>
+	<p><?php _e('A password will be emailed to you.') ?></p>
 	<p class="submit"><input type="submit" value="<?php _e('Register') ?> &raquo;" id="submit" name="submit" /></p>
 </form>
 <ul>
