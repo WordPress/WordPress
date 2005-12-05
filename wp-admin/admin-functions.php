@@ -1588,50 +1588,6 @@ function current_theme_info() {
 	return $ct;
 }
 
-// Returns an array containing the current upload directory's path and url, or an error message.
-function wp_upload_dir() {
-        if ( defined('UPLOADS') )
-                $dir = UPLOADS;
-        else
-                $dir = 'wp-content/uploads';
-
-	$path = ABSPATH . $dir;
-	
-	// Give the new dirs the same perms as wp-content.
-	$stat = stat(ABSPATH . 'wp-content');
-	$dir_perms = $stat['mode'] & 0000777;  // Get the permission bits.
-
-        // Make sure we have an uploads dir
-        if ( ! file_exists( $path ) ) {
-                if ( ! mkdir( $path ) )
-                        return array('error' => "Unable to create directory $path. Is its parent directory writable by the server?");
-		@ chmod( $path, $dir_perms );
-	}
-
-        // Generate the yearly and monthly dirs
-        $time = current_time( 'mysql' );
-        $y = substr( $time, 0, 4 );
-        $m = substr( $time, 5, 2 );
-        $pathy = "$path/$y";
-        $pathym = "$path/$y/$m";
-
-        // Make sure we have a yearly dir
-        if ( ! file_exists( $pathy ) ) {
-                if ( ! mkdir( $pathy ) )
-                        return array('error' => "Unable to create directory $pathy. Is $path writable?");
-		@ chmod( $pathy, $dir_perms );
-	}
-
-        // Make sure we have a monthly dir
-        if ( ! file_exists( $pathym ) ) {
-                if ( ! mkdir( $pathym ) )
-                        return array('error' => "Unable to create directory $pathym. Is $pathy writable?");
-		@ chmod( $pathym, $dir_perms );
-	}
-
-    $uploads = array('path' => $pathym, 'url' => get_option('siteurl') . "/$dir/$y/$m", 'error' => false);
-	return apply_filters('upload_dir', $uploads);
-}
 
 // array wp_handle_upload ( array &file [, array overrides] )
 // file: reference to a single element of $_FILES. Call the function once for each uploaded file.
