@@ -266,7 +266,7 @@ function wp_save_callback(el, content, body) {
 	content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '\n');
 
 	// Fix some block element newline issues
-	var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\d|pre';
+	var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\\d|pre';
 	content = content.replace(new RegExp('\\s*<(('+blocklist+') ?[^>]*)\\s*>', 'mg'), '\n<$1>');
 	content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
 	content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
