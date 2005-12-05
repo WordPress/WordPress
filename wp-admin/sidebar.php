@@ -66,8 +66,9 @@ Post:
 </p>
 <p>
     <input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="Save as Draft" /> 
+<?php if ( current_user_can('publish_posts') ) : ?>
     <input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="Publish" /> 
-  
+<?php endif; ?>
 </p>
 </div>
 </form>
