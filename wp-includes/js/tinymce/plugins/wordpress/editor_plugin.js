@@ -200,15 +200,28 @@ function TinyMCE_wordpress_cleanup(type, content) {
 
 			// If it says & in the WYSIWYG editor, it should say &amp; in the html.
 			content = content.replace(new RegExp('&', 'g'), '&amp;');
+			content = content.replace(new RegExp('&amp;nbsp;', 'g'), '&nbsp;');
+
+			// Remove anonymous, empty paragraphs.
+			content = content.replace(new RegExp('<p>(\\s|&nbsp;)*</p>', 'mg'), '');
+
+			// Handle table badness.
+			content = content.replace(new RegExp('<(table( [^>]*)?)>.*?<((tr|thead)( [^>]*)?)>', 'mg'), '<$1><$3>');
+			content = content.replace(new RegExp('<(tr|thead|tfoot)>.*?<((td|th)( [^>]*)?)>', 'mg'), '<$1><$2>');
+			content = content.replace(new RegExp('</(td|th)>.*?<(td( [^>]*)?|th( [^>]*)?|/tr|/thead|/tfoot)>', 'mg'), '</$1><$2>');
+			content = content.replace(new RegExp('</tr>.*?<(tr|/table)>', 'mg'), '</tr><$1>');
+			content = content.replace(new RegExp('<(/?(table|tbody|tr|th|td)[^>]*)>(\\s*|(<br ?/?>)*)*', 'g'), '<$1>');
 
 			// Pretty it up for the source editor.
-			var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\d|pre|p';
+			var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\\d|pre|p';
 			content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
 			content = content.replace(new RegExp('\\s*<(('+blocklist+')[^>]*)>\\s*', 'mg'), '\n<$1>');
-			content = content.replace(new RegExp('<li>', 'g'), '\t<li>');
+			content = content.replace(new RegExp('<((li|/?tr|/?thead|/?tfoot)( [^>]*)?)>', 'g'), '\t<$1>');
+			content = content.replace(new RegExp('<((td|th)( [^>]*)?)>', 'g'), '\t\t<$1>');
 			content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'mg'), '<br />\n');
 			content = content.replace(new RegExp('^\\s*', ''), '');
 			content = content.replace(new RegExp('\\s*$', ''), '');
+			
 			break;
 	}
 

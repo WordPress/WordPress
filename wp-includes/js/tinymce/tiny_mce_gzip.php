@@ -37,6 +37,34 @@
 		}
 	}
 
+	function wp_compact_tinymce_js($text) {
+		// This function was custom-made for TinyMCE 2.0, not expected to work with any other JS.
+
+		echo "\n//" . strlen(gzdeflate($text)) . " bytes gzdeflated\n";
+		echo "//" . microtime() . " " . strlen($text) . " Micro Time Length\n";
+
+		// Strip comments
+		$text = preg_replace("!(^|\s+)//.*$!m", '', $text);
+		echo "//" . microtime() . " " . strlen($text) . " Stripped // comments\n";
+		$text = preg_replace("!/\*.*?\*/!s", '', $text);
+		echo "//" . microtime() . " " . strlen($text) . " Stripped /* */ comments\n";
+
+		// Strip leading tabs, carriage returns and unnecessary line breaks.
+		$text = preg_replace("!^\t+!m", '', $text);
+		echo "//" . microtime() . " " . strlen($text) . " Stripped leading tabs\n";
+		$text = str_replace("\r", '', $text);
+		echo "//" . microtime() . " " . strlen($text) . " Stripped returns\n";
+		$text = preg_replace("!(^|{|}|;|:|\))\n!m", '\\1', $text);
+		echo "//" . microtime() . " " . strlen($text) . " Stripped safe linebreaks\n";
+
+		// Strip spaces. This one is not generally economical.
+		//$text = preg_replace("!\s*(\=|\=\=|\!\=|\<\=|\>\=|\+=|\+|\s|:|,)\s*!", '\\1', $text);
+		//echo "//" . microtime() . " " . strlen($text) . " Stripped safe spaces\n";
+
+		echo "//" . strlen(gzdeflate($text)) . " bytes gzdeflated\n";
+		return $text;
+	}
+
 	// General options
 	$suffix = "";							// Set to "_src" to use source version
 	$expiresOffset = 3600 * 24 * 10;		// 10 days util client cache expires
@@ -51,7 +79,7 @@
 	// Only gzip the contents if clients and server support it
 	$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
 	if (in_array('gzip', $encodings) && function_exists('ob_gzhandler'))
-		ob_start("ob_gzhandler");
+		@ ob_start("ob_gzhandler"); // Don't let warnings foul up the JS
 
 	// Output rest of headers
 	header("Content-type: text/javascript; charset: UTF-8");
@@ -62,7 +90,9 @@
 	if ($index > -1) {
 		// Write main script and patch some things
 		if ($index == 0) {
-			echo file_get_contents(realpath("tiny_mce" . $suffix . ".js"));
+// WP			echo file_get_contents(realpath("tiny_mce" . $suffix . ".js"));
+			$tinymce = file_get_contents(realpath("tiny_mce.js"));
+			echo wp_compact_tinymce_js($tinymce);
 			echo "\n\n";
 			echo "TinyMCE.prototype.loadScript = function() {};\n";
 		}

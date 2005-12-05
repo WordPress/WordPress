@@ -99,7 +99,7 @@ tinyMCE.init({
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_path_location : "bottom",
 	theme_advanced_resizing : true,
-	browsers : "msie,gecko",
+	browsers : "msie,gecko,opera",
 	dialog_type : "modal",
 	theme_advanced_resize_horizontal : false,
 	entity_encoding : "raw",
@@ -110,7 +110,7 @@ tinyMCE.init({
 	convert_newlines_to_brs : false,
 	remove_linebreaks : true,
 	save_callback : "wp_save_callback",
-	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align|dir],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote[dir],-table[border=0|cellspacing|cellpadding|width|height|class|align|dir],tr[class|rowspan|width|height|align|valign|dir],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align|dir],-h2[class|align|dir],-h3[class|align|dir],-h4[class|align|dir],-h5[class|align|dir],-h6[class|align|dir],hr",
+	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align|dir],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote[dir],-table[border=0|cellspacing|cellpadding|width|height|class|align|dir],thead[class|rowspan|width|height|align|valign|dir],tr[class|rowspan|width|height|align|valign|dir],th[dir|class|colspan|rowspan|width|height|align|valign|scope],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align|dir],-h2[class|align|dir],-h3[class|align|dir],-h4[class|align|dir],-h5[class|align|dir],-h6[class|align|dir],hr",
 	plugins : "<?php echo $mce_plugins; ?>"
 	<?php do_action('mce_options'); ?>
 });
