@@ -87,7 +87,7 @@ if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permi
 // print_r($profileuser);
 echo '<select name="role">';
 foreach($wp_roles->role_names as $role => $name) {
-	$selected = ($profileuser->roles[0] == $role) ? ' selected="selected"' : '';
+	$selected = ($profileuser->has_cap($role)) ? ' selected="selected"' : '';
 	echo "<option value=\"{$role}\"{$selected}>{$name}</option>";
 }
 echo '</select>';
