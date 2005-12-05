@@ -40,6 +40,9 @@ function write_post() {
 	if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
 		$_POST['post_status'] = 'draft';
 
+	if ('static' == $_POST['post_status'] && !current_user_can('edit_pages'))
+		die(__('This user cannot edit pages.'));
+
 	if (!empty ($_POST['edit_date'])) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
@@ -157,6 +160,9 @@ function edit_post() {
 
 	if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
 		$_POST['post_status'] = 'draft';
+
+	if ('static' == $_POST['post_status'] && !current_user_can('edit_pages'))
+		die(__('This user cannot edit pages.'));
 
 	if (!isset ($_POST['comment_status']))
 		$_POST['comment_status'] = 'closed';

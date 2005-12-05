@@ -249,10 +249,17 @@ function map_meta_cap($cap, $user_id) {
 			// If the post is published...
 			if ($post->post_status == 'publish')
 				$caps[] = 'edit_published_posts';
+			else if ($post->post_status == 'static')
+				$caps[] = 'edit_pages';
 			else
 				// If the post is draft...
 				$caps[] = 'edit_posts';
 		} else {
+			if ($post->post_status == 'static') {
+				$caps[] = 'edit_pages';
+				break;
+			}
+
 			// The user is trying to edit someone else's post.
 			$caps[] = 'edit_others_posts';
 			// The post is published, extra cap required.
