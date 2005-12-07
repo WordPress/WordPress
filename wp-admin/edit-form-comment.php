@@ -46,7 +46,7 @@ addLoadEvent(focusit);
      $rows = 10;
  }
 ?>
-<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $comment->comment_content ?></textarea></div>
+<div><textarea <?php if ( $richedit ) echo 'title="true"'; ?> rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $richedit ? wp_richedit_pre($comment->comment_content) : $comment->comment_content; ?></textarea></div>
 </fieldset>
 
 <?php if ( !$richedit ) : ?>
