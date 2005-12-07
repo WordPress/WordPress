@@ -5307,7 +5307,7 @@ TinyMCEControl.prototype.execCommand = function(command, user_interface, value) 
 
 			// Call custom cleanup code
 			value = tinyMCE.storeAwayURLs(value);
-			value = tinyMCE._customCleanup(this, "insert_to_editor", value);
+			//value = tinyMCE._customCleanup(this, "insert_to_editor", value);
 			tinyMCE._setHTML(doc, value);
 			tinyMCE.setInnerHTML(doc.body, tinyMCE._cleanupHTML(this, doc, tinyMCE.settings, doc.body));
 			this.convertAllRelativeURLs();

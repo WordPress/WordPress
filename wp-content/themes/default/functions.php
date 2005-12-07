@@ -26,14 +26,14 @@ function kubrick_header_image() {
 
 function kubrick_upper_color() {
 	if ( strstr( kubrick_header_image_url(), 'header-img.php?' ) )
-		return substr( kubrick_header_image(), 24, 6 );
+		return substr( kubrick_header_image(), 21, 6 );
 	else
 		return '69aee7';
 }
 
 function kubrick_lower_color() {
 	if ( strstr( kubrick_header_image_url(), 'header-img.php?' ) )
-		return substr( kubrick_header_image(), 37, 6 );
+		return substr( kubrick_header_image(), 34, 6 );
 	else
 		return '4180b6';
 }

@@ -492,9 +492,10 @@ function balanceTags($text, $is_comment = 0) {
 }
 
 
-function format_to_edit($content) {
+function format_to_edit($content, $richedit = false) {
 	$content = apply_filters('format_to_edit', $content);
-	$content = htmlspecialchars($content);
+	if (! $richedit )
+		$content = htmlspecialchars($content);
 	return $content;
 }
 
@@ -997,7 +998,6 @@ function wp_richedit_pre($text) {
 	if ( empty($text) ) return '<p> </p>';
 
 	$output = $text;
-	$output = html_entity_decode($output); // undoes format_to_edit()
 	$output = convert_chars($output);
 	$output = wpautop($output);
 

@@ -476,7 +476,7 @@ class Blogger_Import {
 						else if (($comment_date[2] == 'AM') && ($commenthour == '12'))
 							$commenthour = '00';
 						$comment_date = "$commentyear-$commentmonth-$commentday $commenthour:$commentminute:$commentsecond";
-						$comment_author = addslashes(strip_tags(html_entity_decode($commentinfo[1])));
+						$comment_author = addslashes(strip_tags($commentinfo[1]));
 						if ( strpos($commentinfo[1], 'a href') ) {
 							$comment_author_parts = explode('&quot;', htmlentities($commentinfo[1]));
 							$comment_author_url = $comment_author_parts[1];

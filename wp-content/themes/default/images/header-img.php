@@ -12,7 +12,7 @@ $vars = array('upper'=>array(0=>'r1', 2=>'g1', 4=>'b1'), 'lower'=>array(0=>'r2',
 foreach ( $vars as $var => $subvars ) {
 	if ( isset($_GET[$var]) ) {
 		foreach ( $subvars as $index => $subvar ) {
-			$$subvar = hexdec( substr( html_entity_decode($_GET[$var]), $index, 2) );
+			$$subvar = hexdec( substr($_GET[$var], $index, 2) );
 			if ( $$subvar < 0 || $$subvar > 255 )
 				$default = true;
 		}
