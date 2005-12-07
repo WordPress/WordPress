@@ -40,28 +40,15 @@
 	function wp_compact_tinymce_js($text) {
 		// This function was custom-made for TinyMCE 2.0, not expected to work with any other JS.
 
-		echo "\n//" . strlen(gzdeflate($text)) . " bytes gzdeflated\n";
-		echo "//" . microtime() . " " . strlen($text) . " Micro Time Length\n";
-
 		// Strip comments
 		$text = preg_replace("!(^|\s+)//.*$!m", '', $text);
-		echo "//" . microtime() . " " . strlen($text) . " Stripped // comments\n";
 		$text = preg_replace("!/\*.*?\*/!s", '', $text);
-		echo "//" . microtime() . " " . strlen($text) . " Stripped /* */ comments\n";
 
 		// Strip leading tabs, carriage returns and unnecessary line breaks.
 		$text = preg_replace("!^\t+!m", '', $text);
-		echo "//" . microtime() . " " . strlen($text) . " Stripped leading tabs\n";
 		$text = str_replace("\r", '', $text);
-		echo "//" . microtime() . " " . strlen($text) . " Stripped returns\n";
 		$text = preg_replace("!(^|{|}|;|:|\))\n!m", '\\1', $text);
-		echo "//" . microtime() . " " . strlen($text) . " Stripped safe linebreaks\n";
 
-		// Strip spaces. This one is not generally economical.
-		//$text = preg_replace("!\s*(\=|\=\=|\!\=|\<\=|\>\=|\+=|\+|\s|:|,)\s*!", '\\1', $text);
-		//echo "//" . microtime() . " " . strlen($text) . " Stripped safe spaces\n";
-
-		echo "//" . strlen(gzdeflate($text)) . " bytes gzdeflated\n";
 		return $text;
 	}
 
