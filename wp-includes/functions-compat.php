@@ -118,7 +118,6 @@ function glob($pattern) {
 			$output[]=$path . '/' . $dir;
 	}
 	closedir($handle);
-	print_r($output);
 	if(is_array($output))
 		return $output;
 
