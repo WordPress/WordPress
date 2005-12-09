@@ -555,9 +555,17 @@ table .vers, table .name {
 	margin-right: 190px;
 }
 
+* html #template div {
+	margin-right: 0px;
+}
+
+#template, #template div, #editcat, #addcat {
+	zoom: 1;
+}
+
 #template textarea {
 	font: small 'Courier New', Courier, monospace;
-	width: 99%;
+	width: 97%;
 }
 
 #templateside {
