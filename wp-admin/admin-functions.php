@@ -1077,13 +1077,39 @@ function save_mod_rewrite_rules() {
 function the_quicktags() {
 	// Browser detection sucks, but until Safari supports the JS needed for this to work people just assume it's a bug in WP
 	if (!strstr($_SERVER['HTTP_USER_AGENT'], 'Safari'))
-		: echo '
-			<div id="quicktags">
+		echo '
+		<div id="quicktags">
 			<script src="../wp-includes/js/quicktags.js" type="text/javascript"></script>
-			<script type="text/javascript">edToolbar();</script>
-		';
-	echo '</div>';
-	endif;
+			<script type="text/javascript">if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) edToolbar();</script>
+		</div>
+';
+	else echo '
+<script type="text/javascript">
+function edInsertContent(myField, myValue) {
+	//IE support
+	if (document.selection) {
+		myField.focus();
+		sel = document.selection.createRange();
+		sel.text = myValue;
+		myField.focus();
+	}
+	//MOZILLA/NETSCAPE support
+	else if (myField.selectionStart || myField.selectionStart == "0") {
+		var startPos = myField.selectionStart;
+		var endPos = myField.selectionEnd;
+		myField.value = myField.value.substring(0, startPos)
+		              + myValue 
+                      + myField.value.substring(endPos, myField.value.length);
+		myField.focus();
+		myField.selectionStart = startPos + myValue.length;
+		myField.selectionEnd = startPos + myValue.length;
+	} else {
+		myField.value += myValue;
+		myField.focus();
+	}
+}
+</script>
+';
 }
 
 function validate_current_theme() {
@@ -1799,6 +1825,16 @@ function wp_import_handle_upload() {
 	$id = wp_insert_attachment($object, $file);
 
 	return array('file' => $file, 'id' => $id);
+}
+
+function user_can_richedit() {
+	if ( 'true' != get_user_option('rich_editing') )
+		return false;
+
+	if ( preg_match('!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT']) )
+		return false;
+
+	return true; // Best guess
 }
 
 ?>

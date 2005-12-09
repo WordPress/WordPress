@@ -5526,7 +5526,7 @@ TinyMCEControl.prototype.execCommand = function(command, user_interface, value) 
 		case "mceInsertContent":
 			var insertHTMLFailed = false;
 			this.getWin().focus();
-
+/* WP
 			if (tinyMCE.isGecko || tinyMCE.isOpera) {
 				try {
 					// Is plain text or HTML
@@ -5560,7 +5560,7 @@ TinyMCEControl.prototype.execCommand = function(command, user_interface, value) 
 					return;
 				}
 			}
-
+*/
 			// Ugly hack in Opera due to non working "inserthtml"
 			if (tinyMCE.isOpera && insertHTMLFailed) {
 				this.getDoc().execCommand("insertimage", false, tinyMCE.uniqueURL);

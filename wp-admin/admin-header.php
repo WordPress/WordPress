@@ -79,11 +79,13 @@ addLoadEvent(blurry);
 <script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
 <script type="text/javascript" src="list-manipulation.js"></script>
 <?php if ( isset( $editing ) ) : ?>
-<?php if ( $editing && 'true' == get_user_option('rich_editing') ) :
+<?php if ( $editing && user_can_richedit() ) :
 $mce_plugins = apply_filters('mce_plugins', array('wordpress', 'autosave', 'wphelp'));
 $mce_plugins = implode($mce_plugins, ',');
 $mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright' ,'separator', 'link', 'unlink', 'image', 'emotions', 'wordpress', 'separator', 'undo', 'redo', 'code', 'wphelp'));
 $mce_buttons = implode($mce_buttons, ',');
+$mce_buttons_2 = apply_filters('mce_buttons_2', array());
+$mce_buttons_2 = implode($mce_buttons_2, ',');
 ?>
 <script language="javascript" type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?index=0&theme=advanced&plugins=<?php echo $mce_plugins; ?>"></script>
 <script type="text/javascript">
@@ -93,7 +95,7 @@ tinyMCE.init({
 	width : "100%",
 	theme : "advanced",
 	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",
-	theme_advanced_buttons2 : "",
+	theme_advanced_buttons2 : "<?php echo $mce_buttons_2; ?>",
 	theme_advanced_buttons3 : "",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
@@ -110,7 +112,9 @@ tinyMCE.init({
 	convert_newlines_to_brs : false,
 	remove_linebreaks : true,
 	save_callback : "wp_save_callback",
-	valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align|dir],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote[dir],-table[border=0|cellspacing|cellpadding|width|height|class|align|dir],thead[class|rowspan|width|height|align|valign|dir],tr[class|rowspan|width|height|align|valign|dir],th[dir|class|colspan|rowspan|width|height|align|valign|scope],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align|dir],-h2[class|align|dir],-h3[class|align|dir],-h4[class|align|dir],-h5[class|align|dir],-h6[class|align|dir],hr",
+<?php if (current_user_can('unfiltered_html') == false) : ?>
+valid_elements : "-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align|dir],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote[dir],-table[border=0|cellspacing|cellpadding|width|height|class|align|dir],thead[class|rowspan|width|height|align|valign|dir],tr[class|rowspan|width|height|align|valign|dir],th[dir|class|colspan|rowspan|width|height|align|valign|scope],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align|dir],-h2[class|align|dir],-h3[class|align|dir],-h4[class|align|dir],-h5[class|align|dir],-h6[class|align|dir],hr",
+<?php endif; ?>
 	plugins : "<?php echo $mce_plugins; ?>"
 	<?php do_action('mce_options'); ?>
 });
@@ -151,6 +155,7 @@ var ajaxCat = new sack();
 var newcat;
  
 function newCatAddIn() {
+	if ( !document.getElementById('jaxcat') ) return false;
 	var ajaxcat = document.createElement('p');
 	ajaxcat.id = 'ajaxcat';
 

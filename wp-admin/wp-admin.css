@@ -1,7 +1,9 @@
 * html #poststuff {
 	height: 100%; /* kill peekaboo bug in IE */
 }
-
+body {
+	border: none;
+}
 a {
 	border-bottom: 1px solid #69c;
 	color: #00019b;

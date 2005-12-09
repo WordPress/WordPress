@@ -7,8 +7,6 @@ $messages[3] = __('Custom field deleted.');
 <div id="message" class="updated fade"><p><?php echo $messages[$_GET['message']]; ?></p></div>
 <?php endif; ?>
 
-<?php $richedit = ( 'true' != get_user_option('rich_editing') ) ? false : true; ?>
-
 <form name="post" action="post.php" method="post" id="post">
 <?php if ( (isset($mode) && 'bookmarklet' == $mode) || 
             isset($_GET['popupurl']) ): ?>
@@ -139,7 +137,7 @@ endforeach;
   <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $post->post_title; ?>" id="title" /></div>
 </fieldset>
 
-<fieldset id="<?php echo $richedit ? 'postdivrich' : 'postdiv'; ?>">
+<fieldset id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>">
 <legend><?php _e('Post') ?></legend>
 
 <?php
@@ -148,20 +146,15 @@ endforeach;
      $rows = 12;
  }
 ?>
-<?php if ( !$richedit ) the_quicktags(); ?>
+<?php the_quicktags(); ?>
 
-<div><textarea <?php if ( $richedit ) echo 'title="true"'; ?> rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo $richedit ? wp_richedit_pre($post->post_content) : $post->post_content; ?></textarea></div>
+<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo user_can_richedit() ? wp_richedit_pre($post->post_content) : $post->post_content; ?></textarea></div>
 </fieldset>
 
-<?php if ( !$richedit ) : ?>
 <script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
-//-->
-</script>
-<?php else : ?>
-<script type="text/javascript">
-<!--
+<?php if ( user_can_richedit() ) : ?>
 // This code is meant to allow tabbing from Title to Post (TinyMCE).
 if ( tinyMCE.isMSIE )
 	document.getElementById('title').onkeydown = function (e)
@@ -193,10 +186,9 @@ else
 				return false;
 			}
 		}
-
+<?php endif; ?>
 //-->
 </script>
-<?php endif; ?>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>

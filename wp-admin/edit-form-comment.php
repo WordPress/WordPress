@@ -4,7 +4,6 @@ $toprow_title = sprintf(__('Editing Comment # %s'), $comment->comment_ID);
 $form_action = 'editedcomment';
 $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment->comment_ID . "' />\n<input type='hidden' name='comment_post_ID' value='".$comment->comment_post_ID;
 ?>
-<?php $richedit = ( 'true' != get_user_option('rich_editing') ) ? false : true; ?>
 
 <form name="post" action="post.php" method="post" id="post">
 <div class="wrap">
@@ -32,13 +31,13 @@ addLoadEvent(focusit);
 <fieldset id="uridiv">
         <legend><?php _e('URI:') ?></legend>
 		<div>
-		  <input type="text" name="newcomment_author_url" size="35" value="<?php echo $comment->comment_author_url ?>" tabindex="3" id="URL" />
+		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo $comment->comment_author_url ?>" tabindex="3" id="URL" />
     </div>
 </fieldset>
 
 <fieldset style="clear: both;">
         <legend><?php _e('Comment') ?></legend>
-<?php if ( !$richedit ) the_quicktags(); ?>
+<?php the_quicktags(); ?>
 
 <?php
  $rows = get_settings('default_post_edit_rows');
@@ -46,16 +45,47 @@ addLoadEvent(focusit);
      $rows = 10;
  }
 ?>
-<div><textarea <?php if ( $richedit ) echo 'title="true"'; ?> rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo $richedit ? wp_richedit_pre($comment->comment_content) : $comment->comment_content; ?></textarea></div>
+<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo user_can_richedit() ? wp_richedit_pre($comment->comment_content) : $comment->comment_content; ?></textarea></div>
 </fieldset>
 
-<?php if ( !$richedit ) : ?>
 <script type="text/javascript">
 <!--
 edCanvas = document.getElementById('content');
+<?php if ( user_can_richedit() ) : ?>
+// This code is meant to allow tabbing from Author URL to Post (TinyMCE).
+if ( tinyMCE.isMSIE )
+	document.getElementById('newcomment_author_url').onkeydown = function (e)
+		{
+			e = e ? e : window.event;
+			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				var i = tinyMCE.selectedInstance;
+				if(typeof i ==  'undefined')
+					return true;
+                                tinyMCE.execCommand("mceStartTyping");
+				this.blur();
+				i.contentWindow.focus();
+				e.returnValue = false;
+				return false;
+			}
+		}
+else
+	document.getElementById('newcomment_author_url').onkeypress = function (e)
+		{
+			e = e ? e : window.event;
+			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+				var i = tinyMCE.selectedInstance;
+				if(typeof i ==  'undefined')
+					return true;
+                                tinyMCE.execCommand("mceStartTyping");
+				this.blur();
+				i.contentWindow.focus();
+				e.returnValue = false;
+				return false;
+			}
+		}
+<?php endif; ?>
 //-->
 </script>
-<?php endif; ?>
 
 <p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
