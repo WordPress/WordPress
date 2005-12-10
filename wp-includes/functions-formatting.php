@@ -995,7 +995,7 @@ function ent2ncr($text) {
 
 function wp_richedit_pre($text) {
 	// Filtering a blank results in an annoying <br />\n
-	if ( empty($text) ) return '<p> </p>';
+	if ( empty($text) ) return apply_filters('richedit_pre', '');
 
 	$output = $text;
 	$output = convert_chars($output);
@@ -1005,7 +1005,7 @@ function wp_richedit_pre($text) {
 	$output = str_replace('&lt;', '&amp;lt;', $output);
 	$output = str_replace('&gt;', '&amp;gt;', $output);
 
-	return $output;
+	return apply_filters('richedit_pre', $output);
 }
 
 ?>
