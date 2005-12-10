@@ -84,7 +84,10 @@ function wp_insert_post($postarr = array()) {
 		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
 	else
 		$to_ping = '';
-	
+
+	if ( ! isset($pinged) )
+		$pinged = '';
+
 	if ( isset($post_parent) )
 		$post_parent = (int) $post_parent;
 	else
@@ -123,6 +126,7 @@ function wp_insert_post($postarr = array()) {
 			post_date = '$post_date',
 			post_date_gmt = '$post_date_gmt',
 			post_content = '$post_content',
+			post_content_filtered = '$post_content_filtered',
 			post_title = '$post_title',
 			post_excerpt = '$post_excerpt',
 			post_status = '$post_status',
@@ -131,6 +135,7 @@ function wp_insert_post($postarr = array()) {
 			post_password = '$post_password',
 			post_name = '$post_name',
 			to_ping = '$to_ping',
+			pinged = '$pinged',
 			post_modified = '$post_date',
 			post_modified_gmt = '$post_date_gmt',
 			post_parent = '$post_parent',
@@ -139,9 +144,9 @@ function wp_insert_post($postarr = array()) {
 	} else {
 		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
+			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
 			$post_ID = $wpdb->insert_id;			
 	}
 
