@@ -1519,7 +1519,7 @@ function is_trackback () {
 function is_admin () {
 	global $wp_query;
 
-	return $wp_query->is_admin;
+	return ( $wp_query->is_admin || strstr($_SERVER['REQUEST_URI'], 'wp-admin/') );
 }
 
 function is_home () {
