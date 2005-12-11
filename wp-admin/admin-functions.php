@@ -95,7 +95,6 @@ function fix_attachment_links($post_ID) {
 	$i = 0;
 	$search = "# id=(\"|)(\d+)\\1#i";
 	foreach ( $anchor_matches[0] as $anchor ) {
-		echo "$search\n$anchor\n";
 		if ( 0 == preg_match($search, $anchor, $id_matches) )
 			continue;
 
