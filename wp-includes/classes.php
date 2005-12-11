@@ -734,11 +734,10 @@ class WP_Query {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = $this->post->ID;
 		} else if ($this->is_author) {
-			global $cache_userdata;
-			if (isset($cache_userdata[$this->get('author')])) {
-				$this->queried_object = $cache_userdata[$this->get('author')];
-				$this->queried_object_id = $this->get('author');
-			}
+			$author_id = $this->get('author');
+			$author = get_userdata($author_id);
+			$this->queried_object = $author;
+			$this->queried_object_id = $author_id;
 		}
 
 		return $this->queried_object;
