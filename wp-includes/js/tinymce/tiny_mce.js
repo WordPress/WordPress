@@ -1027,6 +1027,10 @@ TinyMCE.prototype.handleEvent = function(e) {
 					tinyMCE.cancelEvent(e);
 					return false;
 				}
+
+				if (e.charCode == 118) { // Ctrl+V
+					tinyMCE.selectedInstance.execCommand("mceInsertContent", false, '<geckopastefix/>');
+				}
 			}
 
 			// Return key pressed
