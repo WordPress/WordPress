@@ -559,16 +559,22 @@ function &get_post(&$post, $output = OBJECT) {
 		else
 			$_post = null;
 	} elseif ( is_object($post) ) {
+		if ( 'static' == $post->post_status )
+			return get_page($post, $output);
 		if ( !isset($post_cache[$post->ID]) )
 			$post_cache[$post->ID] = &$post;
 		$_post = & $post_cache[$post->ID];
 	} else {
-		if ( isset($post_cache[$post]) )
+		if ( $_post = wp_cache_get($post, 'pages') )
+			return get_page($_post, $output);
+		elseif ( isset($post_cache[$post]) )
 			$_post = & $post_cache[$post];
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post' LIMIT 1";
-			$post_cache[$post] = & $wpdb->get_row($query);
-			$_post = & $post_cache[$post];
+			$_post = & $wpdb->get_row($query);
+			if ( 'static' == $_post->post_status )
+				return get_page($_post, $output);
+			$post_cache[$post] = & $_post;
 		}
 	}
 
@@ -610,17 +616,23 @@ function &get_page(&$page, $output = OBJECT) {
 			$_page = null;
 		}
 	} elseif ( is_object($page) ) {
+		if ( 'static' != $page->post_status )
+			return get_post($page, $output);
 		wp_cache_add($page->ID, $page, 'pages');
 		$_page = $page;
 	} else {
 		if ( isset($GLOBALS['page']) && ($page == $GLOBALS['page']->ID) ) {
 			$_page = & $GLOBALS['page'];
 			wp_cache_add($_page->ID, $_page, 'pages');
+		} elseif ( $_page = $GLOBALS['post_cache'][$page] ) {
+			return get_post($page, $output);
 		} elseif ( $_page = wp_cache_get($page, 'pages') ) {
 			// Got it.
 		} else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1";
 			$_page = & $wpdb->get_row($query);
+			if ( 'static' != $_page->post_status )
+				return get_post($_page, $output);
 			wp_cache_add($_page->ID, $_page, 'pages');
 		}
 	}
