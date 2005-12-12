@@ -631,7 +631,7 @@ class WP_Query {
 		// Check post status to determine if post should be displayed.
 		if ($this->is_single) {
 			$status = get_post_status($this->posts[0]);
-			if ('publish' != $status) {
+			if ( ('publish' != $status) && ('static' != $status) ) {
 				if ( ! (isset($user_ID) && ('' != intval($user_ID))) ) {
 					// User must be logged in to view unpublished posts.
 					$this->posts = array();
