@@ -97,8 +97,9 @@ class WP_Role {
 	}
 
 	function has_cap($cap) {
-		if ( !empty($this->capabilities[$cap]) )
-			return $this->capabilities[$cap];
+		$capabilities = apply_filters('role_has_cap', $this->capabilities, $cap, $this->name);
+		if ( !empty($capabilities[$cap]) )
+			return $capabilities[$cap];
 		else
 			return false;
 	}
@@ -215,9 +216,10 @@ class WP_User {
 		$args = array_merge(array($cap, $this->id), $args);
 		$caps = call_user_func_array('map_meta_cap', $args);
 		// Must have ALL requested caps
+		$capabilities = apply_filters('user_has_cap', $this->allcaps, $caps, $args);
 		foreach ($caps as $cap) {
 			//echo "Checking cap $cap<br/>";
-			if(empty($this->allcaps[$cap]) || !$this->allcaps[$cap])
+			if(empty($capabilities[$cap]) || !$capabilities[$cap])
 				return false;
 		}
 
