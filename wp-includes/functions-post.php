@@ -202,6 +202,7 @@ function wp_insert_post($postarr = array()) {
 				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
 	}
 
+	do_action('save_post', $post_ID);
 	do_action('wp_insert_post', $post_ID);
 
 	return $post_ID;
