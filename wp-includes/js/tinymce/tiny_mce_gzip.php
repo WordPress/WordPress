@@ -16,7 +16,8 @@
 	 *  - Add local file cache for the GZip:ed version.
 	 */
 
-	@ include('../../../wp-config.php');
+	/* Heavily edited to add flexibilty in WordPress */
+	@ require('../../../wp-config.php');
 
 	function wp_translate_tinymce_lang($text) {
 		if ( ! function_exists('__') ) {
@@ -53,15 +54,7 @@
 	}
 
 	// General options
-	$suffix = "";							// Set to "_src" to use source version
-	$expiresOffset = 3600 * 24 * 10;		// 10 days util client cache expires
-
-	// Get data to load
-	$theme = isset($_REQUEST['theme']) ? $_REQUEST['theme'] : "";
-	$language = isset($_REQUEST['language']) ? $_REQUEST['language'] : "";
-	$plugins = isset($_REQUEST['plugins']) ? $_REQUEST['plugins'] : "";
-	$lang = isset($_REQUEST['lang']) ? $_REQUEST['lang'] : "en";
-	$index = isset($_REQUEST['index']) ? $_REQUEST['index'] : -1;
+	$expiresOffset = 3600 * 24 * 30; // 30 days util client cache expires
 
 	// Only gzip the contents if clients and server support it
 	$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
@@ -70,112 +63,87 @@
 
 	// Output rest of headers
 	header("Content-type: text/javascript; charset: UTF-8");
-	// header("Cache-Control: must-revalidate");
 	header("Vary: Accept-Encoding"); // Handle proxies
 	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
 
-	if ($index > -1) {
-		// Write main script and patch some things
-		if ($index == 0) {
-// WP			echo file_get_contents(realpath("tiny_mce" . $suffix . ".js"));
-			$tinymce = file_get_contents(realpath("tiny_mce.js"));
-			echo wp_compact_tinymce_js($tinymce);
-			echo "\n\n";
-			echo "TinyMCE.prototype.loadScript = function() {};\n";
-		}
+	// Write main script
+	$tinymce = file_get_contents(realpath("tiny_mce.js"));
+	echo wp_compact_tinymce_js($tinymce);
+	echo "\n\n";
 
-		// WP
-		$lang = $language = 'en';
-		echo "\n/* WP Cancels all TinyMCE language handling */\n";
-		echo "TinyMCE.prototype.importThemeLanguagePack = function() {};\n";
-		echo "TinyMCE.prototype.importPluginLanguagePack = function() {};\n\n";
+	// Remove some functions
+	echo "\n/* WP cancels all TinyMCE language and import handling */\n";
+	echo "TinyMCE.prototype.importThemeLanguagePack = function() {};\n";
+	echo "TinyMCE.prototype.importPluginLanguagePack = function() {};\n\n";
+	echo "TinyMCE.prototype.loadScript = function() {};\n";
 
-		// Do init based on index
-// WP		echo "tinyMCE.init(tinyMCECompressed.configs[" . $index . "]);\n\n";
+	// Load theme, language pack and theme language packs
+	$theme = apply_filters('mce_theme', 'advanced');
+	echo wp_compact_tinymce_js(file_get_contents(realpath("themes/" . $theme . "/editor_template.js")));
+	echo wp_translate_tinymce_lang(file_get_contents(realpath("themes/" . $theme . "/langs/en.js")));
+	echo wp_translate_tinymce_lang(file_get_contents(realpath("langs/en.js")));
 
-		// Load theme, language pack and theme language packs
-		if ($theme) {
-			echo file_get_contents(realpath("themes/" . $theme . "/editor_template" . $suffix . ".js"));
-			echo wp_translate_tinymce_lang(file_get_contents(realpath("themes/" . $theme . "/langs/" . $lang . ".js")));
-		}
+	// Load all plugins and their language packs
+	$plugins = apply_filters('mce_plugins', array('wordpress', 'autosave', 'wphelp'));
+	foreach ($plugins as $plugin) {
+		$pluginFile = realpath("plugins/" . $plugin . "/editor_plugin.js");
+		$languageFile = realpath("plugins/" . $plugin . "/langs/en.js");
 
-		if ($language)
-			echo wp_translate_tinymce_lang(file_get_contents(realpath("langs/" . $language . ".js")));
+		if ($pluginFile)
+			echo file_get_contents($pluginFile);
 
-		// Load all plugins and their language packs
-		$plugins = explode(",", $plugins);
-		foreach ($plugins as $plugin) {
-			$pluginFile = realpath("plugins/" . $plugin . "/editor_plugin" . $suffix . ".js");
-			$languageFile = realpath("plugins/" . $plugin . "/langs/" . $lang . ".js");
-
-			if ($pluginFile)
-				echo file_get_contents($pluginFile);
-
-			if ($languageFile)
-				echo wp_translate_tinymce_lang(file_get_contents($languageFile));
-		}
-
-		die;
+		if ($languageFile)
+			echo wp_translate_tinymce_lang(file_get_contents($languageFile));
 	}
+
+	// Set up init variables
+	if ( current_user_can('unfiltered_html') ) // Use the full XHTML set provided in the docs
+		$valid_elements = 'a[accesskey|charset|class|coords|dir<ltr?rtl|href|hreflang|id|lang|name|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rel|rev|shape<circle?default?poly?rect|style|tabindex|title|target|type],abbr[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],acronym[class|dir<ltr?rtl|id|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],address[class|align|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],applet[align<bottom?left?middle?right?top|alt|archive|class|code|codebase|height|hspace|id|name|object|style|title|vspace|width],area[accesskey|alt|class|coords|dir<ltr?rtl|href|id|lang|nohref<nohref|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|shape<circle?default?poly?rect|style|tabindex|title|target],base[href|target],basefont[color|face|id|size],bdo[class|dir<ltr?rtl|id|lang|style|title],big[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],blockquote[dir|style|cite|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],body[alink|background|bgcolor|class|dir<ltr?rtl|id|lang|link|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onload|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onunload|style|title|text|vlink],br[class|clear<all?left?none?right|id|style|title],button[accesskey|class|dir<ltr?rtl|disabled<disabled|id|lang|name|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|tabindex|title|type|value],caption[align<bottom?left?right?top|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],center[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],'
+			. 'cite[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],code[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],col[align<center?char?justify?left?right|char|charoff|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|span|style|title|valign<baseline?bottom?middle?top|width],colgroup[align<center?char?justify?left?right|char|charoff|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|span|style|title|valign<baseline?bottom?middle?top|width],dd[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],del[cite|class|datetime|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],dfn[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],dir[class|compact<compact|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],div[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],dl[class|compact<compact|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],dt[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],em/i[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],'
+			. 'fieldset[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],font[class|color|dir<ltr?rtl|face|id|lang|size|style|title],form[accept|accept-charset|action|class|dir<ltr?rtl|enctype|id|lang|method<get?post|name|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onreset|onsubmit|style|title|target],frame[class|frameborder|id|longdesc|marginheight|marginwidth|name|noresize<noresize|scrolling<auto?no?yes|src|style|title],frameset[class|cols|id|onload|onunload|rows|style|title],h1[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],h2[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],h3[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],h4[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],h5[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],h6[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],head[dir<ltr?rtl|lang|profile],hr[align<center?left?right|class|dir<ltr?rtl|id|lang|noshade<noshade|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|size|style|title|width],html[dir<ltr?rtl|lang|version],'
+			. 'iframe[align<bottom?left?middle?right?top|class|frameborder|height|id|longdesc|marginheight|marginwidth|name|scrolling<auto?no?yes|src|style|title|width],img[align<bottom?left?middle?right?top|alt|border|class|dir<ltr?rtl|height|hspace|id|ismap<ismap|lang|longdesc|name|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|src|style|title|usemap|vspace|width],input[accept|accesskey|align<bottom?left?middle?right?top|alt|checked<checked|class|dir<ltr?rtl|disabled<disabled|id|ismap<ismap|lang|maxlength|name|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onselect|readonly<readonly|size|src|style|tabindex|title|type<button?checkbox?file?hidden?image?password?radio?reset?submit?text|usemap|value],ins[cite|class|datetime|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],isindex[class|dir<ltr?rtl|id|lang|prompt|style|title],kbd[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],label[accesskey|class|dir<ltr?rtl|for|id|lang|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],legend[align<bottom?left?right?top|accesskey|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],li[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|type|value],link[charset|class|dir<ltr?rtl|href|hreflang|id|lang|media|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rel|rev|style|title|target|type],map[class|dir<ltr?rtl|id|lang|name|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],'
+			. 'menu[class|compact<compact|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],meta[content|dir<ltr?rtl|http-equiv|lang|name|scheme],noframes[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],noscript[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],object[align<bottom?left?middle?right?top|archive|border|class|classid|codebase|codetype|data|declare|dir<ltr?rtl|height|hspace|id|lang|name|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|standby|style|tabindex|title|type|usemap|vspace|width],ol[class|compact<compact|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|start|style|title|type],optgroup[class|dir<ltr?rtl|disabled<disabled|id|label|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],option[class|dir<ltr?rtl|disabled<disabled|id|label|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|selected<selected|style|title|value],p[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],param[id|name|type|value|valuetype<DATA?OBJECT?REF],pre/listing/plaintext/xmp[align|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|width],q[cite|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],'
+			. 's[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],samp[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],script[charset|defer|language|src|type],select[class|dir<ltr?rtl|disabled<disabled|id|lang|multiple<multiple|name|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|size|style|tabindex|title],small[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],span[align<center?justify?left?right|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],strike[class|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],strong/b[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],style[dir<ltr?rtl|lang|media|title|type],sub[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],sup[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],table[align<center?left?right|bgcolor|border|cellpadding|cellspacing|class|dir<ltr?rtl|frame|height|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rules|style|summary|title|width],'
+			. 'tbody[align<center?char?justify?left?right|char|class|charoff|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|valign<baseline?bottom?middle?top],td[abbr|align<center?char?justify?left?right|axis|bgcolor|char|charoff|class|colspan|dir<ltr?rtl|headers|height|id|lang|nowrap<nowrap|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rowspan|scope<col?colgroup?row?rowgroup|style|title|valign<baseline?bottom?middle?top|width],textarea[accesskey|class|cols|dir<ltr?rtl|disabled<disabled|id|lang|name|onblur|onclick|ondblclick|onfocus|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|onselect|readonly<readonly|rows|style|tabindex|title],tfoot[align<center?char?justify?left?right|char|charoff|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|valign<baseline?bottom?middle?top],th[abbr|align<center?char?justify?left?right|axis|bgcolor|char|charoff|class|colspan|dir<ltr?rtl|headers|height|id|lang|nowrap<nowrap|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|rowspan|scope<col?colgroup?row?rowgroup|style|title|valign<baseline?bottom?middle?top|width],thead[align<center?char?justify?left?right|char|charoff|class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|valign<baseline?bottom?middle?top],'
+			. 'title[dir<ltr?rtl|lang],tr[abbr|align<center?char?justify?left?right|bgcolor|char|charoff|class|rowspan|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|valign<baseline?bottom?middle?top],tt[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],u[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],ul[class|compact<compact|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|type],var[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title]';
+	else // Use a much smaller set
+		$valid_elements = '-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align|dir],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote[dir],-table[border|cellspacing|cellpadding|width|height|class|align|dir],thead[class|rowspan|width|height|align|valign|dir],tr[class|rowspan|width|height|align|valign|dir],th[dir|class|colspan|rowspan|width|height|align|valign|scope],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align|dir],-h2[class|align|dir],-h3[class|align|dir],-h4[class|align|dir],-h5[class|align|dir],-h6[class|align|dir],hr';
+	$valid_elements = apply_filters('mce_valid_elements', $valid_elements); 
+	$plugins = implode($plugins, ',');
+	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright' ,'separator', 'link', 'unlink', 'image', 'wordpress', 'separator', 'undo', 'redo', 'code', 'wphelp'));
+	$mce_buttons = implode($mce_buttons, ',');
+	$mce_buttons_2 = apply_filters('mce_buttons_2', array());
+	$mce_buttons_2 = implode($mce_buttons_2, ',');
+	$mce_buttons_3 = apply_filters('mce_buttons_3', array());
+	$mce_buttons_3 = implode($mce_buttons_3, ',');
+	$mce_browsers = apply_filters('mce_browsers', array('msie', 'gecko', 'opera'));
+	$mce_browsers = implode($mce_browsers, ',');
 ?>
+tinyMCE.init({
+	mode : "specific_textareas",
+	textarea_trigger : "title",
+	width : "100%",
+	theme : "advanced",
+	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",
+	theme_advanced_buttons2 : "<?php echo $mce_buttons_2; ?>",
+	theme_advanced_buttons3 : "<?php echo $mce_buttons_3; ?>",
+	theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",
+	theme_advanced_path_location : "bottom",
+	theme_advanced_resizing : true,
+	browsers : "<?php echo $mce_browsers; ?>",
+	dialog_type : "modal",
+	theme_advanced_resize_horizontal : false,
+	entity_encoding : "raw",
+	relative_urls : false,
+	remove_script_host : false,
+	force_p_newlines : true,
+	force_br_newlines : false,
+	convert_newlines_to_brs : false,
+	remove_linebreaks : true,
+	save_callback : "wp_save_callback",
+	valid_elements : "<?php echo $valid_elements; ?>",
+<?php do_action('mce_options'); ?>
+	plugins : "<?php echo $plugins; ?>"
+});
 
-function TinyMCECompressed() {
-	this.configs = new Array();
-	this.loadedFiles = new Array();
-}
-
-TinyMCECompressed.prototype.init = function(settings) {
-	var elements = document.getElementsByTagName('script');
-	var scriptURL = "";
-
-	for (var i=0; i<elements.length; i++) {
-		if (elements[i].src && elements[i].src.indexOf("tiny_mce_gzip.php") != -1) {
-			scriptURL = elements[i].src;
-			break;
-		}
-	}
-
-	settings["theme"] = typeof(settings["theme"]) != "undefined" ? settings["theme"] : "default";
-	settings["plugins"] = typeof(settings["plugins"]) != "undefined" ? settings["plugins"] : "";
-	settings["language"] = typeof(settings["language"]) != "undefined" ? settings["language"] : "en";
-	settings["button_tile_map"] = typeof(settings["button_tile_map"]) != "undefined" ? settings["button_tile_map"] : true;
-	this.configs[this.configs.length] = settings;
-	this.settings = settings;
-
-	scriptURL += "?theme=" + escape(this.getOnce(settings["theme"])) + "&language=" + escape(this.getOnce(settings["language"])) + "&plugins=" + escape(this.getOnce(settings["plugins"])) + "&lang=" + settings["language"] + "&index=" + escape(this.configs.length-1);
-	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + scriptURL + '"></script>');
-}
-
-TinyMCECompressed.prototype.getOnce = function(str) {
-	var ar = str.split(',');
-
-	for (var i=0; i<ar.length; i++) {
-		if (ar[i] == '')
-			continue;
-
-		// Skip load
-		for (var x=0; x<this.loadedFiles.length; x++) {
-			if (this.loadedFiles[x] == ar[i])
-				ar[i] = null;
-		}
-
-		this.loadedFiles[this.loadedFiles.length] = ar[i];
-	}
-
-	// Glue
-	str = "";
-	for (var i=0; i<ar.length; i++) {
-		if (ar[i] == null)
-			continue;
-
-		str += ar[i];
-
-		if (i != ar.length-1)
-			str += ",";
-	}
-
-	return str;
-}
-
-var tinyMCE = new TinyMCECompressed();
-var tinyMCECompressed = tinyMCE;
