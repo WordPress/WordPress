@@ -133,7 +133,7 @@ function newCatAddIn() {
 	newcatSub.type = 'button';
 	newcatSub.name = 'Button';
 	newcatSub.id = 'catadd';
-	newcatSub.value = '<?php _e('Add'); ?>';
+	newcatSub.value = '<?php echo addslashes(__('Add')); ?>';
 	newcatSub.onclick = ajaxNewCat;
 
 	ajaxcat.appendChild(newcat);
@@ -141,7 +141,7 @@ function newCatAddIn() {
 	document.getElementById('jaxcat').appendChild(ajaxcat);
 
 	howto = document.createElement('span');
-	howto.innerHTML = '<?php _e('Separate multiple categories with commas.'); ?>';
+	howto.innerHTML = '<?php echo addslashes(__('Separate multiple categories with commas.')); ?>';
 	howto.id = 'howto';
 	ajaxcat.appendChild(howto);
 }
@@ -160,17 +160,17 @@ function getResponseElement() {
 
 function newCatLoading() {
 	var p = getResponseElement();
-	p.innerHTML = 'Sending Data...';
+	p.innerHTML = '<?php echo addslashes(__('Sending Data...')); ?>';
 }
 
 function newCatLoaded() {
 	var p = getResponseElement();
-	p.innerHTML = 'Data Sent...';
+	p.innerHTML = '<?php echo addslashes(__('Data Sent...')); ?>';
 }
 
 function newCatInteractive() {
 	var p = getResponseElement();
-	p.innerHTML = 'Processing Request...';
+	p.innerHTML = '<?php echo addslashes(__('Processing Request...')); ?>';
 }
 
 function newCatCompletion() {
@@ -186,11 +186,11 @@ function newCatCompletion() {
 		id = ids[i];
 //		alert(id);
 		if ( id == '-1' ) {
-			p.innerHTML = "You don't have permission to do that.";
+			p.innerHTML = "<?php echo addslashes(__("You don't have permission to do that.")); ?>";
 			return;
 		}
 		if ( id == '0' ) {
-			p.innerHTML = "That category name is invalid.  Try something else.";
+			p.innerHTML = "<?php echo addslashes(__('That category name is invalid.  Try something else.')); ?>";
 			return;
 		}
 		

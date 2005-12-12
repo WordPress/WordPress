@@ -244,7 +244,7 @@ ab[{$ID}] = '<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onclick=\"doPopup({$
 </div>
 ";
 			$popups .= "<div id='popup{$ID}' class='popup'>
-	<div class='filetype'>File Type: ".str_replace('/',"/\n",$attachment['post_mime_type'])."</div>
+	<div class='filetype'>".__('File Type:').' '.str_replace('/',"/\n",$attachment['post_mime_type'])."</div>
 	<a id=\"L{$ID}\" onclick=\"toggleOtherLink({$ID});return false;\" href=\"javascript:void()\">$__linked_to_file</a>
 	{$send_delete_cancel}
 </div>

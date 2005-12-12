@@ -95,9 +95,9 @@ case 'delete':
  	foreach ($userids as $id) {
  		$user = new WP_User($id);
 		if ($id == $current_user->id) {
-			echo "<li>" . sprintf('ID #%1s: %2s <strong>The current user will not be deleted.</strong>', $id, $user->user_login) . "</li>\n";
+			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
-			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf('ID #%1s: %2s', $id, $user->user_login) . "</li>\n";
+			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1s: %2s'), $id, $user->user_login) . "</li>\n";
 			$go_delete = true;
 		}
  	}

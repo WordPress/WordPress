@@ -35,7 +35,7 @@ switch($action) {
 case 'update':
 
 	if ( !current_user_can('edit_plugins') )
-		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
+	die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	if (is_writeable($real_file)) {
@@ -55,7 +55,7 @@ default:
 	
 	require_once('admin-header.php');
 	if ( !current_user_can('edit_plugins') )
-		die(__('<p>You have do not have sufficient permissions to edit plugins for this blog.</p>'));
+	die('<p>'.__('You have do not have sufficient permissions to edit plugins for this blog.').'</p>');
 
 	update_recently_edited("wp-content/plugins/$file");
 	

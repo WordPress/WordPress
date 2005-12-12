@@ -444,7 +444,7 @@ foreach ($results as $row) {
 </div>
 <div class="wrap">
     <h3><?php _e('Note:') ?></h3>
-    <?php printf(__('<p>Deleting a link category does not delete links from that category.<br />It will just set them back to the default category <b>%s</b>.'), get_linkcatname(1)) ?></p>
+	<p><?php printf(__('Deleting a link category does not delete links from that category.<br />It will just set them back to the default category <strong>%s</strong>.'), get_linkcatname(1)) ?></p>
 </div>
 <?php
     break;

@@ -108,7 +108,7 @@ foreach ($categories as $category) {
                         $query = "INSERT INTO $wpdb->links (link_url, link_name, link_target, link_category, link_description, link_owner, link_rss)
                                 VALUES('{$urls[$i]}', '".$wpdb->escape($names[$i])."', '', $cat_id, '".$wpdb->escape($descriptions[$i])."', $user_ID, '{$feeds[$i]}')\n";
                         $result = $wpdb->query($query);
-                        echo sprintf(__("<p>Inserted <strong>%s</strong></p>"), $names[$i]);
+						echo sprintf('<p>'.__('Inserted <strong>%s</strong>').'</p>', $names[$i]);
                     }
 ?>
      <p><?php printf(__('Inserted %1$d links into category %2$s. All done! Go <a href="%3$s">manage those links</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>

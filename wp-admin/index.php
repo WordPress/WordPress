@@ -129,7 +129,7 @@ if (0 < $numcats) $numcats = number_format($numcats);
 $rss = @fetch_rss('http://wordpress.org/development/feed/');
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
-<h3>WordPress Development Blog</h3>
+<h3><?php _e('WordPress Development Blog'); ?></h3>
 <?php
 $rss->items = array_slice($rss->items, 0, 3);
 foreach ($rss->items as $item ) {

@@ -32,7 +32,7 @@ switch($action) {
 case 'update':
 
 	if ( ! current_user_can('moderate_comments') )
-		die(__('<p>Your level is not high enough to moderate comments.</p>'));
+	die('<p>'.__('Your level is not high enough to moderate comments.').'</p>');
 
 	$item_ignored = 0;
 	$item_deleted = 0;
@@ -84,30 +84,30 @@ if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored
 	$spam     = (int) $_GET['spam'];
 	if ($approved) {
 		if ('1' == $approved) {
-		 echo __("1 comment approved <br />") . "\n";
+			echo __("1 comment approved") . " <br/>\n";
 		} else {
 		 echo sprintf(__("%s comments approved <br />"), $approved) . "\n";
 		}
 	}
 	if ($deleted) {
 		if ('1' == $deleted) {
-		echo __("1 comment deleted <br />") . "\n";
+			echo __("1 comment deleted") . " <br/>\n";
 		} else {
-		echo sprintf(__("%s comments deleted <br />"), $deleted) . "\n";
+			echo sprintf(__("%s comments deleted"), $deleted) . " <br/>\n";
 		}
 	}
  	if ($spam) {
  		if ('1' == $spam) {
- 		echo __("1 comment marked as spam <br />") . "\n";
+			echo __("1 comment marked as spam") . " <br/>\n";
  		} else {
- 		echo sprintf(__("%s comments marked as spam <br />"), $spam) . "\n";
+ 			echo sprintf(__("%s comments marked as spam"), $spam) . " <br/>\n";
  		}
  	}
 	if ($ignored) {
 		if ('1' == $ignored) {
-		echo __("1 comment unchanged <br />") . "\n";
+			echo __("1 comment unchanged") . " <br/>\n";
 		} else {
-		echo sprintf(__("%s comments unchanged <br />"), $ignored) . "\n";
+			echo sprintf(__("%s comments unchanged"), $ignored) . " <br/>\n";
 		}
 	}
 	echo "</p></div>\n";
@@ -206,7 +206,7 @@ document.write('<ul><li><a href="javascript:markAllForApprove()"><?php _e('Mark 
 <?php
 } else {
     // nothing to approve
-    echo __("<p>Currently there are no comments for you to moderate.</p>") . "\n";
+	echo '<p>'.__("Currently there are no comments for you to moderate.") . "</p>\n";
 }
 ?>
 

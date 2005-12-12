@@ -291,7 +291,7 @@ function checkAll(form)
         echo " selected='selected'";
         echo ">".$row->cat_id.": ".wp_specialchars($row->cat_name);
         if ($row->auto_toggle == 'Y')
-            echo ' (auto toggle)';
+            echo ' '.__('(auto toggle)');
         echo "</option>\n";
     }
     echo "        </select>\n";

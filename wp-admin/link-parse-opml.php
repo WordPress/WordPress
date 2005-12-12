@@ -55,7 +55,7 @@ $xml_parser = xml_parser_create();
 xml_set_element_handler($xml_parser, "startElement", "endElement");
 
 if (!xml_parse($xml_parser, $opml, true)) {
-    echo(sprintf("XML error: %s at line %d",
+    echo(sprintf(__('XML error: %1$s at line %2$s'),
                    xml_error_string(xml_get_error_code($xml_parser)),
                    xml_get_current_line_number($xml_parser)));
 }

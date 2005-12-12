@@ -72,7 +72,9 @@ if ( get_settings('active_plugins') )
 $plugins = get_plugins();
 
 if (empty($plugins)) {
-	_e("<p>Couldn't open plugins directory or there are no plugins available.</p>"); // TODO: make more helpful
+	echo '<p>';
+	_e("Couldn't open plugins directory or there are no plugins available."); // TODO: make more helpful
+	echo '</p>';
 } else {
 ?>
 <table width="100%" cellpadding="3" cellspacing="3">
@@ -100,7 +102,7 @@ if (empty($plugins)) {
 	<tr $style>
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
-		<td class='desc'>{$plugin_data['Description']} <cite>By {$plugin_data['Author']}.</cite></td>
+		<td class='desc'>{$plugin_data['Description']} <cite>".sprintf(__('By %s'), $plugin_data['Author']).".</cite></td>
 		<td class='togl'>$action</td>
 	</tr>";
 	}

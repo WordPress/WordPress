@@ -37,7 +37,7 @@ switch($action) {
 case 'update':
 
 	if ( ! current_user_can('edit_files') )
-		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
+	die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	if (is_writeable($real_file)) {
@@ -58,10 +58,10 @@ default:
 	require_once('./admin-header.php');
 	
 	if ( ! current_user_can('edit_files') )
-		die(__('<p>You have do not have sufficient permissions to edit templates for this blog.</p>'));
+	die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
 
 	if ( strstr( $file, 'wp-config.php' ) )
-		die( __('<p>The config file cannot be edited or viewed through the web interface. Sorry!</p>') );
+	die('<p>'.__('The config file cannot be edited or viewed through the web interface. Sorry!').'</p>');
 
 	update_recently_edited($file);
 

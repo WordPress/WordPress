@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 if ( ! current_user_can('edit_posts') )
-	die ("Cheatin' uh?");
+	die (__("Cheatin' uh?"));
 
 echo '/* No Styles Here */';
 register_shutdown_function('execute_all_pings');
