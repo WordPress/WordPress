@@ -163,7 +163,7 @@ checked="checked"
     </p> 
   </form> 
 <?php if ( $permalink_structure && !$usingpi && !$writable ) : ?>
-  <p><?php _e('If your <code>.htaccess</code> was <a href="http://codex.wordpress.org/Make_a_Directory_Writable">writable</a> we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
+  <p><?php _e('If your <code>.htaccess</code> file were <a href="http://codex.wordpress.org/Make_a_Directory_Writable">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
    <p>
 <textarea rows="5" style="width: 98%;" name="rules"><?php echo $wp_rewrite->mod_rewrite_rules(); ?>
