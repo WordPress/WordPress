@@ -300,12 +300,18 @@ function get_option($option) {
 	return get_settings($option);
 }
 
-function get_user_option( $option ) {
+function get_user_option( $option, $user = 0 ) {
 	global $wpdb, $current_user;
-	if ( isset( $current_user->{$wpdb->prefix . $option} ) ) // Blog specific
-		return $current_user->{$wpdb->prefix . $option};
-	elseif ( isset( $current_user->{$option} ) ) // User specific and cross-blog
-		return $current_user->{$option};
+	
+	if ( empty($user) )
+		$user = $current_user;
+	else
+		$user = get_userdata($user);
+
+	if ( isset( $user->{$wpdb->prefix . $option} ) ) // Blog specific
+		return $user->{$wpdb->prefix . $option};
+	elseif ( isset( $user->{$option} ) ) // User specific and cross-blog
+		return $user->{$option};
 	else // Blog global
 		return get_option( $option );
 }
