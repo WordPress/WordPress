@@ -65,7 +65,9 @@ if ( is_month() ) {
 } elseif ( is_search() ) {
 	printf(__('Search for &#8220;%s&#8221;'), wp_specialchars($_GET['s']) );
 } else {
-	if ( ! is_paged() || get_query_var('paged') == 1 )
+	if ( is_single() )
+		printf(__('Comments on %s'), $post->post_title);
+	elseif ( ! is_paged() || get_query_var('paged') == 1 )
 		_e('Last 15 Posts');
 	else
 		_e('Previous Posts');

@@ -97,12 +97,10 @@ class WP_Query {
 		if ( '' != $qv['subpost_id'] )
 			$qv['attachment_id'] = $qv['subpost_id'];
 			
-		if ( ('' != $qv['attachment']) || $qv['attachment_id'] ) {
+		if ( ('' != $qv['attachment']) || (int) $qv['attachment_id'] ) {
 			$this->is_single = true;
 			$this->is_attachment = true;
-		}
-
-		if ('' != $qv['name']) {
+		} elseif ('' != $qv['name']) {
 			$this->is_single = true;
 		} elseif ( $qv['p'] ) {
 			$this->is_single = true;
@@ -115,6 +113,14 @@ class WP_Query {
 			$this->is_single = false;
 		} elseif (!empty($qv['s'])) {
 			$this->is_search = true;
+			switch ($qv['show_post_type']) {
+			case 'page' :
+				$this->is_page = true;
+				break;
+			case 'attachment' :
+				$this->is_attachment = true;
+				break;
+			}
 		} else {
 		// Look for archive queries.  Dates, categories, authors.
 
@@ -197,6 +203,10 @@ class WP_Query {
 
 			if ( ($this->is_date || $this->is_author || $this->is_category)) {
 				$this->is_archive = true;
+			}
+
+			if ( 'attachment' == $qv['show_post_type'] ) {
+				$this->is_attachment = true;
 			}
 		}
 
@@ -1413,7 +1423,7 @@ class WP_Rewrite {
 class WP {
 	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id');
 
-	var $private_query_vars = array('posts_per_page', 'posts_per_archive_page', 'what_to_show', 'showposts', 'nopaging');
+	var $private_query_vars = array('posts_per_page', 'posts_per_archive_page', 'what_to_show', 'showposts', 'nopaging', 'show_post_type');
 
 	var $query_vars;
 	var $query_string;

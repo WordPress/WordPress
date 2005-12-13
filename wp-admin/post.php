@@ -74,6 +74,8 @@ case 'edit':
 	
 	if ($post->post_status == 'static')
 		include('edit-page-form.php');
+	elseif ($post->post_status == 'attachment')
+		include('edit-attachment-form.php');
 	else
 		include('edit-form-advanced.php');
 
@@ -84,6 +86,22 @@ case 'edit':
 	</div>
 	<?php
 	break;
+
+case 'editattachment':
+	$post_id = (int) $_POST['post_ID'];
+
+	// Don't let these be changed
+	unset($_POST['guid']);
+	$_POST['post_status'] = 'attachment';
+
+	// Update the thumbnail filename
+	$oldmeta = $newmeta = get_post_meta($post_id, '_wp_attachment_metadata', true);
+	$newmeta['thumb'] = $_POST['thumb'];
+
+	if ( '' !== $oldmeta )
+		update_post_meta($post_id, '_wp_attachment_metadata', $newmeta, $oldmeta);
+	else
+		add_post_meta($post_id, '_wp_attachment_metadata', $newmeta);
 
 case 'editpost':
 	$post_ID = edit_post();
@@ -98,6 +116,8 @@ case 'editpost':
 		$location = $_POST['referredby'];
 		if ( $_POST['referredby'] == 'redo' )
 			$location = get_permalink( $post_ID );
+	} elseif ($action == 'editattachment') {
+		$location = 'attachments.php';
 	} else {
 		$location = 'post.php';
 	}
@@ -110,15 +130,18 @@ case 'delete':
 	check_admin_referer();
 
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+
+	$post = & get_post($post_id);
 	
 	if ( !current_user_can('edit_post', $post_id) )	
 		die( __('You are not allowed to delete this post.') );
 
-	if (! wp_delete_post($post_id))
+	if ( (($post->post_status != 'attachment') && !wp_delete_post($post_id)) || !wp_delete_attachment($post_id))
 		die( __('Error in deleting...') );
 
 	$sendback = $_SERVER['HTTP_REFERER'];
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
+	elseif (strstr($sendback, 'attachments.php')) $sendback = get_settings('siteurl') .'/wp-admin/attachments.php';
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	header ('Location: ' . $sendback);
 	break;

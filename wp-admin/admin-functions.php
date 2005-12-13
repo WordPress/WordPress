@@ -742,11 +742,13 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
 			$thumbnail = imagecreatetruecolor($image_new_width, $image_new_height);
 			@ imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $image_new_width, $image_new_height, $image_attr[0], $image_attr[1]);
 
+			// If no filters change the filename, we'll do a default transformation.
+			if ( basename($file) == $thumb = apply_filters('thumbnail_filename', basename($file)) )
+				$thumb = preg_replace('!(\.[^.]+)?$!', __('.thumbnail').'$1', basename($file), 1);
+
+			$thumbpath = str_replace(basename($file), $thumb, $file);
+
 			// move the thumbnail to it's final destination
-
-			$path = explode('/', $file);
-			$thumbpath = substr($file, 0, strrpos($file, '/')).'/thumb-'.$path[count($path) - 1];
-
 			if ($type[2] == 1) {
 				if (!imagegif($thumbnail, $thumbpath)) {
 					$error = __("Thumbnail path invalid");
@@ -771,7 +773,7 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
 	if (!empty ($error)) {
 		return $error;
 	} else {
-		return 1;
+		return $thumbpath;
 	}
 }
 
@@ -1633,8 +1635,10 @@ function current_theme_info() {
 // On failure, returns $overrides['upload_error_handler'](&$file, $message) or array('error'=>$message).
 function wp_handle_upload(&$file, $overrides = false) {
 	// The default error handler.
-	function wp_handle_upload_error(&$file, $message) {
-		return array('error'=>$message);
+	if (! function_exists('wp_handle_upload_error') ) {
+		function wp_handle_upload_error(&$file, $message) {
+			return array('error'=>$message);
+		}
 	}
 
 	// You may define your own function and pass the name in $overrides['upload_error_handler']
@@ -1653,47 +1657,49 @@ function wp_handle_upload(&$file, $overrides = false) {
 		__("Failed to write file to disk."));
 
 	// Accepted MIME types are set here as PCRE. Override with $override['mimes'].
-	$mimes = apply_filters('upload_mimes', array(
-			'image/jpeg'	=>	'jpg|jpeg|jpe',
-			'image/gif'	=>	'gif',
-			'image/(png|x-png)'	=>	'png',
-			'image/(bmp|x-bmp|x-ms-bmp)'	=>	'bmp',
-			'image/(tiff|x-tiff)'	=>	'tif|tiff',
-			'image/(ico|x-ico)'	=>	'ico',
-			'video/(asf|x-asf|x-ms-asf)'	=>	'asf|asx|wma|wax|wmv|wmx',
-			'video/(wmv|x-wmv|x-ms-wmv)'	=>	'wmv',
-			'video/(msvideo|x-msvideo)'	=>	'avi',
-			'video/(quicktime|x-quicktime)'	=>	'mov|qt',
-			'video/(mpeg|x-mpeg)'	=>	'mpeg|mpg|mpe',
-			'text/plain'	=>	'txt|c|cc|h|php',
-			'text/richtext'	=>	'rtx',
-			'text/css'	=>	'css',
-			'text/html'	=>	'htm|html',
-			'text/javascript'	=>	'js',
-			'audio/(mpeg|x-mpeg|mpeg3|x-mpeg3)'	=>	'mp3',
-			'audio/x-realaudio'	=>	'ra|ram',
-			'audio/(wav|x-wav)'	=>	'wav',
-			'audio/(ogg|x-ogg)'	=>	'ogg',
-			'audio/(midi|x-midi)'	=>	'mid|midi',
-			'application/pdf'	=>	'pdf',
-			'application/msword'	=>	'doc',
-			'application/mspowerpoint'	=>	'pot|pps|ppt',
-			'application/mswrite'	=>	'wri',
-			'application/(msexcel|vnd.ms-excel)'	=>	'xla|xls|xlt|xlw',
-			'application/msaccess'	=>	'mdb',
-			'application/msproject'	=>	'mpp',
-			'application/x-shockwave-flash'	=>	'swf',
-			'application/java'	=>	'class',
-			'application/x-tar'	=>	'tar',
-			'application/(zip|x-zip-compressed)'	=>	'zip',
-			'application/(x-gzip|x-gzip-compressed)'	=>	'gz|gzip'));
-
-	// For security, we never trust HTTP Content-Type headers unless the user overrides this.
-	$trust_content_type = false;
+	$mimes = apply_filters('upload_mimes', array (
+		'jpg|jpeg|jpe' => 'image/jpeg',
+		'gif' => 'image/gif',
+		'png' => 'image/png',
+		'bmp' => 'image/bmp',
+		'tif|tiff' => 'image/tiff',
+		'ico' => 'image/x-icon',
+		'asf|asx|wax|wmv|wmx' => 'video/asf',
+		'avi' => 'video/avi',
+		'mov|qt' => 'video/quicktime',
+		'mpeg|mpg|mpe' => 'video/mpeg',
+		'txt|c|cc|h|php' => 'text/plain',
+		'rtx' => 'text/richtext',
+		'css' => 'text/css',
+		'htm|html' => 'text/html',
+		'mp3|mp4' => 'audio/mpeg',
+		'ra|ram' => 'audio/x-realaudio',
+		'wav' => 'audio/wav',
+		'ogg' => 'audio/ogg',
+		'mid|midi' => 'audio/midi',
+		'wma' => 'audio/wma',
+		'rtf' => 'application/rtf',
+		'js' => 'application/javascript',
+		'pdf' => 'application/pdf',
+		'doc' => 'application/msword',
+		'pot|pps|ppt' => 'application/vnd.ms-powerpoint',
+		'wri' => 'application/vnd.ms-write',
+		'xla|xls|xlt|xlw' => 'application/vnd.ms-excel',
+		'mdb' => 'application/vnd.ms-access',
+		'mpp' => 'application/vnd.ms-project',
+		'swf' => 'application/x-shockwave-flash',
+		'class' => 'application/java',
+		'tar' => 'application/x-tar',
+		'zip' => 'application/zip',
+		'gz|gzip' => 'application/x-gzip',
+		'exe' => 'application/x-msdownload'
+	));
 
 	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
 	$test_form = true;
 	$test_size = true;
+
+	// If you override this, you must provide $ext and $type!!!!
 	$test_type = true;
 
 	// Install user overrides. Did we mention that this voids your warranty?
@@ -1716,25 +1722,20 @@ function wp_handle_upload(&$file, $overrides = false) {
 	if (! is_uploaded_file($file['tmp_name']) )
 		return $upload_error_handler($file, __('Specified file failed upload test.'));
 
-	// A correct MIME type will pass this test. We can't always determine it programatically, so we'll trust the HTTP headers.
+	// A correct MIME type will pass this test.
 	if ( $test_type ) {
 		$type = false;
 		$ext = false;
-		foreach ($mimes as $mime_preg => $ext_preg) {
-			$mime_preg = '!^' . $mime_preg . '$!i';
+		foreach ($mimes as $ext_preg => $mime_match) {
 			$ext_preg = '![^.]\.(' . $ext_preg . ')$!i';
-			if ( preg_match($mime_preg, $file['type'], $type) ) {
-				if ( preg_match($ext_preg, $file['name'], $ext) ) {
-					break;
-				} else {
-					return $upload_error_handler($file, __('File extension does not match file type. Try another.'));
-				}
+			if ( preg_match($ext_preg, $file['name'], $ext_matches) ) {
+				$type = $mime_match;
+				$ext = $ext_matches[1];
 			}
 		}
-		if (! $type && $ext )
+
+		if ( !$type || !$ext )
 			return $upload_error_handler($file, __('File type does not meet security guidelines. Try another.'));
-		$type = $type[0];
-		$ext = $ext[1];
 	}
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
@@ -1754,7 +1755,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
 	if ( false === move_uploaded_file($file['tmp_name'], $new_file) )
-		die(__('The uploaded file could not be moved to $file.'));
+		die(printf(__('The uploaded file could not be moved to %s.'), $file['path']));
 
 	// Set correct file permissions
 	$stat = stat(dirname($new_file));
@@ -1764,7 +1765,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";
 
-	return array('file' => $new_file, 'url' => $url);
+	return array('file' => $new_file, 'url' => $url, 'type' => $type);
 }
 
 function wp_shrink_dimensions($width, $height, $wmax = 128, $hmax = 96) {
@@ -1834,6 +1835,38 @@ function user_can_richedit() {
 		return false;
 
 	return true; // Best guess
+}
+
+function the_attachment_links($id = false) {
+	$id = (int) $id;
+	$post = & get_post($id);
+
+	if ( $post->post_status != 'attachment' )
+		return false;
+
+	$icon = get_attachment_icon($post->ID);
+
+?>
+<?php _e('Text linked to file') ?><br/>
+<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo basename($post->guid) ?></a></textarea>
+<?php _e('Text linked to subpost') ?><br/>
+<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $post->post_title ?></a></textarea>
+<?php if ( $icon ) : ?>
+<?php _e('Thumbnail linked to file') ?><br/>
+<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><img src="<?php echo $thumb ?>" class="attachmentthumb" alt="<?php echo $post->post_title ?>" /></a></textarea>
+<?php _e('Thumbnail linked to subpost') ?><br/>
+<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" class="attachmentlink"><img src="<?php echo $icon ?>" class="attachmentthumb" alt="<?php echo $post->post_title ?>" /></a></textarea>
+<?php endif; ?>
+<?php
+}
+
+function get_udims($width, $height) {
+	if ( $height <= 96 && $width <= 128 )
+		return array($width, $height);
+	elseif ( $width / $height > 4 / 3 )
+		return array(128, (int) ($height / $width * 128));
+	else
+		return array((int) ($width / $height * 96), 96);
 }
 
 ?>

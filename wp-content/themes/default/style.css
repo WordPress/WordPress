@@ -263,7 +263,23 @@ body {
 .widecolumn .postmetadata {
 	margin: 30px 0;
 	}
-	
+
+.widecolumn .smallattachment {
+	text-align: center;
+	float: left;
+	width: 128px;
+	margin: 5px 5px 5px 0px;
+}
+
+.widecolumn .attachment {
+	text-align: center;
+	margin: 5px 0px;
+}
+
+.postmetadata {
+	clear: left;
+}
+
 #footer {
 	padding: 0 0 0 1px;
 	margin: 0 auto;

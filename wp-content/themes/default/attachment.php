@@ -11,22 +11,8 @@
 		<div class="post" id="post-<?php the_ID(); ?>">
 			<h2><a href="<?php echo get_permalink($post->post_parent); ?>" rev="attachment"><?php echo get_the_title($post->post_parent); ?></a> &raquo; <a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h2>
 			<div class="entrytext">
-<?php	$type = explode('/', $post->post_mime_type);
-	switch ( $type[0] ) {
-	case 'image' :
-		$meta = get_post_meta($post->ID, '_wp_attachment_metadata', true);
-		if ($meta['width'] > 450) : ?>
-				<p><a href="<?php echo $post->guid; ?>" title="<?php echo $post->post_title.': '.$meta['width'].'x'.$meta['height'] ?>"><img class="centered" src="<?php echo $post->guid; ?>" alt="<?php the_title(); ?>" style="width:450px;" /></a></p>
-<?php		else : ?>
-				<p><img class="centered" src="<?php echo $post->guid; ?>" alt="<?php the_title(); ?>" /></p>
-<?php		endif;
-		break;
-	default :
-?>
-				<p><a href="<?php echo $post->guid; ?>"><?php echo basename($post->guid); ?></a></p>
-<?php
-	}
-?>
+				<p class="<?php $link = get_the_attachment_link($post->ID, true, array(450, 800)); /* Doing this now populates the imagesize stuff */ echo $post->iconsize[0] <= 128 ? 'small' : ''; ?>attachment"><?php echo get_the_attachment_link($post->ID, true, array(450, 800)); ?><br /><?php echo basename($post->guid); ?></p>
+
 				<?php the_content('<p class="serif">Read the rest of this entry &raquo;</p>'); ?>
 	
 				<?php link_pages('<p><strong>Pages:</strong> ', '</p>', 'number'); ?>

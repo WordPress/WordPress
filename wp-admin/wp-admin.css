@@ -163,6 +163,23 @@ textarea, input, select {
 	overflow-y: hidden;
 }
 
+form#upload th {
+	text-align: right;
+}
+
+form#upload #post_content, form#upload #post_title {
+	width: 250px;
+}
+
+form#upload #post_content {
+	height: 50px;
+}
+
+.attpreview {
+	width: 1px; /* hug */
+	text-align: center;
+}
+
 .alignleft {
 	float: left
 }
@@ -389,7 +406,7 @@ table .vers, table .name {
 	border: none;
 }
 
-#titlediv {
+#titlediv, #guiddiv {
 	margin: 0 8px 0 0;
 	padding: 0px;
 }
@@ -409,7 +426,7 @@ table .vers, table .name {
 	width: 100%;
 }
 
-#titlediv input {
+#titlediv input, #guiddiv input {
 	margin: 0px;
 	width: 100%;
 }
@@ -456,15 +473,21 @@ table .vers, table .name {
 	font-size: 1.5em;
 }
 
-#postexcerpt div {
+#postexcerpt div, #attachmentlinks div {
 	margin-right: 8px;
 }
 
-* html #postexcerpt .dbx-toggle-open {
+#attachmentlinks textarea {
+	width: 100%;
+	height: 2.5em;
+	margin-bottom: 6px;
+}
+
+* html #postexcerpt .dbx-toggle-open, * html #postexcerpt .dbx-toggle-open {
 	padding-right: 8px;
 }
 
-#excerpt {
+#excerpt, .attachmentlinks {
 	margin: 0px;
 	height: 4em;
 	width: 100%;
@@ -733,7 +756,7 @@ table .vers, table .name {
 	width: 14.5em;
 }
 
-#slugdiv input, #passworddiv input, #authordiv select {
+#slugdiv input, #passworddiv input, #authordiv select, #thumbdiv input, #parentdiv input {
 	margin-top: .5em;
 	width: 90%;
 }

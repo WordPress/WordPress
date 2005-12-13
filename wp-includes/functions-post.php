@@ -208,12 +208,12 @@ function wp_insert_post($postarr = array()) {
 	return $post_ID;
 }
 
-function wp_insert_attachment($object, $file, $post_parent = 0) {
+function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	global $wpdb, $user_ID;
 
 	if ( is_object($object) )
 		$object = get_object_vars($object);
-	
+
 	// Export array as variables
 	extract($object);
 
@@ -320,7 +320,8 @@ function wp_insert_attachment($object, $file, $post_parent = 0) {
 
 	wp_set_post_cats('', $post_ID, $post_category);
 
-	add_post_meta($post_ID, '_wp_attached_file', $file);
+	if ( $file )
+		add_post_meta($post_ID, '_wp_attached_file', $file);
 
 	clean_post_cache($post_ID);
 
@@ -343,7 +344,7 @@ function wp_delete_attachment($postid) {
 	if ( 'attachment' != $post->post_status )
 		return false;
 
-	$meta = get_post_meta($postid, 'imagedata', true);
+	$meta = get_post_meta($postid, '_wp_attachment_metadata', true);
 	$file = get_post_meta($postid, '_wp_attached_file', true);
 
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
@@ -354,8 +355,11 @@ function wp_delete_attachment($postid) {
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
-	if ( ! empty($meta['file']) )
-		@ unlink($meta['file']);
+	if ( ! empty($meta['thumb']) ) {
+		// Don't delete the thumb if another attachment uses it
+		if (! $foo = $wpdb->get_row("SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE '%".$wpdb->escape($meta['thumb'])."%' AND post_id <> $postid"))
+			@ unlink(str_replace(basename($file), $meta['thumb'], $file));
+	}
 
 	if ( ! empty($file) )
 		@ unlink($file);
@@ -428,6 +432,9 @@ function wp_update_post($postarr = array()) {
 		$postarr['post_date'] = '';
 		$postarr['post_date_gmt'] = '';
 	}
+
+	if ($postarr['post_status'] == 'attachment')
+		return wp_insert_attachment($postarr);
 
 	return wp_insert_post($postarr);
 }
@@ -510,6 +517,9 @@ function wp_delete_post($postid = 0) {
 
 	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
 		return $post;
+
+	if ( 'attachment' == $post->post_status )
+		return wp_delete_attachment($postid);
 
 	do_action('delete_post', $postid);
 

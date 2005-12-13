@@ -25,15 +25,6 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 $post = (int) $post;
 $images_width = 1;
 
-function get_udims($width, $height) {
-	if ( $height <= 96 && $width <= 128 )
-		return array($width, $height);
-	elseif ( $width / $height > 4 / 3 )
-		return array(128, (int) ($height / $width * 128));
-	else
-		return array((int) ($width / $height * 96), 96);
-}
-
 switch($action) {
 case 'delete':
 
@@ -55,6 +46,7 @@ if ( isset($file['error']) )
 	die($file['error'] . '<a href="' . basename(__FILE__) . '?action=upload&post="' . $post . '">'.__('Back to Image Uploading').'</a>');
 
 $url = $file['url'];
+$type = $file['type'];
 $file = $file['file'];
 $filename = basename($file);
 
@@ -64,7 +56,7 @@ $attachment = array(
 	'post_content' => $descr,
 	'post_status' => 'attachment',
 	'post_parent' => $post,
-	'post_mime_type' => $_FILES['image']['type'],
+	'post_mime_type' => $type,
 	'guid' => $url
 	);
 
@@ -79,15 +71,22 @@ if ( preg_match('!^image/!', $attachment['post_mime_type']) ) {
 	list($uwidth, $uheight) = get_udims($imagedata['width'], $imagedata['height']);
 	$imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 	$imagedata['file'] = $file;
-	$imagedata['thumb'] = "thumb-$filename";
 
 	add_post_meta($id, '_wp_attachment_metadata', $imagedata);
 
 	if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
 		if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
-			$error = wp_create_thumbnail($file, 128);
+			$thumb = wp_create_thumbnail($file, 128);
 		elseif ( $imagedata['height'] > 96 )
-			$error = wp_create_thumbnail($file, 96);
+			$thumb = wp_create_thumbnail($file, 96);
+
+		if ( @file_exists($thumb) ) {
+			$newdata = $imagedata;
+			$newdata['thumb'] = basename($thumb);
+			update_post_meta($id, '_wp_attachment_metadata', $newdata, $imagedata);
+		} else {
+			$error = $thumb;
+		}
 	}
 } else {
 	add_post_meta($id, '_wp_attachment_metadata', array());
@@ -162,6 +161,9 @@ if ( count($attachments) > 0 ) {
 	$__linked_to_file = __('Linked to File');
 	$__using_thumbnail = __('Using Thumbnail');
 	$__using_original = __('Using Original');
+	$__using_title = __('Using Title');
+	$__using_filename = __('Using Filename');
+	$__using_icon = __('Using Icon');
 	$__no_thumbnail = '<del>'.__('No Thumbnail').'</del>';
 	$__send_to_editor = __('Send to editor');
 	$__close = __('Close Options');
@@ -173,12 +175,18 @@ linkedtopage = '$__linked_to_page';
 linkedtofile = '$__linked_to_file';
 usingthumbnail = '$__using_thumbnail';
 usingoriginal = '$__using_original';
+usingtitle = '$__using_title';
+usingfilename = '$__using_filename';
+usingicon = '$__using_icon';
 var aa = new Array();
 var ab = new Array();
 var imga = new Array();
 var imgb = new Array();
 var srca = new Array();
 var srcb = new Array();
+var title = new Array();
+var filename = new Array();
+var icon = new Array();
 ";
 	foreach ( $attachments as $key => $attachment ) {
 		$ID = $attachment['ID'];
@@ -193,7 +201,7 @@ var srcb = new Array();
 		}
 		$attachment = array_merge($attachment, $meta);
 		$send_delete_cancel = "<a onclick=\"sendToEditor({$ID});return false;\" href=\"javascript:void()\">$__send_to_editor</a>
-<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment={$ID}&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
+<!--<a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment={$ID}&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>-->
 		<a onclick=\"popup.style.display='none';return false;\" href=\"javascript:void()\">$__close</a>
 ";
 		$uwidth_sum += 128;
@@ -234,11 +242,18 @@ imgb[{$ID}] = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['po
 </div>
 ";
 		} else {
-			$script .= "aa[{$ID}] = '<a id=\"{$ID}\" rel=\"attachment\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$attachment['post_title']}\">{$attachment['post_title']}</a>';
-ab[{$ID}] = '<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$attachment['post_title']}\">{$attachment['post_title']}</a>';
+			$title = $attachment['post_title'];
+			$filename = basename($attachment['guid']);
+			if ( $icon = get_attachment_icon($ID) )
+				$toggle_icon = "<a id=\"I{$ID}\" onclick=\"toggleOtherIcon({$ID});return false;\" href=\"javascript:void()\">$__using_title</a>";
+			$script .= "aa[{$ID}] = '<a id=\"{$ID}\" rel=\"attachment\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$attachment['post_title']}</a>';
+ab[{$ID}] = '<a id=\"{$ID}\" href=\"{$filename}\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$attachment['post_title']}</a>';
+title[{$ID}] = '{$attachment['post_title']}';
+filename[{$ID}] = '{$filename}';
+icon[{$ID}] = '{$icon}';
 ";
 			$html .= "<div id='target{$ID}' class='attwrap left'>
-	<div id='div{$ID}' class='otherwrap' onmousedown=\"selectLink({$ID})\" onclick=\"doPopup({$ID});return false;\">
+	<div id='div{$ID}' class='otherwrap usingtext' onmousedown=\"selectLink({$ID})\" onclick=\"doPopup({$ID});return false;\">
 		<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onmousedown=\"selectLink({$ID});\" onclick=\"return false;\">{$attachment['post_title']}</a>
 	</div>
 </div>
@@ -246,6 +261,7 @@ ab[{$ID}] = '<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onclick=\"doPopup({$
 			$popups .= "<div id='popup{$ID}' class='popup'>
 	<div class='filetype'>".__('File Type:').' '.str_replace('/',"/\n",$attachment['post_mime_type'])."</div>
 	<a id=\"L{$ID}\" onclick=\"toggleOtherLink({$ID});return false;\" href=\"javascript:void()\">$__linked_to_file</a>
+	{$toggle_icon}
 	{$send_delete_cancel}
 </div>
 ";
@@ -320,6 +336,8 @@ function toggleLink(n) {
 function toggleOtherLink(n) {
 	od=document.getElementById('div'+n);
 	ol=document.getElementById('L'+n);
+	oi=document.getElementById(n);
+	ih=oi.innerHTML;
 	if ( ol.innerHTML == linkedtofile ) {
 		od.innerHTML = aa[n];
 		ol.innerHTML = linkedtopage;
@@ -327,6 +345,8 @@ function toggleOtherLink(n) {
 		od.innerHTML = ab[n];
 		ol.innerHTML = linkedtofile;
 	}
+	oi=document.getElementById(n);
+	oi.innerHTML = ih;
 }
 function toggleImage(n) {
 	o = document.getElementById('image'+n);
@@ -338,6 +358,25 @@ function toggleImage(n) {
 		o.src = srca[n];
 		oi.innerHTML = usingthumbnail;
 	}
+}
+function toggleOtherIcon(n) {
+	od = document.getElementById('div'+n);
+	o = document.getElementById(n);
+	oi = document.getElementById('I'+n);
+	if ( oi.innerHTML == usingtitle ) {
+		o.innerHTML = filename[n];
+		oi.innerHTML = usingfilename;
+	} else if ( oi.innerHTML == usingfilename ) {
+		o.innerHTML = icon[n];
+		oi.innerHTML = usingicon;
+	} else {
+		o.innerHTML = title[n];
+		oi.innerHTML = usingtitle;
+	}
+	if ( oi.innerHTML == usingicon )
+		od.className = 'otherwrap usingicon';
+	else
+		od.classname = 'otherwrap usingtext';
 }
 
 var win = window.opener ? window.opener : window.dialogArguments;
@@ -401,18 +440,31 @@ form {
 }
 .otherwrap {
 	margin-right: 5px;
-	height: 90px;
 	overflow: hidden;
 	background-color: #f9fcfe;
 	float: left;
-	padding: 3px;
 }
 .otherwrap a {
 	display: block;
-	width: 122px;
 }
 .otherwrap a, .otherwrap a:hover, .otherwrap a:active, .otherwrap a:visited {
 	color: blue;
+}
+.usingicon {
+	padding: 0px;
+	height: 96px;
+	text-align: center;
+}
+.usingicon a {
+	width: 128px;
+}
+.usingtext {
+	padding: 3px;
+	height: 90px;
+	text-align: left;
+}
+.usingtext a {
+	width: 122px;
 }
 .filetype {
 	font-size: 80%;

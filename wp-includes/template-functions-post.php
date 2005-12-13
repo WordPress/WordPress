@@ -439,22 +439,126 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
 		return $output;
 }
 
-function prepend_attachment($content) {
-	global $post;
+function the_attachment_link($id = 0, $fullsize = false, $max_dims = false) {
+	echo get_the_attachment_link($id, $fullsize, $max_dims);
+}
 
-	$p = '<p class="attachment">';
+function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false) {
+	$id = (int) $id;
+	$_post = & get_post($id);
 
-	if ( '' != $post->guid ) {
-		if ( substr($post->post_mime_type, 0, 6) == 'image/' )
-			$p .= '<a href="' . $post->guid . '" title="Click for full-size image" ><img class="attachmentimage" src="' . $post->guid . '" alt="' . $post->post_title . '" /></a>';
-		else
-			$p .= __('Attachment') . ' (' . $post->post_mime_type . ')';
+	if ( ('attachment' != $_post->post_status) || ('' == $_post->guid) )
+		return __('Missing Attachment');
+
+	if (! empty($_post->guid) ) {
+		$innerHTML = get_attachment_innerHTML($_post->ID, $fullsize, $max_dims);
+
+		return "<a href=\"{$_post->guid}\" title=\"{$_post->post_title}\" >{$innerHTML}</a>";
+
 	} else {
 		$p .= __('Missing attachment');
 	}
+	return $p;
+}
 
+function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
+	$id = (int) $id;
+	$post = & get_post($id);
+
+	$mime = $post->post_mime_type;
+
+	$imagedata = get_post_meta($post->ID, '_wp_attachment_metadata', true);
+
+	$file = get_post_meta($post->ID, '_wp_attached_file', true);
+
+	if ( !$fullsize && !empty($imagedata['thumb'])
+			&& ($thumbfile = str_replace(basename($file), $imagedata['thumb'], $file))
+			&& file_exists($thumbfile) ) {
+
+		// We have a thumbnail desired, specified and existing
+
+		$src = str_replace(basename($post->guid), $imagedata['thumb'], $post->guid);
+		$src_file = $thumbfile;
+		$class = 'attachmentthumb';
+
+	} elseif ( substr($mime, 0, 6) == 'image/'
+			&& file_exists($file) ) {
+
+		// We have an image without a thumbnail
+
+		$src = $post->guid;
+		$src_file = & $file;
+		$class = 'attachmentimage';
+	} elseif (! empty($mime) ) {
+
+		// No thumb, no image. We'll look for a mime-related icon instead.
+		$icon_dir = apply_filters('icon_dir', get_template_directory().'/images');
+		$icon_dir_uri = apply_filters('icon_dir_uri', get_template_directory_uri().'/images');
+
+		$types = array(substr($mime, 0, strpos($mime, '/')), substr($mime, strpos($mime, '/') + 1), str_replace('/', '_', $mime));
+		$exts = array('jpg', 'gif', 'png');
+		foreach ($types as $type) {
+			foreach ($exts as $ext) {
+				$src_file = "$icon_dir/$type.$ext";
+				if ( file_exists($src_file) ) {
+					$src = "$icon_dir_uri/$type.$ext";
+					break 2;
+				}
+			}
+		}
+	}
+
+	if (! isset($src) )
+		return false;
+
+	// Do we need to constrain the image?
+	if ( ($max_dims = apply_filters('attachment_max_dims', $max_dims)) && file_exists($src_file) ) {
+
+		$imagesize = getimagesize($src_file);
+
+		if (($imagesize[0] > $max_dims[0]) || $imagesize[1] > $max_dims[1] ) {
+			$actual_aspect = $imagesize[0] / $imagesize[1];
+			$desired_aspect = $max_dims[0] / $max_dims[1];
+
+			if ( $actual_aspect >= $desired_aspect ) {
+				$height = $actual_aspect * $max_dims[0];
+				$constraint = "width=\"{$max_dims[0]}\" ";
+				$post->iconsize = array($max_dims[0], $height);
+			} else {
+				$width = $max_dims[1] / $actual_aspect;
+				$constraint = "height=\"{$max_dims[1]}\" ";
+				$post->iconsize = array($width, $max_dims[1]);
+			}
+		} else {
+			$post->iconsize = array($imagesize[0], $imagesize[1]);
+		}
+	}
+
+	$icon = "<img src=\"{$src}\" title=\"{$post->post_title}\" {$constraint}/>";
+
+	return apply_filters('attachment_icon', $icon, $post->ID);
+}
+
+function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
+	$id = (int) $id;
+
+	if ( $innerHTML = get_attachment_icon($id, $fullsize, $max_dims))
+		return $innerHTML;
+
+	$post = & get_post($id);
+
+	$innerHTML = $post->post_title;
+
+	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
+}
+
+function prepend_attachment($content) {
+	$p = '<p class="attachment">';
+	$p .= get_the_attachment_link(false, true, array(400, 300));
 	$p .= '</p>';
+	$p = apply_filters('prepend_attachment', $p);
 
 	return "$p\n$content";
 }
+
 ?>
