@@ -8,7 +8,8 @@ if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
 
-	if ( !isset($_COOKIE[USER_COOKIE])) {
+	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) || 
+		!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true) ) {
 		$current_user = new WP_User(0);
 		return false;
 	}
