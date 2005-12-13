@@ -8,9 +8,10 @@ if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
 
-	if ( !isset($_COOKIE[USER_COOKIE])) 
+	if ( !isset($_COOKIE[USER_COOKIE])) {
+		$current_user = new WP_User(0);
 		return false;
-
+	}
 	$user_login  = $_COOKIE[USER_COOKIE];
 	$userdata    = get_userdatabylogin($user_login);
 	$user_level  = $userdata->user_level;

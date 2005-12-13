@@ -117,6 +117,9 @@ class WP_User {
 	function WP_User($id) {
 		global $wp_roles, $table_prefix;
 
+		if ( empty($id) )
+			return;
+
 		if ( is_numeric($id) ) {
 			$this->data = get_userdata($id);
 		} else {
