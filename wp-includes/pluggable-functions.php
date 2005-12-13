@@ -9,24 +9,39 @@ function get_currentuserinfo() {
 	global $user_login, $userdata, $user_level, $user_ID, $user_nickname, $user_email, $user_url, $user_pass_md5, $user_identity;
 	// *** retrieving user's data from cookies and db - no spoofing
 
-	if (isset($_COOKIE['wordpressuser_' . COOKIEHASH])) 
+	if ( wp_login($_COOKIE['wordpressuser_' . COOKIEHASH], $_COOKIE['wordpresspass_' . COOKIEHASH], true) ) {
 		$user_login = $_COOKIE['wordpressuser_' . COOKIEHASH];
-	$userdata = get_userdatabylogin($user_login);
-	$user_level = $userdata->user_level;
-	$user_ID = $userdata->ID;
-	$user_nickname = $userdata->user_nickname;
-	$user_email = $userdata->user_email;
-	$user_url = $userdata->user_url;
-	$user_pass_md5 = md5($userdata->user_pass);
+		$userdata = get_userdatabylogin($user_login);
+		$user_level = $userdata->user_level;
+		$user_ID = $userdata->ID;
+		$user_nickname = $userdata->user_nickname;
+		$user_email = $userdata->user_email;
+		$user_url = $userdata->user_url;
+		$user_pass_md5 = md5($userdata->user_pass);
 
-	$idmode = $userdata->user_idmode;
-	if ($idmode == 'nickname')  $user_identity = $userdata->user_nickname;
-	if ($idmode == 'login')     $user_identity = $userdata->user_login;
-	if ($idmode == 'firstname') $user_identity = $userdata->user_firstname;
-	if ($idmode == 'lastname')  $user_identity = $userdata->user_lastname;
-	if ($idmode == 'namefl')    $user_identity = $userdata->user_firstname.' '.$userdata->user_lastname;
-	if ($idmode == 'namelf')    $user_identity = $userdata->user_lastname.' '.$userdata->user_firstname;
-	if (!$idmode) $user_identity = $userdata->user_nickname;
+		$idmode = $userdata->user_idmode;
+		switch($userdata->user_idmode) {
+			case 'login':
+				$user_identity = $userdata->user_login;
+				break;
+			case 'firstname':
+				$user_identity = $userdata->user_firstname;
+				break;
+			case 'lastname':
+				$user_identity = $userdata->user_lastname;
+				break;
+			case 'namefl':
+				$user_identity = $userdata->user_firstname.' '.$userdata->user_lastname;
+				break;
+			case 'namelf':
+				$user_identity = $userdata->user_lastname.' '.$userdata->user_firstname;
+				break;
+			case 'nickname':
+			default:
+				$user_identity = $userdata->user_nickname;
+				break;
+		}
+	}
 }
 endif;
 
