@@ -658,13 +658,13 @@ class WP_Query {
 			}
 		}
 
+		update_post_caches($this->posts);
+
 		$this->posts = apply_filters('the_posts', $this->posts);
 		$this->post_count = count($this->posts);
 		if ($this->post_count > 0) {
 			$this->post = $this->posts[0];
 		}
-
-		update_post_caches($this->posts);
 		
 		// Save any changes made to the query vars.
 		$this->query_vars = $q;
