@@ -80,7 +80,7 @@ addLoadEvent(blurry);
 <script type="text/javascript" src="list-manipulation.js"></script>
 <?php if ( isset( $editing ) ) : ?>
 <?php if ( $editing && user_can_richedit() ) : ?>
-<script language="javascript" type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?ver=20051211"></script>
+<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?ver=20051211"></script>
 <?php endif; ?>
 <script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
 <script type="text/javascript" src="../wp-includes/js/dbx-key.js"></script>
