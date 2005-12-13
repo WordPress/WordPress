@@ -269,6 +269,21 @@ function map_meta_cap($cap, $user_id) {
 				$caps[] = 'edit_published_posts';
 		}
 		break;
+	case 'read_post':
+		$post = get_post($args[0]);
+		
+		if ( 'private' != $post->post_status ) {
+			$caps[] = 'read';
+			break;	
+		}
+			
+		$author_data = get_userdata($user_id);
+		$post_author_data = get_userdata($post->post_author);
+		if ($user_id == $post_author_data->ID)
+			$caps[] = 'read';
+		else
+			$caps[] = 'read_private_posts';
+		break;
 	default:
 		// If no meta caps match, return the original cap.
 		$caps[] = $cap;

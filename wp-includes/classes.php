@@ -643,8 +643,8 @@ class WP_Query {
 						} else {
 							$this->is_preview = true;
 						}
-					} elseif ('private' == $status) {
-						if ($this->posts[0]->post_author != $user_ID)
+					} else {
+						if (! current_user_can('read_post', $this->posts[0]->ID))
 							$this->posts = array();
 					}
 				}
