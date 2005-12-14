@@ -26,6 +26,10 @@ $post = (int) $post;
 $images_width = 1;
 
 switch($action) {
+case 'links':
+// Do not pass GO.
+break;
+
 case 'delete':
 
 if ( !current_user_can('edit_post', (int) $attachment) )	
@@ -200,6 +204,10 @@ var icon = new Array();
 			add_post_meta($ID, '_wp_attachment_metadata', $meta);
 		}
 		$attachment = array_merge($attachment, $meta);
+		$noscript = "<noscript>
+		<div class='caption'><a href=\"".basename(__FILE__)."?action=links&amp;attachment={$ID}&amp;post={$post}&amp;all={$all}&amp;start={$start}\">Choose Links</a></div>
+		</noscript>
+";
 		$send_delete_cancel = "<a onclick=\"sendToEditor({$ID});return false;\" href=\"javascript:void()\">$__send_to_editor</a>
 <a onclick=\"return confirm('$__confirmdelete')\" href=\"".basename(__FILE__)."?action=delete&amp;attachment={$ID}&amp;all=$all&amp;start=$start&amp;post=$post\">$__delete</a>
 		<a onclick=\"popup.style.display='none';return false;\" href=\"javascript:void()\">$__close</a>
@@ -233,6 +241,7 @@ imgb[{$ID}] = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['po
 	<div id='div{$ID}' class='imagewrap' onclick=\"doPopup({$ID});\">
 		<img id=\"image{$ID}\" src=\"$src\" alt=\"{$image['post_title']}\" $height_width />
 	</div>
+	{$noscript}
 </div>
 ";
 			$popups .= "<div id='popup{$ID}' class='popup'>
@@ -256,6 +265,7 @@ icon[{$ID}] = '{$icon}';
 	<div id='div{$ID}' class='otherwrap usingtext' onmousedown=\"selectLink({$ID})\" onclick=\"doPopup({$ID});return false;\">
 		<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onmousedown=\"selectLink({$ID});\" onclick=\"return false;\">{$attachment['post_title']}</a>
 	</div>
+	{$noscript}
 </div>
 ";
 			$popups .= "<div id='popup{$ID}' class='popup'>
@@ -398,6 +408,11 @@ function sendToEditor(n) {
 }
 </script>
 <style type="text/css">
+<?php if ( $action == 'links' ) : ?>
+* html { overflow-x: hidden; }
+<?php else : ?>
+* html { overflow-y: hidden; }
+<?php endif; ?>
 body {
 	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
 	border: none;
@@ -418,8 +433,6 @@ form {
 	clear: both;
 	margin: 0px;
 	padding: 15px 15px;
-	height: 96px;
-/*	white-space: nowrap;*/
 	width: <?php echo $images_width; ?>px;
 }
 #images img {
@@ -427,22 +440,19 @@ form {
 }
 <?php echo $style; ?>
 .attwrap, .attwrap * {
-	overflow: none;
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
 }
 .imagewrap {
 	margin-right: 5px;
-	height: 96px;
 	overflow: hidden;
-	float: left;
+	width: 128px;
 }
 .otherwrap {
 	margin-right: 5px;
-/*	overflow: hidden;*/
+	overflow: hidden;
 	background-color: #f9fcfe;
-	float: left;
 }
 .otherwrap a {
 	display: block;
@@ -454,17 +464,17 @@ form {
 	padding: 0px;
 	height: 96px;
 	text-align: center;
+	width: 128px;
 }
 .usingicon a {
-	width: 128px;
 }
 .usingtext {
 	padding: 3px;
 	height: 90px;
 	text-align: left;
+	width: 122px;
 }
 .usingtext a {
-	width: 122px;
 }
 .filetype {
 	font-size: 80%;
@@ -547,7 +557,6 @@ th {
 	padding: 1px;
 	position: absolute;
 	width: 114px;
-/*	height: 92px;*/
 	display: none;
 	background-color: rgb(240, 240, 238);
 	border-top: 2px solid #fff;
@@ -574,6 +583,9 @@ th {
 	background-color: #fff;
 	color: #000;
 }
+.caption {
+	text-align: center;
+}
 #submit {
 	margin: 1px;
 	width: 99%;
@@ -593,6 +605,21 @@ th {
 	border-left-color: #999;
 	border-top-color: #999;
 }
+.zerosize {
+	width: 0px;
+	height: 0px;
+	overflow: hidden;
+	position: absolute;
+}
+#links {
+	margin: 3px 8px;
+	line-height: 2em;
+	
+}
+#links textarea {
+	width: 95%;
+	height: 4.5em;
+}
 </style>
 </head>
 <body>
@@ -605,7 +632,7 @@ th {
 <li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=true"><?php _e('Browse All'); ?></a></li>
 <?php } ?>
 <li> </li>
-<?php if ( $action != 'upload' ) { ?>
+<?php if ( $action == 'view' ) { ?>
 <?php if ( false !== $back ) : ?>
 <li class="spacer"><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=0" title="<?php _e('First'); ?>">|&laquo;</a></li>
 <li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $back; ?>"">&laquo; <?php _e('Back'); ?></a></li>
@@ -664,6 +691,10 @@ th {
 </table>
 </div>
 </form>
+<?php elseif ( $action == 'links' ) : ?>
+<div id="links">
+<?php the_attachment_links($attachment); ?>
+</div>
 <?php endif; ?>
 </body>
 </html>

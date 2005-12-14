@@ -160,7 +160,7 @@ textarea, input, select {
 	margin-bottom: 16px;
 	height: 15em;
 	width: 100%;
-	overflow-y: hidden;
+/*	overflow-y: hidden;*/
 }
 
 form#upload th {
