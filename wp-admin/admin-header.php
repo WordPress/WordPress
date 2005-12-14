@@ -13,11 +13,11 @@ if (!isset($_GET["page"])) require_once('admin.php'); ?>
 //<![CDATA[
 
 function addLoadEvent(func) {
-  var oldonload = window.onload;
-  if (typeof window.onload != 'function') {
-    window.onload = func;
+  if ( typeof wpOnload != 'function' ) {
+    wpOnload = func;
   } else {
-    window.onload = function() {
+    var oldonload = wpOnload;
+    wpOnload = function() {
       oldonload();
       func();
     }

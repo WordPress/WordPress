@@ -8,6 +8,6 @@
 </div>
 <?php check_for_pings(); ?>
 <?php do_action('admin_footer', ''); ?>
-
+<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
 </body>
 </html>
