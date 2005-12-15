@@ -187,7 +187,7 @@ default:
 	do_action('wp_authenticate', array(&$user_login, &$user_pass));
 
 	if ( $_POST ) {
-		$user = new WP_User($user_login);
+		$user = new WP_User(0, $user_login);
 	
 		// If the user can't edit posts, send them to their profile.
 		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )

@@ -114,17 +114,21 @@ class WP_User {
 	var $roles = array();
 	var $allcaps = array();
 
-	function WP_User($id) {
+	function WP_User($id, $name = '') {
 		global $wp_roles, $table_prefix;
 
-		if ( empty($id) )
+		if ( empty($id) && empty($name) )
 			return;
 
-		if ( is_numeric($id) ) {
-			$this->data = get_userdata($id);
-		} else {
-			$this->data = get_userdatabylogin($id);
+		if ( ! is_numeric($id) ) {
+			$name = $id;
+			$id = 0;
 		}
+
+		if ( ! empty($id) )
+			$this->data = get_userdata($id);
+		else
+			$this->data = get_userdatabylogin($name);
 
 		if ( empty($this->data->ID) )
 			return;

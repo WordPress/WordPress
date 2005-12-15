@@ -179,7 +179,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  $is_admin = $user->has_cap('level_8');
 
 	  $struct = array(
@@ -317,7 +317,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('edit_themes') ) {
 	    return new IXR_Error(401, 'Sorry, this user can not edit the template.');
 	  }
@@ -352,7 +352,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('edit_themes') ) {
 	    return new IXR_Error(401, 'Sorry, this user can not edit the template.');
 	  }
@@ -391,7 +391,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  
 	  $cap = ($publish) ? 'publish_posts' : 'edit_posts';
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap($cap) )
 	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
 
@@ -445,7 +445,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($actual_post);
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you do not have the right to edit this post.');
 
@@ -489,7 +489,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  	return new IXR_Error(404, 'Sorry, no such post.');
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you do not have the right to delete this post.');
 
@@ -525,7 +525,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('publish_posts') )
 	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
 
@@ -605,7 +605,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
 
@@ -844,7 +844,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$this->login_pass_ok($user_login, $user_pass) )
 			return $this->error;
 
-		$user = new WP_User($user_login);
+		$user = new WP_User(0, $user_login);
 
 		if ( !$user->has_cap('upload_files') ) {
 			logIO('O', '(MW) User does not have upload_files capability');
@@ -984,7 +984,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
 
@@ -1066,7 +1066,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return $this->error;
 	  }
 
-	  $user = new WP_User($user_login);
+	  $user = new WP_User(0, $user_login);
 	  if ( !$user->has_cap('edit_post', $post_ID) )
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
 
