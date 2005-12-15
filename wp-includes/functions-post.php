@@ -504,7 +504,8 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	}
 	
 	// Update category counts.
-	foreach ( $post_categories as $cat_id ) {
+	$all_affected_cats = array_unique(array_merge($post_categories, $old_categories));
+	foreach ( $all_affected_cats as $cat_id ) {
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
 		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
 		wp_cache_delete($cat_id, 'category');		
