@@ -1563,7 +1563,7 @@ class WP {
 	function send_headers() {
 		global $current_user;
 		@header('X-Pingback: '. get_bloginfo('pingback_url'));
-		if ( $current_user )
+		if ( is_user_logged_in() )
 			nocache_headers();
 		if ( !empty($this->query_vars['error']) && '404' == $this->query_vars['error'] ) {
 			status_header( 404 );

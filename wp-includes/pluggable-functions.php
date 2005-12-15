@@ -152,6 +152,16 @@ function wp_login($username, $password, $already_md5 = false) {
 }
 endif;
 
+if ( !function_exists('is_user_logged_in') ) :
+function is_user_logged_in() {
+	global $current_user;
+	
+	if ( $current_user->id == 0 )
+		return false;
+	return true;
+}
+endif;
+
 if ( !function_exists('auth_redirect') ) :
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page

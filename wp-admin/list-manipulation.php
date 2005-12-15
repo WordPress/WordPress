@@ -4,7 +4,7 @@ require_once('admin-functions.php');
 require_once('admin-db.php');
 
 get_currentuserinfo();
-if ( !$current_user )
+if ( !is_user_logged_in() )
 	die('-1');
 
 function grab_results() {
