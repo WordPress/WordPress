@@ -2,10 +2,6 @@
 //initialisation function
 addLoadEvent( function()
 {
-	//initialise the docking boxes manager 
-	var manager = new dbxManager('postmeta'); 	//session ID [/-_a-zA-Z0-9/]
-
-
 	//create new docking boxes group
 	var meta = new dbxGroup(
 		'grabit', 		// container ID [/-_a-zA-Z0-9/]
