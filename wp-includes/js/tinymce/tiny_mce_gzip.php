@@ -119,7 +119,8 @@
 	$mce_browsers = apply_filters('mce_browsers', array('msie', 'gecko', 'opera'));
 	$mce_browsers = implode($mce_browsers, ',');
 ?>
-tinyMCE.init({
+
+initArray = {
 	mode : "specific_textareas",
 	textarea_trigger : "title",
 	width : "100%",
@@ -145,5 +146,12 @@ tinyMCE.init({
 	valid_elements : "<?php echo $valid_elements; ?>",
 <?php do_action('mce_options'); ?>
 	plugins : "<?php echo $plugins; ?>"
-});
+};
+
+<?php
+	// For people who really REALLY know what they're doing with TinyMCE
+	do_action('tinymce_before_init');
+?>
+
+tinyMCE.init(initArray);
 
