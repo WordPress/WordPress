@@ -136,8 +136,13 @@ case 'delete':
 	if ( !current_user_can('edit_post', $post_id) )	
 		die( __('You are not allowed to delete this post.') );
 
-	if ( (($post->post_status != 'attachment') && !wp_delete_post($post_id)) || !wp_delete_attachment($post_id))
-		die( __('Error in deleting...') );
+	if ( $post->post_status == 'attachment' ) {
+		if ( ! wp_delete_attachment($post_id) )
+			die( __('Error in deleting...') );
+	} else {
+		if ( !wp_delete_post($post_id) ) 
+			die( __('Error in deleting...') );
+	}
 
 	$sendback = $_SERVER['HTTP_REFERER'];
 	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
