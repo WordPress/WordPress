@@ -20,7 +20,7 @@ if (have_posts()) :
 	if ($i < 1) {
 		$i++;
 ?>
-	<title><?php if (is_single() || is_page()) { echo "Comments on: "; the_title_rss(); } else { bloginfo_rss("name"); echo " Comments"; } ?></title>
+	<title><?php if (is_single() || is_page() ) { printf(__('Comments on: %s'), get_the_title_rss()); } else { printf(__('Comments for %s'), get_bloginfo_rss("name")); } ?></title>
 	<link><?php (is_single()) ? permalink_single_rss() : bloginfo_rss("url") ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<pubDate><?php echo gmdate('r'); ?></pubDate>
@@ -51,14 +51,21 @@ if (have_posts()) :
 				get_post_custom($comment->comment_post_ID);
 ?>
 	<item>
-		<title>by: <?php comment_author_rss() ?></title>
+		<title><?php if ( ! (is_single() || is_page()) ) {
+			$title = get_the_title($comment->comment_post_ID);
+			$title = apply_filters('the_title', $title);
+			$title = apply_filters('the_title_rss', $title);
+			printf(__('Comment on %1$s by %2$s'), $title, get_comment_author_rss());
+		} else {	
+			printf(__('by: %s'), get_comment_author_rss());			
+		} ?></title>
 		<link><?php comment_link() ?></link>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid><?php comment_link() ?></guid>
 			<?php 
 			if (!empty($comment->post_password) && $_COOKIE['wp-postpass'] != $comment->post_password) {
 			?>
-		<description>Protected Comments: Please enter your password to view comments.</description>
+		<description><?php _e('Protected Comments: Please enter your password to view comments.'); ?></description>
 		<content:encoded><![CDATA[<?php echo get_the_password_form() ?>]]></content:encoded>
 			<?php
 			} else {

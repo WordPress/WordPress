@@ -9,11 +9,15 @@ function bloginfo_rss($show = '') {
 	echo get_bloginfo_rss($show);
 }
 
-function the_title_rss() {
+function get_the_title_rss() {
 	$title = get_the_title();
 	$title = apply_filters('the_title', $title);
 	$title = apply_filters('the_title_rss', $title);
-	echo $title;
+	return $title;
+}
+
+function the_title_rss() {
+	echo get_the_title_rss();
 }
 
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
@@ -62,9 +66,11 @@ function comment_link() {
 	echo get_comment_link();
 }
 
+function get_comment_author_rss() {
+	return apply_filters('comment_author_rss', get_comment_author() );
+}
 function comment_author_rss() {
-	$author = apply_filters('comment_author_rss', get_comment_author() );
-	echo $author;
+	echo get_comment_author_rss();
 }
 
 function comment_text_rss() {
