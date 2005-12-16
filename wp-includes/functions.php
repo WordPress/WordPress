@@ -767,7 +767,6 @@ function get_all_page_ids() {
 }
 
 function gzip_compression() {
-	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') ) return false;
 	if ( !get_settings('gzipcompression') ) return false;
 
 	if ( extension_loaded('zlib') ) {

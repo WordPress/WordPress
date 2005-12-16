@@ -56,10 +56,7 @@
 	// General options
 	$expiresOffset = 3600 * 24 * 30; // 30 days util client cache expires
 
-	// Only gzip the contents if clients and server support it
-	$encodings = explode(',', strtolower($_SERVER['HTTP_ACCEPT_ENCODING']));
-	if (in_array('gzip', $encodings) && function_exists('ob_gzhandler'))
-		@ ob_start("ob_gzhandler"); // Don't let warnings foul up the JS
+	gzip_compression();
 
 	// Output rest of headers
 	header("Content-type: text/javascript; charset: UTF-8");
