@@ -639,7 +639,7 @@ function pingback($content, $post_ID) {
 		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
 
 		if ($pingback_server_url) {
-                        set_time_limit( 60 ); 
+			@ set_time_limit( 60 ); 
 			 // Now, the RPC call
 			debug_fwrite($log, "Page Linked To: $pagelinkedto \n");
 			debug_fwrite($log, 'Page Linked From: ');

@@ -860,7 +860,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 
 	$tb_url = addslashes( $tb_url );
 	$wpdb->query("UPDATE $wpdb->posts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = '$ID'");
-	return $wpdb->query("UPDATE $wpdb->posts SET to_ping = REPLACE(to_ping, '$tb_url', '') WHERE ID = '$ID'");
+	return $wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_url', '')) WHERE ID = '$ID'");
 }
 
 function make_url_footnote($content) {
@@ -937,7 +937,7 @@ function debug_fclose($fp) {
 	}
 }
 
-function check_for_pings() {
+function spawn_pinger() {
 	global $wpdb;
 	$doping = false;
 	if ( $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != '' LIMIT 1") )
@@ -946,8 +946,13 @@ function check_for_pings() {
 	if ( $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_pingme' OR meta_key = '_encloseme' LIMIT 1") )
 		$doping = true;
 
-	if ( $doping )
-		echo '<iframe id="pingcheck" src="' . get_settings('siteurl') .'/wp-admin/execute-pings.php?time=' . time() . '" style="border:none;width:1px;height:1px;"></iframe>';
+	if ( $doping ) {
+		$ping_url = get_settings('siteurl') .'/wp-admin/execute-pings.php';
+		$parts = parse_url($ping_url);
+		$argyle = @ fsockopen($parts['host'], $_SERVER['SERVER_PORT'], $errno, $errstr, 0.01);
+		if ( $argyle )
+			fputs($argyle, "GET {$parts['path']}?time=".time()." HTTP/1.0\r\nHost: {$_SERVER['HTTP_HOST']}\r\n\r\n");
+       }
 }
 
 function do_enclose( $content, $post_ID ) {

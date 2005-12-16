@@ -181,20 +181,21 @@ function wp_insert_post($postarr = array()) {
 	if ($post_status == 'publish') {
 		do_action('publish_post', $post_ID);
 
-		if ($post_pingback && !defined('WP_IMPORTING'))
-			$result = $wpdb->query("
-				INSERT INTO $wpdb->postmeta 
-				(post_id,meta_key,meta_value) 
-				VALUES ('$post_ID','_pingme','1')
-			");
-		if ( !defined('WP_IMPORTING') )
+		if ( !defined('WP_IMPORTING') ) {
+			if ( $post_pingback )
+				$result = $wpdb->query("
+					INSERT INTO $wpdb->postmeta 
+					(post_id,meta_key,meta_value) 
+					VALUES ('$post_ID','_pingme','1')
+				");
 			$result = $wpdb->query("
 				INSERT INTO $wpdb->postmeta 
 				(post_id,meta_key,meta_value) 
 				VALUES ('$post_ID','_encloseme','1')
 			");
-		//register_shutdown_function('do_trackbacks', $post_ID);
-	}	else if ($post_status == 'static') {
+			spawn_pinger();
+		}
+	} else if ($post_status == 'static') {
 		generate_page_rewrite_rules();
 
 		if ( !empty($page_template) )
@@ -702,6 +703,8 @@ function do_trackbacks($post_id) {
 		if ( !in_array($tb_ping, $pinged) ) {
 			trackback($tb_ping, $post_title, $excerpt, $post_id);
 			$pinged[] = $tb_ping;
+		} else {
+			$wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_ping', '')) WHERE ID = '$post_id'");
 		}
 	endforeach; endif;
 }
