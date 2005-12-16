@@ -595,6 +595,50 @@ function &get_post(&$post, $output = OBJECT) {
 	}
 }
 
+function &get_children($post = 0, $output = OBJECT) {
+	global $post_cache, $wpdb;
+
+	if ( empty($post) ) {
+		if ( isset($GLOBALS['post']) )
+			$post_parent = & $GLOBALS['post']->post_parent;
+		else
+			return false;
+	} elseif ( is_object($post) ) {
+		$post_parent = $post->post_parent;
+	} else {
+		$post_parent = $post;
+	}
+
+	$post_parent = (int) $post_parent;
+
+	$query = "SELECT * FROM $wpdb->posts WHERE post_parent = $post_parent";
+
+	$children = $wpdb->get_results($query);
+
+	if ( $children ) {
+		foreach ( $children as $key => $child ) {
+			$post_cache[$child->ID] =& $children[$key];
+			$kids[$child->ID] =& $children[$key];
+		}
+	} else {
+		return false;
+	}
+
+	if ( $output == OBJECT ) {
+		return $kids;
+	} elseif ( $output == ARRAY_A ) {
+		foreach ( $kids as $kid )
+			$weeuns[$kid->ID] = get_object_vars($kids[$kid->ID]);
+		return $weeuns;
+	} elseif ( $output == ARRAY_N ) {
+		foreach ( $kids as $kid )
+			$babes[$kid->ID] = array_values(get_object_vars($kids[$kid->ID]));
+		return $babes;
+	} else {
+		return $kids;
+	}
+}
+
 function set_page_path($page) {
 	$page->fullpath = '/' . $page->post_name;
 	$path = $page->fullpath;
