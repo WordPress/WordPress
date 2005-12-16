@@ -84,6 +84,7 @@ addLoadEvent(blurry);
 <?php endif; ?>
 <script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
 <script type="text/javascript">
+//<![CDATA[
 	addLoadEvent( function() {
 <?php switch ( $pagenow ) : case 'post.php' : ?>
         var manager = new dbxManager('postmeta');       //session ID [/-_a-zA-Z0-9/]
@@ -91,6 +92,7 @@ addLoadEvent(blurry);
         var manager = new dbxManager('pagemeta');       //session ID [/-_a-zA-Z0-9/]
 <?php break; endswitch; ?>
 	});
+//]]>
 </script>
 <script type="text/javascript" src="../wp-includes/js/dbx-key.js"></script>
 
@@ -122,6 +124,7 @@ input#catadd { 	background: #a4a4a4;
 }
 </style>
 <script type="text/javascript">
+//<![CDATA[
 var ajaxCat = new sack();
 var newcat;
  
@@ -243,8 +246,6 @@ function newCatCompletion() {
 	}
 	p.parentNode.removeChild(p);
 //	var id = parseInt(ajaxCat.response, 10);
-
-
 }
 
 function ajaxNewCatKeyPress(e) {
@@ -300,6 +301,7 @@ function myPload( str ) {
 		fixedExplode[count] = currentElement;
 	return fixedExplode;
 }
+//]]>
 </script>
 <?php endif; ?>
 
