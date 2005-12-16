@@ -39,7 +39,7 @@ $bookmarklet_height= 440;
 <p><label><?php _e('Nickname:') ?><br />
 <input type="text" name="nickname" value="<?php echo $profileuser->nickname ?>" /></label></p>
 
-</p><label><?php _e('Display name publicly as:') ?> <br />
+<p><label><?php _e('Display name publicly as:') ?> <br />
 <select name="display_name">
 <option value="<?php echo $profileuser->display_name; ?>"><?php echo $profileuser->display_name; ?></option>
 <option value="<?php echo $profileuser->nickname ?>"><?php echo $profileuser->nickname ?></option>
