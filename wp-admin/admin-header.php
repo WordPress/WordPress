@@ -163,7 +163,7 @@ addLoadEvent(newCatAddIn);
 function getResponseElement() {
 	var p = document.getElementById('ajaxcatresponse');
 	if (!p) {
-		p = document.createElement('p');
+		p = document.createElement('span');
 		document.getElementById('jaxcat').appendChild(p);
 		p.id = 'ajaxcatresponse';
 	}
@@ -187,7 +187,6 @@ function newCatInteractive() {
 
 function newCatCompletion() {
 	var p = getResponseElement();
-//	alert(ajaxCat.response);
 	var id    = 0;
 	var ids   = new Array();
 	var names = new Array();
@@ -195,8 +194,7 @@ function newCatCompletion() {
 	ids   = myPload( ajaxCat.response );
 	names = myPload( newcat.value );
 	for ( i = 0; i < ids.length; i++ ) {
-		id = ids[i];
-//		alert(id);
+		id = ids[i].replace(/[\n\r\l]+/g, "");
 		if ( id == '-1' ) {
 			p.innerHTML = "<?php echo addslashes(__("You don't have permission to do that.")); ?>";
 			return;
