@@ -1636,8 +1636,7 @@ class WP {
 		}
 	}
 
-	function prime_caches() {
-		update_category_cache();
+	function init() {
 		get_currentuserinfo();
 	}
 
@@ -1661,8 +1660,8 @@ class WP {
 	}
 
 	function main($query_args = '') {
+		$this->init();
 		$this->parse_request($query_args);
-		$this->prime_caches();
 		$this->send_headers();
 		$this->query_posts();
 		$this->handle_404();
