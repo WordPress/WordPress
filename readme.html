@@ -40,7 +40,7 @@
 </head>
 <body>
 <h1 style="text-align: center"><img alt="WordPress" src="http://wordpress.org/images/wordpress.gif" /> <br />
-	Version 1.5</h1>
+	Version 2.0</h1>
 <p style="text-align: center"> Semantic Personal Publishing Platform </p>
 <h1>First Things First</h1>
 <p>Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I'm proud to be a part of. Thousands of hours have gone into WordPress, and we're dedicated to making it better every day. Thank you for making it part of your world.</p>
@@ -52,7 +52,7 @@
 	<li>Open up <code>wp-config-sample.php</code> with a text editor like WordPad or similar and fill in your database connection details</li>
 	<li>Save the file as <code>wp-config.php</code> </li>
 	<li>Upload everything.</li>
-	<li>Launch <span class="file"><a href="wp-admin/install.php">/wp-admin/install.php</a></span> in your browser. This should setup the tables needed for your blog. If there is an error, double check your <span class="file">wp-config.php</span> file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> with as much data as you can gather. </li>
+	<li>Open <span class="file"><a href="wp-admin/install.php">/wp-admin/install.php</a></span> in your browser. This should setup the tables needed for your blog. If there is an error, double check your <span class="file">wp-config.php</span> file, and try again. If it fails again, please go to the <a href="http://wordpress.org/support/">support forums</a> with as much data as you can gather. </li>
 	<li><strong>Note the password given to you.</strong></li>
 	<li> The install script should then send you to the <a href="wp-login.php">login page</a>. Sign in with the username <code>admin</code> and the password generated during the installation. You can then click on 'Profile' to change the password.</li>
 </ol>
@@ -100,16 +100,10 @@
 <h1>Post via Email</h1>
 <p>You can post from an email client! To set this up go to your &quot;Writing&quot; options screen and fill in the connection details for your secret POP3 account. Then you need to set up <code>wp-mail.php</code> to execute periodically to check the mailbox for new posts. You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your <code>wp-mail.php</code> URL. </p>
 <p> Posting is easy: Any email sent to the address you specify will be posted, with the subject as the title. It is best to keep the address dicrete. The script will <i>delete</i> emails that are successfully posted. </p>
-<h1 id="notes">User Levels </h1>
-<p>You may allow or disallow user registration in your <a href="wp-admin/options-general.php">General options</a>. If &quot;new users can blog&quot; is disabled you must first raise the level of a newly registered user to allow them to post. Click the plus sign next to their name on the <a href="wp-admin/users.php">Users</a> page. </p>
-<h2>User Levels</h2>
-<ul>
-	<li>0 - New User </li>
-	<li>1 - User can post, edit, and delete their own posts.</li>
-	<li>5+ - Admin; can post, edit, delete other people's posts, and change the options.</li>
-	<li>Any user whose level is higher than 1, can edit and delete the posts and change the level of lower users. Example: a level 2 user is not an admin, but can edit the posts of level 1 users, and up the level of a new user from 0 to 1.</li>
-</ul>
-<p>Usually you want to have a team of level 1 users except for you.</p>
+<h1 id="roles">User Roles </h1>
+
+<p>We've eliminated user levels in order to make way for the much more flexible roles system introduced in 2.0. You can <a href="http://codex.wordpress.org/Roles_and_Capabilities">read more about Roles and Capabilities on the Codex</a>.</p>
+
 <h1> Final notes</h1>
 <ul>
 	<li>If you have any suggestions, ideas, comments, or if you (gasp!) found a bug, join us in the <a href="http://wordpress.org/support/">Support Forums</a></li>
