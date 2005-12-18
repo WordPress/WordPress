@@ -817,8 +817,8 @@ function list_meta($meta) {
 			<tr class='$style'>
 				<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>
 				<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>
-				<td align='center' width='10%'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".__('Update')."' /></td>
-				<td align='center' width='10%'><input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='".__('Delete')."' /></td>
+				<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".__('Update')."' /><br />
+				<input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='".__('Delete')."' /></td>
 			</tr>
 		";
 	}

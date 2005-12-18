@@ -555,7 +555,6 @@ table .vers, table .name {
 
 #postcustom .updatemeta, #postcustom .deletemeta {
 	margin: auto;
-	width: 5em;
 }
 
 #postcustom table {
