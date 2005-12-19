@@ -70,7 +70,7 @@ function wp_insert_user($userdata) {
 	}
 
 	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user_login, 'users');
+	wp_cache_delete($user_login, 'userlogins');
 	
 	if ( $update )
 		do_action('profile_update', $user_id);

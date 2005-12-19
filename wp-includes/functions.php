@@ -2212,7 +2212,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	
 	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user->user_login, 'users');
+	wp_cache_delete($user->user_login, 'userlogins');
 	
 	return true;
 }
@@ -2234,7 +2234,7 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 		
 	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user->user_login, 'users');
+	wp_cache_delete($user->user_login, 'userlogins');
 	
 	return true;
 }
