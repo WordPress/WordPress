@@ -232,7 +232,7 @@ srcb[{$ID}] = '{$image['guid']}';
 			$xpadding = (128 - $image['uwidth']) / 2;
 			$ypadding = (96 - $image['uheight']) / 2;
 			$style .= "#target{$ID} img { padding: {$ypadding}px {$xpadding}px; }\n";
-			$script .= "aa[{$ID}] = '<a id=\"{$ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
+			$script .= "aa[{$ID}] = '<a id=\"p{$ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
 ab[{$ID}] = '<a class=\"imagelink\" href=\"{$image['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$image['post_title']}\">';
 imga[{$ID}] = '<img id=\"image{$ID}\" src=\"$src\" alt=\"{$image['post_title']}\" $height_width />';
 imgb[{$ID}] = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['post_title']}\" $height_width />';
@@ -255,15 +255,15 @@ imgb[{$ID}] = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$image['po
 			$filename = basename($attachment['guid']);
 			$icon = get_attachment_icon($ID);
 			$toggle_icon = "<a id=\"I{$ID}\" onclick=\"toggleOtherIcon({$ID});return false;\" href=\"javascript:void()\">$__using_title</a>";
-			$script .= "aa[{$ID}] = '<a id=\"{$ID}\" rel=\"attachment\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$attachment['post_title']}</a>';
-ab[{$ID}] = '<a id=\"{$ID}\" href=\"{$filename}\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$attachment['post_title']}</a>';
+			$script .= "aa[{$ID}] = '<a id=\"p{$ID}\" rel=\"attachment\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$attachment['post_title']}</a>';
+ab[{$ID}] = '<a id=\"p{$ID}\" href=\"{$filename}\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$attachment['post_title']}</a>';
 title[{$ID}] = '{$attachment['post_title']}';
 filename[{$ID}] = '{$filename}';
 icon[{$ID}] = '{$icon}';
 ";
 			$html .= "<div id='target{$ID}' class='attwrap left'>
 	<div id='div{$ID}' class='otherwrap usingtext' onmousedown=\"selectLink({$ID})\" onclick=\"doPopup({$ID});return false;\">
-		<a id=\"{$ID}\" href=\"{$attachment['guid']}\" onmousedown=\"selectLink({$ID});\" onclick=\"return false;\">{$attachment['post_title']}</a>
+		<a id=\"p{$ID}\" href=\"{$attachment['guid']}\" onmousedown=\"selectLink({$ID});\" onclick=\"return false;\">{$attachment['post_title']}</a>
 	</div>
 	{$noscript}
 </div>
@@ -346,7 +346,7 @@ function toggleLink(n) {
 function toggleOtherLink(n) {
 	od=document.getElementById('div'+n);
 	ol=document.getElementById('L'+n);
-	oi=document.getElementById(n);
+	oi=document.getElementById('p'+n);
 	ih=oi.innerHTML;
 	if ( ol.innerHTML == linkedtofile ) {
 		od.innerHTML = aa[n];
@@ -355,7 +355,7 @@ function toggleOtherLink(n) {
 		od.innerHTML = ab[n];
 		ol.innerHTML = linkedtofile;
 	}
-	oi=document.getElementById(n);
+	oi=document.getElementById('p'+n);
 	oi.innerHTML = ih;
 }
 function toggleImage(n) {
@@ -371,7 +371,7 @@ function toggleImage(n) {
 }
 function toggleOtherIcon(n) {
 	od = document.getElementById('div'+n);
-	o = document.getElementById(n);
+	o = document.getElementById('p'+n);
 	oi = document.getElementById('I'+n);
 	if ( oi.innerHTML == usingtitle ) {
 		o.innerHTML = filename[n];

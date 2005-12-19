@@ -534,7 +534,7 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 		}
 	}
 
-	$icon = "<img src=\"{$src}\" title=\"{$post->post_title}\" {$constraint}/>";
+	$icon = "<img src=\"{$src}\" title=\"{$post->post_title}\" alt=\"{$post->post_title}\" {$constraint}/>";
 
 	return apply_filters('attachment_icon', $icon, $post->ID);
 }
