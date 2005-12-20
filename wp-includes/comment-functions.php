@@ -74,6 +74,8 @@ function wp_insert_comment($commentdata) {
 		$comment_date = current_time('mysql');
 	if ( ! isset($comment_date_gmt) )
 		$comment_date_gmt = gmdate('Y-m-d H:i:s', strtotime($comment_date) );
+	if ( ! isset($comment_parent) )
+		$comment_parent = 0;
 
 	$result = $wpdb->query("INSERT INTO $wpdb->comments 
 	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type, comment_parent, user_id)
