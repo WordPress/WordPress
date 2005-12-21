@@ -41,12 +41,16 @@ case 'update':
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	if (is_writeable($real_file)) {
-		$f = fopen($real_file, 'w+');
-		fwrite($f, $newcontent);
-		fclose($f);
-		header("Location: templates.php?file=$file&a=te");
+		$f = @ fopen($real_file, 'w+');
+		if ( $f ) {
+			fwrite($f, $newcontent);
+			fclose($f);
+			header("Location: templates.php?file=$file&a=te");
+		} else {
+			header("Location: templates.php?file=$file&a=err");
+		}
 	} else {
-		header("Location: templates.php?file=$file");
+		header("Location: templates.php?file=$file&a=err");
 	}
 
 	exit();
@@ -66,17 +70,25 @@ default:
 	update_recently_edited($file);
 
 	if (!is_file($real_file))
-		$error = 1;
+		$error = true;
 	
 	if (!$error) {
-		$f = fopen($real_file, 'r');
-		$content = fread($f, filesize($real_file));
-		$content = htmlspecialchars($content);
+		$f = @ fopen($real_file, 'r');
+		if ( $f ) {
+			$content = fread($f, filesize($real_file));
+			$content = htmlspecialchars($content);
+		} else {
+			$error = true;
+		}
 	}
 
 	?>
 <?php if (isset($_GET['a'])) : ?>
+	<?php if ( 'err' == $_GET['a'] ) : ?>
+ <div id="message" class="error"><p><?php _e('Could not save file.') ?></p></div>
+	<? else: ?>
  <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
+	<?endif; ?>	
 <?php endif; ?>
  <div class="wrap"> 
 <?php
