@@ -214,7 +214,7 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 	}
 
 	if ( is_attachment() )
-		$file = 'attachments';
+		return;
 	else
 		$file = 'post';
 
