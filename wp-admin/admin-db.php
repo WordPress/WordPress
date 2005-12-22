@@ -117,7 +117,7 @@ function wp_insert_category($catarr) {
 		$wpdb->query( "UPDATE $wpdb->categories SET category_nicename = '$category_nicename' WHERE cat_ID = '$cat_ID'" );
 	}
 
-	wp_cache_set($cat_ID, get_category($cat_ID), 'category');
+	wp_cache_delete($cat_ID, 'category');
 
 	if ($update) {
 		do_action('edit_category', $cat_ID);
