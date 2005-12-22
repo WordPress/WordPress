@@ -138,6 +138,8 @@ case 'resetpass' :
 
 	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
  	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$new_pass'), user_activation_key = '' WHERE user_login = '$user->user_login'");
+	wp_cache_delete($users->ID, 'users');
+	wp_cache_delete($users->user_login, 'userlogins');	
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
 	$message .= get_settings('siteurl') . "/wp-login.php\r\n";
