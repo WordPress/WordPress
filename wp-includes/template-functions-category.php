@@ -126,6 +126,9 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 }
 
 function get_category_children($id, $before = '/', $after = '') {
+	if ( 0 == $id )
+		return '';
+
 	$cat_ids = get_all_category_ids();
 	foreach ( $cat_ids as $cat_id ) {
 		if ( $cat_id == $id)
