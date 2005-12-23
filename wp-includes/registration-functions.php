@@ -5,7 +5,7 @@ function username_exists( $username ) {
 	$username = sanitize_user( $username );
 	$user = get_userdatabylogin($username);
 	if ( $user )
-		return $user->user_login;
+		return $user->ID;
 
 	return null;
 }
