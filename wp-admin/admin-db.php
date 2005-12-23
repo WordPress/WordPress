@@ -216,16 +216,8 @@ function wp_delete_user($id, $reassign = 'novalue') {
 		$post_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_author = $id");
 
 		if ($post_ids) {
-			$post_ids = implode(',', $post_ids);
-
-			// Delete comments, *backs
-			$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID IN ($post_ids)");
-			// Clean cats
-			$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id IN ($post_ids)");
-			// Clean post_meta
-			$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id IN ($post_ids)");
-			// Delete posts
-			$wpdb->query("DELETE FROM $wpdb->posts WHERE post_author = $id");
+			foreach ($post_ids as $post_id)
+				wp_delete_post($post_id);
 		}
 
 		// Clean links
