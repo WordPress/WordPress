@@ -732,6 +732,10 @@ table .vers, table .name {
 	display:block;
 }
 
+* html #themeselect {
+	padding: 0px 3px;
+	height: 22px;
+}
 
 /****************************************************************
   avoid padding, margins or borders on dbx-box, 
@@ -837,7 +841,7 @@ table .vers, table .name {
 #moremeta .dbx-handle {
 	padding: 6px 1em 2px;
 	font-size: 12px;
-	background: url(images/box-head.gif) no-repeat right;
+	background: #2685af url(images/box-head.gif) no-repeat right;
 }
 
 #moremeta .dbx-box {
