@@ -42,7 +42,9 @@ function get_userdata( $user_id ) {
 	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE ID = '$user_id' LIMIT 1") )
 		return false;
 
+	$wpdb->hide_errors();
 	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
+	$wpdb->show_errors();
 
 	if ($metavalues) {
 		foreach ( $metavalues as $meta ) {
@@ -85,7 +87,9 @@ function get_userdatabylogin($user_login) {
 	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'") )
 		return false;
 
+	$wpdb->hide_errors();
 	$metavalues = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user->ID'");
+	$wpdb->show_errors();
 
 	if ($metavalues) {
 		foreach ( $metavalues as $meta ) {
