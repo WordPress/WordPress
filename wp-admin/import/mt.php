@@ -172,13 +172,13 @@ class MT_Import {
 	}
 
 	function process_posts() {
+		global $wpdb;
 		$i = -1;
 		echo "<ol>";
-		foreach ($posts as $post) {
+		foreach ($this->posts as $post) {
 			if ('' != trim($post)) {
 				++ $i;
 				unset ($post_categories);
-				echo '<li>'.__('Processing post...');
 
 				// Take the pings out first
 				preg_match("|(-----\n\nPING:.*)|s", $post, $pings);
@@ -224,7 +224,6 @@ class MT_Import {
 							break;
 						case 'TITLE' :
 							$post_title = $wpdb->escape($value);
-							echo '<i>'.stripslashes($post_title).'</i>... ';
 							break;
 						case 'STATUS' :
 							// "publish" and "draft" enumeration items match up; no change required
@@ -252,15 +251,19 @@ class MT_Import {
 							}
 							break;
 						case 'PRIMARY CATEGORY' :
-							$post_categories[] = $wpdb->escape($value);
+							if (! empty ($value) )
+								$post_categories[] = $wpdb->escape($value);
 							break;
 						case 'CATEGORY' :
-							$post_categories[] = $wpdb->escape($value);
+							if (! empty ($value) )
+								$post_categories[] = $wpdb->escape($value);
 							break;
 						case 'DATE' :
 							$post_modified = strtotime($value);
 							$post_modified = date('Y-m-d H:i:s', $post_modified);
 							$post_modified_gmt = get_gmt_from_date("$post_modified");
+							$post_date = $post_modified;
+							$post_date_gmt = $post_modified_gmt;
 							break;
 						default :
 							// echo "\n$key: $value";
@@ -269,24 +272,28 @@ class MT_Import {
 				} // End foreach
 
 				// Let's check to see if it's in already
-				if ($post_id = posts_exists($post_title, '', $post_date)) {
-					_e('Post already imported.');
+				if ($post_id = post_exists($post_title, '', $post_date)) {
+					echo '<li>';
+					printf(__('Post <i>%s</i> already exists.'), stripslashes($post_title));
 				} else {
-					$post_author = checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
+					echo '<li>';
+					printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
+
+					$post_author = $this->checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
 
 					$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt');
 					$post_id = wp_insert_post($postdata);
 					// Add categories.
 					if (0 != count($post_categories)) {
-						wp_create_categories($post_categories);
+						wp_create_categories($post_categories, $post_id);
 					}
-					_e(' Post imported successfully...');
 				}
 
 				$comment_post_ID = $post_id;
 
 				// Now for comments
 				$comments = explode("-----\nCOMMENT:", $comments[0]);
+				$num_comments = 0;
 				foreach ($comments as $comment) {
 					if ('' != trim($comment)) {
 						// Author
@@ -317,15 +324,18 @@ class MT_Import {
 							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content');
 							$commentdata = wp_filter_comment($commentdata);
 							wp_insert_comment($commentdata);
-							echo "Comment added.";
+							$num_comments++;
 						}
 					}
 				}
+				if ( $num_comments )
+					printf(__('(%s comments)'), $num_comments);
 
 				// Finally the pings
 				// fix the double newline on the first one
 				$pings[0] = str_replace("-----\n\n", "-----\n", $pings[0]);
 				$pings = explode("-----\nPING:", $pings[0]);
+				$num_pings = 0;
 				foreach ($pings as $ping) {
 					if ('' != trim($ping)) {
 						// 'Author'
@@ -362,10 +372,13 @@ class MT_Import {
 							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_type');
 							$commentdata = wp_filter_comment($commentdata);
 							wp_insert_comment($commentdata);
-							_e('Comment added.');
+							$num_pings++;
 						}
 					}
 				}
+				if ( $num_pings )
+					printf(__('(%s pings)'), $num_pings);
+				
 				echo "</li>";
 			}
 			flush();
@@ -412,5 +425,5 @@ class MT_Import {
 
 $mt_import = new MT_Import();
 
-//register_importer('mt', 'Movable Type', 'Import posts and comments from your Movable Type blog', array ($mt_import, 'dispatch'));
+register_importer('mt', 'Movable Type', 'Import posts and comments from your Movable Type blog', array ($mt_import, 'dispatch'));
 ?>
