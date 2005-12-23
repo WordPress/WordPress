@@ -22,7 +22,7 @@ if ($action == 'retrospam') {
 <h2><?php _e('Discussion Options') ?></h2> 
 <form method="post" action="options.php"> 
 <fieldset class="options">
-<legend><?php _e('Usual settings for an article: <em>(These settings may be overridden for individual articles.)</em>') ?></legend> 
+<legend><?php _e('Usual settings for an article:<br /><small><em>(These settings may be overridden for individual articles.)</em></small>') ?></legend> 
 <ul> 
 <li> 
 <label for="default_pingback_flag"> 

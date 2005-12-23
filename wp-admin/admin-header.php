@@ -305,6 +305,10 @@ function myPload( str ) {
 
 <?php endif; ?>
 
+<?php if ( ($parent_file != 'link-manager.php') && ($parent_file != 'options-general.php') ) : ?>
+<style type="text/css">* html { overflow-x: hidden; }</style>
+<?php endif; ?>
+
 <?php do_action('admin_head'); ?>
 </head>
 <body>
