@@ -163,7 +163,7 @@ if ( tinyMCE.isMSIE )
 			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
 				var i = tinyMCE.selectedInstance;
 				if(typeof i ==  'undefined')
-					return true;http://boren.nu/
+					return true;
                                 tinyMCE.execCommand("mceStartTyping");
 				this.blur();
 				i.contentWindow.focus();
