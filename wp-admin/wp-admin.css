@@ -1,6 +1,11 @@
 * html #poststuff {
 	height: 100%; /* kill peekaboo bug in IE */
 }
+
+/* This is the Holly Hack \*/
+* html .wrap { height: 1% }
+/* For Win IE's eyes only */
+
 body {
 	border: none;
 }
