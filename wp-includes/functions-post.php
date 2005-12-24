@@ -283,6 +283,14 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	if ( !isset($post_password) )
 		$post_password = '';
 
+	if ( isset($to_ping) )
+		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
+	else
+		$to_ping = '';
+
+	if ( ! isset($pinged) )
+		$pinged = '';
+
 	if ($update) {
 		$wpdb->query(
 			"UPDATE $wpdb->posts SET
@@ -298,6 +306,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 			post_password = '$post_password',
 			post_name = '$post_name',
 			to_ping = '$to_ping',
+			pinged = '$pinged',
 			post_modified = '$post_date',
 			post_modified_gmt = '$post_date_gmt',
 			post_parent = '$post_parent',
@@ -308,9 +317,9 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	} else {
 		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
+			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
 			$post_ID = $wpdb->insert_id;			
 	}
 	
