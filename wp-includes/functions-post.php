@@ -769,18 +769,37 @@ function add_ping($post_id, $uri) { // Add a URI to those already pung
 	return $wpdb->query("UPDATE $wpdb->posts SET pinged = '$new' WHERE ID = $post_id");
 }
 
+//fetches the pages returned as a FLAT list, but arranged in order of their hierarchy, i.e., child parents
+//immediately follow their parents
+function get_page_hierarchy($posts, $parent = 0) {
+	$result = array ( );
+	if ($posts) { foreach ($posts as $post) {
+		if ($post->post_parent == $parent) {
+			$result[$post->ID] = $post->post_name;
+			$children = get_page_hierarchy($posts, $post->ID);
+			$result += $children; //append $children to $result
+		}
+	} }
+	return $result;
+}
+
 function generate_page_rewrite_rules() {
 	global $wpdb;
-	$posts = $wpdb->get_results("SELECT ID, post_name FROM $wpdb->posts WHERE post_status = 'static' ORDER BY post_parent DESC");
+	
+	//get pages in order of hierarchy, i.e. children after parents
+	$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_status = 'static'"));
+	//now reverse it, because we need parents after children for rewrite rules to work properly
+	$posts = array_reverse($posts, true);
 
 	$page_rewrite_rules = array();
 	
 	if ($posts) {
-		foreach ($posts as $post) {
+		
+		foreach ($posts as $id => $post) {
 			// URI => page name
-			$uri = get_page_uri($post->ID);
+			$uri = get_page_uri($id);
 			
-			$page_rewrite_rules[$uri] = $post->post_name;
+			$page_rewrite_rules[$uri] = $post;
 		}
 		
 		update_option('page_uris', $page_rewrite_rules);

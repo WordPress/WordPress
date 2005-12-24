@@ -370,7 +370,7 @@ class WP_Query {
 				$page_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 				
 			$all_page_ids = get_all_page_ids();
-			$reqpage = 0;			
+			$reqpage = 0;
 			foreach ( $all_page_ids as $page_id ) {
 				$page = get_page($page_id);
 				if ( $page->fullpath == $page_path ) {
