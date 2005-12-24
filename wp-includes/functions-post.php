@@ -272,8 +272,11 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 		$to_ping = preg_replace('|\s+|', "\n", $to_ping);
 	else
 		$to_ping = '';
-	
-	$post_parent = (int) $post_parent;
+
+	if ( isset($post_parent) )
+		$post_parent = (int) $post_parent;
+	else
+		$post_parent = 0;
 
 	if ( isset($menu_order) )
 		$menu_order = (int) $menu_order;
