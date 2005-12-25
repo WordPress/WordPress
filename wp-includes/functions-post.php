@@ -850,7 +850,7 @@ function wp_upload_dir() {
 
         // Make sure we have an uploads dir
         if ( ! file_exists( $path ) ) {
-                if ( ! mkdir( $path ) )
+                if ( ! @ mkdir( $path ) )
                         return array('error' => "Unable to create directory $path. Is its parent directory writable by the server?");
 		@ chmod( $path, $dir_perms );
 	}
@@ -864,14 +864,14 @@ function wp_upload_dir() {
 
         // Make sure we have a yearly dir
         if ( ! file_exists( $pathy ) ) {
-                if ( ! mkdir( $pathy ) )
+                if ( ! @ mkdir( $pathy ) )
                         return array('error' => "Unable to create directory $pathy. Is $path writable?");
 		@ chmod( $pathy, $dir_perms );
 	}
 
         // Make sure we have a monthly dir
         if ( ! file_exists( $pathym ) ) {
-                if ( ! mkdir( $pathym ) )
+                if ( ! @ mkdir( $pathym ) )
                         return array('error' => "Unable to create directory $pathym. Is $pathy writable?");
 		@ chmod( $pathym, $dir_perms );
 	}
