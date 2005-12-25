@@ -22,6 +22,10 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 		return false;
 	}
 	$i = mktime(substr($m,11,2),substr($m,14,2),substr($m,17,2),substr($m,5,2),substr($m,8,2),substr($m,0,4));
+	
+	if ( -1 == $i || false == $i )
+		$i = 0;
+
 	if ( !empty($month) && !empty($weekday) && $translate ) {
 		$datemonth = $month[date('m', $i)];
 		$datemonth_abbrev = $month_abbrev[$datemonth];
