@@ -241,8 +241,6 @@ case 'deletecomment':
 
 case 'unapprovecomment':
 
-	require_once('./admin-header.php');
-
 	check_admin_referer();
 
 	$comment = (int) $_GET['comment'];
