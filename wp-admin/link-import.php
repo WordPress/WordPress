@@ -82,17 +82,15 @@ foreach ($categories as $category) {
                 }
                 else // try to get the upload file.
 				{
-					$uploaddir = get_settings('fileupload_realpath');
-					$uploadfile = $uploaddir.'/'.$_FILES['userfile']['name'];
+					$overrides = array('test_form' => false, 'test_type' => false);
+					$file = wp_handle_upload($_FILES['import'], $overrides);
 
-					if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile))
-					{
-						//echo "Upload successful.";
-						$blogrolling = false;
-						$opml_url = $uploadfile;
-					} else {
-						echo __("Upload error");
-					}
+					if ( isset($file['error']) )
+						die($file['error']);
+
+					$url = $file['url'];
+					$opml_url = $file['file'];
+					$blogrolling = false;
 				}
 
                 if (isset($opml_url) && $opml_url != '') {
@@ -105,6 +103,7 @@ foreach ($categories as $category) {
                             $titles[$i] = '';
                         if ('http' == substr($titles[$i], 0, 4))
                             $titles[$i] = '';
+                        // FIXME:  Use wp_insert_link().
                         $query = "INSERT INTO $wpdb->links (link_url, link_name, link_target, link_category, link_description, link_owner, link_rss)
                                 VALUES('{$urls[$i]}', '".$wpdb->escape($names[$i])."', '', $cat_id, '".$wpdb->escape($descriptions[$i])."', $user_ID, '{$feeds[$i]}')\n";
                         $result = $wpdb->query($query);
@@ -119,6 +118,8 @@ foreach ($categories as $category) {
                     echo "<p>" . __("You need to supply your OPML url. Press back on your browser and try again") . "</p>\n";
                 } // end else
 
+				if ( ! $blogrolling )
+					@unlink($opml_url);
 ?>
 </div>
 <?php
