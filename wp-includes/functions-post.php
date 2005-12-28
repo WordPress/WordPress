@@ -705,7 +705,10 @@ function do_trackbacks($post_id) {
 		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
 	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
 	$excerpt = strip_tags($excerpt);
-	$excerpt = substr($excerpt, 0, 252) . '...';
+	if ( function_exists('mb_strcut') ) // For international trackbacks
+    	$excerpt = mb_strcut($excerpt, 0, 252, get_settings('blog_charset')) . '...';
+	else
+		$excerpt = substr($excerpt, 0, 252) . '...';
 
 	$post_title = apply_filters('the_title', $post->post_title);
 	$post_title = strip_tags($post_title);
