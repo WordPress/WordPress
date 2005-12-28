@@ -1339,8 +1339,14 @@ class WP_Rewrite {
 	}
 
 	function wp_rewrite_rules() {
-		$this->matches = 'matches';
-		return $this->rewrite_rules();
+		$this->rules = get_option('rewrite_rules');
+		if ( empty($this->rules) ) {
+			$this->matches = 'matches';
+			$this->rewrite_rules();
+			update_option('rewrite_rules', $this->rules);
+		}
+
+		return $this->rules;
 	}
 
 	function mod_rewrite_rules() {
@@ -1394,6 +1400,14 @@ class WP_Rewrite {
 		$rules = apply_filters('rewrite_rules', $rules);  // Deprecated
 
 		return $rules;
+	}
+
+	function flush_rules() {
+		generate_page_rewrite_rules();
+		delete_option('rewrite_rules');
+		$this->wp_rewrite_rules();
+		if ( function_exists('save_mod_rewrite_rules') )
+			save_mod_rewrite_rules();
 	}
 
 	function init() {

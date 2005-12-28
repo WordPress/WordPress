@@ -6,7 +6,7 @@
  * generic function for inserting data into the posts table.
  */
 function wp_insert_post($postarr = array()) {
-	global $wpdb, $allowedtags, $user_ID;
+	global $wpdb, $wp_rewrite, $allowedtags, $user_ID;
 
 	if ( is_object($postarr) )
 		$postarr = get_object_vars($postarr);
@@ -196,7 +196,7 @@ function wp_insert_post($postarr = array()) {
 			spawn_pinger();
 		}
 	} else if ($post_status == 'static') {
-		generate_page_rewrite_rules();
+		$wp_rewrite->flush_rules();
 
 		if ( !empty($page_template) )
 			if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
@@ -526,7 +526,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 }	// wp_set_post_cats()
 
 function wp_delete_post($postid = 0) {
-	global $wpdb;
+	global $wpdb, $wp_rewrite;
 	$postid = (int) $postid;
 
 	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
@@ -559,8 +559,8 @@ function wp_delete_post($postid = 0) {
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
 	if ( 'static' == $post->post_status )
-		generate_page_rewrite_rules();
-	
+		$wp_rewrite->flush_rules();
+
 	return $post;
 }
 
@@ -818,8 +818,6 @@ function generate_page_rewrite_rules() {
 		
 		if ( $page_attachment_rewrite_rules )
 			update_option('page_attachment_uris', $page_attachment_rewrite_rules);
-
-		save_mod_rewrite_rules();
 	}
 }
 
