@@ -44,7 +44,7 @@ if ( !empty( $_POST['delete_comments'] ) ) :
 		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
 		$authordata = get_userdata( $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id") );
 		if ( current_user_can('edit_post', $post_id) ) :
-			$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_ID = $comment");
+			wp_set_comment_status($comment, "delete");
 			++$i;
 		endif;
 	endforeach;
