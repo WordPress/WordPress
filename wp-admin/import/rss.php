@@ -1,9 +1,5 @@
 <?php
 
-// Example:
-// define('RSSFILE', '/home/example/public_html/rss.xml');
-define('RSSFILE', 'rss.xml');
-
 class RSS_Import {
 
 	var $posts = array ();
