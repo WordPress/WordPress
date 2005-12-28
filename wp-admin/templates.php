@@ -86,9 +86,9 @@ default:
 <?php if (isset($_GET['a'])) : ?>
 	<?php if ( 'err' == $_GET['a'] ) : ?>
  <div id="message" class="error"><p><?php _e('Could not save file.') ?></p></div>
-	<? else: ?>
+	<?php else: ?>
  <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
-	<?endif; ?>	
+	<?php endif; ?>	
 <?php endif; ?>
  <div class="wrap"> 
 <?php
