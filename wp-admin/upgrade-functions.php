@@ -33,6 +33,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 3308 )
 		upgrade_160();
 
+	generate_page_rewrite_rules();
 	save_mod_rewrite_rules();
 	
 	update_option('db_version', $wp_db_version);
