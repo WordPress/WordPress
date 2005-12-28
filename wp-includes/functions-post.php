@@ -795,18 +795,30 @@ function generate_page_rewrite_rules() {
 	$posts = array_reverse($posts, true);
 
 	$page_rewrite_rules = array();
-	
+	$page_attachment_rewrite_rules = array();
+
 	if ($posts) {
 		
 		foreach ($posts as $id => $post) {
+
 			// URI => page name
 			$uri = get_page_uri($id);
-			
+			$attachments = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_status = 'attachment' AND post_parent = '$id'");
+			if ( $attachments ) {
+				foreach ( $attachments as $attachment ) {
+					$attach_uri = get_page_uri($attachment->ID);
+					$page_attachment_rewrite_rules[$attach_uri] = $attachment->post_name;
+				}
+			}
+
 			$page_rewrite_rules[$uri] = $post;
 		}
-		
+
 		update_option('page_uris', $page_rewrite_rules);
 		
+		if ( $page_attachment_rewrite_rules )
+			update_option('page_attachment_uris', $page_attachment_rewrite_rules);
+
 		save_mod_rewrite_rules();
 	}
 }

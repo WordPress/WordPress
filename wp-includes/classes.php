@@ -381,7 +381,9 @@ class WP_Query {
 			
 			$where .= " AND (ID = '$reqpage')";
 		} elseif ('' != $q['attachment']) {
-			$q['attachment'] = sanitize_title($q['attachment']);
+			$q['attachment'] = str_replace('%2F', '/', urlencode(urldecode($q['attachment'])));
+			$attach_paths = '/' . trim($q['attachment'], '/');
+			$q['attachment'] = sanitize_title(basename($attach_paths));
 			$q['name'] = $q['attachment'];
 			$where .= " AND post_name = '" . $q['attachment'] . "'";
 		}
@@ -953,16 +955,22 @@ class WP_Rewrite {
 
 	function page_rewrite_rules() {
 		$uris = get_settings('page_uris');
+		$attachment_uris = get_settings('page_attachment_uris');
 
 		$rewrite_rules = array();
 		$page_structure = $this->get_page_permastruct();
-		if( is_array( $uris ) )
-			{
-				foreach ($uris as $uri => $pagename) {
-					$this->add_rewrite_tag('%pagename%', "($uri)", 'pagename=');
-					$rewrite_rules += $this->generate_rewrite_rules($page_structure);
-				}
+		if( is_array( $attachment_uris ) ) {
+			foreach ($attachment_uris as $uri => $pagename) {
+				$this->add_rewrite_tag('%pagename%', "($uri)", 'attachment=');
+				$rewrite_rules += $this->generate_rewrite_rules($page_structure);
 			}
+		}
+		if( is_array( $uris ) ) {
+			foreach ($uris as $uri => $pagename) {
+				$this->add_rewrite_tag('%pagename%', "($uri)", 'pagename=');
+				$rewrite_rules += $this->generate_rewrite_rules($page_structure);
+			}
+		}
 
 		return $rewrite_rules;
 	}
@@ -1225,11 +1233,14 @@ class WP_Rewrite {
 				$rewrite = $rewrite + array($pagematch => $pagequery);
 
 			if ($num_toks) {
-				$post = 0;
+				$post = false;
+				$page = false;
 				if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
 						|| strstr($struct, '%pagename%')
 						|| (strstr($struct, '%year%') &&  strstr($struct, '%monthnum%') && strstr($struct, '%day%') && strstr($struct, '%hour%') && strstr($struct, '%minute') && strstr($struct, '%second%'))) {
-					$post = 1;
+					$post = true;
+					if  ( strstr($struct, '%pagename%') )
+						$page = true;
 					$trackbackmatch = $match . $trackbackregex;
 					$trackbackquery = $trackbackindex . '?' . $query . '&tb=1';
 					$match = rtrim($match, '/');
@@ -1257,9 +1268,10 @@ class WP_Rewrite {
 				$rewrite = $rewrite + array($match => $query);
 
 				if ($post) {
-					$rewrite = array($trackbackmatch => $trackbackquery) + $rewrite +
-						array($sub1 => $subquery, $sub1tb => $subtbquery, $sub1feed => $subfeedquery, $sub1feed2 => $subfeedquery) +
-						array($sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery);
+					$rewrite = array($trackbackmatch => $trackbackquery) + $rewrite;
+					if ( ! $page )
+						$rewrite = $rewrite + array($sub1 => $subquery, $sub1tb => $subtbquery, $sub1feed => $subfeedquery, $sub1feed2 => $subfeedquery);
+					$rewrite = $rewrite + array($sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery);
 				}
 			}
 
