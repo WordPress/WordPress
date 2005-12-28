@@ -1461,16 +1461,21 @@ class WP {
 			$self = $_SERVER['PHP_SELF'];
 			$home_path = parse_url(get_settings('home'));
 			$home_path = $home_path['path'];
+			$home_path = trim($home_path, '/');
 
 			// Trim path info from the end and the leading home path from the
 			// front.  For path info requests, this leaves us with the requesting
 			// filename, if any.  For 404 requests, this leaves us with the
 			// requested permalink.	
 			$req_uri = str_replace($pathinfo, '', $req_uri);
-			$req_uri = str_replace($home_path, '', $req_uri);
 			$req_uri = trim($req_uri, '/');
-			$pathinfo = str_replace($home_path, '', $pathinfo);
+			$req_uri = preg_replace("|^$home_path|", '', $req_uri);
+			$req_uri = trim($req_uri, '/');
 			$pathinfo = trim($pathinfo, '/');
+			$pathinfo = preg_replace("|^$home_path|", '', $pathinfo);
+			$pathinfo = trim($pathinfo, '/');
+			$self = trim($self, '/');
+			$self = preg_replace("|^$home_path|", '', $self);
 			$self = str_replace($home_path, '', $self);
 			$self = trim($self, '/');
 
