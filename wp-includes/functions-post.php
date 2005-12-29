@@ -932,7 +932,7 @@ function wp_upload_bits($name, $type, $bits) {
 	// Compute the URL
 	$url = $upload['url'] . "/$filename";
 
-	return array('file' => $new_file, 'url' => $url);
+	return array('file' => $new_file, 'url' => $url, 'error' => false);
 }
 
 ?>

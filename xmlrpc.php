@@ -853,7 +853,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		$upload = wp_upload_bits($name, $type, $bits);
-		if ( $upload['error'] !== false ) {
+		if ( ! empty($upload['error']) ) {
 			logIO('O', '(MW) Could not write file '.$name);
 			return new IXR_Error(500, 'Could not write file '.$name);
 		}
