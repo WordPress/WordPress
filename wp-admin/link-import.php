@@ -126,6 +126,7 @@ foreach ($categories as $category) {
                 break;
             } // end case 1
 } // end switch
+
+include('admin-footer.php');
+
 ?>
-</body>
-</html>
