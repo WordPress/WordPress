@@ -904,9 +904,19 @@ function wp_upload_bits($name, $type, $bits) {
 
 	$number = '';
 	$filename = $name;
-	while ( file_exists($upload['path'] . "/$filename") )
-		$filename = str_replace("$number.$ext", ++$number . ".$ext", $filename);
-
+	$path_parts = pathinfo($filename);
+	$ext = $path_parts['extension'];
+	if ( empty($ext) )
+		$ext = '';
+	else
+		$ext = ".$ext";
+	while ( file_exists($upload['path'] . "/$filename") ) {
+		if ( '' == "$number$ext" )
+			$filename = $filename . ++$number . $ext;
+		else
+			$filename = str_replace("$number$ext", ++$number . $ext, $filename);
+	}
+		
 	$new_file = $upload['path'] . "/$filename";
 	$ifp = @ fopen($new_file, 'wb');
 	if ( ! $ifp )
