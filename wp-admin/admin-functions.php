@@ -1721,7 +1721,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 		return $upload_error_handler($file, __('File is empty. Please upload something more substantial.'));
 
 	// A properly uploaded file will pass this test. There should be no reason to override this one.
-	if (! is_uploaded_file($file['tmp_name']) )
+	if (! @ is_uploaded_file($file['tmp_name']) )
 		return $upload_error_handler($file, __('Specified file failed upload test.'));
 
 	// A correct MIME type will pass this test.
@@ -1764,7 +1764,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
-	if ( false === move_uploaded_file($file['tmp_name'], $new_file) )
+	if ( false === @ move_uploaded_file($file['tmp_name'], $new_file) )
 		die(printf(__('The uploaded file could not be moved to %s.'), $file['path']));
 
 	// Set correct file permissions
