@@ -30,12 +30,13 @@ case 'delete-link' :
 case 'delete-post' :
 case 'delete-page' :
 	$id = (int) $_POST['id'];
-	if ( !current_user_can('edit_post', $post_id) )	
+	if ( !current_user_can('edit_post', $id) )	{
 		die('-1');
+	}
 
-	if ( wp_delete_post($id) )
+	if ( wp_delete_post($id) ) {
 		die('1');
-	else	die('0');
+	} else	die('0');
 	break;
 case 'delete-cat' :
 	if ( !current_user_can('manage_categories') )
