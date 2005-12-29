@@ -1750,8 +1750,16 @@ function wp_handle_upload(&$file, $overrides = false) {
 	} else {
 		$number = '';
 		$filename = $file['name'];
-		while ( file_exists($uploads['path'] . "/$filename") )
-			$filename = str_replace("$number.$ext", ++$number . ".$ext", $filename);
+		if ( empty($ext) )
+			$ext = '';
+		else
+			$ext = ".$ext";
+		while ( file_exists($uploads['path'] . "/$filename") ) {
+			if ( '' == "$number$ext" )
+				$filename = $filename . ++$number . $ext;
+			else
+				$filename = str_replace("$number$ext", ++$number . $ext, $filename);
+		}
 	}
 
 	// Move the file to the uploads dir
