@@ -907,7 +907,7 @@ function wp_upload_bits($name, $type, $bits) {
 	while ( file_exists($upload['path'] . "/$filename") )
 		$filename = str_replace("$number.$ext", ++$number . ".$ext", $filename);
 
-	$new_file = $uploads['path'] . "/$filename";
+	$new_file = $upload['path'] . "/$filename";
 	$ifp = @ fopen($new_file, 'wb');
 	if ( ! $ifp )
 		return array('error' => "Could not write file $new_file.");
