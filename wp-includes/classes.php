@@ -485,14 +485,21 @@ class WP_Query {
 				$cat_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 
 			$all_cat_ids = get_all_category_ids();
-			$q['cat'] = 0;			
+			$q['cat'] = 0; $partial_match = 0;
 			foreach ( $all_cat_ids as $cat_id ) {
 				$cat = get_category($cat_id);
 				if ( $cat->fullpath == $cat_path ) {
 					$q['cat'] = $cat_id;
 					break;
+				} elseif ( $cat->category_nicename == $q['category_name'] ) {
+					$partial_match = $cat_id;
 				}
 			}
+			
+			//if we don't match the entire hierarchy fallback on just matching the nicename
+			if (!$q['cat'] && $partial_match) {
+				$q['cat'] = $partial_match;
+			}			
 
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
