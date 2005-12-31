@@ -121,7 +121,7 @@ function wp_insert_post($postarr = array()) {
 
 	if ($update) {
 		$wpdb->query(
-			"UPDATE $wpdb->posts SET
+			"UPDATE IGNORE $wpdb->posts SET
 			post_author = '$post_author',
 			post_date = '$post_date',
 			post_date_gmt = '$post_date_gmt',
@@ -143,7 +143,7 @@ function wp_insert_post($postarr = array()) {
 			WHERE ID = $post_ID");
 	} else {
 		$wpdb->query(
-			"INSERT INTO $wpdb->posts
+			"INSERT IGNORE INTO $wpdb->posts
 			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
 			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");

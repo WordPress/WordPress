@@ -53,7 +53,7 @@ define('CACHE_SERIAL_FOOTER', "\n?".">");
 class WP_Object_Cache {
 	var $cache_dir;
 	var $cache_enabled = false;
-	var $expiration_time = 86400;
+	var $expiration_time = 900;
 	var $flock_filename = 'wp_object_cache.lock';
 	var $cache = array ();
 	var $dirty_objects = array ();
