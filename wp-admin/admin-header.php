@@ -130,7 +130,7 @@ var newcat;
  
 function newCatAddIn() {
 	if ( !document.getElementById('jaxcat') ) return false;
-	var ajaxcat = document.createElement('p');
+	var ajaxcat = document.createElement('span');
 	ajaxcat.id = 'ajaxcat';
 
 	newcat = document.createElement('input');
@@ -194,7 +194,7 @@ function newCatCompletion() {
 	ids   = myPload( ajaxCat.response );
 	names = myPload( newcat.value );
 	for ( i = 0; i < ids.length; i++ ) {
-		id = ids[i].replace(/[\n\r\l]+/g, "");
+		id = ids[i].replace(/[\n\r]+/g, "");
 		if ( id == '-1' ) {
 			p.innerHTML = "<?php echo addslashes(__("You don't have permission to do that.")); ?>";
 			return;
