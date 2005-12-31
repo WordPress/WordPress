@@ -19,9 +19,13 @@ function execute_all_pings() {
 		echo "Enclosure: $enclosure->post_title : $enclosure->ID<br/>";
 	}
 	// Do Trackbacks
-	while ($trackback = $wpdb->get_row("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != '' AND post_status != 'draft' LIMIT 1")) {
-		echo "Trackback : $trackback->ID<br/>";
-		do_trackbacks($trackback->ID);
+	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != '' AND post_status != 'draft'");
+
+	if (is_array($trackbacks) && count($trackbacks)) {
+		foreach ($trackbacks as $trackback  ) {
+			echo "Trackback : $trackback->ID<br/>";
+			do_trackbacks($trackback->ID);
+		}
 	}
 }
 

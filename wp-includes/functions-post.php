@@ -697,8 +697,11 @@ function do_trackbacks($post_id) {
 	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $post_id");
 	$to_ping = get_to_ping($post_id);
 	$pinged  = get_pung($post_id);
-	if ( empty($to_ping) )
+	if ( empty($to_ping) ) {
+		$wpdb->query("UPDATE $wpdb->posts SET to_ping = '' WHERE ID = '$post_id'");
 		return;
+	}
+	
 	if (empty($post->post_excerpt))
 		$excerpt = apply_filters('the_content', $post->post_content);
 	else
