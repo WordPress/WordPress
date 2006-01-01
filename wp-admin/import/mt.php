@@ -54,7 +54,7 @@ class MT_Import {
 		if (!(in_array($author, $this->mtnames))) { //a new mt author name is found
 			++ $this->j;
 			$this->mtnames[$this->j] = $author; //add that new mt author name to an array 
-			$user_id = username_exists($this->newauthornames[$j]); //check if the new author name defined by the user is a pre-existing wp user
+			$user_id = username_exists($this->newauthornames[$this->j]); //check if the new author name defined by the user is a pre-existing wp user
 			if (!$user_id) { //banging my head against the desk now. 
 				if ($newauthornames[$this->j] == 'left_blank') { //check if the user does not want to change the authorname
 					$user_id = wp_create_user($author, $pass);
@@ -243,11 +243,11 @@ class MT_Import {
 							$post_convert_breaks = $value;
 							break;
 						case 'ALLOW PINGS' :
-							$post_allow_pings = trim($meta[2][0]);
-							if ($post_allow_pings == 1) {
-								$post_allow_pings = 'open';
+							$ping_status = trim($meta[2][0]);
+							if ($ping_status == 1) {
+								$ping_status = 'open';
 							} else {
-								$post_allow_pings = 'closed';
+								$ping_status = 'closed';
 							}
 							break;
 						case 'PRIMARY CATEGORY' :
@@ -290,6 +290,7 @@ class MT_Import {
 				}
 
 				$comment_post_ID = $post_id;
+				$comment_approved = 1;
 
 				// Now for comments
 				$comments = explode("-----\nCOMMENT:", $comments[0]);
@@ -321,7 +322,7 @@ class MT_Import {
 						$comment_content = str_replace('-----', '', $comment_content);
 						// Check if it's already there
 						if (!comment_exists($comment_author, $comment_date)) {
-							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content');
+							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_approved');
 							$commentdata = wp_filter_comment($commentdata);
 							wp_insert_comment($commentdata);
 							$num_comments++;
@@ -369,7 +370,7 @@ class MT_Import {
 
 						// Check if it's already there
 						if (!comment_exists($comment_author, $comment_date)) {
-							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_type');
+							$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_author_IP', 'comment_date', 'comment_content', 'comment_type', 'comment_approved');
 							$commentdata = wp_filter_comment($commentdata);
 							wp_insert_comment($commentdata);
 							$num_pings++;
