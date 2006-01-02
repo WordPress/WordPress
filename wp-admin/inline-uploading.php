@@ -32,7 +32,7 @@ break;
 
 case 'delete':
 
-if ( !current_user_can('edit_post', (int) $attachment) )	
+if ( !current_user_can('edit_post', (int) $attachment) )
 	die(__('You are not allowed to delete this attachment.').' <a href="'.basename(__FILE__)."?post=$post&amp;all=$all&amp;action=upload\">".__('Go back').'</a>');
 
 wp_delete_attachment($attachment);
@@ -296,7 +296,16 @@ die(__('This script was not meant to be called directly.'));
 <script type="text/javascript">
 /* Define any variables we'll need, such as alternate URLs. */
 <?php echo $script; ?>
-
+function htmldecode(st) {
+	o = document.getElementById('htmldecode');
+	if (! o) {
+		o = document.createElement("A");
+		o.id = "htmldecode"
+	}
+	o.innerHTML = st;
+	r = o.innerHTML;
+	return r;
+}
 function cancelUpload() {
 	o = document.getElementById('uploadForm');
 	o.method = 'GET';
@@ -332,10 +341,10 @@ function toggleLink(n) {
 	} else {
 		img = imgb[n];
 	}
-	if ( ol.innerHTML == notlinked ) {
+	if ( ol.innerHTML == htmldecode(notlinked) ) {
 		od.innerHTML = ab[n]+img+'</a>';
 		ol.innerHTML = linkedtoimage;
-	} else if ( ol.innerHTML == linkedtoimage ) {
+	} else if ( ol.innerHTML == htmldecode(linkedtoimage) ) {
 		od.innerHTML = aa[n]+img+'</a>';
 		ol.innerHTML = linkedtopage;
 	} else {
@@ -348,7 +357,7 @@ function toggleOtherLink(n) {
 	ol=document.getElementById('L'+n);
 	oi=document.getElementById('p'+n);
 	ih=oi.innerHTML;
-	if ( ol.innerHTML == linkedtofile ) {
+	if ( ol.innerHTML == htmldecode(linkedtofile) ) {
 		od.innerHTML = aa[n];
 		ol.innerHTML = linkedtopage;
 	} else {
@@ -361,7 +370,7 @@ function toggleOtherLink(n) {
 function toggleImage(n) {
 	o = document.getElementById('image'+n);
 	oi = document.getElementById('I'+n);
-	if ( oi.innerHTML == usingthumbnail ) {
+	if ( oi.innerHTML == htmldecode(usingthumbnail) ) {
 		o.src = srcb[n];
 		oi.innerHTML = usingoriginal;
 	} else {
@@ -373,10 +382,10 @@ function toggleOtherIcon(n) {
 	od = document.getElementById('div'+n);
 	o = document.getElementById('p'+n);
 	oi = document.getElementById('I'+n);
-	if ( oi.innerHTML == usingtitle ) {
+	if ( oi.innerHTML == htmldecode(usingtitle) ) {
 		o.innerHTML = filename[n];
 		oi.innerHTML = usingfilename;
-	} else if ( oi.innerHTML == usingfilename && icon[n] != '' ) {
+	} else if ( oi.innerHTML == htmldecode(usingfilename) && icon[n] != '' ) {
 		o.innerHTML = icon[n];
 		oi.innerHTML = usingicon;
 	} else {
@@ -466,15 +475,11 @@ form {
 	text-align: center;
 	width: 128px;
 }
-.usingicon a {
-}
 .usingtext {
 	padding: 3px;
 	height: 90px;
 	text-align: left;
 	width: 122px;
-}
-.usingtext a {
 }
 .filetype {
 	font-size: 80%;
@@ -483,7 +488,6 @@ form {
 .imagewrap, .imagewrap img, .imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img {
 	text-decoration: none;
 }
-
 #upload-menu {
 	background: #fff;
 	margin: 0px;
@@ -493,12 +497,10 @@ form {
 	border-bottom: 1px solid #448abd;
 	width: 100%;
 }
-
 #upload-menu li {
 	float: left;
 	margin: 0 0 0 .75em;
 }
-
 #upload-menu a {
 	display: block;
 	padding: 5px;
@@ -506,18 +508,14 @@ form {
 	color: #000;
 	border-top: 3px solid #fff;
 }
-
 #upload-menu .current a {
 	background: #dfe8f1;
 	border-right: 2px solid #448abd;
 }
-
 #upload-menu a:hover {
 	background: #dfe8f1;
 	color: #000;
 }
-
-
 .tip {
 	color: rgb(68, 138, 189);
 	padding: 2px 1em;
@@ -598,7 +596,6 @@ th {
 	color: #333;
 	padding: 0.25em;
 }
-
 #submit input:active {
 	background: #f4f4f4;
 	border: 3px double #ccc;
@@ -614,7 +611,6 @@ th {
 #links {
 	margin: 3px 8px;
 	line-height: 2em;
-	
 }
 #links textarea {
 	width: 95%;
