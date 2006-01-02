@@ -862,7 +862,7 @@ function wp_upload_dir() {
 	
 	// Give the new dirs the same perms as wp-content.
 	$stat = stat(ABSPATH . 'wp-content');
-	$dir_perms = $stat['mode'] & 0000777;  // Get the permission bits.
+	$dir_perms = $stat['mode'] & 0007777;  // Get the permission bits.
 
         // Make sure we have an uploads dir
         if ( ! file_exists( $path ) ) {
@@ -929,7 +929,8 @@ function wp_upload_bits($name, $type, $bits) {
 	fclose($ifp);
 	// Set correct file permissions
 	$stat = @ stat(dirname($new_file));
-	$perms = $stat['mode'] & 0000777;
+	$perms = $stat['mode'] & 0007777;
+	$perms = $perms & 0000666;
 	@ chmod($new_file, $perms);
 
 	// Compute the URL
