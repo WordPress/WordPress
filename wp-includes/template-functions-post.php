@@ -3,7 +3,7 @@
 function get_the_password_form() {
 	$output = '<form action="' . get_settings('siteurl') . '/wp-pass.php" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
-	<p><label>' . __("Password:") . ' <input name="post_password" type="password" size="20" /></label> <input type="submit" name="Submit" value="Submit" /></p>
+	<p><label>' . __("Password:") . ' <input name="post_password" type="password" size="20" /></label> <input type="submit" name="' . __("Submit") . '" value="Submit" /></p>
 	</form>
 	';
 	return $output;

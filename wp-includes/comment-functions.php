@@ -290,7 +290,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 	} else {
 		if (!empty($post->post_password)) { // if there's a password
 			if ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
-				echo('Enter your password to view comments');
+				echo(__('Enter your password to view comments'));
 				return;
 			}
 		}
