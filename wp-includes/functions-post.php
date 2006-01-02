@@ -940,6 +940,11 @@ function wp_upload_bits($name, $type, $bits) {
 	}
 		
 	$new_file = $upload['path'] . "/$filename";
+	if ( ! wp_mkdir_p( dirname($new_file) ) ) {
+		$message = sprintf(__('Unable to create directory %s. Is its parent directory writable by the server?'), dirname($new_file));
+		return array('error' => $message);
+	}
+
 	$ifp = @ fopen($new_file, 'wb');
 	if ( ! $ifp )
 		return array('error' => "Could not write file $new_file.");
