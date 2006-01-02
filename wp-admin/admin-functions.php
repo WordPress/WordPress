@@ -1749,7 +1749,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 		$filename = $unique_filename_callback($uploads['path'], $file['name']);
 	} else {
 		$number = '';
-		$filename = $file['name'];
+		$filename = str_replace('#', '_', $file['name']);
 		if ( empty($ext) )
 			$ext = '';
 		else
