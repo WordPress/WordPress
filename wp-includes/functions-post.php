@@ -851,48 +851,67 @@ function get_attached_file($attachment_id) {
 	return get_post_meta($attachment_id, '_wp_attached_file', true);
 }
 
+function wp_mkdir_p($target) {
+	// from php.net/mkdir user contributed notes
+	if (file_exists($target)) {
+		if (! @ is_dir($target))
+			return false;
+		else
+			return true;
+	}
+
+	// Attempting to create the directory may clutter up our display.
+	if (@ mkdir($target)) {
+		$stat = @ stat(dirname($target));
+		$dir_perms = $stat['mode'] & 0007777;  // Get the permission bits.
+		@ chmod($target, $dir_perms);
+		return true;
+	} else {
+		if ( is_dir(dirname($target)) )
+			return false;	
+	}
+
+	// If the above failed, attempt to create the parent node, then try again.
+	if (wp_mkdir_p(dirname($target)))
+		return wp_mkdir_p($target);
+
+	return false;
+}
+
 // Returns an array containing the current upload directory's path and url, or an error message.
 function wp_upload_dir() {
-        if ( defined('UPLOADS') )
-                $dir = UPLOADS;
-        else
-                $dir = 'wp-content/uploads';
+	$dir = trim(get_settings('fileupload_realpath'));
+	$url = trim(get_settings('fileupload_url'));
 
-	$path = ABSPATH . $dir;
-	
-	// Give the new dirs the same perms as wp-content.
-	$stat = stat(ABSPATH . 'wp-content');
-	$dir_perms = $stat['mode'] & 0007777;  // Get the permission bits.
-
-        // Make sure we have an uploads dir
-        if ( ! file_exists( $path ) ) {
-                if ( ! @ mkdir( $path ) )
-                        return array('error' => "Unable to create directory $path. Is its parent directory writable by the server?");
-		@ chmod( $path, $dir_perms );
+	$custom = true;
+	if ( empty($dir) || empty($url) ) {
+		$dir = ABSPATH . 'wp-content/uploads';
+		$url = get_option('siteurl') . '/wp-content/uploads';
+		$custom = false;
 	}
 
-        // Generate the yearly and monthly dirs
-        $time = current_time( 'mysql' );
-        $y = substr( $time, 0, 4 );
-        $m = substr( $time, 5, 2 );
-        $pathy = "$path/$y";
-        $pathym = "$path/$y/$m";
-
-        // Make sure we have a yearly dir
-        if ( ! file_exists( $pathy ) ) {
-                if ( ! @ mkdir( $pathy ) )
-                        return array('error' => "Unable to create directory $pathy. Is $path writable?");
-		@ chmod( $pathy, $dir_perms );
+	if ( defined('UPLOADS') ) {
+		$dir = ABSPATH . UPLOADS;
+		$url =  get_option('siteurl') . '/' . UPLOADS;
+		$custom = false;
 	}
 
-        // Make sure we have a monthly dir
-        if ( ! file_exists( $pathym ) ) {
-                if ( ! @ mkdir( $pathym ) )
-                        return array('error' => "Unable to create directory $pathym. Is $pathy writable?");
-		@ chmod( $pathym, $dir_perms );
+	if ( ! $custom) {
+		// Generate the yearly and monthly dirs
+		$time = current_time( 'mysql' );
+		$y = substr( $time, 0, 4 );
+		$m = substr( $time, 5, 2 );
+		$dir = $dir . "/$y/$m";
+		$url = $url . "/$y/$m";
 	}
 
-    $uploads = array('path' => $pathym, 'url' => get_option('siteurl') . "/$dir/$y/$m", 'error' => false);
+	// Make sure we have an uploads dir
+	if ( ! wp_mkdir_p( $dir ) ) {
+		$message = sprintf(__('Unable to create directory %s. Is its parent directory writable by the server?'), $dir);
+		return array('error' => $message);
+	}
+
+    $uploads = array('path' => $dir, 'url' => $url, 'error' => false);
 	return apply_filters('upload_dir', $uploads);
 }
 
