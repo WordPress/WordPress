@@ -188,7 +188,7 @@ default:
 
 	do_action('wp_authenticate', array(&$user_login, &$user_pass));
 
-	if ( $_POST ) {
+	if ( $user_login && $user_pass ) {
 		$user = new WP_User(0, $user_login);
 	
 		// If the user can't edit posts, send them to their profile.
