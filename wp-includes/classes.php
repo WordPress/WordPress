@@ -1514,7 +1514,7 @@ class WP {
 
 			// The requested permalink is in $pathinfo for path info requests and
 			//  $req_uri for other requests.
-			if ( ! empty($pathinfo) && ($wp_rewrite->index != $pathinfo) ) {
+			if ( ! empty($pathinfo) && !preg_match('|^.*' . $wp_rewrite->index . '$|', $pathinfo) ) {
 				$request = $pathinfo;
 			} else {
 				// If the request uri is the index, blank it out so that we don't try to match it against a rule.
