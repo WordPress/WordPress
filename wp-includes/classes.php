@@ -1168,7 +1168,7 @@ class WP_Rewrite {
 		}
 	}
 
-	function generate_rewrite_rules($permalink_structure, $page = true, $feed = true, $forcomments = false, $walk_dirs = true) {
+	function generate_rewrite_rules($permalink_structure, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true) {
 		$feedregex2 = '';
 		foreach ($this->feeds as $feed_name) {
 			$feedregex2 .= $feed_name . '|';
@@ -1236,7 +1236,7 @@ class WP_Rewrite {
 			$rewrite = array();
 			if ($feed) 
 				$rewrite = array($feedmatch => $feedquery, $feedmatch2 => $feedquery2);
-			if ($page)
+			if ($paged)
 				$rewrite = $rewrite + array($pagematch => $pagequery);
 
 			if ($num_toks) {
