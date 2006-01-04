@@ -587,7 +587,7 @@ class Blogger_Import {
 		if ( count($this->import['blogs']) > 1 )
 			echo '<li>'.__('In case you haven\'t done it already, you can import the posts from your other blogs:'). $this->show_blogs() . '</li>';
 		if ( $n = count($this->import['blogs'][$_GET['blog']]['newusers']) )
-			echo '<li>'.sptintf(__('Go to <a href="%s" target="%s">Authors &amp; Users</a>, where you can modify the new user(s) or delete them. If you want to make all of the imported posts yours, you will be given that option when you delete the new authors.'), 'users.php', '_parent').'</li>';
+			echo '<li>'.sprintf(__('Go to <a href="%s" target="%s">Authors &amp; Users</a>, where you can modify the new user(s) or delete them. If you want to make all of the imported posts yours, you will be given that option when you delete the new authors.'), 'users.php', '_parent').'</li>';
 		echo '<li>'.__('For security, click the link below to reset this importer. That will clear your Blogger credentials and options from the database.').'</li>';
 		echo '</ul>';
 	}
