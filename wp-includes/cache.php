@@ -91,7 +91,7 @@ class WP_Object_Cache {
 		if ( !$this->cache_enabled )
 			return;
 		
-		$this->rm($this->cache_dir.'*');
+		$this->rm_cache_dir();
 		$this->cache = array ();
 		$this->dirty_objects = array ();
 		$this->non_existant_objects = array ();
@@ -214,25 +214,34 @@ class WP_Object_Cache {
 		return $this->cache_dir."$group_dir/";
 	}
 
-	function rm($fileglob) {
-		if (is_file($fileglob)) {
-			return @ unlink($fileglob);
-		} else
-			if (is_dir($fileglob)) {
-				$ok = WP_Object_Cache::rm("$fileglob/*");
-				if (!$ok)
-					return false;
-				return @ rmdir($fileglob);
-			} else {
-				$matching = glob($fileglob);
-				if ($matching === false)
-					return true;
-				$rcs = array_map(array ('WP_Object_Cache', 'rm'), $matching);
-				if (in_array(false, $rcs)) {
-					return false;
-				}
+	function rm_cache_dir() {
+		$dir = $this->cache_dir;
+		$dir = rtrim($dir, DIRECTORY_SEPARATOR);
+		$stack = array($dir);
+
+		while (count($stack)) {
+			# Get last directory on stack
+			$dir = end($stack);
+      
+			$dh = @ opendir($dir);
+			if (!$dh)
+				return false;
+      
+			while (($file = @ readdir($dh)) !== false) {
+				if ($file == '.' or $file == '..')
+					continue;
+
+				if (@ is_dir($dir . DIRECTORY_SEPARATOR . $file))
+					$stack[] = $dir . DIRECTORY_SEPARATOR . $file;
+				else if (@ is_file($dir . DIRECTORY_SEPARATOR . $file))
+					@ unlink($dir . DIRECTORY_SEPARATOR . $file);
 			}
-		return true;
+
+			if (end($stack) == $dir) {
+				@ rmdir($dir);
+				array_pop($stack);
+			}
+		}
 	}
 
 	function replace($id, $data, $group = 'default', $expire = '') {
