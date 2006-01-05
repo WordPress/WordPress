@@ -67,8 +67,8 @@ class LJ_Import {
 				printf(__('Post <i>%s</i> already exists.'), stripslashes($post_title));
 			} else {
 				printf(__('Importing post <i>%s</i>...'), stripslashes($post_title));
-				$post = compact('post_author', 'post_date', 'post_content', 'post_title', 'post_status');
-				$post_id = wp_insert_post($post);
+				$postdata = compact('post_author', 'post_date', 'post_content', 'post_title', 'post_status');
+				$post_id = wp_insert_post($postdata);
 				if (!$post_id) {
 					_e("Couldn't get post ID");
 					echo '</li>';
@@ -113,9 +113,10 @@ class LJ_Import {
 					}
 				}
 			}
-			if ( $num_comments )
+			if ( $num_comments ) {
+				echo ' ';
 				printf(__('(%s comments)'), $num_comments);
-
+			}
 			echo '</li>';
 			flush();
 			ob_flush();
