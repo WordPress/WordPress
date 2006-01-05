@@ -217,6 +217,7 @@ class WP_Object_Cache {
 	function rm_cache_dir() {
 		$dir = $this->cache_dir;
 		$dir = rtrim($dir, DIRECTORY_SEPARATOR);
+		$top_dir = $dir;
 		$stack = array($dir);
 
 		while (count($stack)) {
@@ -238,7 +239,8 @@ class WP_Object_Cache {
 			}
 
 			if (end($stack) == $dir) {
-				@ rmdir($dir);
+				if ( $dir != $top_dir)
+					@ rmdir($dir);
 				array_pop($stack);
 			}
 		}
