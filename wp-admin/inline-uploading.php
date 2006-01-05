@@ -334,24 +334,15 @@ function selectLink(n) {
 	}
 }
 function toggleLink(n) {
-	od=document.getElementById('div'+n);
 	ol=document.getElementById('L'+n);
-	oi=document.getElementById('I'+n);
-	if ( oi.innerHTML == usingthumbnail ) {
-		img = imga[n];
-	} else {
-		img = imgb[n];
-	}
 	if ( ol.innerHTML == htmldecode(notlinked) ) {
-		od.innerHTML = ab[n]+img+'</a>';
 		ol.innerHTML = linkedtoimage;
 	} else if ( ol.innerHTML == htmldecode(linkedtoimage) ) {
-		od.innerHTML = aa[n]+img+'</a>';
 		ol.innerHTML = linkedtopage;
 	} else {
-		od.innerHTML = img;
 		ol.innerHTML = notlinked;
 	}
+	updateImage(n);
 }
 function toggleOtherLink(n) {
 	od=document.getElementById('div'+n);
@@ -369,15 +360,13 @@ function toggleOtherLink(n) {
 	oi.innerHTML = ih;
 }
 function toggleImage(n) {
-	o = document.getElementById('image'+n);
 	oi = document.getElementById('I'+n);
 	if ( oi.innerHTML == htmldecode(usingthumbnail) ) {
-		o.src = srcb[n];
 		oi.innerHTML = usingoriginal;
 	} else {
-		o.src = srca[n];
 		oi.innerHTML = usingthumbnail;
 	}
+	updateImage(n);
 }
 function toggleOtherIcon(n) {
 	od = document.getElementById('div'+n);
@@ -398,7 +387,23 @@ function toggleOtherIcon(n) {
 	else
 		od.className = 'otherwrap usingtext';
 }
-
+function updateImage(n) {
+	od=document.getElementById('div'+n);
+	ol=document.getElementById('L'+n);
+	oi=document.getElementById('I'+n);
+	if ( oi.innerHTML == htmldecode(usingthumbnail) ) {
+		img = imga[n];
+	} else {
+		img = imgb[n];
+	}
+	if ( ol.innerHTML == htmldecode(linkedtoimage) ) {
+		od.innerHTML = ab[n]+img+'</a>';
+	} else if ( ol.innerHTML == htmldecode(linkedtopage) ) {
+		od.innerHTML = aa[n]+img+'</a>';
+	} else {
+		od.innerHTML = img;
+	}
+}
 var win = window.opener ? window.opener : window.dialogArguments;
 if (!win) win = top;
 tinyMCE = win.tinyMCE;
@@ -407,6 +412,7 @@ function sendToEditor(n) {
 	o = document.getElementById('div'+n);
 	h = o.innerHTML.replace(new RegExp('^\\s*(.*?)\\s*$', ''), '$1'); // Trim
 	h = h.replace(new RegExp(' (class|title|width|height|id|onclick|onmousedown)=([^\'"][^ ]*)( |/|>)', 'g'), ' $1="$2"$3'); // Enclose attribs in quotes
+	h = h.replace(new RegExp(' (width|height)=".*?"', 'g'), ''); // Drop size constraints
 	h = h.replace(new RegExp(' on(click|mousedown)="[^"]*"', 'g'), ''); // Drop menu events
 	h = h.replace(new RegExp('<(/?)A', 'g'), '<$1a'); // Lowercase tagnames
 	h = h.replace(new RegExp('<IMG', 'g'), '<img'); // Lowercase again
