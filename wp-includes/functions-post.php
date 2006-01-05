@@ -488,10 +488,6 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 		$old_categories = array_unique($old_categories);
 	}
 
-
-	$oldies = printr($old_categories,1);
-	$newbies = printr($post_categories,1);
-
 	// Delete any?
 	$delete_cats = array_diff($old_categories,$post_categories);
 
