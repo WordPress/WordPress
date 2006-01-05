@@ -25,16 +25,18 @@ function kubrick_header_image() {
 }
 
 function kubrick_upper_color() {
-	if ( strstr( kubrick_header_image_url(), 'header-img.php?' ) )
-		return substr( kubrick_header_image(), 21, 6 );
-	else
+	if ( strstr( $url = kubrick_header_image_url(), 'header-img.php?' ) ) {
+		parse_str(substr($url, strpos($url, '?') + 1), $q);
+		return $q['upper'];
+	} else
 		return '69aee7';
 }
 
 function kubrick_lower_color() {
-	if ( strstr( kubrick_header_image_url(), 'header-img.php?' ) )
-		return substr( kubrick_header_image(), 34, 6 );
-	else
+	if ( strstr( $url = kubrick_header_image_url(), 'header-img.php?' ) ) {
+		parse_str(substr($url, strpos($url, '?') + 1), $q);
+		return $q['lower'];
+	} else
 		return '4180b6';
 }
 

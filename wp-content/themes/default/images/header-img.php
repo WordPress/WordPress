@@ -8,11 +8,14 @@ if ( ! function_exists('imagecreatefromjpeg') )
 
 // Assign and validate the color values
 $default = false;
-$vars = array('upper'=>array(0=>'r1', 2=>'g1', 4=>'b1'), 'lower'=>array(0=>'r2', 2=>'g2', 4=>'b2'));
+$vars = array('upper'=>array('r1', 'g1', 'b1'), 'lower'=>array('r2', 'g2', 'b2'));
 foreach ( $vars as $var => $subvars ) {
 	if ( isset($_GET[$var]) ) {
 		foreach ( $subvars as $index => $subvar ) {
-			$$subvar = hexdec( substr($_GET[$var], $index, 2) );
+			$length = strlen($_GET[$var]) / 3;
+			$v = substr($_GET[$var], $index * $length, $length);
+			if ( $length == 1 ) $v = '' . $v . $v;
+			$$subvar = hexdec( $v );
 			if ( $$subvar < 0 || $$subvar > 255 )
 				$default = true;
 		}
