@@ -19,7 +19,7 @@ $rss = @fetch_rss('http://feeds.technorati.com/cosmos/rss/?url='. trailingslashi
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <div id="incominglinks">
-<h3><?php _e('Incoming Links'); ?> <cite><a href="http://www.technorati.com/cosmos/search.html?url=<?php echo trailingslashit(get_option('home')); ?>&amp;partner=wordpress"><?php _e('More'); ?> &raquo;</a></cite></h3>
+<h3><?php _e('Incoming Links'); ?> <cite><a href="http://www.technorati.com/search/<?php echo trailingslashit(get_option('home')); ?>?partner=wordpress"><?php _e('More'); ?> &raquo;</a></cite></h3>
 <ul>
 <?php
 $rss->items = array_slice($rss->items, 0, 10);
