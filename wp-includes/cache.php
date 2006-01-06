@@ -333,6 +333,8 @@ class WP_Object_Cache {
 			}
 		}
 
+		$this->dirty_objects = array();
+
 		// Release write lock.
 		flock($mutex, LOCK_UN);
 		fclose($mutex);
