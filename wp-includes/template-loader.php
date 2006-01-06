@@ -7,45 +7,45 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	} else if ( is_trackback() ) {
 		include(ABSPATH . '/wp-trackback.php');
 		exit;
-	} else if ( is_404() && get_404_template() ) {
-		include(get_404_template());
+	} else if ( is_404() && $template = get_404_template() ) {
+		include($template);
 		exit;
-	} else if ( is_search() && get_search_template() ) {
-		include(get_search_template());
+	} else if ( is_search() && $template = get_search_template() ) {
+		include($template);
 		exit;
-	} else if ( is_home() && get_home_template() ) {
-		include(get_home_template());
+	} else if ( is_home() && $template = get_home_template() ) {
+		include($template);
 		exit;
-	} else if ( is_attachment() && get_attachment_template() ) {
-		include(get_attachment_template());
+	} else if ( is_attachment() && $template = get_attachment_template() ) {
+		include($template);
 		exit;
-	} else if ( is_single() && get_single_template() ) {
+	} else if ( is_single() && $template = get_single_template() ) {
 		if ( is_attachment() )
 			add_filter('the_content', 'prepend_attachment');
-		include(get_single_template());
+		include($template);
 		exit;
-	} else if ( is_page() && get_page_template() ) {
+	} else if ( is_page() && $template = get_page_template() ) {
 		if ( is_attachment() )
 			add_filter('the_content', 'prepend_attachment');
-		include(get_page_template());
+		include($template);
 		exit;
-	} else if ( is_category() && get_category_template()) {
-		include(get_category_template());
+	} else if ( is_category() && $template = get_category_template()) {
+		include($template);
 		exit;		
-	} else if ( is_author() && get_author_template() ) {
-		include(get_author_template());
+	} else if ( is_author() && $template = get_author_template() ) {
+		include($template);
 		exit;
-	} else if ( is_date() && get_date_template() ) {
-		include(get_date_template());
+	} else if ( is_date() && $template = get_date_template() ) {
+		include($template);
 		exit;
-	} else if ( is_archive() && get_archive_template() ) {
-		include(get_archive_template());
+	} else if ( is_archive() && $template = get_archive_template() ) {
+		include($template);
 		exit;
-	} else if ( is_comments_popup() && get_comments_popup_template() ) {
-		include(get_comments_popup_template());
+	} else if ( is_comments_popup() && $template = get_comments_popup_template() ) {
+		include($template);
 		exit;
-	} else if ( is_paged() && get_paged_template() ) {
-		include(get_paged_template());
+	} else if ( is_paged() && $template = get_paged_template() ) {
+		include($template);
 		exit;
 	} else if ( file_exists(TEMPLATEPATH . "/index.php") ) {
 		if ( is_attachment() )
