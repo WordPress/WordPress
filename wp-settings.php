@@ -35,7 +35,7 @@ if ( empty( $_SERVER['REQUEST_URI'] ) ) {
 }
 
 // Fix for PHP as CGI hosts that set SCRIPT_FILENAME to something ending in php.cgi for all requests
-if ( strpos($_SERVER['SCRIPT_FILENAME'], 'php.cgi') == strlen($_SERVER['SCRIPT_FILENAME']) - 7 )
+if ( isset($_SERVER['SCRIPT_FILENAME']) && ( strpos($_SERVER['SCRIPT_FILENAME'], 'php.cgi') == strlen($_SERVER['SCRIPT_FILENAME']) - 7 ) )
 	$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
 
 // Fix for Dreamhost and other PHP as CGI hosts
