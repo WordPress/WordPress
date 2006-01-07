@@ -1,7 +1,7 @@
 <?php 
 require_once('admin.php');
 
-$title = 'Profile';
+$title = __('Profile');
 
 $parent_file = 'profile.php';
 include_once('admin-header.php');
