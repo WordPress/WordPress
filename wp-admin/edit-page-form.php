@@ -108,6 +108,8 @@ endforeach;
 <div class="dbx-content"><p><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p></div>
 </fieldset>
 
+<?php do_action('dbx_page_sidebar'); ?>
+
 </div>
 </div>
 
@@ -204,6 +206,8 @@ if($metadata = has_meta($post_ID)) {
 ?>
 </div>
 </fieldset>
+
+<?php do_action('dbx_page_advanced'); ?>
 
 </div>
 

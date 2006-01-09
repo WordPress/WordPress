@@ -129,6 +129,8 @@ endforeach;
 </fieldset>
 <?php endif; ?>
 
+<?php do_action('dbx_post_sidebar'); ?>
+
 </div>
 </div>
 
@@ -255,6 +257,8 @@ if($metadata = has_meta($post_ID)) {
 ?>
 </div>
 </fieldset>
+
+<?php do_action('dbx_post_advanced'); ?>
 
 </div>
 
