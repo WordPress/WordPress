@@ -77,7 +77,7 @@ function wp_kses_split($string, $allowed_html, $allowed_protocols)
 # matches stray ">" characters.
 ###############################################################################
 {
-	return preg_replace('%(<'.# EITHER: <
+	return preg_replace('%(<!--.*?-->)|(<'.# EITHER: <
 	'[^>]*'.# things that aren't >
 	'(>|$)'.# > or end of string
 	'|>)%e', # OR: just a >
@@ -97,6 +97,10 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols)
 	if (substr($string, 0, 1) != '<')
 		return '&gt;';
 	# It matched a ">" character
+
+	if (preg_match('%^<!--.*-->$%', $string))
+		return $string;
+	# Allow HTML comments
 
 	if (!preg_match('%^<\s*(/\s*)?([a-zA-Z0-9]+)([^>]*)>?$%', $string, $matches))
 		return '';
