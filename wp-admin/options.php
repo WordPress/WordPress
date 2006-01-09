@@ -47,20 +47,21 @@ case 'update':
 	// Options that if not there have 0 value but need to be something like "closed"
 	$nonbools = array('default_ping_status', 'default_comment_status');
 	if ($options) {
-	  foreach ($options as $option) {
-	    $option = trim($option);
-	    $value = trim(stripslashes($_POST[$option]));
-            if( in_array($option, $nonbools) && ( $value == '0' || $value == '') )
-	      $value = 'closed';
-
-	    if( $option == 'blogdescription' || $option == 'blogname' )
-		    if (current_user_can('unfiltered_html') == false)
-			    $value = wp_filter_post_kses( $value );
-
-	    if ( update_option($option, $value) )
-	      $any_changed++;
-	  }
-        }
+		foreach ($options as $option) {
+			$option = trim($option);
+			$value = trim(stripslashes($_POST[$option]));
+				if( in_array($option, $nonbools) && ( $value == '0' || $value == '') )
+				$value = 'closed';
+			
+			if( $option == 'blogdescription' || $option == 'blogname' )
+				if (current_user_can('unfiltered_html') == false)
+					$value = wp_filter_post_kses( $value );
+			
+			if (update_option($option, $value) ) {
+				$any_changed++;
+			}
+		}
+	}
     
 	if ($any_changed) {
 			// If siteurl or home changed, reset cookies.
@@ -78,10 +79,10 @@ case 'update':
 			//$message = sprintf(__('%d setting(s) saved... '), $any_changed);
     }
     
-		$referred = remove_query_arg('updated' , $_SERVER['HTTP_REFERER']);
-		$goback = add_query_arg('updated', 'true', $_SERVER['HTTP_REFERER']);
-		$goback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $goback);
-		wp_redirect($goback);
+	$referred = remove_query_arg('updated' , $_SERVER['HTTP_REFERER']);
+	$goback = add_query_arg('updated', 'true', $_SERVER['HTTP_REFERER']);
+	$goback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $goback);
+	wp_redirect($goback);
     break;
 
 default:

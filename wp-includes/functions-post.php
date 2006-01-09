@@ -876,23 +876,24 @@ function wp_mkdir_p($target) {
 
 // Returns an array containing the current upload directory's path and url, or an error message.
 function wp_upload_dir() {
-	$dir = trim(get_settings('fileupload_realpath'));
-	$url = trim(get_settings('fileupload_url'));
+	$siteurl = get_settings('siteurl');
+	//prepend ABSPATH to $dir and $siteurl to $url if they're not already there
+	$dir = ABSPATH . str_replace(ABSPATH, '', trim(get_settings('fileupload_realpath')));
+	$url = $siteurl . str_replace($siteurl, '', trim(get_settings('fileupload_url')));
 
-	$custom = true;
-	if ( empty($dir) || empty($url) ) {
+	if ( $dir == ABSPATH ) { //the option was empty
 		$dir = ABSPATH . 'wp-content/uploads';
-		$url = get_option('siteurl') . '/wp-content/uploads';
-		$custom = false;
+	}
+	if ( $url == $siteurl ) { //the option was empty
+		$url = get_option('siteurl') . '/' . str_replace(ABSPATH, '', $dir);
 	}
 
 	if ( defined('UPLOADS') ) {
 		$dir = ABSPATH . UPLOADS;
 		$url =  get_option('siteurl') . '/' . UPLOADS;
-		$custom = false;
 	}
 
-	if ( ! $custom) {
+	if ( get_settings('uploads_yearmonth_folders')) {
 		// Generate the yearly and monthly dirs
 		$time = current_time( 'mysql' );
 		$y = substr( $time, 0, 4 );

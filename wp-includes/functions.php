@@ -355,12 +355,13 @@ function update_option($option_name, $newvalue) {
 
 	// If the new and old values are the same, no need to update.
 	$oldvalue = get_option($option_name);
-	if ( $newvalue == $oldvalue )
+	if ( $newvalue == $oldvalue ) {
 		return false;
+	}
 
-        if ( false === $oldvalue ) {
-                add_option($option_name, $newvalue);
-                return true;
+	if ( false === $oldvalue ) {
+		add_option($option_name, $newvalue);
+		return true;
 	}
 
 	if ( is_array($newvalue) || is_object($newvalue) )
