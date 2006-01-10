@@ -12,13 +12,11 @@ function get_locale() {
 		return $locale;
 
 	// WPLANG is defined in wp-config.
-	if (defined('WPLANG')) {
-    $locale = WPLANG;
-	}
+	if (defined('WPLANG'))
+		$locale = WPLANG;
 	
-	if (empty($locale)) {
-    $locale = 'en_US';
-	}
+	if (empty($locale))
+		$locale = 'en_US';
 
 	$locale = apply_filters('locale', $locale);
 
@@ -29,22 +27,20 @@ function get_locale() {
 function __($text, $domain = 'default') {
 	global $l10n;
 
-	if (isset($l10n[$domain])) {
-		return $l10n[$domain]->translate($text);
-	} else {
+	if (isset($l10n[$domain]))
+		return apply_filters('gettext', $l10n[$domain]->translate($text), $text);
+	else
 		return $text;
-	}
 }
 
 // Echo a translated string.
 function _e($text, $domain = 'default') {
 	global $l10n;
 
-	if (isset($l10n[$domain])) {
-		echo $l10n[$domain]->translate($text);
-	} else {
+	if (isset($l10n[$domain]))
+		echo apply_filters('gettext', $l10n[$domain]->translate($text), $text);
+	else
 		echo $text;
-	}
 }
 
 // Return the plural form.
@@ -64,15 +60,13 @@ function __ngettext($single, $plural, $number, $domain = 'default') {
 function load_textdomain($domain, $mofile) {
 	global $l10n;
 
-	if (isset($l10n[$domain])) {
+	if (isset($l10n[$domain]))
 		return;
-	}
 
-	if ( is_readable($mofile)) {
-    $input = new CachedFileReader($mofile);
-	}	else {
+	if ( is_readable($mofile))
+		$input = new CachedFileReader($mofile);
+	else
 		return;
-	}
 
 	$l10n[$domain] = new gettext_reader($input);
 }
