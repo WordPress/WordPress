@@ -3,6 +3,7 @@ require_once('admin.php');
 
 $title = __('Posts');
 $parent_file = 'edit.php';
+$list_js = true;
 require_once('admin-header.php');
 
 $_GET['m'] = (int) $_GET['m'];

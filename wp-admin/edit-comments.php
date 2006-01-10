@@ -3,6 +3,7 @@ require_once('admin.php');
 
 $title = __('Edit Comments');
 $parent_file = 'edit.php';
+$list_js = true;
 
 require_once('admin-header.php');
 if (empty($_GET['mode'])) $mode = 'view';

@@ -2,6 +2,7 @@
 require_once('admin.php');
 $title = __('Pages');
 $parent_file = 'edit.php';
+$list_js = true;
 require_once('admin-header.php');
 ?>
 

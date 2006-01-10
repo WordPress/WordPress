@@ -6,6 +6,7 @@ require_once('admin.php');
 
 $title = __('Manage Links');
 $this_file = $parent_file = 'link-manager.php';
+$list_js = true;
 
 $wpvarstoreset = array('action','cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
@@ -179,18 +180,18 @@ switch ($action) {
   } // end Delete
 
   case 'linkedit': {
-	$xfn = true;
-    include_once ('admin-header.php');
-    if ( !current_user_can('manage_links') )
-      die(__('You do not have sufficient permissions to edit the links for this blog.'));
-
-    $link_id = (int) $_GET['link_id'];
- 
+	$xfn_js = true;
+	include_once ('admin-header.php');
+	if ( !current_user_can('manage_links') )
+		die(__('You do not have sufficient permissions to edit the links for this blog.'));
+	
+	$link_id = (int) $_GET['link_id'];
+	
 	if ( !$link = get_link_to_edit($link_id) )
 		die( __('Link not found.') );
-		
+	
 	include('edit-link-form.php');
-    break;
+	break;
   } // end linkedit
   case __("Show"):
   {

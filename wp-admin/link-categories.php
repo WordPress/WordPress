@@ -5,6 +5,7 @@ require_once('admin.php');
 $title = __('Link Categories');
 $this_file='link-categories.php';
 $parent_file = 'link-manager.php';
+$list_js = true;
 
 $wpvarstoreset = array('action', 'cat', 'auto_toggle');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {

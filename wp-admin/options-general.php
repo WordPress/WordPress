@@ -1,20 +1,18 @@
 <?php
-require_once('admin.php');
+require_once('./admin.php');
 
 $title = __('General Options');
 $parent_file = 'options-general.php';
 
-include('admin-header.php');
+include('./admin-header.php');
 ?>
  
-<div class="wrap"> 
-<h2><?php _e('General Options') ?></h2> 
-<form name="form1" method="post" action="options.php"> 
-<input type="hidden" name="action" value="update" /> 
-<input type="hidden" name="page_options" value="blogname,blogdescription,siteurl,admin_email,users_can_register,gmt_offset,date_format,time_format,home,start_of_week,comment_registration,default_role" /> 
-<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+<div class="wrap">
+<h2><?php _e('General Options') ?></h2>
+<form method="post" action="options.php"> 
+<table class="optiontable"> 
 <tr valign="top"> 
-<th width="33%" scope="row"><?php _e('Weblog title:') ?></th> 
+<th scope="row"><?php _e('Weblog title:') ?></th> 
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" size="40" /></td> 
 </tr> 
 <tr valign="top"> 
@@ -62,9 +60,9 @@ foreach($wp_roles->role_names as $role => $name) {
 </table> 
 <fieldset class="options"> 
 <legend><?php _e('Date and Time') ?></legend> 
-<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+<table class="optiontable"> 
 <tr> 
-<th scope="row" width="33%"><?php _e('<abbr title="Coordinated Universal Time">UTC</abbr> time is:') ?> </th> 
+<th scope="row"><?php _e('<abbr title="Coordinated Universal Time">UTC</abbr> time is:') ?> </th> 
 <td><code><?php echo gmdate('Y-m-d g:i:s a'); ?></code></td> 
 </tr>
 <tr>
@@ -98,13 +96,15 @@ endfor;
 ?>
 </select></td>
 </tr>
-
 </table>
-
 </fieldset> 
-<p class="submit">
-<input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" />
+
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" />
+<input type="hidden" name="action" value="update" /> 
+<input type="hidden" name="page_options" value="blogname,blogdescription,siteurl,admin_email,users_can_register,gmt_offset,date_format,time_format,home,start_of_week,comment_registration,default_role" /> 
 </p>
-</form> 
+</form>
+
 </div> 
-<?php include("admin-footer.php") ?>
+
+<?php include('./admin-footer.php') ?>

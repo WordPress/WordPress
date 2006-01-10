@@ -40,6 +40,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     }
 }
 
+$xfn_js = $sack_js = $list_js = $cat_js = $dbx_js = $editing = false;
+
 require(ABSPATH . '/wp-admin/menu.php');
 
 // Handle plugin admin pages.

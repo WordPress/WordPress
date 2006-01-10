@@ -3,6 +3,7 @@ require_once('admin.php');
 
 $title = __('Categories');
 $parent_file = 'edit.php';
+$list_js = true;
 
 $wpvarstoreset = array('action','cat');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
