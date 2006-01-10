@@ -1,3 +1,6 @@
+<?php
+require_once('admin.php');
+?>
 var ajaxCat = new sack();
 var newcat;
  
