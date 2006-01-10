@@ -67,9 +67,10 @@ text-align: center; border-top: 1px solid #ccc; padding-top: 1em; font-style: it
 switch($step) {
 
 	case 0:
+	$goback = wp_specialchars($_SERVER['HTTP_REFERER'], 1);
 ?> 
 <p><?php _e('This file upgrades you from any previous version of WordPress to the latest. It may take a while though, so be patient.'); ?></p> 
-	<h2 class="step"><a href="upgrade.php?step=1"><?php _e('Upgrade WordPress &raquo;'); ?></a></h2>
+	<h2 class="step"><a href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress &raquo;'); ?></a></h2>
 <?php
 	break;
 	
@@ -78,9 +79,14 @@ switch($step) {
 	make_db_current_silent();
 	upgrade_all();
 	wp_cache_flush();
+
+	if ( empty( $_GET['backto'] ) )
+		$backto = __get_option('home');
+	else
+		$backto = wp_specialchars( $_GET['backto'] , 1 );
 ?> 
 <h2><?php _e('Step 1'); ?></h2> 
-	<p><?php printf(__("There's actually only one step. So if you see this, you're done. <a href='%s'>Have fun</a>!"), __get_option('home') . '/'); ?></p>
+	<p><?php printf(__("There's actually only one step. So if you see this, you're done. <a href='%s'>Have fun</a>!"),  $backto); ?></p>
 
 <!--
 <pre>
