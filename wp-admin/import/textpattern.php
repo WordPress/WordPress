@@ -56,11 +56,11 @@ class Textpattern_Import {
 		echo '<p>'.__('Your Textpattern Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=textpattern&amp;step=1" method="post">';
 		$this->db_form();
-		echo '<input type="submit" name="submit" value="Import Categories" />';
+		echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
 		echo '</form>';
 	}
 
-	function get_txp_cats() 
+	function get_txp_cats()
 	{
 		global $wpdb;
 		// General Housekeeping

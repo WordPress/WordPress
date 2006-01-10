@@ -142,7 +142,7 @@ class Dotclear_Import {
 		echo '<p>'.__('Your Dotclear Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=dotclear&amp;step=1" method="post">';
 		$this->db_form();
-		echo '<input type="submit" name="submit" value="Import Categories" />';
+		echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
 		echo '</form>';
 	}
 
@@ -202,7 +202,7 @@ class Dotclear_Import {
 		$dcdb = new wpdb(get_option('dcuser'), get_option('dcpass'), get_option('dcname'), get_option('dchost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
-		
+
 		return $dcdb->get_results('SELECT * FROM dc_link ORDER BY position', ARRAY_A);
 	}
 	
