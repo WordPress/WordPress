@@ -98,8 +98,12 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols)
 		return '&gt;';
 	# It matched a ">" character
 
-	if (preg_match('%^<!--.*-->$%', $string))
-		return $string;
+	if (preg_match('%^<!--(.*)-->$%', $string, $matches)) {
+		$string = $matches[1];
+		while ( $string != $newstring = wp_kses($string, $allowed_html, $allowed_protocols) )
+			$string = $newstring;
+		return "<!--{$string}-->";
+	}
 	# Allow HTML comments
 
 	if (!preg_match('%^<\s*(/\s*)?([a-zA-Z0-9]+)([^>]*)>?$%', $string, $matches))
