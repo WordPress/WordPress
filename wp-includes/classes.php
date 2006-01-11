@@ -5,6 +5,7 @@ class WP_Query {
 	var $query_vars;
 	var $queried_object;
 	var $queried_object_id;
+	var $request;
 
 	var $posts;
 	var $post_count = 0;
@@ -257,7 +258,7 @@ class WP_Query {
 	}
 
 	function &get_posts() {
-		global $wpdb, $pagenow, $request, $user_ID;
+		global $wpdb, $pagenow, $user_ID;
 
 		do_action('pre_get_posts', array(&$this));
 
@@ -643,9 +644,9 @@ class WP_Query {
 		$orderby = "post_" . $q['orderby'];
 		$orderby = apply_filters('posts_orderby', $orderby); 
 		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1" . $where . " GROUP BY " . $groupby . " ORDER BY " . $orderby . " $limits";
-		$request = apply_filters('posts_request', $request);
+		$this->request = apply_filters('posts_request', $request);
 
-		$this->posts = $wpdb->get_results($request);
+		$this->posts = $wpdb->get_results($this->request);
 
 		// Check post status to determine if post should be displayed.
 		if ($this->is_single) {
@@ -1667,6 +1668,7 @@ class WP {
 		$GLOBALS['query_string'] = & $this->query_string;
 		$GLOBALS['posts'] = & $wp_query->posts;
 		$GLOBALS['post'] = & $wp_query->post;
+		$GLOBALS['request'] = & $wp_query->request;
 
 		if ( is_single() || is_page() ) {
 			$GLOBALS['more'] = 1;
