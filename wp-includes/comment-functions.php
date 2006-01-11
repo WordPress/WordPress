@@ -634,9 +634,10 @@ function pingback($content, $post_ID) {
 				$post_links[] = $link_test;
 			elseif(($test['path'] != '/') && ($test['path'] != ''))
 				$post_links[] = $link_test;
-			do_action('pre_ping',  array(&$post_links, &$pung));
 		endif;
 	endforeach;
+
+	do_action('pre_ping',  array(&$post_links, &$pung));
 
 	foreach ($post_links as $pagelinkedto){
 		debug_fwrite($log, "Processing -- $pagelinkedto\n");
