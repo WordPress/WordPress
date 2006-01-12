@@ -74,8 +74,6 @@ case 'edit':
 	
 	if ($post->post_status == 'static')
 		include('edit-page-form.php');
-	elseif ($post->post_status == 'attachment')
-		include('edit-attachment-form.php');
 	else
 		include('edit-form-advanced.php');
 
