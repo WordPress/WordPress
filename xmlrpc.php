@@ -193,7 +193,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    'blogid'   => '1',
 	    'blogName' => get_settings('blogname')
 	  );
-error_log(print_r($struct,1), 3, '/tmp/xmlrpc');
+
 	  return array($struct);
 	}
 
