@@ -530,9 +530,17 @@ function kses_init_filters() {
 function kses_init() {
 	global $current_user;
 
-	get_currentuserinfo(); // set $current_user
+	remove_filter('pre_comment_author', 'wp_filter_kses');
+	remove_filter('pre_comment_content', 'wp_filter_kses');
+	remove_filter('content_save_pre', 'wp_filter_post_kses');
+	remove_filter('title_save_pre', 'wp_filter_kses');
+
+	if (! defined('XMLRPC_REQUEST') )
+		get_currentuserinfo();
+
 	if (current_user_can('unfiltered_html') == false)
 		kses_init_filters();
 }
 add_action('init', 'kses_init');
+add_action('set_current_user', 'kses_init');
 ?>

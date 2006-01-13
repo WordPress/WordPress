@@ -3,10 +3,37 @@
 	/* These functions can be replaced via plugins.  They are loaded after
 	 plugins are loaded. */
 
+if ( !function_exists('set_current_user') ) :
+function set_current_user($id, $name = '') {
+	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
+
+	$current_user	= '';
+
+	$current_user	= new WP_User($id, $name);
+
+	$userdata	= get_userdatabylogin($user_login);
+
+	$user_login	= $userdata->user_login;
+	$user_level	= $userdata->user_level;
+	$user_ID	= $userdata->ID;
+	$user_email	= $userdata->user_email;
+	$user_url	= $userdata->user_url;
+	$user_pass_md5	= md5($userdata->user_pass);
+	$user_identity	= $userdata->display_name;
+
+	do_action('set_current_user');
+
+	return $current_user;
+}
+endif;
+
 
 if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
+
+	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST )
+		return false;
 
 	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) || 
 		!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true) ) {
