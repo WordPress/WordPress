@@ -77,10 +77,7 @@ function wp_kses_split($string, $allowed_html, $allowed_protocols)
 # matches stray ">" characters.
 ###############################################################################
 {
-	return preg_replace('%(<!--.*?-->)|(<'.# EITHER: <
-	'[^>]*'.# things that aren't >
-	'(>|$)'.# > or end of string
-	'|>)%e', # OR: just a >
+	return preg_replace('%((<!--.*?(-->|$))|(<[^>]*(>|$)|>))%e',
 	"wp_kses_split2('\\1', \$allowed_html, ".'$allowed_protocols)', $string);
 } # function wp_kses_split
 
@@ -98,10 +95,12 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols)
 		return '&gt;';
 	# It matched a ">" character
 
-	if (preg_match('%^<!--(.*)-->$%', $string, $matches)) {
-		$string = $matches[1];
+	if (preg_match('%^<!--(.*?)(-->)?$%', $string, $matches)) {
+		$string = str_replace(array('<!--', '-->'), '', $matches[1]);
 		while ( $string != $newstring = wp_kses($string, $allowed_html, $allowed_protocols) )
 			$string = $newstring;
+		if ( $string == '' )
+			return '';
 		return "<!--{$string}-->";
 	}
 	# Allow HTML comments
