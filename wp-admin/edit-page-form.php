@@ -181,6 +181,8 @@ else
 <input name="referredby" type="hidden" id="referredby" value="<?php echo $sendto; ?>" />
 </p>
 
+<?php do_action('edit_page_form'); ?>
+
 <?php
 $uploading_iframe_ID = (0 == $post_ID ? $temp_ID : $post_ID);
 $uploading_iframe_src = "inline-uploading.php?action=view&amp;post=$uploading_iframe_ID";
@@ -214,8 +216,6 @@ if($metadata = has_meta($post_ID)) {
 <?php if ('edit' == $action) : ?>
 		<input name="deletepost" class="delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this page') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this page \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $wpdb->escape($post->post_title) ) . "')\""; ?> />
 <?php endif; ?>
-
-<?php do_action('edit_page_form', ''); ?>
 </form>
 
 </div>
