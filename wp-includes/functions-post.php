@@ -679,7 +679,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 function wp_proxy_check($ipnum) {
 	if ( get_option('open_proxy_check') && isset($ipnum) ) {
 		$rev_ip = implode( '.', array_reverse( explode( '.', $ipnum ) ) );
-		$lookup = $rev_ip . '.opm.blitzed.org';
+		$lookup = $rev_ip . '.opm.blitzed.org.';
 		if ( $lookup != gethostbyname( $lookup ) )
 			return true;
 	}
