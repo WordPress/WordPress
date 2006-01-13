@@ -1,12 +1,12 @@
 <?php 
 @header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 if (!isset($_GET["page"])) require_once('admin.php');
-if ( $list_js || $cat_js )
-	$sack_js = true;
 if ( $editing ) {
 	$dbx_js = true;
 	$cat_js = true;
 }
+if ( $list_js || $cat_js )
+	$sack_js = true;
 ?>
 <?php get_admin_page_title(); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
