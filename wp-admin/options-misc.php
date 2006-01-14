@@ -17,7 +17,7 @@ include('admin-header.php');
 <table class="editform optiontable">
 <tr valign="top">
 <th scope="row"><?php _e('Store uploads in this folder'); ?>:</th>
-<td><input name="fileupload_realpath" type="text" id="fileupload_realpath" class="code" value="<?php echo str_replace(ABSPATH, '', get_settings('fileupload_realpath')); ?>" size="40" />
+<td><input name="upload_path" type="text" id="upload_path" class="code" value="<?php echo str_replace(ABSPATH, '', get_settings('upload_path')); ?>" size="40" />
 <br />
 <?php _e('Default is <code>wp-content/uploads</code>'); ?>
 </td>
@@ -42,7 +42,7 @@ include('admin-header.php');
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,fileupload_realpath" /> 
+<input type="hidden" name="page_options" value="hack_file,use_linksupdate,uploads_use_yearmonth_folders,upload_path" /> 
 <input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" />
 </p>
 </form> 

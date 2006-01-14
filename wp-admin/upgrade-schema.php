@@ -220,11 +220,16 @@ function populate_options() {
 	add_option('default_role', 'subscriber');
 	add_option('rich_editing', 'true');
 	add_option('db_version', $wp_db_version);
-	// 2.1
-	add_option('uploads_use_yearmonth_folders', 1);
-	add_option('fileupload_realpath', ABSPATH . 'wp-content/uploads');
-	add_option('fileupload_url', ''); //if this is empty it will be obtained from fileupload_realpath
-	
+	// 2.0.1
+	if ( ini_get('safe_mode') ) {
+		// Safe mode screws up mkdir(), so we must use a flat structure.
+		add_option('uploads_use_yearmonth_folders', 0);
+		add_option('upload_path', 'wp-content');
+	} else {
+		add_option('uploads_use_yearmonth_folders', 1);
+		add_option('upload_path', 'wp-content/uploads');
+	}
+
 	// Delete unused options
 	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat', 'default_geourl_lon', 'use_default_geourl', 'weblogs_xml_url', 'new_users_can_blog');
 	foreach ($unusedoptions as $option) :
