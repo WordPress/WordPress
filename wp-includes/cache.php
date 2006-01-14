@@ -55,6 +55,7 @@ class WP_Object_Cache {
 	var $cache_enabled = false;
 	var $expiration_time = 900;
 	var $flock_filename = 'wp_object_cache.lock';
+	var $mutex;
 	var $cache = array ();
 	var $dirty_objects = array ();
 	var $non_existant_objects = array ();
@@ -63,6 +64,15 @@ class WP_Object_Cache {
 	var $cold_cache_hits = 0;
 	var $warm_cache_hits = 0;
 	var $cache_misses = 0;
+
+	function acquire_lock() {
+		// Acquire a write lock. 
+		$this->mutex = @fopen($this->cache_dir.$this->flock_filename, 'w');
+		if ( false == $this->mutex)
+			return false;
+		flock($this->mutex, LOCK_EX);
+		return true;
+	}
 
 	function add($id, $data, $group = 'default', $expire = '') {
 		if (empty ($group))
@@ -89,12 +99,18 @@ class WP_Object_Cache {
 
 	function flush() {
 		if ( !$this->cache_enabled )
-			return;
+			return true;
+
+		if ( ! $this->acquire_lock() )
+			return false;
 		
 		$this->rm_cache_dir();
 		$this->cache = array ();
 		$this->dirty_objects = array ();
 		$this->non_existant_objects = array ();
+		
+		$this->release_lock();
+
 		return true;
 	}
 
@@ -246,6 +262,12 @@ class WP_Object_Cache {
 		}
 	}
 
+	function release_lock() {
+		// Release write lock.
+		flock($this->mutex, LOCK_UN);
+		fclose($this->mutex);
+	}
+
 	function replace($id, $data, $group = 'default', $expire = '') {
 		if (empty ($group))
 			$group = 'default';
@@ -274,10 +296,10 @@ class WP_Object_Cache {
 		//$this->stats();
 
 		if (!$this->cache_enabled)
-			return;
+			return true;
 
 		if (empty ($this->dirty_objects))
-			return;
+			return true;
 
 		// Give the new dirs the same perms as wp-content.
 		$stat = stat(ABSPATH.'wp-content');
@@ -287,7 +309,7 @@ class WP_Object_Cache {
 		// Make the base cache dir.
 		if (!file_exists($this->cache_dir)) {
 			if (! @ mkdir($this->cache_dir))
-				return;
+				return false;
 			@ chmod($this->cache_dir, $dir_perms);
 		}
 
@@ -296,13 +318,11 @@ class WP_Object_Cache {
 			@ chmod($this->cache_dir."index.php", $file_perms);
 		}
 
-		// Acquire a write lock. 
-		$mutex = @fopen($this->cache_dir.$this->flock_filename, 'w');
-		if ( false == $mutex)
-			return;
-		flock($mutex, LOCK_EX);
+		if ( ! $this->acquire_lock() )
+			return false;
 
 		// Loop over dirty objects and save them.
+		$errors = 0;
 		foreach ($this->dirty_objects as $group => $ids) {
 			$group_dir = $this->make_group_dir($group, $dir_perms);
 
@@ -313,21 +333,24 @@ class WP_Object_Cache {
 				// Remove the cache file if the key is not set.
 				if (!isset ($this->cache[$group][$id])) {
 					if (file_exists($cache_file))
-						unlink($cache_file);
+						@ unlink($cache_file);
 					continue;
 				}
 
 				$temp_file = tempnam($group_dir, 'tmp');
 				$serial = CACHE_SERIAL_HEADER.serialize($this->cache[$group][$id]).CACHE_SERIAL_FOOTER;
 				$fd = @fopen($temp_file, 'w');
-				if ( false === $fd )
+				if ( false === $fd ) {
+					$errors++;
 					continue;
+				}
 				fputs($fd, $serial);
 				fclose($fd);
 				if (!@ rename($temp_file, $cache_file)) {
-					if (@ copy($temp_file, $cache_file)) {
+					if (@ copy($temp_file, $cache_file))
 						@ unlink($temp_file);
-					}
+					else
+						$errors++;	
 				}
 				@ chmod($cache_file, $file_perms);
 			}
@@ -335,9 +358,12 @@ class WP_Object_Cache {
 
 		$this->dirty_objects = array();
 
-		// Release write lock.
-		flock($mutex, LOCK_UN);
-		fclose($mutex);
+		$this->release_lock();
+		
+		if ( $errors )
+			return false;
+
+		return true;
 	}
 
 	function stats() {
