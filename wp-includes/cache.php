@@ -396,6 +396,10 @@ class WP_Object_Cache {
 		if (defined('DISABLE_CACHE'))
 			return;
 
+		// Disable the persistent cache if safe_mode is on.
+		if ( ini_get('safe_mode') )
+			return;
+
 		if (defined('CACHE_PATH'))
 			$this->cache_dir = CACHE_PATH;
 		else
@@ -403,10 +407,11 @@ class WP_Object_Cache {
 
 		if (is_writable($this->cache_dir) && is_dir($this->cache_dir)) {
 				$this->cache_enabled = true;
-		} else
+		} else {
 			if (is_writable(ABSPATH.'wp-content')) {
 				$this->cache_enabled = true;
 			}
+		}
 
 		if (defined('CACHE_EXPIRATION_TIME'))
 			$this->expiration_time = CACHE_EXPIRATION_TIME;
