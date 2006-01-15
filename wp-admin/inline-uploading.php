@@ -2,6 +2,8 @@
 
 require_once('admin.php');
 
+header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+
 if (!current_user_can('edit_posts'))
 	die(__('You do not have permission to edit posts.'));
 
