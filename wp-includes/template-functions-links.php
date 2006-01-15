@@ -382,7 +382,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
 function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
 
-	$qstr = $_SERVER['REQUEST_URI'];
+	$qstr = wp_specialchars($_SERVER['REQUEST_URI']);
 
 	$page_querystring = "paged"; 
 	$page_modstring = "page/";
