@@ -77,7 +77,7 @@ foreach ($categories as $category) {
                 }
 
                 $opml_url = $_POST['opml_url'];
-                if (isset($opml_url) && $opml_url != '') {
+                if (isset($opml_url) && $opml_url != '' && $opml_url != 'http://') {
 					$blogrolling = true;
                 }
                 else // try to get the upload file.
