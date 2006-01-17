@@ -645,7 +645,7 @@ class wpdbBackup {
 			// Add a multipart boundary above the plain message
 			$message = "This is a multi-part message in MIME format.\n\n" .
 		        	"--{$boundary}\n" .
-				"Content-Type: text/plain; charset=\"iso-8859-1\"\n" .
+				"Content-Type: text/plain; charset=\"utf-8\"\n" .
 				"Content-Transfer-Encoding: 7bit\n\n" .
 				$message . "\n\n";
 			
