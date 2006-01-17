@@ -745,6 +745,10 @@ table .vers, table .name {
 	display:block;
 }
 
+#grabit {
+	width: 188px;
+}
+
 * html #themeselect {
 	padding: 0px 3px;
 	height: 22px;
