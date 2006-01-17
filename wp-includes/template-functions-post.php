@@ -231,10 +231,13 @@ function get_post_custom_keys() {
 }
 
 
-function get_post_custom_values($key='') {
+function get_post_custom_values( $key = '' ) {
 	global $id, $post_meta_cache;
 
-	return $post_meta_cache[$id][$key];
+	if ( empty($key) )
+		return $post_meta_cache[$id];
+	else
+		return get_post_custom();
 }
 
 
