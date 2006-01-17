@@ -108,9 +108,8 @@ if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
 else
 	require (ABSPATH . WPINC . '/cache.php');
 
-// For now, disable persistent caching by default.  To enable, comment out
-// the following line.
-//define('DISABLE_CACHE', true);
+// To disable persistant caching, add the below line to your wp-config.php file, uncommented of course.
+// define('DISABLE_CACHE', true);
 
 wp_cache_init();
 
