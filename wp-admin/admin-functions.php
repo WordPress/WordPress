@@ -1750,6 +1750,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 	} else {
 		$number = '';
 		$filename = str_replace('#', '_', $file['name']);
+		$filename = str_replace(array('\\', "'"), '', $filename);
 		if ( empty($ext) )
 			$ext = '';
 		else
