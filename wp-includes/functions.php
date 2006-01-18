@@ -1681,6 +1681,11 @@ function get_stylesheet_uri() {
 }
 
 function get_template() {
+	$template = get_settings('template');
+	if (!file_exists(get_theme_root() . "/$template")) { //works for dirs too
+		update_option('template', 'default');
+		update_option('stylesheet', 'default');
+	}
 	return apply_filters('template', get_settings('template'));
 }
 
