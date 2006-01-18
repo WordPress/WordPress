@@ -266,7 +266,12 @@ function remove_accents($string) {
 }
 
 function sanitize_user( $username ) {
-	return preg_replace('|a-z0-9 _.-|i', '', $username);
+	$raw_username = $username;
+	$username = strip_tags($username);
+	// Kill octets
+	$username = preg_replace('|%([a-fA-F0-9][a-fA-F0-9])|', '', $username);
+	$username = preg_replace('/&.+?;/', '', $username); // Kill entities
+	return apply_filters('sanitize_user', $username, $raw_username);
 }
 
 function sanitize_title($title, $fallback_title = '') {
