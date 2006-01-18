@@ -780,6 +780,9 @@ table .vers, table .name {
 	right: 5%;
 	width: 14.5em;
 }
+#moremeta select {
+	width: 96%;
+}
 
 #slugdiv input, #passworddiv input, #authordiv select, #thumbdiv input, #parentdiv input {
 	margin-top: .5em;
