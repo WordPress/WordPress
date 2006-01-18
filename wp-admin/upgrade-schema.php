@@ -251,14 +251,14 @@ function populate_roles_160() {
 	global $wp_roles;
 
 	// Add roles
-	$wp_roles->add_role('administrator', __('Administrator'));
-	$wp_roles->add_role('editor', __('Editor'));
-	$wp_roles->add_role('author', __('Author'));
-	$wp_roles->add_role('contributor', __('Contributor'));
-	$wp_roles->add_role('subscriber', __('Subscriber'));
+	add_role('administrator', __('Administrator'));
+	add_role('editor', __('Editor'));
+	add_role('author', __('Author'));
+	add_role('contributor', __('Contributor'));
+	add_role('subscriber', __('Subscriber'));
 	
 	// Add caps for Administrator role
-	$role = $wp_roles->get_role('administrator');
+	$role = get_role('administrator');
 	$role->add_cap('switch_themes');
 	$role->add_cap('edit_themes');
 	$role->add_cap('activate_plugins');
@@ -291,7 +291,7 @@ function populate_roles_160() {
 	$role->add_cap('level_0');
 	
 	// Add caps for Editor role
-	$role = $wp_roles->get_role('editor');
+	$role = get_role('editor');
 	$role->add_cap('moderate_comments');
 	$role->add_cap('manage_categories');
 	$role->add_cap('manage_links');
@@ -313,7 +313,7 @@ function populate_roles_160() {
 	$role->add_cap('level_0');
 	
 	// Add caps for Author role
-	$role = $wp_roles->get_role('author');
+	$role = get_role('author');
 	$role->add_cap('upload_files');
 	$role->add_cap('edit_posts');
 	$role->add_cap('edit_published_posts');
@@ -324,14 +324,14 @@ function populate_roles_160() {
 	$role->add_cap('level_0');
 	
 	// Add caps for Contributor role
-	$role = $wp_roles->get_role('contributor');
+	$role = get_role('contributor');
 	$role->add_cap('edit_posts');
 	$role->add_cap('read');
 	$role->add_cap('level_1');
 	$role->add_cap('level_0');
 	
 	// Add caps for Subscriber role
-	$role = $wp_roles->get_role('subscriber');
+	$role = get_role('subscriber');
 	$role->add_cap('read');
 	$role->add_cap('level_0');
 }
