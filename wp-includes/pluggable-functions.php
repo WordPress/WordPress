@@ -326,9 +326,9 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	if ( isset($reply_to) )
 		$message_headers .= $reply_to . "\n";
 
-	$notify_message = apply_filters('comment_notification_text', $notify_message);
-	$subject = apply_filters('comment_notification_subject', $subject);
-	$message_headers = apply_filters('comment_notification_headers', $message_headers);
+	$notify_message = apply_filters('comment_notification_text', $notify_message, $comment_id);
+	$subject = apply_filters('comment_notification_subject', $subject, $comment_id);
+	$message_headers = apply_filters('comment_notification_headers', $message_headers, $comment_id);
 
 	@wp_mail($user->user_email, $subject, $notify_message, $message_headers);
    
@@ -369,8 +369,8 @@ function wp_notify_moderator($comment_id) {
 	$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), get_settings('blogname'), $post->post_title );
 	$admin_email = get_settings('admin_email');
 
-	$notify_message = apply_filters('comment_moderation_text', $notify_message);
-	$subject = apply_filters('comment_moderation_subject', $subject);
+	$notify_message = apply_filters('comment_moderation_text', $notify_message, $comment_id);
+	$subject = apply_filters('comment_moderation_subject', $subject, $comment_id);
 
 	@wp_mail($admin_email, $subject, $notify_message);
     
