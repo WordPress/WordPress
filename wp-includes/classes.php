@@ -662,6 +662,7 @@ class WP_Query {
 							$this->posts = array();
 						} else {
 							$this->is_preview = true;
+							$this->posts[0]->post_date = current_time('mysql');
 						}
 					} else {
 						if (! current_user_can('read_post', $this->posts[0]->ID))
