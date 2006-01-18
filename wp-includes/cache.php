@@ -397,7 +397,7 @@ class WP_Object_Cache {
 			return;
 
 		// Disable the persistent cache if safe_mode is on.
-		if ( ini_get('safe_mode') )
+		if ( ini_get('safe_mode') && ! defined('ENABLE_CACHE') )
 			return;
 
 		if (defined('CACHE_PATH'))
