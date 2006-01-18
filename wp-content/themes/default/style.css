@@ -90,7 +90,7 @@ h1 {
 	text-align: center;
 	}
 
-.description {
+div#headerimg div.description {
 	font-size: 1.2em;
 	text-align: center;
 	}
@@ -112,7 +112,7 @@ h3 {
 	font-size: 1.3em;
 	}
 
-h1, h1 a, h1 a:hover, h1 a:visited, .description {
+h1, h1 a, h1 a:hover, h1 a:visited, div#headerimg div.description {
 	text-decoration: none;
 	color: white;
 	}
@@ -300,10 +300,6 @@ body {
 h1 {
 	padding-top: 70px;
 	margin: 0;
-	}
-
-.description {
-	text-align: center;
 	}
 
 h2 {
