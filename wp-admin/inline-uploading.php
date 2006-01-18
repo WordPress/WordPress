@@ -4,8 +4,8 @@ require_once('admin.php');
 
 header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
-if (!current_user_can('edit_posts'))
-	die(__('You do not have permission to edit posts.'));
+if (!current_user_can('upload_files'))
+	die(__('You do not have permission to upload files.'));
 
 $wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'attachment');
 
