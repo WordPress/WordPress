@@ -206,7 +206,6 @@ $_SERVER = add_magic_quotes($_SERVER);
 $wp_query   = new WP_Query();
 $wp_rewrite = new WP_Rewrite();
 $wp         = new WP();
-$wp_roles   = new WP_Roles();
 
 define('TEMPLATEPATH', get_template_directory());
 

@@ -85,12 +85,18 @@ class WP_Role {
 	function add_cap($cap, $grant = true) {
 		global $wp_roles;
 
+		if ( ! isset($wp_roles) )
+			$wp_roles = new WP_Roles();
+
 		$this->capabilities[$cap] = $grant;
 		$wp_roles->add_cap($this->name, $cap, $grant);
 	}
 
 	function remove_cap($cap) {
 		global $wp_roles;
+
+		if ( ! isset($wp_roles) )
+			$wp_roles = new WP_Roles();
 
 		unset($this->capabilities[$cap]);
 		$wp_roles->remove_cap($this->name, $cap);
@@ -115,7 +121,7 @@ class WP_User {
 	var $allcaps = array();
 
 	function WP_User($id, $name = '') {
-		global $wp_roles, $table_prefix;
+		global $table_prefix;
 
 		if ( empty($id) && empty($name) )
 			return;
@@ -147,6 +153,10 @@ class WP_User {
 	
 	function get_role_caps() {
 		global $wp_roles;
+		
+		if ( ! isset($wp_roles) )
+			$wp_roles = new WP_Roles();
+
 		//Filter out caps that are not role names and assign to $this->roles
 		if(is_array($this->caps))
 			$this->roles = array_filter(array_keys($this->caps), array(&$wp_roles, 'is_role'));
@@ -214,8 +224,6 @@ class WP_User {
 	//has_cap(capability_or_role_name) or
 	//has_cap('edit_post', post_id)
 	function has_cap($cap) {
-		global $wp_roles;
-
 		if ( is_numeric($cap) )
 			$cap = $this->translate_level_to_cap($cap);
 		
@@ -316,17 +324,26 @@ function current_user_can($capability) {
 function get_role($role) {
 	global $wp_roles;
 
+	if ( ! isset($wp_roles) )
+		$wp_roles = new WP_Roles();
+
 	return $wp_roles->get_role($role);
 }
 
 function add_role($role, $display_name, $capabilities = '') {
 	global $wp_roles;
 
+	if ( ! isset($wp_roles) )
+		$wp_roles = new WP_Roles();
+
 	return $wp_roles->add_role($role, $display_name, $capabilities = '');
 }
 
 function remove_role($role) {
 	global $wp_roles;
+
+	if ( ! isset($wp_roles) )
+		$wp_roles = new WP_Roles();
 
 	return $wp_roles->remove_role($role);
 }
