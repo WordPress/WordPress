@@ -235,10 +235,11 @@ class WP_Object_Cache {
 		$dir = rtrim($dir, DIRECTORY_SEPARATOR);
 		$top_dir = $dir;
 		$stack = array($dir);
+		$index = 0;
 
-		while (count($stack)) {
-			# Get last directory on stack
-			$dir = end($stack);
+		while ($index < count($stack)) {
+			# Get indexed directory from stack
+			$dir = $stack[$index];
       
 			$dh = @ opendir($dir);
 			if (!$dh)
@@ -247,19 +248,22 @@ class WP_Object_Cache {
 			while (($file = @ readdir($dh)) !== false) {
 				if ($file == '.' or $file == '..')
 					continue;
-
+					
 				if (@ is_dir($dir . DIRECTORY_SEPARATOR . $file))
 					$stack[] = $dir . DIRECTORY_SEPARATOR . $file;
 				else if (@ is_file($dir . DIRECTORY_SEPARATOR . $file))
 					@ unlink($dir . DIRECTORY_SEPARATOR . $file);
 			}
 
-			if (end($stack) == $dir) {
-				if ( $dir != $top_dir)
-					@ rmdir($dir);
-				array_pop($stack);
-			}
+			$index++;
 		}
+
+		$stack = array_reverse($stack);  // Last added dirs are deepest
+		foreach($stack as $dir) {
+			if ( $dir != $top_dir)
+				@ rmdir($dir);
+		}
+
 	}
 
 	function release_lock() {
@@ -403,7 +407,8 @@ class WP_Object_Cache {
 		if (defined('CACHE_PATH'))
 			$this->cache_dir = CACHE_PATH;
 		else
-			$this->cache_dir = ABSPATH.'wp-content/cache/';
+			// Using the correct separator eliminates some cache flush errors on Windows
+			$this->cache_dir = ABSPATH.'wp-content'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR;
 
 		if (is_writable($this->cache_dir) && is_dir($this->cache_dir)) {
 				$this->cache_enabled = true;
