@@ -1791,11 +1791,12 @@ function get_themes() {
 		$template = $theme_data['Template'];
 		$stylesheet = dirname($theme_file);
 
-		$screenshot = glob("$theme_root/$stylesheet/screenshot.*");
-		if ( !empty( $screenshot ) )
-			$screenshot = basename( $screenshot[0] );
-		else
-			$screenshot = false;
+		foreach (array('png', 'gif', 'jpg', 'jpeg') as $ext) {
+			if (file_exists("$theme_root/$stylesheet/screenshot.$ext")) {
+				$screenshot = "screenshot.$ext";
+				break;
+			}
+		}
 
 		if ( empty($name) ) {
 			$name = dirname($theme_file);
