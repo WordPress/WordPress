@@ -372,13 +372,13 @@ class WP_Query {
 				
 			$all_page_ids = get_all_page_ids();
 			$reqpage = 0;
-			foreach ( $all_page_ids as $page_id ) {
+			if (is_array($all_page_ids)) { foreach ( $all_page_ids as $page_id ) {
 				$page = get_page($page_id);
 				if ( $page->fullpath == $page_path ) {
 					$reqpage = $page_id;
 					break;
 				}
-			}
+			} }
 			
 			$where .= " AND (ID = '$reqpage')";
 		} elseif ('' != $q['attachment']) {
