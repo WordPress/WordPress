@@ -113,8 +113,6 @@ else
 
 wp_cache_init();
 
-$wp_filters = array();
-
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/default-filters.php');
 require_once (ABSPATH . WPINC . '/wp-l10n.php');
