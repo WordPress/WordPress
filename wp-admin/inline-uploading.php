@@ -258,8 +258,8 @@ imgb[{$ID}] = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$title}\" 
 			$filename = basename($attachment['guid']);
 			$icon = get_attachment_icon($ID);
 			$toggle_icon = "<a id=\"I{$ID}\" onclick=\"toggleOtherIcon({$ID});return false;\" href=\"javascript:void()\">$__using_title</a>";
-			$script .= "aa[{$ID}] = '<a id=\"p{$ID}\" rel=\"attachment\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$title}</a>';
-ab[{$ID}] = '<a id=\"p{$ID}\" href=\"{$filename}\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">{$title}</a>';
+			$script .= "aa[{$ID}] = '<a id=\"p{$ID}\" rel=\"attachment\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">';
+ab[{$ID}] = '<a id=\"p{$ID}\" href=\"{$filename}\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">';
 title[{$ID}] = '{$title}';
 filename[{$ID}] = '{$filename}';
 icon[{$ID}] = '{$icon}';
@@ -347,19 +347,13 @@ function toggleLink(n) {
 	updateImage(n);
 }
 function toggleOtherLink(n) {
-	od=document.getElementById('div'+n);
 	ol=document.getElementById('L'+n);
-	oi=document.getElementById('p'+n);
-	ih=oi.innerHTML;
 	if ( ol.innerHTML == htmldecode(linkedtofile) ) {
-		od.innerHTML = aa[n];
 		ol.innerHTML = linkedtopage;
 	} else {
-		od.innerHTML = ab[n];
 		ol.innerHTML = linkedtofile;
 	}
-	oi=document.getElementById('p'+n);
-	oi.innerHTML = ih;
+	updateOtherIcon(n);
 }
 function toggleImage(n) {
 	oi = document.getElementById('I'+n);
@@ -372,22 +366,18 @@ function toggleImage(n) {
 }
 function toggleOtherIcon(n) {
 	od = document.getElementById('div'+n);
-	o = document.getElementById('p'+n);
 	oi = document.getElementById('I'+n);
 	if ( oi.innerHTML == htmldecode(usingtitle) ) {
-		o.innerHTML = filename[n];
 		oi.innerHTML = usingfilename;
-	} else if ( oi.innerHTML == htmldecode(usingfilename) && icon[n] != '' ) {
-		o.innerHTML = icon[n];
-		oi.innerHTML = usingicon;
-	} else {
-		o.innerHTML = title[n];
-		oi.innerHTML = usingtitle;
-	}
-	if ( oi.innerHTML == usingicon )
-		od.className = 'otherwrap usingicon';
-	else
 		od.className = 'otherwrap usingtext';
+	} else if ( oi.innerHTML == htmldecode(usingfilename) && icon[n] != '' ) {
+		oi.innerHTML = usingicon;
+		od.className = 'otherwrap usingicon';
+	} else {
+		oi.innerHTML = usingtitle;
+		od.className = 'otherwrap usingtext';
+	}
+	updateOtherIcon(n);
 }
 function updateImage(n) {
 	od=document.getElementById('div'+n);
@@ -406,6 +396,26 @@ function updateImage(n) {
 		od.innerHTML = img;
 	}
 }
+function updateOtherIcon(n) {
+	od=document.getElementById('div'+n);
+	ol=document.getElementById('L'+n);
+	oi=document.getElementById('I'+n);
+	if ( oi.innerHTML == htmldecode(usingfilename) ) {
+		txt = filename[n];
+	} else if ( oi.innerHTML == htmldecode(usingicon) ) {
+		txt = icon[n];
+	} else {
+		txt = title[n];
+	}
+	if ( ol.innerHTML == htmldecode(linkedtofile) ) {
+		od.innerHTML = ab[n]+txt+'</a>';
+	} else if ( ol.innerHTML == htmldecode(linkedtopage) ) {
+		od.innerHTML = aa[n]+txt+'</a>';
+	} else {
+		od.innerHTML = txt;
+	}
+}
+
 var win = window.opener ? window.opener : window.dialogArguments;
 if (!win) win = top;
 tinyMCE = win.tinyMCE;
