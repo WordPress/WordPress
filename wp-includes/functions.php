@@ -2043,7 +2043,10 @@ add_query_arg(associative_array, oldquery_or_uri)
 function add_query_arg() {
 	$ret = '';
 	if ( is_array(func_get_arg(0)) ) {
-		$uri = @func_get_arg(1);
+		if ( @func_num_args() < 2 )
+			$uri = $_SERVER['REQUEST_URI'];
+		else
+			$uri = @func_get_arg(1);
 	} else {
 		if ( @func_num_args() < 3 )
 			$uri = $_SERVER['REQUEST_URI'];
