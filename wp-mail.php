@@ -61,8 +61,10 @@ for ($i=1; $i <= $count; $i++) :
 			if (preg_match('/From: /', $line) | preg_match('Reply-To: /', $line))  {
 				$author=trim($line);
 			if ( ereg("([a-zA-Z0-9\_\-\.]+@[\a-zA-z0-9\_\-\.]+)", $author , $regs) ) {
-				echo "Author = {$regs[1]} <p>";
-				$result = $wpdb->get_row("SELECT ID FROM $tableusers WHERE user_email='$regs[1]' ORDER BY ID DESC LIMIT 1");
+				$author = $regs[1];
+				echo "Author = {$author} <p>";
+				$author = $wpdb->escape($author);
+				$result = $wpdb->get_row("SELECT ID FROM $wpdb->users WHERE user_email='$author' LIMIT 1");
 				if (!$result)
 					$post_author = 1;
 				else
