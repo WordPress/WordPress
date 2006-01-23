@@ -29,6 +29,7 @@ if ((empty($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 <?php $sql = "SELECT $wpdb->links.link_url, link_rss, $wpdb->links.link_name, $wpdb->links.link_category, $wpdb->linkcategories.cat_name, link_updated 
 FROM $wpdb->links 
  JOIN $wpdb->linkcategories on $wpdb->links.link_category = $wpdb->linkcategories.cat_id
+ AND $wpdb->links.link_visible = 'Y'
  $sql_cat
  ORDER BY $wpdb->linkcategories.cat_name, $wpdb->links.link_name \n";
  //echo("<!-- $sql -->");
@@ -51,8 +52,10 @@ FROM $wpdb->links
             <outline text="<?php echo wp_specialchars($result->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($result->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($result->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $result->link_updated) echo $result->link_updated; ?>" />
 <?php
         } // end foreach
+?>
+	</outline>
+<?php
     } // end if
 ?>
-        </outline>
-    </body>
+</body>
 </opml>
