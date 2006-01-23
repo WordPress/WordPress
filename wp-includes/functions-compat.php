@@ -47,6 +47,14 @@ function printr($var, $do_not_echo = false) {
 	return $code;
 }
 
+/* compatibility with PHP versions older than 4.3 */
+if ( !function_exists('file_get_contents') ) {
+	function file_get_contents( $file ) {
+		$file = file($file);
+		return !$file ? false : implode('', $file);
+	}
+}
+
 if (!defined('CASE_LOWER')) {
     define('CASE_LOWER', 0);
 }
