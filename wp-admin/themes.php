@@ -59,7 +59,7 @@ $theme_names = array_keys($themes);
 natcasesort($theme_names);
 
 foreach ($theme_names as $theme_name) {
-	if ( $theme_name == $current_theme )
+	if ( $theme_name == $ct->name )
 		continue;
 	$template = $themes[$theme_name]['Template'];
 	$stylesheet = $themes[$theme_name]['Stylesheet'];

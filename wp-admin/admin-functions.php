@@ -1616,6 +1616,7 @@ function get_importers() {
 function current_theme_info() {
 	$themes = get_themes();
 	$current_theme = get_current_theme();
+	$ct->name = $current_theme;
 	$ct->title = $themes[$current_theme]['Title'];
 	$ct->version = $themes[$current_theme]['Version'];
 	$ct->parent_theme = $themes[$current_theme]['Parent Theme'];
