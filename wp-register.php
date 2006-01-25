@@ -27,7 +27,10 @@ case 'register':
 		$errors['user_email'] = __('<strong>ERROR</strong>: The email address isn&#8217;t correct.');
 	}
 
-  if ( username_exists( $user_login ) )
+	if ( ! validate_username($user_login) )
+		$errors['user_login'] = __('<strong>ERROR</strong>: This username is invalid.  Please enter a valid username.');
+
+	if ( username_exists( $user_login ) )
 		$errors['user_login'] = __('<strong>ERROR</strong>: This username is already registered, please choose another one.');
 
 	/* checking the email isn't already used by another user */

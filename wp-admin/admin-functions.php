@@ -329,13 +329,13 @@ function add_user() {
 }
 
 function edit_user($user_id = 0) {
-	global $current_user, $wp_roles;
+	global $current_user, $wp_roles, $wpdb;
 
 	if ($user_id != 0) {
 		$update = true;
 		$user->ID = $user_id;
 		$userdata = get_userdata($user_id);
-		$user->user_login = $userdata->user_login;
+		$user->user_login = $wpdb->escape($userdata->user_login);
 	} else {
 		$update = false;
 		$user = '';
@@ -405,6 +405,9 @@ function edit_user($user_id = 0) {
 
 	if (!empty ($pass1))
 		$user->user_pass = $pass1;
+
+	if ( !validate_username($user->user_login) )
+		$errors['user_login'] = __('<strong>ERROR</strong>: This username is invalid.  Please enter a valid username.');
 
 	if (!$update && username_exists($user->user_login))
 		$errors['user_login'] = __('<strong>ERROR</strong>: This username is already registered, please choose another one.');

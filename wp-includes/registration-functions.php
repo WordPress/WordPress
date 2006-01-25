@@ -10,6 +10,16 @@ function username_exists( $username ) {
 	return null;
 }
 
+function validate_username( $username ) {
+	$name = sanitize_user($username, true);
+	$valid = true;
+
+	if ( $name != $username )
+		$valid = false;	
+
+	return apply_filters('validate_username', $valid, $username);	
+}
+
 function wp_insert_user($userdata) {
 	global $wpdb;
 
@@ -24,6 +34,8 @@ function wp_insert_user($userdata) {
 		$user_pass = md5($user_pass);
 	}
 	
+	$user_login = sanitize_user($user_login, true);
+
 	if ( empty($user_nicename) )
 		$user_nicename = sanitize_title( $user_login );
 
