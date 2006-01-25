@@ -336,7 +336,7 @@ function add_role($role, $display_name, $capabilities = '') {
 	if ( ! isset($wp_roles) )
 		$wp_roles = new WP_Roles();
 
-	return $wp_roles->add_role($role, $display_name, $capabilities = '');
+	return $wp_roles->add_role($role, $display_name, $capabilities);
 }
 
 function remove_role($role) {
