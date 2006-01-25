@@ -149,7 +149,7 @@ default:
 	foreach($userids as $userid) {
 		$tmp_user = new WP_User($userid);
 		$roles = $tmp_user->roles;
-		$role = $roles[0];
+		$role = array_shift($roles);
 		$roleclasses[$role][$tmp_user->user_login] = $tmp_user;
 	}	
 	
