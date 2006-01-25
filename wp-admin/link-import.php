@@ -36,7 +36,7 @@ switch ($step) {
 
 <div style="width: 48%; float: left;">
 <h3><?php _e('Or choose from your local disk:'); ?></h3>
-<input name="userfile" type="file" size="30" />
+<input id="userfile" name="userfile" type="file" size="30" />
 </div>
 
 
@@ -83,7 +83,7 @@ foreach ($categories as $category) {
                 else // try to get the upload file.
 				{
 					$overrides = array('test_form' => false, 'test_type' => false);
-					$file = wp_handle_upload($_FILES['import'], $overrides);
+					$file = wp_handle_upload($_FILES['userfile'], $overrides);
 
 					if ( isset($file['error']) )
 						die($file['error']);
