@@ -193,61 +193,61 @@ Post-meta: Custom per-post fields.
 
 function get_post_custom( $post_id = 0 ) {
 	global $id, $post_meta_cache, $wpdb;
-	if ( $post_id )
-		$id = $post_id;
-	if ( isset($post_meta_cache[$id]) ) {
-		return $post_meta_cache[$id];
-	} else {
-		if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta	WHERE post_id = '$id' ORDER BY post_id, meta_key", ARRAY_A) ) {
-			// Change from flat structure to hierarchical:
-			$post_meta_cache = array();
-			foreach ( $meta_list as $metarow ) {
-				$mpid = $metarow['post_id'];
-				$mkey = $metarow['meta_key'];
-				$mval = $metarow['meta_value'];
 
-				// Force subkeys to be array type:
-				if ( !isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]) )
-					$post_meta_cache[$mpid] = array();
-				if ( !isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]) )
-					$post_meta_cache[$mpid]["$mkey"] = array();
+	if ( ! $post_id )
+		$post_id = $id;
 
-				// Add a value to the current pid/key:
-				$post_meta_cache[$mpid][$mkey][] = $mval;
-			}
-		return $post_meta_cache[$mpid];
+	if ( isset($post_meta_cache[$post_id]) )
+		return $post_meta_cache[$post_id];
+
+	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta	WHERE post_id = '$post_id' ORDER BY post_id, meta_key", ARRAY_A) ) {
+		// Change from flat structure to hierarchical:
+		$post_meta_cache = array();
+		foreach ( $meta_list as $metarow ) {
+			$mpid = $metarow['post_id'];
+			$mkey = $metarow['meta_key'];
+			$mval = $metarow['meta_value'];
+
+			// Force subkeys to be array type:
+			if ( !isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]) )
+				$post_meta_cache[$mpid] = array();
+				
+			if ( !isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]) )
+				$post_meta_cache[$mpid]["$mkey"] = array();
+
+			// Add a value to the current pid/key:
+			$post_meta_cache[$mpid][$mkey][] = $mval;
 		}
+		return $post_meta_cache[$mpid];
 	}
 }
 
 
 function get_post_custom_keys() {
-	global $id, $post_meta_cache;
+	$custom = get_post_custom();
 
-	if ( !is_array($post_meta_cache[$id]) )
+	if ( ! is_array($custom) )
 		return;
-	if ( $keys = array_keys($post_meta_cache[$id]) )
+
+	if ( $keys = array_keys($custom) )
 		return $keys;
 }
 
 
 function get_post_custom_values( $key = '' ) {
-	global $id, $post_meta_cache;
+	$custom = get_post_custom();
 
-	if ( empty($key) )
-		return $post_meta_cache[$id];
-	else
-		return get_post_custom();
+	return $custom[$key];
 }
 
 
 function post_custom( $key = '' ) {
-	global $id, $post_meta_cache;
+	$custom = get_post_custom();
 
-	if ( 1 == count($post_meta_cache[$id][$key]) )
-		return $post_meta_cache[$id][$key][0];
+	if ( 1 == count($custom[$key]) )
+		return $custom[$key][0];
 	else
-		return $post_meta_cache[$id][$key];
+		return $custom[$key];
 }
 
 
@@ -258,7 +258,7 @@ function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";
 		foreach ( $keys as $key ) {
-			$values = array_map('trim',$post_meta_cache[$id][$key]);
+			$values = array_map('trim', get_post_custom_values($key));
 			$value = implode($values,', ');
 			echo "<li><span class='post-meta-key'>$key:</span> $value</li>\n";
 		}
