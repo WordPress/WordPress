@@ -372,7 +372,11 @@ function update_option($option_name, $newvalue) {
 	$newvalue = $wpdb->escape($newvalue);
 	$option_name = $wpdb->escape($option_name);
 	$wpdb->query("UPDATE $wpdb->options SET option_value = '$newvalue' WHERE option_name = '$option_name'");
-	return true;
+	if ( $wpdb->rows_affected == 1 ) {
+		do_action('update_option_{$option_name}', $oldvalue, $newvalue);
+		return true;
+	}
+	return false;
 }
 
 function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
