@@ -460,7 +460,7 @@ AND meta_key = '$key'");
 		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
 AND meta_key = '$key' AND meta_value = '$value'");
 		$cache_key = $post_meta_cache['$post_id'][$key];
-		foreach ( $cache_key as $index => $data )
+		if ($cache_key) foreach ( $cache_key as $index => $data )
 			if ( $data == $value )
 				unset($post_meta_cache['$post_id'][$key][$index]);
 	}
