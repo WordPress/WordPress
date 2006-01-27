@@ -86,6 +86,14 @@ function get_userdata( $user_id ) {
 		} // end foreach
 	} //end if
 
+	// For backwards compat.
+	if ( isset($user->first_name) )
+		$user->user_firstname = $user->first_name;
+	if ( isset($user->last_name) )
+		$user->user_lastname = $user->last_name;
+	if ( isset($user->description) )
+		$user->user_description = $user->description;
+		
 	wp_cache_add($user_id, $user, 'users');
 	wp_cache_add($user->user_login, $user, 'userlogins');
 	
@@ -130,6 +138,14 @@ function get_userdatabylogin($user_login) {
 				$user->user_level = $meta->meta_value;
 		}
 	}
+
+	// For backwards compat.
+	if ( isset($user->first_name) )
+		$user->user_firstname = $user->first_name;
+	if ( isset($user->last_name) )
+		$user->user_lastname = $user->last_name;
+	if ( isset($user->description) )
+		$user->user_description = $user->description;
 
 	wp_cache_add($user->ID, $user, 'users');
 	wp_cache_add($user->user_login, $user, 'userlogins');
