@@ -1001,6 +1001,9 @@ function spawn_pinger() {
 	if ( $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_pingme' OR meta_key = '_encloseme' LIMIT 1") )
 		$doping = true;
 
+	if ( substr(php_sapi_name(), 0, 3) == 'cgi' )
+		return $doping;
+
 	if ( $doping ) {
 		$ping_url = get_settings('siteurl') .'/wp-admin/execute-pings.php';
 		$parts = parse_url($ping_url);
