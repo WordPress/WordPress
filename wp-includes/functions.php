@@ -814,7 +814,7 @@ function get_all_category_ids() {
 function get_all_page_ids() {
 	global $wpdb;
 	
-	if ( ! $page_ids = wp_cache_get('all_page_ids', 'posts') ) {
+	if ( ! $page_ids = wp_cache_get('all_page_ids', 'pages') ) {
 		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_status='static'");
 		wp_cache_add('all_page_ids', $page_ids, 'pages');
 	}
