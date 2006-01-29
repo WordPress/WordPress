@@ -966,14 +966,6 @@ function touch_time($edit = 1, $for_post = 1) {
 
 }
 
-function check_admin_referer() {
-	$adminurl = strtolower(get_settings('siteurl')).'/wp-admin';
-	$referer = strtolower($_SERVER['HTTP_REFERER']);
-	if (!strstr($referer, $adminurl))
-		die(__('Sorry, you need to <a href="http://codex.wordpress.org/Enable_Sending_Referrers">enable sending referrers</a> for this feature to work.'));
-	do_action('check_admin_referer');
-}
-
 // insert_with_markers: Owen Winkler, fixed by Eric Anderson
 // Inserts an array of strings into a file (.htaccess), placing it between
 // BEGIN and END markers.  Replaces existing marked info.  Retains surrounding
