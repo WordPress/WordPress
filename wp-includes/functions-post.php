@@ -196,6 +196,7 @@ function wp_insert_post($postarr = array()) {
 			spawn_pinger();
 		}
 	} else if ($post_status == 'static') {
+		wp_cache_delete('all_page_ids', 'pages');
 		$wp_rewrite->flush_rules();
 
 		if ( !empty($page_template) )
@@ -554,8 +555,10 @@ function wp_delete_post($postid = 0) {
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
-	if ( 'static' == $post->post_status )
+	if ( 'static' == $post->post_status ) {
+		wp_cache_delete('all_page_ids', 'pages');
 		$wp_rewrite->flush_rules();
+	}
 
 	return $post;
 }
