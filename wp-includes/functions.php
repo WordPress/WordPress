@@ -2220,9 +2220,6 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 		$meta_value = serialize($meta_value);
 	$meta_value = trim( $meta_value );
 
-	if ( '' == $meta_value )
-		return false;
-
 	$cur = $wpdb->get_row("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 	if ( !$cur ) {
 		$wpdb->query("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )
