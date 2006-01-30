@@ -1,5 +1,6 @@
 <?php
 require_once('admin.php');
+header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
 ?>
 var ajaxCat = new sack();
 var newcat;
