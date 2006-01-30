@@ -162,8 +162,6 @@ if ( !defined('COOKIE_DOMAIN') )
 
 require (ABSPATH . WPINC . '/vars.php');
 
-do_action('core_files_loaded');
-
 // Check for hacks file if the option is enabled
 if (get_settings('hack_file')) {
 	if (file_exists(ABSPATH . '/my-hacks.php'))
