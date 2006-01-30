@@ -1766,7 +1766,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 
 	// Set correct file permissions
 	$stat = stat(dirname($new_file));
-	$perms = $stat['mode'] & 0000777;
+	$perms = $stat['mode'] & 0000666;
 	@ chmod($new_file, $perms);
 
 	// Compute the URL
