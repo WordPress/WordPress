@@ -205,13 +205,10 @@ function get_feed_link($feed='rss2') {
 }
 
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {
-	global $user_ID, $post;
+	global $post;
 
-	get_currentuserinfo();
-
-	if ( !user_can_edit_post($user_ID, $post->ID) ) {
+	if ( ! current_user_can('edit_post', $post->ID) )
 		return;
-	}
 
 	if ( is_attachment() )
 		return;
@@ -223,11 +220,9 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 }
 
 function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
-	global $user_ID, $post, $comment;
+	global $post, $comment;
 
-	get_currentuserinfo();
-
-	if ( !user_can_edit_post_comments($user_ID, $post->ID) )
+	if ( ! current_user_can('edit_post', $post->ID) )
 		return;
 
 	$location = get_settings('siteurl') . "/wp-admin/post.php?action=editcomment&amp;comment=$comment->comment_ID";
