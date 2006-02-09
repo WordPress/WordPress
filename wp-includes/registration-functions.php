@@ -10,6 +10,14 @@ function username_exists( $username ) {
 	return null;
 }
 
+function email_exists( $email ) {
+	global $wpdb;
+	$email = addslashes( $email );
+	$email_exists = $wpdb->get_row("SELECT user_email FROM $wpdb->users WHERE user_email = '$email'");
+	if ( $email_exists)
+		return true;
+}
+
 function validate_username( $username ) {
 	$name = sanitize_user($username, true);
 	$valid = true;
