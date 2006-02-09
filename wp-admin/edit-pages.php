@@ -25,7 +25,7 @@ $show_post_type = 'page';
 if ( isset($_GET['s']) )
 	wp();
 else
-	$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static'");
+	$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'page'");
 
 if ($posts) {
 ?>

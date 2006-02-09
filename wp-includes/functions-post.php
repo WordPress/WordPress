@@ -43,7 +43,10 @@ function wp_insert_post($postarr = array()) {
 
 	if ( empty($post_status) )
 		$post_status = 'draft';
-	
+
+	if ( empty($post_type) )
+		$post_type = 'post';
+
 	// Get the post ID.
 	if ( $update )
 		$post_ID = $ID;
@@ -101,18 +104,14 @@ function wp_insert_post($postarr = array()) {
 	if ( !isset($post_password) )
 		$post_password = '';
 
-	if ( ('publish' == $post_status) || ('static' == $post_status) ) {
-		$post_name_check = ('publish' == $post_status)
-			? $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1")
-			: $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'static' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
+	if ( 'draft' != $post_status ) {
+		$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_type = '$post_type' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
 
 		if ($post_name_check) {
 			$suffix = 2;
 			while ($post_name_check) {
 				$alt_post_name = $post_name . "-$suffix";
-				$post_name_check = ('publish' == $post_status)
-					? $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_status = 'publish' AND ID != '$post_ID' LIMIT 1")
-					: $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_status = 'static' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
+				$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_type = '$post_type' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
 				$suffix++;
 			}
 			$post_name = $alt_post_name;
@@ -130,6 +129,7 @@ function wp_insert_post($postarr = array()) {
 			post_title = '$post_title',
 			post_excerpt = '$post_excerpt',
 			post_status = '$post_status',
+			post_type = '$post_type',
 			comment_status = '$comment_status',
 			ping_status = '$ping_status',
 			post_password = '$post_password',
@@ -144,9 +144,9 @@ function wp_insert_post($postarr = array()) {
 	} else {
 		$wpdb->query(
 			"INSERT IGNORE INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
+			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
 			$post_ID = $wpdb->insert_id;			
 	}
 
@@ -157,7 +157,7 @@ function wp_insert_post($postarr = array()) {
 
 	wp_set_post_cats('', $post_ID, $post_category);
 
-	if ( 'static' == $post_status ) {
+	if ( 'page' == $post_type ) {
 		clean_page_cache($post_ID);
 		wp_cache_delete($post_ID, 'pages');
 	} else {
@@ -178,7 +178,7 @@ function wp_insert_post($postarr = array()) {
 		do_action('edit_post', $post_ID);
 	}
 
-	if ($post_status == 'publish') {
+	if ($post_status == 'publish' && $post_type == 'post') {
 		do_action('publish_post', $post_ID);
 
 		if ( !defined('WP_IMPORTING') ) {
@@ -195,7 +195,7 @@ function wp_insert_post($postarr = array()) {
 			");
 			spawn_pinger();
 		}
-	} else if ($post_status == 'static') {
+	} else if ($post_type == 'page') {
 		wp_cache_delete('all_page_ids', 'pages');
 		$wp_rewrite->flush_rules();
 
@@ -238,7 +238,8 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	if ( empty($post_author) )
 		$post_author = $user_ID;
 
-	$post_status = 'attachment';
+	$post_type = 'attachment';
+	$post_status = 'inherit';
 
 	// Are we updating or creating?
 	$update = false;
@@ -305,6 +306,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 			post_title = '$post_title',
 			post_excerpt = '$post_excerpt',
 			post_status = '$post_status',
+			post_type = '$post_type',
 			comment_status = '$comment_status',
 			ping_status = '$ping_status',
 			post_password = '$post_password',
@@ -321,9 +323,9 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	} else {
 		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
+			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
 			$post_ID = $wpdb->insert_id;			
 	}
 	
@@ -355,7 +357,7 @@ function wp_delete_attachment($postid) {
 	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
 		return $post;
 
-	if ( 'attachment' != $post->post_status )
+	if ( 'attachment' != $post->post_type )
 		return false;
 
 	$meta = get_post_meta($postid, '_wp_attachment_metadata', true);
@@ -407,7 +409,7 @@ function wp_get_recent_posts($num = 10) {
 		$limit = "LIMIT $num";
 	}
 
-	$sql = "SELECT * FROM $wpdb->posts WHERE post_status IN ('publish', 'draft', 'private') ORDER BY post_date DESC $limit";
+	$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC $limit";
 	$result = $wpdb->get_results($sql,ARRAY_A);
 
 	return $result?$result:array();
@@ -447,7 +449,7 @@ function wp_update_post($postarr = array()) {
 		$postarr['post_date_gmt'] = '';
 	}
 
-	if ($postarr['post_status'] == 'attachment')
+	if ($postarr['post_type'] == 'attachment')
 		return wp_insert_attachment($postarr);
 
 	return wp_insert_post($postarr);
@@ -516,7 +518,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	// Update category counts.
 	$all_affected_cats = array_unique(array_merge($post_categories, $old_categories));
 	foreach ( $all_affected_cats as $cat_id ) {
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status='publish' AND category_id = '$cat_id'");
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id'");
 		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
 		wp_cache_delete($cat_id, 'category');		
 	}
@@ -529,12 +531,12 @@ function wp_delete_post($postid = 0) {
 	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
 		return $post;
 
-	if ( 'attachment' == $post->post_status )
+	if ( 'attachment' == $post->post_type )
 		return wp_delete_attachment($postid);
 
 	do_action('delete_post', $postid);
 
-	if ( 'publish' == $post->post_status) {
+	if ( 'publish' == $post->post_status && 'post' == $post->post_type ) {
 		$categories = wp_get_post_cats('', $post->ID);
 		if( is_array( $categories ) ) {
 			foreach ( $categories as $cat_id ) {
@@ -544,8 +546,8 @@ function wp_delete_post($postid = 0) {
 		}
 	}
 
-	if ( 'static' == $post->post_status )
-		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_status = 'static'");
+	if ( 'page' == $post->post_type )
+		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_type = 'page'");
 
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
 	
@@ -555,7 +557,7 @@ function wp_delete_post($postid = 0) {
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
-	if ( 'static' == $post->post_status ) {
+	if ( 'page' == $post->type ) {
 		wp_cache_delete('all_page_ids', 'pages');
 		$wp_rewrite->flush_rules();
 	}
@@ -794,7 +796,7 @@ function generate_page_rewrite_rules() {
 	global $wpdb;
 	
 	//get pages in order of hierarchy, i.e. children after parents
-	$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_status = 'static'"));
+	$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page'"));
 	//now reverse it, because we need parents after children for rewrite rules to work properly
 	$posts = array_reverse($posts, true);
 
@@ -807,7 +809,7 @@ function generate_page_rewrite_rules() {
 
 			// URI => page name
 			$uri = get_page_uri($id);
-			$attachments = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_status = 'attachment' AND post_parent = '$id'");
+			$attachments = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = '$id'");
 			if ( $attachments ) {
 				foreach ( $attachments as $attachment ) {
 					$attach_uri = get_page_uri($attachment->ID);
@@ -829,11 +831,25 @@ function get_post_status($ID = '') {
 	$post = get_post($ID);
 
 	if ( is_object($post) ) {
-		if ( ('attachment' == $post->post_status) && $post->post_parent && ($post->ID != $post->post_parent) )
+		if ( ('attachment' == $post->post_type) && $post->post_parent && ($post->ID != $post->post_parent) )
 			return get_post_status($post->post_parent);
 		else
 			return $post->post_status;
 	}
+
+	return false;
+}
+
+function get_post_type($post = false) {
+	global $wpdb, $posts;
+
+	if ( false === $post )
+		$post = $posts[0];
+	elseif ( (int) $post )
+		$post = get_post($post, OBJECT);
+
+	if ( is_object($post) )
+		return $post->post_type;
 
 	return false;
 }

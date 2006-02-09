@@ -60,7 +60,7 @@ $filename = basename($file);
 $attachment = array(
 	'post_title' => $imgtitle ? $imgtitle : $filename,
 	'post_content' => $descr,
-	'post_status' => 'attachment',
+	'post_type' => 'attachment',
 	'post_parent' => $post,
 	'post_mime_type' => $type,
 	'guid' => $url
@@ -124,7 +124,7 @@ if (! current_user_can('edit_others_posts') )
 	$and_user = "AND post_author = " . $user_ID;
 
 if ( $last )
-	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment' $and_user $and_post") - $num;
+	$start = $wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_type = 'attachment' $and_user $and_post") - $num;
 else
 	$start = (int) $start;
 
@@ -134,7 +134,7 @@ if ( $start < 0 )
 if ( '' == $sort )
 	$sort = "post_date_gmt DESC";
 
-$attachments = $wpdb->get_results("SELECT ID, post_date, post_title, post_mime_type, guid FROM $wpdb->posts WHERE post_status = 'attachment' $and_type $and_post $and_user ORDER BY $sort LIMIT $start, $double", ARRAY_A);
+$attachments = $wpdb->get_results("SELECT ID, post_date, post_title, post_mime_type, guid FROM $wpdb->posts WHERE post_type = 'attachment' $and_type $and_post $and_user ORDER BY $sort LIMIT $start, $double", ARRAY_A);
 
 if ( count($attachments) == 0 ) {
 	header("Location: ".basename(__FILE__)."?post=$post&action=upload");
@@ -643,7 +643,7 @@ th {
 <?php if ( $attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$post'") ) { ?>
 <li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=false"><?php _e('Browse'); ?></a></li>
 <?php } ?>
-<?php if ($wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_status = 'attachment'")) { ?>
+<?php if ($wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_type = 'attachment'")) { ?>
 <li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__); ?>?action=view&amp;post=<?php echo $post; ?>&amp;all=true"><?php _e('Browse All'); ?></a></li>
 <?php } ?>
 <li> </li>

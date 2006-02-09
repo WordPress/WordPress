@@ -30,7 +30,7 @@ if (isset($mode) && 'bookmarklet' == $mode) {
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action ?>' />
 <?php echo $form_extra ?>
-<input type="hidden" name="post_status" value="static" />
+<input type="hidden" name="post_type" value="page" />
 
 <script type="text/javascript">
 <!--
@@ -53,6 +53,15 @@ addLoadEvent(focusit);
 <?php _e('Allow Comments') ?></label> 
 <label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked($post->ping_status, 'open'); ?> /> <?php _e('Allow Pings') ?></label>
 </div>
+</fieldset>
+
+<fieldset class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Page Status') ?></h3> 
+<div class="dbx-content"><?php if ( current_user_can('publish_posts') ) : ?>
+<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); ?> /> <?php _e('Published') ?></label>
+<?php endif; ?>
+	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post->post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
+	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
 </fieldset>
 
 <fieldset id="passworddiv" class="dbx-box">

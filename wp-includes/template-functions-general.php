@@ -330,7 +330,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 	$now = current_time('mysql');
 
 	if ( 'monthly' == $type ) {
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts WHERE post_date < '$now' AND post_date != '0000-00-00 00:00:00' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts WHERE post_date < '$now' AND post_date != '0000-00-00 00:00:00' AND post_type = 'post' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
 		if ( $arcresults ) {
 			$afterafter = $after;
 			foreach ( $arcresults as $arcresult ) {
@@ -345,7 +345,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 			}
 		}
 	} elseif ( 'daily' == $type ) {
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $wpdb->posts WHERE post_date < '$now' AND post_date != '0000-00-00 00:00:00' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $wpdb->posts WHERE post_date < '$now' AND post_date != '0000-00-00 00:00:00' AND post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		if ( $arcresults ) {
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_day_link($arcresult->year, $arcresult->month, $arcresult->dayofmonth);
@@ -356,7 +356,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 		}
 	} elseif ( 'weekly' == $type ) {
 		$start_of_week = get_settings('start_of_week');
-		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $wpdb->posts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $wpdb->posts WHERE post_date < '$now' AND post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
 		if ( $arcresults ) {
 				foreach ( $arcresults as $arcresult ) {
@@ -373,7 +373,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 				}
 		}
 	} elseif ( 'postbypost' == $type ) {
-		$arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_date < '$now' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_date < '$now' AND post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		if ( $arcresults ) {
 			foreach ( $arcresults as $arcresult ) {
 				if ( $arcresult->post_date != '0000-00-00 00:00:00' ) {
@@ -403,7 +403,7 @@ function get_calendar($daylength = 1) {
 
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
+		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
 		if ( !$gotsome )
 			return;
 	}
@@ -443,14 +443,14 @@ function get_calendar($daylength = 1) {
 	$previous = $wpdb->get_row("SELECT DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date < '$thisyear-$thismonth-01'
-		AND post_status = 'publish'
+		AND post_type = 'post' AND post_status = 'publish'
 			ORDER BY post_date DESC
 			LIMIT 1");
 	$next = $wpdb->get_row("SELECT	DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date >	'$thisyear-$thismonth-01'
 		AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
-		AND post_status = 'publish' 
+		AND post_type = 'post' AND post_status = 'publish' 
 			ORDER	BY post_date ASC
 			LIMIT 1");
 
@@ -508,7 +508,7 @@ function get_calendar($daylength = 1) {
 	$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
 		FROM $wpdb->posts WHERE MONTH(post_date) = $thismonth
 		AND YEAR(post_date) = $thisyear
-		AND post_status = 'publish'
+		AND post_type = 'post' AND post_status = 'publish'
 		AND post_date < '" . current_time('mysql') . '\'', ARRAY_N);
 	if ( $dayswithposts ) {
 		foreach ( $dayswithposts as $daywith ) {
@@ -531,7 +531,7 @@ function get_calendar($daylength = 1) {
 		."WHERE YEAR(post_date) = '$thisyear' "
 		."AND MONTH(post_date) = '$thismonth' "
 		."AND post_date < '".current_time('mysql')."' "
-		."AND post_status = 'publish'"
+		."AND post_type = 'post' AND post_status = 'publish'"
 	);
 	if ( $ak_post_titles ) {
 		foreach ( $ak_post_titles as $ak_post_title ) {

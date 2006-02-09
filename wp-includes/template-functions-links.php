@@ -42,9 +42,9 @@ function get_permalink($id = 0) {
 	);
 
 	$post = &get_post($id);
-	if ( $post->post_status == 'static' )
+	if ( $post->post_type == 'page' )
 		return get_page_link($post->ID);
-	elseif ($post->post_status == 'attachment')
+	elseif ($post->post_type == 'attachment')
 		return get_attachment_link($post->ID);
 
 	$permalink = get_settings('permalink_structure');
@@ -261,7 +261,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 		$posts_in_ex_cats_sql = 'AND ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
 	}
 
-	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join WHERE post_date < '$current_post_date' AND post_status = 'publish' $posts_in_ex_cats_sql ORDER BY post_date DESC LIMIT 1");
+	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join WHERE post_date < '$current_post_date' AND post_type = 'post' AND post_status = 'publish' $posts_in_ex_cats_sql ORDER BY post_date DESC LIMIT 1");
 }
 
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
@@ -296,7 +296,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 
 	$now = current_time('mysql');
 	
-	return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts $join WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $posts_in_ex_cats_sql AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
+	return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts $join WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_type = 'post' AND post_status = 'publish' $posts_in_ex_cats_sql AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
 }
 
 

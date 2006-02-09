@@ -16,7 +16,7 @@ if ( current_user_can('edit_pages') ) {
 	get_currentuserinfo();
 	
 	$post = get_default_post_to_edit();
-	$post->post_status = 'static';
+	$post->post_type = 'page';
 
 	include('edit-page-form.php');
 }

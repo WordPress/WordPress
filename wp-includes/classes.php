@@ -593,22 +593,19 @@ class WP_Query {
 		}
 
 		if ( $this->is_attachment ) {
-			$where .= ' AND (post_status = "attachment")';
+			$where .= ' AND (post_type = "attachment")';
 		} elseif ($this->is_page) {
-			$where .= ' AND (post_status = "static")';
+			$where .= ' AND (post_type = "page")';
 		} elseif ($this->is_single) {
-			$where .= ' AND (post_status != "static")';
+			$where .= ' AND (post_type = "post")';
 		} else {
-			$where .= ' AND (post_status = "publish"';
+			$where .= ' AND (post_type = "post" AND post_status = "publish"';
 
 			if (isset($user_ID) && ('' != intval($user_ID)))
-				$where .= " OR post_author = $user_ID AND post_status != 'draft' AND post_status != 'static')";
+				$where .= " OR post_author = $user_ID AND post_status = 'private')";
 			else
 				$where .= ')';				
 		}
-
-		if (! $this->is_attachment )
-			$where .= ' AND post_status != "attachment"';
 
 		// Apply filters on where and join prior to paging so that any
 		// manipulations to them are reflected in the paging by day queries.
@@ -654,10 +651,10 @@ class WP_Query {
 		$this->posts = $wpdb->get_results($this->request);
 
 		// Check post status to determine if post should be displayed.
-		if ($this->is_single) {
+		if ($this->is_single || $this->is_page) {
 			$status = get_post_status($this->posts[0]);
-			if ( ('publish' != $status) && ('static' != $status) ) {
-				if ( ! (isset($user_ID) && ('' != intval($user_ID))) ) {
+			if ( ('publish' != $status) ) {
+				if ( ! is_user_logged_in() ) {
 					// User must be logged in to view unpublished posts.
 					$this->posts = array();
 				} else {

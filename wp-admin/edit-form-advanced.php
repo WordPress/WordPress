@@ -51,6 +51,7 @@ if (empty($post->post_status)) $post->post_status = 'draft';
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value="<?php echo $form_action ?>" />
 <input type="hidden" name="post_author" value="<?php echo $post->post_author ?>" />
+<input type="hidden" name="post_type" value="post" />
 
 <?php echo $form_extra ?>
 <?php if (isset($_GET['message']) && 2 > $_GET['message']) : ?>

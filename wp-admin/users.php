@@ -234,7 +234,7 @@ default:
 		if (strlen($short_url) > 35)
 		$short_url =  substr($short_url, 0, 32).'...';
 		$style = ('class="alternate"' == $style) ? '' : 'class="alternate"';
-		$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$user_object->ID' and post_status = 'publish'");
+		$numposts = get_usernumposts($user_object->ID);
 		if (0 < $numposts) $numposts = "<a href='edit.php?author=$user_object->ID' title='" . __('View posts') . "'>$numposts</a>";
 		echo "
 <tr $style>

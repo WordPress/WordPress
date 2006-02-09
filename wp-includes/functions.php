@@ -171,7 +171,7 @@ function user_pass_ok($user_login,$user_pass) {
 
 function get_usernumposts($userid) {
 	global $wpdb;
-	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid' AND post_status = 'publish'");
+	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid' AND post_type = 'post' AND post_status = 'publish'");
 }
 
 
@@ -574,7 +574,7 @@ function &get_post(&$post, $output = OBJECT) {
 		else
 			$_post = null;
 	} elseif ( is_object($post) ) {
-		if ( 'static' == $post->post_status )
+		if ( 'page' == $post->post_type )
 			return get_page($post, $output);
 		if ( !isset($post_cache[$post->ID]) )
 			$post_cache[$post->ID] = &$post;
@@ -587,7 +587,7 @@ function &get_post(&$post, $output = OBJECT) {
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post' LIMIT 1";
 			$_post = & $wpdb->get_row($query);
-			if ( 'static' == $_post->post_status )
+			if ( 'page' == $_post->post_type )
 				return get_page($_post, $output);
 			$post_cache[$post] = & $_post;
 		}
@@ -678,7 +678,7 @@ function &get_page(&$page, $output = OBJECT) {
 			$_page = null;
 		}
 	} elseif ( is_object($page) ) {
-		if ( 'static' != $page->post_status )
+		if ( 'post' == $page->post_type )
 			return get_post($page, $output);
 		wp_cache_add($page->ID, $page, 'pages');
 		$_page = $page;
@@ -693,7 +693,7 @@ function &get_page(&$page, $output = OBJECT) {
 		} else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1";
 			$_page = & $wpdb->get_row($query);
-			if ( 'static' != $_page->post_status )
+			if ( 'post' == $_page->post_type )
 				return get_post($_page, $output);
 			wp_cache_add($_page->ID, $_page, 'pages');
 		}
@@ -701,7 +701,7 @@ function &get_page(&$page, $output = OBJECT) {
 	
 	if (!isset($_page->fullpath)) {
 		$_page = set_page_path($_page);
-		wp_cache_replace($_page->cat_ID, $_page, 'pages');
+		wp_cache_replace($_page->ID, $_page, 'pages');
 	}
 
 	if ( $output == OBJECT ) {
@@ -815,7 +815,7 @@ function get_all_page_ids() {
 	global $wpdb;
 	
 	if ( ! $page_ids = wp_cache_get('all_page_ids', 'pages') ) {
-		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_status='static'");
+		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'page'");
 		wp_cache_add('all_page_ids', $page_ids, 'pages');
 	}
 	
@@ -1325,7 +1325,7 @@ function get_posts($args) {
 	$posts = $wpdb->get_results(
 		"SELECT DISTINCT * FROM $wpdb->posts " .
 		( empty( $r['category'] ) ? "" : ", $wpdb->post2cat " ) .
-		" WHERE post_date <= '$now' AND (post_status = 'publish') ".
+		" WHERE post_date <= '$now' AND (post_type = 'post' AND post_status = 'publish') ".
 		( empty( $r['category'] ) ? "" : "AND $wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $r['category']. " " ) .
 		" GROUP BY $wpdb->posts.ID ORDER BY " . $r['orderby'] . " " . $r['order'] . " LIMIT " . $r['offset'] . ',' . $r['numberposts'] );
 

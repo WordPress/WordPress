@@ -34,13 +34,13 @@ function write_post() {
 		$_POST['post_status'] = 'publish';
 	if ('' != $_POST['advanced'])
 		$_POST['post_status'] = 'draft';
-	if ('' != $_POST['savepage'])
-		$_POST['post_status'] = 'static';
+	//if ('' != $_POST['savepage']) {
+	//	$_POST['post_status'] = 'draft';
 
 	if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
 		$_POST['post_status'] = 'draft';
 
-	if ('static' == $_POST['post_status'] && !current_user_can('edit_pages'))
+	if ('page' == $_POST['post_type'] && !current_user_can('edit_pages'))
 		die(__('This user cannot edit pages.'));
 
 	if (!empty ($_POST['edit_date'])) {
@@ -154,8 +154,8 @@ function edit_post() {
 		$_POST['post_status'] = 'publish';
 	if ('' != $_POST['advanced'])
 		$_POST['post_status'] = 'draft';
-	if ('' != $_POST['savepage'])
-		$_POST['post_status'] = 'static';
+	//if ('' != $_POST['savepage'])
+	//	$_POST['post_status'] = 'static';
 
 	if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
 		$_POST['post_status'] = 'draft';
@@ -254,7 +254,7 @@ function get_post_to_edit($id) {
 	$post->post_title = format_to_edit($post->post_title);
 	$post->post_title = apply_filters('title_edit_pre', $post->post_title);
 
-	if ($post->post_status == 'static')
+	if ($post->post_type == 'page')
 		$post->page_template = get_post_meta($id, '_wp_page_template', true);
 
 	return $post;
@@ -613,7 +613,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 function page_rows($parent = 0, $level = 0, $pages = 0) {
 	global $wpdb, $class, $post;
 	if (!$pages)
-		$pages = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_status = 'static' ORDER BY menu_order");
+		$pages = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'page' ORDER BY menu_order");
 
 	if ($pages) {
 		foreach ($pages as $post) {
@@ -1176,7 +1176,7 @@ function page_template_dropdown($default = '') {
 
 function parent_dropdown($default = 0, $parent = 0, $level = 0) {
 	global $wpdb, $post_ID;
-	$items = $wpdb->get_results("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = $parent AND post_status = 'static' ORDER BY menu_order");
+	$items = $wpdb->get_results("SELECT ID, post_parent, post_title FROM $wpdb->posts WHERE post_parent = $parent AND post_type = 'page' ORDER BY menu_order");
 
 	if ($items) {
 		foreach ($items as $item) {
@@ -1848,7 +1848,7 @@ function the_attachment_links($id = false) {
 	$id = (int) $id;
 	$post = & get_post($id);
 
-	if ( $post->post_status != 'attachment' )
+	if ( $post->post_type != 'attachment' )
 		return false;
 
 	$icon = get_attachment_icon($post->ID);

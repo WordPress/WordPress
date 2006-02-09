@@ -33,6 +33,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 3308 )
 		upgrade_160();
 
+	if ( $wp_current_db_version < 3506 )
+		upgrade_210();
+
 	$wp_rewrite->flush_rules();
 	
 	update_option('db_version', $wp_db_version);
@@ -323,6 +326,28 @@ function upgrade_160() {
 			if ( ! empty($meta['file']) )
 				add_post_meta($object->ID, '_wp_attached_file', $meta['file']);
 		}
+	}
+}
+
+function upgrade_210() {
+	global $wpdb, $table_prefix, $wp_current_db_version;
+
+	// Update status and type.
+	$posts = $wpdb->get_results("SELECT ID, post_status FROM $wpdb->posts");
+	
+	if ( ! empty($posts) ) foreach ($posts as $post) {
+		$status = $post->post_status;
+		$type = 'post';
+
+		if ( 'static' == $status ) {
+			$status = 'publish';
+			$type = 'page';
+		} else if ( 'attachment' == $status ) {
+			$status = 'inherit';
+			$type = 'attachment';	
+		}
+		
+		$wpdb->query("UPDATE $wpdb->posts SET post_status = '$status', post_type = '$type' WHERE ID = '$post->ID'");
 	}
 }
 

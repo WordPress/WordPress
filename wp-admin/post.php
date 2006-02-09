@@ -23,7 +23,7 @@ $action = "delete";
 }
 
 // Fix submenu highlighting for pages.
-if ( isset($_REQUEST['post']) && 'static' == get_post_status($_REQUEST['post']) )
+if ( isset($_REQUEST['post']) && 'page' == get_post_type($_REQUEST['post']) )
 	$submenu_file = 'page-new.php';
 
 $editing = true;
@@ -50,7 +50,7 @@ case 'post':
 		$location = 'post.php?posted=true';
 	}
 
-	if ( 'static' == $_POST['post_status'] )
+	if ( 'page' == $_POST['post_type'] )
 		$location = "page-new.php?saved=true";
 
 	if ( isset($_POST['save']) )
@@ -72,7 +72,7 @@ case 'edit':
 
 	$post = get_post_to_edit($post_ID);
 	
-	if ($post->post_status == 'static')
+	if ($post->post_type == 'page')
 		include('edit-page-form.php');
 	else
 		include('edit-form-advanced.php');
@@ -90,7 +90,7 @@ case 'editattachment':
 
 	// Don't let these be changed
 	unset($_POST['guid']);
-	$_POST['post_status'] = 'attachment';
+	$_POST['post_type'] = 'attachment';
 
 	// Update the thumbnail filename
 	$oldmeta = $newmeta = get_post_meta($post_id, '_wp_attachment_metadata', true);
@@ -134,7 +134,7 @@ case 'delete':
 	if ( !current_user_can('edit_post', $post_id) )	
 		die( __('You are not allowed to delete this post.') );
 
-	if ( $post->post_status == 'attachment' ) {
+	if ( $post->post_type == 'attachment' ) {
 		if ( ! wp_delete_attachment($post_id) )
 			die( __('Error in deleting...') );
 	} else {

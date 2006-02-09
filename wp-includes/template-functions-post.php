@@ -314,7 +314,7 @@ function &get_pages($args = '') {
 
 	$pages = $wpdb->get_results("SELECT * " .
 		"FROM $wpdb->posts " .
-		"WHERE post_status = 'static' " .
+		"WHERE post_type = 'page' AND post_status = 'publish' " .
 		"$exclusions " .
 		"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
 
@@ -450,7 +450,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false) 
 	$id = (int) $id;
 	$_post = & get_post($id);
 
-	if ( ('attachment' != $_post->post_status) || ('' == $_post->guid) )
+	if ( ('attachment' != $_post->post_type) || ('' == $_post->guid) )
 		return __('Missing Attachment');
 
 	if (! empty($_post->guid) ) {
