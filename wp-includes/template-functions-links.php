@@ -252,14 +252,16 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 
 	$sql_exclude_cats = '';
 	if ( !empty($excluded_categories) ) {
-		$blah = explode('and', $excluded_categories);
+		$blah = explode(' and ', $excluded_categories);
 		foreach ( $blah as $category ) {
 			$category = intval($category);
-			$sql_exclude_cats .= " AND post_category != $category";
+			$sql_cat_ids = " OR pc.category_ID = '$category'";
 		}
+		$posts_in_ex_cats = $wpdb->get_col("SELECT p.ID FROM $wpdb->posts p LEFT JOIN $wpdb->post2cat pc ON pc.post_id=p.ID WHERE 1 = 0 $sql_cat_ids GROUP BY p.ID");
+		$posts_in_ex_cats_sql = 'AND ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
 	}
 
-	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join WHERE post_date < '$current_post_date' AND post_status = 'publish' $sqlcat $sql_exclude_cats ORDER BY post_date DESC LIMIT 1");
+	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join WHERE post_date < '$current_post_date' AND post_status = 'publish' $posts_in_ex_cats_sql ORDER BY post_date DESC LIMIT 1");
 }
 
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
@@ -283,16 +285,18 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 
 	$sql_exclude_cats = '';
 	if ( !empty($excluded_categories) ) {
-		$blah = explode('and', $excluded_categories);
+		$blah = explode(' and ', $excluded_categories);
 		foreach ( $blah as $category ) {
 			$category = intval($category);
-			$sql_exclude_cats .= " AND post_category != $category";
+			$sql_cat_ids = " OR pc.category_ID = '$category'";
 		}
+		$posts_in_ex_cats = $wpdb->get_col("SELECT p.ID from $wpdb->posts p LEFT JOIN $wpdb->post2cat pc ON pc.post_id = p.ID WHERE 1 = 0 $sql_cat_ids GROUP BY p.ID");
+		$posts_in_ex_cats_sql = 'AND ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
 	}
 
 	$now = current_time('mysql');
 	
-	return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts $join WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $sqlcat $sql_exclude_cats AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
+	return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts $join WHERE post_date > '$current_post_date' AND post_date < '$now' AND post_status = 'publish' $posts_in_ex_cats_sql AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
 }
 
 
