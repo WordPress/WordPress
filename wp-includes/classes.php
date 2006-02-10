@@ -367,23 +367,11 @@ class WP_Query {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
+			$reqpage = get_page_by_path($q['pagename']);
 			$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
 			$page_paths = '/' . trim($q['pagename'], '/');
 			$q['pagename'] = sanitize_title(basename($page_paths));
 			$q['name'] = $q['pagename'];
-			$page_paths = explode('/', $page_paths);
-			foreach($page_paths as $pathdir)
-				$page_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
-				
-			$all_page_ids = get_all_page_ids();
-			$reqpage = 0;
-			if (is_array($all_page_ids)) { foreach ( $all_page_ids as $page_id ) {
-				$page = get_page($page_id);
-				if ( $page->fullpath == $page_path ) {
-					$reqpage = $page_id;
-					break;
-				}
-			} }
 			
 			$where .= " AND (ID = '$reqpage')";
 		} elseif ('' != $q['attachment']) {
@@ -1412,7 +1400,7 @@ class WP_Rewrite {
 	}
 
 	function flush_rules() {
-		generate_page_rewrite_rules();
+		generate_page_uri_index();
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
 		if ( function_exists('save_mod_rewrite_rules') )

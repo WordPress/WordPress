@@ -792,7 +792,7 @@ function get_page_hierarchy($posts, $parent = 0) {
 	return $result;
 }
 
-function generate_page_rewrite_rules() {
+function generate_page_uri_index() {
 	global $wpdb;
 	
 	//get pages in order of hierarchy, i.e. children after parents
@@ -800,8 +800,8 @@ function generate_page_rewrite_rules() {
 	//now reverse it, because we need parents after children for rewrite rules to work properly
 	$posts = array_reverse($posts, true);
 
-	$page_rewrite_rules = array();
-	$page_attachment_rewrite_rules = array();
+	$page_uris = array();
+	$page_attachment_uris = array();
 
 	if ($posts) {
 		
@@ -813,17 +813,17 @@ function generate_page_rewrite_rules() {
 			if ( $attachments ) {
 				foreach ( $attachments as $attachment ) {
 					$attach_uri = get_page_uri($attachment->ID);
-					$page_attachment_rewrite_rules[$attach_uri] = $attachment->post_name;
+					$page_attachment_uris[$attach_uri] = $attachment->ID;
 				}
 			}
 
-			$page_rewrite_rules[$uri] = $post;
+			$page_uris[$uri] = $id;
 		}
 
-		update_option('page_uris', $page_rewrite_rules);
+		update_option('page_uris', $page_uris);
 		
-		if ( $page_attachment_rewrite_rules )
-			update_option('page_attachment_uris', $page_attachment_rewrite_rules);
+		if ( $page_attachment_uris )
+			update_option('page_attachment_uris', $page_attachment_uris);
 	}
 }
 

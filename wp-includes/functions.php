@@ -665,6 +665,36 @@ function set_page_path($page) {
 	return $page;
 }
 
+function get_page_by_path($page_path) {
+	global $wpdb;
+
+	$page_path = str_replace('%2F', '/', urlencode(urldecode($page_path)));
+	$page_paths = '/' . trim($page_path, '/');
+	$leaf_path  = sanitize_title(basename($page_paths));
+	$page_paths = explode('/', $page_paths);
+	foreach($page_paths as $pathdir)
+		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
+
+	$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = '$leaf_path'");
+
+	if ( empty($pages) ) 
+		return 0;
+
+	foreach ($pages as $page) {
+		$path = '/' . $leaf_path;
+		$curpage = $page;
+		while ($curpage->post_parent != 0) {
+			$curpage = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$curpage->post_parent'");
+			$path = '/' . $curpage->post_name . $path;
+		}
+
+		if ( $path == $full_path )
+			return $page->ID;
+	}
+
+	return 0;
+}
+
 // Retrieves page data given a page ID or page object.
 // Handles page caching.
 function &get_page(&$page, $output = OBJECT) {
