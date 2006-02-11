@@ -253,6 +253,50 @@ function map_meta_cap($cap, $user_id) {
 	$caps = array();
 
 	switch ($cap) {
+	case 'delete_post':
+		$author_data = get_userdata($user_id);
+		//echo "post ID: {$args[0]}<br/>";
+		$post = get_post($args[0]);
+		$post_author_data = get_userdata($post->post_author);
+		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br/>";
+		// If the user is the author...
+		if ($user_id == $post_author_data->ID) {
+			// If the post is published...
+			if ($post->post_status == 'publish')
+				$caps[] = 'delete_published_posts';
+			else
+				// If the post is draft...
+				$caps[] = 'delete_posts';
+		} else {
+			// The user is trying to edit someone else's post.
+			$caps[] = 'delete_others_posts';
+			// The post is published, extra cap required.
+			if ($post->post_status == 'publish')
+				$caps[] = 'delete_published_posts';
+		}
+		break;
+	case 'delete_page':
+		$author_data = get_userdata($user_id);
+		//echo "post ID: {$args[0]}<br/>";
+		$page = get_page($args[0]);
+		$page_author_data = get_userdata($post->post_author);
+		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br/>";
+		// If the user is the author...
+		if ($user_id == $page_author_data->ID) {
+			// If the page is published...
+			if ($page->post_status == 'publish')
+				$caps[] = 'delete_published_pages';
+			else
+				// If the page is draft...
+				$caps[] = 'delete_pages';
+		} else {
+			// The user is trying to edit someone else's page.
+			$caps[] = 'delete_others_pages';
+			// The page is published, extra cap required.
+			if ($page->post_status == 'publish')
+				$caps[] = 'delete_published_pages';
+		}
+		break;
 		// edit_post breaks down to edit_posts, edit_published_posts, or
 		// edit_others_posts
 	case 'edit_post':
@@ -266,22 +310,37 @@ function map_meta_cap($cap, $user_id) {
 			// If the post is published...
 			if ($post->post_status == 'publish')
 				$caps[] = 'edit_published_posts';
-			else if ($post->post_status == 'static')
-				$caps[] = 'edit_pages';
 			else
 				// If the post is draft...
 				$caps[] = 'edit_posts';
 		} else {
-			if ($post->post_status == 'static') {
-				$caps[] = 'edit_pages';
-				break;
-			}
-
 			// The user is trying to edit someone else's post.
 			$caps[] = 'edit_others_posts';
 			// The post is published, extra cap required.
 			if ($post->post_status == 'publish')
 				$caps[] = 'edit_published_posts';
+		}
+		break;
+	case 'edit_page':
+		$author_data = get_userdata($user_id);
+		//echo "post ID: {$args[0]}<br/>";
+		$page = get_page($args[0]);
+		$page_author_data = get_userdata($post->post_author);
+		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br/>";
+		// If the user is the author...
+		if ($user_id == $page_author_data->ID) {
+			// If the page is published...
+			if ($page->post_status == 'publish')
+				$caps[] = 'edit_published_pages';
+			else
+				// If the page is draft...
+				$caps[] = 'edit_pages';
+		} else {
+			// The user is trying to edit someone else's page.
+			$caps[] = 'edit_others_pages';
+			// The page is published, extra cap required.
+			if ($page->post_status == 'publish')
+				$caps[] = 'edit_published_pages';
 		}
 		break;
 	case 'read_post':

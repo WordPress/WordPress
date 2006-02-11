@@ -4,8 +4,13 @@
 function write_post() {
 	global $user_ID;
 
-	if (!current_user_can('edit_posts'))
-		die(__('You are not allowed to create posts or drafts on this blog.'));
+	if ( 'page' == $_POST['post_type'] ) {
+		if ( !current_user_can('edit_pages') )
+			die(__('You are not allowed to create pages on this blog.'));	
+	} else {
+		if ( !current_user_can('edit_posts') )
+			die(__('You are not allowed to create posts or drafts on this blog.'));
+	}
 
 	// Rename.
 	$_POST['post_content'] = $_POST['content'];
@@ -15,15 +20,25 @@ function write_post() {
 
 	if (!empty ($_POST['post_author_override'])) {
 		$_POST['post_author'] = (int) $_POST['post_author_override'];
-	} else
+	} else {
 		if (!empty ($_POST['post_author'])) {
 			$_POST['post_author'] = (int) $_POST['post_author'];
 		} else {
 			$_POST['post_author'] = (int) $_POST['user_ID'];
 		}
 
-	if (($_POST['post_author'] != $_POST['user_ID']) && !current_user_can('edit_others_posts'))
-		die(__('You cannot post as this user.'));
+	}
+
+	if ($_POST['post_author'] != $_POST['user_ID']) {
+		if ( 'page' == $_POST['post_type'] ) {		
+			if ( !current_user_can('edit_others_pages') )
+				die(__('You cannot create pages as this user.'));
+		} else {
+			if ( !current_user_can('edit_others_posts') )
+				die(__('You cannot post as this user.'));
+			
+		}
+	}
 
 	// What to do based on which button they pressed
 	if ('' != $_POST['saveasdraft'])
@@ -34,14 +49,14 @@ function write_post() {
 		$_POST['post_status'] = 'publish';
 	if ('' != $_POST['advanced'])
 		$_POST['post_status'] = 'draft';
-	//if ('' != $_POST['savepage']) {
-	//	$_POST['post_status'] = 'draft';
 
-	if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
-		$_POST['post_status'] = 'draft';
-
-	if ('page' == $_POST['post_type'] && !current_user_can('edit_pages'))
-		die(__('This user cannot edit pages.'));
+	if ( 'page' == $_POST['post_type'] ) {
+		if ('publish' == $_POST['post_status'] && !current_user_can('publish_pages'))
+			$_POST['post_status'] = 'draft';	
+	} else {
+		if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
+			$_POST['post_status'] = 'draft';
+	}
 
 	if (!empty ($_POST['edit_date'])) {
 		$aa = $_POST['aa'];
@@ -123,8 +138,13 @@ function edit_post() {
 
 	$post_ID = (int) $_POST['post_ID'];
 
-	if (!current_user_can('edit_post', $post_ID))
-		die(__('You are not allowed to edit this post.'));
+	if ( 'page' == $_POST['post_type'] ) {
+		if ( !current_user_can('edit_page', $post_ID) )
+			die(__('You are not allowed to edit this page.'));	
+	} else {
+		if ( !current_user_can('edit_post', $post_ID) )
+			die(__('You are not allowed to edit this post.'));
+	}
 
 	// Rename.
 	$_POST['ID'] = (int) $_POST['post_ID'];
@@ -142,8 +162,16 @@ function edit_post() {
 			$_POST['post_author'] = (int) $_POST['user_ID'];
 		}
 
-	if (($_POST['post_author'] != $_POST['user_ID']) && !current_user_can('edit_others_posts'))
-		die(__('You cannot post as this user.'));
+	if ($_POST['post_author'] != $_POST['user_ID']) {
+		if ( 'page' == $_POST['post_type'] ) {		
+			if ( !current_user_can('edit_others_pages') )
+				die(__('You cannot edit pages as this user.'));
+		} else {
+			if ( !current_user_can('edit_others_posts') )
+				die(__('You cannot edit posts as this user.'));
+			
+		}
+	}
 
 	// What to do based on which button they pressed
 	if ('' != $_POST['saveasdraft'])
@@ -154,14 +182,14 @@ function edit_post() {
 		$_POST['post_status'] = 'publish';
 	if ('' != $_POST['advanced'])
 		$_POST['post_status'] = 'draft';
-	//if ('' != $_POST['savepage'])
-	//	$_POST['post_status'] = 'static';
 
-	if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
-		$_POST['post_status'] = 'draft';
-
-	if ('static' == $_POST['post_status'] && !current_user_can('edit_pages'))
-		die(__('This user cannot edit pages.'));
+	if ( 'page' == $_POST['post_type'] ) {
+		if ('publish' == $_POST['post_status'] && !current_user_can('edit_published_pages'))
+			$_POST['post_status'] = 'draft';	
+	} else {
+		if ('publish' == $_POST['post_status'] && !current_user_can('edit_published_posts'))
+			$_POST['post_status'] = 'draft';
+	}
 
 	if (!isset ($_POST['comment_status']))
 		$_POST['comment_status'] = 'closed';

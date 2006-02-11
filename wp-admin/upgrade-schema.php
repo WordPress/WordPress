@@ -244,7 +244,8 @@ function populate_options() {
 }
 
 function populate_roles() {
-	populate_roles_160();	
+	populate_roles_160();
+	populate_roles_210();
 }
 
 function populate_roles_160() {
@@ -334,6 +335,36 @@ function populate_roles_160() {
 	$role = get_role('subscriber');
 	$role->add_cap('read');
 	$role->add_cap('level_0');
+}
+
+function populate_roles_210() {
+	$roles = array('administrator', 'editor');
+	foreach ($roles as $role) {
+		$role = get_role($role);
+		if ( empty($role) )
+			continue;
+
+		$role->add_cap('edit_others_pages');
+		$role->add_cap('edit_published_pages');
+		$role->add_cap('publish_pages');
+		$role->add_cap('delete_pages');
+		$role->add_cap('delete_others_pages');
+		$role->add_cap('delete_published_pages');
+		$role->add_cap('delete_posts');
+		$role->add_cap('delete_others_posts');
+		$role->add_cap('delete_published_posts');
+	}
+	
+	$role = get_role('author');	
+	if ( ! empty($role) ) {
+		$role->add_cap('delete_posts');
+		$role->add_cap('delete_published_posts');		
+	}
+
+	$role = get_role('contributor');	
+	if ( ! empty($role) ) {
+		$role->add_cap('delete_posts');
+	}
 }
 
 ?>
