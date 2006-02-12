@@ -610,7 +610,6 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 		foreach ($categories as $category) {
 			if ($category->category_parent == $parent) {
 				$category->cat_name = wp_specialchars($category->cat_name);
-				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 				$pad = str_repeat('&#8212; ', $level);
 				if ( current_user_can('manage_categories') ) {
 					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td>";
@@ -627,7 +626,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				$class = ('alternate' == $class) ? '' : 'alternate';
 				echo "<tr id='cat-$category->cat_ID' class='$class'><th scope='row'>$category->cat_ID</th><td>$pad $category->cat_name</td>
 								<td>$category->category_description</td>
-								<td>$count</td>
+								<td>$category->category_count</td>
 								<td>$edit</td>
 								</tr>";
 				cat_rows($category->cat_ID, $level +1, $categories);
