@@ -571,14 +571,14 @@ class WP_Query {
 			}
 		}
 
-		$now = gmdate('Y-m-d H:i:59');
+		//$now = gmdate('Y-m-d H:i:59');
 		
 		//only select past-dated posts, except if a logged in user is viewing a single: then, if they
 		//can edit the post, we let them through
-		if ($pagenow != 'post.php' && $pagenow != 'edit.php' && !($this->is_single && $user_ID)) {
-			$where .= " AND post_date_gmt <= '$now'";
-			$distinct = 'DISTINCT';
-		}
+		//if ($pagenow != 'post.php' && $pagenow != 'edit.php' && !($this->is_single && $user_ID)) {
+		//	$where .= " AND post_date_gmt <= '$now'";
+		//	$distinct = 'DISTINCT';
+		//}
 
 		if ( $this->is_attachment ) {
 			$where .= ' AND (post_type = "attachment")';
@@ -589,7 +589,12 @@ class WP_Query {
 		} else {
 			$where .= ' AND (post_type = "post" AND post_status = "publish"';
 
-			if (isset($user_ID) && ('' != intval($user_ID)))
+			if ( $pagenow == 'post.php' || $pagenow == 'edit.php' )
+				$where .= " OR post_status = 'future'";
+			else
+				$distinct = 'DISTINCT';
+	
+			if ( is_user_logged_in() )
 				$where .= " OR post_author = $user_ID AND post_status = 'private')";
 			else
 				$where .= ')';				
@@ -641,6 +646,7 @@ class WP_Query {
 		// Check post status to determine if post should be displayed.
 		if ($this->is_single || $this->is_page) {
 			$status = get_post_status($this->posts[0]);
+			//$type = get_post_type($this->posts[0]);
 			if ( ('publish' != $status) ) {
 				if ( ! is_user_logged_in() ) {
 					// User must be logged in to view unpublished posts.
@@ -654,16 +660,14 @@ class WP_Query {
 							$this->is_preview = true;
 							$this->posts[0]->post_date = current_time('mysql');
 						}
+					}  else if ('future' == $status) {
+						$this->is_preview = true;
+						if (!current_user_can('edit_post', $this->posts[0]->ID)) {
+							$this->posts = array ( );
+						}
 					} else {
 						if (! current_user_can('read_post', $this->posts[0]->ID))
 							$this->posts = array();
-					}
-				}
-			} else {
-				if (mysql2date('U', $this->posts[0]->post_date_gmt) > mysql2date('U', $now)) { //it's future dated
-					$this->is_preview = true;
-					if (!current_user_can('edit_post', $this->posts[0]->ID)) {
-						$this->posts = array ( );
 					}
 				}
 			}

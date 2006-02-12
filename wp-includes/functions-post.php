@@ -72,6 +72,9 @@ function wp_insert_post($postarr = array()) {
 			$post_date_gmt = get_gmt_from_date($post_date);
 	}
 
+	if ( 'publish' == $post_status && (mysql2date('U', $post_date_gmt) > time()) )
+		$post_status = 'future';
+
 	if ( empty($comment_status) ) {
 		if ( $update )
 			$comment_status = 'closed';
@@ -203,6 +206,9 @@ function wp_insert_post($postarr = array()) {
 			if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
 				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
 	}
+
+	if ( 'future' == $post_status )
+		wp_schedule_event(mysql2date('U', $post_date_gmt), 'once', 'publish_future_post', $post_ID);
 
 	do_action('save_post', $post_ID);
 	do_action('wp_insert_post', $post_ID);
@@ -453,6 +459,18 @@ function wp_update_post($postarr = array()) {
 		return wp_insert_attachment($postarr);
 
 	return wp_insert_post($postarr);
+}
+
+function wp_publish_post($post_id) {
+	$post = get_post($post_id);
+
+	if ( empty($post) )
+		return;
+
+	if ( 'publish' == $post->post_status )
+		return;
+
+	return wp_update_post(array('post_status' => 'publish', 'ID' => $post_id));	
 }
 
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
