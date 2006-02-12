@@ -15,7 +15,7 @@ while ($enclosure = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postme
 }
 
 // Do Trackbacks
-$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status != 'draft'");
+$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status = 'publish'");
 if ( is_array($trackbacks) ) {
 	foreach ( $trackbacks as $trackback ) {
 		do_trackbacks($trackback->ID);
