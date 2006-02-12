@@ -268,7 +268,7 @@ class WP_Query {
 		do_action('pre_get_posts', array(&$this));
 
 		// Shorthand.
-		$q = $this->query_vars;
+		$q = &$this->query_vars;
 
 		// First let's clear some variables
 		$whichcat = '';
@@ -681,8 +681,6 @@ class WP_Query {
 			$this->post = $this->posts[0];
 		}
 
-		// Save any changes made to the query vars.
-		$this->query_vars = $q;
 		return $this->posts;
 	}
 
