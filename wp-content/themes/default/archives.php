@@ -20,6 +20,6 @@ Template Name: Archives
      <?php wp_list_cats(); ?>
   </ul>
 
-</div>	
+</div>
 
 <?php get_footer(); ?>

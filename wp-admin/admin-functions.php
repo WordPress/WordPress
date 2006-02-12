@@ -6,7 +6,7 @@ function write_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ( !current_user_can('edit_pages') )
-			die(__('You are not allowed to create pages on this blog.'));	
+			die(__('You are not allowed to create pages on this blog.'));
 	} else {
 		if ( !current_user_can('edit_posts') )
 			die(__('You are not allowed to create posts or drafts on this blog.'));
@@ -30,13 +30,13 @@ function write_post() {
 	}
 
 	if ($_POST['post_author'] != $_POST['user_ID']) {
-		if ( 'page' == $_POST['post_type'] ) {		
+		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can('edit_others_pages') )
 				die(__('You cannot create pages as this user.'));
 		} else {
 			if ( !current_user_can('edit_others_posts') )
 				die(__('You cannot post as this user.'));
-			
+
 		}
 	}
 
@@ -52,7 +52,7 @@ function write_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ('publish' == $_POST['post_status'] && !current_user_can('publish_pages'))
-			$_POST['post_status'] = 'draft';	
+			$_POST['post_status'] = 'draft';
 	} else {
 		if ('publish' == $_POST['post_status'] && !current_user_can('publish_posts'))
 			$_POST['post_status'] = 'draft';
@@ -140,7 +140,7 @@ function edit_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ( !current_user_can('edit_page', $post_ID) )
-			die(__('You are not allowed to edit this page.'));	
+			die(__('You are not allowed to edit this page.'));
 	} else {
 		if ( !current_user_can('edit_post', $post_ID) )
 			die(__('You are not allowed to edit this post.'));
@@ -163,13 +163,13 @@ function edit_post() {
 		}
 
 	if ($_POST['post_author'] != $_POST['user_ID']) {
-		if ( 'page' == $_POST['post_type'] ) {		
+		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can('edit_others_pages') )
 				die(__('You cannot edit pages as this user.'));
 		} else {
 			if ( !current_user_can('edit_others_posts') )
 				die(__('You cannot edit posts as this user.'));
-			
+
 		}
 	}
 
@@ -185,7 +185,7 @@ function edit_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ('publish' == $_POST['post_status'] && !current_user_can('edit_published_pages'))
-			$_POST['post_status'] = 'draft';	
+			$_POST['post_status'] = 'draft';
 	} else {
 		if ('publish' == $_POST['post_status'] && !current_user_can('edit_published_posts'))
 			$_POST['post_status'] = 'draft';
@@ -217,7 +217,7 @@ function edit_post() {
 		foreach ($_POST['meta'] as $key => $value)
 			update_meta($key, $value['key'], $value['value']);
 	}
-	
+
 	if ($_POST['deletemeta']) {
 		foreach ($_POST['deletemeta'] as $key => $value)
 			delete_meta($key);
@@ -464,13 +464,13 @@ function edit_user($user_id = 0) {
 
 function get_link_to_edit($link_id) {
 	$link = get_link($link_id);
-	
+
 	$link->link_url = wp_specialchars($link->link_url, 1);
 	$link->link_name = wp_specialchars($link->link_name, 1);
 	$link->link_description = wp_specialchars($link->link_description);
 	$link->link_notes = wp_specialchars($link->link_notes);
 	$link->link_rss = wp_specialchars($link->link_rss);
-	
+
 	return $link;
 }
 
@@ -479,17 +479,17 @@ function get_default_link_to_edit() {
 		$link->link_url = wp_specialchars($_GET['linkurl'], 1);
 	else
 		$link->link_url = '';
-	
+
 	if ( isset($_GET['name']) )
 		$link->link_name = wp_specialchars($_GET['name'], 1);
 	else
 		$link->link_name = '';
-		
+
 	return $link;
 }
 
 function add_link() {
-	return edit_link();	
+	return edit_link();
 }
 
 function edit_link($link_id = '') {
@@ -502,7 +502,7 @@ function edit_link($link_id = '') {
 	$_POST['link_image'] = wp_specialchars($_POST['link_image']);
 	$_POST['link_rss'] = wp_specialchars($_POST['link_rss']);
 	$auto_toggle = get_autotoggle($_POST['link_category']);
-	
+
 	// if we are in an auto toggle category and this one is visible then we
 	// need to make the others invisible before we add this new one.
 	// FIXME Add category toggle func.
@@ -577,7 +577,7 @@ function get_nested_categories($default = 0, $parent = 0) {
 			$result[$cat]['cat_name'] = get_the_category_by_ID($cat);
 		}
 	}
-	
+
 	usort($result, 'sort_cats');
 
 	return $result;
@@ -615,7 +615,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				if ( current_user_can('manage_categories') ) {
 					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td>";
 					$default_cat_id = get_option('default_category');
-					
+
 					if ($category->cat_ID != $default_cat_id)
 						$edit .= "<td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts will go to the default category.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars($category->cat_name, 1))."' );\" class='delete'>".__('Delete')."</a>";
 					else
@@ -699,7 +699,7 @@ function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $lev
 
 function link_category_dropdown($fieldname, $selected = 0) {
 	global $wpdb;
-	
+
 	$results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
 	echo "\n<select name='$fieldname' size='1'>\n";
 	foreach ($results as $row) {
@@ -1834,7 +1834,7 @@ o.submit();
 <input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
 </div>
 </form>
-<?php	
+<?php
 }
 
 function wp_import_handle_upload() {

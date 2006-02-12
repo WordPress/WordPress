@@ -61,7 +61,7 @@ var preloadImg = new Image();
 
 function resetImageData() {
 	var formObj = document.forms[0];
-	formObj.width.value = formObj.height.value = "";	
+	formObj.width.value = formObj.height.value = "";
 }
 
 function updateImageData() {

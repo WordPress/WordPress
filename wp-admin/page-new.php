@@ -14,7 +14,7 @@ require_once('admin-header.php');
 if ( current_user_can('edit_pages') ) {
 	$action = 'post';
 	get_currentuserinfo();
-	
+
 	$post = get_default_post_to_edit();
 	$post->post_type = 'page';
 

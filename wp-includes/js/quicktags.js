@@ -205,7 +205,7 @@ function edCheckOpenTags(button) {
 	else {
 		return false; // tag not found
 	}
-}	
+}
 
 function edCloseAllTags() {
 	var count = edOpenTags.length;

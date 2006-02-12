@@ -128,7 +128,7 @@ switch ($action) {
     check_admin_referer();
 
 	add_link();
-	
+
     header('Location: ' . $_SERVER['HTTP_REFERER'] . '?added=true');
     break;
   } // end Add
@@ -137,7 +137,7 @@ switch ($action) {
   {
  
 	check_admin_referer();
- 	
+ 
 	if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
 		$cat_id = $links_show_cat_id;
 
@@ -149,7 +149,7 @@ switch ($action) {
 
 	$link_id = (int) $_POST['link_id'];
 	edit_link($link_id);
-	
+
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     wp_redirect($this_file);
     break;
@@ -165,7 +165,7 @@ switch ($action) {
     $link_id = (int) $_GET['link_id'];
 
 	wp_delete_link($link_id);
-	
+
     if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
         $cat_id = $links_show_cat_id;
 
@@ -184,12 +184,12 @@ switch ($action) {
 	include_once ('admin-header.php');
 	if ( !current_user_can('manage_links') )
 		die(__('You do not have sufficient permissions to edit the links for this blog.'));
-	
+
 	$link_id = (int) $_GET['link_id'];
-	
+
 	if ( !$link = get_link_to_edit($link_id) )
 		die( __('Link not found.') );
-	
+
 	include('edit-link-form.php');
 	break;
   } // end linkedit
@@ -370,7 +370,7 @@ function checkAll(form)
 ?>
     <tr id="link-<?php echo $link->link_id; ?>" valign="middle" <?php echo $style; ?>>
 		<td><strong><?php echo $link->link_name; ?></strong><br />
-<?php			
+<?php
         echo sprintf(__('Description: %s'), $link->link_description) . "</td>";
         echo "<td><a href=\"$link->link_url\" title=\"" . sprintf(__('Visit %s'), $link->link_name) . "\">$short_url</a></td>";
         echo <<<LINKS

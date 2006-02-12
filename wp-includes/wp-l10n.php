@@ -14,7 +14,7 @@ function get_locale() {
 	// WPLANG is defined in wp-config.
 	if (defined('WPLANG'))
 		$locale = WPLANG;
-	
+
 	if (empty($locale))
 		$locale = 'en_US';
 
@@ -76,20 +76,20 @@ function load_default_textdomain() {
 
 	$locale = get_locale();
 	$mofile = ABSPATH . "wp-includes/languages/$locale.mo";
-	
+
 	load_textdomain('default', $mofile);
 }
 
 function load_plugin_textdomain($domain, $path = 'wp-content/plugins') {
 	$locale = get_locale();
-	
+
 	$mofile = ABSPATH . "$path/$domain-$locale.mo";
 	load_textdomain($domain, $mofile);
 }
 
 function load_theme_textdomain($domain) {
 	$locale = get_locale();
-	
+
 	$mofile = get_template_directory() . "/$locale.mo";
 	load_textdomain($domain, $mofile);
 }

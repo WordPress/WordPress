@@ -67,7 +67,7 @@ function newCatCompletion() {
 	var id    = 0;
 	var ids   = new Array();
 	var names = new Array();
-	
+
 	ids   = myPload( ajaxCat.response );
 	names = myPload( newcat.value );
 	for ( i = 0; i < ids.length; i++ ) {
@@ -80,9 +80,9 @@ function newCatCompletion() {
 			p.innerHTML = "<?php echo addslashes(__('That category name is invalid.  Try something else.')); ?>";
 			return;
 		}
-		
+
 		var exists = document.getElementById('category-' + id);
-		
+
 		if (exists) {
 			var moveIt = exists.parentNode;
 			var container = moveIt.parentNode;
@@ -100,20 +100,20 @@ function newCatCompletion() {
 			newLabel.setAttribute('for', 'category-' + id);
 			newLabel.id = 'new-category-' + id;
 			newLabel.className = 'selectit fade';
-	
+
 			var newCheck = document.createElement('input');
 			newCheck.type = 'checkbox';
 			newCheck.value = id;
 			newCheck.name = 'post_category[]';
 			newCheck.id = 'category-' + id;
 			newLabel.appendChild(newCheck);
-	
+
 			var newLabelText = document.createTextNode(' ' + names[i]);
 			newLabel.appendChild(newLabelText);
-	
+
 			catDiv.insertBefore(newLabel, catDiv.firstChild);
 			newCheck.checked = 'checked';
-	
+
 			Fat.fade_all();
 			newLabel.className = 'selectit';
 		}

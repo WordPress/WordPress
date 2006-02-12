@@ -872,7 +872,7 @@ table .vers, table .name {
 .dbx-handle-cursor {
 	cursor: move;
 }
-	
+
 /* toggle images */
 a.dbx-toggle, a.dbx-toggle:visited {
 	display:block;

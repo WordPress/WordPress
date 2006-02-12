@@ -81,11 +81,11 @@ for ($i=1; $i <= $count; $i++) :
 				}
 				$date_arr = explode(' ', $ddate);
 				$date_time = explode(':', $date_arr[3]);
-				
+
 				$ddate_H = $date_time[0];
 				$ddate_i = $date_time[1];
 				$ddate_s = $date_time[2];
-				
+
 				$ddate_m = $date_arr[1];
 				$ddate_d = $date_arr[0];
 				$ddate_Y = $date_arr[2];

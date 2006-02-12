@@ -34,15 +34,15 @@ class WP_Roles {
 		$this->role_names[$role] = $display_name;
 		return $this->role_objects[$role];
 	}
-	
+
 	function remove_role($role) {
 		if ( ! isset($this->role_objects[$role]) )
 			return;
-		
+
 		unset($this->role_objects[$role]);
 		unset($this->role_names[$role]);
 		unset($this->roles[$role]);
-		
+
 		update_option($this->role_key, $this->roles);
 	}
 
@@ -70,7 +70,7 @@ class WP_Roles {
 	function is_role($role)
 	{
 		return isset($this->role_names[$role]);
-	}	
+	}
 }
 
 class WP_Role {
@@ -150,10 +150,10 @@ class WP_User {
 			$this->caps = array();
 		$this->get_role_caps();
 	}
-	
+
 	function get_role_caps() {
 		global $wp_roles;
-		
+
 		if ( ! isset($wp_roles) )
 			$wp_roles = new WP_Roles();
 
@@ -169,14 +169,14 @@ class WP_User {
 		}
 		$this->allcaps = array_merge($this->allcaps, $this->caps);
 	}
-	
+
 	function add_role($role) {
 		$this->caps[$role] = true;
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
 	}
-	
+
 	function remove_role($role) {
 		if ( empty($this->roles[$role]) || (count($this->roles) <= 1) )
 			return;
@@ -184,7 +184,7 @@ class WP_User {
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 		$this->get_role_caps();
 	}
-	
+
 	function set_role($role) {
 		foreach($this->roles as $oldrole) 
 			unset($this->caps[$oldrole]);
@@ -203,13 +203,13 @@ class WP_User {
 	        return $max;
 	    }
 	}
-	
+
 	function update_user_level_from_caps() {
 	    global $table_prefix;
 	    $this->user_level = array_reduce(array_keys($this->allcaps), 	array(&$this, 'level_reduction'), 0);
 	    update_usermeta($this->id, $table_prefix.'user_level', $this->user_level);
 	}
-	
+
 	function add_cap($cap, $grant = true) {
 		$this->caps[$cap] = $grant;
 		update_usermeta($this->id, $this->cap_key, $this->caps);
@@ -220,13 +220,13 @@ class WP_User {
 		unset($this->caps[$cap]);
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 	}
-	
+
 	//has_cap(capability_or_role_name) or
 	//has_cap('edit_post', post_id)
 	function has_cap($cap) {
 		if ( is_numeric($cap) )
 			$cap = $this->translate_level_to_cap($cap);
-		
+
 		$args = array_slice(func_get_args(), 1);
 		$args = array_merge(array($cap, $this->id), $args);
 		$caps = call_user_func_array('map_meta_cap', $args);
@@ -345,12 +345,12 @@ function map_meta_cap($cap, $user_id) {
 		break;
 	case 'read_post':
 		$post = get_post($args[0]);
-		
+
 		if ( 'private' != $post->post_status ) {
 			$caps[] = 'read';
-			break;	
+			break;
 		}
-			
+
 		$author_data = get_userdata($user_id);
 		$post_author_data = get_userdata($post->post_author);
 		if ($user_id == $post_author_data->ID)

@@ -56,8 +56,8 @@ if (have_posts()) :
 			$title = apply_filters('the_title', $title);
 			$title = apply_filters('the_title_rss', $title);
 			printf(__('Comment on %1$s by %2$s'), $title, get_comment_author_rss());
-		} else {	
-			printf(__('by: %s'), get_comment_author_rss());			
+		} else {
+			printf(__('by: %s'), get_comment_author_rss());
 		} ?></title>
 		<link><?php comment_link() ?></link>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>

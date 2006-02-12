@@ -17,16 +17,16 @@ $ids   = array();
 
 foreach ($names as $cat_name) {
 	$cat_name = trim( $cat_name );
-	
+
 	if ( !$category_nicename = sanitize_title($cat_name) )
 		continue;
 	if ( $already = category_exists($cat_name) ) {
 		$ids[] = (string) $already;
 		continue;
 	}
-	
+
 	$new_cat_id = wp_create_category($cat_name);
-	
+
 	$ids[] = (string) $new_cat_id;
 }
 

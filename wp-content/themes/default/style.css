@@ -14,7 +14,7 @@ Author URI: http://binarybonsai.com/
 
 	The CSS, XHTML and design is released under GPL:
 	http://www.opensource.org/licenses/gpl-license.php
-	
+
 
 	*** REGARDING IMAGES ***
 	All CSS that involves the use of images, can be found in the 'index.php' file.
@@ -59,7 +59,7 @@ body {
 .widecolumn {
 	line-height: 1.6em;
 	}
-	
+
 .narrowcolumn .postmetadata {
 	text-align: center;
 	}
@@ -132,7 +132,7 @@ h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar
 .commentlist li, #commentform input, #commentform textarea {
 	font: 0.9em 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	}
-	
+
 .commentlist li {
 	font-weight: bold;
 	}
@@ -164,7 +164,7 @@ h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar
 small, #sidebar ul ul li, #sidebar ul ol li, .nocomments, .postmetadata, blockquote, strike {
 	color: #777;
 	}
-	
+
 code {
 	font: 1.1em 'Courier New', Courier, Fixed;
 	}
@@ -184,7 +184,7 @@ a:hover {
 	color: #147;
 	text-decoration: underline;
 	}
-	
+
 #wp-calendar #prev a {
 	font-size: 9pt;
 	}
@@ -219,7 +219,7 @@ body {
 	width: 760px;
 	border: 1px solid #959596;
 	}
-	
+
 #header {
 	padding: 0;
 	margin: 0 auto;
@@ -246,7 +246,7 @@ body {
 	margin: 5px 0 0 150px;
 	width: 450px;
 	}
-	
+
 .post {
 	margin: 0 0 40px;
 	text-align: justify;
@@ -339,13 +339,13 @@ p img {
 	thought?!) align the image to the right. And using 'class="centered',
 	will of course center the image. This is much better than using
 	align="center", being much more futureproof (and valid) */
-	
+
 img.centered {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	}
-	
+
 img.alignright {
 	padding: 4px;
 	margin: 0 0 2px 7px;
@@ -361,7 +361,7 @@ img.alignleft {
 .alignright {
 	float: right;
 	}
-	
+
 .alignleft {
 	float: left
 	}
@@ -405,7 +405,7 @@ html>body .entry li {
 	list-style-type: none;
 	list-style-image: none;
 	}
-	
+
 #sidebar ul, #sidebar ul ol {
 	margin: 0;
 	padding: 0;

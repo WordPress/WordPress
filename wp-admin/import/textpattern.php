@@ -7,10 +7,10 @@ if(!function_exists('get_catbynicename'))
 	function get_catbynicename($category_nicename) 
 	{
 	global $wpdb;
-	
+
 	$cat_id -= 0; 	// force numeric
 	$name = $wpdb->get_var('SELECT cat_ID FROM '.$wpdb->categories.' WHERE category_nicename="'.$category_nicename.'"');
-	
+
 	return $name;
 	}
 }
@@ -49,7 +49,7 @@ class Textpattern_Import {
 	{
 		echo '</div>';
 	}
-	
+
 	function greet() 
 	{
 		echo '<p>'.__('Howdy! This importer allows you to extract posts from any Textpattern 4.0.2+ into your blog. This has not been tested on previous versions of Textpattern.  Mileage may vary.').'</p>';
@@ -67,7 +67,7 @@ class Textpattern_Import {
 		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
-		
+
 		// Get Categories
 		return $txpdb->get_results('SELECT 
 										id,
@@ -77,7 +77,7 @@ class Textpattern_Import {
 							   		 WHERE type = "article"', 
 									 ARRAY_A);
 	}
-	
+
 	function get_txp_users()
 	{
 		global $wpdb;
@@ -85,9 +85,9 @@ class Textpattern_Import {
 		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
-		
+
 		// Get Users
-		
+
 		return $txpdb->get_results('SELECT
 										user_id,
 										name,
@@ -96,14 +96,14 @@ class Textpattern_Import {
 										privs
 							   		FROM '.$prefix.'txp_users', ARRAY_A);
 	}
-	
+
 	function get_txp_posts()
 	{
 		// General Housekeeping
 		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
-		
+
 		// Get Posts
 		return $txpdb->get_results('SELECT 
 										ID,
@@ -122,7 +122,7 @@ class Textpattern_Import {
 							   		FROM '.$prefix.'textpattern
 							   		', ARRAY_A);
 	}
-	
+
 	function get_txp_comments()
 	{
 		global $wpdb;
@@ -130,18 +130,18 @@ class Textpattern_Import {
 		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
-		
+
 		// Get Comments
 		return $txpdb->get_results('SELECT * FROM '.$prefix.'txp_discuss', ARRAY_A);
 	}
-	
+
 		function get_txp_links()
 	{
 		//General Housekeeping
 		$txpdb = new wpdb(get_option('txpuser'), get_option('txppass'), get_option('txpname'), get_option('txphost'));
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
-		
+
 		return $txpdb->get_results('SELECT 
 										id,
 										date,
@@ -152,7 +152,7 @@ class Textpattern_Import {
 									  FROM '.$prefix.'txp_link', 
 									  ARRAY_A);						  
 	}
-	
+
 	function cat2wp($categories='') 
 	{
 		// General Housekeeping
@@ -167,12 +167,12 @@ class Textpattern_Import {
 			{
 				$count++;
 				extract($category);
-				
-				
+
+
 				// Make Nice Variables
 				$name = $wpdb->escape($name);
 				$title = $wpdb->escape($title);
-				
+
 				if($cinfo = category_exists($name))
 				{
 					$ret_id = wp_insert_category(array('cat_ID' => $cinfo, 'category_nicename' => $name, 'cat_name' => $title));
@@ -183,7 +183,7 @@ class Textpattern_Import {
 				}
 				$txpcat2wpcat[$id] = $ret_id;
 			}
-			
+
 			// Store category translation for future use
 			add_option('txpcat2wpcat',$txpcat2wpcat);
 			echo '<p>'.sprintf(__('Done! <strong>%1$s</strong> categories imported.'), $count).'<br /><br /></p>';
@@ -192,14 +192,14 @@ class Textpattern_Import {
 		echo __('No Categories to Import!');
 		return false;
 	}
-	
+
 	function users2wp($users='')
 	{
 		// General Housekeeping
 		global $wpdb;
 		$count = 0;
 		$txpid2wpid = array();
-		
+
 		// Midnight Mojo
 		if(is_array($users))
 		{
@@ -208,14 +208,14 @@ class Textpattern_Import {
 			{
 				$count++;
 				extract($user);
-				
+
 				// Make Nice Variables
 				$name = $wpdb->escape($name);
 				$RealName = $wpdb->escape($RealName);
-				
+
 				if($uinfo = get_userdatabylogin($name))
 				{
-					
+
 					$ret_id = wp_insert_user(array(
 								'ID'			=> $uinfo->ID,
 								'user_login'	=> $name,
@@ -236,10 +236,10 @@ class Textpattern_Import {
 								);
 				}
 				$txpid2wpid[$user_id] = $ret_id;
-				
+
 				// Set Textpattern-to-WordPress permissions translation
 				$transperms = array(1 => '10', 2 => '9', 3 => '5', 4 => '4', 5 => '3', 6 => '2', 7 => '0');
-				
+
 				// Update Usermeta Data
 				$user = new WP_User($ret_id);
 				if('10' == $transperms[$privs]) { $user->set_role('administrator'); }
@@ -249,24 +249,24 @@ class Textpattern_Import {
 				if('3'  == $transperms[$privs]) { $user->set_role('contributor'); }
 				if('2'  == $transperms[$privs]) { $user->set_role('contributor'); }
 				if('0'  == $transperms[$privs]) { $user->set_role('subscriber'); }
-				
+
 				update_usermeta( $ret_id, 'wp_user_level', $transperms[$privs] );
 				update_usermeta( $ret_id, 'rich_editing', 'false');
 			}// End foreach($users as $user)
-			
+
 			// Store id translation array for future use
 			add_option('txpid2wpid',$txpid2wpid);
-			
-			
+
+
 			echo '<p>'.sprintf(__('Done! <strong>%1$s</strong> users imported.'), $count).'<br /><br /></p>';
 			return true;
 		}// End if(is_array($users)
-		
+
 		echo __('No Users to Import!');
 		return false;
-		
+
 	}// End function user2wp()
-	
+
 	function posts2wp($posts='')
 	{
 		// General Housekeeping
@@ -283,10 +283,10 @@ class Textpattern_Import {
 			{
 				$count++;
 				extract($post);
-				
+
 				// Set Textpattern-to-WordPress status translation
 				$stattrans = array(1 => 'draft', 2 => 'private', 3 => 'draft', 4 => 'publish', 5 => 'publish');
-				
+
 				//Can we do this more efficiently?
 				$uinfo = ( get_userdatabylogin( $AuthorID ) ) ? get_userdatabylogin( $AuthorID ) : 1;
 				$authorid = ( is_object( $uinfo ) ) ? $uinfo->ID : $uinfo ;
@@ -295,9 +295,9 @@ class Textpattern_Import {
 				$Body = $wpdb->escape($Body);
 				$Excerpt = $wpdb->escape($Excerpt);
 				$post_status = $stattrans[$Status];
-				
+
 				// Import Post data into WordPress
-				
+
 				if($pinfo = post_exists($Title,$Body))
 				{
 					$ret_id = wp_insert_post(array(
@@ -332,7 +332,7 @@ class Textpattern_Import {
 							);
 				}
 				$txpposts2wpposts[$ID] = $ret_id;
-				
+
 				// Make Post-to-Category associations
 				$cats = array();
 				if($cat1 = get_catbynicename($Category1)) { $cats[1] = $cat1; }
@@ -343,11 +343,11 @@ class Textpattern_Import {
 		}
 		// Store ID translation for later use
 		add_option('txpposts2wpposts',$txpposts2wpposts);
-		
+
 		echo '<p>'.sprintf(__('Done! <strong>%1$s</strong> posts imported.'), $count).'<br /><br /></p>';
-		return true;	
+		return true;
 	}
-	
+
 	function comments2wp($comments='')
 	{
 		// General Housekeeping
@@ -355,7 +355,7 @@ class Textpattern_Import {
 		$count = 0;
 		$txpcm2wpcm = array();
 		$postarr = get_option('txpposts2wpposts');
-		
+
 		// Magic Mojo
 		if(is_array($comments))
 		{
@@ -364,7 +364,7 @@ class Textpattern_Import {
 			{
 				$count++;
 				extract($comment);
-				
+
 				// WordPressify Data
 				$comment_ID = ltrim($discussid, '0');
 				$comment_post_ID = $postarr[$parentid];
@@ -373,7 +373,7 @@ class Textpattern_Import {
 				$email = $wpdb->escape($email);
 				$web = $wpdb->escape($web);
 				$message = $wpdb->escape($message);
-				
+
 				if($cinfo = comment_exists($name, $posted))
 				{
 					// Update comments
@@ -405,25 +405,25 @@ class Textpattern_Import {
 				$txpcm2wpcm[$comment_ID] = $ret_id;
 			}
 			// Store Comment ID translation for future use
-			add_option('txpcm2wpcm', $txpcm2wpcm);			
-			
+			add_option('txpcm2wpcm', $txpcm2wpcm);
+
 			// Associate newly formed categories with posts
 			get_comment_count($ret_id);
-			
-			
+
+
 			echo '<p>'.sprintf(__('Done! <strong>%1$s</strong> comments imported.'), $count).'<br /><br /></p>';
 			return true;
 		}
 		echo __('No Comments to Import!');
 		return false;
 	}
-	
+
 	function links2wp($links='')
 	{
 		// General Housekeeping
 		global $wpdb;
 		$count = 0;
-		
+
 		// Deal with the links
 		if(is_array($links))
 		{
@@ -432,12 +432,12 @@ class Textpattern_Import {
 			{
 				$count++;
 				extract($link);
-				
+
 				// Make nice vars
 				$category = $wpdb->escape($category);
 				$linkname = $wpdb->escape($linkname);
 				$description = $wpdb->escape($description);
-				
+
 				if($linfo = link_exists($linkname))
 				{
 					$ret_id = wp_insert_link(array(
@@ -470,67 +470,67 @@ class Textpattern_Import {
 		echo __('No Links to Import!');
 		return false;
 	}
-		
+
 	function import_categories() 
-	{	
-		// Category Import	
+	{
+		// Category Import
 		$cats = $this->get_txp_cats();
 		$this->cat2wp($cats);
 		add_option('txp_cats', $cats);
-		
-		
-			
+
+
+
 		echo '<form action="admin.php?import=textpattern&amp;step=2" method="post">';
 		printf('<input type="submit" name="submit" value="%s" />', __('Import Users'));
 		echo '</form>';
 
 	}
-	
+
 	function import_users()
 	{
 		// User Import
 		$users = $this->get_txp_users(); 
 		$this->users2wp($users);
-		
+
 		echo '<form action="admin.php?import=textpattern&amp;step=3" method="post">';
 		printf('<input type="submit" name="submit" value="%s" />', __('Import Posts'));
 		echo '</form>';
 	}
-	
+
 	function import_posts()
 	{
 		// Post Import
 		$posts = $this->get_txp_posts();
 		$this->posts2wp($posts);
-		
+
 		echo '<form action="admin.php?import=textpattern&amp;step=4" method="post">';
 		printf('<input type="submit" name="submit" value="%s" />', __('Import Comments'));
 		echo '</form>';
 	}
-	
+
 	function import_comments()
 	{
 		// Comment Import
 		$comments = $this->get_txp_comments();
 		$this->comments2wp($comments);
-		
+
 		echo '<form action="admin.php?import=textpattern&amp;step=5" method="post">';
 		printf('<input type="submit" name="submit" value="%s" />', __('Import Links'));
 		echo '</form>';
 	}
-	
+
 	function import_links()
 	{
 		//Link Import
 		$links = $this->get_txp_links();
 		$this->links2wp($links);
 		add_option('txp_links', $links);
-		
+
 		echo '<form action="admin.php?import=textpattern&amp;step=6" method="post">';
 		printf('<input type="submit" name="submit" value="%s" />', __('Finish'));
 		echo '</form>';
 	}
-	
+
 	function cleanup_txpimport()
 	{
 		delete_option('tpre');
@@ -546,7 +546,7 @@ class Textpattern_Import {
 		delete_option('txphost');
 		$this->tips();
 	}
-	
+
 	function tips()
 	{
 		echo '<p>'.__('Welcome to WordPress.  We hope (and expect!) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Textpattern, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.').'</p>';
@@ -565,7 +565,7 @@ class Textpattern_Import {
 		echo '</ul>';
 		echo '<p>'.sprintf(__('That\'s it! What are you waiting for? Go <a href="%1$s">login</a>!'), '/wp-login.php').'</p>';
 	}
-	
+
 	function db_form()
 	{
 		echo '<ul>';
@@ -576,7 +576,7 @@ class Textpattern_Import {
 		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" /></li>', __('Textpattern Table prefix (if any):'));
 		echo '</ul>';
 	}
-	
+
 	function dispatch() 
 	{
 
@@ -585,26 +585,26 @@ class Textpattern_Import {
 		else
 			$step = (int) $_GET['step'];
 		$this->header();
-		
+
 		if ( $step > 0 ) 
 		{
 			if($_POST['dbuser'])
 			{
 				if(get_option('txpuser'))
-					delete_option('txpuser');	
+					delete_option('txpuser');
 				add_option('txpuser',$_POST['dbuser']);
 			}
 			if($_POST['dbpass'])
 			{
 				if(get_option('txppass'))
-					delete_option('txppass');	
+					delete_option('txppass');
 				add_option('txppass',$_POST['dbpass']);
 			}
-			
+
 			if($_POST['dbname'])
 			{
 				if(get_option('txpname'))
-					delete_option('txpname');	
+					delete_option('txpname');
 				add_option('txpname',$_POST['dbname']);
 			}
 			if($_POST['dbhost'])
@@ -618,7 +618,7 @@ class Textpattern_Import {
 				if(get_option('tpre'))
 					delete_option('tpre');
 				add_option('tpre',$_POST['dbprefix']); 
-			}			
+			}
 
 
 		}
@@ -648,13 +648,13 @@ class Textpattern_Import {
 				$this->cleanup_txpimport();
 				break;
 		}
-		
+
 		$this->footer();
 	}
 
 	function Textpattern_Import() 
 	{
-		// Nothing.	
+		// Nothing.
 	}
 }
 

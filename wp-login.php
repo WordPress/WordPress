@@ -28,7 +28,7 @@ case 'logout':
 	$redirect_to = 'wp-login.php';
 	if ( isset($_REQUEST['redirect_to']) )
 		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_REQUEST['redirect_to']);
-			
+
 	wp_redirect($redirect_to);
 	exit();
 
@@ -139,7 +139,7 @@ case 'resetpass' :
 	$new_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
  	$wpdb->query("UPDATE $wpdb->users SET user_pass = MD5('$new_pass'), user_activation_key = '' WHERE user_login = '$user->user_login'");
 	wp_cache_delete($user->ID, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');	
+	wp_cache_delete($user->user_login, 'userlogins');
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
 	$message .= get_settings('siteurl') . "/wp-login.php\r\n";
@@ -190,11 +190,11 @@ default:
 
 	if ( $user_login && $user_pass ) {
 		$user = new WP_User(0, $user_login);
-	
+
 		// If the user can't edit posts, send them to their profile.
 		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
 			$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
-	
+
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if ( !$using_cookie )
 				wp_setcookie($user_login, $user_pass, false, '', '', $rememberme);
@@ -202,7 +202,7 @@ default:
 			wp_redirect($redirect_to);
 			exit;
 		} else {
-			if ( $using_cookie )			
+			if ( $using_cookie )
 				$error = __('Your session has expired.');
 		}
 	}

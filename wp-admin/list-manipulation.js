@@ -51,7 +51,7 @@ function removeThisItem(id) {
 		listItems.splice(pos,1);
 		recolorList(pos);
 		ajaxDel.myResponseElement.parentNode.removeChild(ajaxDel.myResponseElement);
-		
+
 	}
 }
 
@@ -63,7 +63,7 @@ function getListPos(id) {
 		}
 	}
 	return pos;
-}	
+}
 
 function getListItems() {
 	if (list) return;

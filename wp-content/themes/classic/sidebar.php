@@ -11,7 +11,7 @@
 	</ul>
  </li>
  <li id="search">
-   <label for="s"><?php _e('Search:'); ?></label>	
+   <label for="s"><?php _e('Search:'); ?></label>
    <form id="searchform" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 	<div>
 		<input type="text" name="s" id="s" size="15" /><br />

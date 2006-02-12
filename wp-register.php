@@ -14,9 +14,9 @@ case 'register':
 
 	$user_login = sanitize_user( $_POST['user_login'] );
 	$user_email = $_POST['user_email'];
-	
+
 	$errors = array();
-		
+
 	if ( $user_login == '' )
 		$errors['user_login'] = __('<strong>ERROR</strong>: Please enter a username.');
 
@@ -45,7 +45,7 @@ case 'register':
 		else
 			wp_new_user_notification($user_id, $password);
 	}
-	
+
 	if ( 0 == count($errors) ) {
 
 	?>
@@ -53,7 +53,7 @@ case 'register':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Complete') ?></title>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />	
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 	<style type="text/css">
 	.submit {

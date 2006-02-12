@@ -577,7 +577,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	      $post_category[] = get_cat_ID($cat);
 	    }
 	  }
-		
+
 	  // We've got all the data -- post it:
 	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping');
 
@@ -623,7 +623,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $catnames = $content_struct['categories'];
 
 	  $post_category = array();
-		
+
 	  if (is_array($catnames)) {
 	    foreach ($catnames as $cat) {
 	      $post_category[] = get_cat_ID($cat);
@@ -861,7 +861,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			logIO('O', '(MW) Could not write file '.$name);
 			return new IXR_Error(500, 'Could not write file '.$name);
 		}
-		
+
 		return array('url' => $upload['url']);
 	}
 
@@ -995,7 +995,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  foreach($categories as $cat) {
 	    $catids[] = $cat['categoryId'];
 	  }
-	
+
 	  wp_set_post_cats('', $post_ID, $catids);
 
 	  return true;
@@ -1199,11 +1199,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$linea = strip_tags( $linea, '<a>' ); // just keep the tag we need
 
 		$p = explode( "\n\n", $linea );
-		
+
 		$sem_regexp_pb = "/(\\/|\\\|\*|\?|\+|\.|\^|\\$|\(|\)|\[|\]|\||\{|\})/";
 		$sem_regexp_fix = "\\\\$1";
 		$link = preg_replace( $sem_regexp_pb, $sem_regexp_fix, $pagelinkedfrom );
-		
+
 		$finished = false;
 		foreach ( $p as $para ) {
 			if ( $finished )
@@ -1238,7 +1238,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		wp_new_comment($commentdata);
 		do_action('pingback_post', $wpdb->insert_id);
-		
+
 		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
 	}
 

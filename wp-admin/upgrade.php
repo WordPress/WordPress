@@ -27,17 +27,17 @@ header( 'Content-Type: text/html; charset=utf-8' );
 		margin-right: 20%;
 		padding: .2em 2em;
 	}
-	
+
 	h1 {
 		color: #006;
 		font-size: 18px;
 		font-weight: lighter;
 	}
-	
+
 	h2 {
 		font-size: 16px;
 	}
-	
+
 	p, li, dt {
 		line-height: 140%;
 		padding-bottom: 2px;
@@ -73,7 +73,7 @@ switch($step) {
 	<h2 class="step"><a href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress &raquo;'); ?></a></h2>
 <?php
 	break;
-	
+
 	case 1:
 	wp_cache_flush();
 	make_db_current_silent();

@@ -38,7 +38,7 @@ function blurry() {
 
 	var aInputs = document.getElementsByTagName('input');
 
-	for (var i = 0; i < aInputs.length; i++) {		
+	for (var i = 0; i < aInputs.length; i++) {
 		 aInputs[i].onclick = aInputs[i].onkeyup = upit;
 	}
 }

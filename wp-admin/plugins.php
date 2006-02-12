@@ -3,7 +3,7 @@ require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
 	check_admin_referer();
-	
+
 	if ('activate' == $_GET['action']) {
 		$current = get_settings('active_plugins');
 		if (!in_array($_GET['plugin'], $current)) {
@@ -36,7 +36,7 @@ $check_plugins = get_settings('active_plugins');
 // empty array.
 if ( !is_array($check_plugins) ) {
 	$check_plugins = array();
-	update_option('active_plugins', $check_plugins);	
+	update_option('active_plugins', $check_plugins);
 }
 
 // If a plugin file does not exist, remove it from the list of active
@@ -91,7 +91,7 @@ if (empty($plugins)) {
 	function sort_plugins($plug1, $plug2) {
 		return strnatcasecmp($plug1['Name'], $plug2['Name']);
 	}
-	
+
 	uksort($plugins, 'sort_plugins');
 
 	foreach($plugins as $plugin_file => $plugin_data) {

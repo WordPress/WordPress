@@ -211,7 +211,7 @@ function get_post_custom( $post_id = 0 ) {
 			// Force subkeys to be array type:
 			if ( !isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]) )
 				$post_meta_cache[$mpid] = array();
-				
+
 			if ( !isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]) )
 				$post_meta_cache[$mpid]["$mkey"] = array();
 

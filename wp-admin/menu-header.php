@@ -13,7 +13,7 @@ foreach ($menu as $item) {
     
 	if ( current_user_can($item[1]) ) {
 		if ( file_exists(ABSPATH . "wp-content/plugins/{$item[2]}") )
-			echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";			
+			echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/admin.php?page={$item[2]}'$class>{$item[0]}</a></li>";
 		else
 			echo "\n\t<li><a href='" . get_settings('siteurl') . "/wp-admin/{$item[2]}'$class>{$item[0]}</a></li>";
 	}

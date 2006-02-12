@@ -31,7 +31,7 @@ function wp_insert_post($postarr = array()) {
 	$post_name       = apply_filters('name_save_pre',      $post_name);
 	$comment_status  = apply_filters('comment_status_pre', $comment_status);
 	$ping_status     = apply_filters('ping_status_pre',    $ping_status);
-	
+
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
 		$post_category = array(get_option('default_category'));
@@ -59,7 +59,7 @@ function wp_insert_post($postarr = array()) {
 	} else {
 		$post_name = sanitize_title($post_name);
 	}
-	
+
 
 	// If the post date is empty (due to having been new or a draft) and status is not 'draft', set date to now
 	if (empty($post_date)) {
@@ -150,7 +150,7 @@ function wp_insert_post($postarr = array()) {
 			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
 			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
-			$post_ID = $wpdb->insert_id;			
+			$post_ID = $wpdb->insert_id;
 	}
 
 	if ( empty($post_name) && 'draft' != $post_status ) {
@@ -177,7 +177,7 @@ function wp_insert_post($postarr = array()) {
 			$wpdb->query("UPDATE $wpdb->posts SET guid = '" . get_permalink($post_ID) . "' WHERE ID = '$post_ID'");
 			do_action('private_to_published', $post_ID);
 		}
-		
+
 		do_action('edit_post', $post_ID);
 	}
 
@@ -251,7 +251,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	$update = false;
 	if ( !empty($ID) ) {
 		$update = true;
-		$post_ID = $ID;	
+		$post_ID = $ID;
 	}
 
 	// Create a valid post name.
@@ -259,7 +259,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 		$post_name = sanitize_title($post_title);
 	else
 		$post_name = sanitize_title($post_name);
-	
+
 	if (empty($post_date))
 		$post_date = current_time('mysql');
 	if (empty($post_date_gmt)) 
@@ -332,9 +332,9 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
 			VALUES
 			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
-			$post_ID = $wpdb->insert_id;			
+			$post_ID = $wpdb->insert_id;
 	}
-	
+
 	if ( empty($post_name) ) {
 		$post_name = sanitize_title($post_title, $post_ID);
 		$wpdb->query( "UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = '$post_ID'" );
@@ -352,7 +352,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	} else {
 		do_action('add_attachment', $post_ID);
 	}
-	
+
 	return $post_ID;
 }
 
@@ -395,7 +395,7 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	global $wpdb;
 
 	$post = get_post($postid, $mode);
-	
+
 	// Set categories
 	if($mode == OBJECT) {
 		$post->post_category = wp_get_post_cats('',$postid);
@@ -428,7 +428,7 @@ function wp_update_post($postarr = array()) {
 		$postarr = get_object_vars($postarr);
 
 	// First, get all of the original fields
-	$post = wp_get_single_post($postarr['ID'], ARRAY_A);	
+	$post = wp_get_single_post($postarr['ID'], ARRAY_A);
 
 	// Escape data pulled from DB.
 	$post = add_magic_quotes($post);
@@ -449,7 +449,7 @@ function wp_update_post($postarr = array()) {
 
  	// Merge old and new fields with new fields overwriting old ones.
  	$postarr = array_merge($post, $postarr);
- 	$postarr['post_category'] = $post_cats;	
+ 	$postarr['post_category'] = $post_cats;
 	if ( $clear_date ) {
 		$postarr['post_date'] = '';
 		$postarr['post_date_gmt'] = '';
@@ -475,7 +475,7 @@ function wp_publish_post($post_id) {
 
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 	global $wpdb;
-	
+
 	$sql = "SELECT category_id 
 		FROM $wpdb->post2cat 
 		WHERE post_id = $post_ID 
@@ -494,7 +494,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	// If $post_categories isn't already an array, make it one:
 	if (!is_array($post_categories) || 0 == count($post_categories))
 		$post_categories = array(get_option('default_category'));
-	
+
 	$post_categories = array_unique($post_categories);
 
 	// First the old categories
@@ -502,7 +502,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 		SELECT category_id 
 		FROM $wpdb->post2cat 
 		WHERE post_id = $post_ID");
-	
+
 	if (!$old_categories) {
 		$old_categories = array();
 	} else {
@@ -532,13 +532,13 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 				VALUES ($post_ID, $new_cat)");
 		}
 	}
-	
+
 	// Update category counts.
 	$all_affected_cats = array_unique(array_merge($post_categories, $old_categories));
 	foreach ( $all_affected_cats as $cat_id ) {
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id'");
 		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
-		wp_cache_delete($cat_id, 'category');		
+		wp_cache_delete($cat_id, 'category');
 	}
 }	// wp_set_post_cats()
 
@@ -568,7 +568,7 @@ function wp_delete_post($postid = 0) {
 		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_type = 'page'");
 
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
-	
+
 	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
 
 	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $postid");
@@ -595,17 +595,17 @@ function post_permalink($post_id = 0, $mode = '') { // $mode legacy
 // Get the name of a category from its ID
 function get_cat_name($cat_id) {
 	global $wpdb;
-	
+
 	$cat_id -= 0; 	// force numeric
 	$name = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE cat_ID=$cat_id");
-	
+
 	return $name;
 }
 
 // Get the ID of a category from its name
 function get_cat_ID($cat_name='General') {
 	global $wpdb;
-	
+
 	$cid = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
 
 	return $cid?$cid:1;	// default to cat 1
@@ -639,14 +639,14 @@ function trackback_url_list($tb_list, $post_id) {
 
 		// import postdata as variables
 		extract($postdata);
-		
+
 		// form an excerpt
 		$excerpt = strip_tags($post_excerpt?$post_excerpt:$post_content);
-		
+
 		if (strlen($excerpt) > 255) {
 			$excerpt = substr($excerpt,0,252) . '...';
 		}
-		
+
 		$trackback_urls = explode(',', $tb_list);
 		foreach($trackback_urls as $tb_url) {
 		    $tb_url = trim($tb_url);
@@ -684,7 +684,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		// Do some escaping magic so that '#' chars in the 
 		// spam words don't break things:
 		$word = preg_quote($word, '#');
-		
+
 		$pattern = "#$word#i"; 
 		if ( preg_match($pattern, $author    ) ) return true;
 		if ( preg_match($pattern, $email     ) ) return true;
@@ -693,7 +693,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		if ( preg_match($pattern, $user_ip   ) ) return true;
 		if ( preg_match($pattern, $user_agent) ) return true;
 	}
-	
+
 	if ( isset($_SERVER['REMOTE_ADDR']) ) {
 		if ( wp_proxy_check($_SERVER['REMOTE_ADDR']) ) return true;
 	}
@@ -722,7 +722,7 @@ function do_trackbacks($post_id) {
 		$wpdb->query("UPDATE $wpdb->posts SET to_ping = '' WHERE ID = '$post_id'");
 		return;
 	}
-	
+
 	if (empty($post->post_excerpt))
 		$excerpt = apply_filters('the_content', $post->post_content);
 	else
@@ -812,7 +812,7 @@ function get_page_hierarchy($posts, $parent = 0) {
 
 function generate_page_uri_index() {
 	global $wpdb;
-	
+
 	//get pages in order of hierarchy, i.e. children after parents
 	$posts = get_page_hierarchy($wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page'"));
 	//now reverse it, because we need parents after children for rewrite rules to work properly
@@ -822,7 +822,7 @@ function generate_page_uri_index() {
 	$page_attachment_uris = array();
 
 	if ($posts) {
-		
+
 		foreach ($posts as $id => $post) {
 
 			// URI => page name
@@ -839,7 +839,7 @@ function generate_page_uri_index() {
 		}
 
 		update_option('page_uris', $page_uris);
-		
+
 		if ( $page_attachment_uris )
 			update_option('page_attachment_uris', $page_attachment_uris);
 	}
@@ -903,7 +903,7 @@ function wp_mkdir_p($target) {
 		return true;
 	} else {
 		if ( is_dir(dirname($target)) )
-			return false;	
+			return false;
 	}
 
 	// If the above failed, attempt to create the parent node, then try again.
@@ -954,7 +954,7 @@ function wp_upload_bits($name, $type, $bits) {
 		return array('error' => "Empty filename");
 
 	$upload = wp_upload_dir();
-	
+
 	if ( $upload['error'] !== false )
 		return $upload;
 
@@ -972,7 +972,7 @@ function wp_upload_bits($name, $type, $bits) {
 		else
 			$filename = str_replace("$number$ext", ++$number . $ext, $filename);
 	}
-		
+
 	$new_file = $upload['path'] . "/$filename";
 	if ( ! wp_mkdir_p( dirname($new_file) ) ) {
 		$message = sprintf(__('Unable to create directory %s. Is its parent directory writable by the server?'), dirname($new_file));
@@ -982,7 +982,7 @@ function wp_upload_bits($name, $type, $bits) {
 	$ifp = @ fopen($new_file, 'wb');
 	if ( ! $ifp )
 		return array('error' => "Could not write file $new_file.");
-		
+
 	$success = @ fwrite($ifp, $bits);
 	fclose($ifp);
 	// Set correct file permissions

@@ -353,7 +353,7 @@ TinyMCE.prototype.updateContent = function(form_element_name) {
 
 		if (inst.formElement == formElement) {
 			var doc = inst.getDoc();
-	
+
 			tinyMCE._setHTML(doc, inst.formElement.value);
 
 			if (!tinyMCE.isMSIE)

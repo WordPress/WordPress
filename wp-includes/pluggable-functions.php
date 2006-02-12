@@ -62,7 +62,7 @@ function get_userdata( $user_id ) {
 		return false;
 
 	$user = wp_cache_get($user_id, 'users');
-	
+
 	if ( $user )
 		return $user;
 
@@ -93,10 +93,10 @@ function get_userdata( $user_id ) {
 		$user->user_lastname = $user->last_name;
 	if ( isset($user->description) )
 		$user->user_description = $user->description;
-		
+
 	wp_cache_add($user_id, $user, 'users');
 	wp_cache_add($user->user_login, $user, 'userlogins');
-	
+
 	return $user;
 }
 endif;
@@ -114,7 +114,7 @@ function get_userdatabylogin($user_login) {
 
 	if ( empty( $user_login ) )
 		return false;
-		
+
 	$userdata = wp_cache_get($user_login, 'userlogins');
 	if ( $userdata )
 		return $userdata;
@@ -202,7 +202,7 @@ endif;
 if ( !function_exists('is_user_logged_in') ) :
 function is_user_logged_in() {
 	global $current_user;
-	
+
 	if ( $current_user->id == 0 )
 		return false;
 	return true;
@@ -216,7 +216,7 @@ function auth_redirect() {
 				!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true)) ||
 			 (empty($_COOKIE[USER_COOKIE])) ) {
 		nocache_headers();
-	
+
 		header('Location: ' . get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
 		exit();
 	}
@@ -303,9 +303,9 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	$comment_author_domain = gethostbyaddr($comment->comment_author_IP);
 
 	$blogname = get_settings('blogname');
-	
+
 	if ( empty( $comment_type ) ) $comment_type = 'comment';
-	
+
 	if ('comment' == $comment_type) {
 		$notify_message  = sprintf( __('New comment on your post #%1$s "%2$s"'), $comment->comment_post_ID, $post->post_title ) . "\r\n";
 		$notify_message .= sprintf( __('Author : %1$s (IP: %2$s , %3$s)'), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
@@ -407,14 +407,14 @@ endif;
 if ( !function_exists('wp_new_user_notification') ) :
 function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$user = new WP_User($user_id);
-	
+
 	$user_login = stripslashes($user->user_login);
 	$user_email = stripslashes($user->user_email);
-	
+
 	$message  = sprintf(__('New user registration on your blog %s:'), get_settings('blogname')) . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= sprintf(__('E-mail: %s'), $user_email) . "\r\n";
-	
+
 	@wp_mail(get_settings('admin_email'), sprintf(__('[%s] New User Registration'), get_settings('blogname')), $message);
 
 	if ( empty($plaintext_pass) )
@@ -423,9 +423,9 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 	$message  = sprintf(__('Username: %s'), $user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $plaintext_pass) . "\r\n";
 	$message .= get_settings('siteurl') . "/wp-login.php\r\n";
-		
+
 	wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_settings('blogname')), $message);
-	
+
 }
 endif;
 

@@ -103,7 +103,7 @@ switch($step) {
 </form> 
 <?php
 	break;
-	
+
 	case 2:
 	$dbname  = trim($_POST['dbname']);
     $uname   = trim($_POST['uname']);

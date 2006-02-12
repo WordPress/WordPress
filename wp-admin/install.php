@@ -33,17 +33,17 @@ header( 'Content-Type: text/html; charset=utf-8' );
 		margin-right: 20%;
 		padding: .2em 2em;
 	}
-	
+
 	h1 {
 		color: #006;
 		font-size: 18px;
 		font-weight: lighter;
 	}
-	
+
 	h2 {
 		font-size: 16px;
 	}
-	
+
 	p, li, dt {
 		line-height: 140%;
 		padding-bottom: 2px;
@@ -127,7 +127,7 @@ if (empty($admin_email)) {
 } else if (!is_email($admin_email)) {
 	die (__("<strong>ERROR</strong>: the e-mail address isn't correct"));
 }
-	
+
 ?>
 <h1><?php _e('Second Step'); ?></h1>
 <p><?php _e('Now we&#8217;re going to create the database tables and fill them with some default data.'); ?></p>

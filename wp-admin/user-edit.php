@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 $title = __('Edit User');
-$parent_file = 'profile.php';	
+$parent_file = 'profile.php';
 $submenu_file = 'users.php';
 
 $wpvarstoreset = array('action', 'redirect', 'profile', 'user_id');

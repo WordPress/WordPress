@@ -3,16 +3,16 @@ require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
 	check_admin_referer();
-	
+
 	if ('activate' == $_GET['action']) {
 		if ( isset($_GET['template']) )
 			update_option('template', $_GET['template']);
-		
+
 		if ( isset($_GET['stylesheet']) )
 			update_option('stylesheet', $_GET['stylesheet']);
-		
+
 		do_action('switch_theme', get_current_theme());
-		
+
 		header('Location: themes.php?activated=true');
 		exit;
 	}
@@ -102,7 +102,7 @@ if ( count($broken_themes) ) {
 	</tr>
 <?php
 	$theme = '';
-	
+
 	$theme_names = array_keys($broken_themes);
 	natcasesort($theme_names);
 

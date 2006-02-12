@@ -379,7 +379,7 @@ class MT_Import {
 				}
 				if ( $num_pings )
 					printf(__('(%s pings)'), $num_pings);
-				
+
 				echo "</li>";
 			}
 			flush();
@@ -420,7 +420,7 @@ class MT_Import {
 	}
 
 	function MT_Import() {
-		// Nothing.	
+		// Nothing.
 	}
 }
 

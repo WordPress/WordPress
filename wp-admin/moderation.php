@@ -115,7 +115,7 @@ if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored
 }
 
 ?>
-	
+
 <div class="wrap">
 
 <?php

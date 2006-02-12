@@ -53,41 +53,41 @@ if (isset($_GET['page'])) {
 	if ( $page_hook ) {
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . '/wp-admin/admin-header.php');
-		
+
 		do_action($page_hook);
 	} else {
 		if ( validate_file($plugin_page) ) {
 			die(__('Invalid plugin page'));
 		}
-		
+
 		if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page"))
 			die(sprintf(__('Cannot load %s.'), $plugin_page));
 
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . '/wp-admin/admin-header.php');
-		
+
 		include(ABSPATH . "wp-content/plugins/$plugin_page");
 	}
-	
+
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	exit();
 } else if (isset($_GET['import'])) {
-	
+
 	$importer = $_GET['import'];
 
 	if ( validate_file($importer) ) {
 		die(__('Invalid importer.'));
 	}
-		
+
 	if (! file_exists(ABSPATH . "wp-admin/import/$importer.php"))
 		die(__('Cannot load importer.'));
-	
+
 	include(ABSPATH . "wp-admin/import/$importer.php");
 
 	$parent_file = 'import.php';
 	$title = __('Import');
-	
+
 	if (! isset($_GET['noheader']))
 		require_once(ABSPATH . 'wp-admin/admin-header.php');
 
@@ -97,7 +97,7 @@ if (isset($_GET['page'])) {
 	kses_init_filters();  // Always filter imported data with kses.
 
 	call_user_func($wp_importers[$importer][2]);
-			
+
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	exit();

@@ -93,7 +93,7 @@ require_once('../../../wp-config.php');
 			c = d('content'+i.toString());
 			t = d('tab'+i.toString());
 			if ( n == i ) {
-				c.className = '';	
+				c.className = '';
 				t.className = 'current';
 			} else {
 				c.className = 'hidden';

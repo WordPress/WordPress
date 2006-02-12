@@ -18,7 +18,7 @@ class LJ_Import {
 		$trans_tbl = array_flip($trans_tbl);
 		return strtr($string, $trans_tbl);
 	}
-	
+
 	function greet() {
 		echo '<p>'.__('Howdy! This importer allows you to extract posts from LiveJournal XML export file into your blog.  Pick a LiveJournal file to upload and click Import.').'</p>';
 		wp_import_upload_form("admin.php?import=livejournal&amp;step=1");
@@ -26,7 +26,7 @@ class LJ_Import {
 
 	function import_posts() {
 		global $wpdb, $current_user;
-		
+
 		set_magic_quotes_runtime(0);
 		$importdata = file($this->file); // Read the file into an array
 		$importdata = implode('', $importdata); // squish it
@@ -35,7 +35,7 @@ class LJ_Import {
 		preg_match_all('|<entry>(.*?)</entry>|is', $importdata, $posts);
 		$posts = $posts[1];
 		unset($importdata);
-		echo '<ol>';		
+		echo '<ol>';
 		foreach ($posts as $post) {
 			flush();
 			preg_match('|<subject>(.*?)</subject>|is', $post, $post_title);
@@ -78,7 +78,7 @@ class LJ_Import {
 
 			preg_match_all('|<comment>(.*?)</comment>|is', $post, $comments);
 			$comments = $comments[1];
-			
+
 			if ( $comments ) {
 				$comment_post_ID = $post_id;
 				$num_comments = 0;
@@ -134,7 +134,7 @@ class LJ_Import {
 		$this->file = $file['file'];
 		$this->import_posts();
 		wp_import_cleanup($file['id']);
-		
+
 		echo '<h3>';
 		printf(__('All done. <a href="%s">Have fun!</a>'), get_option('home'));
 		echo '</h3>';
@@ -147,7 +147,7 @@ class LJ_Import {
 			$step = (int) $_GET['step'];
 
 		$this->header();
-		
+
 		switch ($step) {
 			case 0 :
 				$this->greet();
@@ -156,12 +156,12 @@ class LJ_Import {
 				$this->import();
 				break;
 		}
-		
+
 		$this->footer();
 	}
 
 	function LJ_Import() {
-		// Nothing.	
+		// Nothing.
 	}
 }
 

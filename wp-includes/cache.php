@@ -103,12 +103,12 @@ class WP_Object_Cache {
 
 		if ( ! $this->acquire_lock() )
 			return false;
-		
+
 		$this->rm_cache_dir();
 		$this->cache = array ();
 		$this->dirty_objects = array ();
 		$this->non_existant_objects = array ();
-		
+
 		$this->release_lock();
 
 		return true;
@@ -248,7 +248,7 @@ class WP_Object_Cache {
 			while (($file = @ readdir($dh)) !== false) {
 				if ($file == '.' or $file == '..')
 					continue;
-					
+
 				if (@ is_dir($dir . DIRECTORY_SEPARATOR . $file))
 					$stack[] = $dir . DIRECTORY_SEPARATOR . $file;
 				else if (@ is_file($dir . DIRECTORY_SEPARATOR . $file))
@@ -354,7 +354,7 @@ class WP_Object_Cache {
 					if (@ copy($temp_file, $cache_file))
 						@ unlink($temp_file);
 					else
-						$errors++;	
+						$errors++;
 				}
 				@ chmod($cache_file, $file_perms);
 			}
@@ -363,7 +363,7 @@ class WP_Object_Cache {
 		$this->dirty_objects = array();
 
 		$this->release_lock();
-		
+
 		if ( $errors )
 			return false;
 

@@ -22,7 +22,7 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 		return false;
 	}
 	$i = mktime(substr($m,11,2),substr($m,14,2),substr($m,17,2),substr($m,5,2),substr($m,8,2),substr($m,0,4));
-	
+
 	if ( -1 == $i || false == $i )
 		$i = 0;
 
@@ -304,7 +304,7 @@ function get_option($option) {
 
 function get_user_option( $option, $user = 0 ) {
 	global $wpdb, $current_user;
-	
+
 	if ( empty($user) )
 		$user = $current_user;
 	else
@@ -657,7 +657,7 @@ function set_page_path($page) {
 		$curpage = get_page($curpage->post_parent);
 		$path = '/' . $curpage->post_name . $path;
 	}
-	
+
 	$page->fullpath = $path;
 
 	return $page;
@@ -726,7 +726,7 @@ function &get_page(&$page, $output = OBJECT) {
 			wp_cache_add($_page->ID, $_page, 'pages');
 		}
 	}
-	
+
 	if (!isset($_page->fullpath)) {
 		$_page = set_page_path($_page);
 		wp_cache_replace($_page->ID, $_page, 'pages');
@@ -751,7 +751,7 @@ function set_category_path($cat) {
 		$curcat = get_category($curcat->category_parent);
 		$path = '/' . $curcat->category_nicename . $path;
 	}
-	
+
 	$cat->fullpath = $path;
 
 	return $cat;
@@ -777,7 +777,7 @@ function &get_category(&$category, $output = OBJECT) {
 
 	if ( !isset($_category->fullpath) ) {
 		$_category = set_category_path($_category);
-		wp_cache_replace($_category->cat_ID, $_category, 'category');	
+		wp_cache_replace($_category->cat_ID, $_category, 'category');
 	}
 
 	if ( $output == OBJECT ) {
@@ -830,23 +830,23 @@ function get_catname($cat_ID) {
 
 function get_all_category_ids() {
 	global $wpdb;
-	
+
 	if ( ! $cat_ids = wp_cache_get('all_category_ids', 'category') ) {
 		$cat_ids = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
 		wp_cache_add('all_category_ids', $cat_ids, 'category');
 	}
-	
+
 	return $cat_ids;
 }
 
 function get_all_page_ids() {
 	global $wpdb;
-	
+
 	if ( ! $page_ids = wp_cache_get('all_page_ids', 'pages') ) {
 		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'page'");
 		wp_cache_add('all_page_ids', $page_ids, 'pages');
 	}
-	
+
 	return $page_ids;
 }
 
@@ -1416,7 +1416,7 @@ function update_post_category_cache($post_ids) {
 
 	if ( empty($dogs) )
 		return;
-		
+
 	foreach ($dogs as $catt)
 		$category_cache[$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
 }
@@ -1523,7 +1523,7 @@ function is_attachment () {
 
 function is_preview() {
 	global $wp_query;
-	
+
 	return $wp_query->is_preview;
 }
 
@@ -2175,7 +2175,7 @@ function wp_remote_fopen( $uri ) {
 
 function wp($query_vars = '') {
 	global $wp;
-	
+
 	$wp->main($query_vars);
 }
 
@@ -2245,7 +2245,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	if ( is_array($meta_value) || is_object($meta_value) )
 		$meta_value = serialize($meta_value);
 	$meta_value = trim( $meta_value );
-	
+
 	if (empty($meta_value)) {
 		delete_usermeta($user_id, $meta_key);
 	}
@@ -2258,13 +2258,13 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	} else if ( $cur->meta_value != $meta_value ) {
 		$wpdb->query("UPDATE $wpdb->usermeta SET meta_value = '$meta_value' WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
 	} else {
-		return false;	
+		return false;
 	}
-	
+
 	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
-	
+
 	return true;
 }
 
@@ -2282,11 +2282,11 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
 		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key' AND meta_value = '$meta_value'");
 	else
 		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-		
+
 	$user = get_userdata($user_id);
 	wp_cache_delete($user_id, 'users');
 	wp_cache_delete($user->user_login, 'userlogins');
-	
+
 	return true;
 }
 

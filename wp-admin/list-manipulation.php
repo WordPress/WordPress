@@ -54,7 +54,7 @@ case 'delete-comment' :
 
 	if ( !$comment = get_comment($id) )
 		die('0');
-	if ( !current_user_can('edit_post', $comment->comment_post_ID) )	
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
 		die('-1');
 
 	if ( wp_delete_comment($comment->comment_ID) ) {
@@ -77,5 +77,5 @@ case 'delete-link-category' :
 		die('0');
 	}
 	break;
-endswitch;		
+endswitch;
 ?>

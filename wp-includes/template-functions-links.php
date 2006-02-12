@@ -271,7 +271,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 		return null;
 
 	$current_post_date = $post->post_date;
-	
+
 	$join = '';
 	if ( $in_same_cat ) {
 		$join = " INNER JOIN $wpdb->post2cat ON $wpdb->posts.ID= $wpdb->post2cat.post_id ";
@@ -437,7 +437,7 @@ function get_pagenum_link($pagenum = 1) {
 	if ( $permalink )
 		$qstr = trailingslashit($qstr);
 	$qstr = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
-	
+
 	// showing /page/1/ or ?paged=1 is redundant
 	if ( 1 === $pagenum ) {
 		$qstr = str_replace('page/1/', '', $qstr); // for mod_rewrite style

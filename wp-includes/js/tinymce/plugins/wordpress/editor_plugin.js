@@ -87,13 +87,13 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 				// Is selection a image
 				if (focusElm != null && focusElm.nodeName.toLowerCase() == "img") {
 					flag = getAttrib(focusElm, 'class');
-	
+
 					if (flag != 'mce_plugin_wordpress_more') // Not a wordpress
 						return true;
-	
+
 					action = "update";
 				}
-	
+
 				html = ''
 					+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
 					+ ' width="100%" height="10px" '
@@ -105,17 +105,17 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 				var flag = "";
 				var template = new Array();
 				var altPage = tinyMCE.getLang('lang_wordpress_more_alt');
-	
+
 				// Is selection a image
 				if (focusElm != null && focusElm.nodeName.toLowerCase() == "img") {
 					flag = getAttrib(focusElm, 'name');
-	
+
 					if (flag != 'mce_plugin_wordpress_page') // Not a wordpress
 						return true;
-	
+
 					action = "update";
 				}
-	
+
 				html = ''
 					+ '<img src="' + (tinyMCE.getParam("theme_href") + "/images/spacer.gif") + '" '
 					+ ' width="100%" height="10px" '
@@ -131,7 +131,7 @@ function TinyMCE_wordpress_execCommand(editor_id, element, command, user_interfa
 
 function TinyMCE_wordpress_cleanup(type, content) {
 	switch (type) {
-	
+
 		case "insert_to_editor":
 			var startPos = 0;
 			var altMore = tinyMCE.getLang('lang_wordpress_more_alt');
@@ -178,9 +178,9 @@ function TinyMCE_wordpress_cleanup(type, content) {
 
 				if (attribs['class'] == "mce_plugin_wordpress_more") {
 					endPos += 2;
-	
+
 					var embedHTML = '<!--more-->';
-	
+
 					// Insert embed/object chunk
 					chunkBefore = content.substring(0, startPos);
 					chunkAfter = content.substring(endPos);
@@ -188,9 +188,9 @@ function TinyMCE_wordpress_cleanup(type, content) {
 				}
 				if (attribs['class'] == "mce_plugin_wordpress_page") {
 					endPos += 2;
-	
+
 					var embedHTML = '<!--nextpage-->';
-	
+
 					// Insert embed/object chunk
 					chunkBefore = content.substring(0, startPos);
 					chunkAfter = content.substring(endPos);
@@ -221,7 +221,7 @@ function TinyMCE_wordpress_cleanup(type, content) {
 			content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'mg'), '<br />\n');
 			content = content.replace(new RegExp('^\\s*', ''), '');
 			content = content.replace(new RegExp('\\s*$', ''), '');
-			
+
 			break;
 	}
 

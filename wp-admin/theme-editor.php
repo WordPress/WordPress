@@ -66,16 +66,16 @@ case 'update':
 break;
 
 default:
-	
+
 	require_once('admin-header.php');
 	if ( !current_user_can('edit_themes') )
 	die('<p>'.__('You have do not have sufficient permissions to edit themes for this blog.').'</p>');
 
 	update_recently_edited($file);
-	
+
 	if (!is_file($real_file))
 		$error = 1;
-	
+
 	if (!$error && filesize($real_file) > 0) {
 		$f = fopen($real_file, 'r');
 		$content = fread($f, filesize($real_file));

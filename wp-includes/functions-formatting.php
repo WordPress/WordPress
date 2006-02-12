@@ -32,7 +32,7 @@ function wptexturize($text) {
 			$curl = preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
 			$curl = preg_replace("/ \(tm\)/i", ' &#8482;', $curl);
 			$curl = str_replace("''", '&#8221;', $curl);
-			
+
 			$curl = preg_replace('/(\d+)x(\d+)/', "$1&#215;$2", $curl);
 
 		} elseif (strstr($curl, '<code') || strstr($curl, '<pre') || strstr($curl, '<kbd' || strstr($curl, '<style') || strstr($curl, '<script'))) {
@@ -74,7 +74,7 @@ function wpautop($pee, $br = 1) {
 	$pee = preg_replace('!(</?(?:table|thead|tfoot|caption|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)!', '$1', $pee);
 	$pee = preg_replace('!(<pre.*?>)(.*?)</pre>!ise', " stripslashes('$1') .  stripslashes(clean_pre('$2'))  . '</pre>' ", $pee);
-	
+
 	return $pee; 
 }
 
@@ -239,7 +239,7 @@ function remove_accents($string) {
 		chr(197).chr(190) => 'z', chr(197).chr(191) => 's',
 		// Euro Sign
 		chr(226).chr(130).chr(172) => 'E');
-		
+
 		$string = strtr($string, $chars);
 	} else {
 		// Assume ISO-8859-1 if not UTF-8
@@ -374,10 +374,10 @@ function convert_chars($content, $flag = 'obsolete') {
 function funky_javascript_fix($text) {
 	// Fixes for browsers' javascript bugs
 	global $is_macIE, $is_winIE;
-	
+
 	if ( $is_winIE || $is_macIE )
 		$text =  preg_replace("/\%u([0-9A-F]{4,4})/e",  "'&#'.base_convert('\\1',16,10).';'", $text);
-	
+
 	return $text;
 }
 
@@ -401,7 +401,7 @@ function funky_javascript_fix($text) {
              1.0  First Version
 */
 function balanceTags($text, $is_comment = 0) {
-	
+
 	if ( get_option('use_balanceTags') == 0)
 		return $text;
 

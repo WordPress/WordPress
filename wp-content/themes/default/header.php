@@ -16,8 +16,8 @@
 /*	To accomodate differing install paths of WordPress, images are referred only here,
 	and not in the wp-layout.css file. If you prefer to use only CSS for colors and what
 	not, then go right ahead and delete the following lines, and the image files. */
-		
-	body { background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickbgcolor.jpg"); }	
+
+	body { background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickbgcolor.jpg"); }
 <?php /* Checks to see whether it needs a sidebar or not */ if ((! $withcomments) && (! is_single())) { ?>
 	#page { background: url("<?php bloginfo('stylesheet_directory'); ?>/images/kubrickbg.jpg") repeat-y top; border: none; }
 <?php } else { // No sidebar ?>
@@ -28,7 +28,7 @@
 
 /*	Because the template is slightly different, size-wise, with images, this needs to be set here
 	If you don't want to use the template's images, you can also delete the following two lines. */
-		
+
 	#header 	{ margin: 0 !important; margin: 0 0 0 1px; padding: 1px; height: 198px; width: 758px; }
 	#headerimg 	{ margin: 7px 9px 0; height: 192px; width: 740px; } 
 

@@ -41,7 +41,7 @@ function wp_new_comment( $commentdata ) {
 
 	$commentdata['comment_date']     = current_time('mysql');
 	$commentdata['comment_date_gmt'] = current_time('mysql', 1);
-	
+
 
 	$commentdata = wp_filter_comment($commentdata);
 
@@ -230,7 +230,7 @@ function get_comments_number( $post_id = 0 ) {
 
 	if ( !isset($comment_count_cache[$post_id]) )
 		$comment_count_cache[$id] = $wpdb->get_var("SELECT comment_count FROM $wpdb->posts WHERE ID = '$post_id'");
-	
+
 	return apply_filters('get_comments_number', $comment_count_cache[$post_id]);
 }
 
@@ -277,13 +277,13 @@ function comments_popup_script($width=400, $height=400, $file='') {
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb;
 	global $comment_count_cache;
-	
+
 	if (! is_single() && ! is_page()) {
 	if ( !isset($comment_count_cache[$id]) )
 		$comment_count_cache[$id] = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved = '1';");
-	
+
 	$number = $comment_count_cache[$id];
-	
+
 	if (0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status) {
 		echo $none;
 		return;
@@ -344,7 +344,7 @@ function comment_author() {
 
 function get_comment_author_email() {
 	global $comment;
-	return apply_filters('get_comment_author_email', $comment->comment_author_email);	
+	return apply_filters('get_comment_author_email', $comment->comment_author_email);
 }
 
 function comment_author_email() {
@@ -616,7 +616,7 @@ function pingback($content, $post_ID) {
 	// Debug
 	debug_fwrite($log, 'Post contents:');
 	debug_fwrite($log, $content."\n");
-	
+
 	// Step 2.
 	// Walking thru the links array
 	// first we get rid of links pointing to sites, not to specific files
@@ -658,7 +658,7 @@ function pingback($content, $post_ID) {
 
 			// when set to true, this outputs debug messages by itself
 			$client->debug = false;
-			
+
 			if ( $client->query('pingback.ping', $pagelinkedfrom, $pagelinkedto ) )
 				add_ping( $post_ID, $pagelinkedto );
 			else
@@ -769,7 +769,7 @@ function is_local_attachment($url) {
 		$post = & get_post($id);
 		if ( 'attachment' == $post->post_status )
 			return true;
-	}		
+	}
 	return false;
 }
 
@@ -795,7 +795,7 @@ function wp_set_comment_status($comment_id, $comment_status) {
     
     if ($wpdb->query($query)) {
 		do_action('wp_set_comment_status', $comment_id, $comment_status);
-		
+
 		$comment = get_comment($comment_id);
 		$comment_post_ID = $comment->comment_post_ID;
 		$c = $wpdb->get_row( "SELECT count(*) as c FROM {$wpdb->comments} WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'" );
@@ -809,7 +809,7 @@ function wp_set_comment_status($comment_id, $comment_status) {
 
 function wp_get_comment_status($comment_id) {
 	global $wpdb;
-	
+
 	$result = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
 	if ($result == NULL) {
 		return 'deleted';
@@ -845,7 +845,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 			// Do some escaping magic so that '#' chars in the 
 			// spam words don't break things:
 			$word = preg_quote($word, '#');
-		
+
 			$pattern = "#$word#i"; 
 			if ( preg_match($pattern, $author) ) return false;
 			if ( preg_match($pattern, $email) ) return false;

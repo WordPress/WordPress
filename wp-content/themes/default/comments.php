@@ -5,9 +5,9 @@
         if (!empty($post->post_password)) { // if there's a password
             if ($_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
 				?>
-				
+
 				<p class="nocomments">This post is password protected. Enter the password to view comments.<p>
-				
+
 				<?php
 				return;
             }
@@ -39,7 +39,7 @@
 
 		</li>
 
-	<?php /* Changes every other comment to a different class */	
+	<?php /* Changes every other comment to a different class */
 		if ('alt' == $oddcomment) $oddcomment = '';
 		else $oddcomment = 'alt';
 	?>
@@ -52,11 +52,11 @@
 
   <?php if ('open' == $post->comment_status) : ?> 
 		<!-- If comments are open, but there are no comments. -->
-		
+
 	 <?php else : // comments are closed ?>
 		<!-- If comments are closed. -->
 		<p class="nocomments">Comments are closed.</p>
-		
+
 	<?php endif; ?>
 <?php endif; ?>
 

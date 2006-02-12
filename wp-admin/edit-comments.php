@@ -88,9 +88,9 @@ if ('view' == $mode) {
 			if ($i % 2)
 				$class .= ' alternate';
 			echo "<li id='comment-$comment->comment_ID' class='$class'>";
-?>		
+?>
         <p><strong><?php _e('Name:') ?></strong> <?php comment_author() ?> <?php if ($comment->comment_author_email) { ?>| <strong><?php _e('E-mail:') ?></strong> <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url ) { ?> | <strong><?php _e('URI:') ?></strong> <?php comment_author_url_link() ?> <?php } ?>| <strong><?php _e('IP:') ?></strong> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
-		
+
 		<?php comment_text() ?>
 
         <p><?php _e('Posted'); echo ' '; comment_date('M j, g:i A');  
@@ -118,7 +118,7 @@ if ('view' == $mode) {
 		?>
 		<p>
         <strong><?php _e('No comments found.') ?></strong></p>
-		
+
 		<?php
 	} // end if ($comments)
 } elseif ('edit' == $mode) {

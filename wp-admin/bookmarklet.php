@@ -25,16 +25,16 @@ $post = get_default_post_to_edit();
 
 $popuptitle = wp_specialchars(stripslashes($popuptitle));
 $text       = wp_specialchars(stripslashes(urldecode($text)));
-	
+
 $popuptitle = funky_javascript_fix($popuptitle);
 $text       = funky_javascript_fix($text);
-	
+
 $post_title = wp_specialchars($_REQUEST['post_title']);
 if (!empty($post_title))
 	$post->post_title =  stripslashes($post_title);
 else
 	$post->post_title = $popuptitle;
-	
+
   
 $content  = wp_specialchars($_REQUEST['content']);
 $popupurl = wp_specialchars($_REQUEST['popupurl']);

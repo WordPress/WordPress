@@ -93,15 +93,15 @@ if ( count($arc_result) ) { ?>
 	<legend><?php _e('Browse Month&hellip;') ?></legend>
     <select name='m'>
 	<?php
-		foreach ($arc_result as $arc_row) {			
+		foreach ($arc_result as $arc_row) {
 			$arc_year  = $arc_row->yyear;
 			$arc_month = $arc_row->mmonth;
-			
+
 			if( isset($_GET['m']) && $arc_year . zeroise($arc_month, 2) == (int) $_GET['m'] )
 				$default = 'selected="selected"';
 			else
 				$default = null;
-			
+
 			echo "<option $default value=\"" . $arc_year.zeroise($arc_month, 2) . '">';
 			echo $month[zeroise($arc_month, 2)] . " $arc_year";
 			echo "</option>\n";
@@ -157,7 +157,7 @@ $class = ('alternate' == $class) ? '' : 'alternate';
 foreach($posts_columns as $column_name=>$column_display_name) {
 
 	switch($column_name) {
-	
+
 	case 'id':
 		?>
 		<th scope="row"><?php echo $id ?></th>

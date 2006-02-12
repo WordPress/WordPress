@@ -139,7 +139,7 @@ function AnchorPosition_getPageOffsetLeft (el) {
 	}
 function AnchorPosition_getWindowOffsetLeft (el) {
 	return AnchorPosition_getPageOffsetLeft(el)-document.body.scrollLeft;
-	}	
+	}
 function AnchorPosition_getPageOffsetTop (el) {
 	var ot=el.offsetTop;
 	while((el=el.offsetParent) != null) { ot += el.offsetTop; }
@@ -434,7 +434,7 @@ function PopupWindow() {
 	this.populated = false;
 	this.visible = false;
 	this.autoHideEnabled = false;
-	
+
 	this.contents = "";
 	this.url="";
 	this.windowProperties="toolbar=no,location=no,status=no,menubar=no,scrollbars=auto,resizable,alwaysRaised,dependent,titlebar=no";
@@ -556,7 +556,7 @@ function ColorPicker_select(inputobj,linkname) {
 	window.ColorPicker_targetInput = inputobj;
 	this.show(linkname);
 	}
-	
+
 // This function runs when you move your mouse over a color block, if you have a newer browser
 function ColorPicker_highlightColor(c) {
 	var thedoc = (arguments.length>1)?arguments[1]:window.document;
@@ -579,7 +579,7 @@ function ColorPicker() {
 	else {
 		var divname = arguments[0];
 		}
-	
+
 	if (divname != "") {
 		var cp = new PopupWindow(divname);
 		}
@@ -590,7 +590,7 @@ function ColorPicker() {
 
 	// Object variables
 	cp.currentValue = "#FFFFFF";
-	
+
 	// Method Mappings
 	cp.writeDiv = ColorPicker_writeDiv;
 	cp.highlightColor = ColorPicker_highlightColor;

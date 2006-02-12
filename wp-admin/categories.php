@@ -27,7 +27,7 @@ case 'addcat':
 
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
-	
+
 	wp_insert_category($_POST);
 
 	header('Location: categories.php?message=1#addcat');
@@ -96,7 +96,7 @@ break;
 case 'editedcat':
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
-	
+
 	wp_update_category($_POST);
 
 	header('Location: categories.php?message=3');

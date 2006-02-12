@@ -57,7 +57,7 @@ function kubrick_header_color_string() {
 	$color = kubrick_header_color();
 	if ( false === $color )
 		return 'white';
-		
+
 	return $color;
 }
 
@@ -100,21 +100,21 @@ function kubrick_add_theme_page() {
 					}
 				}
 			} else {
-	
+
 				if ( isset($_REQUEST['headerimage']) ) {
 					if ( '' == $_REQUEST['headerimage'] )
 						delete_option('kubrick_header_image');
 					else
 						update_option('kubrick_header_image', $_REQUEST['headerimage']);
 				}
-	
+
 				if ( isset($_REQUEST['fontcolor']) ) {
 					if ( '' == $_REQUEST['fontcolor'] )
 						delete_option('kubrick_header_color');
 					else
 						update_option('kubrick_header_color', $_REQUEST['fontcolor']);
 				}
-	
+
 				if ( isset($_REQUEST['fontdisplay']) ) {
 					if ( '' == $_REQUEST['fontdisplay'] || 'inline' == $_REQUEST['fontdisplay'] )
 						delete_option('kubrick_header_display');
@@ -268,7 +268,7 @@ function kubrick_theme_page_head() {
 		font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 		font-size: 1.2em;
 		text-align: center;
-	}	
+	}
 	#kubrick-header #header {
 		text-decoration: none;
 		color: <?php echo kubrick_header_color_string(); ?>;
