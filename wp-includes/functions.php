@@ -2357,11 +2357,10 @@ function spawn_cron() {
 }
 
 function wp_cron() {
-	if (array_shift(array_keys(get_option('cron'))) > time())
+	$crons = get_option('cron');
+	if (!is_array($crons) || array_shift(array_keys($crons)) > time())
 		return;
 
-	$crons = get_option('cron');
-	$newcrons = $crons;
 	foreach ($crons as $timestamp => $cronhooks) {
 		if ($timestamp > time()) break;
 		foreach($cronhooks as $hook => $args) {
