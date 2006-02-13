@@ -22,4 +22,6 @@ if ( is_array($trackbacks) ) {
 	}
 }
 
+generic_ping();
+
 ?>
