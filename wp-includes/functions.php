@@ -665,8 +665,9 @@ function set_page_path($page) {
 
 function get_page_by_path($page_path) {
 	global $wpdb;
-
-	$page_path = str_replace('%2F', '/', urlencode(urldecode($page_path)));
+	$page_path = rawurlencode(urldecode($page_path));
+	$page_path = str_replace('%2F', '/', $page_path);
+	$page_path = str_replace('%20', ' ', $page_path);
 	$page_paths = '/' . trim($page_path, '/');
 	$leaf_path  = sanitize_title(basename($page_paths));
 	$page_paths = explode('/', $page_paths);
