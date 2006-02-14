@@ -355,6 +355,12 @@ function upgrade_210() {
 	if ( $wp_current_db_version < 3513 ) {
 		populate_roles_210();
 	}
+
+	if ( $wp_current_db_version < 3531 ) {
+		// Give future posts a post_status of future.
+		$now = gmdate('Y-m-d H:i:59');
+		$posts = $wpdb->query ("UPDATE $wpdb->posts SET post_status = 'future' WHERE post_status = 'publish' and post_date_gmt < '$now'");
+	}
 }
 
 // The functions we use to actually do stuff
