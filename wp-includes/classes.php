@@ -1308,7 +1308,7 @@ class WP_Rewrite {
 		$root_rewrite = apply_filters('root_rewrite_rules', $root_rewrite);
 
 		// Comments
-		$comments_rewrite = $this->generate_rewrite_rules($this->root . $this->comments_base, true, true, true);
+		$comments_rewrite = $this->generate_rewrite_rules($this->root . $this->comments_base, true, true, true, false);
 		$comments_rewrite = apply_filters('comments_rewrite_rules', $comments_rewrite);
 
 		// Search
