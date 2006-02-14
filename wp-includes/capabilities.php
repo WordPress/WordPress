@@ -257,6 +257,10 @@ function map_meta_cap($cap, $user_id) {
 		$author_data = get_userdata($user_id);
 		//echo "post ID: {$args[0]}<br/>";
 		$post = get_post($args[0]);
+		if ( 'page' == $post->post_type ) {
+			$args = array_merge(array('delete_page', $user_id), $args);
+			return call_user_func_array('map_meta_cap', $args);	
+		}
 		$post_author_data = get_userdata($post->post_author);
 		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br/>";
 		// If the user is the author...
@@ -303,6 +307,10 @@ function map_meta_cap($cap, $user_id) {
 		$author_data = get_userdata($user_id);
 		//echo "post ID: {$args[0]}<br/>";
 		$post = get_post($args[0]);
+		if ( 'page' == $post->post_type ) {
+			$args = array_merge(array('edit_page', $user_id), $args);
+			return call_user_func_array('map_meta_cap', $args);	
+		}
 		$post_author_data = get_userdata($post->post_author);
 		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br/>";
 		// If the user is the author...
@@ -345,6 +353,10 @@ function map_meta_cap($cap, $user_id) {
 		break;
 	case 'read_post':
 		$post = get_post($args[0]);
+		if ( 'page' == $post->post_type ) {
+			$args = array_merge(array('read_page', $user_id), $args);
+			return call_user_func_array('map_meta_cap', $args);	
+		}
 
 		if ( 'private' != $post->post_status ) {
 			$caps[] = 'read';
@@ -357,6 +369,21 @@ function map_meta_cap($cap, $user_id) {
 			$caps[] = 'read';
 		else
 			$caps[] = 'read_private_posts';
+		break;
+	case 'read_page':
+		$page = get_page($args[0]);
+
+		if ( 'private' != $page->post_status ) {
+			$caps[] = 'read';
+			break;
+		}
+
+		$author_data = get_userdata($user_id);
+		$page_author_data = get_userdata($post->post_author);
+		if ($user_id == $page_author_data->ID)
+			$caps[] = 'read';
+		else
+			$caps[] = 'read_private_pages';
 		break;
 	default:
 		// If no meta caps match, return the original cap.
