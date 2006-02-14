@@ -587,7 +587,7 @@ class WP_Query {
 		} elseif ($this->is_single) {
 			$where .= ' AND (post_type = "post")';
 		} else {
-			$where .= ' AND (post_type = "post" AND post_status = "publish"';
+			$where .= ' AND (post_type = "post" AND (post_status = "publish"';
 
 			if ( $pagenow == 'post.php' || $pagenow == 'edit.php' )
 				$where .= " OR post_status = 'future'";
@@ -595,9 +595,9 @@ class WP_Query {
 				$distinct = 'DISTINCT';
 	
 			if ( is_user_logged_in() )
-				$where .= " OR post_author = $user_ID AND post_status = 'private')";
+				$where .= " OR post_author = $user_ID AND post_status = 'private'))";
 			else
-				$where .= ')';
+				$where .= '))';
 		}
 
 		// Apply filters on where and join prior to paging so that any

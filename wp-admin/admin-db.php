@@ -3,7 +3,7 @@
 function get_users_drafts( $user_id ) {
 	global $wpdb;
 	$user_id = (int) $user_id;
-	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author = $user_id ORDER BY ID DESC";
+	$query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = $user_id ORDER BY ID DESC";
 	$query = apply_filters('get_users_drafts', $query);
 	return $wpdb->get_results( $query );
 }
@@ -19,7 +19,7 @@ function get_others_drafts( $user_id ) {
 		$other_drafts = '';
 	} else {
 		$editable = join(',', $editable);
-		$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'draft' AND post_author IN ($editable) AND post_author != '$user_id' ");
+		$other_drafts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author IN ($editable) AND post_author != '$user_id' ");
 	}
 
 	return apply_filters('get_others_drafts', $other_drafts);

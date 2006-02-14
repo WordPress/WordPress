@@ -84,7 +84,7 @@ if ( is_month() ) {
   </fieldset>
 </form>
 
-<?php $arc_result = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_date != '0000-00-00 00:00:00' ORDER BY post_date DESC");
+<?php $arc_result = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS yyear, MONTH(post_date) AS mmonth FROM $wpdb->posts WHERE post_type = 'post' ORDER BY post_date DESC");
 
 if ( count($arc_result) ) { ?>
 
