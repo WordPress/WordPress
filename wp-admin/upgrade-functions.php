@@ -359,7 +359,12 @@ function upgrade_210() {
 	if ( $wp_current_db_version < 3531 ) {
 		// Give future posts a post_status of future.
 		$now = gmdate('Y-m-d H:i:59');
-		$posts = $wpdb->query ("UPDATE $wpdb->posts SET post_status = 'future' WHERE post_status = 'publish' AND post_date_gmt > '$now'");
+		$wpdb->query ("UPDATE $wpdb->posts SET post_status = 'future' WHERE post_status = 'publish' AND post_date_gmt > '$now'");
+		
+		$posts = $wpdb->get_results("SELECT ID, post_date FROM $wpdb->posts WHERE post_status ='future'");
+		if ( !empty($posts) )
+			foreach ( $posts as $post )
+				wp_schedule_event(mysql2date('U', $post->post_date), 'once', 'publish_future_post', $post->ID);
 	}
 }
 
