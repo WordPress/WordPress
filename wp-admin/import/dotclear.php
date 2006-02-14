@@ -1,4 +1,9 @@
 <?php
+/*
+ * Dotclear import plugin
+ * by Thomas Quinot - http://thomas.quinot.org/
+ */
+
 /**
 	Add These Functions to make our lives easier
 **/
@@ -201,9 +206,9 @@ class Dotclear_Import {
 		//General Housekeeping
 		$dcdb = new wpdb(get_option('dcuser'), get_option('dcpass'), get_option('dcname'), get_option('dchost'));
 		set_magic_quotes_runtime(0);
-		$prefix = get_option('tpre');
+		$dbprefix = get_option('dbprefix');
 
-		return $dcdb->get_results('SELECT * FROM dc_link ORDER BY position', ARRAY_A);
+		return $dcdb->get_results('SELECT * FROM '.$dbprefix.'link ORDER BY position', ARRAY_A);
 	}
 
 	function cat2wp($categories='') 
@@ -349,6 +354,7 @@ class Dotclear_Import {
 
 				$Title = $wpdb->escape(csc ($post_titre));
 				$post_content = textconv ($post_content);
+				$post_excerpt = "";
 				if ($post_chapo != "") {
 					$post_excerpt = textconv ($post_chapo);
 					$post_content = $post_excerpt ."\n<!--more-->\n".$post_content;
@@ -603,7 +609,7 @@ class Dotclear_Import {
 
 	function cleanup_dcimport()
 	{
-		delete_option('tpre');
+		delete_option('dbprefix');
 		delete_option('dc_cats');
 		delete_option('dcid2wpid');
 		delete_option('dccat2wpcat');
@@ -644,7 +650,7 @@ class Dotclear_Import {
 		printf('<li><label for="dbpass">%s</label> <input type="password" name="dbpass" /></li>', __('Dotclear Database Password:'));
 		printf('<li><label for="dbname">%s</label> <input type="text" name="dbname" /></li>', __('Dotclear Database Name:'));
 		printf('<li><label for="dbhost">%s</label> <input type="text" name="dbhost" value="localhost" /></li>', __('Dotclear Database Host:'));
-		/* printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" /></li>', __('Dotclear Table prefix (if any):')); */
+		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" value="dc_"/></li>', __('Dotclear Table prefix:'));
 		printf('<li><label for="dccharset">%s</label> <input type="text" name="dccharset" value="ISO-8859-15"/></li>', __('Originating character set:'));
 		echo '</ul>';
 	}
