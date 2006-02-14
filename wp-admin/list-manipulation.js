@@ -32,7 +32,7 @@ function ajaxDelete(what, id) {
 	ajaxDel.onLoading = function() { ajaxDel.myResponseElement.innerHTML = 'Sending Data...'; };
 	ajaxDel.onLoaded = function() { ajaxDel.myResponseElement.innerHTML = 'Data Sent...'; };
 	ajaxDel.onInteractive = function() { ajaxDel.myResponseElement.innerHTML = 'Processing Data...'; };
-	ajaxDel.onCompletion = function() { removeThisItem( what + '-' + id ); };
+	ajaxDel.onCompletion = function() { removeThisItem( what.replace('-as-spam', '') + '-' + id ); };
 	ajaxDel.runAJAX('action=delete-' + what + '&id=' + id);
 	return false;
 }

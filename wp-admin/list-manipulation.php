@@ -63,6 +63,20 @@ case 'delete-comment' :
 		die('0');
 	}
 	break;
+case 'delete-comment-as-spam' :
+	$id = (int) $_POST['id'];
+
+	if ( !$comment = get_comment($id) )
+		die('0');
+	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
+		die('-1');
+
+	if ( wp_set_comment_status($comment->comment_ID, 'spam') ) {
+		die('1');
+	} else {
+		die('0');
+	}
+	break;
 case 'delete-link-category' :
 	$id = (int) $_POST['id'];
 	if ( 1 == $id )

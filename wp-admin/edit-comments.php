@@ -43,13 +43,21 @@ if ( !empty( $_POST['delete_comments'] ) ) :
 	foreach ($_POST['delete_comments'] as $comment) : // Check the permissions on each
 		$comment = (int) $comment;
 		$post_id = $wpdb->get_var("SELECT comment_post_ID FROM $wpdb->comments WHERE comment_ID = $comment");
-		$authordata = get_userdata( $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id") );
-		if ( current_user_can('edit_post', $post_id) ) :
-			wp_set_comment_status($comment, "delete");
+		// $authordata = get_userdata( $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $post_id") );
+		if ( current_user_can('edit_post', $post_id) ) {
+			if ( !empty( $_POST['spam_button'] ) )
+				wp_set_comment_status($comment, 'spam');
+			else
+				wp_set_comment_status($comment, 'delete');
 			++$i;
-		endif;
+		}
 	endforeach;
-	echo "<div class='wrap'><p>" . sprintf(__('%s comments deleted.'), $i) . "</p></div>";
+	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';
+	if ( !empty( $_POST['spam_button'] ) )
+		printf(__('%s comments marked as spam.'), $i);
+	else
+		printf(__('%s comments deleted.'), $i);
+	echo '</p></div>';
 endif;
 
 if (isset($_GET['s'])) {
@@ -96,13 +104,14 @@ if ('view' == $mode) {
         <p><?php _e('Posted'); echo ' '; comment_date('M j, g:i A');  
 			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 				echo " | <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit Comment') . "</a>";
-				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Delete Comment') . "</a> &#8212; ";
+				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Delete Comment') . "</a> ";
+				echo " | <a href=\"post.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Mark Comment as Spam') . "</a> ";
 			} // end if any comments to show
 			// Get post title
 			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 				$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $comment->comment_post_ID");
 				$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
-				?> <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), stripslashes($post_title)); ?></a>
+				?> | <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), stripslashes($post_title)); ?></a>
 				<?php } ?>
 			 | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a></p>
 		</li>
@@ -154,7 +163,8 @@ if ('view' == $mode) {
 		} // end foreach
 	?></table>
     <p><a href="javascript:;" onclick="checkAll(document.getElementById('deletecomments')); return false; "><?php _e('Invert Checkbox Selection') ?></a></p>
-            <p class="submit"><input type="submit" name="Submit" value="<?php _e('Delete Checked Comments') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" />	</p>
+            <p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" />
+			<input type="submit" name="spam_button" value="<?php _e('Mark Checked Comments as Spam') ?> &raquo;" onclick="return confirm('<?php _e("You are about to mark these comments as spam \\n  \'Cancel\' to stop, \'OK\' to mark as spam.") ?>')" /></p>
   </form>
 <?php
 	} else {

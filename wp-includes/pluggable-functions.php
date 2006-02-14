@@ -332,6 +332,7 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 	}
 	$notify_message .= get_permalink($comment->comment_post_ID) . "#comments\r\n\r\n";
 	$notify_message .= sprintf( __('To delete this comment, visit: %s'), get_settings('siteurl').'/wp-admin/post.php?action=confirmdeletecomment&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
+	$notify_message .= sprintf( __('To mark this comment as spam, visit: %s'), get_settings('siteurl').'/wp-admin/post.php?action=confirmdeletecomment&delete_type=spam&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
 
 	$wp_email = 'wordpress@' . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
 
@@ -389,6 +390,7 @@ function wp_notify_moderator($comment_id) {
 	$notify_message .= __('Comment: ') . "\r\n" . $comment->comment_content . "\r\n\r\n";
 	$notify_message .= sprintf( __('To approve this comment, visit: %s'),  get_settings('siteurl').'/wp-admin/post.php?action=mailapprovecomment&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
 	$notify_message .= sprintf( __('To delete this comment, visit: %s'), get_settings('siteurl').'/wp-admin/post.php?action=confirmdeletecomment&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
+	$notify_message .= sprintf( __('To mark this comment as spam, visit: %s'), get_settings('siteurl').'/wp-admin/post.php?action=confirmdeletecomment&delete_type=spam&p='.$comment->comment_post_ID."&comment=$comment_id" ) . "\r\n";
 	$notify_message .= sprintf( __('Currently %s comments are waiting for approval. Please visit the moderation panel:'), $comments_waiting ) . "\r\n";
 	$notify_message .= get_settings('siteurl') . "/wp-admin/moderation.php\r\n";
 

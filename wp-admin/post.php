@@ -184,7 +184,10 @@ case 'confirmdeletecomment':
 		die( __('You are not allowed to delete comments on this post.') );
 
 	echo "<div class='wrap'>\n";
-	echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
+	if ( 'spam' == $_GET['delete_type'] )
+		echo "<p>" . __('<strong>Caution:</strong> You are about to mark the following comment as spam:') . "</p>\n";
+	else
+		echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
 	echo "<table border='0'>\n";
 	echo "<tr><td>" . __('Author:') . "</td><td>$comment->comment_author</td></tr>\n";
 	echo "<tr><td>" . __('E-mail:') . "</td><td>$comment->comment_author_email</td></tr>\n";
@@ -195,6 +198,8 @@ case 'confirmdeletecomment':
 
 	echo "<form action='".get_settings('siteurl')."/wp-admin/post.php' method='get'>\n";
 	echo "<input type='hidden' name='action' value='deletecomment' />\n";
+	if ( 'spam' == $_GET['delete_type'] )
+		echo "<input type='hidden' name='delete_type' value='spam' />\n";
 	echo "<input type='hidden' name='p' value='$p' />\n";
 	echo "<input type='hidden' name='comment' value='{$comment->comment_ID}' />\n";
 	echo "<input type='hidden' name='noredir' value='1' />\n";
@@ -226,8 +231,10 @@ case 'deletecomment':
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
 		die( __('You are not allowed to edit comments on this post.') );
 
-	wp_set_comment_status($comment->comment_ID, "delete");
-	do_action('delete_comment', $comment->comment_ID);
+	if ( 'spam' == $_GET['delete_type'] )
+		wp_set_comment_status($comment->comment_ID, 'spam');
+	else
+		wp_delete_comment($comment->comment_ID);
 
 	if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
