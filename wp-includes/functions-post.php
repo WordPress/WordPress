@@ -72,8 +72,11 @@ function wp_insert_post($postarr = array()) {
 			$post_date_gmt = get_gmt_from_date($post_date);
 	}
 
-	if ( 'publish' == $post_status && (mysql2date('U', $post_date_gmt) > time()) )
-		$post_status = 'future';
+	if ( 'publish' == $post_status ) {
+		$now = gmdate('Y-m-d H:i:59');
+		if ( mysql2date('U', $post_date_gmt) > mysql2date('U', $now) )
+			$post_status = 'future';
+	}
 
 	if ( empty($comment_status) ) {
 		if ( $update )
@@ -208,7 +211,7 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	if ( 'future' == $post_status )
-		wp_schedule_event(mysql2date('U', $post_date_gmt), 'once', 'publish_future_post', $post_ID);
+		wp_schedule_event(mysql2date('U', $post_date), 'once', 'publish_future_post', $post_ID);
 
 	do_action('save_post', $post_ID);
 	do_action('wp_insert_post', $post_ID);
