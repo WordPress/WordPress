@@ -555,6 +555,7 @@ function get_postdata($postid) {
 		'post_password' => $post->post_password,
 		'to_ping' => $post->to_ping,
 		'pinged' => $post->pinged,
+		'post_type' => $post->post_type,
 		'post_name' => $post->post_name
 	);
 

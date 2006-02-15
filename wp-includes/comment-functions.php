@@ -767,7 +767,7 @@ function is_local_attachment($url) {
 		return true;
 	if ( $id = url_to_postid($url) ) {
 		$post = & get_post($id);
-		if ( 'attachment' == $post->post_status )
+		if ( 'attachment' == $post->post_type )
 			return true;
 	}
 	return false;
