@@ -315,7 +315,7 @@ if ( $show_password_fields ) :
 <?php endif; ?>
   </table>
   <p class="submit">
-    <input name="adduser" type="submit" id="adduser" value="<?php _e('Add User') ?> &raquo;" />
+    <input name="adduser" type="submit" id="adduser" value="<?php _e('Add User &raquo;') ?>" />
   </p>
   </form>
 </div>

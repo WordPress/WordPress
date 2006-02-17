@@ -73,7 +73,7 @@ if ($error)
 <p><label><?php _e('E-mail:') ?><br />
 <input type="text" name="email" id="email" value="" size="25" tabindex="2" /></label><br />
 </p>
-<p class="submit"><input type="submit" name="submit" id="submit" value="<?php _e('Retrieve Password'); ?> &raquo;" tabindex="3" /></p>
+<p class="submit"><input type="submit" name="submit" id="submit" value="<?php _e('Retrieve Password &raquo;'); ?>" tabindex="3" /></p>
 </form>
 <ul>
 	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>">&laquo; <?php _e('Back to blog') ?></a></li>

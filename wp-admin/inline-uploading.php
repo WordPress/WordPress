@@ -656,10 +656,10 @@ th {
 <li class="inactive">&laquo; <?php _e('Back'); ?></li>
 <?php endif; ?>
 <?php if ( false !== $next ) : ?>
-<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>"><?php _e('Next'); ?> &raquo;</a></li>
+<li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;start=<?php echo $next; ?>"><?php _e('Next &raquo;'); ?></a></li>
 <li><a href="<?php echo basename(__FILE__); ?>?action=<?php echo $action; ?>&amp;post=<?php echo $post; ?>&amp;all=<?php echo $all; ?>&amp;last=true" title="<?php _e('Last'); ?>">&raquo;|</a></li>
 <?php else : ?>
-<li class="inactive"><?php _e('Next'); ?> &raquo;</li>
+<li class="inactive"><?php _e('Next &raquo;'); ?></li>
 <li class="inactive">&raquo;|</li>
 <?php endif; ?>
 <?php } // endif not upload?>

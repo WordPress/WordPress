@@ -163,8 +163,8 @@ if ('view' == $mode) {
 		} // end foreach
 	?></table>
     <p><a href="javascript:;" onclick="checkAll(document.getElementById('deletecomments')); return false; "><?php _e('Invert Checkbox Selection') ?></a></p>
-            <p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" />
-			<input type="submit" name="spam_button" value="<?php _e('Mark Checked Comments as Spam') ?> &raquo;" onclick="return confirm('<?php _e("You are about to mark these comments as spam \\n  \'Cancel\' to stop, \'OK\' to mark as spam.") ?>')" /></p>
+            <p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments &raquo;') ?>" onclick="return confirm('<?php _e("You are about to delete these comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" />
+			<input type="submit" name="spam_button" value="<?php _e('Mark Checked Comments as Spam &raquo;') ?>" onclick="return confirm('<?php _e("You are about to mark these comments as spam \\n  \'Cancel\' to stop, \'OK\' to mark as spam.") ?>')" /></p>
   </form>
 <?php
 	} else {

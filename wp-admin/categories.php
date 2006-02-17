@@ -85,7 +85,7 @@ case 'edit':
 			<td><textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description, 1); ?></textarea></td>
 		</tr>
 		</table>
-	  <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category') ?> &raquo;" /></p>
+	  <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category &raquo;') ?>" /></p>
  </form>
  <p><a href="categories.php"><?php _e('&laquo; Return to category list'); ?></a></p>
 </div>

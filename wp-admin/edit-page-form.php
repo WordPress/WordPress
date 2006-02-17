@@ -183,9 +183,9 @@ else
 <p class="submit">
 <?php if ( $post_ID ) : ?>
 <input name="save" type="submit" id="save" tabindex="5" value=" <?php _e('Save and Continue Editing'); ?> "/> 
-<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Save') : _e('Create New Page') ?> &raquo;" /> 
+<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Save') : _e('Create New Page &raquo;') ?>" /> 
 <?php else : ?>
-<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php _e('Create New Page') ?> &raquo;" /> 
+<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php _e('Create New Page &raquo;') ?>" /> 
 <?php endif; ?>
 <input name="referredby" type="hidden" id="referredby" value="<?php echo $sendto; ?>" />
 </p>

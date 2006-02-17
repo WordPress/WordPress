@@ -102,7 +102,7 @@ if ($plugin_files) :
 <?php if ( is_writeable($real_file) ) : ?>
      <p class="submit">
 <?php
-	echo "<input type='submit' name='submit' value='	" . __('Update File') . " &raquo;' tabindex='2' />";
+	echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
 ?>
 </p>
 <?php else : ?>

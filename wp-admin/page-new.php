@@ -7,7 +7,7 @@ require_once('admin-header.php');
 ?>
 
 <?php if ( isset($_GET['saved']) ) : ?>
-<div id="message" class="updated fade"><p><strong><?php _e('Page saved.') ?> <a href="edit-pages.php"><?php _e('Manage pages'); ?> &raquo;</a></strong></p></div>
+<div id="message" class="updated fade"><p><strong><?php _e('Page saved.') ?> <a href="edit-pages.php"><?php _e('Manage pages &raquo;'); ?></a></strong></p></div>
 <?php endif; ?>
 
 <?php

@@ -99,7 +99,7 @@ endfor;
 </table>
 </fieldset> 
 
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options') ?> &raquo;" />
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
 <input type="hidden" name="action" value="update" /> 
 <input type="hidden" name="page_options" value="blogname,blogdescription,siteurl,admin_email,users_can_register,gmt_offset,date_format,time_format,home,start_of_week,comment_registration,default_role" /> 
 </p>
