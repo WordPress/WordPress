@@ -48,7 +48,6 @@ function get_the_category_list($separator = '', $parents='') {
 	if ( '' == $separator ) {
 		$thelist .= '<ul class="post-categories">';
 		foreach ( $categories as $category ) {
-			$category->cat_name = $category->cat_name;
 			$thelist .= "\n\t<li>";
 			switch ( strtolower($parents) ) {
 				case 'multiple':
@@ -71,7 +70,6 @@ function get_the_category_list($separator = '', $parents='') {
 	} else {
 		$i = 0;
 		foreach ( $categories as $category ) {
-			$category->cat_name = $category->cat_name;
 			if ( 0 < $i )
 				$thelist .= $separator . ' ';
 			switch ( strtolower($parents) ) {
