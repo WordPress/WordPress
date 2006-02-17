@@ -234,7 +234,7 @@ srcb[{$ID}] = '{$image['guid']}';
 			$xpadding = (128 - $image['uwidth']) / 2;
 			$ypadding = (96 - $image['uheight']) / 2;
 			$style .= "#target{$ID} img { padding: {$ypadding}px {$xpadding}px; }\n";
-			$title = htmlentities($image['post_title'], ENT_QUOTES);
+			$title = wp_specialchars($image['post_title'], ENT_QUOTES);
 			$script .= "aa[{$ID}] = '<a id=\"p{$ID}\" rel=\"attachment\" class=\"imagelink\" href=\"$href\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">';
 ab[{$ID}] = '<a class=\"imagelink\" href=\"{$image['guid']}\" onclick=\"doPopup({$ID});return false;\" title=\"{$title}\">';
 imga[{$ID}] = '<img id=\"image{$ID}\" src=\"$src\" alt=\"{$title}\" $height_width />';
@@ -254,7 +254,7 @@ imgb[{$ID}] = '<img id=\"image{$ID}\" src=\"{$image['guid']}\" alt=\"{$title}\" 
 </div>
 ";
 		} else {
-			$title = htmlentities($attachment['post_title'], ENT_QUOTES);
+			$title = wp_specialchars($attachment['post_title'], ENT_QUOTES);
 			$filename = basename($attachment['guid']);
 			$icon = get_attachment_icon($ID);
 			$toggle_icon = "<a id=\"I{$ID}\" onclick=\"toggleOtherIcon({$ID});return false;\" href=\"javascript:void()\">$__using_title</a>";
