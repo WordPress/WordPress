@@ -53,7 +53,7 @@ wp_new_comment( $commentdata );
 if ( !$user_ID ) :
 	setcookie('comment_author_' . COOKIEHASH, stripslashes($comment_author), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
 	setcookie('comment_author_email_' . COOKIEHASH, stripslashes($comment_author_email), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
-	setcookie('comment_author_url_' . COOKIEHASH, stripslashes($comment_author_url), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
+	setcookie('comment_author_url_' . COOKIEHASH, stripslashes(clean_url($comment_author_url)), time() + 30000000, COOKIEPATH, COOKIE_DOMAIN);
 endif;
 
 $location = ( empty( $_POST['redirect_to'] ) ) ? get_permalink( $comment_post_ID ) : $_POST['redirect_to']; 
