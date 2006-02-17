@@ -312,6 +312,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 			post_date = '$post_date',
 			post_date_gmt = '$post_date_gmt',
 			post_content = '$post_content',
+			post_content_filtered = '$post_content_filtered',
 			post_title = '$post_title',
 			post_excerpt = '$post_excerpt',
 			post_status = '$post_status',
@@ -332,9 +333,9 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	} else {
 		$wpdb->query(
 			"INSERT INTO $wpdb->posts
-			(post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
+			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
 			VALUES
-			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
+			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
 			$post_ID = $wpdb->insert_id;
 	}
 
