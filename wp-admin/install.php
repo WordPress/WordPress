@@ -107,6 +107,10 @@ switch($step) {
 <th><?php _e('Your e-mail:'); ?></th>
 	<td><input name="admin_email" type="text" id="admin_email" size="25" /></td>
 </tr>
+<tr>
+<th scope="row"  valign="top"> <?php __('Privacy:'); ?></th>
+<td><label><input type="checkbox" name="blog_public" value="1" checked="checked" /> <?php _e('I would like my blog to appear in search engines like Google and Technorati.'); ?></label></td>
+</tr> 
 </table>
 <p><em><?php _e('Double-check that email address before continuing.'); ?></em></p>
 <h2 class="step">
@@ -121,6 +125,7 @@ switch($step) {
 // Fill in the data we gathered
 $weblog_title = stripslashes($_POST['weblog_title']);
 $admin_email = stripslashes($_POST['admin_email']);
+$public = (int) $_POST['blog_public'];
 // check e-mail address
 if (empty($admin_email)) {
 	die (__("<strong>ERROR</strong>: please type your e-mail address"));
@@ -144,6 +149,10 @@ populate_roles();
 
 update_option('blogname', $weblog_title);
 update_option('admin_email', $admin_email);
+update_option('blog_public', $public);
+// If not a public blog, don't ping.
+if ( ! $public )
+	update_option('default_pingback_flag', 0);
 
 // Now drop in some default links
 $wpdb->query("INSERT INTO $wpdb->linkcategories (cat_id, cat_name) VALUES (1, '".$wpdb->escape(__('Blogroll'))."')");

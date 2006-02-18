@@ -2381,4 +2381,10 @@ function wp_cron() {
 	}
 }
 
+function privacy_ping_filter( $sites ) {
+	if ( get_option('blog_public') )
+		return $sites;
+	else
+		return '';
+}
 ?>

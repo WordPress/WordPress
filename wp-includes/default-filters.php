@@ -81,8 +81,11 @@ add_filter('comment_text_rss', 'ent2ncr', 8);
 add_filter('bloginfo_rss', 'ent2ncr', 8);
 add_filter('the_author', 'ent2ncr', 8);
 
+// Misc filters
+add_filter('option_ping_sites', 'privacy_ping_filter');
+
 // Actions
 add_action('wp_head', 'rsd_link');
 add_action('publish_future_post', 'wp_publish_post', 10, 1);
-
+add_action('wp_head', 'noindex', 1);
 ?>
