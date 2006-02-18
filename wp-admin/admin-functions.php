@@ -58,6 +58,12 @@ function write_post() {
 			$_POST['post_status'] = 'draft';
 	}
 
+	if (!isset ($_POST['comment_status']))
+		$_POST['comment_status'] = 'closed';
+
+	if (!isset ($_POST['ping_status']))
+		$_POST['ping_status'] = 'closed';
+
 	if (!empty ($_POST['edit_date'])) {
 		$aa = $_POST['aa'];
 		$mm = $_POST['mm'];
