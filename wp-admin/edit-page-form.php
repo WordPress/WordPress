@@ -181,12 +181,14 @@ else
 </script>
 
 <p class="submit">
-<?php if ( $post_ID ) : ?>
-<input name="save" type="submit" id="save" tabindex="5" value=" <?php _e('Save and Continue Editing'); ?> "/> 
-<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php $post_ID ? _e('Save') : _e('Create New Page &raquo;') ?>" /> 
-<?php else : ?>
-<input name="savepage" type="submit" id="savepage" tabindex="6" value="<?php _e('Create New Page &raquo;') ?>" /> 
-<?php endif; ?>
+<input name="save" type="submit" id="save" tabindex="3" value="<?php _e('Save and Continue Editing'); ?>" />
+<input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
+<?php 
+if ('publish' != $post->post_status || 0 == $post_ID):
+?>
+<?php if ( current_user_can('publish_pages') ) : ?>
+	<input name="publish" type="submit" id="publish" tabindex="5" accesskey="p" value="<?php _e('Publish') ?>" /> 
+<?php endif; endif;?>
 <input name="referredby" type="hidden" id="referredby" value="<?php echo $sendto; ?>" />
 </p>
 
