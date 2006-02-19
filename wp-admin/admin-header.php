@@ -3,7 +3,8 @@
 if (!isset($_GET["page"])) require_once('admin.php');
 if ( $editing ) {
 	$dbx_js = true;
-	$cat_js = true;
+	if ( current_user_can('manage_categories') )
+		$cat_js = true;
 }
 if ( $list_js || $cat_js )
 	$sack_js = true;
