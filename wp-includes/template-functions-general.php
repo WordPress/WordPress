@@ -370,8 +370,9 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 					}
 				}
 		}
-	} elseif ( 'postbypost' == $type ) {
-		$arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+	} elseif ( ( 'postbypost' == $type ) || ('alpha' == $type) ) {
+		('alpha' == $type) ? $orderby = "post_title ASC " : $orderby = "post_date DESC ";
+		$arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY $orderby $limit");
 		if ( $arcresults ) {
 			foreach ( $arcresults as $arcresult ) {
 				if ( $arcresult->post_date != '0000-00-00 00:00:00' ) {
