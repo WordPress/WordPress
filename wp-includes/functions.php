@@ -2364,7 +2364,7 @@ function wp_cron() {
 		return;
 
 	foreach ($crons as $timestamp => $cronhooks) {
-		if ($timestamp > time()) break;
+		if ($timestamp > current_time( 'timestamp' )) break;
 		foreach($cronhooks as $hook => $args) {
 			do_action($hook, $args['args']);
 			$recurrence = $args['recur'];
