@@ -58,7 +58,7 @@ addLoadEvent(focusit);
 <fieldset class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Page Status') ?></h3> 
 <div class="dbx-content"><?php if ( current_user_can('publish_posts') ) : ?>
-<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'; ?> /> <?php _e('Published') ?></label>
+<label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
 <?php endif; ?>
 	  <label for="post_status_draft" class="selectit"><input id="post_status_draft" name="post_status" type="radio" value="draft" <?php checked($post->post_status, 'draft'); ?> /> <?php _e('Draft') ?></label>
 	  <label for="post_status_private" class="selectit"><input id="post_status_private" name="post_status" type="radio" value="private" <?php checked($post->post_status, 'private'); ?> /> <?php _e('Private') ?></label></div>
