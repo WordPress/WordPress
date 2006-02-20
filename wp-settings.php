@@ -217,7 +217,6 @@ if ( file_exists(TEMPLATEPATH . "/functions.php") )
 
 function shutdown_action_hook() {
 	do_action('shutdown');
-	wp_cron();
 	wp_cache_close();
 }
 register_shutdown_function('shutdown_action_hook');
