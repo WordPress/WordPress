@@ -675,7 +675,7 @@ function get_page_by_path($page_path) {
 	foreach($page_paths as $pathdir)
 		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 
-	$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = '$leaf_path'");
+	$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = '$leaf_path' AND post_type='page'");
 
 	if ( empty($pages) ) 
 		return 0;
@@ -684,7 +684,7 @@ function get_page_by_path($page_path) {
 		$path = '/' . $leaf_path;
 		$curpage = $page;
 		while ($curpage->post_parent != 0) {
-			$curpage = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$curpage->post_parent'");
+			$curpage = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$curpage->post_parent' and post_type='page'");
 			$path = '/' . $curpage->post_name . $path;
 		}
 

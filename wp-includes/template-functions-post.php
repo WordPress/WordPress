@@ -258,6 +258,9 @@ function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";
 		foreach ( $keys as $key ) {
+			$keyt = trim($key);
+			if ( '_' == $keyt{0} )
+				continue;
 			$values = array_map('trim', get_post_custom_values($key));
 			$value = implode($values,', ');
 			echo "<li><span class='post-meta-key'>$key:</span> $value</li>\n";
