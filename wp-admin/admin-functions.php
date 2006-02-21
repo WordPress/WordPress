@@ -643,19 +643,24 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 	}
 }
 
-function page_rows($parent = 0, $level = 0, $pages = 0) {
+function page_rows($parent = 0, $level = 0, $pages = 0, $hierarchy = true) {
 	global $wpdb, $class, $post;
+
 	if (!$pages)
 		$pages = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'page' ORDER BY menu_order");
 
-	if ($pages) {
-		foreach ($pages as $post) {
-			start_wp();
-			if ($post->post_parent == $parent) {
-				$post->post_title = wp_specialchars($post->post_title);
-				$pad = str_repeat('&#8212; ', $level);
-				$id = $post->ID;
-				$class = ('alternate' == $class) ? '' : 'alternate';
+	if (! $pages)
+		return false;
+
+	foreach ($pages as $post) {
+		setup_postdata($post);
+		if ( $hierarchy && ($post->post_parent != $parent) )
+			continue;
+
+		$post->post_title = wp_specialchars($post->post_title);
+		$pad = str_repeat('&#8212; ', $level);
+		$id = $post->ID;
+		$class = ('alternate' == $class) ? '' : 'alternate';
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'> 
     <th scope="row"><?php echo $post->ID; ?></th> 
@@ -670,12 +675,7 @@ function page_rows($parent = 0, $level = 0, $pages = 0) {
   </tr> 
 
 <?php
-
-				page_rows($id, $level +1, $pages);
-			}
-		}
-	} else {
-		return false;
+		if ( $hierarchy) page_rows($id, $level + 1, $pages);
 	}
 }
 

@@ -55,11 +55,8 @@ if ($drafts || $other_drafts) {
 <div class="wrap">
 <h2>
 <?php
-$what_to_show = 'posts';
-$posts_per_page = 15;
-$posts_per_archive_page = -1;
 
-wp();
+wp('what_to_show=posts&posts_per_page=15&posts_per_archive_page=-1');
 
 if ( is_month() ) {
 	single_month_title(' ');

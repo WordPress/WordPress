@@ -19,13 +19,12 @@ require_once('admin-header.php');
 </form>
 
 <?php
+wp('post_type=page&orderby=menu_order&what_to_show=posts&posts_per_page=15&posts_per_archive_page=-1');
 
-$show_post_type = 'page';
-
-if ( isset($_GET['s']) )
-	wp();
+if ( $_GET['s'] )
+	$all = false;
 else
-	$posts = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'page'");
+	$all = true;
 
 if ($posts) {
 ?>
@@ -40,29 +39,16 @@ if ($posts) {
     <th scope="col"></th> 
   </tr> 
 <?php
-if ( isset($_GET['s']) ) {
-foreach ( $posts as $post ) : 
-	$class = ('alternate' != $class) ? 'alternate' : ''; ?>
-  <tr id='page-<?php echo $post->ID; ?>' class='<?php echo $class; ?>'> 
-    <th scope="row"><?php echo $post->ID; ?></th> 
-    <td>
-      <?php echo $pad; ?><?php the_title() ?> 
-    </td> 
-    <td><?php the_author() ?></td>
-    <td><?php echo mysql2date('Y-m-d g:i a', $post->post_modified); ?></td> 
-	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
-    <td><?php if ( current_user_can('edit_page', $post->ID) ) { echo "<a href='page.php?action=edit&amp;post=$post->ID' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
-    <td><?php if ( current_user_can('delete_page', $post->ID) ) { echo "<a href='page.php?action=delete&amp;post=$post->ID' class='delete' onclick=\"return deleteSomething( 'page', " . $id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; page.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars(get_the_title('','',0), 1)) . "' );\">" . __('Delete') . "</a>"; } ?></td> 
-  </tr>
-<?php
-endforeach;
-} else {
-	page_rows();
-}
+page_rows(0, 0, $posts, $all);
 ?>
 </table> 
 
 <div id="ajax-response"></div>
+
+<div class="navigation">
+<div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries')) ?></div>
+<div class="alignright"><?php previous_posts_link(__('Next Entries &raquo;')) ?></div>
+</div>
 
 <?php
 } else {
