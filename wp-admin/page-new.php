@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 $title = __('New Page');
-$parent_file = 'post.php';
+$parent_file = 'post-new.php';
 $editing = true;
 require_once('admin-header.php');
 ?>

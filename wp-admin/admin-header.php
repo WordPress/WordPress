@@ -36,9 +36,9 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 <script type="text/javascript">
 //<![CDATA[
 addLoadEvent( function() {
-<?php switch ( $pagenow ) : case 'post.php' : ?>
+<?php switch ( $pagenow ) : case 'post.php' : case 'post-new.php' : ?>
 var manager = new dbxManager('postmeta');
-<?php break; case 'page-new.php' : ?>
+<?php break; case 'page.php' : case 'page-new.php' : ?>
 var manager = new dbxManager('pagemeta');
 <?php break; endswitch; ?>
 });

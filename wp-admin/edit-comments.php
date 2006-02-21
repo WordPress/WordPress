@@ -103,16 +103,21 @@ if ('view' == $mode) {
 
         <p><?php _e('Posted'); echo ' '; comment_date('M j, g:i A');  
 			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-				echo " | <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit Comment') . "</a>";
-				echo " | <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Delete Comment') . "</a> ";
-				echo " | <a href=\"post.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Mark Comment as Spam') . "</a> ";
+				echo " | <a href=\"comment.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" . __('Edit Comment') . "</a>";
+				echo " | <a href=\"comment.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Delete Comment') . "</a> ";
+				echo " | <a href=\"comment.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Mark Comment as Spam') . "</a> ";
 			} // end if any comments to show
 			// Get post title
-			if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-				$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID = $comment->comment_post_ID");
-				$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
-				?> | <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), stripslashes($post_title)); ?></a>
-				<?php } ?>
+			$post = get_post($comment->comment_post_ID);
+			$post_title = $post->post_title;
+			$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
+			if ( 'page' == $post->post_type ) {
+				if ( current_user_can('edit_page', $comment->comment_post_ID) ) ?>
+					| <a href="page.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Page &#8220;%s&#8221;'), $post_title); ?></a>
+			<?php } else {
+				if ( current_user_can('edit_post', $comment->comment_post_ID) ) ?>
+					| <a href="post.php?action=edit&amp;post=<?php echo $comment->comment_post_ID; ?>"><?php printf(__('Edit Post &#8220;%s&#8221;'), $post_title); ?></a>
+			<?php } ?>
 			 | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a></p>
 		</li>
 
@@ -155,9 +160,9 @@ if ('view' == $mode) {
     <td><?php comment_excerpt(); ?></td>
     <td><a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php comment_ID() ?>" class="edit"><?php _e('View') ?></a></td>
     <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-	echo "<a href='post.php?action=editcomment&amp;comment=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a>"; } ?></td>
+	echo "<a href='comment.php?action=editcomment&amp;comment=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a>"; } ?></td>
     <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-            echo "<a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\"    class='delete'>" . __('Delete') . "</a>"; } ?></td>
+            echo "<a href=\"comment.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\"    class='delete'>" . __('Delete') . "</a>"; } ?></td>
   </tr>
 		<?php 
 		} // end foreach

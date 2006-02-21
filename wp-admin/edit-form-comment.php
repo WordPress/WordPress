@@ -5,7 +5,7 @@ $form_action = 'editedcomment';
 $form_extra = "' />\n<input type='hidden' name='comment_ID' value='" . $comment->comment_ID . "' />\n<input type='hidden' name='comment_post_ID' value='".$comment->comment_post_ID;
 ?>
 
-<form name="post" action="post.php" method="post" id="post">
+<form name="post" action="comment.php" method="post" id="post">
 <div class="wrap">
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="action" value='<?php echo $form_action . $form_extra ?>' />
@@ -113,7 +113,7 @@ else
 
 	<tr>
 		<th scope="row"><?php _e('Delete'); ?>:</th>
-		<td><p><a class="delete" href="post.php?action=confirmdeletecomment&amp;noredir=true&amp;comment=<?php echo $comment->comment_ID; ?>&amp;p=<?php echo $comment->comment_post_ID; ?>"><?php _e('Delete comment') ?></a></p></td>
+		<td><p><a class="delete" href="comment.php?action=confirmdeletecomment&amp;noredir=true&amp;comment=<?php echo $comment->comment_ID; ?>&amp;p=<?php echo $comment->comment_post_ID; ?>"><?php _e('Delete comment') ?></a></p></td>
 	</tr>
 </table>
 
