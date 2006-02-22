@@ -303,10 +303,10 @@ function get_option($option) {
 }
 
 function get_user_option( $option, $user = 0 ) {
-	global $wpdb, $current_user;
+	global $wpdb;
 
 	if ( empty($user) )
-		$user = $current_user;
+		$user = wp_get_current_user();
 	else
 		$user = get_userdata($user);
 
@@ -1174,6 +1174,28 @@ function setup_postdata($post) {
 		$multipage = 0;
 	}
 	return true;
+}
+
+// Setup global user vars.  Used by set_current_user() for back compat.
+function setup_userdata($user_id = '') {
+	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;
+
+	if ( '' == $user_id )
+		$user = wp_get_current_user();
+	else 
+		$user = new WP_User($user_id);
+
+	if ( 0 == $user->ID )
+		return;
+
+	$userdata = $user->data;
+	$user_login	= $user->user_login;
+	$user_level	= $user->user_level;
+	$user_ID	= $user->ID;
+	$user_email	= $user->user_email;
+	$user_url	= $user->user_url;
+	$user_pass_md5	= md5($user->user_pass);
+	$user_identity	= $user->display_name;
 }
 
 function is_new_day() {

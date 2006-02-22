@@ -26,8 +26,6 @@ case 'editcomment':
 	$editing = true;
 	require_once ('admin-header.php');
 
-	get_currentuserinfo();
-
 	$comment = (int) $_GET['comment'];
 
 	if ( ! $comment = get_comment($comment) )

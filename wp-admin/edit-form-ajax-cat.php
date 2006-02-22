@@ -3,8 +3,6 @@ require_once('../wp-config.php');
 require_once('admin-functions.php');
 require_once('admin-db.php');
 
-get_currentuserinfo();
-
 if ( !current_user_can('manage_categories') )
 	die('-1');
 

@@ -68,8 +68,6 @@ case 'update':
 			if ( get_settings('siteurl') != $old_siteurl || get_settings('home') != $old_home ) {
 				// If home changed, write rewrite rules to new location.
 				$wp_rewrite->flush_rules();
-				// Get currently logged in user and password.
-				get_currentuserinfo();
 				// Clear cookies for old paths.
 				wp_clearcookie();
 				// Set cookies for new paths.

@@ -5,21 +5,20 @@
 
 if ( !function_exists('set_current_user') ) :
 function set_current_user($id, $name = '') {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
+	return wp_set_current_user($id, $name);
+}
+endif;
 
-	$current_user	= '';
+if ( !function_exists('wp_set_current_user') ) :
+function wp_set_current_user($id, $name = '') {
+	global $current_user;
 
-	$current_user	= new WP_User($id, $name);
+	if ( isset($current_user) && ($id == $current_user->ID) )
+		return $current_user;
 
-	$userdata	= get_userdatabylogin($user_login);
+	$current_user = new WP_User($id, $name);
 
-	$user_login	= $userdata->user_login;
-	$user_level	= $userdata->user_level;
-	$user_ID	= $userdata->ID;
-	$user_email	= $userdata->user_email;
-	$user_url	= $userdata->user_url;
-	$user_pass_md5	= md5($userdata->user_pass);
-	$user_identity	= $userdata->display_name;
+	setup_userdata($current_user->ID);
 
 	do_action('set_current_user');
 
@@ -27,30 +26,34 @@ function set_current_user($id, $name = '') {
 }
 endif;
 
+if ( !function_exists('current_user') ) :
+function wp_get_current_user() {
+	global $current_user;
+
+	get_currentuserinfo();
+
+	return $current_user;
+}
+endif;
 
 if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
+	global $current_user;
 
 	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST )
 		return false;
 
+	if ( ! empty($current_user) )
+		return;
+
 	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) || 
 		!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true) ) {
-		$current_user = new WP_User(0);
+		wp_set_current_user(0);
 		return false;
 	}
-	$user_login  = $_COOKIE[USER_COOKIE];
-	$userdata    = get_userdatabylogin($user_login);
-	$user_level  = $userdata->user_level;
-	$user_ID     = $userdata->ID;
-	$user_email  = $userdata->user_email;
-	$user_url    = $userdata->user_url;
-	$user_pass_md5 = md5($userdata->user_pass);
-	$user_identity = $userdata->display_name;
 
-	if ( empty($current_user) )
-		$current_user = new WP_User($user_ID);
+	$user_login = $_COOKIE[USER_COOKIE];
+	wp_set_current_user(0, $user_login);
 }
 endif;
 
@@ -201,10 +204,11 @@ endif;
 
 if ( !function_exists('is_user_logged_in') ) :
 function is_user_logged_in() {
-	global $current_user;
+	$user = wp_get_current_user();
 
-	if ( $current_user->id == 0 )
+	if ( $user->id == 0 )
 		return false;
+
 	return true;
 }
 endif;

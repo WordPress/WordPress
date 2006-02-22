@@ -3,7 +3,6 @@ require_once('../wp-config.php');
 require_once('admin-functions.php');
 require_once('admin-db.php');
 
-get_currentuserinfo();
 if ( !is_user_logged_in() )
 	die('-1');
 
