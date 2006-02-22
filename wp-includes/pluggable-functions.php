@@ -248,6 +248,16 @@ function wp_redirect($location) {
 }
 endif;
 
+if ( !function_exists('wp_get_cookie_login') ):
+function wp_get_cookie_login() {
+	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) )
+		return false;
+
+	return array('login' => $_COOKIE[USER_COOKIE],	'password' => $_COOKIE[PASS_COOKIE]);
+}
+
+endif;
+
 if ( !function_exists('wp_setcookie') ) :
 function wp_setcookie($username, $password, $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
 	if ( !$already_md5 )
