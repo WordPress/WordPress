@@ -118,7 +118,7 @@ if (0 < $numcats) $numcats = number_format($numcats);
 <p><?php _e('Use these links to get started:'); ?></p>
 
 <ul>
-<li><a href="post.php"><?php _e('Write a post'); ?></a></li>
+<li><a href="post-new.php"><?php _e('Write a post'); ?></a></li>
 <li><a href="profile.php"><?php _e('Update your profile or change your password'); ?></a></li>
 <li><a href="link-add.php"><?php _e('Add a link to your blogroll'); ?></a></li>
 <li><a href="themes.php"><?php _e('Change your site&#8217;s look or theme'); ?></a></li>
