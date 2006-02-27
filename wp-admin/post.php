@@ -107,7 +107,7 @@ case 'editpost':
 	} elseif ($action == 'editattachment') {
 		$location = 'attachments.php';
 	} else {
-		$location = 'post.php';
+		$location = 'post-new.php';
 	}
 	header ('Location: ' . $location); // Send user on their way while we keep working
 
@@ -133,7 +133,7 @@ case 'delete':
 	}
 
 	$sendback = $_SERVER['HTTP_REFERER'];
-	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
+	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post-new.php';
 	elseif (strstr($sendback, 'attachments.php')) $sendback = get_settings('siteurl') .'/wp-admin/attachments.php';
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
 	header ('Location: ' . $sendback);
