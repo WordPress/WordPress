@@ -476,6 +476,7 @@ function get_link_to_edit($link_id) {
 	$link->link_description = wp_specialchars($link->link_description);
 	$link->link_notes = wp_specialchars($link->link_notes);
 	$link->link_rss = wp_specialchars($link->link_rss);
+	$link->post_category = $link->link_category;
 
 	return $link;
 }
@@ -490,6 +491,8 @@ function get_default_link_to_edit() {
 		$link->link_name = wp_specialchars($_GET['name'], 1);
 	else
 		$link->link_name = '';
+
+	$link->link_visible = 'Y';
 
 	return $link;
 }
@@ -507,14 +510,7 @@ function edit_link($link_id = '') {
 	$_POST['link_name'] = wp_specialchars($_POST['link_name']);
 	$_POST['link_image'] = wp_specialchars($_POST['link_image']);
 	$_POST['link_rss'] = wp_specialchars($_POST['link_rss']);
-	$auto_toggle = get_autotoggle($_POST['link_category']);
-
-	// if we are in an auto toggle category and this one is visible then we
-	// need to make the others invisible before we add this new one.
-	// FIXME Add category toggle func.
-	//if (($auto_toggle == 'Y') && ($link_visible == 'Y')) {
-	//	$wpdb->query("UPDATE $wpdb->links set link_visible = 'N' WHERE link_category = $link_category");
-	//}
+	$_POST['link_category'] = $_POST['post_category'];
 
 	if ( !empty($link_id) ) {
 		$_POST['link_id'] = $link_id;
@@ -554,7 +550,7 @@ function sort_cats($cat1, $cat2) {
 }
 
 function get_nested_categories($default = 0, $parent = 0) {
-	global $post_ID, $mode, $wpdb;
+	global $post_ID, $link_id, $mode, $wpdb;
 
 	if ($post_ID) {
 		$checked_categories = $wpdb->get_col("
@@ -567,7 +563,17 @@ function get_nested_categories($default = 0, $parent = 0) {
 			// No selected categories, strange
 			$checked_categories[] = $default;
 		}
+	} else if ($link_id) {
+		$checked_categories = $wpdb->get_col("
+		     SELECT category_id
+		     FROM $wpdb->categories, $wpdb->link2cat
+		     WHERE $wpdb->link2cat.category_id = cat_ID AND $wpdb->link2cat.link_id = '$link_id'
+		     ");
 
+		if (count($checked_categories) == 0) {
+			// No selected categories, strange
+			$checked_categories[] = $default;
+		}	
 	} else {
 		$checked_categories[] = $default;
 	}
@@ -620,9 +626,10 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				if ( current_user_can('manage_categories') ) {
 					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td>";
 					$default_cat_id = get_option('default_category');
+					$default_link_cat_id = get_option('default_link_category');
 
-					if ($category->cat_ID != $default_cat_id)
-						$edit .= "<td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts will go to the default category.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars($category->cat_name, 1))."' );\" class='delete'>".__('Delete')."</a>";
+					if ( ($category->cat_ID != $default_cat_id) && ($category->cat_ID != $default_link_cat_id) )
+						$edit .= "<td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts and bookmarks will go to the default categories.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars($category->cat_name, 1))."' );\" class='delete'>".__('Delete')."</a>";
 					else
 						$edit .= "<td style='text-align:center'>".__("Default");
 				}
@@ -633,6 +640,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 				echo "<tr id='cat-$category->cat_ID' class='$class'><th scope='row'>$category->cat_ID</th><td>$pad $category->cat_name</td>
 								<td>$category->category_description</td>
 								<td>$category->category_count</td>
+								<td>$category->link_count</td>
 								<td>$edit</td>
 								</tr>";
 				cat_rows($category->cat_ID, $level +1, $categories);
@@ -687,7 +695,6 @@ function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $lev
 	if ($categories) {
 		foreach ($categories as $category) {
 			if ($currentcat != $category->cat_ID && $parent == $category->category_parent) {
-				$count = $wpdb->get_var("SELECT COUNT(post_id) FROM $wpdb->post2cat WHERE category_id = $category->cat_ID");
 				$pad = str_repeat('&#8211; ', $level);
 				$category->cat_name = wp_specialchars($category->cat_name);
 				echo "\n\t<option value='$category->cat_ID'";
@@ -702,21 +709,9 @@ function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $lev
 	}
 }
 
-function link_category_dropdown($fieldname, $selected = 0) {
+function return_link_categories_list($parent = 0) {
 	global $wpdb;
-
-	$results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
-	echo "\n<select name='$fieldname' size='1'>\n";
-	foreach ($results as $row) {
-		echo "\n\t<option value='$row->cat_id'";
-		if ($row->cat_id == $selected)
-			echo " selected='selected'";
-		echo ">$row->cat_id : " . wp_specialchars($row->cat_name);
-		if ($row->auto_toggle == 'Y')
-			echo ' (auto toggle)';
-		echo "</option>";
-	}
-	echo "\n</select>\n";
+	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY link_count DESC LIMIT 100");
 }
 
 function wp_create_thumbnail($file, $max_side, $effect = '') {

@@ -25,7 +25,7 @@ switch ($step) {
 <h2><?php _e('Import your blogroll from another system') ?> </h2>
 <form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 
-<p><?php _e('If a program or website you use allows you to export your links or subscriptions as OPML you may import them here.'); ?>
+<p><?php _e('If a program or website you use allows you to export your bookmarks or subscriptions as OPML you may import them here.'); ?>
 <div style="width: 70%; margin: auto; height: 8em;">
 <input type="hidden" name="step" value="1" />
 <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
@@ -42,13 +42,13 @@ switch ($step) {
 
 </div>
 
-<p style="clear: both; margin-top: 1em;"><?php _e('Now select a category you want to put these links in.') ?><br />
+<p style="clear: both; margin-top: 1em;"><?php _e('Now select a category you want to put these bookmarks in.') ?><br />
 <?php _e('Category:') ?> <select name="cat_id">
 <?php
-$categories = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle FROM $wpdb->linkcategories ORDER BY cat_id");
+$categories = get_categories('hide_empty=0');
 foreach ($categories as $category) {
 ?>
-<option value="<?php echo $category->cat_id; ?>"><?php echo $category->cat_id.': '.$category->cat_name; ?></option>
+<option value="<?php echo $category->cat_ID; ?>"><?php echo wp_specialchars($category->cat_name); ?></option>
 <?php
 } // end foreach
 ?>
@@ -103,14 +103,12 @@ foreach ($categories as $category) {
                             $titles[$i] = '';
                         if ('http' == substr($titles[$i], 0, 4))
                             $titles[$i] = '';
-                        // FIXME:  Use wp_insert_link().
-                        $query = "INSERT INTO $wpdb->links (link_url, link_name, link_target, link_category, link_description, link_owner, link_rss)
-                                VALUES('{$urls[$i]}', '".$wpdb->escape($names[$i])."', '', $cat_id, '".$wpdb->escape($descriptions[$i])."', $user_ID, '{$feeds[$i]}')\n";
-                        $result = $wpdb->query($query);
+                        $link = array( 'link_url' => $urls[$i], 'link_name' => $wpdb->escape($names[$i]), 'link_category' => array($cat_id), 'link_description' => $wpdb->escape($descriptions[$i]), 'link_owner' => $user_ID, 'link_rss' => $feeds[$i]);              			
+						wp_insert_link($link);
 						echo sprintf('<p>'.__('Inserted <strong>%s</strong>').'</p>', $names[$i]);
                     }
 ?>
-     <p><?php printf(__('Inserted %1$d links into category %2$s. All done! Go <a href="%3$s">manage those links</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>
+     <p><?php printf(__('Inserted %1$d bookmarks into category %2$s. All done! Go <a href="%3$s">manage those bookmarks</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>
 <?php
                 } // end if got url
                 else

@@ -7,7 +7,7 @@
 $menu[0] = array(__('Dashboard'), 'read', 'index.php');
 $menu[5] = array(__('Write'), 'edit_posts', 'post-new.php');
 $menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
-$menu[20] = array(__('Links'), 'manage_links', 'link-manager.php');
+$menu[20] = array(__('Bookmarks'), 'manage_links', 'link-manager.php');
 $menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
@@ -28,10 +28,9 @@ $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comme
 $submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), $awaiting_mod), 'edit_posts', 'moderation.php');
 $submenu['edit.php'][30] = array(__('Files'), 'edit_files', 'templates.php');
 
-$submenu['link-manager.php'][5] = array(__('Manage Links'), 'manage_links', 'link-manager.php');
-$submenu['link-manager.php'][10] = array(__('Add Link'), 'manage_links', 'link-add.php');
-$submenu['link-manager.php'][15] = array(__('Link Categories'), 'manage_links', 'link-categories.php');
-$submenu['link-manager.php'][20] = array(__('Import Links'), 'manage_links', 'link-import.php');
+$submenu['link-manager.php'][5] = array(__('Manage Bookmarks'), 'manage_links', 'link-manager.php');
+$submenu['link-manager.php'][10] = array(__('Add Bookmark'), 'manage_links', 'link-add.php');
+$submenu['link-manager.php'][20] = array(__('Import Bookmarks'), 'manage_links', 'link-import.php');
 
 $submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
 $submenu['profile.php'][10] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');

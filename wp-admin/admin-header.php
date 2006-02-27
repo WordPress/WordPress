@@ -40,6 +40,8 @@ addLoadEvent( function() {
 var manager = new dbxManager('postmeta');
 <?php break; case 'page.php' : case 'page-new.php' : ?>
 var manager = new dbxManager('pagemeta');
+<?php break; case 'link.php' : case 'link-add.php' : ?>
+var manager = new dbxManager('linkmeta');
 <?php break; endswitch; ?>
 });
 //]]>

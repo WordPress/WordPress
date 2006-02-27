@@ -1,6 +1,7 @@
 <?php
 
 require_once(ABSPATH . '/wp-admin/admin-functions.php');
+require_once(ABSPATH . '/wp-admin/admin-db.php');
 require_once(ABSPATH . '/wp-admin/upgrade-schema.php');
 // Functions to be called in install and upgrade scripts
 function upgrade_all() {
@@ -33,7 +34,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 3308 )
 		upgrade_160();
 
-	if ( $wp_current_db_version < 3548 )
+	if ( $wp_current_db_version < 3570 )
 		upgrade_210();
 
 	$wp_rewrite->flush_rules();
@@ -365,6 +366,43 @@ function upgrade_210() {
 		if ( !empty($posts) )
 			foreach ( $posts as $post )
 				wp_schedule_event(mysql2date('U', $post->post_date), 'once', 'publish_future_post', $post->ID);
+	}
+	if ( $wp_current_db_version < 3570 ) {
+		// Create categories for link categories if a category with the same
+		// name doesn't exist.  Create a map of link cat IDs to cat IDs.
+		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM $wpdb->linkcategories");	
+		foreach ( $link_cats as $link_cat) {
+			if ( $cat_id = category_exists($link_cat->cat_name) ) {
+				$link_cat_id_map[$link_cat->cat_id] = $cat_id;
+				$default_link_cat = $cat_id;
+			} else {
+				$link_cat_id_map[$link_cat->cat_id] = wp_create_category($link_cat->cat_name);
+				$default_link_cat = $link_cat_id_map[$link_cat->cat_id];
+			}
+		}
+
+		// Associate links to cats.
+		$links = $wpdb->get_results("SELECT link_id, link_category FROM $wpdb->links");
+		foreach ( $links as $link ) {
+			$link_cat = $link_cat_id_map[$link->link_category];
+			$cat = $wpdb->get_row("SELECT * FROM $wpdb->link2cat WHERE link_id = '$link->link_id' AND category_id = '$link_cat'");
+			if (!$cat && 0 != $link->link_category) {
+				$wpdb->query("INSERT INTO $wpdb->link2cat (link_id, category_id)
+					VALUES ('$link->link_id', '$link_cat')");
+			}			
+		}
+		
+		// Set default to the last category we grabbed during the upgrade loop.
+		update_option('default_link_category', $default_link_cat);
+
+		// Count links per category.
+		if ( 0 == $wpdb->get_var("SELECT SUM(link_count) FROM $wpdb->categories") ) {
+			$categories = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
+			foreach ( $categories as $cat_id ) {
+				$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->link2cat, $wpdb->links WHERE $wpdb->links.link_id = $wpdb->link2cat.link_id AND category_id = '$cat_id'");
+				$wpdb->query("UPDATE $wpdb->categories SET link_count = '$count' WHERE cat_ID = '$cat_id'");
+			}
+		}
 	}
 }
 

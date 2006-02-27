@@ -35,7 +35,7 @@ include('admin-header.php');
 </fieldset>
 
 <p><input name="use_linksupdate" type="checkbox" id="use_linksupdate" value="1" <?php checked('1', get_settings('use_linksupdate')); ?> />
-<label for="use_linksupdate"><?php _e('Track Links&#8217; Update Times') ?></label></p>
+<label for="use_linksupdate"><?php _e('Track Bookmarks&#8217; Update Times') ?></label></p>
 <p>
 <label><input type="checkbox" name="hack_file" value="1" <?php checked('1', get_settings('hack_file')); ?> /> <?php _e('Use legacy <code>my-hacks.php</code> file support') ?></label>
 </p>

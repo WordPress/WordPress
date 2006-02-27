@@ -28,19 +28,14 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />',
                          $limit = -1, $show_updated = 0) {
     global $wpdb;
     $cat_id = -1;
-    $results = $wpdb->get_results("SELECT cat_id FROM $wpdb->linkcategories WHERE cat_name='$cat_name'");
+    $results = $wpdb->get_results("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
     if ($results) {
         foreach ($results as $result) {
-            $cat_id = $result->cat_id;
+            $cat_id = $result->cat_ID;
         }
     }
     get_links($cat_id, $before, $after, $between, $show_images, $orderby,
               $show_description, $show_rating, $limit, $show_updated);
-}
-
-function bool_from_yn($yn) {
-    if ($yn == 'Y') return 1;
-    return 0;
 }
 
 /** function wp_get_linksbyname()
@@ -51,26 +46,13 @@ function bool_from_yn($yn) {
 function wp_get_linksbyname($category, $args = '') {
 	global $wpdb;
 
-	$cat = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
-												. " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
-												. " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_name='$category'");
+	$cat_id = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$category' LIMIT 1");
 
-	if (! $cat) {
+	if (! $cat_id)
 		return;
-	}
 
-	if (empty($args)) {
-		if ($cat->sort_desc == 'Y') {
-			$cat->sort_order = '_'.$cat->sort_order;
-		}
-		get_links($cat->cat_id, $cat->text_before_link, $cat->text_after_all,
-							$cat->text_after_link, bool_from_yn($cat->show_images), $cat->sort_order,
-							bool_from_yn($cat->show_description), bool_from_yn($cat->show_rating),
-							$cat->list_limit, bool_from_yn($cat->show_updated));
-	} else {
-		$args = add_query_arg('category', $cat->cat_id, $args);
-		wp_get_links($args);
-	}
+	$args = add_query_arg('category', $cat_id, $args);
+	wp_get_links($args);
 } // end wp_get_linksbyname
 
 /** function wp_get_links()
@@ -83,38 +65,29 @@ function wp_get_linksbyname($category, $args = '') {
 function wp_get_links($args = '') {
 	global $wpdb;
 
-	if (!empty($args) && false === strpos($args, '=')) {
-		// If args is not a query string, it's a category id.
-		$category = $args;
-		$cat = $wpdb->get_row("SELECT cat_id, cat_name, auto_toggle, show_images, show_description, "
-													. " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
-													. " text_after_all, list_limit FROM $wpdb->linkcategories WHERE cat_id=$category");
-		if ($cat) {
-			if ($cat->sort_desc == 'Y') {
-				$cat->sort_order = '_'.$cat->sort_order;
-			}
-			get_links($cat->cat_id, $cat->text_before_link, $cat->text_after_all,
-								$cat->text_after_link, bool_from_yn($cat->show_images), $cat->sort_order,
-								bool_from_yn($cat->show_description), bool_from_yn($cat->show_rating),
-								$cat->list_limit, bool_from_yn($cat->show_updated));
-		}
-	} else {
-		parse_str($args);
+	if ( empty($args) )
+		return;
 
-		if (! isset($category))	$category = -1;
-		if (! isset($before)) $before = '';
-		if (! isset($after)) $after = '<br />';
-		if (! isset($between))	$between = ' ';
-		if (! isset($show_images)) $show_images = true;
-		if (! isset($orderby)) $orderby = 'name';
-		if (! isset($show_description)) $show_description = true;
-		if (! isset($show_rating)) $show_rating = false;
-		if (! isset($limit)) $limit = -1;
-		if (! isset($show_updated)) $show_updated = 1;
-		if (! isset($echo)) $echo = true;
-
-		return get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
+	if ( false === strpos($args, '=') ) {
+		$cat_id = $args;
+		$args = add_query_arg('category', $cat_id, $args);
 	}
+
+	parse_str($args);
+
+	if (! isset($category))	$category = -1;
+	if (! isset($before)) $before = '';
+	if (! isset($after)) $after = '<br />';
+	if (! isset($between))	$between = ' ';
+	if (! isset($show_images)) $show_images = true;
+	if (! isset($orderby)) $orderby = 'name';
+	if (! isset($show_description)) $show_description = true;
+	if (! isset($show_rating)) $show_rating = false;
+	if (! isset($limit)) $limit = -1;
+	if (! isset($show_updated)) $show_updated = 1;
+	if (! isset($echo)) $echo = true;
+
+	return get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
 } // end wp_get_links
 
 /** function get_links()
@@ -154,52 +127,12 @@ function get_links($category = -1,
 
 	global $wpdb;
 
-	$direction = ' ASC';
-	$category_query = '';
-	if ($category != -1) {
-		$category_query = " AND link_category = $category ";
-	}
-	if (get_settings('links_recently_updated_time')) {
-		$recently_updated_test = ", IF (DATE_ADD(link_updated, INTERVAL " . get_settings('links_recently_updated_time') . " MINUTE) >= NOW(), 1,0) as recently_updated ";
-	} else {
-		$recently_updated_test = '';
-	}
-	if ($show_updated) {
-		$get_updated = ", UNIX_TIMESTAMP(link_updated) AS link_updated_f ";
-	}
+	$results = get_linkz("category=$category&orderby=$orderby&show_updated=$show_updated&limit=$limit");
 
-	$orderby = strtolower($orderby);
-	if ($orderby == '')
-		$orderby = 'id';
-	if (substr($orderby, 0, 1) == '_') {
-		$direction = ' DESC';
-		$orderby = substr($orderby, 1);
-	}
-
-	switch($orderby) {
-		case 'length':
-		$length = ", CHAR_LENGTH(link_name) AS length";
-		break;
-		case 'rand':
-			$orderby = 'rand()';
-			break;
-		default:
-			$orderby = " link_" . $orderby;
-	}
-
-	if (!isset($length)) {
-		$length = '';
-	}
-
-	$sql = "SELECT link_url, link_name, link_image, link_target, link_description, link_rating, link_rel $length $recently_updated_test $get_updated FROM $wpdb->links WHERE link_visible = 'Y' " . $category_query;
-	$sql .= ' ORDER BY ' . $orderby . $direction;
-	/* The next 2 lines implement LIMIT TO processing */
-	if ($limit != -1)
-		$sql .= " LIMIT $limit";
-	$results = $wpdb->get_results($sql);
 	if (!$results) {
 		return;
 	}
+
 
 	$output = '';
 
@@ -290,10 +223,12 @@ function get_links($category = -1,
  **   echo '<li>'.$link->link_name.'</li>';
  ** }
  **/
+// Deprecate in favor of get_linkz().
 function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit = -1) {
     global $wpdb;
     $cat_id = -1;
-    $results = $wpdb->get_results("SELECT cat_id FROM $wpdb->linkcategories WHERE cat_name='$cat_name'");
+    //$results = $wpdb->get_results("SELECT cat_id FROM $wpdb->linkcategories WHERE cat_name='$cat_name'");
+    // TODO: Fix me.
     if ($results) {
         foreach ($results as $result) {
             $cat_id = $result->cat_id;
@@ -337,6 +272,7 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  ** link_rel
  ** link_notes
  **/
+// Deprecate in favor of get_linkz().
 function get_linkobjects($category = -1, $orderby = 'name', $limit = -1) {
     global $wpdb;
 
@@ -445,12 +381,18 @@ function get_links_withrating($category = -1, $before = '', $after = '<br />',
  **                uses 0
  */
 function get_linkcatname($id = 0) {
-    global $wpdb;
-    $cat_name = '';
-    if ('' != $id) {
-        $cat_name = $wpdb->get_var("SELECT cat_name FROM $wpdb->linkcategories WHERE cat_id=$id");
-    }
-    return $cat_name;
+    if ( empty($id) )
+    	return '';
+  
+	$cats = wp_get_link_cats($id);
+
+	if ( empty($cats) || ! is_array($cats) )
+		return '';
+
+	$cat_id = $cats[0]; // Take the first cat.
+
+	$cat = get_category($cat_id);
+	return $cat->cat_name;
 }
 
 /** function get_get_autotoggle()
@@ -459,11 +401,7 @@ function get_linkcatname($id = 0) {
  **                uses 0
  */
 function get_autotoggle($id = 0) {
-    global $wpdb;
-    $auto_toggle = $wpdb->get_var("SELECT auto_toggle FROM $wpdb->linkcategories WHERE cat_id=$id");
-    if ('' == $auto_toggle)
-        $auto_toggle = 'N';
-    return $auto_toggle;
+	return 0;  
 }
 
 /** function links_popup_script()
@@ -511,50 +449,29 @@ function links_popup_script($text = 'Links', $width=400, $height=400,
  *   hide_if_empty (default true)  - Supress listing empty link categories
  */
 function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
-	global $wpdb;
-
 	$order = strtolower($order);
 
 	// Handle link category sorting
+	$direction = 'ASC';
 	if (substr($order,0,1) == '_') {
-		$direction = ' DESC';
+		$direction = 'DESC';
 		$order = substr($order,1);
 	}
 
-	// if 'name' wasn't specified, assume 'id':
-	$cat_order = ('name' == $order) ? 'cat_name' : 'cat_id';
-
 	if (!isset($direction)) $direction = '';
-	// Fetch the link category data as an array of hashesa
-	$cats = $wpdb->get_results("
-		SELECT DISTINCT link_category, cat_name, show_images, 
-			show_description, show_rating, show_updated, sort_order, 
-			sort_desc, list_limit
-		FROM `$wpdb->links` 
-		LEFT JOIN `$wpdb->linkcategories` ON (link_category = cat_id)
-		WHERE link_visible =  'Y'
-			AND list_limit <> 0
-		ORDER BY $cat_order $direction ", ARRAY_A);
+
+	$cats = get_categories("type=link&orderby=$order&order=$direction");
 
 	// Display each category
 	if ($cats) {
 		foreach ($cats as $cat) {
 			// Handle each category.
-			// First, fix the sort_order info
-			$orderby = $cat['sort_order'];
-			$orderby = (bool_from_yn($cat['sort_desc'])?'_':'') . $orderby;
 
 			// Display the category name
-			echo '	<li id="linkcat-' . $cat['link_category'] . '"><h2>' . $cat['cat_name'] . "</h2>\n\t<ul>\n";
+			echo '	<li id="linkcat-' . $cat->cat_ID . '"><h2>' . $cat->cat_name . "</h2>\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
-			get_links($cat['link_category'],
-				'<li>',"</li>","\n",
-				bool_from_yn($cat['show_images']),
-				$orderby,
-				bool_from_yn($cat['show_description']),
-				bool_from_yn($cat['show_rating']),
-				$cat['list_limit'],
-				bool_from_yn($cat['show_updated']));
+			get_links($cat->cat_ID,
+				'<li>',"</li>","\n");
 
 			// Close the last category
 			echo "\n\t</ul>\n</li>\n";
@@ -562,4 +479,86 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 	}
 }
 
+function get_linkz($args = '') {
+	global $wpdb;
+
+	parse_str($args, $r);
+
+	if ( !isset($r['orderby']) )
+		$r['orderby'] = 'name';
+	if ( !isset($r['order']) )
+		$r['order'] = 'ASC';
+	if ( !isset($r['limit']) )
+		$r['limit'] = -1;
+	if ( !isset($r['category']) )
+		$r['category'] = -1;
+	if ( !isset($r['category_name']) )
+		$r['category_name'] = '';
+	if ( !isset($r['hide_invisible']) )
+		$r['hide_invisible'] = 1;
+	if ( !isset($r['show_updated']) )
+		$r['show_updated'] = 0;
+
+	$exclusions = '';
+	if ( !empty($r['exclude']) ) {
+		$exlinks = preg_split('/[\s,]+/',$r['exclude']);
+		if ( count($exlinks) ) {
+			foreach ( $exlinks as $exlink ) {
+				$exclusions .= ' AND link_id <> ' . intval($exlink) . ' ';
+			}
+		}
+	}
+
+	extract($r);
+
+	if ( ! empty($category_name) ) {
+		if ( $cat_id = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$category_name' LIMIT 1") )
+			$category = $cat_id;
+	}
+
+	$category_query = '';
+	$join = '';
+	if ( $category != -1 && !empty($category) ) {
+		$join = " LEFT JOIN $wpdb->link2cat ON ($wpdb->links.link_id = $wpdb->link2cat.link_id) ";
+
+      	$category_query = " AND category_id = $category ";
+	}
+
+	if (get_settings('links_recently_updated_time')) {
+		$recently_updated_test = ", IF (DATE_ADD(link_updated, INTERVAL " . get_settings('links_recently_updated_time') . " MINUTE) >= NOW(), 1,0) as recently_updated ";
+	} else {
+		$recently_updated_test = '';
+	}
+
+	if ($show_updated) {
+		$get_updated = ", UNIX_TIMESTAMP(link_updated) AS link_updated_f ";
+	}
+
+	$orderby = strtolower($r['orderby']);
+	$length = '';
+	switch ($orderby) {
+		case 'length':
+			$length = ", CHAR_LENGTH(link_name) AS length";
+			break;
+		case 'rand':
+			$orderby = 'rand()';
+			break;
+		default:
+			$orderby = "link_" . $orderby;
+	}
+
+	if ( 'link_id' == $orderby )
+		$orderby = "$wpdb->links.link_id";
+
+	$visible = '';
+	if ( $hide_invisible )
+		$visible = "AND link_visible = 'Y'";
+
+	$query = "SELECT * $length $recently_updated_test $get_updated FROM $wpdb->links $join WHERE 1=1 $visible $category_query";
+	$query .= " ORDER BY $orderby $order";
+	if ($limit != -1)
+		$query .= " LIMIT $limit";
+
+	return $wpdb->get_results($query);
+}
 ?>

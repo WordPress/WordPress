@@ -8,6 +8,9 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   category_description longtext NOT NULL,
   category_parent bigint(20) NOT NULL default '0',
   category_count bigint(20) NOT NULL default '0',
+  link_count bigint(20) NOT NULL default '0',
+  posts_private tinyint(1) NOT NULL default '0',
+  links_private tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (cat_ID),
   KEY category_nicename (category_nicename)
 );
@@ -30,6 +33,13 @@ CREATE TABLE $wpdb->comments (
   PRIMARY KEY  (comment_ID),
   KEY comment_approved (comment_approved),
   KEY comment_post_ID (comment_post_ID)
+);
+CREATE TABLE $wpdb->link2cat (
+  rel_id bigint(20) NOT NULL auto_increment,
+  link_id bigint(20) NOT NULL default '0',
+  category_id bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (rel_id),
+  KEY link_id (link_id,category_id)
 );
 CREATE TABLE $wpdb->linkcategories (
   cat_id bigint(20) NOT NULL auto_increment,
@@ -231,6 +241,7 @@ function populate_options() {
 	}
 	// 2.1
 	add_option('blog_public', 1);
+	add_option('default_link_category', 2);
 
 	// Delete unused options
 	$unusedoptions = array ('blodotgsping_url', 'bodyterminator', 'emailtestonly', 'phoneemail_separator', 'smilies_directory', 'subjectprefix', 'use_bbcode', 'use_blodotgsping', 'use_phoneemail', 'use_quicktags', 'use_weblogsping', 'weblogs_cache_file', 'use_preview', 'use_htmltrans', 'smilies_directory', 'fileupload_allowedusers', 'use_phoneemail', 'default_post_status', 'default_post_category', 'archive_mode', 'time_difference', 'links_minadminlevel', 'links_use_adminlevels', 'links_rating_type', 'links_rating_char', 'links_rating_ignore_zero', 'links_rating_single_image', 'links_rating_image0', 'links_rating_image1', 'links_rating_image2', 'links_rating_image3', 'links_rating_image4', 'links_rating_image5', 'links_rating_image6', 'links_rating_image7', 'links_rating_image8', 'links_rating_image9', 'weblogs_cacheminutes', 'comment_allowed_tags', 'search_engine_friendly_urls', 'default_geourl_lat', 'default_geourl_lon', 'use_default_geourl', 'weblogs_xml_url', 'new_users_can_blog');

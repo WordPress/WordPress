@@ -2409,4 +2409,9 @@ function privacy_ping_filter( $sites ) {
 	else
 		return '';
 }
+
+function bool_from_yn($yn) {
+    if ($yn == 'Y') return 1;
+    return 0;
+}
 ?>

@@ -410,4 +410,60 @@ function in_category($category) { // Check if the current post is in the given c
 		return false;
 }
 
+function &get_categories($args = '') {
+	global $wpdb, $category_links;
+
+	parse_str($args, $r);
+
+	if ( !isset($r['type']) )  // 'post' or 'link'
+		$r['type'] = 'post';
+	if ( !isset($r['child_of']) )
+		$r['child_of'] = 0;
+	if ( !isset($r['orderby']) )
+		$r['orderby'] = 'name';
+	if ( !isset($r['order']) )
+		$r['order'] = 'ASC';
+	if ( !isset($r['hide_empty']) )
+		$r['hide_empty'] = true;
+
+	$r['orderby'] = "cat_" . $r['orderby'];
+
+	$exclusions = '';
+	if ( !empty($r['exclude']) ) {
+		$excategories = preg_split('/[\s,]+/',$r['exclude']);
+		if ( count($excategories) ) {
+			foreach ( $excategories as $excat ) {
+				$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
+			}
+		}
+	}
+
+	$categories = $wpdb->get_results("SELECT * " .
+		"FROM $wpdb->categories " .
+		"$exclusions " .
+		"ORDER BY " . $r['orderby'] . " " . $r['order']);
+
+	if ( empty($categories) )
+		return array();
+
+	if ( $r['hide_empty'] ) {
+		foreach ( $categories as $category ) {
+			$count = 0;
+			if ( 'link' == $r['type'] ) {
+				$count = $category->link_count;
+			} else {
+				$count = $category->category_count;	
+			}
+			if ( $count )
+				$the_categories[] = $category; 
+		}
+		$categories = $the_categories;
+	}
+
+	/* if ( $r['child_of'] )
+		$categories = & get_category_children($r['child_of'], $categories); */
+
+	return $categories;
+}
+
 ?>

@@ -466,6 +466,11 @@ table .vers, table .name {
 	color: #fff;
 }
 
+#deletebookmarks:hover {
+	background: #ce0000;
+	color: #fff;
+}
+
 #quicktags #ed_strong {
 	font-weight: bold;
 }
