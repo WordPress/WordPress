@@ -295,7 +295,6 @@ function &get_page_children($page_id, $pages) {
 
 function &get_pages($args = '') {
 	global $wpdb;
-
 	parse_str($args, $r);
 
 	if ( !isset($r['child_of']) )
@@ -304,6 +303,8 @@ function &get_pages($args = '') {
 		$r['sort_column'] = 'post_title';
 	if ( !isset($r['sort_order']) )
 		$r['sort_order'] = 'ASC';
+	if ( !isset($r['hierarchical']) )
+		$r['hierarchical'] = 1;
 
 	$exclusions = '';
 	if ( !empty($r['exclude']) ) {
@@ -327,12 +328,55 @@ function &get_pages($args = '') {
 	// Update cache.
 	update_page_cache($pages);
 
-	if ( $r['child_of'] )
+	if ( $r['child_of'] || $r['hierarchical'] )
 		$pages = & get_page_children($r['child_of'], $pages);
 
 	return $pages;
 }
 
+function wp_dropdown_pages($args = '') {
+	parse_str($args, $r);
+	if ( !isset($r['depth']) )
+		$r['depth'] = 0;
+	if ( !isset($r['child_of']) )
+		$r['child_of'] = 0;
+	if ( !isset($r['echo']) )
+		$r['echo'] = 1;
+	if ( !isset($r['selected']) )
+		$r['selected'] = 0;
+
+	extract($r);
+
+	$pages = get_pages($args);
+	$output = '';
+
+	if ( ! empty($pages) ) {
+		$output = "<select name='page_id'>\n";
+		$output .= walk_page_tree($pages, $depth, '_page_dropdown_element', '', '', '', $selected);
+		$output .= "</select>\n";
+	}
+
+	$output = apply_filters('wp_dropdown_pages', $output);
+
+	if ( $echo )
+		echo $output;
+
+	return $output;
+}
+
+function _page_dropdown_element($output, $page, $depth, $selected) {
+	$pad = str_repeat('&nbsp;', $depth * 3);
+
+	$output .= "\t<option value=\"$page->ID\"";
+	if ( $page->ID == $selected )
+		$output .= ' selected="selected"';
+	$output .= '>';
+	$title = wp_specialchars($page->post_title);
+	$output .= "$pad$title";
+	$output .= "</option>\n";
+
+	return $output;
+}
 
 function wp_list_pages($args = '') {
 	parse_str($args, $r);
@@ -340,6 +384,8 @@ function wp_list_pages($args = '') {
 		$r['depth'] = 0;
 	if ( !isset($r['show_date']) )
 		$r['show_date'] = '';
+	if ( !isset($r['date_format']) )
+		$r['date_format'] = get_settings('date_format');
 	if ( !isset($r['child_of']) )
 		$r['child_of'] = 0;
 	if ( !isset($r['title_li']) )
@@ -350,42 +396,16 @@ function wp_list_pages($args = '') {
 	$output = '';
 
 	// Query pages.
-	$pages = & get_pages($args);
-	if ( $pages ) {
+	$pages = get_pages($args);
 
+	if ( !empty($pages) ) {
 		if ( $r['title_li'] )
 			$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
 
-		// Now loop over all pages that were selected
-		$page_tree = Array();
-		foreach ( $pages as $page ) {
-			// set the title for the current page
-			$page_tree[$page->ID]['title'] = $page->post_title;
-			$page_tree[$page->ID]['name'] = $page->post_name;
+		global $wp_query;
+		$current_page = $wp_query->get_queried_object_id();
+		$output .= walk_page_tree($pages, $depth, '_page_list_element_start', '_page_list_element_end', '_page_list_level_start', '_page_list_level_end', $current_page, $r['show_date'], $r['date_format']);
 
-			// set the selected date for the current page
-			// depending on the query arguments this is either
-			// the createtion date or the modification date
-			// as a unix timestamp. It will also always be in the
-			// ts field.
-			if ( !empty($r['show_date']) ) {
-				if ( 'modified' == $r['show_date'] )
-					$page_tree[$page->ID]['ts'] = $page->post_modified;
-				else
-					$page_tree[$page->ID]['ts'] = $page->post_date;
-			}
-
-			// The tricky bit!!
-			// Using the parent ID of the current page as the
-			// array index we set the curent page as a child of that page.
-			// We can now start looping over the $page_tree array
-			// with any ID which will output the page links from that ID downwards.
-			if ( $page->post_parent != $page->ID)
-				$page_tree[$page->post_parent]['children'][] = $page->ID;
-		}
-		// Output of the pages starting with child_of as the root ID.
-		// child_of defaults to 0 if not supplied in the query.
-		$output .= _page_level_out($r['child_of'],$page_tree, $r, 0, false);
 		if ( $r['title_li'] )
 			$output .= '</ul></li>';
 	}
@@ -398,51 +418,44 @@ function wp_list_pages($args = '') {
 		return $output;
 }
 
+function _page_list_level_start($output, $depth) {
+	$indent = str_repeat("\t", $depth);
+	$output .= "$indent<ul>\n";
+	return $output;
+}
 
-function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
-	global $wp_query;
-	$queried_obj = $wp_query->get_queried_object();
-	$output = '';
+function _page_list_level_end($output, $depth) {
+	$indent = str_repeat("\t", $depth);
+	$output .= "$indent</ul>\n";
+	return $output;
+}
 
+function _page_list_element_start($output, $page, $depth, $current_page, $show_date, $date_format) {
 	if ( $depth )
 		$indent = str_repeat("\t", $depth);
-		//$indent = join('', array_fill(0,$depth,"\t"));
 
-	if ( !is_array($page_tree[$parent]['children']) )
-		return false;
+	$css_class = 'page_item';
+	if ( $page->ID == $current_page )
+		$css_class .= ' current_page_item';
 
-	foreach ( $page_tree[$parent]['children'] as $page_id ) {
-		$cur_page = $page_tree[$page_id];
-		$title = $cur_page['title'];
+	$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . wp_specialchars($page->post_title) . '">' . $page->post_title . '</a>';
 
-		$css_class = 'page_item';
-		if ( $page_id == $queried_obj->ID )
-			$css_class .= ' current_page_item';
+	if ( !empty($show_date) ) {
+		if ( 'modified' == $show_date )
+			$time = $page->post_modified;
+		else
+			$time = $page->post_date;
 
-		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page_id) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
-
-		if ( isset($cur_page['ts']) ) {
-			$format = get_settings('date_format');
-			if ( isset($args['date_format']) )
-				$format = $args['date_format'];
-			$output .= " " . mysql2date($format, $cur_page['ts']);
-		}
-
-		if ( isset($cur_page['children']) && is_array($cur_page['children']) ) {
-			$new_depth = $depth + 1;
-
-			if ( !$args['depth'] || $depth < ($args['depth']-1) ) {
-				$output .= "$indent<ul>\n";
-				$output .= _page_level_out($page_id, $page_tree, $args, $new_depth, false);
-				$output .= "$indent</ul>\n";
-			}
-		}
-		$output .= "$indent</li>\n";
+		$output .= " " . mysql2date($date_format, $time);
 	}
-	if ( $echo )
-		echo $output;
-	else
-		return $output;
+
+	return $output;
+}
+
+function _page_list_element_end($output, $page, $depth) {
+	$output .= "</li>\n";
+
+	return $output;
 }
 
 function the_attachment_link($id = 0, $fullsize = false, $max_dims = false) {

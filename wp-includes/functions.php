@@ -745,6 +745,84 @@ function &get_page(&$page, $output = OBJECT) {
 	}
 }
 
+function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element_callback = '', $start_level_callback = '', $end_level_callback = '') {
+	$args = array_slice(func_get_args(), 6);
+	$parents = array();
+	$depth = 0;
+	$previous_page = '';
+	$output = '';
+
+	$last_page->post_parent = 0;
+	$last_page->post_id = 0;
+	$pages[] = $last_page;
+
+	foreach ( $pages as $page ) {
+		if ( !empty($previous_page) && ($page->post_parent == $previous_page->ID) ) {
+			// Previous page is my parent. Descend a level.
+			array_unshift($parents, $page);
+			$depth++;
+			if ( !$to_depth || ($depth < $to_depth) )
+				if ( !empty($start_level_callback) ) {
+					$cb_args = array_merge( array($output, $depth), $args);
+					$output = call_user_func_array($start_level_callback, $cb_args);
+				}
+		} else if ( $depth && ($page->post_parent == $parents[0]->ID) ) {
+			// On the same level as previous page.
+			if ( !$to_depth || ($depth < $to_depth) ) {
+				if ( !empty($end_element_callback) ) {
+					$cb_args = array_merge( array($output, $previous_page, $depth), $args);
+					$output = call_user_func_array($end_element_callback, $cb_args);
+				}
+			}
+		} else if ( $depth ) {
+			// Ascend one or more levels.
+			if ( !$to_depth || ($depth < $to_depth) ) {
+				if ( !empty($end_element_callback) ) {
+					$cb_args = array_merge( array($output, $previous_page, $depth), $args);
+					$output = call_user_func_array($end_element_callback, $cb_args);
+				}
+			}
+
+			while ( $parent = array_shift($parents)) {
+				$depth--;
+				if ( !$to_depth || ($depth < $to_depth) ) {
+					if ( !empty($end_level_callback) ) {
+						$cb_args = array_merge( array($output, $depth), $args);
+						$output = call_user_func_array($end_level_callback, $cb_args);
+					}
+					if ( !empty($end_element_callback) ) {
+						$cb_args = array_merge( array($output, $parent, $depth), $args);
+						$output = call_user_func_array($end_element_callback, $cb_args);
+					}
+				}
+				if ( $page->post_parent == $parent->ID ) {
+					break;
+				}
+			}
+		} else if ( !empty($previous_page) ) {
+			// Close off previous page.
+			if ( !$to_depth || ($depth < $to_depth) ) {
+				if ( !empty($end_element_callback) ) {
+					$cb_args = array_merge( array($output, $previous_page, $depth), $args);
+					$output = call_user_func_array($end_element_callback, $cb_args);
+				}
+			}
+		}
+
+		// Start the page.
+		if ( !$to_depth || ($depth < $to_depth) ) {
+			if ( !empty($start_element_callback) && ($page->ID != 0) ) {
+				$cb_args = array_merge( array($output, $page, $depth), $args);
+				$output = call_user_func_array($start_element_callback, $cb_args);
+			}
+		}
+
+		$previous_page = $page;
+	}
+
+	return $output;
+}
+
 function set_category_path($cat) {
 	$cat->fullpath = '/' . $cat->category_nicename;
 	$path = $cat->fullpath;
