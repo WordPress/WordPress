@@ -512,7 +512,7 @@ function wp_kses_decode_entities($string)
 
 function wp_filter_kses($data) {
 	global $allowedtags;
-	return wp_kses($data, $allowedtags);
+	return addslashes( wp_kses(stripslashes( $data ), $allowedtags) );
 }
 
 function wp_filter_post_kses($data) {
@@ -520,22 +520,51 @@ function wp_filter_post_kses($data) {
 	return addslashes ( wp_kses(stripslashes( $data ), $allowedposttags) );
 }
 
+function wp_filter_nohtml_kses($data) {
+	return addslashes ( wp_kses(stripslashes( $data ), array()) );
+}
+
 function kses_init_filters() {
-		add_filter('pre_comment_author', 'wp_filter_kses');
-		add_filter('pre_comment_content', 'wp_filter_kses');
-		add_filter('content_save_pre', 'wp_filter_post_kses');
-		add_filter('title_save_pre', 'wp_filter_kses');
+	// Normal filtering.
+	add_filter('pre_comment_content', 'wp_filter_kses');
+	add_filter('title_save_pre', 'wp_filter_kses');
+
+	// Post filtering
+	add_filter('content_save_pre', 'wp_filter_post_kses');
+
+	// Strip all html.
+	add_filter('pre_comment_author_name', 'wp_filter_nohtml_kses');
+	add_filter('pre_comment_author_url', 'wp_filter_nohtml_kses');
+	add_filter('pre_comment_author_email', 'wp_filter_nohtml_kses');
+	add_filter('pre_comment_user_ip', 'wp_filter_nohtml_kses');
+	add_filter('pre_comment_user_agent', 'wp_filter_nohtml_kses');
+	add_filter('pre_user_id', 'wp_filter_nohtml_kses');
+}
+
+function kses_remove_filters() {
+	// Normal filtering.
+	remove_filter('pre_comment_content', 'wp_filter_kses');
+	remove_filter('title_save_pre', 'wp_filter_kses');
+
+	// Post filtering
+	remove_filter('content_save_pre', 'wp_filter_post_kses');
+
+	// Strip all html.
+	remove_filter('pre_comment_author_name', 'wp_filter_nohtml_kses');
+	remove_filter('pre_comment_author_url', 'wp_filter_nohtml_kses');
+	remove_filter('pre_comment_author_email', 'wp_filter_nohtml_kses');
+	remove_filter('pre_comment_user_ip', 'wp_filter_nohtml_kses');
+	remove_filter('pre_comment_user_agent', 'wp_filter_nohtml_kses');
+	remove_filter('pre_user_id', 'wp_filter_nohtml_kses');
 }
 
 function kses_init() {
-	remove_filter('pre_comment_author', 'wp_filter_kses');
-	remove_filter('pre_comment_content', 'wp_filter_kses');
-	remove_filter('content_save_pre', 'wp_filter_post_kses');
-	remove_filter('title_save_pre', 'wp_filter_kses');
+	kses_remove_filters();
 
 	if (current_user_can('unfiltered_html') == false)
 		kses_init_filters();
 }
+
 add_action('init', 'kses_init');
 add_action('set_current_user', 'kses_init');
 ?>
