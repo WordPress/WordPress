@@ -747,7 +747,7 @@ function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element
 					$cb_args = array_merge( array($output, $depth), $args);
 					$output = call_user_func_array($start_level_callback, $cb_args);
 				}
-		} else if ( $depth && ($page->post_parent == $parents[0]->ID) ) {
+		} else if ( $depth && ($page->post_parent == $previous_page->post_parent) ) {
 			// On the same level as previous page.
 			if ( !$to_depth || ($depth < $to_depth) ) {
 				if ( !empty($end_element_callback) ) {
