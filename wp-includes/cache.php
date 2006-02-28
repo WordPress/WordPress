@@ -181,16 +181,6 @@ class WP_Object_Cache {
 			if ($dogs = $wpdb->get_results("SELECT * FROM $wpdb->categories")) {
 				foreach ($dogs as $catt)
 					$this->cache['category'][$catt->cat_ID] = $catt;
-
-				foreach ($this->cache['category'] as $catt) {
-					$curcat = $catt->cat_ID;
-					$fullpath = '/'.$this->cache['category'][$catt->cat_ID]->category_nicename;
-					while ($this->cache['category'][$curcat]->category_parent != 0) {
-						$curcat = $this->cache['category'][$curcat]->category_parent;
-						$fullpath = '/'.$this->cache['category'][$curcat]->category_nicename.$fullpath;
-					}
-					$this->cache['category'][$catt->cat_ID]->fullpath = $fullpath;
-				}
 			}
 		} else
 			if ('options' == $group) {

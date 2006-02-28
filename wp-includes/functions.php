@@ -650,21 +650,7 @@ function &get_children($post = 0, $output = OBJECT) {
 	}
 }
 
-function set_page_path($page) {
-	$page->fullpath = '/' . $page->post_name;
-	$path = $page->fullpath;
-	$curpage = $page;
-	while ($curpage->post_parent != 0) {
-		$curpage = get_page($curpage->post_parent);
-		$path = '/' . $curpage->post_name . $path;
-	}
-
-	$page->fullpath = $path;
-
-	return $page;
-}
-
-function get_page_by_path($page_path) {
+function get_page_by_path($page_path, $output = OBJECT) {
 	global $wpdb;
 	$page_path = rawurlencode(urldecode($page_path));
 	$page_path = str_replace('%2F', '/', $page_path);
@@ -678,7 +664,7 @@ function get_page_by_path($page_path) {
 	$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = '$leaf_path' AND post_type='page'");
 
 	if ( empty($pages) ) 
-		return 0;
+		return NULL;
 
 	foreach ($pages as $page) {
 		$path = '/' . $leaf_path;
@@ -689,10 +675,10 @@ function get_page_by_path($page_path) {
 		}
 
 		if ( $path == $full_path )
-			return $page->ID;
+			return get_page($page->ID, $output);
 	}
 
-	return 0;
+	return NULL;
 }
 
 // Retrieves page data given a page ID or page object.
@@ -727,11 +713,6 @@ function &get_page(&$page, $output = OBJECT) {
 				return get_post($_page, $output);
 			wp_cache_add($_page->ID, $_page, 'pages');
 		}
-	}
-
-	if (!isset($_page->fullpath)) {
-		$_page = set_page_path($_page);
-		wp_cache_replace($_page->ID, $_page, 'pages');
 	}
 
 	if ( $output == OBJECT ) {
@@ -823,18 +804,39 @@ function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element
 	return $output;
 }
 
-function set_category_path($cat) {
-	$cat->fullpath = '/' . $cat->category_nicename;
-	$path = $cat->fullpath;
-	$curcat = $cat;
-	while ($curcat->category_parent != 0) {
-		$curcat = get_category($curcat->category_parent);
-		$path = '/' . $curcat->category_nicename . $path;
+function get_category_by_path($category_path, $full_match = true, $output = OBJECT) {
+	global $wpdb;
+	$category_path = rawurlencode(urldecode($category_path));
+	$category_path = str_replace('%2F', '/', $category_path);
+	$category_path = str_replace('%20', ' ', $category_path);
+	$category_paths = '/' . trim($category_path, '/');
+	$leaf_path  = sanitize_title(basename($category_paths));
+	$category_paths = explode('/', $category_paths);
+	foreach($category_paths as $pathdir)
+		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
+
+	$categories = $wpdb->get_results("SELECT cat_ID, category_nicename, category_parent FROM $wpdb->categories WHERE category_nicename = '$leaf_path'");
+
+	if ( empty($categories) ) 
+		return NULL;
+
+	foreach ($categories as $category) {
+		$path = '/' . $leaf_path;
+		$curcategory = $category;
+		while ($curcategory->category_parent != 0) {
+			$curcategory = $wpdb->get_row("SELECT cat_ID, category_nicename, category_parent FROM $wpdb->categories WHERE cat_ID = '$curcategory->category_parent'");
+			$path = '/' . $curcategory->category_nicename . $path;
+		}
+
+		if ( $path == $full_path )
+			return get_category($category->cat_ID, $output);
 	}
 
-	$cat->fullpath = $path;
+	// If full matching is not required, return the first cat that matches the leaf.
+	if ( ! $full_match )
+		return get_category($categories[0]->cat_ID, $output);
 
-	return $cat;
+	return NULL;
 }
 
 // Retrieves category data given a category ID or category object.
@@ -853,11 +855,6 @@ function &get_category(&$category, $output = OBJECT) {
 			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category' LIMIT 1");
 			wp_cache_add($category, $_category, 'category');
 		}
-	}
-
-	if ( !isset($_category->fullpath) ) {
-		$_category = set_category_path($_category);
-		wp_cache_replace($_category->cat_ID, $_category, 'category');
 	}
 
 	if ( $output == OBJECT ) {

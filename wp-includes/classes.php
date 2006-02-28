@@ -359,6 +359,10 @@ class WP_Query {
 			$where .= " AND post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
 			$reqpage = get_page_by_path($q['pagename']);
+			if ( !empty($reqpage) )
+				$reqpage = $reqpage->ID;
+			else
+				$reqpage = 0;
 			$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
 			$page_paths = '/' . trim($q['pagename'], '/');
 			$q['pagename'] = sanitize_title(basename($page_paths));
@@ -463,29 +467,28 @@ class WP_Query {
 
 		global $cache_categories;
 		if ('' != $q['category_name']) {
+			$reqcat = get_category_by_path($q['category_name']);
+			$q['category_name'] = str_replace('%2F', '/', urlencode(urldecode($q['category_name'])));
+			$cat_paths = '/' . trim($q['category_name'], '/');
+			$q['category_name'] = sanitize_title(basename($cat_paths));
+
 			$cat_paths = '/' . trim(urldecode($q['category_name']), '/');
 			$q['category_name'] = sanitize_title(basename($cat_paths));
 			$cat_paths = explode('/', $cat_paths);
 			foreach($cat_paths as $pathdir)
 				$cat_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
 
-			$all_cat_ids = get_all_category_ids();
-			$q['cat'] = 0; $partial_match = 0;
-			foreach ( $all_cat_ids as $cat_id ) {
-				$cat = get_category($cat_id);
-				if ( $cat->fullpath == $cat_path ) {
-					$q['cat'] = $cat_id;
-					break;
-				} elseif ( $cat->category_nicename == $q['category_name'] ) {
-					$partial_match = $cat_id;
-				}
-			}
-
 			//if we don't match the entire hierarchy fallback on just matching the nicename
-			if (!$q['cat'] && $partial_match) {
-				$q['cat'] = $partial_match;
-			}
+			if ( empty($reqcat) )
+				$reqcat = get_category_by_path($q['category_name'], false);
 
+			if ( !empty($reqcat) )
+				$reqcat = $reqcat->cat_ID;
+			else
+				$reqcat = 0;
+
+			$q['cat'] = $reqcat;
+				
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
 			$whichcat = " AND (category_id = '" . $q['cat'] . "'";
