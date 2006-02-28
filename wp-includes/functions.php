@@ -740,7 +740,7 @@ function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element
 	foreach ( $pages as $page ) {
 		if ( !empty($previous_page) && ($page->post_parent == $previous_page->ID) ) {
 			// Previous page is my parent. Descend a level.
-			array_unshift($parents, $page);
+			array_unshift($parents, $previous_page);
 			$depth++;
 			if ( !$to_depth || ($depth < $to_depth) )
 				if ( !empty($start_level_callback) ) {
@@ -764,7 +764,7 @@ function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element
 				}
 			}
 
-			while ( $parent = array_shift($parents)) {
+			while ( $parent = array_shift($parents) ) {
 				$depth--;
 				if ( !$to_depth || ($depth < $to_depth) ) {
 					if ( !empty($end_level_callback) ) {
@@ -776,7 +776,7 @@ function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element
 						$output = call_user_func_array($end_element_callback, $cb_args);
 					}
 				}
-				if ( $page->post_parent == $parent->ID ) {
+				if ( $page->post_parent == $parents[0]->ID ) {
 					break;
 				}
 			}
