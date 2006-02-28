@@ -192,7 +192,6 @@ if ( get_magic_quotes_gpc() ) {
 	$_GET    = stripslashes_deep($_GET   );
 	$_POST   = stripslashes_deep($_POST  );
 	$_COOKIE = stripslashes_deep($_COOKIE);
-	$_SERVER = stripslashes_deep($_SERVER);
 }
 
 // Escape with wpdb.
