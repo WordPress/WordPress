@@ -344,14 +344,15 @@ function wp_dropdown_pages($args = '') {
 		$r['echo'] = 1;
 	if ( !isset($r['selected']) )
 		$r['selected'] = 0;
-
+	if ( !isset($r['name']) )
+		$r['name'] = 'page_id';
 	extract($r);
 
 	$pages = get_pages($args);
 	$output = '';
 
 	if ( ! empty($pages) ) {
-		$output = "<select name='page_id'>\n";
+		$output = "<select name='$name'>\n";
 		$output .= walk_page_tree($pages, $depth, '_page_dropdown_element', '', '', '', $selected);
 		$output .= "</select>\n";
 	}
