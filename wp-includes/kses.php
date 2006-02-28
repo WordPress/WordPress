@@ -531,14 +531,6 @@ function kses_init_filters() {
 
 	// Post filtering
 	add_filter('content_save_pre', 'wp_filter_post_kses');
-
-	// Strip all html.
-	add_filter('pre_comment_author_name', 'wp_filter_nohtml_kses');
-	add_filter('pre_comment_author_url', 'wp_filter_nohtml_kses');
-	add_filter('pre_comment_author_email', 'wp_filter_nohtml_kses');
-	add_filter('pre_comment_user_ip', 'wp_filter_nohtml_kses');
-	add_filter('pre_comment_user_agent', 'wp_filter_nohtml_kses');
-	add_filter('pre_user_id', 'wp_filter_nohtml_kses');
 }
 
 function kses_remove_filters() {
@@ -548,14 +540,6 @@ function kses_remove_filters() {
 
 	// Post filtering
 	remove_filter('content_save_pre', 'wp_filter_post_kses');
-
-	// Strip all html.
-	remove_filter('pre_comment_author_name', 'wp_filter_nohtml_kses');
-	remove_filter('pre_comment_author_url', 'wp_filter_nohtml_kses');
-	remove_filter('pre_comment_author_email', 'wp_filter_nohtml_kses');
-	remove_filter('pre_comment_user_ip', 'wp_filter_nohtml_kses');
-	remove_filter('pre_comment_user_agent', 'wp_filter_nohtml_kses');
-	remove_filter('pre_user_id', 'wp_filter_nohtml_kses');
 }
 
 function kses_init() {
