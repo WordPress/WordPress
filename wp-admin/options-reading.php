@@ -16,24 +16,29 @@ include('admin-header.php');
 <legend><?php _e('Front Page') ?></legend> 
 <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 <tr valign="top"> 
-<th width="33%" scope="row"></th> 
+<th width="33%" scope="row"><?php _e('Front page displays:')?></th> 
 <td>
-<p>
 	<label>
 		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked('posts', get_option('show_on_front')); ?> /> 
-		<?php _e('Show the latest posts on the front page'); ?>
+		<?php _e('The latest posts'); ?>
 	</label>
-</p>
-<p>
+	<br />
 	<label>
 		<input name="show_on_front" type="radio" value="page" class="tog" <?php checked('page', get_option('show_on_front')); ?> /> 
-		<?php printf(__('Show another <a href="%s">page</a> on the front page (Select below)'), 'edit-pages.php'); ?>
+		<?php printf(__('A static <a href="%s">page</a> (select below)'), 'edit-pages.php'); ?>
 	</label>
-</p>
-<p>
-	<?php printf(__('Show this page on the front page: %s'), wp_dropdown_pages("name=page_on_front&echo=0&selected=" . get_option('page_on_front'))); ?><br />
-	<?php printf(__('Show the latest posts on this page: %s'), wp_dropdown_pages("name=page_for_posts&echo=0&selected=" . get_option('page_for_posts'))); ?>
-</p>
+<ul>
+	<li><?php printf(__('Show this page on the front page: %s'), wp_dropdown_pages("name=page_on_front&echo=0&selected=" . get_option('page_on_front'))); ?></li>
+	<li><?php printf(__('Show the latest posts on this page: %s'), wp_dropdown_pages("name=page_for_posts&echo=0&selected=" . get_option('page_for_posts'))); ?></li>
+</ul>
+<?php if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') == get_option('page_on_front') ) : ?>
+<div id="front-page-warning" class="updated fade-ff0000">
+	<p>
+		<?php _e('<strong>Warning:</strong> these pages should not be the same!'); ?>
+	</p>
+</div>
+<?php endif; ?>
+</fieldset>
 </td> 
 </tr> 
 </table> 
@@ -66,7 +71,7 @@ include('admin-header.php');
 <tr valign="top">
 <th scope="row"><?php _e('For each article, show:') ?> </th>
 <td>
-<label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>  /> <?php _e('Full text') ?></label><br />
+<label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>	/> <?php _e('Full text') ?></label><br />
 <label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_settings('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label>
 </td>
 </tr> 
