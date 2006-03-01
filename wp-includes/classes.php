@@ -293,6 +293,12 @@ class WP_Query {
 			$q['what_to_show'] = 'posts';
 		}
 
+		if ( $this->is_home && ( 'page' == get_option('show_on_front') ) && get_option('page_on_front') ) {
+			$this->is_page = true;
+			$this->is_home = false;
+			$q['page_id'] = get_option('page_on_front');
+		}
+
 		if (isset($q['page'])) {
 			$q['page'] = trim($q['page'], '/');
 			$q['page'] = (int) $q['page'];
@@ -363,12 +369,17 @@ class WP_Query {
 				$reqpage = $reqpage->ID;
 			else
 				$reqpage = 0;
-			$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
-			$page_paths = '/' . trim($q['pagename'], '/');
-			$q['pagename'] = sanitize_title(basename($page_paths));
-			$q['name'] = $q['pagename'];
 
-			$where .= " AND (ID = '$reqpage')";
+			if  ( ('page' == get_option('show_on_front') ) && ( $reqpage == get_option('page_for_posts') ) ) {
+				$this->is_page = false;
+				$this->is_home = true;
+			} else {
+				$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
+				$page_paths = '/' . trim($q['pagename'], '/');
+				$q['pagename'] = sanitize_title(basename($page_paths));
+				$q['name'] = $q['pagename'];
+				$where .= " AND (ID = '$reqpage')";
+			}
 		} elseif ('' != $q['attachment']) {
 			$q['attachment'] = str_replace('%2F', '/', urlencode(urldecode($q['attachment'])));
 			$attach_paths = '/' . trim($q['attachment'], '/');
@@ -397,8 +408,13 @@ class WP_Query {
 
 		if (($q['page_id'] != '') && (intval($q['page_id']) != 0)) {
 			$q['page_id'] = intval($q['page_id']);
-			$q['p'] = $q['page_id'];
-			$where = ' AND ID = '.$q['page_id'];
+			if  ( ('page' == get_option('show_on_front') ) && ( $q['page_id'] == get_option('page_for_posts') ) ) {
+				$this->is_page = false;
+				$this->is_home = true;
+			} else {
+				$q['p'] = $q['page_id'];
+				$where = ' AND ID = '.$q['page_id'];
+			}
 		}
 
 		// If a search pattern is specified, load the posts that match

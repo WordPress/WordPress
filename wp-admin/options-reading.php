@@ -9,7 +9,37 @@ include('admin-header.php');
 
 <div class="wrap"> 
 <h2><?php _e('Reading Options') ?></h2> 
-<form name="form1" method="post" action="options.php"> 
+<form name="form1" method="post" action="options.php">
+
+<?php if ( get_pages() ): ?>
+<fieldset class="options"> 
+<legend><?php _e('Front Page') ?></legend> 
+<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+<tr valign="top"> 
+<th width="33%" scope="row"></th> 
+<td>
+<p>
+	<label>
+		<input name="show_on_front" type="radio" value="posts" class="tog" <?php checked('posts', get_option('show_on_front')); ?> /> 
+		<?php _e('Show the latest posts on the front page'); ?>
+	</label>
+</p>
+<p>
+	<label>
+		<input name="show_on_front" type="radio" value="page" class="tog" <?php checked('page', get_option('show_on_front')); ?> /> 
+		<?php printf(__('Show another <a href="%s">page</a> on the front page (Select below)'), 'edit-pages.php'); ?>
+	</label>
+</p>
+<p>
+	<?php printf(__('Show this page on the front page: %s'), wp_dropdown_pages("name=page_on_front&echo=0&selected=" . get_option('page_on_front'))); ?><br />
+	<?php printf(__('Show the latest posts on this page: %s'), wp_dropdown_pages("name=page_for_posts&echo=0&selected=" . get_option('page_for_posts'))); ?>
+</p>
+</td> 
+</tr> 
+</table> 
+</fieldset>
+<?php endif; ?>
+
 <fieldset class="options"> 
 <legend><?php _e('Blog Pages') ?></legend> 
 <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
@@ -55,7 +85,7 @@ include('admin-header.php');
 </p>
 <p class="submit">
 <input type="hidden" name="action" value="update" /> 
-<input type="hidden" name="page_options" value="posts_per_page,what_to_show,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression" /> 
+<input type="hidden" name="page_options" value="posts_per_page,what_to_show,posts_per_rss,rss_use_excerpt,blog_charset,gzipcompression,show_on_front,page_on_front,page_for_posts" /> 
 <input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /> 
 </p> 
 </form> 
