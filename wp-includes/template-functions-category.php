@@ -252,14 +252,8 @@ function wp_list_cats($args = '') {
 		$r['hide_empty'] = 1;
 	if ( !isset($r['use_desc_for_title']) )
 		$r['use_desc_for_title'] = 1;
-	if ( !isset($r['children']) )
-		$r['children'] = true;
 	if ( !isset($r['child_of']) )
 		$r['child_of'] = 0;
-	if ( !isset($r['categories']) )
-		$r['categories'] = 0;
-	if ( !isset($r['recurse']) )
-		$r['recurse'] = 0;
 	if ( !isset($r['feed']) )
 		$r['feed'] = '';
 	if ( !isset($r['feed_image']) )
@@ -267,138 +261,132 @@ function wp_list_cats($args = '') {
 	if ( !isset($r['exclude']) )
 		$r['exclude'] = '';
 	if ( !isset($r['hierarchical']) )
-		$r['hierarchical'] = true;
+		$r['hierarchical'] = false;
+	if ( !isset($r['title_li']) )
+		$r['title_li'] = '';
 
-	return list_cats($r['optionall'], $r['all'], $r['sort_column'], $r['sort_order'], $r['file'],	$r['list'], $r['optiondates'], $r['optioncount'], $r['hide_empty'], $r['use_desc_for_title'], $r['children'], $r['child_of'], $r['categories'], $r['recurse'], $r['feed'], $r['feed_image'], $r['exclude'], $r['hierarchical']);
+	$q['orderby'] = $r['sort_column'];
+	$q['order'] = $r['sort_order'];
+	$q['include_last_update_time'] = $r['optiondates'];
+	
+	extract($r);
+
+	$args = add_query_arg($q, $args);
+	$categories = get_categories($args);
+
+	$output = '';
+	if ( $title_li && $list )
+			$output = '<li class="categories">' . $r['title_li'] . '<ul>';
+
+	if ( empty($categories) ) {
+		if ( $list)
+			$output .= '<li>' . __("No categories") . '</li>';
+		else
+			$output .= __("No categories");
+	} else {
+		global $wp_query;
+		$current_category = $wp_query->get_queried_object_id();
+		if ( $hierarchical )
+			$depth = 0;  // Walk the full depth.
+		else
+			$depth = -1; // Flat.
+
+		$output .= walk_category_tree($categories, $depth, '_category_list_element_start', '_category_list_element_end', '_category_list_level_start', '_category_list_level_end', $current_category, $r);
+	}
+
+	if ( $title_li && $list )
+		$output .= '</ul></li>';
+			
+	echo apply_filters('list_cats', $output);
+}
+
+function _category_list_level_start($output, $depth, $cat, $args) {
+	if (! $args['list'])
+		return $output;
+
+	$indent = str_repeat("\t", $depth);
+	$output .= "$indent<ul class='children'>\n";
+	return $output;
+}
+
+function _category_list_level_end($output, $depth, $cat, $args) {
+	if (! $args['list'])
+		return $output;
+
+	$indent = str_repeat("\t", $depth);
+	$output .= "$indent</ul>\n";
+	return $output;
+}
+
+function _category_list_element_start($output, $category, $depth, $current_category, $args) {
+	extract($args);
+
+	$link = '<a href="' . get_category_link($category->cat_ID) . '" ';
+	if ( $use_desc_for_title == 0 || empty($category->category_description) )
+		$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name)) . '"';
+	else
+		$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category)) . '"';
+	$link .= '>';
+	$link .= apply_filters('list_cats', $category->cat_name, $category).'</a>';
+
+	if ( (! empty($feed_image)) || (! empty($feed)) ) {
+		$link .= ' ';
+
+		if ( empty($feed_image) )
+			$link .= '(';
+
+		$link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename) . '"';
+
+		if ( !empty($feed) ) {
+			$title = ' title="' . $feed . '"';
+			$alt = ' alt="' . $feed . '"';
+			$name = $feed;
+			$link .= $title;
+		}
+
+		$link .= '>';
+
+		if ( !empty($feed_image) )
+			$link .= "<img src='$feed_image' $alt$title" . ' />';
+		else
+			$link .= $name;
+		$link .= '</a>';
+		if (empty($feed_image))
+			$link .= ')';
+	}
+
+	if ( intval($optioncount) == 1 )
+		$link .= ' ('.intval($category->category_count).')';
+
+	if ( $optiondates ) {
+		if ( $optiondates == 1 )
+			$optiondates = 'Y-m-d';
+		$link .= ' ' . gmdate($optiondates,$category->last_update_timestamp);
+	}
+
+	if ( $list ) {
+		$output .= "\t<li";
+		if ( ($category->cat_ID == $current_category) && is_category() )
+			$output .=  ' class="current-cat"';
+		$output .= ">$link\n";
+	} else {
+		$output .= "\t$link<br />\n";
+	}
+
+	return $output;
+}
+
+function _category_list_element_end($output, $category, $depth, $cat, $args) {
+	if (! $args['list'])
+		return $output;
+
+	$output .= "</li>\n";
+	return $output;
 }
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
-	global $wpdb, $wp_query;
-	// Optiondates now works
-	if ( '' == $file )
-		$file = get_settings('home') . '/';
-
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$excats = preg_split('/[\s,]+/',$exclude);
-		if ( count($excats) ) {
-			foreach ( $excats as $excat ) {
-				$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
-			}
-		}
-	}
-
-	$exclusions = apply_filters('list_cats_exclusions', $exclusions );
-
-	if ( intval($categories) == 0 ) {
-		$sort_column = 'cat_'.$sort_column;
-
-		$query = "
-			SELECT cat_ID, cat_name, category_nicename, category_description, category_parent, category_count
-			FROM $wpdb->categories
-			WHERE cat_ID > 0 $exclusions
-			ORDER BY $sort_column $sort_order";
-
-		$categories = $wpdb->get_results($query);
-	}
-
-	if ( $optiondates ) {
-		$cat_dates = $wpdb->get_results("	SELECT category_id,
-		UNIX_TIMESTAMP( MAX(post_date) ) AS ts
-		FROM $wpdb->posts, $wpdb->post2cat, $wpdb->categories
-		WHERE post_type = 'post' AND post_status = 'publish' AND post_id = ID $exclusions
-		GROUP BY category_id");
-		foreach ( $cat_dates as $cat_date ) {
-			$category_timestamp["$cat_date->category_id"] = $cat_date->ts;
-		}
-	}
-
-	$num_found=0;
-	$thelist = "";
-
-	foreach ( $categories as $category ) {
-		if ( ( intval($hide_empty) == 0 || $category->category_count) && (!$hierarchical || $category->category_parent == $child_of) ) {
-			$num_found++;
-			$link = '<a href="'.get_category_link($category->cat_ID).'" ';
-			if ( $use_desc_for_title == 0 || empty($category->category_description) )
-				$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name)) . '"';
-			else
-				$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category)) . '"';
-			$link .= '>';
-			$link .= apply_filters('list_cats', $category->cat_name, $category).'</a>';
-
-			if ( (! empty($feed_image)) || (! empty($feed)) ) {
-
-				$link .= ' ';
-
-				if ( empty($feed_image) )
-					$link .= '(';
-
-				$link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename) . '"';
-
-				if ( !empty($feed) ) {
-					$title = ' title="' . $feed . '"';
-					$alt = ' alt="' . $feed . '"';
-					$name = $feed;
-					$link .= $title;
-				}
-
-				$link .= '>';
-
-				if ( !empty($feed_image) )
-					$link .= "<img src='$feed_image' $alt$title" . ' />';
-				else
-					$link .= $name;
-
-				$link .= '</a>';
-
-				if (empty($feed_image))
-					$link .= ')';
-			}
-
-			if ( intval($optioncount) == 1 )
-				$link .= ' ('.intval($category->category_count).')';
-
-			if ( $optiondates ) {
-				if ( $optiondates == 1 )
-					$optiondates = 'Y-m-d';
-				$link .= ' ' . gmdate($optiondates, $category_timestamp["$category->cat_ID"]);
-			}
-
-			if ( $list ) {
-				$thelist .= "\t<li";
-				if (($category->cat_ID == $wp_query->get_queried_object_id()) && is_category()) {
-					$thelist .=  ' class="current-cat"';
-				}
-				$thelist .= ">$link\n";
-			} else {
-				$thelist .= "\t$link<br />\n";
-			}
-
-			if ($hierarchical && $children)
-				$thelist .= list_cats($optionall, $all, $sort_column, $sort_order, $file, $list, $optiondates, $optioncount, $hide_empty, $use_desc_for_title, $hierarchical, $category->cat_ID, $categories, 1, $feed, $feed_image, $exclude, $hierarchical);
-			if ($list)
-				$thelist .= "</li>\n";
-		}
-	}
-	if ( !$num_found && !$child_of ) {
-		if ( $list ) {
-			$before = '<li>';
-			$after = '</li>';
-		}
-		echo $before . __("No categories") . $after . "\n";
-		return;
-	}
-	if ( $list && $child_of && $num_found && $recurse ) {
-		$pre = "\t\t<ul class='children'>";
-		$post = "\t\t</ul>\n";
-	} else {
-		$pre = $post = '';
-	}
-	$thelist = $pre . $thelist . $post;
-	if ( $recurse )
-		return $thelist;
-	echo apply_filters('list_cats', $thelist);
+	$query = "optionall=$optionall&all=$all&sort_column=$sort_column&sort_order=$sort_order&list=$list&optiondates=$optiondates&optioncount=$optioncount&hide_empty=$hide_empty&use_desc_for_title=$use_desc_for_title&child_of=$child_of&feed=$feed&feed_image=$feed_image&exclude=$exclude&hierarchical=$hierarchical";
+	return wp_list_cats($query);
 }
 
 function in_category($category) { // Check if the current post is in the given category
@@ -408,6 +396,22 @@ function in_category($category) { // Check if the current post is in the given c
 		return true;
 	else
 		return false;
+}
+
+function &_get_cat_children($category_id, $categories) {
+	if ( empty($categories) )
+		return array();
+
+	$category_list = array();
+	foreach ( $categories as $category ) {
+		if ( $category->category_parent == $category_id ) {
+			$category_list[] = $category;
+			if ( $children = _get_cat_children($category->cat_ID, $categories) )
+				$category_list = array_merge($category_list, $children);
+		}
+	}
+
+	return $category_list;
 }
 
 function &get_categories($args = '') {
@@ -425,43 +429,60 @@ function &get_categories($args = '') {
 		$r['order'] = 'ASC';
 	if ( !isset($r['hide_empty']) )
 		$r['hide_empty'] = true;
+	if ( !isset($r['include_last_update_time']) )
+		$r['include_last_update_time'] = false;
+	if ( !isset($r['hierarchical']) )
+		$r['hierarchical'] = 1;
 
 	$r['orderby'] = "cat_" . $r['orderby'];
 
+	extract($r);
+
 	$exclusions = '';
-	if ( !empty($r['exclude']) ) {
-		$excategories = preg_split('/[\s,]+/',$r['exclude']);
+	$having = '';
+	$where = 'cat_ID > 0';
+
+	$exclusions = '';
+	if ( !empty($exclude) ) {
+		$excategories = preg_split('/[\s,]+/',$exclude);
 		if ( count($excategories) ) {
 			foreach ( $excategories as $excat ) {
 				$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
 			}
 		}
 	}
+	$exclusions = apply_filters('list_cats_exclusions', $exclusions );
+	$where .= $exclusions;
 
-	$categories = $wpdb->get_results("SELECT * " .
-		"FROM $wpdb->categories " .
-		"$exclusions " .
-		"ORDER BY " . $r['orderby'] . " " . $r['order']);
+	if ( $hide_empty ) {
+		if ( 'link' == $type )
+			$having = 'HAVING link_count > 0';
+		else
+			$having = 'HAVING category_count > 0';
+	}
+
+	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE $where $having ORDER BY $orderby $order");
 
 	if ( empty($categories) )
 		return array();
 
-	if ( $r['hide_empty'] ) {
-		foreach ( $categories as $category ) {
-			$count = 0;
-			if ( 'link' == $r['type'] ) {
-				$count = $category->link_count;
-			} else {
-				$count = $category->category_count;	
-			}
-			if ( $count )
-				$the_categories[] = $category; 
+	if ( $include_last_update_time ) {
+		$stamps = $wpdb->get_results("SELECT category_id, UNIX_TIMESTAMP( MAX(post_date) ) AS ts FROM $wpdb->posts, $wpdb->post2cat, $wpdb->categories
+							WHERE post_status = 'publish' AND post_id = ID AND $where GROUP BY category_id");
+		global $cat_stamps;
+		foreach ($stamps as $stamp)
+			$cat_stamps[$stamp->category_id] = $stamp->ts;
+		function stamp_cat($cat) {
+			global $cat_stamps;
+			$cat->last_update_timestamp = $cat_stamps[$cat->cat_ID];
+			return $cat;	
 		}
-		$categories = $the_categories;
+		$categories = array_map('stamp_cat', $categories);
+		unset($cat_stamps);
 	}
 
-	/* if ( $r['child_of'] )
-		$categories = & get_category_children($r['child_of'], $categories); */
+	if ( $child_of || $hierarchical )
+		$categories = & _get_cat_children($child_of, $categories);
 
 	return $categories;
 }

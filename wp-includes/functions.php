@@ -726,32 +726,62 @@ function &get_page(&$page, $output = OBJECT) {
 	}
 }
 
-function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element_callback = '', $start_level_callback = '', $end_level_callback = '') {
-	$args = array_slice(func_get_args(), 6);
+function walk_tree($tree_type, $elements, $to_depth, $start_element_callback, $end_element_callback = '', $start_level_callback = '', $end_level_callback = '') {
+	$args = array_slice(func_get_args(), 7);
 	$parents = array();
 	$depth = 0;
-	$previous_page = '';
+	$previous_element = '';
 	$output = '';
 
-	$last_page->post_parent = 0;
-	$last_page->post_id = 0;
-	$pages[] = $last_page;
+	$last_element->post_parent = 0;
+	$last_element->post_id = 0;
+	$elements[] = $last_element;
 
-	foreach ( $pages as $page ) {
-		if ( !empty($previous_page) && ($page->post_parent == $previous_page->ID) ) {
-			// Previous page is my parent. Descend a level.
-			array_unshift($parents, $previous_page);
+	if ( 'page' == $tree_type ) {
+		$parent_field = 'post_parent';
+		$id_field = 'ID';	
+	} else {
+		$parent_field = 'category_parent';
+		$id_field = 'cat_ID';			
+	}
+
+	$flat = false;
+	if ( $to_depth == -1 )
+		$flat = true;
+
+	foreach ( $elements as $element ) {
+		// If flat, start and end the element and skip the level checks.
+		if ( $flat) {
+			// Start the element.
+			if ( !empty($start_element_callback) && ($element->$id_field != 0) ) {
+				$cb_args = array_merge( array($output, $element, $depth), $args);
+				$output = call_user_func_array($start_element_callback, $cb_args);
+			}
+
+			// End the element.
+			if ( !empty($end_element_callback) && ($element->$id_field != 0) ) {
+				$cb_args = array_merge( array($output, $element, $depth), $args);
+				$output = call_user_func_array($end_element_callback, $cb_args);
+			}
+
+			continue;	
+		}
+
+		// Walk the tree.
+		if ( !empty($previous_element) && ($element->$parent_field == $previous_element->$id_field) ) {
+			// Previous element is my parent. Descend a level.
+			array_unshift($parents, $previous_element);
 			$depth++;
 			if ( !$to_depth || ($depth < $to_depth) )
 				if ( !empty($start_level_callback) ) {
 					$cb_args = array_merge( array($output, $depth), $args);
 					$output = call_user_func_array($start_level_callback, $cb_args);
 				}
-		} else if ( $depth && ($page->post_parent == $previous_page->post_parent) ) {
-			// On the same level as previous page.
+		} else if ( $depth && ($element->$parent_field == $previous_element->$parent_field) ) {
+			// On the same level as previous element.
 			if ( !$to_depth || ($depth < $to_depth) ) {
 				if ( !empty($end_element_callback) ) {
-					$cb_args = array_merge( array($output, $previous_page, $depth), $args);
+					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
 					$output = call_user_func_array($end_element_callback, $cb_args);
 				}
 			}
@@ -759,7 +789,7 @@ function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element
 			// Ascend one or more levels.
 			if ( !$to_depth || ($depth < $to_depth) ) {
 				if ( !empty($end_element_callback) ) {
-					$cb_args = array_merge( array($output, $previous_page, $depth), $args);
+					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
 					$output = call_user_func_array($end_element_callback, $cb_args);
 				}
 			}
@@ -776,32 +806,45 @@ function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element
 						$output = call_user_func_array($end_element_callback, $cb_args);
 					}
 				}
-				if ( $page->post_parent == $parents[0]->ID ) {
+				if ( $element->$parent_field == $parents[0]->$id_field ) {
 					break;
 				}
 			}
-		} else if ( !empty($previous_page) ) {
-			// Close off previous page.
+		} else if ( !empty($previous_element) ) {
+			// Close off previous element.
 			if ( !$to_depth || ($depth < $to_depth) ) {
 				if ( !empty($end_element_callback) ) {
-					$cb_args = array_merge( array($output, $previous_page, $depth), $args);
+					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
 					$output = call_user_func_array($end_element_callback, $cb_args);
 				}
 			}
 		}
 
-		// Start the page.
+		// Start the element.
 		if ( !$to_depth || ($depth < $to_depth) ) {
-			if ( !empty($start_element_callback) && ($page->ID != 0) ) {
-				$cb_args = array_merge( array($output, $page, $depth), $args);
+			if ( !empty($start_element_callback) && ($element->$id_field != 0) ) {
+				$cb_args = array_merge( array($output, $element, $depth), $args);
 				$output = call_user_func_array($start_element_callback, $cb_args);
 			}
 		}
 
-		$previous_page = $page;
+		$previous_element = $element;
 	}
 
 	return $output;
+}
+
+function walk_page_tree($pages, $to_depth, $start_element_callback, $end_element_callback = '', $start_level_callback = '', $end_level_callback = '') {
+	$args = array('page', $pages, $to_depth, $start_element_callback, $end_element_callback, $start_level_callback, $end_level_callback);
+	$extra_args = array_slice(func_get_args(), 6);
+
+	return call_user_func_array('walk_tree', array_merge($args, $extra_args));
+}
+
+function walk_category_tree($pages, $to_depth, $start_element_callback, $end_element_callback = '', $start_level_callback = '', $end_level_callback = '') {
+	$args = array('category', $pages, $to_depth, $start_element_callback, $end_element_callback, $start_level_callback, $end_level_callback);
+	$extra_args = array_slice(func_get_args(), 6);
+	return call_user_func_array('walk_tree', array_merge($args, $extra_args));
 }
 
 function get_category_by_path($category_path, $full_match = true, $output = OBJECT) {
