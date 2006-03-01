@@ -127,7 +127,7 @@ $messages[3] = __('Category updated.');
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col"><?php _e('# Posts') ?></th>
-        <th scope="col"><?php _e('# Links') ?></th>
+        <th scope="col"><?php _e('# Bookmarks') ?></th>
         <th colspan="2"><?php _e('Action') ?></th>
 	</tr>
 <?php
