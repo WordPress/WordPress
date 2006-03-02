@@ -141,7 +141,7 @@ require (ABSPATH . WPINC . '/template-functions-post.php');
 require (ABSPATH . WPINC . '/template-functions-category.php');
 require (ABSPATH . WPINC . '/comment-functions.php');
 require (ABSPATH . WPINC . '/feed-functions.php');
-require (ABSPATH . WPINC . '/links.php');
+require (ABSPATH . WPINC . '/template-functions-bookmarks.php');
 require (ABSPATH . WPINC . '/kses.php');
 require (ABSPATH . WPINC . '/version.php');
 require (ABSPATH . WPINC . '/deprecated.php');
