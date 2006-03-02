@@ -411,4 +411,22 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	return wp_list_cats($query);
 }
 
+function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = 'asc',
+		$show_last_update = 0, $show_counts = 0, $hide_empty = 1, $optionnone = FALSE,
+		$selected = 0, $exclude = 0) {
+
+	$show_option_all = '';
+	if ( $optionall )
+		$show_option_all = $all;
+
+	$show_option_none = '';
+	if ( $optionnone )
+		$show_option_none = __('None');
+
+	$vars = compact('show_option_all', 'show_option_none', 'orderby', 'order',
+					'show_last_update', 'show_counts', 'hide_empty', 'selected', 'exclude');
+	$query = add_query_arg($vars, '');
+	return wp_dropdown_categories($query);
+}
+
 ?>

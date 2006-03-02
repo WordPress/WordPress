@@ -149,62 +149,100 @@ function category_description($category = 0) {
 	return apply_filters('category_description', $category->category_description, $category->cat_ID);
 }
 
-// out of the WordPress loop
-function dropdown_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc',
-		$optiondates = 0, $optioncount = 0, $hide_empty = 1, $optionnone=FALSE,
-		$selected=0, $hide=0) {
-	global $wpdb;
-	if ( ($file == 'blah') || ($file == '') )
-		$file = get_settings('home') . '/';
-	if ( !$selected )
-		$selected=$cat;
-	$sort_column = 'cat_'.$sort_column;
+function wp_dropdown_categories($args = '') {
+	parse_str($args, $r);
+	if ( !isset($r['show_option_all']))
+		$r['show_option_all'] = '';
+	if ( !isset($r['show_option_none']))
+		$r['show_option_none'] = '';
+	if ( !isset($r['orderby']) )
+		$r['orderby'] = 'ID';
+	if ( !isset($r['order']) )
+		$r['order'] = 'ASC';
+	if ( !isset($r['show_last_update']) )
+		$r['show_last_update'] = 0;
+	if ( !isset($r['show_counts']) )
+		$r['show_counts'] = 0;
+	if ( !isset($r['hide_empty']) )
+		$r['hide_empty'] = 1;
+	if ( !isset($r['child_of']) )
+		$r['child_of'] = 0;
+	if ( !isset($r['exclude']) )
+		$r['exclude'] = '';
+	if ( !isset($r['echo']) )
+		$r['echo'] = 1;
+	if ( !isset($r['selected']) )
+		$r['selected'] = 0;
+	if ( !isset($r['hierarchical']) )
+		$r['hierarchical'] = 0;
+	if ( !isset($r['name']) )
+		$r['name'] = 'cat';
+	if ( !isset($r['class']) )
+		$r['class'] = 'postform';
 
-	$query = "
-		SELECT cat_ID, cat_name, category_nicename,category_parent,
-		COUNT($wpdb->post2cat.post_id) AS cat_count,
-		DAYOFMONTH(MAX(post_date)) AS lastday, MONTH(MAX(post_date)) AS lastmonth
-		FROM $wpdb->categories LEFT JOIN $wpdb->post2cat ON (cat_ID = category_id)
-		LEFT JOIN $wpdb->posts ON (ID = post_id)
-		WHERE cat_ID > 0
-		";
-	if ( $hide ) {
-		$query .= " AND cat_ID != $hide";
-		$query .= get_category_children($hide, " AND cat_ID != ");
-	}
-	$query .=" GROUP BY cat_ID";
-	if ( intval($hide_empty) == 1 )
-		$query .= " HAVING cat_count > 0";
-	$query .= " ORDER BY $sort_column $sort_order, post_date DESC";
+	$r['include_last_update_time'] = $r['show_last_update'];
 
-	$categories = $wpdb->get_results($query);
-	echo "<select name='cat' class='postform'>\n";
-	if ( intval($optionall) == 1 ) {
-		$all = apply_filters('list_cats', $all);
-		echo "\t<option value='0'>$all</option>\n";
-	}
-	if ( intval($optionnone) == 1 )
-		echo "\t<option value='-1'>".__('None')."</option>\n";
-	if ( $categories ) {
-		foreach ( $categories as $category ) {
-			$cat_name = apply_filters('list_cats', $category->cat_name, $category);
-			echo "\t<option value=\"".$category->cat_ID."\"";
-			if ( $category->cat_ID == $selected )
-				echo ' selected="selected"';
-			echo '>';
-			echo $cat_name;
-			if ( intval($optioncount) == 1 )
-				echo '&nbsp;&nbsp;('.$category->cat_count.')';
-			if ( intval($optiondates) == 1 )
-				echo '&nbsp;&nbsp;'.$category->lastday.'/'.$category->lastmonth;
-			echo "</option>\n";
+	extract($r);
+
+	$query = add_query_arg($r, '');
+	$categories = get_categories($query);
+
+	$output = '';
+	if ( ! empty($categories) ) {
+		$output = "<select name='$name' class='$class'>\n";
+
+		if ( $show_option_all ) {
+			$show_option_all = apply_filters('list_cats', $show_option_all);
+			$output .= "\t<option value='0'>$show_option_all</option>\n";
 		}
+
+		if ( $show_option_none) { 
+			$show_option_none = apply_filters('list_cats', $show_option_none);		
+			$output .= "\t<option value='-1'>$show_option_none</option>\n";
+		}
+
+		if ( $hierarchical )
+			$depth = 0;  // Walk the full depth.
+		else
+			$depth = -1; // Flat.
+
+		$output .= walk_category_tree($categories, $depth, '_category_dropdown_element', '', '', '', $selected, $r);
+		$output .= "</select>\n";
 	}
-	echo "</select>\n";
+
+	$output = apply_filters('wp_dropdown_cats', $output);
+
+	if ( $echo )
+		echo $output;
+
+	return $output;
 }
 
-// out of the WordPress loop
+function _category_dropdown_element($output, $category, $depth, $selected, $args) {
+	$pad = str_repeat('&nbsp;', $depth * 3);
+
+	$cat_name = apply_filters('list_cats', $category->cat_name, $category);
+	$output .= "\t<option value=\"".$category->cat_ID."\"";
+	if ( $category->cat_ID == $selected )
+		$output .= ' selected="selected"';
+	$output .= '>';
+	$output .= $cat_name;
+	if ( $args['show_counts'] )
+		$output .= '&nbsp;&nbsp;('. $category->category_count .')';
+	if ( $args['show_last_update'] ) {
+		$format = 'Y-m-d';
+		$output .= '&nbsp;&nbsp;' . gmdate($format, $category->last_update_timestamp);
+	}
+	$output .= "</option>\n";
+
+	return $output;
+}
+
 function wp_list_cats($args = '') {
+	return wp_list_categories($args);	
+}
+
+function wp_list_categories($args = '') {
 	parse_str($args, $r);
 	if ( !isset($r['optionall']))
 		$r['optionall'] = 0;
@@ -238,16 +276,17 @@ function wp_list_cats($args = '') {
 		$r['hierarchical'] = false;
 	if ( !isset($r['title_li']) )
 		$r['title_li'] = '';
-
-	$q['orderby'] = $r['sort_column'];
-	$q['order'] = $r['sort_order'];
-	$q['include_last_update_time'] = $r['optiondates'];
+	if ( !isset($r['orderby']) )
+		$r['orderby'] = $r['sort_column'];
+	if ( !isset($r['order']) )
+		$r['order'] = $r['sort_order'];		
+	$r['include_last_update_time'] = $r['optiondates'];
 	
 	extract($r);
 
-	$args = add_query_arg($q, $args);
-	$categories = get_categories($args);
-
+	$query = add_query_arg($r, '');
+	$categories = get_categories($query);
+	
 	$output = '';
 	if ( $title_li && $list )
 			$output = '<li class="categories">' . $r['title_li'] . '<ul>';
@@ -417,6 +456,7 @@ function &get_categories($args = '') {
 		if ( count($excategories) ) {
 			foreach ( $excategories as $excat ) {
 				$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
+				// TODO: Exclude children of excluded cats?
 			}
 		}
 	}
@@ -435,6 +475,7 @@ function &get_categories($args = '') {
 	if ( empty($categories) )
 		return array();
 
+	// TODO: Integrate this into the main query.
 	if ( $include_last_update_time ) {
 		$stamps = $wpdb->get_results("SELECT category_id, UNIX_TIMESTAMP( MAX(post_date) ) AS ts FROM $wpdb->posts, $wpdb->post2cat, $wpdb->categories
 							WHERE post_status = 'publish' AND post_id = ID AND $where GROUP BY category_id");
