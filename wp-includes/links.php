@@ -72,7 +72,7 @@ function get_links($category = -1,
 
 	global $wpdb;
 
-	$results = get_linkz("category=$category&orderby=$orderby&show_updated=$show_updated&limit=$limit");
+	$results = get_bookmarks("category=$category&orderby=$orderby&show_updated=$show_updated&limit=$limit");
 
 	if (!$results) {
 		return;
@@ -247,7 +247,7 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 	}
 }
 
-function get_linkz($args = '') {
+function get_bookmarks($args = '') {
 	global $wpdb;
 
 	parse_str($args, $r);
