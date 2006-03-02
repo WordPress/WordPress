@@ -52,4 +52,10 @@ endforeach;
 ?>
 
 </ul>
-<?php endif; ?>
+<?php
+
+endif; 
+
+do_action('admin_notices');
+
+?>
