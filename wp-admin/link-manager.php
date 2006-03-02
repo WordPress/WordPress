@@ -143,7 +143,7 @@ if ( isset($_GET['deleted']) ) {
 <?php
 if ( 'all' == $cat_id )
 	$cat_id = '';
-$links = get_linkz("category=$cat_id&hide_invisible=0&orderby=$sqlorderby&hide_empty=0");
+$links = get_bookmarks("category=$cat_id&hide_invisible=0&orderby=$sqlorderby&hide_empty=0");
 if ($links)
 	foreach ($links as $link) {
 		$link->link_name = wp_specialchars($link->link_name);
