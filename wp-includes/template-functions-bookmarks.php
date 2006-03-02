@@ -250,7 +250,10 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 function get_bookmarks($args = '') {
 	global $wpdb;
 
-	parse_str($args, $r);
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
 
 	if ( !isset($r['orderby']) )
 		$r['orderby'] = 'name';

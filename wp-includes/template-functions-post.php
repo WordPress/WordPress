@@ -295,7 +295,11 @@ function &get_page_children($page_id, $pages) {
 
 function &get_pages($args = '') {
 	global $wpdb;
-	parse_str($args, $r);
+
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
 
 	if ( !isset($r['child_of']) )
 		$r['child_of'] = 0;
@@ -335,7 +339,11 @@ function &get_pages($args = '') {
 }
 
 function wp_dropdown_pages($args = '') {
-	parse_str($args, $r);
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
 	if ( !isset($r['depth']) )
 		$r['depth'] = 0;
 	if ( !isset($r['child_of']) )
@@ -348,7 +356,7 @@ function wp_dropdown_pages($args = '') {
 		$r['name'] = 'page_id';
 	extract($r);
 
-	$pages = get_pages($args);
+	$pages = get_pages($r);
 	$output = '';
 
 	if ( ! empty($pages) ) {
@@ -380,7 +388,11 @@ function _page_dropdown_element($output, $page, $depth, $selected) {
 }
 
 function wp_list_pages($args = '') {
-	parse_str($args, $r);
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
 	if ( !isset($r['depth']) )
 		$r['depth'] = 0;
 	if ( !isset($r['show_date']) )
@@ -397,7 +409,7 @@ function wp_list_pages($args = '') {
 	$output = '';
 
 	// Query pages.
-	$pages = get_pages($args);
+	$pages = get_pages($r);
 
 	if ( !empty($pages) ) {
 		if ( $r['title_li'] )

@@ -150,7 +150,11 @@ function category_description($category = 0) {
 }
 
 function wp_dropdown_categories($args = '') {
-	parse_str($args, $r);
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
 	if ( !isset($r['show_option_all']))
 		$r['show_option_all'] = '';
 	if ( !isset($r['show_option_none']))
@@ -184,8 +188,7 @@ function wp_dropdown_categories($args = '') {
 
 	extract($r);
 
-	$query = add_query_arg($r, '');
-	$categories = get_categories($query);
+	$categories = get_categories($r);
 
 	$output = '';
 	if ( ! empty($categories) ) {
@@ -243,7 +246,11 @@ function wp_list_cats($args = '') {
 }
 
 function wp_list_categories($args = '') {
-	parse_str($args, $r);
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
 	if ( !isset($r['optionall']))
 		$r['optionall'] = 0;
 	if ( !isset($r['all']))
@@ -284,8 +291,7 @@ function wp_list_categories($args = '') {
 	
 	extract($r);
 
-	$query = add_query_arg($r, '');
-	$categories = get_categories($query);
+	$categories = get_categories($r);
 	
 	$output = '';
 	if ( $title_li && $list )
@@ -425,7 +431,10 @@ function &_get_cat_children($category_id, $categories) {
 function &get_categories($args = '') {
 	global $wpdb, $category_links;
 
-	parse_str($args, $r);
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
 
 	if ( !isset($r['type']) )  // 'post' or 'link'
 		$r['type'] = 'post';
