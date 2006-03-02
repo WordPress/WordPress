@@ -141,32 +141,6 @@ function get_category_children($id, $before = '/', $after = '') {
 	return $chain;
 }
 
-// Deprecated.
-function the_category_ID($echo = true) {
-	// Grab the first cat in the list.
-	$categories = get_the_category();
-	$cat = $categories[0]->cat_ID;
-
-	if ( $echo )
-		echo $cat;
-
-	return $cat;
-}
-
-// Deprecated.
-function the_category_head($before='', $after='') {
-	global $currentcat, $previouscat;
-	// Grab the first cat in the list.
-	$categories = get_the_category();
-	$currentcat = $categories[0]->category_id;
-	if ( $currentcat != $previouscat ) {
-		echo $before;
-		echo get_the_category_by_ID($currentcat);
-		echo $after;
-		$previouscat = $currentcat;
-	}
-}
-
 function category_description($category = 0) {
 	global $cat;
 	if ( !$category )
@@ -382,11 +356,6 @@ function _category_list_element_end($output, $category, $depth, $cat, $args) {
 
 	$output .= "</li>\n";
 	return $output;
-}
-
-function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
-	$query = "optionall=$optionall&all=$all&sort_column=$sort_column&sort_order=$sort_order&list=$list&optiondates=$optiondates&optioncount=$optioncount&hide_empty=$hide_empty&use_desc_for_title=$use_desc_for_title&child_of=$child_of&feed=$feed&feed_image=$feed_image&exclude=$exclude&hierarchical=$hierarchical";
-	return wp_list_cats($query);
 }
 
 function in_category($category) { // Check if the current post is in the given category

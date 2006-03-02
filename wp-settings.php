@@ -144,6 +144,7 @@ require (ABSPATH . WPINC . '/feed-functions.php');
 require (ABSPATH . WPINC . '/links.php');
 require (ABSPATH . WPINC . '/kses.php');
 require (ABSPATH . WPINC . '/version.php');
+require (ABSPATH . WPINC . '/deprecated.php');
 
 if (!strstr($_SERVER['PHP_SELF'], 'install.php')) :
     // Used to guarantee unique hash cookies

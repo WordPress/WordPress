@@ -537,31 +537,6 @@ meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
 	return true;
 }
 
-// Deprecated.  Use get_post().
-function get_postdata($postid) {
-	$post = &get_post($postid);
-
-	$postdata = array (
-		'ID' => $post->ID,
-		'Author_ID' => $post->post_author,
-		'Date' => $post->post_date,
-		'Content' => $post->post_content,
-		'Excerpt' => $post->post_excerpt,
-		'Title' => $post->post_title,
-		'Category' => $post->post_category,
-		'post_status' => $post->post_status,
-		'comment_status' => $post->comment_status,
-		'ping_status' => $post->ping_status,
-		'post_password' => $post->post_password,
-		'to_ping' => $post->to_ping,
-		'pinged' => $post->pinged,
-		'post_type' => $post->post_type,
-		'post_name' => $post->post_name
-	);
-
-	return $postdata;
-}
-
 // Retrieves post data given a post ID or post object.
 // Handles post caching.
 function &get_post(&$post, $output = OBJECT) {
@@ -1248,16 +1223,6 @@ function wp_get_http_headers( $url, $red = 1 ) {
 	preg_match('/.*([0-9]{3}).*/', $response, $return);
 	$headers['response'] = $return[1]; // HTTP response code eg 204, 200, 404
 	return $headers;
-}
-
-// Deprecated.  Use the new post loop.
-function start_wp() {
-	global $wp_query, $post;
-
-	// Since the old style loop is being used, advance the query iterator here.
-	$wp_query->next_post();
-
-	setup_postdata($post);
 }
 
 // Setup global post data.

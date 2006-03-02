@@ -343,49 +343,6 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 	echo $format;	    
 }
 
-
-// Deprecated.	Use previous_post_link().
-function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
-
-	if ( empty($in_same_cat) || 'no' == $in_same_cat )
-		$in_same_cat = false;
-	else
-		$in_same_cat = true;
-
-	$post = get_previous_post($in_same_cat, $excluded_categories);
-
-	if ( !$post )
-		return;
-
-	$string = '<a href="'.get_permalink($post->ID).'">'.$previous;
-	if ( 'yes' == $title )
-		$string .= apply_filters('the_title', $post->post_title, $post);
-	$string .= '</a>';
-	$format = str_replace('%', $string, $format);
-	echo $format;
-}
-
-// Deprecated.	Use next_post_link().
-function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-
-	if ( empty($in_same_cat) || 'no' == $in_same_cat )
-		$in_same_cat = false;
-	else
-		$in_same_cat = true;
-
-	$post = get_next_post($in_same_cat, $excluded_categories);
-
-	if ( !$post	)
-		return;
-
-	$string = '<a href="'.get_permalink($post->ID).'">'.$next;
-	if ( 'yes' == $title )
-		$string .= apply_filters('the_title', $post->post_title, $nextpost);
-	$string .= '</a>';
-	$format = str_replace('%', $string, $format);
-	echo $format;
-}
-
 function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
 
@@ -533,6 +490,48 @@ function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nx
 			next_posts_link($nxtlabel, $max_page);
 		}
 	}
+}
+
+// Deprecated.	Use previous_post_link().
+function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
+
+	if ( empty($in_same_cat) || 'no' == $in_same_cat )
+		$in_same_cat = false;
+	else
+		$in_same_cat = true;
+
+	$post = get_previous_post($in_same_cat, $excluded_categories);
+
+	if ( !$post )
+		return;
+
+	$string = '<a href="'.get_permalink($post->ID).'">'.$previous;
+	if ( 'yes' == $title )
+		$string .= apply_filters('the_title', $post->post_title, $post);
+	$string .= '</a>';
+	$format = str_replace('%', $string, $format);
+	echo $format;
+}
+
+// Deprecated.	Use next_post_link().
+function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
+
+	if ( empty($in_same_cat) || 'no' == $in_same_cat )
+		$in_same_cat = false;
+	else
+		$in_same_cat = true;
+
+	$post = get_next_post($in_same_cat, $excluded_categories);
+
+	if ( !$post	)
+		return;
+
+	$string = '<a href="'.get_permalink($post->ID).'">'.$next;
+	if ( 'yes' == $title )
+		$string .= apply_filters('the_title', $post->post_title, $nextpost);
+	$string .= '</a>';
+	$format = str_replace('%', $string, $format);
+	echo $format;
 }
 
 ?>
