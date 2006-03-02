@@ -41,22 +41,6 @@ CREATE TABLE $wpdb->link2cat (
   PRIMARY KEY  (rel_id),
   KEY link_id (link_id,category_id)
 );
-CREATE TABLE $wpdb->linkcategories (
-  cat_id bigint(20) NOT NULL auto_increment,
-  cat_name tinytext NOT NULL,
-  auto_toggle enum('Y','N') NOT NULL default 'N',
-  show_images enum('Y','N') NOT NULL default 'Y',
-  show_description enum('Y','N') NOT NULL default 'N',
-  show_rating enum('Y','N') NOT NULL default 'Y',
-  show_updated enum('Y','N') NOT NULL default 'Y',
-  sort_order varchar(64) NOT NULL default 'rand',
-  sort_desc enum('Y','N') NOT NULL default 'N',
-  text_before_link varchar(128) NOT NULL default '<li>',
-  text_after_link varchar(128) NOT NULL default '<br />',
-  text_after_all varchar(128) NOT NULL default '</li>',
-  list_limit int(11) NOT NULL default '-1',
-  PRIMARY KEY  (cat_id)
-);
 CREATE TABLE $wpdb->links (
   link_id bigint(20) NOT NULL auto_increment,
   link_url varchar(255) NOT NULL default '',
