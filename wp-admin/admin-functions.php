@@ -105,12 +105,12 @@ function relocate_children($old_ID, $new_ID) {
 function fix_attachment_links($post_ID) {
 	global $wp_rewrite;
 
-	$post = & get_post($post_ID);
+	$post = & get_post($post_ID, ARRAY_A);
 
 	$search = "#<a[^>]+rel=('|\")[^'\"]*attachment[^>]*>#ie";
 
 	// See if we have any rel="attachment" links
-	if ( 0 == preg_match_all($search, $post->post_content, $anchor_matches, PREG_PATTERN_ORDER) )
+	if ( 0 == preg_match_all($search, $post['post_content'], $anchor_matches, PREG_PATTERN_ORDER) )
 		return;
 
 	$i = 0;
@@ -122,9 +122,11 @@ function fix_attachment_links($post_ID) {
 		$id = $id_matches[2];
 
 		// While we have the attachment ID, let's adopt any orphans.
-		$attachment = & get_post($id);
-		if ( ! is_object(get_post($attachment->post_parent)) ) {
-			$attachment->post_parent = $post_ID;
+		$attachment = & get_post($id, ARRAY_A);
+		if ( ! empty($attachment) && ! is_object(get_post($attachment['post_parent'])) ) {
+			$attachment['post_parent'] = $post_ID;
+			// Escape data pulled from DB.
+			$attachment = add_magic_quotes($attachment);
 			wp_update_post($attachment);
 		}
 
@@ -133,7 +135,10 @@ function fix_attachment_links($post_ID) {
 		++$i;
 	}
 
-	$post->post_content = str_replace($post_search, $post_replace, $post->post_content);
+	$post['post_content'] = str_replace($post_search, $post_replace, $post['post_content']);
+
+	// Escape data pulled from DB.
+	$post = add_magic_quotes($post);
 
 	return wp_update_post($post);
 }
