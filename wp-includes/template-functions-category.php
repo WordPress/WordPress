@@ -155,37 +155,13 @@ function wp_dropdown_categories($args = '') {
 	else
 		parse_str($args, $r);
 
-	if ( !isset($r['show_option_all']))
-		$r['show_option_all'] = '';
-	if ( !isset($r['show_option_none']))
-		$r['show_option_none'] = '';
-	if ( !isset($r['orderby']) )
-		$r['orderby'] = 'ID';
-	if ( !isset($r['order']) )
-		$r['order'] = 'ASC';
-	if ( !isset($r['show_last_update']) )
-		$r['show_last_update'] = 0;
-	if ( !isset($r['show_counts']) )
-		$r['show_counts'] = 0;
-	if ( !isset($r['hide_empty']) )
-		$r['hide_empty'] = 1;
-	if ( !isset($r['child_of']) )
-		$r['child_of'] = 0;
-	if ( !isset($r['exclude']) )
-		$r['exclude'] = '';
-	if ( !isset($r['echo']) )
-		$r['echo'] = 1;
-	if ( !isset($r['selected']) )
-		$r['selected'] = 0;
-	if ( !isset($r['hierarchical']) )
-		$r['hierarchical'] = 0;
-	if ( !isset($r['name']) )
-		$r['name'] = 'cat';
-	if ( !isset($r['class']) )
-		$r['class'] = 'postform';
-
+	$defaults = array('show_option_all' => '', 'show_option_none' => '', 'orderby' => 'ID',
+		'order' => 'ASC', 'show_last_update' => 0, 'show_counts' => 0,
+		'hide_empty' => 1, 'child_of' => 0, 'exclude' => '', 'echo' => 1,
+		'selected' => 0, 'hierarchical' => 0, 'name' => 'cat',
+		'class' => 'postform');
+	$r = array_merge($defaults, $r);
 	$r['include_last_update_time'] = $r['show_last_update'];
-
 	extract($r);
 
 	$categories = get_categories($r);
@@ -251,44 +227,17 @@ function wp_list_categories($args = '') {
 	else
 		parse_str($args, $r);
 
-	if ( !isset($r['optionall']))
-		$r['optionall'] = 0;
-	if ( !isset($r['all']))
-		$r['all'] = 'All';
-	if ( !isset($r['sort_column']) )
-		$r['sort_column'] = 'ID';
-	if ( !isset($r['sort_order']) )
-		$r['sort_order'] = 'asc';
-	if ( !isset($r['file']) )
-		$r['file'] = '';
-	if ( !isset($r['list']) )
-		$r['list'] = true;
-	if ( !isset($r['optiondates']) )
-		$r['optiondates'] = 0;
-	if ( !isset($r['optioncount']) )
-		$r['optioncount'] = 0;
-	if ( !isset($r['hide_empty']) )
-		$r['hide_empty'] = 1;
-	if ( !isset($r['use_desc_for_title']) )
-		$r['use_desc_for_title'] = 1;
-	if ( !isset($r['child_of']) )
-		$r['child_of'] = 0;
-	if ( !isset($r['feed']) )
-		$r['feed'] = '';
-	if ( !isset($r['feed_image']) )
-		$r['feed_image'] = '';
-	if ( !isset($r['exclude']) )
-		$r['exclude'] = '';
-	if ( !isset($r['hierarchical']) )
-		$r['hierarchical'] = false;
-	if ( !isset($r['title_li']) )
-		$r['title_li'] = '';
-	if ( !isset($r['orderby']) )
+	$defaults = array('optionall' => 0, 'all' => 'All', 'sort_column' => 'ID',
+		'sort_order' => 'asc', 'list' => true, 'optiondates' => 0,
+		'optioncount' => 0, 'hide_empty' => 1, 'use_desc_for_title' => 1,
+		'child_of' => 0, 'feed' => '', 'feed_image' => '', 'exclude' => '',
+		'hierarchical' => false, 'title_li' => '');
+	$r = array_merge($defaults, $r);
+	if ( ! isset($r['orderby']) )
 		$r['orderby'] = $r['sort_column'];
-	if ( !isset($r['order']) )
-		$r['order'] = $r['sort_order'];		
+	if ( ! isset($r['order']) )
+		$r['order'] = $r['sort_order'];
 	$r['include_last_update_time'] = $r['optiondates'];
-	
 	extract($r);
 
 	$categories = get_categories($r);
@@ -436,23 +385,10 @@ function &get_categories($args = '') {
 	else
 		parse_str($args, $r);
 
-	if ( !isset($r['type']) )  // 'post' or 'link'
-		$r['type'] = 'post';
-	if ( !isset($r['child_of']) )
-		$r['child_of'] = 0;
-	if ( !isset($r['orderby']) )
-		$r['orderby'] = 'name';
-	if ( !isset($r['order']) )
-		$r['order'] = 'ASC';
-	if ( !isset($r['hide_empty']) )
-		$r['hide_empty'] = true;
-	if ( !isset($r['include_last_update_time']) )
-		$r['include_last_update_time'] = false;
-	if ( !isset($r['hierarchical']) )
-		$r['hierarchical'] = 1;
-
+	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
+		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1);
+	$r = array_merge($defaults, $r);
 	$r['orderby'] = "cat_" . $r['orderby'];
-
 	extract($r);
 
 	$exclusions = '';

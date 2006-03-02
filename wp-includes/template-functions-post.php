@@ -301,14 +301,9 @@ function &get_pages($args = '') {
 	else
 		parse_str($args, $r);
 
-	if ( !isset($r['child_of']) )
-		$r['child_of'] = 0;
-	if ( !isset($r['sort_column']) )
-		$r['sort_column'] = 'post_title';
-	if ( !isset($r['sort_order']) )
-		$r['sort_order'] = 'ASC';
-	if ( !isset($r['hierarchical']) )
-		$r['hierarchical'] = 1;
+	$defaults = array('child_of' => 0, 'sort_order' => 'ASC', 'sort_column' => 'post_title',
+		'hierarchical' => 1);
+	$r = array_merge($defaults, $r);
 
 	$exclusions = '';
 	if ( !empty($r['exclude']) ) {
@@ -344,16 +339,9 @@ function wp_dropdown_pages($args = '') {
 	else
 		parse_str($args, $r);
 
-	if ( !isset($r['depth']) )
-		$r['depth'] = 0;
-	if ( !isset($r['child_of']) )
-		$r['child_of'] = 0;
-	if ( !isset($r['echo']) )
-		$r['echo'] = 1;
-	if ( !isset($r['selected']) )
-		$r['selected'] = 0;
-	if ( !isset($r['name']) )
-		$r['name'] = 'page_id';
+	$defaults = array('depth' => 0, 'child_of' => 0, 'selected' => 0, 'echo' => 1,
+		'name' => 'page_id');
+	$r = array_merge($defaults, $r);
 	extract($r);
 
 	$pages = get_pages($r);
@@ -393,18 +381,9 @@ function wp_list_pages($args = '') {
 	else
 		parse_str($args, $r);
 
-	if ( !isset($r['depth']) )
-		$r['depth'] = 0;
-	if ( !isset($r['show_date']) )
-		$r['show_date'] = '';
-	if ( !isset($r['date_format']) )
-		$r['date_format'] = get_settings('date_format');
-	if ( !isset($r['child_of']) )
-		$r['child_of'] = 0;
-	if ( !isset($r['title_li']) )
-		$r['title_li'] = __('Pages');
-	if ( !isset($r['echo']) )
-		$r['echo'] = 1;
+	$defaults = array('depth' => 0, 'show_date' => '', 'date_format' => get_settings('date_format'),
+		'child_of' => 0, 'title_li' => __('Pages'), 'echo' => 1);
+	$r = array_merge($defaults, $r);
 
 	$output = '';
 

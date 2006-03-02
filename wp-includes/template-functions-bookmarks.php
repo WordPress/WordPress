@@ -255,23 +255,13 @@ function get_bookmarks($args = '') {
 	else
 		parse_str($args, $r);
 
-	if ( !isset($r['orderby']) )
-		$r['orderby'] = 'name';
-	if ( !isset($r['order']) )
-		$r['order'] = 'ASC';
-	if ( !isset($r['limit']) )
-		$r['limit'] = -1;
-	if ( !isset($r['category']) )
-		$r['category'] = -1;
-	if ( !isset($r['category_name']) )
-		$r['category_name'] = '';
-	if ( !isset($r['hide_invisible']) )
-		$r['hide_invisible'] = 1;
-	if ( !isset($r['show_updated']) )
-		$r['show_updated'] = 0;
+	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => -1,
+		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0);
+	$r = array_merge($defaults, $r);
+	extract($r);
 
 	$exclusions = '';
-	if ( !empty($r['exclude']) ) {
+	if ( !empty($exclude) ) {
 		$exlinks = preg_split('/[\s,]+/',$r['exclude']);
 		if ( count($exlinks) ) {
 			foreach ( $exlinks as $exlink ) {
@@ -279,8 +269,6 @@ function get_bookmarks($args = '') {
 			}
 		}
 	}
-
-	extract($r);
 
 	if ( ! empty($category_name) ) {
 		if ( $cat_id = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$category_name' LIMIT 1") )
