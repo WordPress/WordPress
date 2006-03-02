@@ -64,6 +64,48 @@ function the_category_head($before='', $after='') {
 	}
 }
 
+// Deprecated.	Use previous_post_link().
+function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
+
+	if ( empty($in_same_cat) || 'no' == $in_same_cat )
+		$in_same_cat = false;
+	else
+		$in_same_cat = true;
+
+	$post = get_previous_post($in_same_cat, $excluded_categories);
+
+	if ( !$post )
+		return;
+
+	$string = '<a href="'.get_permalink($post->ID).'">'.$previous;
+	if ( 'yes' == $title )
+		$string .= apply_filters('the_title', $post->post_title, $post);
+	$string .= '</a>';
+	$format = str_replace('%', $string, $format);
+	echo $format;
+}
+
+// Deprecated.	Use next_post_link().
+function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
+
+	if ( empty($in_same_cat) || 'no' == $in_same_cat )
+		$in_same_cat = false;
+	else
+		$in_same_cat = true;
+
+	$post = get_next_post($in_same_cat, $excluded_categories);
+
+	if ( !$post	)
+		return;
+
+	$string = '<a href="'.get_permalink($post->ID).'">'.$next;
+	if ( 'yes' == $title )
+		$string .= apply_filters('the_title', $post->post_title, $nextpost);
+	$string .= '</a>';
+	$format = str_replace('%', $string, $format);
+	echo $format;
+}
+
 //
 // These are deprecated.  Use current_user_can().
 //
