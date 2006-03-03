@@ -202,9 +202,9 @@ $random_password = substr(md5(uniqid(microtime())), 0, 6);
 $display_name_array = explode('@', $admin_email);
 $display_name = $display_name_array[0];
 $wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_email, user_registered, display_name, user_nicename) VALUES ( '1', 'admin', MD5('$random_password'), '$admin_email', NOW(), '$display_name', 'admin')");
-$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$wpdb->table_prefix}user_level', '10');");
+$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$wpdb->prefix}user_level', '10');");
 $admin_caps = serialize(array('administrator' => true));
-$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$wpdb->table_prefix}capabilities', '{$admin_caps}');");
+$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$wpdb->prefix}capabilities', '{$admin_caps}');");
 
 $message_headers = 'From: ' . $weblog_title . ' <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
 $message = sprintf(__("Your new WordPress blog has been successfully set up at:
