@@ -411,8 +411,31 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	return wp_list_cats($query);
 }
 
+function wp_list_cats($args = '') {
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
+	// Map to new names.
+	if ( isset($r['optionall']) && isset($r['all']))
+		$r['show_option_all'] = $r['all'];
+	if ( isset($r['sort_column']) )
+		$r['orderby'] = $r['sort_column'];
+	if ( isset($r['sort_order']) )
+		$r['order'] = $r['sort_order'];
+	if ( isset($r['optiondates']) )
+		$r['show_last_update'] = $r['optiondates'];
+	if ( isset($r['optioncount']) )
+		$r['show_count'] = $r['optioncount'];
+	if ( !empty($r['list']) )
+		$r['style'] = 'break';
+
+	return wp_list_categories($r);	
+}
+
 function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = 'asc',
-		$show_last_update = 0, $show_counts = 0, $hide_empty = 1, $optionnone = FALSE,
+		$show_last_update = 0, $show_count = 0, $hide_empty = 1, $optionnone = FALSE,
 		$selected = 0, $exclude = 0) {
 
 	$show_option_all = '';
@@ -424,7 +447,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
 		$show_option_none = __('None');
 
 	$vars = compact('show_option_all', 'show_option_none', 'orderby', 'order',
-					'show_last_update', 'show_counts', 'hide_empty', 'selected', 'exclude');
+					'show_last_update', 'show_count', 'hide_empty', 'selected', 'exclude');
 	$query = add_query_arg($vars, '');
 	return wp_dropdown_categories($query);
 }

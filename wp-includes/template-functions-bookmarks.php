@@ -247,6 +247,27 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 	}
 }
 
+function wp_list_bookmarks($args = '') {
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
+	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => 0, 'category' => 0,
+		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'echo' =>1,
+		'categorize' => 1, 'title_li' => __('Bookmarks'));
+	$r = array_merge($defaults, $r);
+	extract($r);
+	
+	// TODO: The rest of it.
+	// If $categorize, group links by category with the category name being the
+	// title of each li, otherwise just list them with title_li as the li title. 
+	// If $categorize and $category or $category_name, list links for the given category
+	// with the category name as the title li.  If not $categorize, use title_li.
+	// When using each category's name as a title li, use before and after args for specifying
+	// any markup.  We don't want to hardcode h2.
+}
+
 function get_bookmarks($args = '') {
 	global $wpdb;
 

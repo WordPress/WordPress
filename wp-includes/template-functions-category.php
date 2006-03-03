@@ -156,7 +156,7 @@ function wp_dropdown_categories($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('show_option_all' => '', 'show_option_none' => '', 'orderby' => 'ID',
-		'order' => 'ASC', 'show_last_update' => 0, 'show_counts' => 0,
+		'order' => 'ASC', 'show_last_update' => 0, 'show_count' => 0,
 		'hide_empty' => 1, 'child_of' => 0, 'exclude' => '', 'echo' => 1,
 		'selected' => 0, 'hierarchical' => 0, 'name' => 'cat',
 		'class' => 'postform');
@@ -206,7 +206,7 @@ function _category_dropdown_element($output, $category, $depth, $selected, $args
 		$output .= ' selected="selected"';
 	$output .= '>';
 	$output .= $cat_name;
-	if ( $args['show_counts'] )
+	if ( $args['show_count'] )
 		$output .= '&nbsp;&nbsp;('. $category->category_count .')';
 	if ( $args['show_last_update'] ) {
 		$format = 'Y-m-d';
@@ -217,27 +217,19 @@ function _category_dropdown_element($output, $category, $depth, $selected, $args
 	return $output;
 }
 
-function wp_list_cats($args = '') {
-	return wp_list_categories($args);	
-}
-
 function wp_list_categories($args = '') {
 	if ( is_array($args) )
 		$r = &$args;
 	else
 		parse_str($args, $r);
 
-	$defaults = array('optionall' => 0, 'all' => 'All', 'sort_column' => 'ID',
-		'sort_order' => 'asc', 'list' => true, 'optiondates' => 0,
-		'optioncount' => 0, 'hide_empty' => 1, 'use_desc_for_title' => 1,
+	$defaults = array('show_option_all' => '', 'orderby' => 'ID',
+		'order' => 'asc', 'style' => 'list', 'show_last_update' => 0,
+		'show_count' => 0, 'hide_empty' => 1, 'use_desc_for_title' => 1,
 		'child_of' => 0, 'feed' => '', 'feed_image' => '', 'exclude' => '',
 		'hierarchical' => false, 'title_li' => '');
 	$r = array_merge($defaults, $r);
-	if ( ! isset($r['orderby']) )
-		$r['orderby'] = $r['sort_column'];
-	if ( ! isset($r['order']) )
-		$r['order'] = $r['sort_order'];
-	$r['include_last_update_time'] = $r['optiondates'];
+	$r['include_last_update_time'] = $r['show_date'];
 	extract($r);
 
 	$categories = get_categories($r);
@@ -269,7 +261,7 @@ function wp_list_categories($args = '') {
 }
 
 function _category_list_level_start($output, $depth, $cat, $args) {
-	if (! $args['list'])
+	if ( 'list' != $args['style'] )
 		return $output;
 
 	$indent = str_repeat("\t", $depth);
@@ -278,7 +270,7 @@ function _category_list_level_start($output, $depth, $cat, $args) {
 }
 
 function _category_list_level_end($output, $depth, $cat, $args) {
-	if (! $args['list'])
+	if ( 'list' != $args['style'] )
 		return $output;
 
 	$indent = str_repeat("\t", $depth);
@@ -323,16 +315,14 @@ function _category_list_element_start($output, $category, $depth, $current_categ
 			$link .= ')';
 	}
 
-	if ( intval($optioncount) == 1 )
+	if ( $show_count )
 		$link .= ' ('.intval($category->category_count).')';
 
-	if ( $optiondates ) {
-		if ( $optiondates == 1 )
-			$optiondates = 'Y-m-d';
-		$link .= ' ' . gmdate($optiondates,$category->last_update_timestamp);
+	if ( $show_date ) {
+		$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
 	}
 
-	if ( $list ) {
+	if ( 'list' == $args['style'] ) {
 		$output .= "\t<li";
 		if ( ($category->cat_ID == $current_category) && is_category() )
 			$output .=  ' class="current-cat"';
@@ -345,7 +335,7 @@ function _category_list_element_start($output, $category, $depth, $current_categ
 }
 
 function _category_list_element_end($output, $category, $depth, $cat, $args) {
-	if (! $args['list'])
+	if ( 'list' != $args['style'] )
 		return $output;
 
 	$output .= "</li>\n";
