@@ -654,7 +654,7 @@ class WP_Query {
 		$this->posts = $wpdb->get_results($this->request);
 
 		// Check post status to determine if post should be displayed.
-		if ($this->is_single) {
+		if ( !empty($this->posts) && $this->is_single ) {
 			$status = get_post_status($this->posts[0]);
 			if ( ('publish' != $status) && ('static' != $status) ) {
 				if ( ! (isset($user_ID) && ('' != intval($user_ID))) ) {
