@@ -8,8 +8,8 @@ class WP_Roles {
 	var $role_key;
 
 	function WP_Roles() {
-		global $table_prefix;
-		$this->role_key = $table_prefix . 'user_roles';
+		global $wpdb;
+		$this->role_key = $wpdb->table_prefix . 'user_roles';
 
 		$this->roles = get_option($this->role_key);
 
@@ -121,7 +121,7 @@ class WP_User {
 	var $allcaps = array();
 
 	function WP_User($id, $name = '') {
-		global $table_prefix;
+		global $wpdb;
 
 		if ( empty($id) && empty($name) )
 			return;
@@ -144,7 +144,7 @@ class WP_User {
 		}
 
 		$this->id = $this->ID;
-		$this->cap_key = $table_prefix . 'capabilities';
+		$this->cap_key = $wpdb->table_prefix . 'capabilities';
 		$this->caps = &$this->{$this->cap_key};
 		if ( ! is_array($this->caps) )
 			$this->caps = array();
@@ -205,9 +205,9 @@ class WP_User {
 	}
 
 	function update_user_level_from_caps() {
-	    global $table_prefix;
+	    global $wpdb;
 	    $this->user_level = array_reduce(array_keys($this->allcaps), 	array(&$this, 'level_reduction'), 0);
-	    update_usermeta($this->id, $table_prefix.'user_level', $this->user_level);
+	    update_usermeta($this->id, $wpdb->table_prefix.'user_level', $this->user_level);
 	}
 
 	function add_cap($cap, $grant = true) {

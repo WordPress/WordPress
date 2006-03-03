@@ -103,10 +103,10 @@ class wpdbBackup {
 	}
 
 	function build_backup_script() {
-		global $table_prefix, $wpdb;
+		global $wpdb;
 
 		$datum = date("Ymd_B");
-		$backup_filename = DB_NAME . "_$table_prefix$datum.sql";
+		$backup_filename = DB_NAME . '_' . $wpdb->table_prefix . $datum . '.sql';
 		if ($this->gzip()) $backup_filename .= '.gz';
 
 		echo "<div class='wrap'>";
@@ -223,7 +223,7 @@ class wpdbBackup {
 	}
 
 	function backup_fragment($table, $segment, $filename) {
-		global $table_prefix, $wpdb;
+		global $wpdb;
 
 		echo "$table:$segment:$filename";
 
@@ -555,10 +555,10 @@ class wpdbBackup {
 
 	////////////////////////////
 	function db_backup($core_tables, $other_tables) {
-		global $table_prefix, $wpdb;
+		global $wpdb;
 
 		$datum = date("Ymd_B");
-		$wp_backup_filename = DB_NAME . "_$table_prefix$datum.sql";
+		$wp_backup_filename = DB_NAME . '_' . $wpdb->table_prefix . $datum . '.sql';
 			if ($this->gzip()) {
 				$wp_backup_filename .= '.gz';
 			}
@@ -672,7 +672,7 @@ class wpdbBackup {
 
 	////////////////////////////
 	function backup_menu() {
-		global $table_prefix, $wpdb;
+		global $wpdb;
 		$feedback = '';
 		$WHOOPS = FALSE;
 
@@ -720,7 +720,7 @@ class wpdbBackup {
 		// Simple table name storage
 		$wp_table_names = explode(',','categories,comments,linkcategories,links,options,post2cat,postmeta,posts,users,usermeta');
 		// Apply WP DB prefix to table names
-		$wp_table_names = array_map(create_function('$a', 'global $table_prefix;return "{$table_prefix}{$a}";'), $wp_table_names);
+		$wp_table_names = array_map(create_function('$a', 'global $wpdb;return "{$wpdb->table_prefix}{$a}";'), $wp_table_names);
 
 		$other_tables = array();
 		$also_backup = array();
@@ -864,10 +864,10 @@ class wpdbBackup {
 		        return;
 		}
 
-		global $table_prefix, $wpdb;
+		global $wpdb;
 
 		$wp_table_names = explode(',','categories,comments,linkcategories,links,options,post2cat,postmeta,posts,users,usermeta');
-		$wp_table_names = array_map(create_function('$a', 'global $table_prefix;return "{$table_prefix}{$a}";'), $wp_table_names);
+		$wp_table_names = array_map(create_function('$a', 'global $wpdb;return "{$wpdb->table_prefix}{$a}";'), $wp_table_names);
 		$all_tables = $wpdb->get_results("SHOW TABLES", ARRAY_N);
 		$all_tables = array_map(create_function('$a', 'return $a[0];'), $all_tables);
 		$core_tables = array_intersect($all_tables, $wp_table_names);

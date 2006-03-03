@@ -167,7 +167,7 @@ function upgrade_110() {
 }
 
 function upgrade_130() {
-    global $wpdb, $table_prefix;
+    global $wpdb;
 
     // Remove extraneous backslashes.
 	$posts = $wpdb->get_results("SELECT ID, post_title, post_content, post_excerpt, guid, post_date, post_name, post_status, post_author FROM $wpdb->posts");
@@ -220,10 +220,10 @@ function upgrade_130() {
 		}
 
 	// Obsolete tables
-	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optionvalues');
-	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiontypes');
-	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiongroups');
-	$wpdb->query('DROP TABLE IF EXISTS ' . $table_prefix . 'optiongroup_options');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->table_prefix . 'optionvalues');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->table_prefix . 'optiontypes');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->table_prefix . 'optiongroups');
+	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->table_prefix . 'optiongroup_options');
 
 	// Update comments table to use comment_type
 	$wpdb->query("UPDATE $wpdb->comments SET comment_type='trackback', comment_content = REPLACE(comment_content, '<trackback />', '') WHERE comment_content LIKE '<trackback />%'");
@@ -244,7 +244,7 @@ function upgrade_130() {
 }
 
 function upgrade_160() {
-	global $wpdb, $table_prefix, $wp_current_db_version;
+	global $wpdb, $wp_current_db_version;
 
 	populate_roles_160();
 
@@ -257,7 +257,7 @@ function upgrade_160() {
 		if ( !empty( $user->user_nickname ) )
 			update_usermeta( $user->ID, 'nickname', $wpdb->escape($user->user_nickname) );
 		if ( !empty( $user->user_level ) )
-			update_usermeta( $user->ID, $table_prefix . 'user_level', $user->user_level );
+			update_usermeta( $user->ID, $wpdb->table_prefix . 'user_level', $user->user_level );
 		if ( !empty( $user->user_icq ) )
 			update_usermeta( $user->ID, 'icq', $wpdb->escape($user->user_icq) );
 		if ( !empty( $user->user_aim ) )
@@ -283,11 +283,11 @@ function upgrade_160() {
 		endif;
 
 		// FIXME: RESET_CAPS is temporary code to reset roles and caps if flag is set.
-		$caps = get_usermeta( $user->ID, $table_prefix . 'capabilities');
+		$caps = get_usermeta( $user->ID, $wpdb->table_prefix . 'capabilities');
 		if ( empty($caps) || defined('RESET_CAPS') ) {
-			$level = get_usermeta($user->ID, $table_prefix . 'user_level');
+			$level = get_usermeta($user->ID, $wpdb->table_prefix . 'user_level');
 			$role = translate_level_to_role($level);
-			update_usermeta( $user->ID, $table_prefix . 'capabilities', array($role => true) );
+			update_usermeta( $user->ID, $wpdb->table_prefix . 'capabilities', array($role => true) );
 		}
 
 	endforeach;
@@ -331,7 +331,7 @@ function upgrade_160() {
 }
 
 function upgrade_210() {
-	global $wpdb, $table_prefix, $wp_current_db_version;
+	global $wpdb, $wp_current_db_version;
 
 	if ( $wp_current_db_version < 3506 ) {
 		// Update status and type.
