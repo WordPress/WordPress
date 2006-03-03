@@ -654,7 +654,7 @@ class WP_Query {
 		$this->posts = $wpdb->get_results($this->request);
 
 		// Check post status to determine if post should be displayed.
-		if ($this->is_single || $this->is_page) {
+		if ( !empty($this->posts) && $this->is_single || $this->is_page ) {
 			$status = get_post_status($this->posts[0]);
 			//$type = get_post_type($this->posts[0]);
 			if ( ('publish' != $status) ) {
