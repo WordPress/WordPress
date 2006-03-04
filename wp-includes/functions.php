@@ -71,10 +71,10 @@ function date_i18n($dateformatstring, $unixtimestamp) {
 		$dateweekday = $weekday[date('w', $i)];
 		$dateweekday_abbrev = $weekday_abbrev[$dateweekday];
 		$dateformatstring = ' '.$dateformatstring;
-		$dateformatstring = preg_replace("/([^\\\])D/", "\\1".backslashit($dateweekday_abbrev), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])F/", "\\1".backslashit($datemonth), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])l/", "\\1".backslashit($dateweekday), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])M/", "\\1".backslashit($datemonth_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])D/", "\${1}".backslashit($dateweekday_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])F/", "\${1}".backslashit($datemonth), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])l/", "\${1}".backslashit($dateweekday), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])M/", "\${1}".backslashit($datemonth_abbrev), $dateformatstring);
 		$dateformatstring = substr($dateformatstring, 1, strlen($dateformatstring)-1);
 	}
 	$j = @date($dateformatstring, $i);
