@@ -61,7 +61,7 @@ if (isset($_GET['page'])) {
 		}
 
 		if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page"))
-			die(sprintf(__('Cannot load %s.'), $plugin_page));
+			die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
 
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . '/wp-admin/admin-header.php');
