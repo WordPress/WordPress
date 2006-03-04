@@ -1,22 +1,30 @@
 // UK lang variables
 
-tinyMCELang['lang_bold_desc'] = 'Bold (Alt+b)';
-tinyMCELang['lang_italic_desc'] = 'Italic (Alt+i)';
+if (navigator.userAgent.indexOf('Mac OS') != -1) {
+// Mac OS browsers use Ctrl to hit accesskeys
+	var metaKey = 'Ctrl';
+}
+else {
+	var metaKey = 'Alt';
+}
+
+tinyMCELang['lang_bold_desc'] = 'Bold (' + metaKey + '+b)';
+tinyMCELang['lang_italic_desc'] = 'Italic (' + metaKey + '+i)';
 tinyMCELang['lang_underline_desc'] = 'Underline';
-tinyMCELang['lang_striketrough_desc'] = 'Striketrough (Alt-d)';
-tinyMCELang['lang_justifyleft_desc'] = 'Align left (Alt-f)';
-tinyMCELang['lang_justifycenter_desc'] = 'Align center (Alt-c)';
-tinyMCELang['lang_justifyright_desc'] = 'Align right (Alt-r)';
+tinyMCELang['lang_striketrough_desc'] = 'Striketrough (' + metaKey + '-d)';
+tinyMCELang['lang_justifyleft_desc'] = 'Align left (' + metaKey + '-f)';
+tinyMCELang['lang_justifycenter_desc'] = 'Align center (' + metaKey + '-c)';
+tinyMCELang['lang_justifyright_desc'] = 'Align right (' + metaKey + '-r)';
 tinyMCELang['lang_justifyfull_desc'] = 'Align full';
-tinyMCELang['lang_bullist_desc'] = 'Unordered list (Alt-l)';
-tinyMCELang['lang_numlist_desc'] = 'Ordered list (Alt-o)';
-tinyMCELang['lang_outdent_desc'] = 'Outdent (Alt-w)';
-tinyMCELang['lang_indent_desc'] = 'Indent/Blockquote (Alt-q)';
-tinyMCELang['lang_undo_desc'] = 'Undo (Alt-u)';
-tinyMCELang['lang_redo_desc'] = 'Redo (Alt-y)';
-tinyMCELang['lang_link_desc'] = 'Insert/edit link (Alt-a)';
-tinyMCELang['lang_unlink_desc'] = 'Unlink (Alt-s)';
-tinyMCELang['lang_image_desc'] = 'Insert/edit image (Alt-m)';
+tinyMCELang['lang_bullist_desc'] = 'Unordered list (' + metaKey + '-l)';
+tinyMCELang['lang_numlist_desc'] = 'Ordered list (' + metaKey + '-o)';
+tinyMCELang['lang_outdent_desc'] = 'Outdent (' + metaKey + '-w)';
+tinyMCELang['lang_indent_desc'] = 'Indent/Blockquote (' + metaKey + '-q)';
+tinyMCELang['lang_undo_desc'] = 'Undo (' + metaKey + '-u)';
+tinyMCELang['lang_redo_desc'] = 'Redo (' + metaKey + '-y)';
+tinyMCELang['lang_link_desc'] = 'Insert/edit link (' + metaKey + '-a)';
+tinyMCELang['lang_unlink_desc'] = 'Unlink (' + metaKey + '-s)';
+tinyMCELang['lang_image_desc'] = 'Insert/edit image (' + metaKey + '-m)';
 tinyMCELang['lang_cleanup_desc'] = 'Cleanup messy code';
 tinyMCELang['lang_focus_alert'] = 'A editor instance must be focused before using this command.';
 tinyMCELang['lang_edit_confirm'] = 'Do you want to use the WYSIWYG mode for this textarea?';
