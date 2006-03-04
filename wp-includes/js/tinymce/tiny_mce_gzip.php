@@ -140,6 +140,7 @@ initArray = {
 	convert_newlines_to_brs : false,
 	remove_linebreaks : true,
 	save_callback : "wp_save_callback",
+	document_base_url : "<?php echo trailingslashit(get_bloginfo('home')); ?>",
 	valid_elements : "<?php echo $valid_elements; ?>",
 <?php do_action('mce_options'); ?>
 	plugins : "<?php echo $plugins; ?>"
