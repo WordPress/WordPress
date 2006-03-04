@@ -72,7 +72,13 @@ function get_links($category = -1,
 
 	global $wpdb;
 
-	$results = get_bookmarks("category=$category&orderby=$orderby&show_updated=$show_updated&limit=$limit");
+	$order = 'ASC';
+	if (substr($orderby, 0, 1) == '_') {
+		$order = 'DESC';
+		$orderby = substr($orderby, 1);
+	}
+
+	$results = get_bookmarks("category=$category&orderby=$orderby&order=$order&show_updated=$show_updated&limit=$limit");
 
 	if (!$results) {
 		return;
