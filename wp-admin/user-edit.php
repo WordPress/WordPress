@@ -32,6 +32,8 @@ break;
 
 case 'update':
 
+check_admin_referer();
+
 $errors = array();
 
 if (!current_user_can('edit_users'))
