@@ -87,6 +87,8 @@ case 'edit':
 	break;
 
 case 'editattachment':
+	check_admin_referer();
+
 	$post_id = (int) $_POST['post_ID'];
 
 	// Don't let these be changed
