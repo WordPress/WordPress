@@ -6,88 +6,64 @@ require_once('admin-db.php');
 if ( !is_user_logged_in() )
 	die('-1');
 
-function grab_results() {
-	global $ajax_results;
-	$ajax_results = func_get_arg(0);
-}
-
 function get_out_now() { exit; }
-add_action('shutdown', 'get_out_now', -1);
+add_action( 'shutdown', 'get_out_now', -1 );
 
 //	check_admin_referer();
 
+$id = (int) $_POST['id'];
 switch ( $_POST['action'] ) :
 case 'delete-link' :
-	$id = (int) $_POST['id'];
-	if ( !current_user_can('manage_links') )
-		die ('-1');
+	if ( !current_user_can( 'manage_links' ) )
+		die('-1');
 
-	if ( wp_delete_link($id) )
+	if ( wp_delete_link( $id ) )
 		die('1');
 	else	die('0');
 	break;
 case 'delete-post' :
-case 'delete-page' :
-	$id = (int) $_POST['id'];
-	if ( !current_user_can('edit_post', $id) )	{
+	if ( !current_user_can( 'delete_post', $id ) )
 		die('-1');
-	}
 
-	if ( wp_delete_post($id) ) {
+	if ( wp_delete_post( $id ) )
 		die('1');
-	} else	die('0');
+	else	die('0');
+	break;
+case 'delete-page' :
+	if ( !current_user_can( 'delete_page', $id ) )
+		die('-1');
+
+	if ( wp_delete_post( $id ) )
+		die('1');
+	else	die('0');
 	break;
 case 'delete-cat' :
-	if ( !current_user_can('manage_categories') )
-		die ('-1');
+	if ( !current_user_can( 'manage_categories' ) )
+		die('-1');
 
-	$id = (int) $_POST['id'];
-	$cat_name = get_catname($cat_ID);
-
-	if ( wp_delete_category($id) )
+	if ( wp_delete_category( $id ) )
 		die('1');
 	else	die('0');
 	break;
 case 'delete-comment' :
-	$id = (int) $_POST['id'];
-
-	if ( !$comment = get_comment($id) )
+	if ( !$comment = get_comment( $id ) )
 		die('0');
-	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
+	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
 
-	if ( wp_delete_comment($comment->comment_ID) ) {
+	if ( wp_delete_comment( $comment->comment_ID ) )
 		die('1');
-	} else {
-		die('0');
-	}
+	else	die('0');
 	break;
 case 'delete-comment-as-spam' :
-	$id = (int) $_POST['id'];
-
-	if ( !$comment = get_comment($id) )
+	if ( !$comment = get_comment( $id ) )
 		die('0');
-	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
+	if ( !current_user_can( 'edit_post', $comment->comment_post_ID ) )
 		die('-1');
 
-	if ( wp_set_comment_status($comment->comment_ID, 'spam') ) {
+	if ( wp_set_comment_status( $comment->comment_ID, 'spam' ) )
 		die('1');
-	} else {
-		die('0');
-	}
-	break;
-case 'delete-link-category' :
-	$id = (int) $_POST['id'];
-	if ( 1 == $id )
-		die('0');
-	if ( !current_user_can('manage_categories') )
-		die('-1');
-
-	if ( wp_delete_category($id) ) {
-		die('1');
-	} else {
-		die('0');
-	}
+	else	die('0');
 	break;
 endswitch;
 ?>
