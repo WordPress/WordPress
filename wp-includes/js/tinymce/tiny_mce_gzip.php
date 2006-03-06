@@ -76,15 +76,32 @@
 
 	// Load theme, language pack and theme language packs
 	$theme = apply_filters('mce_theme', 'advanced');
+
 	echo wp_compact_tinymce_js(file_get_contents(realpath("themes/" . $theme . "/editor_template.js")));
-	echo wp_translate_tinymce_lang(file_get_contents(realpath("themes/" . $theme . "/langs/en.js")));
-	echo wp_translate_tinymce_lang(file_get_contents(realpath("langs/en.js")));
+
+	// Get the WordPress locale
+	$locale = get_locale();
+
+	$themeLanguageFile = realpath("themes/" . $theme . "/langs/" . $locale . ".js");
+
+	if (!file_exists($themeLanguageFile))
+		$themeLanguageFile = realpath("themes/" . $theme . "/langs/en.js");
+	echo wp_translate_tinymce_lang(file_get_contents($themeLanguageFile));
+
+	$tinymceLanguageFile = realpath("langs/" . $locale . ".js");
+
+	if (!file_exists($tinymceLanguageFile))
+		$tinymceLanguageFile = realpath("langs/en.js");
+	echo wp_translate_tinymce_lang(file_get_contents($tinymceLanguageFile));
 
 	// Load all plugins and their language packs
-	$plugins = apply_filters('mce_plugins', array('wordpress', 'autosave', 'wphelp'));
+	$plugins = apply_filters('mce_plugins', array('wordpress', 'autosave','wphelp'));
+
 	foreach ($plugins as $plugin) {
 		$pluginFile = realpath("plugins/" . $plugin . "/editor_plugin.js");
-		$languageFile = realpath("plugins/" . $plugin . "/langs/en.js");
+		$languageFile = realpath("plugins/" . $plugin . "/langs/" . $locale . ".js");
+		if (!file_exists($languageFile))
+			$languageFile = realpath("plugins/" . $plugin . "/langs/en.js");
 
 		if ($pluginFile)
 			echo file_get_contents($pluginFile);
@@ -105,7 +122,7 @@
 			. 'title[dir<ltr?rtl|lang],tr[abbr|align<center?char?justify?left?right|bgcolor|char|charoff|class|rowspan|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|valign<baseline?bottom?middle?top],tt[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],u[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title],ul[class|compact<compact|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title|type],var[class|dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover|onmouseup|style|title]';
 	else // Use a much smaller set
 		$valid_elements = '-a[id|href|title|rel],-strong/b,-em/i,-strike,-del,-u,p[class|align|dir],-ol,-ul,-li,br,img[class|src|alt|title|width|height|align],-sub,-sup,-blockquote[dir],-table[border|cellspacing|cellpadding|width|height|class|align|dir],thead[class|rowspan|width|height|align|valign|dir],tr[class|rowspan|width|height|align|valign|dir],th[dir|class|colspan|rowspan|width|height|align|valign|scope],td[dir|class|colspan|rowspan|width|height|align|valign],-div[dir|class|align],-span[class|align],-pre[class],-code[class],-address,-h1[class|align|dir],-h2[class|align|dir],-h3[class|align|dir],-h4[class|align|dir],-h5[class|align|dir],-h6[class|align|dir],hr';
-	$valid_elements = apply_filters('mce_valid_elements', $valid_elements); 
+	$valid_elements = apply_filters('mce_valid_elements', $valid_elements);
 	$plugins = implode($plugins, ',');
 	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright' ,'separator', 'link', 'unlink', 'image', 'wordpress', 'separator', 'undo', 'redo', 'code', 'wphelp'));
 	$mce_buttons = implode($mce_buttons, ',');
