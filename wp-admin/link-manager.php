@@ -87,45 +87,29 @@ if ( isset($_GET['deleted']) ) {
 ?>
 
 <div class="wrap">
+
 <h2><?php _e('Bookmark Management'); ?></h2>
-<form name="cats" method="post" action="">
-<table width="75%" cellpadding="3" cellspacing="3">
-	<tr>
-		<td>
-			<?php _e('<strong>Show</strong> bookmarks in category:'); ?><br />
-		</td>
-		<td>
-			<?php _e('<strong>Order</strong> by:');?>
-		</td>
-		<td>&nbsp;</td>
-      </tr>
-      <tr>
-        <td>
-		<?php $categories = get_categories("hide_empty=1&type=link"); ?>
-		<select name="cat_id">
-			<option value="all" <?php echo ($cat_id == 'all') ? " selected='selected'" : ''; ?>><?php _e('All') ?></option>
-			<?php foreach ($categories as $cat): ?>
-			<option value="<?php echo $cat->cat_ID; ?>"<?php echo ($cat->cat_ID == $cat_id) ? " selected='selected'" : ''; ?>><?php echo wp_specialchars($cat->cat_name); ?>
-			</option>
-			<?php endforeach; ?>
-			</select>
-		</td>
-		<td>
-			<select name="order_by">
-				<option value="order_id"     <?php if ($order_by == 'order_id')     echo " selected='selected'";?>><?php _e('Bookmark ID') ?></option>
-				<option value="order_name"   <?php if ($order_by == 'order_name')   echo " selected='selected'";?>><?php _e('Name') ?></option>
-				<option value="order_url"    <?php if ($order_by == 'order_url')    echo " selected='selected'";?>><?php _e('URI') ?></option>
-				<option value="order_desc"   <?php if ($order_by == 'order_desc')   echo " selected='selected'";?>><?php _e('Description') ?></option>
-			</select>
-		</td>
-		<td>
-			<input type="submit" name="action" value="<?php _e('Show') ?>" />
-		</td>
-	</tr>
-</table>
+<p><?php _e('Here you add links to sites that you visit often and share them on your blog. When you have a list of links in your sidebar to other blogs, it&#8217;s called a &#8220;blogroll.&#8221;'); ?></p>
+<form id="cats" method="get" action="">
+<p>Currently showing 
+<?php $categories = get_categories("hide_empty=1&type=link"); ?>
+<select name="cat_id">
+<option value="all" <?php echo ($cat_id == 'all') ? " selected='selected'" : ''; ?>><?php _e('All') ?></option>
+<?php foreach ($categories as $cat): ?>
+<option value="<?php echo $cat->cat_ID; ?>"<?php echo ($cat->cat_ID == $cat_id) ? " selected='selected'" : ''; ?>><?php echo wp_specialchars($cat->cat_name); ?>
+</option>
+<?php endforeach; ?>
+</select>
+bookmarks ordered by 
+<select name="order_by">
+<option value="order_id" <?php if ($order_by == 'order_id') echo " selected='selected'";?>><?php _e('Bookmark ID') ?></option>
+<option value="order_name" <?php if ($order_by == 'order_name') echo " selected='selected'";?>><?php _e('Name') ?></option>
+<option value="order_url" <?php if ($order_by == 'order_url') echo " selected='selected'";?>><?php _e('URI') ?></option>
+</select>
+<input type="submit" name="action" value="<?php _e('Update &raquo;') ?>" />
 </form>
 
-<form name="links" id="links" method="post" action="link.php">
+<form id="links" method="post" action="link.php">
 <input type="hidden" name="link_id" value="" />
 <input type="hidden" name="action" value="" />
 <input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
@@ -138,7 +122,7 @@ if ( isset($_GET['deleted']) ) {
 		<th><?php _e('rel') ?></th>
 		<th><?php _e('Visible') ?></th>
 		<th colspan="2"><?php _e('Action') ?></th>
-		<th>&nbsp;</th>
+		<th><input type="checkbox" onclick="checkAll(document.getElementById('links'));" /></th>
 	</tr>
 <?php
 if ( 'all' == $cat_id )
@@ -186,7 +170,7 @@ if ($links)
 
 		echo '<td><a href="link.php?link_id='.$link->link_id.'&amp;action=edit" class="edit">'.__('Edit').'</a></td>';
 		echo '<td><a href="link.php?link_id='.$link->link_id.'&amp;action=delete"'." class='delete' onclick=\"return deleteSomething( 'link', $link->link_id , '".sprintf(__("You are about to delete the &quot;%s&quot; bookmark to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($link->link_name, 1), wp_specialchars($link->link_url)).'\' );" class="delete">'.__('Delete').'</a></td>';
-		echo '<td><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></td>';
+		echo '<td align="center"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></td>';
 		echo "\n    </tr>\n";
 	}
 ?>
@@ -194,16 +178,7 @@ if ($links)
 
 <div id="ajax-response"></div>
 
-<table width="100%" cellpadding="3" cellspacing="3">
-	<tr>
-		<td>
-			<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Bookmarks') ?>" onclick="return confirm('<?php _e("You are about to delete these bookmarks permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
-		</td>
-		<td align="right">
-			<a href="#" onclick="checkAll(document.getElementById('links')); return false; "><?php _e('Toggle Checkboxes') ?></a>
-		</td>
-	</tr>
-</table>
+<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Bookmarks') ?>" onclick="return confirm('<?php _e("You are about to delete these bookmarks permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
 </div>
 </form>
 
