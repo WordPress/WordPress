@@ -23,7 +23,7 @@ case 'delete-link' :
 	if ( !current_user_can('manage_links') )
 		die ('-1');
 
-	if ( $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$id'") )
+	if ( wp_delete_link($id) ) 
 		die('1');
 	else	die('0');
 	break;
