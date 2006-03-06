@@ -30,7 +30,8 @@ $editing = true;
 
 switch($action) {
 case 'post':
-
+	check_admin_referer();
+	
 	$post_ID = write_post();
 
 	// Redirect.
@@ -102,6 +103,8 @@ case 'editattachment':
 		add_post_meta($post_id, '_wp_attachment_metadata', $newmeta);
 
 case 'editpost':
+	check_admin_referer();
+	
 	$post_ID = edit_post();
 
 	if ($_POST['save']) {
