@@ -25,10 +25,13 @@ case 'register':
 		$errors['user_email'] = __('<strong>ERROR</strong>: Please type your e-mail address.');
 	} else if (!is_email($user_email)) {
 		$errors['user_email'] = __('<strong>ERROR</strong>: The email address isn&#8217;t correct.');
+		$user_email = '';
 	}
 
-	if ( ! validate_username($user_login) )
+	if ( ! validate_username($user_login) ) {
 		$errors['user_login'] = __('<strong>ERROR</strong>: This username is invalid.  Please enter a valid username.');
+		$user_login = '';
+	}
 
 	if ( username_exists( $user_login ) )
 		$errors['user_login'] = __('<strong>ERROR</strong>: This username is already registered, please choose another one.');
@@ -65,9 +68,9 @@ case 'register':
 
 <div id="login"> 
 	<h2><?php _e('Registration Complete') ?></h2>
-	<p><?php printf(__('Username: %s'), "<strong>$user_login</strong>") ?><br />
+	<p><?php printf(__('Username: %s'), "<strong>" . wp_specialchars($user_login) . "</strong>") ?><br />
 	<?php printf(__('Password: %s'), '<strong>' . __('emailed to you') . '</strong>') ?> <br />
-	<?php printf(__('E-mail: %s'), "<strong>$user_email</strong>") ?></p>
+	<?php printf(__('E-mail: %s'), "<strong>" . wp_specialchars($user_email) . "</strong>") ?></p>
 	<p class="submit"><a href="wp-login.php"><?php _e('Login &raquo;'); ?></a></p>
 </div>
 </body>
@@ -108,8 +111,8 @@ default:
 <?php endif; ?>
 <form method="post" action="wp-register.php" id="registerform">
 	<p><input type="hidden" name="action" value="register" />
-	<label for="user_login"><?php _e('Username:') ?></label><br /> <input type="text" name="user_login" id="user_login" size="20" maxlength="20" value="<?php echo $user_login; ?>" /><br /></p>
-	<p><label for="user_email"><?php _e('E-mail:') ?></label><br /> <input type="text" name="user_email" id="user_email" size="25" maxlength="100" value="<?php echo $user_email; ?>" /></p>
+	<label for="user_login"><?php _e('Username:') ?></label><br /> <input type="text" name="user_login" id="user_login" size="20" maxlength="20" value="<?php echo wp_specialchars($user_login); ?>" /><br /></p>
+	<p><label for="user_email"><?php _e('E-mail:') ?></label><br /> <input type="text" name="user_email" id="user_email" size="25" maxlength="100" value="<?php echo wp_specialchars($user_email); ?>" /></p>
 	<p><?php _e('A password will be emailed to you.') ?></p>
 	<p class="submit"><input type="submit" value="<?php _e('Register &raquo;') ?>" id="submit" name="submit" /></p>
 </form>
