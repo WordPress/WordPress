@@ -23,6 +23,9 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	}
 	$i = mktime(substr($m,11,2),substr($m,14,2),substr($m,17,2),substr($m,5,2),substr($m,8,2),substr($m,0,4));
 
+	if( 'U' == $dateformatstring )
+		return $i;
+	
 	if ( -1 == $i || false == $i )
 		$i = 0;
 
