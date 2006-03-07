@@ -86,5 +86,6 @@ add_filter('option_ping_sites', 'privacy_ping_filter');
 add_action('wp_head', 'rsd_link');
 add_action('publish_future_post', 'wp_publish_post', 10, 1);
 add_action('wp_head', 'noindex', 1);
-add_action('init', 'wp_cron');
+if(!defined('DOING_CRON'))
+	add_action('init', 'wp_cron');
 ?>

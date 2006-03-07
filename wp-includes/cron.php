@@ -6,7 +6,7 @@ function wp_schedule_single_event($timestamp, $hook) {
 	ksort($crons);
 	update_option('cron', $crons);
 }
-function wp_schedule_new_event($timestamp, $recurrence, $hook) {
+function wp_schedule_event($timestamp, $recurrence, $hook) {
 	$args = array_slice(func_get_args(), 3);
 	$crons = get_option('cron');
 	$schedules = wp_get_schedules();
@@ -37,7 +37,7 @@ function wp_reschedule_event($timestamp, $recurrence, $hook) {
 	while($timestamp < time() + 1) {
 		$timestamp += $interval;
 	}
-	wp_schedule_new_event($timestamp, $recurrence, $hook);
+	wp_schedule_event($timestamp, $recurrence, $hook);
 }
 
 function wp_unschedule_event($timestamp, $hook) {
@@ -66,12 +66,6 @@ function wp_next_scheduled($hook) {
 
 function spawn_cron() {
 	if (array_shift(array_keys(get_option('cron'))) > time()) return;
-
-	//Since execute pings had CGI problems, but I'd like to test this without this code first
-	// It seems to be working on CGI here, please report if you have issues
-/*	if ( substr(php_sapi_name(), 0, 3) == 'cgi' ) {
-		echo '<iframe src="' . $cron_url . '"></iframe>';
-	}*/
 	
 	$cron_url = get_settings('siteurl') . '/wp-cron.php';
 	$parts = parse_url($cron_url);
