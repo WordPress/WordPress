@@ -210,9 +210,10 @@ function wp_insert_post($postarr = array()) {
 				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
 	}
 
-	if ( 'future' == $post_status )
-		wp_schedule_event(mysql2date('U', $post_date), 'once', 'publish_future_post', $post_ID);
-
+	if ( 'future' == $post_status ) {
+		wp_schedule_single_event(mysql2date('U', $post_date), 'publish_future_post', $post_ID);
+	}
+		
 	do_action('save_post', $post_ID);
 	do_action('wp_insert_post', $post_ID);
 
