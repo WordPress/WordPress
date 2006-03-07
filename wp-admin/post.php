@@ -29,7 +29,7 @@ $editing = true;
 
 switch($action) {
 case 'post':
-
+	check_admin_referer();
 	if ( !user_can_create_draft($user_ID) )
 		die( __('You are not allowed to create posts or drafts on this blog.') );
 
@@ -268,6 +268,7 @@ case 'edit':
 	break;
 
 case 'editpost':
+	check_admin_referer();
 	// die(var_dump('<pre>', $_POST));
 	if (!isset($blog_ID)) {
 		$blog_ID = 1;
@@ -495,7 +496,7 @@ case 'editcomment':
 	break;
 
 case 'confirmdeletecomment':
-
+	check_admin_referer();
 	require_once('./admin-header.php');
 
 	$comment = (int) $_GET['comment'];
@@ -590,7 +591,7 @@ case 'unapprovecomment':
 	break;
 
 case 'mailapprovecomment':
-
+	check_admin_referer();
 	$comment = (int) $_GET['comment'];
 
 	$commentdata = get_commentdata($comment, 1, true) or die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
@@ -610,7 +611,7 @@ case 'mailapprovecomment':
 	break;
 
 case 'approvecomment':
-
+	check_admin_referer();
 	$comment = (int) $_GET['comment'];
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
@@ -639,7 +640,7 @@ case 'approvecomment':
 	break;
 
 case 'editedcomment':
-
+	check_admin_referer();
 	$comment_ID = (int) $_POST['comment_ID'];
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 	$newcomment_author = $_POST['newcomment_author'];

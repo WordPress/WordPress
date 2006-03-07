@@ -24,6 +24,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch ($action) {
 case 'update':
 
+check_admin_referer();
+
 get_currentuserinfo();
 $edituser = get_userdata($user_id);
 if ($edituser->user_level >= $user_level) die( __('You do not have permission to edit this user.') );

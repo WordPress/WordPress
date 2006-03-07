@@ -64,10 +64,10 @@ case 'update':
 			die (__("<strong>ERROR</strong>: you typed your new password only once. Go back to type it twice."));
 		if ( $pass1 != $pass2 )
 			die (__("<strong>ERROR</strong>: you typed two different passwords. Go back to correct that."));
-		$newuser_pass = $pass1;
+		$newuser_pass = $wpdb->escape($pass1);
 		$updatepassword = "user_pass=MD5('$newuser_pass'), ";
 		wp_clearcookie();
-		wp_setcookie($user_login, $newuser_pass);
+		wp_setcookie($user_login, $pass1);
 	}
 
 	$newuser_firstname = wp_specialchars($_POST['newuser_firstname']);
