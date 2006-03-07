@@ -75,8 +75,8 @@ function write_post() {
 		$hh = ($hh > 23) ? $hh -24 : $hh;
 		$mn = ($mn > 59) ? $mn -60 : $mn;
 		$ss = ($ss > 59) ? $ss -60 : $ss;
-		$_POST['post_date'] = "$aa-$mm-$jj $hh:$mn:$ss";
-		$_POST['post_date_gmt'] = get_gmt_from_date("$aa-$mm-$jj $hh:$mn:$ss");
+		$_POST['post_date'] = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $aa, $mm, $jj, $hh, $mn, $ss);
+		$_POST['post_date_gmt'] = get_gmt_from_date($_POST['post_date']);
 	}
 
 	// Create the post.
