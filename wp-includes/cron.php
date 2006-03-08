@@ -49,7 +49,7 @@ function wp_unschedule_event($timestamp, $hook) {
 }
 
 function wp_clear_scheduled_hook($hook) {
-	while($timestamp = next_scheduled($hook))
+	while($timestamp = wp_next_scheduled($hook))
 		wp_unschedule_event($timestamp, $hook);
 }
 
@@ -72,8 +72,10 @@ function spawn_cron() {
 	
 	$argyle = @ fsockopen($parts['host'], $_SERVER['SERVER_PORT'], $errno, $errstr, 0.01);
 	if ( $argyle )
-		fputs($argyle, "GET {$parts['path']}?time=" . time() . '&check='
-		. md5(DB_PASS . '187425') . " HTTP/1.0\r\nHost: {$_SERVER['HTTP_HOST']}\r\n\r\n");
+		fputs($argyle,
+			  "GET {$parts['path']}?check=" . md5(DB_PASS . '187425') . " HTTP/1.0\r\n"
+			. "Host: {$_SERVER['HTTP_HOST']}\r\n\r\n"
+		);
 }
 
 function wp_cron() {
