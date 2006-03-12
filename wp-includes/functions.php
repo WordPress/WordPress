@@ -2240,7 +2240,7 @@ function remove_query_arg($key, $query) {
 
 function load_template($file) {
 	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query,
-		$wp_rewrite, $wpdb;
+		$wp_rewrite, $wpdb, $wp_version, $wp;
 
 	extract($wp_query->query_vars);
 
@@ -2433,5 +2433,43 @@ function privacy_ping_filter( $sites ) {
 function bool_from_yn($yn) {
     if ($yn == 'Y') return 1;
     return 0;
+}
+
+function do_feed() {
+	$feed = get_query_var('feed');
+
+	// Remove the pad, if present.
+	$feed = preg_replace('/^_+/', '', $feed);
+
+	if ($feed == '' || $feed == 'feed')
+    	$feed = 'rss2';
+
+	$for_comments = false;
+	if ( is_single() || ($withcomments == 1) ) {
+		$feed = 'rss2';
+		$for_comments = true;	
+	}
+
+	$hook = 'do_feed_' . $feed;
+	do_action($hook, $for_comments);
+}
+
+function do_feed_rdf() {
+	load_template(ABSPATH . 'wp-rdf.php');
+}
+
+function do_feed_rss() {
+	load_template(ABSPATH . 'wp-rss.php');
+}
+
+function do_feed_rss2($for_comments) {
+	if ( $for_comments ) 
+		load_template(ABSPATH . 'wp-commentsrss2.php');
+	else
+		load_template(ABSPATH . 'wp-rss2.php');
+}
+
+function do_feed_atom() {
+	load_template(ABSPATH . 'wp-atom.php');
 }
 ?>

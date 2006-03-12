@@ -88,4 +88,8 @@ add_action('publish_future_post', 'wp_publish_post', 10, 1);
 add_action('wp_head', 'noindex', 1);
 if(!defined('DOING_CRON'))
 	add_action('init', 'wp_cron');
+add_action('do_feed_rdf', 'do_feed_rdf', 10, 1);
+add_action('do_feed_rss', 'do_feed_rss', 10, 1);
+add_action('do_feed_rss2', 'do_feed_rss2', 10, 1);
+add_action('do_feed_atom', 'do_feed_atom', 10, 1);
 ?>

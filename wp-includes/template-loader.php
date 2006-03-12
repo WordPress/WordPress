@@ -2,7 +2,7 @@
 if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	do_action('template_redirect');
 	if ( is_feed() ) {
-		include(ABSPATH . '/wp-feed.php');
+		do_feed();
 		exit;
 	} else if ( is_trackback() ) {
 		include(ABSPATH . '/wp-trackback.php');
@@ -56,7 +56,7 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 } else {
 	// Process feeds and trackbacks even if not using themes.
 	if ( is_feed() ) {
-		include(ABSPATH . '/wp-feed.php');
+		do_feed();
 		exit;
 	} else if ( is_trackback() ) {
 		include(ABSPATH . '/wp-trackback.php');

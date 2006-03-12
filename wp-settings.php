@@ -140,6 +140,7 @@ require (ABSPATH . WPINC . '/template-functions-author.php');
 require (ABSPATH . WPINC . '/template-functions-post.php');
 require (ABSPATH . WPINC . '/template-functions-category.php');
 require (ABSPATH . WPINC . '/comment-functions.php');
+require (ABSPATH . WPINC . '/rewrite.php');
 require (ABSPATH . WPINC . '/feed-functions.php');
 require (ABSPATH . WPINC . '/template-functions-bookmarks.php');
 require (ABSPATH . WPINC . '/kses.php');

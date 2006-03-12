@@ -51,6 +51,6 @@ $more = 1;
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	</item>
-	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
+	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && !is_date()) { break; } } } ?>
 </channel>
 </rss>
