@@ -13,7 +13,8 @@ if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have
 $step = 0;
 if(isset($_GET['step'])) $step = $_GET['step'];
 header( 'Content-Type: text/html; charset=utf-8' );
-?>
+
+function setup_header() { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -50,10 +51,13 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <body> 
 <h1 id="logo"><a href="http://wordpress.org/"><span>WordPress</span></a></h1> 
 <?php
+}
 
 switch($step) {
 	case 0:
+	setup_header();
 ?> 
+
 <p>Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding.</p> 
 <ol> 
   <li>Database name</li> 
@@ -68,6 +72,7 @@ switch($step) {
 	break;
 
 	case 1:
+	setup_header();
 	?> 
 </p> 
 <form method="post" action="setup-config.php?step=2"> 
@@ -145,6 +150,7 @@ switch($step) {
     }
     fclose($handle);
 	chmod('../wp-config.php', 0666);
+	setup_header();
 ?> 
 <p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to <a href="install.php">run the install!</a></p> 
 <?php
