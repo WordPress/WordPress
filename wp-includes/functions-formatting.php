@@ -1001,10 +1001,7 @@ function ent2ncr($text) {
 		'&diams;' => '&#9830;'
 	);
 
-	foreach ($to_ncr as $entity => $ncr) {
-		$text = str_replace($entity, $ncr, $text);
-	}
-	return $text;
+	return str_replace( array_keys($to_ncr), array_values($to_ncr), $text );
 }
 
 function wp_richedit_pre($text) {
