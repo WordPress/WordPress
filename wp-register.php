@@ -103,9 +103,9 @@ case 'register':
 
 <div id="login"> 
 	<h2><?php _e('Registration Complete') ?></h2>
-	<p><?php printf(__('Username: %s'), "<strong>$user_login</strong>") ?><br />
+	<p><?php printf(__('Username: %s'), '<strong>' . wp_specialchars($user_login) . '</strong>') ?><br />
 	<?php printf(__('Password: %s'), '<strong>' . __('emailed to you') . '</strong>') ?> <br />
-	<?php printf(__('E-mail: %s'), "<strong>$user_email</strong>") ?></p>
+	<?php printf(__('E-mail: %s'), '<strong>' . wp_specialchars($user_email) . '</strong>') ?></p>
 	<p class="submit"><a href="wp-login.php"><?php _e('Login'); ?> &raquo;</a></p>
 </div>
 </body>
