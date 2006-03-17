@@ -15,6 +15,10 @@ function the_ID() {
 	echo $id;
 }
 
+function get_the_ID() {
+	global $id;
+	return $id;
+}
 
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();

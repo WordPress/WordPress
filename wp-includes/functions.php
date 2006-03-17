@@ -2015,7 +2015,7 @@ function remove_query_arg($key, $query) {
 
 function load_template($file) {
 	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query,
-		$wp_rewrite, $wpdb, $wp_version, $wp;
+		$wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment;
 
 	extract($wp_query->query_vars);
 
@@ -2220,7 +2220,7 @@ function do_feed() {
     	$feed = 'rss2';
 
 	$for_comments = false;
-	if ( is_single() || ($withcomments == 1) ) {
+	if ( is_single() || (get_query_var('withcomments') == 1) ) {
 		$feed = 'rss2';
 		$for_comments = true;	
 	}
@@ -2238,10 +2238,11 @@ function do_feed_rss() {
 }
 
 function do_feed_rss2($for_comments) {
-	if ( $for_comments ) 
+	if ( $for_comments ) {
 		load_template(ABSPATH . 'wp-commentsrss2.php');
-	else
+	} else {
 		load_template(ABSPATH . 'wp-rss2.php');
+	}
 }
 
 function do_feed_atom() {
