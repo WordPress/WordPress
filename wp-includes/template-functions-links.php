@@ -228,12 +228,13 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
 	global $post, $comment;
 
-	if( $post->post_type == 'page' )
+	if( $post->post_type == 'page' ){
 		if ( ! current_user_can('edit_page', $post->ID) )
 			return;
-	else
+	} else {
 		if ( ! current_user_can('edit_post', $post->ID) )
 			return;
+	}
 
 	$location = get_settings('siteurl') . "/wp-admin/comment.php?action=editcomment&amp;comment=$comment->comment_ID";
 	echo $before . "<a href='$location'>$link</a>" . $after;
