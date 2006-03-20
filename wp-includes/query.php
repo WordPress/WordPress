@@ -857,7 +857,7 @@ class WP_Query {
 		$join = apply_filters('posts_join', $join);
 
 		// Paging
-		if (empty($q['nopaging']) && ! $this->is_single) {
+		if (empty($q['nopaging']) && ! $this->is_single && ! $this->is_page) {
 			$page = $q['paged'];
 			if (empty($page)) {
 				$page = 1;
