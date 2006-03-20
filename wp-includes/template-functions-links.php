@@ -426,16 +426,9 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
-	global $paged, $result, $request, $posts_per_page, $wpdb, $max_num_pages;
+	global $paged, $wpdb;
 	if ( !$max_page ) {
-			if ( isset($max_num_pages) ) {
-				$max_page = $max_num_pages;
-			} else {
-				preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
-				$fromwhere = $matches[1];
-				$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
-				$max_page = $max_num_pages = ceil($numposts / $posts_per_page);
-			}
+		$max_page = _max_num_pages();
 	}
 	if ( !$paged )
 		$paged = 1;
@@ -469,25 +462,40 @@ function previous_posts_link($label='&laquo; Previous Page') {
 	}
 }
 
-function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
-	global $request, $posts_per_page, $wpdb, $max_num_pages;
-	if ( !is_single() ) {
+function _max_num_pages() {
+	static $max_num_pages;
+	global $wpdb, $wp_query;
+	
+	if (isset($max_num_pages)) return $max_num_pages;
+	
+	if ( 'posts' == get_query_var('what_to_show') ) {
+		preg_match('#FROM\s(.*)\sGROUP BY#siU', $wp_query->request, $matches);
+		$fromwhere = $matches[1];
+		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
+		return ceil($numposts / get_option('posts_per_page'));
+	} else {
+		$posts = $wp_query->posts;
+		preg_match('#WHERE\s(.*)\sGROUP BY#siU', $wp_query->request, $matches);
+		$where = preg_replace('/( AND )?post_date >= (\'|\")(.*?)(\'|\")( AND post_date <= (\'\")(.*?)(\'\"))?/siU', '', $matches[1]);
+		$num_days = $wpdb->query("SELECT DISTINCT post_date FROM $wpdb->posts WHERE $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date)");
+		return ceil($num_days / get_option('posts_per_page'));
+	}
+}
 
-		if ( 'posts' == get_query_var('what_to_show') ) {
-			if ( !isset($max_num_pages) ) {
-				preg_match('#FROM\s(.*)\sGROUP BY#siU', $request, $matches);
-				$fromwhere = $matches[1];
-				$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
-				$max_num_pages = ceil($numposts / $posts_per_page);
-			}
-		} else {
-			$max_num_pages = 999999;
+function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
+	if ( !is_single() ) {
+		$max_num_pages = _max_num_pages();
+		$paged = get_query_var('paged');
+		
+		//only have sep if there's both prev and next results
+		if ($paged < 2 || $paged >= $max_num_pages) {
+			$sep = '';
 		}
 
 		if ( $max_num_pages > 1 ) {
 			previous_posts_link($prelabel);
 			echo preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', $sep);
-			next_posts_link($nxtlabel, $max_page);
+			next_posts_link($nxtlabel);
 		}
 	}
 }
