@@ -23,6 +23,18 @@ function checkAll(form)
 		}
 	}
 }
+
+function getNumChecked(form)
+{
+	var num = 0;
+	for (i = 0, n = form.elements.length; i < n; i++) {
+		if(form.elements[i].type == "checkbox") {
+			if(form.elements[i].checked == true)
+				num++;
+		}
+	}
+	return num;
+}
 //-->
 </script>
 <div class="wrap">
@@ -168,7 +180,7 @@ if ('view' == $mode) {
 		} // end foreach
 	?></table>
     <p><a href="javascript:;" onclick="checkAll(document.getElementById('deletecomments')); return false; "><?php _e('Invert Checkbox Selection') ?></a></p>
-            <p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments &raquo;') ?>" onclick="return confirm('<?php _e("You are about to delete these comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" />
+            <p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments &raquo;') ?>" onclick="var numchecked = getNumChecked(document.getElementById('deletecomments')); if(numchecked < 1) { alert('<?php _e("Please select some comments to delete"); ?>'); return false } return confirm('<?php printf(__("You are about to delete %s comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete."), "' + numchecked + '"); ?>')" />
 			<input type="submit" name="spam_button" value="<?php _e('Mark Checked Comments as Spam &raquo;') ?>" onclick="return confirm('<?php _e("You are about to mark these comments as spam \\n  \'Cancel\' to stop, \'OK\' to mark as spam.") ?>')" /></p>
   </form>
 <?php
