@@ -969,7 +969,7 @@ function touch_time($edit = 1, $for_post = 1) {
 	$mn = ($edit) ? mysql2date('i', $post_date) : gmdate('i', $time_adj);
 	$ss = ($edit) ? mysql2date('s', $post_date) : gmdate('s', $time_adj);
 
-	echo "<select name=\"mm\" onChange=\"edit_date.checked=true\">\n";
+	echo "<select name=\"mm\" onchange=\"edit_date.checked=true\">\n";
 	for ($i = 1; $i < 13; $i = $i +1) {
 		echo "\t\t\t<option value=\"$i\"";
 		if ($i == $mm)
@@ -983,11 +983,11 @@ function touch_time($edit = 1, $for_post = 1) {
 	}
 ?>
 </select>
-<input type="text" id="jj" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" onChange="edit_date.checked=true"/>
-<input type="text" id="aa" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" onChange="edit_date.checked=true" /> @ 
-<input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" onChange="edit_date.checked=true" /> : 
-<input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" onChange="edit_date.checked=true" /> 
-<input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onChange="edit_date.checked=true" /> 
+<input type="text" id="jj" name="jj" value="<?php echo $jj; ?>" size="2" maxlength="2" onchange="edit_date.checked=true"/>
+<input type="text" id="aa" name="aa" value="<?php echo $aa ?>" size="4" maxlength="5" onchange="edit_date.checked=true" /> @ 
+<input type="text" id="hh" name="hh" value="<?php echo $hh ?>" size="2" maxlength="2" onchange="edit_date.checked=true" /> : 
+<input type="text" id="mn" name="mn" value="<?php echo $mn ?>" size="2" maxlength="2" onchange="edit_date.checked=true" /> 
+<input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" /> 
 <?php
 	if ( $edit ) {
 		_e('Existing timestamp');
