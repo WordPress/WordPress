@@ -306,24 +306,47 @@ function &get_pages($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('child_of' => 0, 'sort_order' => 'ASC', 'sort_column' => 'post_title',
-		'hierarchical' => 1);
+		'hierarchical' => 1, $exclude => '', $include => '');
 	$r = array_merge($defaults, $r);
+	extract($r);
 
-	$exclusions = '';
-	if ( !empty($r['exclude']) ) {
-		$expages = preg_split('/[\s,]+/',$r['exclude']);
-		if ( count($expages) ) {
-			foreach ( $expages as $expage ) {
-				$exclusions .= ' AND ID <> ' . intval($expage) . ' ';
+	$inclusions = '';
+	if ( !empty($include) ) {
+		$child_of = 0; //ignore child_of and exclude params if using include 
+		$exclude = '';  
+		$incpages = preg_split('/[\s,]+/',$include);
+		if ( count($incpages) ) {
+			foreach ( $incpages as $incpage ) {
+				if (empty($inclusions))
+					$inclusions = ' AND ( ID = ' . intval($incpage) . ' ';
+				else
+					$inclusions .= ' OR ID = ' . intval($incpage) . ' ';
 			}
 		}
 	}
+	if (!empty($inclusions)) 
+		$inclusions .= ')';	
+
+	$exclusions = '';
+	if ( !empty($exclude) ) {
+		$expages = preg_split('/[\s,]+/',$exclude);
+		if ( count($expages) ) {
+			foreach ( $expages as $expage ) {
+				if (empty($exclusions))
+					$exclusions = ' AND ( ID <> ' . intval($expage) . ' ';
+				else
+					$exclusions .= ' AND ID <> ' . intval($expage) . ' ';
+			}
+		}
+	}
+	if (!empty($exclusions)) 
+		$exclusions .= ')';
 
 	$pages = $wpdb->get_results("SELECT * " .
 		"FROM $wpdb->posts " .
 		"WHERE post_type = 'page' AND post_status = 'publish' " .
-		"$exclusions " .
-		"ORDER BY " . $r['sort_column'] . " " . $r['sort_order']);
+		"$exclusions $inclusions" .
+		"ORDER BY " . $sort_column . " " . $sort_order);
 
 	if ( empty($pages) )
 		return array();
@@ -331,8 +354,8 @@ function &get_pages($args = '') {
 	// Update cache.
 	update_page_cache($pages);
 
-	if ( $r['child_of'] || $r['hierarchical'] )
-		$pages = & get_page_children($r['child_of'], $pages);
+	if ( $child_of || $hierarchical )
+		$pages = & get_page_children($child_of, $pages);
 
 	return $pages;
 }

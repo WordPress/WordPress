@@ -283,20 +283,43 @@ function get_bookmarks($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => -1,
-		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0);
+		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'include' => '', 'exclude' => '');
 	$r = array_merge($defaults, $r);
 	extract($r);
 
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$exlinks = preg_split('/[\s,]+/',$r['exclude']);
-		if ( count($exlinks) ) {
-			foreach ( $exlinks as $exlink ) {
-				$exclusions .= ' AND link_id <> ' . intval($exlink) . ' ';
+	$inclusions = '';
+	if ( !empty($include) ) {
+	$exclude = '';  //ignore exclude, category, and category_name params if using include
+	$category = -1;
+	$category_name = '';
+		$inclinks = preg_split('/[\s,]+/',$include);
+		if ( count($inclinks) ) {
+			foreach ( $inclinks as $inclink ) {
+				if (empty($inclusions))
+					$inclusions = ' AND ( link_id = ' . intval($inclink) . ' ';
+				else
+					$inclusions .= ' OR link_id = ' . intval($inclink) . ' ';
 			}
 		}
 	}
+	if (!empty($inclusions)) 
+		$inclusions .= ')';
 
+	$exclusions = '';
+	if ( !empty($exclude) ) {
+		$exlinks = preg_split('/[\s,]+/',$exclude);
+		if ( count($exlinks) ) {
+			foreach ( $exlinks as $exlink ) {
+				if (empty($exclusions))
+					$exclusions = ' AND ( link_id <> ' . intval($exlink) . ' ';
+				else
+					$exclusions .= ' AND link_id <> ' . intval($exlink) . ' ';
+			}
+		}
+	}
+	if (!empty($exclusions)) 
+		$exclusions .= ')';
+		
 	if ( ! empty($category_name) ) {
 		if ( $cat_id = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$category_name' LIMIT 1") )
 			$category = $cat_id;
@@ -320,7 +343,7 @@ function get_bookmarks($args = '') {
 		$get_updated = ", UNIX_TIMESTAMP(link_updated) AS link_updated_f ";
 	}
 
-	$orderby = strtolower($r['orderby']);
+	$orderby = strtolower($orderby);
 	$length = '';
 	switch ($orderby) {
 		case 'length':
@@ -341,6 +364,7 @@ function get_bookmarks($args = '') {
 		$visible = "AND link_visible = 'Y'";
 
 	$query = "SELECT * $length $recently_updated_test $get_updated FROM $wpdb->links $join WHERE 1=1 $visible $category_query";
+	$query .= " $exclusions $inclusions";
 	$query .= " ORDER BY $orderby $order";
 	if ($limit != -1)
 		$query .= " LIMIT $limit";

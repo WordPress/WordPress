@@ -376,28 +376,49 @@ function &get_categories($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1);
+		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, $exclude => '', $include => '');
 	$r = array_merge($defaults, $r);
-	$r['orderby'] = "cat_" . $r['orderby'];
+	$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
 	extract($r);
 
-	$exclusions = '';
-	$having = '';
 	$where = 'cat_ID > 0';
+	$inclusions = '';
+	if ( !empty($include) ) {
+		$child_of = 0; //ignore child_of and exclude params if using include 
+		$exclude = '';  
+		$incategories = preg_split('/[\s,]+/',$include);
+		if ( count($incategories) ) {
+			foreach ( $incategories as $incat ) {
+				if (empty($inclusions))
+					$inclusions = ' AND ( cat_ID = ' . intval($incat) . ' ';
+				else
+					$inclusions .= ' OR cat_ID = ' . intval($incat) . ' ';
+			}
+		}
+	}
+	if (!empty($inclusions)) 
+		$inclusions .= ')';	
+	$where .= $inclusions;
 
 	$exclusions = '';
 	if ( !empty($exclude) ) {
 		$excategories = preg_split('/[\s,]+/',$exclude);
 		if ( count($excategories) ) {
 			foreach ( $excategories as $excat ) {
-				$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
-				// TODO: Exclude children of excluded cats?
+				if (empty($exclusions))
+					$exclusions = ' AND ( cat_ID <> ' . intval($excat) . ' ';
+				else
+					$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
+				// TODO: Exclude children of excluded cats?   Note: children are getting excluded
 			}
 		}
 	}
+	if (!empty($exclusions)) 
+		$exclusions .= ')';
 	$exclusions = apply_filters('list_cats_exclusions', $exclusions );
 	$where .= $exclusions;
 
+	$having = '';
 	if ( $hide_empty ) {
 		if ( 'link' == $type )
 			$having = 'HAVING link_count > 0';

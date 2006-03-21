@@ -1446,24 +1446,58 @@ function get_page_uri($page_id) {
 
 function get_posts($args) {
 	global $wpdb;
+
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
 	parse_str($args, $r);
-	if ( !isset($r['numberposts']) )
-		$r['numberposts'] = 5;
-	if ( !isset($r['offset']) )
-		$r['offset'] = 0;
-	if ( !isset($r['category']) )
-		$r['category'] = '';
-	if ( !isset($r['orderby']) )
-		$r['orderby'] = 'post_date';
-	if ( !isset($r['order']) )
-		$r['order'] = 'DESC';
+
+	$defaults = array('numberposts' => 5, 'offset' => 0, 'category' => '',
+		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '');
+	$r = array_merge($defaults, $r);
+	extract($r);
+
+	$inclusions = '';
+	if ( !empty($include) ) {
+		$offset = 0;	//ignore offset, category, and exclude params if using include
+		$category = ''; 
+		$exclude = '';  
+		$incposts = preg_split('/[\s,]+/',$include);
+		$numberposts = count($incposts);  // only the number of posts included
+		if ( count($incposts) ) {
+			foreach ( $incposts as $incpost ) {
+				if (empty($inclusions))
+					$inclusions = ' AND ( ID = ' . intval($incpost) . ' ';
+				else
+					$inclusions .= ' OR ID = ' . intval($incpost) . ' ';
+			}
+		}
+	}
+	if (!empty($inclusions)) 
+		$inclusions .= ')';	
+
+	$exclusions = '';
+	if ( !empty($exclude) ) {
+		$exposts = preg_split('/[\s,]+/',$exclude);
+		if ( count($exposts) ) {
+			foreach ( $exposts as $expost ) {
+				if (empty($exclusions))
+					$exclusions = ' AND ( ID <> ' . intval($expost) . ' ';
+				else
+					$exclusions .= ' AND ID <> ' . intval($expost) . ' ';
+			}
+		}
+	}
+	if (!empty($exclusions)) 
+		$exclusions .= ')';
 
 	$posts = $wpdb->get_results(
 		"SELECT DISTINCT * FROM $wpdb->posts " .
-		( empty( $r['category'] ) ? "" : ", $wpdb->post2cat " ) .
-		" WHERE (post_type = 'post' AND post_status = 'publish') ".
-		( empty( $r['category'] ) ? "" : "AND $wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $r['category']. " " ) .
-		" GROUP BY $wpdb->posts.ID ORDER BY " . $r['orderby'] . " " . $r['order'] . " LIMIT " . $r['offset'] . ',' . $r['numberposts'] );
+		( empty( $category ) ? "" : ", $wpdb->post2cat " ) .
+		" WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions " .
+		( empty( $category ) ? "" : "AND $wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. " " ) .
+		" GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts );
 
 	update_post_caches($posts);
 
