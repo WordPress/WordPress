@@ -68,6 +68,13 @@ addLoadEvent(focusit);
 <div id="moremeta">
 <div id="grabit" class="dbx-group">
 
+<fieldset id="categorydiv" class="dbx-box">
+<h3 class="dbx-handle"><?php _e('Categories') ?></h3>
+<div class="dbx-content">
+<p id="jaxcat"></p>
+<div id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></div></div>
+</fieldset>
+
 <fieldset id="commentstatusdiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Discussion') ?></h3>
 <div class="dbx-content">
@@ -87,13 +94,6 @@ addLoadEvent(focusit);
 <fieldset id="slugdiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Post slug') ?></h3> 
 <div class="dbx-content"><input name="post_name" type="text" size="13" id="post_name" value="<?php echo $post->post_name ?>" /></div>
-</fieldset>
-
-<fieldset id="categorydiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Categories') ?></h3>
-<div class="dbx-content">
-<p id="jaxcat"></p>
-<div id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></div></div>
 </fieldset>
 
 <fieldset class="dbx-box">

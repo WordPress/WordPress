@@ -20,6 +20,14 @@ addLoadEvent( function()
 		'%mytitle%  [%dbxtitle%]' // pattern-match syntax for title-attribute conflicts
 		);
 
+	// Boxes are closed by default. Open the Category box if the cookie isn't already set.
+	var catdiv = document.getElementById('categorydiv');
+	if ( catdiv ) {
+		var button = catdiv.getElementsByTagName('A')[0];
+		if ( dbx.cookiestate == null && /dbx\-toggle\-closed/.test(button.className) )
+			meta.toggleBoxState(button, true);
+	}
+
 	var advanced = new dbxGroup(
 		'advancedstuff', 		// container ID [/-_a-zA-Z0-9/]
 		'vertical', 		// orientation ['vertical'|'horizontal']
