@@ -1451,18 +1451,19 @@ function get_posts($args) {
 		$r = &$args;
 	else
 		parse_str($args, $r);
-	parse_str($args, $r);
 
 	$defaults = array('numberposts' => 5, 'offset' => 0, 'category' => '',
-		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '');
+		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '', 'meta_key' => '', 'meta_value' =>'');
 	$r = array_merge($defaults, $r);
 	extract($r);
 
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$offset = 0;	//ignore offset, category, and exclude params if using include
+		$offset = 0;	//ignore offset, category, exclude, meta_key, and meta_value params if using include
 		$category = ''; 
 		$exclude = '';  
+		$meta_key = '';
+		$meta_value = '';
 		$incposts = preg_split('/[\s,]+/',$include);
 		$numberposts = count($incposts);  // only the number of posts included
 		if ( count($incposts) ) {
@@ -1492,12 +1493,15 @@ function get_posts($args) {
 	if (!empty($exclusions)) 
 		$exclusions .= ')';
 
-	$posts = $wpdb->get_results(
-		"SELECT DISTINCT * FROM $wpdb->posts " .
-		( empty( $category ) ? "" : ", $wpdb->post2cat " ) .
-		" WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions " .
-		( empty( $category ) ? "" : "AND $wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. " " ) .
-		" GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts );
+	$query ="SELECT DISTINCT * FROM $wpdb->posts " ;
+	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " ) ; 
+	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
+	$query .= " WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions " ;
+	$query .= ( empty( $category ) ? "" : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") " ) ;
+	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
+	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts ;
+
+	$posts = $wpdb->get_results($query);
 
 	update_post_caches($posts);
 

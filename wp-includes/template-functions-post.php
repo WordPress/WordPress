@@ -306,14 +306,16 @@ function &get_pages($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('child_of' => 0, 'sort_order' => 'ASC', 'sort_column' => 'post_title',
-		'hierarchical' => 1, $exclude => '', $include => '');
+				'hierarchical' => 1, 'exclude' => '', 'include' => '', 'meta_key' => '', 'meta_value' => '');
 	$r = array_merge($defaults, $r);
 	extract($r);
 
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of and exclude params if using include 
+		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include 
 		$exclude = '';  
+		$meta_key = '';
+		$meta_value = '';
 		$incpages = preg_split('/[\s,]+/',$include);
 		if ( count($incpages) ) {
 			foreach ( $incpages as $incpage ) {
@@ -342,11 +344,13 @@ function &get_pages($args = '') {
 	if (!empty($exclusions)) 
 		$exclusions .= ')';
 
-	$pages = $wpdb->get_results("SELECT * " .
-		"FROM $wpdb->posts " .
-		"WHERE post_type = 'page' AND post_status = 'publish' " .
-		"$exclusions $inclusions" .
-		"ORDER BY " . $sort_column . " " . $sort_order);
+	$query = "SELECT * FROM $wpdb->posts " ;
+	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
+	$query .= " WHERE (post_type = 'page' AND post_status = 'publish') $exclusions $inclusions " ;
+	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
+	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
+
+	$pages = $wpdb->get_results($query);
 
 	if ( empty($pages) )
 		return array();
