@@ -157,10 +157,10 @@ class Dotclear_Import {
 		// General Housekeeping
 		$dcdb = new wpdb(get_option('dcuser'), get_option('dcpass'), get_option('dcname'), get_option('dchost'));
 		set_magic_quotes_runtime(0);
-		$prefix = get_option('tpre');
+		$dbprefix = get_option('dcdbprefix');
 
 		// Get Categories
-		return $dcdb->get_results('SELECT * FROM dc_categorie', ARRAY_A);
+		return $dcdb->get_results('SELECT * FROM '.$dbprefix.'categorie', ARRAY_A);
 	}
 
 	function get_dc_users()
@@ -169,11 +169,11 @@ class Dotclear_Import {
 		// General Housekeeping
 		$dcdb = new wpdb(get_option('dcuser'), get_option('dcpass'), get_option('dcname'), get_option('dchost'));
 		set_magic_quotes_runtime(0);
-		$prefix = get_option('tpre');
+		$dbprefix = get_option('dcdbprefix');
 
 		// Get Users
 
-		return $dcdb->get_results('SELECT * FROM dc_user', ARRAY_A);
+		return $dcdb->get_results('SELECT * FROM '.$dbprefix.'user', ARRAY_A);
 	}
 
 	function get_dc_posts()
@@ -181,12 +181,12 @@ class Dotclear_Import {
 		// General Housekeeping
 		$dcdb = new wpdb(get_option('dcuser'), get_option('dcpass'), get_option('dcname'), get_option('dchost'));
 		set_magic_quotes_runtime(0);
-		$prefix = get_option('tpre');
+		$dbprefix = get_option('dcdbprefix');
 
 		// Get Posts
-		return $dcdb->get_results('SELECT dc_post.*, dc_categorie.cat_libelle_url AS post_cat_name
-						FROM dc_post INNER JOIN dc_categorie
-						  ON dc_post.cat_id = dc_categorie.cat_id', ARRAY_A);
+		return $dcdb->get_results('SELECT '.$dbprefix.'post.*, '.$dbprefix.'categorie.cat_libelle_url AS post_cat_name
+						FROM '.$dbprefix.'post INNER JOIN '.$dbprefix.'categorie
+						  ON '.$dbprefix.'post.cat_id = '.$dbprefix.'categorie.cat_id', ARRAY_A);
 	}
 
 	function get_dc_comments()
@@ -195,10 +195,10 @@ class Dotclear_Import {
 		// General Housekeeping
 		$dcdb = new wpdb(get_option('dcuser'), get_option('dcpass'), get_option('dcname'), get_option('dchost'));
 		set_magic_quotes_runtime(0);
-		$prefix = get_option('tpre');
+		$dbprefix = get_option('dcdbprefix');
 
 		// Get Comments
-		return $dcdb->get_results('SELECT * FROM dc_comment', ARRAY_A);
+		return $dcdb->get_results('SELECT * FROM '.$dbprefix.'comment', ARRAY_A);
 	}
 
 	function get_dc_links()
@@ -206,7 +206,7 @@ class Dotclear_Import {
 		//General Housekeeping
 		$dcdb = new wpdb(get_option('dcuser'), get_option('dcpass'), get_option('dcname'), get_option('dchost'));
 		set_magic_quotes_runtime(0);
-		$dbprefix = get_option('dbprefix');
+		$dbprefix = get_option('dcdbprefix');
 
 		return $dcdb->get_results('SELECT * FROM '.$dbprefix.'link ORDER BY position', ARRAY_A);
 	}
@@ -609,7 +609,7 @@ class Dotclear_Import {
 
 	function cleanup_dcimport()
 	{
-		delete_option('dbprefix');
+		delete_option('dcdbprefix');
 		delete_option('dc_cats');
 		delete_option('dcid2wpid');
 		delete_option('dccat2wpcat');
@@ -699,9 +699,9 @@ class Dotclear_Import {
 			}
 			if($_POST['dbprefix'])
 			{
-				if(get_option('tpre'))
-					delete_option('tpre');
-				add_option('tpre',$_POST['dbprefix']); 
+				if(get_option('dcdbprefix'))
+					delete_option('dcdbprefix');
+				add_option('dcdbprefix',$_POST['dbprefix']); 
 			}
 
 
