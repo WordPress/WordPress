@@ -30,6 +30,8 @@ class wpdbBackup {
 	var $backup_dir = WP_BACKUP_DIR;
 	var $backup_errors = array();
 	var $basename;
+	// Simple table name storage
+	var	$wp_table_names = array('categories','comments','link2cat','links','options','post2cat','postmeta','posts','users','usermeta');
 
 	function gzip() {
 		return function_exists('gzopen');
@@ -717,10 +719,8 @@ class wpdbBackup {
 			$feedback .= '<div class="updated"><p>' . __('Scheduled Backup Options Saved!') . '</p></div>';
 		}
 
-		// Simple table name storage
-		$wp_table_names = explode(',','categories,comments,linkcategories,links,options,post2cat,postmeta,posts,users,usermeta');
 		// Apply WP DB prefix to table names
-		$wp_table_names = array_map(create_function('$a', 'global $wpdb;return "{$wpdb->prefix}{$a}";'), $wp_table_names);
+		$wp_table_names = array_map(create_function('$a', 'global $wpdb;return "{$wpdb->prefix}{$a}";'), $this->wp_table_names);
 
 		$other_tables = array();
 		$also_backup = array();
@@ -866,8 +866,7 @@ class wpdbBackup {
 
 		global $wpdb;
 
-		$wp_table_names = explode(',','categories,comments,linkcategories,links,options,post2cat,postmeta,posts,users,usermeta');
-		$wp_table_names = array_map(create_function('$a', 'global $wpdb;return "{$wpdb->prefix}{$a}";'), $wp_table_names);
+		$wp_table_names = array_map(create_function('$a', 'global $wpdb;return "{$wpdb->prefix}{$a}";'), $this->wp_table_names);
 		$all_tables = $wpdb->get_results("SHOW TABLES", ARRAY_N);
 		$all_tables = array_map(create_function('$a', 'return $a[0];'), $all_tables);
 		$core_tables = array_intersect($all_tables, $wp_table_names);
