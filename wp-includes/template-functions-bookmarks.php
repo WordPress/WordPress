@@ -77,6 +77,10 @@ function get_links($category = -1,
 		$order = 'DESC';
 		$orderby = substr($orderby, 1);
 	}
+	
+	if ($category == -1) {  //get_bookmarks uses '' to signify all categories
+		$category = '';
+	}
 
 	$results = get_bookmarks("category=$category&orderby=$orderby&order=$order&show_updated=$show_updated&limit=$limit");
 
@@ -234,7 +238,7 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 
 	if (!isset($direction)) $direction = '';
 
-	$cats = get_categories("type=link&orderby=$order&order=$direction");
+	$cats = get_categories("type=link&orderby=$order&order=$direction&hierarchical=0");
 
 	// Display each category
 	if ($cats) {
@@ -282,7 +286,7 @@ function get_bookmarks($args = '') {
 	else
 		parse_str($args, $r);
 
-	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => -1,
+	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => '',
 		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'include' => '', 'exclude' => '');
 	$r = array_merge($defaults, $r);
 	extract($r);
@@ -290,7 +294,7 @@ function get_bookmarks($args = '') {
 	$inclusions = '';
 	if ( !empty($include) ) {
 	$exclude = '';  //ignore exclude, category, and category_name params if using include
-	$category = -1;
+	$category = '';
 	$category_name = '';
 		$inclinks = preg_split('/[\s,]+/',$include);
 		if ( count($inclinks) ) {
@@ -327,10 +331,20 @@ function get_bookmarks($args = '') {
 
 	$category_query = '';
 	$join = '';
-	if ( $category != -1 && !empty($category) ) {
+	if ( !empty($category) ) {
+		$incategories = preg_split('/[\s,]+/',$category);
+		if ( count($incategories) ) {
+			foreach ( $incategories as $incat ) {
+				if (empty($category_query))
+					$category_query = ' AND ( category_id = ' . intval($incat) . ' ';
+				else
+					$category_query .= ' OR category_id = ' . intval($incat) . ' ';
+			}
+		}
+	}
+	if (!empty($category_query)) {
+		$category_query .= ')';	
 		$join = " LEFT JOIN $wpdb->link2cat ON ($wpdb->links.link_id = $wpdb->link2cat.link_id) ";
-
-      	$category_query = " AND category_id = $category ";
 	}
 
 	if (get_settings('links_recently_updated_time')) {
