@@ -365,6 +365,7 @@ function update_option($option_name, $newvalue) {
 		return true;
 	}
 
+	$_newvalue = $newvalue;
 	if ( is_array($newvalue) || is_object($newvalue) )
 		$newvalue = serialize($newvalue);
 
@@ -374,7 +375,7 @@ function update_option($option_name, $newvalue) {
 	$option_name = $wpdb->escape($option_name);
 	$wpdb->query("UPDATE $wpdb->options SET option_value = '$newvalue' WHERE option_name = '$option_name'");
 	if ( $wpdb->rows_affected == 1 ) {
-		do_action("update_option_{$option_name}", $oldvalue, $newvalue);
+		do_action("update_option_{$option_name}", array('old'=>$oldvalue, 'new'=>$_newvalue));
 		return true;
 	}
 	return false;
