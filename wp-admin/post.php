@@ -17,15 +17,15 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 		}
 	}
 }
-
 if (isset($_POST['deletepost']))
 $action = "delete";
 
 switch($action) {
+case 'postajaxpost':
 case 'post':
 	check_admin_referer();
 	
-	$post_ID = write_post();
+	$post_ID = 'post' == $action ? write_post() : edit_post();
 
 	// Redirect.
 	if (!empty($_POST['mode'])) {

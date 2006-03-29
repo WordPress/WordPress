@@ -6,10 +6,10 @@
 if (0 == $post_ID) {
 	$form_action = 'post';
 	$temp_ID = -1 * time();
-	$form_extra = "<input type='hidden' name='temp_ID' value='$temp_ID' />";
+	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
 } else {
 	$form_action = 'editpost';
-	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
+	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
 }
 
 $sendto = $_SERVER['HTTP_REFERER'];
@@ -209,14 +209,14 @@ if (current_user_can('upload_files')) {
 <fieldset id="postcustom" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Custom Fields') ?></h3>
 <div id="postcustomstuff" class="dbx-content">
+<table cellpadding="3">
 <?php 
-if($metadata = has_meta($post_ID)) {
+$metadata = has_meta($post_ID);
+list_meta($metadata); 
 ?>
+
+</table>
 <?php
-	list_meta($metadata); 
-?>
-<?php
-}
 	meta_form();
 ?>
 </div>

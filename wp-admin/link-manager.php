@@ -114,7 +114,8 @@ bookmarks ordered by
 <input type="hidden" name="action" value="" />
 <input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
 <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
-<table id="the-list-x" width="100%" cellpadding="3" cellspacing="3">
+<table width="100%" cellpadding="3" cellspacing="3">
+	<thead>
 	<tr>
 		<th width="15%"><?php _e('Name') ?></th>
 		<th><?php _e('URI') ?></th>
@@ -124,6 +125,8 @@ bookmarks ordered by
 		<th colspan="2"><?php _e('Action') ?></th>
 		<th><input type="checkbox" onclick="checkAll(document.getElementById('links'));" /></th>
 	</tr>
+	</thead>
+	<tbody id="the-list">
 <?php
 if ( 'all' == $cat_id )
 	$cat_id = '';
@@ -174,6 +177,7 @@ if ($links)
 		echo "\n    </tr>\n";
 	}
 ?>
+	</tbody>
 </table>
 
 <div id="ajax-response"></div>

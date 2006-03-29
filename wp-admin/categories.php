@@ -3,7 +3,6 @@ require_once('admin.php');
 
 $title = __('Categories');
 $parent_file = 'edit.php';
-$list_js = true;
 
 $wpvarstoreset = array('action','cat');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -104,6 +103,7 @@ break;
 
 default:
 
+$list_js = true;
 require_once ('admin-header.php');
 
 $messages[1] = __('Category added.');
@@ -121,7 +121,8 @@ $messages[3] = __('Category updated.');
 <?php else : ?>
 	<h2><?php _e('Categories') ?> </h2>
 <?php endif; ?>
-<table id="the-list-x" width="100%" cellpadding="3" cellspacing="3">
+<table width="100%" cellpadding="3" cellspacing="3">
+	<thead>
 	<tr>
 		<th scope="col"><?php _e('ID') ?></th>
         <th scope="col"><?php _e('Name') ?></th>
@@ -130,9 +131,12 @@ $messages[3] = __('Category updated.');
         <th scope="col"><?php _e('# Bookmarks') ?></th>
         <th colspan="2"><?php _e('Action') ?></th>
 	</tr>
+	</thead>
+	<tbody id="the-list">
 <?php
 cat_rows();
 ?>
+	</tbody>
 </table>
 
 <div id="ajax-response"></div>
@@ -149,14 +153,14 @@ cat_rows();
     <form name="addcat" id="addcat" action="categories.php" method="post">
         
         <p><?php _e('Name:') ?><br />
-        <input type="text" name="cat_name" value="" /></p>
+        <input type="text" name="cat_name" id="cat_name" value="" /></p>
         <p><?php _e('Category parent:') ?><br />
-        <select name='category_parent' class='postform'>
+        <select name='category_parent' id='category_parent' class='postform'>
         <option value='0'><?php _e('None') ?></option>
         <?php wp_dropdown_cats(0); ?>
         </select></p>
         <p><?php _e('Description: (optional)') ?> <br />
-        <textarea name="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
+        <textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
         <p class="submit"><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add Category &raquo;') ?>" /></p>
     </form>
 </div>

@@ -237,6 +237,21 @@ function check_admin_referer() {
 }
 endif;
 
+if ( !function_exists('check_ajax_referer') ) :
+function check_ajax_referer() {
+	$cookie = explode(';', urldecode(empty($_POST['cookie']) ? $_GET['cookie'] : $_POST['cookie'])); // AJAX scripts must pass cookie=document.cookie
+	foreach ( $cookie as $tasty ) {
+		if ( false !== strpos($tasty, USER_COOKIE) )
+			$user = substr(strstr($tasty, '='), 1);
+		if ( false !== strpos($tasty, PASS_COOKIE) )
+			$pass = substr(strstr($tasty, '='), 1);
+	}
+	if ( !wp_login( $user, $pass, true ) )
+		die('-1');
+	do_action('check_ajax_referer');
+}
+endif;
+
 // Cookie safe redirect.  Works around IIS Set-Cookie bug.
 // http://support.microsoft.com/kb/q176113/
 if ( !function_exists('wp_redirect') ) :

@@ -602,12 +602,12 @@ function get_nested_categories($default = 0, $parent = 0) {
 
 function write_nested_categories($categories) {
 	foreach ($categories as $category) {
-		echo '<label for="category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'], '" type="checkbox" name="post_category[]" id="category-', $category['cat_ID'], '"', ($category['checked'] ? ' checked="checked"' : ""), '/> ', wp_specialchars($category['cat_name']), "</label>\n";
+		echo '<li id="category-', $category['cat_ID'], '"><label for="in-category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'], '" type="checkbox" name="post_category[]" id="in-category-', $category['cat_ID'], '"', ($category['checked'] ? ' checked="checked"' : ""), '/> ', wp_specialchars($category['cat_name']), "</label></li>\n";
 
-		if (isset ($category['children'])) {
-			echo "\n<span class='cat-nest'>\n";
+		if ( $category['children'] ) {
+			echo "<ul>\n";
 			write_nested_categories($category['children']);
-			echo "</span>\n";
+			echo "</ul>\n";
 		}
 	}
 }
@@ -626,7 +626,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 	if ($categories) {
 		foreach ($categories as $category) {
 			if ($category->category_parent == $parent) {
-				$category->cat_name = wp_specialchars($category->cat_name);
+				$category->cat_name = wp_specialchars($category->cat_name,'double');
 				$pad = str_repeat('&#8212; ', $level);
 				if ( current_user_can('manage_categories') ) {
 					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td>";
@@ -634,7 +634,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 					$default_link_cat_id = get_option('default_link_category');
 
 					if ( ($category->cat_ID != $default_cat_id) && ($category->cat_ID != $default_link_cat_id) )
-						$edit .= "<td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts and bookmarks will go to the default categories.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars($category->cat_name, 1))."' );\" class='delete'>".__('Delete')."</a>";
+						$edit .= "<td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.  All of its posts and bookmarks will go to the default categories.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), addslashes($category->cat_name))."' );\" class='delete'>".__('Delete')."</a>";
 					else
 						$edit .= "<td style='text-align:center'>".__("Default");
 				}
@@ -684,7 +684,7 @@ function page_rows($parent = 0, $level = 0, $pages = 0, $hierarchy = true) {
     <td><?php echo mysql2date('Y-m-d g:i a', $post->post_modified); ?></td> 
 	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e('View'); ?></a></td>
     <td><?php if ( current_user_can('edit_page', $id) ) { echo "<a href='page.php?action=edit&amp;post=$id' class='edit'>" . __('Edit') . "</a>"; } ?></td> 
-    <td><?php if ( current_user_can('edit_page', $id) ) { echo "<a href='page.php?action=delete&amp;post=$id' class='delete' onclick=\"return deleteSomething( 'page', " . $id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; page.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars(get_the_title('','',0), 1)) . "' );\">" . __('Delete') . "</a>"; } ?></td> 
+    <td><?php if ( current_user_can('edit_page', $id) ) { echo "<a href='page.php?action=delete&amp;post=$id' class='delete' onclick=\"return deleteSomething( 'page', " . $id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; page.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), addslashes(wp_specialchars(get_the_title(),'double')) ) . "' );\">" . __('Delete') . "</a>"; } ?></td> 
   </tr> 
 
 <?php
@@ -828,19 +828,21 @@ function has_meta($postid) {
 function list_meta($meta) {
 	global $post_ID;
 	// Exit if no meta
-	if (!$meta)
+	if (!$meta) {
+		echo '<tbody id="the-list"></tbody>'; //TBODY needed for list-manipulation JS
 		return;
+	}
 	$count = 0;
 ?>
-<table id='meta-list' cellpadding="3">
+	<thead>
 	<tr>
 		<th><?php _e('Key') ?></th>
 		<th><?php _e('Value') ?></th>
 		<th colspan='2'><?php _e('Action') ?></th>
 	</tr>
+	</thead>
 <?php
-
-
+	$r ="\n\t<tbody id='the-list'>";
 	foreach ($meta as $entry) {
 		++ $count;
 		if ($count % 2)
@@ -849,18 +851,20 @@ function list_meta($meta) {
 			$style = '';
 		if ('_' == $entry['meta_key'] { 0 })
 			$style .= ' hidden';
-		echo "
-			<tr class='$style'>
-				<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>
-				<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>
-				<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".__('Update')."' /><br />
-				<input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='".__('Delete')."' /></td>
-			</tr>
-		";
+		$key_js = addslashes(wp_specialchars( $entry['meta_key'], 'double' ));
+		$entry['meta_key'] = wp_specialchars( $entry['meta_key'], true );
+		$entry['meta_value'] = wp_specialchars( $entry['meta_value'], true );
+		$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
+		$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
+		$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
+		$r .= "\n\t\t<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".__('Update')."' /><br />";
+		$r .= "\n\t\t<input name='deletemeta[{$entry['meta_id']}]' type='submit' onclick=\"return deleteSomething( 'meta', {$entry['meta_id']}, '";
+		$r .= sprintf(__("You are about to delete the &quot;%s&quot; custom field on this post.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), $key_js);
+		$r .= "' );\" class='deletemeta' tabindex='6' value='".__('Delete')."' /></td>";
+		$r .= "\n\t</tr>";
 	}
-	echo "
-		</table>
-	";
+	echo $r;
+	echo "\n\t</tbody>";
 }
 
 // Get a list of previously defined keys
@@ -886,7 +890,7 @@ function meta_form() {
 			LIMIT 10");
 ?>
 <h3><?php _e('Add a new custom field:') ?></h3>
-<table cellspacing="3" cellpadding="3">
+<table id="newmeta" cellspacing="3" cellpadding="3">
 	<tr>
 <th colspan="2"><?php _e('Key') ?></th>
 <th><?php _e('Value') ?></th>
@@ -910,13 +914,14 @@ function meta_form() {
 	</tr>
 
 </table>
-<p class="submit"><input type="submit" name="updatemeta" tabindex="9" value="<?php _e('Add Custom Field &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" id="updatemetasub" name="updatemeta" tabindex="9" value="<?php _e('Add Custom Field &raquo;') ?>" /></p>
 <?php
 
 }
 
 function add_meta($post_ID) {
 	global $wpdb;
+	$post_ID = (int) $post_ID;
 
 	$metakeyselect = $wpdb->escape(stripslashes(trim($_POST['metakeyselect'])));
 	$metakeyinput = $wpdb->escape(stripslashes(trim($_POST['metakeyinput'])));
@@ -926,7 +931,7 @@ function add_meta($post_ID) {
 		// We have a key/value pair. If both the select and the 
 		// input for the key have data, the input takes precedence:
 
-		if ('#NONE#' != $metakeyselect)
+ 		if ('#NONE#' != $metakeyselect)
 			$metakey = $metakeyselect;
 
 		if ($metakeyinput)
@@ -937,19 +942,30 @@ function add_meta($post_ID) {
 						(post_id,meta_key,meta_value) 
 						VALUES ('$post_ID','$metakey','$metavalue')
 					");
+		return $wpdb->insert_id;
 	}
+	return false;
 } // add_meta
 
 function delete_meta($mid) {
 	global $wpdb;
+	$mid = (int) $mid;
 
-	$result = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_id = '$mid'");
+	return $wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_id = '$mid'");
 }
 
 function update_meta($mid, $mkey, $mvalue) {
 	global $wpdb;
+	$mid = (int) $mid;
 
 	return $wpdb->query("UPDATE $wpdb->postmeta SET meta_key = '$mkey', meta_value = '$mvalue' WHERE meta_id = '$mid'");
+}
+
+function get_post_meta_by_id($mid) {
+	global $wpdb;
+	$mid = (int) $mid;
+
+	return $wpdb->get_row("SELECT * FROM $wpdb->postmeta WHERE meta_id = '$mid'");
 }
 
 function touch_time($edit = 1, $for_post = 1) {

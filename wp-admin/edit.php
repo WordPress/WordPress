@@ -114,7 +114,6 @@ if ( count($arc_result) ) { ?>
 <br style="clear:both;" />
 
 <?php
-
 // define the columns to display, the syntax is 'internal name' => 'display name'
 $posts_columns = array(
   'id'         => __('ID'),
@@ -133,7 +132,8 @@ $posts_columns['control_delete'] = '';
 
 ?>
 
-<table id="the-list-x" width="100%" cellpadding="3" cellspacing="3"> 
+<table width="100%" cellpadding="3" cellspacing="3"> 
+	<thead>
 	<tr>
 
 <?php foreach($posts_columns as $column_display_name) { ?>
@@ -141,10 +141,13 @@ $posts_columns['control_delete'] = '';
 <?php } ?>
 
 	</tr>
+	</thead>
+	<tbody id="the-list">
 <?php
 if ($posts) {
 $bgcolor = '';
 foreach ($posts as $post) { start_wp();
+add_filter('the_title','wp_specialchars');
 $class = ('alternate' == $class) ? '' : 'alternate';
 ?> 
 	<tr id='post-<?php echo $id; ?>' class='<?php echo $class; ?>'>
@@ -207,7 +210,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'control_delete':
 		?>
-		<td><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return deleteSomething( 'post', " . $id . ", '" . sprintf(__("You are about to delete this post &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), wp_specialchars(get_the_title('', ''), 1) ) . "' );\">" . __('Delete') . "</a>"; } ?></td>
+		<td><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='post.php?action=delete&amp;post=$id' class='delete' onclick=\"return deleteSomething( 'post', " . $id . ", '" . sprintf(__("You are about to delete this post &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), addslashes(wp_specialchars(get_the_title(),'double')) ) . "' );\">" . __('Delete') . "</a>"; } ?></td>
 		<?php
 		break;
 
@@ -229,7 +232,8 @@ foreach($posts_columns as $column_name=>$column_display_name) {
   </tr> 
 <?php
 } // end if ($posts)
-?> 
+?>
+	</tbody>
 </table>
 
 <div id="ajax-response"></div>
@@ -246,26 +250,26 @@ if ( 1 == count($posts) ) {
 	if ($comments) {
 	?> 
 <h3><?php _e('Comments') ?></h3> 
-<ol id="comments"> 
+<ol id="the-list"> 
 <?php
+$i = 0;
 foreach ($comments as $comment) {
-$comment_status = wp_get_comment_status($comment->comment_ID);
+$class = ( ++$i % 2 ) ? array('alternate') : array();
+if ( 'unapproved' == $comment_status = wp_get_comment_status($comment->comment_ID) )
+	$class[] = 'unapproved';
 ?> 
 
-<li <?php if ("unapproved" == $comment_status) echo "class='unapproved'"; ?> >
+<li id='comment-<?php echo $comment->comment_ID; ?>'<?php if ( $class ) echo " class='" . join(' ', $class) . "'"; ?>>
   <?php comment_date('Y-n-j') ?> 
   @
   <?php comment_time('g:m:s a') ?> 
   <?php 
 			if ( current_user_can('edit_post', $post->ID) ) {
-				echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" .  __('Edit') . "</a>";
-				echo " - <a href=\"post.php?action=deletecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'OK\' to delete, \'Cancel\' to stop."), $comment->comment_author) . "')\">" . __('Delete') . "</a> ";
+				echo "[ <a href='post.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
+				echo ' - <a href="post.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete') . '</a> ';
 				if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-					if ('approved' == wp_get_comment_status($comment->comment_ID)) {
-						echo " - <a href=\"post.php?action=unapprovecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">" . __('Unapprove') . "</a> ";
-					} else {
-						echo " - <a href=\"post.php?action=approvecomment&amp;p=".$post->ID."&amp;comment=".$comment->comment_ID."\">" . __('Approve') . "</a> ";
-					}
+					echo '<span class="unapprove"> - <a href="comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
+					echo '<span class="approve"> - <a href="comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
 				}
 				echo "]";
 			} // end if any comments to show

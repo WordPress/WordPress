@@ -11,7 +11,7 @@ var Fat = {
 		b = b.toString(16); if (b.length == 1) b = '0' + b;
 		return "#" + r + g + b;
 	},
-	fade_all : function ()
+	fade_all : function (dur)
 	{
 		var a = document.getElementsByTagName("*");
 		for (var i = 0; i < a.length; i++) 
@@ -21,7 +21,7 @@ var Fat = {
 			if (r)
 			{
 				if (!r[1]) r[1] = "";
-				if (o.id) Fat.fade_element(o.id,null,null,"#"+r[1]);
+				if (o.id) Fat.fade_element(o.id,null,dur,"#"+r[1]);
 			}
 		}
 	},

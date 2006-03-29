@@ -28,20 +28,24 @@ else
 
 if ($posts) {
 ?>
-<table id="the-list-x" width="100%" cellpadding="3" cellspacing="3"> 
-  <tr> 
-    <th scope="col"><?php _e('ID') ?></th> 
-    <th scope="col"><?php _e('Title') ?></th> 
+<table width="100%" cellpadding="3" cellspacing="3"> 
+  <thead>
+  <tr>
+    <th scope="col"><?php _e('ID') ?></th>
+    <th scope="col"><?php _e('Title') ?></th>
     <th scope="col"><?php _e('Owner') ?></th>
 	<th scope="col"><?php _e('Updated') ?></th>
-	<th scope="col"></th> 
-    <th scope="col"></th> 
-    <th scope="col"></th> 
-  </tr> 
+	<th scope="col"></th>
+    <th scope="col"></th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody id="the-list">
 <?php
 page_rows(0, 0, $posts, $all);
 ?>
-</table> 
+  </tbody>
+</table>
 
 <div id="ajax-response"></div>
 

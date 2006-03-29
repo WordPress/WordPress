@@ -133,13 +133,13 @@ if ('view' == $mode) {
 			 | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a></p>
 		</li>
 
-<?php } // end foreach ?>
+<?php } // end foreach($comment) ?>
 </ol>
 
 <div id="ajax-response"></div>
 
 <?php
-	} else {
+	} else { //no comments to show
 
 		?>
 		<p>
@@ -162,19 +162,28 @@ if ('view' == $mode) {
   </tr>';
 		foreach ($comments as $comment) {
 		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
+		$comment_status = wp_get_comment_status($comment->comment_ID);
 		$class = ('alternate' == $class) ? '' : 'alternate';
+		$class .= ('unapproved' == $comment_status) ? ' unapproved' : '';
 ?>
-  <tr class='<?php echo $class; ?>'>
+  <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
     <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td><?php comment_author_link() ?></td>
     <td><?php comment_author_email_link() ?></td>
     <td><a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></td>
     <td><?php comment_excerpt(); ?></td>
-    <td><a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php comment_ID() ?>" class="edit"><?php _e('View') ?></a></td>
+    <td>
+    	<?php if ('unapproved' == $comment_status) { ?>
+    		(Unapproved)
+    	<?php } else { ?>
+    		<a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php comment_ID() ?>" class="edit"><?php _e('View') ?></a>
+    	<?php } ?>
+    </td>
     <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo "<a href='comment.php?action=editcomment&amp;comment=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a>"; } ?></td>
     <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-            echo "<a href=\"comment.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return confirm('" . sprintf(__("You are about to delete this comment by \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), $comment->comment_author) . "')\"    class='delete'>" . __('Delete') . "</a>"; } ?></td>
+		echo "<a href=\"comment.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\" class='edit'>" . __('Delete') . "</a> ";
+		} ?></td>
   </tr>
 		<?php 
 		} // end foreach
@@ -183,6 +192,7 @@ if ('view' == $mode) {
             <p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments &raquo;') ?>" onclick="var numchecked = getNumChecked(document.getElementById('deletecomments')); if(numchecked < 1) { alert('<?php _e("Please select some comments to delete"); ?>'); return false } return confirm('<?php printf(__("You are about to delete %s comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete."), "' + numchecked + '"); ?>')" />
 			<input type="submit" name="spam_button" value="<?php _e('Mark Checked Comments as Spam &raquo;') ?>" onclick="return confirm('<?php _e("You are about to mark these comments as spam \\n  \'Cancel\' to stop, \'OK\' to mark as spam.") ?>')" /></p>
   </form>
+<div id="ajax-response"></div>
 <?php
 	} else {
 ?>

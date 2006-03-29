@@ -3,10 +3,13 @@
 if (!isset($_GET["page"])) require_once('admin.php');
 if ( $editing ) {
 	$dbx_js = true;
-	if ( current_user_can('manage_categories') )
+	$pmeta_js = true;
+	if ( current_user_can('manage_categories') ) {
+		$list_js = true;
 		$cat_js = true;
+	}
 }
-if ( $list_js || $cat_js )
+if ( $list_js )
 	$sack_js = true;
 ?>
 <?php get_admin_page_title(); ?>
@@ -29,7 +32,13 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 <script type="text/javascript" src="../wp-includes/js/tw-sack.js"></script>
 <?php } ?>
 <?php if ( $list_js ) { ?>
-<script type="text/javascript" src="list-manipulation.js"></script>
+<script type="text/javascript" src="list-manipulation-js.php"></script>
+<?php } ?>
+<?php if ( $pmeta_js ) { ?>
+<script type="text/javascript" src="custom-fields.js"></script>
+<?php } ?>
+<?php if ( 'categories.php' == $pagenow && 'edit' != $action ) { ?>
+<script type="text/javascript" src="categories.js"></script>
 <?php } ?>
 <?php if ( $dbx_js ) { ?>
 <script type="text/javascript" src="../wp-includes/js/dbx.js"></script>

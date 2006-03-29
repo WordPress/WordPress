@@ -21,10 +21,10 @@ $messages[3] = __('Custom field deleted.');
 if (0 == $post_ID) {
 	$form_action = 'post';
 	$temp_ID = -1 * time();
-	$form_extra = "<input type='hidden' name='temp_ID' value='$temp_ID' />";
+	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
 } else {
 	$form_action = 'editpost';
-	$form_extra = "<input type='hidden' name='post_ID' value='$post_ID' />";
+	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
 }
 
 $form_pingback = '<input type="hidden" name="post_pingback" value="' . get_option('default_pingback_flag') . '" id="post_pingback" />';
@@ -49,7 +49,7 @@ if (empty($post->post_status)) $post->post_status = 'draft';
 ?>
 
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
-<input type="hidden" name="action" value="<?php echo $form_action ?>" />
+<input type="hidden" id="hiddenaction" name="action" value="<?php echo $form_action ?>" />
 <input type="hidden" name="post_author" value="<?php echo $post->post_author ?>" />
 <input type="hidden" name="post_type" value="post" />
 
@@ -72,7 +72,7 @@ addLoadEvent(focusit);
 <h3 class="dbx-handle"><?php _e('Categories') ?></h3>
 <div class="dbx-content">
 <p id="jaxcat"></p>
-<div id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></div></div>
+<ul id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></ul></div>
 </fieldset>
 
 <fieldset id="commentstatusdiv" class="dbx-box">
@@ -248,16 +248,17 @@ if ( ! empty($pings) )
 <fieldset id="postcustom" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Custom Fields') ?></h3>
 <div id="postcustomstuff" class="dbx-content">
-<?php 
-if($metadata = has_meta($post_ID)) {
-?>
+<table cellpadding="3">
 <?php
-	list_meta($metadata); 
+$metadata = has_meta($post_ID);
+list_meta($metadata); 
 ?>
+
+</table>
 <?php
-}
 	meta_form();
 ?>
+<div id="ajax-response"></div>
 </div>
 </fieldset>
 

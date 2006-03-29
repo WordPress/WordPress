@@ -91,11 +91,6 @@ fieldset legend {
 	padding: .1em .3em;
 }
 
-fieldset span.cat-nest {
-	display: block;
-	margin-left: 10px;
-}
-
 fieldset.options {
 	padding: 1em;
 }
@@ -324,6 +319,18 @@ form#upload #post_content {
 
 .unapproved a:hover {
 	color: #009ef0;
+}
+
+.approve {
+	display: none;
+}
+
+.unapproved .approve {
+	display: inline;
+}
+
+.unapproved .unapprove {
+	display: none;
 }
 
 .updated {
@@ -804,11 +811,20 @@ table .vers, table .name {
 	margin-top: .5em;
 }
 
-#categorydiv div div {
+#categorydiv ul {
+	list-style: none;
+	padding: 0;
+	margin-left:10px;
+}
+#categorychecklist {
 	height: 12em;
 	overflow: auto;
+	margin-top: 8px;
 }
-
+#categorychecklist li {
+	margin: 0;
+	padding: 0;
+}
 #ajaxcat input {
 	border: 1px solid #ccc;
 }

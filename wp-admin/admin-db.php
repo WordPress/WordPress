@@ -174,7 +174,8 @@ function wp_delete_category($cat_ID) {
 	$parent = $category->category_parent;
 
 	// Delete the category.
-	$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'");
+	if ( !$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'") )
+		return 0;
 
 	// Update children to point to new parent.
 	$wpdb->query("UPDATE $wpdb->categories SET category_parent = '$parent' WHERE category_parent = '$cat_ID'");
