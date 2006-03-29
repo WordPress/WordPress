@@ -6,7 +6,7 @@ class GM_Import {
 
 	function header() {
 		echo '<div class="wrap">';
-		echo '<h2>'.__('Import Graymatter').'</h2>';
+		echo '<h2>'.__('Import Greymatter').'</h2>';
 	}
 
 	function footer() {
