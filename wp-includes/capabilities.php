@@ -8,6 +8,10 @@ class WP_Roles {
 	var $role_key;
 
 	function WP_Roles() {
+		$this->_init();
+	}
+
+	function _init () {
 		global $wpdb;
 		$this->role_key = $wpdb->prefix . 'user_roles';
 
@@ -16,6 +20,8 @@ class WP_Roles {
 		if ( empty($this->roles) )
 			return;
 
+		$this->role_objects = array();
+		$this->role_names =  array();
 		foreach ($this->roles as $role => $data) {
 			$this->role_objects[$role] = new WP_Role($role, $this->roles[$role]['capabilities']);
 			$this->role_names[$role] = $this->roles[$role]['name'];
@@ -144,6 +150,11 @@ class WP_User {
 		}
 
 		$this->id = $this->ID;
+		$this->_init_caps();
+	}
+
+	function _init_caps() {
+		global $wpdb;
 		$this->cap_key = $wpdb->prefix . 'capabilities';
 		$this->caps = &$this->{$this->cap_key};
 		if ( ! is_array($this->caps) )
