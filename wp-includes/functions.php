@@ -2150,7 +2150,7 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 	$meta_value = trim( $meta_value );
 
 	if (empty($meta_value)) {
-		delete_usermeta($user_id, $meta_key);
+		return delete_usermeta($user_id, $meta_key);
 	}
 
 	$cur = $wpdb->get_row("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
