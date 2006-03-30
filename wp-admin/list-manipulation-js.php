@@ -36,12 +36,9 @@ function WPAjax(file, responseEl){//class WPAjax extends sack
 function listMan(theListId){
 	this.theList=null;
 	this.ajaxRespEl=null;
-	this.inputData='';
-	this.clearInputs=new Array();
-	var reg_color='#FFFFFF';
-	var alt_color='#F1F1F1';
-	var listItems;
-	var listType;
+	this.inputData='';this.clearInputs=new Array();
+	this.topAdder=0;this.alt='alternate';this.recolorPos;this.reg_color='#FFFFFF';this.alt_color='#F1F1F1';
+	var listType;var listItems;
 	self.aTrap=0;
 
 	this.ajaxAdder=function(what,where,onComplete,update){//for TR, server must wrap TR in TABLE TBODY. this.makeEl cleans it
@@ -53,15 +50,17 @@ function listMan(theListId){
 		this.ajaxAdd.onCompletion=function(){
 			if(!this.parseAjaxResponseXML())return;
 			var newItems=this.responseXML.getElementsByTagName(what);
+			if(tempObj.topAdder)tempObj.recolorPos=0;
 			if(newItems){for (c=0;c<newItems.length;c++){
 				var id=parseInt(getNodeValue(newItems[c],'id'),10);
 				var exists=document.getElementById(what+'-'+id);
-				if(exists)tempObj.replaceListItem(exists.id,getNodeValue(newItems[c],'newitem'),update);
-				else tempObj.addListItem(getNodeValue(newItems[c],'newitem'));
+				if(exists)tempObj.replaceListItem(exists.id,getNodeValue(newItems[c],'newitem'),newItems.length,update);
+				else tempObj.addListItem(getNodeValue(newItems[c],'newitem'),newItems.length);
 			}}
 			this.myResponseElement.innerHTML='';tempObj.inputData='';
 			for(var i=0;i<tempObj.clearInputs.length;i++){try{var theI=document.getElementById(tempObj.clearInputs[i]);if(theI.tagName.match(/select/i))theI.selectedIndex=0;else theI.value='';}catch(e){}}
 			if(onComplete&&typeof onComplete=='function')onComplete();
+			tempObj.recolorList(tempObj.recolorPos,1000)
 		}
 		this.ajaxAdd.runAJAX('action='+(update?'update-':'add-')+what+this.inputData);
 		return false;
@@ -72,7 +71,7 @@ function listMan(theListId){
 		this.ajaxDel=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxDel.failed)return true;
 		var tempObj=this;
-		this.ajaxDel.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.removeListItem(what.replace('-as-spam','')+'-'+id,tempObj);this.myResponseElement.innerHTML='';if(onComplete&&typeof onComplete=='function')onComplete();}};
+		this.ajaxDel.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.removeListItem(what.replace('-as-spam','')+'-'+id);this.myResponseElement.innerHTML='';if(onComplete&&typeof onComplete=='function')onComplete();tempObj.recolorList(tempObj.recolorPos,1000)}};
 		this.ajaxDel.runAJAX('action=delete-'+what+'&id='+id);
 		return false;
 	}
@@ -86,28 +85,28 @@ function listMan(theListId){
 		return false;
 	}
 	this.makeEl=function(h){var fakeItem=document.createElement('div');fakeItem.innerHTML=h;var r=fakeItem.firstChild;while(r.tagName.match(/(table|tbody)/i)){r=r.firstChild;}return r;}
-	this.addListItem=function(h){
+	this.addListItem=function(h,tot){
 		newItem=this.makeEl(h);
-		var firstItem=this.theList.getElementsByTagName('table'==listType?'tr':'li')[0];
+		if(this.topAdder){var firstItem=this.theList.getElementsByTagName('table'==listType?'tr':'li')[0];listItems.unshift(newItem.id);this.recolorPos++}
+		else{listItems.push(newItem.id);this.recolorPos=listItems.length;}
+		if(this.alt&&!((tot-this.recolorPos)%2))newItem.className+=' '+this.alt;
 		if(firstItem)firstItem.parentNode.insertBefore(newItem,firstItem);
 		else this.theList.appendChild(newItem);
-		listItems.unshift(newItem.id);
 		Fat.fade_element(newItem.id);
 	}
-	this.removeListItem=function(id,listObj,noFade){
-		if(!listObj)listObj=this;
+	this.removeListItem=function(id,noFade){
 		if(!noFade)Fat.fade_element(id,null,700,'#FF3333');
 		var theItem=document.getElementById(id);
 		if(!noFade){var func=encloseFunc(function(a){a.parentNode.removeChild(a);},theItem);setTimeout(func,705);}
 		else{theItem.parentNode.removeChild(theItem);}
-		var pos=listObj.getListPos(id);
+		var pos=this.getListPos(id);
 		listItems.splice(pos,1);
-		if(!noFade)listObj.recolorList(pos,1000);
 	}
-	this.replaceListItem=function(id,h,update){
-		if(!update){this.removeListItem(id,false,true);this.addListItem(h);return;}
+	this.replaceListItem=function(id,h,tot,update){
+		if(!update){this.removeListItem(id,true);this.addListItem(h,tot);return;}
 		var newItem=this.makeEl(h);
 		var oldItem=document.getElementById(id);
+		var pos=this.getListPos(oldItem.id);if(this.alt&&!(pos%2))newItem.className+=' '+this.alt;
 		oldItem.parentNode.replaceChild(newItem,oldItem);
 		Fat.fade_element(newItem.id);
 	}
@@ -131,21 +130,22 @@ function listMan(theListId){
 			}	
 		}
 	}
-	this.getListPos=function(id){for(var i=0;i<listItems.length;i++){if(id==listItems[i]){var pos=i;break;}}return pos;}
+	this.getListPos=function(id,n){for(var i=0;i<listItems.length;i++){if(id==listItems[i]){var pos=i;break;}}if(!n){if(pos<this.recolorPos)this.recolorPos=pos;}return pos;}
 	this.getListItems=function(){
 		if(this.theList)return;
 		listItems=new Array();
 		if(theListId){this.theList=document.getElementById(theListId);if(!this.theList)return false;}
 		else{this.theList=document.getElementById('the-list');if(this.theList)theListId='the-list';}
 		if(this.theList){
-			var items=this.theList.getElementsByTagName('tr');listType='table'
-			if(!items[0]){items=this.theList.getElementsByTagName('li');listType='list'}
+			var items=this.theList.getElementsByTagName('tr');listType='table';
+			if(!items[0]){items=this.theList.getElementsByTagName('li');listType='list';}
 			for(var i=0;i<items.length;i++){listItems.push(items[i].id);}
+			this.recolorPos=listItems.length;
 		}
 	}
 	this.recolorList=function(pos,dur){
-		if(!pos)pos=0;
-		for(var i=pos;i<listItems.length;i++){var e=document.getElementById(listItems[i]);if(i%2)e.className=e.className.replace('alternate','fade-'+alt_color.slice(1));else e.className+=' alternate fade-'+reg_color.slice(1);e.style.backgroundColor='';}
+		if(!this.alt)return;if(!pos)pos=0;this.recolorPos=listItems.length;
+		for(var i=pos;i<listItems.length;i++){var e=document.getElementById(listItems[i]);if(i%2)e.className=e.className.replace(this.alt,'fade-'+this.alt_color.slice(1));else e.className+=' '+this.alt+' fade-'+this.reg_color.slice(1);e.style.backgroundColor='';}
 		Fat.fade_all(dur);
 		var func=encloseFunc(function(l){for(var i=0;i<l.length;i++){var e=document.getElementById(l[i]);e.className=e.className.replace(/fade-[a-f0-9]{6}/i,'');}},listItems);
 		setTimeout(func,dur+5);
