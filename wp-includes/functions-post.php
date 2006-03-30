@@ -199,7 +199,7 @@ function wp_insert_post($postarr = array()) {
 				(post_id,meta_key,meta_value) 
 				VALUES ('$post_ID','_encloseme','1')
 			");
-			spawn_pinger();
+			wp_schedule_single_event(time(), 'do_pings');
 		}
 	} else if ($post_type == 'page') {
 		wp_cache_delete('all_page_ids', 'pages');
@@ -1002,4 +1002,30 @@ function wp_upload_bits($name, $type, $bits) {
 	return array('file' => $new_file, 'url' => $url, 'error' => false);
 }
 
+function do_all_pings() {
+	global $wpdb;
+
+	// Do pingbacks
+	while ($ping = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_pingme' LIMIT 1")) {
+		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$ping->ID} AND meta_key = '_pingme';");
+		pingback($ping->post_content, $ping->ID);
+	}
+	
+	// Do Enclosures
+	while ($enclosure = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_encloseme' LIMIT 1")) {
+		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$enclosure->ID} AND meta_key = '_encloseme';");
+		do_enclose($enclosure->post_content, $enclosure->ID);
+	}
+
+	// Do Trackbacks
+	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status = 'publish'");
+	if ( is_array($trackbacks) ) {
+		foreach ( $trackbacks as $trackback ) {
+			do_trackbacks($trackback->ID);
+		}
+	}
+
+	//Do Update Services/Generic Pings
+	generic_ping();
+}
 ?>

@@ -1119,27 +1119,6 @@ function debug_fclose($fp) {
 	}
 }
 
-function spawn_pinger() {
-	global $wpdb;
-	$doping = false;
-	if ( $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != '' LIMIT 1") )
-		$doping = true;
-
-	if ( $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_pingme' OR meta_key = '_encloseme' LIMIT 1") )
-		$doping = true;
-
-	if ( substr(php_sapi_name(), 0, 3) == 'cgi' )
-		return $doping;
-
-	if ( $doping ) {
-		$ping_url = get_settings('siteurl') .'/wp-admin/execute-pings.php';
-		$parts = parse_url($ping_url);
-		$argyle = @ fsockopen($parts['host'], $_SERVER['SERVER_PORT'], $errno, $errstr, 0.01);
-		if ( $argyle )
-			fputs($argyle, "GET {$parts['path']}?time=".time()." HTTP/1.0\r\nHost: {$_SERVER['HTTP_HOST']}\r\n\r\n");
-       }
-}
-
 function do_enclose( $content, $post_ID ) {
 	global $wp_version, $wpdb;
 	include_once (ABSPATH . WPINC . '/class-IXR.php');

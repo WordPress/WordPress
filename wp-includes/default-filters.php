@@ -92,4 +92,5 @@ add_action('do_feed_rdf', 'do_feed_rdf', 10, 1);
 add_action('do_feed_rss', 'do_feed_rss', 10, 1);
 add_action('do_feed_rss2', 'do_feed_rss2', 10, 1);
 add_action('do_feed_atom', 'do_feed_atom', 10, 1);
+add_action('do_pings', 'do_all_pings', 10, 1);
 ?>
