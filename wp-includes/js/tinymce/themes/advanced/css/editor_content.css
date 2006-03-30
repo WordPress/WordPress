@@ -1,22 +1,13 @@
 /* This file contains the CSS data for the editable area(iframe) of TinyMCE */
 /* You can extend this CSS by adding your own CSS file with the the content_css option */
 
+body, td, pre {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
 body {
 	background-color: #FFFFFF;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 0.9em;
-	line-height: 1.2em;
-	padding: .3em;
-}
-
-td {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-}
-
-pre {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
 }
 
 .mceVisualAid {
@@ -47,3 +38,16 @@ a {
 	color: green;
 }
 */
+
+/* MSIE specific */
+
+* html body {
+	scrollbar-3dlight-color: #F0F0EE;
+	scrollbar-arrow-color: #676662;
+	scrollbar-base-color: #F0F0EE;
+	scrollbar-darkshadow-color: #DDDDDD;
+	scrollbar-face-color: #E0E0DD;
+	scrollbar-highlight-color: #F0F0EE;
+	scrollbar-shadow-color: #F0F0EE;
+	scrollbar-track-color: #F5F5F5;
+}

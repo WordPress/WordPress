@@ -1028,4 +1028,82 @@ function do_all_pings() {
 	//Do Update Services/Generic Pings
 	generic_ping();
 }
+
+/**
+ * Places two script links in <head>: one to get tinyMCE (big), one to configure and start it (small)
+ */
+function tinymce_include() {
+	$src1 = get_settings('siteurl') . '/wp-includes/js/tinymce/tiny_mce_gzip.php';
+	$src2 = get_settings('siteurl') . '/wp-includes/js/tinymce/tiny_mce_config.php';
+
+	echo "<script type='text/javascript' src='$src1'></script>\n";
+	echo "<script type='text/javascript' src='$src2'></script>\n";
+}
+
+/**
+ * Places a textarea according to the current user's preferences, filled with $content.
+ * Also places a script block that enables tabbing between Title and Content.
+ *
+ * @param string Editor contents
+ * @param string (optional) Previous form field's ID (for tabbing support)
+ */
+function the_editor($content, $id = 'content', $prev_id = 'title') {
+	$rows = get_settings('default_post_edit_rows');
+	if (($rows < 3) || ($rows > 100))
+		$rows = 12;
+
+	$rows = "rows='$rows'";
+
+	the_quicktags();
+
+	if ( user_can_richedit() )
+		add_filter('the_editor_content', 'wp_richedit_pre');
+
+	$the_editor = apply_filters('the_editor', "<div><textarea class='mceEditor' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
+	$the_editor_content = apply_filters('the_editor_content', $content);
+
+	printf($the_editor, $the_editor_content);
+
+	?>
+	<script type="text/javascript">
+	//<!--
+	edCanvas = document.getElementById('<?php echo $id; ?>');
+	<?php if ( user_can_richedit() ) : ?>
+	// This code is meant to allow tabbing from Title to Post (TinyMCE).
+	if ( tinyMCE.isMSIE )
+		document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e)
+			{
+				e = e ? e : window.event;
+				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+					var i = tinyMCE.selectedInstance;
+					if(typeof i ==  'undefined')
+						return true;
+	                                tinyMCE.execCommand("mceStartTyping");
+					this.blur();
+					i.contentWindow.focus();
+					e.returnValue = false;
+					return false;
+				}
+			}
+	else
+		document.getElementById('<?php echo $prev_id; ?>').onkeypress = function (e)
+			{
+				e = e ? e : window.event;
+				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
+					var i = tinyMCE.selectedInstance;
+					if(typeof i ==  'undefined')
+						return true;
+	                                tinyMCE.execCommand("mceStartTyping");
+					this.blur();
+					i.contentWindow.focus();
+					e.returnValue = false;
+					return false;
+				}
+			}
+	<?php endif; ?>
+	//-->
+	</script>
+	<?php
+}
+
 ?>

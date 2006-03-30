@@ -2,55 +2,39 @@
 <head>
 	<title>{$lang_insert_link_title}</title>
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/link.js"></script>
-	<style type="text/css">
-		#insert, #cancel {
-			font: 13px Verdana, Arial, Helvetica, sans-serif;
-			height: auto;
-			width: auto;
-			background-color: transparent;
-			background-image: url(../../../../../wp-admin/images/fade-butt.png);
-			background-repeat: repeat;
-			border: 3px double;
-			border-right-color: rgb(153, 153, 153);
-			border-bottom-color: rgb(153, 153, 153);
-			border-left-color: rgb(204, 204, 204);
-			border-top-color: rgb(204, 204, 204);
-			color: rgb(51, 51, 51);
-			padding: 0.25em 0.75em;
-		}
-		#insert:active, #cancel:active {
-			background: #f4f4f4;
-			border-left-color: #999;
-			border-top-color: #999;
-		}
-	</style>
+	<base target="_self" />
 </head>
-<body onload="tinyMCEPopup.executeOnLoad('init();');document.getElementById('href').focus();" style="display: none">
-<form onsubmit="insertLink();return false;">
-  <table border="0" cellpadding="0" cellspacing="0" width="100">
-    <tr>
-      <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+<body id="link" onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';document.getElementById('href').focus();" style="display: none">
+<form onsubmit="insertLink();return false;" action="#">
+	<div class="tabs">
+		<ul>
+			<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{$lang_insert_link_title}</a></span></li>
+		</ul>
+	</div>
+
+	<div class="panel_wrapper">
+		<div id="general_panel" class="panel current">
+
+		<table border="0" cellpadding="4" cellspacing="0">
           <tr>
-            <td colspan="2" class="title" nowrap="nowrap">{$lang_insert_link_title}</td>
-          </tr>
-          <tr>
-            <td nowrap="nowrap">{$lang_insert_link_url}:</td>
-            <td>              <table border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td><input name="href" type="text" id="href" value="" style="width: 200px"></td>
-                  <td id="hrefbrowsercontainer">&nbsp;</td>
-                </tr>
-              </table></td>
+            <td nowrap="nowrap"><label for="href">{$lang_insert_link_url}</label></td>
+            <td><table border="0" cellspacing="0" cellpadding="0"> 
+				  <tr> 
+					<td><input id="href" name="href" type="text" value="" style="width: 200px" /></td> 
+					<td id="hrefbrowsercontainer">&nbsp;</td>
+				  </tr> 
+				</table></td>
           </tr>
 		  <!-- Link list -->
 		  <script language="javascript">
 			if (typeof(tinyMCELinkList) != "undefined" && tinyMCELinkList.length > 0) {
 				var html = "";
 
-				html += '<tr><td>{$lang_link_list}:</td>';
-				html += '<td><select name="link_list" style="width: 200px" onchange="this.form.href.value=this.options[this.selectedIndex].value;">';
+				html += '<tr><td><label for="link_list">{$lang_link_list}</label></td>';
+				html += '<td><select id="link_list" name="link_list" style="width: 200px" onchange="this.form.href.value=this.options[this.selectedIndex].value;">';
 				html += '<option value="">---</option>';
 
 				for (var i=0; i<tinyMCELinkList.length; i++)
@@ -63,8 +47,8 @@
 		  </script>
 		  <!-- /Link list -->
           <tr>
-            <td nowrap="nowrap">{$lang_insert_link_target}:</td>
-            <td><select name="target" style="width: 200px">
+            <td nowrap="nowrap"><label for="target">{$lang_insert_link_target}</label></td>
+            <td><select id="target" name="target" style="width: 200px">
                 <option value="_self">{$lang_insert_link_target_same}</option>
                 <option value="_blank">{$lang_insert_link_target_blank}</option>
 				<script language="javascript">
@@ -88,26 +72,29 @@
             </select></td>
           </tr>
           <tr>
-            <td nowrap="nowrap">{$lang_theme_insert_link_titlefield}:</td>
-            <td><input name="linktitle" type="text" id="linktitle" value="" style="width: 200px"></td>
+            <td nowrap="nowrap"><label for="linktitle">{$lang_theme_insert_link_titlefield}</label></td>
+            <td><input id="linktitle" name="linktitle" type="text" value="" style="width: 200px"></td>
           </tr>
           <tr id="styleSelectRow">
-            <td><!--{$lang_class_name}:</td>
+            <td><label for="styleSelect">{$lang_class_name}</label></td>
             <td>
 			 <select id="styleSelect" name="styleSelect">
                 <option value="" selected>{$lang_theme_style_select}</option>
              </select></td>
-            <td align="right">&nbsp;</td>
-            <td align="right">&nbsp;--></td>
           </tr>
-          <tr>
-            <td><input type="submit" id="insert" name="insert" value="{$lang_insert}" onclick="insertLink();">
-            </td>
-            <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();"></td>
-          </tr>
-        </table></td>
-    </tr>
-  </table>
+        </table>
+		</div>
+	</div>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+
+		<div style="float: right">
+			<input type="submit" id="insert" name="insert" value="{$lang_insert}" onclick="insertLink();" />
+		</div>
+	</div>
 </form>
 </body>
 </html>

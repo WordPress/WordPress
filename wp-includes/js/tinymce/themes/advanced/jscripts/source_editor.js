@@ -5,13 +5,10 @@ function saveContent() {
 
 // Fixes some charcode issues
 function fixContent(html) {
-	// WP
-	return html;
-
-	html = html.replace(new RegExp('<(p|hr|table|tr|td|ol|ul|object|embed|li|blockquote)', 'gi'),'\n<$1');
+/*	html = html.replace(new RegExp('<(p|hr|table|tr|td|ol|ul|object|embed|li|blockquote)', 'gi'),'\n<$1');
 	html = html.replace(new RegExp('<\/(p|ol|ul|li|table|tr|td|blockquote|object)>', 'gi'),'</$1>\n');
 	html = tinyMCE.regexpReplace(html, '<br />','<br />\n','gi');
-	html = tinyMCE.regexpReplace(html, '\n\n','\n','gi');
+	html = tinyMCE.regexpReplace(html, '\n\n','\n','gi');*/
 	return html;
 }
 
@@ -20,12 +17,20 @@ function onLoadInit() {
 
 	document.forms[0].htmlSource.value = fixContent(tinyMCE.getContent(tinyMCE.getWindowArg('editor_id')));
 	resizeInputs();
-	setWrap('off');
 }
 
 function setWrap(val) {
-	// hard soft off
-	document.forms[0].htmlSource.wrap = val;
+	var s = document.forms[0].htmlSource;
+
+	s.wrap = val;
+
+	if (tinyMCE.isGecko) {
+		var v = s.value;
+		var n = s.cloneNode(false);
+		n.setAttribute("wrap", val);
+		s.parentNode.replaceChild(n, s);
+		n.value = v;
+	}
 }
 
 function toggleWordWrap(elm) {
@@ -51,6 +56,6 @@ function resizeInputs() {
 }
 
 function renderWordWrap() {
-	if (tinyMCE.isMSIE)
+	if (tinyMCE.isMSIE || tinyMCE.isGecko)
 		document.write('<input type="checkbox" name="wraped" id="wraped" onclick="toggleWordWrap(this);" class="wordWrapCode" /><label for="wraped">{$lang_theme_code_wordwrap}</label>');
 }

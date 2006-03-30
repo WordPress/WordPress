@@ -26,7 +26,7 @@ function init() {
 
 function insertAnchor() {
 	var inst = tinyMCE.getInstanceById(tinyMCE.getWindowArg('editor_id'));
-	var name = document.forms[0].anchorName.value;
+	var name = document.forms[0].anchorName.value, e;
 
 	tinyMCEPopup.execCommand("mceBeginUndoLevel");
 
@@ -44,11 +44,26 @@ function insertAnchor() {
 		name = name.replace(/&/g, '&amp;');
 		name = name.replace(/\"/g, '&quot;');
 		name = name.replace(/</g, '&lt;');
-		name = name.replace(/>/g, '&gr;');
+		name = name.replace(/>/g, '&gt;');
 
-		html = '<a name="' + name + '"></a>';
+		// Fix for bug #1447335
+		if (tinyMCE.isGecko)
+			html = '<a id="mceNewAnchor" name="' + name + '"></a>';
+		else
+			html = '<a name="' + name + '"></a>';
 
 		tinyMCEPopup.execCommand("mceInsertContent", false, html);
+
+		// Fix for bug #1447335 force cursor after the anchor element
+		if (tinyMCE.isGecko) {
+			e = inst.getDoc().getElementById('mceNewAnchor');
+
+			if (e) {
+				inst.selection.selectNode(e, true, false, false);
+				e.removeAttribute('id');
+			}
+		}
+
 		tinyMCE.handleVisualAid(inst.getBody(), true, inst.visualAid, inst);
 	}
 

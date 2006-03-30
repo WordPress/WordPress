@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{$lang_paste_text_desc}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="jscripts/pastetext.js"></script>
+	<base target="_self" />
+</head>
+<body onload="tinyMCEPopup.executeOnLoad('onLoadInit();');" onresize="resizeInputs();" style="display: none">
+<form name="source" onsubmit="saveContent();">
+	<div style="float: left" class="title">{$lang_paste_text_desc}</div>
+
+	<div style="float: right">
+		<input type="checkbox" name="linebreaks" id="linebreaks" class="wordWrapCode" checked="checked" /><label for="linebreaks">{$lang_paste_text_linebreaks}</label>
+	</div>
+
+	<br style="clear: both" />
+
+	<div>{$lang_paste_text_title}</div>
+
+	<textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 100%; height: 100%; font-family: 'Courier New',Courier,mono; font-size: 12px;" dir="ltr" wrap="soft"></textarea>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" name="insert" value="{$lang_insert}" onclick="saveContent();" id="insert" />
+		</div>
+
+		<div style="float: right">
+			<input type="button" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" id="cancel" />
+		</div>
+	</div>
+</form>
+</body> 
+</html>

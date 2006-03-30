@@ -99,7 +99,8 @@ function renderColorMap() {
 		+ '<input id="selectedColorBox" name="selectedColorBox" type="text" size="7" maxlength="7" style="width:65px" value="' + inputColor + '" />'
 		+ '</td></tr>'
 		+ '</table>'
-		+ '<input type="button" id="insert" name="insert" value="{$lang_theme_colorpicker_apply}" style="margin-top:3px" onclick="selectColor();">'
+		+ '<div style="float: left"><input type="button" id="insert" name="insert" value="{$lang_theme_colorpicker_apply}" style="margin-top:3px" onclick="selectColor();"></div>'
+		+ '<div style="float: right"><input type="button" name="cancel" value="{$lang_cancel}" style="margin-top:3px" onclick="tinyMCEPopup.close();" id="cancel" /></div>'
 		+ '</td></tr>'
 		+ '</table>';
 

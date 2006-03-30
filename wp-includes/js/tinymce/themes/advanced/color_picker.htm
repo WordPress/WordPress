@@ -3,8 +3,9 @@
 	<title>{$lang_theme_colorpicker_title}</title>
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/color_picker.js"></script>
+	<base target="_self" />
 </head>
-<body onload="tinyMCEPopup.executeOnLoad('init();');" marginheight="3" topmargin="3" leftmargin="3" marginwidth="3" style="display: none">
+<body onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';document.getElementById('insert').focus();" style="margin: 3px; display: none">
 	<div align="center">
 	   <script language="javascript" type="text/javascript">renderColorMap();</script>
 	</div>

@@ -2,7 +2,7 @@
 
 tinyMCE.addToLang('',{
 theme_style_select : '-- Styles --',
-theme_code_desc : 'Edit HTML Source (Alt+e)',
+theme_code_desc : 'Edit HTML Source',
 theme_code_title : 'HTML Source Editor',
 theme_code_wordwrap : 'Word wrap',
 theme_sub_desc : 'Subscript',

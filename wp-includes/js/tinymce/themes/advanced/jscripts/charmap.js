@@ -170,7 +170,7 @@ charmap = [
 	['&yacute;',  '&#253;',  true, 'y - acute'],
 	['&thorn;',   '&#254;',  true, 'thorn'],
 	['&yuml;',    '&#255;',  true, 'y - diaeresis'],
-// ['&Alpha;',   '&#913;',  true, 'Alpha'],
+    ['&Alpha;',   '&#913;',  true, 'Alpha'],
 	['&Beta;',    '&#914;',  true, 'Beta'],
 	['&Gamma;',   '&#915;',  true, 'Gamma'],
 	['&Delta;',   '&#916;',  true, 'Delta'],
@@ -279,9 +279,9 @@ function renderCharMapHTML() {
 			cols++;
 			html += ''
 				+ '<td width="' + tdWidth + '" height="' + tdHeight + '" class="charmap"'
-				+ ' onmouseover="tinyMCE.switchClass(this,\'charmapOver\');'
+				+ ' onmouseover="this.className=\'charmapOver\';'
 				+ 'previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');"'
-				+ ' onmouseout="tinyMCE.restoreClass(this,\'charmapOver\');"'
+				+ ' onmouseout="this.className=\'charmap\';"'
 				+ ' nowrap="nowrap" onclick="insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');"><a style="text-decoration: none;" onfocus="previewChar(\'' + charmap[i][1].substring(1,charmap[i][1].length) + '\',\'' + charmap[i][0].substring(1,charmap[i][0].length) + '\',\'' + charmap[i][3] + '\');" href="javascript:insertChar(\'' + charmap[i][1].substring(2,charmap[i][1].length-1) + '\');" onclick="return false;" onmousedown="return false;" title="' + charmap[i][3] + '">'
 				+ charmap[i][1]
 				+ '</a></td>';
@@ -299,11 +299,13 @@ function renderCharMapHTML() {
 }
 
 function insertChar(chr) {
-	tinyMCEPopup.execCommand('mceInsertContent', false, '\&#' + chr + ';');
+	tinyMCEPopup.execCommand('mceInsertContent', false, '&#' + chr + ';');
 
 	// Refocus in window
 	if (tinyMCEPopup.isWindow)
 		window.focus();
+
+	tinyMCEPopup.close();
 }
 
 function previewChar(codeA, codeB, codeN) {

@@ -1,0 +1,34 @@
+.mceMsgBox {
+	border: 1px solid gray;
+	padding: 8px;
+}
+
+.mceMsgBox span {
+	vertical-align: top;
+	color: #555555;
+}
+
+/* Misc */
+
+.mceBlockBox {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 100;
+	filter:progid:DXImageTransform.Microsoft.Alpha(style=0, opacity=60);
+	-moz-opacity:0.6;
+	opacity: 0.6;
+	background-color: white;
+}
+
+.mceMsgBox {
+	display: none;
+	z-index: 101;
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-family: Arial, Verdana, Tahoma, Helvetica;
+	font-weight: bold;
+	font-size: 11px;
+}

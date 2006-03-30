@@ -37,55 +37,8 @@ addLoadEvent(focusit);
 
 <fieldset style="clear: both;">
         <legend><?php _e('Comment') ?></legend>
-<?php the_quicktags(); ?>
-
-<?php
- $rows = get_settings('default_post_edit_rows');
- if (($rows < 3) || ($rows > 100)) {
-     $rows = 10;
- }
-?>
-<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content" style="width: 99%"><?php echo user_can_richedit() ? wp_richedit_pre($comment->comment_content) : $comment->comment_content; ?></textarea></div>
+	<?php the_editor($comment->comment_content, 'content', 'newcomment_author_url'); ?>
 </fieldset>
-
-<script type="text/javascript">
-<!--
-edCanvas = document.getElementById('content');
-<?php if ( user_can_richedit() ) : ?>
-// This code is meant to allow tabbing from Author URL to Post (TinyMCE).
-if ( tinyMCE.isMSIE )
-	document.getElementById('newcomment_author_url').onkeydown = function (e)
-		{
-			e = e ? e : window.event;
-			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-				var i = tinyMCE.selectedInstance;
-				if(typeof i ==  'undefined')
-					return true;
-                                tinyMCE.execCommand("mceStartTyping");
-				this.blur();
-				i.contentWindow.focus();
-				e.returnValue = false;
-				return false;
-			}
-		}
-else
-	document.getElementById('newcomment_author_url').onkeypress = function (e)
-		{
-			e = e ? e : window.event;
-			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-				var i = tinyMCE.selectedInstance;
-				if(typeof i ==  'undefined')
-					return true;
-                                tinyMCE.execCommand("mceStartTyping");
-				this.blur();
-				i.contentWindow.focus();
-				e.returnValue = false;
-				return false;
-			}
-		}
-<?php endif; ?>
-//-->
-</script>
 
 <p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
   <input name="referredby" type="hidden" id="referredby" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />

@@ -2,44 +2,27 @@
 <head>
 	<title>{$lang_insert_image_title}</title>
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/image.js"></script>
-	<style type="text/css">
-		#insert, #cancel {
-			font: 13px Verdana, Arial, Helvetica, sans-serif;
-			height:auto;
-			width: auto;
-			background-color: transparent;
-			background-image: url(../../../../../wp-admin/images/fade-butt.png);
-			background-repeat: repeat;
-			border: 3px double;
-			border-right-color: rgb(153, 153, 153);
-			border-bottom-color: rgb(153, 153, 153);
-			border-left-color: rgb(204, 204, 204);
-			border-top-color: rgb(204, 204, 204);
-			color: rgb(51, 51, 51);
-			padding: 0.25em 1em;
-		}
-		#insert:active, #cancel:active {
-			background: #f4f4f4;
-			border-left-color: #999;
-			border-top-color: #999;
-		}
-	</style>
+	<base target="_self" />
 </head>
-<body onload="tinyMCEPopup.executeOnLoad('init();');document.getElementById('src').focus();" style="display: none">
-<form onsubmit="insertImage();return false;">
-  <table border="0" cellpadding="0" cellspacing="0" width="200">
-    <tr>
-      <td align="center" valign="middle"><table border="0" cellpadding="4" cellspacing="0">
+<body id="image" onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';document.getElementById('src').focus();" style="display: none">
+<form onsubmit="insertImage();return false;" action="#">
+	<div class="tabs">
+		<ul>
+			<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{$lang_insert_image_title}</a></span></li>
+		</ul>
+	</div>
+
+	<div class="panel_wrapper">
+		<div id="general_panel" class="panel current">
+     <table border="0" cellpadding="4" cellspacing="0">
           <tr>
-            <td colspan="2" class="title" nowrap="nowrap">{$lang_insert_image_title}</td>
-          </tr>
-          <tr>
-            <td nowrap="nowrap">{$lang_insert_image_src}:</td>
+            <td nowrap="nowrap"><label for="src">{$lang_insert_image_src}</label></td>
             <td><table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input name="src" type="text" id="src" value="" style="width: 200px" onchange="getImageData();"></td>
+                  <td><input id="src" name="src" type="text" value="" style="width: 200px" onchange="getImageData();"></td>
                   <td id="srcbrowsercontainer">&nbsp;</td>
                 </tr>
               </table></td>
@@ -49,8 +32,8 @@
 			if (typeof(tinyMCEImageList) != "undefined" && tinyMCEImageList.length > 0) {
 				var html = "";
 
-				html += '<tr><td>{$lang_image_list}:</td>';
-				html += '<td><select name="image_list" style="width: 200px" onchange="this.form.src.value=this.options[this.selectedIndex].value;resetImageData();getImageData();">';
+				html += '<tr><td><label for="image_list">{$lang_image_list}</label></td>';
+				html += '<td><select id="image_list" name="image_list" style="width: 200px" onchange="this.form.src.value=this.options[this.selectedIndex].value;resetImageData();getImageData();">';
 				html += '<option value="">---</option>';
 
 				for (var i=0; i<tinyMCEImageList.length; i++)
@@ -63,12 +46,12 @@
 		  </script>
 		  <!-- /Image list -->
           <tr>
-            <td nowrap="nowrap">{$lang_insert_image_alt}:</td>
-            <td><input name="alt" type="text" id="alt" value="" style="width: 200px"></td>
+            <td nowrap="nowrap"><label for="alt">{$lang_insert_image_alt}</label></td>
+            <td><input id="alt" name="alt" type="text" value="" style="width: 200px"></td>
           </tr>
           <tr>
-            <td nowrap="nowrap">{$lang_insert_image_align}:</td>
-            <td><select name="align">
+            <td nowrap="nowrap"><label for="align">{$lang_insert_image_align}</label></td>
+            <td><select id="align" name="align">
                 <option value="">{$lang_insert_image_align_default}</option>
                 <option value="baseline">{$lang_insert_image_align_baseline}</option>
                 <option value="top">{$lang_insert_image_align_top}</option>
@@ -82,31 +65,36 @@
               </select></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"><!--{$lang_insert_image_dimensions}:</td>
-            <td><input name="width" type="text" id="width" value="" size="3" maxlength="3">
+            <td nowrap="nowrap"><label for="width">{$lang_insert_image_dimensions}</label></td>
+            <td><input id="width" name="width" type="text" value="" size="3" maxlength="3">
               x
-              <input name="height" type="text" id="height" value="" size="3" maxlength="3">--></td>
-          </tr>
-<!--          <tr>
-            <td nowrap="nowrap">{$lang_insert_image_border}:</td>
-            <td><input name="border" type="text" id="border" value="" size="3" maxlength="3"></td>
+              <input id="height" name="height" type="text" value="" size="3" maxlength="3"></td>
           </tr>
           <tr>
-            <td nowrap="nowrap">{$lang_insert_image_vspace}:</td>
-            <td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3"></td>
+            <td nowrap="nowrap"><label for="border">{$lang_insert_image_border}</label></td>
+            <td><input id="border" name="border" type="text" value="" size="3" maxlength="3"></td>
           </tr>
           <tr>
-            <td nowrap="nowrap">{$lang_insert_image_hspace}:</td>
-            <td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3"></td>
+            <td nowrap="nowrap"><label for="vspace">{$lang_insert_image_vspace}</label></td>
+            <td><input id="vspace" name="vspace" type="text" value="" size="3" maxlength="3"></td>
           </tr>
--->          <tr>
-            <td nowrap="nowrap"><input type="submit" id="insert" name="insert" value="{$lang_insert}" onclick="insertImage();">
-            </td>
-            <td align="right"><input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();"></td>
+          <tr>
+            <td nowrap="nowrap"><label for="hspace">{$lang_insert_image_hspace}</label></td>
+            <td><input id="hspace" name="hspace" type="text" value="" size="3" maxlength="3"></td>
           </tr>
-        </table></td>
-    </tr>
-  </table>
+        </table>
+		</div>
+	</div>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" />
+		</div>
+
+		<div style="float: right">
+			<input type="submit" id="insert" name="insert" value="{$lang_insert}" onclick="insertImage();" />
+		</div>
+	</div>
 </form>
 </body>
 </html>

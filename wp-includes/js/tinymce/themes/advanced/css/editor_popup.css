@@ -35,14 +35,14 @@ input, select, textarea {
 }
 
 .input_noborder {
-	border: 0px solid #808080;
+	border: 0;
 }
 
-#insert {
+#insert, .updateButton {
    font-weight: bold;
    width: 90px;
    height: 21px;
-   border: 0px;
+   border: 0;
    background-image: url('../images/insert_button_bg.gif');
    cursor: pointer;
 }
@@ -51,7 +51,7 @@ input, select, textarea {
    font-weight: bold;
    width: 90px;
    height: 21px;
-   border: 0px;
+   border: 0;
    background-image: url('../images/cancel_button_bg.gif');
    cursor: pointer;
 }
@@ -84,7 +84,7 @@ td.charmap, td.charmapOver {
 
 td.charmapOver {
 	background-color: #CCCCCC;
-	cursor: arrow;
+	cursor: default;
 }
 
 a.charmap {
@@ -120,17 +120,17 @@ input.checkbox {
 	border-bottom: 1px solid;
 	border-right: 1px solid;
 	border-color: #F0F0EE;
-	cursor: arrow;
+	cursor: default;
 }
 
 .mceButtonOver {
 	border: 1px solid #0A246A;
-	cursor: arrow;
+	cursor: default;
 	background-color: #B6BDD2;
 }
 
 .mceButtonDown {
-	cursor: arrow;
+	cursor: default;
 	border: 1px solid #0A246A;
 	background-color: #8592B5;
 }
@@ -144,7 +144,7 @@ input.checkbox {
 	border-bottom: 1px solid;
 	border-right: 1px solid;
 	border-color: #F0F0EE;
-	cursor: arrow;
+	cursor: default;
 }
 
 .mceActionPanel {
@@ -162,7 +162,7 @@ input.checkbox {
 
 .tabs ul {
 	margin: 0;
-	padding: 0px 0px 0;
+	padding: 0 0 0;
 	list-style: none;
 }
 
@@ -170,7 +170,7 @@ input.checkbox {
 	float: left;
 	background: url("../images/xp/tab_bg.gif") no-repeat left top;
 	margin: 0;
-	margin-left: 0px;
+	margin-left: 0;
 	margin-right: 2px;
 	padding: 0 0 0 10px;
 	line-height: 18px;
@@ -185,7 +185,7 @@ input.checkbox {
 	float: left;
 	display: block;
 	background: url("../images/xp/tab_end.gif") no-repeat right top;
-	padding: 0px 10px 0px 0px;
+	padding: 0px 10px 0 0;
 }
 
 .tabs .current span {
@@ -235,8 +235,8 @@ fieldset {
 	border: 1px solid #919B9C;
 	font-family: Verdana, Arial;
 	font-size: 10px;
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 	padding: 4px;
 }
 
@@ -295,13 +295,21 @@ a:hover {
 
 h1, h2, h3, h4 {
 	color: #2B6FB6;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	padding-top: 5px;
 }
 
 h3 {
 	font-size: 14px;
+}
+
+#link .panel_wrapper, #link div.current {
+	height: 125px;
+}
+
+#image .panel_wrapper, #image div.current {
+	height: 190px;
 }
 
 /* Disables the advanced tab in the table plugin. */
@@ -317,3 +325,30 @@ h3 {
 	display: none;
 }
 */
+
+/* Below this line is WordPress customizations */
+#insert, #cancel, .submitbutton {
+	font: 11px Verdana, Arial, Helvetica, sans-serif;
+	height: auto;
+	width: auto;
+	background-color: transparent;
+	background-image: url(../../../../../../wp-admin/images/fade-butt.png);
+	background-repeat: repeat;
+	border: 3px double;
+	border-right-color: rgb(153, 153, 153);
+	border-bottom-color: rgb(153, 153, 153);
+	border-left-color: rgb(204, 204, 204);
+	border-top-color: rgb(204, 204, 204);
+	color: rgb(51, 51, 51);
+	padding: 0.1em 0.5em;
+}
+
+#insert:active, #cancel:active, .submitbutton:active {
+	background: #f4f4f4;
+	border-left-color: #999;
+	border-top-color: #999;
+}
+
+#styleSelectRow {
+	display: none;
+}

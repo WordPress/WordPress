@@ -57,9 +57,7 @@ var manager = new dbxManager('linkmeta');
 </script>
 <script type="text/javascript" src="../wp-includes/js/dbx-key.js"></script>
 <?php } ?>
-<?php if ( $editing && user_can_richedit() ) { ?>
-<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_gzip.php?ver=20051211"></script>
-<?php } ?>
+<?php if ( $editing && user_can_richedit() ) { tinymce_include(); } ?>
 <?php if ( $cat_js ) { ?>
 <script type="text/javascript" src="cat-js.php"></script>
 <?php } ?>

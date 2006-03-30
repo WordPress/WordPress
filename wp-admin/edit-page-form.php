@@ -130,55 +130,8 @@ endforeach;
 
 <fieldset id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>">
     <legend><?php _e('Page Content') ?></legend>
-<?php
- $rows = get_settings('default_post_edit_rows');
- if (($rows < 3) || ($rows > 100)) {
-     $rows = 10;
- }
-?>
-<?php the_quicktags(); ?>
-
-<div><textarea title="true" rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="4" id="content"><?php echo user_can_richedit() ? wp_richedit_pre($post->post_content) : $post->post_content; ?></textarea></div>
+	<?php the_editor($post->post_content); ?>
 </fieldset>
-
-<script type="text/javascript">
-<!--
-edCanvas = document.getElementById('content');
-<?php if ( user_can_richedit() ) : ?>
-// This code is meant to allow tabbing from Title to Post (TinyMCE).
-if ( tinyMCE.isMSIE )
-	document.getElementById('title').onkeydown = function (e)
-		{
-			e = e ? e : window.event;
-			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-				var i = tinyMCE.selectedInstance;
-				if(typeof i ==  'undefined')
-					return true;
-                                tinyMCE.execCommand("mceStartTyping");
-				this.blur();
-				i.contentWindow.focus();
-				e.returnValue = false;
-				return false;
-			}
-		}
-else
-	document.getElementById('title').onkeypress = function (e)
-		{
-			e = e ? e : window.event;
-			if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-				var i = tinyMCE.selectedInstance;
-				if(typeof i ==  'undefined')
-					return true;
-                                tinyMCE.execCommand("mceStartTyping");
-				this.blur();
-				i.contentWindow.focus();
-				e.returnValue = false;
-				return false;
-			}
-		}
-<?php endif; ?>
-//-->
-</script>
 
 <p class="submit">
 <input name="save" type="submit" id="save" tabindex="3" value="<?php _e('Save and Continue Editing'); ?>" />

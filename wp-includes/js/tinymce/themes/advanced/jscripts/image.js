@@ -8,19 +8,18 @@ if (url != null) {
 }
 
 function insertImage() {
-	if (window.opener) {
-		var src = document.forms[0].src.value;
-		var alt = document.forms[0].alt.value;
-		var border = '';//document.forms[0].border.value;
-		var vspace = '';//document.forms[0].vspace.value;
-		var hspace = '';//document.forms[0].hspace.value;
-		var width = '';//document.forms[0].width.value;
-		var height = '';//document.forms[0].height.value;
-		var align = document.forms[0].align.options[document.forms[0].align.selectedIndex].value;
+	var src = document.forms[0].src.value;
+	var alt = document.forms[0].alt.value;
+	var border = document.forms[0].border.value;
+	var vspace = document.forms[0].vspace.value;
+	var hspace = document.forms[0].hspace.value;
+	var width = document.forms[0].width.value;
+	var height = document.forms[0].height.value;
+	var align = document.forms[0].align.options[document.forms[0].align.selectedIndex].value;
 
-		window.opener.tinyMCE.insertImage(src, alt, border, hspace, vspace, width, height, align);
-		top.close();
-	}
+	tinyMCEPopup.restoreSelection();
+	tinyMCE.themes['advanced']._insertImage(src, alt, border, hspace, vspace, width, height, align);
+	tinyMCEPopup.close();
 }
 
 function init() {
@@ -37,11 +36,11 @@ function init() {
 
 	formObj.src.value = tinyMCE.getWindowArg('src');
 	formObj.alt.value = tinyMCE.getWindowArg('alt');
-//	formObj.border.value = tinyMCE.getWindowArg('border');
-//	formObj.vspace.value = tinyMCE.getWindowArg('vspace');
-//	formObj.hspace.value = tinyMCE.getWindowArg('hspace');
-//	formObj.width.value = tinyMCE.getWindowArg('width');
-//	formObj.height.value = tinyMCE.getWindowArg('height');
+	formObj.border.value = tinyMCE.getWindowArg('border');
+	formObj.vspace.value = tinyMCE.getWindowArg('vspace');
+	formObj.hspace.value = tinyMCE.getWindowArg('hspace');
+	formObj.width.value = tinyMCE.getWindowArg('width');
+	formObj.height.value = tinyMCE.getWindowArg('height');
 	formObj.insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
 
 	// Handle file browser
@@ -61,17 +60,17 @@ var preloadImg = new Image();
 
 function resetImageData() {
 	var formObj = document.forms[0];
-	formObj.width.value = formObj.height.value = "";
+	formObj.width.value = formObj.height.value = "";	
 }
 
 function updateImageData() {
 	var formObj = document.forms[0];
 
-//	if (formObj.width.value == "")
-//		formObj.width.value = preloadImg.width;
+	if (formObj.width.value == "")
+		formObj.width.value = preloadImg.width;
 
-//	if (formObj.height.value == "")
-//		formObj.height.value = preloadImg.height;
+	if (formObj.height.value == "")
+		formObj.height.value = preloadImg.height;
 }
 
 function getImageData() {
