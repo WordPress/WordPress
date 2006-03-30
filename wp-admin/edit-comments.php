@@ -51,6 +51,8 @@ function getNumChecked(form)
 <p><a href="?mode=view"><?php _e('View Mode') ?></a> | <a href="?mode=edit"><?php _e('Mass Edit Mode') ?></a></p>
 <?php
 if ( !empty( $_POST['delete_comments'] ) ) :
+	check_admin_referer();
+
 	$i = 0;
 	foreach ($_POST['delete_comments'] as $comment) : // Check the permissions on each
 		$comment = (int) $comment;

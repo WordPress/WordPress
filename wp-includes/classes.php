@@ -40,7 +40,7 @@ class retrospam_mgr {
 					if ( empty( $word ) )
 						continue;
 					$fulltext = strtolower($comment->email.' '.$comment->url.' '.$comment->ip.' '.$comment->text);
-					if( strpos( $fulltext, strtolower($word) ) != FALSE ) {
+					if( false !== strpos( $fulltext, strtolower($word) ) ) {
 						$this->found_comments[] = $comment->ID;
 						break;
 					}

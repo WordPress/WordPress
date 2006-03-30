@@ -164,6 +164,8 @@ case 'mailapprovecomment':
 
 case 'approvecomment':
 
+	check_admin_referer();
+
 	$comment = (int) $_GET['comment'];
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
@@ -193,6 +195,8 @@ case 'approvecomment':
 	break;
 
 case 'editedcomment':
+
+	check_admin_referer();
 
 	edit_comment();
 

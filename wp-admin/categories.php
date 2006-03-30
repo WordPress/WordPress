@@ -24,6 +24,8 @@ switch($action) {
 
 case 'addcat':
 
+	check_admin_referer();
+
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
 
@@ -93,6 +95,8 @@ case 'edit':
 break;
 
 case 'editedcat':
+	check_admin_referer();
+
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
 

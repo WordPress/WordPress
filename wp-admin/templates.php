@@ -36,8 +36,10 @@ switch($action) {
 
 case 'update':
 
+	check_admin_referer();
+
 	if ( ! current_user_can('edit_files') )
-	die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
+		die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	if (is_writeable($real_file)) {

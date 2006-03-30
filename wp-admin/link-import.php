@@ -63,6 +63,8 @@ foreach ($categories as $category) {
             } // end case 0
 
     case 1: {
+		check_admin_referer();
+
                 include_once('admin-header.php');
                 if ( !current_user_can('manage_links') )
                     die (__("Cheatin' uh ?"));
