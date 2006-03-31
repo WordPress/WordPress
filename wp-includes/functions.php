@@ -2266,4 +2266,12 @@ function do_feed_rss2($for_comments) {
 function do_feed_atom() {
 	load_template(ABSPATH . 'wp-atom.php');
 }
+
+function is_blog_installed() {
+	global $wpdb;
+	$wpdb->hide_errors();
+	$installed = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'");
+	$wpdb->show_errors();
+	return $installed;
+}
 ?>

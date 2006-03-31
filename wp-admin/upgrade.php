@@ -75,10 +75,7 @@ switch($step) {
 	break;
 
 	case 1:
-	wp_cache_flush();
-	make_db_current_silent();
-	upgrade_all();
-	wp_cache_flush();
+	wp_upgrade();
 
 	if ( empty( $_GET['backto'] ) )
 		$backto = __get_option('home');

@@ -6,9 +6,6 @@ if (!file_exists('../wp-config.php'))
 require_once('../wp-config.php');
 require_once('./upgrade-functions.php');
 
-$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
-$guessurl = str_replace('/wp-admin/install.php?step=2', '', $schema . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) );
-
 if (isset($_GET['step']))
 	$step = $_GET['step'];
 else
@@ -77,10 +74,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 <?php
 // Let's check to make sure WP isn't already installed.
-$wpdb->hide_errors();
-$installed = $wpdb->get_results("SELECT * FROM $wpdb->users");
-if ($installed) die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');
-$wpdb->show_errors();
+if ( is_blog_installed() ) die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');
 
 switch($step) {
 
@@ -141,102 +135,20 @@ if (empty($admin_email)) {
 <?php
 flush();
 
-// Set everything up
-wp_cache_flush();
-make_db_current_silent();
-populate_options();
-populate_roles();
-
-update_option('blogname', $weblog_title);
-update_option('admin_email', $admin_email);
-update_option('blog_public', $public);
-// If not a public blog, don't ping.
-if ( ! $public )
-	update_option('default_pingback_flag', 0);
-
-// Default category
-$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_count, category_description) VALUES ('0', '".$wpdb->escape(__('Uncategorized'))."', '".sanitize_title(__('Uncategorized'))."', '1', '')");
-
-// Default link category
-$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, link_count, category_description) VALUES ('0', '".$wpdb->escape(__('Blogroll'))."', '".sanitize_title(__('Blogroll'))."', '7', '')");
-
-// Now drop in some default links
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://blogs.linux.ie/xeer/', 'Donncha', 0, 'http://blogs.linux.ie/xeer/feed/', '');");
-$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (1, 2)" );
-
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://zengun.org/weblog/', 'Michel', 0, 'http://zengun.org/weblog/feed/', '');");
-$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (2, 2)" );
-
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://boren.nu/', 'Ryan', 0, 'http://boren.nu/feed/', '');");
-$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (3, 2)" );
-
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://photomatt.net/', 'Matt', 0, 'http://xml.photomatt.net/feed/', '');");
-$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (4, 2)" );
-
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://zed1.com/journalized/', 'Mike', 0, 'http://zed1.com/journalized/feed/', '');");
-$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (5, 2)" );
-
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://www.alexking.org/', 'Alex', 0, 'http://www.alexking.org/blog/wp-rss2.php', '');");
-$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (6, 2)" );
-
-$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_category, link_rss, link_notes) VALUES ('http://dougal.gunters.org/', 'Dougal', 0, 'http://dougal.gunters.org/feed/', '');");
-$wpdb->query( "INSERT INTO $wpdb->link2cat (`link_id`, `category_id`) VALUES (7, 2)" );
-
-// First post
-$now = date('Y-m-d H:i:s');
-$now_gmt = gmdate('Y-m-d H:i:s');
-$wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_excerpt, post_title, post_category, post_name, post_modified, post_modified_gmt, comment_count, to_ping, pinged, post_content_filtered) VALUES ('1', '$now', '$now_gmt', '".$wpdb->escape(__('Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!'))."', '', '".$wpdb->escape(__('Hello world!'))."', '0', '".$wpdb->escape(__('hello-world'))."', '$now', '$now_gmt', '1', '', '', '')");
-
-$wpdb->query( "INSERT INTO $wpdb->post2cat (`rel_id`, `post_id`, `category_id`) VALUES (1, 1, 1)" );
-
-// Default comment
-$wpdb->query("INSERT INTO $wpdb->comments (comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_date, comment_date_gmt, comment_content) VALUES ('1', '".$wpdb->escape(__('Mr WordPress'))."', '', 'http://wordpress.org/', '$now', '$now_gmt', '".$wpdb->escape(__('Hi, this is a comment.<br />To delete a comment, just log in, and view the posts\' comments, there you will have the option to edit or delete them.'))."')");
-
-// First Page
-
-$wpdb->query("INSERT INTO $wpdb->posts (post_author, post_date, post_date_gmt, post_content, post_excerpt, post_title, post_category, post_name, post_modified, post_modified_gmt, post_status, post_type, to_ping, pinged, post_content_filtered) VALUES ('1', '$now', '$now_gmt', '".$wpdb->escape(__('This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.'))."', '', '".$wpdb->escape(__('About'))."', '0', '".$wpdb->escape(__('about'))."', '$now', '$now_gmt', 'publish', 'page', '', '', '')");
-$wp_rewrite->flush_rules();
-
-// Set up admin user
-$random_password = substr(md5(uniqid(microtime())), 0, 6);
-$display_name_array = explode('@', $admin_email);
-$display_name = $display_name_array[0];
-$wpdb->query("INSERT INTO $wpdb->users (ID, user_login, user_pass, user_email, user_registered, display_name, user_nicename) VALUES ( '1', 'admin', MD5('$random_password'), '$admin_email', NOW(), '$display_name', 'admin')");
-$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$wpdb->prefix}user_level', '10');");
-$admin_caps = serialize(array('administrator' => true));
-$wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$wpdb->prefix}capabilities', '{$admin_caps}');");
-
-$message_headers = 'From: ' . $weblog_title . ' <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
-$message = sprintf(__("Your new WordPress blog has been successfully set up at:
-
-%1\$s
-
-You can log in to the administrator account with the following information:
-
-Username: admin
-Password: %2\$s
-
-We hope you enjoy your new weblog. Thanks!
-
---The WordPress Team
-http://wordpress.org/
-"), $guessurl, $random_password);
-
-@wp_mail($admin_email, __('New WordPress Blog'), $message, $message_headers);
-
-wp_cache_flush();
+$result = wp_install($weblog_title, __('admin'), $admin_email, $public);
+extract($result);
 ?>
 
 <p><em><?php _e('Finished!'); ?></em></p>
 
-<p><?php printf(__('Now you can <a href="%1$s">log in</a> with the <strong>username</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $random_password); ?></p>
+<p><?php printf(__('Now you can <a href="%1$s">log in</a> with the <strong>username</strong> "<code>admin</code>" and <strong>password</strong> "<code>%2$s</code>".'), '../wp-login.php', $password); ?></p>
 <p><?php _e('<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you. If you lose it, you will have to delete the tables from the database yourself, and re-install WordPress. So to review:'); ?>
 </p>
 <dl>
 <dt><?php _e('Username'); ?></dt>
-<dd><code>admin</code></dd>
+<dd><code><?php _e('admin') ?></code></dd>
 <dt><?php _e('Password'); ?></dt>
-<dd><code><?php echo $random_password; ?></code></dd>
+<dd><code><?php echo $password; ?></code></dd>
 	<dt><?php _e('Login address'); ?></dt>
 <dd><a href="../wp-login.php">wp-login.php</a></dd>
 </dl>
