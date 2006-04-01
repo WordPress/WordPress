@@ -140,6 +140,8 @@ case 'delete':
 	break;
 
 default:
+	header('Location: edit-pages.php');
+	exit();
 	break;
 } // end switch
 include('admin-footer.php');
