@@ -16,7 +16,7 @@ function get_profile($field, $user = false) {
 }
 
 function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
-	global $month, $weekday, $month_abbrev, $weekday_abbrev;
+	global $wp_locale;
 	$m = $mysqlstring;
 	if ( empty($m) ) {
 		return false;
@@ -29,16 +29,20 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	if ( -1 == $i || false == $i )
 		$i = 0;
 
-	if ( !empty($month) && !empty($weekday) && $translate ) {
-		$datemonth = $month[date('m', $i)];
-		$datemonth_abbrev = $month_abbrev[$datemonth];
-		$dateweekday = $weekday[date('w', $i)];
-		$dateweekday_abbrev = $weekday_abbrev[$dateweekday];
+	if ( !empty($wp_locale->month) && !empty($wp_locale->weekday) && $translate ) {
+		$datemonth = $wp_locale->get_month(date('m', $i));
+		$datemonth_abbrev = $wp_locale->get_month_abbrev($datemonth);
+		$dateweekday = $wp_locale->get_weekday(date('w', $i));
+		$dateweekday_abbrev = $wp_locale->get_weekday_abbrev($dateweekday);
+		$datemeridiem = $wp_locale->get_meridiem(date('a', $i));
+		$datemeridiem_capital = $wp_locale->get_meridiem(date('A', $i));
 		$dateformatstring = ' '.$dateformatstring;
 		$dateformatstring = preg_replace("/([^\\\])D/", "\${1}".backslashit($dateweekday_abbrev), $dateformatstring);
 		$dateformatstring = preg_replace("/([^\\\])F/", "\${1}".backslashit($datemonth), $dateformatstring);
 		$dateformatstring = preg_replace("/([^\\\])l/", "\${1}".backslashit($dateweekday), $dateformatstring);
 		$dateformatstring = preg_replace("/([^\\\])M/", "\${1}".backslashit($datemonth_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])a/", "\${1}".backslashit($datemeridiem), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])A/", "\${1}".backslashit($datemeridiem_capital), $dateformatstring);
 
 		$dateformatstring = substr($dateformatstring, 1, strlen($dateformatstring)-1);
 	}
@@ -66,23 +70,28 @@ function current_time($type, $gmt = 0) {
 }
 
 function date_i18n($dateformatstring, $unixtimestamp) {
-	global $month, $weekday, $month_abbrev, $weekday_abbrev;
+	global $wp_locale;
 	$i = $unixtimestamp;
-	if ( (!empty($month)) && (!empty($weekday)) ) {
-		$datemonth = $month[date('m', $i)];
-		$datemonth_abbrev = $month_abbrev[$datemonth];
-		$dateweekday = $weekday[date('w', $i)];
-		$dateweekday_abbrev = $weekday_abbrev[$dateweekday];
+	if ( (!empty($wp_locale->month)) && (!empty($wp_locale->weekday)) ) {
+		$datemonth = $wp_locale->get_month(date('m', $i));
+		$datemonth_abbrev = $wp_locale->get_month_abbrev($datemonth);
+		$dateweekday = $wp_locale->get_weekday(date('w', $i));
+		$dateweekday_abbrev = $wp_locale->get_weekday_abbrev($dateweekday);
+		$datemeridiem = $wp_locale->get_meridiem(date('a', $i));
+		$datemeridiem_capital = $wp_locale->get_meridiem(date('A', $i));
 		$dateformatstring = ' '.$dateformatstring;
 		$dateformatstring = preg_replace("/([^\\\])D/", "\${1}".backslashit($dateweekday_abbrev), $dateformatstring);
 		$dateformatstring = preg_replace("/([^\\\])F/", "\${1}".backslashit($datemonth), $dateformatstring);
 		$dateformatstring = preg_replace("/([^\\\])l/", "\${1}".backslashit($dateweekday), $dateformatstring);
 		$dateformatstring = preg_replace("/([^\\\])M/", "\${1}".backslashit($datemonth_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])a/", "\${1}".backslashit($datemeridiem), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])A/", "\${1}".backslashit($datemeridiem_capital), $dateformatstring);
+
 		$dateformatstring = substr($dateformatstring, 1, strlen($dateformatstring)-1);
 	}
 	$j = @date($dateformatstring, $i);
 	return $j;
-	}
+}
 
 function get_weekstartend($mysqlstring, $start_of_week) {
 	$my = substr($mysqlstring,0,4);

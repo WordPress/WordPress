@@ -969,7 +969,7 @@ function get_post_meta_by_id($mid) {
 }
 
 function touch_time($edit = 1, $for_post = 1) {
-	global $month, $post, $comment;
+	global $wp_locale, $post, $comment;
 
 	if ( $for_post )
 		$edit = ( ('draft' == $post->post_status) && (!$post->post_date || '0000-00-00 00:00:00' == $post->post_date) ) ? false : true;
@@ -989,13 +989,8 @@ function touch_time($edit = 1, $for_post = 1) {
 	for ($i = 1; $i < 13; $i = $i +1) {
 		echo "\t\t\t<option value=\"$i\"";
 		if ($i == $mm)
-			echo " selected='selected'";
-		if ($i < 10) {
-			$ii = "0".$i;
-		} else {
-			$ii = "$i";
-		}
-		echo ">".$month["$ii"]."</option>\n";
+			echo ' selected="selected"';
+		echo '>' . $wp_locale->get_month($i) . "</option>\n";
 	}
 ?>
 </select>
@@ -1007,7 +1002,8 @@ function touch_time($edit = 1, $for_post = 1) {
 <?php
 	if ( $edit ) {
 		_e('Existing timestamp');
-		echo ": {$month[$mm]} $jj, $aa @ $hh:$mn";
+		//echo ': ' . $wp_locale->get_month($mm) . "$jj, $aa @ $hh:$mn";
+		echo sprintf(__(': %1$s %2$s, %3$s @ %4$s:%5$s'), $wp_locale->get_month($mm), $jj, $aa, $hh, $mn);
 	}
 ?>
 </fieldset>

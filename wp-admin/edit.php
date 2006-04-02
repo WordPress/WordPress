@@ -93,14 +93,15 @@ if ( count($arc_result) ) { ?>
 		foreach ($arc_result as $arc_row) {
 			$arc_year  = $arc_row->yyear;
 			$arc_month = $arc_row->mmonth;
+			$arc_month = zeroise($arc_month, 2);
 
-			if( isset($_GET['m']) && $arc_year . zeroise($arc_month, 2) == (int) $_GET['m'] )
+			if( isset($_GET['m']) && $arc_year . $arc_month == (int) $_GET['m'] )
 				$default = 'selected="selected"';
 			else
 				$default = null;
 
-			echo "<option $default value=\"" . $arc_year.zeroise($arc_month, 2) . '">';
-			echo $month[zeroise($arc_month, 2)] . " $arc_year";
+			echo "<option $default value=\"" . $arc_year . $arc_month . '">';
+			echo $wp_locale->get_month($arc_month) . " $arc_year";
 			echo "</option>\n";
 		}
 	?>

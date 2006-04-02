@@ -94,9 +94,8 @@ foreach($wp_roles->role_names as $role => $name) {
 <td><select name="start_of_week" id="start_of_week">
 <?php
 for ($day_index = 0; $day_index <= 6; $day_index++) :
-if ($day_index == get_settings('start_of_week')) $selected = " selected='selected'";
-else $selected = '';
-echo "\n\t<option value='$day_index' $selected>$weekday[$day_index]</option>";
+	$selected = (get_settings('start_of_week') == $day_index) ? 'selected="selected"' : '';
+	echo "\n\t<option value='$day_index' $selected>" . $wp_locale->get_weekday($day_index) . '</option>';
 endfor;
 ?>
 </select></td>

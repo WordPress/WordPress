@@ -214,6 +214,8 @@ load_default_textdomain();
 // Pull in locale data after loading text domain.
 require_once(ABSPATH . WPINC . '/locale.php');
 
+$wp_locale = new WP_Locale();
+
 // Load functions for active theme.
 if ( file_exists(TEMPLATEPATH . "/functions.php") )
 	include(TEMPLATEPATH . "/functions.php");
