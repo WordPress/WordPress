@@ -9,7 +9,7 @@ function dimSomething(what,id,dimClass){return theList.ajaxDimmer(what,id,dimCla
 function WPAjax(file, responseEl){//class WPAjax extends sack
 	this.getResponseElement=function(r){var p=document.getElementById(r+'-p');if(!p){p=document.createElement('span');p.id=r+'ajax-response-p';document.getElementById(r).appendChild(p);}this.myResponseElement=p;	}
 	this.parseAjaxResponse=function(){
-		if(isNaN(this.response)){this.myResponseElement.innerHTML="<?php _e('Error: '); ?>"+this.response;return false;}
+		if(isNaN(this.response)){this.myResponseElement.innerHTML='<div class="error">'+this.response+'</div>';return false;}
 		this.response=parseInt(this.response,10);
 		if(-1==this.response){this.myResponseElement.innerHTML="<?php _e("You don't have permission to do that."); ?>";return false;}
 		else if(0==this.response){this.myResponseElement.innerHTML="<?php _e("Something odd happened. Try refreshing the page? Either that or what you tried to change never existed in the first place."); ?>";return false;}
@@ -17,7 +17,7 @@ function WPAjax(file, responseEl){//class WPAjax extends sack
 	}
 	this.parseAjaxResponseXML=function(){
 		if(this.responseXML&&typeof this.responseXML=='object')return true;
-		if(isNaN(this.response)){this.myResponseElement.innerHTML="<?php _e('Error: '); ?>"+this.response;return false;}
+		if(isNaN(this.response)){this.myResponseElement.innerHTML='<div class="error">'+this.response+'</div>';return false;}
 		var r=parseInt(this.response,10);
 		if(-1==r){this.myResponseElement.innerHTML="<?php _e("You don't have permission to do that."); ?>";}
 		else if(0==r){this.myResponseElement.innerHTML="<?php _e("Invalid Entry."); ?>";}
@@ -153,7 +153,7 @@ function listMan(theListId){
 	this.getListItems();
 }
 //No submit unless eval(code) returns true.
-function killSubmit(code,e){if(!e){if(window.event)e=window.event;else return;}var t=e.target?e.target:e.srcElement;if(('text'==t.type&&e.keyCode==13)||('submit'==t.type&&'click'==e.type)){if(!eval(code));e.returnValue=false;e.cancelBubble=true;return false;}}
+function killSubmit(code,e){if(!e){if(window.event)e=window.event;else return;}var t=e.target?e.target:e.srcElement;if(('text'==t.type&&e.keyCode==13)||('submit'==t.type&&'click'==e.type)){if(!eval(code)){e.returnValue=false;e.cancelBubble=true;return false;}}}
 //Pretty func from ALA http://www.alistapart.com/articles/gettingstartedwithajax
 function getNodeValue(tree,el){return tree.getElementsByTagName(el)[0].firstChild.nodeValue;}
 //Generic but lame JS closure

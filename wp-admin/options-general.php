@@ -54,12 +54,7 @@ include('./admin-header.php');
 <tr valign="top"> 
 <th scope="row"><?php _e('New User Default Role:') ?></th> 
 <td><label for="default_role"> 
-<select name="default_role" id="default_role"><?php 
-foreach($wp_roles->role_names as $role => $name) {
-	$selected = (get_settings('default_role') == $role) ? 'selected="selected"' : '';
-	echo "<option {$selected} value=\"{$role}\">{$name}</option>";
-}
-?></select></label>
+<select name="default_role" id="default_role"><?php wp_dropdown_roles( get_settings('default_role') ); ?></select></label>
 </td> 
 </tr> 
 </table> 

@@ -34,14 +34,12 @@ case 'update':
 
 check_admin_referer();
 
-$errors = array();
-
 if (!current_user_can('edit_users'))
-	$errors['head'] = __('You do not have permission to edit this user.');
+	$errors = new WP_Error('head', __('You do not have permission to edit this user.'));
 else
 	$errors = edit_user($user_id);
 
-if(count($errors) == 0) {
+if( !is_wp_error( $errors ) ) {
 	header("Location: user-edit.php?user_id=$user_id&updated=true");
 	exit;
 }
@@ -51,7 +49,9 @@ include ('admin-header.php');
 
 $profileuser = new WP_User($user_id);
 
-if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permission to edit this user.');
+if (!current_user_can('edit_users'))
+	if ( !is_wp_error( $errors ) )
+		$errors = new WP_Error('head', __('You do not have permission to edit this user.'));
 ?>
 
 <?php if ( isset($_GET['updated']) ) : ?>
@@ -59,11 +59,13 @@ if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permi
 	<p><strong><?php _e('User updated.') ?></strong></p>
 </div>
 <?php endif; ?>
-<?php if ( count($errors) != 0 ) : ?>
+<?php if ( is_wp_error( $errors ) ) : ?>
 <div class="error">
 	<ul>
 	<?php
-	foreach($errors as $error) echo "<li>$error</li>";
+	foreach( $errors->get_error_codes() as $code)
+		foreach( $errors->get_error_messages($code) as $message )
+			echo "<li>$message</li>";
 	?>
 	</ul>
 </div>

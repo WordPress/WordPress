@@ -9,10 +9,10 @@ if ( !$_POST )
 
 $errors = edit_user($user_ID);
 
-if (count($errors) != 0) {
-	foreach ($errors as $id => $error) {
-		echo $error . '<br/>';
-	}
+if ( is_wp_error( $errors ) ) {
+	foreach( $errors->get_error_codes() as $code)
+		foreach( $errors->get_error_messages($code) as $message )
+			echo "$message<br />";
 	exit;
 }
 

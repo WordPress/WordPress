@@ -40,6 +40,9 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 <?php if ( 'categories.php' == $pagenow && 'edit' != $action ) { ?>
 <script type="text/javascript" src="categories.js"></script>
 <?php } ?>
+<?php if ( $users_js ) { ?>
+<script type="text/javascript" src="users.js"></script>
+<?php } ?>
 <?php if ( $dbx_js ) { ?>
 <script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
 <script type="text/javascript">

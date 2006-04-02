@@ -40,7 +40,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     }
 }
 
-$xfn_js = $sack_js = $list_js = $cat_js = $dbx_js = $pmeta_js = $editing = false;
+$xfn_js = $sack_js = $list_js = $cat_js = $users_js = $dbx_js = $pmeta_js = $editing = false;
 
 require(ABSPATH . '/wp-admin/menu.php');
 

@@ -361,15 +361,38 @@ function get_category_to_edit($id) {
 	return $category;
 }
 
+function wp_dropdown_roles( $default = false ) {
+	global $wp_roles;
+	$r = '';
+	foreach($wp_roles->role_names as $role => $name)
+		if ( $default == $role ) // Make default first in list
+			$p = "\n\t<option selected='selected' value='$role'>$name</option>";
+		else
+			$r .= "\n\t<option value='$role'>$name</option>";
+	echo $p . $r;
+}
+
+
 // Creates a new user from the "Users" form using $_POST information.
 
 function add_user() {
-	return edit_user();
+	if ( func_num_args() ) { // The hackiest hack that ever did hack
+		global $current_user, $wp_roles;
+		$user_id = func_get_arg(0);
+		if (isset ($_POST['role'])) {
+			if($user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap('edit_users')) {
+				$user = new WP_User($user_id);
+				$user->set_role($_POST['role']);
+			}
+		}
+	} else {
+		add_action('user_register', 'add_user'); // See above
+		return edit_user();
+	}
 }
 
 function edit_user($user_id = 0) {
 	global $current_user, $wp_roles, $wpdb;
-
 	if ($user_id != 0) {
 		$update = true;
 		$user->ID = $user_id;
@@ -417,49 +440,49 @@ function edit_user($user_id = 0) {
 	if (isset ($_POST['yim']))
 		$user->yim = wp_specialchars(trim($_POST['yim']));
 
-	$errors = array ();
+	$errors = new WP_Error();
 
 	/* checking that username has been typed */
 	if ($user->user_login == '')
-		$errors['user_login'] = __('<strong>ERROR</strong>: Please enter a username.');
+		$errors->add('user_login', __('<strong>ERROR</strong>: Please enter a username.'));
 
 	/* checking the password has been typed twice */
 	do_action('check_passwords', array ($user->user_login, & $pass1, & $pass2));
 
 	if (!$update) {
 		if ($pass1 == '' || $pass2 == '')
-			$errors['pass'] = __('<strong>ERROR</strong>: Please enter your password twice.');
+			$errors->add('pass', __('<strong>ERROR</strong>: Please enter your password twice.'));
 	} else {
 		if ((empty ($pass1) && !empty ($pass2)) || (empty ($pass2) && !empty ($pass1)))
-			$errors['pass'] = __("<strong>ERROR</strong>: you typed your new password only once.");
+			$errors->add('pass', __("<strong>ERROR</strong>: you typed your new password only once."));
 	}
 
 	/* Check for "\" in password */
 	if( strpos( " ".$pass1, "\\" ) )
-		$errors['pass'] = __('<strong>ERROR</strong>: Passwords may not contain the character "\\".');
+		$errors->add('pass', __('<strong>ERROR</strong>: Passwords may not contain the character "\\".'));
 
 	/* checking the password has been typed twice the same */
 	if ($pass1 != $pass2)
-		$errors['pass'] = __('<strong>ERROR</strong>: Please type the same password in the two password fields.');
+		$errors->add('pass', __('<strong>ERROR</strong>: Please type the same password in the two password fields.'));
 
 	if (!empty ($pass1))
 		$user->user_pass = $pass1;
 
 	if ( !validate_username($user->user_login) )
-		$errors['user_login'] = __('<strong>ERROR</strong>: This username is invalid.  Please enter a valid username.');
+		$errors->add('user_login', __('<strong>ERROR</strong>: This username is invalid.  Please enter a valid username.'));
 
 	if (!$update && username_exists($user->user_login))
-		$errors['user_login'] = __('<strong>ERROR</strong>: This username is already registered, please choose another one.');
+		$errors->add('user_login', __('<strong>ERROR</strong>: This username is already registered, please choose another one.'));
 
 	/* checking e-mail address */
 	if (empty ($user->user_email)) {
-		$errors['user_email'] = __("<strong>ERROR</strong>: please type an e-mail address");
+		$errors->add('user_email', __("<strong>ERROR</strong>: please type an e-mail address"));
 	} else
 		if (!is_email($user->user_email)) {
-			$errors['user_email'] = __("<strong>ERROR</strong>: the email address isn't correct");
+			$errors->add('user_email', __("<strong>ERROR</strong>: the email address isn't correct"));
 		}
 
-	if (count($errors) != 0)
+	if ( $errors->get_error_codes() )
 		return $errors;
 
 	if ($update) {
@@ -468,8 +491,7 @@ function edit_user($user_id = 0) {
 		$user_id = wp_insert_user(get_object_vars($user));
 		wp_new_user_notification($user_id);
 	}
-
-	return $errors;
+	return $user_id;
 }
 
 
@@ -690,6 +712,33 @@ function page_rows($parent = 0, $level = 0, $pages = 0, $hierarchy = true) {
 <?php
 		if ( $hierarchy) page_rows($id, $level + 1, $pages);
 	}
+}
+
+function user_row( $user_object, $style = '' ) {
+	if ( !(is_object($user_object) && is_a($user_object, 'WP_User')) )
+		$user_object = new WP_User( (int) $user_object );
+	$email = $user_object->user_email;
+	$url = $user_object->user_url;
+	$short_url = str_replace('http://', '', $url);
+	$short_url = str_replace('www.', '', $short_url);
+	if ('/' == substr($short_url, -1))
+		$short_url = substr($short_url, 0, -1);
+	if (strlen($short_url) > 35)
+		$short_url =  substr($short_url, 0, 32).'...';
+	$numposts = get_usernumposts($user_object->ID);
+	if (0 < $numposts) $numposts = "<a href='edit.php?author=$user_object->ID' title='" . __('View posts') . "'>$numposts</a>";
+	$r = "<tr id='user-$user_object->ID'$style>
+		<td><input type='checkbox' name='users[]' id='user_{$user_object->ID}' value='{$user_object->ID}' /> <label for='user_{$user_object->ID}'>{$user_object->ID}</label></td>
+		<td><label for='user_{$user_object->ID}'><strong>$user_object->user_login</strong></label></td>
+		<td><label for='user_{$user_object->ID}'>$user_object->first_name $user_object->last_name</label></td>
+		<td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
+		<td><a href='$url' title='website: $url'>$short_url</a></td>";
+	$r .= "\n\t\t<td align='right'>$numposts</td>";
+	$r .= "\n\t\t<td>";
+	if (current_user_can('edit_users'))
+		$r .= "<a href='user-edit.php?user_id=$user_object->ID' class='edit'>".__('Edit')."</a>";
+	$r .= "</td>\n\t</tr>";
+	return $r;
 }
 
 function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0) {

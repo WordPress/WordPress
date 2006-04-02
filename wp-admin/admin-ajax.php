@@ -209,6 +209,25 @@ case 'update-meta' :
 	header('Content-type: text/xml');
 	die($r);
 	break;
+case 'add-user' :
+	if ( !current_user_can('edit_users') )
+		die('-1');
+	require_once( ABSPATH . WPINC . '/registration-functions.php');
+	$user_id = add_user();
+	if ( is_wp_error( $user_id ) ) {
+		foreach( $user_id->get_error_codes() as $code)
+                        foreach( $user_id->get_error_messages($code) as $message )
+                                 echo "$message<br />";
+	exit;
+	} elseif ( !$user_id ) {
+		die('0');
+	}
+	$r  = "<?xml version='1.0' standalone='yes'?><ajaxresponse><user><id>$user_id</id><newitem><![CDATA[<table><tbody>";
+	$r .= user_row( $user_id );
+	$r .= "</tbody></table>]]></newitem></user></ajaxresponse>";
+	header('Content-type: text/xml');
+	die($r);
+	break;
 default :
 	die('0');
 	break;
