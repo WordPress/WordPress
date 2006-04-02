@@ -166,7 +166,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 3308 )
 		upgrade_160();
 
-	if ( $wp_current_db_version < 3582 )
+	if ( $wp_current_db_version < 3672 )
 		upgrade_210();
 
 	$wp_rewrite->flush_rules();

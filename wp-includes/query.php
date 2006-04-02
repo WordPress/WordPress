@@ -505,7 +505,6 @@ class WP_Query {
 		$result = '';
 		$where = '';
 		$limits = '';
-		$distinct = '';
 		$join = '';
 
 		if ( !isset($q['post_type']) )
@@ -822,15 +821,6 @@ class WP_Query {
 				$q['orderby'] = 'post_date '.$q['order'];
 		}
 
-		//$now = gmdate('Y-m-d H:i:59');
-		
-		//only select past-dated posts, except if a logged in user is viewing a single: then, if they
-		//can edit the post, we let them through
-		//if ($pagenow != 'post.php' && $pagenow != 'edit.php' && !($this->is_single && $user_ID)) {
-		//	$where .= " AND post_date_gmt <= '$now'";
-		//	$distinct = 'DISTINCT';
-		//}
-
 		if ( $this->is_attachment ) {
 			$where .= ' AND (post_type = "attachment")';
 		} elseif ($this->is_page) {
@@ -842,8 +832,6 @@ class WP_Query {
 
 			if ( is_admin() )
 				$where .= " OR post_status = 'future' OR post_status = 'draft'";
-			else
-				$distinct = 'DISTINCT';
 	
 			if ( is_user_logged_in() )
 				$where .= " OR post_author = $user_ID AND post_status = 'private'))";
@@ -884,11 +872,13 @@ class WP_Query {
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 		$where = apply_filters('posts_where_paged', $where);
-		$groupby = " $wpdb->posts.ID ";
+		$groupby = '';
 		$groupby = apply_filters('posts_groupby', $groupby);
+		if ( ! empty($groupby) )
+			$groupby = 'GROUP BY ' . $groupby;
 		$join = apply_filters('posts_join_paged', $join);
 		$orderby = apply_filters('posts_orderby', $q['orderby']); 
-		$request = " SELECT $distinct * FROM $wpdb->posts $join WHERE 1=1" . $where . " GROUP BY " . $groupby . " ORDER BY " . $orderby . " $limits";
+		$request = " SELECT * FROM $wpdb->posts $join WHERE 1=1 $where $groupby ORDER BY $orderby $limits";
 		$this->request = apply_filters('posts_request', $request);
 
 		$this->posts = $wpdb->get_results($this->request);
