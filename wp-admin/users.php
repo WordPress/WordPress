@@ -195,8 +195,7 @@ default:
 	<div class="error">
 		<ul>
 		<?php
-		foreach( $errors->get_error_codes() as $code)
-			foreach( $errors->get_error_messages($code) as $message )
+			foreach ( $errors->get_error_messages() as $message )
 				 echo "<li>$message</li>";
 		?>
 		</ul>

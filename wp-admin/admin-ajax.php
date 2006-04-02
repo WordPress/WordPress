@@ -215,9 +215,8 @@ case 'add-user' :
 	require_once( ABSPATH . WPINC . '/registration-functions.php');
 	$user_id = add_user();
 	if ( is_wp_error( $user_id ) ) {
-		foreach( $user_id->get_error_codes() as $code)
-                        foreach( $user_id->get_error_messages($code) as $message )
-                                 echo "$message<br />";
+		foreach( $user_id->get_error_messages() as $message )
+			echo "$message<br />";
 	exit;
 	} elseif ( !$user_id ) {
 		die('0');

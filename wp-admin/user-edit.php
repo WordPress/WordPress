@@ -63,9 +63,8 @@ if (!current_user_can('edit_users'))
 <div class="error">
 	<ul>
 	<?php
-	foreach( $errors->get_error_codes() as $code)
-		foreach( $errors->get_error_messages($code) as $message )
-			echo "<li>$message</li>";
+	foreach( $errors->get_error_messages() as $message )
+		echo "<li>$message</li>";
 	?>
 	</ul>
 </div>

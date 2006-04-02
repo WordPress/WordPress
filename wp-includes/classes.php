@@ -363,7 +363,16 @@ class WP_Error {
 		return $codes[0];	
 	}
 
-	function get_error_messages($code) {
+	function get_error_messages($code = '') {
+		// Return all messages if no code specified.
+		if ( empty($code) ) {
+			$all_messages = array();
+			foreach ( $this->errors as $code => $messages )
+				$all_messages = array_merge($all_messages, $messages);
+
+			return $all_messages;
+		}
+
 		if ( isset($this->errors[$code]) )
 			return $this->errors[$code];
 		else
