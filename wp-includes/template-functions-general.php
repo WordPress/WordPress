@@ -58,7 +58,9 @@ function wp_meta() {
 
 function bloginfo($show='') {
 	$info = get_bloginfo($show);
-	if ( ! (strstr($info, 'url') || strstr($info, 'directory')) ) {
+	if (!strstr($show, 'url') && //don't filter URLs
+		!strstr($show, 'directory') &&
+		!strstr($show, 'home')) {
 		$info = apply_filters('bloginfo', $info, $show);
 		$info = convert_chars($info);
 	}
