@@ -27,9 +27,16 @@ function wp_install($blog_title, $user_name, $user_email, $public, $meta='') {
 	if ( ! $public )
 		update_option('default_pingback_flag', 0);
 
-	// Create default user.
-	$random_password = substr(md5(uniqid(microtime())), 0, 6);
-	$user_id = wp_create_user($user_name, $random_password, $user_email);
+	// Create default user.  If the user already exists, the user tables are
+	// being shared among blogs.  Just set the role in that case.
+	$user_id = username_exists($user_name);
+	if ( !$user_id ) {
+		$random_password = substr(md5(uniqid(microtime())), 0, 6);
+		$user_id = wp_create_user($user_name, $random_password, $user_email);
+	} else {
+		$random_password = __('User already exists.  Password inherited.');
+	}
+
 	$user = new WP_User($user_id);
 	$user->set_role('administrator');
 
