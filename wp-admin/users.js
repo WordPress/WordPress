@@ -16,6 +16,5 @@ function addUserSubmit() {
 	var roleEl = document.getElementById('role');
 	var role = roleEl.options[roleEl.selectedIndex].value;
 	if ( !theUserLists['role-' + role] ) return true;
-	theUserLists['role-' + role].clearInputs.push('user_login', 'first_name', 'last_name', 'email', 'url', 'pass1', 'pass2', 'role');
 	return theUserLists['role-' + role].ajaxAdder('user', 'adduser');
 }

@@ -7,20 +7,20 @@ function deleteSomething(what,id,message){if(!message)message="<?php printf(__('
 function dimSomething(what,id,dimClass){return theList.ajaxDimmer(what,id,dimClass);}
 
 function WPAjax(file, responseEl){//class WPAjax extends sack
-	this.getResponseElement=function(r){var p=document.getElementById(r+'-p');if(!p){p=document.createElement('span');p.id=r+'ajax-response-p';document.getElementById(r).appendChild(p);}this.myResponseElement=p;	}
+	this.getResponseElement=function(r){var p=document.getElementById(r+'-p');if(!p){p=document.createElement('span');p.id=r+'-p';document.getElementById(r).appendChild(p);}this.myResponseElement=p;	}
 	this.parseAjaxResponse=function(){
-		if(isNaN(this.response)){this.myResponseElement.innerHTML='<div class="error">'+this.response+'</div>';return false;}
+		if(isNaN(this.response)){this.myResponseElement.innerHTML='<div class="error"><p>'+this.response+'</p></div>';return false;}
 		this.response=parseInt(this.response,10);
-		if(-1==this.response){this.myResponseElement.innerHTML="<?php _e("You don't have permission to do that."); ?>";return false;}
-		else if(0==this.response){this.myResponseElement.innerHTML="<?php _e("Something odd happened. Try refreshing the page? Either that or what you tried to change never existed in the first place."); ?>";return false;}
+		if(-1==this.response){this.myResponseElement.innerHTML="<div class='error'><p><?php _e("You don't have permission to do that."); ?></p></div>";return false;}
+		else if(0==this.response){this.myResponseElement.innerHTML="<div class='error'><p><?php _e("Something odd happened. Try refreshing the page? Either that or what you tried to change never existed in the first place."); ?></p></div>";return false;}
 		return true;
 	}
 	this.parseAjaxResponseXML=function(){
 		if(this.responseXML&&typeof this.responseXML=='object')return true;
-		if(isNaN(this.response)){this.myResponseElement.innerHTML='<div class="error">'+this.response+'</div>';return false;}
+		if(isNaN(this.response)){this.myResponseElement.innerHTML='<div class="error"><p>'+this.response+'</p></div>';return false;}
 		var r=parseInt(this.response,10);
-		if(-1==r){this.myResponseElement.innerHTML="<?php _e("You don't have permission to do that."); ?>";}
-		else if(0==r){this.myResponseElement.innerHTML="<?php _e("Invalid Entry."); ?>";}
+		if(-1==r){this.myResponseElement.innerHTML="<div class='error'><p><?php _e("You don't have permission to do that."); ?></p></div>";}
+		else if(0==r){this.myResponseElement.innerHTML="<div class='error'><p><?php _e("Invalid Entry."); ?></p></div>";}
 		return false;
 	}
 	this.init(file,responseEl);
@@ -36,7 +36,7 @@ function WPAjax(file, responseEl){//class WPAjax extends sack
 function listMan(theListId){
 	this.theList=null;
 	this.ajaxRespEl=null;
-	this.inputData='';this.clearInputs=new Array();
+	this.inputData='';this.clearInputs=new Array();this.showLink=1;
 	this.topAdder=0;this.alt='alternate';this.recolorPos;this.reg_color='#FFFFFF';this.alt_color='#F1F1F1';
 	var listType;var listItems;
 	self.aTrap=0;
@@ -57,10 +57,12 @@ function listMan(theListId){
 				if(exists)tempObj.replaceListItem(exists.id,getNodeValue(newItems[c],'newitem'),newItems.length,update);
 				else tempObj.addListItem(getNodeValue(newItems[c],'newitem'),newItems.length);
 			}}
-			this.myResponseElement.innerHTML='';tempObj.inputData='';
+			tempObj.inputData='';
+			if(tempObj.showLink){this.myResponseElement.innerHTML='<div id="jumplink" class="updated fade"><p><a href="#'+what+'-'+id+'"><?php _e('Jump to new item'); ?></a></p></div>';}
+			else this.myResponseElement.innerHTML='';
 			for(var i=0;i<tempObj.clearInputs.length;i++){try{var theI=document.getElementById(tempObj.clearInputs[i]);if(theI.tagName.match(/select/i))theI.selectedIndex=0;else theI.value='';}catch(e){}}
 			if(onComplete&&typeof onComplete=='function')onComplete();
-			tempObj.recolorList(tempObj.recolorPos,1000)
+			tempObj.recolorList(tempObj.recolorPos,1000);
 		}
 		this.ajaxAdd.runAJAX('action='+(update?'update-':'add-')+what+this.inputData);
 		return false;
@@ -123,9 +125,9 @@ function listMan(theListId){
 			for(var i=0;i<inputs[a].length;i++){
 				if('action'==inputs[a][i].name)continue;
 				if('text'==inputs[a][i].type||'password'==inputs[a][i].type||'hidden'==inputs[a][i].type||inputs[a][i].tagName.match(/textarea/i)){
-					this.inputData+='&'+inputs[a][i].name+'='+encodeURIComponent(inputs[a][i].value);
+					this.inputData+='&'+inputs[a][i].name+'='+encodeURIComponent(inputs[a][i].value);if('hidden'!=inputs[a][i].type)this.clearInputs.push(inputs[a][i].id);
 				}else if(inputs[a][i].tagName.match(/select/i)){
-					this.inputData+='&'+inputs[a][i].name+'='+encodeURIComponent(inputs[a][i].options[inputs[a][i].selectedIndex].value);
+					this.inputData+='&'+inputs[a][i].name+'='+encodeURIComponent(inputs[a][i].options[inputs[a][i].selectedIndex].value);this.clearInputs.push(inputs[a][i].id);
 				}
 			}	
 		}

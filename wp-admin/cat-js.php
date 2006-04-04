@@ -2,7 +2,7 @@
 require_once('../wp-config.php');
 header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
 ?>
-addLoadEvent(function(){catList=new listMan('categorychecklist');catList.ajaxRespEl='jaxcat';catList.clearInputs.push('newcat');catList.topAdder=1;catList.alt=0});
+addLoadEvent(function(){catList=new listMan('categorychecklist');catList.ajaxRespEl='jaxcat';catList.topAdder=1;catList.alt=0;catList.showLink=0;});
 addLoadEvent(newCatAddIn);
 function newCatAddIn() {
 	if ( !document.getElementById('jaxcat') ) return false;

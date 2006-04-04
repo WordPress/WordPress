@@ -627,7 +627,7 @@ table .vers, table .name {
 	width: 170px;
 }
 
-#templateside h3, #postcustom p {
+#templateside h3, #postcustom p.submit {
 	margin: 0;
 }
 
@@ -967,4 +967,7 @@ input#catadd { 	background: #a4a4a4;
 #jaxcat {
 	margin: 0;
 	padding: 0;
+}
+#ajax-response.alignleft {
+	margin-left: 2em;
 }

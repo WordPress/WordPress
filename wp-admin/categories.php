@@ -147,8 +147,6 @@ cat_rows();
 	</tbody>
 </table>
 
-<div id="ajax-response"></div>
-
 </div>
 
 <?php if ( current_user_can('manage_categories') ) : ?>
@@ -159,14 +157,16 @@ cat_rows();
 <div class="wrap">
     <h2><?php _e('Add New Category') ?></h2>
     <form name="addcat" id="addcat" action="categories.php" method="post">
-        
-        <p><?php _e('Name:') ?><br />
+        <div class="alignleft"><?php _e('Name:') ?><br />
         <input type="text" name="cat_name" id="cat_name" value="" /></p>
         <p><?php _e('Category parent:') ?><br />
         <select name='category_parent' id='category_parent' class='postform'>
         <option value='0'><?php _e('None') ?></option>
         <?php wp_dropdown_cats(0); ?>
-        </select></p>
+        </select>
+	</div>
+	<div id="ajax-response" class="alignleft"></div>
+	<br class="clear" />
         <p><?php _e('Description: (optional)') ?> <br />
         <textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
         <p class="submit"><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add Category &raquo;') ?>" /></p>
