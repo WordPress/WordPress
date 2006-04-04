@@ -50,6 +50,8 @@ if ( $drafts = get_users_drafts( $user_ID ) ) { ?>
 $post = get_default_post_to_edit();
 include('edit-form-advanced.php');
 ?>
+
+<?php if ( $is_NS4 || $is_gecko || $is_winIE ) { ?>
 <div class="wrap">
 <h3><?php _e('WordPress bookmarklet'); ?></h3>
 <p><?php _e('Right click on the following link and choose "Add to favorites" to create a posting shortcut.'); ?></p>
@@ -87,4 +89,6 @@ window.open ("profile.php?action=IErightclick", "oneclickbookmarklet", "width=50
 ?>
 </p>
 </div>
+<?php } ?>
+
 <?php include('admin-footer.php'); ?>

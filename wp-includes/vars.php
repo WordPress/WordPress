@@ -14,20 +14,18 @@ if (preg_match('#([^/]+.php)#', $PHP_SELF, $self_matches)) {
 
 // Simple browser detection
 $is_lynx = 0; $is_gecko = 0; $is_winIE = 0; $is_macIE = 0; $is_opera = 0; $is_NS4 = 0;
-if (!isset($HTTP_USER_AGENT)) {
-	$HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
-}
-if (preg_match('/Lynx/', $HTTP_USER_AGENT)) {
+
+if (preg_match('/Lynx/', $_SERVER['HTTP_USER_AGENT'])) {
 	$is_lynx = 1;
-} elseif (preg_match('/Gecko/', $HTTP_USER_AGENT)) {
+} elseif (preg_match('/Gecko/', $_SERVER['HTTP_USER_AGENT'])) {
 	$is_gecko = 1;
-} elseif ((preg_match('/MSIE/', $HTTP_USER_AGENT)) && (preg_match('/Win/', $HTTP_USER_AGENT))) {
+} elseif ((preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) && (preg_match('/Win/', $_SERVER['HTTP_USER_AGENT']))) {
 	$is_winIE = 1;
-} elseif ((preg_match('/MSIE/', $HTTP_USER_AGENT)) && (preg_match('/Mac/', $HTTP_USER_AGENT))) {
+} elseif ((preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) && (preg_match('/Mac/', $_SERVER['HTTP_USER_AGENT']))) {
 	$is_macIE = 1;
-} elseif (preg_match('/Opera/', $HTTP_USER_AGENT)) {
+} elseif (preg_match('/Opera/', $_SERVER['HTTP_USER_AGENT'])) {
 	$is_opera = 1;
-} elseif ((preg_match('/Nav/', $HTTP_USER_AGENT) ) || (preg_match('/Mozilla\/4\./', $HTTP_USER_AGENT))) {
+} elseif ((preg_match('/Nav/', $_SERVER['HTTP_USER_AGENT']) ) || (preg_match('/Mozilla\/4\./', $_SERVER['HTTP_USER_AGENT']))) {
 	$is_NS4 = 1;
 }
 $is_IE    = (($is_macIE) || ($is_winIE));
