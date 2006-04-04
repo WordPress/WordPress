@@ -569,7 +569,7 @@ function checked($checked, $current) {
 
 function return_categories_list($parent = 0) {
 	global $wpdb;
-	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY category_count DESC LIMIT 100");
+	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY category_count DESC");
 }
 
 function sort_cats($cat1, $cat2) {
@@ -765,7 +765,7 @@ function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $lev
 
 function return_link_categories_list($parent = 0) {
 	global $wpdb;
-	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY link_count DESC LIMIT 100");
+	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY link_count DESC");
 }
 
 function wp_create_thumbnail($file, $max_side, $effect = '') {
