@@ -383,6 +383,7 @@ function get_bookmarks($args = '') {
 	if ($limit != -1)
 		$query .= " LIMIT $limit";
 
-	return $wpdb->get_results($query);
+	$results = $wpdb->get_results($query);
+	return apply_filters('get_bookmarks', $results, $r);
 }
 ?>

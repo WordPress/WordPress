@@ -450,7 +450,7 @@ function &get_categories($args = '') {
 	if ( $child_of || $hierarchical )
 		$categories = & _get_cat_children($child_of, $categories);
 
-	return $categories;
+	return apply_filters('get_categories', $categories);
 }
 
 ?>
