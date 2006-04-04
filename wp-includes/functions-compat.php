@@ -44,6 +44,7 @@ function printr($var, $do_not_echo = false) {
 	if (!$do_not_echo) {
 	  echo "<pre>$code</pre>";
 	}
+	ob_end_clean();
 	return $code;
 }
 
