@@ -1077,11 +1077,15 @@ function insert_with_markers($filename, $marker, $insertion) {
 		$foundit = false;
 		if ($markerdata) {
 			$state = true;
-			foreach ($markerdata as $markerline) {
+			foreach ($markerdata as $n => $markerline) {
 				if (strstr($markerline, "# BEGIN {$marker}"))
 					$state = false;
-				if ($state)
-					fwrite($f, "{$markerline}\n");
+				if ($state) {
+					if ( $n + 1 < count($markerdata) )
+						fwrite($f, "{$markerline}\n");
+					else
+						fwrite($f, "{$markerline}");
+				}
 				if (strstr($markerline, "# END {$marker}")) {
 					fwrite($f, "# BEGIN {$marker}\n");
 					if (is_array($insertion))
