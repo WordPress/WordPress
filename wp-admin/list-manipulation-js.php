@@ -26,7 +26,7 @@ function WPAjax(file, responseEl){//class WPAjax extends sack
 	this.init(file,responseEl);
 }	WPAjax.prototype=new sack;
 	WPAjax.prototype.init=function(f,r){
-		this.URLString=this.encVar('cookie', document.cookie);
+		this.encVar('cookie', document.cookie);
 		this.requestFile=f;this.getResponseElement(r);this.method='POST';
 		this.onLoading=function(){this.myResponseElement.innerHTML="<?php _e('Sending Data...'); ?>";};
 		this.onLoaded=function(){this.myResponseElement.innerHTML="<?php _e('Data Sent...'); ?>";};
@@ -108,7 +108,7 @@ function listMan(theListId){
 		if(!update){this.removeListItem(id,true);this.addListItem(h,tot);return;}
 		var newItem=this.makeEl(h);
 		var oldItem=document.getElementById(id);
-		var pos=this.getListPos(oldItem.id);if(this.alt&&!(pos%2))newItem.className+=' '+this.alt;
+		var pos=this.getListPos(oldItem.id,1);if(this.alt&&!(pos%2))newItem.className+=' '+this.alt;
 		oldItem.parentNode.replaceChild(newItem,oldItem);
 		Fat.fade_element(newItem.id);
 	}
@@ -159,4 +159,4 @@ function killSubmit(code,e){if(!e){if(window.event)e=window.event;else return;}v
 //Pretty func from ALA http://www.alistapart.com/articles/gettingstartedwithajax
 function getNodeValue(tree,el){return tree.getElementsByTagName(el)[0].firstChild.nodeValue;}
 //Generic but lame JS closure
-function encloseFunc(f){var a=arguments[1];return function(){f(a);}}
+function encloseFunc(f){var a=arguments[1];return function(){return f(a);}}
