@@ -283,6 +283,7 @@ TinyMCE_Windows.prototype.open = function(url, name, features) {
 	html += '<title>Wrapper iframe</title>';
 	html += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 	html += '<link href="' + this.getParam("css_file") + '" rel="stylesheet" type="text/css" />';
+	if ( this.isMac ) html += '<style type="text/css">.mceWindowTitle{float:none;margin:0;text-align:center;}.mceWindowClose{float:none;position:absolute;left:0px;top:0px;}</style>';
 	html += '</head>';
 	html += '<body onload="parent.mcWindows.onLoad(\'' + name + '\');">';
 
