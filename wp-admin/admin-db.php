@@ -317,7 +317,7 @@ function wp_insert_link($linkdata) {
 
 	// Make sure we set a valid category
 	if (0 == count($link_category) || !is_array($link_category)) {
-		$link_category = array(get_option('default_category'));
+		$link_category = array(get_option('default_link_category'));
 	}
 
 	if ( $update ) {
@@ -404,7 +404,7 @@ function wp_set_link_cats($link_ID = 0, $link_categories = array()) {
 	global $wpdb;
 	// If $link_categories isn't already an array, make it one:
 	if (!is_array($link_categories) || 0 == count($link_categories))
-		$link_categories = array(get_option('default_category'));
+		$link_categories = array(get_option('default_link_category'));
 
 	$link_categories = array_unique($link_categories);
 
