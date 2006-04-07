@@ -266,8 +266,8 @@ if ( 'unapproved' == $comment_status = wp_get_comment_status($comment->comment_I
   <?php comment_time('g:m:s a') ?> 
   <?php 
 			if ( current_user_can('edit_post', $post->ID) ) {
-				echo "[ <a href='post.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
-				echo ' - <a href="post.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete') . '</a> ';
+				echo "[ <a href='comment.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
+				echo ' - <a href="comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete') . '</a> ';
 				if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
 					echo '<span class="unapprove"> - <a href="comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
 					echo '<span class="approve"> - <a href="comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
