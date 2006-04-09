@@ -717,7 +717,7 @@ function &get_page(&$page, $output = OBJECT) {
 function walk_tree($tree_type, $elements, $to_depth, $start_element_callback, $end_element_callback = '', $start_level_callback = '', $end_level_callback = '') {
 	$args = array_slice(func_get_args(), 7);
 	$parents = array();
-	$depth = 0;
+	$depth = 1;
 	$previous_element = '';
 	$output = '';
 
@@ -758,24 +758,25 @@ function walk_tree($tree_type, $elements, $to_depth, $start_element_callback, $e
 		// Walk the tree.
 		if ( !empty($previous_element) && ($element->$parent_field == $previous_element->$id_field) ) {
 			// Previous element is my parent. Descend a level.
+			$depth++; //always do this so when we start the element further down, we know where we are
 			array_unshift($parents, $previous_element);
-			$depth++;
-			if ( !$to_depth || ($depth < $to_depth) )
+			if ( !$to_depth || ($depth < $to_depth) ) { //only descend if we're below $to_depth
 				if ( !empty($start_level_callback) ) {
 					$cb_args = array_merge( array($output, $depth), $args);
 					$output = call_user_func_array($start_level_callback, $cb_args);
 				}
-		} else if ( $depth && ($element->$parent_field == $previous_element->$parent_field) ) {
-			// On the same level as previous element.
-			if ( !$to_depth || ($depth < $to_depth) ) {
+			}
+		} else if ( $element->$parent_field == $previous_element->$parent_field ) {
+			// On the same level as previous element, so close the previous
+			if ( !$to_depth || ($depth <= $to_depth) ) {
 				if ( !empty($end_element_callback) ) {
 					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
 					$output = call_user_func_array($end_element_callback, $cb_args);
 				}
 			}
-		} else if ( $depth ) {
+		} else if ( $depth > 1 ) {
 			// Ascend one or more levels.
-			if ( !$to_depth || ($depth < $to_depth) ) {
+			if ( !$to_depth || ($depth <= $to_depth) ) {
 				if ( !empty($end_element_callback) ) {
 					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
 					$output = call_user_func_array($end_element_callback, $cb_args);
@@ -800,7 +801,7 @@ function walk_tree($tree_type, $elements, $to_depth, $start_element_callback, $e
 			}
 		} else if ( !empty($previous_element) ) {
 			// Close off previous element.
-			if ( !$to_depth || ($depth < $to_depth) ) {
+			if ( !$to_depth || ($depth <= $to_depth) ) {
 				if ( !empty($end_element_callback) ) {
 					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
 					$output = call_user_func_array($end_element_callback, $cb_args);
@@ -809,7 +810,7 @@ function walk_tree($tree_type, $elements, $to_depth, $start_element_callback, $e
 		}
 
 		// Start the element.
-		if ( !$to_depth || ($depth < $to_depth) ) {
+		if ( !$to_depth || ($depth <= $to_depth) ) {
 			if ( !empty($start_element_callback) && ($element->$id_field != 0) ) {
 				$cb_args = array_merge( array($output, $element, $depth), $args);
 				$output = call_user_func_array($start_element_callback, $cb_args);
