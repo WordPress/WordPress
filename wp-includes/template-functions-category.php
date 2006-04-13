@@ -219,7 +219,7 @@ function wp_list_categories($args = '') {
 		'order' => 'asc', 'style' => 'list', 'show_last_update' => 0,
 		'show_count' => 0, 'hide_empty' => 1, 'use_desc_for_title' => 1,
 		'child_of' => 0, 'feed' => '', 'feed_image' => '', 'exclude' => '',
-		'hierarchical' => false, 'title_li' => '');
+		'hierarchical' => true, 'title_li' => '');
 	$r = array_merge($defaults, $r);
 	$r['include_last_update_time'] = $r['show_date'];
 	extract($r);
