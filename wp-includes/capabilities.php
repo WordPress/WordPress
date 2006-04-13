@@ -232,6 +232,14 @@ class WP_User {
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 	}
 
+	function remove_all_caps() {
+		global $wpdb;
+		$this->caps = array();
+		update_usermeta($this->id, $this->cap_key, '');
+		update_usermeta($this->id, $wpdb->prefix.'user_level', '');
+		$this->get_role_caps();
+	}
+
 	//has_cap(capability_or_role_name) or
 	//has_cap('edit_post', post_id)
 	function has_cap($cap) {

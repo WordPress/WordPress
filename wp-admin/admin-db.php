@@ -274,6 +274,13 @@ function wp_delete_user($id, $reassign = 'novalue') {
 	return true;
 }
 
+function wp_revoke_user($id) {
+	$id = (int) $id;
+	
+	$user = new WP_User($id);
+	$user->remove_all_caps();	
+}
+
 function get_link($link_id, $output = OBJECT) {
 	global $wpdb;
 
