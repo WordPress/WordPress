@@ -4,9 +4,9 @@
  * $Revision: $
  * $Date: $
  *
- * @version 1.07
+ * @version 1.08
  * @author Moxiecode
- * @copyright Copyright © 20052006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.
  *
  * This file compresses the TinyMCE JavaScript using GZip and
  * enables the browser to do two requests instead of one for each .js file.
@@ -15,7 +15,7 @@
 
 @require_once('../../../wp-config.php');
 
-gzip_compression();
+// gzip_compression();
 
 function wp_tinymce_lang($path) {
 	global $language;
@@ -119,7 +119,7 @@ function TinyMCE_echo($str) {
 	else
 		echo $str;
 }
-/* WP
+
 // Only gzip the contents if clients and server support it
 $encodings = array();
 
@@ -127,10 +127,12 @@ if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
 	$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
 
 // Check for gzip header or northon internet securities
-if ((in_array('gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
+if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
+	$enc = in_array('x-gzip', $encodings) ? "x-gzip" : "gzip";
+
 	// Use cached file if it exists but not in debug mode
 	if (file_exists($cacheFile) && !$debug) {
-		header("Content-Encoding: gzip");
+		header("Content-Encoding: " . $enc);
 		echo file_get_contents($cacheFile);
 		die;
 	}
@@ -139,11 +141,12 @@ if ((in_array('gzip', $encodings) || isset($_SERVER['---------------'])) && func
 		ob_start("ob_gzhandler");
 } else
 	$diskCache = false;
-WP */
+
 if ($index > -1) {
 	// Write main script and patch some things
 	if ($index == 0) {
 		TinyMCE_echo(wp_compact_tinymce_js(file_get_contents(realpath("tiny_mce" . $suffix . ".js")))); // WP
+		TinyMCE_echo('TinyMCE.prototype.orgLoadScript = TinyMCE.prototype.loadScript;');
 		TinyMCE_echo('TinyMCE.prototype.loadScript = function() {};var realTinyMCE = tinyMCE;');
 	} else
 		TinyMCE_echo('tinyMCE = realTinyMCE;');
@@ -151,14 +154,18 @@ if ($index > -1) {
 	// Do init based on index
 	TinyMCE_echo("tinyMCE.init(tinyMCECompressed.configs[" . $index . "]);");
 
+	// Load external plugins
+	if ($index == 0)
+		TinyMCE_echo("tinyMCECompressed.loadPlugins();");
+
 	// Load theme, language pack and theme language packs
 	if ($theme) {
-		TinyMCE_echo(wp_compact_tinymce_js(file_get_contents(realpath("themes/" . $theme . "/editor_template" . $suffix . ".js"))));
+		TinyMCE_echo(wp_compact_tinymce_js(file_get_contents(realpath("themes/" . $theme . "/editor_template" . $suffix . ".js")))); // WP
 		TinyMCE_echo(wp_tinymce_lang("themes/" . $theme . "/langs/%s.js")); // WP
 	}
 
 	/* WP if ($language) WP */
-		TinyMCE_echo(wp_tinymce_lang("langs/%s.js"));
+		TinyMCE_echo(wp_tinymce_lang("langs/%s.js")); // WP
 
 	// Load all plugins and their language packs
 	$plugins = explode(",", $plugins);
@@ -194,7 +201,7 @@ if ($index > -1) {
 		}
 
 		// Output
-		header("Content-Encoding: gzip");
+		header("Content-Encoding: " . $enc);
 		echo $cacheData;
 	}
 
@@ -205,6 +212,7 @@ if ($index > -1) {
 function TinyMCECompressed() {
 	this.configs = new Array();
 	this.loadedFiles = new Array();
+	this.externalPlugins = new Array();
 	this.loadAdded = false;
 	this.isLoaded = false;
 }
@@ -227,7 +235,8 @@ TinyMCECompressed.prototype.init = function(settings) {
 	this.configs[this.configs.length] = settings;
 	this.settings = settings;
 
-	scriptURL += "?theme=" + escape(this.getOnce(settings["theme"])) + "&language=" + escape(this.getOnce(settings["language"])) + "&plugins=" + escape(this.getOnce(settings["plugins"])) + "&lang=" + settings["language"] + "&index=" + escape(this.configs.length-1);
+	scriptURL += (scriptURL.indexOf('?') == -1) ? '?' : '&';
+	scriptURL += "theme=" + escape(this.getOnce(settings["theme"])) + "&language=" + escape(this.getOnce(settings["language"])) + "&plugins=" + escape(this.getOnce(settings["plugins"])) + "&lang=" + settings["language"] + "&index=" + escape(this.configs.length-1);
 	document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + scriptURL + '"></script>');
 
 	if (!this.loadAdded) {
@@ -244,6 +253,7 @@ TinyMCECompressed.prototype.onLoad = function() {
 	tinyMCE = realTinyMCE;
 	TinyMCE_Engine.prototype.onLoad();
 	tinyMCE._addUnloadEvents();
+
 	tinyMCE.isLoaded = true;
 }
 
@@ -255,11 +265,13 @@ TinyMCECompressed.prototype.addEvent = function(o, n, h) {
 }
 
 TinyMCECompressed.prototype.getOnce = function(str) {
-	var ar = str.split(',');
+	var ar = str.replace(/\s+/g, '').split(',');
 
 	for (var i=0; i<ar.length; i++) {
-		if (ar[i] == '')
+		if (ar[i] == '' || ar[i].charAt(0) == '-') {
+			ar[i] = null;
 			continue;
+		}
 
 		// Skip load
 		for (var x=0; x<this.loadedFiles.length; x++) {
@@ -283,7 +295,35 @@ TinyMCECompressed.prototype.getOnce = function(str) {
 	}
 
 	return str;
-}
+};
+
+TinyMCECompressed.prototype.loadPlugins = function() {
+	var i, ar;
+
+	TinyMCE.prototype.loadScript = TinyMCE.prototype.orgLoadScript;
+	tinyMCE = realTinyMCE;
+
+	ar = tinyMCECompressed.externalPlugins;
+	for (i=0; i<ar.length; i++)
+		tinyMCE.loadPlugin(ar[i].name, ar[i].url);
+
+	TinyMCE.prototype.loadScript = function() {};
+};
+
+TinyMCECompressed.prototype.loadPlugin = function(n, u) {
+	this.externalPlugins[this.externalPlugins.length] = {name : n, url : u};
+};
+
+TinyMCECompressed.prototype.importPluginLanguagePack = function(n, v) {
+	tinyMCE = realTinyMCE;
+	TinyMCE.prototype.loadScript = TinyMCE.prototype.orgLoadScript;
+	tinyMCE.importPluginLanguagePack(n, v);
+};
+
+TinyMCECompressed.prototype.addPlugin = function(n, p) {
+	tinyMCE = realTinyMCE;
+	tinyMCE.addPlugin(n, p);
+};
 
 var tinyMCE = new TinyMCECompressed();
 var tinyMCECompressed = tinyMCE;

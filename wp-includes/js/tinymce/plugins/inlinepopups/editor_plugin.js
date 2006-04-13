@@ -74,6 +74,8 @@ TinyMCE_Engine.prototype.openWindow = function(template, args) {
 	pos.absLeft += Math.round((elm.firstChild.clientWidth / 2) - (width / 2));
 	pos.absTop += Math.round((elm.firstChild.clientHeight / 2) - (height / 2));
 
+	url += tinyMCE.settings['imp_version'] ? (url.indexOf('?')==-1?'?':'&') + 'ver=' + tinyMCE.settings['imp_version'] : '';
+
 	mcWindows.open(url, mcWindows.idCounter++, "modal=yes,width=" + width+ ",height=" + height + ",resizable=" + resizable + ",scrollbars=" + scrollbars + ",statusbar=" + resizable + ",left=" + pos.absLeft + ",top=" + pos.absTop);
 };
 

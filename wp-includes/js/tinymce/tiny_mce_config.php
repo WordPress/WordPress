@@ -72,6 +72,7 @@ initArray = {
 	content_css : "<?php echo $mce_css; ?>",
 	valid_elements : "<?php echo $valid_elements; ?>",
 	save_callback : 'TinyMCE_wordpressPlugin.saveCallback',
+	imp_version : "<?php echo intval($_GET['ver']); ?>",
 <?php do_action('mce_options'); ?>
 	plugins : "<?php echo $plugins; ?>"
 };
