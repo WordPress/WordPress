@@ -278,6 +278,17 @@ function the_meta() {
 Pages
 */
 
+function walk_page_tree() {
+	$walker = new Walker_Page;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
+}
+
+function walk_page_dropdown_tree() {
+	$walker = new Walker_PageDropdown;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
+}
 
 function &get_page_children($page_id, $pages) {
 	global $page_cache;
@@ -381,7 +392,7 @@ function wp_dropdown_pages($args = '') {
 
 	if ( ! empty($pages) ) {
 		$output = "<select name='$name'>\n";
-		$output .= walk_page_tree($pages, $depth, '_page_dropdown_element', '', '', '', $selected);
+		$output .= walk_page_dropdown_tree($pages, $depth, $r);
 		$output .= "</select>\n";
 	}
 
@@ -389,20 +400,6 @@ function wp_dropdown_pages($args = '') {
 
 	if ( $echo )
 		echo $output;
-
-	return $output;
-}
-
-function _page_dropdown_element($output, $page, $depth, $selected) {
-	$pad = str_repeat('&nbsp;', $depth * 3);
-
-	$output .= "\t<option value=\"$page->ID\"";
-	if ( $page->ID == $selected )
-		$output .= ' selected="selected"';
-	$output .= '>';
-	$title = wp_specialchars($page->post_title);
-	$output .= "$pad$title";
-	$output .= "</option>\n";
 
 	return $output;
 }
@@ -428,7 +425,7 @@ function wp_list_pages($args = '') {
 
 		global $wp_query;
 		$current_page = $wp_query->get_queried_object_id();
-		$output .= walk_page_tree($pages, $r['depth'], '_page_list_element_start', '_page_list_element_end', '_page_list_level_start', '_page_list_level_end', $current_page, $r['show_date'], $r['date_format']);
+		$output .= walk_page_tree($pages, $depth, $current_page, $r['show_date'], $r['date_format']);
 
 		if ( $r['title_li'] )
 			$output .= '</ul></li>';
@@ -440,46 +437,6 @@ function wp_list_pages($args = '') {
 		echo $output;
 	else
 		return $output;
-}
-
-function _page_list_level_start($output, $depth) {
-	$indent = str_repeat("\t", $depth);
-	$output .= "$indent<ul>\n";
-	return $output;
-}
-
-function _page_list_level_end($output, $depth) {
-	$indent = str_repeat("\t", $depth);
-	$output .= "$indent</ul>\n";
-	return $output;
-}
-
-function _page_list_element_start($output, $page, $depth, $current_page, $show_date, $date_format) {
-	if ( $depth )
-		$indent = str_repeat("\t", $depth);
-
-	$css_class = 'page_item';
-	if ( $page->ID == $current_page )
-		$css_class .= ' current_page_item';
-
-	$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . wp_specialchars($page->post_title) . '">' . $page->post_title . '</a>';
-
-	if ( !empty($show_date) ) {
-		if ( 'modified' == $show_date )
-			$time = $page->post_modified;
-		else
-			$time = $page->post_date;
-
-		$output .= " " . mysql2date($date_format, $time);
-	}
-
-	return $output;
-}
-
-function _page_list_element_end($output, $page, $depth) {
-	$output .= "</li>\n";
-
-	return $output;
 }
 
 function the_attachment_link($id = 0, $fullsize = false, $max_dims = false) {

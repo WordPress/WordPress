@@ -1,5 +1,17 @@
 <?php
 
+function walk_category_tree() {
+	$walker = new Walker_Category;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
+}
+
+function walk_category_dropdown_tree() {
+	$walker = new Walker_CategoryDropdown;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
+}
+
 function get_the_category($id = false) {
 global $post, $category_cache;
 
@@ -185,7 +197,7 @@ function wp_dropdown_categories($args = '') {
 		else
 			$depth = -1; // Flat.
 
-		$output .= walk_category_tree($categories, $depth, '_category_dropdown_element', '', '', '', $selected, $r);
+		$output .= walk_category_dropdown_tree($categories, $depth, $r);
 		$output .= "</select>\n";
 	}
 
@@ -193,26 +205,6 @@ function wp_dropdown_categories($args = '') {
 
 	if ( $echo )
 		echo $output;
-
-	return $output;
-}
-
-function _category_dropdown_element($output, $category, $depth, $selected, $args) {
-	$pad = str_repeat('&nbsp;', $depth * 3);
-
-	$cat_name = apply_filters('list_cats', $category->cat_name, $category);
-	$output .= "\t<option value=\"".$category->cat_ID."\"";
-	if ( $category->cat_ID == $selected )
-		$output .= ' selected="selected"';
-	$output .= '>';
-	$output .= $cat_name;
-	if ( $args['show_count'] )
-		$output .= '&nbsp;&nbsp;('. $category->category_count .')';
-	if ( $args['show_last_update'] ) {
-		$format = 'Y-m-d';
-		$output .= '&nbsp;&nbsp;' . gmdate($format, $category->last_update_timestamp);
-	}
-	$output .= "</option>\n";
 
 	return $output;
 }
@@ -245,101 +237,19 @@ function wp_list_categories($args = '') {
 			$output .= __("No categories");
 	} else {
 		global $wp_query;
-		$current_category = $wp_query->get_queried_object_id();
+		$r['current_category'] = $wp_query->get_queried_object_id();
 		if ( $hierarchical )
 			$depth = 0;  // Walk the full depth.
 		else
 			$depth = -1; // Flat.
 
-		$output .= walk_category_tree($categories, $depth, '_category_list_element_start', '_category_list_element_end', '_category_list_level_start', '_category_list_level_end', $current_category, $r);
+		$output .= walk_category_tree($categories, $depth, $r);
 	}
 
 	if ( $title_li && $list )
 		$output .= '</ul></li>';
 			
 	echo apply_filters('list_cats', $output);
-}
-
-function _category_list_level_start($output, $depth, $cat, $args) {
-	if ( 'list' != $args['style'] )
-		return $output;
-
-	$indent = str_repeat("\t", $depth);
-	$output .= "$indent<ul class='children'>\n";
-	return $output;
-}
-
-function _category_list_level_end($output, $depth, $cat, $args) {
-	if ( 'list' != $args['style'] )
-		return $output;
-
-	$indent = str_repeat("\t", $depth);
-	$output .= "$indent</ul>\n";
-	return $output;
-}
-
-function _category_list_element_start($output, $category, $depth, $current_category, $args) {
-	extract($args);
-
-	$link = '<a href="' . get_category_link($category->cat_ID) . '" ';
-	if ( $use_desc_for_title == 0 || empty($category->category_description) )
-		$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name)) . '"';
-	else
-		$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category)) . '"';
-	$link .= '>';
-	$link .= apply_filters('list_cats', $category->cat_name, $category).'</a>';
-
-	if ( (! empty($feed_image)) || (! empty($feed)) ) {
-		$link .= ' ';
-
-		if ( empty($feed_image) )
-			$link .= '(';
-
-		$link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename) . '"';
-
-		if ( !empty($feed) ) {
-			$title = ' title="' . $feed . '"';
-			$alt = ' alt="' . $feed . '"';
-			$name = $feed;
-			$link .= $title;
-		}
-
-		$link .= '>';
-
-		if ( !empty($feed_image) )
-			$link .= "<img src='$feed_image' $alt$title" . ' />';
-		else
-			$link .= $name;
-		$link .= '</a>';
-		if (empty($feed_image))
-			$link .= ')';
-	}
-
-	if ( $show_count )
-		$link .= ' ('.intval($category->category_count).')';
-
-	if ( $show_date ) {
-		$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
-	}
-
-	if ( 'list' == $args['style'] ) {
-		$output .= "\t<li";
-		if ( ($category->cat_ID == $current_category) && is_category() )
-			$output .=  ' class="current-cat"';
-		$output .= ">$link\n";
-	} else {
-		$output .= "\t$link<br />\n";
-	}
-
-	return $output;
-}
-
-function _category_list_element_end($output, $category, $depth, $cat, $args) {
-	if ( 'list' != $args['style'] )
-		return $output;
-
-	$output .= "</li>\n";
-	return $output;
 }
 
 function in_category($category) { // Check if the current post is in the given category
