@@ -249,7 +249,7 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 			echo '	<li id="linkcat-' . $cat->cat_ID . '"><h2>' . $cat->cat_name . "</h2>\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
 			get_links($cat->cat_ID,
-				'<li>',"</li>","\n");
+				'<li>',"</li>","\n", true, 'name', false);
 
 			// Close the last category
 			echo "\n\t</ul>\n</li>\n";
