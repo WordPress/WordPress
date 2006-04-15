@@ -92,7 +92,7 @@ function get_page_link($id = false) {
 
 	$pagestruct = $wp_rewrite->get_page_permastruct();
 
-	if ( '' != $pagestruct ) {
+	if ( '' != $pagestruct && 'draft' != $post->post_status ) {
 		$link = get_page_uri($id);
 		$link = str_replace('%pagename%', $link, $pagestruct);
 		$link = get_settings('home') . "/$link/";
