@@ -1033,8 +1033,9 @@ function do_all_pings() {
  * Places two script links in <head>: one to get tinyMCE (big), one to configure and start it (small)
  */
 function tinymce_include() {
-	$src1 = get_settings('siteurl') . '/wp-includes/js/tinymce/tiny_mce_gzip.php?ver=04122006';
-	$src2 = get_settings('siteurl') . '/wp-includes/js/tinymce/tiny_mce_config.php?ver=04122006';
+	$ver = '04162006';
+	$src1 = get_settings('siteurl') . "/wp-includes/js/tinymce/tiny_mce_gzip.php?ver=$ver";
+	$src2 = get_settings('siteurl') . "/wp-includes/js/tinymce/tiny_mce_config.php?ver=$ver";
 
 	echo "<script type='text/javascript' src='$src1'></script>\n";
 	echo "<script type='text/javascript' src='$src2'></script>\n";
