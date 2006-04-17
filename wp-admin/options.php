@@ -95,7 +95,7 @@ default:
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
 
 foreach ($options as $option) :
-	$value = wp_specialchars($option->option_value);
+	$value = wp_specialchars($option->option_value, 'single');
 	echo "
 <tr>
 	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>

@@ -103,6 +103,8 @@ function wp_specialchars( $text, $quotes = 0 ) {
 	$text = str_replace('>', '&gt;', $text);
 	if ( 'double' === $quotes ) {
 		$text = str_replace('"', '&quot;', $text);
+	} elseif ( 'single' === $quotes ) {
+		$text = str_replace("'", '&#039;', $text);
 	} elseif ( $quotes ) {
 		$text = str_replace('"', '&quot;', $text);
 		$text = str_replace("'", '&#039;', $text);
