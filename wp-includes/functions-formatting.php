@@ -1023,4 +1023,13 @@ function wp_richedit_pre($text) {
 	return apply_filters('richedit_pre', $output);
 }
 
+function clean_url( $url ) {
+	if ('' == $url) return $url;
+	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $url);
+	$url = str_replace(';//', '://', $url);
+	$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
+	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
+	return $url;
+}
+
 ?>
