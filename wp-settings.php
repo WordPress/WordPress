@@ -132,6 +132,7 @@ require (ABSPATH . WPINC . '/functions-post.php');
 require (ABSPATH . WPINC . '/capabilities.php');
 require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/query.php');
+require (ABSPATH . WPINC . '/theme.php');
 require (ABSPATH . WPINC . '/template-functions-general.php');
 require (ABSPATH . WPINC . '/template-functions-links.php');
 require (ABSPATH . WPINC . '/template-functions-author.php');
