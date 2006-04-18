@@ -58,6 +58,91 @@ function add_rewrite_endpoint($name, $places) {
 	$wp_rewrite->add_endpoint($name, $places);
 }
 
+// examine a url (supposedly from this blog) and try to
+// determine the post ID it represents.
+function url_to_postid($url) {
+	global $wp_rewrite;
+
+	// First, check to see if there is a 'p=N' or 'page_id=N' to match against
+	preg_match('#[?&](p|page_id)=(\d+)#', $url, $values);
+	$id = intval($values[2]);
+	if ( $id ) return $id;
+
+	// Check to see if we are using rewrite rules
+	$rewrite = $wp_rewrite->wp_rewrite_rules();
+
+	// Not using rewrite rules, and 'p=N' and 'page_id=N' methods failed, so we're out of options
+	if ( empty($rewrite) )
+		return 0;
+
+	// $url cleanup by Mark Jaquith
+	// This fixes things like #anchors, ?query=strings, missing 'www.',
+	// added 'www.', or added 'index.php/' that will mess up our WP_Query
+	// and return a false negative
+
+	// Get rid of the #anchor
+	$url_split = explode('#', $url);
+	$url = $url_split[0];
+
+	// Get rid of URI ?query=string
+	$url_split = explode('?', $url);
+	$url = $url_split[0];
+
+	// Add 'www.' if it is absent and should be there
+	if ( false !== strpos(get_settings('home'), '://www.') && false === strpos($url, '://www.') )
+		$url = str_replace('://', '://www.', $url);
+
+	// Strip 'www.' if it is present and shouldn't be
+	if ( false === strpos(get_settings('home'), '://www.') )
+		$url = str_replace('://www.', '://', $url);
+
+	// Strip 'index.php/' if we're not using path info permalinks
+	if ( false === strpos($rewrite, 'index.php/') )
+		$url = str_replace('index.php/', '', $url);
+
+	if ( false !== strpos($url, get_settings('home')) ) {
+		// Chop off http://domain.com
+		$url = str_replace(get_settings('home'), '', $url);
+	} else {
+		// Chop off /path/to/blog
+		$home_path = parse_url(get_settings('home'));
+		$home_path = $home_path['path'];
+		$url = str_replace($home_path, '', $url);
+	}
+
+	// Trim leading and lagging slashes
+	$url = trim($url, '/');
+
+	$request = $url;
+
+	// Done with cleanup
+
+	// Look for matches.
+	$request_match = $request;
+	foreach ($rewrite as $match => $query) {
+		// If the requesting file is the anchor of the match, prepend it
+		// to the path info.
+		if ( (! empty($url)) && (strpos($match, $url) === 0) ) {
+			$request_match = $url . '/' . $request;
+		}
+
+		if ( preg_match("!^$match!", $request_match, $matches) ) {
+			// Got a match.
+			// Trim the query of everything up to the '?'.
+			$query = preg_replace("!^.+\?!", '', $query);
+
+			// Substitute the substring matches into the query.
+			eval("\$query = \"$query\";");
+			$query = new WP_Query($query);
+			if ( $query->is_single || $query->is_page )
+				return $query->post->ID;
+			else
+				return 0;
+		}
+	}
+	return 0;
+}
+
 /* WP_Rewrite class
 *******************************************************************************/
 
