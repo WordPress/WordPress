@@ -74,20 +74,20 @@ function xfn_check($class, $value = '', $type = 'check') {
 </div>
 </div>
 
-<fieldset id="uridiv">
-<legend><?php _e('URI:') ?></legend>
-<div><input type="text" name="link_url" value="<?php echo $link->link_url; ?>" style="width: 95%" /></div>
-</fieldset>
-
-<fieldset id="namediv">
-<legend><?php _e('Name:') ?></legend>
-<div><input type="text" name="link_name" value="<?php echo $link->link_name; ?>" style="width: 95%" /></div>
-</fieldset>
-
-<fieldset id="descdiv">
-<legend><?php _e('Description:') ?></legend>
-<div><input type="text" name="link_description" value="<?php echo $link->link_description; ?>" style="width: 95%" /></div>
-</fieldset>
+<table class="editform" width="100%" cellspacing="2" cellpadding="5">
+<tr>
+<th width="20%" scope="row" valign="top"><label for="link_url"><?php _e('URI:') ?></label></th>
+<td width="80%"><input type="text" name="link_url" value="<?php echo $link->link_url; ?>" style="width: 95%" /></td>
+</tr>
+<tr>
+<th scope="row" valign="top"><label for="link_name"><?php _e('Name:') ?></label></th>
+<td><input type="text" name="link_name" value="<?php echo $link->link_name; ?>" style="width: 95%" /></td>
+</tr>
+<tr>
+<th scope="row" valign="top"><label for="link_description"><?php _e('Description:') ?></label></th>
+<td><input type="text" name="link_description" value="<?php echo $link->link_description; ?>" style="width: 95%" /></td>
+</tr>
+</table>
 
 <p class="submit">
 <input type="submit" name="submit" value="<?php echo $submit_text ?>" />
@@ -100,8 +100,8 @@ function xfn_check($class, $value = '', $type = 'check') {
 <div class="dbx-content">
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 	<tr>
-		<th width="33%" scope="row"><?php _e('rel:') ?></th>
-		<td width="67%"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
+		<th width="20%" scope="row"><?php _e('rel:') ?></th>
+		<td width="80%"><input type="text" name="link_rel" id="link_rel" size="50" value="<?php echo $link->link_rel; ?>" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('<a href="http://gmpg.org/xfn/">XFN</a> Creator:') ?></th>
@@ -213,8 +213,8 @@ function xfn_check($class, $value = '', $type = 'check') {
 <div class="dbx-content">
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 	<tr>
-		<th width="33%" scope="row"><?php _e('Image URI:') ?></th>
-		<td width="67%"><input type="text" name="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
+		<th width="20%" scope="row"><?php _e('Image URI:') ?></th>
+		<td width="80%"><input type="text" name="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('RSS URI:') ?> </th>
