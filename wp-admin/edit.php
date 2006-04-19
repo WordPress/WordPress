@@ -251,44 +251,39 @@ if ( 1 == count($posts) ) {
 	if ($comments) {
 	?> 
 <h3 id="comments"><?php _e('Comments') ?></h3> 
-<ol id="the-list"> 
+<ol id="the-list" class="commentlist"> 
 <?php
 $i = 0;
 foreach ($comments as $comment) {
-$class = ( ++$i % 2 ) ? array('alternate') : array();
-if ( 'unapproved' == $comment_status = wp_get_comment_status($comment->comment_ID) )
-	$class[] = 'unapproved';
-?> 
 
-<li id='comment-<?php echo $comment->comment_ID; ?>'<?php if ( $class ) echo " class='" . join(' ', $class) . "'"; ?>>
-  <?php comment_date('Y-n-j') ?> 
-  @
-  <?php comment_time('g:m:s a') ?> 
-  <?php 
-			if ( current_user_can('edit_post', $post->ID) ) {
-				echo "[ <a href='comment.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
-				echo ' - <a href="comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete') . '</a> ';
-				if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-					echo '<span class="unapprove"> - <a href="comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
-					echo '<span class="approve"> - <a href="comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
-				}
-				echo "]";
-			} // end if any comments to show
-			?> 
-  <br /> 
-  <strong> 
-  <?php comment_author() ?> 
-  (
-  <?php comment_author_email_link() ?> 
-  /
-  <?php comment_author_url_link() ?> 
-  )</strong> (IP:
-  <?php comment_author_IP() ?> 
-  )
-  <?php comment_text() ?> 
+		++$i; $class = '';
+		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
+			$comment_status = wp_get_comment_status($comment->comment_ID);
+			if ('unapproved' == $comment_status) 
+				$class .= ' unapproved';
+			if ($i % 2)
+				$class .= ' alternate';
+			echo "<li id='comment-$comment->comment_ID' class='$class'>";
+?>
+<p><strong><?php comment_author() ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 
-</li> 
-<!-- /comment --> 
+<?php comment_text() ?>
+
+<p><?php comment_date('M j, g:i A');  ?> &#8212; [
+<?php
+if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+	echo " <a href='comment.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
+	echo ' | <a href="comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete') . '</a> ';
+	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
+		echo '<span class="unapprove"> | <a href="comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
+		echo '<span class="approve"> | <a href="comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
+	}
+	echo " | <a href=\"comment.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Spam') . "</a> ]";
+} // end if any comments to show
+?>
+</p>
+		</li>
+
 <?php //end of the loop, don't delete
 		} // end foreach
 	echo '</ol>';
