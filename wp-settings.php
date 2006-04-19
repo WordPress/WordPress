@@ -109,9 +109,6 @@ if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
 else
 	require (ABSPATH . WPINC . '/cache.php');
 
-// To disable persistant caching, add the below line to your wp-config.php file, uncommented of course.
-// define('DISABLE_CACHE', true);
-
 wp_cache_init();
 
 require (ABSPATH . WPINC . '/functions.php');
@@ -125,7 +122,6 @@ if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !d
 		$link = 'wp-admin/install.php';
 	die(sprintf(__("It doesn't look like you've installed WP yet. Try running <a href='%s'>install.php</a>."), $link));
 }
-$wpdb->show_errors();
 
 require (ABSPATH . WPINC . '/functions-formatting.php');
 require (ABSPATH . WPINC . '/functions-post.php');
@@ -138,7 +134,8 @@ require (ABSPATH . WPINC . '/template-functions-links.php');
 require (ABSPATH . WPINC . '/template-functions-author.php');
 require (ABSPATH . WPINC . '/template-functions-post.php');
 require (ABSPATH . WPINC . '/template-functions-category.php');
-require (ABSPATH . WPINC . '/comment-functions.php');
+require (ABSPATH . WPINC . '/comment.php');
+require (ABSPATH . WPINC . '/comment-template.php');
 require (ABSPATH . WPINC . '/rewrite.php');
 require (ABSPATH . WPINC . '/feed-functions.php');
 require (ABSPATH . WPINC . '/template-functions-bookmarks.php');
