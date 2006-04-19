@@ -644,7 +644,7 @@ class Walker_Category extends Walker {
 		return $output;
 	}
 	
-	function end_el($output, $page, $depth) {
+	function end_el($output, $page, $depth, $args) {
 		if ( 'list' != $args['style'] )
 			return $output;
 	
