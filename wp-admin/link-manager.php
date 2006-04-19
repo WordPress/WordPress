@@ -162,7 +162,10 @@ if ($links)
 		$cat_names = array();
 		foreach ($link->link_category as $category) {
 			$cat_name = get_the_category_by_ID($category);
-			$cat_names[] = wp_specialchars($cat_name);
+			$cat_name = wp_specialchars($cat_name);
+			if ( $cat_id != $category )
+				$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
+			$cat_names[] = $cat_name;
 		}
 		echo implode(', ', $cat_names);
 		?>
@@ -182,7 +185,7 @@ if ($links)
 
 <div id="ajax-response"></div>
 
-<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Bookmarks') ?>" onclick="return confirm('<?php _e("You are about to delete these bookmarks permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
+<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Bookmarks') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these bookmarks permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
 </div>
 </form>
 
