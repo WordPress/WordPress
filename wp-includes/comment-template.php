@@ -75,6 +75,10 @@ function get_comment_author_url_link( $linktext = '', $before = '', $after = '' 
 	global $comment;
 	$url = get_comment_author_url();
 	$display = ($linktext != '') ? $linktext : $url;
+	$display = str_replace( 'http://www.', '', $display );
+	$display = str_replace( 'http://', '', $display );
+	if ( '/' == substr($display, -1) )
+		$display = substr($display, 0, -1);
 	$return = "$before<a href='$url' rel='external'>$display</a>$after";
 	return apply_filters('get_comment_author_url_link', $return);
 }
