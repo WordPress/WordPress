@@ -729,6 +729,10 @@ table .vers, table .name {
 	float: left;
 }
 
+#ajax-response {
+	padding: .5em;
+}
+
 /* A handy div class for hiding controls.
    Some browsers will disable them when you
    set display:none; */
