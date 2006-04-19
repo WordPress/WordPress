@@ -1032,4 +1032,12 @@ function clean_url( $url ) {
 	return $url;
 }
 
+// Borrowed from the PHP Manual user notes. Convert entities, while
+// preserving already-encoded entities:
+function htmlentities2($myHTML) {
+	$translation_table=get_html_translation_table (HTML_ENTITIES,ENT_QUOTES);
+	$translation_table[chr(38)] = '&';
+	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($myHTML, $translation_table));
+}
+
 ?>
