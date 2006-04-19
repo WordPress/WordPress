@@ -236,8 +236,14 @@ form#upload #post_content {
 }
 
 .commentlist li {
-	border-bottom: 1px solid #369;
-	padding: .3em 1em;
+	border-bottom: 1px solid #ccc; 
+	padding: 1em 1em .2em;
+	margin: 0;
+}
+
+.commentlist p {
+	padding: 0;
+	margin: 0 0 .8em;
 }
 
 .clear {
