@@ -19,7 +19,7 @@ require_once('admin-header.php');
 </form>
 
 <?php
-wp('post_type=page&orderby=menu_order&what_to_show=posts&posts_per_page=15&posts_per_archive_page=-1');
+wp('post_type=page&orderby=menu_order&what_to_show=posts&posts_per_page=-1&posts_per_archive_page=-1');
 
 if ( $_GET['s'] )
 	$all = false;
@@ -48,11 +48,6 @@ page_rows(0, 0, $posts, $all);
 </table>
 
 <div id="ajax-response"></div>
-
-<div class="navigation">
-<div class="alignleft"><?php next_posts_link(__('&laquo; Previous Entries')) ?></div>
-<div class="alignright"><?php previous_posts_link(__('Next Entries &raquo;')) ?></div>
-</div>
 
 <?php
 } else {
