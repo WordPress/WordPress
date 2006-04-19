@@ -17,8 +17,9 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 		}
 	}
 }
-if (isset($_POST['deletepost']))
-$action = "delete";
+
+if ( isset( $_POST['deletepost'] ) )
+	$action = 'delete';
 
 switch($action) {
 case 'postajaxpost':

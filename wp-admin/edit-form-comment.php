@@ -17,19 +17,19 @@ function focusit() { // focus on first input field
 addLoadEvent(focusit);
 </script>
 <fieldset id="namediv">
-    <legend><?php _e('Name:') ?></legend>
+    <legend><label for="name"><?php _e('Name:') ?></label></legend>
 	<div>
-	  <input type="text" name="newcomment_author" size="22" value="<?php echo $comment->comment_author ?>" tabindex="1" id="name" />
+	  <input type="text" name="newcomment_author" size="25" value="<?php echo $comment->comment_author ?>" tabindex="1" id="name" />
     </div>
 </fieldset>
 <fieldset id="emaildiv">
-        <legend><?php _e('E-mail:') ?></legend>
+        <legend><label for="email"><?php _e('E-mail:') ?></label></legend>
 		<div>
-		  <input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email ?>" tabindex="2" id="email" />
+		  <input type="text" name="newcomment_author_email" size="20" value="<?php echo $comment->comment_author_email ?>" tabindex="2" id="email" />
     </div>
 </fieldset>
 <fieldset id="uridiv">
-        <legend><?php _e('URI:') ?></legend>
+        <legend><label for="URL"><?php _e('URI:') ?></label></legend>
 		<div>
 		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo $comment->comment_author_url ?>" tabindex="3" id="URL" />
     </div>
@@ -59,14 +59,18 @@ addLoadEvent(focusit);
 
 <?php if ( current_user_can('edit_posts') ) : ?>
 	<tr>
-		<th scope="row"><?php _e('Edit time'); ?>:</th>
-		<td><?php touch_time(('editcomment' == $action), 0); ?></td>
+		<th scope="row" valign="top"><?php _e('Edit time'); ?>:</th>
+		<td><?php touch_time(('editcomment' == $action), 0); ?> </td>
 	</tr>
 <?php endif; ?>
 
 	<tr>
-		<th scope="row"><?php _e('Delete'); ?>:</th>
-		<td><p><a class="delete" href="comment.php?action=confirmdeletecomment&amp;noredir=true&amp;comment=<?php echo $comment->comment_ID; ?>&amp;p=<?php echo $comment->comment_post_ID; ?>"><?php _e('Delete comment') ?></a></p></td>
+		<th scope="row" valign="top"><?php _e('Delete'); ?>:</th>
+		<td><input name="deletecomment" class="button" type="submit" id="deletecomment" tabindex="10" value="<?php _e('Delete this comment') ?>" <?php echo "onclick=\"return confirm('" . __("You are about to delete this comment \\n  \'Cancel\' to stop, \'OK\' to delete.") . "')\""; ?> /> 
+		<input type="hidden" name="comment" value="<?php echo $comment->comment_ID ?>" />
+		<input type="hidden" name="p" value="<?php echo $comment->comment_post_ID ?>" />
+		<input type="hidden" name="noredir" value="1" />
+	</td>
 	</tr>
 </table>
 

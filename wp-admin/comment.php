@@ -18,6 +18,9 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+if ( isset( $_POST['deletecomment'] ) )
+	$action = 'deletecomment';
+
 switch($action) {
 case 'editcomment':
 	$title = __('Edit Comment');
@@ -79,7 +82,7 @@ case 'mailapprovecomment':
 	echo "<input type='hidden' name='noredir' value='1' />\n";
 	echo "<input type='submit' value='" . __('Yes') . "' />";
 	echo "&nbsp;&nbsp;";
-	echo "<input type='button' value='" . __('No') . "' onclick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&amp;c=1#comments';\" />\n";
+	echo "<input type='button' value='" . __('No') . "' onclick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit-comments.php';\" />\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
@@ -89,15 +92,16 @@ case 'deletecomment':
 
 	check_admin_referer();
 
-	$comment = (int) $_GET['comment'];
-	$p = (int) $_GET['p'];
-	if (isset($_GET['noredir'])) {
+	$comment = (int) $_REQUEST['comment'];
+	$p = (int) $_REQUEST['p'];
+	if ( isset($_REQUEST['noredir']) ) {
 		$noredir = true;
 	} else {
 		$noredir = false;
 	}
 
-	$postdata = get_post($p) or die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+	$postdata = get_post($p) or 
+		die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( ! $comment = get_comment($comment) )
 			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit-comments.php'));
@@ -105,15 +109,15 @@ case 'deletecomment':
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
 		die( __('You are not allowed to edit comments on this post.') );
 
-	if ( 'spam' == $_GET['delete_type'] )
+	if ( 'spam' == $_REQUEST['delete_type'] )
 		wp_set_comment_status($comment->comment_ID, 'spam');
 	else
 		wp_delete_comment($comment->comment_ID);
 
-	if (($_SERVER['HTTP_REFERER'] != "") && (false == $noredir)) {
+	if (($_SERVER['HTTP_REFERER'] != '') && (false == $noredir)) {
 		header('Location: ' . $_SERVER['HTTP_REFERER']);
 	} else {
-		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		header('Location: '. get_settings('siteurl') .'/wp-admin/edit-comments.php');
 	}
 	exit();
 	break;
@@ -195,5 +199,7 @@ case 'editedcomment':
 default:
 	break;
 } // end switch
+
 include('admin-footer.php');
+
 ?>

@@ -123,7 +123,7 @@ if ('view' == $mode) {
 					echo '<span class="unapprove"> | <a href="comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
 					echo '<span class="approve"> | <a href="comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
 				}
-				echo " | <a href=\"comment.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Mark Comment as Spam') . "</a> ]";
+				echo " | <a href=\"comment.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Spam') . "</a> ]";
 			} // end if any comments to show
 			// Get post title
 			$post = get_post($comment->comment_post_ID);

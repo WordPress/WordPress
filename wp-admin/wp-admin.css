@@ -468,7 +468,7 @@ table .vers, table .name {
 	width: 300px;
 }
 
-#deletepost:hover {
+#deletepost:hover, #deletecomment:hover {
 	background: #ce0000;
 	color: #fff;
 }
@@ -723,6 +723,10 @@ table .vers, table .name {
 }
 .alternate.active .name {
 	background: #8B8;
+}
+
+#namediv, #emaildiv, #uridiv {
+	float: left;
 }
 
 /* A handy div class for hiding controls.
