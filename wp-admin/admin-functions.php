@@ -664,10 +664,13 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 					$edit = '';
 
 				$class = ('alternate' == $class) ? '' : 'alternate';
+				
+				$category->category_count = number_format( $category->category_count );
+				$category->link_count = number_format( $category->link_count );
 				echo "<tr id='cat-$category->cat_ID' class='$class'><th scope='row'>$category->cat_ID</th><td>$pad $category->cat_name</td>
 								<td>$category->category_description</td>
-								<td>$category->category_count</td>
-								<td>$category->link_count</td>
+								<td align='center'>$category->category_count</td>
+								<td align='center'>$category->link_count</td>
 								<td>$edit</td>
 								</tr>";
 				cat_rows($category->cat_ID, $level +1, $categories);

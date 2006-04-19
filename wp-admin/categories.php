@@ -69,25 +69,25 @@ case 'edit':
  <form name="editcat" action="categories.php" method="post">
 	  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 		<tr>
-		  <th width="33%" scope="row"><?php _e('Category name:') ?></th>
-		  <td width="67%"><input name="cat_name" type="text" value="<?php echo wp_specialchars($category->cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
+		  <th width="33%" scope="row" valign="top"><label for="cat_name"><?php _e('Category name:') ?></label></th>
+		  <td width="67%"><input name="cat_name" id="cat_name" type="text" value="<?php echo wp_specialchars($category->cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
 <input type="hidden" name="cat_ID" value="<?php echo $category->cat_ID ?>" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e('Category slug:') ?></th>
-			<td><input name="category_nicename" type="text" value="<?php echo wp_specialchars($category->category_nicename); ?>" size="40" /></td>
+			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category slug:') ?></label></th>
+			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo wp_specialchars($category->category_nicename); ?>" size="40" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e('Category parent:') ?></th>
+			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category parent:') ?></label></th>
 			<td>        
-			<select name='category_parent'>
+			<select name='category_parent' id='category_parent'>
 	  <option value='0' <?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
 	  <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?>
 	  </select></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e('Description:') ?></th>
-			<td><textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description, 1); ?></textarea></td>
+			<th scope="row" valign="top"><label for="category_description"><?php _e('Description:') ?></label></th>
+			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description, 1); ?></textarea></td>
 		</tr>
 		</table>
 	  <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category &raquo;') ?>" /></p>
@@ -135,8 +135,8 @@ $messages[3] = __('Category updated.');
 		<th scope="col"><?php _e('ID') ?></th>
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
-        <th scope="col"><?php _e('# Posts') ?></th>
-        <th scope="col"><?php _e('# Bookmarks') ?></th>
+        <th scope="col" width="90"><?php _e('Posts') ?></th>
+        <th scope="col" width="90"><?php _e('Bookmarks') ?></th>
         <th colspan="2"><?php _e('Action') ?></th>
 	</tr>
 	</thead>
@@ -179,4 +179,5 @@ break;
 }
 
 include('admin-footer.php');
+
 ?>
