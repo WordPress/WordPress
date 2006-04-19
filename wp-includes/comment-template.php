@@ -142,17 +142,19 @@ function comments_link( $file = '', $echo = true ) {
 }
 
 function get_comments_number( $post_id = 0 ) {
-	global $wpdb, $comment_count_cache, $id;
+	global $wpdb, $id;
 	$post_id = (int) $post_id;
 
 	if ( !$post_id )
 		$post_id = $id;
 
-	// TODO: Remove SELECT.  Use get_post().
-	if ( !isset($comment_count_cache[$post_id]) )
-		$comment_count_cache[$id] = $wpdb->get_var("SELECT comment_count FROM $wpdb->posts WHERE ID = '$post_id'");
+	$post = get_post($post_id);
+	if ( ! isset($post->comment_count) )
+		$count = 0;
+	else
+		$count = $post->comment_count;
 
-	return apply_filters('get_comments_number', $comment_count_cache[$post_id]);
+	return apply_filters('get_comments_number', $count);
 }
 
 function comments_number( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $number = '' ) {
@@ -323,48 +325,46 @@ function comments_popup_script($width=400, $height=400, $file='') {
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {
 	global $id, $wpcommentspopupfile, $wpcommentsjavascript, $post, $wpdb;
-	global $comment_count_cache;
 
-	if (! is_single() && ! is_page()) {
-	// TODO: Use API instead of SELECT
-	if ( !isset($comment_count_cache[$id]) )
-		$comment_count_cache[$id] = $wpdb->get_var("SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved = '1';");
+	if ( is_single() || is_page() )
+		return;
 
-	$number = $comment_count_cache[$id];
+	$number = get_comments_number($id);
 
-	if (0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status) {
+	if ( 0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status ) {
 		echo $none;
 		return;
-	} else {
-		if (!empty($post->post_password)) { // if there's a password
-			if ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
-				echo(__('Enter your password to view comments'));
-				return;
-			}
-		}
-		echo '<a href="';
-		if ($wpcommentsjavascript) {
-			if ( empty($wpcommentspopupfile) )
-				$home = get_settings('home');
-			else
-				$home = get_settings('siteurl');
-			echo $home . '/' . $wpcommentspopupfile.'?comments_popup='.$id;
-			echo '" onclick="wpopen(this.href); return false"';
-		} else { // if comments_popup_script() is not in the template, display simple comment link
-			if ( 0 == $number )
-				echo get_permalink() . '#respond';
-			else
-				comments_link();
-			echo '"';
-		}
-		if (!empty($CSSclass)) {
-			echo ' class="'.$CSSclass.'"';
-		}
-		echo ' title="' . sprintf( __('Comment on %s'), $post->post_title ) .'">';
-		comments_number($zero, $one, $more, $number);
-		echo '</a>';
 	}
+
+	if ( !empty($post->post_password) ) { // if there's a password
+		if ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
+			echo(__('Enter your password to view comments'));
+			return;
+		}
 	}
+
+	echo '<a href="';
+	if ($wpcommentsjavascript) {
+		if ( empty($wpcommentspopupfile) )
+			$home = get_settings('home');
+		else
+			$home = get_settings('siteurl');
+		echo $home . '/' . $wpcommentspopupfile.'?comments_popup='.$id;
+		echo '" onclick="wpopen(this.href); return false"';
+	} else { // if comments_popup_script() is not in the template, display simple comment link
+		if ( 0 == $number )
+			echo get_permalink() . '#respond';
+		else
+			comments_link();
+		echo '"';
+	}
+
+	if (!empty($CSSclass)) {
+		echo ' class="'.$CSSclass.'"';
+	}
+	echo ' title="' . sprintf( __('Comment on %s'), $post->post_title ) .'">';
+	comments_number($zero, $one, $more, $number);
+	echo '</a>';
 }
 
 ?>
