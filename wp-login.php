@@ -101,14 +101,14 @@ do_action('retreive_password', $user_login);  // Misspelled and deprecated.
 do_action('retrieve_password', $user_login);
 
 	// Generate something random for a password... md5'ing current time with a rand salt
-	$key = substr( md5( uniqid( microtime() ) ), 0, 50);
+	$key = substr( md5( uniqid( microtime() ) ), 0, 8);
 	// now insert the new pass md5'd into the db
  	$wpdb->query("UPDATE $wpdb->users SET user_activation_key = '$key' WHERE user_login = '$user_login'");
 	$message = __('Someone has asked to reset the password for the following site and username.') . "\r\n\r\n";
 	$message .= get_option('siteurl') . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
-	$message .= get_settings('siteurl') . "/wp-login.php?action=resetpass&key=$key\r\n";
+	$message .= get_settings('siteurl') . "/wp-login.php?action=rp&key=$key\r\n";
 
 	$m = wp_mail($user_email, sprintf(__('[%s] Password Reset'), get_settings('blogname')), $message);
 
@@ -125,7 +125,7 @@ do_action('retrieve_password', $user_login);
 break;
 
 case 'resetpass' :
-
+case 'rp' :
 	// Generate something random for a password... md5'ing current time with a rand salt
 	$key = preg_replace('/a-z0-9/i', '', $_GET['key']);
 	if ( empty($key) )
