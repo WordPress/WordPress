@@ -4,6 +4,9 @@ require( dirname(__FILE__) . '/wp-config.php' );
 $action = $_REQUEST['action'];
 $error = '';
 
+if ( isset($_GET['key']) )
+	$action = 'resetpass';
+
 nocache_headers();
 
 header('Content-Type: '.get_bloginfo('html_type').'; charset='.get_bloginfo('charset'));
