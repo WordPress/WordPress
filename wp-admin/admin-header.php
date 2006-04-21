@@ -4,8 +4,8 @@ if (!isset($_GET["page"])) require_once('admin.php');
 if ( $editing ) {
 	$dbx_js = true;
 	$pmeta_js = true;
+	$list_js = true;
 	if ( current_user_can('manage_categories') ) {
-		$list_js = true;
 		$cat_js = true;
 	}
 }
