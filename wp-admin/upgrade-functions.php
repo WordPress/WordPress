@@ -522,7 +522,7 @@ function upgrade_210() {
 
 		// Associate links to cats.
 		$links = $wpdb->get_results("SELECT link_id, link_category FROM $wpdb->links");
-		foreach ( $links as $link ) {
+		if ( !empty($links) ) foreach ( $links as $link ) {
 			$link_cat = $link_cat_id_map[$link->link_category];
 			$cat = $wpdb->get_row("SELECT * FROM $wpdb->link2cat WHERE link_id = '$link->link_id' AND category_id = '$link_cat'");
 			if (!$cat && 0 != $link->link_category) {
