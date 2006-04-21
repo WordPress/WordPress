@@ -38,10 +38,11 @@ function listMan(theListId){
 	this.ajaxRespEl=null;
 	this.inputData='';this.clearInputs=new Array();this.showLink=1;
 	this.topAdder=0;this.alt='alternate';this.recolorPos;this.reg_color='#FFFFFF';this.alt_color='#F1F1F1';
+	this.addComplete=null;this.delComplete=null;this.dimComplete=null;
 	var listType;var listItems;
 	self.aTrap=0;
 
-	this.ajaxAdder=function(what,where,onComplete,update){//for TR, server must wrap TR in TABLE TBODY. this.makeEl cleans it
+	this.ajaxAdder=function(what,where,update){//for TR, server must wrap TR in TABLE TBODY. this.makeEl cleans it
 		if(self.aTrap)return;self.aTrap=1;setTimeout('aTrap=0',300);
 		this.ajaxAdd=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxAdd.failed)return true;
@@ -61,28 +62,28 @@ function listMan(theListId){
 			if(tempObj.showLink){this.myResponseElement.innerHTML='<div id="jumplink" class="updated fade"><p><a href="#'+what+'-'+id+'"><?php _e('Jump to new item'); ?></a></p></div>';}
 			else this.myResponseElement.innerHTML='';
 			for(var i=0;i<tempObj.clearInputs.length;i++){try{var theI=document.getElementById(tempObj.clearInputs[i]);if(theI.tagName.match(/select/i))theI.selectedIndex=0;else theI.value='';}catch(e){}}
-			if(onComplete&&typeof onComplete=='function')onComplete();
+			if(tempObj.addComplete&&typeof tempObj.addComplete=='function')tempObj.addComplete(what,where,update);
 			tempObj.recolorList(tempObj.recolorPos,1000);
 		}
 		this.ajaxAdd.runAJAX('action='+(update?'update-':'add-')+what+this.inputData);
 		return false;
 	}
-	this.ajaxUpdater=function(what,where,onComplete){return this.ajaxAdder(what,where,onComplete,true);}
-	this.ajaxDelete=function(what,id,onComplete){
+	this.ajaxUpdater=function(what,where){return this.ajaxAdder(what,where,true);}
+	this.ajaxDelete=function(what,id){
 		if(self.aTrap)return;self.aTrap=1;setTimeout('aTrap=0',300);
 		this.ajaxDel=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxDel.failed)return true;
 		var tempObj=this;
-		this.ajaxDel.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.removeListItem(what.replace('-as-spam','')+'-'+id);this.myResponseElement.innerHTML='';if(onComplete&&typeof onComplete=='function')onComplete();tempObj.recolorList(tempObj.recolorPos,1000)}};
+		this.ajaxDel.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.removeListItem(what.replace('-as-spam','')+'-'+id);this.myResponseElement.innerHTML='';if(tempObj.delComplete&&typeof tempObj.delComplete=='function')tempObj.delComplete(what,where);tempObj.recolorList(tempObj.recolorPos,1000)}};
 		this.ajaxDel.runAJAX('action=delete-'+what+'&id='+id);
 		return false;
 	}
-	this.ajaxDimmer=function(what,id,dimClass,onComplete){
+	this.ajaxDimmer=function(what,id,dimClass){
 		if(self.aTrap)return;self.aTrap=1;setTimeout('aTrap=0',300);
 		this.ajaxDim=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxDim.failed)return true;
 		var tempObj=this;
-		this.ajaxDim.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.dimItem(what+'-'+id,dimClass);this.myResponseElement.innerHTML='';if(onComplete&&typeof onComplete=='function')onComplete();}};
+		this.ajaxDim.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.dimItem(what+'-'+id,dimClass);this.myResponseElement.innerHTML='';if(tempObj.dimComplete&&typeof tempObj.dimComplete=='function')tempObj.dimComplete(what,id,dimClass);}};
 		this.ajaxDim.runAJAX('action=dim-'+what+'&id='+id);
 		return false;
 	}

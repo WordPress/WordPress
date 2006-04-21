@@ -25,7 +25,7 @@ $submenu['edit.php'][10] = array(__('Pages'), 'edit_pages', 'edit-pages.php');
 $submenu['edit.php'][15] = array(__('Categories'), 'manage_categories', 'categories.php');
 $submenu['edit.php'][20] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
-$submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), $awaiting_mod), 'edit_posts', 'moderation.php');
+$submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), "<span id='awaitmod'>$awaiting_mod</span>"), 'edit_posts', 'moderation.php');
 $submenu['edit.php'][30] = array(__('Files'), 'edit_files', 'templates.php');
 
 $submenu['link-manager.php'][5] = array(__('Manage Bookmarks'), 'manage_links', 'link-manager.php');

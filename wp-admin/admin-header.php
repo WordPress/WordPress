@@ -43,6 +43,9 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 <?php if ( $users_js ) { ?>
 <script type="text/javascript" src="users.js"></script>
 <?php } ?>
+<?php if ( 'edit-comments.php' == $pagenow || ( 'edit.php' == $pagenow && 1 == $_GET['c'] ) ) { ?>
+<script type="text/javascript" src="edit-comments.js"></script>
+<?php } ?>
 <?php if ( $dbx_js ) { ?>
 <script type="text/javascript" src="../wp-includes/js/dbx.js"></script>
 <script type="text/javascript">

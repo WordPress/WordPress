@@ -1,6 +1,14 @@
+function customFieldsOnComplete() {
+	var pidEl = document.getElementById('post_ID');
+	pidEl.name = 'post_ID';
+	pidEl.value = getNodeValue(theList.ajaxAdd.responseXML, 'postid');
+	var aEl = document.getElementById('hiddenaction')
+	if ( aEl.value == 'post' ) aEl.value = 'postajaxpost';
+}
 addLoadEvent(customFieldsAddIn);
 function customFieldsAddIn() {
 	theList.showLink=0;
+	theList.addComplete = customFieldsOnComplete;
 	if (!theList.theList) return false;
 	inputs = theList.theList.getElementsByTagName('input');
 	for ( var i=0; i < inputs.length; i++ ) {
@@ -13,13 +21,6 @@ function customFieldsAddIn() {
 		}
 	}
 
-	document.getElementById('metakeyinput').onkeypress = function(e) {return killSubmit('theList.inputData+="&id="+document.getElementById("post_ID").value;theList.ajaxAdder("meta", "newmeta", customFieldsOnComplete);', e); };
-	document.getElementById('updatemetasub').onclick = function(e) {return killSubmit('theList.inputData+="&id="+document.getElementById("post_ID").value;theList.ajaxAdder("meta", "newmeta", customFieldsOnComplete);', e); };
-}
-function customFieldsOnComplete() {
-	var pidEl = document.getElementById('post_ID');
-	pidEl.name = 'post_ID';
-	pidEl.value = getNodeValue(theList.ajaxAdd.responseXML, 'postid');
-	var aEl = document.getElementById('hiddenaction')
-	if ( aEl.value == 'post' ) aEl.value = 'postajaxpost';
+	document.getElementById('metakeyinput').onkeypress = function(e) {return killSubmit('theList.inputData+="&id="+document.getElementById("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
+	document.getElementById('updatemetasub').onclick = function(e) {return killSubmit('theList.inputData+="&id="+document.getElementById("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
 }
