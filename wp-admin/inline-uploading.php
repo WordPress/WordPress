@@ -2,6 +2,8 @@
 
 require_once('admin.php');
 
+check_admin_referer();
+
 header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
 if (!current_user_can('upload_files'))

@@ -32,6 +32,8 @@ switch($action) {
 
 case 'update':
 
+	check_admin_referer();
+
 	if ( ! current_user_can('moderate_comments') )
 	die('<p>'.__('Your level is not high enough to moderate comments.').'</p>');
 

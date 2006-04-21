@@ -58,6 +58,8 @@ include('admin-header.php');
 $home_path = get_home_path();
 
 if ( isset($_POST) ) {
+	check_admin_referer();
+
 	if ( isset($_POST['permalink_structure']) ) {
 		$permalink_structure = $_POST['permalink_structure'];
 		if (! empty($permalink_structure) )

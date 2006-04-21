@@ -144,9 +144,9 @@ function ajaxNewCat() {
 	var split_cats = new Array(1);
 	var catString = '';
 
-	catString = 'ajaxnewcat=' + encodeURIComponent(newcat.value);
+	catString = ajaxCat.encVar('ajaxnewcat', newcat.value) + '&' + ajaxCat.encVar('cookie', document.cookie);
 	ajaxCat.requestFile = 'edit-form-ajax-cat.php';
-	ajaxCat.method = 'GET';
+	ajaxCat.method = 'POST';
 	ajaxCat.onLoading = newCatLoading;
 	ajaxCat.onLoaded = newCatLoaded;
 	ajaxCat.onInteractive = newCatInteractive;

@@ -26,6 +26,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch ($action) {
   case 'addcat':
   {
+      check_admin_referer();
+
       if ( !current_user_can('manage_links') )
           die (__("Cheatin' uh ?"));
 
@@ -80,6 +82,8 @@ switch ($action) {
   } // end addcat
   case 'Delete':
   {
+    check_admin_referer();
+
     $cat_id = (int) $_GET['cat_id'];
     $cat_name=get_linkcatname($cat_id);
 
@@ -199,6 +203,8 @@ switch ($action) {
   } // end Edit
   case "editedcat":
   {
+    check_admin_referer();
+
     if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 

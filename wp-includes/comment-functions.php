@@ -185,6 +185,8 @@ function wp_update_comment($commentarr) {
 	// Merge old and new fields with new fields overwriting old ones.
 	$commentarr = array_merge($comment, $commentarr);
 
+	$commentarr = wp_filter_comment( $commentarr );
+
 	// Now extract the merged array.
 	extract($commentarr);
 

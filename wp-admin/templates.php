@@ -36,6 +36,8 @@ switch($action) {
 
 case 'update':
 
+	check_adimn_referer();
+
 	if ( ! current_user_can('edit_files') )
 	die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
 

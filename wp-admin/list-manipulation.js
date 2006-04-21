@@ -33,13 +33,13 @@ function ajaxDelete(what, id) {
 	ajaxDel.onLoaded = function() { ajaxDel.myResponseElement.innerHTML = 'Data Sent...'; };
 	ajaxDel.onInteractive = function() { ajaxDel.myResponseElement.innerHTML = 'Processing Data...'; };
 	ajaxDel.onCompletion = function() { removeThisItem( what + '-' + id ); };
-	ajaxDel.runAJAX('action=delete-' + what + '&id=' + id);
+	ajaxDel.runAJAX('action=delete-' + what + '&id=' + id + '&' + ajaxDel.encVar('cookie', document.cookie));
 	return false;
 }
 
 function removeThisItem(id) {
 	var response = ajaxDel.response;
-	if ( isNaN(response) ) { alert(response); }
+	if ( isNaN(response) ) { ajaxDel.myResponseElement.innerHTML = response; return false; }
 	response = parseInt(response, 10);
 	if ( -1 == response ) { ajaxDel.myResponseElement.innerHTML = "You don't have permission to do that."; }
 	else if ( 0 == response ) { ajaxDel.myResponseElement.interHTML = "Something odd happened.  Try refreshing the page? Either that or what you tried to delete never existed in the first place."; }

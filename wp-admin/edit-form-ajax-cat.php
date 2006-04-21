@@ -7,12 +7,14 @@ get_currentuserinfo();
 
 if ( !current_user_can('manage_categories') )
 	die('-1');
+if ( !check_ajax_referer() )
+	die('-1');
 
 function get_out_now() { exit; }
 
 add_action('shutdown', 'get_out_now', -1);
 
-$names = explode(',', rawurldecode($_GET['ajaxnewcat']) );
+$names = explode(',', rawurldecode($_POST['ajaxnewcat']) );
 $ids   = array();
 
 foreach ($names as $cat_name) {

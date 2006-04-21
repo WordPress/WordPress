@@ -34,6 +34,8 @@ switch($action) {
 
 case 'update':
 
+	check_admin_referer();
+
 	if ( !current_user_can('edit_plugins') )
 	die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
 
