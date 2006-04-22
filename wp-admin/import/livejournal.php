@@ -37,7 +37,6 @@ class LJ_Import {
 		unset($importdata);
 		echo '<ol>';
 		foreach ($posts as $post) {
-			flush();
 			preg_match('|<subject>(.*?)</subject>|is', $post, $post_title);
 			$post_title = $wpdb->escape(trim($post_title[1]));
 			if ( empty($post_title) ) {
@@ -118,8 +117,6 @@ class LJ_Import {
 				printf(__('(%s comments)'), $num_comments);
 			}
 			echo '</li>';
-			flush();
-			ob_flush();
 		}
 		echo '</ol>';
 	}

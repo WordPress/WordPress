@@ -133,7 +133,6 @@ if (empty($admin_email)) {
 
 
 <?php
-flush();
 
 $result = wp_install($weblog_title, __('admin'), $admin_email, $public);
 extract($result);

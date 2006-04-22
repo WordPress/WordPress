@@ -157,7 +157,6 @@ class MT_Import {
 		echo '</form>';
 		echo '</ol></div>';
 
-		flush();
 	}
 
 	function select_authors() {
@@ -384,7 +383,6 @@ class MT_Import {
 
 				echo "</li>";
 			}
-			flush();
 		}
 
 		echo '</ol>';
