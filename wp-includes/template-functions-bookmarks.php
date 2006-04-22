@@ -168,6 +168,8 @@ function get_linkrating($link) {
  **                uses 0
  */
 function get_linkcatname($id = 0) {
+	$id = (int) $id;
+
     if ( empty($id) )
     	return '';
   

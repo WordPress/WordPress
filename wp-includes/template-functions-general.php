@@ -501,8 +501,8 @@ function get_calendar($initial = true) {
 
 	// Get days with posts
 	$dayswithposts = $wpdb->get_results("SELECT DISTINCT DAYOFMONTH(post_date)
-		FROM $wpdb->posts WHERE MONTH(post_date) = $thismonth
-		AND YEAR(post_date) = $thisyear
+		FROM $wpdb->posts WHERE MONTH(post_date) = '$thismonth'
+		AND YEAR(post_date) = '$thisyear'
 		AND post_type = 'post' AND post_status = 'publish'
 		AND post_date < '" . current_time('mysql') . '\'', ARRAY_N);
 	if ( $dayswithposts ) {

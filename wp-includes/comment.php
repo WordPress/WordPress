@@ -60,7 +60,9 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 
 function get_approved_comments($post_id) {
 	global $wpdb;
-	return $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $post_id AND comment_approved = '1' ORDER BY comment_date");
+
+	$post_id = (int) $post_id;
+	return $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1' ORDER BY comment_date");
 }
 
 // Retrieves comment data given a comment ID or comment object.
