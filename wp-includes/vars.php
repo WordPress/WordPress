@@ -92,16 +92,6 @@ if (!isset($wpsmiliestrans)) {
 	);
 }
 
-// sorts the smilies' array
-if (!function_exists('smiliescmp')) {
-function smiliescmp ($a, $b) {
-	if (strlen($a) == strlen($b)) {
-		return strcmp($a, $b);
-	}
-		return (strlen($a) > strlen($b)) ? -1 : 1;
-	}
-}
-uksort($wpsmiliestrans, 'smiliescmp');
 
 // generates smilies' search & replace arrays
 foreach($wpsmiliestrans as $smiley => $img) {
