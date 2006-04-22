@@ -41,7 +41,7 @@ function wptexturize($text) {
 		} else {
 			$next = true;
 		}
-		$curl = preg_replace('/&([^#])(?![a-z1-4]{1,8};)/', '&#038;$1', $curl);
+		$curl = preg_replace('/&([^#])(?![a-zA-Z1-4]{1,8};)/', '&#038;$1', $curl);
 		$output .= $curl;
 	}
 	return $output;
