@@ -425,7 +425,7 @@ function wp_list_pages($args = '') {
 
 		global $wp_query;
 		$current_page = $wp_query->get_queried_object_id();
-		$output .= walk_page_tree($pages, $depth, $current_page, $r['show_date'], $r['date_format']);
+		$output .= walk_page_tree($pages, $r['depth'], $current_page, $r['show_date'], $r['date_format']);
 
 		if ( $r['title_li'] )
 			$output .= '</ul></li>';
