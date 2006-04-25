@@ -404,9 +404,9 @@ function funky_javascript_fix($text) {
                   Added Cleaning Hooks
              1.0  First Version
 */
-function balanceTags($text, $is_comment = 0) {
+function balanceTags($text, $is_comment = 0, $force = false) {
 
-	if ( get_option('use_balanceTags') == 0)
+	if ( !$force && get_option('use_balanceTags') == 0 )
 		return $text;
 
 	$tagstack = array(); $stacksize = 0; $tagqueue = ''; $newtext = '';

@@ -83,7 +83,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 
 	$content = $pages[$page-1];
 	$content = explode('<!--more-->', $content, 2);
-	if ( (preg_match('/<!--noteaser-->/', $post->post_content) && ((!$multipage) || ($page==1))) )
+	if ( (false !== strpos($post->post_content, '<!--noteaser-->') && ((!$multipage) || ($page==1))) )
 		$stripteaser = 1;
 	$teaser = $content[0];
 	if ( ($more) && ($stripteaser) )
@@ -93,7 +93,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 		if ( $more )
 			$output .= '<a id="more-'.$id.'"></a>'.$content[1];
 		else
-			$output .= ' <a href="'. get_permalink() . "#more-$id\">$more_link_text</a>";
+			$output = balanceTags($output . ' <a href="'. get_permalink() . "#more-$id\">$more_link_text</a>");
 	}
 	if ( $preview ) // preview fix for javascript bug with foreign languages
 		$output =	preg_replace('/\%u([0-9A-F]{4,4})/e',	"'&#'.base_convert('\\1',16,10).';'", $output);
