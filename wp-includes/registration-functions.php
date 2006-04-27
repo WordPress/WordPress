@@ -13,9 +13,7 @@ function username_exists( $username ) {
 function email_exists( $email ) {
 	global $wpdb;
 	$email = addslashes( $email );
-	$email_exists = $wpdb->get_row("SELECT user_email FROM $wpdb->users WHERE user_email = '$email'");
-	if ( $email_exists)
-		return true;
+	return $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_email = '$email'");
 }
 
 function validate_username( $username ) {
