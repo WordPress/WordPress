@@ -1890,8 +1890,10 @@ function wp_handle_upload(&$file, $overrides = false) {
 
 	// Compute the URL
 	$url = $uploads['url'] . "/$filename";
+	
+	$return = apply_filters( 'wp_handle_upload', array('file' => $new_file, 'url' => $url, 'type' => $type) );
 
-	return array('file' => $new_file, 'url' => $url, 'type' => $type);
+	return $return;
 }
 
 function wp_shrink_dimensions($width, $height, $wmax = 128, $hmax = 96) {
