@@ -1663,4 +1663,12 @@ function is_blog_installed() {
 	return $installed;
 }
 
+function wp_nonce_url($actionurl, $action = -1) {
+	return add_query_arg('_wpnonce', wp_create_nonce($action), $actionurl);
+}
+
+function wp_nonce_field($action = -1) {
+	echo '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce($action) . '" />';
+}
+
 ?>
