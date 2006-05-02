@@ -2,7 +2,7 @@
 
 require_once('admin.php');
 
-check_admin_referer();
+check_admin_referer('inlineuploading');
 
 header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
@@ -41,7 +41,7 @@ if ( !current_user_can('edit_post', (int) $attachment) )
 
 wp_delete_attachment($attachment);
 
-header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&start=$start");
+header("Location: ". wp_nonce_url(basename(__FILE__)."?post=$post&all=$all&action=view&start=$start", 'inlineuploading'));
 die;
 
 case 'save':
@@ -100,7 +100,7 @@ if ( preg_match('!^image/!', $attachment['post_mime_type']) ) {
 	add_post_meta($id, '_wp_attachment_metadata', array());
 }
 
-header("Location: ".basename(__FILE__)."?post=$post&all=$all&action=view&start=0");
+header("Location: ". wp_nonce_url(basename(__FILE__)."?post=$post&all=$all&action=view&start=0", 'inlineuploading'));
 die();
 
 case 'upload':
@@ -139,7 +139,7 @@ if ( '' == $sort )
 $attachments = $wpdb->get_results("SELECT ID, post_date, post_title, post_mime_type, guid FROM $wpdb->posts WHERE post_type = 'attachment' $and_type $and_post $and_user ORDER BY $sort LIMIT $start, $double", ARRAY_A);
 
 if ( count($attachments) == 0 ) {
-	header("Location: ".basename(__FILE__)."?post=$post&action=upload");
+	header("Location: ". wp_nonce_url(basename(__FILE__)."?post=$post&action=upload", 'inlineuploading') );
 	die;
 } elseif ( count($attachments) > $num ) {
 	$next = $start + count($attachments) - $num;

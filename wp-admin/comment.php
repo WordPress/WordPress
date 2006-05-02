@@ -89,10 +89,9 @@ case 'mailapprovecomment':
 	break;
 
 case 'deletecomment':
-
-	check_admin_referer();
-
 	$comment = (int) $_REQUEST['comment'];
+	check_admin_referer('delete-comment' . $comment);
+
 	$p = (int) $_REQUEST['p'];
 	if ( isset($_REQUEST['noredir']) ) {
 		$noredir = true;
@@ -123,10 +122,9 @@ case 'deletecomment':
 	break;
 
 case 'unapprovecomment':
-
-	check_admin_referer();
-
 	$comment = (int) $_GET['comment'];
+	check_admin_referer('unapprove-comment' . $comment);
+	
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
@@ -151,10 +149,9 @@ case 'unapprovecomment':
 	break;
 
 case 'approvecomment':
-
-	check_admin_referer();
-
 	$comment = (int) $_GET['comment'];
+	check_admin_referer('approve-comment' . $comment);
+
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
@@ -184,7 +181,7 @@ case 'approvecomment':
 
 case 'editedcomment':
 
-	check_admin_referer();
+	check_admin_referer('update-comment');
 
 	edit_comment();
 

@@ -2,7 +2,7 @@
 
 require_once('admin.php');
 
-check_admin_referer();
+check_admin_referer('update-profile' . $user_ID);
 
 if ( !$_POST )
 	die( __('No post?') );

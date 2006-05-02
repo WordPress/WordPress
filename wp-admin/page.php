@@ -24,7 +24,7 @@ $action = "delete";
 
 switch($action) {
 case 'post':
-
+	check_admin_referer('add-page');
 	$page_ID = write_post();
 
 	// Redirect.
@@ -76,6 +76,7 @@ case 'edit':
 
 case 'editattachment':
 	$page_id = $post_ID = (int) $_POST['post_ID'];
+	check_admin_referer('update-attachment' . $page_id);
 
 	// Don't let these be changed
 	unset($_POST['guid']);
@@ -91,6 +92,9 @@ case 'editattachment':
 		add_post_meta($page_id, '_wp_attachment_metadata', $newmeta);
 
 case 'editpost':
+	$page_ID = (int) $_POST['post_ID'];
+	check_admin_referer('update-page' . $page_ID);
+
 	$page_ID = edit_post();
 
 	if ($_POST['save']) {
@@ -114,9 +118,8 @@ case 'editpost':
 	break;
 
 case 'delete':
-	check_admin_referer();
-
 	$page_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	check_admin_referer('delete-page' .  $page_id);
 
 	$page = & get_post($page_id);
 

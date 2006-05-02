@@ -24,7 +24,7 @@ switch($action) {
 
 case 'addcat':
 
-	check_admin_referer();
+	check_admin_referer('add-category');
 
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
@@ -35,13 +35,12 @@ case 'addcat':
 break;
 
 case 'delete':
-
-	check_admin_referer();
+	$cat_ID = (int) $_GET['cat_ID'];
+	check_admin_referer('delete-category' .  $cat_ID);
 
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
 
-	$cat_ID = (int) $_GET['cat_ID'];
 	$cat_name = get_catname($cat_ID);
 
 	// Don't delete the default cats.
@@ -67,6 +66,7 @@ case 'edit':
 <div class="wrap">
  <h2><?php _e('Edit Category') ?></h2>
  <form name="editcat" action="categories.php" method="post">
+	  <?php wp_nonce_field('update-category' .  $category->cat_ID); ?>
 	  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 		<tr>
 		  <th width="33%" scope="row" valign="top"><label for="cat_name"><?php _e('Category name:') ?></label></th>
@@ -99,7 +99,8 @@ case 'edit':
 break;
 
 case 'editedcat':
-	check_admin_referer();
+	$cat_ID = (int) $_POST['cat_ID'];
+	check_admin_referer('update-category' . $cat_ID);
 
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
@@ -157,6 +158,7 @@ cat_rows();
 <div class="wrap">
     <h2><?php _e('Add New Category') ?></h2>
     <form name="addcat" id="addcat" action="categories.php" method="post">
+    	<?php wp_nonce_field('add-category'); ?>
         <div class="alignleft"><?php _e('Name:') ?><br />
         <input type="text" name="cat_name" id="cat_name" value="" /></p>
         <p><?php _e('Category parent:') ?><br />

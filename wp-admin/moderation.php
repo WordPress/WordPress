@@ -32,7 +32,7 @@ switch($action) {
 
 case 'update':
 
-	check_admin_referer();
+	check_admin_referer('moderate-comments');
 
 	if ( ! current_user_can('moderate_comments') )
 	die('<p>'.__('Your level is not high enough to moderate comments.').'</p>');
@@ -132,6 +132,7 @@ if ($comments) {
 ?>
     <h2><?php _e('Moderation Queue') ?></h2>
     <form name="approval" action="moderation.php" method="post">
+    <?php wp_nonce_field('moderate-comments') ?>
     <input type="hidden" name="action" value="update" />
     <ol id="the-list" class="commentlist">
 <?php

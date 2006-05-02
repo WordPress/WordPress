@@ -11,7 +11,7 @@ include('admin-header.php');
 <div class="wrap"> 
 <h2><?php _e('Miscellaneous Options') ?></h2> 
 <form method="post" action="options.php">
-
+<?php wp_nonce_field('update-options') ?>
 <fieldset class="options">
 <legend><?php _e('Uploading'); ?></legend>
 <table class="editform optiontable">

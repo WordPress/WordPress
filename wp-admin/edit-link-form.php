@@ -2,11 +2,13 @@
 if ( ! empty($link_id) ) {
 	$heading = __('Edit Bookmark');
 	$submit_text = __('Save Changes &raquo;');
-	$form = '<form name="editlink" id="editlink" method="post" action="link.php">'; 
+	$form = '<form name="editlink" id="editlink" method="post" action="link.php">';
+	$nonce_action = 'update-bookmark' . $link_id;
 } else {
 	$heading = __('Create Bookmark');
 	$submit_text = __('Add Bookmark &raquo;');
 	$form = '<form name="addlink" id="addlink" method="post" action="link.php">';
+	$nonce_action = 'add-bookmark';
 }
 
 function xfn_check($class, $value = '', $type = 'check') {
@@ -31,7 +33,8 @@ function xfn_check($class, $value = '', $type = 'check') {
 <div class="wrap"> 
 <h2><?php echo $heading ?></h2>
 <?php echo $form ?>
- 
+<?php wp_nonce_field($nonce_action); ?>
+
 <div id="poststuff">
 <div id="moremeta">
 <div id="grabit" class="dbx-group">

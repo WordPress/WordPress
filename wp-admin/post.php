@@ -24,7 +24,7 @@ if ( isset( $_POST['deletepost'] ) )
 switch($action) {
 case 'postajaxpost':
 case 'post':
-	check_admin_referer();
+	check_admin_referer('add-post');
 	
 	$post_ID = 'post' == $action ? write_post() : edit_post();
 
@@ -78,9 +78,9 @@ case 'edit':
 	break;
 
 case 'editattachment':
-	check_admin_referer();
-
 	$post_id = (int) $_POST['post_ID'];
+
+	check_admin_referer('update-attachment' . $post_id);
 
 	// Don't let these be changed
 	unset($_POST['guid']);
@@ -96,7 +96,8 @@ case 'editattachment':
 		add_post_meta($post_id, '_wp_attachment_metadata', $newmeta);
 
 case 'editpost':
-	check_admin_referer();
+	$post_ID = (int) $_POST['post_ID'];
+	check_admin_referer('update-post' . $post_ID);
 	
 	$post_ID = edit_post();
 
@@ -121,9 +122,8 @@ case 'editpost':
 	break;
 
 case 'delete':
-	check_admin_referer();
-
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	check_admin_referer('delete-post' . $post_id);
 
 	$post = & get_post($post_id);
 

@@ -51,7 +51,7 @@ function getNumChecked(form)
 <p><a href="?mode=view"><?php _e('View Mode') ?></a> | <a href="?mode=edit"><?php _e('Mass Edit Mode') ?></a></p>
 <?php
 if ( !empty( $_POST['delete_comments'] ) ) :
-	check_admin_referer();
+	check_admin_referer('bulk-comments');
 
 	$i = 0;
 	foreach ($_POST['delete_comments'] as $comment) : // Check the permissions on each
@@ -119,10 +119,10 @@ if ('view' == $mode) {
 <?php
 if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo " <a href='comment.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
-	echo ' | <a href="comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete') . '</a> ';
+	echo ' | <a href="' . wp_nonce_url('comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'delete-comment' . $comment->comment_ID) . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "' );\">" . __('Delete') . '</a> ';
 	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-		echo '<span class="unapprove"> | <a href="comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
-		echo '<span class="approve"> | <a href="comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
+		echo '<span class="unapprove"> | <a href="' . wp_nonce_url('comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'unapprove-comment' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
+		echo '<span class="approve"> | <a href="' . wp_nonce_url('comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'approve-comment' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
 	}
 	echo " | <a href=\"comment.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), wp_specialchars( $comment->comment_author, 1 ))  . "' );\">" . __('Spam') . "</a> ";
 }
@@ -150,8 +150,9 @@ $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 } elseif ('edit' == $mode) {
 
 	if ($comments) {
-		echo '<form name="deletecomments" id="deletecomments" action="" method="post"> 
-		<table width="100%" cellpadding="3" cellspacing="3">
+		echo '<form name="deletecomments" id="deletecomments" action="" method="post"> ';
+		wp_nonce_field('bulk-comments');
+		echo '<table width="100%" cellpadding="3" cellspacing="3">
   <tr>
     <th scope="col">*</th>
     <th scope="col">' .  __('Name') . '</th>

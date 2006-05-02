@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
-	check_admin_referer();
+	check_admin_referer('switch-theme' . $_GET['template']);
 
 	if ('activate' == $_GET['action']) {
 		if ( isset($_GET['template']) )
@@ -69,7 +69,7 @@ foreach ($theme_names as $theme_name) {
 	$author = $themes[$theme_name]['Author'];
 	$screenshot = $themes[$theme_name]['Screenshot'];
 	$stylesheet_dir = $themes[$theme_name]['Stylesheet Dir'];
-	$activate_link = "themes.php?action=activate&amp;template=$template&amp;stylesheet=$stylesheet";
+	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=$template&amp;stylesheet=$stylesheet", 'switch-theme' . $template);
 ?>
 <div class="available-theme">
 <h3><a href="<?php echo $activate_link; ?>"><?php echo "$title $version"; ?></a></h3>

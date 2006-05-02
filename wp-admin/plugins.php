@@ -2,9 +2,8 @@
 require_once('admin.php');
 
 if ( isset($_GET['action']) ) {
-	check_admin_referer();
-
 	if ('activate' == $_GET['action']) {
+		check_admin_referer('activate-plugin' . $_GET['plugin']);
 		$current = get_settings('active_plugins');
 		if (!in_array($_GET['plugin'], $current)) {
 			$current[] = trim( $_GET['plugin'] );
@@ -15,6 +14,7 @@ if ( isset($_GET['action']) ) {
 		}
 		header('Location: plugins.php?activate=true');
 	} else if ('deactivate' == $_GET['action']) {
+		check_admin_referer('deactivate-plugin' . $_GET['plugin']);
 		$current = get_settings('active_plugins');
 		array_splice($current, array_search( $_GET['plugin'], $current), 1 ); // Array-fu!
 		update_option('active_plugins', $current);
@@ -98,11 +98,11 @@ if (empty($plugins)) {
 		$style = ('class="alternate"' == $style|| 'class="alternate active"' == $style) ? '' : 'alternate';
 
 		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
-			$action = "<a href='plugins.php?action=deactivate&amp;plugin=$plugin_file' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
+			$action = "<a href='" . wp_nonce_url("plugins.php?action=deactivate&amp;plugin=$plugin_file", 'deactivate-plugin' . $plugin_file) . "' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
 			$plugin_data['Title'] = "<strong>{$plugin_data['Title']}</strong>";
 			$style .= $style == 'alternate' ? ' active' : 'active';
 		} else {
-			$action = "<a href='plugins.php?action=activate&amp;plugin=$plugin_file' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
+			$action = "<a href='" . wp_nonce_url("plugins.php?action=activate&amp;plugin=$plugin_file", 'activate-plugin' . $plugin_file) . "' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
 		$plugin_data['Description'] = wp_kses($plugin_data['Description'], array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array()) ); ;
 		if ($style != '') $style = 'class="' . $style . '"';

@@ -29,7 +29,7 @@ switch($action) {
 case 'update':
 	$any_changed = 0;
 
-	check_admin_referer();
+	check_admin_referer('update-options');
 
 	if (!$_POST['page_options']) {
 		foreach ($_POST as $key => $value) {
@@ -89,6 +89,7 @@ default:
 <div class="wrap">
   <h2><?php _e('All options'); ?></h2>
   <form name="form" action="options.php" method="post">
+  <?php wp_nonce_field('update-options') ?>
   <input type="hidden" name="action" value="update" />
   <table width="98%">
 <?php

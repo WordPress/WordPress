@@ -10,6 +10,7 @@ include('admin-header.php');
 <div class="wrap"> 
 <h2><?php _e('Reading Options') ?></h2> 
 <form name="form1" method="post" action="options.php">
+<?php wp_nonce_field('update-options') ?>
 
 <?php if ( get_pages() ): ?>
 <fieldset class="options"> 

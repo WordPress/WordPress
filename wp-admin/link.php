@@ -29,7 +29,7 @@ $this_file = 'link-manager.php';
 
 switch ($action) {
 		case 'deletebookmarks' :
-		check_admin_referer();
+		check_admin_referer('bulk-bookmarks');
 
 		// check the current user's level first.
 		if (!current_user_can('manage_links'))
@@ -53,7 +53,7 @@ switch ($action) {
 		break;
 
 	case 'move' :
-		check_admin_referer();
+		check_admin_referer('bulk-bookmarks');
 
 		// check the current user's level first.
 		if (!current_user_can('manage_links'))
@@ -72,7 +72,7 @@ switch ($action) {
 		break;
 
 	case 'add' :
-		check_admin_referer();
+		check_admin_referer('add-bookmark');
 
 		add_link();
 
@@ -80,9 +80,9 @@ switch ($action) {
 		break;
 
 	case 'save' :
-		check_admin_referer();
-
 		$link_id = (int) $_POST['link_id'];
+		check_admin_referer('update-bookmark' . $link_id);
+
 		edit_link($link_id);
 
 		wp_redirect($this_file);
@@ -90,12 +90,11 @@ switch ($action) {
 		break;
 
 	case 'delete' :
-		check_admin_referer();
+		$link_id = (int) $_GET['link_id'];
+		check_admin_referer('delete-bookmark' . $link_id);
 
 		if (!current_user_can('manage_links'))
 			die(__("Cheatin' uh ?"));
-
-		$link_id = (int) $_GET['link_id'];
 
 		wp_delete_link($link_id);
 
