@@ -32,7 +32,7 @@ break;
 
 case 'update':
 
-check_admin_referer();
+check_admin_referer('update-user' . $user_id);
 
 if (!current_user_can('edit_users'))
 	$errors = new WP_Error('head', __('You do not have permission to edit this user.'));
@@ -74,6 +74,7 @@ if (!current_user_can('edit_users'))
 <h2><?php _e('Edit User'); ?></h2>
 
 <form name="profile" id="your-profile" action="user-edit.php" method="post">
+<?php wp_nonce_field('update-user' . $user_ID) ?>
 <p>
 <input type="hidden" name="from" value="profile" />
 <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />

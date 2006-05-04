@@ -24,6 +24,7 @@ switch ($step) {
 <div class="wrap">
 <h2><?php _e('Import your blogroll from another system') ?> </h2>
 <form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
+<?php wp_nonce_field('import-bookmarks') ?>
 
 <p><?php _e('If a program or website you use allows you to export your bookmarks or subscriptions as OPML you may import them here.'); ?>
 <div style="width: 70%; margin: auto; height: 8em;">
@@ -63,7 +64,7 @@ foreach ($categories as $category) {
             } // end case 0
 
     case 1: {
-		check_admin_referer();
+		check_admin_referer('import-bookmarks');
 
                 include_once('admin-header.php');
                 if ( !current_user_can('manage_links') )
