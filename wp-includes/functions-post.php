@@ -352,7 +352,7 @@ function wp_delete_attachment($postid) {
 	global $wpdb;
 	$postid = (int) $postid;
 
-	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $postid") )
+	if ( !$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = '$postid'") )
 		return $post;
 
 	if ( 'attachment' != $post->post_status )
@@ -361,17 +361,17 @@ function wp_delete_attachment($postid) {
 	$meta = get_post_meta($postid, '_wp_attachment_metadata', true);
 	$file = get_post_meta($postid, '_wp_attached_file', true);
 
-	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
+	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = '$postid'");
 
-	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
+	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = '$postid'");
 
-	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = $postid");
+	$wpdb->query("DELETE FROM $wpdb->post2cat WHERE post_id = '$postid'");
 
-	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
+	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$postid'");
 
 	if ( ! empty($meta['thumb']) ) {
 		// Don't delete the thumb if another attachment uses it
-		if (! $foo = $wpdb->get_row("SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE '%".$wpdb->escape($meta['thumb'])."%' AND post_id <> $postid"))
+		if (! $foo = $wpdb->get_row("SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE '%".$wpdb->escape($meta['thumb'])."%' AND post_id <> '$postid'"))
 			@ unlink(str_replace(basename($file), $meta['thumb'], $file));
 	}
 
@@ -456,9 +456,11 @@ function wp_update_post($postarr = array()) {
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 	global $wpdb;
 	
+	$post_ID = (int) $post_ID;
+
 	$sql = "SELECT category_id 
 		FROM $wpdb->post2cat 
-		WHERE post_id = $post_ID 
+		WHERE post_id = '$post_ID' 
 		ORDER BY category_id";
 
 	$result = $wpdb->get_col($sql);

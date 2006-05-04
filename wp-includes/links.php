@@ -445,9 +445,10 @@ function get_links_withrating($category = -1, $before = '', $after = '<br />',
  **                uses 0
  */
 function get_linkcatname($id = 0) {
+    $id = (int) $id;
     global $wpdb;
     $cat_name = '';
-    if ('' != $id) {
+    if ( !empty($id) ) {
         $cat_name = $wpdb->get_var("SELECT cat_name FROM $wpdb->linkcategories WHERE cat_id=$id");
     }
     return $cat_name;
