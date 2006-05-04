@@ -254,7 +254,7 @@ function check_admin_referer($action = -1) {
 
 		die($html);
 	}
-	do_action('check_admin_referer');
+	do_action('check_admin_referer', $action);
 }endif;
 
 if ( !function_exists('check_ajax_referer') ) :
