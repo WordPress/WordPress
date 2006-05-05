@@ -1040,4 +1040,9 @@ function htmlentities2($myHTML) {
 	return preg_replace("/&(?![A-Za-z]{0,4}\w{2,3};|#[0-9]{2,3};)/","&amp;" , strtr($myHTML, $translation_table));
 }
 
+// Escape single quotes, specialchar double quotes, and fix line endings.
+function js_escape($text) {
+	$text = wp_specialchars($text, 'double');
+	return preg_replace("/\r?\n/", "\\n", addslashes($text));	
+}
 ?>
