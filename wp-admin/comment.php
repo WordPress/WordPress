@@ -51,6 +51,8 @@ case 'mailapprovecomment':
 	$comment = (int) $_GET['comment'];
 	$p = (int) $_GET['p'];
 	$formaction = 'confirmdeletecomment' == $action ? 'deletecomment' : 'approvecomment';
+	$nonce_action = 'confirmdeletecomment' == $action ? 'delete-comment' : 'approve-comment';
+	$nonce_action .= $comment;
 
 	if ( ! $comment = get_comment($comment) )
 		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
@@ -74,6 +76,7 @@ case 'mailapprovecomment':
 	echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
 
 	echo "<form action='".get_settings('siteurl')."/wp-admin/comment.php' method='get'>\n";
+	wp_nonce_field($nonce_action);
 	echo "<input type='hidden' name='action' value='$formaction' />\n";
 	if ( 'spam' == $_GET['delete_type'] )
 		echo "<input type='hidden' name='delete_type' value='spam' />\n";
