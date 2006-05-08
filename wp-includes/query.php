@@ -499,6 +499,7 @@ class WP_Query {
 		$q = &$this->query_vars;
 
 		// First let's clear some variables
+		$distinct = '';
 		$whichcat = '';
 		$whichauthor = '';
 		$whichpage = '';
@@ -692,30 +693,25 @@ class WP_Query {
 		} else {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
-			if (stristr($q['cat'],'-')) {
-				// Note: if we have a negative, we ignore all the positives. It must
-				// always mean 'everything /except/ this one'. We should be able to do
-				// multiple negatives but we don't :-(
-				$eq = '!=';
-				$andor = 'AND';
-				$q['cat'] = explode('-',$q['cat']);
-				$q['cat'] = intval($q['cat'][1]);
-			} else {
-				$eq = '=';
-				$andor = 'OR';
-			}
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) ";
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
-			$whichcat .= ' AND (category_id '.$eq.' '.intval($cat_array[0]);
-			$whichcat .= get_category_children($cat_array[0], ' '.$andor.' category_id '.$eq.' ');
-			for ($i = 1; $i < (count($cat_array)); $i = $i + 1) {
-				$whichcat .= ' '.$andor.' category_id '.$eq.' '.intval($cat_array[$i]);
-				$whichcat .= get_category_children($cat_array[$i], ' '.$andor.' category_id '.$eq.' ');
+			$in_cats = $out_cats = '';
+			foreach ( $cat_array as $cat ) {
+				$in = strstr($cat, '-') ? false : true;
+				$cat = trim($cat, '-');
+				if ( $in )
+					$in_cats .= "$cat, " . get_category_children($cat, '', ', ');
+				else
+					$out_cats .= "$cat, " . get_category_children($cat, '', ', ');				
 			}
-			$whichcat .= ')';
-			if ($eq == '!=') {
-				$q['cat'] = '-'.$q['cat']; // Put back the knowledge that we are excluding a category.
-			}
+			$in_cats = substr($in_cats, 0, -2);
+			$out_cats = substr($out_cats, 0, -2);
+			if ( strlen($in_cats) > 0 )
+				$in_cats = " AND category_id IN ($in_cats)";
+			if ( strlen($out_cats) > 0 )
+				$out_cats = " AND category_id NOT IN ($out_cats)";
+			$whichcat = $in_cats . $out_cats;
+			$distinct = 'DISTINCT';
 		}
 
 		// Category stuff for nice URIs
@@ -746,9 +742,11 @@ class WP_Query {
 				
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
-			$whichcat = " AND (category_id = '" . $q['cat'] . "'";
-			$whichcat .= get_category_children($q['cat'], " OR category_id = ");
+			$whichcat = " AND category_id IN ({$q['cat']}, ";
+			$whichcat .= get_category_children($q['cat'], '', ', ');
+			$whichcat = substr($whichcat, 0, -2);
 			$whichcat .= ")";
+			$distinct = 'DISTINCT';
 		}
 
 		// Author/user stuff
@@ -877,8 +875,10 @@ class WP_Query {
 		if ( ! empty($groupby) )
 			$groupby = 'GROUP BY ' . $groupby;
 		$join = apply_filters('posts_join_paged', $join);
-		$orderby = apply_filters('posts_orderby', $q['orderby']); 
-		$request = " SELECT * FROM $wpdb->posts $join WHERE 1=1 $where $groupby ORDER BY $orderby $limits";
+		$orderby = apply_filters('posts_orderby', $q['orderby']);
+		$distinct = apply_filters('posts_distinct', $distinct);
+		$fields = apply_filters('posts_fields', "$wpdb->posts.*");
+		$request = " SELECT $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby ORDER BY $orderby $limits";
 		$this->request = apply_filters('posts_request', $request);
 
 		$this->posts = $wpdb->get_results($this->request);
