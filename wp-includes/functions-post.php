@@ -384,9 +384,14 @@ function wp_delete_attachment($postid) {
 
 	if ( ! empty($meta['thumb']) ) {
 		// Don't delete the thumb if another attachment uses it
-		if (! $foo = $wpdb->get_row("SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE '%".$wpdb->escape($meta['thumb'])."%' AND post_id <> '$postid'"))
-			@ unlink(str_replace(basename($file), $meta['thumb'], $file));
+		if (! $wpdb->get_row("SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attachment_metadata' AND meta_value LIKE '%".$wpdb->escape($meta['thumb'])."%' AND post_id <> $postid")) {
+			$thumbfile = str_replace(basename($file), $meta['thumb'], $file);
+			$thumbfile = apply_filters('wp_delete_file', $thumbfile);
+			@ unlink($thumbfile);
+		}
 	}
+
+	$file = apply_filters('wp_delete_file', $file);
 
 	if ( ! empty($file) )
 		@ unlink($file);
