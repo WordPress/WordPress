@@ -115,12 +115,12 @@ bookmarks ordered by
 <input type="hidden" name="action" value="" />
 <input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
 <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
-<table width="100%" cellpadding="3" cellspacing="3">
+<table class="widefat">
 	<thead>
 	<tr>
-		<th width="15%"><?php _e('Name') ?></th>
-		<th><?php _e('URI') ?></th>
-		<th><?php _e('Categories') ?></th>
+		<th width="15%" style="text-align: left"><?php _e('Name') ?></th>
+		<th style="text-align: left"><?php _e('URI') ?></th>
+		<th style="text-align: left"><?php _e('Categories') ?></th>
 		<th><?php _e('rel') ?></th>
 		<th><?php _e('Visible') ?></th>
 		<th colspan="2"><?php _e('Action') ?></th>

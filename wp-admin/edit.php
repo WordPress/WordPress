@@ -133,7 +133,7 @@ $posts_columns['control_delete'] = '';
 
 ?>
 
-<table width="100%" cellpadding="3" cellspacing="3"> 
+<table class="widefat"> 
 	<thead>
 	<tr>
 
@@ -185,7 +185,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td><a href="edit.php?p=<?php echo $id ?>&amp;c=1"> 
+		<td style="text-align: center"><a href="edit.php?p=<?php echo $id ?>&amp;c=1"> 
       <?php comments_number(__('0'), __('1'), __('%')) ?> 
       </a></td>
 		<?php

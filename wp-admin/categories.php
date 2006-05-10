@@ -130,12 +130,12 @@ $messages[3] = __('Category updated.');
 <?php else : ?>
 	<h2><?php _e('Categories') ?> </h2>
 <?php endif; ?>
-<table width="100%" cellpadding="3" cellspacing="3">
+<table class="widefat">
 	<thead>
 	<tr>
 		<th scope="col"><?php _e('ID') ?></th>
-        <th scope="col"><?php _e('Name') ?></th>
-        <th scope="col"><?php _e('Description') ?></th>
+        <th scope="col" style="text-align: left"><?php _e('Name') ?></th>
+        <th scope="col" style="text-align: left"><?php _e('Description') ?></th>
         <th scope="col" width="90"><?php _e('Posts') ?></th>
         <th scope="col" width="90"><?php _e('Bookmarks') ?></th>
         <th colspan="2"><?php _e('Action') ?></th>

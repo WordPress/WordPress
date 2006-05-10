@@ -736,7 +736,7 @@ function user_row( $user_object, $style = '' ) {
 		<td><label for='user_{$user_object->ID}'>$user_object->first_name $user_object->last_name</label></td>
 		<td><a href='mailto:$email' title='" . sprintf(__('e-mail: %s'), $email) . "'>$email</a></td>
 		<td><a href='$url' title='website: $url'>$short_url</a></td>";
-	$r .= "\n\t\t<td align='right'>$numposts</td>";
+	$r .= "\n\t\t<td align='center'>$numposts</td>";
 	$r .= "\n\t\t<td>";
 	if (current_user_can('edit_users'))
 		$r .= "<a href='user-edit.php?user_id=$user_object->ID' class='edit'>".__('Edit')."</a>";
@@ -1559,8 +1559,8 @@ function get_file_description($file) {
 	if (isset ($wp_file_descriptions[basename($file)])) {
 		return $wp_file_descriptions[basename($file)];
 	}
-	elseif (file_exists(ABSPATH.$file)) {
-		$template_data = implode('', file(ABSPATH.$file));
+	elseif ( file_exists( ABSPATH . $file ) && is_file( ABSPATH . $file ) ) {
+		$template_data = implode('', file( ABSPATH . $file ));
 		if (preg_match("|Template Name:(.*)|i", $template_data, $name))
 			return $name[1];
 	}
@@ -1911,21 +1911,14 @@ function wp_import_cleanup($id) {
 
 function wp_import_upload_form($action) {
 ?>
-<script type="text/javascript">
-function cancelUpload() {
-o = document.getElementById('uploadForm');
-o.method = 'GET';
-o.action.value = 'view';
-o.submit();
-}
-</script>
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo $action ?>">
-<label for="upload"><?php _e('File:'); ?></label><input type="file" id="upload" name="import" />
+<form enctype="multipart/form-data" id="import-upload-form" method="POST" action="<?php echo $action ?>">
+<p>
+<label for="upload"><?php _e('Choose a file from your computer:'); ?></label> <input type="file" id="upload" name="import" size="25" />
 <input type="hidden" name="action" value="save" />
-<div id="buttons">
-<input type="submit" value="<?php _e('Import'); ?>" />
-<input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
-</div>
+</p>
+<p class="submit">
+<input type="submit" value="<?php _e('Upload file and import'); ?> &raquo;" />
+</p>
 </form>
 <?php
 }
@@ -1938,7 +1931,7 @@ function wp_import_handle_upload() {
 		return $file;
 
 	$url = $file['url'];
-	$file = $file['file'];
+	$file = addslashes( $file['file'] );
 	$filename = basename($file);
 
 	// Construct the object array

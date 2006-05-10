@@ -39,7 +39,7 @@ function getNumChecked(form)
 </script>
 <div class="wrap">
 <h2><?php _e('Comments'); ?></h2>
-<form name="searchform" action="" method="get"> 
+<form name="searchform" action="" method="get" id="editcomments"> 
   <fieldset> 
   <legend><?php _e('Show Comments That Contain...') ?></legend> 
   <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo wp_specialchars($_GET['s'], 1); ?>" size="17" /> 
@@ -152,15 +152,17 @@ $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 	if ($comments) {
 		echo '<form name="deletecomments" id="deletecomments" action="" method="post"> ';
 		wp_nonce_field('bulk-comments');
-		echo '<table width="100%" cellpadding="3" cellspacing="3">
+		echo '<table class="widefat">
+<thead>
   <tr>
-    <th scope="col">*</th>
-    <th scope="col">' .  __('Name') . '</th>
-    <th scope="col">' .  __('E-mail') . '</th>
-    <th scope="col">' . __('IP') . '</th>
-    <th scope="col">' . __('Comment Excerpt') . '</th>
+    <th scope="col"><input type="checkbox" onclick="checkAll(document.getElementById(\'deletecomments\'));" /></th>
+    <th scope="col" style="text-align: left">' .  __('Name') . '</th>
+    <th scope="col" style="text-align: left">' .  __('E-mail') . '</th>
+    <th scope="col" style="text-align: left">' . __('IP') . '</th>
+    <th scope="col" style="text-align: left">' . __('Comment Excerpt') . '</th>
 	<th scope="col" colspan="3">' .  __('Actions') . '</th>
-  </tr>';
+  </tr>
+</thead>';
 		foreach ($comments as $comment) {
 		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
 		$comment_status = wp_get_comment_status($comment->comment_ID);
@@ -183,14 +185,13 @@ $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
     <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo "<a href='comment.php?action=editcomment&amp;comment=$comment->comment_ID' class='edit'>" .  __('Edit') . "</a>"; } ?></td>
     <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-		echo "<a href=\"comment.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape( $comment->comment_author ))  . "' );\" class='edit'>" . __('Delete') . "</a> ";
+		echo "<a href=\"comment.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape( $comment->comment_author ))  . "' );\" class='delete'>" . __('Delete') . "</a> ";
 		} ?></td>
   </tr>
 		<?php 
 		} // end foreach
 	?></table>
-    <p><a href="javascript:;" onclick="checkAll(document.getElementById('deletecomments')); return false; "><?php _e('Invert Checkbox Selection') ?></a></p>
-            <p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments &raquo;') ?>" onclick="var numchecked = getNumChecked(document.getElementById('deletecomments')); if(numchecked < 1) { alert('<?php _e("Please select some comments to delete"); ?>'); return false } return confirm('<?php printf(__("You are about to delete %s comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete."), "' + numchecked + '"); ?>')" />
+<p class="submit"><input type="submit" name="delete_button" value="<?php _e('Delete Checked Comments &raquo;') ?>" onclick="var numchecked = getNumChecked(document.getElementById('deletecomments')); if(numchecked < 1) { alert('<?php _e("Please select some comments to delete"); ?>'); return false } return confirm('<?php printf(__("You are about to delete %s comments permanently \\n  \'Cancel\' to stop, \'OK\' to delete."), "' + numchecked + '"); ?>')" />
 			<input type="submit" name="spam_button" value="<?php _e('Mark Checked Comments as Spam &raquo;') ?>" onclick="return confirm('<?php _e("You are about to mark these comments as spam \\n  \'Cancel\' to stop, \'OK\' to mark as spam.") ?>')" /></p>
   </form>
 <div id="ajax-response"></div>

@@ -40,6 +40,28 @@ a.delete:hover {
 	overflow: hidden;
 }
 
+.widefat {
+	width: 100%;
+}
+
+.widefat td, .widefat th {
+	padding: 5px 6px;
+}
+
+.import-system {
+	font-size: 16px;
+}
+
+thead {
+	background: #dfdfdf
+}
+
+#import-upload-form {
+	width: 300px;
+	margin: auto;
+	text-align: center;
+}
+
 a.edit, a.delete, a.edit:hover, a.delete:hover {
 	border-bottom: none;
 	display: block;
@@ -366,7 +388,7 @@ form#upload #post_content {
 	clear: both;
 }
 
-table .vers, table .name {
+table .vers {
 	text-align: center;
 }
 

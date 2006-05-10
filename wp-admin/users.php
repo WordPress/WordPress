@@ -209,38 +209,40 @@ default:
 <?php wp_nonce_field('bulk-users') ?>
 <div class="wrap">
 	<h2><?php _e('User List by Role'); ?></h2>
-  <table cellpadding="3" cellspacing="3" width="100%">
-	<?php
-	foreach($roleclasses as $role => $roleclass) {
-		ksort($roleclass);
-		?>
-
-	<tr>
-		<th colspan="8" align="left"><h3><?php echo $wp_roles->role_names[$role]; ?></h3></th>
-	</tr>
-	<tr>
-		<th><?php _e('ID') ?></th>
-		<th><?php _e('Username') ?></th>
-		<th><?php _e('Name') ?></th>
-		<th><?php _e('E-mail') ?></th>
-		<th><?php _e('Website') ?></th>
-		<th><?php _e('Posts') ?></th>
-		<th>&nbsp;</th>
-	</tr>
-	<tbody id="role-<?php echo $role; ?>"><?php
-	$style = '';
-	foreach ($roleclass as $user_object) {
-		$style = (' class="alternate"' == $style) ? '' : ' class="alternate"';
-		echo "\n\t" . user_row( $user_object, $style );
-	}
-
-	?>
-
-	</tbody>
+<table class="widefat">
 <?php
-	}
+foreach($roleclasses as $role => $roleclass) {
+	ksort($roleclass);
 ?>
-  </table>
+
+<tr>
+	<th colspan="8" align="left"><h3><?php echo $wp_roles->role_names[$role]; ?></h3></th>
+</tr>
+<thead>
+<tr>
+	<th style="text-align: left"><?php _e('ID') ?></th>
+	<th style="text-align: left"><?php _e('Username') ?></th>
+	<th style="text-align: left"><?php _e('Name') ?></th>
+	<th style="text-align: left"><?php _e('E-mail') ?></th>
+	<th style="text-align: left"><?php _e('Website') ?></th>
+	<th><?php _e('Posts') ?></th>
+	<th>&nbsp;</th>
+</tr>
+</thead>
+<tbody id="role-<?php echo $role; ?>"><?php
+$style = '';
+foreach ($roleclass as $user_object) {
+	$style = (' class="alternate"' == $style) ? '' : ' class="alternate"';
+	echo "\n\t" . user_row( $user_object, $style );
+}
+
+?>
+
+</tbody>
+<?php
+}
+?>
+</table>
 
 
 	<h2><?php _e('Update Users'); ?></h2>
