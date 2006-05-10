@@ -15,7 +15,7 @@ if ( current_user_can('edit_users') )
 else
 	$menu[35] = array(__('Profile'), 'read', 'profile.php');
 $menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
-$menu[45] = array(__('Import'), 'import', 'import.php');
+
 
 $submenu['post-new.php'][5] = array(__('Write Post'), 'edit_posts', 'post-new.php');
 $submenu['post-new.php'][10] = array(__('Write Page'), 'edit_pages', 'page-new.php');
@@ -27,6 +27,8 @@ $submenu['edit.php'][20] = array(__('Comments'), 'edit_posts', 'edit-comments.ph
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
 $submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), "<span id='awaitmod'>$awaiting_mod</span>"), 'edit_posts', 'moderation.php');
 $submenu['edit.php'][30] = array(__('Files'), 'edit_files', 'templates.php');
+$submenu['edit.php'][35] = array(__('Import'), 'import', 'import.php');
+$submenu['edit.php'][40] = array(__('Export'), 'import', 'export.php');
 
 $submenu['link-manager.php'][5] = array(__('Manage Bookmarks'), 'manage_links', 'link-manager.php');
 $submenu['link-manager.php'][10] = array(__('Add Bookmark'), 'manage_links', 'link-add.php');

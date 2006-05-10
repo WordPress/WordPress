@@ -1,7 +1,7 @@
 <?php
 require_once ('admin.php');
 $title = __('Import');
-$parent_file = 'import.php';
+$parent_file = 'edit.php';
 require_once ('admin-header.php');
 ?>
 
@@ -30,7 +30,7 @@ if (empty ($importers)) {
 	echo '<p>'.__('No importers are available.').'</p>'; // TODO: make more helpful
 } else {
 ?>
-<table width="100%" cellpadding="3" cellspacing="3">
+<table class="widefat">
 
 <?php
 	$style = '';
@@ -42,8 +42,8 @@ if (empty ($importers)) {
 			$style = 'class="'.$style.'"';
 		echo "
 			<tr $style>
-				<td class=\"togl\">$action</td>
-				<td class=\"desc\">{$data[1]}</td>
+				<td class='import-system'>$action</td>
+				<td class='desc'>{$data[1]}</td>
 			</tr>";
 	}
 ?>

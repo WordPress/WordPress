@@ -662,6 +662,6 @@ class Blogger_Import {
 
 $blogger_import = new Blogger_Import();
 
-register_importer('blogger', 'Blogger', __('Import posts and comments from a Blogger account'), array ($blogger_import, 'start'));
+register_importer('blogger', 'Blogger and Blogspot', __('Import <strong>posts and comments</strong> from your Blogger account'), array ($blogger_import, 'start'));
 
 ?>

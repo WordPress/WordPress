@@ -11,7 +11,7 @@ class MT_Import {
 
 	function header() {
 		echo '<div class="wrap">';
-		echo '<h2>'.__('Import Movable Type').'</h2>';
+		echo '<h2>'.__('Import Movable Type and Typepad').'</h2>';
 	}
 
 	function footer() {
@@ -148,7 +148,7 @@ class MT_Import {
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
-			echo '<li><i>'.$author.'</i><br />'.'<input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30">';
+			echo '<li>Current author: <strong>'.$author.'</strong><br />'.'Create user <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br /> or map to existing ';
 			$this->users_form($j);
 			echo '</li>';
 		}
@@ -162,7 +162,10 @@ class MT_Import {
 	function select_authors() {
 		$file = wp_import_handle_upload();
 		if ( isset($file['error']) ) {
-			echo $file['error'];
+			$this->header();
+			echo '<p>Sorry, there has been an error.</p>';
+			echo '<p><strong>' . $file['error'] . '</strong></p>';
+			$this->footer();
 			return;
 		}
 		$this->file = $file['file'];
@@ -331,7 +334,7 @@ class MT_Import {
 					}
 				}
 				if ( $num_comments )
-					printf(__('(%s comments)'), $num_comments);
+					printf(__(' (%s comments)'), $num_comments);
 
 				// Finally the pings
 				// fix the double newline on the first one
@@ -379,7 +382,7 @@ class MT_Import {
 					}
 				}
 				if ( $num_pings )
-					printf(__('(%s pings)'), $num_pings);
+					printf(__(' (%s pings)'), $num_pings);
 
 				echo "</li>";
 			}
@@ -394,6 +397,7 @@ class MT_Import {
 
 	function import() {
 		$this->id = (int) $_GET['id'];
+		
 		$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
 		$this->get_entries();
@@ -426,5 +430,5 @@ class MT_Import {
 
 $mt_import = new MT_Import();
 
-register_importer('mt', 'Movable Type', __('Import posts and comments from your Movable Type blog'), array ($mt_import, 'dispatch'));
+register_importer('mt', 'Movable Type and Typepad', __('Imports <strong>posts and comments</strong> from your Movable Type or Typepad blog'), array ($mt_import, 'dispatch'));
 ?>
