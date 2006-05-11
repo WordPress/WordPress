@@ -352,6 +352,12 @@ function populate_roles_210() {
 		$role->add_cap('delete_posts');
 		$role->add_cap('delete_others_posts');
 		$role->add_cap('delete_published_posts');
+		$role->add_cap('delete_private_posts');
+		$role->add_cap('edit_private_posts');
+		$role->add_cap('read_private_posts');
+		$role->add_cap('delete_private_pages');
+		$role->add_cap('edit_private_pages');
+		$role->add_cap('read_private_pages');
 	}
 
 	$role = get_role('author');
