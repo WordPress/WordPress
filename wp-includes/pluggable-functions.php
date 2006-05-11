@@ -5,21 +5,20 @@
 
 if ( !function_exists('set_current_user') ) :
 function set_current_user($id, $name = '') {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
+	return wp_set_current_user($id, $name);
+}
+endif;
 
-	$current_user	= '';
+if ( !function_exists('wp_set_current_user') ) :
+function wp_set_current_user($id, $name = '') {
+	global $current_user;
 
-	$current_user	= new WP_User($id, $name);
+	if ( isset($current_user) && ($id == $current_user->ID) )
+		return $current_user;
 
-	$userdata	= get_userdatabylogin($user_login);
+	$current_user = new WP_User($id, $name);
 
-	$user_login	= $userdata->user_login;
-	$user_level	= $userdata->user_level;
-	$user_ID	= $userdata->ID;
-	$user_email	= $userdata->user_email;
-	$user_url	= $userdata->user_url;
-	$user_pass_md5	= md5($userdata->user_pass);
-	$user_identity	= $userdata->display_name;
+	setup_userdata($current_user->ID);
 
 	do_action('set_current_user');
 
@@ -27,30 +26,34 @@ function set_current_user($id, $name = '') {
 }
 endif;
 
+if ( !function_exists('current_user') ) :
+function wp_get_current_user() {
+	global $current_user;
+
+	get_currentuserinfo();
+
+	return $current_user;
+}
+endif;
 
 if ( !function_exists('get_currentuserinfo') ) :
 function get_currentuserinfo() {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity, $current_user;
+	global $current_user;
 
 	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST )
 		return false;
 
+	if ( ! empty($current_user) )
+		return;
+
 	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) || 
 		!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true) ) {
-		$current_user = new WP_User(0);
+		wp_set_current_user(0);
 		return false;
 	}
-	$user_login  = $_COOKIE[USER_COOKIE];
-	$userdata    = get_userdatabylogin($user_login);
-	$user_level  = $userdata->user_level;
-	$user_ID     = $userdata->ID;
-	$user_email  = $userdata->user_email;
-	$user_url    = $userdata->user_url;
-	$user_pass_md5 = md5($userdata->user_pass);
-	$user_identity = $userdata->display_name;
 
-	if ( empty($current_user) )
-		$current_user = new WP_User($user_ID);
+	$user_login = $_COOKIE[USER_COOKIE];
+	wp_set_current_user(0, $user_login);
 }
 endif;
 
@@ -201,10 +204,11 @@ endif;
 
 if ( !function_exists('is_user_logged_in') ) :
 function is_user_logged_in() {
-	global $current_user;
+	$user = wp_get_current_user();
 	
-	if ( $current_user->id == 0 )
+	if ( $user->id == 0 )
 		return false;
+
 	return true;
 }
 endif;
@@ -224,14 +228,34 @@ function auth_redirect() {
 endif;
 
 if ( !function_exists('check_admin_referer') ) :
-function check_admin_referer() {
+function check_admin_referer($action = -1) {
+	global $pagenow;
 	$adminurl = strtolower(get_settings('siteurl')).'/wp-admin';
 	$referer = strtolower($_SERVER['HTTP_REFERER']);
-	if (!strstr($referer, $adminurl))
-		die(__('Sorry, you need to <a href="http://codex.wordpress.org/Enable_Sending_Referrers">enable sending referrers</a> for this feature to work.'));
+	if ( !wp_verify_nonce($_REQUEST['_wpnonce'], $action) ) {
+		$html  = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>\n\n";
+		$html .= "<head>\n\t<title>" . __('WordPress Confirmation') . "</title>\n";
+		$html .= "</head>\n<body>\n";
+		if ( $_POST ) {
+			$q = http_build_query($_POST);
+			$q = explode( ini_get('arg_separator.output'), $q);
+			$html .= "\t<form method='post' action='$pagenow'>\n";
+			foreach ( (array) $q as $a ) {
+				$v = substr(strstr($a, '='), 1);
+				$k = substr($a, 0, -(strlen($v)+1));
+				$html .= "\t\t<input type='hidden' name='" . wp_specialchars( urldecode($k), 1 ) . "' value='" . wp_specialchars( urldecode($v), 1 ) . "' />\n";
+			}
+			$html .= "\t\t<input type='hidden' name='_wpnonce' value='" . wp_create_nonce($action) . "' />\n";
+			$html .= "\t\t<p>" . __('Are you sure you want to do this?') . "</p>\n\t\t<p><a href='$adminurl'>No</a> <input type='submit' value='" . __('Yes') . "' /></p>\n\t</form>\n";
+		} else {
+			$html .= "\t<p>" . __('Are you sure you want to do this?') . "</p>\n\t\t<p><a href='$adminurl'>No</a> <a href='" . add_query_arg( '_wpnonce', wp_create_nonce($action), $_SERVER['REQUEST_URI'] ) . "'>" . __('Yes') . "</a></p>\n";
+		}
+		$html .= "</body>\n</html>";
+
+		die($html);
+	}
 	do_action('check_admin_referer');
-}
-endif;
+}endif;
 
 if ( !function_exists('check_ajax_referer') ) :
 function check_ajax_referer() {
@@ -261,6 +285,16 @@ function wp_redirect($location) {
 	else
 		header("Location: $location");
 }
+endif;
+
+if ( !function_exists('wp_get_cookie_login') ):
+function wp_get_cookie_login() {
+	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) )
+		return false;
+
+	return array('login' => $_COOKIE[USER_COOKIE],	'password' => $_COOKIE[PASS_COOKIE]);
+}
+
 endif;
 
 if ( !function_exists('wp_setcookie') ) :
@@ -441,6 +475,31 @@ function wp_new_user_notification($user_id, $plaintext_pass = '') {
 		
 	wp_mail($user_email, sprintf(__('[%s] Your username and password'), get_settings('blogname')), $message);
 	
+}
+endif;
+
+if ( !function_exists('wp_verify_nonce') ) :
+function wp_verify_nonce($nonce, $action = -1) {
+	$user = wp_get_current_user();
+	$uid = $user->id;
+
+	$i = ceil(time() / 43200);
+
+	//Allow for expanding range, but only do one check if we can
+	if( substr(md5($i . DB_PASSWORD . $action . $uid), -12, 10) == $nonce || substr(md5(($i - 1) . DB_PASSWORD . $action . $uid), -12, 10) == $nonce )
+		return true;
+	return false;
+}
+endif;
+
+if ( !function_exists('wp_create_nonce') ) :
+function wp_create_nonce($action = -1) {
+	$user = wp_get_current_user();
+	$uid = $user->id;
+
+	$i = ceil(time() / 43200);
+	
+	return substr(md5($i . DB_PASSWORD . $action . $uid), -12, 10);
 }
 endif;
 

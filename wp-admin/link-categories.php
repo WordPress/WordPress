@@ -26,7 +26,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 switch ($action) {
   case 'addcat':
   {
-      check_admin_referer();
+      check_admin_referer('add-link-category');
 
       if ( !current_user_can('manage_links') )
           die (__("Cheatin' uh ?"));
@@ -82,9 +82,9 @@ switch ($action) {
   } // end addcat
   case 'Delete':
   {
-    check_admin_referer();
+   	$cat_id = (int) $_GET['cat_id'];
+    check_admin_referer('delete-link-category' . $cat_id);
 
-    $cat_id = (int) $_GET['cat_id'];
     $cat_name=get_linkcatname($cat_id);
 
     if ($cat_id=="1")
@@ -116,6 +116,7 @@ switch ($action) {
   <h2><?php printf(__('Edit &#8220%s&#8221; Category'), wp_specialchars($row->cat_name)); ?></h2>
 
   <form name="editcat" method="post">
+  <?php wp_nonce_field('update-link-category' . $row->cat_id) ?>
       <input type="hidden" name="action" value="editedcat" />
       <input type="hidden" name="cat_id" value="<?php echo $row->cat_id ?>" />
 <fieldset class="options">
@@ -203,15 +204,14 @@ switch ($action) {
   } // end Edit
   case "editedcat":
   {
-    check_admin_referer();
+    $cat_id = (int)$_POST["cat_id"];
+    check_admin_referer('update-link-category' . $cat_id);
 
     if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
 
     $submit=$_POST["submit"];
     if (isset($submit)) {
-
-    $cat_id = (int)$_POST["cat_id"];
 
     $cat_name= wp_specialchars($_POST["cat_name"]);
     $auto_toggle = $_POST["auto_toggle"];
@@ -356,7 +356,7 @@ foreach ($results as $row) {
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_after_all)?></td>
                 <td><?php echo $row->list_limit ?></td>
                 <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Edit" class="edit"><?php _e('Edit') ?></a></td>
-                <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Delete" onclick="return deleteSomething( 'link category', <?php echo $row->cat_id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; link category.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($row->cat_name,1)); ?>' );" class="delete"><?php _e('Delete') ?></a></td>
+                <td><a href="<?php echo wp_nonce_url("link-categories.php?cat_id=$row->cat_id?>&amp;action=Delete", 'delete-link-category' . $row->cat_id) ?>" "onclick="return deleteSomething( 'link category', <?php echo $row->cat_id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; link category.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($row->cat_name,1)); ?>' );" class="delete"><?php _e('Delete') ?></a></td>
               </tr>
 <?php
         ++$i;
@@ -371,6 +371,7 @@ foreach ($results as $row) {
 
 <div class="wrap">
     <form name="addcat" method="post">
+    <?php wp_nonce_field('add-link-category'); ?>
       <input type="hidden" name="action" value="addcat" />
 	  <h2><?php _e('Add a Link Category:') ?></h2>
 <fieldset class="options">

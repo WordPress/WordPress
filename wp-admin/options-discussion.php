@@ -21,6 +21,7 @@ if ($action == 'retrospam') {
 <div class="wrap"> 
 <h2><?php _e('Discussion Options') ?></h2> 
 <form method="post" action="options.php"> 
+<?php wp_nonce_field('update-options') ?>
 <fieldset class="options">
 <legend><?php _e('Usual settings for an article:<br /><small><em>(These settings may be overridden for individual articles.)</em></small>') ?></legend> 
 <ul> 

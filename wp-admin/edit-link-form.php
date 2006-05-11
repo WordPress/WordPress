@@ -4,11 +4,13 @@ if ( ! empty($link_id) ) {
 	$heading = __('Edit a link:');
 	$submit_text = __('Save Changes &raquo;');
 	$form = '<form action="" method="post" name="editlink" id="editlink">'; 
+	$nonce_action = 'update-bookmark' . $link_id;
 } else {
 	$editing = false;
 	$heading = __('<strong>Add</strong> a link:');
 	$submit_text = __('Add Link &raquo;');
 	$form = '<form name="addlink" method="post" action="link-manager.php">';
+	$nonce_action = 'add-bookmark';
 }
 
 function xfn_check($class, $value = '', $type = 'check') {
@@ -33,6 +35,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 
 <div class="wrap"> 
   <?php echo $form ?>
+  <?php wp_nonce_field($nonce_action); ?>
   <h2><?php echo $heading ?></h2>
 <fieldset class="options">
     <legend><?php _e('Basics') ?></legend>

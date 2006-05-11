@@ -29,7 +29,7 @@ switch($action) {
 case 'update':
 	$any_changed = 0;
 	
-	check_admin_referer();
+	check_admin_referer('update-options');
 
 	if (!$_POST['page_options']) {
 		foreach ($_POST as $key => $value) {
@@ -68,8 +68,6 @@ case 'update':
 			if ( get_settings('siteurl') != $old_siteurl || get_settings('home') != $old_home ) {
 				// If home changed, write rewrite rules to new location.
 				$wp_rewrite->flush_rules();
-				// Get currently logged in user and password.
-				get_currentuserinfo();
 				// Clear cookies for old paths.
 				wp_clearcookie();
 				// Set cookies for new paths.
@@ -91,6 +89,7 @@ default:
 <div class="wrap">
   <h2><?php _e('All options'); ?></h2>
   <form name="form" action="options.php" method="post">
+  <?php wp_nonce_field('update-options') ?>
   <input type="hidden" name="action" value="update" />
   <table width="98%">
 <?php

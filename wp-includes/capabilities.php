@@ -309,7 +309,7 @@ function map_meta_cap($cap, $user_id) {
 
 // Capability checking wrapper around the global $current_user object.
 function current_user_can($capability) {
-	global $current_user;
+	$current_user = wp_get_current_user();
 
 	$args = array_slice(func_get_args(), 1);
 	$args = array_merge(array($capability), $args);

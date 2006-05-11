@@ -1604,7 +1604,6 @@ class WP {
 	}
 
 	function send_headers() {
-		global $current_user;
 		@header('X-Pingback: '. get_bloginfo('pingback_url'));
 		if ( is_user_logged_in() )
 			nocache_headers();
@@ -1681,7 +1680,7 @@ class WP {
 	}
 
 	function init() {
-		get_currentuserinfo();
+		wp_get_current_user();
 	}
 
 	function query_posts() {

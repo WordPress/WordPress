@@ -9,7 +9,9 @@ include('admin-header.php');
 
 <div class="wrap"> 
 <h2><?php _e('Reading Options') ?></h2> 
-<form name="form1" method="post" action="options.php"> 
+<form name="form1" method="post" action="options.php">
+<?php wp_nonce_field('update-options') ?>
+
 <fieldset class="options"> 
 <legend><?php _e('Blog Pages') ?></legend> 
 <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 

@@ -10,6 +10,7 @@ include('./admin-header.php');
 <div class="wrap">
 <h2><?php _e('General Options') ?></h2>
 <form method="post" action="options.php"> 
+<?php wp_nonce_field('update-options') ?>
 <table class="optiontable"> 
 <tr valign="top"> 
 <th scope="row"><?php _e('Weblog title:') ?></th> 

@@ -11,7 +11,7 @@ $update = '';
 switch ($action) {
 
 case 'promote':
-	check_admin_referer();
+	check_admin_referer('bulk-users');
 
 	if (empty($_POST['users'])) {
 		header('Location: users.php');
@@ -39,7 +39,7 @@ break;
 
 case 'dodelete':
 
-	check_admin_referer();
+	check_admin_referer('delete-users');
 
 	if ( empty($_POST['users']) ) {
 		header('Location: users.php');
@@ -72,7 +72,7 @@ break;
 
 case 'delete':
 
-	check_admin_referer();
+	check_admin_referer('bulk-users');
 
 	if (empty($_POST['users'])) {
 		header('Location: users.php');
@@ -86,6 +86,7 @@ case 'delete':
 	include ('admin-header.php');
 ?>
 <form action="" method="post" name="updateusers" id="updateusers">
+<?php wp_nonce_field('delete-users') ?>
 <div class="wrap">
 <h2><?php _e('Delete Users'); ?></h2>
 <p><?php _e('You have specified these users for deletion:'); ?></p>
@@ -131,7 +132,7 @@ case 'delete':
 break;
 
 case 'adduser':
-	check_admin_referer();
+	check_admin_referer('add-user');
 	
 	$errors = add_user();
 	
@@ -200,6 +201,7 @@ default:
 	?>
 	
 <form action="" method="post" name="updateusers" id="updateusers">
+<?php wp_nonce_field('bulk-users') ?>
 <div class="wrap">
 	<h2><?php _e('User List by Role'); ?></h2>
   <table cellpadding="3" cellspacing="3" width="100%">
@@ -280,6 +282,7 @@ $role_select .= '</select>';
 <h2><?php _e('Add New User') ?></h2>
 <?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_settings('siteurl').'/wp-register.php').'</p>'; ?>
 <form action="" method="post" name="adduser" id="adduser">
+  <?php wp_nonce_field('add-user') ?>
   <table class="editform" width="100%" cellspacing="2" cellpadding="5">
     <tr>
       <th scope="row" width="33%"><?php _e('Nickname') ?>

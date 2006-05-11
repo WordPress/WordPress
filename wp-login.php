@@ -177,12 +177,12 @@ default:
 		$user_login = sanitize_user( $user_login );
 		$user_pass  = $_POST['pwd'];
 		$rememberme = $_POST['rememberme'];
-	} elseif ( !empty($_COOKIE) ) {
-		if ( !empty($_COOKIE[USER_COOKIE]) )
-			$user_login = $_COOKIE[USER_COOKIE];
-		if ( !empty($_COOKIE[PASS_COOKIE]) ) {
-			$user_pass = $_COOKIE[PASS_COOKIE];
+	} else {
+		$cookie_login = wp_get_cookie_login();
+		if ( ! empty($cookie_login) ) {
 			$using_cookie = true;
+			$user_login = $cookie_login['login'];
+			$user_pass = $cookie_login['password'];
 		}
 	}
 

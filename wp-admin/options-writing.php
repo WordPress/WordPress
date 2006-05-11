@@ -10,6 +10,7 @@ include('admin-header.php');
 <div class="wrap"> 
 <h2><?php _e('Writing Options') ?></h2> 
 <form method="post" action="options.php"> 
+<?php wp_nonce_field('update-options') ?>
 <table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
 <tr valign="top"> 
 <th width="33%" scope="row"> <?php _e('Size of the post box:') ?></th> 

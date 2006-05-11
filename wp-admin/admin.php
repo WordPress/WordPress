@@ -17,7 +17,7 @@ nocache_headers();
 
 update_category_cache();
 
-get_currentuserinfo();
+wp_get_current_user();
 
 $posts_per_page = get_settings('posts_per_page');
 $what_to_show = get_settings('what_to_show');

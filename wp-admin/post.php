@@ -30,7 +30,7 @@ $editing = true;
 
 switch($action) {
 case 'post':
-	check_admin_referer();
+	check_admin_referer('add-post');
 	
 	$post_ID = write_post();
 
@@ -87,9 +87,9 @@ case 'edit':
 	break;
 
 case 'editattachment':
-	check_admin_referer();
-
 	$post_id = (int) $_POST['post_ID'];
+
+	check_admin_referer('update-attachment' . $post_id);
 
 	// Don't let these be changed
 	unset($_POST['guid']);
@@ -105,7 +105,8 @@ case 'editattachment':
 		add_post_meta($post_id, '_wp_attachment_metadata', $newmeta);
 
 case 'editpost':
-	check_admin_referer();
+	$post_ID = (int) $_POST['post_ID'];
+	check_admin_referer('update-post' . $post_ID);
 	
 	$post_ID = edit_post();
 
@@ -130,9 +131,8 @@ case 'editpost':
 	break;
 
 case 'delete':
-	check_admin_referer();
-
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
+	check_admin_referer('delete-post' . $post_id);
 
 	$post = & get_post($post_id);
 	
@@ -212,10 +212,9 @@ case 'confirmdeletecomment':
 	break;
 
 case 'deletecomment':
-
-	check_admin_referer();
-
 	$comment = (int) $_GET['comment'];
+	check_admin_referer('delete-comment' . $comment);
+
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
@@ -243,10 +242,9 @@ case 'deletecomment':
 	break;
 
 case 'unapprovecomment':
-
-	check_admin_referer();
-
 	$comment = (int) $_GET['comment'];
+	check_admin_referer('unapprove-comment' . $comment);
+
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
@@ -271,8 +269,8 @@ case 'unapprovecomment':
 	break;
 
 case 'mailapprovecomment':
-
 	$comment = (int) $_GET['comment'];
+	check_admin_referer('approve-comment' . $comment);
 
 	if ( ! $comment = get_comment($comment) )
 			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
@@ -291,10 +289,9 @@ case 'mailapprovecomment':
 	break;
 
 case 'approvecomment':
-
-	check_admin_referer();
-
 	$comment = (int) $_GET['comment'];
+	check_admin_referer('approve-comment' . $comment);
+
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
@@ -324,7 +321,7 @@ case 'approvecomment':
 
 case 'editedcomment':
 
-	check_admin_referer();
+	check_admin_referer('update-comment');
 
 	edit_comment();
 
