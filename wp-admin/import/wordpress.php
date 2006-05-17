@@ -220,8 +220,8 @@ class WP_Import {
 				$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt', 'guid', 'post_parent', 'post_type');
 				$comment_post_ID = $post_id = wp_insert_post($postdata);
 				// Add categories.
-				if (0 != count($post_categories)) {
-					wp_create_categories($post_categories, $post_id);
+				if (0 != count($categories)) {
+					wp_create_categories($categories, $post_id);
 				}
 			}
 
