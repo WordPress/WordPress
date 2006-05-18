@@ -61,40 +61,7 @@ case 'edit':
     require_once ('admin-header.php');
     $cat_ID = (int) $_GET['cat_ID'];
     $category = get_category_to_edit($cat_ID);
-    ?>
-
-<div class="wrap">
- <h2><?php _e('Edit Category') ?></h2>
- <form name="editcat" action="categories.php" method="post">
-	  <?php wp_nonce_field('update-category' .  $category->cat_ID); ?>
-	  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
-		<tr>
-		  <th width="33%" scope="row" valign="top"><label for="cat_name"><?php _e('Category name:') ?></label></th>
-		  <td width="67%"><input name="cat_name" id="cat_name" type="text" value="<?php echo wp_specialchars($category->cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
-<input type="hidden" name="cat_ID" value="<?php echo $category->cat_ID ?>" /></td>
-		</tr>
-		<tr>
-			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category slug:') ?></label></th>
-			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo wp_specialchars($category->category_nicename); ?>" size="40" /></td>
-		</tr>
-		<tr>
-			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category parent:') ?></label></th>
-			<td>        
-			<select name='category_parent' id='category_parent'>
-	  <option value='0' <?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
-	  <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?>
-	  </select></td>
-		</tr>
-		<tr>
-			<th scope="row" valign="top"><label for="category_description"><?php _e('Description:') ?></label></th>
-			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description, 1); ?></textarea></td>
-		</tr>
-		</table>
-	  <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category &raquo;') ?>" /></p>
- </form>
- <p><a href="categories.php"><?php _e('&laquo; Return to category list'); ?></a></p>
-</div>
-    <?php
+    include('edit-category-form.php');
 
 break;
 
@@ -155,25 +122,7 @@ cat_rows();
 <p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts and bookmarks in that category.  Instead, posts in the deleted category are set to the category <strong>%s</strong> and bookmarks are set to <strong>%s</strong>.'), get_catname(get_option('default_category')), get_catname(get_option('default_link_category'))) ?></p>
 </div>
 
-<div class="wrap">
-    <h2><?php _e('Add New Category') ?></h2>
-    <form name="addcat" id="addcat" action="categories.php" method="post">
-    	<?php wp_nonce_field('add-category'); ?>
-        <div class="alignleft"><?php _e('Name:') ?><br />
-        <input type="text" name="cat_name" id="cat_name" value="" /></p>
-        <p><?php _e('Category parent:') ?><br />
-        <select name='category_parent' id='category_parent' class='postform'>
-        <option value='0'><?php _e('None') ?></option>
-        <?php wp_dropdown_cats(0); ?>
-        </select>
-	</div>
-	<div id="ajax-response" class="alignleft"></div>
-	<br class="clear" />
-        <p><?php _e('Description: (optional)') ?> <br />
-        <textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"></textarea></p>
-        <p class="submit"><input type="hidden" name="action" value="addcat" /><input type="submit" name="submit" value="<?php _e('Add Category &raquo;') ?>" /></p>
-    </form>
-</div>
+<?php include('edit-category-form.php'); ?>
 <?php endif; ?>
 
 <?php
