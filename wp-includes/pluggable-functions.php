@@ -232,7 +232,9 @@ function check_admin_referer($action = -1) {
 	global $pagenow;
 	$adminurl = strtolower(get_settings('siteurl')).'/wp-admin';
 	$referer = strtolower($_SERVER['HTTP_REFERER']);
-	if ( !wp_verify_nonce($_REQUEST['_wpnonce'], $action) ) {
+	if ( !wp_verify_nonce($_REQUEST['_wpnonce'], $action) &&
+		!(-1 == $action && strstr($referer, $adminurl)) ) {
+		
 		$html  = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>\n\n";
 		$html .= "<head>\n\t<title>" . __('WordPress Confirmation') . "</title>\n";
 		$html .= "</head>\n<body>\n";
