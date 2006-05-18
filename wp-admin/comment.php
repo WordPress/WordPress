@@ -1,6 +1,8 @@
 <?php
 require_once('admin.php');
 
+$parent_file = 'edit.php';
+$submenu_file = 'edit-comments.php';
 $wpvarstoreset = array('action');
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -24,8 +26,6 @@ if ( isset( $_POST['deletecomment'] ) )
 switch($action) {
 case 'editcomment':
 	$title = __('Edit Comment');
-	$parent_file = 'edit.php';
-	$submenu_file = 'edit-comments.php';
 	$editing = true;
 	require_once ('admin-header.php');
 

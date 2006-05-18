@@ -1,5 +1,7 @@
 <?php
 
+$parent_file = 'profile.php';
+$submenu_file = 'profile.php';
 require_once('admin.php');
 
 check_admin_referer('update-profile' . $user_ID);

@@ -361,7 +361,7 @@ form#upload #post_content {
 	display: none;
 }
 
-.updated {
+.updated, .confirm {
 	background: #CFEBF7 url(images/notice.gif) no-repeat 1em ;
 	border: 1px solid #2580B2;
 	margin: 1em 5% 10px;

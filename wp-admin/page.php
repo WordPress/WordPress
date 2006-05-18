@@ -1,6 +1,8 @@
 <?php
 require_once('admin.php');
 
+$parent_file = 'edit.php';
+$submenu_file = 'edit-pages.php';
 $wpvarstoreset = array('action');
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -53,8 +55,6 @@ case 'post':
 
 case 'edit':
 	$title = __('Edit');
-	$parent_file = 'edit.php';
-	$submenu_file = 'edit-pages.php';
 	$editing = true;
 	require_once('admin-header.php');
 

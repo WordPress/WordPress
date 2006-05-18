@@ -1,6 +1,8 @@
 <?php
 require_once('admin.php');
 
+$parent_file = 'edit.php';
+$submenu_file = 'edit.php';
 $wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder' );
 
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -24,6 +26,8 @@ if ( isset( $_POST['deletepost'] ) )
 switch($action) {
 case 'postajaxpost':
 case 'post':
+	$parent_file = 'post-new.php';
+	$submenu_file = 'post-new.php';
 	check_admin_referer('add-post');
 	
 	$post_ID = 'post' == $action ? write_post() : edit_post();
@@ -54,8 +58,6 @@ case 'post':
 
 case 'edit':
 	$title = __('Edit');
-	$parent_file = 'edit.php';
-	$submenu_file = 'edit.php';
 	$editing = true;
 	require_once('admin-header.php');
 
