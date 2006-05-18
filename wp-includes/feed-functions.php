@@ -2,7 +2,7 @@
 
 function get_bloginfo_rss($show = '') {
 	$info = strip_tags(get_bloginfo($show));
-	return convert_chars($info);
+	return apply_filters('bloginfo_rss', convert_chars($info));
 }
 
 function bloginfo_rss($show = '') {
