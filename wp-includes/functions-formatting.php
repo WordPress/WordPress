@@ -1015,4 +1015,9 @@ function wp_richedit_pre($text) {
 	return apply_filters('richedit_pre', $output);
 }
 
+// Escape single quotes, specialchar double quotes, and fix line endings.
+function js_escape($text) {
+	$text = wp_specialchars($text, 'double');
+	return preg_replace("/\r?\n/", "\\n", addslashes($text));	
+}
 ?>
