@@ -220,8 +220,8 @@ list_meta($metadata);
 
 </div>
 
-<?php if ('edit' == $action) : ?>
-<input name="deletepost" class="button" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this post') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($post->post_title) ) . "')\""; ?> />
+<?php if ('edit' == $action) : $delete_nonce = wp_create_nonce( 'delete-post' . $post_ID ); ?>
+<input name="deletepost" class="button" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this post') ?>" <?php echo "onclick=\"if ( confirm('" . sprintf(__("You are about to delete this post \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), addslashes($post->post_title) ) . "') ) { document.forms.post._wpnonce.value = '$delete_nonce'; return true;}\""; ?> />
 <?php endif; ?>
 
 </div>

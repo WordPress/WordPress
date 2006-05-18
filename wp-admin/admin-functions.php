@@ -656,7 +656,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 					$default_link_cat_id = get_option('default_link_category');
 
 					if ( ($category->cat_ID != $default_cat_id) && ($category->cat_ID != $default_link_cat_id) )
-						$edit .= "<td><a href='categories.php?action=delete&amp;cat_ID=$category->cat_ID' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '".sprintf(__("You are about to delete the category &quot;%s&quot;.\\nAll of its posts will go into the default category of &quot;%s&quot;\\nAll of its bookmarks will go into the default category of &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), addslashes($category->cat_name), addslashes(wp_specialchars(get_catname($default_cat_id),'double')), addslashes(wp_specialchars(get_catname($default_link_cat_id),'double')))."' );\" class='delete'>".__('Delete')."</a>";
+						$edit .= "<td><a href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . sprintf(__("You are about to delete the category &quot;%s&quot;.\\nAll of its posts will go into the default category of &quot;%s&quot;\\nAll of its bookmarks will go into the default category of &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), addslashes($category->cat_name), js_escape(get_catname($default_cat_id)), js_escape(get_catname($default_link_cat_id))) . "' );\" class='delete'>".__('Delete')."</a>";
 					else
 						$edit .= "<td style='text-align:center'>".__("Default");
 				}
