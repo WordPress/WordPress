@@ -197,7 +197,7 @@ class MT_Import {
 
 				// We want the excerpt
 				preg_match("|-----\nEXCERPT:(.*)|s", $post, $excerpt);
-				$excerpt = $wpdb->escape(trim($excerpt[1]));
+				$post_excerpt = $wpdb->escape(trim($excerpt[1]));
 				$post = preg_replace("|(-----\nEXCERPT:.*)|s", '', $post);
 
 				// We're going to put extended body into main body with a more tag
