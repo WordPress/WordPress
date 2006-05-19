@@ -208,6 +208,9 @@ function wp_insert_post($postarr = array()) {
 		if ( !empty($page_template) )
 			if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
 				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
+				
+		if ( $post_status == 'publish' )
+			do_action('publish_page', $post_ID);
 	}
 
 	if ( 'future' == $post_status ) {
