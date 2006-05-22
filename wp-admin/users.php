@@ -143,9 +143,7 @@ case 'adduser':
 	}
 
 default:
-
-	$list_js = true;
-	$users_js = true;
+	wp_enqueue_script( 'admin-users' );
 
 	include ('admin-header.php');
 

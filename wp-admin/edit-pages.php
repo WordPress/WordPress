@@ -2,7 +2,7 @@
 require_once('admin.php');
 $title = __('Pages');
 $parent_file = 'edit.php';
-$list_js = true;
+wp_enqueue_script( 'listman' );
 require_once('admin-header.php');
 ?>
 

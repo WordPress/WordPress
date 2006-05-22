@@ -452,4 +452,8 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
 	return wp_dropdown_categories($query);
 }
 
+// Deprecated.  Use wp_print_scripts() or WP_Scripts instead.
+function tinymce_include() {
+	wp_print_script( 'wp_tiny_mce' );
+}
 ?>

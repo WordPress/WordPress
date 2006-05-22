@@ -79,7 +79,7 @@ break;
 
 default:
 
-$list_js = true;
+wp_enqueue_script( 'admin-categories' );
 require_once ('admin-header.php');
 
 $messages[1] = __('Category added.');

@@ -3,7 +3,7 @@ require_once('admin.php');
 
 $title = __('Moderate comments');
 $parent_file = 'edit.php';
-$list_js = true;
+wp_enqueue_script( 'listman' );
 
 $wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'item_spam', 'feelinglucky');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {

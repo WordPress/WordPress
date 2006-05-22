@@ -1,5 +1,24 @@
+<?php
+require_once('admin.php');
+header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
 
-//initialisation function
+switch ( $_GET['pagenow'] ) :
+	case 'post.php' :
+	case 'post-new.php' :
+		$man = 'postmeta';
+		break;
+	case 'page.php' :
+	case 'page-new.php' :
+		$man = 'pagemeta'; 
+		break;
+	case 'link-add.php' :
+	case 'link.php' :
+		$man = 'linkmeta';
+		break;
+endswitch;
+?>
+addLoadEvent( function() {var manager = new dbxManager('<?php echo $man; ?>');} );
+
 addLoadEvent( function()
 {
 	//create new docking boxes group

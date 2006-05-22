@@ -25,7 +25,7 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
     }
 }
 
-$xfn_js = true;
+wp_enqueue_script( 'xfn' );
 $editing = true;
 require('admin-header.php');
 ?>

@@ -8,7 +8,7 @@ require_once ('admin.php');
 
 $title = __('Manage Bookmarks');
 $this_file = $parent_file = 'link-manager.php';
-$list_js = true;
+wp_enqueue_script( 'listman' );
 
 $wpvarstoreset = array ('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]');
 

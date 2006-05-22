@@ -102,7 +102,7 @@ switch ($action) {
 		break;
 
 	case 'edit' :
-		$xfn_js = true;
+		wp_enqueue_script( 'xfn' );
 		$editing = true;
 		$parent_file = 'link-manager.php';
 		$submenu_file = 'link-manager.php';

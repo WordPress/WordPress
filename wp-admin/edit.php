@@ -3,7 +3,7 @@ require_once('admin.php');
 
 $title = __('Posts');
 $parent_file = 'edit.php';
-$list_js = true;
+wp_enqueue_script( 1 == $_GET['c'] ? 'admin-comments' : 'listman' );
 require_once('admin-header.php');
 
 $_GET['m'] = (int) $_GET['m'];
