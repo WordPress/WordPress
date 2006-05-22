@@ -23,11 +23,6 @@ include('./admin-header.php');
 <?php _e('In a few words, explain what this weblog is about.') ?></td> 
 </tr> 
 <tr valign="top"> 
-<th scope="row"><?php _e('Search Engines:') ?> </th> 
-<td><label><input type="checkbox" name="blog_public" value="1" <?php checked('1', get_option('blog_public')); ?> /> <?php _e('I would like my blog to appear in search engines like Google and Technorati.'); ?></label>
-</td> 
-</tr>
-<tr valign="top"> 
 <th scope="row"><?php _e('WordPress address (URI):') ?></th> 
 <td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" size="40" class="code" /></td> 
 </tr> 
