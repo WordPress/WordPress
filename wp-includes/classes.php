@@ -224,6 +224,8 @@ class WP {
 
 		if ( isset($error) )
 			$this->query_vars['error'] = $error;
+
+		do_action('parse_request', array(&$this));
 	}
 
 	function send_headers() {
@@ -263,6 +265,8 @@ class WP {
 				exit;
 			}
 		}
+
+		do_action('send_headers', array(&$this));
 	}
 
 	function build_query_string() {
@@ -333,6 +337,7 @@ class WP {
 		$this->query_posts();
 		$this->handle_404();
 		$this->register_globals();
+		do_action('wp', array(&$this));
 	}
 
 	function WP() {
