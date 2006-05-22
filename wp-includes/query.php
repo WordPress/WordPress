@@ -157,6 +157,12 @@ function is_preview() {
 	return $wp_query->is_preview;
 }
 
+function is_robots() {
+	global $wp_query;
+
+	return $wp_query->is_robots;
+}
+
 function is_search () {
 	global $wp_query;
 
@@ -272,6 +278,7 @@ class WP_Query {
 	var $is_comments_popup = false;
 	var $is_admin = false;
 	var $is_attachment = false;
+	var $is_robots = false;
 
 	function init_query_flags() {
 		$this->is_single = false;
@@ -292,6 +299,7 @@ class WP_Query {
 		$this->is_paged = false;
 		$this->is_admin = false;
 		$this->is_attachment = false;
+		$this->is_robots = false;
 	}
 
 	function init () {
@@ -319,6 +327,11 @@ class WP_Query {
 			parse_str($query, $qv);
 			$this->query = $query;
 			$this->query_vars = $qv;
+		}
+
+		if ( ! empty($qv['robots']) ) {
+			$this->is_robots = true;
+			return;
 		}
 
 		if ('404' == $qv['error']) {

@@ -1655,6 +1655,16 @@ function do_feed_atom() {
 	load_template(ABSPATH . 'wp-atom.php');
 }
 
+function do_robots() {
+	if ( '1' != get_option('blog_public') ) {
+		echo "User-agent: *\n";
+		echo "Disallow: /\n";
+	} else {
+		echo "User-agent: *\n";
+		echo "Disallow:\n";
+	}
+}
+
 function is_blog_installed() {
 	global $wpdb;
 	$wpdb->hide_errors();

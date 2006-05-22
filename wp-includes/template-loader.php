@@ -1,7 +1,10 @@
 <?php
 if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	do_action('template_redirect');
-	if ( is_feed() ) {
+	if ( is_robots() ) {
+		do_action('do_robots');
+		exit;
+	} else if ( is_feed() ) {
 		do_feed();
 		exit;
 	} else if ( is_trackback() ) {
@@ -55,7 +58,10 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	}
 } else {
 	// Process feeds and trackbacks even if not using themes.
-	if ( is_feed() ) {
+	if ( is_robots() ) {
+		do_action('do_robots');
+		exit;
+	} else if ( is_feed() ) {
 		do_feed();
 		exit;
 	} else if ( is_trackback() ) {

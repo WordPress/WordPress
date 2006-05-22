@@ -696,6 +696,9 @@ class WP_Rewrite {
 			return $rewrite;
 		}
 
+		// robots.txt
+		$robots_rewrite = array('robots.txt$' => $this->index . '?robots=1');
+
 		// Post
 		$post_rewrite = $this->generate_rewrite_rules($this->permalink_structure, EP_PERMALINK);
 		$post_rewrite = apply_filters('post_rewrite_rules', $post_rewrite);
@@ -730,7 +733,7 @@ class WP_Rewrite {
 		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
 		// Put them together.
-		$this->rules = array_merge($page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
+		$this->rules = array_merge($robots_rewrite, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
 
 		do_action('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
