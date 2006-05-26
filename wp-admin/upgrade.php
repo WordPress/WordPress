@@ -76,7 +76,7 @@ switch($step) {
 	
 	case 1:
 	$wp_current_db_version = __get_option('db_version');
-	if ( $wp_db_version < $wp_current_db_version ) {
+	if ( $wp_db_version != $wp_current_db_version ) {
 		wp_cache_flush();
 		make_db_current_silent();
 		upgrade_all();
