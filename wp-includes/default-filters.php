@@ -54,6 +54,33 @@ add_filter('pre_category_name', 'wp_filter_kses');
 add_filter('pre_category_name', 'wp_specialchars', 30);
 add_filter('pre_category_description', 'wp_filter_kses');
 
+// Users
+add_filter('pre_user_display_name', 'strip_tags');
+add_filter('pre_user_display_name', 'trim');
+add_filter('pre_user_display_name', 'wp_filter_kses');
+add_filter('pre_user_display_name', 'wp_specialchars', 30);
+add_filter('pre_user_first_name', 'strip_tags');
+add_filter('pre_user_first_name', 'trim');
+add_filter('pre_user_first_name', 'wp_filter_kses');
+add_filter('pre_user_first_name', 'wp_specialchars', 30);
+add_filter('pre_user_last_name', 'strip_tags');
+add_filter('pre_user_last_name', 'trim');
+add_filter('pre_user_last_name', 'wp_filter_kses');
+add_filter('pre_user_last_name', 'wp_specialchars', 30);
+add_filter('pre_user_nickname', 'strip_tags');
+add_filter('pre_user_nickname', 'trim');
+add_filter('pre_user_nickname', 'wp_filter_kses');
+add_filter('pre_user_nickname', 'wp_specialchars', 30);
+add_filter('pre_user_description', 'strip_tags');
+add_filter('pre_user_description', 'trim');
+add_filter('pre_user_description', 'wp_filter_kses');
+add_filter('pre_user_description', 'wp_specialchars', 30);
+add_filter('pre_user_url', 'strip_tags');
+add_filter('pre_user_url', 'trim');
+add_filter('pre_user_url', 'clean_url');
+add_filter('pre_user_email', 'trim');
+add_filter('pre_user_email', 'sanitize_email');
+
 // Places to balance tags on input
 add_filter('content_save_pre', 'balanceTags', 50);
 add_filter('excerpt_save_pre', 'balanceTags', 50);

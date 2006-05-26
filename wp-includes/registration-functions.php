@@ -33,6 +33,7 @@ function wp_insert_user($userdata) {
 
 	// Are we updating or creating?
 	if ( !empty($ID) ) {
+		$ID = (int) $ID;
 		$update = true;
 	} else {
 		$update = false;
@@ -41,15 +42,39 @@ function wp_insert_user($userdata) {
 	}
 
 	$user_login = sanitize_user($user_login, true);
+	$user_login = apply_filters('pre_user_login', $user_login);
 
 	if ( empty($user_nicename) )
 		$user_nicename = sanitize_title( $user_login );
+	$user_nicename = apply_filters('pre_user_nicename', $user_nicename);
+
+	if ( empty($user_url) )
+		$user_url = '';
+	$user_url = apply_filters('pre_user_url', $user_url);
+
+	if ( empty($user_email) )
+		$user_email = '';
+	$user_email = apply_filters('pre_user_email', $user_email);
 
 	if ( empty($display_name) )
 		$display_name = $user_login;
+	$display_name = apply_filters('pre_user_display_name', $display_name);
 
 	if ( empty($nickname) )
 		$nickname = $user_login;
+	$nickname = apply_filters('pre_user_nickname', $nickname);
+
+	if ( empty($first_name) )
+		$first_name = '';
+	$first_name = apply_filters('pre_user_first_name', $first_name);
+
+	if ( empty($last_name) )
+		$last_name = '';
+	$last_name = apply_filters('pre_user_last_name', $last_name);
+
+	if ( empty($description) )
+		$description = '';
+	$description = apply_filters('pre_user_description', $description);
 
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
