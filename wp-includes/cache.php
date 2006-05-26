@@ -47,8 +47,8 @@ function wp_cache_set($key, $data, $flag = '', $expire = 0) {
 	return $wp_object_cache->set($key, $data, $flag, $expire);
 }
 
-define('CACHE_SERIAL_HEADER', "<?php\n//");
-define('CACHE_SERIAL_FOOTER', "\n?".">");
+define('CACHE_SERIAL_HEADER', "<?php\n/*");
+define('CACHE_SERIAL_FOOTER', "*/\n?".">");
 
 class WP_Object_Cache {
 	var $cache_dir;
@@ -158,7 +158,7 @@ class WP_Object_Cache {
 			return false;
 		}
 
-		$this->cache[$group][$id] = unserialize(substr(@ file_get_contents($cache_file), strlen(CACHE_SERIAL_HEADER), -strlen(CACHE_SERIAL_FOOTER)));
+		$this->cache[$group][$id] = unserialize(base64_decode(substr(@ file_get_contents($cache_file), strlen(CACHE_SERIAL_HEADER), -strlen(CACHE_SERIAL_FOOTER))));
 		if (false === $this->cache[$group][$id])
 			$this->cache[$group][$id] = '';
 
@@ -332,7 +332,7 @@ class WP_Object_Cache {
 				}
 
 				$temp_file = tempnam($group_dir, 'tmp');
-				$serial = CACHE_SERIAL_HEADER.serialize($this->cache[$group][$id]).CACHE_SERIAL_FOOTER;
+				$serial = CACHE_SERIAL_HEADER.base64_encode(serialize($this->cache[$group][$id])).CACHE_SERIAL_FOOTER;
 				$fd = @fopen($temp_file, 'w');
 				if ( false === $fd ) {
 					$errors++;
