@@ -964,15 +964,13 @@ function wp_get_http_headers( $url, $red = 1 ) {
 		$headers["$key"] = $matches[2][$i];
 	}
 
-    $code = preg_replace('/.*?(\d{3}).*/i', '$1', $response);
-    
-    $headers['status_code'] = $code;
-    
-    if ( '302' == $code || '301' == $code )
-        return wp_get_http_headers( $url, ++$red );
-
 	preg_match('/.*([0-9]{3}).*/', $response, $return);
 	$headers['response'] = $return[1]; // HTTP response code eg 204, 200, 404
+
+    $code = $headers['response'];
+    if ( ('302' == $code || '301' == $code) && isset($headers['location']) )
+        return wp_get_http_headers( $headers['location'], ++$red );
+
 	return $headers;
 }
 
