@@ -4,7 +4,7 @@ if ( ! empty($link_id) ) {
 	$heading = __('Edit a link:');
 	$submit_text = __('Save Changes &raquo;');
 	$form = '<form action="" method="post" name="editlink" id="editlink">'; 
-	$nonce_action = 'update-bookmark' . $link_id;
+	$nonce_action = 'update-bookmark_' . $link_id;
 } else {
 	$editing = false;
 	$heading = __('<strong>Add</strong> a link:');

@@ -89,7 +89,7 @@ case 'edit':
 case 'editattachment':
 	$post_id = (int) $_POST['post_ID'];
 
-	check_admin_referer('update-attachment' . $post_id);
+	check_admin_referer('update-attachment_' . $post_id);
 
 	// Don't let these be changed
 	unset($_POST['guid']);
@@ -106,7 +106,7 @@ case 'editattachment':
 
 case 'editpost':
 	$post_ID = (int) $_POST['post_ID'];
-	check_admin_referer('update-post' . $post_ID);
+	check_admin_referer('update-post_' . $post_ID);
 	
 	$post_ID = edit_post();
 
@@ -132,7 +132,7 @@ case 'editpost':
 
 case 'delete':
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
-	check_admin_referer('delete-post' . $post_id);
+	check_admin_referer('delete-post_' . $post_id);
 
 	$post = & get_post($post_id);
 	
@@ -213,7 +213,7 @@ case 'confirmdeletecomment':
 
 case 'deletecomment':
 	$comment = (int) $_GET['comment'];
-	check_admin_referer('delete-comment' . $comment);
+	check_admin_referer('delete-comment_' . $comment);
 
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
@@ -243,7 +243,7 @@ case 'deletecomment':
 
 case 'unapprovecomment':
 	$comment = (int) $_GET['comment'];
-	check_admin_referer('unapprove-comment' . $comment);
+	check_admin_referer('unapprove-comment_' . $comment);
 
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
@@ -270,7 +270,7 @@ case 'unapprovecomment':
 
 case 'mailapprovecomment':
 	$comment = (int) $_GET['comment'];
-	check_admin_referer('approve-comment' . $comment);
+	check_admin_referer('approve-comment_' . $comment);
 
 	if ( ! $comment = get_comment($comment) )
 			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
@@ -290,7 +290,7 @@ case 'mailapprovecomment':
 
 case 'approvecomment':
 	$comment = (int) $_GET['comment'];
-	check_admin_referer('approve-comment' . $comment);
+	check_admin_referer('approve-comment_' . $comment);
 
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {

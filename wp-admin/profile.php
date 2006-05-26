@@ -19,7 +19,7 @@ $bookmarklet_height= 440;
 <div class="wrap">
 <h2><?php _e('Your Profile and Personal Options'); ?></h2>
 <form name="profile" id="your-profile" action="profile-update.php" method="post">
-<?php wp_nonce_field('update-profile' . $user_ID) ?>
+<?php wp_nonce_field('update-profile_' . $user_ID) ?>
 <p>
 <input type="hidden" name="from" value="profile" />
 <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
