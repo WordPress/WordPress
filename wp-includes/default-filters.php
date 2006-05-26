@@ -47,6 +47,13 @@ add_filter('comment_text', 'convert_smilies', 20);
 
 add_filter('comment_excerpt', 'convert_chars');
 
+// Categories
+add_filter('pre_category_name', 'strip_tags');
+add_filter('pre_category_name', 'trim');
+add_filter('pre_category_name', 'wp_filter_kses');
+add_filter('pre_category_name', 'wp_specialchars', 30);
+add_filter('pre_category_description', 'wp_filter_kses');
+
 // Places to balance tags on input
 add_filter('content_save_pre', 'balanceTags', 50);
 add_filter('excerpt_save_pre', 'balanceTags', 50);

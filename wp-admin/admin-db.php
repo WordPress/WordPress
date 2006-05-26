@@ -92,8 +92,10 @@ function wp_insert_category($catarr) {
 	else
 		$update = false;
 
-	$cat_name = wp_specialchars($cat_name);
-
+	$cat_name = apply_filters('pre_category_name', $cat_name);
+	$category_nicename = apply_filters('pre_category_nicename', $category_nicename);
+	$category_description = apply_filters('pre_category_description', $category_description);
+	
 	if (empty ($category_nicename))
 		$category_nicename = sanitize_title($cat_name);
 	else
@@ -102,6 +104,7 @@ function wp_insert_category($catarr) {
 	if (empty ($category_description))
 		$category_description = '';
 
+	$category_parent = (int) $category_parent;
 	if (empty ($category_parent))
 		$category_parent = 0;
 
