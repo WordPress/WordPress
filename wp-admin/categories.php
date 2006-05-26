@@ -63,7 +63,7 @@ case 'edit':
 <div class="wrap">
  <h2><?php _e('Edit Category') ?></h2>
  <form name="editcat" action="categories.php" method="post">
-	  <?php wp_nonce_field('update-category' .  $category->cat_ID); ?>
+	  <?php wp_nonce_field('update-category_' .  $category->cat_ID); ?>
 	  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 		<tr>
 		  <th width="33%" scope="row"><?php _e('Category name:') ?></th>
