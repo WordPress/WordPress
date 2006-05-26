@@ -262,7 +262,7 @@ $comment_status = wp_get_comment_status($comment->comment_ID);
   <?php 
 			if ( current_user_can('edit_post', $post->ID) ) {
 				echo "[ <a href=\"post.php?action=editcomment&amp;comment=".$comment->comment_ID."\">" .  __('Edit') . "</a>";
-				echo ' - <a href="' . wp_nonce_url('post.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'delete-comment' . $comment->comment_ID) . '" onclick="return confirm(\'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($comment->comment_author, 1)) . "');\">" . __('Delete') . '</a> ';
+				echo ' - <a href="' . wp_nonce_url('post.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'delete-comment' . $comment->comment_ID) . '" onclick="return confirm(\'' . __("You are about to delete this comment.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete.") . "');\">" . __('Delete') . '</a> ';
 
 				if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
 					if ('approved' == wp_get_comment_status($comment->comment_ID)) {
