@@ -211,7 +211,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'control_delete':
 		?>
-		<td><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post' . $post->ID) . "' class='delete' onclick=\"return deleteSomething( 'post', " . $id . ", '" . sprintf(__("You are about to delete this post &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), js_escape(get_the_title()) ) . "' );\">" . __('Delete') . "</a>"; } ?></td>
+		<td><?php if ( current_user_can('delete_post',$post->ID) ) { echo "<a href='" . wp_nonce_url("post.php?action=delete&amp;post=$id", 'delete-post_' . $post->ID) . "' class='delete' onclick=\"return deleteSomething( 'post', " . $id . ", '" . sprintf(__("You are about to delete this post &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), js_escape(get_the_title()) ) . "' );\">" . __('Delete') . "</a>"; } ?></td>
 		<?php
 		break;
 
@@ -273,12 +273,12 @@ foreach ($comments as $comment) {
 <?php
 if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo " <a href='comment.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
-	echo ' | <a href="' . wp_nonce_url('comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'delete-comment' . $comment->comment_ID) . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($comment->comment_author)) . "' );\">" . __('Delete') . '</a> ';
+	echo ' | <a href="' . wp_nonce_url('comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($comment->comment_author)) . "' );\">" . __('Delete') . '</a> ';
 	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-		echo '<span class="unapprove"> | <a href="' . wp_nonce_url('comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'unapprove-comment' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
-		echo '<span class="approve"> | <a href="' . wp_nonce_url('comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'approve-comment' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
+		echo '<span class="unapprove"> | <a href="' . wp_nonce_url('comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'unapprove-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Unapprove') . '</a> </span>';
+		echo '<span class="approve"> | <a href="' . wp_nonce_url('comment.php?action=approvecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'approve-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\' );">' . __('Approve') . '</a> </span>';
 	}
-	echo " | <a href=\"" . wp_nonce_url("comment.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID, 'delete-comment' . $comment->comment_ID) . "\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), js_escape( $comment->comment_author))  . "' );\">" . __('Spam') . "</a> ]";
+	echo " | <a href=\"" . wp_nonce_url("comment.php?action=deletecomment&amp;delete_type=spam&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . "\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . sprintf(__("You are about to mark as spam this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to mark as spam."), js_escape( $comment->comment_author))  . "' );\">" . __('Spam') . "</a> ]";
 } // end if any comments to show
 ?>
 </p>

@@ -81,7 +81,7 @@ switch ($action) {
 
 	case 'save' :
 		$link_id = (int) $_POST['link_id'];
-		check_admin_referer('update-bookmark' . $link_id);
+		check_admin_referer('update-bookmark_' . $link_id);
 
 		edit_link($link_id);
 
@@ -91,7 +91,7 @@ switch ($action) {
 
 	case 'delete' :
 		$link_id = (int) $_GET['link_id'];
-		check_admin_referer('delete-bookmark' . $link_id);
+		check_admin_referer('delete-bookmark_' . $link_id);
 
 		if (!current_user_can('manage_links'))
 			die(__("Cheatin' uh ?"));

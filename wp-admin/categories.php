@@ -36,7 +36,7 @@ break;
 
 case 'delete':
 	$cat_ID = (int) $_GET['cat_ID'];
-	check_admin_referer('delete-category' .  $cat_ID);
+	check_admin_referer('delete-category_' .  $cat_ID);
 
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));
@@ -67,7 +67,7 @@ break;
 
 case 'editedcat':
 	$cat_ID = (int) $_POST['cat_ID'];
-	check_admin_referer('update-category' . $cat_ID);
+	check_admin_referer('update-category_' . $cat_ID);
 
 	if ( !current_user_can('manage_categories') )
 		die (__('Cheatin&#8217; uh?'));

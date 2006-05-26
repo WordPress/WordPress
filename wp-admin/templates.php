@@ -36,7 +36,7 @@ switch($action) {
 
 case 'update':
 
-	check_admin_referer('edit-file' . $file);
+	check_admin_referer('edit-file_' . $file);
 
 	if ( ! current_user_can('edit_files') )
 		die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
@@ -128,7 +128,7 @@ endif;
 </div>
 <?php if (!$error) { ?>
   <form name="template" id="template" action="templates.php" method="post"> 
-  <?php wp_nonce_field('edit-file' . $file) ?>
+  <?php wp_nonce_field('edit-file_' . $file) ?>
      <div><textarea cols="70" rows="25" name="newcontent" id='newcontent' tabindex="1"><?php echo $content ?></textarea> 
      <input type="hidden" name="action" value="update" /> 
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 

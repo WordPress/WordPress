@@ -4,7 +4,7 @@ if ( ! empty($cat_ID) ) {
 	$submit_text = __('Edit Category &raquo;');
 	$form = '<form name="editcat" id="editcat" method="post" action="categories.php">';
 	$action = 'editedcat';
-	$nonce_action = 'update-category' . $cat_ID;
+	$nonce_action = 'update-category_' . $cat_ID;
 } else {
 	$heading = __('Add Category');
 	$submit_text = __('Add Category &raquo;');

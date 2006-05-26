@@ -76,7 +76,7 @@ case 'edit':
 
 case 'editattachment':
 	$page_id = $post_ID = (int) $_POST['post_ID'];
-	check_admin_referer('update-attachment' . $page_id);
+	check_admin_referer('update-attachment_' . $page_id);
 
 	// Don't let these be changed
 	unset($_POST['guid']);
@@ -93,7 +93,7 @@ case 'editattachment':
 
 case 'editpost':
 	$page_ID = (int) $_POST['post_ID'];
-	check_admin_referer('update-page' . $page_ID);
+	check_admin_referer('update-page_' . $page_ID);
 
 	$page_ID = edit_post();
 
@@ -119,7 +119,7 @@ case 'editpost':
 
 case 'delete':
 	$page_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
-	check_admin_referer('delete-page' .  $page_id);
+	check_admin_referer('delete-page_' .  $page_id);
 
 	$page = & get_post($page_id);
 

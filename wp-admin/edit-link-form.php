@@ -3,7 +3,7 @@ if ( ! empty($link_id) ) {
 	$heading = __('Edit Bookmark');
 	$submit_text = __('Save Changes &raquo;');
 	$form = '<form name="editlink" id="editlink" method="post" action="link.php">';
-	$nonce_action = 'update-bookmark' . $link_id;
+	$nonce_action = 'update-bookmark_' . $link_id;
 } else {
 	$heading = __('Create Bookmark');
 	$submit_text = __('Add Bookmark &raquo;');

@@ -10,7 +10,7 @@ if (0 == $post_ID) {
 	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
 } else {
 	$form_action = 'editpost';
-	$nonce_action = 'update-page' . $post_ID;
+	$nonce_action = 'update-page_' . $post_ID;
 	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
 }
 

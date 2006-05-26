@@ -51,7 +51,7 @@ case 'mailapprovecomment':
 	$comment = (int) $_GET['comment'];
 	$p = (int) $_GET['p'];
 	$formaction = 'confirmdeletecomment' == $action ? 'deletecomment' : 'approvecomment';
-	$nonce_action = 'confirmdeletecomment' == $action ? 'delete-comment' : 'approve-comment';
+	$nonce_action = 'confirmdeletecomment' == $action ? 'delete-comment_' : 'approve-comment_';
 	$nonce_action .= $comment;
 
 	if ( ! $comment = get_comment($comment) )
@@ -93,7 +93,7 @@ case 'mailapprovecomment':
 
 case 'deletecomment':
 	$comment = (int) $_REQUEST['comment'];
-	check_admin_referer('delete-comment' . $comment);
+	check_admin_referer('delete-comment_' . $comment);
 
 	$p = (int) $_REQUEST['p'];
 	if ( isset($_REQUEST['noredir']) ) {
@@ -126,7 +126,7 @@ case 'deletecomment':
 
 case 'unapprovecomment':
 	$comment = (int) $_GET['comment'];
-	check_admin_referer('unapprove-comment' . $comment);
+	check_admin_referer('unapprove-comment_' . $comment);
 	
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
@@ -153,7 +153,7 @@ case 'unapprovecomment':
 
 case 'approvecomment':
 	$comment = (int) $_GET['comment'];
-	check_admin_referer('approve-comment' . $comment);
+	check_admin_referer('approve-comment_' . $comment);
 
 	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {

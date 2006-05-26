@@ -82,7 +82,7 @@ case 'edit':
 case 'editattachment':
 	$post_id = (int) $_POST['post_ID'];
 
-	check_admin_referer('update-attachment' . $post_id);
+	check_admin_referer('update-attachment_' . $post_id);
 
 	// Don't let these be changed
 	unset($_POST['guid']);
@@ -99,7 +99,7 @@ case 'editattachment':
 
 case 'editpost':
 	$post_ID = (int) $_POST['post_ID'];
-	check_admin_referer('update-post' . $post_ID);
+	check_admin_referer('update-post_' . $post_ID);
 	
 	$post_ID = edit_post();
 
@@ -125,7 +125,7 @@ case 'editpost':
 
 case 'delete':
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
-	check_admin_referer('delete-post' . $post_id);
+	check_admin_referer('delete-post_' . $post_id);
 
 	$post = & get_post($post_id);
 

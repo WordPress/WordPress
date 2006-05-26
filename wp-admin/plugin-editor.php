@@ -34,7 +34,7 @@ switch($action) {
 
 case 'update':
 
-	check_admin_referer('edit-plugin' . $file);
+	check_admin_referer('edit-plugin_' . $file);
 
 	if ( !current_user_can('edit_plugins') )
 	die('<p>'.__('You have do not have sufficient permissions to edit templates for this blog.').'</p>');
@@ -97,7 +97,7 @@ if ($plugin_files) :
 </div>
 	<?php	if (!$error) { ?> 
   <form name="template" id="template" action="plugin-editor.php" method="post">
-  <?php wp_nonce_field('edit-plugin' . $file) ?>
+  <?php wp_nonce_field('edit-plugin_' . $file) ?>
 		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea> 
      <input type="hidden" name="action" value="update" /> 
      <input type="hidden" name="file" value="<?php echo $file ?>" /> 
