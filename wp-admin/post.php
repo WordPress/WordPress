@@ -203,6 +203,7 @@ case 'confirmdeletecomment':
 	echo "<input type='hidden' name='p' value='$p' />\n";
 	echo "<input type='hidden' name='comment' value='{$comment->comment_ID}' />\n";
 	echo "<input type='hidden' name='noredir' value='1' />\n";
+	wp_nonce_field('delete-comment_' .  $comment->comment_ID);
 	echo "<input type='submit' value='" . __('Yes') . "' />";
 	echo "&nbsp;&nbsp;";
 	echo "<input type='button' value='" . __('No') . "' onclick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit.php?p=$p&amp;c=1#comments';\" />\n";

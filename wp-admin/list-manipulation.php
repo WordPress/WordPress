@@ -2,6 +2,7 @@
 require_once('../wp-config.php');
 require_once('admin-functions.php');
 require_once('admin-db.php');
+header("Content-type: text/plain", true);
 
 if ( !is_user_logged_in() )
 	die('-1');
