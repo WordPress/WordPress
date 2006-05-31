@@ -1767,6 +1767,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 			else
 				$filename = str_replace("$number$ext", ++$number . $ext, $filename);
 		}
+		$filename = preg_replace('#\.(?![^.]+$)#', '-', $filename);
 	}
 
 	// Move the file to the uploads dir
