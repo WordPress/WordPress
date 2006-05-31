@@ -64,6 +64,7 @@ class WP_Object_Cache {
 	var $cold_cache_hits = 0;
 	var $warm_cache_hits = 0;
 	var $cache_misses = 0;
+	var $secret = '';
 
 	function acquire_lock() {
 		// Acquire a write lock. 
@@ -142,7 +143,7 @@ class WP_Object_Cache {
 			return false;
 		}
 
-		$cache_file = $this->cache_dir.$this->get_group_dir($group)."/".md5($id.DB_PASSWORD).'.php';
+		$cache_file = $this->cache_dir.$this->get_group_dir($group)."/".$this->hash($id).'.php';
 		if (!file_exists($cache_file)) {
 			$this->non_existant_objects[$group][$id] = true;
 			$this->cache_misses += 1;
@@ -171,6 +172,14 @@ class WP_Object_Cache {
 			return $group;
 
 		return "{$this->blog_id}/$group";
+	}
+
+	function hash($data) {
+		if ( function_exists('hash_hmac') ) {
+			return hash_hmac('md5', $data, $this->secret);
+		} else {
+			return md5($data . $this->secret);
+		}
 	}
 
 	function load_group_from_db($group) {
@@ -332,7 +341,7 @@ class WP_Object_Cache {
 
 			$ids = array_unique($ids);
 			foreach ($ids as $id) {
-				$cache_file = $group_dir.md5($id.DB_PASSWORD).'.php';
+				$cache_file = $group_dir.$this->hash($id).'.php';
 
 				// Remove the cache file if the key is not set.
 				if (!isset ($this->cache[$group][$id])) {
@@ -424,7 +433,12 @@ class WP_Object_Cache {
 		if (defined('CACHE_EXPIRATION_TIME'))
 			$this->expiration_time = CACHE_EXPIRATION_TIME;
 
-		$this->blog_id = md5($blog_id);
+		if ( defined('WP_SECRET') )
+			$this->secret = WP_SECRET;
+		else
+			$this->secret = DB_PASSWORD . DB_USER . DB_NAME . DB_HOST . ABSPATH;
+
+		$this->blog_id = $this->hash($blog_id);
 	}
 }
 ?>
