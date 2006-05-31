@@ -508,16 +508,24 @@ function wp_create_nonce($action = -1) {
 }
 endif;
 
+if ( !function_exists('wp_salt') ) :
+function wp_salt() {
+	$salt = get_option('secret');
+	if ( empty($salt) )
+		$salt = DB_PASSWORD . DB_USER . DB_NAME . DB_HOST . ABSPATH;
+
+	return $salt;
+}
+endif;
+
 if ( !function_exists('wp_hash') ) :
 function wp_hash($data) {
-	$secret = get_option('secret');
-	if ( empty($secret) )
-		$secret = DB_PASSWORD;
+	$salt = wp_salt();
 
 	if ( function_exists('hash_hmac') ) {
-		return hash_hmac('md5', $data, $secret);
+		return hash_hmac('md5', $data, $salt);
 	} else {
-		return md5($data . $secret);
+		return md5($data . $salt);
 	}
 }
 endif;

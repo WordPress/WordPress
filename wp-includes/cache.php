@@ -64,6 +64,7 @@ class WP_Object_Cache {
 	var $cold_cache_hits = 0;
 	var $warm_cache_hits = 0;
 	var $cache_misses = 0;
+	var $secret = '';
 
 	function acquire_lock() {
 		// Acquire a write lock. 
@@ -174,14 +175,10 @@ class WP_Object_Cache {
 	}
 
 	function hash($data) {
-		global $wp_server_secret;
-		if ( empty($wp_server_secret) )
-			$wp_server_secret = DB_PASSWORD;
-
 		if ( function_exists('hash_hmac') ) {
-			return hash_hmac('md5', $data, $wp_server_secret);
+			return hash_hmac('md5', $data, $this->secret);
 		} else {
-			return md5($data . $wp_server_secret);
+			return md5($data . $this->secret);
 		}
 	}
 
@@ -397,7 +394,7 @@ class WP_Object_Cache {
 	}
 
 	function WP_Object_Cache() {
-		global $blog_id;
+		global $blog_id, $wpdb;
 
 		if (defined('DISABLE_CACHE'))
 			return;
@@ -425,6 +422,11 @@ class WP_Object_Cache {
 
 		if (defined('CACHE_EXPIRATION_TIME'))
 			$this->expiration_time = CACHE_EXPIRATION_TIME;
+
+		if ( defined('WP_SECRET') )
+			$this->secret = WP_SECRET;
+		else
+			$this->secret = DB_PASSWORD . DB_USER . DB_NAME . DB_HOST . ABSPATH;
 
 		$this->blog_id = $this->hash($blog_id);
 	}
