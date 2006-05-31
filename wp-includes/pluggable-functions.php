@@ -491,7 +491,7 @@ function wp_verify_nonce($nonce, $action = -1) {
 	$i = ceil(time() / 43200);
 
 	//Allow for expanding range, but only do one check if we can
-	if( substr(md5($i . DB_PASSWORD . $action . $uid), -12, 10) == $nonce || substr(md5(($i - 1) . DB_PASSWORD . $action . $uid), -12, 10) == $nonce )
+	if( substr(wp_hash($i . $action . $uid), -12, 10) == $nonce || substr(wp_hash(($i - 1) . $action . $uid), -12, 10) == $nonce )
 		return true;
 	return false;
 }
@@ -504,7 +504,21 @@ function wp_create_nonce($action = -1) {
 
 	$i = ceil(time() / 43200);
 	
-	return substr(md5($i . DB_PASSWORD . $action . $uid), -12, 10);
+	return substr(wp_hash($i . $action . $uid), -12, 10);
+}
+endif;
+
+if ( !function_exists('wp_hash') ) :
+function wp_hash($data) {
+	$secret = get_option('secret');
+	if ( empty($secret) )
+		$secret = DB_PASSWORD;
+
+	if ( function_exists('hash_hmac') ) {
+		return hash_hmac('md5', $data, $secret);
+	} else {
+		return md5($data . $secret);
+	}
 }
 endif;
 
