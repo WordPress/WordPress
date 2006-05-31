@@ -26,7 +26,7 @@ function wp_set_current_user($id, $name = '') {
 }
 endif;
 
-if ( !function_exists('current_user') ) :
+if ( !function_exists('wp_get_current_user') ) :
 function wp_get_current_user() {
 	global $current_user;
 
