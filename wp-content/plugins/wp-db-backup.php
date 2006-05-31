@@ -58,7 +58,6 @@ class wpdbBackup {
 			if ( !current_user_can('import') ) die(__('You are not allowed to perform backups.'));
 			add_action('init', array(&$this, 'init'));
 		} else {
-			if ( !current_user_can('import') ) die(__('You are not allowed to perform backups.'));
 			add_action('admin_menu', array(&$this, 'admin_menu'));
 		}
 	}
@@ -884,6 +883,11 @@ class wpdbBackup {
 	} // wp_cron_db_backup
 }
 
-$mywpdbbackup = new wpdbBackup();
+function wpdbBackup_init() {
+	global $mywpdbbackup;
+	$mywpdbbackup = new wpdbBackup(); 	
+}
+
+add_action('plugins_loaded', 'wpdbBackup_init');
 
 ?>
