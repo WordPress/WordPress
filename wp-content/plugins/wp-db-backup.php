@@ -38,13 +38,13 @@ class wpdbBackup {
 	}
 
 	function wpdbBackup() {
-
 		add_action('wp_cron_daily', array(&$this, 'wp_cron_daily'));
 
 		$this->backup_dir = trailingslashit($this->backup_dir);
 		$this->basename = preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', __FILE__);
 
 		if (isset($_POST['do_backup'])) {
+			if ( !current_user_can('import') ) die(__('You are not allowed to perform backups.'));
 			switch($_POST['do_backup']) {
 			case 'backup':
 				$this->perform_backup();
@@ -54,19 +54,19 @@ class wpdbBackup {
 				break;
 			}
 		} elseif (isset($_GET['fragment'] )) {
+			if ( !current_user_can('import') ) die(__('You are not allowed to perform backups.'));
 			add_action('init', array(&$this, 'init'));
 		} elseif (isset($_GET['backup'] )) {
+			if ( !current_user_can('import') ) die(__('You are not allowed to perform backups.'));
 			add_action('init', array(&$this, 'init'));
 		} else {
+			if ( !current_user_can('import') ) die(__('You are not allowed to perform backups.'));
 			add_action('admin_menu', array(&$this, 'admin_menu'));
 		}
 	}
 
 	function init() {
-		global $user_level;
-		get_currentuserinfo();
-
-		if ($user_level < 9) die(__('Need higher user level.'));
+		if ( !current_user_can('import') ) die(__('You are not allowed to perform backups.'));
 
 		if (isset($_GET['backup'])) {
 			$via = isset($_GET['via']) ? $_GET['via'] : 'http';
@@ -309,7 +309,7 @@ class wpdbBackup {
 
 		$core_tables = $_POST['core_tables'];
 		$this->backup_file = $this->db_backup($core_tables, $also_backup);
-		if (FALSE !== $backup_file) {
+		if (FALSE !== $this->backup_file) {
 			if ('smtp' == $_POST['deliver']) {
 				$this->deliver_backup ($this->backup_file, $_POST['deliver'], $_POST['backup_recipient']);
 			} elseif ('http' == $_POST['deliver']) {
