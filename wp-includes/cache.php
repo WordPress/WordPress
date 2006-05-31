@@ -394,7 +394,7 @@ class WP_Object_Cache {
 	}
 
 	function WP_Object_Cache() {
-		global $blog_id, $wpdb;
+		global $blog_id;
 
 		if (defined('DISABLE_CACHE'))
 			return;
