@@ -889,6 +889,4 @@ function wpdbBackup_init() {
 
 add_action('plugins_loaded', 'wpdbBackup_init');
 
-
-
 ?>
