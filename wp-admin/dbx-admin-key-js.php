@@ -11,9 +11,11 @@ switch ( $_GET['pagenow'] ) :
 	case 'page-new.php' :
 		$man = 'pagemeta'; 
 		break;
-	case 'link-add.php' :
 	case 'link.php' :
 		$man = 'linkmeta';
+		break;
+	default:
+		exit;
 		break;
 endswitch;
 ?>

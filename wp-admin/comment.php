@@ -26,7 +26,8 @@ if ( isset( $_POST['deletecomment'] ) )
 switch($action) {
 case 'editcomment':
 	$title = __('Edit Comment');
-	$editing = true;
+	if ( user_can_richedit() )
+		wp_enqueue_script( 'wp_tiny_mce' );
 	require_once ('admin-header.php');
 
 	$comment = (int) $_GET['comment'];

@@ -102,8 +102,9 @@ switch ($action) {
 		break;
 
 	case 'edit' :
-		wp_enqueue_script( 'xfn' );
-		$editing = true;
+		wp_enqueue_script( array('xfn', 'dbx-admin-key?pagenow=link.php') );
+		if ( current_user_can( 'manage_categories' ) )
+			wp_enqueue_script( 'ajaxcat' );
 		$parent_file = 'link-manager.php';
 		$submenu_file = 'link-manager.php';
 		$title = __('Edit Bookmark');
