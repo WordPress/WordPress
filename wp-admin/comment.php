@@ -184,7 +184,9 @@ case 'approvecomment':
 
 case 'editedcomment':
 
-	check_admin_referer('update-comment');
+	$comment_id = (int) $_POST['comment_ID'];
+
+	check_admin_referer('update-comment_' . $comment_id);
 
 	edit_comment();
 
@@ -192,7 +194,7 @@ case 'editedcomment':
 	if (!empty($referredby)) {
 		header('Location: ' . $referredby);
 	} else {
-		header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
+		header ("Location: edit.php?p=$comment_id&c=1#comments");
 	}
 
 	break;
