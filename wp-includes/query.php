@@ -710,6 +710,7 @@ class WP_Query {
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
 			$in_cats = $out_cats = '';
 			foreach ( $cat_array as $cat ) {
+				$cat = intval($cat);
 				$in = strstr($cat, '-') ? false : true;
 				$cat = trim($cat, '-');
 				if ( $in )
