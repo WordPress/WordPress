@@ -238,6 +238,8 @@ function check_admin_referer($action = -1) {
 		$html  = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>\n\n";
 		$html .= "<head>\n\t<title>" . __('WordPress Confirmation') . "</title>\n";
 		$html .= "</head>\n<body>\n";
+		// Remove extra layer of slashes.
+		$_POST   = stripslashes_deep($_POST  );
 		if ( $_POST ) {
 			$q = http_build_query($_POST);
 			$q = explode( ini_get('arg_separator.output'), $q);
