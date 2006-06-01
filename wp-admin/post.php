@@ -322,8 +322,10 @@ case 'approvecomment':
 
 case 'editedcomment':
 
-	$comment_id = (int) $_POST['comment_ID'];
-	check_admin_referer('update-comment_' . $comment_id);
+	$comment_ID = (int) $_POST['comment_ID'];
+	$comment_post_ID = (int)  $_POST['comment_post_ID'];
+
+	check_admin_referer('update-comment_' . $comment_ID);
 
 	edit_comment();
 
