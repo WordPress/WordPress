@@ -238,6 +238,8 @@ function check_admin_referer($action = -1) {
 			$adminurl = $referer;
 		$title = __('WordPress Confirmation');
 		require_once(ABSPATH . '/wp-admin/admin-header.php');
+		// Remove extra layer of slashes.
+		$_POST   = stripslashes_deep($_POST  );
 		if ( $_POST ) {
 			$q = http_build_query($_POST);
 			$q = explode( ini_get('arg_separator.output'), $q);
