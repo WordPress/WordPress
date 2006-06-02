@@ -245,7 +245,8 @@ function check_admin_referer($action = -1) {
 			$q = explode( ini_get('arg_separator.output'), $q);
 			$html .= "\t<form method='post' action='$pagenow'>\n";
 			foreach ( (array) $q as $a ) {
-				list($k, $v) = explode('=', $a, 2);
+				$v = substr(strstr($a, '='), 1);
+				$k = substr($a, 0, -(strlen($v)+1));
 				$html .= "\t\t<input type='hidden' name='" . wp_specialchars( urldecode($k), 1 ) . "' value='" . wp_specialchars( urldecode($v), 1 ) . "' />\n";
 			}
 			$html .= "\t\t<input type='hidden' name='_wpnonce' value='" . wp_create_nonce($action) . "' />\n";
