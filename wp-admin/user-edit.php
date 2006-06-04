@@ -73,7 +73,7 @@ if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permi
 <h2><?php _e('Edit User'); ?></h2>
 
 <form name="profile" id="your-profile" action="user-edit.php" method="post">
-<?php wp_nonce_field('update-user_' . $user_ID) ?>
+<?php wp_nonce_field('update-user_' . $user_id) ?>
 <p>
 <input type="hidden" name="from" value="profile" />
 <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
