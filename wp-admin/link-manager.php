@@ -136,7 +136,7 @@ switch ($action) {
   case 'editlink':
   {
 	$link_id = (int) $_POST['link_id'];
-	check_admin_referer('update-bookmark' . $link_id);
+	check_admin_referer('update-bookmark_' . $link_id);
  	
 	if (isset($links_show_cat_id) && ($links_show_cat_id != ''))
 		$cat_id = $links_show_cat_id;
