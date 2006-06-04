@@ -1115,6 +1115,7 @@ function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args
 
 	// rebuild the list of filters
 	if ( isset($wp_filter[$tag]["$priority"]) ) {
+		$new_function_list = array();
 		foreach($wp_filter[$tag]["$priority"] as $filter) {
 			if ( $filter['function'] != $function_to_remove ) {
 				$new_function_list[] = $filter;
