@@ -607,25 +607,6 @@ function post_permalink($post_id = 0, $mode = '') { // $mode legacy
 	return get_permalink($post_id);
 }
 
-// Get the name of a category from its ID
-function get_cat_name($cat_id) {
-	global $wpdb;
-
-	$cat_id -= 0; 	// force numeric
-	$name = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE cat_ID=$cat_id");
-
-	return $name;
-}
-
-// Get the ID of a category from its name
-function get_cat_ID($cat_name='General') {
-	global $wpdb;
-
-	$cid = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
-
-	return $cid?$cid:1;	// default to cat 1
-}
-
 // Get author's preferred display name
 function get_author_name( $auth_id ) {
 	$authordata = get_userdata( $auth_id );

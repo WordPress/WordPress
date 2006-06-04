@@ -1,15 +1,60 @@
 <?php
 
-function walk_category_tree() {
-	$walker = new Walker_Category;
-	$args = func_get_args();
-	return call_user_func_array(array(&$walker, 'walk'), $args);
+function get_category_children($id, $before = '/', $after = '') {
+	if ( 0 == $id )
+		return '';
+
+	$cat_ids = get_all_category_ids();
+	foreach ( $cat_ids as $cat_id ) {
+		if ( $cat_id == $id)
+			continue;
+
+		$category = get_category($cat_id);
+		if ( $category->category_parent == $id ) {
+			$chain .= $before.$category->cat_ID.$after;
+			$chain .= get_category_children($category->cat_ID, $before, $after);
+		}
+	}
+	return $chain;
 }
 
-function walk_category_dropdown_tree() {
-	$walker = new Walker_CategoryDropdown;
-	$args = func_get_args();
-	return call_user_func_array(array(&$walker, 'walk'), $args);
+function get_category_link($category_id) {
+	global $wp_rewrite;
+	$catlink = $wp_rewrite->get_category_permastruct();
+
+	if ( empty($catlink) ) {
+		$file = get_settings('home') . '/';
+		$catlink = $file . '?cat=' . $category_id;
+	} else {
+		$category = &get_category($category_id);
+		$category_nicename = $category->category_nicename;
+
+		if ( $parent = $category->category_parent )
+			$category_nicename = get_category_parents($parent, false, '/', true) . $category_nicename . '/';
+
+		$catlink = str_replace('%category%', $category_nicename, $catlink);
+		$catlink = get_settings('home') . trailingslashit($catlink);
+	}
+	return apply_filters('category_link', $catlink, $category_id);
+}
+
+function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
+	$chain = '';
+	$parent = &get_category($id);
+
+	if ( $nicename )
+		$name = $parent->category_nicename;
+	else
+		$name = $parent->cat_name;
+
+	if ( $parent->category_parent )
+		$chain .= get_category_parents($parent->category_parent, $link, $separator, $nicename);
+
+	if ( $link )
+		$chain .= '<a href="' . get_category_link($parent->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $parent->cat_name) . '">'.$name.'</a>' . $separator;
+	else
+		$chain .= $name.$separator;
+	return $chain;
 }
 
 function get_the_category($id = false) {
@@ -31,24 +76,10 @@ global $post, $category_cache;
 	return $categories;
 }
 
-function get_category_link($category_id) {
-	global $wp_rewrite;
-	$catlink = $wp_rewrite->get_category_permastruct();
-
-	if ( empty($catlink) ) {
-		$file = get_settings('home') . '/';
-		$catlink = $file . '?cat=' . $category_id;
-	} else {
-		$category = &get_category($category_id);
-		$category_nicename = $category->category_nicename;
-
-		if ( $parent = $category->category_parent )
-			$category_nicename = get_category_parents($parent, false, '/', true) . $category_nicename . '/';
-
-		$catlink = str_replace('%category%', $category_nicename, $catlink);
-		$catlink = get_settings('home') . trailingslashit($catlink);
-	}
-	return apply_filters('category_link', $catlink, $category_id);
+function get_the_category_by_ID($cat_ID) {
+	$cat_ID = (int) $cat_ID;
+	$category = &get_category($cat_ID);
+	return $category->cat_name;
 }
 
 function get_the_category_list($separator = '', $parents='') {
@@ -106,51 +137,17 @@ function get_the_category_list($separator = '', $parents='') {
 	return apply_filters('the_category', $thelist, $separator, $parents);
 }
 
+function in_category($category) { // Check if the current post is in the given category
+	global $category_cache, $post;
+
+	if ( isset( $category_cache[$post->ID][$category] ) )
+		return true;
+	else
+		return false;
+}
+
 function the_category($separator = '', $parents='') {
 	echo get_the_category_list($separator, $parents);
-}
-
-function get_the_category_by_ID($cat_ID) {
-	$cat_ID = (int) $cat_ID;
-	$category = &get_category($cat_ID);
-	return $category->cat_name;
-}
-
-function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
-	$chain = '';
-	$parent = &get_category($id);
-
-	if ( $nicename )
-		$name = $parent->category_nicename;
-	else
-		$name = $parent->cat_name;
-
-	if ( $parent->category_parent )
-		$chain .= get_category_parents($parent->category_parent, $link, $separator, $nicename);
-
-	if ( $link )
-		$chain .= '<a href="' . get_category_link($parent->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $parent->cat_name) . '">'.$name.'</a>' . $separator;
-	else
-		$chain .= $name.$separator;
-	return $chain;
-}
-
-function get_category_children($id, $before = '/', $after = '') {
-	if ( 0 == $id )
-		return '';
-
-	$cat_ids = get_all_category_ids();
-	foreach ( $cat_ids as $cat_id ) {
-		if ( $cat_id == $id)
-			continue;
-
-		$category = get_category($cat_id);
-		if ( $category->category_parent == $id ) {
-			$chain .= $before.$category->cat_ID.$after;
-			$chain .= get_category_children($category->cat_ID, $before, $after);
-		}
-	}
-	return $chain;
 }
 
 function category_description($category = 0) {
@@ -252,115 +249,20 @@ function wp_list_categories($args = '') {
 	echo apply_filters('list_cats', $output);
 }
 
-function in_category($category) { // Check if the current post is in the given category
-	global $category_cache, $post;
+//
+// Helper functions
+//
 
-	if ( isset( $category_cache[$post->ID][$category] ) )
-		return true;
-	else
-		return false;
+function walk_category_tree() {
+	$walker = new Walker_Category;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
 }
 
-function &_get_cat_children($category_id, $categories) {
-	if ( empty($categories) )
-		return array();
-
-	$category_list = array();
-	foreach ( $categories as $category ) {
-		if ( $category->category_parent == $category_id ) {
-			$category_list[] = $category;
-			if ( $children = _get_cat_children($category->cat_ID, $categories) )
-				$category_list = array_merge($category_list, $children);
-		}
-	}
-
-	return $category_list;
-}
-
-function &get_categories($args = '') {
-	global $wpdb, $category_links;
-
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, $exclude => '', $include => '');
-	$r = array_merge($defaults, $r);
-	$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
-	extract($r);
-
-	$where = 'cat_ID > 0';
-	$inclusions = '';
-	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of and exclude params if using include 
-		$exclude = '';  
-		$incategories = preg_split('/[\s,]+/',$include);
-		if ( count($incategories) ) {
-			foreach ( $incategories as $incat ) {
-				if (empty($inclusions))
-					$inclusions = ' AND ( cat_ID = ' . intval($incat) . ' ';
-				else
-					$inclusions .= ' OR cat_ID = ' . intval($incat) . ' ';
-			}
-		}
-	}
-	if (!empty($inclusions)) 
-		$inclusions .= ')';	
-	$where .= $inclusions;
-
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$excategories = preg_split('/[\s,]+/',$exclude);
-		if ( count($excategories) ) {
-			foreach ( $excategories as $excat ) {
-				if (empty($exclusions))
-					$exclusions = ' AND ( cat_ID <> ' . intval($excat) . ' ';
-				else
-					$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
-				// TODO: Exclude children of excluded cats?   Note: children are getting excluded
-			}
-		}
-	}
-	if (!empty($exclusions)) 
-		$exclusions .= ')';
-	$exclusions = apply_filters('list_cats_exclusions', $exclusions );
-	$where .= $exclusions;
-
-	$having = '';
-	if ( $hide_empty ) {
-		if ( 'link' == $type )
-			$having = 'HAVING link_count > 0';
-		else
-			$having = 'HAVING category_count > 0';
-	}
-
-	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE $where $having ORDER BY $orderby $order");
-
-	if ( empty($categories) )
-		return array();
-
-	// TODO: Integrate this into the main query.
-	if ( $include_last_update_time ) {
-		$stamps = $wpdb->get_results("SELECT category_id, UNIX_TIMESTAMP( MAX(post_date) ) AS ts FROM $wpdb->posts, $wpdb->post2cat, $wpdb->categories
-							WHERE post_status = 'publish' AND post_id = ID AND $where GROUP BY category_id");
-		global $cat_stamps;
-		foreach ($stamps as $stamp)
-			$cat_stamps[$stamp->category_id] = $stamp->ts;
-		function stamp_cat($cat) {
-			global $cat_stamps;
-			$cat->last_update_timestamp = $cat_stamps[$cat->cat_ID];
-			return $cat;	
-		}
-		$categories = array_map('stamp_cat', $categories);
-		unset($cat_stamps);
-	}
-
-	if ( $child_of || $hierarchical )
-		$categories = & _get_cat_children($child_of, $categories);
-
-	return apply_filters('get_categories', $categories);
+function walk_category_dropdown_tree() {
+	$walker = new Walker_CategoryDropdown;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
 }
 
 ?>
