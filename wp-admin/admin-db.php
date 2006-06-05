@@ -284,23 +284,6 @@ function wp_revoke_user($id) {
 	$user->remove_all_caps();	
 }
 
-function get_link($link_id, $output = OBJECT) {
-	global $wpdb;
-
-	$link = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = '$link_id'");
-	$link->link_category = wp_get_link_cats($link_id);
-
-	if ( $output == OBJECT ) {
-		return $link;
-	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($link);
-	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($link));
-	} else {
-		return $link;
-	}
-}
-
 function wp_insert_link($linkdata) {
 	global $wpdb, $current_user;
 
