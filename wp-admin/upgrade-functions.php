@@ -173,7 +173,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 3308 )
 		upgrade_160();
 
-	if ( $wp_current_db_version < 3767 )
+	if ( $wp_current_db_version < 3845 )
 		upgrade_210();
 
 	$wp_rewrite->flush_rules();
@@ -492,7 +492,7 @@ function upgrade_210() {
 		}
 	}
 
-	if ( $wp_current_db_version < 3767 ) {
+	if ( $wp_current_db_version < 3845 ) {
 		populate_roles_210();
 	}
 

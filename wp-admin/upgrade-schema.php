@@ -364,6 +364,12 @@ function populate_roles_210() {
 		$role->add_cap('read_private_pages');
 	}
 
+	$role = get_role('administrator');
+	if ( ! empty($role) ) {
+		$role->add_cap('delete_users');
+		$role->add_cap('create_users');
+	}
+
 	$role = get_role('author');
 	if ( ! empty($role) ) {
 		$role->add_cap('delete_posts');

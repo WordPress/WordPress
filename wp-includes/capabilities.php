@@ -272,6 +272,12 @@ function map_meta_cap($cap, $user_id) {
 	$caps = array();
 
 	switch ($cap) {
+	case 'delete_user':
+		$caps[] = 'delete_users';
+		break;
+	case 'edit_user':
+		$caps[] = 'edit_users';
+		break;
 	case 'delete_post':
 		$author_data = get_userdata($user_id);
 		//echo "post ID: {$args[0]}<br/>";

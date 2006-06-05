@@ -34,7 +34,7 @@ case 'update':
 
 check_admin_referer('update-user_' . $user_id);
 
-if (!current_user_can('edit_users'))
+if ( !current_user_can('edit_user', $user_id) )
 	$errors = new WP_Error('head', __('You do not have permission to edit this user.'));
 else
 	$errors = edit_user($user_id);
@@ -49,7 +49,7 @@ include ('admin-header.php');
 
 $profileuser = new WP_User($user_id);
 
-if (!current_user_can('edit_users'))
+if ( !current_user_can('edit_user', $user_id) )
 	if ( !is_wp_error( $errors ) )
 		$errors = new WP_Error('head', __('You do not have permission to edit this user.'));
 ?>

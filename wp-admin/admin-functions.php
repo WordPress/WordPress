@@ -738,7 +738,7 @@ function user_row( $user_object, $style = '' ) {
 		<td><a href='$url' title='website: $url'>$short_url</a></td>";
 	$r .= "\n\t\t<td align='center'>$numposts</td>";
 	$r .= "\n\t\t<td>";
-	if (current_user_can('edit_users'))
+	if ( current_user_can('edit_user', $user_object->ID) )
 		$r .= "<a href='user-edit.php?user_id=$user_object->ID' class='edit'>".__('Edit')."</a>";
 	$r .= "</td>\n\t</tr>";
 	return $r;
