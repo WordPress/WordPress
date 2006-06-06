@@ -3,7 +3,7 @@ require_once('admin.php');
 
 $title = __('Moderate comments');
 $parent_file = 'edit.php';
-wp_enqueue_script( 'listman' );
+wp_enqueue_script( 'admin-comments' );
 
 $wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'item_spam', 'feelinglucky');
 for ($i=0; $i<count($wpvarstoreset); $i += 1) {
@@ -134,22 +134,22 @@ if ($comments) {
     <form name="approval" action="moderation.php" method="post">
     <?php wp_nonce_field('moderate-comments') ?>
     <input type="hidden" name="action" value="update" />
-    <ol id="the-list" class="commentlist">
+    <ol id="the-comment-list" class="commentlist">
 <?php
 $i = 0;
     foreach($comments as $comment) {
 	++$i;
 	$comment_date = mysql2date(get_settings("date_format") . " @ " . get_settings("time_format"), $comment->comment_date);
 	$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID='$comment->comment_post_ID'");
-	if ($i % 2) $class = 'class="alternate"';
-	else $class = '';
-	echo "\n\t<li id='comment-$comment->comment_ID' $class>"; 
+	if ($i % 2) $class = 'js-unapproved alternate';
+	else $class = 'js-unapproved';
+	echo "\n\t<li id='comment-$comment->comment_ID' class='$class'>"; 
 	?>
 	<p><strong><?php comment_author() ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 <?php comment_text() ?>
 <p><?php comment_date('M j, g:i A'); ?> &#8212; [ <?php
 echo '<a href="comment.php?action=editcomment&amp;comment='.$comment->comment_ID.'">' . __('Edit') . '</a> | ';
-echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($comment->comment_author)) . "' );\">" . __('Delete ') . "</a> | "; ?>
+echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($comment->comment_author)) . "', theCommentList );\">" . __('Delete ') . "</a> | "; ?>
 <?php
 $post = get_post($comment->comment_post_ID);
 $post_title = wp_specialchars( $post->post_title, 'double' );

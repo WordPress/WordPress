@@ -3,8 +3,8 @@ require_once('admin.php');
 header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
 ?>
 addLoadEvent(function(){theList=new listMan();});
-function deleteSomething(what,id,message){if(!message)message="<?php printf(__('Are you sure you want to delete this %s?'),"'+what+'"); ?>";if(confirm(message))return theList.ajaxDelete(what,id);else return false;}
-function dimSomething(what,id,dimClass){return theList.ajaxDimmer(what,id,dimClass);}
+function deleteSomething(what,id,message,obj){if(!obj)obj=theList;if(!message)message="<?php printf(__('Are you sure you want to delete this %s?'),"'+what+'"); ?>";if(confirm(message))return obj.ajaxDelete(what,id);else return false;}
+function dimSomething(what,id,dimClass,obj){if(!obj)obj=theList;return obj.ajaxDimmer(what,id,dimClass);}
 
 function WPAjax(file, responseEl){//class WPAjax extends sack
 	this.getResponseElement=function(r){var p=document.getElementById(r+'-p');if(!p){p=document.createElement('span');p.id=r+'-p';document.getElementById(r).appendChild(p);}this.myResponseElement=p;	}
@@ -74,7 +74,7 @@ function listMan(theListId){
 		this.ajaxDel=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxDel.failed)return true;
 		var tempObj=this;
-		this.ajaxDel.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.removeListItem(what.replace('-as-spam','')+'-'+id);this.myResponseElement.innerHTML='';if(tempObj.delComplete&&typeof tempObj.delComplete=='function')tempObj.delComplete(what,where);tempObj.recolorList(tempObj.recolorPos,1000)}};
+		this.ajaxDel.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.removeListItem(what.replace('-as-spam','')+'-'+id);this.myResponseElement.innerHTML='';if(tempObj.delComplete&&typeof tempObj.delComplete=='function')tempObj.delComplete(what,id);tempObj.recolorList(tempObj.recolorPos,1000)}};
 		this.ajaxDel.runAJAX('action=delete-'+what+'&id='+id);
 		return false;
 	}
