@@ -242,7 +242,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $user_data = get_userdatabylogin($user_login);
 	  $post_data = wp_get_single_post($post_ID, ARRAY_A);
 
-	  $categories = implode(',', wp_get_post_cats(1, $post_ID));
+	  $categories = implode(',', wp_get_post_categories($post_ID));
 
 	  $content  = '<title>'.stripslashes($post_data['post_title']).'</title>';
 	  $content .= '<category>'.$categories.'</category>';
@@ -285,7 +285,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  foreach ($posts_list as $entry) {
 	  
 	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
-	    $categories = implode(',', wp_get_post_cats(1, $entry['ID']));
+	    $categories = implode(',', wp_get_post_categories($entry['ID']));
 
 	    $content  = '<title>'.stripslashes($entry['post_title']).'</title>';
 	    $content .= '<category>'.$categories.'</category>';
@@ -695,7 +695,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $post_date = mysql2date('Ymd\TH:i:s', $postdata['post_date']);
 
 	    $categories = array();
-	    $catids = wp_get_post_cats('', $post_ID);
+	    $catids = wp_get_post_categories($post_ID);
 	    foreach($catids as $catid) {
 	      $categories[] = get_cat_name($catid);
 	    }
@@ -755,7 +755,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  
 	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 	    $categories = array();
-	    $catids = wp_get_post_cats('', $entry['ID']);
+	    $catids = wp_get_post_categories($entry['ID']);
 	    foreach($catids as $catid) {
 	      $categories[] = get_cat_name($catid);
 	    }
@@ -958,7 +958,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  $categories = array();
-	  $catids = wp_get_post_cats('', intval($post_ID));
+	  $catids = wp_get_post_categories(intval($post_ID));
 	  // first listed category will be the primary category
 	  $isPrimary = true;
 	  foreach($catids as $catid) {
@@ -996,7 +996,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $catids[] = $cat['categoryId'];
 	  }
 
-	  wp_set_post_cats('', $post_ID, $catids);
+	  wp_set_post_categories($post_ID, $catids);
 
 	  return true;
 	}
@@ -1079,7 +1079,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $postdata['post_status'] = 'publish';
 
 	  // retain old cats
-	  $cats = wp_get_post_cats('',$post_ID);
+	  $cats = wp_get_post_categories($post_ID);
 	  $postdata['post_category'] = $cats;
 		$this->escape($postdata);
 

@@ -187,12 +187,12 @@ function wp_delete_category($cat_ID) {
 	$default_cat = get_option('default_category');
 	$posts = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE category_id='$cat_ID'");
 	if ( is_array($posts) ) foreach ($posts as $post_id) {
-		$cats = wp_get_post_cats('', $post_id);
+		$cats = wp_get_post_categories($post_id);
 		if ( 1 == count($cats) )
 			$cats = array($default_cat);
 		else
 			$cats = array_diff($cats, array($cat_ID));
-		wp_set_post_cats('', $post_id, $cats); 
+		wp_set_post_categories($post_id, $cats); 
 	}
 
 	$default_link_cat = get_option('default_link_category');
@@ -230,7 +230,7 @@ function wp_create_categories($categories, $post_id = '') {
 	}
 
 	if ($post_id)
-		wp_set_post_cats('', $post_id, $cat_ids);
+		wp_set_post_categories($post_id, $cat_ids);
 
 	return $cat_ids;
 }

@@ -161,7 +161,7 @@ function wp_insert_post($postarr = array()) {
 		$wpdb->query( "UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = '$post_ID'" );
 	}
 
-	wp_set_post_cats('', $post_ID, $post_category);
+	wp_set_post_categories($post_ID, $post_category);
 
 	if ( 'page' == $post_type ) {
 		clean_page_cache($post_ID);
@@ -348,7 +348,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 		$wpdb->query( "UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = '$post_ID'" );
 	}
 
-	wp_set_post_cats('', $post_ID, $post_category);
+	wp_set_post_categories($post_ID, $post_category);
 
 	if ( $file )
 		add_post_meta($post_ID, '_wp_attached_file', $file );
@@ -411,10 +411,10 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 
 	// Set categories
 	if($mode == OBJECT) {
-		$post->post_category = wp_get_post_cats('',$postid);
+		$post->post_category = wp_get_post_categories($postid);
 	} 
 	else {
-		$post['post_category'] = wp_get_post_cats('',$postid);
+		$post['post_category'] = wp_get_post_categories($postid);
 	}
 
 	return $post;
@@ -486,7 +486,7 @@ function wp_publish_post($post_id) {
 	return wp_update_post(array('post_status' => 'publish', 'ID' => $post_id));	
 }
 
-function wp_get_post_cats($blogid = '1', $post_ID = 0) {
+function wp_get_post_categories($post_ID = 0) {
 	global $wpdb;
 
 	$post_ID = (int) $post_ID;
@@ -504,7 +504,7 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
 	return array_unique($result);
 }
 
-function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
+function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	global $wpdb;
 	// If $post_categories isn't already an array, make it one:
 	if (!is_array($post_categories) || 0 == count($post_categories))
@@ -555,7 +555,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
 		wp_cache_delete($cat_id, 'category');
 	}
-}	// wp_set_post_cats()
+}	// wp_set_post_categories()
 
 function wp_delete_post($postid = 0) {
 	global $wpdb, $wp_rewrite;
@@ -570,7 +570,7 @@ function wp_delete_post($postid = 0) {
 	do_action('delete_post', $postid);
 
 	if ( 'publish' == $post->post_status && 'post' == $post->post_type ) {
-		$categories = wp_get_post_cats('', $post->ID);
+		$categories = wp_get_post_categories($post->ID);
 		if( is_array( $categories ) ) {
 			foreach ( $categories as $cat_id ) {
 				$wpdb->query("UPDATE $wpdb->categories SET category_count = category_count - 1 WHERE cat_ID = '$cat_id'");

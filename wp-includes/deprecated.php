@@ -462,4 +462,12 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
 	return wp_list_authors($args);
 }
 
+function wp_get_post_cats($blogid = '1', $post_ID = 0) {
+	return wp_get_post_categories($post_ID);
+}
+
+function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
+	return wp_set_post_categories($post_ID, $post_categories);
+}
+
 ?>
