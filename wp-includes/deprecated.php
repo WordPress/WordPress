@@ -456,4 +456,10 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
 function tinymce_include() {
 	wp_print_script( 'wp_tiny_mce' );
 }
+
+function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
+	$args = compact('optioncount', 'exclude_admin', 'show_fullname', 'hide_empty', 'feed', 'feed_image');
+	return wp_list_authors($args);
+}
+
 ?>

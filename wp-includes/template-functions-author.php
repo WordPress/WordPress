@@ -156,26 +156,18 @@ function get_author_link($echo = false, $author_id, $author_nicename) {
 }
 
 function wp_list_authors($args = '') {
-	parse_str($args, $r);
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
 
-	if ( !isset($r['optioncount']) )
-		$r['optioncount'] = false;
-	if ( !isset($r['exclude_admin']) )
-		$r['exclude_admin'] = true;
-	if ( !isset($r['show_fullname']) )
-		$r['show_fullname'] = false;
-	if ( !isset($r['hide_empty']) )
-		$r['hide_empty'] = true;
-	if ( !isset($r['feed']) )
-		$r['feed'] = '';
-	if ( !isset($r['feed_image']) )
-		$r['feed_image'] = '';
+	$defaults = array('optioncount' => false, 'exclude_admin' => true, 'show_fullname' => false, 'hide_empty' => true,
+		'feed' => '', 'feed_image' => '');
+	$r = array_merge($defaults, $r);
+	extract($r);
 
-	list_authors($r['optioncount'], $r['exclude_admin'], $r['show_fullname'], $r['hide_empty'], $r['feed'], $r['feed_image']);
-}
-
-function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
 	global $wpdb;
+	// TODO:  Move select to get_authors().
 	$query = "SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name";
 	$authors = $wpdb->get_results($query);
 
