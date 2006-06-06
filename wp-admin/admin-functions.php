@@ -643,7 +643,7 @@ function cat_rows($parent = 0, $level = 0, $categories = 0) {
 	global $wpdb, $class;
 
 	if (!$categories)
-		$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
+		$categories = get_categories('hide_empty=0');
 
 	if ($categories) {
 		foreach ($categories as $category) {
@@ -685,7 +685,7 @@ function page_rows($parent = 0, $level = 0, $pages = 0, $hierarchy = true) {
 	global $wpdb, $class, $post;
 
 	if (!$pages)
-		$pages = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = 'page' ORDER BY menu_order");
+		$pages = get_pages('sort_column=menu_order');
 
 	if (! $pages)
 		return false;
@@ -745,10 +745,10 @@ function user_row( $user_object, $style = '' ) {
 }
 
 function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0) {
-	global $wpdb, $bgcolor;
-	if (!$categories) {
-		$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories ORDER BY cat_name");
-	}
+	global $wpdb;
+	if (!$categories)
+		$categories = get_categories('hide_empty=0');
+
 	if ($categories) {
 		foreach ($categories as $category) {
 			if ($currentcat != $category->cat_ID && $parent == $category->category_parent) {
