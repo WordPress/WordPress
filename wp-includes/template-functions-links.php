@@ -84,6 +84,11 @@ function get_permalink($id = 0) {
 	}
 }
 
+// get permalink from post ID
+function post_permalink($post_id = 0, $mode = '') { // $mode legacy
+	return get_permalink($post_id);
+}
+
 function get_page_link($id = false) {
 	global $post, $wp_rewrite;
 

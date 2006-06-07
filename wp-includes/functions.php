@@ -340,303 +340,6 @@ function delete_option($name) {
 	return true;
 }
 
-function add_post_meta($post_id, $key, $value, $unique = false) {
-	global $wpdb, $post_meta_cache;
-
-	if ( $unique ) {
-		if ( $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
-= '$key' AND post_id = '$post_id'") ) {
-			return false;
-		}
-	}
-
-	$original = $value;
-	if ( is_array($value) || is_object($value) )
-		$value = $wpdb->escape(serialize($value));
-
-	$wpdb->query("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value) VALUES ('$post_id','$key','$value')");
-
-	$post_meta_cache['$post_id'][$key][] = $original;
-
-	return true;
-}
-
-function delete_post_meta($post_id, $key, $value = '') {
-	global $wpdb, $post_meta_cache;
-
-	if ( empty($value) ) {
-		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE
-post_id = '$post_id' AND meta_key = '$key'");
-	} else {
-		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE
-post_id = '$post_id' AND meta_key = '$key' AND meta_value = '$value'");
-	}
-
-	if ( !$meta_id )
-		return false;
-
-	if ( empty($value) ) {
-		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
-AND meta_key = '$key'");
-		unset($post_meta_cache['$post_id'][$key]);
-	} else {
-		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
-AND meta_key = '$key' AND meta_value = '$value'");
-		$cache_key = $post_meta_cache['$post_id'][$key];
-		if ($cache_key) foreach ( $cache_key as $index => $data )
-			if ( $data == $value )
-				unset($post_meta_cache['$post_id'][$key][$index]);
-	}
-
-	unset($post_meta_cache['$post_id'][$key]);
-
-	return true;
-}
-
-function get_post_meta($post_id, $key, $single = false) {
-	global $wpdb, $post_meta_cache;
-
-	if ( isset($post_meta_cache[$post_id][$key]) ) {
-		if ( $single ) {
-			return maybe_unserialize( $post_meta_cache[$post_id][$key][0] );
-		} else {
-			return maybe_unserialize( $post_meta_cache[$post_id][$key] );
-		}
-	}
-
-	$metalist = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key'", ARRAY_N);
-
-	$values = array();
-	if ( $metalist ) {
-		foreach ($metalist as $metarow) {
-			$values[] = $metarow[0];
-		}
-	}
-
-	if ( $single ) {
-		if ( count($values) ) {
-			$return = maybe_unserialize( $values[0] );
-		} else {
-			return '';
-		}
-	} else {
-		$return = $values;
-	}
-
-	return maybe_unserialize($return);
-}
-
-function update_post_meta($post_id, $key, $value, $prev_value = '') {
-	global $wpdb, $post_meta_cache;
-
-	$original_value = $value;
-	if ( is_array($value) || is_object($value) )
-		$value = $wpdb->escape(serialize($value));
-
-	$original_prev = $prev_value;
-	if ( is_array($prev_value) || is_object($prev_value) )
-		$prev_value = $wpdb->escape(serialize($prev_value));
-
-	if (! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
-= '$key' AND post_id = '$post_id'") ) {
-		return false;
-	}
-
-	if ( empty($prev_value) ) {
-		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
-meta_key = '$key' AND post_id = '$post_id'");
-		$cache_key = $post_meta_cache['$post_id'][$key];
-		if ( !empty($cache_key) )
-			foreach ($cache_key as $index => $data)
-				$post_meta_cache['$post_id'][$key][$index] = $original_value;
-	} else {
-		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
-meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
-		$cache_key = $post_meta_cache['$post_id'][$key];
-		if ( !empty($cache_key) )
-			foreach ($cache_key as $index => $data)
-				if ( $data == $original_prev )
-					$post_meta_cache['$post_id'][$key][$index] = $original_value;
-	}
-
-	return true;
-}
-
-// Retrieves post data given a post ID or post object.
-// Handles post caching.
-function &get_post(&$post, $output = OBJECT) {
-	global $post_cache, $wpdb;
-
-	if ( empty($post) ) {
-		if ( isset($GLOBALS['post']) )
-			$_post = & $GLOBALS['post'];
-		else
-			$_post = null;
-	} elseif ( is_object($post) ) {
-		if ( 'page' == $post->post_type )
-			return get_page($post, $output);
-		if ( !isset($post_cache[$post->ID]) )
-			$post_cache[$post->ID] = &$post;
-		$_post = & $post_cache[$post->ID];
-	} else {
-		if ( $_post = wp_cache_get($post, 'pages') )
-			return get_page($_post, $output);
-		elseif ( isset($post_cache[$post]) )
-			$_post = & $post_cache[$post];
-		else {
-			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post' LIMIT 1";
-			$_post = & $wpdb->get_row($query);
-			if ( 'page' == $_post->post_type )
-				return get_page($_post, $output);
-			$post_cache[$post] = & $_post;
-		}
-	}
-
-	if ( defined(WP_IMPORTING) )
-		unset($post_cache);
-
-	if ( $output == OBJECT ) {
-		return $_post;
-	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($_post);
-	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($_post));
-	} else {
-		return $_post;
-	}
-}
-
-function &get_children($post = 0, $output = OBJECT) {
-	global $post_cache, $wpdb;
-
-	if ( empty($post) ) {
-		if ( isset($GLOBALS['post']) )
-			$post_parent = & $GLOBALS['post']->post_parent;
-		else
-			return false;
-	} elseif ( is_object($post) ) {
-		$post_parent = $post->post_parent;
-	} else {
-		$post_parent = $post;
-	}
-
-	$post_parent = (int) $post_parent;
-
-	$query = "SELECT * FROM $wpdb->posts WHERE post_parent = $post_parent";
-
-	$children = $wpdb->get_results($query);
-
-	if ( $children ) {
-		foreach ( $children as $key => $child ) {
-			$post_cache[$child->ID] =& $children[$key];
-			$kids[$child->ID] =& $children[$key];
-		}
-	} else {
-		return false;
-	}
-
-	if ( $output == OBJECT ) {
-		return $kids;
-	} elseif ( $output == ARRAY_A ) {
-		foreach ( $kids as $kid )
-			$weeuns[$kid->ID] = get_object_vars($kids[$kid->ID]);
-		return $weeuns;
-	} elseif ( $output == ARRAY_N ) {
-		foreach ( $kids as $kid )
-			$babes[$kid->ID] = array_values(get_object_vars($kids[$kid->ID]));
-		return $babes;
-	} else {
-		return $kids;
-	}
-}
-
-function get_page_by_path($page_path, $output = OBJECT) {
-	global $wpdb;
-	$page_path = rawurlencode(urldecode($page_path));
-	$page_path = str_replace('%2F', '/', $page_path);
-	$page_path = str_replace('%20', ' ', $page_path);
-	$page_paths = '/' . trim($page_path, '/');
-	$leaf_path  = sanitize_title(basename($page_paths));
-	$page_paths = explode('/', $page_paths);
-	foreach($page_paths as $pathdir)
-		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
-
-	$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = '$leaf_path' AND post_type='page'");
-
-	if ( empty($pages) ) 
-		return NULL;
-
-	foreach ($pages as $page) {
-		$path = '/' . $leaf_path;
-		$curpage = $page;
-		while ($curpage->post_parent != 0) {
-			$curpage = $wpdb->get_row("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE ID = '$curpage->post_parent' and post_type='page'");
-			$path = '/' . $curpage->post_name . $path;
-		}
-
-		if ( $path == $full_path )
-			return get_page($page->ID, $output);
-	}
-
-	return NULL;
-}
-
-// Retrieves page data given a page ID or page object.
-// Handles page caching.
-function &get_page(&$page, $output = OBJECT) {
-	global $wpdb;
-
-	if ( empty($page) ) {
-		if ( isset($GLOBALS['page']) ) {
-			$_page = & $GLOBALS['page'];
-			wp_cache_add($_page->ID, $_page, 'pages');
-		} else {
-			$_page = null;
-		}
-	} elseif ( is_object($page) ) {
-		if ( 'post' == $page->post_type )
-			return get_post($page, $output);
-		wp_cache_add($page->ID, $page, 'pages');
-		$_page = $page;
-	} else {
-		if ( isset($GLOBALS['page']) && ($page == $GLOBALS['page']->ID) ) {
-			$_page = & $GLOBALS['page'];
-			wp_cache_add($_page->ID, $_page, 'pages');
-		} elseif ( $_page = $GLOBALS['post_cache'][$page] ) {
-			return get_post($page, $output);
-		} elseif ( $_page = wp_cache_get($page, 'pages') ) {
-			// Got it.
-		} else {
-			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1";
-			$_page = & $wpdb->get_row($query);
-			if ( 'post' == $_page->post_type )
-				return get_post($_page, $output);
-			wp_cache_add($_page->ID, $_page, 'pages');
-		}
-	}
-
-	if ( $output == OBJECT ) {
-		return $_page;
-	} elseif ( $output == ARRAY_A ) {
-		return get_object_vars($_page);
-	} elseif ( $output == ARRAY_N ) {
-		return array_values(get_object_vars($_page));
-	} else {
-		return $_page;
-	}
-}
-
-function get_all_page_ids() {
-	global $wpdb;
-
-	if ( ! $page_ids = wp_cache_get('all_page_ids', 'pages') ) {
-		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'page'");
-		wp_cache_add('all_page_ids', $page_ids, 'pages');
-	}
-
-	return $page_ids;
-}
-
 function gzip_compression() {
 	if ( !get_settings('gzipcompression') ) return false;
 
@@ -1274,14 +977,6 @@ function update_category_cache() {
 	return true;
 }
 
-function wp_head() {
-	do_action('wp_head');
-}
-
-function wp_footer() {
-	do_action('wp_footer');
-}
-
 /*
 add_query_arg: Returns a modified querystring by adding
 a single key & value or an associative array.
@@ -1598,6 +1293,191 @@ function wp_nonce_url($actionurl, $action = -1) {
 
 function wp_nonce_field($action = -1) {
 	echo '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce($action) . '" />';
+}
+
+function wp_mkdir_p($target) {
+	// from php.net/mkdir user contributed notes
+	if (file_exists($target)) {
+		if (! @ is_dir($target))
+			return false;
+		else
+			return true;
+	}
+
+	// Attempting to create the directory may clutter up our display.
+	if (@ mkdir($target)) {
+		$stat = @ stat(dirname($target));
+		$dir_perms = $stat['mode'] & 0007777;  // Get the permission bits.
+		@ chmod($target, $dir_perms);
+		return true;
+	} else {
+		if ( is_dir(dirname($target)) )
+			return false;
+	}
+
+	// If the above failed, attempt to create the parent node, then try again.
+	if (wp_mkdir_p(dirname($target)))
+		return wp_mkdir_p($target);
+
+	return false;
+}
+
+// Returns an array containing the current upload directory's path and url, or an error message.
+function wp_upload_dir() {
+	$siteurl = get_settings('siteurl');
+	//prepend ABSPATH to $dir and $siteurl to $url if they're not already there
+	$path = str_replace(ABSPATH, '', trim(get_settings('upload_path')));
+	$dir = ABSPATH . $path;
+	$url = trailingslashit($siteurl) . $path;
+
+	if ( $dir == ABSPATH ) { //the option was empty
+		$dir = ABSPATH . 'wp-content/uploads';
+	}
+
+	if ( defined('UPLOADS') ) {
+		$dir = ABSPATH . UPLOADS;
+		$url = trailingslashit($siteurl) . UPLOADS;
+	}
+
+	if ( get_settings('uploads_use_yearmonth_folders')) {
+		// Generate the yearly and monthly dirs
+		$time = current_time( 'mysql' );
+		$y = substr( $time, 0, 4 );
+		$m = substr( $time, 5, 2 );
+		$dir = $dir . "/$y/$m";
+		$url = $url . "/$y/$m";
+	}
+
+	// Make sure we have an uploads dir
+	if ( ! wp_mkdir_p( $dir ) ) {
+		$message = sprintf(__('Unable to create directory %s. Is its parent directory writable by the server?'), $dir);
+		return array('error' => $message);
+	}
+
+    $uploads = array('path' => $dir, 'url' => $url, 'error' => false);
+	return apply_filters('upload_dir', $uploads);
+}
+
+function wp_upload_bits($name, $type, $bits) {
+	if ( empty($name) )
+		return array('error' => "Empty filename");
+
+	$upload = wp_upload_dir();
+
+	if ( $upload['error'] !== false )
+		return $upload;
+
+	$number = '';
+	$filename = $name;
+	$path_parts = pathinfo($filename);
+	$ext = $path_parts['extension'];
+	if ( empty($ext) )
+		$ext = '';
+	else
+		$ext = ".$ext";
+	while ( file_exists($upload['path'] . "/$filename") ) {
+		if ( '' == "$number$ext" )
+			$filename = $filename . ++$number . $ext;
+		else
+			$filename = str_replace("$number$ext", ++$number . $ext, $filename);
+	}
+
+	$new_file = $upload['path'] . "/$filename";
+	if ( ! wp_mkdir_p( dirname($new_file) ) ) {
+		$message = sprintf(__('Unable to create directory %s. Is its parent directory writable by the server?'), dirname($new_file));
+		return array('error' => $message);
+	}
+
+	$ifp = @ fopen($new_file, 'wb');
+	if ( ! $ifp )
+		return array('error' => "Could not write file $new_file.");
+
+	$success = @ fwrite($ifp, $bits);
+	fclose($ifp);
+	// Set correct file permissions
+	$stat = @ stat(dirname($new_file));
+	$perms = $stat['mode'] & 0007777;
+	$perms = $perms & 0000666;
+	@ chmod($new_file, $perms);
+
+	// Compute the URL
+	$url = $upload['url'] . "/$filename";
+
+	return array('file' => $new_file, 'url' => $url, 'error' => false);
+}
+
+function do_trackbacks($post_id) {
+	global $wpdb;
+
+	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $post_id");
+	$to_ping = get_to_ping($post_id);
+	$pinged  = get_pung($post_id);
+	if ( empty($to_ping) ) {
+		$wpdb->query("UPDATE $wpdb->posts SET to_ping = '' WHERE ID = '$post_id'");
+		return;
+	}
+
+	if (empty($post->post_excerpt))
+		$excerpt = apply_filters('the_content', $post->post_content);
+	else
+		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
+	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
+	$excerpt = strip_tags($excerpt);
+	if ( function_exists('mb_strcut') ) // For international trackbacks
+    	$excerpt = mb_strcut($excerpt, 0, 252, get_settings('blog_charset')) . '...';
+	else
+		$excerpt = substr($excerpt, 0, 252) . '...';
+
+	$post_title = apply_filters('the_title', $post->post_title);
+	$post_title = strip_tags($post_title);
+
+	if ($to_ping) : foreach ($to_ping as $tb_ping) :
+		$tb_ping = trim($tb_ping);
+		if ( !in_array($tb_ping, $pinged) ) {
+			trackback($tb_ping, $post_title, $excerpt, $post_id);
+			$pinged[] = $tb_ping;
+		} else {
+			$wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_ping', '')) WHERE ID = '$post_id'");
+		}
+	endforeach; endif;
+}
+
+function do_all_pings() {
+	global $wpdb;
+
+	// Do pingbacks
+	while ($ping = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_pingme' LIMIT 1")) {
+		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$ping->ID} AND meta_key = '_pingme';");
+		pingback($ping->post_content, $ping->ID);
+	}
+	
+	// Do Enclosures
+	while ($enclosure = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_encloseme' LIMIT 1")) {
+		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$enclosure->ID} AND meta_key = '_encloseme';");
+		do_enclose($enclosure->post_content, $enclosure->ID);
+	}
+
+	// Do Trackbacks
+	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status = 'publish'");
+	if ( is_array($trackbacks) ) {
+		foreach ( $trackbacks as $trackback ) {
+			do_trackbacks($trackback->ID);
+		}
+	}
+
+	//Do Update Services/Generic Pings
+	generic_ping();
+}
+
+function wp_proxy_check($ipnum) {
+	if ( get_option('open_proxy_check') && isset($ipnum) ) {
+		$rev_ip = implode( '.', array_reverse( explode( '.', $ipnum ) ) );
+		$lookup = $rev_ip . '.opm.blitzed.org.';
+		if ( $lookup != gethostbyname( $lookup ) )
+			return true;
+	}
+
+	return false;
 }
 
 ?>

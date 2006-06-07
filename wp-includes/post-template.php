@@ -1,24 +1,20 @@
 <?php
 
-function get_the_password_form() {
-	$output = '<form action="' . get_settings('siteurl') . '/wp-pass.php" method="post">
-	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
-	<p><label>' . __("Password:") . ' <input name="post_password" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . __("Submit") . '" /></p>
-	</form>
-	';
-	return $output;
-}
-
+//
+// "The Loop" post functions
+//
 
 function the_ID() {
 	global $id;
 	echo $id;
 }
 
+
 function get_the_ID() {
 	global $id;
 	return $id;
 }
+
 
 function the_title($before = '', $after = '', $echo = true) {
 	$title = get_the_title();
@@ -42,18 +38,15 @@ function get_the_title($id = 0) {
 	return $title;
 }
 
+function the_guid( $id = 0 ) {
+	echo get_the_guid($id);
+}
 
 function get_the_guid( $id = 0 ) {
 	$post = &get_post($id);
 
 	return apply_filters('get_the_guid', $post->guid);
 }
-
-
-function the_guid( $id = 0 ) {
-	echo get_the_guid($id);
-}
-
 
 function the_content($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
@@ -190,59 +183,9 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 }
 
 
-/*
-Post-meta: Custom per-post fields.
-*/
-
-
-function get_post_custom( $post_id = 0 ) {
-	global $id, $post_meta_cache, $wpdb;
-
-	if ( ! $post_id )
-		$post_id = $id;
-
-	if ( isset($post_meta_cache[$post_id]) )
-		return $post_meta_cache[$post_id];
-
-	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta	WHERE post_id = '$post_id' ORDER BY post_id, meta_key", ARRAY_A) ) {
-		// Change from flat structure to hierarchical:
-		$post_meta_cache = array();
-		foreach ( $meta_list as $metarow ) {
-			$mpid = $metarow['post_id'];
-			$mkey = $metarow['meta_key'];
-			$mval = $metarow['meta_value'];
-
-			// Force subkeys to be array type:
-			if ( !isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]) )
-				$post_meta_cache[$mpid] = array();
-
-			if ( !isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]) )
-				$post_meta_cache[$mpid]["$mkey"] = array();
-
-			// Add a value to the current pid/key:
-			$post_meta_cache[$mpid][$mkey][] = $mval;
-		}
-		return $post_meta_cache[$mpid];
-	}
-}
-
-
-function get_post_custom_keys() {
-	$custom = get_post_custom();
-
-	if ( ! is_array($custom) )
-		return;
-
-	if ( $keys = array_keys($custom) )
-		return $keys;
-}
-
-
-function get_post_custom_values( $key = '' ) {
-	$custom = get_post_custom();
-
-	return $custom[$key];
-}
+//
+// Post-meta: Custom per-post fields.
+//
 
 
 function post_custom( $key = '' ) {
@@ -274,107 +217,9 @@ function the_meta() {
 }
 
 
-/*
-Pages
-*/
-
-function walk_page_tree() {
-	$walker = new Walker_Page;
-	$args = func_get_args();
-	return call_user_func_array(array(&$walker, 'walk'), $args);
-}
-
-function walk_page_dropdown_tree() {
-	$walker = new Walker_PageDropdown;
-	$args = func_get_args();
-	return call_user_func_array(array(&$walker, 'walk'), $args);
-}
-
-function &get_page_children($page_id, $pages) {
-	global $page_cache;
-
-	if ( empty($pages) )
-		$pages = &$page_cache;
-
-	$page_list = array();
-	foreach ( $pages as $page ) {
-		if ( $page->post_parent == $page_id ) {
-			$page_list[] = $page;
-			if ( $children = get_page_children($page->ID, $pages) )
-				$page_list = array_merge($page_list, $children);
-		}
-	}
-	return $page_list;
-}
-
-
-function &get_pages($args = '') {
-	global $wpdb;
-
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('child_of' => 0, 'sort_order' => 'ASC', 'sort_column' => 'post_title',
-				'hierarchical' => 1, 'exclude' => '', 'include' => '', 'meta_key' => '', 'meta_value' => '');
-	$r = array_merge($defaults, $r);
-	extract($r);
-
-	$inclusions = '';
-	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include 
-		$exclude = '';  
-		$meta_key = '';
-		$meta_value = '';
-		$incpages = preg_split('/[\s,]+/',$include);
-		if ( count($incpages) ) {
-			foreach ( $incpages as $incpage ) {
-				if (empty($inclusions))
-					$inclusions = ' AND ( ID = ' . intval($incpage) . ' ';
-				else
-					$inclusions .= ' OR ID = ' . intval($incpage) . ' ';
-			}
-		}
-	}
-	if (!empty($inclusions)) 
-		$inclusions .= ')';	
-
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$expages = preg_split('/[\s,]+/',$exclude);
-		if ( count($expages) ) {
-			foreach ( $expages as $expage ) {
-				if (empty($exclusions))
-					$exclusions = ' AND ( ID <> ' . intval($expage) . ' ';
-				else
-					$exclusions .= ' AND ID <> ' . intval($expage) . ' ';
-			}
-		}
-	}
-	if (!empty($exclusions)) 
-		$exclusions .= ')';
-
-	$query = "SELECT * FROM $wpdb->posts " ;
-	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
-	$query .= " WHERE (post_type = 'page' AND post_status = 'publish') $exclusions $inclusions " ;
-	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
-	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
-
-	$pages = $wpdb->get_results($query);
-	$pages = apply_filters('get_pages', $pages, $r);
-
-	if ( empty($pages) )
-		return array();
-
-	// Update cache.
-	update_page_cache($pages);
-
-	if ( $child_of || $hierarchical )
-		$pages = & get_page_children($child_of, $pages);
-
-	return $pages;
-}
+//
+// Pages
+//
 
 function wp_dropdown_pages($args = '') {
 	if ( is_array($args) )
@@ -438,6 +283,26 @@ function wp_list_pages($args = '') {
 	else
 		return $output;
 }
+
+//
+// Page helpers
+//
+
+function walk_page_tree() {
+	$walker = new Walker_Page;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
+}
+
+function walk_page_dropdown_tree() {
+	$walker = new Walker_PageDropdown;
+	$args = func_get_args();
+	return call_user_func_array(array(&$walker, 'walk'), $args);
+}
+
+//
+// Attachments
+//
 
 function the_attachment_link($id = 0, $fullsize = false, $max_dims = false) {
 	echo get_the_attachment_link($id, $fullsize, $max_dims);
@@ -559,6 +424,19 @@ function prepend_attachment($content) {
 	$p = apply_filters('prepend_attachment', $p);
 
 	return "$p\n$content";
+}
+
+//
+// Misc
+//
+
+function get_the_password_form() {
+	$output = '<form action="' . get_settings('siteurl') . '/wp-pass.php" method="post">
+	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
+	<p><label>' . __("Password:") . ' <input name="post_password" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . __("Submit") . '" /></p>
+	</form>
+	';
+	return $output;
 }
 
 ?>

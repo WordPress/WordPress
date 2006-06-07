@@ -195,6 +195,52 @@ function wp_allow_comment($commentdata) {
 	return $approved;
 }
 
+function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
+	global $wpdb;
+
+	do_action('wp_blacklist_check', $author, $email, $url, $comment, $user_ip, $user_agent);
+
+	if ( preg_match_all('/&#(\d+);/', $comment . $author . $url, $chars) ) {
+		foreach ($chars[1] as $char) {
+			// If it's an encoded char in the normal ASCII set, reject
+			if ( 38 == $char )
+				continue; // Unless it's &
+			if ($char < 128)
+				return true;
+		}
+	}
+
+	$mod_keys = trim( get_settings('blacklist_keys') );
+	if ('' == $mod_keys )
+		return false; // If moderation keys are empty
+	$words = explode("\n", $mod_keys );
+
+	foreach ($words as $word) {
+		$word = trim($word);
+
+		// Skip empty lines
+		if ( empty($word) ) { continue; }
+
+		// Do some escaping magic so that '#' chars in the 
+		// spam words don't break things:
+		$word = preg_quote($word, '#');
+
+		$pattern = "#$word#i"; 
+		if ( preg_match($pattern, $author    ) ) return true;
+		if ( preg_match($pattern, $email     ) ) return true;
+		if ( preg_match($pattern, $url       ) ) return true;
+		if ( preg_match($pattern, $comment   ) ) return true;
+		if ( preg_match($pattern, $user_ip   ) ) return true;
+		if ( preg_match($pattern, $user_agent) ) return true;
+	}
+
+	if ( isset($_SERVER['REMOTE_ADDR']) ) {
+		if ( wp_proxy_check($_SERVER['REMOTE_ADDR']) ) return true;
+	}
+
+	return false;
+}
+
 function wp_delete_comment($comment_id) {
 	global $wpdb;
 	do_action('delete_comment', $comment_id);

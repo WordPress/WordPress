@@ -155,6 +155,13 @@ function get_author_link($echo = false, $author_id, $author_nicename) {
 	return $link;
 }
 
+// Get author's preferred display name
+function get_author_name( $auth_id ) {
+	$authordata = get_userdata( $auth_id );
+
+	return $authordata->display_name;
+}
+
 function wp_list_authors($args = '') {
 	if ( is_array($args) )
 		$r = &$args;

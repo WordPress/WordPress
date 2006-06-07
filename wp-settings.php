@@ -124,7 +124,6 @@ if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !d
 }
 
 require (ABSPATH . WPINC . '/functions-formatting.php');
-require (ABSPATH . WPINC . '/functions-post.php');
 require (ABSPATH . WPINC . '/capabilities.php');
 require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/query.php');
@@ -132,7 +131,8 @@ require (ABSPATH . WPINC . '/theme.php');
 require (ABSPATH . WPINC . '/template-functions-general.php');
 require (ABSPATH . WPINC . '/template-functions-links.php');
 require (ABSPATH . WPINC . '/template-functions-author.php');
-require (ABSPATH . WPINC . '/template-functions-post.php');
+require (ABSPATH . WPINC . '/post.php');
+require (ABSPATH . WPINC . '/post-template.php');
 require (ABSPATH . WPINC . '/category.php');
 require (ABSPATH . WPINC . '/category-template.php');
 require (ABSPATH . WPINC . '/comment.php');
