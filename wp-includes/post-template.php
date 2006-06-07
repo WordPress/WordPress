@@ -228,7 +228,7 @@ function wp_dropdown_pages($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('depth' => 0, 'child_of' => 0, 'selected' => 0, 'echo' => 1,
-		'name' => 'page_id');
+		'name' => 'page_id', 'show_option_none' => '');
 	$r = array_merge($defaults, $r);
 	extract($r);
 
@@ -237,6 +237,8 @@ function wp_dropdown_pages($args = '') {
 
 	if ( ! empty($pages) ) {
 		$output = "<select name='$name'>\n";
+		if ( $show_option_none )
+			$output .= "\t<option value=''>$show_option_none</option>\n";
 		$output .= walk_page_dropdown_tree($pages, $depth, $r);
 		$output .= "</select>\n";
 	}

@@ -29,8 +29,8 @@ include('admin-header.php');
 		<?php printf(__('A static <a href="%s">page</a> (select below)'), 'edit-pages.php'); ?>
 	</label>
 <ul>
-	<li><?php printf(__('Show this page on the front page: %s'), wp_dropdown_pages("name=page_on_front&echo=0&selected=" . get_option('page_on_front'))); ?></li>
-	<li><?php printf(__('Show the latest posts on this page: %s'), wp_dropdown_pages("name=page_for_posts&echo=0&selected=" . get_option('page_for_posts'))); ?></li>
+	<li><?php printf(__('Show this page on the front page: %s'), wp_dropdown_pages("name=page_on_front&echo=0&show_option_none=".__('- Select -')."&selected=" . get_option('page_on_front'))); ?></li>
+	<li><?php printf(__('Show the latest posts on this page: %s'), wp_dropdown_pages("name=page_for_posts&echo=0&show_option_none=".__('- Select -')."&selected=" . get_option('page_for_posts'))); ?></li>
 </ul>
 <?php if ( 'page' == get_option('show_on_front') && get_option('page_for_posts') == get_option('page_on_front') ) : ?>
 <div id="front-page-warning" class="updated fade-ff0000">
