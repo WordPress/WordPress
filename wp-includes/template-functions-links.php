@@ -105,6 +105,9 @@ function get_page_link($id = false) {
 		$link = get_settings('home') . "/?page_id=$id";
 	}
 
+	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
+		$link = get_settings('home');
+
 	return apply_filters('page_link', $link, $id);
 }
 
