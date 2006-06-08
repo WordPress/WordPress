@@ -8,13 +8,6 @@ if ( !function_exists('_') ) {
 	}
 }
 
-function get_profile($field, $user = false) {
-	global $wpdb;
-	if ( !$user )
-		$user = $wpdb->escape($_COOKIE[USER_COOKIE]);
-	return $wpdb->get_var("SELECT $field FROM $wpdb->users WHERE user_login = '$user'");
-}
-
 function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	global $wp_locale;
 	$m = $mysqlstring;
@@ -168,21 +161,6 @@ function get_lastpostmodified($timezone = 'server') {
 	return $lastpostmodified;
 }
 
-function user_pass_ok($user_login,$user_pass) {
-	global $cache_userdata;
-	if ( empty($cache_userdata[$user_login]) ) {
-		$userdata = get_userdatabylogin($user_login);
-	} else {
-		$userdata = $cache_userdata[$user_login];
-	}
-	return (md5($user_pass) == $userdata->user_pass);
-}
-
-function get_usernumposts($userid) {
-	global $wpdb;
-	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid' AND post_type = 'post' AND post_status = 'publish'");
-}
-
 function maybe_unserialize($original) {
 	if ( false !== $gm = @ unserialize($original) )
 		return $gm;
@@ -224,22 +202,6 @@ function get_settings($setting) {
 
 function get_option($option) {
 	return get_settings($option);
-}
-
-function get_user_option( $option, $user = 0 ) {
-	global $wpdb;
-
-	if ( empty($user) )
-		$user = wp_get_current_user();
-	else
-		$user = get_userdata($user);
-
-	if ( isset( $user->{$wpdb->prefix . $option} ) ) // Blog specific
-		return $user->{$wpdb->prefix . $option};
-	elseif ( isset( $user->{$option} ) ) // User specific and cross-blog
-		return $user->{$option};
-	else // Blog global
-		return get_option( $option );
 }
 
 function form_option($option) {
@@ -300,13 +262,6 @@ function update_option($option_name, $newvalue) {
 		return true;
 	}
 	return false;
-}
-
-function update_user_option( $user_id, $option_name, $newvalue, $global = false ) {
-	global $wpdb;
-	if ( !$global )
-		$option_name = $wpdb->prefix . $option_name;
-	return update_usermeta( $user_id, $option_name, $newvalue );
 }
 
 // thx Alex Stapleton, http://alex.vort-x.net/blog/
@@ -597,62 +552,6 @@ function wp_get_http_headers( $url, $red = 1 ) {
 	return $headers;
 }
 
-// Setup global post data.
-function setup_postdata($post) {
-	global $id, $postdata, $authordata, $day, $page, $pages, $multipage, $more, $numpages, $wp_query;
-	global $pagenow;
-
-	$id = $post->ID;
-
-	$authordata = get_userdata($post->post_author);
-
-	$day = mysql2date('d.m.y', $post->post_date);
-	$currentmonth = mysql2date('m', $post->post_date);
-	$numpages = 1;
-	$page = get_query_var('page');
-	if ( !$page )
-		$page = 1;
-	if ( is_single() || is_page() )
-		$more = 1;
-	$content = $post->post_content;
-	if ( preg_match('/<!--nextpage-->/', $content) ) {
-		if ( $page > 1 )
-			$more = 1;
-		$multipage = 1;
-		$content = str_replace("\n<!--nextpage-->\n", '<!--nextpage-->', $content);
-		$content = str_replace("\n<!--nextpage-->", '<!--nextpage-->', $content);
-		$content = str_replace("<!--nextpage-->\n", '<!--nextpage-->', $content);
-		$pages = explode('<!--nextpage-->', $content);
-		$numpages = count($pages);
-	} else {
-		$pages[0] = $post->post_content;
-		$multipage = 0;
-	}
-	return true;
-}
-
-// Setup global user vars.  Used by set_current_user() for back compat.
-function setup_userdata($user_id = '') {
-	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_pass_md5, $user_identity;
-
-	if ( '' == $user_id )
-		$user = wp_get_current_user();
-	else 
-		$user = new WP_User($user_id);
-
-	if ( 0 == $user->ID )
-		return;
-
-	$userdata = $user->data;
-	$user_login	= $user->user_login;
-	$user_level	= $user->user_level;
-	$user_ID	= $user->ID;
-	$user_email	= $user->user_email;
-	$user_url	= $user->user_url;
-	$user_pass_md5	= md5($user->user_pass);
-	$user_identity	= $user->display_name;
-}
-
 function is_new_day() {
 	global $day, $previousday;
 	if ( $day != $previousday ) {
@@ -796,86 +695,6 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 
 function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
 	remove_filter($tag, $function_to_remove, $priority, $accepted_args);
-}
-
-function get_page_uri($page_id) {
-	$page = get_page($page_id);
-	$uri = urldecode($page->post_name);
-
-	// A page cannot be it's own parent.
-	if ( $page->post_parent == $page->ID )
-		return $uri;
-
-	while ($page->post_parent != 0) {
-		$page = get_page($page->post_parent);
-		$uri = urldecode($page->post_name) . "/" . $uri;
-	}
-
-	return $uri;
-}
-
-function get_posts($args) {
-	global $wpdb;
-
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('numberposts' => 5, 'offset' => 0, 'category' => '',
-		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '', 'meta_key' => '', 'meta_value' =>'');
-	$r = array_merge($defaults, $r);
-	extract($r);
-
-	$inclusions = '';
-	if ( !empty($include) ) {
-		$offset = 0;	//ignore offset, category, exclude, meta_key, and meta_value params if using include
-		$category = ''; 
-		$exclude = '';  
-		$meta_key = '';
-		$meta_value = '';
-		$incposts = preg_split('/[\s,]+/',$include);
-		$numberposts = count($incposts);  // only the number of posts included
-		if ( count($incposts) ) {
-			foreach ( $incposts as $incpost ) {
-				if (empty($inclusions))
-					$inclusions = ' AND ( ID = ' . intval($incpost) . ' ';
-				else
-					$inclusions .= ' OR ID = ' . intval($incpost) . ' ';
-			}
-		}
-	}
-	if (!empty($inclusions)) 
-		$inclusions .= ')';	
-
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$exposts = preg_split('/[\s,]+/',$exclude);
-		if ( count($exposts) ) {
-			foreach ( $exposts as $expost ) {
-				if (empty($exclusions))
-					$exclusions = ' AND ( ID <> ' . intval($expost) . ' ';
-				else
-					$exclusions .= ' AND ID <> ' . intval($expost) . ' ';
-			}
-		}
-	}
-	if (!empty($exclusions)) 
-		$exclusions .= ')';
-
-	$query ="SELECT DISTINCT * FROM $wpdb->posts " ;
-	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " ) ; 
-	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
-	$query .= " WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions " ;
-	$query .= ( empty( $category ) ? "" : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") " ) ;
-	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
-	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts ;
-
-	$posts = $wpdb->get_results($query);
-
-	update_post_caches($posts);
-
-	return $posts;
 }
 
 function update_post_cache(&$posts) {
@@ -1107,92 +926,6 @@ function nocache_headers() {
 	@ header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 	@ header('Cache-Control: no-cache, must-revalidate, max-age=0');
 	@ header('Pragma: no-cache');
-}
-
-function get_usermeta( $user_id, $meta_key = '') {
-	global $wpdb;
-	$user_id = (int) $user_id;
-
-	if ( !empty($meta_key) ) {
-		$meta_key = preg_replace('|a-z0-9_|i', '', $meta_key);
-		$metas = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-	} else {
-		$metas = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->usermeta WHERE user_id = '$user_id'");
-	}
-
-	if ( empty($metas) ) {
-		if ( empty($meta_key) )
-			return array();
-		else
-			return '';
-	}
-
-	foreach ($metas as $index => $meta) {
-		@ $value = unserialize($meta->meta_value);
-		if ( $value === FALSE )
-			$value = $meta->meta_value;
-
-		$values[] = $value;
-	}
-
-	if ( count($values) == 1 )
-		return $values[0];
-	else
-		return $values;
-}
-
-function update_usermeta( $user_id, $meta_key, $meta_value ) {
-	global $wpdb;
-	if ( !is_numeric( $user_id ) )
-		return false;
-	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
-
-	if ( is_array($meta_value) || is_object($meta_value) )
-		$meta_value = serialize($meta_value);
-	$meta_value = trim( $meta_value );
-
-	if (empty($meta_value)) {
-		return delete_usermeta($user_id, $meta_key);
-	}
-
-	$cur = $wpdb->get_row("SELECT * FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-	if ( !$cur ) {
-		$wpdb->query("INSERT INTO $wpdb->usermeta ( user_id, meta_key, meta_value )
-		VALUES
-		( '$user_id', '$meta_key', '$meta_value' )");
-	} else if ( $cur->meta_value != $meta_value ) {
-		$wpdb->query("UPDATE $wpdb->usermeta SET meta_value = '$meta_value' WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-	} else {
-		return false;
-	}
-
-	$user = get_userdata($user_id);
-	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
-
-	return true;
-}
-
-function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
-	global $wpdb;
-	if ( !is_numeric( $user_id ) )
-		return false;
-	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
-
-	if ( is_array($meta_value) || is_object($meta_value) )
-		$meta_value = serialize($meta_value);
-	$meta_value = trim( $meta_value );
-
-	if ( ! empty($meta_value) )
-		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key' AND meta_value = '$meta_value'");
-	else
-		$wpdb->query("DELETE FROM $wpdb->usermeta WHERE user_id = '$user_id' AND meta_key = '$meta_key'");
-
-	$user = get_userdata($user_id);
-	wp_cache_delete($user_id, 'users');
-	wp_cache_delete($user->user_login, 'userlogins');
-
-	return true;
 }
 
 function register_activation_hook($file, $function) {

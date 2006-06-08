@@ -144,6 +144,69 @@ function get_post_type($post = false) {
 	return false;
 }
 
+function get_posts($args) {
+	global $wpdb;
+
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
+	$defaults = array('numberposts' => 5, 'offset' => 0, 'category' => '',
+		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '', 'meta_key' => '', 'meta_value' =>'');
+	$r = array_merge($defaults, $r);
+	extract($r);
+
+	$inclusions = '';
+	if ( !empty($include) ) {
+		$offset = 0;	//ignore offset, category, exclude, meta_key, and meta_value params if using include
+		$category = ''; 
+		$exclude = '';  
+		$meta_key = '';
+		$meta_value = '';
+		$incposts = preg_split('/[\s,]+/',$include);
+		$numberposts = count($incposts);  // only the number of posts included
+		if ( count($incposts) ) {
+			foreach ( $incposts as $incpost ) {
+				if (empty($inclusions))
+					$inclusions = ' AND ( ID = ' . intval($incpost) . ' ';
+				else
+					$inclusions .= ' OR ID = ' . intval($incpost) . ' ';
+			}
+		}
+	}
+	if (!empty($inclusions)) 
+		$inclusions .= ')';	
+
+	$exclusions = '';
+	if ( !empty($exclude) ) {
+		$exposts = preg_split('/[\s,]+/',$exclude);
+		if ( count($exposts) ) {
+			foreach ( $exposts as $expost ) {
+				if (empty($exclusions))
+					$exclusions = ' AND ( ID <> ' . intval($expost) . ' ';
+				else
+					$exclusions .= ' AND ID <> ' . intval($expost) . ' ';
+			}
+		}
+	}
+	if (!empty($exclusions)) 
+		$exclusions .= ')';
+
+	$query ="SELECT DISTINCT * FROM $wpdb->posts " ;
+	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " ) ; 
+	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
+	$query .= " WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions " ;
+	$query .= ( empty( $category ) ? "" : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") " ) ;
+	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
+	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts ;
+
+	$posts = $wpdb->get_results($query);
+
+	update_post_caches($posts);
+
+	return $posts;
+}
 
 //
 // Post meta functions
@@ -930,6 +993,22 @@ function get_page_hierarchy($posts, $parent = 0) {
 		}
 	} }
 	return $result;
+}
+
+function get_page_uri($page_id) {
+	$page = get_page($page_id);
+	$uri = urldecode($page->post_name);
+
+	// A page cannot be it's own parent.
+	if ( $page->post_parent == $page->ID )
+		return $uri;
+
+	while ($page->post_parent != 0) {
+		$page = get_page($page->post_parent);
+		$uri = urldecode($page->post_name) . "/" . $uri;
+	}
+
+	return $uri;
 }
 
 function &get_pages($args = '') {
