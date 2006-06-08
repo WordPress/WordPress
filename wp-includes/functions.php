@@ -809,15 +809,22 @@ add_query_arg(associative_array, oldquery_or_uri)
 function add_query_arg() {
 	$ret = '';
 	if ( is_array(func_get_arg(0)) ) {
-		if ( @func_num_args() < 2 )
+		if ( @func_num_args() < 2 || '' == @func_get_arg(1) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
 			$uri = @func_get_arg(1);
 	} else {
-		if ( @func_num_args() < 3 )
+		if ( @func_num_args() < 3 || '' == @func_get_arg(2) )
 			$uri = $_SERVER['REQUEST_URI'];
 		else
 			$uri = @func_get_arg(2);
+	}
+
+	if ( preg_match('|^https?://|i', $uri, $matches) ) {
+		$protocol = $matches[0];
+		$uri = substr($uri, strlen($protocol));
+	} else {
+		$protocol = '';
 	}
 
 	if ( strstr($uri, '?') ) {
@@ -829,8 +836,7 @@ function add_query_arg() {
 			$base = $parts[0] . '?';
 			$query = $parts[1];
 		}
-	}
-	else if ( strstr($uri, '/') ) {
+	} else if ( strstr($uri, '/') ) {
 		$base = $uri . '?';
 		$query = '';
 	} else {
@@ -853,11 +859,28 @@ function add_query_arg() {
 			$ret .= "$k=$v";
 		}
 	}
-	$ret = $base . $ret;
+	$ret = $protocol . $base . $ret;
+	if ( get_magic_quotes_gpc() )
+		$ret = stripslashes($ret); // parse_str() adds slashes if magicquotes is on.  See: http://php.net/parse_str
 	return trim($ret, '?');
 }
 
-function remove_query_arg($key, $query) {
+/*
+remove_query_arg: Returns a modified querystring by removing
+a single key or an array of keys.
+Omitting oldquery_or_uri uses the $_SERVER value.
+
+Parameters:
+remove_query_arg(removekey, [oldquery_or_uri]) or
+remove_query_arg(removekeyarray, [oldquery_or_uri])
+*/
+
+function remove_query_arg($key, $query='') {
+	if ( is_array($key) ) { // removing multiple keys
+		foreach ( (array) $key as $k )
+			$query = add_query_arg($k, '', $query);
+		return $query;
+	}
 	return add_query_arg($key, '', $query);
 }
 

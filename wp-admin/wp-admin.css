@@ -52,7 +52,7 @@ a.delete:hover {
 	font-size: 16px;
 }
 
-thead {
+thead, .thead {
 	background: #dfdfdf
 }
 

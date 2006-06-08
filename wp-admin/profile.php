@@ -3,7 +3,10 @@ require_once('admin.php');
 
 $title = __('Profile');
 
-$parent_file = 'profile.php';
+if ( current_user_can('edit_users') )
+	$parent_file = 'users.php';
+else
+	$parent_file = 'profile.php';
 include_once('admin-header.php');
 $profileuser = new WP_User($user_ID);
 

@@ -11,7 +11,7 @@ $menu[20] = array(__('Bookmarks'), 'manage_links', 'link-manager.php');
 $menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
-	$menu[35] = array(__('Users'), 'read', 'profile.php');
+	$menu[35] = array(__('Users'), 'edit_users', 'users.php');
 else
 	$menu[35] = array(__('Profile'), 'read', 'profile.php');
 $menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
@@ -34,8 +34,12 @@ $submenu['link-manager.php'][5] = array(__('Manage Bookmarks'), 'manage_links', 
 $submenu['link-manager.php'][10] = array(__('Add Bookmark'), 'manage_links', 'link-add.php');
 $submenu['link-manager.php'][20] = array(__('Import Bookmarks'), 'manage_links', 'link-import.php');
 
-$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
-$submenu['profile.php'][10] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
+if ( current_user_can('edit_users') ) {
+	$submenu['users.php'][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
+	$submenu['users.php'][10] = array(__('Your Profile'), 'read', 'profile.php');
+} else {
+	$submenu['profile.php'][5] = array(__('Your Profile'), 'read', 'profile.php');
+}
 
 $submenu['options-general.php'][10] = array(__('General'), 'manage_options', 'options-general.php');
 $submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
