@@ -30,12 +30,12 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 		$datemeridiem = $wp_locale->get_meridiem(date('a', $i));
 		$datemeridiem_capital = $wp_locale->get_meridiem(date('A', $i));
 		$dateformatstring = ' '.$dateformatstring;
-		$dateformatstring = preg_replace("/([^\\\])D/", "\${1}".backslashit($dateweekday_abbrev), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])F/", "\${1}".backslashit($datemonth), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])l/", "\${1}".backslashit($dateweekday), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])M/", "\${1}".backslashit($datemonth_abbrev), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])a/", "\${1}".backslashit($datemeridiem), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])A/", "\${1}".backslashit($datemeridiem_capital), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])D/", "\\1".backslashit($dateweekday_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])F/", "\\1".backslashit($datemonth), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])l/", "\\1".backslashit($dateweekday), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])M/", "\\1".backslashit($datemonth_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])a/", "\\1".backslashit($datemeridiem), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])A/", "\\1".backslashit($datemeridiem_capital), $dateformatstring);
 
 		$dateformatstring = substr($dateformatstring, 1, strlen($dateformatstring)-1);
 	}
@@ -73,12 +73,12 @@ function date_i18n($dateformatstring, $unixtimestamp) {
 		$datemeridiem = $wp_locale->get_meridiem(date('a', $i));
 		$datemeridiem_capital = $wp_locale->get_meridiem(date('A', $i));
 		$dateformatstring = ' '.$dateformatstring;
-		$dateformatstring = preg_replace("/([^\\\])D/", "\${1}".backslashit($dateweekday_abbrev), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])F/", "\${1}".backslashit($datemonth), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])l/", "\${1}".backslashit($dateweekday), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])M/", "\${1}".backslashit($datemonth_abbrev), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])a/", "\${1}".backslashit($datemeridiem), $dateformatstring);
-		$dateformatstring = preg_replace("/([^\\\])A/", "\${1}".backslashit($datemeridiem_capital), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])D/", "\\1".backslashit($dateweekday_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])F/", "\\1".backslashit($datemonth), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])l/", "\\1".backslashit($dateweekday), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])M/", "\\1".backslashit($datemonth_abbrev), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])a/", "\\1".backslashit($datemeridiem), $dateformatstring);
+		$dateformatstring = preg_replace("/([^\\\])A/", "\\1".backslashit($datemeridiem_capital), $dateformatstring);
 
 		$dateformatstring = substr($dateformatstring, 1, strlen($dateformatstring)-1);
 	}

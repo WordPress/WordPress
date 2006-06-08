@@ -521,10 +521,11 @@ function format_to_post($content) {
 
 function zeroise($number,$threshold) { // function to add leading zeros when necessary
 	return sprintf('%0'.$threshold.'s', $number);
-	}
+}
 
 
 function backslashit($string) {
+	$string = preg_replace('/^([0-9])/', '\\\\\\\\\1', $string);
 	$string = preg_replace('/([a-z])/i', '\\\\\1', $string);
 	return $string;
 }
