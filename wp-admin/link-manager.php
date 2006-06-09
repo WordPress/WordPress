@@ -154,10 +154,10 @@ switch ($action) {
     break;
   } // end Save
 
-  case 'Delete':
+  case 'delete':
   {
 	$link_id = (int) $_GET['link_id'];
-	check_admin_referer('delete-bookmark' . $link_id);
+	check_admin_referer('delete-bookmark_' . $link_id);
 
     if ( !current_user_can('manage_links') )
       die (__("Cheatin' uh ?"));
