@@ -204,7 +204,7 @@ default:
 	if ( $userids )
 		$total_users_for_this_query = $wpdb->get_var('SELECT COUNT(ID) ' . $from_where); // no limit
 	else
-		$errors = new WP_Error('no_matching_users_found', __('No matching users were found!'));
+		$search_errors = new WP_Error('no_matching_users_found', __('No matching users were found!'));
 
 	// Now for the paging
 	if ( $total_users_for_this_query > $users_per_page ) { // have to page the results
@@ -282,30 +282,43 @@ default:
 <?php endif; ?>
 
 <div class="wrap">
-	<h2><?php _e('Search For Users'); ?></h2>
-	<form action="" method="get" name="search" id="search">
-		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo wp_specialchars($search_term); ?>" /> <input type="submit" value="Search &raquo;" /></p>
-	</form>
+
 	<?php if ( $search_term ) : ?>
-		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
+		<h2><?php printf(__('Users Matching "%s" by Role'), $search_term); ?></h2>
+	<?php else : ?>
+		<h2><?php _e('User List by Role'); ?></h2>
 	<?php endif; ?>
-</div>
+
+	<form action="" method="get" name="search" id="search">
+		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo wp_specialchars($search_term); ?>" /> <input type="submit" value="<?php _e('Search for users &raquo;'); ?>" /></p>
+	</form>
+
+	<?php if ( is_wp_error( $search_errors ) ) : ?>
+		<div class="error">
+			<ul>
+			<?php
+				foreach ( $search_errors->get_error_messages() as $message )
+					echo "<li>$message</li>";
+			?>
+			</ul>
+		</div>
+	<?php endif; ?>
+
 
 <?php if ( $userids ) : ?>
 
+	<?php if ( $search_term ) : ?>
+		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
+	<?php endif; ?>
+
+	<h3><?php printf(__('Results %1$s - %2$s of %3$s shown below'), $starton + 1, min($starton + $users_per_page, $total_users_for_this_query), $total_users_for_this_query); ?></h3>
+
+	<?php if ( $paging_text ) : ?>
+		<div class="user-paging-text"><?php echo $paging_text; ?></p></div>
+	<?php endif; ?>
+
 <form action="" method="post" name="updateusers" id="updateusers">
 <?php wp_nonce_field('bulk-users') ?>
-<div class="wrap">
-	<?php if ( $search_term ) : ?>
-		<h2><?php printf(__('Users Matching "%s" by Role'), $search_term); ?></h2>
-		<div class="user-paging-text"><?php echo $paging_text; ?></div>
-	<?php else : ?>
-		<h2><?php _e('User List by Role'); ?></h2>
-		<?php if ( $paging_text ) : ?>
-			<div class="user-paging-text"><?php echo $paging_text; ?></p></div>
-		<?php endif; ?>
-	<?php endif; ?>
-	<h3><?php printf(__('Results %1$s - %2$s of %3$s shown below'), $starton + 1, min($starton + $users_per_page, $total_users_for_this_query), $total_users_for_this_query); ?></h3>
 <table class="widefat">
 <?php
 foreach($roleclasses as $role => $roleclass) {
@@ -356,10 +369,9 @@ foreach ( (array) $roleclass as $user_object ) {
 		<?php echo $referer; ?>
 		<input type="submit" value="<?php _e('Update &raquo;'); ?>" />
 	</p>
-</div>
 </form>
-
-<?php endif; // if users were returned ?>
+<?php endif; ?>
+</div>
 
 <?php
 	if ( is_wp_error($add_user_errors) ) {
