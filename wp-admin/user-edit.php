@@ -103,11 +103,22 @@ if ( !current_user_can('edit_user', $user_id) )
 <?php
 // print_r($profileuser);
 echo '<select name="role">';
+$role_list = '';
+$user_has_role = false;
 foreach($wp_roles->role_names as $role => $name) {
-	$selected = ($profileuser->has_cap($role)) ? ' selected="selected"' : '';
-	echo "<option value=\"{$role}\"{$selected}>{$name}</option>";
+	if ( $profileuser->has_cap($role) ) {
+		$selected = ' selected="selected"';
+		$user_has_role = true;
+	} else {
+		$selected = '';
+	}
+	$role_list .= "<option value=\"{$role}\"{$selected}>{$name}</option>";
 }
-echo '</select>';
+if ( $user_has_role )
+	$role_list .= '<option value="">' . __('&mdash; No role for this blog &mdash;') . '</option>';
+else
+	$role_list .= '<option value="" selected="selected">' . __('&mdash; No role for this blog &mdash;') . '</option>';
+echo $role_list . '</select>';
 ?></label></p>
 
 <p><label><?php _e('First name:') ?><br />

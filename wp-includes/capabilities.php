@@ -174,7 +174,7 @@ class WP_User {
 
 		//Build $allcaps from role caps, overlay user's $caps
 		$this->allcaps = array();
-		foreach($this->roles as $role) {
+		foreach( (array) $this->roles as $role) {
 			$role = $wp_roles->get_role($role);
 			$this->allcaps = array_merge($this->allcaps, $role->capabilities);
 		}
@@ -199,8 +199,12 @@ class WP_User {
 	function set_role($role) {
 		foreach($this->roles as $oldrole)
 			unset($this->caps[$oldrole]);
-		$this->caps[$role] = true;
-		$this->roles = array($role => true);
+		if ( !empty($role) ) {
+			$this->caps[$role] = true;
+			$this->roles = array($role => true);
+		} else {
+			$this->roles = false;
+		}
 		update_usermeta($this->id, $this->cap_key, $this->caps);
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
