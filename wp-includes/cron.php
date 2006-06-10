@@ -65,7 +65,8 @@ function wp_next_scheduled( $hook ) {
 }
 
 function spawn_cron() {
-	if ( array_shift( array_keys( get_option( 'cron' ) ) ) > time() )
+	$keys = array_keys( get_option( 'cron' ) );
+	if ( array_shift( $keys ) > time() )
 		return;
 
 	$cron_url = get_settings( 'siteurl' ) . '/wp-cron.php';
@@ -81,7 +82,12 @@ function spawn_cron() {
 
 function wp_cron() {
 	$crons = get_option( 'cron' );
-	if ( !is_array($crons) || array_shift( array_keys( $crons ) ) > time() )
+	
+	if ( !is_array($crons) )
+		return;
+
+	$keys = array_keys( $crons );
+	if ( array_shift( $keys ) > time() )
 		return;
 
 	$schedules = wp_get_schedules();
