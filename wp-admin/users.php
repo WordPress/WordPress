@@ -20,6 +20,104 @@ if ( empty($_POST) ) {
 	$redirect = 'users.php';
 }
 
+
+// WP_User_Search class
+// by Mark Jaquith
+
+
+class WP_User_Search {
+	var $results;
+	var $search_term;
+	var $page;
+	var $raw_page;
+	var $users_per_page = 50;
+	var $first_user;
+	var $last_user;
+	var $query_limit;
+	var $query_from_where;
+	var $total_users_for_query = 0;
+	var $too_many_total_users = false;
+	var $search_errors;
+
+	function WP_User_Search ($search_term = '', $page = '') { // constructor
+		$this->search_term = $search_term;
+		$this->raw_page = ( '' == $page ) ? false : (int) $page;
+		$this->page = (int) ( '' == $page ) ? 1 : $page;
+
+		$this->prepare_query();
+		$this->query();
+		$this->prepare_vars_for_template_usage();
+		$this->do_paging();
+	}
+
+	function prepare_query() {
+		global $wpdb;
+		$this->first_user = ($this->page - 1) * $this->users_per_page;
+		$this->query_limit = 'LIMIT ' . $this->first_user . ',' . $this->users_per_page;
+		if ( $this->search_term ) {
+			$searches = array();
+			$search_sql = 'AND (';
+			foreach ( array('user_login', 'user_nicename', 'user_email', 'user_url', 'display_name') as $col )
+				$searches[] = $col . " LIKE '%$this->search_term%'";
+			$search_sql .= implode(' OR ', $searches);
+			$search_sql .= ')';
+		}
+		$this->query_from_where = "FROM $wpdb->users WHERE 1=1 $search_sql";
+
+		if ( !$_GET['update'] && !$this->search_term && !$this->raw_page && $wpdb->get_var("SELECT COUNT(ID) FROM $wpdb->users") > $this->users_per_page )
+			$this->too_many_total_users = sprintf(__('Because this blog has more than %s users, they cannot all be shown on one page.  Use the paging or search functionality in order to find the user you want to edit.'), $this->users_per_page);
+	}
+
+	function query() {
+		global $wpdb;
+		$this->results = $wpdb->get_col('SELECT ID ' . $this->query_from_where . $this->query_limit);
+
+		if ( $this->results )
+			$this->total_users_for_query = $wpdb->get_var('SELECT COUNT(ID) ' . $this->query_from_where); // no limit
+		else
+			$this->search_errors = new WP_Error('no_matching_users_found', __('No matching users were found!'));
+	}
+
+	function prepare_vars_for_template_usage() {
+		$this->search_term = stripslashes($this->search_term); // done with DB, from now on we want slashes gone
+	}
+
+	function do_paging() {
+		if ( $this->total_users_for_query > $this->users_per_page ) { // have to page the results
+			$prev_page = ( $this->page > 1) ? true : false;
+			$next_page = ( ($this->page * $this->users_per_page) < $this->total_users_for_query ) ? true : false;
+			$this->paging_text = '';
+			if ( $prev_page )
+				$this->paging_text .= '<p class="alignleft"><a href="' . add_query_arg(array('usersearch' => $this->search_term, 'userspage' => $this->page - 1), 'users.php?') . '">&laquo; Previous Page</a></p>';
+			if ( $next_page )
+				$this->paging_text .= '<p class="alignright"><a href="' . add_query_arg(array('usersearch' => $this->search_term, 'userspage' => $this->page + 1), 'users.php?') . '">Next Page &raquo;</a></p>';
+			if ( $prev_page || $next_page )
+				$this->paging_text .= '<br style="clear:both" />';
+		}
+	}
+
+	function get_results() {
+		return $this->results;
+	}
+
+	function page_links() {
+		echo $this->paging_text;
+	}
+
+	function results_are_paged() {
+		if ( $this->paging_text )
+			return true;
+		return false;
+	}
+
+	function is_search() {
+		if ( $this->search_term )
+			return true;
+		return false;
+	}
+}
+
+
 switch ($action) {
 
 case 'promote':
@@ -172,58 +270,11 @@ default:
 
 	include('admin-header.php');
 
-	/* Paging and Search by Mark Jaquith, June 6th, 2006 */
-
-	$users_per_page = 50;
-
-	$page = (int) $_GET['userspage'];
-	if ( !$page )
-		$page = 1;
-
-	$starton = ($page - 1) * $users_per_page;
-
-	$limit = 'LIMIT ' . $starton . ',' .  $users_per_page;
-
-	$search_term = $_GET['usersearch'];
-	if ( $search_term ) {
-		$searches = array();
-		$search_sql = 'AND (';
-		foreach ( array('user_login', 'user_nicename', 'user_email', 'user_url', 'display_name') as $col )
-			$searches[] = $col . " LIKE '%$search_term%'";
-		$search_sql .= implode(' OR ', $searches);
-		$search_sql .= ')';
-		$search_term = stripslashes($search_term); // done with DB, from now on we want slashes gone
-	}
-
-	if ( !$_GET['update'] && !$search_term && !$_GET['userspage'] && $wpdb->get_var("SELECT COUNT(ID) FROM $wpdb->users") > $users_per_page )
-		$too_many_users = sprintf(__('Because this blog has more than %s users, they cannot all be shown on one page.  Use the paging or search functionality in order to find the user you want to edit.'), $users_per_page);
-
-	$from_where = "FROM $wpdb->users WHERE 1=1 $search_sql";
-	$userids = $wpdb->get_col('SELECT ID ' . $from_where . $limit);
-
-	if ( $userids )
-		$total_users_for_this_query = $wpdb->get_var('SELECT COUNT(ID) ' . $from_where); // no limit
-	else
-		$search_errors = new WP_Error('no_matching_users_found', __('No matching users were found!'));
-
-	// Now for the paging
-	if ( $total_users_for_this_query > $users_per_page ) { // have to page the results
-		$prev_page = ( $page > 1) ? true : false;
-		$next_page = ( ($page * $users_per_page) < $total_users_for_this_query ) ? true : false;
-		$paging_text = '';
-		if ( $prev_page )
-			$paging_text .= '<p class="alignleft"><a href="' . add_query_arg(array('usersearch' => $search_term, 'userspage' => $page - 1), 'users.php?') . '">&laquo; Previous Page</a></p>';
-		if ( $next_page )
-			$paging_text .= '<p class="alignright"><a href="' . add_query_arg(array('usersearch' => $search_term, 'userspage' => $page + 1), 'users.php?') . '">Next Page &raquo;</a></p>';
-		if ( $prev_page || $next_page )
-			$paging_text .= '<br style="clear:both" />';
-	}
-
-	// Clean up, we're done with these variables
-	unset($prev_page, $next_page, $limit, $searches, $search_sql, $col);
+	// Query the users
+	$wp_user_search = new WP_User_Search($_GET['usersearch'], $_GET['userspage']);
 
 	// Make the user objects
-	foreach ( (array) $userids as $userid ) {
+	foreach ( $wp_user_search->get_results() as $userid ) {
 		$tmp_user = new WP_User($userid);
 		$roles = $tmp_user->roles;
 		$role = array_shift($roles);
@@ -275,29 +326,29 @@ default:
 	</div>
 <?php endif; ?>
 
-<?php if ( $too_many_users ) : ?>
+<?php if ( $wp_user_search->too_many_total_users ) : ?>
 	<div id="message" class="updated">
-		<p><?php echo $too_many_users; ?></p>
+		<p><?php echo $wp_user_search->too_many_total_users; ?></p>
 	</div>
 <?php endif; ?>
 
 <div class="wrap">
 
-	<?php if ( $search_term ) : ?>
-		<h2><?php printf(__('Users Matching "%s" by Role'), $search_term); ?></h2>
+	<?php if ( $wp_user_search->is_search() ) : ?>
+		<h2><?php printf(__('Users Matching "%s" by Role'), $wp_user_search->search_term); ?></h2>
 	<?php else : ?>
 		<h2><?php _e('User List by Role'); ?></h2>
 	<?php endif; ?>
 
 	<form action="" method="get" name="search" id="search">
-		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo wp_specialchars($search_term); ?>" /> <input type="submit" value="<?php _e('Search for users &raquo;'); ?>" /></p>
+		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo wp_specialchars($wp_user_search->search_term); ?>" /> <input type="submit" value="<?php _e('Search for users &raquo;'); ?>" /></p>
 	</form>
 
-	<?php if ( is_wp_error( $search_errors ) ) : ?>
+	<?php if ( is_wp_error( $wp_user_search->search_errors ) ) : ?>
 		<div class="error">
 			<ul>
 			<?php
-				foreach ( $search_errors->get_error_messages() as $message )
+				foreach ( $wp_user_search->search_errors->get_error_messages() as $message )
 					echo "<li>$message</li>";
 			?>
 			</ul>
@@ -305,16 +356,16 @@ default:
 	<?php endif; ?>
 
 
-<?php if ( $userids ) : ?>
+<?php if ( $wp_user_search->get_results() ) : ?>
 
-	<?php if ( $search_term ) : ?>
+	<?php if ( $wp_user_search->is_search() ) : ?>
 		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
-	<h3><?php printf(__('Results %1$s - %2$s of %3$s shown below'), $starton + 1, min($starton + $users_per_page, $total_users_for_this_query), $total_users_for_this_query); ?></h3>
+	<h3><?php printf(__('Results %1$s - %2$s of %3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query); ?></h3>
 
-	<?php if ( $paging_text ) : ?>
-		<div class="user-paging-text"><?php echo $paging_text; ?></p></div>
+	<?php if ( $wp_user_search->results_are_paged() ) : ?>
+		<div class="user-paging-text"><?php $wp_user_search->page_links(); ?></p></div>
 	<?php endif; ?>
 
 <form action="" method="post" name="updateusers" id="updateusers">
@@ -353,8 +404,8 @@ foreach ( (array) $roleclass as $user_object ) {
 <?php } ?>
 </table>
 
-<?php if ( $paging_text ) : ?>
-	<div class="user-paging-text"><?php echo $paging_text; ?></div>
+<?php if ( $wp_user_search->results_are_paged() ) : ?>
+	<div class="user-paging-text"><?php $wp_user_search->page_links(); ?></div>
 <?php endif; ?>
 
 	<h2><?php _e('Update Users'); ?></h2>
