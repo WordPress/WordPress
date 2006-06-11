@@ -102,7 +102,7 @@ function wp_insert_user($userdata) {
 	update_usermeta( $user_id, 'aim', $aim );
 	update_usermeta( $user_id, 'yim', $yim );
 
-	if ( $update ) {
+	if ( $update && isset($role) ) {
 		$user = new WP_User($user_id);
 		$user->set_role($role);
 	}
