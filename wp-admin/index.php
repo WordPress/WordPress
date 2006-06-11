@@ -2,7 +2,7 @@
 require_once('admin.php'); 
 $title = __('Dashboard'); 
 require_once('admin-header.php');
-require_once (ABSPATH . WPINC . '/rss-functions.php');
+require_once (ABSPATH . WPINC . '/rss.php');
 
 $today = current_time('mysql', 1);
 ?>

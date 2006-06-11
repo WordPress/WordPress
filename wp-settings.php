@@ -123,14 +123,14 @@ if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !d
 	die(sprintf(__("It doesn't look like you've installed WP yet. Try running <a href='%s'>install.php</a>."), $link));
 }
 
-require (ABSPATH . WPINC . '/functions-formatting.php');
+require (ABSPATH . WPINC . '/formatting.php');
 require (ABSPATH . WPINC . '/capabilities.php');
 require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/query.php');
 require (ABSPATH . WPINC . '/theme.php');
 require (ABSPATH . WPINC . '/user.php');
-require (ABSPATH . WPINC . '/template-functions-general.php');
-require (ABSPATH . WPINC . '/template-functions-links.php');
+require (ABSPATH . WPINC . '/general-template.php');
+require (ABSPATH . WPINC . '/link-template.php');
 require (ABSPATH . WPINC . '/author-template.php');
 require (ABSPATH . WPINC . '/post.php');
 require (ABSPATH . WPINC . '/post-template.php');
@@ -139,7 +139,7 @@ require (ABSPATH . WPINC . '/category-template.php');
 require (ABSPATH . WPINC . '/comment.php');
 require (ABSPATH . WPINC . '/comment-template.php');
 require (ABSPATH . WPINC . '/rewrite.php');
-require (ABSPATH . WPINC . '/feed-functions.php');
+require (ABSPATH . WPINC . '/feed.php');
 require (ABSPATH . WPINC . '/bookmark.php');
 require (ABSPATH . WPINC . '/bookmark-template.php');
 require (ABSPATH . WPINC . '/kses.php');
@@ -183,7 +183,7 @@ if ( get_settings('active_plugins') ) {
 	}
 }
 
-require (ABSPATH . WPINC . '/pluggable-functions.php');
+require (ABSPATH . WPINC . '/pluggable.php');
 
 if ( defined('WP_CACHE') && function_exists('wp_cache_postload') )
 	wp_cache_postload();

@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__).'/functions-compat.php');
+require_once(dirname(__FILE__).'/compat.php');
 
 if ( !function_exists('_') ) {
 	function _($string) {

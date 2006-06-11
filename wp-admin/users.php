@@ -1,6 +1,6 @@
 <?php
 require_once('admin.php');
-require_once( ABSPATH . WPINC . '/registration-functions.php');
+require_once( ABSPATH . WPINC . '/registration.php');
 
 $title = __('Users');
 if ( current_user_can('edit_users') )

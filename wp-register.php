@@ -1,6 +1,6 @@
 <?php
 require('./wp-config.php');
-require_once( ABSPATH . WPINC . '/registration-functions.php');
+require_once( ABSPATH . WPINC . '/registration.php');
 
 $action = $_REQUEST['action'];
 if ( !get_settings('users_can_register') )
