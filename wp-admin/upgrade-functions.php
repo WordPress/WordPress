@@ -5,7 +5,7 @@ if ( file_exists(ABSPATH . 'wp-content/install.php') )
 require_once(ABSPATH . '/wp-admin/admin-functions.php');
 require_once(ABSPATH . '/wp-admin/admin-db.php');
 require_once(ABSPATH . '/wp-admin/upgrade-schema.php');
-require_once(ABSPATH . '/wp-includes/registration-functions.php');
+require_once(ABSPATH . WPINC . '/registration.php');
 
 if ( !function_exists('wp_install') ) :
 function wp_install($blog_title, $user_name, $user_email, $public, $meta='') {

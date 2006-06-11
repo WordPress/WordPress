@@ -212,7 +212,7 @@ case 'update-meta' :
 case 'add-user' :
 	if ( !current_user_can('edit_users') )
 		die('-1');
-	require_once( ABSPATH . WPINC . '/registration-functions.php');
+	require_once(ABSPATH . WPINC . '/registration.php');
 	$user_id = add_user();
 	if ( is_wp_error( $user_id ) ) {
 		foreach( $user_id->get_error_messages() as $message )
