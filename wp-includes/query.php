@@ -874,9 +874,14 @@ class WP_Query {
 			}
 
 			if (($q['what_to_show'] == 'posts')) {
-				$pgstrt = '';
-				$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
-				$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
+				if ( empty($q['offset']) ) {
+					$pgstrt = '';
+					$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
+					$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
+				} else { // we're ignoring $page and using 'offset'
+					$pgstrt = intval($q['offset']) . ', ';
+					$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
+				}
 			} elseif ($q['what_to_show'] == 'days') {
 				$startrow = $q['posts_per_page'] * (intval($page)-1);
 				$start_date = $wpdb->get_var("SELECT max(post_date) FROM $wpdb->posts $join WHERE (1=1) $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $startrow,1");
