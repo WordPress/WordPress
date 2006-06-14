@@ -703,7 +703,8 @@ function page_rows($parent = 0, $level = 0, $pages = 0, $hierarchy = true) {
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'> 
     <th scope="row"><?php echo $post->ID; ?></th> 
     <td>
-      <?php echo $pad; ?><?php the_title() ?> 
+      <?php echo $pad; ?><?php the_title() ?>
+      <?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?></td>
     </td> 
     <td><?php the_author() ?></td>
     <td><?php echo mysql2date('Y-m-d g:i a', $post->post_modified); ?></td> 
