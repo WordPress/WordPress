@@ -275,26 +275,16 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 
 
 function wp_get_archives($args = '') {
-	parse_str($args, $r);
-	if ( !isset($r['type']) )
-		$r['type'] = '';
-	if ( !isset($r['limit']) )
-		$r['limit'] = '';
-	if ( !isset($r['format']) )
-		$r['format'] = 'html';
-	if ( !isset($r['before']) )
-		$r['before'] = '';
-	if ( !isset($r['after']) )
-		$r['after'] = '';
-	if ( !isset($r['show_post_count']) )
-		$r['show_post_count'] = false;
-
-	get_archives($r['type'], $r['limit'], $r['format'], $r['before'], $r['after'], $r['show_post_count']);
-}
-
-
-function get_archives($type='', $limit='', $format='html', $before = '', $after = '', $show_post_count = false) {
 	global $wp_locale, $wpdb;
+
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
+	$defaults = array('type' => 'monthly', 'limit' => '', 'format' => 'html', 'before' => '', 'after' => '', 'show_post_count' => false);
+	$r = array_merge($defaults, $r);
+	extract($r);
 
 	if ( '' == $type )
 		$type = 'monthly';
@@ -303,6 +293,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 		$limit = (int) $limit;
 		$limit = ' LIMIT '.$limit;
 	}
+
 	// this is what will separate dates on weekly archive links
 	$archive_week_separator = '&#8211;';
 

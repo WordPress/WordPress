@@ -470,4 +470,9 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 	return wp_set_post_categories($post_ID, $post_categories);
 }
 
+function get_archives($type='', $limit='', $format='html', $before = '', $after = '', $show_post_count = false) {
+	$args = compact('type', 'limit', 'format', 'before', 'after', 'show_post_count');
+	return wp_get_archives($args);
+}
+
 ?>
