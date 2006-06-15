@@ -27,7 +27,7 @@ class TinyPspellShell {
 		$this->errorMsg = array();
 
 		$this->tmpfile = tempnam($config['tinypspellshell.tmp'], "tinyspell");
-    	$this->cmd = "cat ". $this->tmpfile ." | " . $config['tinypspellshell.aspell'] . " -a --lang=". $this->lang;
+		$this->cmd = "cat ". $this->tmpfile ." | " . $config['tinypspellshell.aspell'] . " -a --lang=". $this->lang;
 	}
 
 	// Returns array with bad words or false if failed.
@@ -44,6 +44,7 @@ class TinyPspellShell {
 		}
 
 		$data = shell_exec($this->cmd);
+		@unlink($this->tmpfile);
 		$returnData = array();
 		$dataArr = preg_split("/\n/", $data, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -73,6 +74,7 @@ class TinyPspellShell {
 			die("Error opening tmp file.");
 
 		$data = shell_exec($this->cmd);
+		@unlink($this->tmpfile);
 		$returnData = array();
 		$dataArr = preg_split("/\n/", $data, -1, PREG_SPLIT_NO_EMPTY);
 
