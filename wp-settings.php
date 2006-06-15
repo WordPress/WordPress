@@ -113,7 +113,7 @@ wp_cache_init();
 
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/default-filters.php');
-require_once (ABSPATH . WPINC . '/wp-l10n.php');
+require_once (ABSPATH . WPINC . '/l10n.php');
 
 if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {
 	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
