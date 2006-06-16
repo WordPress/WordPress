@@ -4,7 +4,7 @@
 
 <ul>
 	<?php wp_list_pages(); ?>
-	<?php get_links_list(); ?>
+	<?php wp_list_bookmarks(); ?>
  <li id="categories"><?php _e('Categories:'); ?>
 	<ul>
 	<?php wp_list_cats(); ?>

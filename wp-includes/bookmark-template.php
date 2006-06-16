@@ -259,15 +259,90 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 	}
 }
 
+function _walk_bookmarks($bookmarks, $args = '' ) {
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
+	$defaults = array('show_updated' => 0, 'show_description' => 0, 'show_images' => 0, 'before' => '<li>',
+		'after' => '</li>', 'between' => "\n");
+	$r = array_merge($defaults, $r);
+	extract($r);
+
+	foreach ( (array) $bookmarks as $bookmark ) {
+		if (!isset($bookmark->recently_updated)) $bookmark->recently_updated = false;
+			$output .= $before;
+		if ($show_updated && $bookmark->recently_updated) {
+			$output .= get_settings('links_recently_updated_prepend');
+		}
+
+		$the_link = '#';
+		if (!empty($bookmark->link_url))
+			$the_link = wp_specialchars($bookmark->link_url);
+
+		$rel = $bookmark->link_rel;
+		if ($rel != '') {
+			$rel = ' rel="' . $rel . '"';
+		}
+
+		$desc = wp_specialchars($bookmark->link_description, ENT_QUOTES);
+		$name = wp_specialchars($bookmark->link_name, ENT_QUOTES);
+		$title = $desc;
+
+		if ($show_updated) {
+			if (substr($bookmark->link_updated_f, 0, 2) != '00') {
+				$title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $bookmark->link_updated_f + (get_settings('gmt_offset') * 3600)) . ')';
+			}
+		}
+
+		if ('' != $title) {
+			$title = ' title="' . $title . '"';
+		}
+
+		$alt = ' alt="' . $name . '"';
+
+		$target = $bookmark->link_target;
+		if ('' != $target) {
+			$target = ' target="' . $target . '"';
+		}
+
+		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
+
+		if (($bookmark->link_image != null) && $show_images) {
+			if (strstr($bookmark->link_image, 'http'))
+				$output .= "<img src=\"$bookmark->link_image\" $alt $title />";
+			else // If it's a relative path
+				$output .= "<img src=\"" . get_settings('siteurl') . "$bookmark->link_image\" $alt $title />";
+		} else {
+			$output .= $name;
+		}
+
+		$output .= '</a>';
+
+		if ($show_updated && $bookmark->recently_updated) {
+			$output .= get_settings('links_recently_updated_append');
+		}
+
+		if ($show_description && ($desc != '')) {
+			$output .= $between . $desc;
+		}
+		$output .= "$after\n";
+	} // end while
+
+	return $output;
+}
+
 function wp_list_bookmarks($args = '') {
 	if ( is_array($args) )
 		$r = &$args;
 	else
 		parse_str($args, $r);
 
-	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => 0, 'category' => 0,
-		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'echo' =>1,
-		'categorize' => 1, 'title_li' => __('Bookmarks'));
+	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => 0,
+		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'echo' => 1,
+		'categorize' => 1, 'title_li' => __('Bookmarks'), 'title_before' => '<h2>', 'title_after' => '</h2>',
+		'category_orderby' => 'name', 'category_order' => 'ASC');
 	$r = array_merge($defaults, $r);
 	extract($r);
 	
@@ -278,6 +353,26 @@ function wp_list_bookmarks($args = '') {
 	// with the category name as the title li.  If not $categorize, use title_li.
 	// When using each category's name as a title li, use before and after args for specifying
 	// any markup.  We don't want to hardcode h2.
+
+	$output = '';
+
+	if ( $categorize ) {
+		$cats = get_categories("type=link&orderby=$category_orderby&order=$category_order&hierarchical=0");
+		foreach ( (array) $cats as $cat ) {
+			$bookmarks = get_bookmarks($r);
+			if ( empty($bookmarks) )
+				continue;
+			$output .= "<li id=\"linkcat-$cat->cat_ID\">$title_before$cat->cat_name$title_after\n\t<ul>\n";
+			$r['category'] = $cat->cat_ID;
+			$output .= _walk_bookmarks($bookmarks, $r);
+			$output .= "\n\t</ul>\n</li>\n";
+		}
+	}
+
+	if ($echo)
+		echo $output;
+
+	return $output;
 }
 
 ?>

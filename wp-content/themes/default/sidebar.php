@@ -53,7 +53,7 @@
 			</li>
 
 			<?php /* If this is the frontpage */ if ( is_home() || is_page() ) { ?>
-				<?php get_links_list(); ?>
+				<?php wp_list_bookmarks(); ?>
 
 				<li><h2>Meta</h2>
 				<ul>
