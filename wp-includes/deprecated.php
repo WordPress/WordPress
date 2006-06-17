@@ -430,6 +430,7 @@ function wp_list_cats($args = '') {
 		$r['show_count'] = $r['optioncount'];
 	if ( !empty($r['list']) )
 		$r['style'] = 'break';
+	$r['title_li'] = '';
 
 	return wp_list_categories($r);	
 }

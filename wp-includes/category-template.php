@@ -212,11 +212,11 @@ function wp_list_categories($args = '') {
 	else
 		parse_str($args, $r);
 
-	$defaults = array('show_option_all' => '', 'orderby' => 'ID',
-		'order' => 'asc', 'style' => 'list', 'show_last_update' => 0,
+	$defaults = array('show_option_all' => '', 'orderby' => 'name',
+		'order' => 'ASC', 'show_last_update' => 0, 'style' => 'list',
 		'show_count' => 0, 'hide_empty' => 1, 'use_desc_for_title' => 1,
 		'child_of' => 0, 'feed' => '', 'feed_image' => '', 'exclude' => '',
-		'hierarchical' => true, 'title_li' => '');
+		'hierarchical' => true, 'title_li' => __('Categories'));
 	$r = array_merge($defaults, $r);
 	$r['include_last_update_time'] = $r['show_date'];
 	extract($r);
@@ -224,7 +224,7 @@ function wp_list_categories($args = '') {
 	$categories = get_categories($r);
 	
 	$output = '';
-	if ( $title_li && $list )
+	if ( $title_li && 'list' == $style )
 			$output = '<li class="categories">' . $r['title_li'] . '<ul>';
 
 	if ( empty($categories) ) {
@@ -243,7 +243,7 @@ function wp_list_categories($args = '') {
 		$output .= walk_category_tree($categories, $depth, $r);
 	}
 
-	if ( $title_li && $list )
+	if ( $title_li && 'list' == $style )
 		$output .= '</ul></li>';
 			
 	echo apply_filters('list_cats', $output);
