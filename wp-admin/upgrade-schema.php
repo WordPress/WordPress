@@ -229,7 +229,7 @@ function populate_options() {
 	add_option('secret', md5(uniqid(microtime())));
 
 	// 2.1
-	add_option('blog_public', 1);
+	add_option('blog_public', '1');
 	add_option('default_link_category', 2);
 	add_option('show_on_front', 'posts');
 

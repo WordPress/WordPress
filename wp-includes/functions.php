@@ -975,7 +975,7 @@ function get_num_queries() {
 }
 
 function privacy_ping_filter( $sites ) {
-	if ( get_option('blog_public') )
+	if ( '0' != get_option('blog_public') )
 		return $sites;
 	else
 		return '';
@@ -1026,7 +1026,8 @@ function do_feed_atom() {
 }
 
 function do_robots() {
-	if ( '1' != get_option('blog_public') ) {
+	do_action('do_robots');
+	if ( '0' == get_option('blog_public') ) {
 		echo "User-agent: *\n";
 		echo "Disallow: /\n";
 	} else {
