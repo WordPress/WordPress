@@ -252,7 +252,7 @@ function wp_delete_comment($comment_id) {
 
 	$post_id = $comment->comment_post_ID;
 	if ( $post_id && $comment->comment_approved == 1 )
-		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = comment_count - 1 WHERE ID = '$post_id'" );
+		wp_update_comment_count($post_id);
 
 	do_action('wp_set_comment_status', $comment_id, 'delete');
 	return true;
@@ -300,10 +300,9 @@ function wp_insert_comment($commentdata) {
 
 	$id = $wpdb->insert_id;
 
-	if ( $comment_approved == 1) {
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'");
-		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = $count WHERE ID = '$comment_post_ID'" );
-	}
+	if ( $comment_approved == 1)
+		wp_update_comment_count($comment_post_ID);
+
 	return $id;
 }
 
@@ -419,13 +418,22 @@ function wp_update_comment($commentarr) {
 
 	$rval = $wpdb->rows_affected;
 
-	$c = $wpdb->get_row( "SELECT count(*) as c FROM {$wpdb->comments} WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'" );
-	if( is_object( $c ) )
-		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = '$c->c' WHERE ID = '$comment_post_ID'" );
+	wp_update_comment_count($comment_post_ID);
 
 	do_action('edit_comment', $comment_ID);
 
 	return $rval;
+}
+
+function wp_update_comment_count($post_id) {
+	global $wpdb, $comment_count_cache;
+	$post_id = (int) $post_id;
+	if ( !$post_id )
+		return false;
+	$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1'");
+	$wpdb->query("UPDATE $wpdb->posts SET comment_count = $count WHERE ID = '$post_id'");
+	$comment_count_cache[$post_id] = $count;
+	return true;
 }
 
 function pingback($content, $post_ID) {
