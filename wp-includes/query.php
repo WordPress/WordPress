@@ -708,7 +708,7 @@ class WP_Query {
 			$q['cat'] = addslashes_gpc($q['cat']);
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) ";
 			$cat_array = preg_split('/[,\s]+/', $q['cat']);
-			$in_cats = $out_cats = '';
+			$in_cats = $out_cats = $out_posts = '';
 			foreach ( $cat_array as $cat ) {
 				$cat = intval($cat);
 				$in = strstr($cat, '-') ? false : true;
@@ -722,8 +722,16 @@ class WP_Query {
 			$out_cats = substr($out_cats, 0, -2);
 			if ( strlen($in_cats) > 0 )
 				$in_cats = " AND category_id IN ($in_cats)";
-			if ( strlen($out_cats) > 0 )
-				$out_cats = " AND category_id NOT IN ($out_cats)";
+			if ( strlen($out_cats) > 0 ) {
+				$ids = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE category_id IN ($out_cats)");
+				if ( is_array($ids) && count($ids > 0) ) {
+					foreach ( $ids as $id )
+						$out_posts .= "$id, ";
+					$out_posts = substr($out_posts, 0, -2);
+				}
+				if ( strlen($out_posts) > 0 )
+					$out_cats = " AND ID NOT IN ($out_posts)";
+			}
 			$whichcat = $in_cats . $out_cats;
 			$distinct = 'DISTINCT';
 		}
