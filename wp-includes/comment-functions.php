@@ -221,8 +221,10 @@ function wp_delete_comment($comment_id) {
 		return false;
 
 	$post_id = $comment->comment_post_ID;
-	if ( $post_id && $comment->comment_approved == 1 )
-		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = comment_count - 1 WHERE ID = '$post_id'" );
+	if ( $post_id && $comment->comment_approved == 1 ) {
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1'");
+		$wpdb->query( "UPDATE $wpdb->posts SET comment_count = $count WHERE ID = '$post_id'" );
+	}
 
 	do_action('wp_set_comment_status', $comment_id, 'delete');
 	return true;
