@@ -1779,45 +1779,6 @@ function wp_handle_upload(&$file, $overrides = false) {
 		__("Missing a temporary folder."),
 		__("Failed to write file to disk."));
 
-	// Accepted MIME types are set here as PCRE. Override with $override['mimes'].
-	$mimes = apply_filters('upload_mimes', array (
-		'jpg|jpeg|jpe' => 'image/jpeg',
-		'gif' => 'image/gif',
-		'png' => 'image/png',
-		'bmp' => 'image/bmp',
-		'tif|tiff' => 'image/tiff',
-		'ico' => 'image/x-icon',
-		'asf|asx|wax|wmv|wmx' => 'video/asf',
-		'avi' => 'video/avi',
-		'mov|qt' => 'video/quicktime',
-		'mpeg|mpg|mpe' => 'video/mpeg',
-		'txt|c|cc|h' => 'text/plain',
-		'rtx' => 'text/richtext',
-		'css' => 'text/css',
-		'htm|html' => 'text/html',
-		'mp3|mp4' => 'audio/mpeg',
-		'ra|ram' => 'audio/x-realaudio',
-		'wav' => 'audio/wav',
-		'ogg' => 'audio/ogg',
-		'mid|midi' => 'audio/midi',
-		'wma' => 'audio/wma',
-		'rtf' => 'application/rtf',
-		'js' => 'application/javascript',
-		'pdf' => 'application/pdf',
-		'doc' => 'application/msword',
-		'pot|pps|ppt' => 'application/vnd.ms-powerpoint',
-		'wri' => 'application/vnd.ms-write',
-		'xla|xls|xlt|xlw' => 'application/vnd.ms-excel',
-		'mdb' => 'application/vnd.ms-access',
-		'mpp' => 'application/vnd.ms-project',
-		'swf' => 'application/x-shockwave-flash',
-		'class' => 'application/java',
-		'tar' => 'application/x-tar',
-		'zip' => 'application/zip',
-		'gz|gzip' => 'application/x-gzip',
-		'exe' => 'application/x-msdownload'
-	));
-
 	// All tests are on by default. Most can be turned off by $override[{test_name}] = false;
 	$test_form = true;
 	$test_size = true;
@@ -1845,17 +1806,11 @@ function wp_handle_upload(&$file, $overrides = false) {
 	if (! @ is_uploaded_file($file['tmp_name']) )
 		return $upload_error_handler($file, __('Specified file failed upload test.'));
 
-	// A correct MIME type will pass this test.
+	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
 	if ( $test_type ) {
-		$type = false;
-		$ext = false;
-		foreach ($mimes as $ext_preg => $mime_match) {
-			$ext_preg = '![^.]\.(' . $ext_preg . ')$!i';
-			if ( preg_match($ext_preg, $file['name'], $ext_matches) ) {
-				$type = $mime_match;
-				$ext = $ext_matches[1];
-			}
-		}
+		$wp_filetype = wp_check_filetype($file['name'], $mimes);
+
+		extract($wp_filetype);
 
 		if ( !$type || !$ext )
 			return $upload_error_handler($file, __('File type does not meet security guidelines. Try another.'));
