@@ -2083,6 +2083,13 @@ function add_query_arg() {
 			$uri = @func_get_arg(2);
 	}
 
+	if ( preg_match('|^https?://|i', $uri, $matches) ) {
+		$protocol = $matches[0];
+		$uri = substr($uri, strlen($protocol));
+	} else {
+		$protocol = '';
+	}
+
 	if ( strstr($uri, '?') ) {
 		$parts = explode('?', $uri, 2);
 		if ( 1 == count($parts) ) {
@@ -2092,8 +2099,7 @@ function add_query_arg() {
 			$base = $parts[0] . '?';
 			$query = $parts[1];
 		}
-	}
-	else if ( strstr($uri, '/') ) {
+	} else if ( !empty($protocol) || strstr($uri, '/') ) {
 		$base = $uri . '?';
 		$query = '';
 	} else {
