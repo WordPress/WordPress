@@ -546,7 +546,7 @@ class WP_Query {
 			$q['what_to_show'] = 'posts';
 		}
 
-		if ( $this->is_home && empty($this->query) && ( 'page' == get_option('show_on_front') ) && get_option('page_on_front') ) {
+		if ( $this->is_home && (empty($this->query) || $q['preview'] == 'true') && ( 'page' == get_option('show_on_front') ) && get_option('page_on_front') ) {
 			$this->is_page = true;
 			$this->is_home = false;
 			$q['page_id'] = get_option('page_on_front');
