@@ -204,6 +204,8 @@ $_POST   = add_magic_quotes($_POST  );
 $_COOKIE = add_magic_quotes($_COOKIE);
 $_SERVER = add_magic_quotes($_SERVER);
 
+do_action('sanitize_comment_cookies');
+
 $wp_query   = new WP_Query();
 $wp_rewrite = new WP_Rewrite();
 $wp         = new WP();

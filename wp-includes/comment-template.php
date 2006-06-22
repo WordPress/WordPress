@@ -273,26 +273,12 @@ function pings_open() {
 function comments_template( $file = '/comments.php' ) {
 	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity;
 
-	if ( is_single() || is_page() || $withcomments ) :
-		$req = get_settings('require_name_email');
-		$comment_author = '';
-		if ( isset($_COOKIE['comment_author_'.COOKIEHASH]) ) {
-			$comment_author = apply_filters('pre_comment_author_name', $_COOKIE['comment_author_'.COOKIEHASH]);
-			$comment_author = stripslashes($comment_author);
-			$comment_author = wp_specialchars($comment_author, true);
-		}
-		$comment_author_email = '';
-		if ( isset($_COOKIE['comment_author_email_'.COOKIEHASH]) ) {
-			$comment_author_email = apply_filters('pre_comment_author_email', $_COOKIE['comment_author_email_'.COOKIEHASH]);
-			$comment_author_email = stripslashes($comment_author_email);
-			$comment_author_email = wp_specialchars($comment_author_email, true);		
-		}
-		$comment_author_url = '';
-		if ( isset($_COOKIE['comment_author_url_'.COOKIEHASH]) ) {
-			$comment_author_url = apply_filters('pre_comment_author_url', $_COOKIE['comment_author_url_'.COOKIEHASH]);
-			$comment_author_url = stripslashes($comment_author_url);
-			$comment_author_url = wp_specialchars($comment_author_url, true);		
-		}
+	if ( ! (is_single() || is_page() || $withcomments) )
+		return;
+
+	$req = get_settings('require_name_email');
+	$commenter = wp_get_current_commenter();
+	extract($commenter);
 
 	// TODO: Use API instead of SELECTs.
 	if ( empty($comment_author) ) {
@@ -309,8 +295,6 @@ function comments_template( $file = '/comments.php' ) {
 		require( $include );
 	else
 		require( ABSPATH . 'wp-content/themes/default/comments.php');
-
-	endif;
 }
 
 function comments_popup_script($width=400, $height=400, $file='') {

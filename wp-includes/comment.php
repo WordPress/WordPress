@@ -146,6 +146,29 @@ function get_lastcommentmodified($timezone = 'server') {
 	return $lastcommentmodified;
 }
 
+function sanitize_comment_cookies() {
+	if ( isset($_COOKIE['comment_author_'.COOKIEHASH]) ) {
+		$comment_author = apply_filters('pre_comment_author_name', $_COOKIE['comment_author_'.COOKIEHASH]);
+		$comment_author = stripslashes($comment_author);
+		$comment_author = wp_specialchars($comment_author, true);
+		$_COOKIE['comment_author_'.COOKIEHASH] = $comment_author;
+	}
+
+	if ( isset($_COOKIE['comment_author_email_'.COOKIEHASH]) ) {
+		$comment_author_email = apply_filters('pre_comment_author_email', $_COOKIE['comment_author_email_'.COOKIEHASH]);
+		$comment_author_email = stripslashes($comment_author_email);
+		$comment_author_email = wp_specialchars($comment_author_email, true);	
+		$_COOKIE['comment_author_email_'.COOKIEHASH] = $comment_author_email;
+	}
+
+	if ( isset($_COOKIE['comment_author_url_'.COOKIEHASH]) ) {
+		$comment_author_url = apply_filters('pre_comment_author_url', $_COOKIE['comment_author_url_'.COOKIEHASH]);
+		$comment_author_url = stripslashes($comment_author_url);
+		$comment_author_url = wp_specialchars($comment_author_url, true);
+		$_COOKIE['comment_author_url_'.COOKIEHASH] = $comment_author_url;
+	}
+}
+
 function wp_allow_comment($commentdata) {
 	global $wpdb;
 	extract($commentdata);
@@ -273,6 +296,24 @@ function wp_get_comment_status($comment_id) {
 	} else {
 		return false;
 	}
+}
+
+function wp_get_current_commenter() {
+	// Cookies should already be sanitized.
+
+	$comment_author = '';
+	if ( isset($_COOKIE['comment_author_'.COOKIEHASH]) )
+		$comment_author = $_COOKIE['comment_author_'.COOKIEHASH];
+
+	$comment_author_email = '';
+	if ( isset($_COOKIE['comment_author_email_'.COOKIEHASH]) )
+		$comment_author_email = $_COOKIE['comment_author_email_'.COOKIEHASH];
+
+	$comment_author_url = '';
+	if ( isset($_COOKIE['comment_author_url_'.COOKIEHASH]) )
+		$comment_author_url = $_COOKIE['comment_author_url_'.COOKIEHASH];
+
+	return compact('comment_author', 'comment_author_email', 'comment_author_url');
 }
 
 function wp_insert_comment($commentdata) {
