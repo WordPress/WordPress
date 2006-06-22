@@ -359,11 +359,11 @@ function wp_list_bookmarks($args = '') {
 	if ( $categorize ) {
 		$cats = get_categories("type=link&orderby=$category_orderby&order=$category_order&hierarchical=0");
 		foreach ( (array) $cats as $cat ) {
+			$r['category'] = $cat->cat_ID;
 			$bookmarks = get_bookmarks($r);
 			if ( empty($bookmarks) )
 				continue;
 			$output .= "<li id=\"linkcat-$cat->cat_ID\">$title_before$cat->cat_name$title_after\n\t<ul>\n";
-			$r['category'] = $cat->cat_ID;
 			$output .= _walk_bookmarks($bookmarks, $r);
 			$output .= "\n\t</ul>\n</li>\n";
 		}
