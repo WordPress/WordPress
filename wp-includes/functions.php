@@ -700,7 +700,7 @@ function add_query_arg() {
 			$base = $parts[0] . '?';
 			$query = $parts[1];
 		}
-	} else if ( strstr($uri, '/') ) {
+	} else if ( !empty($protocol) || strstr($uri, '/') ) {
 		$base = $uri . '?';
 		$query = '';
 	} else {
