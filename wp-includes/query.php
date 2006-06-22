@@ -850,20 +850,19 @@ class WP_Query {
 		} else {
 			$where .= " AND (post_type = '$post_type' AND (post_status = 'publish'";
 
-			if ( is_admin() ) {
+			if ( is_admin() )
 				$where .= " OR post_status = 'future' OR post_status = 'draft'";
 	
-				if ( is_user_logged_in() ) {
-					if ( 'post' == $post_type )
-						$cap = 'edit_private_posts';
-					else
-						$cap = 'edit_private_pages';
+			if ( is_user_logged_in() ) {
+				if ( 'post' == $post_type )
+					$cap = 'edit_private_posts';
+				else
+					$cap = 'edit_private_pages';
 
-					if ( current_user_can($cap) )
-						$where .= "OR post_status = 'private'";
-					else
-					$where .= " OR post_author = $user_ID AND post_status = 'private'";
-				}
+				if ( current_user_can($cap) )
+					$where .= " OR post_status = 'private'";
+				else
+				$where .= " OR post_author = $user_ID AND post_status = 'private'";
 			}
 
 			$where .= '))';

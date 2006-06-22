@@ -319,78 +319,6 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 	return $timetotal;
 }
 
-function weblog_ping($server = '', $path = '') {
-	global $wp_version;
-	include_once (ABSPATH . WPINC . '/class-IXR.php');
-
-	// using a timeout of 3 seconds should be enough to cover slow servers
-	$client = new IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));
-	$client->timeout = 3;
-	$client->useragent .= ' -- WordPress/'.$wp_version;
-
-	// when set to true, this outputs debug messages by itself
-	$client->debug = false;
-	$home = trailingslashit( get_option('home') );
-	if ( !$client->query('weblogUpdates.extendedPing', get_settings('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
-		$client->query('weblogUpdates.ping', get_settings('blogname'), $home);
-}
-
-function generic_ping($post_id = 0) {
-	$services = get_settings('ping_sites');
-	$services = preg_replace("|(\s)+|", '$1', $services); // Kill dupe lines
-	$services = trim($services);
-	if ( '' != $services ) {
-		$services = explode("\n", $services);
-		foreach ($services as $service) {
-			weblog_ping($service);
-		}
-	}
-
-	return $post_id;
-}
-
-// Send a Trackback
-function trackback($trackback_url, $title, $excerpt, $ID) {
-	global $wpdb, $wp_version;
-
-	if ( empty($trackback_url) )
-		return;
-
-	$title = urlencode($title);
-	$excerpt = urlencode($excerpt);
-	$blog_name = urlencode(get_settings('blogname'));
-	$tb_url = $trackback_url;
-	$url = urlencode(get_permalink($ID));
-	$query_string = "title=$title&url=$url&blog_name=$blog_name&excerpt=$excerpt";
-	$trackback_url = parse_url($trackback_url);
-	$http_request = 'POST ' . $trackback_url['path'] . ($trackback_url['query'] ? '?'.$trackback_url['query'] : '') . " HTTP/1.0\r\n";
-	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
-	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_settings('blog_charset')."\r\n";
-	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
-	$http_request .= "User-Agent: WordPress/" . $wp_version;
-	$http_request .= "\r\n\r\n";
-	$http_request .= $query_string;
-	if ( '' == $trackback_url['port'] )
-		$trackback_url['port'] = 80;
-	$fs = @fsockopen($trackback_url['host'], $trackback_url['port'], $errno, $errstr, 4);
-	@fputs($fs, $http_request);
-/*
-	$debug_file = 'trackback.log';
-	$fp = fopen($debug_file, 'a');
-	fwrite($fp, "\n*****\nRequest:\n\n$http_request\n\nResponse:\n\n");
-	while(!@feof($fs)) {
-		fwrite($fp, @fgets($fs, 4096));
-	}
-	fwrite($fp, "\n\n");
-	fclose($fp);
-*/
-	@fclose($fs);
-
-	$tb_url = addslashes( $tb_url );
-	$wpdb->query("UPDATE $wpdb->posts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = '$ID'");
-	return $wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_url', '')) WHERE ID = '$ID'");
-}
-
 function make_url_footnote($content) {
 	preg_match_all('/<a(.+?)href=\"(.+?)\"(.*?)>(.+?)<\/a>/', $content, $matches);
 	$j = 0;
@@ -820,13 +748,6 @@ function get_num_queries() {
 	return $wpdb->num_queries;
 }
 
-function privacy_ping_filter( $sites ) {
-	if ( '0' != get_option('blog_public') )
-		return $sites;
-	else
-		return '';
-}
-
 function bool_from_yn($yn) {
     if ($yn == 'Y') return 1;
     return 0;
@@ -1066,69 +987,6 @@ function wp_check_filetype($filename, $mimes = null) {
 	}
 
 	return compact('ext', 'type');
-}
-
-function do_trackbacks($post_id) {
-	global $wpdb;
-
-	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $post_id");
-	$to_ping = get_to_ping($post_id);
-	$pinged  = get_pung($post_id);
-	if ( empty($to_ping) ) {
-		$wpdb->query("UPDATE $wpdb->posts SET to_ping = '' WHERE ID = '$post_id'");
-		return;
-	}
-
-	if (empty($post->post_excerpt))
-		$excerpt = apply_filters('the_content', $post->post_content);
-	else
-		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
-	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
-	$excerpt = strip_tags($excerpt);
-	if ( function_exists('mb_strcut') ) // For international trackbacks
-    	$excerpt = mb_strcut($excerpt, 0, 252, get_settings('blog_charset')) . '...';
-	else
-		$excerpt = substr($excerpt, 0, 252) . '...';
-
-	$post_title = apply_filters('the_title', $post->post_title);
-	$post_title = strip_tags($post_title);
-
-	if ($to_ping) : foreach ($to_ping as $tb_ping) :
-		$tb_ping = trim($tb_ping);
-		if ( !in_array($tb_ping, $pinged) ) {
-			trackback($tb_ping, $post_title, $excerpt, $post_id);
-			$pinged[] = $tb_ping;
-		} else {
-			$wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_ping', '')) WHERE ID = '$post_id'");
-		}
-	endforeach; endif;
-}
-
-function do_all_pings() {
-	global $wpdb;
-
-	// Do pingbacks
-	while ($ping = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_pingme' LIMIT 1")) {
-		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$ping->ID} AND meta_key = '_pingme';");
-		pingback($ping->post_content, $ping->ID);
-	}
-	
-	// Do Enclosures
-	while ($enclosure = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_encloseme' LIMIT 1")) {
-		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$enclosure->ID} AND meta_key = '_encloseme';");
-		do_enclose($enclosure->post_content, $enclosure->ID);
-	}
-
-	// Do Trackbacks
-	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status = 'publish'");
-	if ( is_array($trackbacks) ) {
-		foreach ( $trackbacks as $trackback ) {
-			do_trackbacks($trackback->ID);
-		}
-	}
-
-	//Do Update Services/Generic Pings
-	generic_ping();
 }
 
 function wp_proxy_check($ipnum) {

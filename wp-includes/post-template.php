@@ -34,6 +34,8 @@ function get_the_title($id = 0) {
 	$title = $post->post_title;
 	if ( !empty($post->post_password) )
 		$title = sprintf(__('Protected: %s'), $title);
+	else if ( 'private' == $post->post_status )
+		$title = sprintf(__('Private: %s'), $title);
 
 	return $title;
 }

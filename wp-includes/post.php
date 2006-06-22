@@ -1118,6 +1118,19 @@ function generate_page_uri_index() {
 // Attachment functions
 //
 
+function is_local_attachment($url) {
+	if ( !strstr($url, get_bloginfo('home') ) )
+		return false;
+	if ( strstr($url, get_bloginfo('home') . '/?attachment_id=') )
+		return true;
+	if ( $id = url_to_postid($url) ) {
+		$post = & get_post($id);
+		if ( 'attachment' == $post->post_type )
+			return true;
+	}
+	return false;
+}
+
 function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	global $wpdb, $user_ID;
 

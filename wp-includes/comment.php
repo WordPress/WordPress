@@ -436,85 +436,9 @@ function wp_update_comment_count($post_id) {
 	return true;
 }
 
-function pingback($content, $post_ID) {
-	global $wp_version, $wpdb;
-	include_once (ABSPATH . WPINC . '/class-IXR.php');
-
-	// original code by Mort (http://mort.mine.nu:8080)
-	$log = debug_fopen(ABSPATH . '/pingback.log', 'a');
-	$post_links = array();
-	debug_fwrite($log, 'BEGIN '.date('YmdHis', time())."\n");
-
-	$pung = get_pung($post_ID);
-
-	// Variables
-	$ltrs = '\w';
-	$gunk = '/#~:.?+=&%@!\-';
-	$punc = '.:?\-';
-	$any = $ltrs . $gunk . $punc;
-
-	// Step 1
-	// Parsing the post, external links (if any) are stored in the $post_links array
-	// This regexp comes straight from phpfreaks.com
-	// http://www.phpfreaks.com/quickcode/Extract_All_URLs_on_a_Page/15.php
-	preg_match_all("{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp);
-
-	// Debug
-	debug_fwrite($log, 'Post contents:');
-	debug_fwrite($log, $content."\n");
-
-	// Step 2.
-	// Walking thru the links array
-	// first we get rid of links pointing to sites, not to specific files
-	// Example:
-	// http://dummy-weblog.org
-	// http://dummy-weblog.org/
-	// http://dummy-weblog.org/post.php
-	// We don't wanna ping first and second types, even if they have a valid <link/>
-
-	foreach($post_links_temp[0] as $link_test) :
-		if ( !in_array($link_test, $pung) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
-				&& !is_local_attachment($link_test) ) : // Also, let's never ping local attachments.
-			$test = parse_url($link_test);
-			if (isset($test['query']))
-				$post_links[] = $link_test;
-			elseif(($test['path'] != '/') && ($test['path'] != ''))
-				$post_links[] = $link_test;
-		endif;
-	endforeach;
-
-	do_action('pre_ping',  array(&$post_links, &$pung));
-
-	foreach ($post_links as $pagelinkedto){
-		debug_fwrite($log, "Processing -- $pagelinkedto\n");
-		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
-
-		if ($pingback_server_url) {
-			@ set_time_limit( 60 ); 
-			 // Now, the RPC call
-			debug_fwrite($log, "Page Linked To: $pagelinkedto \n");
-			debug_fwrite($log, 'Page Linked From: ');
-			$pagelinkedfrom = get_permalink($post_ID);
-			debug_fwrite($log, $pagelinkedfrom."\n");
-
-			// using a timeout of 3 seconds should be enough to cover slow servers
-			$client = new IXR_Client($pingback_server_url);
-			$client->timeout = 3;
-			$client->useragent .= ' -- WordPress/' . $wp_version;
-
-			// when set to true, this outputs debug messages by itself
-			$client->debug = false;
-
-			if ( $client->query('pingback.ping', $pagelinkedfrom, $pagelinkedto ) )
-				add_ping( $post_ID, $pagelinkedto );
-			else
-				debug_fwrite($log, "Error.\n Fault code: ".$client->getErrorCode()." : ".$client->getErrorMessage()."\n");
-		}
-	}
-
-	debug_fwrite($log, "\nEND: ".time()."\n****************************\n");
-	debug_fclose($log);
-}
+//
+// Ping and trackback functions.
+//
 
 function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 	global $wp_version;
@@ -606,17 +530,226 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 	return false;
 }
 
-function is_local_attachment($url) {
-	if ( !strstr($url, get_bloginfo('home') ) )
-		return false;
-	if ( strstr($url, get_bloginfo('home') . '/?attachment_id=') )
-		return true;
-	if ( $id = url_to_postid($url) ) {
-		$post = & get_post($id);
-		if ( 'attachment' == $post->post_type )
-			return true;
+function do_all_pings() {
+	global $wpdb;
+
+	// Do pingbacks
+	while ($ping = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_pingme' LIMIT 1")) {
+		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$ping->ID} AND meta_key = '_pingme';");
+		pingback($ping->post_content, $ping->ID);
 	}
-	return false;
+	
+	// Do Enclosures
+	while ($enclosure = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_encloseme' LIMIT 1")) {
+		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$enclosure->ID} AND meta_key = '_encloseme';");
+		do_enclose($enclosure->post_content, $enclosure->ID);
+	}
+
+	// Do Trackbacks
+	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status = 'publish'");
+	if ( is_array($trackbacks) ) {
+		foreach ( $trackbacks as $trackback ) {
+			do_trackbacks($trackback->ID);
+		}
+	}
+
+	//Do Update Services/Generic Pings
+	generic_ping();
+}
+
+function do_trackbacks($post_id) {
+	global $wpdb;
+
+	$post = $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID = $post_id");
+	$to_ping = get_to_ping($post_id);
+	$pinged  = get_pung($post_id);
+	if ( empty($to_ping) ) {
+		$wpdb->query("UPDATE $wpdb->posts SET to_ping = '' WHERE ID = '$post_id'");
+		return;
+	}
+
+	if (empty($post->post_excerpt))
+		$excerpt = apply_filters('the_content', $post->post_content);
+	else
+		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
+	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
+	$excerpt = strip_tags($excerpt);
+	if ( function_exists('mb_strcut') ) // For international trackbacks
+    	$excerpt = mb_strcut($excerpt, 0, 252, get_settings('blog_charset')) . '...';
+	else
+		$excerpt = substr($excerpt, 0, 252) . '...';
+
+	$post_title = apply_filters('the_title', $post->post_title);
+	$post_title = strip_tags($post_title);
+
+	if ($to_ping) : foreach ($to_ping as $tb_ping) :
+		$tb_ping = trim($tb_ping);
+		if ( !in_array($tb_ping, $pinged) ) {
+			trackback($tb_ping, $post_title, $excerpt, $post_id);
+			$pinged[] = $tb_ping;
+		} else {
+			$wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_ping', '')) WHERE ID = '$post_id'");
+		}
+	endforeach; endif;
+}
+
+function generic_ping($post_id = 0) {
+	$services = get_settings('ping_sites');
+	$services = preg_replace("|(\s)+|", '$1', $services); // Kill dupe lines
+	$services = trim($services);
+	if ( '' != $services ) {
+		$services = explode("\n", $services);
+		foreach ($services as $service) {
+			weblog_ping($service);
+		}
+	}
+
+	return $post_id;
+}
+
+function pingback($content, $post_ID) {
+	global $wp_version, $wpdb;
+	include_once (ABSPATH . WPINC . '/class-IXR.php');
+
+	// original code by Mort (http://mort.mine.nu:8080)
+	$log = debug_fopen(ABSPATH . '/pingback.log', 'a');
+	$post_links = array();
+	debug_fwrite($log, 'BEGIN '.date('YmdHis', time())."\n");
+
+	$pung = get_pung($post_ID);
+
+	// Variables
+	$ltrs = '\w';
+	$gunk = '/#~:.?+=&%@!\-';
+	$punc = '.:?\-';
+	$any = $ltrs . $gunk . $punc;
+
+	// Step 1
+	// Parsing the post, external links (if any) are stored in the $post_links array
+	// This regexp comes straight from phpfreaks.com
+	// http://www.phpfreaks.com/quickcode/Extract_All_URLs_on_a_Page/15.php
+	preg_match_all("{\b http : [$any] +? (?= [$punc] * [^$any] | $)}x", $content, $post_links_temp);
+
+	// Debug
+	debug_fwrite($log, 'Post contents:');
+	debug_fwrite($log, $content."\n");
+
+	// Step 2.
+	// Walking thru the links array
+	// first we get rid of links pointing to sites, not to specific files
+	// Example:
+	// http://dummy-weblog.org
+	// http://dummy-weblog.org/
+	// http://dummy-weblog.org/post.php
+	// We don't wanna ping first and second types, even if they have a valid <link/>
+
+	foreach($post_links_temp[0] as $link_test) :
+		if ( !in_array($link_test, $pung) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
+				&& !is_local_attachment($link_test) ) : // Also, let's never ping local attachments.
+			$test = parse_url($link_test);
+			if (isset($test['query']))
+				$post_links[] = $link_test;
+			elseif(($test['path'] != '/') && ($test['path'] != ''))
+				$post_links[] = $link_test;
+		endif;
+	endforeach;
+
+	do_action('pre_ping',  array(&$post_links, &$pung));
+
+	foreach ($post_links as $pagelinkedto){
+		debug_fwrite($log, "Processing -- $pagelinkedto\n");
+		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
+
+		if ($pingback_server_url) {
+			@ set_time_limit( 60 ); 
+			 // Now, the RPC call
+			debug_fwrite($log, "Page Linked To: $pagelinkedto \n");
+			debug_fwrite($log, 'Page Linked From: ');
+			$pagelinkedfrom = get_permalink($post_ID);
+			debug_fwrite($log, $pagelinkedfrom."\n");
+
+			// using a timeout of 3 seconds should be enough to cover slow servers
+			$client = new IXR_Client($pingback_server_url);
+			$client->timeout = 3;
+			$client->useragent .= ' -- WordPress/' . $wp_version;
+
+			// when set to true, this outputs debug messages by itself
+			$client->debug = false;
+
+			if ( $client->query('pingback.ping', $pagelinkedfrom, $pagelinkedto ) )
+				add_ping( $post_ID, $pagelinkedto );
+			else
+				debug_fwrite($log, "Error.\n Fault code: ".$client->getErrorCode()." : ".$client->getErrorMessage()."\n");
+		}
+	}
+
+	debug_fwrite($log, "\nEND: ".time()."\n****************************\n");
+	debug_fclose($log);
+}
+
+function privacy_ping_filter( $sites ) {
+	if ( '0' != get_option('blog_public') )
+		return $sites;
+	else
+		return '';
+}
+
+// Send a Trackback
+function trackback($trackback_url, $title, $excerpt, $ID) {
+	global $wpdb, $wp_version;
+
+	if ( empty($trackback_url) )
+		return;
+
+	$title = urlencode($title);
+	$excerpt = urlencode($excerpt);
+	$blog_name = urlencode(get_settings('blogname'));
+	$tb_url = $trackback_url;
+	$url = urlencode(get_permalink($ID));
+	$query_string = "title=$title&url=$url&blog_name=$blog_name&excerpt=$excerpt";
+	$trackback_url = parse_url($trackback_url);
+	$http_request = 'POST ' . $trackback_url['path'] . ($trackback_url['query'] ? '?'.$trackback_url['query'] : '') . " HTTP/1.0\r\n";
+	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
+	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_settings('blog_charset')."\r\n";
+	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
+	$http_request .= "User-Agent: WordPress/" . $wp_version;
+	$http_request .= "\r\n\r\n";
+	$http_request .= $query_string;
+	if ( '' == $trackback_url['port'] )
+		$trackback_url['port'] = 80;
+	$fs = @fsockopen($trackback_url['host'], $trackback_url['port'], $errno, $errstr, 4);
+	@fputs($fs, $http_request);
+/*
+	$debug_file = 'trackback.log';
+	$fp = fopen($debug_file, 'a');
+	fwrite($fp, "\n*****\nRequest:\n\n$http_request\n\nResponse:\n\n");
+	while(!@feof($fs)) {
+		fwrite($fp, @fgets($fs, 4096));
+	}
+	fwrite($fp, "\n\n");
+	fclose($fp);
+*/
+	@fclose($fs);
+
+	$tb_url = addslashes( $tb_url );
+	$wpdb->query("UPDATE $wpdb->posts SET pinged = CONCAT(pinged, '\n', '$tb_url') WHERE ID = '$ID'");
+	return $wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_url', '')) WHERE ID = '$ID'");
+}
+
+function weblog_ping($server = '', $path = '') {
+	global $wp_version;
+	include_once (ABSPATH . WPINC . '/class-IXR.php');
+
+	// using a timeout of 3 seconds should be enough to cover slow servers
+	$client = new IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));
+	$client->timeout = 3;
+	$client->useragent .= ' -- WordPress/'.$wp_version;
+
+	// when set to true, this outputs debug messages by itself
+	$client->debug = false;
+	$home = trailingslashit( get_option('home') );
+	if ( !$client->query('weblogUpdates.extendedPing', get_settings('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
+		$client->query('weblogUpdates.ping', get_settings('blogname'), $home);
 }
 
 ?>
