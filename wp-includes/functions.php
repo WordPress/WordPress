@@ -2,12 +2,6 @@
 
 require_once(dirname(__FILE__).'/compat.php');
 
-if ( !function_exists('_') ) {
-	function _($string) {
-		return $string;
-	}
-}
-
 function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	global $wp_locale;
 	$m = $mysqlstring;
