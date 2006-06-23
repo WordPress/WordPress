@@ -2122,7 +2122,7 @@ function add_query_arg() {
 			$ret .= "$k=$v";
 		}
 	}
-	$ret = $base . $ret;
+	$ret = $protocol . $base . $ret;
 	return trim($ret, '?');
 }
 
