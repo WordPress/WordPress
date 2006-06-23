@@ -787,7 +787,7 @@ function do_feed_atom() {
 }
 
 function do_robots() {
-	do_action('do_robots');
+	do_action('do_robotstxt');
 	if ( '0' == get_option('blog_public') ) {
 		echo "User-agent: *\n";
 		echo "Disallow: /\n";
