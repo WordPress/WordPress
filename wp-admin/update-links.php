@@ -23,7 +23,7 @@ $http_request .= "\r\n";
 $http_request .= $query_string;
 
 $response = '';
-if( false !== ( $fs = fsockopen('api.pingomatic.com', 80, $errno, $errstr, 5) ) ) {
+if ( false !== ( $fs = @fsockopen('api.pingomatic.com', 80, $errno, $errstr, 5) ) ) {
 	fwrite($fs, $http_request);
 	while ( !feof($fs) )
 		$response .= fgets($fs, 1160); // One TCP-IP packet
