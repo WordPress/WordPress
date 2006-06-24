@@ -231,7 +231,7 @@ if ( !function_exists('check_admin_referer') ) :
 function check_admin_referer($action = -1) {
 	global $pagenow, $menu, $submenu, $parent_file, $submenu_file;;
 	$adminurl = strtolower(get_settings('siteurl')).'/wp-admin';
-	$referer = strtolower($_SERVER['HTTP_REFERER']);
+	$referer = strtolower(wp_get_referer());
 	if ( !wp_verify_nonce($_REQUEST['_wpnonce'], $action) &&
 		!(-1 == $action && strstr($referer, $adminurl)) ) {
 		if ( $referer ) 
