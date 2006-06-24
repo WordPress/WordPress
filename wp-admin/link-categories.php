@@ -356,7 +356,7 @@ foreach ($results as $row) {
                 <td nowrap="nowrap"><?php echo htmlentities($row->text_after_all)?></td>
                 <td><?php echo $row->list_limit ?></td>
                 <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Edit" class="edit"><?php _e('Edit') ?></a></td>
-                <td><a href="<?php echo wp_nonce_url("link-categories.php?cat_id=$row->cat_id?>&amp;action=Delete", 'delete-link-category_' . $row->cat_id) ?>" "onclick="return deleteSomething( 'link category', <?php echo $row->cat_id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; link category.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), wp_specialchars($row->cat_name,1)); ?>' );" class="delete"><?php _e('Delete') ?></a></td>
+                <td><a href="<?php echo wp_nonce_url("link-categories.php?cat_id=$row->cat_id?>&amp;action=Delete", 'delete-link-category_' . $row->cat_id) ?>" "onclick="return deleteSomething( 'link category', <?php echo $row->cat_id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; link category.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($row->cat_name)); ?>' );" class="delete"><?php _e('Delete') ?></a></td>
               </tr>
 <?php
         ++$i;
