@@ -98,12 +98,12 @@ case 'editpost':
 	$page_ID = edit_post();
 
 	if ($_POST['save']) {
-		$location = $_SERVER['HTTP_REFERER'];
+		$location = wp_get_referer();
 	} elseif ($_POST['updatemeta']) {
-		$location = $_SERVER['HTTP_REFERER'] . '&message=2#postcustom';
+		$location = wp_get_referer() . '&message=2#postcustom';
 	} elseif ($_POST['deletemeta']) {
-		$location = $_SERVER['HTTP_REFERER'] . '&message=3#postcustom';
-	} elseif (isset($_POST['referredby']) && $_POST['referredby'] != $_SERVER['HTTP_REFERER']) {
+		$location = wp_get_referer() . '&message=3#postcustom';
+	} elseif (!empty($_POST['referredby']) && $_POST['referredby'] != wp_get_referer()) {
 		$location = $_POST['referredby'];
 		if ( $_POST['referredby'] == 'redo' )
 			$location = get_permalink( $page_ID );
@@ -134,7 +134,7 @@ case 'delete':
 			die( __('Error in deleting...') );
 	}
 
-	$sendback = $_SERVER['HTTP_REFERER'];
+	$sendback = wp_get_referer();
 	if (strstr($sendback, 'page.php')) $sendback = get_settings('siteurl') .'/wp-admin/page.php';
 	elseif (strstr($sendback, 'attachments.php')) $sendback = get_settings('siteurl') .'/wp-admin/attachments.php';
 	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);

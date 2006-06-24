@@ -76,7 +76,7 @@ switch ($action) {
 
 		add_link();
 
-		header('Location: '.$_SERVER['HTTP_REFERER'].'?added=true');
+		header('Location: '.wp_get_referer().'?added=true');
 		break;
 
 	case 'save' :

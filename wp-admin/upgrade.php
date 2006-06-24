@@ -67,7 +67,7 @@ text-align: center; border-top: 1px solid #ccc; padding-top: 1em; font-style: it
 switch($step) {
 
 	case 0:
-	$goback = wp_specialchars($_SERVER['HTTP_REFERER'], 1);
+	$goback = wp_specialchars(wp_get_referer());
 ?> 
 <p><?php _e('This file upgrades you from any previous version of WordPress to the latest. It may take a while though, so be patient.'); ?></p> 
 	<h2 class="step"><a href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress &raquo;'); ?></a></h2>
