@@ -1,7 +1,7 @@
 <?php
 
 // On which page are we ?
-if (preg_match('#([^/]+.php)#', $PHP_SELF, $self_matches)) {
+if (preg_match('#([^/]+\.php)$#', $PHP_SELF, $self_matches)) {
 	$pagenow = $self_matches[1];
 } else if (strstr($PHP_SELF, '?')) {
 	$pagenow = explode('/', $PHP_SELF);
