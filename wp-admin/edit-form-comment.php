@@ -89,7 +89,7 @@ else
 </script>
 
 <p class="submit"><input type="submit" name="editcomment" id="editcomment" value="<?php echo $submitbutton_text ?>" style="font-weight: bold;" tabindex="6" />
-  <input name="referredby" type="hidden" id="referredby" value="<?php echo $_SERVER['HTTP_REFERER']; ?>" />
+  <input name="referredby" type="hidden" id="referredby" value="<?php echo wp_get_referer(); ?>" />
 </p>
 
 </div>
