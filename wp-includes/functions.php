@@ -815,8 +815,7 @@ function wp_nonce_field($action = -1) {
 }
 
 function wp_referer_field() {
-	$ref = ( false === wp_get_referer() ) ? $_SERVER['REQUEST_URI'] : wp_get_referer();
-	$ref = wp_specialchars(stripslashes($ref));
+	$ref = wp_specialchars($_SERVER['REQUEST_URI']);
 	echo '<input type="hidden" name="_wp_http_referer" value="'. $ref . '" />';
 	if ( wp_get_original_referer() ) {
 		$original_ref = wp_specialchars(stripslashes(wp_get_original_referer()));
