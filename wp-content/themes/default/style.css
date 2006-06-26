@@ -2,7 +2,7 @@
 Theme Name: WordPress Default
 Theme URI: http://wordpress.org/
 Description: The default WordPress theme based on the famous <a href="http://binarybonsai.com/kubrick/">Kubrick</a>.
-Version: 1.5
+Version: 1.6
 Author: Michael Heilemann
 Author URI: http://binarybonsai.com/
 
@@ -15,12 +15,6 @@ Author URI: http://binarybonsai.com/
 	The CSS, XHTML and design is released under GPL:
 	http://www.opensource.org/licenses/gpl-license.php
 
-
-	*** REGARDING IMAGES ***
-	All CSS that involves the use of images, can be found in the 'index.php' file.
-	This is to ease installation inside subdirectories of a server.
-
-	Have fun, and don't be afraid to contact me if you have questions.
 */
 
 
@@ -29,7 +23,7 @@ Author URI: http://binarybonsai.com/
 body {
 	font-size: 62.5%; /* Resets 1em to 10px */
 	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
-	background-color: #d5d6d7;
+	background: #d5d6d7 url('images/kubrickbgcolor.jpg');
 	color: #333;
 	text-align: center;
 	}
@@ -41,8 +35,14 @@ body {
 	}
 
 #header {
-	background-color: #73a0c5;
+	background: #73a0c5 url('images/kubrickheader.jpg') no-repeat bottom center;
 	}
+
+#headerimg 	{ 
+	margin: 7px 9px 0; 
+	height: 192px; 
+	width: 740px; 
+	} 
 
 #content {
 	font-size: 1.2em
@@ -71,7 +71,8 @@ body {
 	}
 
 #footer {
-	background-color: #eee;
+	background: #eee url('images/kubrickfooter.jpg') no-repeat top; 
+	border: none;
 	}
 
 small {
@@ -208,7 +209,7 @@ a:hover {
 
 /* Begin Structure */
 body {
-	margin: 0;
+	margin: 0 0 20px 0;
 	padding: 0; 
 	}
 
@@ -221,11 +222,11 @@ body {
 	}
 
 #header {
-	padding: 0;
-	margin: 0 auto;
-	height: 200px;
-	width: 100%;
 	background-color: #73a0c5;
+	margin: 0 0 0 1px; 
+	padding: 0; 
+	height: 200px; 
+	width: 758px;
 	}
 
 #headerimg {
@@ -281,7 +282,7 @@ body {
 }
 
 #footer {
-	padding: 0 0 0 1px;
+	padding: 0;
 	margin: 0 auto;
 	width: 760px;
 	clear: both;
@@ -449,7 +450,7 @@ ol li, #sidebar ul ol li {
 	}
 
 #sidebar #searchform #s {
-	width: 115px;
+	width: 108px;
 	padding: 2px;
 	}
 
