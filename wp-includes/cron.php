@@ -65,7 +65,12 @@ function wp_next_scheduled( $hook ) {
 }
 
 function spawn_cron() {
-	$keys = array_keys( get_option( 'cron' ) );
+	$crons = get_option( 'cron' )
+	
+	if( !is_array($crons) )
+		return;
+	
+	$keys = array_keys( $crons );
 	if ( array_shift( $keys ) > time() )
 		return;
 
