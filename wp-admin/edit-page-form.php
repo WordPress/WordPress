@@ -219,8 +219,9 @@ if($metadata = has_meta($post_ID)) {
 
 </div>
 
-<?php if ('edit' == $action) : ?>
-		<input name="deletepost" class="delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this page') ?>" <?php echo "onclick=\"return confirm('" . sprintf(__("You are about to delete this page \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), js_escape($post->post_title) ) . "')\""; ?> />
+<?php if ('edit' == $action) :
+	$delete_nonce = wp_create_nonce( 'delete-page_' . $post_ID ); ?>
+	<input name="deletepost" class="button" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this page') ?>" <?php echo "onclick=\"if ( confirm('" . sprintf(__("You are about to delete this page \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), js_escape($post->post_title) ) . "') ) { document.forms.post._wpnonce.value = '$delete_nonce'; return true;}return false;\""; ?> />
 <?php endif; ?>
 </form>
 
