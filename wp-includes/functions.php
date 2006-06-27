@@ -1027,6 +1027,8 @@ function wp_explain_nonce($action) {
 		$noun = $matches[2];
 
 		$trans = array();
+		$trans['update']['attachment'] = array(__('Are you sure you want to edit this attachment: &quot;%s&quot;?'), 'get_the_title');
+
 		$trans['add']['category'] = array(__('Are you sure you want to add this category?'), false);
 		$trans['delete']['category'] = array(__('Are you sure you want to delete this category: &quot;%s&quot;?'), 'get_catname');
 		$trans['update']['category'] = array(__('Are you sure you want to edit this category: &quot;%s&quot;?'), 'get_catname');
@@ -1043,18 +1045,29 @@ function wp_explain_nonce($action) {
 		$trans['update']['bookmark'] = array(__('Are you sure you want to edit this bookmark: &quot;%s&quot;?'), 'use_id');
 		$trans['bulk']['bookmarks'] = array(__('Are you sure you want to bulk modify bookmarks?'), false);
 
-		$trans['add']['post'] = array(__('Are you sure you want to add this post?'), false);
-		$trans['delete']['post'] = array(__('Are you sure you want to delete this post: &quot;%s&quot;?'), 'get_the_title');
-		$trans['update']['post'] = array(__('Are you sure you want to edit this post: &quot;%s&quot;?'), 'get_the_title');
-
 		$trans['add']['page'] = array(__('Are you sure you want to add this page?'), false);
 		$trans['delete']['page'] = array(__('Are you sure you want to delete this page: &quot;%s&quot;?'), 'get_the_title');
 		$trans['update']['page'] = array(__('Are you sure you want to edit this page: &quot;%s&quot;?'), 'get_the_title');
+
+		$trans['edit']['plugin'] = array(__('Are you sure you want to edit this plugin file: &quot;%s&quot;?'), 'use_id');
+		$trans['activate']['plugin'] = array(__('Are you sure you want to activate this plugin: &quot;%s&quot;?'), 'use_id');
+		$trans['deactivate']['plugin'] = array(__('Are you sure you want to deactivate this plugin: &quot;%s&quot;?'), 'use_id');
+
+		$trans['add']['post'] = array(__('Are you sure you want to add this post?'), false);
+		$trans['delete']['post'] = array(__('Are you sure you want to delete this post: &quot;%s&quot;?'), 'get_the_title');
+		$trans['update']['post'] = array(__('Are you sure you want to edit this post: &quot;%s&quot;?'), 'get_the_title');
 
 		$trans['add']['user'] = array(__('Are you sure you want to add this user?'), false);
 		$trans['delete']['users'] = array(__('Are you sure you want to delete users?'), false);
 		$trans['bulk']['users'] = array(__('Are you sure you want to bulk modify users?'), false);
 		$trans['update']['user'] = array(__('Are you sure you want to edit this user: &quot;%s&quot;?'), 'get_author_name');
+		$trans['update']['profile'] = array(__('Are you sure you want to modify the profile for: &quot;%s&quot;?'), 'get_author_name');
+
+		$trans['update']['options'] = array(__('Are you sure you want to edit your settings?'), false);
+		$trans['update']['permalink'] = array(__('Are you sure you want to change your permalink structure to: %s?'), 'use_id');
+		$trans['edit']['file'] = array(__('Are you sure you want to edit this file: &quot;%s&quot;?'), 'use_id');
+		$trans['edit']['theme'] = array(__('Are you sure you want to edit this theme file: &quot;%s&quot;?'), 'use_id');
+		$trans['switch']['theme'] = array(__('Are you sure you want to switch to this theme: &quot;%s&quot;?'), 'use_id');
 
 		if ( isset($trans[$verb][$noun]) ) {
 			if ( !empty($trans[$verb][$noun][1]) ) {
@@ -1075,9 +1088,9 @@ function wp_explain_nonce($action) {
 function wp_nonce_ays($action) {
 	global $pagenow, $menu, $submenu, $parent_file, $submenu_file;
 
-	$admin_url = get_settings('siteurl') . '/wp-admin';
+	$adminurl = get_settings('siteurl') . '/wp-admin';
 	if ( wp_get_referer() )
-		$admin_url = wp_get_referer();
+		$adminurl = wp_get_referer();
 
 	$title = __('WordPress Confirmation');
 	require_once(ABSPATH . '/wp-admin/admin-header.php');
