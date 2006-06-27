@@ -1021,4 +1021,85 @@ function wp_proxy_check($ipnum) {
 	return false;
 }
 
+function wp_explain_nonce($action) {
+	if ( $action !== -1 && preg_match('/([a-z]+)-([a-z]+)(_(.+))?/', $action, $matches) ) {
+		$verb = $matches[1];
+		$noun = $matches[2];
+
+		$trans = array();
+		$trans['add']['category'] = array(__('Are you sure you want to add this category?'), false);
+		$trans['delete']['category'] = array(__('Are you sure you want to delete this category: &quot;%s&quot;?'), 'get_catname');
+		$trans['update']['category'] = array(__('Are you sure you want to edit this category: &quot;%s&quot;?'), 'get_catname');
+
+		$trans['delete']['comment'] = array(__('Are you sure you want to delete this comment: &quot;%s&quot;?'), 'use_id');
+		$trans['unapprove']['comment'] = array(__('Are you sure you want to unapprove this comment: &quot;%s&quot;?'), 'use_id');
+		$trans['approve']['comment'] = array(__('Are you sure you want to approve this comment: &quot;%s&quot;?'), 'use_id');
+		$trans['update']['comment'] = array(__('Are you sure you want to edit this comment: &quot;%s&quot;?'), 'use_id');
+		$trans['bulk']['comments'] = array(__('Are you sure you want to bulk modify comments?'), false);
+		$trans['moderate']['comments'] = array(__('Are you sure you want to moderate comments?'), false);
+
+		$trans['add']['bookmark'] = array(__('Are you sure you want to add this bookmark?'), false);
+		$trans['delete']['bookmark'] = array(__('Are you sure you want to delete this bookmark: &quot;%s&quot;?'), 'use_id');
+		$trans['update']['bookmark'] = array(__('Are you sure you want to edit this bookmark: &quot;%s&quot;?'), 'use_id');
+		$trans['bulk']['bookmarks'] = array(__('Are you sure you want to bulk modify bookmarks?'), false);
+
+		$trans['add']['post'] = array(__('Are you sure you want to add this post?'), false);
+		$trans['delete']['post'] = array(__('Are you sure you want to delete this post: &quot;%s&quot;?'), 'get_the_title');
+		$trans['update']['post'] = array(__('Are you sure you want to edit this post: &quot;%s&quot;?'), 'get_the_title');
+
+		$trans['add']['page'] = array(__('Are you sure you want to add this page?'), false);
+		$trans['delete']['page'] = array(__('Are you sure you want to delete this page: &quot;%s&quot;?'), 'get_the_title');
+		$trans['update']['page'] = array(__('Are you sure you want to edit this page: &quot;%s&quot;?'), 'get_the_title');
+
+		$trans['add']['user'] = array(__('Are you sure you want to add this user?'), false);
+		$trans['delete']['users'] = array(__('Are you sure you want to delete users?'), false);
+		$trans['bulk']['users'] = array(__('Are you sure you want to bulk modify users?'), false);
+		$trans['update']['user'] = array(__('Are you sure you want to edit this user: &quot;%s&quot;?'), 'get_author_name');
+
+		if ( isset($trans[$verb][$noun]) ) {
+			if ( !empty($trans[$verb][$noun][1]) ) {
+				$lookup = $trans[$verb][$noun][1];
+				$object = $matches[4];
+				if ( 'use_id' != $lookup )
+					$object = call_user_func($lookup, $object);
+				return sprintf($trans[$verb][$noun][0], $object);
+			} else {
+				return $trans[$verb][$noun][0];
+			}
+		}
+	}
+
+	return __('Are you sure you want to do this');
+}
+
+function wp_nonce_ays($action) {
+	global $pagenow, $menu, $submenu, $parent_file, $submenu_file;
+
+	$admin_url = get_settings('siteurl') . '/wp-admin';
+	if ( wp_get_referer() )
+		$admin_url = wp_get_referer();
+
+	$title = __('WordPress Confirmation');
+	require_once(ABSPATH . '/wp-admin/admin-header.php');
+	// Remove extra layer of slashes.
+	$_POST   = stripslashes_deep($_POST  );
+	if ( $_POST ) {
+		$q = http_build_query($_POST);
+		$q = explode( ini_get('arg_separator.output'), $q);
+		$html .= "\t<form method='post' action='$pagenow'>\n";
+		foreach ( (array) $q as $a ) {
+			$v = substr(strstr($a, '='), 1);
+			$k = substr($a, 0, -(strlen($v)+1));
+			$html .= "\t\t<input type='hidden' name='" . wp_specialchars( urldecode($k), 1 ) . "' value='" . wp_specialchars( urldecode($v), 1 ) . "' />\n";
+		}
+		$html .= "\t\t<input type='hidden' name='_wpnonce' value='" . wp_create_nonce($action) . "' />\n";
+		$html .= "\t\t<div id='message' class='confirm fade'>\n\t\t<p>" . wp_explain_nonce($action) . "</p>\n\t\t<p><a href='$adminurl'>" . __('No') . "</a> <input type='submit' value='" . __('Yes') . "' /></p>\n\t\t</div>\n\t</form>\n";
+	} else {
+		$html .= "\t<div id='message' class='confirm fade'>\n\t<p>" . wp_explain_nonce($action) . "</p>\n\t<p><a href='$adminurl'>" . __('No') . "</a> <a href='" . add_query_arg( '_wpnonce', wp_create_nonce($action), $_SERVER['REQUEST_URI'] ) . "'>" . __('Yes') . "</a></p>\n\t</div>\n";
+	}
+	$html .= "</body>\n</html>";
+	echo $html;
+	include_once(ABSPATH . '/wp-admin/admin-footer.php');
+}
+
 ?>

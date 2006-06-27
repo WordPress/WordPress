@@ -229,34 +229,11 @@ endif;
 
 if ( !function_exists('check_admin_referer') ) :
 function check_admin_referer($action = -1) {
-	global $pagenow, $menu, $submenu, $parent_file, $submenu_file;;
 	$adminurl = strtolower(get_settings('siteurl')).'/wp-admin';
 	$referer = strtolower(wp_get_referer());
 	if ( !wp_verify_nonce($_REQUEST['_wpnonce'], $action) &&
 		!(-1 == $action && strstr($referer, $adminurl)) ) {
-		if ( $referer ) 
-			$adminurl = $referer;
-		$title = __('WordPress Confirmation');
-		require_once(ABSPATH . '/wp-admin/admin-header.php');
-		// Remove extra layer of slashes.
-		$_POST   = stripslashes_deep($_POST  );
-		if ( $_POST ) {
-			$q = http_build_query($_POST);
-			$q = explode( ini_get('arg_separator.output'), $q);
-			$html .= "\t<form method='post' action='$pagenow'>\n";
-			foreach ( (array) $q as $a ) {
-				$v = substr(strstr($a, '='), 1);
-				$k = substr($a, 0, -(strlen($v)+1));
-				$html .= "\t\t<input type='hidden' name='" . wp_specialchars( urldecode($k), 1 ) . "' value='" . wp_specialchars( urldecode($v), 1 ) . "' />\n";
-			}
-			$html .= "\t\t<input type='hidden' name='_wpnonce' value='" . wp_create_nonce($action) . "' />\n";
-			$html .= "\t\t<div id='message' class='confirm fade'>\n\t\t<p>" . __('Are you sure you want to do this?') . "</p>\n\t\t<p><a href='$adminurl'>" . __('No') . "</a> <input type='submit' value='" . __('Yes') . "' /></p>\n\t\t</div>\n\t</form>\n";
-		} else {
-			$html .= "\t<div id='message' class='confirm fade'>\n\t<p>" . __('Are you sure you want to do this?') . "</p>\n\t<p><a href='$adminurl'>" . __('No') . "</a> <a href='" . add_query_arg( '_wpnonce', wp_create_nonce($action), $_SERVER['REQUEST_URI'] ) . "'>" . __('Yes') . "</a></p>\n\t</div>\n";
-		}
-		$html .= "</body>\n</html>";
-		echo $html;
-		include_once(ABSPATH . '/wp-admin/admin-footer.php');
+		wp_nonce_ays($action);
 		die();
 	}
 	do_action('check_admin_referer', $action);
