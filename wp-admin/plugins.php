@@ -12,14 +12,14 @@ if ( isset($_GET['action']) ) {
 			include(ABSPATH . 'wp-content/plugins/' . trim( $_GET['plugin'] ));
 			do_action('activate_' . trim( $_GET['plugin'] ));
 		}
-		header('Location: plugins.php?activate=true');
+		wp_redirect('plugins.php?activate=true');
 	} else if ('deactivate' == $_GET['action']) {
 		check_admin_referer('deactivate-plugin_' . $_GET['plugin']);
 		$current = get_settings('active_plugins');
 		array_splice($current, array_search( $_GET['plugin'], $current), 1 ); // Array-fu!
 		update_option('active_plugins', $current);
 		do_action('deactivate_' . trim( $_GET['plugin'] ));
-		header('Location: plugins.php?deactivate=true');
+		wp_redirect('plugins.php?deactivate=true');
 	}
 	exit;
 }

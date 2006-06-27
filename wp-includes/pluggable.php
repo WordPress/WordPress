@@ -221,7 +221,7 @@ function auth_redirect() {
 			 (empty($_COOKIE[USER_COOKIE])) ) {
 		nocache_headers();
 
-		header('Location: ' . get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
+		wp_redirect(get_settings('siteurl') . '/wp-login.php?redirect_to=' . urlencode($_SERVER['REQUEST_URI']));
 		exit();
 	}
 }

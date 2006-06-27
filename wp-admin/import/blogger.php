@@ -25,7 +25,7 @@ class Blogger_Import {
 	// Deletes saved data and redirect.
 	function restart() {
 		delete_option('import-blogger');
-		header("Location: admin.php?import=blogger");
+		wp_redirect("admin.php?import=blogger");
 		die();
 	}
 
@@ -213,7 +213,7 @@ class Blogger_Import {
 
 	// Redirects to next step
 	function do_next_step() {
-		header("Location: admin.php?import=blogger&noheader=true&blog={$_GET['blog']}");
+		wp_redirect("admin.php?import=blogger&noheader=true&blog={$_GET['blog']}");
 		die();
 	}
 
@@ -273,7 +273,7 @@ class Blogger_Import {
 				);
 			}
 			update_option('import-blogger', $this->import);
-			header("Location: admin.php?import=blogger&noheader=true&step=1");
+			wp_redirect("admin.php?import=blogger&noheader=true&step=1");
 		}
 		die();
 	}

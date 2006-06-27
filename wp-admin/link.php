@@ -37,7 +37,7 @@ switch ($action) {
 
 		//for each link id (in $linkcheck[]) change category to selected value
 		if (count($linkcheck) == 0) {
-			header('Location: '.$this_file);
+			wp_redirect($this_file);
 			exit;
 		}
 
@@ -49,7 +49,7 @@ switch ($action) {
 				$deleted++;
 		}
 
-		header("Location: $this_file?deleted=$deleted");
+		wp_redirect("$this_file?deleted=$deleted");
 		break;
 
 	case 'move' :
@@ -61,14 +61,14 @@ switch ($action) {
 
 		//for each link id (in $linkcheck[]) change category to selected value
 		if (count($linkcheck) == 0) {
-			header('Location: '.$this_file);
+			wp_redirect($this_file);
 			exit;
 		}
 		$all_links = join(',', $linkcheck);
 		// should now have an array of links we can change
 		//$q = $wpdb->query("update $wpdb->links SET link_category='$category' WHERE link_id IN ($all_links)");
 
-		header('Location: '.$this_file);
+		wp_redirect($this_file);
 		break;
 
 	case 'add' :
@@ -76,7 +76,7 @@ switch ($action) {
 
 		add_link();
 
-		header('Location: '.wp_get_referer().'?added=true');
+		wp_redirect(wp_get_referer().'?added=true');
 		break;
 
 	case 'save' :

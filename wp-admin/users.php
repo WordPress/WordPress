@@ -124,7 +124,7 @@ case 'promote':
 	check_admin_referer('bulk-users');
 
 	if (empty($_POST['users'])) {
-		header('Location: ' . $redirect);
+		wp_redirect($redirect);
 	}
 
 	if ( !current_user_can('edit_users') )
@@ -145,7 +145,7 @@ case 'promote':
 		$user->set_role($_POST['new_role']);
 	}
 
-	header('Location: ' . add_query_arg('update', $update, $redirect));
+	wp_redirect(add_query_arg('update', $update, $redirect));
 
 break;
 
@@ -154,7 +154,7 @@ case 'dodelete':
 	check_admin_referer('delete-users');
 
 	if ( empty($_POST['users']) ) {
-		header('Location: ' . $redirect);
+		wp_redirect($redirect);
 	}
 
 	if ( !current_user_can('delete_users') )
@@ -185,7 +185,7 @@ case 'dodelete':
 
 	$redirect = add_query_arg('delete_count', $delete_count, $redirect);
 
-	header('Location: ' . add_query_arg('update', $update, $redirect));
+	wp_redirect(add_query_arg('update', $update, $redirect));
 
 break;
 
@@ -194,7 +194,7 @@ case 'delete':
 	check_admin_referer('bulk-users');
 
 	if ( empty($_POST['users']) )
-		header('Location: ' . $redirect);
+		wp_redirect($redirect);
 
 	if ( !current_user_can('delete_users') )
 		$errors = new WP_Error('edit_users', __('You can&#8217;t delete users.'));
@@ -261,7 +261,7 @@ case 'adduser':
 	else {
 		$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_POST['user_login']), true));
 		$redirect = add_query_arg('usersearch', $new_user_login, $redirect);
-		header('Location: ' . add_query_arg('update', $update, $redirect) . '#user-' . $user_id);
+		wp_redirect(add_query_arg('update', $update, $redirect) . '#user-' . $user_id);
 		die();
 	}
 

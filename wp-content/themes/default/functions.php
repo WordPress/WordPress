@@ -123,7 +123,7 @@ function kubrick_add_theme_page() {
 				}
 			}
 			//print_r($_REQUEST);
-			header("Location: themes.php?page=functions.php&saved=true");
+			wp_redirect("themes.php?page=functions.php&saved=true");
 			die;
 		}
 		add_action('admin_head', 'kubrick_theme_page_head');

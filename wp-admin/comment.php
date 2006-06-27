@@ -118,9 +118,9 @@ case 'deletecomment':
 		wp_delete_comment($comment->comment_ID);
 
 	if ((wp_get_referer() != '') && (false == $noredir)) {
-		header('Location: ' . wp_get_referer());
+		wp_redirect(wp_get_referer());
 	} else {
-		header('Location: '. get_settings('siteurl') .'/wp-admin/edit-comments.php');
+		wp_redirect(get_settings('siteurl') .'/wp-admin/edit-comments.php');
 	}
 	exit();
 	break;
@@ -145,9 +145,9 @@ case 'unapprovecomment':
 	wp_set_comment_status($comment->comment_ID, "hold");
 
 	if ((wp_get_referer() != "") && (false == $noredir)) {
-		header('Location: ' . wp_get_referer());
+		wp_redirect(wp_get_referer());
 	} else {
-		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		wp_redirect(get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
 	exit();
 	break;
@@ -176,9 +176,9 @@ case 'approvecomment':
 
 
 	if ((wp_get_referer() != "") && (false == $noredir)) {
-		header('Location: ' . wp_get_referer());
+		wp_redirect(wp_get_referer());
 	} else {
-		header('Location: '. get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		wp_redirect(get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
 	exit();
 	break;
@@ -194,9 +194,9 @@ case 'editedcomment':
 
 	$referredby = $_POST['referredby'];
 	if (!empty($referredby)) {
-		header('Location: ' . $referredby);
+		wp_redirect($referredby);
 	} else {
-		header ("Location: edit.php?p=$comment_post_ID&c=1#comments");
+		wp_redirect("edit.php?p=$comment_post_ID&c=1#comments");
 	}
 
 	break;

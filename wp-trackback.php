@@ -55,7 +55,7 @@ if ( !intval( $tb_id ) )
 
 if (empty($title) && empty($tb_url) && empty($blog_name)) {
 	// If it doesn't look like a trackback at all...
-	header('Location: ' . get_permalink($tb_id));
+	wp_redirect(get_permalink($tb_id));
 	exit;
 }
 

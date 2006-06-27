@@ -47,7 +47,7 @@ else
 if( !is_wp_error( $errors ) ) {
 	$redirect = "user-edit.php?user_id=$user_id&updated=true";
 	$redirect = add_query_arg('wp_http_referer', urlencode($wp_http_referer), $redirect);
-	header("Location: $redirect");
+	wp_redirect($redirect);
 	exit;
 }
 

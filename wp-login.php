@@ -30,7 +30,7 @@ case 'logout':
 
 	$redirect_to = 'wp-login.php';
 	if ( isset($_REQUEST['redirect_to']) )
-		$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $_REQUEST['redirect_to']);
+		$redirect_to = $_REQUEST['redirect_to'];
 
 	wp_redirect($redirect_to);
 	exit();
@@ -173,7 +173,6 @@ default:
 		$redirect_to = 'wp-admin/';
 	else
 		$redirect_to = $_REQUEST['redirect_to'];
-	$redirect_to = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $redirect_to);
 
 	if( $_POST ) {
 		$user_login = $_POST['log'];
@@ -240,7 +239,7 @@ if ( $error )
   <?php _e('Remember me'); ?></label></p>
 <p class="submit">
 	<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="4" />
-	<input type="hidden" name="redirect_to" value="<?php echo $redirect_to; ?>" />
+	<input type="hidden" name="redirect_to" value="<?php echo wp_specialchars($redirect_to); ?>" />
 </p>
 </form>
 <ul>

@@ -70,7 +70,7 @@ case 'update':
 	}
 
 	$file = basename(__FILE__);
-	header("Location: $file?ignored=$item_ignored&deleted=$item_deleted&approved=$item_approved&spam=$item_spam");
+	wp_redirect("$file?ignored=$item_ignored&deleted=$item_deleted&approved=$item_approved&spam=$item_spam");
 	exit();
 
 break;
