@@ -77,7 +77,7 @@ switch ($action) {
              " '$show_rating', '$show_updated', '$sort_order', '$sort_desc', '$text_before_link', '$text_after_link', \n" .
              " '$text_after_all', $list_limit)");
 
-      header('Location: link-categories.php');
+      wp_redirect('link-categories.php');
     break;
   } // end addcat
   case 'Delete':
@@ -96,7 +96,7 @@ switch ($action) {
     $wpdb->query("DELETE FROM $wpdb->linkcategories WHERE cat_id='$cat_id'");
     $wpdb->query("UPDATE $wpdb->links SET link_category=1 WHERE link_category='$cat_id'");
 
-    header('Location: link-categories.php');
+    wp_redirect('link-categories.php');
     break;
   } // end delete
   case 'Edit':
@@ -271,7 +271,7 @@ switch ($action) {
     } // end if save
 
 
-    header("Location: link-categories.php");
+    wp_redirect("link-categories.php");
     break;
   } // end editcat
   default:

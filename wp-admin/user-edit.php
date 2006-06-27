@@ -42,7 +42,7 @@ else
 	$errors = edit_user($user_id);
 
 if(count($errors) == 0) {
-	header("Location: user-edit.php?user_id=$user_id&updated=true");
+	wp_redirect("user-edit.php?user_id=$user_id&updated=true");
 	exit;
 }
 

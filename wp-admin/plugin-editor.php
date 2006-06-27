@@ -44,9 +44,9 @@ case 'update':
 		$f = fopen($real_file, 'w+');
 		fwrite($f, $newcontent);
 		fclose($f);
-		header("Location: plugin-editor.php?file=$file&a=te");
+		wp_redirect("plugin-editor.php?file=$file&a=te");
 	} else {
-		header("Location: plugin-editor.php?file=$file");
+		wp_redirect("plugin-editor.php?file=$file");
 	}
 
 	exit();

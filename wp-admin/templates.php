@@ -47,12 +47,12 @@ case 'update':
 		if ( $f ) {
 			fwrite($f, $newcontent);
 			fclose($f);
-			header("Location: templates.php?file=$file&a=te");
+			wp_redirect("templates.php?file=$file&a=te");
 		} else {
-			header("Location: templates.php?file=$file&a=err");
+			wp_redirect("templates.php?file=$file&a=err");
 		}
 	} else {
-		header("Location: templates.php?file=$file&a=err");
+		wp_redirect("templates.php?file=$file&a=err");
 	}
 
 	exit();

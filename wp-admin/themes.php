@@ -13,7 +13,7 @@ if ( isset($_GET['action']) ) {
 		
 		do_action('switch_theme', get_current_theme());
 		
-		header('Location: themes.php?activated=true');
+		wp_redirect('themes.php?activated=true');
 		exit;
 	}
 }

@@ -58,9 +58,9 @@ case 'update':
 		$f = fopen($real_file, 'w+');
 		fwrite($f, $newcontent);
 		fclose($f);
-		header("Location: theme-editor.php?file=$file&theme=$theme&a=te");
+		wp_redirect("theme-editor.php?file=$file&theme=$theme&a=te");
 	} else {
-		header("Location: theme-editor.php?file=$file&theme=$theme");
+		wp_redirect("theme-editor.php?file=$file&theme=$theme");
 	}
 
 	exit();

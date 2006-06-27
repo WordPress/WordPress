@@ -14,7 +14,7 @@ case 'promote':
 	check_admin_referer('bulk-users');
 
 	if (empty($_POST['users'])) {
-		header('Location: users.php');
+		wp_redirect('users.php');
 	}
 
 	if ( !current_user_can('edit_users') )
@@ -33,7 +33,7 @@ case 'promote':
  		$user->set_role($_POST['new_role']);
  	}
 		
-	header('Location: users.php?update=' . $update);
+	wp_redirect('users.php?update=' . $update);
 
 break;
 
@@ -42,7 +42,7 @@ case 'dodelete':
 	check_admin_referer('delete-users');
 
 	if ( empty($_POST['users']) ) {
-		header('Location: users.php');
+		wp_redirect('users.php');
 	}
 
 	if ( !current_user_can('edit_users') )
@@ -66,7 +66,7 @@ case 'dodelete':
 		}
 	}
 
-	header('Location: users.php?update=' . $update);
+	wp_redirect('users.php?update=' . $update);
 
 break;
 
@@ -74,9 +74,8 @@ case 'delete':
 
 	check_admin_referer('bulk-users');
 
-	if (empty($_POST['users'])) {
-		header('Location: users.php');
-	}
+	if ( empty($_POST['users']) )
+		wp_redirect('users.php');
 
 	if ( !current_user_can('edit_users') )
 		$error['edit_users'] = __('You can&#8217;t delete users.');
@@ -137,7 +136,7 @@ case 'adduser':
 	$errors = add_user();
 	
 	if(count($errors) == 0) {
-		header('Location: users.php?update=add');
+		wp_redirect('users.php?update=add');
 		die();
 	}
 

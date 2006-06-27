@@ -49,7 +49,7 @@ switch ($action) {
     //userlevel of the owner of the link then we can proceed.
 
     if (count($linkcheck) == 0) {
-        header('Location: ' . $this_file);
+        wp_redirect($this_file);
         exit;
     }
     $all_links = join(',', $linkcheck);
@@ -62,7 +62,7 @@ switch ($action) {
     $all_links = join(',', $ids_to_change);
     $q = $wpdb->query("update $wpdb->links SET link_owner='$newowner' WHERE link_id IN ($all_links)");
 
-    header('Location: ' . $this_file);
+    wp_redirect($this_file);
     break;
   }
   case 'visibility':
@@ -75,7 +75,7 @@ switch ($action) {
 
     //for each link id (in $linkcheck[]): toggle the visibility
     if (count($linkcheck) == 0) {
-        header('Location: ' . $this_file);
+        wp_redirect($this_file);
         exit;
     }
     $all_links = join(',', $linkcheck);
@@ -99,7 +99,7 @@ switch ($action) {
         $q = $wpdb->query("update $wpdb->links SET link_visible='Y' WHERE link_id IN ($all_linkson)");
     }
 
-    header('Location: ' . $this_file);
+    wp_redirect($this_file);
     break;
   }
   case 'move':
@@ -112,14 +112,14 @@ switch ($action) {
 
     //for each link id (in $linkcheck[]) change category to selected value
     if (count($linkcheck) == 0) {
-        header('Location: ' . $this_file);
+        wp_redirect($this_file);
         exit;
     }
     $all_links = join(',', $linkcheck);
     // should now have an array of links we can change
     $q = $wpdb->query("update $wpdb->links SET link_category='$category' WHERE link_id IN ($all_links)");
 
-    header('Location: ' . $this_file);
+    wp_redirect($this_file);
     break;
   }
 
@@ -129,7 +129,7 @@ switch ($action) {
 
 	add_link();
 	
-    header('Location: ' . wp_get_referer() . '?added=true');
+    wp_redirect(wp_get_referer() . '?added=true');
     break;
   } // end Add
 
