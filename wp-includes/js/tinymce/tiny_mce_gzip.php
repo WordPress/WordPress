@@ -44,7 +44,7 @@ function wp_tinymce_lang($path) {
 		$replace1 = "'tinyMCELang[\\1\\2\\1]\\3'.stripslashes('\\4').__('\\5').stripslashes('\\4')";
 
 		$search2 = "/\\s:\\s(['\"])(.*)\\1(,|\\s*})/Uem";
-		$replace2 = "' : '.stripslashes('\\1').__('\\2foo').stripslashes('\\1').'\\3'";
+		$replace2 = "' : '.stripslashes('\\1').__('\\2').stripslashes('\\1').'\\3'";
 
 		$search = array($search1, $search2);
 		$replace = array($replace1, $replace2);
