@@ -407,7 +407,8 @@ function get_autotoggle($id = 0) {
 }
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
-	$query = "optionall=$optionall&all=$all&sort_column=$sort_column&sort_order=$sort_order&list=$list&optiondates=$optiondates&optioncount=$optioncount&hide_empty=$hide_empty&use_desc_for_title=$use_desc_for_title&child_of=$child_of&feed=$feed&feed_image=$feed_image&exclude=$exclude&hierarchical=$hierarchical";
+	$query = compact('optionall', 'all', 'sort_column', 'sort_order', 'file', 'list', 'optiondates', 'optioncount', 'hide_empty', 'use_desc_for_title', 'children',
+		'child_of', 'categories', 'recurse', 'feed', 'feed_image', 'exclude', 'hierarchical');
 	return wp_list_cats($query);
 }
 
