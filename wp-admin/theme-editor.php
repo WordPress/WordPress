@@ -4,21 +4,7 @@ require_once('admin.php');
 $title = __("Edit Themes");
 $parent_file = 'themes.php';
 
-$wpvarstoreset = array('action','redirect','profile','error','warning','a','file', 'theme');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme'));
 
 $themes = get_themes();
 

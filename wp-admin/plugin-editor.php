@@ -4,21 +4,7 @@ require_once('admin.php');
 $title = __("Edit Plugins");
 $parent_file = 'plugins.php';
 
-$wpvarstoreset = array('action','redirect','profile','error','warning','a','file');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file'));
 
 $plugins = get_plugins();
 $plugin_files = array_keys($plugins);

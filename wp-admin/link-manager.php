@@ -10,22 +10,7 @@ $title = __('Manage Bookmarks');
 $this_file = $parent_file = 'link-manager.php';
 wp_enqueue_script( 'listman' );
 
-$wpvarstoreset = array ('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]');
-
-for ($i = 0; $i < count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset ($$wpvar)) {
-		if (empty ($_POST["$wpvar"])) {
-			if (empty ($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
 if (empty ($cat_id))
 	$cat_id = 'all';

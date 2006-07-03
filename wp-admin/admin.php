@@ -24,21 +24,7 @@ $what_to_show = get_settings('what_to_show');
 $date_format = get_settings('date_format');
 $time_format = get_settings('time_format');
 
-$wpvarstoreset = array('profile','redirect','redirect_url','a','popuptitle','popupurl','text', 'trackback', 'pingback');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-    $wpvar = $wpvarstoreset[$i];
-    if (!isset($$wpvar)) {
-        if (empty($_POST["$wpvar"])) {
-            if (empty($_GET["$wpvar"])) {
-                $$wpvar = '';
-            } else {
-                $$wpvar = $_GET["$wpvar"];
-            }
-        } else {
-            $$wpvar = $_POST["$wpvar"];
-        }
-    }
-}
+wp_reset_vars(array('profile', 'redirect', 'redirect_url', 'a', 'popuptitle', 'popupurl', 'text', 'trackback', 'pingback'));
 
 wp_enqueue_script( 'fat' );
 

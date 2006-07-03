@@ -3,22 +3,8 @@ require_once('admin.php');
 
 $parent_file = 'edit.php';
 $submenu_file = 'edit.php';
-$wpvarstoreset = array('action', 'safe_mode', 'withcomments', 'posts', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder' );
 
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-			$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'safe_mode', 'withcomments', 'posts', 'content', 'edited_post_title', 'comment_error', 'profile', 'trackback_url', 'excerpt', 'showcomments', 'commentstart', 'commentend', 'commentorder'));
 
 if ( isset( $_POST['deletepost'] ) )
 	$action = 'delete';

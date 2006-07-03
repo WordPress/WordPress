@@ -3,22 +3,8 @@ require_once('admin.php');
 
 $parent_file = 'edit.php';
 $submenu_file = 'edit-pages.php';
-$wpvarstoreset = array('action');
 
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-			$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action'));
 
 if (isset($_POST['deletepost'])) {
 $action = "delete";

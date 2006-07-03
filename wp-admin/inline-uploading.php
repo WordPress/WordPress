@@ -7,22 +7,7 @@ header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 if (!current_user_can('upload_files'))
 	die(__('You do not have permission to upload files.'));
 
-$wpvarstoreset = array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'attachment');
-
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-			$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'attachment'));
 
 $post = (int) $post;
 $images_width = 1;

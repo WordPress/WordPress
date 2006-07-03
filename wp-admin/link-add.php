@@ -6,24 +6,10 @@ $this_file = 'link-manager.php';
 $parent_file = 'link-manager.php';
 
 
-$wpvarstoreset = array('action', 'cat_id', 'linkurl', 'name', 'image',
+wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',
                        'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
-                       'notes', 'linkcheck[]');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-    $wpvar = $wpvarstoreset[$i];
-    if (!isset($$wpvar)) {
-        if (empty($_POST["$wpvar"])) {
-            if (empty($_GET["$wpvar"])) {
-                $$wpvar = '';
-            } else {
-                $$wpvar = $_GET["$wpvar"];
-            }
-        } else {
-            $$wpvar = $_POST["$wpvar"];
-        }
-    }
-}
+                       'notes', 'linkcheck[]'));
 
 wp_enqueue_script( array('xfn', 'dbx-admin-key?pagenow=link.php') );
 if ( current_user_can( 'manage_categories' ) )

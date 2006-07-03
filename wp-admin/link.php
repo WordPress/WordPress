@@ -1,22 +1,7 @@
 <?php
 require_once ('admin.php');
 
-$wpvarstoreset = array ('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]');
-
-for ($i = 0; $i < count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset ($$wpvar)) {
-		if (empty ($_POST["$wpvar"])) {
-			if (empty ($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
 
 if ('' != $_POST['deletebookmarks'])
 	$action = 'deletebookmarks';

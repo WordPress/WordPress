@@ -1953,4 +1953,20 @@ function get_udims($width, $height) {
 		return array((int) ($width / $height * 96), 96);
 }
 
+function wp_reset_vars($vars) {
+	for ($i=0; $i<count($vars); $i += 1) {
+		$var = $vars[$i];
+		global $$var;
+
+		if (!isset($$var)) {
+			if (empty($_REQUEST["$var"])) {
+				$$var = '';
+			} else {
+				$$var = $_REQUEST["$var"];
+				unset($_REQUEST["$wpvar"]);
+			}
+		}
+	}
+}
+
 ?>

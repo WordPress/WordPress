@@ -8,21 +8,7 @@ else
 	$parent_file = 'profile.php';
 $submenu_file = 'users.php';
 
-$wpvarstoreset = array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer'));
 
 $wp_http_referer = remove_query_arg(array('update', 'delete_count'), stripslashes($wp_http_referer));
 

@@ -5,21 +5,7 @@ $title = __('Moderate comments');
 $parent_file = 'edit.php';
 wp_enqueue_script( 'admin-comments' );
 
-$wpvarstoreset = array('action', 'item_ignored', 'item_deleted', 'item_approved', 'item_spam', 'feelinglucky');
-for ($i=0; $i<count($wpvarstoreset); $i += 1) {
-	$wpvar = $wpvarstoreset[$i];
-	if (!isset($$wpvar)) {
-		if (empty($_POST["$wpvar"])) {
-			if (empty($_GET["$wpvar"])) {
-				$$wpvar = '';
-			} else {
-				$$wpvar = $_GET["$wpvar"];
-			}
-		} else {
-			$$wpvar = $_POST["$wpvar"];
-		}
-	}
-}
+wp_reset_vars(array('action', 'item_ignored', 'item_deleted', 'item_approved', 'item_spam', 'feelinglucky'));
 
 $comment = array();
 if (isset($_POST["comment"])) {
