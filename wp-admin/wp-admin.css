@@ -848,6 +848,11 @@ table .vers, table .name {
 	padding-right: 2px;
 }
 
+#moremeta fieldset.dbx-box-closed {
+	background: url(images/box-butt.gif) no-repeat bottom;
+	padding-bottom: 9px;
+}
+
 /* handles */
 
 .dbx-handle  {
