@@ -42,6 +42,7 @@ add_filter('comment_url', 'clean_url');
 
 add_filter('comment_text', 'convert_chars');
 add_filter('comment_text', 'make_clickable');
+add_filter('comment_text', 'force_balance_tags', 25);
 add_filter('comment_text', 'wpautop', 30);
 add_filter('comment_text', 'convert_smilies', 20);
 
