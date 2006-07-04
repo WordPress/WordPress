@@ -305,6 +305,7 @@ class WP_Query {
 		if (isset($q['page'])) {
 			$q['page'] = trim($q['page'], '/');
 			$q['page'] = (int) $q['page'];
+			$q['page'] = abs($q['page']);
 		}
 	
 		$add_hours = intval(get_settings('gmt_offset'));
@@ -617,15 +618,21 @@ class WP_Query {
 
 		// Paging
 		if (empty($q['nopaging']) && ! $this->is_single && ! $this->is_page) {
-			$page = $q['paged'];
+			$page = abs(intval($q['paged']));
 			if (empty($page)) {
 				$page = 1;
 			}
 
 			if (($q['what_to_show'] == 'posts')) {
-				$pgstrt = '';
-				$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
-				$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
+				$q['offset'] = abs(intval($q['offset']));
+				if ( empty($q['offset']) ) {
+					$pgstrt = '';
+					$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
+					$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
+				} else { // we're ignoring $page and using 'offset'
+					$pgstrt = $q['offset'] . ', ';
+					$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
+				}
 			} elseif ($q['what_to_show'] == 'days') {
 				$startrow = $q['posts_per_page'] * (intval($page)-1);
 				$start_date = $wpdb->get_var("SELECT max(post_date) FROM $wpdb->posts $join WHERE (1=1) $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $startrow,1");
