@@ -842,11 +842,11 @@ class WP_Query {
 		}
 
 		if ( $this->is_attachment ) {
-			$where .= ' AND (post_type = "attachment")';
+			$where .= " AND (post_type = 'attachment')";
 		} elseif ($this->is_page) {
-			$where .= ' AND (post_type = "page")';
+			$where .= " AND (post_type = 'page')";
 		} elseif ($this->is_single) {
-			$where .= ' AND (post_type = "post")';
+			$where .= " AND (post_type = 'post')";
 		} else {
 			$where .= " AND (post_type = '$post_type' AND (post_status = 'publish'";
 
