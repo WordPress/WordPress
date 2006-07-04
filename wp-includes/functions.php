@@ -1013,7 +1013,7 @@ function wp_check_filetype($filename, $mimes = null) {
 function wp_proxy_check($ipnum) {
 	if ( get_option('open_proxy_check') && isset($ipnum) ) {
 		$rev_ip = implode( '.', array_reverse( explode( '.', $ipnum ) ) );
-		$lookup = $rev_ip . '.opm.blitzed.org.';
+		$lookup = $rev_ip . '.sbl-xbl.spamhaus.org.';
 		if ( $lookup != gethostbyname( $lookup ) )
 			return true;
 	}

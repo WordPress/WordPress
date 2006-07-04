@@ -206,7 +206,7 @@ function populate_options() {
 	add_option('page_uris');
 	add_option('blacklist_keys');
 	add_option('comment_registration', 0);
-	add_option('open_proxy_check', 1);
+	add_option('open_proxy_check', 0);
 	add_option('rss_language', 'en');
 	add_option('html_type', 'text/html');
 	// 1.5.1
