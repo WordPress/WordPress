@@ -55,9 +55,9 @@ foreach ($comments as $comment) {
 }
 ?>
 </ul>
-
-<?php endif; ?>
 </div>
+<?php endif; ?>
+
 
 <?php
 if ( $recentposts = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE post_status = 'publish' AND post_date_gmt < '$today' ORDER BY post_date DESC LIMIT 5") ) :
