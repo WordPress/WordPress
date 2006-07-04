@@ -5,8 +5,16 @@
 // The minimum level the user needs to access the item: between 0 and 10
 // The URL of the item's file
 $menu[0] = array(__('Dashboard'), 'read', 'index.php');
-$menu[5] = array(__('Write'), 'edit_posts', 'post-new.php');
-$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
+
+if ( strstr($_SERVER['REQUEST_URI'], 'edit-pages.php') )
+	$menu[5] = array(__('Write'), 'edit_pages', 'page-new.php');
+else
+	$menu[5] = array(__('Write'), 'edit_posts', 'post-new.php');
+if ( strstr($_SERVER['REQUEST_URI'], 'page-new.php') )
+	$menu[10] = array(__('Manage'), 'edit_pages', 'edit-pages.php');
+else
+	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
+
 $menu[20] = array(__('Bookmarks'), 'manage_links', 'link-manager.php');
 $menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
