@@ -501,6 +501,9 @@ function balanceTags($text, $is_comment = 0) {
 	return $newtext;
 }
 
+function force_balance_tags($text) {
+	return balanceTags($text, 0, true);
+}
 
 function format_to_edit($content, $richedit = false) {
 	$content = apply_filters('format_to_edit', $content);
