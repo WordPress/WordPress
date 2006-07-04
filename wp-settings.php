@@ -91,18 +91,8 @@ if ( defined('CUSTOM_USER_TABLE') )
 if ( defined('CUSTOM_USER_META_TABLE') )
 	$wpdb->usermeta = CUSTOM_USER_META_TABLE;
 
-// We're going to need to keep this around for a few months even though we're not using it internally
-
-$tableposts = $wpdb->posts;
-$tableusers = $wpdb->users;
-$tablecategories = $wpdb->categories;
-$tablepost2cat = $wpdb->post2cat;
-$tablecomments = $wpdb->comments;
-$tablelink2cat = $wpdb->link2cat;
-$tablelinks = $wpdb->links;
-$tablelinkcategories = $wpdb->linkcategories;
-$tableoptions = $wpdb->options;
-$tablepostmeta = $wpdb->postmeta;
+// To be removed in 2.2
+$tableposts = $tableusers = $tablecategories = $tablepost2cat = $tablecomments = $tablelink2cat = $tablelinks = $tablelinkcategories = $tableoptions = $tablepostmeta = '';
 
 if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
 	require (ABSPATH . 'wp-content/object-cache.php');
