@@ -91,7 +91,7 @@ bookmarks ordered by
 <option value="order_name" <?php if ($order_by == 'order_name') echo " selected='selected'";?>><?php _e('Name') ?></option>
 <option value="order_url" <?php if ($order_by == 'order_url') echo " selected='selected'";?>><?php _e('URI') ?></option>
 </select>
-<input type="submit" name="action" value="<?php _e('Update &raquo;') ?>" />
+<input type="submit" name="action" value="<?php _e('Update &raquo;') ?>" /></p>
 </form>
 
 <form id="links" method="post" action="link.php">
@@ -161,7 +161,7 @@ if ($links)
 <?php
 
 		echo '<td><a href="link.php?link_id='.$link->link_id.'&amp;action=edit" class="edit">'.__('Edit').'</a></td>';
-		echo '<td><a href="' . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . '"'." class='delete' onclick=\"return deleteSomething( 'link', $link->link_id , '".sprintf(__("You are about to delete the &quot;%s&quot; bookmark to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($link->link_name), js_escape($link->link_url)).'\' );" class="delete">'.__('Delete').'</a></td>';
+		echo '<td><a href="' . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . '"'." onclick=\"return deleteSomething( 'link', $link->link_id , '".sprintf(__("You are about to delete the &quot;%s&quot; bookmark to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($link->link_name), js_escape($link->link_url)).'\' );" class="delete">'.__('Delete').'</a></td>';
 		echo '<td align="center"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></td>';
 		echo "\n    </tr>\n";
 	}
@@ -172,7 +172,7 @@ if ($links)
 <div id="ajax-response"></div>
 
 <p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Bookmarks') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these bookmarks permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
-</div>
 </form>
+</div>
 
 <?php include('admin-footer.php'); ?>
