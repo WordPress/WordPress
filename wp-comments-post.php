@@ -12,7 +12,7 @@ if ( empty($status->comment_status) ) {
 	exit;
 } elseif ( 'closed' ==  $status->comment_status ) {
 	do_action('comment_closed', $comment_post_ID);
-	die( __('Sorry, comments are closed for this item.') );
+	wp_die( __('Sorry, comments are closed for this item.') );
 } elseif ( 'draft' == $status->post_status ) {
 	do_action('comment_on_draft', $comment_post_ID);
 	exit;
@@ -31,20 +31,20 @@ if ( $user->ID ) :
 	$comment_author_url   = $wpdb->escape($user->user_url);
 else :
 	if ( get_option('comment_registration') )
-		die( __('Sorry, you must be logged in to post a comment.') );
+		wp_die( __('Sorry, you must be logged in to post a comment.') );
 endif;
 
 $comment_type = '';
 
 if ( get_settings('require_name_email') && !$user->ID ) {
 	if ( 6 > strlen($comment_author_email) || '' == $comment_author )
-		die( __('Error: please fill the required fields (name, email).') );
+		wp_die( __('Error: please fill the required fields (name, email).') );
 	elseif ( !is_email($comment_author_email))
-		die( __('Error: please enter a valid email address.') );
+		wp_die( __('Error: please enter a valid email address.') );
 }
 
 if ( '' == $comment_content )
-	die( __('Error: please type a comment.') );
+	wp_die( __('Error: please type a comment.') );
 
 $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'user_ID');
 
