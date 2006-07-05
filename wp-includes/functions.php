@@ -2316,7 +2316,7 @@ function get_num_queries() {
 }
 
 function wp_nonce_url($actionurl, $action = -1) {
-	return add_query_arg('_wpnonce', wp_create_nonce($action), $actionurl);
+	return wp_specialchars(add_query_arg('_wpnonce', wp_create_nonce($action), $actionurl));
 }
 
 function wp_nonce_field($action = -1) {
