@@ -1874,7 +1874,7 @@ function wp_import_cleanup($id) {
 
 function wp_import_upload_form($action) {
 ?>
-<form enctype="multipart/form-data" id="import-upload-form" method="POST" action="<?php echo $action ?>">
+<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo $action ?>">
 <p>
 <label for="upload"><?php _e('Choose a file from your computer:'); ?></label> <input type="file" id="upload" name="import" size="25" />
 <input type="hidden" name="action" value="save" />

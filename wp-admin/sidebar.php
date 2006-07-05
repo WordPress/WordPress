@@ -48,7 +48,7 @@ form {
 </head>
 <body id="sidebar">
 <h1 id="wphead"><a href="http://wordpress.org/" rel="external">WordPress</a></h1>
-<form name="post" action="post.php" method="POST">
+<form name="post" action="post.php" method="post">
 <div><input type="hidden" name="action" value="post" />
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" name="mode" value="sidebar" />
