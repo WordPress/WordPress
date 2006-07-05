@@ -646,12 +646,12 @@ class Dotclear_Import {
 	function db_form()
 	{
 		echo '<ul>';
-		printf('<li><label for="dbuser">%s</label> <input type="text" name="dbuser" /></li>', __('Dotclear Database User:'));
-		printf('<li><label for="dbpass">%s</label> <input type="password" name="dbpass" /></li>', __('Dotclear Database Password:'));
-		printf('<li><label for="dbname">%s</label> <input type="text" name="dbname" /></li>', __('Dotclear Database Name:'));
-		printf('<li><label for="dbhost">%s</label> <input type="text" name="dbhost" value="localhost" /></li>', __('Dotclear Database Host:'));
-		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" value="dc_"/></li>', __('Dotclear Table prefix:'));
-		printf('<li><label for="dccharset">%s</label> <input type="text" name="dccharset" value="ISO-8859-15"/></li>', __('Originating character set:'));
+		printf('<li><label for="dbuser">%s</label> <input type="text" name="dbuser" id="dbuser" /></li>', __('Dotclear Database User:'));
+		printf('<li><label for="dbpass">%s</label> <input type="password" name="dbpass" id="dbpass" /></li>', __('Dotclear Database Password:'));
+		printf('<li><label for="dbname">%s</label> <input type="text" name="dbname" id="dbname" /></li>', __('Dotclear Database Name:'));
+		printf('<li><label for="dbhost">%s</label> <input type="text" name="dbhost" nameid="dbhost" value="localhost" /></li>', __('Dotclear Database Host:'));
+		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" id="dbprefix" value="dc_"/></li>', __('Dotclear Table prefix:'));
+		printf('<li><label for="dccharset">%s</label> <input type="text" name="dccharset" id="dccharset" value="ISO-8859-15"/></li>', __('Originating character set:'));
 		echo '</ul>';
 	}
 

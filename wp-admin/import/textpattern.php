@@ -569,11 +569,11 @@ class Textpattern_Import {
 	function db_form()
 	{
 		echo '<ul>';
-		printf('<li><label for="dbuser">%s</label> <input type="text" name="dbuser" /></li>', __('Textpattern Database User:'));
-		printf('<li><label for="dbpass">%s</label> <input type="password" name="dbpass" /></li>', __('Textpattern Database Password:'));
-		printf('<li><label for="dbname">%s</label> <input type="text" name="dbname" /></li>', __('Textpattern Database Name:'));
-		printf('<li><label for="dbhost">%s</label> <input type="text" name="dbhost" value="localhost" /></li>', __('Textpattern Database Host:'));
-		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" /></li>', __('Textpattern Table prefix (if any):'));
+		printf('<li><label for="dbuser">%s</label> <input type="text" name="dbuser" id="dbuser" /></li>', __('Textpattern Database User:'));
+		printf('<li><label for="dbpass">%s</label> <input type="password" name="dbpass" id="dbpass" /></li>', __('Textpattern Database Password:'));
+		printf('<li><label for="dbname">%s</label> <input type="text" id="dbname" name="dbname" /></li>', __('Textpattern Database Name:'));
+		printf('<li><label for="dbhost">%s</label> <input type="text" id="dbhost" name="dbhost" value="localhost" /></li>', __('Textpattern Database Host:'));
+		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" id="dbprefix"  /></li>', __('Textpattern Table prefix (if any):'));
 		echo '</ul>';
 	}
 
