@@ -284,8 +284,10 @@ die(__('This script was not meant to be called directly.'));
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
+<title></title>
 <meta http-equiv="imagetoolbar" content="no" />
 <script type="text/javascript">
+// <![CDATA[
 /* Define any variables we'll need, such as alternate URLs. */
 <?php echo $script; ?>
 function htmldecode(st) {
@@ -423,6 +425,7 @@ function sendToEditor(n) {
 	else
 		win.edInsertContent(win.edCanvas, h);
 }
+// ]]>
 </script>
 <style type="text/css">
 <?php if ( $action == 'links' ) : ?>
@@ -663,7 +666,7 @@ th {
 </div>
 <?php elseif ( $action == 'upload' ) : ?>
 <div class="tip"></div>
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo basename(__FILE__); ?>">
+<form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo basename(__FILE__); ?>">
 <table style="width:99%;">
 <tr>
 <th scope="row" align="right"><label for="upload"><?php _e('File:'); ?></label></th>
@@ -694,7 +697,6 @@ th {
 </td>
 </tr>
 </table>
-</div>
 </form>
 <?php elseif ( $action == 'links' ) : ?>
 <div id="links">
