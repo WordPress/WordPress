@@ -351,12 +351,12 @@ foreach ($results as $row) {
                 <td><?php echo $row->show_updated == 'Y' ? __('Yes') : __('No') ?></td>
                 <td><?php echo $row->sort_order ?></td>
                 <td><?php echo $row->sort_desc == 'Y' ? __('Yes') : __('No') ?></td>
-                <td nowrap="nowrap"><?php echo htmlentities($row->text_before_link)?>&nbsp;</td>
-                <td nowrap="nowrap"><?php echo htmlentities($row->text_after_link)?>&nbsp;</td>
-                <td nowrap="nowrap"><?php echo htmlentities($row->text_after_all)?></td>
+                <td nowrap="nowrap"><?php echo wp_specialchars($row->text_before_link)?>&nbsp;</td>
+                <td nowrap="nowrap"><?php echo wp_specialchars($row->text_after_link)?>&nbsp;</td>
+                <td nowrap="nowrap"><?php echo wp_specialchars($row->text_after_all)?></td>
                 <td><?php echo $row->list_limit ?></td>
                 <td><a href="link-categories.php?cat_id=<?php echo $row->cat_id?>&amp;action=Edit" class="edit"><?php _e('Edit') ?></a></td>
-                <td><a href="<?php echo wp_nonce_url("link-categories.php?cat_id=$row->cat_id?>&amp;action=Delete", 'delete-link-category_' . $row->cat_id) ?>" "onclick="return deleteSomething( 'link category', <?php echo $row->cat_id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; link category.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($row->cat_name)); ?>' );" class="delete"><?php _e('Delete') ?></a></td>
+                <td><a href="<?php echo wp_nonce_url("link-categories.php?cat_id=$row->cat_id?>&amp;action=Delete", 'delete-link-category_' . $row->cat_id) ?>" onclick="return deleteSomething( 'link category', <?php echo $row->cat_id . ", '" . sprintf(__("You are about to delete the &quot;%s&quot; link category.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($row->cat_name)); ?>' );" class="delete"><?php _e('Delete') ?></a></td>
               </tr>
 <?php
         ++$i;
@@ -370,7 +370,7 @@ foreach ($results as $row) {
 </div>
 
 <div class="wrap">
-    <form name="addcat" method="post">
+    <form name="addcat" method="post" action="">
     <?php wp_nonce_field('add-link-category'); ?>
       <input type="hidden" name="action" value="addcat" />
 	  <h2><?php _e('Add a Link Category:') ?></h2>
