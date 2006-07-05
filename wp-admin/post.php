@@ -117,14 +117,14 @@ case 'delete':
 	$post = & get_post($post_id);
 
 	if ( !current_user_can('delete_post', $post_id) )
-		die( __('You are not allowed to delete this post.') );
+		wp_die( __('You are not allowed to delete this post.') );
 
 	if ( $post->post_type == 'attachment' ) {
 		if ( ! wp_delete_attachment($post_id) )
-			die( __('Error in deleting...') );
+			wp_die( __('Error in deleting...') );
 	} else {
 		if ( !wp_delete_post($post_id) ) 
-			die( __('Error in deleting...') );
+			wp_die( __('Error in deleting...') );
 	}
 
 	$sendback = wp_get_referer();

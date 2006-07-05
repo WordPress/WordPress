@@ -3,12 +3,12 @@ require_once( dirname( dirname(__FILE__) ) . '/wp-config.php');
 require_once( ABSPATH . 'wp-includes/class-snoopy.php');
 
 if ( !get_option('use_linksupdate') )
-	die(__('Feature disabled.'));
+	wp_die(__('Feature disabled.'));
 
 $link_uris = $wpdb->get_col("SELECT link_url FROM $wpdb->links");
 
 if ( !$link_uris )
-	die('No links');
+	wp_die('No links');
 
 $link_uris = urlencode( join( $link_uris, "\n" ) );
 

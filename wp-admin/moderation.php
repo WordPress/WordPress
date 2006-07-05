@@ -21,7 +21,7 @@ case 'update':
 	check_admin_referer('moderate-comments');
 
 	if ( ! current_user_can('moderate_comments') )
-	die('<p>'.__('Your level is not high enough to moderate comments.').'</p>');
+	wp_die('<p>'.__('Your level is not high enough to moderate comments.').'</p>');
 
 	$item_ignored = 0;
 	$item_deleted = 0;

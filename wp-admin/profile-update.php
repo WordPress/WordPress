@@ -7,7 +7,7 @@ require_once('admin.php');
 check_admin_referer('update-profile_' . $user_ID);
 
 if ( !$_POST )
-	die( __('No post?') );
+	wp_die( __('No post?') );
 
 $errors = edit_user($user_ID);
 

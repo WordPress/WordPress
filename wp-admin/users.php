@@ -128,13 +128,13 @@ case 'promote':
 	}
 
 	if ( !current_user_can('edit_users') )
-		die(__('You can&#8217;t edit users.'));
+		wp_die(__('You can&#8217;t edit users.'));
 
 	$userids = $_POST['users'];
 	$update = 'promote';
 	foreach($userids as $id) {
 		if ( ! current_user_can('edit_user', $id) )
-			die(__('You can&#8217;t edit that user.'));
+			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have edit_users caps
 		if($id == $current_user->id && !$wp_roles->role_objects[$_POST['new_role']]->has_cap('edit_users')) {
 			$update = 'err_admin_role';
@@ -158,7 +158,7 @@ case 'dodelete':
 	}
 
 	if ( !current_user_can('delete_users') )
-		die(__('You can&#8217;t delete users.'));
+		wp_die(__('You can&#8217;t delete users.'));
 
 	$userids = $_POST['users'];
 	$update = 'del';
@@ -166,7 +166,7 @@ case 'dodelete':
 
 	foreach ( (array) $userids as $id) {
 		if ( ! current_user_can('delete_user', $id) )
-			die(__('You can&#8217;t delete that user.'));
+			wp_die(__('You can&#8217;t delete that user.'));
 
 		if($id == $current_user->id) {
 			$update = 'err_admin_del';
@@ -252,7 +252,7 @@ case 'adduser':
 	check_admin_referer('add-user');
 
 	if ( ! current_user_can('create_users') )
-		die(__('You can&#8217;t create users.'));
+		wp_die(__('You can&#8217;t create users.'));
 
 	$user_id = add_user();
 	$update = 'add';

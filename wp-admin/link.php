@@ -18,7 +18,7 @@ switch ($action) {
 
 		// check the current user's level first.
 		if (!current_user_can('manage_links'))
-			die(__("Cheatin' uh ?"));
+			wp_die(__("Cheatin' uh ?"));
 
 		//for each link id (in $linkcheck[]) change category to selected value
 		if (count($linkcheck) == 0) {
@@ -42,7 +42,7 @@ switch ($action) {
 
 		// check the current user's level first.
 		if (!current_user_can('manage_links'))
-			die(__("Cheatin' uh ?"));
+			wp_die(__("Cheatin' uh ?"));
 
 		//for each link id (in $linkcheck[]) change category to selected value
 		if (count($linkcheck) == 0) {
@@ -79,7 +79,7 @@ switch ($action) {
 		check_admin_referer('delete-bookmark_' . $link_id);
 
 		if (!current_user_can('manage_links'))
-			die(__("Cheatin' uh ?"));
+			wp_die(__("Cheatin' uh ?"));
 
 		wp_delete_link($link_id);
 
@@ -95,12 +95,12 @@ switch ($action) {
 		$title = __('Edit Bookmark');
 		include_once ('admin-header.php');
 		if (!current_user_can('manage_links'))
-			die(__('You do not have sufficient permissions to edit the bookmarks for this blog.'));
+			wp_die(__('You do not have sufficient permissions to edit the bookmarks for this blog.'));
 
 		$link_id = (int) $_GET['link_id'];
 
 		if (!$link = get_link_to_edit($link_id))
-			die(__('Link not found.'));
+			wp_die(__('Link not found.'));
 
 		include ('edit-link-form.php');
 		break;

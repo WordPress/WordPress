@@ -181,7 +181,7 @@ function wp_allow_comment($commentdata) {
 		$dupe .= "OR comment_author_email = '$comment_author_email' ";
 	$dupe .= ") AND comment_content = '$comment_content' LIMIT 1";
 	if ( $wpdb->get_var($dupe) )
-		die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
+		wp_die( __('Duplicate comment detected; it looks as though you\'ve already said that!') );
 
 	// Simple flood-protection
 	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$comment_author_IP' OR comment_author_email = '$comment_author_email' ORDER BY comment_date DESC LIMIT 1") ) {
@@ -189,7 +189,7 @@ function wp_allow_comment($commentdata) {
 		$time_newcomment  = mysql2date('U', $comment_date_gmt);
 		if ( ($time_newcomment - $time_lastcomment) < 15 ) {
 			do_action('comment_flood_trigger', $time_lastcomment, $time_newcomment);
-			die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
+			wp_die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
 		}
 	}
 

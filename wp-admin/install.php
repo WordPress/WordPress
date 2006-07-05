@@ -74,7 +74,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 <?php
 // Let's check to make sure WP isn't already installed.
-if ( is_blog_installed() ) die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');
+if ( is_blog_installed() ) wp_die('<h1>'.__('Already Installed').'</h1><p>'.__('You appear to have already installed WordPress. To reinstall please clear your old database tables first.').'</p></body></html>');
 
 switch($step) {
 

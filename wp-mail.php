@@ -17,7 +17,7 @@ if (!$pop3->connect(get_settings('mailserver_url'), get_settings('mailserver_por
 endif;
 
 $count = $pop3->login(get_settings('mailserver_login'), get_settings('mailserver_pass'));
-if (0 == $count) die(__('There doesn&#8217;t seem to be any new mail.'));
+if (0 == $count) wp_die(__('There doesn&#8217;t seem to be any new mail.'));
 
 
 for ($i=1; $i <= $count; $i++) :

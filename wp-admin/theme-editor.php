@@ -16,7 +16,7 @@ if (empty($theme)) {
 
 
 if ( ! isset($themes[$theme]) )
-	die(__('The requested theme does not exist.'));
+	wp_die(__('The requested theme does not exist.'));
 
 $allowed_files = array_merge($themes[$theme]['Stylesheet Files'], $themes[$theme]['Template Files']);
 
@@ -36,7 +36,7 @@ case 'update':
 	check_admin_referer('edit-theme_' . $file . $theme);
 
 	if ( !current_user_can('edit_themes') )
-		die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
+		wp_die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	$theme = urlencode($theme);
@@ -57,7 +57,7 @@ default:
 
 	require_once('admin-header.php');
 	if ( !current_user_can('edit_themes') )
-		die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
+		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
 
 	update_recently_edited($file);
 

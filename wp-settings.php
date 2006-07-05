@@ -5,7 +5,7 @@ function unregister_GLOBALS() {
 		return;
 
 	if ( isset($_REQUEST['GLOBALS']) )
-		die('GLOBALS overwrite attempt detected');
+		wp_die('GLOBALS overwrite attempt detected');
 
 	// Variables that shouldn't be unset
 	$noUnset = array('GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix');
@@ -47,10 +47,10 @@ if ( empty($PHP_SELF) )
 	$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace("/(\?.*)?$/",'',$_SERVER["REQUEST_URI"]);
 
 if ( !(phpversion() >= '4.1') )
-	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
+	wp_die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
 
 if ( !extension_loaded('mysql') )
-	die( 'Your PHP installation appears to be missing the MySQL which is required for WordPress.' );
+	wp_die( 'Your PHP installation appears to be missing the MySQL which is required for WordPress.' );
 
 function timer_start() {
 	global $timestart;
@@ -111,7 +111,7 @@ if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !d
 		$link = 'install.php';
 	else
 		$link = 'wp-admin/install.php';
-	die(sprintf(__("It doesn't look like you've installed WP yet. Try running <a href='%s'>install.php</a>."), $link));
+	wp_die(sprintf(__("It doesn't look like you've installed WP yet. Try running <a href='%s'>install.php</a>."), $link));
 }
 
 require (ABSPATH . WPINC . '/formatting.php');

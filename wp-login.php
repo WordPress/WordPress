@@ -98,7 +98,7 @@ case 'retrievepassword':
 	$user_email = $user_data->user_email;
 
 	if (!$user_email || $user_email != $_POST['email'])
-		die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
+		wp_die(sprintf(__('Sorry, that user does not seem to exist in our database. Perhaps you have the wrong username or e-mail address? <a href="%s">Try again</a>.'), 'wp-login.php?action=lostpassword'));
 
 do_action('retreive_password', $user_login);  // Misspelled and deprecated.
 do_action('retrieve_password', $user_login);
@@ -132,10 +132,10 @@ case 'rp' :
 	// Generate something random for a password... md5'ing current time with a rand salt
 	$key = preg_replace('/a-z0-9/i', '', $_GET['key']);
 	if ( empty($key) )
-		die( __('Sorry, that key does not appear to be valid.') );
+		wp_die( __('Sorry, that key does not appear to be valid.') );
 	$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_activation_key = '$key'");
 	if ( !$user )
-		die( __('Sorry, that key does not appear to be valid.') );
+		wp_die( __('Sorry, that key does not appear to be valid.') );
 
 	do_action('password_reset');
 

@@ -71,7 +71,7 @@ class TinyPspellShell {
 			fwrite($fh, "^$word\n");
 			fclose($fh);
 		} else
-			die("Error opening tmp file.");
+			wp_die("Error opening tmp file.");
 
 		$data = shell_exec($this->cmd);
 		@unlink($this->tmpfile);

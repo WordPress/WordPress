@@ -23,7 +23,7 @@ case 'update':
 	check_admin_referer('edit-plugin_' . $file);
 
 	if ( !current_user_can('edit_plugins') )
-		die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
+		wp_die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
 
 	$newcontent = stripslashes($_POST['newcontent']);
 	if (is_writeable($real_file)) {
@@ -43,7 +43,7 @@ default:
 
 	require_once('admin-header.php');
 	if ( !current_user_can('edit_plugins') )
-		die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
+		wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
 
 	update_recently_edited("wp-content/plugins/$file");
 

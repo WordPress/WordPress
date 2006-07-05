@@ -89,7 +89,7 @@ foreach ($categories as $category) {
 					$file = wp_handle_upload($_FILES['userfile'], $overrides);
 
 					if ( isset($file['error']) )
-						die($file['error']);
+						wp_die($file['error']);
 
 					$url = $file['url'];
 					$opml_url = $file['file'];

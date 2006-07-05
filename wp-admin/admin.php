@@ -45,11 +45,11 @@ if (isset($_GET['page'])) {
 		do_action($page_hook);
 	} else {
 		if ( validate_file($plugin_page) ) {
-			die(__('Invalid plugin page'));
+			wp_die(__('Invalid plugin page'));
 		}
 
 		if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page"))
-			die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
+			wp_die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
 
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . '/wp-admin/admin-header.php');
@@ -65,11 +65,11 @@ if (isset($_GET['page'])) {
 	$importer = $_GET['import'];
 
 	if ( validate_file($importer) ) {
-		die(__('Invalid importer.'));
+		wp_die(__('Invalid importer.'));
 	}
 
 	if (! file_exists(ABSPATH . "wp-admin/import/$importer.php"))
-		die(__('Cannot load importer.'));
+		wp_die(__('Cannot load importer.'));
 
 	include(ABSPATH . "wp-admin/import/$importer.php");
 

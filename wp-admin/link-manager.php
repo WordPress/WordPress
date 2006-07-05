@@ -22,7 +22,7 @@ $title = __('Manage Bookmarks');
 include_once ("./admin-header.php");
 
 if (!current_user_can('manage_links'))
-	die(__("You do not have sufficient permissions to edit the bookmarks for this blog."));
+	wp_die(__("You do not have sufficient permissions to edit the bookmarks for this blog."));
 
 switch ($order_by) {
 	case 'order_id' :

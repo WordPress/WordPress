@@ -6,10 +6,10 @@ function write_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ( !current_user_can('edit_pages') )
-			die(__('You are not allowed to create pages on this blog.'));
+			wp_die(__('You are not allowed to create pages on this blog.'));
 	} else {
 		if ( !current_user_can('edit_posts') )
-			die(__('You are not allowed to create posts or drafts on this blog.'));
+			wp_die(__('You are not allowed to create posts or drafts on this blog.'));
 	}
 
 	// Rename.
@@ -32,10 +32,10 @@ function write_post() {
 	if ($_POST['post_author'] != $_POST['user_ID']) {
 		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can('edit_others_pages') )
-				die(__('You cannot create pages as this user.'));
+				wp_die(__('You cannot create pages as this user.'));
 		} else {
 			if ( !current_user_can('edit_others_posts') )
-				die(__('You cannot post as this user.'));
+				wp_die(__('You cannot post as this user.'));
 
 		}
 	}
@@ -151,10 +151,10 @@ function edit_post() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ( !current_user_can('edit_page', $post_ID) )
-			die(__('You are not allowed to edit this page.'));
+			wp_die(__('You are not allowed to edit this page.'));
 	} else {
 		if ( !current_user_can('edit_post', $post_ID) )
-			die(__('You are not allowed to edit this post.'));
+			wp_die(__('You are not allowed to edit this post.'));
 	}
 
 	// Rename.
@@ -176,10 +176,10 @@ function edit_post() {
 	if ($_POST['post_author'] != $_POST['user_ID']) {
 		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can('edit_others_pages') )
-				die(__('You cannot edit pages as this user.'));
+				wp_die(__('You cannot edit pages as this user.'));
 		} else {
 			if ( !current_user_can('edit_others_posts') )
-				die(__('You cannot edit posts as this user.'));
+				wp_die(__('You cannot edit posts as this user.'));
 
 		}
 	}
@@ -251,7 +251,7 @@ function edit_comment() {
 	$comment_post_ID = (int) $_POST['comment_post_ID'];
 
 	if (!current_user_can('edit_post', $comment_post_ID))
-		die(__('You are not allowed to edit comments on this post, so you cannot edit this comment.'));
+		wp_die(__('You are not allowed to edit comments on this post, so you cannot edit this comment.'));
 
 	$_POST['comment_author'] = $_POST['newcomment_author'];
 	$_POST['comment_author_email'] = $_POST['newcomment_author_email'];
@@ -530,7 +530,7 @@ function add_link() {
 
 function edit_link($link_id = '') {
 	if (!current_user_can('manage_links'))
-		die(__("Cheatin' uh ?"));
+		wp_die(__("Cheatin' uh ?"));
 
 	$_POST['link_url'] = wp_specialchars($_POST['link_url']);
 	$_POST['link_url'] = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $_POST['link_url']) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
@@ -1521,13 +1521,13 @@ function validate_file_to_edit($file, $allowed_files = '') {
 
 	switch ($code) {
 		case 1 :
-			die(__('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.'));
+			wp_die(__('Sorry, can&#8217;t edit files with ".." in the name. If you are trying to edit a file in your WordPress home directory, you can just type the name of the file in.'));
 
 		case 2 :
-			die(__('Sorry, can&#8217;t call files with their real path.'));
+			wp_die(__('Sorry, can&#8217;t call files with their real path.'));
 
 		case 3 :
-			die(__('Sorry, that file cannot be edited.'));
+			wp_die(__('Sorry, that file cannot be edited.'));
 	}
 }
 
@@ -1844,7 +1844,7 @@ function wp_handle_upload(&$file, $overrides = false) {
 	// Move the file to the uploads dir
 	$new_file = $uploads['path'] . "/$filename";
 	if ( false === @ move_uploaded_file($file['tmp_name'], $new_file) )
-		die(printf(__('The uploaded file could not be moved to %s.'), $file['path']));
+		wp_die(printf(__('The uploaded file could not be moved to %s.'), $file['path']));
 
 	// Set correct file permissions
 	$stat = stat(dirname($new_file));

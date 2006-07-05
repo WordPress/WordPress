@@ -31,10 +31,10 @@ case 'delete':
 
 	// Don't delete the default cats.
     if ( $cat_ID == get_option('default_category') )
-		die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one"), $cat_name));
+		wp_die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
     if ( $cat_ID == get_option('default_link_category') )
-		die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one for bookmarks"), $cat_name));
+		wp_die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one for bookmarks"), $cat_name));
 
 	wp_delete_category($cat_ID);
 

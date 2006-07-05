@@ -5,7 +5,7 @@ require_once('admin.php');
 header('Content-Type: text/html; charset=' . get_option('blog_charset'));
 
 if (!current_user_can('upload_files'))
-	die(__('You do not have permission to upload files.'));
+	wp_die(__('You do not have permission to upload files.'));
 
 wp_reset_vars(array('action', 'post', 'all', 'last', 'link', 'sort', 'start', 'imgtitle', 'descr', 'attachment'));
 
@@ -22,7 +22,7 @@ case 'delete':
 check_admin_referer('inlineuploading');
 
 if ( !current_user_can('edit_post', (int) $attachment) )
-	die(__('You are not allowed to delete this attachment.').' <a href="'.basename(__FILE__)."?post=$post&amp;all=$all&amp;action=upload\">".__('Go back').'</a>');
+	wp_die(__('You are not allowed to delete this attachment.').' <a href="'.basename(__FILE__)."?post=$post&amp;all=$all&amp;action=upload\">".__('Go back').'</a>');
 
 wp_delete_attachment($attachment);
 
@@ -38,7 +38,7 @@ $overrides = array('action'=>'save');
 $file = wp_handle_upload($_FILES['image'], $overrides);
 
 if ( isset($file['error']) )
-	die($file['error'] . '<br /><a href="' . basename(__FILE__) . '?action=upload&post=' . $post . '">'.__('Back to Image Uploading').'</a>');
+	wp_die($file['error'] . '<br /><a href="' . basename(__FILE__) . '?action=upload&post=' . $post . '">'.__('Back to Image Uploading').'</a>');
 
 $url = $file['url'];
 $type = $file['type'];
@@ -276,7 +276,7 @@ $images_width = $uwidth_sum + ( count($images) * 6 ) + 35;
 break;
 
 default:
-die(__('This script was not meant to be called directly.'));
+wp_die(__('This script was not meant to be called directly.'));
 }
 
 ?>

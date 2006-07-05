@@ -19,10 +19,10 @@ case 'editcomment':
 	$comment = (int) $_GET['comment'];
 
 	if ( ! $comment = get_comment($comment) )
-		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
+		wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		die( __('You are not allowed to edit comments on this post.') );
+		wp_die( __('You are not allowed to edit comments on this post.') );
 
 	$comment = get_comment_to_edit($comment);
 
@@ -42,10 +42,10 @@ case 'mailapprovecomment':
 	$nonce_action .= $comment;
 
 	if ( ! $comment = get_comment($comment) )
-		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+		wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		die( 'confirmdeletecomment' == $action ? __('You are not allowed to delete comments on this post.') : __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
+		wp_die( 'confirmdeletecomment' == $action ? __('You are not allowed to delete comments on this post.') : __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 
 	echo "<div class='wrap'>\n";
 	if ( 'spam' == $_GET['delete_type'] )
@@ -90,13 +90,13 @@ case 'deletecomment':
 	}
 
 	$postdata = get_post($p) or 
-		die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+		wp_die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( ! $comment = get_comment($comment) )
-			 die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit-comments.php'));
+			 wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit-comments.php'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		die( __('You are not allowed to edit comments on this post.') );
+		wp_die( __('You are not allowed to edit comments on this post.') );
 
 	if ( 'spam' == $_REQUEST['delete_type'] )
 		wp_set_comment_status($comment->comment_ID, 'spam');
@@ -123,10 +123,10 @@ case 'unapprovecomment':
 	}
 
 	if ( ! $comment = get_comment($comment) )
-		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+		wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		die( __('You are not allowed to edit comments on this post, so you cannot disapprove this comment.') );
+		wp_die( __('You are not allowed to edit comments on this post, so you cannot disapprove this comment.') );
 
 	wp_set_comment_status($comment->comment_ID, "hold");
 
@@ -150,10 +150,10 @@ case 'approvecomment':
 	}
 
 	if ( ! $comment = get_comment($comment) )
-		die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
+		wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
+		wp_die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 
 	wp_set_comment_status($comment->comment_ID, "approve");
 	if (get_settings("comments_notify") == true) {
