@@ -36,7 +36,7 @@ if (empty ($importers)) {
 	$style = '';
 	foreach ($importers as $id => $data) {
 		$style = ('class="alternate"' == $style || 'class="alternate active"' == $style) ? '' : 'alternate';
-		$action = "<a href='admin.php?import=$id' title='{$data[1]}'>{$data[0]}</a>";
+		$action = "<a href='admin.php?import=$id' title='".wptexturize(strip_tags($data[1]))."'>{$data[0]}</a>";
 
 		if ($style != '')
 			$style = 'class="'.$style.'"';
