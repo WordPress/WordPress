@@ -1,17 +1,18 @@
 <?php
 define('WP_INSTALLING', true);
 
-if (file_exists('../wp-config.php')) 
-	die("The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.");
-
 if (!file_exists('../wp-config-sample.php'))
     die('Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.');
+
 $configFile = file('../wp-config-sample.php');
 
 if (!is_writable('../')) die("Sorry, I can't write to the directory. You'll have to either change the permissions on your WordPress directory or create your wp-config.php manually.");
 
-$step = 0;
-if(isset($_GET['step'])) $step = $_GET['step'];
+
+if (isset($_GET['step']))
+	$step = $_GET['step'];
+else
+	$step = 0;
 header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -20,45 +21,74 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <title>WordPress &rsaquo; Setup Configuration File</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style media="screen" type="text/css">
-    <!--
+	<!--
+	html {
+		background: #eee;
+	}
 	body {
+		background: #fff;
+		color: #000;
 		font-family: Georgia, "Times New Roman", Times, serif;
-		margin-left: 15%;
-		margin-right: 15%;
+		margin-left: 20%;
+		margin-right: 20%;
+		padding: .2em 2em;
+	}
+
+	h1 {
+		color: #006;
+		font-size: 18px;
+		font-weight: lighter;
+	}
+
+	h2 {
+		font-size: 16px;
+	}
+
+	p, li, dt {
+		line-height: 140%;
+		padding-bottom: 2px;
+	}
+
+	ul, ol {
+		padding: 5px 5px 5px 20px;
 	}
 	#logo {
-		margin: 0;
-		padding: 0;
-		background-image: url(http://wordpress.org/images/logo.png);
-		background-repeat: no-repeat;
-		height: 60px;
-		border-bottom: 4px solid #333;
+		margin-bottom: 2em;
 	}
-	#logo a {
-		display: block;
-		height: 60px;
+	.step a, .step input {
+		font-size: 2em;
 	}
-	#logo a span {
-		display: none;
+	td input {
+		font-size: 1.5em;
 	}
-	p, li {
-		line-height: 140%;
+	.step, th {
+		text-align: right;
 	}
-    -->
+	#footer {
+		text-align: center;
+		border-top: 1px solid #ccc;
+		padding-top: 1em;
+		font-style: italic;
+	}
+	-->
 	</style>
 </head>
-<body> 
-<h1 id="logo"><a href="http://wordpress.org/"><span>WordPress</span></a></h1> 
+<body>
+<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
 <?php
+// Check if wp-config.php has been created
+if (file_exists('../wp-config.php'))
+	die("<p>The file 'wp-config.php' already exists. If you need to reset any of the configuration items in this file, please delete it first. You may try <a href='install.php'>installing now</a>.</p></body></html>");
 
 switch($step) {
 	case 0:
 ?> 
+
 <p>Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding.</p> 
 <ol> 
   <li>Database name</li> 
   <li>Database username</li> 
-  <li>Database password</li> 
+  <li>Database password</li>
   <li>Database host</li> 
   <li>Table prefix (if you want to run more than one WordPress in a single database) </li>
 </ol> 
@@ -70,40 +100,42 @@ switch($step) {
 	case 1:
 	?> 
 </p> 
-<form method="post" action="setup-config.php?step=2"> 
+<form method="post" action="setup-config.php?step=2">
   <p>Below you should enter your database connection details. If you're not sure about these, contact your host. </p>
   <table> 
     <tr> 
       <th scope="row">Database Name</th> 
-      <td><input name="dbname" type="text" size="45" value="wordpress" /></td> 
+      <td><input name="dbname" type="text" size="25" value="wordpress" /></td>
       <td>The name of the database you want to run WP in. </td> 
     </tr> 
     <tr> 
       <th scope="row">User Name</th> 
-      <td><input name="uname" type="text" size="45" value="username" /></td> 
+      <td><input name="uname" type="text" size="25" value="username" /></td>
       <td>Your MySQL username</td> 
     </tr> 
     <tr> 
       <th scope="row">Password</th> 
-      <td><input name="pwd" type="text" size="45" value="password" /></td> 
+      <td><input name="pwd" type="text" size="25" value="password" /></td>
       <td>...and MySQL password.</td> 
     </tr> 
     <tr> 
       <th scope="row">Database Host</th> 
-      <td><input name="dbhost" type="text" size="45" value="localhost" /></td> 
+      <td><input name="dbhost" type="text" size="25" value="localhost" /></td>
       <td>99% chance you won't need to change this value.</td> 
     </tr>
     <tr>
       <th scope="row">Table Prefix</th>
-      <td><input name="prefix" type="text" id="prefix" value="wp_" size="45" /></td>
+      <td><input name="prefix" type="text" id="prefix" value="wp_" size="25" /></td>
       <td>If you want to run multiple WordPress installations in a single database, change this.</td>
     </tr> 
-  </table> 
-  <input name="submit" type="submit" value="Submit" /> 
+  </table>
+  <h2 class="step">
+  <input name="submit" type="submit" value="Submit" />
+  </h2>
 </form> 
 <?php
 	break;
-	
+
 	case 2:
 	$dbname  = trim($_POST['dbname']);
     $uname   = trim($_POST['uname']);
@@ -149,8 +181,8 @@ switch($step) {
 <p>All right sparky! You've made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to <a href="install.php">run the install!</a></p> 
 <?php
 	break;
-
 }
-?> 
+?>
+<p id="footer"><a href="http://wordpress.org/">WordPress</a>, personal publishing platform.</p>
 </body>
 </html>
