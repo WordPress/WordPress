@@ -207,9 +207,7 @@ default:
 			if ( $using_cookie )
 				$error = __('Your session has expired.');
 		}
-	} else if ( empty($user_login) ) {
-		$error = __('<strong>Error</strong>: The username field is empty.');
-	} else if ( empty($user_pass) ) {
+	} else if ( $user_login || $user_pass ) {
 		$error = __('<strong>Error</strong>: The password field is empty.');
 	}
 ?>
