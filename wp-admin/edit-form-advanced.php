@@ -156,7 +156,7 @@ endforeach;
 </fieldset>
 
 <script type="text/javascript">
-<!--
+// <![CDATA[
 edCanvas = document.getElementById('content');
 <?php if ( user_can_richedit() ) : ?>
 // This code is meant to allow tabbing from Title to Post (TinyMCE).
@@ -191,7 +191,7 @@ else
 			}
 		}
 <?php endif; ?>
-//-->
+// ]]>
 </script>
 
 <?php echo $form_pingback ?>

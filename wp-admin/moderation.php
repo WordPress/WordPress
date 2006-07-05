@@ -152,10 +152,10 @@ echo '<a href="post.php?action=editcomment&amp;comment='.$comment->comment_ID.'"
 <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php _e('View Post') ?></a> | 
 <?php 
 echo " <a href=\"" . wp_nonce_url("post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . "\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . __("You are about to delete this comment.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete.") . "' );\">" . __('Delete just this comment') . "</a> | "; ?>  <?php _e('Bulk action:') ?>
-	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-approve" value="approve" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-approve"><?php _e('Approve') ?></label>
-	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-spam" value="spam" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-spam"><?php _e('Spam') ?></label>
-	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-delete" value="delete" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-delete"><?php _e('Delete') ?></label>
-	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment[<?php echo $comment->comment_ID; ?>]-nothing" value="later" checked="checked" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-nothing"><?php _e('Defer until later') ?></label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment-<?php echo $comment->comment_ID; ?>-approve" value="approve" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-approve"><?php _e('Approve') ?></label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment-<?php echo $comment->comment_ID; ?>-spam" value="spam" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-spam"><?php _e('Spam') ?></label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment-<?php echo $comment->comment_ID; ?>-delete" value="delete" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-delete"><?php _e('Delete') ?></label>
+	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment-<?php echo $comment->comment_ID; ?>-nothing" value="later" checked="checked" /> <label for="comment[<?php echo $comment->comment_ID; ?>]-nothing"><?php _e('Defer until later') ?></label>
 	</p>
 
 	</li>
