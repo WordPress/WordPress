@@ -261,6 +261,7 @@ function wp_redirect($location) {
 	global $is_IIS;
 
 	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $location);
+	$location = wp_kses_no_null($location);
 
 	$strip = array('%0d', '%0a');
 	$location = str_replace($strip, '', $location);
