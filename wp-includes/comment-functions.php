@@ -315,8 +315,8 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 		if (!empty($CSSclass)) {
 			echo ' class="'.$CSSclass.'"';
 		}
-		$title = wp_specialchars(apply_filters('the_title', get_the_title()));
-		echo ' title="' . sprintf( __('Comment on %s'), wp_specialchars($title, 'double') ) .'">';
+		$title = wp_specialchars(apply_filters('the_title', get_the_title()), true);
+		echo ' title="' . sprintf( __('Comment on %s'), $title ) .'">';
 		comments_number($zero, $one, $more, $number);
 		echo '</a>';
 	}
