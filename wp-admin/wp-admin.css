@@ -930,6 +930,55 @@ table .vers {
 	background: url(images/box-bg.gif) repeat-y right;
 }
 
+#advancedstuff h3.dbx-handle {
+	margin-left: 7px;
+	margin-bottom: -7px;
+	padding: 6px 1em 0 3px;
+	background: #2685af url(images/box-head-right.gif) no-repeat top right;
+}
+
+#advancedstuff div.dbx-handle-wrapper {
+	margin: 0 0 0 -7px;
+	background: #fff url(images/box-head-left.gif) no-repeat top left;
+}
+
+#advancedstuff div.dbx-content {
+	margin-left: 8px;
+	background: url(images/box-bg-right.gif) repeat-y right;
+	padding: 10px 10px 15px 0px;
+}
+
+#postexcerpt div.dbx-content {
+	margin-right: 0;
+	padding-right: 17px;
+}
+
+#advancedstuff div.dbx-content-wrapper {
+	margin-left: -7px;
+	margin-right: 0;
+	background: url(images/box-bg-left.gif) repeat-y left;
+}
+
+#advancedstuff fieldset.dbx-box {
+	padding-bottom: 9px;
+	margin-left: 6px;
+	background: url(images/box-butt-right.gif) no-repeat bottom right;
+}
+
+#advancedstuff div.dbx-box-wrapper {
+	background: url(images/box-butt-left.gif) no-repeat bottom left;
+}
+
+#advancedstuff .dbx-box-closed div.dbx-content-wrapper {
+	padding-bottom: 2px;
+	background: url(images/box-butt-left.gif) no-repeat bottom left;
+}
+
+#advancedstuff .dbx-box {
+	background: url(images/box-butt-right.gif) no-repeat bottom right;
+}
+
+
 /* handle cursors */
 .dbx-handle-cursor {
 	cursor: move;
@@ -964,12 +1013,16 @@ a.dbx-toggle, a.dbx-toggle:visited {
 #advancedstuff a.dbx-toggle, #advancedstuff a.dbx-toggle-open:visited {
 	height: 22px;
 	width: 22px;
+	top: 3px;
+	right: 5px;
 	background-position: 0 -3px;
 }
 
 #advancedstuff a.dbx-toggle-open, #advancedstuff a.dbx-toggle-open:visited {
 	height: 22px;
 	width: 22px;
+	top: 3px;
+	right: 5px;
 	background-position: 0 -28px;
 }
 
