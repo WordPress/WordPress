@@ -15,7 +15,7 @@ if ( strstr($_SERVER['REQUEST_URI'], 'page-new.php') )
 else
 	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
 
-$menu[20] = array(__('Bookmarks'), 'manage_links', 'link-manager.php');
+$menu[20] = array(__('Blogroll'), 'manage_links', 'link-manager.php');
 $menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
 if ( current_user_can('edit_users') )
@@ -38,9 +38,9 @@ $submenu['edit.php'][30] = array(__('Files'), 'edit_files', 'templates.php');
 $submenu['edit.php'][35] = array(__('Import'), 'import', 'import.php');
 $submenu['edit.php'][40] = array(__('Export'), 'import', 'export.php');
 
-$submenu['link-manager.php'][5] = array(__('Manage Bookmarks'), 'manage_links', 'link-manager.php');
-$submenu['link-manager.php'][10] = array(__('Add Bookmark'), 'manage_links', 'link-add.php');
-$submenu['link-manager.php'][20] = array(__('Import Bookmarks'), 'manage_links', 'link-import.php');
+$submenu['link-manager.php'][5] = array(__('Manage Blogroll'), 'manage_links', 'link-manager.php');
+$submenu['link-manager.php'][10] = array(__('Add Link'), 'manage_links', 'link-add.php');
+$submenu['link-manager.php'][20] = array(__('Import Links'), 'manage_links', 'link-import.php');
 
 if ( current_user_can('edit_users') ) {
 	$submenu['users.php'][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');

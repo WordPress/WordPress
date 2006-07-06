@@ -638,6 +638,50 @@ function dropdown_categories($default = 0) {
 	write_nested_categories(get_nested_categories($default));
 }
 
+function return_link_categories_list($parent = 0) {
+	global $wpdb;
+	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND link_count > 0");
+}
+
+function get_nested_link_categories( $default = 0, $parent = 0 ) {
+	global $post_ID, $link_id, $mode, $wpdb;
+
+	if ($link_id) {
+		$checked_categories = $wpdb->get_col("
+		     SELECT category_id
+		     FROM $wpdb->categories, $wpdb->link2cat
+		     WHERE $wpdb->link2cat.category_id = cat_ID AND $wpdb->link2cat.link_id = '$link_id'
+		     ");
+
+		if (count($checked_categories) == 0) {
+			// No selected categories, strange
+			$checked_categories[] = $default;
+		}	
+	} else {
+		$checked_categories[] = $default;
+	}
+
+	$cats = return_link_categories_list($parent);
+	$result = array ();
+
+	if (is_array($cats)) {
+		foreach ($cats as $cat) {
+			$result[$cat]['children'] = get_nested_link_categories($default, $cat);
+			$result[$cat]['cat_ID'] = $cat;
+			$result[$cat]['checked'] = in_array($cat, $checked_categories);
+			$result[$cat]['cat_name'] = get_the_category_by_ID($cat);
+		}
+	}
+
+	usort($result, 'sort_cats');
+
+	return $result;
+}
+
+function dropdown_link_categories($default = 0) {
+	write_nested_categories(get_nested_link_categories($default));
+}
+
 // Dandy new recursive multiple category stuff.
 function cat_rows($parent = 0, $level = 0, $categories = 0) {
 	global $wpdb, $class;
@@ -769,11 +813,6 @@ function wp_dropdown_cats($currentcat = 0, $currentparent = 0, $parent = 0, $lev
 	} else {
 		return false;
 	}
-}
-
-function return_link_categories_list($parent = 0) {
-	global $wpdb;
-	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY link_count DESC");
 }
 
 function wp_create_thumbnail($file, $max_side, $effect = '') {

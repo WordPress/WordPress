@@ -1,12 +1,12 @@
 <?php
 if ( ! empty($link_id) ) {
-	$heading = __('Edit Bookmark');
+	$heading = __('Edit Link');
 	$submit_text = __('Save Changes &raquo;');
 	$form = '<form name="editlink" id="editlink" method="post" action="link.php">';
 	$nonce_action = 'update-bookmark_' . $link_id;
 } else {
-	$heading = __('Create Bookmark');
-	$submit_text = __('Add Bookmark &raquo;');
+	$heading = __('Add Link');
+	$submit_text = __('Add Link &raquo;');
 	$form = '<form name="addlink" id="addlink" method="post" action="link.php">';
 	$nonce_action = 'add-bookmark';
 }
@@ -43,7 +43,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 <h3 class="dbx-handle"><?php _e('Categories') ?></h3>
 <div class="dbx-content">
 <p id="jaxcat"></p>
-<ul id="categorychecklist"><?php dropdown_categories(get_settings('default_link_category')); ?></ul>
+<ul id="categorychecklist"><?php dropdown_link_categories(get_settings('default_link_category')); ?></ul>
 </div>
 </fieldset>
 
@@ -79,12 +79,12 @@ function xfn_check($class, $value = '', $type = 'check') {
 
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
-<th width="20%" scope="row" valign="top"><label for="link_url"><?php _e('URI:') ?></label></th>
-<td width="80%"><input type="text" name="link_url" value="<?php echo $link->link_url; ?>" style="width: 95%" /></td>
-</tr>
-<tr>
 <th scope="row" valign="top"><label for="link_name"><?php _e('Name:') ?></label></th>
 <td><input type="text" name="link_name" value="<?php echo $link->link_name; ?>" style="width: 95%" /></td>
+</tr>
+<tr>
+<th width="20%" scope="row" valign="top"><label for="link_url"><?php _e('Address:') ?></label></th>
+<td width="80%"><input type="text" name="link_url" value="<?php echo $link->link_url; if ( empty( $link->link_url ) ) echo 'http://'; ?>" style="width: 95%" /></td>
 </tr>
 <tr>
 <th scope="row" valign="top"><label for="link_description"><?php _e('Description:') ?></label></th>
@@ -216,11 +216,11 @@ function xfn_check($class, $value = '', $type = 'check') {
 <div class="dbx-content">
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 	<tr>
-		<th width="20%" scope="row"><?php _e('Image URI:') ?></th>
+		<th width="20%" scope="row"><?php _e('Image Address:') ?></th>
 		<td width="80%"><input type="text" name="link_image" size="50" value="<?php echo $link->link_image; ?>" style="width: 95%" /></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php _e('RSS URI:') ?> </th>
+		<th scope="row"><?php _e('RSS Address:') ?> </th>
 		<td><input name="link_rss" type="text" id="rss_uri" value="<?php echo $link->link_rss; ?>" size="50" style="width: 95%" /></td>
 	</tr>
 	<tr>

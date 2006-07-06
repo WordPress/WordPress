@@ -73,7 +73,7 @@ if ( isset($_GET['deleted']) ) {
 
 <div class="wrap">
 
-<h2><?php _e('Bookmark Management'); ?></h2>
+<h2><?php _e('Blogroll Management'); ?></h2>
 <p><?php _e('Here you add links to sites that you visit often and share them on your blog. When you have a list of links in your sidebar to other blogs, it&#8217;s called a &#8220;blogroll.&#8221;'); ?></p>
 <form id="cats" method="get" action="">
 <p>Currently showing 
@@ -85,11 +85,11 @@ if ( isset($_GET['deleted']) ) {
 </option>
 <?php endforeach; ?>
 </select>
-bookmarks ordered by 
+links ordered by 
 <select name="order_by">
 <option value="order_id" <?php if ($order_by == 'order_id') echo " selected='selected'";?>><?php _e('Bookmark ID') ?></option>
 <option value="order_name" <?php if ($order_by == 'order_name') echo " selected='selected'";?>><?php _e('Name') ?></option>
-<option value="order_url" <?php if ($order_by == 'order_url') echo " selected='selected'";?>><?php _e('URI') ?></option>
+<option value="order_url" <?php if ($order_by == 'order_url') echo " selected='selected'";?>><?php _e('Address') ?></option>
 </select>
 <input type="submit" name="action" value="<?php _e('Update &raquo;') ?>" /></p>
 </form>

@@ -89,7 +89,7 @@ addLoadEvent(focusit);
 </fieldset>
 
 <fieldset id="passworddiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Password-Protect Post') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Post Password') ?></h3> 
 <div class="dbx-content"><input name="post_password" type="text" size="13" id="post_password" value="<?php echo $post->post_password ?>" /></div>
 </fieldset>
 
