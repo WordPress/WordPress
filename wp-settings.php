@@ -18,7 +18,6 @@ function unregister_GLOBALS() {
 
 unregister_GLOBALS(); 
 
-$HTTP_USER_AGENT = getenv('HTTP_USER_AGENT');
 unset( $wp_filter, $cache_userdata, $cache_lastcommentmodified, $cache_lastpostdate, $cache_settings, $category_cache, $cache_categories );
 
 if ( ! isset($blog_id) )
