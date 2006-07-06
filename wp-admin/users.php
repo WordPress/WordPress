@@ -362,7 +362,7 @@ default:
 		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
-	<h3><?php printf(__('Results %1$s - %2$s of %3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query); ?></h3>
+	<h3><?php printf(__('%1$s &#8211; %2$s of %3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query); ?></h3>
 
 	<?php if ( $wp_user_search->results_are_paged() ) : ?>
 		<div class="user-paging-text"><?php $wp_user_search->page_links(); ?></p></div>
@@ -413,12 +413,12 @@ foreach ( (array) $roleclass as $user_object ) {
 		<li><input type="radio" name="action" id="action0" value="delete" /> <label for="action0"><?php _e('Delete checked users.'); ?></label></li>
 		<li>
 			<input type="radio" name="action" id="action1" value="promote" /> <label for="action1"><?php _e('Set the Role of checked users to:'); ?></label>
-			<select name="new_role"><?php wp_dropdown_roles(); ?></select>
+			<select name="new_role" onchange="getElementById('action1').checked = 'true'"><?php wp_dropdown_roles(); ?></select>
 		</li>
 	</ul>
-	<p class="submit">
+	<p class="submit" style="width: 420px">
 		<?php echo $referer; ?>
-		<input type="submit" value="<?php _e('Update &raquo;'); ?>" />
+		<input type="submit" value="<?php _e('Bulk Update &raquo;'); ?>" />
 	</p>
 </form>
 <?php endif; ?>
