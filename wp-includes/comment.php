@@ -321,7 +321,7 @@ function wp_insert_comment($commentdata) {
 	extract($commentdata);
 
 	if ( ! isset($comment_author_IP) )
-		$comment_author_IP = $_SERVER['REMOTE_ADDR'];
+		$comment_author_IP = preg_replace( '/[^0-9., ]/', '',$_SERVER['REMOTE_ADDR'] );
 	if ( ! isset($comment_date) )
 		$comment_date = current_time('mysql');
 	if ( ! isset($comment_date_gmt) )
@@ -365,7 +365,7 @@ function wp_new_comment( $commentdata ) {
 	$commentdata['comment_post_ID'] = (int) $commentdata['comment_post_ID'];
 	$commentdata['user_ID']         = (int) $commentdata['user_ID'];
 
-	$commentdata['comment_author_IP'] = $_SERVER['REMOTE_ADDR'];
+	$commentdata['comment_author_IP'] = preg_replace( '/[^0-9., ]/', '',$_SERVER['REMOTE_ADDR'] );
 	$commentdata['comment_agent']     = $_SERVER['HTTP_USER_AGENT'];
 
 	$commentdata['comment_date']     = current_time('mysql');
