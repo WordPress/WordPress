@@ -2424,7 +2424,6 @@ function wp_nonce_ays($action) {
 		$adminurl = wp_get_referer();
 
 	$title = __('WordPress Confirmation');
-	require_once(ABSPATH . '/wp-admin/admin-header.php');
 	// Remove extra layer of slashes.
 	$_POST   = stripslashes_deep($_POST  );
 	if ( $_POST ) {
@@ -2442,8 +2441,66 @@ function wp_nonce_ays($action) {
 		$html .= "\t<div id='message' class='confirm fade'>\n\t<p>" . wp_explain_nonce($action) . "</p>\n\t<p><a href='$adminurl'>" . __('No') . "</a> <a href='" . add_query_arg( '_wpnonce', wp_create_nonce($action), $_SERVER['REQUEST_URI'] ) . "'>" . __('Yes') . "</a></p>\n\t</div>\n";
 	}
 	$html .= "</body>\n</html>";
-	echo $html;
-	include_once(ABSPATH . '/wp-admin/admin-footer.php');
+	wp_die($html, $title);
+}
+
+function wp_die($message, $title = '') {
+	header('Content-Type: text/html; charset=utf-8');
+
+	if ( empty($title) )
+		$title = __('WordPress &rsaquo; Error');
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title><?php echo $title ?></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<style media="screen" type="text/css">
+	<!--
+	html {
+		background: #eee;
+	}
+	body {
+		background: #fff;
+		color: #000;
+		font-family: Georgia, "Times New Roman", Times, serif;
+		margin-left: 25%;
+		margin-right: 25%;
+		padding: .2em 2em;
+	}
+
+	h1 {
+		color: #006;
+		font-size: 18px;
+		font-weight: lighter;
+	}
+
+	h2 {
+		font-size: 16px;
+	}
+
+	p, li, dt {
+		line-height: 140%;
+		padding-bottom: 2px;
+	}
+
+	ul, ol {
+		padding: 5px 5px 5px 20px;
+	}
+	#logo {
+		margin-bottom: 2em;
+	}
+	-->
+	</style>
+</head>
+<body>
+	<h1 id="logo"><img alt="WordPress" src="<?php echo get_settings('siteurl'); ?>/wp-admin/images/wordpress-logo.png" /></h1>
+	<p><?php echo $message; ?></p>
+</body>
+</html>
+<?php
+
+	die();
 }
 
 ?>
