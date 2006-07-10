@@ -11,10 +11,8 @@ $phone_delim = '::';
 
 $pop3 = new POP3();
 
-if (!$pop3->connect(get_settings('mailserver_url'), get_settings('mailserver_port'))) :
-	echo "Ooops $pop3->ERROR <br />\n";
-	exit;
-endif;
+if (!$pop3->connect(get_settings('mailserver_url'), get_settings('mailserver_port')))
+	wp_die($pop3->ERROR);
 
 $count = $pop3->login(get_settings('mailserver_login'), get_settings('mailserver_pass'));
 if (0 == $count) wp_die(__('There doesn&#8217;t seem to be any new mail.'));

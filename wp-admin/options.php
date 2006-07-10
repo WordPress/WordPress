@@ -8,7 +8,7 @@ $parent_file = 'options-general.php';
 wp_reset_vars(array('action'));
 
 if ( !current_user_can('manage_options') )
-	die ( __('Cheatin&#8217; uh?') );
+	wp_die(__('Cheatin&#8217; uh?'));
 
 switch($action) {
 

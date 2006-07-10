@@ -16,7 +16,7 @@ switch ($step) {
     {
         include_once('admin-header.php');
         if ( !current_user_can('manage_links') )
-            die (__("Cheatin&#8217; uh?"));
+            wp_die(__('Cheatin&#8217; uh?'));
 
         $opmltype = 'blogrolling'; // default.
 ?>
@@ -68,7 +68,7 @@ foreach ($categories as $category) {
 
                 include_once('admin-header.php');
                 if ( !current_user_can('manage_links') )
-                    die (__("Cheatin' uh ?"));
+                    wp_die(__('Cheatin&#8217; uh?'));
 ?>
 <div class="wrap">
 

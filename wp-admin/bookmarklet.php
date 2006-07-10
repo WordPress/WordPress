@@ -3,7 +3,7 @@ $mode = 'bookmarklet';
 require_once('admin.php');
 
 if ( ! current_user_can('edit_posts') )
-	die ("Cheatin' uh?");
+	wp_die(__('Cheatin&#8217; uh?'));
 
 if ('b' == $a):
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

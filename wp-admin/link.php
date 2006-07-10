@@ -18,7 +18,7 @@ switch ($action) {
 
 		// check the current user's level first.
 		if (!current_user_can('manage_links'))
-			wp_die(__("Cheatin' uh ?"));
+			wp_die(__('Cheatin&#8217; uh?'));
 
 		//for each link id (in $linkcheck[]) change category to selected value
 		if (count($linkcheck) == 0) {
@@ -42,7 +42,7 @@ switch ($action) {
 
 		// check the current user's level first.
 		if (!current_user_can('manage_links'))
-			wp_die(__("Cheatin' uh ?"));
+			wp_die(__('Cheatin&#8217; uh?'));
 
 		//for each link id (in $linkcheck[]) change category to selected value
 		if (count($linkcheck) == 0) {
@@ -79,7 +79,7 @@ switch ($action) {
 		check_admin_referer('delete-bookmark_' . $link_id);
 
 		if (!current_user_can('manage_links'))
-			wp_die(__("Cheatin' uh ?"));
+			wp_die(__('Cheatin&#8217; uh?'));
 
 		wp_delete_link($link_id);
 

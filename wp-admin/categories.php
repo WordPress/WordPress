@@ -13,7 +13,7 @@ case 'addcat':
 	check_admin_referer('add-category');
 
 	if ( !current_user_can('manage_categories') )
-		die (__('Cheatin&#8217; uh?'));
+		wp_die(__('Cheatin&#8217; uh?'));
 
 	wp_insert_category($_POST);
 
@@ -25,7 +25,7 @@ case 'delete':
 	check_admin_referer('delete-category_' .  $cat_ID);
 
 	if ( !current_user_can('manage_categories') )
-		die (__('Cheatin&#8217; uh?'));
+		wp_die(__('Cheatin&#8217; uh?'));
 
 	$cat_name = get_catname($cat_ID);
 
@@ -56,7 +56,7 @@ case 'editedcat':
 	check_admin_referer('update-category_' . $cat_ID);
 
 	if ( !current_user_can('manage_categories') )
-		die (__('Cheatin&#8217; uh?'));
+		wp_die(__('Cheatin&#8217; uh?'));
 
 	wp_update_category($_POST);
 

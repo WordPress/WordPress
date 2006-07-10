@@ -8,7 +8,7 @@ if ( !get_option('use_linksupdate') )
 $link_uris = $wpdb->get_col("SELECT link_url FROM $wpdb->links");
 
 if ( !$link_uris )
-	wp_die('No links');
+	wp_die(__('No links'));
 
 $link_uris = urlencode( join( $link_uris, "\n" ) );
 
