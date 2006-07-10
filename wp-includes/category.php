@@ -115,6 +115,8 @@ function &get_category(&$category, $output = OBJECT) {
 		}
 	}
 
+	$_category = apply_filters('get_category', $_category);
+
 	if ( $output == OBJECT ) {
 		return $_category;
 	} elseif ( $output == ARRAY_A ) {
