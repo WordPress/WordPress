@@ -748,6 +748,8 @@ function &get_category(&$category, $output = OBJECT) {
 		}
 	}
 
+	$_category = apply_filters('get_category', $_category);
+
 	if ( !isset($_category->fullpath) ) {
 		$_category = set_category_path($_category);
 		wp_cache_replace($_category->cat_ID, $_category, 'category');	
