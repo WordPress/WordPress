@@ -28,8 +28,8 @@ function &get_categories($args = '') {
 	$where = 'cat_ID > 0';
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of and exclude params if using include 
-		$exclude = '';  
+		$child_of = 0; //ignore child_of and exclude params if using include
+		$exclude = '';
 		$incategories = preg_split('/[\s,]+/',$include);
 		if ( count($incategories) ) {
 			foreach ( $incategories as $incat ) {
@@ -40,8 +40,8 @@ function &get_categories($args = '') {
 			}
 		}
 	}
-	if (!empty($inclusions)) 
-		$inclusions .= ')';	
+	if (!empty($inclusions))
+		$inclusions .= ')';
 	$where .= $inclusions;
 
 	$exclusions = '';
@@ -57,9 +57,9 @@ function &get_categories($args = '') {
 			}
 		}
 	}
-	if (!empty($exclusions)) 
+	if (!empty($exclusions))
 		$exclusions .= ')';
-	$exclusions = apply_filters('list_cats_exclusions', $exclusions );
+	$exclusions = apply_filters('list_cats_exclusions', $exclusions, $r );
 	$where .= $exclusions;
 
 	$having = '';
@@ -85,7 +85,7 @@ function &get_categories($args = '') {
 		function stamp_cat($cat) {
 			global $cat_stamps;
 			$cat->last_update_timestamp = $cat_stamps[$cat->cat_ID];
-			return $cat;	
+			return $cat;
 		}
 		$categories = array_map('stamp_cat', $categories);
 		unset($cat_stamps);
@@ -94,7 +94,7 @@ function &get_categories($args = '') {
 	if ( $child_of || $hierarchical )
 		$categories = & _get_cat_children($child_of, $categories);
 
-	return apply_filters('get_categories', $categories);
+	return apply_filters('get_categories', $categories, $r);
 }
 
 // Retrieves category data given a category ID or category object.
@@ -141,7 +141,7 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 
 	$categories = $wpdb->get_results("SELECT cat_ID, category_nicename, category_parent FROM $wpdb->categories WHERE category_nicename = '$leaf_path'");
 
-	if ( empty($categories) ) 
+	if ( empty($categories) )
 		return NULL;
 
 	foreach ($categories as $category) {
