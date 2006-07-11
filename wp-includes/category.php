@@ -22,7 +22,10 @@ function &get_categories($args = '') {
 	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, $exclude => '', $include => '');
 	$r = array_merge($defaults, $r);
-	$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
+	if ( 'count' == $r['orderby'] )
+		$r['orderby'] = 'category_count';
+	else
+		$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
 	extract($r);
 
 	$where = 'cat_ID > 0';
