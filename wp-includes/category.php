@@ -20,12 +20,14 @@ function &get_categories($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, $exclude => '', $include => '');
+		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, $exclude => '', $include => '',
+		'number' => '');
 	$r = array_merge($defaults, $r);
 	if ( 'count' == $r['orderby'] )
 		$r['orderby'] = 'category_count';
 	else
 		$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
+	$r['number'] = (int) $r['number'];
 	extract($r);
 
 	$where = 'cat_ID > 0';
@@ -73,7 +75,12 @@ function &get_categories($args = '') {
 			$having = 'HAVING category_count > 0';
 	}
 
-	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE $where $having ORDER BY $orderby $order");
+	if ( !empty($number) )
+		$number = 'LIMIT ' . $number;
+	else
+		$number = '';
+
+	$categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE $where $having ORDER BY $orderby $order $number");
 
 	if ( empty($categories) )
 		return array();
