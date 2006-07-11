@@ -26,11 +26,6 @@ function get_stylesheet_uri() {
 }
 
 function get_template() {
-	$template = get_settings('template');
-	if (!file_exists(get_theme_root() . "/$template")) { //works for dirs too
-		update_option('template', 'default');
-		update_option('stylesheet', 'default');
-	}
 	return apply_filters('template', get_settings('template'));
 }
 
@@ -372,6 +367,24 @@ function load_template($file) {
 	extract($wp_query->query_vars);
 
 	require_once($file);
+}
+
+function validate_current_theme() {
+	if ((get_template() != 'default') && (!file_exists(get_template_directory() . '/index.php'))) {
+		update_option('template', 'default');
+		update_option('stylesheet', 'default');
+		do_action('switch_theme', 'Default');
+		return false;
+	}
+
+	if ((get_stylesheet() != 'default') && (!file_exists(get_template_directory() . '/style.css'))) {
+		update_option('template', 'default');
+		update_option('stylesheet', 'default');
+		do_action('switch_theme', 'Default');
+		return false;
+	}
+
+	return true;
 }
 
 ?>

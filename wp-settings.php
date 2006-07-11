@@ -200,6 +200,7 @@ $wp_query   = new WP_Query();
 $wp_rewrite = new WP_Rewrite();
 $wp         = new WP();
 
+validate_current_theme();
 define('TEMPLATEPATH', get_template_directory());
 
 // Load the default text localization domain.
