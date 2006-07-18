@@ -76,21 +76,22 @@ if ( isset($_GET['deleted']) ) {
 <h2><?php _e('Blogroll Management'); ?></h2>
 <p><?php _e('Here you add links to sites that you visit often and share them on your blog. When you have a list of links in your sidebar to other blogs, it&#8217;s called a &#8220;blogroll.&#8221;'); ?></p>
 <form id="cats" method="get" action="">
-<p>Currently showing 
-<?php $categories = get_categories("hide_empty=1&type=link"); ?>
-<select name="cat_id">
-<option value="all" <?php echo ($cat_id == 'all') ? " selected='selected'" : ''; ?>><?php _e('All') ?></option>
-<?php foreach ($categories as $cat): ?>
-<option value="<?php echo $cat->cat_ID; ?>"<?php echo ($cat->cat_ID == $cat_id) ? " selected='selected'" : ''; ?>><?php echo wp_specialchars($cat->cat_name); ?>
-</option>
-<?php endforeach; ?>
-</select>
-links ordered by 
-<select name="order_by">
-<option value="order_id" <?php if ($order_by == 'order_id') echo " selected='selected'";?>><?php _e('Bookmark ID') ?></option>
-<option value="order_name" <?php if ($order_by == 'order_name') echo " selected='selected'";?>><?php _e('Name') ?></option>
-<option value="order_url" <?php if ($order_by == 'order_url') echo " selected='selected'";?>><?php _e('Address') ?></option>
-</select>
+<p><?php
+$categories = get_categories("hide_empty=1&type=link");
+$select_cat = "<select name=\"cat_id\">\n";
+$select_cat .= '<option value="all"'  . (($cat_id == 'all') ? " selected='selected'" : '') . '>' . __('All') . "</option>\n";
+foreach ((array) $categories as $cat)
+	$select_cat .= '<option value="' . $cat->cat_ID . '"' . (($cat->cat_ID == $cat_id) ? " selected='selected'" : '') . '>' . wp_specialchars($cat->cat_name) . "</option>\n";
+$select_cat .= "</select>\n";
+
+$select_order = "<select name=\"order_by\">\n";
+$select_order .= '<option value="order_id"' . (($order_by == 'order_id') ? " selected='selected'" : '') . '>' .  __('Bookmark ID') . "</option>\n";
+$select_order .= '<option value="order_name"' . (($order_by == 'order_name') ? " selected='selected'" : '') . '>' .  __('Name') . "</option>\n";
+$select_order .= '<option value="order_url"' . (($order_by == 'order_url') ? " selected='selected'" : '') . '>' .  __('Address') . "</option>\n";
+$select_order .= "</select>\n";
+
+printf(__('Currently showing %1$s links ordered by %2$s'), $select_cat, $select_order);
+?>
 <input type="submit" name="action" value="<?php _e('Update &raquo;') ?>" /></p>
 </form>
 
