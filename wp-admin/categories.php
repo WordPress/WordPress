@@ -15,9 +15,11 @@ case 'addcat':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	wp_insert_category($_POST);
-
-	wp_redirect('categories.php?message=1#addcat');
+	if( wp_insert_category($_POST ) ) {
+		wp_redirect('categories.php?message=1#addcat');
+	} else {
+		wp_redirect('categories.php?message=4#addcat');
+	}
 break;
 
 case 'delete':
@@ -71,6 +73,7 @@ require_once ('admin-header.php');
 $messages[1] = __('Category added.');
 $messages[2] = __('Category deleted.');
 $messages[3] = __('Category updated.');
+$messages[4] = __('Category not added.');
 ?>
 
 <?php if (isset($_GET['message'])) : ?>

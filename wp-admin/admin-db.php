@@ -84,6 +84,9 @@ function wp_insert_category($catarr) {
 
 	extract($catarr);
 
+	if( trim( $cat_name ) == '' )
+		return 0;
+
 	$cat_ID = (int) $cat_ID;
 
 	// Are we updating or creating?
