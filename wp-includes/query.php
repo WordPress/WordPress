@@ -279,6 +279,7 @@ class WP_Query {
 	var $is_admin = false;
 	var $is_attachment = false;
 	var $is_robots = false;
+	var $is_posts_page = false;
 
 	function init_query_flags() {
 		$this->is_single = false;
@@ -300,6 +301,7 @@ class WP_Query {
 		$this->is_admin = false;
 		$this->is_attachment = false;
 		$this->is_robots = false;
+		$this->is_posts_page = false;
 	}
 
 	function init () {
@@ -627,6 +629,7 @@ class WP_Query {
 			if  ( ('page' == get_option('show_on_front') ) && ( $reqpage == get_option('page_for_posts') ) ) {
 				$this->is_page = false;
 				$this->is_home = true;
+				$this->is_posts_page = true;
 			} else {
 				$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
 				$page_paths = '/' . trim($q['pagename'], '/');
@@ -665,6 +668,7 @@ class WP_Query {
 			if  ( ('page' == get_option('show_on_front') ) && ( $q['page_id'] == get_option('page_for_posts') ) ) {
 				$this->is_page = false;
 				$this->is_home = true;
+				$this->is_posts_page = true;
 			} else {
 				$q['p'] = $q['page_id'];
 				$where = ' AND ID = '.$q['page_id'];
@@ -1018,6 +1022,9 @@ class WP_Query {
 			$category = &get_category($cat);
 			$this->queried_object = &$category;
 			$this->queried_object_id = $cat;
+		} else if ($this->is_posts_page) {
+			$this->queried_object = & get_page(get_option('page_for_posts'));
+			$this->queried_object_id = $this->queried_object->ID;
 		} else if ($this->is_single) {
 			$this->queried_object = $this->post;
 			$this->queried_object_id = $this->post->ID;
