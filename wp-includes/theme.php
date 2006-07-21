@@ -370,6 +370,10 @@ function load_template($file) {
 }
 
 function validate_current_theme() {
+	// Don't validate during an install/upgrade.
+	if ( defined('WP_INSTALLING') )
+		return true;
+
 	if ((get_template() != 'default') && (!file_exists(get_template_directory() . '/index.php'))) {
 		update_option('template', 'default');
 		update_option('stylesheet', 'default');
