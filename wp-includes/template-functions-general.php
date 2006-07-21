@@ -399,9 +399,11 @@ function calendar_week_mod($num) {
 function get_calendar($daylength = 1) {
 	global $wpdb, $m, $monthnum, $year, $timedifference, $month, $month_abbrev, $weekday, $weekday_initial, $weekday_abbrev, $posts;
 
-	// Quick check. If we have no posts at all, abort!
+	$now = current_time('mysql');
+
+	// Quick check. If we have no posts yet published, abort!
 	if ( !$posts ) {
-		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
+		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_status = 'publish' AND post_date < '$now' ORDER BY post_date DESC LIMIT 1");
 		if ( !$gotsome )
 			return;
 	}
@@ -447,6 +449,7 @@ function get_calendar($daylength = 1) {
 	$next = $wpdb->get_row("SELECT	DISTINCT MONTH(post_date) AS month, YEAR(post_date) AS year
 		FROM $wpdb->posts
 		WHERE post_date >	'$thisyear-$thismonth-01'
+		AND post_date < '$now'
 		AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
 		AND post_status = 'publish' 
 			ORDER	BY post_date ASC
