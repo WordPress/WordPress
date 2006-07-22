@@ -716,6 +716,8 @@ function wp_update_post($postarr = array()) {
 }
 
 function wp_publish_post($post_id) {
+	global $wpdb;
+
 	$post = get_post($post_id);
 
 	if ( empty($post) )
