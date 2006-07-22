@@ -652,22 +652,7 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	if ($post_status == 'publish' && $post_type == 'post') {
-		do_action('publish_post', $post_ID);
-
-		if ( !defined('WP_IMPORTING') ) {
-			if ( $post_pingback )
-				$result = $wpdb->query("
-					INSERT INTO $wpdb->postmeta 
-					(post_id,meta_key,meta_value) 
-					VALUES ('$post_ID','_pingme','1')
-				");
-			$result = $wpdb->query("
-				INSERT INTO $wpdb->postmeta 
-				(post_id,meta_key,meta_value) 
-				VALUES ('$post_ID','_encloseme','1')
-			");
-			wp_schedule_single_event(time(), 'do_pings');
-		}
+		wp_publish_post($post_ID);
 	} else if ($post_type == 'page') {
 		wp_cache_delete('all_page_ids', 'pages');
 		$wp_rewrite->flush_rules();
@@ -736,10 +721,29 @@ function wp_publish_post($post_id) {
 	if ( empty($post) )
 		return;
 
-	if ( 'publish' == $post->post_status )
+	if ( 'publish' != $post->post_status )
+		$wpdb->query("UPDATE IGNORE $wpdb->posts SET post_status = 'publish' WHERE ID = $post_id");
+
+	do_action('publish_post', $post_id);
+
+	if ( defined('WP_IMPORTING') )
 		return;
 
-	return wp_update_post(array('post_status' => 'publish', 'ID' => $post_id));	
+	$post_pingback = get_option('default_pingback_flag');
+	if ( $post_pingback )
+		$result = $wpdb->query("
+			INSERT INTO $wpdb->postmeta 
+			(post_id,meta_key,meta_value) 
+			VALUES ('$post_ID','_pingme','1')
+		");
+
+	$result = $wpdb->query("
+			INSERT INTO $wpdb->postmeta 
+			(post_id,meta_key,meta_value) 
+			VALUES ('$post_ID','_encloseme','1')
+		");
+
+	wp_schedule_single_event(time(), 'do_pings');
 }
 
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
