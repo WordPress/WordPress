@@ -32,7 +32,7 @@ if (isset($mode) && 'bookmarklet' == $mode) {
 }
 ?>
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
-<input type="hidden" name="action" value='<?php echo $form_action ?>' />
+<input type="hidden" id="hiddenaction" name="action" value='<?php echo $form_action ?>' />
 <?php echo $form_extra ?>
 <input type="hidden" name="post_status" value="static" />
 
@@ -213,6 +213,7 @@ if($metadata = has_meta($post_ID)) {
 	meta_form();
 ?>
 </div>
+<div id="ajax-response"></div>
 </fieldset>
 
 <?php do_action('dbx_page_advanced'); ?>
