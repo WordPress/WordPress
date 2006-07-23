@@ -182,15 +182,15 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Before Link:') ?></th>
-	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo wp_specialchars($row->text_before_link)?>" /></td>
+	<td width="67%"><input type="text" name="text_before_link" size="45" value="<?php echo wp_specialchars($row->text_before_link,'double')?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Between Link and Description:') ?></th>
-<td><input type="text" name="text_after_link" size="45" value="<?php echo wp_specialchars($row->text_after_link)?>" /></td>
+<td><input type="text" name="text_after_link" size="45" value="<?php echo wp_specialchars($row->text_after_link,'double')?>" /></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('After Link:') ?></th>
-<td><input type="text" name="text_after_all" size="45" value="<?php echo wp_specialchars($row->text_after_all)?>"/></td>
+<td><input type="text" name="text_after_all" size="45" value="<?php echo wp_specialchars($row->text_after_all,'double')?>"/></td>
 </tr>
 </table>
 </fieldset>
