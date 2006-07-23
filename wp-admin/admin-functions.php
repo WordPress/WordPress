@@ -1612,23 +1612,23 @@ function get_plugin_data($plugin_file) {
 	preg_match("|Author:(.*)|i", $plugin_data, $author_name);
 	preg_match("|Author URI:(.*)|i", $plugin_data, $author_uri);
 	if (preg_match("|Version:(.*)|i", $plugin_data, $version))
-		$version = $version[1];
+		$version = trim($version[1]);
 	else
 		$version = '';
 
-	$description = wptexturize($description[1]);
+	$description = wptexturize(trim($description[1]));
 
 	$name = $plugin_name[1];
 	$name = trim($name);
 	$plugin = $name;
 	if ('' != $plugin_uri[1] && '' != $name) {
-		$plugin = '<a href="'.$plugin_uri[1].'" title="'.__('Visit plugin homepage').'">'.$plugin.'</a>';
+		$plugin = '<a href="' . trim($plugin_uri[1]) . '" title="'.__('Visit plugin homepage').'">'.$plugin.'</a>';
 	}
 
 	if ('' == $author_uri[1]) {
-		$author = $author_name[1];
+		$author = trim($author_name[1]);
 	} else {
-		$author = '<a href="'.$author_uri[1].'" title="'.__('Visit author homepage').'">'.$author_name[1].'</a>';
+		$author = '<a href="' . trim($author_uri[1]) . '" title="'.__('Visit author homepage').'">' . trim($author_name[1]) . '</a>';
 	}
 
 	return array ('Name' => $name, 'Title' => $plugin, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1]);
