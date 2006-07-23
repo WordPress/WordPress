@@ -78,7 +78,7 @@ class Snoopy
 	var $error			=	"";					// error messages sent here
 	var	$response_code	=	"";					// response code returned from server
 	var	$headers		=	array();			// headers returned from server sent here
-	var	$maxlength		=	500000;				// max return data length (body)
+	var	$maxlength		=	8192;				// max return data length (body)
 	var $read_timeout	=	0;					// timeout on read operations, in seconds
 												// supported only since PHP 4 Beta 4
 												// set to 0 to disallow timeouts
@@ -720,13 +720,13 @@ class Snoopy
 							chr(176),
 							chr(39),
 							chr(128),
-							"ä",
-							"ö",
-							"ü",
-							"Ä",
-							"Ö",
-							"Ü",
-							"ß",
+							"ï¿½",
+							"ï¿½",
+							"ï¿½",
+							"ï¿½",
+							"ï¿½",
+							"ï¿½",
+							"ï¿½",
 						);
 
 		$text = preg_replace($search,$replace,$document);
@@ -1238,7 +1238,9 @@ class Snoopy
 						if (!is_readable($file_name)) continue;
 
 						$fp = fopen($file_name, "r");
-						$file_content = fread($fp, filesize($file_name));
+						while (!feof($fp)) {
+							$file_content = fread($fp, filesize($file_name));
+						}
 						fclose($fp);
 						$base_name = basename($file_name);
 
