@@ -67,7 +67,6 @@ function &get_categories($args = '') {
 	$exclusions = apply_filters('list_cats_exclusions', $exclusions, $r );
 	$where .= $exclusions;
 
-	$having = '';
 	if ( $hide_empty ) {
 		if ( 'link' == $type )
 			$where .= ' AND link_count > 0';
