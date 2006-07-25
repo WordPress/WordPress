@@ -108,7 +108,7 @@ function wp_insert_category($catarr) {
 	$category_description = apply_filters('pre_category_description', $category_description);
 
 	$category_parent = (int) $category_parent;
-	if (empty ($category_parent))
+	if ( empty($category_parent) || !get_category( $category_parent ) )
 		$category_parent = 0;
 
 	if ( isset($posts_private) )

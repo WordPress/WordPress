@@ -684,45 +684,48 @@ function dropdown_link_categories($default = 0) {
 
 // Dandy new recursive multiple category stuff.
 function cat_rows($parent = 0, $level = 0, $categories = 0) {
-	global $wpdb, $class;
-
 	if (!$categories)
 		$categories = get_categories('hide_empty=0');
 
 	if ($categories) {
 		foreach ($categories as $category) {
 			if ($category->category_parent == $parent) {
-				$category->cat_name = wp_specialchars($category->cat_name,'double');
-				$pad = str_repeat('&#8212; ', $level);
-				if ( current_user_can('manage_categories') ) {
-					$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td>";
-					$default_cat_id = get_option('default_category');
-					$default_link_cat_id = get_option('default_link_category');
-
-					if ( ($category->cat_ID != $default_cat_id) && ($category->cat_ID != $default_link_cat_id) )
-						$edit .= "<td><a href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category_' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . sprintf(__("You are about to delete the category &quot;%s&quot;.\\nAll of its posts will go into the default category of &quot;%s&quot;\\nAll of its bookmarks will go into the default category of &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), js_escape($category->cat_name), js_escape(get_catname($default_cat_id)), js_escape(get_catname($default_link_cat_id))) . "' );\" class='delete'>".__('Delete')."</a>";
-					else
-						$edit .= "<td style='text-align:center'>".__("Default");
-				}
-				else
-					$edit = '';
-
-				$class = ('alternate' == $class) ? '' : 'alternate';
-				
-				$category->category_count = number_format( $category->category_count );
-				$category->link_count = number_format( $category->link_count );
-				echo "<tr id='cat-$category->cat_ID' class='$class'><th scope='row'>$category->cat_ID</th><td>$pad $category->cat_name</td>
-								<td>$category->category_description</td>
-								<td align='center'>$category->category_count</td>
-								<td align='center'>$category->link_count</td>
-								<td>$edit</td>
-								</tr>";
+				echo "\t" . _cat_row( $category, $level );
 				cat_rows($category->cat_ID, $level +1, $categories);
 			}
 		}
 	} else {
 		return false;
 	}
+}
+
+function _cat_row( $category, $level, $name_override = false ) {
+	global $class;
+
+	$pad = str_repeat('&#8212; ', $level);
+	if ( current_user_can('manage_categories') ) {
+		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__('Edit')."</a></td>";
+		$default_cat_id = get_option('default_category');
+		$default_link_cat_id = get_option('default_link_category');
+
+		if ( ($category->cat_ID != $default_cat_id) && ($category->cat_ID != $default_link_cat_id) )
+			$edit .= "<td><a href='" . wp_nonce_url("categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category_' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . sprintf(__("You are about to delete the category &quot;%s&quot;.\\nAll of its posts will go into the default category of &quot;%s&quot;\\nAll of its bookmarks will go into the default category of &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), js_escape($category->cat_name), js_escape(get_catname($default_cat_id)), js_escape(get_catname($default_link_cat_id))) . "' );\" class='delete'>".__('Delete')."</a>";
+		else
+			$edit .= "<td style='text-align:center'>".__("Default");
+	} else
+		$edit = '';
+
+	$class = ( ( defined('DOING_AJAX') && DOING_AJAX ) || " class='alternate'" == $class ) ? '' : " class='alternate'";
+
+	$category->category_count = number_format( $category->category_count );
+	$category->link_count = number_format( $category->link_count );
+	return "<tr id='cat-$category->cat_ID'$class>
+		<th scope='row'>$category->cat_ID</th>
+		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->cat_name ) . "</td>
+		<td>$category->category_description</td>
+		<td align='center'>$category->category_count</td>
+		<td align='center'>$category->link_count</td>
+		<td>$edit</td>\n\t</tr>\n";
 }
 
 function page_rows($parent = 0, $level = 0, $pages = 0, $hierarchy = true) {

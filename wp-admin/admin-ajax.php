@@ -144,26 +144,22 @@ case 'add-cat' : // From Manage->Categories
 		die('0');
 	if ( !$cat = get_category( $cat ) )
 		die('0');
-	$pad = 0;
+	$level = 0;
+	$cat_full_name = $cat->cat_name;
 	$_cat = $cat;
 	while ( $_cat->category_parent ) {
 		$_cat = get_category( $_cat->category_parent );
-		$pad++;
+		$cat_full_name = $_cat->cat_name . ' &#8212; ' . $cat_full_name;
+		$level++;
 	}
-	$pad = str_repeat('&#8212; ', $pad);
+	$cat_full_name = wp_specialchars( $cat_full_name, 1 );
 
 	$r  = "<?xml version='1.0' standalone='yes'?><ajaxresponse>";
-	$r .= "<cat><id>$cat->cat_ID</id><newitem><![CDATA[<table><tbody>";
-	$r .= "<tr id='cat-$cat->cat_ID'><th scope='row'>$cat->cat_ID</th><td>$pad $cat->cat_name</td>";
-	$r .= "<td>$cat->category_description</td><td>$cat->category_count</td><td>$cat->link_count</td>";
-	$r .= "<td><a href='categories.php?action=edit&amp;cat_ID=$cat->cat_ID' class='edit'>" . __('Edit') . "</a></td>";
-	$r .= "<td><a href='categories.php?action=delete&amp;cat_ID=$cat->cat_ID' onclick='return deleteSomething( \"cat\", $cat->cat_ID, \"";
-	$r .= sprintf(__('You are about to delete the category \"%s\".  All of its posts and bookmarks will go to the default categories.\\n\"OK\" to delete, \"Cancel\" to stop.'), addslashes($cat->cat_name));
-	$r .= "\" );' class='delete'>".__('Delete')."</a></td></tr>";
+	$r .= "<cat><id>$cat->cat_ID</id><name>$cat_full_name</name><newitem><![CDATA[<table><tbody>";
+	$r .= _cat_row( $cat, $level, $cat_full_name );
 	$r .= "</tbody></table>]]></newitem></cat></ajaxresponse>";
 	header('Content-type: text/xml');
 	die($r);
-
 	break;
 case 'add-meta' :
 	if ( !current_user_can( 'edit_post', $id ) )
