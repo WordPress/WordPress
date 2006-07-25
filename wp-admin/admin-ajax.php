@@ -13,12 +13,6 @@ if ( !is_user_logged_in() )
 function get_out_now() { exit; }
 add_action( 'shutdown', 'get_out_now', -1 );
 
-function wp_clean_ajax_input( $i ) {
-	global $wpdb;
-	$i = is_array($i) ? array_map('wp_clean_ajax_input', $i) : $wpdb->escape( rawurldecode(stripslashes($i)) );
-	return $i;
-}
-
 function wp_ajax_echo_meta( $pid, $mid, $key, $value ) {
 	$value = wp_specialchars($value, true);
 	$key_js = addslashes(wp_specialchars($key, 'double'));
@@ -35,7 +29,6 @@ function wp_ajax_echo_meta( $pid, $mid, $key, $value ) {
 	return $r;
 }
 
-$_POST = wp_clean_ajax_input( $_POST );
 $id = (int) $_POST['id'];
 switch ( $_POST['action'] ) :
 case 'delete-comment' :
@@ -224,6 +217,7 @@ case 'add-user' :
 	die($r);
 	break;
 default :
+	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');
 	break;
 endswitch;

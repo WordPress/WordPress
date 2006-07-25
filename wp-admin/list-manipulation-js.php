@@ -1,6 +1,7 @@
 <?php
 require_once('admin.php');
 header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
+$handler =  get_settings( 'siteurl' ) . '/wp-admin/admin-ajax.php';
 ?>
 addLoadEvent(function(){theList=new listMan();});
 function deleteSomething(what,id,message,obj){if(!obj)obj=theList;if(!message)message="<?php printf(__('Are you sure you want to delete this %s?'),"'+what+'"); ?>";if(confirm(message))return obj.ajaxDelete(what,id);else return false;}
@@ -27,15 +28,15 @@ function WPAjax(file, responseEl){//class WPAjax extends sack
 }	WPAjax.prototype=new sack;
 	WPAjax.prototype.init=function(f,r){
 		this.encVar('cookie', document.cookie);
-		this.requestFile=f;this.getResponseElement(r);this.method='POST';
+		this.requestFile=f?f:'<?php echo $handler; ?>';this.getResponseElement(r);this.method='POST';
 		this.onLoading=function(){this.myResponseElement.innerHTML="<?php _e('Sending Data...'); ?>";};
 		this.onLoaded=function(){this.myResponseElement.innerHTML="<?php _e('Data Sent...'); ?>";};
 		this.onInteractive=function(){this.myResponseElement.innerHTML="<?php _e('Processing Data...'); ?>";};
 	}
 
 function listMan(theListId){
-	this.theList=null;
-	this.ajaxRespEl=null;
+	this.theList=null;this.theListId=theListId;
+	this.ajaxRespEl=null;this.ajaxHandler='<?php echo $handler; ?>';
 	this.inputData='';this.clearInputs=new Array();this.showLink=1;
 	this.topAdder=0;this.alt='alternate';this.recolorPos;this.reg_color='#FFFFFF';this.alt_color='#F1F1F1';
 	this.addComplete=null;this.delComplete=null;this.dimComplete=null;
@@ -44,7 +45,7 @@ function listMan(theListId){
 
 	this.ajaxAdder=function(what,where,update){//for TR, server must wrap TR in TABLE TBODY. this.makeEl cleans it
 		if(self.aTrap)return;self.aTrap=1;setTimeout('aTrap=0',300);
-		this.ajaxAdd=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
+		this.ajaxAdd=new WPAjax(this.ajaxHandler,this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxAdd.failed)return true;
 		this.grabInputs(where);
 		var tempObj=this;
@@ -53,7 +54,7 @@ function listMan(theListId){
 			var newItems=this.responseXML.getElementsByTagName(what);
 			if(tempObj.topAdder)tempObj.recolorPos=0;
 			if(newItems){for (c=0;c<newItems.length;c++){
-				var id=parseInt(getNodeValue(newItems[c],'id'),10);
+				var id=getNodeValue(newItems[c],'id');
 				var exists=document.getElementById(what+'-'+id);
 				if(exists)tempObj.replaceListItem(exists.id,getNodeValue(newItems[c],'newitem'),newItems.length,update);
 				else tempObj.addListItem(getNodeValue(newItems[c],'newitem'),newItems.length);
@@ -71,7 +72,7 @@ function listMan(theListId){
 	this.ajaxUpdater=function(what,where){return this.ajaxAdder(what,where,true);}
 	this.ajaxDelete=function(what,id){
 		if(self.aTrap)return;self.aTrap=1;setTimeout('aTrap=0',300);
-		this.ajaxDel=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
+		this.ajaxDel=new WPAjax(this.ajaxHandler,this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxDel.failed)return true;
 		var tempObj=this;
 		this.ajaxDel.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.removeListItem(what.replace('-as-spam','')+'-'+id);this.myResponseElement.innerHTML='';if(tempObj.delComplete&&typeof tempObj.delComplete=='function')tempObj.delComplete(what,id);tempObj.recolorList(tempObj.recolorPos,1000)}};
@@ -80,7 +81,7 @@ function listMan(theListId){
 	}
 	this.ajaxDimmer=function(what,id,dimClass){
 		if(self.aTrap)return;self.aTrap=1;setTimeout('aTrap=0',300);
-		this.ajaxDim=new WPAjax('admin-ajax.php',this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
+		this.ajaxDim=new WPAjax(this.ajaxHandler,this.ajaxRespEl?this.ajaxRespEl:'ajax-response');
 		if(this.ajaxDim.failed)return true;
 		var tempObj=this;
 		this.ajaxDim.onCompletion=function(){if(this.parseAjaxResponse()){tempObj.dimItem(what+'-'+id,dimClass);this.myResponseElement.innerHTML='';if(tempObj.dimComplete&&typeof tempObj.dimComplete=='function')tempObj.dimComplete(what,id,dimClass);}};
@@ -137,8 +138,8 @@ function listMan(theListId){
 	this.getListItems=function(){
 		if(this.theList)return;
 		listItems=new Array();
-		if(theListId){this.theList=document.getElementById(theListId);if(!this.theList)return false;}
-		else{this.theList=document.getElementById('the-list');if(this.theList)theListId='the-list';}
+		if(this.theListId){this.theList=document.getElementById(this.theListId);if(!this.theList)return false;}
+		else{this.theList=document.getElementById('the-list');if(this.theList)this.theListId='the-list';}
 		if(this.theList){
 			var items=this.theList.getElementsByTagName('tr');listType='table';
 			if(!items[0]){items=this.theList.getElementsByTagName('li');listType='list';}
@@ -155,9 +156,18 @@ function listMan(theListId){
 	}
 	this.getListItems();
 }
-//No submit unless eval(code) returns true.
-function killSubmit(code,e){if(!e){if(window.event)e=window.event;else return;}var t=e.target?e.target:e.srcElement;if(('text'==t.type&&e.keyCode==13)||('submit'==t.type&&'click'==e.type)){if(!eval(code)){e.returnValue=false;e.cancelBubble=true;return false;}}}
-//Pretty func from ALA http://www.alistapart.com/articles/gettingstartedwithajax
-function getNodeValue(tree,el){return tree.getElementsByTagName(el)[0].firstChild.nodeValue;}
+//No submit unless code returns true.
+function killSubmit ( code, e ) {
+	e = e ? e : window.event;
+	if ( !e ) return;
+	var t = e.target ? e.target : e.srcElement;
+	if ( ( 'text' == t.type && e.keyCode == 13 ) || ( 'submit' == t.type && 'click' == e.type ) ) {
+		if ( ( 'string' == typeof code && !eval(code) ) || 'function' == typeof code && !code() ) {
+			if ( !eval(code) ) { e.returnValue = false; e.cancelBubble = true; return false; }
+		}
+	}
+}
+//Pretty func adapted from ALA http://www.alistapart.com/articles/gettingstartedwithajax
+function getNodeValue(tree,el){try { var r = tree.getElementsByTagName(el)[0].firstChild.nodeValue; } catch(err) { var r = null; } return r; }
 //Generic but lame JS closure
 function encloseFunc(f){var a=arguments[1];return function(){return f(a);}}

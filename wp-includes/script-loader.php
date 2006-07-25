@@ -19,7 +19,7 @@ class WP_Scripts {
 		$this->add( 'wp_tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('tiny_mce'), '04162006' );
 		if ( is_admin() ) {
 			$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key-js.php', array('dbx'), '3651' );
-			$this->add( 'listman', '/wp-admin/list-manipulation-js.php', array('sack', 'fat'), '3850' ); // Make changeset # the correct one
+			$this->add( 'listman', '/wp-admin/list-manipulation-js.php', array('sack', 'fat'), '4042' ); // Make changeset # the correct one
 			$this->add( 'ajaxcat', '/wp-admin/cat-js.php', array('listman'), '3684' );
 			$this->add( 'admin-categories', '/wp-admin/categories.js', array('listman'), '3684' );
 			$this->add( 'admin-custom-fields', '/wp-admin/custom-fields.js', array('listman'), '3733' );
