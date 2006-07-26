@@ -361,7 +361,7 @@ function edit_user($user_id = 0) {
 	if (isset ($_POST['pass2']))
 		$pass2 = $_POST['pass2'];
 
-	if (isset ($_POST['role'])) {
+	if (isset ($_POST['role']) && current_user_can('edit_users')) {
 		if($user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap('edit_users'))
 			$user->role = $_POST['role'];
 	}
@@ -1214,6 +1214,7 @@ function user_can_access_admin_page() {
 	global $pagenow;
 	global $menu;
 	global $submenu;
+	global $plugin_page;
 
 	$parent = get_admin_page_parent();
 
@@ -1229,13 +1230,21 @@ function user_can_access_admin_page() {
 	}
 
 	if (isset ($submenu[$parent])) {
-		foreach ($submenu[$parent] as $submenu_array) {
-			if ($submenu_array[2] == $pagenow) {
-				if (!current_user_can($submenu_array[1])) {
-					return false;
-				} else {
-					return true;
+		if ( isset($plugin_page) ) {
+			foreach ($submenu[$parent] as $submenu_array) {
+				if ( $submenu_array[2] == $plugin_page ) {
+					if (!current_user_can($submenu_array[1]))
+						return false;
 				}
+			}
+		}
+
+		foreach ($submenu[$parent] as $submenu_array) {		
+			if ($submenu_array[2] == $pagenow) {
+				if (!current_user_can($submenu_array[1]))
+					return false;
+				else
+					return true;
 			}
 		}
 	}
