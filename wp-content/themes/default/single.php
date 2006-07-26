@@ -12,7 +12,7 @@
 		<div class="post" id="post-<?php the_ID(); ?>">
 			<h2><a href="<?php echo get_permalink() ?>" rel="bookmark" title="Permanent Link: <?php the_title(); ?>"><?php the_title(); ?></a></h2>
 
-			<div class="entrytext">
+			<div class="entry">
 				<?php the_content('<p class="serif">Read the rest of this entry &raquo;</p>'); ?>
 
 				<?php link_pages('<p><strong>Pages:</strong> ', '</p>', 'number'); ?>
