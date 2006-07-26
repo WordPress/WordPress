@@ -149,6 +149,9 @@ function utf8_uri_encode( $utf8_string ) {
 }
 
 function remove_accents($string) {
+	if ( !preg_match('/[\x80-\xff]/', $string) )
+		return $string;
+
 	if (seems_utf8($string)) {
 		$chars = array(
 		// Decompositions for Latin-1 Supplement
