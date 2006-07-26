@@ -996,7 +996,7 @@ function debug_fclose($fp) {
 }
 
 function spawn_pinger() {
-	global $wpdb;
+	global $wpdb, $wp_version;
 	$doping = false;
 	if ( $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE TRIM(to_ping) != '' LIMIT 1") )
 		$doping = true;
@@ -1012,7 +1012,7 @@ function spawn_pinger() {
 		$parts = parse_url($ping_url);
 		$argyle = @ fsockopen($parts['host'], $_SERVER['SERVER_PORT'], $errno, $errstr, 0.01);
 		if ( $argyle )
-			fputs($argyle, "GET {$parts['path']}?time=".time()." HTTP/1.0\r\nHost: {$_SERVER['HTTP_HOST']}\r\n\r\n");
+			fputs($argyle, "GET {$parts['path']}?time=".time()." HTTP/1.0\r\nHost: {$_SERVER['HTTP_HOST']}\r\nUser-Agent: WordPress/{$wp_version}\r\n\r\n");
        }
 }
 
