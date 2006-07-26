@@ -531,7 +531,7 @@ class Walker_Page extends Walker {
 		if ( $page->ID == $current_page )
 			$css_class .= ' current_page_item';
 
-		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . wp_specialchars($page->post_title) . '">' . $page->post_title . '</a>';
+		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . wp_specialchars($page->post_title, 1) . '">' . $page->post_title . '</a>';
 	
 		if ( !empty($show_date) ) {
 			if ( 'modified' == $show_date )
@@ -599,9 +599,9 @@ class Walker_Category extends Walker {
 	
 		$link = '<a href="' . get_category_link($category->cat_ID) . '" ';
 		if ( $use_desc_for_title == 0 || empty($category->category_description) )
-			$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name)) . '"';
+			$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name, 1)) . '"';
 		else
-			$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category)) . '"';
+			$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category),1) . '"';
 		$link .= '>';
 		$link .= apply_filters('list_cats', $category->cat_name, $category).'</a>';
 	
