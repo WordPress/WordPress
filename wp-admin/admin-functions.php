@@ -379,6 +379,7 @@ function add_user() {
 	if ( func_num_args() ) { // The hackiest hack that ever did hack
 		global $current_user, $wp_roles;
 		$user_id = func_get_arg(0);
+
 		if (isset ($_POST['role'])) {
 			if($user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap('edit_users')) {
 				$user = new WP_User($user_id);
@@ -412,7 +413,7 @@ function edit_user($user_id = 0) {
 	if (isset ($_POST['pass2']))
 		$pass2 = $_POST['pass2'];
 
-	if (isset ($_POST['role'])) {
+	if (isset ($_POST['role']) && current_user_can('edit_users')) { 
 		if($user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap('edit_users'))
 			$user->role = $_POST['role'];
 	}
@@ -1330,12 +1331,16 @@ function user_can_access_admin_page() {
 	global $menu;
 	global $submenu;
 	global $menu_nopriv;
+	global $plugin_page;
 
 	$parent = get_admin_page_parent();
 	
 	if ( isset($menu_nopriv[$pagenow]) )
 		return false;
 
+	if ( isset($plugin_page) && isset($menu_nopriv[$plugin_page]) )
+		return false;
+	
 	if ( empty($parent) )
 		return true;
 

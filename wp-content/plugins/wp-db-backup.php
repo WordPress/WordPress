@@ -322,11 +322,11 @@ class wpdbBackup {
 
 	///////////////////////////////
 	function admin_menu() {
-		add_management_page(__('Backup'), __('Backup'), 9, basename(__FILE__), array(&$this, 'backup_menu'));
+		add_management_page(__('Backup'), __('Backup'), 'import', basename(__FILE__), array(&$this, 'backup_menu'));
 	}
 
 	function fragment_menu() {
-		add_management_page(__('Backup'), __('Backup'), 9, basename(__FILE__), array(&$this, 'build_backup_script'));
+		add_management_page(__('Backup'), __('Backup'), 'import', basename(__FILE__), array(&$this, 'build_backup_script'));
 	}
 
 	/////////////////////////////////////////////////////////
@@ -884,6 +884,9 @@ class wpdbBackup {
 
 function wpdbBackup_init() {
 	global $mywpdbbackup;
+
+	if ( !current_user_can('import') ) return;
+
 	$mywpdbbackup = new wpdbBackup(); 	
 }
 

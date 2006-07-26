@@ -30,12 +30,15 @@ wp_enqueue_script( 'fat' );
 
 $editing = false;
 
-require(ABSPATH . '/wp-admin/menu.php');
-
-// Handle plugin admin pages.
 if (isset($_GET['page'])) {
 	$plugin_page = stripslashes($_GET['page']);
 	$plugin_page = plugin_basename($plugin_page);
+}
+
+require(ABSPATH . '/wp-admin/menu.php');
+
+// Handle plugin admin pages.
+if (isset($plugin_page)) {
 	$page_hook = get_plugin_page_hook($plugin_page, $pagenow);
 
 	if ( $page_hook ) {
@@ -63,6 +66,9 @@ if (isset($_GET['page'])) {
 } else if (isset($_GET['import'])) {
 
 	$importer = $_GET['import'];
+
+	if ( ! current_user_can('import') )
+		wp_die(__('You are not allowed to import.'));
 
 	if ( validate_file($importer) ) {
 		wp_die(__('Invalid importer.'));
