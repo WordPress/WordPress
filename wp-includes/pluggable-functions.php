@@ -245,9 +245,9 @@ function check_ajax_referer() {
 	$cookie = explode('; ', urldecode(empty($_POST['cookie']) ? $_GET['cookie'] : $_POST['cookie'])); // AJAX scripts must pass cookie=document.cookie
 	foreach ( $cookie as $tasty ) {
 		if ( false !== strpos($tasty, USER_COOKIE) )
-			$user = substr(strstr($tasty, '='), 1);
+			$user = urldecode(substr(strstr($tasty, '='), 1)); // Nasty double encoding
 		if ( false !== strpos($tasty, PASS_COOKIE) )
-			$pass = substr(strstr($tasty, '='), 1);
+			$pass = urldecode(substr(strstr($tasty, '='), 1));
 	}
 	if ( wp_login( $user, $pass, true ) )
 		return true;
