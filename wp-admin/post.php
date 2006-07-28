@@ -89,13 +89,18 @@ case 'editpost':
 	
 	$post_ID = edit_post();
 
+	$referredby = '';
+	if ( !empty($_POST['referredby']) )
+		$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
+	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
+	
 	if ($_POST['save']) {
 		$location = wp_get_referer();
 	} elseif ($_POST['updatemeta']) {
 		$location = wp_get_referer() . '&message=2#postcustom';
 	} elseif ($_POST['deletemeta']) {
 		$location = wp_get_referer() . '&message=3#postcustom';
-	} elseif (!empty($_POST['referredby']) && $_POST['referredby'] != wp_get_referer()) {
+	} elseif (!empty($referredby) && $referredby != $referer) {
 		$location = $_POST['referredby'];
 		if ( $_POST['referredby'] == 'redo' )
 			$location = get_permalink( $post_ID );
