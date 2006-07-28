@@ -133,7 +133,7 @@ function the_author_posts_link($idmode='') {
 	echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), wp_specialchars(the_author($idmode, false))) . '">' . the_author($idmode, false) . '</a>';
 }
 
-function get_author_link($echo = false, $author_id, $author_nicename) {
+function get_author_link($echo = false, $author_id, $author_nicename = '') {
 	global $wpdb, $wp_rewrite, $post, $cache_userdata;
 	$auth_ID = $author_id;
 	$link = $wp_rewrite->get_author_permastruct();
