@@ -92,7 +92,7 @@ if ($error)
 break;
 
 case 'retrievepassword':
-	$user_data = get_userdatabylogin($_POST['user_login']);
+	$user_data = get_userdatabylogin(trim($_POST['user_login']));
 	// redefining user_login ensures we return the right case in the email
 	$user_login = $user_data->user_login;
 	$user_email = $user_data->user_email;
