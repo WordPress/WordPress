@@ -29,9 +29,6 @@ function WPAjax(file, responseEl){//class WPAjax extends sack
 	WPAjax.prototype.init=function(f,r){
 		this.encVar('cookie', document.cookie);
 		this.requestFile=f?f:'<?php echo $handler; ?>';this.getResponseElement(r);this.method='POST';
-		this.onLoading=function(){this.myResponseElement.innerHTML="<?php _e('Sending Data...'); ?>";};
-		this.onLoaded=function(){this.myResponseElement.innerHTML="<?php _e('Data Sent...'); ?>";};
-		this.onInteractive=function(){this.myResponseElement.innerHTML="<?php _e('Processing Data...'); ?>";};
 	}
 
 function listMan(theListId){
