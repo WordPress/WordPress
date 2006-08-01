@@ -81,6 +81,8 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 		$content = explode($matches[0], $content, 2);
 		if ( !empty($matches[1]) )
 			$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));
+	} else {
+		$content = array($content);
 	}
 	if ( (false !== strpos($post->post_content, '<!--noteaser-->') && ((!$multipage) || ($page==1))) )
 		$stripteaser = 1;
