@@ -54,8 +54,14 @@ function &get_children($post = 0, $output = OBJECT) {
 
 // get extended entry info (<!--more-->)
 function get_extended($post) {
-	list($main,$extended) = explode('<!--more-->', $post, 2);
-
+	//Match the new style more links
+	if (preg_match('/<!--more(.+?)?-->/', $post, $matches)) {
+		list($main,$extended) = explode($matches[0],$post,2);
+	} else {
+		$main = $post;
+		$extended = '';
+	}
+	
 	// Strip leading and trailing whitespace
 	$main = preg_replace('/^[\s]*(.*)[\s]*$/','\\1',$main);
 	$extended = preg_replace('/^[\s]*(.*)[\s]*$/','\\1',$extended);
