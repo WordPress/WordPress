@@ -1239,7 +1239,7 @@ class Snoopy
 
 						$fp = fopen($file_name, "r");
 						while (!feof($fp)) {
-							$file_content = fread($fp, filesize($file_name));
+							$file_content .= fread($fp, filesize($file_name));
 						}
 						fclose($fp);
 						$base_name = basename($file_name);
