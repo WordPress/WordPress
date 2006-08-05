@@ -557,58 +557,100 @@ table .vers {
 }
 
 #login {
-	background: #fff;
-	border: 1px solid #a2a2a2;
+	position: relative;
+	background: url('images/login_background.png') no-repeat top center #fff;
+	color: #fff;
+	height: 430px;
 	margin: 5em auto;
-	padding: 1.5em;
-	width: 25em;
+	padding: 45px 50px 0;
+	width: 250px;
 }
 
 #login #login_error {
-	background: #c00;
-	border: 1px solid #a40000;
-	color: #fff;
-	font-size: 16px;
+	background: #0e3350;
+	border: 1px solid #2571ab;
+	color: #ebcd4e;
+	font-size: 11px;
 	font-weight: bold;
-	padding: .5em;
+	padding: .6em;
 	text-align: center;
 }
 
+#login #send {
+	color: #fff;
+	text-align: left;
+	font-weight: normal;
+	font-size: 1.1em;
+}
+
 #login h1 {
-	background: url(images/wordpress-logo.png) no-repeat top left;
-	margin-top: 0;
+	margin: 0 auto;
+	padding-bottom: 10px;
+	left: 137px;
+	height: 75px;
+	width: 75px;
 }
 
 #login h1 a {
 	display: block;
 	text-indent: -1000px;
-	height: 66px;
 	border-bottom: none;
 }
 
 #login input {
-	padding: 3px;
+	padding: 4px;
 }
 
 #login ul {
+	position: absolute;
+	bottom: 80px;
 	list-style: none;
-	margin: 0;
+	margin: 0 auto;
 	padding: 0;
 }
 
+#login ul:after {
+  content: "."; 
+  display: block; 
+  height: 0; 
+  clear: both; 
+  visibility: hidden;
+}
+
 #login ul li {
-	display: inline;
-	margin-left: 1.4em;
+	float: left;
+	font-size: 11px;
 	text-align: center;
 }
 
-#login #log, #pwd {
-	font-size: 1.7em;
-	width: 80%;
+#login ul li a {
+	display: block;
+	color: #84c4f0;
+	border: none;
+	padding: 4px 1px 5px;
+	width: 123px;
+}
+
+#login ul li a:hover {
+	background: #0e3350;
+	border: 1px solid #2571ab;
+	padding: 3px 0 4px; 
+	color: #fff;
+}
+
+#login #log, #pwd, #user_login, #email {
+	font-size: 1.2em;
+	margin-top: 3px;
+	width: 97%;
+}
+
+#login p label { 
+	font-size: 11px;
 }
 
 #login #submit {
-	font-size: 1.7em;
+	margin: 0;
+	font-size: 1.1em;
 }
 
 #postcustom .updatemeta, #postcustom .deletemeta {
