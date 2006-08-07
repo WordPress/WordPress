@@ -50,17 +50,23 @@ function wp_unschedule_event( $timestamp, $hook ) {
 }
 
 function wp_clear_scheduled_hook( $hook ) {
-	while ( $timestamp = wp_next_scheduled( $hook ) )
+	$args = array_slice( func_get_args(), 1 );
+	
+	while ( $timestamp = wp_next_scheduled( $hook, $args ) )
 		wp_unschedule_event( $timestamp, $hook );
 }
 
-function wp_next_scheduled( $hook ) {
+function wp_next_scheduled( $hook, $args = '' ) {
 	$crons = get_option( 'cron' );
 	if ( empty($crons) )
 		return false;
 	foreach ( $crons as $timestamp => $cron )
-		if ( isset( $cron[$hook] ) )
-			return $timestamp;
+		if ( isset( $cron[$hook] ) ) {
+			if ( empty($args) )
+				return $timestamp;
+			if ( $args == $cron[$hook]['args'] )
+				return $timestamp;
+		}
 	return false;
 }
 
@@ -92,7 +98,7 @@ function wp_cron() {
 		return;
 
 	$keys = array_keys( $crons );
-	if ( array_shift( $keys ) > time() )
+	if ( $keys[0] > time() )
 		return;
 
 	$schedules = wp_get_schedules();

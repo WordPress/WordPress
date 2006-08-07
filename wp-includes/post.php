@@ -496,14 +496,16 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	// Get the basics.
-	$post_content    = apply_filters('content_save_pre',   $post_content);
-	$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
-	$post_title      = apply_filters('title_save_pre',     $post_title);
-	$post_category   = apply_filters('category_save_pre',  $post_category);
-	$post_status     = apply_filters('status_save_pre',    $post_status);
-	$post_name       = apply_filters('name_save_pre',      $post_name);
-	$comment_status  = apply_filters('comment_status_pre', $comment_status);
-	$ping_status     = apply_filters('ping_status_pre',    $ping_status);
+	if ( empty($no_filter) ) {
+		$post_content    = apply_filters('content_save_pre',   $post_content);
+		$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
+		$post_title      = apply_filters('title_save_pre',     $post_title);
+		$post_category   = apply_filters('category_save_pre',  $post_category);
+		$post_status     = apply_filters('status_save_pre',    $post_status);
+		$post_name       = apply_filters('name_save_pre',      $post_name);
+		$comment_status  = apply_filters('comment_status_pre', $comment_status);
+		$ping_status     = apply_filters('ping_status_pre',    $ping_status);
+	}
 
 	// Make sure we set a valid category
 	if (0 == count($post_category) || !is_array($post_category)) {
@@ -544,7 +546,7 @@ function wp_insert_post($postarr = array()) {
 		if ( 'draft' != $post_status )
 			$post_date_gmt = get_gmt_from_date($post_date);
 	}
-
+		
 	if ( 'publish' == $post_status ) {
 		$now = gmdate('Y-m-d H:i:59');
 		if ( mysql2date('U', $post_date_gmt) > mysql2date('U', $now) )
@@ -658,7 +660,22 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	if ($post_status == 'publish' && $post_type == 'post') {
-		wp_publish_post($post_ID);
+		do_action('publish_post', $post_ID);
+
+		if ( !defined('WP_IMPORTING') ) {
+			if ( $post_pingback )
+				$result = $wpdb->query("
+					INSERT INTO $wpdb->postmeta 
+					(post_id,meta_key,meta_value) 
+					VALUES ('$post_ID','_pingme','1')
+				");
+			$result = $wpdb->query("
+				INSERT INTO $wpdb->postmeta 
+				(post_id,meta_key,meta_value) 
+				VALUES ('$post_ID','_encloseme','1')
+			");
+			wp_schedule_single_event(time(), 'do_pings');
+		}
 	} else if ($post_type == 'page') {
 		wp_cache_delete('all_page_ids', 'pages');
 		$wp_rewrite->flush_rules();
@@ -672,6 +689,7 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	if ( 'future' == $post_status ) {
+		wp_clear_scheduled_hook('publish_future_post', $post_ID);
 		wp_schedule_single_event(mysql2date('U', $post_date), 'publish_future_post', $post_ID);
 	}
 		
@@ -722,36 +740,15 @@ function wp_update_post($postarr = array()) {
 }
 
 function wp_publish_post($post_id) {
-	global $wpdb;
-
 	$post = get_post($post_id);
 
 	if ( empty($post) )
 		return;
 
-	if ( 'publish' != $post->post_status )
-		$wpdb->query("UPDATE IGNORE $wpdb->posts SET post_status = 'publish' WHERE ID = $post_id");
-
-	do_action('publish_post', $post_id);
-
-	if ( defined('WP_IMPORTING') )
+	if ( 'publish' == $post->post_status )
 		return;
 
-	$post_pingback = get_option('default_pingback_flag');
-	if ( $post_pingback )
-		$result = $wpdb->query("
-			INSERT INTO $wpdb->postmeta 
-			(post_id,meta_key,meta_value) 
-			VALUES ('$post_ID','_pingme','1')
-		");
-
-	$result = $wpdb->query("
-			INSERT INTO $wpdb->postmeta 
-			(post_id,meta_key,meta_value) 
-			VALUES ('$post_ID','_encloseme','1')
-		");
-
-	wp_schedule_single_event(time(), 'do_pings');
+	return wp_update_post(array('post_status' => 'publish', 'ID' => $post_id, 'no_filter' => true));
 }
 
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {

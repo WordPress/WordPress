@@ -7,7 +7,8 @@ if ( $_GET['check'] != md5(DB_PASS . '187425') )
 	exit;
 
 $crons = get_option('cron');
-if (!is_array($crons) || array_shift(array_keys($crons)) > time())
+$keys = array_keys($crons);
+if (!is_array($crons) || $keys[0] > time())
 	return;
 foreach ($crons as $timestamp => $cronhooks) {
 	if ($timestamp > time()) break;
