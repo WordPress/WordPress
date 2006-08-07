@@ -92,7 +92,7 @@ $bookmarklet_height= 440;
 </fieldset>
 <br clear="all" />
 <fieldset>
-<legend><?php _e('About yourself'); ?></legend>
+<legend><?php _e('About Yourself'); ?></legend>
 <p class="desc"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p>
 <p><textarea name="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea></p>
 </fieldset>
