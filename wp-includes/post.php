@@ -688,10 +688,12 @@ function wp_insert_post($postarr = array()) {
 			do_action('publish_page', $post_ID);
 	}
 
-	if ( 'future' == $post_status ) {
-		wp_clear_scheduled_hook('publish_future_post', $post_ID);
+	// Always clears the hook in case the post status bounced from future to draft.
+	wp_clear_scheduled_hook('publish_future_post', $post_ID);
+
+	// Schedule publication.
+	if ( 'future' == $post_status )
 		wp_schedule_single_event(mysql2date('U', $post_date), 'publish_future_post', $post_ID);
-	}
 		
 	do_action('save_post', $post_ID);
 	do_action('wp_insert_post', $post_ID);
