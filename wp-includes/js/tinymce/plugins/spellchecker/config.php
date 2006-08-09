@@ -6,7 +6,7 @@
 
 	// Pspell shell specific settings
 	$spellCheckerConfig['tinypspellshell.aspell'] = '/usr/bin/aspell';
-	$spellCheckerConfig['tinypspellshell.tmp'] = '/tmp';
+	$spellCheckerConfig['tinypspellshell.tmp'] = '/tmp/tinyspell/0';
 
 	// Default settings
 	$spellCheckerConfig['default.language'] = 'en';

@@ -1,7 +1,7 @@
 /**
  * $RCSfile: editor_template_src.js,v $
- * $Revision: 1.93 $
- * $Date: 2006/03/14 17:33:50 $
+ * $Revision: 1.96 $
+ * $Date: 2006/04/18 13:32:52 $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -81,7 +81,13 @@ var TinyMCE_AdvancedTheme = {
 					['h3', '{$lang_theme_h3}'],
 					['h4', '{$lang_theme_h4}'],
 					['h5', '{$lang_theme_h5}'],
-					['h6', '{$lang_theme_h6}']
+					['h6', '{$lang_theme_h6}'],
+					['div', '{$lang_theme_div}'],
+					['blockquote', '{$lang_theme_blockquote}'],
+					['code', '{$lang_theme_code}'],
+					['dt', '{$lang_theme_dt}'],
+					['dd', '{$lang_theme_dd}'],
+					['samp', '{$lang_theme_samp}']
 				];
 
 				html += '<option value="">{$lang_theme_block}</option>';
@@ -90,7 +96,7 @@ var TinyMCE_AdvancedTheme = {
 				for (var i=0; i<formats.length; i++) {
 					for (var x=0; x<lookup.length; x++) {
 						if (formats[i] == lookup[x][0])
-							html += '<option value="<' + lookup[x][0] + '>">' + lookup[x][1] + '</option>';
+							html += '<option value="&lt;' + lookup[x][0] + '&gt;">' + lookup[x][1] + '</option>';
 					}
 				}
 
@@ -117,16 +123,16 @@ var TinyMCE_AdvancedTheme = {
 				return fontHTML;
 
 			case "fontsizeselect":
-				return '<select id="{$editor_id}_fontSizeSelect" name="{$editor_id}_fontSizeSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FontSize\',false,this.options[this.selectedIndex].value);" class="mceSelectList">\
-						<option value="0">{$lang_theme_font_size}</option>\
-						<option value="1">1 (8 pt)</option>\
-						<option value="2">2 (10 pt)</option>\
-						<option value="3">3 (12 pt)</option>\
-						<option value="4">4 (14 pt)</option>\
-						<option value="5">5 (18 pt)</option>\
-						<option value="6">6 (24 pt)</option>\
-						<option value="7">7 (36 pt)</option>\
-						</select>';
+				return '<select id="{$editor_id}_fontSizeSelect" name="{$editor_id}_fontSizeSelect" onfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'FontSize\',false,this.options[this.selectedIndex].value);" class="mceSelectList">'+
+						'<option value="0">{$lang_theme_font_size}</option>'+
+						'<option value="1">1 (8 pt)</option>'+
+						'<option value="2">2 (10 pt)</option>'+
+						'<option value="3">3 (12 pt)</option>'+
+						'<option value="4">4 (14 pt)</option>'+
+						'<option value="5">5 (18 pt)</option>'+
+						'<option value="6">6 (24 pt)</option>'+
+						'<option value="7">7 (36 pt)</option>'+
+						'</select>';
 
 			case "|":
 			case "separator":
@@ -458,7 +464,7 @@ var TinyMCE_AdvancedTheme = {
 		var deltaHeight = 0;
 		var resizing = tinyMCE.getParam("theme_advanced_resizing", false);
 		var path = tinyMCE.getParam("theme_advanced_path", true);
-		var statusbarHTML = '<div id="{$editor_id}_path" class="mceStatusbarPathText" style="display: ' + (path ? "block" : "none") + '">&nbsp;</div><div id="{$editor_id}_resize" class="mceStatusbarResize" style="display: ' + (resizing ? "block" : "none") + '" onmousedown="tinyMCE.themes.advanced._setResizing(event,\'{$editor_id}\',true);"></div><br style="clear: both" />';
+		var statusbarHTML = '<div id="{$editor_id}_path" class="mceStatusbarPathText" style="display: ' + (path ? "block" : "none") + '">&#160;</div><div id="{$editor_id}_resize" class="mceStatusbarResize" style="display: ' + (resizing ? "block" : "none") + '" onmousedown="tinyMCE.themes.advanced._setResizing(event,\'{$editor_id}\',true);"></div><br style="clear: both" />';
 		var layoutManager = tinyMCE.getParam("theme_advanced_layout_manager", "SimpleLayout");
 
 		// Setup style select options -- MOVED UP FOR EXTERNAL TOOLBAR COMPATABILITY!
@@ -583,11 +589,7 @@ var TinyMCE_AdvancedTheme = {
 				for (var i = 0; i < containers.length; i++)
 				{
 					if (containers[i] == "mceEditor") //Exceptions for mceEditor and ...
-					{
-						template['html'] += '<tr><td align="center" class="mceEditor_border">\
-													<span id="{$editor_id}"></span>\
-													</td></tr>';
-					}
+						template['html'] += '<tr><td align="center" class="mceEditor_border"><span id="{$editor_id}"></span></td></tr>';
 					else if (containers[i] == "mceElementpath" || containers[i] == "mceStatusbar") // ... mceElementpath:
 					{
 						var pathClass = "mceStatusbar";
@@ -814,7 +816,7 @@ var TinyMCE_AdvancedTheme = {
 				}
 			}
 
-			pathElm.innerHTML = '<a href="#" accesskey="x"></a>' + tinyMCE.getLang('lang_theme_path') + ": " + html + '&nbsp;';
+			pathElm.innerHTML = '<a href="#" accesskey="x"></a>' + tinyMCE.getLang('lang_theme_path') + ": " + html + '&#160;';
 		}
 
 		// Reset old states

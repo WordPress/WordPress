@@ -43,6 +43,10 @@
 	$mce_popups_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/popups.css';
 	$mce_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/wordpress.css';
 	$mce_css = apply_filters('mce_css', $mce_css);
+	if ( $_SERVER['HTTPS'] ) {
+		$mce_css = str_replace('http://', 'https://', $mce_css);
+		$mce_popups_css = str_replace('http://', 'https://', $mce_popups_css);
+	}
 ?>
 
 initArray = {
@@ -69,6 +73,7 @@ initArray = {
 	convert_newlines_to_brs : false,
 	remove_linebreaks : false,
 	fix_list_elements : true,
+	entities : "38,amp,60,lt,62,gt",
 	content_css : "<?php echo $mce_css; ?>",
 	valid_elements : "<?php echo $valid_elements; ?>",
 	save_callback : 'TinyMCE_wordpressPlugin.saveCallback',

@@ -263,6 +263,15 @@ TinyMCE_Popup.prototype.openBrowser = function(element_id, type, option) {
 		eval("tinyMCEPopup.windowOpener." + cb + "(element_id, url, type, window);");
 };
 
+TinyMCE_Popup.prototype.importClass = function(c) {
+	window[c] = function() {};
+
+	for (var n in window.opener[c].prototype)
+		window[c].prototype[n] = window.opener[c].prototype[n];
+
+	window[c].constructor = window.opener[c].constructor;
+};
+
 // Setup global instance
 var tinyMCEPopup = new TinyMCE_Popup();
 
