@@ -558,12 +558,12 @@ table .vers {
 
 #login {
 	position: relative;
-	background: url('images/login_background.png') no-repeat top center #fff;
+	background: url('images/login-bkg-tile.gif') no-repeat top center #fbfbfb;
 	color: #fff;
-	height: 430px;
+	/* height: 430px; */
 	margin: 5em auto;
 	padding: 45px 50px 0;
-	width: 250px;
+	width: 325px;
 }
 
 #login #login_error {
@@ -593,7 +593,7 @@ table .vers {
 
 #login h1 a {
 	display: block;
-	text-indent: -1000px;
+	text-indent: -9999px;
 	border-bottom: none;
 }
 
@@ -602,11 +602,10 @@ table .vers {
 }
 
 #login ul {
-	position: absolute;
-	bottom: 80px;
+	background: url('images/login-bkg-bottom.gif') no-repeat bottom center;
 	list-style: none;
-	margin: 0 auto;
-	padding: 0;
+	margin: 0 -50px;
+	padding: 0 50px 5px;
 }
 
 #login ul:after {
@@ -620,6 +619,7 @@ table .vers {
 #login ul li {
 	float: left;
 	font-size: 11px;
+	padding: 15px 0;
 	text-align: center;
 }
 
@@ -628,7 +628,7 @@ table .vers {
 	color: #84c4f0;
 	border: none;
 	padding: 4px 1px 5px;
-	width: 123px;
+	width: 160px;
 }
 
 #login ul li a:hover {
@@ -639,7 +639,7 @@ table .vers {
 }
 
 #login #log, #pwd, #user_login, #email {
-	font-size: 1.2em;
+	font-size: 1.8em;
 	margin-top: 3px;
 	width: 97%;
 }
@@ -650,7 +650,7 @@ table .vers {
 
 #login #submit {
 	margin: 0;
-	font-size: 1.1em;
+	font-size: 1.2em;
 }
 
 #postcustom .updatemeta, #postcustom .deletemeta {
