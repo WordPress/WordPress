@@ -86,7 +86,7 @@ case 'editpost':
 	$page_ID = edit_post();
 
 	if ($_POST['save']) {
-		$location = wp_get_referer();
+		$location = "page.php?action=edit&post=$page_ID";
 	} elseif ($_POST['updatemeta']) {
 		$location = wp_get_referer() . '&message=2#postcustom';
 	} elseif ($_POST['deletemeta']) {
