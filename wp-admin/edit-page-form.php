@@ -138,6 +138,7 @@ endforeach;
 </fieldset>
 
 <p class="submit">
+<span id="autosave"></span>
 <input name="save" type="submit" id="save" tabindex="3" value="<?php _e('Save and Continue Editing'); ?>" />
 <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 

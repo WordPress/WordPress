@@ -7,10 +7,6 @@ header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT")
 
 
 ?>
-function autosave_adddiv() {
-	var buttons = document.getElementsByClassName('submit')[0].innerHTML;
-	document.getElementsByClassName('submit')[0].innerHTML = '<span id="autosave"></span>' + buttons;
-}
 function autosave_timer() {
 	autosave();
 	setTimeout("autosave_timer()", <?php echo apply_filters('autosave_interval', '60000') ?>);
@@ -20,7 +16,6 @@ function autosave_start_timer() {
 	setTimeout("autosave_timer()", <?php echo apply_filters('autosave_start_delay', '60000') ?>);
 }
 addLoadEvent(autosave_start_timer)
-addLoadEvent(autosave_adddiv);
 
 function autosave_cur_time() {
 	var now = new Date();

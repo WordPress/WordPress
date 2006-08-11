@@ -152,7 +152,7 @@ endforeach;
 <?php echo $form_prevstatus ?>
 
 
-<p class="submit"><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
+<p class="submit"><span id="autosave"></span><?php echo $saveasdraft; ?> <input type="submit" name="submit" value="<?php _e('Save') ?>" style="font-weight: bold;" tabindex="4" /> 
 <?php 
 if ('publish' != $post->post_status || 0 == $post_ID) {
 ?>
