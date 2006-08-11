@@ -10,7 +10,7 @@ class WP_Scripts {
 	}
 
 	function default_scripts() {
-		$this->add( 'dbx', '/wp-includes/js/dbx.js', false, '2.02' );
+		$this->add( 'dbx', '/wp-includes/js/dbx.js', false, '2.05' );
 		$this->add( 'fat', '/wp-includes/js/fat.js', false, '1.0-RC1_3660' );
 		$this->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
 		$this->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '3517' );
