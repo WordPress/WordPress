@@ -25,6 +25,11 @@ function autosave_cur_time() {
 	((now.getSeconds() < 10) ? ":0" : ":") + now.getSeconds();
 }
 	
+function autosave_update_nonce() {
+	var response = nonceAjax.response;
+	document.getElementsByName('_wpnonce')[0].value = response;
+}
+
 function autosave_update_post_ID() {
 	var response = autosaveAjax.response;
 	var res = parseInt(response);
@@ -36,9 +41,23 @@ function autosave_update_post_ID() {
 		message = "<?php _e('Saved at '); ?>" + autosave_cur_time();
 		$('post_ID').name = "post_ID";
 		$('post_ID').value = res;
+		$('hiddenaction').value = 'editpost';
+		// We need new nonces
+		nonceAjax = new sack();
+		nonceAjax.element = null;
+		nonceAjax.setVar("action", "autosave-generate-nonces");
+		nonceAjax.setVar("post_ID", res);
+		nonceAjax.setVar("cookie", document.cookie);
+		nonceAjax.setVar("post_type", $('post_type').value);
+		nonceAjax.requestFile = "<?php echo get_bloginfo('siteurl'); ?>/wp-admin/admin-ajax.php";
+		nonceAjax.onCompletion = autosave_update_nonce;
+		nonceAjax.method = "POST";
+		nonceAjax.runAJAX();
+		
 	}
 	$('autosave').innerHTML = message;
 }
+
 function autosave_loading() {
 	$('autosave').innerHTML = "<?php _e('Saving Draft...'); ?>";
 }

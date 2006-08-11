@@ -246,6 +246,19 @@ case 'autosave' :
 	}
 	die('0');
 break;
+case 'autosave-generate-nonces' :
+	$ID = (int) $_POST['post_ID'];
+	if($_POST['post_type'] == 'post') {
+		if(current_user_can('edit_post', $ID))
+			die(wp_create_nonce('update-post_' . $ID));
+	}
+	if($_POST['post_type'] == 'page') {
+		if(current_user_can('edit_page', $ID)) {
+			die(wp_create_nonce('update-page_' . $ID));
+		}
+	}
+	die($_POST['post_type']);
+break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');

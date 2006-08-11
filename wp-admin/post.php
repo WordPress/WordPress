@@ -98,7 +98,7 @@ case 'editpost':
 	$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
 	
 	if ($_POST['save']) {
-		$location = wp_get_referer();
+		$location = "post.php?action=edit&post=$post_ID";
 	} elseif ($_POST['updatemeta']) {
 		$location = wp_get_referer() . '&message=2#postcustom';
 	} elseif ($_POST['deletemeta']) {
