@@ -1,15 +1,23 @@
 <?php
 
-// Creates a new post from the "Write Post" form using $_POST information.
 function write_post() {
+	$result = wp_write_post();
+	if( is_wp_error($result) )
+		wp_die( $result->get_error_message() );
+	else
+		return $result;
+}
+
+// Creates a new post from the "Write Post" form using $_POST information.
+function wp_write_post() {
 	global $user_ID;
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ( !current_user_can('edit_pages') )
-			wp_die(__('You are not allowed to create pages on this blog.'));
+			return new WP_Error('edit_pages', __('You are not allowed to create pages on this blog.'));
 	} else {
 		if ( !current_user_can('edit_posts') )
-			wp_die(__('You are not allowed to create posts or drafts on this blog.'));
+			return new WP_Error('edit_posts', __('You are not allowed to create posts or drafts on this blog.'));
 	}
 
 	// Rename.
@@ -32,10 +40,10 @@ function write_post() {
 	if ($_POST['post_author'] != $_POST['user_ID']) {
 		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can('edit_others_pages') )
-				wp_die(__('You cannot create pages as this user.'));
+				return new WP_Error('edit_others_pages', __('You cannot create pages as this user.'));
 		} else {
 			if ( !current_user_can('edit_others_posts') )
-				wp_die(__('You cannot post as this user.'));
+				return new WP_Error('edit_others_posts', __('You cannot post as this user.'));
 
 		}
 	}

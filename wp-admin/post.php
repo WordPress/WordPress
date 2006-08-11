@@ -45,11 +45,14 @@ case 'post':
 case 'edit':
 	$title = __('Edit');
 	$editing = true;
+	$post_ID = $p = (int) $_GET['post'];
+	$post = get_post($post_ID);
+	if($post->post_status == 'draft') {
+		wp_enqueue_script('prototype');
+		wp_enqueue_script('autosave');
+	}
 	require_once('admin-header.php');
 
-	$post_ID = $p = (int) $_GET['post'];
-
-	$post = get_post($post_ID);
 	if ( !current_user_can('edit_post', $post_ID) )
 		die ( __('You are not allowed to edit this post.') );
 

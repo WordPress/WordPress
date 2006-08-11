@@ -3,6 +3,8 @@ require_once('admin.php');
 $title = __('Create New Post');
 $parent_file = 'post-new.php';
 $editing = true;
+wp_enqueue_script('prototype');
+wp_enqueue_script('autosave');
 require_once ('./admin-header.php');
 
 if ( ! current_user_can('edit_posts') ) { ?>

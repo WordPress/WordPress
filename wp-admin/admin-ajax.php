@@ -216,6 +216,36 @@ case 'add-user' :
 	header('Content-type: text/xml');
 	die($r);
 	break;
+case 'autosave' :
+	$_POST['post_content'] = $_POST['content'];
+	$_POST['post_excerpt'] = $_POST['excerpt'];
+	$_POST['post_status'] = 'draft';
+	$_POST['post_category'] = explode(",", $_POST['catslist']);
+	if($_POST['post_type'] == 'page' || empty($_POST['post_category']))
+		unset($_POST['post_category']);	
+	
+	if($_POST['post_ID'] < 0) {
+		$_POST['temp_ID'] = $_POST['post_ID'];
+		$id = wp_write_post();
+		if(is_wp_error($id))
+			die($id->get_error_message());
+		else
+			die("$id");
+	} else {
+		$post_ID = (int) $_POST['post_ID'];
+		$_POST['ID'] = $post_ID;
+		$post = get_post($post_ID);
+		if ( 'page' == $post->post_type ) {
+			if ( !current_user_can('edit_page', $post_ID) )
+				die(__('You are not allowed to edit this page.'));
+		} else {
+			if ( !current_user_can('edit_post', $post_ID) )
+				die(__('You are not allowed to edit this post.'));
+		}
+		wp_update_post($_POST);
+	}
+	die('0');
+break;
 default :
 	do_action( 'wp_ajax_' . $_POST['action'] );
 	die('0');
