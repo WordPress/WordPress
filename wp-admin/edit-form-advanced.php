@@ -52,6 +52,7 @@ if (empty($post->post_status)) $post->post_status = 'draft';
 
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
 <input type="hidden" id="hiddenaction" name="action" value="<?php echo $form_action ?>" />
+<input type="hidden" id="originalaction" name="originalaction" value="<?php echo $form_action ?>" />
 <input type="hidden" name="post_author" value="<?php echo $post->post_author ?>" />
 <input type="hidden" id="post_type" name="post_type" value="post" />
 

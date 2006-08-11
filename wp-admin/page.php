@@ -85,20 +85,41 @@ case 'editpost':
 
 	$page_ID = edit_post();
 
-	if ($_POST['save']) {
-		$location = "page.php?action=edit&post=$page_ID";
-	} elseif ($_POST['updatemeta']) {
-		$location = wp_get_referer() . '&message=2#postcustom';
-	} elseif ($_POST['deletemeta']) {
-		$location = wp_get_referer() . '&message=3#postcustom';
-	} elseif (!empty($_POST['referredby']) && $_POST['referredby'] != wp_get_referer()) {
-		$location = $_POST['referredby'];
-		if ( $_POST['referredby'] == 'redo' )
-			$location = get_permalink( $page_ID );
-	} elseif ($action == 'editattachment') {
-		$location = 'attachments.php';
+	if ( 'post' == $_POST['originalaction'] ) {
+		if (!empty($_POST['mode'])) {
+		switch($_POST['mode']) {
+			case 'bookmarklet':
+				$location = $_POST['referredby'];
+				break;
+			case 'sidebar':
+				$location = 'sidebar.php?a=b';
+				break;
+			default:
+				$location = 'page-new.php';
+				break;
+			}
+		} else {
+			$location = 'page-new.php?posted=true';
+		}
+
+		if ( isset($_POST['save']) )
+			$location = "page.php?action=edit&post=$page_ID";		
 	} else {
-		$location = 'page-new.php';
+		if ($_POST['save']) {
+			$location = "page.php?action=edit&post=$page_ID";
+		} elseif ($_POST['updatemeta']) {
+			$location = wp_get_referer() . '&message=2#postcustom';
+		} elseif ($_POST['deletemeta']) {
+			$location = wp_get_referer() . '&message=3#postcustom';
+		} elseif (!empty($_POST['referredby']) && $_POST['referredby'] != wp_get_referer()) {
+			$location = $_POST['referredby'];
+			if ( $_POST['referredby'] == 'redo' )
+				$location = get_permalink( $page_ID );
+		} elseif ($action == 'editattachment') {
+			$location = 'attachments.php';
+		} else {
+			$location = 'page-new.php';
+		}
 	}
 	wp_redirect($location); // Send user on their way while we keep working
 
