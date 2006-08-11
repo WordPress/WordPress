@@ -146,6 +146,7 @@ endforeach;
 <legend><?php _e('Post') ?></legend>
 
 	<?php the_editor($post->post_content); ?>
+</fieldset>
 
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
@@ -229,6 +230,7 @@ list_meta($metadata);
 	meta_form();
 ?>
 <div id="ajax-response"></div>
+</div>
 </div>
 </fieldset>
 </div>
