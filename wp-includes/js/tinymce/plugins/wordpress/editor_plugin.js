@@ -382,3 +382,86 @@ tinyMCE.execCommand = function (command, user_interface, value) {
 	}
 	return re;
 };
+wpInstTriggerSave = function (skip_cleanup, skip_callback) {
+	var e, nl = new Array(), i, s;
+
+	this.switchSettings();
+	s = tinyMCE.settings;
+
+	// Force hidden tabs visible while serializing
+	if (tinyMCE.isMSIE && !tinyMCE.isOpera) {
+		e = this.iframeElement;
+
+		do {
+			if (e.style && e.style.display == 'none') {
+				e.style.display = 'block';
+				nl[nl.length] = {elm : e, type : 'style'};
+			}
+
+			if (e.style && s.hidden_tab_class.length > 0 && e.className.indexOf(s.hidden_tab_class) != -1) {
+				e.className = s.display_tab_class;
+				nl[nl.length] = {elm : e, type : 'class'};
+			}
+		} while ((e = e.parentNode) != null)
+	}
+
+	tinyMCE.settings['preformatted'] = false;
+
+	// Default to false
+	if (typeof(skip_cleanup) == "undefined")
+		skip_cleanup = false;
+
+	// Default to false
+	if (typeof(skip_callback) == "undefined")
+		skip_callback = false;
+
+//	tinyMCE._setHTML(this.getDoc(), this.getBody().innerHTML);
+
+	// Remove visual aids when cleanup is disabled
+	if (this.settings['cleanup'] == false) {
+		tinyMCE.handleVisualAid(this.getBody(), true, false, this);
+		tinyMCE._setEventsEnabled(this.getBody(), true);
+	}
+
+	tinyMCE._customCleanup(this, "submit_content_dom", this.contentWindow.document.body);
+	var htm = skip_cleanup ? this.getBody().innerHTML : tinyMCE._cleanupHTML(this, this.getDoc(), this.settings, this.getBody(), tinyMCE.visualAid, true, true);
+	htm = tinyMCE._customCleanup(this, "submit_content", htm);
+
+	if (!skip_callback && tinyMCE.settings['save_callback'] != "")
+		var content = eval(tinyMCE.settings['save_callback'] + "(this.formTargetElementId,htm,this.getBody());");
+
+	// Use callback content if available
+	if ((typeof(content) != "undefined") && content != null)
+		htm = content;
+
+	// Replace some weird entities (Bug: #1056343)
+	htm = tinyMCE.regexpReplace(htm, "&#40;", "(", "gi");
+	htm = tinyMCE.regexpReplace(htm, "&#41;", ")", "gi");
+	htm = tinyMCE.regexpReplace(htm, "&#59;", ";", "gi");
+	htm = tinyMCE.regexpReplace(htm, "&#34;", "&quot;", "gi");
+	htm = tinyMCE.regexpReplace(htm, "&#94;", "^", "gi");
+
+	if (this.formElement)
+		this.formElement.value = htm;
+
+	if (tinyMCE.isSafari && this.formElement)
+		this.formElement.innerText = htm;
+
+	// Hide them again (tabs in MSIE)
+	for (i=0; i<nl.length; i++) {
+		if (nl[i].type == 'style')
+			nl[i].elm.style.display = 'none';
+		else
+			nl[i].elm.className = s.hidden_tab_class;
+	}
+}
+tinyMCE.wpTriggerSave = function () {
+	var inst, n;
+	for (n in tinyMCE.instances) {
+		inst = tinyMCE.instances[n];
+		if (!tinyMCE.isInstance(inst))
+			continue;
+		inst.wpTriggerSave = wpInstTriggerSave;
+		inst.wpTriggerSave(false, false);
+	}
+}

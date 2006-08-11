@@ -7,6 +7,7 @@ header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT")
 
 
 ?>
+var autosaveLast = '';
 function autosave_timer() {
 	autosave();
 	setTimeout("autosave_timer()", <?php echo apply_filters('autosave_interval', '60000') ?>);
@@ -56,20 +57,23 @@ function autosave_saved() {
 }
 	
 function autosave() {
+	var form = $('post');
+
 	autosaveAjax = new sack();
-	form = $('post');
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
 	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) {
 		autosaveAjax.setVar("content", form.content.value);
 	} else {
-		tinyMCE.triggerSave();
+		tinyMCE.wpTriggerSave();
 		autosaveAjax.setVar("content", form.content.value);
 	}
 
-	if(form.post_title.value.length==0 || form.content.value.length==0)
+	if(form.post_title.value.length==0 || form.content.value.length==0 || form.post_title.value+form.content.value == autosaveLast)
 		return;
-		
+
+	autosaveLast = form.post_title.value+form.content.value;
+
 	cats = document.getElementsByName("post_category[]");
 	goodcats = ([]);
 	for(i=0;i<cats.length;i++) {
@@ -90,7 +94,7 @@ function autosave() {
 	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) {
 		autosaveAjax.setVar("content", form.content.value);
 	} else {
-		tinyMCE.triggerSave();
+		tinyMCE.wpTriggerSave();
 		autosaveAjax.setVar("content", form.content.value);
 	}
 		
