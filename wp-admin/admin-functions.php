@@ -1489,12 +1489,18 @@ function add_submenu_page($parent, $page_title, $menu_title, $access_level, $fil
 	global $submenu;
 	global $menu;
 	global $real_parent_file;
+	global $menu_nopriv;
+
+	$file = plugin_basename($file);
+	//echo "Adding $parent $file $access_level<br />";
+	if ( !current_user_can($access_level) ) {
+		$menu_nopriv[$file] = true;
+		return false;
+	}
 
 	$parent = plugin_basename($parent);
 	if ( isset($real_parent_file[$parent]) )
 		$parent = $real_parent_file[$parent];
-
-	$file = plugin_basename($file);
 
 	// If the parent doesn't already have a submenu, add a link to the parent
 	// as the first item in the submenu.  If the submenu file is the same as the
