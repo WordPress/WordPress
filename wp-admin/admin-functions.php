@@ -1350,8 +1350,8 @@ function user_can_access_admin_page() {
 	if ( isset($plugin_page) && isset($_wp_submenu_nopriv[$parent][$plugin_page]) )
 		return false;
 	
-	if ( empty($parent) )
-		return false;
+	//if ( empty($parent) )
+		//return false;
 
 	if (isset ($submenu[$parent])) {
 		foreach ($submenu[$parent] as $submenu_array) {
