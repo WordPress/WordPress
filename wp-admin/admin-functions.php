@@ -1343,15 +1343,32 @@ function user_can_access_admin_page() {
 	global $plugin_page;
 
 	$parent = get_admin_page_parent();
-
+	/*echo "pa: $parent pn: $pagenow pp: $plugin_page<br/>";
+	echo "<pre>";
+	print_r($_wp_menu_nopriv);
+	print_r($_wp_submenu_nopriv);
+	echo "</pre>";*/
 	if ( isset($_wp_submenu_nopriv[$parent][$pagenow]) )
 		return false;
 
 	if ( isset($plugin_page) && isset($_wp_submenu_nopriv[$parent][$plugin_page]) )
 		return false;
 	
-	//if ( empty($parent) )
-		//return false;
+	if ( empty($parent) ) {
+		if ( isset($_wp_menu_nopriv[$pagenow]) )
+			return false;
+		if ( isset($_wp_submenu_nopriv[$pagenow][$pagenow]) )
+			return false;
+		if ( isset($plugin_page) && isset($_wp_submenu_nopriv[$pagenow][$plugin_page]) )
+			return false;
+		foreach (array_keys($_wp_submenu_nopriv) as $key) {
+			if ( isset($_wp_submenu_nopriv[$key][$pagenow]) )
+				return false;
+			if ( isset($plugin_page) && isset($_wp_submenu_nopriv[$key][$plugin_page]) )
+			return false;	
+		}
+		return true;
+	}
 
 	if (isset ($submenu[$parent])) {
 		foreach ($submenu[$parent] as $submenu_array) {

@@ -69,11 +69,14 @@ foreach ($menu as $menu_page) {
 	$admin_page_hooks[$menu_page[2]] = sanitize_title($menu_page[0]);
 }
 
+$_wp_submenu_nopriv = array();
+$_wp_menu_nopriv = array();
 // Loop over submenus and remove pages for which the user does not have privs.
 foreach ($submenu as $parent => $sub) {
 	foreach ($sub as $index => $data) {
 		if ( ! current_user_can($data[1]) ) {
 			unset($submenu[$parent][$index]);
+			$_wp_submenu_nopriv[$parent][$data[2]] = true;
 		}
 	}
 	
@@ -118,24 +121,6 @@ foreach ( $menu as $id => $data ) {
 			$_wp_menu_nopriv[$data[2]] = true;
 			unset($menu[$id]);
 		}
-	} else {
-	/*	$subs = $submenu[$data[2]];
-		$first_sub = array_shift($subs);
-		$old_parent = $data[2];
-		$new_parent = $first_sub[2];
-		// If the first submenu is not the same as the assigned parent,
-		// make the first submenu the new parent.
-		if ( $new_parent != $old_parent ) {
-			$_wp_real_parent_file[$old_parent] = $new_parent;
-			$menu[$id][2] = $new_parent;
-		
-			foreach ($submenu[$old_parent] as $index => $data) {
-				$submenu[$new_parent][$index] = $submenu[$old_parent][$index];
-				unset($submenu[$old_parent][$index]);
-			}
-			unset($submenu[$old_parent]);
-			$_wp_submenu_nopriv[$new_parent] = $_wp_submenu_nopriv[$old_parent];
-		} */
 	}
 }
 
