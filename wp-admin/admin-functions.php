@@ -1338,19 +1338,20 @@ function user_can_access_admin_page() {
 	global $pagenow;
 	global $menu;
 	global $submenu;
-	global $menu_nopriv;
+	global $_wp_menu_nopriv;
+	global $_wp_submenu_nopriv;
 	global $plugin_page;
 
 	$parent = get_admin_page_parent();
-	
-	if ( isset($menu_nopriv[$pagenow]) )
+
+	if ( isset($_wp_submenu_nopriv[$parent][$pagenow]) )
 		return false;
 
-	if ( isset($plugin_page) && isset($menu_nopriv[$plugin_page]) )
+	if ( isset($plugin_page) && isset($_wp_submenu_nopriv[$parent][$plugin_page]) )
 		return false;
 	
 	if ( empty($parent) )
-		return true;
+		return false;
 
 	if (isset ($submenu[$parent])) {
 		foreach ($submenu[$parent] as $submenu_array) {
@@ -1364,7 +1365,6 @@ function user_can_access_admin_page() {
 	}
 
 	foreach ($menu as $menu_array) {
-		//echo "parent array: " . $menu_array[2];
 		if ($menu_array[2] == $parent) {
 			if (current_user_can($menu_array[1]))
 				return true;
@@ -1429,11 +1429,13 @@ function get_admin_page_parent() {
 	global $submenu;
 	global $pagenow;
 	global $plugin_page;
-	global $real_parent_file;
+	global $_wp_real_parent_file;
+	global $_wp_menu_nopriv;
+	global $_wp_submenu_nopriv;
 
 	if ( !empty ($parent_file) ) {
-		if ( isset($real_parent_file[$parent_file]) )
-			$parent_file = $real_parent_file[$parent_file];
+		if ( isset($_wp_real_parent_file[$parent_file]) )
+			$parent_file = $_wp_real_parent_file[$parent_file];
 
 		return $parent_file;
 	}
@@ -1442,18 +1444,30 @@ function get_admin_page_parent() {
 		foreach ($menu as $parent_menu) {
 			if ($parent_menu[2] == $plugin_page) {
 				$parent_file = $plugin_page;
-				if ( isset($real_parent_file[$parent_file]) )
-					$parent_file = $real_parent_file[$parent_file];
-					
+				if ( isset($_wp_real_parent_file[$parent_file]) )
+					$parent_file = $_wp_real_parent_file[$parent_file];
 				return $parent_file;
 			}
 		}
+		if ( isset($_wp_menu_nopriv[$plugin_page]) ) {
+			$parent_file = $plugin_page;
+			if ( isset($_wp_real_parent_file[$parent_file]) )
+					$parent_file = $_wp_real_parent_file[$parent_file];
+			return $parent_file;
+		}			
+	}
+
+	if ( isset($plugin_page) && isset($_wp_submenu_nopriv[$pagenow][$plugin_page]) ) {
+		$parent_file = $pagenow;
+		if ( isset($_wp_real_parent_file[$parent_file]) )
+			$parent_file = $_wp_real_parent_file[$parent_file];
+		return $parent_file;		
 	}
 
 	foreach (array_keys($submenu) as $parent) {
 		foreach ($submenu[$parent] as $submenu_array) {
-			if ( isset($real_parent_file[$parent]) )
-				$parent = $real_parent_file[$parent];
+			if ( isset($_wp_real_parent_file[$parent]) )
+				$parent = $_wp_real_parent_file[$parent];
 			if ($submenu_array[2] == $pagenow) {
 				$parent_file = $parent;
 				return $parent;
@@ -1488,27 +1502,28 @@ function add_menu_page($page_title, $menu_title, $access_level, $file, $function
 function add_submenu_page($parent, $page_title, $menu_title, $access_level, $file, $function = '') {
 	global $submenu;
 	global $menu;
-	global $real_parent_file;
-	global $menu_nopriv;
+	global $_wp_real_parent_file;
+	global $_wp_submenu_nopriv;
+	global $_wp_menu_nopriv;
 
 	$file = plugin_basename($file);
-	//echo "Adding $parent $file $access_level<br />";
-	if ( !current_user_can($access_level) ) {
-		$menu_nopriv[$file] = true;
-		return false;
-	}
 
 	$parent = plugin_basename($parent);
-	if ( isset($real_parent_file[$parent]) )
-		$parent = $real_parent_file[$parent];
+	if ( isset($_wp_real_parent_file[$parent]) )
+		$parent = $_wp_real_parent_file[$parent];
+
+	if ( !current_user_can($access_level) ) {
+		$_wp_submenu_nopriv[$parent][$file] = true;
+		return false;
+	}
 
 	// If the parent doesn't already have a submenu, add a link to the parent
 	// as the first item in the submenu.  If the submenu file is the same as the
 	// parent file someone is trying to link back to the parent manually.  In
 	// this case, don't automatically add a link back to avoid duplication.
-	if (!isset ($submenu[$parent]) && $file != $parent) {
+	if (!isset ($submenu[$parent]) && $file != $parent  ) {
 		foreach ($menu as $parent_menu) {
-			if ($parent_menu[2] == $parent) {
+			if ( $parent_menu[2] == $parent && current_user_can($parent_menu[1]) ) {
 				$submenu[$parent][] = $parent_menu;
 			}
 		}

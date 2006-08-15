@@ -43,7 +43,7 @@ $submenu['link-manager.php'][10] = array(__('Add Link'), 'manage_links', 'link-a
 $submenu['link-manager.php'][20] = array(__('Import Links'), 'manage_links', 'link-import.php');
 
 if ( current_user_can('edit_users') ) {
-	$real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
+	$_wp_real_parent_file['profile.php'] = 'users.php'; // Back-compat for plugins adding submenus to profile.php.
 	$submenu['users.php'][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
 	$submenu['users.php'][10] = array(__('Your Profile'), 'read', 'profile.php');
 } else {
@@ -73,7 +73,6 @@ foreach ($menu as $menu_page) {
 foreach ($submenu as $parent => $sub) {
 	foreach ($sub as $index => $data) {
 		if ( ! current_user_can($data[1]) ) {
-			$menu_nopriv[$data[2]] = true;
 			unset($submenu[$parent][$index]);
 		}
 	}
@@ -95,29 +94,49 @@ foreach ( $menu as $id => $data ) {
 	// If the first submenu is not the same as the assigned parent,
 	// make the first submenu the new parent.
 	if ( $new_parent != $old_parent ) {
-		$real_parent_file[$old_parent] = $new_parent;
+		$_wp_real_parent_file[$old_parent] = $new_parent;
 		$menu[$id][2] = $new_parent;
 		
 		foreach ($submenu[$old_parent] as $index => $data) {
 			$submenu[$new_parent][$index] = $submenu[$old_parent][$index];
 			unset($submenu[$old_parent][$index]);
 		}
-		unset($submenu[$old_parent]);	
+		unset($submenu[$old_parent]);
+		$_wp_submenu_nopriv[$new_parent] = $_wp_submenu_nopriv[$old_parent];
 	}
 }
 
 do_action('admin_menu', '');
 
 // Remove menus that have no accessible submenus and require privs that the user does not have.
+// Run re-parent loop again.
 foreach ( $menu as $id => $data ) {
 	// If submenu is empty...
 	if ( empty($submenu[$data[2]]) ) {
 		// And user doesn't have privs, remove menu.
 		if ( ! current_user_can($data[1]) ) {
-			$menu_nopriv[$data[2]] = true;
+			$_wp_menu_nopriv[$data[2]] = true;
 			unset($menu[$id]);
 		}
-	} 
+	} else {
+	/*	$subs = $submenu[$data[2]];
+		$first_sub = array_shift($subs);
+		$old_parent = $data[2];
+		$new_parent = $first_sub[2];
+		// If the first submenu is not the same as the assigned parent,
+		// make the first submenu the new parent.
+		if ( $new_parent != $old_parent ) {
+			$_wp_real_parent_file[$old_parent] = $new_parent;
+			$menu[$id][2] = $new_parent;
+		
+			foreach ($submenu[$old_parent] as $index => $data) {
+				$submenu[$new_parent][$index] = $submenu[$old_parent][$index];
+				unset($submenu[$old_parent][$index]);
+			}
+			unset($submenu[$old_parent]);
+			$_wp_submenu_nopriv[$new_parent] = $_wp_submenu_nopriv[$old_parent];
+		} */
+	}
 }
 
 ksort($menu); // make it all pretty
