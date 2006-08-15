@@ -41,7 +41,6 @@ function autosave_update_post_ID() {
 		message = "<?php _e('Saved at '); ?>" + autosave_cur_time();
 		$('post_ID').name = "post_ID";
 		$('post_ID').value = res;
-		$('hiddenaction').value = 'editpost';
 		// We need new nonces
 		nonceAjax = new sack();
 		nonceAjax.element = null;
@@ -53,7 +52,7 @@ function autosave_update_post_ID() {
 		nonceAjax.onCompletion = autosave_update_nonce;
 		nonceAjax.method = "POST";
 		nonceAjax.runAJAX();
-		
+		$('hiddenaction').value = 'editpost';
 	}
 	$('autosave').innerHTML = message;
 }
