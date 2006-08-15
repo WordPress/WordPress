@@ -489,8 +489,12 @@ class WP_Query {
 	}
 
 	function set_404() {
+		$is_feed = $this->is_feed;
+
 		$this->init_query_flags();
 		$this->is_404 = true;
+
+		$this->is_feed = $is_feed;
 	}
 
 	function get($query_var) {
