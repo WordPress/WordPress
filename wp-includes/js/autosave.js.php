@@ -83,6 +83,7 @@ function autosave() {
 	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) {
 		autosaveAjax.setVar("content", form.content.value);
 	} else {
+		if(tinyMCE.selectedInstance.spellcheckerOn) return;
 		tinyMCE.wpTriggerSave();
 		autosaveAjax.setVar("content", form.content.value);
 	}

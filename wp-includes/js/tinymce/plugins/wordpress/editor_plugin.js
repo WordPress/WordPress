@@ -424,7 +424,10 @@ wpInstTriggerSave = function (skip_cleanup, skip_callback) {
 	}
 
 	tinyMCE._customCleanup(this, "submit_content_dom", this.contentWindow.document.body);
-	var htm = skip_cleanup ? this.getBody().innerHTML : tinyMCE._cleanupHTML(this, this.getDoc(), this.settings, this.getBody(), tinyMCE.visualAid, true, true);
+	tinyMCE.selectedInstance.getWin().oldfocus=tinyMCE.selectedInstance.getWin().focus;
+	tinyMCE.selectedInstance.getWin().focus=function() {};
+	var htm = tinyMCE._cleanupHTML(this, this.getDoc(), this.settings, this.getBody(), tinyMCE.visualAid, true, true);
+	tinyMCE.selectedInstance.getWin().focus=tinyMCE.selectedInstance.getWin().oldfocus;
 	htm = tinyMCE._customCleanup(this, "submit_content", htm);
 
 	if (!skip_callback && tinyMCE.settings['save_callback'] != "")
