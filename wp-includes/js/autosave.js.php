@@ -15,8 +15,6 @@ function autosave_timer() {
 
 function autosave_start_timer() {
 	var form = $('post');
-	if ( typeof tinyMCE != "undefined" || tinyMCE.configs.length > 0 )
-		tinyMCE.wpTriggerSave();
 	autosaveLast = form.post_title.value+form.content.value;
 	setTimeout("autosave_timer()", <?php echo apply_filters('autosave_start_delay', '60000') ?>);
 }
