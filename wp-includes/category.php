@@ -67,7 +67,7 @@ function &get_categories($args = '') {
 	$exclusions = apply_filters('list_cats_exclusions', $exclusions, $r );
 	$where .= $exclusions;
 
-	if ( $hide_empty ) {
+	if ( $hide_empty && !$hierarchical ) {
 		if ( 'link' == $type )
 			$where .= ' AND link_count > 0';
 		else
@@ -102,6 +102,22 @@ function &get_categories($args = '') {
 
 	if ( $child_of || $hierarchical )
 		$categories = & _get_cat_children($child_of, $categories);
+
+	// Update category counts to include children.
+	if ( $hierarchical ) {
+		foreach ( $categories as $k => $category ) {
+			$progeny = $category->category_count;
+			if ( $children = _get_cat_children($category->cat_ID, $categories) ) {
+				foreach ( $children as $child )
+					$progeny += $child->category_count;
+			}
+			if ( !$progeny && $hide_empty )
+				unset($categories[$k]);
+			else
+				$categories[$k]->category_count = $progeny;
+		}
+	}
+	reset ( $categories );
 
 	return apply_filters('get_categories', $categories, $r);
 }
