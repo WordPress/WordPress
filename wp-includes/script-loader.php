@@ -188,6 +188,8 @@ class _WP_Script {
  */
 function wp_print_scripts( $handles = false ) {
 	do_action( 'wp_print_scripts' );
+	if ( '' === $handles ) // for wp_head
+		$handles = false;
 
 	global $wp_scripts;
 	if ( !is_a($wp_scripts, 'WP_Scripts') ) {
