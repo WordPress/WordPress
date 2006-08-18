@@ -76,6 +76,9 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 	else
 		$file = $pagenow; //$_SERVER['PHP_SELF'];
 
+	if ( $page > count($pages) ) // if the requested page doesn't exist
+		$page = count($pages); // give them the highest numbered page that DOES exist
+
 	$content = $pages[$page-1];
 	if ( preg_match('/<!--more(.+?)?-->/', $content, $matches) ) {
 		$content = explode($matches[0], $content, 2);
