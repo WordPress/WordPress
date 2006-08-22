@@ -42,6 +42,7 @@ if (isset($plugin_page)) {
 	$page_hook = get_plugin_page_hook($plugin_page, $pagenow);
 
 	if ( $page_hook ) {
+		do_action('load-' . $page_hook);
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . '/wp-admin/admin-header.php');
 
@@ -53,6 +54,8 @@ if (isset($plugin_page)) {
 
 		if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page"))
 			wp_die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
+
+		do_action('load-' . $plugin_page);
 
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . '/wp-admin/admin-header.php');
