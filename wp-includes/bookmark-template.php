@@ -20,17 +20,17 @@ function wp_get_links($args = '') {
 
 	parse_str($args);
 
-	if (! isset($category))	$category = -1;
-	if (! isset($before)) $before = '';
-	if (! isset($after)) $after = '<br />';
-	if (! isset($between))	$between = ' ';
-	if (! isset($show_images)) $show_images = true;
-	if (! isset($orderby)) $orderby = 'name';
-	if (! isset($show_description)) $show_description = true;
-	if (! isset($show_rating)) $show_rating = false;
-	if (! isset($limit)) $limit = -1;
-	if (! isset($show_updated)) $show_updated = 1;
-	if (! isset($echo)) $echo = true;
+	if ( !isset($category) )         $category = -1;
+	if ( !isset($before) )           $before = '';
+	if ( !isset($after) )            $after = '<br />';
+	if ( !isset($between) )          $between = ' ';
+	if ( !isset($show_images) )      $show_images = true;
+	if ( !isset($orderby) )          $orderby = 'name';
+	if ( !isset($show_description) ) $show_description = true;
+	if ( !isset($show_rating) )      $show_rating = false;
+	if ( !isset($limit) )            $limit = -1;
+	if ( !isset($show_updated) )     $show_updated = 1;
+	if ( !isset($echo) )             $echo = true;
 
 	return get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
 } // end wp_get_links
@@ -73,65 +73,55 @@ function get_links($category = -1,
 	global $wpdb;
 
 	$order = 'ASC';
-	if (substr($orderby, 0, 1) == '_') {
+	if ( substr($orderby, 0, 1) == '_' ) {
 		$order = 'DESC';
 		$orderby = substr($orderby, 1);
 	}
-	
-	if ($category == -1) {  //get_bookmarks uses '' to signify all categories
+
+	if ( $category == -1 ) //get_bookmarks uses '' to signify all categories
 		$category = '';
-	}
 
 	$results = get_bookmarks("category=$category&orderby=$orderby&order=$order&show_updated=$show_updated&limit=$limit");
 
-	if (!$results) {
+	if ( !$results )
 		return;
-	}
-
 
 	$output = '';
 
-	foreach ($results as $row) {
-		if (!isset($row->recently_updated)) $row->recently_updated = false;
-			$output .= $before;
-		if ($show_updated && $row->recently_updated) {
+	foreach ( (array) $results as $row ) {
+		if ( !isset($row->recently_updated) )
+			$row->recently_updated = false;
+		$output .= $before;
+		if ( $show_updated && $row->recently_updated )
 			$output .= get_settings('links_recently_updated_prepend');
-		}
-
 		$the_link = '#';
-		if (!empty($row->link_url))
+		if ( !empty($row->link_url) )
 			$the_link = wp_specialchars($row->link_url);
-
 		$rel = $row->link_rel;
-		if ($rel != '') {
+		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
-		}
 
 		$desc = wp_specialchars($row->link_description, ENT_QUOTES);
 		$name = wp_specialchars($row->link_name, ENT_QUOTES);
 		$title = $desc;
 
-		if ($show_updated) {
-			if (substr($row->link_updated_f, 0, 2) != '00') {
+		if ( $show_updated )
+			if (substr($row->link_updated_f, 0, 2) != '00')
 				$title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $row->link_updated_f + (get_settings('gmt_offset') * 3600)) . ')';
-			}
-		}
 
-		if ('' != $title) {
+		if ( '' != $title )
 			$title = ' title="' . $title . '"';
-		}
 
 		$alt = ' alt="' . $name . '"';
 
 		$target = $row->link_target;
-		if ('' != $target) {
+		if ( '' != $target )
 			$target = ' target="' . $target . '"';
-		}
 
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
 
-		if (($row->link_image != null) && $show_images) {
-			if (strstr($row->link_image, 'http'))
+		if ( $row->link_image != null && $show_images ) {
+			if ( strpos($row->link_image, 'http') !== false )
 				$output .= "<img src=\"$row->link_image\" $alt $title />";
 			else // If it's a relative path
 				$output .= "<img src=\"" . get_settings('siteurl') . "$row->link_image\" $alt $title />";
@@ -141,21 +131,18 @@ function get_links($category = -1,
 
 		$output .= '</a>';
 
-		if ($show_updated && $row->recently_updated) {
+		if ( $show_updated && $row->recently_updated )
 			$output .= get_settings('links_recently_updated_append');
-		}
 
-		if ($show_description && ($desc != '')) {
+		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;
-		}
+
 		$output .= "$after\n";
 	} // end while
 
-	if ($echo) {
-		echo $output;
-	} else {
+	if ( !$echo )
 		return $output;
-	}
+	echo $output;
 }
 
 function get_linkrating($link) {
@@ -170,9 +157,9 @@ function get_linkrating($link) {
 function get_linkcatname($id = 0) {
 	$id = (int) $id;
 
-    if ( empty($id) )
-    	return '';
-  
+	if ( empty($id) )
+		return '';
+
 	$cats = wp_get_link_cats($id);
 
 	if ( empty($cats) || ! is_array($cats) )
@@ -194,24 +181,18 @@ function get_linkcatname($id = 0) {
  **   file (default linkspopup.php) - the page to open in the popup window
  **   count (default true) - the number of links in the db
  */
-function links_popup_script($text = 'Links', $width=400, $height=400,
-                            $file='links.all.php', $count = true) {
-   if ($count == true) {
-      $counts = $wpdb->get_var("SELECT count(*) FROM $wpdb->links");
-   }
+function links_popup_script($text = 'Links', $width=400, $height=400, $file='links.all.php', $count = true) {
+	if ( $count )
+		$counts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->links");
 
-   $javascript = "<a href=\"#\" " .
-                 " onclick=\"javascript:window.open('$file?popup=1', '_blank', " .
-                 "'width=$width,height=$height,scrollbars=yes,status=no'); " .
-                 " return false\">";
-   $javascript .= $text;
+	$javascript = "<a href=\"#\" onclick=\"javascript:window.open('$file?popup=1', '_blank', 'width=$width,height=$height,scrollbars=yes,status=no'); return false\">";
+	$javascript .= $text;
 
-   if ($count == true) {
-      $javascript .= " ($counts)";
-   }
+	if ( $count )
+		$javascript .= " ($counts)";
 
-   $javascript .="</a>\n\n";
-   echo $javascript;
+	$javascript .= "</a>\n\n";
+		echo $javascript;
 }
 
 
@@ -233,25 +214,25 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 
 	// Handle link category sorting
 	$direction = 'ASC';
-	if (substr($order,0,1) == '_') {
+	if ( '_' == substr($order,0,1) ) {
 		$direction = 'DESC';
 		$order = substr($order,1);
 	}
 
-	if (!isset($direction)) $direction = '';
+	if ( !isset($direction) )
+		$direction = '';
 
 	$cats = get_categories("type=link&orderby=$order&order=$direction&hierarchical=0");
 
 	// Display each category
-	if ($cats) {
-		foreach ($cats as $cat) {
+	if ( $cats ) {
+		foreach ( (array) $cats as $cat ) {
 			// Handle each category.
 
 			// Display the category name
 			echo '	<li id="linkcat-' . $cat->cat_ID . '"><h2>' . $cat->cat_name . "</h2>\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
-			get_links($cat->cat_ID,
-				'<li>',"</li>","\n", true, 'name', false);
+			get_links($cat->cat_ID, '<li>', "</li>", "\n", true, 'name', false);
 
 			// Close the last category
 			echo "\n\t</ul>\n</li>\n";
@@ -271,46 +252,41 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	extract($r);
 
 	foreach ( (array) $bookmarks as $bookmark ) {
-		if (!isset($bookmark->recently_updated)) $bookmark->recently_updated = false;
-			$output .= $before;
-		if ($show_updated && $bookmark->recently_updated) {
+		if ( !isset($bookmark->recently_updated) )
+			$bookmark->recently_updated = false;
+		$output .= $before;
+		if ( $show_updated && $bookmark->recently_updated )
 			$output .= get_settings('links_recently_updated_prepend');
-		}
 
 		$the_link = '#';
-		if (!empty($bookmark->link_url))
+		if ( !empty($bookmark->link_url) )
 			$the_link = wp_specialchars($bookmark->link_url);
 
 		$rel = $bookmark->link_rel;
-		if ($rel != '') {
+		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
-		}
 
 		$desc = wp_specialchars($bookmark->link_description, ENT_QUOTES);
 		$name = wp_specialchars($bookmark->link_name, ENT_QUOTES);
 		$title = $desc;
 
-		if ($show_updated) {
-			if (substr($bookmark->link_updated_f, 0, 2) != '00') {
+		if ( $show_updated )
+			if ( '00' != substr($bookmark->link_updated_f, 0, 2) )
 				$title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $bookmark->link_updated_f + (get_settings('gmt_offset') * 3600)) . ')';
-			}
-		}
 
-		if ('' != $title) {
+		if ( '' != $title )
 			$title = ' title="' . $title . '"';
-		}
 
 		$alt = ' alt="' . $name . '"';
 
 		$target = $bookmark->link_target;
-		if ('' != $target) {
+		if ( '' != $target )
 			$target = ' target="' . $target . '"';
-		}
 
 		$output .= '<a href="' . $the_link . '"' . $rel . $title . $target. '>';
 
-		if (($bookmark->link_image != null) && $show_images) {
-			if (strstr($bookmark->link_image, 'http'))
+		if ( $bookmark->link_image != null && $show_images ) {
+			if ( strpos($bookmark->link_image, 'http') !== false )
 				$output .= "<img src=\"$bookmark->link_image\" $alt $title />";
 			else // If it's a relative path
 				$output .= "<img src=\"" . get_settings('siteurl') . "$bookmark->link_image\" $alt $title />";
@@ -320,13 +296,11 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 
 		$output .= '</a>';
 
-		if ($show_updated && $bookmark->recently_updated) {
+		if ( $show_updated && $bookmark->recently_updated )
 			$output .= get_settings('links_recently_updated_append');
-		}
 
-		if ($show_description && ($desc != '')) {
+		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;
-		}
 		$output .= "$after\n";
 	} // end while
 
@@ -345,10 +319,10 @@ function wp_list_bookmarks($args = '') {
 		'category_orderby' => 'name', 'category_order' => 'ASC');
 	$r = array_merge($defaults, $r);
 	extract($r);
-	
+
 	// TODO: The rest of it.
 	// If $categorize, group links by category with the category name being the
-	// title of each li, otherwise just list them with title_li as the li title. 
+	// title of each li, otherwise just list them with title_li as the li title.
 	// If $categorize and $category or $category_name, list links for the given category
 	// with the category name as the title li.  If not $categorize, use title_li.
 	// When using each category's name as a title li, use before and after args for specifying
@@ -369,10 +343,9 @@ function wp_list_bookmarks($args = '') {
 		}
 	}
 
-	if ($echo)
-		echo $output;
-
-	return $output;
+	if ( !$echo )
+		return $output;
+	echo $output;
 }
 
 ?>
