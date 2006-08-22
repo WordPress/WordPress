@@ -55,9 +55,10 @@ break;
 
 default:
 
-	require_once('admin-header.php');
 	if ( !current_user_can('edit_themes') )
 		wp_die('<p>'.__('You do not have sufficient permissions to edit themes for this blog.').'</p>');
+
+	require_once('admin-header.php');
 
 	update_recently_edited($file);
 

@@ -41,9 +41,10 @@ break;
 
 default:
 
-	require_once('admin-header.php');
 	if ( !current_user_can('edit_plugins') )
 		wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
+
+	require_once('admin-header.php');
 
 	update_recently_edited("wp-content/plugins/$file");
 
