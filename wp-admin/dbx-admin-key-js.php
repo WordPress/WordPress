@@ -1,6 +1,6 @@
 <?php
 require_once('admin.php');
-header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
+cache_javascript_headers();
 
 switch ( $_GET['pagenow'] ) :
 	case 'post.php' :

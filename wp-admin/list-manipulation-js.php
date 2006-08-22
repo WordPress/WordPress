@@ -1,6 +1,6 @@
 <?php
 require_once('admin.php');
-header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
+cache_javascript_headers();
 $handler =  get_settings( 'siteurl' ) . '/wp-admin/admin-ajax.php';
 ?>
 addLoadEvent(function(){theList=new listMan();});

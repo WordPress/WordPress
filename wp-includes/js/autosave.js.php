@@ -1,11 +1,5 @@
 <?php @require_once('../../wp-config.php');
-$expiresOffset = 3600 * 24 * 10;		// 10 days util client cache expires
-
-header("Content-type: text/javascript; charset: UTF-8");
-header("Vary: Accept-Encoding"); // Handle proxies
-header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
-
-
+cache_javascript_headers();
 ?>
 var autosaveLast = '';
 function autosave_timer() {

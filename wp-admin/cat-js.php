@@ -1,6 +1,6 @@
 <?php
 require_once('../wp-config.php');
-header('Content-type: text/javascript; charset=' . get_settings('blog_charset'), true);
+cache_javascript_headers();
 ?>
 addLoadEvent(function(){catList=new listMan('categorychecklist');catList.ajaxRespEl='jaxcat';catList.topAdder=1;catList.alt=0;catList.showLink=0;});
 addLoadEvent(newCatAddIn);

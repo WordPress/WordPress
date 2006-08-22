@@ -737,6 +737,13 @@ function nocache_headers() {
 	@ header('Pragma: no-cache');
 }
 
+function cache_javascript_headers() {
+	$expiresOffset = 864000; // 10 days
+	header("Content-type: text/javascript; charset=" . get_bloginfo('charset'));
+	header("Vary: Accept-Encoding"); // Handle proxies
+	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
+}
+
 function get_num_queries() {
 	global $wpdb;
 	return $wpdb->num_queries;
