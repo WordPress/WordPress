@@ -6,6 +6,7 @@ class WP_Roles {
 	var $role_objects = array();
 	var $role_names = array();
 	var $role_key;
+	var $use_db = true;
 
 	function WP_Roles() {
 		$this->_init();
@@ -13,9 +14,14 @@ class WP_Roles {
 
 	function _init () {
 		global $wpdb;
+		global $wp_user_roles;
 		$this->role_key = $wpdb->prefix . 'user_roles';
-
-		$this->roles = get_option($this->role_key);
+		if ( ! empty($wp_user_roles) ) {
+			$this->roles = $wp_user_roles;
+			$this->use_db = false;
+		} else {
+			$this->roles = get_option($this->role_key);
+		}
 
 		if ( empty($this->roles) )
 			return;
@@ -35,7 +41,8 @@ class WP_Roles {
 		$this->roles[$role] = array(
 			'name' => $display_name,
 			'capabilities' => $capabilities);
-		update_option($this->role_key, $this->roles);
+		if ( $this->use_db )
+			update_option($this->role_key, $this->roles);
 		$this->role_objects[$role] = new WP_Role($role, $capabilities);
 		$this->role_names[$role] = $display_name;
 		return $this->role_objects[$role];
@@ -48,18 +55,21 @@ class WP_Roles {
 		unset($this->role_objects[$role]);
 		unset($this->role_names[$role]);
 		unset($this->roles[$role]);
-
-		update_option($this->role_key, $this->roles);
+		
+		if ( $this->use_db )
+			update_option($this->role_key, $this->roles);
 	}
 
 	function add_cap($role, $cap, $grant = true) {
 		$this->roles[$role]['capabilities'][$cap] = $grant;
-		update_option($this->role_key, $this->roles);
+		if ( $this->use_db )
+			update_option($this->role_key, $this->roles);
 	}
 
 	function remove_cap($role, $cap) {
 		unset($this->roles[$role]['capabilities'][$cap]);
-		update_option($this->role_key, $this->roles);
+		if ( $this->use_db )
+			update_option($this->role_key, $this->roles);
 	}
 
 	function &get_role($role) {
