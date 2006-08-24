@@ -293,23 +293,55 @@ function wp_insert_link($linkdata) {
 	extract($linkdata);
 
 	$update = false;
+
 	if ( !empty($link_id) )
 		$update = true;
 
+	if( trim( $link_name ) == '' )
+		return 0;
+	$link_name = apply_filters('pre_link_name', $link_name);
+
+	if( trim( $link_url ) == '' )
+		return 0;
+	$link_url = apply_filters('pre_link_url', $link_url);
+
 	if ( empty($link_rating) )
 		$link_rating = 0;
+	else
+		$link_rating = (int) $link_rating;
+
+	if ( empty($link_image) )
+		$link_image = '';
+	$link_image = apply_filters('pre_link_image', $link_image);
 
 	if ( empty($link_target) )
 		$link_target = '';
+	$link_target = apply_filters('pre_link_target', $link_target);
 
 	if ( empty($link_visible) )
 		$link_visible = 'Y';
+	$link_visibile = preg_replace('/[^YNyn]/', '', $link_visible);
 
 	if ( empty($link_owner) )
 		$link_owner = $current_user->id;
+	else
+		$link_owner = (int) $link_owner;
 
 	if ( empty($link_notes) )
 		$link_notes = '';
+	$link_notes = apply_filters('pre_link_notes', $link_notes);
+
+	if ( empty($link_description) )
+		$link_description = '';
+	$link_description = apply_filters('pre_link_description', $link_description);
+
+	if ( empty($link_rss) )
+		$link_rss = '';
+	$link_rss = apply_filters('pre_link_rss', $link_rss);
+
+	if ( empty($link_rel) )
+		$link_rel = '';
+	$link_rel = apply_filters('pre_link_rel', $link_rel);
 
 	// Make sure we set a valid category
 	if (0 == count($link_category) || !is_array($link_category)) {

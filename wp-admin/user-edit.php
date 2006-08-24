@@ -40,7 +40,7 @@ if( !is_wp_error( $errors ) ) {
 default:
 include ('admin-header.php');
 
-$profileuser = new WP_User($user_id);
+$profileuser = get_user_to_edit($user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
 	if ( !is_wp_error( $errors ) )

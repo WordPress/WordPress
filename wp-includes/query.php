@@ -551,6 +551,11 @@ class WP_Query {
 			$q['posts_per_page'] = get_settings('posts_per_rss');
 			$q['what_to_show'] = 'posts';
 		}
+		$q['posts_per_page'] = (int) $q['posts_per_page'];
+		if ( $q['posts_per_page'] < -1 )
+			$q['posts_per_page'] = abs($q['posts_per_page']);
+		else if ( $q['posts_per_page'] == 0 )
+			$q['posts_per_page'] = 1;
 
 		if ( $this->is_home && (empty($this->query) || $q['preview'] == 'true') && ( 'page' == get_option('show_on_front') ) && get_option('page_on_front') ) {
 			$this->is_page = true;

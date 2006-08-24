@@ -199,7 +199,7 @@ function get_option($option) {
 }
 
 function form_option($option) {
-	echo htmlspecialchars( get_option($option), ENT_QUOTES );
+	echo wp_specialchars( get_option($option), 1 );
 }
 
 function get_alloptions() {

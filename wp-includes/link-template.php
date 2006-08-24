@@ -476,17 +476,19 @@ function _max_num_pages() {
 	global $wpdb, $wp_query;
 	
 	if (isset($max_num_pages)) return $max_num_pages;
-	
+	$posts_per = (int) get_option('posts_per_page');
+	if ( empty($posts_per) ) $posts_per = 1;
+
 	if ( 'posts' == get_query_var('what_to_show') ) {
 		preg_match('#FROM\s(.*)\sORDER BY#siU', $wp_query->request, $matches);
 		$fromwhere = $matches[1];
 		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
-		$max_num_pages = ceil($numposts / get_option('posts_per_page'));
+		$max_num_pages = ceil($numposts / $posts_per);
 	} else {
 		preg_match('#FROM\s(.*)\sORDER BY#siU', $wp_query->request, $matches);
 		$fromwhere = preg_replace('/( AND )?post_date >= (\'|\")(.*?)(\'|\")( AND post_date <= (\'\")(.*?)(\'\"))?/siU', '', $matches[1]);
 		$num_days = $wpdb->query("SELECT DISTINCT post_date FROM $fromwhere GROUP BY year(post_date), month(post_date), dayofmonth(post_date)");
-		$max_num_pages = ceil($num_days / get_option('posts_per_page'));
+		$max_num_pages = ceil($num_days / $posts_per);
 	}
 
 	return $max_num_pages;
