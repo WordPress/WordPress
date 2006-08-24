@@ -764,7 +764,7 @@ function do_feed() {
     	$feed = 'rss2';
 
 	$for_comments = false;
-	if ( is_single() || (get_query_var('withcomments') == 1) ) {
+	if ( is_single() || get_query_var('withcomments') == 1 || $feed == 'comments-rss2' ) {
 		$feed = 'rss2';
 		$for_comments = true;	
 	}
