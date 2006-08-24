@@ -149,7 +149,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	if ( !empty($cat) ) {
 			// category exclusion
 			if ( !stristr($cat,'-') )
-				$title = get_the_category_by_ID($cat);
+				$title = apply_filters('single_cat_title', get_the_category_by_ID($cat));
 	}
 	if ( !empty($category_name) ) {
 		if ( stristr($category_name,'/') ) {
@@ -160,6 +160,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 					$category_name = $category_name[count($category_name)-2]; // there was a trailling slash
 		}
 		$title = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE category_nicename = '$category_name'");
+		$title = apply_filters('single_cat_title', $title);
 	}
 
 	// If there's an author
@@ -230,7 +231,7 @@ function single_post_title($prefix = '', $display = true) {
 function single_cat_title($prefix = '', $display = true ) {
 	$cat = intval( get_query_var('cat') );
 	if ( !empty($cat) && !(strtoupper($cat) == 'ALL') ) {
-		$my_cat_name = get_the_category_by_ID($cat);
+		$my_cat_name = apply_filters('single_cat_title', get_the_category_by_ID($cat));
 		if ( !empty($my_cat_name) ) {
 			if ( $display )
 				echo $prefix.strip_tags($my_cat_name);
