@@ -759,7 +759,7 @@ function wp_publish_post($post_id) {
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	global $wpdb;
 	// If $post_categories isn't already an array, make it one:
-	if (!is_array($post_categories) || 0 == count($post_categories))
+	if (!is_array($post_categories) || 0 == count($post_categories) || empty($post_categories))
 		$post_categories = array(get_option('default_category'));
 
 	$post_categories = array_unique($post_categories);
@@ -794,9 +794,10 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 
 	if ($add_cats) {
 		foreach ($add_cats as $new_cat) {
-			$wpdb->query("
-				INSERT INTO $wpdb->post2cat (post_id, category_id) 
-				VALUES ($post_ID, $new_cat)");
+			if ( !empty($new_cat) )
+				$wpdb->query("
+					INSERT INTO $wpdb->post2cat (post_id, category_id) 
+					VALUES ($post_ID, $new_cat)");
 		}
 	}
 
