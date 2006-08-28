@@ -10,6 +10,7 @@ if ( $editing ) {
 }
 
 get_admin_page_title();
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -24,7 +25,19 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 </script>
 <?php if ( ($parent_file != 'link-manager.php') && ($parent_file != 'options-general.php') ) : ?>
 <style type="text/css">* html { overflow-x: hidden; }</style>
-<?php endif; wp_print_scripts(); do_action('admin_head'); ?>
+<?php endif;
+if ( isset($page_hook) )
+	do_action('admin_print_scripts-' . $page_hook);
+else if ( isset($plugin_page) )
+	do_action('admin_print_scripts-' . $plugin_page);
+do_action('admin_print_scripts');
+
+if ( isset($page_hook) )
+	do_action('admin_head-' . $page_hook);
+else if ( isset($plugin_page) )
+	do_action('admin_head-' . $plugin_page);
+do_action('admin_head');
+?>
 </head>
 <body>
 <div id="wphead">

@@ -156,4 +156,5 @@ add_action('do_feed_atom', 'do_feed_atom', 10, 1);
 add_action('do_pings', 'do_all_pings', 10, 1);
 add_action('do_robots', 'do_robots');
 add_action('sanitize_comment_cookies', 'sanitize_comment_cookies');
+add_action('admin_print_scripts', 'wp_print_scripts', 20);
 ?>
