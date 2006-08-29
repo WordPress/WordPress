@@ -348,10 +348,16 @@ class WP {
 
 class WP_Error {
 	var $errors = array();
+	var $error_data = array();
 
-	function WP_Error($code = '', $message = '') {
-		if ( ! empty($code) )
-			$this->errors[$code][] = $message;
+	function WP_Error($code = '', $message = '', $data = '') {
+		if ( empty($code) )
+			return;
+
+		$this->errors[$code][] = $message;
+
+		if ( ! empty($data) )
+			$this->error_data[$code] = $data;
 	}
 
 	function get_error_codes() {
@@ -395,8 +401,26 @@ class WP_Error {
 		return $messages[0];
 	}
 
-	function add($code, $message) {
-		$this->errors[$code][] = $message;	
+	function get_error_data($code = '') {
+		if ( empty($code) )
+			$code = $this->get_error_code();
+
+		if ( isset($this->error_data[$code]) )
+			return $this->error_data[$code];
+		return null;
+	}
+
+	function add($code, $message, $data = '') {
+		$this->errors[$code][] = $message;
+		if ( ! empty($data) )
+			$this->error_data[$code] = $data;
+	}
+
+	function add_data($data, $code = '') {
+		if ( empty($code) )
+			$code = $this->get_error_code();
+
+		$this->error_data[$code] = $data;
 	}
 }
 
