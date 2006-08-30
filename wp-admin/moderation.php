@@ -47,7 +47,7 @@ case 'update':
  				break;
 			case 'approve':
 				wp_set_comment_status($key, 'approve');
-				if ( get_settings('comments_notify') == true ) {
+				if ( get_option('comments_notify') == true ) {
 					wp_notify_postauthor($key);
 				}
 				++$item_approved;
@@ -125,7 +125,7 @@ if ($comments) {
 $i = 0;
     foreach($comments as $comment) {
 	++$i;
-	$comment_date = mysql2date(get_settings("date_format") . " @ " . get_settings("time_format"), $comment->comment_date);
+	$comment_date = mysql2date(get_option("date_format") . " @ " . get_option("time_format"), $comment->comment_date);
 	$post_title = $wpdb->get_var("SELECT post_title FROM $wpdb->posts WHERE ID='$comment->comment_post_ID'");
 	if ($i % 2) $class = 'js-unapproved alternate';
 	else $class = 'js-unapproved';

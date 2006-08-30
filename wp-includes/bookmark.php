@@ -91,8 +91,8 @@ function get_bookmarks($args = '') {
 		$join = " LEFT JOIN $wpdb->link2cat ON ($wpdb->links.link_id = $wpdb->link2cat.link_id) ";
 	}
 
-	if (get_settings('links_recently_updated_time')) {
-		$recently_updated_test = ", IF (DATE_ADD(link_updated, INTERVAL " . get_settings('links_recently_updated_time') . " MINUTE) >= NOW(), 1,0) as recently_updated ";
+	if (get_option('links_recently_updated_time')) {
+		$recently_updated_test = ", IF (DATE_ADD(link_updated, INTERVAL " . get_option('links_recently_updated_time') . " MINUTE) >= NOW(), 1,0) as recently_updated ";
 	} else {
 		$recently_updated_test = '';
 	}

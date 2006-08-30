@@ -36,7 +36,7 @@ endif;
 
 $comment_type = '';
 
-if ( get_settings('require_name_email') && !$user->ID ) {
+if ( get_option('require_name_email') && !$user->ID ) {
 	if ( 6 > strlen($comment_author_email) || '' == $comment_author )
 		wp_die( __('Error: please fill the required fields (name, email).') );
 	elseif ( !is_email($comment_author_email))

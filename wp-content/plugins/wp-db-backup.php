@@ -163,7 +163,7 @@ class wpdbBackup {
 		';
 
 		$this_basename = preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', __FILE__);
-		$download_uri = get_settings('siteurl') . "/wp-admin/edit.php?page={$this_basename}&backup={$backup_filename}";
+		$download_uri = get_option('siteurl') . "/wp-admin/edit.php?page={$this_basename}&backup={$backup_filename}";
 		switch($_POST['deliver']) {
 		case 'http':
 			echo '
@@ -315,7 +315,7 @@ class wpdbBackup {
 				$this->deliver_backup ($this->backup_file, $_POST['deliver'], $_POST['backup_recipient']);
 			} elseif ('http' == $_POST['deliver']) {
 				$this_basename = preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', __FILE__);
-				header('Refresh: 3; ' . get_settings('siteurl') . "/wp-admin/edit.php?page={$this_basename}&backup={$this->backup_file}");
+				header('Refresh: 3; ' . get_option('siteurl') . "/wp-admin/edit.php?page={$this_basename}&backup={$this->backup_file}");
 			}
 			// we do this to say we're done.
 			$this->backup_complete = true;
@@ -619,7 +619,7 @@ class wpdbBackup {
 			if (! file_exists($diskfile)) {
 				$msg = sprintf(__('File not found:%s'), "<br /><strong>$filename</strong><br />");
 				$this_basename = preg_replace('/^.*wp-content[\\\\\/]plugins[\\\\\/]/', '', __FILE__);
-				$msg .= '<br /><a href="' . get_settings('siteurl') . "/wp-admin/edit.php?page={$this_basename}" . '">' . __('Return to Backup');
+				$msg .= '<br /><a href="' . get_option('siteurl') . "/wp-admin/edit.php?page={$this_basename}" . '">' . __('Return to Backup');
 			die($msg);
 			}
 			header('Content-Description: File Transfer');
@@ -632,7 +632,7 @@ class wpdbBackup {
 			if (! file_exists($diskfile)) return false;
 
 			if (! is_email ($recipient)) {
-				$recipient = get_settings('admin_email');
+				$recipient = get_option('admin_email');
 			}
 			$randomish = md5(time());
 			$boundary = "==WPBACKUP-BY-SKIPPY-$randomish";
@@ -642,7 +642,7 @@ class wpdbBackup {
 			$data = chunk_split(base64_encode($file));
 			$headers = "MIME-Version: 1.0\n";
 			$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\n";
-			$headers .= 'From: ' . get_settings('admin_email') . "\n";
+			$headers .= 'From: ' . get_option('admin_email') . "\n";
 
 			$message = sprintf(__("Attached to this email is\n   %1s\n   Size:%2s kilobytes\n"), $filename, round(filesize($diskfile)/1024));
 			// Add a multipart boundary above the plain message
@@ -685,11 +685,11 @@ class wpdbBackup {
 			$file = $this->backup_file;
 			switch($_POST['deliver']) {
 			case 'http':
-				$feedback .= '<br />' . sprintf(__('Your backup file: <a href="%1s">%2s</a> should begin downloading shortly.'), get_settings('siteurl') . "/{$this->backup_dir}{$this->backup_file}", $this->backup_file);
+				$feedback .= '<br />' . sprintf(__('Your backup file: <a href="%1s">%2s</a> should begin downloading shortly.'), get_option('siteurl') . "/{$this->backup_dir}{$this->backup_file}", $this->backup_file);
 				break;
 			case 'smtp':
 				if (! is_email($_POST['backup_recipient'])) {
-					$feedback .= get_settings('admin_email');
+					$feedback .= get_option('admin_email');
 				} else {
 					$feedback .= $_POST['backup_recipient'];
 				}
@@ -697,7 +697,7 @@ class wpdbBackup {
 				break;
 			case 'none':
 				$feedback .= '<br />' . __('Your backup file has been saved on the server. If you would like to download it now, right click and select "Save As"');
-				$feedback .= ':<br /> <a href="' . get_settings('siteurl') . "/{$this->backup_dir}$file\">$file</a> : " . sprintf(__('%s bytes'), filesize(ABSPATH . $this->backup_dir . $file));
+				$feedback .= ':<br /> <a href="' . get_option('siteurl') . "/{$this->backup_dir}$file\">$file</a> : " . sprintf(__('%s bytes'), filesize(ABSPATH . $this->backup_dir . $file));
 			}
 			$feedback .= '</p></div>';
 		}
@@ -781,7 +781,7 @@ class wpdbBackup {
 		echo '<label style="display:block;"><input type="radio" name="deliver" value="none" /> ' . __('Save to server') . " ({$this->backup_dir})</label>";
 		echo '<label style="display:block;"><input type="radio" checked="checked" name="deliver" value="http" /> ' . __('Download to your computer') . '</label>';
 		echo '<div><input type="radio" name="deliver" id="do_email" value="smtp" /> ';
-		echo '<label for="do_email">'.__('Email backup to:').'</label><input type="text" name="backup_recipient" size="20" value="' . get_settings('admin_email') . '" />';
+		echo '<label for="do_email">'.__('Email backup to:').'</label><input type="text" name="backup_recipient" size="20" value="' . get_option('admin_email') . '" />';
 
 		// Check DB dize.
 		$table_status = $wpdb->get_results("SHOW TABLE STATUS FROM " . $this->backquote(DB_NAME));
@@ -809,7 +809,7 @@ class wpdbBackup {
 		// this stuff only displays if wp_cron is installed
 		if (function_exists('wp_cron_init')) {
 			echo '<fieldset class="options"><legend>' . __('Scheduled Backup') . '</legend>';
-			$datetime = get_settings('date_format') . ' @ ' . get_settings('time_format');
+			$datetime = get_option('date_format') . ' @ ' . get_option('time_format');
 			echo '<p>' . __('Last WP-Cron Daily Execution') . ': ' . date($datetime, get_option('wp_cron_daily_lastrun')) . '<br />';
 			echo __('Next WP-Cron Daily Execution') . ': ' . date($datetime, (get_option('wp_cron_daily_lastrun') + 86400)) . '</p>';
 			echo '<form method="post">';
@@ -828,7 +828,7 @@ class wpdbBackup {
 			echo '</td><td align="center">';
 			$cron_recipient = get_option('wp_cron_backup_recipient');
 			if (! is_email($cron_recipient)) {
-				$cron_recipient = get_settings('admin_email');
+				$cron_recipient = get_option('admin_email');
 			}
 			echo __('Email backup to:') . ' <input type="text" name="cron_backup_recipient" size="20" value="' . $cron_recipient . '" />';
 			echo '</td></tr>';

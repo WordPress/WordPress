@@ -3,12 +3,12 @@
 function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) {
 	global $wpdb;
 
-	if (1 == get_settings('comment_moderation')) return false; // If moderation is set to manual
+	if (1 == get_option('comment_moderation')) return false; // If moderation is set to manual
 
-	if ( (count(explode('http:', $comment)) - 1) >= get_settings('comment_max_links') )
+	if ( (count(explode('http:', $comment)) - 1) >= get_option('comment_max_links') )
 		return false; // Check # of external links
 
-	$mod_keys = trim( get_settings('moderation_keys') );
+	$mod_keys = trim( get_option('moderation_keys') );
 	if ( !empty($mod_keys) ) {
 		$words = explode("\n", $mod_keys );
 
@@ -33,7 +33,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 	}
 
 	// Comment whitelisting:
-	if ( 1 == get_settings('comment_whitelist')) {
+	if ( 1 == get_option('comment_whitelist')) {
 		if ( 'trackback' == $comment_type || 'pingback' == $comment_type ) { // check if domain is in blogroll
 			$uri = parse_url($url);
 			$domain = $uri['host'];
@@ -124,7 +124,7 @@ function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = fals
 
 function get_lastcommentmodified($timezone = 'server') {
 	global $cache_lastcommentmodified, $pagenow, $wpdb;
-	$add_seconds_blog = get_settings('gmt_offset') * 3600;
+	$add_seconds_blog = get_option('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
 	if ( !isset($cache_lastcommentmodified[$timezone]) ) {
@@ -233,7 +233,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		}
 	}
 
-	$mod_keys = trim( get_settings('blacklist_keys') );
+	$mod_keys = trim( get_option('blacklist_keys') );
 	if ('' == $mod_keys )
 		return false; // If moderation keys are empty
 	$words = explode("\n", $mod_keys );
@@ -386,7 +386,7 @@ function wp_new_comment( $commentdata ) {
 
 		$post = &get_post($commentdata['comment_post_ID']); // Don't notify if it's your own comment
 
-		if ( get_settings('comments_notify') && $commentdata['comment_approved'] && $post->post_author != $commentdata['user_ID'] )
+		if ( get_option('comments_notify') && $commentdata['comment_approved'] && $post->post_author != $commentdata['user_ID'] )
 			wp_notify_postauthor($comment_ID, $commentdata['comment_type']);
 	}
 
@@ -616,7 +616,7 @@ function do_trackbacks($post_id) {
 	$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
 	$excerpt = strip_tags($excerpt);
 	if ( function_exists('mb_strcut') ) // For international trackbacks
-    	$excerpt = mb_strcut($excerpt, 0, 252, get_settings('blog_charset')) . '...';
+    	$excerpt = mb_strcut($excerpt, 0, 252, get_option('blog_charset')) . '...';
 	else
 		$excerpt = substr($excerpt, 0, 252) . '...';
 
@@ -635,7 +635,7 @@ function do_trackbacks($post_id) {
 }
 
 function generic_ping($post_id = 0) {
-	$services = get_settings('ping_sites');
+	$services = get_option('ping_sites');
 	$services = preg_replace("|(\s)+|", '$1', $services); // Kill dupe lines
 	$services = trim($services);
 	if ( '' != $services ) {
@@ -744,14 +744,14 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 
 	$title = urlencode($title);
 	$excerpt = urlencode($excerpt);
-	$blog_name = urlencode(get_settings('blogname'));
+	$blog_name = urlencode(get_option('blogname'));
 	$tb_url = $trackback_url;
 	$url = urlencode(get_permalink($ID));
 	$query_string = "title=$title&url=$url&blog_name=$blog_name&excerpt=$excerpt";
 	$trackback_url = parse_url($trackback_url);
 	$http_request = 'POST ' . $trackback_url['path'] . ($trackback_url['query'] ? '?'.$trackback_url['query'] : '') . " HTTP/1.0\r\n";
 	$http_request .= 'Host: '.$trackback_url['host']."\r\n";
-	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_settings('blog_charset')."\r\n";
+	$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_option('blog_charset')."\r\n";
 	$http_request .= 'Content-Length: '.strlen($query_string)."\r\n";
 	$http_request .= "User-Agent: WordPress/" . $wp_version;
 	$http_request .= "\r\n\r\n";
@@ -789,8 +789,8 @@ function weblog_ping($server = '', $path = '') {
 	// when set to true, this outputs debug messages by itself
 	$client->debug = false;
 	$home = trailingslashit( get_option('home') );
-	if ( !$client->query('weblogUpdates.extendedPing', get_settings('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
-		$client->query('weblogUpdates.ping', get_settings('blogname'), $home);
+	if ( !$client->query('weblogUpdates.extendedPing', get_option('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
+		$client->query('weblogUpdates.ping', get_option('blogname'), $home);
 }
 
 ?>

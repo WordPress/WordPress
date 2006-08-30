@@ -5,16 +5,16 @@ require_once(ABSPATH.WPINC.'/class-pop3.php');
 
 error_reporting(2037);
 
-$time_difference = get_settings('gmt_offset') * 3600;
+$time_difference = get_option('gmt_offset') * 3600;
 
 $phone_delim = '::';
 
 $pop3 = new POP3();
 
-if (!$pop3->connect(get_settings('mailserver_url'), get_settings('mailserver_port')))
+if (!$pop3->connect(get_option('mailserver_url'), get_option('mailserver_port')))
 	wp_die($pop3->ERROR);
 
-$count = $pop3->login(get_settings('mailserver_login'), get_settings('mailserver_pass'));
+$count = $pop3->login(get_option('mailserver_login'), get_option('mailserver_pass'));
 if (0 == $count) wp_die(__('There doesn&#8217;t seem to be any new mail.'));
 
 
@@ -102,7 +102,7 @@ for ($i=1; $i <= $count; $i++) :
 		}
 	endforeach;
 
-	$subject = trim(str_replace(get_settings('subjectprefix'), '', $subject));
+	$subject = trim(str_replace(get_option('subjectprefix'), '', $subject));
 
 	if ($content_type == 'multipart/alternative') {
 		$content = explode('--'.$boundary, $content);
@@ -126,7 +126,7 @@ for ($i=1; $i <= $count; $i++) :
 
 	if ($post_title == '') $post_title = $subject;
 
-	if (empty($post_categories)) $post_categories[] = get_settings('default_email_category');
+	if (empty($post_categories)) $post_categories[] = get_option('default_email_category');
 
 	$post_category = $post_categories;
 

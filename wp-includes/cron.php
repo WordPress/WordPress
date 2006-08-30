@@ -80,7 +80,7 @@ function spawn_cron() {
 	if ( array_shift( $keys ) > time() )
 		return;
 
-	$cron_url = get_settings( 'siteurl' ) . '/wp-cron.php';
+	$cron_url = get_option( 'siteurl' ) . '/wp-cron.php';
 	$parts = parse_url( $cron_url );
 
 	$argyle = @ fsockopen( $parts['host'], $_SERVER['SERVER_PORT'], $errno, $errstr, 0.01 );

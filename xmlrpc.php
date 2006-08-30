@@ -12,10 +12,10 @@ if ( isset($HTTP_RAW_POST_DATA) )
 include('./wp-config.php');
 
 if ( isset( $_GET['rsd'] ) ) { // http://archipelago.phrasewise.com/rsd 
-header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
+header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
 
 ?>
-<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd">
   <service>
     <engineName>WordPress</engineName>
@@ -190,9 +190,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $struct = array(
 	    'isAdmin'  => $is_admin,
-	    'url'      => get_settings('home') . '/',
+	    'url'      => get_option('home') . '/',
 	    'blogid'   => '1',
-	    'blogName' => get_settings('blogname')
+	    'blogName' => get_option('blogname')
 	  );
 
 	  return array($struct);
@@ -329,7 +329,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URL is on the same server */
-	  $filename = get_settings('home') . '/';
+	  $filename = get_option('home') . '/';
 	  $filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
 	  $f = fopen($filename, 'r');
@@ -364,7 +364,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URL is on the same server */
-	  $filename = get_settings('home') . '/';
+	  $filename = get_option('home') . '/';
 	  $filename = preg_replace('#https?://.+?/#', $_SERVER['DOCUMENT_ROOT'].'/', $filename);
 
 	  if ($f = fopen($filename, 'w+')) {
@@ -544,11 +544,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_more = $content_struct['mt_text_more'];
 
 	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
-	    get_settings('default_comment_status')
+	    get_option('default_comment_status')
 	    : $content_struct['mt_allow_comments'];
 
 	  $ping_status = (empty($content_struct['mt_allow_pings'])) ?
-	    get_settings('default_ping_status')
+	    get_option('default_ping_status')
 	    : $content_struct['mt_allow_pings'];
 
 	  if ($post_more) {
@@ -641,11 +641,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		$to_ping = $content_struct['mt_tb_ping_urls'];
 
 	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
-	    get_settings('default_comment_status')
+	    get_option('default_comment_status')
 	    : $content_struct['mt_allow_comments'];
 
 	  $ping_status = (empty($content_struct['mt_allow_pings'])) ?
-	    get_settings('default_ping_status')
+	    get_option('default_ping_status')
 	    : $content_struct['mt_allow_pings'];
 
 	  // Do some timestamp voodoo
@@ -1111,7 +1111,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$error_code = -1;
 
 		// Check if the page linked to is in our site
-		$pos1 = strpos($pagelinkedto, str_replace(array('http://www.','http://','https://www.','https://'), '', get_settings('home')));
+		$pos1 = strpos($pagelinkedto, str_replace(array('http://www.','http://','https://www.','https://'), '', get_option('home')));
 		if( !$pos1 )
 	  		return new IXR_Error(0, 'Is there no link to us?');
 

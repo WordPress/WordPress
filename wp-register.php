@@ -3,7 +3,7 @@ require('./wp-config.php');
 require_once( ABSPATH . WPINC . '/registration.php');
 
 $action = $_REQUEST['action'];
-if ( !get_settings('users_can_register') )
+if ( !get_option('users_can_register') )
 	$action = 'disabled';
 
 header( 'Content-Type: ' . get_bloginfo('html_type') . '; charset=' . get_bloginfo('charset') );
@@ -44,7 +44,7 @@ case 'register':
 
 		$user_id = wp_create_user( $user_login, $password, $user_email );
 		if ( !$user_id )
-			$errors['user_id'] = sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_settings('admin_email'));
+			$errors['user_id'] = sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_option('admin_email'));
 		else
 			wp_new_user_notification($user_id, $password);
 	}
@@ -56,7 +56,7 @@ case 'register':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Complete') ?></title>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 	<style type="text/css">
 	.submit {
@@ -87,7 +87,7 @@ default:
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Form') ?></title>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css" />
 	<style type="text/css">
 	#user_email, #user_login, #submit {
@@ -136,7 +136,7 @@ case 'disabled':
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>WordPress &raquo; <?php _e('Registration Currently Disabled') ?></title>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<link rel="stylesheet" href="wp-admin/wp-admin.css" type="text/css">
 </head>
 
@@ -145,7 +145,7 @@ case 'disabled':
 <div id="login">
 	<h2><?php _e('Registration Disabled') ?></h2>
 	<p><?php _e('User registration is currently not allowed.') ?><br />
-	<a href="<?php echo get_settings('home'); ?>/" title="<?php _e('Go back to the blog') ?>"><?php _e('Home') ?></a>
+	<a href="<?php echo get_option('home'); ?>/" title="<?php _e('Go back to the blog') ?>"><?php _e('Home') ?></a>
 	</p>
 </div>
 

@@ -23,7 +23,7 @@ function get_category_link($category_id) {
 	$catlink = $wp_rewrite->get_category_permastruct();
 
 	if ( empty($catlink) ) {
-		$file = get_settings('home') . '/';
+		$file = get_option('home') . '/';
 		$catlink = $file . '?cat=' . $category_id;
 	} else {
 		$category = &get_category($category_id);
@@ -33,7 +33,7 @@ function get_category_link($category_id) {
 			$category_nicename = get_category_parents($parent, false, '/', true) . $category_nicename . '/';
 
 		$catlink = str_replace('%category%', $category_nicename, $catlink);
-		$catlink = get_settings('home') . trailingslashit($catlink);
+		$catlink = get_option('home') . trailingslashit($catlink);
 	}
 	return apply_filters('category_link', $catlink, $category_id);
 }

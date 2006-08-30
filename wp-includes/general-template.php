@@ -28,9 +28,9 @@ function get_sidebar() {
 
 function wp_loginout() {
 	if ( ! is_user_logged_in() )
-		$link = '<a href="' . get_settings('siteurl') . '/wp-login.php">' . __('Login') . '</a>';
+		$link = '<a href="' . get_option('siteurl') . '/wp-login.php">' . __('Login') . '</a>';
 	else
-		$link = '<a href="' . get_settings('siteurl') . '/wp-login.php?action=logout">' . __('Logout') . '</a>';
+		$link = '<a href="' . get_option('siteurl') . '/wp-login.php?action=logout">' . __('Logout') . '</a>';
 
 	echo apply_filters('loginout', $link);
 }
@@ -39,12 +39,12 @@ function wp_loginout() {
 function wp_register( $before = '<li>', $after = '</li>' ) {
 
 	if ( ! is_user_logged_in() ) {
-		if ( get_settings('users_can_register') )
-			$link = $before . '<a href="' . get_settings('siteurl') . '/wp-register.php">' . __('Register') . '</a>' . $after;
+		if ( get_option('users_can_register') )
+			$link = $before . '<a href="' . get_option('siteurl') . '/wp-register.php">' . __('Register') . '</a>' . $after;
 		else
 			$link = '';
 	} else {
-		$link = $before . '<a href="' . get_settings('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>' . $after;
+		$link = $before . '<a href="' . get_option('siteurl') . '/wp-admin/">' . __('Site Admin') . '</a>' . $after;
 	}
 
 	echo apply_filters('register', $link);
@@ -75,13 +75,13 @@ function get_bloginfo($show='') {
 		case 'url' :
 		case 'home' :
 		case 'siteurl' :
-			$output = get_settings('home');
+			$output = get_option('home');
 			break;
 		case 'wpurl' :
-			$output = get_settings('siteurl');
+			$output = get_option('siteurl');
 			break;
 		case 'description':
-			$output = get_settings('blogdescription');
+			$output = get_option('blogdescription');
 			break;
 		case 'rdf_url':
 			$output = get_feed_link('rdf');
@@ -99,7 +99,7 @@ function get_bloginfo($show='') {
 			$output = get_feed_link('comments_rss2');
 			break;
 		case 'pingback_url':
-			$output = get_settings('siteurl') .'/xmlrpc.php';
+			$output = get_option('siteurl') .'/xmlrpc.php';
 			break;
 		case 'stylesheet_url':
 			$output = get_stylesheet_uri();
@@ -112,10 +112,10 @@ function get_bloginfo($show='') {
 			$output = get_template_directory_uri();
 			break;
 		case 'admin_email':
-			$output = get_settings('admin_email');
+			$output = get_option('admin_email');
 			break;
 		case 'charset':
-			$output = get_settings('blog_charset');
+			$output = get_option('blog_charset');
 			if ('' == $output) $output = 'UTF-8';
 			break;
 		case 'html_type' :
@@ -127,7 +127,7 @@ function get_bloginfo($show='') {
 			break;
 		case 'name':
 		default:
-			$output = get_settings('blogname');
+			$output = get_option('blogname');
 			break;
 	}
 	return $output;
@@ -309,13 +309,13 @@ function wp_get_archives($args = '') {
 	$archive_week_end_date_format	= 'Y/m/d';
 
 	if ( !$archive_date_format_over_ride ) {
-		$archive_day_date_format = get_settings('date_format');
-		$archive_week_start_date_format = get_settings('date_format');
-		$archive_week_end_date_format = get_settings('date_format');
+		$archive_day_date_format = get_option('date_format');
+		$archive_week_start_date_format = get_option('date_format');
+		$archive_week_end_date_format = get_option('date_format');
 	}
 
-	$add_hours = intval(get_settings('gmt_offset'));
-	$add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
+	$add_hours = intval(get_option('gmt_offset'));
+	$add_minutes = intval(60 * (get_option('gmt_offset') - $add_hours));
 
 	if ( 'monthly' == $type ) {
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC" . $limit);
@@ -358,7 +358,7 @@ function wp_get_archives($args = '') {
 			}
 		}
 	} elseif ( 'weekly' == $type ) {
-		$start_of_week = get_settings('start_of_week');
+		$start_of_week = get_option('start_of_week');
 		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
 		if ( $arcresults ) {
@@ -366,10 +366,10 @@ function wp_get_archives($args = '') {
 					if ( $arcresult->week != $arc_w_last ) {
 						$arc_year = $arcresult->yr;
 						$arc_w_last = $arcresult->week;
-						$arc_week = get_weekstartend($arcresult->yyyymmdd, get_settings('start_of_week'));
+						$arc_week = get_weekstartend($arcresult->yyyymmdd, get_option('start_of_week'));
 						$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 						$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-						$url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
+						$url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_option('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
 						echo get_archives_link($url, $text, $format, $before, $after);
 					}
@@ -416,9 +416,9 @@ function get_calendar($initial = true) {
 		$w = ''.intval($_GET['w']);
 
 	// week_begins = 0 stands for Sunday
-	$week_begins = intval(get_settings('start_of_week'));
-	$add_hours = intval(get_settings('gmt_offset'));
-	$add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
+	$week_begins = intval(get_option('start_of_week'));
+	$add_hours = intval(get_option('gmt_offset'));
+	$add_minutes = intval(60 * (get_option('gmt_offset') - $add_hours));
 
 	// Let's figure out when we are
 	if ( !empty($monthnum) && !empty($year) ) {
@@ -437,8 +437,8 @@ function get_calendar($initial = true) {
 		else
 				$thismonth = ''.zeroise(intval(substr($m, 4, 2)), 2);
 	} else {
-		$thisyear = gmdate('Y', current_time('timestamp') + get_settings('gmt_offset') * 3600);
-		$thismonth = gmdate('m', current_time('timestamp') + get_settings('gmt_offset') * 3600);
+		$thisyear = gmdate('Y', current_time('timestamp') + get_option('gmt_offset') * 3600);
+		$thismonth = gmdate('m', current_time('timestamp') + get_option('gmt_offset') * 3600);
 	}
 
 	$unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
@@ -558,7 +558,7 @@ function get_calendar($initial = true) {
 			echo "\n\t</tr>\n\t<tr>\n\t\t";
 		$newrow = false;
 
-		if ( $day == gmdate('j', (time() + (get_settings('gmt_offset') * 3600))) && $thismonth == gmdate('m', time()+(get_settings('gmt_offset') * 3600)) && $thisyear == gmdate('Y', time()+(get_settings('gmt_offset') * 3600)) )
+		if ( $day == gmdate('j', (time() + (get_option('gmt_offset') * 3600))) && $thismonth == gmdate('m', time()+(get_option('gmt_offset') * 3600)) && $thisyear == gmdate('Y', time()+(get_option('gmt_offset') * 3600)) )
 			echo '<td id="today">';
 		else
 			echo '<td>';
@@ -613,7 +613,7 @@ function the_date($d='', $before='', $after='', $echo = true) {
 	if ( $day != $previousday ) {
 		$the_date .= $before;
 		if ( $d=='' )
-			$the_date .= mysql2date(get_settings('date_format'), $post->post_date);
+			$the_date .= mysql2date(get_option('date_format'), $post->post_date);
 		else
 			$the_date .= mysql2date($d, $post->post_date);
 		$the_date .= $after;
@@ -634,7 +634,7 @@ function the_modified_date($d = '') {
 
 function get_the_modified_date($d = '') {
 	if ( '' == $d )
-		$the_time = get_post_modified_time(get_settings('date_format'));
+		$the_time = get_post_modified_time(get_option('date_format'));
 	else
 		$the_time = get_post_modified_time($d);
 	return apply_filters('get_the_modified_date', $the_time, $d);
@@ -648,7 +648,7 @@ function the_time( $d = '' ) {
 
 function get_the_time( $d = '' ) {
 	if ( '' == $d )
-		$the_time = get_post_time(get_settings('time_format'));
+		$the_time = get_post_time(get_option('time_format'));
 	else
 		$the_time = get_post_time($d);
 	return apply_filters('get_the_time', $the_time, $d);
@@ -674,7 +674,7 @@ function the_modified_time($d = '') {
 
 function get_the_modified_time($d = '') {
 	if ( '' == $d )
-		$the_time = get_post_modified_time(get_settings('time_format'));
+		$the_time = get_post_modified_time(get_option('time_format'));
 	else
 		$the_time = get_post_modified_time($d);
 	return apply_filters('get_the_modified_time', $the_time, $d);
@@ -741,7 +741,7 @@ function noindex() {
  * @param string (optional) Previous form field's ID (for tabbing support)
  */
 function the_editor($content, $id = 'content', $prev_id = 'title') {
-	$rows = get_settings('default_post_edit_rows');
+	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
 		$rows = 12;
 

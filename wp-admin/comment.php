@@ -62,7 +62,7 @@ case 'mailapprovecomment':
 	echo "</table>\n";
 	echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
 
-	echo "<form action='".get_settings('siteurl')."/wp-admin/comment.php' method='get'>\n";
+	echo "<form action='".get_option('siteurl')."/wp-admin/comment.php' method='get'>\n";
 	wp_nonce_field($nonce_action);
 	echo "<input type='hidden' name='action' value='$formaction' />\n";
 	if ( 'spam' == $_GET['delete_type'] )
@@ -72,7 +72,7 @@ case 'mailapprovecomment':
 	echo "<input type='hidden' name='noredir' value='1' />\n";
 	echo "<input type='submit' value='" . __('Yes') . "' />";
 	echo "&nbsp;&nbsp;";
-	echo "<input type='button' value='" . __('No') . "' onclick=\"self.location='". get_settings('siteurl') ."/wp-admin/edit-comments.php';\" />\n";
+	echo "<input type='button' value='" . __('No') . "' onclick=\"self.location='". get_option('siteurl') ."/wp-admin/edit-comments.php';\" />\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
@@ -106,7 +106,7 @@ case 'deletecomment':
 	if ((wp_get_referer() != '') && (false == $noredir)) {
 		wp_redirect(wp_get_referer());
 	} else {
-		wp_redirect(get_settings('siteurl') .'/wp-admin/edit-comments.php');
+		wp_redirect(get_option('siteurl') .'/wp-admin/edit-comments.php');
 	}
 	exit();
 	break;
@@ -133,7 +133,7 @@ case 'unapprovecomment':
 	if ((wp_get_referer() != "") && (false == $noredir)) {
 		wp_redirect(wp_get_referer());
 	} else {
-		wp_redirect(get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
 	exit();
 	break;
@@ -156,7 +156,7 @@ case 'approvecomment':
 		wp_die( __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 
 	wp_set_comment_status($comment->comment_ID, "approve");
-	if (get_settings("comments_notify") == true) {
+	if (get_option("comments_notify") == true) {
 		wp_notify_postauthor($comment->comment_ID);
 	}
 
@@ -164,7 +164,7 @@ case 'approvecomment':
 	if ((wp_get_referer() != "") && (false == $noredir)) {
 		wp_redirect(wp_get_referer());
 	} else {
-		wp_redirect(get_settings('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
 	}
 	exit();
 	break;

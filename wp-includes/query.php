@@ -545,9 +545,9 @@ class WP_Query {
 			$q['post_type'] = 'post';
 		$post_type = $q['post_type'];
 		if ( !isset($q['posts_per_page']) || $q['posts_per_page'] == 0 )
-			$q['posts_per_page'] = get_settings('posts_per_page');
+			$q['posts_per_page'] = get_option('posts_per_page');
 		if ( !isset($q['what_to_show']) )
-			$q['what_to_show'] = get_settings('what_to_show');
+			$q['what_to_show'] = get_option('what_to_show');
 		if ( isset($q['showposts']) && $q['showposts'] ) {
 			$q['showposts'] = (int) $q['showposts'];
 			$q['posts_per_page'] = $q['showposts'];
@@ -562,7 +562,7 @@ class WP_Query {
 			}
 		}
 		if ( $this->is_feed ) {
-			$q['posts_per_page'] = get_settings('posts_per_rss');
+			$q['posts_per_page'] = get_option('posts_per_rss');
 			$q['what_to_show'] = 'posts';
 		}
 		$q['posts_per_page'] = (int) $q['posts_per_page'];
@@ -583,8 +583,8 @@ class WP_Query {
 			$q['page'] = abs($q['page']);
 		}
 
-		$add_hours = intval(get_settings('gmt_offset'));
-		$add_minutes = intval(60 * (get_settings('gmt_offset') - $add_hours));
+		$add_hours = intval(get_option('gmt_offset'));
+		$add_minutes = intval(60 * (get_option('gmt_offset') - $add_hours));
 		$wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
 		// If a month is specified in the querystring, load that month

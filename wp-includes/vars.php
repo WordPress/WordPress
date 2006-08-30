@@ -89,7 +89,7 @@ if (!isset($wpsmiliestrans)) {
 foreach($wpsmiliestrans as $smiley => $img) {
 	$wp_smiliessearch[] = $smiley;
 	$smiley_masked = htmlspecialchars( trim($smiley) , ENT_QUOTES);
-	$wp_smiliesreplace[] = " <img src='" . get_settings('siteurl') . "/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
+	$wp_smiliesreplace[] = " <img src='" . get_option('siteurl') . "/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
 }
 
 ?>

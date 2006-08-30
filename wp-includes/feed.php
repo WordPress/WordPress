@@ -87,20 +87,20 @@ function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = '
 function comments_rss($commentsrssfilename = '') {
 	global $id;
 
-	if ('' != get_settings('permalink_structure'))
+	if ('' != get_option('permalink_structure'))
 		$url = trailingslashit( get_permalink() ) . 'feed/';
 	else
-		$url = get_settings('home') . "/$commentsrssfilename?feed=rss2&amp;p=$id";
+		$url = get_option('home') . "/$commentsrssfilename?feed=rss2&amp;p=$id";
 
 	return apply_filters('post_comments_feed_link', $url);
 }
 
 function get_author_rss_link($echo = false, $author_id, $author_nicename) {
        $auth_ID = $author_id;
-       $permalink_structure = get_settings('permalink_structure');
+       $permalink_structure = get_option('permalink_structure');
 
        if ('' == $permalink_structure) {
-				 $link = get_settings('home') . '?feed=rss2&amp;author=' . $author_id;
+				 $link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
        } else {
 				 $link = get_author_link(0, $author_id, $author_nicename);
 				 $link = $link . "feed/";
@@ -113,10 +113,10 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
 }
 
 function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
-       $permalink_structure = get_settings('permalink_structure');
+       $permalink_structure = get_option('permalink_structure');
 
        if ('' == $permalink_structure) {
-				 $link = get_settings('home') . '?feed=rss2&amp;cat=' . $cat_ID;
+				 $link = get_option('home') . '?feed=rss2&amp;cat=' . $cat_ID;
        } else {
 				 $link = get_category_link($cat_ID);
 				 $link = $link . "feed/";

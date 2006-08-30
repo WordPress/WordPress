@@ -21,7 +21,7 @@ function kubrick_head() {
 add_action('wp_head', 'kubrick_head');
 
 function kubrick_header_image() {
-	return apply_filters('kubrick_header_image', get_settings('kubrick_header_image'));
+	return apply_filters('kubrick_header_image', get_option('kubrick_header_image'));
 }
 
 function kubrick_upper_color() {
@@ -50,7 +50,7 @@ function kubrick_header_image_url() {
 }
 
 function kubrick_header_color() {
-	return apply_filters('kubrick_header_color', get_settings('kubrick_header_color'));
+	return apply_filters('kubrick_header_color', get_option('kubrick_header_color'));
 }
 
 function kubrick_header_color_string() {
@@ -62,7 +62,7 @@ function kubrick_header_color_string() {
 }
 
 function kubrick_header_display() {
-	return apply_filters('kubrick_header_display', get_settings('kubrick_header_display'));
+	return apply_filters('kubrick_header_display', get_option('kubrick_header_display'));
 }
 
 function kubrick_header_display_string() {
@@ -93,7 +93,7 @@ function kubrick_add_theme_page() {
 					}
 
 					if ( isset($_REQUEST['toggledisplay']) ) {
-						if ( false === get_settings('kubrick_header_display') )
+						if ( false === get_option('kubrick_header_display') )
 							update_option('kubrick_header_display', 'none');
 						else
 							delete_option('kubrick_header_display');

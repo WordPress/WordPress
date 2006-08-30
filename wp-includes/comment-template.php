@@ -90,7 +90,7 @@ function comment_author_url_link( $linktext = '', $before = '', $after = '' ) {
 function get_comment_date( $d = '' ) {
 	global $comment;
 	if ( '' == $d )
-		$date = mysql2date( get_settings('date_format'), $comment->comment_date);
+		$date = mysql2date( get_option('date_format'), $comment->comment_date);
 	else
 		$date = mysql2date($d, $comment->comment_date);
 	return apply_filters('get_comment_date', $date);
@@ -187,7 +187,7 @@ function get_comment_time( $d = '', $gmt = false ) {
 	global $comment;
 	$comment_date = $gmt? $comment->comment_date_gmt : $comment->comment_date;
 	if ( '' == $d )
-		$date = mysql2date(get_settings('time_format'), $comment_date);
+		$date = mysql2date(get_option('time_format'), $comment_date);
 	else
 		$date = mysql2date($d, $comment_date);
 	return apply_filters('get_comment_time', $date);
@@ -222,9 +222,9 @@ function comment_type($commenttxt = 'Comment', $trackbacktxt = 'Trackback', $pin
 
 function get_trackback_url() {
 	global $id;
-	$tb_url = get_settings('siteurl') . '/wp-trackback.php?p=' . $id;
+	$tb_url = get_option('siteurl') . '/wp-trackback.php?p=' . $id;
 
-	if ( '' != get_settings('permalink_structure') )
+	if ( '' != get_option('permalink_structure') )
 		$tb_url = trailingslashit(get_permalink()) . 'trackback/';
 
 	return $tb_url;
@@ -276,7 +276,7 @@ function comments_template( $file = '/comments.php' ) {
 	if ( ! (is_single() || is_page() || $withcomments) )
 		return;
 
-	$req = get_settings('require_name_email');
+	$req = get_option('require_name_email');
 	$commenter = wp_get_current_commenter();
 	extract($commenter);
 
@@ -334,9 +334,9 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 	echo '<a href="';
 	if ($wpcommentsjavascript) {
 		if ( empty($wpcommentspopupfile) )
-			$home = get_settings('home');
+			$home = get_option('home');
 		else
-			$home = get_settings('siteurl');
+			$home = get_option('siteurl');
 		echo $home . '/' . $wpcommentspopupfile.'?comments_popup='.$id;
 		echo '" onclick="wpopen(this.href); return false"';
 	} else { // if comments_popup_script() is not in the template, display simple comment link

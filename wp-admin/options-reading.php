@@ -54,8 +54,8 @@ include('admin-header.php');
 <td>
 <input name="posts_per_page" type="text" id="posts_per_page" value="<?php form_option('posts_per_page'); ?>" size="3" /> 
 <select name="what_to_show" id="what_to_show" > 
-<option value="days" <?php selected('days', get_settings('what_to_show')); ?>><?php _e('days') ?></option> 
-<option value="posts" <?php selected('posts', get_settings('what_to_show')); ?>><?php _e('posts') ?></option> 
+<option value="days" <?php selected('days', get_option('what_to_show')); ?>><?php _e('days') ?></option> 
+<option value="posts" <?php selected('posts', get_option('what_to_show')); ?>><?php _e('posts') ?></option> 
 </select>
 </td> 
 </tr> 
@@ -72,8 +72,8 @@ include('admin-header.php');
 <tr valign="top">
 <th scope="row"><?php _e('For each article, show:') ?> </th>
 <td>
-<label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_settings('rss_use_excerpt')); ?>	/> <?php _e('Full text') ?></label><br />
-<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_settings('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label>
+<label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked(0, get_option('rss_use_excerpt')); ?>	/> <?php _e('Full text') ?></label><br />
+<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked(1, get_option('rss_use_excerpt')); ?> /> <?php _e('Summary') ?></label>
 </td>
 </tr> 
 </table> 
@@ -86,7 +86,7 @@ include('admin-header.php');
 </tr>
 </table> 
 <p>
-<label><input type="checkbox" name="gzipcompression" value="1" <?php checked('1', get_settings('gzipcompression')); ?> /> 
+<label><input type="checkbox" name="gzipcompression" value="1" <?php checked('1', get_option('gzipcompression')); ?> /> 
 <?php _e('WordPress should compress articles (gzip) if browsers ask for them') ?></label>
 </p>
 <p class="submit">

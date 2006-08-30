@@ -5,11 +5,11 @@ if (empty($wp)) {
 	wp('feed=rdf');
 }
 
-header('Content-type: application/rdf+xml; charset=' . get_settings('blog_charset'), true);
+header('Content-type: application/rdf+xml; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
 ?>
-<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rdf:RDF
 	xmlns="http://purl.org/rss/1.0/"
@@ -45,10 +45,10 @@ $more = 1;
 	 <dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', $post->post_date_gmt, false); ?></dc:date>
 	<dc:creator><?php the_author() ?></dc:creator>
 	<?php the_category_rss('rdf') ?>
-<?php if (get_settings('rss_use_excerpt')) : ?>
+<?php if (get_option('rss_use_excerpt')) : ?>
 	<description><?php the_excerpt_rss() ?></description>
 <?php else : ?>
-	<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length'), 2) ?></description>
+	<description><?php the_content_rss('', 0, '', get_option('rss_excerpt_length'), 2) ?></description>
 	<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
 <?php endif; ?>
 	<?php do_action('rdf_item'); ?>

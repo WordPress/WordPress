@@ -141,7 +141,7 @@ require (ABSPATH . WPINC . '/script-loader.php');
 
 if (!strstr($_SERVER['PHP_SELF'], 'install.php')) :
     // Used to guarantee unique hash cookies
-    $cookiehash = md5(get_settings('siteurl')); // Remove in 1.4
+    $cookiehash = md5(get_option('siteurl')); // Remove in 1.4
 	define('COOKIEHASH', $cookiehash); 
 endif;
 
@@ -150,22 +150,22 @@ if ( !defined('USER_COOKIE') )
 if ( !defined('PASS_COOKIE') )
 	define('PASS_COOKIE', 'wordpresspass_'. COOKIEHASH);
 if ( !defined('COOKIEPATH') )
-	define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('home') . '/' ) );
+	define('COOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('home') . '/' ) );
 if ( !defined('SITECOOKIEPATH') )
-	define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_settings('siteurl') . '/' ) );
+	define('SITECOOKIEPATH', preg_replace('|https?://[^/]+|i', '', get_option('siteurl') . '/' ) );
 if ( !defined('COOKIE_DOMAIN') )
 	define('COOKIE_DOMAIN', false);
 
 require (ABSPATH . WPINC . '/vars.php');
 
 // Check for hacks file if the option is enabled
-if (get_settings('hack_file')) {
+if (get_option('hack_file')) {
 	if (file_exists(ABSPATH . '/my-hacks.php'))
 		require(ABSPATH . '/my-hacks.php');
 }
 
-if ( get_settings('active_plugins') ) {
-	$current_plugins = get_settings('active_plugins');
+if ( get_option('active_plugins') ) {
+	$current_plugins = get_option('active_plugins');
 	if ( is_array($current_plugins) ) {
 		foreach ($current_plugins as $plugin) {
 			if ('' != $plugin && file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))

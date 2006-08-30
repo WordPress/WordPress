@@ -606,7 +606,7 @@ function wp_rel_nofollow( $text ) {
 function convert_smilies($text) {
 	global $wp_smiliessearch, $wp_smiliesreplace;
     $output = '';
-	if (get_settings('use_smilies')) {
+	if (get_option('use_smilies')) {
 		// HTML loop taken from texturize function, could possible be consolidated
 		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
 		$stop = count($textarr);// loop stuff
@@ -656,7 +656,7 @@ function get_gmt_from_date($string) {
   // note: this only substracts $time_difference from the given date
   preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
   $string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-  $string_gmt = gmdate('Y-m-d H:i:s', $string_time - get_settings('gmt_offset') * 3600);
+  $string_gmt = gmdate('Y-m-d H:i:s', $string_time - get_option('gmt_offset') * 3600);
   return $string_gmt;
 }
 
@@ -665,7 +665,7 @@ function get_date_from_gmt($string) {
   // note: this only adds $time_difference to the given date
   preg_match('#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches);
   $string_time = gmmktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
-  $string_localtime = gmdate('Y-m-d H:i:s', $string_time + get_settings('gmt_offset')*3600);
+  $string_localtime = gmdate('Y-m-d H:i:s', $string_time + get_option('gmt_offset')*3600);
   return $string_localtime;
 }
 
@@ -690,7 +690,7 @@ function iso8601_to_datetime($date_string, $timezone = USER) {
     if (!empty($date_bits[7])) { // we have a timezone, so let's compute an offset
       $offset = iso8601_timezone_to_offset($date_bits[7]);
     } else { // we don't have a timezone, so we assume user local timezone (not server's!)
-      $offset = 3600 * get_settings('gmt_offset');
+      $offset = 3600 * get_option('gmt_offset');
     }
     $timestamp = gmmktime($date_bits[4], $date_bits[5], $date_bits[6], $date_bits[2], $date_bits[3], $date_bits[1]);
     $timestamp -= $offset;

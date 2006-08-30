@@ -34,7 +34,7 @@ addLoadEvent(focusit);
     <legend><a href="http://wordpress.org/docs/reference/post/#post" title="<?php _e('Help with post field') ?>"><?php _e('Post') ?></a></legend>
 <?php the_quicktags(); ?>
 <?php
- $rows = get_settings('default_post_edit_rows');
+ $rows = get_option('default_post_edit_rows');
  if (($rows < 3) || ($rows > 100)) {
      $rows = 10;
  }

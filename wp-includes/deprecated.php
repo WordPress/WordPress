@@ -491,4 +491,8 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
 	return wp_link_pages($args);
 }
 
+function get_settings($option) {
+	return get_option($option);
+}
+
 ?>

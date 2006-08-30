@@ -28,7 +28,7 @@ function export_wp() {
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
 header("Content-Disposition: attachment; filename=$filename");
-header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
+header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
 //$posts = query_posts('');
 $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts ORDER BY post_date_gmt ASC");
 ?>

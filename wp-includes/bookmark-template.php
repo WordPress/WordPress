@@ -93,7 +93,7 @@ function get_links($category = -1,
 			$row->recently_updated = false;
 		$output .= $before;
 		if ( $show_updated && $row->recently_updated )
-			$output .= get_settings('links_recently_updated_prepend');
+			$output .= get_option('links_recently_updated_prepend');
 		$the_link = '#';
 		if ( !empty($row->link_url) )
 			$the_link = wp_specialchars($row->link_url);
@@ -107,7 +107,7 @@ function get_links($category = -1,
 
 		if ( $show_updated )
 			if (substr($row->link_updated_f, 0, 2) != '00')
-				$title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $row->link_updated_f + (get_settings('gmt_offset') * 3600)) . ')';
+				$title .= ' (Last updated ' . date(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * 3600)) . ')';
 
 		if ( '' != $title )
 			$title = ' title="' . $title . '"';
@@ -124,7 +124,7 @@ function get_links($category = -1,
 			if ( strpos($row->link_image, 'http') !== false )
 				$output .= "<img src=\"$row->link_image\" $alt $title />";
 			else // If it's a relative path
-				$output .= "<img src=\"" . get_settings('siteurl') . "$row->link_image\" $alt $title />";
+				$output .= "<img src=\"" . get_option('siteurl') . "$row->link_image\" $alt $title />";
 		} else {
 			$output .= $name;
 		}
@@ -132,7 +132,7 @@ function get_links($category = -1,
 		$output .= '</a>';
 
 		if ( $show_updated && $row->recently_updated )
-			$output .= get_settings('links_recently_updated_append');
+			$output .= get_option('links_recently_updated_append');
 
 		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;
@@ -256,7 +256,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 			$bookmark->recently_updated = false;
 		$output .= $before;
 		if ( $show_updated && $bookmark->recently_updated )
-			$output .= get_settings('links_recently_updated_prepend');
+			$output .= get_option('links_recently_updated_prepend');
 
 		$the_link = '#';
 		if ( !empty($bookmark->link_url) )
@@ -272,7 +272,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 
 		if ( $show_updated )
 			if ( '00' != substr($bookmark->link_updated_f, 0, 2) )
-				$title .= ' (Last updated ' . date(get_settings('links_updated_date_format'), $bookmark->link_updated_f + (get_settings('gmt_offset') * 3600)) . ')';
+				$title .= ' (Last updated ' . date(get_option('links_updated_date_format'), $bookmark->link_updated_f + (get_option('gmt_offset') * 3600)) . ')';
 
 		if ( '' != $title )
 			$title = ' title="' . $title . '"';
@@ -289,7 +289,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 			if ( strpos($bookmark->link_image, 'http') !== false )
 				$output .= "<img src=\"$bookmark->link_image\" $alt $title />";
 			else // If it's a relative path
-				$output .= "<img src=\"" . get_settings('siteurl') . "$bookmark->link_image\" $alt $title />";
+				$output .= "<img src=\"" . get_option('siteurl') . "$bookmark->link_image\" $alt $title />";
 		} else {
 			$output .= $name;
 		}
@@ -297,7 +297,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		$output .= '</a>';
 
 		if ( $show_updated && $bookmark->recently_updated )
-			$output .= get_settings('links_recently_updated_append');
+			$output .= get_option('links_recently_updated_append');
 
 		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;

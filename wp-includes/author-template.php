@@ -174,7 +174,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 	$link = $wp_rewrite->get_author_permastruct();
 
 	if ( empty($link) ) {
-		$file = get_settings('home') . '/';
+		$file = get_option('home') . '/';
 		$link = $file . '?author=' . $auth_ID;
 	} else {
 		if ( '' == $author_nicename ) {
@@ -183,7 +183,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 				$author_nicename = $user->user_nicename;
 		}
 		$link = str_replace('%author%', $author_nicename, $link);
-		$link = get_settings('home') . trailingslashit($link);
+		$link = get_option('home') . trailingslashit($link);
 	}
 
 	$link = apply_filters('author_link', $link, $author_id, $author_nicename);

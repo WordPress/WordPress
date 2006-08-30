@@ -8,7 +8,7 @@ class retrospam_mgr {
 	function retrospam_mgr() {
 		global $wpdb;
 
-		$list = explode("\n", get_settings('moderation_keys') );
+		$list = explode("\n", get_option('moderation_keys') );
 		$list = array_unique( $list );
 		$this->spam_words = $list;
 
@@ -116,7 +116,7 @@ class WP {
 			$req_uri_array = explode('?', $req_uri);
 			$req_uri = $req_uri_array[0];
 			$self = $_SERVER['PHP_SELF'];
-			$home_path = parse_url(get_settings('home'));
+			$home_path = parse_url(get_option('home'));
 			$home_path = $home_path['path'];
 			$home_path = trim($home_path, '/');
 

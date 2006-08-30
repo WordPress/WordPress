@@ -7,7 +7,7 @@ require_once('../../../wp-config.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><?php _e('Rich Editor Help') ?></title>
-<link rel="stylesheet" href="<?php echo get_settings('siteurl') ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <style type="text/css">
 	#wphead {
 		padding-top: 5px;

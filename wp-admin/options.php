@@ -87,8 +87,8 @@ case 'update':
 	}
 
 	// Save for later.
-	$old_siteurl = get_settings('siteurl');
-	$old_home = get_settings('home');
+	$old_siteurl = get_option('siteurl');
+	$old_home = get_option('home');
 
 	if ($options) {
 		foreach ($options as $option) {
@@ -104,13 +104,13 @@ case 'update':
     
 	if ($any_changed) {
 			// If siteurl or home changed, reset cookies.
-			if ( get_settings('siteurl') != $old_siteurl || get_settings('home') != $old_home ) {
+			if ( get_option('siteurl') != $old_siteurl || get_option('home') != $old_home ) {
 				// If home changed, write rewrite rules to new location.
 				$wp_rewrite->flush_rules();
 				// Clear cookies for old paths.
 				wp_clearcookie();
 				// Set cookies for new paths.
-				wp_setcookie($user_login, $user_pass_md5, true, get_settings('home'), get_settings('siteurl'));
+				wp_setcookie($user_login, $user_pass_md5, true, get_option('home'), get_option('siteurl'));
 			}
 
 			//$message = sprintf(__('%d setting(s) saved... '), $any_changed);

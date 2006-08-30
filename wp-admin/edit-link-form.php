@@ -43,7 +43,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 <h3 class="dbx-handle"><?php _e('Categories') ?></h3>
 <div class="dbx-content">
 <p id="jaxcat"></p>
-<ul id="categorychecklist"><?php dropdown_link_categories(get_settings('default_link_category')); ?></ul>
+<ul id="categorychecklist"><?php dropdown_link_categories(get_option('default_link_category')); ?></ul>
 </div>
 </fieldset>
 

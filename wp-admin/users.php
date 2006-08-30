@@ -436,7 +436,7 @@ foreach ( (array) $roleclass as $user_object ) {
 
 <div class="wrap">
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>
-<?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_settings('siteurl').'/wp-register.php').'</p>'; ?>
+<?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php').'</p>'; ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser">
 <?php wp_nonce_field('add-user') ?>
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
@@ -475,7 +475,7 @@ foreach ( (array) $roleclass as $user_object ) {
 		<td><select name="role" id="role">
 			<?php
 			if ( !$new_user_role )
-				$new_user_role = get_settings('default_role');
+				$new_user_role = get_option('default_role');
 			wp_dropdown_roles($new_user_role);
 			?>
 			</select>

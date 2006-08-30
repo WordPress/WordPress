@@ -75,8 +75,8 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	}
 }
 
-$permalink_structure = get_settings('permalink_structure');
-$category_base = get_settings('category_base');
+$permalink_structure = get_option('permalink_structure');
+$category_base = get_option('category_base');
 
 if ( (!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess') )
 	$writable = true;
@@ -122,19 +122,19 @@ $structures = array(
 <p>
 	<label>
 <input name="selection" type="radio" value="" class="tog" <?php checked('', $permalink_structure); ?> /> 
-<?php _e('Default'); ?><br /> <span> &raquo; <code><?php echo get_settings('home'); ?>/?p=123</code></span>
+<?php _e('Default'); ?><br /> <span> &raquo; <code><?php echo get_option('home'); ?>/?p=123</code></span>
    </label>
 </p>
 <p>
 	<label>
 <input name="selection" type="radio" value="<?php echo $structures[1]; ?>" class="tog" <?php checked($structures[1], $permalink_structure); ?> /> 
-<?php _e('Date and name based'); ?><br /> <span> &raquo; <code><?php echo get_settings('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></span>
+<?php _e('Date and name based'); ?><br /> <span> &raquo; <code><?php echo get_option('home') . $prefix . '/' . date('Y') . '/' . date('m') . '/' . date('d') . '/sample-post/'; ?></code></span>
    </label>
 </p>
 <p>
 	<label>
 <input name="selection" type="radio" value="<?php echo $structures[2]; ?>" class="tog" <?php checked($structures[2], $permalink_structure); ?> /> 
-<?php _e('Numeric'); ?><br /> <span> &raquo; <code><?php echo get_settings('home') . $prefix  ; ?>/archives/123</code></span>
+<?php _e('Numeric'); ?><br /> <span> &raquo; <code><?php echo get_option('home') . $prefix  ; ?>/archives/123</code></span>
    </label>
 </p>
 <p>

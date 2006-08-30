@@ -335,10 +335,10 @@ function get_default_post_to_edit() {
 		$post_excerpt = '';
 
 	$post->post_status = 'draft';
-	$post->comment_status = get_settings('default_comment_status');
-	$post->ping_status = get_settings('default_ping_status');
-	$post->post_pingback = get_settings('default_pingback_flag');
-	$post->post_category = get_settings('default_category');
+	$post->comment_status = get_option('default_comment_status');
+	$post->ping_status = get_option('default_ping_status');
+	$post->post_pingback = get_option('default_pingback_flag');
+	$post->post_category = get_option('default_category');
 	$post->post_content = apply_filters('default_content', $post_content);
 	$post->post_title = apply_filters('default_title', $post_title);
 	$post->post_excerpt = apply_filters('default_excerpt', $post_excerpt);
@@ -1106,7 +1106,7 @@ function touch_time($edit = 1, $for_post = 1) {
  
 	echo '<fieldset><legend><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp" /> <label for="timestamp">'.__('Edit timestamp').'</label></legend>';
 
-	$time_adj = time() + (get_settings('gmt_offset') * 3600);
+	$time_adj = time() + (get_option('gmt_offset') * 3600);
 	$post_date = ($for_post) ? $post->post_date : $comment->comment_date;
 	$jj = ($edit) ? mysql2date('d', $post_date) : gmdate('d', $time_adj);
 	$mm = ($edit) ? mysql2date('m', $post_date) : gmdate('m', $time_adj);
@@ -1623,8 +1623,8 @@ function validate_file_to_edit($file, $allowed_files = '') {
 }
 
 function get_home_path() {
-	$home = get_settings('home');
-	if ($home != '' && $home != get_settings('siteurl')) {
+	$home = get_option('home');
+	if ($home != '' && $home != get_option('siteurl')) {
 		$home_path = parse_url($home);
 		$home_path = $home_path['path'];
 		$root = str_replace($_SERVER["PHP_SELF"], '', $_SERVER["SCRIPT_FILENAME"]);

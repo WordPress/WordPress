@@ -5,11 +5,11 @@ if (empty($wp)) {
 	wp('feed=rss2');
 }
 
-header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
+header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
 ?>
-<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 
 <!-- generator="wordpress/<?php bloginfo_rss('version') ?>" -->
 <rss version="2.0" 
@@ -37,7 +37,7 @@ $more = 1;
 		<?php the_category_rss() ?>
 
 		<guid isPermaLink="false"><?php the_guid(); ?></guid>
-<?php if (get_settings('rss_use_excerpt')) : ?>
+<?php if (get_option('rss_use_excerpt')) : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php else : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
@@ -51,6 +51,6 @@ $more = 1;
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	</item>
-	<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && !is_date()) { break; } } } ?>
+	<?php $items_count++; if (($items_count == get_option('posts_per_rss')) && !is_date()) { break; } } } ?>
 </channel>
 </rss>

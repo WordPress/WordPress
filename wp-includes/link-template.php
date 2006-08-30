@@ -47,7 +47,7 @@ function get_permalink($id = 0) {
 	elseif ($post->post_type == 'attachment')
 		return get_attachment_link($post->ID);
 
-	$permalink = get_settings('permalink_structure');
+	$permalink = get_option('permalink_structure');
 
 	if ( '' != $permalink && 'draft' != $post->post_status ) {
 		$unixtime = strtotime($post->post_date);
@@ -77,9 +77,9 @@ function get_permalink($id = 0) {
 			$author,
 			$post->post_name,
 		);
-		return apply_filters('post_link', get_settings('home') . str_replace($rewritecode, $rewritereplace, $permalink), $post);
+		return apply_filters('post_link', get_option('home') . str_replace($rewritecode, $rewritereplace, $permalink), $post);
 	} else { // if they're not using the fancy permalink option
-		$permalink = get_settings('home') . '/?p=' . $post->ID;
+		$permalink = get_option('home') . '/?p=' . $post->ID;
 		return apply_filters('post_link', $permalink, $post);
 	}
 }
@@ -100,13 +100,13 @@ function get_page_link($id = false) {
 	if ( '' != $pagestruct && 'draft' != $post->post_status ) {
 		$link = get_page_uri($id);
 		$link = str_replace('%pagename%', $link, $pagestruct);
-		$link = get_settings('home') . "/$link/";
+		$link = get_option('home') . "/$link/";
 	} else {
-		$link = get_settings('home') . "/?page_id=$id";
+		$link = get_option('home') . "/?page_id=$id";
 	}
 
 	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
-		$link = get_settings('home');
+		$link = get_option('home');
 
 	return apply_filters('page_link', $link, $id);
 }
@@ -138,56 +138,56 @@ function get_attachment_link($id = false) {
 function get_year_link($year) {
 	global $wp_rewrite;
 	if ( !$year )
-		$year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
+		$year = gmdate('Y', time()+(get_option('gmt_offset') * 3600));
 	$yearlink = $wp_rewrite->get_year_permastruct();
 	if ( !empty($yearlink) ) {
 		$yearlink = str_replace('%year%', $year, $yearlink);
-		return apply_filters('year_link', get_settings('home') . trailingslashit($yearlink), $year);
+		return apply_filters('year_link', get_option('home') . trailingslashit($yearlink), $year);
 	} else {
-		return apply_filters('year_link', get_settings('home') . '/?m=' . $year, $year);
+		return apply_filters('year_link', get_option('home') . '/?m=' . $year, $year);
 	}
 }
 
 function get_month_link($year, $month) {
 	global $wp_rewrite;
 	if ( !$year )
-		$year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
+		$year = gmdate('Y', time()+(get_option('gmt_offset') * 3600));
 	if ( !$month )
-		$month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
+		$month = gmdate('m', time()+(get_option('gmt_offset') * 3600));
 	$monthlink = $wp_rewrite->get_month_permastruct();
 	if ( !empty($monthlink) ) {
 		$monthlink = str_replace('%year%', $year, $monthlink);
 		$monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
-		return apply_filters('month_link', get_settings('home') . trailingslashit($monthlink), $year, $month);
+		return apply_filters('month_link', get_option('home') . trailingslashit($monthlink), $year, $month);
 	} else {
-		return apply_filters('month_link', get_settings('home') . '/?m=' . $year . zeroise($month, 2), $year, $month);
+		return apply_filters('month_link', get_option('home') . '/?m=' . $year . zeroise($month, 2), $year, $month);
 	}
 }
 
 function get_day_link($year, $month, $day) {
 	global $wp_rewrite;
 	if ( !$year )
-		$year = gmdate('Y', time()+(get_settings('gmt_offset') * 3600));
+		$year = gmdate('Y', time()+(get_option('gmt_offset') * 3600));
 	if ( !$month )
-		$month = gmdate('m', time()+(get_settings('gmt_offset') * 3600));
+		$month = gmdate('m', time()+(get_option('gmt_offset') * 3600));
 	if ( !$day )
-		$day = gmdate('j', time()+(get_settings('gmt_offset') * 3600));
+		$day = gmdate('j', time()+(get_option('gmt_offset') * 3600));
 
 	$daylink = $wp_rewrite->get_day_permastruct();
 	if ( !empty($daylink) ) {
 		$daylink = str_replace('%year%', $year, $daylink);
 		$daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
 		$daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
-		return apply_filters('day_link', get_settings('home') . trailingslashit($daylink), $year, $month, $day);
+		return apply_filters('day_link', get_option('home') . trailingslashit($daylink), $year, $month, $day);
 	} else {
-		return apply_filters('day_link', get_settings('home') . '/?m=' . $year . zeroise($month, 2) . zeroise($day, 2), $year, $month, $day);
+		return apply_filters('day_link', get_option('home') . '/?m=' . $year . zeroise($month, 2) . zeroise($day, 2), $year, $month, $day);
 	}
 }
 
 function get_feed_link($feed='rss2') {
 	global $wp_rewrite;
 	$do_perma = 0;
-	$feed_url = get_settings('siteurl');
+	$feed_url = get_option('siteurl');
 	$comment_feed_url = $feed_url;
 
 	$permalink = $wp_rewrite->get_feed_permastruct();
@@ -202,12 +202,12 @@ function get_feed_link($feed='rss2') {
 
 		$permalink = str_replace('%feed%', $feed, $permalink);
 		$permalink = preg_replace('#/+#', '/', "/$permalink/");
-		$output =  get_settings('home') . $permalink;
+		$output =  get_option('home') . $permalink;
 	} else {
 		if ( false !== strpos($feed, 'comments_') )
 			$feed = str_replace('comments_', 'comments-', $feed);
 
-		$output = get_settings('home') . "/?feed={$feed}";
+		$output = get_option('home') . "/?feed={$feed}";
 	}
 
 	return apply_filters('feed_link', $output, $feed);
@@ -229,7 +229,7 @@ function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 		$file = 'post';
 	}
 
-	$location = get_settings('siteurl') . "/wp-admin/{$file}.php?action=edit&amp;post=$post->ID";
+	$location = get_option('siteurl') . "/wp-admin/{$file}.php?action=edit&amp;post=$post->ID";
 	echo $before . "<a href=\"$location\">$link</a>" . $after;
 }
 
@@ -244,7 +244,7 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
 			return;
 	}
 
-	$location = get_settings('siteurl') . "/wp-admin/comment.php?action=editcomment&amp;comment=$comment->comment_ID";
+	$location = get_option('siteurl') . "/wp-admin/comment.php?action=editcomment&amp;comment=$comment->comment_ID";
 	echo $before . "<a href='$location'>$link</a>" . $after;
 }
 
@@ -362,7 +362,7 @@ function get_pagenum_link($pagenum = 1) {
 	$page_modregex = "page/?";
 	$permalink = 0;
 
-	$home_root = parse_url(get_settings('home'));
+	$home_root = parse_url(get_option('home'));
 	$home_root = $home_root['path'];
 	$home_root = trailingslashit($home_root);
 	$qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
@@ -390,7 +390,7 @@ function get_pagenum_link($pagenum = 1) {
 			// so append the query string (using &, since we already have ?)
 			$qstr .=	'&amp;' . $page_querystring . '=' . $pagenum;
 			// otherwise, it could be rewritten, OR just the default index ...
-		} elseif( '' != get_settings('permalink_structure') && ! is_admin() ) {
+		} elseif( '' != get_option('permalink_structure') && ! is_admin() ) {
 			$permalink = 1;
 			$index = $wp_rewrite->index;
 			// If it's not a path info permalink structure, trim the index.
@@ -412,7 +412,7 @@ function get_pagenum_link($pagenum = 1) {
 	$qstr = preg_replace('|^/+|', '', $qstr);
 	if ( $permalink )
 		$qstr = trailingslashit($qstr);
-	$qstr = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_settings('home') ) . $qstr );
+	$qstr = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_option('home') ) . $qstr );
 
 	// showing /page/1/ or ?paged=1 is redundant
 	if ( 1 === $pagenum ) {

@@ -89,23 +89,23 @@ function url_to_postid($url) {
 	$url = $url_split[0];
 
 	// Add 'www.' if it is absent and should be there
-	if ( false !== strpos(get_settings('home'), '://www.') && false === strpos($url, '://www.') )
+	if ( false !== strpos(get_option('home'), '://www.') && false === strpos($url, '://www.') )
 		$url = str_replace('://', '://www.', $url);
 
 	// Strip 'www.' if it is present and shouldn't be
-	if ( false === strpos(get_settings('home'), '://www.') )
+	if ( false === strpos(get_option('home'), '://www.') )
 		$url = str_replace('://www.', '://', $url);
 
 	// Strip 'index.php/' if we're not using path info permalinks
 	if ( false === strpos($rewrite, 'index.php/') )
 		$url = str_replace('index.php/', '', $url);
 
-	if ( false !== strpos($url, get_settings('home')) ) {
+	if ( false !== strpos($url, get_option('home')) ) {
 		// Chop off http://domain.com
-		$url = str_replace(get_settings('home'), '', $url);
+		$url = str_replace(get_option('home'), '', $url);
 	} else {
 		// Chop off /path/to/blog
-		$home_path = parse_url(get_settings('home'));
+		$home_path = parse_url(get_option('home'));
 		$home_path = $home_path['path'];
 		$url = str_replace($home_path, '', $url);
 	}
@@ -259,8 +259,8 @@ class WP_Rewrite {
 	}
 
 	function page_rewrite_rules() {
-		$uris = get_settings('page_uris');
-		$attachment_uris = get_settings('page_attachment_uris');
+		$uris = get_option('page_uris');
+		$attachment_uris = get_option('page_attachment_uris');
 
 		$rewrite_rules = array();
 		$page_structure = $this->get_page_permastruct();
@@ -757,10 +757,10 @@ class WP_Rewrite {
 			return '';
 		}
 
-		$site_root = parse_url(get_settings('siteurl'));
+		$site_root = parse_url(get_option('siteurl'));
 		$site_root = trailingslashit($site_root['path']);
 
-		$home_root = parse_url(get_settings('home'));
+		$home_root = parse_url(get_option('home'));
 		$home_root = trailingslashit($home_root['path']);
     
 		$rules = "<IfModule mod_rewrite.c>\n";
@@ -853,13 +853,13 @@ class WP_Rewrite {
 
 	function init() {
 		$this->extra_rules = $this->non_wp_rules = $this->endpoints = array();
-		$this->permalink_structure = get_settings('permalink_structure');
+		$this->permalink_structure = get_option('permalink_structure');
 		$this->front = substr($this->permalink_structure, 0, strpos($this->permalink_structure, '%'));
 		$this->root = '';
 		if ($this->using_index_permalinks()) {
 			$this->root = $this->index . '/';
 		}
-		$this->category_base = get_settings('category_base');
+		$this->category_base = get_option('category_base');
 		unset($this->category_structure);
 		unset($this->author_structure);
 		unset($this->date_structure);

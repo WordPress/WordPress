@@ -16,7 +16,7 @@ if ( defined('RELOCATE') ) { // Move flag is set
 		$_SERVER['PHP_SELF'] = str_replace( $_SERVER['PATH_INFO'], '', $_SERVER['PHP_SELF'] );
 
 	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
-	if ( dirname($schema . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) != get_settings('siteurl') )
+	if ( dirname($schema . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) != get_option('siteurl') )
 		update_option('siteurl', dirname($schema . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) );
 }
 
@@ -45,7 +45,7 @@ do_action('lost_password');
 <head>
 	<title>WordPress &raquo; <?php _e('Lost Password') ?></title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<link rel="stylesheet" href="<?php echo get_settings('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo get_option('siteurl'); ?>/wp-admin/wp-admin.css" type="text/css" />
 	<script type="text/javascript">
 	function focusit() {
 		// focus on first input field
@@ -80,7 +80,7 @@ if ($error)
 </form>
 <ul>
 	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>">&laquo; <?php _e('Back to blog') ?></a></li>
-<?php if (get_settings('users_can_register')) : ?>
+<?php if (get_option('users_can_register')) : ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-register.php"><?php _e('Register') ?></a></li>
 <?php endif; ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Login') ?></a></li>
@@ -111,9 +111,9 @@ do_action('retrieve_password', $user_login);
 	$message .= get_option('siteurl') . "\r\n\r\n";
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('To reset your password visit the following address, otherwise just ignore this email and nothing will happen.') . "\r\n\r\n";
-	$message .= get_settings('siteurl') . "/wp-login.php?action=rp&key=$key\r\n";
+	$message .= get_option('siteurl') . "/wp-login.php?action=rp&key=$key\r\n";
 
-	$m = wp_mail($user_email, sprintf(__('[%s] Password Reset'), get_settings('blogname')), $message);
+	$m = wp_mail($user_email, sprintf(__('[%s] Password Reset'), get_option('blogname')), $message);
 
 	if ($m == false) {
 		 echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -145,9 +145,9 @@ case 'rp' :
 	wp_cache_delete($user->user_login, 'userlogins');
 	$message  = sprintf(__('Username: %s'), $user->user_login) . "\r\n";
 	$message .= sprintf(__('Password: %s'), $new_pass) . "\r\n";
-	$message .= get_settings('siteurl') . "/wp-login.php\r\n";
+	$message .= get_option('siteurl') . "/wp-login.php\r\n";
 
-	$m = wp_mail($user->user_email, sprintf(__('[%s] Your new password'), get_settings('blogname')), $message);
+	$m = wp_mail($user->user_email, sprintf(__('[%s] Your new password'), get_option('blogname')), $message);
 
 	if ($m == false) {
 		echo '<p>' . __('The e-mail could not be sent.') . "<br />\n";
@@ -158,7 +158,7 @@ case 'rp' :
         echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
 		// send a copy of password change notification to the admin
 		$message = sprintf(__('Password Lost and Changed for user: %s'), $user->user_login) . "\r\n";
-		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Changed'), get_settings('blogname')), $message);
+		wp_mail(get_option('admin_email'), sprintf(__('[%s] Password Lost/Changed'), get_option('blogname')), $message);
 		die();
 	}
 break;
@@ -195,7 +195,7 @@ default:
 
 		// If the user can't edit posts, send them to their profile.
 		if ( !$user->has_cap('edit_posts') && ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' ) )
-			$redirect_to = get_settings('siteurl') . '/wp-admin/profile.php';
+			$redirect_to = get_option('siteurl') . '/wp-admin/profile.php';
 
 		if ( wp_login($user_login, $user_pass, $using_cookie) ) {
 			if ( !$using_cookie )
@@ -246,7 +246,7 @@ if ( $error )
 </form>
 <ul>
 	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>">&laquo; <?php _e('Back to blog') ?></a></li>
-<?php if (get_settings('users_can_register')) : ?>
+<?php if (get_option('users_can_register')) : ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-register.php"><?php _e('Register') ?></a></li>
 <?php endif; ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>

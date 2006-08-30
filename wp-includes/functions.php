@@ -45,12 +45,12 @@ function current_time($type, $gmt = 0) {
 	switch ($type) {
 		case 'mysql':
 			if ( $gmt ) $d = gmdate('Y-m-d H:i:s');
-			else $d = gmdate('Y-m-d H:i:s', (time() + (get_settings('gmt_offset') * 3600)));
+			else $d = gmdate('Y-m-d H:i:s', (time() + (get_option('gmt_offset') * 3600)));
 			return $d;
 			break;
 		case 'timestamp':
 			if ( $gmt ) $d = time();
-			else $d = time() + (get_settings('gmt_offset') * 3600);
+			else $d = time() + (get_option('gmt_offset') * 3600);
 			return $d;
 			break;
 	}
@@ -88,13 +88,13 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 	$weekday = date('w',$day);
 	$i = 86400;
 
-	if ( $weekday < get_settings('start_of_week') )
-		$weekday = 7 - (get_settings('start_of_week') - $weekday);
+	if ( $weekday < get_option('start_of_week') )
+		$weekday = 7 - (get_option('start_of_week') - $weekday);
 
-	while ($weekday > get_settings('start_of_week')) {
+	while ($weekday > get_option('start_of_week')) {
 		$weekday = date('w',$day);
-		if ( $weekday < get_settings('start_of_week') )
-			$weekday = 7 - (get_settings('start_of_week') - $weekday);
+		if ( $weekday < get_option('start_of_week') )
+			$weekday = 7 - (get_option('start_of_week') - $weekday);
 
 		$day = $day - 86400;
 		$i = 0;
@@ -107,7 +107,7 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 
 function get_lastpostdate($timezone = 'server') {
 	global $cache_lastpostdate, $pagenow, $wpdb;
-	$add_seconds_blog = get_settings('gmt_offset') * 3600;
+	$add_seconds_blog = get_option('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	if ( !isset($cache_lastpostdate[$timezone]) ) {
 		switch(strtolower($timezone)) {
@@ -130,7 +130,7 @@ function get_lastpostdate($timezone = 'server') {
 
 function get_lastpostmodified($timezone = 'server') {
 	global $cache_lastpostmodified, $pagenow, $wpdb;
-	$add_seconds_blog = get_settings('gmt_offset') * 3600;
+	$add_seconds_blog = get_option('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
 	if ( !isset($cache_lastpostmodified[$timezone]) ) {
 		switch(strtolower($timezone)) {
@@ -164,7 +164,7 @@ function maybe_unserialize($original) {
 
 /* Options functions */
 
-function get_settings($setting) {
+function get_option($setting) {
 	global $wpdb;
 
 	$value = wp_cache_get($setting, 'options');
@@ -186,16 +186,12 @@ function get_settings($setting) {
 
 	// If home is not set use siteurl.
 	if ( 'home' == $setting && '' == $value )
-		return get_settings('siteurl');
+		return get_option('siteurl');
 
 	if ( 'siteurl' == $setting || 'home' == $setting || 'category_base' == $setting )
 		$value = preg_replace('|/+$|', '', $value);
 
 	return apply_filters( 'option_' . $setting, maybe_unserialize($value) );
-}
-
-function get_option($option) {
-	return get_settings($option);
 }
 
 function form_option($option) {
@@ -290,7 +286,7 @@ function delete_option($name) {
 }
 
 function gzip_compression() {
-	if ( !get_settings('gzipcompression') ) return false;
+	if ( !get_option('gzipcompression') ) return false;
 
 	if ( extension_loaded('zlib') ) {
 		ob_start('ob_gzhandler');
@@ -324,7 +320,7 @@ function make_url_footnote($content) {
 		$link_url = $matches[2][$i];
 		$link_text = $matches[4][$i];
 		$content = str_replace($link_match, $link_text.' '.$link_number, $content);
-		$link_url = ((strtolower(substr($link_url,0,7)) != 'http://') && (strtolower(substr($link_url,0,8)) != 'https://')) ? get_settings('home') . $link_url : $link_url;
+		$link_url = ((strtolower(substr($link_url,0,7)) != 'http://') && (strtolower(substr($link_url,0,8)) != 'https://')) ? get_option('home') . $link_url : $link_url;
 		$links_summary .= "\n".$link_number.' '.$link_url;
 	}
 	$content = strip_tags($content);
@@ -881,9 +877,9 @@ function wp_mkdir_p($target) {
 
 // Returns an array containing the current upload directory's path and url, or an error message.
 function wp_upload_dir() {
-	$siteurl = get_settings('siteurl');
+	$siteurl = get_option('siteurl');
 	//prepend ABSPATH to $dir and $siteurl to $url if they're not already there
-	$path = str_replace(ABSPATH, '', trim(get_settings('upload_path')));
+	$path = str_replace(ABSPATH, '', trim(get_option('upload_path')));
 	$dir = ABSPATH . $path;
 	$url = trailingslashit($siteurl) . $path;
 
@@ -896,7 +892,7 @@ function wp_upload_dir() {
 		$url = trailingslashit($siteurl) . UPLOADS;
 	}
 
-	if ( get_settings('uploads_use_yearmonth_folders')) {
+	if ( get_option('uploads_use_yearmonth_folders')) {
 		// Generate the yearly and monthly dirs
 		$time = current_time( 'mysql' );
 		$y = substr( $time, 0, 4 );
@@ -1101,7 +1097,7 @@ function wp_explain_nonce($action) {
 function wp_nonce_ays($action) {
 	global $pagenow, $menu, $submenu, $parent_file, $submenu_file;
 
-	$adminurl = get_settings('siteurl') . '/wp-admin';
+	$adminurl = get_option('siteurl') . '/wp-admin';
 	if ( wp_get_referer() )
 		$adminurl = wp_get_referer();
 
@@ -1176,7 +1172,7 @@ function wp_die($message, $title = '') {
 	</style>
 </head>
 <body>
-	<h1 id="logo"><img alt="WordPress" src="<?php echo get_settings('siteurl'); ?>/wp-admin/images/wordpress-logo.png" /></h1>
+	<h1 id="logo"><img alt="WordPress" src="<?php echo get_option('siteurl'); ?>/wp-admin/images/wordpress-logo.png" /></h1>
 	<p><?php echo $message; ?></p>
 </body>
 </html>

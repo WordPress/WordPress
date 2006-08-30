@@ -601,7 +601,7 @@ class Blogger_Import {
 		if ( isset($_GET['noheader']) ) {
 			header('Content-Type: text/html; charset=utf-8');
 
-			$this->import = get_settings('import-blogger');
+			$this->import = get_option('import-blogger');
 
 			if ( false === $this->import ) {
 				$step = 0;

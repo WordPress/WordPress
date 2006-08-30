@@ -5,7 +5,7 @@ if (empty($wp)) {
 	wp();
 }
 
-header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
+header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
 $link_cat = $_GET['link_cat'];
 if ((empty ($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 	$link_cat = '';

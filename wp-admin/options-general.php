@@ -39,10 +39,10 @@ include('./admin-header.php');
 <tr valign="top"> 
 <th scope="row"><?php _e('Membership:') ?></th> 
 <td> <label for="users_can_register"> 
-<input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked('1', get_settings('users_can_register')); ?> /> 
+<input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked('1', get_option('users_can_register')); ?> /> 
 <?php _e('Anyone can register') ?></label><br />
 <label for="comment_registration">
-<input name="comment_registration" type="checkbox" id="comment_registration" value="1" <?php checked('1', get_settings('comment_registration')); ?> /> 
+<input name="comment_registration" type="checkbox" id="comment_registration" value="1" <?php checked('1', get_option('comment_registration')); ?> /> 
 <?php _e('Users must be registered and logged in to comment') ?>
 </label>
 </td> 
@@ -50,7 +50,7 @@ include('./admin-header.php');
 <tr valign="top"> 
 <th scope="row"><?php _e('New User Default Role:') ?></th> 
 <td><label for="default_role"> 
-<select name="default_role" id="default_role"><?php wp_dropdown_roles( get_settings('default_role') ); ?></select></label>
+<select name="default_role" id="default_role"><?php wp_dropdown_roles( get_option('default_role') ); ?></select></label>
 </td> 
 </tr> 
 </table> 
@@ -69,12 +69,12 @@ include('./admin-header.php');
 <tr>
 <th scope="row"><?php _e('Default date format:') ?></th>
 <td><input name="date_format" type="text" id="date_format" size="30" value="<?php form_option('date_format'); ?>" /><br />
-<?php _e('Output:') ?> <strong><?php echo mysql2date(get_settings('date_format'), current_time('mysql')); ?></strong></td>
+<?php _e('Output:') ?> <strong><?php echo mysql2date(get_option('date_format'), current_time('mysql')); ?></strong></td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Default time format:') ?></th>
 <td><input name="time_format" type="text" id="time_format" size="30" value="<?php form_option('time_format'); ?>" /><br />
-<?php _e('Output:') ?> <strong><?php echo gmdate(get_settings('time_format'), current_time('timestamp')); ?></strong></td>
+<?php _e('Output:') ?> <strong><?php echo gmdate(get_option('time_format'), current_time('timestamp')); ?></strong></td>
 </tr> 
 <tr>
 <th scope="row">&nbsp;</th>
@@ -85,7 +85,7 @@ include('./admin-header.php');
 <td><select name="start_of_week" id="start_of_week">
 <?php
 for ($day_index = 0; $day_index <= 6; $day_index++) :
-	$selected = (get_settings('start_of_week') == $day_index) ? 'selected="selected"' : '';
+	$selected = (get_option('start_of_week') == $day_index) ? 'selected="selected"' : '';
 	echo "\n\t<option value='$day_index' $selected>" . $wp_locale->get_weekday($day_index) . '</option>';
 endfor;
 ?>

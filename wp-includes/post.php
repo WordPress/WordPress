@@ -560,10 +560,10 @@ function wp_insert_post($postarr = array()) {
 		if ( $update )
 			$comment_status = 'closed';
 		else
-			$comment_status = get_settings('default_comment_status');
+			$comment_status = get_option('default_comment_status');
 	}
 	if ( empty($ping_status) )
-		$ping_status = get_settings('default_ping_status');
+		$ping_status = get_option('default_ping_status');
 	if ( empty($post_pingback) )
 		$post_pingback = get_option('default_pingback_flag');
 
@@ -1199,10 +1199,10 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 		if ( $update )
 			$comment_status = 'closed';
 		else
-			$comment_status = get_settings('default_comment_status');
+			$comment_status = get_option('default_comment_status');
 	}
 	if ( empty($ping_status) )
-		$ping_status = get_settings('default_ping_status');
+		$ping_status = get_option('default_ping_status');
 	if ( empty($post_pingback) )
 		$post_pingback = get_option('default_pingback_flag');
 

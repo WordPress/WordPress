@@ -151,7 +151,7 @@ function wp_link_pages($args = '') {
 				$j = str_replace('%',"$i",$pagelink);
 				$output .= ' ';
 				if ( ($i != $page) || ((!$more) && ($page==1)) ) {
-					if ( '' == get_settings('permalink_structure') )
+					if ( '' == get_option('permalink_structure') )
 						$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
 					else
 						$output .= '<a href="' . trailingslashit( get_permalink() ) . $i . '/">';
@@ -166,14 +166,14 @@ function wp_link_pages($args = '') {
 				$output .= $before;
 				$i = $page - 1;
 				if ( $i && $more ) {
-					if ( '' == get_settings('permalink_structure') )
+					if ( '' == get_option('permalink_structure') )
 						$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">'.$previouspagelink.'</a>';
 					else
 						$output .= '<a href="' . get_permalink() . $i . '/">'.$previouspagelink.'</a>';
 				}
 				$i = $page + 1;
 				if ( $i <= $numpages && $more ) {
-					if ( '' == get_settings('permalink_structure') )
+					if ( '' == get_option('permalink_structure') )
 						$output .= '<a href="'.get_permalink() . '&amp;page=' . $i . '">'.$nextpagelink.'</a>';
 					else
 						$output .= '<a href="'.get_permalink().$i.'/">'.$nextpagelink.'</a>';
@@ -264,7 +264,7 @@ function wp_list_pages($args = '') {
 	else
 		parse_str($args, $r);
 
-	$defaults = array('depth' => 0, 'show_date' => '', 'date_format' => get_settings('date_format'),
+	$defaults = array('depth' => 0, 'show_date' => '', 'date_format' => get_option('date_format'),
 		'child_of' => 0, 'title_li' => __('Pages'), 'echo' => 1);
 	$r = array_merge($defaults, $r);
 
@@ -440,7 +440,7 @@ function prepend_attachment($content) {
 //
 
 function get_the_password_form() {
-	$output = '<form action="' . get_settings('siteurl') . '/wp-pass.php" method="post">
+	$output = '<form action="' . get_option('siteurl') . '/wp-pass.php" method="post">
 	<p>' . __("This post is password protected. To view it please enter your password below:") . '</p>
 	<p><label>' . __("Password:") . ' <input name="post_password" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . __("Submit") . '" /></p>
 	</form>

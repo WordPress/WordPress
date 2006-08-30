@@ -4,7 +4,7 @@
  */
 
 function get_stylesheet() {
-	return apply_filters('stylesheet', get_settings('stylesheet'));
+	return apply_filters('stylesheet', get_option('stylesheet'));
 }
 
 function get_stylesheet_directory() {
@@ -26,7 +26,7 @@ function get_stylesheet_uri() {
 }
 
 function get_template() {
-	return apply_filters('template', get_settings('template'));
+	return apply_filters('template', get_option('template'));
 }
 
 function get_template_directory() {
@@ -237,8 +237,8 @@ function get_theme($theme) {
 function get_current_theme() {
 	$themes = get_themes();
 	$theme_names = array_keys($themes);
-	$current_template = get_settings('template');
-	$current_stylesheet = get_settings('stylesheet');
+	$current_template = get_option('template');
+	$current_stylesheet = get_option('stylesheet');
 	$current_theme = 'WordPress Default';
 
 	if ( $themes ) {
@@ -259,7 +259,7 @@ function get_theme_root() {
 }
 
 function get_theme_root_uri() {
-	return apply_filters('theme_root_uri', get_settings('siteurl') . "/wp-content/themes", get_settings('siteurl'));
+	return apply_filters('theme_root_uri', get_option('siteurl') . "/wp-content/themes", get_option('siteurl'));
 }
 
 function get_query_template($type) {

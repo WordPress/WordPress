@@ -6,9 +6,9 @@ foreach ($posts as $post) { start_wp();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-     <title><?php echo get_settings('blogname'); ?> - <?php echo sprintf(__("Comments on %s"), the_title('','',false)); ?></title>
+     <title><?php echo get_option('blogname'); ?> - <?php echo sprintf(__("Comments on %s"), the_title('','',false)); ?></title>
 
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_settings('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<style type="text/css" media="screen">
 		@import url( <?php bloginfo('stylesheet_url'); ?> );
 		body { margin: 3px; }
@@ -17,11 +17,11 @@ foreach ($posts as $post) { start_wp();
 </head>
 <body id="commentspopup">
 
-<h1 id="header"><a href="" title="<?php echo get_settings('blogname'); ?>"><?php echo get_settings('blogname'); ?></a></h1>
+<h1 id="header"><a href="" title="<?php echo get_option('blogname'); ?>"><?php echo get_option('blogname'); ?></a></h1>
 
 <h2 id="comments"><?php _e("Comments"); ?></h2>
 
-<p><a href="<?php echo get_settings('siteurl'); ?>/wp-commentsrss2.php?p=<?php echo $post->ID; ?>"><?php _e("<abbr title=\"Really Simple Syndication\">RSS</abbr> feed for comments on this post."); ?></a></p>
+<p><a href="<?php echo get_option('siteurl'); ?>/wp-commentsrss2.php?p=<?php echo $post->ID; ?>"><?php _e("<abbr title=\"Really Simple Syndication\">RSS</abbr> feed for comments on this post."); ?></a></p>
 
 <?php if ('open' == $post->ping_status) { ?>
 <p><?php _e("The <abbr title=\"Universal Resource Locator\">URL</abbr> to TrackBack this entry is:"); ?> <em><?php trackback_url() ?></em></p>
@@ -55,7 +55,7 @@ if (!empty($commentstatus->post_password) && $_COOKIE['wp-postpass_'. COOKIEHASH
 <h2><?php _e("Leave a comment"); ?></h2>
 <p><?php _e("Line and paragraph breaks automatic, e-mail address never displayed, <acronym title=\"Hypertext Markup Language\">HTML</acronym> allowed:"); ?> <code><?php echo allowed_tags(); ?></code></p>
 
-<form action="<?php echo get_settings('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
+<form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform">
 	<p>
 	  <input type="text" name="author" id="author" class="textarea" value="<?php echo $comment_author; ?>" size="28" tabindex="1" />
 	   <label for="author"><?php _e("Name"); ?></label>

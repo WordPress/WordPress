@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 cache_javascript_headers();
-$handler =  get_settings( 'siteurl' ) . '/wp-admin/admin-ajax.php';
+$handler =  get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php';
 ?>
 addLoadEvent(function(){theList=new listMan();});
 function deleteSomething(what,id,message,obj){if(!obj)obj=theList;if(!message)message="<?php printf(__('Are you sure you want to delete this %s?'),"'+what+'"); ?>";if(confirm(message))return obj.ajaxDelete(what,id);else return false;}

@@ -5,11 +5,11 @@ if (empty($wp)) {
 	wp('feed=rss');
 }
 
-header('Content-type: text/xml; charset=' . get_settings('blog_charset'), true);
+header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
 $more = 1;
 
 ?>
-<?php echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; ?>
+<?php echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="0.92">
 <channel>
@@ -24,14 +24,14 @@ $more = 1;
 <?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
 	<item>
 		<title><?php the_title_rss() ?></title>
-<?php if (get_settings('rss_use_excerpt')) { ?>
+<?php if (get_option('rss_use_excerpt')) { ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 <?php } else { // use content ?>
-		<description><?php the_content_rss('', 0, '', get_settings('rss_excerpt_length')) ?></description>
+		<description><?php the_content_rss('', 0, '', get_option('rss_excerpt_length')) ?></description>
 <?php } ?>
 		<link><?php permalink_single_rss() ?></link>
 		<?php do_action('rss_item'); ?>
 	</item>
-<?php $items_count++; if (($items_count == get_settings('posts_per_rss')) && empty($m)) { break; } } } ?>
+<?php $items_count++; if (($items_count == get_option('posts_per_rss')) && empty($m)) { break; } } } ?>
 </channel>
 </rss>

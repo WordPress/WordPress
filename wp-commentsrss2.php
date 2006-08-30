@@ -5,9 +5,9 @@ if (empty($wp)) {
 	wp('feed=rss2&withcomments=1');
 }
 
-header('Content-type: text/xml;charset=' . get_settings('blog_charset'), true);
+header('Content-type: text/xml;charset=' . get_option('blog_charset'), true);
 
-echo '<?xml version="1.0" encoding="'.get_settings('blog_charset').'"?'.'>'; 
+echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>'; 
 ?>
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="2.0" 
@@ -34,14 +34,14 @@ if (have_posts()) :
 			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE comment_post_ID = '" . get_the_ID() . "' 
 			AND $wpdb->comments.comment_approved = '1' AND $wpdb->posts.post_status = 'publish' 
 			AND post_date_gmt < '" . gmdate("Y-m-d H:i:59") . "' 
-			ORDER BY comment_date_gmt DESC LIMIT " . get_settings('posts_per_rss') );
+			ORDER BY comment_date_gmt DESC LIMIT " . get_option('posts_per_rss') );
 		} else { // if no post id passed in, we'll just ue the last 10 comments.
 			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
 			comment_author_url, comment_date, comment_date_gmt, comment_content, comment_post_ID, 
 			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
 			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE $wpdb->posts.post_status = 'publish' 
 			AND $wpdb->comments.comment_approved = '1' AND post_date_gmt < '" . gmdate("Y-m-d H:i:s") . "'  
-			ORDER BY comment_date_gmt DESC LIMIT " . get_settings('posts_per_rss') );
+			ORDER BY comment_date_gmt DESC LIMIT " . get_option('posts_per_rss') );
 		}
 	// this line is WordPress' motor, do not delete it.
 		if ($comments) {

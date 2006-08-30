@@ -16,7 +16,7 @@ $query_string = "uris=$link_uris";
 
 $http_request  = "POST /updated-batch/ HTTP/1.0\r\n";
 $http_request .= "Host: api.pingomatic.com\r\n";
-$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_settings('blog_charset')."\r\n";
+$http_request .= 'Content-Type: application/x-www-form-urlencoded; charset='.get_option('blog_charset')."\r\n";
 $http_request .= 'Content-Length: ' . strlen($query_string) . "\r\n";
 $http_request .= 'User-Agent: WordPress/' . $wp_version . "\r\n";
 $http_request .= "\r\n";

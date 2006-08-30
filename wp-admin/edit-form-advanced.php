@@ -75,7 +75,7 @@ addLoadEvent(focusit);
 <h3 class="dbx-handle"><?php _e('Categories') ?></h3>
 <div class="dbx-content">
 <p id="jaxcat"></p>
-<ul id="categorychecklist"><?php dropdown_categories(get_settings('default_category')); ?></ul></div>
+<ul id="categorychecklist"><?php dropdown_categories(get_option('default_category')); ?></ul></div>
 </fieldset>
 
 <fieldset id="commentstatusdiv" class="dbx-box">

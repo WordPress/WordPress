@@ -4,7 +4,7 @@ require_once('admin.php');
 if ( isset($_GET['action']) ) {
 	if ('activate' == $_GET['action']) {
 		check_admin_referer('activate-plugin_' . $_GET['plugin']);
-		$current = get_settings('active_plugins');
+		$current = get_option('active_plugins');
 		if (!in_array($_GET['plugin'], $current)) {
 			$current[] = trim( $_GET['plugin'] );
 			sort($current);
@@ -15,7 +15,7 @@ if ( isset($_GET['action']) ) {
 		wp_redirect('plugins.php?activate=true');
 	} else if ('deactivate' == $_GET['action']) {
 		check_admin_referer('deactivate-plugin_' . $_GET['plugin']);
-		$current = get_settings('active_plugins');
+		$current = get_option('active_plugins');
 		array_splice($current, array_search( $_GET['plugin'], $current), 1 ); // Array-fu!
 		update_option('active_plugins', $current);
 		do_action('deactivate_' . trim( $_GET['plugin'] ));
@@ -30,7 +30,7 @@ require_once('admin-header.php');
 // Clean up options
 // If any plugins don't exist, axe 'em
 
-$check_plugins = get_settings('active_plugins');
+$check_plugins = get_option('active_plugins');
 
 // Sanity check.  If the active plugin list is not an array, make it an
 // empty array.
@@ -43,7 +43,7 @@ if ( !is_array($check_plugins) ) {
 // plugins.
 foreach ($check_plugins as $check_plugin) {
 	if (!file_exists(ABSPATH . 'wp-content/plugins/' . $check_plugin)) {
-			$current = get_settings('active_plugins');
+			$current = get_option('active_plugins');
 			$key = array_search($check_plugin, $current);
 			if ( false !== $key && NULL !== $key ) {
 				unset($current[$key]);
@@ -67,8 +67,8 @@ foreach ($check_plugins as $check_plugin) {
 <p><?php _e('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.'); ?></p>
 <?php
 
-if ( get_settings('active_plugins') )
-	$current_plugins = get_settings('active_plugins');
+if ( get_option('active_plugins') )
+	$current_plugins = get_option('active_plugins');
 
 $plugins = get_plugins();
 
