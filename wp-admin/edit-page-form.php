@@ -95,13 +95,13 @@ addLoadEvent(focusit);
 <?php } ?>
 
 <fieldset id="slugdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Page slug') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Page Slug') ?></h3> 
 <div class="dbx-content"><input name="post_name" type="text" size="13" id="post_name" value="<?php echo $post->post_name ?>" /></div>
 </fieldset>
 
 <?php if ( $authors = get_editable_authors( $current_user->id ) ) : // TODO: ROLE SYSTEM ?>
 <fieldset id="authordiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Page author'); ?>:</h3>
+<h3 class="dbx-handle"><?php _e('Page Author'); ?>:</h3>
 <div class="dbx-content">
 <select name="post_author_override" id="post_author_override">
 <?php 
