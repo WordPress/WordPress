@@ -24,7 +24,7 @@ foreach ($posts as $post) { start_wp();
 <p><a href="<?php echo get_settings('siteurl'); ?>/wp-commentsrss2.php?p=<?php echo $post->ID; ?>"><?php _e("<abbr title=\"Really Simple Syndication\">RSS</abbr> feed for comments on this post."); ?></a></p>
 
 <?php if ('open' == $post->ping_status) { ?>
-<p><?php _e("The <acronym title=\"Uniform Resource Identifier\">URI</acronym> to TrackBack this entry is:"); ?> <em><?php trackback_url() ?></em></p>
+<p><?php _e("The <abbr title=\"Universal Resource Locator\">URL</abbr> to TrackBack this entry is:"); ?> <em><?php trackback_url() ?></em></p>
 <?php } ?>
 
 <?php
@@ -70,7 +70,7 @@ if (!empty($commentstatus->post_password) && $_COOKIE['wp-postpass_'. COOKIEHASH
 
 	<p>
 	  <input type="text" name="url" id="url" value="<?php echo $comment_author_url; ?>" size="28" tabindex="3" />
-	   <label for="url"><?php _e("<acronym title=\"Uniform Resource Identifier\">URI</acronym>"); ?></label>
+	   <label for="url"><?php _e("<abbr title=\"Universal Resource Locator\">URL</abbr>"); ?></label>
 	</p>
 
 	<p>

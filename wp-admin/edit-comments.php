@@ -45,7 +45,7 @@ function getNumChecked(form)
   <input type="text" name="s" value="<?php if (isset($_GET['s'])) echo wp_specialchars($_GET['s'], 1); ?>" size="17" /> 
   <input type="submit" name="submit" value="<?php _e('Search') ?>"  />  
   <input type="hidden" name="mode" value="<?php echo $mode; ?>" />
-  <?php _e('(Searches within comment text, e-mail, URI, and IP address.)') ?>
+  <?php _e('(Searches within comment text, e-mail, URL, and IP address.)') ?>
   </fieldset> 
 </form>
 <p><a href="?mode=view"><?php _e('View Mode') ?></a> | <a href="?mode=edit"><?php _e('Mass Edit Mode') ?></a></p>

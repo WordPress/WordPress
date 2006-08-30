@@ -764,7 +764,7 @@ class WP_Query {
 			$distinct = 'DISTINCT';
 		}
 
-		// Category stuff for nice URIs
+		// Category stuff for nice URLs
 
 		global $cache_categories;
 		if ('' != $q['category_name']) {
@@ -823,7 +823,7 @@ class WP_Query {
 			$whichauthor .= ')';
 		}
 
-		// Author stuff for nice URIs
+		// Author stuff for nice URLs
 
 		if ('' != $q['author_name']) {
 			if (stristr($q['author_name'],'/')) {

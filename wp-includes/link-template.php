@@ -398,7 +398,7 @@ function get_pagenum_link($pagenum = 1) {
 				$qstr = preg_replace("#/*" . $index . "/*#", '/', $qstr);
 			} else {
 				// If using path info style permalinks, make sure the index is in
-				// the URI.
+				// the URL.
 				if ( strpos($qstr, $index) === false )
 					$qstr = '/' . $index . $qstr;
 			}

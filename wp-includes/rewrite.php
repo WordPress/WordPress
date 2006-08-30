@@ -84,7 +84,7 @@ function url_to_postid($url) {
 	$url_split = explode('#', $url);
 	$url = $url_split[0];
 
-	// Get rid of URI ?query=string
+	// Get rid of URL ?query=string
 	$url_split = explode('?', $url);
 	$url = $url_split[0];
 

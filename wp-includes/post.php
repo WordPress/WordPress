@@ -814,7 +814,7 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 // Trackback and ping functions
 //
 
-function add_ping($post_id, $uri) { // Add a URI to those already pung
+function add_ping($post_id, $uri) { // Add a URL to those already pung
 	global $wpdb;
 	$pung = $wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_id");
 	$pung = trim($pung);
@@ -844,7 +844,7 @@ function get_enclosed($post_id) { // Get enclosures already enclosed for a post
 	return $pung;
 }
 
-function get_pung($post_id) { // Get URIs already pung for a post
+function get_pung($post_id) { // Get URLs already pung for a post
 	global $wpdb;
 	$pung = $wpdb->get_var("SELECT pinged FROM $wpdb->posts WHERE ID = $post_id");
 	$pung = trim($pung);
@@ -853,7 +853,7 @@ function get_pung($post_id) { // Get URIs already pung for a post
 	return $pung;
 }
 
-function get_to_ping($post_id) { // Get any URIs in the todo list
+function get_to_ping($post_id) { // Get any URLs in the todo list
 	global $wpdb;
 	$to_ping = $wpdb->get_var("SELECT to_ping FROM $wpdb->posts WHERE ID = $post_id");
 	$to_ping = trim($to_ping);
@@ -1109,7 +1109,7 @@ function generate_page_uri_index() {
 
 		foreach ($posts as $id => $post) {
 
-			// URI => page name
+			// URL => page name
 			$uri = get_page_uri($id);
 			$attachments = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = '$id'");
 			if ( $attachments ) {

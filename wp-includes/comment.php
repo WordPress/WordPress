@@ -553,7 +553,7 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 			$pingback_href_end = @strpos($contents, $quote, $pingback_href_start);
 			$pingback_server_url_len = $pingback_href_end - $pingback_href_start;
 			$pingback_server_url = substr($contents, $pingback_href_start, $pingback_server_url_len);
-			// We may find rel="pingback" but an incomplete pingback URI
+			// We may find rel="pingback" but an incomplete pingback URL
 			if ($pingback_server_url_len > 0) {
 				// We got it!
 				return $pingback_server_url;

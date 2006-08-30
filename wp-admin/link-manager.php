@@ -105,7 +105,7 @@ printf(__('Currently showing %1$s links ordered by %2$s'), $select_cat, $select_
 	<thead>
 	<tr>
 		<th width="15%" style="text-align: left"><?php _e('Name') ?></th>
-		<th style="text-align: left"><?php _e('URI') ?></th>
+		<th style="text-align: left"><?php _e('URL') ?></th>
 		<th style="text-align: left"><?php _e('Categories') ?></th>
 		<th><?php _e('rel') ?></th>
 		<th><?php _e('Visible') ?></th>
