@@ -158,7 +158,7 @@ case 'rp' :
         echo  "<a href='wp-login.php' title='" . __('Check your e-mail first, of course') . "'>" . __('Click here to login!') . '</a></p>';
 		// send a copy of password change notification to the admin
 		$message = sprintf(__('Password Lost and Changed for user: %s'), $user->user_login) . "\r\n";
-		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Change'), get_settings('blogname')), $message);
+		wp_mail(get_settings('admin_email'), sprintf(__('[%s] Password Lost/Changed'), get_settings('blogname')), $message);
 		die();
 	}
 break;
