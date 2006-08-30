@@ -118,10 +118,16 @@ if (0 < $numcats) $numcats = number_format($numcats);
 <p><?php _e('Use these links to get started:'); ?></p>
 
 <ul>
-<li><a href="post-new.php"><?php _e('Write a post'); ?></a></li>
-<li><a href="profile.php"><?php _e('Update your profile or change your password'); ?></a></li>
-<li><a href="link-add.php"><?php _e('Add a bookmark to your blogroll'); ?></a></li>
-<li><a href="themes.php"><?php _e('Change your site&#8217;s look or theme'); ?></a></li>
+<?php if ( current_user_can('edit_posts') ) : ?>
+	<li><a href="post-new.php"><?php _e('Write a post'); ?></a></li>
+<?php endif; ?>
+	<li><a href="profile.php"><?php _e('Update your profile or change your password'); ?></a></li>
+<?php if ( current_user_can('manage_links') ) : ?>
+	<li><a href="link-add.php"><?php _e('Add a bookmark to your blogroll'); ?></a></li>
+<?php endif; ?>
+<?php if ( current_user_can('switch_themes') ) : ?>
+	<li><a href="themes.php"><?php _e('Change your site&#8217;s look or theme'); ?></a></li>
+<?php endif; ?>
 </ul>
 
 <p><?php _e("Below is the latest news from the official WordPress development blog, click on a title to read the full entry. If you need help with WordPress please see our <a href='http://codex.wordpress.org/'>great documentation</a> or if that doesn't help visit the <a href='http://wordpress.org/support/'>support forums</a>."); ?></p>
