@@ -441,7 +441,7 @@ foreach ( (array) $roleclass as $user_object ) {
 <?php wp_nonce_field('add-user') ?>
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 	<tr>
-		<th scope="row" width="33%"><?php _e('Nickname') ?><input name="action" type="hidden" id="action" value="adduser" /></th>
+		<th scope="row" width="33%"><?php _e('Username (required)') ?><input name="action" type="hidden" id="action" value="adduser" /></th>
 		<td width="66%"><input name="user_login" type="text" id="user_login" value="<?php echo $new_user_login; ?>" /></td>
 	</tr>
 	<tr>
@@ -453,7 +453,7 @@ foreach ( (array) $roleclass as $user_object ) {
 		<td><input name="last_name" type="text" id="last_name" value="<?php echo $new_user_lastname; ?>" /></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php _e('E-mail') ?></th>
+		<th scope="row"><?php _e('E-mail (required)') ?></th>
 		<td><input name="email" type="text" id="email" value="<?php echo $new_user_email; ?>" /></td>
 	</tr>
 	<tr>
