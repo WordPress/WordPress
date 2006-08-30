@@ -190,6 +190,12 @@ function is_single ($post = '') {
 	return false;
 }
 
+function is_singular() {
+	global $wp_query;
+
+	return $wp_query->is_singular;	
+}
+
 function is_time () {
 	global $wp_query;
 
@@ -278,6 +284,7 @@ class WP_Query {
 	var $is_comments_popup = false;
 	var $is_admin = false;
 	var $is_attachment = false;
+	var $is_singular = false;
 	var $is_robots = false;
 	var $is_posts_page = false;
 
@@ -300,6 +307,7 @@ class WP_Query {
 		$this->is_paged = false;
 		$this->is_admin = false;
 		$this->is_attachment = false;
+		$this->is_singular = false;
 		$this->is_robots = false;
 		$this->is_posts_page = false;
 	}
@@ -479,7 +487,10 @@ class WP_Query {
 			$this->is_admin = true;
 		}
 
-		if ( ! ($this->is_attachment || $this->is_archive || $this->is_single || $this->is_page || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) {
+		if ( $this->is_single || $this->is_page || $this->is_attachment )
+			$this->is_singular = true;
+
+		if ( ! ($this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) {
 			$this->is_home = true;
 		}
 
