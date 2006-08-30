@@ -202,6 +202,7 @@ $wp         = new WP();
 
 validate_current_theme();
 define('TEMPLATEPATH', get_template_directory());
+define('STYLESHEETPATH', get_stylesheet_directory());
 
 // Load the default text localization domain.
 load_default_textdomain();
@@ -212,8 +213,10 @@ require_once(ABSPATH . WPINC . '/locale.php');
 $wp_locale = new WP_Locale();
 
 // Load functions for active theme.
-if ( file_exists(TEMPLATEPATH . "/functions.php") )
-	include(TEMPLATEPATH . "/functions.php");
+if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists(STYLESHEETPATH . '/functions.php') )
+	include(STYLESHEETPATH . '/functions.php');
+if ( file_exists(TEMPLATEPATH . '/functions.php') )
+	include(TEMPLATEPATH . '/functions.php');
 
 function shutdown_action_hook() {
 	do_action('shutdown');
