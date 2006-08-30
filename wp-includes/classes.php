@@ -217,7 +217,9 @@ class WP {
 		}
 
 		foreach ($this->private_query_vars as $var) {
-			if (isset($GLOBALS[$var]) && '' != $GLOBALS[$var] && ! isset($this->extra_query_vars[$var]) )
+			if (isset($this->extra_query_vars[$var]))
+				$this->query_vars[$var] = $this->extra_query_vars[$var];
+			elseif (isset($GLOBALS[$var]) && '' != $GLOBALS[$var])
 				$this->query_vars[$var] = $GLOBALS[$var];
 		}
 
