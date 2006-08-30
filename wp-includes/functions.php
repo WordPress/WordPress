@@ -606,6 +606,11 @@ function add_query_arg() {
 			$uri = @func_get_arg(2);
 	}
 
+	if ( $frag = strstr($uri, '#') )
+		$uri = substr($uri, 0, -strlen($frag));
+	else
+		$frag = '';
+
 	if ( preg_match('|^https?://|i', $uri, $matches) ) {
 		$protocol = $matches[0];
 		$uri = substr($uri, strlen($protocol));
@@ -645,7 +650,7 @@ function add_query_arg() {
 			$ret .= "$k=$v";
 		}
 	}
-	$ret = $protocol . $base . $ret;
+	$ret = $protocol . $base . $ret . $frag;
 	if ( get_magic_quotes_gpc() )
 		$ret = stripslashes($ret); // parse_str() adds slashes if magicquotes is on.  See: http://php.net/parse_str
 	return trim($ret, '?');
