@@ -334,7 +334,10 @@ class WP_Query {
 	function parse_query ($query) {
 		if ( !empty($query) || !isset($this->query) ) {
 			$this->init();
-			parse_str($query, $qv);
+			if ( is_array($query) )
+				$qv = & $query;
+			else
+				parse_str($query, $qv);
 			$this->query = $query;
 			$this->query_vars = $qv;
 		}
