@@ -907,12 +907,17 @@ table .vers {
 	border: 1px solid #ccc;
 }
 
+#your-profile #rich_editing {
+	border: none;
+	background: #fff;
+}
+
 #your-profile fieldset {
 	border: 1px solid #ccc;
 	float: left;
 	width: 40%;
 	padding: .5em 2em;
-	margin: 1em; 
+	margin: 1em 1em 1em 0; 
 }
 
 #your-profile fieldset input  {
