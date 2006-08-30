@@ -332,6 +332,21 @@ function wp_get_archives($args = '') {
 				echo get_archives_link($url, $text, $format, $before, $after);
 			}
 		}
+	} elseif ('yearly' == $type) {
+         $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts WHERE post_type ='post' AND post_status = 'publish' GROUP BY YEAR(post_date) ORDER BY post_date DESC" . $limit);
+		if ($arcresults) {
+            $afterafter = $after;
+            foreach ($arcresults as $arcresult) {
+			    $url = get_year_link($arcresult->year);
+				if ($show_post_count) {
+                    $text = sprintf('%d', $arcresult->year);
+                    $after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
+                } else {
+                    $text = sprintf('%d', $arcresult->year);
+                }
+                echo get_archives_link($url, $text, $format, $before, $after);
+            }
+		}		  	
 	} elseif ( 'daily' == $type ) {
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
 		if ( $arcresults ) {
