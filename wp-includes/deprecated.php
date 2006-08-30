@@ -486,4 +486,9 @@ function get_author_link($echo = false, $author_id, $author_nicename = '') {
 	return $link;
 }
 
+function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page', $pagelink='%', $more_file='') {
+	$args = compact('before', 'after', 'next_or_number', 'nextpagelink', 'previouspagelink', 'pagelink', 'more_file');
+	return wp_link_pages($args);
+}
+
 ?>
