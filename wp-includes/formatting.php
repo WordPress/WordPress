@@ -598,7 +598,7 @@ function wp_rel_nofollow( $text ) {
 	global $wpdb;
 	// This is a pre save filter, so text is already escaped.
 	$text = stripslashes($text);
-	$text = preg_replace('|<a (.+?)>|i', '<a $1 rel="nofollow">', $text);
+	$text = preg_replace('|<a (.+?)>|ie', "'<a ' . str_replace(' rel=\"nofollow\"','',stripslashes('$1')) . ' rel=\"nofollow\">'", $text);
 	$text = $wpdb->escape($text);
 	return $text;
 }
