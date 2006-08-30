@@ -612,6 +612,20 @@ function the_date($d='', $before='', $after='', $echo = true) {
 }
 
 
+function the_modified_date($d = '') {
+	echo apply_filters('the_modified_date', get_the_modified_date($d), $d);
+}
+
+
+function get_the_modified_date($d = '') {
+	if ( '' == $d )
+		$the_time = get_post_modified_time(get_settings('date_format'));
+	else
+		$the_time = get_post_modified_time($d);
+	return apply_filters('get_the_modified_date', $the_time, $d);
+}
+
+
 function the_time( $d = '' ) {
 	echo apply_filters('the_time', get_the_time( $d ), $d);
 }
