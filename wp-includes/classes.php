@@ -94,7 +94,9 @@ class WP {
 
 		$this->query_vars = array();
 
-		if (! empty($extra_query_vars))
+		if ( is_array($extra_query_vars) )
+			$this->extra_query_vars = & $extra_query_vars;
+		else if (! empty($extra_query_vars))
 			parse_str($extra_query_vars, $this->extra_query_vars);
 
 		// Process PATH_INFO, REQUEST_URI, and 404 for permalinks.
@@ -212,18 +214,17 @@ class WP {
 				$this->query_vars[$wpvar] = $_GET[$wpvar];
 			elseif (!empty($perma_query_vars[$wpvar]))
 				$this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
-			else
-				$this->query_vars[$wpvar] = '';
 		}
 
-		for ($i=0; $i<count($this->private_query_vars); $i += 1) {
-			$wpvar = $this->private_query_vars[$i];
-			if (isset($this->extra_query_vars[$wpvar]))
-				$this->query_vars[$wpvar] = $this->extra_query_vars[$wpvar];		
+		foreach ($this->private_query_vars as $var) {
+			if (isset($GLOBALS[$var]) && '' != $GLOBALS[$var] && ! isset($this->extra_query_vars[$var]) )
+				$this->query_vars[$var] = $GLOBALS[$var];
 		}
 
 		if ( isset($error) )
 			$this->query_vars['error'] = $error;
+
+		$this->query_vars = apply_filters('request', $this->query_vars);
 
 		do_action('parse_request', array(&$this));
 	}
@@ -272,7 +273,6 @@ class WP {
 
 	function build_query_string() {
 		$this->query_string = '';
-
 		foreach (array_keys($this->query_vars) as $wpvar) {
 			if ( '' != $this->query_vars[$wpvar] ) {
 				$this->query_string .= (strlen($this->query_string) < 1) ? '' : '&';
@@ -280,14 +280,12 @@ class WP {
 			}
 		}
 
-		foreach ($this->private_query_vars as $wpvar) {
-			if (isset($GLOBALS[$wpvar]) && '' != $GLOBALS[$wpvar] && ! isset($this->extra_query_vars[$wpvar]) ) {
-				$this->query_string .= (strlen($this->query_string) < 1) ? '' : '&';
-				$this->query_string .= $wpvar . '=' . rawurlencode($GLOBALS[$wpvar]);
-			}
+		// query_string filter deprecated.  Use request filter instead.
+		global $wp_filter;
+		if ( isset($wp_filter['query_string']) ) {  // Don't bother filtering and parsing if no plugins are hooked in.
+			$this->query_string = apply_filters('query_string', $this->query_string);
+			parse_str($this->query_string, $this->query_vars);
 		}
-
-		$this->query_string = apply_filters('query_string', $this->query_string);
 	}
 
 	function register_globals() {
@@ -314,7 +312,7 @@ class WP {
 
 	function query_posts() {
 		$this->build_query_string();
-		query_posts($this->query_string);
+		query_posts($this->query_vars);
  	}
 
 	function handle_404() {
