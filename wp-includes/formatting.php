@@ -1037,7 +1037,9 @@ function wp_richedit_pre($text) {
 
 function clean_url( $url ) {
 	if ('' == $url) return $url;
-	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $url);
+	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $url);
+	$strip = array('%0d', '%0a');
+	$url = str_replace($strip, '', $url);
 	$url = str_replace(';//', '://', $url);
 	$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
 	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
