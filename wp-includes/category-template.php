@@ -169,6 +169,7 @@ function wp_dropdown_categories($args = '') {
 		'hide_empty' => 1, 'child_of' => 0, 'exclude' => '', 'echo' => 1,
 		'selected' => 0, 'hierarchical' => 0, 'name' => 'cat',
 		'class' => 'postform');
+	$defaults['selected'] = ( is_category() ) ? get_query_var('cat') : 0;
 	$r = array_merge($defaults, $r);
 	$r['include_last_update_time'] = $r['show_last_update'];
 	extract($r);
