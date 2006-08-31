@@ -40,19 +40,20 @@ class RSS_Import {
 			preg_match('|<title>(.*?)</title>|is', $post, $post_title);
 			$post_title = $wpdb->escape(trim($post_title[1]));
 
-			preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $post_date);
+			preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $post_date_gmt);
 
-			if ($post_date) {
-				$post_date = strtotime($post_date[1]);
+			if ($post_date_gmt) {
+				$post_date_gmt = strtotime($post_date_gmt[1]);
 			} else {
 				// if we don't already have something from pubDate
-				preg_match('|<dc:date>(.*?)</dc:date>|is', $post, $post_date);
-				$post_date = preg_replace('|([-+])([0-9]+):([0-9]+)$|', '\1\2\3', $post_date[1]);
-				$post_date = str_replace('T', ' ', $post_date);
-				$post_date = strtotime($post_date);
+				preg_match('|<dc:date>(.*?)</dc:date>|is', $post, $post_date_gmt);
+				$post_date_gmt = preg_replace('|([-+])([0-9]+):([0-9]+)$|', '\1\2\3', $post_date_gmt[1]);
+				$post_date_gmt = str_replace('T', ' ', $post_date_gmt);
+				$post_date_gmt = strtotime($post_date_gmt);
 			}
 
-			$post_date = gmdate('Y-m-d H:i:s', $post_date);
+			$post_date_gmt = gmdate('Y-m-d H:i:s', $post_date_gmt);
+			$post_date = get_date_from_gmt( $post_date_gmt );
 
 			preg_match_all('|<category>(.*?)</category>|is', $post, $categories);
 			$categories = $categories[1];
@@ -90,7 +91,7 @@ class RSS_Import {
 
 			$post_author = 1;
 			$post_status = 'publish';
-			$this->posts[$index] = compact('post_author', 'post_date', 'post_content', 'post_title', 'post_status', 'guid', 'categories');
+			$this->posts[$index] = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_status', 'guid', 'categories');
 			$index++;
 		}
 	}
