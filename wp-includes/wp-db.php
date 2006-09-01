@@ -363,5 +363,6 @@ class wpdb {
 	}
 }
 
-$wpdb = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
+if ( ! isset($wpdb) )
+	$wpdb = new wpdb(DB_USER, DB_PASSWORD, DB_NAME, DB_HOST);
 ?>
