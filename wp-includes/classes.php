@@ -696,7 +696,7 @@ class Walker_CategoryDropdown extends Walker {
 		if ( $category->cat_ID == $args['selected'] )
 			$output .= ' selected="selected"';
 		$output .= '>';
-		$output .= $cat_name;
+		$output .= $pad.$cat_name;
 		if ( $args['show_count'] )
 			$output .= '&nbsp;&nbsp;('. $category->category_count .')';
 		if ( $args['show_last_update'] ) {

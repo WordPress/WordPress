@@ -32,10 +32,8 @@ if ( ! empty($cat_ID) ) {
 		<tr>
 			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category parent:') ?></label></th>
 			<td>        
-			<select name='category_parent' id='category_parent'>
-	  <option value='0' <?php if (!$category->category_parent) echo " selected='selected'"; ?>><?php _e('None') ?></option>
-	  <?php wp_dropdown_cats($category->cat_ID, $category->category_parent); ?>
-	  </select></td>
+	  			<?php wp_dropdown_categories('hide_empty=0&name=category_parent&selected=' . $category->category_parent . '&hierarchical=1&show_option_none=' . __('None')); ?>
+	  		</td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><label for="category_description"><?php _e('Description: (optional)') ?></label></th>
