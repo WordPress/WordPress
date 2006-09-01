@@ -482,7 +482,7 @@ function _max_num_pages() {
 	if ( 'posts' == get_query_var('what_to_show') ) {
 		preg_match('#FROM\s(.*)\sORDER BY#siU', $wp_query->request, $matches);
 		$fromwhere = $matches[1];
-		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT ID) FROM $fromwhere");
+		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT $wpdb->posts.ID) FROM $fromwhere");
 		$max_num_pages = ceil($numposts / $posts_per);
 	} else {
 		preg_match('#FROM\s(.*)\sORDER BY#siU', $wp_query->request, $matches);
