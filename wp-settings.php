@@ -69,7 +69,10 @@ if ( defined('WP_CACHE') )
 	require (ABSPATH . 'wp-content/advanced-cache.php');
 
 define('WPINC', 'wp-includes');
-require_once (ABSPATH . WPINC . '/wp-db.php');
+if ( file_exists(ABSPATH . 'wp-content/wp-db.php') )
+	require (ABSPATH . 'wp-content/wp-db.php');
+else
+	require_once (ABSPATH . WPINC . '/wp-db.php');
 
 // Table names
 $wpdb->posts            = $table_prefix . 'posts';
