@@ -158,22 +158,19 @@ case 'add-meta' :
 	if ( !current_user_can( 'edit_post', $id ) )
 		die('-1');
 	if ( $id < 0 ) {
-		if ( $pid = write_post() )
-			$meta = has_meta( $pid );
+		if ( $pid = wp_insert_post() )
+			$mid = add_meta( $pid );
 		else
 			die('0');
-		$key = $meta[0]['meta_key'];
-		$value = $meta[0]['meta_value'];
-		$mid = (int) $meta[0]['meta_id'];
-	} else {
-		if ( $mid = add_meta( $id ) )
-			$meta = get_post_meta_by_id( $mid );
-		else
-			die('0');
-		$key = $meta->meta_key;
-		$value = $meta->meta_value;
-		$pid = (int) $meta->post_id;
+	} else if ( !$mid = add_meta( $id ) ) {
+		die('0');
 	}
+
+	$meta = get_post_meta_by_id( $mid );
+	$key = $meta->meta_key;
+	$value = $meta->meta_value;
+	$pid = (int) $meta->post_id;
+
 	$r = "<?xml version='1.0' standalone='yes'?><ajaxresponse>";
 	$r .= wp_ajax_echo_meta( $pid, $mid, $key, $value );
 	$r .= '</ajaxresponse>';
