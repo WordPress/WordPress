@@ -69,8 +69,8 @@ if ( defined('WP_CACHE') )
 	require (ABSPATH . 'wp-content/advanced-cache.php');
 
 define('WPINC', 'wp-includes');
-if ( file_exists(ABSPATH . 'wp-content/wp-db.php') )
-	require (ABSPATH . 'wp-content/wp-db.php');
+if ( file_exists(ABSPATH . 'wp-content/db.php') )
+	require (ABSPATH . 'wp-content/db.php');
 else
 	require_once (ABSPATH . WPINC . '/wp-db.php');
 
