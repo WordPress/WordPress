@@ -324,7 +324,7 @@ function map_meta_cap($cap, $user_id) {
 		$author_data = get_userdata($user_id);
 		//echo "post ID: {$args[0]}<br/>";
 		$page = get_page($args[0]);
-		$page_author_data = get_userdata($post->post_author);
+		$page_author_data = get_userdata($page->post_author);
 		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br/>";
 		// If the user is the author...
 		if ($user_id == $page_author_data->ID) {
@@ -378,7 +378,7 @@ function map_meta_cap($cap, $user_id) {
 		$author_data = get_userdata($user_id);
 		//echo "post ID: {$args[0]}<br/>";
 		$page = get_page($args[0]);
-		$page_author_data = get_userdata($post->post_author);
+		$page_author_data = get_userdata($page->post_author);
 		//echo "current user id : $user_id, page author id: " . $page_author_data->ID . "<br/>";
 		// If the user is the author...
 		if ($user_id == $page_author_data->ID) {
