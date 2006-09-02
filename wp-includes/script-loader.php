@@ -19,11 +19,9 @@ class WP_Scripts {
 		$this->add( 'wp_tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('tiny_mce'), '04162006' );
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.5.0');
 		$this->add( 'autosave', '/wp-includes/js/autosave.js.php', array('prototype', 'sack'), '4107');
-		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax-js.php', array('prototype'), rand());
-		$this->add( 'listman', '/wp-includes/js/list-manipulation-js.php', array('wp-ajax', 'fat'), rand());
 		if ( is_admin() ) {
 			$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key-js.php', array('dbx'), '3651' );
-			$this->add( 'listman-old', '/wp-admin/list-manipulation-js.php', array('sack', 'fat'), '4042' ); // Make changeset # the correct one
+			$this->add( 'listman', '/wp-admin/list-manipulation-js.php', array('sack', 'fat'), '4042' ); // Make changeset # the correct one
 			$this->add( 'ajaxcat', '/wp-admin/cat-js.php', array('listman'), '3684' );
 			$this->add( 'admin-categories', '/wp-admin/categories.js', array('listman'), '3684' );
 			$this->add( 'admin-custom-fields', '/wp-admin/custom-fields.js', array('listman'), '3733' );

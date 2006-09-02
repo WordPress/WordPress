@@ -1,8 +1,8 @@
 function customFieldsOnComplete() {
-	var pidEl = $('post_ID');
+	var pidEl = document.getElementById('post_ID');
 	pidEl.name = 'post_ID';
 	pidEl.value = getNodeValue(theList.ajaxAdd.responseXML, 'postid');
-	var aEl = $('hiddenaction')
+	var aEl = document.getElementById('hiddenaction')
 	if ( aEl.value == 'post' ) aEl.value = 'postajaxpost';
 }
 addLoadEvent(customFieldsAddIn);
@@ -21,6 +21,6 @@ function customFieldsAddIn() {
 		}
 	}
 
-	$('metakeyinput').onkeypress = function(e) {return killSubmit('theList.inputData+="&id="+$("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
-	$('updatemetasub').onclick = function(e) {return killSubmit('theList.inputData+="&id="+$("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
+	document.getElementById('metakeyinput').onkeypress = function(e) {return killSubmit('theList.inputData+="&id="+document.getElementById("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
+	document.getElementById('updatemetasub').onclick = function(e) {return killSubmit('theList.inputData+="&id="+document.getElementById("post_ID").value;theList.ajaxAdder("meta", "newmeta");', e); };
 }

@@ -5,6 +5,7 @@ require_once('admin-db.php');
 
 define('DOING_AJAX', true);
 
+
 check_ajax_referer();
 if ( !is_user_logged_in() )
 	die('-1');
@@ -16,7 +17,7 @@ function wp_ajax_echo_meta( $pid, $mid, $key, $value ) {
 	$value = wp_specialchars($value, true);
 	$key_js = addslashes(wp_specialchars($key, 'double'));
 	$key = wp_specialchars($key, true);
-	$r  = "<meta><id>$mid</id><postid>$pid</postid><newitem><![CDATA[";
+	$r  = "<meta><id>$mid</id><postid>$pid</postid><newitem><![CDATA[<table><tbody>";
 	$r .= "<tr id='meta-$mid'><td valign='top'>";
 	$r .= "<input name='meta[$mid][key]' tabindex='6' onkeypress='return killSubmit(\"theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);\",event);' type='text' size='20' value='$key' />";
 	$r .= "</td><td><textarea name='meta[$mid][value]' tabindex='6' rows='2' cols='30'>$value</textarea></td><td align='center'>";
@@ -24,7 +25,7 @@ function wp_ajax_echo_meta( $pid, $mid, $key, $value ) {
 	$r .= "<input name='deletemeta[$mid]' type='submit' onclick=\"return deleteSomething( 'meta', $mid, '";
 	$r .= sprintf(__("You are about to delete the &quot;%s&quot; custom field on this post.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), $key_js);
 	$r .= "' );\" class='deletemeta' tabindex='6' value='Delete' />";
-	$r .= "</td></tr>]]></newitem></meta>";
+	$r .= "</td></tr></tbody></table>]]></newitem></meta>";
 	return $r;
 }
 
@@ -147,9 +148,9 @@ case 'add-cat' : // From Manage->Categories
 	$cat_full_name = wp_specialchars( $cat_full_name, 1 );
 
 	$r  = "<?xml version='1.0' standalone='yes'?><ajaxresponse>";
-	$r .= "<cat><id>$cat->cat_ID</id><name>$cat_full_name</name><newitem><![CDATA[";
+	$r .= "<cat><id>$cat->cat_ID</id><name>$cat_full_name</name><newitem><![CDATA[<table><tbody>";
 	$r .= _cat_row( $cat, $level, $cat_full_name );
-	$r .= "]]></newitem></cat></ajaxresponse>";
+	$r .= "</tbody></table>]]></newitem></cat></ajaxresponse>";
 	header('Content-type: text/xml');
 	die($r);
 	break;
@@ -206,9 +207,9 @@ case 'add-user' :
 	} elseif ( !$user_id ) {
 		die('0');
 	}
-	$r  = "<?xml version='1.0' standalone='yes'?><ajaxresponse><user><id>$user_id</id><newitem><![CDATA[";
+	$r  = "<?xml version='1.0' standalone='yes'?><ajaxresponse><user><id>$user_id</id><newitem><![CDATA[<table><tbody>";
 	$r .= user_row( $user_id );
-	$r .= "]]></newitem></user></ajaxresponse>";
+	$r .= "</tbody></table>]]></newitem></user></ajaxresponse>";
 	header('Content-type: text/xml');
 	die($r);
 	break;
