@@ -507,7 +507,7 @@ function wp_insert_post($postarr = array()) {
 		$ping_status     = apply_filters('ping_status_pre',    $ping_status);
 	}
 
-	if ( ('' == $post_content) && ('' == $post_title) )
+	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) )
 		return 0;
 
 	// Make sure we set a valid category
