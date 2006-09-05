@@ -271,8 +271,11 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		$title = $desc;
 
 		if ( $show_updated )
-			if ( '00' != substr($bookmark->link_updated_f, 0, 2) )
-				$title .= ' (Last updated ' . date(get_option('links_updated_date_format'), $bookmark->link_updated_f + (get_option('gmt_offset') * 3600)) . ')';
+			if ( '00' != substr($bookmark->link_updated_f, 0, 2) ) {
+				$title .= ' ';
+				$title .= sprintf(__('Last updated: %s'), date(get_option('links_updated_date_format'), $bookmark->link_updated_f + (get_option('gmt_offset') * 3600)));
+				$title .= ')';
+			}
 
 		if ( '' != $title )
 			$title = ' title="' . $title . '"';

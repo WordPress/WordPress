@@ -32,7 +32,7 @@ class MT_Import {
 		global $wpdb, $testing;
 		$users = $wpdb->get_results("SELECT * FROM $wpdb->users ORDER BY ID");
 ?><select name="userselect[<?php echo $n; ?>]">
-	<option value="#NONE#">- Select -</option>
+	<option value="#NONE#"><?php _e('- Select -') ?></option>
 	<?php
 
 
@@ -148,12 +148,12 @@ class MT_Import {
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
-			echo '<li>Current author: <strong>'.$author.'</strong><br />'.'Create user <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br /> or map to existing ';
+			echo '<li>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
 			$this->users_form($j);
 			echo '</li>';
 		}
 
-		echo '<input type="submit" value="Submit">'.'<br/>';
+		echo '<input type="submit" value="'.__('Submit').'">'.'<br/>';
 		echo '</form>';
 		echo '</ol></div>';
 
@@ -163,7 +163,7 @@ class MT_Import {
 		$file = wp_import_handle_upload();
 		if ( isset($file['error']) ) {
 			$this->header();
-			echo '<p>Sorry, there has been an error.</p>';
+			echo '<p>'.__('Sorry, there has been an error').'.</p>';
 			echo '<p><strong>' . $file['error'] . '</strong></p>';
 			$this->footer();
 			return;
@@ -334,7 +334,7 @@ class MT_Import {
 					}
 				}
 				if ( $num_comments )
-					printf(__(' (%s comments)'), $num_comments);
+					printf(' '.__('(%s comments)'), $num_comments);
 
 				// Finally the pings
 				// fix the double newline on the first one
@@ -382,7 +382,7 @@ class MT_Import {
 					}
 				}
 				if ( $num_pings )
-					printf(__(' (%s pings)'), $num_pings);
+					printf(' '.__('(%s pings)'), $num_pings);
 
 				echo "</li>";
 			}
@@ -430,5 +430,5 @@ class MT_Import {
 
 $mt_import = new MT_Import();
 
-register_importer('mt', 'Movable Type and Typepad', __('Imports <strong>posts and comments</strong> from your Movable Type or Typepad blog'), array ($mt_import, 'dispatch'));
+register_importer('mt', __('Movable Type and Typepad'), __('Imports <strong>posts and comments</strong> from your Movable Type or Typepad blog'), array ($mt_import, 'dispatch'));
 ?>

@@ -148,7 +148,7 @@ class WP_Import {
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
-			echo '<li>Current author: <strong>'.$author.'</strong><br />'.'Create user <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br /> or map to existing ';
+			echo '<li>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
 			$this->users_form($j);
 			echo '</li>';
 		}
@@ -163,7 +163,7 @@ class WP_Import {
 		$file = wp_import_handle_upload();
 		if ( isset($file['error']) ) {
 			$this->header();
-			echo '<p>Sorry, there has been an error.</p>';
+			echo '<p>'.__('Sorry, there has been an error.').'</p>';
 			echo '<p><strong>' . $file['error'] . '</strong></p>';
 			$this->footer();
 			return;
@@ -248,7 +248,7 @@ class WP_Import {
 					}
 				} }
 				if ( $num_comments )
-					printf(__(' (%s comments)'), $num_comments);
+					printf(' '.__('(%s comments)'), $num_comments);
 
 				// Now for post meta
 				preg_match_all('|<wp:postmeta>(.*?)</wp:postmeta>|is', $post, $postmeta);
@@ -266,7 +266,7 @@ class WP_Import {
 
 		wp_import_cleanup($this->id);
 
-		echo '<h3>'.sprintf(__('All done. <a href="%s">Have fun!</a>'), get_option('home')).'</h3>';
+		echo '<h3>'.sprintf(__('All done.').' <a href="%s">'.__('Have fun!').'</a>', get_option('home')).'</h3>';
 	}
 
 	function import() {

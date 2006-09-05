@@ -188,5 +188,5 @@ class BW_Import {
 
 $blogware_import = new BW_Import();
 
-register_importer('blogware', 'Blogware', __('Import posts from Blogware'), array ($blogware_import, 'dispatch'));
+register_importer('blogware', __('Blogware'), __('Import posts from Blogware'), array ($blogware_import, 'dispatch'));
 ?>

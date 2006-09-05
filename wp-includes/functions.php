@@ -947,7 +947,7 @@ function wp_upload_bits($name, $type, $bits) {
 
 	$ifp = @ fopen($new_file, 'wb');
 	if ( ! $ifp )
-		return array('error' => "Could not write file $new_file.");
+		return array('error' => sprintf(__('Could not write file %s'), $new_file));
 
 	$success = @ fwrite($ifp, $bits);
 	fclose($ifp);
@@ -1091,7 +1091,7 @@ function wp_explain_nonce($action) {
 		}
 	}
 
-	return __('Are you sure you want to do this');
+	return __('Are you sure you want to do this?');
 }
 
 function wp_nonce_ays($action) {

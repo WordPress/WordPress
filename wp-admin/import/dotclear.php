@@ -632,15 +632,15 @@ class Dotclear_Import {
 		echo '<h3>'.__('Preserving Authors').'</h3>';
 		echo '<p>'.__('Secondly, we have attempted to preserve post authors.  If you are the only author or contributor to your blog, then you are safe.  In most cases, we are successful in this preservation endeavor.  However, if we cannot ascertain the name of the writer due to discrepancies between database tables, we assign it to you, the administrative user.').'</p>';
 		echo '<h3>'.__('Textile').'</h3>';
-		echo '<p>'.__('Also, since you\'re coming from Dotclear, you probably have been using Textile to format your comments and posts.  If this is the case, we recommend downloading and installing <a href="http://www.huddledmasses.org/2004/04/19/wordpress-plugin-textile-20/">Textile for WordPress</a>.  Trust me... You\'ll want it.').'</p>';
+		echo '<p>'.__('Also, since you\'re coming from Dotclear, you probably have been using Textile to format your comments and posts.  If this is the case, we recommend downloading and installing <a href="http://www.huddledmasses.org/category/development/wordpress/textile/">Textile for WordPress</a>.  Trust me... You\'ll want it.').'</p>';
 		echo '<h3>'.__('WordPress Resources').'</h3>';
 		echo '<p>'.__('Finally, there are numerous WordPress resources around the internet.  Some of them are:').'</p>';
 		echo '<ul>';
 		echo '<li>'.__('<a href="http://www.wordpress.org">The official WordPress site</a>').'</li>';
-		echo '<li>'.__('<a href="http://wordpress.org/support/">The WordPress support forums').'</li>';
+		echo '<li>'.__('<a href="http://wordpress.org/support/">The WordPress support forums</a>').'</li>';
 		echo '<li>'.__('<a href="http://codex.wordpress.org">The Codex (In other words, the WordPress Bible)</a>').'</li>';
 		echo '</ul>';
-		echo '<p>'.sprintf(__('That\'s it! What are you waiting for? Go <a href="%1$s">login</a>!'), '/wp-login.php').'</p>';
+		echo '<p>'.sprintf(__('That\'s it! What are you waiting for? Go <a href="%1$s">login</a>!'), '../wp-login.php').'</p>';
 	}
 
 	function db_form()
@@ -743,5 +743,5 @@ class Dotclear_Import {
 }
 
 $dc_import = new Dotclear_Import();
-register_importer('dotclear', 'Dotclear', __('Import posts from a Dotclear Blog'), array ($dc_import, 'dispatch'));
+register_importer('dotclear', __('Dotclear'), __('Import posts from a Dotclear Blog'), array ($dc_import, 'dispatch'));
 ?>

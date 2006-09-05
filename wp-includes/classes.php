@@ -25,9 +25,9 @@ class retrospam_mgr {
 				$cnt++;
 			}
 		}
-		echo "<div class='updated'><p>$cnt comment";
-		if ($cnt != 1 ) echo "s";
-		echo " moved to the moderation queue.</p></div>\n";
+		echo "<div class='updated'><p> ";
+		printf(__('%d comment(s) moved to the moderation queue.'), $cnt);
+		echo "</p></div>\n";
 	}	// End function move_spam
 
 	function find_spam() {
@@ -56,7 +56,7 @@ class retrospam_mgr {
 		$numfound = count($counters[found]);
 		$numqueue = $counters[in_queue];
 
-		$body = '<p>' . sprintf(__('Suspected spam comments: <strong>%s</strong>'), $numfound) . '</p>';
+		$body = '<p>' . sprintf(__('Suspected spam comments: %s'), "<strong>$numfound</strong>") . '</p>';
 
 		if ( count($counters[found]) > 0 ) {
 			$id_list = implode( ',', $counters[found] );

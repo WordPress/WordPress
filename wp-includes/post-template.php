@@ -330,7 +330,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false) 
 		return "<a href=\"{$_post->guid}\" title=\"{$_post->post_title}\" >{$innerHTML}</a>";
 
 	} else {
-		$p .= __('Missing attachment');
+		$p .= __('Missing Attachment');
 	}
 	return $p;
 }

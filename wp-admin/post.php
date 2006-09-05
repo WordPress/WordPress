@@ -63,7 +63,7 @@ case 'edit':
 	?>
 	<div id='preview' class='wrap'>
 	<h2 id="preview-post"><?php _e('Post Preview (updated when post is saved)'); ?> <small class="quickjump"><a href="#write-post"><?php _e('edit &uarr;'); ?></a></small></h2>
-		<iframe src="<?php echo add_query_arg('preview', 'true', get_permalink($post->ID)); ?>" width="100%" height="600" ></iframe>
+		<iframe src="<?php echo apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID))); ?>" width="100%" height="600" ></iframe>
 	</div>
 	<?php
 	break;

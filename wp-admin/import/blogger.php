@@ -341,7 +341,7 @@ class Blogger_Import {
 				$form = "<div style='height:0px;width:0px;overflow:hidden;'>";
 				$form.= $body;
 				$form.= "</div><script type='text/javascript'>forms=document.getElementsByTagName('form');for(i=0;i<forms.length;i++){if(forms[i].action.search('{$blog_opt}')){forms[i].submit();break;}}</script>";
-				$output.= '<p>'.sprintf('<strong>%s</strong> in progress, please wait...', $blog_opt)."</p>\n";
+				$output.= '<p>'.sprintf(__('<strong>%s</strong> in progress, please wait...'), $blog_opt)."</p>\n";
 			} else {
 				$output.= "<p>$blog_opt</p>\n";
 			}
@@ -420,7 +420,7 @@ class Blogger_Import {
 							$user_email = $wpdb->escape($post_author_email);
 							$user_password = substr(md5(uniqid(microtime())), 0, 6);
 							$result = wp_create_user( $user_login, $user_password, $user_email );
-							$status.= sprintf('Registered user <strong>%s</strong>.', $user_login);
+							$status.= sprintf(__('Registered user <strong>%s</strong>.'), $user_login);
 							$this->import['blogs'][$_GET['blog']]['newusers'][] = $user_login;
 						}
 						$userdata = get_userdatabylogin( $post_author_name );
@@ -509,7 +509,7 @@ class Blogger_Import {
 					}
 				}
 				$status = sprintf(__('%s post(s) parsed, %s skipped...'), $postcount,  $skippedpostcount).' '.
-					sprintf(__('%s comment(s) parsed, %s skipped...'), $commentcoun, $skippedcommentcount).' '.
+					sprintf(__('%s comment(s) parsed, %s skipped...'), $commentcount, $skippedcommentcount).' '.
 					' <strong>'.__('Done').'</strong>';
 				$import = $this->import;
 				$import['blogs'][$_GET['blog']]['archives']["$url"] = $status;
@@ -546,7 +546,7 @@ class Blogger_Import {
 						$response = $this->get_blogger("http://www.blogger.com/blog-publishing.g?blogID={$_GET['blog']}&publishMode={$optary['backup']['publishMode']}", $headers);
 						sleep(2);
 						if ( $response['code'] >= 400 )
-							wp_die('<h1>Error restoring publishMode.</h1><p>Please tell the devs.</p>' . addslashes(print_r($response, 1)) );
+							wp_die('<h1>'.__('Error restoring publishMode').'</h1><p>'.__('Please tell the devs.').'</p>' . addslashes(print_r($response, 1)) );
 					}
 				}
 				if ( $optary['backup'] != $optary['modify'] ) {
@@ -662,6 +662,6 @@ class Blogger_Import {
 
 $blogger_import = new Blogger_Import();
 
-register_importer('blogger', 'Blogger and Blogspot', __('Import <strong>posts and comments</strong> from your Blogger account'), array ($blogger_import, 'start'));
+register_importer('blogger', __('Blogger and Blogspot'), __('Import <strong>posts and comments</strong> from your Blogger account'), array ($blogger_import, 'start'));
 
 ?>

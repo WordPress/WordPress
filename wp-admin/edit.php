@@ -115,7 +115,7 @@ if ( count($arc_result) ) { ?>
 <form name="viewcat" action="" method="get" style="float: left; width: 30em; margin-bottom: 1em;">
 	<fieldset>
 	<legend><?php _e('Browse Category&hellip;') ?></legend>
-	<?php wp_dropdown_categories('show_option_all=All&hide_empty=0&hierarchical=1&show_count=1&selected='.$cat);?>
+	<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=0&hierarchical=1&show_count=1&selected='.$cat);?>
 	<input type="submit" name="submit" value="<?php _e('Show Category') ?>"  /> 
 	</fieldset>
 </form>

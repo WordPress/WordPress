@@ -16,44 +16,44 @@ class GM_Import {
 	function greet() {
 		$this->header();
 ?>
-<p>This is a basic GreyMatter to WordPress import script.</p>
-<p>What it does:</p>
+<p><?php _e('This is a basic GreyMatter to WordPress import script.') ?></p>
+<p><?php _e('What it does:') ?></p>
 <ul>
-<li>Parses gm-authors.cgi to import (new) authors. Everyone is imported at level 1.</li>
-<li>Parses the entries cgi files to import posts, comments, and karma on posts (although karma is not used on WordPress yet).<br />If authors are found not to be in gm-authors.cgi, imports them at level 0.</li>
-<li>Detects duplicate entries or comments. If you don't import everything the first time, or this import should fail in the middle, duplicate entries will not be made when you try again.</li>
+<li><?php _e('Parses gm-authors.cgi to import (new) authors. Everyone is imported at level 1.') ?></li>
+<li><?php _e('Parses the entries cgi files to import posts, comments, and karma on posts (although karma is not used on WordPress yet).<br />If authors are found not to be in gm-authors.cgi, imports them at level 0.') ?></li>
+<li><?php _e("Detects duplicate entries or comments. If you don't import everything the first time, or this import should fail in the middle, duplicate entries will not be made when you try again.") ?></li>
 </ul>
-<p>What it does not:</p>
+<p><?php _e('What it does not:') ?></p>
 <ul>
-<li>Parse gm-counter.cgi, gm-banlist.cgi, gm-cplog.cgi (you can make a CP log hack if you really feel like it, but I question the need of a CP log).</li>
-<li>Import gm-templates.</li>
-<li>Doesn't keep entries on top.</li>
+<li><?php _e('Parse gm-counter.cgi, gm-banlist.cgi, gm-cplog.cgi (you can make a CP log hack if you really feel like it, but I question the need of a CP log).') ?></li>
+<li><?php _e('Import gm-templates.') ?></li>
+<li><?php _e("Doesn't keep entries on top.")?></li>
 </ul>
 <p>&nbsp;</p>
 
 <form name="stepOne" method="get">
 <input type="hidden" name="import" value="greymatter" />
 <input type="hidden" name="step" value="1" />
-<h3>Second step: GreyMatter details:</h3>
+<h3><?php _e('Second step: GreyMatter details:') ?></h3>
 <p><table cellpadding="0">
 <tr>
-<td>Path to GM files:</td>
+<td><?php _e('Path to GM files:') ?></td>
 <td><input type="text" style="width:300px" name="gmpath" value="/home/my/site/cgi-bin/greymatter/" /></td>
 </tr>
 <tr>
-<td>Path to GM entries:</td>
+<td><?php _e('Path to GM entries:') ?></td>
 <td><input type="text" style="width:300px" name="archivespath" value="/home/my/site/cgi-bin/greymatter/archives/" /></td>
 </tr>
 <tr>
-<td colspan="2"><br />This importer will search for files 00000001.cgi to 000-whatever.cgi,<br />so you need to enter the number of the last GM post here.<br />(if you don't know that number, just log into your FTP and look it out<br />in the entries' folder)</td>
+<td colspan="2"><br /><?php _e("This importer will search for files 00000001.cgi to 000-whatever.cgi,<br />so you need to enter the number of the last GM post here.<br />(if you don't know that number, just log into your FTP and look it out<br />in the entries' folder)") ?></td>
 </tr>
 <tr>
-<td>Last entry's number:</td>
+<td><?php _e("Last entry's number:") ?></td>
 <td><input type="text" name="lastentry" value="00000001" /></td>
 </tr>
 </table>
 </p>
-<p>When you're ready, click OK to start importing: <input type="submit" name="submit" value="OK" class="search" /></p>
+<p><?php _e("When you're ready, click OK to start importing: ") ?><input type="submit" name="submit" value="<?php _e('OK') ?>" class="search" /></p>
 </form>
 <p>&nbsp</p>
 <?php
@@ -87,16 +87,16 @@ class GM_Import {
 		}
 
 		if (!chdir($archivespath))
-			wp_die("Wrong path, $archivespath\ndoesn't exist\non the server");
+			wp_die(sprintf(__("Wrong path, %s\ndoesn't exist\non the server"), $archivespath));
 
 		if (!chdir($gmpath))
-			wp_die("Wrong path, $gmpath\ndoesn't exist\non the server");
+			wp_die(sprintf(__("Wrong path, %s\ndoesn't exist\non the server"), $gmpath));
 			
 		$this->header();
 ?>
-<p>The importer is running...</p>
+<p><?php _e('The importer is running...') ?></p>
 <ul>
-<li>importing users... <ul><?php
+<li><?php _e('importing users...') ?><ul><?php
 
 	chdir($gmpath);
 	$userbase = file("gm-authors.cgi");
@@ -120,7 +120,7 @@ class GM_Import {
 
 		$user_id = username_exists($user_login);
 		if ($user_id) {
-			echo "<li>user <i>$user_login</i>... <b>Already exists</b></li>";
+			printf('<li>'.__('user %s').'<strong>'.__('Already exists').'</strong></li>', "<em>$user_login</em>");
 			$this->gmnames[$userdata[0]] = $user_id;
 			continue;
 		}
@@ -129,12 +129,11 @@ class GM_Import {
 		$user_id = wp_insert_user($user_info);
 		$this->gmnames[$userdata[0]] = $user_id;
 		
-		echo "<li>user <i>$user_login</i>... <b>Done</b></li>";
-
+		printf('<li>'.__('user %s...').' <strong>'.__('Done').'</strong></li>', "<em>$user_login</em>");
 	}
 
-?></ul><b>Done</b></li>
-<li>importing posts, comments, and karma...<br /><ul><?php
+?></ul><strong><?php _e('Done') ?></strong></li>
+<li><?php _e('importing posts, comments, and karma...') ?><br /><ul><?php
 
 	chdir($archivespath);
 	
@@ -163,7 +162,6 @@ class GM_Import {
 		if (is_file($entryfile.".cgi")) {
 
 			$entry=file($entryfile.".cgi");
-			echo "<li>entry # $entryfile ";
 			$postinfo=explode("|",$entry[0]);
 			$postmaincontent=$this->gm2autobr($entry[2]);
 			$postmorecontent=$this->gm2autobr($entry[3]);
@@ -171,7 +169,7 @@ class GM_Import {
 			$post_author=trim($wpdb->escape($postinfo[1]));
 
 			$post_title=$this->gm2autobr($postinfo[2]);
-			echo " : $post_title : by $postinfo[1]";
+			printf('<li>'.__('entry # %s : %s : by %s'), $entryfile, $post_title, $postinfo[1]);
 			$post_title=$wpdb->escape($post_title);
 
 			$postyear=$postinfo[6];
@@ -198,7 +196,8 @@ class GM_Import {
 			$ping_status = 'closed';
 			
 			if ($post_ID = post_exists($post_title, '', $post_date)) {
-				echo ' (already exists)';
+				echo ' ';
+				_e('(already exists)');
 			} else {
 				//just so that if a post already exists, new users are not created by checkauthor
 				// we'll check the author is registered, or if it's a deleted author
@@ -219,7 +218,8 @@ class GM_Import {
 					$user_id = wp_insert_user($user_info);
 					$this->gmnames[$postinfo[1]] = $user_id;
 					
-					echo ": registered deleted user <i>$user_login</i> at level 0 ";
+					echo ': ';
+					printf(__('registered deleted user %s at level 0 '), "<em>$user_login</em>");
 				}
 			
 				if (array_key_exists($postinfo[1], $this->gmnames)) {
@@ -266,21 +266,22 @@ class GM_Import {
 					$numComments++;
 				}
 				if ($numAddedComments > 0) {
-					echo ": imported $numAddedComments comment";
-					if ($numAddedComments != 1)
-						echo "s";
+					echo ': ';
+					printf(__('imported %d comment(s)'), $numAddedComments);
 				}
 				$preExisting = $numComments - numAddedComments;
-				if ($preExisting > 0)
-					echo " (ignored $preExisting pre-existing comments)";
+				if ($preExisting > 0) {
+					echo ' ';
+					printf(__('ignored %d pre-existing comments'), $preExisting);
+				}
 			}
-			echo "... <b>Done</b></li>";
+			echo '... <strong>'.__('Done').'</strong></li>';
 		}
 	}
 	?>
-</ul><b>Done</b></li></ul>
+</ul><strong><?php _e('Done') ?></strong></li></ul>
 <p>&nbsp;</p>
-<p>Completed Greymatter import !</p>
+<p><?php _e('Completed Greymatter import!') ?></p>
 <?php
 	$this->footer();
 	}
@@ -308,5 +309,5 @@ class GM_Import {
 
 $gm_import = new GM_Import();
 
-register_importer('greymatter', 'Greymatter', __('Import posts and comments from your Greymatter blog'), array ($gm_import, 'dispatch'));
+register_importer('greymatter', __('Greymatter'), __('Import posts and comments from your Greymatter blog'), array ($gm_import, 'dispatch'));
 ?>
