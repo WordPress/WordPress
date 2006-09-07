@@ -63,6 +63,8 @@ function bloginfo($show='') {
 		!strstr($show, 'home')) {
 		$info = apply_filters('bloginfo', $info, $show);
 		$info = convert_chars($info);
+	} else {
+		$info = apply_filters('bloginfo_url', $info, $show);
 	}
 
 	echo $info;
