@@ -801,4 +801,9 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	<?php
 }
 
+function the_search_query() {
+	global $s;
+	echo wp_specialchars( stripslashes($s), 1 );
+}
+
 ?>
