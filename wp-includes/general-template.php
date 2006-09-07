@@ -325,12 +325,9 @@ function wp_get_archives($args = '') {
 			$afterafter = $after;
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_month_link($arcresult->year,	$arcresult->month);
-				if ( $show_post_count ) {
-					$text = sprintf('%s %d', $wp_locale->get_month($arcresult->month), $arcresult->year);
+				$text = sprintf('%s %d', $wp_locale->get_month($arcresult->month), $arcresult->year);
+				if ( $show_post_count ) 
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
-				} else {
-					$text = sprintf('%s %d', $wp_locale->get_month($arcresult->month), $arcresult->year);
-				}
 				echo get_archives_link($url, $text, $format, $before, $after);
 			}
 		}
@@ -340,29 +337,30 @@ function wp_get_archives($args = '') {
             $afterafter = $after;
             foreach ($arcresults as $arcresult) {
 			    $url = get_year_link($arcresult->year);
-				if ($show_post_count) {
-                    $text = sprintf('%d', $arcresult->year);
+                $text = sprintf('%d', $arcresult->year);
+				if ($show_post_count)
                     $after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
-                } else {
-                    $text = sprintf('%d', $arcresult->year);
-                }
                 echo get_archives_link($url, $text, $format, $before, $after);
             }
 		}		  	
 	} elseif ( 'daily' == $type ) {
-		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth` FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date DESC" . $limit);
 		if ( $arcresults ) {
+			$afterafter = $after;
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_day_link($arcresult->year, $arcresult->month, $arcresult->dayofmonth);
 				$date = sprintf("%d-%02d-%02d 00:00:00", $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
 				$text = mysql2date($archive_day_date_format, $date);
+				if ($show_post_count)
+					$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
 				echo get_archives_link($url, $text, $format, $before, $after);
 			}
 		}
 	} elseif ( 'weekly' == $type ) {
 		$start_of_week = get_option('start_of_week');
-		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC" . $limit);
+		$arcresults = $wpdb->get_results("SELECT DISTINCT WEEK(post_date, $start_of_week) AS `week`, YEAR(post_date) AS yr, DATE_FORMAT(post_date, '%Y-%m-%d') AS yyyymmdd, count(ID) as posts FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' GROUP BY WEEK(post_date, $start_of_week), YEAR(post_date) ORDER BY post_date DESC" . $limit);
 		$arc_w_last = '';
+		$afterafter = $after;
 		if ( $arcresults ) {
 				foreach ( $arcresults as $arcresult ) {
 					if ( $arcresult->week != $arc_w_last ) {
@@ -373,6 +371,8 @@ function wp_get_archives($args = '') {
 						$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
 						$url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_option('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
+						if ($show_post_count)
+							$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
 						echo get_archives_link($url, $text, $format, $before, $after);
 					}
 				}
