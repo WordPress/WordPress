@@ -172,7 +172,7 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 	foreach ($categories as $category) {
 		$path = '/' . $leaf_path;
 		$curcategory = $category;
-		while ($curcategory->category_parent != 0) {
+		while ( ($curcategory->category_parent != 0) && ($curcategory->category_parent != $curcategory->cat_ID) ) {
 			$curcategory = $wpdb->get_row("SELECT cat_ID, category_nicename, category_parent FROM $wpdb->categories WHERE cat_ID = '$curcategory->category_parent'");
 			$path = '/' . $curcategory->category_nicename . $path;
 		}
@@ -219,6 +219,9 @@ function &_get_cat_children($category_id, $categories) {
 
 	$category_list = array();
 	foreach ( $categories as $category ) {
+		if ( $category->cat_ID == $category_id )
+			continue;
+
 		if ( $category->category_parent == $category_id ) {
 			$category_list[] = $category;
 			if ( $children = _get_cat_children($category->cat_ID, $categories) )

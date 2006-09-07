@@ -47,7 +47,7 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 	else
 		$name = $parent->cat_name;
 
-	if ( $parent->category_parent )
+	if ( $parent->category_parent && ($parent->category_parent != $parent->cat_ID) )
 		$chain .= get_category_parents($parent->category_parent, $link, $separator, $nicename);
 
 	if ( $link )
