@@ -958,7 +958,7 @@ function list_meta($meta) {
 	global $post_ID;
 	// Exit if no meta
 	if (!$meta) {
-		echo '<tbody id="the-list"></tbody>'; //TBODY needed for list-manipulation JS
+		echo '<tbody id="the-list"><tr style="display: none;"><td>&nbsp;</td></tr></tbody>'; //TBODY needed for list-manipulation JS
 		return;
 	}
 	$count = 0;
@@ -1254,7 +1254,11 @@ function the_quicktags() {
 		<div id="quicktags">
 			';
 		wp_print_scripts( 'quicktags' );
-		echo '			<script type="text/javascript">if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) edToolbar();</script>
+		echo '			<script type="text/javascript">
+				//<![CDATA[
+				if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) edToolbar();
+				//]]>
+			</script>
 		</div>
 ';
 	echo '
