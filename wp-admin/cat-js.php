@@ -21,7 +21,7 @@ function newCatAddIn() {
 	newcatSub.type = 'button';
 	newcatSub.name = 'Button';
 	newcatSub.id = 'catadd';
-	newcatSub.value = 'Add';
+	newcatSub.value = '<?php _e('Add'); ?>';
 	newcatSub.onclick = function() { catList.ajaxAdder('category', 'categorydiv'); };
 
 	ajaxcat.appendChild(newcat);
