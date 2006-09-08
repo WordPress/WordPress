@@ -2075,7 +2075,7 @@ function update_home_siteurl($old_value, $value) {
 	wp_setcookie($user_login, $user_pass_md5, true, get_option('home'), get_option('siteurl'));	
 }
 
-add_action('update_option_home', 'update_home_siteurl');
-add_action('update_option_siteurl', 'update_home_siteurl');
+add_action('update_option_home', 'update_home_siteurl', 10, 2);
+add_action('update_option_siteurl', 'update_home_siteurl', 10, 2);
 
 ?>

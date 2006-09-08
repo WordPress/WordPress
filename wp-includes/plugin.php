@@ -102,11 +102,9 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 
 function do_action($tag, $arg = '') {
 	global $wp_filter;
-	$extra_args = array_slice(func_get_args(), 2);
- 	if ( is_array($arg) )
- 		$args = array_merge($arg, $extra_args);
-	else
-		$args = array_merge(array($arg), $extra_args);
+	$args = array($arg);
+	for ( $a = 2; $a < func_num_args(); $a++ )
+		$args[] = func_get_args($a);
 
 	merge_filters($tag);
 
@@ -121,10 +119,7 @@ function do_action($tag, $arg = '') {
 				$accepted_args = $function['accepted_args'];
 
 				if ( $accepted_args == 1 ) {
-					if ( is_array($arg) )
-						$the_args = $arg;
-					else
-						$the_args = array($arg);
+					$the_args = array($arg);
 				} elseif ( $accepted_args > 1 ) {
 					$the_args = array_slice($args, 0, $accepted_args);
 				} elseif ( $accepted_args == 0 ) {
