@@ -86,35 +86,14 @@ case 'update':
 		$options = explode(',', stripslashes($_POST['page_options']));
 	}
 
-	// Save for later.
-	$old_siteurl = get_option('siteurl');
-	$old_home = get_option('home');
-
 	if ($options) {
 		foreach ($options as $option) {
 			$option = trim($option);
 			$value = trim(stripslashes($_POST[$option]));
 			$value = sanitize_option($option, $value);
-
-			if (update_option($option, $value) ) {
-				$any_changed++;
-			}
+			update_option($option, $value);
 		}
 	}
-    
-	if ($any_changed) {
-			// If siteurl or home changed, reset cookies.
-			if ( get_option('siteurl') != $old_siteurl || get_option('home') != $old_home ) {
-				// If home changed, write rewrite rules to new location.
-				$wp_rewrite->flush_rules();
-				// Clear cookies for old paths.
-				wp_clearcookie();
-				// Set cookies for new paths.
-				wp_setcookie($user_login, $user_pass_md5, true, get_option('home'), get_option('siteurl'));
-			}
-
-			//$message = sprintf(__('%d setting(s) saved... '), $any_changed);
-    }
     
 	$referred = remove_query_arg('updated' , wp_get_referer());
 	$goback = add_query_arg('updated', 'true', wp_get_referer());
