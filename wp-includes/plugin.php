@@ -26,7 +26,9 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 function apply_filters($tag, $string) {
 	global $wp_filter;
 
-	$args = array_slice(func_get_args(), 2);
+	$args = array($string);
+	for ( $a = 2; $a < func_num_args(); $a++ )
+		$args[] = func_get_arg($a);
 
 	merge_filters($tag);
 
@@ -37,18 +39,15 @@ function apply_filters($tag, $string) {
 		if ( !is_null($functions) ) {
 			foreach($functions as $function) {
 
-				$all_args = array_merge(array($string), $args);
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
 
-				if ( $accepted_args == 1 )
-					$the_args = array($string);
-				elseif ( $accepted_args > 1 )
-					$the_args = array_slice($all_args, 0, $accepted_args);
+				if ( $accepted_args > 0 )
+					$the_args = array_slice($args, 0, $accepted_args);
 				elseif ( $accepted_args == 0 )
 					$the_args = NULL;
 				else
-					$the_args = $all_args;
+					$the_args = $args;
 
 				$string = call_user_func_array($function_name, $the_args);
 			}
@@ -102,9 +101,13 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 
 function do_action($tag, $arg = '') {
 	global $wp_filter;
-	$args = array($arg);
+	$args = array();
+	if ( is_array($arg) && 1 == count($arg) && is_object($arg[0]) ) // array(&$this)
+		$args[] =& $arg[0];
+	else
+		$args[] = $arg;
 	for ( $a = 2; $a < func_num_args(); $a++ )
-		$args[] = func_get_args($a);
+		$args[] = func_get_arg($a);
 
 	merge_filters($tag);
 
@@ -118,15 +121,12 @@ function do_action($tag, $arg = '') {
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
 
-				if ( $accepted_args == 1 ) {
-					$the_args = array($arg);
-				} elseif ( $accepted_args > 1 ) {
+				if ( $accepted_args > 0 )
 					$the_args = array_slice($args, 0, $accepted_args);
-				} elseif ( $accepted_args == 0 ) {
+				elseif ( $accepted_args == 0 )
 					$the_args = NULL;
-				} else {
+				else
 					$the_args = $args;
-				}
 
 				$string = call_user_func_array($function_name, $the_args);
 			}
