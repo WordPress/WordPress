@@ -1037,7 +1037,7 @@ function &get_pages($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('child_of' => 0, 'sort_order' => 'ASC', 'sort_column' => 'post_title',
-				'hierarchical' => 1, 'exclude' => '', 'include' => '', 'meta_key' => '', 'meta_value' => '');
+				'hierarchical' => 1, 'exclude' => '', 'include' => '', 'meta_key' => '', 'meta_value' => '', 'authors' => '');
 	$r = array_merge($defaults, $r);
 	extract($r);
 
@@ -1075,10 +1075,37 @@ function &get_pages($args = '') {
 	if (!empty($exclusions)) 
 		$exclusions .= ')';
 
+	$author_query = '';
+	if (!empty($authors)) {
+		$post_authors = preg_split('/[\s,]+/',$authors);
+		
+		if ( count($post_authors) ) {
+			foreach ( $post_authors as $post_author ) {
+				//Do we have an author id or an author login?
+				if ( 0 == intval($post_author) ) {
+					$post_author = get_userdatabylogin($post_author);
+					if ( empty($post_author) )
+						continue;
+					if ( empty($post_author->ID) )
+						continue;
+					$post_author = $post_author->ID;
+				}
+
+				if ( '' == $author_query )
+					$author_query = ' post_author = ' . intval($post_author) . ' ';
+				else
+					$author_query .= ' OR post_author = ' . intval($post_author) . ' ';
+			}
+			if ( '' != $author_query )
+				$author_query = " AND ($author_query)";
+		}
+	}
+
 	$query = "SELECT * FROM $wpdb->posts " ;
 	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
 	$query .= " WHERE (post_type = 'page' AND post_status = 'publish') $exclusions $inclusions " ;
 	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
+	$query .= $author_query;
 	$query .= " ORDER BY " . $sort_column . " " . $sort_order ;
 
 	$pages = $wpdb->get_results($query);
