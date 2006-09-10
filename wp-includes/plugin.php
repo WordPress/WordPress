@@ -26,7 +26,7 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 function apply_filters($tag, $string) {
 	global $wp_filter;
 
-	$args = array($string);
+	$args = array();
 	for ( $a = 2; $a < func_num_args(); $a++ )
 		$args[] = func_get_arg($a);
 
@@ -42,12 +42,12 @@ function apply_filters($tag, $string) {
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
 
+				$the_args = $args;
+				array_unshift($the_args, $string);
 				if ( $accepted_args > 0 )
-					$the_args = array_slice($args, 0, $accepted_args);
+					$the_args = array_slice($the_args, 0, $accepted_args);
 				elseif ( $accepted_args == 0 )
 					$the_args = NULL;
-				else
-					$the_args = $args;
 
 				$string = call_user_func_array($function_name, $the_args);
 			}
