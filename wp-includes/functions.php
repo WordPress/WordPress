@@ -1075,7 +1075,7 @@ function wp_explain_nonce($action) {
 		}
 	}
 
-	return __('Are you sure you want to do this?');
+	return apply_filters( 'explain_nonce_' . $verb . '-' . $noun, __('Are you sure you want to do this?'), $matches[4] );
 }
 
 function wp_nonce_ays($action) {
