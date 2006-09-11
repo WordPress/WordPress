@@ -938,6 +938,7 @@ function wp_create_thumbnail($file, $max_side, $effect = '') {
 	if (!empty ($error)) {
 		return $error;
 	} else {
+		apply_filters( 'wp_create_thumbnail', $thumbpath );
 		return $thumbpath;
 	}
 }
