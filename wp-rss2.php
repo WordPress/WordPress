@@ -42,7 +42,7 @@ $more = 1;
 <?php else : ?>
 		<description><![CDATA[<?php the_excerpt_rss() ?>]]></description>
 	<?php if ( strlen( $post->post_content ) > 0 ) : ?>
-		<content:encoded><![CDATA[<?php the_content('', 0, '') ?>]]></content:encoded>
+		<content:encoded><![CDATA[<?php the_content() ?>]]></content:encoded>
 	<?php else : ?>
 		<content:encoded><![CDATA[<?php the_excerpt_rss() ?>]]></content:encoded>
 	<?php endif; ?>

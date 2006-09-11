@@ -82,7 +82,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 	$content = $pages[$page-1];
 	if ( preg_match('/<!--more(.+?)?-->/', $content, $matches) ) {
 		$content = explode($matches[0], $content, 2);
-		if ( !empty($matches[1]) )
+		if ( !empty($matches[1]) && !empty($more_link_text) )
 			$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));
 	} else {
 		$content = array($content);
@@ -94,10 +94,14 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 		$teaser = '';
 	$output .= $teaser;
 	if ( count($content) > 1 ) {
-		if ( $more )
+		if ( $more ) {
 			$output .= '<a id="more-'.$id.'"></a>'.$content[1];
-		else
-			$output = balanceTags($output . ' <a href="'. get_permalink() . "#more-$id\">$more_link_text</a>");
+		} else {
+			$output = balanceTags($output);
+			if ( ! empty($more_link_text) )
+				$output .= ' <a href="'. get_permalink() . "#more-$id\">$more_link_text</a>";
+		}
+			
 	}
 	if ( $preview ) // preview fix for javascript bug with foreign languages
 		$output =	preg_replace('/\%u([0-9A-F]{4,4})/e',	"'&#'.base_convert('\\1',16,10).';'", $output);

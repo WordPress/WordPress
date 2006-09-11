@@ -741,7 +741,7 @@ function human_time_diff( $from, $to = '' ) {
 function wp_trim_excerpt($text) { // Fakes an excerpt if needed
 	global $post;
 	if ( '' == $text ) {
-		$text = $post->post_content;
+		$text = get_the_content('');
 		$text = apply_filters('the_content', $text);
 		$text = str_replace(']]>', ']]&gt;', $text);
 		$text = strip_tags($text);
