@@ -98,6 +98,8 @@ if (isset($plugin_page)) {
 	include(ABSPATH . 'wp-admin/admin-footer.php');
 
 	exit();
+} else {
+	do_action("load-$pagenow");
 }
 
 ?>
