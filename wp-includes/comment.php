@@ -695,7 +695,7 @@ function pingback($content, $post_ID) {
 		endif;
 	endforeach;
 
-	do_action('pre_ping',  array(&$post_links, &$pung));
+	do_action_ref_array('pre_ping',  array(&$post_links, &$pung));
 
 	foreach ($post_links as $pagelinkedto){
 		debug_fwrite($log, "Processing -- $pagelinkedto\n");

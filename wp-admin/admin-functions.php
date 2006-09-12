@@ -475,7 +475,7 @@ function edit_user($user_id = 0) {
 		$errors->add('user_login', __('<strong>ERROR</strong>: Please enter a username.'));
 
 	/* checking the password has been typed twice */
-	do_action('check_passwords', array ($user->user_login, & $pass1, & $pass2));
+	do_action_ref_array('check_passwords', array ($user->user_login, & $pass1, & $pass2));
 
 	if (!$update) {
 		if ($pass1 == '' || $pass2 == '')

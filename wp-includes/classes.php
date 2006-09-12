@@ -228,7 +228,7 @@ class WP {
 
 		$this->query_vars = apply_filters('request', $this->query_vars);
 
-		do_action('parse_request', array(&$this));
+		do_action_ref_array('parse_request', array(&$this));
 	}
 
 	function send_headers() {
@@ -270,7 +270,7 @@ class WP {
 			}
 		}
 
-		do_action('send_headers', array(&$this));
+		do_action_ref_array('send_headers', array(&$this));
 	}
 
 	function build_query_string() {
@@ -338,7 +338,7 @@ class WP {
 		$this->query_posts();
 		$this->handle_404();
 		$this->register_globals();
-		do_action('wp', array(&$this));
+		do_action_ref_array('wp', array(&$this));
 	}
 
 	function WP() {

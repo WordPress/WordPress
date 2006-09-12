@@ -188,7 +188,7 @@ default:
 		}
 	}
 
-	do_action('wp_authenticate', array(&$user_login, &$user_pass));
+	do_action_ref_array('wp_authenticate', array(&$user_login, &$user_pass));
 
 	if ( $user_login && $user_pass ) {
 		$user = new WP_User(0, $user_login);

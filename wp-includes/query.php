@@ -350,7 +350,7 @@ class WP_Query {
 		if ('404' == $qv['error']) {
 			$this->is_404 = true;
 			if ( !empty($query) ) {
-				do_action('parse_query', array(&$this));
+				do_action_ref_array('parse_query', array(&$this));
 			}
 			return;
 		}
@@ -498,7 +498,7 @@ class WP_Query {
 		}
 
 		if ( !empty($query) ) {
-			do_action('parse_query', array(&$this));
+			do_action_ref_array('parse_query', array(&$this));
 		}
 	}
 
@@ -526,7 +526,7 @@ class WP_Query {
 	function &get_posts() {
 		global $wpdb, $pagenow, $user_ID;
 
-		do_action('pre_get_posts', array(&$this));
+		do_action_ref_array('pre_get_posts', array(&$this));
 
 		// Shorthand.
 		$q = &$this->query_vars;
