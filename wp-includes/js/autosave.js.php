@@ -103,6 +103,10 @@ function autosave() {
 	autosaveAjax.setVar("post_ID", $("post_ID").value);
 	autosaveAjax.setVar("post_title", form.post_title.value);
 	autosaveAjax.setVar("post_type", form.post_type.value);
+	if ( form.comment_status.checked )
+		autosaveAjax.setVar("comment_status", 'open');
+	if ( form.ping_status.checked )
+		autosaveAjax.setVar("ping_status", 'open');
 	if(form.excerpt)
 		autosaveAjax.setVar("excerpt", form.excerpt.value);		
 		
