@@ -709,4 +709,67 @@ class Walker_CategoryDropdown extends Walker {
 	}
 }
 
+class WP_Ajax_Response {
+	var $responses = array();
+
+	function WP_Ajax_Response( $args = '' ) {
+		if ( !empty($args) )
+			$this->add($args);
+	}
+
+	// a WP_Error object can be passed in 'id' or 'data'
+	function add( $args = '' ) {
+		if ( is_array($args) )
+			$r = &$args;
+		else
+			parse_str($args, $r);
+
+		$defaults = array('what' => 'object', 'action' => false, 'id' => '0', 'old_id' => false,
+				'data' => '', 'supplemental' => array());
+
+		$r = array_merge($defaults, $r);
+		extract($r);
+
+		if ( is_wp_error($id) ) {
+			$data = $id;
+			$id = 0;
+		}
+
+		$response = '';
+		if ( is_wp_error($data) )
+			foreach ( $data->get_error_codes() as $code )
+				$response .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message($code) . "]]></wp_error>";
+		else
+			$response = "<response_data><![CDATA[$data]]></response_data>";
+
+		$s = '';
+		if ( (array) $supplemental )
+			foreach ( $supplemental as $k => $v )
+				$s .= "<$k><![CDATA[$v]]></$k>";
+
+		if ( false === $action )
+			$action = $_POST['action'];
+
+		$x = '';
+		$x .= "<response action='$action_$id'>"; // The action attribute in the xml output is formatted like a nonce action
+		$x .=	"<$what id='$id'" . ( false !== $old_id ? "old_id='$old_id'>" : '>' );
+		$x .=		$response;
+		$x .=		$s;
+		$x .=	"</$what>";
+		$x .= "</response>";
+
+		$this->responses[] = $x;
+		return $x;
+	}
+
+	function send() {
+		header('Content-type: text/xml');
+		echo "<?xml version='1.0' standalone='yes'?><wp_ajax>";
+		foreach ( $this->responses as $response )
+			echo $response;
+		echo '</wp_ajax>';
+		die();
+	}
+}
+
 ?>

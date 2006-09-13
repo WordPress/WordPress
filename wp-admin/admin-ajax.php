@@ -5,7 +5,6 @@ require_once('admin-db.php');
 
 define('DOING_AJAX', true);
 
-
 check_ajax_referer();
 if ( !is_user_logged_in() )
 	die('-1');
@@ -13,19 +12,17 @@ if ( !is_user_logged_in() )
 function get_out_now() { exit; }
 add_action( 'shutdown', 'get_out_now', -1 );
 
-function wp_ajax_echo_meta( $pid, $mid, $key, $value ) {
+function wp_ajax_meta_row( $pid, $mid, $key, $value ) {
 	$value = wp_specialchars($value, true);
 	$key_js = addslashes(wp_specialchars($key, 'double'));
 	$key = wp_specialchars($key, true);
-	$r  = "<meta><id>$mid</id><postid>$pid</postid><newitem><![CDATA[<table><tbody>";
 	$r .= "<tr id='meta-$mid'><td valign='top'>";
 	$r .= "<input name='meta[$mid][key]' tabindex='6' onkeypress='return killSubmit(\"theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);\",event);' type='text' size='20' value='$key' />";
 	$r .= "</td><td><textarea name='meta[$mid][value]' tabindex='6' rows='2' cols='30'>$value</textarea></td><td align='center'>";
 	$r .= "<input name='updatemeta' type='button' class='updatemeta' tabindex='6' value='Update' onclick='return theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);' /><br />";
 	$r .= "<input name='deletemeta[$mid]' type='submit' onclick=\"return deleteSomething( 'meta', $mid, '";
 	$r .= sprintf(__("You are about to delete the &quot;%s&quot; custom field on this post.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), $key_js);
-	$r .= "' );\" class='deletemeta' tabindex='6' value='Delete' />";
-	$r .= "</td></tr></tbody></table>]]></newitem></meta>";
+	$r .= "' );\" class='deletemeta' tabindex='6' value='Delete' /></td></tr>";
 	return $r;
 }
 
@@ -113,7 +110,7 @@ case 'add-category' : // On the Fly
 	if ( !current_user_can( 'manage_categories' ) )
 		die('-1');
 	$names = explode(',', $_POST['newcat']);
-	$r = "<?xml version='1.0' standalone='yes'?><ajaxresponse>";
+	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
 		$cat_name = trim($cat_name);
 		if ( !$category_nicename = sanitize_title($cat_name) )
@@ -121,14 +118,13 @@ case 'add-category' : // On the Fly
 		if ( !$cat_id = category_exists( $cat_name ) )
 			$cat_id = wp_create_category( $cat_name );
 		$cat_name = wp_specialchars(stripslashes($cat_name));
-		$r .= "<category><id>$cat_id</id><newitem><![CDATA[";
-		$r .= "<li id='category-$cat_id'><label for='in-category-$cat_id' class='selectit'>";
-		$r .= "<input value='$cat_id' type='checkbox' checked='checked' name='post_category[]' id='in-category-$cat_id'/> $cat_name</label></li>";
-		$r .= "]]></newitem></category>";
+		$x->add( array(
+			'what' => 'category',
+			'id' => $cat_id,
+			'data' => "<li id='category-$cat_id'><label for='in-category-$cat_id' class='selectit'><input value='$cat_id' type='checkbox' checked='checked' name='post_category[]' id='in-category-$cat_id'/> $cat_name</label></li>"
+		) );
 	}
-	$r .= '</ajaxresponse>';
-	header('Content-type: text/xml');
-	die($r);
+	$x->send();
 	break;
 case 'add-cat' : // From Manage->Categories
 	if ( !current_user_can( 'manage_categories' ) )
@@ -147,12 +143,13 @@ case 'add-cat' : // From Manage->Categories
 	}
 	$cat_full_name = wp_specialchars( $cat_full_name, 1 );
 
-	$r  = "<?xml version='1.0' standalone='yes'?><ajaxresponse>";
-	$r .= "<cat><id>$cat->cat_ID</id><name>$cat_full_name</name><newitem><![CDATA[<table><tbody>";
-	$r .= _cat_row( $cat, $level, $cat_full_name );
-	$r .= "</tbody></table>]]></newitem></cat></ajaxresponse>";
-	header('Content-type: text/xml');
-	die($r);
+	$x = new WP_Ajax_Response( array(
+		'what' => 'cat',
+		'id' => $cat->cat_ID,
+		'data' => _cat_row( $cat, $level, $cat_full_name ),
+		'supplemental' => array('name' => $cat_full_name)
+	) );
+	$x->send();
 	break;
 case 'add-meta' :
 	if ( !current_user_can( 'edit_post', $id ) )
@@ -171,11 +168,13 @@ case 'add-meta' :
 	$value = $meta->meta_value;
 	$pid = (int) $meta->post_id;
 
-	$r = "<?xml version='1.0' standalone='yes'?><ajaxresponse>";
-	$r .= wp_ajax_echo_meta( $pid, $mid, $key, $value );
-	$r .= '</ajaxresponse>';
-	header('Content-type: text/xml');
-	die($r);
+	$x = new WP_Ajax_Response( array(
+		'what' => 'meta',
+		'id' => $mid,
+		'data' => wp_ajax_meta_row( $pid, $mid, $key, $value ),
+		'supplemental' => array('postid' => $pid)
+	) );
+	$x->send();
 	break;
 case 'update-meta' :
 	$mid = (int) array_pop(array_keys($_POST['meta']));
@@ -185,33 +184,36 @@ case 'update-meta' :
 		die('0');
 	if ( !current_user_can( 'edit_post', $meta->post_id ) )
 		die('-1');
-	$r = "<?xml version='1.0' standalone='yes'?><ajaxresponse>";
 	if ( $u = update_meta( $mid, $key, $value ) ) {
 		$key = stripslashes($key);
 		$value = stripslashes($value);
-		$r .= wp_ajax_echo_meta( $meta->post_id, $mid, $key, $value );
+		$x = new WP_Ajax_Response( array(
+			'what' => 'meta',
+			'id' => $mid,
+			'data' => wp_ajax_meta_row( $meta->post_id, $mid, $key, $value ),
+			'supplemental' => array('postid' => $meta->post_id)
+		) );
+		$x->send();
 	}
-	$r .= '</ajaxresponse>';
-	header('Content-type: text/xml');
-	die($r);
+	die('0');
 	break;
 case 'add-user' :
 	if ( !current_user_can('edit_users') )
 		die('-1');
 	require_once(ABSPATH . WPINC . '/registration.php');
-	$user_id = add_user();
-	if ( is_wp_error( $user_id ) ) {
-		foreach( $user_id->get_error_messages() as $message )
-			echo "$message<br />";
-	exit;
-	} elseif ( !$user_id ) {
+	if ( !$user_id = add_user() )
 		die('0');
+	elseif ( is_wp_error( $user_id ) ) {
+		foreach( $user_id->get_error_messages() as $message )
+			echo "<p>$message<p>";
+		exit;
 	}
-	$r  = "<?xml version='1.0' standalone='yes'?><ajaxresponse><user><id>$user_id</id><newitem><![CDATA[<table><tbody>";
-	$r .= user_row( $user_id );
-	$r .= "</tbody></table>]]></newitem></user></ajaxresponse>";
-	header('Content-type: text/xml');
-	die($r);
+	$x = new WP_Ajax_Response( array(
+		'what' => 'user',
+		'id' => $user_id,
+		'data' => user_row( $user_id )
+	) );
+	$x->send();
 	break;
 case 'autosave' :
 	$_POST['post_content'] = $_POST['content'];

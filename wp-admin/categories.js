@@ -1,9 +1,9 @@
 addLoadEvent(function() {
 	if (!theList.theList) return false;
 	document.forms.addcat.submit.onclick = function(e) {return killSubmit('theList.ajaxAdder("cat", "addcat");', e); };
-	theList.addComplete = function(what, where, update) {
-		var name = getNodeValue(theList.ajaxAdd.responseXML, 'name');
-		var id = getNodeValue(theList.ajaxAdd.responseXML, 'id');
+	theList.addComplete = function(what, where, update, transport) {
+		var name = getNodeValue(transport.responseXML, 'name');
+		var id = transport.responseXML.getElementsByTagName(what)[0].getAttribute('id');
 		var options = document.forms['addcat'].category_parent.options;
 		options[options.length] = new Option(name, id);
 	};

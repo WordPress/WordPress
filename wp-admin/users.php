@@ -490,12 +490,10 @@ foreach ( (array) $roleclass as $user_object ) {
 
 <?php if ( is_wp_error( $add_user_errors ) ) : ?>
 	<div class="error">
-		<ul>
 		<?php
 			foreach ( $add_user_errors->get_error_messages() as $message )
-				echo "$message<br />";
+				echo "<p>$message<p>";
 		?>
-		</ul>
 	</div>
 <?php endif; ?>
 <div id="ajax-response"></div>
