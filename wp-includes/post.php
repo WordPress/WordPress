@@ -698,7 +698,7 @@ function wp_insert_post($postarr = array()) {
 
 	// Schedule publication.
 	if ( 'future' == $post_status )
-		wp_schedule_single_event(strtotime($post->post_date_gmt. ' GMT'), 'publish_future_post', $post_ID);
+		wp_schedule_single_event(strtotime($post_date_gmt. ' GMT'), 'publish_future_post', $post_ID);
 		
 	do_action('save_post', $post_ID);
 	do_action('wp_insert_post', $post_ID);
