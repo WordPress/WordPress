@@ -492,7 +492,7 @@ foreach ( (array) $roleclass as $user_object ) {
 	<div class="error">
 		<?php
 			foreach ( $add_user_errors->get_error_messages() as $message )
-				echo "<p>$message<p>";
+				echo "<p>$message</p>";
 		?>
 	</div>
 <?php endif; ?>
