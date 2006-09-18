@@ -25,6 +25,20 @@ function get_stylesheet_uri() {
 	return apply_filters('stylesheet_uri', $stylesheet_uri, $stylesheet_dir_uri);
 }
 
+function get_locale_stylesheet_uri() {
+	global $wp_locale;
+	$stylesheet_dir_uri = get_stylesheet_directory_uri();
+	$dir = get_stylesheet_directory();
+	$locale = get_locale();
+	if ( file_exists("$dir/$locale.css") )
+		$stylesheet_uri = "$stylesheet_dir_uri/$locale.css";
+	else if ( !empty($wp_locale->text_direction) && file_exists("$dir/{$wp_locale->text_direction}.css") )
+		$stylesheet_uri = "$stylesheet_dir_uri/{$wp_locale->text_direction}.css";
+	else
+		$stylesheet_uri = '';
+	return apply_filters('locale_stylesheet_uri', $stylesheet_uri, $stylesheet_dir_uri);
+}
+
 function get_template() {
 	return apply_filters('template', get_option('template'));
 }
@@ -367,6 +381,13 @@ function load_template($file) {
 	extract($wp_query->query_vars);
 
 	require_once($file);
+}
+
+function locale_stylesheet() {
+	$stylesheet = get_locale_stylesheet_uri();
+	if ( empty($stylesheet) )
+		return;
+	echo '<link rel="stylesheet" href="' . $stylesheet . '" type="text/css" media="screen" />';
 }
 
 function validate_current_theme() {

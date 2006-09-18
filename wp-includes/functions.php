@@ -1111,6 +1111,12 @@ function wp_die($message, $title = '') {
 
 	if ( empty($title) )
 		$title = __('WordPress &rsaquo; Error');
+
+	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
+		$logo_src = 'images/wordpress-logo.png';
+	else
+		$logo_src = 'wp-admin/images/wordpress-logo.png';
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -1156,7 +1162,7 @@ function wp_die($message, $title = '') {
 	</style>
 </head>
 <body>
-	<h1 id="logo"><img alt="WordPress" src="<?php echo get_option('siteurl'); ?>/wp-admin/images/wordpress-logo.png" /></h1>
+	<h1 id="logo"><img alt="WordPress" src="<?php echo $logo_src; ?>" /></h1>
 	<p><?php echo $message; ?></p>
 </body>
 </html>

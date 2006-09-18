@@ -12,6 +12,9 @@ class WP_Locale {
 
 	var $meridiem;
 
+	var $text_direction = '';
+	var $locale_vars = array('text_direction');
+
 	function init() {
 		// The Weekdays
 		$this->weekday[0] = __('Sunday');
@@ -83,6 +86,21 @@ class WP_Locale {
 		$this->meridiem['pm'] = __('pm');
 		$this->meridiem['AM'] = __('AM');
 		$this->meridiem['PM'] = __('PM');
+
+		$this->_load_locale_data();
+	}
+
+	function _load_locale_data() {
+		$locale = get_locale();
+		$locale_file = ABSPATH . "wp-includes/languages/$locale.php";
+		if ( !file_exists($locale_file) )
+			return;
+
+		include($locale_file);
+
+		foreach ( $this->locale_vars as $var ) {
+			$this->$var = $$var;	
+		}
 	}
 
 	function get_weekday($weekday_number) {
