@@ -308,7 +308,7 @@ class wpdb {
 		if ( !$this->show_errors )
 			return false;
 
-		header( 'Content-Type: text/html; charset=utf-8');
+		header('Content-Type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -354,7 +354,7 @@ class wpdb {
 	</style>
 </head>
 <body>
-	<h1 id="logo"><img alt="WordPress" src="<?php echo "wp-admin/images/wordpress-logo.png" ?>/></h1>
+	<h1 id="logo"><img alt="WordPress" src="<?php echo 'wp-admin/images/wordpress-logo.png' ?>" /></h1>
 	<p><?php echo $message; ?></p>
 </body>
 </html>
