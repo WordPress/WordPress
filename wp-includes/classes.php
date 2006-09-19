@@ -111,7 +111,7 @@ class WP {
 
 			$pathinfo = $_SERVER['PATH_INFO'];
 			$pathinfo_array = explode('?', $pathinfo);
-			$pathinfo = $pathinfo_array[0];
+			$pathinfo = str_replace("%", "%25", $pathinfo_array[0]);
 			$req_uri = $_SERVER['REQUEST_URI'];
 			$req_uri_array = explode('?', $req_uri);
 			$req_uri = $req_uri_array[0];
