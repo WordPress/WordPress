@@ -12,6 +12,7 @@ include('admin-header.php');
 <h2><?php _e('Miscellaneous Options') ?></h2> 
 <form method="post" action="options.php">
 <?php wp_nonce_field('update-options') ?>
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
 <fieldset class="options">
 <legend><?php _e('Uploading'); ?></legend>
 <table class="editform optiontable">

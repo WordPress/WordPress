@@ -11,6 +11,7 @@ include('./admin-header.php');
 <h2><?php _e('General Options') ?></h2>
 <form method="post" action="options.php"> 
 <?php wp_nonce_field('update-options') ?>
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
 <table class="optiontable"> 
 <tr valign="top"> 
 <th scope="row"><?php _e('Weblog title:') ?></th> 
@@ -64,7 +65,7 @@ include('./admin-header.php');
 <tr>
 <th scope="row"><?php _e('Times in the weblog should differ by:') ?> </th>
 <td><input name="gmt_offset" type="text" id="gmt_offset" size="2" value="<?php form_option('gmt_offset'); ?>" /> 
-<?php _e('hours') ?> </td>
+<?php _e('hours') ?> (<?php _e('Your timezone offset, for example <code>-6</code> for Central Time.'); ?>)</td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Default date format:') ?></th>

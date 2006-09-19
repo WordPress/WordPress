@@ -118,7 +118,9 @@ fieldset.options {
 }
 
 fieldset.options legend {
-	font-size: 16px;
+	font-size: 1.5em;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 form, label input {
@@ -331,6 +333,8 @@ form#upload #post_content {
 .optiontable th {
 	width: 33%;
 	text-align: right;
+	font-size: 1.3em;
+	font-weight: normal;
 }
 
 .unapproved {
@@ -393,14 +397,15 @@ table .vers {
 }
 
 #adminmenu {
-	background: #6da6d1;
+	background: #83B4D8;
 	border-top: 3px solid #448abd;
 	margin: 0;
-	padding: .2em .2em .2em 2em;
+	padding: .2em .2em .3em 2em;
 }
 
 #adminmenu .current, #submenu .current {
 	font-weight: bold;
+	text-decoration: none;
 }
 
 #adminmenu a {
@@ -409,10 +414,11 @@ table .vers {
 	font-weight: normal;
 	margin: 0;
 	padding: 3px 5px;
-	text-decoration: none;
+	text-decoration: underline;
+	border-bottom: none;
 }
 
-#adminmenu a:hover, .current {
+#adminmenu a:hover, #adminmenu a.current {
 	background: #ddeaf4;
 	color: #333;
 }
@@ -916,7 +922,7 @@ table .vers {
 	border: 1px solid #ccc;
 	float: left;
 	width: 40%;
-	padding: .5em 2em;
+	padding: .5em 2em 1em;
 	margin: 1em 1em 1em 0; 
 }
 

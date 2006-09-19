@@ -11,7 +11,8 @@ include('admin-header.php');
 <h2><?php _e('Writing Options') ?></h2> 
 <form method="post" action="options.php"> 
 <?php wp_nonce_field('update-options') ?>
-<table width="100%" cellspacing="2" cellpadding="5" class="editform"> 
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+<table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform"> 
 <tr valign="top"> 
 <th width="33%" scope="row"> <?php _e('Size of the post box:') ?></th> 
 <td><input name="default_post_edit_rows" type="text" id="default_post_edit_rows" value="<?php form_option('default_post_edit_rows'); ?>" size="2" style="width: 1.5em; " /> 
@@ -57,10 +58,10 @@ endforeach;
 </table>
 
 <fieldset class="options">
-<legend><?php _e('Writing by e-mail') ?></legend>
+<legend><?php _e('Post via e-mail') ?></legend>
 <p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <code>%s</code>, <code>%s</code>, <code>%s</code>.'), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5), substr(md5(uniqid(microtime())),0,5)) ?></p>
 
-<table width="100%" cellspacing="2" cellpadding="5" class="editform">
+<table width="100%" cellspacing="2" cellpadding="5" class="optiontable editform">
 <tr valign="top">
 <th scope="row"><?php _e('Mail server:') ?></th>
 <td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />
@@ -79,7 +80,7 @@ endforeach;
 </td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Default post by mail category:') ?></th>
+<th scope="row"><?php _e('Default mail category:') ?></th>
 <td><select name="default_email_category" id="default_email_category">
 <?php
 //Alreay have $categories from default_category

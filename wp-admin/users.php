@@ -408,7 +408,7 @@ foreach ( (array) $roleclass as $user_object ) {
 	<div class="user-paging-text"><?php $wp_user_search->page_links(); ?></div>
 <?php endif; ?>
 
-	<h2><?php _e('Update Users'); ?></h2>
+	<h3><?php _e('Update Selected'); ?></h3>
 	<ul style="list-style:none;">
 		<li><input type="radio" name="action" id="action0" value="delete" /> <label for="action0"><?php _e('Delete checked users.'); ?></label></li>
 		<li>

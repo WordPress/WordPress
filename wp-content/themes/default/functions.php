@@ -373,13 +373,13 @@ function kubrick_theme_page() {
 				<input type="button" onclick="tgt=document.getElementById('lowercolor');colorSelect(tgt,'pick3');return false;" name="pick3" id="pick3" value="Lower Color"></input>
 				<input type="button" name="revert" value="Revert" onclick="kRevert()" />
 				<input type="button" value="Advanced" onclick="toggleAdvanced()" />
-				<input type="submit" name="submitform" class="defbutton" value="Save" onclick="cp.hidePopup('prettyplease')" />
 				<input type="hidden" name="action" value="save" />
 				<input type="hidden" name="fontdisplay" id="fontdisplay" value="<?php echo kubrick_header_display(); ?>" />
 				<input type="hidden" name="fontcolor" id="fontcolor" value="<?php echo kubrick_header_color(); ?>" />
 				<input type="hidden" name="uppercolor" id="uppercolor" value="<?php echo kubrick_upper_color(); ?>" />
 				<input type="hidden" name="lowercolor" id="lowercolor" value="<?php echo kubrick_lower_color(); ?>" />
 				<input type="hidden" name="headerimage" id="headerimage" value="<?php echo kubrick_header_image(); ?>" />
+				<p class="submit"><input type="submit" name="submitform" class="defbutton" value="<?php _e('Update Header &raquo;'); ?>" onclick="cp.hidePopup('prettyplease')" /></p>
 			</form>
 			<div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;visibility:hidden;"> </div>
 			<div id="advanced">

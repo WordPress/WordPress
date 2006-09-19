@@ -10,7 +10,7 @@ $today = current_time('mysql', 1);
 
 <div class="wrap">
 
-<h2><?php _e('Dashboard'); ?></h2>
+<h2><?php _e('Welcome to WordPress'); ?></h2>
 
 <div id="zeitgeist">
 <h2><?php _e('Latest Activity'); ?></h2>
@@ -113,8 +113,6 @@ if (0 < $numcats) $numcats = number_format($numcats);
 <?php do_action('activity_box_end'); ?>
 </div>
 
-<h3><?php _e('Welcome to WordPress'); ?></h3>
-
 <p><?php _e('Use these links to get started:'); ?></p>
 
 <ul>
@@ -129,13 +127,12 @@ if (0 < $numcats) $numcats = number_format($numcats);
 	<li><a href="themes.php"><?php _e('Change your site&#8217;s look or theme'); ?></a></li>
 <?php endif; ?>
 </ul>
-
-<p><?php _e("Below is the latest news from the official WordPress development blog, click on a title to read the full entry. If you need help with WordPress please see our <a href='http://codex.wordpress.org/'>great documentation</a> or if that doesn't help visit the <a href='http://wordpress.org/support/'>support forums</a>."); ?></p>
+<p><?php _e("Need help with WordPress? Please see our <a href='http://codex.wordpress.org/'>documentation</a> or visit the <a href='http://wordpress.org/support/'>support forums</a>."); ?></p>
 <?php
 $rss = @fetch_rss('http://wordpress.org/development/feed/');
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
-<h3><?php _e('WordPress Development Blog'); ?></h3>
+<h3><?php _e('WordPress Development News'); ?></h3>
 <?php
 $rss->items = array_slice($rss->items, 0, 3);
 foreach ($rss->items as $item ) {
