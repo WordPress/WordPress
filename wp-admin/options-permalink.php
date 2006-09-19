@@ -104,7 +104,7 @@ else
   <h2><?php _e('Customize Permalink Structure') ?></h2> 
 <form name="form" action="options-permalink.php" method="post"> 
 <?php wp_nonce_field('update-permalink') ?>
-<p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="submit" value="<?php _e('Update Permalink Structure &raquo;') ?>" /></p>
   <p><?php _e('By default WordPress uses web <abbr title="Universal Resource Locator">URL</abbr>s which have question marks and lots of numbers in them, however WordPress offers you the ability to create a custom URL structure for your permalinks and archives. This can improve the aesthetics, usability, and forward-compatibility of your links. A <a href="http://codex.wordpress.org/Using_Permalinks">number of tags are available</a>, and here are some examples to get you started.'); ?></p>
 
 <?php
