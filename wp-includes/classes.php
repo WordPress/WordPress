@@ -388,13 +388,13 @@ class Walker {
 			// If flat, start and end the element and skip the level checks.
 			if ( $flat) {
 				// Start the element.
-				if ( $element->$id_field != 0 ) {
+				if ( isset($element->$id_field) && $element->$id_field != 0 ) {
 					$cb_args = array_merge( array($output, $element, $depth - 1), $args);
 					$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
 				}
 	
 				// End the element.
-				if ( $element->$id_field != 0 ) {
+				if ( isset($element->$id_field) && $element->$id_field != 0 ) {
 					$cb_args = array_merge( array($output, $element, $depth - 1), $args);
 					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 				}
@@ -583,10 +583,10 @@ class Walker_Category extends Walker {
 				$link .= ')';
 		}
 	
-		if ( $show_count )
+		if ( isset($show_count) && $show_count )
 			$link .= ' ('.intval($category->category_count).')';
 	
-		if ( $show_date ) {
+		if ( isset($show_date) && $show_date ) {
 			$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
 		}
 	

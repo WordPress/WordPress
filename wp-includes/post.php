@@ -99,7 +99,7 @@ function &get_post(&$post, $output = OBJECT) {
 		}
 	}
 
-	if ( defined(WP_IMPORTING) )
+	if ( defined('WP_IMPORTING') )
 		unset($post_cache);
 
 	if ( $output == OBJECT ) {
@@ -923,12 +923,12 @@ function &get_page(&$page, $output = OBJECT) {
 		wp_cache_add($page->ID, $page, 'pages');
 		$_page = $page;
 	} else {
-		if ( isset($GLOBALS['page']) && ($page == $GLOBALS['page']->ID) ) {
+		if ( isset($GLOBALS['page']->ID) && ($page == $GLOBALS['page']->ID) ) {
 			$_page = & $GLOBALS['page'];
 			wp_cache_add($_page->ID, $_page, 'pages');
-		} elseif ( $_page = $GLOBALS['post_cache'][$page] ) {
+		} elseif ( isset($_page) && $_page == $GLOBALS['post_cache'][$page] ) {
 			return get_post($page, $output);
-		} elseif ( $_page = wp_cache_get($page, 'pages') ) {
+		} elseif ( isset($_page) && $_page == wp_cache_get($page, 'pages') ) {
 			// Got it.
 		} else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1";

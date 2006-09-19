@@ -20,7 +20,7 @@ function &get_categories($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, $exclude => '', $include => '',
+		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, 'exclude' => '', 'include' => '',
 		'number' => '');
 	$r = array_merge($defaults, $r);
 	if ( 'count' == $r['orderby'] )

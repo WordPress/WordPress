@@ -219,7 +219,8 @@ function wp_list_categories($args = '') {
 		'child_of' => 0, 'feed' => '', 'feed_image' => '', 'exclude' => '',
 		'hierarchical' => true, 'title_li' => __('Categories'));
 	$r = array_merge($defaults, $r);
-	$r['include_last_update_time'] = $r['show_date'];
+	if ( isset($r['show_date']) )
+		$r['include_last_update_time'] = $r['show_date'];
 	extract($r);
 
 	$categories = get_categories($r);
