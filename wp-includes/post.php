@@ -591,13 +591,13 @@ function wp_insert_post($postarr = array()) {
 	if ( 'draft' != $post_status ) {
 		$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_type = '$post_type' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
 
-		if ($post_name_check) {
+		if ($post_name_check || in_array($post_name, $wp_rewrite->feeds) ) {
 			$suffix = 2;
-			while ($post_name_check) {
+			do {
 				$alt_post_name = $post_name . "-$suffix";
 				$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_type = '$post_type' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
 				$suffix++;
-			}
+			} while ($post_name_check);
 			$post_name = $alt_post_name;
 		}
 	}
