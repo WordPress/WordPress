@@ -329,6 +329,44 @@ class WP_Query {
 	function parse_query_vars() {
 		$this->parse_query('');
 	}
+	
+	function fill_query_vars($array) {
+		$keys = array(
+			'error'
+			, 'm'
+			, 'p'
+			, 'subpost'
+			, 'subpost_id'
+			, 'attachment'
+			, 'attachment_id'
+			, 'name'
+			, 'hour'
+			, 'static'
+			, 'pagename'
+			, 'page_id'
+			, 'second'
+			, 'minute'
+			, 'hour'
+			, 'day'
+			, 'monthnum'
+			, 'year'
+			, 'w'
+			, 'category_name'
+			, 'author_name'
+			, 'feed'
+			, 'tb'
+			, 'paged'
+			, 'comments_popup'
+			, 'preview'
+		);
+
+		foreach ($keys as $key) {
+			if ( !isset($array[$key]))
+				$array[$key] = '';
+		}
+		
+		return $array;
+	}
 
 	// Parse a query string and set query type booleans.
 	function parse_query ($query) {
@@ -341,7 +379,9 @@ class WP_Query {
 			$this->query = $query;
 			$this->query_vars = $qv;
 		}
-
+		
+		$qv = $this->fill_query_vars($qv);
+		
 		if ( ! empty($qv['robots']) ) {
 			$this->is_robots = true;
 			return;
@@ -530,6 +570,8 @@ class WP_Query {
 
 		// Shorthand.
 		$q = &$this->query_vars;
+		
+		$q = $this->fill_query_vars($q);
 
 		// First let's clear some variables
 		$distinct = '';
@@ -540,6 +582,7 @@ class WP_Query {
 		$where = '';
 		$limits = '';
 		$join = '';
+		$search = '';
 
 		if ( !isset($q['post_type']) )
 			$q['post_type'] = 'post';
@@ -909,12 +952,12 @@ class WP_Query {
 			}
 
 			if (($q['what_to_show'] == 'posts')) {
-				$q['offset'] = abs(intval($q['offset']));
 				if ( empty($q['offset']) ) {
 					$pgstrt = '';
 					$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
 					$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
 				} else { // we're ignoring $page and using 'offset'
+					$q['offset'] = abs(intval($q['offset']));
 					$pgstrt = $q['offset'] . ', ';
 					$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 				}
