@@ -37,7 +37,10 @@ class WP {
 			$error = '404';
 			$this->did_permalink = true;
 
-			$pathinfo = $_SERVER['PATH_INFO'];
+			if ( isset($_SERVER['PATH_INFO']) )
+				$pathinfo = $_SERVER['PATH_INFO'];
+			else
+				$pathinfo = '';
 			$pathinfo_array = explode('?', $pathinfo);
 			$pathinfo = str_replace("%", "%25", $pathinfo_array[0]);
 			$req_uri = $_SERVER['REQUEST_URI'];
@@ -45,7 +48,10 @@ class WP {
 			$req_uri = $req_uri_array[0];
 			$self = $_SERVER['PHP_SELF'];
 			$home_path = parse_url(get_option('home'));
-			$home_path = $home_path['path'];
+			if ( isset($home_path['path']) )
+				$home_path = $home_path['path'];
+			else
+				$home_path = '';
 			$home_path = trim($home_path, '/');
 
 			// Trim path info from the end and the leading home path from the
