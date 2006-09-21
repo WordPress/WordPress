@@ -97,7 +97,7 @@ function url_to_postid($url) {
 		$url = str_replace('://www.', '://', $url);
 
 	// Strip 'index.php/' if we're not using path info permalinks
-	if ( false === strpos($rewrite, 'index.php/') )
+	if ( !$wp_rewrite->using_index_permalinks() )
 		$url = str_replace('index.php/', '', $url);
 
 	if ( false !== strpos($url, get_option('home')) ) {
