@@ -81,6 +81,10 @@ if ( defined('WP_CACHE') )
 	require (ABSPATH . 'wp-content/advanced-cache.php');
 
 define('WPINC', 'wp-includes');
+if ( !defined('LANGDIR') )
+	define('LANGDIR', WPINC . '/languages');   // no leading slash, no trailing slash
+if ( !defined('PLUGINDIR') )
+	define('PLUGINDIR', 'wp-content/plugins'); // no leading slash, no trailing slash
 if ( file_exists(ABSPATH . 'wp-content/db.php') )
 	require (ABSPATH . 'wp-content/db.php');
 else
@@ -119,6 +123,10 @@ wp_cache_init();
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/plugin.php');
 require (ABSPATH . WPINC . '/default-filters.php');
+if ( defined('WPLANG') && '' != constant('WPLANG') ) {
+	include_once(ABSPATH . WPINC . '/streams.php');
+	include_once(ABSPATH . WPINC . '/gettext.php');
+}
 require_once (ABSPATH . WPINC . '/l10n.php');
 
 if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {

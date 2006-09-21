@@ -9,7 +9,7 @@ if ( isset($_GET['action']) ) {
 			$current[] = trim( $_GET['plugin'] );
 			sort($current);
 			update_option('active_plugins', $current);
-			include(ABSPATH . 'wp-content/plugins/' . trim( $_GET['plugin'] ));
+			include(ABSPATH . PLUGINDIR . '/' . trim( $_GET['plugin'] ));
 			do_action('activate_' . trim( $_GET['plugin'] ));
 		}
 		wp_redirect('plugins.php?activate=true');
@@ -42,7 +42,7 @@ if ( !is_array($check_plugins) ) {
 // If a plugin file does not exist, remove it from the list of active
 // plugins.
 foreach ($check_plugins as $check_plugin) {
-	if (!file_exists(ABSPATH . 'wp-content/plugins/' . $check_plugin)) {
+	if (!file_exists(ABSPATH . PLUGINDIR . '/' . $check_plugin)) {
 			$current = get_option('active_plugins');
 			$key = array_search($check_plugin, $current);
 			if ( false !== $key && NULL !== $key ) {
@@ -123,10 +123,10 @@ if (empty($plugins)) {
 }
 ?>
 
-<p><?php _e('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>wp-content/plugins</code> directory and it will be automatically deactivated.'); ?></p>
+<p><?php _e(sprintf('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.', PLUGINDIR)); ?></p>
 
 <h2><?php _e('Get More Plugins'); ?></h2>
-<p><?php _e('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>. To install a plugin you generally just need to upload the plugin file into your <code>wp-content/plugins</code> directory. Once a plugin is uploaded, you may activate it here.'); ?></p>
+<p><?php _e(sprintf('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>. To install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory. Once a plugin is uploaded, you may activate it here.', PLUGINDIR)); ?></p>
 
 </div>
 

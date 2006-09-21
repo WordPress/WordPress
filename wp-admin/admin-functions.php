@@ -1721,8 +1721,7 @@ function get_plugins() {
 	}
 
 	$wp_plugins = array ();
-	$plugin_loc = 'wp-content/plugins';
-	$plugin_root = ABSPATH.$plugin_loc;
+	$plugin_root = ABSPATH . PLUGINDIR;
 
 	// Files in wp-content/plugins directory
 	$plugins_dir = @ dir($plugin_root);

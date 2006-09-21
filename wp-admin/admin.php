@@ -52,7 +52,7 @@ if (isset($plugin_page)) {
 			wp_die(__('Invalid plugin page'));
 		}
 
-		if (! file_exists(ABSPATH . "wp-content/plugins/$plugin_page"))
+		if (! file_exists(ABSPATH . PLUGINDIR . "/$plugin_page"))
 			wp_die(sprintf(__('Cannot load %s.'), htmlentities($plugin_page)));
 
 		do_action('load-' . $plugin_page);
@@ -60,7 +60,7 @@ if (isset($plugin_page)) {
 		if (! isset($_GET['noheader']))
 			require_once(ABSPATH . '/wp-admin/admin-header.php');
 
-		include(ABSPATH . "wp-content/plugins/$plugin_page");
+		include(ABSPATH . PLUGINDIR . "/$plugin_page");
 	}
 
 	include(ABSPATH . 'wp-admin/admin-footer.php');

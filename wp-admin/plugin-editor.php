@@ -14,7 +14,7 @@ if (empty($file)) {
 }
 
 $file = validate_file_to_edit($file, $plugin_files);
-$real_file = get_real_file_to_edit("wp-content/plugins/$file");
+$real_file = get_real_file_to_edit( PLUGINDIR . "/$file");
 
 switch($action) {
 
@@ -46,7 +46,7 @@ default:
 
 	require_once('admin-header.php');
 
-	update_recently_edited("wp-content/plugins/$file");
+	update_recently_edited(PLUGINDIR . "/$file");
 
 	if (!is_file($real_file))
 		$error = 1;

@@ -1,10 +1,4 @@
 <?php
-
-if ( defined('WPLANG') && '' != constant('WPLANG') ) {
-	include_once(ABSPATH . 'wp-includes/streams.php');
-	include_once(ABSPATH . 'wp-includes/gettext.php');
-}
-
 function get_locale() {
 	global $locale;
 
@@ -75,13 +69,15 @@ function load_default_textdomain() {
 	global $l10n;
 
 	$locale = get_locale();
-	$mofile = ABSPATH . "wp-includes/languages/$locale.mo";
+	$mofile = ABSPATH . LANGDIR . "/$locale.mo";
 
 	load_textdomain('default', $mofile);
 }
 
-function load_plugin_textdomain($domain, $path = 'wp-content/plugins') {
+function load_plugin_textdomain($domain, $path = false) {
 	$locale = get_locale();
+	if ( false === $path )
+		$path = PLUGINDIR;
 
 	$mofile = ABSPATH . "$path/$domain-$locale.mo";
 	load_textdomain($domain, $mofile);
