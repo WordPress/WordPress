@@ -1,6 +1,6 @@
 <?php
 // Turn register globals off
-function unregister_GLOBALS() {
+function wp_unregister_GLOBALS() {
 	if ( !ini_get('register_globals') )
 		return;
 
@@ -16,7 +16,7 @@ function unregister_GLOBALS() {
 			unset($GLOBALS[$k]);
 }
 
-unregister_GLOBALS(); 
+wp_unregister_GLOBALS(); 
 
 unset( $wp_filter, $cache_userdata, $cache_lastcommentmodified, $cache_lastpostdate, $cache_settings, $category_cache, $cache_categories );
 
