@@ -1,0 +1,113 @@
+body	{
+	direction: rtl;
+}
+
+body, td {
+	font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana;
+}
+
+h2 small.quickjump {
+	text-align: left;
+}
+
+h2 small.quickjump a {
+	font-size: 12px;
+	font-family: Tahoma, sans-serif;
+}
+
+textarea, input, select {
+	font:  12px Tahoma, Arial, Helvetica, sans-serif;
+}
+
+#adminmenu {
+	float: right;
+	width: 100%;
+}
+
+#adminmenu a {
+	font-size: 16px;
+	font-weight: bold;
+	font-family: georgia;
+	margin: 0px 2px;
+	padding: 1px 5px;
+	float: right;
+}
+
+#submenu {
+	clear: both;
+	float: right;
+	width: 100%;
+}
+
+#submenu a {
+	padding: .1em .33em;
+	float: right;
+	margin: 0px 2px;
+}
+
+#title {
+	font-family: georgia;
+}
+
+#login h1 {
+	direction: ltr;
+}
+
+#postcustom .updatemeta, #postcustom .deletemeta {
+	width: 5em;
+}
+
+#template div {
+	direction: ltr;
+}
+
+#user_info {
+	left: 1em;
+	top: 0;
+	right: auto;
+}
+
+#wphead {
+	padding: .8em 2em .8em 19em;
+}
+
+#moremeta fieldset div {
+	padding: 0 7px 0 0;
+}
+
+#moremeta .dbx-content {
+	background: url(images/box-butt.gif) no-repeat bottom left;
+	padding: 5px 10px 15px 5px;
+}
+
+#moremeta .dbx-handle {
+	background: url(images/box-head.gif) no-repeat right;
+}
+	
+/* toggle images */
+a.dbx-toggle, a.dbx-toggle:visited {
+	left: 5px;
+	right: auto;
+}
+
+#advancedstuff a.dbx-toggle-open, #advancedstuff a.dbx-toggle-open:visited {
+
+	}
+
+/* Ali ix Corrections and Additions ;) */
+
+td.desc, td.name, textarea#ping_sites, textarea#moderation_keys, textarea#blacklist_keys, input#home, input#admin_email, input#siteurl, input#mailserver_url, input#mailserver_port, input#mailserver_login, input#mailserver_pass, input#blog_charset, input#permalink_structure, input#post_name, input#trackback {
+	direction: ltr;
+	text-align: left;
+}
+.mceToolbarTop {
+	direction: ltr;
+}
+
+div#zeitgeist ul, div.wrap ul {
+	list-style: none;
+	}
+	
+table.widefat th, tr.thead {
+	text-align: right;
+}

@@ -1159,4 +1159,28 @@ function wp_die($message, $title = '') {
 	die();
 }
 
+function _mce_set_direction() {
+	global $wp_locale;
+	if ('rtl' == $wp_locale->text_direction)
+		echo 'directionality : "rtl" ,';
+}
+
+function _mce_load_rtl_plugin($input) {
+	global $wp_locale; 
+	if ('rtl' == $wp_locale->text_direction)
+		$input[] = 'directionality';
+
+	return $input;
+}
+
+function _mce_add_direction_buttons($input) {
+	global $wp_locale; 
+	if ('rtl' == $wp_locale->text_direction) {
+		$new_buttons = array('separator', 'ltr', 'rtl');
+		$input = array_merge($input, $new_buttons);
+	}
+
+	return $input;
+}
+
 ?>
