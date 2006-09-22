@@ -1,4 +1,4 @@
-* html #poststuff {
+z* html #poststuff {
 	height: 100%; /* kill peekaboo bug in IE */
 }
 
@@ -490,10 +490,6 @@ table .vers {
 	width: 100%;
 }
 
-#quicktags {
-	margin-left: -1px;
-}
-
 #currenttheme img {
 	float: left;
 	border: 1px solid #666;
@@ -510,6 +506,27 @@ table .vers {
 #deletebookmarks:hover {
 	background: #ce0000;
 	color: #fff;
+}
+
+#postdivrich #quicktags {
+	background: #f0f0ee;
+	padding: 0px;
+	border: 1px solid #ccc;
+	border-bottom: none;
+}
+#postdiv #quicktags {
+	padding-right: 6px;
+}
+#postdivrich #quicktags {
+	display: none;
+}
+#quicktags #ed_toolbar {
+	padding: 0px 2px;
+}
+
+#ed_toolbar input {
+	background: #fff url( images/fade-butt.png ) repeat-x 0px -2px;
+	margin: 3px 2px 2px;
 }
 
 #quicktags #ed_strong {
@@ -531,6 +548,7 @@ table .vers {
 
 #quicktags #ed_code {
 	font-family: "Courier New", Courier, mono;
+	margin-bottom: 3px;
 }
 
 #title {
@@ -1117,4 +1135,21 @@ input#catadd { 	background: #a4a4a4;
 }
 #ajax-response.alignleft {
 	margin-left: 2em;
+}
+#postdivrich #edButtons {
+	padding-left: 3px;
+}
+#postdivrich #content, #postdivrich #content:active {
+	border: 1px solid #ccc;
+}
+#edButtons input, #edButtons input:active {
+	margin: 0px 2px -1px;
+}
+#edButtons input.edButtonFore, #edButtons input.edButtonFore:active {
+	background: #f0f0ee;
+	border-bottom: 1px solid #f0f0ee;
+}
+#edButtons input.edButtonBack, #edButtons input.edButtonBack:active {
+	background: #fff url( images/fade-butt.png ) repeat-x 0px 15px;
+	border-bottom: 1px solid #ccc;
 }

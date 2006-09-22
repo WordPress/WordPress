@@ -410,7 +410,6 @@ function updateOtherIcon(n) {
 var win = window.opener ? window.opener : window.dialogArguments;
 if (!win) win = top;
 tinyMCE = win.tinyMCE;
-richedit = ( typeof tinyMCE == 'object' && tinyMCE.configs.length > 0 );
 function sendToEditor(n) {
 	o = document.getElementById('div'+n);
 	h = o.innerHTML.replace(new RegExp('^\\s*(.*?)\\s*$', ''), '$1'); // Trim
@@ -420,7 +419,7 @@ function sendToEditor(n) {
 	h = h.replace(new RegExp('<(/?)A', 'g'), '<$1a'); // Lowercase tagnames
 	h = h.replace(new RegExp('<IMG', 'g'), '<img'); // Lowercase again
 	h = h.replace(new RegExp('(<img .+?")>', 'g'), '$1 />'); // XHTML
-	if ( richedit )
+	if ( typeof tinyMCE != 'undefined' && tinyMCE.getInstanceById('content') )
 		win.tinyMCE.execCommand('mceInsertContent', false, h);
 	else
 		win.edInsertContent(win.edCanvas, h);

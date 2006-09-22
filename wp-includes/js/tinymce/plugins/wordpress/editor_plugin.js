@@ -38,9 +38,9 @@ var TinyMCE_wordpressPlugin = {
 				+ '<input type="button" accesskey="g" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'wpPage\');" />'
 				+ '<input type="button" accesskey="u" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Undo\',false);" />'
 				+ '<input type="button" accesskey="y" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Redo\',false);" />'
-				+ '<input type="button" accesskey="e" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'mceCodeEditor\',false);" />'
 				+ '<input type="button" accesskey="h" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'wpHelp\',false);" />'
-				+ '<input type="button" accesskey="b" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'wpAdv\',false);" />'
+				+ '<input type="button" accesskey="b" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'Bold\',false);" />'
+				+ '<input type="button" accesskey="v" onclick="tinyMCE.execInstanceCommand(\'{$editor_id}\',\'wpAdv\',false);" />'
 				+ '</div>';
 				return buttons+hiddenControls;
 			case "wp_adv":
@@ -241,18 +241,18 @@ var TinyMCE_wordpressPlugin = {
 
 				// Remove anonymous, empty paragraphs.
 				content = content.replace(new RegExp('<p>(\\s|&nbsp;)*</p>', 'mg'), '');
-	
+
 				// Handle table badness.
 				content = content.replace(new RegExp('<(table( [^>]*)?)>.*?<((tr|thead)( [^>]*)?)>', 'mg'), '<$1><$3>');
 				content = content.replace(new RegExp('<(tr|thead|tfoot)>.*?<((td|th)( [^>]*)?)>', 'mg'), '<$1><$2>');
 				content = content.replace(new RegExp('</(td|th)>.*?<(td( [^>]*)?|th( [^>]*)?|/tr|/thead|/tfoot)>', 'mg'), '</$1><$2>');
 				content = content.replace(new RegExp('</tr>.*?<(tr|/table)>', 'mg'), '</tr><$1>');
 				content = content.replace(new RegExp('<(/?(table|tbody|tr|th|td)[^>]*)>(\\s*|(<br ?/?>)*)*', 'g'), '<$1>');
-	
+
 				// Pretty it up for the source editor.
 				var blocklist = 'blockquote|ul|ol|li|table|thead|tr|th|td|div|h\\d|pre|p';
 				content = content.replace(new RegExp('\\s*</('+blocklist+')>\\s*', 'mg'), '</$1>\n');
-				content = content.replace(new RegExp('\\s*<(('+blocklist+')[^>]*)>\\s*', 'mg'), '\n<$1>');
+				content = content.replace(new RegExp('\\s*<(('+blocklist+')[^>]*)>', 'mg'), '\n<$1>');
 				content = content.replace(new RegExp('<((li|/?tr|/?thead|/?tfoot)( [^>]*)?)>', 'g'), '\t<$1>');
 				content = content.replace(new RegExp('<((td|th)( [^>]*)?)>', 'g'), '\t\t<$1>');
 				content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'mg'), '<br />\n');
@@ -294,9 +294,9 @@ var TinyMCE_wordpressPlugin = {
 		// content = content.replace(new RegExp('&amp;', 'g'), '&');
 
 		// Get it ready for wpautop.
-		content = content.replace(new RegExp('[\\s]*<p>[\\s]*', 'mgi'), '');
-		content = content.replace(new RegExp('[\\s]*</p>[\\s]*', 'mgi'), '\n\n');
-		content = content.replace(new RegExp('\\n\\s*\\n\\s*\\n*', 'mgi'), '\n\n');
+		content = content.replace(new RegExp('\\s*<p>', 'mgi'), '');
+		content = content.replace(new RegExp('\\s*</p>\\s*', 'mgi'), '\n\n');
+		content = content.replace(new RegExp('\\n\\s*\\n', 'mgi'), '\n\n');
 		content = content.replace(new RegExp('\\s*<br ?/?>\\s*', 'gi'), '\n');
 
 		// Fix some block element newline issues
@@ -309,8 +309,7 @@ var TinyMCE_wordpressPlugin = {
 		content = content.replace(new RegExp('</p#>', 'g'), '</p>\n');
 		content = content.replace(new RegExp('\\s*(<p[^>]+>.*</p>)', 'mg'), '\n$1');
 
-		// Trim any whitespace
-		content = content.replace(new RegExp('^\\s*', ''), '');
+		// Trim trailing whitespace
 		content = content.replace(new RegExp('\\s*$', ''), '');
 
 		// Hope.
@@ -467,4 +466,120 @@ tinyMCE.wpTriggerSave = function () {
 		inst.wpTriggerSave = wpInstTriggerSave;
 		inst.wpTriggerSave(false, false);
 	}
+}
+
+function switchEditors(id) {
+	var inst = tinyMCE.getInstanceById(id);
+	var qt = document.getElementById('quicktags');
+	var H = document.getElementById('edButtonHTML');
+	var P = document.getElementById('edButtonPreview');
+	var pdr = document.getElementById('postdivrich');
+	var ta = document.getElementById(id);
+
+	if ( inst ) {
+		edToggle(H, P);
+
+		if ( tinyMCE.isMSIE && !tinyMCE.isOpera ) {
+			// IE rejects the later overflow assignment so we skip this step.
+			// Alternate code might be nice. Until then, IE reflows.
+		} else {
+			// Lock the fieldset's height to prevent reflow/flicker
+			pdr.style.height = pdr.clientHeight + 'px';
+			pdr.style.overflow = 'hidden';
+		}
+
+		// Save the coords of the bottom right corner of the rich editor
+		var table = document.getElementById(inst.editorId + '_parent').getElementsByTagName('table')[0];
+		var y1 = table.offsetTop + table.offsetHeight;
+
+		// Unload the rich editor
+		inst.triggerSave(false, false);
+		htm = inst.formElement.value;
+		tinyMCE.removeMCEControl(id);
+		document.getElementById(id).value = htm;
+		--tinyMCE.idCounter;
+
+		// Reveal Quicktags and textarea
+		qt.style.display = 'block';
+		ta.style.display = 'inline';
+
+		// Set the textarea height to match the rich editor
+		y2 = ta.offsetTop + ta.offsetHeight;
+		ta.style.height = (ta.clientHeight + y1 - y2) + 'px';
+
+		// Tweak the widths
+		ta.parentNode.style.paddingRight = '2px';
+
+		if ( tinyMCE.isMSIE && !tinyMCE.isOpera ) {
+		} else {
+			// Unlock the fieldset's height
+			pdr.style.height = 'auto';
+			pdr.style.overflow = 'display';
+		}
+	} else {
+		edToggle(P, H);
+		edCloseAllTags(); // :-(
+
+		if ( tinyMCE.isMSIE && !tinyMCE.isOpera ) {
+		} else {
+			// Lock the fieldset's height
+			pdr.style.height = pdr.clientHeight + 'px';
+			pdr.style.overflow = 'hidden';
+		}
+
+		// Hide Quicktags and textarea
+		qt.style.display = 'none';
+		ta.style.display = 'none';
+
+		// Tweak the widths
+		ta.parentNode.style.paddingRight = '0px';
+
+		// Load the rich editor with formatted html
+		if ( tinyMCE.isMSIE ) {
+			ta.value = wpautop(ta.value);
+			tinyMCE.addMCEControl(ta, id);
+		} else {
+			htm = wpautop(ta.value);
+			tinyMCE.addMCEControl(ta, id);
+			tinyMCE.getInstanceById(id).execCommand('mceSetContent', null, htm);
+		}
+
+		if ( tinyMCE.isMSIE && !tinyMCE.isOpera ) {
+		} else {
+			// Unlock the fieldset's height
+			pdr.style.height = 'auto';
+			pdr.style.overflow = 'display';
+		}
+	}
+}
+
+function edToggle(A, B) {
+	A.className = 'edButtonFore';
+	B.className = 'edButtonBack';
+
+	B.onclick = A.onclick;
+	A.onclick = null;
+}
+
+function wpautop(pee) {
+	pee = pee + "\n\n";
+	pee = pee.replace(new RegExp('<br />\\s*<br />', 'gi'), "\n\n");
+	pee = pee.replace(new RegExp('(<(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)', 'gi'), "\n$1"); 
+	pee = pee.replace(new RegExp('(</(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6])>)', 'gi'), "$1\n\n");
+	pee = pee.replace(new RegExp("\\r\\n|\\r", 'g'), "\n");
+	pee = pee.replace(new RegExp("\\n\\s*\\n+", 'g'), "\n\n");
+	pee = pee.replace(new RegExp('\n*([^\Z]+?)\\n{2}', 'mg'), "<p>$1</p>\n");
+	pee = pee.replace(new RegExp('<p>\\s*?</p>', 'gi'), '');
+	pee = pee.replace(new RegExp('<p>\\s*(</?(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|hr|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)\\s*</p>', 'gi'), "$1");
+	pee = pee.replace(new RegExp("<p>(<li.+?)</p>", 'gi'), "$1");
+	pee = pee.replace(new RegExp('<p><blockquote([^>]*)>', 'gi'), "<blockquote$1><p>");
+	pee = pee.replace(new RegExp('</blockquote></p>', 'gi'), '</p></blockquote>');
+	pee = pee.replace(new RegExp('<p>\\s*(</?(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|hr|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)', 'gi'), "$1");
+	pee = pee.replace(new RegExp('(</?(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)\\s*</p>', 'gi'), "$1"); 
+	pee = pee.replace(new RegExp('\\s*\\n', 'gi'), "<br />\n");
+	pee = pee.replace(new RegExp('(</?(?:table|thead|tfoot|caption|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)\\s*<br />', 'gi'), "$1");
+	pee = pee.replace(new RegExp('<br />(\\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)>)', 'gi'), '$1');
+	pee = pee.replace(new RegExp('^((?:&nbsp;)*)\\s', 'mg'), '$1&nbsp;');
+	//pee = pee.replace(new RegExp('(<pre.*?>)(.*?)</pre>!ise', " stripslashes('$1') .  stripslashes(clean_pre('$2'))  . '</pre>' "); // Hmm...
+	return pee;
 }

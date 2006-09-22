@@ -735,13 +735,6 @@ function noindex() {
 		echo "<meta name='robots' content='noindex,nofollow' />\n";
 }
 
-/**
- * Places a textarea according to the current user's preferences, filled with $content.
- * Also places a script block that enables tabbing between Title and Content.
- *
- * @param string Editor contents
- * @param string (optional) Previous form field's ID (for tabbing support)
- */
 function the_editor($content, $id = 'content', $prev_id = 'title') {
 	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
@@ -749,10 +742,60 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 
 	$rows = "rows='$rows'";
 
-	the_quicktags();
-
-	if ( user_can_richedit() )
+	if ( user_can_richedit() ) :
 		add_filter('the_editor_content', 'wp_richedit_pre');
+
+		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it.
+	?>
+	<!--[if IE]><style type="text/css">
+		#postdivrich table, #postdivrich #quicktags {border-top: none;}
+		#quicktags {border-bottom: none; padding-bottom: 2px; margin-bottom: -1px;}
+		#edButtons {border-bottom: 1px solid #ccc;}
+	</style><![endif]-->
+	<div id='edButtons' style='display:none;'>
+		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors("<?php echo $id; ?>")' /></div>
+		<input id='edButtonPreview' class='edButtonFore' type='button' value='<?php _e('Compose'); ?>' />
+		<input id='edButtonHTML' class='edButtonBack' type='button' value='<?php _e('HTML'); ?>' onclick='switchEditors("<?php echo $id; ?>")' />
+	</div>
+	<script type="text/javascript">
+		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
+			document.getElementById('edButtons').style.display = 'block';
+	</script>
+
+	<?php endif; ?>
+	<div id="quicktags">
+	<?php wp_print_scripts( 'quicktags' ); ?>
+	<script type="text/javascript">edToolbar()</script>
+	</div>
+	<script type="text/javascript">
+		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
+			document.getElementById("quicktags").style.display="none";
+
+		function edInsertContent(myField, myValue) {
+			//IE support
+			if (document.selection) {
+				myField.focus();
+				sel = document.selection.createRange();
+				sel.text = myValue;
+				myField.focus();
+			}
+			//MOZILLA/NETSCAPE support
+			else if (myField.selectionStart || myField.selectionStart == "0") {
+				var startPos = myField.selectionStart;
+				var endPos = myField.selectionEnd;
+				myField.value = myField.value.substring(0, startPos)
+				              + myValue 
+		                      + myField.value.substring(endPos, myField.value.length);
+				myField.focus();
+				myField.selectionStart = startPos + myValue.length;
+				myField.selectionEnd = startPos + myValue.length;
+			} else {
+				myField.value += myValue;
+				myField.focus();
+			}
+		}
+	</script>
+	<?php
 
 	$the_editor = apply_filters('the_editor', "<div><textarea class='mceEditor' $rows cols='40' name='$id' tabindex='2' id='$id'>%s</textarea></div>\n");
 	$the_editor_content = apply_filters('the_editor_content', $content);
@@ -763,17 +806,17 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	<script type="text/javascript">
 	//<!--
 	edCanvas = document.getElementById('<?php echo $id; ?>');
-	<?php if ( user_can_richedit() ) : ?>
+	<?php if ( $prev_id && user_can_richedit() ) : ?>
 	// This code is meant to allow tabbing from Title to Post (TinyMCE).
 	if ( tinyMCE.isMSIE )
 		document.getElementById('<?php echo $prev_id; ?>').onkeydown = function (e)
 			{
 				e = e ? e : window.event;
 				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-					var i = tinyMCE.selectedInstance;
+					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
 					if(typeof i ==  'undefined')
 						return true;
-	                                tinyMCE.execCommand("mceStartTyping");
+					tinyMCE.execCommand("mceStartTyping");
 					this.blur();
 					i.contentWindow.focus();
 					e.returnValue = false;
@@ -785,10 +828,10 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 			{
 				e = e ? e : window.event;
 				if (e.keyCode == 9 && !e.shiftKey && !e.controlKey && !e.altKey) {
-					var i = tinyMCE.selectedInstance;
+					var i = tinyMCE.getInstanceById('<?php echo $id; ?>');
 					if(typeof i ==  'undefined')
 						return true;
-	                                tinyMCE.execCommand("mceStartTyping");
+					tinyMCE.execCommand("mceStartTyping");
 					this.blur();
 					i.contentWindow.focus();
 					e.returnValue = false;

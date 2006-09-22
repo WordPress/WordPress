@@ -72,11 +72,12 @@ function autosave_saved() {
 	
 function autosave() {
 	var form = $('post');
+	var rich = tinyMCE.getInstanceById('content') ? true : false;
 
 	autosaveAjax = new sack();
 
 	/* Gotta do this up here so we can check the length when tinyMCE is in use */
-	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) {
+	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 || rich == false ) {
 		autosaveAjax.setVar("content", form.content.value);
 	} else {
 		if(tinyMCE.selectedInstance.spellcheckerOn) return;
@@ -110,7 +111,7 @@ function autosave() {
 	if(form.excerpt)
 		autosaveAjax.setVar("excerpt", form.excerpt.value);		
 		
-	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 ) {
+	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 || rich == false ) {
 		autosaveAjax.setVar("content", form.content.value);
 	} else {
 		tinyMCE.wpTriggerSave();
