@@ -1,4 +1,4 @@
-z* html #poststuff {
+* html #poststuff {
 	height: 100%; /* kill peekaboo bug in IE */
 }
 
