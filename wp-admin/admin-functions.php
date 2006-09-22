@@ -1963,16 +1963,6 @@ function wp_import_handle_upload() {
 	return array('file' => $file, 'id' => $id);
 }
 
-function user_can_richedit() {
-	if ( 'true' != get_user_option('rich_editing') )
-		return false;
-
-	if ( preg_match('!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT']) )
-		return false;
-
-	return true; // Best guess
-}
-
 function the_attachment_links($id = false) {
 	$id = (int) $id;
 	$post = & get_post($id);

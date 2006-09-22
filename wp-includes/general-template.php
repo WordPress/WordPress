@@ -735,6 +735,15 @@ function noindex() {
 		echo "<meta name='robots' content='noindex,nofollow' />\n";
 }
 
+function user_can_richedit() {
+	$can = true;
+
+	if ( 'true' != get_user_option('rich_editing') || preg_match('!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT']) )
+		$can = false;
+
+	return apply_filters('user_can_richedit', $can);
+}
+
 function the_editor($content, $id = 'content', $prev_id = 'title') {
 	$rows = get_option('default_post_edit_rows');
 	if (($rows < 3) || ($rows > 100))
@@ -747,11 +756,11 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 
 		//	The following line moves the border so that the active button "attaches" to the toolbar. Only IE needs it.
 	?>
-	<!--[if IE]><style type="text/css">
+	<style type="text/css">
 		#postdivrich table, #postdivrich #quicktags {border-top: none;}
 		#quicktags {border-bottom: none; padding-bottom: 2px; margin-bottom: -1px;}
 		#edButtons {border-bottom: 1px solid #ccc;}
-	</style><![endif]-->
+	</style>
 	<div id='edButtons' style='display:none;'>
 		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors("<?php echo $id; ?>")' /></div>
 		<input id='edButtonPreview' class='edButtonFore' type='button' value='<?php _e('Compose'); ?>' />

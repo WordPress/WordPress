@@ -473,8 +473,8 @@ function switchEditors(id) {
 	var qt = document.getElementById('quicktags');
 	var H = document.getElementById('edButtonHTML');
 	var P = document.getElementById('edButtonPreview');
-	var pdr = document.getElementById('postdivrich');
 	var ta = document.getElementById(id);
+	var pdr = ta.parentNode;
 
 	if ( inst ) {
 		edToggle(H, P);
@@ -491,6 +491,13 @@ function switchEditors(id) {
 		// Save the coords of the bottom right corner of the rich editor
 		var table = document.getElementById(inst.editorId + '_parent').getElementsByTagName('table')[0];
 		var y1 = table.offsetTop + table.offsetHeight;
+
+		if ( TinyMCE_AdvancedTheme._getCookie("TinyMCE_" + inst.editorId + "_height") == null ) {
+			var expires = new Date();
+			expires.setTime(expires.getTime() + 3600000 * 24 * 30);
+			var offset = tinyMCE.isMSIE ? 1 : 2;
+			TinyMCE_AdvancedTheme._setCookie("TinyMCE_" + inst.editorId + "_height", "" + (table.offsetHeight - offset), expires);
+		}
 
 		// Unload the rich editor
 		inst.triggerSave(false, false);
