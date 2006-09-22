@@ -72,7 +72,7 @@ function autosave_saved() {
 	
 function autosave() {
 	var form = $('post');
-	var rich = tinyMCE.getInstanceById('content') ? true : false;
+	var rich = ((typeof tinyMCE != "undefined") && tinyMCE.getInstanceById('content')) ? true : false;
 
 	autosaveAjax = new sack();
 

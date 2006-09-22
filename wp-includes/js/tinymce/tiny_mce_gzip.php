@@ -35,8 +35,9 @@ function wp_tinymce_lang($path) {
 
 
 	// Fall back on en.js
-	if ( empty($text) )
-		$text = file_get_contents(realpath(sprintf($path, 'en')));
+	$file = realpath(sprintf($path, 'en'));
+	if ( empty($text) && file_exists($file) )
+		$text = file_get_contents($file);
 
 	// Send lang file through gettext
 	if ( function_exists('__') && strtolower(substr($language, 0, 2)) != 'en' ) {
