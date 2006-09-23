@@ -230,7 +230,7 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 			// Handle each category.
 
 			// Display the category name
-			echo '	<li id="linkcat-' . $cat->cat_ID . '"><h2>' . $cat->cat_name . "</h2>\n\t<ul>\n";
+			echo '	<li id="linkcat-' . $cat->cat_ID . '" class="linkcat"><h2>' . $cat->cat_name . "</h2>\n\t<ul>\n";
 			// Call get_links() with all the appropriate params
 			get_links($cat->cat_ID, '<li>', "</li>", "\n", true, 'name', false);
 
@@ -340,7 +340,7 @@ function wp_list_bookmarks($args = '') {
 			$bookmarks = get_bookmarks($r);
 			if ( empty($bookmarks) )
 				continue;
-			$output .= "<li id=\"linkcat-$cat->cat_ID\">$title_before$cat->cat_name$title_after\n\t<ul>\n";
+			$output .= "<li id='linkcat-$cat->cat_ID' class='linkcat'>$title_before$cat->cat_name$title_after\n\t<ul>\n";
 			$output .= _walk_bookmarks($bookmarks, $r);
 			$output .= "\n\t</ul>\n</li>\n";
 		}
