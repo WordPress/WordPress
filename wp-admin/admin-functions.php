@@ -2016,6 +2016,10 @@ function wp_reset_vars($vars) {
 // If siteurl or home changed, reset cookies and flush rewrite rules.
 function update_home_siteurl($old_value, $value) {
 	global $wp_rewrite, $user_login, $user_pass_md5;
+
+	if ( defined("WP_INSTALLING") )
+		return;
+
 	// If home changed, write rewrite rules to new location.
 	$wp_rewrite->flush_rules();
 	// Clear cookies for old paths.
