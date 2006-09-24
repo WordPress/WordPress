@@ -12,6 +12,11 @@ wp_reset_vars(array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer
 
 $wp_http_referer = remove_query_arg(array('update', 'delete_count'), stripslashes($wp_http_referer));
 
+$user_id = (int) $user_id;
+
+if ( !$user_id )
+	wp_die(__('Invalid user ID.'));
+
 switch ($action) {
 case 'switchposts':
 
@@ -26,9 +31,9 @@ case 'update':
 check_admin_referer('update-user_' . $user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-	$errors = new WP_Error('head', __('You do not have permission to edit this user.'));
-else
-	$errors = edit_user($user_id);
+	wp_die(__('You do not have permission to edit this user.'));
+
+$errors = edit_user($user_id);
 
 if( !is_wp_error( $errors ) ) {
 	$redirect = "user-edit.php?user_id=$user_id&updated=true";
@@ -38,13 +43,12 @@ if( !is_wp_error( $errors ) ) {
 }
 
 default:
-include ('admin-header.php');
-
 $profileuser = get_user_to_edit($user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-	if ( !is_wp_error( $errors ) )
-		$errors = new WP_Error('head', __('You do not have permission to edit this user.'));
+		wp_die(__('You do not have permission to edit this user.'));
+
+include ('admin-header.php');
 ?>
 
 <?php if ( isset($_GET['updated']) ) : ?>
