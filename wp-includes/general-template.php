@@ -129,15 +129,11 @@ function get_bloginfo($show='') {
 			break;
 		case 'language':
 			$output = get_locale();
-			if ( empty($output) )
-				$output = 'en-US';
 			$output = str_replace('_', '-', $output);
 			break;
 		case 'text_direction':
 			global $wp_locale;
 			$output = $wp_locale->text_direction;
-			if ( empty($output) )
-				$output = 'ltr';
 			break;
 		case 'name':
 		default:
@@ -870,4 +866,15 @@ function the_search_query() {
 	echo wp_specialchars( stripslashes($s), 1 );
 }
 
+function language_attributes() {
+	$output = '';
+	if ( $dir = get_bloginfo('text_direction') )
+		$output = "dir=\"$dir\"";
+	if ( $lang = get_bloginfo('language') ) {
+		if ( $dir ) $output .= ' ';
+		$output .= "lang=\"$lang\" xml:lang=\"$lang\"";
+	}
+
+	echo $output;
+}
 ?>
