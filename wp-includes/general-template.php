@@ -127,6 +127,18 @@ function get_bloginfo($show='') {
 			global $wp_version;
 			$output = $wp_version;
 			break;
+		case 'language':
+			$output = get_locale();
+			if ( empty($output) )
+				$output = 'en-US';
+			$output = str_replace('_', '-', $output);
+			break;
+		case 'text_direction':
+			global $wp_locale;
+			$output = $wp_locale->text_direction;
+			if ( empty($output) )
+				$output = 'ltr';
+			break;
 		case 'name':
 		default:
 			$output = get_option('blogname');
