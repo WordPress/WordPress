@@ -5,7 +5,7 @@ $title = __('Profile');
 
 $parent_file = 'profile.php';
 include_once('admin-header.php');
-$profileuser = new WP_User($user_ID);
+$profileuser = get_user_to_edit($user_ID);
 
 $bookmarklet_height= 440;
 ?>

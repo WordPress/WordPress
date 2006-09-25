@@ -39,7 +39,7 @@ if ('' != $post->pinged) {
 	$pings = '<p>'. __('Already pinged:') . '</p><ul>';
 	$already_pinged = explode("\n", trim($post->pinged));
 	foreach ($already_pinged as $pinged_url) {
-		$pings .= "\n\t<li>$pinged_url</li>";
+		$pings .= "\n\t<li>" . wp_specialchars($pinged_url) . "</li>";
 	}
 	$pings .= '</ul>';
 }

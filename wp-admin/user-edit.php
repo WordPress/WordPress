@@ -49,7 +49,7 @@ if(count($errors) == 0) {
 default:
 include ('admin-header.php');
 
-$profileuser = new WP_User($user_id);
+$profileuser = get_user_to_edit($user_id);
 
 if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permission to edit this user.');
 ?>

@@ -321,7 +321,7 @@ function get_user_option( $option, $user = 0 ) {
 }
 
 function form_option($option) {
-	echo htmlspecialchars( get_option($option), ENT_QUOTES );
+	echo wp_specialchars( get_option($option), 1 );
 }
 
 function get_alloptions() {

@@ -148,7 +148,7 @@ checked="checked"
 </label>
 <br />
 </p>
-<p id="customstructure"><?php _e('Custom structure'); ?>: <input name="permalink_structure" id="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo $permalink_structure; ?>" size="50" /></p>
+<p id="customstructure"><?php _e('Custom structure'); ?>: <input name="permalink_structure" id="permalink_structure" type="text" class="code" style="width: 60%;" value="<?php echo wp_specialchars($permalink_structure, 1); ?>" size="50" /></p>
 
 <h3><?php _e('Optional'); ?></h3>
 <?php if ($is_apache) : ?>
@@ -157,7 +157,7 @@ checked="checked"
 	<p><?php _e('If you like, you may enter a custom prefix for your category URIs here. For example, <code>/index.php/taxonomy/tags</code> would make your category links like <code>http://example.org/index.php/taxonomy/tags/uncategorized/</code>. If you leave this blank the default will be used.') ?></p>
 <?php endif; ?>
 	<p> 
-  <?php _e('Category base'); ?>: <input name="category_base" type="text" class="code"  value="<?php echo $category_base; ?>" size="30" /> 
+  <?php _e('Category base'); ?>: <input name="category_base" type="text" class="code"  value="<?php echo wp_specialchars($category_base, 1); ?>" size="30" /> 
      </p> 
     <p class="submit"> 
       <input type="submit" name="submit" value="<?php _e('Update Permalink Structure &raquo;') ?>" /> 
