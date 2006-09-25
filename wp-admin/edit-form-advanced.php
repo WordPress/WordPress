@@ -151,6 +151,7 @@ endforeach;
  }
 ?>
 <?php the_quicktags(); ?>
+</fieldset>
 
 <div><textarea <?php if ( user_can_richedit() ) echo 'title="true" '; ?>rows="<?php echo $rows; ?>" cols="40" name="content" tabindex="2" id="content"><?php echo user_can_richedit() ? wp_richedit_pre($post->post_content) : $post->post_content; ?></textarea></div>
 </fieldset>
@@ -275,6 +276,7 @@ if($metadata = has_meta($post_ID)) {
 }
 	meta_form();
 ?>
+</div>
 </div>
 </fieldset>
 </div>
