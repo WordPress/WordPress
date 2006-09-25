@@ -4,7 +4,7 @@ Plugin Name: WordPress Database Backup
 Plugin URI: http://www.skippy.net/blog/plugins/
 Description: On-demand backup of your WordPress database.
 Author: Scott Merrill
-Version: 1.7
+Version: 1.8
 Author URI: http://www.skippy.net/
 
 Much of this was modified from Mark Ghosh's One Click Backup, which
