@@ -140,13 +140,10 @@ add_filter('comment_text_rss', 'ent2ncr', 8);
 add_filter('bloginfo_rss', 'ent2ncr', 8);
 add_filter('the_author', 'ent2ncr', 8);
 
-<<<<<<< .working
-=======
 // Misc filters
 add_filter('option_ping_sites', 'privacy_ping_filter');
 add_filter('option_blog_charset', 'wp_specialchars');
 
->>>>>>> .merge-right.r4112
 // Actions
 add_action('publish_post', 'generic_ping');
 add_action('wp_head', 'rsd_link');
