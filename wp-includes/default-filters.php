@@ -141,7 +141,6 @@ add_filter('bloginfo_rss', 'ent2ncr', 8);
 add_filter('the_author', 'ent2ncr', 8);
 
 // Misc filters
-add_filter('option_ping_sites', 'privacy_ping_filter');
 add_filter('option_blog_charset', 'wp_specialchars');
 
 // Actions
