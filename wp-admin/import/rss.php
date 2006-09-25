@@ -38,7 +38,7 @@ class RSS_Import {
 		$index = 0;
 		foreach ($this->posts as $post) {
 			preg_match('|<title>(.*?)</title>|is', $post, $post_title);
-			$post_title = $wpdb->escape(trim($post_title[1]));
+			$post_title = str_replace(array('<![CDATA[', ']]>'), '', $wpdb->escape( trim($post_title[1]) ));
 
 			preg_match('|<pubdate>(.*?)</pubdate>|is', $post, $post_date_gmt);
 
