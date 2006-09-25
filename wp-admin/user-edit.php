@@ -21,6 +21,11 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+$user_id = (int) $user_id;
+
+if ( !$user_id )
+	die(__('Invalid user ID.'));
+
 switch ($action) {
 case 'switchposts':
 
@@ -37,7 +42,7 @@ check_admin_referer('update-user_' . $user_id);
 $errors = array();
 
 if (!current_user_can('edit_users'))
-	$errors['head'] = __('You do not have permission to edit this user.');
+	die(__('You do not have permission to edit this user.'));
 else
 	$errors = edit_user($user_id);
 
@@ -51,7 +56,9 @@ include ('admin-header.php');
 
 $profileuser = get_user_to_edit($user_id);
 
-if (!current_user_can('edit_users')) $errors['head'] = __('You do not have permission to edit this user.');
+if (!current_user_can('edit_users')) 
+	die__('You do not have permission to edit this user.');
+
 ?>
 
 <?php if ( isset($_GET['updated']) ) : ?>
