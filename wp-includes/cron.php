@@ -102,7 +102,7 @@ function wp_cron() {
 		return;
 
 	$keys = array_keys( $crons );
-	if ( $keys[0] > time() )
+	if ( isset($keys[0]) && $keys[0] > time() )
 		return;
 
 	$schedules = wp_get_schedules();
