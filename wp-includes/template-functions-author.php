@@ -1,14 +1,15 @@
 <?php
 
-function get_the_author($idmode = '') {
+function get_the_author($deprecated = '') {
 	global $authordata;
 	return apply_filters('the_author', $authordata->display_name);
 }
 
-function the_author($idmode = '', $echo = true) {
-	if ( $echo )
-		echo get_the_author($idmode);
-	return get_the_author($idmode);
+// Using echo = false is deprecated.  Use get_the_author instead.
+function the_author($deprecated = '', $deprecated_echo = true) {
+	if ( $deprecated_echo )
+		echo get_the_author();
+	return get_the_author();
 }
 
 function get_the_author_description() {
@@ -127,10 +128,10 @@ function the_author_posts() {
 }
 
 /* the_author_posts_link() requires no get_, use get_author_link() */
-function the_author_posts_link($idmode='') {
+function the_author_posts_link($deprecated = '') {
 	global $authordata;
 
-	echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), wp_specialchars(the_author($idmode, false))) . '">' . the_author($idmode, false) . '</a>';
+	echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), wp_specialchars(get_the_author())) . '">' . get_the_author() . '</a>';
 }
 
 function get_author_link($echo = false, $author_id, $author_nicename = '') {
