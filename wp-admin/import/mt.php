@@ -11,7 +11,7 @@ class MT_Import {
 
 	function header() {
 		echo '<div class="wrap">';
-		echo '<h2>'.__('Import Movable Type').'</h2>';
+		echo '<h2>'.__('Import Movable Type and Typepad').'</h2>';
 	}
 
 	function footer() {
@@ -32,7 +32,7 @@ class MT_Import {
 		global $wpdb, $testing;
 		$users = $wpdb->get_results("SELECT * FROM $wpdb->users ORDER BY ID");
 ?><select name="userselect[<?php echo $n; ?>]">
-	<option value="#NONE#">- Select -</option>
+	<option value="#NONE#"><?php _e('- Select -') ?></option>
 	<?php
 
 
@@ -134,6 +134,8 @@ class MT_Import {
 
 	function mt_authors_form() {
 ?>
+<div class="wrap">
+<h2><?php _e('Assign Authors'); ?></h2>
 <p><?php _e('To make it easier for you to edit and save the imported posts and drafts, you may want to change the name of the author of the posts. For example, you may want to import all the entries as <code>admin</code>s entries.'); ?></p>
 <p><?php _e('Below, you can see the names of the authors of the MovableType posts in <i>italics</i>. For each of these names, you can either pick an author in your WordPress installation from the menu, or enter a name for the author in the textbox.'); ?></p>
 <p><?php _e('If a new user is created by WordPress, the password will be set, by default, to "changeme". Quite suggestive, eh? ;)'); ?></p>
@@ -146,22 +148,24 @@ class MT_Import {
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
-			echo '<li><i>'.$author.'</i><br />'.'<input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30">';
+			echo '<li>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
 			$this->users_form($j);
 			echo '</li>';
 		}
 
-		echo '<input type="submit" value="Submit">'.'<br/>';
+		echo '<input type="submit" value="'.__('Submit').'">'.'<br/>';
 		echo '</form>';
-		echo '</ol>';
+		echo '</ol></div>';
 
-		flush();
 	}
 
 	function select_authors() {
 		$file = wp_import_handle_upload();
 		if ( isset($file['error']) ) {
-			echo $file['error'];
+			$this->header();
+			echo '<p>'.__('Sorry, there has been an error').'.</p>';
+			echo '<p><strong>' . $file['error'] . '</strong></p>';
+			$this->footer();
 			return;
 		}
 		$this->file = $file['file'];
@@ -174,7 +178,7 @@ class MT_Import {
 	function process_posts() {
 		global $wpdb;
 		$i = -1;
-		echo "<ol>";
+		echo "<div class='wrap'><ol>";
 		foreach ($this->posts as $post) {
 			if ('' != trim($post)) {
 				++ $i;
@@ -330,7 +334,7 @@ class MT_Import {
 					}
 				}
 				if ( $num_comments )
-					printf(__('(%s comments)'), $num_comments);
+					printf(' '.__('(%s comments)'), $num_comments);
 
 				// Finally the pings
 				// fix the double newline on the first one
@@ -378,22 +382,22 @@ class MT_Import {
 					}
 				}
 				if ( $num_pings )
-					printf(__('(%s pings)'), $num_pings);
-				
+					printf(' '.__('(%s pings)'), $num_pings);
+
 				echo "</li>";
 			}
-			flush();
 		}
 
 		echo '</ol>';
 
 		wp_import_cleanup($this->id);
 
-		echo '<h3>'.sprintf(__('All done. <a href="%s">Have fun!</a>'), get_option('home')).'</h3>';
+		echo '<h3>'.sprintf(__('All done. <a href="%s">Have fun!</a>'), get_option('home')).'</h3></div>';
 	}
 
 	function import() {
 		$this->id = (int) $_GET['id'];
+		
 		$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
 		$this->get_entries();
@@ -420,11 +424,11 @@ class MT_Import {
 	}
 
 	function MT_Import() {
-		// Nothing.	
+		// Nothing.
 	}
 }
 
 $mt_import = new MT_Import();
 
-register_importer('mt', 'Movable Type', __('Import posts and comments from your Movable Type blog'), array ($mt_import, 'dispatch'));
+register_importer('mt', __('Movable Type and Typepad'), __('Imports <strong>posts and comments</strong> from your Movable Type or Typepad blog'), array ($mt_import, 'dispatch'));
 ?>
