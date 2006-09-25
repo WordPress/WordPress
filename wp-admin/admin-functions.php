@@ -400,7 +400,7 @@ function edit_user($user_id = 0) {
 	if (isset ($_POST['display_name']))
 		$user->display_name = wp_specialchars(trim($_POST['display_name']));
 	if (isset ($_POST['description']))
-		$user->description = wp_specialchars(trim($_POST['description']));
+		$user->description = trim($_POST['description']);
 	if (isset ($_POST['jabber']))
 		$user->jabber = wp_specialchars(trim($_POST['jabber']));
 	if (isset ($_POST['aim']))
