@@ -122,7 +122,7 @@ class wpdb {
 	//	Kill cached query results
 
 	function flush() {
-		$this->last_result = null;
+		$this->last_result = array();
 		$this->col_info = null;
 		$this->last_query = null;
 	}
