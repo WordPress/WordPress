@@ -99,7 +99,7 @@ addLoadEvent(focusit);
 <div class="dbx-content"><input name="post_name" type="text" size="13" id="post_name" value="<?php echo $post->post_name ?>" /></div>
 </fieldset>
 
-<fieldset class="dbx-box">
+<fieldset id="poststatusdiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Post Status') ?></h3> 
 <div class="dbx-content"><?php if ( current_user_can('publish_posts') ) : ?>
 <label for="post_status_publish" class="selectit"><input id="post_status_publish" name="post_status" type="radio" value="publish" <?php checked($post->post_status, 'publish'); checked($post->post_status, 'future'); ?> /> <?php _e('Published') ?></label>
@@ -109,7 +109,7 @@ addLoadEvent(focusit);
 </fieldset>
 
 <?php if ( current_user_can('edit_posts') ) : ?>
-<fieldset class="dbx-box">
+<fieldset id="posttimestampdiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Post Timestamp'); ?>:</h3>
 <div class="dbx-content"><?php touch_time(($action == 'edit')); ?></div>
 </fieldset>
@@ -204,7 +204,7 @@ if (current_user_can('upload_files')) {
 </div>
 
 <div class="dbx-box-wrapper">
-<fieldset class="dbx-box">
+<fieldset id="trackbacksdiv" class="dbx-box">
 <div class="dbx-handle-wrapper">
 <h3 class="dbx-handle"><?php _e('Trackbacks') ?></h3>
 </div>
