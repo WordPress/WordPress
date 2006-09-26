@@ -123,7 +123,8 @@ CREATE TABLE $wpdb->posts (
   post_mime_type varchar(100) NOT NULL default '',
   comment_count bigint(20) NOT NULL default '0',
   PRIMARY KEY  (ID),
-  KEY post_name (post_name)
+  KEY post_name (post_name),
+  KEY post_status (post_status)
 );
 CREATE TABLE $wpdb->users (
   ID bigint(20) unsigned NOT NULL auto_increment,
