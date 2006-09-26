@@ -125,6 +125,18 @@ function wp_get_schedules() {
 	return array_merge( apply_filters( 'cron_schedules', array() ), $schedules );
 }
 
+function wp_get_schedule($hook, $args = array()) {
+	$crons = _get_cron_array();
+	$key = md5(serialize($args));
+	if ( empty($crons) )
+		return false;
+	foreach ( $crons as $timestamp => $cron ) {
+		if ( isset( $cron[$hook][$key] ) )
+			return $cron[$hook][$key]['schedule'];
+	}
+	return false;
+}
+
 //
 // Private functions
 //
