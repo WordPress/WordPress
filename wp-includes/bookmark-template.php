@@ -246,7 +246,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 	else
 		parse_str($args, $r);
 
-	$defaults = array('show_updated' => 0, 'show_description' => 0, 'show_images' => 0, 'before' => '<li>',
+	$defaults = array('show_updated' => 0, 'show_description' => 0, 'show_images' => 1, 'before' => '<li>',
 		'after' => '</li>', 'between' => "\n");
 	$r = array_merge($defaults, $r);
 	extract($r);
