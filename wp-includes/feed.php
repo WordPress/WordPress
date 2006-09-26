@@ -128,7 +128,7 @@ function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
        return $link;
 }
 
-function the_category_rss($type = 'rss') {
+function get_the_category_rss($type = 'rss') {
     $categories = get_the_category();
     $the_list = '';
     foreach ($categories as $category) {
@@ -139,7 +139,11 @@ function the_category_rss($type = 'rss') {
             $the_list .= "\n\t<category>$category->cat_name</category>";
         }
     }
-    echo apply_filters('the_category_rss', $the_list, $type);
+    return apply_filters('the_category_rss', $the_list, $type);
+}
+
+function the_category_rss($type = 'rss') {
+	echo get_the_category_rss($type);
 }
 
 function rss_enclosure() {
