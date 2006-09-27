@@ -378,18 +378,18 @@ foreach($roleclasses as $role => $roleclass) {
 
 <tr>
 <?php if ( !empty($role) ) : ?>
-	<th colspan="7" align="left"><h3><?php echo $wp_roles->role_names[$role]; ?></h3></th>
+	<th colspan="7"><h3><?php echo $wp_roles->role_names[$role]; ?></h3></th>
 <?php else : ?>
-	<th colspan="7" align="left"><h3><em><?php _e('No role for this blog'); ?></h3></th>
+	<th colspan="7"><h3><em><?php _e('No role for this blog'); ?></h3></th>
 <?php endif; ?>
 </tr>
 <tr class="thead">
-	<th style="text-align: left"><?php _e('ID') ?></th>
-	<th style="text-align: left"><?php _e('Username') ?></th>
-	<th style="text-align: left"><?php _e('Name') ?></th>
-	<th style="text-align: left"><?php _e('E-mail') ?></th>
-	<th style="text-align: left"><?php _e('Website') ?></th>
-	<th colspan="2"><?php _e('Actions') ?></th>
+	<th><?php _e('ID') ?></th>
+	<th><?php _e('Username') ?></th>
+	<th><?php _e('Name') ?></th>
+	<th><?php _e('E-mail') ?></th>
+	<th><?php _e('Website') ?></th>
+	<th colspan="2" style="text-align: center"><?php _e('Actions') ?></th>
 </tr>
 </thead>
 <tbody id="role-<?php echo $role; ?>"><?php

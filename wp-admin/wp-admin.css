@@ -48,6 +48,10 @@ a.delete:hover {
 	padding: 5px 6px;
 }
 
+.widefat th {
+	text-align: left;
+}
+
 .import-system {
 	font-size: 16px;
 }
@@ -366,7 +370,7 @@ form#upload #post_content {
 }
 
 .updated, .confirm {
-	background: #CFEBF7 url(images/notice.gif) no-repeat 1em ;
+	background: #CFEBF7 url(images/notice.gif) no-repeat 1em;
 	border: 1px solid #2580B2;
 	margin: 1em 5% 10px;
 	padding: 0 1em 0 3em;
@@ -514,12 +518,15 @@ table .vers {
 	border: 1px solid #ccc;
 	border-bottom: none;
 }
+
 #postdiv #quicktags {
 	padding-right: 6px;
 }
+
 #postdivrich #quicktags {
 	display: none;
 }
+
 #quicktags #ed_toolbar {
 	padding: 0px 2px;
 }
@@ -633,10 +640,10 @@ table .vers {
 }
 
 #login ul:after {
-  content: "."; 
-  display: block; 
-  height: 0; 
-  clear: both; 
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
   visibility: hidden;
 }
 
@@ -675,6 +682,24 @@ table .vers {
 #login #submit {
 	margin: 0;
 	font-size: 1.2em;
+}
+
+#searchform {
+	float: left;
+	margin-right: 3em;
+	width: 16em;
+}
+
+#viewarc {
+	float: left;
+	width: 20em;
+	margin-bottom: 1em;
+}
+
+#viewcat {
+	float: left;
+	width: 30em;
+	margin-bottom: 1em;
 }
 
 #postcustom .updatemeta, #postcustom .deletemeta {
@@ -916,17 +941,20 @@ table .vers {
 #categorydiv ul {
 	list-style: none;
 	padding: 0;
-	margin-left:10px;
+	margin-left: 10px;
 }
+
 #categorychecklist {
 	height: 12em;
 	overflow: auto;
 	margin-top: 8px;
 }
+
 #categorychecklist li {
 	margin: 0;
 	padding: 0;
 }
+
 #ajaxcat input {
 	border: 1px solid #ccc;
 }
@@ -941,7 +969,7 @@ table .vers {
 	float: left;
 	width: 40%;
 	padding: .5em 2em 1em;
-	margin: 1em 1em 1em 0; 
+	margin: 1em 1em 1em 0;
 }
 
 #your-profile fieldset input  {
@@ -1111,8 +1139,13 @@ a.dbx-toggle, a.dbx-toggle:visited {
 	filter: alpha(opacity=80);
 }
 
-#newcat { width: 120px; margin-right: 5px; }
-input#catadd { 	background: #a4a4a4;
+#newcat {
+	width: 120px;
+	margin-right: 5px;
+}
+
+input #catadd {
+	background: #a4a4a4;
 	border-bottom: 1px solid #898989;
 	border-left: 1px solid #bcbcbc;
 	border-right: 1px solid #898989;
@@ -1125,32 +1158,41 @@ input#catadd { 	background: #a4a4a4;
 	height: 20px;
 	margin-bottom: 2px;
 	text-align: center;
-	width: 37px; }
+	width: 37px;
+}
+
 #howto {
 	font-size: 11px;
 	margin: 0 5px;
 	display: block;
 }
+
 #jaxcat {
 	margin: 0;
 	padding: 0;
 }
+
 #ajax-response.alignleft {
 	margin-left: 2em;
 }
+
 #postdivrich #edButtons {
 	padding-left: 3px;
 }
+
 #postdivrich #content, #postdivrich #content:active {
 	border: 1px solid #ccc;
 }
+
 #edButtons input, #edButtons input:active {
 	margin: 0px 2px -1px;
 }
+
 #edButtons input.edButtonFore, #edButtons input.edButtonFore:active {
 	background: #f0f0ee;
 	border-bottom: 1px solid #f0f0ee;
 }
+
 #edButtons input.edButtonBack, #edButtons input.edButtonBack:active {
 	background: #fff url( images/fade-butt.png ) repeat-x 0px 15px;
 	border-bottom: 1px solid #ccc;

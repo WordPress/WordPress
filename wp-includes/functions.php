@@ -1161,12 +1161,16 @@ function wp_die($message, $title = '') {
 
 function _mce_set_direction() {
 	global $wp_locale;
-	if ('rtl' == $wp_locale->text_direction)
+
+	if ('rtl' == $wp_locale->text_direction) {
 		echo 'directionality : "rtl" ,';
+		echo 'theme_advanced_toolbar_align : "right" ,';
+	}
 }
 
 function _mce_load_rtl_plugin($input) {
-	global $wp_locale; 
+	global $wp_locale;
+
 	if ('rtl' == $wp_locale->text_direction)
 		$input[] = 'directionality';
 
@@ -1174,7 +1178,8 @@ function _mce_load_rtl_plugin($input) {
 }
 
 function _mce_add_direction_buttons($input) {
-	global $wp_locale; 
+	global $wp_locale;
+
 	if ('rtl' == $wp_locale->text_direction) {
 		$new_buttons = array('separator', 'ltr', 'rtl');
 		$input = array_merge($input, $new_buttons);

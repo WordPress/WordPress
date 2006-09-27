@@ -750,7 +750,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$category->category_count = number_format( $category->category_count );
 	$category->link_count = number_format( $category->link_count );
 	return "<tr id='cat-$category->cat_ID'$class>
-		<th scope='row'>$category->cat_ID</th>
+		<th scope='row' style='text-align: center'>$category->cat_ID</th>
 		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->cat_name ) . "</td>
 		<td>$category->category_description</td>
 		<td align='center'>$category->category_count</td>
@@ -778,7 +778,7 @@ function page_rows($parent = 0, $level = 0, $pages = 0, $hierarchy = true) {
 		$class = ('alternate' == $class) ? '' : 'alternate';
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'> 
-    <th scope="row"><?php echo $post->ID; ?></th> 
+    <th scope="row" style="text-align: center"><?php echo $post->ID; ?></th> 
     <td>
       <?php echo $pad; ?><?php the_title() ?>
       <?php if ('private' == $post->post_status) _e(' - <strong>Private</strong>'); ?>

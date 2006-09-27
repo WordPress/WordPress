@@ -81,10 +81,10 @@ if (empty($plugins)) {
 <table class="widefat">
 	<thead>
 	<tr>
-		<th style="text-align: left"><?php _e('Plugin'); ?></th>
-		<th><?php _e('Version'); ?></th>
-		<th style="text-align: left"><?php _e('Description'); ?></th>
-		<th><?php _e('Action'); ?></th>
+		<th><?php _e('Plugin'); ?></th>
+		<th style="text-align: center"><?php _e('Version'); ?></th>
+		<th><?php _e('Description'); ?></th>
+		<th style="text-align: center"><?php _e('Action'); ?></th>
 	</tr>
 	</thead>
 <?php

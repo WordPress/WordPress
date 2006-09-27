@@ -104,13 +104,13 @@ printf(__('Currently showing %1$s links ordered by %2$s'), $select_cat, $select_
 <table class="widefat">
 	<thead>
 	<tr>
-		<th width="15%" style="text-align: left"><?php _e('Name') ?></th>
-		<th style="text-align: left"><?php _e('URL') ?></th>
-		<th style="text-align: left"><?php _e('Categories') ?></th>
-		<th><?php _e('rel') ?></th>
-		<th><?php _e('Visible') ?></th>
-		<th colspan="2"><?php _e('Action') ?></th>
-		<th><input type="checkbox" onclick="checkAll(document.getElementById('links'));" /></th>
+		<th width="15%"><?php _e('Name') ?></th>
+		<th><?php _e('URL') ?></th>
+		<th><?php _e('Categories') ?></th>
+		<th style="text-align: center"><?php _e('rel') ?></th>
+		<th style="text-align: center"><?php _e('Visible') ?></th>
+		<th colspan="2" style="text-align: center"><?php _e('Action') ?></th>
+		<th style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById('links'));" /></th>
 	</tr>
 	</thead>
 	<tbody id="the-list">

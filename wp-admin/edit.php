@@ -73,7 +73,7 @@ if ( is_month() ) {
 ?>
 </h2>
 
-<form name="searchform" action="" method="get" style="float: left; width: 16em; margin-right: 3em;"> 
+<form name="searchform" id="searchform" action="" method="get">
   <fieldset> 
   <legend><?php _e('Search Posts&hellip;') ?></legend> 
   <input type="text" name="s" value="<?php if (isset($s)) echo wp_specialchars($s, 1); ?>" size="17" /> 
@@ -85,7 +85,7 @@ if ( is_month() ) {
 
 if ( count($arc_result) ) { ?>
 
-<form name="viewarc" action="" method="get" style="float: left; width: 20em; margin-bottom: 1em;">
+<form name="viewarc" id="viewarc" action="" method="get">
 	<fieldset>
 	<legend><?php _e('Browse Month&hellip;') ?></legend>
     <select name='m'>
@@ -112,7 +112,7 @@ if ( count($arc_result) ) { ?>
 
 <?php } ?>
 
-<form name="viewcat" action="" method="get" style="float: left; width: 30em; margin-bottom: 1em;">
+<form name="viewcat" id="viewcat" action="" method="get">
 	<fieldset>
 	<legend><?php _e('Browse Category&hellip;') ?></legend>
 	<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=0&hierarchical=1&show_count=1&selected='.$cat);?>
@@ -169,7 +169,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'id':
 		?>
-		<th scope="row"><?php echo $id ?></th>
+		<th scope="row" style="text-align: center"><?php echo $id ?></th>
 		<?php
 		break;
 

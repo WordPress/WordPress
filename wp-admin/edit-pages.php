@@ -31,11 +31,11 @@ if ($posts) {
 <table class="widefat"> 
   <thead>
   <tr>
-    <th scope="col"><?php _e('ID') ?></th>
-    <th scope="col" style="text-align: left"><?php _e('Title') ?></th>
-    <th scope="col" style="text-align: left"><?php _e('Owner') ?></th>
-	<th scope="col" style="text-align: left"><?php _e('Updated') ?></th>
-	<th scope="col" colspan="3"><?php _e('Action'); ?></th>
+    <th scope="col" style="text-align: center"><?php _e('ID') ?></th>
+    <th scope="col"><?php _e('Title') ?></th>
+    <th scope="col"><?php _e('Owner') ?></th>
+	<th scope="col"><?php _e('Updated') ?></th>
+	<th scope="col" colspan="3" style="text-align: center"><?php _e('Action'); ?></th>
   </tr>
   </thead>
   <tbody id="the-list">

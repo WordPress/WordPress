@@ -89,12 +89,12 @@ $messages[4] = __('Category not added.');
 <table class="widefat">
 	<thead>
 	<tr>
-		<th scope="col"><?php _e('ID') ?></th>
-        <th scope="col" style="text-align: left"><?php _e('Name') ?></th>
-        <th scope="col" style="text-align: left"><?php _e('Description') ?></th>
-        <th scope="col" width="90"><?php _e('Posts') ?></th>
-        <th scope="col" width="90"><?php _e('Bookmarks') ?></th>
-        <th colspan="2"><?php _e('Action') ?></th>
+		<th scope="col" style="text-align: center"><?php _e('ID') ?></th>
+        <th scope="col"><?php _e('Name') ?></th>
+        <th scope="col"><?php _e('Description') ?></th>
+        <th scope="col" width="90" style="text-align: center"><?php _e('Posts') ?></th>
+        <th scope="col" width="90" style="text-align: center"><?php _e('Bookmarks') ?></th>
+        <th colspan="2" style="text-align: center"><?php _e('Action') ?></th>
 	</tr>
 	</thead>
 	<tbody id="the-list">

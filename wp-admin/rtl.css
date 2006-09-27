@@ -1,113 +1,223 @@
-body	{
-	direction: rtl;
+#viewarc, #viewcat, #namediv, #emaildiv, #uridiv, #planetnews li, #login ul li, #your-profile fieldset, .alignleft .available-theme {
+	float: right
+}
+
+#templateside, .alignright {
+	float: left;
+}
+
+#login, #send, .widefat th {
+	text-align: right
+}
+
+#postcustomsubmit, h2 small.quickjump, form#upload th, .submit, .editform th {
+	text-align: left
 }
 
 body, td {
 	font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana;
 }
 
-h2 small.quickjump {
-	text-align: left;
-}
-
-h2 small.quickjump a {
-	font-size: 12px;
-	font-family: Tahoma, sans-serif;
+fieldset.options legend {
+	font-family: Tahoma, Georgia, "Times New Roman", Times, serif;
 }
 
 textarea, input, select {
-	font:  12px Tahoma, Arial, Helvetica, sans-serif;
+	font:  13px Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+
+.quicktags, .search {
+	font: 12px Tahoma, Georgia, "Times New Roman", Times, serif;
+}
+
+.submit input, .submit input:focus, .button {
+	border-right-color: #ccc;
+}
+
+.submit input:active, .button:active {
+	border-right-color: #999;
+}
+
+.updated, .confirm {
+	padding: 0 3em 0 1em;
 }
 
 #adminmenu {
-	float: right;
-	width: 100%;
+	padding: .2em 2em .3em .2em;
+	height: 30px;
 }
 
 #adminmenu a {
-	font-size: 16px;
-	font-weight: bold;
-	font-family: georgia;
-	margin: 0px 2px;
-	padding: 1px 5px;
+	margin: 0 0 0 10px;
+	display: block;
 	float: right;
 }
 
 #submenu {
-	clear: both;
-	float: right;
-	width: 100%;
+	height: 21px;
+	padding: 3px 3em 0 2em;
+}
+
+#submenu .current {
+	border-left: 2px solid #045290;
 }
 
 #submenu a {
-	padding: .1em .33em;
+	padding: .3em .4em .33em .4em;
+	margin: 0 0 0 10px;
+	display: block;
 	float: right;
-	margin: 0px 2px;
 }
 
-#title {
-	font-family: georgia;
+#submenu li {
+	line-height: 100%;
+}
+
+#postdiv , #titlediv, #guiddiv {
+	margin: 0 0 0 8px;
+}
+
+#currenttheme img {
+	float: right;
+	margin-right: auto;
+	margin-left: 1em;
+}
+
+#postdiv #quicktags {
+	padding-right: auto;
+	padding-left: 6px;
+}
+
+#quicktags #ed_toolbar {
+	padding: 0px 0 0 2px;
+}
+
+#ed_toolbar input {
+	margin: 3px 0 2px 2px;
+}
+
+* html #postexcerpt .dbx-toggle-open, * html #postexcerpt .dbx-toggle-open, #postexcerpt div, #attachmentlinks div {
+	padding-right: auto;
+	padding-left: 8px;
 }
 
 #login h1 {
-	direction: ltr;
+	left: auto;
+	right: 137px;
 }
 
-#postcustom .updatemeta, #postcustom .deletemeta {
-	width: 5em;
+#login h1 a {
+	display: none;
+}
+
+#searchform {
+	float: right;
+	margin-right: auto;
+	margin-left: 3em;
+}
+
+#poststuff {
+	margin-right: auto;
+	margin-left: 16em;
 }
 
 #template div {
-	direction: ltr;
+	margin-right: auto;
+	margin-left: 190px;
+}
+
+* html #template div {
+	margin-right: auto;
+	margin-left: 0px;
 }
 
 #user_info {
-	left: 1em;
-	top: 0;
 	right: auto;
+	left: 1em;
 }
 
 #wphead {
 	padding: .8em 2em .8em 19em;
 }
 
+#wphead h1 {
+	font-size: 2.4em;
+	font-family: Tahoma, Georgia, "Times New Roman", Times, serif
+}
+
+#zeitgeist {
+	float: left;
+	margin-left: auto;
+	margin-right: 1em;
+}
+
+#zeitgeist ul {
+	margin: 0 .6em .3em 0;
+	padding: 0 .6em 0 0;
+}
+
 #moremeta fieldset div {
-	padding: 0 7px 0 0;
+	margin: 2px 0px 0 0;
+}
+#moremeta {
+	margin-right: auto;
+	margin-left: 15px;
+	right: auto;
+	left: 5%;
+}
+#categorydiv ul {
+	margin-left: auto;
+	margin-right: 10px;
+}
+
+#your-profile legend {
+	font-family: Tahoma, Georgia, "Times New Roman", Times, serif;
 }
 
 #moremeta .dbx-content {
 	background: url(images/box-butt.gif) no-repeat bottom left;
-	padding: 5px 10px 15px 5px;
+	padding-right: auto;
+	padding-left: 2px;
 }
 
 #moremeta .dbx-handle {
-	background: url(images/box-head.gif) no-repeat right;
+	background: #2685af url(images/box-head.gif) no-repeat left;
 }
-	
-/* toggle images */
+
+#moremeta .dbx-box {
+	background: url(images/box-bg.gif) repeat-y left;
+}
+
 a.dbx-toggle, a.dbx-toggle:visited {
-	left: 5px;
 	right: auto;
+	left: 2px;
+}
+
+#advancedstuff a.dbx-toggle, #advancedstuff a.dbx-toggle-open:visited {
+	right: auto;
+	left: 5px;
 }
 
 #advancedstuff a.dbx-toggle-open, #advancedstuff a.dbx-toggle-open:visited {
-
-	}
-
-/* Ali ix Corrections and Additions ;) */
-
-td.desc, td.name, textarea#ping_sites, textarea#moderation_keys, textarea#blacklist_keys, input#home, input#admin_email, input#siteurl, input#mailserver_url, input#mailserver_port, input#mailserver_login, input#mailserver_pass, input#blog_charset, input#permalink_structure, input#post_name, input#trackback {
-	direction: ltr;
-	text-align: left;
-}
-.mceToolbarTop {
-	direction: ltr;
+	right: auto;
+	left: 5px;
 }
 
-div#zeitgeist ul, div.wrap ul {
-	list-style: none;
-	}
-	
-table.widefat th, tr.thead {
-	text-align: right;
+#categorychecklist {
+	margin-right: auto;
+	margin-left: 6px;
+}
+
+#ajax-response.alignleft {
+	margin-left: auto;
+	margin-right: 2em;
+}
+
+#postdivrich #edButtons {
+	padding-left: auto;
+	padding-right: 3px;
+}
+
+#edButtons input, #edButtons input:active {
+	margin: 0px 0 -1px 2px;
 }

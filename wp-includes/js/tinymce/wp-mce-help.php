@@ -1,13 +1,13 @@
-<?php
-
-require_once('../../../wp-config.php');
-
-?>
+<?php require_once('../../../wp-config.php'); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title><?php _e('Rich Editor Help') ?></title>
 <link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
+<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+<?php endif; ?> 
 <style type="text/css">
 	#wphead {
 		padding-top: 5px;
@@ -78,6 +78,20 @@ require_once('../../../wp-config.php');
 		border-bottom: 0px;
 	}
 </style>
+<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
+<style type="text/css">
+	#wphead, #adminmenu {
+		padding-left: auto;
+		padding-right: 15px;
+	}
+	#flipper {
+		margin: 5px 0 3px 10px;
+	}
+	#keys .left, .top, .action { text-align: right; }
+	#keys .right { text-align: left; }
+	td b { font-family: Tahoma, "Times New Roman", Times, serif }
+</style>
+<?php endif; ?> 
 <script type="text/javascript">
 	window.onkeydown = window.onkeypress = function (e) {
 		e = e ? e : window.event;

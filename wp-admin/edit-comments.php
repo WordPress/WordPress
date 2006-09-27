@@ -155,12 +155,12 @@ $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 		echo '<table class="widefat">
 <thead>
   <tr>
-    <th scope="col"><input type="checkbox" onclick="checkAll(document.getElementById(\'deletecomments\'));" /></th>
-    <th scope="col" style="text-align: left">' .  __('Name') . '</th>
-    <th scope="col" style="text-align: left">' .  __('E-mail') . '</th>
-    <th scope="col" style="text-align: left">' . __('IP') . '</th>
-    <th scope="col" style="text-align: left">' . __('Comment Excerpt') . '</th>
-	<th scope="col" colspan="3">' .  __('Actions') . '</th>
+    <th scope="col" style="text-align: center"><input type="checkbox" onclick="checkAll(document.getElementById(\'deletecomments\'));" /></th>
+    <th scope="col">' .  __('Name') . '</th>
+    <th scope="col">' .  __('E-mail') . '</th>
+    <th scope="col">' . __('IP') . '</th>
+    <th scope="col">' . __('Comment Excerpt') . '</th>
+	<th scope="col" colspan="3" style="text-align: center">' .  __('Actions') . '</th>
   </tr>
 </thead>';
 		foreach ($comments as $comment) {
