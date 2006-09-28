@@ -177,12 +177,9 @@ case 'editedcomment':
 
 	edit_comment();
 
-	$referredby = $_POST['referredby'];
-	if (!empty($referredby)) {
-		wp_redirect($referredby);
-	} else {
-		wp_redirect("edit.php?p=$comment_post_ID&c=1#comments");
-	}
+	$location = ( empty($_POST['referredby']) ? "edit.php?p=$comment_post_ID&c=1" : $_POST['referredby'] ) . '#comment-' . $comment_ID;
+	$location = apply_filters('comment_edit_redirect', $location, $comment_ID);
+	wp_redirect($location);
 
 	break;
 default:
