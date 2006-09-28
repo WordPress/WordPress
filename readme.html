@@ -1,52 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>WordPress &rsaquo; ReadMe</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<style type="text/css" media="screen">
-	<!--
-	html {
-		background: #eee;
-	}
-	body {
-		background: #fff;
-		color: #000;
-		font-family: Georgia, "Times New Roman", Times, serif;
-		margin-left: 25%;
-		margin-right: 25%;
-		padding: .2em 2em;
-	}
-
-	h1 {
-		color: #006;
-		font-size: 18px;
-		font-weight: lighter;
-	}
-
-	h2 {
-		font-size: 16px;
-	}
-
-	p, li, dt {
-		line-height: 140%;
-		padding-bottom: 2px;
-	}
-
-	ul, ol {
-		padding: 5px 5px 5px 20px;
-	}
-	-->
-	</style>
+	<title>WordPress &rsaquo; ReadMe</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="wp-admin/install.css" type="text/css" />
 </head>
 <body>
-<h1 style="text-align: center"><img alt="WordPress" src="http://wordpress.org/images/wordpress.gif" /> <br />
-	Version 2.0</h1>
-<p style="text-align: center"> Semantic Personal Publishing Platform </p>
+<h1 id="logo" style="text-align: center">
+	<img alt="WordPress" src="wp-admin/images/wordpress-logo.png" />
+	<br /> Version 2.1-ALPHA
+</h1>
+<p style="text-align: center">Semantic Personal Publishing Platform</p>
+
 <h1>First Things First</h1>
 <p>Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I'm proud to be a part of. Thousands of hours have gone into WordPress, and we're dedicated to making it better every day. Thank you for making it part of your world.</p>
 <p style="text-align: right;">&#8212; Matt Mullenweg </p>
 
-<h1 id="installation">Installation: Famous 5-minute install</h1>
+<h1>Installation: Famous 5-minute install</h1>
 <ol>
 	<li>Unzip the package in an empty directory</li>
 	<li>Open up <code>wp-config-sample.php</code> with a text editor like WordPad or similar and fill in your database connection details</li>
@@ -68,22 +38,23 @@
 </ol>
 <h2>Template Changes</h2>
 <p>If you have customized your templates you will probably have to make some changes to them. If you're converting your 1.2 or earlier templates, <a href="http://codex.wordpress.org/Upgrade_1.2_to_1.5">we've created a special guide for you</a>. </p>
+
 <h1>Online Resources</h1>
 <p>If you have any questions that aren't addressed in this document, please take advantage of WordPress' numerous online resources:</p>
 <dl>
 	<dt><a href="http://codex.wordpress.org/">The WordPress Codex </a></dt>
-	<dd>The Codex is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available. </dd>
+		<dd>The Codex is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available. </dd>
 	<dt><a href="http://wordpress.org/development/">The Development Blog</a></dt>
-	<dd>This is where you'll find the latest updates and news related to WordPress. Bookmark and check often. </dd>
+		<dd>This is where you'll find the latest updates and news related to WordPress. Bookmark and check often. </dd>
 	<dt><a href="http://planet.wordpress.org/">WordPress Planet </a></dt>
-	<dd>The WordPress Planet is a news aggregator that brings together posts from WordPress blogs around the web. </dd>
+		<dd>The WordPress Planet is a news aggregator that brings together posts from WordPress blogs around the web. </dd>
 	<dt><a href="http://wordpress.org/support/">WordPress Support Forums</a></dt>
-	<dd>If you've looked everywhere and still can't find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible. </dd>
+		<dd>If you've looked everywhere and still can't find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible. </dd>
 	<dt><a href="http://codex.wordpress.org/IRC">WordPress IRC Channel</a></dt>
-	<dd>Finally, there is an online chat channel that is used for discussion amoung people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (irc.freenode.net #wordpresss) </dd>
+		<dd>Finally, there is an online chat channel that is used for discussion amoung people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (irc.freenode.net #wordpresss) </dd>
 </dl>
 
-<h1 id="requirements">System Recommendations</h1>
+<h1>System Recommendations</h1>
 <ul>
 	<li>PHP version <strong>4.1</strong> or higher</li>
 	<li>MySQL version <strong>3.23.23</strong> or higher</li>
@@ -94,14 +65,14 @@
 <h1>Upgrading from another system</h1>
 <p>WordPress can <a href="http://codex.wordpress.org/Importing_from_other_blogging_software">import from a number of systems</a>. First you need to get WordPress installed and working as described above.</p>
 
-<h1 id="templates">XML-RPC Interface</h1>
+<h1>XML-RPC Interface</h1>
 <p>You can now post to your WordPress blog with tools like <a href="http://ecto.kung-foo.tv/">Ecto</a>, <a href="http://blogbuddy.sourceforge.net">BlogBuddy</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://www.ubique.ch/wapblogger/">WapBlogger</a> (post from your Wap cellphone!), <a href="http://radio.userland.com">Radio Userland</a> (which means you can use Radio's email-to-blog feature), <a href="http://www.zempt.com/">Zempt</a>, <a href="http://www.newzcrawler.com/">NewzCrawler</a>, and other tools that support the Blogging APIs! :) You can read more about <a href="http://codex.wordpress.org/XML-RPC_Support">XML-RPC support on the Codex</a>.</p>
 
 <h1>Post via Email</h1>
-<p>You can post from an email client! To set this up go to your &quot;Writing&quot; options screen and fill in the connection details for your secret POP3 account. Then you need to set up <code>wp-mail.php</code> to execute periodically to check the mailbox for new posts. You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your <code>wp-mail.php</code> URL. </p>
-<p> Posting is easy: Any email sent to the address you specify will be posted, with the subject as the title. It is best to keep the address dicrete. The script will <i>delete</i> emails that are successfully posted. </p>
-<h1 id="roles">User Roles </h1>
+<p>You can post from an email client! To set this up go to your &quot;Writing&quot; options screen and fill in the connection details for your secret POP3 account. Then you need to set up <code>wp-mail.php</code> to execute periodically to check the mailbox for new posts. You can do it with Cron-jobs, or if your host doesn't support it you can look into the various website-monitoring services, and make them check your <code>wp-mail.php</code> URL.</p>
+<p>Posting is easy: Any email sent to the address you specify will be posted, with the subject as the title. It is best to keep the address dicrete. The script will <i>delete</i> emails that are successfully posted.</p>
 
+<h1>User Roles</h1>
 <p>We've eliminated user levels in order to make way for the much more flexible roles system introduced in 2.0. You can <a href="http://codex.wordpress.org/Roles_and_Capabilities">read more about Roles and Capabilities on the Codex</a>.</p>
 
 <h1> Final notes</h1>

@@ -1,8 +1,6 @@
 <?php
-
 require_once('admin.php');
-
-header('Content-Type: text/html; charset=' . get_option('blog_charset'));
+@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 if (!current_user_can('upload_files'))
 	wp_die(__('You do not have permission to upload files.'));
@@ -276,12 +274,12 @@ $images_width = $uwidth_sum + ( count($images) * 6 ) + 35;
 break;
 
 default:
-wp_die(__('This script was not meant to be called directly.'));
+	wp_die(__('This script was not meant to be called directly.'));
 }
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 <title></title>
@@ -427,280 +425,338 @@ function sendToEditor(n) {
 // ]]>
 </script>
 <style type="text/css">
-<?php if ( $action == 'links' ) : ?>
-* html { overflow-x: hidden; }
-<?php else : ?>
-* html { overflow-y: hidden; }
-<?php endif; ?>
-body {
-	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
-	border: none;
-	margin: 0px;
-	height: 150px;
-	background: #dfe8f1;
-}
-form {
-	margin: 3px 2px 0px 6px;
-}
-#wrap {
-	clear: both;
-	padding: 0px;
-	width: 100%;
-}
-#images {
-	position: absolute;
-	clear: both;
-	margin: 0px;
-	padding: 15px 15px;
-	width: <?php echo $images_width; ?>px;
-}
-#images img {
-	background-color: rgb(209, 226, 239);
-}
-<?php echo $style; ?>
-.attwrap, .attwrap * {
-	margin: 0px;
-	padding: 0px;
-	border: 0px;
-}
-.imagewrap {
-	margin-right: 5px;
-	overflow: hidden;
-	width: 128px;
-}
-.otherwrap {
-	margin-right: 5px;
-	overflow: hidden;
-	background-color: #f9fcfe;
-}
-.otherwrap a {
-	display: block;
-}
-.otherwrap a, .otherwrap a:hover, .otherwrap a:active, .otherwrap a:visited {
-	color: blue;
-}
-.usingicon {
-	padding: 0px;
-	height: 96px;
-	text-align: center;
-	width: 128px;
-}
-.usingtext {
-	padding: 3px;
-	height: 90px;
-	text-align: left;
-	width: 122px;
-}
-.filetype {
-	font-size: 80%;
-	border-bottom: 3px double #89a
-}
-.imagewrap, .imagewrap img, .imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img {
-	text-decoration: none;
-}
-#upload-menu {
-	background: #fff;
-	margin: 0px;
-	padding: 0;
-	list-style: none;
-	height: 2em;
-	border-bottom: 1px solid #448abd;
-	width: 100%;
-}
-#upload-menu li {
-	float: left;
-	margin: 0 0 0 .75em;
-}
-#upload-menu a {
-	display: block;
-	padding: 5px;
-	text-decoration: none;
-	color: #000;
-	border-top: 3px solid #fff;
-}
-#upload-menu .current a {
-	background: #dfe8f1;
-	border-right: 2px solid #448abd;
-}
-#upload-menu a:hover {
-	background: #dfe8f1;
-	color: #000;
-}
-.tip {
-	color: rgb(68, 138, 189);
-	padding: 2px 1em;
-}
-.inactive {
-	color: #fff;
-	padding: 1px 3px;
-}
-.left {
-	float: left;
-}
-.right {
-	float: right;
-}
-.center {
-	text-align: center;
-}
-#upload-menu li.spacer {
-	margin-left: 40px;
-}
-#title, #descr {
-	width: 99%;
-	margin-top: 1px;
-}
-th {
-	width: 4.5em;
-}
-#descr {
-	height: 36px;
-}
-#buttons {
-	margin-top: 2px;
-	text-align: right;
-}
-.popup {
-	margin: 4px 4px;
-	padding: 1px;
-	position: absolute;
-	width: 114px;
-	display: none;
-	background-color: rgb(240, 240, 238);
-	border-top: 2px solid #fff;
-	border-right: 2px solid #ddd;
-	border-bottom: 2px solid #ddd;
-	border-left: 2px solid #fff;
-	text-align: center;
-}
-.imagewrap .popup {
-	opacity: .90;
-	filter:alpha(opacity=90);
-}
-.otherwrap .popup {
-	padding-top: 20px;
-}
-.popup a, .popup a:visited, .popup a:active {
-	background-color: transparent;
-	display: block;
-	width: 100%;
-	text-decoration: none;
-	color: #246;
-}
-.popup a:hover {
-	background-color: #fff;
-	color: #000;
-}
-.caption {
-	text-align: center;
-}
-#submit {
-	margin: 1px;
-	width: 99%;
-}
-#submit input, #submit input:focus {
-	background: url( images/fade-butt.png );
-	border: 3px double #999;
-	border-left-color: #ccc;
-	border-top-color: #ccc;
-	color: #333;
-	padding: 0.25em;
-}
-#submit input:active {
-	background: #f4f4f4;
-	border: 3px double #ccc;
-	border-left-color: #999;
-	border-top-color: #999;
-}
-.zerosize {
-	width: 0px;
-	height: 0px;
-	overflow: hidden;
-	position: absolute;
-}
-#links {
-	margin: 3px 8px;
-	line-height: 2em;
-}
-#links textarea {
-	width: 95%;
-	height: 4.5em;
-}
+	<?php if ( $action == 'links' ) : ?>
+	* html { overflow-x: hidden; }
+	<?php else : ?>
+	* html { overflow-y: hidden; }
+	<?php endif; ?>
+
+	body {
+		font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
+		border: none;
+		margin: 0px;
+		height: 150px;
+		background: #dfe8f1;
+	}
+
+	form { margin: 3px 2px 0px 6px; }
+
+	#wrap {
+		clear: both;
+		padding: 0px;
+		width: 100%;
+	}
+
+	#images {
+		position: absolute;
+		clear: both;
+		margin: 0px;
+		padding: 15px 15px;
+		width: <?php echo $images_width; ?>px;
+	}
+
+	#images img { background-color: rgb(209, 226, 239); }
+
+	<?php echo $style; ?>
+
+	.attwrap, .attwrap * {
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+	.imagewrap {
+		margin-right: 5px;
+		overflow: hidden;
+		width: 128px;
+	}
+
+	.otherwrap {
+		margin-right: 5px;
+		overflow: hidden;
+		background-color: #f9fcfe;
+	}
+
+	.otherwrap a { display: block; }
+
+	.otherwrap a, .otherwrap a:hover, .otherwrap a:active, .otherwrap a:visited { color: blue; }
+
+	.usingicon {
+		padding: 0px;
+		height: 96px;
+		text-align: center;
+		width: 128px;
+	}
+
+	.usingtext {
+		padding: 3px;
+		height: 90px;
+		text-align: left;
+		width: 122px;
+	}
+
+	.filetype {
+		font-size: 80%;
+		border-bottom: 3px double #89a;
+	}
+
+	.imagewrap, .imagewrap img, .imagewrap a, .imagewrap a img, .imagewrap a:hover img, .imagewrap a:visited img, .imagewrap a:active img { text-decoration: none; }
+
+	#upload-menu {
+		background: #fff;
+		margin: 0px;
+		padding: 0;
+		list-style: none;
+		height: 2em;
+		border-bottom: 1px solid #448abd;
+		width: 100%;
+	}
+
+	#upload-menu li {
+		float: left;
+		margin: 0 0 0 .75em;
+	}
+
+	#upload-menu a {
+		display: block;
+		padding: 5px;
+		text-decoration: none;
+		color: #000;
+		border-top: 3px solid #fff;
+	}
+
+	#upload-menu .current a {
+		background: #dfe8f1;
+		border-right: 2px solid #448abd;
+	}
+
+	#upload-menu a:hover {
+		background: #dfe8f1;
+		color: #000;
+	}
+
+	.tip {
+		color: rgb(68, 138, 189);
+		padding: 2px 1em;
+	}
+
+	.inactive {
+		color: #fff;
+		padding: 1px 3px;
+	}
+
+	.left { float: left; }
+
+	.right { float: right; }
+
+	.center { text-align: center; }
+
+	#upload-menu li.spacer { margin-left: 40px; }
+
+	#title, #descr {
+		width: 99%;
+		margin-top: 1px;
+	}
+
+	th {
+		text-align: right;
+		width: 4.5em;
+	}
+
+	#descr { height: 36px; }
+
+	#buttons {
+		margin-top: 2px;
+		text-align: right;
+	}
+
+	.popup {
+		margin: 4px 4px;
+		padding: 1px;
+		position: absolute;
+		width: 114px;
+		display: none;
+		background-color: rgb(240, 240, 238);
+		border-top: 2px solid #fff;
+		border-right: 2px solid #ddd;
+		border-bottom: 2px solid #ddd;
+		border-left: 2px solid #fff;
+		text-align: center;
+	}
+
+	.imagewrap .popup {
+		opacity: .90;
+		filter:alpha(opacity=90);
+	}
+
+	.otherwrap .popup { padding-top: 20px; }
+
+	.popup a, .popup a:visited, .popup a:active {
+		background-color: transparent;
+		display: block;
+		width: 100%;
+		text-decoration: none;
+		color: #246;
+	}
+
+	.popup a:hover {
+		background-color: #fff;
+		color: #000;
+	}
+
+	.caption { text-align: center; }
+
+	#submit {
+		margin: 1px;
+		width: 99%;
+	}
+
+	#submit input, #submit input:focus {
+		background: url( images/fade-butt.png );
+		border: 3px double #999;
+		border-left-color: #ccc;
+		border-top-color: #ccc;
+		color: #333;
+		padding: 0.25em;
+	}
+
+	#submit input:active {
+		background: #f4f4f4;
+		border: 3px double #ccc;
+		border-left-color: #999;
+		border-top-color: #999;
+	}
+
+	.zerosize {
+		width: 0px;
+		height: 0px;
+		overflow: hidden;
+		position: absolute;
+	}
+
+	#links {
+		margin: 3px 8px;
+		line-height: 2em;
+	}
+
+	#links textarea {
+		width: 95%;
+		height: 4.5em;
+	}
 </style>
+<?php if ( ('rtl' == $wp_locale->text_direction) ): ?>
+<style type="text/css">
+	body { font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana; }
+
+	.usingtext { text-align: right; }
+
+	th { text-align: left; }
+
+	.left, #upload-menu li { float: right; }
+
+	.right { float: left; }
+
+	.popup {
+		border-right: 2px solid #fff;
+		border-left: 2px solid #ddd;
+	}
+
+	#upload-menu .current a {
+		border-right: 0;
+		border-left: 2px solid #448abd;
+	}
+
+	#submit input, #submit input:focus {
+		border-left: 0;
+		border-right-color: #ccc;
+	}
+
+	#submit input:active {
+		border-left: 0;
+		border-right-color: #999;
+	}
+</style>
+<?php endif; ?> 
 </head>
 <body>
 <ul id="upload-menu">
-<li<?php echo $current_1; ?>><a href="<?php echo basename(__FILE__) . "?action=upload&amp;post=$post&amp;all=$all&amp;start=$start"; ?>"><?php _e('Upload'); ?></a></li>
-<?php if ( $attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$post'") ) { ?>
-<li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__) . "?action=view&amp;post=$post&amp;all=false"; ?>"><?php _e('Browse'); ?></a></li>
-<?php } ?>
-<?php if ($wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_type = 'attachment'")) { ?>
-<li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__) . "?action=view&amp;post=$post&amp;all=true"; ?>"><?php _e('Browse All'); ?></a></li>
-<?php } ?>
-<li> </li>
-<?php if ( $action == 'view' ) { ?>
-<?php if ( false !== $back ) : ?>
-<li class="spacer"><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;start=0"; ?>" title="<?php _e('First'); ?>">|&laquo;</a></li>
-<li><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;start=$back"; ?>">&laquo; <?php _e('Back'); ?></a></li>
-<?php else : ?>
-<li class="inactive spacer">|&laquo;</li>
-<li class="inactive">&laquo; <?php _e('Back'); ?></li>
-<?php endif; ?>
-<?php if ( false !== $next ) : ?>
-<li><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;start=$next"; ?>"><?php _e('Next &raquo;'); ?></a></li>
-<li><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;last=true"; ?>" title="<?php _e('Last'); ?>">&raquo;|</a></li>
-<?php else : ?>
-<li class="inactive"><?php _e('Next &raquo;'); ?></li>
-<li class="inactive">&raquo;|</li>
-<?php endif; ?>
-<?php } // endif not upload?>
+	<li<?php echo $current_1; ?>><a href="<?php echo basename(__FILE__) . "?action=upload&amp;post=$post&amp;all=$all&amp;start=$start"; ?>"><?php _e('Upload'); ?></a></li>
+
+	<?php if ( $attachments = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE post_parent = '$post'") ): ?>
+		<li<?php echo $current_2; ?>><a href="<?php echo basename(__FILE__) . "?action=view&amp;post=$post&amp;all=false"; ?>"><?php _e('Browse'); ?></a></li>
+	<?php endif; ?>
+
+	<?php if ($wpdb->get_var("SELECT count(ID) FROM $wpdb->posts WHERE post_type = 'attachment'")): ?>
+		<li<?php echo $current_3; ?>><a href="<?php echo basename(__FILE__) . "?action=view&amp;post=$post&amp;all=true"; ?>"><?php _e('Browse All'); ?></a></li>
+	<?php endif; ?>
+
+	<li> </li>
+
+	<?php if ( $action == 'view' ): ?>
+		<?php if ( false !== $back ): ?>
+			<li class="spacer"><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;start=0"; ?>" title="<?php _e('First'); ?>">|&laquo;</a></li>
+			<li><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;start=$back"; ?>">&laquo; <?php _e('Back'); ?></a></li>
+		<?php else: ?>
+			<li class="inactive spacer">|&laquo;</li>
+			<li class="inactive">&laquo; <?php _e('Back'); ?></li>
+		<?php endif; ?>
+
+		<?php if ( false !== $next ): ?>
+			<li><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;start=$next"; ?>"><?php _e('Next &raquo;'); ?></a></li>
+			<li><a href="<?php echo basename(__FILE__) . "?action=$action&amp;post=$post&amp;all=$all&amp;last=true"; ?>" title="<?php _e('Last'); ?>">&raquo;|</a></li>
+		<?php else: ?>
+			<li class="inactive"><?php _e('Next &raquo;'); ?></li>
+			<li class="inactive">&raquo;|</li>
+		<?php endif; ?>
+	<?php endif; ?>
 </ul>
-<?php if ( $action == 'view' ) : ?>
-<div id="wrap">
-<!--<div class="tip"><?php _e('You can drag and drop these items into your post. Click on one for more options.'); ?></div>-->
-<div id="images">
-<?php echo $html; ?>
-<?php echo $popups; ?>
-</div>
-</div>
-<?php elseif ( $action == 'upload' ) : ?>
-<div class="tip"></div>
-<form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo basename(__FILE__); ?>">
-<table style="width:99%;">
-<tr>
-<th scope="row" align="right"><label for="upload"><?php _e('File:'); ?></label></th>
-<td><input type="file" id="upload" name="image" /></td>
-</tr>
-<tr>
-<th scope="row" align="right"><label for="title"><?php _e('Title:'); ?></label></th>
-<td><input type="text" id="title" name="imgtitle" /></td>
-</tr>
-<tr>
-<th scope="row" align="right"><label for="descr"><?php _e('Description:'); ?></label></th>
-<td><input type="textarea" name="descr" id="descr" value="" /></td>
-</tr>
-<tr id="buttons">
-<th></th>
-<td>
-<input type="hidden" name="action" value="save" />
-<input type="hidden" name="post" value="<?php echo $post; ?>" />
-<input type="hidden" name="all" value="<?php echo $all; ?>" />
-<input type="hidden" name="start" value="<?php echo $start; ?>" />
-<?php wp_nonce_field( 'inlineuploading' ); ?>
-<div id="submit">
-<input type="submit" value="<?php _e('Upload'); ?>" />
-<?php if ( !empty($all) ) : ?>
-<input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
-<?php endif; ?>
-</div>
-</td>
-</tr>
-</table>
-</form>
-<?php elseif ( $action == 'links' ) : ?>
-<div id="links">
-<?php the_attachment_links($attachment); ?>
-</div>
+
+<?php if ( $action == 'view' ): ?>
+	<div id="wrap">
+		<!--<div class="tip"><?php _e('You can drag and drop these items into your post. Click on one for more options.'); ?></div>-->
+		<div id="images">
+			<?php echo $html; ?>
+			<?php echo $popups; ?>
+		</div>
+	</div>
+<?php elseif ( $action == 'upload' ): ?>
+	<div class="tip"></div>
+	<form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo basename(__FILE__); ?>">
+		<table style="width: 99%">
+			<tr>
+				<th scope="row"><label for="upload"><?php _e('File:'); ?></label></th>
+				<td><input type="file" id="upload" name="image" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="title"><?php _e('Title:'); ?></label></th>
+				<td><input type="text" id="title" name="imgtitle" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="descr"><?php _e('Description:'); ?></label></th>
+				<td><input type="textarea" name="descr" id="descr" value="" /></td>
+			</tr>
+			<tr id="buttons">
+				<th></th>
+				<td>
+					<input type="hidden" name="action" value="save" />
+					<input type="hidden" name="post" value="<?php echo $post; ?>" />
+					<input type="hidden" name="all" value="<?php echo $all; ?>" />
+					<input type="hidden" name="start" value="<?php echo $start; ?>" />
+					<?php wp_nonce_field( 'inlineuploading' ); ?>
+					<div id="submit">
+						<input type="submit" value="<?php _e('Upload'); ?>" />
+						<?php if ( !empty($all) ): ?>
+							<input type="button" value="<?php _e('Cancel'); ?>" onclick="cancelUpload()" />
+						<?php endif; ?>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+<?php elseif ( $action == 'links' ): ?>
+	<div id="links">
+		<?php the_attachment_links($attachment); ?>
+	</div>
 <?php endif; ?>
 </body>
 </html>
