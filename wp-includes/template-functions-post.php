@@ -413,13 +413,13 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
 
 	foreach ( $page_tree[$parent]['children'] as $page_id ) {
 		$cur_page = $page_tree[$page_id];
-		$title = $cur_page['title'];
+		$title = wp_specialchars($cur_page['title']);
 
 		$css_class = 'page_item';
 		if ( $page_id == $queried_obj->ID )
 			$css_class .= ' current_page_item';
 
-		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page_id) . '" title="' . wp_specialchars($title) . '">' . $title . '</a>';
+		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page_id) . '" title="' . $title . '">' . $title . '</a>';
 
 		if ( isset($cur_page['ts']) ) {
 			$format = get_settings('date_format');
