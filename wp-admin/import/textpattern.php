@@ -338,7 +338,7 @@ class Textpattern_Import {
 				if($cat1 = get_catbynicename($Category1)) { $cats[1] = $cat1; }
 				if($cat2 = get_catbynicename($Category2)) { $cats[2] = $cat2; }
 
-				if(!empty($cats)) { wp_set_post_cats('', $ret_id, $cats); }
+				if(!empty($cats)) { wp_set_post_categories($ret_id, $cats); }
 			}
 		}
 		// Store ID translation for later use

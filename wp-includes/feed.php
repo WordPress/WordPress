@@ -102,7 +102,7 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
        if ('' == $permalink_structure) {
 				 $link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
        } else {
-				 $link = get_author_link(0, $author_id, $author_nicename);
+				 $link = get_author_posts_url($author_id, $author_nicename);
 				 $link = $link . "feed/";
        }
 			 

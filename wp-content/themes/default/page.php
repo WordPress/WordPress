@@ -8,7 +8,7 @@
 			<div class="entry">
 				<?php the_content('<p class="serif">Read the rest of this page &raquo;</p>'); ?>
 
-				<?php link_pages('<p><strong>Pages:</strong> ', '</p>', 'number'); ?>
+				<?php wp_link_pages(array('before' => '<p><strong>Pages:</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
 
 			</div>
 		</div>
