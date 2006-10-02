@@ -670,7 +670,7 @@ function dropdown_categories($default = 0) {
 
 function return_link_categories_list($parent = 0) {
 	global $wpdb;
-	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND link_count > 0");
+	return $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent ORDER BY link_count DESC");
 }
 
 function get_nested_link_categories( $default = 0, $parent = 0 ) {
