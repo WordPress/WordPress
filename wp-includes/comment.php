@@ -187,9 +187,10 @@ function wp_allow_comment($commentdata) {
 	if ( $lasttime = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_author_IP = '$comment_author_IP' OR comment_author_email = '$comment_author_email' ORDER BY comment_date DESC LIMIT 1") ) {
 		$time_lastcomment = mysql2date('U', $lasttime);
 		$time_newcomment  = mysql2date('U', $comment_date_gmt);
-		if ( ($time_newcomment - $time_lastcomment) < 15 ) {
+		$flood_die = apply_filters('comment_flood_filter', false, $time_lastcomment, $time_newcomment);
+		if ( $flood_die ) {
 			do_action('comment_flood_trigger', $time_lastcomment, $time_newcomment);
-			wp_die( __('Sorry, you can only post a new comment once every 15 seconds. Slow down cowboy.') );
+			wp_die( __('You are posting comments too quickly.  Slow down.') );
 		}
 	}
 
@@ -353,6 +354,14 @@ function wp_filter_comment($commentdata) {
 	$commentdata['comment_author_email'] = apply_filters('pre_comment_author_email', $commentdata['comment_author_email']);
 	$commentdata['filtered'] = true;
 	return $commentdata;
+}
+
+function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) {
+	if ( $block ) // a plugin has already blocked... we'll let that decision stand
+		return $block;
+	if ( ($time_newcomment - $time_lastcomment) < 15 )
+		return true;
+	return false;
 }
 
 function wp_new_comment( $commentdata ) {

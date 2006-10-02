@@ -38,6 +38,8 @@ add_filter('comment_author', 'wp_specialchars');
 
 add_filter('comment_email', 'antispambot');
 
+add_filter('comment_flood_filter', 'wp_throttle_comment_flood', 10, 3);
+
 add_filter('comment_url', 'clean_url');
 
 add_filter('comment_text', 'convert_chars');
