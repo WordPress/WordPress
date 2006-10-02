@@ -316,31 +316,33 @@ function wp_list_bookmarks($args = '') {
 	else
 		parse_str($args, $r);
 
-	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => 0,
+	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => '',
 		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'echo' => 1,
 		'categorize' => 1, 'title_li' => __('Bookmarks'), 'title_before' => '<h2>', 'title_after' => '</h2>',
 		'category_orderby' => 'name', 'category_order' => 'ASC');
 	$r = array_merge($defaults, $r);
 	extract($r);
 
-	// TODO: The rest of it.
-	// If $categorize, group links by category with the category name being the
-	// title of each li, otherwise just list them with title_li as the li title.
-	// If $categorize and $category or $category_name, list links for the given category
-	// with the category name as the title li.  If not $categorize, use title_li.
-	// When using each category's name as a title li, use before and after args for specifying
-	// any markup.  We don't want to hardcode h2.
-
 	$output = '';
 
 	if ( $categorize ) {
-		$cats = get_categories("type=link&orderby=$category_orderby&order=$category_order&hierarchical=0");
+		//Split the bookmarks into ul's for each category
+		$cats = get_categories("type=link&category_name=$category_name&include=$category&orderby=$category_orderby&order=$category_order&hierarchical=0");
+
 		foreach ( (array) $cats as $cat ) {
-			$r['category'] = $cat->cat_ID;
-			$bookmarks = get_bookmarks($r);
+			$bookmarks = get_bookmarks("limit=$limit&category={$cat->cat_ID}&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_inivisible&show_updated=$show_updated");
 			if ( empty($bookmarks) )
 				continue;
 			$output .= "<li id='linkcat-$cat->cat_ID' class='linkcat'>$title_before$cat->cat_name$title_after\n\t<ul>\n";
+			$output .= _walk_bookmarks($bookmarks, $r);
+			$output .= "\n\t</ul>\n</li>\n";
+		}
+	} else {
+		//output one single list using title_li for the title
+		$bookmarks = get_bookmarks("limit=$limit&category=$category&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_inivisible&show_updated=$show_updated");
+		
+		if ( !empty($bookmarks) ) {
+			$output .= "<li id='linkuncat' class='linkcat'>$title_before$title_li$title_after\n\t<ul>\n";
 			$output .= _walk_bookmarks($bookmarks, $r);
 			$output .= "\n\t</ul>\n</li>\n";
 		}
