@@ -502,7 +502,7 @@ table .vers {
 	width: 300px;
 }
 
-#deletepost:hover, #deletecomment:hover {
+input.delete:hover {
 	background: #ce0000;
 	color: #fff;
 }
