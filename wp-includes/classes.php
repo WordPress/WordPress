@@ -1036,6 +1036,7 @@ class WP_Rewrite {
 				$front = $front . 'date/';
 				break;
 			}
+			$tok_index++;
 		}
 
 		$this->date_structure = $front . $date_endian;
