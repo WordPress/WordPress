@@ -14,21 +14,26 @@ body { background: #dfe8f1; }
 
 #upload-menu li { margin: 0 0 0 .75em; }
 
-#upload-menu a {
-	display: block;
-	padding: 5px;
+#upload-menu li div {
 	color: #000;
+	padding: 5px;
 	border-top: 3px solid #fff;
+}
+
+#upload-menu li a {
+	color: #000;
 	text-decoration: none;
 	border-bottom: none;
 }
 
-#upload-menu .current a {
+#upload-menu li span a.page-numbers { color: #00019b; }
+
+#upload-menu .current div {
 	background: #dfe8f1;
 	border-right: 2px solid #448abd;
 }
 
-#upload-menu a:hover {
+#upload-menu div:hover {
 	background: #dfe8f1;
 	color: #000;
 }

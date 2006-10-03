@@ -165,6 +165,9 @@ addLoadEvent( function() {
 			var filesEl = $('upload-files');
 			if ( filesEl )
 				filesEl.hide();
+			var navEl = $('current-tab-nav');
+			if ( navEl )
+				navEl.hide();
 			this.grabImageData(id);
 		},
 
@@ -173,6 +176,9 @@ addLoadEvent( function() {
 				var filesEl = $('upload-files');
 				if ( filesEl )
 					filesEl.show();
+				var navEl = $('current-tab-nav');
+				if ( navEl )
+					navEl.show();
 			}
 			if ( !this.ID )
 				this.grabImageData(0);

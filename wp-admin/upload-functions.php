@@ -303,8 +303,6 @@ function wp_upload_tab_browse() {
 		echo "</ul>\n\n";
 
 		echo "<form action='' id='browse-form'><input type='hidden' id='nonce-value' value='" . wp_create_nonce( 'inlineuploading' )  . "' /></form>\n";
-
-//		echo $total;
 		break;
 	endswitch;
 

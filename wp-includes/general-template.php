@@ -902,6 +902,8 @@ function paginate_links( $arg = '' ) {
 
 	// Who knows what else people pass in $args
 	$total    = (int) $total;
+	if ( $total < 2 )
+		return;
 	$current  = (int) $current;
 	$end_size = 0  < (int) $end_size ? (int) $end_size : 1; // Out of bounds?  Make it the default.
 	$mid_size = 0 <= (int) $mid_size ? (int) $mid_size : 2;
@@ -912,7 +914,8 @@ function paginate_links( $arg = '' ) {
 	$dots = false;
 
 	if ( $prev_next && $current && 1 < $current ) :
-		$link = str_replace('%_%', 2 == $current ? '' : str_replace('%#%', $current - 1, $format), $base);
+		$link = str_replace('%_%', 2 == $current ? '' : $format, $base);
+		$link = str_replace('%#%', $current - 1, $link);
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$page_links[] = "<a class='prev page-numbers' href='" . wp_specialchars( $link, 1 ) . "'>$prev_text</a>";
@@ -923,7 +926,8 @@ function paginate_links( $arg = '' ) {
 			$dots = true;
 		else :
 			if ( $show_all || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
-				$link = str_replace('%_%', 1 == $n ? '' : str_replace('%#%', $n, $format), $base);
+				$link = str_replace('%_%', 1 == $n ? '' : $format, $base);
+				$link = str_replace('%#%', $n, $link);
 				if ( $add_args )
 					$link = add_query_arg( $add_args, $link );
 				$page_links[] = "<a class='page-numbers' href='" . wp_specialchars( $link, 1 ) . "'>$n</a>";
@@ -935,7 +939,8 @@ function paginate_links( $arg = '' ) {
 		endif;
 	endfor;
 	if ( $prev_next && $current && ( $current < $total || -1 == $total ) ) :
-		$link = str_replace('%_%', str_replace('%#%', $current + 1, $format), $base);
+		$link = str_replace('%_%', $format, $base);
+		$link = str_replace('%#%', $current + 1, $link);
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
 		$page_links[] = "<a class='next page-numbers' href='" . wp_specialchars( $link, 1 ) . "'>$next_text</a>";
