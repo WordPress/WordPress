@@ -4,6 +4,8 @@ function get_category_children($id, $before = '/', $after = '') {
 	if ( 0 == $id )
 		return '';
 
+	$chain = '';
+
 	$cat_ids = get_all_category_ids();
 	foreach ( $cat_ids as $cat_id ) {
 		if ( $cat_id == $id)

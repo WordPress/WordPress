@@ -154,6 +154,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	$category_name = get_query_var('category_name');
 	$author = get_query_var('author');
 	$author_name = get_query_var('author_name');
+	$title = '';
 
 	// If there's a category
 	if ( !empty($cat) ) {
