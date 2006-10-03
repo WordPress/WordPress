@@ -99,7 +99,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 		} else {
 			$output = balanceTags($output);
 			if ( ! empty($more_link_text) )
-				$output .= ' <a href="'. get_permalink() . "#more-$id\">$more_link_text</a>";
+				$output .= ' <a href="'. get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>";
 		}
 			
 	}
