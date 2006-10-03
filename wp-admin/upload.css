@@ -1,0 +1,159 @@
+body { background: #dfe8f1; }
+
+.upload-file-data { display: none; }
+
+#upload-menu {
+	background: #fff;
+	margin: 0px;
+	padding: 0;
+	list-style: none;
+	height: 2em;
+	border-bottom: 1px solid #448abd;
+	width: 100%;
+}
+
+#upload-menu li { margin: 0 0 0 .75em; }
+
+#upload-menu a {
+	display: block;
+	padding: 5px;
+	color: #000;
+	border-top: 3px solid #fff;
+	text-decoration: none;
+	border-bottom: none;
+}
+
+#upload-menu .current a {
+	background: #dfe8f1;
+	border-right: 2px solid #448abd;
+}
+
+#upload-menu a:hover {
+	background: #dfe8f1;
+	color: #000;
+}
+
+#upload-content {
+	position: relative;
+	clear: both;
+	margin: 0;
+	padding: 0;
+	border: none;
+	width: 100%;
+	height: 100%;
+	background: none;
+}
+
+#upload-file {
+	position: relative;
+	margin: 0;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #dfe8f1;
+}
+
+#upload-file-view { padding: 0 15px; }
+
+#file-title {
+	margin: 0 0 0 15px;
+	padding: 0;
+	display: block;
+}
+
+h2 {
+	margin: 0 .2em 0 0;
+	padding: 0;
+	display: inline;
+	border: none;
+	font-weight: bold;
+	font-size: 1.4em;
+	line-height: 1.4em;
+}
+
+#upload-files {
+	list-style-type: none;
+	margin: 0;
+	padding: 15px 0 0;
+}
+
+#upload-files li { margin: 0 0 15px 15px; }
+
+#upload-files a, a.file-link {
+	border: none;
+	text-decoration: none;
+}
+
+#upload-files a.file-link {
+	display: block;
+	width: 130px;
+	height: 128px;
+	background-color: rgb(209, 226, 239);
+	text-align: center;
+	overflow-y: hidden;
+}
+
+#upload-files a.file-link.image {
+	line-height: 128px;
+	font-size: 2px;
+	letter-spacing: 0;
+}
+
+#upload-files a.file-link img {
+	vertical-align: middle;
+}
+
+#the-attachment-links { float: right; }
+
+#the-attachment-links textarea {
+	font-size: 10px;
+	overflow: hidden;
+}
+
+form table { float: none; }
+
+table {
+	float: left;
+	margin: 0;
+	padding: 0 15px;
+}
+
+.left { float: left; }
+
+.right { float: right; }
+
+.center { text-align: center; }
+
+th { text-align: left; }
+
+tr, td, th {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+#submit {
+	margin: 1px;
+	width: 99%;
+}
+
+#submit input, #submit input:focus {
+	background: url( images/fade-butt.png );
+	border: 3px double #999;
+	border-left-color: #ccc;
+	border-top-color: #ccc;
+	color: #333;
+	padding: 0.25em;
+}
+
+#submit input:active {
+	background: #f4f4f4;
+	border: 3px double #ccc;
+	border-left-color: #999;
+	border-top-color: #999;
+}
+
+#submit input.delete:hover {
+	background: #ce0000;
+	color: #fff;
+}

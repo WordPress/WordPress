@@ -1973,16 +1973,28 @@ function the_attachment_links($id = false) {
 	$icon = get_attachment_icon($post->ID);
 
 ?>
-<p><?php _e('Text linked to file') ?><br />
-<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo basename($post->guid) ?></a></textarea></p>
-<p><?php _e('Text linked to subpost') ?><br />
-<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $post->post_title ?></a></textarea></p>
+<form id="the-attachment-links">
+<table>
+	<tr>
+		<th scope="row"><?php _e('Text linked to file') ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo basename($post->guid) ?></a></textarea></td>
+	</tr>
+	<tr>
+		<th scope="row"><?php _e('Text linked to subpost') ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $post->post_title ?></a></textarea></td>
+	</tr>
 <?php if ( $icon ) : ?>
-<p><?php _e('Thumbnail linked to file') ?><br />
-<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo $icon ?></a></textarea></p>
-<p><?php _e('Thumbnail linked to subpost') ?><br />
-<textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $icon ?></a></textarea></p>
+	<tr>
+		<th scope="row"><?php _e('Thumbnail linked to file') ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo $icon ?></a></textarea></td>
+	</tr>
+	<tr>
+		<th scope="row"><?php _e('Thumbnail linked to subpost') ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $icon ?></a></textarea></td>
+	</tr>
 <?php endif; ?>
+</table>
+</form>
 <?php
 }
 

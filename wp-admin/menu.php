@@ -30,6 +30,7 @@ $submenu['post-new.php'][10] = array(__('Write Page'), 'edit_pages', 'page-new.p
 
 $submenu['edit.php'][5] = array(__('Posts'), 'edit_posts', 'edit.php');
 $submenu['edit.php'][10] = array(__('Pages'), 'edit_pages', 'edit-pages.php');
+$submenu['edit.php'][12] = array(__('Uploads'), 'upload_files', 'upload.php');
 $submenu['edit.php'][15] = array(__('Categories'), 'manage_categories', 'categories.php');
 $submenu['edit.php'][20] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
 $awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
@@ -123,6 +124,8 @@ foreach ( $menu as $id => $data ) {
 		}
 	}
 }
+
+unset($id);
 
 ksort($menu); // make it all pretty
 
