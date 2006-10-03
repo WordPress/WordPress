@@ -266,12 +266,12 @@ function wp_redirect($location, $status = 302) {
 	$strip = array('%0d', '%0a');
 	$location = str_replace($strip, '', $location);
 
-	status_header($status);
-
-	if ($is_IIS)
+	if ( $is_IIS ) {
 		header("Refresh: 0;url=$location");
-	else
+	} else {
+		status_header($status); // This causes problems on IIS
 		header("Location: $location");
+	}
 }
 endif;
 
