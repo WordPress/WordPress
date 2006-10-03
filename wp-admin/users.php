@@ -84,15 +84,15 @@ class WP_User_Search {
 
 	function do_paging() {
 		if ( $this->total_users_for_query > $this->users_per_page ) { // have to page the results
-			$prev_page = ( $this->page > 1) ? true : false;
-			$next_page = ( ($this->page * $this->users_per_page) < $this->total_users_for_query ) ? true : false;
-			$this->paging_text = '';
-			if ( $prev_page )
-				$this->paging_text .= '<p class="alignleft"><a href="' . add_query_arg(array('usersearch' => $this->search_term, 'userspage' => $this->page - 1), 'users.php?') . '">&laquo; Previous Page</a></p>';
-			if ( $next_page )
-				$this->paging_text .= '<p class="alignright"><a href="' . add_query_arg(array('usersearch' => $this->search_term, 'userspage' => $this->page + 1), 'users.php?') . '">Next Page &raquo;</a></p>';
-			if ( $prev_page || $next_page )
-				$this->paging_text .= '<br style="clear:both" />';
+			$this->paging_text = paginate_links( array(
+				'total' => ceil($this->total_users_for_query / $this->users_per_page),
+				'current' => $this->page,
+				'prev_text' => '&laquo; Previous Page',
+				'next_text' => 'Next Page &raquo;',
+				'base' => 'users.php?%_%',
+				'format' => 'userspage=%#%',
+				'add_args' => array( 'usersearch' => urlencode($this->search_term) )
+			) );
 		}
 	}
 
