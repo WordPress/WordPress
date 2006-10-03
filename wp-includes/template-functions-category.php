@@ -318,7 +318,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 	$num_found=0;
 	$thelist = "";
 
-	foreach ( $categories as $category ) {
+	foreach ( (array) $categories as $category ) {
 		if ( ( intval($hide_empty) == 0 || $category->category_count) && (!$hierarchical || $category->category_parent == $child_of) ) {
 			$num_found++;
 			$link = '<a href="'.get_category_link($category->cat_ID).'" ';
