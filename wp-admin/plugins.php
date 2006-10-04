@@ -84,7 +84,7 @@ if (empty($plugins)) {
 		<th><?php _e('Plugin'); ?></th>
 		<th style="text-align: center"><?php _e('Version'); ?></th>
 		<th><?php _e('Description'); ?></th>
-		<th style="text-align: center"><?php _e('Action'); ?></th>
+		<th style="text-align: center"<?php if ( current_user_can('edit_plugins') ) echo ' colspan="2"'; ?>><?php _e('Action'); ?></th>
 	</tr>
 	</thead>
 <?php
@@ -100,20 +100,30 @@ if (empty($plugins)) {
 		$style = ('class="alternate"' == $style|| 'class="alternate active"' == $style) ? '' : 'alternate';
 
 		if (!empty($current_plugins) && in_array($plugin_file, $current_plugins)) {
-			$action = "<a href='" . wp_nonce_url("plugins.php?action=deactivate&amp;plugin=$plugin_file", 'deactivate-plugin_' . $plugin_file) . "' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
+			$toggle = "<a href='" . wp_nonce_url("plugins.php?action=deactivate&amp;plugin=$plugin_file", 'deactivate-plugin_' . $plugin_file) . "' title='".__('Deactivate this plugin')."' class='delete'>".__('Deactivate')."</a>";
 			$plugin_data['Title'] = "<strong>{$plugin_data['Title']}</strong>";
 			$style .= $style == 'alternate' ? ' active' : 'active';
 		} else {
-			$action = "<a href='" . wp_nonce_url("plugins.php?action=activate&amp;plugin=$plugin_file", 'activate-plugin_' . $plugin_file) . "' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
+			$toggle = "<a href='" . wp_nonce_url("plugins.php?action=activate&amp;plugin=$plugin_file", 'activate-plugin_' . $plugin_file) . "' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
 		$plugin_data['Description'] = wp_kses($plugin_data['Description'], array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array()) ); ;
-		if ($style != '') $style = 'class="' . $style . '"';
+		if ( $style != '' )
+			$style = 'class="' . $style . '"';
+		if ( is_writable(ABSPATH . 'wp-content/plugins/' . $plugin_file) )
+			$edit = "<a href='plugin-editor.php?file=$plugin_file' title='".__('Open this file in the Plugin Editor')."' class='edit'>".__('Edit')."</a>";
+		else
+			$edit = '';
+
 		echo "
 	<tr $style>
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
 		<td class='desc'>{$plugin_data['Description']} <cite>".sprintf(__('By %s'), $plugin_data['Author']).".</cite></td>
-		<td class='togl'>$action</td>
+		<td class='togl'>$toggle</td>";
+		if ( current_user_can('edit_plugins') )
+		echo "
+		<td>$edit</td>";
+		echo"
 	</tr>";
 	}
 ?>
