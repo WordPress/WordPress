@@ -104,7 +104,7 @@ function wp_new_blog_notification($blog_title, $blog_url, $user_id, $password) {
 	$user = new WP_User($user_id);
 	$email = $user->user_email;
 	$name = $user->user_login;
-	$message_headers = 'From: ' . $blog_title . ' <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
+	$message_headers = 'From: "' . $blog_title . '" <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
 	$message = sprintf(__("Your new WordPress blog has been successfully set up at:
 
 %1\$s
