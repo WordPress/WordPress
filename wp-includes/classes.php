@@ -809,7 +809,7 @@ class retrospam_mgr {
 		$list = array_unique( $list );
 		$this->spam_words = $list;
 
-		$this->comment_list = $wpdb->get_results("SELECT comment_ID AS ID, comment_content AS text, comment_approved AS approved, comment_author_url AS url, comment_author_ip AS ip, comment_author_email AS email FROM $wpdb->comments ORDER BY comment_ID ASC");
+		$this->comment_list = (array) $wpdb->get_results("SELECT comment_ID AS ID, comment_content AS text, comment_approved AS approved, comment_author_url AS url, comment_author_ip AS ip, comment_author_email AS email FROM $wpdb->comments ORDER BY comment_ID ASC");
 	}	// End of class constructor
 
 	function move_spam( $id_list ) {
