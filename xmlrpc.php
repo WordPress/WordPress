@@ -58,7 +58,8 @@ function starify($string) {
 	return str_repeat('*', $i);
 }
 
-logIO("I", $HTTP_RAW_POST_DATA);
+if ( isset($HTTP_RAW_POST_DATA) )
+  logIO("I", $HTTP_RAW_POST_DATA);
 
 
 class wp_xmlrpc_server extends IXR_Server {
