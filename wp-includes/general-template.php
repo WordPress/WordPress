@@ -40,7 +40,7 @@ function wp_register( $before = '<li>', $after = '</li>' ) {
 
 	if ( ! is_user_logged_in() ) {
 		if ( get_option('users_can_register') )
-			$link = $before . '<a href="' . get_option('siteurl') . '/wp-register.php">' . __('Register') . '</a>' . $after;
+			$link = $before . '<a href="' . get_option('siteurl') . '/wp-login.php?action=register">' . __('Register') . '</a>' . $after;
 		else
 			$link = '';
 	} else {

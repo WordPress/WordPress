@@ -178,7 +178,7 @@ function wp_login($username, $password, $already_md5 = false) {
 		return false;
 
 	if ( '' == $password ) {
-		$error = __('<strong>Error</strong>: The password field is empty.');
+		$error = __('<strong>ERROR</strong>: The password field is empty.');
 		return false;
 	}
 
@@ -186,7 +186,7 @@ function wp_login($username, $password, $already_md5 = false) {
 	//$login = $wpdb->get_row("SELECT ID, user_login, user_pass FROM $wpdb->users WHERE user_login = '$username'");
 
 	if (!$login) {
-		$error = __('<strong>Error</strong>: Wrong username.');
+		$error = __('<strong>ERROR</strong>: Invalid username.');
 		return false;
 	} else {
 		// If the password is already_md5, it has been double hashed.
@@ -194,7 +194,7 @@ function wp_login($username, $password, $already_md5 = false) {
 		if ( ($already_md5 && md5($login->user_pass) == $password) || ($login->user_login == $username && $login->user_pass == md5($password)) ) {
 			return true;
 		} else {
-			$error = __('<strong>Error</strong>: Incorrect password.');
+			$error = __('<strong>ERROR</strong>: Incorrect password.');
 			$pwd = '';
 			return false;
 		}

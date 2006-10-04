@@ -593,11 +593,10 @@ input.delete:hover {
 
 #login {
 	position: relative;
-	background: url('images/login-bkg-tile.gif') no-repeat top center #fbfbfb;
+	background: url('images/login-bkg-tile.gif') no-repeat top center;
 	color: #fff;
-	/* height: 430px; */
 	margin: 5em auto;
-	padding: 45px 50px 0;
+	padding: 20px 50px 0;
 	width: 325px;
 }
 
@@ -611,6 +610,11 @@ input.delete:hover {
 	text-align: center;
 }
 
+#login #login_error a {
+	color: #ebcd4e;
+	border-color: #ebcd4e;
+}
+
 #login #send {
 	color: #fff;
 	text-align: left;
@@ -618,18 +622,25 @@ input.delete:hover {
 	font-size: 1.1em;
 }
 
-#login h1 {
+#login h1 a {
 	margin: 0 auto;
-	padding-bottom: 10px;
-	left: 137px;
-	height: 75px;
-	width: 75px;
+	height: 88px;
+	width: 320px;
+	display: block;
+	border-bottom: none;
 }
 
-#login h1 a {
-	display: block;
-	text-indent: -9999px;
-	border-bottom: none;
+#login .hide {
+	display: none;
+}
+
+#login .message {
+	font-size: 10pt;
+	text-align: center;
+}
+
+#login .register {
+	font-size: 20px;
 }
 
 #login input {
@@ -640,21 +651,21 @@ input.delete:hover {
 	background: url('images/login-bkg-bottom.gif') no-repeat bottom center;
 	list-style: none;
 	margin: 0 -50px;
-	padding: 0 50px 5px;
+	padding: 10px 50px 25px;;
 }
 
 #login ul:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
 }
 
 #login ul li {
 	float: left;
-	font-size: 11px;
-	padding: 15px 0;
+	font-size: 12px;
+	padding: 5px 0;
 	text-align: center;
 }
 
@@ -673,7 +684,7 @@ input.delete:hover {
 	color: #fff;
 }
 
-#login #log, #pwd, #user_login, #email {
+#login .input {
 	font-size: 1.8em;
 	margin-top: 3px;
 	width: 97%;
@@ -685,7 +696,11 @@ input.delete:hover {
 
 #login #submit {
 	margin: 0;
-	font-size: 1.2em;
+	font-size: 15px;
+}
+
+#login .fullwidth {
+	width: 320px;
 }
 
 #searchform {
