@@ -316,11 +316,6 @@ function wp_insert_link($linkdata) {
 		$link_rel = '';
 	$link_rel = apply_filters('pre_link_rel', $link_rel);
 
-	// Make sure we set a valid category
-	if (0 == count($link_category) || !is_array($link_category)) {
-		$link_category = array(get_option('default_link_category'));
-	}
-
 	if ( $update ) {
 		$wpdb->query("UPDATE $wpdb->links SET link_url='$link_url',
 			link_name='$link_name', link_image='$link_image',
