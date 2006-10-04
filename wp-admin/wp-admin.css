@@ -400,6 +400,10 @@ table .vers {
 	text-align: center;
 }
 
+#all-options textarea, #all-options input {
+	width: 250px;
+}
+
 #adminmenu {
 	background: #83B4D8;
 	border-top: 3px solid #448abd;

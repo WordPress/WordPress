@@ -116,7 +116,7 @@ default:
 
 <div class="wrap">
   <h2><?php _e('All options'); ?></h2>
-  <form name="form" action="options.php" method="post">
+  <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('update-options') ?>
   <input type="hidden" name="action" value="update" />
   <table width="98%">
@@ -128,7 +128,12 @@ foreach ($options as $option) :
 	echo "
 <tr>
 	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
-	<td><input type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "' /></td>
+<td>";
+
+	if (stristr($value, "\n")) echo "<textarea name='$option->option_name' id='$option->option_name' cols='30' rows='5'>$value</textarea>";
+	else echo "<input type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "' />";
+	
+	echo "</td>
 	<td>$option->option_description</td>
 </tr>";
 endforeach;
