@@ -63,8 +63,12 @@ default:
 	if (!$error) {
 		$f = @ fopen($real_file, 'r');
 		if ( $f ) {
-			$content = fread($f, filesize($real_file));
-			$content = htmlspecialchars($content);
+			if ( filesize($real_file ) > 0 ) {
+				$content = fread($f, filesize($real_file));
+				$content = htmlspecialchars($content);
+			} else {
+				$content = '';
+			}
 		} else {
 			$error = true;
 		}
