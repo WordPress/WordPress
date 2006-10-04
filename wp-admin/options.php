@@ -10,21 +10,24 @@ wp_reset_vars(array('action'));
 if ( !current_user_can('manage_options') )
 	wp_die(__('Cheatin&#8217; uh?'));
 
-function sanitize_option($option, $value) {
+function sanitize_option($option, $value) { // Remember to call stripslashes!
 
 	switch ($option) {
 		case 'admin_email':
+			$value = stripslashes($value);
 			$value = sanitize_email($value);
 			break;
 
 		case 'default_post_edit_rows':
 		case 'mailserver_port':
 		case 'comment_max_links':
+			$value = stripslashes($value);
 			$value = abs((int) $value);
 			break;
 
 		case 'posts_per_page':
 		case 'posts_per_rss':
+			$value = stripslashes($value);
 			$value = (int) $value;
 			if ( empty($value) ) $value = 1;
 			if ( $value < -1 ) $value = abs($value);
@@ -32,6 +35,7 @@ function sanitize_option($option, $value) {
 
 		case 'default_ping_status':
 		case 'default_comment_status':
+			$value = stripslashes($value);
 			// Options that if not there have 0 value but need to be something like "closed"
 			if ( $value == '0' || $value == '')
 				$value = 'closed';
@@ -40,11 +44,12 @@ function sanitize_option($option, $value) {
 		case 'blogdescription':
 		case 'blogname':
 			if (current_user_can('unfiltered_html') == false)
-				$value = wp_filter_post_kses( $value );
+				$value = wp_filter_post_kses( $value ); // calls stripslashes then addslashes
+			$value = stripslashes($value);
 			break;
 
 		case 'blog_charset':
-			$value = preg_replace('/[^a-zA-Z0-9_-]/', '', $value);
+			$value = preg_replace('/[^a-zA-Z0-9_-]/', '', $value); // strips slashes
 			break;
 
 		case 'date_format':
@@ -55,16 +60,21 @@ function sanitize_option($option, $value) {
 		case 'ping_sites':
 		case 'upload_path':
 			$value = strip_tags($value);
-			$value = wp_filter_kses($value);
+			$value = wp_filter_kses($value); // calls stripslashes then addslashes
+			$value = stripslashes($value);
 			break;
 
 		case 'gmt_offset':
-			$value = preg_replace('/[^0-9:.-]/', '', $value);
+			$value = preg_replace('/[^0-9:.-]/', '', $value); // strips slashes
 			break;
 
 		case 'siteurl':
 		case 'home':
+			$value = stripslashes($value);
 			$value = clean_url($value);
+			break;
+		default :
+			$value = stripslashes($value);
 			break;
 	}
 
@@ -89,8 +99,8 @@ case 'update':
 	if ($options) {
 		foreach ($options as $option) {
 			$option = trim($option);
-			$value = trim(stripslashes($_POST[$option]));
-			$value = sanitize_option($option, $value);
+			$value = trim($_POST[$option]);
+			$value = sanitize_option($option, $value); // This does stripslashes on those that need it
 			update_option($option, $value);
 		}
 	}
