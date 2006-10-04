@@ -48,11 +48,11 @@ case 'post':
 			break;
 		}
 	} else {
-		$location = 'post.php?posted=true';
+		$location = "post.php?posted=$post_ID";
 	}
 
 	if ( 'static' == $_POST['post_status'] )
-		$location = "page-new.php?saved=true";
+		$location = "page-new.php?saved=$post_ID";
 
 	if ( isset($_POST['save']) )
 		$location = "post.php?action=edit&post=$post_ID";
@@ -346,7 +346,7 @@ default:
 	require_once ('./admin-header.php');
 ?>
 <?php if ( isset($_GET['posted']) ) : ?>
-<div id="message" class="updated fade"><p><?php printf(__('Post saved. <a href="%s">View site &raquo;</a>'), get_bloginfo('home') . '/'); ?></p></div>
+<div id="message" class="updated fade"><p><strong><?php _e('Post saved.'); ?></strong> <a href="<?php echo get_permalink( $_GET['posted'] ); ?>"><?php _e('View post'); ?> &raquo;</a></p></div>
 <?php endif; ?>
 <?php
 	if ( current_user_can('edit_posts') ) {
