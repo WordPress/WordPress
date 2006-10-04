@@ -79,7 +79,7 @@ include('./admin-header.php');
 </tr> 
 <tr>
 <th scope="row">&nbsp;</th>
-<td><?php _e('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Save option to update sample output.') ?> </td>
+<td><?php _e('<a href="http://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date formatting</a>. Click "Update options" to update sample output.') ?> </td>
 </tr>
 <tr>
 <th scope="row"><?php _e('Weeks in the calendar should start on:') ?></th>
