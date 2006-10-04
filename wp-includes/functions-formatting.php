@@ -252,8 +252,10 @@ function remove_accents($string) {
 		chr(197).chr(188) => 'z', chr(197).chr(189) => 'Z',
 		chr(197).chr(190) => 'z', chr(197).chr(191) => 's',
 		// Euro Sign
-		chr(226).chr(130).chr(172) => 'E');
-		
+		chr(226).chr(130).chr(172) => 'E',
+		// GBP (Pound) Sign
+		chr(194).chr(163) => '');
+
 		$string = strtr($string, $chars);
 	} else {
 		// Assume ISO-8859-1 if not UTF-8
