@@ -59,10 +59,14 @@ body { background: #dfe8f1; }
 	background: #dfe8f1;
 }
 
-#upload-file-view { padding: 0 15px; }
+form#upload-file input, form#upload-file textarea, div#upload-content.upload table { width: 100%; }
+
+form#upload-file div.submit input { width: auto; }
+
+#upload-file-view { padding: 0 0 0 15px; }
 
 #file-title {
-	margin: 0 0 0 15px;
+	margin: 0 0 .2em 15px;
 	padding: 0;
 	display: block;
 }
@@ -72,6 +76,7 @@ h2 {
 	padding: 0;
 	display: inline;
 	border: none;
+	color: #000;
 	font-weight: bold;
 	font-size: 1.4em;
 	line-height: 1.4em;
@@ -105,9 +110,7 @@ h2 {
 	letter-spacing: 0;
 }
 
-#upload-files a.file-link img {
-	vertical-align: middle;
-}
+#upload-files a.file-link img { vertical-align: middle; }
 
 #the-attachment-links { float: right; }
 
@@ -116,49 +119,17 @@ h2 {
 	overflow: hidden;
 }
 
-form table { float: none; }
+form table { float: none; padding: 0 15px; }
 
 table {
 	float: left;
 	margin: 0;
-	padding: 0 15px;
+	padding: 0;
 }
 
-.left { float: left; }
-
-.right { float: right; }
-
-.center { text-align: center; }
-
-th { text-align: left; }
+th { vertical-align: text-top; }
 
 tr, td, th {
 	margin-top: 0;
 	padding-top: 0;
-}
-
-#submit {
-	margin: 1px;
-	width: 99%;
-}
-
-#submit input, #submit input:focus {
-	background: url( images/fade-butt.png );
-	border: 3px double #999;
-	border-left-color: #ccc;
-	border-top-color: #ccc;
-	color: #333;
-	padding: 0.25em;
-}
-
-#submit input:active {
-	background: #f4f4f4;
-	border: 3px double #ccc;
-	border-left-color: #999;
-	border-top-color: #999;
-}
-
-#submit input.delete:hover {
-	background: #ce0000;
-	color: #fff;
 }

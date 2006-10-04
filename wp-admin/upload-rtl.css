@@ -7,24 +7,14 @@ body { font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana; }
 	border-left: 2px solid #448abd;
 }
 
-#file-title { margin: 0 15px 0 0; }
+#upload-file-view { 0 15px 0 0 }
+
+#file-title { margin: 0 15px .2em 0; }
 
 h2 { margin: 0 0 0 .2em; }
 
 #upload-files li { margin: 0 15px 15px 0; }
 
-th { text-align: right; }
+table { float: right; }
 
-.left, table { float: right; }
-
-.right, #the-attachment-links { float: left; }
-
-#submit input, #submit input:focus {
-	border-left: 0;
-	border-right-color: #ccc;
-}
-
-#submit input:active {
-	border-left: 0;
-	border-right-color: #999;
-}
+#the-attachment-links { float: left; }

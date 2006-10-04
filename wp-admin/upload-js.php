@@ -62,11 +62,12 @@ addLoadEvent( function() {
 
 			h += "<div id='upload-file'>"
 			h += "<div id='file-title'>"
-			h += "<h2><a href='" + this.currentImage.src + "' title='Direct Link to this file'>" + this.currentImage.title + "</a></h2>";
-			h += "<span>[&nbsp";
-			h += "<a href='" + this.currentImage.page + "' title='Permalink to the blog page for this file'>page link</a>"
-			h += '&nbsp;|&nbsp;';
-			h += "<a href='#' onclick='theFileList.editView(" + id + ")'  title='Edit this file'>edit</a>"
+			if ( !this.currentImage.thumb )
+				h += "<h2><a href='" + this.currentImage.src + "' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
+			else
+				h += "<h2>" + this.currentImage.title + "</h2>";
+			h += "<span>[&nbsp;";
+			h += "<a href='#' onclick='theFileList.editView(" + id + ")'>edit</a>"
 			h += '&nbsp;|&nbsp;';
 			if ( this.ID ) {
 				var params = $H(this.params);
@@ -78,29 +79,31 @@ addLoadEvent( function() {
 			}
 			h += "&nbsp;]</span>";
 			h += '</div>'
-			h += "<div id='upload-file-view' class='left'>";
+			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( this.currentImage.thumb )
-				h += "<img src='" + this.currentImage.thumb + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
+				h += "<a href='" + this.currentImage.src + "' title='Direct link to file'><img src='" + this.currentImage.thumb + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' /></a>";
 			else
 				h += '&nbsp;';
 			h += "</div>";
 
-			h += "<form name='uploadoptions' id='uploadoptions' class='left'>";
+			h += "<form name='uploadoptions' id='uploadoptions' class='alignleft'>";
+			h += "<table>";
 			if ( this.currentImage.thumb ) {
-				h += "<input type='radio' name='display' value='thumb' checked='checked'>Display thumbnail</input><br />";
-				h += "<input type='radio' name='display' value='full'>Display full-sized image</input><br /><br />";
+				h += "<tr><th style='padding-bottom:.5em'>Show</th><td style='padding-bottom:.5em'>";
+				h += "<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' checked='checked' /> thumbnail</label><br />";
+				h += "<label for='display-full'><input type='radio' name='display' id='display-full' value='full' /> full size</label>";
+				h += "</td></tr>";
 			}
 
-			if ( this.currentImage.thumb ) {
-				h += "<input type='radio' name='link' value='none' checked='checked'>Do not link to this file</input><br />";
-				h += "<input type='radio' name='link' value='file'>Link directly to this file</input><br />";
-				h += "<input type='radio' name='link' value='page'>Link to this file's blog page</input><br />";
-			} else {
-				h += "<input type='radio' name='link' value='file'>Link directly to this file</input><br />";
-				h += "<input type='radio' name='link' value='page' checked='checked'>Link to this file's blog page</input><br />";
-			}
+			h += "<tr><th>Link</th><td>";
+			h += "<label for='link-file'><input type='radio' name='link' id='link-file' value='file' checked='checked'/> file</label><br />";
+			h += "<label for='link-page'><input type='radio' name='link' id='link-page' value='page' /> page</label><br />";
+			h += "<label for='link-none'><input type='radio' name='link' id='link-none' value='none' /> none</label>";
+			h += "</td></tr>";
 
-			h += "<input type='button' name='send' onclick='theFileList.sendToEditor(" + id + ")' value='Send to editor' />";
+			h += "<tr><td colspan='2'>";
+			h += "<input type='button' class='button' name='send' onclick='theFileList.sendToEditor(" + id + ")' value='Send to editor &raquo;' />";
+			h += "</td></tr></table>";
 			h += "</form>";
 
 			h += "</div>";
@@ -116,11 +119,12 @@ addLoadEvent( function() {
 
 			h += "<form id='upload-file' method='post' action='upload.php?style=inline&amp;tab=upload&amp;post_id=" + this.postID + "'>";
 			h += "<div id='file-title'>"
-			h += "<h2><a href='" + this.currentImage.src + "' title='Direct Link to this file'>" + this.currentImage.title + "</a></h2>";
-			h += "<span>[&nbsp";
-			h += "<a href='" + this.currentImage.page + "' title='Permalink to the blog page for this file'>page link</a>"
-			h += '&nbsp;|&nbsp;';
-			h += "<a href='#' onclick='theFileList.imageView(" + id + ")'  title='View options for this file'>options</a>"
+			if ( !this.currentImage.thumb )
+				h += "<h2><a href='" + this.currentImage.src + "' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
+			else
+				h += "<h2>" + this.currentImage.title + "</h2>";
+			h += "<span>[&nbsp;";
+			h += "<a href='#' onclick='theFileList.imageView(" + id + ")'>options</a>"
 			h += '&nbsp;|&nbsp;';
 			if ( this.ID ) {
 				var params = $H(this.params);
@@ -132,9 +136,9 @@ addLoadEvent( function() {
 			}
 			h += "&nbsp;]</span>";
 			h += '</div>'
-			h += "<div id='upload-file-view' class='left'>";
+			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( this.currentImage.thumb )
-				h += "<img src='" + this.currentImage.thumb + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
+				h += "<a href='" + this.currentImage.src + "' title='Direct link to file'><img src='" + this.currentImage.thumb + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' /></a>";
 			else
 				h += '&nbsp;';
 			h += "</div>";
@@ -151,7 +155,7 @@ addLoadEvent( function() {
 			h += "<input type='hidden' name='action' id='action-value' value='save' />";
 			h += "<input type='hidden' name='ID' value='" + id + "' />";
 			h += "<input type='hidden' name='_wpnonce' value='" + this.nonce + "' />";
-			h += "<div id='submit'><input type='submit' value='Save' />";
+			h += "<div class='submit'><input type='submit' value='Save' />";
 			h += "<input type='button' name='delete' class='delete' value='Delete' onclick='theFileList.deleteFile(" + id + ");' />";
 			h += "</div></td></tr></table></form>";
 

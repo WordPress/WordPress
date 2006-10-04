@@ -47,13 +47,19 @@ function wp_upload_display( $dims = false, $href = '' ) {
 function wp_upload_view() {
 	global $style, $post_id;
 	$id = get_the_ID();
+	$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
 ?>
 	<div id="upload-file">
 		<div id="file-title">
-			<h2><a href="<?php the_guid(); ?>" title="Direct link to this file"><?php the_title(); ?></a></h2>
+			<h2><?php if ( !isset($attachment_data['width']) )
+					echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+				the_title();
+				if ( !isset($attachment_data['width']) )
+					echo '</a>';
+			?></h2>
 			<span><?php
 				echo '[&nbsp;';
-				echo '<a href="' . get_permalink() . '" title="' . ('Permalink to the blog page for this file') . '">' . __('page link') . '</a>';
+				echo '<a href="' . get_permalink() . '">' . __('view') . '</a>';
 				echo '&nbsp;|&nbsp;';
 					echo '<a href="' . wp_specialchars( add_query_arg( 'action', 'edit' ), 1 ) . '" title="' . __('Edit this file') . '">' . __('edit') . '</a>';
 				echo '&nbsp;|&nbsp;';
@@ -61,8 +67,12 @@ function wp_upload_view() {
 				echo '&nbsp;]'; ?></span>
 		</div>
 
-		<div id="upload-file-view" class="left">
-<?php	echo wp_upload_display( array(171, 128)  ); ?>
+		<div id="upload-file-view" class="alignleft">
+<?php		if ( isset($attachment_data['width']) )
+			echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+		echo wp_upload_display( array(171, 128) );
+		if ( isset($attachment_data['width']) )
+			echo '</a>'; ?>
 		</div>
 		<?php the_attachment_links( $id ); ?>
 	</div>
@@ -78,21 +88,31 @@ function wp_upload_form() {
 <?php
 	if ( $id ) :
 		$attachment = get_post_to_edit( $id );
+		$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
 ?>
 		<div id="file-title">
-			<h2><a href="<?php the_guid(); ?>" title="Direct link to this file"><?php the_title(); ?></a></h2>
+			<h2><?php if ( !isset($attachment_data['width']) )
+					echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+				the_title();
+				if ( !isset($attachment_data['width']) )
+					echo '</a>';
+			?></h2>
 			<span><?php
 				echo '[&nbsp;';
-				echo '<a href="' . get_permalink() . '" title="' . ('Permalink to the blog page for this file') . '">' . __('page link') . '</a>';
+				echo '<a href="' . get_permalink() . '">' . __('view') . '</a>';
 				echo '&nbsp;|&nbsp;';
-					echo '<a href="' . wp_specialchars( add_query_arg( 'action', 'view' ), 1 ) . '" title="' . __('View options for this file') . '">' . __('options') . '</a>';
+					echo '<a href="' . wp_specialchars( add_query_arg( 'action', 'view' ), 1 ) . '">' . __('options') . '</a>';
 				echo '&nbsp;|&nbsp;';
 				echo '<a href="' . wp_specialchars( remove_query_arg( array('action','ID') ), 1 ) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
 				echo '&nbsp;]'; ?></span>
 		</div>
 
-	<div id="upload-file-view" class="left">
-<?php		echo wp_upload_display( array(171, 128) ); ?>
+	<div id="upload-file-view" class="alignleft">
+<?php		if ( isset($attachment_data['width']) )
+			echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+		echo wp_upload_display( array(171, 128) );
+		if ( isset($attachment_data['width']) )
+			echo '</a>'; ?>
 	</div>
 <?php	endif; ?>
 		<table>
@@ -121,7 +141,7 @@ function wp_upload_form() {
 					<input type="hidden" name="ID" value="<?php echo $id; ?>" />
 <?php	endif; ?>
 					<?php wp_nonce_field( 'inlineuploading' ); ?>
-					<div id="submit">
+					<div class="submit">
 						<input type="submit" value="<?php $id ? _e('Save') : _e('Upload'); ?>" />
 <?php	if ( $id ) : ?>
 						<input type="submit" name="delete" class="delete" value="<?php _e('Delete'); ?>" />
@@ -293,7 +313,7 @@ function wp_upload_tab_browse() {
 
 			echo "\t<li id='file-";
 			the_ID();
-			echo "' class='left'>\n";
+			echo "' class='alignleft'>\n";
 			echo wp_upload_display( array(128,128), $href );
 			echo "\t</li>\n";
 		endwhile;

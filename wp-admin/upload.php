@@ -84,12 +84,12 @@ foreach ( $wp_upload_tabs as $t => $tab_array ) { // We've already done the curr
 		}
 	}
 
-	echo "\t<li class='$class left'><div><a href='$_href' title='{$tab_array[0]}'>{$tab_array[0]}</a>$page_links</div></li>\n";
+	echo "\t<li class='$class alignleft'><div><a href='$_href' title='{$tab_array[0]}'>{$tab_array[0]}</a>$page_links</div></li>\n";
 }
 unset($t, $tab_array, $href, $_href, $page_links, $total, $per, $class);
 echo "</ul>\n\n";
 
-echo "<div id='upload-content'>\n";
+echo "<div id='upload-content' class='$tab'>\n";
 
 call_user_func( $wp_upload_tabs[$tab][2] );
 
