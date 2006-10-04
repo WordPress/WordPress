@@ -181,7 +181,7 @@ $wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES
 $admin_caps = serialize(array('administrator' => true));
 $wpdb->query("INSERT INTO $wpdb->usermeta (user_id, meta_key, meta_value) VALUES ({$wpdb->insert_id}, '{$table_prefix}capabilities', '{$admin_caps}');");
 
-$message_headers = 'From: ' . $weblog_title . ' <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
+$message_headers = 'From: "' . $weblog_title . '" <wordpress@' . $_SERVER['SERVER_NAME'] . '>';
 $message = sprintf(__("Your new WordPress blog has been successfully set up at:
 
 %1\$s
