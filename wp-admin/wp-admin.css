@@ -357,7 +357,7 @@ table .vers, table .name {
 	text-align: center;
 }
 
-#all-options textarea, #all-options input {
+textarea.all-options, input.all-options {
 	width: 250px;
 }
 

@@ -141,7 +141,7 @@ default:
 	include('admin-header.php'); ?>
 
 <div class="wrap">
-  <h2><?php _e('All options'); ?></h2>
+  <h2><?php _e('All Options'); ?></h2>
   <form name="form" action="options.php" method="post" id="all-options">
   <?php wp_nonce_field('update-options') ?>
   <input type="hidden" name="action" value="update" />
@@ -163,8 +163,8 @@ foreach ( (array) $options as $option) :
 	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
 <td>";
 
-	if (stristr($value, "\n")) echo "<textarea name='$option->option_name' id='$option->option_name' cols='30' rows='5'>$value</textarea>";
-	else echo "<input type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "' />";
+	if (stristr($value, "\n")) echo "<textarea class='all-options' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>$value</textarea>";
+	else echo "<input class='all-options' type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "' />";
 	
 	echo "</td>
 	<td>$option->option_description</td>
@@ -172,7 +172,7 @@ foreach ( (array) $options as $option) :
 endforeach;
 ?>
   </table>
-<p class="submit"><input type="submit" name="Update" value="<?php _e('Update Settings &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="Update" value="<?php _e('Update Options &raquo;') ?>" /></p>
   </form>
 </div>
 
