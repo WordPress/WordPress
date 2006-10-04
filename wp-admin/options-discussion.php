@@ -71,7 +71,7 @@ if ($action == 'retrospam') {
 </fieldset>
 <fieldset class="options">
 <legend><?php _e('Comment Moderation') ?></legend>
-<p><?php printf(__('Hold a comment in the queue if it contains more than %s links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_settings('comment_max_links'). '" />' ) ?></p>
+<p><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_settings('comment_max_links'). '" />' ) ?></p>
 
 <p><?php _e('When a comment contains any of these words in its content, name, URI, e-mail, or IP, hold it in the moderation queue: (Separate multiple words with new lines.) <a href="http://codex.wordpress.org/Spam_Words">Common spam words</a>.') ?></p>
 <p> 
