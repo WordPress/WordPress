@@ -613,7 +613,7 @@ function convert_smilies($text) {
 		for ($i = 0; $i < $stop; $i++) {
 			$content = $textarr[$i];
 			if ((strlen($content) > 0) && ('<' != $content{0})) { // If it's not a tag
-				$content = str_replace($wp_smiliessearch, $wp_smiliesreplace, $content);
+				$content = preg_replace($wp_smiliessearch, $wp_smiliesreplace, $content);
 			}
 			$output .= $content;
 		}
