@@ -26,7 +26,7 @@ if ( isset($rss->items) && 0 != count($rss->items) ) {
 $rss->items = array_slice($rss->items, 0, 10);
 foreach ($rss->items as $item ) {
 ?>
-	<li><a href="<?php echo wp_filter_kses($item['link']); ?>"><?php echo wp_specialchars($item['title']); ?></a></li>
+	<li><a href="<?php echo wp_filter_kses($item['link']); ?>"><?php echo wptexturize(wp_specialchars($item['title'])); ?></a></li>
 <?php } ?>
 </ul>
 </div>
