@@ -171,6 +171,8 @@ class WP {
 			nocache_headers();
 		if ( !empty($this->query_vars['error']) && '404' == $this->query_vars['error'] ) {
 			status_header( 404 );
+			if ( !is_user_logged_in() )
+				nocache_headers();
 			@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 		} else if ( empty($this->query_vars['feed']) ) {
 			@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
@@ -260,6 +262,7 @@ class WP {
 		if ( (0 == count($wp_query->posts)) && !is_404() && !is_search() && ( $this->did_permalink || (!empty($_SERVER['QUERY_STRING']) && (false === strpos($_SERVER['REQUEST_URI'], '?'))) ) ) {
 			$wp_query->set_404();
 			status_header( 404 );
+			nocache_headers();
 		}	elseif( is_404() != true ) {
 			status_header( 200 );
 		}
