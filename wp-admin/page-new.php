@@ -8,7 +8,7 @@ wp_enqueue_script('autosave');
 require_once('admin-header.php');
 ?>
 
-<?php if ( isset($_GET['posted']) || isset($_GET['saved'])  ) : ?>
+<?php if ( (isset($_GET['posted']) && $_GET['posted'])  || isset($_GET['saved'])  ) : ?>
 <div id="message" class="updated fade"><p><strong><?php _e('Page saved.') ?></strong> <a href="edit-pages.php"><?php _e('Manage pages'); ?></a> | <a href="<?php echo get_page_link( isset($_GET['posted']) ? $_GET['posted'] : $_GET['saved'] ); ?>"><?php _e('View page') ; ?> &raquo;</a></p></div>
 <?php endif; ?>
 
