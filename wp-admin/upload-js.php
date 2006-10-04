@@ -29,7 +29,7 @@ addLoadEvent( function() {
 				return;
 			$$('a.file-link').each( function(i) {
 				var id = i.id.split('-').pop();
-				i.onclick = function(e) { theFileList.imageView(id, e); }
+				i.onclick = function(e) { theFileList[ 'inline' == theFileList.style ? 'imageView' : 'editView' ](id, e); }
 			} );
 		},
 
@@ -117,7 +117,10 @@ addLoadEvent( function() {
 			this.prepView(id);
 			var h = '';
 
-			h += "<form id='upload-file' method='post' action='upload.php?style=inline&amp;tab=upload&amp;post_id=" + this.postID + "'>";
+			var action = 'upload.php?style=' + this.style + '&amp;tab=upload';
+			if ( this.postID )
+				action += '&amp;post_id=' + this.postID;
+			h += "<form id='upload-file' method='post' action='" + action + "'>";
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.thumb )
 				h += "<h2><a href='" + this.currentImage.src + "' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";

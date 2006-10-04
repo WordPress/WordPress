@@ -18,3 +18,5 @@ h2 { margin: 0 0 0 .2em; }
 table { float: right; }
 
 #the-attachment-links { float: left; }
+
+#th { text-align: left; }

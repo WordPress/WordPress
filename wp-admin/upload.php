@@ -14,8 +14,6 @@ if ( !$tab )
 
 do_action( "upload_files_$tab" );
 
-add_action( 'admin_head', 'wp_upload_admin_head' );
-
 $pid = 0;
 if ( $post_id < 0 )
 	$pid = $post_id;
@@ -51,7 +49,29 @@ foreach ( $wp_upload_tabs as $t => $tab_array ) {
 	}
 }
 
-include_once('admin-header.php');
+if ( 'inline' == $style ) : ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+<head>
+<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+<title><?php bloginfo('name') ?> &rsaquo; <?php _e('Uploads'); ?> &#8212; WordPress</title>
+<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
+<link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+<?php endif; ?> 
+<script type="text/javascript">
+//<![CDATA[
+function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}else{ var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}}
+//]]>
+</script>
+<?php do_action('admin_print_scripts'); wp_upload_admin_head(); ?>
+</head>
+<body>
+<?php
+else :
+	add_action( 'admin_head', 'wp_upload_admin_head' );
+	include_once('admin-header.php');
+endif;
 
 echo "<ul id='upload-menu'>\n";
 foreach ( $wp_upload_tabs as $t => $tab_array ) { // We've already done the current_user_can check
@@ -95,5 +115,11 @@ call_user_func( $wp_upload_tabs[$tab][2] );
 
 echo "</div>\n";
 
-include_once('admin-footer.php');
-?>
+if ( 'inline' != $style ) :
+	include_once('admin-footer.php');
+else : ?>
+<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
+
+</body>
+</html>
+<?php endif; ?>

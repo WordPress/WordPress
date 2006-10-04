@@ -101,7 +101,7 @@ function wp_upload_form() {
 				echo '[&nbsp;';
 				echo '<a href="' . get_permalink() . '">' . __('view') . '</a>';
 				echo '&nbsp;|&nbsp;';
-					echo '<a href="' . wp_specialchars( add_query_arg( 'action', 'view' ), 1 ) . '">' . __('options') . '</a>';
+					echo '<a href="' . wp_specialchars( add_query_arg( 'action', 'view' ), 1 ) . '">' . __('links') . '</a>';
 				echo '&nbsp;|&nbsp;';
 				echo '<a href="' . wp_specialchars( remove_query_arg( array('action','ID') ), 1 ) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
 				echo '&nbsp;]'; ?></span>
@@ -297,7 +297,7 @@ function wp_upload_tab_browse() {
 		endwhile; endif;
 		break;
 	default :
-		global $tab, $post_id;
+		global $tab, $post_id, $style;
 		add_action( 'pre_get_posts', 'wp_upload_grab_attachments' );
 		if ( 'browse' == $tab && $post_id )
 			add_filter( 'posts_where', 'wp_upload_posts_where' );
@@ -309,7 +309,10 @@ function wp_upload_tab_browse() {
 
 		echo "<ul id='upload-files'>\n";
 		if ( have_posts() ) : while ( have_posts() ) : the_post();
-			$href = wp_specialchars( add_query_arg( array('action' => 'view', 'ID' => get_the_ID()) ), 1 );
+			$href = wp_specialchars( add_query_arg( array(
+				'action' => 'inline' == $style ? 'view' : 'edit',
+				'ID' => get_the_ID())
+			 ), 1 );
 
 			echo "\t<li id='file-";
 			the_ID();
@@ -331,7 +334,9 @@ function wp_upload_tab_browse() {
 
 
 function wp_upload_tab_browse_action() {
-	wp_enqueue_script('upload');
+	global $style;
+	if ( 'inline' == $style )
+		wp_enqueue_script('upload');
 }
 
 add_action( 'upload_files_browse', 'wp_upload_tab_browse_action' );
@@ -344,7 +349,6 @@ function wp_upload_admin_head() {
 		echo "<link rel='stylesheet' href='" . get_option('siteurl') . '/wp-admin/upload-rtl.css?version=' . get_bloginfo('version') . "' type='text/css' />\n";
 	if ( 'inline' == @$_GET['style'] ) {
 		echo "<style type='text/css'>\n";
-		echo "\t#wphead, #user_info, #adminmenu, #submenu, #footer { display: none; }\n";
 		echo "\tbody { height: 14em; overflow: hidden; }\n";
 		echo "\t#upload-content { overflow-y: auto; }\n";
 		echo "\t#upload-file { position: absolute; }\n";

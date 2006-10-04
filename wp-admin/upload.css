@@ -90,10 +90,12 @@ h2 {
 
 #upload-files li { margin: 0 0 15px 15px; }
 
-#upload-files a, a.file-link {
+#upload-files a, #upload-file-view a, a.file-link {
 	border: none;
 	text-decoration: none;
 }
+
+#upload-file-view a img { padding-bottom: .2em; border-bottom: 1px solid #6699CC; }
 
 #upload-files a.file-link {
 	display: block;
@@ -127,7 +129,7 @@ table {
 	padding: 0;
 }
 
-th { vertical-align: text-top; }
+th { text-align: right; vertical-align: text-top; }
 
 tr, td, th {
 	margin-top: 0;
