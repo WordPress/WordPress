@@ -32,7 +32,7 @@ case 'post':
 			break;
 		}
 	} else {
-		$location = 'post-new.php?posted=true';
+		$location = "post-new.php?posted=$post_ID";
 	}
 
 	if ( isset($_POST['save']) )
@@ -106,7 +106,7 @@ case 'editpost':
 				break;
 			}
 		} else {
-			$location = 'post-new.php?posted=true';
+			$location = "post-new.php?posted=$post_ID";
 		}
 
 		if ( isset($_POST['save']) )
