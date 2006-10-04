@@ -67,9 +67,10 @@ function timer_stop($display = 0, $precision = 3) { //if called like timer_stop(
 	$mtime = $mtime[1] + $mtime[0];
 	$timeend = $mtime;
 	$timetotal = $timeend-$timestart;
+	$r = number_format($timetotal, $precision);
 	if ( $display )
-		echo number_format($timetotal,$precision);
-	return $timetotal;
+		echo $r;
+	return $r;
 }
 timer_start();
 
