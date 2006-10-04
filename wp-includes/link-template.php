@@ -476,7 +476,7 @@ function _max_num_pages() {
 	global $wpdb, $wp_query;
 	
 	if (isset($max_num_pages)) return $max_num_pages;
-	$posts_per = (int) get_option('posts_per_page');
+	$posts_per = get_query_var('posts_per_page');
 	if ( empty($posts_per) ) $posts_per = 1;
 
 	if ( 'posts' == get_query_var('what_to_show') ) {
