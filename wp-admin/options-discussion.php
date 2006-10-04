@@ -61,7 +61,7 @@ include('admin-header.php');
 </fieldset>
 <fieldset class="options">
 <legend><?php _e('Comment Moderation') ?></legend>
-<p><?php printf(__('Hold a comment in the queue if it contains more than %s links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_option('comment_max_links'). '" />' ) ?></p>
+<p><?php printf(__('Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)'), '<input name="comment_max_links" type="text" id="comment_max_links" size="3" value="' . get_option('comment_max_links'). '" />' ) ?></p>
 
 <p><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be held in the <a href="moderation.php">moderation queue</a>. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></p>
 <p> 
