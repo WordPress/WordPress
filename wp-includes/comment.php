@@ -5,7 +5,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 
 	if (1 == get_option('comment_moderation')) return false; // If moderation is set to manual
 
-	if ( (count(explode('http:', $comment)) - 1) >= get_option('comment_max_links') )
+	if ( preg_match_all("|(href\t*?=\t*?['\"]?)?(https?:)?//|i", $comment, $out) >= get_option('comment_max_links') )
 		return false; // Check # of external links
 
 	$mod_keys = trim( get_option('moderation_keys') );
