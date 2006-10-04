@@ -94,7 +94,7 @@ if (empty($plugins)) {
 		return strnatcasecmp($plug1['Name'], $plug2['Name']);
 	}
 
-	uksort($plugins, 'sort_plugins');
+	uasort($plugins, 'sort_plugins');
 
 	foreach($plugins as $plugin_file => $plugin_data) {
 		$style = ('class="alternate"' == $style|| 'class="alternate active"' == $style) ? '' : 'alternate';
