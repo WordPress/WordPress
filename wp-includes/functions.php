@@ -1193,7 +1193,7 @@ function merge_filters($tag) {
 	}
 
 	if ( isset($wp_filter[$tag]) )
-		ksort( $wp_filter[$tag] );
+		uksort( $wp_filter[$tag], "strnatcasecmp" );
 }
 
 function apply_filters($tag, $string) {

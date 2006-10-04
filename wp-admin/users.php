@@ -206,7 +206,7 @@ default:
   <table cellpadding="3" cellspacing="3" width="100%">
 	<?php
 	foreach($roleclasses as $role => $roleclass) {
-		ksort($roleclass);
+		uksort($roleclass, "strnatcasecmp");
 		?>
 
 	<tr>

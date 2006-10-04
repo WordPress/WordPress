@@ -55,7 +55,7 @@ foreach ($menu as $menu_page) {
 }
 
 do_action('admin_menu', '');
-ksort($menu); // make it all pretty
+uksort($menu, "strnatcasecmp"); // make it all pretty
 
 if (! user_can_access_admin_page()) {
 	die( __('You do not have sufficient permissions to access this page.') );
