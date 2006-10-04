@@ -88,9 +88,10 @@ case 'update':
 
 	check_admin_referer('update-options');
 
-	if (!$_POST['page_options']) {
-		foreach ($_POST as $key => $value) {
-			$options[] = $key;
+	if ( !$_POST['page_options'] ) {
+		foreach ( (array) $_POST as $key => $value) {
+			if ( !in_array($key, array('_wpnonce', '_wp_http_referer')) )
+				$options[] = $key;
 		}
 	} else {
 		$options = explode(',', stripslashes($_POST['page_options']));
@@ -122,8 +123,15 @@ default:
   <table width="98%">
 <?php
 $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name");
+foreach ( (array) $options as $option )
+	$options_to_update[] = $option->option_name;
+$options_to_update = implode(',', $options_to_update);
+?>
 
-foreach ($options as $option) :
+<input type="hidden" name="page_options" value="<?php echo $options_to_update; ?>" /> 
+
+<?php
+foreach ( (array) $options as $option) :
 	$value = wp_specialchars($option->option_value, 'single');
 	echo "
 <tr>
