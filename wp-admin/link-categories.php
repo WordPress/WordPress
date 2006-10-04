@@ -309,7 +309,7 @@ $results = $wpdb->get_results("SELECT cat_id, cat_name, auto_toggle, show_images
          . " show_rating, show_updated, sort_order, sort_desc, text_before_link, text_after_link, "
          . " text_after_all, list_limit FROM $wpdb->linkcategories ORDER BY cat_id");
 $i = 1;
-foreach ($results as $row) {
+foreach ( (array) $results as $row) {
     if ($row->list_limit == -1) {
         $row->list_limit = __('none');
     }
