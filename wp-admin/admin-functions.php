@@ -1705,24 +1705,22 @@ function get_plugins() {
 		}
 	}
 
-	if (!$plugins_dir || !$plugin_files) {
+	if ( !$plugins_dir || !$plugin_files )
 		return $wp_plugins;
-	}
 
-	sort($plugin_files);
-
-	foreach ($plugin_files as $plugin_file) {
-		if ( !is_readable("$plugin_root/$plugin_file"))
+	foreach ( $plugin_files as $plugin_file ) {
+		if ( !is_readable("$plugin_root/$plugin_file") )
 			continue;
 
 		$plugin_data = get_plugin_data("$plugin_root/$plugin_file");
 
-		if (empty ($plugin_data['Name'])) {
+		if ( empty ($plugin_data['Name']) )
 			continue;
-		}
 
 		$wp_plugins[plugin_basename($plugin_file)] = $plugin_data;
 	}
+
+	uasort($wp_plugins, create_function('$a, $b', 'return strnatcasecmp($a["Name"], $b["Name"]);'));
 
 	return $wp_plugins;
 }
