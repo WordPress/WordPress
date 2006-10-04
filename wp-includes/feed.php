@@ -134,9 +134,9 @@ function get_the_category_rss($type = 'rss') {
     foreach ($categories as $category) {
         $category->cat_name = convert_chars($category->cat_name);
         if ('rdf' == $type) {
-            $the_list .= "\n\t<dc:subject>$category->cat_name</dc:subject>";
+            $the_list .= "\n\t\t<dc:subject>$category->cat_name</dc:subject>\n";
         } else {
-            $the_list .= "\n\t<category>$category->cat_name</category>";
+            $the_list .= "\n\t\t<category>$category->cat_name</category>\n";
         }
     }
     return apply_filters('the_category_rss', $the_list, $type);
