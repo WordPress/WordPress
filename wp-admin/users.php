@@ -373,7 +373,7 @@ default:
 <table class="widefat">
 <?php
 foreach($roleclasses as $role => $roleclass) {
-	ksort($roleclass);
+	uksort($roleclass, "strnatcasecmp");
 ?>
 
 <tr>

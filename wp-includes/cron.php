@@ -5,7 +5,7 @@ function wp_schedule_single_event( $timestamp, $hook ) {
 	$crons = _get_cron_array();
 	$key = md5(serialize($args));
 	$crons[$timestamp][$hook][$key] = array( 'schedule' => false, 'args' => $args );
-	ksort( $crons );
+	uksort( $crons, "strnatcasecmp" );
 	_set_cron_array( $crons );
 }
 
@@ -17,7 +17,7 @@ function wp_schedule_event( $timestamp, $recurrence, $hook ) {
 	if ( !isset( $schedules[$recurrence] ) )
 		return false;
 	$crons[$timestamp][$hook][$key] = array( 'schedule' => $recurrence, 'args' => $args, 'interval' => $schedules[$recurrence]['interval'] );
-	ksort( $crons );
+	uksort( $crons, "strnatcasecmp" );
 	_set_cron_array( $crons );
 }
 
