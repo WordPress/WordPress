@@ -115,10 +115,12 @@ if ( count($arc_result) ) { ?>
 <form name="viewcat" id="viewcat" action="" method="get">
 	<fieldset>
 	<legend><?php _e('Browse Category&hellip;') ?></legend>
-	<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=0&hierarchical=1&show_count=1&selected='.$cat);?>
+	<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
 	<input type="submit" name="submit" value="<?php _e('Show Category') ?>"  /> 
 	</fieldset>
 </form>
+
+<?php do_action('restrict_manage_posts'); ?>
 
 <br style="clear:both;" />
 
