@@ -260,13 +260,17 @@ function single_month_title($prefix = '', $display = true ) {
 		$my_month = $wp_locale->get_month($monthnum);
 	} elseif ( !empty($m) ) {
 		$my_year = substr($m, 0, 4);
-		$my_month = $wp_locale->get_month($m);
+		$my_month = $wp_locale->get_month(substr($m, 4, 2));
 	}
 
-	if ( !empty($my_month) && $display )
-		echo $prefix . $my_month . $prefix . $my_year;
-	else
-		return $monthnum;
+	if ( empty($my_month) )
+		return false;
+
+	$result = $prefix . $my_month . $prefix . $my_year;
+
+	if ( !$display )
+		return $result;
+	echo $result;
 }
 
 
