@@ -1070,4 +1070,11 @@ function js_escape($text) {
 	return preg_replace("/\r?\n/", "\\n", addslashes($text));
 }
 
+function wp_make_link_relative( $link, $base = '' ) {
+	if ( !$base )
+		$base = get_option( 'home' );
+	if ( 0 === strpos($link, $base) )
+		$link = substr_replace($link, '', 0, strlen($base));
+	return $link;
+}
 ?>
