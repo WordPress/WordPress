@@ -24,11 +24,9 @@
 /* You can extend this CSS by adding your own CSS file with the the content_css option */
 
 body {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 0.9em;
-	line-height: 1.2em;
-	padding: .3em;
-	background-color: #FFFFFF;
+	background: #fff;
+	font: 1em/1.3em Georgia, "Times New Roman", Times, serif;
+	padding: .5em;
 }
 
 td {

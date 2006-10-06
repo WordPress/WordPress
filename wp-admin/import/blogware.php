@@ -22,8 +22,10 @@ class BW_Import {
 	}
 	
 	function greet() {
+		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! This importer allows you to extract posts from Blogware XML export file into your blog.  Pick a Blogware file to upload and click Import.').'</p>';
 		wp_import_upload_form("admin.php?import=blogware&amp;step=1");
+		echo '</div>';
 	}
 
 	function import_posts() {

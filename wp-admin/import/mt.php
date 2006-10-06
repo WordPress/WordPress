@@ -21,9 +21,11 @@ class MT_Import {
 	function greet() {
 		$this->header();
 ?>
+<div class="narrow">
 <p><?php _e('Howdy! We&#8217;re about to begin the process to import all of your Movable Type entries into WordPress. To begin, select a file to upload and click Import.'); ?></p>
 <?php wp_import_upload_form( add_query_arg('step', 1) ); ?>
 	<p><?php _e('The importer is smart enough not to import duplicates, so you can run this multiple times without worry if&#8212;for whatever reason&#8212;it doesn\'t finish. If you get an <strong>out of memory</strong> error try splitting up the import file into pieces.'); ?> </p>
+</div>
 <?php
 		$this->footer();
 	}

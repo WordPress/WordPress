@@ -78,7 +78,7 @@ if (empty($plugins)) {
 	echo '</p>';
 } else {
 ?>
-<table class="widefat">
+<table class="widefat plugins">
 	<thead>
 	<tr>
 		<th><?php _e('Plugin'); ?></th>
@@ -112,7 +112,7 @@ if (empty($plugins)) {
 	<tr $style>
 		<td class='name'>{$plugin_data['Title']}</td>
 		<td class='vers'>{$plugin_data['Version']}</td>
-		<td class='desc'>{$plugin_data['Description']} <cite>".sprintf(__('By %s'), $plugin_data['Author']).".</cite></td>
+		<td class='desc'><p>{$plugin_data['Description']} <cite>".sprintf(__('By %s'), $plugin_data['Author']).".</cite></p></td>
 		<td class='togl'>$toggle</td>";
 		if ( current_user_can('edit_plugins') )
 		echo "
@@ -130,7 +130,8 @@ if (empty($plugins)) {
 <p><?php _e(sprintf('If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated.', PLUGINDIR)); ?></p>
 
 <h2><?php _e('Get More Plugins'); ?></h2>
-<p><?php _e(sprintf('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>. To install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory. Once a plugin is uploaded, you may activate it here.', PLUGINDIR)); ?></p>
+<p><?php _e('You can find additional plugins for your site in the <a href="http://wordpress.org/extend/plugins/">WordPress plugin directory</a>.'); ?></p>
+<p><?php _e(sprintf('To install a plugin you generally just need to upload the plugin file into your <code>%s</code> directory. Once a plugin is uploaded, you may activate it here.', PLUGINDIR)); ?></p>
 
 </div>
 

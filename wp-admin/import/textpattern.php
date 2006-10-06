@@ -50,14 +50,15 @@ class Textpattern_Import {
 		echo '</div>';
 	}
 
-	function greet() 
-	{
+	function greet() {
+		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! This importer allows you to extract posts from any Textpattern 4.0.2+ into your blog. This has not been tested on previous versions of Textpattern.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your Textpattern Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=textpattern&amp;step=1" method="post">';
 		$this->db_form();
-		echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Categories').' &raquo;" /></p>';
 		echo '</form>';
+		echo '</div>';
 	}
 
 	function get_txp_cats()
@@ -568,13 +569,13 @@ class Textpattern_Import {
 
 	function db_form()
 	{
-		echo '<ul>';
-		printf('<li><label for="dbuser">%s</label> <input type="text" name="dbuser" id="dbuser" /></li>', __('Textpattern Database User:'));
-		printf('<li><label for="dbpass">%s</label> <input type="password" name="dbpass" id="dbpass" /></li>', __('Textpattern Database Password:'));
-		printf('<li><label for="dbname">%s</label> <input type="text" id="dbname" name="dbname" /></li>', __('Textpattern Database Name:'));
-		printf('<li><label for="dbhost">%s</label> <input type="text" id="dbhost" name="dbhost" value="localhost" /></li>', __('Textpattern Database Host:'));
-		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" id="dbprefix"  /></li>', __('Textpattern Table prefix (if any):'));
-		echo '</ul>';
+		echo '<table class="editform">';
+		printf('<tr><th scope="row"><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('Textpattern Database User:'));
+		printf('<tr><th scope="row"><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('Textpattern Database Password:'));
+		printf('<tr><th scope="row"><label for="dbname">%s</label></th><td><input type="text" id="dbname" name="dbname" /></td></tr>', __('Textpattern Database Name:'));
+		printf('<tr><th scope="row"><label for="dbhost">%s</label></th><td><input type="text" id="dbhost" name="dbhost" value="localhost" /></td></tr>', __('Textpattern Database Host:'));
+		printf('<tr><th scope="row"><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix"  /></td></tr>', __('Textpattern Table prefix (if any):'));
+		echo '</table>';
 	}
 
 	function dispatch() 

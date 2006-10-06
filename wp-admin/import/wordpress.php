@@ -25,8 +25,10 @@ class WP_Import {
 	}
 
 	function greet() {
+		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts and comments into this blog.').'</p>';
 		wp_import_upload_form("admin.php?import=wordpress&amp;step=1");
+		echo '</div>';
 	}
 
 	function get_tag( $string, $tag ) {

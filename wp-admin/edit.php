@@ -77,7 +77,7 @@ if ( is_month() ) {
   <fieldset> 
   <legend><?php _e('Search Posts&hellip;') ?></legend> 
   <input type="text" name="s" value="<?php if (isset($s)) echo wp_specialchars($s, 1); ?>" size="17" /> 
-  <input type="submit" name="submit" value="<?php _e('Search') ?>"  /> 
+  <input type="submit" name="submit" value="<?php _e('Search') ?>" class="button" /> 
   </fieldset>
 </form>
 
@@ -106,7 +106,7 @@ if ( count($arc_result) ) { ?>
 		}
 	?>
 	</select>
-		<input type="submit" name="submit" value="<?php _e('Show Month') ?>"  /> 
+		<input type="submit" name="submit" value="<?php _e('Show Month') ?>" class="button" /> 
 	</fieldset>
 </form>
 
@@ -116,7 +116,7 @@ if ( count($arc_result) ) { ?>
 	<fieldset>
 	<legend><?php _e('Browse Category&hellip;') ?></legend>
 	<?php wp_dropdown_categories('show_option_all='.__('All').'&hide_empty=1&hierarchical=1&show_count=1&selected='.$cat);?>
-	<input type="submit" name="submit" value="<?php _e('Show Category') ?>"  /> 
+	<input type="submit" name="submit" value="<?php _e('Show Category') ?>" class="button" /> 
 	</fieldset>
 </form>
 

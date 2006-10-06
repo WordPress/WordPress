@@ -71,6 +71,7 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 else :
 	add_action( 'admin_head', 'wp_upload_admin_head' );
 	include_once('admin-header.php');
+	echo "<div class='wrap'>";
 endif;
 
 echo "<ul id='upload-menu'>\n";
@@ -116,6 +117,7 @@ call_user_func( $wp_upload_tabs[$tab][2] );
 echo "</div>\n";
 
 if ( 'inline' != $style ) :
+	echo "<div class='clear'></div></div>";
 	include_once('admin-footer.php');
 else : ?>
 <script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>

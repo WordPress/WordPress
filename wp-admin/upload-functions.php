@@ -12,17 +12,13 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	$post_content = apply_filters( 'content_edit_pre', $post->post_content );
 	
 	$class = 'text';
-	$thumb_src = '';
 	$innerHTML = get_attachment_innerHTML( $id, false, $dims );
 	if ( $image_src = strstr($innerHTML, 'src="') ) {
 		$image_src = explode('"', $image_src);
 		$image_src = $image_src[1];
-		$thumb_src = wp_make_link_relative($image_src);
 		$class = 'image';
-		$innerHTML = '&nbsp;' . str_replace($image_src, $thumb_src, $innerHTML);
+		$innerHTML = '&nbsp;' . $innerHTML;
 	}
-
-	$src = wp_make_link_relative( get_the_guid() );
 
 	$r = '';
 
@@ -33,10 +29,10 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	if ( $href )
 		$r .= "</a>\n";
 	$r .= "\n\t\t<div class='upload-file-data'>\n\t\t\t<p>\n";
-	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-$id' id='attachment-url-$id' value='$src' />\n";
+	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-$id' id='attachment-url-$id' value='" . get_the_guid() . "' />\n";
 
 	if ( $image_src )
-		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-$id' id='attachment-thumb-url-$id' value='$thumb_src' />\n";
+		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-$id' id='attachment-thumb-url-$id' value='$image_src' />\n";
 	if ( isset($width) ) {
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-width-$id' id='attachment-width-$id' value='$width' />\n";
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-height-$id' id='attachment-height-$id' value='$height' />\n";
@@ -146,7 +142,7 @@ function wp_upload_form() {
 <?php	endif; ?>
 					<?php wp_nonce_field( 'inlineuploading' ); ?>
 					<div class="submit">
-						<input type="submit" value="<?php $id ? _e('Save') : _e('Upload'); ?>" />
+						<input type="submit" value="<?php $id ? _e('Save') : _e('Upload'); ?> &raquo;" />
 <?php	if ( $id ) : ?>
 						<input type="submit" name="delete" class="delete" value="<?php _e('Delete'); ?>" />
 <?php	endif; ?>

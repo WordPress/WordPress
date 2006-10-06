@@ -64,8 +64,6 @@ class WP_User_Search {
 		}
 		$this->query_from_where = "FROM $wpdb->users WHERE 1=1 $search_sql";
 
-		if ( !$_GET['update'] && !$this->search_term && !$this->raw_page && $wpdb->get_var("SELECT COUNT(ID) FROM $wpdb->users") > $this->users_per_page )
-			$this->too_many_total_users = sprintf(__('Because this blog has more than %s users, they cannot all be shown on one page.  Use the paging or search functionality in order to find the user you want to edit.'), $this->users_per_page);
 	}
 
 	function query() {
@@ -326,12 +324,6 @@ default:
 	</div>
 <?php endif; ?>
 
-<?php if ( $wp_user_search->too_many_total_users ) : ?>
-	<div id="message" class="updated">
-		<p><?php echo $wp_user_search->too_many_total_users; ?></p>
-	</div>
-<?php endif; ?>
-
 <div class="wrap">
 
 	<?php if ( $wp_user_search->is_search() ) : ?>
@@ -341,7 +333,7 @@ default:
 	<?php endif; ?>
 
 	<form action="" method="get" name="search" id="search">
-		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo wp_specialchars($wp_user_search->search_term, 1); ?>" /> <input type="submit" value="<?php _e('Search for users &raquo;'); ?>" /></p>
+		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo wp_specialchars($wp_user_search->search_term, 1); ?>" /> <input type="submit" value="<?php _e('Search 	users &raquo;'); ?>" class="button" /></p>
 	</form>
 
 	<?php if ( is_wp_error( $wp_user_search->search_errors ) ) : ?>
@@ -362,10 +354,14 @@ default:
 		<p><a href="users.php"><?php _e('&laquo; Back to All Users'); ?></a></p>
 	<?php endif; ?>
 
-	<h3><?php printf(__('%1$s &#8211; %2$s of %3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query); ?></h3>
+	<h3><?php 
+	if ( 0 == $wp_user_search->first_user && $wp_user_search->total_users_for_query <= 50 )
+		printf(__('%3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query);
+	else
+		printf(__('%1$s &#8211; %2$s of %3$s shown below'), $wp_user_search->first_user + 1, min($wp_user_search->first_user + $wp_user_search->users_per_page, $wp_user_search->total_users_for_query), $wp_user_search->total_users_for_query); ?></h3>
 
 	<?php if ( $wp_user_search->results_are_paged() ) : ?>
-		<div class="user-paging-text"><?php $wp_user_search->page_links(); ?></p></div>
+		<div class="user-paging-text"><p><?php $wp_user_search->page_links(); ?></p></div>
 	<?php endif; ?>
 
 <form action="" method="post" name="updateusers" id="updateusers">
@@ -405,7 +401,7 @@ foreach ( (array) $roleclass as $user_object ) {
 </table>
 
 <?php if ( $wp_user_search->results_are_paged() ) : ?>
-	<div class="user-paging-text"><?php $wp_user_search->page_links(); ?></div>
+	<div class="user-paging-text"><p><?php $wp_user_search->page_links(); ?></p></div>
 <?php endif; ?>
 
 	<h3><?php _e('Update Selected'); ?></h3>
@@ -436,6 +432,7 @@ foreach ( (array) $roleclass as $user_object ) {
 
 <div class="wrap">
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>
+<div class="narrow">
 <?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php').'</p>'; ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser">
 <?php wp_nonce_field('add-user') ?>
@@ -486,6 +483,7 @@ foreach ( (array) $roleclass as $user_object ) {
 	<?php echo $referer; ?>
 	<input name="adduser" type="submit" id="addusersub" value="<?php _e('Add User &raquo;') ?>" />
 </p>
+</div>
 </form>
 
 <?php if ( is_wp_error( $add_user_errors ) ) : ?>

@@ -143,12 +143,12 @@ class Dotclear_Import {
 
 	function greet() 
 	{
-		echo '<p>'.__('Howdy! This importer allows you to extract posts from a Dotclear database into your blog.  Mileage may vary.').'</p>';
+		echo '<div class="narrow"><p>'.__('Howdy! This importer allows you to extract posts from a Dotclear database into your blog.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your Dotclear Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=dotclear&amp;step=1" method="post">';
 		$this->db_form();
-		echo '<input type="submit" name="submit" value="'.__('Import Categories').'" />';
-		echo '</form>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Categories').' &raquo;" /></p>';
+		echo '</form></div>';
 	}
 
 	function get_dc_cats() 
@@ -645,14 +645,14 @@ class Dotclear_Import {
 
 	function db_form()
 	{
-		echo '<ul>';
-		printf('<li><label for="dbuser">%s</label> <input type="text" name="dbuser" id="dbuser" /></li>', __('Dotclear Database User:'));
-		printf('<li><label for="dbpass">%s</label> <input type="password" name="dbpass" id="dbpass" /></li>', __('Dotclear Database Password:'));
-		printf('<li><label for="dbname">%s</label> <input type="text" name="dbname" id="dbname" /></li>', __('Dotclear Database Name:'));
-		printf('<li><label for="dbhost">%s</label> <input type="text" name="dbhost" nameid="dbhost" value="localhost" /></li>', __('Dotclear Database Host:'));
-		printf('<li><label for="dbprefix">%s</label> <input type="text" name="dbprefix" id="dbprefix" value="dc_"/></li>', __('Dotclear Table prefix:'));
-		printf('<li><label for="dccharset">%s</label> <input type="text" name="dccharset" id="dccharset" value="ISO-8859-15"/></li>', __('Originating character set:'));
-		echo '</ul>';
+		echo '<table class="editform">';
+		printf('<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('Dotclear Database User:'));
+		printf('<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('Dotclear Database Password:'));
+		printf('<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __('Dotclear Database Name:'));
+		printf('<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" nameid="dbhost" value="localhost" /></td></tr>', __('Dotclear Database Host:'));
+		printf('<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="dc_"/></td></tr>', __('Dotclear Table prefix:'));
+		printf('<tr><th><label for="dccharset">%s</label></th><td><input type="text" name="dccharset" id="dccharset" value="ISO-8859-15"/></td></tr>', __('Originating character set:'));
+		echo '</table>';
 	}
 
 	function dispatch() 

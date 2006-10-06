@@ -20,6 +20,12 @@ a.delete:hover {
 	color: #fff;
 }
 
+#devnews h4 {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 18px;
+	font-weight: normal;
+}
+
 #planetnews ul {
 	list-style: none;
 	margin: 0;
@@ -40,6 +46,23 @@ a.delete:hover {
 	overflow: hidden;
 }
 
+#planetnews li .post {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 18px;
+	display: block;
+	height: 60px;
+}
+
+#planetnews .hidden {
+	display: none;
+}
+
+.readmore {
+	clear: both;
+	text-align: right;
+	margin-right: 5em;
+}
+
 .widefat {
 	width: 100%;
 }
@@ -52,6 +75,15 @@ a.delete:hover {
 	text-align: left;
 }
 
+.plugins p {
+	margin: 4px;
+	padding: 0;
+}
+
+.plugins .name {
+	font-size: 16px;
+}
+
 .import-system {
 	font-size: 16px;
 }
@@ -61,9 +93,9 @@ thead, .thead {
 }
 
 #import-upload-form {
-	width: 300px;
 	margin: auto;
-	text-align: center;
+	background: #eee;
+	padding: 1em;
 }
 
 a.edit, a.delete, a.edit:hover, a.delete:hover {
@@ -133,23 +165,10 @@ form, label input {
 }
 
 h2 {
-	border-bottom: .5em solid #f0f8ff;
+	border-bottom: .5em solid #e5f3ff;
 	color: #333;
-	font: normal 30px/5px serif;
+	font: normal 32px/5px serif;
 	margin: 5px 10px;
-}
-
-h2 small.quickjump {
-	display: block;
-	text-align: right;
-}
-
-h2 small.quickjump a {
-	text-decoration: none;
-	border-bottom: 0;
-	font-size: 15px;
-	background: #f0f8ff;
-	padding: 5px 10px;
 }
 
 img, #footer a {
@@ -170,7 +189,7 @@ li, dd {
 }
 
 p, li, dl, dd, dt {
-	line-height: 130%;
+	line-height: 140%;
 }
 
 textarea, input, select {
@@ -306,7 +325,7 @@ form#upload #post_content {
 	font: 12px Georgia, "Times New Roman", Times, serif;
 }
 
-.submit input, .submit input:focus, .button {
+.submit input, .submit input:focus, .button, .button:focus {
 	background: url( images/fade-butt.png );
 	border: 3px double #999;
 	border-left-color: #ccc;
@@ -320,6 +339,14 @@ form#upload #post_content {
 	border: 3px double #ccc;
 	border-left-color: #999;
 	border-top-color: #999;
+}
+
+.button, .button:focus {
+	padding: 0.15em;
+}
+
+* html .button {
+	padding: 0;
 }
 
 .submit, .editform th, #postcustomsubmit {
@@ -388,12 +415,25 @@ form#upload #post_content {
 	border: 1px solid #ccc;
 	clear: both;
 	margin: 15px 5%;
-	padding: .5em 1em;
+	padding: 1em;
+}
+
+.narrow {
+	width: 450px;
+	margin: auto;
+}
+
+.narrow p {
+	line-height: 150%;
 }
 
 .wrap h2 {
-	margin: .8em 0 .5em;
+	margin: .4em 0 .5em;
 	clear: both;
+}
+
+* html .wrap h2 {
+	margin-top: 1em;
 }
 
 table .vers {
@@ -411,6 +451,7 @@ textarea.all-options, input.all-options {
 	padding: .2em .2em .3em 2em;
 }
 
+
 #adminmenu .current, #submenu .current {
 	font-weight: bold;
 	text-decoration: none;
@@ -422,7 +463,6 @@ textarea.all-options, input.all-options {
 	font-weight: normal;
 	margin: 0;
 	padding: 3px 5px;
-	text-decoration: underline;
 	border-bottom: none;
 }
 
@@ -438,11 +478,24 @@ textarea.all-options, input.all-options {
 	text-align: center;
 }
 
-#submenu {
+#adminmenu a.current {
+	background: #0d324f;
+	border-right: 2px solid #4f96c8;
+	border-top: 1px solid #96c0de;
+	color: #fff;
+	padding-bottom: 8px;
+}
+
+#submenu, #minisub {
 	background: #0d324f;
 	border-bottom: none;
 	margin: 0;
 	padding: 3px 2em 0 3em;
+	height: 25px;
+}
+
+#minisub {
+	height: 6px;
 }
 
 #submenu .current {
@@ -456,7 +509,7 @@ textarea.all-options, input.all-options {
 	border: none;
 	color: #fff;
 	font-size: 12px;
-	padding: .3em .4em .33em;
+	padding: .3em .4em .4em;
 }
 
 #submenu a:hover {
@@ -465,7 +518,7 @@ textarea.all-options, input.all-options {
 }
 
 #submenu li {
-	line-height: 170%;
+	line-height: 180%;
 }
 
 
@@ -491,6 +544,11 @@ textarea.all-options, input.all-options {
 #content {
 	margin: 0 0 0 0;
 	width: 100%;
+}
+
+#postdivrich #content {
+	padding: .7em;
+	line-height: 140%;
 }
 
 #titlediv input, #guiddiv input {
@@ -563,7 +621,8 @@ input.delete:hover {
 }
 
 #title {
-	font-size: 1.5em;
+	font-size: 1.7em;
+	padding: 4px;
 }
 
 #postexcerpt div, #attachmentlinks div {
@@ -589,6 +648,23 @@ input.delete:hover {
 #footer {
 	clear: both;
 	text-align: center;
+	width: 500px;
+	margin: auto;
+	height: 100px;
+}
+
+#footer .docs {
+	padding-top: 19px;
+	line-height: 160%;
+}
+
+#footer .docs a {
+	text-decoration: underline;
+}
+#footer .logo {
+	float: left;
+	margin: 0;
+	padding: 0;
 }
 
 #login {
@@ -698,6 +774,8 @@ input.delete:hover {
 	margin: 0;
 	font-size: 15px;
 }
+.plugins p {
+}
 
 #login .fullwidth {
 	width: 320px;
@@ -705,13 +783,13 @@ input.delete:hover {
 
 #searchform {
 	float: left;
-	margin-right: 3em;
-	width: 16em;
+	margin-right: 1em;
+	width: 18em;
 }
 
 #viewarc {
 	float: left;
-	width: 20em;
+	width: 23em;
 	margin-bottom: 1em;
 }
 
@@ -763,6 +841,7 @@ input.delete:hover {
 #templateside {
 	float: right;
 	width: 170px;
+	overflow: hidden;
 }
 
 #templateside h3, #postcustom p.submit {
@@ -812,7 +891,7 @@ input.delete:hover {
 
 #zeitgeist {
 	background: #eee;
-	border: 1px solid #69c;
+	border: 1px solid #c5c5c5;
 	float: right;
 	font-size: 90%;
 	margin-bottom: .5em;
@@ -824,6 +903,10 @@ input.delete:hover {
 
 #zeitgeist h2, fieldset legend a {
 	border-bottom: none;
+}
+
+* html #zeitgeist h2 {
+	padding-top: 10px;
 }
 
 #zeitgeist h2 {
@@ -1215,4 +1298,23 @@ input #catadd {
 #edButtons input.edButtonBack, #edButtons input.edButtonBack:active {
 	background: #fff url( images/fade-butt.png ) repeat-x 0px 15px;
 	border-bottom: 1px solid #ccc;
+}
+
+.page-numbers {
+	padding: 4px 7px;
+	border: 1px solid #fff;
+	margin-right: 3px;
+}
+
+a.page-numbers {
+	border: 1px solid #ccc;
+}
+
+a.page-numbers:hover {
+	border: 1px solid #999;
+}
+
+.page-numbers.current {
+	border: 1px solid #999;
+	font-weight: bold;
 }

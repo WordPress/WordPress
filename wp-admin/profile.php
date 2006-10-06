@@ -35,6 +35,8 @@ $bookmarklet_height= 440;
 
 <?php do_action('profile_personal_options'); ?>
 
+<p class="submit"><input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" /></p>
+
 <fieldset>
 <legend><?php _e('Name'); ?></legend>
 <p><label><?php _e('Username: (no editing)'); ?><br />
@@ -138,9 +140,7 @@ if ( $show_password_fields ) :
     endif;
     ?>
   </table>
-<p class="submit">
-<input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" />
-</p>
+<p class="submit"><input type="submit" value="<?php _e('Update Profile &raquo;') ?>" name="submit" /></p>
 </form>
 
 </div>

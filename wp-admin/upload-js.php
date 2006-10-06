@@ -61,23 +61,22 @@ addLoadEvent( function() {
 			var h = '';
 
 			h += "<div id='upload-file'>"
+			if ( this.ID ) {
+				var params = $H(this.params);
+				params.ID = '';
+				params.action = '';
+				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='Browse your files' class='back'>&laquo; Back</a>";
+			} else {
+				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files' class='back'>&laquo; Back</a>";
+			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.thumb )
 				h += "<h2><a href='" + this.currentImage.src + "' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
-			h += "<span>[&nbsp;";
-			h += "<a href='#' onclick='theFileList.editView(" + id + ")'>edit</a>"
-			h += '&nbsp;|&nbsp;';
-			if ( this.ID ) {
-				var params = $H(this.params);
-				params.ID = '';
-				params.action = '';
-				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='Browse your files'>cancel</a>";
-			} else {
-				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files'>cancel</a>";
-			}
-			h += "&nbsp;]</span>";
+			h += " &#8212; <span>";
+			h += "<a href='#' onclick='theFileList.editView(" + id + ")'>Edit</a>"
+			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( this.currentImage.thumb )
@@ -89,21 +88,21 @@ addLoadEvent( function() {
 			h += "<form name='uploadoptions' id='uploadoptions' class='alignleft'>";
 			h += "<table>";
 			if ( this.currentImage.thumb ) {
-				h += "<tr><th style='padding-bottom:.5em'>Show</th><td style='padding-bottom:.5em'>";
-				h += "<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' checked='checked' /> thumbnail</label><br />";
-				h += "<label for='display-full'><input type='radio' name='display' id='display-full' value='full' /> full size</label>";
+				h += "<tr><th style='padding-bottom:.5em'>Show:</th><td style='padding-bottom:.5em'>";
+				h += "<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' checked='checked' /> Thumbnail</label><br />";
+				h += "<label for='display-full'><input type='radio' name='display' id='display-full' value='full' /> Full size</label>";
 				h += "</td></tr>";
 			}
 
-			h += "<tr><th>Link</th><td>";
-			h += "<label for='link-file'><input type='radio' name='link' id='link-file' value='file' checked='checked'/> file</label><br />";
-			h += "<label for='link-page'><input type='radio' name='link' id='link-page' value='page' /> page</label><br />";
-			h += "<label for='link-none'><input type='radio' name='link' id='link-none' value='none' /> none</label>";
+			h += "<tr><th>Link to:</th><td>";
+			h += "<label for='link-file'><input type='radio' name='link' id='link-file' value='file' checked='checked'/> File</label><br />";
+			h += "<label for='link-page'><input type='radio' name='link' id='link-page' value='page' /> Page</label><br />";
+			h += "<label for='link-none'><input type='radio' name='link' id='link-none' value='none' /> None</label>";
 			h += "</td></tr>";
 
-			h += "<tr><td colspan='2'>";
+			h += "<tr><td colspan='2'><p class='submit'>";
 			h += "<input type='button' class='button' name='send' onclick='theFileList.sendToEditor(" + id + ")' value='Send to editor &raquo;' />";
-			h += "</td></tr></table>";
+			h += "</p></td></tr></table>";
 			h += "</form>";
 
 			h += "</div>";
@@ -121,23 +120,22 @@ addLoadEvent( function() {
 			if ( this.postID )
 				action += '&amp;post_id=' + this.postID;
 			h += "<form id='upload-file' method='post' action='" + action + "'>";
+			if ( this.ID ) {
+				var params = $H(this.params);
+				params.ID = '';
+				params.action = '';
+				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='Browse your files' class='back'>&laquo; Back</a>";
+			} else {
+				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files' class='back'>&laquo; Back</a>";
+			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.thumb )
 				h += "<h2><a href='" + this.currentImage.src + "' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
-			h += "<span>[&nbsp;";
-			h += "<a href='#' onclick='theFileList.imageView(" + id + ")'>options</a>"
-			h += '&nbsp;|&nbsp;';
-			if ( this.ID ) {
-				var params = $H(this.params);
-				params.ID = '';
-				params.action = '';
-				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='Browse your files'>cancel</a>";
-			} else {
-				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files'>cancel</a>";
-			}
-			h += "&nbsp;]</span>";
+			h += " &#8212; <span>";
+			h += "<a href='#' onclick='theFileList.imageView(" + id + ")'>Insert</a>"
+			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( this.currentImage.thumb )
@@ -153,13 +151,12 @@ addLoadEvent( function() {
 			h += "</tr><tr>";
 			h += "<th scope='row'><label for='post_content'>Description:</label></th>";
 			h += "<td><textarea name='post_content' id='post_content'>" + this.currentImage.description + "</textarea></td>";
-			h += "</tr><tr id='buttons'><th></th><td>";
+			h += "</tr><tr id='buttons'><th><input type='button' name='delete' class='delete button' value='Delete' onclick='theFileList.deleteFile(" + id + ");' /></th><td>";
 			h += "<input type='hidden' name='from_tab' value='" + this.tab + "' />";
 			h += "<input type='hidden' name='action' id='action-value' value='save' />";
 			h += "<input type='hidden' name='ID' value='" + id + "' />";
 			h += "<input type='hidden' name='_wpnonce' value='" + this.nonce + "' />";
-			h += "<div class='submit'><input type='submit' value='Save' />";
-			h += "<input type='button' name='delete' class='delete' value='Delete' onclick='theFileList.deleteFile(" + id + ");' />";
+			h += "<div class='submit'><input type='submit' value='Save &raquo;' />";
 			h += "</div></td></tr></table></form>";
 
 			new Insertion.Top('upload-content', h);

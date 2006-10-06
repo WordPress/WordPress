@@ -53,6 +53,10 @@ endforeach;
 
 </ul>
 <?php
+else :
+?>
+<div id="minisub"></div>
+<?php
 
 endif; 
 

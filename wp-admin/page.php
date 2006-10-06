@@ -56,7 +56,7 @@ case 'edit':
 	include('edit-page-form.php');
 	?>
 	<div id='preview' class='wrap'>
-	<h2 id="preview-post"><?php _e('Page Preview (updated when page is saved)'); ?> <small class="quickjump"><a href="#write-post"><?php _e('edit &uarr;'); ?></a></small></h2>
+	<h2 id="preview-post"><?php _e('Page Preview (updated when page is saved)'); ?></h2>
 		<iframe src="<?php echo wp_specialchars(apply_filters('preview_page_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" width="100%" height="600" ></iframe>
 	</div>
 	<?php

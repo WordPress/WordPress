@@ -1,9 +1,9 @@
-body { background: #dfe8f1; }
+body { background: #f9fcfe; }
 
 .upload-file-data { display: none; }
 
 #upload-menu {
-	background: #fff;
+	background: #247fab;
 	margin: 0px;
 	padding: 0;
 	list-style: none;
@@ -15,26 +15,30 @@ body { background: #dfe8f1; }
 #upload-menu li { margin: 0 0 0 .75em; }
 
 #upload-menu li div {
-	color: #000;
 	padding: 5px;
-	border-top: 3px solid #fff;
+	border-top: 3px solid #247fab;
 }
 
 #upload-menu li a {
-	color: #000;
 	text-decoration: none;
 	border-bottom: none;
+	color: #fff;
 }
 
 #upload-menu li span a.page-numbers { color: #00019b; }
 
 #upload-menu .current div {
-	background: #dfe8f1;
+	background: #f9fcfe;
 	border-right: 2px solid #448abd;
+	color: #000;
+}
+
+#upload-menu .current div a, #upload-menu div:hover a {
+	color: #000;
 }
 
 #upload-menu div:hover {
-	background: #dfe8f1;
+	background: #f9fcfe;
 	color: #000;
 }
 
@@ -50,25 +54,29 @@ body { background: #dfe8f1; }
 }
 
 #upload-file {
-	position: relative;
-	margin: 0;
+	margin: 0 auto;
 	top: 0;
 	left: 0;
-	width: 100%;
+	width: 45em;
 	height: 100%;
-	background: #dfe8f1;
+	background: #f9fcfe;
+}
+#upload-file th {
+	width: 8em;
 }
 
 form#upload-file input, form#upload-file textarea, div#upload-content.upload table { width: 100%; }
 
 form#upload-file div.submit input { width: auto; }
 
-#upload-file-view { padding: 0 0 0 15px; }
+#upload-file-view { padding: 0 0 0 75px; }
 
 #file-title {
-	margin: 0 0 .2em 15px;
+	margin: 0 0 .2em 75px;
 	padding: 0;
 	display: block;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 16px;
 }
 
 h2 {
@@ -77,9 +85,15 @@ h2 {
 	display: inline;
 	border: none;
 	color: #000;
-	font-weight: bold;
 	font-size: 1.4em;
 	line-height: 1.4em;
+}
+
+.back {
+	display: block;
+	position: absolute;
+	left: 14px;
+	top: 10px;
 }
 
 #upload-files {
@@ -103,7 +117,13 @@ h2 {
 	height: 128px;
 	background-color: rgb(209, 226, 239);
 	text-align: center;
-	overflow-y: hidden;
+	overflow: hidden;
+}
+
+#upload-files a.text {
+	padding-top: 40px;
+	height: 88px;
+	font-size: 16px;
 }
 
 #upload-files a.file-link.image {
@@ -134,4 +154,22 @@ th { text-align: right; vertical-align: text-top; }
 tr, td, th {
 	margin-top: 0;
 	padding-top: 0;
+}
+
+#uploadoptions th {
+	width: 80px;
+}
+
+#uploadoptions p {
+	margin: 0;
+	padding: 0;
+}
+
+#uploadoptions td {
+	padding-left: 1em;
+	line-height: 140%;
+}
+
+#uploadoptions table {
+	width: 300px;
 }

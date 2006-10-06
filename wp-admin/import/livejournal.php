@@ -20,8 +20,10 @@ class LJ_Import {
 	}
 
 	function greet() {
+		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! This importer allows you to extract posts from LiveJournal XML export file into your blog.  Pick a LiveJournal file to upload and click Import.').'</p>';
 		wp_import_upload_form("admin.php?import=livejournal&amp;step=1");
+		echo '</div>';
 	}
 
 	function import_posts() {
