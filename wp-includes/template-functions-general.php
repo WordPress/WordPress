@@ -435,8 +435,8 @@ function get_calendar($daylength = 1) {
 		else
 				$thismonth = ''.zeroise(intval(substr($m, 4, 2)), 2);
 	} else {
-		$thisyear = gmdate('Y', current_time('timestamp') + get_settings('gmt_offset') * 3600);
-		$thismonth = gmdate('m', current_time('timestamp') + get_settings('gmt_offset') * 3600);
+		$thisyear = gmdate('Y', current_time('timestamp'));
+		$thismonth = gmdate('m', current_time('timestamp'));
 	}
 
 	$unixmonth = mktime(0, 0 , 0, $thismonth, 1, $thisyear);
