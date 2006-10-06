@@ -51,6 +51,7 @@ a.delete:hover {
 	font-size: 18px;
 	display: block;
 	height: 60px;
+	overflow: hidden;
 }
 
 #planetnews .hidden {
