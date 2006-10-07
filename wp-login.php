@@ -284,9 +284,9 @@ default:
 		$redirect_to = $_REQUEST['redirect_to'];
 
 	if ( $_POST ) {
-		$user_login = $_POST['user_login'];
+		$user_login = $_POST['log'];
 		$user_login = sanitize_user( $user_login );
-		$user_pass  = $_POST['user_pass'];
+		$user_pass  = $_POST['pwd'];
 		$rememberme = $_POST['rememberme'];
 	} else {
 		$cookie_login = wp_get_cookie_login();
@@ -336,11 +336,11 @@ default:
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
 	<p>
 		<label><?php _e('Username:') ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo wp_specialchars(stripslashes($user_login), 1); ?>" size="20" tabindex="10" /></label>
+		<input type="text" name="log" id="user_login" class="input" value="<?php echo wp_specialchars(stripslashes($user_login), 1); ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
 		<label><?php _e('Password:') ?><br />
-		<input type="password" name="user_pass" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
+		<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
 	</p>
 <?php do_action('login_form'); ?>
 	<p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p>
