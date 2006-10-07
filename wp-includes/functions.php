@@ -1095,62 +1095,31 @@ function wp_nonce_ays($action) {
 }
 
 function wp_die($message, $title = '') {
+	global $wp_locale;
+
 	header('Content-Type: text/html; charset=utf-8');
 
 	if ( empty($title) )
 		$title = __('WordPress &rsaquo; Error');
 
 	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
-		$logo_src = 'images/wordpress-logo.png';
+		$admin_dir = '';
 	else
-		$logo_src = 'wp-admin/images/wordpress-logo.png';
+		$admin_dir = 'wp-admin/';
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
 	<title><?php echo $title ?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<style media="screen" type="text/css">
-	<!--
-	html {
-		background: #eee;
-	}
-	body {
-		background: #fff;
-		color: #000;
-		font-family: Georgia, "Times New Roman", Times, serif;
-		margin-left: 25%;
-		margin-right: 25%;
-		padding: .2em 2em;
-	}
-
-	h1 {
-		color: #006;
-		font-size: 18px;
-		font-weight: lighter;
-	}
-
-	h2 {
-		font-size: 16px;
-	}
-
-	p, li, dt {
-		line-height: 140%;
-		padding-bottom: 2px;
-	}
-
-	ul, ol {
-		padding: 5px 5px 5px 20px;
-	}
-	#logo {
-		margin-bottom: 2em;
-	}
-	-->
-	</style>
+	<link rel="stylesheet" href="<?php echo $admin_dir; ?>install.css" type="text/css" />
+<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
+	<link rel="stylesheet" href="<?php echo $admin_dir; ?>install-rtl.css" type="text/css" />
+<?php endif; ?>
 </head>
 <body>
-	<h1 id="logo"><img alt="WordPress" src="<?php echo $logo_src; ?>" /></h1>
+	<h1 id="logo"><img alt="WordPress" src="<?php echo $admin_dir; ?>images/wordpress-logo.png" /></h1>
 	<p><?php echo $message; ?></p>
 </body>
 </html>

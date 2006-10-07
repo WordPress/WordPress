@@ -23,15 +23,18 @@ if ( defined('RELOCATE') ) { // Move flag is set
 
 // Rather than duplicating this HTML all over the place, we'll stick it in function
 function login_header($title = 'Login', $message = '') {
-	global $errors, $error;
+	global $errors, $error, $wp_locale;
 
 	?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+<?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
+	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+<?php endif; ?>
 	<!--[if IE]><style type="text/css">#login h1 a { margin-top: 35px; } #login ul { padding-bottom: 65px; }</style><![endif]--><!-- Curse you, IE! -->
 	<script type="text/javascript">
 		function focusit() {
@@ -43,8 +46,7 @@ function login_header($title = 'Login', $message = '') {
 </head>
 <body>
 
-<div id="login">
-<h1><a href="<?php echo apply_filters('login_headerurl', 'http://wordpress.org/'); ?>" title="<?php echo apply_filters('login_headertitle', __('Powered by WordPress')); ?>"><span class="hide"><?php bloginfo('name'); ?></span></a></h1>
+<div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://wordpress.org/'); ?>" title="<?php echo apply_filters('login_headertitle', __('Powered by WordPress')); ?>"><span class="hide"><?php bloginfo('name'); ?></span></a></h1>
 <?php
 	if ( !empty( $message ) ) echo apply_filters('login_message', $message) . "\n";
 
