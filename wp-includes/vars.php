@@ -87,7 +87,7 @@ if (!isset($wpsmiliestrans)) {
 
 // generates smilies' search & replace arrays
 foreach($wpsmiliestrans as $smiley => $img) {
-	$wp_smiliessearch[] = '/(\s|^)?'.preg_quote($smiley, '/').'(\b|\s)/';
+	$wp_smiliessearch[] = '/(\s|^|[^<])?'.preg_quote($smiley, '/').'(\b|\s|$)/';
 	$smiley_masked = htmlspecialchars( trim($smiley) , ENT_QUOTES);
 	$wp_smiliesreplace[] = " <img src='" . get_option('siteurl') . "/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
 }

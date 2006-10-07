@@ -618,14 +618,7 @@ function convert_smilies($text) {
 	if (get_option('use_smilies')) {
 		// HTML loop taken from texturize function, could possible be consolidated
 		$textarr = preg_split("/(<.*>)/U", $text, -1, PREG_SPLIT_DELIM_CAPTURE); // capture the tags as well as in between
-		$stop = count($textarr);// loop stuff
-		for ($i = 0; $i < $stop; $i++) {
-			$content = $textarr[$i];
-			if ((strlen($content) > 0) && ('<' != $content{0})) { // If it's not a tag
-				$content = preg_replace($wp_smiliessearch, $wp_smiliesreplace, $content);
-			}
-			$output .= $content;
-		}
+		$output = implode('', preg_replace($wp_smiliessearch, $wp_smiliesreplace, $textarr));
 	} else {
 		// return default text.
 		$output = $text;
