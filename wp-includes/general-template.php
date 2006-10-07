@@ -206,7 +206,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	}
 
 	$prefix = '';
-	if ( isset($title) )
+	if ( !empty($title) )
 		$prefix = " $sep ";
 
 	$title = $prefix . $title;
