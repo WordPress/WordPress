@@ -57,17 +57,18 @@ body { background: #f9fcfe; }
 	margin: 0 auto;
 	top: 0;
 	left: 0;
-	width: 45em;
+	width: 95%;
 	height: 100%;
 	background: #f9fcfe;
 }
-#upload-file th {
+
+#uupload-file th {
 	width: 8em;
 }
 
 form#upload-file input, form#upload-file textarea, div#upload-content.upload table { width: 100%; }
 
-form#upload-file div.submit input { width: auto; }
+form#upload-file .submit input { width: auto; }
 
 #upload-file-view { padding: 0 0 0 75px; }
 
@@ -134,8 +135,6 @@ h2 {
 
 #upload-files a.file-link img { vertical-align: middle; }
 
-#the-attachment-links { float: right; }
-
 #the-attachment-links textarea {
 	font-size: 10px;
 	overflow: hidden;
@@ -173,3 +172,5 @@ tr, td, th {
 #uploadoptions table {
 	width: 300px;
 }
+
+input.readonly { background-color: #ddd; }

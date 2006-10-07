@@ -1969,26 +1969,34 @@ function the_attachment_links($id = false) {
 		return false;
 
 	$icon = get_attachment_icon($post->ID);
-
+	$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
+	$thumb = isset($attachment_data['thumb']);
 ?>
 <form id="the-attachment-links">
 <table>
+	<col />
+	<col class="widefat" />
 	<tr>
-		<th scope="row"><?php _e('Text linked to file') ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo basename($post->guid) ?></a></textarea></td>
-	</tr>
-	<tr>
-		<th scope="row"><?php _e('Text linked to subpost') ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $post->post_title ?></a></textarea></td>
+		<th scope="row"><?php _e('URL') ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><?php echo $post->guid ?></textarea></td>
 	</tr>
 <?php if ( $icon ) : ?>
 	<tr>
-		<th scope="row"><?php _e('Thumbnail linked to file') ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo $icon ?></a></textarea></td>
+		<th scope="row"><?php $thumb ? _e('Thumbnail linked to file') : _e('Image linked to file'); ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid; ?>" id="<?php echo $post->ID ?>"><?php echo $icon ?></a></textarea></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php _e('Thumbnail linked to subpost') ?></th>
+		<th scope="row"><?php $thumb ? _e('Thumbnail linked to page') : _e('Image linked to file'); ?></th>
 		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $icon ?></a></textarea></td>
+	</tr>
+<?php else : ?>
+	<tr>
+		<th scope="row"><?php _e('Link to file') ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo basename($post->guid);  ?></a></textarea></td>
+	</tr>
+	<tr>
+		<th scope="row"><?php _e('Link to page') ?></th>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php the_title(); ?></a></textarea></td>
 	</tr>
 <?php endif; ?>
 </table>

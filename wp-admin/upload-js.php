@@ -37,11 +37,18 @@ addLoadEvent( function() {
 			if ( id == this.currentImage.ID )
 				return;
 			var thumbEl = $('attachment-thumb-url-' + id);
-			if ( thumbEl )
+			this.currentImage.isImage = true;
+			if ( thumbEl ) {
 				this.currentImage.thumb = ( 0 == id ? '' : thumbEl.value );
-			else
+				this.currentImage.thumbBase = ( 0 == id ? '' : $('attachment-thumb-url-base-' + id).value );
+			} else {
 				this.currentImage.thumb = false;
+				var isImageEl = $('attachment-is-image-' + id);
+				if ( !isImageEl )
+					this.currentImage.isImage = false;
+			}
 			this.currentImage.src = ( 0 == id ? '' : $('attachment-url-' + id).value );
+			this.currentImage.srcBase = ( 0 == id ? '' : $('attachment-url-base-' + id).value );
 			this.currentImage.page = ( 0 == id ? '' : $('attachment-page-url-' + id).value );
 			this.currentImage.title = ( 0 == id ? '' : $('attachment-title-' + id).value );
 			this.currentImage.description = ( 0 == id ? '' : $('attachment-description-' + id).value );
@@ -65,13 +72,13 @@ addLoadEvent( function() {
 				var params = $H(this.params);
 				params.ID = '';
 				params.action = '';
-				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='Browse your files' class='back'>&laquo; Back</a>";
+				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "' title='Browse your files' class='back'>&laquo; Back</a>";
 			} else {
 				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files' class='back'>&laquo; Back</a>";
 			}
 			h += "<div id='file-title'>"
-			if ( !this.currentImage.thumb )
-				h += "<h2><a href='" + this.currentImage.src + "' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
+			if ( !this.currentImage.isImage )
+				h += "<h2><a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
@@ -79,9 +86,11 @@ addLoadEvent( function() {
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
-			if ( this.currentImage.thumb )
-				h += "<a href='" + this.currentImage.src + "' title='Direct link to file'><img src='" + this.currentImage.thumb + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' /></a>";
-			else
+			if ( this.currentImage.isImage ) {
+				h += "<a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>";
+				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
+				h += "</a>";
+			} else
 				h += '&nbsp;';
 			h += "</div>";
 
@@ -119,6 +128,7 @@ addLoadEvent( function() {
 			var action = 'upload.php?style=' + this.style + '&amp;tab=upload';
 			if ( this.postID )
 				action += '&amp;post_id=' + this.postID;
+
 			h += "<form id='upload-file' method='post' action='" + action + "'>";
 			if ( this.ID ) {
 				var params = $H(this.params);
@@ -129,8 +139,8 @@ addLoadEvent( function() {
 				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files' class='back'>&laquo; Back</a>";
 			}
 			h += "<div id='file-title'>"
-			if ( !this.currentImage.thumb )
-				h += "<h2><a href='" + this.currentImage.src + "' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
+			if ( !this.currentImage.isImage )
+				h += "<h2><a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
@@ -138,26 +148,31 @@ addLoadEvent( function() {
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
-			if ( this.currentImage.thumb )
-				h += "<a href='" + this.currentImage.src + "' title='Direct link to file'><img src='" + this.currentImage.thumb + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' /></a>";
-			else
+			if ( this.currentImage.isImage ) {
+				h += "<a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>";
+				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
+				h += "</a>";
+			} else
 				h += '&nbsp;';
 			h += "</div>";
 
 
-			h += "<table><tr>"
-			h += "<th scope='row'><label for='post_title'>Title:</label></th>";
+			h += "<table><col /><col class='widefat' /><tr>"
+			h += "<th scope='row'><label for='url'>URL</label></th>";
+			h += "<td><input type='text' id='url' class='readonly' value='" + this.currentImage.src + "' readonly='readonly' /></td>";
+			h += "</tr><tr>";
+			h += "<th scope='row'><label for='post_title'>Title</label></th>";
 			h += "<td><input type='text' id='post_title' name='post_title' value='" + this.currentImage.title + "' /></td>";
 			h += "</tr><tr>";
-			h += "<th scope='row'><label for='post_content'>Description:</label></th>";
+			h += "<th scope='row'><label for='post_content'>Description</label></th>";
 			h += "<td><textarea name='post_content' id='post_content'>" + this.currentImage.description + "</textarea></td>";
-			h += "</tr><tr id='buttons'><th><input type='button' name='delete' class='delete button' value='Delete' onclick='theFileList.deleteFile(" + id + ");' /></th><td>";
+			h += "</tr><tr id='buttons' class='submit'><td colspan='2'><input type='button' id='delete' name='delete' class='delete alignleft' value='Delete File' onclick='theFileList.deleteFile(" + id + ");' />";
 			h += "<input type='hidden' name='from_tab' value='" + this.tab + "' />";
 			h += "<input type='hidden' name='action' id='action-value' value='save' />";
 			h += "<input type='hidden' name='ID' value='" + id + "' />";
 			h += "<input type='hidden' name='_wpnonce' value='" + this.nonce + "' />";
-			h += "<div class='submit'><input type='submit' value='Save &raquo;' />";
-			h += "</div></td></tr></table></form>";
+			h += "<div class='submit'><input type='submit' value='Save &raquo;' /></div>";
+			h += "</td></tr></table></form>";
 
 			new Insertion.Top('upload-content', h);
 			if (e) Event.stop(e);
@@ -202,11 +217,13 @@ addLoadEvent( function() {
 			displayEl = $A(document.forms.uploadoptions.elements.display).detect( function(i) { return i.checked; } )
 			if ( displayEl )
 				display = displayEl.value;
+			else if ( this.currentImage.isImage )
+				display = 'full';
 
 			if ( 'none' != link )
-				h += "<a href='" + ( 'file' == link ? this.currentImage.src : this.currentImage.page ) + "' title='" + this.currentImage.title + "'>";
+				h += "<a href='" + ( 'file' == link ? ( this.currentImage.srcBase + this.currentImage.src ) : ( this.currentImage.page + "' rel='attachment" ) ) + "' title='" + this.currentImage.title + "'>";
 			if ( display )
-				h += "<img src='" + ( 'thumb' == display ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' />";
+				h += "<img src='" + ( 'thumb' == display ? ( this.currentImage.thumbBase + this.currentImage.thumb ) : ( this.currentImage.srcBase + this.currentImage.src ) ) + "' alt='" + this.currentImage.title + "' />";
 			else
 				h += this.currentImage.title;
 			if ( 'none' != link )
@@ -220,7 +237,8 @@ addLoadEvent( function() {
 				win.tinyMCE.execCommand('mceInsertContent', false, h);
 			else
 				win.edInsertContent(win.edCanvas, h);
-			this.cancelView();
+			if ( !this.ID )
+				this.cancelView();
 			return false;
 		},
 

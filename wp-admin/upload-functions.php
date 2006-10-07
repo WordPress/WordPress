@@ -16,12 +16,15 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	if ( $image_src = strstr($innerHTML, 'src="') ) {
 		$image_src = explode('"', $image_src);
 		$image_src = $image_src[1];
-		$thumb_src = wp_make_link_relative($image_src);
+		$image_rel = wp_make_link_relative($image_src);
 		$class = 'image';
-		$innerHTML = '&nbsp;' . str_replace($image_src, $thumb_src, $innerHTML);
+		$innerHTML = '&nbsp;' . str_replace($image_src, $image_rel, $innerHTML);
+		$image_base = str_replace($image_rel, '', $image_src);
 	}
 
-	$src = wp_make_link_relative( get_the_guid() );
+	$src_base = get_the_guid();
+	$src = wp_make_link_relative( $src_base );
+	$src_base = str_replace($src, '', $src_base);
 
 	$r = '';
 
@@ -33,9 +36,13 @@ function wp_upload_display( $dims = false, $href = '' ) {
 		$r .= "</a>\n";
 	$r .= "\n\t\t<div class='upload-file-data'>\n\t\t\t<p>\n";
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-$id' id='attachment-url-$id' value='$src' />\n";
+	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-base-$id' id='attachment-url-base-$id' value='$src_base' />\n";
 
-	if ( $image_src )
-		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-$id' id='attachment-thumb-url-$id' value='$thumb_src' />\n";
+	if ( isset($attachment_data['thumb']) ) {
+		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-$id' id='attachment-thumb-url-$id' value='$image_rel' />\n";
+		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-base-$id' id='attachment-thumb-url-base-$id' value='$image_base' />\n";
+	} elseif ( $image_rel )
+		$r .= "\t\t\t\t<input type='hidden' name='attachment-is-image-$id' id='attachment-is-image-$id' value='1' />\n";
 	if ( isset($width) ) {
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-width-$id' id='attachment-width-$id' value='$width' />\n";
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-height-$id' id='attachment-height-$id' value='$height' />\n";
@@ -48,16 +55,16 @@ function wp_upload_display( $dims = false, $href = '' ) {
 }
 
 function wp_upload_view() {
-	global $style, $post_id;
+	global $style, $post_id, $style;
 	$id = get_the_ID();
 	$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
 ?>
 	<div id="upload-file">
 		<div id="file-title">
-			<h2><?php if ( !isset($attachment_data['width']) )
+			<h2><?php if ( !isset($attachment_data['width']) && 'inline' != $style )
 					echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
 				the_title();
-				if ( !isset($attachment_data['width']) )
+				if ( !isset($attachment_data['width']) && 'inline' != $style )
 					echo '</a>';
 			?></h2>
 			<span><?php
@@ -71,15 +78,15 @@ function wp_upload_view() {
 		</div>
 
 		<div id="upload-file-view" class="alignleft">
-<?php		if ( isset($attachment_data['width']) )
+<?php		if ( isset($attachment_data['width']) && 'inline' != $style )
 			echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
 		echo wp_upload_display( array(171, 128) );
-		if ( isset($attachment_data['width']) )
+		if ( isset($attachment_data['width']) && 'inline' != $style )
 			echo '</a>'; ?>
 		</div>
 		<?php the_attachment_links( $id ); ?>
 	</div>
-<?php
+<?php	echo "<form action='' id='browse-form'><input type='hidden' id='nonce-value' value='" . wp_create_nonce( 'inlineuploading' )  . "' /></form>\n";
 }
 
 function wp_upload_form() {
@@ -94,10 +101,10 @@ function wp_upload_form() {
 		$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
 ?>
 		<div id="file-title">
-			<h2><?php if ( !isset($attachment_data['width']) )
+			<h2><?php if ( !isset($attachment_data['width']) && 'inline' != $style )
 					echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
 				the_title();
-				if ( !isset($attachment_data['width']) )
+				if ( !isset($attachment_data['width']) && 'inline' != $style )
 					echo '</a>';
 			?></h2>
 			<span><?php
@@ -111,31 +118,38 @@ function wp_upload_form() {
 		</div>
 
 	<div id="upload-file-view" class="alignleft">
-<?php		if ( isset($attachment_data['width']) )
+<?php		if ( isset($attachment_data['width']) && 'inline' != $style )
 			echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
 		echo wp_upload_display( array(171, 128) );
-		if ( isset($attachment_data['width']) )
+		if ( isset($attachment_data['width']) && 'inline' != $style )
 			echo '</a>'; ?>
 	</div>
 <?php	endif; ?>
-		<table>
-<?php	if ( !$id ): ?>
+		<table><col /><col class="widefat" />
+<?php	if ( $id ): ?>
 			<tr>
-				<th scope="row"><label for="upload"><?php _e('File:'); ?></label></th>
+				<th scope="row"><label for="url"><?php _e('URL'); ?></label></th>
+				<td><input type="text" id="url" class="readonly" value="<?php the_guid(); ?>" readonly="readonly" /></td>
+			</tr>
+<?php	else : ?>
+			<tr>
+				<th scope="row"><label for="upload"><?php _e('File'); ?></label></th>
 				<td><input type="file" id="upload" name="image" /></td>
 			</tr>
 <?php	endif; ?>
 			<tr>
-				<th scope="row"><label for="post_title"><?php _e('Title:'); ?></label></th>
+				<th scope="row"><label for="post_title"><?php _e('Title'); ?></label></th>
 				<td><input type="text" id="post_title" name="post_title" value="<?php echo $attachment->post_title; ?>" /></td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="post_content"><?php _e('Description:'); ?></label></th>
+				<th scope="row"><label for="post_content"><?php _e('Description'); ?></label></th>
 				<td><textarea name="post_content" id="post_content"><?php echo $attachment->post_content; ?></textarea></td>
 			</tr>
-			<tr id="buttons">
-				<th></th>
-				<td>
+			<tr id="buttons" class="submit">
+				<td colspan='2'>
+<?php	if ( $id ) : ?>
+					<input type="submit" name="delete" id="delete" class="delete alignleft" value="<?php _e('Delete File'); ?>" />
+<?php	endif; ?>
 					<input type="hidden" name="from_tab" value="<?php echo $tab; ?>" />
 					<input type="hidden" name="action" value="<?php echo $id ? 'save' : 'upload'; ?>" />
 <?php	if ( $post_id ) : ?>
@@ -146,9 +160,6 @@ function wp_upload_form() {
 					<?php wp_nonce_field( 'inlineuploading' ); ?>
 					<div class="submit">
 						<input type="submit" value="<?php $id ? _e('Save') : _e('Upload'); ?> &raquo;" />
-<?php	if ( $id ) : ?>
-						<input type="submit" name="delete" class="delete" value="<?php _e('Delete'); ?>" />
-<?php	endif; ?>
 					</div>
 				</td>
 			</tr>
@@ -352,7 +363,7 @@ function wp_upload_admin_head() {
 		echo "<link rel='stylesheet' href='" . get_option('siteurl') . '/wp-admin/upload-rtl.css?version=' . get_bloginfo('version') . "' type='text/css' />\n";
 	if ( 'inline' == @$_GET['style'] ) {
 		echo "<style type='text/css'>\n";
-		echo "\tbody { height: 14em; overflow: hidden; }\n";
+		echo "\tbody { height: 15em; overflow: hidden; }\n";
 		echo "\t#upload-content { overflow-y: auto; }\n";
 		echo "\t#upload-file { position: absolute; }\n";
 		echo "</style>";
