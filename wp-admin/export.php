@@ -13,7 +13,7 @@ require_once ('admin-header.php');
 <h2><?php _e('Export'); ?></h2>
 <div class="narrow">
 <p><?php _e('When you click the button below WordPress will create a XML file for you to save to your computer.'); ?></p>
-<p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, comments, custom fields and categories.'); ?></p>
+<p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, comments, custom fields, and categories.'); ?></p>
 <form action="" method="get">
 <p class="submit"><input type="submit" name="submit" value="<?php _e('Download Export File'); ?> &raquo;" />
 <input type="hidden" name="download" value="true" />
