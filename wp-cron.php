@@ -17,7 +17,7 @@ foreach ($crons as $timestamp => $cronhooks) {
  			do_action_ref_array($hook, $args['args']);
 			$schedule = $args['schedule'];
 			if ($schedule != false) {
-				$new_args = array_merge( array($timestamp, $schedule, $hook), $args['args']);
+				$new_args = array($timestamp, $schedule, $hook, $args['args']);
 				call_user_func_array('wp_reschedule_event', $new_args);
 			}
 			wp_unschedule_event($timestamp, $hook, $args['args']);

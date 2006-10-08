@@ -1,7 +1,6 @@
 <?php
 
-function wp_schedule_single_event( $timestamp, $hook ) {
-	$args = array_slice( func_get_args(), 2 );
+function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 	$crons = _get_cron_array();
 	$key = md5(serialize($args));
 	$crons[$timestamp][$hook][$key] = array( 'schedule' => false, 'args' => $args );
@@ -9,8 +8,7 @@ function wp_schedule_single_event( $timestamp, $hook ) {
 	_set_cron_array( $crons );
 }
 
-function wp_schedule_event( $timestamp, $recurrence, $hook ) {
-	$args = array_slice( func_get_args(), 3 );
+function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
 	$crons = _get_cron_array();
 	$schedules = wp_get_schedules();
 	$key = md5(serialize($args));
@@ -21,8 +19,7 @@ function wp_schedule_event( $timestamp, $recurrence, $hook ) {
 	_set_cron_array( $crons );
 }
 
-function wp_reschedule_event( $timestamp, $recurrence, $hook ) {
-	$args = array_slice( func_get_args(), 3 );
+function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array()) {
 	$crons = _get_cron_array();
 	$schedules = wp_get_schedules();
 	$key = md5(serialize($args));
