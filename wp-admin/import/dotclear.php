@@ -132,7 +132,7 @@ class Dotclear_Import {
 	function header() 
 	{
 		echo '<div class="wrap">';
-		echo '<h2>'.__('Import Dotclear').'</h2>';
+		echo '<h2>'.__('Import DotClear').'</h2>';
 		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'</p>';
 	}
 
@@ -143,8 +143,8 @@ class Dotclear_Import {
 
 	function greet() 
 	{
-		echo '<div class="narrow"><p>'.__('Howdy! This importer allows you to extract posts from a Dotclear database into your blog.  Mileage may vary.').'</p>';
-		echo '<p>'.__('Your Dotclear Configuration settings are as follows:').'</p>';
+		echo '<div class="narrow"><p>'.__('Howdy! This importer allows you to extract posts from a DotClear database into your blog.  Mileage may vary.').'</p>';
+		echo '<p>'.__('Your DotClear Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=dotclear&amp;step=1" method="post">';
 		$this->db_form();
 		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Categories').' &raquo;" /></p>';
@@ -626,13 +626,13 @@ class Dotclear_Import {
 
 	function tips()
 	{
-		echo '<p>'.__('Welcome to WordPress.  We hope (and expect!) that you will find this platform incredibly rewarding!  As a new WordPress user coming from Dotclear, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.').'</p>';
+		echo '<p>'.__('Welcome to WordPress.  We hope (and expect!) that you will find this platform incredibly rewarding!  As a new WordPress user coming from DotClear, there are some things that we would like to point out.  Hopefully, they will help your transition go as smoothly as possible.').'</p>';
 		echo '<h3>'.__('Users').'</h3>';
-		echo '<p>'.sprintf(__('You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn\'t have that login in Dotclear, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and Dotclear uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  So <a href="%1$s">Login</a> and change it.'), '/wp-login.php').'</p>';
+		echo '<p>'.sprintf(__('You have already setup WordPress and have been assigned an administrative login and password.  Forget it.  You didn\'t have that login in DotClear, why should you have it here?  Instead we have taken care to import all of your users into our system.  Unfortunately there is one downside.  Because both WordPress and DotClear uses a strong encryption hash with passwords, it is impossible to decrypt it and we are forced to assign temporary passwords to all your users.  <strong>Every user has the same username, but their passwords are reset to password123.</strong>  So <a href="%1$s">Login</a> and change it.'), '/wp-login.php').'</p>';
 		echo '<h3>'.__('Preserving Authors').'</h3>';
 		echo '<p>'.__('Secondly, we have attempted to preserve post authors.  If you are the only author or contributor to your blog, then you are safe.  In most cases, we are successful in this preservation endeavor.  However, if we cannot ascertain the name of the writer due to discrepancies between database tables, we assign it to you, the administrative user.').'</p>';
 		echo '<h3>'.__('Textile').'</h3>';
-		echo '<p>'.__('Also, since you\'re coming from Dotclear, you probably have been using Textile to format your comments and posts.  If this is the case, we recommend downloading and installing <a href="http://www.huddledmasses.org/category/development/wordpress/textile/">Textile for WordPress</a>.  Trust me... You\'ll want it.').'</p>';
+		echo '<p>'.__('Also, since you\'re coming from DotClear, you probably have been using Textile to format your comments and posts.  If this is the case, we recommend downloading and installing <a href="http://www.huddledmasses.org/category/development/wordpress/textile/">Textile for WordPress</a>.  Trust me... You\'ll want it.').'</p>';
 		echo '<h3>'.__('WordPress Resources').'</h3>';
 		echo '<p>'.__('Finally, there are numerous WordPress resources around the internet.  Some of them are:').'</p>';
 		echo '<ul>';
@@ -647,10 +647,10 @@ class Dotclear_Import {
 	{
 		echo '<table class="editform">';
 		printf('<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('Dotclear Database User:'));
-		printf('<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('Dotclear Database Password:'));
+		printf('<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('DotClear Database Password:'));
 		printf('<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __('Dotclear Database Name:'));
-		printf('<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" nameid="dbhost" value="localhost" /></td></tr>', __('Dotclear Database Host:'));
-		printf('<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="dc_"/></td></tr>', __('Dotclear Table prefix:'));
+		printf('<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" nameid="dbhost" value="localhost" /></td></tr>', __('DotClear Database Host:'));
+		printf('<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="dc_"/></td></tr>', __('DotClear Table prefix:'));
 		printf('<tr><th><label for="dccharset">%s</label></th><td><input type="text" name="dccharset" id="dccharset" value="ISO-8859-15"/></td></tr>', __('Originating character set:'));
 		echo '</table>';
 	}
@@ -743,5 +743,5 @@ class Dotclear_Import {
 }
 
 $dc_import = new Dotclear_Import();
-register_importer('dotclear', __('Dotclear'), __('Import posts from a Dotclear Blog'), array ($dc_import, 'dispatch'));
+register_importer('dotclear', __('DotClear'), __('Import posts from a DotClear Blog'), array ($dc_import, 'dispatch'));
 ?>

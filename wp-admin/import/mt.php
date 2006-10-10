@@ -11,7 +11,7 @@ class MT_Import {
 
 	function header() {
 		echo '<div class="wrap">';
-		echo '<h2>'.__('Import Movable Type and Typepad').'</h2>';
+		echo '<h2>'.__('Import Movable Type and TypePad').'</h2>';
 	}
 
 	function footer() {
@@ -432,5 +432,5 @@ class MT_Import {
 
 $mt_import = new MT_Import();
 
-register_importer('mt', __('Movable Type and Typepad'), __('Imports <strong>posts and comments</strong> from your Movable Type or Typepad blog'), array ($mt_import, 'dispatch'));
+register_importer('mt', __('Movable Type and Typepad'), __('Imports <strong>posts and comments</strong> from your Movable Type or TypePad blog'), array ($mt_import, 'dispatch'));
 ?>
