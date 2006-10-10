@@ -34,7 +34,7 @@ function get_editable_authors( $user_id ) {
 		return false;
 	} else {
 		$editable = join(',', $editable);
-		$authors = $wpdb->get_results( "SELECT * FROM $wpdb->users WHERE ID IN ($editable)" );
+		$authors = $wpdb->get_results( "SELECT * FROM $wpdb->users WHERE ID IN ($editable) ORDER BY display_name" );
 	}
 
 	return apply_filters('get_editable_authors', $authors);
