@@ -3,6 +3,7 @@
 /* Note: these tags go anywhere in the template */
 
 function get_header() {
+	do_action( 'get_header' );
 	if ( file_exists( TEMPLATEPATH . '/header.php') )
 		load_template( TEMPLATEPATH . '/header.php');
 	else
@@ -11,6 +12,7 @@ function get_header() {
 
 
 function get_footer() {
+	do_action( 'get_footer' );
 	if ( file_exists( TEMPLATEPATH . '/footer.php') )
 		load_template( TEMPLATEPATH . '/footer.php');
 	else
