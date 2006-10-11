@@ -211,7 +211,7 @@ function post_custom( $key = '' ) {
 
 // this will probably change at some point...
 function the_meta() {
-	global $id, $post_meta_cache;
+	global $id;
 
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";

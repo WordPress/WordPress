@@ -221,9 +221,10 @@ function get_posts($args) {
 function add_post_meta($post_id, $key, $value, $unique = false) {
 	global $wpdb, $post_meta_cache;
 
+	$post_id = (int) $post_id;
+
 	if ( $unique ) {
-		if ( $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
-= '$key' AND post_id = '$post_id'") ) {
+		if ( $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = '$key' AND post_id = '$post_id'") ) {
 			return false;
 		}
 	}
@@ -234,7 +235,7 @@ function add_post_meta($post_id, $key, $value, $unique = false) {
 
 	$wpdb->query("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value) VALUES ('$post_id','$key','$value')");
 
-	$post_meta_cache['$post_id'][$key][] = $original;
+	$post_meta_cache[$post_id][$key][] = $original;
 
 	return true;
 }
@@ -242,37 +243,37 @@ function add_post_meta($post_id, $key, $value, $unique = false) {
 function delete_post_meta($post_id, $key, $value = '') {
 	global $wpdb, $post_meta_cache;
 
+	$post_id = (int) $post_id;
+
 	if ( empty($value) ) {
-		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE
-post_id = '$post_id' AND meta_key = '$key'");
+		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key'");
 	} else {
-		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE
-post_id = '$post_id' AND meta_key = '$key' AND meta_value = '$value'");
+		$meta_id = $wpdb->get_var("SELECT meta_id FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key' AND meta_value = '$value'");
 	}
 
 	if ( !$meta_id )
 		return false;
 
 	if ( empty($value) ) {
-		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
-AND meta_key = '$key'");
-		unset($post_meta_cache['$post_id'][$key]);
+		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key'");
+		unset($post_meta_cache[$post_id][$key]);
 	} else {
-		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id'
-AND meta_key = '$key' AND meta_value = '$value'");
-		$cache_key = $post_meta_cache['$post_id'][$key];
+		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key' AND meta_value = '$value'");
+		$cache_key = $post_meta_cache[$post_id][$key];
 		if ($cache_key) foreach ( $cache_key as $index => $data )
 			if ( $data == $value )
-				unset($post_meta_cache['$post_id'][$key][$index]);
+				unset($post_meta_cache[$post_id][$key][$index]);
 	}
 
-	unset($post_meta_cache['$post_id'][$key]);
+	unset($post_meta_cache[$post_id][$key]);
 
 	return true;
 }
 
 function get_post_meta($post_id, $key, $single = false) {
 	global $wpdb, $post_meta_cache;
+
+	$post_id = (int) $post_id;
 
 	if ( isset($post_meta_cache[$post_id][$key]) ) {
 		if ( $single ) {
@@ -307,6 +308,8 @@ function get_post_meta($post_id, $key, $single = false) {
 function update_post_meta($post_id, $key, $value, $prev_value = '') {
 	global $wpdb, $post_meta_cache;
 
+	$post_id = (int) $post_id;
+
 	$original_value = $value;
 	if ( is_array($value) || is_object($value) )
 		$value = $wpdb->escape(serialize($value));
@@ -315,26 +318,23 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 	if ( is_array($prev_value) || is_object($prev_value) )
 		$prev_value = $wpdb->escape(serialize($prev_value));
 
-	if (! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key
-= '$key' AND post_id = '$post_id'") ) {
+	if (! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = '$key' AND post_id = '$post_id'") ) {
 		return false;
 	}
 
 	if ( empty($prev_value) ) {
-		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
-meta_key = '$key' AND post_id = '$post_id'");
-		$cache_key = $post_meta_cache['$post_id'][$key];
+		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE meta_key = '$key' AND post_id = '$post_id'");
+		$cache_key = $post_meta_cache[$post_id][$key];
 		if ( !empty($cache_key) )
 			foreach ($cache_key as $index => $data)
-				$post_meta_cache['$post_id'][$key][$index] = $original_value;
+				$post_meta_cache[$post_id][$key][$index] = $original_value;
 	} else {
-		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE
-meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
-		$cache_key = $post_meta_cache['$post_id'][$key];
+		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
+		$cache_key = $post_meta_cache[$post_id][$key];
 		if ( !empty($cache_key) )
 			foreach ($cache_key as $index => $data)
 				if ( $data == $original_prev )
-					$post_meta_cache['$post_id'][$key][$index] = $original_value;
+					$post_meta_cache[$post_id][$key][$index] = $original_value;
 	}
 
 	return true;
@@ -347,6 +347,8 @@ function get_post_custom( $post_id = 0 ) {
 	if ( ! $post_id )
 		$post_id = $id;
 
+	$post_id = (int) $post_id;
+
 	if ( isset($post_meta_cache[$post_id]) )
 		return $post_meta_cache[$post_id];
 
@@ -354,7 +356,7 @@ function get_post_custom( $post_id = 0 ) {
 		// Change from flat structure to hierarchical:
 		$post_meta_cache = array();
 		foreach ( $meta_list as $metarow ) {
-			$mpid = $metarow['post_id'];
+			$mpid = (int) $metarow['post_id'];
 			$mkey = $metarow['meta_key'];
 			$mval = $metarow['meta_value'];
 

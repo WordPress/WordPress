@@ -542,7 +542,7 @@ function update_post_caches(&$posts) {
 		// Change from flat structure to hierarchical:
 		$post_meta_cache = array();
 		foreach ($meta_list as $metarow) {
-			$mpid = $metarow['post_id'];
+			$mpid = (int) $metarow['post_id'];
 			$mkey = $metarow['meta_key'];
 			$mval = $metarow['meta_value'];
 
