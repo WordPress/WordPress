@@ -330,7 +330,7 @@ function wp_list_bookmarks($args = '') {
 		$cats = get_categories("type=link&category_name=$category_name&include=$category&orderby=$category_orderby&order=$category_order&hierarchical=0");
 
 		foreach ( (array) $cats as $cat ) {
-			$bookmarks = get_bookmarks("limit=$limit&category={$cat->cat_ID}&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_inivisible&show_updated=$show_updated");
+			$bookmarks = get_bookmarks("limit=$limit&category={$cat->cat_ID}&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_invisible&show_updated=$show_updated");
 			if ( empty($bookmarks) )
 				continue;
 			$output .= "<li id='linkcat-$cat->cat_ID' class='linkcat'>$title_before$cat->cat_name$title_after\n\t<ul>\n";
