@@ -848,6 +848,8 @@ function list_meta($meta) {
 			$style = '';
 		if ('_' == $entry['meta_key'] { 0 })
 			$style .= ' hidden';
+		$entry['meta_key'] = wp_specialchars( $entry['meta_key'], true );
+		$entry['meta_value'] = wp_specialchars( $entry['meta_value'], true );
 		echo "
 			<tr class='$style'>
 				<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>
