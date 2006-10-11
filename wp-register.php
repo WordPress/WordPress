@@ -5,6 +5,5 @@
 
 require('./wp-config.php');
 wp_redirect('wp-login.php?action=register');
-exit();
 
 ?>
