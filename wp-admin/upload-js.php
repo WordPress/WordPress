@@ -78,7 +78,7 @@ addLoadEvent( function() {
 			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.isImage )
-				h += "<h2><a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
+				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
@@ -87,7 +87,7 @@ addLoadEvent( function() {
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( this.currentImage.isImage ) {
-				h += "<a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>";
+				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>";
 				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
 				h += "</a>";
 			} else
@@ -140,7 +140,7 @@ addLoadEvent( function() {
 			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.isImage )
-				h += "<h2><a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
+				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
@@ -149,7 +149,7 @@ addLoadEvent( function() {
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( this.currentImage.isImage ) {
-				h += "<a href='" + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>";
+				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='Direct link to file'>";
 				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
 				h += "</a>";
 			} else
@@ -159,7 +159,7 @@ addLoadEvent( function() {
 
 			h += "<table><col /><col class='widefat' /><tr>"
 			h += "<th scope='row'><label for='url'>URL</label></th>";
-			h += "<td><input type='text' id='url' class='readonly' value='" + this.currentImage.src + "' readonly='readonly' /></td>";
+			h += "<td><input type='text' id='url' class='readonly' value='" + this.currentImage.srcBase + this.currentImage.src + "' readonly='readonly' /></td>";
 			h += "</tr><tr>";
 			h += "<th scope='row'><label for='post_title'>Title</label></th>";
 			h += "<td><input type='text' id='post_title' name='post_title' value='" + this.currentImage.title + "' /></td>";
