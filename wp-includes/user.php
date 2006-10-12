@@ -114,9 +114,10 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 		return false;
 	$meta_key = preg_replace('|[^a-z0-9_]|i', '', $meta_key);
 
-	if ( is_array($meta_value) || is_object($meta_value) )
-		$meta_value = serialize($meta_value);
-	$meta_value = trim( $meta_value );
+	// FIXME: usermeta data is assumed to be already escaped
+	$meta_value = stripslashes($meta_value);
+	$meta_value = prepare_data($meta_value);
+	$meta_value = $wpdb->escape($meta_value);
 
 	if (empty($meta_value)) {
 		return delete_usermeta($user_id, $meta_key);

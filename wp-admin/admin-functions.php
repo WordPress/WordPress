@@ -981,6 +981,18 @@ function list_meta($meta) {
 			$style = '';
 		if ('_' == $entry['meta_key'] { 0 })
 			$style .= ' hidden';
+
+		if ( is_serialized($entry['meta_value']) ) {
+			if ( 's' == $entry['meta_value']{0} ) {
+				// this is a serialized string, so we should display it
+				$entry['meta_value'] = maybe_unserialize($entry['meta_value']);
+			} else {
+				// this is a serialized array/object so we should NOT display it
+				--$count;
+				continue;
+			}
+		}
+
 		$key_js = js_escape($entry['meta_key']);
 		$entry['meta_key'] = wp_specialchars( $entry['meta_key'], true );
 		$entry['meta_value'] = wp_specialchars( $entry['meta_value'], true );
@@ -1056,7 +1068,8 @@ function add_meta($post_ID) {
 
 	$metakeyselect = $wpdb->escape(stripslashes(trim($_POST['metakeyselect'])));
 	$metakeyinput = $wpdb->escape(stripslashes(trim($_POST['metakeyinput'])));
-	$metavalue = $wpdb->escape(stripslashes(trim($_POST['metavalue'])));
+	$metavalue = prepare_data(stripslashes((trim($_POST['metavalue']))));
+	$metavalue = $wpdb->escape($metavalue);
 
 	if ( ('0' === $metavalue || !empty ($metavalue)) && ((('#NONE#' != $metakeyselect) && !empty ($metakeyselect)) || !empty ($metakeyinput)) ) {
 		// We have a key/value pair. If both the select and the 
@@ -1087,8 +1100,9 @@ function delete_meta($mid) {
 
 function update_meta($mid, $mkey, $mvalue) {
 	global $wpdb;
+	if ( is_serialized(stripslashes($mvalue)) ) // $mvalue looks to be already serialized, so we should serialize it again to prevent the data from coming out in a different form than it came in
+		$mvalue = serialize($mvalue);
 	$mid = (int) $mid;
-
 	return $wpdb->query("UPDATE $wpdb->postmeta SET meta_key = '$mkey', meta_value = '$mvalue' WHERE meta_id = '$mid'");
 }
 

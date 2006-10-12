@@ -445,6 +445,10 @@ textarea.all-options, input.all-options {
 	width: 250px;
 }
 
+input.disabled, textarea.disabled {
+	background: #ccc;
+}
+
 #adminmenu {
 	background: #83B4D8;
 	border-top: 3px solid #448abd;

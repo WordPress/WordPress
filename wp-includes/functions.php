@@ -156,10 +156,28 @@ function get_lastpostmodified($timezone = 'server') {
 }
 
 function maybe_unserialize($original) {
-	if ( false !== $gm = @ unserialize($original) )
-		return $gm;
-	else
-		return $original;
+	if ( is_serialized($original) ) // don't attempt to unserialize data that wasn't serialized going in
+		if ( false !== $gm = @ unserialize($original) )
+			return $gm;
+	return $original;
+}
+
+function is_serialized($data) {
+	if ( !is_string($data) ) // if it isn't a string, it isn't serialized
+		return false;
+	$data = trim($data);
+	if ( preg_match("/^[adobis]:[0-9]+:.*[;}]/si",$data) ) // this should fetch all legitimately serialized data
+		return true;
+	return false;
+}
+
+function is_serialized_string($data) {
+	if ( !is_string($data) ) // if it isn't a string, it isn't a serialized string
+		return false;
+	$data = trim($data);
+	if ( preg_match("/^s:[0-9]+:.*[;}]/si",$data) ) // this should fetch all serialized strings
+		return true;
+	return false;
 }
 
 /* Options functions */
@@ -239,8 +257,7 @@ function update_option($option_name, $newvalue) {
 	}
 
 	$_newvalue = $newvalue;
-	if ( is_array($newvalue) || is_object($newvalue) )
-		$newvalue = serialize($newvalue);
+	$newvalue = prepare_data($newvalue);
 
 	wp_cache_set($option_name, $newvalue, 'options');
 
@@ -262,8 +279,7 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	if ( false !== get_option($name) )
 		return;
 
-	if ( is_array($value) || is_object($value) )
-		$value = serialize($value);
+	$value = prepare_data($value);
 
 	wp_cache_set($name, $value, 'options');
 
@@ -283,6 +299,16 @@ function delete_option($name) {
 	$wpdb->query("DELETE FROM $wpdb->options WHERE option_name = '$name'");
 	wp_cache_delete($name, 'options');
 	return true;
+}
+
+function prepare_data($data) {
+	if ( is_string($data) )
+		$data = trim($data);
+	elseif ( is_array($data) || is_object($data) )
+		return serialize($data);
+	if ( is_serialized($data) )
+		return serialize($data);
+	return $data;
 }
 
 function gzip_compression() {

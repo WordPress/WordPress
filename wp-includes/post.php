@@ -229,13 +229,12 @@ function add_post_meta($post_id, $key, $value, $unique = false) {
 		}
 	}
 
-	$original = $value;
-	if ( is_array($value) || is_object($value) )
-		$value = $wpdb->escape(serialize($value));
+	$post_meta_cache[$post_id][$key][] = $value;
+
+	$value = prepare_data($value);
+	$value = $wpdb->escape($value);
 
 	$wpdb->query("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value) VALUES ('$post_id','$key','$value')");
-
-	$post_meta_cache[$post_id][$key][] = $original;
 
 	return true;
 }
@@ -311,12 +310,12 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 	$post_id = (int) $post_id;
 
 	$original_value = $value;
-	if ( is_array($value) || is_object($value) )
-		$value = $wpdb->escape(serialize($value));
+	$value = prepare_data($value);
+	$value = $wpdb->escape($value);
 
 	$original_prev = $prev_value;
-	if ( is_array($prev_value) || is_object($prev_value) )
-		$prev_value = $wpdb->escape(serialize($prev_value));
+	$prev_value = prepare_data($prev_value);
+	$prev_value = $wpdb->escape($prev_value);
 
 	if (! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = '$key' AND post_id = '$post_id'") ) {
 		return false;
