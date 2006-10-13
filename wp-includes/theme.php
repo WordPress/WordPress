@@ -1,6 +1,6 @@
 <?php
 /*
- * Theme/template/stylesheet functions.  
+ * Theme/template/stylesheet functions.
  */
 
 function get_stylesheet() {
@@ -32,7 +32,7 @@ function get_locale_stylesheet_uri() {
 	$locale = get_locale();
 	if ( file_exists("$dir/$locale.css") )
 		$stylesheet_uri = "$stylesheet_dir_uri/$locale.css";
-	else if ( !empty($wp_locale->text_direction) && file_exists("$dir/{$wp_locale->text_direction}.css") )
+	elseif ( !empty($wp_locale->text_direction) && file_exists("$dir/{$wp_locale->text_direction}.css") )
 		$stylesheet_uri = "$stylesheet_dir_uri/{$wp_locale->text_direction}.css";
 	else
 		$stylesheet_uri = '';
@@ -88,8 +88,7 @@ function get_theme_data($theme_file) {
 }
 
 function get_themes() {
-	global $wp_themes;
-	global $wp_broken_themes;
+	global $wp_themes, $wp_broken_themes;
 
 	if ( isset($wp_themes) )
 		return $wp_themes;
@@ -102,50 +101,47 @@ function get_themes() {
 	// Files in wp-content/themes directory
 	$themes_dir = @ dir($theme_root);
 	if ( $themes_dir ) {
-		while(($theme_dir = $themes_dir->read()) !== false) {
+		while ( ($theme_dir = $themes_dir->read()) !== false ) {
 			if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
-				if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' ) {
+				if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
 					continue;
-				}
 				$stylish_dir = @ dir($theme_root . '/' . $theme_dir);
 				$found_stylesheet = false;
-				while (($theme_file = $stylish_dir->read()) !== false) {
+				while ( ($theme_file = $stylish_dir->read()) !== false ) {
 					if ( $theme_file == 'style.css' ) {
 						$theme_files[] = $theme_dir . '/' . $theme_file;
 						$found_stylesheet = true;
 						break;
 					}
 				}
-				if ( !$found_stylesheet ) {
+				if ( !$found_stylesheet )
 					$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
-				}
 			}
 		}
 	}
 
-	if ( !$themes_dir || !$theme_files ) {
+	if ( !$themes_dir || !$theme_files )
 		return $themes;
-	}
 
 	sort($theme_files);
 
-	foreach($theme_files as $theme_file) {
-		if ( ! is_readable("$theme_root/$theme_file") ) {
+	foreach ( (array) $theme_files as $theme_file ) {
+		if ( !is_readable("$theme_root/$theme_file") ) {
 			$wp_broken_themes[$theme_file] = array('Name' => $theme_file, 'Title' => $theme_file, 'Description' => __('File not readable.'));
 			continue;
 		}
 
 		$theme_data = get_theme_data("$theme_root/$theme_file");
 
-		$name = $theme_data['Name'];
-		$title = $theme_data['Title'];
+		$name        = $theme_data['Name'];
+		$title       = $theme_data['Title'];
 		$description = wptexturize($theme_data['Description']);
-		$version = $theme_data['Version'];
-		$author = $theme_data['Author'];
-		$template = $theme_data['Template'];
-		$stylesheet = dirname($theme_file);
+		$version     = $theme_data['Version'];
+		$author      = $theme_data['Author'];
+		$template    = $theme_data['Template'];
+		$stylesheet  = dirname($theme_file);
 
-		foreach (array('png', 'gif', 'jpg', 'jpeg') as $ext) {
+		foreach ( array('png', 'gif', 'jpg', 'jpeg') as $ext ) {
 			if (file_exists("$theme_root/$stylesheet/screenshot.$ext")) {
 				$screenshot = "screenshot.$ext";
 				break;
@@ -158,11 +154,10 @@ function get_themes() {
 		}
 
 		if ( empty($template) ) {
-			if ( file_exists(dirname("$theme_root/$theme_file/index.php")) ) {
+			if ( file_exists(dirname("$theme_root/$theme_file/index.php")) )
 				$template = dirname($theme_file);
-			} else {
+			else
 				continue;
-			}
 		}
 
 		$template = trim($template);
@@ -175,7 +170,7 @@ function get_themes() {
 		$stylesheet_files = array();
 		$stylesheet_dir = @ dir("$theme_root/$stylesheet");
 		if ( $stylesheet_dir ) {
-			while(($file = $stylesheet_dir->read()) !== false) {
+			while ( ($file = $stylesheet_dir->read()) !== false ) {
 				if ( !preg_match('|^\.+$|', $file) && preg_match('|\.css$|', $file) )
 					$stylesheet_files[] = "$theme_loc/$stylesheet/$file";
 			}
@@ -222,10 +217,10 @@ function get_themes() {
 	// Resolve theme dependencies.
 	$theme_names = array_keys($themes);
 
-	foreach ($theme_names as $theme_name) {
+	foreach ( (array) $theme_names as $theme_name ) {
 		$themes[$theme_name]['Parent Theme'] = '';
 		if ( $themes[$theme_name]['Stylesheet'] != $themes[$theme_name]['Template'] ) {
-			foreach ($theme_names as $parent_theme_name) {
+			foreach ( (array) $theme_names as $parent_theme_name ) {
 				if ( ($themes[$parent_theme_name]['Stylesheet'] == $themes[$parent_theme_name]['Template']) && ($themes[$parent_theme_name]['Template'] == $themes[$theme_name]['Template']) ) {
 					$themes[$theme_name]['Parent Theme'] = $themes[$parent_theme_name]['Name'];
 					break;
@@ -256,7 +251,7 @@ function get_current_theme() {
 	$current_theme = 'WordPress Default';
 
 	if ( $themes ) {
-		foreach ($theme_names as $theme_name) {
+		foreach ( (array) $theme_names as $theme_name ) {
 			if ( $themes[$theme_name]['Stylesheet'] == $current_stylesheet &&
 					$themes[$theme_name]['Template'] == $current_template ) {
 				$current_theme = $themes[$theme_name]['Name'];
@@ -300,7 +295,7 @@ function get_category_template() {
 	$template = '';
 	if ( file_exists(TEMPLATEPATH . "/category-" . get_query_var('cat') . '.php') )
 		$template = TEMPLATEPATH . "/category-" . get_query_var('cat') . '.php';
-	else if ( file_exists(TEMPLATEPATH . "/category.php") )
+	elseif ( file_exists(TEMPLATEPATH . "/category.php") )
 		$template = TEMPLATEPATH . "/category.php";
 
 	return apply_filters('category_template', $template);
@@ -315,7 +310,7 @@ function get_home_template() {
 
 	if ( file_exists(TEMPLATEPATH . "/home.php") )
 		$template = TEMPLATEPATH . "/home.php";
-	else if ( file_exists(TEMPLATEPATH . "/index.php") )
+	elseif ( file_exists(TEMPLATEPATH . "/index.php") )
 		$template = TEMPLATEPATH . "/index.php";
 
 	return apply_filters('home_template', $template);
@@ -330,9 +325,9 @@ function get_page_template() {
 	if ( 'default' == $template )
 		$template = '';
 
-	if ( ! empty($template) && file_exists(TEMPLATEPATH . "/$template") )
+	if ( !empty($template) && file_exists(TEMPLATEPATH . "/$template") )
 		$template = TEMPLATEPATH . "/$template";
-	else if ( file_exists(TEMPLATEPATH . "/page.php") )
+	elseif ( file_exists(TEMPLATEPATH . "/page.php") )
 		$template = TEMPLATEPATH . "/page.php";
 	else
 		$template = '';
@@ -395,14 +390,14 @@ function validate_current_theme() {
 	if ( defined('WP_INSTALLING') )
 		return true;
 
-	if ((get_template() != 'default') && (!file_exists(get_template_directory() . '/index.php'))) {
+	if ( get_template() != 'default' && !file_exists(get_template_directory() . '/index.php') ) {
 		update_option('template', 'default');
 		update_option('stylesheet', 'default');
 		do_action('switch_theme', 'Default');
 		return false;
 	}
 
-	if ((get_stylesheet() != 'default') && (!file_exists(get_template_directory() . '/style.css'))) {
+	if ( get_stylesheet() != 'default' && !file_exists(get_template_directory() . '/style.css') ) {
 		update_option('template', 'default');
 		update_option('stylesheet', 'default');
 		do_action('switch_theme', 'Default');
