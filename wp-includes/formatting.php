@@ -593,7 +593,7 @@ function antispambot($emailaddy, $mailto=0) {
 	return $emailNOSPAMaddy;
 }
 
-function make_clickable_mine4($ret) {
+function make_clickable($ret) {
 	$ret = ' ' . $ret;
 	// in testing, using arrays here was found to be faster
 	$ret = preg_replace(
