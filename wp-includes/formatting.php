@@ -593,12 +593,20 @@ function antispambot($emailaddy, $mailto=0) {
 	return $emailNOSPAMaddy;
 }
 
-function make_clickable($ret) {
+function make_clickable_mine4($ret) {
 	$ret = ' ' . $ret;
-	$ret = preg_replace("#(^|[\n ])([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*)#is", "$1<a href='$2' rel='nofollow'>$2</a>", $ret);
-	$ret = preg_replace("#(^|[\n ])((www|ftp)\.[\w\#$%&~/.\-;:=,?@\[\]+]*)#is", "$1<a href='http://$2' rel='nofollow'>$2</a>", $ret);
-	$ret = preg_replace("#(\s)([a-z0-9\-_.]+)@([^,< \n\r]+)#i", "$1<a href=\"mailto:$2@$3\">$2@$3</a>", $ret);
-	$ret = substr($ret, 1);
+	// in testing, using arrays here was found to be faster
+	$ret = preg_replace(
+		array(
+			'#([\s>])([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*)#is',
+			'#([\s>])((www|ftp)\.[\w\#$%&~/.\-;:=,?@\[\]+]*)#is',
+			'#([\s>])([a-z0-9\-_.]+)@([^,< \n\r]+)#i'),
+		array(
+			'$1<a href="$2" rel="nofollow">$2</a>',
+			'$1<a href="http://$2" rel="nofollow">$2</a>',
+			'$1<a href="mailto:$2@$3">$2@$3</a>'),$ret);
+	// this one is not in an array because we need it to run last, for cleanup of accidental links within links
+	$ret = preg_replace("#(<a( [^>]+?>|>))<a [^>]+?>([^>]+?)</a></a>#i", "$1$3</a>", $ret);
 	$ret = trim($ret);
 	return $ret;
 }
