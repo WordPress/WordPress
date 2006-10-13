@@ -5,7 +5,7 @@ A PHP-Based RSS and Atom Feed Framework
 Takes the hard work out of managing a complete RSS/Atom solution.
 
 Version: "Lemon Meringue"
-Updated: 10 October 2006
+Updated: 13 October 2006
 Copyright: 2004-2006 Ryan Parman, Geoffrey Sneddon
 http://simplepie.org
 
@@ -26,7 +26,7 @@ class SimplePie
 	// SimplePie Info
 	var $name = 'SimplePie';
 	var $version = 'Lemon Meringue';
-	var $build = '20061010';
+	var $build = '20061013';
 	var $url = 'http://simplepie.org/';
 	var $useragent;
 	var $linkback;
@@ -407,9 +407,9 @@ EOT;
 				}
 				
 				// Check if the supplied URL is a feed, if it isn't, look for it.
-				if (!call_user_func(array($this->locator_class, 'is_feed'), $file))
+				$locate = new $this->locator_class($file, $this->timeout, $this->useragent);
+				if (!$locate->is_feed($file))
 				{
-					$locate = new $this->locator_class($file, $this->timeout, $this->useragent);
 					$feed = $locate->find();
 					if ($feed)
 					{
@@ -2185,12 +2185,12 @@ class SimplePie_File
 					
 					$info = stream_get_meta_data($this->fp);
 					$data = '';
-					while (strpos($data, "\r\n\r\n") === false && $info['timed_out'] === false)
+					while (strpos($data, "\r\n\r\n") === false && !$info['timed_out'])
 					{
 						$data .= fgets($this->fp, 128);
 						$info = stream_get_meta_data($this->fp);
 					}
-					if ($info['timed_out'] === false)
+					if (!$info['timed_out'])
 					{
 						$this->headers = $this->parse_headers($data);
 						if (($this->headers['status']['code'] == 301 || $this->headers['status']['code'] == 302 || $this->headers['status']['code'] == 303 || $this->headers['status']['code'] == 307) && !empty($this->headers['location']) && $this->redirects < $redirects)
@@ -2237,18 +2237,27 @@ class SimplePie_File
 		{
 			if ($this->fp)
 			{
+				$info = stream_get_meta_data($this->fp);
 				$this->body = '';
-				while (!feof($this->fp))
+				while (!$info['eof'] && !$info['timed_out'])
 				{
 					$this->body .= fread($this->fp, 1024);
+					$info = stream_get_meta_data($this->fp);
 				}
-				$this->body = trim($this->body);
-				if ($this->method == 'fsockopen' && !empty($this->headers['content-encoding']) && $this->headers['content-encoding'] == 'gzip')
+				if (!$info['timed_out'])
 				{
-					$this->body = substr($this->body, 10);
-					$this->body = gzinflate($this->body);
+					$this->body = trim($this->body);
+					if ($this->method == 'fsockopen' && !empty($this->headers['content-encoding']) && $this->headers['content-encoding'] == 'gzip')
+					{
+						$this->body = substr($this->body, 10);
+						$this->body = gzinflate($this->body);
+					}
+					$this->close();
 				}
-				$this->close();
+				else
+				{
+					return false;
+				}
 			}
 			else
 			{
