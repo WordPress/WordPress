@@ -12,9 +12,8 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 		foreach($wp_filter[$tag]["$priority"] as $filter) {
 			// uncomment if we want to match function AND accepted_args
 			// if ( $filter == array($function, $accepted_args) ) {
-			if ( $filter['function'] == $function_to_add ) {
+			if ( $filter['function'] == $function_to_add )
 				return true;
-			}
 		}
 	}
 
@@ -32,23 +31,20 @@ function apply_filters($tag, $string) {
 
 	merge_filters($tag);
 
-	if ( !isset($wp_filter[$tag]) ) {
+	if ( !isset($wp_filter[$tag]) )
 		return $string;
-	}
-	foreach ($wp_filter[$tag] as $priority => $functions) {
-		if ( !is_null($functions) ) {
-			foreach($functions as $function) {
 
+	foreach ( (array) $wp_filter[$tag] as $priority => $functions ) {
+		if ( !is_null($functions) ) {
+			foreach ( (array) $functions as $function ) {
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
-
 				$the_args = $args;
 				array_unshift($the_args, $string);
 				if ( $accepted_args > 0 )
 					$the_args = array_slice($the_args, 0, $accepted_args);
-				elseif ( $accepted_args == 0 )
+				elseif ( 0 == $accepted_args )
 					$the_args = NULL;
-
 				$string = call_user_func_array($function_name, $the_args);
 			}
 		}
@@ -56,11 +52,10 @@ function apply_filters($tag, $string) {
 	return $string;
 }
 
-
 function merge_filters($tag) {
 	global $wp_filter;
 	if ( isset($wp_filter['all']) ) {
-		foreach ($wp_filter['all'] as $priority => $functions) {
+		foreach ( (array) $wp_filter['all'] as $priority => $functions ) {
 			if ( isset($wp_filter[$tag][$priority]) )
 				$wp_filter[$tag][$priority] = array_merge($wp_filter['all'][$priority], $wp_filter[$tag][$priority]);
 			else
@@ -73,18 +68,15 @@ function merge_filters($tag) {
 		uksort( $wp_filter[$tag], "strnatcasecmp" );
 }
 
-
-
 function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
 	global $wp_filter;
 
 	// rebuild the list of filters
 	if ( isset($wp_filter[$tag]["$priority"]) ) {
 		$new_function_list = array();
-		foreach($wp_filter[$tag]["$priority"] as $filter) {
-			if ( $filter['function'] != $function_to_remove ) {
+		foreach ( (array) $wp_filter[$tag]["$priority"] as $filter ) {
+			if ( $filter['function'] != $function_to_remove )
 				$new_function_list[] = $filter;
-			}
 		}
 		$wp_filter[$tag]["$priority"] = $new_function_list;
 	}
@@ -114,10 +106,9 @@ function do_action($tag, $arg = '') {
 	if ( !isset($wp_filter[$tag]) )
 		return;
 
-	foreach ($wp_filter[$tag] as $priority => $functions) {
+	foreach ( (array) $wp_filter[$tag] as $priority => $functions ) {
 		if ( !is_null($functions) ) {
-			foreach($functions as $function) {
-
+			foreach ( (array) $functions as $function ) {
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
 
@@ -142,16 +133,14 @@ function do_action_ref_array($tag, $args) {
 	if ( !isset($wp_filter[$tag]) )
 		return;
 
-	foreach ($wp_filter[$tag] as $priority => $functions) {
+	foreach ( (array) $wp_filter[$tag] as $priority => $functions ) {
 		if ( !is_null($functions) ) {
-			foreach($functions as $function) {
-
+			foreach( (array) $functions as $function ) {
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
-
 				if ( $accepted_args > 0 )
 					$the_args = array_slice($args, 0, $accepted_args);
-				elseif ( $accepted_args == 0 )
+				elseif ( 0 == $accepted_args )
 					$the_args = NULL;
 				else
 					$the_args = $args;
@@ -178,13 +167,11 @@ function plugin_basename($file) {
 
 function register_activation_hook($file, $function) {
 	$file = plugin_basename($file);
-
 	add_action('activate_' . $file, $function);
 }
 
 function register_deactivation_hook($file, $function) {
 	$file = plugin_basename($file);
-
 	add_action('deactivate_' . $file, $function);
 }
 
