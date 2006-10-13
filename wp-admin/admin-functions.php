@@ -1937,11 +1937,21 @@ function wp_import_cleanup($id) {
 }
 
 function wp_import_upload_form($action) {
+	$size = strtolower( ini_get('upload_max_filesize') );
+	$bytes = 0;
+	if ( strstr( $size, 'k' ) )
+		$bytes = $size * 1024;
+	if ( strstr( $size, 'm' ) )
+		$bytes = $size * 1024 * 1024;
+	if ( strstr( $size, 'g' ) )
+		$bytes = $size * 1024 * 1024 * 1024;
 ?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo $action ?>">
 <p>
-<label for="upload"><?php _e('Choose a file from your computer:'); ?></label> <input type="file" id="upload" name="import" size="25" />
+<label for="upload"><?php _e('Choose a file from your computer:'); ?></label> (<?php printf( 'Maximum size: %s', $size ); ?>)
+<input type="file" id="upload" name="import" size="25" />
 <input type="hidden" name="action" value="save" />
+<input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 </p>
 <p class="submit">
 <input type="submit" value="<?php _e('Upload file and import'); ?> &raquo;" />
