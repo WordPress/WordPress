@@ -23,27 +23,26 @@ function the_title_rss() {
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
 	$content = apply_filters('the_content_rss', $content);
-	if ($cut && !$encode_html) {
+	if ( $cut && !$encode_html )
 		$encode_html = 2;
-	}
-	if ($encode_html == 1) {
+	if ( 1== $encode_html ) {
 		$content = wp_specialchars($content);
 		$cut = 0;
-	} elseif ($encode_html == 0) {
+	} elseif ( 0 == $encode_html ) {
 		$content = make_url_footnote($content);
-	} elseif ($encode_html == 2) {
+	} elseif ( 2 == $encode_html ) {
 		$content = strip_tags($content);
 	}
-	if ($cut) {
+	if ( $cut ) {
 		$blah = explode(' ', $content);
-		if (count($blah) > $cut) {
+		if ( count($blah) > $cut ) {
 			$k = $cut;
 			$use_dotdotdot = 1;
 		} else {
 			$k = count($blah);
 			$use_dotdotdot = 0;
 		}
-		for ($i=0; $i<$k; $i++) {
+		for ( $i=0; $i<$k; $i++ ) {
 			$excerpt .= $blah[$i].' ';
 		}
 		$excerpt .= ($use_dotdotdot) ? '...' : '';
@@ -59,7 +58,7 @@ function the_excerpt_rss() {
 }
 
 function permalink_single_rss($file = '') {
-    echo get_permalink();
+	echo get_permalink();
 }
 
 function comment_link() {
@@ -87,7 +86,7 @@ function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = '
 function comments_rss($commentsrssfilename = '') {
 	global $id;
 
-	if ('' != get_option('permalink_structure'))
+	if ( '' != get_option('permalink_structure') )
 		$url = trailingslashit( get_permalink() ) . 'feed/';
 	else
 		$url = get_option('home') . "/$commentsrssfilename?feed=rss2&amp;p=$id";
@@ -96,50 +95,51 @@ function comments_rss($commentsrssfilename = '') {
 }
 
 function get_author_rss_link($echo = false, $author_id, $author_nicename) {
-       $auth_ID = $author_id;
-       $permalink_structure = get_option('permalink_structure');
+	$auth_ID = $author_id;
+	$permalink_structure = get_option('permalink_structure');
 
-       if ('' == $permalink_structure) {
-				 $link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
-       } else {
-				 $link = get_author_posts_url($author_id, $author_nicename);
-				 $link = $link . "feed/";
-       }
-			 
-			 $link = apply_filters('author_feed_link', $link);
+	if ( '' == $permalink_structure ) {
+		$link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
+	} else {
+		$link = get_author_posts_url($author_id, $author_nicename);
+		$link = $link . "feed/";
+	}
 
-       if ($echo) echo $link;
-       return $link;
+	$link = apply_filters('author_feed_link', $link);
+
+	if ( $echo )
+		echo $link;
+	return $link;
 }
 
 function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
-       $permalink_structure = get_option('permalink_structure');
+	$permalink_structure = get_option('permalink_structure');
 
-       if ('' == $permalink_structure) {
-				 $link = get_option('home') . '?feed=rss2&amp;cat=' . $cat_ID;
-       } else {
-				 $link = get_category_link($cat_ID);
-				 $link = $link . "feed/";
-       }
+	if ( '' == $permalink_structure ) {
+		$link = get_option('home') . '?feed=rss2&amp;cat=' . $cat_ID;
+	} else {
+		$link = get_category_link($cat_ID);
+		$link = $link . "feed/";
+	}
 
-			 $link = apply_filters('category_feed_link', $link);
+	$link = apply_filters('category_feed_link', $link);
 
-       if ($echo) echo $link;
-       return $link;
+	if ( $echo )
+		echo $link;
+	return $link;
 }
 
 function get_the_category_rss($type = 'rss') {
-    $categories = get_the_category();
-    $the_list = '';
-    foreach ($categories as $category) {
-        $category->cat_name = convert_chars($category->cat_name);
-        if ('rdf' == $type) {
-            $the_list .= "\n\t\t<dc:subject>$category->cat_name</dc:subject>\n";
-        } else {
-            $the_list .= "\n\t\t<category>$category->cat_name</category>\n";
-        }
-    }
-    return apply_filters('the_category_rss', $the_list, $type);
+	$categories = get_the_category();
+	$the_list = '';
+	foreach ( (array) $categories as $category ) {
+		$category->cat_name = convert_chars($category->cat_name);
+		if ( 'rdf' == $type )
+			$the_list .= "\n\t\t<dc:subject>$category->cat_name</dc:subject>\n";
+		else
+			$the_list .= "\n\t\t<category>$category->cat_name</category>\n";
+	}
+	return apply_filters('the_category_rss', $the_list, $type);
 }
 
 function the_category_rss($type = 'rss') {
@@ -148,14 +148,15 @@ function the_category_rss($type = 'rss') {
 
 function rss_enclosure() {
 	global $id, $post;
-	if (!empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password)) return;
+	if ( !empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
+		return;
 
 	$custom_fields = get_post_custom();
-	if( is_array( $custom_fields ) ) {
-		while( list( $key, $val ) = each( $custom_fields ) ) { 
-			if( $key == 'enclosure' ) {
-				if (is_array($val)) {
-					foreach($val as $enc) {
+	if ( is_array($custom_fields) ) {
+		while ( list($key, $val) = each($custom_fields) ) { 
+			if ( $key == 'enclosure' ) {
+				if ( is_array($val) ) {
+					foreach ( (array) $val as $enc ) {
 						$enclosure = split( "\n", $enc );
 						print "<enclosure url='".trim( htmlspecialchars($enclosure[ 0 ]) )."' length='".trim( $enclosure[ 1 ] )."' type='".trim( $enclosure[ 2 ] )."'/>\n";
 					}
