@@ -983,7 +983,7 @@ function list_meta($meta) {
 			$style .= ' hidden';
 
 		if ( is_serialized($entry['meta_value']) ) {
-			if ( 's' == $entry['meta_value']{0} ) {
+			if ( is_serialized_string($entry['meta_value']) ) {
 				// this is a serialized string, so we should display it
 				$entry['meta_value'] = maybe_unserialize($entry['meta_value']);
 			} else {
@@ -1068,7 +1068,7 @@ function add_meta($post_ID) {
 
 	$metakeyselect = $wpdb->escape(stripslashes(trim($_POST['metakeyselect'])));
 	$metakeyinput = $wpdb->escape(stripslashes(trim($_POST['metakeyinput'])));
-	$metavalue = prepare_data(stripslashes((trim($_POST['metavalue']))));
+	$metavalue = maybe_serialize(stripslashes((trim($_POST['metavalue']))));
 	$metavalue = $wpdb->escape($metavalue);
 
 	if ( ('0' === $metavalue || !empty ($metavalue)) && ((('#NONE#' != $metakeyselect) && !empty ($metakeyselect)) || !empty ($metakeyinput)) ) {
@@ -1100,8 +1100,8 @@ function delete_meta($mid) {
 
 function update_meta($mid, $mkey, $mvalue) {
 	global $wpdb;
-	if ( is_serialized(stripslashes($mvalue)) ) // $mvalue looks to be already serialized, so we should serialize it again to prevent the data from coming out in a different form than it came in
-		$mvalue = serialize($mvalue);
+	$mvalue = maybe_serialize(stripslashes($mvalue));
+	$mvalue = $wpdb->escape($mvalue);
 	$mid = (int) $mid;
 	return $wpdb->query("UPDATE $wpdb->postmeta SET meta_key = '$mkey', meta_value = '$mvalue' WHERE meta_id = '$mid'");
 }

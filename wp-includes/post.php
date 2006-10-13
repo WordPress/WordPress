@@ -231,7 +231,7 @@ function add_post_meta($post_id, $key, $value, $unique = false) {
 
 	$post_meta_cache[$post_id][$key][] = $value;
 
-	$value = prepare_data($value);
+	$value = maybe_serialize($value);
 	$value = $wpdb->escape($value);
 
 	$wpdb->query("INSERT INTO $wpdb->postmeta (post_id,meta_key,meta_value) VALUES ('$post_id','$key','$value')");
@@ -310,11 +310,11 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 	$post_id = (int) $post_id;
 
 	$original_value = $value;
-	$value = prepare_data($value);
+	$value = maybe_serialize($value);
 	$value = $wpdb->escape($value);
 
 	$original_prev = $prev_value;
-	$prev_value = prepare_data($prev_value);
+	$prev_value = maybe_serialize($prev_value);
 	$prev_value = $wpdb->escape($prev_value);
 
 	if (! $wpdb->get_var("SELECT meta_key FROM $wpdb->postmeta WHERE meta_key = '$key' AND post_id = '$post_id'") ) {

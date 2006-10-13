@@ -128,7 +128,7 @@ $options = $wpdb->get_results("SELECT * FROM $wpdb->options ORDER BY option_name
 foreach ( (array) $options as $option) :
 	$disabled = '';
 	if ( is_serialized($option->option_value) ) {
-		if ( 's' == $option->option_value{0} ) {
+		if ( is_serialized_string($option->option_value) ) {
 			// this is a serialized string, so we should display it
 			$value = wp_specialchars(maybe_unserialize($option->option_value), 'single');
 			$options_to_update[] = $option->option_name;

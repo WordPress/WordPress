@@ -257,7 +257,7 @@ function update_option($option_name, $newvalue) {
 	}
 
 	$_newvalue = $newvalue;
-	$newvalue = prepare_data($newvalue);
+	$newvalue = maybe_serialize($newvalue);
 
 	wp_cache_set($option_name, $newvalue, 'options');
 
@@ -279,7 +279,7 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	if ( false !== get_option($name) )
 		return;
 
-	$value = prepare_data($value);
+	$value = maybe_serialize($value);
 
 	wp_cache_set($name, $value, 'options');
 
@@ -301,7 +301,7 @@ function delete_option($name) {
 	return true;
 }
 
-function prepare_data($data) {
+function maybe_serialize($data) {
 	if ( is_string($data) )
 		$data = trim($data);
 	elseif ( is_array($data) || is_object($data) )
