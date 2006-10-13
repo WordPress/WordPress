@@ -1,6 +1,6 @@
 <?php
 
-require_once('simplepie.php');
+require_once('class-simplepie.php');
 
 class WordPress_SimplePie_Cache extends SimplePie_Cache {
 	var $name;
