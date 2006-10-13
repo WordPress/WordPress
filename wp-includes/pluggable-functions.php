@@ -78,9 +78,7 @@ function get_userdata( $user_id ) {
 
 	if ($metavalues) {
 		foreach ( $metavalues as $meta ) {
-			@ $value = unserialize($meta->meta_value);
-			if ($value === FALSE)
-				$value = $meta->meta_value;
+			$value = maybe_unserialize($meta->meta_value);
 			$user->{$meta->meta_key} = $value;
 
 			// We need to set user_level from meta, not row
@@ -131,9 +129,7 @@ function get_userdatabylogin($user_login) {
 
 	if ($metavalues) {
 		foreach ( $metavalues as $meta ) {
-			@ $value = unserialize($meta->meta_value);
-			if ($value === FALSE)
-				$value = $meta->meta_value;
+			$value = maybe_unserialize($meta->meta_value);
 			$user->{$meta->meta_key} = $value;
 
 			// We need to set user_level from meta, not row
