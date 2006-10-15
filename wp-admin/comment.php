@@ -45,36 +45,65 @@ case 'mailapprovecomment':
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
 		wp_die( 'confirmdeletecomment' == $action ? __('You are not allowed to delete comments on this post.') : __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
+?>
+<div class='wrap'>
 
-	echo "<div class='wrap'>\n";
-	if ( 'spam' == $_GET['delete_type'] )
-		echo "<p>" . __('<strong>Caution:</strong> You are about to mark the following comment as spam:') . "</p>\n";
-	elseif ( 'confirmdeletecomment' == $action )
-		echo "<p>" . __('<strong>Caution:</strong> You are about to delete the following comment:') . "</p>\n";
-	else
-		echo "<p>" . __('<strong>Caution:</strong> You are about to approve the following comment:') . "</p>\n";
-	echo "<table border='0'>\n";
-	echo "<tr><td>" . __('Author:') . "</td><td>$comment->comment_author</td></tr>\n";
-	echo "<tr><td>" . __('E-mail:') . "</td><td>$comment->comment_author_email</td></tr>\n";
-	echo "<tr><td>". __('URL:') . "</td><td>$comment->comment_author_url</td></tr>\n";
-	echo "<tr><td>". __('Comment:') . "</td><td>$comment->comment_content</td></tr>\n";
-	echo "</table>\n";
-	echo "<p>" . __('Are you sure you want to do that?') . "</p>\n";
+<div class="narrow">
+<?php if ( 'spam' == $_GET['delete_type'] ) { ?>
+<p><?php _e('<strong>Caution:</strong> You are about to mark the following comment as spam:'); ?></p>
+<?php } elseif ( 'confirmdeletecomment' == $action ) { ?>
+<p><?php _e('<strong>Caution:</strong> You are about to delete the following comment:'); ?></p>
+<?php } else { ?>
+<p><?php _e('<strong>Caution:</strong> You are about to approve the following comment:'); ?></p>
+<?php } ?>
 
-	echo "<form action='".get_option('siteurl')."/wp-admin/comment.php' method='get'>\n";
-	wp_nonce_field($nonce_action);
-	echo "<input type='hidden' name='action' value='$formaction' />\n";
-	if ( 'spam' == $_GET['delete_type'] )
-		echo "<input type='hidden' name='delete_type' value='spam' />\n";
-	echo "<input type='hidden' name='p' value='$p' />\n";
-	echo "<input type='hidden' name='comment' value='{$comment->comment_ID}' />\n";
-	echo "<input type='hidden' name='noredir' value='1' />\n";
-	echo "<input type='submit' value='" . __('Yes') . "' />";
-	echo "&nbsp;&nbsp;";
-	echo "<input type='button' value='" . __('No') . "' onclick=\"self.location='". get_option('siteurl') ."/wp-admin/edit-comments.php';\" />\n";
-	echo "</form>\n";
-	echo "</div>\n";
+<p><?php _e('Are you sure you want to do that?'); ?></p>
 
+<form action='<?php echo get_option('siteurl'); ?>/wp-admin/comment.php' method='get'>
+
+<table width="100%">
+<tr>
+<td><input type='button' value='<?php _e('No'); ?>' onclick="self.location='<?php echo get_option('siteurl'); ?>/wp-admin/edit-comments.php';" /></td>
+<td align="right"><input type='submit' value='<?php _e('Yes'); ?>' /></td>
+</tr>
+</table>
+
+<?php wp_nonce_field($nonce_action); ?>
+<input type='hidden' name='action' value='<?php echo $formaction; ?>' />
+<?php if ( 'spam' == $_GET['delete_type'] ) { ?>
+<input type='hidden' name='delete_type' value='spam' />
+<?php } ?>
+<input type='hidden' name='p' value='<?php echo $comment->comment_post_ID; ?>' />
+<input type='hidden' name='comment' value='<?php echo $comment->comment_ID; ?>' />
+<input type='hidden' name='noredir' value='1' />
+</form>
+
+<table class="editform" cellpadding="5">
+<tr class="alt">
+<th scope="row"><?php _e('Author:'); ?></th>
+<td><?php echo $comment->comment_author; ?></td>
+</tr>
+<?php if ( $comment->comment_author_email ) { ?>
+<tr>
+<th scope="row"><?php _e('E-mail:'); ?></th>
+<td><?php echo $comment->comment_author_email; ?></td>
+</tr>
+<?php } ?>
+<?php if ( $comment->comment_author_url ) { ?>
+<tr>
+<th scope="row"><?php _e('URL:'); ?></th>
+<td><?php echo $comment->comment_author_url; ?></td>
+</tr>
+<?php } ?>
+<tr>
+<th scope="row" valign="top"><p><?php _e('Comment:'); ?></p></th>
+<td><?php echo apply_filters( 'comment_text', $comment->comment_content ); ?></td>
+</tr>
+</table>
+
+</div>
+</div>
+<?php
 	break;
 
 case 'deletecomment':
