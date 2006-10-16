@@ -427,4 +427,32 @@ function validate_current_theme() {
 	return true;
 }
 
+function get_theme_mod($name, $default = false) {
+	$theme = get_current_theme();
+
+	$mods = get_option("mods_$theme");
+
+	if ( isset($mods[$name]) )
+		return $mods[$name];
+
+	return sprintf($default, get_template_directory_uri());
+}
+
+function set_theme_mod($name, $value) {
+	$theme = get_current_theme();
+
+	$mods = get_option("mods_$theme");
+
+	$mods[$name] = $value;
+
+	update_option("mods_$theme", $mods);
+	wp_cache_delete("mods_$theme", 'options');
+}
+
+function remove_theme_mods() {
+	$theme = get_current_theme();
+
+	delete_option("mods_$theme");
+}
+
 ?>

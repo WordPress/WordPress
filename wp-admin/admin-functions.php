@@ -2073,4 +2073,51 @@ function update_home_siteurl($old_value, $value) {
 add_action('update_option_home', 'update_home_siteurl', 10, 2);
 add_action('update_option_siteurl', 'update_home_siteurl', 10, 2);
 
+function wp_crop_image($src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $src_abs = false, $dst_file = false) {
+	if ( ctype_digit($src_file) ) // Handle int as attachment ID
+		$src_file = get_attached_file($src_file);
+
+	$src = wp_load_image($src_file);
+
+	if ( !is_resource($src) )
+		return $src;
+
+	$dst = imagecreatetruecolor($dst_w, $dst_h);
+
+	if ( $src_abs ) {
+		$src_w -= $src_x;
+		$src_h -= $src_y;
+	}
+
+	imageantialias($dst, true);
+	imagecopyresampled($dst, $src, 0, 0, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h);
+
+	if ( !$dst_file )
+		$dst_file = str_replace(basename($src_file), 'cropped-'.basename($src_file), $src_file);
+
+	$dst_file = preg_replace('/\\.[^\\.]+$/', '.jpg', $dst_file);
+
+	if ( imagejpeg($dst, $dst_file) )
+		return $dst_file;
+	else
+		return false;
+}
+
+function wp_load_image($file) {
+	if ( ctype_digit($file) )
+		$file = get_attached_file($file);
+
+	if ( !file_exists($file) )
+		return "File '$file' doesn't exist?";
+
+	$contents = file_get_contents($file);
+
+	$image = imagecreatefromstring($contents);
+
+	if ( !is_resource($image) )
+		return "File '$file' is not image?";
+
+	return $image;
+}
+
 ?>
