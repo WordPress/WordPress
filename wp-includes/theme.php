@@ -14,7 +14,7 @@ function get_stylesheet_directory() {
 }
 
 function get_stylesheet_directory_uri() {
-	$stylesheet = rawurlencode( get_stylesheet() );
+	$stylesheet = get_stylesheet();
 	$stylesheet_dir_uri = get_theme_root_uri() . "/$stylesheet";
 	return apply_filters('stylesheet_directory_uri', $stylesheet_dir_uri, $stylesheet);
 }
@@ -98,24 +98,44 @@ function get_themes() {
 	$theme_root = get_theme_root();
 	$theme_loc = str_replace(ABSPATH, '', $theme_root);
 
-	// Files in wp-content/themes directory
+	// Files in wp-content/themes directory and one subdir down
 	$themes_dir = @ dir($theme_root);
-	if ( $themes_dir ) {
-		while ( ($theme_dir = $themes_dir->read()) !== false ) {
-			if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
-				if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
-					continue;
-				$stylish_dir = @ dir($theme_root . '/' . $theme_dir);
-				$found_stylesheet = false;
-				while ( ($theme_file = $stylish_dir->read()) !== false ) {
-					if ( $theme_file == 'style.css' ) {
-						$theme_files[] = $theme_dir . '/' . $theme_file;
-						$found_stylesheet = true;
-						break;
+	if ( !$themes_dir )
+		return false;
+
+	while ( ($theme_dir = $themes_dir->read()) !== false ) {
+		if ( is_dir($theme_root . '/' . $theme_dir) && is_readable($theme_root . '/' . $theme_dir) ) {
+			if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
+				continue;
+			$stylish_dir = @ dir($theme_root . '/' . $theme_dir);
+			$found_stylesheet = false;
+			while ( ($theme_file = $stylish_dir->read()) !== false ) {
+				if ( $theme_file == 'style.css' ) {
+					$theme_files[] = $theme_dir . '/' . $theme_file;
+					$found_stylesheet = true;
+					break;
+				}
+			}
+			if ( !$found_stylesheet ) { // look for themes in that dir
+				$subdir = "$theme_root/$theme_dir";
+				$subdir_name = $theme_dir;
+				$theme_subdir = @dir( $subdir );
+				while ( ($theme_dir = $theme_subdir->read()) !== false ) {
+					if ( is_dir( $subdir . '/' . $theme_dir) && is_readable($subdir . '/' . $theme_dir) ) {
+						if ( $theme_dir{0} == '.' || $theme_dir == '..' || $theme_dir == 'CVS' )
+							continue;
+						$stylish_dir = @ dir($subdir . '/' . $theme_dir);
+						$found_stylesheet = false;
+						while ( ($theme_file = $stylish_dir->read()) !== false ) {
+							if ( $theme_file == 'style.css' ) {
+								$theme_files[] = $subdir_name . '/' . $theme_dir . '/' . $theme_file;
+								$found_stylesheet = true;
+								break;
+							}
+						}
 					}
 				}
-				if ( !$found_stylesheet )
-					$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
+				$wp_broken_themes[$theme_dir] = array('Name' => $theme_dir, 'Title' => $theme_dir, 'Description' => __('Stylesheet is missing.'));
 			}
 		}
 	}
