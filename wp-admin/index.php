@@ -16,16 +16,17 @@ $today = current_time('mysql', 1);
 <h2><?php _e('Latest Activity'); ?></h2>
 
 <?php
-$rss = fetch_simplepie('http://feeds.technorati.com/cosmos/rss/?url='. trailingslashit(get_option('home')) .'&partner=wordpress');
-if ( $rss && $rss->get_item_quantity() > 0 ) {
+$rss = @fetch_rss('http://feeds.technorati.com/cosmos/rss/?url='. trailingslashit(get_option('home')) .'&partner=wordpress');
+if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <div id="incominglinks">
 <h3><?php _e('Incoming Links'); ?> <cite><a href="http://www.technorati.com/search/<?php echo trailingslashit(get_option('home')); ?>?partner=wordpress"><?php _e('More &raquo;'); ?></a></cite></h3>
 <ul>
 <?php
-foreach ($rss->get_items(0, 10) as $item ) {
+$rss->items = array_slice($rss->items, 0, 10);
+foreach ($rss->items as $item ) {
 ?>
-	<li><a href="<?php echo wp_filter_kses($item->get_permalink()); ?>"><?php echo wptexturize(wp_specialchars($item->get_title())); ?></a></li>
+	<li><a href="<?php echo wp_filter_kses($item['link']); ?>"><?php echo wptexturize(wp_specialchars($item['title'])); ?></a></li>
 <?php } ?>
 </ul>
 </div>
@@ -128,16 +129,17 @@ if (0 < $numcats) $numcats = number_format($numcats);
 </ul>
 <p><?php _e("Need help with WordPress? Please see our <a href='http://codex.wordpress.org/'>documentation</a> or visit the <a href='http://wordpress.org/support/'>support forums</a>."); ?></p>
 <?php
-$rss = fetch_simplepie('http://wordpress.org/development/feed/');
-if ( $rss && $rss->get_item_quantity() > 0 ) {
+$rss = @fetch_rss('http://wordpress.org/development/feed/');
+if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <div id="devnews">
 <h3><?php _e('WordPress Development Blog'); ?></h3>
 <?php
-foreach ($rss->get_items(0, 3) as $item ) {
+$rss->items = array_slice($rss->items, 0, 3);
+foreach ($rss->items as $item ) {
 ?>
-<h4><a href='<?php echo wp_filter_kses($item->get_permalink()); ?>'><?php echo wp_specialchars($item->get_title()); ?></a> &#8212; <?php printf(__('%s ago'), human_time_diff( $item->get_date('U') ) ); ?></h4>
-<p><?php echo $item->get_description(); ?></p>
+<h4><a href='<?php echo wp_filter_kses($item['link']); ?>'><?php echo wp_specialchars($item['title']); ?></a> &#8212; <?php printf(__('%s ago'), human_time_diff(strtotime($item['pubdate'], time() ) ) ); ?></h4>
+<p><?php echo $item['description']; ?></p>
 <?php
 	}
 }
@@ -145,19 +147,20 @@ foreach ($rss->get_items(0, 3) as $item ) {
 </div>
 
 <?php
-$rss = fetch_simplepie('http://planet.wordpress.org/feed/');
-if ( $rss && $rss->get_item_quantity() > 0 ) {
+$rss = @fetch_rss('http://planet.wordpress.org/feed/');
+if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
 <div id="planetnews">
 <h3><?php _e('Other WordPress News'); ?></h3>
 <ul>
 <?php
-foreach ($rss->get_items(0, 20) as $item ) {
-$title = wp_specialchars($item->get_title());
-$author = preg_replace( '|(.+?):.+|s', '$1', $item->get_title() );
-$post = preg_replace( '|.+?:(.+)|s', '$1', $item->get_title() );
+$rss->items = array_slice($rss->items, 0, 20);
+foreach ($rss->items as $item ) {
+$title = wp_specialchars($item['title']);
+$author = preg_replace( '|(.+?):.+|s', '$1', $item['title'] );
+$post = preg_replace( '|.+?:(.+)|s', '$1', $item['title'] );
 ?>
-<li><a href='<?php echo wp_filter_kses($item->get_permalink()); ?>'><span class="post"><?php echo $post; ?></span><span class="hidden"> - </span><cite><?php echo $author; ?></cite></a></li>
+<li><a href='<?php echo wp_filter_kses($item['link']); ?>'><span class="post"><?php echo $post; ?></span><span class="hidden"> - </span><cite><?php echo $author; ?></cite></a></li>
 <?php
 	}
 ?>
