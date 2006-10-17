@@ -328,10 +328,12 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false) 
 	if ( ('attachment' != $_post->post_type) || ('' == $_post->guid) )
 		return __('Missing Attachment');
 
+	$post_title = wp_specialchars( $_post->post_title, 1 );
+
 	if (! empty($_post->guid) ) {
 		$innerHTML = get_attachment_innerHTML($_post->ID, $fullsize, $max_dims);
 
-		return "<a href=\"{$_post->guid}\" title=\"{$_post->post_title}\" >{$innerHTML}</a>";
+		return "<a href='$_post->guid' title='$post_title'>$innerHTML</a>";
 
 	} else {
 		$p .= __('Missing Attachment');
@@ -400,11 +402,11 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 
 			if ( $actual_aspect >= $desired_aspect ) {
 				$height = $actual_aspect * $max_dims[0];
-				$constraint = "width=\"{$max_dims[0]}\" ";
+				$constraint = "width='{$max_dims[0]}' ";
 				$post->iconsize = array($max_dims[0], $height);
 			} else {
 				$width = $max_dims[1] / $actual_aspect;
-				$constraint = "height=\"{$max_dims[1]}\" ";
+				$constraint = "height='{$max_dims[1]}' ";
 				$post->iconsize = array($width, $max_dims[1]);
 			}
 		} else {
@@ -412,7 +414,9 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 		}
 	}
 
-	$icon = "<img src=\"{$src}\" title=\"{$post->post_title}\" alt=\"{$post->post_title}\" {$constraint}/>";
+	$post_title = wp_specialchars( $post->post_title, 1 );
+
+	$icon = "<img src='$src' title='$post_title' alt='$post_title' $constraint/>";
 
 	return apply_filters('attachment_icon', $icon, $post->ID);
 }
@@ -425,7 +429,7 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 
 	$post = & get_post($id);
 
-	$innerHTML = $post->post_title;
+	$innerHTML = wp_specialchars( $post->post_title, 1 );
 
 	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
 }
