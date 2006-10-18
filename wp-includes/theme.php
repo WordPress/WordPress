@@ -183,8 +183,13 @@ function get_themes() {
 		$template = trim($template);
 
 		if ( !file_exists("$theme_root/$template/index.php") ) {
-			$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
-			continue;
+			$parent_dir = dirname(dirname($theme_file));
+			if ( file_exists("$theme_root/$parent_dir/$template/index.php") ) {
+				$template = "$parent_dir/$template"; 	
+			} else {
+				$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
+				continue;
+			}
 		}
 
 		$stylesheet_files = array();
