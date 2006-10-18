@@ -256,6 +256,11 @@ if ( !function_exists('wp_redirect') ) :
 function wp_redirect($location, $status = 302) {
 	global $is_IIS;
 
+	$location = apply_filters('wp_redirect', $location, $status);
+
+	if ( !$location ) // allows the wp_redirect filter to cancel a redirect
+		return false; 
+
 	$location = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $location);
 	$location = wp_kses_no_null($location);
 
