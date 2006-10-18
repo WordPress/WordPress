@@ -1948,7 +1948,7 @@ function wp_import_upload_form($action) {
 ?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo $action ?>">
 <p>
-<label for="upload"><?php _e('Choose a file from your computer:'); ?></label> (<?php printf( 'Maximum size: %s', $size ); ?>)
+<label for="upload"><?php _e('Choose a file from your computer:'); ?></label> (<?php printf( __('Maximum size: %s'), $size ); ?>)
 <input type="file" id="upload" name="import" size="25" />
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
