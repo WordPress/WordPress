@@ -221,7 +221,7 @@ addLoadEvent( function() {
 				display = 'full';
 
 			if ( 'none' != link )
-				h += "<a href='" + ( 'file' == link ? ( this.currentImage.srcBase + this.currentImage.src ) : ( this.currentImage.page + "' rel='attachment" ) ) + "' title='" + this.currentImage.title + "'>";
+				h += "<a href='" + ( 'file' == link ? ( this.currentImage.srcBase + this.currentImage.src ) : ( this.currentImage.page + "' rel='attachment wp-att-" + this.currentImage.ID + "'" ) ) + "' title='" + this.currentImage.title + "'>";
 			if ( display )
 				h += "<img src='" + ( 'thumb' == display ? ( this.currentImage.thumbBase + this.currentImage.thumb ) : ( this.currentImage.srcBase + this.currentImage.src ) ) + "' alt='" + this.currentImage.title + "' />";
 			else

@@ -122,12 +122,12 @@ function fix_attachment_links($post_ID) {
 		return;
 
 	$i = 0;
-	$search = "# id=(\"|')p(\d+)\\1#i";
+	$search = "#[\s]+rel=(\"|')(.*?)wp-att-(\d+)\\1#i";
 	foreach ( $anchor_matches[0] as $anchor ) {
 		if ( 0 == preg_match($search, $anchor, $id_matches) )
 			continue;
 
-		$id = $id_matches[2];
+		$id = $id_matches[3];
 
 		// While we have the attachment ID, let's adopt any orphans.
 		$attachment = & get_post($id, ARRAY_A);
@@ -2007,11 +2007,11 @@ function the_attachment_links($id = false) {
 <?php if ( $icon ) : ?>
 	<tr>
 		<th scope="row"><?php $thumb ? _e('Thumbnail linked to file') : _e('Image linked to file'); ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid; ?>" id="<?php echo $post->ID ?>"><?php echo $icon ?></a></textarea></td>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid; ?>"><?php echo $icon ?></a></textarea></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php $thumb ? _e('Thumbnail linked to page') : _e('Image linked to file'); ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php echo $icon ?></a></textarea></td>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment wp-att-<?php echo $post->ID; ?>"><?php echo $icon ?></a></textarea></td>
 	</tr>
 <?php else : ?>
 	<tr>
@@ -2020,7 +2020,7 @@ function the_attachment_links($id = false) {
 	</tr>
 	<tr>
 		<th scope="row"><?php _e('Link to page') ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment" id="<?php echo $post->ID ?>"><?php the_title(); ?></a></textarea></td>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo get_attachment_link($post->ID) ?>" rel="attachment wp-att-<?php echo $post->ID ?>"><?php the_title(); ?></a></textarea></td>
 	</tr>
 <?php endif; ?>
 </table>
