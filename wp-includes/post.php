@@ -1304,7 +1304,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	wp_set_post_categories($post_ID, $post_category);
 
 	if ( $file )
-		add_post_meta($post_ID, '_wp_attached_file', quotemeta( $file ) );
+		add_post_meta($post_ID, '_wp_attached_file', $file);
 
 	clean_post_cache($post_ID);
 
