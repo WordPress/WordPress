@@ -2446,7 +2446,7 @@ function wp_explain_nonce($action) {
 		}
 	}
 
-	return __('Are you sure you want to do this');
+	return __('Are you sure you want to do this?');
 }
 
 function wp_nonce_ays($action) {
