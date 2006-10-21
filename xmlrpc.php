@@ -134,7 +134,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	function escape(&$array) {
 		global $wpdb;
 
-		foreach ($array as $k => $v) {
+		foreach ( (array) $array as $k => $v ) {
 			if (is_array($v)) {
 				$this->escape($array[$k]);
 			} else if (is_object($v)) {
