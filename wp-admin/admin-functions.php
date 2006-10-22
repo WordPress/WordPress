@@ -1024,12 +1024,14 @@ function get_meta_keys() {
 
 function meta_form() {
 	global $wpdb;
+	$limit = (int) apply_filters('postmeta_form_limit', 30);
 	$keys = $wpdb->get_col("
-			SELECT meta_key
-			FROM $wpdb->postmeta
-			GROUP BY meta_key
-			ORDER BY meta_id DESC
-			LIMIT 10");
+		SELECT meta_key
+		FROM $wpdb->postmeta
+		GROUP BY meta_key
+		ORDER BY meta_id DESC
+		LIMIT $limit");
+	natcasesort($keys);
 ?>
 <h3><?php _e('Add a new custom field:') ?></h3>
 <table id="newmeta" cellspacing="3" cellpadding="3">
@@ -1039,12 +1041,12 @@ function meta_form() {
 </tr>
 	<tr valign="top">
 		<td align="right" width="18%">
-<?php if ($keys) : ?>
+<?php if ( $keys ) : ?>
 <select id="metakeyselect" name="metakeyselect" tabindex="7">
 <option value="#NONE#"><?php _e('- Select -'); ?></option>
 <?php
 
-	foreach ($keys as $key) {
+	foreach ( $keys as $key ) {
 		$key = wp_specialchars($key, 1);
 		echo "\n\t<option value='$key'>$key</option>";
 	}
