@@ -254,7 +254,7 @@ function the_post() {
 
 class WP_Query {
 	var $query;
-	var $query_vars;
+	var $query_vars = array();
 	var $queried_object;
 	var $queried_object_id;
 	var $request;
@@ -315,7 +315,7 @@ class WP_Query {
 	function init () {
 		unset($this->posts);
 		unset($this->query);
-		unset($this->query_vars);
+		$this->query_vars = array();
 		unset($this->queried_object);
 		unset($this->queried_object_id);
 		$this->post_count = 0;
