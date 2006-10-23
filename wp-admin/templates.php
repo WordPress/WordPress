@@ -98,7 +98,7 @@ if ( $recents ) :
 <?php
 echo '<ol>';
 foreach ($recents as $recent) :
-	echo "<li><a href='templates.php?file=$recent'>" . get_file_description(basename($recent)) . "</a></li>";
+	echo "<li><a href='templates.php?file=" . wp_specialchars($recent, true) . "'>" . get_file_description(basename($recent)) . "</a></li>";
 endforeach;
 echo '</ol>';
 endif;
