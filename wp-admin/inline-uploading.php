@@ -24,6 +24,8 @@ for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 	}
 }
 
+$all = ( 'true' == $all ) ? 'true' : 'false';
+$start = (int) $start;
 $post = (int) $post;
 $images_width = 1;
 
