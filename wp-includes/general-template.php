@@ -750,13 +750,20 @@ function noindex() {
 		echo "<meta name='robots' content='noindex,nofollow' />\n";
 }
 
+function rich_edit_exists() {
+	global $wp_rich_edit_exists;
+	if ( !isset($wp_rich_edit_exists) )
+		$wp_rich_edit_exists = file_exists(ABSPATH . WPINC . '/js/tinymce/tiny_mce.js');
+	return $wp_rich_edit_exists;
+}
+
 function user_can_richedit() {
-	$can = true;
+	global $wp_rich_edit;
+	
+	if ( !isset($wp_rich_edit) )
+		$wp_rich_edit = ( 'true' == get_user_option('rich_editing') && !preg_match('!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT']) && rich_edit_exists() ) ? true : false;
 
-	if ( 'true' != get_user_option('rich_editing') || preg_match('!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT']) )
-		$can = false;
-
-	return apply_filters('user_can_richedit', $can);
+	return apply_filters('user_can_richedit', $wp_rich_edit);
 }
 
 function the_editor($content, $id = 'content', $prev_id = 'title') {

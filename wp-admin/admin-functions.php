@@ -287,12 +287,10 @@ function edit_comment() {
 
 // Get an existing post and format it for editing.
 function get_post_to_edit($id) {
-	global $richedit;
-	$richedit = ( 'true' == get_user_option('rich_editing') ) ? true : false;
 
 	$post = get_post($id);
 
-	$post->post_content = format_to_edit($post->post_content, $richedit);
+	$post->post_content = format_to_edit($post->post_content, user_can_richedit());
 	$post->post_content = apply_filters('content_edit_pre', $post->post_content);
 
 	$post->post_excerpt = format_to_edit($post->post_excerpt);
@@ -350,12 +348,9 @@ function get_default_post_to_edit() {
 }
 
 function get_comment_to_edit($id) {
-	global $richedit;
-	$richedit = ( 'true' == get_user_option('rich_editing') ) ? true : false;
-
 	$comment = get_comment($id);
 
-	$comment->comment_content = format_to_edit($comment->comment_content, $richedit);
+	$comment->comment_content = format_to_edit($comment->comment_content, user_can_richedit());
 	$comment->comment_content = apply_filters('comment_edit_pre', $comment->comment_content);
 
 	$comment->comment_author = format_to_edit($comment->comment_author);
