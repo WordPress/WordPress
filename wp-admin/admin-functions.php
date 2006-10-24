@@ -1107,7 +1107,10 @@ function get_post_meta_by_id($mid) {
 	global $wpdb;
 	$mid = (int) $mid;
 
-	return $wpdb->get_row("SELECT * FROM $wpdb->postmeta WHERE meta_id = '$mid'");
+	$meta = $wpdb->get_row("SELECT * FROM $wpdb->postmeta WHERE meta_id = '$mid'");
+	if ( is_serialized_string($meta->meta_value) )
+		$meta->meta_value = maybe_unserialize($meta->meta_value);
+	return $meta;
 }
 
 function touch_time($edit = 1, $for_post = 1) {
