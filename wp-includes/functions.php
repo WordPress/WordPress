@@ -563,10 +563,27 @@ function update_post_caches(&$posts) {
 
 	update_post_category_cache($post_id_list);
 
+	update_postmeta_cache($post_id_list);
+}
+
+function update_postmeta_cache($post_id_list = '') {
+	global $wpdb, $post_meta_cache;
+
+	// We should validate this comma-separated list for the upcoming SQL query
+	$post_id_list = preg_replace('|[^0-9,]|', '', $post_id_list);
+
+	// we're marking each post as having its meta cached (with no keys... empty array), to prevent posts with no meta keys from being queried again
+	// any posts that DO have keys will have this empty array overwritten with a proper array, down below
+	$post_id_array = explode(',', $post_id_list);
+	foreach ( (array) $post_id_array as $pid )
+		$post_meta_cache[$pid] = array();
+
 	// Get post-meta info
 	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN($post_id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
 		// Change from flat structure to hierarchical:
-		$post_meta_cache = array();
+		if ( !isset($post_meta_cache) )
+			$post_meta_cache = array();
+
 		foreach ($meta_list as $metarow) {
 			$mpid = (int) $metarow['post_id'];
 			$mkey = $metarow['meta_key'];

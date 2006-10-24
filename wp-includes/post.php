@@ -274,34 +274,17 @@ function get_post_meta($post_id, $key, $single = false) {
 
 	$post_id = (int) $post_id;
 
-	if ( isset($post_meta_cache[$post_id][$key]) ) {
-		if ( $single ) {
-			return maybe_unserialize( $post_meta_cache[$post_id][$key][0] );
-		} else {
-			return maybe_unserialize( $post_meta_cache[$post_id][$key] );
-		}
-	}
-
-	$metalist = $wpdb->get_results("SELECT meta_value FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key'", ARRAY_N);
-
-	$values = array();
-	if ( $metalist ) {
-		foreach ($metalist as $metarow) {
-			$values[] = $metarow[0];
-		}
-	}
+	if ( !isset($post_meta_cache[$post_id]) )
+		update_postmeta_cache($post_id);
 
 	if ( $single ) {
-		if ( count($values) ) {
-			$return = maybe_unserialize( $values[0] );
-		} else {
+		if ( isset($post_meta_cache[$post_id][$key][0]) )
+			return maybe_unserialize($post_meta_cache[$post_id][$key][0]);
+		else
 			return '';
-		}
-	} else {
-		$return = $values;
+	}	else {
+		return maybe_unserialize($post_meta_cache[$post_id][$key]);
 	}
-
-	return maybe_unserialize($return);
 }
 
 function update_post_meta($post_id, $key, $value, $prev_value = '') {
@@ -340,43 +323,24 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 }
 
 
-function get_post_custom( $post_id = 0 ) {
+function get_post_custom($post_id = 0) {
 	global $id, $post_meta_cache, $wpdb;
 
-	if ( ! $post_id )
+	if ( !$post_id )
 		$post_id = $id;
 
 	$post_id = (int) $post_id;
 
-	if ( isset($post_meta_cache[$post_id]) )
-		return $post_meta_cache[$post_id];
+	if ( !isset($post_meta_cache[$post_id]) )
+		update_postmeta_cache($post_id);
 
-	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta	WHERE post_id = '$post_id' ORDER BY post_id, meta_key", ARRAY_A) ) {
-		// Change from flat structure to hierarchical:
-		$post_meta_cache = array();
-		foreach ( $meta_list as $metarow ) {
-			$mpid = (int) $metarow['post_id'];
-			$mkey = $metarow['meta_key'];
-			$mval = $metarow['meta_value'];
-
-			// Force subkeys to be array type:
-			if ( !isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]) )
-				$post_meta_cache[$mpid] = array();
-
-			if ( !isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]) )
-				$post_meta_cache[$mpid]["$mkey"] = array();
-
-			// Add a value to the current pid/key:
-			$post_meta_cache[$mpid][$mkey][] = $mval;
-		}
-		return $post_meta_cache[$mpid];
-	}
+	return $post_meta_cache[$post_id];
 }
 
 function get_post_custom_keys( $post_id = 0 ) {
 	$custom = get_post_custom( $post_id );
 
-	if ( ! is_array($custom) )
+	if ( !is_array($custom) )
 		return;
 
 	if ( $keys = array_keys($custom) )
