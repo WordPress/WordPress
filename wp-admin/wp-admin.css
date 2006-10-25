@@ -531,12 +531,7 @@ input.disabled, textarea.disabled {
 	border: none;
 }
 
-#titlediv, #guiddiv {
-	margin: 0 8px 0 0;
-	padding: 0px;
-}
-
-#postdiv {
+#postdiv, #titlediv, #guiddiv {
 	margin: 0 8px 0 0;
 	padding: 0px;
 }

@@ -1,22 +1,40 @@
-body { font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana; }
+table { float: right; }
 
-#upload-menu li { margin: 0 .75em 0 0; }
+#upload-file th, #the-attachment-links textarea { text-align: left; }
+
+h2 { margin: 0 0 0 .2em; }
+
+#upload-files li { margin: 0 15px 15px 0; }
+
+#upload-file-view { padding: 0 75px 0 0; }
+
+#upload-menu li {
+	margin: 0 .75em 0 0;
+	display: block;
+	float: right;
+}
 
 #upload-menu .current div {
 	border-right: 0;
 	border-left: 2px solid #448abd;
 }
 
-#upload-file-view { 0 15px 0 0 }
+#upload-file {
+	left: auto;
+	right: 0;
+}
 
-#file-title { margin: 0 15px .2em 0; }
+#file-title {
+	margin: 0 75px .2em 0;
+	font-family: Tahoma, Georgia, "Times New Roman", Times, serif;
+}
 
-h2 { margin: 0 0 0 .2em; }
+.back {
+	left: auto;
+	right: 14px;
+}
 
-#upload-files li { margin: 0 15px 15px 0; }
-
-table { float: right; }
-
-#the-attachment-links { float: left; }
-
-#th { text-align: left; }
+#uploadoptions td {
+	padding-left: 0;
+	padding-right: 1em;
+}
