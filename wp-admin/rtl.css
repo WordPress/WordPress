@@ -1,45 +1,43 @@
-#viewarc, #viewcat, #namediv, #emaildiv, #uridiv, #planetnews li, #login ul li, #your-profile fieldset, .alignleft .available-theme {
-	float: right
-}
+#viewarc, #viewcat, #namediv, #emaildiv, #uridiv, #planetnews li, #login ul li, #your-profile fieldset, 
+	#footer .logo, .alignleft .available-theme { float: right; }
 
-#templateside, .alignright {
-	float: left;
-}
+#templateside, .alignright { float: left; }
 
-#login, #send, .widefat th {
-	text-align: right
-}
+#login #send, .readmore, .widefat th { text-align: right; }
 
-#postcustomsubmit, form#upload th, .submit, .editform th {
-	text-align: left
-}
+#postcustomsubmit, form#upload th, .submit, .editform th { text-align: left; }
 
-body, td {
-	font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana;
-}
+#devnews h4, #wphead h1, #your-profile legend, fieldset.options legend, 
+	#planetnews li .post { font-family: Tahoma, Georgia, "Times New Roman", Times, serif; }
 
-fieldset.options legend {
-	font-family: Tahoma, Georgia, "Times New Roman", Times, serif;
-}
+#wphead { padding: .8em 2em .8em 19em; }
 
-textarea, input, select {
-	font:  13px Tahoma, Verdana, Arial, Helvetica, sans-serif;
-}
+#wphead h1 { font-size: 2.4em; }
 
-.quicktags, .search {
-	font: 12px Tahoma, Georgia, "Times New Roman", Times, serif;
-}
+#postdiv , #titlediv, #guiddiv { margin: 0 0 0 8px; }
 
-.submit input, .submit input:focus, .button {
+#ed_toolbar input { margin: 3px 0 2px 2px; }
+
+#edButtons input, #edButtons input:active { margin: 0px 0 -1px 2px; }
+
+body, td { font: 13px Tahoma, "Lucida Grande", "Lucida Sans Unicode", Verdana; }
+
+h2 { font: normal 32px/5px serif; }
+
+textarea, input, select { font:  13px Tahoma, Verdana, Arial, Helvetica, sans-serif; }
+
+.quicktags, .search { font: 12px Tahoma, Georgia, "Times New Roman", Times, serif; }
+
+.updated, .confirm { padding: 0 3em 0 1em; }
+
+.submit input, .submit input:focus, .button, .button:focus {
+	border-left-color: #999;
 	border-right-color: #ccc;
 }
 
 .submit input:active, .button:active {
+	border-left-color: #ccc;
 	border-right-color: #999;
-}
-
-.updated, .confirm {
-	padding: 0 3em 0 1em;
 }
 
 #adminmenu {
@@ -53,29 +51,28 @@ textarea, input, select {
 	float: right;
 }
 
-#submenu {
-	height: 21px;
-	padding: 3px 3em 0 2em;
+#adminmenu a.current {
+	border-right: 0;
+	border-left: 2px solid #4f96c8;
 }
 
+#adminmenu li { line-height: 180%; }
+
+#submenu, #minisub { padding: 3px 3em 0 2em; }
+
 #submenu .current {
+	border-right: 0;
 	border-left: 2px solid #045290;
 }
 
 #submenu a {
-	padding: .3em .4em .33em .4em;
+	padding: .3em .4em .4em .4em;
 	margin: 0 0 0 10px;
 	display: block;
 	float: right;
 }
 
-#submenu li {
-	line-height: 100%;
-}
-
-#postdiv , #titlediv, #guiddiv {
-	margin: 0 0 0 8px;
-}
+#submenu li { line-height: 120%; }
 
 #currenttheme img {
 	float: right;
@@ -84,36 +81,24 @@ textarea, input, select {
 }
 
 #postdiv #quicktags {
-	padding-right: auto;
+	padding-right: 0;
 	padding-left: 6px;
 }
 
-#quicktags #ed_toolbar {
-	padding: 0px 0 0 2px;
-}
-
-#ed_toolbar input {
-	margin: 3px 0 2px 2px;
+.readmore {
+	margin-right: auto;
+	margin-left: 5em;
 }
 
 * html #postexcerpt .dbx-toggle-open, * html #postexcerpt .dbx-toggle-open, #postexcerpt div, #attachmentlinks div {
-	padding-right: auto;
+	padding-right: 0;
 	padding-left: 8px;
-}
-
-#login h1 {
-	left: auto;
-	right: 137px;
-}
-
-#login h1 a {
-	display: none;
 }
 
 #searchform {
 	float: right;
 	margin-right: auto;
-	margin-left: 3em;
+	margin-left: 1em;
 }
 
 #poststuff {
@@ -136,15 +121,6 @@ textarea, input, select {
 	left: 1em;
 }
 
-#wphead {
-	padding: .8em 2em .8em 19em;
-}
-
-#wphead h1 {
-	font-size: 2.4em;
-	font-family: Tahoma, Georgia, "Times New Roman", Times, serif
-}
-
 #zeitgeist {
 	float: left;
 	margin-left: auto;
@@ -156,37 +132,29 @@ textarea, input, select {
 	padding: 0 .6em 0 0;
 }
 
-#moremeta fieldset div {
-	margin: 2px 0px 0 0;
+#categorydiv ul {
+	margin-left: auto;
+	margin-right: 10px;
 }
+
+#moremeta fieldset div { margin: 2px 0px 0 0; }
+
 #moremeta {
 	margin-right: auto;
 	margin-left: 15px;
 	right: auto;
 	left: 5%;
 }
-#categorydiv ul {
-	margin-left: auto;
-	margin-right: 10px;
-}
-
-#your-profile legend {
-	font-family: Tahoma, Georgia, "Times New Roman", Times, serif;
-}
 
 #moremeta .dbx-content {
 	background: url(images/box-butt.gif) no-repeat bottom left;
-	padding-right: auto;
+	padding-right: 0;
 	padding-left: 2px;
 }
 
-#moremeta .dbx-handle {
-	background: #2685af url(images/box-head.gif) no-repeat left;
-}
+#moremeta .dbx-handle { background: #2685af url(images/box-head.gif) no-repeat left; }
 
-#moremeta .dbx-box {
-	background: url(images/box-bg.gif) repeat-y left;
-}
+#moremeta .dbx-box { background: url(images/box-bg.gif) repeat-y left; }
 
 a.dbx-toggle, a.dbx-toggle:visited {
 	right: auto;
@@ -214,10 +182,11 @@ a.dbx-toggle, a.dbx-toggle:visited {
 }
 
 #postdivrich #edButtons {
-	padding-left: auto;
+	padding-left: 0;
 	padding-right: 3px;
 }
 
-#edButtons input, #edButtons input:active {
-	margin: 0px 0 -1px 2px;
+.page-numbers {
+	margin-right: auto;
+	margin-left: 3px;
 }
