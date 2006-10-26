@@ -946,6 +946,16 @@ function get_page_by_path($page_path, $output = OBJECT) {
 	return NULL;
 }
 
+function get_page_by_title($page_title, $output = OBJECT) {
+	global $wpdb;
+	$page_title = $wpdb->escape($page_title);
+	$page = $wpdb->get_var("SELECT ID FROM $wpdb->posts WHERE post_title = '$page_title' AND post_type='page'");
+	if ( $page )
+		return get_page($page, $output);
+
+	return NULL;
+}
+
 function &get_page_children($page_id, $pages) {
 	global $page_cache;
 
