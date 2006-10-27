@@ -13,9 +13,9 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	
 	$class = 'text';
 	$innerHTML = get_attachment_innerHTML( $id, false, $dims );
-	if ( $image_src = strstr($innerHTML, 'src="') ) {
-		$image_src = explode('"', $image_src);
-		$image_src = $image_src[1];
+	if ( $image_src = strstr($innerHTML, 'src=') ) {
+		preg_match("/src=(\"|')(.+?)\\1/", $image_src, $matches);
+		$image_src = $matches[2];
 		$image_rel = wp_make_link_relative($image_src);
 		$class = 'image';
 		$innerHTML = '&nbsp;' . str_replace($image_src, $image_rel, $innerHTML);
