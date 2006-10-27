@@ -743,29 +743,26 @@ class WP_Query {
 
 		// If a search pattern is specified, load the posts that match
 		if (!empty($q['s'])) {
-			$q['s'] = addslashes_gpc($q['s']);
-			$search = ' AND (';
-			$q['s'] = preg_replace('/, +/', ' ', $q['s']);
-			$q['s'] = str_replace(',', ' ', $q['s']);
-			$q['s'] = str_replace('"', ' ', $q['s']);
-			$q['s'] = trim($q['s']);
-			if ($q['exact']) {
-				$n = '';
-			} else {
-				$n = '%';
+			// added slashes screw with quote grouping when done early, so done later
+			$q['s'] = stripslashes($q['s']);
+			if ($q['sentence']) {
+				$q['search_terms'] = array($q['s']);
 			}
-			if (!$q['sentence']) {
-				$s_array = explode(' ',$q['s']);
-				$q['search_terms'] = $s_array;
-				$search .= '((post_title LIKE \''.$n.$s_array[0].$n.'\') OR (post_content LIKE \''.$n.$s_array[0].$n.'\'))';
-				for ( $i = 1; $i < count($s_array); $i = $i + 1) {
-					$search .= ' AND ((post_title LIKE \''.$n.$s_array[$i].$n.'\') OR (post_content LIKE \''.$n.$s_array[$i].$n.'\'))';
-				}
-				$search .= ' OR (post_title LIKE \''.$n.$q['s'].$n.'\') OR (post_content LIKE \''.$n.$q['s'].$n.'\')';
-				$search .= ')';
-			} else {
-				$search = ' AND ((post_title LIKE \''.$n.$q['s'].$n.'\') OR (post_content LIKE \''.$n.$q['s'].$n.'\'))';
+			else {
+				preg_match_all('/".*?("|$)|((?<=[\\s",+])|^)[^\\s",+]+/', $q[s], $matches);
+				$q['search_terms'] = array_map(create_function('$a', 'return trim($a, "\\"\'\\n\\r ");'), $matches[0]);
 			}
+			$n = ($q['exact']) ? '' : '%';
+			$searchand = '';
+			foreach((array)$q['search_terms'] as $term) {
+				$term = addslashes_gpc($term);
+				$search .= "{$searchand}((post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}'))";
+				$searchand = ' AND ';
+			}
+			$term = addslashes_gpc($q['s']); 
+			if (!$q['sentence'] && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] ) $search .= " OR (post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}')";
+			
+			$search = " AND ({$search}) ";
 		}
 
 		// Category stuff
