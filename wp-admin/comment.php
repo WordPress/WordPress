@@ -15,7 +15,7 @@ case 'editcomment':
 
 	require_once ('admin-header.php');
 
-	$comment = (int) $_GET['comment'];
+	$comment = (int) $_GET['c'];
 
 	if ( ! $comment = get_comment($comment) )
 		wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'javascript:history.go(-1)'));
@@ -29,29 +29,28 @@ case 'editcomment':
 
 	break;
 
-case 'confirmdeletecomment':
-case 'mailapprovecomment':
+case 'cdc':
+case 'mac':
 
 	require_once('./admin-header.php');
 
-	$comment = (int) $_GET['comment'];
-	$p = (int) $_GET['p'];
-	$formaction = 'confirmdeletecomment' == $action ? 'deletecomment' : 'approvecomment';
-	$nonce_action = 'confirmdeletecomment' == $action ? 'delete-comment_' : 'approve-comment_';
+	$comment = (int) $_GET['c'];
+	$formaction = 'cdc' == $action ? 'deletecomment' : 'approvecomment';
+	$nonce_action = 'cdc' == $action ? 'delete-comment_' : 'approve-comment_';
 	$nonce_action .= $comment;
 
 	if ( ! $comment = get_comment($comment) )
 		wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
-		wp_die( 'confirmdeletecomment' == $action ? __('You are not allowed to delete comments on this post.') : __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
+		wp_die( 'cdc' == $action ? __('You are not allowed to delete comments on this post.') : __('You are not allowed to edit comments on this post, so you cannot approve this comment.') );
 ?>
 <div class='wrap'>
 
 <div class="narrow">
-<?php if ( 'spam' == $_GET['delete_type'] ) { ?>
+<?php if ( 'spam' == $_GET['dt'] ) { ?>
 <p><?php _e('<strong>Caution:</strong> You are about to mark the following comment as spam:'); ?></p>
-<?php } elseif ( 'confirmdeletecomment' == $action ) { ?>
+<?php } elseif ( 'cdc' == $action ) { ?>
 <p><?php _e('<strong>Caution:</strong> You are about to delete the following comment:'); ?></p>
 <?php } else { ?>
 <p><?php _e('<strong>Caution:</strong> You are about to approve the following comment:'); ?></p>
@@ -70,8 +69,8 @@ case 'mailapprovecomment':
 
 <?php wp_nonce_field($nonce_action); ?>
 <input type='hidden' name='action' value='<?php echo $formaction; ?>' />
-<?php if ( 'spam' == $_GET['delete_type'] ) { ?>
-<input type='hidden' name='delete_type' value='spam' />
+<?php if ( 'spam' == $_GET['dt'] ) { ?>
+<input type='hidden' name='dt' value='spam' />
 <?php } ?>
 <input type='hidden' name='p' value='<?php echo $comment->comment_post_ID; ?>' />
 <input type='hidden' name='comment' value='<?php echo $comment->comment_ID; ?>' />
@@ -107,18 +106,14 @@ case 'mailapprovecomment':
 	break;
 
 case 'deletecomment':
-	$comment = (int) $_REQUEST['comment'];
+	$comment = (int) $_REQUEST['c'];
 	check_admin_referer('delete-comment_' . $comment);
 
-	$p = (int) $_REQUEST['p'];
 	if ( isset($_REQUEST['noredir']) ) {
 		$noredir = true;
 	} else {
 		$noredir = false;
 	}
-
-	$postdata = get_post($p) or 
-		wp_die(sprintf(__('Oops, no post with this ID. <a href="%s">Go back</a>!'), 'edit.php'));
 
 	if ( ! $comment = get_comment($comment) )
 			 wp_die(sprintf(__('Oops, no comment with this ID. <a href="%s">Go back</a>!'), 'edit-comments.php'));
@@ -126,7 +121,7 @@ case 'deletecomment':
 	if ( !current_user_can('edit_post', $comment->comment_post_ID) )
 		wp_die( __('You are not allowed to edit comments on this post.') );
 
-	if ( 'spam' == $_REQUEST['delete_type'] )
+	if ( 'spam' == $_REQUEST['dt'] )
 		wp_set_comment_status($comment->comment_ID, 'spam');
 	else
 		wp_delete_comment($comment->comment_ID);
@@ -140,10 +135,9 @@ case 'deletecomment':
 	break;
 
 case 'unapprovecomment':
-	$comment = (int) $_GET['comment'];
+	$comment = (int) $_GET['c'];
 	check_admin_referer('unapprove-comment_' . $comment);
-	
-	$p = (int) $_GET['p'];
+
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
@@ -161,16 +155,15 @@ case 'unapprovecomment':
 	if ((wp_get_referer() != "") && (false == $noredir)) {
 		wp_redirect(wp_get_referer());
 	} else {
-		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$comment->comment_post_ID.'&c=1#comments');
 	}
 	exit();
 	break;
 
 case 'approvecomment':
-	$comment = (int) $_GET['comment'];
+	$comment = (int) $_GET['c'];
 	check_admin_referer('approve-comment_' . $comment);
 
-	$p = (int) $_GET['p'];
 	if (isset($_GET['noredir'])) {
 		$noredir = true;
 	} else {
@@ -192,7 +185,7 @@ case 'approvecomment':
 	if ((wp_get_referer() != "") && (false == $noredir)) {
 		wp_redirect(wp_get_referer());
 	} else {
-		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$p.'&c=1#comments');
+		wp_redirect(get_option('siteurl') .'/wp-admin/edit.php?p='.$comment->comment_post_ID.'&c=1#comments');
 	}
 	exit();
 	break;
