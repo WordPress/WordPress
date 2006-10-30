@@ -73,7 +73,7 @@ case 'mac':
 <input type='hidden' name='dt' value='spam' />
 <?php } ?>
 <input type='hidden' name='p' value='<?php echo $comment->comment_post_ID; ?>' />
-<input type='hidden' name='comment' value='<?php echo $comment->comment_ID; ?>' />
+<input type='hidden' name='c' value='<?php echo $comment->comment_ID; ?>' />
 <input type='hidden' name='noredir' value='1' />
 </form>
 
