@@ -2,15 +2,11 @@
 cache_javascript_headers();
 ?>
 var autosaveLast = '';
-function autosave_timer() {
-	autosave();
-	setTimeout("autosave_timer()", <?php echo apply_filters('autosave_interval', '60000') ?>);
-}
-
+var autosavePeriodical;
 function autosave_start_timer() {
 	var form = $('post');
 	autosaveLast = form.post_title.value+form.content.value;
-	setTimeout("autosave_timer()", <?php echo apply_filters('autosave_start_delay', '60000') ?>);
+	autosavePerodical = new PeriodicalExecutor(autosave, <?php echo apply_filters('autosave_interval', '60000'); ?>);
 }
 addLoadEvent(autosave_start_timer)
 
@@ -80,6 +76,7 @@ function autosave() {
 	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 || rich == false ) {
 		autosaveAjax.setVar("content", form.content.value);
 	} else {
+		// Don't run while the TinyMCE spellcheck is on.
 		if(tinyMCE.selectedInstance.spellcheckerOn) return;
 		tinyMCE.wpTriggerSave();
 		autosaveAjax.setVar("content", form.content.value);
