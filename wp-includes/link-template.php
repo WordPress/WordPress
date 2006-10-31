@@ -244,7 +244,7 @@ function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
 			return;
 	}
 
-	$location = get_option('siteurl') . "/wp-admin/comment.php?action=editcomment&amp;comment=$comment->comment_ID";
+	$location = get_option('siteurl') . "/wp-admin/comment.php?action=editcomment&amp;c=$comment->comment_ID";
 	echo $before . "<a href='$location'>$link</a>" . $after;
 }
 
