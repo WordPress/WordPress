@@ -68,7 +68,7 @@ addLoadEvent(focusit);
 	<tr>
 		<th scope="row" valign="top"><?php _e('Delete'); $delete_nonce = wp_create_nonce( 'delete-comment_' . $comment->comment_ID ); ?>:</th>
 		<td><input name="deletecomment" class="button delete" type="submit" id="deletecomment" tabindex="10" value="<?php _e('Delete this comment') ?>" <?php echo "onclick=\"if ( confirm('" . __("You are about to delete this comment \\n  \'Cancel\' to stop, \'OK\' to delete.") . "') ) { document.forms.post._wpnonce.value = '$delete_nonce'; return true; } return false;\""; ?> /> 
-		<input type="hidden" name="comment" value="<?php echo $comment->comment_ID ?>" />
+		<input type="hidden" name="c" value="<?php echo $comment->comment_ID ?>" />
 		<input type="hidden" name="p" value="<?php echo $comment->comment_post_ID ?>" />
 		<input type="hidden" name="noredir" value="1" />
 	</td>

@@ -282,7 +282,7 @@ foreach ($comments as $comment) {
 <p><?php comment_date('M j, g:i A');  ?> &#8212; [
 <?php
 if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-	echo " <a href='comment.php?action=editcomment&amp;comment=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
+	echo " <a href='comment.php?action=editcomment&amp;c=".$comment->comment_ID."\'>" .  __('Edit') . '</a>';
 	echo ' | <a href="' . wp_nonce_url('comment.php?action=deletecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($comment->comment_author)) . "', theCommentList );\">" . __('Delete') . '</a> ';
 	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
 		echo '<span class="unapprove"> | <a href="' . wp_nonce_url('comment.php?action=unapprovecomment&amp;p=' . $post->ID . '&amp;comment=' . $comment->comment_ID, 'unapprove-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\', theCommentList );">' . __('Unapprove') . '</a> </span>';
