@@ -6,7 +6,7 @@ var autosavePeriodical;
 function autosave_start_timer() {
 	var form = $('post');
 	autosaveLast = form.post_title.value+form.content.value;
-	autosavePerodical = new PeriodicalExecutor(autosave, <?php echo apply_filters('autosave_interval', '60000'); ?>);
+	autosavePerodical = new PeriodicalExecuter(autosave, <?php echo apply_filters('autosave_interval', '60000'); ?>);
 }
 addLoadEvent(autosave_start_timer)
 
