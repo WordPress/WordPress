@@ -319,7 +319,8 @@ function wp_list_bookmarks($args = '') {
 	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => '',
 		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'echo' => 1,
 		'categorize' => 1, 'title_li' => __('Bookmarks'), 'title_before' => '<h2>', 'title_after' => '</h2>',
-		'category_orderby' => 'name', 'category_order' => 'ASC');
+		'category_orderby' => 'name', 'category_order' => 'ASC', 'class' => 'linkcat',
+		'category_before' => '<li id="%id" class="%class">', 'category_after' => '</li>');
 	$r = array_merge($defaults, $r);
 	extract($r);
 
@@ -333,18 +334,20 @@ function wp_list_bookmarks($args = '') {
 			$bookmarks = get_bookmarks("limit=$limit&category={$cat->cat_ID}&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_invisible&show_updated=$show_updated");
 			if ( empty($bookmarks) )
 				continue;
-			$output .= "<li id='linkcat-$cat->cat_ID' class='linkcat'>$title_before$cat->cat_name$title_after\n\t<ul>\n";
+			$output .= str_replace(array('%id', '%class'), array("linkcat-$cat->cat_ID", $class), $category_before);
+			$output .= "$title_before$cat->cat_name$title_after\n\t<ul>\n";
 			$output .= _walk_bookmarks($bookmarks, $r);
-			$output .= "\n\t</ul>\n</li>\n";
+			$output .= "\n\t</ul>\n$category_after\n";
 		}
 	} else {
 		//output one single list using title_li for the title
 		$bookmarks = get_bookmarks("limit=$limit&category=$category&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_inivisible&show_updated=$show_updated");
 		
 		if ( !empty($bookmarks) ) {
-			$output .= "<li id='linkuncat' class='linkcat'>$title_before$title_li$title_after\n\t<ul>\n";
+			$output .= str_replace(array('%id', '%class'), array("linkuncat", $class), $category_before);
+			$output .= "$title_before$title_li$title_after\n\t<ul>\n";
 			$output .= _walk_bookmarks($bookmarks, $r);
-			$output .= "\n\t</ul>\n</li>\n";
+			$output .= "\n\t</ul>\n$category_after\n";
 		}
 	}
 
