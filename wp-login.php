@@ -132,7 +132,7 @@ case 'retrievepassword' :
 	if ( 'invalidkey' == $_GET['error'] ) $errors['invalidkey'] = __('Sorry, that key does not appear to be valid.');
 
 	do_action('lost_password');
-	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username and e-mail address. You will recieve a new password via e-mail.') . '</p>');
+	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username and e-mail address. You will receive a new password via e-mail.') . '</p>');
 ?>
 
 <form name="lostpasswordform" id="lostpasswordform" action="wp-login.php?action=lostpassword" method="post">
