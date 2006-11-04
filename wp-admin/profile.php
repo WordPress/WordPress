@@ -90,7 +90,7 @@ $bookmarklet_height= 440;
 <input type="text" name="yim" value="<?php echo $profileuser->yim ?>" />
 </label></p>
 
-<p><label><?php _e('Jabber / Google Talk:') ?>
+<p><label><?php _e('Jabber / Google Talk:') ?><br />
 <input type="text" name="jabber" value="<?php echo $profileuser->jabber ?>" /></label>
 </p>
 </fieldset>
