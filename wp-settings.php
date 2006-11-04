@@ -82,8 +82,14 @@ if ( defined('WP_CACHE') )
 	require (ABSPATH . 'wp-content/advanced-cache.php');
 
 define('WPINC', 'wp-includes');
-if ( !defined('LANGDIR') )
-	define('LANGDIR', WPINC . '/languages');   // no leading slash, no trailing slash
+
+if ( !defined('LANGDIR') ) {
+	if ( file_exists(ABSPATH . 'wp-content/languages') && @is_dir(ABSPATH . 'wp-content/languages') )
+		define('LANGDIR', 'wp-content/languages'); // no leading slash, no trailing slash
+	else
+		define('LANGDIR', WPINC . '/languages'); // no leading slash, no trailing slash
+}
+
 if ( !defined('PLUGINDIR') )
 	define('PLUGINDIR', 'wp-content/plugins'); // no leading slash, no trailing slash
 if ( file_exists(ABSPATH . 'wp-content/db.php') )
