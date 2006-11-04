@@ -17,7 +17,7 @@ if ( current_user_can( 'manage_categories' ) )
 require('admin-header.php');
 ?>
 
-<?php if ($_GET['added']) : ?>
+<?php if ($_GET['added'] && '' != $_POST['link_name']) : ?>
 <div id="message" class="updated fade"><p><?php _e('Link added.'); ?></p></div>
 <?php endif; ?>
 
