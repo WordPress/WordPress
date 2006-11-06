@@ -496,7 +496,6 @@ input.disabled, textarea.disabled {
 	border-bottom: none;
 	margin: 0;
 	padding: 3px 2em 0 3em;
-	height: 25px;
 }
 
 #minisub {
@@ -524,6 +523,7 @@ input.disabled, textarea.disabled {
 
 #submenu li {
 	line-height: 180%;
+	height: 25px;
 }
 
 
