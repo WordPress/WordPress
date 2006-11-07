@@ -583,6 +583,7 @@ class WP_Query {
 		$limits = '';
 		$join = '';
 		$search = '';
+		$groupby = '';
 
 		if ( !isset($q['post_type']) )
 			$q['post_type'] = 'post';
@@ -801,12 +802,10 @@ class WP_Query {
 					$out_cats = " AND ID NOT IN ($out_posts)";
 			}
 			$whichcat = $in_cats . $out_cats;
-			$distinct = 'DISTINCT';
+			$groupby = "{$wpdb->posts}.ID";
 		}
 
 		// Category stuff for nice URLs
-
-		global $cache_categories;
 		if ('' != $q['category_name']) {
 			$reqcat = get_category_by_path($q['category_name']);
 			$q['category_name'] = str_replace('%2F', '/', urlencode(urldecode($q['category_name'])));
@@ -836,7 +835,7 @@ class WP_Query {
 			$whichcat .= get_category_children($q['cat'], '', ', ');
 			$whichcat = substr($whichcat, 0, -2);
 			$whichcat .= ")";
-			$distinct = 'DISTINCT';
+			$groupby = "{$wpdb->posts}.ID";
 		}
 
 		// Author/user stuff
@@ -975,7 +974,6 @@ class WP_Query {
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
 		$where = apply_filters('posts_where_paged', $where);
-		$groupby = '';
 		$groupby = apply_filters('posts_groupby', $groupby);
 		if ( ! empty($groupby) )
 			$groupby = 'GROUP BY ' . $groupby;
