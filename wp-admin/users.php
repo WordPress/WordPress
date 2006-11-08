@@ -14,7 +14,7 @@ $update = '';
 if ( empty($_POST) ) {
 	$referer = '<input type="hidden" name="wp_http_referer" value="'. wp_specialchars(stripslashes($_SERVER['REQUEST_URI'])) . '" />';
 } elseif ( isset($_POST['wp_http_referer']) ) {
-	$redirect = remove_query_arg(array('wp_http_referer', 'updated', 'delete_count'), urlencode(stripslashes($_POST['wp_http_referer'])));
+	$redirect = remove_query_arg(array('wp_http_referer', 'updated', 'delete_count'), stripslashes($_POST['wp_http_referer']));
 	$referer = '<input type="hidden" name="wp_http_referer" value="' . wp_specialchars($redirect) . '" />';
 } else {
 	$redirect = 'users.php';
@@ -181,9 +181,8 @@ case 'dodelete':
 		++$delete_count;
 	}
 
-	$redirect = add_query_arg('delete_count', $delete_count, $redirect);
-
-	wp_redirect(add_query_arg('update', $update, $redirect));
+	$redirect = add_query_arg( array('delete_count' => $delete_count, 'update' => $update), $redirect);
+	wp_redirect($redirect);
 
 break;
 
@@ -258,8 +257,8 @@ case 'adduser':
 		$add_user_errors = $user_id;
 	else {
 		$new_user_login = apply_filters('pre_user_login', sanitize_user(stripslashes($_POST['user_login']), true));
-		$redirect = add_query_arg('usersearch', $new_user_login, $redirect);
-		wp_redirect(add_query_arg('update', $update, $redirect) . '#user-' . $user_id);
+		$redirect = add_query_arg( array('usersearch' => urlencode($new_user_login), 'update' => $update), $redirect );
+		wp_redirect( $redirect . '#user-' . $user_id );
 		die();
 	}
 
