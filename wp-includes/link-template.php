@@ -472,7 +472,7 @@ function previous_posts_link($label='&laquo; Previous Page') {
 }
 
 function _max_num_pages() {
-	static $max_num_pages;
+	global $max_num_pages;
 	global $wpdb, $wp_query;
 	
 	if (isset($max_num_pages)) return $max_num_pages;
