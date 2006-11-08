@@ -688,7 +688,7 @@ class WP_Ajax_Response {
 			$action = $_POST['action'];
 
 		$x = '';
-		$x .= "<response action='$action_$id'>"; // The action attribute in the xml output is formatted like a nonce action
+		$x .= "<response action='{$action}_$id'>"; // The action attribute in the xml output is formatted like a nonce action
 		$x .=	"<$what id='$id'" . ( false !== $old_id ? "old_id='$old_id'>" : '>' );
 		$x .=		$response;
 		$x .=		$s;
