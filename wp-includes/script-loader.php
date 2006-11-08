@@ -19,8 +19,8 @@ class WP_Scripts {
 		$this->add( 'wp_tiny_mce', '/wp-includes/js/tinymce/tiny_mce_config.php', array('tiny_mce'), '09212006' );
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.5.0');
 		$this->add( 'autosave', '/wp-includes/js/autosave.js.php', array('prototype', 'sack'), '4206');
-		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax-js.php', array('prototype'), '####');
-		$this->add( 'listman', '/wp-includes/js/list-manipulation-js.php', array('wp-ajax', 'fat'), '####');
+		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax-js.php', array('prototype'), '4459');
+		$this->add( 'listman', '/wp-includes/js/list-manipulation-js.php', array('wp-ajax', 'fat'), '4459');
 		if ( is_admin() ) {
 			$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key-js.php', array('dbx'), '3651' );
 			$this->add( 'ajaxcat', '/wp-admin/cat-js.php', array('listman'), '3684' );
