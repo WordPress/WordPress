@@ -265,6 +265,9 @@ class WP_Query {
 	var $in_the_loop = false;
 	var $post;
 
+	var $found_posts = 0;
+	var $max_num_pages = 0;
+
 	var $is_single = false;
 	var $is_preview = false;
 	var $is_page = false;
@@ -590,8 +593,6 @@ class WP_Query {
 		$post_type = $q['post_type'];
 		if ( !isset($q['posts_per_page']) || $q['posts_per_page'] == 0 )
 			$q['posts_per_page'] = get_option('posts_per_page');
-		if ( !isset($q['what_to_show']) )
-			$q['what_to_show'] = get_option('what_to_show');
 		if ( isset($q['showposts']) && $q['showposts'] ) {
 			$q['showposts'] = (int) $q['showposts'];
 			$q['posts_per_page'] = $q['showposts'];
@@ -607,7 +608,6 @@ class WP_Query {
 		}
 		if ( $this->is_feed ) {
 			$q['posts_per_page'] = get_option('posts_per_rss');
-			$q['what_to_show'] = 'posts';
 		}
 		$q['posts_per_page'] = (int) $q['posts_per_page'];
 		if ( $q['posts_per_page'] < -1 )
@@ -941,33 +941,20 @@ class WP_Query {
 		$join = apply_filters('posts_join', $join);
 
 		// Paging
-		if (empty($q['nopaging']) && ! $this->is_single && ! $this->is_page) {
+		if (empty($q['nopaging']) && !$this->is_singular) {
 			$page = abs(intval($q['paged']));
 			if (empty($page)) {
 				$page = 1;
 			}
 
-			if (($q['what_to_show'] == 'posts')) {
-				if ( empty($q['offset']) ) {
-					$pgstrt = '';
-					$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
-					$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
-				} else { // we're ignoring $page and using 'offset'
-					$q['offset'] = abs(intval($q['offset']));
-					$pgstrt = $q['offset'] . ', ';
-					$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
-				}
-			} elseif ($q['what_to_show'] == 'days') {
-				$startrow = $q['posts_per_page'] * (intval($page)-1);
-				$start_date = $wpdb->get_var("SELECT max(post_date) FROM $wpdb->posts $join WHERE (1=1) $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $startrow,1");
-				$endrow = $startrow + $q['posts_per_page'] - 1;
-				$end_date = $wpdb->get_var("SELECT min(post_date) FROM $wpdb->posts $join WHERE (1=1) $where GROUP BY year(post_date), month(post_date), dayofmonth(post_date) ORDER BY post_date DESC LIMIT $endrow,1");
-
-				if ($page > 1) {
-					$where .= " AND post_date >= '$end_date' AND post_date <= '$start_date'";
-				} else {
-					$where .= " AND post_date >= '$end_date'";
-				}
+			if ( empty($q['offset']) ) {
+				$pgstrt = '';
+				$pgstrt = (intval($page) -1) * $q['posts_per_page'] . ', ';
+				$limits = 'LIMIT '.$pgstrt.$q['posts_per_page'];
+			} else { // we're ignoring $page and using 'offset'
+				$q['offset'] = abs(intval($q['offset']));
+				$pgstrt = $q['offset'] . ', ';
+				$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 			}
 		}
 
@@ -989,9 +976,8 @@ class WP_Query {
 
 		$this->posts = $wpdb->get_results($this->request);
 		if ( !empty($limits) ) {
-			$num_rows = $wpdb->get_var('SELECT FOUND_ROWS()');
-			global $max_num_pages;
-			$max_num_pages = $num_rows / $q['posts_per_page'];
+			$this->found_posts = $wpdb->get_var('SELECT FOUND_ROWS()');
+			$this->max_num_pages = $this->found_posts / $q['posts_per_page'];
 		}
 		// Check post status to determine if post should be displayed.
 		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {

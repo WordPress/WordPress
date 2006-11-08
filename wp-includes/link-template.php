@@ -435,9 +435,9 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
-	global $paged, $wpdb;
+	global $paged, $wpdb, $wp_query;
 	if ( !$max_page ) {
-		$max_page = _max_num_pages();
+		$max_page = $wp_query->max_num_pages;
 	}
 	if ( !$paged )
 		$paged = 1;
@@ -471,32 +471,10 @@ function previous_posts_link($label='&laquo; Previous Page') {
 	}
 }
 
-function _max_num_pages() {
-	global $max_num_pages;
-	global $wpdb, $wp_query;
-	
-	if (isset($max_num_pages)) return $max_num_pages;
-	$posts_per = get_query_var('posts_per_page');
-	if ( empty($posts_per) ) $posts_per = 1;
-
-	if ( 'posts' == get_query_var('what_to_show') ) {
-		preg_match('#FROM\s(.*)\sORDER BY#siU', $wp_query->request, $matches);
-		$fromwhere = $matches[1];
-		$numposts = $wpdb->get_var("SELECT COUNT(DISTINCT $wpdb->posts.ID) FROM $fromwhere");
-		$max_num_pages = ceil($numposts / $posts_per);
-	} else {
-		preg_match('#FROM\s(.*)\sORDER BY#siU', $wp_query->request, $matches);
-		$fromwhere = preg_replace('/( AND )?post_date >= (\'|\")(.*?)(\'|\")( AND post_date <= (\'\")(.*?)(\'\"))?/siU', '', $matches[1]);
-		$num_days = $wpdb->query("SELECT DISTINCT post_date FROM $fromwhere GROUP BY year(post_date), month(post_date), dayofmonth(post_date)");
-		$max_num_pages = ceil($num_days / $posts_per);
-	}
-
-	return $max_num_pages;
-}
-
 function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nxtlabel='Next Page &raquo;') {
-	if ( !is_single() ) {
-		$max_num_pages = _max_num_pages();
+	global $wp_query;
+	if ( !is_singular() ) {
+		$max_num_pages = $wp_query->max_num_pages;
 		$paged = get_query_var('paged');
 		
 		//only have sep if there's both prev and next results
