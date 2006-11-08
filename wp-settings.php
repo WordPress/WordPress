@@ -171,7 +171,7 @@ require (ABSPATH . WPINC . '/script-loader.php');
 
 if (!strstr($_SERVER['PHP_SELF'], 'install.php')) :
     // Used to guarantee unique hash cookies
-    $cookiehash = md5(get_option('siteurl')); // Remove in 1.4
+    $cookiehash = md5(get_option('siteurl'));
 	define('COOKIEHASH', $cookiehash); 
 endif;
 
