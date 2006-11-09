@@ -249,8 +249,9 @@ class WP {
 	}
 
 	function query_posts() {
+		global $wp_the_query;
 		$this->build_query_string();
-		query_posts($this->query_vars);
+		$wp_the_query->query($this->query_vars);
  	}
 
 	function handle_404() {

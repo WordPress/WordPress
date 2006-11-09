@@ -226,9 +226,10 @@ $_SERVER = add_magic_quotes($_SERVER);
 
 do_action('sanitize_comment_cookies');
 
-$wp_query   = new WP_Query();
-$wp_rewrite = new WP_Rewrite();
-$wp         = new WP();
+$wp_the_query =& new WP_Query();
+$wp_query     =& $wp_the_query;
+$wp_rewrite   =& new WP_Rewrite();
+$wp           =& new WP();
 
 validate_current_theme();
 define('TEMPLATEPATH', get_template_directory());

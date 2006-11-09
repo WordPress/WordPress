@@ -11,8 +11,9 @@ function get_query_var($var) {
 }
 
 function &query_posts($query) {
-	global $wp_query;
-	return $wp_query->query($query);
+	unset($GLOBALS['wp_query']);
+	$GLOBALS['wp_query'] =& new WP_Query();
+	return $GLOBALS['wp_query']->query($query);
 }
 
 /*
