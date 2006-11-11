@@ -695,6 +695,7 @@ class WP_Query {
 				$reqpage = 0;
 
 			if  ( ('page' == get_option('show_on_front') ) && ( $reqpage == get_option('page_for_posts') ) ) {
+				$this->is_singular = false;
 				$this->is_page = false;
 				$this->is_home = true;
 				$this->is_posts_page = true;
@@ -734,6 +735,7 @@ class WP_Query {
 		if (($q['page_id'] != '') && (intval($q['page_id']) != 0)) {
 			$q['page_id'] = intval($q['page_id']);
 			if  ( ('page' == get_option('show_on_front') ) && ( $q['page_id'] == get_option('page_for_posts') ) ) {
+				$this->is_singular = false;
 				$this->is_page = false;
 				$this->is_home = true;
 				$this->is_posts_page = true;
