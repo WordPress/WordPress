@@ -5,7 +5,7 @@ function wp_unregister_GLOBALS() {
 		return;
 
 	if ( isset($_REQUEST['GLOBALS']) )
-		wp_die('GLOBALS overwrite attempt detected');
+		die('GLOBALS overwrite attempt detected');
 
 	// Variables that shouldn't be unset
 	$noUnset = array('GLOBALS', '_GET', '_POST', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES', 'table_prefix');
