@@ -21,7 +21,7 @@ $more = 1;
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('rss_head'); ?>
 
-<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
+<?php while (have_posts()) : the_post(); ?>
 	<item>
 		<title><?php the_title_rss() ?></title>
 <?php if (get_option('rss_use_excerpt')) { ?>
@@ -32,6 +32,6 @@ $more = 1;
 		<link><?php permalink_single_rss() ?></link>
 		<?php do_action('rss_item'); ?>
 	</item>
-<?php $items_count++; if (($items_count == get_option('posts_per_rss')) && empty($m)) { break; } } } ?>
+<?php endwhile; ?>
 </channel>
 </rss>

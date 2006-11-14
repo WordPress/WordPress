@@ -157,7 +157,7 @@ $posts_columns['control_delete'] = '';
 <?php
 if ($posts) {
 $bgcolor = '';
-foreach ($posts as $post) { start_wp();
+while (have_posts()) : the_post();
 add_filter('the_title','wp_specialchars');
 $class = ('alternate' == $class) ? '' : 'alternate';
 ?> 
@@ -235,7 +235,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 ?>
 	</tr> 
 <?php
-}
+endwhile;
 } else {
 ?>
   <tr style='background-color: <?php echo $bgcolor; ?>'> 

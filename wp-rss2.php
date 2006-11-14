@@ -27,7 +27,7 @@ $more = 1;
 	<generator>http://wordpress.org/?v=<?php bloginfo_rss('version'); ?></generator>
 	<language><?php echo get_option('rss_language'); ?></language>
 	<?php do_action('rss2_head'); ?>
-	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
+	<?php while( have_posts()) : the_post(); ?>
 	<item>
 		<title><?php the_title_rss() ?></title>
 		<link><?php permalink_single_rss() ?></link>
@@ -51,6 +51,6 @@ $more = 1;
 <?php rss_enclosure(); ?>
 	<?php do_action('rss2_item'); ?>
 	</item>
-	<?php $items_count++; if (($items_count == get_option('posts_per_rss')) && !is_date()) { break; } } } ?>
+	<?php endwhile; ?>
 </channel>
 </rss>

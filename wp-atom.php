@@ -23,7 +23,7 @@ $more = 1;
 	<copyright>Copyright <?php echo mysql2date('Y', get_lastpostdate('blog'), 0); ?></copyright>
 	<generator url="http://wordpress.org/" version="<?php bloginfo_rss('version'); ?>">WordPress</generator>
 	<?php do_action('atom_head'); ?>
-	<?php $items_count = 0; if ($posts) { foreach ($posts as $post) { start_wp(); ?>
+	<?php while (have_posts()) : the_post(); ?>
 	<entry>
 	  	<author>
 			<name><?php the_author() ?></name>
@@ -41,5 +41,5 @@ $more = 1;
 <?php rss_enclosure(); ?>
 <?php do_action('atom_entry'); ?>
 	</entry>
-	<?php $items_count++; if (($items_count == get_option('posts_per_rss')) && empty($m)) { break; } } } ?>
+	<?php endwhile ; ?>
 </feed>
