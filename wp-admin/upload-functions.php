@@ -358,14 +358,15 @@ add_action( 'upload_files_browse-all', 'wp_upload_tab_browse_action' );
 
 function wp_upload_admin_head() {
 	global $wp_locale;
-	echo "<link rel='stylesheet' href='" . get_option('siteurl') . '/wp-admin/upload.css?version=' . get_bloginfo('version') . "' type='text/css' />\n";
+	echo "<link rel='stylesheet' href='" . get_option('siteurl') . '/wp-admin/upload.css?version=' . get_bloginfo('version') . "a' type='text/css' />\n";
 	if ( 'rtl' == $wp_locale->text_direction )
-		echo "<link rel='stylesheet' href='" . get_option('siteurl') . '/wp-admin/upload-rtl.css?version=' . get_bloginfo('version') . "' type='text/css' />\n";
+		echo "<link rel='stylesheet' href='" . get_option('siteurl') . '/wp-admin/upload-rtl.css?version=' . get_bloginfo('version') . "a' type='text/css' />\n";
 	if ( 'inline' == @$_GET['style'] ) {
-		echo "<style type='text/css'>\n";
-		echo "\tbody { height: 15em; overflow: hidden; }\n";
-		echo "\t#upload-content { overflow-y: auto; }\n";
-		echo "\t#upload-file { position: absolute; }\n";
+		echo "<style type='text/css' media='screen'>\n";
+		echo "\t#upload-menu { position: absolute; z-index: 2; }\n";
+		echo "\tbody > #upload-menu { position: fixed; }\n";
+		echo "\t#upload-content { top: 2em; }\n";
+		echo "\t#upload-file { position: absolute; top: 15px; }\n";
 		echo "</style>";
 	}
 }

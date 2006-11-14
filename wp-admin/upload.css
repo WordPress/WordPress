@@ -3,44 +3,59 @@ body { background: #f9fcfe; }
 .upload-file-data { display: none; }
 
 #upload-menu {
-	background: #247fab;
-	margin: 0px;
+	border-top: 2em solid #247fab;
+	margin: 0;
 	padding: 0;
+	height: 0;
 	list-style: none;
-	height: 2em;
-	border-bottom: 1px solid #448abd;
 	width: 100%;
 }
 
-#upload-menu li { margin: 0 0 0 .75em; }
+body > #upload-menu { border-bottom: 7px solid #fff; }
 
-#upload-menu li div {
-	padding: 5px;
+#upload-menu li {
+	margin: 0;
+	position: relative;
+	top: -2em;
+	padding-bottom: 5px;
+	border: none;
 	border-top: 3px solid #247fab;
 }
 
-#upload-menu li a {
+#upload-menu li a.upload-tab-link {
+	margin-left: 0.75em;
+	padding: 5px 5px 0;
+	display: block;
+	float: left;
+	height: 100%;
 	text-decoration: none;
 	border-bottom: none;
 	color: #fff;
 }
 
-#upload-menu li span a.page-numbers { color: #00019b; }
-
-#upload-menu .current div {
-	background: #f9fcfe;
+#upload-menu li.current {
 	border-right: 2px solid #448abd;
 	color: #000;
 }
 
-#upload-menu .current div a, #upload-menu div:hover a {
-	color: #000;
-}
-
-#upload-menu div:hover {
+#upload-menu li.current a.upload-tab-link, #upload-menu li a:hover {
 	background: #f9fcfe;
 	color: #000;
 }
+
+#upload-menu li #current-tab-nav {
+	float: left;
+	padding: 5px 5px 0 0;
+	margin-left: -5px;
+}
+
+#upload-menu li span .page-numbers {
+	padding: 0;
+	border: none;
+}
+
+#upload-menu li span a.page-numbers { color: #00019b; }
+#upload-menu li span a.page-numbers:hover { text-decoration: underline; }
 
 #upload-content {
 	position: relative;

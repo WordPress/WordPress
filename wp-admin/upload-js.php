@@ -74,7 +74,7 @@ addLoadEvent( function() {
 				params.action = '';
 				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "' title='Browse your files' class='back'>&laquo; Back</a>";
 			} else {
-				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files' class='back'>&laquo; Back</a>";
+				h += "<a href='#' onclick='return theFileList.cancelView();'  title='Browse your files' class='back'>&laquo; Back</a>";
 			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.isImage )
@@ -82,7 +82,7 @@ addLoadEvent( function() {
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
-			h += "<a href='#' onclick='theFileList.editView(" + id + ")'>Edit</a>"
+			h += "<a href='#' onclick='return theFileList.editView(" + id + ");'>Edit</a>"
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
@@ -136,7 +136,7 @@ addLoadEvent( function() {
 				params.action = '';
 				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='Browse your files' class='back'>&laquo; Back</a>";
 			} else {
-				h += "<a href='#' onclick='theFileList.cancelView()'  title='Browse your files' class='back'>&laquo; Back</a>";
+				h += "<a href='#' onclick='return theFileList.cancelView();'  title='Browse your files' class='back'>&laquo; Back</a>";
 			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.isImage )
@@ -144,7 +144,7 @@ addLoadEvent( function() {
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
-			h += "<a href='#' onclick='theFileList.imageView(" + id + ")'>Insert</a>"
+			h += "<a href='#' onclick='return theFileList.imageView(" + id + ");'>Insert</a>"
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";

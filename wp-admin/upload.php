@@ -35,7 +35,7 @@ if ( $pid ) {
 
 	$wp_upload_tabs = array_merge($wp_upload_tabs, apply_filters( 'wp_upload_tabs', array() ));
 
-if ( !function_exists($wp_upload_tabs[$tab][2]) ) {
+if ( !is_callable($wp_upload_tabs[$tab][2]) ) {
 	$to_tab = isset($wp_upload_tabs['upload']) ? 'upload' : 'browse-all';
 	wp_redirect( add_query_arg( 'tab', $to_tab ) );
 	exit;
@@ -76,12 +76,12 @@ endif;
 
 echo "<ul id='upload-menu'>\n";
 foreach ( $wp_upload_tabs as $t => $tab_array ) { // We've already done the current_user_can check
-	$class = 'upload-tab';
 	$href = add_query_arg( array('tab' => $t, 'ID' => '', 'action' => '', 'paged' => '') );
 	if ( isset($tab_array[4]) && is_array($tab_array[4]) )
 		add_query_arg( $tab_array[4], $href );
 	$_href = wp_specialchars( $href, 1 );
 	$page_links = '';
+	$class = 'upload-tab alignleft';
 	if ( $tab == $t ) {
 		$class .= ' current';
 		if ( $tab_array[3] ) {
@@ -105,7 +105,7 @@ foreach ( $wp_upload_tabs as $t => $tab_array ) { // We've already done the curr
 		}
 	}
 
-	echo "\t<li class='$class alignleft'><div><a href='$_href' title='{$tab_array[0]}'>{$tab_array[0]}</a>$page_links</div></li>\n";
+	echo "\t<li class='$class'><a href='$_href' class='upload-tab-link' title='{$tab_array[0]}'>{$tab_array[0]}</a>$page_links</li>\n";
 }
 unset($t, $tab_array, $href, $_href, $page_links, $total, $per, $class);
 echo "</ul>\n\n";
