@@ -123,6 +123,7 @@ case 'promote':
 
 	if (empty($_POST['users'])) {
 		wp_redirect($redirect);
+		exit();
 	}
 
 	if ( !current_user_can('edit_users') )
