@@ -33,6 +33,7 @@ case 'addcat':
 	wp_insert_category($_POST);
 
 	wp_redirect('categories.php?message=1#addcat');
+	exit;
 break;
 
 case 'delete':
@@ -51,7 +52,7 @@ case 'delete':
 	wp_delete_category($cat_ID);
 
 	wp_redirect('categories.php?message=2');
-
+	exit;
 break;
 
 case 'edit':
@@ -106,6 +107,7 @@ case 'editedcat':
 	wp_update_category($_POST);
 
 	wp_redirect('categories.php?message=3');
+	exit;
 break;
 
 default:

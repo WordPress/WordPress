@@ -15,6 +15,7 @@ case 'promote':
 
 	if (empty($_POST['users'])) {
 		wp_redirect('users.php');
+		exit();
 	}
 
 	if ( !current_user_can('edit_users') )
@@ -34,6 +35,7 @@ case 'promote':
  	}
 		
 	wp_redirect('users.php?update=' . $update);
+	exit();
 
 break;
 
@@ -43,6 +45,7 @@ case 'dodelete':
 
 	if ( empty($_POST['users']) ) {
 		wp_redirect('users.php');
+		exit();
 	}
 
 	if ( !current_user_can('edit_users') )
@@ -67,15 +70,17 @@ case 'dodelete':
 	}
 
 	wp_redirect('users.php?update=' . $update);
-
+	exit();
 break;
 
 case 'delete':
 
 	check_admin_referer('bulk-users');
 
-	if ( empty($_POST['users']) )
+	if ( empty($_POST['users']) ) {
 		wp_redirect('users.php');
+		exit();
+	}
 
 	if ( !current_user_can('edit_users') )
 		$error['edit_users'] = __('You can&#8217;t delete users.');
@@ -135,9 +140,9 @@ case 'adduser':
 	
 	$errors = add_user();
 	
-	if(count($errors) == 0) {
+	if ( count($errors) == 0 ) {
 		wp_redirect('users.php?update=add');
-		die();
+		exit();
 	}
 
 default:

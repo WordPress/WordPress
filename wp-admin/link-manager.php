@@ -63,6 +63,7 @@ switch ($action) {
     $q = $wpdb->query("update $wpdb->links SET link_owner='$newowner' WHERE link_id IN ($all_links)");
 
     wp_redirect($this_file);
+    exit;
     break;
   }
   case 'visibility':
@@ -100,6 +101,7 @@ switch ($action) {
     }
 
     wp_redirect($this_file);
+    exit;
     break;
   }
   case 'move':
@@ -120,6 +122,7 @@ switch ($action) {
     $q = $wpdb->query("update $wpdb->links SET link_category='$category' WHERE link_id IN ($all_links)");
 
     wp_redirect($this_file);
+    exit();
     break;
   }
 
@@ -130,6 +133,7 @@ switch ($action) {
 	add_link();
 	
     wp_redirect(wp_get_referer() . '?added=true');
+    exit;
     break;
   } // end Add
 
@@ -151,6 +155,7 @@ switch ($action) {
 	
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     wp_redirect($this_file);
+    exit;
     break;
   } // end Save
 
@@ -174,6 +179,7 @@ switch ($action) {
     $links_show_cat_id = $cat_id;
     setcookie('links_show_cat_id_' . COOKIEHASH, $links_show_cat_id, time()+600);
     wp_redirect($this_file);
+    exit;
     break;
   } // end Delete
 
