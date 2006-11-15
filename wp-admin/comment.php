@@ -202,7 +202,7 @@ case 'editedcomment':
 	$location = ( empty($_POST['referredby']) ? "edit.php?p=$comment_post_ID&c=1" : $_POST['referredby'] ) . '#comment-' . $comment_ID;
 	$location = apply_filters('comment_edit_redirect', $location, $comment_ID);
 	wp_redirect($location);
-
+	exit();
 	break;
 default:
 	break;

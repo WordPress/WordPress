@@ -35,6 +35,7 @@ switch ($action) {
 		}
 
 		wp_redirect("$this_file?deleted=$deleted");
+		exit;
 		break;
 
 	case 'move' :
@@ -54,6 +55,7 @@ switch ($action) {
 		//$q = $wpdb->query("update $wpdb->links SET link_category='$category' WHERE link_id IN ($all_links)");
 
 		wp_redirect($this_file);
+		exit;
 		break;
 
 	case 'add' :
@@ -62,6 +64,7 @@ switch ($action) {
 		add_link();
 
 		wp_redirect(wp_get_referer().'?added=true');
+		exit;
 		break;
 
 	case 'save' :
@@ -84,6 +87,7 @@ switch ($action) {
 		wp_delete_link($link_id);
 
 		wp_redirect($this_file);
+		exit;
 		break;
 
 	case 'edit' :

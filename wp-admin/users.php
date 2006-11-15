@@ -145,6 +145,7 @@ case 'promote':
 	}
 
 	wp_redirect(add_query_arg('update', $update, $redirect));
+	exit();
 
 break;
 
@@ -154,6 +155,7 @@ case 'dodelete':
 
 	if ( empty($_POST['users']) ) {
 		wp_redirect($redirect);
+		exit();
 	}
 
 	if ( !current_user_can('delete_users') )
@@ -184,6 +186,7 @@ case 'dodelete':
 
 	$redirect = add_query_arg( array('delete_count' => $delete_count, 'update' => $update), $redirect);
 	wp_redirect($redirect);
+	exit();
 
 break;
 
@@ -191,8 +194,10 @@ case 'delete':
 
 	check_admin_referer('bulk-users');
 
-	if ( empty($_POST['users']) )
+	if ( empty($_POST['users']) ) {
 		wp_redirect($redirect);
+		exit();
+	}
 
 	if ( !current_user_can('delete_users') )
 		$errors = new WP_Error('edit_users', __('You can&#8217;t delete users.'));
