@@ -394,13 +394,13 @@ function get_comments_popup_template() {
 	return apply_filters('comments_popup_template', $template);
 }
 
-function load_template($file) {
+function load_template($_template_file) {
 	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query,
 		$wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment;
 
-	extract($wp_query->query_vars);
+	extract($wp_query->query_vars, EXTR_SKIP);
 
-	require_once($file);
+	require_once($_template_file);
 }
 
 function locale_stylesheet() {
