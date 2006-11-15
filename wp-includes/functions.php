@@ -2163,13 +2163,13 @@ function remove_query_arg($key, $query) {
 	return add_query_arg($key, '', $query);
 }
 
-function load_template($file) {
+function load_template($_template_file) {
 	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query,
 		$wp_rewrite, $wpdb;
 
-	extract($wp_query->query_vars);
+	extract($wp_query->query_vars, EXTR_SKIP);
 
-	require_once($file);
+	require_once($_template_file);
 }
 
 function add_magic_quotes($array) {
