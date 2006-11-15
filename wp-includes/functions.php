@@ -734,7 +734,7 @@ function add_magic_quotes($array) {
 
 function wp_remote_fopen( $uri ) {
 	if ( ini_get('allow_url_fopen') ) {
-		$fp = fopen( $uri, 'r' );
+		$fp = @fopen( $uri, 'r' );
 		if ( !$fp )
 			return false;
 		$linea = '';
