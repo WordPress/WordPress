@@ -89,7 +89,23 @@ function post_permalink($post_id = 0, $mode = '') { // $mode legacy
 	return get_permalink($post_id);
 }
 
+// Respects page_on_front.  Use this one.
 function get_page_link($id = false) {
+	global $post;
+
+	if ( !$id )
+		$id = $post->ID;
+
+	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
+		$link = get_option('home');
+	else
+		$link = _get_page_link( $id );
+
+	return apply_filters('page_link', $link, $id);
+}
+
+// Ignores page_on_front.  Internal use only.
+function _get_page_link( $id = false ) {
 	global $post, $wp_rewrite;
 
 	if ( !$id )
@@ -105,10 +121,7 @@ function get_page_link($id = false) {
 		$link = get_option('home') . "/?page_id=$id";
 	}
 
-	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
-		$link = get_option('home');
-
-	return apply_filters('page_link', $link, $id);
+	return apply_filters( '_get_page_link', $link, $id );
 }
 
 function get_attachment_link($id = false) {
@@ -123,7 +136,10 @@ function get_attachment_link($id = false) {
 	$object = get_post($id);
 	if ( $wp_rewrite->using_permalinks() && ($object->post_parent > 0) ) {
 		$parent = get_post($object->post_parent);
-		$parentlink = get_permalink($object->post_parent);
+		if ( 'page' == $parent->post_type )
+			$parentlink = _get_page_link( $object->post_parent ); // Ignores page_on_front
+		else
+			$parentlink = get_permalink( $object->post_parent );
 		if (! strstr($parentlink, '?') )
 			$link = trim($parentlink, '/') . '/' . $object->post_name . '/';
 	}
