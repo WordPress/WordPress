@@ -785,8 +785,8 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 	</style>
 	<div id='edButtons' style='display:none;'>
 		<div class='zerosize'><input accesskey='e' type='button' onclick='switchEditors("<?php echo $id; ?>")' /></div>
-		<input id='edButtonPreview' class='edButtonFore' type='button' value='<?php _e('Editor'); ?>' />
-		<input id='edButtonHTML' class='edButtonBack' type='button' value='<?php _e('HTML'); ?>' onclick='switchEditors("<?php echo $id; ?>")' />
+		<input id='edButtonPreview' class='edButtonFore' type='button' value='<?php _e('Visual'); ?>' />
+		<input id='edButtonHTML' class='edButtonBack' type='button' value='<?php _e('Code'); ?>' onclick='switchEditors("<?php echo $id; ?>")' />
 	</div>
 	<script type="text/javascript">
 		if ( typeof tinyMCE != "undefined" && tinyMCE.configs.length > 0 )
