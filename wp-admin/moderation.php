@@ -2,7 +2,7 @@
 require_once('admin.php');
 
 $title = __('Moderate comments');
-$parent_file = 'edit.php';
+$parent_file = 'edit-comments.php';
 wp_enqueue_script( 'admin-comments' );
 
 wp_reset_vars(array('action', 'item_ignored', 'item_deleted', 'item_approved', 'item_spam', 'feelinglucky'));

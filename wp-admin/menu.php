@@ -14,7 +14,8 @@ if ( strstr($_SERVER['REQUEST_URI'], 'page-new.php') )
 	$menu[10] = array(__('Manage'), 'edit_pages', 'edit-pages.php');
 else
 	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
-
+	
+$menu[15] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
 $menu[20] = array(__('Blogroll'), 'manage_links', 'link-manager.php');
 $menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
 $menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
@@ -28,13 +29,15 @@ $menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
 $submenu['post-new.php'][5] = array(__('Write Post'), 'edit_posts', 'post-new.php');
 $submenu['post-new.php'][10] = array(__('Write Page'), 'edit_pages', 'page-new.php');
 
+$submenu['edit-comments.php'][5] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
+$awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
+$submenu['edit-comments.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), "<span id='awaitmod'>$awaiting_mod</span>"), 'edit_posts', 'moderation.php');
+
+
 $submenu['edit.php'][5] = array(__('Posts'), 'edit_posts', 'edit.php');
 $submenu['edit.php'][10] = array(__('Pages'), 'edit_pages', 'edit-pages.php');
 $submenu['edit.php'][12] = array(__('Uploads'), 'upload_files', 'upload.php');
 $submenu['edit.php'][15] = array(__('Categories'), 'manage_categories', 'categories.php');
-$submenu['edit.php'][20] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
-$awaiting_mod = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'");
-$submenu['edit.php'][25] = array(sprintf(__("Awaiting Moderation (%s)"), "<span id='awaitmod'>$awaiting_mod</span>"), 'edit_posts', 'moderation.php');
 $submenu['edit.php'][30] = array(__('Files'), 'edit_files', 'templates.php');
 $submenu['edit.php'][35] = array(__('Import'), 'import', 'import.php');
 $submenu['edit.php'][40] = array(__('Export'), 'import', 'export.php');
