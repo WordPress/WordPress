@@ -42,5 +42,6 @@ if ( ! empty($cat_ID) ) {
 	</table>
 <p class="submit"><input type="submit" name="submit" value="<?php echo $submit_text ?>" /></p>
 <div id="ajax-response"></div>
+<?php do_action('edit_category_form', $category); ?>
 </form>
 </div>
