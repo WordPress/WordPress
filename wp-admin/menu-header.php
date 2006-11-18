@@ -3,13 +3,7 @@
 $self = preg_replace('|^.*/wp-admin/|i', '', $_SERVER['PHP_SELF']);
 $self = preg_replace('|^.*/plugins/|i', '', $self);
 
-foreach ( $submenu as $parent => $subpages ) {
-	foreach ( $subpages as $page ) {
-	// 0 menu title, 1 cap, 2 file or slug, 3 page title
-		if ( $self == $page[2] )
-			$parent_file = $parent;
-	}
-}
+get_admin_page_parent();
 
 foreach ($menu as $item) {
 	$class = '';

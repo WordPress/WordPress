@@ -1,5 +1,9 @@
 <?php
 require_once('admin.php');
+
+$title = __("Edit Themes");
+$parent_file = 'themes.php';
+
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file', 'theme'));
 
 $themes = get_themes();

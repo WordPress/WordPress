@@ -1,6 +1,11 @@
 <?php
 require_once('admin.php');
 
+$title = __('Edit User');
+if ( current_user_can('edit_users') )
+	$parent_file = 'users.php';
+else
+	$parent_file = 'profile.php';
 $submenu_file = 'users.php';
 
 wp_reset_vars(array('action', 'redirect', 'profile', 'user_id', 'wp_http_referer'));

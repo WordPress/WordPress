@@ -1,5 +1,12 @@
 <?php 
 require_once('admin.php');
+
+$title = __('Profile');
+
+if ( current_user_can('edit_users') )
+	$parent_file = 'users.php';
+else
+	$parent_file = 'profile.php';
 include_once('admin-header.php');
 $profileuser = get_user_to_edit($user_ID);
 

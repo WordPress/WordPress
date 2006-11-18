@@ -1,5 +1,7 @@
 <?php
 require_once ('admin.php');
+$title = __('Export');
+$parent_file = 'edit.php';
 
 if ( isset( $_GET['download'] ) )
 	export_wp();

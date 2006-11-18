@@ -1,5 +1,7 @@
 <?php
 require_once('admin.php');
+$title = __('New Page');
+$parent_file = 'post-new.php';
 $editing = true;
 wp_enqueue_script('prototype');
 wp_enqueue_script('autosave');

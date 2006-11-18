@@ -1,5 +1,7 @@
 <?php
 require_once('admin.php');
+$title = __('Pages');
+$parent_file = 'edit.php';
 wp_enqueue_script( 'listman' );
 require_once('admin-header.php');
 ?>

@@ -1,5 +1,9 @@
 <?php
 require_once('admin.php');
+
+$title = __('Discussion Options');
+$parent_file = 'options-general.php';
+
 include('admin-header.php');
 ?>
 

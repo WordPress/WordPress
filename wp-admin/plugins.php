@@ -29,6 +29,7 @@ if ( isset($_GET['action']) ) {
 	exit;
 }
 
+$title = __('Manage Plugins');
 require_once('admin-header.php');
 
 // Clean up options

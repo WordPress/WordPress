@@ -1,7 +1,10 @@
 <?php
 require_once('admin.php');
 
+$title = __('Add Bookmark');
 $this_file = 'link-manager.php';
+$parent_file = 'link-manager.php';
+
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',
                        'description', 'visible', 'target', 'category', 'link_id',

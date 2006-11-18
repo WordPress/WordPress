@@ -1,6 +1,10 @@
 <?php
 require_once('admin.php');
 
+$title = __('Options');
+$this_file = 'options.php';
+$parent_file = 'options-general.php';
+
 wp_reset_vars(array('action'));
 
 if ( !current_user_can('manage_options') )

@@ -1,5 +1,9 @@
 <?php
 require_once('admin.php');
+
+$title = __("Edit Plugins");
+$parent_file = 'plugins.php';
+
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file'));
 
 $plugins = get_plugins();

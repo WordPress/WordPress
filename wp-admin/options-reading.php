@@ -1,5 +1,9 @@
 <?php
 require_once('admin.php');
+
+$title = __('Reading Options');
+$parent_file = 'options-general.php';
+
 include('admin-header.php');
 ?>
 

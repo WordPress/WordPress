@@ -1,6 +1,8 @@
 <?php
 require_once('admin.php');
 
+$title = __('Edit Comments');
+$parent_file = 'edit-comments.php';
 wp_enqueue_script( 'admin-comments' );
 
 require_once('admin-header.php');

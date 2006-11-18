@@ -1,5 +1,8 @@
 <?php
 require_once('admin.php');
+$title = __('Template &amp; File Editing');
+$parent_file = 	'edit.php';
+
 wp_reset_vars(array('action', 'redirect', 'profile', 'error', 'warning', 'a', 'file'));
 
 $recents = get_option('recently_edited');
