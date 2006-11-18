@@ -1341,11 +1341,7 @@ function user_can_access_admin_page() {
 	global $plugin_page;
 
 	$parent = get_admin_page_parent();
-	/*echo "pa: $parent pn: $pagenow pp: $plugin_page<br/>";
-	echo "<pre>";
-	print_r( $_wp_menu_nopriv );
-	print_r( $_wp_submenu_nopriv );
-	echo "</pre>";*/
+
 	if ( isset( $_wp_submenu_nopriv[$parent][$pagenow] ) )
 		return false;
 
@@ -1370,7 +1366,12 @@ function user_can_access_admin_page() {
 
 	if ( isset( $submenu[$parent] ) ) {
 		foreach ( $submenu[$parent] as $submenu_array ) {
-			if ( $submenu_array[2] == $pagenow ) {
+			if ( isset( $plugin_page ) && ( $submenu_array[2] == $plugin_page ) ) {
+				if ( current_user_can( $submenu_array[1] ))
+					return true;
+				else
+					return false;
+			} else if ( $submenu_array[2] == $pagenow ) {
 				if ( current_user_can( $submenu_array[1] ))
 					return true;
 				else
@@ -1549,9 +1550,8 @@ function add_submenu_page( $parent, $page_title, $menu_title, $access_level, $fi
 	// this case, don't automatically add a link back to avoid duplication.
 	if (!isset( $submenu[$parent] ) && $file != $parent  ) {
 		foreach ( $menu as $parent_menu ) {
-			if ( $parent_menu[2] == $parent && current_user_can( $parent_menu[1] ) ) {
+			if ( $parent_menu[2] == $parent && current_user_can( $parent_menu[1] ) )
 				$submenu[$parent][] = $parent_menu;
-			}
 		}
 	}
 
