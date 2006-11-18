@@ -1,7 +1,7 @@
 <?php
 
 class WP {
-	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots');
+	var $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'debug', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'comments_popup', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots');
 
 	var $private_query_vars = array('offset', 'posts_per_page', 'posts_per_archive_page', 'what_to_show', 'showposts', 'nopaging', 'post_type');
 	var $extra_query_vars = array();
@@ -178,7 +178,17 @@ class WP {
 			@header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 		} else {
 			// We're showing a feed, so WP is indeed the only thing that last changed
-			if ( $this->query_vars['withcomments'] )
+			if ( $this->query_vars['withcomments']
+				|| ( !$this->query_vars['withoutcomments']
+					&& ( $this->query_vars['p']
+						|| $this->query_vars['name']
+						|| $this->query_vars['page_id']
+						|| $this->query_vars['pagename']
+						|| $this->query_vars['attachment']
+						|| $this->query_vars['attachment_id']
+					)
+				)
+			)
 				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastcommentmodified('GMT'), 0).' GMT';
 			else 
 				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT'), 0).' GMT';

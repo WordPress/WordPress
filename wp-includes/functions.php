@@ -815,7 +815,7 @@ function do_feed() {
     	$feed = 'rss2';
 
 	$for_comments = false;
-	if ( is_singular() || get_query_var('withcomments') == 1 || $feed == 'comments-rss2' ) {
+	if ( 1 != get_query_var('withoutcomments') && ( is_singular() || get_query_var('withcomments') == 1 || $feed == 'comments-rss2' ) ) {
 		$feed = 'rss2';
 		$for_comments = true;	
 	}
