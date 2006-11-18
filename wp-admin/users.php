@@ -2,12 +2,6 @@
 require_once('admin.php');
 require_once( ABSPATH . WPINC . '/registration.php');
 
-$title = __('Users');
-if ( current_user_can('edit_users') )
-	$parent_file = 'users.php';
-else
-	$parent_file = 'profile.php';
-
 $action = $_REQUEST['action'];
 $update = '';
 

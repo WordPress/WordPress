@@ -1,7 +1,5 @@
 <?php
 require_once ('admin.php');
-$title = __('Import');
-$parent_file = 'edit.php';
 require_once ('admin-header.php');
 ?>
 

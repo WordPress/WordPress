@@ -1,9 +1,5 @@
 <?php
 require_once('admin.php');
-
-$title = __('Writing Options');
-$parent_file = 'options-general.php';
-
 include('admin-header.php');
 ?>
 

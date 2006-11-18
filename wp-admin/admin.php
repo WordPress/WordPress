@@ -82,9 +82,7 @@ if (isset($plugin_page)) {
 
 	include(ABSPATH . "wp-admin/import/$importer.php");
 
-	$parent_file = 'edit.php';
 	$submenu_file = 'import.php';
-	$title = __('Import');
 
 	if (! isset($_GET['noheader']))
 		require_once(ABSPATH . 'wp-admin/admin-header.php');

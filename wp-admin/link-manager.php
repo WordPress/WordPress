@@ -6,7 +6,6 @@
 
 require_once ('admin.php');
 
-$title = __('Manage Bookmarks');
 $this_file = $parent_file = 'link-manager.php';
 wp_enqueue_script( 'listman' );
 

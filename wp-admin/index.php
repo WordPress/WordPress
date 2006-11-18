@@ -1,7 +1,5 @@
 <?php
 require_once('admin.php'); 
-$title = __('Dashboard'); 
-$parent_file = 'index.php';
 require_once('admin-header.php');
 require_once (ABSPATH . WPINC . '/rss.php');
 

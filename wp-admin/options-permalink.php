@@ -1,9 +1,5 @@
 <?php
 require_once('admin.php');
-
-$title = __('Permalink Options');
-$parent_file = 'options-general.php';
-
 function add_js() {
 ?>
 <script type="text/javascript">

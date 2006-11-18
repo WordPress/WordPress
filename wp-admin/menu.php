@@ -4,26 +4,31 @@
 // Menu item name
 // The minimum level the user needs to access the item: between 0 and 10
 // The URL of the item's file
-$menu[0] = array(__('Dashboard'), 'read', 'index.php');
+// Slug
+$menu[0] = array(__('Dashboard'), 'read', 'index.php', 'home');
 
+// So when people switch between write and manage they go to the appropiate page/post mode they were on
 if ( strstr($_SERVER['REQUEST_URI'], 'edit-pages.php') )
-	$menu[5] = array(__('Write'), 'edit_pages', 'page-new.php');
+	$menu[5] = array(__('Write'), 'edit_pages', 'page-new.php', 'write');
 else
-	$menu[5] = array(__('Write'), 'edit_posts', 'post-new.php');
+	$menu[5] = array(__('Write'), 'edit_posts', 'post-new.php', 'write');
+
 if ( strstr($_SERVER['REQUEST_URI'], 'page-new.php') )
-	$menu[10] = array(__('Manage'), 'edit_pages', 'edit-pages.php');
+	$menu[10] = array(__('Manage'), 'edit_pages', 'edit-pages.php', 'manage');
 else
-	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');
+	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php', 'manage');
 	
-$menu[15] = array(__('Comments'), 'edit_posts', 'edit-comments.php');
-$menu[20] = array(__('Blogroll'), 'manage_links', 'link-manager.php');
-$menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php');
-$menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
+$menu[15] = array(__('Comments'), 'edit_posts', 'edit-comments.php', 'comments');
+$menu[20] = array(__('Blogroll'), 'manage_links', 'link-manager.php', 'blogroll');
+$menu[25] = array(__('Presentation'), 'switch_themes', 'themes.php', 'themes');
+$menu[30] = array(__('Plugins'), 'activate_plugins', 'plugins.php', 'plugins');
+
 if ( current_user_can('edit_users') )
-	$menu[35] = array(__('Users'), 'edit_users', 'users.php');
+	$menu[35] = array(__('Users'), 'edit_users', 'users.php', 'users');
 else
-	$menu[35] = array(__('Profile'), 'read', 'profile.php');
-$menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
+	$menu[35] = array(__('Profile'), 'read', 'profile.php', 'profile');
+
+$menu[40] = array(__('Options'), 'manage_options', 'options-general.php', 'options');
 
 
 $submenu['post-new.php'][5] = array(__('Write Post'), 'edit_posts', 'post-new.php');
@@ -69,9 +74,8 @@ $submenu['themes.php'][5] = array(__('Themes'), 'switch_themes', 'themes.php');
 $submenu['themes.php'][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
 
 // Create list of page plugin hook names.
-foreach ($menu as $menu_page) {
+foreach ( $menu as $menu_page )
 	$admin_page_hooks[$menu_page[2]] = sanitize_title($menu_page[0]);
-}
 
 $_wp_submenu_nopriv = array();
 $_wp_menu_nopriv = array();
@@ -128,12 +132,11 @@ foreach ( $menu as $id => $data ) {
 	}
 }
 
-unset($id);
+unset( $id );
 
-uksort($menu, "strnatcasecmp"); // make it all pretty
+uksort( $menu, 'strnatcasecmp' );
 
-if (! user_can_access_admin_page()) {
+if ( !user_can_access_admin_page() )
 	wp_die( __('You do not have sufficient permissions to access this page.') );
-}
 
 ?>

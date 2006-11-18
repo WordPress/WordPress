@@ -18,8 +18,6 @@ if ( isset($_GET['action']) ) {
 	}
 }
 
-$title = __('Manage Themes');
-$parent_file = 'themes.php';
 require_once('admin-header.php');
 ?>
 

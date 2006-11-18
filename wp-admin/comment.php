@@ -1,7 +1,6 @@
 <?php
 require_once('admin.php');
 
-$parent_file = 'edit.php';
 $submenu_file = 'edit-comments.php';
 
 wp_reset_vars(array('action'));

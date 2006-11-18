@@ -3,8 +3,6 @@
 // Copyright (C) 2002 Mike Little -- mike@zed1.com
 
 require_once('admin.php');
-$parent_file = 'link-manager.php';
-$title = __('Import Blogroll');
 $this_file = 'link-import.php';
 
 $step = $_POST['step'];

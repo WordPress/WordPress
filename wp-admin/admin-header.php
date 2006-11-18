@@ -16,7 +16,7 @@ get_admin_page_title();
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
-<title><?php bloginfo('name') ?> &rsaquo; <?php echo $title; ?> &#8212; WordPress</title>
+<title><?php bloginfo('name') ?> &rsaquo; <?php echo wp_specialchars( strip_tags( $title ) ); ?> &#8212; WordPress</title>
 <link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/wp-admin.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
 <link rel="stylesheet" href="<?php echo get_option('siteurl') ?>/wp-admin/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
