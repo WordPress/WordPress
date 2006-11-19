@@ -90,7 +90,7 @@ class wpdb {
 	function print_error($str = '') {
 		global $EZSQL_ERROR;
 		if (!$str) $str = mysql_error();
-		$EZSQL_ERROR[] = 
+		$EZSQL_ERROR[] =
 		array ('query' => $this->last_query, 'error_str' => $str);
 
 		$str = htmlspecialchars($str, ENT_QUOTES);

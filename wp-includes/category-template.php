@@ -187,8 +187,8 @@ function wp_dropdown_categories($args = '') {
 			$output .= "\t<option value='0'>$show_option_all</option>\n";
 		}
 
-		if ( $show_option_none) { 
-			$show_option_none = apply_filters('list_cats', $show_option_none);		
+		if ( $show_option_none) {
+			$show_option_none = apply_filters('list_cats', $show_option_none);
 			$output .= "\t<option value='-1'>$show_option_none</option>\n";
 		}
 
@@ -226,7 +226,7 @@ function wp_list_categories($args = '') {
 	extract($r);
 
 	$categories = get_categories($r);
-	
+
 	$output = '';
 	if ( $title_li && 'list' == $style )
 			$output = '<li class="categories">' . $r['title_li'] . '<ul>';
@@ -249,7 +249,7 @@ function wp_list_categories($args = '') {
 
 	if ( $title_li && 'list' == $style )
 		$output .= '</ul></li>';
-			
+
 	echo apply_filters('list_cats', $output);
 }
 

@@ -16,7 +16,7 @@ if (0 == $post_ID) {
 $sendto = wp_get_referer();
 
 if ( 0 != $post_ID && $sendto == get_permalink($post_ID) )
- 	$sendto = 'redo';
+	$sendto = 'redo';
 $sendto = wp_specialchars( $sendto );
 
 ?>
@@ -27,7 +27,7 @@ $sendto = wp_specialchars( $sendto );
 wp_nonce_field($nonce_action);
 
 if (isset($mode) && 'bookmarklet' == $mode) {
-    echo '<input type="hidden" name="mode" value="bookmarklet" />';
+	echo '<input type="hidden" name="mode" value="bookmarklet" />';
 }
 ?>
 <input type="hidden" name="user_ID" value="<?php echo $user_ID ?>" />
@@ -103,7 +103,7 @@ addLoadEvent(focusit);
 <h3 class="dbx-handle"><?php _e('Page Author'); ?>:</h3>
 <div class="dbx-content">
 <select name="post_author_override" id="post_author_override">
-<?php 
+<?php
 foreach ($authors as $o) :
 $o = get_userdata( $o->ID );
 if ( $post->post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
@@ -117,7 +117,7 @@ endforeach;
 <?php endif; ?>
 
 <fieldset id="pageorder" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Page Order') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Page Order') ?></h3>
 <div class="dbx-content"><p><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo $post->menu_order ?>" /></p></div>
 </fieldset>
 
@@ -168,9 +168,9 @@ if (current_user_can('upload_files')) {
 <h3 class="dbx-handle"><?php _e('Custom Fields') ?></h3>
 <div id="postcustomstuff" class="dbx-content">
 <table cellpadding="3">
-<?php 
+<?php
 $metadata = has_meta($post_ID);
-list_meta($metadata); 
+list_meta($metadata);
 ?>
 
 </table>
@@ -186,7 +186,7 @@ list_meta($metadata);
 </div>
 
 <?php if ('edit' == $action) :
-	$delete_nonce = wp_create_nonce( 'delete-page_' . $post_ID ); 
+	$delete_nonce = wp_create_nonce( 'delete-page_' . $post_ID );
 	if ( current_user_can('delete_page', $post->ID) ) ?>
 		<input name="deletepost" class="button delete" type="submit" id="deletepost" tabindex="10" value="<?php _e('Delete this page') ?>" <?php echo "onclick=\"if ( confirm('" . sprintf(__("You are about to delete this page \'%s\'\\n  \'Cancel\' to stop, \'OK\' to delete."), js_escape($post->post_title) ) . "') ) { document.forms.post._wpnonce.value = '$delete_nonce'; return true;}return false;\""; ?> />
 <?php endif; ?>

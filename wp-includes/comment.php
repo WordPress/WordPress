@@ -18,11 +18,11 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 			// Skip empty lines
 			if (empty($word)) { continue; }
 
-			// Do some escaping magic so that '#' chars in the 
+			// Do some escaping magic so that '#' chars in the
 			// spam words don't break things:
 			$word = preg_quote($word, '#');
 
-			$pattern = "#$word#i"; 
+			$pattern = "#$word#i";
 			if ( preg_match($pattern, $author) ) return false;
 			if ( preg_match($pattern, $email) ) return false;
 			if ( preg_match($pattern, $url) ) return false;
@@ -103,9 +103,9 @@ function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = fals
 	if ($no_cache) {
 		$query = "SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment_ID'";
 		if (false == $include_unapproved) {
-		    $query .= " AND comment_approved = '1'";
+				$query .= " AND comment_approved = '1'";
 		}
-    		$myrow = $wpdb->get_row($query, ARRAY_A);
+				$myrow = $wpdb->get_row($query, ARRAY_A);
 	} else {
 		$myrow['comment_ID'] = $postc->comment_ID;
 		$myrow['comment_post_ID'] = $postc->comment_post_ID;
@@ -157,7 +157,7 @@ function sanitize_comment_cookies() {
 	if ( isset($_COOKIE['comment_author_email_'.COOKIEHASH]) ) {
 		$comment_author_email = apply_filters('pre_comment_author_email', $_COOKIE['comment_author_email_'.COOKIEHASH]);
 		$comment_author_email = stripslashes($comment_author_email);
-		$comment_author_email = wp_specialchars($comment_author_email, true);	
+		$comment_author_email = wp_specialchars($comment_author_email, true);
 		$_COOKIE['comment_author_email_'.COOKIEHASH] = $comment_author_email;
 	}
 
@@ -243,11 +243,11 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		// Skip empty lines
 		if ( empty($word) ) { continue; }
 
-		// Do some escaping magic so that '#' chars in the 
+		// Do some escaping magic so that '#' chars in the
 		// spam words don't break things:
 		$word = preg_quote($word, '#');
 
-		$pattern = "#$word#i"; 
+		$pattern = "#$word#i";
 		if ( preg_match($pattern, $author    ) ) return true;
 		if ( preg_match($pattern, $email     ) ) return true;
 		if ( preg_match($pattern, $url       ) ) return true;
@@ -328,9 +328,9 @@ function wp_insert_comment($commentdata) {
 	if ( ! isset($user_id) )
 		$user_id = 0;
 
-	$result = $wpdb->query("INSERT INTO $wpdb->comments 
+	$result = $wpdb->query("INSERT INTO $wpdb->comments
 	(comment_post_ID, comment_author, comment_author_email, comment_author_url, comment_author_IP, comment_date, comment_date_gmt, comment_content, comment_approved, comment_agent, comment_type, comment_parent, user_id)
-	VALUES 
+	VALUES
 	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$comment_author_IP', '$comment_date', '$comment_date_gmt', '$comment_content', '$comment_approved', '$comment_agent', '$comment_type', '$comment_parent', '$user_id')
 	");
 
@@ -397,26 +397,26 @@ function wp_new_comment( $commentdata ) {
 }
 
 function wp_set_comment_status($comment_id, $comment_status) {
-    global $wpdb;
+		global $wpdb;
 
-    switch($comment_status) {
+		switch($comment_status) {
 		case 'hold':
 			$query = "UPDATE $wpdb->comments SET comment_approved='0' WHERE comment_ID='$comment_id' LIMIT 1";
 		break;
 		case 'approve':
 			$query = "UPDATE $wpdb->comments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
 		break;
- 		case 'spam':
- 			$query = "UPDATE $wpdb->comments SET comment_approved='spam' WHERE comment_ID='$comment_id' LIMIT 1";
- 		break;
+		case 'spam':
+			$query = "UPDATE $wpdb->comments SET comment_approved='spam' WHERE comment_ID='$comment_id' LIMIT 1";
+		break;
 		case 'delete':
 			return wp_delete_comment($comment_id);
 		break;
 		default:
 			return false;
-    }
-    
-    if ($wpdb->query($query)) {
+		}
+
+		if ($wpdb->query($query)) {
 		do_action('wp_set_comment_status', $comment_id, $comment_status);
 
 		$comment = get_comment($comment_id);
@@ -425,9 +425,9 @@ function wp_set_comment_status($comment_id, $comment_status) {
 		if( is_object( $c ) )
 			$wpdb->query( "UPDATE $wpdb->posts SET comment_count = '$c->c' WHERE ID = '$comment_post_ID'" );
 		return true;
-    } else {
+		} else {
 		return false;
-    }
+		}
 }
 
 function wp_update_comment($commentarr) {
@@ -582,7 +582,7 @@ function do_all_pings() {
 		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$ping->ID} AND meta_key = '_pingme';");
 		pingback($ping->post_content, $ping->ID);
 	}
-	
+
 	// Do Enclosures
 	while ($enclosure = $wpdb->get_row("SELECT * FROM {$wpdb->posts}, {$wpdb->postmeta} WHERE {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = '_encloseme' LIMIT 1")) {
 		$wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE post_id = {$enclosure->ID} AND meta_key = '_encloseme';");
@@ -705,7 +705,7 @@ function pingback($content, $post_ID) {
 		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
 
 		if ($pingback_server_url) {
-			@ set_time_limit( 60 ); 
+			@ set_time_limit( 60 );
 			 // Now, the RPC call
 			debug_fwrite($log, "Page Linked To: $pagelinkedto \n");
 			debug_fwrite($log, 'Page Linked From: ');

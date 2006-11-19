@@ -9,7 +9,7 @@
 **/
 if(!function_exists('get_catbynicename'))
 {
-	function get_catbynicename($category_nicename) 
+	function get_catbynicename($category_nicename)
 	{
 	global $wpdb;
 
@@ -60,57 +60,58 @@ if(!function_exists('link_exists'))
 //
 //    This cries out for a C-implementation to be included in PHP core
 //
-   function valid_1byte($char) {
-       if(!is_int($char)) return false;
-       return ($char & 0x80) == 0x00;
-   }
-  
-   function valid_2byte($char) {
-       if(!is_int($char)) return false;
-       return ($char & 0xE0) == 0xC0;
-   }
 
-   function valid_3byte($char) {
-       if(!is_int($char)) return false;
-       return ($char & 0xF0) == 0xE0;
-   }
+function valid_1byte($char) {
+	if(!is_int($char)) return false;
+		return ($char & 0x80) == 0x00;
+}
 
-   function valid_4byte($char) {
-       if(!is_int($char)) return false;
-       return ($char & 0xF8) == 0xF0;
-   }
-  
-   function valid_nextbyte($char) {
-       if(!is_int($char)) return false;
-       return ($char & 0xC0) == 0x80;
-   }
-  
-   function valid_utf8($string) {
-       $len = strlen($string);
-       $i = 0;   
-       while( $i < $len ) {
-           $char = ord(substr($string, $i++, 1));
-           if(valid_1byte($char)) {    // continue
-               continue;
-           } else if(valid_2byte($char)) { // check 1 byte
-               if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-                   return false;
-           } else if(valid_3byte($char)) { // check 2 bytes
-               if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-                   return false;
-               if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-                   return false;
-           } else if(valid_4byte($char)) { // check 3 bytes
-               if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-                   return false;
-               if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-                   return false;
-               if(!valid_nextbyte(ord(substr($string, $i++, 1))))
-                   return false;
-           } // goto next char
-       }
-       return true; // done
-   }
+function valid_2byte($char) {
+	if(!is_int($char)) return false;
+		return ($char & 0xE0) == 0xC0;
+}
+
+function valid_3byte($char) {
+	if(!is_int($char)) return false;
+		return ($char & 0xF0) == 0xE0;
+}
+
+function valid_4byte($char) {
+	if(!is_int($char)) return false;
+		return ($char & 0xF8) == 0xF0;
+}
+
+function valid_nextbyte($char) {
+	if(!is_int($char)) return false;
+		return ($char & 0xC0) == 0x80;
+}
+
+function valid_utf8($string) {
+	$len = strlen($string);
+	$i = 0;
+	while( $i < $len ) {
+		$char = ord(substr($string, $i++, 1));
+		if(valid_1byte($char)) {    // continue
+			continue;
+		} else if(valid_2byte($char)) { // check 1 byte
+			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
+				return false;
+		} else if(valid_3byte($char)) { // check 2 bytes
+			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
+				return false;
+			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
+				return false;
+		} else if(valid_4byte($char)) { // check 3 bytes
+			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
+				return false;
+			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
+				return false;
+			if(!valid_nextbyte(ord(substr($string, $i++, 1))))
+				return false;
+		} // goto next char
+	}
+	return true; // done
+}
 
 function csc ($s) {
 	if (valid_utf8 ($s)) {
@@ -151,7 +152,7 @@ class Dotclear_Import {
 		echo '</form></div>';
 	}
 
-	function get_dc_cats() 
+	function get_dc_cats()
 	{
 		global $wpdb;
 		// General Housekeeping
@@ -186,7 +187,7 @@ class Dotclear_Import {
 		// Get Posts
 		return $dcdb->get_results('SELECT '.$dbprefix.'post.*, '.$dbprefix.'categorie.cat_libelle_url AS post_cat_name
 						FROM '.$dbprefix.'post INNER JOIN '.$dbprefix.'categorie
-						  ON '.$dbprefix.'post.cat_id = '.$dbprefix.'categorie.cat_id', ARRAY_A);
+						ON '.$dbprefix.'post.cat_id = '.$dbprefix.'categorie.cat_id', ARRAY_A);
 	}
 
 	function get_dc_comments()
@@ -211,7 +212,7 @@ class Dotclear_Import {
 		return $dcdb->get_results('SELECT * FROM '.$dbprefix.'link ORDER BY position', ARRAY_A);
 	}
 
-	function cat2wp($categories='') 
+	function cat2wp($categories='')
 	{
 		// General Housekeeping
 		global $wpdb;
@@ -221,7 +222,7 @@ class Dotclear_Import {
 		if(is_array($categories))
 		{
 			echo '<p>'.__('Importing Categories...').'<br /><br /></p>';
-			foreach ($categories as $category) 
+			foreach ($categories as $category)
 			{
 				$count++;
 				extract($category);
@@ -283,7 +284,7 @@ class Dotclear_Import {
 								'display_name'	=> $Realname)
 								);
 				}
-				else 
+				else
 				{
 					$ret_id = wp_insert_user(array(
 								'user_login'	=> $user_id,
@@ -384,7 +385,7 @@ class Dotclear_Import {
 							'comment_count'		=> $post_nb_comment + $post_nb_trackback)
 							);
 				}
-				else 
+				else
 				{
 					$ret_id = wp_insert_post(array(
 							'post_author'		=> $authorid,
@@ -460,7 +461,7 @@ class Dotclear_Import {
 							'comment_approved'	=> $comment_approved)
 							);
 				}
-				else 
+				else
 				{
 					// Insert comments
 					$ret_id = wp_insert_comment(array(
@@ -547,7 +548,7 @@ class Dotclear_Import {
 		return false;
 	}
 
-	function import_categories() 
+	function import_categories()
 	{
 		// Category Import
 		$cats = $this->get_dc_cats();
@@ -565,7 +566,7 @@ class Dotclear_Import {
 	function import_users()
 	{
 		// User Import
-		$users = $this->get_dc_users(); 
+		$users = $this->get_dc_users();
 		$this->users2wp($users);
 
 		echo '<form action="admin.php?import=dotclear&amp;step=3" method="post">';
@@ -655,7 +656,7 @@ class Dotclear_Import {
 		echo '</table>';
 	}
 
-	function dispatch() 
+	function dispatch()
 	{
 
 		if (empty ($_GET['step']))
@@ -664,7 +665,7 @@ class Dotclear_Import {
 			$step = (int) $_GET['step'];
 		$this->header();
 
-		if ( $step > 0 ) 
+		if ( $step > 0 )
 		{
 			if($_POST['dbuser'])
 			{
@@ -689,25 +690,25 @@ class Dotclear_Import {
 			{
 				if(get_option('dchost'))
 					delete_option('dchost');
-				add_option('dchost',$_POST['dbhost']); 
+				add_option('dchost',$_POST['dbhost']);
 			}
 			if($_POST['dccharset'])
 			{
 				if(get_option('dccharset'))
 					delete_option('dccharset');
-				add_option('dccharset',$_POST['dccharset']); 
+				add_option('dccharset',$_POST['dccharset']);
 			}
 			if($_POST['dbprefix'])
 			{
 				if(get_option('dcdbprefix'))
 					delete_option('dcdbprefix');
-				add_option('dcdbprefix',$_POST['dbprefix']); 
+				add_option('dcdbprefix',$_POST['dbprefix']);
 			}
 
 
 		}
 
-		switch ($step) 
+		switch ($step)
 		{
 			default:
 			case 0 :
@@ -736,7 +737,7 @@ class Dotclear_Import {
 		$this->footer();
 	}
 
-	function Dotclear_Import() 
+	function Dotclear_Import()
 	{
 		// Nothing.
 	}

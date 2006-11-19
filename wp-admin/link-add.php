@@ -7,9 +7,9 @@ $parent_file = 'link-manager.php';
 
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image',
-                       'description', 'visible', 'target', 'category', 'link_id',
-                       'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
-                       'notes', 'linkcheck[]'));
+	'description', 'visible', 'target', 'category', 'link_id',
+	'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel',
+	'notes', 'linkcheck[]'));
 
 wp_enqueue_script( array('xfn', 'dbx-admin-key?pagenow=link.php') );
 if ( current_user_can( 'manage_categories' ) )

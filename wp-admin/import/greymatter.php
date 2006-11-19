@@ -66,10 +66,10 @@ class GM_Import {
 		$string = str_replace("|*|","<br />\n",$string);
 		return($string);
 	}
-	
+
 	function import() {
 		global $wpdb;
-	
+
 		$wpvarstoreset = array('gmpath', 'archivespath', 'lastentry');
 		for ($i=0; $i<count($wpvarstoreset); $i += 1) {
 			$wpvar = $wpvarstoreset[$i];
@@ -136,11 +136,11 @@ class GM_Import {
 <li><?php _e('importing posts, comments, and karma...') ?><br /><ul><?php
 
 	chdir($archivespath);
-	
+
 	for($i = 0; $i <= $lastentry; $i = $i + 1) {
-		
+
 		$entryfile = "";
-		
+
 		if ($i<10000000) {
 			$entryfile .= "0";
 			if ($i<1000000) {
@@ -194,7 +194,7 @@ class GM_Import {
 			$post_status = 'publish'; //in greymatter, there are no drafts
 			$comment_status = 'open';
 			$ping_status = 'closed';
-			
+
 			if ($post_ID = post_exists($post_title, '', $post_date)) {
 				echo ' ';
 				_e('(already exists)');
@@ -303,7 +303,7 @@ class GM_Import {
 	}
 
 	function GM_Import() {
-		// Nothing.	
+		// Nothing.
 	}
 }
 

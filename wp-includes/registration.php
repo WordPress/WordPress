@@ -85,9 +85,9 @@ function wp_insert_user($userdata) {
 		$wpdb->query( $query );
 		$user_id = $ID;
 	} else {
-		$query = "INSERT INTO $wpdb->users 
+		$query = "INSERT INTO $wpdb->users
 		(user_login, user_pass, user_email, user_url, user_registered, user_nicename, display_name)
-	VALUES 
+	VALUES
 		('$user_login', '$user_pass', '$user_email', '$user_url', '$user_registered', '$user_nicename', '$display_name')";
 		$query = apply_filters('create_user_query', $query);
 		$wpdb->query( $query );

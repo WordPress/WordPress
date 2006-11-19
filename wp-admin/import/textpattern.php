@@ -4,7 +4,7 @@
 **/
 if(!function_exists('get_catbynicename'))
 {
-	function get_catbynicename($category_nicename) 
+	function get_catbynicename($category_nicename)
 	{
 	global $wpdb;
 
@@ -70,13 +70,13 @@ class Textpattern_Import {
 		$prefix = get_option('tpre');
 
 		// Get Categories
-		return $txpdb->get_results('SELECT 
-										id,
-										name,
-										title
-							   		 FROM '.$prefix.'txp_category 
-							   		 WHERE type = "article"', 
-									 ARRAY_A);
+		return $txpdb->get_results('SELECT
+			id,
+			name,
+			title
+			FROM '.$prefix.'txp_category
+			WHERE type = "article"',
+			ARRAY_A);
 	}
 
 	function get_txp_users()
@@ -90,12 +90,12 @@ class Textpattern_Import {
 		// Get Users
 
 		return $txpdb->get_results('SELECT
-										user_id,
-										name,
-										RealName,
-										email,
-										privs
-							   		FROM '.$prefix.'txp_users', ARRAY_A);
+			user_id,
+			name,
+			RealName,
+			email,
+			privs
+			FROM '.$prefix.'txp_users', ARRAY_A);
 	}
 
 	function get_txp_posts()
@@ -106,22 +106,22 @@ class Textpattern_Import {
 		$prefix = get_option('tpre');
 
 		// Get Posts
-		return $txpdb->get_results('SELECT 
-										ID,
-										Posted,
-										AuthorID,
-										LastMod,
-										Title,
-										Body,
-										Excerpt,
-										Category1,
-										Category2,
-										Status,
-										Keywords,
-										url_title,
-										comments_count
-							   		FROM '.$prefix.'textpattern
-							   		', ARRAY_A);
+		return $txpdb->get_results('SELECT
+			ID,
+			Posted,
+			AuthorID,
+			LastMod,
+			Title,
+			Body,
+			Excerpt,
+			Category1,
+			Category2,
+			Status,
+			Keywords,
+			url_title,
+			comments_count
+			FROM '.$prefix.'textpattern
+			', ARRAY_A);
 	}
 
 	function get_txp_comments()
@@ -143,18 +143,18 @@ class Textpattern_Import {
 		set_magic_quotes_runtime(0);
 		$prefix = get_option('tpre');
 
-		return $txpdb->get_results('SELECT 
-										id,
-										date,
-										category,
-										url,
-										linkname,
-										description
-									  FROM '.$prefix.'txp_link', 
-									  ARRAY_A);						  
+		return $txpdb->get_results('SELECT
+			id,
+			date,
+			category,
+			url,
+			linkname,
+			description
+			FROM '.$prefix.'txp_link',
+			ARRAY_A);
 	}
 
-	function cat2wp($categories='') 
+	function cat2wp($categories='')
 	{
 		// General Housekeeping
 		global $wpdb;
@@ -164,7 +164,7 @@ class Textpattern_Import {
 		if(is_array($categories))
 		{
 			echo '<p>'.__('Importing Categories...').'<br /><br /></p>';
-			foreach ($categories as $category) 
+			foreach ($categories as $category)
 			{
 				$count++;
 				extract($category);
@@ -226,7 +226,7 @@ class Textpattern_Import {
 								'display_name'	=> $name)
 								);
 				}
-				else 
+				else
 				{
 					$ret_id = wp_insert_user(array(
 								'user_login'	=> $name,
@@ -302,35 +302,35 @@ class Textpattern_Import {
 				if($pinfo = post_exists($Title,$Body))
 				{
 					$ret_id = wp_insert_post(array(
-							'ID'				=> $pinfo,
-							'post_date'			=> $Posted,
-							'post_date_gmt'		=> $post_date_gmt,
-							'post_author'		=> $authorid,
-							'post_modified'		=> $LastMod,
-							'post_modified_gmt' => $post_modified_gmt,
-							'post_title'		=> $Title,
-							'post_content'		=> $Body,
-							'post_excerpt'		=> $Excerpt,
-							'post_status'		=> $post_status,
-							'post_name'			=> $url_title,
-							'comment_count'		=> $comments_count)
-							);
+						'ID'				=> $pinfo,
+						'post_date'			=> $Posted,
+						'post_date_gmt'		=> $post_date_gmt,
+						'post_author'		=> $authorid,
+						'post_modified'		=> $LastMod,
+						'post_modified_gmt' => $post_modified_gmt,
+						'post_title'		=> $Title,
+						'post_content'		=> $Body,
+						'post_excerpt'		=> $Excerpt,
+						'post_status'		=> $post_status,
+						'post_name'			=> $url_title,
+						'comment_count'		=> $comments_count)
+						);
 				}
-				else 
+				else
 				{
 					$ret_id = wp_insert_post(array(
-							'post_date'			=> $Posted,
-							'post_date_gmt'		=> $post_date_gmt,
-							'post_author'		=> $authorid,
-							'post_modified'		=> $LastMod,
-							'post_modified_gmt' => $post_modified_gmt,
-							'post_title'		=> $Title,
-							'post_content'		=> $Body,
-							'post_excerpt'		=> $Excerpt,
-							'post_status'		=> $post_status,
-							'post_name'			=> $url_title,
-							'comment_count'		=> $comments_count)
-							);
+						'post_date'			=> $Posted,
+						'post_date_gmt'		=> $post_date_gmt,
+						'post_author'		=> $authorid,
+						'post_modified'		=> $LastMod,
+						'post_modified_gmt' => $post_modified_gmt,
+						'post_title'		=> $Title,
+						'post_content'		=> $Body,
+						'post_excerpt'		=> $Excerpt,
+						'post_status'		=> $post_status,
+						'post_name'			=> $url_title,
+						'comment_count'		=> $comments_count)
+						);
 				}
 				$txpposts2wpposts[$ID] = $ret_id;
 
@@ -379,29 +379,29 @@ class Textpattern_Import {
 				{
 					// Update comments
 					$ret_id = wp_update_comment(array(
-							'comment_ID'			=> $cinfo,
-							'comment_post_ID'		=> $comment_post_ID,
-							'comment_author'		=> $name,
-							'comment_author_email'	=> $email,
-							'comment_author_url'	=> $web,
-							'comment_date'			=> $posted,
-							'comment_content'		=> $message,
-							'comment_approved'		=> $comment_approved)
-							);
+						'comment_ID'			=> $cinfo,
+						'comment_post_ID'		=> $comment_post_ID,
+						'comment_author'		=> $name,
+						'comment_author_email'	=> $email,
+						'comment_author_url'	=> $web,
+						'comment_date'			=> $posted,
+						'comment_content'		=> $message,
+						'comment_approved'		=> $comment_approved)
+						);
 				}
-				else 
+				else
 				{
 					// Insert comments
 					$ret_id = wp_insert_comment(array(
-							'comment_post_ID'		=> $comment_post_ID,
-							'comment_author'		=> $name,
-							'comment_author_email'	=> $email,
-							'comment_author_url'	=> $web,
-							'comment_author_IP'		=> $ip,
-							'comment_date'			=> $posted,
-							'comment_content'		=> $message,
-							'comment_approved'		=> $comment_approved)
-							);
+						'comment_post_ID'		=> $comment_post_ID,
+						'comment_author'		=> $name,
+						'comment_author_email'	=> $email,
+						'comment_author_url'	=> $web,
+						'comment_author_IP'		=> $ip,
+						'comment_date'			=> $posted,
+						'comment_content'		=> $message,
+						'comment_approved'		=> $comment_approved)
+						);
 				}
 				$txpcm2wpcm[$comment_ID] = $ret_id;
 			}
@@ -450,7 +450,7 @@ class Textpattern_Import {
 								'link_updated'		=> $date)
 								);
 				}
-				else 
+				else
 				{
 					$ret_id = wp_insert_link(array(
 								'link_url'			=> $url,
@@ -472,7 +472,7 @@ class Textpattern_Import {
 		return false;
 	}
 
-	function import_categories() 
+	function import_categories()
 	{
 		// Category Import
 		$cats = $this->get_txp_cats();
@@ -490,7 +490,7 @@ class Textpattern_Import {
 	function import_users()
 	{
 		// User Import
-		$users = $this->get_txp_users(); 
+		$users = $this->get_txp_users();
 		$this->users2wp($users);
 
 		echo '<form action="admin.php?import=textpattern&amp;step=3" method="post">';
@@ -578,7 +578,7 @@ class Textpattern_Import {
 		echo '</table>';
 	}
 
-	function dispatch() 
+	function dispatch()
 	{
 
 		if (empty ($_GET['step']))
@@ -587,7 +587,7 @@ class Textpattern_Import {
 			$step = (int) $_GET['step'];
 		$this->header();
 
-		if ( $step > 0 ) 
+		if ( $step > 0 )
 		{
 			if($_POST['dbuser'])
 			{
@@ -612,19 +612,19 @@ class Textpattern_Import {
 			{
 				if(get_option('txphost'))
 					delete_option('txphost');
-				add_option('txphost',$_POST['dbhost']); 
+				add_option('txphost',$_POST['dbhost']);
 			}
 			if($_POST['dbprefix'])
 			{
 				if(get_option('tpre'))
 					delete_option('tpre');
-				add_option('tpre',$_POST['dbprefix']); 
+				add_option('tpre',$_POST['dbprefix']);
 			}
 
 
 		}
 
-		switch ($step) 
+		switch ($step)
 		{
 			default:
 			case 0 :
@@ -653,7 +653,7 @@ class Textpattern_Import {
 		$this->footer();
 	}
 
-	function Textpattern_Import() 
+	function Textpattern_Import()
 	{
 		// Nothing.
 	}

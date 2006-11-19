@@ -29,7 +29,7 @@ switch ($action) {
 		$deleted = 0;
 		foreach ($linkcheck as $link_id) {
 			$link_id = (int) $link_id;
-			
+
 			if ( wp_delete_link($link_id) )
 				$deleted++;
 		}

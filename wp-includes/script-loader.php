@@ -73,7 +73,7 @@ class WP_Scripts {
 			}
 		}
 	}
-				
+
 
 	/**
 	 * Determines dependencies of scripts
@@ -159,7 +159,7 @@ class WP_Scripts {
 		endswitch;
 		return false;
 	}
-			
+
 }
 
 class _WP_Script {

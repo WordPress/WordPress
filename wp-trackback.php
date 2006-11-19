@@ -47,8 +47,8 @@ if ( function_exists('mb_convert_encoding') ) { // For international trackbacks
 	$blog_name = mb_convert_encoding($blog_name, get_option('blog_charset'), $charset);
 }
 
-if ( is_single() || is_page() ) 
-    $tb_id = $posts[0]->ID;
+if ( is_single() || is_page() )
+	$tb_id = $posts[0]->ID;
 
 if ( !intval( $tb_id ) )
 	trackback_response(1, 'I really need an ID for this to work.');

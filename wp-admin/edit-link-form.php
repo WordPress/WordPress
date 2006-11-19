@@ -30,7 +30,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 }
 ?>
 
-<div class="wrap"> 
+<div class="wrap">
 <h2><?php echo $heading ?></h2>
 <?php echo $form ?>
 <?php wp_nonce_field($nonce_action); ?>
@@ -48,7 +48,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 </fieldset>
 
 <fieldset class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Target') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Target') ?></h3>
 <div class="dbx-content">
 <label for="link_target_blank" class="selectit">
 <input id="link_target_blank" type="radio" name="link_target" value="_blank" <?php echo(($link->link_target == '_blank') ? 'checked="checked"' : ''); ?> />
@@ -63,7 +63,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 </fieldset>
 
 <fieldset class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Visible') ?></h3> 
+<h3 class="dbx-handle"><?php _e('Visible') ?></h3>
 <div class="dbx-content">
 <label for="link_visible_yes" class="selectit">
 <input id="link_visible_yes" type="radio" name="link_visible" <?php if ($link->link_visible == 'Y') echo "checked='checked'"; ?> value="Y" />

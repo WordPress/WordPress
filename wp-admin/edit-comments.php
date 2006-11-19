@@ -143,7 +143,7 @@ $start = " start='$offset'";
 		++$i; $class = '';
 		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
 			$comment_status = wp_get_comment_status($comment->comment_ID);
-			if ('unapproved' == $comment_status) 
+			if ('unapproved' == $comment_status)
 				$class .= ' unapproved';
 			if ($i % 2)
 				$class .= ' alternate';
@@ -153,7 +153,7 @@ $start = " start='$offset'";
 
 <?php comment_text() ?>
 
-<p><?php comment_date('M j, g:i A');  ?> &#8212; [ 
+<p><?php comment_date('M j, g:i A');  ?> &#8212; [
 <?php
 if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo " <a href='comment.php?action=editcomment&amp;c=".$comment->comment_ID."'>" .  __('Edit') . '</a>';
@@ -181,7 +181,7 @@ $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 
 		?>
 		<p>
-        <strong><?php _e('No comments found.') ?></strong></p>
+			<strong><?php _e('No comments found.') ?></strong></p>
 
 		<?php
 	} // end if ($comments)

@@ -128,7 +128,7 @@ case 'add-category' : // On the Fly
 	break;
 case 'add-cat' : // From Manage->Categories
 	if ( !current_user_can( 'manage_categories' ) )
-                die('-1');
+		die('-1');
 	if ( !$cat = wp_insert_category( $_POST ) )
 		die('0');
 	if ( !$cat = get_category( $cat ) )

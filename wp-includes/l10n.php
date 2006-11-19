@@ -17,7 +17,7 @@ function get_locale() {
 	return $locale;
 }
 
-// Return a translated string.    
+// Return a translated string.
 function __($text, $domain = 'default') {
 	global $l10n;
 

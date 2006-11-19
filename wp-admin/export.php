@@ -72,7 +72,7 @@ $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_dat
 <!-- You will be taken through the simple import procedure. -->
 
 <!-- generator="wordpress/<?php bloginfo_rss('version') ?>" created="<?php echo date('Y-m-d H:m'); ?>"-->
-<rss version="2.0" 
+<rss version="2.0"
 	xmlns:content="http://purl.org/rss/1.0/modules/content/"
 	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
 	xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -108,7 +108,7 @@ $posts = $wpdb->get_results("SELECT * FROM $wpdb->posts $where ORDER BY post_dat
 <wp:post_parent><?php echo $post->post_parent; ?></wp:post_parent>
 <wp:post_type><?php echo $post->post_type; ?></wp:post_type>
 <?php
-$postmeta = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = $post->ID"); 
+$postmeta = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = $post->ID");
 if ( $postmeta ) {
 ?>
 <?php foreach( $postmeta as $meta ) { ?>
@@ -119,7 +119,7 @@ if ( $postmeta ) {
 <?php } ?>
 <?php } ?>
 <?php
-$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $post->ID"); 
+$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $post->ID");
 if ( $comments ) { foreach ( $comments as $c ) { ?>
 <wp:comment>
 <wp:comment_id><?php echo $c->comment_ID; ?></wp:comment_id>

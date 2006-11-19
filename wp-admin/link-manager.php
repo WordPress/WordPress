@@ -143,8 +143,8 @@ if ($links)
 		echo $link->link_description . "</td>";
 		echo "<td><a href=\"$link->link_url\" title=\"".sprintf(__('Visit %s'), $link->link_name)."\">$short_url</a></td>";
 		?>
-        <td>
-        <?php
+		<td>
+		<?php
 
 		$cat_names = array();
 		foreach ($link->link_category as $category) {
@@ -157,8 +157,8 @@ if ($links)
 		echo implode(', ', $cat_names);
 		?>
 		</td>
-        <td><?php echo $link->link_rel; ?></td>
-        <td align='center'><?php echo $visible; ?></td>
+		<td><?php echo $link->link_rel; ?></td>
+		<td align='center'><?php echo $visible; ?></td>
 <?php
 
 		echo '<td><a href="link.php?link_id='.$link->link_id.'&amp;action=edit" class="edit">'.__('Edit').'</a></td>';

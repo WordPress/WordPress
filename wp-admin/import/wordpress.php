@@ -58,9 +58,9 @@ class WP_Import {
 		$pass = 'changeme';
 		if (!(in_array($author, $this->mtnames))) { //a new mt author name is found
 			++ $this->j;
-			$this->mtnames[$this->j] = $author; //add that new mt author name to an array 
+			$this->mtnames[$this->j] = $author; //add that new mt author name to an array
 			$user_id = username_exists($this->newauthornames[$this->j]); //check if the new author name defined by the user is a pre-existing wp user
-			if (!$user_id) { //banging my head against the desk now. 
+			if (!$user_id) { //banging my head against the desk now.
 				if ($newauthornames[$this->j] == 'left_blank') { //check if the user does not want to change the authorname
 					$user_id = wp_create_user($author, $pass);
 					$this->newauthornames[$this->j] = $author; //now we have a name, in the place of left_blank.
@@ -273,7 +273,7 @@ class WP_Import {
 
 	function import() {
 		$this->id = (int) $_GET['id'];
-		
+
 		$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
 		$this->get_entries();

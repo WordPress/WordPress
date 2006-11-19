@@ -8,8 +8,7 @@ $messages[3] = __('Custom field deleted.');
 <?php endif; ?>
 
 <form name="post" action="post.php" method="post" id="post">
-<?php if ( (isset($mode) && 'bookmarklet' == $mode) || 
-            isset($_GET['popupurl']) ): ?>
+<?php if ( (isset($mode) && 'bookmarklet' == $mode) || isset($_GET['popupurl']) ): ?>
 <input type="hidden" name="mode" value="bookmarklet" />
 <?php endif; ?>
 
@@ -121,7 +120,7 @@ if ( $authors && count( $authors ) > 1 ) :
 <h3 class="dbx-handle"><?php _e('Post Author'); ?>:</h3>
 <div class="dbx-content">
 <select name="post_author_override" id="post_author_override">
-<?php 
+<?php
 foreach ($authors as $o) :
 $o = get_userdata( $o->ID );
 if ( $post->post_author == $o->ID || ( empty($post_ID) && $user_ID == $o->ID ) ) $selected = 'selected="selected"';
@@ -140,8 +139,8 @@ endforeach;
 </div>
 
 <fieldset id="titlediv">
-  <legend><?php _e('Title') ?></legend> 
-  <div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $post->post_title; ?>" id="title" /></div>
+	<legend><?php _e('Title') ?></legend>
+	<div><input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $post->post_title; ?>" id="title" /></div>
 </fieldset>
 
 <fieldset id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>">
@@ -208,7 +207,7 @@ if (current_user_can('upload_files')) {
 </div>
 <div class="dbx-content-wrapper">
 <div class="dbx-content"><?php _e('Send trackbacks to'); ?>: <?php echo $form_trackback; ?> (<?php _e('Separate multiple URIs with spaces'); ?>)
-<?php 
+<?php
 if ( ! empty($pings) )
 	echo $pings;
 ?>
@@ -227,7 +226,7 @@ if ( ! empty($pings) )
 <table cellpadding="3">
 <?php
 $metadata = has_meta($post_ID);
-list_meta($metadata); 
+list_meta($metadata);
 ?>
 
 </table>

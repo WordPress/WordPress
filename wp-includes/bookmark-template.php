@@ -146,7 +146,7 @@ function get_links($category = -1,
 }
 
 function get_linkrating($link) {
-    return apply_filters('link_rating', $link->link_rating);
+	return apply_filters('link_rating', $link->link_rating);
 }
 
 /** function get_linkcatname()

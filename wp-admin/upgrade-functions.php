@@ -120,7 +120,7 @@ We hope you enjoy your new weblog. Thanks!
 http://wordpress.org/
 "), $blog_url, $name, $password);
 
-	@wp_mail($email, __('New WordPress Blog'), $message, $message_headers);	
+	@wp_mail($email, __('New WordPress Blog'), $message, $message_headers);
 }
 endif;
 
@@ -137,7 +137,7 @@ function wp_upgrade() {
 	wp_cache_flush();
 	make_db_current_silent();
 	upgrade_all();
-	wp_cache_flush();	
+	wp_cache_flush();
 }
 endif;
 
@@ -187,7 +187,7 @@ function upgrade_100() {
 	$posts = $wpdb->get_results("SELECT ID, post_title, post_name FROM $wpdb->posts WHERE post_name = ''");
 	if ($posts) {
 		foreach($posts as $post) {
-			if ('' == $post->post_name) { 
+			if ('' == $post->post_name) {
 				$newtitle = sanitize_title($post->post_title);
 				$wpdb->query("UPDATE $wpdb->posts SET post_name = '$newtitle' WHERE ID = '$post->ID'");
 			}
@@ -196,7 +196,7 @@ function upgrade_100() {
 
 	$categories = $wpdb->get_results("SELECT cat_ID, cat_name, category_nicename FROM $wpdb->categories");
 	foreach ($categories as $category) {
-		if ('' == $category->category_nicename) { 
+		if ('' == $category->category_nicename) {
 			$newtitle = sanitize_title($category->cat_name);
 			$wpdb->query("UPDATE $wpdb->categories SET category_nicename = '$newtitle' WHERE cat_ID = '$category->cat_ID'");
 		}
@@ -251,19 +251,19 @@ function upgrade_101() {
 function upgrade_110() {
 	global $wpdb;
 
-    // Set user_nicename.
+	// Set user_nicename.
 	$users = $wpdb->get_results("SELECT ID, user_nickname, user_nicename FROM $wpdb->users");
- 	foreach ($users as $user) {
- 		if ('' == $user->user_nicename) { 
- 			$newname = sanitize_title($user->user_nickname);
- 			$wpdb->query("UPDATE $wpdb->users SET user_nicename = '$newname' WHERE ID = '$user->ID'");
- 		}
- 	}
+	foreach ($users as $user) {
+		if ('' == $user->user_nicename) {
+			$newname = sanitize_title($user->user_nickname);
+			$wpdb->query("UPDATE $wpdb->users SET user_nicename = '$newname' WHERE ID = '$user->ID'");
+		}
+	}
 
 	$users = $wpdb->get_results("SELECT ID, user_pass from $wpdb->users");
 	foreach ($users as $row) {
 		if (!preg_match('/^[A-Fa-f0-9]{32}$/', $row->user_pass)) {
-			   $wpdb->query('UPDATE '.$wpdb->users.' SET user_pass = MD5(\''.$row->user_pass.'\') WHERE ID = \''.$row->ID.'\'');
+			$wpdb->query('UPDATE '.$wpdb->users.' SET user_pass = MD5(\''.$row->user_pass.'\') WHERE ID = \''.$row->ID.'\'');
 		}
 	}
 
@@ -305,57 +305,57 @@ function upgrade_110() {
 }
 
 function upgrade_130() {
-    global $wpdb;
+	global $wpdb;
 
-    // Remove extraneous backslashes.
+	// Remove extraneous backslashes.
 	$posts = $wpdb->get_results("SELECT ID, post_title, post_content, post_excerpt, guid, post_date, post_name, post_status, post_author FROM $wpdb->posts");
 	if ($posts) {
 		foreach($posts as $post) {
-            $post_content = addslashes(deslash($post->post_content));
-            $post_title = addslashes(deslash($post->post_title));
-            $post_excerpt = addslashes(deslash($post->post_excerpt));
+			$post_content = addslashes(deslash($post->post_content));
+			$post_title = addslashes(deslash($post->post_title));
+			$post_excerpt = addslashes(deslash($post->post_excerpt));
 			if ( empty($post->guid) )
 				$guid = get_permalink($post->ID);
 			else
 				$guid = $post->guid;
 
-            $wpdb->query("UPDATE $wpdb->posts SET post_title = '$post_title', post_content = '$post_content', post_excerpt = '$post_excerpt', guid = '$guid' WHERE ID = '$post->ID'");
+			$wpdb->query("UPDATE $wpdb->posts SET post_title = '$post_title', post_content = '$post_content', post_excerpt = '$post_excerpt', guid = '$guid' WHERE ID = '$post->ID'");
 		}
 	}
 
-    // Remove extraneous backslashes.
+	// Remove extraneous backslashes.
 	$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_content FROM $wpdb->comments");
 	if ($comments) {
 		foreach($comments as $comment) {
-            $comment_content = addslashes(deslash($comment->comment_content));
-            $comment_author = addslashes(deslash($comment->comment_author));
-            $wpdb->query("UPDATE $wpdb->comments SET comment_content = '$comment_content', comment_author = '$comment_author' WHERE comment_ID = '$comment->comment_ID'");
+			$comment_content = addslashes(deslash($comment->comment_content));
+			$comment_author = addslashes(deslash($comment->comment_author));
+			$wpdb->query("UPDATE $wpdb->comments SET comment_content = '$comment_content', comment_author = '$comment_author' WHERE comment_ID = '$comment->comment_ID'");
 		}
 	}
 
-    // Remove extraneous backslashes.
+	// Remove extraneous backslashes.
 	$links = $wpdb->get_results("SELECT link_id, link_name, link_description FROM $wpdb->links");
 	if ($links) {
 		foreach($links as $link) {
-            $link_name = addslashes(deslash($link->link_name));
-            $link_description = addslashes(deslash($link->link_description));
-            $wpdb->query("UPDATE $wpdb->links SET link_name = '$link_name', link_description = '$link_description' WHERE link_id = '$link->link_id'");
+			$link_name = addslashes(deslash($link->link_name));
+			$link_description = addslashes(deslash($link->link_description));
+			$wpdb->query("UPDATE $wpdb->links SET link_name = '$link_name', link_description = '$link_description' WHERE link_id = '$link->link_id'");
 		}
 	}
 
-    // The "paged" option for what_to_show is no more.
-    if ($wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'what_to_show'") == 'paged') {
-        $wpdb->query("UPDATE $wpdb->options SET option_value = 'posts' WHERE option_name = 'what_to_show'");
-    }
+	// The "paged" option for what_to_show is no more.
+	if ($wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'what_to_show'") == 'paged') {
+		$wpdb->query("UPDATE $wpdb->options SET option_value = 'posts' WHERE option_name = 'what_to_show'");
+	}
 
-		$active_plugins = __get_option('active_plugins');
+	$active_plugins = __get_option('active_plugins');
 
-		// If plugins are not stored in an array, they're stored in the old
-		// newline separated format.  Convert to new format.
-		if ( !is_array( $active_plugins ) ) {
-			$active_plugins = explode("\n", trim($active_plugins));
-			update_option('active_plugins', $active_plugins);
-		}
+	// If plugins are not stored in an array, they're stored in the old
+	// newline separated format.  Convert to new format.
+	if ( !is_array( $active_plugins ) ) {
+		$active_plugins = explode("\n", trim($active_plugins));
+		update_option('active_plugins', $active_plugins);
+	}
 
 	// Obsolete tables
 	$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'optionvalues');
@@ -499,7 +499,7 @@ function upgrade_210() {
 		// Give future posts a post_status of future.
 		$now = gmdate('Y-m-d H:i:59');
 		$wpdb->query ("UPDATE $wpdb->posts SET post_status = 'future' WHERE post_status = 'publish' AND post_date_gmt > '$now'");
-		
+
 		$posts = $wpdb->get_results("SELECT ID, post_date FROM $wpdb->posts WHERE post_status ='future'");
 		if ( !empty($posts) )
 			foreach ( $posts as $post )
@@ -508,7 +508,7 @@ function upgrade_210() {
 	if ( $wp_current_db_version < 3570 ) {
 		// Create categories for link categories if a category with the same
 		// name doesn't exist.  Create a map of link cat IDs to cat IDs.
-		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM $wpdb->linkcategories");	
+		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM $wpdb->linkcategories");
 		foreach ( $link_cats as $link_cat) {
 			if ( $cat_id = category_exists($link_cat->cat_name) ) {
 				$link_cat_id_map[$link_cat->cat_id] = $cat_id;
@@ -527,9 +527,9 @@ function upgrade_210() {
 			if (!$cat && 0 != $link->link_category) {
 				$wpdb->query("INSERT INTO $wpdb->link2cat (link_id, category_id)
 					VALUES ('$link->link_id', '$link_cat')");
-			}			
+			}
 		}
-		
+
 		// Set default to the last category we grabbed during the upgrade loop.
 		update_option('default_link_category', $default_link_cat);
 
@@ -548,21 +548,21 @@ function upgrade_210() {
 
 // General
 function maybe_create_table($table_name, $create_ddl) {
-    global $wpdb;
-    foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
-        if ($table == $table_name) {
-            return true;
-        }
-    }
-    //didn't find it try to create it.
-    $q = $wpdb->query($create_ddl);
-    // we cannot directly tell that whether this succeeded!
-    foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
-        if ($table == $table_name) {
-            return true;
-        }
-    }
-    return false;
+	global $wpdb;
+	foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
+		if ($table == $table_name) {
+			return true;
+		}
+	}
+	//didn't find it try to create it.
+	$q = $wpdb->query($create_ddl);
+	// we cannot directly tell that whether this succeeded!
+	foreach ($wpdb->get_col("SHOW TABLES",0) as $table ) {
+		if ($table == $table_name) {
+			return true;
+		}
+	}
+	return false;
 }
 
 function drop_index($table, $index) {
@@ -591,22 +591,22 @@ function add_clean_index($table, $index) {
  **           false on error
  */
 function maybe_add_column($table_name, $column_name, $create_ddl) {
-    global $wpdb, $debug;
-    foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
-        if ($debug) echo("checking $column == $column_name<br />");
-        if ($column == $column_name) {
-            return true;
-        }
-    }
-    //didn't find it try to create it.
-    $q = $wpdb->query($create_ddl);
-    // we cannot directly tell that whether this succeeded!
-    foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
-        if ($column == $column_name) {
-            return true;
-        }
-    }
-    return false;
+	global $wpdb, $debug;
+	foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
+		if ($debug) echo("checking $column == $column_name<br />");
+		if ($column == $column_name) {
+			return true;
+		}
+	}
+	//didn't find it try to create it.
+	$q = $wpdb->query($create_ddl);
+	// we cannot directly tell that whether this succeeded!
+	foreach ($wpdb->get_col("DESC $table_name", 0) as $column ) {
+		if ($column == $column_name) {
+			return true;
+		}
+	}
+	return false;
 }
 
 
@@ -615,7 +615,7 @@ function get_alloptions_110() {
 	global $wpdb;
 	if ($options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options")) {
 		foreach ($options as $option) {
-			// "When trying to design a foolproof system, 
+			// "When trying to design a foolproof system,
 			//  never underestimate the ingenuity of the fools :)" -- Dougal
 			if ('siteurl' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
 			if ('home' == $option->option_name) $option->option_value = preg_replace('|/+$|', '', $option->option_value);
@@ -646,20 +646,20 @@ function __get_option($setting) {
 }
 
 function deslash($content) {
-    // Note: \\\ inside a regex denotes a single backslash.
+	// Note: \\\ inside a regex denotes a single backslash.
 
-    // Replace one or more backslashes followed by a single quote with
-    // a single quote.
-    $content = preg_replace("/\\\+'/", "'", $content);
+	// Replace one or more backslashes followed by a single quote with
+	// a single quote.
+	$content = preg_replace("/\\\+'/", "'", $content);
 
-    // Replace one or more backslashes followed by a double quote with
-    // a double quote.
-    $content = preg_replace('/\\\+"/', '"', $content);
+	// Replace one or more backslashes followed by a double quote with
+	// a double quote.
+	$content = preg_replace('/\\\+"/', '"', $content);
 
-    // Replace one or more backslashes with one backslash.
-    $content = preg_replace("/\\\+/", "\\", $content);
+	// Replace one or more backslashes with one backslash.
+	$content = preg_replace("/\\\+/", "\\", $content);
 
-    return $content;
+	return $content;
 }
 
 function dbDelta($queries, $execute = true) {
@@ -826,7 +826,7 @@ function dbDelta($queries, $execute = true) {
 								$index_columns .= '('.$column_data['subpart'].')';
 							}
 						}
-						// Add the column list to the index create string 
+						// Add the column list to the index create string
 						$index_string .= ' ('.$index_columns.')';
 
 						if(!(($aindex = array_search($index_string, $indices)) === false)) {

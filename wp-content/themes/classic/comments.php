@@ -2,7 +2,7 @@
 <p><?php _e('Enter your password to view comments.'); ?></p>
 <?php return; endif; ?>
 
-<h2 id="comments"><?php comments_number(__('No Comments'), __('1 Comment'), __('% Comments')); ?> 
+<h2 id="comments"><?php comments_number(__('No Comments'), __('1 Comment'), __('% Comments')); ?>
 <?php if ( comments_open() ) : ?>
 	<a href="#postcomment" title="<?php _e("Leave a comment"); ?>">&raquo;</a>
 <?php endif; ?>
@@ -25,7 +25,7 @@
 	<p><?php _e('No comments yet.'); ?></p>
 <?php endif; ?>
 
-<p><?php comments_rss_link(__('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.')); ?> 
+<p><?php comments_rss_link(__('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.')); ?>
 <?php if ( pings_open() ) : ?>
 	<a href="<?php trackback_url() ?>" rel="trackback"><?php _e('TrackBack <abbr title="Universal Resource Locator">URL</abbr>'); ?></a>
 <?php endif; ?>

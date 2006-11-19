@@ -61,8 +61,8 @@ default:
 <?php if (isset($_GET['a'])) : ?>
  <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
 <?php endif; ?>
- <div class="wrap"> 
-  <?php
+ <div class="wrap">
+	<?php
 	if (is_writeable($real_file)) {
 		echo '<h2>' . sprintf(__('Editing <strong>%s</strong>'), $file) . '</h2>';
 	} else {
@@ -75,39 +75,39 @@ default:
 <?php
 if ($plugin_files) :
 ?>
-  <ul>
-<?php foreach($plugin_files as $plugin_file) : ?>
+	<ul>
+	<?php foreach($plugin_files as $plugin_file) : ?>
 		 <li><a href="plugin-editor.php?file=<?php echo "$plugin_file"; ?>"><?php echo $plugins[$plugin_file]['Name']; ?></a></li>
-<?php endforeach; ?>
-  </ul>
+	<?php endforeach; ?>
+	</ul>
 <?php endif; ?>
 </div>
-	<?php	if (!$error) { ?> 
-  <form name="template" id="template" action="plugin-editor.php" method="post">
-  <?php wp_nonce_field('edit-plugin_' . $file) ?>
-		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea> 
-     <input type="hidden" name="action" value="update" /> 
-     <input type="hidden" name="file" value="<?php echo $file ?>" /> 
+<?php	if (!$error) { ?>
+	<form name="template" id="template" action="plugin-editor.php" method="post">
+	<?php wp_nonce_field('edit-plugin_' . $file) ?>
+		<div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea>
+		<input type="hidden" name="action" value="update" />
+		<input type="hidden" name="file" value="<?php echo $file ?>" />
 		</div>
 <?php if ( is_writeable($real_file) ) : ?>
-     <p class="submit">
-<?php
-	echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
-?>
-</p>
+	<p class="submit">
+	<?php
+		echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
+	?>
+	</p>
 <?php else : ?>
-<p><em><?php _e('If this file were writable you could edit it.'); ?></em></p>
+	<p><em><?php _e('If this file were writable you could edit it.'); ?></em></p>
 <?php endif; ?>
-   </form> 
-  <?php
+ </form>
+<?php
 	} else {
 		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 	}
-	?>
+?>
 <div class="clear"> &nbsp; </div>
-</div> 
+</div>
 <?php
 break;
 }
 
-include("admin-footer.php") ?> 
+include("admin-footer.php") ?>

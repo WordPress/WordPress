@@ -166,8 +166,8 @@ function get_posts($args) {
 	$inclusions = '';
 	if ( !empty($include) ) {
 		$offset = 0;	//ignore offset, category, exclude, meta_key, and meta_value params if using include
-		$category = ''; 
-		$exclude = '';  
+		$category = '';
+		$exclude = '';
 		$meta_key = '';
 		$meta_value = '';
 		$incposts = preg_split('/[\s,]+/',$include);
@@ -181,8 +181,8 @@ function get_posts($args) {
 			}
 		}
 	}
-	if (!empty($inclusions)) 
-		$inclusions .= ')';	
+	if (!empty($inclusions))
+		$inclusions .= ')';
 
 	$exclusions = '';
 	if ( !empty($exclude) ) {
@@ -196,12 +196,12 @@ function get_posts($args) {
 			}
 		}
 	}
-	if (!empty($exclusions)) 
+	if (!empty($exclusions))
 		$exclusions .= ')';
 
 	$query ="SELECT DISTINCT * FROM $wpdb->posts " ;
-	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " ) ; 
-	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ; 
+	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " ) ;
+	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ;
 	$query .= " WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions " ;
 	$query .= ( empty( $category ) ? "" : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") " ) ;
 	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
@@ -400,9 +400,9 @@ function wp_get_post_categories($post_ID = 0) {
 
 	$post_ID = (int) $post_ID;
 
-	$sql = "SELECT category_id 
-		FROM $wpdb->post2cat 
-		WHERE post_id = '$post_ID' 
+	$sql = "SELECT category_id
+		FROM $wpdb->post2cat
+		WHERE post_id = '$post_ID'
 		ORDER BY category_id";
 
 	$result = $wpdb->get_col($sql);
@@ -435,7 +435,7 @@ function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	// Set categories
 	if($mode == OBJECT) {
 		$post->post_category = wp_get_post_categories($postid);
-	} 
+	}
 	else {
 		$post['post_category'] = wp_get_post_categories($postid);
 	}
@@ -635,13 +635,13 @@ function wp_insert_post($postarr = array()) {
 		if ( !defined('WP_IMPORTING') ) {
 			if ( $post_pingback )
 				$result = $wpdb->query("
-					INSERT INTO $wpdb->postmeta 
-					(post_id,meta_key,meta_value) 
+					INSERT INTO $wpdb->postmeta
+					(post_id,meta_key,meta_value)
 					VALUES ('$post_ID','_pingme','1')
 				");
 			$result = $wpdb->query("
-				INSERT INTO $wpdb->postmeta 
-				(post_id,meta_key,meta_value) 
+				INSERT INTO $wpdb->postmeta
+				(post_id,meta_key,meta_value)
 				VALUES ('$post_ID','_encloseme','1')
 			");
 			wp_schedule_single_event(time(), 'do_pings');
@@ -653,7 +653,7 @@ function wp_insert_post($postarr = array()) {
 		if ( !empty($page_template) )
 			if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
 				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
-				
+
 		if ( $post_status == 'publish' )
 			do_action('publish_page', $post_ID);
 	}
@@ -684,22 +684,22 @@ function wp_update_post($postarr = array()) {
 	$post = add_magic_quotes($post);
 
 	// Passed post category list overwrites existing category list if not empty.
- 	if ( isset($postarr['post_category']) && is_array($postarr['post_category'])
+	if ( isset($postarr['post_category']) && is_array($postarr['post_category'])
 			 && 0 != count($postarr['post_category']) )
- 		$post_cats = $postarr['post_category'];
- 	else 
- 		$post_cats = $post['post_category'];
+		$post_cats = $postarr['post_category'];
+	else
+		$post_cats = $post['post_category'];
 
 	// Drafts shouldn't be assigned a date unless explicitly done so by the user
-	if ( 'draft' == $post['post_status'] && empty($postarr['edit_date']) && empty($postarr['post_date']) && 
-	     ('0000-00-00 00:00:00' == $post['post_date']) )
+	if ( 'draft' == $post['post_status'] && empty($postarr['edit_date']) && empty($postarr['post_date']) &&
+			 ('0000-00-00 00:00:00' == $post['post_date']) )
 		$clear_date = true;
 	else
 		$clear_date = false;
 
- 	// Merge old and new fields with new fields overwriting old ones.
- 	$postarr = array_merge($post, $postarr);
- 	$postarr['post_category'] = $post_cats;
+	// Merge old and new fields with new fields overwriting old ones.
+	$postarr = array_merge($post, $postarr);
+	$postarr['post_category'] = $post_cats;
 	if ( $clear_date ) {
 		$postarr['post_date'] = '';
 		$postarr['post_date_gmt'] = '';
@@ -733,8 +733,8 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 
 	// First the old categories
 	$old_categories = $wpdb->get_col("
-		SELECT category_id 
-		FROM $wpdb->post2cat 
+		SELECT category_id
+		FROM $wpdb->post2cat
 		WHERE post_id = $post_ID");
 
 	if (!$old_categories) {
@@ -749,9 +749,9 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	if ($delete_cats) {
 		foreach ($delete_cats as $del) {
 			$wpdb->query("
-				DELETE FROM $wpdb->post2cat 
-				WHERE category_id = $del 
-					AND post_id = $post_ID 
+				DELETE FROM $wpdb->post2cat
+				WHERE category_id = $del
+					AND post_id = $post_ID
 				");
 		}
 	}
@@ -848,10 +848,10 @@ function trackback_url_list($tb_list, $post_id) {
 
 		$trackback_urls = explode(',', $tb_list);
 		foreach($trackback_urls as $tb_url) {
-		    $tb_url = trim($tb_url);
-		    trackback($tb_url, stripslashes($post_title), $excerpt, $post_id);
+				$tb_url = trim($tb_url);
+				trackback($tb_url, stripslashes($post_title), $excerpt, $post_id);
 		}
-    }
+		}
 }
 
 //
@@ -928,7 +928,7 @@ function get_page_by_path($page_path, $output = OBJECT) {
 
 	$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_name = '$leaf_path' AND post_type='page'");
 
-	if ( empty($pages) ) 
+	if ( empty($pages) )
 		return NULL;
 
 	foreach ($pages as $page) {
@@ -1018,8 +1018,8 @@ function &get_pages($args = '') {
 
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include 
-		$exclude = '';  
+		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include
+		$exclude = '';
 		$meta_key = '';
 		$meta_value = '';
 		$incpages = preg_split('/[\s,]+/',$include);
@@ -1032,8 +1032,8 @@ function &get_pages($args = '') {
 			}
 		}
 	}
-	if (!empty($inclusions)) 
-		$inclusions .= ')';	
+	if (!empty($inclusions))
+		$inclusions .= ')';
 
 	$exclusions = '';
 	if ( !empty($exclude) ) {
@@ -1196,7 +1196,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 
 	if (empty($post_date))
 		$post_date = current_time('mysql');
-	if (empty($post_date_gmt)) 
+	if (empty($post_date_gmt))
 		$post_date_gmt = current_time('mysql', 1);
 
 	if ( empty($comment_status) ) {

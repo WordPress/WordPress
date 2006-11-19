@@ -144,7 +144,7 @@ $structures = array(
 <?php if ( !in_array($permalink_structure, $structures) ) { ?>
 checked="checked"
 <?php } ?>
- /> 
+ />
 <?php _e('Custom, specify below'); ?>
 </label>
 <br />

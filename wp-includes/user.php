@@ -152,7 +152,7 @@ function setup_userdata($user_id = '') {
 
 	if ( '' == $user_id )
 		$user = wp_get_current_user();
-	else 
+	else
 		$user = new WP_User($user_id);
 
 	if ( 0 == $user->ID )

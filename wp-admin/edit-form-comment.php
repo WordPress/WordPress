@@ -54,8 +54,8 @@ addLoadEvent(focusit);
 	<tr>
 		<th scope="row" valign="top"><?php _e('Comment Status') ?>:</th>
 		<td><label for="comment_status_approved" class="selectit"><input id="comment_status_approved" name="comment_status" type="radio" value="1" <?php checked($comment->comment_approved, '1'); ?> /> <?php _e('Approved') ?></label><br />
-	  <label for="comment_status_moderated" class="selectit"><input id="comment_status_moderated" name="comment_status" type="radio" value="0" <?php checked($comment->comment_approved, '0'); ?> /> <?php _e('Moderated') ?></label><br />
-	  <label for="comment_status_spam" class="selectit"><input id="comment_status_spam" name="comment_status" type="radio" value="spam" <?php checked($comment->comment_approved, 'spam'); ?> /> <?php _e('Spam') ?></label></td>
+		<label for="comment_status_moderated" class="selectit"><input id="comment_status_moderated" name="comment_status" type="radio" value="0" <?php checked($comment->comment_approved, '0'); ?> /> <?php _e('Moderated') ?></label><br />
+		<label for="comment_status_spam" class="selectit"><input id="comment_status_spam" name="comment_status" type="radio" value="spam" <?php checked($comment->comment_approved, 'spam'); ?> /> <?php _e('Spam') ?></label></td>
 	</tr>
 
 <?php if ( current_user_can('edit_posts') ) : ?>

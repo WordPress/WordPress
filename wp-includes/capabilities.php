@@ -221,18 +221,18 @@ class WP_User {
 	}
 
 	function level_reduction($max, $item) {
-	    if(preg_match('/^level_(10|[0-9])$/i', $item, $matches)) {
-	        $level = intval($matches[1]);
-	        return max($max, $level);
-	    } else {
-	        return $max;
-	    }
+		if(preg_match('/^level_(10|[0-9])$/i', $item, $matches)) {
+			$level = intval($matches[1]);
+			return max($max, $level);
+		} else {
+			return $max;
+		}
 	}
 
 	function update_user_level_from_caps() {
-	    global $wpdb;
-	    $this->user_level = array_reduce(array_keys($this->allcaps), 	array(&$this, 'level_reduction'), 0);
-	    update_usermeta($this->id, $wpdb->prefix.'user_level', $this->user_level);
+		global $wpdb;
+		$this->user_level = array_reduce(array_keys($this->allcaps), 	array(&$this, 'level_reduction'), 0);
+		update_usermeta($this->id, $wpdb->prefix.'user_level', $this->user_level);
 	}
 
 	function add_cap($cap, $grant = true) {
@@ -298,7 +298,7 @@ function map_meta_cap($cap, $user_id) {
 		$post = get_post($args[0]);
 		if ( 'page' == $post->post_type ) {
 			$args = array_merge(array('delete_page', $user_id), $args);
-			return call_user_func_array('map_meta_cap', $args);	
+			return call_user_func_array('map_meta_cap', $args);
 		}
 		$post_author_data = get_userdata($post->post_author);
 		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br/>";
@@ -352,7 +352,7 @@ function map_meta_cap($cap, $user_id) {
 		$post = get_post($args[0]);
 		if ( 'page' == $post->post_type ) {
 			$args = array_merge(array('edit_page', $user_id), $args);
-			return call_user_func_array('map_meta_cap', $args);	
+			return call_user_func_array('map_meta_cap', $args);
 		}
 		$post_author_data = get_userdata($post->post_author);
 		//echo "current user id : $user_id, post author id: " . $post_author_data->ID . "<br/>";
@@ -402,7 +402,7 @@ function map_meta_cap($cap, $user_id) {
 		$post = get_post($args[0]);
 		if ( 'page' == $post->post_type ) {
 			$args = array_merge(array('read_page', $user_id), $args);
-			return call_user_func_array('map_meta_cap', $args);	
+			return call_user_func_array('map_meta_cap', $args);
 		}
 
 		if ( 'private' != $post->post_status ) {

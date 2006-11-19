@@ -83,14 +83,14 @@ foreach ($submenu as $parent => $sub) {
 			$_wp_submenu_nopriv[$parent][$data[2]] = true;
 		}
 	}
-	
+
 	if ( empty($submenu[$parent]) )
 		unset($submenu[$parent]);
 }
 
 // Loop over the top-level menu.
 // Menus for which the original parent is not acessible due to lack of privs will have the next
-// submenu in line be assigned as the new menu parent. 
+// submenu in line be assigned as the new menu parent.
 foreach ( $menu as $id => $data ) {
 	if ( empty($submenu[$data[2]]) ) 
 		continue;

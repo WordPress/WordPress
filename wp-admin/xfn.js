@@ -10,10 +10,10 @@ function GetElementsWithClassName(elementName, className) {
 }
 
 function meChecked() {
-  var undefined;
-  var eMe = document.getElementById('me');
-  if (eMe == undefined) return false;
-  else return eMe.checked;
+	var undefined;
+	var eMe = document.getElementById('me');
+	if (eMe == undefined) return false;
+	else return eMe.checked;
 }
 
 function upit() {

@@ -223,7 +223,7 @@ function populate_options() {
 		add_option('uploads_use_yearmonth_folders', 1);
 		add_option('upload_path', 'wp-content/uploads');
 	}
-	
+
 	// 2.0.3
 	add_option('secret', md5(uniqid(microtime())));
 

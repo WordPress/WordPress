@@ -66,48 +66,48 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	function wp_xmlrpc_server() {
 		$this->methods = array(
-		  // Blogger API
-		  'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
-		  'blogger.getUserInfo' => 'this:blogger_getUserInfo',
-		  'blogger.getPost' => 'this:blogger_getPost',
-		  'blogger.getRecentPosts' => 'this:blogger_getRecentPosts',
-		  'blogger.getTemplate' => 'this:blogger_getTemplate',
-		  'blogger.setTemplate' => 'this:blogger_setTemplate',
-		  'blogger.newPost' => 'this:blogger_newPost',
-		  'blogger.editPost' => 'this:blogger_editPost',
-		  'blogger.deletePost' => 'this:blogger_deletePost',
+			// Blogger API
+			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
+			'blogger.getUserInfo' => 'this:blogger_getUserInfo',
+			'blogger.getPost' => 'this:blogger_getPost',
+			'blogger.getRecentPosts' => 'this:blogger_getRecentPosts',
+			'blogger.getTemplate' => 'this:blogger_getTemplate',
+			'blogger.setTemplate' => 'this:blogger_setTemplate',
+			'blogger.newPost' => 'this:blogger_newPost',
+			'blogger.editPost' => 'this:blogger_editPost',
+			'blogger.deletePost' => 'this:blogger_deletePost',
 
-		  // MetaWeblog API (with MT extensions to structs)
-		  'metaWeblog.newPost' => 'this:mw_newPost',
-		  'metaWeblog.editPost' => 'this:mw_editPost',
-		  'metaWeblog.getPost' => 'this:mw_getPost',
-		  'metaWeblog.getRecentPosts' => 'this:mw_getRecentPosts',
-		  'metaWeblog.getCategories' => 'this:mw_getCategories',
-		  'metaWeblog.newMediaObject' => 'this:mw_newMediaObject',
+			// MetaWeblog API (with MT extensions to structs)
+			'metaWeblog.newPost' => 'this:mw_newPost',
+			'metaWeblog.editPost' => 'this:mw_editPost',
+			'metaWeblog.getPost' => 'this:mw_getPost',
+			'metaWeblog.getRecentPosts' => 'this:mw_getRecentPosts',
+			'metaWeblog.getCategories' => 'this:mw_getCategories',
+			'metaWeblog.newMediaObject' => 'this:mw_newMediaObject',
 
-		  // MetaWeblog API aliases for Blogger API
-		  // see http://www.xmlrpc.com/stories/storyReader$2460
-		  'metaWeblog.deletePost' => 'this:blogger_deletePost',
-		  'metaWeblog.getTemplate' => 'this:blogger_getTemplate',
-		  'metaWeblog.setTemplate' => 'this:blogger_setTemplate',
-		  'metaWeblog.getUsersBlogs' => 'this:blogger_getUsersBlogs',
+			// MetaWeblog API aliases for Blogger API
+			// see http://www.xmlrpc.com/stories/storyReader$2460
+			'metaWeblog.deletePost' => 'this:blogger_deletePost',
+			'metaWeblog.getTemplate' => 'this:blogger_getTemplate',
+			'metaWeblog.setTemplate' => 'this:blogger_setTemplate',
+			'metaWeblog.getUsersBlogs' => 'this:blogger_getUsersBlogs',
 
-		  // MovableType API
-		  'mt.getCategoryList' => 'this:mt_getCategoryList',
-		  'mt.getRecentPostTitles' => 'this:mt_getRecentPostTitles',
-		  'mt.getPostCategories' => 'this:mt_getPostCategories',
-		  'mt.setPostCategories' => 'this:mt_setPostCategories',
-		  'mt.supportedMethods' => 'this:mt_supportedMethods',
-		  'mt.supportedTextFilters' => 'this:mt_supportedTextFilters',
-		  'mt.getTrackbackPings' => 'this:mt_getTrackbackPings',
-		  'mt.publishPost' => 'this:mt_publishPost',
+			// MovableType API
+			'mt.getCategoryList' => 'this:mt_getCategoryList',
+			'mt.getRecentPostTitles' => 'this:mt_getRecentPostTitles',
+			'mt.getPostCategories' => 'this:mt_getPostCategories',
+			'mt.setPostCategories' => 'this:mt_setPostCategories',
+			'mt.supportedMethods' => 'this:mt_supportedMethods',
+			'mt.supportedTextFilters' => 'this:mt_supportedTextFilters',
+			'mt.getTrackbackPings' => 'this:mt_getTrackbackPings',
+			'mt.publishPost' => 'this:mt_publishPost',
 
-		  // PingBack
-		  'pingback.ping' => 'this:pingback_ping',
-		  'pingback.extensions.getPingbacks' => 'this:pingback_extensions_getPingbacks',
+			// PingBack
+			'pingback.ping' => 'this:pingback_ping',
+			'pingback.extensions.getPingbacks' => 'this:pingback_extensions_getPingbacks',
 
-		  'demo.sayHello' => 'this:sayHello',
-		  'demo.addTwoNumbers' => 'this:addTwoNumbers'
+			'demo.sayHello' => 'this:sayHello',
+			'demo.addTwoNumbers' => 'this:addTwoNumbers'
 		);
 		$this->methods = apply_filters('xmlrpc_methods', $this->methods);
 		$this->IXR_Server($this->methods);
@@ -124,11 +124,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	function login_pass_ok($user_login, $user_pass) {
-	  if (!user_pass_ok($user_login, $user_pass)) {
-	    $this->error = new IXR_Error(403, 'Bad login/pass combination.');
-	    return false;
-	  }
-	  return true;
+		if (!user_pass_ok($user_login, $user_pass)) {
+			$this->error = new IXR_Error(403, 'Bad login/pass combination.');
+			return false;
+		}
+		return true;
 	}
 
 	function escape(&$array) {
@@ -181,25 +181,25 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $user_login = $args[1];
-	  $user_pass  = $args[2];
+		$user_login = $args[1];
+		$user_pass  = $args[2];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $user_data = get_userdatabylogin($user_login);
+		$user_data = get_userdatabylogin($user_login);
 
-	  $struct = array(
-	    'nickname'  => $user_data->nickname,
-	    'userid'    => $user_data->ID,
-	    'url'       => $user_data->user_url,
-	    'email'     => $user_data->user_email,
-	    'lastname'  => $user_data->last_name,
-	    'firstname' => $user_data->first_name
-	  );
+		$struct = array(
+			'nickname'  => $user_data->nickname,
+			'userid'    => $user_data->ID,
+			'url'       => $user_data->user_url,
+			'email'     => $user_data->user_email,
+			'lastname'  => $user_data->last_name,
+			'firstname' => $user_data->first_name
+		);
 
-	  return $struct;
+		return $struct;
 	}
 
 
@@ -208,81 +208,81 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $post_ID    = $args[1];
-	  $user_login = $args[2];
-	  $user_pass  = $args[3];
+		$post_ID    = $args[1];
+		$user_login = $args[2];
+		$user_pass  = $args[3];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $user_data = get_userdatabylogin($user_login);
-	  $post_data = wp_get_single_post($post_ID, ARRAY_A);
+		$user_data = get_userdatabylogin($user_login);
+		$post_data = wp_get_single_post($post_ID, ARRAY_A);
 
-	  $categories = implode(',', wp_get_post_categories($post_ID));
+		$categories = implode(',', wp_get_post_categories($post_ID));
 
-	  $content  = '<title>'.stripslashes($post_data['post_title']).'</title>';
-	  $content .= '<category>'.$categories.'</category>';
-	  $content .= stripslashes($post_data['post_content']);
+		$content  = '<title>'.stripslashes($post_data['post_title']).'</title>';
+		$content .= '<category>'.$categories.'</category>';
+		$content .= stripslashes($post_data['post_content']);
 
-	  $struct = array(
-	    'userid'    => $post_data['post_author'],
-	    'dateCreated' => new IXR_Date(mysql2date('Ymd\TH:i:s', $post_data['post_date'])),
-	    'content'     => $content,
-	    'postid'  => $post_data['ID']
-	  );
+		$struct = array(
+			'userid'    => $post_data['post_author'],
+			'dateCreated' => new IXR_Date(mysql2date('Ymd\TH:i:s', $post_data['post_date'])),
+			'content'     => $content,
+			'postid'  => $post_data['ID']
+		);
 
-	  return $struct;
+		return $struct;
 	}
 
 
 	/* blogger.getRecentPosts ...gets recent posts */
 	function blogger_getRecentPosts($args) {
 
-	  global $wpdb;
+		global $wpdb;
 
 		$this->escape($args);
 
-	  $blog_ID    = $args[1]; /* though we don't use it yet */
-	  $user_login = $args[2];
-	  $user_pass  = $args[3];
-	  $num_posts  = $args[4];
+		$blog_ID    = $args[1]; /* though we don't use it yet */
+		$user_login = $args[2];
+		$user_pass  = $args[3];
+		$num_posts  = $args[4];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $posts_list = wp_get_recent_posts($num_posts);
+		$posts_list = wp_get_recent_posts($num_posts);
 
-	  if (!$posts_list) {
-	    $this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
-	    return $this->error;
-	  }
+		if (!$posts_list) {
+			$this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
+			return $this->error;
+		}
 
-	  foreach ($posts_list as $entry) {
-	  
-	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
-	    $categories = implode(',', wp_get_post_categories($entry['ID']));
+		foreach ($posts_list as $entry) {
 
-	    $content  = '<title>'.stripslashes($entry['post_title']).'</title>';
-	    $content .= '<category>'.$categories.'</category>';
-	    $content .= stripslashes($entry['post_content']);
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
+			$categories = implode(',', wp_get_post_categories($entry['ID']));
 
-	    $struct[] = array(
-	      'userid' => $entry['post_author'],
-	      'dateCreated' => new IXR_Date($post_date),
-	      'content' => $content,
-	      'postid' => $entry['ID'],
-	    );
+			$content  = '<title>'.stripslashes($entry['post_title']).'</title>';
+			$content .= '<category>'.$categories.'</category>';
+			$content .= stripslashes($entry['post_content']);
 
-	  }
+			$struct[] = array(
+				'userid' => $entry['post_author'],
+				'dateCreated' => new IXR_Date($post_date),
+				'content' => $content,
+				'postid' => $entry['ID'],
+			);
 
-	  $recent_posts = array();
-	  for ($j=0; $j<count($struct); $j++) {
-	    array_push($recent_posts, $struct[$j]);
-	  }
+		}
 
-	  return $recent_posts;
+		$recent_posts = array();
+		for ($j=0; $j<count($struct); $j++) {
+			array_push($recent_posts, $struct[$j]);
+		}
+
+		return $recent_posts;
 	}
 
 
@@ -712,96 +712,96 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $blog_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
-	  $num_posts   = $args[3];
+		$blog_ID     = $args[0];
+		$user_login  = $args[1];
+		$user_pass   = $args[2];
+		$num_posts   = $args[3];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $posts_list = wp_get_recent_posts($num_posts);
+		$posts_list = wp_get_recent_posts($num_posts);
 
-	  if (!$posts_list) {
-	    $this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
-	    return $this->error;
-	  }
+		if (!$posts_list) {
+			$this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
+			return $this->error;
+		}
 
-	  foreach ($posts_list as $entry) {
-	  
-	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
-	    $categories = array();
-	    $catids = wp_get_post_categories($entry['ID']);
-	    foreach($catids as $catid) {
-	      $categories[] = get_cat_name($catid);
-	    }
+		foreach ($posts_list as $entry) {
 
-	    $post = get_extended($entry['post_content']);
-	    $link = post_permalink($entry['ID']);
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
+			$categories = array();
+			$catids = wp_get_post_categories($entry['ID']);
+			foreach($catids as $catid) {
+				$categories[] = get_cat_name($catid);
+			}
 
-	    $allow_comments = ('open' == $entry['comment_status']) ? 1 : 0;
-	    $allow_pings = ('open' == $entry['ping_status']) ? 1 : 0;
+			$post = get_extended($entry['post_content']);
+			$link = post_permalink($entry['ID']);
 
-	    $struct[] = array(
-	      'dateCreated' => new IXR_Date($post_date),
-	      'userid' => $entry['post_author'],
-	      'postid' => $entry['ID'],
-	      'description' => $post['main'],
-	      'title' => $entry['post_title'],
-	      'link' => $link,
-	      'permaLink' => $link,
+			$allow_comments = ('open' == $entry['comment_status']) ? 1 : 0;
+			$allow_pings = ('open' == $entry['ping_status']) ? 1 : 0;
+
+			$struct[] = array(
+				'dateCreated' => new IXR_Date($post_date),
+				'userid' => $entry['post_author'],
+				'postid' => $entry['ID'],
+				'description' => $post['main'],
+				'title' => $entry['post_title'],
+				'link' => $link,
+				'permaLink' => $link,
 // commented out because no other tool seems to use this
 //	      'content' => $entry['post_content'],
-	      'categories' => $categories,
-	      'mt_excerpt' => $entry['post_excerpt'],
-	      'mt_text_more' => $post['extended'],
-	      'mt_allow_comments' => $allow_comments,
-	      'mt_allow_pings' => $allow_pings
-	    );
+				'categories' => $categories,
+				'mt_excerpt' => $entry['post_excerpt'],
+				'mt_text_more' => $post['extended'],
+				'mt_allow_comments' => $allow_comments,
+				'mt_allow_pings' => $allow_pings
+			);
 
-	  }
+		}
 
-	  $recent_posts = array();
-	  for ($j=0; $j<count($struct); $j++) {
-	    array_push($recent_posts, $struct[$j]);
-	  }
-	  
-	  return $recent_posts;
+		$recent_posts = array();
+		for ($j=0; $j<count($struct); $j++) {
+			array_push($recent_posts, $struct[$j]);
+		}
+
+		return $recent_posts;
 	}
 
 
 	/* metaweblog.getCategories ...returns the list of categories on a given weblog */
 	function mw_getCategories($args) {
 
-	  global $wpdb;
+		global $wpdb;
 
 		$this->escape($args);
 
-	  $blog_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
+		$blog_ID     = $args[0];
+		$user_login  = $args[1];
+		$user_pass   = $args[2];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $categories_struct = array();
+		$categories_struct = array();
 
-	  // FIXME: can we avoid using direct SQL there?
-	  if ($cats = $wpdb->get_results("SELECT cat_ID,cat_name FROM $wpdb->categories", ARRAY_A)) {
-	    foreach ($cats as $cat) {
-	      $struct['categoryId'] = $cat['cat_ID'];
-	      $struct['description'] = $cat['cat_name'];
-	      $struct['categoryName'] = $cat['cat_name'];
-	      $struct['htmlUrl'] = wp_specialchars(get_category_link($cat['cat_ID']));
-	      $struct['rssUrl'] = wp_specialchars(get_category_rss_link(false, $cat['cat_ID'], $cat['cat_name']));
+		// FIXME: can we avoid using direct SQL there?
+		if ($cats = $wpdb->get_results("SELECT cat_ID,cat_name FROM $wpdb->categories", ARRAY_A)) {
+			foreach ($cats as $cat) {
+				$struct['categoryId'] = $cat['cat_ID'];
+				$struct['description'] = $cat['cat_name'];
+				$struct['categoryName'] = $cat['cat_name'];
+				$struct['htmlUrl'] = wp_specialchars(get_category_link($cat['cat_ID']));
+				$struct['rssUrl'] = wp_specialchars(get_category_rss_link(false, $cat['cat_ID'], $cat['cat_name']));
 
-	      $categories_struct[] = $struct;
-	    }
-	  }
+				$categories_struct[] = $struct;
+			}
+		}
 
-	  return $categories_struct;
+		return $categories_struct;
 	}
 
 
@@ -852,72 +852,72 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $blog_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
-	  $num_posts   = $args[3];
+		$blog_ID     = $args[0];
+		$user_login  = $args[1];
+		$user_pass   = $args[2];
+		$num_posts   = $args[3];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $posts_list = wp_get_recent_posts($num_posts);
+		$posts_list = wp_get_recent_posts($num_posts);
 
-	  if (!$posts_list) {
-	    $this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
-	    return $this->error;
-	  }
+		if (!$posts_list) {
+			$this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
+			return $this->error;
+		}
 
-	  foreach ($posts_list as $entry) {
-	  
-	    $post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
+		foreach ($posts_list as $entry) {
 
-	    $struct[] = array(
-	      'dateCreated' => new IXR_Date($post_date),
-	      'userid' => $entry['post_author'],
-	      'postid' => $entry['ID'],
-	      'title' => $entry['post_title'],
-	    );
+			$post_date = mysql2date('Ymd\TH:i:s', $entry['post_date']);
 
-	  }
+			$struct[] = array(
+				'dateCreated' => new IXR_Date($post_date),
+				'userid' => $entry['post_author'],
+				'postid' => $entry['ID'],
+				'title' => $entry['post_title'],
+			);
 
-	  $recent_posts = array();
-	  for ($j=0; $j<count($struct); $j++) {
-	    array_push($recent_posts, $struct[$j]);
-	  }
-	  
-	  return $recent_posts;
+		}
+
+		$recent_posts = array();
+		for ($j=0; $j<count($struct); $j++) {
+			array_push($recent_posts, $struct[$j]);
+		}
+
+		return $recent_posts;
 	}
 
 
 	/* mt.getCategoryList ...returns the list of categories on a given weblog */
 	function mt_getCategoryList($args) {
 
-	  global $wpdb;
+		global $wpdb;
 
 		$this->escape($args);
 
-	  $blog_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
+		$blog_ID     = $args[0];
+		$user_login  = $args[1];
+		$user_pass   = $args[2];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $categories_struct = array();
+		$categories_struct = array();
 
-	  // FIXME: can we avoid using direct SQL there?
-	  if ($cats = $wpdb->get_results("SELECT cat_ID, cat_name FROM $wpdb->categories", ARRAY_A)) {
-	    foreach ($cats as $cat) {
-	      $struct['categoryId'] = $cat['cat_ID'];
-	      $struct['categoryName'] = $cat['cat_name'];
+		// FIXME: can we avoid using direct SQL there?
+		if ($cats = $wpdb->get_results("SELECT cat_ID, cat_name FROM $wpdb->categories", ARRAY_A)) {
+			foreach ($cats as $cat) {
+				$struct['categoryId'] = $cat['cat_ID'];
+				$struct['categoryName'] = $cat['cat_name'];
 
-	      $categories_struct[] = $struct;
-	    }
-	  }
+				$categories_struct[] = $struct;
+			}
+		}
 
-	  return $categories_struct;
+		return $categories_struct;
 	}
 
 
@@ -926,28 +926,28 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $post_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
+		$post_ID     = $args[0];
+		$user_login  = $args[1];
+		$user_pass   = $args[2];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  $categories = array();
-	  $catids = wp_get_post_categories(intval($post_ID));
-	  // first listed category will be the primary category
-	  $isPrimary = true;
-	  foreach($catids as $catid) {
-	    $categories[] = array(
-	      'categoryName' => get_cat_name($catid),
-	      'categoryId' => $catid,
-	      'isPrimary' => $isPrimary
-	    );
-	    $isPrimary = false;
-	  }
- 
-	  return $categories;
+		$categories = array();
+		$catids = wp_get_post_categories(intval($post_ID));
+		// first listed category will be the primary category
+		$isPrimary = true;
+		foreach($catids as $catid) {
+			$categories[] = array(
+				'categoryName' => get_cat_name($catid),
+				'categoryId' => $catid,
+				'isPrimary' => $isPrimary
+			);
+			$isPrimary = false;
+		}
+
+		return $categories;
 	}
 
 
@@ -956,81 +956,81 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $post_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
-	  $categories  = $args[3];
+		$post_ID     = $args[0];
+		$user_login  = $args[1];
+		$user_pass   = $args[2];
+		$categories  = $args[3];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  set_current_user(0, $user_login);
-	  if ( !current_user_can('edit_post', $post_ID) )
-	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
+		set_current_user(0, $user_login);
+		if ( !current_user_can('edit_post', $post_ID) )
+			return new IXR_Error(401, 'Sorry, you can not edit this post.');
 
-	  foreach($categories as $cat) {
-	    $catids[] = $cat['categoryId'];
-	  }
+		foreach($categories as $cat) {
+			$catids[] = $cat['categoryId'];
+		}
 
-	  wp_set_post_categories($post_ID, $catids);
+		wp_set_post_categories($post_ID, $catids);
 
-	  return true;
+		return true;
 	}
 
 
 	/* mt.supportedMethods ...returns an array of methods supported by this server */
 	function mt_supportedMethods($args) {
 
-	  $supported_methods = array();
-	  foreach($this->methods as $key=>$value) {
-	    $supported_methods[] = $key;
-	  }
+		$supported_methods = array();
+		foreach($this->methods as $key=>$value) {
+			$supported_methods[] = $key;
+		}
 
-	  return $supported_methods;
+		return $supported_methods;
 	}
 
 
 	/* mt.supportedTextFilters ...returns an empty array because we don't
-	   support per-post text filters yet */
+		 support per-post text filters yet */
 	function mt_supportedTextFilters($args) {
-	  return array();
+		return array();
 	}
 
 
 	/* mt.getTrackbackPings ...returns trackbacks sent to a given post */
 	function mt_getTrackbackPings($args) {
 
-	  global $wpdb;
+		global $wpdb;
 
-	  $post_ID = intval($args);
+		$post_ID = intval($args);
 
-	  $actual_post = wp_get_single_post($post_ID, ARRAY_A);
+		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
 
-	  if (!$actual_post) {
-	  	return new IXR_Error(404, 'Sorry, no such post.');
-	  }
-
-	  $comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
-
-	  if (!$comments) {
-	  	return array();
-	  }
-
-	  $trackback_pings = array();
-	  foreach($comments as $comment) {
-	    if ( 'trackback' == $comment->comment_type ) {
-	      $content = $comment->comment_content;
-	      $title = substr($content, 8, (strpos($content, '</strong>') - 8));
-	      $trackback_pings[] = array(
-	        'pingTitle' => $title,
-	        'pingURL'   => $comment->comment_author_url,
-	        'pingIP'    => $comment->comment_author_IP
-	      );
+		if (!$actual_post) {
+			return new IXR_Error(404, 'Sorry, no such post.');
 		}
-	  }
 
-	  return $trackback_pings;
+		$comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
+
+		if (!$comments) {
+			return array();
+		}
+
+		$trackback_pings = array();
+		foreach($comments as $comment) {
+			if ( 'trackback' == $comment->comment_type ) {
+				$content = $comment->comment_content;
+				$title = substr($content, 8, (strpos($content, '</strong>') - 8));
+				$trackback_pings[] = array(
+					'pingTitle' => $title,
+					'pingURL'   => $comment->comment_author_url,
+					'pingIP'    => $comment->comment_author_IP
+				);
+		}
+		}
+
+		return $trackback_pings;
 	}
 
 
@@ -1039,30 +1039,30 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $post_ID     = $args[0];
-	  $user_login  = $args[1];
-	  $user_pass   = $args[2];
+		$post_ID     = $args[0];
+		$user_login  = $args[1];
+		$user_pass   = $args[2];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  set_current_user(0, $user_login);
-	  if ( !current_user_can('edit_post', $post_ID) )
-	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
+		set_current_user(0, $user_login);
+		if ( !current_user_can('edit_post', $post_ID) )
+			return new IXR_Error(401, 'Sorry, you can not edit this post.');
 
-	  $postdata = wp_get_single_post($post_ID,ARRAY_A);
+		$postdata = wp_get_single_post($post_ID,ARRAY_A);
 
-	  $postdata['post_status'] = 'publish';
+		$postdata['post_status'] = 'publish';
 
-	  // retain old cats
-	  $cats = wp_get_post_categories($post_ID);
-	  $postdata['post_category'] = $cats;
+		// retain old cats
+		$cats = wp_get_post_categories($post_ID);
+		$postdata['post_category'] = $cats;
 		$this->escape($postdata);
 
-	  $result = wp_update_post($postdata);
+		$result = wp_update_post($postdata);
 
-	  return $result;
+		return $result;
 	}
 
 
@@ -1073,7 +1073,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	/* pingback.ping gets a pingback and registers it */
 	function pingback_ping($args) {
-		global $wpdb, $wp_version; 
+		global $wpdb, $wp_version;
 
 		$this->escape($args);
 
@@ -1090,7 +1090,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Check if the page linked to is in our site
 		$pos1 = strpos($pagelinkedto, str_replace(array('http://www.','http://','https://www.','https://'), '', get_option('home')));
 		if( !$pos1 )
-	  		return new IXR_Error(0, 'Is there no link to us?');
+				return new IXR_Error(0, 'Is there no link to us?');
 
 		// let's find which post is linked to
 		// FIXME: does url_to_postid() cover all these cases already?
@@ -1223,8 +1223,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 
 	/* pingback.extensions.getPingbacks returns an array of URLs
-	   that pingbacked the given URL
-	   specs on http://www.aquarionics.com/misc/archives/blogite/0198.html */
+	that pingbacked the given URL
+	specs on http://www.aquarionics.com/misc/archives/blogite/0198.html */
 	function pingback_extensions_getPingbacks($args) {
 
 		global $wpdb;

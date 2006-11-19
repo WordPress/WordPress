@@ -31,7 +31,7 @@ case 'update':
 	foreach($comment as $key => $value) {
 	if ($feelinglucky && 'later' == $value)
 		$value = 'delete';
-	    switch($value) {
+		switch($value) {
 			case 'later':
 				// do nothing with that comment
 				// wp_set_comment_status($key, "hold");
@@ -41,10 +41,10 @@ case 'update':
 				wp_set_comment_status($key, 'delete');
 				++$item_deleted;
 				break;
- 			case 'spam':
- 				wp_set_comment_status($key, 'spam');
- 				++$item_spam;
- 				break;
+			case 'spam':
+				wp_set_comment_status($key, 'spam');
+				++$item_spam;
+				break;
 			case 'approve':
 				wp_set_comment_status($key, 'approve');
 				if ( get_option('comments_notify') == true ) {
@@ -52,7 +52,7 @@ case 'update':
 				}
 				++$item_approved;
 				break;
-	    }
+		}
 	}
 
 	$file = basename(__FILE__);
@@ -85,13 +85,13 @@ if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored
 			echo sprintf(__("%s comments deleted"), $deleted) . " <br/>\n";
 		}
 	}
- 	if ($spam) {
- 		if ('1' == $spam) {
+	if ($spam) {
+		if ('1' == $spam) {
 			echo __("1 comment marked as spam") . " <br/>\n";
- 		} else {
- 			echo sprintf(__("%s comments marked as spam"), $spam) . " <br/>\n";
- 		}
- 	}
+		} else {
+			echo sprintf(__("%s comments marked as spam"), $spam) . " <br/>\n";
+		}
+	}
 	if ($ignored) {
 		if ('1' == $ignored) {
 			echo __("1 comment unchanged") . " <br/>\n";
@@ -151,13 +151,13 @@ $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 
 	</li>
 <?php
-    }
+	}
 ?>
-    </ol>
+	</ol>
 
 <div id="ajax-response"></div>
 
-    <p class="submit"><input type="submit" name="submit" value="<?php _e('Bulk Moderate Comments &raquo;') ?>" /></p>
+<p class="submit"><input type="submit" name="submit" value="<?php _e('Bulk Moderate Comments &raquo;') ?>" /></p>
 <script type="text/javascript">
 // <![CDATA[
 function markAllForDelete() {
@@ -197,10 +197,10 @@ document.write('<ul><li><a href="javascript:markAllForApprove()"><?php _e('Mark 
 		<input name="feelinglucky" type="checkbox" id="feelinglucky" value="true" /> <label for="feelinglucky"><?php _e('Delete every comment marked "defer." <strong>Warning: This can&#8217;t be undone.</strong>'); ?></label>
 	</p>
 </noscript>
-    </form>
+</form>
 <?php
 } else {
-    // nothing to approve
+	// nothing to approve
 	echo '<p>'.__("Currently there are no comments for you to moderate.") . "</p>\n";
 }
 ?>

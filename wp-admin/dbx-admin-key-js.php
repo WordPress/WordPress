@@ -9,7 +9,7 @@ switch ( $_GET['pagenow'] ) :
 		break;
 	case 'page.php' :
 	case 'page-new.php' :
-		$man = 'pagemeta'; 
+		$man = 'pagemeta';
 		break;
 	case 'link.php' :
 		$man = 'linkmeta';

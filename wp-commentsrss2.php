@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if (empty($wp)) {
 	require_once('wp-config.php');
@@ -64,7 +64,7 @@ if (have_posts()) :
 		<author><?php echo get_comment_author_rss() ?></author>
 		<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></pubDate>
 		<guid><?php comment_link() ?></guid>
-			<?php 
+			<?php
 			if (!empty($comment->post_password) && $_COOKIE['wp-postpass'] != $comment->post_password) {
 			?>
 		<description><?php _e('Protected Comments: Please enter your password to view comments.'); ?></description>
@@ -74,12 +74,12 @@ if (have_posts()) :
 			?>
 		<description><?php comment_text_rss() ?></description>
 		<content:encoded><![CDATA[<?php comment_text() ?>]]></content:encoded>
-			<?php 
-			} // close check for password 
+			<?php
+			} // close check for password
 			?>
 	</item>
-<?php 
-			} 
+<?php
+			}
 		}
 	}
 endwhile; endif;

@@ -12,7 +12,7 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 
 	if( 'U' == $dateformatstring )
 		return $i;
-	
+
 	if ( -1 == $i || false == $i )
 		$i = 0;
 
@@ -462,7 +462,7 @@ function wp_get_http_headers( $url, $red = 1 ) {
 	@set_time_limit( 60 );
 
 	if ( $red > 5 )
-	   return false;
+		 return false;
 
 	$parts = parse_url( $url );
 	$file = $parts['path'] . ($parts['query'] ? '?'.$parts['query'] : '');
@@ -491,9 +491,9 @@ function wp_get_http_headers( $url, $red = 1 ) {
 	preg_match('/.*([0-9]{3}).*/', $response, $return);
 	$headers['response'] = $return[1]; // HTTP response code eg 204, 200, 404
 
-    $code = $headers['response'];
-    if ( ('302' == $code || '301' == $code) && isset($headers['location']) )
-        return wp_get_http_headers( $headers['location'], ++$red );
+		$code = $headers['response'];
+		if ( ('302' == $code || '301' == $code) && isset($headers['location']) )
+				return wp_get_http_headers( $headers['location'], ++$red );
 
 	return $headers;
 }
@@ -801,8 +801,8 @@ function get_num_queries() {
 }
 
 function bool_from_yn($yn) {
-    if ($yn == 'Y') return 1;
-    return 0;
+		if ($yn == 'Y') return 1;
+		return 0;
 }
 
 function do_feed() {
@@ -957,7 +957,7 @@ function wp_upload_dir() {
 		return array('error' => $message);
 	}
 
-    $uploads = array('path' => $dir, 'url' => $url, 'error' => false);
+		$uploads = array('path' => $dir, 'url' => $url, 'error' => false);
 	return apply_filters('upload_dir', $uploads);
 }
 

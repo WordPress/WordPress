@@ -48,10 +48,10 @@ break;
 
 case 'edit':
 
-    require_once ('admin-header.php');
-    $cat_ID = (int) $_GET['cat_ID'];
-    $category = get_category_to_edit($cat_ID);
-    include('edit-category-form.php');
+	require_once ('admin-header.php');
+	$cat_ID = (int) $_GET['cat_ID'];
+	$category = get_category_to_edit($cat_ID);
+	include('edit-category-form.php');
 
 break;
 

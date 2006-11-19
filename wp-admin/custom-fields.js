@@ -14,10 +14,10 @@ function customFieldsAddIn() {
 	for ( var i=0; i < inputs.length; i++ ) {
 		if ('text' == inputs[i].type) {
 			inputs[i].setAttribute('autocomplete', 'off');
-		        inputs[i].onkeypress = function(e) {return killSubmit('theList.ajaxUpdater("meta", "meta-' + parseInt(this.name.slice(5),10) + '");', e); };
+			inputs[i].onkeypress = function(e) {return killSubmit('theList.ajaxUpdater("meta", "meta-' + parseInt(this.name.slice(5),10) + '");', e); };
 		}
 		if ('updatemeta' == inputs[i].className) {
-		        inputs[i].onclick = function(e) {return killSubmit('theList.ajaxUpdater("meta", "meta-' + parseInt(this.parentNode.parentNode.id.slice(5),10) + '");', e); };
+			inputs[i].onclick = function(e) {return killSubmit('theList.ajaxUpdater("meta", "meta-' + parseInt(this.parentNode.parentNode.id.slice(5),10) + '");', e); };
 		}
 	}
 

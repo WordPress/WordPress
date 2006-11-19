@@ -20,7 +20,7 @@ class BW_Import {
 		$trans_tbl = array_flip($trans_tbl);
 		return strtr($string, $trans_tbl);
 	}
-	
+
 	function greet() {
 		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! This importer allows you to extract posts from Blogware XML export file into your blog.  Pick a Blogware file to upload and click Import.').'</p>';
@@ -30,7 +30,7 @@ class BW_Import {
 
 	function import_posts() {
 		global $wpdb, $current_user;
-		
+
 		set_magic_quotes_runtime(0);
 		$importdata = file($this->file); // Read the file into an array
 		$importdata = implode('', $importdata); // squish it
@@ -39,7 +39,7 @@ class BW_Import {
 		preg_match_all('|(<item[^>]+>(.*?)</item>)|is', $importdata, $posts);
 		$posts = $posts[1];
 		unset($importdata);
-		echo '<ol>';		
+		echo '<ol>';
 		foreach ($posts as $post) {
 			flush();
 			preg_match('|<item type=\"(.*?)\">|is', $post, $post_type);
@@ -102,7 +102,7 @@ class BW_Import {
 
 			preg_match_all('|<comment>(.*?)</comment>|is', $post, $comments);
 			$comments = $comments[1];
-			
+
 			if ( $comments ) {
 				$comment_post_ID = $post_id;
 				$num_comments = 0;
@@ -157,7 +157,7 @@ class BW_Import {
 		$this->file = $file['file'];
 		$this->import_posts();
 		wp_import_cleanup($file['id']);
-		
+
 		echo '<h3>';
 		printf(__('All done. <a href="%s">Have fun!</a>'), get_option('home'));
 		echo '</h3>';
@@ -170,7 +170,7 @@ class BW_Import {
 			$step = (int) $_GET['step'];
 
 		$this->header();
-		
+
 		switch ($step) {
 			case 0 :
 				$this->greet();
@@ -179,12 +179,12 @@ class BW_Import {
 				$this->import();
 				break;
 		}
-		
+
 		$this->footer();
 	}
 
 	function BW_Import() {
-		// Nothing.	
+		// Nothing.
 	}
 }
 

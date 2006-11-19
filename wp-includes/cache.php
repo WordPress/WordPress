@@ -65,7 +65,7 @@ class WP_Object_Cache {
 	var $secret = '';
 
 	function acquire_lock() {
-		// Acquire a write lock. 
+		// Acquire a write lock.
 		$this->mutex = @fopen($this->cache_dir.$this->flock_filename, 'w');
 		if ( false == $this->mutex)
 			return false;
@@ -237,11 +237,11 @@ class WP_Object_Cache {
 		while ($index < count($stack)) {
 			# Get indexed directory from stack
 			$dir = $stack[$index];
-      
+
 			$dh = @ opendir($dir);
 			if (!$dh)
 				return false;
-      
+
 			while (($file = @ readdir($dh)) !== false) {
 				if ($file == '.' or $file == '..')
 					continue;

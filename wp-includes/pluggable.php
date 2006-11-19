@@ -46,7 +46,7 @@ function get_currentuserinfo() {
 	if ( ! empty($current_user) )
 		return;
 
-	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) || 
+	if ( empty($_COOKIE[USER_COOKIE]) || empty($_COOKIE[PASS_COOKIE]) ||
 		!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true) ) {
 		wp_set_current_user(0);
 		return false;
@@ -212,7 +212,7 @@ endif;
 if ( !function_exists('auth_redirect') ) :
 function auth_redirect() {
 	// Checks if a user is logged in, if not redirects them to the login page
-	if ( (!empty($_COOKIE[USER_COOKIE]) && 
+	if ( (!empty($_COOKIE[USER_COOKIE]) &&
 				!wp_login($_COOKIE[USER_COOKIE], $_COOKIE[PASS_COOKIE], true)) ||
 			 (empty($_COOKIE[USER_COOKIE])) ) {
 		nocache_headers();
@@ -331,7 +331,7 @@ endif;
 if ( ! function_exists('wp_notify_postauthor') ) :
 function wp_notify_postauthor($comment_id, $comment_type='') {
 	global $wpdb;
-    
+
 	$comment = get_comment($comment_id);
 	$post    = get_post($comment->comment_post_ID);
 	$user    = get_userdata( $post->post_author );
@@ -378,11 +378,11 @@ function wp_notify_postauthor($comment_id, $comment_type='') {
 		$from = "From: \"$blogname\" <$wp_email>";
 		if ( '' != $comment->comment_author_email )
 			$reply_to = "Reply-To: $comment->comment_author_email";
- 	} else {
+	} else {
 		$from = "From: \"$comment->comment_author\" <$wp_email>";
 		if ( '' != $comment->comment_author_email )
 			$reply_to = "Reply-To: \"$comment->comment_author_email\" <$comment->comment_author_email>";
- 	}
+	}
 
 	$message_headers = "MIME-Version: 1.0\n"
 		. "$from\n"
@@ -439,7 +439,7 @@ function wp_notify_moderator($comment_id) {
 	$subject = apply_filters('comment_moderation_subject', $subject, $comment_id);
 
 	@wp_mail($admin_email, $subject, $notify_message);
-    
+
 	return true;
 }
 endif;
@@ -489,7 +489,7 @@ function wp_create_nonce($action = -1) {
 	$uid = $user->id;
 
 	$i = ceil(time() / 43200);
-	
+
 	return substr(wp_hash($i . $action . $uid), -12, 10);
 }
 endif;

@@ -142,7 +142,7 @@ function get_comments_link() {
 }
 
 function comments_link( $file = '', $echo = true ) {
-    echo get_comments_link();
+		echo get_comments_link();
 }
 
 function get_comments_number( $post_id = 0 ) {
@@ -240,9 +240,9 @@ function trackback_url( $display = true ) {
 function trackback_rdf($timezone = 0) {
 	global $id;
 	if (!stristr($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator')) {
-	echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-	    xmlns:dc="http://purl.org/dc/elements/1.1/"
-	    xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+	echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
 		<rdf:Description rdf:about="';
 	the_permalink();
 	echo '"'."\n";
@@ -265,7 +265,7 @@ function comments_open() {
 
 function pings_open() {
 	global $post;
-	if ( 'open' == $post->ping_status ) 
+	if ( 'open' == $post->ping_status )
 		return true;
 	else
 		return false;
@@ -299,7 +299,7 @@ function comments_template( $file = '/comments.php' ) {
 }
 
 function comments_popup_script($width=400, $height=400, $file='') {
-    global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
+		global $wpcommentspopupfile, $wptrackbackpopupfile, $wppingbackpopupfile, $wpcommentsjavascript;
 
 		if (empty ($file)) {
 			$wpcommentspopupfile = '';  // Use the index.
@@ -307,9 +307,9 @@ function comments_popup_script($width=400, $height=400, $file='') {
 			$wpcommentspopupfile = $file;
 		}
 
-    $wpcommentsjavascript = 1;
-    $javascript = "<script type='text/javascript'>\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
-    echo $javascript;
+		$wpcommentsjavascript = 1;
+		$javascript = "<script type='text/javascript'>\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
+		echo $javascript;
 }
 
 function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Comments', $CSSclass='', $none='Comments Off') {

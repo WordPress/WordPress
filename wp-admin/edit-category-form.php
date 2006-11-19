@@ -22,8 +22,8 @@ if ( ! empty($cat_ID) ) {
 <?php wp_nonce_field($nonce_action); ?>
 	<table class="editform" width="100%" cellspacing="2" cellpadding="5">
 		<tr>
-		  <th width="33%" scope="row" valign="top"><label for="cat_name"><?php _e('Category name:') ?></label></th>
-		  <td width="67%"><input name="cat_name" id="cat_name" type="text" value="<?php echo wp_specialchars($category->cat_name); ?>" size="40" /></td>
+			<th width="33%" scope="row" valign="top"><label for="cat_name"><?php _e('Category name:') ?></label></th>
+			<td width="67%"><input name="cat_name" id="cat_name" type="text" value="<?php echo wp_specialchars($category->cat_name); ?>" size="40" /></td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category slug:') ?></label></th>

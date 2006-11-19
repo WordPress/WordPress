@@ -46,11 +46,11 @@ if ( $comments || $numcomments ) :
 <?php endif; ?>
 
 <ul>
-<?php 
+<?php
 if ( $comments ) {
 foreach ($comments as $comment) {
 	echo '<li>' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . get_the_title($comment->comment_post_ID) . '</a>');
-	edit_comment_link(__("Edit"), ' <small>(', ')</small>'); 
+	edit_comment_link(__("Edit"), ' <small>(', ')</small>');
 	echo '</li>';
 }
 }
@@ -80,7 +80,7 @@ foreach ($recentposts as $post) {
 
 <?php
 if ( $scheduled = $wpdb->get_results("SELECT ID, post_title, post_date_gmt FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'future' ORDER BY post_date ASC") ) :
-?> 
+?>
 <div>
 <h3><?php _e('Scheduled Entries:') ?></h3>
 <ul>
@@ -90,7 +90,7 @@ foreach ($scheduled as $post) {
 		$post->post_title = sprintf(__('Post #%s'), $post->ID);
 	echo "<li>" . sprintf(__('%1$s in %2$s'), "<a href='post.php?action=edit&amp;post=$post->ID' title='" . __('Edit this post') . "'>$post->post_title</a>", human_time_diff( current_time('timestamp', 1), strtotime($post->post_date_gmt. ' GMT') ))  . "</li>";
 }
-?> 
+?>
 </ul>
 </div>
 <?php endif; ?>
@@ -99,7 +99,7 @@ foreach ($scheduled as $post) {
 <h3><?php _e('Blog Stats'); ?></h3>
 <?php
 $numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'");
-if (0 < $numposts) $numposts = number_format($numposts); 
+if (0 < $numposts) $numposts = number_format($numposts);
 
 $numcomms = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
 if (0 < $numcomms) $numcomms = number_format($numcomms);

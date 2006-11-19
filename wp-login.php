@@ -274,7 +274,7 @@ case 'register' :
 <?php
 break;
 
-case 'login' : 
+case 'login' :
 default:
 	$user_login = '';
 	$user_pass = '';

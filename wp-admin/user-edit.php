@@ -186,13 +186,13 @@ if ( $show_password_fields ) :
 <?php do_action('edit_user_profile'); ?>
 
 <br clear="all" />
-  <table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
-    <?php
-    if(count($profileuser->caps) > count($profileuser->roles)):
-    ?>
-    <tr>
-      <th scope="row"><?php _e('Additional Capabilities:') ?></th>
-      <td><?php 
+	<table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
+		<?php
+		if(count($profileuser->caps) > count($profileuser->roles)):
+		?>
+		<tr>
+			<th scope="row"><?php _e('Additional Capabilities:') ?></th>
+			<td><?php
 			$output = '';
 			foreach($profileuser->caps as $cap => $value) {
 				if(!$wp_roles->is_role($cap)) {
@@ -202,15 +202,15 @@ if ( $show_password_fields ) :
 			}
 			echo $output;
 			?></td>
-    </tr>
-    <?php
-    endif;
-    ?>
-  </table>
+		</tr>
+		<?php
+		endif;
+		?>
+	</table>
 <p class="submit">
 	<input type="hidden" name="action" value="update" />
 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id; ?>" />
-    <input type="submit" value="<?php _e('Update User &raquo;') ?>" name="submit" />
+	<input type="submit" value="<?php _e('Update User &raquo;') ?>" name="submit" />
  </p>
 </form>
 </div>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('admin.php');
 
 $title = __('Profile');
@@ -121,13 +121,13 @@ if ( $show_password_fields ) :
 
 <br clear="all" />
 
-  <table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
-    <?php
-    if(count($profileuser->caps) > count($profileuser->roles)):
-    ?>
-    <tr>
-      <th scope="row"><?php _e('Additional Capabilities:') ?></th>
-      <td><?php 
+	<table width="99%"  border="0" cellspacing="2" cellpadding="3" class="editform">
+		<?php
+		if(count($profileuser->caps) > count($profileuser->roles)):
+		?>
+		<tr>
+			<th scope="row"><?php _e('Additional Capabilities:') ?></th>
+			<td><?php
 			$output = '';
 			foreach($profileuser->caps as $cap => $value) {
 				if(!$wp_roles->is_role($cap)) {

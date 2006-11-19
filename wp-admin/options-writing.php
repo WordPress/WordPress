@@ -65,7 +65,7 @@ endforeach;
 <tr valign="top">
 <th scope="row"><?php _e('Mail server:') ?></th>
 <td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option('mailserver_url'); ?>" size="40" />
-<label for="mailserver_port"><?php _e('Port:') ?></label> 
+<label for="mailserver_port"><?php _e('Port:') ?></label>
 <input name="mailserver_port" type="text" id="mailserver_port" value="<?php form_option('mailserver_port'); ?>" size="6" />
 </td>
 </tr>
@@ -113,11 +113,11 @@ endforeach;
 </fieldset>
 
 <p class="submit">
-<input type="hidden" name="action" value="update" /> 
-<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,rich_editing,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category" /> 
-<input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /> 
+<input type="hidden" name="action" value="update" />
+<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,rich_editing,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category" />
+<input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
 </p>
-</form> 
-</div> 
+</form>
+</div>
 
 <?php include('./admin-footer.php') ?>

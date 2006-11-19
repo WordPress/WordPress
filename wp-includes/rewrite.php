@@ -16,15 +16,15 @@ function add_rewrite_tag($tagname, $regex) {
 	if (strlen($tagname) < 3 || $tagname{0} != '%' || $tagname{strlen($tagname)-1} != '%') {
 		return;
 	}
-	
+
 	$qv = trim($tagname, '%');
-	
+
 	global $wp_rewrite, $wp;
 	$wp->add_query_var($qv);
 	$wp_rewrite->add_rewrite_tag($tagname, $regex, $qv . '=');
 }
 
-//Add a new feed type like /atom1/ 
+//Add a new feed type like /atom1/
 function add_feed($feedname, $function) {
 	global $wp_rewrite;
 	if (!in_array($feedname, $wp_rewrite->feeds)) { //override the file if it is
@@ -169,7 +169,7 @@ class WP_Rewrite {
 	var $non_wp_rules; //rules that don't redirect to WP's index.php
 	var $endpoints;
 	var $use_verbose_rules = false;
-	var $rewritecode = 
+	var $rewritecode =
 		array(
 					'%year%',
 					'%monthnum%',
@@ -185,7 +185,7 @@ class WP_Rewrite {
 					'%search%'
 					);
 
-	var $rewritereplace = 
+	var $rewritereplace =
 		array(
 					'([0-9]{4})',
 					'([0-9]{1,2})',
@@ -201,7 +201,7 @@ class WP_Rewrite {
 					'(.+)'
 					);
 
-	var $queryreplace = 
+	var $queryreplace =
 		array (
 					'year=',
 					'monthnum=',
@@ -218,7 +218,7 @@ class WP_Rewrite {
 					);
 
 	var $feeds = array ( 'feed', 'rdf', 'rss', 'rss2', 'atom' );
-	
+
 	function using_permalinks() {
 		if (empty($this->permalink_structure))
 			return false;
@@ -235,7 +235,7 @@ class WP_Rewrite {
 		if (preg_match('#^/*' . $this->index . '#', $this->permalink_structure)) {
 			return true;
 		}
-    
+
 		return false;
 	}
 
@@ -251,11 +251,11 @@ class WP_Rewrite {
 		$match_suffix = '';
 
 		if (! empty($this->matches)) {
-			$match_prefix = '$' . $this->matches . '['; 
+			$match_prefix = '$' . $this->matches . '[';
 			$match_suffix = ']';
-		}        
+		}
 
-		return "$match_prefix$number$match_suffix";        
+		return "$match_prefix$number$match_suffix";
 	}
 
 	function page_rewrite_rules() {
@@ -301,13 +301,13 @@ class WP_Rewrite {
 				$date_endian= $endian;
 				break;
 			}
-		} 
+		}
 
 		if ( empty($date_endian) )
 			$date_endian = '%year%/%monthnum%/%day%';
 
 		// Do not allow the date tags and %post_id% to overlap in the permalink
-		// structure. If they do, move the date tags to $front/date/.  
+		// structure. If they do, move the date tags to $front/date/.
 		$front = $this->front;
 		preg_match_all('/%.+?%/', $this->permalink_structure, $tokens);
 		$tok_index = 1;
@@ -482,11 +482,11 @@ class WP_Rewrite {
 		//build a regex to match the trackback and page/xx parts of URLs
 		$trackbackregex = 'trackback/?$';
 		$pageregex = 'page/?([0-9]{1,})/?$';
-		
+
 		//build up an array of endpoint regexes to append => queries to append
 		if ($endpoints) {
 			$ep_query_append = array ();
-			foreach ($this->endpoints as $endpoint) { 
+			foreach ($this->endpoints as $endpoint) {
 				//match everything after the endpoint name, but allow for nothing to appear there
 				$epmatch = $endpoint[1] . '(/(.*))?/?$';
 				//this will be appended on to the rest of the query for each dir
@@ -511,7 +511,7 @@ class WP_Rewrite {
 			if (0 < $i) {
 				$queries[$i] = $queries[$i - 1] . '&';
 			}
-             
+
 			$query_token = str_replace($this->rewritecode, $this->queryreplace, $tokens[0][$i]) . $this->preg_index($i+1);
 			$queries[$i] .= $query_token;
 		}
@@ -548,7 +548,7 @@ class WP_Rewrite {
 			$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
 			//get the 'tagname=$matches[i]'
 			$query = $queries[$num_toks - 1];
-			
+
 			//set up $ep_mask_specific which is used to match more specific URL types
 			switch ($dirs[$j]) {
 				case '%year%': $ep_mask_specific = EP_YEAR; break;
@@ -580,15 +580,15 @@ class WP_Rewrite {
 				$rewrite = array($feedmatch => $feedquery, $feedmatch2 => $feedquery2);
 			if ($paged) //...and /page/xx ones
 				$rewrite = array_merge($rewrite, array($pagematch => $pagequery));
-			
+
 			//if we've got some tags in this dir
 			if ($num_toks) {
 				$post = false;
 				$page = false;
-				
-				//check to see if this dir is permalink-level: i.e. the structure specifies an 
+
+				//check to see if this dir is permalink-level: i.e. the structure specifies an
 				//individual post. Do this by checking it contains at least one of 1) post name,
-				//2) post ID, 3) page name, 4) timestamp (year, month, day, hour, second and 
+				//2) post ID, 3) page name, 4) timestamp (year, month, day, hour, second and
 				//minute all present). Set these flags now as we need them for the endpoints.
 				if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
 						|| strstr($struct, '%pagename%')
@@ -597,7 +597,7 @@ class WP_Rewrite {
 					if  ( strstr($struct, '%pagename%') )
 						$page = true;
 				}
-				
+
 				//do endpoints
 				if ($endpoints) {
 					foreach ($ep_query_append as $regex => $ep) {
@@ -607,7 +607,7 @@ class WP_Rewrite {
 						}
 					}
 				}
-				
+
 				//if we're creating rules for a permalink, do all the endpoints like attachments etc
 				if ($post) {
 					$post = true;
@@ -618,7 +618,7 @@ class WP_Rewrite {
 					$match = rtrim($match, '/');
 					//get rid of brackets
 					$submatchbase = str_replace(array('(',')'),'',$match);
-					
+
 					//add a rule for at attachments, which take the form of <permalink>/some-text
 					$sub1 = $submatchbase . '/([^/]+)/';
 					$sub1tb = $sub1 . $trackbackregex; //add trackback regex <permalink>/trackback/...
@@ -626,19 +626,19 @@ class WP_Rewrite {
 					$sub1feed2 = $sub1 . $feedregex2; //and <permalink>/(feed|atom...)
 					//add an ? as we don't have to match that last slash, and finally a $ so we
 					//match to the end of the URL
-					
+
 					//add another rule to match attachments in the explicit form:
 					//<permalink>/attachment/some-text
 					$sub2 = $submatchbase . '/attachment/([^/]+)/';
 					$sub2tb = $sub2 . $trackbackregex; //and add trackbacks <permalink>/attachment/trackback
 					$sub2feed = $sub2 . $feedregex;    //feeds, <permalink>/attachment/feed/(atom|...)
 					$sub2feed2 = $sub2 . $feedregex2;  //and feeds again on to this <permalink>/attachment/(feed|atom...)
-					
+
 					//create queries for these extra tag-ons we've just dealt with
 					$subquery = $index . '?attachment=' . $this->preg_index(1);
 					$subtbquery = $subquery . '&tb=1';
 					$subfeedquery = $subquery . '&feed=' . $this->preg_index(2);
-					
+
 					//do endpoints for attachments
 					if ($endpoint) { foreach ($ep_query_append as $regex => $ep) {
 						if ($ep[0] & EP_ATTACHMENT) {
@@ -646,11 +646,11 @@ class WP_Rewrite {
 							$rewrite[$sub2 . $regex] = $subquery . '?' . $ep[1] . $this->preg_index(2);
 						}
 					} }
-					
+
 					//now we've finished with endpoints, finish off the $sub1 and $sub2 matches
 					$sub1 .= '?$';
 					$sub2 .= '?$';
-					
+
 					//allow URLs like <permalink>/2 for <permalink>/page/2
 					$match = $match . '(/[0-9]+)?/?$';
 					$query = $index . '?' . $query . '&page=' . $this->preg_index($num_toks + 1);
@@ -659,7 +659,7 @@ class WP_Rewrite {
 					$match .= '?$';
 					$query = $index . '?' . $query;
 				}
-				
+
 				//create the final array for this dir by joining the $rewrite array (which currently
 				//only contains rules/queries for trackback, pages etc) to the main regex/query for
 				//this dir
@@ -669,7 +669,7 @@ class WP_Rewrite {
 				if ($post) {
 					//add trackback
 					$rewrite = array_merge(array($trackbackmatch => $trackbackquery), $rewrite);
-					
+
 					//add regexes/queries for attachments, attachment trackbacks and so on
 					if ( ! $page ) //require <permalink>/attachment/stuff form for pages because of confusion with subpages
 						$rewrite = array_merge($rewrite, array($sub1 => $subquery, $sub1tb => $subtbquery, $sub1feed => $subfeedquery, $sub1feed2 => $subfeedquery));
@@ -763,11 +763,11 @@ class WP_Rewrite {
 
 		$home_root = parse_url(get_option('home'));
 		$home_root = trailingslashit($home_root['path']);
-    
+
 		$rules = "<IfModule mod_rewrite.c>\n";
 		$rules .= "RewriteEngine On\n";
 		$rules .= "RewriteBase $home_root\n";
-		
+
 		//add in the rules that don't redirect to WP's index.php (and thus shouldn't be handled by WP at all)
 		foreach ($this->non_wp_rules as $match => $query) {
 			// Apache 1.3 does not support the reluctant (non-greedy) modifier.
@@ -819,7 +819,7 @@ class WP_Rewrite {
 
 		return $rules;
 	}
-	
+
 	//Add a straight rewrite rule
 	function add_rule($regex, $redirect) {
 		//get everything up to the first ?
@@ -831,12 +831,12 @@ class WP_Rewrite {
 			$this->extra_rules[$regex] = $redirect;
 		}
 	}
-	
+
 	//add a rule that doesn't redirect to index.php
 	function add_external_rule($regex, $redirect) {
 		$this->non_wp_rules[$regex] = $redirect;
 	}
-	
+
 	//add an endpoint, like /trackback/, to be inserted after certain URL types (specified in $places)
 	function add_endpoint($name, $places) {
 		global $wp;

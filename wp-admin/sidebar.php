@@ -34,15 +34,15 @@ form {
 	padding: 3px;
 }
 .sidebar-categories {
-    display: block;
-    height: 6.6em;
-    overflow: auto;
-    background-color: #f4f4f4;
+	display: block;
+	height: 6.6em;
+	overflow: auto;
+	background-color: #f4f4f4;
 }
 .sidebar-categories label {
 	font-size: 10px;
-    display: block;
-    width: 90%;
+	display: block;
+	width: 90%;
 }
 </style>
 </head>
@@ -65,9 +65,9 @@ Post:
 <textarea rows="8" cols="12" style="width: 100%" name="content" tabindex="2"></textarea>
 </p>
 <p>
-    <input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="Save as Draft" /> 
+	<input name="saveasdraft" type="submit" id="saveasdraft" tabindex="9" value="Save as Draft" />
 <?php if ( current_user_can('publish_posts') ) : ?>
-    <input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="Publish" /> 
+	<input name="publish" type="submit" id="publish" tabindex="6" style="font-weight: bold;" value="Publish" />
 <?php endif; ?>
 </p>
 </div>

@@ -11,7 +11,7 @@ define('RSS', 'RSS');
 define('ATOM', 'Atom');
 define('MAGPIE_USER_AGENT', 'WordPress/' . $wp_version);
 
-class MagpieRSS { 
+class MagpieRSS {
 	var $parser;
 	var $current_item	= array();	// item currently being parsed
 	var $items			= array();	// collection of parsed items
@@ -25,7 +25,7 @@ class MagpieRSS {
 	var $stack				= array(); // parser stack
 	var $inchannel			= false;
 	var $initem 			= false;
-	var $incontent			= false; // if in Atom <content mode="xml"> field 
+	var $incontent			= false; // if in Atom <content mode="xml"> field
 	var $intextinput		= false;
 	var $inimage 			= false;
 	var $current_field		= '';
@@ -54,10 +54,10 @@ class MagpieRSS {
 		# setup handlers
 		#
 		xml_set_object( $this->parser, $this );
-		xml_set_element_handler($this->parser, 
+		xml_set_element_handler($this->parser,
 				'feed_start_element', 'feed_end_element' );
 
-		xml_set_character_data_handler( $this->parser, 'feed_cdata' ); 
+		xml_set_character_data_handler( $this->parser, 'feed_cdata' );
 
 		$status = xml_parse( $this->parser, $source );
 
@@ -85,7 +85,7 @@ class MagpieRSS {
 		// check for a namespace, and split if found
 		$ns	= false;
 		if ( strpos( $element, ':' ) ) {
-			list($ns, $el) = split( ':', $element, 2); 
+			list($ns, $el) = split( ':', $element, 2);
 		}
 		if ( $ns and $ns != 'rdf' ) {
 			$this->current_namespace = $ns;
@@ -111,11 +111,11 @@ class MagpieRSS {
 			return;
 		}
 
-		if ( $el == 'channel' ) 
+		if ( $el == 'channel' )
 		{
 			$this->inchannel = true;
 		}
-		elseif ($el == 'item' or $el == 'entry' ) 
+		elseif ($el == 'item' or $el == 'entry' )
 		{
 			$this->initem = true;
 			if ( isset($attrs['rdf:about']) ) {
@@ -125,18 +125,18 @@ class MagpieRSS {
 
 		// if we're in the default namespace of an RSS feed,
 		//  record textinput or image fields
-		elseif ( 
-			$this->feed_type == RSS and 
-			$this->current_namespace == '' and 
-			$el == 'textinput' ) 
+		elseif (
+			$this->feed_type == RSS and
+			$this->current_namespace == '' and
+			$el == 'textinput' )
 		{
 			$this->intextinput = true;
 		}
 
 		elseif (
-			$this->feed_type == RSS and 
-			$this->current_namespace == '' and 
-			$el == 'image' ) 
+			$this->feed_type == RSS and
+			$this->current_namespace == '' and
+			$el == 'image' )
 		{
 			$this->inimage = true;
 		}
@@ -155,12 +155,12 @@ class MagpieRSS {
 		}
 
 		// if inside an Atom content construct (e.g. content or summary) field treat tags as text
-		elseif ($this->feed_type == ATOM and $this->incontent ) 
+		elseif ($this->feed_type == ATOM and $this->incontent )
 		{
 			// if tags are inlined, then flatten
-			$attrs_str = join(' ', 
-					array_map('map_attrs', 
-					array_keys($attrs), 
+			$attrs_str = join(' ',
+					array_map('map_attrs',
+					array_keys($attrs),
 					array_values($attrs) ) );
 
 			$this->append_content( "<$element $attrs_str>"  );
@@ -172,9 +172,9 @@ class MagpieRSS {
 		// Magpie treats link elements of type rel='alternate'
 		// as being equivalent to RSS's simple link element.
 		//
-		elseif ($this->feed_type == ATOM and $el == 'link' ) 
+		elseif ($this->feed_type == ATOM and $el == 'link' )
 		{
-			if ( isset($attrs['rel']) and $attrs['rel'] == 'alternate' ) 
+			if ( isset($attrs['rel']) and $attrs['rel'] == 'alternate' )
 			{
 				$link_el = 'link';
 			}
@@ -194,7 +194,7 @@ class MagpieRSS {
 
 	function feed_cdata ($p, $text) {
 
-		if ($this->feed_type == ATOM and $this->incontent) 
+		if ($this->feed_type == ATOM and $this->incontent)
 		{
 			$this->append_content( $text );
 		}
@@ -207,17 +207,17 @@ class MagpieRSS {
 	function feed_end_element ($p, $el) {
 		$el = strtolower($el);
 
-		if ( $el == 'item' or $el == 'entry' ) 
+		if ( $el == 'item' or $el == 'entry' )
 		{
 			$this->items[] = $this->current_item;
 			$this->current_item = array();
 			$this->initem = false;
 		}
-		elseif ($this->feed_type == RSS and $this->current_namespace == '' and $el == 'textinput' ) 
+		elseif ($this->feed_type == RSS and $this->current_namespace == '' and $el == 'textinput' )
 		{
 			$this->intextinput = false;
 		}
-		elseif ($this->feed_type == RSS and $this->current_namespace == '' and $el == 'image' ) 
+		elseif ($this->feed_type == RSS and $this->current_namespace == '' and $el == 'image' )
 		{
 			$this->inimage = false;
 		}
@@ -225,14 +225,14 @@ class MagpieRSS {
 		{
 			$this->incontent = false;
 		}
-		elseif ($el == 'channel' or $el == 'feed' ) 
+		elseif ($el == 'channel' or $el == 'feed' )
 		{
 			$this->inchannel = false;
 		}
 		elseif ($this->feed_type == ATOM and $this->incontent  ) {
 			// balance tags properly
 			// note:  i don't think this is actually neccessary
-			if ( $this->stack[0] == $el ) 
+			if ( $this->stack[0] == $el )
 			{
 				$this->append_content("</$el>");
 			}
@@ -270,7 +270,7 @@ class MagpieRSS {
 		if (!$el) {
 			return;
 		}
-		if ( $this->current_namespace ) 
+		if ( $this->current_namespace )
 		{
 			if ( $this->initem ) {
 				$this->concat(
@@ -395,7 +395,7 @@ function fetch_rss ($url) {
 			// error("Failed to fetch $url and cache is off");
 			return false;
 		}
-	} 
+	}
 	// else cache is ON
 	else {
 		// Flow
@@ -472,7 +472,7 @@ function fetch_rss ($url) {
 				if ( $resp->error ) {
 					# compensate for Snoopy's annoying habbit to tacking
 					# on '\n'
-					$http_error = substr($resp->error, 0, -2); 
+					$http_error = substr($resp->error, 0, -2);
 					$errormsg .= "(HTTP Error: $http_error)";
 				}
 				else {
@@ -613,28 +613,28 @@ function init () {
 	}
 }
 
-function is_info ($sc) { 
-	return $sc >= 100 && $sc < 200; 
+function is_info ($sc) {
+	return $sc >= 100 && $sc < 200;
 }
 
-function is_success ($sc) { 
-	return $sc >= 200 && $sc < 300; 
+function is_success ($sc) {
+	return $sc >= 200 && $sc < 300;
 }
 
-function is_redirect ($sc) { 
-	return $sc >= 300 && $sc < 400; 
+function is_redirect ($sc) {
+	return $sc >= 300 && $sc < 400;
 }
 
-function is_error ($sc) { 
-	return $sc >= 400 && $sc < 600; 
+function is_error ($sc) {
+	return $sc >= 400 && $sc < 600;
 }
 
-function is_client_error ($sc) { 
-	return $sc >= 400 && $sc < 500; 
+function is_client_error ($sc) {
+	return $sc >= 400 && $sc < 500;
 }
 
-function is_server_error ($sc) { 
-	return $sc >= 500 && $sc < 600; 
+function is_server_error ($sc) {
+	return $sc >= 500 && $sc < 600;
 }
 
 class RSSCache {
@@ -685,7 +685,7 @@ class RSSCache {
 		$cache_option = 'rss_' . $this->file_name( $url );
 
 		if ( ! get_option( $cache_option ) ) {
-			$this->debug( 
+			$this->debug(
 				"Cache doesn't contain: $url (cache option: $cache_option)"
 			);
 			return 0;
@@ -757,7 +757,7 @@ class RSSCache {
 \*=======================================================================*/
 	function error ($errormsg, $lvl=E_USER_WARNING) {
 		// append PHP's error message if track_errors enabled
-		if ( isset($php_errormsg) ) { 
+		if ( isset($php_errormsg) ) {
 			$errormsg .= " ($php_errormsg)";
 		}
 		$this->ERROR = $errormsg;
@@ -781,7 +781,7 @@ function parse_w3cdtf ( $date_str ) {
 	$pat = "/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(:(\d{2}))?(?:([-+])(\d{2}):?(\d{2})|(Z))?/";
 
 	if ( preg_match( $pat, $date_str, $match ) ) {
-		list( $year, $month, $day, $hours, $minutes, $seconds) = 
+		list( $year, $month, $day, $hours, $minutes, $seconds) =
 			array( $match[1], $match[2], $match[3], $match[4], $match[5], $match[6]);
 
 		# calc epoch for current date assuming GMT

@@ -56,6 +56,6 @@ switch($step) {
 <?php
 		break;
 }
-?> 
+?>
 </body>
 </html>

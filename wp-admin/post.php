@@ -15,7 +15,7 @@ case 'post':
 	$parent_file = 'post-new.php';
 	$submenu_file = 'post-new.php';
 	check_admin_referer('add-post');
-	
+
 	$post_ID = 'post' == $action ? write_post() : edit_post();
 
 	// Redirect.
@@ -89,7 +89,7 @@ case 'editattachment':
 case 'editpost':
 	$post_ID = (int) $_POST['post_ID'];
 	check_admin_referer('update-post_' . $post_ID);
-	
+
 	$post_ID = edit_post();
 
 	if ( 'post' == $_POST['originalaction'] ) {

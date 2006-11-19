@@ -3,7 +3,7 @@
 /*
  * The Big Query.
  */
- 
+
 function get_query_var($var) {
 	global $wp_query;
 
@@ -224,7 +224,7 @@ function is_404 () {
 /*
  * The Loop.  Post loop control.
  */
- 
+
 function have_posts() {
 	global $wp_query;
 
@@ -416,8 +416,8 @@ class WP_Query {
 		} elseif ( $qv['p'] ) {
 			$this->is_single = true;
 		} elseif (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
-			// If year, month, day, hour, minute, and second are set, a single 
-			// post is being queried.        
+			// If year, month, day, hour, minute, and second are set, a single
+			// post is being queried.
 			$this->is_single = true;
 		} elseif ('' != $qv['static'] || '' != $qv['pagename'] || (int) $qv['page_id']) {
 			$this->is_page = true;
@@ -493,7 +493,7 @@ class WP_Query {
 			if ('' != $qv['category_name']) {
 				$this->is_category = true;
 			}
-            
+
 			if ((empty($qv['author'])) || ($qv['author'] == '0')) {
 				$this->is_author = false;
 			} else {
@@ -771,7 +771,7 @@ class WP_Query {
 
 		// Category stuff
 
-		if ((empty($q['cat'])) || ($q['cat'] == '0') || 
+		if ((empty($q['cat'])) || ($q['cat'] == '0') ||
 				// Bypass cat checks if fetching specific posts
 				( $this->is_single || $this->is_page )) {
 			$whichcat='';
@@ -788,7 +788,7 @@ class WP_Query {
 				if ( $in )
 					$in_cats .= "$cat, " . get_category_children($cat, '', ', ');
 				else
-					$out_cats .= "$cat, " . get_category_children($cat, '', ', ');				
+					$out_cats .= "$cat, " . get_category_children($cat, '', ', ');
 			}
 			$in_cats = substr($in_cats, 0, -2);
 			$out_cats = substr($out_cats, 0, -2);
@@ -831,7 +831,7 @@ class WP_Query {
 				$reqcat = 0;
 
 			$q['cat'] = $reqcat;
-				
+
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
 			$whichcat = " AND category_id IN ({$q['cat']}, ";
@@ -922,7 +922,7 @@ class WP_Query {
 
 			if ( is_admin() )
 				$where .= " OR post_status = 'future' OR post_status = 'draft'";
-	
+
 			if ( is_user_logged_in() ) {
 				if ( 'post' == $post_type )
 					$cap = 'edit_private_posts';
@@ -1024,7 +1024,7 @@ class WP_Query {
 	}
 
 	function next_post() {
-        
+
 		$this->current_post++;
 
 		$this->post = $this->posts[$this->current_post];
@@ -1060,7 +1060,7 @@ class WP_Query {
 			$this->post = $this->posts[0];
 		}
 	}
-    
+
 	function &query($query) {
 		$this->parse_query($query);
 		return $this->get_posts();

@@ -112,10 +112,10 @@ if ( count($broken_themes) ) {
 
 		$theme = ('class="alternate"' == $theme) ? '' : 'class="alternate"';
 		echo "
-	  <tr $theme>
-	     <td>$title</td>
-	     <td>$description</td>
-	  </tr>";
+		<tr $theme>
+			 <td>$title</td>
+			 <td>$description</td>
+		</tr>";
 	}
 ?>
 </table>

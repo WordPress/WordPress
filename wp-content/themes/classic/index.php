@@ -1,4 +1,4 @@
-<?php 
+<?php
 get_header();
 ?>
 
@@ -15,8 +15,8 @@ get_header();
 	</div>
 
 	<div class="feedback">
-            <?php wp_link_pages(); ?>
-            <?php comments_popup_link(__('Comments (0)'), __('Comments (1)'), __('Comments (%)')); ?>
+		<?php wp_link_pages(); ?>
+		<?php comments_popup_link(__('Comments (0)'), __('Comments (1)'), __('Comments (%)')); ?>
 	</div>
 
 </div>

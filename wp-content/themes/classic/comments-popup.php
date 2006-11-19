@@ -1,4 +1,4 @@
-<?php 
+<?php
 /* Don't remove these lines. */
 add_filter('comment_text', 'popuplinks');
 while( have_posts()) : the_post();
@@ -97,7 +97,7 @@ endwhile;
 ?>
 
 <!-- // this is just the end of the motor - don't touch that line either :) -->
-<?php //} ?> 
+<?php //} ?>
 <p class="credit"><?php timer_stop(1); ?> <?php echo sprintf(__("<cite>Powered by <a href=\"http://wordpress.org\" title=\"%s\"><strong>Wordpress</strong></a></cite>"),__("Powered by WordPress, state-of-the-art semantic personal publishing platform.")); ?></p>
 <?php // Seen at http://www.mijnkopthee.nl/log2/archive/2003/05/28/esc(18) ?>
 <script type="text/javascript">

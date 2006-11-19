@@ -129,8 +129,8 @@ function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
 	$post_author_data = get_userdata($post->post_author);
 
 	if ( (($user_id == $post_author_data->ID) && !($post->post_status == 'publish' &&  $author_data->user_level < 2))
-	     || ($author_data->user_level > $post_author_data->user_level)
-	     || ($author_data->user_level >= 10) ) {
+			 || ($author_data->user_level > $post_author_data->user_level)
+			 || ($author_data->user_level >= 10) ) {
 		return true;
 	} else {
 		return false;
@@ -199,19 +199,19 @@ function user_can_edit_user($user_id, $other_user) {
  **   show_updated (default 0) - whether to show last updated timestamp
  */
 function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />',
-                         $between = " ", $show_images = true, $orderby = 'id',
-                         $show_description = true, $show_rating = false,
-                         $limit = -1, $show_updated = 0) {
-    global $wpdb;
-    $cat_id = -1;
-    $results = $wpdb->get_results("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
-    if ($results) {
-        foreach ($results as $result) {
-            $cat_id = $result->cat_ID;
-        }
-    }
-    get_links($cat_id, $before, $after, $between, $show_images, $orderby,
-              $show_description, $show_rating, $limit, $show_updated);
+												 $between = " ", $show_images = true, $orderby = 'id',
+												 $show_description = true, $show_rating = false,
+												 $limit = -1, $show_updated = 0) {
+		global $wpdb;
+		$cat_id = -1;
+		$results = $wpdb->get_results("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$cat_name'");
+		if ($results) {
+				foreach ($results as $result) {
+						$cat_id = $result->cat_ID;
+				}
+		}
+		get_links($cat_id, $before, $after, $between, $show_images, $orderby,
+							$show_description, $show_rating, $limit, $show_updated);
 }
 
 /** function wp_get_linksbyname()
@@ -252,16 +252,16 @@ function wp_get_linksbyname($category, $args = '') {
  **/
 // Deprecate in favor of get_linkz().
 function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit = -1) {
-    global $wpdb;
-    $cat_id = -1;
-    //$results = $wpdb->get_results("SELECT cat_id FROM $wpdb->linkcategories WHERE cat_name='$cat_name'");
-    // TODO: Fix me.
-    if ($results) {
-        foreach ($results as $result) {
-            $cat_id = $result->cat_id;
-        }
-    }
-    return get_linkobjects($cat_id, $orderby, $limit);
+		global $wpdb;
+		$cat_id = -1;
+		//$results = $wpdb->get_results("SELECT cat_id FROM $wpdb->linkcategories WHERE cat_name='$cat_name'");
+		// TODO: Fix me.
+		if ($results) {
+				foreach ($results as $result) {
+						$cat_id = $result->cat_id;
+				}
+		}
+		return get_linkobjects($cat_id, $orderby, $limit);
 }
 
 /** function get_linkobjects()
@@ -301,40 +301,40 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  **/
 // Deprecate in favor of get_linkz().
 function get_linkobjects($category = -1, $orderby = 'name', $limit = -1) {
-    global $wpdb;
+		global $wpdb;
 
-    $sql = "SELECT * FROM $wpdb->links WHERE link_visible = 'Y'";
-    if ($category != -1) {
-        $sql .= " AND link_category = $category ";
-    }
-    if ($orderby == '')
-        $orderby = 'id';
-    if (substr($orderby,0,1) == '_') {
-        $direction = ' DESC';
-        $orderby = substr($orderby,1);
-    }
-    if (strcasecmp('rand',$orderby) == 0) {
-        $orderby = 'rand()';
-    } else {
-        $orderby = " link_" . $orderby;
-    }
-    $sql .= ' ORDER BY ' . $orderby;
-    $sql .= $direction;
-    /* The next 2 lines implement LIMIT TO processing */
-    if ($limit != -1)
-        $sql .= " LIMIT $limit";
+		$sql = "SELECT * FROM $wpdb->links WHERE link_visible = 'Y'";
+		if ($category != -1) {
+				$sql .= " AND link_category = $category ";
+		}
+		if ($orderby == '')
+				$orderby = 'id';
+		if (substr($orderby,0,1) == '_') {
+				$direction = ' DESC';
+				$orderby = substr($orderby,1);
+		}
+		if (strcasecmp('rand',$orderby) == 0) {
+				$orderby = 'rand()';
+		} else {
+				$orderby = " link_" . $orderby;
+		}
+		$sql .= ' ORDER BY ' . $orderby;
+		$sql .= $direction;
+		/* The next 2 lines implement LIMIT TO processing */
+		if ($limit != -1)
+				$sql .= " LIMIT $limit";
 
-    $results = $wpdb->get_results($sql);
-    if ($results) {
-        foreach ($results as $result) {
-            $result->link_url         = $result->link_url;
-            $result->link_name        = $result->link_name;
-            $result->link_description = $result->link_description;
-            $result->link_notes       = $result->link_notes;
-            $newresults[] = $result;
-        }
-    }
-    return $newresults;
+		$results = $wpdb->get_results($sql);
+		if ($results) {
+				foreach ($results as $result) {
+						$result->link_url         = $result->link_url;
+						$result->link_name        = $result->link_name;
+						$result->link_description = $result->link_description;
+						$result->link_notes       = $result->link_notes;
+						$newresults[] = $result;
+				}
+		}
+		return $newresults;
 }
 
 /** function get_linksbyname_withrating()
@@ -359,12 +359,12 @@ function get_linkobjects($category = -1, $orderby = 'name', $limit = -1) {
  **   show_updated (default 0) - whether to show last updated timestamp
  */
 function get_linksbyname_withrating($cat_name = "noname", $before = '',
-                                    $after = '<br />', $between = " ",
-                                    $show_images = true, $orderby = 'id',
-                                    $show_description = true, $limit = -1, $show_updated = 0) {
+																		$after = '<br />', $between = " ",
+																		$show_images = true, $orderby = 'id',
+																		$show_description = true, $limit = -1, $show_updated = 0) {
 
-    get_linksbyname($cat_name, $before, $after, $between, $show_images,
-                    $orderby, $show_description, true, $limit, $show_updated);
+		get_linksbyname($cat_name, $before, $after, $between, $show_images,
+										$orderby, $show_description, true, $limit, $show_updated);
 }
 
 /** function get_links_withrating()
@@ -389,12 +389,12 @@ function get_linksbyname_withrating($cat_name = "noname", $before = '',
  **   show_updated (default 0) - whether to show last updated timestamp
  */
 function get_links_withrating($category = -1, $before = '', $after = '<br />',
-                              $between = " ", $show_images = true,
-                              $orderby = 'id', $show_description = true,
-                              $limit = -1, $show_updated = 0) {
+															$between = " ", $show_images = true,
+															$orderby = 'id', $show_description = true,
+															$limit = -1, $show_updated = 0) {
 
-    get_links($category, $before, $after, $between, $show_images, $orderby,
-              $show_description, true, $limit, $show_updated);
+		get_links($category, $before, $after, $between, $show_images, $orderby,
+							$show_description, true, $limit, $show_updated);
 }
 
 /** function get_get_autotoggle()
@@ -403,7 +403,7 @@ function get_links_withrating($category = -1, $before = '', $after = '<br />',
  **                uses 0
  */
 function get_autotoggle($id = 0) {
-	return 0;  
+	return 0;
 }
 
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0, $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=FALSE, $child_of=0, $categories=0, $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=FALSE) {
@@ -433,7 +433,7 @@ function wp_list_cats($args = '') {
 		$r['style'] = 'break';
 	$r['title_li'] = '';
 
-	return wp_list_categories($r);	
+	return wp_list_categories($r);
 }
 
 function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = 'asc',

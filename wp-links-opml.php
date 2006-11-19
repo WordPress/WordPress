@@ -16,11 +16,11 @@ if ((empty ($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 ?><?php echo '<?xml version="1.0"?'.">\n"; ?>
 <!-- generator="wordpress/<?php bloginfo_rss('version') ?>" -->
 <opml version="1.0">
-    <head>
-        <title>Links for <?php echo get_bloginfo('name').$cat_name ?></title>
-        <dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
-    </head>
-    <body>
+	<head>
+		<title>Links for <?php echo get_bloginfo('name').$cat_name ?></title>
+		<dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
+	</head>
+	<body>
 <?php
 
 if (empty ($link_cat))
@@ -36,7 +36,7 @@ foreach ((array) $cats as $cat) {
 	$bookmarks = get_bookmarks("category={$cat->cat_ID}");
 	foreach ((array) $bookmarks as $bookmark) {
 ?>
-            <outline text="<?php echo wp_specialchars($bookmark->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($bookmark->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
+	<outline text="<?php echo wp_specialchars($bookmark->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($bookmark->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
 <?php
 
 	}

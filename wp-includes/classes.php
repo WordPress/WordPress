@@ -12,7 +12,7 @@ class WP {
 	var $matched_rule;
 	var $matched_query;
 	var $did_permalink = false;
-	
+
 	function add_query_var($qv) {
 		$this->public_query_vars[] = $qv;
 	}
@@ -96,7 +96,7 @@ class WP {
 					preg_match("!^$match!", urldecode($request_match), $matches)) {
 					// Got a match.
 					$this->matched_rule = $match;
-					
+
 					// Trim the query of everything up to the '?'.
 					$query = preg_replace("!^.+\?!", '', $query);
 
@@ -190,14 +190,14 @@ class WP {
 				)
 			)
 				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastcommentmodified('GMT'), 0).' GMT';
-			else 
+			else
 				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT'), 0).' GMT';
 			$wp_etag = '"' . md5($wp_last_modified) . '"';
 			@header("Last-Modified: $wp_last_modified");
 			@header("ETag: $wp_etag");
 
 			// Support for Conditional GET
-			if (isset($_SERVER['HTTP_IF_NONE_MATCH'])) 
+			if (isset($_SERVER['HTTP_IF_NONE_MATCH']))
 				$client_etag = stripslashes(stripslashes($_SERVER['HTTP_IF_NONE_MATCH']));
 			else $client_etag = false;
 
@@ -321,7 +321,7 @@ class WP_Error {
 		if ( empty($codes) )
 			return '';
 
-		return $codes[0];	
+		return $codes[0];
 	}
 
 	function get_error_messages($code = '') {
@@ -337,7 +337,7 @@ class WP_Error {
 		if ( isset($this->errors[$code]) )
 			return $this->errors[$code];
 		else
-			return array();	
+			return array();
 	}
 
 	function get_error_message($code = '') {
@@ -381,29 +381,29 @@ function is_wp_error($thing) {
 
 // A class for displaying various tree-like structures. Extend the Walker class to use it, see examples at the bottom
 
-class Walker {	
+class Walker {
 	var $tree_type;
 	var $db_fields;
-	
+
 	//abstract callbacks
 	function start_lvl($output) { return $output; }
 	function end_lvl($output)   { return $output; }
 	function start_el($output)  { return $output; }
 	function end_el($output)    { return $output; }
-	
+
 	function walk($elements, $to_depth) {
 		$args = array_slice(func_get_args(), 2); $parents = array(); $depth = 1; $previous_element = ''; $output = '';
-	
+
 		//padding at the end
 		$last_element->post_parent = 0;
 		$last_element->post_id = 0;
 		$elements[] = $last_element;
-	
+
 		$id_field = $this->db_fields['id'];
 		$parent_field = $this->db_fields['parent'];
-	
+
 		$flat = ($to_depth == -1) ? true : false;
-	
+
 		foreach ( $elements as $element ) {
 			// If flat, start and end the element and skip the level checks.
 			if ( $flat) {
@@ -443,7 +443,7 @@ class Walker {
 					$cb_args = array_merge( array($output, $previous_element, $depth - 1), $args);
 					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 				}
-	
+
 				while ( $parent = array_shift($parents) ) {
 					$depth--;
 					if ( !$to_depth || ($depth < $to_depth) ) {
@@ -463,7 +463,7 @@ class Walker {
 					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 				}
 			}
-	
+
 			// Start the element.
 			if ( !$to_depth || ($depth <= $to_depth) ) {
 				if ( $element->$id_field != 0 ) {
@@ -471,10 +471,10 @@ class Walker {
 					$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
 				}
 			}
-	
+
 			$previous_element = $element;
 		}
-		
+
 		return $output;
 	}
 }
@@ -482,19 +482,19 @@ class Walker {
 class Walker_Page extends Walker {
 	var $tree_type = 'page';
 	var $db_fields = array ('parent' => 'post_parent', 'id' => 'ID'); //TODO: decouple this
-	
+
 	function start_lvl($output, $depth) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent<ul>\n";
 		return $output;
 	}
-	
+
 	function end_lvl($output, $depth) {
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent</ul>\n";
 		return $output;
 	}
-	
+
 	function start_el($output, $page, $depth, $current_page, $show_date, $date_format) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
@@ -530,45 +530,45 @@ class Walker_PageDropdown extends Walker {
 	var $db_fields = array ('parent' => 'post_parent', 'id' => 'ID'); //TODO: decouple this
 
 	function start_el($output, $page, $depth, $args) {
-        $pad = str_repeat('&nbsp;', $depth * 3);
+				$pad = str_repeat('&nbsp;', $depth * 3);
 
-        $output .= "\t<option value=\"$page->ID\"";
-        if ( $page->ID == $args['selected'] )
-                $output .= ' selected="selected"';
-        $output .= '>';
-        $title = wp_specialchars($page->post_title);
-        $output .= "$pad$title";
-        $output .= "</option>\n";
+				$output .= "\t<option value=\"$page->ID\"";
+				if ( $page->ID == $args['selected'] )
+								$output .= ' selected="selected"';
+				$output .= '>';
+				$title = wp_specialchars($page->post_title);
+				$output .= "$pad$title";
+				$output .= "</option>\n";
 
-        return $output;
+				return $output;
 	}
 }
 
 class Walker_Category extends Walker {
 	var $tree_type = 'category';
 	var $db_fields = array ('parent' => 'category_parent', 'id' => 'cat_ID'); //TODO: decouple this
-	
+
 	function start_lvl($output, $depth, $args) {
 		if ( 'list' != $args['style'] )
 			return $output;
-	
+
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent<ul class='children'>\n";
 		return $output;
 	}
-	
+
 	function end_lvl($output, $depth, $args) {
 		if ( 'list' != $args['style'] )
 			return $output;
-	
+
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent</ul>\n";
 		return $output;
 	}
-	
+
 	function start_el($output, $category, $depth, $args) {
 		extract($args);
-	
+
 		$link = '<a href="' . get_category_link($category->cat_ID) . '" ';
 		if ( $use_desc_for_title == 0 || empty($category->category_description) )
 			$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name, 1)) . '"';
@@ -576,24 +576,24 @@ class Walker_Category extends Walker {
 			$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category),1) . '"';
 		$link .= '>';
 		$link .= apply_filters('list_cats', $category->cat_name, $category).'</a>';
-	
+
 		if ( (! empty($feed_image)) || (! empty($feed)) ) {
 			$link .= ' ';
-	
+
 			if ( empty($feed_image) )
 				$link .= '(';
-	
+
 			$link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename) . '"';
-	
+
 			if ( !empty($feed) ) {
 				$title = ' title="' . $feed . '"';
 				$alt = ' alt="' . $feed . '"';
 				$name = $feed;
 				$link .= $title;
 			}
-	
+
 			$link .= '>';
-	
+
 			if ( !empty($feed_image) )
 				$link .= "<img src='$feed_image' $alt$title" . ' />';
 			else
@@ -618,14 +618,14 @@ class Walker_Category extends Walker {
 		} else {
 			$output .= "\t$link<br />\n";
 		}
-	
+
 		return $output;
 	}
-	
+
 	function end_el($output, $page, $depth, $args) {
 		if ( 'list' != $args['style'] )
 			return $output;
-	
+
 		$output .= "</li>\n";
 		return $output;
 	}
@@ -635,10 +635,10 @@ class Walker_Category extends Walker {
 class Walker_CategoryDropdown extends Walker {
 	var $tree_type = 'category';
 	var $db_fields = array ('parent' => 'category_parent', 'id' => 'cat_ID'); //TODO: decouple this
-	
-	function start_el($output, $category, $depth, $args) { 
+
+	function start_el($output, $category, $depth, $args) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
-		
+
 		$cat_name = apply_filters('list_cats', $category->cat_name, $category);
 		$output .= "\t<option value=\"".$category->cat_ID."\"";
 		if ( $category->cat_ID == $args['selected'] )
@@ -652,7 +652,7 @@ class Walker_CategoryDropdown extends Walker {
 			$output .= '&nbsp;&nbsp;' . gmdate($format, $category->last_update_timestamp);
 		}
 		$output .= "</option>\n";
-		
+
 		return $output;
 	}
 }

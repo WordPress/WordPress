@@ -82,7 +82,7 @@ default:
  <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
 	<?php endif; ?>
 <?php endif; ?>
- <div class="wrap"> 
+ <div class="wrap">
 <?php
 if (is_writeable($real_file)) {
 	echo '<h2>' . sprintf(__('Editing <strong>%s</strong>'), wp_specialchars($file) ) . '</h2>';
@@ -91,8 +91,8 @@ if (is_writeable($real_file)) {
 }
 ?>
 <div id="templateside">
-<?php 
-if ( $recents ) : 
+<?php
+if ( $recents ) :
 ?>
 <h3><?php _e('Recent'); ?></h3>
 <?php
@@ -110,21 +110,21 @@ endif;
 	 if (file_exists(ABSPATH . $old_file))
 		 $common_files[] = $old_file;
  } ?>
-  <ul>
-	 <?php foreach ($common_files as $common_file) : ?>
-	  <li><a href="templates.php?file=<?php echo $common_file?>"><?php echo get_file_description($common_file); ?></a></li>
-	 <?php endforeach; ?>
-  </ul>
+<ul>
+	<?php foreach ($common_files as $common_file) : ?>
+		<li><a href="templates.php?file=<?php echo $common_file?>"><?php echo get_file_description($common_file); ?></a></li>
+	<?php endforeach; ?>
+</ul>
 </div>
 <?php if (!$error) { ?>
-  <form name="template" id="template" action="templates.php" method="post"> 
-  <?php wp_nonce_field('edit-file_' . $file) ?>
-     <div><textarea cols="70" rows="25" name="newcontent" id='newcontent' tabindex="1"><?php echo $content ?></textarea> 
-     <input type="hidden" name="action" value="update" /> 
-     <input type="hidden" name="file" value="<?php echo $file ?>" /> 
-</div>
+	<form name="template" id="template" action="templates.php" method="post">
+	<?php wp_nonce_field('edit-file_' . $file) ?>
+		<div><textarea cols="70" rows="25" name="newcontent" id='newcontent' tabindex="1"><?php echo $content ?></textarea>
+		<input type="hidden" name="action" value="update" />
+		<input type="hidden" name="file" value="<?php echo $file ?>" />
+		</div>
 <?php if ( is_writeable($real_file) ) : ?>
-     <p class="submit">
+	<p class="submit">
 <?php
 	echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
 ?>
@@ -132,8 +132,8 @@ endif;
 <?php else : ?>
 <p><em><?php _e('If this file were writable you could edit it.'); ?></em></p>
 <?php endif; ?>
-   </form> 
-  <?php
+	</form>
+	<?php
 	} else {
 		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 	}
@@ -143,14 +143,14 @@ endif;
 <div class="wrap">
 <h2><?php _e('Other Files') ?></h2>
 
-  <p><?php _e('To edit a file, type its name here. You can edit any file <a href="http://codex.wordpress.org/Changing_File_Permissions" title="Read more about making files writable">writable by the server</a>, e.g. CHMOD 666.') ?></p> 
-  <form name="file" action="templates.php" method="get"> 
-    <input type="text" name="file" /> 
-    <input type="submit" name="submit"  value="<?php _e('Edit file &raquo;') ?>" /> 
-  </form> 
+	<p><?php _e('To edit a file, type its name here. You can edit any file <a href="http://codex.wordpress.org/Changing_File_Permissions" title="Read more about making files writable">writable by the server</a>, e.g. CHMOD 666.') ?></p>
+	<form name="file" action="templates.php" method="get">
+		<input type="text" name="file" />
+		<input type="submit" name="submit"  value="<?php _e('Edit file &raquo;') ?>" />
+	</form>
 
-  <p><?php _e('Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don&#8217;t have access to a text editor or FTP client.') ?></p>
-</div> 
+	<p><?php _e('Note: of course, you can also edit the files/templates in your text editor of choice and upload them. This online editor is only meant to be used when you don&#8217;t have access to a text editor or FTP client.') ?></p>
+</div>
 <?php
 
 break;

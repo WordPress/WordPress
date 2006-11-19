@@ -80,7 +80,7 @@ default:
  <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
 <?php endif; ?>
  <div class="wrap">
-  <form name="theme" action="theme-editor.php" method="post"> 
+	<form name="theme" action="theme-editor.php" method="post">
 		<?php _e('Select theme to edit:') ?>
 		<select name="theme" id="theme">
 	<?php
@@ -106,30 +106,30 @@ default:
 	}
 	?>
 	<div id="templateside">
-  <h3><?php printf(__("<strong>'%s'</strong> theme files"), $theme) ?></h3>
+	<h3><?php printf(__("<strong>'%s'</strong> theme files"), $theme) ?></h3>
 
 <?php
 if ($allowed_files) :
 ?>
-  <ul>
+	<ul>
 <?php foreach($allowed_files as $allowed_file) : ?>
 		 <li><a href="theme-editor.php?file=<?php echo "$allowed_file"; ?>&amp;theme=<?php echo urlencode($theme) ?>"><?php echo get_file_description($allowed_file); ?></a></li>
 <?php endforeach; ?>
-  </ul>
+	</ul>
 <?php endif; ?>
-</div> 
+</div>
 	<?php
 	if (!$error) {
-	?> 
-  <form name="template" id="template" action="theme-editor.php" method="post">
-  <?php wp_nonce_field('edit-theme_' . $file . $theme) ?>
-		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea> 
-     <input type="hidden" name="action" value="update" /> 
-     <input type="hidden" name="file" value="<?php echo $file ?>" /> 
-     <input type="hidden" name="theme" value="<?php echo $theme ?>" />
+	?>
+	<form name="template" id="template" action="theme-editor.php" method="post">
+	<?php wp_nonce_field('edit-theme_' . $file . $theme) ?>
+		 <div><textarea cols="70" rows="25" name="newcontent" id="newcontent" tabindex="1"><?php echo $content ?></textarea>
+		 <input type="hidden" name="action" value="update" />
+		 <input type="hidden" name="file" value="<?php echo $file ?>" />
+		 <input type="hidden" name="theme" value="<?php echo $theme ?>" />
 		 </div>
 <?php if ( is_writeable($real_file) ) : ?>
-     <p class="submit">
+	<p class="submit">
 <?php
 	echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
 ?>
@@ -137,16 +137,16 @@ if ($allowed_files) :
 <?php else : ?>
 <p><em><?php _e('If this file were writable you could edit it.'); ?></em></p>
 <?php endif; ?>
-   </form> 
-  <?php
+	</form>
+	<?php
 	} else {
 		echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 	}
 	?>
 <div class="clear"> &nbsp; </div>
-</div> 
+</div>
 <?php
 break;
 }
 
-include("admin-footer.php") ?> 
+include("admin-footer.php") ?>

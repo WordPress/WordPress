@@ -34,8 +34,8 @@ foreach ($menu as $item) {
 if ( isset($submenu["$parent_file"]) ) :
 ?>
 <ul id="submenu">
-<?php 
-foreach ($submenu["$parent_file"] as $item) : 
+<?php
+foreach ($submenu["$parent_file"] as $item) :
 	 if ( !current_user_can($item[1]) )
 		 continue;
 
@@ -65,7 +65,7 @@ else :
 <div id="minisub"></div>
 <?php
 
-endif; 
+endif;
 
 do_action('admin_notices');
 

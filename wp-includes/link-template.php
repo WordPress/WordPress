@@ -63,7 +63,7 @@ function get_permalink($id = 0) {
 		$authordata = get_userdata($post->post_author);
 		$author = $authordata->user_nicename;
 		$date = explode(" ",date('Y m d H i s', $unixtime));
-		$rewritereplace = 
+		$rewritereplace =
 		array(
 			$date[0],
 			$date[1],
@@ -282,7 +282,7 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
 			$join .= ' OR category_id = ' . intval($cat_array[$i]->cat_ID);
 		}
-		$join .= ')'; 
+		$join .= ')';
 	}
 
 	$sql_exclude_cats = '';
@@ -315,7 +315,7 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 		for ( $i = 1; $i < (count($cat_array)); $i++ ) {
 			$join .= ' OR category_id = ' . intval($cat_array[$i]->cat_ID);
 		}
-		$join .= ')'; 
+		$join .= ')';
 	}
 
 	$sql_exclude_cats = '';
@@ -350,7 +350,7 @@ function previous_post_link($format='&laquo; %link', $link='%title', $in_same_ca
 
 	$format = str_replace('%link', $link, $format);
 
-	echo $format;	    
+	echo $format;
 }
 
 function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = false, $excluded_categories = '') {
@@ -365,7 +365,7 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 	$link = $string . $link . '</a>';
 	$format = str_replace('%link', $link, $format);
 
-	echo $format;	    
+	echo $format;
 }
 
 function get_pagenum_link($pagenum = 1) {
@@ -373,7 +373,7 @@ function get_pagenum_link($pagenum = 1) {
 
 	$qstr = wp_specialchars($_SERVER['REQUEST_URI']);
 
-	$page_querystring = "paged"; 
+	$page_querystring = "paged";
 	$page_modstring = "page/";
 	$page_modregex = "page/?";
 	$permalink = 0;
@@ -492,7 +492,7 @@ function posts_nav_link($sep=' &#8212; ', $prelabel='&laquo; Previous Page', $nx
 	if ( !is_singular() ) {
 		$max_num_pages = $wp_query->max_num_pages;
 		$paged = get_query_var('paged');
-		
+
 		//only have sep if there's both prev and next results
 		if ($paged < 2 || $paged >= $max_num_pages) {
 			$sep = '';

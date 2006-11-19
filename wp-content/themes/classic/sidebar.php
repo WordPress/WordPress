@@ -16,12 +16,12 @@
 	</form>
  </li>
  <li id="archives"><?php _e('Archives:'); ?>
- 	<ul>
+	<ul>
 	 <?php wp_get_archives('type=monthly'); ?>
- 	</ul>
+	</ul>
  </li>
  <li id="meta"><?php _e('Meta:'); ?>
- 	<ul>
+	<ul>
 		<?php wp_register(); ?>
 		<li><?php wp_loginout(); ?></li>
 		<li><a href="feed:<?php bloginfo('rss2_url'); ?>" title="<?php _e('Syndicate this site using RSS'); ?>"><?php _e('<abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>

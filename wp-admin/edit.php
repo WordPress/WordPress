@@ -12,11 +12,11 @@ $drafts = get_users_drafts( $user_ID );
 $other_drafts = get_others_drafts( $user_ID);
 
 if ($drafts || $other_drafts) {
-?> 
+?>
 <div class="wrap">
 <?php if ($drafts) { ?>
-    <p><strong><?php _e('Your Drafts:') ?></strong> 
-    <?php
+	<p><strong><?php _e('Your Drafts:') ?></strong>
+	<?php
 	$i = 0;
 	foreach ($drafts as $draft) {
 		if (0 != $i)
@@ -27,13 +27,13 @@ if ($drafts || $other_drafts) {
 		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
 		++$i;
 		}
-	?> 
-    .</p> 
+	?>
+	.</p>
 <?php } ?>
 
-<?php if ($other_drafts) { ?> 
-    <p><strong><?php _e('Other&#8217;s Drafts:') ?></strong> 
-    <?php
+<?php if ($other_drafts) { ?>
+	<p><strong><?php _e('Other&#8217;s Drafts:') ?></strong>
+	<?php
 	$i = 0;
 	foreach ($other_drafts as $draft) {
 		if (0 != $i)
@@ -44,8 +44,8 @@ if ($drafts || $other_drafts) {
 		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
 		++$i;
 		}
-	?> 
-    .</p> 
+	?>
+	.</p>
 
 <?php } ?>
 
@@ -88,7 +88,7 @@ if ( count($arc_result) ) { ?>
 <form name="viewarc" id="viewarc" action="" method="get">
 	<fieldset>
 	<legend><?php _e('Browse Month&hellip;') ?></legend>
-    <select name='m'>
+	<select name='m'>
 	<?php
 		foreach ($arc_result as $arc_row) {
 			if ( $arc_row->yyear == 0 )
@@ -127,12 +127,12 @@ if ( count($arc_result) ) { ?>
 <?php
 // define the columns to display, the syntax is 'internal name' => 'display name'
 $posts_columns = array(
-  'id'         => __('ID'),
-  'date'       => __('When'),
-  'title'      => __('Title'),
-  'categories' => __('Categories'),
-  'comments'   => __('Comments'),
-  'author'     => __('Author')
+	'id'         => __('ID'),
+	'date'       => __('When'),
+	'title'      => __('Title'),
+	'categories' => __('Categories'),
+	'comments'   => __('Comments'),
+	'author'     => __('Author')
 );
 $posts_columns = apply_filters('manage_posts_columns', $posts_columns);
 
@@ -143,7 +143,7 @@ $posts_columns['control_delete'] = '';
 
 ?>
 
-<table class="widefat"> 
+<table class="widefat">
 	<thead>
 	<tr>
 
@@ -160,7 +160,7 @@ $bgcolor = '';
 while (have_posts()) : the_post();
 add_filter('the_title','wp_specialchars');
 $class = ('alternate' == $class) ? '' : 'alternate';
-?> 
+?>
 	<tr id='post-<?php echo $id; ?>' class='<?php echo $class; ?>'>
 
 <?php
@@ -195,9 +195,9 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td style="text-align: center"><a href="edit.php?p=<?php echo $id ?>&amp;c=1"> 
-      <?php comments_number(__('0'), __('1'), __('%')) ?> 
-      </a></td>
+		<td style="text-align: center"><a href="edit.php?p=<?php echo $id ?>&amp;c=1">
+			<?php comments_number(__('0'), __('1'), __('%')) ?>
+			</a></td>
 		<?php
 		break;
 
@@ -259,9 +259,9 @@ if ( 1 == count($posts) ) {
 
 	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = $id AND comment_approved != 'spam' ORDER BY comment_date");
 	if ($comments) {
-	?> 
-<h3 id="comments"><?php _e('Comments') ?></h3> 
-<ol id="the-comment-list" class="commentlist"> 
+	?>
+<h3 id="comments"><?php _e('Comments') ?></h3>
+<ol id="the-comment-list" class="commentlist">
 <?php
 $i = 0;
 foreach ($comments as $comment) {
@@ -269,7 +269,7 @@ foreach ($comments as $comment) {
 		++$i; $class = '';
 		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
 			$comment_status = wp_get_comment_status($comment->comment_ID);
-			if ('unapproved' == $comment_status) 
+			if ('unapproved' == $comment_status)
 				$class .= ' unapproved';
 			if ($i % 2)
 				$class .= ' alternate';
@@ -299,8 +299,8 @@ if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo '</ol>';
 	}//end if comments
 	?>
-<?php } ?> 
-</div> 
-<?php 
+<?php } ?>
+</div>
+<?php
  include('admin-footer.php');
-?> 
+?>
