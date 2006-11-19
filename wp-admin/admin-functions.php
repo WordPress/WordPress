@@ -776,7 +776,6 @@ function page_rows( $parent = 0, $level = 0, $pages = 0, $hierarchy = true ) {
     <th scope="row" style="text-align: center"><?php echo $post->ID; ?></th> 
     <td>
       <?php echo $pad; ?><?php the_title() ?>
-      <?php if ('private' == $post->post_status ) _e( ' - <strong>Private</strong>' ); ?>
     </td> 
     <td><?php the_author() ?></td>
     <td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Unpublished'); else echo mysql2date( 'Y-m-d g:i a', $post->post_modified ); ?></td> 
