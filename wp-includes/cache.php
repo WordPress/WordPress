@@ -30,9 +30,7 @@ function wp_cache_get($id, $flag = '') {
 }
 
 function wp_cache_init() {
-	global $wp_object_cache;
-
-	$wp_object_cache = new WP_Object_Cache();
+	$GLOBALS['wp_object_cache'] =& new WP_Object_Cache();
 }
 
 function wp_cache_replace($key, $data, $flag = '', $expire = 0) {
