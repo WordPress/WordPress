@@ -49,7 +49,7 @@ if ( empty($PHP_SELF) )
 if ( !(phpversion() >= '4.1') )
 	die( 'Your server is running PHP version ' . phpversion() . ' but WordPress requires at least 4.1' );
 
-if ( !extension_loaded('mysql') )
+if ( !extension_loaded('mysql') && !file_exists(ABSPATH . 'wp-content/db.php') )
 	die( 'Your PHP installation appears to be missing the MySQL which is required for WordPress.' );
 
 function timer_start() {
