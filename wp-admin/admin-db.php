@@ -151,6 +151,9 @@ function wp_update_category($catarr) {
 
 	$cat_ID = (int) $catarr['cat_ID'];
 
+	if( $cat_ID == $catarr['category_parent'] )
+		return false;
+
 	// First, get all of the original fields
 	$category = get_category($cat_ID, ARRAY_A);
 

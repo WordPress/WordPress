@@ -62,9 +62,11 @@ case 'editedcat':
 	if ( !current_user_can('manage_categories') )
 		wp_die(__('Cheatin&#8217; uh?'));
 
-	wp_update_category($_POST);
+	if ( wp_update_category($_POST) )
+		wp_redirect('categories.php?message=3'); 
+	else
+		wp_redirect('categories.php?message=5'); 
 
-	wp_redirect('categories.php?message=3');
 	exit;
 break;
 
@@ -77,6 +79,7 @@ $messages[1] = __('Category added.');
 $messages[2] = __('Category deleted.');
 $messages[3] = __('Category updated.');
 $messages[4] = __('Category not added.');
+$messages[5] = __('Category not updated.');
 ?>
 
 <?php if (isset($_GET['message'])) : ?>
