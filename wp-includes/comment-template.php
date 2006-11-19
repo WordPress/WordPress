@@ -161,17 +161,18 @@ function get_comments_number( $post_id = 0 ) {
 	return apply_filters('get_comments_number', $count);
 }
 
-function comments_number( $zero = 'No Comments', $one = '1 Comment', $more = '% Comments', $number = '' ) {
-	global $id, $comment;
-	$number = get_comments_number( $id );
-	if ($number == 0) {
-		$blah = $zero;
-	} elseif ($number == 1) {
-		$blah = $one;
-	} elseif ($number  > 1) {
-		$blah = str_replace('%', $number, $more);
-	}
-	echo apply_filters('comments_number', $blah);
+function comments_number( $zero = false, $one = false, $more = false, $number = '' ) {
+	global $id;
+	$number = get_comments_number($id);
+
+	if ( $number > 1 )
+		$output = str_replace('%', $number, ( false === $more ) ? __('% Comments') : $more);
+	elseif ( $number == 0 )
+		$output = ( false === $zero ) ? __('No Comments') : $zero;
+	else // must be one
+		$output = ( false === $one ) ? __('1 Comment') : $one;
+
+	echo apply_filters('comments_number', $output, $number);
 }
 
 function get_comment_text() {
