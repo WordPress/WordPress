@@ -188,7 +188,7 @@ function wp_list_authors($args = '') {
 	$query = "SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name";
 	$authors = $wpdb->get_results($query);
 
-	foreach ( $authors as $author ) {
+	foreach ( (array) $authors as $author ) {
 		$author = get_userdata( $author->ID );
 		$posts = get_usernumposts($author->ID);
 		$name = $author->nickname;
