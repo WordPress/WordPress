@@ -980,7 +980,7 @@ class WP_Query {
 		$this->posts = $wpdb->get_results($this->request);
 		if ( !empty($limits) ) {
 			$this->found_posts = $wpdb->get_var('SELECT FOUND_ROWS()');
-			$this->max_num_pages = $this->found_posts / $q['posts_per_page'];
+			$this->max_num_pages = ceil($this->found_posts / $q['posts_per_page']);
 		}
 		// Check post status to determine if post should be displayed.
 		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {
