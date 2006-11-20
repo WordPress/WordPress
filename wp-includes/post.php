@@ -8,25 +8,27 @@ function get_attached_file($attachment_id) {
 	return get_post_meta($attachment_id, '_wp_attached_file', true);
 }
 
-function &get_children($post = 0, $output = OBJECT) {
+function &get_children($args = '', $output = OBJECT) {
 	global $post_cache, $wpdb;
 
-	if ( empty($post) ) {
+	if ( empty($args) ) {
 		if ( isset($GLOBALS['post']) )
-			$post_parent = & $GLOBALS['post']->post_parent;
+			$r = array('post_parent' => & $GLOBALS['post']->post_parent);
 		else
 			return false;
-	} elseif ( is_object($post) ) {
-		$post_parent = $post->post_parent;
-	} else {
-		$post_parent = $post;
-	}
+	} elseif ( is_object($args) )
+		$r = array('post_parent' => $post->post_parent);
+	elseif ( is_numeric($args) )
+		$r = array('post_parent' => $args);
+	elseif ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
 
-	$post_parent = (int) $post_parent;
+	$defaults = array('numberposts' => -1, 'post_type' => '', 'post_status' => '', 'post_parent' => 0);
+	$r = array_merge($defaults, $r);
 
-	$query = "SELECT * FROM $wpdb->posts WHERE post_parent = $post_parent";
-
-	$children = $wpdb->get_results($query);
+	$children = get_posts( $r );
 
 	if ( $children ) {
 		foreach ( $children as $key => $child ) {
@@ -158,18 +160,24 @@ function get_posts($args) {
 	else
 		parse_str($args, $r);
 
-	$defaults = array('numberposts' => 5, 'offset' => 0, 'category' => '',
-		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '', 'meta_key' => '', 'meta_value' =>'');
+	$defaults = array('numberposts' => 5, 'offset' => 0, 'category' => 0,
+		'orderby' => 'post_date', 'order' => 'DESC', 'include' => '', 'exclude' => '',
+		'meta_key' => '', 'meta_value' =>'', 'post_type' => 'post', 'post_status' => 'publish', 'post_parent' => 0);
 	$r = array_merge($defaults, $r);
 	extract($r);
+	$numberposts = (int) $numberposts;
+	$offset = (int) $offset;
+	$category = (int) $category;
+	$post_parent = (int) $post_parent;
 
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$offset = 0;	//ignore offset, category, exclude, meta_key, and meta_value params if using include
-		$category = '';
+		$offset = 0;    //ignore offset, category, exclude, meta_key, and meta_value, post_parent if using include
+		$category = 0;
 		$exclude = '';
 		$meta_key = '';
 		$meta_value = '';
+		$post_parent = 0;
 		$incposts = preg_split('/[\s,]+/',$include);
 		$numberposts = count($incposts);  // only the number of posts included
 		if ( count($incposts) ) {
@@ -200,12 +208,26 @@ function get_posts($args) {
 		$exclusions .= ')';
 
 	$query ="SELECT DISTINCT * FROM $wpdb->posts " ;
-	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " ) ;
-	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " ) ;
-	$query .= " WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions " ;
-	$query .= ( empty( $category ) ? "" : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") " ) ;
-	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" ) ;
-	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts ;
+	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " );
+	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " );
+	$query .= " WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions ";
+	$query .= ( empty( $category ) ? "" : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") " );
+	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" );
+	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts;
+
+	$query  = "SELECT DISTINCT * FROM $wpdb->posts ";
+	$query .= empty( $category ) ? '' : ", $wpdb->post2cat "; 
+	$query .= empty( $meta_key ) ? '' : ", $wpdb->postmeta ";
+	$query .= " WHERE 1=1 ";
+	$query .= empty( $post_type ) ? '' : "AND post_type = '$post_type' ";
+	$query .= empty( $post_status ) ? '' : "AND post_status = '$post_status' ";
+	$query .= "$exclusions $inclusions " ;
+	$query .= empty( $category ) ? '' : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") ";
+	$query .= empty( $post_parent ) ? '' : "AND $wpdb->posts.post_parent = '$post_parent' ";
+	$query .= empty( $meta_key ) | empty($meta_value)  ? '' : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )";
+	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . ' ' . $order;
+	if ( 0 < $numberposts )
+		$query .= " LIMIT " . $offset . ',' . $numberposts;
 
 	$posts = $wpdb->get_results($query);
 
