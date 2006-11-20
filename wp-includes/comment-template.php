@@ -93,7 +93,7 @@ function get_comment_date( $d = '' ) {
 		$date = mysql2date( get_option('date_format'), $comment->comment_date);
 	else
 		$date = mysql2date($d, $comment->comment_date);
-	return apply_filters('get_comment_date', $date);
+	return apply_filters('get_comment_date', $date, $d);
 }
 
 function comment_date( $d = '' ) {
@@ -191,7 +191,7 @@ function get_comment_time( $d = '', $gmt = false ) {
 		$date = mysql2date(get_option('time_format'), $comment_date);
 	else
 		$date = mysql2date($d, $comment_date);
-	return apply_filters('get_comment_time', $date);
+	return apply_filters('get_comment_time', $date, $d, $gmt);
 }
 
 function comment_time( $d = '' ) {
