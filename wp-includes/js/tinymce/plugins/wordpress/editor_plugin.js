@@ -575,7 +575,7 @@ function wpautop(pee) {
 	pee = pee.replace(new RegExp('(</(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6])>)', 'gi'), "$1\n\n");
 	pee = pee.replace(new RegExp("\\r\\n|\\r", 'g'), "\n");
 	pee = pee.replace(new RegExp("\\n\\s*\\n+", 'g'), "\n\n");
-	pee = pee.replace(new RegExp('\n*([^\Z]+?)\\n{2}', 'mg'), "<p>$1</p>\n");
+	pee = pee.replace(new RegExp('([\\s\\S]+?)\\n\\n', 'mg'), "<p>$1</p>\n");
 	pee = pee.replace(new RegExp('<p>\\s*?</p>', 'gi'), '');
 	pee = pee.replace(new RegExp('<p>\\s*(</?(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|hr|pre|select|form|blockquote|address|math|p|h[1-6])[^>]*>)\\s*</p>', 'gi'), "$1");
 	pee = pee.replace(new RegExp("<p>(<li.+?)</p>", 'gi'), "$1");
