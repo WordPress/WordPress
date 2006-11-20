@@ -6,8 +6,6 @@
 
 require_once ('admin.php');
 
-$title = __('Manage Bookmarks');
-$this_file = $parent_file = 'link-manager.php';
 wp_enqueue_script( 'listman' );
 
 wp_reset_vars(array('action', 'cat_id', 'linkurl', 'name', 'image', 'description', 'visible', 'target', 'category', 'link_id', 'submit', 'order_by', 'links_show_cat_id', 'rating', 'rel', 'notes', 'linkcheck[]'));
@@ -18,11 +16,12 @@ if (empty ($cat_id))
 if (empty ($order_by))
 	$order_by = 'order_name';
 
-$title = __('Manage Bookmarks');
+$title = __('Manage Blogroll');
+$this_file = $parent_file = 'link-manager.php';
 include_once ("./admin-header.php");
 
 if (!current_user_can('manage_links'))
-	wp_die(__("You do not have sufficient permissions to edit the bookmarks for this blog."));
+	wp_die(__("You do not have sufficient permissions to edit the links for this blog."));
 
 switch ($order_by) {
 	case 'order_id' :
@@ -66,7 +65,7 @@ function checkAll(form)
 if ( isset($_GET['deleted']) ) {
 	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';
 	$deleted = (int) $_GET['deleted'];
-	printf(__('%s bookmarks deleted.'), $deleted);
+	printf(__('%s links deleted.'), $deleted);
 	echo '</p></div>';
 }
 ?>
@@ -85,7 +84,7 @@ foreach ((array) $categories as $cat)
 $select_cat .= "</select>\n";
 
 $select_order = "<select name=\"order_by\">\n";
-$select_order .= '<option value="order_id"' . (($order_by == 'order_id') ? " selected='selected'" : '') . '>' .  __('Bookmark ID') . "</option>\n";
+$select_order .= '<option value="order_id"' . (($order_by == 'order_id') ? " selected='selected'" : '') . '>' .  __('Link ID') . "</option>\n";
 $select_order .= '<option value="order_name"' . (($order_by == 'order_name') ? " selected='selected'" : '') . '>' .  __('Name') . "</option>\n";
 $select_order .= '<option value="order_url"' . (($order_by == 'order_url') ? " selected='selected'" : '') . '>' .  __('Address') . "</option>\n";
 $select_order .= "</select>\n";
@@ -162,7 +161,7 @@ if ($links)
 <?php
 
 		echo '<td><a href="link.php?link_id='.$link->link_id.'&amp;action=edit" class="edit">'.__('Edit').'</a></td>';
-		echo '<td><a href="' . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . '"'." onclick=\"return deleteSomething( 'link', $link->link_id , '".sprintf(__("You are about to delete the &quot;%s&quot; bookmark to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($link->link_name), js_escape($link->link_url)).'\' );" class="delete">'.__('Delete').'</a></td>';
+		echo '<td><a href="' . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . '"'." onclick=\"return deleteSomething( 'link', $link->link_id , '".sprintf(__("You are about to delete the &quot;%s&quot; link to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($link->link_name), js_escape($link->link_url)).'\' );" class="delete">'.__('Delete').'</a></td>';
 		echo '<td align="center"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></td>';
 		echo "\n    </tr>\n";
 	}
@@ -172,7 +171,7 @@ if ($links)
 
 <div id="ajax-response"></div>
 
-<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Bookmarks') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these bookmarks permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
+<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Links') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these links permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
 </form>
 </div>
 

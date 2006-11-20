@@ -37,7 +37,7 @@ case 'delete':
 		wp_die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one"), $cat_name));
 
     if ( $cat_ID == get_option('default_link_category') )
-		wp_die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one for bookmarks"), $cat_name));
+		wp_die(sprintf(__("Can't delete the <strong>%s</strong> category: this is the default one for links"), $cat_name));
 
 	wp_delete_category($cat_ID);
 
@@ -99,7 +99,7 @@ $messages[5] = __('Category not updated.');
         <th scope="col"><?php _e('Name') ?></th>
         <th scope="col"><?php _e('Description') ?></th>
         <th scope="col" width="90" style="text-align: center"><?php _e('Posts') ?></th>
-        <th scope="col" width="90" style="text-align: center"><?php _e('Bookmarks') ?></th>
+        <th scope="col" width="90" style="text-align: center"><?php _e('Links') ?></th>
         <th colspan="2" style="text-align: center"><?php _e('Action') ?></th>
 	</tr>
 	</thead>
@@ -114,7 +114,7 @@ cat_rows();
 
 <?php if ( current_user_can('manage_categories') ) : ?>
 <div class="wrap">
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts and bookmarks in that category.  Instead, posts in the deleted category are set to the category <strong>%s</strong> and bookmarks are set to <strong>%s</strong>.'), get_catname(get_option('default_category')), get_catname(get_option('default_link_category'))) ?></p>
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts and links in that category.  Instead, posts in the deleted category are set to the category <strong>%s</strong> and links are set to <strong>%s</strong>.'), get_catname(get_option('default_category')), get_catname(get_option('default_link_category'))) ?></p>
 </div>
 
 <?php include('edit-category-form.php'); ?>

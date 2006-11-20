@@ -1,7 +1,7 @@
 <?php
 require_once('admin.php');
 
-$title = __('Add Bookmark');
+$title = __('Add Link');
 $this_file = 'link-manager.php';
 $parent_file = 'link-manager.php';
 

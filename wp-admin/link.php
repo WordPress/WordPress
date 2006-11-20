@@ -96,10 +96,10 @@ switch ($action) {
 			wp_enqueue_script( 'ajaxcat' );
 		$parent_file = 'link-manager.php';
 		$submenu_file = 'link-manager.php';
-		$title = __('Edit Bookmark');
+		$title = __('Edit Link');
 		include_once ('admin-header.php');
 		if (!current_user_can('manage_links'))
-			wp_die(__('You do not have sufficient permissions to edit the bookmarks for this blog.'));
+			wp_die(__('You do not have sufficient permissions to edit the links for this blog.'));
 
 		$link_id = (int) $_GET['link_id'];
 
