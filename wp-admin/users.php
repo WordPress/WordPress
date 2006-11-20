@@ -135,7 +135,7 @@ case 'promote':
 		if ( ! current_user_can('edit_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have edit_users caps
-		if($id == $current_user->id && !$wp_roles->role_objects[$_POST['new_role']]->has_cap('edit_users')) {
+		if($id == $current_user->ID && !$wp_roles->role_objects[$_POST['new_role']]->has_cap('edit_users')) {
 			$update = 'err_admin_role';
 			continue;
 		}
@@ -169,7 +169,7 @@ case 'dodelete':
 		if ( ! current_user_can('delete_user', $id) )
 			wp_die(__('You can&#8217;t delete that user.'));
 
-		if($id == $current_user->id) {
+		if($id == $current_user->ID) {
 			$update = 'err_admin_del';
 			continue;
 		}
@@ -217,7 +217,7 @@ case 'delete':
 	$go_delete = false;
 	foreach ( (array) $userids as $id ) {
 		$user = new WP_User($id);
-		if ( $id == $current_user->id ) {
+		if ( $id == $current_user->ID ) {
 			echo "<li>" . sprintf(__('ID #%1s: %2s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
 			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1s: %2s'), $id, $user->user_login) . "</li>\n";
@@ -227,7 +227,7 @@ case 'delete':
 	$all_logins = $wpdb->get_results("SELECT ID, user_login FROM $wpdb->users ORDER BY user_login");
 	$user_dropdown = '<select name="reassign_user">';
 	foreach ( (array) $all_logins as $login )
-		if ( $login->ID == $current_user->id || !in_array($login->ID, $userids) )
+		if ( $login->ID == $current_user->ID || !in_array($login->ID, $userids) )
 			$user_dropdown .= "<option value=\"{$login->ID}\">{$login->user_login}</option>";
 	$user_dropdown .= '</select>';
 	?>

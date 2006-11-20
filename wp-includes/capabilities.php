@@ -130,7 +130,8 @@ class WP_Role {
 
 class WP_User {
 	var $data;
-	var $id = 0;
+	var $ID = 0;
+	var $id = 0; // Deprecated, use $ID instead.
 	var $caps = array();
 	var $cap_key;
 	var $roles = array();
@@ -193,7 +194,7 @@ class WP_User {
 
 	function add_role($role) {
 		$this->caps[$role] = true;
-		update_usermeta($this->id, $this->cap_key, $this->caps);
+		update_usermeta($this->ID, $this->cap_key, $this->caps);
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
 	}
@@ -202,7 +203,7 @@ class WP_User {
 		if ( empty($this->roles[$role]) || (count($this->roles) <= 1) )
 			return;
 		unset($this->caps[$role]);
-		update_usermeta($this->id, $this->cap_key, $this->caps);
+		update_usermeta($this->ID, $this->cap_key, $this->caps);
 		$this->get_role_caps();
 	}
 
@@ -215,7 +216,7 @@ class WP_User {
 		} else {
 			$this->roles = false;
 		}
-		update_usermeta($this->id, $this->cap_key, $this->caps);
+		update_usermeta($this->ID, $this->cap_key, $this->caps);
 		$this->get_role_caps();
 		$this->update_user_level_from_caps();
 	}
@@ -261,7 +262,7 @@ class WP_User {
 			$cap = $this->translate_level_to_cap($cap);
 
 		$args = array_slice(func_get_args(), 1);
-		$args = array_merge(array($cap, $this->id), $args);
+		$args = array_merge(array($cap, $this->ID), $args);
 		$caps = call_user_func_array('map_meta_cap', $args);
 		// Must have ALL requested caps
 		$capabilities = apply_filters('user_has_cap', $this->allcaps, $caps, $args);
