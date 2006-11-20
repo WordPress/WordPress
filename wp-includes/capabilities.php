@@ -233,25 +233,25 @@ class WP_User {
 	function update_user_level_from_caps() {
 		global $wpdb;
 		$this->user_level = array_reduce(array_keys($this->allcaps), 	array(&$this, 'level_reduction'), 0);
-		update_usermeta($this->id, $wpdb->prefix.'user_level', $this->user_level);
+		update_usermeta($this->ID, $wpdb->prefix.'user_level', $this->user_level);
 	}
 
 	function add_cap($cap, $grant = true) {
 		$this->caps[$cap] = $grant;
-		update_usermeta($this->id, $this->cap_key, $this->caps);
+		update_usermeta($this->ID, $this->cap_key, $this->caps);
 	}
 
 	function remove_cap($cap) {
 		if ( empty($this->caps[$cap]) ) return;
 		unset($this->caps[$cap]);
-		update_usermeta($this->id, $this->cap_key, $this->caps);
+		update_usermeta($this->ID, $this->cap_key, $this->caps);
 	}
 
 	function remove_all_caps() {
 		global $wpdb;
 		$this->caps = array();
-		update_usermeta($this->id, $this->cap_key, '');
-		update_usermeta($this->id, $wpdb->prefix.'user_level', '');
+		update_usermeta($this->ID, $this->cap_key, '');
+		update_usermeta($this->ID, $wpdb->prefix.'user_level', '');
 		$this->get_role_caps();
 	}
 
