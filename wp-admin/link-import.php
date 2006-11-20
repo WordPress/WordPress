@@ -26,7 +26,7 @@ switch ($step) {
 <form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 <?php wp_nonce_field('import-bookmarks') ?>
 
-<p><?php _e('If a program or website you use allows you to export your bookmarks or subscriptions as OPML you may import them here.'); ?>
+<p><?php _e('If a program or website you use allows you to export your links or subscriptions as OPML you may import them here.'); ?>
 <div style="width: 70%; margin: auto; height: 8em;">
 <input type="hidden" name="step" value="1" />
 <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
@@ -43,7 +43,7 @@ switch ($step) {
 
 </div>
 
-<p style="clear: both; margin-top: 1em;"><?php _e('Now select a category you want to put these bookmarks in.') ?><br />
+<p style="clear: both; margin-top: 1em;"><?php _e('Now select a category you want to put these links in.') ?><br />
 <?php _e('Category:') ?> <select name="cat_id">
 <?php
 $categories = get_categories('hide_empty=0');
@@ -111,7 +111,7 @@ foreach ($categories as $category) {
 						echo sprintf('<p>'.__('Inserted <strong>%s</strong>').'</p>', $names[$i]);
                     }
 ?>
-     <p><?php printf(__('Inserted %1$d bookmarks into category %2$s. All done! Go <a href="%3$s">manage those bookmarks</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>
+     <p><?php printf(__('Inserted %1$d links into category %2$s. All done! Go <a href="%3$s">manage those links</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>
 <?php
                 } // end if got url
                 else
