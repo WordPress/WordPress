@@ -2,56 +2,47 @@
 
 function wptexturize($text) {
 	global $wp_cockneyreplace;
+	$next = true;
 	$output = '';
-	// Capture tags and everything inside them
-	$textarr = preg_split("/(<.*>)/Us", $text, -1, PREG_SPLIT_DELIM_CAPTURE);
-	$stop = count($textarr); $next = true; // loop stuff
-	for ($i = 0; $i < $stop; $i++) {
-		$curl = $textarr[$i];
+	$curl = '';
+	$textarr = preg_split('/(<.*>)/Us', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+	$stop = count($textarr);
+
+	// if a plugin has provided an autocorrect array, use it
+	if ( isset($wp_cockneyreplace) ) {
+		$cockney = array_keys($wp_cockneyreplace);
+		$cockney_replace = array_values($wp_cockneyreplace);
+	} else {
+		$cockney = array("'tain't","'twere","'twas","'tis","'twill","'til","'bout","'nuff","'round","'cause");
+		$cockneyreplace = array("&#8217;tain&#8217;t","&#8217;twere","&#8217;twas","&#8217;tis","&#8217;twill","&#8217;til","&#8217;bout","&#8217;nuff","&#8217;round","&#8217;cause");
+	}
+
+	$static_characters = array_merge(array('---', ' -- ', '--', 'xn&#8211;', '...', '``', '\'s', '\'\'', ' (tm)'), $cockney); 
+	$static_replacements = array_merge(array('&#8212;', ' &#8212; ', '&#8211;', 'xn--', '&#8230;', '&#8220;', '&#8217;s', '&#8221;', ' &#8482;'), $cockneyreplace);
+
+	$dynamic_characters = array('/\'(\d\d(?:&#8217;|\')?s)/', '/(\s|\A|")\'/', '/(\d+)"/', '/(\d+)\'/', '/(\S)\'([^\'\s])/', '/(\s|\A)"(?!\s)/', '/"(\s|\S|\Z)/', '/\'([\s.]|\Z)/', '/(\d+)x(\d+)/');
+	$dynamic_replacements = array('&#8217;$1','$1&#8216;', '$1&#8243;', '$1&#8242;', '$1&#8217;$2', '$1&#8220;$2', '&#8221;$1', '&#8217;$1', '$1&#215;$2');	
+
+	for ( $i = 0; $i < $stop; $i++ ) {
+ 		$curl = $textarr[$i];
 
 		if (isset($curl{0}) && '<' != $curl{0} && $next) { // If it's not a tag
-			$curl = str_replace('---', '&#8212;', $curl);
-			$curl = str_replace(' -- ', ' &#8212; ', $curl);
-			$curl = str_replace('--', '&#8211;', $curl);
-			$curl = str_replace('xn&#8211;', 'xn--', $curl);
-			$curl = str_replace('...', '&#8230;', $curl);
-			$curl = str_replace('``', '&#8220;', $curl);
+			// static strings
+			$curl = str_replace($static_characters, $static_replacements, $curl);
 
-			// if a plugin has provided an autocorrect array, use it
-			if ( isset($wp_cockneyreplace) ) {
-				$cockney = array_keys($wp_cockneyreplace);
-				$cockney_replace = array_values($wp_cockneyreplace);
-			} else {
-				$cockney = array("'tain't","'twere","'twas","'tis","'twill","'til","'bout","'nuff","'round","'cause");
-				$cockneyreplace = array("&#8217;tain&#8217;t","&#8217;twere","&#8217;twas","&#8217;tis","&#8217;twill","&#8217;til","&#8217;bout","&#8217;nuff","&#8217;round","&#8217;cause");
-			}
-
-			$curl = str_replace($cockney, $cockneyreplace, $curl);
-
-			$curl = preg_replace("/'s/", '&#8217;s', $curl);
-			$curl = preg_replace("/'(\d\d(?:&#8217;|')?s)/", "&#8217;$1", $curl);
-			$curl = preg_replace('/(\s|\A|")\'/', '$1&#8216;', $curl);
-			$curl = preg_replace('/(\d+)"/', '$1&#8243;', $curl);
-			$curl = preg_replace("/(\d+)'/", '$1&#8242;', $curl);
-			$curl = preg_replace("/(\S)'([^'\s])/", "$1&#8217;$2", $curl);
-			$curl = preg_replace('/(\s|\A)"(?!\s)/', '$1&#8220;$2', $curl);
-			$curl = preg_replace('/"(\s|\S|\Z)/', '&#8221;$1', $curl);
-			$curl = preg_replace("/'([\s.]|\Z)/", '&#8217;$1', $curl);
-			$curl = preg_replace("/ \(tm\)/i", ' &#8482;', $curl);
-			$curl = str_replace("''", '&#8221;', $curl);
-
-			$curl = preg_replace('/(\d+)x(\d+)/', "$1&#215;$2", $curl);
-
+			// regular expressions
+			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
 		} elseif (strstr($curl, '<code') || strstr($curl, '<pre') || strstr($curl, '<kbd' || strstr($curl, '<style') || strstr($curl, '<script'))) {
-			// strstr is fast
 			$next = false;
 		} else {
 			$next = true;
 		}
+
 		$curl = preg_replace('/&([^#])(?![a-zA-Z1-4]{1,8};)/', '&#038;$1', $curl);
 		$output .= $curl;
 	}
-	return $output;
+
+  	return $output;
 }
 
 function clean_pre($text) {
