@@ -19,7 +19,7 @@ class WP_Scripts {
 		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
 		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20061113' );
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.5.0');
-		$this->add( 'autosave', '/wp-includes/js/autosave.js.php', array('prototype', 'sack'), '4206');
+		$this->add( 'autosave', '/wp-includes/js/autosave.js.php', array('prototype', 'sack'), '4508');
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax-js.php', array('prototype'), '4459');
 		$this->add( 'listman', '/wp-includes/js/list-manipulation-js.php', array('wp-ajax', 'fat'), '4459');
 		if ( is_admin() ) {
