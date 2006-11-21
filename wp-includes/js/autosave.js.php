@@ -9,11 +9,13 @@ function autosave_start_timer() {
 	autosaveLast = form.post_title.value+form.content.value;
 	autosavePeriodical = new PeriodicalExecuter(autosave, <?php echo apply_filters('autosave_interval', '16'); ?>);
 	//Disable autosave after the form has been submitted
-//	if(form.addEventListener) {
-//		form.addEventListener("submit", function () { autosavePeriodical.currentlyExecuting = true; }, false);
-//	}
+	if(form.addEventListener) {
+		form.addEventListener("submit", function () { autosavePeriodical.currentlyExecuting = true; }, false);
+	}
 	if(form.attachEvent) {
-		form.attachEvent("onsubmit", function () { autosavePeriodical.currentlyExecuting = true; });
+		$('save').attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; });
+		$('publish').attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; });
+		$('deletepost').attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; });
 	}
 }
 addLoadEvent(autosave_start_timer)
