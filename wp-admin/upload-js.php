@@ -233,9 +233,10 @@ addLoadEvent( function() {
 			if ( !win )
 				win = top;
 			tinyMCE = win.tinyMCE;
-			if ( typeof tinyMCE != 'undefined' && tinyMCE.getInstanceById('content') )
-				win.tinyMCE.execCommand('mceInsertContent', false, h);
-			else
+			if ( typeof tinyMCE != 'undefined' && tinyMCE.getInstanceById('content') ) {
+				tinyMCE.selectedInstance.getWin().focus();
+				tinyMCE.execCommand('mceInsertContent', false, h);
+			} else
 				win.edInsertContent(win.edCanvas, h);
 			if ( !this.ID )
 				this.cancelView();
@@ -243,7 +244,7 @@ addLoadEvent( function() {
 		},
 
 		deleteFile: function(id) {
-			if ( confirm("<?php printf(addslashes(__("Are you sure you want to delete the file %s?\nClick ok to delete or cancel to go back.")), '" + this.currentImage.title + "'); ?>") {
+			if ( confirm("<?php printf(js_escape(__("Are you sure you want to delete the file '%s'?\nClick ok to delete or cancel to go back.")), '" + this.currentImage.title + "'); ?>") ) {
 				$('action-value').value = 'delete';
 				$('upload-file').submit();
 				return true;
