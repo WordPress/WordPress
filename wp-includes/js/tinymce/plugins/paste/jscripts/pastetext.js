@@ -15,6 +15,10 @@ function saveContent() {
 function onLoadInit() {
 	tinyMCEPopup.resizeToInnerSize();
 
+	// Remove Gecko spellchecking
+	if (tinyMCE.isGecko)
+		document.body.spellcheck = tinyMCE.getParam("gecko_spellcheck");
+
 	resizeInputs();
 }
 

@@ -312,6 +312,10 @@ h3 {
 	height: 190px;
 }
 
+label.msg { display: none; }
+label.invalid { color: #EE0000; display: inline; }
+input.invalid { border: 1px solid #EE0000; }
+
 /* Disables the advanced tab in the table plugin. */
 /*
 #table #advanced_tab {

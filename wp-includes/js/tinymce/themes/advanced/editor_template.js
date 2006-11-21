@@ -1,7 +1,5 @@
 /**
- * $RCSfile: editor_template_src.js,v $
- * $Revision: 1.96 $
- * $Date: 2006/04/18 13:32:52 $
+ * $Id: editor_template_src.js 129 2006-10-23 09:45:17Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
@@ -12,6 +10,7 @@ tinyMCE.importThemeLanguagePack('advanced');
 
 var TinyMCE_AdvancedTheme = {
 	// Private theme fields
+	_defColors : "000000,993300,333300,003300,003366,000080,333399,333333,800000,FF6600,808000,008000,008080,0000FF,666699,808080,FF0000,FF9900,99CC00,339966,33CCCC,3366FF,800080,999999,FF00FF,FFCC00,FFFF00,00FF00,00FFFF,00CCFF,993366,C0C0C0,FF99CC,FFCC99,FFFF99,CCFFCC,CCFFFF,99CCFF,CC99FF,FFFFFF",
 	_autoImportCSSClasses : true,
 	_resizer : {},
 	_buttons : [
@@ -43,25 +42,28 @@ var TinyMCE_AdvancedTheme = {
 		['removeformat', 'removeformat.gif', 'lang_theme_removeformat_desc', 'removeformat'],
 		['sub', 'sub.gif', 'lang_theme_sub_desc', 'subscript'],
 		['sup', 'sup.gif', 'lang_theme_sup_desc', 'superscript'],
-		['forecolor', 'forecolor.gif', 'lang_theme_forecolor_desc', 'mceForeColor', true],
-		['backcolor', 'backcolor.gif', 'lang_theme_backcolor_desc', 'mceBackColor', true],
+		['forecolor', 'forecolor.gif', 'lang_theme_forecolor_desc', 'forecolor', true],
+		['backcolor', 'backcolor.gif', 'lang_theme_backcolor_desc', 'HiliteColor', true],
 		['charmap', 'charmap.gif', 'lang_theme_charmap_desc', 'mceCharMap'],
 		['visualaid', 'visualaid.gif', 'lang_theme_visualaid_desc', 'mceToggleVisualAid'],
 		['anchor', 'anchor.gif', 'lang_theme_anchor_desc', 'mceInsertAnchor'],
 		['newdocument', 'newdocument.gif', 'lang_newdocument_desc', 'mceNewDocument']
 	],
 
-	_buttonMap : 'anchor,backcolor,bold,bullist,charmap,cleanup,code,copy,cut,forecolor,help,hr,image,indent,italic,justifycenter,justifyfull,justifyleft,justifyright,link,newdocument,numlist,outdent,paste,redo,removeformat,strikethrough,sub,sup,underline,undo,unlink,visualaid,advhr,ltr,rtl,emotions,flash,fullpage,fullscreen,iespell,insertdate,inserttime,pastetext,pasteword,selectall,preview,print,save,replace,search,table,cell_props,delete_col,delete_row,col_after,col_before,row_after,row_before,merge_cells,row_props,split_cells',
+	_buttonMap : 'anchor,backcolor,bold,bullist,charmap,cleanup,code,copy,cut,forecolor,help,hr,image,indent,italic,justifycenter,justifyfull,justifyleft,justifyright,link,newdocument,numlist,outdent,paste,redo,removeformat,strikethrough,sub,sup,underline,undo,unlink,visualaid,advhr,ltr,rtl,emotions,flash,fullpage,fullscreen,iespell,insertdate,inserttime,pastetext,pasteword,selectall,preview,print,save,replace,search,table,cell_props,delete_col,delete_row,col_after,col_before,row_after,row_before,merge_cells,row_props,split_cells,delete_table',
 
 	/**
 	 * Returns HTML code for the specificed control.
 	 */
 	getControlHTML : function(button_name) {
-		var i, x;
+		var i, x, but;
 
 		// Lookup button in button list
 		for (i=0; i<TinyMCE_AdvancedTheme._buttons.length; i++) {
-			var but = TinyMCE_AdvancedTheme._buttons[i];
+			but = TinyMCE_AdvancedTheme._buttons[i];
+
+			if (but[0] == button_name && (button_name == "forecolor" || button_name == "backcolor"))
+				return tinyMCE.getMenuButtonHTML(but[0], but[2], '{$themeurl}/images/' + but[1], but[3] + "Menu", but[3], (but.length > 4 ? but[4] : false), (but.length > 5 ? but[5] : null));
 
 			if (but[0] == button_name)
 				return tinyMCE.getButtonHTML(but[0], but[2], '{$themeurl}/images/' + but[1], but[3], (but.length > 4 ? but[4] : false), (but.length > 5 ? but[5] : null));
@@ -153,6 +155,18 @@ var TinyMCE_AdvancedTheme = {
 	 */
 	execCommand : function(editor_id, element, command, user_interface, value) {
 		switch (command) {
+			case 'mceHelp':
+				tinyMCE.openWindow({
+					file : 'about.htm',
+					width : 480,
+					height : 380
+				}, {
+					tinymce_version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion,
+					tinymce_releasedate : tinyMCE.releaseDate,
+					inline : "yes"
+				});
+			return true;
+
 			case "mceLink":
 				var inst = tinyMCE.getInstanceById(editor_id);
 				var doc = inst.getDoc();
@@ -317,41 +331,94 @@ var TinyMCE_AdvancedTheme = {
 
 				return true;
 
-			case "mceForeColor":
-				var template = new Array();
-				var elm = tinyMCE.selectedInstance.getFocusElement();
-				var inputColor = tinyMCE.getAttrib(elm, "color");
+			case "forecolor":
+				var fcp = new TinyMCE_Layer(editor_id + '_fcPreview', false), p, img, elm;
 
-				if (inputColor == '')
-					inputColor = elm.style.color;
+				TinyMCE_AdvancedTheme._hideMenus(editor_id);
 
-				if (!inputColor)
-					inputColor = "#000000";
+				if (!fcp.exists()) {
+					fcp.create('div', 'mceColorPreview', document.getElementById(editor_id + '_toolbar'));
+					elm = fcp.getElement();
+					elm._editor_id = editor_id;
+					elm._command = "forecolor";
+					elm._switchId = editor_id + "_forecolor";
+					tinyMCE.addEvent(elm, 'click', TinyMCE_AdvancedTheme._handleMenuEvent);
+					tinyMCE.addEvent(elm, 'mouseover', TinyMCE_AdvancedTheme._handleMenuEvent);
+					tinyMCE.addEvent(elm, 'mouseout', TinyMCE_AdvancedTheme._handleMenuEvent);
+				}
 
-				template['file'] = 'color_picker.htm';
-				template['width'] = 220;
-				template['height'] = 190;
+				img = tinyMCE.selectNodes(document.getElementById(editor_id + "_forecolor"), function(n) {return n.nodeName == "IMG";})[0];
+				p = tinyMCE.getAbsPosition(img, document.getElementById(editor_id + '_toolbar'));
 
-				tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", command : "forecolor", input_color : inputColor});
+				fcp.moveTo(p.absLeft, p.absTop);
+				fcp.getElement().style.backgroundColor = value != null ? value : tinyMCE.getInstanceById(editor_id).foreColor;
+				fcp.show();
+
+				return false;
+
+			case "forecolorMenu":
+				TinyMCE_AdvancedTheme._hideMenus(editor_id);
+
+				// Create color layer
+				var ml = new TinyMCE_Layer(editor_id + '_fcMenu');
+
+				if (!ml.exists())
+					ml.create('div', 'mceMenu', document.body, TinyMCE_AdvancedTheme._getColorHTML(editor_id, 'theme_advanced_text_colors', 'forecolor'));
+
+				tinyMCE.switchClass(editor_id + '_forecolor', 'mceMenuButtonFocus');
+				ml.moveRelativeTo(document.getElementById(editor_id + "_forecolor"), 'bl');
+
+				ml.moveBy(tinyMCE.isMSIE && !tinyMCE.isOpera ? -1 : 1, -1);
+
+				if (tinyMCE.isOpera)
+					ml.moveBy(0, -2);
+
+				ml.show();
 			return true;
 
-			case "mceBackColor":
-				var template = new Array();
-				var elm = tinyMCE.selectedInstance.getFocusElement();
-				var inputColor = elm.style.backgroundColor;
+			case "HiliteColor":
+				var bcp = new TinyMCE_Layer(editor_id + '_bcPreview', false), p, img;
 
-				if (!inputColor)
-					inputColor = "#000000";
+				TinyMCE_AdvancedTheme._hideMenus(editor_id);
 
-				template['file'] = 'color_picker.htm';
-				template['width'] = 220;
-				template['height'] = 190;
+				if (!bcp.exists()) {
+					bcp.create('div', 'mceColorPreview', document.getElementById(editor_id + '_toolbar'));
+					elm = bcp.getElement();
+					elm._editor_id = editor_id;
+					elm._command = "HiliteColor";
+					elm._switchId = editor_id + "_backcolor";
+					tinyMCE.addEvent(elm, 'click', TinyMCE_AdvancedTheme._handleMenuEvent);
+					tinyMCE.addEvent(elm, 'mouseover', TinyMCE_AdvancedTheme._handleMenuEvent);
+					tinyMCE.addEvent(elm, 'mouseout', TinyMCE_AdvancedTheme._handleMenuEvent);
+				}
 
-				template['width'] += tinyMCE.getLang('lang_theme_advanced_backcolor_delta_width', 0);
-				template['height'] += tinyMCE.getLang('lang_theme_advanced_backcolor_delta_height', 0);
+				img = tinyMCE.selectNodes(document.getElementById(editor_id + "_backcolor"), function(n) {return n.nodeName == "IMG";})[0];
+				p = tinyMCE.getAbsPosition(img, document.getElementById(editor_id + '_toolbar'));
 
-				tinyMCE.openWindow(template, {editor_id : editor_id, inline : "yes", command : "HiliteColor", input_color : inputColor});
-				//mceBackColor
+				bcp.moveTo(p.absLeft, p.absTop);
+				bcp.getElement().style.backgroundColor = value != null ? value : tinyMCE.getInstanceById(editor_id).backColor;
+				bcp.show();
+
+				return false;
+
+			case "HiliteColorMenu":
+				TinyMCE_AdvancedTheme._hideMenus(editor_id);
+
+				// Create color layer
+				var ml = new TinyMCE_Layer(editor_id + '_bcMenu');
+
+				if (!ml.exists())
+					ml.create('div', 'mceMenu', document.body, TinyMCE_AdvancedTheme._getColorHTML(editor_id, 'theme_advanced_background_colors', 'HiliteColor'));
+
+				tinyMCE.switchClass(editor_id + '_backcolor', 'mceMenuButtonFocus');
+				ml.moveRelativeTo(document.getElementById(editor_id + "_backcolor"), 'bl');
+
+				ml.moveBy(tinyMCE.isMSIE && !tinyMCE.isOpera ? -1 : 1, -1);
+
+				if (tinyMCE.isOpera)
+					ml.moveBy(0, -2);
+
+				ml.show();
 			return true;
 
 			case "mceColorPicker":
@@ -433,7 +500,7 @@ var TinyMCE_AdvancedTheme = {
 	 */
 	getEditorTemplate : function(settings, editorId) {
 		function removeFromArray(in_array, remove_array) {
-			var outArray = new Array();
+			var outArray = new Array(), skip;
 			
 			for (var i=0; i<in_array.length; i++) {
 				skip = false;
@@ -530,10 +597,10 @@ var TinyMCE_AdvancedTheme = {
 				toolbarHTML += '<a href="#" accesskey="z" onfocus="tinyMCE.getInstanceById(\'' + editorId + '\').getWin().focus();"></a>';
 
 				// Setup template html
-				template['html'] = '<table class="mceEditor" border="0" cellpadding="0" cellspacing="0" width="{$width}" height="{$height}" style="width:{$width}px;height:{$height}px"><tbody>';
+				template['html'] = '<table class="mceEditor" border="0" cellpadding="0" cellspacing="0" width="{$width}" height="{$height}" style="width:{$width_style};height:{$height_style}"><tbody>';
 
 				if (toolbarLocation == "top") {
-					template['html'] += '<tr><td class="mceToolbarTop" align="' + toolbarAlign + '" height="1" nowrap="nowrap">' + toolbarHTML + '</td></tr>';
+					template['html'] += '<tr><td class="mceToolbarTop" align="' + toolbarAlign + '" height="1" nowrap="nowrap"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
 				}
 
 				if (statusbarLocation == "top") {
@@ -544,7 +611,7 @@ var TinyMCE_AdvancedTheme = {
 				template['html'] += '<tr><td align="center"><span id="{$editor_id}"></span></td></tr>';
 
 				if (toolbarLocation == "bottom") {
-					template['html'] += '<tr><td class="mceToolbarBottom" align="' + toolbarAlign + '" height="1">' + toolbarHTML + '</td></tr>';
+					template['html'] += '<tr><td class="mceToolbarBottom" align="' + toolbarAlign + '" height="1"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
 				}
 
 				// External toolbar changes
@@ -615,9 +682,10 @@ var TinyMCE_AdvancedTheme = {
 						var curAlign = tinyMCE.getParam("theme_advanced_container_"+containers[i]+"_align", defaultContainerAlign);
 						var curCSS = tinyMCE.getParam("theme_advanced_container_"+containers[i]+"_class", defaultContainerCSS);
 
-						for (var j=0; j<curContainer.length; j++) {
+						curContainer = removeFromArray(curContainer, tinyMCE.getParam("theme_advanced_disable", "", true, ','));
+
+						for (var j=0; j<curContainer.length; j++)
 							curContainerHTML += tinyMCE.getControlHTML(curContainer[j]);
-						}
 
 						if (curContainer.length > 0) {
 							curContainerHTML += "<br />";
@@ -664,10 +732,34 @@ var TinyMCE_AdvancedTheme = {
 		inst.addShortcut('ctrl', 'k', 'lang_link_desc', 'mceLink');
 	},
 
+	_handleMenuEvent : function(e) {
+		var te = tinyMCE.isMSIE ? window.event.srcElement : e.target;
+		tinyMCE._menuButtonEvent(e.type == "mouseover" ? "over" : "out", document.getElementById(te._switchId));
+
+		if (e.type == "click")
+			tinyMCE.execInstanceCommand(te._editor_id, te._command);
+	},
+
+	_hideMenus : function(id) {
+		var fcml = new TinyMCE_Layer(id + '_fcMenu'), bcml = new TinyMCE_Layer(id + '_bcMenu');
+
+		if (fcml.exists() && fcml.isVisible()) {
+			tinyMCE.switchClass(id + '_forecolor', 'mceMenuButton');
+			fcml.hide();
+		}
+
+		if (bcml.exists() && bcml.isVisible()) {
+			tinyMCE.switchClass(id + '_backcolor', 'mceMenuButton');
+			bcml.hide();
+		}
+	},
+
 	/**
 	 * Node change handler.
 	 */
 	handleNodeChange : function(editor_id, node, undo_index, undo_levels, visual_aid, any_selection, setup_content) {
+		var alignNode, breakOut, classNode;
+
 		function selectByValue(select_elm, value, first_index) {
 			first_index = typeof(first_index) == "undefined" ? false : true;
 
@@ -702,6 +794,7 @@ var TinyMCE_AdvancedTheme = {
 		var pathElm = document.getElementById(editor_id + "_path");
 		var inst = tinyMCE.getInstanceById(editor_id);
 		var doc = inst.getDoc();
+		TinyMCE_AdvancedTheme._hideMenus(editor_id);
 
 		if (pathElm) {
 			// Get node path
@@ -726,6 +819,9 @@ var TinyMCE_AdvancedTheme = {
 			for (var i=path.length-1; i>=0; i--) {
 				var nodeName = path[i].nodeName.toLowerCase();
 				var nodeData = "";
+
+				if (nodeName.indexOf("html:") == 0)
+					nodeName = nodeName.substring(5);
 
 				if (nodeName == "b") {
 					nodeName = "strong";
@@ -781,7 +877,7 @@ var TinyMCE_AdvancedTheme = {
 					nodeData += "src: " + src + " ";
 				}
 
-				if (getAttrib(path[i], 'href') != "") {
+				if (path[i].nodeName == 'A' && getAttrib(path[i], 'href') != "") {
 					var href = tinyMCE.getAttrib(path[i], "mce_href");
 
 					if (href == "")
@@ -790,9 +886,10 @@ var TinyMCE_AdvancedTheme = {
 					nodeData += "href: " + href + " ";
 				}
 
-				if (nodeName == "img" && tinyMCE.getAttrib(path[i], "class").indexOf('mceItemFlash') != -1) {
-					nodeName = "flash";
-					nodeData = "src: " + path[i].getAttribute('title');
+				className = tinyMCE.getAttrib(path[i], "class");
+				if ((nodeName == "img" || nodeName == "span") && className.indexOf('mceItem') != -1) {
+					nodeName = className.replace(/mceItem([a-z]+)/gi, '$1').toLowerCase();
+					nodeData = path[i].getAttribute('title');
 				}
 
 				if (nodeName == "a" && (anchor = tinyMCE.getAttrib(path[i], "name")) != "") {
@@ -1027,7 +1124,7 @@ var TinyMCE_AdvancedTheme = {
 				break;
 
 				case "IMG":
-				if (getAttrib(node, 'name').indexOf('mce_') != 0) {
+				if (getAttrib(node, 'name').indexOf('mce_') != 0 && tinyMCE.getAttrib(node, 'class').indexOf('mceItem') == -1) {
 					tinyMCE.switchClass(editor_id + '_image', 'mceButtonSelected');
 				}
 				break;
@@ -1148,6 +1245,9 @@ var TinyMCE_AdvancedTheme = {
 				inst.iframeElement.style.width = (iw + dx) + "px";
 			}
 		}
+
+		// Remove pesky table controls
+		inst.useCSS = false;
 	},
 
 	/**
@@ -1253,6 +1353,29 @@ var TinyMCE_AdvancedTheme = {
 			editorArea.style.display = tinyMCE.isMSIE && !tinyMCE.isOpera ? "block" : "table";
 			tinyMCE.execCommand('mceResetDesignMode');
 		}
+	},
+
+	_getColorHTML : function(id, n, cm) {
+		var i, h, cl;
+
+		h = '<span class="mceMenuLine"></span>';
+		cl = tinyMCE.getParam(n, TinyMCE_AdvancedTheme._defColors).split(',');
+
+		h += '<table class="mceColors"><tr>';
+		for (i=0; i<cl.length; i++) {
+			c = 'tinyMCE.execInstanceCommand(\'' + id + '\', \'' + cm + '\', false, \'#' + cl[i] + '\');';
+			h += '<td><a href="javascript:' + c + '" style="background-color: #' + cl[i] + '" onclick="' + c + ';return false;"></a></td>';
+
+			if ((i+1) % 8 == 0)
+				h += '</tr><tr>';
+		}
+
+		h += '</tr></table>';
+		/*
+		h += '<a href="" class="mceMoreColors">More colors</a>';
+		*/
+
+		return h;
 	},
 
 	_insertImage : function(src, alt, border, hspace, vspace, width, height, align, title, onmouseover, onmouseout) {

@@ -25,7 +25,13 @@ var wHeight=0, wWidth=0, owHeight=0, owWidth=0;
 
 function initIframe(doc) {
 	var dir = tinyMCE.selectedInstance.settings['directionality'];
+
 	doc.body.dir = dir;
+
+	// Remove Gecko spellchecking
+	if (tinyMCE.isGecko)
+		doc.body.spellcheck = tinyMCE.getParam("gecko_spellcheck");
+
 	resizeInputs();
 }
 

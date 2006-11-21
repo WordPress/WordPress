@@ -1,7 +1,5 @@
 /**
- * $RCSfile: editor_plugin_src.js,v $
- * $Revision: 1.8 $
- * $Date: 2006/02/06 20:02:38 $
+ * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * Moxiecode DHTML Windows script.
  *
@@ -15,7 +13,7 @@ var TinyMCE_InlinePopupsPlugin = {
 	getInfo : function() {
 		return {
 			longname : 'Inline Popups',
-			author : 'Moxiecode Systems',
+			author : 'Moxiecode Systems AB',
 			authorurl : 'http://tinymce.moxiecode.com',
 			infourl : 'http://tinymce.moxiecode.com/tinymce/docs/plugin_inlinepopups.html',
 			version : tinyMCE.majorVersion + "." + tinyMCE.minorVersion
@@ -436,7 +434,7 @@ TinyMCE_Windows.prototype.onLoad = function(name) {
 
 TinyMCE_Windows.prototype.createFloatingIFrame = function(id_prefix, left, top, width, height, html) {
 	var iframe = document.createElement("iframe");
-	var div = document.createElement("div");
+	var div = document.createElement("div"), doc;
 
 	width = parseInt(width);
 	height = parseInt(height)+1;
@@ -488,7 +486,7 @@ TinyMCE_Windows.prototype.createFloatingIFrame = function(id_prefix, left, top, 
 	if (this.isSafari) {
 		// Give Safari some time to setup
 		window.setTimeout(function() {
-			doc = window.frames[id_prefix + '_iframe'].document;
+			var doc = window.frames[id_prefix + '_iframe'].document;
 			doc.open();
 			doc.write(html);
 			doc.close();

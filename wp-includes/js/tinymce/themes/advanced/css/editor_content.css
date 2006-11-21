@@ -14,6 +14,11 @@ body {
 	border: 1px dashed #BBBBBB !important;
 }
 
+div.mceVisualAid {
+	background-image:url('../images/spacer.gif');
+	visibility: visible !important;
+}
+
 .mceItemAnchor {
 	width: 12px;
 	line-height: 6px;
