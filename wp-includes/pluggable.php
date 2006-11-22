@@ -270,7 +270,8 @@ function wp_redirect($location, $status = 302) {
 	if ( $is_IIS ) {
 		header("Refresh: 0;url=$location");
 	} else {
-		status_header($status); // This causes problems on IIS
+		if ( php_sapi_name() != 'cgi-fcgi' )
+			status_header($status); // This causes problems on IIS and some FastCGI setups
 		header("Location: $location");
 	}
 }
