@@ -30,6 +30,11 @@ function &get_categories($args = '') {
 	$r['number'] = (int) $r['number'];
 	extract($r);
 
+	$key = md5( serialize( $r ) );
+	if ( $cache = wp_cache_get( 'get_categories', 'category' ) )
+		if ( isset( $cache[ $key ] ) )
+			return $cache[ $key ];
+
 	$where = 'cat_ID > 0';
 	$inclusions = '';
 	if ( !empty($include) ) {
@@ -119,8 +124,19 @@ function &get_categories($args = '') {
 	}
 	reset ( $categories );
 
+	$cache[ $key ] = $categories;
+	wp_cache_set( 'get_categories', $cache, 'category' );
+
 	return apply_filters('get_categories', $categories, $r);
 }
+
+function delete_get_categories_cache() {
+	wp_cache_delete('get_categories', 'category');
+}
+add_action( 'wp_insert_post', 'delete_get_categories_cache' );
+add_action( 'edit_category', 'delete_get_categories_cache' );
+add_action( 'add_category', 'delete_get_categories_cache' );
+add_action( 'delete_category', 'delete_get_categories_cache' );
 
 // Retrieves category data given a category ID or category object.
 // Handles category caching.
