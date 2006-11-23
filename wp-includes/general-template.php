@@ -422,6 +422,15 @@ function calendar_week_mod($num) {
 function get_calendar($initial = true) {
 	global $wpdb, $m, $monthnum, $year, $timedifference, $wp_locale, $posts;
 
+	$key = md5( $m . $monthnum . $year );
+	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
+		if ( isset( $cache[ $key ] ) ) {
+			echo $cache;
+			return;
+		}
+	}
+
+	ob_start();
 	// Quick check. If we have no posts at all, abort!
 	if ( !$posts ) {
 		$gotsome = $wpdb->get_var("SELECT ID from $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC LIMIT 1");
@@ -471,7 +480,7 @@ function get_calendar($initial = true) {
 		FROM $wpdb->posts
 		WHERE post_date >	'$thisyear-$thismonth-01'
 		AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
-		AND post_type = 'post' AND post_status = 'publish'
+		AND post_type = 'post' AND post_status = 'publish' 
 			ORDER	BY post_date ASC
 			LIMIT 1");
 
@@ -595,7 +604,22 @@ function get_calendar($initial = true) {
 		echo "\n\t\t".'<td class="pad" colspan="'.$pad.'">&nbsp;</td>';
 
 	echo "\n\t</tr>\n\t</tbody>\n\t</table>";
+
+	$output = ob_get_contents();
+	ob_end_clean();
+	echo $output;
+	$cache[ $key ] = $output;
+	wp_cache_set( 'get_calendar', $cache, 'calendar' );
 }
+
+function delete_get_calendar_cache() {
+	wp_cache_delete( 'get_calendar', 'calendar' );
+}
+add_action( 'save_post', 'delete_get_calendar_cache' );
+add_action( 'delete_post', 'delete_get_calendar_cache' );
+add_action( 'update_option_start_of_week', 'delete_get_calendar_cache' );
+add_action( 'update_option_gmt_offset', 'delete_get_calendar_cache' );
+add_action( 'update_option_start_of_week', 'delete_get_calendar_cache' );
 
 
 function allowed_tags() {
