@@ -425,7 +425,7 @@ function get_calendar($initial = true) {
 	$key = md5( $m . $monthnum . $year );
 	if ( $cache = wp_cache_get( 'get_calendar', 'calendar' ) ) {
 		if ( isset( $cache[ $key ] ) ) {
-			echo $cache;
+			echo $cache[ $key ];
 			return;
 		}
 	}
