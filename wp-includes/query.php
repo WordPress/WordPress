@@ -1012,9 +1012,10 @@ class WP_Query {
 			}
 		}
 
+		$this->posts = apply_filters('the_posts', $this->posts);
+
 		update_post_caches($this->posts);
 
-		$this->posts = apply_filters('the_posts', $this->posts);
 		$this->post_count = count($this->posts);
 		if ($this->post_count > 0) {
 			$this->post = $this->posts[0];
