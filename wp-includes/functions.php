@@ -106,10 +106,10 @@ function get_weekstartend($mysqlstring, $start_of_week) {
 }
 
 function get_lastpostdate($timezone = 'server') {
-	global $cache_lastpostdate, $pagenow, $wpdb;
+	global $cache_lastpostdate, $pagenow, $wpdb, $blog_id;
 	$add_seconds_blog = get_option('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
-	if ( !isset($cache_lastpostdate[$timezone]) ) {
+	if ( !isset($cache_lastpostdate[$blog_id][$timezone]) ) {
 		switch(strtolower($timezone)) {
 			case 'gmt':
 				$lastpostdate = $wpdb->get_var("SELECT post_date_gmt FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
@@ -121,18 +121,18 @@ function get_lastpostdate($timezone = 'server') {
 				$lastpostdate = $wpdb->get_var("SELECT DATE_ADD(post_date_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_date_gmt DESC LIMIT 1");
 				break;
 		}
-		$cache_lastpostdate[$timezone] = $lastpostdate;
+		$cache_lastpostdate[$blog_id][$timezone] = $lastpostdate;
 	} else {
-		$lastpostdate = $cache_lastpostdate[$timezone];
+		$lastpostdate = $cache_lastpostdate[$blog_id][$timezone];
 	}
 	return $lastpostdate;
 }
 
 function get_lastpostmodified($timezone = 'server') {
-	global $cache_lastpostmodified, $pagenow, $wpdb;
+	global $cache_lastpostmodified, $pagenow, $wpdb, $blog_id;
 	$add_seconds_blog = get_option('gmt_offset') * 3600;
 	$add_seconds_server = date('Z');
-	if ( !isset($cache_lastpostmodified[$timezone]) ) {
+	if ( !isset($cache_lastpostmodified[$blog_id][$timezone]) ) {
 		switch(strtolower($timezone)) {
 			case 'gmt':
 				$lastpostmodified = $wpdb->get_var("SELECT post_modified_gmt FROM $wpdb->posts WHERE post_status = 'publish' ORDER BY post_modified_gmt DESC LIMIT 1");
@@ -148,9 +148,9 @@ function get_lastpostmodified($timezone = 'server') {
 		if ( $lastpostdate > $lastpostmodified ) {
 			$lastpostmodified = $lastpostdate;
 		}
-		$cache_lastpostmodified[$timezone] = $lastpostmodified;
+		$cache_lastpostmodified[$blog_id][$timezone] = $lastpostmodified;
 	} else {
-		$lastpostmodified = $cache_lastpostmodified[$timezone];
+		$lastpostmodified = $cache_lastpostmodified[$blog_id][$timezone];
 	}
 	return $lastpostmodified;
 }
@@ -508,41 +508,41 @@ function is_new_day() {
 }
 
 function update_post_cache(&$posts) {
-	global $post_cache;
+	global $post_cache, $blog_id;
 
 	if ( !$posts )
 		return;
 
 	for ($i = 0; $i < count($posts); $i++) {
-		$post_cache[$posts[$i]->ID] = &$posts[$i];
+		$post_cache[$blog_id][$posts[$i]->ID] = &$posts[$i];
 	}
 }
 
 function clean_post_cache($id) {
-	global $post_cache;
+	global $post_cache, $blog_id;
 
-	if ( isset( $post_cache[$id] ) )
-		unset( $post_cache[$id] );
+	if ( isset( $post_cache[$blog_id][$id] ) )
+		unset( $post_cache[$blog_id][$id] );
 }
 
 function update_page_cache(&$pages) {
-	global $page_cache;
+	global $page_cache, $blog_id;
 
 	if ( !$pages )
 		return;
 
 	for ($i = 0; $i < count($pages); $i++) {
-		$page_cache[$pages[$i]->ID] = &$pages[$i];
+		$page_cache[$blog_id][$pages[$i]->ID] = &$pages[$i];
 		wp_cache_add($pages[$i]->ID, $pages[$i], 'pages');
 	}
 }
 
 
 function clean_page_cache($id) {
-	global $page_cache;
+	global $page_cache, $blog_id;
 
-	if ( isset( $page_cache[$id] ) )
-		unset( $page_cache[$id] );
+	if ( isset( $page_cache[$blog_id][$id] ) )
+		unset( $page_cache[$blog_id][$id] );
 }
 
 function update_post_category_cache($post_ids) {
@@ -578,7 +578,7 @@ function update_post_category_cache($post_ids) {
 
 function update_post_caches(&$posts) {
 	global $post_cache, $category_cache, $post_meta_cache;
-	global $wpdb;
+	global $wpdb, $blog_id;
 
 	// No point in doing all this work if we didn't match any posts.
 	if ( !$posts )
@@ -587,7 +587,7 @@ function update_post_caches(&$posts) {
 	// Get the categories for all the posts
 	for ($i = 0; $i < count($posts); $i++) {
 		$post_id_array[] = $posts[$i]->ID;
-		$post_cache[$posts[$i]->ID] = &$posts[$i];
+		$post_cache[$blog_id][$posts[$i]->ID] = &$posts[$i];
 	}
 
 	$post_id_list = implode(',', $post_id_array);
@@ -598,7 +598,7 @@ function update_post_caches(&$posts) {
 }
 
 function update_postmeta_cache($post_id_list = '') {
-	global $wpdb, $post_meta_cache;
+	global $wpdb, $post_meta_cache, $blog_id;
 
 	// We should validate this comma-separated list for the upcoming SQL query
 	$post_id_list = preg_replace('|[^0-9,]|', '', $post_id_list);
@@ -626,7 +626,7 @@ function update_postmeta_cache($post_id_list = '') {
 	if ( $meta_list = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM $wpdb->postmeta WHERE post_id IN($post_id_list) ORDER BY post_id, meta_key", ARRAY_A) ) {
 		// Change from flat structure to hierarchical:
 		if ( !isset($post_meta_cache) )
-			$post_meta_cache = array();
+			$post_meta_cache[$blog_id] = array();
 
 		foreach ($meta_list as $metarow) {
 			$mpid = (int) $metarow['post_id'];
@@ -634,13 +634,13 @@ function update_postmeta_cache($post_id_list = '') {
 			$mval = $metarow['meta_value'];
 
 			// Force subkeys to be array type:
-			if ( !isset($post_meta_cache[$mpid]) || !is_array($post_meta_cache[$mpid]) )
-				$post_meta_cache[$mpid] = array();
-			if ( !isset($post_meta_cache[$mpid]["$mkey"]) || !is_array($post_meta_cache[$mpid]["$mkey"]) )
-				$post_meta_cache[$mpid]["$mkey"] = array();
+			if ( !isset($post_meta_cache[$blog_id][$mpid]) || !is_array($post_meta_cache[$blog_id][$mpid]) )
+				$post_meta_cache[$blog_id][$mpid] = array();
+			if ( !isset($post_meta_cache[$blog_id][$mpid]["$mkey"]) || !is_array($post_meta_cache[$blog_id][$mpid]["$mkey"]) )
+				$post_meta_cache[$blog_id][$mpid]["$mkey"] = array();
 
 			// Add a value to the current pid/key:
-			$post_meta_cache[$mpid][$mkey][] = $mval;
+			$post_meta_cache[$blog_id][$mpid][$mkey][] = $mval;
 		}
 	}
 }

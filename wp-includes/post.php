@@ -9,7 +9,7 @@ function get_attached_file($attachment_id) {
 }
 
 function &get_children($args = '', $output = OBJECT) {
-	global $post_cache, $wpdb;
+	global $post_cache, $wpdb, $blog_id;
 
 	if ( empty($args) ) {
 		if ( isset($GLOBALS['post']) )
@@ -32,7 +32,7 @@ function &get_children($args = '', $output = OBJECT) {
 
 	if ( $children ) {
 		foreach ( $children as $key => $child ) {
-			$post_cache[$child->ID] =& $children[$key];
+			$post_cache[$blog_id][$child->ID] =& $children[$key];
 			$kids[$child->ID] =& $children[$key];
 		}
 	} else {
@@ -74,7 +74,7 @@ function get_extended($post) {
 // Retrieves post data given a post ID or post object.
 // Handles post caching.
 function &get_post(&$post, $output = OBJECT) {
-	global $post_cache, $wpdb;
+	global $post_cache, $wpdb, $blog_id;
 
 	if ( empty($post) ) {
 		if ( isset($GLOBALS['post']) )
@@ -84,25 +84,25 @@ function &get_post(&$post, $output = OBJECT) {
 	} elseif ( is_object($post) ) {
 		if ( 'page' == $post->post_type )
 			return get_page($post, $output);
-		if ( !isset($post_cache[$post->ID]) )
-			$post_cache[$post->ID] = &$post;
-		$_post = & $post_cache[$post->ID];
+		if ( !isset($post_cache[$blog_id][$post->ID]) )
+			$post_cache[$blog_id][$post->ID] = &$post;
+		$_post = & $post_cache[$blog_id][$post->ID];
 	} else {
 		if ( $_post = wp_cache_get($post, 'pages') )
 			return get_page($_post, $output);
-		elseif ( isset($post_cache[$post]) )
-			$_post = & $post_cache[$post];
+		elseif ( isset($post_cache[$blog_id][$post]) )
+			$_post = & $post_cache[$blog_id][$post];
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post' LIMIT 1";
 			$_post = & $wpdb->get_row($query);
 			if ( 'page' == $_post->post_type )
 				return get_page($_post, $output);
-			$post_cache[$post] = & $_post;
+			$post_cache[$blog_id][$post] = & $_post;
 		}
 	}
 
 	if ( defined('WP_IMPORTING') )
-		unset($post_cache);
+		unset($post_cache[$blog_id]);
 
 	if ( $output == OBJECT ) {
 		return $_post;
@@ -241,7 +241,7 @@ function get_posts($args) {
 //
 
 function add_post_meta($post_id, $key, $value, $unique = false) {
-	global $wpdb, $post_meta_cache;
+	global $wpdb, $post_meta_cache, $blog_id;
 
 	$post_id = (int) $post_id;
 
@@ -251,7 +251,7 @@ function add_post_meta($post_id, $key, $value, $unique = false) {
 		}
 	}
 
-	$post_meta_cache[$post_id][$key][] = $value;
+	$post_meta_cache[$blog_id][$post_id][$key][] = $value;
 
 	$value = maybe_serialize($value);
 	$value = $wpdb->escape($value);
@@ -262,7 +262,7 @@ function add_post_meta($post_id, $key, $value, $unique = false) {
 }
 
 function delete_post_meta($post_id, $key, $value = '') {
-	global $wpdb, $post_meta_cache;
+	global $wpdb, $post_meta_cache, $blog_id;
 
 	$post_id = (int) $post_id;
 
@@ -277,40 +277,48 @@ function delete_post_meta($post_id, $key, $value = '') {
 
 	if ( empty($value) ) {
 		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key'");
-		unset($post_meta_cache[$post_id][$key]);
+		unset($post_meta_cache[$blog_id][$post_id][$key]);
 	} else {
 		$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = '$post_id' AND meta_key = '$key' AND meta_value = '$value'");
-		$cache_key = $post_meta_cache[$post_id][$key];
+		$cache_key = $post_meta_cache[$blog_id][$post_id][$key];
 		if ($cache_key) foreach ( $cache_key as $index => $data )
 			if ( $data == $value )
-				unset($post_meta_cache[$post_id][$key][$index]);
+				unset($post_meta_cache[$blog_id][$post_id][$key][$index]);
 	}
 
-	unset($post_meta_cache[$post_id][$key]);
+	unset($post_meta_cache[$blog_id][$post_id][$key]);
 
 	return true;
 }
 
 function get_post_meta($post_id, $key, $single = false) {
-	global $wpdb, $post_meta_cache;
+	global $wpdb, $post_meta_cache, $blog_id;
 
 	$post_id = (int) $post_id;
 
-	if ( !isset($post_meta_cache[$post_id]) )
+	if ( isset($post_meta_cache[$blog_id][$post_id][$key]) ) {
+		if ( $single ) {
+			return maybe_unserialize( $post_meta_cache[$blog_id][$post_id][$key][0] );
+		} else {
+			return maybe_unserialize( $post_meta_cache[$blog_id][$post_id][$key] );
+		}
+	}
+
+	if ( !isset($post_meta_cache[$blog_id][$post_id]) )
 		update_postmeta_cache($post_id);
 
 	if ( $single ) {
-		if ( isset($post_meta_cache[$post_id][$key][0]) )
-			return maybe_unserialize($post_meta_cache[$post_id][$key][0]);
+		if ( isset($post_meta_cache[$blog_id][$post_id][$key][0]) )
+			return maybe_unserialize($post_meta_cache[$blog_id][$post_id][$key][0]);
 		else
 			return '';
 	}	else {
-		return maybe_unserialize($post_meta_cache[$post_id][$key]);
+		return maybe_unserialize($post_meta_cache[$blog_id][$post_id][$key]);
 	}
 }
 
 function update_post_meta($post_id, $key, $value, $prev_value = '') {
-	global $wpdb, $post_meta_cache;
+	global $wpdb, $post_meta_cache, $blog_id;
 
 	$post_id = (int) $post_id;
 
@@ -328,17 +336,17 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 
 	if ( empty($prev_value) ) {
 		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE meta_key = '$key' AND post_id = '$post_id'");
-		$cache_key = $post_meta_cache[$post_id][$key];
+		$cache_key = $post_meta_cache[$blog_id][$post_id][$key];
 		if ( !empty($cache_key) )
 			foreach ($cache_key as $index => $data)
-				$post_meta_cache[$post_id][$key][$index] = $original_value;
+				$post_meta_cache[$blog_id][$post_id][$key][$index] = $original_value;
 	} else {
 		$wpdb->query("UPDATE $wpdb->postmeta SET meta_value = '$value' WHERE meta_key = '$key' AND post_id = '$post_id' AND meta_value = '$prev_value'");
-		$cache_key = $post_meta_cache[$post_id][$key];
+		$cache_key = $post_meta_cache[$blog_id][$post_id][$key];
 		if ( !empty($cache_key) )
 			foreach ($cache_key as $index => $data)
 				if ( $data == $original_prev )
-					$post_meta_cache[$post_id][$key][$index] = $original_value;
+					$post_meta_cache[$blog_id][$post_id][$key][$index] = $original_value;
 	}
 
 	return true;
@@ -346,17 +354,17 @@ function update_post_meta($post_id, $key, $value, $prev_value = '') {
 
 
 function get_post_custom($post_id = 0) {
-	global $id, $post_meta_cache, $wpdb;
+	global $id, $post_meta_cache, $wpdb, $blog_id;
 
 	if ( !$post_id )
 		$post_id = $id;
 
 	$post_id = (int) $post_id;
 
-	if ( !isset($post_meta_cache[$post_id]) )
+	if ( !isset($post_meta_cache[$blog_id][$post_id]) )
 		update_postmeta_cache($post_id);
 
-	return $post_meta_cache[$post_id];
+	return $post_meta_cache[$blog_id][$post_id];
 }
 
 function get_post_custom_keys( $post_id = 0 ) {
@@ -796,7 +804,10 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id'");
 		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
 		wp_cache_delete($cat_id, 'category');
+		do_action('edit_category', $cat_id);
 	}
+
+	do_action('edit_post', $post_ID);
 }	// wp_set_post_categories()
 
 //
@@ -895,7 +906,7 @@ function get_all_page_ids() {
 // Retrieves page data given a page ID or page object.
 // Handles page caching.
 function &get_page(&$page, $output = OBJECT) {
-	global $wpdb;
+	global $wpdb, $blog_id;
 
 	if ( empty($page) ) {
 		if ( isset($GLOBALS['page']) ) {
@@ -913,7 +924,7 @@ function &get_page(&$page, $output = OBJECT) {
 		if ( isset($GLOBALS['page']->ID) && ($page == $GLOBALS['page']->ID) ) {
 			$_page = & $GLOBALS['page'];
 			wp_cache_add($_page->ID, $_page, 'pages');
-		} elseif ( !isset($_page) && $_page == $GLOBALS['post_cache'][$page] ) {
+		} elseif ( !isset($_page) && $_page == $GLOBALS['post_cache'][$blog_id][$page] ) {
 			return get_post($page, $output);
 		} elseif ( isset($_page) && $_page == wp_cache_get($page, 'pages') ) {
 			// Got it.
@@ -979,10 +990,10 @@ function get_page_by_title($page_title, $output = OBJECT) {
 }
 
 function &get_page_children($page_id, $pages) {
-	global $page_cache;
+	global $page_cache, $blog_id;
 
 	if ( empty($pages) )
-		$pages = &$page_cache;
+		$pages = &$page_cache[$blog_id];
 
 	$page_list = array();
 	foreach ( $pages as $page ) {

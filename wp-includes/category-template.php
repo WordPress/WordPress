@@ -60,15 +60,15 @@ function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = 
 }
 
 function get_the_category($id = false) {
-global $post, $category_cache;
+global $post, $category_cache, $blog_id;
 
 	if ( !$id )
 		$id = $post->ID;
 
-	if ( !isset($category_cache[$id]) )
+	if ( !isset($category_cache[$blog_id][$id]) )
 		update_post_category_cache($id);
 
-	$categories = $category_cache[$id];
+	$categories = $category_cache[$blog_id][$id];
 
 	if ( !empty($categories) )
 		sort($categories);
@@ -140,9 +140,9 @@ function get_the_category_list($separator = '', $parents='') {
 }
 
 function in_category($category) { // Check if the current post is in the given category
-	global $category_cache, $post;
+	global $category_cache, $post, $blog_id;
 
-	if ( isset( $category_cache[$post->ID][$category] ) )
+	if ( isset( $category_cache[$blog_id][$post->ID][$category] ) )
 		return true;
 	else
 		return false;
