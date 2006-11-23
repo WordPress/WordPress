@@ -1038,10 +1038,15 @@ function &get_pages($args = '') {
 	$r = array_merge($defaults, $r);
 	extract($r);
 
+	$key = md5( serialize( $r ) );
+	if ( $cache = wp_cache_get( 'get_pages', 'page' ) )
+		if ( isset( $cache[ $key ] ) )
+			return apply_filters('get_pages', $cache[ $key ], $r );
+
 	$inclusions = '';
 	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include
-		$exclude = '';
+		$child_of = 0; //ignore child_of, exclude, meta_key, and meta_value params if using include 
+		$exclude = '';  
 		$meta_key = '';
 		$meta_value = '';
 		$incpages = preg_split('/[\s,]+/',$include);
@@ -1054,8 +1059,8 @@ function &get_pages($args = '') {
 			}
 		}
 	}
-	if (!empty($inclusions))
-		$inclusions .= ')';
+	if (!empty($inclusions)) 
+		$inclusions .= ')';	
 
 	$exclusions = '';
 	if ( !empty($exclude) ) {
@@ -1117,8 +1122,16 @@ function &get_pages($args = '') {
 	if ( $child_of || $hierarchical )
 		$pages = & get_page_children($child_of, $pages);
 
+	$cache[ $key ] = $pages;
+	wp_cache_set( 'get_pages', $cache, 'page' );
+
 	return $pages;
 }
+
+function delete_get_pages_cache() {
+	wp_cache_delete( 'get_pages', 'page' );
+}
+add_action( 'save_post', 'delete_get_pages_cache' );
 
 function generate_page_uri_index() {
 	global $wpdb;
