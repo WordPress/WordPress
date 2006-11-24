@@ -402,6 +402,7 @@ function wp_delete_post($postid = 0) {
 			foreach ( $categories as $cat_id ) {
 				$wpdb->query("UPDATE $wpdb->categories SET category_count = category_count - 1 WHERE cat_ID = '$cat_id'");
 				wp_cache_delete($cat_id, 'category');
+				do_action('edit_category', $cat_id);
 			}
 		}
 	}
@@ -417,8 +418,9 @@ function wp_delete_post($postid = 0) {
 
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
-	if ( 'page' == $post->type ) {
-		wp_cache_delete('all_page_ids', 'pages');
+	if ( 'page' == $post->post_type ) {
+		wp_cache_delete( 'all_page_ids', 'pages' );
+		wp_cache_delete( 'get_pages', 'page' );
 		$wp_rewrite->flush_rules();
 	}
 
@@ -677,7 +679,8 @@ function wp_insert_post($postarr = array()) {
 			wp_schedule_single_event(time(), 'do_pings');
 		}
 	} else if ($post_type == 'page') {
-		wp_cache_delete('all_page_ids', 'pages');
+		wp_cache_delete( 'all_page_ids', 'pages' );
+		wp_cache_delete( 'get_pages', 'page' );
 		$wp_rewrite->flush_rules();
 
 		if ( !empty($page_template) )
@@ -806,6 +809,8 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 		wp_cache_delete($cat_id, 'category');
 		do_action('edit_category', $cat_id);
 	}
+
+	wp_cache_delete('get_categories', 'category');
 
 	do_action('edit_post', $post_ID);
 }	// wp_set_post_categories()
@@ -1138,11 +1143,6 @@ function &get_pages($args = '') {
 
 	return $pages;
 }
-
-function delete_get_pages_cache() {
-	wp_cache_delete( 'get_pages', 'page' );
-}
-add_action( 'save_post', 'delete_get_pages_cache' );
 
 function generate_page_uri_index() {
 	global $wpdb;
