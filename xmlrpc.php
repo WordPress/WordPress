@@ -833,13 +833,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 		}
 
+		if ( $upload_err = apply_filters( "pre_upload_error", false ) )
+			return new IXR_Error(500, $upload_err);
+
 		$upload = wp_upload_bits($name, $type, $bits);
 		if ( ! empty($upload['error']) ) {
 			logIO('O', '(MW) Could not write file '.$name);
 			return new IXR_Error(500, 'Could not write file '.$name);
 		}
-
-		return array('url' => $upload['url']);
+		return apply_filters( 'wp_handle_upload', array( 'file' => $name, 'url' => $upload[ 'url' ], 'type' => $type ) );
 	}
 
 
@@ -1215,8 +1217,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
 
-		wp_new_comment($commentdata);
-		do_action('pingback_post', $wpdb->insert_id);
+		$comment_ID = wp_new_comment($commentdata);
+		do_action('pingback_post', $comment_ID);
 
 		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
 	}
