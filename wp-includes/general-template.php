@@ -480,7 +480,7 @@ function get_calendar($initial = true) {
 		FROM $wpdb->posts
 		WHERE post_date >	'$thisyear-$thismonth-01'
 		AND MONTH( post_date ) != MONTH( '$thisyear-$thismonth-01' )
-		AND post_type = 'post' AND post_status = 'publish' 
+		AND post_type = 'post' AND post_status = 'publish'
 			ORDER	BY post_date ASC
 			LIMIT 1");
 

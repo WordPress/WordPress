@@ -19,7 +19,7 @@ function get_bookmark($bookmark_id, $output = OBJECT) {
 
 // Deprecate
 function get_link($bookmark_id, $output = OBJECT) {
-	return get_bookmark($bookmark_id, $output);	
+	return get_bookmark($bookmark_id, $output);
 }
 
 function get_bookmarks($args = '') {
@@ -55,7 +55,7 @@ function get_bookmarks($args = '') {
 			}
 		}
 	}
-	if (!empty($inclusions)) 
+	if (!empty($inclusions))
 		$inclusions .= ')';
 
 	$exclusions = '';
@@ -70,7 +70,7 @@ function get_bookmarks($args = '') {
 			}
 		}
 	}
-	if (!empty($exclusions)) 
+	if (!empty($exclusions))
 		$exclusions .= ')';
 		
 	if ( ! empty($category_name) ) {
@@ -92,7 +92,7 @@ function get_bookmarks($args = '') {
 		}
 	}
 	if (!empty($category_query)) {
-		$category_query .= ')';	
+		$category_query .= ')';
 		$join = " LEFT JOIN $wpdb->link2cat ON ($wpdb->links.link_id = $wpdb->link2cat.link_id) ";
 	}
 
