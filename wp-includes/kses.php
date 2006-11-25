@@ -534,6 +534,7 @@ function kses_init_filters() {
 
 	// Post filtering
 	add_filter('content_save_pre', 'wp_filter_post_kses');
+	add_filter('content_filtered_save_pre', 'wp_filter_post_kses');
 }
 
 function kses_remove_filters() {
@@ -543,6 +544,7 @@ function kses_remove_filters() {
 
 	// Post filtering
 	remove_filter('content_save_pre', 'wp_filter_post_kses');
+	remove_filter('content_filtered_save_pre', 'wp_filter_post_kses');
 }
 
 function kses_init() {
