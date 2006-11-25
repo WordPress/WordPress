@@ -24,6 +24,7 @@ function wp_insert_post($postarr = array()) {
 
 	// Get the basics.
 	$post_content    = apply_filters('content_save_pre',   $post_content);
+	$post_content_filtered = apply_filters('content_filtered_save_pre',   $post_content_filtered);
 	$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
 	$post_title      = apply_filters('title_save_pre',     $post_title);
 	$post_category   = apply_filters('category_save_pre',  $post_category);
@@ -221,6 +222,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 
 	// Get the basics.
 	$post_content    = apply_filters('content_save_pre',   $post_content);
+	$post_content_filtered = apply_filters('content_filtered_save_pre',   $post_content_filtered);
 	$post_excerpt    = apply_filters('excerpt_save_pre',   $post_excerpt);
 	$post_title      = apply_filters('title_save_pre',     $post_title);
 	$post_category   = apply_filters('category_save_pre',  $post_category);
