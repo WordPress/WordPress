@@ -817,7 +817,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$user_pass   = $wpdb->escape($args[2]);
 		$data        = $args[3];
 
-		$name = $data['name'];
+		$name = sanitize_file( $data['name'] );
 		$type = $data['type'];
 		$bits = $data['bits'];
 
@@ -841,7 +841,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			logIO('O', '(MW) Could not write file '.$name);
 			return new IXR_Error(500, 'Could not write file '.$name);
 		}
-		return apply_filters( 'wp_handle_upload', array( 'file' => $name, 'url' => $upload[ 'url' ], 'type' => $type ) );
+		return apply_filters( 'wp_handle_upload', array( 'file' => $upload[ 'file' ], 'url' => $upload[ 'url' ], 'type' => $type ) );
 	}
 
 
