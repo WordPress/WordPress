@@ -135,7 +135,7 @@ $i = 0;
 <?php comment_text() ?>
 <p><?php comment_date('M j, g:i A'); ?> &#8212; [ <?php
 echo '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'">' . __('Edit') . '</a> | ';
-echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($comment->comment_author)) . "', theCommentList );\">" . __('Delete ') . "</a> | "; ?>
+echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to delete this comment by &quot;%s&quot;.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), $comment->comment_author )) . "', theCommentList );\">" . __('Delete ') . "</a> | "; ?>
 <?php
 $post = get_post($comment->comment_post_ID);
 $post_title = wp_specialchars( $post->post_title, 'double' );

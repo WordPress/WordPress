@@ -107,7 +107,7 @@ function get_links($category = -1,
 
 		if ( $show_updated )
 			if (substr($row->link_updated_f, 0, 2) != '00')
-				$title .= ' (Last updated ' . date(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * 3600)) . ')';
+				$title .= ' ('.__('Last updated') . ' ' . date(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * 3600)) . ')';
 
 		if ( '' != $title )
 			$title = ' title="' . $title . '"';

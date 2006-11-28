@@ -1,6 +1,6 @@
 <?php @require_once('../../wp-config.php'); cache_javascript_headers(); ?>
 addLoadEvent(function(){theList=new listMan();});
-function deleteSomething(what,id,message,obj){if(!obj)obj=theList;if(!message)message="<?php printf(__('Are you sure you want to delete this %s?'),"'+what+'"); ?>";if(confirm(message))return obj.ajaxDelete(what,id);else return false;}
+function deleteSomething(what,id,message,obj){if(!obj)obj=theList;if(!message)message="<?php printf(js_escape(__('Are you sure you want to delete this %s?')),"'+what+'"); ?>";if(confirm(message))return obj.ajaxDelete(what,id);else return false;}
 function dimSomething(what,id,dimClass,obj){if(!obj)obj=theList;return obj.ajaxDimmer(what,id,dimClass);}
 
 var listMan = Class.create();
@@ -47,7 +47,7 @@ Object.extend(listMan.prototype, {
 					if ( tempObj.showLink )
 						tempObj.showLink = id;
 				});
-				ajaxAdd.myResponseElement.update(tempObj.showLink ? ( "<div id='jumplink' class='updated fade'><p><a href='#" + what + '-' + tempObj.showLink + "'><?php _e('Jump to new item'); ?></a></p></div>" ) : '');
+				ajaxAdd.myResponseElement.update(tempObj.showLink ? ( "<div id='jumplink' class='updated fade'><p><a href='#" + what + '-' + tempObj.showLink + "'><?php js_escape(__('Jump to new item')); ?></a></p></div>" ) : '');
 			}
 			if ( tempObj.addComplete && typeof tempObj.addComplete == 'function' )
 				tempObj.addComplete( what, where, update, transport );

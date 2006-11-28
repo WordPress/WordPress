@@ -38,9 +38,9 @@ function autosave_update_post_ID() {
 	var message;
 	
 	if(isNaN(res)) {
-		message = "<?php _e('Error: '); ?>" + response;
+		message = "<?php js_escape(__('Error: ')); ?>" + response;
 	} else {
-		message = "<?php _e('Saved at '); ?>" + autosave_cur_time();
+		message = "<?php js_escape(__('Saved at ')); ?>" + autosave_cur_time();
 		$('post_ID').name = "post_ID";
 		$('post_ID').value = res;
 		// We need new nonces
@@ -60,7 +60,7 @@ function autosave_update_post_ID() {
 }
 
 function autosave_loading() {
-	$('autosave').innerHTML = "<?php _e('Saving Draft...'); ?>";
+	$('autosave').innerHTML = "<?php js_escape(__('Saving Draft...')); ?>";
 }
 
 function autosave_saved() {
@@ -69,9 +69,9 @@ function autosave_saved() {
 	var message;
 	
 	if(isNaN(res)) {
-		message = "<?php _e('Error: '); ?>" + response;
+		message = "<?php js_escape(__('Error: ')); ?>" + response;
 	} else {
-		message = "<?php _e('Saved at '); ?>" + autosave_cur_time() + ".";
+		message = "<?php js_escape(__('Saved at ')); ?>" + autosave_cur_time() + ".";
 	}
 	$('autosave').innerHTML = message;
 }

@@ -10,7 +10,7 @@ class Blogger_Import {
 		$title = __('Import Blogger');
 		$welcome = __('Howdy! This importer allows you to import posts and comments from your Blogger account into your WordPress blog.');
 		$noiframes = __('This feature requires iframe support.');
-		$warning = __('This will delete everything saved by the Blogger importer except your posts and comments. Are you sure you want to do this?');
+		$warning = js_escape(__('This will delete everything saved by the Blogger importer except your posts and comments. Are you sure you want to do this?'));
 		$reset = __('Reset this importer');
 		$incompat = __('Your web server is not properly configured to use this importer. Please enable the CURL extension for PHP and then reload this page.');
 

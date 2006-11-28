@@ -81,7 +81,7 @@ Ajax.Responders.register( {
 			return;
 		wpBeforeUnload = window.onbeforeunload;
 		window.onbeforeunload = function() {
-			return "<?php _e("Slow down, I'm still sending your data!"); ?>";
+			return "<?php js_escape(__("Slow down, I'm still sending your data!")); ?>";
 		}
 	},
 	onLoading: function() { // Can switch to onLoaded if we lose data

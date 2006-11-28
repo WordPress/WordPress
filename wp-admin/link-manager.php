@@ -161,7 +161,7 @@ if ($links)
 <?php
 
 		echo '<td><a href="link.php?link_id='.$link->link_id.'&amp;action=edit" class="edit">'.__('Edit').'</a></td>';
-		echo '<td><a href="' . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . '"'." onclick=\"return deleteSomething( 'link', $link->link_id , '".sprintf(__("You are about to delete the &quot;%s&quot; link to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), js_escape($link->link_name), js_escape($link->link_url)).'\' );" class="delete">'.__('Delete').'</a></td>';
+		echo '<td><a href="' . wp_nonce_url('link.php?link_id='.$link->link_id.'&amp;action=delete', 'delete-bookmark_' . $link->link_id ) . '"'." onclick=\"return deleteSomething( 'link', $link->link_id , '".js_escape(sprintf(__("You are about to delete the &quot;%s&quot; link to %s.\\n&quot;Cancel&quot; to stop, &quot;OK&quot; to delete."), $link->link_name, $link->link_url )).'\' );" class="delete">'.__('Delete').'</a></td>';
 		echo '<td align="center"><input type="checkbox" name="linkcheck[]" value="'.$link->link_id.'" /></td>';
 		echo "\n    </tr>\n";
 	}
@@ -171,7 +171,7 @@ if ($links)
 
 <div id="ajax-response"></div>
 
-<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Links') ?> &raquo;" onclick="return confirm('<?php _e("You are about to delete these links permanently \\n  \'Cancel\' to stop, \'OK\' to delete.") ?>')" /></p>
+<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Links') ?> &raquo;" onclick="return confirm('<?php echo js_escape(__("You are about to delete these links permanently \\n  \'Cancel\' to stop, \'OK\' to delete.")); ?>')" /></p>
 </form>
 </div>
 
