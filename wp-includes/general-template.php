@@ -340,7 +340,7 @@ function wp_get_archives($args = '') {
 			$afterafter = $after;
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_month_link($arcresult->year,	$arcresult->month);
-				$text = sprintf('%s %d', $wp_locale->get_month($arcresult->month), $arcresult->year);
+				$text = sprintf(__('%1$s %2$d'), $wp_locale->get_month($arcresult->month), $arcresult->year);
 				if ( $show_post_count ) 
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
 				echo get_archives_link($url, $text, $format, $before, $after);
@@ -364,7 +364,7 @@ function wp_get_archives($args = '') {
 			$afterafter = $after;
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_day_link($arcresult->year, $arcresult->month, $arcresult->dayofmonth);
-				$date = sprintf("%d-%02d-%02d 00:00:00", $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
+				$date = sprintf(__('%1$d-%2$02d-%3$02d 00:00:00'), $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
 				$text = mysql2date($archive_day_date_format, $date);
 				if ($show_post_count)
 					$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
@@ -384,7 +384,7 @@ function wp_get_archives($args = '') {
 						$arc_week = get_weekstartend($arcresult->yyyymmdd, get_option('start_of_week'));
 						$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 						$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-						$url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_option('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
+						$url  = sprintf(__('%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d'), get_option('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
 						if ($show_post_count)
 							$after = '&nbsp;('.$arcresult->posts.')'.$afterafter;
