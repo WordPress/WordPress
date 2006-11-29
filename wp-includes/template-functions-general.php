@@ -336,10 +336,10 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_month_link($arcresult->year,	$arcresult->month);
 				if ( $show_post_count ) {
-					$text = sprintf('%s %d', $month[zeroise($arcresult->month,2)], $arcresult->year);
+					$text = sprintf(_('%1$s %2$d'), $month[zeroise($arcresult->month,2)], $arcresult->year);
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
 				} else {
-					$text = sprintf('%s %d', $month[zeroise($arcresult->month,2)], $arcresult->year);
+					$text = sprintf(_('%1$s %2$d'), $month[zeroise($arcresult->month,2)], $arcresult->year);
 				}
 				echo get_archives_link($url, $text, $format, $before, $after);
 			}
@@ -349,7 +349,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 		if ( $arcresults ) {
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_day_link($arcresult->year, $arcresult->month, $arcresult->dayofmonth);
-				$date = sprintf("%d-%02d-%02d 00:00:00", $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
+				$date = sprintf(__('%1$d-%2$02d-%3$02d 00:00:00'), $arcresult->year, $arcresult->month, $arcresult->dayofmonth);
 				$text = mysql2date($archive_day_date_format, $date);
 				echo get_archives_link($url, $text, $format, $before, $after);
 			}
@@ -366,7 +366,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 						$arc_week = get_weekstartend($arcresult->yyyymmdd, get_settings('start_of_week'));
 						$arc_week_start = date_i18n($archive_week_start_date_format, $arc_week['start']);
 						$arc_week_end = date_i18n($archive_week_end_date_format, $arc_week['end']);
-						$url  = sprintf('%s/%s%sm%s%s%sw%s%d', get_settings('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
+						$url  = sprintf(__('%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d'), get_settings('home'), '', '?', '=', $arc_year, '&amp;', '=', $arcresult->week);
 						$text = $arc_week_start . $archive_week_separator . $arc_week_end;
 						echo get_archives_link($url, $text, $format, $before, $after);
 					}
