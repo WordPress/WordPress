@@ -105,7 +105,15 @@ if (empty($plugins)) {
 		} else {
 			$toggle = "<a href='" . wp_nonce_url("plugins.php?action=activate&amp;plugin=$plugin_file", 'activate-plugin_' . $plugin_file) . "' title='".__('Activate this plugin')."' class='edit'>".__('Activate')."</a>";
 		}
-		$plugin_data['Description'] = wp_kses($plugin_data['Description'], array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array()) ); ;
+
+		$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
+
+		// Sanitize all displayed data
+		$plugin_data['Title']       = wp_kses($plugin_data['Title'], $plugins_allowedtags);
+		$plugin_data['Version']     = wp_kses($plugin_data['Version'], $plugins_allowedtags);
+		$plugin_data['Description'] = wp_kses($plugin_data['Description'], $plugins_allowedtags);
+		$plugin_data['Author']      = wp_kses($plugin_data['Author'], $plugins_allowedtags);
+
 		if ( $style != '' )
 			$style = 'class="' . $style . '"';
 		if ( is_writable(ABSPATH . 'wp-content/plugins/' . $plugin_file) )
