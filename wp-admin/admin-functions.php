@@ -1025,7 +1025,8 @@ function meta_form() {
 		GROUP BY meta_key
 		ORDER BY meta_id DESC
 		LIMIT $limit" );
-	natcasesort( $keys );
+	if ( $keys )
+		natcasesort($keys);
 ?>
 <h3><?php _e( 'Add a new custom field:' ) ?></h3>
 <table id="newmeta" cellspacing="3" cellpadding="3">
