@@ -127,11 +127,11 @@ if ( count($arc_result) ) { ?>
 <?php
 // define the columns to display, the syntax is 'internal name' => 'display name'
 $posts_columns = array(
-	'id'         => __('ID'),
+	'id'         => '<div style="text-align: center">' . __('ID') . '</div>',
 	'date'       => __('When'),
 	'title'      => __('Title'),
 	'categories' => __('Categories'),
-	'comments'   => __('Comments'),
+	'comments'   => '<div style="text-align: center">' . __('Comments') . '</div>',
 	'author'     => __('Author')
 );
 $posts_columns = apply_filters('manage_posts_columns', $posts_columns);
