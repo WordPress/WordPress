@@ -55,36 +55,37 @@ function get_template_directory_uri() {
 	return apply_filters('template_directory_uri', $template_dir_uri, $template);
 }
 
-function get_theme_data($theme_file) {
-	$theme_data = implode('', file($theme_file));
-	preg_match("|Theme Name:(.*)|i", $theme_data, $theme_name);
-	preg_match("|Theme URI:(.*)|i", $theme_data, $theme_uri);
-	preg_match("|Description:(.*)|i", $theme_data, $description);
-	preg_match("|Author:(.*)|i", $theme_data, $author_name);
-	preg_match("|Author URI:(.*)|i", $theme_data, $author_uri);
-	preg_match("|Template:(.*)|i", $theme_data, $template);
-	if ( preg_match("|Version:(.*)|i", $theme_data, $version) )
-		$version = trim($version[1]);
+function get_theme_data( $theme_file ) {
+	$theme_data = implode( '', file( $theme_file ) );
+	$theme_data = str_replace ( '\r', '\n', $theme_data ); 
+	preg_match( '|Theme Name:(.*)|i', $theme_data, $theme_name );
+	preg_match( '|Theme URI:(.*)|i', $theme_data, $theme_uri );
+	preg_match( '|Description:(.*)|i', $theme_data, $description );
+	preg_match( '|Author:(.*)|i', $theme_data, $author_name );
+	preg_match( '|Author URI:(.*)|i', $theme_data, $author_uri );
+	preg_match( '|Template:(.*)|i', $theme_data, $template );
+	if ( preg_match( '|Version:(.*)|i', $theme_data, $version ) )
+		$version = trim( $version[1] );
 	else
 		$version ='';
-	if ( preg_match("|Status:(.*)|i", $theme_data, $status) )
+	if ( preg_match('|Status:(.*)|i', $theme_data, $status) )
 		$status = trim($status[1]);
 	else
 		$status = 'publish';
 
-	$description = wptexturize(trim($description[1]));
+	$description = wptexturize( trim( $description[1] ) );
 
 	$name = $theme_name[1];
-	$name = trim($name);
+	$name = trim( $name );
 	$theme = $name;
 
 	if ( '' == $author_uri[1] ) {
-		$author = trim($author_name[1]);
+		$author = trim( $author_name[1] );
 	} else {
-		$author = '<a href="' . trim($author_uri[1]) . '" title="' . __('Visit author homepage') . '">' . trim($author_name[1]) . '</a>';
+		$author = '<a href="' . trim( $author_uri[1] ) . '" title="' . __('Visit author homepage') . '">' . trim( $author_name[1] ) . '</a>';
 	}
 
-	return array('Name' => $name, 'Title' => $theme, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1], 'Status' => $status);
+	return array( 'Name' => $name, 'Title' => $theme, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1], 'Status' => $status );
 }
 
 function get_themes() {
