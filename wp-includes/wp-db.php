@@ -36,9 +36,13 @@ class wpdb {
 	var $optiongroup_options;
 	var $postmeta;
 
-	// ==================================================================
-	//	DB Constructor - connects to the server and selects a database
-
+	/**
+	 * Connects to the database server and selects a database
+	 * @param string $dbuser
+	 * @param string $dbpassword
+	 * @param string $dbname
+	 * @param string $dbhost
+	 */
 	function wpdb($dbuser, $dbpassword, $dbname, $dbhost) {
 		$this->dbh = @mysql_connect($dbhost, $dbuser, $dbpassword);
 		if (!$this->dbh) {
@@ -57,9 +61,10 @@ class wpdb {
 		$this->select($dbname);
 	}
 
-	// ==================================================================
-	//	Select a DB (if another one needs to be selected)
-
+	/**
+	 * Selects a database using the current class's $this->dbh
+	 * @param string $db name
+	 */
 	function select($db) {
 		if (!@mysql_select_db($db, $this->dbh)) {
 			$this->bail("
@@ -73,9 +78,12 @@ class wpdb {
 		}
 	}
 
-	// ====================================================================
-	//	Format a string correctly for safe insert under all PHP conditions
-
+	/**
+	 * Escapes content for insertion into the database, for security
+	 *
+	 * @param string $string
+	 * @return string query safe string
+	 */
 	function escape($string) {
 		return addslashes( $string ); // Disable rest for now, causing problems
 		if( !$this->dbh || version_compare( phpversion(), '4.3.0' ) == '-1' )
@@ -147,7 +155,7 @@ class wpdb {
 
 		$this->result = @mysql_query($query, $this->dbh);
 		++$this->num_queries;
-
+	
 		if (SAVEQUERIES)
 			$this->queries[] = array( $query, $this->timer_stop() );
 
@@ -189,9 +197,13 @@ class wpdb {
 		return $return_val;
 	}
 
-	// ==================================================================
-	//	Get one variable from the DB - see docs for more detail
-
+	/**
+	 * Get one variable from the database
+	 * @param string $query (can be null as well, for caching, see codex)
+	 * @param int $x = 0 row num to return
+	 * @param int $y = 0 col num to return
+	 * @return mixed results
+	 */
 	function get_var($query=null, $x = 0, $y = 0) {
 		$this->func_call = "\$db->get_var(\"$query\",$x,$y)";
 		if ( $query )
@@ -206,9 +218,13 @@ class wpdb {
 		return (isset($values[$x]) && $values[$x]!=='') ? $values[$x] : null;
 	}
 
-	// ==================================================================
-	//	Get one row from the DB - see docs for more detail
-
+	/**
+	 * Get one row from the database
+	 * @param string $query
+	 * @param string $output ARRAY_A | ARRAY_N | OBJECT
+	 * @param int $y row num to return
+	 * @return mixed results
+	 */
 	function get_row($query = null, $output = OBJECT, $y = 0) {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
 		if ( $query )
@@ -228,10 +244,12 @@ class wpdb {
 		}
 	}
 
-	// ==================================================================
-	//	Function to get 1 column from the cached result set based in X index
-	// se docs for usage and info
-
+	/**
+	 * Gets one column from the database
+	 * @param string $query (can be null as well, for caching, see codex)
+	 * @param int $x col num to return
+	 * @return array results
+	 */
 	function get_col($query = null , $x = 0) {
 		if ( $query )
 			$this->query($query);
@@ -243,9 +261,12 @@ class wpdb {
 		return $new_array;
 	}
 
-	// ==================================================================
-	// Return the the query as a result set - see docs for more details
-
+	/**
+	 * Return an entire result set from the database
+	 * @param string $query (can also be null to pull from the cache)
+	 * @param string $output ARRAY_A | ARRAY_N | OBJECT
+	 * @return mixed results
+	 */
 	function get_results($query = null, $output = OBJECT) {
 		$this->func_call = "\$db->get_results(\"$query\", $output)";
 
@@ -272,11 +293,12 @@ class wpdb {
 		}
 	}
 
-
-	// ==================================================================
-	// Function to get column meta data info pertaining to the last query
-	// see docs for more info and usage
-
+	/**
+	 * Grabs column metadata from the last query
+	 * @param string $info_type one of name, table, def, max_length, not_null, primary_key, multiple_key, unique_key, numeric, blob, type, unsigned, zerofill
+	 * @param int $col_offset 0: col name. 1: which table the col's in. 2: col's max length. 3: if the col is numeric. 4: col's type
+	 * @return mixed results
+	 */
 	function get_col_info($info_type = 'name', $col_offset = -1) {
 		if ( $this->col_info ) {
 			if ( $col_offset == -1 ) {
@@ -292,6 +314,9 @@ class wpdb {
 		}
 	}
 
+	/**
+	 * Starts the timer, for debugging purposes
+	 */
 	function timer_start() {
 		$mtime = microtime();
 		$mtime = explode(' ', $mtime);
@@ -299,7 +324,11 @@ class wpdb {
 		return true;
 	}
 
-	function timer_stop($precision = 3) {
+	/**
+	 * Stops the debugging timer
+	 * @return int total time spent on the query, in milliseconds
+	 */
+	function timer_stop() {
 		$mtime = microtime();
 		$mtime = explode(' ', $mtime);
 		$time_end = $mtime[1] + $mtime[0];
@@ -307,6 +336,10 @@ class wpdb {
 		return $time_total;
 	}
 
+	/**
+	 * Wraps fatal errors in a nice header and footer and dies.
+	 * @param string $message
+	 */
 	function bail($message) { // Just wraps errors in a nice header and footer
 		if ( !$this->show_errors )
 			return false;
