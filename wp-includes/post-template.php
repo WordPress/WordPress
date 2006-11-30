@@ -351,6 +351,8 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 
 	$file = get_post_meta($post->ID, '_wp_attached_file', true);
 
+	$exts = array('jpg', 'gif', 'png');
+
 	if ( !$fullsize && !empty($imagedata['thumb'])
 			&& ($thumbfile = str_replace(basename($file), $imagedata['thumb'], $file))
 			&& file_exists($thumbfile) ) {
@@ -361,7 +363,7 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 		$src_file = $thumbfile;
 		$class = 'attachmentthumb';
 
-	} elseif ( substr($mime, 0, 6) == 'image/'
+	} elseif ( ( substr($mime, 0, 6) == 'image/' || 'import' == $mime && in_array(substr($file, -3), $exts) )
 			&& file_exists($file) ) {
 
 		// We have an image without a thumbnail
@@ -376,7 +378,6 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 		$icon_dir_uri = apply_filters('icon_dir_uri', get_template_directory_uri().'/images');
 
 		$types = array(substr($mime, 0, strpos($mime, '/')), substr($mime, strpos($mime, '/') + 1), str_replace('/', '_', $mime));
-		$exts = array('jpg', 'gif', 'png');
 		foreach ($types as $type) {
 			foreach ($exts as $ext) {
 				$src_file = "$icon_dir/$type.$ext";

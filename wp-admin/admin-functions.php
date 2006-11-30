@@ -1982,13 +1982,14 @@ function wp_import_handle_upload() {
 		return $file;
 
 	$url = $file['url'];
+	$type = $file['type'];
 	$file = addslashes( $file['file'] );
 	$filename = basename( $file );
 
 	// Construct the object array
 	$object = array( 'post_title' => $filename,
 		'post_content' => $url,
-		'post_mime_type' => 'import',
+		'post_mime_type' => $type,
 		'guid' => $url
 	);
 
