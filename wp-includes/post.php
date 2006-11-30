@@ -1242,6 +1242,19 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	else
 		$post_name = sanitize_title($post_name);
 
+	$post_name_check =
+		$wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$post_name' AND post_status = 'inherit' AND ID != '$post_ID' LIMIT 1");
+
+	if ($post_name_check) {
+		$suffix = 2;
+		while ($post_name_check) {
+			$alt_post_name = $post_name . "-$suffix";
+			$post_name_check = $wpdb->get_var("SELECT post_name FROM $wpdb->posts WHERE post_name = '$alt_post_name' AND post_status = 'inherit' AND ID != '$post_ID' AND post_parent = '$post_parent' LIMIT 1");
+			$suffix++;
+		}
+		$post_name = $alt_post_name;
+	}
+
 	if (empty($post_date))
 		$post_date = current_time('mysql');
 	if (empty($post_date_gmt))
