@@ -39,7 +39,7 @@ if (!CUSTOM_TAGS) {
 		//	'ul' => array(),
 	);
 }
-function wp_kses($string, $allowed_html, $allowed_protocols = array ('http', 'https', 'ftp', 'news', 'nntp', 'telnet', 'feed', 'gopher', 'mailto'))
+function wp_kses($string, $allowed_html, $allowed_protocols = array ('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet'))
 	###############################################################################
 		# This function makes sure that only the allowed HTML element names, attribute
 		# names and attribute values plus only sane HTML entities will occur in

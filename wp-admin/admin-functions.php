@@ -444,7 +444,7 @@ function edit_user( $user_id = 0 ) {
 		$user->user_email = wp_specialchars( trim( $_POST['email'] ));
 	if ( isset( $_POST['url'] ) ) {
 		$user->user_url = wp_specialchars( trim( $_POST['url'] ));
-		$user->user_url = preg_match( '/^(https?|ftps?|mailto|news|gopher):/is', $user->user_url ) ? $user->user_url : 'http://'.$user->user_url;
+		$user->user_url = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 	}
 	if ( isset( $_POST['first_name'] ))
 		$user->first_name = wp_specialchars( trim( $_POST['first_name'] ));
@@ -558,7 +558,7 @@ function edit_link( $link_id = '' ) {
 		wp_die( __("Cheatin' uh ?" ));
 
 	$_POST['link_url'] = wp_specialchars( $_POST['link_url'] );
-	$_POST['link_url'] = preg_match( '/^(https?|ftps?|mailto|news|gopher):/is', $_POST['link_url'] ) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
+	$_POST['link_url'] = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $_POST['link_url']) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
 	$_POST['link_name'] = wp_specialchars( $_POST['link_name'] );
 	$_POST['link_image'] = wp_specialchars( $_POST['link_image'] );
 	$_POST['link_rss'] = wp_specialchars( $_POST['link_rss'] );
