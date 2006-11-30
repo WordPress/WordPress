@@ -598,7 +598,10 @@ function return_categories_list( $parent = 0 ) {
 }
 
 function sort_cats( $cat1, $cat2 ) {
-	return strcasecmp( $cat1['cat_name'], $cat2['cat_name'] );
+	if ( $cat1['checked'] || $cat2['checked'] )
+		return ( $cat1['checked'] && !$cat2['checked'] ) ? -1 : 1;
+	else
+		return strcasecmp( $cat1['cat_name'], $cat2['cat_name'] );
 }
 
 function get_nested_categories( $default = 0, $parent = 0 ) {
