@@ -85,6 +85,8 @@ class WP_Import {
 		$importdata = preg_replace("/(\r\n|\n|\r)/", "\n", $importdata);
 		preg_match_all('|<item>(.*?)</item>|is', $importdata, $this->posts);
 		$this->posts = $this->posts[1];
+		preg_match_all('|<wp:category>(.*?)</wp:category>|is', $importdata, $this->categories);
+		$this->categories = $this->categories[1];
 	}
 
 	function get_wp_authors() {
@@ -177,6 +179,35 @@ class WP_Import {
 		$this->wp_authors_form();
 	}
 
+	function process_categories() {
+		global $wpdb;
+
+		$cat_names = (array) $wpdb->get_col("SELECT cat_name FROM $wpdb->categories");
+
+		while ( $c = array_shift($this->categories) ) {
+			$cat_name = trim(str_replace(array ('<![CDATA[', ']]>'), '', $this->get_tag( $c, 'wp:cat_name' )));
+
+			// If the category exists we leave it alone
+			if ( in_array($cat_name, $cat_names) )
+				continue;
+
+			$category_nicename	= $this->get_tag( $c, 'wp:category_nicename' );
+			$posts_private		= (int) $this->get_tag( $c, 'wp:posts_private' );
+			$links_private		= (int) $this->get_tag( $c, 'wp:links_private' );
+
+			$parent = $this->get_tag( $c, 'wp:category_parent' );
+
+			if ( empty($parent) )
+				$category_parent = '0';
+			else
+				$category_parent = (int) category_exists($parent);
+
+			$catarr = compact('category_nicename', 'category_parent', 'posts_private', 'links_private', 'posts_private', 'cat_name');
+
+			$cat_ID = wp_insert_category($catarr);
+		}
+	}
+
 	function process_posts() {
 		global $wpdb;
 		$i = -1;
@@ -206,7 +237,7 @@ class WP_Import {
 
 			$cat_index = 0;
 			foreach ($categories as $category) {
-				$categories[$cat_index] = $wpdb->escape($this->unhtmlentities($category));
+				$categories[$cat_index] = $wpdb->escape($this->unhtmlentities(str_replace(array ('<![CDATA[', ']]>'), '', $category)));
 				$cat_index++;
 			}
 
@@ -277,6 +308,7 @@ class WP_Import {
 		$this->file = get_attached_file($this->id);
 		$this->get_authors_from_post();
 		$this->get_entries();
+		$this->process_categories();
 		$this->process_posts();
 	}
 
