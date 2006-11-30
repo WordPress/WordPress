@@ -1116,6 +1116,40 @@ class WP_Query {
 	}
 }
 
+
+// Redirect old slugs
+function wp_old_slug_redirect () {
+	global $wp_query;
+	if ( is_404() && '' != $wp_query->query_vars['name'] ) :
+		global $wpdb;
+
+		$query = "SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND meta_key = '_wp_old_slug' AND meta_value='" . $wp_query->query_vars['name'] . "'";
+
+		// if year, monthnum, or day have been specified, make our query more precise
+		// just in case there are multiple identical _wp_old_slug values
+		if ( '' != $wp_query->query_vars['year'] )
+			$query .= " AND YEAR(post_date) = '{$wp_query->query_vars['year']}'";
+		if ( '' != $wp_query->query_vars['monthnum'] )
+			$query .= " AND MONTH(post_date) = '{$wp_query->query_vars['monthnum']}'";
+		if ( '' != $wp_query->query_vars['day'] )
+			$query .= " AND DAYOFMONTH(post_date) = '{$wp_query->query_vars['day']}'";
+
+		$id = (int) $wpdb->get_var($query);
+
+		if ( !$id )
+			return;
+
+		$link = get_permalink($id);
+
+		if ( !$link )
+			return;
+
+		wp_redirect($link, '301'); // Permanent redirect
+		exit;
+	endif;
+}
+
+
 //
 // Private helper functions
 //

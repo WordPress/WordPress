@@ -175,6 +175,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 3845 )
 		upgrade_210();
 
+	if ( $wp_current_db_version < 4351 )
+		upgrade_old_slugs();
+
 	$wp_rewrite->flush_rules();
 
 	update_option('db_version', $wp_db_version);
@@ -543,6 +546,13 @@ function upgrade_210() {
 		}
 	}
 }
+
+function upgrade_old_slugs() {
+	// upgrade people who were using the Redirect Old Slugs plugin
+	global $wpdb;
+	$wpdb->query("UPDATE $wpdb->postmeta SET meta_key = '_wp_old_slug' WHERE meta_key = 'old_slug'");
+}
+
 
 // The functions we use to actually do stuff
 

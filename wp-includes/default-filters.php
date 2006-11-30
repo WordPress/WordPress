@@ -146,6 +146,11 @@ add_filter('option_blog_charset', 'wp_specialchars');
 add_filter('mce_plugins', '_mce_load_rtl_plugin');
 add_filter('mce_buttons', '_mce_add_direction_buttons');
 
+// Redirect Old Slugs
+add_action('template_redirect', 'wp_old_slug_redirect');
+add_action('edit_post', 'wp_check_for_changed_slugs');
+add_action('edit_form_advanced', 'wp_remember_old_slug');
+
 // Actions
 add_action('wp_head', 'rsd_link');
 add_action('wp_head', 'locale_stylesheet');
