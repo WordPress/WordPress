@@ -116,7 +116,7 @@ function wp_specialchars( $text, $quotes = 0 ) {
 	return $text;
 }
 
-function utf8_uri_encode( $utf8_string ) {
+function utf8_uri_encode( $utf8_string, $length = 0 ) {
 	$unicode = '';
 	$values = array();
 	$num_octets = 1;
@@ -126,21 +126,25 @@ function utf8_uri_encode( $utf8_string ) {
 		$value = ord( $utf8_string[ $i ] );
 
 		if ( $value < 128 ) {
+			if ( $length && ( strlen($unicode) + 1 > $length ) )
+				break; 
 			$unicode .= chr($value);
 		} else {
 			if ( count( $values ) == 0 ) $num_octets = ( $value < 224 ) ? 2 : 3;
 
 			$values[] = $value;
 
+			if ( $length && ( (strlen($unicode) + ($num_octets * 3)) > $length ) )
+				break;
 			if ( count( $values ) == $num_octets ) {
-	if ($num_octets == 3) {
-		$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]) . '%' . dechex($values[2]);
-	} else {
-		$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]);
-	}
+				if ($num_octets == 3) {
+					$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]) . '%' . dechex($values[2]);
+				} else {
+					$unicode .= '%' . dechex($values[0]) . '%' . dechex($values[1]);
+				}
 
-	$values = array();
-	$num_octets = 1;
+				$values = array();
+				$num_octets = 1;
 			}
 		}
 	}
@@ -317,7 +321,7 @@ function sanitize_title_with_dashes($title) {
 		if (function_exists('mb_strtolower')) {
 			$title = mb_strtolower($title, 'UTF-8');
 		}
-		$title = utf8_uri_encode($title);
+		$title = utf8_uri_encode($title, 200);
 	}
 
 	$title = strtolower($title);
