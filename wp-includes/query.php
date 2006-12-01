@@ -971,15 +971,19 @@ class WP_Query {
 		$orderby = apply_filters('posts_orderby', $q['orderby']);
 		$distinct = apply_filters('posts_distinct', $distinct);
 		$fields = apply_filters('posts_fields', "$wpdb->posts.*");
+		$limits = apply_filters( 'post_limits', $limits );
 		$found_rows = '';
 		if ( !empty($limits) )
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
+
 		$request = " SELECT $found_rows $distinct $fields FROM $wpdb->posts $join WHERE 1=1 $where $groupby ORDER BY $orderby $limits";
 		$this->request = apply_filters('posts_request', $request);
 
 		$this->posts = $wpdb->get_results($this->request);
 		if ( !empty($limits) ) {
-			$this->found_posts = $wpdb->get_var('SELECT FOUND_ROWS()');
+			$found_posts_query = apply_filters( 'found_posts_query', 'SELECT FOUND_ROWS()' );
+			$this->found_posts = $wpdb->get_var( $found_posts_query );
+			$this->found_posts = apply_filters( 'found_posts', $this->found_posts );
 			$this->max_num_pages = ceil($this->found_posts / $q['posts_per_page']);
 		}
 		// Check post status to determine if post should be displayed.
