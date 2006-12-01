@@ -619,13 +619,14 @@ class Walker_Category extends Walker {
 			$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
 		}
 
-		$_current_category = get_category( $current_category );
+		if ( $current_category )
+			$_current_category = get_category( $current_category );
 
 		if ( 'list' == $args['style'] ) {
 			$output .= "\t<li";
-			if ( ($category->cat_ID == $current_category) && is_category() )
+			if ( $current_category && ($category->cat_ID == $current_category) )
 				$output .=  ' class="current-cat"';
-			elseif ( ($category->cat_ID == $_current_category->category_parent) && is_category() )
+			elseif ( $_current_category && ($category->cat_ID == $_current_category->category_parent) )
 				$output .=  ' class="current-cat-parent"';
 			$output .= ">$link\n";
 		} else {

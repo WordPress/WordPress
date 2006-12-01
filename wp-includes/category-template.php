@@ -238,7 +238,10 @@ function wp_list_categories($args = '') {
 			$output .= __("No categories");
 	} else {
 		global $wp_query;
-		$r['current_category'] = $wp_query->get_queried_object_id();
+		
+		if ( is_category() )
+			$r['current_category'] = $wp_query->get_queried_object_id();
+
 		if ( $hierarchical )
 			$depth = 0;  // Walk the full depth.
 		else
