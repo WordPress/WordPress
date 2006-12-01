@@ -186,7 +186,7 @@ a:hover {
 	text-decoration: underline;
 	}
 
-#wp-calendar #prev a {
+#wp-calendar #prev a, #wp-calendar #next a {
 	font-size: 9pt;
 	}
 
