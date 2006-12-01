@@ -165,7 +165,7 @@ break;
 
 case 'resetpass' :
 case 'rp' :
-	$key = preg_replace('/a-z0-9/i', '', $_GET['key']);
+	$key = preg_replace('/[^a-z0-9]/i', '', $_GET['key']);
 	if ( empty( $key ) ) {
 		wp_redirect('wp-login.php?action=lostpassword&error=invalidkey');
 		exit();
