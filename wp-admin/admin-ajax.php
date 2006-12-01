@@ -155,7 +155,10 @@ case 'add-meta' :
 	if ( !current_user_can( 'edit_post', $id ) )
 		die('-1');
 	if ( $id < 0 ) {
-		if ( $pid = wp_insert_post() )
+		$now = current_time('timestamp');
+		if ( $pid = wp_insert_post( array(
+			'post_title' => sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now))
+		) ) )
 			$mid = add_meta( $pid );
 		else
 			die('0');
