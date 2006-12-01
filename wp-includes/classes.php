@@ -575,13 +575,14 @@ class Walker_Category extends Walker {
 	function start_el($output, $category, $depth, $args) {
 		extract($args);
 
-		$link = '<a href="' . get_category_link($category->cat_ID) . '" ';
+		$cat_name = wp_specialchars( $category->cat_name, 1 );
+		$link = '<a href="' . get_category_link( $category->cat_ID ) . '" ';
 		if ( $use_desc_for_title == 0 || empty($category->category_description) )
-			$link .= 'title="'. sprintf(__("View all posts filed under %s"), wp_specialchars($category->cat_name, 1)) . '"';
+			$link .= 'title="' . sprintf(__( 'View all posts filed under %s' ), $cat_name) . '"';
 		else
-			$link .= 'title="' . wp_specialchars(apply_filters('category_description',$category->category_description,$category),1) . '"';
+			$link .= 'title="' . wp_specialchars( apply_filters( 'category_description', $category->category_description, $category ), 1 ) . '"';
 		$link .= '>';
-		$link .= apply_filters('list_cats', $category->cat_name, $category).'</a>';
+		$link .= apply_filters( 'list_cats', $category->cat_name, $category ).'</a>';
 
 		if ( (! empty($feed_image)) || (! empty($feed)) ) {
 			$link .= ' ';
@@ -589,9 +590,11 @@ class Walker_Category extends Walker {
 			if ( empty($feed_image) )
 				$link .= '(';
 
-			$link .= '<a href="' . get_category_rss_link(0, $category->cat_ID, $category->category_nicename) . '"';
+			$link .= '<a href="' . get_category_rss_link( 0, $category->cat_ID, $category->category_nicename ) . '"';
 
-			if ( !empty($feed) ) {
+			if ( emtpy($feed) )
+				$alt = ' alt="' . sprintf(__( 'Feed for all posts filed under %s' ), $cat_name ) . '"';
+			else {
 				$title = ' title="' . $feed . '"';
 				$alt = ' alt="' . $feed . '"';
 				$name = $feed;
@@ -600,17 +603,17 @@ class Walker_Category extends Walker {
 
 			$link .= '>';
 
-			if ( !empty($feed_image) )
-				$link .= "<img src='$feed_image' $alt$title" . ' />';
-			else
+			if ( empty($feed_image) )
 				$link .= $name;
+			else
+				$link .= "<img src='$feed_image'$alt$title" . ' />';
 			$link .= '</a>';
-			if (empty($feed_image))
+			if ( empty($feed_image) )
 				$link .= ')';
 		}
 	
 		if ( isset($show_count) && $show_count )
-			$link .= ' ('.intval($category->category_count).')';
+			$link .= ' (' . intval($category->category_count) . ')';
 	
 		if ( isset($show_date) && $show_date ) {
 			$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
