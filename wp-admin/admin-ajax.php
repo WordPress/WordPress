@@ -147,7 +147,7 @@ case 'add-cat' : // From Manage->Categories
 		'what' => 'cat',
 		'id' => $cat->cat_ID,
 		'data' => _cat_row( $cat, $level, $cat_full_name ),
-		'supplemental' => array('name' => $cat_full_name)
+		'supplemental' => array('name' => $cat_full_name, 'show-link' => sprintf(__( 'Category <a href="#%s">%s</a> added' ), "cat-$cat->cat_ID", $cat_full_name))
 	) );
 	$x->send();
 	break;
@@ -211,10 +211,12 @@ case 'add-user' :
 			echo "<p>$message<p>";
 		exit;
 	}
+	$user_object = new WP_User( $user_id );
 	$x = new WP_Ajax_Response( array(
 		'what' => 'user',
 		'id' => $user_id,
-		'data' => user_row( $user_id )
+		'data' => user_row( $user_object ),
+		'supplemental' => array('show-link' => sprintf(__( 'User <a href="#%s">%s</a> added' ), "user-$user_id", $user_object->user_login))
 	) );
 	$x->send();
 	break;

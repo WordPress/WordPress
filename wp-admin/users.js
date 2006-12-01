@@ -2,7 +2,8 @@ addLoadEvent(function() {
 	theListEls = document.getElementsByTagName('tbody');
 	theUserLists = new Array();
 	for ( var l = 0; l < theListEls.length; l++ ) {
-		theUserLists[theListEls[l].id] = new listMan(theListEls[l].id);
+		if ( theListEls[l].id )
+			theUserLists[theListEls[l].id] = new listMan(theListEls[l].id);
 	}
 	addUserInputs = document.getElementById('adduser').getElementsByTagName('input');
 	for ( var i = 0; i < addUserInputs.length; i++ ) {

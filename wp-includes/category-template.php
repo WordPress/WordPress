@@ -180,7 +180,7 @@ function wp_dropdown_categories($args = '') {
 
 	$output = '';
 	if ( ! empty($categories) ) {
-		$output = "<select name='$name' class='$class'>\n";
+		$output = "<select name='$name' id='$name' class='$class'>\n";
 
 		if ( $show_option_all ) {
 			$show_option_all = apply_filters('list_cats', $show_option_all);

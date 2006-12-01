@@ -814,11 +814,13 @@ function user_row( $user_object, $style = '' ) {
 	if ( $numposts > 0 ) {
 		$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
 		$r .= sprintf( __('View %1$s %2$s' ), $numposts, __ngettext( 'post', 'posts', $numposts ));
+		$r .= '</a>';
 	}
 	$r .= "</td>\n\t\t<td>";
-	$edit_link = add_query_arg( 'wp_http_referer', wp_specialchars( urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" );
-	if ( current_user_can( 'edit_user', $user_object->ID ) )
+	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
+		$edit_link = wp_specialchars( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user_object->ID" ) );
 		$r .= "<a href='$edit_link' class='edit'>".__( 'Edit' )."</a>";
+	}
 	$r .= "</td>\n\t</tr>";
 	return $r;
 }

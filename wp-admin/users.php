@@ -376,7 +376,7 @@ default:
 foreach($roleclasses as $role => $roleclass) {
 	uksort($roleclass, "strnatcasecmp");
 ?>
-
+<tbody>
 <tr>
 <?php if ( !empty($role) ) : ?>
 	<th colspan="7"><h3><?php echo $wp_roles->role_names[$role]; ?></h3></th>
@@ -392,7 +392,7 @@ foreach($roleclasses as $role => $roleclass) {
 	<th><?php _e('Website') ?></th>
 	<th colspan="2" style="text-align: center"><?php _e('Actions') ?></th>
 </tr>
-</thead>
+</tbody>
 <tbody id="role-<?php echo $role; ?>"><?php
 $style = '';
 foreach ( (array) $roleclass as $user_object ) {
@@ -437,7 +437,19 @@ foreach ( (array) $roleclass as $user_object ) {
 
 <div class="wrap">
 <h2 id="add-new-user"><?php _e('Add New User') ?></h2>
+
+<?php if ( is_wp_error( $add_user_errors ) ) : ?>
+	<div class="error">
+		<?php
+			foreach ( $add_user_errors->get_error_messages() as $message )
+				echo "<p>$message</p>";
+		?>
+	</div>
+<?php endif; ?>
+<div id="ajax-response"></div>
+
 <div class="narrow">
+
 <?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php').'</p>'; ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser">
 <?php wp_nonce_field('add-user') ?>
@@ -488,18 +500,9 @@ foreach ( (array) $roleclass as $user_object ) {
 	<?php echo $referer; ?>
 	<input name="adduser" type="submit" id="addusersub" value="<?php _e('Add User &raquo;') ?>" />
 </p>
-</div>
 </form>
 
-<?php if ( is_wp_error( $add_user_errors ) ) : ?>
-	<div class="error">
-		<?php
-			foreach ( $add_user_errors->get_error_messages() as $message )
-				echo "<p>$message</p>";
-		?>
-	</div>
-<?php endif; ?>
-<div id="ajax-response"></div>
+</div>
 </div>
 
 <?php

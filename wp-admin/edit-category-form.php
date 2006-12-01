@@ -16,6 +16,7 @@ if ( ! empty($cat_ID) ) {
 
 <div class="wrap">
 <h2><?php echo $heading ?></h2>
+<div id="ajax-response"></div>
 <?php echo $form ?>
 <input type="hidden" name="action" value="<?php echo $action ?>" />
 <input type="hidden" name="cat_ID" value="<?php echo $category->cat_ID ?>" />
@@ -41,7 +42,6 @@ if ( ! empty($cat_ID) ) {
 		</tr>
 	</table>
 <p class="submit"><input type="submit" name="submit" value="<?php echo $submit_text ?>" /></p>
-<div id="ajax-response"></div>
 <?php do_action('edit_category_form', $category); ?>
 </form>
 </div>

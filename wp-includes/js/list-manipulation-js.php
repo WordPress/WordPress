@@ -37,6 +37,8 @@ Object.extend(listMan.prototype, {
 		ajaxAdd.addOnComplete( function(transport) {
 			var newItems = $A(transport.responseXML.getElementsByTagName(what));
 			if ( newItems ) {
+				var showLinkMessage = '';
+				var m = '';
 				newItems.each( function(i) {
 					var id = i.getAttribute('id');
 					var exists = $(what+'-'+id);
@@ -44,10 +46,15 @@ Object.extend(listMan.prototype, {
 						tempObj.replaceListItem( exists, getNodeValue(i,'response_data'), update );
 					else
 						tempObj.addListItem( getNodeValue(i, 'response_data') );
-					if ( tempObj.showLink )
-						tempObj.showLink = id;
+					m = getNodeValue(i, 'show-link');
+					showLinkMessage += showLinkMessage ? "<br />\n" : '';
+					if ( m )
+						showLinkMessage += m;
+					else
+						showLinkMessage += "<a href='#" + what + '-' + id + "'><?php echo js_escape(__('Jump to new item')); ?>";
 				});
-				ajaxAdd.myResponseElement.update(tempObj.showLink ? ( "<div id='jumplink' class='updated fade'><p><a href='#" + what + '-' + tempObj.showLink + "'><?php js_escape(__('Jump to new item')); ?></a></p></div>" ) : '');
+				if ( tempObj.showLink && showLinkMessage )
+					ajaxAdd.myResponseElement.update("<div id='jumplink' class='updated fade'><p>" + showLinkMessage + "</p></div>");
 			}
 			if ( tempObj.addComplete && typeof tempObj.addComplete == 'function' )
 				tempObj.addComplete( what, where, update, transport );
