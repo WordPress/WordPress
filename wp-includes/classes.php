@@ -430,6 +430,9 @@ class Walker {
 				if ( !$to_depth || ($depth < $to_depth) ) { //only descend if we're below $to_depth
 					$cb_args = array_merge( array($output, $depth - 1), $args);
 					$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
+				} else {  // If we've reached depth, end the previous element.
+					$cb_args = array_merge( array($output, $previous_element, $depth - 1), $args);
+					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 				}
 			} else if ( $element->$parent_field == $previous_element->$parent_field) {
 				// On the same level as previous element.
