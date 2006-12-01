@@ -253,6 +253,10 @@ body {
 	text-align: justify;
 	}
 
+.post hr {
+	display: block;
+	}
+
 .widecolumn .post {
 	margin: 0;
 	}
