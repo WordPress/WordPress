@@ -21,9 +21,6 @@ include('admin-header.php');
 <tr valign="top">
 <th scope="row"><?php _e('Formatting:') ?></th>
 <td>
-<label for="rich_editing">
-<input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', get_option('rich_editing')); ?> />
-<?php _e('Users should use the visual rich editor by default') ?></label><br />
 <label for="use_smilies">
 <input name="use_smilies" type="checkbox" id="use_smilies" value="1" <?php checked('1', get_option('use_smilies')); ?> />
 <?php _e('Convert emoticons like <code>:-)</code> and <code>:-P</code> to graphics on display') ?></label><br />
@@ -114,7 +111,7 @@ endforeach;
 
 <p class="submit">
 <input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,rich_editing,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category" />
+<input type="hidden" name="page_options" value="default_post_edit_rows,use_smilies,ping_sites,mailserver_url,mailserver_port,mailserver_login,mailserver_pass,default_category,default_email_category,use_balanceTags,default_link_category" />
 <input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" />
 </p>
 </form>
