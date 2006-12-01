@@ -395,6 +395,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if (!$post_ID) {
 	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
 	  }
+	  $this->attach_uploads( $post_ID, $post_content );
 
 	  logIO('O', "Posted ! ID: $post_ID");
 
@@ -444,6 +445,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if (!$result) {
 	  	return new IXR_Error(500, 'For some strange yet very annoying reason, this post could not be edited.');
 	  }
+	  $this->attach_uploads( $ID, $post_content );
 
 	  return true;
 	}
@@ -564,11 +566,26 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
 	  }
 
+	  $this->attach_uploads( $post_ID, $post_content );
+
 	  logIO('O', "Posted ! ID: $post_ID");
 
 	  return strval($post_ID);
 	}
 
+	function attach_uploads( $post_ID, $post_content ) {
+		global $wpdb;
+
+		// find any unattached files
+		$attachments = $wpdb->get_results( "SELECT ID, guid FROM {$wpdb->posts} WHERE post_parent = '-1' AND post_type = 'attachment'" );
+		if( is_array( $attachments ) ) {
+			foreach( $attachments as $file ) {
+				if( strpos( $post_content, $file->guid ) !== false ) {
+					$wpdb->query( "UPDATE {$wpdb->posts} SET post_parent = '$post_ID' WHERE ID = '{$file->ID}'" );
+				}
+			}
+		}
+	}
 
 	/* metaweblog.editPost ...edits a post */
 	function mw_editPost($args) {
@@ -643,6 +660,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if (!$result) {
 	    return new IXR_Error(500, 'Sorry, your entry could not be edited. Something wrong happened.');
 	  }
+	  $this->attach_uploads( $ID, $post_content );
 
 	  logIO('O',"(MW) Edited ! ID: $post_ID");
 
@@ -841,6 +859,21 @@ class wp_xmlrpc_server extends IXR_Server {
 			logIO('O', '(MW) Could not write file '.$name);
 			return new IXR_Error(500, 'Could not write file '.$name);
 		}
+		// Construct the attachment array
+		// attach to post_id -1
+		$post_id = -1;
+		$attachment = array(
+			'post_title' => $name,
+			'post_content' => '',
+			'post_type' => 'attachment',
+			'post_parent' => $post_id,
+			'post_mime_type' => $type,
+			'guid' => $upload[ 'url' ]
+		);
+		// Save the data
+		$id = wp_insert_attachment($attachment, $upload[ 'file' ], $post_id);
+		add_post_meta($id, '_wp_attachment_metadata', array());
+
 		return apply_filters( 'wp_handle_upload', array( 'file' => $upload[ 'file' ], 'url' => $upload[ 'url' ], 'type' => $type ) );
 	}
 
