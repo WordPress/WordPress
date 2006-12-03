@@ -3,7 +3,7 @@ function get_locale() {
 	global $locale;
 
 	if (isset($locale))
-		return $locale;
+		return apply_filters( 'locale', $locale );
 
 	// WPLANG is defined in wp-config.
 	if (defined('WPLANG'))
