@@ -94,6 +94,13 @@ printf(__('Currently showing %1$s links ordered by %2$s'), $select_cat, $select_
 <input type="submit" name="action" value="<?php _e('Update &raquo;') ?>" /></p>
 </form>
 
+<?php
+if ( 'all' == $cat_id )
+	$cat_id = '';
+$links = get_bookmarks( "category=$cat_id&hide_invisible=0&orderby=$sqlorderby&hide_empty=0" );
+if ( $links ) {
+?>
+
 <form id="links" method="post" action="link.php">
 <?php wp_nonce_field('bulk-bookmarks') ?>
 <input type="hidden" name="link_id" value="" />
@@ -114,10 +121,6 @@ printf(__('Currently showing %1$s links ordered by %2$s'), $select_cat, $select_
 	</thead>
 	<tbody id="the-list">
 <?php
-if ( 'all' == $cat_id )
-	$cat_id = '';
-$links = get_bookmarks("category=$cat_id&hide_invisible=0&orderby=$sqlorderby&hide_empty=0");
-if ($links)
 	foreach ($links as $link) {
 		$link->link_name = wp_specialchars($link->link_name);
 		$link->link_description = wp_specialchars($link->link_description);
@@ -173,6 +176,9 @@ if ($links)
 
 <p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Links') ?> &raquo;" onclick="return confirm('<?php echo js_escape(__("You are about to delete these links permanently \\n  \'Cancel\' to stop, \'OK\' to delete.")); ?>')" /></p>
 </form>
+
+<?php } ?>
+
 </div>
 
 <?php include('admin-footer.php'); ?>
