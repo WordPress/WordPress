@@ -8,7 +8,7 @@ function newCatAddIn() {
 	var jaxcat = $('jaxcat');
 	if ( !jaxcat )
 		return false;
-	jaxcat.update('<span id="ajaxcat"><input type="text" name="newcat" id="newcat" size="16" autocomplete="off"/><input type="button" name="Button" id="catadd" value="<?php echo js_escape(__('Add')); ?>"/><span id="howto"><?php js_escape(__('Separate multiple categories with commas.')); ?></span></span>');
+	jaxcat.update('<span id="ajaxcat"><input type="text" name="newcat" id="newcat" size="16" autocomplete="off"/><input type="button" name="Button" id="catadd" value="<?php echo js_escape(__('Add')); ?>"/><span id="howto"><?php echo js_escape(__('Separate multiple categories with commas.')); ?></span></span>');
 	$('newcat').onkeypress = function(e) { return killSubmit("catList.ajaxAdder('category','jaxcat');", e); };
 	$('catadd').onclick = function() { catList.ajaxAdder('category', 'jaxcat'); };
 }
