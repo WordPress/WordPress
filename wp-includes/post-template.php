@@ -269,10 +269,16 @@ function wp_list_pages($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('depth' => 0, 'show_date' => '', 'date_format' => get_option('date_format'),
-		'child_of' => 0, 'title_li' => __('Pages'), 'echo' => 1, 'authors' => '');
+		'child_of' => 0, 'exclude' => '', 'title_li' => __('Pages'), 'echo' => 1, 'authors' => '');
 	$r = array_merge($defaults, $r);
 
 	$output = '';
+
+	// sanitize, mostly to keep spaces out
+	$r['exclude'] = preg_replace('[^0-9,]', '', $r['exclude']);
+
+	// Allow plugins to filter an array of excluded pages
+	$r['exclude'] = implode(',', apply_filters('wp_list_pages_excludes', explode(',', $r['exclude'])));
 
 	// Query pages.
 	$pages = get_pages($r);
