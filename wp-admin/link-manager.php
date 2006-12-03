@@ -73,7 +73,7 @@ if ( isset($_GET['deleted']) ) {
 <div class="wrap">
 
 <h2><?php _e('Blogroll Management'); ?></h2>
-<p><?php _e('Here you add links to sites that you visit often and share them on your blog. When you have a list of links in your sidebar to other blogs, it&#8217;s called a &#8220;blogroll.&#8221;'); ?></p>
+<p><?php _e('Here you <a href="link-add.php">add links</a> to sites that you visit often and share them on your blog. When you have a list of links in your sidebar to other blogs, it&#8217;s called a &#8220;blogroll.&#8221;'); ?></p>
 <form id="cats" method="get" action="">
 <p><?php
 $categories = get_categories("hide_empty=1&type=link");
