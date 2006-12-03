@@ -210,7 +210,7 @@ case 'register' :
 		require_once( ABSPATH . WPINC . '/registration.php');
 
 		$user_login = sanitize_user( $_POST['user_login'] );
-		$user_email = $_POST['user_email'];
+		$user_email = apply_filters( 'user_registration_email', $_POST['user_email'] ); 
 
 		// Check the username
 		if ( $user_login == '' )
@@ -231,6 +231,8 @@ case 'register' :
 			$errors['user_email'] = __('<strong>ERROR</strong>: This email is already registered, please choose another one.');
 
 		do_action('register_post');
+
+		$errors = apply_filters( 'registration_errors', $errors );
 
 		if ( empty( $errors ) ) {
 			$user_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
