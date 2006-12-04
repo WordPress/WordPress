@@ -592,7 +592,7 @@ class Walker_Category extends Walker {
 
 			$link .= '<a href="' . get_category_rss_link( 0, $category->cat_ID, $category->category_nicename ) . '"';
 
-			if ( emtpy($feed) )
+			if ( empty($feed) )
 				$alt = ' alt="' . sprintf(__( 'Feed for all posts filed under %s' ), $cat_name ) . '"';
 			else {
 				$title = ' title="' . $feed . '"';
