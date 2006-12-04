@@ -716,12 +716,19 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
 		$categories = get_categories( 'hide_empty=0' );
 
 	if ( $categories ) {
+		ob_start();
 		foreach ( $categories as $category ) {
 			if ( $category->category_parent == $parent) {
 				echo "\t" . _cat_row( $category, $level );
 				cat_rows( $category->cat_ID, $level +1, $categories );
 			}
 		}
+		$output = ob_get_contents();
+		ob_end_clean();
+		
+		$output = apply_filters('cat_rows', $output);
+
+		echo $output;
 	} else {
 		return false;
 	}

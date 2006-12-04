@@ -5,12 +5,14 @@ if ( ! empty($cat_ID) ) {
 	$form = '<form name="editcat" id="editcat" method="post" action="categories.php">';
 	$action = 'editedcat';
 	$nonce_action = 'update-category_' . $cat_ID;
+	do_action('edit_category_form_pre', $category);
 } else {
 	$heading = __('Add Category');
 	$submit_text = __('Add Category &raquo;');
 	$form = '<form name="addcat" id="addcat" method="post" action="categories.php">';
 	$action = 'addcat';
 	$nonce_action = 'add-category';
+	do_action('add_category_form_pre', $category);
 }
 ?>
 
