@@ -8,6 +8,14 @@ if (!current_user_can('upload_files'))
 
 wp_reset_vars(array('action', 'tab', 'from_tab', 'style', 'post_id', 'ID', 'paged', 'post_title', 'post_content', 'delete'));
 
+// IDs should be integers
+$ID = (int) $ID;
+$post_id = (int) $post_id;
+
+// Require an ID for the edit screen
+if ( $action == 'edit' && !$ID )
+	wp_die(__("You are not allowed to be here"));
+
 require_once('upload-functions.php');
 if ( !$tab )
 	$tab = 'browse-all';
