@@ -552,6 +552,8 @@ function wp_delete_post($postid = 0) {
 	if ( 'static' == $post->post_status )
 		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_status = 'static'");
 
+	$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_status = 'attachment'");
+
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
 	
 	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
