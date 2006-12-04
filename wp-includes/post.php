@@ -410,6 +410,8 @@ function wp_delete_post($postid = 0) {
 	if ( 'page' == $post->post_type )
 		$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_type = 'page'");
 
+	$wpdb->query("UPDATE $wpdb->posts SET post_parent = $post->post_parent WHERE post_parent = $postid AND post_type = 'attachment'");
+
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = $postid");
 
 	$wpdb->query("DELETE FROM $wpdb->comments WHERE comment_post_ID = $postid");
