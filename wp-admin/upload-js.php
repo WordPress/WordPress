@@ -72,13 +72,13 @@ addLoadEvent( function() {
 				var params = $H(this.params);
 				params.ID = '';
 				params.action = '';
-				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "' title='<?php echo wp_specialchars(__('Browse your files'), 1); ?>' class='back'>echo wp_specialchars(__('&laquo; Back'), 1);</a>";
+				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "' title='<?php echo wp_specialchars(__('Browse your files'), 1); ?>' class='back'><?php echo wp_specialchars(__('&laquo; Back'), 1); ?></a>";
 			} else {
 				h += "<a href='#' onclick='return theFileList.cancelView();'  title='<?php echo wp_specialchars(__('Browse your files'), 1); ?>' class='back'><?php echo wp_specialchars(__('&laquo; Back'), 1) ?></a>";
 			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.isImage )
-				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file'), 1); ?>'>" + this.currentImage.title + "</a></h2>";
+				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file'), 1); ?>'" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
@@ -87,7 +87,7 @@ addLoadEvent( function() {
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( this.currentImage.isImage ) {
-				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file'), 1); ?>>";
+				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file'), 1); ?>'>";
 				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
 				h += "</a>";
 			} else
@@ -134,9 +134,9 @@ addLoadEvent( function() {
 				var params = $H(this.params);
 				params.ID = '';
 				params.action = '';
-				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='<?php echo wp_specialchars(__('Browse your files'), 1); ?>' class='back'>&laquo;  <?php echo wp_specialchars(__('Back'), 1); ?></a>";
+				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='<?php echo wp_specialchars(__('Browse your files'), 1); ?>' class='back'><?php echo wp_specialchars(__('&laquo; Back'), 1); ?></a>";
 			} else {
-				h += "<a href='#' onclick='return theFileList.cancelView();'  title='<?php echo wp_specialchars(__('Browse your files'), 1); ?>' class='back'>&laquo; <?php echo wp_specialchars(__('Back'), 1); ?></a>";
+				h += "<a href='#' onclick='return theFileList.cancelView();'  title='<?php echo wp_specialchars(__('Browse your files'), 1); ?>' class='back'><?php echo wp_specialchars(__('&laquo; Back'), 1); ?></a>";
 			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.isImage )
@@ -244,7 +244,7 @@ addLoadEvent( function() {
 		},
 
 		deleteFile: function(id) {
-			if ( confirm("<?php printf(wp_specialchars(__("Are you sure you want to delete the file '%s'?\nClick ok to delete or cancel to go back."), 1), '" + this.currentImage.title + "'); ?>") ) {
+			if ( confirm("<?php printf(js_escape(__("Are you sure you want to delete the file '%s'?\nClick ok to delete or cancel to go back.")), '" + this.currentImage.title + "'); ?>") ) {
 				$('action-value').value = 'delete';
 				$('upload-file').submit();
 				return true;
