@@ -30,7 +30,7 @@ addLoadEvent(focusit);
     </div>
 </fieldset>
 <fieldset id="uridiv">
-        <legend><label for="URL"><?php _e('URL:') ?></label></legend>
+        <legend><label for="newcomment_author_url"><?php _e('URL:') ?></label></legend>
 		<div>
 		  <input type="text" id="newcomment_author_url" name="newcomment_author_url" size="35" value="<?php echo $comment->comment_author_url ?>" tabindex="3" id="URL" />
     </div>
