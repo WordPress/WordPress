@@ -78,7 +78,7 @@ addLoadEvent( function() {
 			}
 			h += "<div id='file-title'>"
 			if ( !this.currentImage.isImage )
-				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file'), 1); ?>'" + this.currentImage.title + "</a></h2>";
+				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file'), 1); ?>'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
