@@ -1292,8 +1292,8 @@ function get_page_templates() {
 	if ( is_array( $templates ) ) {
 		foreach ( $templates as $template ) {
 			$template_data = implode( '', file( ABSPATH.$template ));
-			preg_match( "|Template Name:(.* )|i", $template_data, $name );
-			preg_match( "|Description:(.* )|i", $template_data, $description );
+			preg_match( "|Template Name:(.*)|i", $template_data, $name );
+			preg_match( "|Description:(.*)|i", $template_data, $description );
 
 			$name = $name[1];
 			$description = $description[1];
