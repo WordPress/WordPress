@@ -429,22 +429,12 @@ function wp_delete_post($postid = 0) {
 	return $post;
 }
 
-function wp_get_post_categories($post_ID = 0) {
-	global $wpdb;
-
-	$post_ID = (int) $post_ID;
-
-	$sql = "SELECT category_id
-		FROM $wpdb->post2cat
-		WHERE post_id = '$post_ID'
-		ORDER BY category_id";
-
-	$result = $wpdb->get_col($sql);
-
-	if ( !$result )
-		$result = array();
-
-	return array_unique($result);
+function wp_get_post_categories($post_id = 0) {
+	$cats = &get_the_category($post_id);
+	$cat_ids = array();
+	foreach ( $cats as $cat )
+		$cat_ids[] = (int) $cat->cat_ID;
+	return array_unique($cat_ids);
 }
 
 function wp_get_recent_posts($num = 10) {
