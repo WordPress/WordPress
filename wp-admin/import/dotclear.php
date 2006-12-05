@@ -1,6 +1,6 @@
 <?php
 /*
- * Dotclear import plugin
+ * DotClear import plugin
  * by Thomas Quinot - http://thomas.quinot.org/
  */
 
@@ -296,7 +296,7 @@ class Dotclear_Import {
 				}
 				$dcid2wpid[$user_id] = $ret_id;
 
-				// Set Dotclear-to-WordPress permissions translation
+				// Set DotClear-to-WordPress permissions translation
 
 				// Update Usermeta Data
 				$user = new WP_User($ret_id);
@@ -345,7 +345,7 @@ class Dotclear_Import {
 				$count++;
 				extract($post);
 
-				// Set Dotclear-to-WordPress status translation
+				// Set DotClear-to-WordPress status translation
 				$stattrans = array(0 => 'draft', 1 => 'publish');
 				$comment_status_map = array (0 => 'closed', 1 => 'open');
 
@@ -647,9 +647,9 @@ class Dotclear_Import {
 	function db_form()
 	{
 		echo '<table class="editform">';
-		printf('<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('Dotclear Database User:'));
+		printf('<tr><th><label for="dbuser">%s</label></th><td><input type="text" name="dbuser" id="dbuser" /></td></tr>', __('DotClear Database User:'));
 		printf('<tr><th><label for="dbpass">%s</label></th><td><input type="password" name="dbpass" id="dbpass" /></td></tr>', __('DotClear Database Password:'));
-		printf('<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __('Dotclear Database Name:'));
+		printf('<tr><th><label for="dbname">%s</label></th><td><input type="text" name="dbname" id="dbname" /></td></tr>', __('DotClear Database Name:'));
 		printf('<tr><th><label for="dbhost">%s</label></th><td><input type="text" name="dbhost" nameid="dbhost" value="localhost" /></td></tr>', __('DotClear Database Host:'));
 		printf('<tr><th><label for="dbprefix">%s</label></th><td><input type="text" name="dbprefix" id="dbprefix" value="dc_"/></td></tr>', __('DotClear Table prefix:'));
 		printf('<tr><th><label for="dccharset">%s</label></th><td><input type="text" name="dccharset" id="dccharset" value="ISO-8859-15"/></td></tr>', __('Originating character set:'));
@@ -744,5 +744,5 @@ class Dotclear_Import {
 }
 
 $dc_import = new Dotclear_Import();
-register_importer('dotclear', __('DotClear'), __('Import posts from a DotClear Blog'), array ($dc_import, 'dispatch'));
+register_importer('dotclear', __('DotClear'), __('Import categories, users, posts, comments, and links from a DotClear blog'), array ($dc_import, 'dispatch'));
 ?>

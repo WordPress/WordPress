@@ -21,7 +21,8 @@ class LJ_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This importer allows you to extract posts from LiveJournal XML export file into your blog.  Pick a LiveJournal file to upload and click Import.').'</p>';
+		echo '<p>'.__('Howdy! Upload your LiveJournal XML export file and we&#8217;ll import the posts into this blog.').'</p>';
+		echo '<p>'.__('Choose a LiveJournal XML file to upload, then click Upload file and import.').'</p>';
 		wp_import_upload_form("admin.php?import=livejournal&amp;step=1");
 		echo '</div>';
 	}
@@ -166,5 +167,5 @@ class LJ_Import {
 
 $livejournal_import = new LJ_Import();
 
-register_importer('livejournal', __('LiveJournal'), __('Import posts from LiveJournal'), array ($livejournal_import, 'dispatch'));
+register_importer('livejournal', __('LiveJournal'), __('Import posts from a LiveJournal XML export file'), array ($livejournal_import, 'dispatch'));
 ?>

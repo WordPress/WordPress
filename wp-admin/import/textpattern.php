@@ -52,7 +52,8 @@ class Textpattern_Import {
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This importer allows you to extract posts from any Textpattern 4.0.2+ into your blog. This has not been tested on previous versions of Textpattern.  Mileage may vary.').'</p>';
+		echo '<p>'.__('Howdy! This imports categories, users, posts, comments, and links from any Textpattern 4.0.2+ into this blog.').'</p>';
+		echo '<p>'.__('This has not been tested on previous versions of Textpattern.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your Textpattern Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=textpattern&amp;step=1" method="post">';
 		$this->db_form();
@@ -660,5 +661,5 @@ class Textpattern_Import {
 }
 
 $txp_import = new Textpattern_Import();
-register_importer('textpattern', __('Textpattern'), __('Import posts from a Textpattern Blog'), array ($txp_import, 'dispatch'));
+register_importer('textpattern', __('Textpattern'), __('Import categories, users, posts, comments, and links from a Textpattern blog'), array ($txp_import, 'dispatch'));
 ?>

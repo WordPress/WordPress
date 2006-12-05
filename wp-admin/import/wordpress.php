@@ -27,6 +27,7 @@ class WP_Import {
 	function greet() {
 		echo '<div class="narrow">';
 		echo '<p>'.__('Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, comments, custom fields, and categories into this blog.').'</p>';
+		echo '<p>'.__('Choose a WordPress WXR file to upload, then click Upload file and import.').'</p>';
 		wp_import_upload_form("admin.php?import=wordpress&amp;step=1");
 		echo '</div>';
 	}
@@ -340,6 +341,6 @@ class WP_Import {
 
 $wp_import = new WP_Import();
 
-register_importer('wordpress', 'WordPress', __('Import <strong>posts, comments, custom fields, and categories</strong> from a WordPress export file'), array ($wp_import, 'dispatch'));
+register_importer('wordpress', 'WordPress', __('Import <strong>posts, comments, custom fields, pages, and categories</strong> from a WordPress export file'), array ($wp_import, 'dispatch'));
 
 ?>

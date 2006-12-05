@@ -7,7 +7,7 @@ class Blogger_Import {
 
 	// Shows the welcome screen and the magic iframe.
 	function greet() {
-		$title = __('Import Blogger');
+		$title = __('Import Blogger or Blogspot');
 		$welcome = __('Howdy! This importer allows you to import posts and comments from your Blogger account into your WordPress blog.');
 		$noiframes = __('This feature requires iframe support.');
 		$warning = js_escape(__('This will delete everything saved by the Blogger importer except your posts and comments. Are you sure you want to do this?'));
@@ -662,6 +662,6 @@ class Blogger_Import {
 
 $blogger_import = new Blogger_Import();
 
-register_importer('blogger', __('Blogger and Blog*Spot'), __('Import <strong>posts and comments</strong> from your Blogger account'), array ($blogger_import, 'start'));
+register_importer('blogger', __('Blogger or Blog*Spot'), __('Import posts, comments, and users from a Blogger or Blog*Spot blog'), array ($blogger_import, 'start'));
 
 ?>
