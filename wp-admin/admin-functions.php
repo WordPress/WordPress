@@ -2016,7 +2016,7 @@ function the_attachment_links( $id = false ) {
 		return false;
 
 	$icon = get_attachment_icon( $post->ID );
-	$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
+	$attachment_data = wp_get_attachment_metadata( $id );
 	$thumb = isset( $attachment_data['thumb'] );
 ?>
 <form id="the-attachment-links">

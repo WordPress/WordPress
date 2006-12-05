@@ -871,8 +871,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			'guid' => $upload[ 'url' ]
 		);
 		// Save the data
-		$id = wp_insert_attachment($attachment, $upload[ 'file' ], $post_id);
-		add_post_meta($id, '_wp_attachment_metadata', array());
+		$id = wp_insert_attachment( $attachment, $upload[ 'file' ], $post_id );
+		wp_update_attachment_metadata( $id, array() );
 
 		return apply_filters( 'wp_handle_upload', array( 'file' => $upload[ 'file' ], 'url' => $upload[ 'url' ], 'type' => $type ) );
 	}

@@ -353,12 +353,11 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 
 	$mime = $post->post_mime_type;
 
-	$imagedata = get_post_meta($post->ID, '_wp_attachment_metadata', true);
+	$imagedata = wp_get_attachment_metadata( $post->ID );
 
-	$file = get_post_meta($post->ID, '_wp_attached_file', true);
+	$file = get_attached_file( $post->ID );
 
 	$exts = array('jpg', 'gif', 'png');
-
 	if ( !$fullsize && !empty($imagedata['thumb'])
 			&& ($thumbfile = str_replace(basename($file), $imagedata['thumb'], $file))
 			&& file_exists($thumbfile) ) {

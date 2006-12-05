@@ -4,8 +4,25 @@
 // Post functions
 //
 
-function get_attached_file($attachment_id) {
-	return get_post_meta($attachment_id, '_wp_attached_file', true);
+function get_attached_file( $attachment_id, $unfiltered = false ) {
+	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
+	if ( $unfiltered )
+		return $file;
+	return apply_filters( 'get_attached_file', $file, $attachment_id );
+}
+
+function update_attached_file( $attachment_id, $file ) {
+	if ( !get_post( $attachment_id ) )
+		return false;
+
+	$old_file = get_attached_file( $attachment_id, true );
+
+	$file = apply_filters( 'update_attached_file', $file, $attachment_id );
+
+	if ( $old_file )
+		return update_post_meta( $attachment_id, '_wp_attached_file', $file, $old_file );
+	else
+		return add_post_meta( $attachment_id, '_wp_attached_file', $file );
 }
 
 function &get_children($args = '', $output = OBJECT) {
@@ -1331,7 +1348,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	wp_set_post_categories($post_ID, $post_category);
 
 	if ( $file )
-		add_post_meta($post_ID, '_wp_attached_file', $file);
+		update_attached_file( $post_ID, $file );
 
 	clean_post_cache($post_ID);
 
@@ -1354,8 +1371,8 @@ function wp_delete_attachment($postid) {
 	if ( 'attachment' != $post->post_type )
 		return false;
 
-	$meta = get_post_meta($postid, '_wp_attachment_metadata', true);
-	$file = get_post_meta($postid, '_wp_attached_file', true);
+	$meta = wp_get_attachment_metadata( $postid );
+	$file = get_attached_file( $postid );
 
 	$wpdb->query("DELETE FROM $wpdb->posts WHERE ID = '$postid'");
 
@@ -1382,6 +1399,29 @@ function wp_delete_attachment($postid) {
 	do_action('delete_attachment', $postid);
 
 	return $post;
+}
+
+function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
+	$post_id = (int) $post_id;
+
+	$data = get_post_meta( $post_id, '_wp_attachment_metadata', true );
+	if ( $unfiltered )
+		return $data;
+	return apply_filters( 'wp_get_attachment_metadata', $data, $post_id );
+}
+
+function wp_update_attachment_metadata( $post_id, $data ) {
+	if ( !get_post( $post_id ) )
+		return false;
+
+	$old_data = wp_get_attachment_metadata( $post_id, true );
+
+	$data = apply_filters( 'wp_update_attachment_metadata', $data, $post_id );
+
+	if ( $old_data )
+		return update_post_meta( $post_id, '_wp_attachment_metadata', $data, $old_data );
+	else
+		return add_post_meta( $post_id, '_wp_attachment_metadata', $data );
 }
 
 ?>

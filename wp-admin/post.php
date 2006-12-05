@@ -78,13 +78,10 @@ case 'editattachment':
 	$_POST['post_type'] = 'attachment';
 
 	// Update the thumbnail filename
-	$oldmeta = $newmeta = get_post_meta($post_id, '_wp_attachment_metadata', true);
+	$newmeta = wp_get_attachment_metadata( $post_id, true );
 	$newmeta['thumb'] = $_POST['thumb'];
 
-	if ( '' !== $oldmeta )
-		update_post_meta($post_id, '_wp_attachment_metadata', $newmeta, $oldmeta);
-	else
-		add_post_meta($post_id, '_wp_attachment_metadata', $newmeta);
+	wp_update_attachment_metadata( $post_id, $newmeta );
 
 case 'editpost':
 	$post_ID = (int) $_POST['post_ID'];

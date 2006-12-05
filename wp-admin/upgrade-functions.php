@@ -466,7 +466,7 @@ function upgrade_160() {
 
 			$meta = get_post_meta($object->ID, 'imagedata', true);
 			if ( ! empty($meta['file']) )
-				add_post_meta($object->ID, '_wp_attached_file', $meta['file']);
+				update_attached_file( $object->ID, $meta['file'] );
 		}
 	}
 }

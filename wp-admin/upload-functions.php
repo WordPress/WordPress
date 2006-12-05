@@ -2,7 +2,7 @@
 function wp_upload_display( $dims = false, $href = '' ) {
 	global $post;
 	$id = get_the_ID();
-	$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
+	$attachment_data = wp_get_attachment_metadata( $id );
 	if ( isset($attachment_data['width']) )
 		list($width,$height) = wp_shrink_dimensions($attachment_data['width'], $attachment_data['height'], 171, 128);
 	ob_start();
@@ -57,7 +57,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 function wp_upload_view() {
 	global $style, $post_id, $style;
 	$id = get_the_ID();
-	$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
+	$attachment_data = wp_get_attachment_metadata( $id );
 ?>
 	<div id="upload-file">
 		<div id="file-title">
@@ -98,7 +98,7 @@ function wp_upload_form() {
 <?php
 	if ( $id ) :
 		$attachment = get_post_to_edit( $id );
-		$attachment_data = get_post_meta( $id, '_wp_attachment_metadata', true );
+		$attachment_data = wp_get_attachment_metadata( $id );
 ?>
 		<div id="file-title">
 			<h2><?php if ( !isset($attachment_data['width']) && 'inline' != $style )
@@ -229,7 +229,7 @@ function wp_upload_tab_upload_action() {
 			$imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 			$imagedata['file'] = $file;
 
-			add_post_meta($id, '_wp_attachment_metadata', $imagedata);
+			wp_update_attachment_metadata( $id, $imagedata );
 
 			if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
 				if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
@@ -240,13 +240,13 @@ function wp_upload_tab_upload_action() {
 				if ( @file_exists($thumb) ) {
 					$newdata = $imagedata;
 					$newdata['thumb'] = basename($thumb);
-					update_post_meta($id, '_wp_attachment_metadata', $newdata, $imagedata);
+					wp_update_attachment_metadata( $id, $newdata );
 				} else {
 					$error = $thumb;
 				}
 			}
 		} else {
-			add_post_meta($id, '_wp_attachment_metadata', array());
+			wp_update_attachment_metadata( $id, array() );
 		}
 
 		wp_redirect( get_option('siteurl') . "/wp-admin/upload.php?style=$style&tab=browse&action=view&ID=$id&post_id=$post_id");
