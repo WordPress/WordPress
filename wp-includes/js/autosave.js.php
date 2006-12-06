@@ -13,9 +13,10 @@ function autosave_start_timer() {
 		form.addEventListener("submit", function () { autosavePeriodical.currentlyExecuting = true; }, false);
 	}
 	if(form.attachEvent) {
-		$('save').attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; });
-		$('publish').attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; });
-		$('deletepost').attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; });
+		form.save ? form.save.attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; }) : null;
+		form.submit ? form.submit.attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; }) : null;
+		form.publish ? form.publish.attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; }) : null;
+		form.deletepost ? form.deletepost.attachEvent("onclick", function () { autosavePeriodical.currentlyExecuting = true; }) : null;
 	}
 }
 addLoadEvent(autosave_start_timer)
@@ -38,9 +39,9 @@ function autosave_update_post_ID() {
 	var message;
 	
 	if(isNaN(res)) {
-		message = "<?php js_escape(__('Error: ')); ?>" + response;
+		message = "<?php echo js_escape(__('Error: ')); ?>" + response;
 	} else {
-		message = "<?php js_escape(__('Saved at ')); ?>" + autosave_cur_time();
+		message = "<?php echo js_escape(__('Saved at ')); ?>" + autosave_cur_time();
 		$('post_ID').name = "post_ID";
 		$('post_ID').value = res;
 		// We need new nonces
@@ -57,10 +58,11 @@ function autosave_update_post_ID() {
 		$('hiddenaction').value = 'editpost';
 	}
 	$('autosave').innerHTML = message;
+	autosave_enable_buttons();
 }
 
 function autosave_loading() {
-	$('autosave').innerHTML = "<?php js_escape(__('Saving Draft...')); ?>";
+	$('autosave').innerHTML = "<?php echo js_escape(__('Saving Draft...')); ?>";
 }
 
 function autosave_saved() {
@@ -69,13 +71,30 @@ function autosave_saved() {
 	var message;
 	
 	if(isNaN(res)) {
-		message = "<?php js_escape(__('Error: ')); ?>" + response;
+		message = "<?php echo js_escape(__('Error: ')); ?>" + response;
 	} else {
-		message = "<?php js_escape(__('Saved at ')); ?>" + autosave_cur_time() + ".";
+		message = "<?php echo js_escape(__('Saved at ')); ?>" + autosave_cur_time() + ".";
 	}
 	$('autosave').innerHTML = message;
+	autosave_enable_buttons();
 }
-	
+
+function autosave_disable_buttons() {
+	var form = $('post');
+	form.save ? form.save.disabled = 'disabled' : null;
+	form.submit ? form.submit.disabled = 'disabled' : null;
+	form.publish ? form.publish.disabled = 'disabled' : null;
+	form.deletepost ? form.deletepost.disabled = 'disabled' : null;
+}
+
+function autosave_enable_buttons() {
+	var form = $('post');
+	form.save ? form.save.disabled = '' : null;
+	form.submit ? form.submit.disabled = '' : null;
+	form.publish ? form.publish.disabled = '' : null;
+	form.deletepost ? form.deletepost.disabled = '' : null;
+}
+
 function autosave() {
 	var form = $('post');
 	var rich = ((typeof tinyMCE != "undefined") && tinyMCE.getInstanceById('content')) ? true : false;
@@ -94,6 +113,8 @@ function autosave() {
 
 	if(form.post_title.value.length==0 || form.content.value.length==0 || form.post_title.value+form.content.value == autosaveLast)
 		return;
+
+	autosave_disable_buttons();
 
 	autosaveLast = form.post_title.value+form.content.value;
 
