@@ -609,6 +609,7 @@ class WP_Query {
 		}
 		if ( $this->is_feed ) {
 			$q['posts_per_page'] = get_option('posts_per_rss');
+			$q['nopaging'] = false;
 		}
 		$q['posts_per_page'] = (int) $q['posts_per_page'];
 		if ( $q['posts_per_page'] < -1 )
