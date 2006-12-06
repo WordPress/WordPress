@@ -194,7 +194,7 @@ if ( $links ) {
 
 <div id="ajax-response"></div>
 
-<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Links') ?> &raquo;" onclick="return confirm('<?php echo js_escape(__("You are about to delete these links permanently \n  \'Cancel\' to stop, \'OK\' to delete.")); ?>')" /></p>
+<p class="submit"><input type="submit" class="button" name="deletebookmarks" id="deletebookmarks" value="<?php _e('Delete Checked Links') ?> &raquo;" onclick="return confirm('<?php echo js_escape(__("You are about to delete these links permanently.\n'Cancel' to stop, 'OK' to delete.")); ?>')" /></p>
 </form>
 
 <?php } ?>
