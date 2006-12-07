@@ -139,6 +139,11 @@ class wpdb {
 	//	Basic Query	- see docs for more detail
 
 	function query($query) {
+		// filter the query, if filters are available
+		// NOTE: some queries are made before the plugins have been loaded, and thus cannot be filtered with this method
+		if ( function_exists('apply_filters') )
+			$query = apply_filters('query', $query);
+
 		// initialise return
 		$return_val = 0;
 		$this->flush();
