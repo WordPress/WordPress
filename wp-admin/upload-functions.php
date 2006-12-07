@@ -220,34 +220,7 @@ function wp_upload_tab_upload_action() {
 		// Save the data
 		$id = wp_insert_attachment($attachment, $file, $post_id);
 
-		if ( preg_match('!^image/!', $attachment['post_mime_type']) ) {
-			// Generate the attachment's postmeta.
-			$imagesize = getimagesize($file);
-			$imagedata['width'] = $imagesize['0'];
-			$imagedata['height'] = $imagesize['1'];
-			list($uwidth, $uheight) = get_udims($imagedata['width'], $imagedata['height']);
-			$imagedata['hwstring_small'] = "height='$uheight' width='$uwidth'";
-			$imagedata['file'] = $file;
-
-			wp_update_attachment_metadata( $id, $imagedata );
-
-			if ( $imagedata['width'] * $imagedata['height'] < 3 * 1024 * 1024 ) {
-				if ( $imagedata['width'] > 128 && $imagedata['width'] >= $imagedata['height'] * 4 / 3 )
-					$thumb = wp_create_thumbnail($file, 128);
-				elseif ( $imagedata['height'] > 96 )
-					$thumb = wp_create_thumbnail($file, 96);
-
-				if ( @file_exists($thumb) ) {
-					$newdata = $imagedata;
-					$newdata['thumb'] = basename($thumb);
-					wp_update_attachment_metadata( $id, $newdata );
-				} else {
-					$error = $thumb;
-				}
-			}
-		} else {
-			wp_update_attachment_metadata( $id, array() );
-		}
+		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 
 		wp_redirect( get_option('siteurl') . "/wp-admin/upload.php?style=$style&tab=browse&action=view&ID=$id&post_id=$post_id");
 		die;
