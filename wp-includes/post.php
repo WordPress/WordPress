@@ -939,9 +939,9 @@ function &get_page(&$page, $output = OBJECT) {
 		if ( isset($GLOBALS['page']->ID) && ($page == $GLOBALS['page']->ID) ) {
 			$_page = & $GLOBALS['page'];
 			wp_cache_add($_page->ID, $_page, 'pages');
-		} elseif ( !isset($_page) && $_page == $GLOBALS['post_cache'][$blog_id][$page] ) {
+		} elseif ( isset($GLOBALS['post_cache'][$blog_id][$page]) ) {
 			return get_post($page, $output);
-		} elseif ( isset($_page) && $_page == wp_cache_get($page, 'pages') ) {
+		} elseif ( $_page = wp_cache_get($page, 'pages') ) {
 			// Got it.
 		} else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1";
