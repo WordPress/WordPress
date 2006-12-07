@@ -10,11 +10,13 @@ function username_exists( $username ) {
 	return null;
 }
 
+
 function email_exists( $email ) {
 	global $wpdb;
 	$email = addslashes( $email );
 	return $wpdb->get_var("SELECT ID FROM $wpdb->users WHERE user_email = '$email'");
 }
+
 
 function validate_username( $username ) {
 	$name = sanitize_user($username, true);
@@ -25,6 +27,7 @@ function validate_username( $username ) {
 
 	return apply_filters('validate_username', $valid, $username);
 }
+
 
 function wp_insert_user($userdata) {
 	global $wpdb;
@@ -123,6 +126,7 @@ function wp_insert_user($userdata) {
 	return $user_id;
 }
 
+
 function wp_update_user($userdata) {
 	global $wpdb;
 
@@ -146,7 +150,7 @@ function wp_update_user($userdata) {
 
 	// Update the cookies if the password changed.
 	$current_user = wp_get_current_user();
-	if( $current_user->id == $ID ) {
+	if ( $current_user->id == $ID ) {
 		if ( isset($plaintext_pass) ) {
 			wp_clearcookie();
 			wp_setcookie($userdata['user_login'], $plaintext_pass);
@@ -156,11 +160,12 @@ function wp_update_user($userdata) {
 	return $user_id;
 }
 
-function wp_create_user( $username, $password, $email = '') {
+
+function wp_create_user($username, $password, $email = '') {
 	global $wpdb;
 
-	$user_login = $wpdb->escape( $username );
-	$user_email = $wpdb->escape( $email );
+	$user_login = $wpdb->escape($username);
+	$user_email = $wpdb->escape($email);
 	$user_pass = $password;
 
 	$userdata = compact('user_login', 'user_email', 'user_pass');
@@ -168,9 +173,8 @@ function wp_create_user( $username, $password, $email = '') {
 }
 
 
-function create_user( $username, $password, $email ) {
-	return wp_create_user( $username, $password, $email );
+function create_user($username, $password, $email) {
+	return wp_create_user($username, $password, $email);
 }
-
 
 ?>

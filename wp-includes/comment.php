@@ -3,12 +3,13 @@
 function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $comment_type) {
 	global $wpdb;
 
-	if (1 == get_option('comment_moderation')) return false; // If moderation is set to manual
+	if ( 1 == get_option('comment_moderation') )
+		return false; // If moderation is set to manual
 
 	if ( preg_match_all("|(href\t*?=\t*?['\"]?)?(https?:)?//|i", $comment, $out) >= get_option('comment_max_links') )
 		return false; // Check # of external links
 
-	$mod_keys = trim( get_option('moderation_keys') );
+	$mod_keys = trim(get_option('moderation_keys'));
 	if ( !empty($mod_keys) ) {
 		$words = explode("\n", $mod_keys );
 
@@ -16,7 +17,8 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 			$word = trim($word);
 
 			// Skip empty lines
-			if (empty($word)) { continue; }
+			if ( empty($word) )
+				continue;
 
 			// Do some escaping magic so that '#' chars in the
 			// spam words don't break things:
@@ -43,7 +45,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 				return true;
 			else
 				return false;
-		} elseif( $author != '' && $email != '' ) {
+		} elseif ( $author != '' && $email != '' ) {
 			$ok_to_comment = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_author = '$author' AND comment_author_email = '$email' and comment_approved = '1' LIMIT 1");
 			if ( ( 1 == $ok_to_comment ) &&
 				( empty($mod_keys) || false === strpos( $email, $mod_keys) ) )
@@ -54,9 +56,9 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 			return false;
 		}
 	}
-
 	return true;
 }
+
 
 function get_approved_comments($post_id) {
 	global $wpdb;
@@ -64,6 +66,7 @@ function get_approved_comments($post_id) {
 	$post_id = (int) $post_id;
 	return $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1' ORDER BY comment_date");
 }
+
 
 // Retrieves comment data given a comment ID or comment object.
 // Handles comment caching.
@@ -97,30 +100,31 @@ function &get_comment(&$comment, $output = OBJECT) {
 	}
 }
 
+
 // Deprecate in favor of get_comment()?
 function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) { // less flexible, but saves DB queries
 	global $postc, $id, $commentdata, $wpdb;
-	if ($no_cache) {
+	if ( $no_cache ) {
 		$query = "SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment_ID'";
-		if (false == $include_unapproved) {
-				$query .= " AND comment_approved = '1'";
-		}
-				$myrow = $wpdb->get_row($query, ARRAY_A);
+		if ( false == $include_unapproved )
+			$query .= " AND comment_approved = '1'";
+		$myrow = $wpdb->get_row($query, ARRAY_A);
 	} else {
-		$myrow['comment_ID'] = $postc->comment_ID;
-		$myrow['comment_post_ID'] = $postc->comment_post_ID;
-		$myrow['comment_author'] = $postc->comment_author;
+		$myrow['comment_ID']           = $postc->comment_ID;
+		$myrow['comment_post_ID']      = $postc->comment_post_ID;
+		$myrow['comment_author']       = $postc->comment_author;
 		$myrow['comment_author_email'] = $postc->comment_author_email;
-		$myrow['comment_author_url'] = $postc->comment_author_url;
-		$myrow['comment_author_IP'] = $postc->comment_author_IP;
-		$myrow['comment_date'] = $postc->comment_date;
-		$myrow['comment_content'] = $postc->comment_content;
-		$myrow['comment_karma'] = $postc->comment_karma;
-		$myrow['comment_approved'] = $postc->comment_approved;
-		$myrow['comment_type'] = $postc->comment_type;
+		$myrow['comment_author_url']   = $postc->comment_author_url;
+		$myrow['comment_author_IP']    = $postc->comment_author_IP;
+		$myrow['comment_date']         = $postc->comment_date;
+		$myrow['comment_content']      = $postc->comment_content;
+		$myrow['comment_karma']        = $postc->comment_karma;
+		$myrow['comment_approved']     = $postc->comment_approved;
+		$myrow['comment_type']         = $postc->comment_type;
 	}
 	return $myrow;
 }
+
 
 function get_lastcommentmodified($timezone = 'server') {
 	global $cache_lastcommentmodified, $pagenow, $wpdb;
@@ -128,7 +132,7 @@ function get_lastcommentmodified($timezone = 'server') {
 	$add_seconds_server = date('Z');
 	$now = current_time('mysql', 1);
 	if ( !isset($cache_lastcommentmodified[$timezone]) ) {
-		switch(strtolower($timezone)) {
+		switch ( strtolower($timezone)) {
 			case 'gmt':
 				$lastcommentmodified = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_date_gmt <= '$now' ORDER BY comment_date_gmt DESC LIMIT 1");
 				break;
@@ -145,6 +149,7 @@ function get_lastcommentmodified($timezone = 'server') {
 	}
 	return $lastcommentmodified;
 }
+
 
 function sanitize_comment_cookies() {
 	if ( isset($_COOKIE['comment_author_'.COOKIEHASH]) ) {
@@ -168,6 +173,7 @@ function sanitize_comment_cookies() {
 		$_COOKIE['comment_author_url_'.COOKIEHASH] = $comment_author_url;
 	}
 }
+
 
 function wp_allow_comment($commentdata) {
 	global $wpdb;
@@ -198,13 +204,11 @@ function wp_allow_comment($commentdata) {
 		$post_author = $wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = '$comment_post_ID' LIMIT 1");
 	}
 
-	// The author and the admins get respect.
 	if ( $userdata && ( $user_id == $post_author || $user->has_cap('level_9') ) ) {
+		// The author and the admins get respect.
 		$approved = 1;
-	}
-
-	// Everyone else's comments will be checked.
-	else {
+	 } else {
+		// Everyone else's comments will be checked.
 		if ( check_comment($comment_author, $comment_author_email, $comment_author_url, $comment_content, $comment_author_IP, $comment_agent, $comment_type) )
 			$approved = 1;
 		else
@@ -217,27 +221,28 @@ function wp_allow_comment($commentdata) {
 	return $approved;
 }
 
+
 function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
 	global $wpdb;
 
 	do_action('wp_blacklist_check', $author, $email, $url, $comment, $user_ip, $user_agent);
 
 	if ( preg_match_all('/&#(\d+);/', $comment . $author . $url, $chars) ) {
-		foreach ($chars[1] as $char) {
+		foreach ( (array) $chars[1] as $char ) {
 			// If it's an encoded char in the normal ASCII set, reject
 			if ( 38 == $char )
 				continue; // Unless it's &
-			if ($char < 128)
+			if ( $char < 128 )
 				return true;
 		}
 	}
 
 	$mod_keys = trim( get_option('blacklist_keys') );
-	if ('' == $mod_keys )
+	if ( '' == $mod_keys )
 		return false; // If moderation keys are empty
 	$words = explode("\n", $mod_keys );
 
-	foreach ($words as $word) {
+	foreach ( (array) $words as $word ) {
 		$word = trim($word);
 
 		// Skip empty lines
@@ -248,16 +253,19 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		$word = preg_quote($word, '#');
 
 		$pattern = "#$word#i";
-		if ( preg_match($pattern, $author    ) ) return true;
-		if ( preg_match($pattern, $email     ) ) return true;
-		if ( preg_match($pattern, $url       ) ) return true;
-		if ( preg_match($pattern, $comment   ) ) return true;
-		if ( preg_match($pattern, $user_ip   ) ) return true;
-		if ( preg_match($pattern, $user_agent) ) return true;
+		if (
+			   preg_match($pattern, $author)
+			|| preg_match($pattern, $email)
+			|| preg_match($pattern, $url)
+			|| preg_match($pattern, $comment)
+			|| preg_match($pattern, $user_ip)
+			|| preg_match($pattern, $user_agent)
+		 )
+			return true;
 	}
-
 	return false;
 }
+
 
 function wp_delete_comment($comment_id) {
 	global $wpdb;
@@ -276,22 +284,24 @@ function wp_delete_comment($comment_id) {
 	return true;
 }
 
+
 function wp_get_comment_status($comment_id) {
 	global $wpdb;
 
 	$result = $wpdb->get_var("SELECT comment_approved FROM $wpdb->comments WHERE comment_ID='$comment_id' LIMIT 1");
-	if ($result == NULL) {
+
+	if ( $result == NULL )
 		return 'deleted';
-	} else if ($result == '1') {
+	elseif ( $result == '1' )
 		return 'approved';
-	} else if ($result == '0') {
+	elseif ( $result == '0' )
 		return 'unapproved';
-	} else if ($result == 'spam') {
+	elseif ( $result == 'spam' )
 		return 'spam';
-	} else {
+	else
 		return false;
-	}
 }
+
 
 function wp_get_current_commenter() {
 	// Cookies should already be sanitized.
@@ -310,6 +320,7 @@ function wp_get_current_commenter() {
 
 	return compact('comment_author', 'comment_author_email', 'comment_author_url');
 }
+
 
 function wp_insert_comment($commentdata) {
 	global $wpdb;
@@ -342,6 +353,7 @@ function wp_insert_comment($commentdata) {
 	return $id;
 }
 
+
 function wp_filter_comment($commentdata) {
 	$commentdata['user_id']              = apply_filters('pre_user_id', $commentdata['user_ID']);
 	$commentdata['comment_agent']        = apply_filters('pre_comment_user_agent', $commentdata['comment_agent']);
@@ -354,6 +366,7 @@ function wp_filter_comment($commentdata) {
 	return $commentdata;
 }
 
+
 function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) {
 	if ( $block ) // a plugin has already blocked... we'll let that decision stand
 		return $block;
@@ -361,6 +374,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
 		return true;
 	return false;
 }
+
 
 function wp_new_comment( $commentdata ) {
 	$commentdata = apply_filters('preprocess_comment', $commentdata);
@@ -373,7 +387,6 @@ function wp_new_comment( $commentdata ) {
 
 	$commentdata['comment_date']     = current_time('mysql');
 	$commentdata['comment_date_gmt'] = current_time('mysql', 1);
-
 
 	$commentdata = wp_filter_comment($commentdata);
 
@@ -396,39 +409,41 @@ function wp_new_comment( $commentdata ) {
 	return $comment_ID;
 }
 
-function wp_set_comment_status($comment_id, $comment_status) {
-		global $wpdb;
 
-		switch($comment_status) {
+function wp_set_comment_status($comment_id, $comment_status) {
+	global $wpdb;
+
+	switch ( $comment_status ) {
 		case 'hold':
 			$query = "UPDATE $wpdb->comments SET comment_approved='0' WHERE comment_ID='$comment_id' LIMIT 1";
-		break;
+			break;
 		case 'approve':
 			$query = "UPDATE $wpdb->comments SET comment_approved='1' WHERE comment_ID='$comment_id' LIMIT 1";
-		break;
+			break;
 		case 'spam':
 			$query = "UPDATE $wpdb->comments SET comment_approved='spam' WHERE comment_ID='$comment_id' LIMIT 1";
-		break;
+			break;
 		case 'delete':
 			return wp_delete_comment($comment_id);
-		break;
+			break;
 		default:
 			return false;
-		}
+	}
 
-		if ($wpdb->query($query)) {
+	if ( $wpdb->query($query) ) {
 		do_action('wp_set_comment_status', $comment_id, $comment_status);
 
 		$comment = get_comment($comment_id);
 		$comment_post_ID = $comment->comment_post_ID;
-		$c = $wpdb->get_row( "SELECT count(*) as c FROM {$wpdb->comments} WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'" );
-		if( is_object( $c ) )
-			$wpdb->query( "UPDATE $wpdb->posts SET comment_count = '$c->c' WHERE ID = '$comment_post_ID'" );
+		$c = $wpdb->get_row("SELECT count(*) as c FROM {$wpdb->comments} WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'");
+		if ( is_object($c) )
+			$wpdb->query("UPDATE $wpdb->posts SET comment_count = '$c->c' WHERE ID = '$comment_post_ID'");
 		return true;
-		} else {
+	} else {
 		return false;
-		}
+	}
 }
+
 
 function wp_update_comment($commentarr) {
 	global $wpdb;
@@ -437,7 +452,7 @@ function wp_update_comment($commentarr) {
 	$comment = get_comment($commentarr['comment_ID'], ARRAY_A);
 
 	// Escape data pulled from DB.
-	foreach ($comment as $key => $value)
+	foreach ( (array) $comment as $key => $value )
 		$comment[$key] = $wpdb->escape($value);
 
 	// Merge old and new fields with new fields overwriting old ones.
@@ -452,22 +467,20 @@ function wp_update_comment($commentarr) {
 
 	$result = $wpdb->query(
 		"UPDATE $wpdb->comments SET
-			comment_content = '$comment_content',
-			comment_author = '$comment_author',
+			comment_content      = '$comment_content',
+			comment_author       = '$comment_author',
 			comment_author_email = '$comment_author_email',
-			comment_approved = '$comment_approved',
-			comment_author_url = '$comment_author_url',
-			comment_date = '$comment_date'
+			comment_approved     = '$comment_approved',
+			comment_author_url   = '$comment_author_url',
+			comment_date         = '$comment_date'
 		WHERE comment_ID = $comment_ID" );
 
 	$rval = $wpdb->rows_affected;
-
 	wp_update_comment_count($comment_post_ID);
-
 	do_action('edit_comment', $comment_ID);
-
 	return $rval;
 }
+
 
 function wp_update_comment_count($post_id) {
 	global $wpdb, $comment_count_cache;
@@ -479,6 +492,7 @@ function wp_update_comment_count($post_id) {
 	$comment_count_cache[$post_id] = $count;
 	return true;
 }
+
 
 //
 // Ping and trackback functions.
@@ -497,58 +511,51 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 
 	extract(parse_url($url));
 
-	if (!isset($host)) {
-		// Not an URL. This should never happen.
+	if ( !isset($host) ) // Not an URL. This should never happen.
 		return false;
-	}
 
-	$path  = (!isset($path)) ? '/'        : $path;
-	$path .= (isset($query)) ? '?'.$query : '';
-	$port  = (isset($port))  ? $port      : 80;
+	$path  = ( !isset($path) ) ? '/'          : $path;
+	$path .= ( isset($query) ) ? '?' . $query : '';
+	$port  = ( isset($port)  ) ? $port        : 80;
 
 	// Try to connect to the server at $host
 	$fp = @fsockopen($host, $port, $errno, $errstr, 2);
-	if (!$fp) {
-		// Couldn't open a connection to $host;
+	if ( !$fp ) // Couldn't open a connection to $host
 		return false;
-	}
 
 	// Send the GET request
 	$request = "GET $path HTTP/1.1\r\nHost: $host\r\nUser-Agent: WordPress/$wp_version \r\n\r\n";
-//	ob_end_flush();
+	// ob_end_flush();
 	fputs($fp, $request);
 
 	// Let's check for an X-Pingback header first
-	while (!feof($fp)) {
+	while ( !feof($fp) ) {
 		$line = fgets($fp, 512);
-		if (trim($line) == '') {
+		if ( trim($line) == '' )
 			break;
-		}
 		$headers .= trim($line)."\n";
 		$x_pingback_header_offset = strpos(strtolower($headers), $x_pingback_str);
-		if ($x_pingback_header_offset) {
+		if ( $x_pingback_header_offset ) {
 			// We got it!
 			preg_match('#x-pingback: (.+)#is', $headers, $matches);
 			$pingback_server_url = trim($matches[1]);
 			return $pingback_server_url;
 		}
-		if(strpos(strtolower($headers), 'content-type: ')) {
+		if ( strpos(strtolower($headers), 'content-type: ') ) {
 			preg_match('#content-type: (.+)#is', $headers, $matches);
 			$content_type = trim($matches[1]);
 		}
 	}
 
-	if (preg_match('#(image|audio|video|model)/#is', $content_type)) {
-		// Not an (x)html, sgml, or xml page, no use going further
+	if ( preg_match('#(image|audio|video|model)/#is', $content_type) ) // Not an (x)html, sgml, or xml page, no use going further
 		return false;
-	}
 
-	while (!feof($fp)) {
+	while ( !feof($fp) ) {
 		$line = fgets($fp, 1024);
 		$contents .= trim($line);
 		$pingback_link_offset_dquote = strpos($contents, $pingback_str_dquote);
 		$pingback_link_offset_squote = strpos($contents, $pingback_str_squote);
-		if ($pingback_link_offset_dquote || $pingback_link_offset_squote) {
+		if ( $pingback_link_offset_dquote || $pingback_link_offset_squote ) {
 			$quote = ($pingback_link_offset_dquote) ? '"' : '\'';
 			$pingback_link_offset = ($quote=='"') ? $pingback_link_offset_dquote : $pingback_link_offset_squote;
 			$pingback_href_pos = @strpos($contents, 'href=', $pingback_link_offset);
@@ -557,13 +564,11 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 			$pingback_server_url_len = $pingback_href_end - $pingback_href_start;
 			$pingback_server_url = substr($contents, $pingback_href_start, $pingback_server_url_len);
 			// We may find rel="pingback" but an incomplete pingback URL
-			if ($pingback_server_url_len > 0) {
-				// We got it!
+			if ( $pingback_server_url_len > 0 ) // We got it!
 				return $pingback_server_url;
-			}
 		}
 		$byte_count += strlen($line);
-		if ($byte_count > $timeout_bytes) {
+		if ( $byte_count > $timeout_bytes ) {
 			// It's no use going further, there probably isn't any pingback
 			// server to find in this file. (Prevents loading large files.)
 			return false;
@@ -573,6 +578,7 @@ function discover_pingback_server_uri($url, $timeout_bytes = 2048) {
 	// We didn't find anything.
 	return false;
 }
+
 
 function do_all_pings() {
 	global $wpdb;
@@ -592,9 +598,8 @@ function do_all_pings() {
 	// Do Trackbacks
 	$trackbacks = $wpdb->get_results("SELECT ID FROM $wpdb->posts WHERE CHAR_LENGTH(TRIM(to_ping)) > 7 AND post_status = 'publish'");
 	if ( is_array($trackbacks) ) {
-		foreach ( $trackbacks as $trackback ) {
+		foreach ( $trackbacks as $trackback )
 			do_trackbacks($trackback->ID);
-		}
 	}
 
 	//Do Update Services/Generic Pings
@@ -612,7 +617,7 @@ function do_trackbacks($post_id) {
 		return;
 	}
 
-	if (empty($post->post_excerpt))
+	if ( empty($post->post_excerpt) )
 		$excerpt = apply_filters('the_content', $post->post_content);
 	else
 		$excerpt = apply_filters('the_excerpt', $post->post_excerpt);
@@ -626,16 +631,19 @@ function do_trackbacks($post_id) {
 	$post_title = apply_filters('the_title', $post->post_title);
 	$post_title = strip_tags($post_title);
 
-	if ($to_ping) : foreach ($to_ping as $tb_ping) :
-		$tb_ping = trim($tb_ping);
-		if ( !in_array($tb_ping, $pinged) ) {
-			trackback($tb_ping, $post_title, $excerpt, $post_id);
-			$pinged[] = $tb_ping;
-		} else {
-			$wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_ping', '')) WHERE ID = '$post_id'");
+	if ( $to_ping ) {
+		foreach ( (array) $to_ping as $tb_ping ) {
+			$tb_ping = trim($tb_ping);
+			if ( !in_array($tb_ping, $pinged) ) {
+				trackback($tb_ping, $post_title, $excerpt, $post_id);
+				$pinged[] = $tb_ping;
+			} else {
+				$wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_ping', '')) WHERE ID = '$post_id'");
+			}
 		}
-	endforeach; endif;
+	}
 }
+
 
 function generic_ping($post_id = 0) {
 	$services = get_option('ping_sites');
@@ -643,22 +651,22 @@ function generic_ping($post_id = 0) {
 	$services = trim($services);
 	if ( '' != $services ) {
 		$services = explode("\n", $services);
-		foreach ($services as $service) {
+		foreach ( (array) $services as $service )
 			weblog_ping($service);
-		}
 	}
 
 	return $post_id;
 }
 
+
 function pingback($content, $post_ID) {
 	global $wp_version, $wpdb;
-	include_once (ABSPATH . WPINC . '/class-IXR.php');
+	include_once(ABSPATH . WPINC . '/class-IXR.php');
 
 	// original code by Mort (http://mort.mine.nu:8080)
 	$log = debug_fopen(ABSPATH . '/pingback.log', 'a');
 	$post_links = array();
-	debug_fwrite($log, 'BEGIN '.date('YmdHis', time())."\n");
+	debug_fwrite($log, 'BEGIN ' . date('YmdHis', time()) . "\n");
 
 	$pung = get_pung($post_ID);
 
@@ -687,24 +695,24 @@ function pingback($content, $post_ID) {
 	// http://dummy-weblog.org/post.php
 	// We don't wanna ping first and second types, even if they have a valid <link/>
 
-	foreach($post_links_temp[0] as $link_test) :
+	foreach ( $post_links_temp[0] as $link_test ) :
 		if ( !in_array($link_test, $pung) && (url_to_postid($link_test) != $post_ID) // If we haven't pung it already and it isn't a link to itself
 				&& !is_local_attachment($link_test) ) : // Also, let's never ping local attachments.
 			$test = parse_url($link_test);
-			if (isset($test['query']))
+			if ( isset($test['query']) )
 				$post_links[] = $link_test;
-			elseif(($test['path'] != '/') && ($test['path'] != ''))
+			elseif ( ($test['path'] != '/') && ($test['path'] != '') )
 				$post_links[] = $link_test;
 		endif;
 	endforeach;
 
-	do_action_ref_array('pre_ping',  array(&$post_links, &$pung));
+	do_action_ref_array('pre_ping', array(&$post_links, &$pung));
 
-	foreach ($post_links as $pagelinkedto){
+	foreach ( (array) $post_links as $pagelinkedto ) {
 		debug_fwrite($log, "Processing -- $pagelinkedto\n");
 		$pingback_server_url = discover_pingback_server_uri($pagelinkedto, 2048);
 
-		if ($pingback_server_url) {
+		if ( $pingback_server_url ) {
 			@ set_time_limit( 60 );
 			 // Now, the RPC call
 			debug_fwrite($log, "Page Linked To: $pagelinkedto \n");
@@ -731,7 +739,8 @@ function pingback($content, $post_ID) {
 	debug_fclose($log);
 }
 
-function privacy_ping_filter( $sites ) {
+
+function privacy_ping_filter($sites) {
 	if ( '0' != get_option('blog_public') )
 		return $sites;
 	else
@@ -780,9 +789,10 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 	return $wpdb->query("UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, '$tb_url', '')) WHERE ID = '$ID'");
 }
 
+
 function weblog_ping($server = '', $path = '') {
 	global $wp_version;
-	include_once (ABSPATH . WPINC . '/class-IXR.php');
+	include_once(ABSPATH . WPINC . '/class-IXR.php');
 
 	// using a timeout of 3 seconds should be enough to cover slow servers
 	$client = new IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));

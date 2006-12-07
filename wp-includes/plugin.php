@@ -9,7 +9,7 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 
 	// check that we don't already have the same filter at the same priority
 	if ( isset($wp_filter[$tag]["$priority"]) ) {
-		foreach($wp_filter[$tag]["$priority"] as $filter) {
+		foreach ( $wp_filter[$tag]["$priority"] as $filter ) {
 			// uncomment if we want to match function AND accepted_args
 			// if ( $filter == array($function, $accepted_args) ) {
 			if ( $filter['function'] == $function_to_add )
@@ -135,7 +135,7 @@ function do_action_ref_array($tag, $args) {
 
 	foreach ( (array) $wp_filter[$tag] as $priority => $functions ) {
 		if ( !is_null($functions) ) {
-			foreach( (array) $functions as $function ) {
+			foreach ( (array) $functions as $function ) {
 				$function_name = $function['function'];
 				$accepted_args = $function['accepted_args'];
 				if ( $accepted_args > 0 )

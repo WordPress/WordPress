@@ -5,9 +5,11 @@ function get_bloginfo_rss($show = '') {
 	return apply_filters('bloginfo_rss', convert_chars($info));
 }
 
+
 function bloginfo_rss($show = '') {
 	echo get_bloginfo_rss($show);
 }
+
 
 function get_the_title_rss() {
 	$title = get_the_title();
@@ -16,9 +18,11 @@ function get_the_title_rss() {
 	return $title;
 }
 
+
 function the_title_rss() {
 	echo get_the_title_rss();
 }
+
 
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
 	$content = get_the_content($more_link_text, $stripteaser, $more_file);
@@ -42,9 +46,8 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 			$k = count($blah);
 			$use_dotdotdot = 0;
 		}
-		for ( $i=0; $i<$k; $i++ ) {
+		for ( $i=0; $i<$k; $i++ )
 			$excerpt .= $blah[$i].' ';
-		}
 		$excerpt .= ($use_dotdotdot) ? '...' : '';
 		$content = $excerpt;
 	}
@@ -52,25 +55,32 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
 	echo $content;
 }
 
+
 function the_excerpt_rss() {
 	$output = get_the_excerpt(true);
 	echo apply_filters('the_excerpt_rss', $output);
 }
 
+
 function permalink_single_rss($file = '') {
 	echo get_permalink();
 }
+
 
 function comment_link() {
 	echo get_comment_link();
 }
 
+
 function get_comment_author_rss() {
 	return apply_filters('comment_author_rss', get_comment_author() );
 }
+
+
 function comment_author_rss() {
 	echo get_comment_author_rss();
 }
+
 
 function comment_text_rss() {
 	$comment_text = get_comment_text();
@@ -78,10 +88,12 @@ function comment_text_rss() {
 	echo $comment_text;
 }
 
+
 function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = '') {
 	$url = comments_rss($commentsrssfilename);
 	echo "<a href='$url'>$link_text</a>";
 }
+
 
 function comments_rss($commentsrssfilename = '') {
 	global $id;
@@ -93,6 +105,7 @@ function comments_rss($commentsrssfilename = '') {
 
 	return apply_filters('post_comments_feed_link', $url);
 }
+
 
 function get_author_rss_link($echo = false, $author_id, $author_nicename) {
 	$auth_ID = $author_id;
@@ -112,6 +125,7 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
 	return $link;
 }
 
+
 function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
 	$permalink_structure = get_option('permalink_structure');
 
@@ -129,6 +143,7 @@ function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
 	return $link;
 }
 
+
 function get_the_category_rss($type = 'rss') {
 	$categories = get_the_category();
 	$the_list = '';
@@ -142,9 +157,11 @@ function get_the_category_rss($type = 'rss') {
 	return apply_filters('the_category_rss', $the_list, $type);
 }
 
+
 function the_category_rss($type = 'rss') {
 	echo get_the_category_rss($type);
 }
+
 
 function rss_enclosure() {
 	global $id, $post;
