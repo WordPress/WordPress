@@ -928,6 +928,7 @@ function &get_page(&$page, $output = OBJECT) {
 			$_page = & $GLOBALS['page'];
 			wp_cache_add($_page->ID, $_page, 'pages');
 		} else {
+			// shouldn't we just return NULL at this point? ~ Mark
 			$_page = null;
 		}
 	} elseif ( is_object($page) ) {
@@ -936,21 +937,28 @@ function &get_page(&$page, $output = OBJECT) {
 		wp_cache_add($page->ID, $page, 'pages');
 		$_page = $page;
 	} else {
-		if ( isset($GLOBALS['page']->ID) && ($page == $GLOBALS['page']->ID) ) {
-			$_page = & $GLOBALS['page'];
-			wp_cache_add($_page->ID, $_page, 'pages');
-		} elseif ( isset($GLOBALS['post_cache'][$blog_id][$page]) ) {
-			return get_post($page, $output);
-		} elseif ( $_page = wp_cache_get($page, 'pages') ) {
-			// Got it.
-		} else {
-			$query = "SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1";
-			$_page = & $wpdb->get_row($query);
-			if ( 'post' == $_page->post_type )
-				return get_post($_page, $output);
-			wp_cache_add($_page->ID, $_page, 'pages');
+		// first, check the cache
+		if ( ! ( $_page = wp_cache_get($page, 'pages') ) ) {
+			// not in the page cache?
+			if ( isset($GLOBALS['page']->ID) && ($page == $GLOBALS['page']->ID) ) { // for is_page() views
+				// I don't think this code ever gets executed ~ Mark
+				$_page = & $GLOBALS['page'];
+				wp_cache_add($_page->ID, $_page, 'pages');
+			} elseif ( isset($GLOBALS['post_cache'][$blog_id][$page]) ) { // it's actually a page, and is cached
+				return get_post($page, $output);
+			} else { // it's not in any caches, so off to the DB we go
+				// Why are we using assignment for this query?
+				$_page = & $wpdb->get_row("SELECT * FROM $wpdb->posts WHERE ID= '$page' LIMIT 1");
+				if ( 'post' == $_page->post_type )
+					return get_post($_page, $output);
+				// Potential issue: we're not checking to see if the post_type = 'page'
+				// So all non-'post' posts will get cached as pages.
+				wp_cache_add($_page->ID, $_page, 'pages');
+			}
 		}
 	}
+
+	// at this point, one way or another, $_post contains the page object
 
 	if ( $output == OBJECT ) {
 		return $_page;
