@@ -111,15 +111,15 @@ function &get_categories($args = '') {
 	// Update category counts to include children.
 	if ( $hierarchical ) {
 		foreach ( $categories as $k => $category ) {
-			$progeny = $category->category_count;
+			$progeny = 'link' == $type ? $category->link_count : $category->category_count;
 			if ( $children = _get_cat_children($category->cat_ID, $categories) ) {
 				foreach ( $children as $child )
-					$progeny += $child->category_count;
+					$progeny += 'link' == $type ? $child->link_count : $child->category_count;
 			}
 			if ( !$progeny && $hide_empty )
 				unset($categories[$k]);
 			else
-				$categories[$k]->category_count = $progeny;
+				$categories[$k]->{'link' == $type ? 'link_count' : 'category_count'} = $progeny;
 		}
 	}
 	reset ( $categories );
