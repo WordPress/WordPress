@@ -189,23 +189,23 @@ if (current_user_can('upload_files')) {
 
 <div id="advancedstuff" class="dbx-group" >
 
-<div class="dbx-box-wrapper">
+<div class="dbx-b-ox-wrapper">
 <fieldset id="postexcerpt" class="dbx-box">
-<div class="dbx-handle-wrapper">
+<div class="dbx-h-andle-wrapper">
 <h3 class="dbx-handle"><?php _e('Optional Excerpt') ?></h3>
 </div>
-<div class="dbx-content-wrapper">
+<div class="dbx-c-ontent-wrapper">
 <div class="dbx-content"><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt ?></textarea></div>
 </div>
 </fieldset>
 </div>
 
-<div class="dbx-box-wrapper">
+<div class="dbx-b-ox-wrapper">
 <fieldset id="trackbacksdiv" class="dbx-box">
-<div class="dbx-handle-wrapper">
+<div class="dbx-h-andle-wrapper">
 <h3 class="dbx-handle"><?php _e('Trackbacks') ?></h3>
 </div>
-<div class="dbx-content-wrapper">
+<div class="dbx-c-ontent-wrapper">
 <div class="dbx-content"><?php _e('Send trackbacks to'); ?>: <?php echo $form_trackback; ?> (<?php _e('Separate multiple URIs with spaces'); ?>)
 <?php
 if ( ! empty($pings) )
@@ -216,12 +216,12 @@ if ( ! empty($pings) )
 </fieldset>
 </div>
 
-<div class="dbx-box-wrapper">
+<div class="dbx-b-ox-wrapper">
 <fieldset id="postcustom" class="dbx-box">
-<div class="dbx-handle-wrapper">
+<div class="dbx-h-andle-wrapper">
 <h3 class="dbx-handle"><?php _e('Custom Fields') ?></h3>
 </div>
-<div class="dbx-content-wrapper">
+<div class="dbx-c-ontent-wrapper">
 <div id="postcustomstuff" class="dbx-content">
 <table cellpadding="3">
 <?php

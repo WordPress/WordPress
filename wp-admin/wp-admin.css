@@ -1149,7 +1149,7 @@ overall, dbx-box is best left as visually unstyled as possible
 	background: #2685af url(images/box-head-right.gif) no-repeat top right;
 }
 
-#advancedstuff div.dbx-handle-wrapper {
+#advancedstuff div.dbx-h-andle-wrapper {
 	margin: 0 0 0 -7px;
 	background: #fff url(images/box-head-left.gif) no-repeat top left;
 }
@@ -1165,7 +1165,7 @@ overall, dbx-box is best left as visually unstyled as possible
 	padding-right: 17px;
 }
 
-#advancedstuff div.dbx-content-wrapper {
+#advancedstuff div.dbx-c-ontent-wrapper {
 	margin-left: -7px;
 	margin-right: 0;
 	background: url(images/box-bg-left.gif) repeat-y left;
@@ -1177,11 +1177,11 @@ overall, dbx-box is best left as visually unstyled as possible
 	background: url(images/box-butt-right.gif) no-repeat bottom right;
 }
 
-#advancedstuff div.dbx-box-wrapper {
+#advancedstuff div.dbx-b-ox-wrapper {
 	background: url(images/box-butt-left.gif) no-repeat bottom left;
 }
 
-#advancedstuff .dbx-box-closed div.dbx-content-wrapper {
+#advancedstuff .dbx-box-closed div.dbx-c-ontent-wrapper {
 	padding-bottom: 2px;
 	background: url(images/box-butt-left.gif) no-repeat bottom left;
 }
