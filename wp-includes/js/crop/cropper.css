@@ -1,0 +1,165 @@
+.imgCrop_wrap {
+	/* width: 500px;   @done_in_js */
+	/* height: 375px;  @done_in_js */
+	position: relative;
+	cursor: crosshair;
+}
+
+/* an extra classname is applied for Opera < 9.0 to fix it's lack of opacity support */
+.imgCrop_wrap.opera8 .imgCrop_overlay,
+.imgCrop_wrap.opera8 .imgCrop_clickArea { 
+	background-color: transparent;
+}
+
+/* fix for IE displaying all boxes at line-height by default, although they are still 1 pixel high until we combine them with the pointless span */
+.imgCrop_wrap,
+.imgCrop_wrap * {
+	font-size: 0;
+}
+
+.imgCrop_overlay {
+	background-color: #000;
+	opacity: 0.5;
+	filter:alpha(opacity=50);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.imgCrop_selArea {
+	position: absolute;
+	/* @done_in_js 
+	top: 20px;
+	left: 20px;
+	width: 200px;
+	height: 200px;
+	background: transparent url(castle.jpg) no-repeat  -210px -110px;
+	*/
+	cursor: move;
+	z-index: 2;
+}
+
+/* clickArea is all a fix for IE 5.5 & 6 to allow the user to click on the given area */
+.imgCrop_clickArea {
+	width: 100%;
+	height: 100%;
+	background-color: #FFF;
+	opacity: 0.01;
+	filter:alpha(opacity=01);
+}
+
+.imgCrop_marqueeHoriz {
+	position: absolute;
+	width: 100%;
+	height: 1px;
+	background: transparent url(marqueeHoriz.gif) repeat-x 0 0;
+	z-index: 3;
+}
+
+.imgCrop_marqueeVert {
+	position: absolute;
+	height: 100%;
+	width: 1px;
+	background: transparent url(marqueeVert.gif) repeat-y 0 0;
+	z-index: 3;
+}
+
+.imgCrop_marqueeNorth { top: 0; left: 0; }
+.imgCrop_marqueeEast  { top: 0; right: 0; }
+.imgCrop_marqueeSouth { bottom: 0px; left: 0; }
+.imgCrop_marqueeWest  { top: 0; left: 0; }
+
+
+.imgCrop_handle {
+	position: absolute;
+	border: 1px solid #333;
+	width: 6px;
+	height: 6px;
+	background: #FFF;
+	opacity: 0.5;
+	filter:alpha(opacity=50);
+	z-index: 4;
+}
+
+/* fix IE 5 box model */
+* html .imgCrop_handle {
+	width: 8px;
+	height: 8px;
+	wid\th: 6px;
+	hei\ght: 6px;
+}
+
+.imgCrop_handleN {
+	top: -3px;
+	left: 0;
+	/* margin-left: 49%;    @done_in_js */
+	cursor: n-resize;
+}
+
+.imgCrop_handleNE { 
+	top: -3px;
+	right: -3px;
+	cursor: ne-resize;
+}
+
+.imgCrop_handleE {
+	top: 0;
+	right: -3px;
+	/* margin-top: 49%;    @done_in_js */
+	cursor: e-resize;
+}
+
+.imgCrop_handleSE {
+	right: -3px;
+	bottom: -3px;
+	cursor: se-resize;
+}
+
+.imgCrop_handleS {
+	right: 0;
+	bottom: -3px;
+	/* margin-right: 49%; @done_in_js */
+	cursor: s-resize;
+}
+
+.imgCrop_handleSW {
+	left: -3px;
+	bottom: -3px;
+	cursor: sw-resize;
+}
+
+.imgCrop_handleW {
+	top: 0;
+	left: -3px;
+	/* margin-top: 49%;  @done_in_js */
+	cursor: e-resize;
+}
+
+.imgCrop_handleNW {
+	top: -3px;
+	left: -3px;
+	cursor: nw-resize;
+}
+
+/**
+ * Create an area to click & drag around on as the default browser behaviour is to let you drag the image 
+ */
+.imgCrop_dragArea {
+	width: 100%;
+	height: 100%;
+	z-index: 200;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.imgCrop_previewWrap {
+	/* width: 200px;  @done_in_js */
+	/* height: 200px; @done_in_js */
+	overflow: hidden;
+	position: relative;
+}
+
+.imgCrop_previewWrap img {
+	position: absolute;
+}
