@@ -430,18 +430,13 @@ function wp_set_comment_status($comment_id, $comment_status) {
 			return false;
 	}
 
-	if ( $wpdb->query($query) ) {
-		do_action('wp_set_comment_status', $comment_id, $comment_status);
-
-		$comment = get_comment($comment_id);
-		$comment_post_ID = $comment->comment_post_ID;
-		$c = $wpdb->get_row("SELECT count(*) as c FROM {$wpdb->comments} WHERE comment_post_ID = '$comment_post_ID' AND comment_approved = '1'");
-		if ( is_object($c) )
-			$wpdb->query("UPDATE $wpdb->posts SET comment_count = '$c->c' WHERE ID = '$comment_post_ID'");
-		return true;
-	} else {
+	if ( !$wpdb->query($query) )
 		return false;
-	}
+
+	do_action('wp_set_comment_status', $comment_id, $comment_status);
+	$comment = get_comment($comment_id);
+	wp_update_comment_count($comment->comment_post_ID);
+	return true;
 }
 
 
@@ -490,6 +485,15 @@ function wp_update_comment_count($post_id) {
 	$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1'");
 	$wpdb->query("UPDATE $wpdb->posts SET comment_count = $count WHERE ID = '$post_id'");
 	$comment_count_cache[$post_id] = $count;
+
+	$post = get_post($post_id);
+	if ( 'page' == $post->post_type )
+		clean_page_cache( $post_id );
+	else
+		clean_post_cache( $post_id );
+
+	do_action('edit_post', $post_id);
+
 	return true;
 }
 

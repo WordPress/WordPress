@@ -438,8 +438,7 @@ function wp_delete_post($postid = 0) {
 	$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id = $postid");
 
 	if ( 'page' == $post->post_type ) {
-		wp_cache_delete( 'all_page_ids', 'pages' );
-		wp_cache_delete( 'get_pages', 'page' );
+		clean_page_cache($postid);
 		$wp_rewrite->flush_rules();
 	}
 
@@ -650,7 +649,7 @@ function wp_insert_post($postarr = array()) {
 
 	if ( 'page' == $post_type ) {
 		clean_page_cache($post_ID);
-		wp_cache_delete($post_ID, 'pages');
+		$wp_rewrite->flush_rules();
 	} else {
 		clean_post_cache($post_ID);
 	}
@@ -689,10 +688,6 @@ function wp_insert_post($postarr = array()) {
 			wp_schedule_single_event(time(), 'do_pings');
 		}
 	} else if ($post_type == 'page') {
-		wp_cache_delete( 'all_page_ids', 'pages' );
-		wp_cache_delete( 'get_pages', 'page' );
-		$wp_rewrite->flush_rules();
-
 		if ( !empty($page_template) )
 			if ( ! update_post_meta($post_ID, '_wp_page_template',  $page_template))
 				add_post_meta($post_ID, '_wp_page_template',  $page_template, true);
@@ -816,13 +811,9 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	foreach ( $all_affected_cats as $cat_id ) {
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id'");
 		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
-		wp_cache_delete($cat_id, 'category');
+		clean_category_cache($cat_id);
 		do_action('edit_category', $cat_id);
 	}
-
-	wp_cache_delete('get_categories', 'category');
-
-	do_action('edit_post', $post_ID);
 }	// wp_set_post_categories()
 
 //

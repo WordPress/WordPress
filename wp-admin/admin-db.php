@@ -133,13 +133,11 @@ function wp_insert_category($catarr) {
 		$wpdb->query( "UPDATE $wpdb->categories SET category_nicename = '$category_nicename' WHERE cat_ID = '$cat_ID'" );
 	}
 
-	wp_cache_delete($cat_ID, 'category');
-	wp_cache_delete('get_categories', 'category');
+	clean_category_cache($cat_ID);
 
 	if ($update) {
 		do_action('edit_category', $cat_ID);
 	} else {
-		wp_cache_delete('all_category_ids', 'category');
 		do_action('create_category', $cat_ID);
 		do_action('add_category', $cat_ID);
 	}
@@ -213,9 +211,7 @@ function wp_delete_category($cat_ID) {
 		wp_set_link_cats($link_id, $cats);
 	}
 
-	wp_cache_delete($cat_ID, 'category');
-	wp_cache_delete('all_category_ids', 'category');
-	wp_cache_delete('get_categories', 'category');
+	clean_category_cache($cat_ID);
 
 	do_action('delete_category', $cat_ID);
 
@@ -487,7 +483,6 @@ function wp_set_link_cats($link_ID = 0, $link_categories = array()) {
 		do_action('edit_category', $cat_id);
 	}
 
-	do_action('edit_link', $link_ID);
 }	// wp_set_link_cats()
 
 function post_exists($title, $content = '', $post_date = '') {
