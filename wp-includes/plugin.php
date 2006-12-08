@@ -92,7 +92,8 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 }
 
 function do_action($tag, $arg = '') {
-	global $wp_filter;
+	global $wp_filter, $wp_actions;
+
 	$args = array();
 	if ( is_array($arg) && 1 == count($arg) && is_object($arg[0]) ) // array(&$this)
 		$args[] =& $arg[0];
@@ -123,10 +124,27 @@ function do_action($tag, $arg = '') {
 			}
 		}
 	}
+
+	if ( is_array($wp_actions) )
+		$wp_actions[] = $tag;
+	else
+		$wp_actions = array($tag);
+}
+
+// Returns the number of times an action has been done
+function did_action($tag) {
+	global $wp_actions;
+
+	return count(array_keys($wp_actions, $tag));
 }
 
 function do_action_ref_array($tag, $args) {
-	global $wp_filter;
+	global $wp_filter, $wp_actions;
+
+	if ( !is_array($wp_actions) )
+		$wp_actions = array($tag);
+	else
+		$wp_actions[] = $tag;
 
 	merge_filters($tag);
 
