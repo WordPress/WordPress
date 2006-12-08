@@ -26,7 +26,7 @@ class WP_Scripts {
 		$this->add( 'scriptaculous-dragdrop', '/wp-includes/js/scriptaculous/scriptaculous.js?load=builder,dragdrop', array('prototype'), '1.6.1');
 		$this->add( 'scriptaculous-slider', '/wp-includes/js/scriptaculous/scriptaculous.js?load=slider,effects', array('prototype'), '1.6.1');
 		$this->add( 'scriptaculous-controls', '/wp-includes/js/scriptaculous/scriptaculous.js?load=controls', array('prototype'), '1.6.1');
-		$this->add( 'cropper', '/wp-content/themes/pub/connections/crop/cropper.js', array('scriptaculous-dragdrop'), '1');
+		$this->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '1');
 		if ( is_admin() ) {
 			$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key-js.php', array('dbx'), '3651' );
 			$this->add( 'ajaxcat', '/wp-admin/cat-js.php', array('listman'), '3684' );
