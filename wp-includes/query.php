@@ -819,8 +819,9 @@ class WP_Query {
 			$cat_paths = '/' . trim(urldecode($q['category_name']), '/');
 			$q['category_name'] = sanitize_title(basename($cat_paths));
 			$cat_paths = explode('/', $cat_paths);
-			foreach($cat_paths as $pathdir)
-				$cat_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
+			$cat_path = '';
+			foreach ( (array) $cat_paths as $pathdir )
+				$cat_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title($pathdir);
 
 			//if we don't match the entire hierarchy fallback on just matching the nicename
 			if ( empty($reqcat) )

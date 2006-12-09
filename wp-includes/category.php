@@ -169,8 +169,9 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 	$category_paths = '/' . trim($category_path, '/');
 	$leaf_path  = sanitize_title(basename($category_paths));
 	$category_paths = explode('/', $category_paths);
-	foreach($category_paths as $pathdir)
-		$full_path .= ($pathdir!=''?'/':'') . sanitize_title($pathdir);
+	$full_path = '';
+	foreach ( (array) $category_paths as $pathdir )
+		$full_path .= ( $pathdir != '' ? '/' : '' ) . sanitize_title($pathdir);
 
 	$categories = $wpdb->get_results("SELECT cat_ID, category_nicename, category_parent FROM $wpdb->categories WHERE category_nicename = '$leaf_path'");
 
