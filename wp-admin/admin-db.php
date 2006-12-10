@@ -174,29 +174,27 @@ function wp_delete_category($cat_ID) {
 	global $wpdb;
 
 	$cat_ID = (int) $cat_ID;
+	$default_cat = get_option('default_category');
+	$default_link_cat = get_option('default_link_category');
 
-	// Don't delete the default cat.
-	if ( $cat_ID == get_option('default_category') )
-		return 0;
-
-	if ( $cat_ID == get_option('default_link_category') )
+	// Don't delete either of the default cats
+	if ( $cat_ID == $default_cat || $cat_ID == $default_link_cat )
 		return 0;
 
 	$category = get_category($cat_ID);
 
 	$parent = $category->category_parent;
 
-	// Delete the category.
+	// Delete the category
 	if ( !$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'") )
 		return 0;
 
-	// Update children to point to new parent.
+	// Update children to point to new parent
 	$wpdb->query("UPDATE $wpdb->categories SET category_parent = '$parent' WHERE category_parent = '$cat_ID'");
 
-	// Only set posts and links to the default category if they're not in another category already.
-	$default_cat = get_option('default_category');
+	// Only set posts and links to the default category if they're not in another category already
 	$posts = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE category_id='$cat_ID'");
-	if ( is_array($posts) ) foreach ($posts as $post_id) {
+	foreach ( (array) $posts as $post_id ) {
 		$cats = wp_get_post_categories($post_id);
 		if ( 1 == count($cats) )
 			$cats = array($default_cat);
@@ -205,9 +203,8 @@ function wp_delete_category($cat_ID) {
 		wp_set_post_categories($post_id, $cats);
 	}
 
-	$default_link_cat = get_option('default_link_category');
 	$links = $wpdb->get_col("SELECT link_id FROM $wpdb->link2cat WHERE category_id='$cat_ID'");
-	if ( is_array($links) ) foreach ($links as $link_id) {
+	foreach ( (array) $links as $link_id ) {
 		$cats = wp_get_link_cats($link_id);
 		if ( 1 == count($cats) )
 			$cats = array($default_link_cat);
@@ -217,9 +214,7 @@ function wp_delete_category($cat_ID) {
 	}
 
 	clean_category_cache($cat_ID);
-
 	do_action('delete_category', $cat_ID);
-
 	return 1;
 }
 
