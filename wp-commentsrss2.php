@@ -76,6 +76,7 @@ if (have_posts()) :
 		<content:encoded><![CDATA[<?php comment_text() ?>]]></content:encoded>
 			<?php
 			} // close check for password
+			do_action('commentrss2_item', $comment->comment_ID, $comment->comment_post_ID);
 			?>
 	</item>
 <?php
