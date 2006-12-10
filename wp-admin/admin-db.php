@@ -133,6 +133,11 @@ function wp_insert_category($catarr) {
 		$wpdb->query( "UPDATE $wpdb->categories SET category_nicename = '$category_nicename' WHERE cat_ID = '$cat_ID'" );
 	}
 
+	// Keep in mind when using this filter and altering the cat_ID that the two queries above
+	// have already taken place with the OLD cat_ID
+	// Also note that you may have post2cat entries with the old cat_ID if this is an update
+	$cat_ID = apply_filters('cat_id_filter', $cat_ID, $update);
+
 	clean_category_cache($cat_ID);
 
 	if ($update) {
