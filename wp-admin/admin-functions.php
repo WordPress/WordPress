@@ -1984,34 +1984,6 @@ function wp_reset_vars( $vars ) {
 }
 
 
-function wp_check_for_changed_slugs($post_id) {
-	if ( !strlen($_POST['wp-old-slug']) )
-		return $post_id;
-
-	$post = &get_post($post_id);
-
-	// we're only concerned with published posts
-	if ( $post->post_status != 'publish' || $post->post_type != 'post' )
-		return $post_id;
-
-	// only bother if the slug has changed
-	if ( $post->post_name == $_POST['wp-old-slug'] )
-		return $post_id;
-
-	$old_slugs = (array) get_post_meta($post_id, '_wp_old_slug');
-
-	// if we haven't added this old slug before, add it now
-	if ( !count($old_slugs) || !in_array($_POST['wp-old-slug'], $old_slugs) )
-		add_post_meta($post_id, '_wp_old_slug', $_POST['wp-old-slug']);
-
-	// if the new slug was used previously, delete it from the list
-	if ( in_array($post->post_name, $old_slugs) )
-		delete_post_meta($post_id, '_wp_old_slug', $post->post_name);
-
-	return $post_id;
-}
-
-
 function wp_remember_old_slug() {
 	global $post;
 	$name = wp_specialchars($post->post_name); // just in case
