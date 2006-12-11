@@ -336,10 +336,10 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
 			foreach ( $arcresults as $arcresult ) {
 				$url	= get_month_link($arcresult->year,	$arcresult->month);
 				if ( $show_post_count ) {
-					$text = sprintf(_('%1$s %2$d'), $month[zeroise($arcresult->month,2)], $arcresult->year);
+					$text = sprintf(__('%1$s %2$d'), $month[zeroise($arcresult->month,2)], $arcresult->year);
 					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
 				} else {
-					$text = sprintf(_('%1$s %2$d'), $month[zeroise($arcresult->month,2)], $arcresult->year);
+					$text = sprintf(__('%1$s %2$d'), $month[zeroise($arcresult->month,2)], $arcresult->year);
 				}
 				echo get_archives_link($url, $text, $format, $before, $after);
 			}
