@@ -26,6 +26,7 @@ function init() {
 	}
 
 	document.forms[0].href.value = tinyMCE.getWindowArg('href') || 'http://';
+	document.forms[0].href.select();
 	document.forms[0].linktitle.value = tinyMCE.getWindowArg('title');
 	document.forms[0].insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
 
