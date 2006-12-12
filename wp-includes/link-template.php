@@ -134,7 +134,7 @@ function get_attachment_link($id = false) {
 	}
 
 	$object = get_post($id);
-	if ( $wp_rewrite->using_permalinks() && ($object->post_parent > 0) ) {
+	if ( $wp_rewrite->using_permalinks() && ($object->post_parent > 0) && ($object->post_parent != $id) ) {
 		$parent = get_post($object->post_parent);
 		if ( 'page' == $parent->post_type )
 			$parentlink = _get_page_link( $object->post_parent ); // Ignores page_on_front
