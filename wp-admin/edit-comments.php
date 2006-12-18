@@ -90,9 +90,8 @@ if (isset($_GET['s'])) {
 	else
 		$page = 1;
 	$start = $offset = ( $page - 1 ) * 20;
-	$end = $start + 20;
 
-	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1' ORDER BY comment_date DESC LIMIT $start, $end" );
+	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1' ORDER BY comment_date DESC LIMIT $start, 20" );
 	$total = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1'" );
 }
 ?>
