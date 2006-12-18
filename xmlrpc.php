@@ -32,6 +32,7 @@ header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
 exit;
 }
 
+include_once(ABSPATH . 'wp-admin/admin-functions.php');
 include_once(ABSPATH . WPINC . '/class-IXR.php');
 
 // Turn off all warnings and errors.
