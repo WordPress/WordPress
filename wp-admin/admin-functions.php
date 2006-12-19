@@ -462,6 +462,12 @@ function edit_user( $user_id = 0 ) {
 		$user->aim = wp_specialchars( trim( $_POST['aim'] ));
 	if ( isset( $_POST['yim'] ))
 		$user->yim = wp_specialchars( trim( $_POST['yim'] ));
+	if ( !$update )
+		$user->rich_editing = 'true';  // Default to true for new users.
+	else if ( isset( $_POST['rich_editing'] ) )
+		$user->rich_editing = $_POST['rich_editing'];
+	else
+		$user->rich_editing = 'false';
 
 	$errors = new WP_Error();
 

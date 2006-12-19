@@ -17,12 +17,6 @@ if ( is_wp_error( $errors ) ) {
 	exit;
 }
 
-if ( rich_edit_exists() ) {
-	if ( !isset( $_POST['rich_editing'] ) )
-		$_POST['rich_editing'] = 'false';
-	update_user_option( $current_user->id, 'rich_editing', $_POST['rich_editing'], true );
-}
-
 do_action('personal_options_update');
 
 if ( 'profile' == $_POST['from'] )

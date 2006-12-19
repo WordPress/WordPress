@@ -79,6 +79,9 @@ function wp_insert_user($userdata) {
 		$description = '';
 	$description = apply_filters('pre_user_description', $description);
 
+	if ( empty($rich_editing) )
+		$rich_editing = 'true';
+
 	if ( empty($user_registered) )
 		$user_registered = gmdate('Y-m-d H:i:s');
 
@@ -104,6 +107,7 @@ function wp_insert_user($userdata) {
 	update_usermeta( $user_id, 'jabber', $jabber );
 	update_usermeta( $user_id, 'aim', $aim );
 	update_usermeta( $user_id, 'yim', $yim );
+	update_usermeta( $user_id, 'rich_editing', $rich_editing);
 
 	if ( $update && isset($role) ) {
 		$user = new WP_User($user_id);
