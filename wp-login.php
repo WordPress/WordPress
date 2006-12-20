@@ -35,7 +35,7 @@ function login_header($title = 'Login', $message = '') {
 <?php if ( ('rtl' == $wp_locale->text_direction) ) : ?>
 	<link rel="stylesheet" href="<?php bloginfo('wpurl'); ?>/wp-admin/rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <?php endif; ?>
-	<!--[if IE]><style type="text/css">#login h1 a { margin-top: 35px; } #login ul { padding-bottom: 65px; }</style><![endif]--><!-- Curse you, IE! -->
+	<!--[if IE]><style type="text/css">#login h1 a { margin-top: 35px; } #login #login_error { margin-bottom: 10px; }</style><![endif]--><!-- Curse you, IE! -->
 	<script type="text/javascript">
 		function focusit() {
 			document.getElementById('user_login').focus();
@@ -272,7 +272,7 @@ case 'register' :
 <ul>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php"><?php _e('Login') ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
-	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>"><?php _e('Back to') ?> <?php bloginfo('title'); ?></a></li>
+	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
 </ul>
 
 </body>
@@ -363,9 +363,9 @@ default:
 <?php if (get_option('users_can_register')) : ?>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=register"><?php _e('Register') ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
-	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>"><?php _e('Back to') ?> <?php bloginfo('title'); ?></a></li>
+	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
 <?php else : ?>
-	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>"><?php _e('Back to') ?> <?php bloginfo('title'); ?></a></li>
+	<li><a href="<?php bloginfo('home'); ?>/" title="<?php _e('Are you lost?') ?>"><?php printf(__('Back to %s'), get_bloginfo('title')); ?></a></li>
 	<li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li>
 <?php endif; ?>
 </ul>
