@@ -231,14 +231,14 @@ if ( $error )
 ?>
 
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
-<p><label><?php _e('Username:') ?><br /><input type="text" name="log" id="log" value="<?php echo wp_specialchars(stripslashes($user_login), 1); ?>" size="20" tabindex="1" /></label></p>
+<p><label><?php _e('Username:') ?><br /><input type="text" name="log" id="log" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="1" /></label></p>
 <p><label><?php _e('Password:') ?><br /> <input type="password" name="pwd" id="pwd" value="" size="20" tabindex="2" /></label></p>
 <p>
   <label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="3" /> 
   <?php _e('Remember me'); ?></label></p>
 <p class="submit">
 	<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="4" />
-	<input type="hidden" name="redirect_to" value="<?php echo wp_specialchars($redirect_to); ?>" />
+	<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($redirect_to); ?>" />
 </p>
 </form>
 <ul>

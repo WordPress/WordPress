@@ -1050,4 +1050,10 @@ function js_escape($text) {
 	$text = str_replace('&#039;', "'", $text);
 	return preg_replace("/\r?\n/", "\\n", addslashes($text));
 }
+
+// Escaping for HTML attributes like
+function attribute_escape($text) {
+	return wp_specialchars($text, true);
+}
+
 ?>

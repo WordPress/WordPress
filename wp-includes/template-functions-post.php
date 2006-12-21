@@ -418,7 +418,7 @@ function _page_level_out($parent, $page_tree, $args, $depth = 0, $echo = true) {
 
 	foreach ( $page_tree[$parent]['children'] as $page_id ) {
 		$cur_page = $page_tree[$page_id];
-		$title = wp_specialchars($cur_page['title']);
+		$title = attribute_escape($cur_page['title']);
 
 		$css_class = 'page_item';
 		if ( $page_id == $queried_obj->ID )

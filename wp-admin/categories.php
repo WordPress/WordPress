@@ -69,12 +69,12 @@ case 'edit':
 	  <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 		<tr>
 		  <th width="33%" scope="row"><?php _e('Category name:') ?></th>
-		  <td width="67%"><input name="cat_name" type="text" value="<?php echo wp_specialchars($category->cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
+		  <td width="67%"><input name="cat_name" type="text" value="<?php echo attribute_escape($category->cat_name); ?>" size="40" /> <input type="hidden" name="action" value="editedcat" />
 <input type="hidden" name="cat_ID" value="<?php echo $category->cat_ID ?>" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e('Category slug:') ?></th>
-			<td><input name="category_nicename" type="text" value="<?php echo wp_specialchars($category->category_nicename); ?>" size="40" /></td>
+			<td><input name="category_nicename" type="text" value="<?php echo attribute_escape($category->category_nicename); ?>" size="40" /></td>
 		</tr>
 		<tr>
 			<th scope="row"><?php _e('Category parent:') ?></th>
@@ -86,7 +86,7 @@ case 'edit':
 		</tr>
 		<tr>
 			<th scope="row"><?php _e('Description:') ?></th>
-			<td><textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description, 1); ?></textarea></td>
+			<td><textarea name="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description); ?></textarea></td>
 		</tr>
 		</table>
 	  <p class="submit"><input type="submit" name="submit" value="<?php _e('Edit category') ?> &raquo;" /></p>

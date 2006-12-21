@@ -289,7 +289,7 @@ function get_default_post_to_edit() {
 	else if ( !empty($post_title) ) {
 		$text       = wp_specialchars(stripslashes(urldecode($_REQUEST['text'])));
 		$text       = funky_javascript_fix($text);
-		$popupurl   = wp_specialchars($_REQUEST['popupurl']);
+		$popupurl   = attribute_escape(stripslashes($_REQUEST['popupurl']));
         $post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
     }
 
@@ -337,16 +337,16 @@ function get_category_to_edit($id) {
 
 function get_user_to_edit($user_id) {
 	$user = new WP_User($user_id);
-	$user->user_login = wp_specialchars($user->user_login, 1);
-	$user->user_email = wp_specialchars($user->user_email, 1);
-	$user->user_url = wp_specialchars($user->user_url, 1);
-	$user->first_name = wp_specialchars($user->first_name, 1);
-	$user->last_name = wp_specialchars($user->last_name, 1);
-	$user->display_name = wp_specialchars($user->display_name, 1);
-	$user->nickname = wp_specialchars($user->nickname, 1);
-	$user->aim = wp_specialchars($user->aim, 1);
-	$user->yim = wp_specialchars($user->yim, 1);
-	$user->jabber = wp_specialchars($user->jabber, 1);
+	$user->user_login = attribute_escape($user->user_login);
+	$user->user_email = attribute_escape($user->user_email);
+	$user->user_url = attribute_escape($user->user_url);
+	$user->first_name = attribute_escape($user->first_name);
+	$user->last_name = attribute_escape($user->last_name);
+	$user->display_name = attribute_escape($user->display_name);
+	$user->nickname = attribute_escape($user->nickname);
+	$user->aim = attribute_escape($user->aim);
+	$user->yim = attribute_escape($user->yim);
+	$user->jabber = attribute_escape($user->jabber);
 	$user->description = wp_specialchars($user->description);
 
 	return $user;
@@ -467,13 +467,13 @@ function edit_user($user_id = 0) {
 function get_link_to_edit($link_id) {
 	$link = get_link($link_id);
 
-	$link->link_url = wp_specialchars($link->link_url, 1);
-	$link->link_name = wp_specialchars($link->link_name, 1);
-	$link->link_image = wp_specialchars($link->link_image, 1);
-	$link->link_description = wp_specialchars($link->link_description, 1);
+	$link->link_url = attribute_escape($link->link_url);
+	$link->link_name = attribute_escape($link->link_name);
+	$link->link_image = attribute_escape($link->link_image);
+	$link->link_description = attribute_escape($link->link_description);
 	$link->link_notes = wp_specialchars($link->link_notes);
-	$link->link_rss = wp_specialchars($link->link_rss, 1);
-	$link->link_rel = wp_specialchars($link->link_rel, 1);
+	$link->link_rss = attribute_escape($link->link_rss);
+	$link->link_rel = attribute_escape($link->link_rel);
 	$link->post_category = $link->link_category;
 
 	return $link;
@@ -481,12 +481,12 @@ function get_link_to_edit($link_id) {
 
 function get_default_link_to_edit() {
 	if ( isset($_GET['linkurl']) )
-		$link->link_url = wp_specialchars($_GET['linkurl'], 1);
+		$link->link_url = attribute_escape($_GET['linkurl']);
 	else
 		$link->link_url = '';
 	
 	if ( isset($_GET['name']) )
-		$link->link_name = wp_specialchars($_GET['name'], 1);
+		$link->link_name = attribute_escape($_GET['name']);
 	else
 		$link->link_name = '';
 		
@@ -860,8 +860,8 @@ function list_meta($meta) {
 			}
 		}
 
-		$entry['meta_key'] = wp_specialchars( $entry['meta_key'], true );
-		$entry['meta_value'] = wp_specialchars( $entry['meta_value'], true );
+		$entry['meta_key'] = attribute_escape( $entry['meta_key']);
+		$entry['meta_value'] = attribute_escape( $entry['meta_value']);
 		echo "
 			<tr class='$style'>
 				<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>
@@ -912,7 +912,7 @@ function meta_form() {
 <?php
 
 	foreach ($keys as $key) {
-		$key = wp_specialchars($key, 1);
+		$key = attribute_escape($key);
 		echo "\n\t<option value='$key'>$key</option>";
 	}
 ?>

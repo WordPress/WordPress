@@ -44,12 +44,12 @@ FROM $wpdb->links
 <?php
              } // end if not first time
 ?>
-        <outline type="category" title="<?php echo wp_specialchars($result->cat_name); ?>">
+        <outline type="category" title="<?php echo attribute_escape($result->cat_name); ?>">
 <?php
              $prev_cat_id = $result->link_category;
         } // end if new category
 ?>
-            <outline text="<?php echo wp_specialchars($result->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($result->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($result->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $result->link_updated) echo $result->link_updated; ?>" />
+            <outline text="<?php echo attribute_escape($result->link_name); ?>" type="link" xmlUrl="<?php echo attribute_escape($result->link_rss); ?>" htmlUrl="<?php echo attribute_escape($result->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $result->link_updated) echo $result->link_updated; ?>" />
 <?php
         } // end foreach
 ?>

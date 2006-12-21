@@ -124,7 +124,7 @@ switch ($action) {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 	<th width="33%" scope="row"><?php _e('Name:') ?></th>
-	<td width="67%"><input name="cat_name" type="text" value="<?php echo wp_specialchars($row->cat_name)?>" size="30" /></td>
+	<td width="67%"><input name="cat_name" type="text" value="<?php echo attribute_escape($row->cat_name)?>" size="30" /></td>
 </tr>
 <tr>
 	<th scope="row"><?php _e('Show:') ?></th>

@@ -131,7 +131,7 @@ function the_author_posts() {
 function the_author_posts_link($deprecated = '') {
 	global $authordata;
 
-	echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), wp_specialchars(get_the_author())) . '">' . get_the_author() . '</a>';
+	echo '<a href="' . get_author_link(0, $authordata->ID, $authordata->user_nicename) . '" title="' . sprintf(__("Posts by %s"), attribute_escape(get_the_author())) . '">' . get_the_author() . '</a>';
 }
 
 function get_author_link($echo = false, $author_id, $author_nicename = '') {
@@ -197,7 +197,7 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
 			if ( !$hide_empty )
 				$link = $name;
 		} else {
-			$link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="' . sprintf(__("Posts by %s"), wp_specialchars($author->display_name)) . '">' . $name . '</a>';
+			$link = '<a href="' . get_author_link(0, $author->ID, $author->user_nicename) . '" title="' . sprintf(__("Posts by %s"), attribute_escape($author->display_name)) . '">' . $name . '</a>';
 
 			if ( (! empty($feed_image)) || (! empty($feed)) ) {
 				$link .= ' ';
