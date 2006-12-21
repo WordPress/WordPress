@@ -65,7 +65,7 @@ function checkAll(form)
 if ( isset($_GET['deleted']) ) {
 	echo '<div style="background-color: rgb(207, 235, 247);" id="message" class="updated fade"><p>';
 	$deleted = (int) $_GET['deleted'];
-	printf(__('%s links deleted.'), $deleted);
+	printf(__ngettext('%s link deleted.', '%s links deleted', $deleted), $deleted);
 	echo '</p></div>';
 }
 ?>

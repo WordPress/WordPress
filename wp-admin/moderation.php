@@ -72,32 +72,20 @@ if ( isset($_GET['deleted']) || isset($_GET['approved']) || isset($_GET['ignored
 	$ignored  = (int) $_GET['ignored'];
 	$spam     = (int) $_GET['spam'];
 	if ($approved) {
-		if ('1' == $approved) {
-			echo __("1 comment approved") . " <br/>\n";
-		} else {
-		 echo sprintf(__("%s comments approved <br />"), $approved) . "\n";
-		}
+		printf(__ngettext('%s comment approved', '%s comments approved', $approved), $approved);
+		echo "<br/>\n";
 	}
 	if ($deleted) {
-		if ('1' == $deleted) {
-			echo __("1 comment deleted") . " <br/>\n";
-		} else {
-			echo sprintf(__("%s comments deleted"), $deleted) . " <br/>\n";
-		}
+		printf(__ngettext('%s comment deleted', '%s comments deleted', $deleted), $deleted);
+		echo "<br/>\n";
 	}
 	if ($spam) {
-		if ('1' == $spam) {
-			echo __("1 comment marked as spam") . " <br/>\n";
-		} else {
-			echo sprintf(__("%s comments marked as spam"), $spam) . " <br/>\n";
-		}
+		printf(__ngettext('%s comment marked as spam', '%s comments marked as spam', $spam), $spam);
+		echo "<br/>\n";
 	}
 	if ($ignored) {
-		if ('1' == $ignored) {
-			echo __("1 comment unchanged") . " <br/>\n";
-		} else {
-			echo sprintf(__("%s comments unchanged"), $ignored) . " <br/>\n";
-		}
+		printf(__ngettext('%s comment unchanged', '%s comments unchanged', $ignored), $ignored);
+		echo "<br/>\n";
 	}
 	echo "</p></div>\n";
 }

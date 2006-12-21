@@ -28,7 +28,7 @@ require('admin-header.php');
 
 <div id="wp-link-bookmarklet"  class="wrap">
 <h3><?php _e('Add Link Bookmarklet'); ?></h3>
-<p><?php _e('Right click on the following link and choose "Bookmark This Link..." to create an add link shortcut. Right now this only works on Mozilla or Netscape, but we’re working on it.'); ?></p>
+<p><?php _e('Right click on the following link and choose "Bookmark This Link..." to create an add link shortcut. Right now this only works on Mozilla or Netscape, but we&8217;re working on it.'); ?></p>
 <?php printf('<p><a href="%s" title="'.__('Link add bookmarklet').'">'.__('Link This').'</a></p>', "javascript:void(linkmanpopup=window.open('" . get_option('siteurl') . "/wp-admin/link-add.php?action=popup&amp;linkurl='+escape(location.href)+'&amp;name='+escape(document.title),'LinkManager','scrollbars=yes,width=750,height=550,left=15,top=15,status=yes,resizable=yes'));linkmanpopup.focus();window.focus();linkmanpopup.focus();") ?>
 </div>
 

@@ -13,7 +13,7 @@ include('admin-header.php');
 <?php wp_nonce_field('update-options') ?>
 <p class="submit"><input type="submit" name="Submit" value="<?php _e('Update Options &raquo;') ?>" /></p>
 <fieldset class="options">
-<legend><?php _e('Usual settings for an article:<br /><small><em>(These settings may be overridden for individual articles.)</em></small>') ?></legend> 
+<legend><?php echo __('Usual settings for an article:').'<br /><small><em>('.__('These settings may be overridden for individual articles.').')</em></small>'; ?></legend> 
 <ul> 
 <li> 
 <label for="default_pingback_flag"> 

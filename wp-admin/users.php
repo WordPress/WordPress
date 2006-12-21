@@ -290,7 +290,7 @@ default:
 		case 'del_many':
 		?>
 			<?php $delete_count = (int) $_GET['delete_count']; ?>
-			<div id="message" class="updated fade"><p><?php printf(__('%1$s %2$s deleted.'), $delete_count, __ngettext('user', 'users', $delete_count) ); ?></p></div>
+			<div id="message" class="updated fade"><p><?php printf(__ngettext('%s user deleted', '%s users deleted', $delete_count), $delete_count); ?></p></div>
 		<?php
 			break;
 		case 'add':

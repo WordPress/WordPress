@@ -206,7 +206,7 @@ if (current_user_can('upload_files')) {
 <h3 class="dbx-handle"><?php _e('Trackbacks') ?></h3>
 </div>
 <div class="dbx-c-ontent-wrapper">
-<div class="dbx-content"><?php _e('Send trackbacks to'); ?>: <?php echo $form_trackback; ?> (<?php _e('Separate multiple URIs with spaces'); ?>)
+<div class="dbx-content"><?php _e('Send trackbacks to:'); ?> <?php echo $form_trackback; ?> (<?php _e('Separate multiple URLs with spaces'); ?>)
 <?php
 if ( ! empty($pings) )
 	echo $pings;

@@ -40,10 +40,10 @@ function wp_write_post() {
 	if ( $_POST['post_author'] != $_POST['user_ID'] ) {
 		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can( 'edit_others_pages' ) )
-				return new WP_Error( 'edit_others_pages', __( 'You cannot create pages as this user.' ) );
+				return new WP_Error( 'edit_others_pages', __( 'You are not allowed to create pages as this user.' ) );
 		} else {
 			if ( !current_user_can( 'edit_others_posts' ) )
-				return new WP_Error( 'edit_others_posts', __( 'You cannot post as this user.' ) );
+				return new WP_Error( 'edit_others_posts', __( 'You are not allowed to post as this user.' ) );
 
 		}
 	}
@@ -184,10 +184,10 @@ function edit_post() {
 	if ( $_POST['post_author'] != $_POST['user_ID'] ) {
 		if ( 'page' == $_POST['post_type'] ) {
 			if ( !current_user_can( 'edit_others_pages' ) )
-				wp_die( __('You cannot edit pages as this user.' ));
+				wp_die( __('You are not allowed to edit pages as this user.' ));
 		} else {
 			if ( !current_user_can( 'edit_others_posts' ) )
-				wp_die( __('You cannot edit posts as this user.' ));
+				wp_die( __('You are not allowed to edit posts as this user.' ));
 
 		}
 	}
@@ -561,7 +561,7 @@ function add_link() {
 
 function edit_link( $link_id = '' ) {
 	if (!current_user_can( 'manage_links' ))
-		wp_die( __("Cheatin' uh ?" ));
+		wp_die( __( 'Cheatin&8217; uh?' ));
 
 	$_POST['link_url'] = wp_specialchars( $_POST['link_url'] );
 	$_POST['link_url'] = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $_POST['link_url']) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
@@ -826,7 +826,7 @@ function user_row( $user_object, $style = '' ) {
 	$r .= "\n\t\t<td align='center'>";
 	if ( $numposts > 0 ) {
 		$r .= "<a href='edit.php?author=$user_object->ID' title='" . __( 'View posts by this author' ) . "' class='edit'>";
-		$r .= sprintf( __('View %1$s %2$s' ), $numposts, __ngettext( 'post', 'posts', $numposts ));
+		$r .= sprintf(__ngettext( 'View %s post', 'View %s posts', $numposts ), $numposts);
 		$r .= '</a>';
 	}
 	$r .= "</td>\n\t\t<td>";
@@ -1069,9 +1069,7 @@ function touch_time( $edit = 1, $for_post = 1 ) {
 <input type="hidden" id="ss" name="ss" value="<?php echo $ss ?>" size="2" maxlength="2" onchange="edit_date.checked=true" />
 <?php
 	if ( $edit ) {
-		_e( 'Existing timestamp' );
-		//echo ': ' . $wp_locale->get_month( $mm ) . "$jj, $aa @ $hh:$mn";
-		echo sprintf( __(': %1$s %2$s, %3$s @ %4$s:%5$s' ), $wp_locale->get_month( $mm ), $jj, $aa, $hh, $mn );
+		printf( __('Existing timestamp: %1$s %2$s, %3$s @ %4$s:%5$s' ), $wp_locale->get_month( $mm ), $jj, $aa, $hh, $mn );
 	}
 ?>
 </fieldset>

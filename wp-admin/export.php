@@ -14,7 +14,7 @@ require_once ('admin-header.php');
 <div class="narrow">
 <p><?php _e('When you click the button below WordPress will create an XML file for you to save to your computer.'); ?></p>
 <p><?php _e('This format, which we call WordPress eXtended RSS or WXR, will contain your posts, comments, custom fields, and categories.'); ?></p>
-<p><?php _e('Once you\'ve saved the download file, you can use the Import function on another WordPress blog to import this blog.'); ?></p>
+<p><?php _e('Once you&8217;ve saved the download file, you can use the Import function on another WordPress blog to import this blog.'); ?></p>
 <form action="" method="get">
 <h3><?php _e('Optional options'); ?></h3>
 
