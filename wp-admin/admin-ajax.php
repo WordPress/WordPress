@@ -13,9 +13,9 @@ function get_out_now() { exit; }
 add_action( 'shutdown', 'get_out_now', -1 );
 
 function wp_ajax_meta_row( $pid, $mid, $key, $value ) {
-	$value = wp_specialchars($value, true);
+	$value = attribute_escape($value);
 	$key_js = addslashes(wp_specialchars($key, 'double'));
-	$key = wp_specialchars($key, true);
+	$key = attribute_escape($key);
 	$r .= "<tr id='meta-$mid'><td valign='top'>";
 	$r .= "<input name='meta[$mid][key]' tabindex='6' onkeypress='return killSubmit(\"theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);\",event);' type='text' size='20' value='$key' />";
 	$r .= "</td><td><textarea name='meta[$mid][value]' tabindex='6' rows='2' cols='30'>$value</textarea></td><td align='center'>";
@@ -141,7 +141,7 @@ case 'add-cat' : // From Manage->Categories
 		$cat_full_name = $_cat->cat_name . ' &#8212; ' . $cat_full_name;
 		$level++;
 	}
-	$cat_full_name = wp_specialchars( $cat_full_name, 1 );
+	$cat_full_name = attribute_escape( $cat_full_name);
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'cat',

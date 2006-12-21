@@ -18,7 +18,7 @@ include('admin-header.php');
 <table class="editform optiontable">
 <tr valign="top">
 <th scope="row"><?php _e('Store uploads in this folder'); ?>:</th>
-<td><input name="upload_path" type="text" id="upload_path" class="code" value="<?php echo wp_specialchars(str_replace(ABSPATH, '', get_option('upload_path')), 1); ?>" size="40" />
+<td><input name="upload_path" type="text" id="upload_path" class="code" value="<?php echo attribute_escape(str_replace(ABSPATH, '', get_option('upload_path'))); ?>" size="40" />
 <br />
 <?php _e('Default is <code>wp-content/uploads</code>'); ?>
 </td>

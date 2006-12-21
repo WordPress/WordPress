@@ -509,7 +509,7 @@ class Walker_Page extends Walker {
 		elseif ( $_current_page && $page->ID == $_current_page->post_parent )
 			$css_class .= ' current_page_parent';
 
-		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . wp_specialchars($page->post_title, 1) . '">' . $page->post_title . '</a>';
+		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . attribute_escape($page->post_title) . '">' . $page->post_title . '</a>';
 	
 		if ( !empty($show_date) ) {
 			if ( 'modified' == $show_date )
@@ -575,12 +575,12 @@ class Walker_Category extends Walker {
 	function start_el($output, $category, $depth, $args) {
 		extract($args);
 
-		$cat_name = wp_specialchars( $category->cat_name, 1 );
+		$cat_name = attribute_escape( $category->cat_name);
 		$link = '<a href="' . get_category_link( $category->cat_ID ) . '" ';
 		if ( $use_desc_for_title == 0 || empty($category->category_description) )
 			$link .= 'title="' . sprintf(__( 'View all posts filed under %s' ), $cat_name) . '"';
 		else
-			$link .= 'title="' . wp_specialchars( apply_filters( 'category_description', $category->category_description, $category ), 1 ) . '"';
+			$link .= 'title="' . attribute_escape( apply_filters( 'category_description', $category->category_description, $category )) . '"';
 		$link .= '>';
 		$link .= apply_filters( 'list_cats', $category->cat_name, $category ).'</a>';
 

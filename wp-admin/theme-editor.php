@@ -88,7 +88,7 @@ default:
 		$theme_name = $a_theme['Name'];
 		if ($theme_name == $theme) $selected = " selected='selected'";
 		else $selected = '';
-		$theme_name = wp_specialchars($theme_name, true);
+		$theme_name = attribute_escape($theme_name);
 		echo "\n\t<option value=\"$theme_name\" $selected>$theme_name</option>";
 	}
 ?>

@@ -247,7 +247,7 @@ function xfn_check($class, $value = '', $type = 'check') {
 <?php if ( $link_id ) : ?>
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="link_id" value="<?php echo (int) $link_id; ?>" />
-<input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
+<input type="hidden" name="order_by" value="<?php echo attribute_escape($order_by); ?>" />
 <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
 <?php else: ?>
 <input type="hidden" name="action" value="add" />

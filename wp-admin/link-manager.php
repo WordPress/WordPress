@@ -116,7 +116,7 @@ if ( $links ) {
 <?php wp_nonce_field('bulk-bookmarks') ?>
 <input type="hidden" name="link_id" value="" />
 <input type="hidden" name="action" value="" />
-<input type="hidden" name="order_by" value="<?php echo wp_specialchars($order_by, 1); ?>" />
+<input type="hidden" name="order_by" value="<?php echo attribute_escape($order_by); ?>" />
 <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id ?>" />
 <table class="widefat">
 	<thead>
@@ -130,9 +130,9 @@ if ( $links ) {
 	<tbody id="the-list">
 <?php
 	foreach ($links as $link) {
-		$link->link_name = wp_specialchars($link->link_name);
+		$link->link_name = attribute_escape($link->link_name);
 		$link->link_description = wp_specialchars($link->link_description);
-		$link->link_url = wp_specialchars($link->link_url);
+		$link->link_url = attribute_escape($link->link_url);
 		$link->link_category = wp_get_link_cats($link->link_id);
 		$short_url = str_replace('http://', '', $link->link_url);
 		$short_url = str_replace('www.', '', $short_url);

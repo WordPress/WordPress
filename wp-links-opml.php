@@ -30,13 +30,13 @@ else
 
 foreach ((array) $cats as $cat) {
 ?>
-<outline type="category" title="<?php echo wp_specialchars($cat->cat_name); ?>">
+<outline type="category" title="<?php echo attribute_escape($cat->cat_name); ?>">
 <?php
 
 	$bookmarks = get_bookmarks("category={$cat->cat_ID}");
 	foreach ((array) $bookmarks as $bookmark) {
 ?>
-	<outline text="<?php echo wp_specialchars($bookmark->link_name); ?>" type="link" xmlUrl="<?php echo wp_specialchars($bookmark->link_rss); ?>" htmlUrl="<?php echo wp_specialchars($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
+	<outline text="<?php echo attribute_escape($bookmark->link_name); ?>" type="link" xmlUrl="<?php echo attribute_escape($bookmark->link_rss); ?>" htmlUrl="<?php echo attribute_escape($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
 <?php
 
 	}

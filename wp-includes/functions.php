@@ -231,7 +231,7 @@ function get_option($setting) {
 }
 
 function form_option($option) {
-	echo wp_specialchars( get_option($option), 1 );
+	echo attribute_escape( get_option($option));
 }
 
 function get_alloptions() {
@@ -914,16 +914,16 @@ function wp_nonce_field($action = -1) {
 }
 
 function wp_referer_field() {
-	$ref = wp_specialchars($_SERVER['REQUEST_URI']);
+	$ref = attribute_escape($_SERVER['REQUEST_URI']);
 	echo '<input type="hidden" name="_wp_http_referer" value="'. $ref . '" />';
 	if ( wp_get_original_referer() ) {
-		$original_ref = wp_specialchars(stripslashes(wp_get_original_referer()));
+		$original_ref = attribute_escape(stripslashes(wp_get_original_referer()));
 		echo '<input type="hidden" name="_wp_original_http_referer" value="'. $original_ref . '" />';
 	}
 }
 
 function wp_original_referer_field() {
-	echo '<input type="hidden" name="_wp_original_http_referer" value="' . wp_specialchars(stripslashes($_SERVER['REQUEST_URI'])) . '" />';
+	echo '<input type="hidden" name="_wp_original_http_referer" value="' . attribute_escape(stripslashes($_SERVER['REQUEST_URI'])) . '" />';
 }
 
 function wp_get_referer() {
@@ -1190,7 +1190,7 @@ function wp_nonce_ays($action) {
 		foreach ( (array) $q as $a ) {
 			$v = substr(strstr($a, '='), 1);
 			$k = substr($a, 0, -(strlen($v)+1));
-			$html .= "\t\t<input type='hidden' name='" . wp_specialchars( urldecode($k), 1 ) . "' value='" . wp_specialchars( urldecode($v), 1 ) . "' />\n";
+			$html .= "\t\t<input type='hidden' name='" . attribute_escape( urldecode($k)) . "' value='" . attribute_escape( urldecode($v)) . "' />\n";
 		}
 		$html .= "\t\t<input type='hidden' name='_wpnonce' value='" . wp_create_nonce($action) . "' />\n";
 		$html .= "\t\t<div id='message' class='confirm fade'>\n\t\t<p>" . wp_explain_nonce($action) . "</p>\n\t\t<p><a href='$adminurl'>" . __('No') . "</a> <input type='submit' value='" . __('Yes') . "' /></p>\n\t\t</div>\n\t</form>\n";

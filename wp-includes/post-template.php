@@ -334,7 +334,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false) 
 	if ( ('attachment' != $_post->post_type) || ('' == $_post->guid) )
 		return __('Missing Attachment');
 
-	$post_title = wp_specialchars( $_post->post_title, 1 );
+	$post_title = attribute_escape( $_post->post_title);
 
 	if (! empty($_post->guid) ) {
 		$innerHTML = get_attachment_innerHTML($_post->ID, $fullsize, $max_dims);
@@ -420,7 +420,7 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 		}
 	}
 
-	$post_title = wp_specialchars( $post->post_title, 1 );
+	$post_title = attribute_escape( $post->post_title);
 
 	$icon = "<img src='$src' title='$post_title' alt='$post_title' $constraint/>";
 
@@ -435,7 +435,7 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 
 	$post = & get_post($id);
 
-	$innerHTML = wp_specialchars( $post->post_title, 1 );
+	$innerHTML = attribute_escape( $post->post_title);
 
 	return apply_filters('attachment_innerHTML', $innerHTML, $post->ID);
 }

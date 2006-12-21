@@ -26,11 +26,11 @@ if ( ! empty($cat_ID) ) {
 	<table class="editform" width="100%" cellspacing="2" cellpadding="5">
 		<tr>
 			<th width="33%" scope="row" valign="top"><label for="cat_name"><?php _e('Category name:') ?></label></th>
-			<td width="67%"><input name="cat_name" id="cat_name" type="text" value="<?php echo wp_specialchars($category->cat_name); ?>" size="40" /></td>
+			<td width="67%"><input name="cat_name" id="cat_name" type="text" value="<?php echo attribute_escape($category->cat_name); ?>" size="40" /></td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><label for="category_nicename"><?php _e('Category slug:') ?></label></th>
-			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo wp_specialchars($category->category_nicename); ?>" size="40" /></td>
+			<td><input name="category_nicename" id="category_nicename" type="text" value="<?php echo attribute_escape($category->category_nicename); ?>" size="40" /></td>
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category parent:') ?></label></th>
@@ -40,7 +40,7 @@ if ( ! empty($cat_ID) ) {
 		</tr>
 		<tr>
 			<th scope="row" valign="top"><label for="category_description"><?php _e('Description: (optional)') ?></label></th>
-			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description, 1); ?></textarea></td>
+			<td><textarea name="category_description" id="category_description" rows="5" cols="50" style="width: 97%;"><?php echo wp_specialchars($category->category_description); ?></textarea></td>
 		</tr>
 	</table>
 <p class="submit"><input type="submit" name="submit" value="<?php echo $submit_text ?>" /></p>

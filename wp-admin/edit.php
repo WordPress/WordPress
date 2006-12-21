@@ -76,7 +76,7 @@ if ( is_month() ) {
 <form name="searchform" id="searchform" action="" method="get">
   <fieldset> 
   <legend><?php _e('Search Posts&hellip;') ?></legend> 
-  <input type="text" name="s" value="<?php if (isset($s)) echo wp_specialchars($s, 1); ?>" size="17" /> 
+  <input type="text" name="s" value="<?php if (isset($s)) echo attribute_escape($s); ?>" size="17" /> 
   <input type="submit" name="submit" value="<?php _e('Search') ?>" class="button" /> 
   </fieldset>
 </form>

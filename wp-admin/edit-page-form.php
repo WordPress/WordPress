@@ -13,12 +13,10 @@ if (0 == $post_ID) {
 	$form_extra = "<input type='hidden' id='post_ID' name='post_ID' value='$post_ID' />";
 }
 
-$sendto = wp_get_referer();
+$sendto = attribute_escape(stripslashes(wp_get_referer()));
 
 if ( 0 != $post_ID && $sendto == get_permalink($post_ID) )
 	$sendto = 'redo';
-$sendto = wp_specialchars( $sendto );
-
 ?>
 
 <form name="post" action="page.php" method="post" id="post">

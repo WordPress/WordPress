@@ -1081,6 +1081,11 @@ function js_escape($text) {
 	return preg_replace("/\r?\n/", "\\n", addslashes($text));
 }
 
+// Escaping for HTML attributes like
+function attribute_escape($text) {
+	return wp_specialchars($text, true);
+}
+
 function wp_make_link_relative( $link ) {
 	return preg_replace('|https?://[^/]+(/.*)|i', '$1', $link );
 }

@@ -101,8 +101,8 @@ function get_links($category = -1,
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
 
-		$desc = wp_specialchars($row->link_description, ENT_QUOTES);
-		$name = wp_specialchars($row->link_name, ENT_QUOTES);
+		$desc = attribute_escape($row->link_description);
+		$name = attribute_escape($row->link_name);
 		$title = $desc;
 
 		if ( $show_updated )
@@ -266,8 +266,8 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
 
-		$desc = wp_specialchars($bookmark->link_description, ENT_QUOTES);
-		$name = wp_specialchars($bookmark->link_name, ENT_QUOTES);
+		$desc = attribute_escape($bookmark->link_description);
+		$name = attribute_escape($bookmark->link_name);
 		$title = $desc;
 
 		if ( $show_updated )

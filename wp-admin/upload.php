@@ -87,7 +87,7 @@ foreach ( $wp_upload_tabs as $t => $tab_array ) { // We've already done the curr
 	$href = add_query_arg( array('tab' => $t, 'ID' => '', 'action' => '', 'paged' => '') );
 	if ( isset($tab_array[4]) && is_array($tab_array[4]) )
 		add_query_arg( $tab_array[4], $href );
-	$_href = wp_specialchars( $href, 1 );
+	$_href = attribute_escape( $href);
 	$page_links = '';
 	$class = 'upload-tab alignleft';
 	if ( $tab == $t ) {

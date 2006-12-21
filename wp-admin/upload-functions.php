@@ -7,7 +7,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 		list($width,$height) = wp_shrink_dimensions($attachment_data['width'], $attachment_data['height'], 171, 128);
 	ob_start();
 		the_title();
-		$post_title = wp_specialchars( ob_get_contents(), 1 );
+		$post_title = attribute_escape( ob_get_contents());
 	ob_end_clean();
 	$post_content = apply_filters( 'content_edit_pre', $post->post_content );
 	
@@ -71,9 +71,9 @@ function wp_upload_view() {
 				echo '[&nbsp;';
 				echo '<a href="' . get_permalink() . '">' . __('view') . '</a>';
 				echo '&nbsp;|&nbsp;';
-					echo '<a href="' . wp_specialchars( add_query_arg( 'action', 'edit' ), 1 ) . '" title="' . __('Edit this file') . '">' . __('edit') . '</a>';
+					echo '<a href="' . attribute_escape( add_query_arg( 'action', 'edit' )) . '" title="' . __('Edit this file') . '">' . __('edit') . '</a>';
 				echo '&nbsp;|&nbsp;';
-				echo '<a href="' . wp_specialchars( remove_query_arg( array('action', 'ID') ), 1 ) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
+				echo '<a href="' . attribute_escape( remove_query_arg( array('action', 'ID') )) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
 				echo '&nbsp;]'; ?></span>
 		</div>
 
@@ -111,9 +111,9 @@ function wp_upload_form() {
 				echo '[&nbsp;';
 				echo '<a href="' . get_permalink() . '">' . __('view') . '</a>';
 				echo '&nbsp;|&nbsp;';
-					echo '<a href="' . wp_specialchars( add_query_arg( 'action', 'view' ), 1 ) . '">' . __('links') . '</a>';
+					echo '<a href="' . attribute_escape( add_query_arg( 'action', 'view' )) . '">' . __('links') . '</a>';
 				echo '&nbsp;|&nbsp;';
-				echo '<a href="' . wp_specialchars( remove_query_arg( array('action','ID') ), 1 ) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
+				echo '<a href="' . attribute_escape( remove_query_arg( array('action','ID') )) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
 				echo '&nbsp;]'; ?></span>
 		</div>
 

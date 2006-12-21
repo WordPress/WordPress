@@ -168,11 +168,11 @@ if ('publish' != $post->post_status || 0 == $post_ID) {
 ?>
 <input name="referredby" type="hidden" id="referredby" value="<?php 
 if ( !empty($_REQUEST['popupurl']) )
-	echo wp_specialchars($_REQUEST['popupurl']);
+	echo attribute_escape(stripslashes($_REQUEST['popupurl']));
 else if ( url_to_postid(wp_get_referer()) == $post_ID )
 	echo 'redo';
 else
-	echo wp_specialchars(wp_get_referer());
+	echo attribute_escape(stripslashes(wp_get_referer()));
 ?>" /></p>
 
 <?php do_action('edit_form_advanced'); ?>

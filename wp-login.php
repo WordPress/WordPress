@@ -138,11 +138,11 @@ case 'retrievepassword' :
 <form name="lostpasswordform" id="lostpasswordform" action="wp-login.php?action=lostpassword" method="post">
 	<p>
 		<label><?php _e('Username:') ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo wp_specialchars(stripslashes($_POST['user_login']), 1); ?>" size="20" tabindex="10" /></label>
+		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($_POST['user_login'])); ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
 		<label><?php _e('E-mail:') ?><br />
-		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo wp_specialchars(stripslashes($_POST['user_email']), 1); ?>" size="25" tabindex="20" /></label>
+		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo attribute_escape(stripslashes($_POST['user_email'])); ?>" size="25" tabindex="20" /></label>
 	</p>
 <?php do_action('lostpassword_form'); ?>
 	<p class="submit"><input type="submit" name="submit" id="submit" value="<?php _e('Get New Password &raquo;'); ?>" tabindex="100" /></p>
@@ -257,11 +257,11 @@ case 'register' :
 <form name="registerform" id="registerform" action="wp-login.php?action=register" method="post">
 	<p>
 		<label><?php _e('Username:') ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo wp_specialchars(stripslashes($user_login), 1); ?>" size="20" tabindex="10" /></label>
+		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
 		<label><?php _e('E-mail:') ?><br />
-		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo wp_specialchars(stripslashes($user_email), 1); ?>" size="25" tabindex="20" /></label>
+		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo attribute_escape(stripslashes($user_email)); ?>" size="25" tabindex="20" /></label>
 	</p>
 <?php do_action('register_form'); ?>
 	<p id="reg_passmail"><?php _e('A password will be e-mailed to you.') ?></p>
@@ -344,7 +344,7 @@ default:
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
 	<p>
 		<label><?php _e('Username:') ?><br />
-		<input type="text" name="log" id="user_login" class="input" value="<?php echo wp_specialchars(stripslashes($user_login), 1); ?>" size="20" tabindex="10" /></label>
+		<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
 	</p>
 	<p>
 		<label><?php _e('Password:') ?><br />
@@ -354,7 +354,7 @@ default:
 	<p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p>
 	<p class="submit">
 		<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" />
-		<input type="hidden" name="redirect_to" value="<?php echo wp_specialchars($redirect_to); ?>" />
+		<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($redirect_to); ?>" />
 	</p>
 </form>
 </div>
