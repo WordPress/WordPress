@@ -195,9 +195,9 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'comments':
 		?>
-		<td style="text-align: center"><a href="edit.php?p=<?php echo $id ?>&amp;c=1">
-			<?php comments_number(__('0'), __('1'), __('%')) ?>
-			</a></td>
+		<td style="text-align: center">
+			<?php comments_number(__('0'), "<a href='edit.php?p=$id&amp;c=1'>" . __('1') . '</a>', "<a href='edit.php?p=$id&amp;c=1'>" . __('%') . '</a>') ?>
+			</td>
 		<?php
 		break;
 

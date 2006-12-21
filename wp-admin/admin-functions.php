@@ -760,11 +760,12 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$category->category_count = number_format( $category->category_count );
 	$category->link_count = number_format( $category->link_count );
+	$posts_count = ( $category->category_count > 0 ) ? "<a href='edit.php?cat=$category->cat_ID'>$category->category_count</a>" : $category->category_count;
 	return "<tr id='cat-$category->cat_ID'$class>
 		<th scope='row' style='text-align: center'>$category->cat_ID</th>
 		<td>" . ( $name_override ? $name_override : $pad . ' ' . $category->cat_name ) . "</td>
 		<td>$category->category_description</td>
-		<td align='center'><a href='edit.php?cat=$category->cat_ID'>$category->category_count</a></td>
+		<td align='center'>$posts_count</td>
 		<td align='center'>$category->link_count</td>
 		<td>$edit</td>\n\t</tr>\n";
 }
