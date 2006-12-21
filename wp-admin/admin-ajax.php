@@ -141,7 +141,7 @@ case 'add-cat' : // From Manage->Categories
 		$cat_full_name = $_cat->cat_name . ' &#8212; ' . $cat_full_name;
 		$level++;
 	}
-	$cat_full_name = attribute_escape( $cat_full_name);
+	$cat_full_name = attribute_escape($cat_full_name);
 
 	$x = new WP_Ajax_Response( array(
 		'what' => 'cat',

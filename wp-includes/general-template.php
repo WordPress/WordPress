@@ -901,7 +901,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title') {
 
 function the_search_query() {
 	global $s;
-	echo attribute_escape( stripslashes($s));
+	echo attribute_escape(stripslashes($s));
 }
 
 function language_attributes() {
@@ -956,7 +956,7 @@ function paginate_links( $arg = '' ) {
 		$link = str_replace('%#%', $current - 1, $link);
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
-		$page_links[] = "<a class='prev page-numbers' href='" . attribute_escape( $link) . "'>$prev_text</a>";
+		$page_links[] = "<a class='prev page-numbers' href='" . attribute_escape($link) . "'>$prev_text</a>";
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
 		if ( $n == $current ) :
@@ -968,7 +968,7 @@ function paginate_links( $arg = '' ) {
 				$link = str_replace('%#%', $n, $link);
 				if ( $add_args )
 					$link = add_query_arg( $add_args, $link );
-				$page_links[] = "<a class='page-numbers' href='" . attribute_escape( $link) . "'>$n</a>";
+				$page_links[] = "<a class='page-numbers' href='" . attribute_escape($link) . "'>$n</a>";
 				$dots = true;
 			elseif ( $dots && !$show_all ) :
 				$page_links[] = "<span class='page-numbers dots'>...</span>";
@@ -981,7 +981,7 @@ function paginate_links( $arg = '' ) {
 		$link = str_replace('%#%', $current + 1, $link);
 		if ( $add_args )
 			$link = add_query_arg( $add_args, $link );
-		$page_links[] = "<a class='next page-numbers' href='" . attribute_escape( $link) . "'>$next_text</a>";
+		$page_links[] = "<a class='next page-numbers' href='" . attribute_escape($link) . "'>$next_text</a>";
 	endif;
 	switch ( $type ) :
 		case 'array' :

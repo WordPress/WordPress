@@ -380,17 +380,17 @@ function wp_dropdown_roles( $default = false ) {
 
 function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
-	$user->user_login = attribute_escape( $user->user_login);
-	$user->user_email = attribute_escape( $user->user_email);
-	$user->user_url = attribute_escape( $user->user_url);
-	$user->first_name = attribute_escape( $user->first_name);
-	$user->last_name = attribute_escape( $user->last_name);
-	$user->display_name = attribute_escape( $user->display_name);
-	$user->nickname = attribute_escape( $user->nickname);
-	$user->aim = attribute_escape( $user->aim);
-	$user->yim = attribute_escape( $user->yim);
-	$user->jabber = attribute_escape( $user->jabber);
-	$user->description = wp_specialchars( $user->description );
+	$user->user_login   = attribute_escape($user->user_login);
+	$user->user_email   = attribute_escape($user->user_email);
+	$user->user_url     = attribute_escape($user->user_url);
+	$user->first_name   = attribute_escape($user->first_name);
+	$user->last_name    = attribute_escape($user->last_name);
+	$user->display_name = attribute_escape($user->display_name);
+	$user->nickname     = attribute_escape($user->nickname);
+	$user->aim          = attribute_escape($user->aim);
+	$user->yim          = attribute_escape($user->yim);
+	$user->jabber       = attribute_escape($user->jabber);
+	$user->description  =  wp_specialchars($user->description);
 
 	return $user;
 }
@@ -527,14 +527,14 @@ function edit_user( $user_id = 0 ) {
 function get_link_to_edit( $link_id ) {
 	$link = get_link( $link_id );
 
-	$link->link_url = attribute_escape( $link->link_url);
-	$link->link_name = attribute_escape( $link->link_name);
-	$link->link_image = attribute_escape( $link->link_image);
-	$link->link_description = attribute_escape( $link->link_description);
-	$link->link_notes = wp_specialchars( $link->link_notes );
-	$link->link_rss = attribute_escape( $link->link_rss);
-	$link->link_rel = attribute_escape( $link->link_rel);
-	$link->post_category = $link->link_category;
+	$link->link_url         = attribute_escape($link->link_url);
+	$link->link_name        = attribute_escape($link->link_name);
+	$link->link_image       = attribute_escape($link->link_image);
+	$link->link_description = attribute_escape($link->link_description);
+	$link->link_rss         = attribute_escape($link->link_rss);
+	$link->link_rel         = attribute_escape($link->link_rel);
+	$link->link_notes       =  wp_specialchars($link->link_notes);
+	$link->post_category    = $link->link_category;
 
 	return $link;
 }
@@ -911,8 +911,8 @@ function list_meta( $meta ) {
 		}
 
 		$key_js = js_escape( $entry['meta_key'] );
-		$entry['meta_key'] = attribute_escape( $entry['meta_key']);
-		$entry['meta_value'] = attribute_escape( $entry['meta_value']);
+		$entry['meta_key']   = attribute_escape($entry['meta_key']);
+		$entry['meta_value'] = attribute_escape($entry['meta_value']);
 		$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
 		$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
 		$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";

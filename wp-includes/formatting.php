@@ -1081,7 +1081,7 @@ function js_escape($text) {
 	return preg_replace("/\r?\n/", "\\n", addslashes($text));
 }
 
-// Escaping for HTML attributes like
+// Escaping for HTML attributes
 function attribute_escape($text) {
 	return wp_specialchars($text, true);
 }
