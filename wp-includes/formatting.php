@@ -1076,14 +1076,16 @@ function htmlentities2($myHTML) {
 
 // Escape single quotes, specialchar double quotes, and fix line endings.
 function js_escape($text) {
-	$text = wp_specialchars($text, 'double');
-	$text = str_replace('&#039;', "'", $text);
-	return preg_replace("/\r?\n/", "\\n", addslashes($text));
+	$safe_text = wp_specialchars($text, 'double');
+	$safe_text = str_replace('&#039;', "'", $safe_text);
+	$safe_text = preg_replace("/\r?\n/", "\\n", addslashes($safe_text));
+	return apply_filters('js_escape', $safe_text, $text);
 }
 
 // Escaping for HTML attributes
 function attribute_escape($text) {
-	return wp_specialchars($text, true);
+	$safe_text = wp_specialchars($text, true);
+	return apply_filters('attribute_escape', $safe_text, $text);
 }
 
 function wp_make_link_relative( $link ) {
