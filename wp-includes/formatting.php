@@ -410,6 +410,7 @@ function funky_javascript_fix($text) {
  Balances Tags of string using a modified stack.
 
  @param text      Text to be balanced
+ @param force     Forces balancing, ignoring the value of the option
  @return          Returns balanced text
  @author          Leonard Lin (leonard@acm.org)
  @version         v1.1
@@ -418,12 +419,12 @@ function funky_javascript_fix($text) {
  @notes
  @changelog
  ---  Modified by Scott Reilly (coffee2code) 02 Aug 2004
-						 1.2  ***TODO*** Make better - change loop condition to $text
-						 1.1  Fixed handling of append/stack pop order of end text
-									Added Cleaning Hooks
-						 1.0  First Version
+	1.2  ***TODO*** Make better - change loop condition to $text
+	1.1  Fixed handling of append/stack pop order of end text
+	     Added Cleaning Hooks
+	1.0  First Version
 */
-function balanceTags($text, $is_comment = 0, $force = false) {
+function balanceTags($text, $force = false) {
 
 	if ( !$force && get_option('use_balanceTags') == 0 )
 		return $text;
@@ -525,7 +526,7 @@ function balanceTags($text, $is_comment = 0, $force = false) {
 }
 
 function force_balance_tags($text) {
-	return balanceTags($text, 0, true);
+	return balanceTags($text, true);
 }
 
 function format_to_edit($content, $richedit = false) {
