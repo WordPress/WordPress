@@ -79,7 +79,7 @@ $plugins = get_plugins();
 
 if (empty($plugins)) {
 	echo '<p>';
-	_e("Couldn&8217;t open plugins directory or there are no plugins available."); // TODO: make more helpful
+	_e("Couldn&#8217;t open plugins directory or there are no plugins available."); // TODO: make more helpful
 	echo '</p>';
 } else {
 ?>

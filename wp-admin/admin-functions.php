@@ -561,7 +561,7 @@ function add_link() {
 
 function edit_link( $link_id = '' ) {
 	if (!current_user_can( 'manage_links' ))
-		wp_die( __( 'Cheatin&8217; uh?' ));
+		wp_die( __( 'Cheatin&#8217; uh?' ));
 
 	$_POST['link_url'] = wp_specialchars( $_POST['link_url'] );
 	$_POST['link_url'] = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $_POST['link_url']) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
