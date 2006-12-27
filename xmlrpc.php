@@ -1213,25 +1213,36 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$p = explode( "\n\n", $linea );
 
-		$sem_regexp_pb = "/(\\/|\\\|\*|\?|\+|\.|\^|\\$|\(|\)|\[|\]|\||\{|\})/";
-		$sem_regexp_fix = "\\\\$1";
-		$link = preg_replace( $sem_regexp_pb, $sem_regexp_fix, $pagelinkedfrom );
+		$preg_target = preg_quote($pagelinkedto);
 
-		$finished = false;
 		foreach ( $p as $para ) {
-			if ( $finished )
-				continue;
-			if ( strstr( $para, $pagelinkedto ) ) {
-				$context = preg_replace( "/.*<a[^>]+".$link."[^>]*>([^>]+)<\/a>.*/", "$1", $para );
-				$excerpt = strip_tags( $para );
-				$excerpt = trim( $excerpt );
-				$use     = preg_quote( $context );
-				$excerpt = preg_replace("|.*?\s(.{0,100}$use.{0,100})\s|s", "$1", $excerpt);
-				$finished = true;
+			if ( strpos($para, $pagelinkedto) !== false ) { // it exists, but is it a link?
+				preg_match("|<a[^>]+?".$preg_target."[^>]*>([^>]+?)</a>|", $para, $context);
+
+				// If the URL isn't in a link context, keep looking
+				if ( empty($context) )
+					continue;
+
+				// We're going to use this fake tag to mark the context in a bit
+				// the marker is needed in case the link text appears more than once in the paragraph
+				$excerpt = preg_replace('|\</?wpcontext\>|', '', $para);
+
+				// prevent really long link text
+				if ( strlen($context[1]) > 100 )
+					$context[1] = substr($context[1], 0, 100) . '...';
+
+				$marker = '<wpcontext>'.$context[1].'</wpcontext>';    // set up our marker
+				$excerpt= str_replace($context[0], $marker, $excerpt); // swap out the link for our marker
+				$excerpt = strip_tags($excerpt, '<wpcontext>');        // strip all tags but our context marker
+				$excerpt = trim($excerpt);
+				$preg_marker = preg_quote($marker);
+				$excerpt = preg_replace("|.*?\s(.{0,100}$preg_marker.{0,100})\s.*|s", '$1', $excerpt);
+				$excerpt = strip_tags($excerpt); // YES, again, to remove the marker wrapper
+				break;
 			}
 		}
 
-		if ( empty($context) ) // URL pattern not found
+		if ( empty($context) ) // Link to target not found
 			return new IXR_Error(17, 'The source URL does not contain a link to the target URL, and so cannot be used as a source.');
 
 		$pagelinkedfrom = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedfrom);
