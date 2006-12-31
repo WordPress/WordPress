@@ -754,7 +754,7 @@ function human_time_diff( $from, $to = '' ) {
 		if ($days <= 1) {
 			$days = 1;
 		}
-		$since = sprintf(__('%s day', '%s days', $days), $days);
+		$since = sprintf(__ngettext('%s day', '%s days', $days), $days);
 	}
 	return $since;
 }
