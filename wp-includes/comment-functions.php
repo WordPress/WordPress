@@ -213,17 +213,6 @@ function wp_delete_comment($comment_id) {
 	return true;
 }
 
-function clean_url( $url ) {
-	if ('' == $url) return $url;
-	$url = preg_replace('|[^a-z0-9-~+_.?#=&;,/:%]|i', '', $url);
-	$strip = array('%0d', '%0a');
-	$url = str_replace($strip, '', $url);
-	$url = str_replace(';//', '://', $url);
-	$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
-	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
-	return $url;
-}
-
 function get_comments_number( $post_id = 0 ) {
 	global $wpdb, $comment_count_cache, $id;
 	$post_id = (int) $post_id;
