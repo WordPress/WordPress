@@ -1471,9 +1471,11 @@ function wp_attachment_is_image( $post_id = 0 ) {
 	if ( !$file = get_attached_file( $post->ID ) )
 		return false;
 
-	$image_exts = array('/jpg', 'jpeg', '/gif', '/png');
+	$ext = preg_match('/\.([^.]+)$/', $file, $matches) ? strtolower($matches[1]) : false;
 
-	if ( 'image/' == substr($post->post_mime_type, 0, 6) || 'import' == $post->post_mime_type && in_array(substr($file, -4), $exts) )
+	$image_exts = array('jpg', 'jpeg', 'gif', 'png');
+
+	if ( 'image/' == substr($post->post_mime_type, 0, 6) || $ext && 'import' == $post->post_mime_type && in_array($ext, $image_exts) )
 		return true;
 	return false;
 }

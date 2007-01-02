@@ -349,8 +349,6 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 
 	$file = get_attached_file( $post->ID );
 
-	$exts = array('jpg', 'gif', 'png');
-
 	if ( !$fullsize && $thumbfile = wp_get_attachment_thumb_file( $post->ID ) ) {
 		// We have a thumbnail desired, specified and existing
 
