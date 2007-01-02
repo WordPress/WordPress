@@ -35,7 +35,7 @@ class WP_Scripts {
 			$this->add( 'admin-comments', '/wp-admin/edit-comments.js', array('listman'), '3847' );
 			$this->add( 'admin-users', '/wp-admin/users.js', array('listman'), '4583' );
 			$this->add( 'xfn', '/wp-admin/xfn.js', false, '3517' );
-			$this->add( 'upload', '/wp-admin/upload-js.php', array('prototype'), '4535' );
+			$this->add( 'upload', '/wp-admin/upload-js.php', array('prototype'), '20061223' );
 		}
 	}
 

@@ -37,15 +37,11 @@ addLoadEvent( function() {
 			if ( id == this.currentImage.ID )
 				return;
 			var thumbEl = $('attachment-thumb-url-' + id);
-			this.currentImage.isImage = true;
 			if ( thumbEl ) {
 				this.currentImage.thumb = ( 0 == id ? '' : thumbEl.value );
 				this.currentImage.thumbBase = ( 0 == id ? '' : $('attachment-thumb-url-base-' + id).value );
 			} else {
 				this.currentImage.thumb = false;
-				var isImageEl = $('attachment-is-image-' + id);
-				if ( !isImageEl )
-					this.currentImage.isImage = false;
 			}
 			this.currentImage.src = ( 0 == id ? '' : $('attachment-url-' + id).value );
 			this.currentImage.srcBase = ( 0 == id ? '' : $('attachment-url-base-' + id).value );
@@ -60,6 +56,7 @@ addLoadEvent( function() {
 				this.currentImage.width = false;
 				this.currentImage.height = false;
 			}
+			this.currentImage.isImage = ( 0 == id ? '' : $('attachment-is-image-' + id).value );
 			this.currentImage.ID = id;
 		},
 
@@ -96,10 +93,22 @@ addLoadEvent( function() {
 
 			h += "<form name='uploadoptions' id='uploadoptions' class='alignleft'>";
 			h += "<table>";
-			if ( this.currentImage.thumb ) {
+			var display = [];
+			var checked = 'display-title';
+			if ( 1 == this.currentImage.isImage ) {
+				checked = 'display-full';
+				if ( this.currentImage.thumb ) {
+					display.push("<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' /> <?php echo attribute_escape(__('Thumbnail')); ?></label><br />");
+					checked = 'display-thumb';
+				}
+				display.push("<label for='display-full'><input type='radio' name='display' id='display-full' value='full' /> <?php echo attribute_escape(__('Full size')); ?></label>");
+			} else if ( this.currentImage.thumb ) {
+				display.push("<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' /> <?php echo attribute_escape(__('Icon')); ?></label>");
+			}
+			if ( display.length ) {
+				display.push("<br /><label for='display-title'><input type='radio' name='display' id='display-title' value='title' /> <?php echo attribute_escape(__('Title')); ?></label>");
 				h += "<tr><th style='padding-bottom:.5em'><?php echo attribute_escape(__('Show:')); ?></th><td style='padding-bottom:.5em'>";
-				h += "<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' checked='checked' /> <?php echo attribute_escape(__('Thumbnail')); ?></label><br />";
-				h += "<label for='display-full'><input type='radio' name='display' id='display-full' value='full' /> <?php echo attribute_escape(__('Full size')); ?></label>";
+				$A(display).each( function(i) { h += i; } );
 				h += "</td></tr>";
 			}
 
@@ -117,6 +126,10 @@ addLoadEvent( function() {
 			h += "</div>";
 
 			new Insertion.Top('upload-content', h);
+			var displayEl = $(checked);
+			if ( displayEl )
+				displayEl.checked = true;
+
 			if (e) Event.stop(e);
 			return false;
 		},
@@ -144,7 +157,7 @@ addLoadEvent( function() {
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
-			h += "<a href='#' onclick='return theFileList.imageView(" + id + ");'><?php attribute_escape(__('Insert')); ?></a>"
+			h += "<a href='#' onclick='return theFileList.imageView(" + id + ");'><?php echo attribute_escape(__('Insert')); ?></a>"
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
@@ -222,7 +235,7 @@ addLoadEvent( function() {
 
 			if ( 'none' != link )
 				h += "<a href='" + ( 'file' == link ? ( this.currentImage.srcBase + this.currentImage.src ) : ( this.currentImage.page + "' rel='attachment wp-att-" + this.currentImage.ID ) ) + "' title='" + this.currentImage.title + "'>";
-			if ( display )
+			if ( display && 'title' != display )
 				h += "<img src='" + ( 'thumb' == display ? ( this.currentImage.thumbBase + this.currentImage.thumb ) : ( this.currentImage.srcBase + this.currentImage.src ) ) + "' alt='" + this.currentImage.title + "' />";
 			else
 				h += this.currentImage.title;

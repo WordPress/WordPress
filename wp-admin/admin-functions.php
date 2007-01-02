@@ -1935,12 +1935,12 @@ function the_attachment_links( $id = false ) {
 	<col class="widefat" />
 	<tr>
 		<th scope="row"><?php _e( 'URL' ) ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><?php echo $post->guid ?></textarea></td>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><?php echo wp_get_attachment_url(); ?></textarea></td>
 	</tr>
 <?php if ( $icon ) : ?>
 	<tr>
 		<th scope="row"><?php $thumb ? _e( 'Thumbnail linked to file' ) : _e( 'Image linked to file' ); ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid; ?>"><?php echo $icon ?></a></textarea></td>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo wp_get_attachment_url(); ?>"><?php echo $icon ?></a></textarea></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php $thumb ? _e( 'Thumbnail linked to page' ) : _e( 'Image linked to page' ); ?></th>
@@ -1949,7 +1949,7 @@ function the_attachment_links( $id = false ) {
 <?php else : ?>
 	<tr>
 		<th scope="row"><?php _e( 'Link to file' ) ?></th>
-		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo $post->guid ?>" class="attachmentlink"><?php echo basename( $post->guid );  ?></a></textarea></td>
+		<td><textarea rows="1" cols="40" type="text" class="attachmentlinks" readonly="readonly"><a href="<?php echo wp_get_attachment_url(); ?>" class="attachmentlink"><?php echo basename( wp_get_attachment_url() );  ?></a></textarea></td>
 	</tr>
 	<tr>
 		<th scope="row"><?php _e( 'Link to page' ) ?></th>

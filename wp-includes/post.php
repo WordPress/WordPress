@@ -1410,6 +1410,7 @@ function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
 }
 
 function wp_update_attachment_metadata( $post_id, $data ) {
+	$post_id = (int) $post_id;
 	if ( !get_post( $post_id ) )
 		return false;
 
@@ -1421,6 +1422,99 @@ function wp_update_attachment_metadata( $post_id, $data ) {
 		return update_post_meta( $post_id, '_wp_attachment_metadata', $data, $old_data );
 	else
 		return add_post_meta( $post_id, '_wp_attachment_metadata', $data );
+}
+
+function wp_get_attachment_url( $post_id = 0 ) {
+	$post_id = (int) $post_id;
+	if ( !$post =& get_post( $post_id ) )
+		return false;
+
+	$url = get_the_guid( $post_id );
+
+	if ( 'attachment' != $post->post_type || !$url )
+		return false;
+
+	return apply_filters( 'wp_get_attachment_url', $url, $post_id );
+}
+
+function wp_get_attachment_thumb_file( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( !$imagedata = wp_get_attachment_metadata( $post_id ) )
+		return false;
+
+	$file = get_attached_file( $post_id );
+
+	if ( !empty($imagedata['thumb']) && ($thumbfile = str_replace(basename($file), $imagedata['thumb'], $file)) && file_exists($thumbfile) )
+		return apply_filters( 'wp_get_attachment_thumb_file', $thumbfile, $post_id );
+	return false;
+}
+
+function wp_get_attachment_thumb_url( $post_id = 0 ) {
+	$post_id = (int) $post_id;
+	if ( !$url = wp_get_attachment_url( $post_id ) )
+		return false;
+
+	if ( !$thumb = wp_get_attachment_thumb_file( $post_id ) )
+		return false;
+	return false;
+
+	$url = str_replace(basename($url), basename($thumb), $url);
+
+	return apply_filters( 'wp_get_attachment_thumb_url', $url, $post_id );
+}
+
+function wp_attachment_is_image( $post_id = 0 ) {
+	$post_id = (int) $post_id;
+	if ( !$post =& get_post( $post_id ) )
+		return false;
+
+	if ( !$file = get_attached_file( $post->ID ) )
+		return false;
+
+	$image_exts = array('/jpg', 'jpeg', '/gif', '/png');
+
+	if ( 'image/' == substr($post->post_mime_type, 0, 6) || 'import' == $post->post_mime_type && in_array(substr($file, -4), $exts) )
+		return true;
+	return false;
+}
+
+function wp_mime_type_icon( $mime = 0 ) {
+	$post_id = 0;
+	if ( is_numeric($mime) ) {
+		$mime = (int) $mime;
+		if ( !$post =& get_post( $mime ) )
+			return false;
+		$post_id = $post->ID;
+		$mime = $post->post_mime_type;
+	}
+
+	if ( empty($mime) )
+		return false;
+
+	$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
+	$icon_dir_uri = apply_filters( 'icon_dir_uri', get_template_directory_uri() . '/images' );
+
+	$types = array(
+		substr($mime, 0, strpos($mime, '/')),
+		substr($mime, strpos($mime, '/') + 1),
+		str_replace('/', '_', $mime)
+	);
+
+	$exts = array('jpg', 'gif', 'png');
+
+	$src = false;
+
+	foreach ( $types as $type ) {
+		foreach ( $exts as $ext ) {
+			$src_file = "$icon_dir/$type.$ext";
+			if ( file_exists($src_file) ) {
+				$src = "$icon_dir_uri/$type.$ext";
+				break 2;
+			}
+		}
+	}
+
+	return apply_filters( 'wp_mime_type_icon', $src, $mime, $post_id ); // Last arg is 0 if function pass mime type.
 }
 
 function wp_check_for_changed_slugs($post_id) {

@@ -331,71 +331,59 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false) 
 	$id = (int) $id;
 	$_post = & get_post($id);
 
-	if ( ('attachment' != $_post->post_type) || ('' == $_post->guid) )
+	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url() )
 		return __('Missing Attachment');
 
 	$post_title = attribute_escape($_post->post_title);
 
-	if (! empty($_post->guid) ) {
-		$innerHTML = get_attachment_innerHTML($_post->ID, $fullsize, $max_dims);
-
-		return "<a href='$_post->guid' title='$post_title'>$innerHTML</a>";
-
-	} else {
-		$p .= __('Missing Attachment');
-	}
-	return $p;
+	$innerHTML = get_attachment_innerHTML($_post->ID, $fullsize, $max_dims);
+	return "<a href='$url' title='$post_title'>$innerHTML</a>";
 }
 
-function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
+function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 	$id = (int) $id;
-	$post = & get_post($id);
-
-	$mime = $post->post_mime_type;
+	if ( !$post = & get_post($id) )
+		return false;
 
 	$imagedata = wp_get_attachment_metadata( $post->ID );
 
 	$file = get_attached_file( $post->ID );
 
 	$exts = array('jpg', 'gif', 'png');
-	if ( !$fullsize && !empty($imagedata['thumb'])
-			&& ($thumbfile = str_replace(basename($file), $imagedata['thumb'], $file))
-			&& file_exists($thumbfile) ) {
 
+	if ( !$fullsize && $thumbfile = wp_get_attachment_thumb_file( $post->ID ) ) {
 		// We have a thumbnail desired, specified and existing
 
-		$src = str_replace(basename($post->guid), $imagedata['thumb'], $post->guid);
+		$src = wp_get_attachment_thumb_url( $post->ID );
 		$src_file = $thumbfile;
 		$class = 'attachmentthumb';
-
-	} elseif ( ( substr($mime, 0, 6) == 'image/' || 'import' == $mime && in_array(substr($file, -3), $exts) )
-			&& file_exists($file) ) {
-
+	} elseif ( wp_attachment_is_image( $post->ID ) ) {
 		// We have an image without a thumbnail
 
-		$src = $post->guid;
+		$src = wp_get_attachment_url( $post->ID );
 		$src_file = & $file;
 		$class = 'attachmentimage';
-	} elseif (! empty($mime) ) {
-
+	} elseif ( $src = wp_mime_type_icon( $post->ID ) ) {
 		// No thumb, no image. We'll look for a mime-related icon instead.
-		$icon_dir = apply_filters('icon_dir', get_template_directory().'/images');
-		$icon_dir_uri = apply_filters('icon_dir_uri', get_template_directory_uri().'/images');
 
-		$types = array(substr($mime, 0, strpos($mime, '/')), substr($mime, strpos($mime, '/') + 1), str_replace('/', '_', $mime));
-		foreach ($types as $type) {
-			foreach ($exts as $ext) {
-				$src_file = "$icon_dir/$type.$ext";
-				if ( file_exists($src_file) ) {
-					$src = "$icon_dir_uri/$type.$ext";
-					break 2;
-				}
-			}
-		}
+		$icon_dir = apply_filters( 'icon_dir', get_template_directory() . '/images' );
+		$src_file = $icon_dir . '/' . basename($src);
 	}
 
-	if (! isset($src) )
+	if ( !isset($src) )
 		return false;
+	return array($src, $src_file);
+}
+
+function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
+	$id = (int) $id;
+	if ( !$post = & get_post($id) )
+		return false;
+
+	if ( !$src = get_attachment_icon_src( $id, $fullsize ) )
+		return false;
+
+	list($src, $src_file) = $src;
 
 	// Do we need to constrain the image?
 	if ( ($max_dims = apply_filters('attachment_max_dims', $max_dims)) && file_exists($src_file) ) {
@@ -424,7 +412,7 @@ function get_attachment_icon($id = 0, $fullsize = false, $max_dims = false) {
 
 	$icon = "<img src='$src' title='$post_title' alt='$post_title' $constraint/>";
 
-	return apply_filters('attachment_icon', $icon, $post->ID);
+	return apply_filters( 'attachment_icon', $icon, $post->ID );
 }
 
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {

@@ -13,16 +13,13 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	
 	$class = 'text';
 	$innerHTML = get_attachment_innerHTML( $id, false, $dims );
-	if ( $image_src = strstr($innerHTML, 'src=') ) {
-		preg_match("/src=(\"|')(.+?)\\1/", $image_src, $matches);
-		$image_src = $matches[2];
+	if ( $image_src = get_attachment_icon_src() ) {
 		$image_rel = wp_make_link_relative($image_src);
-		$class = 'image';
 		$innerHTML = '&nbsp;' . str_replace($image_src, $image_rel, $innerHTML);
-		$image_base = str_replace($image_rel, '', $image_src);
+		$class = 'image';
 	}
 
-	$src_base = get_the_guid();
+	$src_base = wp_get_attachment_url();
 	$src = wp_make_link_relative( $src_base );
 	$src_base = str_replace($src, '', $src_base);
 
@@ -38,11 +35,16 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-$id' id='attachment-url-$id' value='$src' />\n";
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-url-base-$id' id='attachment-url-base-$id' value='$src_base' />\n";
 
-	if ( isset($attachment_data['thumb']) ) {
-		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-$id' id='attachment-thumb-url-$id' value='$image_rel' />\n";
-		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-base-$id' id='attachment-thumb-url-base-$id' value='$image_base' />\n";
-	} elseif ( $image_rel )
-		$r .= "\t\t\t\t<input type='hidden' name='attachment-is-image-$id' id='attachment-is-image-$id' value='1' />\n";
+	if ( !$thumb_base = wp_get_attachment_thumb_url() )
+		$thumb_base = wp_mime_type_icon();
+	if ( $thumb_base ) {
+		$thumb_rel = wp_make_link_relative( $thumb_base );
+		$thumb_base = str_replace( $thumb_rel, '', $thumb_base );
+		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-$id' id='attachment-thumb-url-$id' value='$thumb_rel' />\n";
+		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-base-$id' id='attachment-thumb-url-base-$id' value='$thumb_base' />\n";
+	}
+	$is_image = (int) wp_attachment_is_image();
+	$r .= "\t\t\t\t<input type='hidden' name='attachment-is-image-$id' id='attachment-is-image-$id' value='$is_image' />\n";
 	if ( isset($width) ) {
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-width-$id' id='attachment-width-$id' value='$width' />\n";
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-height-$id' id='attachment-height-$id' value='$height' />\n";
@@ -62,7 +64,7 @@ function wp_upload_view() {
 	<div id="upload-file">
 		<div id="file-title">
 			<h2><?php if ( !isset($attachment_data['width']) && 'inline' != $style )
-					echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+					echo "<a href='" . wp_get_attachment_url() . "' title='" . __('Direct link to file') . "'>";
 				the_title();
 				if ( !isset($attachment_data['width']) && 'inline' != $style )
 					echo '</a>';
@@ -79,7 +81,7 @@ function wp_upload_view() {
 
 		<div id="upload-file-view" class="alignleft">
 <?php		if ( isset($attachment_data['width']) && 'inline' != $style )
-			echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+			echo "<a href='" . wp_get_attachment_url() . "' title='" . __('Direct link to file') . "'>";
 		echo wp_upload_display( array(171, 128) );
 		if ( isset($attachment_data['width']) && 'inline' != $style )
 			echo '</a>'; ?>
@@ -102,7 +104,7 @@ function wp_upload_form() {
 ?>
 		<div id="file-title">
 			<h2><?php if ( !isset($attachment_data['width']) && 'inline' != $style )
-					echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+					echo "<a href='" . wp_get_attachment_url() . "' title='" . __('Direct link to file') . "'>";
 				the_title();
 				if ( !isset($attachment_data['width']) && 'inline' != $style )
 					echo '</a>';
@@ -119,7 +121,7 @@ function wp_upload_form() {
 
 	<div id="upload-file-view" class="alignleft">
 <?php		if ( isset($attachment_data['width']) && 'inline' != $style )
-			echo "<a href='" . get_the_guid() . "' title='" . __('Direct link to file') . "'>";
+			echo "<a href='" . wp_get_attachment_url() . "' title='" . __('Direct link to file') . "'>";
 		echo wp_upload_display( array(171, 128) );
 		if ( isset($attachment_data['width']) && 'inline' != $style )
 			echo '</a>'; ?>
@@ -129,7 +131,7 @@ function wp_upload_form() {
 <?php	if ( $id ): ?>
 			<tr>
 				<th scope="row"><label for="url"><?php _e('URL'); ?></label></th>
-				<td><input type="text" id="url" class="readonly" value="<?php the_guid(); ?>" readonly="readonly" /></td>
+				<td><input type="text" id="url" class="readonly" value="<?php echo wp_get_attachment_url(); ?>" readonly="readonly" /></td>
 			</tr>
 <?php	else : ?>
 			<tr>
@@ -343,4 +345,3 @@ function wp_upload_admin_head() {
 		echo "</style>";
 	}
 }
-
