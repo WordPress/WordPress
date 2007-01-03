@@ -455,10 +455,54 @@ function set_theme_mod($name, $value) {
 	wp_cache_delete("mods_$theme", 'options');
 }
 
+function remove_theme_mod( $name ) {
+	$theme = get_current_theme();
+
+	$mods = get_option("mods_$theme");
+
+	if ( !isset($mods[$name]) )
+		return;
+
+	unset($mods[$name]);
+
+	if ( empty($mods) )
+		return remove_theme_mods();
+
+	update_option("mods_$theme", $mods);
+	wp_cache_delete("mods_$theme", 'options');
+}
+
 function remove_theme_mods() {
 	$theme = get_current_theme();
 
 	delete_option("mods_$theme");
+}
+
+function get_header_textcolor() {
+	return get_theme_mod('header_textcolor', HEADER_TEXTCOLOR);
+}
+
+function header_textcolor() {
+	echo get_header_textcolor();	
+}
+
+function get_header_image() {
+	return get_theme_mod('header_image', HEADER_IMAGE);
+}
+
+function header_image() {
+	echo get_header_image();	
+}
+
+function add_custom_image_header($header_callback, $admin_header_callback) {
+	if ( ! empty($header_callback) )
+		add_action('wp_head', $header_callback);
+
+	if ( ! is_admin() )
+		return;
+	require_once(ABSPATH . 'wp-admin/custom-header.php');
+	$GLOBALS['custom_image_header'] =& new Custom_Image_Header($admin_header_callback);
+	add_action('admin_menu', array(&$GLOBALS['custom_image_header'], 'init'));
 }
 
 ?>
