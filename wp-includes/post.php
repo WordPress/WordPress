@@ -1456,7 +1456,6 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
 
 	if ( !$thumb = wp_get_attachment_thumb_file( $post_id ) )
 		return false;
-	return false;
 
 	$url = str_replace(basename($url), basename($thumb), $url);
 
