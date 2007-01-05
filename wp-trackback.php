@@ -30,11 +30,13 @@ if ( !$_GET['tb_id'] ) {
 	$tb_id = intval( $tb_id[ count($tb_id) - 1 ] );
 }
 
-$tb_url    = $_POST['url'];
-$title     = $_POST['title'];
-$excerpt   = $_POST['excerpt'];
-$blog_name = $_POST['blog_name'];
-$charset   = $_POST['charset'];
+$tb_url  = $_POST['url'];
+$charset = $_POST['charset'];
+
+// These three are stripslashed here so that they can be properly escaped after mb_convert_encoding()
+$title     = stripslashes($_POST['title']);
+$excerpt   = stripslashes($_POST['excerpt']);
+$blog_name = stripslashes($_POST['blog_name']);
 
 if ($charset)
 	$charset = strtoupper( trim($charset) );
@@ -46,6 +48,11 @@ if ( function_exists('mb_convert_encoding') ) { // For international trackbacks
 	$excerpt   = mb_convert_encoding($excerpt, get_option('blog_charset'), $charset);
 	$blog_name = mb_convert_encoding($blog_name, get_option('blog_charset'), $charset);
 }
+
+// Now that mb_convert_encoding() has been given a swing, we need to escape these three
+$title     = $wpdb->escape($title);
+$excerpt   = $wpdb->escape($excerpt);
+$blog_name = $wpdb->escape($blog_name);
 
 if ( is_single() || is_page() )
 	$tb_id = $posts[0]->ID;
