@@ -378,7 +378,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 	if ( !$post = & get_post($id) )
 		return false;
 
-	if ( !$src = get_attachment_icon_src( $id, $fullsize ) )
+	if ( !$src = get_attachment_icon_src( $post->ID, $fullsize ) )
 		return false;
 
 	list($src, $src_file) = $src;
@@ -415,11 +415,12 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
 
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
 	$id = (int) $id;
+	if ( !$post = & get_post($id) )
+		return false;
 
-	if ( $innerHTML = get_attachment_icon($id, $fullsize, $max_dims))
+	if ( $innerHTML = get_attachment_icon($post->ID, $fullsize, $max_dims))
 		return $innerHTML;
 
-	$post = & get_post($id);
 
 	$innerHTML = attribute_escape($post->post_title);
 

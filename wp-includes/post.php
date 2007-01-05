@@ -1402,26 +1402,28 @@ function wp_delete_attachment($postid) {
 
 function wp_get_attachment_metadata( $post_id, $unfiltered = false ) {
 	$post_id = (int) $post_id;
+	if ( !$post =& get_post( $post_id ) )
+		return false;
 
-	$data = get_post_meta( $post_id, '_wp_attachment_metadata', true );
+	$data = get_post_meta( $post->ID, '_wp_attachment_metadata', true );
 	if ( $unfiltered )
 		return $data;
-	return apply_filters( 'wp_get_attachment_metadata', $data, $post_id );
+	return apply_filters( 'wp_get_attachment_metadata', $data, $post->ID );
 }
 
 function wp_update_attachment_metadata( $post_id, $data ) {
 	$post_id = (int) $post_id;
-	if ( !get_post( $post_id ) )
+	if ( !$post =& get_post( $post_id ) )
 		return false;
 
-	$old_data = wp_get_attachment_metadata( $post_id, true );
+	$old_data = wp_get_attachment_metadata( $post->ID, true );
 
-	$data = apply_filters( 'wp_update_attachment_metadata', $data, $post_id );
+	$data = apply_filters( 'wp_update_attachment_metadata', $data, $post->ID );
 
 	if ( $old_data )
-		return update_post_meta( $post_id, '_wp_attachment_metadata', $data, $old_data );
+		return update_post_meta( $post->ID, '_wp_attachment_metadata', $data, $old_data );
 	else
-		return add_post_meta( $post_id, '_wp_attachment_metadata', $data );
+		return add_post_meta( $post->ID, '_wp_attachment_metadata', $data );
 }
 
 function wp_get_attachment_url( $post_id = 0 ) {
@@ -1429,37 +1431,41 @@ function wp_get_attachment_url( $post_id = 0 ) {
 	if ( !$post =& get_post( $post_id ) )
 		return false;
 
-	$url = get_the_guid( $post_id );
+	$url = get_the_guid( $post->ID );
 
 	if ( 'attachment' != $post->post_type || !$url )
 		return false;
 
-	return apply_filters( 'wp_get_attachment_url', $url, $post_id );
+	return apply_filters( 'wp_get_attachment_url', $url, $post->ID );
 }
 
-function wp_get_attachment_thumb_file( $post_id ) {
+function wp_get_attachment_thumb_file( $post_id = 0 ) {
 	$post_id = (int) $post_id;
-	if ( !$imagedata = wp_get_attachment_metadata( $post_id ) )
+	if ( !$post =& get_post( $post_id ) )
+		return false;
+	if ( !$imagedata = wp_get_attachment_metadata( $post->ID ) )
 		return false;
 
-	$file = get_attached_file( $post_id );
+	$file = get_attached_file( $post->ID );
 
 	if ( !empty($imagedata['thumb']) && ($thumbfile = str_replace(basename($file), $imagedata['thumb'], $file)) && file_exists($thumbfile) )
-		return apply_filters( 'wp_get_attachment_thumb_file', $thumbfile, $post_id );
+		return apply_filters( 'wp_get_attachment_thumb_file', $thumbfile, $post->ID );
 	return false;
 }
 
 function wp_get_attachment_thumb_url( $post_id = 0 ) {
 	$post_id = (int) $post_id;
-	if ( !$url = wp_get_attachment_url( $post_id ) )
+	if ( !$post =& get_post( $post_id ) )
+		return false;
+	if ( !$url = wp_get_attachment_url( $post->ID ) )
 		return false;
 
-	if ( !$thumb = wp_get_attachment_thumb_file( $post_id ) )
+	if ( !$thumb = wp_get_attachment_thumb_file( $post->ID ) )
 		return false;
 
 	$url = str_replace(basename($url), basename($thumb), $url);
 
-	return apply_filters( 'wp_get_attachment_thumb_url', $url, $post_id );
+	return apply_filters( 'wp_get_attachment_thumb_url', $url, $post->ID );
 }
 
 function wp_attachment_is_image( $post_id = 0 ) {
