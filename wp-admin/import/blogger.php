@@ -7,14 +7,15 @@ class Blogger_Import {
 
 	// Shows the welcome screen and the magic iframe.
 	function greet() {
-		$title = __('Import Blogger or Blogspot');
-		$welcome = __('Howdy! This importer allows you to import posts and comments from your Blogger account into your WordPress blog.');
+		$title = __('Import Old Blogger');
+		$welcome = __('Howdy! This importer allows you to import posts and comments from your Old Blogger account into your WordPress blog.');
 		$noiframes = __('This feature requires iframe support.');
 		$warning = js_escape(__('This will delete everything saved by the Blogger importer except your posts and comments. Are you sure you want to do this?'));
 		$reset = __('Reset this importer');
 		$incompat = __('Your web server is not properly configured to use this importer. Please enable the CURL extension for PHP and then reload this page.');
 
 		echo "<div class='wrap'><h2>$title</h2><p>$welcome</p>";
+		echo "<p>" . __('Please note that this importer <em>does not work with new Blogger (using your Google account)</em>.') . "</p>";
 		if ( function_exists('curl_init') )
 			echo "<iframe src='admin.php?import=blogger&amp;noheader=true' height='350px' width = '99%'>$noiframes</iframe><p><a href='admin.php?import=blogger&amp;restart=true&amp;noheader=true' onclick='return confirm(\"$warning\")'>$reset</a></p>";
 		else
@@ -662,6 +663,6 @@ class Blogger_Import {
 
 $blogger_import = new Blogger_Import();
 
-register_importer('blogger', __('Blogger or Blog*Spot'), __('Import posts, comments, and users from a Blogger or Blog*Spot blog'), array ($blogger_import, 'start'));
+register_importer('blogger', __('Old Blogger'), __('Import posts, comments, and users from an Old Blogger blog'), array ($blogger_import, 'start'));
 
 ?>
