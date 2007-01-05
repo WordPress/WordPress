@@ -169,7 +169,7 @@ checked="checked"
 <form action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>
    <p>
-<textarea rows="5" style="width: 98%;" name="rules"><?php echo $wp_rewrite->mod_rewrite_rules(); ?>
+<textarea rows="5" style="width: 98%;" name="rules"><?php echo wp_specialchars($wp_rewrite->mod_rewrite_rules()); ?>
 </textarea>
     </p>
 </form>
