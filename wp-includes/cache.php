@@ -8,6 +8,8 @@ function wp_cache_add($key, $data, $flag = '', $expire = 0) {
 function wp_cache_close() {
 	global $wp_object_cache;
 
+	if ( ! isset($wp_object_cache) )
+		return;
 	return $wp_object_cache->save();
 }
 
@@ -392,7 +394,13 @@ class WP_Object_Cache {
 	}
 
 	function WP_Object_Cache() {
+		return $this->__construct();
+	}
+	
+	function __construct() {
 		global $blog_id;
+
+		register_shutdown_function(array(&$this, "__destruct"));
 
 		if (defined('DISABLE_CACHE'))
 			return;
@@ -427,6 +435,11 @@ class WP_Object_Cache {
 			$this->secret = DB_PASSWORD . DB_USER . DB_NAME . DB_HOST . ABSPATH;
 
 		$this->blog_id = $this->hash($blog_id);
+	}
+
+	function __destruct() {
+		$this->save();
+		return true;	
 	}
 }
 ?>

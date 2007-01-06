@@ -44,6 +44,12 @@ class wpdb {
 	 * @param string $dbhost
 	 */
 	function wpdb($dbuser, $dbpassword, $dbname, $dbhost) {
+		return $this->__construct($dbuser, $dbpassword, $dbname, $dbhost);
+	}
+	
+	function __construct($dbuser, $dbpassword, $dbname, $dbhost) {
+		register_shutdown_function(array(&$this, "__destruct"));
+
 		$this->dbh = @mysql_connect($dbhost, $dbuser, $dbpassword);
 		if (!$this->dbh) {
 			$this->bail("
@@ -59,6 +65,10 @@ class wpdb {
 		}
 
 		$this->select($dbname);
+	}
+
+	function __destruct() {
+		return true;		
 	}
 
 	/**
