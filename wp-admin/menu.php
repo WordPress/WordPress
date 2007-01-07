@@ -26,6 +26,7 @@ else
 $menu[40] = array(__('Options'), 'manage_options', 'options-general.php');
 
 
+$_wp_real_parent_file['post.php'] = 'post-new.php'; // Back-compat
 $submenu['post-new.php'][5] = array(__('Write Post'), 'edit_posts', 'post-new.php');
 $submenu['post-new.php'][10] = array(__('Write Page'), 'edit_pages', 'page-new.php');
 
