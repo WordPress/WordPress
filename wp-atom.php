@@ -34,7 +34,7 @@ $more = 1;
 		<modified><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></modified>
 		<issued><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></issued>
 		<?php the_category_rss('rdf') ?>
-		<summary type="text/plain" mode="escaped"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
+		<summary type="<?php bloginfo('html_type'); ?>" mode="escaped"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php if ( !get_option('rss_use_excerpt') ) : ?>
 		<content type="<?php bloginfo('html_type'); ?>" mode="escaped" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
 <?php endif; ?>
