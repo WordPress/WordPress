@@ -158,7 +158,7 @@ case 'delete':
 	}
 
 	$sendback = wp_get_referer();
-	if ( $post->post_status = 'static' )
+	if ( $post->post_status == 'static' )
 		$sendback = get_option('siteurl') . '/wp-admin/edit-pages.php';
 	elseif ( strstr($sendback, 'post.php') )
 		$sendback = get_option('siteurl') .'/wp-admin/post.php';
