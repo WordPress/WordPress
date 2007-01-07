@@ -497,7 +497,7 @@ function edit_user( $user_id = 0 ) {
 	if (!empty ( $pass1 ))
 		$user->user_pass = $pass1;
 
-	if ( !validate_username( $user->user_login ) )
+	if ( !$update && !validate_username( $user->user_login ) )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is invalid.  Please enter a valid username.' ));
 
 	if (!$update && username_exists( $user->user_login ))
