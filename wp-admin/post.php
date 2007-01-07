@@ -138,10 +138,14 @@ case 'editpost':
 
 case 'delete':
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
-	check_admin_referer('delete-post_' . $post_id);
 
 	$post = & get_post($post_id);
-	
+
+	if ( $post->post_status == 'static')
+		check_admin_referer('delete-page_' . $post_id);
+	else
+		check_admin_referer('delete-post_' . $post_id);
+
 	if ( !current_user_can('edit_post', $post_id) )	
 		die( __('You are not allowed to delete this post.') );
 
@@ -154,9 +158,12 @@ case 'delete':
 	}
 
 	$sendback = wp_get_referer();
-	if (strstr($sendback, 'post.php')) $sendback = get_settings('siteurl') .'/wp-admin/post.php';
-	elseif (strstr($sendback, 'attachments.php')) $sendback = get_settings('siteurl') .'/wp-admin/attachments.php';
-	$sendback = preg_replace('|[^a-z0-9-~+_.?#=&;,/:]|i', '', $sendback);
+	if ( $post->post_status = 'static' )
+		$sendback = get_option('siteurl') . '/wp-admin/edit-pages.php';
+	elseif ( strstr($sendback, 'post.php') )
+		$sendback = get_option('siteurl') .'/wp-admin/post.php';
+	elseif ( strstr($sendback, 'attachments.php') )
+		$sendback = get_option('siteurl') .'/wp-admin/attachments.php';
 	wp_redirect($sendback);
 	break;
 
