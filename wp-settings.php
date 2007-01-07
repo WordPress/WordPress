@@ -100,6 +100,9 @@ else
 // $table_prefix is deprecated as of 2.1
 $wpdb->prefix = $table_prefix;
 
+if ( preg_match('|[^a-z0-9_]|i', $wpdb->prefix) && !file_exists(ABSPATH . 'wp-content/db.php') )
+	die(__('<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.'));
+
 // Table names
 $wpdb->posts          = $wpdb->prefix . 'posts';
 $wpdb->users          = $wpdb->prefix . 'users';
