@@ -19,10 +19,10 @@ function wp_ajax_meta_row( $pid, $mid, $key, $value ) {
 	$r .= "<tr id='meta-$mid'><td valign='top'>";
 	$r .= "<input name='meta[$mid][key]' tabindex='6' onkeypress='return killSubmit(\"theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);\",event);' type='text' size='20' value='$key' />";
 	$r .= "</td><td><textarea name='meta[$mid][value]' tabindex='6' rows='2' cols='30'>$value</textarea></td><td align='center'>";
-	$r .= "<input name='updatemeta' type='button' class='updatemeta' tabindex='6' value='Update' onclick='return theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);' /><br />";
+	$r .= "<input name='updatemeta' type='button' class='updatemeta' tabindex='6' value='".attribute_escape(__('Update'))."' onclick='return theList.ajaxUpdater(&#039;meta&#039;,&#039;meta-$mid&#039;);' /><br />";
 	$r .= "<input name='deletemeta[$mid]' type='submit' onclick=\"return deleteSomething( 'meta', $mid, '";
-	$r .= sprintf(__("You are about to delete the &quot;%s&quot; custom field on this post.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop."), $key_js);
-	$r .= "' );\" class='deletemeta' tabindex='6' value='Delete' /></td></tr>";
+	$r .= js_escape(sprintf(__("You are about to delete the '%s' custom field on this post.\n'OK' to delete, 'Cancel' to stop."), $key_js));
+	$r .= "' );\" class='deletemeta' tabindex='6' value='".attribute_escape(__('Delete'))."' /></td></tr>";
 	return $r;
 }
 

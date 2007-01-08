@@ -750,7 +750,7 @@ function _cat_row( $category, $level, $name_override = false ) {
 		$default_link_cat_id = get_option( 'default_link_category' );
 
 		if ( ($category->cat_ID != $default_cat_id ) && ($category->cat_ID != $default_link_cat_id ) )
-			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category_' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . sprintf( __("You are about to delete the category &quot;%s&quot;.\\nAll of its posts will go into the default category of &quot;%s&quot;\\nAll of its bookmarks will go into the default category of &quot;%s&quot;.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop." ), js_escape( $category->cat_name ), js_escape( get_catname( $default_cat_id )), js_escape( get_catname( $default_link_cat_id ) ) ) . "' );\" class='delete'>".__( 'Delete' )."</a>";
+			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category_' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . js_escape(sprintf( __("You are about to delete the category '%s'.\nAll of its posts will go into the default category of '%s'\nAll of its bookmarks will go into the default category of '%s'.\n'OK' to delete, 'Cancel' to stop." ), $category->cat_name, get_catname( $default_cat_id ), get_catname( $default_link_cat_id ) )) . "' );\" class='delete'>".__( 'Delete' )."</a>";
 		else
 			$edit .= "<td style='text-align:center'>".__( "Default" );
 	} else
@@ -798,7 +798,7 @@ function page_rows( $parent = 0, $level = 0, $pages = 0, $hierarchy = true ) {
     <td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Unpublished'); else echo mysql2date( 'Y-m-d g:i a', $post->post_modified ); ?></td> 
 	<td><a href="<?php the_permalink(); ?>" rel="permalink" class="edit"><?php _e( 'View' ); ?></a></td>
     <td><?php if ( current_user_can( 'edit_page', $id ) ) { echo "<a href='page.php?action=edit&amp;post=$id' class='edit'>" . __( 'Edit' ) . "</a>"; } ?></td> 
-    <td><?php if ( current_user_can( 'delete_page', $id ) ) { echo "<a href='" . wp_nonce_url( "page.php?action=delete&amp;post=$id", 'delete-page_' . $id ) .  "' class='delete' onclick=\"return deleteSomething( 'page', " . $id . ", '" . sprintf( __("You are about to delete the &quot;%s&quot; page.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop." ), js_escape( get_the_title() ) ) . "' );\">" . __( 'Delete' ) . "</a>"; } ?></td> 
+    <td><?php if ( current_user_can( 'delete_page', $id ) ) { echo "<a href='" . wp_nonce_url( "page.php?action=delete&amp;post=$id", 'delete-page_' . $id ) .  "' class='delete' onclick=\"return deleteSomething( 'page', " . $id . ", '" . js_escape(sprintf( __("You are about to delete the '%s' page.\n'OK' to delete, 'Cancel' to stop." ), get_the_title() ) ) . "' );\">" . __( 'Delete' ) . "</a>"; } ?></td> 
   </tr> 
 
 <?php
@@ -917,10 +917,10 @@ function list_meta( $meta ) {
 		$r .= "\n\t<tr id='meta-{$entry['meta_id']}' class='$style'>";
 		$r .= "\n\t\t<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>";
 		$r .= "\n\t\t<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>";
-		$r .= "\n\t\t<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".__( 'Update' )."' /><br />";
+		$r .= "\n\t\t<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".attribute_escape(__( 'Update' ))."' /><br />";
 		$r .= "\n\t\t<input name='deletemeta[{$entry['meta_id']}]' type='submit' onclick=\"return deleteSomething( 'meta', {$entry['meta_id']}, '";
-		$r .= sprintf( __("You are about to delete the &quot;%s&quot; custom field on this post.\\n&quot;OK&quot; to delete, &quot;Cancel&quot; to stop." ), $key_js );
-		$r .= "' );\" class='deletemeta' tabindex='6' value='".__( 'Delete' )."' /></td>";
+		$r .= js_escape(sprintf( __("You are about to delete the '%s' custom field on this post.\n'OK' to delete, 'Cancel' to stop." ), $key_js ) );
+		$r .= "' );\" class='deletemeta' tabindex='6' value='".attribute_escape(__( 'Delete' ))."' /></td>";
 		$r .= "\n\t</tr>";
 	}
 	echo $r;
