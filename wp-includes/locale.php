@@ -87,20 +87,12 @@ class WP_Locale {
 		$this->meridiem['AM'] = __('AM');
 		$this->meridiem['PM'] = __('PM');
 
-		$this->_load_locale_data();
-	}
-
-	function _load_locale_data() {
-		$locale = get_locale();
-		$locale_file = ABSPATH . "wp-includes/languages/$locale.php";
-		if ( !file_exists($locale_file) )
-			return;
-
-		include($locale_file);
-
+		// Import global locale vars set during inclusion of $locale.php.
 		foreach ( $this->locale_vars as $var ) {
-			$this->$var = $$var;	
+			if ( isset($GLOBALS[$var]) )
+				$this->$var = $GLOBALS[$var];
 		}
+
 	}
 
 	function get_weekday($weekday_number) {

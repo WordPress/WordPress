@@ -242,6 +242,11 @@ define('STYLESHEETPATH', get_stylesheet_directory());
 // Load the default text localization domain.
 load_default_textdomain();
 
+$locale = get_locale();
+$locale_file = ABSPATH . LANGDIR . "/$locale.php";
+if ( is_readable($locale_file) )
+	require_once($locale_file);
+
 // Pull in locale data after loading text domain.
 require_once(ABSPATH . WPINC . '/locale.php');
 
