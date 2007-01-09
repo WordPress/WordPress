@@ -288,6 +288,17 @@ function remove_accents($string) {
 	return $string;
 }
 
+function sanitize_file_name( $name ) { // Like sanitize_title, but with periods
+	$name = strtolower( $name );
+	$name = preg_replace('/&.+?;/', '', $name); // kill entities
+	$name = str_replace( '_', '-', $name );
+	$name = preg_replace('/[^a-z0-9\s-.]/', '', $name);
+	$name = preg_replace('/\s+/', '-', $name);
+	$name = preg_replace('|-+|', '-', $name);
+	$name = trim($name, '-');
+	return $name;
+}
+
 function sanitize_user( $username, $strict = false ) {
 	$raw_username = $username;
 	$username = strip_tags($username);

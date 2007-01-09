@@ -836,7 +836,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$user_pass   = $wpdb->escape($args[2]);
 		$data        = $args[3];
 
-		$name = sanitize_file( $data['name'] );
+		$name = sanitize_file_name( $data['name'] );
 		$type = $data['type'];
 		$bits = $data['bits'];
 
