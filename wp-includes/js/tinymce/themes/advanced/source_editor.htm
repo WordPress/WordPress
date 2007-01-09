@@ -10,9 +10,11 @@
 	<form name="source" onsubmit="saveContent();" action="#">
 		<div style="float: left" class="title">{$lang_theme_code_title}</div>
 
-		<div style="float: right">
-			<script language="javascript" type="text/javascript">renderWordWrap();</script>
+		<div id="wrapline" style="float: right">
+			<input type="checkbox" name="wraped" id="wraped" onclick="toggleWordWrap(this);" class="wordWrapCode" /><label for="wraped">{$lang_theme_code_wordwrap}</label>
 		</div>
+
+		<br style="clear: both" />
 
 		<textarea name="htmlSource" id="htmlSource" rows="15" cols="100" style="width: 100%; height: 100%; font-family: 'Courier New',Courier,mono; font-size: 12px" dir="ltr" wrap="off"></textarea>
 
