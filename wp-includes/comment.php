@@ -331,7 +331,7 @@ function wp_insert_comment($commentdata) {
 	if ( ! isset($comment_date) )
 		$comment_date = current_time('mysql');
 	if ( ! isset($comment_date_gmt) )
-		$comment_date_gmt = gmdate('Y-m-d H:i:s', strtotime($comment_date) );
+		$comment_date_gmt = get_gmt_from_date($comment_date);
 	if ( ! isset($comment_parent) )
 		$comment_parent = 0;
 	if ( ! isset($comment_approved) )
@@ -460,6 +460,8 @@ function wp_update_comment($commentarr) {
 
 	$comment_content = apply_filters('comment_save_pre', $comment_content);
 
+	$comment_date_gmt = get_gmt_from_date($comment_date);
+
 	$result = $wpdb->query(
 		"UPDATE $wpdb->comments SET
 			comment_content      = '$comment_content',
@@ -467,7 +469,8 @@ function wp_update_comment($commentarr) {
 			comment_author_email = '$comment_author_email',
 			comment_approved     = '$comment_approved',
 			comment_author_url   = '$comment_author_url',
-			comment_date         = '$comment_date'
+			comment_date         = '$comment_date',
+			comment_date_gmt     = '$comment_date_gmt'
 		WHERE comment_ID = $comment_ID" );
 
 	$rval = $wpdb->rows_affected;
