@@ -105,6 +105,19 @@ h2 {
 	line-height: 1.4em;
 }
 
+.wrap h2 {
+	margin: .4em 0 .5em;
+	display: block;
+	border-bottom: .5em solid #e5f3ff;
+	color: #333;
+	font: normal 32px/5px serif;
+	clear: both;
+}
+
+* html .wrap h2 {
+	margin-top: 1em;
+}
+
 .back {
 	display: block;
 	position: absolute;

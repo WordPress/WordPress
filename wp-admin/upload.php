@@ -79,7 +79,10 @@ function addLoadEvent(func) {if ( typeof wpOnload!='function'){wpOnload=func;}el
 else :
 	add_action( 'admin_head', 'wp_upload_admin_head' );
 	include_once('admin-header.php');
-	echo "<div class='wrap'>";
+?>
+	<div class='wrap'>
+	<h2><?php _e('Uploads'); ?></h2>
+<?php
 endif;
 
 echo "<ul id='upload-menu'>\n";
