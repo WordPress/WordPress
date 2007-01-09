@@ -140,8 +140,7 @@ case 'delete':
 	$post_id = (isset($_GET['post']))  ? intval($_GET['post']) : intval($_POST['post_ID']);
 
 	$post = & get_post($post_id);
-
-	if ( $post->post_status == 'static')
+	if ( 'static' == $post->post_status )
 		check_admin_referer('delete-page_' . $post_id);
 	else
 		check_admin_referer('delete-post_' . $post_id);
@@ -158,7 +157,7 @@ case 'delete':
 	}
 
 	$sendback = wp_get_referer();
-	if ( $post->post_status == 'static' )
+	if ( 'static' == $post->post_status )
 		$sendback = get_option('siteurl') . '/wp-admin/edit-pages.php';
 	elseif ( strstr($sendback, 'post.php') )
 		$sendback = get_option('siteurl') .'/wp-admin/post.php';

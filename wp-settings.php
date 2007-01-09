@@ -71,23 +71,19 @@ if ( defined('WP_CACHE') )
 define('WPINC', 'wp-includes');
 require_once (ABSPATH . WPINC . '/wp-db.php');
 
-// $table_prefix will be deprecated in version 2.1
-$wpdb->prefix = $table_prefix;
-
-if ( preg_match('|[^a-z0-9_]|i', $wpdb->prefix) )
-	die(__('<strong>ERROR</strong>: <code>$table_prefix</code> in <code>wp-config.php</code> can only contain numbers, letters, and underscores.'));
-
 // Table names
-$wpdb->posts          = $wpdb->prefix . 'posts';
-$wpdb->users          = $wpdb->prefix . 'users';
-$wpdb->categories     = $wpdb->prefix . 'categories';
-$wpdb->post2cat       = $wpdb->prefix . 'post2cat';
-$wpdb->comments       = $wpdb->prefix . 'comments';
-$wpdb->links          = $wpdb->prefix . 'links';
-$wpdb->linkcategories = $wpdb->prefix . 'linkcategories';
-$wpdb->options        = $wpdb->prefix . 'options';
-$wpdb->postmeta       = $wpdb->prefix . 'postmeta';
-$wpdb->usermeta       = $wpdb->prefix . 'usermeta';
+$wpdb->posts            = $table_prefix . 'posts';
+$wpdb->users            = $table_prefix . 'users';
+$wpdb->categories       = $table_prefix . 'categories';
+$wpdb->post2cat         = $table_prefix . 'post2cat';
+$wpdb->comments         = $table_prefix . 'comments';
+$wpdb->links            = $table_prefix . 'links';
+$wpdb->linkcategories   = $table_prefix . 'linkcategories';
+$wpdb->options          = $table_prefix . 'options';
+$wpdb->postmeta         = $table_prefix . 'postmeta';
+$wpdb->usermeta         = $table_prefix . 'usermeta';
+
+$wpdb->prefix           = $table_prefix;
 
 if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;

@@ -2228,10 +2228,7 @@ function status_header( $header ) {
 	elseif ( 410 == $header )
 		$text = 'Gone';
 
-//		if ( substr(php_sapi_name(), 0, 3) == 'cgi' )
-			@header("HTTP/1.1 $header $text");
-//		else
-//			@header("Status: $header $text");
+	@header("HTTP/1.1 $header $text");
 }
 
 function nocache_headers() {
