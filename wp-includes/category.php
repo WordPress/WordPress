@@ -21,7 +21,7 @@ function &get_categories($args = '') {
 
 	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, 'exclude' => '', 'include' => '',
-		'number' => '');
+		'number' => '', 'pad_counts' => false);
 	$r = array_merge($defaults, $r);
 	if ( 'count' == $r['orderby'] )
 		$r['orderby'] = 'category_count';
@@ -109,17 +109,21 @@ function &get_categories($args = '') {
 		$categories = & _get_cat_children($child_of, $categories);
 
 	// Update category counts to include children.
-	if ( $hierarchical ) {
+	if ( $pad_counts )
+		_pad_category_counts($type, $categories);
+
+	// Make sure we show empty categories that have children.
+	if ( $hierarchical && $hide_empty ) {
 		foreach ( $categories as $k => $category ) {
-			$progeny = 'link' == $type ? $category->link_count : $category->category_count;
-			if ( $children = _get_cat_children($category->cat_ID, $categories) ) {
+			if ( ! $category->{'link' == $type ? 'link_count' : 'category_count'} ) {
+				$children = _get_cat_children($category->cat_ID, $categories);
 				foreach ( $children as $child )
-					$progeny += 'link' == $type ? $child->link_count : $child->category_count;
-			}
-			if ( !$progeny && $hide_empty )
+					if ( $child->{'link' == $type ? 'link_count' : 'category_count'} )
+						continue 2;
+
+				// It really is empty
 				unset($categories[$k]);
-			else
-				$categories[$k]->{'link' == $type ? 'link_count' : 'category_count'} = $progeny;
+			}
 		}
 	}
 	reset ( $categories );
@@ -254,6 +258,45 @@ function &_get_cat_children($category_id, $categories) {
 	}
 
 	return $category_list;
+}
+
+// Recalculates link or post counts by including items from child categories
+// Assumes all relevant children are already in the $categories argument
+function _pad_category_counts($type, &$categories) {
+	global $wpdb;
+
+	// Set up some useful arrays
+	foreach ( $categories as $key => $cat ) {
+		$cats[$cat->cat_ID] = & $categories[$key];
+		$cat_IDs[] = $cat->cat_ID;
+	}
+
+	// Get the relevant post2cat or link2cat records and stick them in a lookup table
+	if ( $type == 'post' ) {
+		$results = $wpdb->get_results("SELECT post_id, category_id FROM $wpdb->post2cat LEFT JOIN $wpdb->posts ON post_id = ID WHERE category_id IN (".join(',', $cat_IDs).") AND post_type = 'post' AND post_status = 'publish'");
+		foreach ( $results as $row )
+			++$cat_items[$row->category_id][$row->post_id];
+	} else {
+		$results = $wpdb->get_results("SELECT $wpdb->link2cat.link_id, category_id FROM $wpdb->link2cat LEFT JOIN $wpdb->links USING (link_id) WHERE category_id IN (".join(',', $cat_IDs).") AND link_visible = 'Y'");
+		foreach ( $results as $row )
+			++$cat_items[$row->category_id][$row->link_id];
+	}
+
+	// Touch every ancestor's lookup row for each post in each category
+	foreach ( $cat_IDs as $cat_ID ) {
+		$child = $cat_ID;
+		while ( $parent = $cats[$child]->category_parent ) {
+			if ( !empty($cat_items[$cat_ID]) )
+				foreach ( $cat_items[$cat_ID] as $item_id => $touches )
+					++$cat_items[$parent][$item_id];
+			$child = $parent;
+		}
+	}
+
+	// Transfer the touched cells 
+	foreach ( $cat_items as $id => $items )
+		if ( isset($cats[$id]) )
+			$cats[$id]->{'link' == $type ? 'link_count' : 'category_count'} = count($items);
 }
 
 ?>

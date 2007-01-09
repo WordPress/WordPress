@@ -46,7 +46,7 @@
 				</ul>
 			</li>
 
-			<?php wp_list_categories('optioncount=1&title_li=<h2>Categories</h2>'); ?>
+			<?php wp_list_categories('show_count=1&title_li=<h2>Categories</h2>'); ?>
 
 			<?php /* If this is the frontpage */ if ( is_home() || is_page() ) { ?>
 				<?php wp_list_bookmarks(); ?>
