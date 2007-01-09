@@ -431,7 +431,7 @@ richedit = ( typeof tinyMCE == 'object' && tinyMCE.configs.length > 0 );
 function sendToEditor(n) {
 	o = document.getElementById('div'+n);
 	h = o.innerHTML.replace(new RegExp('^\\s*(.*?)\\s*$', ''), '$1'); // Trim
-	h = h.replace(new RegExp(' (class|title|width|height|id|onclick|onmousedown)=([^\'"][^ ]*)( |/|>)', 'g'), ' $1="$2"$3'); // Enclose attribs in quotes
+	h = h.replace(new RegExp(' (class|title|width|height|id|onclick|onmousedown)=([^\'"][^ ]*)(?=( |/|>))', 'g'), ' $1="$2"'); // Enclose attribs in quotes
 	h = h.replace(new RegExp(' (width|height)=".*?"', 'g'), ''); // Drop size constraints
 	h = h.replace(new RegExp(' on(click|mousedown)="[^"]*"', 'g'), ''); // Drop menu events
 	h = h.replace(new RegExp('<(/?)A', 'g'), '<$1a'); // Lowercase tagnames
