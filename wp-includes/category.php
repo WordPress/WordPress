@@ -294,7 +294,7 @@ function _pad_category_counts($type, &$categories) {
 	}
 
 	// Transfer the touched cells 
-	foreach ( $cat_items as $id => $items )
+	foreach ( (array) $cat_items as $id => $items )
 		if ( isset($cats[$id]) )
 			$cats[$id]->{'link' == $type ? 'link_count' : 'category_count'} = count($items);
 }
