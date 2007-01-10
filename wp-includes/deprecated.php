@@ -429,8 +429,8 @@ function wp_list_cats($args = '') {
 		$r['show_last_update'] = $r['optiondates'];
 	if ( isset($r['optioncount']) )
 		$r['show_count'] = $r['optioncount'];
-	if ( !empty($r['list']) )
-		$r['style'] = 'break';
+	if ( isset($r['list']) )
+		$r['style'] = $r['list'] ? 'list' : 'break';
 	$r['title_li'] = '';
 
 	return wp_list_categories($r);
