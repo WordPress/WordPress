@@ -816,9 +816,8 @@ function parse_w3cdtf ( $date_str ) {
 		return -1;
 	}
 	}
-function wp_rss ($url, $num) {
+function wp_rss ($url, $num_items) {
 	//ini_set("display_errors", false); uncomment to suppress php errors thrown if the feed is not returned.
-	$num_items = $num;
 	$rss = fetch_rss($url);
 		if ( $rss ) {
 			echo "<ul>";
@@ -837,7 +836,7 @@ function wp_rss ($url, $num) {
 	}
 }
 
-function get_rss ($uri, $num = 5) { // Like get posts, but for RSS
+function get_rss ($url, $num_items = 5) { // Like get posts, but for RSS
 	$rss = fetch_rss($url);
 	if ( $rss ) {
 		$rss->items = array_slice($rss->items, 0, $num_items);
@@ -848,7 +847,6 @@ function get_rss ($uri, $num = 5) { // Like get posts, but for RSS
 			echo "</a><br />\n";
 			echo "</li>\n";
 		}
-		return $posts;
 	} else {
 		return false;
 	}
