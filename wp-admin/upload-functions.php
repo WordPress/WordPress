@@ -201,7 +201,7 @@ function wp_upload_tab_upload_action() {
 
 		if ( isset($file['error']) )
 			wp_die($file['error'] . "<br /><a href='" . get_option('siteurl')
-			. "/wp-admin/upload.php?style=$style&amp;tab=$from_tab&amp;post_id=$post_id'>'" . __('Back to Image Uploading') . '</a>'
+			. "/wp-admin/upload.php?style=$style&amp;tab=$from_tab&amp;post_id=$post_id'>" . __('Back to Image Uploading') . '</a>'
 		);
 
 		$url = $file['url'];
