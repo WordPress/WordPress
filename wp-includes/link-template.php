@@ -296,7 +296,11 @@ function get_previous_post($in_same_cat = false, $excluded_categories = '') {
 		$posts_in_ex_cats_sql = 'AND ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
 	}
 
-	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join WHERE post_date < '$current_post_date' AND post_type = 'post' AND post_status = 'publish' $posts_in_ex_cats_sql ORDER BY post_date DESC LIMIT 1");
+	$join  = apply_filters( 'get_previous_post_join', $join, $in_same_cat, $excluded_categories );
+	$where = apply_filters( 'get_previous_post_where', "WHERE post_date < '$current_post_date' AND post_type = 'post' AND post_status = 'publish' $posts_in_ex_cats_sql", $in_same_cat, $excluded_categories );
+	$sort  = apply_filters( 'get_previous_post_sort', 'ORDER BY post_date DESC LIMIT 1' );
+
+	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join $where $sort");
 }
 
 function get_next_post($in_same_cat = false, $excluded_categories = '') {
@@ -329,7 +333,11 @@ function get_next_post($in_same_cat = false, $excluded_categories = '') {
 		$posts_in_ex_cats_sql = 'AND ID NOT IN (' . implode($posts_in_ex_cats, ',') . ')';
 	}
 
-	return @$wpdb->get_row("SELECT ID,post_title FROM $wpdb->posts $join WHERE post_date > '$current_post_date' AND post_type = 'post' AND post_status = 'publish' $posts_in_ex_cats_sql AND ID != $post->ID ORDER BY post_date ASC LIMIT 1");
+	$join  = apply_filters( 'get_next_post_join', $join, $in_same_cat, $excluded_categories );
+	$where = apply_filters( 'get_next_post_where', "WHERE post_date > '$current_post_date' AND post_type = 'post' AND post_status = 'publish' $posts_in_ex_cats_sql AND ID != $post->ID", $in_same_cat, $excluded_categories );
+	$sort  = apply_filters( 'get_next_post_sort', 'ORDER BY post_date ASC LIMIT 1' );
+
+	return @$wpdb->get_row("SELECT ID, post_title FROM $wpdb->posts $join $where $sort");
 }
 
 
