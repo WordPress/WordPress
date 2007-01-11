@@ -5,7 +5,7 @@ function get_all_category_ids() {
 
 	if ( ! $cat_ids = wp_cache_get('all_category_ids', 'category') ) {
 		$cat_ids = $wpdb->get_col("SELECT cat_ID FROM $wpdb->categories");
-		wp_cache_add('all_category_ids', $cat_ids, 'category');
+		wp_cache_set('all_category_ids', $cat_ids, 'category');
 	}
 
 	return $cat_ids;
@@ -148,7 +148,7 @@ function &get_category(&$category, $output = OBJECT) {
 	} else {
 		if ( ! $_category = wp_cache_get($category, 'category') ) {
 			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category' LIMIT 1");
-			wp_cache_add($category, $_category, 'category');
+			wp_cache_set($category, $_category, 'category');
 		}
 	}
 
