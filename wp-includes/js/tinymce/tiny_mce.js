@@ -2813,7 +2813,7 @@ TinyMCE_Control.prototype = {
 				if (tinyMCE.isGecko && this.getSel().isCollapsed) {
 					focusElm = tinyMCE.getParentElement(focusElm, 'A');
 
-					if (focusElm)
+					if (focusElm && this.getRng(0).endOffset > 0 && this.getRng(0).endOffset != focusElm.innerHTML.length)
 						this.selection.selectNode(focusElm, false);
 				}
 

@@ -558,6 +558,8 @@ TinyMCE_Window.prototype.close = function() {
 	e.parentNode.removeChild(e);
 
 	mcWindows.setDocumentLock(false);
+
+	tinyMCE.selectedInstance.getWin().focus();
 };
 
 TinyMCE_Window.prototype.onMouseMove = function(e) {
