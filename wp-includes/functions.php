@@ -816,7 +816,7 @@ function status_header( $header ) {
 	elseif ( 410 == $header )
 		$text = 'Gone';
 
-	if ( version_compare(php_version(), '4.3.0', '>=') )
+	if ( version_compare(phpversion(), '4.3.0', '>=') )
 		@header("HTTP/1.1 $header $text", true, $header);
 	else
 		@header("HTTP/1.1 $header $text");
