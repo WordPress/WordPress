@@ -498,10 +498,10 @@ class Walker_Page extends Walker {
 		return $output;
 	}
 
-	function start_el($output, $page, $depth, $current_page, $show_date, $date_format) {
+	function start_el($output, $page, $depth, $current_page, $args) {
 		if ( $depth )
 			$indent = str_repeat("\t", $depth);
-
+		extract($args);
 		$css_class = 'page_item';
 		$_current_page = get_page( $current_page );
 		if ( $page->ID == $current_page )
