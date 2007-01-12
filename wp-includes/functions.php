@@ -2228,7 +2228,10 @@ function status_header( $header ) {
 	elseif ( 410 == $header )
 		$text = 'Gone';
 
-	@header("HTTP/1.1 $header $text");
+	if ( version_compare(php_version(), '4.3.0', '>=') )
+		@header("HTTP/1.1 $header $text", true, $header);
+	else
+		@header("HTTP/1.1 $header $text");
 }
 
 function nocache_headers() {
