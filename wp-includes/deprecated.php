@@ -1,4 +1,19 @@
 <?php
+
+/*
+ *  Deprecated global variables.
+ */
+ 
+$tableposts = $wpdb->posts;
+$tableusers = $wpdb->users;
+$tablecategories = $wpdb->categories;
+$tablepost2cat = $wpdb->post2cat;
+$tablecomments = $wpdb->comments;
+$tablelinks = $wpdb->links;
+$tablelinkcategories = 'linkcategories_is_gone';
+$tableoptions = $wpdb->options;
+$tablepostmeta = $wpdb->postmeta;
+
 /*
  * Deprecated functios come here to die.
  */
