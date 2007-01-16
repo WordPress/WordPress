@@ -41,7 +41,7 @@ class WP_Import {
 	function users_form($n) {
 		global $wpdb, $testing;
 		$users = $wpdb->get_results("SELECT * FROM $wpdb->users ORDER BY ID");
-?><select name="userselect[<?php echo $n; ?>]">
+?><select name="userselect[<?php echo attribute_escape($n); ?>]">
 	<option value="#NONE#">- Select -</option>
 	<?php
 		foreach ($users as $user) {
@@ -100,7 +100,6 @@ class WP_Import {
 				array_push($temp, "$author"); //store the extracted author names in a temporary array
 			}
 		}
-
 		// We need to find unique values of author names, while preserving the order, so this function emulates the unique_value(); php function, without the sorting.
 		$authors[0] = array_shift($temp);
 		$y = count($temp) + 1;
@@ -111,32 +110,6 @@ class WP_Import {
 		}
 
 		return $authors;
-	}
-
-	function get_authors_from_post() {
-		$formnames = array ();
-		$selectnames = array ();
-
-		foreach ($_POST['user'] as $key => $line) {
-			$newname = trim(stripslashes($line));
-			if ($newname == '')
-				$newname = 'left_blank'; //passing author names from step 1 to step 2 is accomplished by using POST. left_blank denotes an empty entry in the form.
-			array_push($formnames, "$newname");
-		} // $formnames is the array with the form entered names
-
-		foreach ($_POST['userselect'] as $user => $key) {
-			$selected = trim(stripslashes($key));
-			array_push($selectnames, "$selected");
-		}
-
-		$count = count($formnames);
-		for ($i = 0; $i < $count; $i ++) {
-			if ($selectnames[$i] != '#NONE#') { //if no name was selected from the select menu, use the name entered in the form
-				array_push($this->newauthornames, "$selectnames[$i]");
-			} else {
-				array_push($this->newauthornames, "$formnames[$i]");
-			}
-		}
 	}
 
 	function wp_authors_form() {
@@ -154,7 +127,7 @@ class WP_Import {
 		foreach ($authors as $author) {
 			++ $j;
 			echo '<li>'.__('Current author:').' <strong>'.$author.'</strong><br />'.sprintf(__('Create user %1$s or map to existing'), ' <input type="text" value="'.$author.'" name="'.'user[]'.'" maxlength="30"> <br />');
-			$this->users_form($j);
+			$this->users_form($author);
 			echo '</li>';
 		}
 
@@ -307,7 +280,6 @@ class WP_Import {
 		$this->id = (int) $_GET['id'];
 
 		$this->file = get_attached_file($this->id);
-		$this->get_authors_from_post();
 		$this->get_entries();
 		$this->process_categories();
 		$this->process_posts();
