@@ -368,8 +368,9 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
 		$src_file = $icon_dir . '/' . basename($src);
 	}
 
-	if ( !isset($src) )
+	if ( !isset($src) || !$src )
 		return false;
+
 	return array($src, $src_file);
 }
 

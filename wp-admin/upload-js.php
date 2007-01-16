@@ -56,7 +56,7 @@ addLoadEvent( function() {
 				this.currentImage.width = false;
 				this.currentImage.height = false;
 			}
-			this.currentImage.isImage = ( 0 == id ? '' : $('attachment-is-image-' + id).value );
+			this.currentImage.isImage = ( 0 == id ? 0 : $('attachment-is-image-' + id).value );
 			this.currentImage.ID = id;
 		},
 
@@ -74,7 +74,7 @@ addLoadEvent( function() {
 				h += "<a href='#' onclick='return theFileList.cancelView();'  title='<?php echo attribute_escape(__('Browse your files')); ?>' class='back'><?php echo attribute_escape(__('&laquo; Back')) ?></a>";
 			}
 			h += "<div id='file-title'>"
-			if ( !this.currentImage.isImage )
+			if ( 0 == this.currentImage.isImage )
 				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo attribute_escape(__('Direct link to file')); ?>'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
@@ -83,7 +83,7 @@ addLoadEvent( function() {
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
-			if ( this.currentImage.isImage ) {
+			if ( 1 == this.currentImage.isImage ) {
 				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo attribute_escape(__('Direct link to file')); ?>'>";
 				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
 				h += "</a>";
@@ -152,7 +152,7 @@ addLoadEvent( function() {
 				h += "<a href='#' onclick='return theFileList.cancelView();'  title='<?php echo attribute_escape(__('Browse your files')); ?>' class='back'><?php echo attribute_escape(__('&laquo; Back')); ?></a>";
 			}
 			h += "<div id='file-title'>"
-			if ( !this.currentImage.isImage )
+			if ( 0 == this.currentImage.isImage )
 				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo attribute_escape(__('Direct link to file')); ?>'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
@@ -161,7 +161,7 @@ addLoadEvent( function() {
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
-			if ( this.currentImage.isImage ) {
+			if ( 1 == this.currentImage.isImage ) {
 				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file')); ?>'>";
 				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
 				h += "</a>";
@@ -230,7 +230,7 @@ addLoadEvent( function() {
 			displayEl = $A(document.forms.uploadoptions.elements.display).detect( function(i) { return i.checked; } )
 			if ( displayEl )
 				display = displayEl.value;
-			else if ( this.currentImage.isImage )
+			else if ( 1 == this.currentImage.isImage )
 				display = 'full';
 
 			if ( 'none' != link )
