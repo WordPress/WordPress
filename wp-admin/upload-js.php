@@ -238,7 +238,7 @@ addLoadEvent( function() {
 			if ( display && 'title' != display )
 				h += "<img src='" + ( 'thumb' == display ? ( this.currentImage.thumbBase + this.currentImage.thumb ) : ( this.currentImage.srcBase + this.currentImage.src ) ) + "' alt='" + this.currentImage.title + "' />";
 			else
-				h += this.currentImage.srcBase + this.currentImage.src;
+				h += this.currentImage.title;
 			if ( 'none' != link )
 				h += "</a>";
 
