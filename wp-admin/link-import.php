@@ -26,7 +26,7 @@ switch ($step) {
 <form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 <?php wp_nonce_field('import-bookmarks') ?>
 
-<p><?php _e('If a program or website you use allows you to export your links or subscriptions as OPML you may import them here.'); ?>
+<p><?php _e('If a program or website you use allows you to export your links or subscriptions as OPML you may import them here.'); ?></p>
 <div style="width: 70%; margin: auto; height: 8em;">
 <input type="hidden" name="step" value="1" />
 <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
