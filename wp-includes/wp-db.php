@@ -28,7 +28,6 @@ class wpdb {
 	var $post2cat;
 	var $comments;
 	var $links;
-	var $linkcategories;
 	var $options;
 	var $optiontypes;
 	var $optionvalues;

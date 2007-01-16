@@ -508,10 +508,12 @@ function upgrade_210() {
 			foreach ( $posts as $post )
 				wp_schedule_single_event(mysql2date('U', $post->post_date), 'publish_future_post', array($post->ID));
 	}
+
 	if ( $wp_current_db_version < 3570 ) {
 		// Create categories for link categories if a category with the same
 		// name doesn't exist.  Create a map of link cat IDs to cat IDs.
-		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM $wpdb->linkcategories");
+		$link_cat_id_map = array();
+		$link_cats = $wpdb->get_results("SELECT cat_id, cat_name FROM " . $wpdb->prefix . 'linkcategories');
 		foreach ( $link_cats as $link_cat) {
 			if ( $cat_id = category_exists($link_cat->cat_name) ) {
 				$link_cat_id_map[$link_cat->cat_id] = $cat_id;
@@ -525,9 +527,13 @@ function upgrade_210() {
 		// Associate links to cats.
 		$links = $wpdb->get_results("SELECT link_id, link_category FROM $wpdb->links");
 		if ( !empty($links) ) foreach ( $links as $link ) {
+			if ( 0 == $link->link_category )
+				continue;
+			if ( ! isset($link_cat_id_map[$link->link_category]) )
+				continue;
 			$link_cat = $link_cat_id_map[$link->link_category];
 			$cat = $wpdb->get_row("SELECT * FROM $wpdb->link2cat WHERE link_id = '$link->link_id' AND category_id = '$link_cat'");
-			if (!$cat && 0 != $link->link_category) {
+			if ( !$cat ) {
 				$wpdb->query("INSERT INTO $wpdb->link2cat (link_id, category_id)
 					VALUES ('$link->link_id', '$link_cat')");
 			}
@@ -544,6 +550,9 @@ function upgrade_210() {
 				$wpdb->query("UPDATE $wpdb->categories SET link_count = '$count' WHERE cat_ID = '$cat_id'");
 			}
 		}
+
+		// Obsolete linkcategories table
+		$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'linkcategories');
 	}
 }
 

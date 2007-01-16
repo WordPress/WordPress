@@ -113,7 +113,6 @@ $wpdb->post2cat       = $wpdb->prefix . 'post2cat';
 $wpdb->comments       = $wpdb->prefix . 'comments';
 $wpdb->link2cat       = $wpdb->prefix . 'link2cat';
 $wpdb->links          = $wpdb->prefix . 'links';
-$wpdb->linkcategories = $wpdb->prefix . 'linkcategories';
 $wpdb->options        = $wpdb->prefix . 'options';
 $wpdb->postmeta       = $wpdb->prefix . 'postmeta';
 $wpdb->usermeta       = $wpdb->prefix . 'usermeta';
