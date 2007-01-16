@@ -804,6 +804,8 @@ class WP_Query {
 				}
 				if ( strlen($out_posts) > 0 )
 					$out_cats = " AND ID NOT IN ($out_posts)";
+				else
+					$out_cats = '';
 			}
 			$whichcat = $in_cats . $out_cats;
 			$groupby = "{$wpdb->posts}.ID";
