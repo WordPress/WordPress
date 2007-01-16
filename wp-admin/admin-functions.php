@@ -2077,11 +2077,11 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		$metadata['hwstring_small'] = "height='$uheight' width='$uwidth'";
 		$metadata['file'] = $file;
 
-		if ( $metadata['width'] * $metadata['height'] < 3 * 1024 * 1024 ) {
-			if ( $metadata['width'] > 128 && $metadata['width'] >= $metadata['height'] * 4 / 3 )
-				$thumb = wp_create_thumbnail($file, 128);
-			elseif ( $metadata['height'] > 96 )
-				$thumb = wp_create_thumbnail($file, 96);
+		$max = apply_filters( 'wp_thumbnail_creation_size_limit', 3 * 1024 * 1024, $attachment_id, $file );
+
+		if ( $max > 0 && $metadata['width'] * $metadata['height'] < $max ) {
+			$max_side = apply_filters( 'wp_thumbnail_max_side_length', 128, $attachment_id, $file );
+			$thumb = wp_create_thumbnail( $file, $max_side );
 
 			if ( @file_exists($thumb) )
 				$metadata['thumb'] = basename($thumb);
