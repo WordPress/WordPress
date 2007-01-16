@@ -70,7 +70,7 @@ include('admin-header.php');
 </fieldset>
 <fieldset class="options">
 <legend><?php _e('Comment Blacklist') ?></legend>
-<p><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be deleted. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></p>
+<p><?php _e('When a comment contains any of these words in its content, name, URL, e-mail, or IP, it will be marked as spam. One word or IP per line. It will match inside words, so "press" will match "WordPress".') ?></p>
 <p> 
 <textarea name="blacklist_keys" cols="60" rows="4" id="blacklist_keys" style="width: 98%; font-size: 12px;" class="code"><?php form_option('blacklist_keys'); ?></textarea> 
 </p>
