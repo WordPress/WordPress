@@ -255,7 +255,7 @@ function wp_list_categories($args = '') {
 	if ( $title_li && 'list' == $style )
 		$output .= '</ul></li>';
 
-	echo apply_filters('list_cats', $output);
+	echo apply_filters('wp_list_categories', $output);
 }
 
 //
