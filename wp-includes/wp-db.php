@@ -106,7 +106,7 @@ class wpdb {
 
 	function print_error($str = '') {
 		global $EZSQL_ERROR;
-		if (!$str) $str = mysql_error();
+		if (!$str) $str = mysql_error($this->dbh);
 		$EZSQL_ERROR[] =
 		array ('query' => $this->last_query, 'error_str' => $str);
 
@@ -174,7 +174,7 @@ class wpdb {
 			$this->queries[] = array( $query, $this->timer_stop() );
 
 		// If there is an error then take note of it..
-		if ( mysql_error() ) {
+		if ( mysql_error($this->dbh) ) {
 			$this->print_error();
 			return false;
 		}
