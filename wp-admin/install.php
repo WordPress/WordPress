@@ -81,7 +81,7 @@ switch($step) {
 
 
 <?php
-	$result = wp_install($weblog_title, __('admin'), $admin_email, $public);
+	$result = wp_install($weblog_title, 'admin', $admin_email, $public);
 	extract($result);
 ?>
 
@@ -92,7 +92,7 @@ switch($step) {
 
 <dl>
 	<dt><?php _e('Username'); ?></dt>
-		<dd><code><?php _e('admin') ?></code></dd>
+		<dd><code>admin</code></dd>
 	<dt><?php _e('Password'); ?></dt>
 		<dd><code><?php echo $password; ?></code></dd>
 	<dt><?php _e('Login address'); ?></dt>
