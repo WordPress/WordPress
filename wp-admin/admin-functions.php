@@ -20,6 +20,25 @@ function wp_write_post() {
 			return new WP_Error( 'edit_posts', __( 'You are not allowed to create posts or drafts on this blog.' ) );
 	}
 
+
+	// Check for autosave collisions
+	if ( isset($_POST['temp_ID']) ) {
+		$temp_id = (int) $_POST['temp_ID'];
+		if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
+			$draft_ids = array();
+		foreach ( $draft_ids as $temp => $real )
+			if ( time() + $temp > 86400 ) // 1 day: $temp is equal to -1 * time( then )
+				unset($draft_ids[$temp]);
+
+		if ( isset($draft_ids[$temp_id]) ) { // Edit, don't write
+			$_POST['post_ID'] = $draft_ids[$temp_id];
+			unset($_POST['temp_ID']);
+			relocate_children( $temp_id, $_POST['post_ID'] );
+			update_user_option( $user_ID, 'autosave_draft_ids', $draft_ids );
+			return edit_post();
+		}
+	}
+
 	// Rename.
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
@@ -88,12 +107,17 @@ function wp_write_post() {
 	}
 
 	// Create the post.
-	$post_ID = wp_insert_post( $_POST);
+	$post_ID = wp_insert_post( $_POST );
+
 	add_meta( $post_ID );
 
 	// Reunite any orphaned attachments with their parent
-	if ( $_POST['temp_ID'] )
-		relocate_children( $_POST['temp_ID'], $post_ID );
+	// Update autosave collision detection
+	if ( $temp_id ) {
+		relocate_children( $temp_id, $post_ID );
+		$draft_ids[$temp_id] = $post_ID;
+		update_user_option( $user_ID, 'autosave_draft_ids', $draft_ids );
+	}
 
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	fix_attachment_links( $post_ID );
@@ -163,6 +187,17 @@ function edit_post() {
 	} else {
 		if ( !current_user_can( 'edit_post', $post_ID ) )
 			wp_die( __('You are not allowed to edit this post.' ));
+	}
+
+	// Autosave shouldn't save too soon after a real save
+	if ( 'autosave' == $_POST['action'] ) {
+		$post =& get_post( $post_ID );
+		$now = time();
+		$then = strtotime($post->post_date_gmt . ' +0000');
+		// Keep autosave_interval in sync with autosave-js.php.
+		$delta = apply_filters( 'autosave_interval', 120 ) / 2;
+		if ( ($now - $then) < $delta )
+			return $post_ID;
 	}
 
 	// Rename.

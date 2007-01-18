@@ -7,6 +7,7 @@ var autosavePeriodical;
 function autosave_start_timer() {
 	var form = $('post');
 	autosaveLast = form.post_title.value+form.content.value;
+	// Keep autosave_interval in sync with edit_post().
 	autosavePeriodical = new PeriodicalExecuter(autosave, <?php echo apply_filters('autosave_interval', '120'); ?>);
 	//Disable autosave after the form has been submitted
 	if(form.addEventListener) {
@@ -85,6 +86,7 @@ function autosave_disable_buttons() {
 	form.submit ? form.submit.disabled = 'disabled' : null;
 	form.publish ? form.publish.disabled = 'disabled' : null;
 	form.deletepost ? form.deletepost.disabled = 'disabled' : null;
+	setTimeout('autosave_enable_buttons();', 1000); // Re-enable 1 sec later.  Just gives autosave a head start to avoid collisions.
 }
 
 function autosave_enable_buttons() {

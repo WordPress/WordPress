@@ -17,7 +17,7 @@ $messages[3] = __('Custom field deleted.');
 
 if (0 == $post_ID) {
 	$form_action = 'post';
-	$temp_ID = -1 * time();
+	$temp_ID = -1 * time(); // don't change this formula without looking at wp_write_post()
 	$form_extra = "<input type='hidden' id='post_ID' name='temp_ID' value='$temp_ID' />";
 	wp_nonce_field('add-post');
 } else {

@@ -220,7 +220,7 @@ case 'add-user' :
 	) );
 	$x->send();
 	break;
-case 'autosave' :
+case 'autosave' : // The name of this action is hardcoded in edit_post()
 	$_POST['post_content'] = $_POST['content'];
 	$_POST['post_excerpt'] = $_POST['excerpt'];
 	$_POST['post_status'] = 'draft';
