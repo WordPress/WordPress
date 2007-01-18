@@ -135,10 +135,8 @@ wp_cache_init();
 require (ABSPATH . WPINC . '/functions.php');
 require (ABSPATH . WPINC . '/plugin.php');
 require (ABSPATH . WPINC . '/default-filters.php');
-if ( defined('WPLANG') && '' != constant('WPLANG') ) {
-	include_once(ABSPATH . WPINC . '/streams.php');
-	include_once(ABSPATH . WPINC . '/gettext.php');
-}
+include_once(ABSPATH . WPINC . '/streams.php');
+include_once(ABSPATH . WPINC . '/gettext.php');
 require_once (ABSPATH . WPINC . '/l10n.php');
 
 if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {
