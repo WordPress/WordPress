@@ -174,7 +174,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 3308 )
 		upgrade_160();
 
-	if ( $wp_current_db_version < 3845 )
+	if ( $wp_current_db_version < 4772 )
 		upgrade_210();
 
 	if ( $wp_current_db_version < 4351 )
@@ -552,7 +552,9 @@ function upgrade_210() {
 				$wpdb->query("UPDATE $wpdb->categories SET link_count = '$count' WHERE cat_ID = '$cat_id'");
 			}
 		}
+	}
 
+	if ( $wp_current_db_version < 4772 ) {
 		// Obsolete linkcategories table
 		$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'linkcategories');
 	}
