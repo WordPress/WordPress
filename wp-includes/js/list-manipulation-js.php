@@ -23,7 +23,7 @@ Object.extend(listMan.prototype, {
 		this.theList = $(theListId ? theListId : 'the-list');
 		if ( !this.theList )
 			return false;
-		this.theList.cleanWhitespace();
+		Element.cleanWhitespace(this.theList);
 	},
 
 	// sends add-what and fields contained in where
@@ -54,7 +54,7 @@ Object.extend(listMan.prototype, {
 						showLinkMessage += "<a href='#" + what + '-' + id + "'><?php echo js_escape(__('Jump to new item')); ?>";
 				});
 				if ( tempObj.showLink && showLinkMessage )
-					ajaxAdd.myResponseElement.update("<div id='jumplink' class='updated fade'><p>" + showLinkMessage + "</p></div>");
+					Element.update(ajaxAdd.myResponseElement,"<div id='jumplink' class='updated fade'><p>" + showLinkMessage + "</p></div>");
 			}
 			if ( tempObj.addComplete && typeof tempObj.addComplete == 'function' )
 				tempObj.addComplete( what, where, update, transport );
@@ -82,7 +82,7 @@ Object.extend(listMan.prototype, {
 		var action = 'delete-' + what + '&id=' + id;
 		var idName = what.replace('-as-spam','') + '-' + id;
 		ajaxDel.addOnComplete( function(transport) {
-			ajaxDel.myResponseElement.update('');
+			Element.update(ajaxDel.myResponseElement,'');
 			tempObj.destore(action);
 			if( tempObj.delComplete && typeof tempObj.delComplete == 'function' )
 				tempObj.delComplete( what, id, transport );
@@ -105,7 +105,7 @@ Object.extend(listMan.prototype, {
 		var action = 'dim-' + what + '&id=' + id;
 		var idName = what + '-' + id;
 		ajaxDim.addOnComplete( function(transport) {
-			ajaxDim.myResponseElement.update('');
+			Element.update(ajaxDim.myResponseElement,'');
 			tempObj.destore(action);
 			if ( tempObj.dimComplete && typeof tempObj.dimComplete == 'function' )
 				tempObj.dimComplete( what, id, dimClass, transport );
@@ -120,11 +120,11 @@ Object.extend(listMan.prototype, {
 
 	addListItem: function( h ) {
 		new Insertion[this.topAdder ? 'Top' : 'Bottom'](this.theList,h);
-		this.theList.cleanWhitespace();
+		Element.cleanWhitespace(this.theList);
 		var id = this.topAdder ? this.theList.firstChild.id : this.theList.lastChild.id;
 		if ( this.alt )
 			if ( this.theList.childNodes.length % 2 )
-				$(id).addClassName(this.alt);
+				Element.addClassName($(id),this.alt);
 		Fat.fade_element(id);
 	},
 
@@ -145,7 +145,7 @@ Object.extend(listMan.prototype, {
 	replaceListItem: function( id, h, update ) {
 		id = $(id);
 		if ( !update ) {
-			id.remove();
+			Element.remove(id);
 			this.addListItem( h );
 			return;
 		}
@@ -156,14 +156,14 @@ Object.extend(listMan.prototype, {
 	// toggles class
 	dimItem: function( id, dimClass, noFade ) {
 		id = $(id);
-		if ( id.hasClassName(dimClass) ) {
+		if ( Element.hasClassName(id,dimClass) ) {
 			if ( !noFade )
 				Fat.fade_element(id.id,null,700,null);
-			id.removeClassName(dimClass);
+			Element.removeClassName(id,dimClass);
 		} else {
 			if ( !noFade )
 				Fat.fade_element(id.id,null,700,'#FF3333');
-			id.addClassName(dimClass);
+			Element.addClassName(id,dimClass);
 		}
 	},
 
@@ -183,7 +183,7 @@ Object.extend(listMan.prototype, {
 		this.theList.replaceChild(this.dataStore[action], $(id));
 		delete(this.dataStore[action]);
 		if ( error ) {
-			func = function() { $(id).setStyle( { 'background-color': '#FF3333' } ); }
+			func = function() { Element.setStyle($(id),{backgroundColor:'#FF3333'}); }
 			func(); setTimeout(func, 705); // Hit it twice in case it's still fading.
 		}
 	},
@@ -246,12 +246,12 @@ Object.extend(listMan.prototype, {
 			return;
 		var alt = this.alt;
 		var offset = this.altOffset;
-		var listItems = $A(this.theList.childNodes).findAll( function(i) { return i.visible() } );
+		var listItems = $A(this.theList.childNodes).findAll( function(i) { return Element.visible(i) } );
 		listItems.each( function(i,n) {
 			if ( ( n + offset ) % 2 )
-				i.removeClassName(alt);
+				Element.removeClassName(i,alt);
 			else
-				i.addClassName(alt);
+				Element.addClassName(i,alt);
 		});
 	}
 });

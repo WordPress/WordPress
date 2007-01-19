@@ -38,26 +38,26 @@ Object.extend(WPAjax.prototype, {
 		this.myResponseElement = p;
 	},
 	parseAjaxResponse: function() { // 1 = good, 0 = strange (bad data?), -1 = you lack permission
-		if ( this.transport.responseXML && typeof this.transport.responseXML == 'object' ) {
+		if ( this.transport.responseXML && typeof this.transport.responseXML == 'object' && ( this.transport.responseXML.xml || 'undefined' == typeof this.transport.responseXML.xml ) ) {
 			var err = this.transport.responseXML.getElementsByTagName('wp_error');
 			if ( err[0] ) {
 				var msg = $A(err).inject( '', function(a, b) { return a + '<p>' + b.firstChild.nodeValue + '</p>'; } );
-				this.myResponseElement.update('<div class="error">' + msg + '</div>');
+				Element.update(this.myResponseElement,'<div class="error">' + msg + '</div>');
 				return false;
 			}
 			return true;
 		}
 		var r = this.transport.responseText;
 		if ( isNaN(r) ) {
-			this.myResponseElement.update('<div class="error"><p>' + r + '</p></div>');
+			Element.update(this.myResponseElement,'<div class="error"><p>' + r + '</p></div>');
 			return false;
 		}
 		var r = parseInt(r,10);
 		if ( -1 == r ) {
-			this.myResponseElement.update("<div class='error'><p><?php _e("You don't have permission to do that."); ?></p></div>");
+			Element.update(this.myResponseElement,"<div class='error'><p><?php _e("You don't have permission to do that."); ?></p></div>");
 			return false;
 		} else if ( 0 == r ) {
-			this.myResponseElement.update("<div class='error'><p><?php _e("Something strange happened.  Try refreshing the page."); ?></p></div>");
+			Element.update(this.myResponseElement,"<div class='error'><p><?php _e("Something strange happened.  Try refreshing the page."); ?></p></div>");
 			return false;
 		}
 		return true;

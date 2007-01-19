@@ -207,16 +207,16 @@ addLoadEvent( function() {
 			if ( !prep ) {
 				var filesEl = $('upload-files');
 				if ( filesEl )
-					filesEl.show();
+					Element.show(filesEl);
 				var navEl = $('current-tab-nav');
 				if ( navEl )
-					navEl.show();
+					Element.show(navEl);
 			}
 			if ( !this.ID )
 				this.grabImageData(0);
 			var div = $('upload-file');
 			if ( div )
-				div.remove();
+				Element.remove(div);
 			return false;
 		},
 
