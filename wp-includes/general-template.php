@@ -914,7 +914,9 @@ function language_attributes() {
 		$output = "dir=\"$dir\"";
 	if ( $lang = get_bloginfo('language') ) {
 		if ( $dir ) $output .= ' ';
-		$output .= "lang=\"$lang\" xml:lang=\"$lang\"";
+		if ( get_option('html_type') == 'text/html' )
+			$output .= "lang=\"$lang\"";
+		else $output .= "xml:lang=\"$lang\"";
 	}
 
 	echo $output;
