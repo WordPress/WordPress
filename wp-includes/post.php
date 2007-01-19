@@ -1181,10 +1181,13 @@ function generate_page_uri_index() {
 			$page_uris[$uri] = $id;
 		}
 
+		delete_option('page_uris');
 		update_option('page_uris', $page_uris);
 
-		if ( $page_attachment_uris )
+		if ( $page_attachment_uris ) {
+			delete_option('page_attachment_uris');
 			update_option('page_attachment_uris', $page_attachment_uris);
+		}
 	}
 }
 
