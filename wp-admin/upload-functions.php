@@ -3,8 +3,17 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	global $post;
 	$id = get_the_ID();
 	$attachment_data = wp_get_attachment_metadata( $id );
+	$is_image = (int) wp_attachment_is_image();
+	if ( !isset($attachment_data['width']) && $is_image ) {
+		if ( $image_data = getimagesize( get_attached_file( $id ) ) ) {
+			$attachment_data['width'] = $image_data[0];
+			$attachment_data['height'] = $image_data[1];
+			wp_update_attachment_metadata( $id, $attachment_data );
+		}
+	}
 	if ( isset($attachment_data['width']) )
 		list($width,$height) = wp_shrink_dimensions($attachment_data['width'], $attachment_data['height'], 171, 128);
+		
 	ob_start();
 		the_title();
 		$post_title = attribute_escape(ob_get_contents());
@@ -43,8 +52,9 @@ function wp_upload_display( $dims = false, $href = '' ) {
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-$id' id='attachment-thumb-url-$id' value='$thumb_rel' />\n";
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-thumb-url-base-$id' id='attachment-thumb-url-base-$id' value='$thumb_base' />\n";
 	}
-	$is_image = (int) wp_attachment_is_image();
+
 	$r .= "\t\t\t\t<input type='hidden' name='attachment-is-image-$id' id='attachment-is-image-$id' value='$is_image' />\n";
+
 	if ( isset($width) ) {
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-width-$id' id='attachment-width-$id' value='$width' />\n";
 		$r .= "\t\t\t\t<input type='hidden' name='attachment-height-$id' id='attachment-height-$id' value='$height' />\n";
