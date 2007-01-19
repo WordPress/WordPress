@@ -234,7 +234,7 @@ function wp_list_categories($args = '') {
 			$output = '<li class="categories">' . $r['title_li'] . '<ul>';
 
 	if ( empty($categories) ) {
-		if ( $list)
+		if ( 'list' == $style )
 			$output .= '<li>' . __("No categories") . '</li>';
 		else
 			$output .= __("No categories");
