@@ -11,6 +11,7 @@ if ( !function_exists('wp_install') ) :
 function wp_install($blog_title, $user_name, $user_email, $public, $meta='') {
 	global $wp_rewrite;
 
+	wp_check_mysql_version();
 	wp_cache_flush();
 	make_db_current_silent();
 	populate_options();
@@ -134,6 +135,7 @@ function wp_upgrade() {
 	if ( $wp_db_version == $wp_current_db_version )
 		return;
 
+	wp_check_mysql_version();
 	wp_cache_flush();
 	make_db_current_silent();
 	upgrade_all();
@@ -1079,6 +1081,15 @@ function translate_level_to_role($level) {
 	case 0:
 		return 'subscriber';
 	}
+}
+
+function wp_check_mysql_version() {
+	global $wp_version;
+
+	// Make sure the server has MySQL 4.0
+	$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info());
+	if ( version_compare($mysql_version, '4.0.0', '<') )
+		die(sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.0.0 or higher'), $wp_version));
 }
 
 ?>
