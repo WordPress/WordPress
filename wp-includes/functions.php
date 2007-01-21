@@ -2167,7 +2167,8 @@ function load_template($_template_file) {
 	global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query,
 		$wp_rewrite, $wpdb;
 
-	extract($wp_query->query_vars, EXTR_SKIP);
+	if ( is_array($wp_query->query_vars) )
+		extract($wp_query->query_vars, EXTR_SKIP);
 
 	require_once($_template_file);
 }
