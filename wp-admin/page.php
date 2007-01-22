@@ -44,6 +44,12 @@ case 'edit':
 	$editing = true;
 	$page_ID = $post_ID = $p = (int) $_GET['post'];
 	$post = get_post_to_edit($page_ID);
+
+	if ( 'post' == $post->post_type ) {
+		wp_redirect("post.php?action=edit&post=$post_ID");
+		exit();
+	}
+
 	if($post->post_status == 'draft') {
 		wp_enqueue_script('prototype');
 		wp_enqueue_script('autosave');
