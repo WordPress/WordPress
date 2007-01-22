@@ -428,14 +428,14 @@ class Walker {
 			if ( !empty($previous_element) && ($element->$parent_field == $previous_element->$id_field) ) {
 				// Previous element is my parent. Descend a level.
 				array_unshift($parents, $previous_element);
-				$depth++; //always do this so when we start the element further down, we know where we are
 				if ( !$to_depth || ($depth < $to_depth) ) { //only descend if we're below $to_depth
-					$cb_args = array_merge( array($output, $depth - 1), $args);
+					$cb_args = array_merge( array($output, $depth), $args);
 					$output = call_user_func_array(array(&$this, 'start_lvl'), $cb_args);
-				} else {  // If we've reached depth, end the previous element.
-					$cb_args = array_merge( array($output, $previous_element, $depth - 1), $args);
+				} else if ( $to_depth && $depth == $to_depth  ) {  // If we've reached depth, end the previous element.
+					$cb_args = array_merge( array($output, $previous_element, $depth), $args);
 					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 				}
+				$depth++; //always do this so when we start the element further down, we know where we are
 			} else if ( $element->$parent_field == $previous_element->$parent_field) {
 				// On the same level as previous element.
 				if ( !$to_depth || ($depth <= $to_depth) ) {
@@ -452,7 +452,7 @@ class Walker {
 				while ( $parent = array_shift($parents) ) {
 					$depth--;
 					if ( !$to_depth || ($depth < $to_depth) ) {
-						$cb_args = array_merge( array($output, $depth - 1), $args);
+						$cb_args = array_merge( array($output, $depth), $args);
 						$output = call_user_func_array(array(&$this, 'end_lvl'), $cb_args);
 						$cb_args = array_merge( array($output, $parent, $depth - 1), $args);
 						$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
@@ -490,7 +490,7 @@ class Walker_Page extends Walker {
 
 	function start_lvl($output, $depth) {
 		$indent = str_repeat("\t", $depth);
-		$output .= "$indent<ul>\n";
+		$output .= "\n$indent<ul>\n";
 		return $output;
 	}
 
