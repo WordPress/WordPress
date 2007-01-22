@@ -1327,3 +1327,8 @@ a.page-numbers:hover {
 	border: 1px solid #999;
 	font-weight: bold;
 }
+
+.pagenav span {
+	font-weight: bold;
+	margin: 0 6px;
+}

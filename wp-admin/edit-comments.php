@@ -124,7 +124,7 @@ if ( ( $page ) * 20 < $total || -1 == $total ) {
 	$args['apage'] = $page + 1;
 	$r .=  '<a class="next" href="' . add_query_arg($args) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
 }
-echo "<p>$r</p>";
+echo "<p class='pagenav'>$r</p>";
 ?>
 
 <?php } ?>
@@ -271,7 +271,7 @@ if ( ( $page ) * 20 < $total || -1 == $total ) {
 	$args['apage'] = $page + 1;
 	$r .=  '<a class="next" href="' . add_query_arg($args) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
 }
-echo "<p>$r</p>";
+echo "<p class='pagenav'>$r</p>";
 ?>
 
 <?php } ?>
