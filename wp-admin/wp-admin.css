@@ -201,14 +201,14 @@ textarea, input, select {
 	background: #f4f4f4;
 	border: 1px solid #b2b2b2;
 	color: #000;
-	font:  13px Verdana, Arial, Helvetica, sans-serif;
+	font: 13px Verdana, Arial, Helvetica, sans-serif;
 	margin: 1px;
 	padding: 3px;
 }
 
 #uploading {
 	border-style: none;
-	padding: 0px;
+	padding: 0;
 	margin-bottom: 16px;
 	height: 18em;
 	width: 100%;
@@ -459,7 +459,6 @@ input.disabled, textarea.disabled {
 	padding: .2em .2em .3em 2em;
 }
 
-
 #adminmenu .current, #submenu .current {
 	font-weight: bold;
 	text-decoration: none;
@@ -529,23 +528,22 @@ input.disabled, textarea.disabled {
 	height: 25px;
 }
 
-
 #categorydiv input, #poststatusdiv input, #commentstatusdiv input, #pingstatusdiv input {
 	border: none;
 }
 
 #postdiv, #titlediv, #guiddiv {
 	margin: 0 8px 0 0;
-	padding: 0px;
+	padding: 0;
 }
 
 #postdivrich {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 #content {
-	margin: 0 0 0 0;
+	margin: 0;
 	width: 100%;
 }
 
@@ -555,7 +553,7 @@ input.disabled, textarea.disabled {
 }
 
 #titlediv input, #guiddiv input {
-	margin: 0px;
+	margin: 0;
 	width: 100%;
 }
 
@@ -579,7 +577,7 @@ input.delete:hover {
 
 #postdivrich #quicktags {
 	background: #f0f0ee;
-	padding: 0px;
+	padding: 0;
 	border: 1px solid #ccc;
 	border-bottom: none;
 }
@@ -593,11 +591,11 @@ input.delete:hover {
 }
 
 #quicktags #ed_toolbar {
-	padding: 0px 2px;
+	padding: 0 2px;
 }
 
 #ed_toolbar input {
-	background: #fff url( images/fade-butt.png ) repeat-x 0px -2px;
+	background: #fff url( images/fade-butt.png ) repeat-x 0 -2px;
 	margin: 3px 2px 2px;
 }
 
@@ -643,7 +641,7 @@ input.delete:hover {
 }
 
 #excerpt, .attachmentlinks {
-	margin: 0px;
+	margin: 0;
 	height: 4em;
 	width: 100%;
 }
@@ -814,7 +812,7 @@ input.delete:hover {
 
 #postcustom table {
 	border: 1px solid #ccc;
-	margin: 0px;
+	margin: 0;
 	width: 100%;
 }
 
@@ -835,7 +833,7 @@ input.delete:hover {
 }
 
 * html #template div {
-	margin-right: 0px;
+	margin-right: 0;
 }
 
 #template, #template div, #editcat, #addcat {
@@ -967,32 +965,32 @@ input.delete:hover {
 Some browsers will disable them when you
 set display:none; */
 .zerosize {
-	height: 0px;
-	width: 0px;
-	margin: 0px;
-	border: 0px;
-	padding: 0px;
+	height: 0;
+	width: 0;
+	margin: 0;
+	border: 0;
+	padding: 0;
 	overflow: hidden;
 	position: absolute;
 }
 
 /* Box stuff */
 .dbx-clone {
-	position:absolute;
-	visibility:hidden;
+	position: absolute;
+	visibility: hidden;
 }
 .dbx-clone, .dbx-clone .dbx-handle-cursor {
-	cursor:move !important;
+	cursor: move !important;
 }
 .dbx-dummy {
-	display:block;
-	width:0;
-	height:0;
-	overflow:hidden;
+	display: block;
+	width: 0;
+	height: 0;
+	overflow: hidden;
 }
 .dbx-group, .dbx-box, .dbx-handle {
-	position:relative;
-	display:block;
+	position: relative;
+	display: block;
 }
 
 #grabit {
@@ -1000,7 +998,7 @@ set display:none; */
 }
 
 * html #themeselect {
-	padding: 0px 3px;
+	padding: 0 3px;
 	height: 22px;
 }
 
@@ -1010,9 +1008,9 @@ to reduce visual discrepancies between it and the clone.
 overall, dbx-box is best left as visually unstyled as possible
 *****************************************************************/
 .dbx-box {
-	margin:0;
-	padding:0;
-	border:none;
+	margin: 0;
+	padding: 0;
+	border: none;
 }
 
 /* Can change this */
@@ -1020,7 +1018,7 @@ overall, dbx-box is best left as visually unstyled as possible
 	margin-bottom: 1em;
 }
 #moremeta fieldset div {
-	margin: 2px 0 0 0px;
+	margin: 2px 0 0 0;
 	padding: 7px;
 }
 #moremeta {
@@ -1083,7 +1081,7 @@ overall, dbx-box is best left as visually unstyled as possible
 	margin: 1em 1em 1em 0;
 }
 
-#your-profile fieldset input  {
+#your-profile fieldset input {
 	width: 100%;
 	font-size: 20px;
 	padding: 2px;
@@ -1122,7 +1120,7 @@ overall, dbx-box is best left as visually unstyled as possible
 
 /* handles */
 
-.dbx-handle  {
+.dbx-handle {
 	background: #2685af;
 	padding: 6px 1em 2px;
 	font-size: 12px;
@@ -1157,7 +1155,7 @@ overall, dbx-box is best left as visually unstyled as possible
 #advancedstuff div.dbx-content {
 	margin-left: 8px;
 	background: url(images/box-bg-right.gif) repeat-y right;
-	padding: 10px 10px 15px 0px;
+	padding: 10px 10px 15px 0;
 }
 
 #postexcerpt div.dbx-content {
@@ -1190,7 +1188,6 @@ overall, dbx-box is best left as visually unstyled as possible
 	background: url(images/box-butt-right.gif) no-repeat bottom right;
 }
 
-
 /* handle cursors */
 .dbx-handle-cursor {
 	cursor: move;
@@ -1198,22 +1195,22 @@ overall, dbx-box is best left as visually unstyled as possible
 
 /* toggle images */
 a.dbx-toggle, a.dbx-toggle:visited {
-	display:block;
+	display: block;
 	overflow: hidden;
 	background-image: url( images/toggle.gif );
 	position: absolute;
-	top: 0px;
-	right: 0px;
+	top: 0;
+	right: 0;
 	background-repeat: no-repeat;
-	border: 0px;
-	margin: 0px;
-	padding: 0px;
+	border: 0;
+	margin: 0;
+	padding: 0;
 }
 
 #moremeta a.dbx-toggle, #moremeta a.dbx-toggle-open:visited {
 	height: 25px;
 	width: 27px;
-	background-position: 0 0px;
+	background-position: 0 0;
 }
 
 #moremeta a.dbx-toggle-open, #moremeta a.dbx-toggle-open:visited {
@@ -1296,7 +1293,7 @@ input #catadd {
 }
 
 #edButtons input, #edButtons input:active {
-	margin: 0px 2px -1px;
+	margin: 0 2px -1px;
 }
 
 #edButtons input.edButtonFore, #edButtons input.edButtonFore:active {
@@ -1305,7 +1302,7 @@ input #catadd {
 }
 
 #edButtons input.edButtonBack, #edButtons input.edButtonBack:active {
-	background: #fff url( images/fade-butt.png ) repeat-x 0px 15px;
+	background: #fff url( images/fade-butt.png ) repeat-x 0 15px;
 	border-bottom: 1px solid #ccc;
 }
 
