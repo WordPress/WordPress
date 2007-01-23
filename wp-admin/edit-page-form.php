@@ -98,7 +98,7 @@ addLoadEvent(focusit);
 
 <?php if ( $authors = get_editable_authors( $current_user->id ) ) : // TODO: ROLE SYSTEM ?>
 <fieldset id="authordiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Page Author'); ?>:</h3>
+<h3 class="dbx-handle"><?php _e('Page Author'); ?></h3>
 <div class="dbx-content">
 <select name="post_author_override" id="post_author_override">
 <?php

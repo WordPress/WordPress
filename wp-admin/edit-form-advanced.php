@@ -107,7 +107,7 @@ addLoadEvent(focusit);
 
 <?php if ( current_user_can('edit_posts') ) : ?>
 <fieldset id="posttimestampdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Timestamp'); ?>:</h3>
+<h3 class="dbx-handle"><?php _e('Post Timestamp'); ?></h3>
 <div class="dbx-content"><?php touch_time(($action == 'edit')); ?></div>
 </fieldset>
 <?php endif; ?>
@@ -117,7 +117,7 @@ $authors = get_editable_authors( $current_user->id ); // TODO: ROLE SYSTEM
 if ( $authors && count( $authors ) > 1 ) :
 ?>
 <fieldset id="authordiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Post Author'); ?>:</h3>
+<h3 class="dbx-handle"><?php _e('Post Author'); ?></h3>
 <div class="dbx-content">
 <select name="post_author_override" id="post_author_override">
 <?php
