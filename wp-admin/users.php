@@ -338,7 +338,7 @@ default:
 	<?php endif; ?>
 
 	<form action="" method="get" name="search" id="search">
-		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" /> <input type="submit" value="<?php _e('Search 	users &raquo;'); ?>" class="button" /></p>
+		<p><input type="text" name="usersearch" id="usersearch" value="<?php echo attribute_escape($wp_user_search->search_term); ?>" /> <input type="submit" value="<?php _e('Search Users &raquo;'); ?>" class="button" /></p>
 	</form>
 
 	<?php if ( is_wp_error( $wp_user_search->search_errors ) ) : ?>
