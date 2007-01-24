@@ -1269,7 +1269,7 @@ function parent_dropdown( $default = 0, $parent = 0, $level = 0 ) {
 
 	if ( $items ) {
 		foreach ( $items as $item ) {
-			// A page cannot be it's own parent.
+			// A page cannot be its own parent.
 			if (!empty ( $post_ID ) ) {
 				if ( $item->ID == $post_ID ) {
 					continue;
@@ -2190,7 +2190,7 @@ function wp_create_thumbnail( $file, $max_side, $effect = '' ) {
 
 			$thumbpath = str_replace( basename( $file ), $thumb, $file );
 
-			// move the thumbnail to it's final destination
+			// move the thumbnail to its final destination
 			if ( $type[2] == 1 ) {
 				if (!imagegif( $thumbnail, $thumbpath ) ) {
 					$error = __( "Thumbnail path invalid" );
@@ -2215,8 +2215,7 @@ function wp_create_thumbnail( $file, $max_side, $effect = '' ) {
 	if (!empty ( $error ) ) {
 		return $error;
 	} else {
-		apply_filters( 'wp_create_thumbnail', $thumbpath );
-		return $thumbpath;
+		return apply_filters( 'wp_create_thumbnail', $thumbpath );
 	}
 }
 
