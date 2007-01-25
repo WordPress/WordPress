@@ -146,11 +146,14 @@ function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
 
 function get_the_category_rss($type = 'rss') {
 	$categories = get_the_category();
+	$home = get_bloginfo_rss('home');
 	$the_list = '';
 	foreach ( (array) $categories as $category ) {
 		$category->cat_name = convert_chars($category->cat_name);
 		if ( 'rdf' == $type )
 			$the_list .= "\n\t\t<dc:subject><![CDATA[$category->cat_name]]></dc:subject>\n";
+		if ( 'atom' == $type )
+			$the_list .= "<category scheme='$home' term='$category->cat_name' />";
 		else
 			$the_list .= "\n\t\t<category><![CDATA[$category->cat_name]]></category>\n";
 	}
@@ -160,6 +163,15 @@ function get_the_category_rss($type = 'rss') {
 
 function the_category_rss($type = 'rss') {
 	echo get_the_category_rss($type);
+}
+
+function html_type_rss() {
+	$type = bloginfo('html_type');
+	if ( strstr( $type, 'xhtml' ) )
+		$type = 'xhtml';
+	else
+		$type = 'html';
+	echo $type;
 }
 
 

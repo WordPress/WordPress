@@ -21,7 +21,7 @@ $more = 1;
 	<subtitle type="text"><?php bloginfo_rss("description") ?></subtitle>
 	
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></updated>
-	<generator url="http://wordpress.org/" version="<?php bloginfo_rss('version'); ?>">WordPress</generator>
+	<generator uri="http://wordpress.org/" version="<?php bloginfo_rss('version'); ?>">WordPress</generator>
 
 	<link rel="alternate" type="text/html" href="<?php bloginfo_rss('home') ?>" />
 	<id><?php bloginfo('atom_url'); ?></id>
@@ -40,9 +40,9 @@ $more = 1;
 		<updated><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></updated>
 		<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
 		<?php the_category_rss('atom') ?>
-		<summary type="<?php bloginfo('html_type'); ?>"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
+		<summary type="<?php html_type_rss(); ?>"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php if ( !get_option('rss_use_excerpt') ) : ?>
-		<content type="<?php bloginfo('html_type'); ?>" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
+		<content type="<?php html_type_rss(); ?>" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
 <?php endif; ?>
 <?php rss_enclosure(); ?>
 <?php do_action('atom_entry'); ?>
