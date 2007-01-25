@@ -34,7 +34,7 @@ $more = 1;
 			<name><?php the_author() ?></name>
 			<uri><?php the_author_url()?></uri>
 		</author>
-		<title type="text/html" mode="escaped"><![CDATA[<?php the_title_rss() ?>]]></title>
+		<title type="<?php html_type_rss(); ?>"><![CDATA[<?php the_title_rss() ?>]]></title>
 		<link rel="alternate" type="text/html" href="<?php permalink_single_rss() ?>" />
 		<id><?php the_guid(); ?></id>
 		<updated><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></updated>

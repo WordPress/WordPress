@@ -166,7 +166,7 @@ function the_category_rss($type = 'rss') {
 }
 
 function html_type_rss() {
-	$type = bloginfo('html_type');
+	$type = get_bloginfo('html_type');
 	if ( strstr( $type, 'xhtml' ) )
 		$type = 'xhtml';
 	else
