@@ -1,8 +1,8 @@
 /**
- * $Id: editor_template_src.js 129 2006-10-23 09:45:17Z spocke $
+ * $Id: editor_template_src.js 166 2007-01-05 10:31:50Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 /* Import theme specific language pack */
@@ -713,8 +713,13 @@ var TinyMCE_AdvancedTheme = {
 			template['html'] += '<span id="{$editor_id}_resize_box" class="mceResizeBox"></span>';
 
 		template['html'] = tinyMCE.replaceVar(template['html'], 'style_select_options', styleSelectHTML);
-		template['delta_width'] = 0;
-		template['delta_height'] = deltaHeight;
+
+		// Set to default values
+		if (!template['delta_width'])
+			template['delta_width'] = 0;
+
+		if (!template['delta_height'])
+			template['delta_height'] = deltaHeight;
 
 		return template;
 	},
@@ -730,6 +735,12 @@ var TinyMCE_AdvancedTheme = {
 		}
 
 		inst.addShortcut('ctrl', 'k', 'lang_link_desc', 'mceLink');
+	},
+
+	removeInstance : function(inst) {
+		var fcm = new TinyMCE_Layer(inst.editorId + '_fcMenu');
+
+		fcm.remove();
 	},
 
 	_handleMenuEvent : function(e) {
@@ -780,10 +791,6 @@ var TinyMCE_AdvancedTheme = {
 			}
 
 			return false;
-		};
-
-		function getAttrib(elm, name) {
-			return elm.getAttribute(name) ? elm.getAttribute(name) : "";
 		};
 
 		// No node provided
@@ -839,7 +846,7 @@ var TinyMCE_AdvancedTheme = {
 					var st = tinyMCE.getAttrib(path[i], "style");
 					if (st != "") {
 						st = tinyMCE.serializeStyle(tinyMCE.parseStyle(st));
-						nodeData += "style: " + st + " ";
+						nodeData += "style: " + tinyMCE.xmlEncode(st) + " ";
 					}
 				}
 
@@ -849,18 +856,18 @@ var TinyMCE_AdvancedTheme = {
 
 					var face = tinyMCE.getAttrib(path[i], "face");
 					if (face != "")
-						nodeData += "font: " + face + " ";
+						nodeData += "font: " + tinyMCE.xmlEncode(face) + " ";
 
 					var size = tinyMCE.getAttrib(path[i], "size");
 					if (size != "")
-						nodeData += "size: " + size + " ";
+						nodeData += "size: " + tinyMCE.xmlEncode(size) + " ";
 
 					var color = tinyMCE.getAttrib(path[i], "color");
 					if (color != "")
-						nodeData += "color: " + color + " ";
+						nodeData += "color: " + tinyMCE.xmlEncode(color) + " ";
 				}
 
-				if (getAttrib(path[i], 'id') != "") {
+				if (tinyMCE.getAttrib(path[i], 'id') != "") {
 					nodeData += "id: " + path[i].getAttribute('id') + " ";
 				}
 
@@ -868,22 +875,22 @@ var TinyMCE_AdvancedTheme = {
 				if (className != "" && className.indexOf('mceItem') == -1)
 					nodeData += "class: " + className + " ";
 
-				if (getAttrib(path[i], 'src') != "") {
+				if (tinyMCE.getAttrib(path[i], 'src') != "") {
 					var src = tinyMCE.getAttrib(path[i], "mce_src");
 
 					if (src == "")
 						 src = tinyMCE.getAttrib(path[i], "src");
 
-					nodeData += "src: " + src + " ";
+					nodeData += "src: " + tinyMCE.xmlEncode(src) + " ";
 				}
 
-				if (path[i].nodeName == 'A' && getAttrib(path[i], 'href') != "") {
+				if (path[i].nodeName == 'A' && tinyMCE.getAttrib(path[i], 'href') != "") {
 					var href = tinyMCE.getAttrib(path[i], "mce_href");
 
 					if (href == "")
 						 href = tinyMCE.getAttrib(path[i], "href");
 
-					nodeData += "href: " + href + " ";
+					nodeData += "href: " + tinyMCE.xmlEncode(href) + " ";
 				}
 
 				className = tinyMCE.getAttrib(path[i], "class");
@@ -894,11 +901,11 @@ var TinyMCE_AdvancedTheme = {
 
 				if (nodeName == "a" && (anchor = tinyMCE.getAttrib(path[i], "name")) != "") {
 					nodeName = "a";
-					nodeName += "#" + anchor;
+					nodeName += "#" + tinyMCE.xmlEncode(anchor);
 					nodeData = "";
 				}
 
-				if (getAttrib(path[i], 'name').indexOf("mce_") != 0) {
+				if (tinyMCE.getAttrib(path[i], 'name').indexOf("mce_") != 0) {
 					var className = tinyMCE.getVisualAidClass(tinyMCE.getAttrib(path[i], "class"), false);
 					if (className != "" && className.indexOf('mceItem') == -1) {
 						nodeName += "." + className;
@@ -1124,7 +1131,7 @@ var TinyMCE_AdvancedTheme = {
 				break;
 
 				case "IMG":
-				if (getAttrib(node, 'name').indexOf('mce_') != 0 && tinyMCE.getAttrib(node, 'class').indexOf('mceItem') == -1) {
+				if (tinyMCE.getAttrib(node, 'name').indexOf('mce_') != 0 && tinyMCE.getAttrib(node, 'class').indexOf('mceItem') == -1) {
 					tinyMCE.switchClass(editor_id + '_image', 'mceButtonSelected');
 				}
 				break;

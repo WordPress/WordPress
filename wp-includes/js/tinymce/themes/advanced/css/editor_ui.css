@@ -1,97 +1,97 @@
 /* This file contains the CSS data for the editor UI of TinyMCE instances */
 
-.mceToolbarTop a, .mceToolbarTop a:visited, .mceToolbarTop a:hover, .mceToolbarBottom a, .mceToolbarBottom a:visited, .mceToolbarBottom a:hover {border: 0;  margin: 0;  padding: 0;  background: transparent;}
+.mceToolbarTop a, .mceToolbarTop a:visited, .mceToolbarTop a:hover, .mceToolbarBottom a, .mceToolbarBottom a:visited, .mceToolbarBottom a:hover {border: 0; margin: 0; padding: 0; background: transparent;}
 .mceSeparatorLine {border: 0; padding: 0; margin-left: 4px; margin-right: 2px;}
 .mceSelectList {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 7pt !important; font-weight: normal; margin-top: 3px; padding: 0; display: inline; vertical-align: top; background-color: #F0F0EE;}
 .mceLabel, .mceLabelDisabled {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 9pt;}
 .mceLabel {color: #000000;}
-.mceLabelDisabled {cursor: text;  color: #999999;}
-.mceEditor {background: #F0F0EE;  border: 1px solid #cccccc;  padding: 0;  margin: 0;}
-.mceEditorArea { font-family: 'MS Sans Serif', sans-serif, Verdana, Arial;  background: #FFFFFF;  padding: 0;  margin: 0;  }
-.mceToolbarTop, .mceToolbarBottom {background: #F0F0EE;  line-height: 1px;  font-size: 1px;}
+.mceLabelDisabled {cursor: text; color: #999999;}
+.mceEditor {background: #F0F0EE; border: 1px solid #cccccc; padding: 0; margin: 0;}
+.mceEditorArea { font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; background: #FFFFFF; padding: 0; margin: 0; }
+.mceToolbarTop, .mceToolbarBottom {background: #F0F0EE; line-height: 1px; font-size: 1px;}
 .mceToolbarTop {border-bottom: 1px solid #cccccc; padding-bottom: 1px;}
 .mceToolbarBottom {border-top: 1px solid #cccccc;}
-.mceToolbarContainer {position: relative;  left: 0;  top: 0;  display: block;}
+.mceToolbarContainer {position: relative; left: 0; top: 0; display: block;}
 .mceStatusbarTop, .mceStatusbarBottom, .mceStatusbar {height: 20px;}
-.mceStatusbarTop .mceStatusbarPathText, .mceStatusbarBottom .mceStatusbarPathText, .mceStatusbar .mceStatusbarPathText {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial;  font-size: 9pt;  padding: 2px;  line-height: 16px;  overflow: visible;}
+.mceStatusbarTop .mceStatusbarPathText, .mceStatusbarBottom .mceStatusbarPathText, .mceStatusbar .mceStatusbarPathText {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 9pt; padding: 2px; line-height: 16px; overflow: visible;}
 .mceStatusbarTop {border-bottom: 1px solid #cccccc;}
 .mceStatusbarBottom {border-top: 1px solid #cccccc;}
 .mceStatusbar {border-bottom: 1px solid #cccccc;}
-.mcePathItem, .mcePathItem:link, .mcePathItem:visited, .mcePathItem:hover {text-decoration: none;  font-family: 'MS Sans Serif', sans-serif, Verdana, Arial;  font-size: 9pt;  color: #000000;}
+.mcePathItem, .mcePathItem:link, .mcePathItem:visited, .mcePathItem:hover {text-decoration: none; font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 9pt; color: #000000;}
 .mcePathItem:hover {text-decoration: underline;}
 .mceStatusbarPathText {float: left;}
-.mceStatusbarResize {float: right;  background-image: url('../images/statusbar_resize.gif');  background-repeat: no-repeat;  width: 11px;  height: 20px;  cursor: se-resize;}
-.mceResizeBox {width: 10px;  height: 10px;  display: none;  border: 1px dotted gray;  margin: 0;  padding: 0;}
+.mceStatusbarResize {float: right; background-image: url('../images/statusbar_resize.gif'); background-repeat: no-repeat; width: 11px; height: 20px; cursor: se-resize;}
+.mceResizeBox {width: 10px; height: 10px; display: none; border: 1px dotted gray; margin: 0; padding: 0;}
 .mceEditorIframe {border: 0;}
 
 /* Button CSS rules */
 
-a.mceButtonDisabled img, a.mceButtonNormal img, a.mceButtonSelected img {width: 20px;  height: 20px;  cursor: default;  margin-top: 1px;  margin-left: 1px;}
+a.mceButtonDisabled img, a.mceButtonNormal img, a.mceButtonSelected img {width: 20px; height: 20px; cursor: default; margin-top: 1px; margin-left: 1px;}
 a.mceButtonDisabled img {border: 0 !important;}
 a.mceButtonNormal img, a.mceButtonSelected img {border: 1px solid #F0F0EE !important;}
-a.mceButtonSelected img {border: 1px solid #6779AA !important;  background-color: #D4D5D8;}
-a.mceButtonNormal img:hover, a.mceButtonSelected img:hover {border: 1px solid #0A246A !important;  cursor: default;  background-color: #B6BDD2;}
-a.mceButtonDisabled img {-moz-opacity:0.3;  opacity: 0.3;  border: 1px solid #F0F0EE !important;  cursor: default;}
-a.mceTiledButton img {background-image: url('../images/buttons.gif');  background-repeat: no-repeat;}
+a.mceButtonSelected img {border: 1px solid #6779AA !important; background-color: #D4D5D8;}
+a.mceButtonNormal img:hover, a.mceButtonSelected img:hover {border: 1px solid #0A246A !important; cursor: default; background-color: #B6BDD2;}
+a.mceButtonDisabled img {-moz-opacity:0.3; opacity: 0.3; border: 1px solid #F0F0EE !important; cursor: default;}
+a.mceTiledButton img {background-image: url('../images/buttons.gif'); background-repeat: no-repeat;}
 
 /* Menu button CSS rules */
 
-span.mceMenuButton img, span.mceMenuButtonSelected img {border: 1px solid #F0F0EE;  margin-left: 1px;}
-span.mceMenuButtonSelected img {border: 1px solid #6779AA;  background-color: #B6BDD2;}
-span.mceMenuButtonSelected img.mceMenuButton {border: 1px solid #F0F0EE;  background-color: transparent;}
-span.mceMenuButton img.mceMenuButton, span.mceMenuButtonSelected img.mceMenuButton {border-left: 0;  margin-left: 0;}
-span.mceMenuButton:hover img, span.mceMenuButtonSelected:hover img {border: 1px solid #0A246A;  background-color: #B6BDD2;}
+span.mceMenuButton img, span.mceMenuButtonSelected img {border: 1px solid #F0F0EE; margin-left: 1px;}
+span.mceMenuButtonSelected img {border: 1px solid #6779AA; background-color: #B6BDD2;}
+span.mceMenuButtonSelected img.mceMenuButton {border: 1px solid #F0F0EE; background-color: transparent;}
+span.mceMenuButton img.mceMenuButton, span.mceMenuButtonSelected img.mceMenuButton {border-left: 0; margin-left: 0;}
+span.mceMenuButton:hover img, span.mceMenuButtonSelected:hover img {border: 1px solid #0A246A; background-color: #B6BDD2;}
 span.mceMenuButton:hover img.mceMenuButton, span.mceMenuButtonSelected:hover img.mceMenuButton {border-left: 0;}
-span.mceMenuButtonFocus img {border: 1px solid gray;  border-right: 0;  margin-left: 1px;  background-color: #F5F4F2;}
-span.mceMenuButtonFocus img.mceMenuButton {border: 1px solid gray;  border-left: 1px solid #F5F4F2;  margin-left: 0;}
-span.mceMenuHover img {border: 1px solid #0A246A;  background-color: #B6BDD2;}
-span.mceMenuButtonSelected.mceMenuHover img.mceMenuButton {border: 1px solid #0A246A;  background-color: #B6BDD2;  border-left: 0;}
+span.mceMenuButtonFocus img {border: 1px solid gray; border-right: 0; margin-left: 1px; background-color: #F5F4F2;}
+span.mceMenuButtonFocus img.mceMenuButton {border: 1px solid gray; border-left: 1px solid #F5F4F2; margin-left: 0;}
+span.mceMenuHover img {border: 1px solid #0A246A; background-color: #B6BDD2;}
+span.mceMenuButtonSelected.mceMenuHover img.mceMenuButton {border: 1px solid #0A246A; background-color: #B6BDD2; border-left: 0;}
 
 /* Menu */
 
-.mceMenu {position: absolute;  left: 0;  top: 0;  display: none;  z-index: 100;  background-color: white;  border: 1px solid gray;  font-weight: normal;}
-.mceMenu a, .mceMenuTitle, .mceMenuDisabled {display: block;  width: 100%;  text-decoration: none;  background-color: white;  font-family: Tahoma, Verdana, Arial, Helvetica;  font-size: 11px;  line-height: 20px;  color: black;}
-.mceMenu a:hover {background-color: #B6BDD2;  color: black;  text-decoration: none !important;}
-.mceMenu span {padding-left: 10px;  padding-right: 10px;  display: block;  line-height: 20px;}
-.mceMenuSeparator {border-bottom: 1px solid gray;  background-color: gray;  height: 1px;}
+.mceMenu {position: absolute; left: 0; top: 0; display: none; z-index: 100; background-color: white; border: 1px solid gray; font-weight: normal;}
+.mceMenu a, .mceMenuTitle, .mceMenuDisabled {display: block; width: 100%; text-decoration: none; background-color: white; font-family: Tahoma, Verdana, Arial, Helvetica; font-size: 11px; line-height: 20px; color: black;}
+.mceMenu a:hover {background-color: #B6BDD2; color: black; text-decoration: none !important;}
+.mceMenu span {padding-left: 10px; padding-right: 10px; display: block; line-height: 20px;}
+.mceMenuSeparator {border-bottom: 1px solid gray; background-color: gray; height: 1px;}
 .mceMenuTitle span {padding-left: 5px;}
-.mceMenuTitle {background-color: #DDDDDD;  font-weight: bold;}
+.mceMenuTitle {background-color: #DDDDDD; font-weight: bold;}
 .mceMenuDisabled {color: gray;}
-span.mceMenuSelectedItem {background-image: url('../images/menu_check.gif');  background-repeat: no-repeat;  background-position: 5px 8px;  padding-left: 20px;}
+span.mceMenuSelectedItem {background-image: url('../images/menu_check.gif'); background-repeat: no-repeat; background-position: 5px 8px; padding-left: 20px;}
 span.mceMenuCheckItem {padding-left: 20px;}
-span.mceMenuLine {display: block;  position: absolute;  left: 0;  top: -1px;  background-color: #F5F4F2;  width: 30px;  height: 1px;  overflow: hidden;  padding-left: 0;  padding-right: 0;}
-.mceColors table, .mceColors td {margin: 0;  padding: 2px;}
-a.mceMoreColors {width: 130px;  margin: 0;  padding: 0;  margin-left: 3px;  margin-bottom: 3px;  text-align: center;  border: 1px solid white;}
-.mceColorPreview {position: absolute;  left: 0;  top: 0;  margin-left: 3px;  margin-top: 15px;  width: 16px;  height: 4px;  background-color: red;}
+span.mceMenuLine {display: block; position: absolute; left: 0; top: -1px; background-color: #F5F4F2; width: 30px; height: 1px; overflow: hidden; padding-left: 0; padding-right: 0;}
+.mceColors table, .mceColors td {margin: 0; padding: 2px;}
+a.mceMoreColors {width: 130px; margin: 0; padding: 0; margin-left: 3px; margin-bottom: 3px; text-align: center; border: 1px solid white;}
+.mceColorPreview {position: absolute; overflow:hidden; left: 0; top: 0; margin-left: 3px; margin-top: 15px; width: 16px; height: 4px; background-color: red;}
 a.mceMoreColors:hover {border: 1px solid #0A246A;}
-.mceColors td a {width: 9px;  height: 9px;  overflow: hidden;  border: 1px solid #808080;}
+.mceColors td a {width: 9px; height: 9px; overflow: hidden; border: 1px solid #808080;}
 
 /* MSIE 6 specific rules */
 
-* html a.mceButtonNormal img, * html a.mceButtonSelected img, * html a.mceButtonDisabled img {border: 0 !important;  margin-top: 2px;  margin-bottom: 1px;}
-* html a.mceButtonDisabled img {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);  border: 0 !important;}
+* html a.mceButtonNormal img, * html a.mceButtonSelected img, * html a.mceButtonDisabled img {border: 0 !important; margin-top: 2px; margin-bottom: 1px;}
+* html a.mceButtonDisabled img {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30); border: 0 !important;}
 * html a.mceButtonDisabled {border: 1px solid #F0F0EE !important;}
-* html a.mceButtonNormal, * html a.mceButtonSelected {border: 1px solid #F0F0EE !important;  cursor: default;}
-* html a.mceButtonSelected {border: 1px solid #6779AA !important;  background-color: #D4D5D8;}
-* html a.mceButtonNormal:hover, * html a.mceButtonSelected:hover {border: 1px solid #0A246A !important;  background-color: #B6BDD2;  cursor: default;}
+* html a.mceButtonNormal, * html a.mceButtonSelected {border: 1px solid #F0F0EE !important; cursor: default;}
+* html a.mceButtonSelected {border: 1px solid #6779AA !important; background-color: #D4D5D8;}
+* html a.mceButtonNormal:hover, * html a.mceButtonSelected:hover {border: 1px solid #0A246A !important; background-color: #B6BDD2; cursor: default;}
 * html .mceSelectList {margin-top: 2px;}
-* html span.mceMenuButton, * html span.mceMenuButtonFocus {position: relative;  left: 0;  top: 0;}
-* html span.mceMenuButton img, * html span.mceMenuButtonSelected img, * html span.mceMenuButtonFocus img {position: relative;  top: 1px;}
+* html span.mceMenuButton, * html span.mceMenuButtonFocus {position: relative; left: 0; top: 0;}
+* html span.mceMenuButton img, * html span.mceMenuButtonSelected img, * html span.mceMenuButtonFocus img {position: relative; top: 1px;}
 * html a.mceMoreColors {width: 132px;}
-* html .mceColors td a {width: 10px;  height: 10px;}
-* html .mceColorPreview {margin-left: 2px;  margin-top: 14px;}
+* html .mceColors td a {width: 10px; height: 10px;}
+* html .mceColorPreview {margin-left: 2px; margin-top: 14px;}
 
 /* MSIE 7 specific rules */
 
-*:first-child+html a.mceButtonNormal img, *:first-child+html a.mceButtonSelected img, *:first-child+html a.mceButtonDisabled img {border: 0 !important;  margin-top: 2px;  margin-bottom: 1px;}
-*:first-child+html a.mceButtonDisabled img {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);  border: 0 !important;}
+*:first-child+html a.mceButtonNormal img, *:first-child+html a.mceButtonSelected img, *:first-child+html a.mceButtonDisabled img {border: 0 !important; margin-top: 2px; margin-bottom: 1px;}
+*:first-child+html a.mceButtonDisabled img {filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30); border: 0 !important;}
 *:first-child+html a.mceButtonDisabled {border: 1px solid #F0F0EE !important;}
-*:first-child+html a.mceButtonNormal, *:first-child+html a.mceButtonSelected {border: 1px solid #F0F0EE !important;  cursor: default;}
-*:first-child+html a.mceButtonSelected {border: 1px solid #6779AA !important;  background-color: #D4D5D8;}
-*:first-child+html a.mceButtonNormal:hover, *:first-child+html a.mceButtonSelected:hover {border: 1px solid #0A246A !important;  background-color: #B6BDD2;  cursor: default;}
+*:first-child+html a.mceButtonNormal, *:first-child+html a.mceButtonSelected {border: 1px solid #F0F0EE !important; cursor: default;}
+*:first-child+html a.mceButtonSelected {border: 1px solid #6779AA !important; background-color: #D4D5D8;}
+*:first-child+html a.mceButtonNormal:hover, *:first-child+html a.mceButtonSelected:hover {border: 1px solid #0A246A !important; background-color: #B6BDD2; cursor: default;}
 *:first-child+html .mceSelectList {margin-top: 2px;}
-*:first-child+html span.mceMenuButton, *:first-child+html span.mceMenuButtonFocus {position: relative;  left: 0;  top: 0;}
-*:first-child+html span.mceMenuButton img, *:first-child+html span.mceMenuButtonSelected img, *:first-child+html span.mceMenuButtonFocus img {position: relative;  top: 1px;}
+*:first-child+html span.mceMenuButton, *:first-child+html span.mceMenuButtonFocus {position: relative; left: 0; top: 0;}
+*:first-child+html span.mceMenuButton img, *:first-child+html span.mceMenuButtonSelected img, *:first-child+html span.mceMenuButtonFocus img {position: relative; top: 1px;}
 *:first-child+html a.mceMoreColors {width: 132px;}
-*:first-child+html .mceColors td a {width: 10px;  height: 10px;}
-*:first-child+html .mceColorPreview {margin: 0; padding-left: 4px;  margin-top: 14px; width: 14px;}
+*:first-child+html .mceColors td a {width: 10px; height: 10px;}
+*:first-child+html .mceColorPreview {margin: 0; padding-left: 4px; margin-top: 14px; width: 14px;}

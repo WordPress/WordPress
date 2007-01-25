@@ -1,10 +1,10 @@
 /**
- * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
+ * $Id: editor_plugin_src.js 172 2007-01-09 11:37:11Z spocke $
  *
  * Moxiecode DHTML Windows script.
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
  */
 
 // Patch openWindow, closeWindow TinyMCE functions
@@ -66,13 +66,17 @@ TinyMCE_Engine.prototype.openWindow = function(template, args) {
 	}
 
 	var elm = document.getElementById(this.selectedInstance.editorId + '_parent');
-	var pos = tinyMCE.getAbsPosition(elm);
+
+	if (tinyMCE.hasPlugin('fullscreen') && this.selectedInstance.getData('fullscreen').enabled)
+		pos = { absLeft: 0, absTop: 0 };
+	else
+		pos = tinyMCE.getAbsPosition(elm);
 
 	// Center div in editor area
 	pos.absLeft += Math.round((elm.firstChild.clientWidth / 2) - (width / 2));
 	pos.absTop += Math.round((elm.firstChild.clientHeight / 2) - (height / 2));
 
-	url += tinyMCE.settings['imp_version'] ? (url.indexOf('?')==-1?'?':'&') + 'ver=' + tinyMCE.settings['imp_version'] : '';
+	url += tinyMCE.settings['imp_version'] ? (url.indexOf('?')==-1?'?':'&') + 'ver=' + tinyMCE.settings['imp_version'] : ''; // WordPress cache buster
 
 	mcWindows.open(url, mcWindows.idCounter++, "modal=yes,width=" + width+ ",height=" + height + ",resizable=" + resizable + ",scrollbars=" + scrollbars + ",statusbar=" + resizable + ",left=" + pos.absLeft + ",top=" + pos.absTop);
 };
@@ -111,7 +115,7 @@ function TinyMCE_Windows() {
 	this.action = "none";
 	this.selectedWindow = null;
 	this.lastSelectedWindow = null;
-	this.zindex = 100;
+	this.zindex = 1001;
 	this.mouseDownScreenX = 0;
 	this.mouseDownScreenY = 0;
 	this.mouseDownLayerX = 0;
@@ -323,8 +327,9 @@ TinyMCE_Windows.prototype.open = function(url, name, features) {
 
 // Blocks the document events by placing a image over the whole document
 TinyMCE_Windows.prototype.setDocumentLock = function(state) {
+	var elm = document.getElementById('mcWindowEventBlocker');
+
 	if (state) {
-		var elm = document.getElementById('mcWindowEventBlocker');
 		if (elm == null) {
 			elm = document.createElement("div");
 
@@ -348,9 +353,7 @@ TinyMCE_Windows.prototype.setDocumentLock = function(state) {
 
 		elm.style.zIndex = mcWindows.zindex-1;
 		elm.style.display = "block";
-	} else {
-		var elm = document.getElementById('mcWindowEventBlocker');
-
+	} else if (elm != null) {
 		if (mcWindows.windows.length == 0)
 			elm.parentNode.removeChild(elm);
 		else
@@ -559,7 +562,7 @@ TinyMCE_Window.prototype.close = function() {
 
 	mcWindows.setDocumentLock(false);
 
-	tinyMCE.selectedInstance.getWin().focus();
+	tinyMCE.selectedInstance.getWin().focus(); // WordPress: focus on the editor after closing a popup
 };
 
 TinyMCE_Window.prototype.onMouseMove = function(e) {
@@ -578,23 +581,22 @@ TinyMCE_Window.prototype.onMouseMove = function(e) {
 			width = width < 100 ? 100 : width;
 			height = height < 100 ? 100 : height;
 
-			this.wrapperIFrameElement.style.width = width+2;
-			this.wrapperIFrameElement.style.height = height+2;
+			this.wrapperIFrameElement.style.width = (width+2) + 'px';
+			this.wrapperIFrameElement.style.height = (height+2) + 'px';
 			this.wrapperIFrameElement.width = width+2;
 			this.wrapperIFrameElement.height = height+2;
-			this.winElement.style.width = width;
-			this.winElement.style.height = height;
+			this.winElement.style.width = width + 'px';
+			this.winElement.style.height = height + 'px';
 
 			height = height - this.deltaHeight;
 
-			this.containerElement.style.width = width;
-
-			this.iframeElement.style.width = width;
-			this.iframeElement.style.height = height;
-			this.bodyElement.style.width = width;
-			this.bodyElement.style.height = height;
-			this.headElement.style.width = width;
-			//this.statusElement.style.width = width;
+			this.containerElement.style.width = width + 'px';
+			this.iframeElement.style.width = width + 'px';
+			this.iframeElement.style.height = height + 'px';
+			this.bodyElement.style.width = width + 'px';
+			this.bodyElement.style.height = height + 'px';
+			this.headElement.style.width = width + 'px';
+			//this.statusElement.style.width = width + 'px';
 
 			mcWindows.cancelEvent(e);
 			break;
