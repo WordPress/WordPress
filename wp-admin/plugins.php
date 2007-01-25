@@ -11,13 +11,14 @@ if ( isset($_GET['action']) ) {
 		if ( ! file_exists(ABSPATH . PLUGINDIR . '/' . $plugin) )
 			wp_die(__('Plugin file does not exist.'));
 		if (!in_array($plugin, $current)) {
+			wp_redirect('plugins.php?error=true'); // we'll override this later if the plugin can be included without fatal error
+			@include(ABSPATH . PLUGINDIR . '/' . $plugin);
 			$current[] = $plugin;
 			sort($current);
 			update_option('active_plugins', $current);
-			include(ABSPATH . PLUGINDIR . '/' . $plugin);
 			do_action('activate_' . $plugin);
 		}
-		wp_redirect('plugins.php?activate=true');
+		wp_redirect('plugins.php?activate=true'); // overrides the ?error=true one above
 	} else if ('deactivate' == $_GET['action']) {
 		check_admin_referer('deactivate-plugin_' . $_GET['plugin']);
 		$current = get_option('active_plugins');
@@ -58,13 +59,12 @@ foreach ($check_plugins as $check_plugin) {
 }
 ?>
 
-<?php if (isset($_GET['activate'])) : ?>
-<div id="message" class="updated fade"><p><?php _e('Plugin <strong>activated</strong>.') ?></p>
-</div>
-<?php endif; ?>
-<?php if (isset($_GET['deactivate'])) : ?>
-<div id="message" class="updated fade"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p>
-</div>
+<?php if ( isset($_GET['error']) ) : ?>
+	<div id="message" class="updated fade"><p><?php _e('Plugin could not be activated because it triggered a <strong>fatal error</strong>.') ?></p></div>
+<?php elseif ( isset($_GET['activate']) ) : ?>
+	<div id="message" class="updated fade"><p><?php _e('Plugin <strong>activated</strong>.') ?></p></div>
+<?php elseif ( isset($_GET['deactivate']) ) : ?>
+	<div id="message" class="updated fade"><p><?php _e('Plugin <strong>deactivated</strong>.') ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">
