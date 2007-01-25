@@ -1433,7 +1433,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		foreach($catids as $catid) {
 			$categories[] = array(
 				'categoryName' => get_cat_name($catid),
-				'categoryId' => $catid,
+				'categoryId' => (string) $catid,
 				'isPrimary' => $isPrimary
 			);
 			$isPrimary = false;
