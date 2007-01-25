@@ -60,7 +60,7 @@ include('./admin-header.php');
 <table class="optiontable"> 
 <tr> 
 <th scope="row"><?php _e('<abbr title="Coordinated Universal Time">UTC</abbr> time is:') ?> </th> 
-<td><code><?php echo gmdate('Y-m-d g:i:s a'); ?></code></td> 
+<td><code><?php echo gmdate(__('Y-m-d g:i:s a')); ?></code></td> 
 </tr>
 <tr>
 <th scope="row"><?php _e('Times in the weblog should differ by:') ?> </th>

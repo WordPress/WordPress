@@ -177,7 +177,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 
 	case 'date':
 		?>
-		<td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Unpublished'); else the_time('Y-m-d \<\b\r \/\> g:i:s a'); ?></td>
+		<td><?php if ( '0000-00-00 00:00:00' ==$post->post_modified ) _e('Unpublished'); else the_time(_('Y-m-d \<\b\r \/\> g:i:s a')); ?></td>
 		<?php
 		break;
 	case 'title':
@@ -279,7 +279,7 @@ foreach ($comments as $comment) {
 
 <?php comment_text() ?>
 
-<p><?php comment_date('M j, g:i A');  ?> &#8212; [
+<p><?php comment_date(__('M j, g:i A'));  ?> &#8212; [
 <?php
 if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo " <a href='comment.php?action=editcomment&amp;c=".$comment->comment_ID."'>" .  __('Edit') . '</a>';
