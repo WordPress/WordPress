@@ -344,10 +344,14 @@ function wp_list_bookmarks($args = '') {
 		$bookmarks = get_bookmarks("limit=$limit&category=$category&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_invisible&show_updated=$show_updated");
 		
 		if ( !empty($bookmarks) ) {
-			$output .= str_replace(array('%id', '%class'), array("linkuncat", $class), $category_before);
-			$output .= "$title_before$title_li$title_after\n\t<ul>\n";
-			$output .= _walk_bookmarks($bookmarks, $r);
-			$output .= "\n\t</ul>\n$category_after\n";
+			if ( !empty( $title_li ) ){
+				$output .= str_replace(array('%id', '%class'), array("linkcat-$category", $class), $category_before);
+				$output .= "$title_before$title_li$title_after\n\t<ul>\n";
+				$output .= _walk_bookmarks($bookmarks, $r);
+				$output .= "\n\t</ul>\n$category_after\n";
+			} else {
+				$output .= _walk_bookmarks($bookmarks, $r);
+			}
 		}
 	}
 
