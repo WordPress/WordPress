@@ -1602,7 +1602,7 @@ function get_file_description( $file ) {
 	}
 	elseif ( file_exists( ABSPATH . $file ) && is_file( ABSPATH . $file ) ) {
 		$template_data = implode( '', file( ABSPATH . $file ) );
-		if ( preg_match( "|Template Name:(.* )|i", $template_data, $name ))
+		if ( preg_match( "|Template Name:(.*)|i", $template_data, $name ))
 			return $name[1];
 	}
 
