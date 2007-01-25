@@ -98,21 +98,16 @@ foreach ($scheduled as $post) {
 <div>
 <h3><?php _e('Blog Stats'); ?></h3>
 <?php
-$numposts = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'");
-if (0 < $numposts) $numposts = number_format($numposts);
+$numposts = (int) $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish'");
+$numcomms = (int) $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
+$numcats  = (int) $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->categories");
 
-$numcomms = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
-if (0 < $numcomms) $numcomms = number_format($numcomms);
-
-$numcats = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->categories");
-if (0 < $numcats) $numcats = number_format($numcats);
+$post_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Posts">post</a>', '%1$s <a href="%2$s" title="Posts">posts</a>', $numposts), number_format($numposts), 'edit.php');
+$comm_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Comments">comment</a>', '%1$s <a href="%2$s" title="Comments">comments</a>', $numcomms), number_format($numcomms), 'edit-comments.php');
+$cat_str  = sprintf(__ngettext('%1$s <a href="%2$s" title="Categories">category</a>', '%1$s <a href="%2$s" title="Categories">categories</a>', $numcats), number_format($numcats), 'categories.php');
 ?>
-<p><?php
-$post_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Posts">post</a>', '%1$s <a href="%2$s" title="Posts">posts</a>', $numposts), $numposts, 'edit.php');
-$comm_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Comments">comment</a>', '%1$s <a href="%2$s" title="Comments">comments</a>', $numcomms), $numcomms, 'edit-comments.php');
-$cat_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Categories">category</a>', '%1$s <a href="%2$s" title="Categories">categories</a>', $numcats), $numcats, 'categories.php');
 
-printf(__('There are currently %1$s and %2$s, contained within %3$s.'), $post_str, $comm_str, $cat_str); ?></p>
+<p><?php printf(__('There are currently %1$s and %2$s, contained within %3$s.'), $post_str, $comm_str, $cat_str); ?></p>
 </div>
 
 <?php do_action('activity_box_end'); ?>
