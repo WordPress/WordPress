@@ -1,12 +1,15 @@
-// Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
-//           (c) 2005 Ivan Krstic (http://blogs.law.harvard.edu/ivan)
-//           (c) 2005 Jon Tirsen (http://www.tirsen.com)
+// script.aculo.us controls.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+
+// Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//           (c) 2005, 2006 Ivan Krstic (http://blogs.law.harvard.edu/ivan)
+//           (c) 2005, 2006 Jon Tirsen (http://www.tirsen.com)
 // Contributors:
 //  Richard Livsey
 //  Rahul Bhargava
 //  Rob Wills
 // 
-// See scriptaculous.js for full license.
+// script.aculo.us is freely distributable under the terms of an MIT-style license.
+// For details, see the script.aculo.us web site: http://script.aculo.us/
 
 // Autocompleter.Base handles all the autocompletion functionality 
 // that's independent of the data source for autocompletion. This
@@ -33,6 +36,9 @@
 // useful when one of the tokens is \n (a newline), as it 
 // allows smart autocompletion after linebreaks.
 
+if(typeof Effect == 'undefined')
+  throw("controls.js requires including script.aculo.us' effects.js library");
+
 var Autocompleter = {}
 Autocompleter.Base = function() {};
 Autocompleter.Base.prototype = {
@@ -45,7 +51,7 @@ Autocompleter.Base.prototype = {
     this.index       = 0;     
     this.entryCount  = 0;
 
-    if (this.setOptions)
+    if(this.setOptions)
       this.setOptions(options);
     else
       this.options = options || {};
@@ -55,17 +61,20 @@ Autocompleter.Base.prototype = {
     this.options.frequency    = this.options.frequency || 0.4;
     this.options.minChars     = this.options.minChars || 1;
     this.options.onShow       = this.options.onShow || 
-    function(element, update){ 
-      if(!update.style.position || update.style.position=='absolute') {
-        update.style.position = 'absolute';
-        Position.clone(element, update, {setHeight: false, offsetTop: element.offsetHeight});
-      }
-      Effect.Appear(update,{duration:0.15});
-    };
+      function(element, update){ 
+        if(!update.style.position || update.style.position=='absolute') {
+          update.style.position = 'absolute';
+          Position.clone(element, update, {
+            setHeight: false, 
+            offsetTop: element.offsetHeight
+          });
+        }
+        Effect.Appear(update,{duration:0.15});
+      };
     this.options.onHide = this.options.onHide || 
-    function(element, update){ new Effect.Fade(update,{duration:0.15}) };
+      function(element, update){ new Effect.Fade(update,{duration:0.15}) };
 
-    if (typeof(this.options.tokens) == 'string') 
+    if(typeof(this.options.tokens) == 'string') 
       this.options.tokens = new Array(this.options.tokens);
 
     this.observer = null;
@@ -94,7 +103,7 @@ Autocompleter.Base.prototype = {
   },
   
   fixIEOverlapping: function() {
-    Position.clone(this.update, this.iefix);
+    Position.clone(this.update, this.iefix, {setTop:(!this.update.style.height)});
     this.iefix.style.zIndex = 1;
     this.update.style.zIndex = 2;
     Element.show(this.iefix);
@@ -202,11 +211,13 @@ Autocompleter.Base.prototype = {
   markPrevious: function() {
     if(this.index > 0) this.index--
       else this.index = this.entryCount-1;
+    this.getEntry(this.index).scrollIntoView(true);
   },
   
   markNext: function() {
     if(this.index < this.entryCount-1) this.index++
       else this.index = 0;
+    this.getEntry(this.index).scrollIntoView(false);
   },
   
   getEntry: function(index) {
@@ -254,11 +265,11 @@ Autocompleter.Base.prototype = {
     if(!this.changed && this.hasFocus) {
       this.update.innerHTML = choices;
       Element.cleanWhitespace(this.update);
-      Element.cleanWhitespace(this.update.firstChild);
+      Element.cleanWhitespace(this.update.down());
 
-      if(this.update.firstChild && this.update.firstChild.childNodes) {
+      if(this.update.firstChild && this.update.down().childNodes) {
         this.entryCount = 
-          this.update.firstChild.childNodes.length;
+          this.update.down().childNodes.length;
         for (var i = 0; i < this.entryCount; i++) {
           var entry = this.getEntry(i);
           entry.autocompleteIndex = i;
@@ -269,9 +280,14 @@ Autocompleter.Base.prototype = {
       }
 
       this.stopIndicator();
-
       this.index = 0;
-      this.render();
+      
+      if(this.entryCount==1 && this.options.autoSelect) {
+        this.selectEntry();
+        this.hide();
+      } else {
+        this.render();
+      }
     }
   },
 
@@ -459,6 +475,7 @@ Ajax.InPlaceEditor.prototype = {
     this.element = $(element);
 
     this.options = Object.extend({
+      paramName: "value",
       okButton: true,
       okText: "ok",
       cancelLink: true,
@@ -531,7 +548,7 @@ Ajax.InPlaceEditor.prototype = {
     Element.hide(this.element);
     this.createForm();
     this.element.parentNode.insertBefore(this.form, this.element);
-    Field.scrollFreeActivate(this.editField);
+    if (!this.options.loadTextURL) Field.scrollFreeActivate(this.editField);
     // stop the event to avoid a page refresh in Safari
     if (evt) {
       Event.stop(evt);
@@ -590,7 +607,7 @@ Ajax.InPlaceEditor.prototype = {
       var textField = document.createElement("input");
       textField.obj = this;
       textField.type = "text";
-      textField.name = "value";
+      textField.name = this.options.paramName;
       textField.value = text;
       textField.style.backgroundColor = this.options.highlightcolor;
       textField.className = 'editor_field';
@@ -603,7 +620,7 @@ Ajax.InPlaceEditor.prototype = {
       this.options.textarea = true;
       var textArea = document.createElement("textarea");
       textArea.obj = this;
-      textArea.name = "value";
+      textArea.name = this.options.paramName;
       textArea.value = this.convertHTMLLineBreaks(text);
       textArea.rows = this.options.rows;
       textArea.cols = this.options.cols || 40;
@@ -636,6 +653,7 @@ Ajax.InPlaceEditor.prototype = {
     Element.removeClassName(this.form, this.options.loadingClassName);
     this.editField.disabled = false;
     this.editField.value = transport.responseText.stripTags();
+    Field.scrollFreeActivate(this.editField);
   },
   onclickCancel: function() {
     this.onComplete();
@@ -772,6 +790,8 @@ Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
       collection.each(function(e,i) {
         optionTag = document.createElement("option");
         optionTag.value = (e instanceof Array) ? e[0] : e;
+        if((typeof this.options.value == 'undefined') && 
+          ((e instanceof Array) ? this.element.innerHTML == e[1] : e == optionTag.value)) optionTag.selected = true;
         if(this.options.value==optionTag.value) optionTag.selected = true;
         optionTag.appendChild(document.createTextNode((e instanceof Array) ? e[1] : e));
         selectTag.appendChild(optionTag);

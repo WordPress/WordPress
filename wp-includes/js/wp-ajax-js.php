@@ -23,11 +23,9 @@ Object.extend(WPAjax.prototype, {
 		this.getResponseElement(responseEl);
 	},
 	addArg: function(key, value) {
-		var a = $H(this.options.parameters.parseQuery());
+		var a = [];
 		a[encodeURIComponent(key)] = encodeURIComponent(value);
-		this.options.parameters = a.map(function(pair) {
-			return pair.join('=');
-		}).join('&');
+		this.options.parameters = $H(this.options.parameters).merge($H(a));
 	},
 	getResponseElement: function(r) {
 		var p = $(r + '-p');

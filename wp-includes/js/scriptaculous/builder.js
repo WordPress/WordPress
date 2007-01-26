@@ -1,6 +1,9 @@
-// Copyright (c) 2005 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+// script.aculo.us builder.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+
+// Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //
-// See scriptaculous.js for full license.
+// script.aculo.us is freely distributable under the terms of an MIT-style license.
+// For details, see the script.aculo.us web site: http://script.aculo.us/
 
 var Builder = {
   NODEMAP: {
@@ -33,7 +36,7 @@ var Builder = {
     var element = parentElement.firstChild || null;
       
     // see if browser added wrapping tags
-    if(element && (element.tagName != elementName))
+    if(element && (element.tagName.toUpperCase() != elementName))
       element = element.getElementsByTagName(elementName)[0];
     
     // fallback to createElement approach
@@ -61,7 +64,7 @@ var Builder = {
               for(attr in arguments[1]) 
                 element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
             }
-            if(element.tagName != elementName)
+            if(element.tagName.toUpperCase() != elementName)
               element = parentElement.getElementsByTagName(elementName)[0];
             }
         } 
@@ -75,10 +78,16 @@ var Builder = {
   _text: function(text) {
      return document.createTextNode(text);
   },
+
+  ATTR_MAP: {
+    'className': 'class',
+    'htmlFor': 'for'
+  },
+
   _attributes: function(attributes) {
     var attrs = [];
     for(attribute in attributes)
-      attrs.push((attribute=='className' ? 'class' : attribute) +
+      attrs.push((attribute in this.ATTR_MAP ? this.ATTR_MAP[attribute] : attribute) +
           '="' + attributes[attribute].toString().escapeHTML() + '"');
     return attrs.join(" ");
   },
@@ -97,5 +106,26 @@ var Builder = {
   },
   _isStringOrNumber: function(param) {
     return(typeof param=='string' || typeof param=='number');
+  },
+  build: function(html) {
+    var element = this.node('div');
+    $(element).update(html.strip());
+    return element.down();
+  },
+  dump: function(scope) { 
+    if(typeof scope != 'object' && typeof scope != 'function') scope = window; //global scope 
+  
+    var tags = ("A ABBR ACRONYM ADDRESS APPLET AREA B BASE BASEFONT BDO BIG BLOCKQUOTE BODY " +
+      "BR BUTTON CAPTION CENTER CITE CODE COL COLGROUP DD DEL DFN DIR DIV DL DT EM FIELDSET " +
+      "FONT FORM FRAME FRAMESET H1 H2 H3 H4 H5 H6 HEAD HR HTML I IFRAME IMG INPUT INS ISINDEX "+
+      "KBD LABEL LEGEND LI LINK MAP MENU META NOFRAMES NOSCRIPT OBJECT OL OPTGROUP OPTION P "+
+      "PARAM PRE Q S SAMP SCRIPT SELECT SMALL SPAN STRIKE STRONG STYLE SUB SUP TABLE TBODY TD "+
+      "TEXTAREA TFOOT TH THEAD TITLE TR TT U UL VAR").split(/\s+/);
+  
+    tags.each( function(tag){ 
+      scope[tag] = function() { 
+        return Builder.node.apply(Builder, [tag].concat($A(arguments)));  
+      } 
+    });
   }
 }
