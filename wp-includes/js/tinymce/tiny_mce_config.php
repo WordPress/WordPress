@@ -43,7 +43,7 @@
 	$mce_popups_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/popups.css';
 	$mce_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/wordpress.css';
 	$mce_css = apply_filters('mce_css', $mce_css);
-	if ( $_SERVER['HTTPS'] ) {
+	if ( $_SERVER['HTTPS'] == 'on' ) {
 		$mce_css = str_replace('http://', 'https://', $mce_css);
 		$mce_popups_css = str_replace('http://', 'https://', $mce_popups_css);
 	}
