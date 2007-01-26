@@ -22,6 +22,7 @@ header('Content-type: text/xml; charset=' . get_option('blog_charset'), true);
     <engineLink>http://wordpress.org/</engineLink>
     <homePageLink><?php bloginfo_rss('url') ?></homePageLink>
     <apis>
+      <api name="WordPress" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('url') ?>/xmlrpc.php" />
       <api name="Movable Type" blogID="1" preferred="true" apiLink="<?php bloginfo_rss('url') ?>/xmlrpc.php" />
       <api name="MetaWeblog" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('url') ?>/xmlrpc.php" />
       <api name="Blogger" blogID="1" preferred="false" apiLink="<?php bloginfo_rss('url') ?>/xmlrpc.php" />
@@ -183,6 +184,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			$full_page = get_extended($page->post_content);
 			$link = post_permalink($page->ID);
 
+			// Get info the page parent if there is one.
+			$parent_title = "";
+			if(!empty($page->post_parent)) {
+				$parent = get_page($page->post_parent);
+				$parent_title = $parent->post_title;
+			}
+
 			// Determine comment and ping settings.
 			$allow_comments = ("open" == $page->comment_status) ? 1 : 0;
 			$allow_pings = ("open" == $page->ping_status) ? 1 : 0;
@@ -196,28 +204,30 @@ class wp_xmlrpc_server extends IXR_Server {
 				$categories[] = get_cat_name($cat_id);
 			}
 
-			// Get the users nicename.
-			$nicename = get_profile("user_nicename", $username);
+			// Get the author info.
+			$author = get_userdata($page->post_author);
 
 			$page_struct = array(
-				"dateCreated"		=> new IXR_Date($page_date),
-				"userid"			=> $page->post_author,
-				"page_id"			=> $page->ID,
-				"page_status"		=> $page->post_status,
-				"description"		=> $full_page["main"],
-				"title"				=> $page->post_title,
-				"link"				=> $link,
-				"permaLink"			=> $link,
-				"categories"		=> $categories,
-				"excerpt"			=> $page->post_excerpt,
-				"text_more"			=> $full_page["extended"],
-				"mt_allow_comments"	=> $allow_comments,
-				"mt_allow_pings"	=> $allow_pings,
-				"wp_slug"			=> $page->post_name,
-				"wp_password"		=> $page->post_password,
-				"wp_author"			=> $nicename,
-				"wp_page_parent_id"	=> $page->post_parent,
-				"wp_page_order"		=> $page->menu_order
+				"dateCreated"			=> new IXR_Date($page_date),
+				"userid"				=> $page->post_author,
+				"page_id"				=> $page->ID,
+				"page_status"			=> $page->post_status,
+				"description"			=> $full_page["main"],
+				"title"					=> $page->post_title,
+				"link"					=> $link,
+				"permaLink"				=> $link,
+				"categories"			=> $categories,
+				"excerpt"				=> $page->post_excerpt,
+				"text_more"				=> $full_page["extended"],
+				"mt_allow_comments"		=> $allow_comments,
+				"mt_allow_pings"		=> $allow_pings,
+				"wp_slug"				=> $page->post_name,
+				"wp_password"			=> $page->post_password,
+				"wp_author"				=> $author->user_nicename,
+				"wp_page_parent_id"		=> $page->post_parent,
+				"wp_page_parent_title"	=> $parent_title,
+				"wp_page_order"			=> $page->menu_order,
+				"wp_author_username"	=> $author->user_login
 			);
 
 			return($page_struct);
@@ -408,7 +418,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Get list of pages ids and titles
 		$page_list = $wpdb->get_results("
 			SELECT ID page_id,
-				post_title page_title
+				post_title page_title,
+				post_parent page_parent_id
 			FROM {$wpdb->posts}
 			WHERE post_type = 'page'
 			ORDER BY ID
@@ -1155,6 +1166,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $post = get_extended($postdata['post_content']);
 	    $link = post_permalink($postdata['ID']);
 
+		// Get the author info.
+		$author = get_userdata($postdata['post_author']);
+
 	    $allow_comments = ('open' == $postdata['comment_status']) ? 1 : 0;
 	    $allow_pings = ('open' == $postdata['ping_status']) ? 1 : 0;
 
@@ -1172,7 +1186,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	      'mt_excerpt' => $postdata['post_excerpt'],
 	      'mt_text_more' => $post['extended'],
 	      'mt_allow_comments' => $allow_comments,
-	      'mt_allow_pings' => $allow_pings
+	      'mt_allow_pings' => $allow_pings,
+          'wp_slug' => $postdata['post_name'],
+          'wp_password' => $postdata['post_password'],
+          'wp_author' => $author->user_nicename,
+          'wp_author_username'	=> $author->user_login
 	    );
 
 	    return $resp;
@@ -1264,9 +1282,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		$categories_struct = array();
 
 		// FIXME: can we avoid using direct SQL there?
-		if ($cats = $wpdb->get_results("SELECT cat_ID,cat_name FROM $wpdb->categories", ARRAY_A)) {
+		if ($cats = $wpdb->get_results("SELECT cat_ID,cat_name,category_parent FROM $wpdb->categories", ARRAY_A)) {
 			foreach ($cats as $cat) {
 				$struct['categoryId'] = $cat['cat_ID'];
+				$struct['parentId'] = $cat['category_parent'];
 				$struct['description'] = $cat['cat_name'];
 				$struct['categoryName'] = $cat['cat_name'];
 				$struct['htmlUrl'] = wp_specialchars(get_category_link($cat['cat_ID']));
