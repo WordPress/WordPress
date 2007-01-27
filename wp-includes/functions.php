@@ -301,9 +301,12 @@ function update_option($option_name, $newvalue) {
 function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 	global $wpdb;
 
-	// Make sure the option doesn't already exist
-	if ( false !== get_option($name) )
-		return;
+	// Make sure the option doesn't already exist we can check the cache before we ask for a db query
+	if ( true === wp_cache_get($name, 'notoptions') )
+		wp_cache_delete($name, 'notoptions');
+	else
+		if ( false !== get_option($name) )
+			return;
 
 	$value = maybe_serialize($value);
 
