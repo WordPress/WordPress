@@ -74,16 +74,16 @@ function &get_children($args = '', $output = OBJECT) {
 // get extended entry info (<!--more-->)
 function get_extended($post) {
 	//Match the new style more links
-	if (preg_match('/<!--more(.+?)?-->/', $post, $matches)) {
-		list($main,$extended) = explode($matches[0],$post,2);
+	if ( preg_match('/<!--more(.*?)-->/', $post, $matches) ) {
+		list($main, $extended) = explode($matches[0], $post, 2);
 	} else {
 		$main = $post;
 		$extended = '';
 	}
 	
 	// Strip leading and trailing whitespace
-	$main = preg_replace('/^[\s]*(.*)[\s]*$/','\\1',$main);
-	$extended = preg_replace('/^[\s]*(.*)[\s]*$/','\\1',$extended);
+	$main = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $main);
+	$extended = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $extended);
 
 	return array('main' => $main, 'extended' => $extended);
 }
