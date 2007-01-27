@@ -228,7 +228,7 @@ Event.observe( window, 'load', hide_text );
 		} elseif ( $width > HEADER_IMAGE_WIDTH ) {
 			$oitar = $width / HEADER_IMAGE_WIDTH;
 			$image = wp_crop_image($file, 0, 0, $width, $height, HEADER_IMAGE_WIDTH, $height / $oitar, false, str_replace(basename($file), 'midsize-'.basename($file), $file));
-			$image = apply_filters('wp_create_file_in_uploads', $image); // For replication
+			$image = apply_filters('wp_create_file_in_uploads', $image, $id); // For replication
 
 			$url = str_replace(basename($url), basename($image), $url);
 			$width = $width / $oitar;
