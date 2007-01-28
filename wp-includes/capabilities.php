@@ -55,7 +55,7 @@ class WP_Roles {
 		unset($this->role_objects[$role]);
 		unset($this->role_names[$role]);
 		unset($this->roles[$role]);
-		
+
 		if ( $this->use_db )
 			update_option($this->role_key, $this->roles);
 	}
@@ -427,7 +427,7 @@ function map_meta_cap($cap, $user_id) {
 		}
 
 		$author_data = get_userdata($user_id);
-		$page_author_data = get_userdata($post->post_author);
+		$page_author_data = get_userdata($page->post_author);
 		if ($user_id == $page_author_data->ID)
 			$caps[] = 'read';
 		else
