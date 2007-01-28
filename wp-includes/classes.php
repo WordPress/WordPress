@@ -1663,6 +1663,8 @@ class WP {
 		foreach ($this->public_query_vars as $wpvar) {
 			if (isset($this->query_vars[$wpvar]) && '' != $this->query_vars[$wpvar]) {
 				$this->query_string .= (strlen($this->query_string) < 1) ? '' : '&';
+				if ( !is_scalar($this->query_vars[$wpvar]) ) // Discard non-scalars.
+					continue;
 				$this->query_string .= $wpvar . '=' . rawurlencode($this->query_vars[$wpvar]);
 			}
 		}
