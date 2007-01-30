@@ -75,13 +75,6 @@ addLoadEvent(focusit);
 <ul id="categorychecklist"><?php dropdown_categories(); ?></ul></div>
 </fieldset>
 
-<fieldset id="tagdiv" class="dbx-box">
-<h3 class="dbx-handle"><?php _e('Tags') ?></h3>
-<div class="dbx-content">
-<p id="jaxtag"></p>
-<ul id="tagchecklist"><?php dropdown_tags(); ?></ul></div>
-</fieldset>
-
 <fieldset id="commentstatusdiv" class="dbx-box">
 <h3 class="dbx-handle"><?php _e('Discussion') ?></h3>
 <div class="dbx-content">

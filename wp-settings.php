@@ -116,8 +116,6 @@ $wpdb->links          = $wpdb->prefix . 'links';
 $wpdb->options        = $wpdb->prefix . 'options';
 $wpdb->postmeta       = $wpdb->prefix . 'postmeta';
 $wpdb->usermeta       = $wpdb->prefix . 'usermeta';
-$wpdb->tags           = $wpdb->prefix . 'tags';
-$wpdb->tagged         = $wpdb->prefix . 'tagged';
 
 if ( defined('CUSTOM_USER_TABLE') )
 	$wpdb->users = CUSTOM_USER_TABLE;

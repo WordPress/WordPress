@@ -120,20 +120,6 @@ CREATE TABLE $wpdb->posts (
   KEY post_name (post_name),
   KEY type_status_date (post_type,post_status,post_date,ID)
 );
-CREATE TABLE $wpdb->tags (
-  tag_id bigint(20) unsigned NOT NULL auto_increment,
-  tag varchar(30) NOT NULL default '',
-  raw_tag varchar(50) NOT NULL default '',
-  tag_count bigint(20) unsigned NOT NULL default '0',
-  PRIMARY KEY  (tag_id)
-);
-CREATE TABLE $wpdb->tagged (
-  tag_id bigint(20) unsigned NOT NULL default '0',
-  post_id bigint(20) unsigned NOT NULL default '0',
-  PRIMARY KEY  (tag_id,post_id),
-  KEY tag_id_index (tag_id),
-  KEY post_id_index (post_id)
-);
 CREATE TABLE $wpdb->users (
   ID bigint(20) unsigned NOT NULL auto_increment,
   user_login varchar(60) NOT NULL default '',
