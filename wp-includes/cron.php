@@ -93,6 +93,10 @@ function spawn_cron() {
 }
 
 function wp_cron() {
+	// Prevent infinite loops caused by lack of wp-cron.php
+	if ( strpos($_SERVER['REQUEST_URI'], '/wp-cron.php') !== false )
+		return;
+
 	$crons = _get_cron_array();
 	
 	if ( !is_array($crons) )
