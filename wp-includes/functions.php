@@ -203,6 +203,11 @@ function is_serialized_string($data) {
 function get_option($setting) {
 	global $wpdb;
 
+	// Allow plugins to short-circuit options.
+	$pre = apply_filters( 'pre_option_' . $setting, false ); 
+	if ( $pre ) 
+		return $pre; 
+
 	$value = wp_cache_get($setting, 'options');
 
 	if ( false === $value ) {
