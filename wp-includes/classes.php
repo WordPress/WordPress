@@ -1319,6 +1319,14 @@ class WP_Rewrite {
 		if (empty($this->permalink_structure)) {
 			return $rewrite;
 		}
+		//Default Feed rules - These are require to allow for the direct access files to work with permalink structure starting with %category%
+		$default_feeds = array(	'wp-atom.php$'	=>	$this->index .'?feed=atom',
+								'wp-rdf.php$'	=>	$this->index .'?feed=rdf',
+								'wp-rss.php$'	=>	$this->index .'?feed=rss',
+								'wp-rss2.php$'	=>	$this->index .'?feed=rss2',
+								'wp-feed.php$'	=>	$this->index .'?feed=feed',
+								'wp-commentsrss2.php$'	=>	$this->index . '?feed=rss2&withcomments=1');
+
 
 		// Post
 		$post_rewrite = $this->generate_rewrite_rules($this->permalink_structure);
@@ -1354,7 +1362,7 @@ class WP_Rewrite {
 		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
 		// Put them together.
-		$this->rules = array_merge($page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $author_rewrite, $date_rewrite, $post_rewrite);
+		$this->rules = array_merge($default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $author_rewrite, $date_rewrite, $post_rewrite);
 
 		do_action('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
