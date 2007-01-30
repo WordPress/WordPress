@@ -34,6 +34,8 @@ class wpdb {
 	var $optiongroups;
 	var $optiongroup_options;
 	var $postmeta;
+	var $tags;
+	var $tagged;
 
 	/**
 	 * Connects to the database server and selects a database

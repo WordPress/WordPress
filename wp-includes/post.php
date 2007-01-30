@@ -522,6 +522,9 @@ function wp_insert_post($postarr = array()) {
 	}
 	$post_cat = $post_category[0];
 
+	if ( empty($post_tags) )
+		$post_tags = array();
+
 	if ( empty($post_author) )
 		$post_author = $user_ID;
 
@@ -646,6 +649,7 @@ function wp_insert_post($postarr = array()) {
 	}
 
 	wp_set_post_categories($post_ID, $post_category);
+	wp_set_post_tags($post_ID, $post_tags);
 
 	if ( 'page' == $post_type ) {
 		clean_page_cache($post_ID);
