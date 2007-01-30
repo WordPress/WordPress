@@ -1075,9 +1075,14 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post_parent = $content_struct["wp_page_parent_id"];
 		}
 
-		// Only ste the menu_order if it was given.
+		// Only set the menu_order if it was given.
 		if(!empty($content_struct["wp_page_order"])) {
 			$menu_order = $content_struct["wp_page_order"];
+		}
+
+		// Only set the post_author if one is set.
+		if(!empty($content_struct["wp_author"])) {
+			$post_author = $content_struct["wp_author"];
 		}
 
 	  $post_title = $content_struct['title'];
@@ -1122,7 +1127,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  // We've got all the data -- post it:
-	  $newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order');
+	  $newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author');
 
 	  $result = wp_update_post($newpost);
 	  if (!$result) {
@@ -1233,6 +1238,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post = get_extended($entry['post_content']);
 			$link = post_permalink($entry['ID']);
 
+			// Get the post author info.
+			$author = get_userdata($entry['ID']);
+
 			$allow_comments = ('open' == $entry['comment_status']) ? 1 : 0;
 			$allow_pings = ('open' == $entry['ping_status']) ? 1 : 0;
 
@@ -1250,7 +1258,11 @@ class wp_xmlrpc_server extends IXR_Server {
 				'mt_excerpt' => $entry['post_excerpt'],
 				'mt_text_more' => $post['extended'],
 				'mt_allow_comments' => $allow_comments,
-				'mt_allow_pings' => $allow_pings
+				'mt_allow_pings' => $allow_pings,
+				'wp_slug' => $entry['post_name'],
+				'wp_password' => $entry['post_password'],
+				'wp_author' => $author->user_nicename,
+				'wp_author_username' => $author->user_login
 			);
 
 		}
