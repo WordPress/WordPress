@@ -6,7 +6,7 @@
  *
  * @version 1.08
  * @author Moxiecode
- * @copyright Copyright © 2005-2006, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright  2005-2006, Moxiecode Systems AB, All rights reserved.
  *
  * This file compresses the TinyMCE JavaScript using GZip and
  * enables the browser to do two requests instead of one for each .js file.
@@ -82,7 +82,7 @@ $cacheDir = realpath(".");				// Absolute directory path to where cached gz file
 $debug = false;							// Enable this option if you need debuging info
 
 // Headers
-header("Content-type: text/javascript; charset: UTF-8");
+header("Content-Type: text/javascript; charset=" . get_bloginfo('charset'));
 // header("Cache-Control: must-revalidate");
 header("Vary: Accept-Encoding"); // Handle proxies
 header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
