@@ -33,7 +33,7 @@ function &get_categories($args = '') {
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_categories', 'category' ) )
 		if ( isset( $cache[ $key ] ) )
-			return $cache[ $key ];
+			return apply_filters('get_categories', $cache[$key], $r);
 
 	$where = 'cat_ID > 0';
 	$inclusions = '';
