@@ -105,10 +105,10 @@ function &get_post(&$post, $output = OBJECT) {
 			$post_cache[$blog_id][$post->ID] = &$post;
 		$_post = & $post_cache[$blog_id][$post->ID];
 	} else {
-		if ( $_post = wp_cache_get($post, 'pages') )
-			return get_page($_post, $output);
-		elseif ( isset($post_cache[$blog_id][$post]) )
+		if ( isset($post_cache[$blog_id][$post]) )
 			$_post = & $post_cache[$blog_id][$post];
+		elseif ( $_post = wp_cache_get($post, 'pages') )
+			return get_page($_post, $output);
 		else {
 			$query = "SELECT * FROM $wpdb->posts WHERE ID = '$post' LIMIT 1";
 			$_post = & $wpdb->get_row($query);
