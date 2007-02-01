@@ -1,6 +1,7 @@
 <?php
 function wp_cache_add($key, $data, $flag = '', $expire = 0) {
 	global $wp_object_cache;
+	$data = unserialize(serialize($data));
 
 	return $wp_object_cache->add($key, $data, $flag, $expire);
 }
@@ -37,12 +38,14 @@ function wp_cache_init() {
 
 function wp_cache_replace($key, $data, $flag = '', $expire = 0) {
 	global $wp_object_cache;
+	$data = unserialize(serialize($data));
 
 	return $wp_object_cache->replace($key, $data, $flag, $expire);
 }
 
 function wp_cache_set($key, $data, $flag = '', $expire = 0) {
 	global $wp_object_cache;
+	$data = unserialize(serialize($data));
 
 	return $wp_object_cache->set($key, $data, $flag, $expire);
 }
