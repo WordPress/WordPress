@@ -444,15 +444,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if(!$this->login_pass_ok($username, $password)) {
 			return($this->error);
 		}
-		// Get basic info on all users.
-		$all_users = $wpdb->get_results("
-			SELECT u.ID id,
-				u.user_login username
-			FROM {$wpdb->users} u
-			ORDER BY u.user_login
-		");
 
-		return($all_users);
+		return(get_users_of_blog());
 	}
 
 	/**
