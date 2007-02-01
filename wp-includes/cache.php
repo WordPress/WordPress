@@ -191,21 +191,8 @@ class WP_Object_Cache {
 				foreach ($dogs as $catt)
 					$this->cache['category'][$catt->cat_ID] = $catt;
 			}
-		} else
-			if ('options' == $group) {
-				$wpdb->hide_errors();
-				if (!$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options WHERE autoload = 'yes'")) {
-					$options = $wpdb->get_results("SELECT option_name, option_value FROM $wpdb->options");
-				}
-				$wpdb->show_errors();
+		}
 
-				if ( ! $options )
-					return;
-
-				foreach ($options as $option) {
-					$this->cache['options'][$option->option_name] = $option->option_value;
-				}
-			}
 	}
 
 	function make_group_dir($group, $perms) {
