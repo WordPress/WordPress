@@ -96,8 +96,7 @@ function get_userdata( $user_id ) {
 		$user->user_description = $user->description;
 
 	wp_cache_add($user_id, $user, 'users');
-	wp_cache_add($user->user_login, $user, 'userlogins');
-
+	wp_cache_add($user->user_login, $user_id, 'userlogins');
 	return $user;
 }
 endif;
@@ -116,7 +115,9 @@ function get_userdatabylogin($user_login) {
 	if ( empty( $user_login ) )
 		return false;
 
-	$userdata = wp_cache_get($user_login, 'userlogins');
+	$user_id = wp_cache_get($user_login, 'userlogins');
+	$userdata = wp_cache_get($user_id, 'users');
+
 	if ( $userdata )
 		return $userdata;
 
@@ -147,8 +148,7 @@ function get_userdatabylogin($user_login) {
 		$user->user_description = $user->description;
 
 	wp_cache_add($user->ID, $user, 'users');
-	wp_cache_add($user->user_login, $user, 'userlogins');
-
+	wp_cache_add($user->user_login, $user->ID, 'userlogins');
 	return $user;
 
 }
