@@ -227,7 +227,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				"wp_page_parent_id"		=> $page->post_parent,
 				"wp_page_parent_title"	=> $parent_title,
 				"wp_page_order"			=> $page->menu_order,
-				"wp_author_username"	=> $author->user_login
+				"wp_author_id"			=> $author->ID,
+				"wp_author_display_username"	=> $author->display_name
 			);
 
 			return($page_struct);
@@ -947,6 +948,23 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// If an author id was provided then use it instead.
 		if(!empty($content_struct["wp_author_id"])) {
+			switch($post_type) {
+				case "post":
+					if(!current_user_can("edit_others_posts")) {
+						return(new IXR_Error(401, "You are not allowed to " .
+							"post as this user"));
+					}
+					break;
+				case "page":
+					if(!current_user_can("edit_others_pages")) {
+						return(new IXR_Error(401, "You are not allowed to " .
+							"create pages as this user"));
+					}
+					break;
+				default:
+					return(new IXR_Error(401, "Invalid post type."));
+					break;
+			}
 			$post_author = $content_struct["wp_author_id"];
 		}
 
@@ -1079,6 +1097,23 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Only set the post_author if one is set.
 		if(!empty($content_struct["wp_author_id"])) {
+			switch($post_type) {
+				case "post":
+					if(!current_user_can("edit_others_posts")) {
+						return(new IXR_Error(401, "You are not allowed to " .
+							"change the post author as this user."));
+					}
+					break;
+				case "page":
+					if(!current_user_can("edit_others_pages")) {
+						return(new IXR_Error(401, "You are not allowed to " .
+							"change the page author as this user."));
+					}
+					break;
+				default:
+					return(new IXR_Error(401, "Invalid post type."));
+					break;
+			}
 			$post_author = $content_struct["wp_author_id"];
 		}
 
@@ -1199,8 +1234,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	      'mt_allow_pings' => $allow_pings,
           'wp_slug' => $postdata['post_name'],
           'wp_password' => $postdata['post_password'],
-          'wp_author' => $author->display_name,
-          'wp_author_username'	=> $author->user_login
+          'wp_author_id' => $author->ID,
+          'wp_author_display_name'	=> $author->display_name
 	    );
 
 	    return $resp;
@@ -1266,8 +1301,8 @@ class wp_xmlrpc_server extends IXR_Server {
 				'mt_allow_pings' => $allow_pings,
 				'wp_slug' => $entry['post_name'],
 				'wp_password' => $entry['post_password'],
-				'wp_author' => $author->display_name,
-				'wp_author_username' => $author->user_login
+				'wp_author_id' => $author->ID,
+				'wp_author_display_name' => $author->display_name
 			);
 
 		}
