@@ -1,6 +1,15 @@
 <?php
 // Here we keep the DB structure and option values
 
+$charset_collate = '';
+	
+if ( version_compare(mysql_get_server_info(), '4.1.0', '>=') ) {
+	if ( ! empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	if ( ! empty($wpdb->collate) )
+		$charset_collate .= " COLLATE $wpdb->collate";	
+}
+
 $wp_queries="CREATE TABLE $wpdb->categories (
   cat_ID bigint(20) NOT NULL auto_increment,
   cat_name varchar(55) NOT NULL default '',
@@ -13,7 +22,7 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   links_private tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (cat_ID),
   KEY category_nicename (category_nicename)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->comments (
   comment_ID bigint(20) unsigned NOT NULL auto_increment,
   comment_post_ID int(11) NOT NULL default '0',
@@ -33,14 +42,14 @@ CREATE TABLE $wpdb->comments (
   PRIMARY KEY  (comment_ID),
   KEY comment_approved (comment_approved),
   KEY comment_post_ID (comment_post_ID)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->link2cat (
   rel_id bigint(20) NOT NULL auto_increment,
   link_id bigint(20) NOT NULL default '0',
   category_id bigint(20) NOT NULL default '0',
   PRIMARY KEY  (rel_id),
   KEY link_id (link_id,category_id)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->links (
   link_id bigint(20) NOT NULL auto_increment,
   link_url varchar(255) NOT NULL default '',
@@ -59,7 +68,7 @@ CREATE TABLE $wpdb->links (
   PRIMARY KEY  (link_id),
   KEY link_category (link_category),
   KEY link_visible (link_visible)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->options (
   option_id bigint(20) NOT NULL auto_increment,
   blog_id int(11) NOT NULL default '0',
@@ -74,14 +83,14 @@ CREATE TABLE $wpdb->options (
   autoload enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (option_id,blog_id,option_name),
   KEY option_name (option_name)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->post2cat (
   rel_id bigint(20) NOT NULL auto_increment,
   post_id bigint(20) NOT NULL default '0',
   category_id bigint(20) NOT NULL default '0',
   PRIMARY KEY  (rel_id),
   KEY post_id (post_id,category_id)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->postmeta (
   meta_id bigint(20) NOT NULL auto_increment,
   post_id bigint(20) NOT NULL default '0',
@@ -90,7 +99,7 @@ CREATE TABLE $wpdb->postmeta (
   PRIMARY KEY  (meta_id),
   KEY post_id (post_id),
   KEY meta_key (meta_key)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->posts (
   ID bigint(20) unsigned NOT NULL auto_increment,
   post_author bigint(20) NOT NULL default '0',
@@ -119,7 +128,7 @@ CREATE TABLE $wpdb->posts (
   PRIMARY KEY  (ID),
   KEY post_name (post_name),
   KEY type_status_date (post_type,post_status,post_date,ID)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->users (
   ID bigint(20) unsigned NOT NULL auto_increment,
   user_login varchar(60) NOT NULL default '',
@@ -133,7 +142,7 @@ CREATE TABLE $wpdb->users (
   display_name varchar(250) NOT NULL default '',
   PRIMARY KEY  (ID),
   KEY user_login_key (user_login)
-);
+) $charset_collate;
 CREATE TABLE $wpdb->usermeta (
   umeta_id bigint(20) NOT NULL auto_increment,
   user_id bigint(20) NOT NULL default '0',
@@ -142,7 +151,7 @@ CREATE TABLE $wpdb->usermeta (
   PRIMARY KEY  (umeta_id),
   KEY user_id (user_id),
   KEY meta_key (meta_key)
-);";
+) $charset_collate;";
 
 function populate_options() {
 	global $wpdb, $wp_db_version;

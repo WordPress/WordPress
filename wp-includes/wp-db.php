@@ -35,6 +35,9 @@ class wpdb {
 	var $optiongroup_options;
 	var $postmeta;
 
+	var $charset;
+	var $collate;
+
 	/**
 	 * Connects to the database server and selects a database
 	 * @param string $dbuser
@@ -49,6 +52,12 @@ class wpdb {
 	function __construct($dbuser, $dbpassword, $dbname, $dbhost) {
 		register_shutdown_function(array(&$this, "__destruct"));
 
+		if ( defined('DB_CHARSET') )
+			$this->charset = DB_CHARSET;
+
+		if ( defined('DB_COLLATE') )
+			$this->collate = DB_COLLATE;
+
 		$this->dbh = @mysql_connect($dbhost, $dbuser, $dbpassword);
 		if (!$this->dbh) {
 			$this->bail("
@@ -62,6 +71,9 @@ class wpdb {
 <p>If you're unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href='http://wordpress.org/support/'>WordPress Support Forums</a>.</p>
 ");
 		}
+
+		if ( !empty($this->charset) && version_compare(mysql_get_server_info(), '4.1.0', '>=') )
+ 			$this->query("SET NAMES '$this->charset'");
 
 		$this->select($dbname);
 	}
