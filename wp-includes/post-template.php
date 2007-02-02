@@ -273,6 +273,7 @@ function wp_list_pages($args = '') {
 	$r = array_merge($defaults, $r);
 
 	$output = '';
+	$current_page = 0;
 
 	// sanitize, mostly to keep spaces out
 	$r['exclude'] = preg_replace('[^0-9,]', '', $r['exclude']);
@@ -288,7 +289,8 @@ function wp_list_pages($args = '') {
 			$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
 
 		global $wp_query;
-		$current_page = $wp_query->get_queried_object_id();
+		if ( is_page() )
+			$current_page = $wp_query->get_queried_object_id();
 		$output .= walk_page_tree($pages, $r['depth'], $current_page, $r);
 
 		if ( $r['title_li'] )
