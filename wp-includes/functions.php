@@ -329,7 +329,7 @@ function update_option($option_name, $newvalue) {
 
 	$alloptions = wp_load_alloptions();
 	if ( isset($alloptions[$option_name]) ) {
-		$alloptions[$options_name] = $newvalue;
+		$alloptions[$option_name] = $newvalue;
 		wp_cache_set('alloptions', $alloptions, 'options');
 	} else {
 		wp_cache_set($option_name, $newvalue, 'options');
