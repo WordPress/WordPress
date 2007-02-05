@@ -5,7 +5,7 @@ define('DB_USER', 'username');     // Your MySQL username
 define('DB_PASSWORD', 'password'); // ...and password
 define('DB_HOST', 'localhost');    // 99% chance you won't need to change this value
 define('DB_CHARSET', 'utf8');
-define('DB_COLLATE', 'utf8_general_ci');
+define('DB_COLLATE', '');
 
 // You can have multiple installations in one database if you give each a unique prefix
 $table_prefix  = 'wp_';   // Only numbers, letters, and underscores please!
