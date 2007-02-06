@@ -228,7 +228,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				"wp_page_parent_title"	=> $parent_title,
 				"wp_page_order"			=> $page->menu_order,
 				"wp_author_id"			=> $author->ID,
-				"wp_author_display_username"	=> $author->display_name
+				"wp_author_display_name"	=> $author->display_name
 			);
 
 			return($page_struct);
