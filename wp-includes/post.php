@@ -672,6 +672,8 @@ function wp_insert_post($postarr = array()) {
 		do_action('publish_post', $post_ID);
 		if ( defined('XMLRPC_REQUEST') )
 			do_action('xmlrpc_publish_post', $post_ID);
+		if ( defined('APP_REQUEST') )
+			do_action('app_publish_post', $post_ID);
 
 		if ( !defined('WP_IMPORTING') ) {
 			if ( $post_pingback )
