@@ -148,13 +148,18 @@ class wp_xmlrpc_server extends IXR_Server {
 	function escape(&$array) {
 		global $wpdb;
 
-		foreach ( (array) $array as $k => $v ) {
-			if (is_array($v)) {
-				$this->escape($array[$k]);
-			} else if (is_object($v)) {
-				//skip
-			} else {
-				$array[$k] = $wpdb->escape($v);
+		if(is_string($array)) {
+			return($wpdb->escape($array));
+		}
+		else {
+			foreach ( (array) $array as $k => $v ) {
+				if (is_array($v)) {
+					$this->escape($array[$k]);
+				} else if (is_object($v)) {
+					//skip
+				} else {
+					$array[$k] = $wpdb->escape($v);
+				}
 			}
 		}
 	}
@@ -283,11 +288,9 @@ class wp_xmlrpc_server extends IXR_Server {
  	 * wp_newPage
 	 */
 	function wp_newPage($args) {
-		$this->escape($args);
-
-		$blog_id	= $args[0];
-		$username	= $args[1];
-		$password	= $args[2];
+		// Items not escaped here will be escaped in newPost.
+		$username	= $this->escape($args[1]);
+		$password	= $this->escape($args[2]);
 		$page		= $args[3];
 		$publish	= $args[4];
 
@@ -355,12 +358,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * wp_editPage
 	 */
 	function wp_editPage($args) {
-		$this->escape($args);
-
+		// Items not escaped here will be escaped in editPost.
 		$blog_id	= $args[0];
-		$page_id	= $args[1];
-		$username	= $args[2];
-		$password	= $args[3];
+		$page_id	= $this->escape($args[1]);
+		$username	= $this->escape($args[2]);
+		$password	= $this->escape($args[3]);
 		$content	= $args[4];
 		$publish	= $args[5];
 
