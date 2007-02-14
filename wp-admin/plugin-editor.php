@@ -30,6 +30,17 @@ case 'update':
 		$f = fopen($real_file, 'w+');
 		fwrite($f, $newcontent);
 		fclose($f);
+
+		// Deactivate so we can test it.
+		$current = get_option('active_plugins');
+		if ( in_array($file, $current) || isset($_POST['phperror']) ) {
+			if ( in_array($file, $current) ) {
+				array_splice($current, array_search( $file, $current), 1 ); // Array-fu!
+				update_option('active_plugins', $current);
+			}
+			wp_redirect(add_query_arg('_wpnonce', wp_create_nonce('edit-plugin-test_' . $file), "plugin-editor.php?file=$file&liveupdate=1"));
+			exit();
+		}
 		wp_redirect("plugin-editor.php?file=$file&a=te");
 	} else {
 		wp_redirect("plugin-editor.php?file=$file");
@@ -43,6 +54,24 @@ default:
 
 	if ( !current_user_can('edit_plugins') )
 		wp_die('<p>'.__('You do not have sufficient permissions to edit plugins for this blog.').'</p>');
+
+	if ( $_GET['liveupdate'] ) {
+		check_admin_referer('edit-plugin-test_' . $file);
+		$current = get_option('active_plugins');
+		$plugin = $file;
+		if ( validate_file($plugin) )
+			wp_die(__('Invalid plugin.'));
+		if ( ! file_exists(ABSPATH . PLUGINDIR . '/' . $plugin) )
+			wp_die(__('Plugin file does not exist.'));
+		if (!in_array($plugin, $current)) {
+			wp_redirect("plugin-editor.php?file=$file&phperror=1"); // we'll override this later if the plugin can be included without fatal error
+			@include(ABSPATH . PLUGINDIR . '/' . $plugin);
+			$current[] = $plugin;
+			sort($current);
+			update_option('active_plugins', $current);
+		}
+		wp_redirect("plugin-editor.php?file=$file&a=te");
+	}
 
 	require_once('admin-header.php');
 
@@ -60,13 +89,23 @@ default:
 	?>
 <?php if (isset($_GET['a'])) : ?>
  <div id="message" class="updated fade"><p><?php _e('File edited successfully.') ?></p></div>
+<?php elseif (isset($_GET['phperror'])) : ?>
+ <div id="message" class="updated fade"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p></div>
 <?php endif; ?>
  <div class="wrap">
 	<?php
-	if (is_writeable($real_file)) {
-		echo '<h2>' . sprintf(__('Editing <strong>%s</strong>'), $file) . '</h2>';
+	if ( in_array($file, (array) get_option('active_plugins')) ) {
+		if (is_writeable($real_file)) {
+			echo '<h2>' . sprintf(__('Editing <strong>%s</strong> (active)'), $file) . '</h2>';
+		} else {
+		echo '<h2>' . sprintf(__('Browsing <strong>%s</strong> (active)'), $file) . '</h2>';
+		}
 	} else {
-		echo '<h2>' . sprintf(__('Browsing <strong>%s</strong>'), $file) . '</h2>';
+		if (is_writeable($real_file)) {
+			echo '<h2>' . sprintf(__('Editing <strong>%s</strong> (inactive)'), $file) . '</h2>';
+		} else {
+		echo '<h2>' . sprintf(__('Browsing <strong>%s</strong> (inactive)'), $file) . '</h2>';
+		}
 	}
 	?>
 	<div id="templateside">
@@ -90,9 +129,15 @@ if ($plugin_files) :
 		<input type="hidden" name="file" value="<?php echo $file ?>" />
 		</div>
 <?php if ( is_writeable($real_file) ) : ?>
+	<?php if ( in_array($file, (array) get_option('active_plugins')) ) { ?>
+		<p><?php _e('<strong>Warning:</strong> Making changes to active plugins is not recommended.  If your changes cause a fatal error, the plugin will be automatically deactivated.'); ?></p>
+	<?php } ?>
 	<p class="submit">
 	<?php
-		echo "<input type='submit' name='submit' value='	" . __('Update File &raquo;') . "' tabindex='2' />";
+		if ( isset($_GET['phperror']) )
+			echo "<input type='hidden' name='phperror' value='1' /><input type='submit' name='submit' value='" . __('Update File and Attempt to Reactivate &raquo;') . "' tabindex='2' />";
+		else
+			echo "<input type='submit' name='submit' value='" . __('Update File &raquo;') . "' tabindex='2' />";
 	?>
 	</p>
 <?php else : ?>
