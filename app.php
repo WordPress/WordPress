@@ -823,7 +823,7 @@ EOD;
 		}
 		$page = (int) $page;
 		
-		$count = get_settings('posts_per_rss');	
+		$count = get_option('posts_per_rss');	
 		$query = "paged=$page&posts_per_page=$count&order=DESC";
 		if($post_type == 'attachment') {
 			$query .= "&post_type=$post_type";
@@ -1044,7 +1044,7 @@ EOD;
 		log_app('Status','401: Auth Required');
 		nocache_headers();
 		header('WWW-Authenticate: Basic realm="WordPress Atom Protocol"');
-		header('WWW-Authenticate: Form action="' . get_settings('siteurl') . '/wp-login.php"', false); 
+		header('WWW-Authenticate: Form action="' . get_option('siteurl') . '/wp-login.php"', false); 
 		header("HTTP/1.1 401 $msg");
 		header('Status: ' . $msg);
 		header('Content-Type: plain/text');
@@ -1054,7 +1054,7 @@ EOD;
 
 	function output($xml, $ctype = "application/atom+xml") {
 			status_header('200');
-			$xml = '<?xml version="1.0" encoding="' . get_settings('blog_charset') . '"?>'."\n".$xml;
+			$xml = '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?>'."\n".$xml;
 			header('Connection: close');
 			header('Content-Length: '. strlen($xml));
 			header('Content-Type: ' . $ctype);
