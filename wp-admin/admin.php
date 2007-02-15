@@ -4,9 +4,11 @@ if ( defined('ABSPATH') )
 else
     require_once('../wp-config.php');
 
-if ( get_option('db_version') != $wp_db_version )
-	wp_die(sprintf(__("Your database is out-of-date.  Please <a href='%s'>upgrade</a>."), get_option('siteurl') . '/wp-admin/upgrade.php'));
-    
+if ( get_option('db_version') != $wp_db_version ) {
+	wp_redirect(get_option('siteurl') . '/wp-admin/upgrade.php?_wp_http_referer=' . urlencode(stripslashes($_SERVER['REQUEST_URI'])));
+	exit;
+}
+
 require_once(ABSPATH . 'wp-admin/admin-functions.php');
 require_once(ABSPATH . 'wp-admin/admin-db.php');
 require_once(ABSPATH . WPINC . '/registration.php');

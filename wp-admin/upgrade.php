@@ -8,7 +8,7 @@ timer_start();
 require_once(ABSPATH . '/wp-admin/upgrade-functions.php');
 
 if (isset($_GET['step']))
-	$step = $_GET['step'];
+	$step = (int) $_GET['step'];
 else
 	$step = 0;
 @header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
@@ -25,12 +25,21 @@ else
 </head>
 <body>
 <h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
-<?php
-switch($step) {
+
+<?php if ( get_option('db_version') == $wp_db_version ) : ?>
+
+<h2><?php _e('No Upgrade Required'); ?></h2>
+<p><?php _e('Your WordPress database is already up-to-date!'); ?></p>
+<h2 class="step"><a href="<?php echo get_option('home'); ?>/"><?php _e('Continue &raquo;'); ?></a></h2>
+
+<?php else :
+switch($step) :
 	case 0:
 		$goback = attribute_escape(stripslashes(wp_get_referer()));
-?> 
-<p><?php _e('This file upgrades you from any previous version of WordPress to the latest. It may take a while though, so be patient.'); ?></p> 
+?>
+<h2><?php _e('Database Upgrade Required'); ?></h2>
+<p><?php _e('Your WordPress database is out-of-date, and must be upgraded before you can continue.'); ?></p>
+<p><?php _e('The upgrade process may take a while, so please be patient.'); ?></p> 
 <h2 class="step"><a href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress &raquo;'); ?></a></h2>
 <?php
 		break;
@@ -38,12 +47,13 @@ switch($step) {
 		wp_upgrade();
 
 		if ( empty( $_GET['backto'] ) )
-			$backto = __get_option('home');
+			$backto = __get_option('home') . '/';
 		else
 			$backto = attribute_escape(stripslashes($_GET['backto']));
 ?> 
-<h2><?php _e('Step 1'); ?></h2> 
-	<p><?php printf(__("There's actually only one step. So if you see this, you're done. <a href='%s'>Have fun</a>!"),  $backto); ?></p>
+<h2><?php _e('Upgrade Complete'); ?></h2>
+	<p><?php _e('Your WordPress database has been successfully upgraded!'); ?></p>
+	<h2 class="step"><a href="<?php echo $backto; ?>"><?php _e('Continue &raquo;'); ?></a></h2>
 
 <!--
 <pre>
@@ -55,7 +65,8 @@ switch($step) {
 
 <?php
 		break;
-}
+endswitch;
+endif;
 ?>
 </body>
 </html>
