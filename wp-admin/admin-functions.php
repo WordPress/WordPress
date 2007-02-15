@@ -22,6 +22,7 @@ function wp_write_post() {
 
 
 	// Check for autosave collisions
+	$temp_id = false;
 	if ( isset($_POST['temp_ID']) ) {
 		$temp_id = (int) $_POST['temp_ID'];
 		if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
@@ -33,7 +34,6 @@ function wp_write_post() {
 		if ( isset($draft_ids[$temp_id]) ) { // Edit, don't write
 			$_POST['post_ID'] = $draft_ids[$temp_id];
 			unset($_POST['temp_ID']);
-			relocate_children( $temp_id, $_POST['post_ID'] );
 			update_user_option( $user_ID, 'autosave_draft_ids', $draft_ids );
 			return edit_post();
 		}
@@ -112,9 +112,15 @@ function wp_write_post() {
 	add_meta( $post_ID );
 
 	// Reunite any orphaned attachments with their parent
+	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
+		$draft_ids = array();
+	if ( $draft_temp_id = array_search( $post_ID, $draft_ids ) )
+		relocate_children( $draft_temp_id, $post_ID );
+	if ( $temp_id && $temp_id != $draft_temp_id )
+		relocate_children( $temp_id, $post_ID );
+
 	// Update autosave collision detection
 	if ( $temp_id ) {
-		relocate_children( $temp_id, $post_ID );
 		$draft_ids[$temp_id] = $post_ID;
 		update_user_option( $user_ID, 'autosave_draft_ids', $draft_ids );
 	}
@@ -139,14 +145,14 @@ function fix_attachment_links( $post_ID ) {
 
 	$post = & get_post( $post_ID, ARRAY_A );
 
-	$search = "#<a[^>]+rel=('|\" )[^'\"]*attachment[^>]*>#ie";
+	$search = "#<a[^>]+rel=('|\")[^'\"]*attachment[^>]*>#ie";
 
 	// See if we have any rel="attachment" links
 	if ( 0 == preg_match_all( $search, $post['post_content'], $anchor_matches, PREG_PATTERN_ORDER ) )
 		return;
 
 	$i = 0;
-	$search = "#[\s]+rel=(\"|' )(.*? )wp-att-(\d+ )\\1#i";
+	$search = "#[\s]+rel=(\"|')(.*?)wp-att-(\d+)\\1#i";
 	foreach ( $anchor_matches[0] as $anchor ) {
 		if ( 0 == preg_match( $search, $anchor, $id_matches ) )
 			continue;
@@ -279,7 +285,13 @@ function edit_post() {
 
 	add_meta( $post_ID );
 
-	wp_update_post( $_POST);
+	wp_update_post( $_POST );
+
+	// Reunite any orphaned attachments with their parent
+	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
+		$draft_ids = array();
+	if ( $draft_temp_id = array_search( $post_ID, $draft_ids ) )
+		relocate_children( $draft_temp_id, $post_ID );
 
 	// Now that we have an ID we can fix any attachment anchor hrefs
 	fix_attachment_links( $post_ID );
