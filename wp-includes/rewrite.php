@@ -148,6 +148,7 @@ function url_to_postid($url) {
 
 class WP_Rewrite {
 	var $permalink_structure;
+	var $use_trailing_slashes;
 	var $category_base;
 	var $category_structure;
 	var $author_base = 'author';
@@ -876,6 +877,7 @@ class WP_Rewrite {
 		unset($this->search_structure);
 		unset($this->feed_structure);
 		unset($this->comment_feed_structure);
+		$this->use_trailing_slashes = ( substr($this->permalink_structure, -1, 1) == '/' ) ? true : false;
 	}
 
 	function set_permalink_structure($permalink_structure) {
