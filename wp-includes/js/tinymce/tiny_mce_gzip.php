@@ -59,7 +59,7 @@
 	gzip_compression();
 
 	// Output rest of headers
-	header("Content-type: text/javascript; charset: UTF-8");
+	header("Content-Type: text/javascript; charset=".get_bloginfo('charset'));
 	header("Vary: Accept-Encoding"); // Handle proxies
 	header("Expires: " . gmdate("D, d M Y H:i:s", time() + $expiresOffset) . " GMT");
 
