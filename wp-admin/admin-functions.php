@@ -139,14 +139,14 @@ function fix_attachment_links( $post_ID ) {
 
 	$post = & get_post( $post_ID, ARRAY_A );
 
-	$search = "#<a[^>]+rel=('|\" )[^'\"]*attachment[^>]*>#ie";
+	$search = "#<a[^>]+rel=('|\")[^'\"]*attachment[^>]*>#ie";
 
 	// See if we have any rel="attachment" links
 	if ( 0 == preg_match_all( $search, $post['post_content'], $anchor_matches, PREG_PATTERN_ORDER ) )
 		return;
 
 	$i = 0;
-	$search = "#[\s]+rel=(\"|' )(.*? )wp-att-(\d+ )\\1#i";
+	$search = "#[\s]+rel=(\"|')(.*?)wp-att-(\d+)\\1#i";
 	foreach ( $anchor_matches[0] as $anchor ) {
 		if ( 0 == preg_match( $search, $anchor, $id_matches ) )
 			continue;
