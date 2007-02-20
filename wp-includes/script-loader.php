@@ -39,6 +39,7 @@ class WP_Scripts {
 			$this->add( 'admin-users', '/wp-admin/users.js', array('listman'), '4583' );
 			$this->add( 'xfn', '/wp-admin/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/upload-js.php', array('prototype'), '20070118' );
+			$this->add( 'jquery', '/wp-includes/js/jquery-latest.js', false, '1.0.3' );
 		}
 	}
 
