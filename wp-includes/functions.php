@@ -1293,8 +1293,30 @@ function wp_nonce_ays($action) {
 	wp_die($html, $title);
 }
 
-function wp_die($message, $title = '') {
+function wp_die( $message, $title = '' ) {
 	global $wp_locale;
+
+	if ( is_wp_error( $message ) ) {
+		if ( empty($title) ) {
+			$error_data = $message->get_error_data();
+			if ( is_array($error_data) && isset($error_data['title']) )
+				$title = $error_data['title'];
+		}
+		$errors = $message->get_error_messages();
+		switch ( count($errors) ) :
+		case 0 :
+			$message = '';
+			break;
+		case 1 :
+			$message = "<p>{$errors[0]}</p>";
+			break;
+		default :
+			$message = "<ul>\n\t\t<li>" . join( "</li>\n\t\t<li>", $errors ) . "</li>\n\t</ul>";
+			break;
+		endswitch;
+	} elseif ( is_string($message) ) {
+		$message = "<p>$message</p>";
+	}
 
 	header('Content-Type: text/html; charset=utf-8');
 
@@ -1319,11 +1341,11 @@ function wp_die($message, $title = '') {
 </head>
 <body>
 	<h1 id="logo"><img alt="WordPress" src="<?php echo $admin_dir; ?>images/wordpress-logo.png" /></h1>
-	<p><?php echo $message; ?></p>
+	<?php echo $message; ?>
+
 </body>
 </html>
 <?php
-
 	die();
 }
 
