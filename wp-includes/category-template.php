@@ -71,11 +71,15 @@ global $post, $category_cache, $blog_id;
 	$categories = $category_cache[$blog_id][$id];
 
 	if ( !empty($categories) )
-		sort($categories);
+		usort($categories, '_get_the_category_usort');
 	else
 		$categories = array();
 
 	return $categories;
+}
+
+function _get_the_category_usort($a, $b) {
+	return strcmp($a->category_name, $b->category_name);
 }
 
 function get_the_category_by_ID($cat_ID) {
