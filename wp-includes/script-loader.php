@@ -30,6 +30,8 @@ class WP_Scripts {
 		$this->add( 'scriptaculous-controls', '/wp-includes/js/scriptaculous/controls.js', array('scriptaculous-root'), '1.7.0');
 		$this->add( 'scriptaculous', '', array('scriptaculous-dragdrop', 'scriptaculous-slider', 'scriptaculous-controls'), '1.7.0');
 		$this->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
+		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.1');
+		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.1.1');
 		if ( is_admin() ) {
 			$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key-js.php', array('dbx'), '3651' );
 			$this->add( 'ajaxcat', '/wp-admin/cat-js.php', array('listman'), '20070118' );
@@ -39,7 +41,6 @@ class WP_Scripts {
 			$this->add( 'admin-users', '/wp-admin/users.js', array('listman'), '4583' );
 			$this->add( 'xfn', '/wp-admin/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/upload-js.php', array('prototype'), '20070118' );
-			$this->add( 'jquery', '/wp-includes/js/jquery-latest.js', false, '1.0.3' );
 		}
 	}
 
