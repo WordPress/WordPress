@@ -194,8 +194,11 @@ case 'rp' :
 		die('<p>' . __('The e-mail could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function...') . '</p>');
 	} else {
 		// send a copy of password change notification to the admin
-		$message = sprintf(__('Password Lost and Changed for user: %s'), $user->user_login) . "\r\n";
-		wp_mail(get_option('admin_email'), sprintf(__('[%s] Password Lost/Changed'), get_option('blogname')), $message);
+		// but check to see if it's the admin whose password we're changing, and skip this
+		if ($user->user_email != get_settings('admin_email')) {
+			$message = sprintf(__('Password Lost and Changed for user: %s'), $user->user_login) . "\r\n";
+			wp_mail(get_option('admin_email'), sprintf(__('[%s] Password Lost/Changed'), get_option('blogname')), $message);
+		}
 
 		wp_redirect('wp-login.php?checkemail=newpass');
 		exit();
