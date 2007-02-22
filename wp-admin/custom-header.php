@@ -286,8 +286,7 @@ Event.observe( window, 'load', hide_text );
 		// cleanup
 		$file = get_attached_file( $_POST['attachment_id'] );
 		$medium = str_replace(basename($file), 'midsize-'.basename($file), $file);
-		@unlink( $medium );
-		apply_filters( 'wp_delete_file', $medium );
+		@unlink( apply_filters( 'wp_delete_file', $medium ) );
 		wp_delete_attachment( $_POST['attachment_id'] );
 
 		return $this->finished();
