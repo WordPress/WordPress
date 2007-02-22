@@ -989,7 +989,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
 	  }
 
-		$to_ping = $content_struct['mt_tb_ping_urls'];
+	  $to_ping = $content_struct['mt_tb_ping_urls'];
+	  if ( is_array($to_ping) )
+	  	$to_ping = implode(' ', $to_ping);
 
 	  // Do some timestamp voodoo
 	  $dateCreatedd = $content_struct['dateCreated'];
@@ -1151,8 +1153,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
 	  }
 
-		$to_ping = $content_struct['mt_tb_ping_urls'];
-
+	  $to_ping = $content_struct['mt_tb_ping_urls'];
+	  if ( is_array($to_ping) )
+	  	$to_ping = implode(' ', $to_ping);
+	  
 	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
 	    get_option('default_comment_status')
 	    : $content_struct['mt_allow_comments'];
