@@ -4,18 +4,21 @@
  * Original code by: Elias Torres, http://torrez.us/archives/2006/08/31/491/
  * Modified by: Dougal Campbell, http://dougal.gunters.org/
  *
- * Version: 1.0.0-dc
+ * Version: 1.0.5-dc
  */
-	
+
 define('APP_REQUEST', true);
 
 require_once('wp-config.php');
+require_once('wp-includes/post-template.php');
 
-$use_querystring = 1;
+// Attempt to automatically detect whether to use querystring
+// or PATH_INFO, based on our environment:
+$use_querystring = $wp_version == 'MU' ? 1 : 0;
 
 // If using querystring, we need to put the path together manually:
 if ($use_querystring) {
-	$_GLOBALS['use_querystring'] = $use_querystring;
+	$GLOBALS['use_querystring'] = $use_querystring;
 	$action = $_GET['action'];
 	$eid = (int) $_GET['eid'];
 
@@ -28,7 +31,7 @@ if ($use_querystring) {
 	$_SERVER['PATH_INFO'] = str_replace( '/app.php', '', $_SERVER['REQUEST_URI'] );
 }
 
-$app_logging = 1;
+$app_logging = 0;
 
 function log_app($label,$msg) {
 	global $app_logging;
@@ -257,10 +260,11 @@ class AtomParser {
 class AtomServer {
 
 	var $ATOM_CONTENT_TYPE = 'application/atom+xml';
-
+	var $CATEGORIES_CONTENT_TYPE = 'application/atomcat+xml';
 	var $INTROSPECTION_CONTENT_TYPE = 'application/atomserv+xml';
 
 	var $ENTRIES_PATH = "posts";
+	var $CATEGORIES_PATH = "categories";
 	var $MEDIA_PATH = "attachments";
 	var $ENTRY_PATH = "post";
 	var $MEDIA_SINGLE_PATH = "attachment";
@@ -282,6 +286,8 @@ class AtomServer {
 		$this->selectors = array(
 			'@/service@' => 
 				array('GET' => 'get_service'),
+			'@/categories@' =>
+				array('GET' => 'get_categories_xml'),
 			'@/post/(\d+)@' => 
 				array('GET' => 'get_post', 
 						'PUT' => 'put_post', 
@@ -348,31 +354,53 @@ class AtomServer {
 	function get_service() {
 		log_app('function','get_service()');
 		$entries_url = $this->get_entries_url();
+		$categories_url = $this->get_categories_url(); 
 		$media_url = $this->get_attachments_url();
 		$accepted_content_types = join(',',$this->media_content_types);
 		$introspection = <<<EOD
-<service xmlns="http://purl.org/atom/app#" xmlns:atom="http://www.w3.org/2005/Atom">
-	<workspace title="WordPress Experimental Workspace">
-		<collection href="$entries_url" title="WordPress Posts">
-			<accept>entry</accept>
-			<atom:title>WordPress Posts</atom:title>
-		</collection>
-		<collection href="$media_url" title="WordPress Media">
-			<accept>$accepted_content_types</accept>
-			<atom:title>WordPress Media</atom:title>
-		</collection>
-	</workspace>
+<service xmlns="http://purl.org/atom/app#" xmlns:atom="http://www.w3.org/2005/Atom"> 
+	<workspace title="WordPress Workspace"> 
+	    <collection href="$entries_url" title="Posts"> 
+		<atom:title>WordPress Posts</atom:title> 
+		<accept>entry</accept> 
+		<categories href="$categories_url" /> 
+	    </collection> 
+	    <collection href="$media_url" title="Media"> 
+		<atom:title>WordPress Media</atom:title> 
+		<accept>$accepted_content_types</accept> 
+	    </collection> 
+	</workspace> 
 </service>
 
 EOD;
+
 		$this->output($introspection, $this->INTROSPECTION_CONTENT_TYPE); 
 	}
+
+function get_categories_xml() {
+	log_app('function','get_categories_xml()');
+	$home = get_bloginfo_rss('home');
+
+	$categories = "";
+	$cats = get_categories("hierarchical=0&hide_empty=0");
+	foreach ((array) $cats as $cat) {
+		$categories .= "    <category term=\"" . attribute_escape($cat->cat_name) .  "\" />\n";
+	}
+        $output = <<<EOD
+<app:categories xmlns:app="http://purl.org/atom/app#"
+	xmlns="http://www.w3.org/2005/Atom"
+	fixed="yes" scheme="$home">
+	$categories
+</app:categories>
+EOD;
+	$this->output($output, $this->CATEGORIES_CONTENT_TYPE); 
+}
 
 	/*
 	 * Create Post (No arguments)
 	 */
 	function create_post() {
-
+		global $current_blog;
 		$this->get_accepted_content_type($this->atom_content_types);
 
 		$parser = new AtomParser();
@@ -389,7 +417,7 @@ EOD;
 		if(!current_user_can($cap))
 			$this->auth_required('Sorry, you do not have the right to edit/publish new posts.');
 
-		$blog_ID = 1;
+		$blog_ID = $current_blog->blog_id;
 		$post_status = ($publish) ? 'publish' : 'draft';
 		$post_author = $user->ID;
 		$post_title = $entry->title;
@@ -399,6 +427,8 @@ EOD;
 		$post_date_gmt = current_time('mysql', 1);
 
 		$post_data = compact('blog_ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt');
+
+		log_app('Inserting Post. Data:', print_r($post_data,true));
 
 		$postID = wp_insert_post($post_data);
 
@@ -437,8 +467,9 @@ EOD;
 
 		// check for not found
 		global $entry;
+		$entry = $GLOBALS['entry'];
 		$this->set_current_entry($postID);
-		$this->escape($entry);
+		$this->escape($GLOBALS['entry']);
 
 		if(!current_user_can('edit_post', $entry['ID']))
 			$this->auth_required('Sorry, you do not have the right to edit this post.');
@@ -507,6 +538,7 @@ EOD;
 	}
 
 	function create_attachment() {
+		global $wp, $wpdb, $wp_query, $blog_id;
 
 		$type = $this->get_accepted_content_type();
 
@@ -531,6 +563,8 @@ EOD;
 		$slug = "$slug.$ext";
 		$file = wp_upload_bits( $slug, NULL, $bits);
 
+		log_app('wp_upload_bits returns:',print_r($file,true));
+		
 		$url = $file['url'];
 		$file = $file['file'];
 		$filename = basename($file);
@@ -695,7 +729,7 @@ EOD;
 		if ($use_querystring) {
 			$url .= '?action=/' . $this->ENTRIES_PATH;
 			if(isset($page) && is_int($page)) {
-				$url .= "&eid=$page";
+				$url .= "&amp;eid=$page";
 			}
 		} else {
 			$url .= '/' . $this->ENTRIES_PATH;
@@ -711,13 +745,29 @@ EOD;
 		echo $url;
 	}
 
+	function get_categories_url($page = NULL) {
+		global $use_querystring;
+		$url = get_bloginfo('url') . '/' . $this->script_name;
+		if ($use_querystring) {
+			$url .= '?action=/' . $this->CATEGORIES_PATH;
+		} else {
+			$url .= '/' . $this->CATEGORIES_PATH;
+		}
+		return $url;
+	}
+
+	function the_categories_url() {
+		$url = $this->get_categories_url();
+		echo $url;
+    }
+	
 	function get_attachments_url($page = NULL) {
 		global $use_querystring;
 		$url = get_bloginfo('url') . '/' . $this->script_name;
 		if ($use_querystring) {
 			$url .= '?action=/' . $this->MEDIA_PATH;
 			if(isset($page) && is_int($page)) {
-				$url .= "&eid=$page";
+				$url .= "&amp;eid=$page";
 			}
 		} else {
 			$url .= '/' . $this->MEDIA_PATH;
@@ -738,11 +788,11 @@ EOD;
 		global $use_querystring;
 		if(!isset($postID)) {
 			global $post;
-			$postID = $post->ID;
+			$postID = $GLOBALS['post']->ID;
 		}
 		
 		if ($use_querystring) {
-			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->ENTRY_PATH . "&eid=$postID";
+			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->ENTRY_PATH . "&amp;eid=$postID";
 		} else {
 			$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->ENTRY_PATH . "/$postID";
 		}
@@ -760,11 +810,11 @@ EOD;
 		global $use_querystring;
 		if(!isset($postID)) {
 			global $post;
-			$postID = $post->ID;
+			$postID = $GLOBALS['post']->ID;
 		}
 		
 		if ($use_querystring) {
-			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->MEDIA_SINGLE_PATH ."&eid=$postID";
+			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->MEDIA_SINGLE_PATH ."&amp;eid=$postID";
 		} else {
 			$url = get_bloginfo('url') . '/' . $this->script_name . '/' . $this->MEDIA_SINGLE_PATH ."/$postID";
 		}
@@ -815,6 +865,7 @@ EOD;
 	}
 
 	function get_feed($page = 1, $post_type = 'post') {
+		global $post, $wp, $wp_query, $posts, $wpdb, $blog_id, $post_cache;
 		log_app('function',"get_feed($page, '$post_type')");
 		ob_start();
 
@@ -829,7 +880,14 @@ EOD;
 			$query .= "&post_type=$post_type";
 		}
 		query_posts($query);
-		global $post;
+		$post = $GLOBALS['post'];
+		$posts = $GLOBALS['posts'];
+		$wp = $GLOBALS['wp'];
+		$wp_query = $GLOBALS['wp_query'];
+		$wpdb = $GLOBALS['wpdb'];
+		$blog_id = $GLOBALS['blog_id'];
+		$post_cache = $GLOBALS['post_cache'];
+		
 
 		$total_count = $this->get_posts_count();
 		$last_page = (int) ceil($total_count / $count);
@@ -851,15 +909,17 @@ EOD;
 <link rel="last" type="application/atom+xml" href="<?php $this->the_entries_url($last_page) ?>" />
 <link rel="self" type="application/atom+xml" href="<?php $this->the_entries_url() ?>" />
 <rights type="text">Copyright <?php echo mysql2date('Y', get_lastpostdate('blog')); ?></rights>
-<generator uri="http://wordpress.com/" version="1.0.0-dc">WordPress.com Atom API</generator>
-<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+<generator uri="http://wordpress.com/" version="1.0.5-dc">WordPress.com Atom API</generator>
+<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); 
+$post = $GLOBALS['post'];
+?>
 <entry>
-		<id><?php the_guid(); ?></id>
+		<id><?php the_guid($post->ID); ?></id>
 		<title type="html"><![CDATA[<?php the_title() ?>]]></title>
 		<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
 		<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
 		<app:control>
-			<app:draft><?php echo ($post->post_status == 'draft' ? 'yes' : 'no') ?></app:draft>
+			<app:draft><?php echo ($GLOBALS['post']->post_status == 'draft' ? 'yes' : 'no') ?></app:draft>
 		</app:control>
 		<author>
 			<name><?php the_author()?></name>
@@ -868,7 +928,7 @@ EOD;
 		 <uri><?php the_author_url()?></uri>
 	<?php } ?>
 		</author>
-	<?php if($post->post_status == 'attachment') { ?>
+	<?php if($GLOBALS['post']->post_status == 'attachment') { ?>
 		<link rel="edit" href="<?php $this->the_entry_url() ?>" />
 		<link rel="edit-media" href="<?php $this->the_media_url() ?>" />
 	<?php } else { ?>
@@ -878,8 +938,8 @@ EOD;
 	<?php foreach(get_the_category() as $category) { ?>
 	 <category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->cat_name?>" />
 	<?php } ?>   <summary type="html"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
-	<?php if ( strlen( $post->post_content ) ) : ?>
-	<content type="html"><?php echo get_the_content('', 0, '') ?></content>
+	<?php if ( strlen( $GLOBALS['post']->post_content ) ) : ?>
+	<content type="html"><![CDATA[<?php echo get_the_content('', 0, '') ?>]]></content>
 <?php endif; ?>
 	</entry>
 <?php
@@ -895,7 +955,7 @@ EOD;
 	function get_entry($postID, $post_type = 'post') {
 		log_app('function',"get_entry($postID, '$post_type')");
 		ob_start();
-		global $posts, $post, $wp_query;
+		global $posts, $post, $wp_query, $wp, $wpdb, $blog_id, $post_cache;
 		switch($post_type) {
 			case 'post':
 				$varname = 'p';
@@ -905,25 +965,28 @@ EOD;
 				break;
 		}
 		query_posts($varname . '=' . $postID);
-		if ( have_posts() ) : while ( have_posts() ) : the_post();?>
+		if ( have_posts() ) : while ( have_posts() ) : the_post();
+		$post = $GLOBALS['post'];
+		?>
+		<?php log_app('$post',print_r($GLOBALS['post'],true)); ?>
 <entry xmlns="http://www.w3.org/2005/Atom" xmlns:app="http://purl.org/atom/app#" xml:lang="<?php echo get_option('rss_language'); ?>">
-	<id><?php the_guid(); ?></id>
+	<id><?php the_guid($post->ID); ?></id>
 	<title type="html"><![CDATA[<?php the_title_rss() ?>]]></title>
 
 	<updated><?php echo get_post_modified_time('Y-m-d\TH:i:s\Z', true); ?></updated>
 	<published><?php echo get_post_time('Y-m-d\TH:i:s\Z', true); ?></published>
 	<app:control>
-		<app:draft><?php echo ($post->post_status == 'draft' ? 'yes' : 'no') ?></app:draft>
+		<app:draft><?php echo ($GLOBALS['post']->post_status == 'draft' ? 'yes' : 'no') ?></app:draft>
 	</app:control>
 	<author>
 		<name><?php the_author()?></name>
 		<email><?php the_author_email()?></email>
 		<uri><?php the_author_url()?></uri>
 	</author>
-<?php if($post->post_type == 'attachment') { ?>
+<?php if($GLOBALS['post']->post_type == 'attachment') { ?>
 	<link rel="edit" href="<?php $this->the_entry_url() ?>" />
 	<link rel="edit-media" href="<?php $this->the_media_url() ?>" />
-	<content type="<?php echo $post->post_mime_type ?>" src="<?php the_guid(); ?>"/>
+	<content type="<?php echo $GLOBALS['post']->post_mime_type ?>" src="<?php the_guid(); ?>"/>
 <?php } else { ?>
 	<link href="<?php permalink_single_rss() ?>" />
 	<link rel="edit" href="<?php $this->the_entry_url() ?>" />
@@ -932,8 +995,8 @@ EOD;
 	<category scheme="<?php bloginfo_rss('home') ?>" term="<?php echo $category->cat_name?>" />
 	<summary type="html"><![CDATA[<?php the_excerpt_rss(); ?>]]></summary>
 <?php }
-	if ( strlen( $post->post_content ) ) : ?>
-	<content type="html"><?php echo get_the_content('', 0, '') ?></content>
+	if ( strlen( $GLOBALS['post']->post_content ) ) : ?>
+	<content type="html"><![CDATA[<?php echo get_the_content('', 0, '') ?>]]></content>
 <?php endif; ?>
 </entry>
 <?php
@@ -1025,7 +1088,7 @@ EOD;
 				break;
 			case 'attachment':
 				if ($use_querystring) {
-					$edit = get_bloginfo('url') . '/' . $this->script_name . "?action=/attachments&eid=$post_ID";
+					$edit = get_bloginfo('url') . '/' . $this->script_name . "?action=/attachments&amp;eid=$post_ID";
 				} else {
 					$edit = get_bloginfo('url') . '/' . $this->script_name . "/attachments/$post_ID";
 				}
@@ -1054,7 +1117,7 @@ EOD;
 
 	function output($xml, $ctype = "application/atom+xml") {
 			status_header('200');
-			$xml = '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?>'."\n".$xml;
+			$xml = '<?xml version="1.0" encoding="' . strtolower(get_option('blog_charset')) . '"?>'."\n".$xml;
 			header('Connection: close');
 			header('Content-Length: '. strlen($xml));
 			header('Content-Type: ' . $ctype);
