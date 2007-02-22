@@ -79,6 +79,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			'wp.getCategories'		=> 'this:mw_getCategories',		// Alias
 			'wp.newCategory'		=> 'this:wp_newCategory',
 			'wp.suggestCategories'	=> 'this:wp_suggestCategories',
+			'wp.uploadFile'			=> 'this:mw_newMediaObject',	// Alias
 
 			// Blogger API
 			'blogger.getUsersBlogs' => 'this:blogger_getUsersBlogs',
@@ -422,11 +423,21 @@ class wp_xmlrpc_server extends IXR_Server {
 		$page_list = $wpdb->get_results("
 			SELECT ID page_id,
 				post_title page_title,
-				post_parent page_parent_id
+				post_parent page_parent_id,
+				post_date
 			FROM {$wpdb->posts}
 			WHERE post_type = 'page'
 			ORDER BY ID
 		");
+
+		// The date needs to be formated properly.
+		$num_pages = count($page_list);
+		for($i = 0; $i < $num_pages; $i++) {
+			$post_date = mysql2date("Ymd\TH:i:s", $page_list[$i]->post_date);
+			$page_list[$i]->dateCreated = new IXR_Date($post_date);
+
+			unset($page_list[$i]->post_date);
+		}
 
 		return($page_list);
 	}
@@ -486,7 +497,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// If no parent_id was provided make it empty
 		// so that it will be a top level page (no parent).
-		if(empty($category["parent_id"])) {
+		if(isset($category["parent_id"])) {
 			$category["parent_id"] = "";
 		}
 
@@ -937,7 +948,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// Only set a post parent if one was provided.
-		if(!empty($content_struct["wp_page_parent_id"])) {
+		if(isset($content_struct["wp_page_parent_id"])) {
 			$post_parent = $content_struct["wp_page_parent_id"];
 		}
 
@@ -977,11 +988,11 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
 
-	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
+	  $comment_status = (!isset($content_struct['mt_allow_comments'])) ?
 	    get_option('default_comment_status')
 	    : $content_struct['mt_allow_comments'];
 
-	  $ping_status = (empty($content_struct['mt_allow_pings'])) ?
+	  $ping_status = (!isset($content_struct['mt_allow_pings'])) ?
 	    get_option('default_ping_status')
 	    : $content_struct['mt_allow_pings'];
 
@@ -1157,7 +1168,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  if ( is_array($to_ping) )
 	  	$to_ping = implode(' ', $to_ping);
 	  
-	  $comment_status = (empty($content_struct['mt_allow_comments'])) ?
+	  $comment_status = (!isset($content_struct['mt_allow_comments'])) ?
 	    get_option('default_comment_status')
 	    : $content_struct['mt_allow_comments'];
 
@@ -1373,6 +1384,12 @@ class wp_xmlrpc_server extends IXR_Server {
 		$type = $data['type'];
 		$bits = $data['bits'];
 
+		// Default to new file, not over write.
+		$overwrite = false;
+		if(!empty($data["overwrite"]) && ($data["overwrite"] == true)) {
+			$overwrite = true;
+		}
+
 		logIO('O', '(MW) Received '.strlen($bits).' bytes');
 
 		if ( !$this->login_pass_ok($user_login, $user_pass) )
@@ -1388,7 +1405,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( $upload_err = apply_filters( "pre_upload_error", false ) )
 			return new IXR_Error(500, $upload_err);
 
-		$upload = wp_upload_bits($name, $type, $bits);
+		$upload = wp_upload_bits($name, $type, $bits, $overwrite);
 		if ( ! empty($upload['error']) ) {
 			logIO('O', '(MW) Could not write file '.$name);
 			return new IXR_Error(500, 'Could not write file '.$name);
@@ -1404,9 +1421,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			'post_mime_type' => $type,
 			'guid' => $upload[ 'url' ]
 		);
-		// Save the data
-		$id = wp_insert_attachment( $attachment, $upload[ 'file' ], $post_id );
-		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
+
+		// Only make a database entry if this is a new file.
+		if(!$overwrite) {
+			// Save the data
+			$id = wp_insert_attachment( $attachment, $upload[ 'file' ], $post_id );
+			wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
+		}
 
 		return apply_filters( 'wp_handle_upload', array( 'file' => $upload[ 'file' ], 'url' => $upload[ 'url' ], 'type' => $type ) );
 	}
