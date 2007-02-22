@@ -19,7 +19,7 @@ require_once('admin-header.php');
 </form>
 
 <?php
-wp('post_type=page&orderby=menu_order&what_to_show=posts&posts_per_page=-1&posts_per_archive_page=-1');
+wp('post_type=page&orderby=menu_order&what_to_show=posts&posts_per_page=-1&posts_per_archive_page=-1&order=asc');
 
 if ( $_GET['s'] )
 	$all = false;
