@@ -765,9 +765,11 @@ class WP_Query {
 				$searchand = ' AND ';
 			}
 			$term = addslashes_gpc($q['s']); 
-			if (!$q['sentence'] && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] ) $search .= " OR (post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}')";
-			
-			$search = " AND ({$search}) ";
+			if (!$q['sentence'] && count($q['search_terms']) > 1 && $q['search_terms'][0] != $q['s'] )
+				$search .= " OR (post_title LIKE '{$n}{$term}{$n}') OR (post_content LIKE '{$n}{$term}{$n}')";
+
+			if ( !empty($search) )
+				$search = " AND ({$search}) ";
 		}
 
 		// Category stuff
