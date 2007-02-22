@@ -497,9 +497,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// If no parent_id was provided make it empty
 		// so that it will be a top level page (no parent).
-		if(isset($category["parent_id"])) {
+		if ( !isset($category["parent_id"]) )
 			$category["parent_id"] = "";
-		}
 
 		// If no description was provided make it empty.
 		if(empty($category["description"])) {

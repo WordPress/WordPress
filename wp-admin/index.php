@@ -15,6 +15,7 @@ function dashboard_init() {
 }
 add_action( 'admin_head', 'index_js' );
 wp_enqueue_script('prototype');
+wp_enqueue_script('interface');
 
 $title = __('Dashboard'); 
 $parent_file = 'index.php';
