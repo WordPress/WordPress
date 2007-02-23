@@ -173,16 +173,26 @@ function rss_enclosure() {
 	if ( !empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
 		return;
 
-	$custom_fields = get_post_custom();
-	if ( is_array($custom_fields) ) {
-		while ( list($key, $val) = each($custom_fields) ) { 
-			if ( $key == 'enclosure' ) {
-				if ( is_array($val) ) {
-					foreach ( (array) $val as $enc ) {
-						$enclosure = split( "\n", $enc );
-						print "<enclosure url='".trim( htmlspecialchars($enclosure[ 0 ]) )."' length='".trim( $enclosure[ 1 ] )."' type='".trim( $enclosure[ 2 ] )."'/>\n";
-					}
-				}
+	foreach (get_post_custom() as $k => $v) {
+		if ($key == 'enclosure') {
+			foreach ((array)$val as $enc) {
+				$enclosure = split("\n", $enc);
+				echo apply_filters('rss_enclosure', '<enclosure url="' . trim(htmlspecialchars($enclosure[0])) . '" length="' . trim($enclosure[1]) . '" type="' . trim($enclosure[2]) . '" />' . "\n";
+			}
+		}
+	}
+}
+
+function atom_enclosure() {
+	global $id, $post;
+	if ( !empty($post->post_password) && ($_COOKIE['wp-postpass_'.COOKIEHASH] != $post->post_password) )
+		return;
+
+	foreach (get_post_custom() as $k => $v) {
+		if ($key == 'enclosure') {
+			foreach ((array)$val as $enc) {
+				$enclosure = split("\n", $enc);
+				echo apply_filters('atom_enclosure', '<link href="' . trim(htmlspecialchars($enclosure[0])) . '" rel="enclosure" length="' . trim($enclosure[1]) . '" type="' . trim($enclosure[2]) . '" />' . "\n";
 			}
 		}
 	}

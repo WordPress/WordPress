@@ -38,7 +38,7 @@ $more = 1;
 <?php if ( !get_option('rss_use_excerpt') ) : ?>
 		<content type="<?php html_type_rss(); ?>" xml:base="<?php permalink_single_rss() ?>"><![CDATA[<?php the_content('', 0, '') ?>]]></content>
 <?php endif; ?>
-<?php rss_enclosure(); ?>
+<?php atom_enclosure(); ?>
 <?php do_action('atom_entry'); ?>
 	</entry>
 	<?php endwhile ; ?>
