@@ -944,14 +944,21 @@ function do_feed() {
 	// Remove the pad, if present.
 	$feed = preg_replace('/^_+/', '', $feed);
 
-	if ($feed == '' || $feed == 'feed')
+	if ( $feed == '' || $feed == 'feed' )
     	$feed = 'rss2';
-
+	
 	$for_comments = false;
-	if ( 1 != get_query_var('withoutcomments') && ( is_singular() || get_query_var('withcomments') == 1 || $feed == 'comments-rss2' ) ) {
-		$feed = 'rss2';
-		$for_comments = true;	
-	}
+
+	if ( is_singular() || get_query_var('withcomments') == 1 )
+		$for_comments = true;
+
+	 if ( false !== strpos($feed, 'comments-') ) {
+	 	$for_comments = true;
+	 	$feed = str_replace('comments-', '', $feed);
+	 }
+
+	 if ( get_query_var('withoutcomments') == 1 )
+	 	$for_comments = false;
 
 	$hook = 'do_feed_' . $feed;
 	do_action($hook, $for_comments);
@@ -973,8 +980,12 @@ function do_feed_rss2($for_comments) {
 	}
 }
 
-function do_feed_atom() {
-	load_template(ABSPATH . WPINC . '/feed-atom.php');
+function do_feed_atom($for_comments) {
+	if ($for_comments) {
+		load_template(ABSPATH . WPINC . '/feed-atom-comments.php');
+	} else {
+		load_template(ABSPATH . WPINC . '/feed-atom.php');
+	}
 }
 
 function do_robots() {
