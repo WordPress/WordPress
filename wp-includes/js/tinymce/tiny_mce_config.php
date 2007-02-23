@@ -74,6 +74,7 @@ initArray = {
 	convert_newlines_to_brs : false,
 	remove_linebreaks : false,
 	fix_list_elements : true,
+	gecko_spellcheck : true,
 	entities : "38,amp,60,lt,62,gt",
 	content_css : "<?php echo $mce_css; ?>",
 	valid_elements : "<?php echo $valid_elements; ?>",
