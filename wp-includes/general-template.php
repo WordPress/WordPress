@@ -484,7 +484,7 @@ function get_calendar($initial = true) {
 			ORDER	BY post_date ASC
 			LIMIT 1");
 
-	echo '<table id="wp-calendar">
+	echo '<table id="wp-calendar" summary="' . __('Calendar') . '>
 	<caption>' . $wp_locale->get_month($thismonth) . ' ' . date('Y', $unixmonth) . '</caption>
 	<thead>
 	<tr>';
