@@ -89,21 +89,14 @@ function comment_text_rss() {
 }
 
 
-function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = '') {
-	$url = comments_rss($commentsrssfilename);
+function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = 'nolongerused') {
+	$url = get_post_comments_feed_link();;
 	echo "<a href='$url'>$link_text</a>";
 }
 
 
-function comments_rss($commentsrssfilename = '') {
-	global $id;
-
-	if ( '' != get_option('permalink_structure') )
-		$url = trailingslashit( get_permalink() ) . user_trailingslashit('feed');
-	else
-		$url = get_option('home') . "/$commentsrssfilename?feed=rss2&amp;p=$id";
-
-	return apply_filters('post_comments_feed_link', $url);
+function comments_rss($commentsrssfilename = 'nolongerused') {
+	return get_post_comments_feed_link();
 }
 
 

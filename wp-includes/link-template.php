@@ -247,6 +247,24 @@ function get_feed_link($feed='rss2') {
 	return apply_filters('feed_link', $output, $feed);
 }
 
+function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
+	global $id;
+
+	if ( empty($post_id) )
+		$post_id = $id;
+
+	if ( '' != get_option('permalink_structure') ) {
+		$url = trailingslashit( get_permalink() ) . 'feed';
+		if ( 'rss2' != $feed )
+			$url .= "/$feed";
+		$url = user_trailingslashit($url);
+	} else {
+		$url = get_option('home') . "/?feed=$feed&amp;p=$id";
+	}
+
+	return apply_filters('post_comments_feed_link', $url);	
+}
+
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {
 	global $post;
 
