@@ -14,7 +14,7 @@
 	}
 
 	/* This variable is for alternating comment background */
-	$oddcomment = 'alt';
+	$oddcomment = 'class="alt" ';
 ?>
 
 <!-- You can start editing here. -->
@@ -26,7 +26,7 @@
 
 	<?php foreach ($comments as $comment) : ?>
 
-		<li class="<?php echo $oddcomment; ?>" id="comment-<?php comment_ID() ?>">
+		<li <?php echo $oddcomment; ?>id="comment-<?php comment_ID() ?>">
 			<cite><?php comment_author_link() ?></cite> Says:
 			<?php if ($comment->comment_approved == '0') : ?>
 			<em>Your comment is awaiting moderation.</em>
@@ -39,9 +39,9 @@
 
 		</li>
 
-	<?php /* Changes every other comment to a different class */
-		if ('alt' == $oddcomment) $oddcomment = '';
-		else $oddcomment = 'alt';
+	<?php
+		/* Changes every other comment to a different class */
+		$oddcomment = ( empty( $oddcomment ) ) ? 'class="alt" ' : '';
 	?>
 
 	<?php endforeach; /* end for each comment */ ?>
