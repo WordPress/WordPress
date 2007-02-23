@@ -95,7 +95,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 	$output .= $teaser;
 	if ( count($content) > 1 ) {
 		if ( $more ) {
-			$output .= '<a id="more-'.$id.'"></a>'.$content[1];
+			$output .= '<span id="more-'.$id.'"></span>'.$content[1];
 		} else {
 			$output = balanceTags($output);
 			if ( ! empty($more_link_text) )
