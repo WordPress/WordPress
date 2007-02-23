@@ -309,7 +309,7 @@ function update_option($option_name, $newvalue) {
 
 	// If the new and old values are the same, no need to update.
 	$oldvalue = get_option($option_name);
-	if ( $newvalue == $oldvalue ) {
+	if ( $newvalue === $oldvalue ) {
 		return false;
 	}
 
