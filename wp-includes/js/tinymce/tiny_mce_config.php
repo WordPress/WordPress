@@ -1,5 +1,6 @@
 <?php
 	@ require('../../../wp-config.php');
+	cache_javascript_headers();
 
 	function wp_translate_tinymce_lang($text) {
 		if ( ! function_exists('__') ) {
