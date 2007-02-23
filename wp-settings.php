@@ -133,6 +133,7 @@ else
 wp_cache_init();
 
 require (ABSPATH . WPINC . '/functions.php');
+require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/plugin.php');
 require (ABSPATH . WPINC . '/default-filters.php');
 include_once(ABSPATH . WPINC . '/streams.php');
@@ -149,7 +150,6 @@ if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !d
 
 require (ABSPATH . WPINC . '/formatting.php');
 require (ABSPATH . WPINC . '/capabilities.php');
-require (ABSPATH . WPINC . '/classes.php');
 require (ABSPATH . WPINC . '/query.php');
 require (ABSPATH . WPINC . '/theme.php');
 require (ABSPATH . WPINC . '/user.php');
