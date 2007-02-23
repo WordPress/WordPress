@@ -958,23 +958,23 @@ function do_feed() {
 }
 
 function do_feed_rdf() {
-	load_template(ABSPATH . 'wp-rdf.php');
+	load_template(ABSPATH . WPINC . '/feed-rdf.php');
 }
 
 function do_feed_rss() {
-	load_template(ABSPATH . 'wp-rss.php');
+	load_template(ABSPATH . WPINC . '/feed-rss.php');
 }
 
 function do_feed_rss2($for_comments) {
 	if ( $for_comments ) {
-		load_template(ABSPATH . 'wp-commentsrss2.php');
+		load_template(ABSPATH . WPINC . '/feed-rss2-comments.php');
 	} else {
-		load_template(ABSPATH . 'wp-rss2.php');
+		load_template(ABSPATH . WPINC . '/feed-rss2.php');
 	}
 }
 
 function do_feed_atom() {
-	load_template(ABSPATH . 'wp-atom.php');
+	load_template(ABSPATH . WPINC . '/feed-atom.php');
 }
 
 function do_robots() {
