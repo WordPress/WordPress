@@ -10,6 +10,12 @@ function get_query_var($var) {
 	return $wp_query->get($var);
 }
 
+function set_query_var($var, $value) {
+	global $wp_query;
+
+	return $wp_query->set($var, $value);
+}
+
 function &query_posts($query) {
 	unset($GLOBALS['wp_query']);
 	$GLOBALS['wp_query'] =& new WP_Query();
@@ -250,6 +256,20 @@ function the_post() {
 }
 
 /*
+ * Comments loop. 
+ */ 
+
+function have_comments() { 
+	global $wp_query; 
+	return $wp_query->have_comments(); 
+} 
+
+function the_comment() { 
+	global $wp_query; 
+	return $wp_query->the_comment(); 
+}  
+
+/*
  * WP_Query
  */
 
@@ -265,6 +285,11 @@ class WP_Query {
 	var $current_post = -1;
 	var $in_the_loop = false;
 	var $post;
+	
+	var $comments;
+	var $comment_count = 0;
+	var $current_comment = -1;
+	var $comment;
 
 	var $found_posts = 0;
 	var $max_num_pages = 0;
@@ -282,6 +307,7 @@ class WP_Query {
 	var $is_category = false;
 	var $is_search = false;
 	var $is_feed = false;
+	var $is_comment_feed = false;
 	var $is_trackback = false;
 	var $is_home = false;
 	var $is_404 = false;
@@ -305,6 +331,7 @@ class WP_Query {
 		$this->is_category = false;
 		$this->is_search = false;
 		$this->is_feed = false;
+		$this->is_comment_feed = false;
 		$this->is_trackback = false;
 		$this->is_home = false;
 		$this->is_404 = false;
@@ -536,6 +563,14 @@ class WP_Query {
 
 		if ( $this->is_single || $this->is_page || $this->is_attachment )
 			$this->is_singular = true;
+
+		if ( false !== strpos($qv['feed'], 'comments-') ) {
+			$this->query_vars['feed'] = $qv['feed'] = str_replace('comments-', '', $qv['feed']);
+			$qv['withcomments'] = 1;
+		}
+
+		if ( $this->is_feed && (!empty($qv['withcomments']) || ( empty($qv['withoutcomments']) && $this->is_singular ) ) )
+			$this->is_comment_feed = true;
 
 		if ( ! ($this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) {
 			$this->is_home = true;
@@ -966,6 +1001,38 @@ class WP_Query {
 				$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 			}
 		}
+		
+		// Comments feeds
+		if ( $this->is_comment_feed && ( $this->is_archive || $this->is_search || !$this->is_singular ) ) {
+			if ( $this->is_archive || $this->is_search ) {
+				$cjoin = "LEFT JOIN $wpdb->posts ON ($wpdb->comments.comment_post_ID = $wpdb->posts.ID) $join ";
+				$cwhere = "WHERE comment_approved = '1' $where";
+				$cgroupby = "GROUP BY $wpdb->comments.comment_id";
+			} else { // Other non singular e.g. front
+				$cjoin = "LEFT JOIN $wpdb->posts ON ( $wpdb->comments.comment_post_ID = $wpdb->posts.ID )";
+				$cwhere = "WHERE post_status = 'publish' AND comment_approved = '1'";
+				$cgroupby = '';
+			}
+			
+			$cjoin = apply_filters('comment_feed_join', $cjoin);
+			$cwhere = apply_filters('comment_feed_where', $cwhere);
+			$cgroupby = apply_filters('comment_feed_groupby', $cgroupby);
+			
+			$this->comments = (array) $wpdb->get_results("SELECT $distinct $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby ORDER BY comment_date_gmt DESC LIMIT " . get_settings('posts_per_rss'));
+			$this->comment_count = count($this->comments);
+
+			$post_ids = array();
+			
+			foreach ($this->comments as $comment)
+				$post_ids[] = (int) $comment->comment_post_ID;
+			
+			$post_ids = join(',', $post_ids);
+			$join = '';
+			if ( $post_ids )
+				$where = "AND $wpdb->posts.ID IN ($post_ids) ";
+			else
+				$where = "AND 0";
+		}
 
 		// Apply post-paging filters on where and join.  Only plugins that
 		// manipulate paging queries should use these hooks.
@@ -986,12 +1053,22 @@ class WP_Query {
 		$this->request = apply_filters('posts_request', $request);
 
 		$this->posts = $wpdb->get_results($this->request);
+
+		if ( $this->is_comment_feed && $this->is_singular ) {
+			$cjoin = apply_filters('comment_feed_join', '');
+			$cwhere = apply_filters('comment_feed_where', "WHERE comment_post_ID = {$this->posts[0]->ID} AND comment_approved = '1'");
+			$comments_request = "SELECT $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere ORDER BY comment_date_gmt DESC LIMIT " . get_settings('posts_per_rss');
+			$this->comments = $wpdb->get_results($comments_request);
+			$this->comment_count = count($this->comments);
+		}
+		
 		if ( !empty($limits) ) {
 			$found_posts_query = apply_filters( 'found_posts_query', 'SELECT FOUND_ROWS()' );
 			$this->found_posts = $wpdb->get_var( $found_posts_query );
 			$this->found_posts = apply_filters( 'found_posts', $this->found_posts );
 			$this->max_num_pages = ceil($this->found_posts / $q['posts_per_page']);
 		}
+		
 		// Check post status to determine if post should be displayed.
 		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {
 			$status = get_post_status($this->posts[0]);
@@ -1069,6 +1146,40 @@ class WP_Query {
 		$this->current_post = -1;
 		if ($this->post_count > 0) {
 			$this->post = $this->posts[0];
+		}
+	}
+	
+	function next_comment() {
+		$this->current_comment++;
+		
+		$this->comment = $this->comments[$this->current_comment];
+		return $this->comment;
+	}
+	
+	function the_comment() {
+		global $comment;
+		
+		$comment = $this->next_comment();
+		
+		if ($this->current_comment == 0) {
+			do_action('comment_loop_start');
+		}
+	}
+	
+	function have_comments() {
+		if ($this->current_comment + 1 < $this->comment_count) {
+			return true;
+		} elseif ($this->current_comment + 1 == $this->comment_count) {
+			$this->rewind_comments();
+		}
+		
+		return false;
+	}
+	
+	function rewind_comments() {
+		$this->current_comment = -1;
+		if ($this->comment_count > 0) {
+			$this->comment = $this->comments[0];
 		}
 	}
 

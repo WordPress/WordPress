@@ -8,11 +8,12 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<?php do_action('atom_ns'); ?>
 >
 	<title type="text"><?php 
-		if (is_single() || is_page()) {
+		if ( is_singular() )
 			printf(__('Comments on: %s'), get_the_title_rss());
-		} else {
-			printf(__('Comments for %s'), get_bloginfo_rss('name'));
-		}
+		elseif ( is_search() )
+			printf(__('Comments for %s searching on %s'), get_bloginfo_rss( 'name' ), attribute_escape($wp_query->query_vars['s']));
+		else
+			printf(__('Comments for %s'), get_bloginfo_rss( 'name' ) . get_wp_title_rss());
 	?></title>
 	<subtitle type="text"><?php bloginfo_rss('description'); ?></subtitle>
 	
@@ -24,39 +25,14 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 	<id><?php bloginfo_rss('comments_atom_url'); ?></id>
 
 <?php
-$i = 0;
-if (have_posts()) :
-	while (have_posts()) : the_post();
-		if ($i < 1) {
-			$i++;
-		}
-		
-		if (is_single() || is_page()) {
-			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
-			comment_author_url, comment_date, comment_date_gmt, comment_content, comment_post_ID, 
-			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
-			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE comment_post_ID = '" . get_the_ID() . "' 
-			AND $wpdb->comments.comment_approved = '1' AND $wpdb->posts.post_status = 'publish' 
-			AND post_date_gmt < '" . gmdate("Y-m-d H:i:59") . "' 
-			ORDER BY comment_date_gmt ASC" );
-		} else { // if no post id passed in, we'll just use the last posts_per_rss comments.
-			$comments = $wpdb->get_results("SELECT comment_ID, comment_author, comment_author_email, 
-			comment_author_url, comment_date, comment_date_gmt, comment_content, comment_post_ID, 
-			$wpdb->posts.ID, $wpdb->posts.post_password FROM $wpdb->comments 
-			LEFT JOIN $wpdb->posts ON comment_post_id = id WHERE $wpdb->posts.post_status = 'publish' 
-			AND $wpdb->comments.comment_approved = '1' AND post_date_gmt < '" . gmdate("Y-m-d H:i:s") . "'  
-			ORDER BY comment_date_gmt DESC LIMIT " . get_option('posts_per_rss') );
-		}
-		
-		if ($comments) {
-			foreach ($comments as $comment) {
-				$GLOBALS['comment'] =& $comment;
-				get_post_custom($comment->comment_post_ID);
+if ( have_comments() ) : while ( have_comments() ) : the_comment();
+	$comment_post = get_post($comment->comment_post_ID);
+	get_post_custom($comment_post->ID);
 ?>
 	<entry>
 		<title><?php
-			if (!(is_single() || is_page())) {
-				$title = get_the_title($comment->comment_post_ID);
+			if ( !is_singular() ) {
+				$title = get_the_title($comment_post->ID);
 				$title = apply_filters('the_title', $title);
 				$title = apply_filters('the_title_rss', $title);
 				printf(__('Comment on %1$s by %2$s'), $title, get_comment_author_rss());
@@ -69,23 +45,19 @@ if (have_posts()) :
 		<author>
 			<name><?php comment_author_rss(); ?></name>
 			<?php if (get_comment_author_url()) echo '<uri>' . get_comment_author_url() . '</uri>'; ?>
+
 		</author>
 		
 		<id><?php comment_link(); ?></id>
 		<updated><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></updated>
 		<published><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></published>
-		
-	<?php if (!empty($comment->post_password) && $_COOKIE['wp-postpass'] != $comment->post_password) { ?>
+<?php if (!empty($comment_post->post_password) && $_COOKIE['wp-postpass'] != $comment_post->post_password) : ?>
 		<content type="html" xml:base="<?php comment_link(); ?>"><![CDATA[<?php echo get_the_password_form(); ?>]]></content>
-	<?php } else { ?>
+<?php else : // post pass ?>
 		<content type="html" xml:base="<?php comment_link(); ?>"><![CDATA[<?php comment_text(); ?>]]></content>
-	<?php } ?>
-	</entry>
-<?php
-			}
-		}
-		
-	endwhile;
-endif;
+<?php endif; // post pass
+	do_action('comment_atom_entry', $comment->comment_ID, $comment_post->ID);
 ?>
+	</entry>
+<?php endwhile; endif; ?>
 </feed>

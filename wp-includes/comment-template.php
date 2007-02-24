@@ -290,7 +290,9 @@ function comments_template( $file = '/comments.php' ) {
 		$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post->ID' AND ( comment_approved = '1' OR ( comment_author = '$author_db' AND comment_author_email = '$email_db' AND comment_approved = '0' ) ) ORDER BY comment_date");
 	}
 
-	$comments = apply_filters( 'comments_array', $comments, $post->ID );
+	// keep $comments for legacy's sake (remember $table*? ;) )
+	$comments = $wp_query->comments = apply_filters( 'comments_array', $comments, $post->ID );
+	$wp_query->comment_count = count($wp_query->comments);
 
 	define('COMMENTS_TEMPLATE', true);
 	$include = apply_filters('comments_template', TEMPLATEPATH . $file );

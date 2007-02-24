@@ -10,6 +10,11 @@ function bloginfo_rss($show = '') {
 	echo get_bloginfo_rss($show);
 }
 
+function get_wp_title_rss($sep = '&#187;') {
+	$title = wp_title($sep, false);
+	$title = apply_filters('get_wp_title_rss', $title);
+	return $title;
+}
 
 function get_the_title_rss() {
 	$title = get_the_title();
