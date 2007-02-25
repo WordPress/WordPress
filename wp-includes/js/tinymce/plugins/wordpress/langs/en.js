@@ -29,5 +29,5 @@ justifyfull_desc : 'Align full (' + metaKey + '+j)',
 bullist_desc : 'Unordered list (' + metaKey + '+l)',
 numlist_desc : 'Ordered list (' + metaKey + '+o)',
 outdent_desc : 'Outdent (' + metaKey + '+w)',
-indent_desc : 'Indent List/Blockquote (' + metaKey + '+q)'
+indent_desc : 'Indent list/blockquote (' + metaKey + '+q)'
 });
