@@ -95,7 +95,7 @@ function comment_text_rss() {
 
 
 function comments_rss_link($link_text = 'Comments RSS', $commentsrssfilename = 'nolongerused') {
-	$url = get_post_comments_feed_link();;
+	$url = get_post_comments_feed_link();
 	echo "<a href='$url'>$link_text</a>";
 }
 

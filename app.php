@@ -558,7 +558,7 @@ EOD;
 		elseif ( isset( $_SERVER['HTTP_TITLE'] ) )
 			$slug = sanitize_file_name( $_SERVER['HTTP_TITLE'] );
 		elseif ( empty( $slug ) ) // just make a random name
-			$slug = substr( md5( uniqid( microtime() ) ), 0, 7);;
+			$slug = substr( md5( uniqid( microtime() ) ), 0, 7);
 		$ext = preg_replace( '|.*/([a-z]+)|', '$1', $_SERVER['CONTENT_TYPE'] );
 		$slug = "$slug.$ext";
 		$file = wp_upload_bits( $slug, NULL, $bits);
