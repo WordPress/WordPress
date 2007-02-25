@@ -35,7 +35,7 @@ if ( ! empty($cat_ID) ) {
 		<tr>
 			<th scope="row" valign="top"><label for="category_parent"><?php _e('Category parent:') ?></label></th>
 			<td>        
-	  			<?php wp_dropdown_categories('hide_empty=0&name=category_parent&selected=' . $category->category_parent . '&hierarchical=1&show_option_none=' . __('None')); ?>
+	  			<?php wp_dropdown_categories('hide_empty=0&name=category_parent&orderby=name&selected=' . $category->category_parent . '&hierarchical=1&show_option_none=' . __('None')); ?>
 	  		</td>
 		</tr>
 		<tr>
