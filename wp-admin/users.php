@@ -450,7 +450,7 @@ foreach ( (array) $roleclass as $user_object ) {
 
 <div class="narrow">
 
-<?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-register.php').'</p>'; ?>
+<?php echo '<p>'.sprintf(__('Users can <a href="%1$s">register themselves</a> or you can manually create users here.'), get_option('siteurl').'/wp-login.php?action=register').'</p>'; ?>
 <form action="#add-new-user" method="post" name="adduser" id="adduser">
 <?php wp_nonce_field('add-user') ?>
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
