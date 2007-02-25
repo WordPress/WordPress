@@ -18,7 +18,7 @@ if ( empty($status->comment_status) ) {
 	exit;
 }
 
-$comment_author       = trim($_POST['author']);
+$comment_author       = trim(strip_tags($_POST['author']));
 $comment_author_email = trim($_POST['email']);
 $comment_author_url   = trim($_POST['url']);
 $comment_content      = trim($_POST['comment']);
