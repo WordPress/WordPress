@@ -3,7 +3,7 @@
    /**
     * mail_fetch/setup.php
     *
-    * Copyright (c) 1999-2002 The SquirrelMail Project Team
+    * Copyright (c) 1999-2006 The SquirrelMail Project Team
     *
     * Copyright (c) 1999 CDI (cdi@thewebmasters.net) All Rights Reserved
     * Modified by Philippe Mingo 2001 mingo@rotedic.com
@@ -40,9 +40,6 @@ class POP3 {
     var $BANNER     = '';       //  Holds the banner returned by the
                                 //  pop server - used for apop()
 
-    var $RFC1939    = TRUE;     //  Set by noop(). See rfc1939.txt
-                                //
-
     var $ALLOWAPOP  = FALSE;    //  Allow or disallow apop()
                                 //  This must be set to true
                                 //  manually
@@ -59,12 +56,14 @@ class POP3 {
         if(!empty($timeout)) {
             settype($timeout,"integer");
             $this->TIMEOUT = $timeout;
+            if (!ini_get('safe_mode'))
             set_time_limit($timeout);
         }
         return true;
     }
 
     function update_timer () {
+        if (!ini_get('safe_mode'))
         set_time_limit($this->TIMEOUT);
         return true;
     }
@@ -75,6 +74,7 @@ class POP3 {
 
         // If MAILSERVER is set, override $server with it's value
 
+        if (!isset($port) || !$port) {$port = 110;}
         if(!empty($this->MAILSERVER))
             $server = $this->MAILSERVER;
 
@@ -84,7 +84,7 @@ class POP3 {
             return false;
         }
 
-        $fp = fsockopen("$server", $port, $errno, $errstr);
+        $fp = @fsockopen("$server", $port, $errno, $errstr);
 
         if(!$fp) {
             $this->ERROR = _("POP3 connect:") . ' ' . _("Error ") . "[$errno] [$errstr]";
@@ -105,25 +105,7 @@ class POP3 {
         }
         $this->FP = $fp;
         $this->BANNER = $this->parse_banner($reply);
-        $this->RFC1939 = $this->noop();
-        if($this->RFC1939) {
-            $this->ERROR = _("POP3: premature NOOP OK, NOT an RFC 1939 Compliant server");
-            $this->quit();
-            return false;
-        } else
-            return true;
-    }
-
-    function noop () {
-    
-        if(!isset($this->FP)) {
-            $this->ERROR = _("POP3 noop:") . ' ' . _("No connection to server");
-            return false;
-        } else {
-            $cmd = "NOOP";
-            $reply = $this->send_cmd( $cmd );
-            return( $this->is_ok( $reply ) );
-        }
+        return true;
     }
 
     function user ($user = "") {
@@ -158,20 +140,14 @@ class POP3 {
         } else {
             $reply = $this->send_cmd("PASS $pass");
             if(!$this->is_ok($reply)) {
-                $this->ERROR = _("POP3 pass:") . ' ' . _("authentication failed ") . "[$reply]";
+                $this->ERROR = _("POP3 pass:") . ' ' . _("Authentication failed ") . "[$reply]";
                 $this->quit();
                 return false;
             } else {
                 //  Auth successful.
                 $count = $this->last("count");
                 $this->COUNT = $count;
-                $this->RFC1939 = $this->noop();
-                if(!$this->RFC1939) {
-                    $this->ERROR = _("POP3 pass:") . ' ' . _("NOOP failed. Server not RFC 1939 compliant");
-                    $this->quit();
-                    return false;
-                } else
-                    return $count;
+                return $count;
             }
         }
     }
@@ -214,13 +190,7 @@ class POP3 {
                     //  Auth successful.
                     $count = $this->last("count");
                     $this->COUNT = $count;
-                    $this->RFC1939 = $this->noop();
-                    if(!$this->RFC1939) {
-                        $this->ERROR = _("POP3 apop:") . ' ' . _("NOOP failed. Server not RFC 1939 compliant");
-                        $this->quit();
-                        return false;
-                    } else
-                        return $count;
+                    return $count;
                 }
             }
         }
@@ -330,7 +300,7 @@ class POP3 {
                 $this->ERROR = _("POP3 pop_list:") . ' ' . _("Error ") . "[$reply]";
                 return false;
             }
-            list($junk,$num,$size) = explode(" ",$reply);
+            list($junk,$num,$size) = preg_split('/\s+/',$reply);
             return $size;
         }
         $cmd = "LIST";
@@ -353,7 +323,7 @@ class POP3 {
                 $this->ERROR = _("POP3 pop_list:") . ' ' . _("Premature end of list");
                 return false;
             }
-            list($thisMsg,$msgSize) = explode(" ",$line);
+            list($thisMsg,$msgSize) = preg_split('/\s+/',$line);
             settype($thisMsg,"integer");
             if($thisMsg != $msgC)
             {
@@ -428,7 +398,7 @@ class POP3 {
             return $last;
         }
 
-        $Vars = explode(" ",$reply);
+        $Vars = preg_split('/\s+/',$reply);
         $count = $Vars[1];
         $size = $Vars[2];
         settype($count,"integer");
@@ -559,7 +529,7 @@ class POP3 {
                 $this->ERROR = _("POP3 uidl:") . ' ' . _("Error ") . "[$reply]";
                 return false;
             }
-            list ($ok,$num,$myUidl) = explode(" ",$reply);
+            list ($ok,$num,$myUidl) = preg_split('/\s+/',$reply);
             return $myUidl;
         } else {
             $this->update_timer();
@@ -590,7 +560,7 @@ class POP3 {
                 if(ereg("^\.\r\n",$line)) {
                     break;
                 }
-                list ($msg,$msgUidl) = explode(" ",$line);
+                list ($msg,$msgUidl) = preg_split('/\s+/',$line);
                 $msgUidl = $this->strip_clf($msgUidl);
                 if($count == $msg) {
                     $UIDLArray[$msg] = $msgUidl;
@@ -661,7 +631,7 @@ class POP3 {
         for($count =0; $count < $length; $count++)
         {
             $digit = substr($server_text, $count, 1);
-            if ( false !== $digit ) {
+            if (!empty($digit)) {
                 if( (!$outside) && ($digit != '<') && ($digit != '>') )
                 {
                     $banner .= $digit;
