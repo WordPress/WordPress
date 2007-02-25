@@ -85,8 +85,8 @@ class WP_User_Search {
 			$this->paging_text = paginate_links( array(
 				'total' => ceil($this->total_users_for_query / $this->users_per_page),
 				'current' => $this->page,
-				'prev_text' => '&laquo; Previous Page',
-				'next_text' => 'Next Page &raquo;',
+				'prev_text' => __('&laquo; Previous Page'),
+				'next_text' => __('Next Page &raquo;'),
 				'base' => 'users.php?%_%',
 				'format' => 'userspage=%#%',
 				'add_args' => array( 'usersearch' => urlencode($this->search_term) )
