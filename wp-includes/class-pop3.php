@@ -393,13 +393,18 @@ class POP3 {
         $count = 0;
         $MsgArray = array();
 
-        $line = fgets($fp,$buffer);
+        $line = "";
         while ( !ereg("^\.\r\n",$line))
         {
+            $line = fgets($fp,$buffer);
+            if (preg_match("/^\s+/", $line) && $count > 0) {
+                $MsgArray[$count-1] .= $line;
+                continue;
+            }
+            if(empty($line))    { break; }
+
             $MsgArray[$count] = $line;
             $count++;
-            $line = fgets($fp,$buffer);
-            if(empty($line))    { break; }
         }
         return $MsgArray;
     }
