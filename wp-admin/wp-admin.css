@@ -292,6 +292,11 @@ form#upload #post_content {
 	margin: 0;
 }
 
+.commentlist li li {
+	border-bottom: 0px;
+	padding: 0;
+}
+
 .commentlist p {
 	padding: 0;
 	margin: 0 0 .8em;
