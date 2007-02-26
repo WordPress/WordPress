@@ -157,7 +157,7 @@ endif;
 if ( !function_exists('wp_mail') ) :
 function wp_mail($to, $subject, $message, $headers = '') {
 	global $phpmailer;
-	error_log("mailing $subject\n", 0);
+
 	if ( !is_object( $phpmailer ) ) {
 		require_once(ABSPATH . WPINC . '/class-phpmailer.php');
 		require_once(ABSPATH . WPINC . '/class-smtp.php');
@@ -213,7 +213,7 @@ function wp_mail($to, $subject, $message, $headers = '') {
 	}
 
 	$result = @$phpmailer->Send();
-	error_log("mailing result $result\n", 0);
+
 	return $result;
 }
 endif;
