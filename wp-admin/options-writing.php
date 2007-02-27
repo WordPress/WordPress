@@ -103,7 +103,7 @@ endforeach;
 
 <?php else : ?>
 
-	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your blog\'s <a href="%s">privacy settings</a>'), 'options-privacy.php'); ?>
+	<p><?php printf(__('WordPress is not notifying any <a href="http://codex.wordpress.org/Update_Services">Update Services</a> because of your blog\'s <a href="%s">privacy settings</a>.'), 'options-privacy.php'); ?>
 
 <?php endif; ?>
 
