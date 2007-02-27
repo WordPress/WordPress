@@ -504,7 +504,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if(empty($category["description"])) {
 			$category["description"] = "";
 		}
-		
+	
 		$new_category = array(
 			"cat_name"				=> $category["name"],
 			"category_nicename"		=> $category["slug"],

@@ -351,15 +351,15 @@ function wp_get_archives($args = '') {
 	} elseif ('yearly' == $type) {
          $arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts WHERE post_type ='post' AND post_status = 'publish' GROUP BY YEAR(post_date) ORDER BY post_date DESC" . $limit);
 		if ($arcresults) {
-            $afterafter = $after;
-            foreach ($arcresults as $arcresult) {
-			    $url = get_year_link($arcresult->year);
-                $text = sprintf('%d', $arcresult->year);
+			$afterafter = $after;
+			foreach ($arcresults as $arcresult) {
+				$url = get_year_link($arcresult->year);
+				$text = sprintf('%d', $arcresult->year);
 				if ($show_post_count)
-                    $after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
-                echo get_archives_link($url, $text, $format, $before, $after);
-            }
-		}		  	
+					$after = '&nbsp;('.$arcresult->posts.')' . $afterafter;
+				echo get_archives_link($url, $text, $format, $before, $after);
+			}
+		}
 	} elseif ( 'daily' == $type ) {
 		$arcresults = $wpdb->get_results("SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date DESC" . $limit);
 		if ( $arcresults ) {

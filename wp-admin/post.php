@@ -47,7 +47,7 @@ case 'edit':
 	$editing = true;
 	$post_ID = $p = (int) $_GET['post'];
 	$post = get_post($post_ID);
-	
+
 	if ( 'page' == $post->post_type ) {
 		wp_redirect("page.php?action=edit&post=$post_ID");
 		exit();
@@ -119,7 +119,7 @@ case 'editpost':
 		if ( !empty($_POST['referredby']) )
 			$referredby = preg_replace('|https?://[^/]+|i', '', $_POST['referredby']);
 		$referer = preg_replace('|https?://[^/]+|i', '', wp_get_referer());
-	
+
 		if ($_POST['save']) {
 			$location = "post.php?action=edit&post=$post_ID";
 		} elseif ($_POST['updatemeta']) {

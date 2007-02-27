@@ -200,7 +200,7 @@ function is_single ($post = '') {
 function is_singular() {
 	global $wp_query;
 
-	return $wp_query->is_singular;	
+	return $wp_query->is_singular;
 }
 
 function is_time () {
@@ -285,7 +285,7 @@ class WP_Query {
 	var $current_post = -1;
 	var $in_the_loop = false;
 	var $post;
-	
+
 	var $comments;
 	var $comment_count = 0;
 	var $current_comment = -1;
@@ -360,7 +360,7 @@ class WP_Query {
 	function parse_query_vars() {
 		$this->parse_query('');
 	}
-	
+
 	function fill_query_vars($array) {
 		$keys = array(
 			'error'
@@ -395,7 +395,7 @@ class WP_Query {
 			if ( !isset($array[$key]))
 				$array[$key] = '';
 		}
-		
+
 		return $array;
 	}
 
@@ -410,9 +410,9 @@ class WP_Query {
 			$this->query = $query;
 			$this->query_vars = $qv;
 		}
-		
+
 		$qv = $this->fill_query_vars($qv);
-		
+
 		if ( ! empty($qv['robots']) ) {
 			$this->is_robots = true;
 			return;
@@ -609,7 +609,7 @@ class WP_Query {
 
 		// Shorthand.
 		$q = &$this->query_vars;
-		
+
 		$q = $this->fill_query_vars($q);
 
 		// First let's clear some variables
@@ -1001,7 +1001,7 @@ class WP_Query {
 				$limits = 'LIMIT ' . $pgstrt . $q['posts_per_page'];
 			}
 		}
-		
+
 		// Comments feeds
 		if ( $this->is_comment_feed && ( $this->is_archive || $this->is_search || !$this->is_singular ) ) {
 			if ( $this->is_archive || $this->is_search ) {
@@ -1013,19 +1013,19 @@ class WP_Query {
 				$cwhere = "WHERE post_status = 'publish' AND comment_approved = '1'";
 				$cgroupby = '';
 			}
-			
+
 			$cjoin = apply_filters('comment_feed_join', $cjoin);
 			$cwhere = apply_filters('comment_feed_where', $cwhere);
 			$cgroupby = apply_filters('comment_feed_groupby', $cgroupby);
-			
+
 			$this->comments = (array) $wpdb->get_results("SELECT $distinct $wpdb->comments.* FROM $wpdb->comments $cjoin $cwhere $cgroupby ORDER BY comment_date_gmt DESC LIMIT " . get_settings('posts_per_rss'));
 			$this->comment_count = count($this->comments);
 
 			$post_ids = array();
-			
+
 			foreach ($this->comments as $comment)
 				$post_ids[] = (int) $comment->comment_post_ID;
-			
+
 			$post_ids = join(',', $post_ids);
 			$join = '';
 			if ( $post_ids )
@@ -1061,14 +1061,14 @@ class WP_Query {
 			$this->comments = $wpdb->get_results($comments_request);
 			$this->comment_count = count($this->comments);
 		}
-		
+
 		if ( !empty($limits) ) {
 			$found_posts_query = apply_filters( 'found_posts_query', 'SELECT FOUND_ROWS()' );
 			$this->found_posts = $wpdb->get_var( $found_posts_query );
 			$this->found_posts = apply_filters( 'found_posts', $this->found_posts );
 			$this->max_num_pages = ceil($this->found_posts / $q['posts_per_page']);
 		}
-		
+
 		// Check post status to determine if post should be displayed.
 		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {
 			$status = get_post_status($this->posts[0]);
@@ -1148,34 +1148,34 @@ class WP_Query {
 			$this->post = $this->posts[0];
 		}
 	}
-	
+
 	function next_comment() {
 		$this->current_comment++;
-		
+
 		$this->comment = $this->comments[$this->current_comment];
 		return $this->comment;
 	}
-	
+
 	function the_comment() {
 		global $comment;
-		
+
 		$comment = $this->next_comment();
-		
+
 		if ($this->current_comment == 0) {
 			do_action('comment_loop_start');
 		}
 	}
-	
+
 	function have_comments() {
 		if ($this->current_comment + 1 < $this->comment_count) {
 			return true;
 		} elseif ($this->current_comment + 1 == $this->comment_count) {
 			$this->rewind_comments();
 		}
-		
+
 		return false;
 	}
-	
+
 	function rewind_comments() {
 		$this->current_comment = -1;
 		if ($this->comment_count > 0) {

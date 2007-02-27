@@ -17,7 +17,7 @@ class Custom_Image_Header {
 
 	function js_includes() {
 		wp_enqueue_script('cropper');
-		wp_enqueue_script('colorpicker');	
+		wp_enqueue_script('colorpicker');
 	}
 
 	function js() {
@@ -115,7 +115,7 @@ class Custom_Image_Header {
 	function colorDefault() {
 		pickColor('<?php echo HEADER_TEXTCOLOR; ?>');
 	}
-	
+
 	function hide_text() {
 		$('name').style.display = 'none';
 		$('desc').style.display = 'none';
@@ -126,7 +126,7 @@ class Custom_Image_Header {
 //		$('hidetext').onclick = 'show_text()';
 		Event.observe( $('hidetext'), 'click', show_text );
 	}
-	
+
 	function show_text() {
 		$('name').style.display = 'block';
 		$('desc').style.display = 'block';
@@ -134,7 +134,7 @@ class Custom_Image_Header {
 		$('defaultcolor').style.display = 'inline';
 		$('textcolor').value = '<?php echo HEADER_TEXTCOLOR; ?>';
 		$('hidetext').value = '<?php _e('Hide Text'); ?>';
-		Event.stopObserving( $('hidetext'), 'click', show_text );	
+		Event.stopObserving( $('hidetext'), 'click', show_text );
 		Event.observe( $('hidetext'), 'click', hide_text );
 	}
 

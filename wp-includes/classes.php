@@ -414,16 +414,16 @@ class Walker {
 					$cb_args = array_merge( array($output, $element, $depth - 1), $args);
 					$output = call_user_func_array(array(&$this, 'start_el'), $cb_args);
 				}
-	
+
 				// End the element.
 				if ( isset($element->$id_field) && $element->$id_field != 0 ) {
 					$cb_args = array_merge( array($output, $element, $depth - 1), $args);
 					$output = call_user_func_array(array(&$this, 'end_el'), $cb_args);
 				}
-	
-				continue;	
+
+				continue;
 			}
-	
+
 			// Walk the tree.
 			if ( !empty($previous_element) && ($element->$parent_field == $previous_element->$id_field) ) {
 				// Previous element is my parent. Descend a level.
@@ -512,19 +512,19 @@ class Walker_Page extends Walker {
 			$css_class .= ' current_page_parent';
 
 		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . attribute_escape($page->post_title) . '">' . $page->post_title . '</a>';
-	
+
 		if ( !empty($show_date) ) {
 			if ( 'modified' == $show_date )
 				$time = $page->post_modified;
 			else
 				$time = $page->post_date;
-	
+
 			$output .= " " . mysql2date($date_format, $time);
 		}
 
 		return $output;
 	}
-	
+
 	function end_el($output, $page, $depth) {
 		$output .= "</li>\n";
 
@@ -613,10 +613,10 @@ class Walker_Category extends Walker {
 			if ( empty($feed_image) )
 				$link .= ')';
 		}
-	
+
 		if ( isset($show_count) && $show_count )
 			$link .= ' (' . intval($category->category_count) . ')';
-	
+
 		if ( isset($show_date) && $show_date ) {
 			$link .= ' ' . gmdate('Y-m-d', $category->last_update_timestamp);
 		}

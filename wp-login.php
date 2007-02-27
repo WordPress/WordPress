@@ -96,7 +96,7 @@ case 'retrievepassword' :
 			$errors['user_email'] = __('<strong>ERROR</strong>: The e-mail field is empty.');
 
 		do_action('lostpassword_post');
-		
+
 		if ( empty( $errors ) ) {
 			$user_data = get_userdatabylogin(trim($_POST['user_login']));
 			// redefining user_login ensures we return the right case in the email
@@ -328,7 +328,7 @@ default:
 				$errors['expiredsession'] = __('Your session has expired.');
 		}
 	}
-	
+
 	if ( $_POST && empty( $user_login ) )
 		$errors['user_login'] = __('<strong>ERROR</strong>: The username field is empty.');
 	if ( $_POST && empty( $user_pass ) )

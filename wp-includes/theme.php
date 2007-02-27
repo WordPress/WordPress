@@ -186,7 +186,7 @@ function get_themes() {
 		if ( !file_exists("$theme_root/$template/index.php") ) {
 			$parent_dir = dirname(dirname($theme_file));
 			if ( file_exists("$theme_root/$parent_dir/$template/index.php") ) {
-				$template = "$parent_dir/$template"; 	
+				$template = "$parent_dir/$template"; 
 			} else {
 				$wp_broken_themes[$name] = array('Name' => $name, 'Title' => $title, 'Description' => __('Template is missing.'));
 				continue;
@@ -484,7 +484,7 @@ function get_header_textcolor() {
 }
 
 function header_textcolor() {
-	echo get_header_textcolor();	
+	echo get_header_textcolor();
 }
 
 function get_header_image() {
@@ -492,7 +492,7 @@ function get_header_image() {
 }
 
 function header_image() {
-	echo get_header_image();	
+	echo get_header_image();
 }
 
 function add_custom_image_header($header_callback, $admin_header_callback) {

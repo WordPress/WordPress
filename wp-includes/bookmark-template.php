@@ -342,7 +342,7 @@ function wp_list_bookmarks($args = '') {
 	} else {
 		//output one single list using title_li for the title
 		$bookmarks = get_bookmarks("limit=$limit&category=$category&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_invisible&show_updated=$show_updated");
-		
+
 		if ( !empty($bookmarks) ) {
 			if ( !empty( $title_li ) ){
 				$output .= str_replace(array('%id', '%class'), array("linkcat-$category", $class), $category_before);

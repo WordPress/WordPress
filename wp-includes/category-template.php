@@ -247,7 +247,7 @@ function wp_list_categories($args = '') {
 			$output .= __("No categories");
 	} else {
 		global $wp_query;
-		
+
 		if ( is_category() )
 			$r['current_category'] = $wp_query->get_queried_object_id();
 

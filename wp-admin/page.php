@@ -107,7 +107,7 @@ case 'editpost':
 		}
 
 		if ( isset($_POST['save']) )
-			$location = "page.php?action=edit&post=$page_ID";		
+			$location = "page.php?action=edit&post=$page_ID";
 	} else {
 		if ($_POST['save']) {
 			$location = "page.php?action=edit&post=$page_ID";

@@ -55,7 +55,7 @@ class Blogger_Import {
 			return false;
 		}
 		$this->token = $matches[1];
-		
+
 		wp_redirect( remove_query_arg( array( 'token', 'noheader' ) ) );
 	}
 
@@ -369,9 +369,9 @@ class Blogger_Import {
 				$sock = $this->_get_blogger_sock( $blog['host'] );
 				if ( ! $sock ) return; // TODO: Error handling
 				$response = $this->_txrx( $sock, $request );
-	
+
 				$response = $this->parse_response( $response );
-	
+
 				// Extract the entries and send for insertion
 				preg_match_all( '/<entry[^>]*>.*?<\/entry>/s', $response['body'], $matches );
 				if ( count( $matches[0] ) ) {
@@ -437,7 +437,7 @@ class Blogger_Import {
 					foreach ( $entries as $entry ) {
 						$entry = "<feed>$entry</feed>";
 						$AtomParser = new AtomParser();
-						$AtomParser->parse( $entry );	
+						$AtomParser->parse( $entry );
 						$this->import_comment($AtomParser->entry);
 						unset($AtomParser);
 					}
@@ -623,7 +623,7 @@ class Blogger_Import {
 			$sel = ( $user->user_id == $current ) ? " selected='selected'" : '';
 			$options .= "<option value='$user->user_id'$sel>$user->display_name</option>";
 		}
-		
+
 		return $options;
 	}
 
@@ -706,7 +706,7 @@ class Blogger_Import {
 	function restart() {
 		global $wpdb;
 		$options = get_option( 'blogger_importer' );
-		
+
 		if ( isset( $options['token'] ) )
 			$this->revoke( $options['token'] );
 
@@ -922,7 +922,7 @@ class AtomParser {
 		} else if($tag == 'category') {
 			array_push($this->entry->categories, $attrs['term']);
 		}
-		
+
 		$this->ns_decls = array();
 	}
 
@@ -950,7 +950,7 @@ class AtomParser {
 		}
 
 		array_shift($this->ns_contexts);
-		
+
 		#print str_repeat(" ", $this->depth * $this->indent) . "end_element('$name')" ."\n";
 
 		$this->depth--;

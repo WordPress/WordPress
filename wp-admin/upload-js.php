@@ -189,7 +189,7 @@ addLoadEvent( function() {
 
 			new Insertion.Top('upload-content', h);
 			if (e) Event.stop(e);
-			return false;		
+			return false;
 		},
 
 		prepView: function(id) {
@@ -264,7 +264,7 @@ addLoadEvent( function() {
 			}
 			return false;
 		}
-			
+
 	};
 	theFileList.initializeVars();
 	theFileList.initializeLinks();

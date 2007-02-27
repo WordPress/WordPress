@@ -386,7 +386,7 @@ class WP_Object_Cache {
 	function WP_Object_Cache() {
 		return $this->__construct();
 	}
-	
+
 	function __construct() {
 		global $blog_id;
 
@@ -429,7 +429,7 @@ class WP_Object_Cache {
 
 	function __destruct() {
 		$this->save();
-		return true;	
+		return true;
 	}
 }
 ?>

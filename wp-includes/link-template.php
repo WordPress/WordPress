@@ -262,7 +262,7 @@ function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
 		$url = get_option('home') . "/?feed=$feed&amp;p=$id";
 	}
 
-	return apply_filters('post_comments_feed_link', $url);	
+	return apply_filters('post_comments_feed_link', $url);
 }
 
 function edit_post_link($link = 'Edit This', $before = '', $after = '') {

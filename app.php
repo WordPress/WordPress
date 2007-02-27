@@ -23,7 +23,7 @@ if ($use_querystring) {
 	$eid = (int) $_GET['eid'];
 
 	$_SERVER['PATH_INFO'] = $action;
-	
+
 	if ($eid) {
 		$_SERVER['PATH_INFO'] .= "/$eid";
 	}
@@ -173,7 +173,7 @@ class AtomParser {
 		} else if($tag == 'category') {
 			array_push($this->entry->categories, $attrs);
 		}
-		
+
 		$this->ns_decls = array();
 	}
 
@@ -201,7 +201,7 @@ class AtomParser {
 		}
 
 		array_shift($this->ns_contexts);
-		
+
 		#print str_repeat(" ", $this->depth * $this->indent) . "end_element('$name')" ."\n";
 
 		$this->depth--;
@@ -342,7 +342,7 @@ class AtomServer {
 					exit();
 				} else {
 					// only allow what we have handlers for...
-					$this->not_allowed(array_keys($funcs));	
+					$this->not_allowed(array_keys($funcs));
 				}
 			}
 		}
@@ -453,7 +453,7 @@ EOD;
 	}
 
 	function put_post($postID) {
-		
+
 		// checked for valid content-types (atom+xml)
 		// quick check and exit
 		$this->get_accepted_content_type($this->atom_content_types);
@@ -508,9 +508,9 @@ EOD;
 		if(!current_user_can('edit_post', $postID)) {
 			$this->auth_required('Sorry, you do not have the right to delete this post.');
 		}
-		
+
 		if ($entry['post_type'] == 'attachment') {
-			$this->delete_attachment($postID);		
+			$this->delete_attachment($postID);
 		} else {
 			$result = wp_delete_post($postID);
 
@@ -523,7 +523,7 @@ EOD;
 		}
 
 	}
-	
+
 	function get_attachment($postID = NULL) {
 
 		global $entry;
@@ -551,7 +551,7 @@ EOD;
 			$bits .= fread($fp, 4096);
 		}
 		fclose($fp);
-		
+
 		$slug = '';
 		if ( isset( $_SERVER['HTTP_SLUG'] ) )
 			$slug = sanitize_file_name( $_SERVER['HTTP_SLUG'] );
@@ -564,7 +564,7 @@ EOD;
 		$file = wp_upload_bits( $slug, NULL, $bits);
 
 		log_app('wp_upload_bits returns:',print_r($file,true));
-		
+
 		$url = $file['url'];
 		$file = $file['file'];
 		$filename = basename($file);
@@ -718,7 +718,7 @@ EOD;
 		}
 		fclose($fp);
 		fclose($localfp);
-	
+
 		log_app('function',"put_file($postID)");
 		$this->ok();
 	}
@@ -760,7 +760,7 @@ EOD;
 		$url = $this->get_categories_url();
 		echo $url;
     }
-	
+
 	function get_attachments_url($page = NULL) {
 		global $use_querystring;
 		$url = get_bloginfo('url') . '/' . $this->script_name;
@@ -790,7 +790,7 @@ EOD;
 			global $post;
 			$postID = $GLOBALS['post']->ID;
 		}
-		
+
 		if ($use_querystring) {
 			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->ENTRY_PATH . "&amp;eid=$postID";
 		} else {
@@ -812,7 +812,7 @@ EOD;
 			global $post;
 			$postID = $GLOBALS['post']->ID;
 		}
-		
+
 		if ($use_querystring) {
 			$url = get_bloginfo('url') . '/' . $this->script_name . '?action=/' . $this->MEDIA_SINGLE_PATH ."&amp;eid=$postID";
 		} else {
@@ -873,8 +873,8 @@ EOD;
 			$page = 1;
 		}
 		$page = (int) $page;
-		
-		$count = get_option('posts_per_rss');	
+
+		$count = get_option('posts_per_rss');
 		$query = "paged=$page&posts_per_page=$count&order=DESC";
 		if($post_type == 'attachment') {
 			$query .= "&post_type=$post_type";
@@ -887,7 +887,7 @@ EOD;
 		$wpdb = $GLOBALS['wpdb'];
 		$blog_id = $GLOBALS['blog_id'];
 		$post_cache = $GLOBALS['post_cache'];
-		
+
 
 		$total_count = $this->get_posts_count();
 		$last_page = (int) ceil($total_count / $count);
@@ -1056,7 +1056,7 @@ $post = $GLOBALS['post'];
 		header('Content-Type: text/plain');
 		exit;
 	}
-	
+
 	function not_found() {
 		log_app('Status','404: Not Found');
 		header('Content-Type: text/plain');
@@ -1077,7 +1077,7 @@ $post = $GLOBALS['post'];
 		status_header('400');
 		exit;
 	}
-	
+
 	function created($post_ID, $content, $post_type = 'post') {
 		global $use_querystring;
 		log_app('created()::$post_ID',"$post_ID, $post_type");
@@ -1151,7 +1151,7 @@ $post = $GLOBALS['post'];
 	function authenticate() {
 		$login_data = array();
 		$already_md5 = false;
-		
+
 		log_app("authenticate()",print_r($_ENV, true));
 
 		// if using mod_rewrite/ENV hack
@@ -1209,7 +1209,7 @@ $post = $GLOBALS['post'];
 
 
 	function process_conditionals() {
-		
+
 		if(empty($this->params)) return;
 		if($_SERVER['REQUEST_METHOD'] == 'DELETE') return;
 
@@ -1240,7 +1240,7 @@ $post = $GLOBALS['post'];
 		// If string is empty, return 0. If not, attempt to parse into a timestamp
 		$client_modified_timestamp = $client_last_modified ? strtotime($client_last_modified) : 0;
 
-		// Make a timestamp for our most recent modification...	
+		// Make a timestamp for our most recent modification...
 		$wp_modified_timestamp = strtotime($wp_last_modified);
 
 		if ( ($client_last_modified && $client_etag) ?

@@ -28,7 +28,7 @@ function autosave_cur_time() {
 	((now.getMinutes() < 10) ? ":0" : ":") + now.getMinutes() +
 	((now.getSeconds() < 10) ? ":0" : ":") + now.getSeconds();
 }
-	
+
 function autosave_update_nonce() {
 	var response = nonceAjax.response;
 	document.getElementsByName('_wpnonce')[0].value = response;
@@ -38,7 +38,7 @@ function autosave_update_post_ID() {
 	var response = autosaveAjax.response;
 	var res = parseInt(response);
 	var message;
-	
+
 	if(isNaN(res)) {
 		message = "<?php echo js_escape(__('Error: ')); ?>" + response;
 	} else {
@@ -70,7 +70,7 @@ function autosave_saved() {
 	var response = autosaveAjax.response;
 	var res = parseInt(response);
 	var message;
-	
+
 	if(isNaN(res)) {
 		message = "<?php echo js_escape(__('Error: ')); ?>" + response;
 	} else {
@@ -127,7 +127,7 @@ function autosave() {
 			goodcats.push(cats[i].value);
 	}
 	catslist = goodcats.join(",");
-	
+
 	autosaveAjax.setVar("action", "autosave");
 	autosaveAjax.setVar("cookie", document.cookie);
 	autosaveAjax.setVar("catslist", catslist);
@@ -139,15 +139,15 @@ function autosave() {
 	if ( form.ping_status.checked )
 		autosaveAjax.setVar("ping_status", 'open');
 	if(form.excerpt)
-		autosaveAjax.setVar("excerpt", form.excerpt.value);		
-		
+		autosaveAjax.setVar("excerpt", form.excerpt.value);
+
 	if ( typeof tinyMCE == "undefined" || tinyMCE.configs.length < 1 || rich == false ) {
 		autosaveAjax.setVar("content", form.content.value);
 	} else {
 		tinyMCE.wpTriggerSave();
 		autosaveAjax.setVar("content", form.content.value);
 	}
-		
+
 	autosaveAjax.requestFile = "<?php echo get_option('siteurl'); ?>/wp-admin/admin-ajax.php";
 	autosaveAjax.method = "POST";
 	autosaveAjax.element = null;

@@ -40,7 +40,7 @@
 
 	$mce_browsers = apply_filters('mce_browsers', array('msie', 'gecko', 'opera', 'safari'));
 	$mce_browsers = implode($mce_browsers, ',');
-	
+
 	$mce_popups_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/popups.css';
 	$mce_css = get_option('siteurl') . '/wp-includes/js/tinymce/plugins/wordpress/wordpress.css';
 	$mce_css = apply_filters('mce_css', $mce_css);

@@ -13,13 +13,13 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	}
 	if ( isset($attachment_data['width']) )
 		list($width,$height) = wp_shrink_dimensions($attachment_data['width'], $attachment_data['height'], 171, 128);
-		
+
 	ob_start();
 		the_title();
 		$post_title = attribute_escape(ob_get_contents());
 	ob_end_clean();
 	$post_content = apply_filters( 'content_edit_pre', $post->post_content );
-	
+
 	$class = 'text';
 	$innerHTML = get_attachment_innerHTML( $id, false, $dims );
 	if ( $image_src = get_attachment_icon_src() ) {
@@ -285,7 +285,7 @@ function wp_upload_posts_where( $where ) {
 function wp_upload_tab_browse() {
 	global $wpdb, $action, $paged;
 	$old_vars = compact( 'paged' );
-	
+
 	switch ( $action ) :
 	case 'edit' :
 	case 'view' :

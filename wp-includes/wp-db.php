@@ -48,7 +48,7 @@ class wpdb {
 	function wpdb($dbuser, $dbpassword, $dbname, $dbhost) {
 		return $this->__construct($dbuser, $dbpassword, $dbname, $dbhost);
 	}
-	
+
 	function __construct($dbuser, $dbpassword, $dbname, $dbhost) {
 		register_shutdown_function(array(&$this, "__destruct"));
 
@@ -79,7 +79,7 @@ class wpdb {
 	}
 
 	function __destruct() {
-		return true;		
+		return true;	
 	}
 
 	/**
@@ -181,7 +181,7 @@ class wpdb {
 
 		$this->result = @mysql_query($query, $this->dbh);
 		++$this->num_queries;
-	
+
 		if (SAVEQUERIES)
 			$this->queries[] = array( $query, $this->timer_stop() );
 
@@ -255,7 +255,7 @@ class wpdb {
 		$this->func_call = "\$db->get_row(\"$query\",$output,$y)";
 		if ( $query )
 			$this->query($query);
-		
+	
 		if ( !isset($this->last_result[$y]) )
 			return null;
 

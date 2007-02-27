@@ -78,7 +78,7 @@ function sanitize_option($option, $value) { // Remember to call stripslashes!
 			break;
 	}
 
-	return $value;	
+	return $value;
 }
 
 switch($action) {
@@ -150,7 +150,7 @@ foreach ( (array) $options as $option) :
 
 	if (stristr($value, "\n")) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>$value</textarea>";
 	else echo "<input class='$class' type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "'$disabled />";
-	
+
 	echo "</td>
 	<td>$option->option_description</td>
 </tr>";

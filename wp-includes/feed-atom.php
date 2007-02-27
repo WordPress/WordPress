@@ -13,7 +13,7 @@ $more = 1;
  >
 	<title type="text"><?php bloginfo_rss('name') ?></title>
 	<subtitle type="text"><?php bloginfo_rss("description") ?></subtitle>
-	
+
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></updated>
 	<generator uri="http://wordpress.org/" version="<?php bloginfo_rss('version'); ?>">WordPress</generator>
 

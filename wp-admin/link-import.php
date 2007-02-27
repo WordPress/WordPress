@@ -12,16 +12,16 @@ if (!$step) $step = 0;
 ?>
 <?php
 switch ($step) {
-    case 0:
-    {
-        include_once('admin-header.php');
-        if ( !current_user_can('manage_links') )
-            wp_die(__('Cheatin&#8217; uh?'));
+	case 0: {
+		include_once('admin-header.php');
+		if ( !current_user_can('manage_links') )
+			wp_die(__('Cheatin&#8217; uh?'));
 
-        $opmltype = 'blogrolling'; // default.
+		$opmltype = 'blogrolling'; // default.
 ?>
 
 <div class="wrap">
+
 <h2><?php _e('Import your blogroll from another system') ?> </h2>
 <form enctype="multipart/form-data" action="link-import.php" method="post" name="blogroll">
 <?php wp_nonce_field('import-bookmarks') ?>
@@ -39,7 +39,6 @@ switch ($step) {
 <h3><?php _e('Or choose from your local disk:'); ?></h3>
 <input id="userfile" name="userfile" type="file" size="30" />
 </div>
-
 
 </div>
 
@@ -60,72 +59,71 @@ foreach ($categories as $category) {
 
 </div>
 <?php
-                break;
-            } // end case 0
+		break;
+	} // end case 0
 
-    case 1: {
+	case 1: {
 		check_admin_referer('import-bookmarks');
 
-                include_once('admin-header.php');
-                if ( !current_user_can('manage_links') )
-                    wp_die(__('Cheatin&#8217; uh?'));
+		include_once('admin-header.php');
+		if ( !current_user_can('manage_links') )
+			wp_die(__('Cheatin&#8217; uh?'));
 ?>
 <div class="wrap">
 
-     <h2><?php _e('Importing...') ?></h2>
+<h2><?php _e('Importing...') ?></h2>
 <?php
-                $cat_id = $_POST['cat_id'];
-                if (($cat_id == '') || ($cat_id == 0)) {
-                    $cat_id  = 1;
-                }
+		$cat_id = $_POST['cat_id'];
+		if ( $cat_id == '' || $cat_id == 0 )
+			$cat_id  = 1;
 
-                $opml_url = $_POST['opml_url'];
-                if (isset($opml_url) && $opml_url != '' && $opml_url != 'http://') {
-					$blogrolling = true;
-                }
-                else // try to get the upload file.
-				{
-					$overrides = array('test_form' => false, 'test_type' => false);
-					$file = wp_handle_upload($_FILES['userfile'], $overrides);
+		$opml_url = $_POST['opml_url'];
+		if ( isset($opml_url) && $opml_url != '' && $opml_url != 'http://' ) {
+			$blogrolling = true;
+		} else { // try to get the upload file.
+			$overrides = array('test_form' => false, 'test_type' => false);
+			$file = wp_handle_upload($_FILES['userfile'], $overrides);
 
-					if ( isset($file['error']) )
-						wp_die($file['error']);
+			if ( isset($file['error']) )
+				wp_die($file['error']);
 
-					$url = $file['url'];
-					$opml_url = $file['file'];
-					$blogrolling = false;
-				}
+			$url = $file['url'];
+			$opml_url = $file['file'];
+			$blogrolling = false;
+		}
 
-                if (isset($opml_url) && $opml_url != '') {
-                    $opml = wp_remote_fopen($opml_url);
-                    include_once('link-parse-opml.php');
+		if ( isset($opml_url) && $opml_url != '' ) {
+			$opml = wp_remote_fopen($opml_url);
+			include_once('link-parse-opml.php');
 
-                    $link_count = count($names);
-                    for ($i = 0; $i < $link_count; $i++) {
-                        if ('Last' == substr($titles[$i], 0, 4))
-                            $titles[$i] = '';
-                        if ('http' == substr($titles[$i], 0, 4))
-                            $titles[$i] = '';
-                        $link = array( 'link_url' => $urls[$i], 'link_name' => $wpdb->escape($names[$i]), 'link_category' => array($cat_id), 'link_description' => $wpdb->escape($descriptions[$i]), 'link_owner' => $user_ID, 'link_rss' => $feeds[$i]);              			
-						wp_insert_link($link);
-						echo sprintf('<p>'.__('Inserted <strong>%s</strong>').'</p>', $names[$i]);
-                    }
+			$link_count = count($names);
+			for ( $i = 0; $i < $link_count; $i++ ) {
+				if ('Last' == substr($titles[$i], 0, 4))
+					$titles[$i] = '';
+				if ( 'http' == substr($titles[$i], 0, 4) )
+					$titles[$i] = '';
+				$link = array( 'link_url' => $urls[$i], 'link_name' => $wpdb->escape($names[$i]), 'link_category' => array($cat_id), 'link_description' => $wpdb->escape($descriptions[$i]), 'link_owner' => $user_ID, 'link_rss' => $feeds[$i]);
+				wp_insert_link($link);
+				echo sprintf('<p>'.__('Inserted <strong>%s</strong>').'</p>', $names[$i]);
+			}
 ?>
-     <p><?php printf(__('Inserted %1$d links into category %2$s. All done! Go <a href="%3$s">manage those links</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>
-<?php
-                } // end if got url
-                else
-                {
-                    echo "<p>" . __("You need to supply your OPML url. Press back on your browser and try again") . "</p>\n";
-                } // end else
 
-				if ( ! $blogrolling )
-					@unlink($opml_url);
+<p><?php printf(__('Inserted %1$d links into category %2$s. All done! Go <a href="%3$s">manage those links</a>.'), $link_count, $cat_id, 'link-manager.php') ?></p>
+
+<?php
+} // end if got url
+else
+{
+	echo "<p>" . __("You need to supply your OPML url. Press back on your browser and try again") . "</p>\n";
+} // end else
+
+if ( ! $blogrolling )
+	@unlink($opml_url);
 ?>
 </div>
 <?php
-                break;
-            } // end case 1
+		break;
+	} // end case 1
 } // end switch
 
 include('admin-footer.php');

@@ -101,7 +101,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 			if ( ! empty($more_link_text) )
 				$output .= ' <a href="'. get_permalink() . "#more-$id\" class=\"more-link\">$more_link_text</a>";
 		}
-			
+
 	}
 	if ( $preview ) // preview fix for javascript bug with foreign languages
 		$output =	preg_replace('/\%u([0-9A-F]{4,4})/e',	"'&#'.base_convert('\\1',16,10).';'", $output);

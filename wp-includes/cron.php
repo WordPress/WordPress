@@ -54,7 +54,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
 
 function wp_clear_scheduled_hook( $hook ) {
 	$args = array_slice( func_get_args(), 1 );
-	
+
 	while ( $timestamp = wp_next_scheduled( $hook, $args ) )
 		wp_unschedule_event( $timestamp, $hook, $args );
 }
@@ -73,10 +73,10 @@ function wp_next_scheduled( $hook, $args = array() ) {
 
 function spawn_cron() {
 	$crons = _get_cron_array();
-	
+
 	if ( !is_array($crons) )
 		return;
-	
+
 	$keys = array_keys( $crons );
 	if ( array_shift( $keys ) > time() )
 		return;
@@ -98,7 +98,7 @@ function wp_cron() {
 		return;
 
 	$crons = _get_cron_array();
-	
+
 	if ( !is_array($crons) )
 		return;
 

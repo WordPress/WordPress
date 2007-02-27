@@ -72,7 +72,7 @@ function get_bookmarks($args = '') {
 	}
 	if (!empty($exclusions))
 		$exclusions .= ')';
-		
+
 	if ( ! empty($category_name) ) {
 		if ( $cat_id = $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name='$category_name' LIMIT 1") )
 			$category = $cat_id;

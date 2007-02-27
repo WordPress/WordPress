@@ -308,7 +308,7 @@ class gettext_reader {
     # poEdit doesn't put any semicolons, which
     # results in parse error in eval
     $string .= ';';
-	
+
     $total = 0;
     $plural = 0;
 

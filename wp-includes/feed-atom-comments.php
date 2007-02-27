@@ -16,10 +16,10 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '" ?' . '>'
 			printf(__('Comments for %s'), get_bloginfo_rss( 'name' ) . get_wp_title_rss());
 	?></title>
 	<subtitle type="text"><?php bloginfo_rss('description'); ?></subtitle>
-	
+
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastcommentmodified('GMT')); ?></updated>
 	<generator uri="http://wordpress.org/" version="<?php bloginfo('version'); ?>">WordPress</generator>
-	
+
 	<link rel="alternate" type="<?php bloginfo_rss('html_type'); ?>" content="<?php bloginfo_rss('home'); ?>" />
 	<link rel="self" type="application/atom+xml" href="<?php bloginfo_rss('comments_atom_url'); ?>" />
 	<id><?php bloginfo_rss('comments_atom_url'); ?></id>
@@ -41,13 +41,13 @@ if ( have_comments() ) : while ( have_comments() ) : the_comment();
 			}
 		?></title>
 		<link rel="alternate" href="<?php comment_link(); ?>" type="<?php bloginfo_rss('content_type'); ?>" />
-		
+
 		<author>
 			<name><?php comment_author_rss(); ?></name>
 			<?php if (get_comment_author_url()) echo '<uri>' . get_comment_author_url() . '</uri>'; ?>
 
 		</author>
-		
+
 		<id><?php comment_link(); ?></id>
 		<updated><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></updated>
 		<published><?php echo mysql2date('D, d M Y H:i:s +0000', get_comment_time('Y-m-d H:i:s', true), false); ?></published>

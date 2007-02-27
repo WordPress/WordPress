@@ -163,7 +163,7 @@ function wp_mail($to, $subject, $message, $headers = '') {
 		require_once(ABSPATH . WPINC . '/class-smtp.php');
 		$phpmailer = new PHPMailer();
 	}
-		
+
 	$mail = compact('to', 'subject', 'message', 'headers');
 	$mail = apply_filters('wp_mail', $mail);
 	extract($mail);

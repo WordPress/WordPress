@@ -80,7 +80,7 @@ function get_extended($post) {
 		$main = $post;
 		$extended = '';
 	}
-	
+
 	// Strip leading and trailing whitespace
 	$main = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $main);
 	$extended = preg_replace('/^[\s]*(.*)[\s]*$/', '\\1', $extended);
@@ -555,7 +555,7 @@ function wp_insert_post($postarr = array()) {
 		if ( 'draft' != $post_status )
 			$post_date_gmt = get_gmt_from_date($post_date);
 	}
-		
+
 	if ( 'publish' == $post_status ) {
 		$now = gmdate('Y-m-d H:i:59');
 		if ( mysql2date('U', $post_date_gmt) > mysql2date('U', $now) )
@@ -704,7 +704,7 @@ function wp_insert_post($postarr = array()) {
 	// Schedule publication.
 	if ( 'future' == $post_status )
 		wp_schedule_single_event(strtotime($post_date_gmt. ' GMT'), 'publish_future_post', array($post_ID));
-		
+
 	do_action('save_post', $post_ID);
 	do_action('wp_insert_post', $post_ID);
 
@@ -1107,7 +1107,7 @@ function &get_pages($args = '') {
 	$author_query = '';
 	if (!empty($authors)) {
 		$post_authors = preg_split('/[\s,]+/',$authors);
-		
+
 		if ( count($post_authors) ) {
 			foreach ( $post_authors as $post_author ) {
 				//Do we have an author id or an author login?
