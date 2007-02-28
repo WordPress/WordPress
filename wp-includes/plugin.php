@@ -7,79 +7,50 @@
 function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) {
 	global $wp_filter;
 
-	// check that we don't already have the same filter at the same priority
-	if ( isset($wp_filter[$tag]["$priority"]) ) {
-		foreach ( $wp_filter[$tag]["$priority"] as $filter ) {
-			// uncomment if we want to match function AND accepted_args
-			// if ( $filter == array($function, $accepted_args) ) {
-			if ( $filter['function'] == $function_to_add )
-				return true;
-		}
-	}
-
-	// So the format is wp_filter['tag']['array of priorities']['array of ['array (functions, accepted_args)]']
-	$wp_filter[$tag]["$priority"][] = array('function'=>$function_to_add, 'accepted_args'=>$accepted_args);
+	// So the format is wp_filter['tag']['array of priorities']['array of functions serialized']['array of ['array (functions, accepted_args)]']
+	$wp_filter[$tag][$priority][serialize($function_to_add)] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
 	return true;
 }
 
 function apply_filters($tag, $string) {
 	global $wp_filter;
 
-	$args = array();
-	for ( $a = 2; $a < func_num_args(); $a++ )
-		$args[] = func_get_arg($a);
-
 	merge_filters($tag);
 
 	if ( !isset($wp_filter[$tag]) )
 		return $string;
 
-	foreach ( (array) $wp_filter[$tag] as $priority => $functions ) {
-		if ( !is_null($functions) ) {
-			foreach ( (array) $functions as $function ) {
-				$function_name = $function['function'];
-				$accepted_args = $function['accepted_args'];
-				$the_args = $args;
-				array_unshift($the_args, $string);
-				if ( $accepted_args > 0 )
-					$the_args = array_slice($the_args, 0, $accepted_args);
-				elseif ( 0 == $accepted_args )
-					$the_args = NULL;
-				$string = call_user_func_array($function_name, $the_args);
+	$args = func_get_args();
+
+	do{
+		foreach( (array) current($wp_filter[$tag]) as $the_ )
+			if ( !is_null($the_['function']) ){
+				$args[1] = $string;
+				$string = call_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']));
 			}
-		}
-	}
+
+	} while ( next($wp_filter[$tag]) );
+
 	return $string;
 }
 
 function merge_filters($tag) {
 	global $wp_filter;
-	if ( isset($wp_filter['all']) ) {
-		foreach ( (array) $wp_filter['all'] as $priority => $functions ) {
-			if ( isset($wp_filter[$tag][$priority]) )
-				$wp_filter[$tag][$priority] = array_merge($wp_filter['all'][$priority], $wp_filter[$tag][$priority]);
-			else
-				$wp_filter[$tag][$priority] = array_merge($wp_filter['all'][$priority], array());
-			$wp_filter[$tag][$priority] = array_unique($wp_filter[$tag][$priority]);
-		}
-	}
 
-	if ( isset($wp_filter[$tag]) )
-		uksort( $wp_filter[$tag], "strnatcasecmp" );
+	if ( isset($wp_filter['all']) )
+		$wp_filter[$tag] = array_merge($wp_filter['all'], (array) $wp_filter[$tag]);
+
+	if ( isset($wp_filter[$tag]) ){
+		reset($wp_filter[$tag]);
+		uksort($wp_filter[$tag], "strnatcasecmp");
+	}
 }
 
 function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
 	global $wp_filter;
 
-	// rebuild the list of filters
-	if ( isset($wp_filter[$tag]["$priority"]) ) {
-		$new_function_list = array();
-		foreach ( (array) $wp_filter[$tag]["$priority"] as $filter ) {
-			if ( $filter['function'] != $function_to_remove )
-				$new_function_list[] = $filter;
-		}
-		$wp_filter[$tag]["$priority"] = $new_function_list;
-	}
+	unset($GLOBALS['wp_filter'][$tag][$priority][serialize($function_to_remove)]);
+
 	return true;
 }
 
@@ -107,23 +78,12 @@ function do_action($tag, $arg = '') {
 	if ( !isset($wp_filter[$tag]) )
 		return;
 
-	foreach ( (array) $wp_filter[$tag] as $priority => $functions ) {
-		if ( !is_null($functions) ) {
-			foreach ( (array) $functions as $function ) {
-				$function_name = $function['function'];
-				$accepted_args = $function['accepted_args'];
+	do{
+		foreach( (array) current($wp_filter[$tag]) as $the_ )
+			if ( !is_null($the_['function']) )
+				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
-				if ( $accepted_args > 0 )
-					$the_args = array_slice($args, 0, $accepted_args);
-				elseif ( $accepted_args == 0 )
-					$the_args = NULL;
-				else
-					$the_args = $args;
-
-				call_user_func_array($function_name, $the_args);
-			}
-		}
-	}
+	} while ( next($wp_filter[$tag]) );
 
 	if ( is_array($wp_actions) )
 		$wp_actions[] = $tag;
@@ -151,22 +111,13 @@ function do_action_ref_array($tag, $args) {
 	if ( !isset($wp_filter[$tag]) )
 		return;
 
-	foreach ( (array) $wp_filter[$tag] as $priority => $functions ) {
-		if ( !is_null($functions) ) {
-			foreach ( (array) $functions as $function ) {
-				$function_name = $function['function'];
-				$accepted_args = $function['accepted_args'];
-				if ( $accepted_args > 0 )
-					$the_args = array_slice($args, 0, $accepted_args);
-				elseif ( 0 == $accepted_args )
-					$the_args = NULL;
-				else
-					$the_args = $args;
+	do{
+		foreach( (array) current($wp_filter[$tag]) as $the_ )
+			if ( !is_null($the_['function']) )
+				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
-				call_user_func_array($function_name, $the_args);
-			}
-		}
-	}
+	} while ( next($wp_filter[$tag]) );
+
 }
 
 function remove_action($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
