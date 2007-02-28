@@ -561,20 +561,55 @@ class WP_Query {
 			$this->is_admin = true;
 		}
 
-		if ( $this->is_single || $this->is_page || $this->is_attachment )
-			$this->is_singular = true;
-
 		if ( false !== strpos($qv['feed'], 'comments-') ) {
 			$this->query_vars['feed'] = $qv['feed'] = str_replace('comments-', '', $qv['feed']);
 			$qv['withcomments'] = 1;
 		}
 
-		if ( $this->is_feed && (!empty($qv['withcomments']) || ( empty($qv['withoutcomments']) && $this->is_singular ) ) )
+		$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
+
+		if ( $this->is_feed && ( !empty($qv['withcomments']) || ( empty($qv['withoutcomments']) && $this->is_singular ) ) )
 			$this->is_comment_feed = true;
 
-		if ( ! ($this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup)) {
+		if ( !( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup ) ) {
 			$this->is_home = true;
 		}
+
+		// Correct is_* for page_on_front and page_for_posts
+		if ( $this->is_home && ( empty($this->query) || $qv['preview'] == 'true' ) && 'page' == get_option('show_on_front') && get_option('page_on_front') ) {
+			$this->is_page = true;
+			$this->is_home = false;
+			$this->query_vars['page_id'] = get_option('page_on_front');
+		}
+
+		if ( '' != $qv['pagename'] ) {
+			$this->queried_object =& get_page_by_path($qv['pagename']);
+			if ( !empty($this->queried_object) )
+				$this->queried_object_id = $this->queried_object->ID;
+			else
+				unset($this->queried_object);
+
+			if  ( 'page' == get_option('show_on_front') && isset($this->queried_object_id) && $this->queried_object_id == get_option('page_for_posts') ) {
+				$this->is_page = false;
+				$this->is_home = true;
+				$this->is_posts_page = true;
+			}
+		}
+
+		if ( '' != $qv['page_id'] && 0 != intval($qv['page_id']) ) {
+			$this->query_vars['page_id'] = intval($qv['page_id']);
+			if  ( 'page' == get_option('show_on_front') && $qv['page_id'] == get_option('page_for_posts') ) {
+				$this->is_page = false;
+				$this->is_home = true;
+				$this->is_posts_page = true;
+			}
+		}
+
+		if ( $this->is_posts_page && !$qv['withcomments'] )
+			$this->is_comment_feed = false;
+
+		$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
+		// Done correcting is_* for page_on_front and page_for_posts
 
 		if ( !empty($query) ) {
 			do_action_ref_array('parse_query', array(&$this));
@@ -724,18 +759,17 @@ class WP_Query {
 			$q['name'] = sanitize_title($q['name']);
 			$where .= " AND post_name = '" . $q['name'] . "'";
 		} else if ('' != $q['pagename']) {
-			$reqpage = get_page_by_path($q['pagename']);
-			if ( !empty($reqpage) )
-				$reqpage = $reqpage->ID;
-			else
-				$reqpage = 0;
+			if ( isset($this->queried_object_id) )
+				$reqpage = $this->queried_object_id;
+			else {
+				$reqpage = get_page_by_path($q['pagename']);
+				if ( !empty($reqpage) )
+					$reqpage = $reqpage->ID;
+				else
+					$reqpage = 0;
+			}
 
-			if  ( ('page' == get_option('show_on_front') ) && ( $reqpage == get_option('page_for_posts') ) ) {
-				$this->is_singular = false;
-				$this->is_page = false;
-				$this->is_home = true;
-				$this->is_posts_page = true;
-			} else {
+			if  ( ('page' != get_option('show_on_front') ) || ( $reqpage != get_option('page_for_posts') ) ) {
 				$q['pagename'] = str_replace('%2F', '/', urlencode(urldecode($q['pagename'])));
 				$page_paths = '/' . trim($q['pagename'], '/');
 				$q['pagename'] = sanitize_title(basename($page_paths));
@@ -770,12 +804,7 @@ class WP_Query {
 
 		if (($q['page_id'] != '') && (intval($q['page_id']) != 0)) {
 			$q['page_id'] = intval($q['page_id']);
-			if  ( ('page' == get_option('show_on_front') ) && ( $q['page_id'] == get_option('page_for_posts') ) ) {
-				$this->is_singular = false;
-				$this->is_page = false;
-				$this->is_home = true;
-				$this->is_posts_page = true;
-			} else {
+			if  ( ('page' != get_option('show_on_front') ) || ( $q['page_id'] != get_option('page_for_posts') ) ) {
 				$q['p'] = $q['page_id'];
 				$where = ' AND ID = '.$q['page_id'];
 			}
