@@ -21,7 +21,7 @@ if ($drafts || $other_drafts) {
 	foreach ($drafts as $draft) {
 		if (0 != $i)
 			echo ', ';
-		$draft->post_title = stripslashes($draft->post_title);
+		$draft->post_title = apply_filters('the_title', stripslashes($draft->post_title));
 		if ($draft->post_title == '')
 			$draft->post_title = sprintf(__('Post #%s'), $draft->ID);
 		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
@@ -38,7 +38,7 @@ if ($drafts || $other_drafts) {
 	foreach ($other_drafts as $draft) {
 		if (0 != $i)
 			echo ', ';
-		$draft->post_title = stripslashes($draft->post_title);
+		$draft->post_title = apply_filters('the_title', stripslashes($draft->post_title));
 		if ($draft->post_title == '')
 			$draft->post_title = sprintf(__('Post #%s'), $draft->ID);
 		echo "<a href='post.php?action=edit&amp;post=$draft->ID' title='" . __('Edit this draft') . "'>$draft->post_title</a>";
