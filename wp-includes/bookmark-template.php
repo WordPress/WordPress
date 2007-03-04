@@ -331,7 +331,8 @@ function wp_list_bookmarks($args = '') {
 		$cats = get_categories("type=link&category_name=$category_name&include=$category&orderby=$category_orderby&order=$category_order&hierarchical=0");
 
 		foreach ( (array) $cats as $cat ) {
-			$bookmarks = get_bookmarks("limit=$limit&category={$cat->cat_ID}&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_invisible&show_updated=$show_updated");
+			$params = array_merge($r, array('category'=>$cat->cat_ID));
+			$bookmarks = get_bookmarks($params);
 			if ( empty($bookmarks) )
 				continue;
 			$output .= str_replace(array('%id', '%class'), array("linkcat-$cat->cat_ID", $class), $category_before);
@@ -341,7 +342,7 @@ function wp_list_bookmarks($args = '') {
 		}
 	} else {
 		//output one single list using title_li for the title
-		$bookmarks = get_bookmarks("limit=$limit&category=$category&show_updated=$show_updated&orderby=$orderby&order=$order&hide_invisible=$hide_invisible&show_updated=$show_updated");
+		$bookmarks = get_bookmarks($r);
 
 		if ( !empty($bookmarks) ) {
 			if ( !empty( $title_li ) ){
