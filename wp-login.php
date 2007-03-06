@@ -289,7 +289,7 @@ default:
 	$user_pass = '';
 	$using_cookie = FALSE;
 
-	if ( !isset( $_REQUEST['redirect_to'] ) )
+	if ( !isset( $_REQUEST['redirect_to'] ) || is_user_logged_in() )
 		$redirect_to = 'wp-admin/';
 	else
 		$redirect_to = $_REQUEST['redirect_to'];
