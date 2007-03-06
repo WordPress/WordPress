@@ -201,8 +201,8 @@ if ( get_option('active_plugins') ) {
 	$current_plugins = get_option('active_plugins');
 	if ( is_array($current_plugins) ) {
 		foreach ($current_plugins as $plugin) {
-			if ('' != $plugin && file_exists(ABSPATH . 'wp-content/plugins/' . $plugin))
-				include_once(ABSPATH . 'wp-content/plugins/' . $plugin);
+			if ('' != $plugin && file_exists(ABSPATH . PLUGINDIR . '/' . $plugin))
+				include_once(ABSPATH . PLUGINDIR . '/' . $plugin);
 		}
 	}
 }
