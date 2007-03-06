@@ -19,12 +19,25 @@ class WP_Scripts {
 		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
 		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20070225' );
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.5.0-0');
-		$this->add( 'autosave', '/wp-includes/js/autosave-js.php', array('prototype', 'sack'), '20070116');
-		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax-js.php', array('prototype'), '20070118');
-		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'fat'), '20070305');
+		$this->add( 'autosave', '/wp-includes/js/autosave.js', array('prototype', 'sack'), '20070306');
+		$this->localize( 'autosave', 'autosaveL10n', array(
+			'autosaveInterval' => apply_filters('autosave_interval', '120'),
+			'errorText' => __('Error: %response%'),
+			'saveText' => __('Saved at %time%.'),
+			'requestFile' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+			'savingText' => __('Saving Draft...')
+		) );
+		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax.js', array('prototype'), '20070306');
+		$this->localize( 'wp-ajax', 'WPAjaxL10n', array(
+			'defaultUrl' => get_option( 'siteurl' ) . '/wp-admin/admin-ajax.php',
+			'permText' => __("You don't have permission to do that."),
+			'strangeText' => __("Something strange happened.  Try refreshing the page."),
+			'whoaText' => __("Slow down, I'm still sending your data!")
+		) );
+		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'fat'), '20070306');
 		$this->localize( 'listman', 'listManL10n', array(
 			'jumpText' => __('Jump to new item'),
-			'delText' => __('Are you sure you want to delete this %s?')
+			'delText' => __('Are you sure you want to delete this %thing%?')
 		) );
 		$this->add( 'scriptaculous-root', '/wp-includes/js/scriptaculous/wp-scriptaculous.js', array('prototype'), '1.7.0');
 		$this->add( 'scriptaculous-builder', '/wp-includes/js/scriptaculous/builder.js', array('scriptaculous-root'), '1.7.0');
@@ -37,14 +50,66 @@ class WP_Scripts {
 		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.1');
 		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.1.1');
 		if ( is_admin() ) {
-			$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key-js.php', array('dbx'), '3651' );
-			$this->add( 'ajaxcat', '/wp-admin/cat-js.php', array('listman'), '20070118' );
+			global $pagenow;
+			$man = false;
+			switch ( $pagenow ) :
+			case 'post.php' :
+			case 'post-new.php' :
+				$man = 'postmeta';
+				break;
+			case 'page.php' :
+			case 'page-new.php' :
+				$man = 'pagemeta';
+				break;
+			case 'link.php' :
+				$man = 'linkmeta';
+				break;
+			endswitch;
+			if ( $man ) {
+				$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key.js', array('dbx'), '20070306' );
+				$this->localize( 'dbx-admin-key', 'dbxL10n', array(
+					'manager' => $man,
+					'open' => __('open'),
+					'close' => __('close'),
+					'moveMouse' => __('click-down and drag to move this box'),
+					'toggleMouse' => __('click to %toggle% this box'),
+					'moveKey' => __('use the arrow keys to move this box'),
+					'toggleKey' => __(', or press the enter key to %toggle% it'),
+				) );
+			}
+			$this->add( 'ajaxcat', '/wp-admin/cat.js', array('listman'), '20070306' );
+			$this->localize( 'ajaxcat', 'catL10n', array(
+				'add' => attribute_escape(__('Add')),
+				'how' => __('Separate multiple categories with commas.')
+			) );
 			$this->add( 'admin-categories', '/wp-admin/categories.js', array('listman'), '3684' );
 			$this->add( 'admin-custom-fields', '/wp-admin/custom-fields.js', array('listman'), '3733' );
 			$this->add( 'admin-comments', '/wp-admin/edit-comments.js', array('listman'), '3847' );
 			$this->add( 'admin-users', '/wp-admin/users.js', array('listman'), '4583' );
 			$this->add( 'xfn', '/wp-admin/xfn.js', false, '3517' );
-			$this->add( 'upload', '/wp-admin/upload-js.php', array('prototype'), '20070118' );
+			$this->add( 'upload', '/wp-admin/upload.js', array('prototype'), '20070306' );
+			$this->localize( 'upload', 'uploadL10n', array(
+				'browseTitle' => attribute_escape(__('Browse your files')),
+				'back' => __('&laquo; Back'),
+				'directTitle' => attribute_escape(__('Direct link to file')),
+				'edit' => __('Edit'),
+				'thumb' => __('Thumbnail'),
+				'full' => __('Full size'),
+				'icon' => __('Icon'),
+				'title' => __('Title'),
+				'show' => __('Show:'),
+				'link' => __('Link to:'),
+				'file' => __('File'),
+				'page' => __('Page'),
+				'none' => __('None'),
+				'editorText' => attribute_escape(__('Send to editor &raquo;')),
+				'insert' => __('Insert'),
+				'urlText' => __('URL'),
+				'desc' => __('Description'),
+				'deleteText' => attribute_escape(__('Delete File')),
+				'saveText' => attribute_escape(__('Save &raquo;')),
+				'confirmText' => __("Are you sure you want to delete the file '%title%'?\nClick ok to delete or cancel to go back.")
+			) );
 		}
 	}
 

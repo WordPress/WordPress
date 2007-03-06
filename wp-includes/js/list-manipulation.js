@@ -8,7 +8,7 @@ function deleteSomething( what, id, message, obj ) {
 	if ( !obj )
 		obj=theList;
 	if ( !message )
-		message = obj.delText.replace(/%/g, what);
+		message = obj.delText.replace(/%thing%/g, what);
 	if( confirm(message) )
 		return obj.ajaxDelete( what, id );
 	else return false;
@@ -36,8 +36,8 @@ Object.extend(listMan.prototype, {
 	dataStore: null,
 	formStore: null,
 
-	jumpText: 'Jump to new item',
-	delText: 'Are you sure you want to delete this %s?',
+	jumpText: '', // We get these from listManL10n
+	delText: '',
 
 	initialize: function(theListId) {
 		this.theList = $(theListId ? theListId : 'the-list');

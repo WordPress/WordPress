@@ -1,4 +1,3 @@
-<?php require_once('admin.php'); cache_javascript_headers(); ?>
 addLoadEvent( function() {
 	theFileList = {
 		currentImage: {ID: 0},
@@ -69,22 +68,23 @@ addLoadEvent( function() {
 				var params = $H(this.params);
 				params.ID = '';
 				params.action = '';
-				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "' title='<?php echo attribute_escape(__('Browse your files')); ?>' class='back'><?php echo attribute_escape(__('&laquo; Back')); ?></a>";
+				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'";
 			} else {
-				h += "<a href='#' onclick='return theFileList.cancelView();'  title='<?php echo attribute_escape(__('Browse your files')); ?>' class='back'><?php echo attribute_escape(__('&laquo; Back')) ?></a>";
+				h += "<a href='#' onclick='return theFileList.cancelView();'";
 			}
+			h += " title='" + this.browseTitle + "' class='back'>" + this.back + "</a>";
 			h += "<div id='file-title'>"
 			if ( 0 == this.currentImage.isImage )
-				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo attribute_escape(__('Direct link to file')); ?>'>" + this.currentImage.title + "</a></h2>";
+				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='" + this.directTitle + "'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
-			h += "<a href='#' onclick='return theFileList.editView(" + id + ");'><?php echo attribute_escape(__('Edit')); ?></a>"
+			h += "<a href='#' onclick='return theFileList.editView(" + id + ");'>" + this.edit + "</a>"
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( 1 == this.currentImage.isImage ) {
-				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo attribute_escape(__('Direct link to file')); ?>'>";
+				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='" + this.directTitle + "'>";
 				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
 				h += "</a>";
 			} else
@@ -98,28 +98,28 @@ addLoadEvent( function() {
 			if ( 1 == this.currentImage.isImage ) {
 				checked = 'display-full';
 				if ( this.currentImage.thumb ) {
-					display.push("<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' /> <?php echo attribute_escape(__('Thumbnail')); ?></label><br />");
+					display.push("<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' /> " + this.thumb + "</label><br />");
 					checked = 'display-thumb';
 				}
-				display.push("<label for='display-full'><input type='radio' name='display' id='display-full' value='full' /> <?php echo attribute_escape(__('Full size')); ?></label>");
+				display.push("<label for='display-full'><input type='radio' name='display' id='display-full' value='full' /> " + this.full + "</label>");
 			} else if ( this.currentImage.thumb ) {
-				display.push("<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' /> <?php echo attribute_escape(__('Icon')); ?></label>");
+				display.push("<label for='display-thumb'><input type='radio' name='display' id='display-thumb' value='thumb' /> " + this.icon + "</label>");
 			}
 			if ( display.length ) {
-				display.push("<br /><label for='display-title'><input type='radio' name='display' id='display-title' value='title' /> <?php echo attribute_escape(__('Title')); ?></label>");
-				h += "<tr><th style='padding-bottom:.5em'><?php echo attribute_escape(__('Show:')); ?></th><td style='padding-bottom:.5em'>";
+				display.push("<br /><label for='display-title'><input type='radio' name='display' id='display-title' value='title' /> " + this.title + "</label>");
+				h += "<tr><th style='padding-bottom:.5em'>" + this.show + "</th><td style='padding-bottom:.5em'>";
 				$A(display).each( function(i) { h += i; } );
 				h += "</td></tr>";
 			}
 
-			h += "<tr><th><?php echo attribute_escape(__('Link to:')); ?></th><td>";
-			h += "<label for='link-file'><input type='radio' name='link' id='link-file' value='file' checked='checked'/> <?php echo attribute_escape(__('File')); ?></label><br />";
-			h += "<label for='link-page'><input type='radio' name='link' id='link-page' value='page' /> <?php echo attribute_escape(__('Page')); ?></label><br />";
-			h += "<label for='link-none'><input type='radio' name='link' id='link-none' value='none' /> <?php echo attribute_escape(__('None')); ?></label>";
+			h += "<tr><th>" + this.link + "</th><td>";
+			h += "<label for='link-file'><input type='radio' name='link' id='link-file' value='file' checked='checked'/> " + this.file + "</label><br />";
+			h += "<label for='link-page'><input type='radio' name='link' id='link-page' value='page' /> " + this.page + "</label><br />";
+			h += "<label for='link-none'><input type='radio' name='link' id='link-none' value='none' /> " + this.none + "</label>";
 			h += "</td></tr>";
 
 			h += "<tr><td colspan='2'><p class='submit'>";
-			h += "<input type='button' class='button' name='send' onclick='theFileList.sendToEditor(" + id + ")' value='<?php echo attribute_escape(__('Send to editor &raquo;')); ?>' />";
+			h += "<input type='button' class='button' name='send' onclick='theFileList.sendToEditor(" + id + ")' value='" + this.editorText + "' />";
 			h += "</p></td></tr></table>";
 			h += "</form>";
 
@@ -147,22 +147,23 @@ addLoadEvent( function() {
 				var params = $H(this.params);
 				params.ID = '';
 				params.action = '';
-				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'  title='<?php echo attribute_escape(__('Browse your files')); ?>' class='back'><?php echo attribute_escape(__('&laquo; Back')); ?></a>";
+				h += "<a href='" + this.urlData[0] + '?' + params.toQueryString() + "'";
 			} else {
-				h += "<a href='#' onclick='return theFileList.cancelView();'  title='<?php echo attribute_escape(__('Browse your files')); ?>' class='back'><?php echo attribute_escape(__('&laquo; Back')); ?></a>";
+				h += "<a href='#' onclick='return theFileList.cancelView();'";
 			}
+			h += " title='" + this.browseTitle + "' class='back'>" + this.back + "</a>";
 			h += "<div id='file-title'>"
 			if ( 0 == this.currentImage.isImage )
-				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo attribute_escape(__('Direct link to file')); ?>'>" + this.currentImage.title + "</a></h2>";
+				h += "<h2><a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='" + this.directTitle + "'>" + this.currentImage.title + "</a></h2>";
 			else
 				h += "<h2>" + this.currentImage.title + "</h2>";
 			h += " &#8212; <span>";
-			h += "<a href='#' onclick='return theFileList.imageView(" + id + ");'><?php echo attribute_escape(__('Insert')); ?></a>"
+			h += "<a href='#' onclick='return theFileList.imageView(" + id + ");'>" + this.insert + "</a>";
 			h += "</span>";
 			h += '</div>'
 			h += "<div id='upload-file-view' class='alignleft'>";
 			if ( 1 == this.currentImage.isImage ) {
-				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='<?php echo wp_specialchars(__('Direct link to file')); ?>'>";
+				h += "<a href='" + this.currentImage.srcBase + this.currentImage.src + "' onclick='return false;' title='" + this.directTitle + "'>";
 				h += "<img src='" + ( this.currentImage.thumb ? this.currentImage.thumb : this.currentImage.src ) + "' alt='" + this.currentImage.title + "' width='" + this.currentImage.width + "' height='" + this.currentImage.height + "' />";
 				h += "</a>";
 			} else
@@ -170,21 +171,21 @@ addLoadEvent( function() {
 			h += "</div>";
 
 
-			h += "<table><col /><col class='widefat' /><tr>"
-			h += "<th scope='row'><label for='url'><?php echo attribute_escape(__('URL')); ?></label></th>";
+			h += "<table><col /><col class='widefat' /><tr>";
+			h += "<th scope='row'><label for='url'>" + this.urlText + "</label></th>";
 			h += "<td><input type='text' id='url' class='readonly' value='" + this.currentImage.srcBase + this.currentImage.src + "' readonly='readonly' /></td>";
 			h += "</tr><tr>";
-			h += "<th scope='row'><label for='post_title'><?php echo attribute_escape(__('Title')); ?></label></th>";
+			h += "<th scope='row'><label for='post_title'>" + this.title + "</label></th>";
 			h += "<td><input type='text' id='post_title' name='post_title' value='" + this.currentImage.title + "' /></td>";
 			h += "</tr><tr>";
-			h += "<th scope='row'><label for='post_content'><?php echo attribute_escape(__('Description')); ?></label></th>";
+			h += "<th scope='row'><label for='post_content'>" + this.desc + "</label></th>";
 			h += "<td><textarea name='post_content' id='post_content'>" + this.currentImage.description + "</textarea></td>";
-			h += "</tr><tr id='buttons' class='submit'><td colspan='2'><input type='button' id='delete' name='delete' class='delete alignleft' value='<?php echo attribute_escape(__('Delete File')); ?>' onclick='theFileList.deleteFile(" + id + ");' />";
+			h += "</tr><tr id='buttons' class='submit'><td colspan='2'><input type='button' id='delete' name='delete' class='delete alignleft' value='" + this.deleteText + "' onclick='theFileList.deleteFile(" + id + ");' />";
 			h += "<input type='hidden' name='from_tab' value='" + this.tab + "' />";
 			h += "<input type='hidden' name='action' id='action-value' value='save' />";
 			h += "<input type='hidden' name='ID' value='" + id + "' />";
 			h += "<input type='hidden' name='_wpnonce' value='" + this.nonce + "' />";
-			h += "<div class='submit'><input type='submit' value='<?php echo attribute_escape(__('Save &raquo;')); ?>' /></div>";
+			h += "<div class='submit'><input type='submit' value='" + this.saveText + "' /></div>";
 			h += "</td></tr></table></form>";
 
 			new Insertion.Top('upload-content', h);
@@ -257,7 +258,7 @@ addLoadEvent( function() {
 		},
 
 		deleteFile: function(id) {
-			if ( confirm("<?php printf(js_escape(__("Are you sure you want to delete the file '%s'?\nClick ok to delete or cancel to go back.")), '" + this.currentImage.title + "'); ?>") ) {
+			if ( confirm( this.confirmText.replace(/%title%/g, this.currentImage.title) ) ) {
 				$('action-value').value = 'delete';
 				$('upload-file').submit();
 				return true;
@@ -266,6 +267,7 @@ addLoadEvent( function() {
 		}
 
 	};
+	Object.extend( theFileList, uploadL10n );
 	theFileList.initializeVars();
 	theFileList.initializeLinks();
 } );

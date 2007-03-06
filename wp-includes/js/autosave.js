@@ -1,6 +1,3 @@
-<?php @require_once('../../wp-config.php');
-cache_javascript_headers();
-?>
 var autosaveLast = '';
 var autosavePeriodical;
 
@@ -8,7 +5,7 @@ function autosave_start_timer() {
 	var form = $('post');
 	autosaveLast = form.post_title.value+form.content.value;
 	// Keep autosave_interval in sync with edit_post().
-	autosavePeriodical = new PeriodicalExecuter(autosave, <?php echo apply_filters('autosave_interval', '120'); ?>);
+	autosavePeriodical = new PeriodicalExecuter(autosave, autosaveL10n.autosaveInterval);
 	//Disable autosave after the form has been submitted
 	if(form.addEventListener) {
 		form.addEventListener("submit", function () { autosavePeriodical.currentlyExecuting = true; }, false);
@@ -40,9 +37,9 @@ function autosave_update_post_ID() {
 	var message;
 
 	if(isNaN(res)) {
-		message = "<?php echo js_escape(__('Error: ')); ?>" + response;
+		message = autosaveL10n.errorText.replace(/%response%/g, response);
 	} else {
-		message = "<?php echo js_escape(__('Saved at ')); ?>" + autosave_cur_time();
+		message = autosaveL10n.saveText.replace(/%time%/g, autosave_cur_time());
 		$('post_ID').name = "post_ID";
 		$('post_ID').value = res;
 		// We need new nonces
@@ -52,7 +49,7 @@ function autosave_update_post_ID() {
 		nonceAjax.setVar("post_ID", res);
 		nonceAjax.setVar("cookie", document.cookie);
 		nonceAjax.setVar("post_type", $('post_type').value);
-		nonceAjax.requestFile = "<?php echo get_option('siteurl'); ?>/wp-admin/admin-ajax.php";
+		nonceAjax.requestFile = autosaveL10n.requestFile;
 		nonceAjax.onCompletion = autosave_update_nonce;
 		nonceAjax.method = "POST";
 		nonceAjax.runAJAX();
@@ -63,7 +60,7 @@ function autosave_update_post_ID() {
 }
 
 function autosave_loading() {
-	$('autosave').innerHTML = "<?php echo js_escape(__('Saving Draft...')); ?>";
+	$('autosave').innerHTML = autosaveL10n.savingText;
 }
 
 function autosave_saved() {
@@ -72,9 +69,9 @@ function autosave_saved() {
 	var message;
 
 	if(isNaN(res)) {
-		message = "<?php echo js_escape(__('Error: ')); ?>" + response;
+		message = autosaveL10n.errorText.replace(/%response%/g, response);
 	} else {
-		message = "<?php echo js_escape(__('Saved at ')); ?>" + autosave_cur_time() + ".";
+		message = autosaveL10n.saveText.replace(/%time%/g, autosave_cur_time());
 	}
 	$('autosave').innerHTML = message;
 	autosave_enable_buttons();
@@ -148,7 +145,7 @@ function autosave() {
 		autosaveAjax.setVar("content", form.content.value);
 	}
 
-	autosaveAjax.requestFile = "<?php echo get_option('siteurl'); ?>/wp-admin/admin-ajax.php";
+	autosaveAjax.requestFile = autosaveL10n.requestFile;
 	autosaveAjax.method = "POST";
 	autosaveAjax.element = null;
 	autosaveAjax.onLoading = autosave_loading;
