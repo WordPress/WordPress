@@ -1,7 +1,24 @@
-<?php @require_once('../../wp-config.php'); cache_javascript_headers(); ?>
-addLoadEvent(function(){theList=new listMan();});
-function deleteSomething(what,id,message,obj){if(!obj)obj=theList;if(!message)message="<?php printf(js_escape(__('Are you sure you want to delete this %s?')),"'+what+'"); ?>";if(confirm(message))return obj.ajaxDelete(what,id);else return false;}
-function dimSomething(what,id,dimClass,obj){if(!obj)obj=theList;return obj.ajaxDimmer(what,id,dimClass);}
+addLoadEvent( function() {
+	if ( 'undefined' != typeof listManL10n )
+		Object.extend(listMan.prototype, listManL10n);
+	theList = new listMan();
+} );
+
+function deleteSomething( what, id, message, obj ) {
+	if ( !obj )
+		obj=theList;
+	if ( !message )
+		message = obj.delText.replace(/%/g, what);
+	if( confirm(message) )
+		return obj.ajaxDelete( what, id );
+	else return false;
+}
+
+function dimSomething( what, id, dimClass, obj ) {
+	if ( !obj )
+		obj = theList;
+	return obj.ajaxDimmer(what,id,dimClass);
+}
 
 var listMan = Class.create();
 Object.extend(listMan.prototype, {
@@ -18,6 +35,9 @@ Object.extend(listMan.prototype, {
 	dimComplete: null,
 	dataStore: null,
 	formStore: null,
+
+	jumpText: 'Jump to new item',
+	delText: 'Are you sure you want to delete this %s?',
 
 	initialize: function(theListId) {
 		this.theList = $(theListId ? theListId : 'the-list');
@@ -53,7 +73,7 @@ Object.extend(listMan.prototype, {
 					if ( m )
 						showLinkMessage += m;
 					else
-						showLinkMessage += "<a href='#" + what + '-' + id + "'><?php echo js_escape(__('Jump to new item')); ?>";
+						showLinkMessage += "<a href='#" + what + '-' + id + "'>" + tempObj.jumpText + "</a>";
 				});
 				if ( tempObj.showLink && showLinkMessage )
 					Element.update(ajaxAdd.myResponseElement,"<div id='jumplink' class='updated fade'><p>" + showLinkMessage + "</p></div>");
@@ -127,7 +147,7 @@ Object.extend(listMan.prototype, {
 		Element.cleanWhitespace(this.theList);
 		var id = this.topAdder ? this.theList.firstChild.id : this.theList.lastChild.id;
 		if ( this.alt )
-			if ( this.theList.childNodes.length % 2 )
+			if ( ( this.theList.childNodes.length + this.altOffset ) % 2 )
 				Element.addClassName($(id),this.alt);
 		Fat.fade_element(id);
 	},

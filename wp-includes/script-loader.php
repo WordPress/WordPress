@@ -21,7 +21,11 @@ class WP_Scripts {
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.5.0-0');
 		$this->add( 'autosave', '/wp-includes/js/autosave-js.php', array('prototype', 'sack'), '20070116');
 		$this->add( 'wp-ajax', '/wp-includes/js/wp-ajax-js.php', array('prototype'), '20070118');
-		$this->add( 'listman', '/wp-includes/js/list-manipulation-js.php', array('wp-ajax', 'fat'), '20070118');
+		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'fat'), '20070305');
+		$this->localize( 'listman', 'listManL10n', array(
+			'jumpText' => __('Jump to new item'),
+			'delText' => __('Are you sure you want to delete this %s?')
+		) );
 		$this->add( 'scriptaculous-root', '/wp-includes/js/scriptaculous/wp-scriptaculous.js', array('prototype'), '1.7.0');
 		$this->add( 'scriptaculous-builder', '/wp-includes/js/scriptaculous/builder.js', array('scriptaculous-root'), '1.7.0');
 		$this->add( 'scriptaculous-dragdrop', '/wp-includes/js/scriptaculous/dragdrop.js', array('scriptaculous-builder', 'scriptaculous-effects'), '1.7.0');
@@ -83,12 +87,31 @@ class WP_Scripts {
 					$src = add_query_arg('ver', $ver, $src);
 					$src = apply_filters( 'script_loader_src', $src );
 					echo "<script type='text/javascript' src='$src'></script>\n";
+					$this->print_scripts_l10n( $handle );
 				}
 				$this->printed[] = $handle;
 			}
 		}
 	}
 
+	function print_scripts_l10n( $handle ) {
+		if ( empty($this->scripts[$handle]->l10n_object) || empty($this->scripts[$handle]->l10n) || !is_array($this->scripts[$handle]->l10n) )
+			return;
+
+		$object_name = $this->scripts[$handle]->l10n_object;
+
+		echo "<script type='text/javascript'>\n";
+		echo "/* <![CDATA[ */\n";
+		echo "\t$object_name = {\n";
+		$eol = '';
+		foreach ( $this->scripts[$handle]->l10n as $var => $val ) {
+			echo "$eol\t\t$var: \"" . js_escape( $val ) . '"';
+			$eol = ",\n";
+		}
+		echo "\n\t}\n";
+		echo "/* ]]> */\n";
+		echo "</script>\n";
+	}
 
 	/**
 	 * Determines dependencies of scripts
@@ -140,6 +163,22 @@ class WP_Scripts {
 		return true;
 	}
 
+	/**
+	 * Localizes a script
+	 *
+	 * Localizes only if script has already been added
+	 *
+	 * @param string handle Script name
+	 * @param string object_name Name of JS object to hold l10n info
+	 * @param array l10n Array of JS var name => localized string
+	 * @return bool Successful localization
+	 */
+	function localize( $handle, $object_name, $l10n ) {
+		if ( !isset($this->scripts[$handle]) )
+			return false;
+		return $this->scripts[$handle]->localize( $object_name, $l10n );
+	}
+
 	function remove( $handles ) {
 		foreach ( (array) $handles as $handle )
 			unset($this->scripts[$handle]);
@@ -182,7 +221,8 @@ class _WP_Script {
 	var $src;
 	var $deps = array();
 	var $ver = false;
-	var $args = false;
+	var $l10n_object = '';
+	var $l10n = array();
 
 	function _WP_Script() {
 		@list($this->handle, $this->src, $this->deps, $this->ver) = func_get_args();
@@ -190,6 +230,14 @@ class _WP_Script {
 			$this->deps = array();
 		if ( !$this->ver )
 			$this->ver = false;
+	}
+
+	function localize( $object_name, $l10n ) {
+		if ( !$object_name || !is_array($l10n) )
+			return false;
+		$this->l10n_object = $object_name;
+		$this->l10n = $l10n;
+		return true;
 	}
 }
 
@@ -225,6 +273,21 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false ) {
 		$wp_scripts = new WP_Scripts();
 
 	$wp_scripts->add( $handle, $src, $deps, $ver );
+}
+
+/**
+ * Localizes a script
+ *
+ * Localizes only if script has already been added
+ *
+ * @see WP_Script::localize()
+ */
+function wp_localize_script( $handle, $object_name, $l10n ) {
+	global $wp_scripts;
+	if ( !is_a($wp_scripts, 'WP_Scripts') )
+		return false;
+
+	return $wp_scripts->localize( $handle, $object_name, $l10n );
 }
 
 function wp_deregister_script( $handle ) {
