@@ -931,9 +931,9 @@ class WP_Query {
 
 			if ( is_user_logged_in() ) {
 				if ( 'post' == $post_type )
-					$cap = 'edit_private_posts';
+					$cap = 'read_private_posts';
 				else
-					$cap = 'edit_private_pages';
+					$cap = 'read_private_pages';
 
 				if ( current_user_can($cap) )
 					$where .= " OR post_status = 'private'";
