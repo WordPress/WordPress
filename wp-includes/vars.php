@@ -32,7 +32,7 @@ elseif ( preg_match('/Nav/', $_SERVER['HTTP_USER_AGENT']) || preg_match('/Mozill
 $is_IE = ( $is_macIE || $is_winIE );
 
 // Server detection
-$is_apache ((strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) || (strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false)) ? 1 : 0;
+$is_apache = ((strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) || (strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false)) ? 1 : 0;
 $is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) ? 1 : 0;
 
 // if the config file does not provide the smilies array, let's define it here
