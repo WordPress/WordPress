@@ -28,7 +28,7 @@ if ($drafts || $other_drafts) {
 		++$i;
 		}
 	?>
-	.</p>
+.</p>
 <?php } ?>
 
 <?php if ($other_drafts) { ?>
