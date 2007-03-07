@@ -6,6 +6,7 @@
  *
  */
 
+
 class TinyPspellShell {
 	var $lang;
 	var $mode;
@@ -27,7 +28,11 @@ class TinyPspellShell {
 		$this->errorMsg = array();
 
 		$this->tmpfile = tempnam($config['tinypspellshell.tmp'], "tinyspell");
-		$this->cmd = "cat ". $this->tmpfile ." | " . $config['tinypspellshell.aspell'] . " -a --lang=". $this->lang;
+
+		if(preg_match("#win#i",php_uname()))
+            $this->cmd = $config['tinypspellshell.aspell'] . " -a --lang=". $this->lang." --encoding=utf-8 -H < $this->tmpfile 2>&1";
+        else
+            $this->cmd = "cat ". $this->tmpfile ." | " . $config['tinypspellshell.aspell'] . " -a --encoding=utf-8 -H --lang=". $this->lang;
 	}
 
 	// Returns array with bad words or false if failed.
@@ -36,7 +41,6 @@ class TinyPspellShell {
 			fwrite($fh, "!\n");
 			foreach($wordArray as $key => $value)
 				fwrite($fh, "^" . $value . "\n");
-
 			fclose($fh);
 		} else {
 			$this->errorMsg[] = "PSpell not found.";
@@ -44,7 +48,8 @@ class TinyPspellShell {
 		}
 
 		$data = shell_exec($this->cmd);
-		@unlink($this->tmpfile);
+        @unlink($this->tmpfile);
+		
 		$returnData = array();
 		$dataArr = preg_split("/\n/", $data, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -66,15 +71,22 @@ class TinyPspellShell {
 
 	// Returns array with suggestions or false if failed.
 	function getSuggestion($word) {
+        if (function_exists("mb_convert_encoding"))
+            $word = mb_convert_encoding($word, "ISO-8859-1", mb_detect_encoding($word, "UTF-8"));
+        else
+            $word = utf8_encode($word);
+
 		if ($fh = fopen($this->tmpfile, "w")) {
 			fwrite($fh, "!\n");
 			fwrite($fh, "^$word\n");
 			fclose($fh);
 		} else
-			wp_die("Error opening tmp file.");
+			die("Error opening tmp file.");
 
 		$data = shell_exec($this->cmd);
-		@unlink($this->tmpfile);
+
+        @unlink($this->tmpfile);
+
 		$returnData = array();
 		$dataArr = preg_split("/\n/", $data, -1, PREG_SPLIT_NO_EMPTY);
 
@@ -94,6 +106,13 @@ class TinyPspellShell {
 		}
 		return $returnData;
 	}
+
+	function _debugData($data) {
+		$fh = @fopen("debug.log", 'a+');
+		@fwrite($fh, $data);
+		@fclose($fh);
+	}
+
 }
 
 // Setup classname, should be the same as the name of the spellchecker class

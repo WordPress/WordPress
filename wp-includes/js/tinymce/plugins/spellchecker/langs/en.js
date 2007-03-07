@@ -10,5 +10,6 @@ tinyMCE.addToLang('spellchecker',{
 	swait : 'Spellchecking, please wait...',
 	sug : 'Suggestions',
 	no_sug : 'No suggestions',
-	no_mpell : 'No misspellings found.'
+	no_mpell : 'No misspellings found.',
+	mpell_found : 'Found {$words} misspellings.'
 });
