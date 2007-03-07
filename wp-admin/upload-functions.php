@@ -18,7 +18,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 		the_title();
 		$post_title = attribute_escape(ob_get_contents());
 	ob_end_clean();
-	$post_content = apply_filters( 'content_edit_pre', $post->post_content );
+	$post_content = attribute_escape(apply_filters( 'content_edit_pre', $post->post_content ));
 
 	$class = 'text';
 	$innerHTML = get_attachment_innerHTML( $id, false, $dims );
