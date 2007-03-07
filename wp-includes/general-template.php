@@ -165,8 +165,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 			// category exclusion
 			if ( !stristr($cat,'-') )
 				$title = apply_filters('single_cat_title', get_the_category_by_ID($cat));
-	}
-	if ( !empty($category_name) ) {
+	} elseif ( !empty($category_name) ) {
 		if ( stristr($category_name,'/') ) {
 				$category_name = explode('/',$category_name);
 				if ( $category_name[count($category_name)-1] )
