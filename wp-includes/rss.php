@@ -782,13 +782,13 @@ function parse_w3cdtf ( $date_str ) {
 
 	if ( preg_match( $pat, $date_str, $match ) ) {
 		list( $year, $month, $day, $hours, $minutes, $seconds) =
-			array( $match[1], $match[2], $match[3], $match[4], $match[5], $match[6]);
+			array( $match[1], $match[2], $match[3], $match[4], $match[5], $match[7]);
 
 		# calc epoch for current date assuming GMT
 		$epoch = gmmktime( $hours, $minutes, $seconds, $month, $day, $year);
 
 		$offset = 0;
-		if ( $match[10] == 'Z' ) {
+		if ( $match[11] == 'Z' ) {
 			# zulu time, aka GMT
 		}
 		else {
