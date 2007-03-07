@@ -163,7 +163,7 @@ function get_attachment_link($id = false) {
 	}
 
 	if (! $link ) {
-		$link = get_bloginfo('home') . "/?attachment_id=$id";
+		$link = get_bloginfo('url') . "/?attachment_id=$id";
 	}
 
 	return apply_filters('attachment_link', $link, $id);

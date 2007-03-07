@@ -60,9 +60,11 @@ function wp_meta() {
 
 function bloginfo($show='') {
 	$info = get_bloginfo($show);
-	if (!strstr($show, 'url') && //don't filter URLs
-		!strstr($show, 'directory') &&
-		!strstr($show, 'home')) {
+	
+	// Don't filter URL's.
+	if (strpos($show, 'url') === false || 
+		strpos($show, 'directory') === false || 
+		strpos($show, 'home') === false) {
 		$info = apply_filters('bloginfo', $info, $show);
 		$info = convert_chars($info);
 	} else {
@@ -72,13 +74,18 @@ function bloginfo($show='') {
 	echo $info;
 }
 
-
+/**
+ * Note: some of these values are DEPRECATED. Meaning they could be 
+ * taken out at any time and shouldn't be relied upon. Options 
+ * without "// DEPRECATED" are the preferred and recommended ways 
+ * to get the information.
+ */
 function get_bloginfo($show='') {
 
 	switch($show) {
 		case 'url' :
-		case 'home' :
-		case 'siteurl' :
+		case 'home' : // DEPRECATED
+		case 'siteurl' : // DEPRECATED
 			$output = get_option('home');
 			break;
 		case 'wpurl' :

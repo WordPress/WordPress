@@ -1198,9 +1198,9 @@ function generate_page_uri_index() {
 //
 
 function is_local_attachment($url) {
-	if ( !strstr($url, get_bloginfo('home') ) )
+	if ( !strstr($url, get_bloginfo('url') ) )
 		return false;
-	if ( strstr($url, get_bloginfo('home') . '/?attachment_id=') )
+	if ( strstr($url, get_bloginfo('url') . '/?attachment_id=') )
 		return true;
 	if ( $id = url_to_postid($url) ) {
 		$post = & get_post($id);
