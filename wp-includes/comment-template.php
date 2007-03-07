@@ -239,19 +239,19 @@ function trackback_url( $display = true ) {
 
 function trackback_rdf($timezone = 0) {
 	global $id;
-	if (!stristr($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator')) {
-	echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-			xmlns:dc="http://purl.org/dc/elements/1.1/"
-			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
-		<rdf:Description rdf:about="';
-	the_permalink();
-	echo '"'."\n";
-	echo '    dc:identifier="';
-	the_permalink();
-	echo '"'."\n";
-	echo '    dc:title="'.str_replace('--', '&#x2d;&#x2d;', wptexturize(strip_tags(get_the_title()))).'"'."\n";
-	echo '    trackback:ping="'.trackback_url(0).'"'." />\n";
-	echo '</rdf:RDF>';
+	if (strpos($_SERVER['HTTP_USER_AGENT'], 'W3C_Validator') !== false) {
+		echo '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+				xmlns:dc="http://purl.org/dc/elements/1.1/"
+				xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+			<rdf:Description rdf:about="';
+		the_permalink();
+		echo '"'."\n";
+		echo '    dc:identifier="';
+		the_permalink();
+		echo '"'."\n";
+		echo '    dc:title="'.str_replace('--', '&#x2d;&#x2d;', wptexturize(strip_tags(get_the_title()))).'"'."\n";
+		echo '    trackback:ping="'.trackback_url(0).'"'." />\n";
+		echo '</rdf:RDF>';
 	}
 }
 

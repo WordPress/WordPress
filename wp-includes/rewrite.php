@@ -591,11 +591,11 @@ class WP_Rewrite {
 				//individual post. Do this by checking it contains at least one of 1) post name,
 				//2) post ID, 3) page name, 4) timestamp (year, month, day, hour, second and
 				//minute all present). Set these flags now as we need them for the endpoints.
-				if (strstr($struct, '%postname%') || strstr($struct, '%post_id%')
-						|| strstr($struct, '%pagename%')
-						|| (strstr($struct, '%year%') &&  strstr($struct, '%monthnum%') && strstr($struct, '%day%') && strstr($struct, '%hour%') && strstr($struct, '%minute') && strstr($struct, '%second%'))) {
+				if (strpos($struct, '%postname%') !== false || strpos($struct, '%post_id%') !== false
+						|| strpos($struct, '%pagename%') !== false
+						|| (strpos($struct, '%year%') !== false && strpos($struct, '%monthnum%') !== false && strpos($struct, '%day%') !== false && strpos($struct, '%hour%') !== false && strpos($struct, '%minute%') !== false && strpos($struct, '%second%') !== false)) {
 					$post = true;
-					if  ( strstr($struct, '%pagename%') )
+					if (strpos($struct, '%pagename%') !== false)
 						$page = true;
 				}
 
@@ -809,7 +809,7 @@ class WP_Rewrite {
 					//nada.
 				}
 
-				if (strstr($query, $this->index)) {
+				if (strpos($query, $this->index) !== false) {
 					$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
 				} else {
 					$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA,L]\n";

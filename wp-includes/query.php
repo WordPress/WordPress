@@ -29,7 +29,7 @@ function &query_posts($query) {
 function is_admin () {
 	global $wp_query;
 
-	return ( $wp_query->is_admin || strstr($_SERVER['REQUEST_URI'], 'wp-admin/') );
+	return ($wp_query->is_admin || (strpos($_SERVER['REQUEST_URI'], 'wp-admin/') !== false));
 }
 
 function is_archive () {
@@ -510,7 +510,7 @@ class WP_Query {
 			if (empty($qv['cat']) || ($qv['cat'] == '0')) {
 				$this->is_category = false;
 			} else {
-				if (stristr($qv['cat'],'-')) {
+				if (strpos($qv['cat'], '-') !== false) {
 					$this->is_category = false;
 				} else {
 					$this->is_category = true;
@@ -557,7 +557,7 @@ class WP_Query {
 			$this->is_preview = true;
 		}
 
-		if (strstr($_SERVER['PHP_SELF'], 'wp-admin/')) {
+		if (strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false) {
 			$this->is_admin = true;
 		}
 
@@ -850,7 +850,7 @@ class WP_Query {
 			$in_cats = $out_cats = $out_posts = '';
 			foreach ( $cat_array as $cat ) {
 				$cat = intval($cat);
-				$in = strstr($cat, '-') ? false : true;
+				$in = (strpos($cat, '-') !== false) ? false : true;
 				$cat = trim($cat, '-');
 				if ( $in )
 					$in_cats .= "$cat, " . get_category_children($cat, '', ', ');
@@ -918,7 +918,7 @@ class WP_Query {
 		} else {
 			$q['author'] = ''.urldecode($q['author']).'';
 			$q['author'] = addslashes_gpc($q['author']);
-			if (stristr($q['author'], '-')) {
+			if (strpos($q['author'], '-') !== false) {
 				$eq = '!=';
 				$andor = 'AND';
 				$q['author'] = explode('-', $q['author']);
@@ -938,7 +938,7 @@ class WP_Query {
 		// Author stuff for nice URLs
 
 		if ('' != $q['author_name']) {
-			if (stristr($q['author_name'],'/')) {
+			if (strpos($q['author_name'], '/') !== false) {
 				$q['author_name'] = explode('/',$q['author_name']);
 				if ($q['author_name'][count($q['author_name'])-1]) {
 					$q['author_name'] = $q['author_name'][count($q['author_name'])-1];#no trailing slash

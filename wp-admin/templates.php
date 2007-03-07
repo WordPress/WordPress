@@ -52,7 +52,7 @@ default:
 	if ( ! current_user_can('edit_files') )
 		wp_die('<p>'.__('You do not have sufficient permissions to edit templates for this blog.').'</p>');
 
-	if ( strstr( $file, 'wp-config.php' ) )
+	if (strpos($file, 'wp-config.php') !== false)
 	wp_die('<p>'.__('The config file cannot be edited or viewed through the web interface. Sorry!').'</p>');
 
 	update_recently_edited($file);

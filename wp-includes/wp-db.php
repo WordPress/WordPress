@@ -372,7 +372,7 @@ class wpdb {
 
 		header('Content-Type: text/html; charset=utf-8');
 
-		if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
+		if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
 			$admin_dir = '';
 		else
 			$admin_dir = 'wp-admin/';

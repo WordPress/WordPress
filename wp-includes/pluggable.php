@@ -280,7 +280,7 @@ function check_admin_referer($action = -1) {
 	$adminurl = strtolower(get_option('siteurl')).'/wp-admin';
 	$referer = strtolower(wp_get_referer());
 	if ( !wp_verify_nonce($_REQUEST['_wpnonce'], $action) &&
-		!(-1 == $action && strstr($referer, $adminurl)) ) {
+		!(-1 == $action && strpos($referer, $adminurl) !== false))
 		wp_nonce_ays($action);
 		die();
 	}

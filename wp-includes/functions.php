@@ -780,7 +780,7 @@ function add_query_arg() {
 		$protocol = '';
 	}
 
-	if ( strstr($uri, '?') ) {
+	if (strpos($uri, '?') !== false) {
 		$parts = explode('?', $uri, 2);
 		if ( 1 == count($parts) ) {
 			$base = '?';
@@ -789,7 +789,7 @@ function add_query_arg() {
 			$base = $parts[0] . '?';
 			$query = $parts[1];
 		}
-	} else if ( !empty($protocol) || strstr($uri, '/') ) {
+	} elseif (!empty($protocol) || strpos($uri, '/') !== false) {
 		$base = $uri . '?';
 		$query = '';
 	} else {
@@ -1337,7 +1337,7 @@ function wp_die( $message, $title = '' ) {
 	if ( empty($title) )
 		$title = __('WordPress &rsaquo; Error');
 
-	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
+	if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
 		$admin_dir = '';
 	else
 		$admin_dir = 'wp-admin/';

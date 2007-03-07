@@ -2,7 +2,7 @@
 
 if (! isset($wp_did_header)):
 if ( !file_exists( dirname(__FILE__) . '/wp-config.php') ) {
-	if ( strstr( $_SERVER['PHP_SELF'], 'wp-admin') ) $path = '';
+	if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false) $path = '';
 	else $path = 'wp-admin/';
 
 	require_once( dirname(__FILE__) . '/wp-includes/classes.php');

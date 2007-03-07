@@ -148,7 +148,7 @@ foreach ( (array) $options as $option) :
 	<th scope='row'><label for='$option->option_name'>$option->option_name</label></th>
 <td>";
 
-	if (stristr($value, "\n")) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>$value</textarea>";
+	if (strpos($value, "\n") !== false) echo "<textarea class='$class' name='$option->option_name' id='$option->option_name' cols='30' rows='5'>$value</textarea>";
 	else echo "<input class='$class' type='text' name='$option->option_name' id='$option->option_name' size='30' value='" . $value . "'$disabled />";
 
 	echo "</td>

@@ -941,7 +941,7 @@ class AtomParser {
 				$this->in_content = array();
 			} else {
 				$endtag = $this->ns_to_prefix($name);
-				if(strstr($this->in_content[count($this->in_content)-1], "<$endtag")) {
+				if (strpos($this->in_content[count($this->in_content)-1], '<' . $endtag) !== false) {
 					array_push($this->in_content, "/>");
 				} else {
 					array_push($this->in_content, "</$endtag>");
@@ -969,7 +969,7 @@ class AtomParser {
 		#print str_repeat(" ", $this->depth * $this->indent) . "data: #" . $data . "#\n";
 		if(!empty($this->in_content)) {
 			// handle self-closing tags (case: text node found, need to close element started)
-			if(strstr($this->in_content[count($this->in_content)-1], "<")) {
+			if (strpos($this->in_content[count($this->in_content)-1], '<') !== false) {
 				array_push($this->in_content, ">");
 			}
 			array_push($this->in_content, $this->xml_escape($data));

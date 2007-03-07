@@ -6,11 +6,11 @@
 // The URL of the item's file
 $menu[0] = array(__('Dashboard'), 'read', 'index.php');
 
-if ( strstr($_SERVER['REQUEST_URI'], 'edit-pages.php') )
+if (strpos($_SERVER['REQUEST_URI'], 'edit-pages.php') !== false)
 	$menu[5] = array(__('Write'), 'edit_pages', 'page-new.php');
 else
 	$menu[5] = array(__('Write'), 'edit_posts', 'post-new.php');
-if ( strstr($_SERVER['REQUEST_URI'], 'page-new.php') )
+if (strpos($_SERVER['REQUEST_URI'], 'page-new.php') !== false)
 	$menu[10] = array(__('Manage'), 'edit_pages', 'edit-pages.php');
 else
 	$menu[10] = array(__('Manage'), 'edit_posts', 'edit.php');

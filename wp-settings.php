@@ -40,7 +40,7 @@ if ( isset($_SERVER['SCRIPT_FILENAME']) && ( strpos($_SERVER['SCRIPT_FILENAME'],
 	$_SERVER['SCRIPT_FILENAME'] = $_SERVER['PATH_TRANSLATED'];
 
 // Fix for Dreamhost and other PHP as CGI hosts
-if ( strstr( $_SERVER['SCRIPT_NAME'], 'php.cgi' ) )
+if (strpos($_SERVER['SCRIPT_NAME'], 'php.cgi') !== false)
 	unset($_SERVER['PATH_INFO']);
 
 // Fix empty PHP_SELF
@@ -140,8 +140,8 @@ include_once(ABSPATH . WPINC . '/streams.php');
 include_once(ABSPATH . WPINC . '/gettext.php');
 require_once (ABSPATH . WPINC . '/l10n.php');
 
-if ( !is_blog_installed() && (!strstr($_SERVER['PHP_SELF'], 'install.php') && !defined('WP_INSTALLING')) ) {
-	if ( strstr($_SERVER['PHP_SELF'], 'wp-admin') )
+if ( !is_blog_installed() && (strpos($_SERVER['PHP_SELF'], 'install.php') === false && !defined('WP_INSTALLING')) ) {
+	if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
 		$link = 'install.php';
 	else
 		$link = 'wp-admin/install.php';
@@ -172,11 +172,11 @@ require (ABSPATH . WPINC . '/version.php');
 require (ABSPATH . WPINC . '/deprecated.php');
 require (ABSPATH . WPINC . '/script-loader.php');
 
-if (!strstr($_SERVER['PHP_SELF'], 'install.php')) :
+if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
     // Used to guarantee unique hash cookies
     $cookiehash = md5(get_option('siteurl'));
 	define('COOKIEHASH', $cookiehash); 
-endif;
+}
 
 if ( !defined('USER_COOKIE') )
 	define('USER_COOKIE', 'wordpressuser_'. COOKIEHASH);

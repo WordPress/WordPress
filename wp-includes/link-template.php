@@ -70,7 +70,7 @@ function get_permalink($id = 0) {
 		$unixtime = strtotime($post->post_date);
 
 		$category = '';
-		if ( strstr($permalink, '%category%') ) {
+		if (strpos($permalink, '%category%') !== false) {
 			$cats = get_the_category($post->ID);
 			$category = $cats[0]->category_nicename;
 			if ( $parent=$cats[0]->category_parent )
@@ -158,7 +158,7 @@ function get_attachment_link($id = false) {
 			$parentlink = _get_page_link( $object->post_parent ); // Ignores page_on_front
 		else
 			$parentlink = get_permalink( $object->post_parent );
-		if (! strstr($parentlink, '?') )
+		if (strpos($parentlink, '?') === false)
 			$link = trim($parentlink, '/') . '/' . $object->post_name . '/';
 	}
 

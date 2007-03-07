@@ -29,10 +29,9 @@ function wptexturize($text) {
 		if (isset($curl{0}) && '<' != $curl{0} && $next) { // If it's not a tag
 			// static strings
 			$curl = str_replace($static_characters, $static_replacements, $curl);
-
 			// regular expressions
 			$curl = preg_replace($dynamic_characters, $dynamic_replacements, $curl);
-		} elseif ( strstr($curl, '<code') || strstr($curl, '<pre') || strstr($curl, '<kbd') || strstr($curl, '<style') || strstr($curl, '<script') ) { 
+		} elseif (strpos($curl, '<code') !== false || strpos($curl, '<pre') !== false || strpos($curl, '<kbd') !== false || strpos($curl, '<style') !== false || strpos($curl, '<script') !== false) {
 			$next = false;
 		} else {
 			$next = true;
@@ -78,7 +77,7 @@ function wpautop($pee, $br = 1) {
 	}
 	$pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*<br />!', "$1", $pee);
 	$pee = preg_replace('!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)!', '$1', $pee);
-	if ( strstr( $pee, '<pre' ) )
+	if (strpos($pee, '<pre') !== false)
 		$pee = preg_replace('!(<pre.*?>)(.*?)</pre>!ise', " stripslashes('$1') .  stripslashes(clean_pre('$2'))  . '</pre>' ", $pee);
 	$pee = preg_replace( "|\n</p>$|", '</p>', $pee );
 
@@ -658,7 +657,7 @@ function convert_smilies($text) {
 
 function is_email($user_email) {
 	$chars = "/^([a-z0-9+_]|\\-|\\.)+@(([a-z0-9_]|\\-)+\\.)+[a-z]{2,6}\$/i";
-	if(strstr($user_email, '@') && strstr($user_email, '.')) {
+	if (strpos($user_email, '@') !== false && strpos($user_email, '.') !== false) {
 		if (preg_match($chars, $user_email)) {
 			return true;
 		} else {
@@ -1072,7 +1071,7 @@ function clean_url( $url, $protocols = null ) {
 	$strip = array('%0d', '%0a');
 	$url = str_replace($strip, '', $url);
 	$url = str_replace(';//', '://', $url);
-	$url = (!strstr($url, '://')) ? 'http://'.$url : $url;
+	$url = (strpos($url, '://') === false) ? 'http://'.$url : $url;
 	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
 	if ( !is_array($protocols) )
 		$protocols = array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet'); 

@@ -25,7 +25,7 @@ function kubrick_header_image() {
 }
 
 function kubrick_upper_color() {
-	if ( strstr( $url = kubrick_header_image_url(), 'header-img.php?' ) ) {
+	if (strpos($url = kubrick_header_image_url(), 'header-img.php?') !== false) {
 		parse_str(substr($url, strpos($url, '?') + 1), $q);
 		return $q['upper'];
 	} else
@@ -33,7 +33,7 @@ function kubrick_upper_color() {
 }
 
 function kubrick_lower_color() {
-	if ( strstr( $url = kubrick_header_image_url(), 'header-img.php?' ) ) {
+	if (strpos($url = kubrick_header_image_url(), 'header-img.php?') !== false) {
 		parse_str(substr($url, strpos($url, '?') + 1), $q);
 		return $q['lower'];
 	} else
