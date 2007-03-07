@@ -145,7 +145,7 @@ case 'retrievepassword' :
 		<input type="text" name="user_email" id="user_email" class="input" value="<?php echo attribute_escape(stripslashes($_POST['user_email'])); ?>" size="25" tabindex="20" /></label>
 	</p>
 <?php do_action('lostpassword_form'); ?>
-	<p class="submit"><input type="submit" name="submit" id="submit" value="<?php _e('Get New Password &raquo;'); ?>" tabindex="100" /></p>
+	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Get New Password &raquo;'); ?>" tabindex="100" /></p>
 </form>
 </div>
 
@@ -268,7 +268,7 @@ case 'register' :
 	</p>
 <?php do_action('register_form'); ?>
 	<p id="reg_passmail"><?php _e('A password will be e-mailed to you.') ?></p>
-	<p class="submit"><input type="submit" name="submit" id="submit" value="<?php _e('Register &raquo;'); ?>" tabindex="100" /></p>
+	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Register &raquo;'); ?>" tabindex="100" /></p>
 </form>
 </div>
 
@@ -356,7 +356,7 @@ default:
 <?php do_action('login_form'); ?>
 	<p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p>
 	<p class="submit">
-		<input type="submit" name="submit" id="submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" />
+		<input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" />
 		<input type="hidden" name="redirect_to" value="<?php echo attribute_escape($redirect_to); ?>" />
 	</p>
 </form>
