@@ -153,7 +153,7 @@ $start = " start='$offset'";
 
 <?php comment_text() ?>
 
-<p><?php comment_date('M j, g:i A');  ?> &#8212; [
+<p><?php comment_date(__('M j, g:i A'));  ?> &#8212; [
 <?php
 if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
 	echo " <a href='comment.php?action=editcomment&amp;c=".$comment->comment_ID."'>" .  __('Edit') . '</a>';

@@ -121,7 +121,7 @@ $i = 0;
 	?>
 	<p><strong><?php comment_author() ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
 <?php comment_text() ?>
-<p><?php comment_date('M j, g:i A'); ?> &#8212; [ <?php
+<p><?php comment_date(__('M j, g:i A')); ?> &#8212; [ <?php
 echo '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'">' . __('Edit') . '</a> | ';
 echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to delete this comment by '%s'.\n'Cancel' to stop, 'OK' to delete."), $comment->comment_author )) . "', theCommentList );\">" . __('Delete') . "</a> | "; ?>
 <?php
