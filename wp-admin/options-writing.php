@@ -41,7 +41,7 @@ endforeach;
 </select></td>
 </tr>
 <tr valign="top">
-<th scope="row"><?php _e('Default bookmark category:') ?></th>
+<th scope="row"><?php _e('Default link category:') ?></th>
 <td><select name="default_link_category" id="default_link_category">
 <?php
 foreach ($categories as $category) :
