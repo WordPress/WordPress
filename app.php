@@ -192,7 +192,7 @@ class AtomParser {
 				$this->in_content = array();
 			} else {
 				$endtag = $this->ns_to_prefix($name);
-				if (strpos($this->in_content[count($this->in_content)-1], '<' . $endtag) !== false)
+				if (strpos($this->in_content[count($this->in_content)-1], '<' . $endtag) !== false) {
 					array_push($this->in_content, "/>");
 				} else {
 					array_push($this->in_content, "</$endtag>");
