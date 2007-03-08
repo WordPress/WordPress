@@ -157,13 +157,13 @@ switch($step) {
 	foreach ($configFile as $line_num => $line) {
 		switch (substr($line,0,16)) {
 			case "define('DB_NAME'":
-				fwrite($handle, str_replace("wordpress", $dbname, $line));
+				fwrite($handle, str_replace("putyourdbnamehere", $dbname, $line));
 				break;
 			case "define('DB_USER'":
-				fwrite($handle, str_replace("'username'", "'$uname'", $line));
+				fwrite($handle, str_replace("'usernamehere'", "'$uname'", $line));
 				break;
 			case "define('DB_PASSW":
-				fwrite($handle, str_replace("'password'", "'$passwrd'", $line));
+				fwrite($handle, str_replace("'yourpasswordhere'", "'$passwrd'", $line));
 				break;
 			case "define('DB_HOST'":
 				fwrite($handle, str_replace("localhost", $dbhost, $line));
