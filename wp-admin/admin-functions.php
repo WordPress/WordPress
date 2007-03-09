@@ -1922,7 +1922,7 @@ function wp_import_upload_form( $action ) {
 	if ( strstr( $size, 'g' ) )
 		$bytes = $size * 1024 * 1024 * 1024;
 ?>
-<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo $action ?>">
+<form enctype="multipart/form-data" id="import-upload-form" method="post" action="<?php echo attribute_escape($action) ?>">
 <p>
 <label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __('Maximum size: %s' ), $size ); ?> )
 <input type="file" id="upload" name="import" size="25" />

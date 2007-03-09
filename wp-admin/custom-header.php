@@ -174,7 +174,7 @@ Event.observe( window, 'load', hide_text );
 <h2><?php _e('Upload New Header Image'); ?></h2><p><?php _e('Here you can upload a custom header image to be shown at the top of your blog instead of the default one. On the next screen you will be able to crop the image.'); ?></p>
 <p><?php printf(__('Images of exactly <strong>%1$d x %2$d pixels</strong> will be used as-is.'), HEADER_IMAGE_WIDTH, HEADER_IMAGE_HEIGHT); ?></p>
 
-<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo add_query_arg('step', 2) ?>" style="margin: auto; width: 50%;">
+<form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo attribute_escape(add_query_arg('step', 2)) ?>" style="margin: auto; width: 50%;">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <p class="submit">
@@ -188,7 +188,7 @@ Event.observe( window, 'load', hide_text );
 <div class="wrap">
 <h2><?php _e('Reset Header Image and Color'); ?></h2>
 <p><?php _e('This will restore the original header image and color. You will not be able to retrieve any customizations.') ?></p>
-<form method="post" action="<?php echo add_query_arg('step', 1) ?>">
+<form method="post" action="<?php echo attribute_escape(add_query_arg('step', 1)) ?>">
 <input type="submit" name="resetheader" value="<?php _e('Restore Original Header'); ?>" />
 </form>
 </div>
@@ -240,7 +240,7 @@ Event.observe( window, 'load', hide_text );
 
 <div class="wrap">
 
-<form method="POST" action="<?php echo add_query_arg('step', 3) ?>">
+<form method="POST" action="<?php echo attribute_escape(add_query_arg('step', 3)) ?>">
 
 <p><?php _e('Choose the part of the image you want to use as your header.'); ?></p>
 <div id="testWrap">

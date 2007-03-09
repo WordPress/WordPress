@@ -101,7 +101,7 @@ $total_pages = ceil( $total / 20 );
 $r = '';
 if ( 1 < $page ) {
 	$args['apage'] = ( 1 == $page - 1 ) ? FALSE : $page - 1;
-	$r .=  '<a class="prev" href="' . add_query_arg( $args ) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
+	$r .=  '<a class="prev" href="' . attribute_escape(add_query_arg( $args )) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
 }
 if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
 	for ( $page_num = 1; $page_num <= $total_pages; $page_num++ ) :
@@ -111,7 +111,7 @@ if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
 			$p = false;
 			if ( $page_num < 3 || ( $page_num >= $page - 3 && $page_num <= $page + 3 ) || $page_num > $total_pages - 3 ) :
 				$args['apage'] = ( 1 == $page_num ) ? FALSE : $page_num;
-				$r .= '<a class="page-numbers" href="' . add_query_arg($args) . '">' . ( $page_num ) . "</a>\n";
+				$r .= '<a class="page-numbers" href="' . attribute_escape(add_query_arg($args)) . '">' . ( $page_num ) . "</a>\n";
 				$in = true;
 			elseif ( $in == true ) :
 				$r .= "...\n";
@@ -122,7 +122,7 @@ if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
 }
 if ( ( $page ) * 20 < $total || -1 == $total ) {
 	$args['apage'] = $page + 1;
-	$r .=  '<a class="next" href="' . add_query_arg($args) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
+	$r .=  '<a class="next" href="' . attribute_escape(add_query_arg($args)) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
 }
 echo "<p class='pagenav'>$r</p>";
 ?>
@@ -248,7 +248,7 @@ $total_pages = ceil( $total / 20 );
 $r = '';
 if ( 1 < $page ) {
 	$args['apage'] = ( 1 == $page - 1 ) ? FALSE : $page - 1;
-	$r .=  '<a class="prev" href="' . add_query_arg( $args ) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
+	$r .=  '<a class="prev" href="' . attribute_escape(add_query_arg( $args )) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
 }
 if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
 	for ( $page_num = 1; $page_num <= $total_pages; $page_num++ ) :
@@ -258,7 +258,7 @@ if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
 			$p = false;
 			if ( $page_num < 3 || ( $page_num >= $page - 3 && $page_num <= $page + 3 ) || $page_num > $total_pages - 3 ) :
 				$args['apage'] = ( 1 == $page_num ) ? FALSE : $page_num;
-				$r .= '<a class="page-numbers" href="' . add_query_arg($args) . '">' . ( $page_num ) . "</a>\n";
+				$r .= '<a class="page-numbers" href="' . attribute_escape(add_query_arg($args)) . '">' . ( $page_num ) . "</a>\n";
 				$in = true;
 			elseif ( $in == true ) :
 				$r .= "...\n";
@@ -269,7 +269,7 @@ if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
 }
 if ( ( $page ) * 20 < $total || -1 == $total ) {
 	$args['apage'] = $page + 1;
-	$r .=  '<a class="next" href="' . add_query_arg($args) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
+	$r .=  '<a class="next" href="' . attribute_escape(add_query_arg($args)) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
 }
 echo "<p class='pagenav'>$r</p>";
 ?>

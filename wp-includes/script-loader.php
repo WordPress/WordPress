@@ -78,7 +78,7 @@ class WP_Scripts {
 					if ( isset($this->args[$handle]) )
 						$ver .= '&amp;' . $this->args[$handle];
 					$src = 0 === strpos($this->scripts[$handle]->src, 'http://') ? $this->scripts[$handle]->src : get_option( 'siteurl' ) . $this->scripts[$handle]->src;
-					$src = add_query_arg('ver', $ver, $src);
+					$src = attribute_escape(add_query_arg('ver', $ver, $src));
 					echo "<script type='text/javascript' src='$src'></script>\n";
 				}
 				$this->printed[] = $handle;

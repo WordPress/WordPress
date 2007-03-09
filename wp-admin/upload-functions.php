@@ -35,7 +35,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	$r = '';
 
 	if ( $href )
-		$r .= "<a id='file-link-$id' href='$href' title='$post_title' class='file-link $class'>\n";
+		$r .= "<a id='file-link-$id' href='" . attribute_escape($href) ."' title='$post_title' class='file-link $class'>\n";
 	if ( $href || $image_src )
 		$r .= "\t\t\t$innerHTML";
 	if ( $href )
