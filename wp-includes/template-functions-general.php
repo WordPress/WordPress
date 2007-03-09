@@ -137,8 +137,7 @@ function get_bloginfo($show='') {
 
 
 function wp_title($sep = '&raquo;', $display = true) {
-	global $wpdb;
-	global $m, $year, $monthnum, $day, $category_name, $month, $posts;
+	global $wpdb, $month;
 
 	$cat = get_query_var('cat');
 	$p = get_query_var('p');
@@ -146,14 +145,18 @@ function wp_title($sep = '&raquo;', $display = true) {
 	$category_name = get_query_var('category_name');
 	$author = get_query_var('author');
 	$author_name = get_query_var('author_name');
+	$m = get_query_var('m');
+	$year = get_query_var('year');
+	$monthnum = get_query_var('monthnum');
+	$day = get_query_var('day');
+	$title = '';
 
 	// If there's a category
 	if ( !empty($cat) ) {
 			// category exclusion
 			if ( !stristr($cat,'-') )
-				$title = get_the_category_by_ID($cat);
-	}
-	if ( !empty($category_name) ) {
+				$title = apply_filters('single_cat_title', get_the_category_by_ID($cat));
+	} elseif ( !empty($category_name) ) {
 		if ( stristr($category_name,'/') ) {
 				$category_name = explode('/',$category_name);
 				if ( $category_name[count($category_name)-1] )
@@ -162,6 +165,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 					$category_name = $category_name[count($category_name)-2]; // there was a trailling slash
 		}
 		$title = $wpdb->get_var("SELECT cat_name FROM $wpdb->categories WHERE category_nicename = '$category_name'");
+		$title = apply_filters('single_cat_title', $title);
 	}
 
 	// If there's an author
@@ -244,7 +248,12 @@ function single_cat_title($prefix = '', $display = true ) {
 
 
 function single_month_title($prefix = '', $display = true ) {
-	global $m, $monthnum, $month, $year;
+	global $month;
+
+	$m = get_query_var('m');
+	$year = get_query_var('year');
+	$monthnum = get_query_var('monthnum');
+
 	if ( !empty($monthnum) && !empty($year) ) {
 		$my_year = $year;
 		$my_month = $month[str_pad($monthnum, 2, '0', STR_PAD_LEFT)];
