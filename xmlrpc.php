@@ -1383,29 +1383,22 @@ class wp_xmlrpc_server extends IXR_Server {
 		$type = $data['type'];
 		$bits = $data['bits'];
 
-		// Default to new file, not over write.
-		$overwrite = false;
 		if(!empty($data["overwrite"]) && ($data["overwrite"] == true)) {
-			$overwrite = true;
-
-			// If the file isn't writable then error out now.
-			if(!is_writable($data["name"])) {
-				return(new IXR_Error(500, "File is not writable, over write failed."));
-			}
-
-			// We now know the file is good so don't use the sanitized name.
-			$name = $data["name"];
-
 			// Get postmeta info on the object.
-			$old_meta = $wpdb->get_row("
-				SELECT *
-				FROM {$wpdb->postmeta}
-				WHERE meta_key = '_wp_attached_file'
-					AND meta_value = '{$name}'
+			$old_file = $wpdb->get_row("
+				SELECT ID
+				FROM {$wpdb->posts}
+				WHERE post_title = '{$name}'
+					AND post_type = 'attachment'
 			");
 
-			// Get post info on the object.
-			$old_post = get_post($old_meta->post_id);
+			// Delete previous file.
+			wp_delete_attachment($old_file->ID);
+
+			// Make sure the new name is different by pre-pending the
+			// previous post id.
+			$filename = preg_replace("/^wpid\d+-/", "", $name);
+			$name = "wpid{$old_file->ID}-{$filename}";
 		}
 
 		logIO('O', '(MW) Received '.strlen($bits).' bytes');
@@ -1440,22 +1433,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			'guid' => $upload[ 'url' ]
 		);
 
-		// If we are over writing then set the correct post_id and URL
-		// instead of getting new ones.
-		if($overwrite) {
-			$post_id					= $old_meta->post_id;
-			$attachment["post_parent"]	= $old_meta->post_id;
-			$attachment["ID"]			= $old_meta->post_id;
-
-			$upload["url"]				= $old_post->guid;
-			$attachment["guid"]			= $old_post->guid;
-		}
-
 		// Save the data
 		$id = wp_insert_attachment( $attachment, $upload[ 'file' ], $post_id );
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
 
-		return apply_filters( 'wp_handle_upload', array( 'file' => $upload[ 'file' ], 'url' => $upload[ 'url' ], 'type' => $type ) );
+		return apply_filters( 'wp_handle_upload', array( 'file' => $name, 'url' => $upload[ 'url' ], 'type' => $type ) );
 	}
 
 
