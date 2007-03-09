@@ -404,14 +404,14 @@ class WP_Query {
 		if ( !empty($query) || !isset($this->query) ) {
 			$this->init();
 			if ( is_array($query) )
-				$qv = & $query;
+				$this->query_vars = $query;
 			else
-				parse_str($query, $qv);
+				parse_str($query, $this->query_vars);
 			$this->query = $query;
-			$this->query_vars = $qv;
 		}
 
-		$qv = $this->fill_query_vars($qv);
+		$this->query_vars = $this->fill_query_vars($this->query_vars);
+		$qv = &$this->query_vars;
 
 		if ( ! empty($qv['robots']) ) {
 			$this->is_robots = true;
@@ -426,8 +426,16 @@ class WP_Query {
 			return;
 		}
 
-		$qv['m'] =  (int) $qv['m'];
 		$qv['p'] =  (int) $qv['p'];
+		$qv['page_id'] =  (int) $qv['page_id'];
+		$qv['year'] = (int) $qv['year'];
+		$qv['monthnum'] = (int) $qv['monthnum'];
+		$qv['day'] = (int) $qv['day'];
+		$qv['w'] = (int) $qv['w'];
+		$qv['m'] =  (int) $qv['m'];
+		if ( '' != $qv['hour'] ) $qv['hour'] = (int) $qv['hour'];
+		if ( '' != $qv['minute'] ) $qv['minute'] = (int) $qv['minute'];
+		if ( '' != $qv['second'] ) $qv['second'] = (int) $qv['second'];
 
 		// Compat.  Map subpost to attachment.
 		if ( '' != $qv['subpost'] )
@@ -435,62 +443,64 @@ class WP_Query {
 		if ( '' != $qv['subpost_id'] )
 			$qv['attachment_id'] = $qv['subpost_id'];
 
-		if ( ('' != $qv['attachment']) || (int) $qv['attachment_id'] ) {
+		$qv['attachment_id'] = (int) $qv['attachment_id'];
+		
+		if ( ('' != $qv['attachment']) || !empty($qv['attachment_id']) ) {
 			$this->is_single = true;
 			$this->is_attachment = true;
-		} elseif ('' != $qv['name']) {
+		} elseif ( '' != $qv['name'] ) {
 			$this->is_single = true;
 		} elseif ( $qv['p'] ) {
 			$this->is_single = true;
-		} elseif (('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day'])) {
+		} elseif ( ('' != $qv['hour']) && ('' != $qv['minute']) &&('' != $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day']) ) {
 			// If year, month, day, hour, minute, and second are set, a single
 			// post is being queried.
 			$this->is_single = true;
-		} elseif ('' != $qv['static'] || '' != $qv['pagename'] || (int) $qv['page_id']) {
+		} elseif ( '' != $qv['static'] || '' != $qv['pagename'] || !empty($qv['page_id']) ) {
 			$this->is_page = true;
 			$this->is_single = false;
-		} elseif (!empty($qv['s'])) {
+		} elseif ( !empty($qv['s']) ) {
 			$this->is_search = true;
 		} else {
 		// Look for archive queries.  Dates, categories, authors.
 
-			if ( (int) $qv['second']) {
+			if ( '' != $qv['second'] ) {
 				$this->is_time = true;
 				$this->is_date = true;
 			}
 
-			if ( (int) $qv['minute']) {
+			if ( '' != $qv['minute'] ) {
 				$this->is_time = true;
 				$this->is_date = true;
 			}
 
-			if ( (int) $qv['hour']) {
+			if ( '' != $qv['hour'] ) {
 				$this->is_time = true;
 				$this->is_date = true;
 			}
 
-			if ( (int) $qv['day']) {
+			if ( $qv['day'] ) {
 				if (! $this->is_date) {
 					$this->is_day = true;
 					$this->is_date = true;
 				}
 			}
 
-			if ( (int)  $qv['monthnum']) {
+			if ( $qv['monthnum'] ) {
 				if (! $this->is_date) {
 					$this->is_month = true;
 					$this->is_date = true;
 				}
 			}
 
-			if ( (int)  $qv['year']) {
+			if ( $qv['year'] ) {
 				if (! $this->is_date) {
 					$this->is_year = true;
 					$this->is_date = true;
 				}
 			}
 
-			if ( (int)  $qv['m']) {
+			if ( $qv['m'] ) {
 				$this->is_date = true;
 				if (strlen($qv['m']) > 9) {
 					$this->is_time = true;
@@ -507,7 +517,7 @@ class WP_Query {
 				$this->is_date = true;
 			}
 
-			if (empty($qv['cat']) || ($qv['cat'] == '0')) {
+			if ( empty($qv['cat']) || ($qv['cat'] == '0') ) {
 				$this->is_category = false;
 			} else {
 				if (strpos($qv['cat'], '-') !== false) {
@@ -517,52 +527,45 @@ class WP_Query {
 				}
 			}
 
-			if ('' != $qv['category_name']) {
+			if ( '' != $qv['category_name'] ) {
 				$this->is_category = true;
 			}
 
-			if ((empty($qv['author'])) || ($qv['author'] == '0')) {
+			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
 			} else {
 				$this->is_author = true;
 			}
 
-			if ('' != $qv['author_name']) {
+			if ( '' != $qv['author_name'] ) {
 				$this->is_author = true;
 			}
 
-			if ( ($this->is_date || $this->is_author || $this->is_category)) {
+			if ( ($this->is_date || $this->is_author || $this->is_category) )
 				$this->is_archive = true;
-			}
 		}
 
-		if ('' != $qv['feed']) {
+		if ( '' != $qv['feed'] )
 			$this->is_feed = true;
-		}
 
-		if ('' != $qv['tb']) {
+		if ( '' != $qv['tb'] )
 			$this->is_trackback = true;
-		}
 
-		if ('' != $qv['paged']) {
+		if ( '' != $qv['paged'] )
 			$this->is_paged = true;
-		}
 
-		if ('' != $qv['comments_popup']) {
+		if ( '' != $qv['comments_popup'] )
 			$this->is_comments_popup = true;
-		}
 
-		//if we're previewing inside the write screen
-		if ('' != $qv['preview']) {
+		// if we're previewing inside the write screen
+		if ('' != $qv['preview'])
 			$this->is_preview = true;
-		}
 
-		if (strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false) {
+		if ( strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false )
 			$this->is_admin = true;
-		}
 
 		if ( false !== strpos($qv['feed'], 'comments-') ) {
-			$this->query_vars['feed'] = $qv['feed'] = str_replace('comments-', '', $qv['feed']);
+			$qv['feed'] = str_replace('comments-', '', $qv['feed']);
 			$qv['withcomments'] = 1;
 		}
 
@@ -571,15 +574,14 @@ class WP_Query {
 		if ( $this->is_feed && ( !empty($qv['withcomments']) || ( empty($qv['withoutcomments']) && $this->is_singular ) ) )
 			$this->is_comment_feed = true;
 
-		if ( !( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup ) ) {
+		if ( !( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup ) )
 			$this->is_home = true;
-		}
 
 		// Correct is_* for page_on_front and page_for_posts
 		if ( $this->is_home && ( empty($this->query) || $qv['preview'] == 'true' ) && 'page' == get_option('show_on_front') && get_option('page_on_front') ) {
 			$this->is_page = true;
 			$this->is_home = false;
-			$this->query_vars['page_id'] = get_option('page_on_front');
+			$qv['page_id'] = get_option('page_on_front');
 		}
 
 		if ( '' != $qv['pagename'] ) {
@@ -596,8 +598,7 @@ class WP_Query {
 			}
 		}
 
-		if ( '' != $qv['page_id'] && 0 != intval($qv['page_id']) ) {
-			$this->query_vars['page_id'] = intval($qv['page_id']);
+		if ( $qv['page_id'] ) {
 			if  ( 'page' == get_option('show_on_front') && $qv['page_id'] == get_option('page_for_posts') ) {
 				$this->is_page = false;
 				$this->is_home = true;
@@ -611,9 +612,8 @@ class WP_Query {
 		$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
 		// Done correcting is_* for page_on_front and page_for_posts
 
-		if ( !empty($query) ) {
+		if ( !empty($query) )
 			do_action_ref_array('parse_query', array(&$this));
-		}
 	}
 
 	function set_404() {
@@ -704,7 +704,7 @@ class WP_Query {
 		$wp_posts_post_date_field = "post_date"; // "DATE_ADD(post_date, INTERVAL '$add_hours:$add_minutes' HOUR_MINUTE)";
 
 		// If a month is specified in the querystring, load that month
-		if ( (int) $q['m'] ) {
+		if ( $q['m'] ) {
 			$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
 			$where .= ' AND YEAR(post_date)=' . substr($q['m'], 0, 4);
 			if (strlen($q['m'])>5)
@@ -719,41 +719,23 @@ class WP_Query {
 				$where .= ' AND SECOND(post_date)=' . substr($q['m'], 12, 2);
 		}
 
-		if ( (int) $q['hour'] ) {
-			$q['hour'] = '' . intval($q['hour']);
+		if ( '' != $q['hour'] )
 			$where .= " AND HOUR(post_date)='" . $q['hour'] . "'";
-		}
 
-		if ( (int) $q['minute'] ) {
-			$q['minute'] = '' . intval($q['minute']);
+		if ( '' != $q['minute'] )
 			$where .= " AND MINUTE(post_date)='" . $q['minute'] . "'";
-		}
 
-		if ( (int) $q['second'] ) {
-			$q['second'] = '' . intval($q['second']);
+		if ( '' != $q['second'] )
 			$where .= " AND SECOND(post_date)='" . $q['second'] . "'";
-		}
 
-		if ( (int) $q['year'] ) {
-			$q['year'] = '' . intval($q['year']);
+		if ( $q['year'] )
 			$where .= " AND YEAR(post_date)='" . $q['year'] . "'";
-		}
 
-		if ( (int) $q['monthnum'] ) {
-			$q['monthnum'] = '' . intval($q['monthnum']);
+		if ( $q['monthnum'] )
 			$where .= " AND MONTH(post_date)='" . $q['monthnum'] . "'";
-		}
 
-		if ( (int) $q['day'] ) {
-			$q['day'] = '' . intval($q['day']);
+		if ( $q['day'] )
 			$where .= " AND DAYOFMONTH(post_date)='" . $q['day'] . "'";
-		}
-
-		// Compat.  Map subpost to attachment.
-		if ( '' != $q['subpost'] )
-			$q['attachment'] = $q['subpost'];
-		if ( '' != $q['subpost_id'] )
-			$q['attachment_id'] = $q['subpost_id'];
 
 		if ('' != $q['name']) {
 			$q['name'] = sanitize_title($q['name']);
@@ -784,34 +766,29 @@ class WP_Query {
 			$where .= " AND post_name = '" . $q['attachment'] . "'";
 		}
 
-		if ( (int) $q['w'] ) {
-			$q['w'] = ''.intval($q['w']);
+		if ( $q['w'] )
 			$where .= " AND WEEK(post_date, 1)='" . $q['w'] . "'";
-		}
 
 		if ( intval($q['comments_popup']) )
 			$q['p'] = intval($q['comments_popup']);
 
-		// If a attachment is requested by number, let it supercede any post number.
-		if ( ($q['attachment_id'] != '') && (intval($q['attachment_id']) != 0) )
-			$q['p'] = (int) $q['attachment_id'];
+		// If an attachment is requested by number, let it supercede any post number.
+		if ( $q['attachment_id'] )
+			$q['p'] = $q['attachment_id'];
 
 		// If a post number is specified, load that post
-		if (($q['p'] != '') && intval($q['p']) != 0) {
-			$q['p'] =  (int) $q['p'];
+		if ( $q['p'] )
 			$where = ' AND ID = ' . $q['p'];
-		}
 
-		if (($q['page_id'] != '') && (intval($q['page_id']) != 0)) {
-			$q['page_id'] = intval($q['page_id']);
+		if ( $q['page_id'] ) {
 			if  ( ('page' != get_option('show_on_front') ) || ( $q['page_id'] != get_option('page_for_posts') ) ) {
 				$q['p'] = $q['page_id'];
-				$where = ' AND ID = '.$q['page_id'];
+				$where = ' AND ID = ' . $q['page_id'];
 			}
 		}
 
 		// If a search pattern is specified, load the posts that match
-		if (!empty($q['s'])) {
+		if ( !empty($q['s']) ) {
 			// added slashes screw with quote grouping when done early, so done later
 			$q['s'] = stripslashes($q['s']);
 			if ($q['sentence']) {
@@ -838,10 +815,10 @@ class WP_Query {
 
 		// Category stuff
 
-		if ((empty($q['cat'])) || ($q['cat'] == '0') ||
+		if ( empty($q['cat']) || ($q['cat'] == '0') ||
 				// Bypass cat checks if fetching specific posts
-				( $this->is_single || $this->is_page )) {
-			$whichcat='';
+				$this->is_singular ) {
+			$whichcat = '';
 		} else {
 			$q['cat'] = ''.urldecode($q['cat']).'';
 			$q['cat'] = addslashes_gpc($q['cat']);
@@ -878,7 +855,7 @@ class WP_Query {
 		}
 
 		// Category stuff for nice URLs
-		if ('' != $q['category_name']) {
+		if ( '' != $q['category_name'] ) {
 			$reqcat = get_category_by_path($q['category_name']);
 			$q['category_name'] = str_replace('%2F', '/', urlencode(urldecode($q['category_name'])));
 			$cat_paths = '/' . trim($q['category_name'], '/');
@@ -913,7 +890,7 @@ class WP_Query {
 
 		// Author/user stuff
 
-		if ((empty($q['author'])) || ($q['author'] == '0')) {
+		if ( empty($q['author']) || ($q['author'] == '0') ) {
 			$whichauthor='';
 		} else {
 			$q['author'] = ''.urldecode($q['author']).'';
@@ -953,12 +930,11 @@ class WP_Query {
 
 		$where .= $search.$whichcat.$whichauthor;
 
-		if ((empty($q['order'])) || ((strtoupper($q['order']) != 'ASC') && (strtoupper($q['order']) != 'DESC'))) {
-			$q['order']='DESC';
-		}
+		if ( empty($q['order']) || ((strtoupper($q['order']) != 'ASC') && (strtoupper($q['order']) != 'DESC')) )
+			$q['order'] = 'DESC';
 
 		// Order by
-		if (empty($q['orderby'])) {
+		if ( empty($q['orderby']) ) {
 			$q['orderby'] = 'post_date '.$q['order'];
 		} else {
 			// Used to filter values
@@ -1014,7 +990,7 @@ class WP_Query {
 		$join = apply_filters('posts_join', $join);
 
 		// Paging
-		if (empty($q['nopaging']) && !$this->is_singular) {
+		if ( empty($q['nopaging']) && !$this->is_singular ) {
 			$page = abs(intval($q['paged']));
 			if (empty($page)) {
 				$page = 1;
