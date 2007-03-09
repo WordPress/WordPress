@@ -1810,7 +1810,7 @@ o.action.value = 'view';
 o.submit();
 }
 </script>
-<form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo $action ?>">
+<form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo attribute_escape($action) ?>">
 <label for="upload"><?php _e('File:'); ?></label><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <div id="buttons">
