@@ -147,8 +147,7 @@ function get_bloginfo($show='') {
 
 
 function wp_title($sep = '&raquo;', $display = true) {
-	global $wpdb;
-	global $m, $year, $monthnum, $day, $category_name, $wp_locale, $posts;
+	global $wpdb, $wp_locale, $wp_query;
 
 	$cat = get_query_var('cat');
 	$p = get_query_var('p');
@@ -156,6 +155,10 @@ function wp_title($sep = '&raquo;', $display = true) {
 	$category_name = get_query_var('category_name');
 	$author = get_query_var('author');
 	$author_name = get_query_var('author_name');
+	$m = get_query_var('m');
+	$year = get_query_var('year');
+	$monthnum = get_query_var('monthnum');
+	$day = get_query_var('day');
 	$title = '';
 
 	// If there's a category
@@ -196,14 +199,14 @@ function wp_title($sep = '&raquo;', $display = true) {
 	if ( !empty($year) ) {
 		$title = $year;
 		if ( !empty($monthnum) )
-			$title .= " $sep ".$wp_locale->get_month($monthnum);
+			$title .= " $sep " . $wp_locale->get_month($monthnum);
 		if ( !empty($day) )
-			$title .= " $sep ".zeroise($day, 2);
+			$title .= " $sep " . zeroise($day, 2);
 	}
 
 	// If there is a post
 	if ( is_single() || is_page() ) {
-		$title = strip_tags($posts[0]->post_title);
+		$title = strip_tags($wp_query->get_queried_object()->post_title);
 		$title = apply_filters('single_post_title', $title);
 	}
 
@@ -256,7 +259,12 @@ function single_cat_title($prefix = '', $display = true ) {
 
 
 function single_month_title($prefix = '', $display = true ) {
-	global $m, $monthnum, $wp_locale, $year;
+	global $wp_locale;
+
+	$m = get_query_var('m');
+	$year = get_query_var('year');
+	$monthnum = get_query_var('monthnum');
+
 	if ( !empty($monthnum) && !empty($year) ) {
 		$my_year = $year;
 		$my_month = $wp_locale->get_month($monthnum);
