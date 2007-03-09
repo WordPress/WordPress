@@ -214,7 +214,8 @@ function wp_title($sep = '&raquo;', $display = true) {
 
 	// If there is a post
 	if ( is_single() || is_page() ) {
-		$title = strip_tags($wp_query->get_queried_object()->post_title);
+		$post = $wp_query->get_queried_object();
+		$title = strip_tags($post->post_title);
 		$title = apply_filters('single_post_title', $title);
 	}
 
