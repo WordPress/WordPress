@@ -155,14 +155,11 @@ function wp_link_pages($args = '') {
 				$j = str_replace('%',"$i",$pagelink);
 				$output .= ' ';
 				if ( ($i != $page) || ((!$more) && ($page==1)) ) {
-					if ( '' == get_option('permalink_structure') ) {
-						if ( $i == 1 )
-							$output .= '<a href="' . get_permalink() . $i . '">';
-						else
-							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
+					if ( 1 == $i ) {
+						$output .= '<a href="' . get_permalink() . '">';
 					} else {
-						if ( $i == 1 )
-							$output .= '<a href="' . get_permalink() . '">';
+						if ( '' == get_option('permalink_structure') )
+							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
 						else
 							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i) . '">';
 					}
@@ -177,17 +174,25 @@ function wp_link_pages($args = '') {
 				$output .= $before;
 				$i = $page - 1;
 				if ( $i && $more ) {
-					if ( '' == get_option('permalink_structure') )
-						$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $previouspagelink . '</a>';
-					else
-						$output .= '<a href="' . get_permalink() . $i . '/">'.$previouspagelink.'</a>';
+					if ( 1 == $i ) {
+						$output .= '<a href="' . get_permalink() . '">' . $previouspagelink . '</a>';
+					} else {
+						if ( '' == get_option('permalink_structure') )
+							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $previouspagelink . '</a>';
+						else
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i) . '">' . $previouspagelink . '</a>';
+					}
 				}
 				$i = $page + 1;
 				if ( $i <= $numpages && $more ) {
-					if ( '' == get_option('permalink_structure') )
-						$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">'.$nextpagelink.'</a>';
-					else
-						$output .= '<a href="' . trailingslashit(get_permalink()) . $i . '/">' . $nextpagelink . '</a>';
+					if ( 1 == $i ) {
+						$output .= '<a href="' . get_permalink() . '">' . $nextpagelink . '</a>';
+					} else {
+						if ( '' == get_option('permalink_structure') )
+							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $nextpagelink . '</a>';
+						else
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i) . '">' . $nextpagelink . '</a>';
+					}
 				}
 				$output .= $after;
 			}
