@@ -226,7 +226,7 @@ function get_trackback_url() {
 	$tb_url = get_option('siteurl') . '/wp-trackback.php?p=' . $id;
 
 	if ( '' != get_option('permalink_structure') )
-		$tb_url = trailingslashit(get_permalink()) . user_trailingslashit('trackback');
+		$tb_url = trailingslashit(get_permalink()) . user_trailingslashit('trackback', 'single_trackback');
 
 	return $tb_url;
 }

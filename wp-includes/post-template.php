@@ -161,7 +161,7 @@ function wp_link_pages($args = '') {
 						if ( '' == get_option('permalink_structure') )
 							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
 						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i) . '">';
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
 					}
 				}
 				$output .= $j;
@@ -180,7 +180,7 @@ function wp_link_pages($args = '') {
 						if ( '' == get_option('permalink_structure') )
 							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $previouspagelink . '</a>';
 						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i) . '">' . $previouspagelink . '</a>';
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $previouspagelink . '</a>';
 					}
 				}
 				$i = $page + 1;
@@ -191,7 +191,7 @@ function wp_link_pages($args = '') {
 						if ( '' == get_option('permalink_structure') )
 							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $nextpagelink . '</a>';
 						else
-							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i) . '">' . $nextpagelink . '</a>';
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $nextpagelink . '</a>';
 					}
 				}
 				$output .= $after;

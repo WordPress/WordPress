@@ -113,7 +113,7 @@ function get_author_rss_link($echo = false, $author_id, $author_nicename) {
 		$link = get_option('home') . '?feed=rss2&amp;author=' . $author_id;
 	} else {
 		$link = get_author_posts_url($author_id, $author_nicename);
-		$link = $link . user_trailingslashit('feed');
+		$link = $link . user_trailingslashit('feed', 'feed');
 	}
 
 	$link = apply_filters('author_feed_link', $link);
@@ -131,7 +131,7 @@ function get_category_rss_link($echo = false, $cat_ID, $category_nicename) {
 		$link = get_option('home') . '?feed=rss2&amp;cat=' . $cat_ID;
 	} else {
 		$link = get_category_link($cat_ID);
-		$link = $link . user_trailingslashit('feed/');
+		$link = $link . user_trailingslashit('feed', 'feed');
 	}
 
 	$link = apply_filters('category_feed_link', $link);

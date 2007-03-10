@@ -16,14 +16,19 @@ function permalink_link() { // For backwards compatibility
  * has a trailing slash, strips the trailing slash if not
  * @global object Uses $wp_rewrite
  * @param $string string a URL with or without a trailing slash
+ * @param $type_of_url string the type of URL being considered (e.g. single, category, etc) for use in the filter
  * @return string
  */
-function user_trailingslashit($string) {
+function user_trailingslashit($string, $type_of_url = '') {
 	global $wp_rewrite;
 	if ( $wp_rewrite->use_trailing_slashes )
 		$string = trailingslashit($string);
 	else
-		$string = preg_replace('|/$|', '', $string); // untrailing slash
+		$string = preg_replace('|/+$|', '', $string); // untrailing slash
+
+	// Note that $type_of_url can be one of following:
+	// single, single_trackback, single_feed, single_paged, feed, category, page, year, month, day, paged
+	$string = apply_filters('user_trailingslashit', $string, $type_of_url);
 	return $string;
 }
 
@@ -94,7 +99,9 @@ function get_permalink($id = 0) {
 			$author,
 			$post->post_name,
 		);
-		return apply_filters('post_link', get_option('home') . str_replace($rewritecode, $rewritereplace, $permalink), $post);
+		$permalink = get_option('home') . str_replace($rewritecode, $rewritereplace, $permalink);
+		$permalink = user_trailingslashit($permalink, 'single');
+		return apply_filters('post_link', $permalink, $post);
 	} else { // if they're not using the fancy permalink option
 		$permalink = get_option('home') . '/?p=' . $post->ID;
 		return apply_filters('post_link', $permalink, $post);
@@ -134,7 +141,7 @@ function _get_page_link( $id = false ) {
 		$link = get_page_uri($id);
 		$link = str_replace('%pagename%', $link, $pagestruct);
 		$link = get_option('home') . "/$link";
-		$link = user_trailingslashit($link);
+		$link = user_trailingslashit($link, 'page');
 	} else {
 		$link = get_option('home') . "/?page_id=$id";
 	}
@@ -176,7 +183,7 @@ function get_year_link($year) {
 	$yearlink = $wp_rewrite->get_year_permastruct();
 	if ( !empty($yearlink) ) {
 		$yearlink = str_replace('%year%', $year, $yearlink);
-		return apply_filters('year_link', get_option('home') . user_trailingslashit($yearlink), $year);
+		return apply_filters('year_link', get_option('home') . user_trailingslashit($yearlink, 'year'), $year);
 	} else {
 		return apply_filters('year_link', get_option('home') . '/?m=' . $year, $year);
 	}
@@ -192,7 +199,7 @@ function get_month_link($year, $month) {
 	if ( !empty($monthlink) ) {
 		$monthlink = str_replace('%year%', $year, $monthlink);
 		$monthlink = str_replace('%monthnum%', zeroise(intval($month), 2), $monthlink);
-		return apply_filters('month_link', get_option('home') . user_trailingslashit($monthlink), $year, $month);
+		return apply_filters('month_link', get_option('home') . user_trailingslashit($monthlink, 'month'), $year, $month);
 	} else {
 		return apply_filters('month_link', get_option('home') . '/?m=' . $year . zeroise($month, 2), $year, $month);
 	}
@@ -212,7 +219,7 @@ function get_day_link($year, $month, $day) {
 		$daylink = str_replace('%year%', $year, $daylink);
 		$daylink = str_replace('%monthnum%', zeroise(intval($month), 2), $daylink);
 		$daylink = str_replace('%day%', zeroise(intval($day), 2), $daylink);
-		return apply_filters('day_link', get_option('home') . user_trailingslashit($daylink), $year, $month, $day);
+		return apply_filters('day_link', get_option('home') . user_trailingslashit($daylink, 'day'), $year, $month, $day);
 	} else {
 		return apply_filters('day_link', get_option('home') . '/?m=' . $year . zeroise($month, 2) . zeroise($day, 2), $year, $month, $day);
 	}
@@ -236,7 +243,7 @@ function get_feed_link($feed='rss2') {
 
 		$permalink = str_replace('%feed%', $feed, $permalink);
 		$permalink = preg_replace('#/+#', '/', "/$permalink");
-		$output =  get_option('home') . user_trailingslashit($permalink);
+		$output =  get_option('home') . user_trailingslashit($permalink, 'feed');
 	} else {
 		if ( false !== strpos($feed, 'comments_') )
 			$feed = str_replace('comments_', 'comments-', $feed);
@@ -257,7 +264,7 @@ function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
 		$url = trailingslashit( get_permalink() ) . 'feed';
 		if ( 'rss2' != $feed )
 			$url .= "/$feed";
-		$url = user_trailingslashit($url);
+		$url = user_trailingslashit($url, 'single_feed');
 	} else {
 		$url = get_option('home') . "/?feed=$feed&amp;p=$id";
 	}
@@ -471,13 +478,13 @@ function get_pagenum_link($pagenum = 1) {
 
 	$qstr = preg_replace('|^/+|', '', $qstr);
 	if ( $permalink )
-		$qstr = user_trailingslashit($qstr);
+		$qstr = user_trailingslashit($qstr, 'paged');
 	$qstr = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_option('home') ) . $qstr );
 
 	// showing /page/1/ or ?paged=1 is redundant
 	if ( 1 === $pagenum ) {
-		$qstr = str_replace(user_trailingslashit('index.php/page/1'), '', $qstr); // for PATHINFO style
-		$qstr = str_replace(user_trailingslashit('page/1'), '', $qstr); // for mod_rewrite style
+		$qstr = str_replace(user_trailingslashit('index.php/page/1', 'paged'), '', $qstr); // for PATHINFO style
+		$qstr = str_replace(user_trailingslashit('page/1', 'paged'), '', $qstr); // for mod_rewrite style
 		$qstr = remove_query_arg('paged', $qstr); // for query style
 	}
 	return $qstr;
