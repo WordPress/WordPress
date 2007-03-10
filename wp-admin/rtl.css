@@ -42,8 +42,10 @@ textarea, input, select { font:  13px Tahoma, Verdana, Arial, Helvetica, sans-se
 
 #adminmenu {
 	padding: .2em 2em .3em .2em;
-	height: 30px;
+	height: 28px;
 }
+
+#adminmenu li { line-height: 160%; }
 
 #adminmenu a {
 	margin: 0 0 0 10px;
@@ -56,23 +58,22 @@ textarea, input, select { font:  13px Tahoma, Verdana, Arial, Helvetica, sans-se
 	border-left: 2px solid #4f96c8;
 }
 
-#adminmenu li { line-height: 180%; }
+#submenu, #minisub { padding: 1px 3em 0 2em; }
 
-#submenu, #minisub { padding: 3px 3em 0 2em; }
+#submenu { height: 28px; }
 
-#submenu .current {
-	border-right: 0;
-	border-left: 2px solid #045290;
-}
+#submenu li { line-height: 160%; }
 
 #submenu a {
-	padding: .3em .4em .4em .4em;
 	margin: 0 0 0 10px;
 	display: block;
 	float: right;
 }
 
-#submenu li { line-height: 120%; }
+#submenu .current {
+	border-right: 0;
+	border-left: 2px solid #045290;
+}
 
 #currenttheme img {
 	float: right;
@@ -90,7 +91,12 @@ textarea, input, select { font:  13px Tahoma, Verdana, Arial, Helvetica, sans-se
 	margin-left: 5em;
 }
 
-* html #postexcerpt .dbx-toggle-open, * html #postexcerpt .dbx-toggle-open, #postexcerpt div, #attachmentlinks div {
+#postexcerpt div, #attachmentlinks div {
+	margin-right: auto;
+	margin-left: 8px;
+}
+
+* html #postexcerpt .dbx-toggle-open {
 	padding-right: 0;
 	padding-left: 8px;
 }
