@@ -2087,7 +2087,9 @@ function wp_crop_image( $src_file, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_
 		$src_h -= $src_y;
 	}
 
-	imageantialias( $dst, true );
+	if (function_exists('imageantialias'))
+		imageantialias( $dst, true );
+	
 	imagecopyresampled( $dst, $src, 0, 0, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h );
 
 	if ( !$dst_file )
