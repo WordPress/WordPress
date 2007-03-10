@@ -105,6 +105,7 @@ function &get_post(&$post, $output = OBJECT) {
 			$post_cache[$blog_id][$post->ID] = &$post;
 		$_post = & $post_cache[$blog_id][$post->ID];
 	} else {
+		$post = (int) $post;
 		if ( isset($post_cache[$blog_id][$post]) )
 			$_post = & $post_cache[$blog_id][$post];
 		elseif ( $_post = wp_cache_get($post, 'pages') )
@@ -930,6 +931,7 @@ function &get_page(&$page, $output = OBJECT) {
 		wp_cache_add($page->ID, $page, 'pages');
 		$_page = $page;
 	} else {
+		$page = (int) $page;
 		// first, check the cache
 		if ( ! ( $_page = wp_cache_get($page, 'pages') ) ) {
 			// not in the page cache?
