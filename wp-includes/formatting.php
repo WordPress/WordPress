@@ -563,10 +563,13 @@ function backslashit($string) {
 }
 
 function trailingslashit($string) {
-		if ( '/' != substr($string, -1)) {
+		if ( '/' != substr($string, -1))
 				$string .= '/';
-		}
 		return $string;
+}
+
+function untrailingslashit($string) {
+	return preg_replace('|/+$|', '', $string);
 }
 
 function addslashes_gpc($gpc) {

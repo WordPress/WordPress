@@ -24,7 +24,7 @@ function user_trailingslashit($string, $type_of_url = '') {
 	if ( $wp_rewrite->use_trailing_slashes )
 		$string = trailingslashit($string);
 	else
-		$string = preg_replace('|/+$|', '', $string); // untrailing slash
+		$string = untrailingslashit($string);
 
 	// Note that $type_of_url can be one of following:
 	// single, single_trackback, single_feed, single_paged, feed, category, page, year, month, day, paged
