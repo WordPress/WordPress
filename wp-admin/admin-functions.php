@@ -705,7 +705,7 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 
 function write_nested_categories( $categories ) {
 	foreach ( $categories as $category ) {
-		echo '<li id="category-', $category['cat_ID'], '"><label for="in-category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'], '" type="checkbox" name="post_category[]" id="in-category-', $category['cat_ID'], '"', ($category['checked'] ? ' checked="checked"' : "" ), '/> ', wp_specialchars( $category['cat_name'] ), "</label></li>";
+		echo '<li id="category-', $category['cat_ID'], '"><label for="in-category-', $category['cat_ID'], '" class="selectit"><input value="', $category['cat_ID'], '" type="checkbox" name="post_category[]" id="in-category-', $category['cat_ID'], '"', ($category['checked'] ? ' checked="checked"' : "" ), '/> ', wp_specialchars( apply_filters('the_category', $category['cat_name'] )), "</label></li>";
 
 		if ( $category['children'] ) {
 			echo "<ul>\n";

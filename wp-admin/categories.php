@@ -114,7 +114,7 @@ cat_rows();
 
 <?php if ( current_user_can('manage_categories') ) : ?>
 <div class="wrap">
-<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts and links in that category.  Instead, posts in the deleted category are set to the category <strong>%s</strong> and links are set to <strong>%s</strong>.'), get_catname(get_option('default_category')), get_catname(get_option('default_link_category'))) ?></p>
+<p><?php printf(__('<strong>Note:</strong><br />Deleting a category does not delete the posts and links in that category.  Instead, posts in the deleted category are set to the category <strong>%s</strong> and links are set to <strong>%s</strong>.'), apply_filters('the_category', get_catname(get_option('default_category'))), apply_filters('the_category', get_catname(get_option('default_link_category')))) ?></p>
 </div>
 
 <?php include('edit-category-form.php'); ?>

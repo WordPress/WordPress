@@ -50,7 +50,7 @@ if ( $comments || $numcomments ) :
 <?php
 if ( $comments ) {
 foreach ($comments as $comment) {
-	echo '<li>' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . get_the_title($comment->comment_post_ID) . '</a>');
+	echo '<li>' . sprintf(__('%1$s on %2$s'), get_comment_author_link(), '<a href="'. get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . apply_filters('the_title', get_the_title($comment->comment_post_ID)) . '</a>');
 	edit_comment_link(__("Edit"), ' <small>(', ')</small>');
 	echo '</li>';
 }
