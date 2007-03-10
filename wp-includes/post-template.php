@@ -155,10 +155,17 @@ function wp_link_pages($args = '') {
 				$j = str_replace('%',"$i",$pagelink);
 				$output .= ' ';
 				if ( ($i != $page) || ((!$more) && ($page==1)) ) {
-					if ( '' == get_option('permalink_structure') )
-						$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
-					else
-						$output .= '<a href="' . trailingslashit(get_permalink()) . $i . '/">';
+					if ( '' == get_option('permalink_structure') ) {
+						if ( $i == 1 )
+							$output .= '<a href="' . get_permalink() . $i . '">';
+						else
+							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
+					} else {
+						if ( $i == 1 )
+							$output .= '<a href="' . get_permalink() . '">';
+						else
+							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i) . '">';
+					}
 				}
 				$output .= $j;
 				if ( ($i != $page) || ((!$more) && ($page==1)) )
