@@ -48,7 +48,7 @@ switch ($step) {
 $categories = get_categories('hide_empty=0');
 foreach ($categories as $category) {
 ?>
-<option value="<?php echo $category->cat_ID; ?>"><?php echo wp_specialchars($category->cat_name); ?></option>
+<option value="<?php echo $category->cat_ID; ?>"><?php echo wp_specialchars(apply_filters('link_category', $category->cat_name)); ?></option>
 <?php
 } // end foreach
 ?>

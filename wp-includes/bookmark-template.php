@@ -266,9 +266,9 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
 
-		$desc = attribute_escape($bookmark->link_description);
-		$name = attribute_escape($bookmark->link_name);
-		$title = $desc;
+		$desc = attribute_escape(apply_filters('link_description', $bookmark->link_description)); 
+ 		$name = attribute_escape(apply_filters('link_title', $bookmark->link_name)); 
+ 		$title = $desc;
 
 		if ( $show_updated )
 			if ( '00' != substr($bookmark->link_updated_f, 0, 2) ) {
@@ -336,7 +336,8 @@ function wp_list_bookmarks($args = '') {
 			if ( empty($bookmarks) )
 				continue;
 			$output .= str_replace(array('%id', '%class'), array("linkcat-$cat->cat_ID", $class), $category_before);
-			$output .= "$title_before$cat->cat_name$title_after\n\t<ul>\n";
+			$catname = apply_filters( "link_category", $cat->cat_name );
+			$output .= "$title_before$catname$title_after\n\t<ul>\n";
 			$output .= _walk_bookmarks($bookmarks, $r);
 			$output .= "\n\t</ul>\n$category_after\n";
 		}

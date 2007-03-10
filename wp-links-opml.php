@@ -29,14 +29,17 @@ else
 	$cats = array (get_category($link_cat));
 
 foreach ((array) $cats as $cat) {
+	$catname = apply_filters('link_category', $cat->cat_name);
+
 ?>
-<outline type="category" title="<?php echo attribute_escape($cat->cat_name); ?>">
+<outline type="category" title="<?php echo attribute_escape($catname); ?>">
 <?php
 
 	$bookmarks = get_bookmarks("category={$cat->cat_ID}");
 	foreach ((array) $bookmarks as $bookmark) {
+		$title = attribute_escape(apply_filters('link_title', $bookmark->link_name));
 ?>
-	<outline text="<?php echo attribute_escape($bookmark->link_name); ?>" type="link" xmlUrl="<?php echo attribute_escape($bookmark->link_rss); ?>" htmlUrl="<?php echo attribute_escape($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
+	<outline text="<?php echo $title; ?>" type="link" xmlUrl="<?php echo attribute_escape($bookmark->link_rss); ?>" htmlUrl="<?php echo attribute_escape($bookmark->link_url); ?>" updated="<?php if ('0000-00-00 00:00:00' != $bookmark->link_updated) echo $bookmark->link_updated; ?>" />
 <?php
 
 	}

@@ -80,7 +80,7 @@ $categories = get_categories("hide_empty=1&type=link");
 $select_cat = "<select name=\"cat_id\">\n";
 $select_cat .= '<option value="all"'  . (($cat_id == 'all') ? " selected='selected'" : '') . '>' . __('All') . "</option>\n";
 foreach ((array) $categories as $cat)
-	$select_cat .= '<option value="' . $cat->cat_ID . '"' . (($cat->cat_ID == $cat_id) ? " selected='selected'" : '') . '>' . wp_specialchars($cat->cat_name) . "</option>\n";
+	$select_cat .= '<option value="' . $cat->cat_ID . '"' . (($cat->cat_ID == $cat_id) ? " selected='selected'" : '') . '>' . wp_specialchars(apply_filters('link_category', $cat->cat_name)) . "</option>\n";
 $select_cat .= "</select>\n";
 
 $select_order = "<select name=\"order_by\">\n";
@@ -131,8 +131,8 @@ if ( $links ) {
 	<tbody id="the-list">
 <?php
 	foreach ($links as $link) {
-		$link->link_name = attribute_escape($link->link_name);
-		$link->link_description = wp_specialchars($link->link_description);
+		$link->link_name = attribute_escape(apply_filters('link_title', $link->link_name));
+		$link->link_description = wp_specialchars(apply_filters('link_description', $link->link_description));
 		$link->link_url = attribute_escape($link->link_url);
 		$link->link_category = wp_get_link_cats($link->link_id);
 		$short_url = str_replace('http://', '', $link->link_url);
@@ -160,7 +160,7 @@ if ( $links ) {
 					$cat_names = array();
 					foreach ($link->link_category as $category) {
 						$cat_name = get_the_category_by_ID($category);
-						$cat_name = wp_specialchars($cat_name);
+						$cat_name = wp_specialchars(apply_filters('link_category', $cat_name));
 						if ( $cat_id != $category )
 							$cat_name = "<a href='link-manager.php?cat_id=$category'>$cat_name</a>";
 						$cat_names[] = $cat_name;
