@@ -582,12 +582,16 @@ function get_calendar($initial = true) {
 	);
 	if ( $ak_post_titles ) {
 		foreach ( $ak_post_titles as $ak_post_title ) {
+			
+				$post_title = apply_filters( "the_title", $ak_post_title->post_title );
+				$post_title = str_replace('"', '&quot;', wptexturize( $post_title ));
+								
 				if ( empty($ak_titles_for_day['day_'.$ak_post_title->dom]) )
 					$ak_titles_for_day['day_'.$ak_post_title->dom] = '';
 				if ( empty($ak_titles_for_day["$ak_post_title->dom"]) ) // first one
-					$ak_titles_for_day["$ak_post_title->dom"] = str_replace('"', '&quot;', wptexturize($ak_post_title->post_title));
+					$ak_titles_for_day["$ak_post_title->dom"] = $post_title;
 				else
-					$ak_titles_for_day["$ak_post_title->dom"] .= $ak_title_separator . str_replace('"', '&quot;', wptexturize($ak_post_title->post_title));
+					$ak_titles_for_day["$ak_post_title->dom"] .= $ak_title_separator . $post_title;
 		}
 	}
 

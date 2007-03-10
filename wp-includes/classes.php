@@ -580,13 +580,14 @@ class Walker_Category extends Walker {
 		extract($args);
 
 		$cat_name = attribute_escape( $category->cat_name);
+		$cat_name = apply_filters( 'list_cats', $cat_name, $category );
 		$link = '<a href="' . get_category_link( $category->cat_ID ) . '" ';
 		if ( $use_desc_for_title == 0 || empty($category->category_description) )
 			$link .= 'title="' . sprintf(__( 'View all posts filed under %s' ), $cat_name) . '"';
 		else
 			$link .= 'title="' . attribute_escape( apply_filters( 'category_description', $category->category_description, $category )) . '"';
 		$link .= '>';
-		$link .= apply_filters( 'list_cats', $category->cat_name, $category ).'</a>';
+		$link .= $cat_name . '</a>';
 
 		if ( (! empty($feed_image)) || (! empty($feed)) ) {
 			$link .= ' ';
