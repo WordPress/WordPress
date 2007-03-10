@@ -155,10 +155,10 @@ function wp_title($sep = '&raquo;', $display = true) {
 	$category_name = get_query_var('category_name');
 	$author = get_query_var('author');
 	$author_name = get_query_var('author_name');
-	$m = get_query_var('m');
-	$year = get_query_var('year');
-	$monthnum = get_query_var('monthnum');
-	$day = get_query_var('day');
+	$m = (int) get_query_var('m');
+	$year = (int) get_query_var('year');
+	$monthnum = (int)get_query_var('monthnum');
+	$day = (int) get_query_var('day');
 	$title = '';
 
 	// If there's a category
@@ -261,9 +261,9 @@ function single_cat_title($prefix = '', $display = true ) {
 function single_month_title($prefix = '', $display = true ) {
 	global $wp_locale;
 
-	$m = get_query_var('m');
-	$year = get_query_var('year');
-	$monthnum = get_query_var('monthnum');
+	$m = (int) get_query_var('m');
+	$year = (int) get_query_var('year');
+	$monthnum = (int) get_query_var('monthnum');
 
 	if ( !empty($monthnum) && !empty($year) ) {
 		$my_year = $year;
