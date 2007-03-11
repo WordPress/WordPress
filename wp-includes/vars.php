@@ -13,27 +13,27 @@ if ( preg_match('#([^/]+\.php)$#', $PHP_SELF, $self_matches) ) {
 }
 
 // Simple browser detection
-// We should probably be doing true/false instead of 1/0 here ~ Mark
-$is_lynx = 0; $is_gecko = 0; $is_winIE = 0; $is_macIE = 0; $is_opera = 0; $is_NS4 = 0;
+$is_lynx = $is_gecko = $is_winIE = $is_macIE = $is_opera = $is_NS4 = false;
 
-if ( preg_match('/Lynx/', $_SERVER['HTTP_USER_AGENT']) )
-	$is_lynx = 1;
-elseif ( preg_match('/Gecko/', $_SERVER['HTTP_USER_AGENT']) )
-	$is_gecko = 1;
-elseif ( preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']) && preg_match('/Win/', $_SERVER['HTTP_USER_AGENT']) )
-	$is_winIE = 1;
-elseif ( preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT']) && preg_match('/Mac/', $_SERVER['HTTP_USER_AGENT']) )
-	$is_macIE = 1;
-elseif ( preg_match('/Opera/', $_SERVER['HTTP_USER_AGENT']) )
-	$is_opera = 1;
-elseif ( preg_match('/Nav/', $_SERVER['HTTP_USER_AGENT']) || preg_match('/Mozilla\/4\./', $_SERVER['HTTP_USER_AGENT']) )
-	$is_NS4 = 1;
+if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lynx') !== false) {
+	$is_lynx = true;
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false) {
+	$is_gecko = true;
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Win')) {
+	$is_winIE = true;
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Mac') !== false) {
+	$is_macIE = true;
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== false) {
+	$is_opera = true;
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Nav') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Mozilla/4.') !== false) {
+	$is_NS4 = true;
+}
 
 $is_IE = ( $is_macIE || $is_winIE );
 
 // Server detection
-$is_apache = ((strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) || (strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false)) ? 1 : 0;
-$is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) ? 1 : 0;
+$is_apache = ((strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) || (strpos($_SERVER['SERVER_SOFTWARE'], 'LiteSpeed') !== false)) ? true : false;
+$is_IIS = (strpos($_SERVER['SERVER_SOFTWARE'], 'Microsoft-IIS') !== false) ? true : false;
 
 // if the config file does not provide the smilies array, let's define it here
 if (!isset($wpsmiliestrans)) {
