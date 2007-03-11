@@ -168,7 +168,7 @@ $post = get_post($comment->comment_post_ID);
 $post_title = wp_specialchars( $post->post_title, 'double' );
 $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 ?>
- | <a href="<?php echo get_permalink($comment->comment_post_ID); ?>" title="<?php echo $post_title; ?>"><?php _e('View Post') ?></a> ]</p>
+ ] &#8212; <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo $post_title; ?></a></p>
 		</li>
 
 <?php } // end foreach($comment) ?>
