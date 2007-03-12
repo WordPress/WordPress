@@ -800,10 +800,11 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 
 	if ($add_cats) {
 		foreach ($add_cats as $new_cat) {
+			$new_cat = (int) $new_cat;
 			if ( !empty($new_cat) )
 				$wpdb->query("
 					INSERT INTO $wpdb->post2cat (post_id, category_id) 
-					VALUES ($post_ID, $new_cat)");
+					VALUES ('$post_ID', '$new_cat')");
 		}
 	}
 
