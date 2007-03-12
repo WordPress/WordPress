@@ -469,9 +469,11 @@ function wp_set_link_cats($link_ID = 0, $link_categories = array()) {
 
 	if ($add_cats) {
 		foreach ($add_cats as $new_cat) {
-			$wpdb->query("
-				INSERT INTO $wpdb->link2cat (link_id, category_id)
-				VALUES ($link_ID, $new_cat)");
+			$new_cat = (int) $new_cat;
+			if ( !empty($new_cat) )
+				$wpdb->query("
+					INSERT INTO $wpdb->link2cat (link_id, category_id)
+					VALUES ('$link_ID', '$new_cat')");
 		}
 	}
 
