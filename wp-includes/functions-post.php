@@ -512,12 +512,14 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
 
 	if ($add_cats) {
 		foreach ($add_cats as $new_cat) {
-			$wpdb->query("
-				INSERT INTO $wpdb->post2cat (post_id, category_id) 
-				VALUES ($post_ID, $new_cat)");
+			$new_cat = (int) $new_cat;
+			if ( !empty($new_cat) )
+				$wpdb->query("
+					INSERT INTO $wpdb->post2cat (post_id, category_id) 
+					VALUES ('$post_ID', '$new_cat')");
 		}
 	}
-	
+
 	// Update category counts.
 	$all_affected_cats = array_unique(array_merge($post_categories, $old_categories));
 	foreach ( $all_affected_cats as $cat_id ) {
