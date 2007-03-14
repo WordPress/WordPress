@@ -415,7 +415,7 @@ function wp_get_archives($args = '') {
 		}
 	} elseif ( ( 'postbypost' == $type ) || ('alpha' == $type) ) {
 		('alpha' == $type) ? $orderby = "post_title ASC " : $orderby = "post_date DESC ";
-		$arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts $join $where $orderby $limit");
+		$arcresults = $wpdb->get_results("SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit");
 		if ( $arcresults ) {
 			foreach ( $arcresults as $arcresult ) {
 				if ( $arcresult->post_date != '0000-00-00 00:00:00' ) {
