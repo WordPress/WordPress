@@ -84,7 +84,7 @@ class Blogger_Import {
 		if ( empty($this->blogs) ) {
 			$headers = array(
 				"GET /feeds/default/blogs HTTP/1.0",
-				"Host: www.blogger.com",
+				"Host: www2.blogger.com",
 				"Authorization: AuthSub token=\"$this->token\""
 			);
 			$request = join( "\r\n", $headers ) . "\r\n\r\n";
@@ -547,7 +547,9 @@ class Blogger_Import {
 		}
 
 		$comment_post_ID = $this->blogs[$importing_blog]['posts'][$entry->old_post_permalink];
-		$comment_author  = addslashes( $this->no_apos( strip_tags( $entry->author ) ) );
+		preg_match('#<name>(.+?)</name>.*(?:\<uri>(.+?)</uri>)?#', $entry->author, $matches);
+		$comment_author  = addslashes( $this->no_apos( strip_tags( (string) $matches[1] ) ) );
+		$comment_author_url = addslashes( $this->no_apos( strip_tags( (string) $matches[2] ) ) );
 		$comment_date    = $this->convert_date( $entry->updated );
 		$comment_content = addslashes( $this->no_apos( html_entity_decode( $entry->content ) ) );
 
@@ -563,7 +565,7 @@ class Blogger_Import {
 		) {
 			++$this->blogs[$importing_blog]['comments_skipped'];
 		} else {
-			$comment = compact('comment_post_ID', 'comment_author', 'comment_date', 'comment_content');
+			$comment = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_date', 'comment_content');
 
 			$comment_id = wp_insert_comment($comment);
 
@@ -672,7 +674,7 @@ class Blogger_Import {
 		return $sock;
 	}
 
-	function _get_blogger_sock($host = 'www.blogger.com') {
+	function _get_blogger_sock($host = 'www2.blogger.com') {
 		if ( !$sock = @ fsockopen($host, 80, $errno, $errstr) ) {
 			$this->uh_oh(
 				sprintf( __('Could not connect to %s'), $host ),
