@@ -31,6 +31,8 @@ add_filter('pre_comment_author_name', 'wp_filter_kses');
 add_filter('pre_comment_author_email', 'wp_filter_kses');
 add_filter('pre_comment_author_url', 'wp_filter_kses');
 
+add_action('comment_form', 'wp_comment_form_unfiltered_html_nonce');
+
 // Default filters for these functions
 add_filter('comment_author', 'wptexturize');
 add_filter('comment_author', 'convert_chars');
