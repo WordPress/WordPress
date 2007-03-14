@@ -1000,9 +1000,11 @@ function wp_nonce_url($actionurl, $action = -1) {
 	return wp_specialchars(add_query_arg('_wpnonce', wp_create_nonce($action), $actionurl));
 }
 
-function wp_nonce_field($action = -1) {
-	echo '<input type="hidden" name="_wpnonce" value="' . wp_create_nonce($action) . '" />';
-	wp_referer_field();
+function wp_nonce_field($action = -1, $name = "_wpnonce", $referer = true) {
+	$name = attribute_escape($name);
+	echo '<input type="hidden" name="' . $name . '" value="' . wp_create_nonce($action) . '" />';
+	if ( $referer )
+		wp_referer_field();
 }
 
 function wp_referer_field() {

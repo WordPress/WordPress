@@ -271,6 +271,12 @@ function pings_open() {
 		return false;
 }
 
+function wp_comment_form_unfiltered_html_nonce() {
+	global $post;
+	if ( current_user_can('unfiltered_html') )
+		wp_nonce_field('unfiltered-html-comment_' . $post->ID, '_wp_unfiltered_html_comment', false);
+}
+
 function comments_template( $file = '/comments.php' ) {
 	global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity;
 
