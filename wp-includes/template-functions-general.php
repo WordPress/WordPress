@@ -137,7 +137,7 @@ function get_bloginfo($show='') {
 
 
 function wp_title($sep = '&raquo;', $display = true) {
-	global $wpdb, $month;
+	global $wpdb, $posts, $month;
 
 	$cat = get_query_var('cat');
 	$p = get_query_var('p');
@@ -200,7 +200,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	}
 
 	$prefix = '';
-	if ( isset($title) )
+	if ( !empty($title) )
 		$prefix = " $sep ";
 
 	$title = $prefix . $title;
