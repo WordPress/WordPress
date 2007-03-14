@@ -171,6 +171,7 @@ function user_pass_ok($user_login,$user_pass) {
 
 function get_usernumposts($userid) {
 	global $wpdb;
+	$userid = (int) $userid;
 	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid' AND post_status = 'publish'");
 }
 
