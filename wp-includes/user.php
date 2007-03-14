@@ -9,6 +9,7 @@ function get_profile($field, $user = false) {
 
 function get_usernumposts($userid) {
 	global $wpdb;
+	$userid = (int) $userid;
 	return $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_author = '$userid' AND post_type = 'post' AND post_status = 'publish'");
 }
 
