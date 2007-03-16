@@ -861,8 +861,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$upload = wp_upload_bits($name, $type, $bits);
 		if ( ! empty($upload['error']) ) {
-			logIO('O', '(MW) Could not write file '.$name);
-			return new IXR_Error(500, 'Could not write file '.$name);
+			$errorString = 'Could not write file ' . $name . ' (' . $upload['error'] . ')';
+			logIO('O', '(MW) ' . $errorString);
+			return new IXR_Error(500, $errorString);
 		}
 		// Construct the attachment array
 		// attach to post_id -1
