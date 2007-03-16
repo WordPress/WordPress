@@ -1617,6 +1617,9 @@ class WP {
 				$this->query_vars[$wpvar] = $query_vars[$wpvar];
 			else
 				$this->query_vars[$wpvar] = '';
+
+			if ( !empty( $this->query_vars[$wpvar] ) )
+				$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar];
 		}
 
 		if ( isset($error) )
