@@ -281,7 +281,7 @@ function wp_list_pages($args = '') {
 		parse_str($args, $r);
 
 	$defaults = array('depth' => 0, 'show_date' => '', 'date_format' => get_option('date_format'),
-		'child_of' => 0, 'exclude' => '', 'title_li' => __('Pages'), 'echo' => 1, 'authors' => '');
+		'child_of' => 0, 'exclude' => '', 'title_li' => __('Pages'), 'echo' => 1, 'authors' => '', 'sort_column' => 'menu_order, post_title');
 	$r = array_merge($defaults, $r);
 
 	$output = '';
