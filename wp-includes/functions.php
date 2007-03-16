@@ -1200,7 +1200,7 @@ function wp_nonce_ays($action) {
 	if ( $_POST ) {
 		$q = http_build_query($_POST);
 		$q = explode( ini_get('arg_separator.output'), $q);
-		$html .= "\t<form method='post' action='$pagenow'>\n";
+		$html .= "\t<form method='post' action='" . attribute_escape($pagenow) . "'>\n";
 		foreach ( (array) $q as $a ) {
 			$v = substr(strstr($a, '='), 1);
 			$k = substr($a, 0, -(strlen($v)+1));
