@@ -379,7 +379,7 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
 
-	$qstr = wp_specialchars($_SERVER['REQUEST_URI']);
+	$qstr = $_SERVER['REQUEST_URI'];
 
 	$page_querystring = "paged";
 	$page_modstring = "page/";
@@ -446,7 +446,7 @@ function get_pagenum_link($pagenum = 1) {
 	return $qstr;
 }
 
-function next_posts($max_page = 0) { // original by cfactor at cooltux.org
+function get_next_posts_page_link($max_page = 0) {
 	global $paged, $pagenow;
 
 	if ( !is_single() ) {
@@ -454,8 +454,12 @@ function next_posts($max_page = 0) { // original by cfactor at cooltux.org
 			$paged = 1;
 		$nextpage = intval($paged) + 1;
 		if ( !$max_page || $max_page >= $nextpage )
-			echo get_pagenum_link($nextpage);
+			return get_pagenum_link($nextpage);
 	}
+}
+
+function next_posts($max_page = 0) {
+	echo attribute_escape(get_next_posts_page_link($max_page));
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
@@ -473,18 +477,20 @@ function next_posts_link($label='Next Page &raquo;', $max_page=0) {
 	}
 }
 
-
-function previous_posts() { // original by cfactor at cooltux.org
+function get_previous_posts_page_link() {
 	global $paged, $pagenow;
 
 	if ( !is_single() ) {
 		$nextpage = intval($paged) - 1;
 		if ( $nextpage < 1 )
 			$nextpage = 1;
-		echo get_pagenum_link($nextpage);
+		return get_pagenum_link($nextpage);
 	}
 }
 
+function previous_posts() {
+	echo attribute_escape(get_previous_posts_page_link());
+}
 
 function previous_posts_link($label='&laquo; Previous Page') {
 	global $paged;
