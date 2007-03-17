@@ -370,7 +370,7 @@ function get_default_post_to_edit() {
 	else if ( !empty( $post_title ) ) {
 		$text       = wp_specialchars( stripslashes( urldecode( $_REQUEST['text'] ) ) );
 		$text       = funky_javascript_fix( $text);
-		$popupurl   = attribute_escape($_REQUEST['popupurl']);
+		$popupurl   = clean_url($_REQUEST['popupurl']);
         $post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
     }
 
@@ -429,7 +429,7 @@ function get_user_to_edit( $user_id ) {
 	$user = new WP_User( $user_id );
 	$user->user_login   = attribute_escape($user->user_login);
 	$user->user_email   = attribute_escape($user->user_email);
-	$user->user_url     = attribute_escape($user->user_url);
+	$user->user_url     = clean_url($user->user_url);
 	$user->first_name   = attribute_escape($user->first_name);
 	$user->last_name    = attribute_escape($user->last_name);
 	$user->display_name = attribute_escape($user->display_name);
@@ -574,11 +574,11 @@ function edit_user( $user_id = 0 ) {
 function get_link_to_edit( $link_id ) {
 	$link = get_link( $link_id );
 
-	$link->link_url         = attribute_escape($link->link_url);
+	$link->link_url         = clean_url($link->link_url);
 	$link->link_name        = attribute_escape($link->link_name);
 	$link->link_image       = attribute_escape($link->link_image);
 	$link->link_description = attribute_escape($link->link_description);
-	$link->link_rss         = attribute_escape($link->link_rss);
+	$link->link_rss         = clean_url($link->link_rss);
 	$link->link_rel         = attribute_escape($link->link_rel);
 	$link->link_notes       =  wp_specialchars($link->link_notes);
 	$link->post_category    = $link->link_category;
@@ -588,7 +588,7 @@ function get_link_to_edit( $link_id ) {
 
 function get_default_link_to_edit() {
 	if ( isset( $_GET['linkurl'] ) )
-		$link->link_url = attribute_escape( $_GET['linkurl']);
+		$link->link_url = clean_url( $_GET['linkurl']);
 	else
 		$link->link_url = '';
 
@@ -879,7 +879,7 @@ function user_row( $user_object, $style = '' ) {
 	}
 	$r .= "</td>\n\t\t<td>";
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
-		$edit_link = attribute_escape( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user_object->ID" ));
+		$edit_link = clean_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user_object->ID" ));
 		$r .= "<a href='$edit_link' class='edit'>".__( 'Edit' )."</a>";
 	}
 	$r .= "</td>\n\t</tr>";

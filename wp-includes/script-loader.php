@@ -150,7 +150,7 @@ class WP_Scripts {
 						$ver .= '&amp;' . $this->args[$handle];
 					$src = 0 === strpos($this->scripts[$handle]->src, 'http://') ? $this->scripts[$handle]->src : get_option( 'siteurl' ) . $this->scripts[$handle]->src;
 					$src = add_query_arg('ver', $ver, $src);
-					$src = attribute_escape(apply_filters( 'script_loader_src', $src ));
+					$src = clean_url(apply_filters( 'script_loader_src', $src ));
 					echo "<script type='text/javascript' src='$src'></script>\n";
 					$this->print_scripts_l10n( $handle );
 				}

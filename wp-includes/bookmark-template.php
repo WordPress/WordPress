@@ -96,7 +96,7 @@ function get_links($category = -1,
 			$output .= get_option('links_recently_updated_prepend');
 		$the_link = '#';
 		if ( !empty($row->link_url) )
-			$the_link = wp_specialchars($row->link_url);
+			$the_link = clean_url($row->link_url);
 		$rel = $row->link_rel;
 		if ( '' != $rel )
 			$rel = ' rel="' . $rel . '"';
@@ -260,7 +260,7 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 
 		$the_link = '#';
 		if ( !empty($bookmark->link_url) )
-			$the_link = wp_specialchars($bookmark->link_url);
+			$the_link = clean_url($bookmark->link_url);
 
 		$rel = $bookmark->link_rel;
 		if ( '' != $rel )

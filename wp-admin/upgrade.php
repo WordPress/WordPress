@@ -35,7 +35,7 @@ else
 <?php else :
 switch($step) :
 	case 0:
-		$goback = attribute_escape(stripslashes(wp_get_referer()));
+		$goback = clean_url(stripslashes(wp_get_referer()));
 ?>
 <h2><?php _e('Database Upgrade Required'); ?></h2>
 <p><?php _e('Your WordPress database is out-of-date, and must be upgraded before you can continue.'); ?></p>
@@ -49,7 +49,7 @@ switch($step) :
 		if ( empty( $_GET['backto'] ) )
 			$backto = __get_option('home') . '/';
 		else
-			$backto = attribute_escape(stripslashes($_GET['backto']));
+			$backto = clean_url(stripslashes($_GET['backto']));
 ?> 
 <h2><?php _e('Upgrade Complete'); ?></h2>
 	<p><?php _e('Your WordPress database has been successfully upgraded!'); ?></p>

@@ -133,7 +133,7 @@ if ( $links ) {
 	foreach ($links as $link) {
 		$link->link_name = attribute_escape(apply_filters('link_title', $link->link_name));
 		$link->link_description = wp_specialchars(apply_filters('link_description', $link->link_description));
-		$link->link_url = attribute_escape($link->link_url);
+		$link->link_url = clean_url($link->link_url);
 		$link->link_category = wp_get_link_cats($link->link_id);
 		$short_url = str_replace('http://', '', $link->link_url);
 		$short_url = str_replace('www.', '', $short_url);

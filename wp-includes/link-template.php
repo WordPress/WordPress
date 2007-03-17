@@ -503,7 +503,7 @@ function get_next_posts_page_link($max_page = 0) {
 }
 
 function next_posts($max_page = 0) {
-	echo attribute_escape(get_next_posts_page_link($max_page));
+	echo clean_url(get_next_posts_page_link($max_page));
 }
 
 function next_posts_link($label='Next Page &raquo;', $max_page=0) {
@@ -533,7 +533,7 @@ function get_previous_posts_page_link() {
 }
 
 function previous_posts() {
-	echo attribute_escape(get_previous_posts_page_link());
+	echo clean_url(get_previous_posts_page_link());
 }
 
 function previous_posts_link($label='&laquo; Previous Page') {

@@ -55,7 +55,7 @@ include ('admin-header.php');
 <div id="message" class="updated fade">
 	<p><strong><?php _e('User updated.') ?></strong></p>
 	<?php if ( $wp_http_referer ) : ?>
-	<p><a href="<?php echo attribute_escape($wp_http_referer); ?>"><?php _e('&laquo; Back to Authors and Users'); ?></a></p>
+	<p><a href="<?php echo clean_url($wp_http_referer); ?>"><?php _e('&laquo; Back to Authors and Users'); ?></a></p>
 	<?php endif; ?>
 </div>
 <?php endif; ?>

@@ -64,7 +64,7 @@ case 'edit':
 	?>
 	<div id='preview' class='wrap'>
 	<h2 id="preview-post"><?php _e('Page Preview (updated when page is saved)'); ?></h2>
-		<iframe src="<?php echo attribute_escape(apply_filters('preview_page_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" width="100%" height="600" ></iframe>
+		<iframe src="<?php echo clean_url(apply_filters('preview_page_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" width="100%" height="600" ></iframe>
 	</div>
 	<?php
 	break;

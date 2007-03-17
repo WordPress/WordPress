@@ -169,7 +169,7 @@ function sanitize_comment_cookies() {
 	if ( isset($_COOKIE['comment_author_url_'.COOKIEHASH]) ) {
 		$comment_author_url = apply_filters('pre_comment_author_url', $_COOKIE['comment_author_url_'.COOKIEHASH]);
 		$comment_author_url = stripslashes($comment_author_url);
-		$comment_author_url = attribute_escape($comment_author_url);
+		$comment_author_url = clean_url($comment_author_url);
 		$_COOKIE['comment_author_url_'.COOKIEHASH] = $comment_author_url;
 	}
 }
