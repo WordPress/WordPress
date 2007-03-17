@@ -28,7 +28,7 @@ else
 <?php
 switch($step) {
 	case 0:
-		$goback = attribute_escape(stripslashes(wp_get_referer()));
+		$goback = clean_url(stripslashes(wp_get_referer()));
 ?> 
 <p><?php _e('This file upgrades you from any previous version of WordPress to the latest. It may take a while though, so be patient.'); ?></p> 
 <h2 class="step"><a href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e('Upgrade WordPress &raquo;'); ?></a></h2>
@@ -40,7 +40,7 @@ switch($step) {
 		if ( empty( $_GET['backto'] ) )
 			$backto = __get_option('home');
 		else
-			$backto = attribute_escape(stripslashes($_GET['backto']));
+			$backto = clean_url(stripslashes($_GET['backto']));
 ?> 
 <h2><?php _e('Step 1'); ?></h2> 
 	<p><?php printf(__("There's actually only one step. So if you see this, you're done. <a href='%s'>Have fun</a>!"),  $backto); ?></p>

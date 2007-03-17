@@ -35,7 +35,7 @@ function wp_upload_display( $dims = false, $href = '' ) {
 	$r = '';
 
 	if ( $href )
-		$r .= "<a id='file-link-$id' href='" . attribute_escape($href) ."' title='$post_title' class='file-link $class'>\n";
+		$r .= "<a id='file-link-$id' href='" . clean_url($href) ."' title='$post_title' class='file-link $class'>\n";
 	if ( $href || $image_src )
 		$r .= "\t\t\t$innerHTML";
 	if ( $href )
@@ -83,9 +83,9 @@ function wp_upload_view() {
 				echo '[&nbsp;';
 				echo '<a href="' . get_permalink() . '">' . __('view') . '</a>';
 				echo '&nbsp;|&nbsp;';
-					echo '<a href="' . attribute_escape(add_query_arg('action', 'edit')) . '" title="' . __('Edit this file') . '">' . __('edit') . '</a>';
+					echo '<a href="' . clean_url(add_query_arg('action', 'edit')) . '" title="' . __('Edit this file') . '">' . __('edit') . '</a>';
 				echo '&nbsp;|&nbsp;';
-				echo '<a href="' . attribute_escape(remove_query_arg(array('action', 'ID'))) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
+				echo '<a href="' . clean_url(remove_query_arg(array('action', 'ID'))) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
 				echo '&nbsp;]'; ?></span>
 		</div>
 
@@ -123,9 +123,9 @@ function wp_upload_form() {
 				echo '[&nbsp;';
 				echo '<a href="' . get_permalink() . '">' . __('view') . '</a>';
 				echo '&nbsp;|&nbsp;';
-					echo '<a href="' . attribute_escape(add_query_arg('action', 'view')) . '">' . __('links') . '</a>';
+					echo '<a href="' . clean_url(add_query_arg('action', 'view')) . '">' . __('links') . '</a>';
 				echo '&nbsp;|&nbsp;';
-				echo '<a href="' . attribute_escape(remove_query_arg(array('action','ID'))) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
+				echo '<a href="' . clean_url(remove_query_arg(array('action','ID'))) . '" title="' . __('Browse your files') . '">' . __('cancel') . '</a>';
 				echo '&nbsp;]'; ?></span>
 		</div>
 
