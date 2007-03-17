@@ -212,7 +212,7 @@ function get_links($category = -1,
 
 		$the_link = '#';
 		if (!empty($row->link_url))
-			$the_link = attribute_escape($row->link_url);
+			$the_link = clean_url($row->link_url);
 
 		$rel = $row->link_rel;
 		if ($rel != '') {

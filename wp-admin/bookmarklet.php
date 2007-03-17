@@ -37,7 +37,7 @@ else
 	
   
 $content  = wp_specialchars($_REQUEST['content']);
-$popupurl = attribute_escape(stripslashes($_REQUEST['popupurl']));
+$popupurl = clean_url(stripslashes($_REQUEST['popupurl']));
     if ( !empty($content) ) {
         $post->post_content = wp_specialchars( stripslashes($_REQUEST['content']) );
     } else {

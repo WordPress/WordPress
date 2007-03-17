@@ -467,11 +467,11 @@ function edit_user($user_id = 0) {
 function get_link_to_edit($link_id) {
 	$link = get_link($link_id);
 
-	$link->link_url         = attribute_escape($link->link_url);
+	$link->link_url         =        clean_url($link->link_url);
 	$link->link_name        = attribute_escape($link->link_name);
 	$link->link_image       = attribute_escape($link->link_image);
 	$link->link_description = attribute_escape($link->link_description);
-	$link->link_rss         = attribute_escape($link->link_rss);
+	$link->link_rss         =        clean_url($link->link_rss);
 	$link->link_rel         = attribute_escape($link->link_rel);
 	$link->link_notes       =  wp_specialchars($link->link_notes);
 	$link->post_category    = $link->link_category;
@@ -481,7 +481,7 @@ function get_link_to_edit($link_id) {
 
 function get_default_link_to_edit() {
 	if ( isset($_GET['linkurl']) )
-		$link->link_url = attribute_escape($_GET['linkurl']);
+		$link->link_url = clean_url($_GET['linkurl']);
 	else
 		$link->link_url = '';
 	
