@@ -2,7 +2,7 @@
 @header('Content-type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 if (!isset($_GET["page"])) require_once('admin.php');
 if ( $editing ) {
-	wp_enqueue_script( array("dbx-admin-key?pagenow=$pagenow",'admin-custom-fields') );
+	wp_enqueue_script( array('dbx-admin-key?pagenow=' . attribute_escape($pagenow),'admin-custom-fields') );
 	if ( current_user_can('manage_categories') )
 		wp_enqueue_script( 'ajaxcat' );
 	if ( user_can_richedit() )
