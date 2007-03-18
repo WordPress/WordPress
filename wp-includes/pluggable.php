@@ -170,7 +170,7 @@ function wp_mail($to, $subject, $message, $headers = '') {
 
 	if ( $headers == '' ) {
 		$headers = "MIME-Version: 1.0\n" .
-			"From: wordpress@" . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME'])) . "\n" . 
+			"From: " . apply_filters('wp_mail_from', "wordpress@" . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']))) . "\n" . 
 			"Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	}
 
