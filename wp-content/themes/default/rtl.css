@@ -1,0 +1,63 @@
+/* Based on Arabic (RTL) version of Kubrick theme, converted by Serdal (Serdal.com) */
+
+.narrowcolumn, .alignleft, .widecolumn .smallattachment { float: right; }
+.alignright, #commentform #submit { float: left; }
+
+#page, #wp-calendar #prev a { text-align: right; }
+
+
+body, #commentform p { font-family: Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+
+small { font-family: Tahoma, Arial, Helvetica, Sans-Serif; }
+
+.commentlist li, #commentform input, #commentform textarea { font: 0.9em Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+
+#sidebar { font: 1em Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+
+#wp-calendar caption { font: bold 1.3em Tahoma, 'Lucida Grande', Verdana, Arial, Sans-Serif; }
+
+#header { margin: 0 1px 0 0; }
+
+.narrowcolumn { padding: 0 45px 20px 0; }
+
+.widecolumn { margin: 5px 150px 0 0; }
+
+.widecolumn .smallattachment { margin: 5px 0px 5px 5px; }
+
+.postmetadata { clear: right; }
+
+img.alignright { margin: 0 7px 2px 0; }
+
+img.alignleft { margin: 0 0 2px 7px; }
+
+.entry ol { padding: 0 35px 0 0; }
+
+#sidebar ul ul, #sidebar ul ol { margin: 5px 10px 0 0; }
+
+#sidebar ul ul ul, #sidebar ul ol { margin: 0 10px 0 0; }
+
+#commentform input { margin: 5px 0 1px 5px; }
+
+.commentlist p { margin: 10px 0 10px 5px; }
+
+#sidebar { margin-right: 545px; }
+
+#wp-calendar #prev a, html>body .entry ul { padding-right: 10px; }
+
+html>body .entry li { margin: 7px 10px 8px 0; }
+
+html>body .entry ul {
+	margin-right: 0px;
+	padding: 0 30px 0 0;
+}
+
+blockquote {
+	margin: 15px 10px 0 30px;
+	padding-right: 20px;
+	border-right: 5px solid #ddd;
+}
+
+#wp-calendar #next a {
+	padding-left: 10px;
+	text-align: left;
+}

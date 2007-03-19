@@ -12,7 +12,7 @@ class WP_Locale {
 
 	var $meridiem;
 
-	var $text_direction = '';
+	var $text_direction = 'ltr';
 	var $locale_vars = array('text_direction');
 
 	function init() {
