@@ -46,7 +46,7 @@ function login_header($title = 'Login', $message = '') {
 </head>
 <body class="login">
 
-<div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://wordpress.org/'); ?>" title="<?php echo apply_filters('login_headertitle', __('Powered by WordPress')); ?>"><span class="hide"><?php bloginfo('name'); ?></span></a></h1>
+<div id="login"><h1><a href="<?php echo apply_filters('login_headerurl', 'http://wordpress.org/'); ?>" title="<?php echo apply_filters('login_headertitle', __('Powered by WordPress')); ?>"><?php bloginfo('name'); ?></a></h1>
 <?php
 	if ( !empty( $message ) ) echo apply_filters('login_message', $message) . "\n";
 

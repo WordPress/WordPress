@@ -731,10 +731,7 @@ input.delete:hover {
 	width: 320px;
 	display: block;
 	border-bottom: none;
-}
-
-#login .hide {
-	display: none;
+	text-indent: -9999px;
 }
 
 #login .message {
