@@ -19,7 +19,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'Lynx') !== false) {
 	$is_lynx = true;
 } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Gecko') !== false) {
 	$is_gecko = true;
-} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Win')) {
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Win') !== false) {
 	$is_winIE = true;
 } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false && strpos($_SERVER['HTTP_USER_AGENT'], 'Mac') !== false) {
 	$is_macIE = true;
