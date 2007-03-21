@@ -879,7 +879,7 @@ function user_row( $user_object, $style = '' ) {
 	}
 	$r .= "</td>\n\t\t<td>";
 	if ( current_user_can( 'edit_user', $user_object->ID ) ) {
-		$edit_link = clean_url( add_query_arg( 'wp_http_referer', urlencode( stripslashes( $_SERVER['REQUEST_URI'] ) ), "user-edit.php?user_id=$user_object->ID" ));
+		$edit_link = add_query_arg( 'wp_http_referer', urlencode( clean_url( stripslashes( $_SERVER['REQUEST_URI'] ) ) ), "user-edit.php?user_id=$user_object->ID" );
 		$r .= "<a href='$edit_link' class='edit'>".__( 'Edit' )."</a>";
 	}
 	$r .= "</td>\n\t</tr>";
