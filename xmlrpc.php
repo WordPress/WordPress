@@ -435,6 +435,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  extract($actual_post);
 
+	  if ( ('publish' == $post_status) && !current_user_can('publish_posts') )
+	  	return new IXR_Error(401, 'Sorry, you do not have the right to publish this post.');
+
 	  $post_title = xmlrpc_getposttitle($content);
 	  $post_category = xmlrpc_getpostcategory($content);
 	  $post_content = xmlrpc_removepostdata($content);
@@ -630,6 +633,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
 	  $post_status = $publish ? 'publish' : 'draft';
+
+
+	  if ( ('publish' == $post_status) && !current_user_can('publish_posts') )
+	  	return new IXR_Error(401, 'Sorry, you do not have the right to publish this post.');
 
 	  if ($post_more) {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
