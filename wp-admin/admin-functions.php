@@ -611,10 +611,10 @@ function edit_link( $link_id = '' ) {
 		wp_die( __( 'Cheatin&#8217; uh?' ));
 
 	$_POST['link_url'] = wp_specialchars( $_POST['link_url'] );
-	$_POST['link_url'] = preg_match('/^(https?|ftps?|mailto|news|irc|gopher|nntp|feed|telnet):/is', $_POST['link_url']) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
+	$_POST['link_url'] = clean_url($_POST['link_url']);
 	$_POST['link_name'] = wp_specialchars( $_POST['link_name'] );
 	$_POST['link_image'] = wp_specialchars( $_POST['link_image'] );
-	$_POST['link_rss'] = wp_specialchars( $_POST['link_rss'] );
+	$_POST['link_rss'] = clean_url($_POST['link_rss']);
 	$_POST['link_category'] = $_POST['post_category'];
 
 	if ( !empty( $link_id ) ) {
