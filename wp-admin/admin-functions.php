@@ -2209,7 +2209,7 @@ function wp_create_thumbnail( $file, $max_side, $effect = '' ) {
 
 			// If no filters change the filename, we'll do a default transformation.
 			if ( basename( $file ) == $thumb = apply_filters( 'thumbnail_filename', basename( $file ) ) )
-				$thumb = preg_replace( '!(\.[^.]+)?$!', __( '.thumbnail' ).'$1', basename( $file ), 1 );
+				$thumb = preg_replace( '!(\.[^.]+)?$!', '.thumbnail' . '$1', basename( $file ), 1 );
 
 			$thumbpath = str_replace( basename( $file ), $thumb, $file );
 
