@@ -502,10 +502,10 @@ function edit_link($link_id = '') {
 		die(__("Cheatin' uh ?"));
 
 	$_POST['link_url'] = wp_specialchars($_POST['link_url']);
-	$_POST['link_url'] = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $_POST['link_url']) ? $_POST['link_url'] : 'http://' . $_POST['link_url'];
+	$_POST['link_url'] = clean_url($_POST['link_url']);
 	$_POST['link_name'] = wp_specialchars($_POST['link_name']);
 	$_POST['link_image'] = wp_specialchars($_POST['link_image']);
-	$_POST['link_rss'] = wp_specialchars($_POST['link_rss']);
+	$_POST['link_rss'] = clean_url($_POST['link_rss']);
 	$auto_toggle = get_autotoggle($_POST['link_category']);
 	
 	// if we are in an auto toggle category and this one is visible then we
