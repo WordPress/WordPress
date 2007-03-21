@@ -846,6 +846,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  extract($actual_post);
 
+	  if ( ('publish' == $post_status) && !current_user_can('publish_posts') )
+	  	return new IXR_Error(401, 'Sorry, you do not have the right to publish this post.');
+
 	  $post_title = xmlrpc_getposttitle($content);
 	  $post_category = xmlrpc_getpostcategory($content);
 	  $post_content = xmlrpc_removepostdata($content);
@@ -1072,12 +1075,6 @@ class wp_xmlrpc_server extends IXR_Server {
 	  }
 
 	  set_current_user(0, $user_login);
-	  if ( !current_user_can('edit_post', $post_ID) )
-	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
-
-	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
-	  extract($postdata);
-		$this->escape($postdata);
 
 		// The post_type defaults to post, but could also be page.
 		$post_type = "post";
@@ -1087,6 +1084,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		) {
 			$post_type = "page";
 		}
+
+	  // Edit page caps are checked in editPage.  Just check post here.
+	  if ( ( 'post' == $post_type ) && !current_user_can('edit_post', $post_ID) )
+	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
+
+	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
+	  extract($postdata);
+		$this->escape($postdata);
 
 		// Let WordPress manage slug if none was provided.
 		$post_name = "";
@@ -1158,6 +1163,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_excerpt = $content_struct['mt_excerpt'];
 	  $post_more = $content_struct['mt_text_more'];
 	  $post_status = $publish ? 'publish' : 'draft';
+
+	  if ( ('publish' == $post_status) ) {
+	  	if ( ( 'page' == $post_type ) && !current_user_can('publish_pages') )
+	  		return new IXR_Error(401, 'Sorry, you do not have the right to publish this page.');
+	  	else if ( !current_user_can('publish_posts') )
+		  	return new IXR_Error(401, 'Sorry, you do not have the right to publish this post.');
+	  }
 
 	  if ($post_more) {
 	    $post_content = $post_content . "\n<!--more-->\n" . $post_more;
