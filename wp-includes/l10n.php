@@ -37,6 +37,21 @@ function _e($text, $domain = 'default') {
 		echo $text;
 }
 
+function _c($text, $domain = 'default') {
+	global $l10n;
+
+	if ( isset($l10n[$domain]) )
+		$whole = apply_filters('gettext', $l10n[$domain]->translate($text), $text);
+	else
+		$whole = $text;
+
+	$trans = explode('|', $whole, 2); 
+	if ( isset( $trans[1] ) )
+		return $trans[1];
+	else
+		return $trans[0]; 	
+}
+
 // Return the plural form.
 function __ngettext($single, $plural, $number, $domain = 'default') {
 	global $l10n;
