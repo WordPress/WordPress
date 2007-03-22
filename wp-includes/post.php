@@ -447,6 +447,8 @@ function wp_delete_post($postid = 0) {
 }
 
 function wp_get_post_categories($post_id = 0) {
+	$post_id = (int) $post_id;
+
 	$cats = &get_the_category($post_id);
 	$cat_ids = array();
 	foreach ( $cats as $cat )
@@ -458,6 +460,7 @@ function wp_get_recent_posts($num = 10) {
 	global $wpdb;
 
 	// Set the limit clause, if we got a limit
+	$num = (int) $num;
 	if ($num) {
 		$limit = "LIMIT $num";
 	}
@@ -470,6 +473,8 @@ function wp_get_recent_posts($num = 10) {
 
 function wp_get_single_post($postid = 0, $mode = OBJECT) {
 	global $wpdb;
+
+	$postid = (int) $postid;
 
 	$post = get_post($postid, $mode);
 
