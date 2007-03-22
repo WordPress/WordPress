@@ -87,6 +87,7 @@ function get_permalink($id = 0) {
 function get_page_link($id = false) {
 	global $post, $wp_rewrite;
 
+	$id = (int) $id;
 	if ( !$id )
 		$id = $post->ID;
 
