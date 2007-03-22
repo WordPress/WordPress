@@ -769,6 +769,8 @@ function wp_publish_post($post_id) {
 
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	global $wpdb;
+
+	$post_ID = (int) $post_ID;
 	// If $post_categories isn't already an array, make it one:
 	if (!is_array($post_categories) || 0 == count($post_categories) || empty($post_categories))
 		$post_categories = array(get_option('default_category'));
@@ -779,7 +781,7 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	$old_categories = $wpdb->get_col("
 		SELECT category_id
 		FROM $wpdb->post2cat
-		WHERE post_id = $post_ID");
+		WHERE post_id = '$post_ID'");
 
 	if (!$old_categories) {
 		$old_categories = array();
@@ -794,8 +796,8 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 		foreach ($delete_cats as $del) {
 			$wpdb->query("
 				DELETE FROM $wpdb->post2cat
-				WHERE category_id = $del
-					AND post_id = $post_ID
+				WHERE category_id = '$del'
+					AND post_id = '$post_ID'
 				");
 		}
 	}
