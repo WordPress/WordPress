@@ -409,7 +409,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $post_ID     = $args[1];
+	  $post_ID     = (int) $args[1];
 	  $user_login  = $args[2];
 	  $user_pass   = $args[3];
 	  $content     = $args[4];
@@ -582,7 +582,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $post_ID     = $args[0];
+	  $post_ID     = (int) $args[0];
 	  $user_login  = $args[1];
 	  $user_pass   = $args[2];
 	  $content_struct = $args[3];

@@ -3,6 +3,7 @@
 function get_the_category($id = false) {
 global $post, $category_cache;
 
+	$id = (int) $id;
 	if ( !$id )
 		$id = $post->ID;
 
