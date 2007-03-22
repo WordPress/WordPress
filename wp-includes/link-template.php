@@ -117,6 +117,7 @@ function post_permalink($post_id = 0, $mode = '') { // $mode legacy
 function get_page_link($id = false) {
 	global $post;
 
+	$id = (int) $id;
 	if ( !$id )
 		$id = $post->ID;
 
