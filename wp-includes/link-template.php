@@ -95,7 +95,7 @@ function get_page_link($id = false) {
 
 	$id = (int) $id;
 	if ( !$id )
-		$id = $post->ID;
+		$id = (int) $post->ID;
 
 	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
 		$link = get_option('home');
@@ -110,7 +110,7 @@ function _get_page_link( $id = false ) {
 	global $post, $wp_rewrite;
 
 	if ( !$id )
-		$id = $post->ID;
+		$id = (int) $post->ID;
 
 	$pagestruct = $wp_rewrite->get_page_permastruct();
 
@@ -131,7 +131,7 @@ function get_attachment_link($id = false) {
 	$link = false;
 
 	if (! $id) {
-		$id = $post->ID;
+		$id = (int) $post->ID;
 	}
 
 	$object = get_post($id);

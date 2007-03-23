@@ -165,7 +165,7 @@ function get_linkcatname($id = 0) {
 	if ( empty($cats) || ! is_array($cats) )
 		return '';
 
-	$cat_id = $cats[0]; // Take the first cat.
+	$cat_id = (int) $cats[0]; // Take the first cat.
 
 	$cat = get_category($cat_id);
 	return $cat->cat_name;

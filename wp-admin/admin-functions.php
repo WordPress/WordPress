@@ -151,7 +151,7 @@ function fix_attachment_links( $post_ID ) {
 		if ( 0 == preg_match( $search, $anchor, $id_matches ) )
 			continue;
 
-		$id = $id_matches[3];
+		$id = (int) $id_matches[3];
 
 		// While we have the attachment ID, let's adopt any orphans.
 		$attachment = & get_post( $id, ARRAY_A );
@@ -435,7 +435,7 @@ function get_user_to_edit( $user_id ) {
 function add_user() {
 	if ( func_num_args() ) { // The hackiest hack that ever did hack
 		global $current_user, $wp_roles;
-		$user_id = func_get_arg( 0 );
+		$user_id = (int) func_get_arg( 0 );
 
 		if ( isset( $_POST['role'] ) ) {
 			if( $user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap( 'edit_users' ) ) {
@@ -453,7 +453,7 @@ function edit_user( $user_id = 0 ) {
 	global $current_user, $wp_roles, $wpdb;
 	if ( $user_id != 0 ) {
 		$update = true;
-		$user->ID = $user_id;
+		$user->ID = (int) $user_id;
 		$userdata = get_userdata( $user_id );
 		$user->user_login = $wpdb->escape( $userdata->user_login );
 	} else {
@@ -781,8 +781,8 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$pad = str_repeat( '&#8212; ', $level );
 	if ( current_user_can( 'manage_categories' ) ) {
 		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__( 'Edit' )."</a></td>";
-		$default_cat_id = get_option( 'default_category' );
-		$default_link_cat_id = get_option( 'default_link_category' );
+		$default_cat_id = (int) get_option( 'default_category' );
+		$default_link_cat_id = (int) get_option( 'default_link_category' );
 
 		if ( ($category->cat_ID != $default_cat_id ) && ($category->cat_ID != $default_link_cat_id ) )
 			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category_' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . js_escape(sprintf( __("You are about to delete the category '%s'.\nAll of its posts will go into the default category of '%s'\nAll of its bookmarks will go into the default category of '%s'.\n'OK' to delete, 'Cancel' to stop." ), $category->cat_name, get_catname( $default_cat_id ), get_catname( $default_link_cat_id ) )) . "' );\" class='delete'>".__( 'Delete' )."</a>";
@@ -821,7 +821,7 @@ function page_rows( $parent = 0, $level = 0, $pages = 0, $hierarchy = true ) {
 
 		$post->post_title = wp_specialchars( $post->post_title );
 		$pad = str_repeat( '&#8212; ', $level );
-		$id = $post->ID;
+		$id = (int) $post->ID;
 		$class = ('alternate' == $class ) ? '' : 'alternate';
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'> 

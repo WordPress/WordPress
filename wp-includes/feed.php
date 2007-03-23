@@ -108,7 +108,7 @@ function comments_rss($commentsrssfilename = '') {
 
 
 function get_author_rss_link($echo = false, $author_id, $author_nicename) {
-	$auth_ID = $author_id;
+	$auth_ID = (int) $author_id;
 	$permalink_structure = get_option('permalink_structure');
 
 	if ( '' == $permalink_structure ) {

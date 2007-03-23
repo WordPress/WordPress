@@ -375,7 +375,7 @@ function get_post_custom($post_id = 0) {
 	global $id, $post_meta_cache, $wpdb, $blog_id;
 
 	if ( !$post_id )
-		$post_id = $id;
+		$post_id = (int) $id;
 
 	$post_id = (int) $post_id;
 
@@ -539,7 +539,7 @@ function wp_insert_post($postarr = array()) {
 
 	// Get the post ID.
 	if ( $update )
-		$post_ID = $ID;
+		$post_ID = (int) $ID;
 
 	// Create a valid post name.  Drafts are allowed to have an empty
 	// post name.
@@ -643,7 +643,7 @@ function wp_insert_post($postarr = array()) {
 			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type)
 			VALUES
 			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type')");
-			$post_ID = $wpdb->insert_id;
+			$post_ID = (int) $wpdb->insert_id;
 	}
 
 	if ( empty($post_name) && 'draft' != $post_status ) {
@@ -1254,7 +1254,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	$update = false;
 	if ( !empty($ID) ) {
 		$update = true;
-		$post_ID = $ID;
+		$post_ID = (int) $ID;
 	}
 
 	// Create a valid post name.
@@ -1349,7 +1349,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 			(post_author, post_date, post_date_gmt, post_content, post_content_filtered, post_title, post_excerpt,  post_status, post_type, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_parent, menu_order, post_mime_type, guid)
 			VALUES
 			('$post_author', '$post_date', '$post_date_gmt', '$post_content', '$post_content_filtered', '$post_title', '$post_excerpt', '$post_status', '$post_type', '$comment_status', '$ping_status', '$post_password', '$post_name', '$to_ping', '$pinged', '$post_date', '$post_date_gmt', '$post_parent', '$menu_order', '$post_mime_type', '$guid')");
-			$post_ID = $wpdb->insert_id;
+			$post_ID = (int) $wpdb->insert_id;
 	}
 
 	if ( empty($post_name) ) {
@@ -1504,7 +1504,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 		$mime = (int) $mime;
 		if ( !$post =& get_post( $mime ) )
 			return false;
-		$post_id = $post->ID;
+		$post_id = (int) $post->ID;
 		$mime = $post->post_mime_type;
 	}
 

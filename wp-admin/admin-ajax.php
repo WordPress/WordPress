@@ -231,7 +231,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 	if($_POST['post_ID'] < 0) {
 		$_POST['temp_ID'] = $_POST['post_ID'];
 		$id = wp_write_post();
-		if(is_wp_error($id))
+		if( is_wp_error($id) )
 			die($id->get_error_message());
 		else
 			die("$id");
