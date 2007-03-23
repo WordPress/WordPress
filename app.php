@@ -417,9 +417,9 @@ EOD;
 		if(!current_user_can($cap))
 			$this->auth_required('Sorry, you do not have the right to edit/publish new posts.');
 
-		$blog_ID = $current_blog->blog_id;
+		$blog_ID = (int )$current_blog->blog_id;
 		$post_status = ($publish) ? 'publish' : 'draft';
-		$post_author = $user->ID;
+		$post_author = (int) $user->ID;
 		$post_title = $entry->title;
 		$post_content = $entry->content;
 		$post_excerpt = $entry->summary;
@@ -430,7 +430,7 @@ EOD;
 
 		log_app('Inserting Post. Data:', print_r($post_data,true));
 
-		$postID = wp_insert_post($post_data);
+		$postID = (int) wp_insert_post($post_data);
 
 		if (!$postID) {
 			$this->internal_error('Sorry, your entry could not be posted. Something wrong happened.');
@@ -582,7 +582,7 @@ EOD;
 			);
 
 		// Save the data
-		$postID = wp_insert_attachment($attachment, $file, $post);
+		$postID = (int) wp_insert_attachment($attachment, $file, $post);
 
 		if (!$postID) {
 			$this->internal_error('Sorry, your entry could not be posted. Something wrong happened.');
@@ -788,7 +788,7 @@ EOD;
 		global $use_querystring;
 		if(!isset($postID)) {
 			global $post;
-			$postID = $GLOBALS['post']->ID;
+			$postID = (int) $GLOBALS['post']->ID;
 		}
 
 		if ($use_querystring) {
@@ -810,7 +810,7 @@ EOD;
 		global $use_querystring;
 		if(!isset($postID)) {
 			global $post;
-			$postID = $GLOBALS['post']->ID;
+			$postID = (int) $GLOBALS['post']->ID;
 		}
 
 		if ($use_querystring) {
@@ -885,7 +885,7 @@ EOD;
 		$wp = $GLOBALS['wp'];
 		$wp_query = $GLOBALS['wp_query'];
 		$wpdb = $GLOBALS['wpdb'];
-		$blog_id = $GLOBALS['blog_id'];
+		$blog_id = (int) $GLOBALS['blog_id'];
 		$post_cache = $GLOBALS['post_cache'];
 
 

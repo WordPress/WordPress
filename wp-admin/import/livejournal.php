@@ -82,7 +82,7 @@ class LJ_Import {
 			$comments = $comments[1];
 
 			if ( $comments ) {
-				$comment_post_ID = $post_id;
+				$comment_post_ID = (int) $post_id;
 				$num_comments = 0;
 				foreach ($comments as $comment) {
 					preg_match('|<event>(.*?)</event>|is', $comment, $comment_content);

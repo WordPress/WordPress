@@ -84,7 +84,7 @@ if ( !empty($tb_url) && !empty($title) ) {
 		$title = (strlen($title) > 250) ? substr($title, 0, 250) . '...' : $title;
 	}
 
-	$comment_post_ID = $tb_id;
+	$comment_post_ID = (int) $tb_id;
 	$comment_author = $blog_name;
 	$comment_author_email = '';
 	$comment_author_url = $tb_url;

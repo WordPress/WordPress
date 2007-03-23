@@ -114,7 +114,7 @@ function wp_write_post() {
 	// Reunite any orphaned attachments with their parent
 	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
 		$draft_ids = array();
-	if ( $draft_temp_id = array_search( $post_ID, $draft_ids ) )
+	if ( $draft_temp_id = (int) array_search( $post_ID, $draft_ids ) )
 		relocate_children( $draft_temp_id, $post_ID );
 	if ( $temp_id && $temp_id != $draft_temp_id )
 		relocate_children( $temp_id, $post_ID );
@@ -157,7 +157,7 @@ function fix_attachment_links( $post_ID ) {
 		if ( 0 == preg_match( $search, $anchor, $id_matches ) )
 			continue;
 
-		$id = $id_matches[3];
+		$id = (int) $id_matches[3];
 
 		// While we have the attachment ID, let's adopt any orphans.
 		$attachment = & get_post( $id, ARRAY_A );
@@ -290,7 +290,7 @@ function edit_post() {
 	// Reunite any orphaned attachments with their parent
 	if ( !$draft_ids = get_user_option( 'autosave_draft_ids' ) )
 		$draft_ids = array();
-	if ( $draft_temp_id = array_search( $post_ID, $draft_ids ) )
+	if ( $draft_temp_id = (int) array_search( $post_ID, $draft_ids ) )
 		relocate_children( $draft_temp_id, $post_ID );
 
 	// Now that we have an ID we can fix any attachment anchor hrefs
@@ -447,7 +447,7 @@ function get_user_to_edit( $user_id ) {
 function add_user() {
 	if ( func_num_args() ) { // The hackiest hack that ever did hack
 		global $current_user, $wp_roles;
-		$user_id = func_get_arg( 0 );
+		$user_id = (int) func_get_arg( 0 );
 
 		if ( isset( $_POST['role'] ) ) {
 			if( $user_id != $current_user->id || $wp_roles->role_objects[$_POST['role']]->has_cap( 'edit_users' ) ) {
@@ -465,7 +465,7 @@ function edit_user( $user_id = 0 ) {
 	global $current_user, $wp_roles, $wpdb;
 	if ( $user_id != 0 ) {
 		$update = true;
-		$user->ID = $user_id;
+		$user->ID = (int) $user_id;
 		$userdata = get_userdata( $user_id );
 		$user->user_login = $wpdb->escape( $userdata->user_login );
 	} else {
@@ -562,9 +562,9 @@ function edit_user( $user_id = 0 ) {
 		return $errors;
 
 	if ( $update ) {
-		$user_id = wp_update_user( get_object_vars( $user ));
+		$user_id = (int) wp_update_user( get_object_vars( $user ));
 	} else {
-		$user_id = wp_insert_user( get_object_vars( $user ));
+		$user_id = (int) wp_insert_user( get_object_vars( $user ));
 		wp_new_user_notification( $user_id );
 	}
 	return $user_id;
@@ -793,8 +793,8 @@ function _cat_row( $category, $level, $name_override = false ) {
 	$pad = str_repeat( '&#8212; ', $level );
 	if ( current_user_can( 'manage_categories' ) ) {
 		$edit = "<a href='categories.php?action=edit&amp;cat_ID=$category->cat_ID' class='edit'>".__( 'Edit' )."</a></td>";
-		$default_cat_id = get_option( 'default_category' );
-		$default_link_cat_id = get_option( 'default_link_category' );
+		$default_cat_id = (int) get_option( 'default_category' );
+		$default_link_cat_id = (int) get_option( 'default_link_category' );
 
 		if ( ($category->cat_ID != $default_cat_id ) && ($category->cat_ID != $default_link_cat_id ) )
 			$edit .= "<td><a href='" . wp_nonce_url( "categories.php?action=delete&amp;cat_ID=$category->cat_ID", 'delete-category_' . $category->cat_ID ) . "' onclick=\"return deleteSomething( 'cat', $category->cat_ID, '" . js_escape(sprintf( __("You are about to delete the category '%s'.\nAll posts that were only assigned to this category will be assigned to the '%s' category.\nAll links that were only assigned to this category will be assigned to the '%s' category.\n'OK' to delete, 'Cancel' to stop." ), $category->cat_name, get_catname( $default_cat_id ), get_catname( $default_link_cat_id ) )) . "' );\" class='delete'>".__( 'Delete' )."</a>";
@@ -833,7 +833,7 @@ function page_rows( $parent = 0, $level = 0, $pages = 0, $hierarchy = true ) {
 
 		$post->post_title = wp_specialchars( $post->post_title );
 		$pad = str_repeat( '&#8212; ', $level );
-		$id = $post->ID;
+		$id = (int) $post->ID;
 		$class = ('alternate' == $class ) ? '' : 'alternate';
 ?>
   <tr id='page-<?php echo $id; ?>' class='<?php echo $class; ?>'> 
@@ -1969,7 +1969,7 @@ function wp_import_handle_upload() {
 	);
 
 	// Save the data
-	$id = wp_insert_attachment( $object, $file );
+	$id = (int) wp_insert_attachment( $object, $file );
 
 	return array( 'file' => $file, 'id' => $id );
 }

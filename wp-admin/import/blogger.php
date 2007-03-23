@@ -546,7 +546,7 @@ class Blogger_Import {
 			}
 		}
 
-		$comment_post_ID = $this->blogs[$importing_blog]['posts'][$entry->old_post_permalink];
+		$comment_post_ID = (int) $this->blogs[$importing_blog]['posts'][$entry->old_post_permalink];
 		preg_match('#<name>(.+?)</name>.*(?:\<uri>(.+?)</uri>)?#', $entry->author, $matches);
 		$comment_author  = addslashes( $this->no_apos( strip_tags( (string) $matches[1] ) ) );
 		$comment_author_url = addslashes( $this->no_apos( strip_tags( (string) $matches[2] ) ) );

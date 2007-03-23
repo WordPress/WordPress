@@ -646,7 +646,7 @@ function update_post_category_cache($post_ids) {
 	$post_id_array = (array) explode(',', $post_ids);
 	$count = count( $post_id_array);
 	for ( $i = 0; $i < $count; $i++ ) {
-		$post_id = $post_id_array[ $i ];
+		$post_id = (int) $post_id_array[ $i ];
 		if ( isset( $category_cache[$blog_id][$post_id] ) ) {
 			unset( $post_id_array[ $i ] );
 			continue;
@@ -700,7 +700,7 @@ function update_postmeta_cache($post_id_list = '') {
 	$post_id_array = (array) explode(',', $post_id_list);
 	$count = count( $post_id_array);
 	for ( $i = 0; $i < $count; $i++ ) {
-		$post_id = $post_id_array[ $i ];
+		$post_id = (int) $post_id_array[ $i ];
 		if ( isset( $post_meta_cache[$blog_id][$post_id] ) ) { // If the meta is already cached
 			unset( $post_id_array[ $i ] );
 			continue;

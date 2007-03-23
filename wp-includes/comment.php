@@ -345,7 +345,7 @@ function wp_insert_comment($commentdata) {
 	('$comment_post_ID', '$comment_author', '$comment_author_email', '$comment_author_url', '$comment_author_IP', '$comment_date', '$comment_date_gmt', '$comment_content', '$comment_approved', '$comment_agent', '$comment_type', '$comment_parent', '$user_id')
 	");
 
-	$id = $wpdb->insert_id;
+	$id = (int) $wpdb->insert_id;
 
 	if ( $comment_approved == 1)
 		wp_update_comment_count($comment_post_ID);
@@ -392,7 +392,7 @@ function wp_new_comment( $commentdata ) {
 
 	$commentdata['comment_approved'] = wp_allow_comment($commentdata);
 
-	$comment_ID = wp_insert_comment($commentdata);
+	$comment_ID = (int) wp_insert_comment($commentdata);
 
 	do_action('comment_post', $comment_ID, $commentdata['comment_approved']);
 

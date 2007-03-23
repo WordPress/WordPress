@@ -119,7 +119,7 @@ function get_page_link($id = false) {
 
 	$id = (int) $id;
 	if ( !$id )
-		$id = $post->ID;
+		$id = (int) $post->ID;
 
 	if ( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') )
 		$link = get_option('home');
@@ -134,7 +134,7 @@ function _get_page_link( $id = false ) {
 	global $post, $wp_rewrite;
 
 	if ( !$id )
-		$id = $post->ID;
+		$id = (int) $post->ID;
 
 	$pagestruct = $wp_rewrite->get_page_permastruct();
 
@@ -156,7 +156,7 @@ function get_attachment_link($id = false) {
 	$link = false;
 
 	if (! $id) {
-		$id = $post->ID;
+		$id = (int) $post->ID;
 	}
 
 	$object = get_post($id);
@@ -259,7 +259,7 @@ function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
 	global $id;
 
 	if ( empty($post_id) )
-		$post_id = $id;
+		$post_id = (int) $id;
 
 	if ( '' != get_option('permalink_structure') ) {
 		$url = trailingslashit( get_permalink() ) . 'feed';

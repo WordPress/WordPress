@@ -150,7 +150,7 @@ function get_comments_number( $post_id = 0 ) {
 	$post_id = (int) $post_id;
 
 	if ( !$post_id )
-		$post_id = $id;
+		$post_id = (int) $id;
 
 	$post = get_post($post_id);
 	if ( ! isset($post->comment_count) )

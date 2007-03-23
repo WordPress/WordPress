@@ -587,7 +587,7 @@ class WP_Query {
 		if ( '' != $qv['pagename'] ) {
 			$this->queried_object =& get_page_by_path($qv['pagename']);
 			if ( !empty($this->queried_object) )
-				$this->queried_object_id = $this->queried_object->ID;
+				$this->queried_object_id = (int) $this->queried_object->ID;
 			else
 				unset($this->queried_object);
 
@@ -1205,18 +1205,18 @@ class WP_Query {
 			$cat = $this->get('cat');
 			$category = &get_category($cat);
 			$this->queried_object = &$category;
-			$this->queried_object_id = $cat;
+			$this->queried_object_id = (int) $cat;
 		} else if ($this->is_posts_page) {
 			$this->queried_object = & get_page(get_option('page_for_posts'));
-			$this->queried_object_id = $this->queried_object->ID;
+			$this->queried_object_id = (int) $this->queried_object->ID;
 		} else if ($this->is_single) {
 			$this->queried_object = $this->post;
-			$this->queried_object_id = $this->post->ID;
+			$this->queried_object_id = (int) $this->post->ID;
 		} else if ($this->is_page) {
 			$this->queried_object = $this->post;
-			$this->queried_object_id = $this->post->ID;
+			$this->queried_object_id = (int) $this->post->ID;
 		} else if ($this->is_author) {
-			$author_id = $this->get('author');
+			$author_id = (int) $this->get('author');
 			$author = get_userdata($author_id);
 			$this->queried_object = $author;
 			$this->queried_object_id = $author_id;
@@ -1285,7 +1285,7 @@ function setup_postdata($post) {
 	global $id, $postdata, $authordata, $day, $page, $pages, $multipage, $more, $numpages, $wp_query;
 	global $pagenow;
 
-	$id = $post->ID;
+	$id = (int) $post->ID;
 
 	$authordata = get_userdata($post->post_author);
 

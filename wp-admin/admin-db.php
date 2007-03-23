@@ -123,7 +123,7 @@ function wp_insert_category($catarr) {
 
 	if (!$update) {
 		$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent, links_private, posts_private) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$category_parent', '$links_private', '$posts_private')");
-		$cat_ID = $wpdb->insert_id;
+		$cat_ID = (int) $wpdb->insert_id;
 	} else {
 		$wpdb->query ("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent', links_private = '$links_private', posts_private = '$posts_private' WHERE cat_ID = '$cat_ID'");
 	}
@@ -360,7 +360,7 @@ function wp_insert_link($linkdata) {
 			WHERE link_id='$link_id'");
 	} else {
 		$wpdb->query("INSERT INTO $wpdb->links (link_url, link_name, link_image, link_target, link_description, link_visible, link_owner, link_rating, link_rel, link_notes, link_rss) VALUES('$link_url','$link_name', '$link_image', '$link_target', '$link_description', '$link_visible', '$link_owner', '$link_rating', '$link_rel', '$link_notes', '$link_rss')");
-		$link_id = $wpdb->insert_id;
+		$link_id = (int) $wpdb->insert_id;
 	}
 
 	wp_set_link_cats($link_id, $link_category);

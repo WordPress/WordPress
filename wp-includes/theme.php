@@ -346,7 +346,7 @@ function get_home_template() {
 function get_page_template() {
 	global $wp_query;
 
-	$id = $wp_query->post->ID;
+	$id = (int) $wp_query->post->ID;
 	$template = get_post_meta($id, '_wp_page_template', true);
 
 	if ( 'default' == $template )

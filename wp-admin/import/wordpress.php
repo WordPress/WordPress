@@ -174,7 +174,7 @@ class WP_Import {
 			return;
 		}
 		$this->file = $file['file'];
-		$this->id = $file['id'];
+		$this->id = (int) $file['id'];
 
 		$this->get_entries();
 		$this->wp_authors_form();

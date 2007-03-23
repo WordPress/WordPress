@@ -56,7 +56,7 @@ function update_user_option( $user_id, $option_name, $newvalue, $global = false 
 function get_users_of_blog( $id = '' ) {
 	global $wpdb, $blog_id;
 	if ( empty($id) )
-		$id = $blog_id;
+		$id = (int) $blog_id;
 	$users = $wpdb->get_results( "SELECT user_id, user_login, display_name, user_email, meta_value FROM $wpdb->users, $wpdb->usermeta WHERE " . $wpdb->users . ".ID = " . $wpdb->usermeta . ".user_id AND meta_key = '" . $wpdb->prefix . "capabilities' ORDER BY {$wpdb->usermeta}.user_id" );
 	return $users;
 }
@@ -171,8 +171,8 @@ function setup_userdata($user_id = '') {
 
 	$userdata = $user->data;
 	$user_login	= $user->user_login;
-	$user_level	= $user->user_level;
-	$user_ID	= $user->ID;
+	$user_level	= (int) $user->user_level;
+	$user_ID	= (int) $user->ID;
 	$user_email	= $user->user_email;
 	$user_url	= $user->user_url;
 	$user_pass_md5	= md5($user->user_pass);

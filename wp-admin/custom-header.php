@@ -215,7 +215,7 @@ Event.observe( window, 'load', hide_text );
 		'guid' => $url);
 
 		// Save the data
-		$id = wp_insert_attachment($object, $file);
+		$id = (int) wp_insert_attachment($object, $file);
 
 		$upload = array('file' => $file, 'id' => $id);
 

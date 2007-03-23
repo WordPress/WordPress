@@ -115,8 +115,8 @@ case 'add-category' : // On the Fly
 		$cat_name = trim($cat_name);
 		if ( !$category_nicename = sanitize_title($cat_name) )
 			die('0');
-		if ( !$cat_id = category_exists( $cat_name ) )
-			$cat_id = wp_create_category( $cat_name );
+		if ( !$cat_id = (int) category_exists( $cat_name ) )
+			$cat_id = (int) wp_create_category( $cat_name );
 		$cat_name = wp_specialchars(stripslashes($cat_name));
 		$x->add( array(
 			'what' => 'category',
@@ -156,13 +156,13 @@ case 'add-meta' :
 		die('-1');
 	if ( $id < 0 ) {
 		$now = current_time('timestamp', 1);
-		if ( $pid = wp_insert_post( array(
+		if ( $pid = (int) wp_insert_post( array(
 			'post_title' => sprintf('Draft created on %s at %s', date(get_option('date_format'), $now), date(get_option('time_format'), $now))
 		) ) )
-			$mid = add_meta( $pid );
+			$mid = (int) add_meta( $pid );
 		else
 			die('0');
-	} else if ( !$mid = add_meta( $id ) ) {
+	} else if ( !$mid = (int) add_meta( $id ) ) {
 		die('0');
 	}
 
@@ -204,7 +204,7 @@ case 'add-user' :
 	if ( !current_user_can('edit_users') )
 		die('-1');
 	require_once(ABSPATH . WPINC . '/registration.php');
-	if ( !$user_id = add_user() )
+	if ( !$user_id = (int) add_user() )
 		die('0');
 	elseif ( is_wp_error( $user_id ) ) {
 		foreach( $user_id->get_error_messages() as $message )
@@ -230,7 +230,7 @@ case 'autosave' : // The name of this action is hardcoded in edit_post()
 
 	if($_POST['post_ID'] < 0) {
 		$_POST['temp_ID'] = $_POST['post_ID'];
-		$id = wp_write_post();
+		$id = (int) wp_write_post();
 		if(is_wp_error($id))
 			die($id->get_error_message());
 		else

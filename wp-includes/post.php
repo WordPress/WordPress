@@ -375,7 +375,7 @@ function get_post_custom($post_id = 0) {
 	global $id, $post_meta_cache, $wpdb, $blog_id;
 
 	if ( !$post_id )
-		$post_id = $id;
+		$post_id = (int) $id;
 
 	$post_id = (int) $post_id;
 
@@ -539,7 +539,7 @@ function wp_insert_post($postarr = array()) {
 
 	// Get the post ID.
 	if ( $update )
-		$post_ID = $ID;
+		$post_ID = (int) $ID;
 
 	// Create a valid post name.  Drafts are allowed to have an empty
 	// post name.
@@ -1256,7 +1256,7 @@ function wp_insert_attachment($object, $file = false, $post_parent = 0) {
 	$update = false;
 	if ( !empty($ID) ) {
 		$update = true;
-		$post_ID = $ID;
+		$post_ID = (int) $ID;
 	}
 
 	// Create a valid post name.
@@ -1506,7 +1506,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 		$mime = (int) $mime;
 		if ( !$post =& get_post( $mime ) )
 			return false;
-		$post_id = $post->ID;
+		$post_id = (int) $post->ID;
 		$mime = $post->post_mime_type;
 	}
 
