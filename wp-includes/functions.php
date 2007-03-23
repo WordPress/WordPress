@@ -993,7 +993,9 @@ function is_blog_installed() {
 	$wpdb->hide_errors();
 	$installed = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = 'siteurl'");
 	$wpdb->show_errors();
-	return $installed;
+
+	$install_status = !empty( $installed ) ? TRUE : FALSE;
+	return $install_status;
 }
 
 function wp_nonce_url($actionurl, $action = -1) {
@@ -1349,6 +1351,18 @@ function wp_die( $message, $title = '' ) {
 </html>
 <?php
 	die();
+}
+
+function _config_wp_home($url = '') {
+	if ( defined( 'WP_HOME' ) ) 
+		return WP_HOME;
+	else return $url;
+}
+
+function _config_wp_siteurl($url = '') {
+	if ( defined( 'WP_SITEURL' ) ) 
+		return WP_SITEURL;
+	else return $url;
 }
 
 function _mce_set_direction() {

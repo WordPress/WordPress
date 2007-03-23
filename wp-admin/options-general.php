@@ -25,11 +25,11 @@ include('./admin-header.php');
 </tr> 
 <tr valign="top"> 
 <th scope="row"><?php _e('WordPress address (URL):') ?></th> 
-<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" size="40" class="code" /></td> 
+<td><input name="siteurl" type="text" id="siteurl" value="<?php form_option('siteurl'); ?>" size="40" class="code<?php if ( defined( 'WP_SITEURL' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /></td> 
 </tr> 
 <tr valign="top">
 <th scope="row"><?php _e('Blog address (URL):') ?></th>
-<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" size="40" class="code" /><br /><?php _e('If you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different than the directory</a> you installed WordPress in, enter that address here.'); ?></td>
+<td><input name="home" type="text" id="home" value="<?php form_option('home'); ?>" size="40" class="code<?php if ( defined( 'WP_HOME' ) ) : ?> disabled" disabled="disabled"<?php else: ?>"<?php endif; ?> /><br /><?php _e('If you want your blog homepage <a href="http://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">to be different than the directory</a> you installed WordPress in, enter that address here.'); ?></td>
 </tr>
 <tr valign="top"> 
 <th scope="row"><?php _e('E-mail address:') ?> </th> 

@@ -21,7 +21,12 @@ function wp_install($blog_title, $user_name, $user_email, $public, $meta='') {
 	update_option('admin_email', $user_email);
 	update_option('blog_public', $public);
 	$schema = ( isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on' ) ? 'https://' : 'http://';
-	$guessurl = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+
+	if ( defined('WP_SITEURL') && '' != WP_SITEURL )
+		$guessurl = WP_SITEURL;
+	else
+		$guessurl = preg_replace('|/wp-admin/.*|i', '', $schema . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+
 	update_option('siteurl', $guessurl);
 
 	// If not a public blog, don't ping.
