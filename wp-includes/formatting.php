@@ -1072,6 +1072,11 @@ function clean_url( $url, $protocols = null ) {
 	$strip = array('%0d', '%0a');
 	$url = str_replace($strip, '', $url);
 	$url = str_replace(';//', '://', $url);
+	// Append http unless a relative link starting with / or a php file.
+	if ( strpos($url, '://') === false &&
+		substr( $url, 0, 1 ) != '/' && !preg_match('/^[a-z0-9]+.php/i', $url) )
+		$url = 'http://' . $url;
+	
 	$url = (strpos($url, '://') === false && substr( $url, 0, 1 ) != '/' ) ? 'http://'.$url : $url;
 	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
 	if ( !is_array($protocols) )
