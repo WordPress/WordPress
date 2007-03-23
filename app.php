@@ -430,7 +430,7 @@ EOD;
 
 		log_app('Inserting Post. Data:', print_r($post_data,true));
 
-		$postID = (int) wp_insert_post($post_data);
+		$postID = wp_insert_post($post_data);
 
 		if (!$postID) {
 			$this->internal_error('Sorry, your entry could not be posted. Something wrong happened.');
@@ -582,7 +582,7 @@ EOD;
 			);
 
 		// Save the data
-		$postID = (int) wp_insert_attachment($attachment, $file, $post);
+		$postID = wp_insert_attachment($attachment, $file, $post);
 
 		if (!$postID) {
 			$this->internal_error('Sorry, your entry could not be posted. Something wrong happened.');

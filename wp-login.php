@@ -242,7 +242,7 @@ case 'register' :
 		if ( empty( $errors ) ) {
 			$user_pass = substr( md5( uniqid( microtime() ) ), 0, 7);
 
-			$user_id = (int) wp_create_user( $user_login, $user_pass, $user_email );
+			$user_id = wp_create_user( $user_login, $user_pass, $user_email );
 			if ( !$user_id )
 				$errors['registerfail'] = sprintf(__('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href="mailto:%s">webmaster</a> !'), get_option('admin_email'));
 			else {

@@ -392,7 +392,7 @@ function wp_new_comment( $commentdata ) {
 
 	$commentdata['comment_approved'] = wp_allow_comment($commentdata);
 
-	$comment_ID = (int) wp_insert_comment($commentdata);
+	$comment_ID = wp_insert_comment($commentdata);
 
 	do_action('comment_post', $comment_ID, $commentdata['comment_approved']);
 

@@ -201,7 +201,7 @@ class WP_Import {
 			if ( empty($parent) )
 				$category_parent = '0';
 			else
-				$category_parent = (int) category_exists($parent);
+				$category_parent = category_exists($parent);
 
 			$catarr = compact('category_nicename', 'category_parent', 'posts_private', 'links_private', 'posts_private', 'cat_name');
 

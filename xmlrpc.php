@@ -512,7 +512,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			"category_description"	=> $category["description"]
 		);
 
-		$cat_id = (int) wp_insert_category($new_category);
+		$cat_id = wp_insert_category($new_category);
 		if(!$cat_id) {
 			return(new IXR_Error(500, "Sorry, the new category failed."));
 		}
@@ -802,7 +802,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $post_data = compact('blog_ID', 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status');
 
-	  $post_ID = (int) wp_insert_post($post_data);
+	  $post_ID = wp_insert_post($post_data);
 
 	  if (!$post_ID) {
 	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
@@ -1030,7 +1030,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  // We've got all the data -- post it:
 	  $postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order');
 
-	  $post_ID = (int) wp_insert_post($postdata);
+	  $post_ID = wp_insert_post($postdata);
 
 	  if (!$post_ID) {
 	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
@@ -1447,7 +1447,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		// Save the data
-		$id = (int) wp_insert_attachment( $attachment, $upload[ 'file' ], $post_id );
+		$id = wp_insert_attachment( $attachment, $upload[ 'file' ], $post_id );
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
 
 		return apply_filters( 'wp_handle_upload', array( 'file' => $name, 'url' => $upload[ 'url' ], 'type' => $type ) );
@@ -1837,7 +1837,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_content', 'comment_type');
 
-		$comment_ID = (int) wp_new_comment($commentdata);
+		$comment_ID = wp_new_comment($commentdata);
 		do_action('pingback_post', $comment_ID);
 
 		return "Pingback from $pagelinkedfrom to $pagelinkedto registered. Keep the web talking! :-)";
@@ -1855,7 +1855,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$url = $args;
 
-		$post_ID = (int) url_to_postid($url);
+		$post_ID = url_to_postid($url);
 		if (!$post_ID) {
 			// We aren't sure that the resource is available and/or pingback enabled
 	  		return new IXR_Error(33, 'The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');

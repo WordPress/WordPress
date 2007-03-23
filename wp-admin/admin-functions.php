@@ -562,9 +562,9 @@ function edit_user( $user_id = 0 ) {
 		return $errors;
 
 	if ( $update ) {
-		$user_id = (int) wp_update_user( get_object_vars( $user ));
+		$user_id = wp_update_user( get_object_vars( $user ));
 	} else {
-		$user_id = (int) wp_insert_user( get_object_vars( $user ));
+		$user_id = wp_insert_user( get_object_vars( $user ));
 		wp_new_user_notification( $user_id );
 	}
 	return $user_id;
@@ -1969,7 +1969,7 @@ function wp_import_handle_upload() {
 	);
 
 	// Save the data
-	$id = (int) wp_insert_attachment( $object, $file );
+	$id = wp_insert_attachment( $object, $file );
 
 	return array( 'file' => $file, 'id' => $id );
 }

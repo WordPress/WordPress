@@ -54,7 +54,7 @@ if ( '' == $comment_content )
 
 $commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type', 'user_ID');
 
-$comment_id = (int) wp_new_comment( $commentdata );
+$comment_id = wp_new_comment( $commentdata );
 
 $comment = get_comment($comment_id);
 if ( !$user->ID ) :
