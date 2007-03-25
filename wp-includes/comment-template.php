@@ -161,7 +161,7 @@ function get_comments_number( $post_id = 0 ) {
 	return apply_filters('get_comments_number', $count);
 }
 
-function comments_number( $zero = false, $one = false, $more = false, $number = '' ) {
+function comments_number( $zero = false, $one = false, $more = false, $deprecated = '' ) {
 	global $id;
 	$number = get_comments_number($id);
 
