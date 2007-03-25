@@ -5,7 +5,7 @@ global $post, $category_cache;
 
 	$id = (int) $id;
 	if ( !$id )
-		$id = $post->ID;
+		$id = (int) $post->ID;
 
 	if ( !isset($category_cache[$id]) )
 		update_post_category_cache($id);

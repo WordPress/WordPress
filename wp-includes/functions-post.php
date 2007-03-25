@@ -47,7 +47,7 @@ function wp_insert_post($postarr = array()) {
 	
 	// Get the post ID.
 	if ( $update )
-		$post_ID = $ID;
+		$post_ID = (int) $ID;
 
 	// Create a valid post name.  Drafts are allowed to have an empty
 	// post name.

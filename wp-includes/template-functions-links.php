@@ -89,7 +89,7 @@ function get_page_link($id = false) {
 
 	$id = (int) $id;
 	if ( !$id )
-		$id = $post->ID;
+		$id = (int) $post->ID;
 
 	$pagestruct = $wp_rewrite->get_page_permastruct();
 
@@ -110,7 +110,7 @@ function get_attachment_link($id = false) {
 	$link = false;
 
 	if (! $id) {
-		$id = $post->ID;
+		$id = (int) $post->ID;
 	}
 
 	$object = get_post($id);
