@@ -1612,7 +1612,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	/* mt.supportedTextFilters ...returns an empty array because we don't
 		 support per-post text filters yet */
 	function mt_supportedTextFilters($args) {
-		return array();
+		return apply_filters('xmlrpc_text_filters', array());
 	}
 
 
