@@ -261,7 +261,6 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		// Lookup info on pages.
-		$pages = array();
 		$pages = get_pages();
 		$num_pages = count($pages);
 
@@ -280,7 +279,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 		// If no pages were found return an error.
 		else {
-			return(new IXR_Error(404, "Sorry, no pages were found."));
+			return(array());
 		}
 	}
 
@@ -1090,6 +1089,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
 
 	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
+
+		// If there is no post data for the give post id, stop
+		// now and return an error.  Other wise a new post will be
+		// created (which was the old behavior).
+		if(empty($postdata["ID"])) {
+			return(new IXR_Error(404, "Invalid post id."));
+		}
+
 	  extract($postdata);
 		$this->escape($postdata);
 
