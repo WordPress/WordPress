@@ -488,6 +488,7 @@ input.disabled, textarea.disabled {
 	line-height: 200%;
 	list-style: none;
 	text-align: center;
+	white-space: nowrap;
 }
 
 #adminmenu a.current {
