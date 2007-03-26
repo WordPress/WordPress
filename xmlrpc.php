@@ -566,24 +566,24 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$this->escape($args);
 
-	  $user_login = $args[1];
-	  $user_pass  = $args[2];
+		$user_login = $args[1];
+		$user_pass  = $args[2];
 
-	  if (!$this->login_pass_ok($user_login, $user_pass)) {
-	    return $this->error;
-	  }
+		if (!$this->login_pass_ok($user_login, $user_pass)) {
+			return $this->error;
+		}
 
-	  set_current_user(0, $user_login);
-	  $is_admin = current_user_can('level_8');
+		set_current_user(0, $user_login);
+		$is_admin = current_user_can('level_8');
 
-	  $struct = array(
-	    'isAdmin'  => $is_admin,
-	    'url'      => get_option('home') . '/',
-	    'blogid'   => '1',
-	    'blogName' => get_option('blogname')
-	  );
+		$struct = array(
+			'isAdmin'  => $is_admin,
+			'url'      => get_option('home') . '/',
+			'blogid'   => '1',
+			'blogName' => get_option('blogname')
+		);
 
-	  return array($struct);
+		return array($struct);
 	}
 
 
