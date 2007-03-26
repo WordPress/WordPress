@@ -15,7 +15,7 @@ class WP_Scripts {
 		$this->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
 		$this->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '3517' );
 		$this->add( 'colorpicker', '/wp-includes/js/colorpicker.js', false, '3517' );
-		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_gzip.php', false, '20070325' );
+		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_gzip.php', false, '20070326' );
 		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
 		$this->add( 'wp_tiny_mce', $mce_config, array('tiny_mce'), '20070225' );
 		$this->add( 'prototype', '/wp-includes/js/prototype.js', false, '1.5.0-0');

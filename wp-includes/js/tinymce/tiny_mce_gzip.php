@@ -119,23 +119,35 @@ if ($index > -1) {
 		$content .= "tinyMCECompressed.loadPlugins();";
 
 	// Add core languages
+	$lang_content = '';
 	foreach ($languages as $lang)
-		$content .= getFileContents("langs/" . $lang . ".js");
+		$lang_content .= getFileContents("langs/" . $lang . ".js");
+	if ( empty($lang_content) )
+		$lang_content .= getFileContents("langs/en.js");
+	$content .= $lang_content;
 
 	// Add themes
 	foreach ($themes as $theme) {
 		$content .= wp_compact_tinymce_js(getFileContents( "themes/" . $theme . "/editor_template" . $suffix . ".js"));
 
+		$lang_content = '';
 		foreach ($languages as $lang)
-			$content .= getFileContents("themes/" . $theme . "/langs/" . $lang . ".js");
+			$lang_content .= getFileContents("themes/" . $theme . "/langs/" . $lang . ".js");
+		if ( empty($lang_content) )
+			$lang_content .= getFileContents("themes/" . $theme . "/langs/en.js");
+		$content .= $lang_content;
 	}
 
 	// Add plugins
 	foreach ($plugins as $plugin) {
 		$content .= getFileContents("plugins/" . $plugin . "/editor_plugin" . $suffix . ".js");
 
+		$lang_content = '';
 		foreach ($languages as $lang)
-			$content .= getFileContents("plugins/" . $plugin . "/langs/" . $lang . ".js");
+			$lang_content .= getFileContents("plugins/" . $plugin . "/langs/" . $lang . ".js");
+		if ( empty($lang_content) )
+			$lang_content .= getFileContents("plugins/" . $plugin . "/langs/en.js");
+		$content .= $lang_content;
 	}
 
 	// Add custom files
