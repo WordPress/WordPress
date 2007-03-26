@@ -558,7 +558,7 @@ input.disabled, textarea.disabled {
 	line-height: 140%;
 }
 
-#titlediv input, #guiddiv input {
+#titlediv input, #guiddiv input, #tags_input {
 	margin: 0;
 	width: 100%;
 }

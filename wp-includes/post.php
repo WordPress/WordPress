@@ -517,6 +517,7 @@ function wp_insert_post($postarr = array()) {
 		$post_name       = apply_filters('name_save_pre',      $post_name);
 		$comment_status  = apply_filters('comment_status_pre', $comment_status);
 		$ping_status     = apply_filters('ping_status_pre',    $ping_status);
+		$tags_input      = apply_filters('tags_input_pre',     $tags_input);
 	}
 
 	if ( ('' == $post_content) && ('' == $post_title) && ('' == $post_excerpt) )
@@ -651,7 +652,8 @@ function wp_insert_post($postarr = array()) {
 		$wpdb->query( "UPDATE $wpdb->posts SET post_name = '$post_name' WHERE ID = '$post_ID'" );
 	}
 
-	wp_set_post_categories($post_ID, $post_category);
+	wp_set_post_categories( $post_ID, $post_category );
+	wp_set_post_tags( $post_ID, $tags_input );
 
 	if ( 'page' == $post_type ) {
 		clean_page_cache($post_ID);
@@ -769,6 +771,76 @@ function wp_publish_post($post_id) {
 	return wp_update_post(array('post_status' => 'publish', 'ID' => $post_id, 'no_filter' => true));
 }
 
+function wp_set_post_tags( $post_id = 0, $tags = '' ) {
+	global $wpdb;
+	
+	$post_id = (int) $post_id;
+	
+	if ( !$post_id )
+		return false;
+
+	$tags = explode( ',', $tags );
+	foreach ( $tags as $tag ) {
+		$tag = trim( $tag );
+		if ( !$tag_slug = sanitize_title( $tag ) )
+			continue; // discard
+		if ( !$tag_id = category_exists( $tag ) )
+			$tag_id = wp_create_category( $tag );
+		$tag_ids[] = $tag_id;
+	}
+
+	$tag_ids = array_unique( $tag_ids );
+
+	// First the old tags
+	$old_tags = $wpdb->get_col("
+		SELECT category_id
+		FROM $wpdb->post2cat
+		WHERE post_id = '$post_id' AND rel_type = 'tag'");
+
+	if ( !$old_tags ) {
+		$old_tags = array();
+	} else {
+		$old_tags = array_unique( $old_tags );
+	}
+
+	// Delete any?
+	$delete_tags = array_diff( $old_tags, $tag_ids);
+	if ( $delete_tags ) {
+		foreach ( $delete_tags as $del ) {
+			$wpdb->query("
+				DELETE FROM $wpdb->post2cat
+				WHERE category_id = '$del'
+					AND post_id = '$post_id'
+					AND rel_type = 'tag'
+				");
+		}
+	}
+
+	// Add any?
+	$add_tags = array_diff( $tag_ids, $old_tags );
+	if ( $add_tags ) {
+		foreach ( $add_tags as $new_tag ) {
+			$new_tag = (int) $new_tag;
+			if ( !empty($new_tag) )
+				$wpdb->query("
+					INSERT INTO $wpdb->post2cat (post_id, category_id, rel_type) 
+					VALUES ('$post_id', '$new_tag', 'tag')");
+		}
+	}
+
+	// Update category counts.
+	$all_affected_tags = array_unique( array_merge( $tag_ids, $old_tags ) );
+	foreach ( $all_affected_tags as $tag_id ) {
+		$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$tag_id' AND rel_type = 'tag'" );
+		$wpdb->query( "UPDATE $wpdb->categories SET tag_count = '$count' WHERE cat_ID = '$tag_id'" );
+		if ( $count == 0 )
+			$wpdb->query( "UPDATE $wpdb->categories SET tag_count = '-1' WHERE cat_ID = '$tag_id'" );
+		clean_category_cache( $tag_id );
+		do_action( 'edit_category', $tag_id );
+		do_action( 'edit_tag', $tag_id );
+	}
+}
+
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	global $wpdb;
 
@@ -783,7 +855,7 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	$old_categories = $wpdb->get_col("
 		SELECT category_id
 		FROM $wpdb->post2cat
-		WHERE post_id = '$post_ID'");
+		WHERE post_id = '$post_ID' AND rel_type = 'category'");
 
 	if (!$old_categories) {
 		$old_categories = array();
@@ -820,7 +892,7 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	// Update category counts.
 	$all_affected_cats = array_unique(array_merge($post_categories, $old_categories));
 	foreach ( $all_affected_cats as $cat_id ) {
-		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id'");
+		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id' AND rel_type = 'category'");
 		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
 		clean_category_cache($cat_id);
 		do_action('edit_category', $cat_id);

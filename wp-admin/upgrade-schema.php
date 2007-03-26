@@ -18,6 +18,7 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   category_parent bigint(20) NOT NULL default '0',
   category_count bigint(20) NOT NULL default '0',
   link_count bigint(20) NOT NULL default '0',
+  tag_count bigint(20) NOT NULL default '0',
   posts_private tinyint(1) NOT NULL default '0',
   links_private tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (cat_ID),
@@ -88,6 +89,7 @@ CREATE TABLE $wpdb->post2cat (
   rel_id bigint(20) NOT NULL auto_increment,
   post_id bigint(20) NOT NULL default '0',
   category_id bigint(20) NOT NULL default '0',
+  rel_type varchar(64) NOT NULL default 'category',
   PRIMARY KEY  (rel_id),
   KEY post_id (post_id,category_id)
 ) $charset_collate;
