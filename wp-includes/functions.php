@@ -404,7 +404,7 @@ function maybe_serialize($data) {
 		$data = trim($data);
 	elseif ( is_array($data) || is_object($data) )
 		return serialize($data);
-	if ( !is_serialized($data) )
+	if ( is_serialized($data) )
 		return serialize($data);
 	return $data;
 }
