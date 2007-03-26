@@ -789,6 +789,9 @@ function wp_set_post_tags( $post_id = 0, $tags = '' ) {
 		$tag_ids[] = $tag_id;
 	}
 
+	if ( !is_array( $tag_ids ) )
+		return false;
+
 	$tag_ids = array_unique( $tag_ids );
 
 	// First the old tags
