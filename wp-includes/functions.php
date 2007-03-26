@@ -635,7 +635,7 @@ function clean_page_cache($id) {
 }
 
 function update_post_category_cache($post_ids) {
-	global $wpdb, $category_cache, $blog_id;
+	global $wpdb, $category_cache, $tag_cache, $blog_id;
 
 	if ( empty($post_ids) )
 		return;
@@ -656,13 +656,17 @@ function update_post_category_cache($post_ids) {
 		return;
 	$post_id_list = join( ',', $post_id_array ); // with already cached stuff removed
 
-	$dogs = $wpdb->get_results("SELECT post_id, category_id FROM $wpdb->post2cat WHERE post_id IN ($post_id_list)");
+	$dogs = $wpdb->get_results("SELECT post_id, category_id, rel_type FROM $wpdb->post2cat WHERE post_id IN ($post_id_list)");
 
 	if ( empty($dogs) )
 		return;
 
-	foreach ($dogs as $catt)
-		$category_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
+	foreach ($dogs as $catt) {
+		if ( 'category' == $catt->rel_type )
+			$category_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
+		elseif ( 'tag' == $catt->rel_type )
+			$tag_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
+	}
 }
 
 function update_post_caches(&$posts) {

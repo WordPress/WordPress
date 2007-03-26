@@ -160,6 +160,42 @@ function the_category($separator = '', $parents='') {
 	echo get_the_category_list($separator, $parents);
 }
 
+function get_post_tags( $post_id = 0 ) {
+	global $tag_cache, $blog_id;
+
+	$post_id = (int) $post_id;
+	
+	if ( !isset( $tag_cache[$blog_id][$post_id] ) )
+		update_post_category_cache( $post_id ); // loads $tag_cache
+
+	return $tag_cache[$blog_id][$post_id];
+}
+
+function get_the_tags( $before, $sep, $after ) {
+	global $post;
+	if ( !$post )
+		return false; // in-the-loop function
+
+	$tags = get_post_tags( $post->ID );
+	if ( empty( $tags ) )
+		return false;
+	
+	$return = $before;
+	foreach ( $tags as $tag )
+		$tag_links[] = '<a href="' . get_category_link($tag->cat_ID) . '">' . $tag->cat_name . '</a>';
+
+	$tag_links = join( $sep, $tag_links );
+	$tag_links = apply_filters( 'the_tags', $tag_links );
+	$return .= $tag_links;
+
+	$return .= $after;
+	return $return;
+}
+
+function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
+	echo get_the_tags( $before, $sep, $after );
+}
+
 function category_description($category = 0) {
 	global $cat;
 	if ( !$category )
