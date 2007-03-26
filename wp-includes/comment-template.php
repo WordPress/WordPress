@@ -228,7 +228,7 @@ function get_trackback_url() {
 	if ( '' != get_option('permalink_structure') )
 		$tb_url = trailingslashit(get_permalink()) . user_trailingslashit('trackback', 'single_trackback');
 
-	return $tb_url;
+	return apply_filters('trackback_url', $tb_url);
 }
 function trackback_url( $display = true ) {
 	if ( $display)
