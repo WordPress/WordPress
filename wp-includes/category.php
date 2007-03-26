@@ -77,7 +77,11 @@ function &get_categories($args = '') {
 			$where .= ' AND link_count > 0';
 		else
 			$where .= ' AND category_count > 0';
+	} else {
+		$where .= ' AND ( tag_count = 0 OR ( tag_count != 0 AND ( link_count > 0 OR category_count > 0 ) ) ) ';
 	}
+
+	
 
 	if ( !empty($number) )
 		$number = 'LIMIT ' . $number;
