@@ -27,6 +27,7 @@ addLoadEvent(function() {
 
 	theCommentList.delComplete = function(what,id) {
 		var m = document.getElementById('awaitmod');
+		what = what.split('-')[0];
 		if ( document.getElementById(what + '-' + id).className.match('unapproved') )
 			m.innerHTML = parseInt(m.innerHTML,10) - 1;
 		if ( theExtraCommentList && commentNum ) {
