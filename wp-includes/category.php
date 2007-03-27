@@ -146,6 +146,7 @@ function &get_category(&$category, $output = OBJECT) {
 		wp_cache_add($category->cat_ID, $category, 'category');
 		$_category = $category;
 	} else {
+		$category = (int) $category;
 		if ( ! $_category = wp_cache_get($category, 'category') ) {
 			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category' LIMIT 1");
 			wp_cache_set($category, $_category, 'category');
