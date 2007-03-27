@@ -982,7 +982,10 @@ function do_feed_atom($for_comments) {
 }
 
 function do_robots() {
+	header('Content-type: text/plain; charset=utf-8');
+
 	do_action('do_robotstxt');
+
 	if ( '0' == get_option('blog_public') ) {
 		echo "User-agent: *\n";
 		echo "Disallow: /\n";
