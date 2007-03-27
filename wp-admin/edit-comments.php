@@ -75,104 +75,52 @@ if ( !empty( $_POST['delete_comments'] ) ) :
 	echo '</p></div>';
 endif;
 
-if (isset($_GET['s'])) {
-	$s = $wpdb->escape($_GET['s']);
-	$comments = $wpdb->get_results("SELECT * FROM $wpdb->comments  WHERE
-		(comment_author LIKE '%$s%' OR
-		comment_author_email LIKE '%$s%' OR
-		comment_author_url LIKE ('%$s%') OR
-		comment_author_IP LIKE ('%$s%') OR
-		comment_content LIKE ('%$s%') ) AND
-		comment_approved != 'spam'
-		ORDER BY comment_date DESC");
-} else {
-	if ( isset( $_GET['apage'] ) )
-		$page = (int) $_GET['apage'];
-	else
-		$page = 1;
-	$start = $offset = ( $page - 1 ) * 20;
+if ( isset( $_GET['apage'] ) )
+	$page = (int) $_GET['apage'];
+else
+	$page = 1;
+$start = $offset = ( $page - 1 ) * 20;
 
-	$comments = $wpdb->get_results( "SELECT * FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1' ORDER BY comment_date DESC LIMIT $start, 20" );
-	$total = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1'" );
-}
-?>
-<?php if ( $total > 20 ) {
-$total_pages = ceil( $total / 20 );
-$r = '';
-if ( 1 < $page ) {
-	$args['apage'] = ( 1 == $page - 1 ) ? FALSE : $page - 1;
-	$r .=  '<a class="prev" href="' . clean_url(add_query_arg( $args )) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
-}
-if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
-	for ( $page_num = 1; $page_num <= $total_pages; $page_num++ ) :
-		if ( $page == $page_num ) :
-			$r .=  "<span>$page_num</span>\n";
-		else :
-			$p = false;
-			if ( $page_num < 3 || ( $page_num >= $page - 3 && $page_num <= $page + 3 ) || $page_num > $total_pages - 3 ) :
-				$args['apage'] = ( 1 == $page_num ) ? FALSE : $page_num;
-				$r .= '<a class="page-numbers" href="' . clean_url(add_query_arg($args)) . '">' . ( $page_num ) . "</a>\n";
-				$in = true;
-			elseif ( $in == true ) :
-				$r .= "...\n";
-				$in = false;
-			endif;
-		endif;
-	endfor;
-}
-if ( ( $page ) * 20 < $total || -1 == $total ) {
-	$args['apage'] = $page + 1;
-	$r .=  '<a class="next" href="' . clean_url(add_query_arg($args)) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
-}
-echo "<p class='pagenav'>$r</p>";
-?>
+list($_comments, $total) = _wp_get_comment_list( isset($_GET['s']) ? $_GET['s'] : false, $start, 25 ); // Grab a few extra
 
-<?php } ?>
+$comments = array_slice($_comments, 0, 20);
+$extra_comments = array_slice($_comments, 20);
 
-<?php
+$page_links = paginate_links( array(
+	'base' => clean_url( add_query_arg( 'apage', '%#%' ) ),
+	'format' => '',
+	'total' => ceil($total / 20),
+	'current' => $page
+));
+
+if ( $page_links )
+	echo "<p class='pagenav'>$page_links</p>";
+
 if ('view' == $mode) {
 	if ($comments) {
-?>
-<?php
-$offset = $offset + 1;
-$start = " start='$offset'";
+		$offset = $offset + 1;
+		$start = " start='$offset'";
 
-		echo "<ol id='the-comment-list' class='commentlist' $start>";
+		echo "<ol id='the-comment-list' class='commentlist' $start>\n";
 		$i = 0;
-		foreach ($comments as $comment) {
-		++$i; $class = '';
-		$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
-			$comment_status = wp_get_comment_status($comment->comment_ID);
-			if ('unapproved' == $comment_status)
-				$class .= ' unapproved';
-			if ($i % 2)
-				$class .= ' alternate';
-			echo "<li id='comment-$comment->comment_ID' class='$class'>";
-?>
-<p><strong><?php comment_author() ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
+		foreach ( $comments as $comment ) {
+			get_comment( $comment ); // Cache it
+			_wp_comment_list_item( $comment->comment_ID, ++$i );
+		}
+		echo "</ol>\n\n";
 
-<?php comment_text() ?>
-
-<p><?php comment_date(__('M j, g:i A'));  ?> &#8212; [
+if ( $extra_comments ) : ?>
+<div id="extra-comments" style="display:none">
+<ul id="the-extra-comment-list" class="commentlist">
 <?php
-if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
-	echo " <a href='comment.php?action=editcomment&amp;c=".$comment->comment_ID."'>" .  __('Edit') . '</a>';
-	echo ' | <a href="' . wp_nonce_url('comment.php?action=deletecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . js_escape(sprintf(__("You are about to delete this comment by '%s'.\n'Cancel' to stop, 'OK' to delete."), $comment->comment_author)) . "', theCommentList );\">" . __('Delete') . '</a> ';
-	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
-		echo '<span class="unapprove"> | <a href="' . wp_nonce_url('comment.php?action=unapprovecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'unapprove-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\', theCommentList );">' . __('Unapprove') . '</a> </span>';
-		echo '<span class="approve"> | <a href="' . wp_nonce_url('comment.php?action=approvecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'approve-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\', theCommentList );">' . __('Approve') . '</a> </span>';
+	foreach ( $extra_comments as $comment ) {
+		get_comment( $comment ); // Cache it
+		_wp_comment_list_item( $comment->comment_ID, ++$i );
 	}
-	echo " | <a href=\"" . wp_nonce_url("comment.php?action=deletecomment&amp;dt=spam&amp;p=" . $comment->comment_post_ID . "&amp;c=" . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . "\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to mark as spam this comment by '%s'.\n'Cancel' to stop, 'OK' to mark as spam."), $comment->comment_author))  . "', theCommentList );\">" . __('Spam') . "</a> ";
-}
-$post = get_post($comment->comment_post_ID);
-$post_title = wp_specialchars( $post->post_title, 'double' );
-$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 ?>
- ] &#8212; <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo $post_title; ?></a></p>
-		</li>
-
-<?php } // end foreach($comment) ?>
-</ol>
+</ul>
+</div>
+<?php endif; // $extra_comments ?>
 
 <div id="ajax-response"></div>
 
@@ -242,39 +190,11 @@ $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 <?php
 	} // end if ($comments)
 }
-	?>
-<?php if ( $total > 20 ) {
-$total_pages = ceil( $total / 20 );
-$r = '';
-if ( 1 < $page ) {
-	$args['apage'] = ( 1 == $page - 1 ) ? FALSE : $page - 1;
-	$r .=  '<a class="prev" href="' . clean_url(add_query_arg( $args )) . '">&laquo; '. __('Previous Page') .'</a>' . "\n";
-}
-if ( ( $total_pages = ceil( $total / 20 ) ) > 1 ) {
-	for ( $page_num = 1; $page_num <= $total_pages; $page_num++ ) :
-		if ( $page == $page_num ) :
-			$r .=  "<span>$page_num</span>\n";
-		else :
-			$p = false;
-			if ( $page_num < 3 || ( $page_num >= $page - 3 && $page_num <= $page + 3 ) || $page_num > $total_pages - 3 ) :
-				$args['apage'] = ( 1 == $page_num ) ? FALSE : $page_num;
-				$r .= '<a class="page-numbers" href="' . clean_url(add_query_arg($args)) . '">' . ( $page_num ) . "</a>\n";
-				$in = true;
-			elseif ( $in == true ) :
-				$r .= "...\n";
-				$in = false;
-			endif;
-		endif;
-	endfor;
-}
-if ( ( $page ) * 20 < $total || -1 == $total ) {
-	$args['apage'] = $page + 1;
-	$r .=  '<a class="next" href="' . clean_url(add_query_arg($args)) . '">'. __('Next Page') .' &raquo;</a>' . "\n";
-}
-echo "<p class='pagenav'>$r</p>";
-?>
 
-<?php } ?>
+if ( $page_links )
+	echo "<p class='pagenav'>$page_links</p>";
+
+?>
 
 </div>
 

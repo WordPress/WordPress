@@ -34,7 +34,7 @@ class WP_Scripts {
 			'strangeText' => __("Something strange happened.  Try refreshing the page."),
 			'whoaText' => __("Slow down, I'm still sending your data!")
 		) );
-		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'fat'), '20070306');
+		$this->add( 'listman', '/wp-includes/js/list-manipulation.js', array('wp-ajax', 'fat'), '20070306' );
 		$this->localize( 'listman', 'listManL10n', array(
 			'jumpText' => __('Jump to new item'),
 			'delText' => __('Are you sure you want to delete this %thing%?')
@@ -84,7 +84,7 @@ class WP_Scripts {
 			) );
 			$this->add( 'admin-categories', '/wp-admin/categories.js', array('listman'), '3684' );
 			$this->add( 'admin-custom-fields', '/wp-admin/custom-fields.js', array('listman'), '3733' );
-			$this->add( 'admin-comments', '/wp-admin/edit-comments.js', array('listman'), '3847' );
+			$this->add( 'admin-comments', '/wp-admin/edit-comments.js', array('listman'), '20070327' );
 			$this->add( 'admin-users', '/wp-admin/users.js', array('listman'), '4583' );
 			$this->add( 'xfn', '/wp-admin/xfn.js', false, '3517' );
 			$this->add( 'upload', '/wp-admin/upload.js', array('prototype'), '20070306' );

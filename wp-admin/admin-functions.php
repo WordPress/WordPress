@@ -909,6 +909,68 @@ function user_row( $user_object, $style = '' ) {
 	return $r;
 }
 
+function _wp_get_comment_list( $s = false, $start, $num ) {
+	global $wpdb;
+
+	$start = (int) $start;
+	$num = (int) $num;
+
+	if ( $s ) {
+		$s = $wpdb->escape($s);
+		$comments = $wpdb->get_results("SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE
+			(comment_author LIKE '%$s%' OR
+			comment_author_email LIKE '%$s%' OR
+			comment_author_url LIKE ('%$s%') OR
+			comment_author_IP LIKE ('%$s%') OR
+			comment_content LIKE ('%$s%') ) AND
+			comment_approved != 'spam'
+			ORDER BY comment_date DESC LIMIT $start, $num");
+	} else {
+		$comments = $wpdb->get_results( "SELECT SQL_CALC_FOUND_ROWS * FROM $wpdb->comments WHERE comment_approved = '0' OR comment_approved = '1' ORDER BY comment_date DESC LIMIT $start, $num" );
+	}
+
+	$total = $wpdb->get_var( "SELECT FOUND_ROWS()" );
+
+	return array($comments, $total);
+}
+
+function _wp_comment_list_item( $id, $alt = 0 ) {
+	global $authordata, $comment, $wpdb;
+	$id = (int) $id;
+	$comment =& get_comment( $id );
+	$class = '';
+	$authordata = get_userdata($wpdb->get_var("SELECT post_author FROM $wpdb->posts WHERE ID = $comment->comment_post_ID"));
+	$comment_status = wp_get_comment_status($comment->comment_ID);
+	if ( 'unapproved' == $comment_status )
+		$class .= ' unapproved';
+	if ( $alt % 2 )
+		$class .= ' alternate';
+	echo "<li id='comment-$comment->comment_ID' class='$class'>";
+?>
+<p><strong><?php comment_author(); ?></strong> <?php if ($comment->comment_author_email) { ?>| <?php comment_author_email_link() ?> <?php } if ($comment->comment_author_url && 'http://' != $comment->comment_author_url) { ?> | <?php comment_author_url_link() ?> <?php } ?>| <?php _e('IP:') ?> <a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></p>
+
+<?php comment_text() ?>
+
+<p><?php comment_date(__('M j, g:i A'));  ?> &#8212; [
+<?php
+if ( current_user_can('edit_post', $comment->comment_post_ID) ) {
+	echo " <a href='comment.php?action=editcomment&amp;c=".$comment->comment_ID."'>" .  __('Edit') . '</a>';
+	echo ' | <a href="' . wp_nonce_url('ocomment.php?action=deletecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . '" onclick="return deleteSomething( \'comment\', ' . $comment->comment_ID . ', \'' . js_escape(sprintf(__("You are about to delete this comment by '%s'.\n'Cancel' to stop, 'OK' to delete."), $comment->comment_author)) . "', theCommentList );\">" . __('Delete') . '</a> ';
+	if ( ('none' != $comment_status) && ( current_user_can('moderate_comments') ) ) {
+		echo '<span class="unapprove"> | <a href="' . wp_nonce_url('comment.php?action=unapprovecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'unapprove-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\', theCommentList );">' . __('Unapprove') . '</a> </span>';
+		echo '<span class="approve"> | <a href="' . wp_nonce_url('comment.php?action=approvecomment&amp;p=' . $comment->comment_post_ID . '&amp;c=' . $comment->comment_ID, 'approve-comment_' . $comment->comment_ID) . '" onclick="return dimSomething( \'comment\', ' . $comment->comment_ID . ', \'unapproved\', theCommentList );">' . __('Approve') . '</a> </span>';
+	}
+	echo " | <a href=\"" . wp_nonce_url("comment.php?action=deletecomment&amp;dt=spam&amp;p=" . $comment->comment_post_ID . "&amp;c=" . $comment->comment_ID, 'delete-comment_' . $comment->comment_ID) . "\" onclick=\"return deleteSomething( 'comment-as-spam', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to mark as spam this comment by '%s'.\n'Cancel' to stop, 'OK' to mark as spam."), $comment->comment_author))  . "', theCommentList );\">" . __('Spam') . "</a> ";
+}
+$post = get_post($comment->comment_post_ID);
+$post_title = wp_specialchars( $post->post_title, 'double' );
+$post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
+?>
+ ] &#8212; <a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo $post_title; ?></a></p>
+		</li>
+<?php
+}
+
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
 	global $wpdb;
 	if (!$categories )

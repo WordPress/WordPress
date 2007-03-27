@@ -151,6 +151,31 @@ case 'add-cat' : // From Manage->Categories
 	) );
 	$x->send();
 	break;
+case 'add-comment' :
+	if ( !current_user_can( 'edit_post', $id ) )
+		die('-1');
+	$search = isset($_POST['s']) ? $_POST['s'] : false;
+	$start = isset($_POST['page']) ? intval($_POST['page']) * 25 : 25;
+
+	list($comments, $total) = _wp_get_comment_list( $search, $start, 1 );
+
+	if ( !$comments )
+		die('1');
+	$x = new WP_Ajax_Response();
+	foreach ( (array) $comments as $comment ) {
+		get_comment( $comment );
+		ob_start();
+			_wp_comment_list_item( $comment->comment_ID );
+			$comment_list_item = ob_get_contents();
+		ob_end_clean();
+		$x->add( array(
+			'what' => 'comment',
+			'id' => $comment->comment_ID,
+			'data' => $comment_list_item
+		) );
+	}
+	$x->send();
+	break;
 case 'add-meta' :
 	if ( !current_user_can( 'edit_post', $id ) )
 		die('-1');
