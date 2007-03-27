@@ -3,6 +3,7 @@
 function get_bookmark($bookmark_id, $output = OBJECT) {
 	global $wpdb;
 
+	$bookmark_id = (int) $bookmark_id;
 	$link = $wpdb->get_row("SELECT * FROM $wpdb->links WHERE link_id = '$bookmark_id'");
 	$link->link_category = wp_get_link_cats($bookmark_id);
 
