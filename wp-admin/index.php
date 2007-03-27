@@ -122,7 +122,7 @@ $cat_str  = sprintf(__ngettext('%1$s <a href="%2$s" title="Categories">category<
 <?php endif; ?>
 	<li><a href="profile.php"><?php _e('Update your profile or change your password'); ?></a></li>
 <?php if ( current_user_can('manage_links') ) : ?>
-	<li><a href="link-add.php"><?php _e('Add a bookmark to your blogroll'); ?></a></li>
+	<li><a href="link-add.php"><?php _e('Add a link to your blogroll'); ?></a></li>
 <?php endif; ?>
 <?php if ( current_user_can('switch_themes') ) : ?>
 	<li><a href="themes.php"><?php _e('Change your site&#8217;s look or theme'); ?></a></li>
