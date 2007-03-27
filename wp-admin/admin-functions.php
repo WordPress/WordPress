@@ -289,7 +289,7 @@ function get_default_post_to_edit() {
 	else if ( !empty($post_title) ) {
 		$text       = wp_specialchars(stripslashes(urldecode($_REQUEST['text'])));
 		$text       = funky_javascript_fix($text);
-		$popupurl   = attribute_escape(stripslashes($_REQUEST['popupurl']));
+		$popupurl   = clean_url(stripslashes($_REQUEST['popupurl']));
         $post_content = '<a href="'.$popupurl.'">'.$post_title.'</a>'."\n$text";
     }
 
@@ -339,7 +339,7 @@ function get_user_to_edit($user_id) {
 	$user = new WP_User($user_id);
 	$user->user_login   = attribute_escape($user->user_login);
 	$user->user_email   = attribute_escape($user->user_email);
-	$user->user_url     = attribute_escape($user->user_url);
+	$user->user_url     = clean_url($user->user_url);
 	$user->first_name   = attribute_escape($user->first_name);
 	$user->last_name    = attribute_escape($user->last_name);
 	$user->display_name = attribute_escape($user->display_name);
@@ -363,7 +363,7 @@ function edit_user($user_id = 0) {
 
 	if ($user_id != 0) {
 		$update = true;
-		$user->ID = $user_id;
+		$user->ID = (int) $user_id;
 		$userdata = get_userdata($user_id);
 		$user->user_login = $wpdb->escape($userdata->user_login);
 	} else {
@@ -388,7 +388,7 @@ function edit_user($user_id = 0) {
 	if (isset ($_POST['email']))
 		$user->user_email = wp_specialchars(trim($_POST['email']));
 	if (isset ($_POST['url'])) {
-		$user->user_url = wp_specialchars(trim($_POST['url']));
+		$user->user_url = clean_url(trim($_POST['url']));
 		$user->user_url = preg_match('/^(https?|ftps?|mailto|news|gopher):/is', $user->user_url) ? $user->user_url : 'http://'.$user->user_url;
 	}
 	if (isset ($_POST['first_name']))
@@ -866,8 +866,8 @@ function list_meta($meta) {
 			<tr class='$style'>
 				<td valign='top'><input name='meta[{$entry['meta_id']}][key]' tabindex='6' type='text' size='20' value='{$entry['meta_key']}' /></td>
 				<td><textarea name='meta[{$entry['meta_id']}][value]' tabindex='6' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>
-				<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".__('Update')."' /><br />
-				<input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='".__('Delete')."' /></td>
+				<td align='center'><input name='updatemeta' type='submit' class='updatemeta' tabindex='6' value='".attribute_escape(__('Update'))."' /><br />
+				<input name='deletemeta[{$entry['meta_id']}]' type='submit' class='deletemeta' tabindex='6' value='".attribute_escape(__('Delete'))."' /></td>
 			</tr>
 		";
 	}
@@ -931,6 +931,7 @@ function meta_form() {
 
 function add_meta($post_ID) {
 	global $wpdb;
+	$post_ID = (int) $post_ID;
 
 	$metakeyselect = $wpdb->escape(stripslashes(trim($_POST['metakeyselect'])));
 	$metakeyinput = $wpdb->escape(stripslashes(trim($_POST['metakeyinput'])));
@@ -957,6 +958,7 @@ function add_meta($post_ID) {
 
 function delete_meta($mid) {
 	global $wpdb;
+	$mid = (int) $mid;
 
 	$result = $wpdb->query("DELETE FROM $wpdb->postmeta WHERE meta_id = '$mid'");
 }

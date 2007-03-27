@@ -770,6 +770,7 @@ function &get_category(&$category, $output = OBJECT) {
 		wp_cache_add($category->cat_ID, $category, 'category');
 		$_category = $category;
 	} else {
+		$category = (int) $category;
 		if ( ! $_category = wp_cache_get($category, 'category') ) {
 			$_category = $wpdb->get_row("SELECT * FROM $wpdb->categories WHERE cat_ID = '$category' LIMIT 1");
 			wp_cache_add($category, $_category, 'category');
@@ -807,6 +808,7 @@ function &get_comment(&$comment, $output = OBJECT) {
 			$comment_cache[$comment->comment_ID] = &$comment;
 		$_comment = & $comment_cache[$comment->comment_ID];
 	} else {
+		$comment = (int) $comment;
 		if ( !isset($comment_cache[$comment]) ) {
 			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment' LIMIT 1");
 			$comment_cache[$comment->comment_ID] = & $_comment;
