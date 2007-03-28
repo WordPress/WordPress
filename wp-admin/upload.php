@@ -89,7 +89,7 @@ echo "<ul id='upload-menu'>\n";
 foreach ( $wp_upload_tabs as $t => $tab_array ) { // We've already done the current_user_can check
 	$href = add_query_arg( array('tab' => $t, 'ID' => '', 'action' => '', 'paged' => '') );
 	if ( isset($tab_array[4]) && is_array($tab_array[4]) )
-		add_query_arg( $tab_array[4], $href );
+		$href = add_query_arg( $tab_array[4], $href );
 	$_href = clean_url( $href);
 	$page_links = '';
 	$class = 'upload-tab alignleft';
