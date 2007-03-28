@@ -83,6 +83,10 @@ include ('admin-header.php');
 <input type="hidden" name="checkuser_id" value="<?php echo $user_ID ?>" />
 </p>
 
+<p><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="true" <?php checked('true', $profileuser->rich_editing); ?> /> <?php _e('Use the visual editor when writing'); ?></label></p>
+
+<p class="submit"><input type="submit" value="<?php _e('Update User &raquo;'); ?>" name="submit" /></p>
+
 <fieldset>
 <legend><?php _e('Name'); ?></legend>
 <p><label><?php _e('Username: (no editing)'); ?><br />
