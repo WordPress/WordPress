@@ -7,7 +7,7 @@ $more = 1;
 <!-- generator="wordpress/<?php echo $wp_version ?>" -->
 <rss version="0.92">
 <channel>
-	<title><?php bloginfo('name'); wp_title_rss(); ?></title>
+	<title><?php bloginfo_rss('name'); wp_title_rss(); ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
 	<lastBuildDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></lastBuildDate>
