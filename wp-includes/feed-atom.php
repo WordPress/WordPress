@@ -11,7 +11,7 @@ $more = 1;
   xml:base="<?php bloginfo_rss('home') ?>/wp-atom.php"
   <?php do_action('atom_ns'); ?>
  >
-	<title type="text"><?php bloginfo_rss('name') ?></title>
+	<title type="text"><?php bloginfo_rss('name'); wp_title_rss(); ?></title>
 	<subtitle type="text"><?php bloginfo_rss("description") ?></subtitle>
 
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT')); ?></updated>

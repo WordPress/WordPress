@@ -16,6 +16,10 @@ function get_wp_title_rss($sep = '&#187;') {
 	return $title;
 }
 
+function wp_title_rss($sep = '&#187;') {
+	echo apply_filters('wp_title_rss', get_wp_title_rss($sep));
+}
+
 function get_the_title_rss() {
 	$title = get_the_title();
 	$title = apply_filters('the_title', $title);

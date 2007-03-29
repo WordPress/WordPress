@@ -165,6 +165,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	$author = get_query_var('author');
 	$author_name = get_query_var('author_name');
 	$m = get_query_var('m');
+	print '<!-- $m = ' . $m . ' -->';
 	$year = get_query_var('year');
 	$monthnum = get_query_var('monthnum');
 	$day = get_query_var('day');

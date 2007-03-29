@@ -14,7 +14,7 @@ $more = 1;
 >
 
 <channel>
-	<title><?php bloginfo_rss('name'); ?></title>
+	<title><?php bloginfo_rss('name'); wp_title_rss(); ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss("description") ?></description>
 	<pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_lastpostmodified('GMT'), false); ?></pubDate>
