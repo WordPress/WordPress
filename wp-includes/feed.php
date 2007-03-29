@@ -2,12 +2,12 @@
 
 function get_bloginfo_rss($show = '') {
 	$info = strip_tags(get_bloginfo($show));
-	return apply_filters('bloginfo_rss', convert_chars($info));
+	return apply_filters('get_bloginfo_rss', convert_chars($info));
 }
 
 
 function bloginfo_rss($show = '') {
-	echo get_bloginfo_rss($show);
+	echo apply_filters('bloginfo_rss', get_bloginfo_rss($show));
 }
 
 function get_wp_title_rss($sep = '&#187;') {
