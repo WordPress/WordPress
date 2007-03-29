@@ -50,7 +50,7 @@ define('EP_AUTHORS',    1024);
 define('EP_PAGES',      2048);
 //pseudo-places
 define('EP_NONE',       0  );
-define('EP_ALL',        255);
+define('EP_ALL',        4095);
 
 //and an endpoint, like /trackback/
 function add_rewrite_endpoint($name, $places) {
