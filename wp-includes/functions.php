@@ -1231,7 +1231,7 @@ function wp_explain_nonce($action) {
 		$trans['bulk']['comments'] = array(__('Are you sure you want to bulk modify comments?'), false);
 		$trans['moderate']['comments'] = array(__('Are you sure you want to moderate comments?'), false);
 
-		$trans['add']['bookmark'] = array(__('Are you sure you want to add this link'), false);
+		$trans['add']['bookmark'] = array(__('Are you sure you want to add this link?'), false);
 		$trans['delete']['bookmark'] = array(__('Are you sure you want to delete this link: &quot;%s&quot;?'), 'use_id');
 		$trans['update']['bookmark'] = array(__('Are you sure you want to edit this link: &quot;%s&quot;?'), 'use_id');
 		$trans['bulk']['bookmarks'] = array(__('Are you sure you want to bulk modify links?'), false);
