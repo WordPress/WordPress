@@ -582,6 +582,16 @@ class WP_Rewrite {
 			if ($paged) //...and /page/xx ones
 				$rewrite = array_merge($rewrite, array($pagematch => $pagequery));
 
+			//do endpoints
+			if ($endpoints) {
+				foreach ($ep_query_append as $regex => $ep) {
+					//add the endpoints on if the mask fits
+					if ($ep[0] & $ep_mask || $ep[0] & $ep_mask_specific) {
+						$rewrite[$match . $regex] = $index . '?' . $query . $ep[1] . $this->preg_index($num_toks + 2);
+					}
+				}
+			}
+
 			//if we've got some tags in this dir
 			if ($num_toks) {
 				$post = false;
@@ -597,16 +607,6 @@ class WP_Rewrite {
 					$post = true;
 					if (strpos($struct, '%pagename%') !== false)
 						$page = true;
-				}
-
-				//do endpoints
-				if ($endpoints) {
-					foreach ($ep_query_append as $regex => $ep) {
-						//add the endpoints on if the mask fits
-						if ($ep[0] & $ep_mask || $ep[0] & $ep_mask_specific) {
-							$rewrite[$match . $regex] = $index . '?' . $query . $ep[1] . $this->preg_index($num_toks + 2);
-						}
-					}
 				}
 
 				//if we're creating rules for a permalink, do all the endpoints like attachments etc
