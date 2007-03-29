@@ -21,6 +21,7 @@ function get_footer() {
 
 
 function get_sidebar() {
+	do_action( 'get_sidebar' );
 	if ( file_exists( TEMPLATEPATH . '/sidebar.php') )
 		load_template( TEMPLATEPATH . '/sidebar.php');
 	else
