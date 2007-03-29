@@ -201,7 +201,7 @@ function wp_title($sep = '&raquo;', $display = true) {
 	// If there's a month
 	if ( !empty($m) ) {
 		$my_year = substr($m, 0, 4);
-		$my_month = $wp_locale->get_month($m);
+		$my_month = $wp_locale->get_month(substr($m, 4, 2));
 		$my_day = intval(substr($m, 6, 2));
 		$title = "$my_year" . ($my_month ? "$sep $my_month" : "") . ($my_day ? "$sep $my_day" : "");
 	}
