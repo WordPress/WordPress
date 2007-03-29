@@ -173,6 +173,8 @@ function get_author_name( $auth_id ) {
 }
 
 function wp_list_authors($args = '') {
+	global $wpdb;
+	
 	if ( is_array($args) )
 		$r = &$args;
 	else
@@ -182,15 +184,18 @@ function wp_list_authors($args = '') {
 		'feed' => '', 'feed_image' => '');
 	$r = array_merge($defaults, $r);
 	extract($r);
-
-	global $wpdb;
+	
 	// TODO:  Move select to get_authors().
-	$query = "SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name";
-	$authors = $wpdb->get_results($query);
+	$authors = $wpdb->get_results("SELECT ID, user_nicename from $wpdb->users " . ($exclude_admin ? "WHERE user_login <> 'admin' " : '') . "ORDER BY display_name");
+	
+	$author_count = array();
+	foreach ((array) $wpdb->get_results("SELECT DISTINCT post_author, COUNT(ID) AS count FROM $wpdb->posts WHERE post_status = 'publish' GROUP BY post_author") as $row) {
+		$author_count[$row->post_author] = $row->count;
+	}
 
 	foreach ( (array) $authors as $author ) {
 		$author = get_userdata( $author->ID );
-		$posts = get_usernumposts($author->ID);
+		$posts = (isset($author_count[$author->ID])) ? $author_count[$author->ID] : 0;
 		$name = $author->nickname;
 
 		if ( $show_fullname && ($author->first_name != '' && $author->last_name != '') )
