@@ -425,7 +425,7 @@ function wp_get_archives($args = '') {
 					$url  = get_permalink($arcresult);
 					$arc_title = $arcresult->post_title;
 					if ( $arc_title )
-						$text = strip_tags($arc_title);
+						$text = strip_tags(apply_filters('the_title', $arc_title));
 					else
 						$text = $arcresult->ID;
 					echo get_archives_link($url, $text, $format, $before, $after);
