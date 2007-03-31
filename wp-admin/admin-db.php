@@ -152,6 +152,11 @@ function wp_insert_category($catarr) {
 
 	clean_category_cache($cat_ID);
 
+	if ($update)
+		do_action('edited_category', $cat_ID);
+	else
+		do_action('created_category', $cat_ID);
+	
 	return $cat_ID;
 }
 
