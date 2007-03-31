@@ -1,6 +1,7 @@
 	<div id="sidebar">
 		<ul>
-
+			<?php 	/* Widgetized sidebar, if you have the plugin installed. */
+					if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar() ) : ?>
 			<li>
 				<?php include (TEMPLATEPATH . '/searchform.php'); ?>
 			</li>
@@ -66,7 +67,8 @@
 				</ul>
 				</li>
 			<?php } ?>
-
+			
+			<?php endif; ?>
 		</ul>
 	</div>
 

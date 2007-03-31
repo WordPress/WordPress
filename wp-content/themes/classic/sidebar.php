@@ -3,6 +3,8 @@
 <div id="menu">
 
 <ul>
+<?php 	/* Widgetized sidebar, if you have the plugin installed. */
+		if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar() ) : ?>
 	<?php wp_list_pages('title_li=' . __('Pages:')); ?>
 	<?php wp_list_bookmarks('title_after=&title_before='); ?>
 	<?php wp_list_categories('title_li=' . __('Categories:')); ?>
@@ -32,6 +34,7 @@
 		<?php wp_meta(); ?>
 	</ul>
  </li>
+<?php endif; ?>
 
 </ul>
 
