@@ -121,6 +121,10 @@ function wp_insert_category($catarr) {
 	else
 		$links_private = 0;
 
+	// Let's check if we have this category already, if so just do an update
+	if ( $cat_ID = $wpdb->get_var( "SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename' " ) )
+		$update = true;
+
 	if (!$update) {
 		$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent, links_private, posts_private) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$category_parent', '$links_private', '$posts_private')");
 		$cat_ID = (int) $wpdb->insert_id;
