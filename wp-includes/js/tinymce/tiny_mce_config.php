@@ -76,6 +76,7 @@ initArray = {
 	fix_list_elements : true,
 	gecko_spellcheck : true,
 	entities : "38,amp,60,lt,62,gt",
+	button_tile_map : true,
 	content_css : "<?php echo $mce_css; ?>",
 	valid_elements : "<?php echo $valid_elements; ?>",
 	save_callback : 'TinyMCE_wordpressPlugin.saveCallback',
