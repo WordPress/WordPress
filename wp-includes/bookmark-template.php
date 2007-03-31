@@ -136,6 +136,10 @@ function get_links($category = -1,
 
 		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;
+		
+		if ($show_rating) {
+			$output .= $between . get_linkrating($row);
+		}
 
 		$output .= "$after\n";
 	} // end while
@@ -304,6 +308,11 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 
 		if ( $show_description && '' != $desc )
 			$output .= $between . $desc;
+		
+		if ($show_rating) {
+			$output .= $between . get_linkrating($bookmark);
+		}
+		
 		$output .= "$after\n";
 	} // end while
 
