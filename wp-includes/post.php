@@ -443,6 +443,8 @@ function wp_delete_post($postid = 0) {
 		$wp_rewrite->flush_rules();
 	}
 
+	do_action('deleted_post', $postid);
+	
 	return $post;
 }
 
