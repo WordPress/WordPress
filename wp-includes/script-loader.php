@@ -149,6 +149,12 @@ class WP_Scripts {
 					if ( isset($this->args[$handle]) )
 						$ver .= '&amp;' . $this->args[$handle];
 					$src = 0 === strpos($this->scripts[$handle]->src, 'http://') ? $this->scripts[$handle]->src : get_option( 'siteurl' ) . $this->scripts[$handle]->src;
+					$src = $this->scripts[$handle]->src;
+					
+					if (!preg_match('|^https?://|', $src)) {
+						$src = get_option('siteurl') . $src;
+					}
+					
 					$src = add_query_arg('ver', $ver, $src);
 					$src = clean_url(apply_filters( 'script_loader_src', $src ));
 					echo "<script type='text/javascript' src='$src'></script>\n";
