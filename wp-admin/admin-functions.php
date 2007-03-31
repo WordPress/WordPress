@@ -1773,20 +1773,20 @@ function get_plugins() {
 	$plugins_dir = @ dir( $plugin_root);
 	if ( $plugins_dir ) {
 		while (($file = $plugins_dir->read() ) !== false ) {
-			if ( preg_match( '|^\.+$|', $file ))
+			if ( substr($file, 0, 1) == '.' )
 				continue;
 			if ( is_dir( $plugin_root.'/'.$file ) ) {
 				$plugins_subdir = @ dir( $plugin_root.'/'.$file );
 				if ( $plugins_subdir ) {
 					while (($subfile = $plugins_subdir->read() ) !== false ) {
-						if ( preg_match( '|^\.+$|', $subfile ))
+						if ( substr($subfile, 0, 1) == '.' )
 							continue;
-						if ( preg_match( '|\.php$|', $subfile ))
+						if ( substr($subfile, -4) == '.php' )
 							$plugin_files[] = "$file/$subfile";
 					}
 				}
 			} else {
-				if ( preg_match( '|\.php$|', $file ))
+				if ( substr($file, -4) == '.php' )
 					$plugin_files[] = $file;
 			}
 		}
