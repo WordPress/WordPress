@@ -167,10 +167,8 @@ class WP_Import {
 	function select_authors() {
 		$file = wp_import_handle_upload();
 		if ( isset($file['error']) ) {
-			$this->header();
 			echo '<p>'.__('Sorry, there has been an error.').'</p>';
 			echo '<p><strong>' . $file['error'] . '</strong></p>';
-			$this->footer();
 			return;
 		}
 		$this->file = $file['file'];
