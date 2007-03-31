@@ -131,7 +131,14 @@ endforeach;
 
 
 <fieldset id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>">
-    <legend><?php _e('Page Content') ?></legend>
+<legend><?php _e('Page Content') ?>
+
+<?php if ( 'publish' == $post->post_status ) { ?>
+<a href="<?php echo clean_url(get_permalink($post->ID)); ?>" style="position: absolute; right: 2em; margin-right: 19em; text-decoration: underline;" target="_blank"><?php _e('View &raquo;'); ?></a>
+<?php } elseif ( 'edit' == $action ) { ?>
+<a href="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" style="position: absolute; right: 2em; margin-right: 19em; text-decoration: underline;" target="_blank"><?php _e('Preview &raquo;'); ?></a>
+<?php } ?>
+</legend>
 	<?php the_editor($post->post_content); ?>
 </fieldset>
 

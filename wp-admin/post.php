@@ -66,12 +66,6 @@ case 'edit':
 
 	include('edit-form-advanced.php');
 
-	?>
-	<div id='preview' class='wrap'>
-	<h2 id="preview-post"><?php _e('Post Preview (updated when post is saved)'); ?></h2>
-		<iframe src="<?php echo clean_url(apply_filters('preview_post_link', add_query_arg('preview', 'true', get_permalink($post->ID)))); ?>" width="100%" height="600" ></iframe>
-	</div>
-	<?php
 	break;
 
 case 'editattachment':
