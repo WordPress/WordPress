@@ -46,11 +46,12 @@ define('EP_ROOT',       64  );
 define('EP_COMMENTS',   128 );
 define('EP_SEARCH',     256 );
 define('EP_CATEGORIES', 512 );
-define('EP_AUTHORS',    1024);
-define('EP_PAGES',      2048);
+define('EP_TAGS', 1024 );
+define('EP_AUTHORS',    2048);
+define('EP_PAGES',      4096);
 //pseudo-places
 define('EP_NONE',       0  );
-define('EP_ALL',        4095);
+define('EP_ALL',        8191);
 
 //and an endpoint, like /trackback/
 function add_rewrite_endpoint($name, $places) {
@@ -150,7 +151,9 @@ class WP_Rewrite {
 	var $permalink_structure;
 	var $use_trailing_slashes;
 	var $category_base;
+	var $tag_base;
 	var $category_structure;
+	var $tag_structure;
 	var $author_base = 'author';
 	var $author_structure;
 	var $date_structure;
@@ -181,6 +184,7 @@ class WP_Rewrite {
 					'%postname%',
 					'%post_id%',
 					'%category%',
+					'%tag%',
 					'%author%',
 					'%pagename%',
 					'%search%'
@@ -196,6 +200,7 @@ class WP_Rewrite {
 					'([0-9]{1,2})',
 					'([^/]+)',
 					'([0-9]+)',
+					'(.+?)',
 					'(.+?)',
 					'([^/]+)',
 					'([^/]+)',
@@ -213,6 +218,7 @@ class WP_Rewrite {
 					'name=',
 					'p=',
 					'category_name=',
+					'tag=',
 					'author_name=',
 					'pagename=',
 					's='
@@ -376,6 +382,26 @@ class WP_Rewrite {
 		$this->category_structure .= '%category%';
 
 		return $this->category_structure;
+	}
+
+	function get_tag_permastruct() {
+		if (isset($this->tag_structure)) {
+			return $this->tag_structure;
+		}
+
+		if (empty($this->permalink_structure)) {
+			$this->tag_structure = '';
+			return false;
+		}
+
+		if (empty($this->tag_base))
+			$this->tag_structure = $this->front . 'tag/';
+		else
+			$this->tag_structure = $this->tag_base . '/';
+
+		$this->tag_structure .= '%tag%';
+
+		return $this->tag_structure;
 	}
 
 	function get_author_permastruct() {
@@ -734,6 +760,10 @@ class WP_Rewrite {
 		$category_rewrite = $this->generate_rewrite_rules($this->get_category_permastruct(), EP_CATEGORIES);
 		$category_rewrite = apply_filters('category_rewrite_rules', $category_rewrite);
 
+		// Tags
+		$tag_rewrite = $this->generate_rewrite_rules($this->get_tag_permastruct(), EP_TAGS);
+		$tag_rewrite = apply_filters('tag_rewrite_rules', $tag_rewrite);
+
 		// Authors
 		$author_rewrite = $this->generate_rewrite_rules($this->get_author_permastruct(), EP_AUTHORS);
 		$author_rewrite = apply_filters('author_rewrite_rules', $author_rewrite);
@@ -743,7 +773,7 @@ class WP_Rewrite {
 		$page_rewrite = apply_filters('page_rewrite_rules', $page_rewrite);
 
 		// Put them together.
-		$this->rules = array_merge($robots_rewrite, $default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
+		$this->rules = array_merge($robots_rewrite, $default_feeds, $page_rewrite, $root_rewrite, $comments_rewrite, $search_rewrite, $category_rewrite, $tag_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $this->extra_rules);
 
 		do_action_ref_array('generate_rewrite_rules', array(&$this));
 		$this->rules = apply_filters('rewrite_rules_array', $this->rules);
@@ -869,7 +899,8 @@ class WP_Rewrite {
 		if ($this->using_index_permalinks()) {
 			$this->root = $this->index . '/';
 		}
-		$this->category_base = get_option('category_base');
+		$this->category_base = get_option( 'category_base' );
+		$this->tag_base = get_option( 'tag_base' );
 		unset($this->category_structure);
 		unset($this->author_structure);
 		unset($this->date_structure);
@@ -890,6 +921,13 @@ class WP_Rewrite {
 	function set_category_base($category_base) {
 		if ($category_base != $this->category_base) {
 			update_option('category_base', $category_base);
+			$this->init();
+		}
+	}
+
+	function set_tag_base( $tag_base ) {
+		if ( $tag_base != $this->tag_base ) {
+			update_option( 'tag_base', $tag_base );
 			$this->init();
 		}
 	}

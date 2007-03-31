@@ -670,7 +670,7 @@ function update_post_category_cache($post_ids) {
 }
 
 function update_post_caches(&$posts) {
-	global $post_cache, $category_cache, $post_meta_cache;
+	global $post_cache, $category_cache, $post_meta_cache, $tag_cache;
 	global $wpdb, $blog_id;
 
 	// No point in doing all this work if we didn't match any posts.

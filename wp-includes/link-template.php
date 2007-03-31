@@ -59,6 +59,7 @@ function get_permalink($id = 0) {
 		'%postname%',
 		'%post_id%',
 		'%category%',
+		'%tag%',
 		'%author%',
 		'%pagename%'
 	);

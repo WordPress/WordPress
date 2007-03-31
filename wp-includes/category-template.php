@@ -42,7 +42,7 @@ function get_category_link($category_id) {
 
 function get_tag_link( $tag_id ) {
 	global $wp_rewrite;
-	$catlink = $wp_rewrite->get_category_permastruct();
+	$catlink = $wp_rewrite->get_tag_permastruct();
 
 	$category = &get_category($tag_id);
 	$category_nicename = $category->category_nicename;
