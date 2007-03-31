@@ -149,7 +149,7 @@ if (empty($plugins)) {
 ?>
 
 <tr>
-	<td colspan="5"><a href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>"><?php _e('Deactivate All Plugins'); ?></a></td>
+	<td colspan="5" align="right"><a href="<?php echo wp_nonce_url('plugins.php?action=deactivate-all', 'deactivate-all'); ?>"><?php _e('Deactivate All Plugins'); ?></a></td>
 </tr>
 
 </table>
