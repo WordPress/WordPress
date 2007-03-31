@@ -86,6 +86,20 @@ function is_category ($category = '') {
 	return false;
 }
 
+function is_tag( $slug = '' ) {
+	global $wp_query;
+	if ( !$wp_query->is_tag )
+		return false;
+
+	if ( empty( $slug ) )
+		return true;
+
+	$cat_obj = $wp_query->get_queried_object();
+	if ( $category == $cat_obj->category_nicename )
+		return true;
+	return false;
+}
+
 function is_comments_popup () {
 	global $wp_query;
 
@@ -305,6 +319,7 @@ class WP_Query {
 	var $is_time = false;
 	var $is_author = false;
 	var $is_category = false;
+	var $is_tag = false;
 	var $is_search = false;
 	var $is_feed = false;
 	var $is_comment_feed = false;
@@ -329,6 +344,7 @@ class WP_Query {
 		$this->is_time = false;
 		$this->is_author = false;
 		$this->is_category = false;
+		$this->is_tag = false;
 		$this->is_search = false;
 		$this->is_feed = false;
 		$this->is_comment_feed = false;
@@ -383,6 +399,7 @@ class WP_Query {
 			, 'year'
 			, 'w'
 			, 'category_name'
+			, 'tag'
 			, 'author_name'
 			, 'feed'
 			, 'tb'
@@ -531,6 +548,9 @@ class WP_Query {
 				$this->is_category = true;
 			}
 
+			if (  '' != $qv['tag'] )
+				$this->is_tag = true;
+
 			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
 				$this->is_author = false;
 			} else {
@@ -541,7 +561,7 @@ class WP_Query {
 				$this->is_author = true;
 			}
 
-			if ( ($this->is_date || $this->is_author || $this->is_category) )
+			if ( ($this->is_date || $this->is_author || $this->is_category || $this->is_tag ) )
 				$this->is_archive = true;
 		}
 
@@ -837,7 +857,7 @@ class WP_Query {
 			$in_cats = substr($in_cats, 0, -2);
 			$out_cats = substr($out_cats, 0, -2);
 			if ( strlen($in_cats) > 0 )
-				$in_cats = " AND $wpdb->post2cat.category_id IN ($in_cats)";
+				$in_cats = " AND $wpdb->post2cat.category_id IN ($in_cats) AND rel_type = 'category' ";
 			if ( strlen($out_cats) > 0 ) {
 				$ids = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE $wpdb->post2cat.category_id IN ($out_cats)");
 				if ( is_array($ids) && count($ids > 0) ) {
@@ -851,6 +871,21 @@ class WP_Query {
 					$out_cats = '';
 			}
 			$whichcat = $in_cats . $out_cats;
+			$groupby = "{$wpdb->posts}.ID";
+		}
+
+		if ( '' != $q['tag'] ) {
+			$reqcat= get_category_by_slug( $q['tag'] );
+			if ( !empty($reqcat) )
+				$reqcat = $reqcat->cat_ID;
+			else
+				$reqcat = 0;
+
+			$q['cat'] = $reqcat;
+
+			$tables = ", $wpdb->post2cat, $wpdb->categories";
+			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
+			$whichcat = " AND category_id IN ({$q['cat']}) AND rel_type = 'tag' ";
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
@@ -881,12 +916,14 @@ class WP_Query {
 
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
-			$whichcat = " AND category_id IN ({$q['cat']}, ";
+			$whichcat = " AND category_id IN ({$q['cat']} ";
 			$whichcat .= get_category_children($q['cat'], '', ', ');
 			$whichcat = substr($whichcat, 0, -2);
-			$whichcat .= ")";
+			$whichcat .= ") AND rel_type = 'category'";
 			$groupby = "{$wpdb->posts}.ID";
 		}
+
+
 
 		// Author/user stuff
 

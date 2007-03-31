@@ -35,6 +35,9 @@ if ( defined('WP_USE_THEMES') && constant('WP_USE_THEMES') ) {
 	} else if ( is_category() && $template = get_category_template()) {
 		include($template);
 		return;
+	} else if ( is_tag() && $template = get_tag_template()) {
+		include($template);
+		return;
 	} else if ( is_author() && $template = get_author_template() ) {
 		include($template);
 		return;

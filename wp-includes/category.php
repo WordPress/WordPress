@@ -206,6 +206,15 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 	return NULL;
 }
 
+function get_category_by_slug( $slug  ) {
+	global $wpdb;
+	$slug = sanitize_title( $slug );
+	if ( empty( $slug ) )
+		return false;
+	$category = $wpdb->get_var( "SELECT * FROM $wpdb->categories WHERE category_nicename = '$slug' " );
+	return get_category( $category );
+}
+
 // Get the ID of a category from its name
 function get_cat_ID($cat_name='General') {
 	global $wpdb;

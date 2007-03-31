@@ -1,13 +1,14 @@
 <?php get_header(); ?>
 
 	<div id="content" class="narrowcolumn">
-
+<?php is_tag(); ?>
 		<?php if (have_posts()) : ?>
 
 		 <?php $post = $posts[0]; // Hack. Set $post so that the_date() works. ?>
 <?php /* If this is a category archive */ if (is_category()) { ?>
 		<h2 class="pagetitle">Archive for the &#8216;<?php single_cat_title(); ?>&#8217; Category</h2>
-
+<?php } elseif( is_tag() ) { ?>
+<h2 class="pagetitle">Archive for the &#8216;<?php single_cat_title(); ?>&#8217; Tag</h2>
  	  <?php /* If this is a daily archive */ } elseif (is_day()) { ?>
 		<h2 class="pagetitle">Archive for <?php the_time('F jS, Y'); ?></h2>
 
@@ -40,7 +41,7 @@
 					<?php the_content() ?>
 				</div>
 
-				<p class="postmetadata">Posted in <?php the_category(', ') ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+				<p class="postmetadata"><?php the_tags('Tags: ', ', ', '<br />'); ?> Posted in <?php the_category(', ') ?> | <?php edit_post_link('Edit', '', ' | '); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
 
 			</div>
 
