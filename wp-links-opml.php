@@ -17,7 +17,7 @@ if ((empty ($link_cat)) || ($link_cat == 'all') || ($link_cat == '0')) {
 <!-- generator="wordpress/<?php bloginfo_rss('version') ?>" -->
 <opml version="1.0">
 	<head>
-		<title>Links for <?php echo get_bloginfo('name').$cat_name ?></title>
+		<title>Links for <?php echo attribute_escape(get_bloginfo('name').$cat_name); ?></title>
 		<dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
 	</head>
 	<body>
