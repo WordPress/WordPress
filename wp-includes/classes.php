@@ -514,7 +514,7 @@ class Walker_Page extends Walker {
 		elseif ( $_current_page && $page->ID == $_current_page->post_parent )
 			$css_class .= ' current_page_parent';
 
-		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . attribute_escape($page->post_title) . '">' . $page->post_title . '</a>';
+		$output .= $indent . '<li class="' . $css_class . '"><a href="' . get_page_link($page->ID) . '" title="' . attribute_escape(apply_filters('the_title', $page->post_title)) . '">' . apply_filters('the_title', $page->post_title) . '</a>';
 
 		if ( !empty($show_date) ) {
 			if ( 'modified' == $show_date )
