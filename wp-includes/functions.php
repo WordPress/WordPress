@@ -599,7 +599,7 @@ function update_post_cache(&$posts) {
 }
 
 function clean_post_cache($id) {
-	global $post_cache, $post_meta_cache, $category_cache, $blog_id;
+	global $post_cache, $post_meta_cache, $category_cache, $tag_cache, $blog_id;
 
 	if ( isset( $post_cache[$blog_id][$id] ) )
 		unset( $post_cache[$blog_id][$id] );
@@ -609,6 +609,9 @@ function clean_post_cache($id) {
 
 	if ( isset( $category_cache[$blog_id][$id]) )
 		unset ( $category_cache[$blog_id][$id] );
+
+	if ( isset( $tag_cache[$blog_id][$id]) )
+		unset ( $tag_cache[$blog_id][$id] );
 }
 
 function update_page_cache(&$pages) {
