@@ -331,7 +331,7 @@ function comments_popup_link($zero='No Comments', $one='1 Comment', $more='% Com
 	$number = get_comments_number($id);
 
 	if ( 0 == $number && 'closed' == $post->comment_status && 'closed' == $post->ping_status ) {
-		echo $none;
+		echo '<span' . ((!empty($CSSclass)) ? ' class="' . $CSSclass . '"' : '') . '>' . $none . '</span>';
 		return;
 	}
 
