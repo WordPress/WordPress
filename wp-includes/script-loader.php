@@ -13,7 +13,18 @@ class WP_Scripts {
 		$this->add( 'dbx', '/wp-includes/js/dbx.js', false, '2.05' );
 		$this->add( 'fat', '/wp-includes/js/fat.js', false, '1.0-RC1_3660' );
 		$this->add( 'sack', '/wp-includes/js/tw-sack.js', false, '1.6.1' );
-		$this->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '3517' );
+		$this->add( 'quicktags', '/wp-includes/js/quicktags.js', false, '3958' );
+		$this->localize( 'quicktags', 'quicktagsL10n', array(
+			'quickLinks' => __('(Quick Links)'),
+			'wordLookup' => __('Enter a word to look up:'),
+			'dictionaryLookup' => attribute_escape(__('Dictionary lookup')),
+			'lookup' => attribute_escape(__('lookup')),
+			'closeAllOpenTags' => attribute_escape(__('Close all open tags')),
+			'closeTags' => attribute_escape(__('close tags')),
+			'enterURL' => __('Enter the URL'),
+			'enterImageURL' => __('Enter the URL of the image'),
+			'enterImageDescription' => __('Enter a description of the image')
+		) );
 		$this->add( 'colorpicker', '/wp-includes/js/colorpicker.js', false, '3517' );
 		$this->add( 'tiny_mce', '/wp-includes/js/tinymce/tiny_mce_gzip.php', false, '20070326' );
 		$mce_config = apply_filters('tiny_mce_config_url', '/wp-includes/js/tinymce/tiny_mce_config.php');
