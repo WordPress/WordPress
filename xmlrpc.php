@@ -140,7 +140,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	function login_pass_ok($user_login, $user_pass) {
 		if (!user_pass_ok($user_login, $user_pass)) {
-			$this->error = new IXR_Error(403, 'Bad login/pass combination.');
+			$this->error = new IXR_Error(403, __('Bad login/pass combination.'));
 			return false;
 		}
 		return true;
@@ -241,7 +241,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 		// If the page doesn't exist indicate that.
 		else {
-			return(new IXR_Error(404, "Sorry, no such page."));
+			return(new IXR_Error(404, __("Sorry, no such page.")));
 		}
 	}
 
@@ -302,7 +302,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// to add new pages.
 		$user = set_current_user(0, $username);
 		if(!current_user_can("publish_pages")) {
-			return(new IXR_Error(401, "Sorry, you can not add new pages."));
+			return(new IXR_Error(401, __("Sorry, you can not add new pages.")));
 		}
 
 		// Mark this as content for a page.
@@ -335,19 +335,19 @@ class wp_xmlrpc_server extends IXR_Server {
 			!$actual_page
 			|| ($actual_page["post_type"] != "page")
 		) {
-			return(new IXR_Error(404, "Sorry, no such page."));
+			return(new IXR_Error(404, __("Sorry, no such page.")));
 		}
 
 		// Set the user context and make sure they can delete pages.
 		set_current_user(0, $username);
 		if(!current_user_can("delete_page", $page_id)) {
-			return(new IXR_Error(401, "Sorry, you do not have the right to delete this page."));
+			return(new IXR_Error(401, __("Sorry, you do not have the right to delete this page.")));
 		}
 
 		// Attempt to delete the page.
 		$result = wp_delete_post($page_id);
 		if(!$result) {
-			return(new IXR_Error(500, "Failed to delete the page."));
+			return(new IXR_Error(500, __("Failed to delete the page.")));
 		}
 
 		return(true);
@@ -376,13 +376,13 @@ class wp_xmlrpc_server extends IXR_Server {
 			!$actual_page
 			|| ($actual_page["post_type"] != "page")
 		) {
-			return(new IXR_Error(404, "Sorry, no such page."));
+			return(new IXR_Error(404, __("Sorry, no such page.")));
 		}
 
 		// Set the user context and make sure they are allowed to edit pages.
 		set_current_user(0, $username);
 		if(!current_user_can("edit_page", $page_id)) {
-			return(new IXR_Error(401, "Sorry, you do not have the right to edit this page."));
+			return(new IXR_Error(401, __("Sorry, you do not have the right to edit this page.")));
 		}
 
 		// Mark this as content for a page.
@@ -481,7 +481,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// allowed to add a category.
 		set_current_user(0, $username);
 		if(!current_user_can("manage_categories", $page_id)) {
-			return(new IXR_Error(401, "Sorry, you do not have the right to add a category."));
+			return(new IXR_Error(401, __("Sorry, you do not have the right to add a category.")));
 		}
 
 		// We need this to make use of the wp_insert_category()
@@ -513,7 +513,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$cat_id = wp_insert_category($new_category);
 		if(!$cat_id) {
-			return(new IXR_Error(500, "Sorry, the new category failed."));
+			return(new IXR_Error(500, __("Sorry, the new category failed.")));
 		}
 
 		return($cat_id);
@@ -666,7 +666,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$posts_list = wp_get_recent_posts($num_posts);
 
 		if (!$posts_list) {
-			$this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
+			$this->error = new IXR_Error(500, __('Either there are no posts, or something went wrong.'));
 			return $this->error;
 		}
 
@@ -713,7 +713,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  set_current_user(0, $user_login);
 	  if ( !current_user_can('edit_themes') ) {
-	    return new IXR_Error(401, 'Sorry, this user can not edit the template.');
+	    return new IXR_Error(401, __('Sorry, this user can not edit the template.'));
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URL is on the same server */
@@ -748,7 +748,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  set_current_user(0, $user_login);
 	  if ( !current_user_can('edit_themes') ) {
-	    return new IXR_Error(401, 'Sorry, this user can not edit the template.');
+	    return new IXR_Error(401, __('Sorry, this user can not edit the template.'));
 	  }
 
 	  /* warning: here we make the assumption that the weblog's URL is on the same server */
@@ -759,7 +759,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	    fwrite($f, $content);
 	    fclose($f);
 	  } else {
-	    return new IXR_Error(500, 'Either the file is not writable, or something wrong happened. The file has not been updated.');
+	    return new IXR_Error(500, __('Either the file is not writable, or something wrong happened. The file has not been updated.'));
 	  }
 
 	  return true;
@@ -786,7 +786,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $cap = ($publish) ? 'publish_posts' : 'edit_posts';
 	  $user = set_current_user(0, $user_login);
 	  if ( !current_user_can($cap) )
-	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
+	    return new IXR_Error(401, __('Sorry, you can not post on this weblog or category.'));
 
 	  $post_status = ($publish) ? 'publish' : 'draft';
 
@@ -804,7 +804,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_ID = wp_insert_post($post_data);
 
 	  if (!$post_ID) {
-	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
+	    return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
 	  }
 	  $this->attach_uploads( $post_ID, $post_content );
 
@@ -834,19 +834,19 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $actual_post = wp_get_single_post($post_ID,ARRAY_A);
 
 	  if (!$actual_post) {
-	  	return new IXR_Error(404, 'Sorry, no such post.');
+	  	return new IXR_Error(404, __('Sorry, no such post.'));
 	  }
 
 		$this->escape($actual_post);
 
 	  set_current_user(0, $user_login);
 	  if ( !current_user_can('edit_post', $post_ID) )
-	    return new IXR_Error(401, 'Sorry, you do not have the right to edit this post.');
+	    return new IXR_Error(401, __('Sorry, you do not have the right to edit this post.'));
 
 	  extract($actual_post);
 
 	  if ( ('publish' == $post_status) && !current_user_can('publish_posts') )
-	  	return new IXR_Error(401, 'Sorry, you do not have the right to publish this post.');
+	  	return new IXR_Error(401, __('Sorry, you do not have the right to publish this post.'));
 
 	  $post_title = xmlrpc_getposttitle($content);
 	  $post_category = xmlrpc_getpostcategory($content);
@@ -857,7 +857,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $result = wp_update_post($postdata);
 
 	  if (!$result) {
-	  	return new IXR_Error(500, 'For some strange yet very annoying reason, this post could not be edited.');
+	  	return new IXR_Error(500, __('For some strange yet very annoying reason, this post could not be edited.'));
 	  }
 	  $this->attach_uploads( $ID, $post_content );
 
@@ -884,17 +884,17 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $actual_post = wp_get_single_post($post_ID,ARRAY_A);
 
 	  if (!$actual_post) {
-	  	return new IXR_Error(404, 'Sorry, no such post.');
+	  	return new IXR_Error(404, __('Sorry, no such post.'));
 	  }
 
 	  set_current_user(0, $user_login);
 	  if ( !current_user_can('edit_post', $post_ID) )
-	    return new IXR_Error(401, 'Sorry, you do not have the right to delete this post.');
+	    return new IXR_Error(401, __('Sorry, you do not have the right to delete this post.'));
 
 	  $result = wp_delete_post($post_ID);
 
 	  if (!$result) {
-	  	return new IXR_Error(500, 'For some strange yet very annoying reason, this post could not be deleted.');
+	  	return new IXR_Error(500, __('For some strange yet very annoying reason, this post could not be deleted.'));
 	  }
 
 	  return true;
@@ -925,7 +925,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $user = set_current_user(0, $user_login);
 	  if ( !current_user_can('publish_posts') )
-	    return new IXR_Error(401, 'Sorry, you can not post on this weblog or category.');
+	    return new IXR_Error(401, __('Sorry, you can not post on this weblog or category.'));
 
 		// The post_type defaults to post, but could also be page.
 		$post_type = "post";
@@ -976,7 +976,7 @@ class wp_xmlrpc_server extends IXR_Server {
 					}
 					break;
 				default:
-					return(new IXR_Error(401, "Invalid post type."));
+					return(new IXR_Error(401, __("Invalid post type.")));
 					break;
 			}
 			$post_author = $content_struct["wp_author_id"];
@@ -1032,7 +1032,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  $post_ID = wp_insert_post($postdata);
 
 	  if (!$post_ID) {
-	    return new IXR_Error(500, 'Sorry, your entry could not be posted. Something wrong happened.');
+	    return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
 	  }
 
 	  $this->attach_uploads( $post_ID, $post_content );
@@ -1086,7 +1086,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  // Edit page caps are checked in editPage.  Just check post here.
 	  if ( ( 'post' == $post_type ) && !current_user_can('edit_post', $post_ID) )
-	    return new IXR_Error(401, 'Sorry, you can not edit this post.');
+	    return new IXR_Error(401, __('Sorry, you can not edit this post.'));
 
 	  $postdata = wp_get_single_post($post_ID, ARRAY_A);
 
@@ -1094,7 +1094,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// now and return an error.  Other wise a new post will be
 		// created (which was the old behavior).
 		if(empty($postdata["ID"])) {
-			return(new IXR_Error(404, "Invalid post id."));
+			return(new IXR_Error(404, __("Invalid post id.")));
 		}
 
 	  extract($postdata);
@@ -1137,7 +1137,7 @@ class wp_xmlrpc_server extends IXR_Server {
 					}
 					break;
 				default:
-					return(new IXR_Error(401, "Invalid post type."));
+					return(new IXR_Error(401, __("Invalid post type.")));
 					break;
 			}
 			$post_author = $content_struct["wp_author_id"];
@@ -1173,9 +1173,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  if ( ('publish' == $post_status) ) {
 	  	if ( ( 'page' == $post_type ) && !current_user_can('publish_pages') )
-	  		return new IXR_Error(401, 'Sorry, you do not have the right to publish this page.');
+	  		return new IXR_Error(401, __('Sorry, you do not have the right to publish this page.'));
 	  	else if ( !current_user_can('publish_posts') )
-		  	return new IXR_Error(401, 'Sorry, you do not have the right to publish this post.');
+		  	return new IXR_Error(401, __('Sorry, you do not have the right to publish this post.'));
 	  }
 
 	  if ($post_more) {
@@ -1206,7 +1206,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	  $result = wp_update_post($newpost);
 	  if (!$result) {
-	    return new IXR_Error(500, 'Sorry, your entry could not be edited. Something wrong happened.');
+	    return new IXR_Error(500, __('Sorry, your entry could not be edited. Something wrong happened.'));
 	  }
 	  $this->attach_uploads( $ID, $post_content );
 
@@ -1275,7 +1275,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 	    return $resp;
 	  } else {
-	  	return new IXR_Error(404, 'Sorry, no such post.');
+	  	return new IXR_Error(404, __('Sorry, no such post.'));
 	  }
 	}
 
@@ -1297,7 +1297,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$posts_list = wp_get_recent_posts($num_posts);
 
 		if (!$posts_list) {
-			$this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
+			$this->error = new IXR_Error(500, __('Either there are no posts, or something went wrong.'));
 			return $this->error;
 		}
 
@@ -1428,7 +1428,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		set_current_user(0, $user_login);
 		if ( !current_user_can('upload_files') ) {
 			logIO('O', '(MW) User does not have upload_files capability');
-			$this->error = new IXR_Error(401, 'You are not allowed to upload files to this site.');
+			$this->error = new IXR_Error(401, __('You are not allowed to upload files to this site.'));
 			return $this->error;
 		}
 
@@ -1482,7 +1482,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$posts_list = wp_get_recent_posts($num_posts);
 
 		if (!$posts_list) {
-			$this->error = new IXR_Error(500, 'Either there are no posts, or something went wrong.');
+			$this->error = new IXR_Error(500, __('Either there are no posts, or something went wrong.'));
 			return $this->error;
 		}
 
@@ -1585,7 +1585,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		set_current_user(0, $user_login);
 		if ( !current_user_can('edit_post', $post_ID) )
-			return new IXR_Error(401, 'Sorry, you can not edit this post.');
+			return new IXR_Error(401, __('Sorry, you can not edit this post.'));
 
 		foreach($categories as $cat) {
 			$catids[] = $cat['categoryId'];
@@ -1626,7 +1626,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$actual_post = wp_get_single_post($post_ID, ARRAY_A);
 
 		if (!$actual_post) {
-			return new IXR_Error(404, 'Sorry, no such post.');
+			return new IXR_Error(404, __('Sorry, no such post.'));
 		}
 
 		$comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");
@@ -1667,7 +1667,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		set_current_user(0, $user_login);
 		if ( !current_user_can('edit_post', $post_ID) )
-			return new IXR_Error(401, 'Sorry, you can not edit this post.');
+			return new IXR_Error(401, __('Sorry, you can not edit this post.'));
 
 		$postdata = wp_get_single_post($post_ID,ARRAY_A);
 
@@ -1708,7 +1708,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Check if the page linked to is in our site
 		$pos1 = strpos($pagelinkedto, str_replace(array('http://www.','http://','https://www.','https://'), '', get_option('home')));
 		if( !$pos1 )
-				return new IXR_Error(0, 'Is there no link to us?');
+				return new IXR_Error(0, __('Is there no link to us?'));
 
 		// let's find which post is linked to
 		// FIXME: does url_to_postid() cover all these cases already?
@@ -1761,7 +1761,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	  		return new IXR_Error(33, 'The specified target URL cannot be used as a target. It either doesn\'t exist, or it is not a pingback-enabled resource.');
 
 		if ( $post_ID == url_to_postid($pagelinkedfrom) )
-			return new IXR_Error(0, 'The source URL and the target URL cannot both point to the same resource.');
+			return new IXR_Error(0, __('The source URL and the target URL cannot both point to the same resource.'));
 
 		// Check if pings are on
 		if ( 'closed' == $post->ping_status )
@@ -1771,7 +1771,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$result = $wpdb->get_results("SELECT * FROM $wpdb->comments WHERE comment_post_ID = '$post_ID' AND comment_author_url = '$pagelinkedfrom'");
 
 		if ( $wpdb->num_rows ) // We already have a Pingback from this URL
-	  		return new IXR_Error(48, 'The pingback has already been registered.');
+	  		return new IXR_Error(48, __('The pingback has already been registered.'));
 
 		// very stupid, but gives time to the 'from' server to publish !
 		sleep(1);
@@ -1779,7 +1779,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		// Let's check the remote site
 		$linea = wp_remote_fopen( $pagelinkedfrom );
 		if ( !$linea )
-	  		return new IXR_Error(16, 'The source URL does not exist.');
+	  		return new IXR_Error(16, __('The source URL does not exist.'));
 
 		// Work around bug in strip_tags():
 		$linea = str_replace('<!DOC', '<DOC', $linea);
@@ -1789,7 +1789,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
 		$title = $matchtitle[1];
 		if ( empty( $title ) )
-			return new IXR_Error(32, 'We cannot find a title on that page.');
+			return new IXR_Error(32, __('We cannot find a title on that page.'));
 
 		$linea = strip_tags( $linea, '<a>' ); // just keep the tag we need
 
@@ -1825,7 +1825,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( empty($context) ) // Link to target not found
-			return new IXR_Error(17, 'The source URL does not contain a link to the target URL, and so cannot be used as a source.');
+			return new IXR_Error(17, __('The source URL does not contain a link to the target URL, and so cannot be used as a source.'));
 
 		$pagelinkedfrom = preg_replace('#&([^amp\;])#is', '&amp;$1', $pagelinkedfrom);
 
@@ -1872,7 +1872,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if (!$actual_post) {
 			// No such post = resource not found
-	  		return new IXR_Error(32, 'The specified target URL does not exist.');
+	  		return new IXR_Error(32, __('The specified target URL does not exist.'));
 		}
 
 		$comments = $wpdb->get_results("SELECT comment_author_url, comment_content, comment_author_IP, comment_type FROM $wpdb->comments WHERE comment_post_ID = $post_ID");

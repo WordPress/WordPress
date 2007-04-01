@@ -114,7 +114,7 @@ class AtomParser {
 
 			if(!xml_parse($parser, $line)) {
 				log_app("xml_parse_error", "line: $line");
-				$this->error = sprintf("XML error: %s at line %d\n",
+				$this->error = sprintf(__('XML error: %s at line %d')."\n",
 					xml_error_string(xml_get_error_code($xml_parser)),
 					xml_get_current_line_number($xml_parser));
 				log_app("xml_parse_error", $this->error);
@@ -585,7 +585,7 @@ EOD;
 		$postID = wp_insert_attachment($attachment, $file, $post);
 
 		if (!$postID) {
-			$this->internal_error('Sorry, your entry could not be posted. Something wrong happened.');
+			$this->internal_error(__('Sorry, your entry could not be posted. Something wrong happened.'));
 		}
 
 		$output = $this->get_entry($postID, 'attachment');
@@ -613,7 +613,7 @@ EOD;
 		$this->escape($entry);
 
 		if(!current_user_can('edit_post', $entry['ID']))
-			$this->auth_required('Sorry, you do not have the right to edit this post.');
+			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 
 		$publish = (isset($parsed->draft) && trim($parsed->draft) == 'yes') ? false : true;
 
@@ -627,7 +627,7 @@ EOD;
 		$result = wp_update_post($postdata);
 
 		if (!$result) {
-			$this->internal_error('For some strange yet very annoying reason, this post could not be edited.');
+			$this->internal_error(__('For some strange yet very annoying reason, this post could not be edited.'));
 		}
 
 		log_app('function',"put_attachment($postID)");
@@ -642,7 +642,7 @@ EOD;
 		$this->set_current_entry($postID);
 
 		if(!current_user_can('edit_post', $postID)) {
-			$this->auth_required('Sorry, you do not have the right to delete this post.');
+			$this->auth_required(__('Sorry, you do not have the right to delete this post.'));
 		}
 
 		$location = get_post_meta($entry['ID'], '_wp_attached_file', true);
@@ -654,7 +654,7 @@ EOD;
 		$result = wp_delete_post($postID);
 
 		if (!$result) {
-			$this->internal_error('For some strange yet very annoying reason, this post could not be deleted.');
+			$this->internal_error(__('For some strange yet very annoying reason, this post could not be deleted.'));
 		}
 
 		log_app('function',"delete_attachment($postID). File '$location' deleted.");
@@ -669,13 +669,13 @@ EOD;
 
 		// then whether user can edit the specific post
 		if(!current_user_can('edit_post', $postID)) {
-			$this->auth_required('Sorry, you do not have the right to edit this post.');
+			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 		}
 
 		$location = get_post_meta($entry['ID'], '_wp_attached_file', true);
 
 		if(!isset($location))
-			$this->internal_error('Error ocurred while accessing post metadata for file location.');
+			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
 
 		header('Content-Type: ' . $entry['post_mime_type']);
 
@@ -695,7 +695,7 @@ EOD;
 
 		// first check if user can upload
 		if(!current_user_can('upload_files'))
-			$this->auth_required('You do not have permission to upload files.');
+			$this->auth_required(__('You do not have permission to upload files.'));
 
 		// check for not found
 		global $entry;
@@ -703,13 +703,13 @@ EOD;
 
 		// then whether user can edit the specific post
 		if(!current_user_can('edit_post', $postID)) {
-			$this->auth_required('Sorry, you do not have the right to edit this post.');
+			$this->auth_required(__('Sorry, you do not have the right to edit this post.'));
 		}
 
 		$location = get_post_meta($entry['ID'], '_wp_attached_file', true);
 
 		if(!isset($location))
-			$this->internal_error('Error ocurred while accessing post metadata for file location.');
+			$this->internal_error(__('Error ocurred while accessing post metadata for file location.'));
 
 		$fp = fopen("php://input", "rb");
 		$localfp = fopen($location, "w+");
@@ -1004,7 +1004,7 @@ $post = $GLOBALS['post'];
 		break;
 		endwhile;
 		else:
-			$this->auth_required("Access Denied.");
+			$this->auth_required(__("Access Denied."));
 		endif;
 		ob_end_clean();
 
