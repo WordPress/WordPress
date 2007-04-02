@@ -46,6 +46,8 @@ function apply_filters($tag, $string) {
 	if ( !isset($wp_filter[$tag]) )
 		return $string;
 
+	reset( $wp_filter[ $tag ] );
+
 	$args = func_get_args();
 
 	do{
