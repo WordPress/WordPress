@@ -916,7 +916,7 @@ class WP_Query {
 
 			$tables = ", $wpdb->post2cat, $wpdb->categories";
 			$join = " LEFT JOIN $wpdb->post2cat ON ($wpdb->posts.ID = $wpdb->post2cat.post_id) LEFT JOIN $wpdb->categories ON ($wpdb->post2cat.category_id = $wpdb->categories.cat_ID) ";
-			$whichcat = " AND category_id IN ({$q['cat']} ";
+			$whichcat = " AND category_id IN ({$q['cat']}, ";
 			$whichcat .= get_category_children($q['cat'], '', ', ');
 			$whichcat = substr($whichcat, 0, -2);
 			$whichcat .= ") AND rel_type = 'category'";
