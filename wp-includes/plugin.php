@@ -16,10 +16,11 @@
  * @return boolean true if the <tt>$function_to_add</tt> is added succesfully to filter <tt>$tag</tt>. How many arguments your function takes. In WordPress 1.5.1+, hooked functions can take extra arguments that are set when the matching <tt>do_action()</tt> or <tt>apply_filters()</tt> call is run. For example, the action <tt>comment_id_not_found</tt> will pass any functions that hook onto it the ID of the requested comment.
  */
 function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) {
-	global $wp_filter;
+	global $wp_filter, $merged_filters;
 
 	// So the format is wp_filter['tag']['array of priorities']['array of functions serialized']['array of ['array (functions, accepted_args)]']
 	$wp_filter[$tag][$priority][serialize($function_to_add)] = array('function' => $function_to_add, 'accepted_args' => $accepted_args);
+	unset( $merged_filters[ $tag ] );
 	return true;
 }
 
@@ -37,9 +38,10 @@ function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * @return string The text in <tt>$string</tt> after all hooked functions are applied to it.
  */
 function apply_filters($tag, $string) {
-	global $wp_filter;
+	global $wp_filter, $merged_filters;
 
-	merge_filters($tag);
+	if ( !isset( $merged_filters[ $tag ] ) )
+		merge_filters($tag);
 
 	if ( !isset($wp_filter[$tag]) )
 		return $string;
@@ -68,15 +70,16 @@ function apply_filters($tag, $string) {
  * @param string $tag The filter hook of which the functions should be merged.
  */
 function merge_filters($tag) {
-	global $wp_filter;
+	global $wp_filter, $merged_filters;
 
-	if ( isset($wp_filter['all']) )
+	if ( is_array($wp_filter['all']) )
 		$wp_filter[$tag] = array_merge($wp_filter['all'], (array) $wp_filter[$tag]);
 
 	if ( isset($wp_filter[$tag]) ){
 		reset($wp_filter[$tag]);
 		uksort($wp_filter[$tag], "strnatcasecmp");
 	}
+	$merged_filters[ $tag ] = true;
 }
 
 /**
@@ -92,9 +95,10 @@ function merge_filters($tag) {
  * @return boolean Whether the function is removed.
  */
 function remove_filter($tag, $function_to_remove, $priority = 10, $accepted_args = 1) {
-	global $wp_filter;
+	global $wp_filter, $merged_filters;
 
 	unset($GLOBALS['wp_filter'][$tag][$priority][serialize($function_to_remove)]);
+	unset( $merged_filters[ $tag ] );
 
 	return true;
 }
