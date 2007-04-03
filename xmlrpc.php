@@ -360,7 +360,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	function wp_editPage($args) {
 		// Items not escaped here will be escaped in editPost.
 		$blog_id	= (int) $args[0];
-		$page_id	= $this->escape((int) $args[1]);
+		$page_id	= (int) $this->escape($args[1]);
 		$username	= $this->escape($args[2]);
 		$password	= $this->escape($args[3]);
 		$content	= $args[4];
