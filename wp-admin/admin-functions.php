@@ -791,12 +791,15 @@ function cat_rows( $parent = 0, $level = 0, $categories = 0 ) {
 	if (!$categories )
 		$categories = get_categories( 'hide_empty=0' );
 
+	$children = _get_category_hierarchy();
+
 	if ( $categories ) {
 		ob_start();
 		foreach ( $categories as $category ) {
 			if ( $category->category_parent == $parent) {
 				echo "\t" . _cat_row( $category, $level );
-				cat_rows( $category->cat_ID, $level +1, $categories );
+				if ( isset($children[$category->cat_ID]) )
+					cat_rows( $category->cat_ID, $level +1, $categories );
 			}
 		}
 		$output = ob_get_contents();

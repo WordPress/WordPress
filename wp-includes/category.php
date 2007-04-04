@@ -109,8 +109,11 @@ function &get_categories($args = '') {
 		unset($cat_stamps);
 	}
 
-	if ( $child_of || $hierarchical )
-		$categories = & _get_cat_children($child_of, $categories);
+	if ( $child_of || $hierarchical ) {
+		$children = _get_category_hierarchy();
+		if ( ! empty($children) )
+			$categories = & _get_cat_children($child_of, $categories);
+	}
 
 	// Update category counts to include children.
 	if ( $pad_counts )
@@ -260,12 +263,16 @@ function &_get_cat_children($category_id, $categories) {
 		return array();
 
 	$category_list = array();
+	$children = _get_category_hierarchy();
 	foreach ( $categories as $category ) {
 		if ( $category->cat_ID == $category_id )
 			continue;
 
 		if ( $category->category_parent == $category_id ) {
 			$category_list[] = $category;
+			if ( !isset($children[$category->cat_ID]) )
+				continue;
+			
 			if ( $children = _get_cat_children($category->cat_ID, $categories) )
 				$category_list = array_merge($category_list, $children);
 		}
@@ -313,4 +320,19 @@ function _pad_category_counts($type, &$categories) {
 			$cats[$id]->{'link' == $type ? 'link_count' : 'category_count'} = count($items);
 }
 
+function _get_category_hierarchy() {
+	$children = get_option('category_children');
+	if ( is_array($children) )
+		return $children;
+
+	$children = array();
+	$categories = get_categories('hide_empty=0&hierarchical=0');
+	foreach ( $categories as $cat ) {
+		if ( $cat->category_parent > 0 )
+			$children[$cat->category_parent][] = $cat->cat_ID;
+	}
+	update_option('category_children', $children);
+
+	return $children;
+}
 ?>

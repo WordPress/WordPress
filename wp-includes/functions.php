@@ -749,6 +749,7 @@ function clean_category_cache($id) {
 	wp_cache_delete($id, 'category');
 	wp_cache_delete('all_category_ids', 'category');
 	wp_cache_delete('get_categories', 'category');
+	delete_option('category_children');
 }
 
 /*
