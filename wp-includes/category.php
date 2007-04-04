@@ -264,12 +264,17 @@ function &_get_cat_children($category_id, $categories) {
 
 	$category_list = array();
 	$children = _get_category_hierarchy();
+
+	if  ( ( 0 != $category_id ) && ! isset($children[$category_id]) )
+		return array();
+
 	foreach ( $categories as $category ) {
 		if ( $category->cat_ID == $category_id )
 			continue;
 
 		if ( $category->category_parent == $category_id ) {
 			$category_list[] = $category;
+
 			if ( !isset($children[$category->cat_ID]) )
 				continue;
 			
