@@ -424,6 +424,8 @@ function wp_delete_link($link_id) {
 
 	$wpdb->query("DELETE FROM $wpdb->link2cat WHERE link_id = '$link_id'");
 	return $wpdb->query("DELETE FROM $wpdb->links WHERE link_id = '$link_id'");
+	
+	do_action('deleted_link', $link_id);
 }
 
 function wp_get_link_cats($link_ID = 0) {
