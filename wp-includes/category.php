@@ -1,5 +1,8 @@
 <?php
 
+define('TAXONOMY_CATEGORY', 1);
+define('TAXONOMY_TAG', 2);
+
 function get_all_category_ids() {
 	global $wpdb;
 
@@ -78,7 +81,7 @@ function &get_categories($args = '') {
 		else
 			$where .= ' AND category_count > 0';
 	} else {
-		$where .= ' AND ( tag_count = 0 OR ( tag_count != 0 AND ( link_count > 0 OR category_count > 0 ) ) ) ';
+		$where .= ' AND ( type & ' . TAXONOMY_CATEGORY . ' != 0 ) ';
 	}
 
 	

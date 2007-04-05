@@ -121,15 +121,23 @@ function wp_insert_category($catarr) {
 	else
 		$links_private = 0;
 
+	if ( empty($type) )
+		$type = TAXONOMY_CATEGORY;
+
 	// Let's check if we have this category already, if so just do an update
-	if ( $cat_ID = category_exists( $category_nicename ) )
+	if ( $cat_ID = category_exists( $category_nicename ) ) {
 		$update = true;
+		$category = get_category($cat_ID);
+		// If inserting a category that already exists, OR in the new type rather
+		// than replacing the entire value.
+		$type = $category->type | $type;
+	}
 
 	if (!$update) {
-		$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent, links_private, posts_private) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$category_parent', '$links_private', '$posts_private')");
+		$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent, links_private, posts_private, type) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$category_parent', '$links_private', '$posts_private', '$type')");
 		$cat_ID = (int) $wpdb->insert_id;
 	} else {
-		$wpdb->query ("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent', links_private = '$links_private', posts_private = '$posts_private' WHERE cat_ID = '$cat_ID'");
+		$wpdb->query ("UPDATE $wpdb->categories SET cat_name = '$cat_name', category_nicename = '$category_nicename', category_description = '$category_description', category_parent = '$category_parent', links_private = '$links_private', posts_private = '$posts_private', type = '$type' WHERE cat_ID = '$cat_ID'");
 	}
 
 	if ( $category_nicename == '' ) {
@@ -195,15 +203,18 @@ function wp_delete_category($cat_ID) {
 
 	$parent = $category->category_parent;
 
-	// Delete the category
-	if ( !$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'") )
-		return 0;
-
+	// Delete the category if it is not also a tag.
+	if ( 0 == ($category->type & TAXONOMY_TAG) ) {
+		if ( !$wpdb->query("DELETE FROM $wpdb->categories WHERE cat_ID = '$cat_ID'") )
+			return 0;
+	} else {
+		$wpdb->query("UPDATE $wpdb->categories SET type = type & ~" . TAXONOMY_CATEGORY . " WHERE cat_ID = '$cat_ID'");
+	}
 	// Update children to point to new parent
 	$wpdb->query("UPDATE $wpdb->categories SET category_parent = '$parent' WHERE category_parent = '$cat_ID'");
 
 	// Only set posts and links to the default category if they're not in another category already
-	$posts = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE category_id='$cat_ID'");
+	$posts = $wpdb->get_col("SELECT post_id FROM $wpdb->post2cat WHERE category_id='$cat_ID' AND rel_type = 'category'");
 	foreach ( (array) $posts as $post_id ) {
 		$cats = wp_get_post_categories($post_id);
 		if ( 1 == count($cats) )
@@ -255,6 +266,11 @@ function category_exists($cat_name) {
 		return 0;
 
 	return (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename'");
+}
+
+function wp_create_tag($tag_name) {
+	$tag_array = array('cat_name' => $tag_name, 'type' => TAXONOMY_TAG);
+	return wp_insert_category($tag_array);
 }
 
 function wp_delete_user($id, $reassign = 'novalue') {

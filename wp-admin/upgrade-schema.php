@@ -21,6 +21,7 @@ $wp_queries="CREATE TABLE $wpdb->categories (
   tag_count bigint(20) NOT NULL default '0',
   posts_private tinyint(1) NOT NULL default '0',
   links_private tinyint(1) NOT NULL default '0',
+  type tinyint NOT NULL default '1',
   PRIMARY KEY  (cat_ID),
   KEY category_nicename (category_nicename)
 ) $charset_collate;

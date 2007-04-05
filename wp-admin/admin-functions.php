@@ -647,7 +647,7 @@ function checked( $checked, $current) {
 
 function return_categories_list( $parent = 0 ) {
 	global $wpdb;
-	return $wpdb->get_col( "SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND ( ( link_count = 0 AND tag_count = 0 ) OR category_count != 0 OR ( link_count = 0 AND category_count = 0 AND tag_count = 0 ) ) ORDER BY category_count DESC" );
+	return $wpdb->get_col( "SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND ( type & " . TAXONOMY_CATEGORY . " != 0 ) AND ( link_count = 0 OR category_count != 0 ) ORDER BY category_count DESC" );
 }
 
 function sort_cats( $cat1, $cat2 ) {
@@ -744,7 +744,7 @@ function dropdown_categories( $default = 0 ) {
 
 function return_link_categories_list( $parent = 0 ) {
 	global $wpdb;
-	return $wpdb->get_col( "SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND ( ( category_count = 0 AND tag_count = 0 ) OR link_count != 0 OR ( link_count = 0 AND category_count = 0 AND tag_count = 0 ) ) ORDER BY link_count DESC" );
+	return $wpdb->get_col( "SELECT cat_ID FROM $wpdb->categories WHERE category_parent = $parent AND ( type & " . TAXONOMY_CATEGORY . " != 0 ) AND ( category_count = 0 OR link_count != 0 ) ORDER BY link_count DESC" );
 }
 
 function get_nested_link_categories( $default = 0, $parent = 0 ) {

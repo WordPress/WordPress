@@ -787,7 +787,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '' ) {
 		if ( !$tag_slug = sanitize_title( $tag ) )
 			continue; // discard
 		if ( !$tag_id = category_exists( $tag ) )
-			$tag_id = wp_create_category( $tag );
+			$tag_id = wp_create_tag( $tag );
 		$tag_ids[] = $tag_id;
 	}
 
@@ -837,9 +837,9 @@ function wp_set_post_tags( $post_id = 0, $tags = '' ) {
 	$all_affected_tags = array_unique( array_merge( $tag_ids, $old_tags ) );
 	foreach ( $all_affected_tags as $tag_id ) {
 		$count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$tag_id' AND rel_type = 'tag'" );
-		$wpdb->query( "UPDATE $wpdb->categories SET tag_count = '$count' WHERE cat_ID = '$tag_id'" );
+		$wpdb->query( "UPDATE $wpdb->categories SET tag_count = '$count', type = type | " . TAXONOMY_TAG . " WHERE cat_ID = '$tag_id'" );
 		if ( $count == 0 )
-			$wpdb->query( "UPDATE $wpdb->categories SET tag_count = '-1' WHERE cat_ID = '$tag_id'" );
+			$wpdb->query( "UPDATE $wpdb->categories SET type = type & ~". TAXONOMY_TAG . " WHERE cat_ID = '$tag_id'" );
 		clean_category_cache( $tag_id );
 		do_action( 'edit_category', $tag_id );
 		do_action( 'edit_tag', $tag_id );
@@ -876,7 +876,7 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 			$wpdb->query("
 				DELETE FROM $wpdb->post2cat
 				WHERE category_id = '$del'
-					AND post_id = '$post_ID'
+					AND post_id = '$post_ID' AND rel_type = 'category'
 				");
 		}
 	}
@@ -898,7 +898,7 @@ function wp_set_post_categories($post_ID = 0, $post_categories = array()) {
 	$all_affected_cats = array_unique(array_merge($post_categories, $old_categories));
 	foreach ( $all_affected_cats as $cat_id ) {
 		$count = $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->post2cat, $wpdb->posts WHERE $wpdb->posts.ID=$wpdb->post2cat.post_id AND post_status = 'publish' AND post_type = 'post' AND category_id = '$cat_id' AND rel_type = 'category'");
-		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count' WHERE cat_ID = '$cat_id'");
+		$wpdb->query("UPDATE $wpdb->categories SET category_count = '$count', type = type | " . TAXONOMY_CATEGORY . " WHERE cat_ID = '$cat_id'");
 		clean_category_cache($cat_id);
 		do_action('edit_category', $cat_id);
 	}
