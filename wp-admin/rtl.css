@@ -196,3 +196,10 @@ a.dbx-toggle, a.dbx-toggle:visited {
 	margin-right: auto;
 	margin-left: 3px;
 }
+
+a.view-link {
+	right:auto;
+	left:2em;
+	margin-right:0;
+	margin-left:19em;
+}
