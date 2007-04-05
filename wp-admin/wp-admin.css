@@ -1332,3 +1332,10 @@ a.page-numbers:hover {
 	font-weight: bold;
 	margin: 0 6px;
 }
+
+a.view-link {
+	position: absolute;
+	right: 2em;
+	margin-right: 19em;
+	text-decoration:underline;
+}
