@@ -1335,7 +1335,7 @@ a.page-numbers:hover {
 
 a.view-link {
 	position: absolute;
-	right: 2em;
-	margin-right: 19em;
+	right: 5%;
+	margin-right: 220px;
 	text-decoration:underline;
 }
