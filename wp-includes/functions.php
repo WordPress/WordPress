@@ -815,6 +815,7 @@ function add_query_arg() {
 
 	foreach($qs as $k => $v) {
 		if ( $v !== FALSE ) {
+			$v = rawurlencode($v);
 			if ( $ret != '' )
 				$ret .= '&';
 			if ( empty($v) && !preg_match('|[?&]' . preg_quote($k, '|') . '=|', $query) )
@@ -823,10 +824,11 @@ function add_query_arg() {
 				$ret .= "$k=$v";
 		}
 	}
+	$ret = trim($ret, '?');
 	$ret = $protocol . $base . $ret . $frag;
 	if ( get_magic_quotes_gpc() )
 		$ret = stripslashes($ret); // parse_str() adds slashes if magicquotes is on.  See: http://php.net/parse_str
-	return trim($ret, '?');
+	return $ret;
 }
 
 /*
