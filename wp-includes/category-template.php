@@ -178,17 +178,6 @@ function the_category($separator = '', $parents='') {
 	echo get_the_category_list($separator, $parents);
 }
 
-function get_post_tags( $post_id = 0 ) {
-	global $tag_cache, $blog_id;
-
-	$post_id = (int) $post_id;
-	
-	if ( !isset( $tag_cache[$blog_id][$post_id] ) )
-		update_post_category_cache( $post_id ); // loads $tag_cache
-
-	return $tag_cache[$blog_id][$post_id];
-}
-
 function get_the_tags( $before, $sep, $after ) {
 	global $post;
 	if ( !$post )
