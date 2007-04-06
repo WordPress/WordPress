@@ -118,4 +118,11 @@ if ( !function_exists('_') ) {
 	}
 }
 
+// Added in PHP 5.0
+if (!function_exists('stripos')) {
+	function stripos($haystack, $needle, $offset = 0) {
+		return strpos(strtolower($haystack), strtolower($needle), $offset);
+	}
+}
+
 ?>
