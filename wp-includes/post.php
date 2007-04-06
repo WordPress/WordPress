@@ -1643,4 +1643,50 @@ function wp_check_for_changed_slugs($post_id) {
 	return $post_id;
 }
 
+/**
+ * This function provides a standardized way to appropriately select on
+ * the post_status of posts/pages. The function will return a piece of
+ * SQL code that can be added to a WHERE clause; this SQL is constructed
+ * to allow all published posts, and all private posts to which the user
+ * has access.
+ * 
+ * @param string $post_type currently only supports 'post' or 'page'.
+ * @return string SQL code that can be added to a where clause.
+ */
+function get_private_posts_cap_sql($post_type) {
+	global $user_ID;
+	$cap = '';
+
+	// Private posts
+	if ($post_type == 'post') {
+		$cap = 'read_private_posts';
+	// Private pages
+	} elseif ($post_type == 'page') {
+		$cap = 'read_private_pages';
+	// Dunno what it is, maybe plugins have their own post type?
+	} else {
+		$cap = apply_filters('pub_priv_sql_capability', $cap);
+
+		if (empty($cap)) {
+			// We don't know what it is, filters don't change anything,
+			// so set the SQL up to return nothing.
+			return '1 = 0';
+		}
+	}
+
+	$sql = '(post_status = \'publish\'';
+
+	if (current_user_can($cap)) {
+		// Does the user have the capability to view private posts? Guess so.
+		$sql .= ' OR post_status = \'private\'';
+	} elseif (is_user_logged_in()) {
+		// Users can view their own private posts.
+		$sql .= ' OR post_status = \'private\' AND post_author \'' . $user_ID . '\'';
+	}
+
+	$sql .= ')';
+
+	return $sql;
+}
+
 ?>
