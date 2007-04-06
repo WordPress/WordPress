@@ -72,6 +72,7 @@ class WP_Scripts {
 			case 'page-new.php' :
 				$man = 'pagemeta';
 				break;
+			case 'link-add.php' :
 			case 'link.php' :
 				$man = 'linkmeta';
 				break;
