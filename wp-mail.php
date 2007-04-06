@@ -24,10 +24,10 @@ for ($i=1; $i <= $count; $i++) :
 
 	$content = '';
 	$content_type = '';
+	$content_transfer_encoding = '';
 	$boundary = '';
 	$bodysignal = 0;
-	$dmonths = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-					 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+	$dmonths = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 	foreach ($message as $line) :
 		if (strlen($line) < 3) $bodysignal = 1;
 
@@ -39,6 +39,12 @@ for ($i=1; $i <= $count; $i++) :
 				$content_type = substr($content_type, 14, strlen($content_type)-14);
 				$content_type = explode(';', $content_type);
 				$content_type = $content_type[0];
+			}
+			if (preg_match('/Content-Transfer-Encoding: /i', $line)) {
+				$content_transfer_encoding = trim($line);
+				$content_transfer_encoding = substr($content_transfer_encoding, 27, strlen($content_transfer_encoding)-14);
+				$content_transfer_encoding = explode(';', $content_transfer_encoding);
+				$content_transfer_encoding = $content_transfer_encoding[0];
 			}
 			if (($content_type == 'multipart/alternative') && (preg_match('/boundary="/', $line)) && ($boundary == '')) {
 				$boundary = trim($line);
@@ -111,11 +117,16 @@ for ($i=1; $i <= $count; $i++) :
 		$content = strip_tags($content[1], '<img><p><br><i><b><u><em><strong><strike><font><span><div>');
 	}
 	$content = trim($content);
+	
+	if (stripos($content_transfer_encoding, "quoted-printable") !== false) {
+		$content = quoted_printable_decode($content);
+	}
+
 	// Captures any text in the body after $phone_delim as the body
 	$content = explode($phone_delim, $content);
 	$content[1] ? $content = $content[1] : $content = $content[0];
 
-	echo "<p><b>Content-type:</b> $content_type, <b>boundary:</b> $boundary</p>\n";
+	echo "<p><b>Content-type:</b> $content_type, <b>Content-Transfer-Encoding:</b> $content_transfer_encoding, <b>boundary:</b> $boundary</p>\n";
 	echo "<p><b>Raw content:</b><br /><pre>".$content.'</pre></p>';
 
 	$content = trim($content);
