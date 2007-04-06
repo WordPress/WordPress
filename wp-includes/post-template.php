@@ -345,7 +345,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false) 
 	$id = (int) $id;
 	$_post = & get_post($id);
 
-	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url() )
+	if ( ('attachment' != $_post->post_type) || !$url = wp_get_attachment_url($_post->ID) )
 		return __('Missing Attachment');
 
 	$post_title = attribute_escape($_post->post_title);
