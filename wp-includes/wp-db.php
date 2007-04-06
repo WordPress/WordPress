@@ -192,7 +192,7 @@ class wpdb {
 		}
 
 		if ( preg_match("/^\\s*(insert|delete|update|replace) /i",$query) ) {
-			$this->rows_affected = mysql_affected_rows();
+			$this->rows_affected = mysql_affected_rows($this->dbh);
 			// Take note of the insert_id
 			if ( preg_match("/^\\s*(insert|replace) /i",$query) ) {
 				$this->insert_id = mysql_insert_id($this->dbh);
