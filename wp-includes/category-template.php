@@ -55,7 +55,7 @@ function get_tag_link( $tag_id ) {
 		$catlink = str_replace('%tag%', $category_nicename, $catlink);
 		$catlink = get_option('home') . user_trailingslashit($catlink, 'category');
 	}
-	return apply_filters('tag_link', $catlink, $category_id);
+	return apply_filters('tag_link', $catlink, $tag_id);
 }
 
 function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
