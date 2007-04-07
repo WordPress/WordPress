@@ -806,6 +806,8 @@ function add_query_arg() {
 	}
 
 	parse_str($query, $qs);
+	if ( get_magic_quotes_gpc() )
+		$qs = stripslashes_deep($qs); // parse_str() adds slashes if magicquotes is on.  See: http://php.net/parse_str
 	if ( is_array(func_get_arg(0)) ) {
 		$kayvees = func_get_arg(0);
 		$qs = array_merge($qs, $kayvees);
@@ -826,8 +828,6 @@ function add_query_arg() {
 	}
 	$ret = trim($ret, '?');
 	$ret = $protocol . $base . $ret . $frag;
-	if ( get_magic_quotes_gpc() )
-		$ret = stripslashes($ret); // parse_str() adds slashes if magicquotes is on.  See: http://php.net/parse_str
 	return $ret;
 }
 
