@@ -784,15 +784,24 @@ function wp_publish_post($post_id) {
 	return wp_update_post(array('post_status' => 'publish', 'ID' => $post_id, 'no_filter' => true));
 }
 
-function wp_set_post_tags( $post_id = 0, $tags = '' ) {
+function wp_add_post_tags($post_id = 0, $tags = '') {
+	return wp_set_post_tags($post_id, $tags, true);
+}
+
+function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
+	/* $append - true = don't delete existing tags, just add on, false = replace the tags with the new tags */
 	global $wpdb;
 	
 	$post_id = (int) $post_id;
 	
 	if ( !$post_id )
 		return false;
-
-	$tags = explode( ',', $tags );
+	
+	// prevent warnings for unintialized variables
+	$tag_ids = array();
+	
+	$tags = (is_array($tags)) ? $tags : explode( ',', $tags );
+	
 	foreach ( $tags as $tag ) {
 		$tag = trim( $tag );
 		if ( !$tag_slug = sanitize_title( $tag ) )
@@ -801,27 +810,27 @@ function wp_set_post_tags( $post_id = 0, $tags = '' ) {
 			$tag_id = wp_create_tag( $tag );
 		$tag_ids[] = $tag_id;
 	}
-
-	if ( !is_array( $tag_ids ) )
+	
+	if ( empty($tag_ids) )
 		return false;
-
+	
 	$tag_ids = array_unique( $tag_ids );
-
+	
 	// First the old tags
 	$old_tags = $wpdb->get_col("
 		SELECT category_id
 		FROM $wpdb->post2cat
 		WHERE post_id = '$post_id' AND rel_type = 'tag'");
-
+	
 	if ( !$old_tags ) {
 		$old_tags = array();
 	} else {
 		$old_tags = array_unique( $old_tags );
 	}
-
+	
 	// Delete any?
 	$delete_tags = array_diff( $old_tags, $tag_ids);
-	if ( $delete_tags ) {
+	if ( $delete_tags && !$append ) {
 		foreach ( $delete_tags as $del ) {
 			$wpdb->query("
 				DELETE FROM $wpdb->post2cat
@@ -831,7 +840,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '' ) {
 				");
 		}
 	}
-
+	
 	// Add any?
 	$add_tags = array_diff( $tag_ids, $old_tags );
 	if ( $add_tags ) {
@@ -843,7 +852,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '' ) {
 					VALUES ('$post_id', '$new_tag', 'tag')");
 		}
 	}
-
+	
 	// Update category counts.
 	$all_affected_tags = array_unique( array_merge( $tag_ids, $old_tags ) );
 	foreach ( $all_affected_tags as $tag_id ) {
