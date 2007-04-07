@@ -141,7 +141,8 @@ function &get_categories($args = '') {
 	$cache[ $key ] = $categories;
 	wp_cache_set( 'get_categories', $cache, 'category' );
 
-	return apply_filters('get_categories', $categories, $r);
+	$categories = apply_filters('get_categories', $categories, $r);
+	return $categories;
 }
 
 // Retrieves category data given a category ID or category object.

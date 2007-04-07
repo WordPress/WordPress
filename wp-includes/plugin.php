@@ -74,7 +74,7 @@ function apply_filters($tag, $string) {
 function merge_filters($tag) {
 	global $wp_filter, $merged_filters;
 
-	if ( is_array($wp_filter['all']) )
+	if ( isset($wp_filter['all']) && is_array($wp_filter['all']) )
 		$wp_filter[$tag] = array_merge($wp_filter['all'], (array) $wp_filter[$tag]);
 
 	if ( isset($wp_filter[$tag]) ){
