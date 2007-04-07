@@ -1870,7 +1870,7 @@ function register_importer( $id, $name, $description, $callback ) {
 
 function get_importers() {
 	global $wp_importers;
-//	usort($wp_importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
+	uasort($wp_importers, create_function('$a, $b', 'return strcmp($a[0], $b[0]);'));
 	return $wp_importers;
 }
 
