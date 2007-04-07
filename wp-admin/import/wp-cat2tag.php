@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-
 class WP_Categories_to_Tags {
 	var $categories_to_convert = array();
 	var $all_categories = array();
@@ -114,6 +112,8 @@ class WP_Categories_to_Tags {
 		}
 		
 		print '</ul>';
+		
+		clean_category_cache();
 	}
 	
 	function init() {
@@ -125,13 +125,20 @@ class WP_Categories_to_Tags {
 		
 		$this->header();
 		
-		switch ($step) {
-			case 1:
-				$this->welcome();
+		if (!current_user_can('manage_categories') || !current_user_can('manage_tags')) {
+			print '<div class="narrow">';
+			print '<p>' __('Cheatin&#8217; uh?') . '</p>';
+			print '</div>';
+		} else {
+			switch ($step) {
+				case 1 :
+					$this->welcome();
 				break;
-			case 2:
-				$this->convert_them();
+				
+				case 2 :
+					$this->convert_them();
 				break;
+			}
 		}
 		
 		$this->footer();
