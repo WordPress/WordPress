@@ -127,7 +127,7 @@ class WP_Categories_to_Tags {
 		
 		if (!current_user_can('manage_categories') || !current_user_can('manage_tags')) {
 			print '<div class="narrow">';
-			print '<p>' __('Cheatin&#8217; uh?') . '</p>';
+			print '<p>' . __('Cheatin&#8217; uh?') . '</p>';
 			print '</div>';
 		} else {
 			switch ($step) {
