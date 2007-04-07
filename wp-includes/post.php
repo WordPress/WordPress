@@ -1701,7 +1701,7 @@ function get_private_posts_cap_sql($post_type) {
 		$sql .= ' OR post_status = \'private\'';
 	} elseif (is_user_logged_in()) {
 		// Users can view their own private posts.
-		$sql .= ' OR post_status = \'private\' AND post_author \'' . $user_ID . '\'';
+		$sql .= ' OR post_status = \'private\' AND post_author = \'' . $user_ID . '\'';
 	}
 
 	$sql .= ')';
