@@ -177,6 +177,7 @@ function wxr_category_description($c) {
 <wp:post_name><?php echo $post->post_name; ?></wp:post_name>
 <wp:status><?php echo $post->post_status; ?></wp:status>
 <wp:post_parent><?php echo $post->post_parent; ?></wp:post_parent>
+<wp:menu_order><?php echo $post->menu_order; ?></wp:menu_order>
 <wp:post_type><?php echo $post->post_type; ?></wp:post_type>
 <?php
 $postmeta = $wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE post_id = $post->ID");

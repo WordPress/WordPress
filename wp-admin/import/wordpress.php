@@ -220,7 +220,9 @@ class WP_Import {
 			$comment_status = $this->get_tag( $post, 'wp:comment_status' );
 			$ping_status    = $this->get_tag( $post, 'wp:ping_status' );
 			$post_status    = $this->get_tag( $post, 'wp:status' );
+			$post_name      = $this->get_tag( $post, 'wp:post_name' );
 			$post_parent    = $this->get_tag( $post, 'wp:post_parent' );
+			$menu_order     = $this->get_tag( $post, 'wp:menu_order' );
 			$post_type      = $this->get_tag( $post, 'wp:post_type' );
 			$guid           = $this->get_tag( $post, 'guid' );
 			$post_author    = $this->get_tag( $post, 'dc:creator' );
@@ -249,7 +251,7 @@ class WP_Import {
 
 				$post_author = $this->checkauthor($post_author); //just so that if a post already exists, new users are not created by checkauthor
 
-				$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt', 'guid', 'post_parent', 'post_type');
+				$postdata = compact('post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'post_name', 'comment_status', 'ping_status', 'post_modified', 'post_modified_gmt', 'guid', 'post_parent', 'menu_order', 'post_type');
 				$comment_post_ID = $post_id = wp_insert_post($postdata);
 				// Add categories.
 				if (0 != count($categories)) {
