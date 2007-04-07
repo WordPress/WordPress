@@ -143,9 +143,13 @@ class WP_Categories_to_Tags {
 		
 		$this->footer();
 	}
+	
+	function WP_Categories_to_Tags() {
+		// Do nothing.
+	}
 }
 
-$wp_cat2tag_importer = new WP_Categories_to_Tags;
+$wp_cat2tag_importer = new WP_Categories_to_Tags();
 
 register_importer('wp-cat2tag', __('Categories to Tags Converter'), __('Convert existing categories to tags, selectively.'), array(&$wp_cat2tag_importer, 'init'));
 
