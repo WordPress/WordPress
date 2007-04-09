@@ -78,19 +78,8 @@ class TinyGoogleSpell {
         $header .= $xml;
 		//$this->_debugData($xml);
 
-		// Use raw sockets
-		$fp = fsockopen("ssl://" . $server, $port, $errno, $errstr, 30);
-		if ($fp) {
-			// Send request
-			fwrite($fp, $header);
-
-			// Read response
-			$xml = "";
-			while (!feof($fp))
-				$xml .= fgets($fp, 128);
-
-			fclose($fp);
-		} else {
+		// Use curl if it exists
+		if (function_exists('curl_init')) {
 			// Use curl
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL,$url);
@@ -99,6 +88,21 @@ class TinyGoogleSpell {
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 			$xml = curl_exec($ch);
 			curl_close($ch);
+		} else {
+			// Use raw sockets
+			$fp = fsockopen("ssl://" . $server, $port, $errno, $errstr, 30);
+			if ($fp) {
+				// Send request
+				fwrite($fp, $header);
+
+				// Read response
+				$xml = "";
+				while (!feof($fp))
+					$xml .= fgets($fp, 128);
+
+				fclose($fp);
+			} else 
+				echo "Could not open SSL connection to google.";
 		}
 
 		//$this->_debugData($xml);
