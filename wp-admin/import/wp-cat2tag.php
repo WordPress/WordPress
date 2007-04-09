@@ -125,7 +125,7 @@ class WP_Categories_to_Tags {
 		
 		$this->header();
 		
-		if (!current_user_can('manage_categories') || !current_user_can('manage_tags')) {
+		if (!current_user_can('manage_categories')) {
 			print '<div class="narrow">';
 			print '<p>' . __('Cheatin&#8217; uh?') . '</p>';
 			print '</div>';
