@@ -118,6 +118,13 @@ cat_rows();
 </div>
 
 <?php include('edit-category-form.php'); ?>
+
+<h3><?php _e('Importers &amp; Converters'); ?></h3>
+
+<ul>
+	<li><a href="admin.php?import=wp-cat2tag"><?php _e('Selectively convert categories to tags'); ?></a></li>
+	<li><a href="admin.php?import=utw"><?php _e('Import Ultimate Tag Warrior tags'); ?></a></li>
+</ul>
 <?php endif; ?>
 
 <?php
