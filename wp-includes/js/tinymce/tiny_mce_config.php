@@ -48,6 +48,8 @@
 		$mce_css = str_replace('http://', 'https://', $mce_css);
 		$mce_popups_css = str_replace('http://', 'https://', $mce_popups_css);
 	}
+	
+	$mce_locale = ( empty(get_locale()) ) ? 'en' : strtolower(get_locale());
 ?>
 
 initArray = {
@@ -58,7 +60,7 @@ initArray = {
 	theme_advanced_buttons1 : "<?php echo $mce_buttons; ?>",
 	theme_advanced_buttons2 : "<?php echo $mce_buttons_2; ?>",
 	theme_advanced_buttons3 : "<?php echo $mce_buttons_3; ?>",
-	language : "<?php echo strtolower(get_locale()); ?>",
+	language : "<?php echo $mce_locale; ?>",
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_path_location : "bottom",
