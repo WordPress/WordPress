@@ -1526,7 +1526,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$categories_struct = array();
 
 		// FIXME: can we avoid using direct SQL there?
-		if ($cats = $wpdb->get_results("SELECT cat_ID, cat_name FROM $wpdb->categories", ARRAY_A)) {
+		if ($cats = $wpdb->get_results("SELECT cat_ID, cat_name FROM $wpdb->categories WHERE (type & " . TAXONOMY_CATEGORY . " != 0)", ARRAY_A)) {
 			foreach ($cats as $cat) {
 				$struct['categoryId'] = $cat['cat_ID'];
 				$struct['categoryName'] = $cat['cat_name'];
