@@ -58,8 +58,8 @@ class WP_Scripts {
 		$this->add( 'scriptaculous-controls', '/wp-includes/js/scriptaculous/controls.js', array('scriptaculous-root'), '1.7.0');
 		$this->add( 'scriptaculous', '', array('scriptaculous-dragdrop', 'scriptaculous-slider', 'scriptaculous-controls'), '1.7.0');
 		$this->add( 'cropper', '/wp-includes/js/crop/cropper.js', array('scriptaculous-dragdrop'), '20070118');
-		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.1');
-		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.1.1');
+		$this->add( 'jquery', '/wp-includes/js/jquery/jquery.js', false, '1.1.2');
+		$this->add( 'interface', '/wp-includes/js/jquery/interface.js', array('jquery'), '1.2');
 		if ( is_admin() ) {
 			global $pagenow;
 			$man = false;
