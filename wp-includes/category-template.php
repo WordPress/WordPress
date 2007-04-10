@@ -183,7 +183,7 @@ function get_the_tags( $before, $sep, $after ) {
 	if ( !$post )
 		return false; // in-the-loop function
 
-	$tags = get_post_tags( $post->ID );
+	$tags = wp_get_post_tags( $post->ID );
 	if ( empty( $tags ) )
 		return false;
 	

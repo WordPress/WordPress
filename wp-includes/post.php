@@ -458,7 +458,7 @@ function wp_get_post_categories($post_id = 0) {
 	return array_unique($cat_ids);
 }
 
-function get_post_tags( $post_id = 0 ) {
+function wp_get_post_tags( $post_id = 0 ) {
 	global $tag_cache, $blog_id;
 
 	$post_id = (int) $post_id;
