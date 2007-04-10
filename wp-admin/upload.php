@@ -104,8 +104,8 @@ foreach ( $wp_upload_tabs as $t => $tab_array ) { // We've already done the curr
 				$per = 10;
 			}
 			$page_links = paginate_links( array(
-				'base' => add_query_arg( 'paged', '%#%' ),
-				'format' => '',
+				'base' => 'users.php?%_%',
+				'format' => 'paged=%#%',
 				'total' => ceil($total / $per),
 				'current' => $paged ? $paged : 1,
 				'prev_text' => '&laquo;',

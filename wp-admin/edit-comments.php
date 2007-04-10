@@ -87,8 +87,8 @@ $comments = array_slice($_comments, 0, 20);
 $extra_comments = array_slice($_comments, 20);
 
 $page_links = paginate_links( array(
-	'base' => clean_url( add_query_arg( 'apage', '%#%' ) ),
-	'format' => '',
+	'base' => 'edit-comments.php?%_%',
+	'format' => 'apage=%#%',
 	'total' => ceil($total / 20),
 	'current' => $page
 ));
