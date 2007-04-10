@@ -14,7 +14,9 @@ class WP_Categories_to_Tags {
 	}
 	
 	function populate_all_categories() {
-		$this->all_categories =& get_categories('hide_empty=0&hierarchal=0');
+		global $wpdb;
+		
+		$this->all_categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE (type & ~ " . TAXONOMY_TAG . ") != 0 ORDER BY cat_name ASC");
 	}
 	
 	function welcome() {
@@ -70,6 +72,20 @@ class WP_Categories_to_Tags {
 		print '</ul>';
 	}
 	
+	function _category_exists($cat_id) {
+		global $wpdb;
+		
+		$cat_id = (int) $cat_id;
+		
+		$maybe_exists = $wpdb->get_results("SELECT cat_ID from $wpdb->categories WHERE cat_ID = '$cat_id'");
+		
+		if (count($maybe_exists) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	function convert_them() {
 		global $wpdb;
 		
@@ -89,7 +105,7 @@ class WP_Categories_to_Tags {
 			
 			print '<li>' . __('Converting category') . ' #' . $cat_id . '... ';
 			
-			if (!category_exists($cat_id)) {
+			if (!$this->_category_exists($cat_id)) {
 				_e('Category doesn\'t exist!');
 			} else {
 				$category =& get_category($cat_id);
@@ -100,10 +116,18 @@ class WP_Categories_to_Tags {
 					$type = TAXONOMY_TAG;
 				}
 				
+				// Set the category itself to $type from above
 				$wpdb->query("UPDATE $wpdb->categories SET type = '$type' WHERE cat_ID = '{$category->cat_ID}'");
 				
-				$wpdb->query("UPDATE $wpdb->post2cat SET rel_type = 'tag' WHERE cat_ID = '{$category->cat_ID}'");
+				// Set relationships in post2cat to 'tag', category_count becomes tag_count
+				$wpdb->query("UPDATE $wpdb->post2cat SET rel_type = 'tag' WHERE category_ID = '{$category->cat_ID}'");
 				$wpdb->query("UPDATE $wpdb->categories SET tag_count = '{$category->category_count}', category_count = '0' WHERE cat_ID = '{$category->cat_ID}'");
+				
+				// Set all parents to 0 (root-level) if their parent was the converted tag
+				$wpdb->query("UPDATE $wpdb->categories SET category_parent = 0 WHERE category_parent = '{$category->cat_ID}'");
+				
+				// Clean the cache
+				clean_category_cache($category->cat_ID);
 				
 				_e('Converted successfully.');
 			}
@@ -112,8 +136,6 @@ class WP_Categories_to_Tags {
 		}
 		
 		print '</ul>';
-		
-		clean_category_cache();
 	}
 	
 	function init() {
