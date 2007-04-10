@@ -2,37 +2,33 @@
 
 class UTW_Import {
 	
-	function header() 
-	{
+	function header()  {
 		echo '<div class="wrap">';
 		echo '<h2>'.__('Import Ultimate Tag Warrior').'</h2>';
 		echo '<p>'.__('Steps may take a few minutes depending on the size of your database. Please be patient.').'<br /><br /></p>';
 	}
 
-	function footer() 
-	{
+	function footer() {
 		echo '</div>';
 	}
 
 	function greet() {
 		echo '<div class="narrow">';
-		echo '<p>'.__('Howdy! This imports tags from an existing Ultimate Tag Warrior 3 installation into this blog using the new Wordpress-native tagging structure.').'</p>';
+		echo '<p>'.__('Howdy! This imports tags from an existing Ultimate Tag Warrior 3 installation into this blog using the new WordPress native tagging structure.').'</p>';
 		echo '<p>'.__('This has not been tested on any other versions of Ultimate Tag Warrior. Mileage may vary.').'</p>';
-		echo '<p>'.__('To accomodate larger databases for those tag-crazy authors out there, we\'ve made this into an easy 5-step program to help you kick that nasty UTW habit. Just keep clicking along and we\'ll let you know when you\'re in the clear!').'</p>';
-		echo '<p>'.__('<strong>Don\'t be stupid - backup your database before proceeding!</strong>').'</p>';
+		echo '<p>'.__('To accommodate larger databases for those tag-crazy authors out there, we have made this into an easy 5-step program to help you kick that nasty UTW habit. Just keep clicking along and we will let you know when you are in the clear!').'</p>';
+		echo '<p><strong>'.__('Don&#8217;t be stupid - backup your database before proceeding!').'</strong></p>';
 		echo '<form action="admin.php?import=utw&amp;step=1" method="post">';
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 1').' &raquo;" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 1 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 	}
 	
 	
-	function dispatch ( ) {
-		
+	function dispatch () {
 		if ( empty( $_GET['step'] ) ) {
 			$step = 0;
-		}
-		else {
+		} else {
 			$step = (int) $_GET['step'];
 		}
 		
@@ -40,39 +36,31 @@ class UTW_Import {
 		$this->header();
 		
 		switch ( $step ) {
-
 			case 0 :
 				$this->greet();
 				break;
-
 			case 1 :
 				$this->import_tags();
 				break;
-				
 			case 2 :
 				$this->import_posts();
 				break;
-				
 			case 3:
 				$this->import_t2p();
 				break;
-				
 			case 4:
 				$this->cleanup_import();
 				break;
-
 		}
 		
 		// load the footer
 		$this->footer();
-		
 	}
 	
 	
 	function import_tags ( ) {
-		
 		echo '<div class="narrow">';
-		echo '<p><h3>'.__('Reading UTW Tags...').'</h3></p>';
+		echo '<p><h3>'.__('Reading UTW Tags&#8230;').'</h3></p>';
 		
 		$tags = $this->get_utw_tags();
 		
@@ -93,7 +81,7 @@ class UTW_Import {
 
 			$count = count($tags);
 			
-			echo '<p>' . sprintf( __('Done! <strong>%1$d</strong> tags were read.'), $count ) . '<br /></p>';
+			echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags were read.'), $count ) . '<br /></p>';
 			echo '<p>' . __('The following tags were found:') . '</p>';
 			
 			echo '<ul>';
@@ -108,30 +96,28 @@ class UTW_Import {
 			
 			echo '<br />';
 			
-			echo '<p>' . __('If you don\'t want to import any of these tags, you should delete them from the UTW tag management page and then re-run this import.') . '</p>';
+			echo '<p>' . __('If you don&#8217;t want to import any of these tags, you should delete them from the UTW tag management page and then re-run this import.') . '</p>';
 			
 			
 		}
 		
 		echo '<form action="admin.php?import=utw&amp;step=2" method="post">';
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 2').' &raquo;" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 2 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';
-		
 	}
 	
 	
 	function import_posts ( ) {
-
 		echo '<div class="narrow">';
-		echo '<p><h3>'.__('Reading UTW Post Tags...').'</h3></p>';
+		echo '<p><h3>'.__('Reading UTW Post Tags&#8230;').'</h3></p>';
 
 		// read in all the UTW tag -> post settings
 		$posts = $this->get_utw_posts();
 
 		// if we didn't get any tags back, that's all there is folks!
 		if ( !is_array($posts) ) {
-			echo '<p>' . __('No Posts were found to have tags!') . '</p>';
+			echo '<p>' . __('No posts were found to have tags!') . '</p>';
 			return false;
 		}
 		else {
@@ -146,12 +132,12 @@ class UTW_Import {
 
 			$count = count($posts);
 				
-			echo '<p>' . sprintf( __('Done! <strong>%1$d</strong> tag to post relationships were read.'), $count ) . '<br /></p>';
+			echo '<p>' . sprintf( __('Done! <strong>%s</strong> tag to post relationships were read.'), $count ) . '<br /></p>';
 				
 		}
 
 		echo '<form action="admin.php?import=utw&amp;step=3" method="post">';
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 3').' &raquo;" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 3 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 
@@ -161,15 +147,15 @@ class UTW_Import {
 	function import_t2p ( ) {
 
 		echo '<div class="narrow">';
-		echo '<p><h3>'.__('Adding Tags to Posts...').'</h3></p>';
+		echo '<p><h3>'.__('Adding Tags to Posts&#8230;').'</h3></p>';
 
 		// run that funky magic!
 		$tags_added = $this->tag2post();
 		
-		echo '<p>' . sprintf( __('Done! <strong>%1$d</strong> tags where added!'), $tags_added ) . '<br /></p>';
+		echo '<p>' . sprintf( __('Done! <strong>%s</strong> tags where added!'), $tags_added ) . '<br /></p>';
 
 		echo '<form action="admin.php?import=utw&amp;step=4" method="post">';
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 4').' &raquo;" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Step 4 &raquo;').'" /></p>';
 		echo '</form>';
 		echo '</div>';
 
@@ -257,9 +243,9 @@ class UTW_Import {
 		echo '<div class="narrow">';
 		echo '<p><h3>'.__('Import Complete!').'</h3></p>';
 		
-		echo '<p>' . __('OK, so we lied about this being a 5-step program! You\'re done!') . '</p>';
+		echo '<p>' . __('OK, so we lied about this being a 5-step program! You&#8217;re done!') . '</p>';
 		
-		echo '<p>' . __('Now wasn\'t that easy?') . '</p>';
+		echo '<p>' . __('Now wasn&#8217;t that easy?') . '</p>';
 		
 		echo '</div>';
 		
@@ -279,6 +265,6 @@ class UTW_Import {
 $utw_import = new UTW_Import();
 
 // add it to the import page!
-register_importer('utw', 'Ultimate Tag Warrior', __('Import Ultimate Tag Warrior tags into the new native tagging structure.'), array ($utw_import, 'dispatch'));
+register_importer('utw', 'Ultimate Tag Warrior', __('Import Ultimate Tag Warrior tags into the new native tagging structure.'), array($utw_import, 'dispatch'));
 
 ?>
