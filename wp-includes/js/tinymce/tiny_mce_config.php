@@ -49,7 +49,7 @@
 		$mce_popups_css = str_replace('http://', 'https://', $mce_popups_css);
 	}
 	
-	$mce_locale = ( empty(get_locale()) ) ? 'en' : strtolower(get_locale());
+	$mce_locale = ( '' == get_locale() ) ? 'en' : strtolower(get_locale());
 ?>
 
 initArray = {
