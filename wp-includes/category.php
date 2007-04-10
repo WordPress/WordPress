@@ -344,4 +344,91 @@ function _get_category_hierarchy() {
 
 	return $children;
 }
+
+// Tags
+
+function &get_tags($args = '') {
+	global $wpdb, $category_links;
+
+	if ( is_array($args) )
+		$r = &$args;
+	else
+		parse_str($args, $r);
+
+	$defaults = array('orderby' => 'name', 'order' => 'ASC',
+		'hide_empty' => true, 'exclude' => '', 'include' => '',
+		'number' => '');
+	$r = array_merge($defaults, $r);
+	if ( 'count' == $r['orderby'] )
+		$r['orderby'] = 'category_count';
+	else
+		$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
+	$r['number'] = (int) $r['number'];
+	extract($r);
+
+	$key = md5( serialize( $r ) );
+	if ( $cache = wp_cache_get( 'get_tags', 'category' ) )
+		if ( isset( $cache[ $key ] ) )
+			return apply_filters('get_tags', $cache[$key], $r);
+
+	$where = 'cat_ID > 0';
+	$inclusions = '';
+	if ( !empty($include) ) {
+		$child_of = 0; //ignore child_of and exclude params if using include
+		$exclude = '';
+		$incategories = preg_split('/[\s,]+/',$include);
+		if ( count($incategories) ) {
+			foreach ( $incategories as $incat ) {
+				if (empty($inclusions))
+					$inclusions = ' AND ( cat_ID = ' . intval($incat) . ' ';
+				else
+					$inclusions .= ' OR cat_ID = ' . intval($incat) . ' ';
+			}
+		}
+	}
+
+	if (!empty($inclusions))
+		$inclusions .= ')';
+	$where .= $inclusions;
+
+	$exclusions = '';
+	if ( !empty($exclude) ) {
+		$excategories = preg_split('/[\s,]+/',$exclude);
+		if ( count($excategories) ) {
+			foreach ( $excategories as $excat ) {
+				if (empty($exclusions))
+					$exclusions = ' AND ( cat_ID <> ' . intval($excat) . ' ';
+				else
+					$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
+			}
+		}
+	}
+
+	if (!empty($exclusions))
+		$exclusions .= ')';
+	$exclusions = apply_filters('list_tags_exclusions', $exclusions, $r );
+	$where .= $exclusions;
+
+	if ( $hide_empty )
+		$where .= ' AND tag_count > 0';
+
+	$where .= ' AND ( type & ' . TAXONOMY_TAG . ' != 0 ) ';
+
+	if ( !empty($number) )
+		$number = 'LIMIT ' . $number;
+	else
+		$number = '';
+
+	$tags = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE $where ORDER BY $orderby $order $number");
+
+	if ( empty($tags) )
+		return array();
+
+	$cache[ $key ] = $tags;
+	wp_cache_set( 'get_tags', $cache, 'category' );
+
+	$tags = apply_filters('get_tags', $tags, $r);
+	return $tags;
+}
+
 ?>
