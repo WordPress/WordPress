@@ -1074,7 +1074,7 @@ function clean_url( $url, $protocols = null ) {
 	$url = str_replace(';//', '://', $url);
 	// Append http unless a relative link starting with / or a php file.
 	if ( strpos($url, '://') === false &&
-		substr( $url, 0, 1 ) != '/' && !preg_match('/^[a-z0-9]+?\.php/i', $url) )
+		substr( $url, 0, 1 ) != '/' && !preg_match('/^[a-z0-9-]+?\.php/i', $url) )
 		$url = 'http://' . $url;
 	
 	$url = preg_replace('/&([^#])(?![a-z]{2,8};)/', '&#038;$1', $url);
