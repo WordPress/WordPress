@@ -1471,4 +1471,22 @@ function smilies_init() {
 	}
 }
 
+function wp_parse_args( $args, $defaults = '' ) {
+	if ( is_array($args) ) :
+		$r =& $args;
+	else :
+		parse_str( $args, $r );
+		if ( get_magic_quotes_gpc() )
+			$r = stripslashes_deep( $r );
+	endif;
+
+	if ( is_array($defaults) ) :
+		extract($defaults);
+		extract($r);
+		return compact(array_keys($defaults)); // only those options defined in $defaults
+	else :
+		return $r;
+	endif;
+}
+
 ?>

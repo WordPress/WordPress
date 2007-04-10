@@ -350,26 +350,21 @@ function _get_category_hierarchy() {
 function &get_tags($args = '') {
 	global $wpdb, $category_links;
 
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
 	$defaults = array('orderby' => 'name', 'order' => 'ASC',
 		'hide_empty' => true, 'exclude' => '', 'include' => '',
 		'number' => '');
-	$r = array_merge($defaults, $r);
-	if ( 'count' == $r['orderby'] )
-		$r['orderby'] = 'category_count';
+	$args = wp_parse_args( $args, $defaults );
+	if ( 'count' == $args['orderby'] )
+		$args['orderby'] = 'tag_count';
 	else
-		$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
-	$r['number'] = (int) $r['number'];
-	extract($r);
+		$args['orderby'] = "cat_" . $args['orderby'];  // restricts order by to cat_ID and cat_name fields
+	$args['number'] = (int) $args['number'];
+	extract($args);
 
-	$key = md5( serialize( $r ) );
+	$key = md5( serialize( $args ) );
 	if ( $cache = wp_cache_get( 'get_tags', 'category' ) )
 		if ( isset( $cache[ $key ] ) )
-			return apply_filters('get_tags', $cache[$key], $r);
+			return apply_filters('get_tags', $cache[$key], $args);
 
 	$where = 'cat_ID > 0';
 	$inclusions = '';
@@ -406,7 +401,7 @@ function &get_tags($args = '') {
 
 	if (!empty($exclusions))
 		$exclusions .= ')';
-	$exclusions = apply_filters('list_tags_exclusions', $exclusions, $r );
+	$exclusions = apply_filters('list_tags_exclusions', $exclusions, $args );
 	$where .= $exclusions;
 
 	if ( $hide_empty )
@@ -427,7 +422,7 @@ function &get_tags($args = '') {
 	$cache[ $key ] = $tags;
 	wp_cache_set( 'get_tags', $cache, 'category' );
 
-	$tags = apply_filters('get_tags', $tags, $r);
+	$tags = apply_filters('get_tags', $tags, $args);
 	return $tags;
 }
 
