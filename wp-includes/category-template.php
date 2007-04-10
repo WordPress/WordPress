@@ -40,24 +40,6 @@ function get_category_link($category_id) {
 	return apply_filters('category_link', $catlink, $category_id);
 }
 
-function get_tag_link( $tag_id ) {
-	global $wp_rewrite;
-	$catlink = $wp_rewrite->get_tag_permastruct();
-
-	$category = &get_category($tag_id);
-	$category_nicename = $category->category_nicename;
-
-	if ( empty($catlink) ) {
-		$file = get_option('home') . '/';
-		$catlink = $file . '?tag=' . $category_nicename;
-	} else {
-
-		$catlink = str_replace('%tag%', $category_nicename, $catlink);
-		$catlink = get_option('home') . user_trailingslashit($catlink, 'category');
-	}
-	return apply_filters('tag_link', $catlink, $tag_id);
-}
-
 function get_category_parents($id, $link = FALSE, $separator = '/', $nicename = FALSE){
 	$chain = '';
 	$parent = &get_category($id);
@@ -176,31 +158,6 @@ function in_category($category) { // Check if the current post is in the given c
 
 function the_category($separator = '', $parents='') {
 	echo get_the_category_list($separator, $parents);
-}
-
-function get_the_tags( $before, $sep, $after ) {
-	global $post;
-	if ( !$post )
-		return false; // in-the-loop function
-
-	$tags = wp_get_post_tags( $post->ID );
-	if ( empty( $tags ) )
-		return false;
-	
-	$return = $before;
-	foreach ( $tags as $tag )
-		$tag_links[] = '<a href="' . get_tag_link($tag->cat_ID) . '">' . $tag->cat_name . '</a>';
-
-	$tag_links = join( $sep, $tag_links );
-	$tag_links = apply_filters( 'the_tags', $tag_links );
-	$return .= $tag_links;
-
-	$return .= $after;
-	return $return;
-}
-
-function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
-	echo get_the_tags( $before, $sep, $after );
 }
 
 function category_description($category = 0) {
@@ -407,6 +364,65 @@ function walk_category_dropdown_tree() {
 	$walker = new Walker_CategoryDropdown;
 	$args = func_get_args();
 	return call_user_func_array(array(&$walker, 'walk'), $args);
+}
+
+//
+// Tags
+//
+
+function get_tag_link( $tag_id ) {
+	global $wp_rewrite;
+	$catlink = $wp_rewrite->get_tag_permastruct();
+
+	$category = &get_category($tag_id);
+	$category_nicename = $category->category_nicename;
+
+	if ( empty($catlink) ) {
+		$file = get_option('home') . '/';
+		$catlink = $file . '?tag=' . $category_nicename;
+	} else {
+
+		$catlink = str_replace('%tag%', $category_nicename, $catlink);
+		$catlink = get_option('home') . user_trailingslashit($catlink, 'category');
+	}
+	return apply_filters('tag_link', $catlink, $tag_id);
+}
+
+function get_the_tags( $id = 0 ) {
+	global $post; 
+ 
+ 	$id = (int) $id;
+
+	if ( ! $id && ! in_the_loop() ) 
+		return false; // in-the-loop function 
+ 
+	if ( !$id ) 
+		$id = (int) $post->ID;
+
+	$tags = wp_get_post_tags( $id );
+	$tags = apply_filters( 'get_the_tags', $tags );
+	if ( empty( $tags ) ) 
+		return false; 
+	return $tags; 
+}
+
+function the_tags( $before = 'Tags: ', $sep = ', ', $after = '' ) {
+	$tags = get_the_tags();
+
+	if ( empty( $tags ) )
+		return false;
+	
+	$tag_list = $before;
+	foreach ( $tags as $tag )
+		$tag_links[] = '<a href="' . get_tag_link($tag->cat_ID) . '">' . $tag->cat_name . '</a>';
+
+	$tag_links = join( $sep, $tag_links );
+	$tag_links = apply_filters( 'the_tags', $tag_links );
+	$tag_list .= $tag_links;
+
+	$tag_list .= $after;
+
+	echo $tag_list;
 }
 
 ?>
