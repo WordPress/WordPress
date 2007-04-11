@@ -233,7 +233,7 @@ function the_meta() {
 				continue;
 			$values = array_map('trim', get_post_custom_values($key));
 			$value = implode($values,', ');
-			echo "<li><span class='post-meta-key'>$key:</span> $value</li>\n";
+			echo apply_filters('the_meta_key', "<li><span class='post-meta-key'>$key:</span> $value</li>\n", $key, $value);
 		}
 		echo "</ul>\n";
 	}
