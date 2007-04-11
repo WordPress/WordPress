@@ -131,6 +131,8 @@ function get_the_excerpt($fakeit = true) {
 
 
 function wp_link_pages($args = '') {
+	global $post;
+
 	if ( is_array($args) )
 		$r = &$args;
 	else
@@ -158,7 +160,7 @@ function wp_link_pages($args = '') {
 					if ( 1 == $i ) {
 						$output .= '<a href="' . get_permalink() . '">';
 					} else {
-						if ( '' == get_option('permalink_structure') )
+						if ( '' == get_option('permalink_structure') || 'draft' == $post->post_status )
 							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">';
 						else
 							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">';
@@ -177,7 +179,7 @@ function wp_link_pages($args = '') {
 					if ( 1 == $i ) {
 						$output .= '<a href="' . get_permalink() . '">' . $previouspagelink . '</a>';
 					} else {
-						if ( '' == get_option('permalink_structure') )
+						if ( '' == get_option('permalink_structure') || 'draft' == $post->post_status )
 							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $previouspagelink . '</a>';
 						else
 							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $previouspagelink . '</a>';
@@ -188,7 +190,7 @@ function wp_link_pages($args = '') {
 					if ( 1 == $i ) {
 						$output .= '<a href="' . get_permalink() . '">' . $nextpagelink . '</a>';
 					} else {
-						if ( '' == get_option('permalink_structure') )
+						if ( '' == get_option('permalink_structure') || 'draft' == $post->post_status )
 							$output .= '<a href="' . get_permalink() . '&amp;page=' . $i . '">' . $nextpagelink . '</a>';
 						else
 							$output .= '<a href="' . trailingslashit(get_permalink()) . user_trailingslashit($i, 'single_paged') . '">' . $nextpagelink . '</a>';
