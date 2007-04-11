@@ -817,7 +817,6 @@ function add_query_arg() {
 
 	foreach($qs as $k => $v) {
 		if ( $v !== FALSE ) {
-			$v = rawurlencode($v);
 			if ( $ret != '' )
 				$ret .= '&';
 			if ( empty($v) && !preg_match('|[?&]' . preg_quote($k, '|') . '=|', $query) )
