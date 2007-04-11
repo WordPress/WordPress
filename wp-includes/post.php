@@ -799,7 +799,9 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	
 	// prevent warnings for unintialized variables
 	$tag_ids = array();
-	
+
+	if ( empty($tags) )
+		$tags = array();
 	$tags = (is_array($tags)) ? $tags : explode( ',', $tags );
 	
 	foreach ( $tags as $tag ) {
@@ -810,8 +812,8 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 			$tag_id = wp_create_tag( $tag );
 		$tag_ids[] = $tag_id;
 	}
-	
-	if ( empty($tag_ids) )
+
+	if ( empty($tag_ids) && ( !empty($tags) || $append ) )
 		return false;
 	
 	$tag_ids = array_unique( $tag_ids );
