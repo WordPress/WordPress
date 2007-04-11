@@ -12,11 +12,13 @@ if ( isset($_GET['action']) ) {
 			wp_die(__('Plugin file does not exist.'));
 		if (!in_array($plugin, $current)) {
 			wp_redirect('plugins.php?error=true'); // we'll override this later if the plugin can be included without fatal error
+			ob_start();
 			@include(ABSPATH . PLUGINDIR . '/' . $plugin);
 			$current[] = $plugin;
 			sort($current);
 			update_option('active_plugins', $current);
 			do_action('activate_' . $plugin);
+			ob_end_clean();
 		}
 		wp_redirect('plugins.php?activate=true'); // overrides the ?error=true one above
 	} else if ('deactivate' == $_GET['action']) {
