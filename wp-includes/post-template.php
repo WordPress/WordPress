@@ -80,7 +80,7 @@ function get_the_content($more_link_text = '(more...)', $stripteaser = 0, $more_
 		$page = count($pages); // give them the highest numbered page that DOES exist
 
 	$content = $pages[$page-1];
-	if ( preg_match('/<!--more(.+?)?-->/', $content, $matches) ) {
+	if ( preg_match('/<!--more(.*?)?-->/', $content, $matches) ) {
 		$content = explode($matches[0], $content, 2);
 		if ( !empty($matches[1]) && !empty($more_link_text) )
 			$more_link_text = strip_tags(wp_kses_no_null(trim($matches[1])));

@@ -74,7 +74,7 @@ function &get_children($args = '', $output = OBJECT) {
 // get extended entry info (<!--more-->)
 function get_extended($post) {
 	//Match the new style more links
-	if ( preg_match('/<!--more(.*?)-->/', $post, $matches) ) {
+	if ( preg_match('/<!--more(.*?)?-->/', $post, $matches) ) {
 		list($main, $extended) = explode($matches[0], $post, 2);
 	} else {
 		$main = $post;
