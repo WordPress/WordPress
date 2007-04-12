@@ -296,12 +296,11 @@ class WP_Import {
 				foreach ($categories as $category) {
 					$cat_ID = (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name = '$category'");
 					if ($cat_ID == 0) {
-						if ($cat_ID = wp_insert_category(array('cat_name' => $category))) {
-							$post_cats[] = $cat_ID;
-						}
+						$cat_ID = wp_insert_category(array('cat_name' => $category));
 					}
+					$post_cats[] = $cat_ID;
 				}
-				wp_set_post_categories($post_ID, $post_cats);
+				wp_set_post_categories($post_id, $post_cats);
 			}	
 		}
 
