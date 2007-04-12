@@ -581,11 +581,18 @@ function addslashes_gpc($gpc) {
 }
 
 
-function stripslashes_deep($value)
-{
+function stripslashes_deep($value) {
 	 $value = is_array($value) ?
-							 array_map('stripslashes_deep', $value) :
-							 stripslashes($value);
+		 array_map('stripslashes_deep', $value) :
+		 stripslashes($value);
+
+	 return $value;
+}
+
+function urlencode_deep($value) {
+	 $value = is_array($value) ?
+		 array_map('urlencode_deep', $value) :
+		 urlencode($value);
 
 	 return $value;
 }
