@@ -340,10 +340,9 @@ class WP_Object_Cache {
 				fputs($fd, $serial);
 				fclose($fd);
 				if (!@ rename($temp_file, $cache_file)) {
-					if (@ copy($temp_file, $cache_file))
-						@ unlink($temp_file);
-					else
+					if (!@ copy($temp_file, $cache_file))
 						$errors++;
+					@ unlink($temp_file);
 				}
 				@ chmod($cache_file, $file_perms);
 			}
