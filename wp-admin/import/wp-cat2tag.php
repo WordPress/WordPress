@@ -30,7 +30,7 @@ class WP_Categories_to_Tags {
 		
 			$this->categories_form();
 		} else {
-			print '<p>You have no categories to convert!</p>';
+			print '<p>'.__('You have no categories to convert!').'</p>';
 		}
 		
 		print '</div>';
