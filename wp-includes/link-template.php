@@ -442,7 +442,7 @@ function get_pagenum_link($pagenum = 1) {
 	$index = preg_replace('|^/+|', '', $index);
 
 	// if we already have a QUERY style page string
-	if ( stristr( $qstr, $page_querystring ) ) {
+	if ( stripos( $qstr, $page_querystring ) !== false ) {
 		$replacement = "$page_querystring=$pagenum";
 		$qstr = preg_replace("/".$page_querystring."[^\d]+\d+/", $replacement, $qstr);
 		// if we already have a mod_rewrite style page string
@@ -455,7 +455,7 @@ function get_pagenum_link($pagenum = 1) {
 	} else {
 		// we need to know the way queries are being written
 		// if there's a querystring_start (a "?" usually), it's definitely not mod_rewritten
-		if ( stristr( $qstr, '?' ) ) {
+		if ( stripos( $qstr, '?' ) !== false ) {
 			// so append the query string (using &, since we already have ?)
 			$qstr .=	'&amp;' . $page_querystring . '=' . $pagenum;
 			// otherwise, it could be rewritten, OR just the default index ...
