@@ -554,7 +554,7 @@ input.disabled, textarea.disabled {
 }
 
 #postdivrich #content {
-	padding: .7em;
+	padding: 5px;
 	line-height: 140%;
 }
 
@@ -629,7 +629,7 @@ input.delete:hover {
 
 #title {
 	font-size: 1.7em;
-	padding: 4px;
+	padding: 4px 3px;
 }
 
 #postexcerpt div, #attachmentlinks div {

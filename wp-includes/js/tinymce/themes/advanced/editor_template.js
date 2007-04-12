@@ -1,5 +1,5 @@
 /**
- * $Id: editor_template_src.js 166 2007-01-05 10:31:50Z spocke $
+ * $Id: editor_template_src.js 218 2007-02-13 11:08:01Z spocke $
  *
  * @author Moxiecode
  * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
@@ -43,7 +43,9 @@ var TinyMCE_AdvancedTheme = {
 		['sub', 'sub.gif', 'lang_theme_sub_desc', 'subscript'],
 		['sup', 'sup.gif', 'lang_theme_sup_desc', 'superscript'],
 		['forecolor', 'forecolor.gif', 'lang_theme_forecolor_desc', 'forecolor', true],
+		['forecolorpicker', 'forecolor.gif', 'lang_theme_forecolor_desc', 'forecolorpicker', true],
 		['backcolor', 'backcolor.gif', 'lang_theme_backcolor_desc', 'HiliteColor', true],
+		['backcolorpicker', 'backcolor.gif', 'lang_theme_backcolor_desc', 'backcolorpicker', true],
 		['charmap', 'charmap.gif', 'lang_theme_charmap_desc', 'mceCharMap'],
 		['visualaid', 'visualaid.gif', 'lang_theme_visualaid_desc', 'mceToggleVisualAid'],
 		['anchor', 'anchor.gif', 'lang_theme_anchor_desc', 'mceInsertAnchor'],
@@ -356,6 +358,10 @@ var TinyMCE_AdvancedTheme = {
 
 				return false;
 
+			case "forecolorpicker":
+				this._pickColor(editor_id, 'forecolor');
+				return true;
+
 			case "forecolorMenu":
 				TinyMCE_AdvancedTheme._hideMenus(editor_id);
 
@@ -420,15 +426,21 @@ var TinyMCE_AdvancedTheme = {
 
 				ml.show();
 			return true;
+	
+			case "backcolorpicker":
+				this._pickColor(editor_id, 'HiliteColor');
+				return true;
 
 			case "mceColorPicker":
 				if (user_interface) {
-					var template = new Array();
-					var inputColor = value['document'].getElementById(value['element_id']).value;
+					var template = [];
+	
+					if (!value['callback'] && !value['color'])
+						value['color'] = value['document'].getElementById(value['element_id']).value;
 
 					template['file'] = 'color_picker.htm';
-					template['width'] = 220;
-					template['height'] = 190;
+					template['width'] = 380;
+					template['height'] = 250;
 					template['close_previous'] = "no";
 
 					template['width'] += tinyMCE.getLang('lang_theme_advanced_colorpicker_delta_width', 0);
@@ -438,10 +450,16 @@ var TinyMCE_AdvancedTheme = {
 						value['store_selection'] = true;
 
 					tinyMCE.lastColorPickerValue = value;
-					tinyMCE.openWindow(template, {editor_id : editor_id, mce_store_selection : value['store_selection'], inline : "yes", command : "mceColorPicker", input_color : inputColor});
+					tinyMCE.openWindow(template, {editor_id : editor_id, mce_store_selection : value['store_selection'], inline : "yes", command : "mceColorPicker", input_color : value['color']});
 				} else {
-					var savedVal = tinyMCE.lastColorPickerValue;
-					var elm = savedVal['document'].getElementById(savedVal['element_id']);
+					var savedVal = tinyMCE.lastColorPickerValue, elm;
+
+					if (savedVal['callback']) {
+						savedVal['callback'](value);
+						return true;
+					}
+
+					elm = savedVal['document'].getElementById(savedVal['element_id']);
 					elm.value = value;
 
 					if (elm.onchange != null && elm.onchange != '')
@@ -599,9 +617,8 @@ var TinyMCE_AdvancedTheme = {
 				// Setup template html
 				template['html'] = '<table class="mceEditor" border="0" cellpadding="0" cellspacing="0" width="{$width}" height="{$height}" style="width:{$width_style};height:{$height_style}"><tbody>';
 
-				if (toolbarLocation == "top") {
-					template['html'] += '<tr><td class="mceToolbarTop" align="' + toolbarAlign + '" height="1" nowrap="nowrap"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
-				}
+				if (toolbarLocation == "top")
+					template['html'] += '<tr><td dir="ltr" class="mceToolbarTop" align="' + toolbarAlign + '" height="1" nowrap="nowrap"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
 
 				if (statusbarLocation == "top") {
 					template['html'] += '<tr><td class="mceStatusbarTop" height="1">' + statusbarHTML + '</td></tr>';
@@ -610,9 +627,8 @@ var TinyMCE_AdvancedTheme = {
 
 				template['html'] += '<tr><td align="center"><span id="{$editor_id}"></span></td></tr>';
 
-				if (toolbarLocation == "bottom") {
-					template['html'] += '<tr><td class="mceToolbarBottom" align="' + toolbarAlign + '" height="1"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
-				}
+				if (toolbarLocation == "bottom")
+					template['html'] += '<tr><td dir="ltr" class="mceToolbarBottom" align="' + toolbarAlign + '" height="1"><span id="' + editorId + '_toolbar" class="mceToolbarContainer">' + toolbarHTML + '</span></td></tr>';
 
 				// External toolbar changes
 				if (toolbarLocation == "external") {
@@ -738,9 +754,12 @@ var TinyMCE_AdvancedTheme = {
 	},
 
 	removeInstance : function(inst) {
-		var fcm = new TinyMCE_Layer(inst.editorId + '_fcMenu');
+		new TinyMCE_Layer(inst.editorId + '_fcMenu').remove();
+		new TinyMCE_Layer(inst.editorId + '_bcMenu').remove();
+	},
 
-		fcm.remove();
+	hideInstance : function(inst) {
+		TinyMCE_AdvancedTheme._hideMenus(inst.editorId);
 	},
 
 	_handleMenuEvent : function(e) {
@@ -1224,6 +1243,7 @@ var TinyMCE_AdvancedTheme = {
 		if (set_w)
 			tableElm.style.width = w + "px";
 
+		if ( !tinyMCE.isMSIE || tinyMCE.isMSIE7 || tinyMCE.isOpera ) // WordPress: do this later to avoid creeping toolbar bug in MSIE6
 		tableElm.style.height = h + "px";
 
 		iw = iframe.clientWidth + dx;
@@ -1232,10 +1252,12 @@ var TinyMCE_AdvancedTheme = {
 		iw = iw < 1 ? 30 : iw;
 		ih = ih < 1 ? 30 : ih;
 
+/* WordPress found that this led to a shrinking editor with every resize. (Gray background creeps in 1px at a time.)
 		if (tinyMCE.isGecko) {
 			iw -= 2;
 			ih -= 2;
 		}
+*/
 
 		if (set_w)
 			iframe.style.width = iw + "px";
@@ -1252,6 +1274,8 @@ var TinyMCE_AdvancedTheme = {
 				inst.iframeElement.style.width = (iw + dx) + "px";
 			}
 		}
+
+		tableElm.style.height = h + "px"; // WordPress: see above
 
 		// Remove pesky table controls
 		inst.useCSS = false;
@@ -1378,11 +1402,25 @@ var TinyMCE_AdvancedTheme = {
 		}
 
 		h += '</tr></table>';
-		/*
-		h += '<a href="" class="mceMoreColors">More colors</a>';
-		*/
+
+		if (tinyMCE.getParam("theme_advanced_more_colors", true))
+			h += '<a href="#" onclick="TinyMCE_AdvancedTheme._pickColor(\'' + id + '\',\'' + cm + '\');" class="mceMoreColors">' + tinyMCE.getLang('lang_more_colors') + '</a>';
 
 		return h;
+	},
+
+	_pickColor : function(id, cm) {
+		var inputColor, inst = tinyMCE.selectedInstance;
+
+		if (cm == 'forecolor' && inst)
+			inputColor = inst.foreColor;
+
+		if ((cm == 'backcolor' || cm == 'HiliteColor') && inst)
+			inputColor = inst.backColor;
+
+		tinyMCE.execCommand('mceColorPicker', true, {color : inputColor, callback : function(c) {
+			tinyMCE.execInstanceCommand(id, cm, false, c);
+		}});
 	},
 
 	_insertImage : function(src, alt, border, hspace, vspace, width, height, align, title, onmouseover, onmouseout) {

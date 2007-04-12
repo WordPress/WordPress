@@ -27,6 +27,7 @@ function init() {
 
 	document.forms[0].href.value = tinyMCE.getWindowArg('href') || 'http://';
 	document.forms[0].href.select();
+	document.forms[0].href.focus();
 	document.forms[0].linktitle.value = tinyMCE.getWindowArg('title');
 	document.forms[0].insert.value = tinyMCE.getLang('lang_' + tinyMCE.getWindowArg('action'), 'Insert', true); 
 
@@ -57,8 +58,8 @@ function insertLink() {
 	var title = document.forms[0].linktitle.value;
 	var style_class = document.forms[0].styleSelect ? document.forms[0].styleSelect.value : "";
 	var dummy;
-
-	// Make anchors absolute
+	
+	// WordPress: Make anchors absolute;
 	if (href.charAt(0) == '#')
 		href = tinyMCE.settings['document_base_url'] + href;
 

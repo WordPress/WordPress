@@ -515,7 +515,7 @@ function switchEditors(id) {
 		ta.style.height = (ta.clientHeight + y1 - y2) + 'px';
 
 		// Tweak the widths
-		ta.parentNode.style.paddingRight = '2px';
+		ta.parentNode.style.paddingRight = '12px';
 
 		if ( tinyMCE.isMSIE && !tinyMCE.isOpera ) {
 		} else {

@@ -11,7 +11,7 @@
 .mceToolbarTop, .mceToolbarBottom {background: #F0F0EE; line-height: 1px; font-size: 1px;}
 .mceToolbarTop {border-bottom: 1px solid #cccccc; padding-bottom: 1px;}
 .mceToolbarBottom {border-top: 1px solid #cccccc;}
-.mceToolbarContainer {position: relative; left: 0; top: 0; display: block;}
+.mceToolbarContainer {display: block; position: relative; left: 0; top: 0; width: 100%;}
 .mceStatusbarTop, .mceStatusbarBottom, .mceStatusbar {height: 20px;}
 .mceStatusbarTop .mceStatusbarPathText, .mceStatusbarBottom .mceStatusbarPathText, .mceStatusbar .mceStatusbarPathText {font-family: 'MS Sans Serif', sans-serif, Verdana, Arial; font-size: 9pt; padding: 2px; line-height: 16px; overflow: visible;}
 .mceStatusbarTop {border-bottom: 1px solid #cccccc;}
@@ -49,7 +49,7 @@ span.mceMenuButtonSelected.mceMenuHover img.mceMenuButton {border: 1px solid #0A
 
 /* Menu */
 
-.mceMenu {position: absolute; left: 0; top: 0; display: none; z-index: 100; background-color: white; border: 1px solid gray; font-weight: normal;}
+.mceMenu {position: absolute; left: 0; top: 0; display: none; z-index: 1000; background-color: white; border: 1px solid gray; font-weight: normal;}
 .mceMenu a, .mceMenuTitle, .mceMenuDisabled {display: block; width: 100%; text-decoration: none; background-color: white; font-family: Tahoma, Verdana, Arial, Helvetica; font-size: 11px; line-height: 20px; color: black;}
 .mceMenu a:hover {background-color: #B6BDD2; color: black; text-decoration: none !important;}
 .mceMenu span {padding-left: 10px; padding-right: 10px; display: block; line-height: 20px;}
@@ -61,7 +61,7 @@ span.mceMenuSelectedItem {background-image: url('../images/menu_check.gif'); bac
 span.mceMenuCheckItem {padding-left: 20px;}
 span.mceMenuLine {display: block; position: absolute; left: 0; top: -1px; background-color: #F5F4F2; width: 30px; height: 1px; overflow: hidden; padding-left: 0; padding-right: 0;}
 .mceColors table, .mceColors td {margin: 0; padding: 2px;}
-a.mceMoreColors {width: 130px; margin: 0; padding: 0; margin-left: 3px; margin-bottom: 3px; text-align: center; border: 1px solid white;}
+a.mceMoreColors {width: auto; padding: 0; margin: 0 3px 3px 3px; text-align: center; border: 1px solid white; text-decoration: none !important;}
 .mceColorPreview {position: absolute; overflow:hidden; left: 0; top: 0; margin-left: 3px; margin-top: 15px; width: 16px; height: 4px; background-color: red;}
 a.mceMoreColors:hover {border: 1px solid #0A246A;}
 .mceColors td a {width: 9px; height: 9px; overflow: hidden; border: 1px solid #808080;}
@@ -77,7 +77,7 @@ a.mceMoreColors:hover {border: 1px solid #0A246A;}
 * html .mceSelectList {margin-top: 2px;}
 * html span.mceMenuButton, * html span.mceMenuButtonFocus {position: relative; left: 0; top: 0;}
 * html span.mceMenuButton img, * html span.mceMenuButtonSelected img, * html span.mceMenuButtonFocus img {position: relative; top: 1px;}
-* html a.mceMoreColors {width: 132px;}
+* html a.mceMoreColors {width: auto;}
 * html .mceColors td a {width: 10px; height: 10px;}
 * html .mceColorPreview {margin-left: 2px; margin-top: 14px;}
 
@@ -92,6 +92,6 @@ a.mceMoreColors:hover {border: 1px solid #0A246A;}
 *:first-child+html .mceSelectList {margin-top: 2px;}
 *:first-child+html span.mceMenuButton, *:first-child+html span.mceMenuButtonFocus {position: relative; left: 0; top: 0;}
 *:first-child+html span.mceMenuButton img, *:first-child+html span.mceMenuButtonSelected img, *:first-child+html span.mceMenuButtonFocus img {position: relative; top: 1px;}
-*:first-child+html a.mceMoreColors {width: 132px;}
+*:first-child+html a.mceMoreColors {width: 137px;}
 *:first-child+html .mceColors td a {width: 10px; height: 10px;}
 *:first-child+html .mceColorPreview {margin: 0; padding-left: 4px; margin-top: 14px; width: 14px;}
