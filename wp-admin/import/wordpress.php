@@ -293,7 +293,7 @@ class WP_Import {
 			if (count($categories) > 0) {
 				$post_cats = array();
 				foreach ($categories as $category) {
-					$cat_ID = (int) $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE cat_name = '$category'");
+					$cat_ID = (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE cat_name = '$category'");
 					if ($cat_ID == 0) {
 						if ($cat_ID = wp_insert_category(array('cat_name' => $category))) {
 							$post_cats[] = $cat_ID;
