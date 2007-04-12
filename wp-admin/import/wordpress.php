@@ -288,11 +288,20 @@ class WP_Import {
 			// Memorize old and new ID.
 			if ( $post_id && $post_ID && $this->posts_processed[$post_ID] )
 				$this->posts_processed[$post_ID][1] = $post_id; // New ID.
-
+			
 			// Add categories.
-			if ( 0 != count($categories) )
-				wp_create_categories($categories, $post_id);
-				
+			if (count($categories) > 0) {
+				$post_cats = array();
+				foreach ($categories as $category) {
+					$cat_ID = (int) $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE cat_name = '$category'");
+					if ($cat_ID == 0) {
+						if ($cat_ID = wp_insert_category(array('cat_name' => $category))) {
+							$post_cats[] = $cat_ID;
+						}
+					}
+				}
+				wp_set_post_categories($post_ID, $post_cats);
+			}	
 		}
 
 		// Now for comments
