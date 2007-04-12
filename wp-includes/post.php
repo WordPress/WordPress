@@ -1012,7 +1012,7 @@ function get_all_page_ids() {
 
 	if ( ! $page_ids = wp_cache_get('all_page_ids', 'pages') ) {
 		$page_ids = $wpdb->get_col("SELECT ID FROM $wpdb->posts WHERE post_type = 'page'");
-		wp_cache_set('all_page_ids', $page_ids, 'pages');
+		wp_cache_add('all_page_ids', $page_ids, 'pages');
 	}
 
 	return $page_ids;
@@ -1055,7 +1055,7 @@ function &get_page(&$page, $output = OBJECT) {
 					return get_post($_page, $output);
 				// Potential issue: we're not checking to see if the post_type = 'page'
 				// So all non-'post' posts will get cached as pages.
-				wp_cache_set($_page->ID, $_page, 'pages');
+				wp_cache_add($_page->ID, $_page, 'pages');
 			}
 		}
 	}

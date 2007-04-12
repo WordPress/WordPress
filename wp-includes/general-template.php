@@ -635,7 +635,7 @@ function get_calendar($initial = true) {
 	ob_end_clean();
 	echo $output;
 	$cache[ $key ] = $output;
-	wp_cache_set( 'get_calendar', $cache, 'calendar' );
+	wp_cache_add( 'get_calendar', $cache, 'calendar' );
 }
 
 function delete_get_calendar_cache() {

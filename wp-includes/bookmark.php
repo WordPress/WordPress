@@ -136,7 +136,7 @@ function get_bookmarks($args = '') {
 	$results = $wpdb->get_results($query);
 
 	$cache[ $key ] = $results;
-	wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
+	wp_cache_add( 'get_bookmarks', $cache, 'bookmark' );
 
 	return apply_filters('get_bookmarks', $results, $r);
 }

@@ -229,7 +229,7 @@ function get_option($setting) {
 
 			if( is_object( $row) ) { // Has to be get_row instead of get_var because of funkiness with 0, false, null values
 				$value = $row->option_value;
-				wp_cache_set($setting, $value, 'options');
+				wp_cache_add($setting, $value, 'options');
 			} else { // option does not exist, so we must cache its non-existence
 				$notoptions[$setting] = true;
 				wp_cache_set('notoptions', $notoptions, 'options');
@@ -294,7 +294,7 @@ function wp_load_alloptions() {
 		$alloptions = array();
 		foreach ( (array) $alloptions_db as $o )
 			$alloptions[$o->option_name] = $o->option_value;
-		wp_cache_set('alloptions', $alloptions, 'options');
+		wp_cache_add('alloptions', $alloptions, 'options');
 	}
 	return $alloptions;
 }
