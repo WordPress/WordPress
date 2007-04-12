@@ -16,22 +16,27 @@ class WP_Categories_to_Tags {
 	function populate_all_categories() {
 		global $wpdb;
 		
-		$this->all_categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE (type & ~ " . TAXONOMY_TAG . ") != 0 ORDER BY cat_name ASC");
+		$this->all_categories = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE (type & ~ " . TAXONOMY_TAG . ") != 0 AND category_count > 0 ORDER BY cat_name ASC");
 	}
 	
 	function welcome() {
-		print '<div class="narrow">';
-		print '<p>' . __('Howdy! This converter allows you to selectively convert existing categories to tags. To get started, check the checkboxes of the categories you wish to be converted, then click the Convert button.') . '</p>';
-		print '<p>' . __('Keep in mind that if you convert a category with child categories, those child categories get their parent setting removed, so they\'re in the root.') . '</p>';
+		$this->populate_all_categories();
 		
-		$this->categories_form();
+		print '<div class="narrow">';
+		
+		if (count($this->all_categories) > 0) {
+			print '<p>' . __('Howdy! This converter allows you to selectively convert existing categories to tags. To get started, check the checkboxes of the categories you wish to be converted, then click the Convert button.') . '</p>';
+			print '<p>' . __('Keep in mind that if you convert a category with child categories, those child categories get their parent setting removed, so they\'re in the root.') . '</p>';
+		
+			$this->categories_form();
+		} else {
+			print '<p>You have no categories to convert!</p>';
+		}
 		
 		print '</div>';
 	}
 	
 	function categories_form() {
-		$this->populate_all_categories();
-		
 		print '<form action="admin.php?import=wp-cat2tag&amp;step=2" method="post">';
 		print '<ul style="list-style:none">';
 		
@@ -50,7 +55,8 @@ class WP_Categories_to_Tags {
 		}
 		
 		print '</ul>';
-		print '<p class="submit"><input type="submit" name="submit" value="' . __('Convert &raquo;') . '" /></p>';
+		
+		print '<p class="submit"><input type="submit" name="maybe_convert_all_cats" value="' . __('Convert All Categories') . '" /> <input type="submit" name="submit" value="' . __('Convert &raquo;') . '" /></p>';
 		print '</form>';
 	}
 	
@@ -138,11 +144,45 @@ class WP_Categories_to_Tags {
 		print '</ul>';
 	}
 	
+	function convert_all_confirm() {
+		print '<div class="narrow">';
+		
+		print '<h3>' . __('Confirm') . '</h3>';
+		
+		print '<p>' . __('You are about to convert all categories to tags. Are you sure you want to continue?') . '</p>';
+		
+		print '<form action="admin.php?import=wp-cat2tag" method="post">';
+		print '<p style="text-align:center" class="submit"><input type="submit" value="' . __('Yes') . '" name="yes_convert_all_cats" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="' . __('No') . '" name="no_dont_do_it" /></p>';
+		print '</form>';
+		
+		print '</div>';
+	}
+	
+	function convert_all() {
+		global $wpdb;
+		
+		$cats = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE (type & ~ " . TAXONOMY_TAG . ") != 0 AND category_count > 0");
+		
+		$_POST['cats_to_convert'] = array();
+		
+		foreach ($cats as $cat) {
+			$_POST['cats_to_convert'][] = $cat->cat_ID;
+		}
+		
+		$this->convert_them();
+	}
+	
 	function init() {
-		if (!isset($_GET['step'])) {
-			$step = 1;
+		echo '<!--'; print_r($_POST); print_r($_GET); echo '-->';
+		
+		if (isset($_POST['maybe_convert_all_cats'])) {
+			$step = 3;
+		} elseif (isset($_POST['yes_convert_all_cats'])) {
+			$step = 4;
+		} elseif (isset($_POST['no_dont_do_it'])) {
+			die('no_dont_do_it');
 		} else {
-			$step = (int) $_GET['step'];
+			$step = (isset($_GET['step'])) ? (int) $_GET['step'] : 1;
 		}
 		
 		$this->header();
@@ -159,6 +199,14 @@ class WP_Categories_to_Tags {
 				
 				case 2 :
 					$this->convert_them();
+				break;
+				
+				case 3 :
+					$this->convert_all_confirm();
+				break;
+				
+				case 4 :
+					$this->convert_all();
 				break;
 			}
 		}
