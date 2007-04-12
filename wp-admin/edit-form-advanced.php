@@ -159,9 +159,10 @@ endforeach;
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<div class="tagdiv"><p><?php _e('Enter tags (keywords) that you feel describe this post separated by commas: (ex: dogs, san francisco, cats.)'); ?><br />
-<input type="text" name="tags_input" id="tags_input" size="30" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" />
-</p></div>
+<fieldset id="tagdiv">
+	<legend><?php _e('Tags (separate multiple tags with commas: cats, pet food, dogs)'); ?></legend>
+	<div><input type="text" name="tags_input" id="tags_input" size="30" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" /></div>
+</fieldset>
 
 <p class="submit">
 <span id="autosave"></span>
