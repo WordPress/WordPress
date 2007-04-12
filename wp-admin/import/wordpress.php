@@ -35,8 +35,9 @@ class WP_Import {
 	}
 
 	function get_tag( $string, $tag ) {
+		global $wpdb;
 		preg_match("|<$tag.*?>(.*?)</$tag>|is", $string, $return);
-		$return = addslashes( trim( $return[1] ) );
+		$return = $wpdb->escape( trim( $return[1] ) );
 		return $return;
 	}
 
@@ -336,6 +337,7 @@ class WP_Import {
 		if ( $postmeta) { foreach ($postmeta as $p) {
 			$key   = $this->get_tag( $p, 'wp:meta_key' );
 			$value = $this->get_tag( $p, 'wp:meta_value' );
+			$value = stripslashes($value); // add_post_meta() will escape.
 			add_post_meta( $post_id, $key, $value );
 		} }
 	}
