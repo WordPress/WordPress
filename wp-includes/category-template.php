@@ -248,7 +248,13 @@ function wp_list_categories($args = '') {
 			$output .= __("No categories");
 	} else {
 		global $wp_query;
-
+		
+		if( !empty($show_option_all) )
+			if ('list' == $style )  
+				$output .= '<li><a href="' .  get_bloginfo('url')  . '">' . $show_option_all . '</a></li>';
+			else
+				$output .= '<a href="' .  get_bloginfo('url')  . '">' . $show_option_all . '</a>';
+		
 		if ( is_category() )
 			$r['current_category'] = $wp_query->get_queried_object_id();
 
