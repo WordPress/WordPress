@@ -14,7 +14,7 @@
 
 #wphead h1 { font-size: 2.4em; }
 
-#postdiv , #titlediv, #guiddiv { margin: 0 0 0 8px; }
+#postdiv, #titlediv, #guiddiv, #tagdiv { margin: 0 0 0 8px; }
 
 #ed_toolbar input { margin: 3px 0 2px 2px; }
 
