@@ -400,7 +400,7 @@ EOD;
 	 * Create Post (No arguments)
 	 */
 	function create_post() {
-		global $current_blog;
+		global $blog_id;
 		$this->get_accepted_content_type($this->atom_content_types);
 
 		$parser = new AtomParser();
@@ -417,7 +417,7 @@ EOD;
 		if(!current_user_can($cap))
 			$this->auth_required('Sorry, you do not have the right to edit/publish new posts.');
 
-		$blog_ID = (int )$current_blog->blog_id;
+		$blog_ID = (int ) $blog_id;
 		$post_status = ($publish) ? 'publish' : 'draft';
 		$post_author = (int) $user->ID;
 		$post_title = $entry->title;
