@@ -826,6 +826,7 @@ function add_query_arg() {
 				$ret .= "$k=$v";
 		}
 	}
+	$ret = trim($ret, '?');
 	$ret = $protocol . $base . $ret . $frag;
 	$ret = trim($ret, '?');
 	return $ret;
