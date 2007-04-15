@@ -94,7 +94,7 @@ function wp_insert_category($catarr) {
 		$update = true;
 	else
 		$update = false;
-error_log("Type for $cat_ID is $type", 0);
+
 	$cat_name = apply_filters('pre_category_name', $cat_name);
 
 	if (empty ($category_nicename))
@@ -295,13 +295,10 @@ function wp_create_tag($tag_name) {
 	$tag_array = array('cat_name' => $tag_name, 'type' => TAXONOMY_TAG);
 
 	if ( $id = category_object_exists($tag_name) ) {
-		error_log("$tag_name exists", 0);
 		$category = get_category($id);
 		$tag_array['type'] = $category->type | $tag_array['type'];
 		$tag_array['cat_ID'] = $id;
-		error_log("Type: {$tag_array['type']}", 0);
 		$id = wp_update_category($tag_array);
-		error_log("Tag id $id", 0);
 		return $id;
 	} else {
 		return wp_insert_category($tag_array);
