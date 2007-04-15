@@ -94,7 +94,7 @@ function wp_insert_category($catarr) {
 		$update = true;
 	else
 		$update = false;
-
+error_log("Type for $cat_ID is $type", 0);
 	$cat_name = apply_filters('pre_category_name', $cat_name);
 
 	if (empty ($category_nicename))
@@ -125,13 +125,8 @@ function wp_insert_category($catarr) {
 		$type = TAXONOMY_CATEGORY;
 
 	// Let's check if we have this category already, if so just do an update
-	if ( $cat_ID = category_exists( $category_nicename ) ) {
+	if ( !$update && $cat_ID = category_object_exists( $category_nicename ) )
 		$update = true;
-		$category = get_category($cat_ID);
-		// If inserting a category that already exists, OR in the new type rather
-		// than replacing the entire value.
-		$type = $category->type | $type;
-	}
 
 	if (!$update) {
 		$wpdb->query("INSERT INTO $wpdb->categories (cat_ID, cat_name, category_nicename, category_description, category_parent, links_private, posts_private, type) VALUES ('0', '$cat_name', '$category_nicename', '$category_description', '$category_parent', '$links_private', '$posts_private', '$type')");
@@ -240,8 +235,18 @@ function wp_delete_category($cat_ID) {
 }
 
 function wp_create_category($cat_name) {
-	$cat_array = compact('cat_name');
-	return wp_insert_category($cat_array);
+	if ( $id = category_exists($cat_name) )
+		return $id;
+	$cat_array = array('cat_name' => $cat_name, 'type' => TAXONOMY_CATEGORY);
+
+	if ( $id = category_object_exists($cat_name) ) {
+		$category = get_category($id);
+		$cat_array['type'] = $category->type | $cat_array['type'];
+		$cat_array['cat_ID'] = $id;
+		return wp_update_category($cat_array);
+	} else {
+		return wp_insert_category($cat_array);
+	}
 }
 
 function wp_create_categories($categories, $post_id = '') {
@@ -260,7 +265,7 @@ function wp_create_categories($categories, $post_id = '') {
 	return $cat_ids;
 }
 
-function category_exists($cat_name) {
+function category_object_exists($cat_name) {
 	global $wpdb;
 	if (!$category_nicename = sanitize_title($cat_name))
 		return 0;
@@ -268,9 +273,39 @@ function category_exists($cat_name) {
 	return (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename'");
 }
 
+function category_exists($cat_name) {
+	global $wpdb;
+	if (!$category_nicename = sanitize_title($cat_name))
+		return 0;
+
+	return (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$category_nicename' AND ( type & " . TAXONOMY_CATEGORY .  " != 0 )");
+}
+
+function tag_exists($tag_name) {
+	global $wpdb;
+	if (! $tag_nicename = sanitize_title($tag_name))
+		return 0;
+
+	return (int) $wpdb->get_var("SELECT cat_ID FROM $wpdb->categories WHERE category_nicename = '$tag_nicename' AND ( type & " . TAXONOMY_TAG .  " != 0 )");
+}
+
 function wp_create_tag($tag_name) {
+	if ( $id = tag_exists($tag_name) )
+		return $id;
 	$tag_array = array('cat_name' => $tag_name, 'type' => TAXONOMY_TAG);
-	return wp_insert_category($tag_array);
+
+	if ( $id = category_object_exists($tag_name) ) {
+		error_log("$tag_name exists", 0);
+		$category = get_category($id);
+		$tag_array['type'] = $category->type | $tag_array['type'];
+		$tag_array['cat_ID'] = $id;
+		error_log("Type: {$tag_array['type']}", 0);
+		$id = wp_update_category($tag_array);
+		error_log("Tag id $id", 0);
+		return $id;
+	} else {
+		return wp_insert_category($tag_array);
+	}
 }
 
 function wp_delete_user($id, $reassign = 'novalue') {

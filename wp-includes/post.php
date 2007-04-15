@@ -808,7 +808,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 		$tag = trim( $tag );
 		if ( !$tag_slug = sanitize_title( $tag ) )
 			continue; // discard
-		if ( !$tag_id = category_exists( $tag ) )
+		if ( !$tag_id = tag_exists( $tag ) )
 			$tag_id = wp_create_tag( $tag );
 		$tag_ids[] = $tag_id;
 	}
