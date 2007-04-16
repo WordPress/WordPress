@@ -3,7 +3,7 @@ ignore_user_abort(true);
 define('DOING_CRON', TRUE);
 require_once('wp-config.php');
 
-if ( $_GET['check'] != md5(DB_PASS . '187425') )
+if ( $_GET['check'] != wp_hash('187425') )
 	exit;
 
 if ( get_option('doing_cron') > time() )

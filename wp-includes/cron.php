@@ -97,7 +97,7 @@ function spawn_cron() {
 	
 	if ( $argyle )
 		fputs( $argyle,
-			  "GET {$parts['path']}?check=" . md5(DB_PASS . '187425') . " HTTP/1.0\r\n"
+			  "GET {$parts['path']}?check=" . wp_hash('187425') . " HTTP/1.0\r\n"
 			. "Host: {$_SERVER['HTTP_HOST']}\r\n\r\n"
 		);
 }
