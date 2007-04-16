@@ -274,39 +274,49 @@ function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
 	return apply_filters('post_comments_feed_link', $url);
 }
 
-function edit_post_link($link = 'Edit This', $before = '', $after = '') {
+function get_edit_post_link( $link = 'Edit This' ) {
 	global $post;
-
-	if ( is_attachment() )
+	
+	if ( is_attachment() ) {
 		return;
-
-	if( $post->post_type == 'page' ) {
-		if ( ! current_user_can('edit_page', $post->ID) )
+	}
+	
+	if ( $post->post_type == 'page' ) {
+		if ( !current_user_can( 'edit_page', $post->ID ) ) {
 			return;
+		}
 		$file = 'page';
 	} else {
-		if ( ! current_user_can('edit_post', $post->ID) )
+		if ( !current_user_can( 'edit_post', $post->ID ) ) {
 			return;
+		}
 		$file = 'post';
 	}
+	
+	return '<a href="' . get_option( 'wpurl' ) . '/wp-admin/' . $file '.php?action=edit&amp;post=' . $post->ID . '>' . $link . '</a>' . $after;
 
-	$location = get_option('siteurl') . "/wp-admin/{$file}.php?action=edit&amp;post=$post->ID";
-	echo $before . "<a href=\"$location\">$link</a>" . $after;
+function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
+	echo $before . get_edit_post_link( $link ) . $after;
 }
 
-function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
+function get_edit_comment_link( $link = 'Edit This' ) {
 	global $post, $comment;
-
-	if( $post->post_type == 'page' ){
-		if ( ! current_user_can('edit_page', $post->ID) )
+	
+	if ( $post->post_type == 'page' ) {
+		if ( !current_user_can( 'edit_page', $post->ID ) ) {
 			return;
+		}
 	} else {
-		if ( ! current_user_can('edit_post', $post->ID) )
+		if ( !current_user_can( 'edit_post', $post->ID ) ) {
 			return;
+		}
 	}
+	
+	return '<a href="' . get_option( 'siteurl' ) . '/wp-admin/comment.php?action=editcomment&amp;c=' . $comment->comment_ID . '">' . $link . '</a>';
+}
 
-	$location = get_option('siteurl') . "/wp-admin/comment.php?action=editcomment&amp;c=$comment->comment_ID";
-	echo $before . "<a href='$location'>$link</a>" . $after;
+function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
+	echo $before . get_edit_comment_link( $link ) . $after;
 }
 
 // Navigation links
