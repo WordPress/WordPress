@@ -293,7 +293,7 @@ function get_edit_post_link( $link = 'Edit This' ) {
 		$file = 'post';
 	}
 	
-	return '<a href="' . get_option( 'wpurl' ) . '/wp-admin/' . $file '.php?action=edit&amp;post=' . $post->ID . '>' . $link . '</a>' . $after;
+	return '<a href="' . get_option( 'wpurl' ) . '/wp-admin/' . $file . '.php?action=edit&amp;post=' . $post->ID . '>' . $link . '</a>' . $after;
 
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	echo $before . get_edit_post_link( $link ) . $after;
