@@ -78,7 +78,7 @@ class WP_Scripts {
 				break;
 			endswitch;
 			if ( $man ) {
-				$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key.js', array('dbx'), '20070306' );
+				$this->add( 'dbx-admin-key', '/wp-admin/dbx-admin-key.js', array('dbx'), '20070417' );
 				$this->localize( 'dbx-admin-key', 'dbxL10n', array(
 					'manager' => $man,
 					'open' => __('open'),
@@ -89,7 +89,7 @@ class WP_Scripts {
 					'toggleKey' => __(', or press the enter key to %toggle% it'),
 				) );
 			}
-			$this->add( 'ajaxcat', '/wp-admin/cat.js', array('listman'), '20070306' );
+			$this->add( 'ajaxcat', '/wp-admin/cat.js', array('listman'), '20070417' );
 			$this->localize( 'ajaxcat', 'catL10n', array(
 				'add' => attribute_escape(__('Add')),
 				'how' => __('Separate multiple categories with commas.')

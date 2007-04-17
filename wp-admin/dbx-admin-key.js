@@ -1,4 +1,4 @@
-addLoadEvent( function() {var manager = new dbxManager( dbxL10n.mananger );} );
+addLoadEvent( function() {var manager = new dbxManager( dbxL10n.manager );} );
 
 addLoadEvent( function()
 {
