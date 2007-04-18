@@ -63,6 +63,8 @@ function add_rewrite_endpoint($name, $places) {
 // determine the post ID it represents.
 function url_to_postid($url) {
 	global $wp_rewrite;
+	
+	$url = apply_filters('url_to_postid', $url);
 
 	// First, check to see if there is a 'p=N' or 'page_id=N' to match against
 	preg_match('#[?&](p|page_id)=(\d+)#', $url, $values);
