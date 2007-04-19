@@ -602,7 +602,7 @@ function update_post_cache(&$posts) {
 }
 
 function clean_post_cache($id) {
-	global $post_cache, $post_meta_cache, $category_cache, $tag_cache, $blog_id;
+	global $post_cache, $post_meta_cache, $category_cache, $blog_id;
 
 	if ( isset( $post_cache[$blog_id][$id] ) )
 		unset( $post_cache[$blog_id][$id] );
@@ -612,9 +612,6 @@ function clean_post_cache($id) {
 
 	if ( isset( $category_cache[$blog_id][$id]) )
 		unset ( $category_cache[$blog_id][$id] );
-
-	if ( isset( $tag_cache[$blog_id][$id]) )
-		unset ( $tag_cache[$blog_id][$id] );
 }
 
 function update_page_cache(&$pages) {
@@ -641,7 +638,7 @@ function clean_page_cache($id) {
 }
 
 function update_post_category_cache($post_ids) {
-	global $wpdb, $category_cache, $tag_cache, $blog_id;
+	global $wpdb, $category_cache, $blog_id;
 
 	if ( empty($post_ids) )
 		return;
@@ -662,21 +659,17 @@ function update_post_category_cache($post_ids) {
 		return;
 	$post_id_list = join( ',', $post_id_array ); // with already cached stuff removed
 
-	$dogs = $wpdb->get_results("SELECT post_id, category_id, rel_type FROM $wpdb->post2cat WHERE post_id IN ($post_id_list)");
+	$dogs = $wpdb->get_results("SELECT post_id, category_id FROM $wpdb->post2cat WHERE post_id IN ($post_id_list)");
 
 	if ( empty($dogs) )
 		return;
 
-	foreach ($dogs as $catt) {
-		if ( 'category' == $catt->rel_type )
-			$category_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
-		elseif ( 'tag' == $catt->rel_type )
-			$tag_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
-	}
+	foreach ($dogs as $catt)
+		$category_cache[$blog_id][$catt->post_id][$catt->category_id] = &get_category($catt->category_id);
 }
 
 function update_post_caches(&$posts) {
-	global $post_cache, $category_cache, $post_meta_cache, $tag_cache;
+	global $post_cache, $category_cache, $post_meta_cache;
 	global $wpdb, $blog_id;
 
 	// No point in doing all this work if we didn't match any posts.
@@ -1473,24 +1466,6 @@ function smilies_init() {
 		$smiley_masked = htmlspecialchars(trim($smiley), ENT_QUOTES);
 		$wp_smiliesreplace[] = " <img src='" . get_option('siteurl') . "/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
 	}
-}
-
-function wp_parse_args( $args, $defaults = '' ) {
-	if ( is_array($args) ) :
-		$r =& $args;
-	else :
-		parse_str( $args, $r );
-		if ( get_magic_quotes_gpc() )
-			$r = stripslashes_deep( $r );
-	endif;
-
-	if ( is_array($defaults) ) :
-		extract($defaults);
-		extract($r);
-		return compact(array_keys($defaults)); // only those options defined in $defaults
-	else :
-		return $r;
-	endif;
 }
 
 ?>

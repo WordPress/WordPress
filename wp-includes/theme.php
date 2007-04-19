@@ -328,17 +328,6 @@ function get_category_template() {
 	return apply_filters('category_template', $template);
 }
 
-function get_tag_template() {
-	$template = '';
-	if ( file_exists(TEMPLATEPATH . "/tag-" . get_query_var('tag') . '.php') )
-		$template = TEMPLATEPATH . "/tag-" . get_query_var('tag') . '.php';
-	elseif ( file_exists(TEMPLATEPATH . "/tag.php") )
-		$template = TEMPLATEPATH . "/tag.php";
-
-	return apply_filters('tag_template', $template);
-}
-
-
 function get_date_template() {
 	return get_query_template('date');
 }

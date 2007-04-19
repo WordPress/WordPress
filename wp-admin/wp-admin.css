@@ -538,7 +538,7 @@ input.disabled, textarea.disabled {
 	border: none;
 }
 
-#postdiv, #titlediv, #guiddiv, #tagdiv {
+#postdiv, #titlediv, #guiddiv {
 	margin: 0 8px 0 0;
 	padding: 0;
 }
@@ -558,7 +558,7 @@ input.disabled, textarea.disabled {
 	line-height: 140%;
 }
 
-#titlediv input, #guiddiv input, #tagdiv input {
+#titlediv input, #guiddiv input {
 	margin: 0;
 	width: 100%;
 }

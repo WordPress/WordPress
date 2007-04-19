@@ -159,10 +159,6 @@ endforeach;
 <?php echo $form_pingback ?>
 <?php echo $form_prevstatus ?>
 
-<fieldset id="tagdiv">
-	<legend><?php _e('Tags (separate multiple tags with commas: cats, pet food, dogs)'); ?></legend>
-	<div><input type="text" name="tags_input" id="tags-input" size="30" tabindex="3" value="<?php echo get_tags_to_edit( $post_ID ); ?>" /></div>
-</fieldset>
 
 <p class="submit">
 <span id="autosave"></span>

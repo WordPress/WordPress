@@ -1,8 +1,5 @@
 <?php
 
-define('TAXONOMY_CATEGORY', 1);
-define('TAXONOMY_TAG', 2);
-
 function get_all_category_ids() {
 	global $wpdb;
 
@@ -80,11 +77,7 @@ function &get_categories($args = '') {
 			$where .= ' AND link_count > 0';
 		else
 			$where .= ' AND category_count > 0';
-	} else {
-		$where .= ' AND ( type & ' . TAXONOMY_CATEGORY . ' != 0 ) ';
 	}
-
-	
 
 	if ( !empty($number) )
 		$number = 'LIMIT ' . $number;
@@ -213,15 +206,6 @@ function get_category_by_path($category_path, $full_match = true, $output = OBJE
 	return NULL;
 }
 
-function get_category_by_slug( $slug  ) {
-	global $wpdb;
-	$slug = sanitize_title( $slug );
-	if ( empty( $slug ) )
-		return false;
-	$category = $wpdb->get_var( "SELECT * FROM $wpdb->categories WHERE category_nicename = '$slug' " );
-	return get_category( $category );
-}
-
 // Get the ID of a category from its name
 function get_cat_ID($cat_name='General') {
 	global $wpdb;
@@ -344,86 +328,4 @@ function _get_category_hierarchy() {
 
 	return $children;
 }
-
-// Tags
-
-function &get_tags($args = '') {
-	global $wpdb, $category_links;
-
-	$defaults = array('orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'exclude' => '', 'include' => '',
-		'number' => '');
-	$args = wp_parse_args( $args, $defaults );
-	if ( 'count' == $args['orderby'] )
-		$args['orderby'] = 'tag_count';
-	else
-		$args['orderby'] = "cat_" . $args['orderby'];  // restricts order by to cat_ID and cat_name fields
-	$args['number'] = (int) $args['number'];
-	extract($args);
-
-	$key = md5( serialize( $args ) );
-	if ( $cache = wp_cache_get( 'get_tags', 'category' ) )
-		if ( isset( $cache[ $key ] ) )
-			return apply_filters('get_tags', $cache[$key], $args);
-
-	$where = 'cat_ID > 0';
-	$inclusions = '';
-	if ( !empty($include) ) {
-		$child_of = 0; //ignore child_of and exclude params if using include
-		$exclude = '';
-		$incategories = preg_split('/[\s,]+/',$include);
-		if ( count($incategories) ) {
-			foreach ( $incategories as $incat ) {
-				if (empty($inclusions))
-					$inclusions = ' AND ( cat_ID = ' . intval($incat) . ' ';
-				else
-					$inclusions .= ' OR cat_ID = ' . intval($incat) . ' ';
-			}
-		}
-	}
-
-	if (!empty($inclusions))
-		$inclusions .= ')';
-	$where .= $inclusions;
-
-	$exclusions = '';
-	if ( !empty($exclude) ) {
-		$excategories = preg_split('/[\s,]+/',$exclude);
-		if ( count($excategories) ) {
-			foreach ( $excategories as $excat ) {
-				if (empty($exclusions))
-					$exclusions = ' AND ( cat_ID <> ' . intval($excat) . ' ';
-				else
-					$exclusions .= ' AND cat_ID <> ' . intval($excat) . ' ';
-			}
-		}
-	}
-
-	if (!empty($exclusions))
-		$exclusions .= ')';
-	$exclusions = apply_filters('list_tags_exclusions', $exclusions, $args );
-	$where .= $exclusions;
-
-	if ( $hide_empty )
-		$where .= ' AND tag_count > 0';
-
-	$where .= ' AND ( type & ' . TAXONOMY_TAG . ' != 0 ) ';
-
-	if ( !empty($number) )
-		$number = 'LIMIT ' . $number;
-	else
-		$number = '';
-
-	$tags = $wpdb->get_results("SELECT * FROM $wpdb->categories WHERE $where ORDER BY $orderby $order $number");
-
-	if ( empty($tags) )
-		return array();
-
-	$cache[ $key ] = $tags;
-	wp_cache_set( 'get_tags', $cache, 'category' );
-
-	$tags = apply_filters('get_tags', $tags, $args);
-	return $tags;
-}
-
 ?>

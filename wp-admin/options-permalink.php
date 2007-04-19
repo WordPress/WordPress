@@ -73,18 +73,10 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 			$category_base = preg_replace('#/+#', '/', '/' . $_POST['category_base']);
 		$wp_rewrite->set_category_base($category_base);
 	}
-
-	if ( isset($_POST['tag_base']) ) {
-		$tag_base = $_POST['tag_base'];
-		if (! empty($tag_base) )
-			$tag_base = preg_replace('#/+#', '/', '/' . $_POST['tag_base']);
-		$wp_rewrite->set_tag_base($tag_base);
-	}
 }
 
 $permalink_structure = get_option('permalink_structure');
 $category_base = get_option('category_base');
-$tag_base = get_option( 'tag_base' );
 
 if ( (!file_exists($home_path.'.htaccess') && is_writable($home_path)) || is_writable($home_path.'.htaccess') )
 	$writable = true;
@@ -167,9 +159,6 @@ checked="checked"
 <?php endif; ?>
 	<p> 
   <?php _e('Category base'); ?>: <input name="category_base" type="text" class="code"  value="<?php echo attribute_escape($category_base); ?>" size="30" /> 
-     </p>
-	  <p>
-	  <?php _e('Tag base'); ?>: <input name="tag_base" type="text" class="code"  value="<?php echo attribute_escape($tag_base); ?>" size="30" /> 
      </p> 
     <p class="submit"> 
       <input type="submit" name="submit" value="<?php _e('Update Permalink Structure &raquo;') ?>" /> 
