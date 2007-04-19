@@ -8,7 +8,10 @@ function mysql2date($dateformatstring, $mysqlstring, $translate = true) {
 	if ( empty($m) ) {
 		return false;
 	}
-	$i = mktime(substr($m,11,2),substr($m,14,2),substr($m,17,2),substr($m,5,2),substr($m,8,2),substr($m,0,4));
+	$i = mktime( 
+		(int) substr( $m, 11, 2 ), (int) substr( $m, 14, 2 ), (int) substr( $m, 17, 2 ), 
+		(int) substr( $m, 5, 2 ), (int) substr( $m, 8, 2 ), (int) substr( $m, 0, 4 ) 
+	);
 
 	if( 'U' == $dateformatstring )
 		return $i;
