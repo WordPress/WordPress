@@ -1,6 +1,6 @@
 <?php
 /* 
- * app.php - Atom Publishing Protocol support for WordPress
+ * wp-app.php - Atom Publishing Protocol support for WordPress
  * Original code by: Elias Torres, http://torrez.us/archives/2006/08/31/491/
  * Modified by: Dougal Campbell, http://dougal.gunters.org/
  *
@@ -28,7 +28,7 @@ if ($use_querystring) {
 		$_SERVER['PATH_INFO'] .= "/$eid";
 	}
 } else {
-	$_SERVER['PATH_INFO'] = str_replace( '/app.php', '', $_SERVER['REQUEST_URI'] );
+	$_SERVER['PATH_INFO'] = str_replace( '/wp-app.php', '', $_SERVER['REQUEST_URI'] );
 }
 
 $app_logging = 0;
@@ -270,7 +270,7 @@ class AtomServer {
 	var $MEDIA_SINGLE_PATH = "attachment";
 
 	var $params = array();
-	var $script_name = "app.php";
+	var $script_name = "wp-app.php";
 	var $media_content_types = array('image/*','audio/*','video/*');
 	var $atom_content_types = array('application/atom+xml');
 
