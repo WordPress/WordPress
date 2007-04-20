@@ -6,7 +6,7 @@
 		if ($_COOKIE['wp-postpass_' . COOKIEHASH] != $post->post_password) {  // and it doesn't match the cookie
 			?>
 
-			<p class="nocomments">This post is password protected. Enter the password to view comments.<p>
+			<p class="nocomments">This post is password protected. Enter the password to view comments.</p>
 
 			<?php
 			return;
