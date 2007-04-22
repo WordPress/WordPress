@@ -129,6 +129,10 @@ function get_the_excerpt($fakeit = true) {
 	return apply_filters('get_the_excerpt', $output);
 }
 
+function has_excerpt( $id = 0 ) {
+	$post = &get_post( $id );
+	return ( !empty( $post->post_excerpt ) );
+}
 
 function wp_link_pages($args = '') {
 	global $post;
