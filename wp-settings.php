@@ -168,6 +168,7 @@ require (ABSPATH . WPINC . '/cron.php');
 require (ABSPATH . WPINC . '/version.php');
 require (ABSPATH . WPINC . '/deprecated.php');
 require (ABSPATH . WPINC . '/script-loader.php');
+require (ABSPATH . WPINC . '/widgets.php');
 
 if (strpos($_SERVER['PHP_SELF'], 'install.php') === false) {
     // Used to guarantee unique hash cookies
@@ -259,6 +260,10 @@ function shutdown_action_hook() {
 	wp_cache_close();
 }
 register_shutdown_function('shutdown_action_hook');
+
+// widgets_init() BEFORE init, so plugins that launch on init can 
+// do stuff with default widgets
+wp_widgets_init();
 
 // Everything is loaded and initialized.
 do_action('init');
