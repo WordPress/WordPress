@@ -267,9 +267,9 @@ function &_get_cat_children($category_id, $categories) {
 		return array();
 
 	$category_list = array();
-	$children = _get_category_hierarchy();
+	$has_children = _get_category_hierarchy();
 
-	if  ( ( 0 != $category_id ) && ! isset($children[$category_id]) )
+	if  ( ( 0 != $category_id ) && ! isset($has_children[$category_id]) )
 		return array();
 
 	foreach ( $categories as $category ) {
@@ -279,9 +279,9 @@ function &_get_cat_children($category_id, $categories) {
 		if ( $category->category_parent == $category_id ) {
 			$category_list[] = $category;
 
-			if ( !isset($children[$category->cat_ID]) )
+			if ( !isset($has_children[$category->cat_ID]) )
 				continue;
-			
+
 			if ( $children = _get_cat_children($category->cat_ID, $categories) )
 				$category_list = array_merge($category_list, $children);
 		}
