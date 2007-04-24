@@ -262,6 +262,7 @@ function populate_options() {
 function populate_roles() {
 	populate_roles_160();
 	populate_roles_210();
+	populate_roles_230();
 }
 
 function populate_roles_160() {
@@ -392,6 +393,14 @@ function populate_roles_210() {
 	$role = get_role('contributor');
 	if ( ! empty($role) ) {
 		$role->add_cap('delete_posts');
+	}
+}
+
+function populate_roles_230() {
+	$role = get_role( 'administrator' );
+	
+	if ( !empty( $role ) ) {
+		$role->add_cap( 'unfiltered_upload' );
 	}
 }
 

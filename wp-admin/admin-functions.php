@@ -1948,7 +1948,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 		return $upload_error_handler( $file, __( 'Specified file failed upload test.' ));
 
 	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
-	if ( $test_type ) {
+	if ( $test_type && !current_user_can( 'unfiltered_upload' ) ) {
 		$wp_filetype = wp_check_filetype( $file['name'], $mimes );
 
 		extract( $wp_filetype );

@@ -184,6 +184,10 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 4351 )
 		upgrade_old_slugs();
+	
+	if ( $wp_current_db_version < 5200 ) {
+		upgrade_230();
+	}
 
 	$wp_rewrite->flush_rules();
 
@@ -562,6 +566,14 @@ function upgrade_210() {
 	if ( $wp_current_db_version < 4772 ) {
 		// Obsolete linkcategories table
 		$wpdb->query('DROP TABLE IF EXISTS ' . $wpdb->prefix . 'linkcategories');
+	}
+}
+
+function upgrade_230() {
+	global $wp_current_db_version;
+	
+	if ( $wp_current_db_version < 5200 ) {
+		populate_roles_230();
 	}
 }
 
