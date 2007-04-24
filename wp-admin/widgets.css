@@ -1,0 +1,215 @@
+body {
+	height: 100%;
+}
+
+#sbadmin #zones {
+	width: <?php echo constant( 'WP_WIDGETS_WIDTH' ); ?>px;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
+#sbreset {
+	float: left;
+	margin: 1px 0;
+}
+
+.dropzone {
+	float: left;
+	margin-right: 10px;
+	padding: 5px;
+	border: 1px solid #bbb;
+	background-color: #f0f8ff;
+}
+
+.dropzone h3 {
+	text-align: center;
+	color: #333;
+}
+
+.dropzone ul {
+	list-style-type: none;
+	width: 240px;
+	height: <?php echo constant( 'WP_WIDGETS_HEIGHT' ); ?>px;
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+* .module, #lastmodule {
+	width: 238px;
+	padding: 0;
+	margin: 5px 0;
+	cursor: move;
+	display: block;
+	border: 1px solid #ccc;
+	background-color: #fbfbfb;
+	text-align: left;
+	line-height: 25px;
+}
+
+* .handle, #lastmodule span {
+	display: block;
+	width: 216px;
+	padding: 0 10px;
+	border-top: 1px solid #f2f2f2;
+	border-right: 1px solid #e8e8e8;
+	border-bottom: 1px solid #e8e8e8;
+	border-left: 1px solid #f2f2f2;
+}
+
+* .popper {
+	margin: 0;
+	display: inline;
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	overflow: hidden;
+	text-align: center;
+	height: 16px;
+	font-size: 18px;
+	line-height: 14px;
+	cursor: pointer;
+	padding: 0 3px 1px;
+	border-top: 4px solid #6da6d1;
+	background: url( images/fade-butt.png ) -5px 0px;
+}
+
+* html .popper {
+	padding: 1px 6px 0;
+	font-size: 16px;
+}
+
+#sbadmin p.submit {
+	padding-right: 10px;
+	clear: left;
+}
+
+.placematt {
+	position: absolute;
+	cursor: default;
+	margin: 10px 0 0;
+	padding: 0;
+	width: 238px;
+	background-color: #ffe;
+}
+
+* html .placematt {
+	margin-top: 5px;
+}
+
+.placematt h4 {
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.placematt span {
+	padding: 0 10px 10px;
+	text-align: justify;
+}
+
+#palettediv {
+	border: 1px solid #bbb;
+	background-color: #f0f8ff;
+	height: 180px;
+	margin-top: 10px;
+}
+
+#palettediv h3 {
+	text-align: center;
+	color: #333;
+}
+
+#palettediv ul {
+	padding: 0 0 0 10px;
+}
+
+#palettediv .module, #lastmodule {
+	margin-right: 10px;
+	float: left;
+	width: 120px;
+}
+
+#palettediv .handle, #lastmodule span {
+	height: 40px;
+	font-size: 90%;
+	width: 110px;
+	padding: 0 5px;
+}
+
+#palettediv .popper {
+	visibility: hidden;
+}
+
+#lastmodule {
+	visibility: hidden;
+}
+
+* html #palettediv ul {
+	margin: 0;
+	padding: 0 0 0 10px;
+}
+
+* html #palettediv .module {
+	float: none;
+	display: inline;
+}
+
+#controls {
+	height: 0px;
+}
+
+.control {
+	position: absolute;
+	display: block;
+	background: #f9fcfe;
+	padding: 0;
+}
+
+.controlhandle {
+	cursor: move;
+	background-color: #6da6d1;
+	border-bottom: 2px solid #448abd;
+	color: #333;
+	display: block;
+	margin: 0 0 5px;
+	padding: 4px;
+	font-size: 120%;
+}
+
+.controlcloser {
+	cursor: pointer;
+	font-size: 120%;
+	display: block;
+	position: absolute;
+	top: 2px;
+	right: 8px;
+	padding: 0 3px;
+	font-weight: bold;
+}
+
+.controlform {
+	margin: 20px 30px;
+}
+
+.controlform p {
+	text-align: center;
+}
+
+.control .checkbox {
+	border: none;
+	background: transparent;
+}
+
+.hidden {
+	display: none;
+}
+
+#shadow {
+	background: black;
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}

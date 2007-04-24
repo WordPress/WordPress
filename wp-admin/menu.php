@@ -67,6 +67,7 @@ $submenu['plugins.php'][5] = array(__('Plugins'), 'activate_plugins', 'plugins.p
 $submenu['plugins.php'][10] = array(__('Plugin Editor'), 'edit_plugins', 'plugin-editor.php');
 
 $submenu['themes.php'][5] = array(__('Themes'), 'switch_themes', 'themes.php');
+$submenu['themes.php'][7] = array( __( 'Widgets' ), 'edit_themes', 'widgets.php' );
 $submenu['themes.php'][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
 
 // Create list of page plugin hook names.
