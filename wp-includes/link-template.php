@@ -110,7 +110,7 @@ function get_permalink($id = 0) {
 }
 
 // get permalink from post ID
-function post_permalink($post_id = 0, $mode = '') { // $mode legacy
+function post_permalink($post_id = 0, $deprecated = '') {
 	return get_permalink($post_id);
 }
 
@@ -274,39 +274,55 @@ function get_post_comments_feed_link($post_id = '', $feed = 'rss2') {
 	return apply_filters('post_comments_feed_link', $url);
 }
 
-function edit_post_link($link = 'Edit This', $before = '', $after = '') {
-	global $post;
-
-	if ( is_attachment() )
+function get_edit_post_link( $id = 0 ) {
+	$post = &get_post( $id );
+	
+	if ( $post->post_type == 'attachment' )
 		return;
-
-	if( $post->post_type == 'page' ) {
-		if ( ! current_user_can('edit_page', $post->ID) )
+	elseif ( $post->post_type == 'page' ) {
+		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
+		
 		$file = 'page';
 	} else {
-		if ( ! current_user_can('edit_post', $post->ID) )
+		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
+		
 		$file = 'post';
 	}
-
-	$location = get_option('siteurl') . "/wp-admin/{$file}.php?action=edit&amp;post=$post->ID";
-	echo $before . "<a href=\"$location\">$link</a>" . $after;
+	
+	return apply_filters( 'get_edit_post_link', get_bloginfo( 'wpurl' ) . '/wp-admin/' . $file . '.php?action=edit&amp;post=' . $post->ID, $post->ID );
 }
 
-function edit_comment_link($link = 'Edit This', $before = '', $after = '') {
-	global $post, $comment;
+function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
+	global $post;
+	
+	$link = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . __( 'Edit post' ) . '">' . $link . '</a>';
+	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
+}
 
-	if( $post->post_type == 'page' ){
-		if ( ! current_user_can('edit_page', $post->ID) )
+function get_edit_comment_link( $comment_id = 0 ) {
+	$comment = &get_comment( $comment_id );
+	$post = &get_post( $comment->comment_post_ID );
+	
+	if ( $post->post_type == 'attachment' )
+		return;
+	elseif ( $post->post_type == 'page' )
+		if ( !current_user_can( 'edit_page', $post->ID ) )
 			return;
-	} else {
-		if ( ! current_user_can('edit_post', $post->ID) )
+	else
+		if ( !current_user_can( 'edit_post', $post->ID ) )
 			return;
-	}
+	
+	$location = get_bloginfo( 'wpurl' ) . '/wp-admin/comment.php?action=editcomment&amp;c=' . $comment->comment_ID;
+	return apply_filters( 'get_edit_comment_link', $location );
+}
 
-	$location = get_option('siteurl') . "/wp-admin/comment.php?action=editcomment&amp;c=$comment->comment_ID";
-	echo $before . "<a href='$location'>$link</a>" . $after;
+function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
+	global $comment;
+	
+	$link = '<a href="' . get_edit_comment_link( $comment->comment_ID ) . '" title="' . __( 'Edit comment' ) . '">' . $link . '</a>';
+	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
 }
 
 // Navigation links
