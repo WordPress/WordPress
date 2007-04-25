@@ -884,7 +884,7 @@ class WP_Query {
 			$whichcat = " AND category_id IN ({$q['cat']}, ";
 			$whichcat .= get_category_children($q['cat'], '', ', ');
 			$whichcat = substr($whichcat, 0, -2);
-			$whichcat .= ") AND rel_type = 'category'";
+			$whichcat .= ")";
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
