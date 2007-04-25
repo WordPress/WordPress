@@ -815,7 +815,8 @@ function parse_w3cdtf ( $date_str ) {
 	else {
 		return -1;
 	}
-	}
+}
+
 function wp_rss ($url, $num_items) {
 	//ini_set("display_errors", false); uncomment to suppress php errors thrown if the feed is not returned.
 	$rss = fetch_rss($url);
@@ -832,7 +833,7 @@ function wp_rss ($url, $num_items) {
 			echo "</ul>";
 	}
 		else {
-			echo "an error has occured the feed is probably down, try again later.";
+			echo 'An error has occurred the feed is probably down, try again later.';
 	}
 }
 
