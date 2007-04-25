@@ -43,7 +43,7 @@ if ( $comments || $numcomments ) :
 <h3><?php _e('Comments'); ?> <a href="edit-comments.php" title="<?php _e('More comments...'); ?>">&raquo;</a></h3>
 
 <?php if ( $numcomments ) : ?>
-<p><strong><a href="moderation.php"><?php echo sprintf(__('Comments in moderation (%s)'), number_format($numcomments) ); ?> &raquo;</a></strong></p>
+<p><strong><a href="moderation.php"><?php echo sprintf(__('Comments in moderation (%s)'), number_format_i18n($numcomments) ); ?> &raquo;</a></strong></p>
 <?php endif; ?>
 
 <ul>
@@ -103,9 +103,9 @@ $numposts = (int) $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->posts WHERE post_t
 $numcomms = (int) $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '1'");
 $numcats  = (int) $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->categories");
 
-$post_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Posts">post</a>', '%1$s <a href="%2$s" title="Posts">posts</a>', $numposts), number_format($numposts), 'edit.php');
-$comm_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Comments">comment</a>', '%1$s <a href="%2$s" title="Comments">comments</a>', $numcomms), number_format($numcomms), 'edit-comments.php');
-$cat_str  = sprintf(__ngettext('%1$s <a href="%2$s" title="Categories">category</a>', '%1$s <a href="%2$s" title="Categories">categories</a>', $numcats), number_format($numcats), 'categories.php');
+$post_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Posts">post</a>', '%1$s <a href="%2$s" title="Posts">posts</a>', $numposts), number_format_i18n($numposts), 'edit.php');
+$comm_str = sprintf(__ngettext('%1$s <a href="%2$s" title="Comments">comment</a>', '%1$s <a href="%2$s" title="Comments">comments</a>', $numcomms), number_format_i18n($numcomms), 'edit-comments.php');
+$cat_str  = sprintf(__ngettext('%1$s <a href="%2$s" title="Categories">category</a>', '%1$s <a href="%2$s" title="Categories">categories</a>', $numcats), number_format_i18n($numcats), 'categories.php');
 ?>
 
 <p><?php printf(__('There are currently %1$s and %2$s, contained within %3$s.'), $post_str, $comm_str, $cat_str); ?></p>

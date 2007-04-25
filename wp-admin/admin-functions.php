@@ -831,8 +831,8 @@ function _cat_row( $category, $level, $name_override = false ) {
 
 	$class = ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || " class='alternate'" == $class ) ? '' : " class='alternate'";
 
-	$category->category_count = number_format( $category->category_count );
-	$category->link_count = number_format( $category->link_count );
+	$category->category_count = number_format_i18n( $category->category_count );
+	$category->link_count = number_format_i18n( $category->link_count );
 	$posts_count = ( $category->category_count > 0 ) ? "<a href='edit.php?cat=$category->cat_ID'>$category->category_count</a>" : $category->category_count;
 	return "<tr id='cat-$category->cat_ID'$class>
 		<th scope='row' style='text-align: center'>$category->cat_ID</th>

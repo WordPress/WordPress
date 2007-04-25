@@ -87,6 +87,18 @@ class WP_Locale {
 		$this->meridiem['AM'] = __('AM');
 		$this->meridiem['PM'] = __('PM');
 
+		// Numbers formatting
+		// See http://php.net/number_format
+
+		$trans = __('number_format_decimals'); 
+		$this->number_format['decimals'] = ('number_format_decimals' == $trans) ? 0 : $trans;
+		
+		$trans = __('number_format_decimal_point');
+		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
+
+		$trans = __('number_format_thousands_sep');	
+		$this->number_format['thousands_sep'] = ('number_format_thousands_sep' == $trans) ? ',' : $trans; 
+		
 		// Import global locale vars set during inclusion of $locale.php.
 		foreach ( $this->locale_vars as $var ) {
 			if ( isset($GLOBALS[$var]) )

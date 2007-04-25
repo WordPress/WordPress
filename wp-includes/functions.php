@@ -83,6 +83,14 @@ function date_i18n($dateformatstring, $unixtimestamp) {
 	return $j;
 }
 
+function number_format_i18n($number, $decimals = null) {
+	global $wp_locale;
+	// let the user override the precision only
+	$decimals = is_null($decimals)? $wp_locale->number_format['decimals'] : intval($decimals);
+
+	return number_format($number, $decimals, $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep']);
+}
+
 function get_weekstartend($mysqlstring, $start_of_week) {
 	$my = substr($mysqlstring,0,4);
 	$mm = substr($mysqlstring,8,2);
