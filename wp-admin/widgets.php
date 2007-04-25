@@ -38,7 +38,7 @@ function wp_widget_draggable( $name ) {
 	
 	$output = '<li class="module" id="widgetprefix-%1$s"><span class="handle">%2$s</span></li>';
 	
-	printf( $output, $sanitized_name, $name . $popper );
+	printf( $output, $sanitized_name, $wp_registered_widgets[$name]['name'] . $popper );
 }
 
 $title = __( 'Widgets' );
