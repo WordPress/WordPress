@@ -123,9 +123,9 @@ if ( defined('CUSTOM_USER_META_TABLE') )
 	$wpdb->usermeta = CUSTOM_USER_META_TABLE;
 
 if ( file_exists(ABSPATH . 'wp-content/object-cache.php') )
-	require (ABSPATH . 'wp-content/object-cache.php');
+	require_once (ABSPATH . 'wp-content/object-cache.php');
 else
-	require (ABSPATH . WPINC . '/cache.php');
+	require_once (ABSPATH . WPINC . '/cache.php');
 
 wp_cache_init();
 
