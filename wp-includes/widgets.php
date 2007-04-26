@@ -488,7 +488,7 @@ function wp_widget_text_setup() {
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
 		update_option('widget_text', $options);
-		widget_text_register($options['number']);
+		wp_widget_text_register($options['number']);
 	}
 }
 
@@ -516,8 +516,8 @@ function wp_widget_text_register() {
 	for ($i = 1; $i <= 9; $i++) {
 		$name = sprintf(__('Text %d'), $i);
 		$id = "text-$i"; // Never never never translate an id
-		register_sidebar_widget($name, $i <= $number ? 'widget_text' : /* unregister */ '', null, $id, $i);
-		register_widget_control($name, $i <= $number ? 'widget_text_control' : /* unregister */ '', 460, 350, $id, $i);
+		register_sidebar_widget($name, $i <= $number ? 'wp_widget_text' : /* unregister */ '', null, $id, $i);
+		register_widget_control($name, $i <= $number ? 'wp_widget_text_control' : /* unregister */ '', 460, 350, $id, $i);
 	}
 	add_action('sidebar_admin_setup', 'wp_widget_text_setup');
 	add_action('sidebar_admin_page', 'wp_widget_text_page');
@@ -826,7 +826,7 @@ function wp_widget_rss_setup() {
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
 		update_option('widget_rss', $options);
-		widget_rss_register($options['number']);
+		wp_widget_rss_register($options['number']);
 	}
 }
 
@@ -854,8 +854,8 @@ function wp_widget_rss_register() {
 	for ($i = 1; $i <= 9; $i++) {
 		$name = sprintf(__('RSS %d'), $i);
 		$id = "rss-$i"; // Never never never translate an id
-		register_sidebar_widget($name, $i <= $number ? 'widget_rss' : /* unregister */ '', null, $id, $i);
-		register_widget_control($name, $i <= $number ? 'widget_rss_control' : /* unregister */ '', 410, 200, $id, $i);
+		register_sidebar_widget($name, $i <= $number ? 'wp_widget_rss' : /* unregister */ '', null, $id, $i);
+		register_widget_control($name, $i <= $number ? 'wp_widget_rss_control' : /* unregister */ '', 410, 200, $id, $i);
 	}
 	add_action('sidebar_admin_setup', 'wp_widget_rss_setup');
 	add_action('sidebar_admin_page', 'wp_widget_rss_page');
