@@ -308,7 +308,11 @@ function wp_widget_links($args) {
 		// This ONLY works with li/h2 sidebars.
 		get_links_list();
 	} else {
-		wp_list_bookmarks(array('title_before'=>$before_title, 'title_after'=>$after_title, 'show_images'=>true, 'class'=>'linkcat widget'));
+		wp_list_bookmarks(array(
+			'title_before' => $before_title, 'title_after' => $after_title, 
+			'category_before' => $before_widget, 'category_after' => $after_widget, 
+			'show_images' => true, 'class' => 'linkcat widget'
+		));
 	}
 }
 
