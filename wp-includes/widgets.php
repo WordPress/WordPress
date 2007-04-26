@@ -334,21 +334,32 @@ function wp_widget_archives($args) {
 	extract($args);
 	$options = get_option('widget_archives');
 	$c = $options['count'] ? '1' : '0';
+	$d = $options['dropdown'] ? '1' : '0';
 	$title = empty($options['title']) ? __('Archives') : $options['title'];
+
+	echo $before_widget; 
+	echo $before_title . $title . $after_title;
+
+	if($d) { 
 ?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title . $title . $after_title; ?>
-			<ul>
-			<?php wp_get_archives("type=monthly&show_post_count=$c"); ?>
-			</ul>
-		<?php echo $after_widget; ?>
+		<select name="archive-dropdown" onChange='document.location.href=this.options[this.selectedIndex].value;'> <?php wp_get_archives('type=monthly&format=option'); ?> </select>
+<?php	
+	} else { 
+?>
+		<ul>
+		<?php wp_get_archives("type=monthly&show_post_count=$c"); ?>
+		</ul>
 <?php
+	}
+
+	echo $after_widget; 
 }
 
 function wp_widget_archives_control() {
 	$options = $newoptions = get_option('widget_archives');
 	if ( $_POST["archives-submit"] ) {
 		$newoptions['count'] = isset($_POST['archives-count']);
+		$newoptions['dropdown'] = isset($_POST['archives-dropdown']);
 		$newoptions['title'] = strip_tags(stripslashes($_POST["archives-title"]));
 	}
 	if ( $options != $newoptions ) {
@@ -356,10 +367,12 @@ function wp_widget_archives_control() {
 		update_option('widget_archives', $options);
 	}
 	$count = $options['count'] ? 'checked="checked"' : '';
+	$dropdown = $options['dropdown'] ? 'checked="checked"' : '';
 	$title = htmlspecialchars($options['title'], ENT_QUOTES);
 ?>
 			<p><label for="archives-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="archives-title" name="archives-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<p style="text-align:right;margin-right:40px;"><label for="archives-count">Show post counts <input class="checkbox" type="checkbox" <?php echo $count; ?> id="archives-count" name="archives-count" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="archives-dropdown">Use drop down format <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="archives-dropdown" name="archives-dropdown" /></label></p>
 			<input type="hidden" id="archives-submit" name="archives-submit" value="1" />
 <?php
 }
@@ -515,15 +528,36 @@ function wp_widget_categories($args) {
 	$options = get_option('widget_categories');
 	$c = $options['count'] ? '1' : '0';
 	$h = $options['hierarchical'] ? '1' : '0';
+	$d = $options['dropdown'] ? '1' : '0';
 	$title = empty($options['title']) ? __('Categories') : $options['title'];
+
+	echo $before_widget;
+	echo $before_title . $title . $after_title; 
+
+	$cat_args = "sort_column=name&optioncount={$c}&hierarchical={$h}";
+
+	if($d) {
+		wp_dropdown_categories($cat_args);
 ?>
-		<?php echo $before_widget; ?>
-			<?php echo $before_title . $title . $after_title; ?>
-			<ul>
-			<?php wp_list_cats("sort_column=name&optioncount=$c&hierarchical=$h"); ?>
-			</ul>
-		<?php echo $after_widget; ?>
+
+<script lang='javascript'><!--
+    var dropdown = document.getElementById("cat");
+    function onCatChange() {
+        location.href = "?cat="+dropdown.options[dropdown.selectedIndex].value;
+    }
+    dropdown.onchange = onCatChange;
+--></script>
+
 <?php
+	} else {
+?>
+		<ul>
+		<?php wp_list_cats($cat_args); ?>
+		</ul>
+<?php
+	}
+
+	echo $after_widget;
 }
 
 function wp_widget_categories_control() {
@@ -531,6 +565,7 @@ function wp_widget_categories_control() {
 	if ( $_POST['categories-submit'] ) {
 		$newoptions['count'] = isset($_POST['categories-count']);
 		$newoptions['hierarchical'] = isset($_POST['categories-hierarchical']);
+		$newoptions['dropdown'] = isset($_POST['categories-dropdown']);
 		$newoptions['title'] = strip_tags(stripslashes($_POST['categories-title']));
 	}
 	if ( $options != $newoptions ) {
@@ -539,11 +574,13 @@ function wp_widget_categories_control() {
 	}
 	$count = $options['count'] ? 'checked="checked"' : '';
 	$hierarchical = $options['hierarchical'] ? 'checked="checked"' : '';
+	$dropdown = $options['dropdown'] ? 'checked="checked"' : '';
 	$title = wp_specialchars($options['title']);
 ?>
 			<p><label for="categories-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="categories-title" name="categories-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<p style="text-align:right;margin-right:40px;"><label for="categories-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="categories-count" name="categories-count" /></label></p>
 			<p style="text-align:right;margin-right:40px;"><label for="categories-hierarchical" style="text-align:right;"><?php _e('Show hierarchy'); ?> <input class="checkbox" type="checkbox" <?php echo $hierarchical; ?> id="categories-hierarchical" name="categories-hierarchical" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="categories-dropdown" style="text-align:right;"><?php _e('Use drop down format'); ?> <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="categories-dropdown" name="categories-dropdown" /></label></p>
 			<input type="hidden" id="categories-submit" name="categories-submit" value="1" />
 <?php
 }
