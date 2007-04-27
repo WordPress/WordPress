@@ -57,7 +57,7 @@ include('edit-form-advanced.php');
 <?php if ( $is_NS4 || $is_gecko || $is_winIE ) { ?>
 <div id="wp-bookmarklet" class="wrap">
 <h3><?php _e('WordPress Bookmarklet'); ?></h3>
-<p><?php _e('Right click on the following link and choose "Add to favorites" to create a posting shortcut.'); ?></p>
+<p><?php _e('Right click on the following link and choose &#0147;Bookmark This Link...&#0148; or &#0147;Add to Favorites...&#0148; to create a posting shortcut.'); ?></p>
 <p>
 
 <?php
