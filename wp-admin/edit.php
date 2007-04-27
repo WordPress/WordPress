@@ -196,7 +196,7 @@ foreach($posts_columns as $column_name=>$column_display_name) {
 	case 'comments':
 		?>
 		<td style="text-align: center">
-			<?php comments_number(__('0'), "<a href='edit.php?p=$id&amp;c=1'>" . __('1') . '</a>', "<a href='edit.php?p=$id&amp;c=1'>" . __('%') . '</a>') ?>
+			<?php comments_number("<a href='edit.php?p=$id&amp;c=1'>" . __('0') . '</a>', "<a href='edit.php?p=$id&amp;c=1'>" . __('1') . '</a>', "<a href='edit.php?p=$id&amp;c=1'>" . __('%') . '</a>') ?>
 			</td>
 		<?php
 		break;
