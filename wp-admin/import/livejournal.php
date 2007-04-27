@@ -49,7 +49,7 @@ class LJ_Import {
 
 			preg_match('|<eventtime>(.*?)</eventtime>|is', $post, $post_date);
 			$post_date = strtotime($post_date[1]);
-			$post_date = gmdate('Y-m-d H:i:s', $post_date);
+			$post_date = date('Y-m-d H:i:s', $post_date);
 
 			preg_match('|<event>(.*?)</event>|is', $post, $post_content);
 			$post_content = str_replace(array ('<![CDATA[', ']]>'), '', trim($post_content[1]));
