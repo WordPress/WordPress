@@ -91,7 +91,7 @@ case 'mac':
 <?php if ( $comment->comment_author_url ) { ?>
 <tr>
 <th scope="row"><?php _e('URL:'); ?></th>
-<td><?php echo $comment->comment_author_url; ?></td>
+<td><?php echo "<a href='$comment->comment_author_url'>$comment->comment_author_url</a>"; ?></td>
 </tr>
 <?php } ?>
 <tr>
