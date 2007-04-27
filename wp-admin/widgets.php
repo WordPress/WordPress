@@ -14,10 +14,15 @@ function wp_widgets_admin_head() {
 	define( 'WP_WIDGETS_WIDTH', 1 + 262 * ( count( $wp_registered_sidebars ) ) );
 	define( 'WP_WIDGETS_HEIGHT', 35 * ( count( $wp_registered_widgets ) ) );
 ?>
+	<link rel="stylesheet" href="widgets.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 	<style type="text/css">
-	<?php include dirname( __FILE__ ) . '/widgets.css'; ?>
+		.dropzone ul { height: <?php echo constant( 'WP_WIDGETS_HEIGHT' ); ?>px; }
+		#sbadmin #zones { width: <?php echo constant( 'WP_WIDGETS_WIDTH' ); ?>px; }
 	</style>
+<?php if ( ('rtl' == get_bloginfo('text_direction')) ) : ?>
+	<link rel="stylesheet" href="widgets-rtl.css?version=<?php bloginfo('version'); ?>" type="text/css" />
 <?php
+	endif;
 }
 
 add_action( 'admin_head', 'wp_widgets_admin_head' );
@@ -219,7 +224,7 @@ if ( isset( $_POST['action'] ) ) {
 			<div id="controls">
 			<?php foreach ( $wp_registered_widget_controls as $name => $widget ) { ?>
 				<div class="hidden" id="<?php echo $widget['id']; ?>control">
-					<span class="controlhandle"><?php echo $name; ?></span>
+					<span class="controlhandle"><?php echo $widget['name']; ?></span>
 					<span id="<?php echo $widget['id']; ?>closer" class="controlcloser">&#215;</span>
 					<div class="controlform">
 					<?php call_user_func_array( $widget['callback'], $widget['params'] ); ?>
