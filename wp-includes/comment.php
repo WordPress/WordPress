@@ -73,16 +73,20 @@ function get_approved_comments($post_id) {
 function &get_comment(&$comment, $output = OBJECT) {
 	global $comment_cache, $wpdb;
 
-	if ( empty($comment) )
-		return null;
-
-	if ( is_object($comment) ) {
+	if ( empty($comment) ) {
+		if ( isset($GLOBALS['comment']) )
+			$_comment = & $GLOBALS['comment'];
+		else
+			$_comment = null;
+	} elseif ( is_object($comment) ) {
 		if ( !isset($comment_cache[$comment->comment_ID]) )
 			$comment_cache[$comment->comment_ID] = &$comment;
 		$_comment = & $comment_cache[$comment->comment_ID];
 	} else {
 		$comment = (int) $comment;
-		if ( !isset($comment_cache[$comment]) ) {
+		if ( isset($GLOBALS['comment']) && ($GLOBALS['comment']->id == $comment) ) {
+			$_comment = & $GLOBALS['comment'];
+		} elseif ( !isset($comment_cache[$comment]) ) {
 			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment' LIMIT 1");
 			$comment_cache[$comment->comment_ID] = & $_comment;
 		} else {

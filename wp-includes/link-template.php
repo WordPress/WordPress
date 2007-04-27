@@ -296,7 +296,21 @@ function get_edit_post_link( $id = 0 ) {
 
 function edit_post_link( $link = 'Edit This', $before = '', $after = '' ) {
 	global $post;
-	
+
+	if ( $post->post_type == 'attachment' )
+		return;
+	elseif ( $post->post_type == 'page' ) {
+		if ( !current_user_can( 'edit_page', $post->ID ) )
+			return;
+		
+		$file = 'page';
+	} else {
+		if ( !current_user_can( 'edit_post', $post->ID ) )
+			return;
+		
+		$file = 'post';
+	}
+
 	$link = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . __( 'Edit post' ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_post_link', $link, $post->ID ) . $after;
 }
@@ -319,8 +333,17 @@ function get_edit_comment_link( $comment_id = 0 ) {
 }
 
 function edit_comment_link( $link = 'Edit This', $before = '', $after = '' ) {
-	global $comment;
-	
+	global $comment, $post;
+
+	if ( $post->post_type == 'attachment' )
+		return;
+	elseif ( $post->post_type == 'page' )
+		if ( !current_user_can( 'edit_page', $post->ID ) )
+			return;
+	else
+		if ( !current_user_can( 'edit_post', $post->ID ) )
+			return;
+
 	$link = '<a href="' . get_edit_comment_link( $comment->comment_ID ) . '" title="' . __( 'Edit comment' ) . '">' . $link . '</a>';
 	echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID ) . $after;
 }
