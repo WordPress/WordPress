@@ -84,7 +84,7 @@ function &get_comment(&$comment, $output = OBJECT) {
 		$_comment = & $comment_cache[$comment->comment_ID];
 	} else {
 		$comment = (int) $comment;
-		if ( isset($GLOBALS['comment']) && ($GLOBALS['comment']->id == $comment) ) {
+		if ( isset($GLOBALS['comment']) && ($GLOBALS['comment']->comment_ID == $comment) ) {
 			$_comment = & $GLOBALS['comment'];
 		} elseif ( !isset($comment_cache[$comment]) ) {
 			$_comment = $wpdb->get_row("SELECT * FROM $wpdb->comments WHERE comment_ID = '$comment' LIMIT 1");
