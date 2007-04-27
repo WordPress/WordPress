@@ -1,0 +1,39 @@
+#sbreset, #lastmodule, #palettediv .module, .dropzone, .dropzone ul { float: right; }
+
+* .module, #lastmodule { text-align: right; }
+
+* html #palettediv ul { padding: 0 10px 0 0; }
+
+#palettediv ul { padding: 0 10px 0 0; }
+
+* .handle, #lastmodule span {
+	border-right: 1px solid #f2f2f2;
+	border-left: 1px solid #e8e8e8;
+}
+
+#sbadmin p.submit {
+	padding-right: 0;
+	padding-left: 10px;
+	clear: right;
+}
+
+#palettediv .module, #lastmodule, .dropzone {
+	margin-right: auto;
+	margin-left: 10px;
+}
+
+* .popper {
+	right: auto;
+	left: 3px;
+	background-position: 5px 0;
+}
+
+.controlcloser {
+	right: auto;
+	left: 8px;
+}
+
+#shadow {
+	left: auto;
+	right: 0px;
+}
