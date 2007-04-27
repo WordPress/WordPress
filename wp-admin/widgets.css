@@ -3,7 +3,6 @@ body {
 }
 
 #sbadmin #zones {
-	width: <?php echo constant( 'WP_WIDGETS_WIDTH' ); ?>px;
 	-moz-user-select: none;
 	-khtml-user-select: none;
 	user-select: none;
@@ -30,7 +29,6 @@ body {
 .dropzone ul {
 	list-style-type: none;
 	width: 240px;
-	height: <?php echo constant( 'WP_WIDGETS_HEIGHT' ); ?>px;
 	float: left;
 	margin: 0;
 	padding: 0;
