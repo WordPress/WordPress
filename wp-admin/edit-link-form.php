@@ -80,15 +80,15 @@ function xfn_check($class, $value = '', $type = 'check') {
 <table class="editform" width="100%" cellspacing="2" cellpadding="5">
 <tr>
 <th scope="row" valign="top"><label for="link_name"><?php _e('Name:') ?></label></th>
-<td><input type="text" name="link_name" value="<?php echo $link->link_name; ?>" style="width: 95%" /></td>
+<td><input type="text" name="link_name" id="link_name" value="<?php echo $link->link_name; ?>" style="width: 95%" /></td>
 </tr>
 <tr>
 <th width="20%" scope="row" valign="top"><label for="link_url"><?php _e('Address:') ?></label></th>
-<td width="80%"><input type="text" name="link_url" value="<?php echo $link->link_url; if ( empty( $link->link_url ) ) echo 'http://'; ?>" style="width: 95%" /></td>
+<td width="80%"><input type="text" name="link_url" id="link_url" value="<?php echo $link->link_url; if ( empty( $link->link_url ) ) echo 'http://'; ?>" style="width: 95%" /></td>
 </tr>
 <tr>
 <th scope="row" valign="top"><label for="link_description"><?php _e('Description:') ?></label></th>
-<td><input type="text" name="link_description" value="<?php echo $link->link_description; ?>" style="width: 95%" /></td>
+<td><input type="text" name="link_description" id="link_description" value="<?php echo $link->link_description; ?>" style="width: 95%" /></td>
 </tr>
 </table>
 

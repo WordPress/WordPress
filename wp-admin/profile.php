@@ -46,16 +46,16 @@ $bookmarklet_height= 440;
 </label></p>
 
 <p><label><?php _e('First name:') ?><br />
-<input type="text" name="first_name" value="<?php echo $profileuser->first_name ?>" /></label></p>
+<input type="text" name="first_name" id="first_name" value="<?php echo $profileuser->first_name ?>" /></label></p>
 
 <p><label><?php _e('Last name:') ?><br />
-<input type="text" name="last_name"  value="<?php echo $profileuser->last_name ?>" /></label></p>
+<input type="text" name="last_name" id="last_name"  value="<?php echo $profileuser->last_name ?>" /></label></p>
 
 <p><label><?php _e('Nickname:') ?><br />
-<input type="text" name="nickname" value="<?php echo $profileuser->nickname ?>" /></label></p>
+<input type="text" name="nickname" id="nickname" value="<?php echo $profileuser->nickname ?>" /></label></p>
 
 <p><label><?php _e('Display name publicly as:') ?> <br />
-<select name="display_name">
+<select name="display_name" id="display_name">
 <option value="<?php echo $profileuser->display_name; ?>"><?php echo $profileuser->display_name; ?></option>
 <option value="<?php echo $profileuser->nickname ?>"><?php echo $profileuser->nickname ?></option>
 <option value="<?php echo $profileuser->user_login ?>"><?php echo $profileuser->user_login ?></option>
@@ -76,29 +76,29 @@ $bookmarklet_height= 440;
 <legend><?php _e('Contact Info'); ?></legend>
 
 <p><label><?php _e('E-mail: (required)') ?><br />
-<input type="text" name="email" value="<?php echo $profileuser->user_email ?>" /></label></p>
+<input type="text" name="email" id="email" value="<?php echo $profileuser->user_email ?>" /></label></p>
 
 <p><label><?php _e('Website:') ?><br />
-<input type="text" name="url" value="<?php echo $profileuser->user_url ?>" />
+<input type="text" name="url" id="url" value="<?php echo $profileuser->user_url ?>" />
 </label></p>
 
 <p><label><?php _e('AIM:') ?><br />
-<input type="text" name="aim" value="<?php echo $profileuser->aim ?>" />
+<input type="text" name="aim" id="aim" value="<?php echo $profileuser->aim ?>" />
 </label></p>
 
 <p><label><?php _e('Yahoo IM:') ?><br />
-<input type="text" name="yim" value="<?php echo $profileuser->yim ?>" />
+<input type="text" name="yim" id="yim" value="<?php echo $profileuser->yim ?>" />
 </label></p>
 
 <p><label><?php _e('Jabber / Google Talk:') ?><br />
-<input type="text" name="jabber" value="<?php echo $profileuser->jabber ?>" /></label>
+<input type="text" name="jabber" id="jabber" value="<?php echo $profileuser->jabber ?>" /></label>
 </p>
 </fieldset>
 <br clear="all" />
 <fieldset>
 <legend><?php _e('About Yourself'); ?></legend>
 <p class="desc"><?php _e('Share a little biographical information. '); ?></p>
-<p><textarea name="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea></p>
+<p><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description ?></textarea></p>
 </fieldset>
 
 <?php
@@ -109,10 +109,10 @@ if ( $show_password_fields ) :
 <legend><?php _e('Update Your Password'); ?></legend>
 <p class="desc"><?php _e('If you would like to change your password type a new one twice below. Otherwise leave this blank.'); ?></p>
 <p><label><?php _e('New Password:'); ?><br />
-<input type="password" name="pass1" size="16" value="" />
+<input type="password" name="pass1" id="pass1" size="16" value="" />
 </label></p>
 <p><label><?php _e('Type it one more time:'); ?><br />
-<input type="password" name="pass2" size="16" value="" />
+<input type="password" name="pass2" id="pass2" size="16" value="" />
 </label></p>
 </fieldset>
 <?php endif; ?>
