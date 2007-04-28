@@ -173,4 +173,5 @@ add_action('sanitize_comment_cookies', 'sanitize_comment_cookies');
 add_action('admin_print_scripts', 'wp_print_scripts', 20);
 add_action('mce_options', '_mce_set_direction');
 add_action('init', 'smilies_init', 5);
+add_action('init', 'wp_widgets_init', 1);
 ?>

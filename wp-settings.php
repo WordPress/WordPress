@@ -261,10 +261,6 @@ function shutdown_action_hook() {
 }
 register_shutdown_function('shutdown_action_hook');
 
-// widgets_init() BEFORE init, so plugins that launch on init can 
-// do stuff with default widgets
-wp_widgets_init();
-
 // Everything is loaded and initialized.
 do_action('init');
 
