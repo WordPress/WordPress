@@ -371,8 +371,8 @@ function wp_widget_archives_control() {
 	$title = htmlspecialchars($options['title'], ENT_QUOTES);
 ?>
 			<p><label for="archives-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="archives-title" name="archives-title" type="text" value="<?php echo $title; ?>" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="archives-count">Show post counts <input class="checkbox" type="checkbox" <?php echo $count; ?> id="archives-count" name="archives-count" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="archives-dropdown">Use drop down format <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="archives-dropdown" name="archives-dropdown" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="archives-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="archives-count" name="archives-count" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="archives-dropdown"><?php _e('Display as a drop down'); ?> <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="archives-dropdown" name="archives-dropdown" /></label></p>
 			<input type="hidden" id="archives-submit" name="archives-submit" value="1" />
 <?php
 }
@@ -580,7 +580,7 @@ function wp_widget_categories_control() {
 			<p><label for="categories-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="categories-title" name="categories-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<p style="text-align:right;margin-right:40px;"><label for="categories-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="categories-count" name="categories-count" /></label></p>
 			<p style="text-align:right;margin-right:40px;"><label for="categories-hierarchical" style="text-align:right;"><?php _e('Show hierarchy'); ?> <input class="checkbox" type="checkbox" <?php echo $hierarchical; ?> id="categories-hierarchical" name="categories-hierarchical" /></label></p>
-			<p style="text-align:right;margin-right:40px;"><label for="categories-dropdown" style="text-align:right;"><?php _e('Use drop down format'); ?> <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="categories-dropdown" name="categories-dropdown" /></label></p>
+			<p style="text-align:right;margin-right:40px;"><label for="categories-dropdown" style="text-align:right;"><?php _e('Display as a drop down'); ?> <input class="checkbox" type="checkbox" <?php echo $dropdown; ?> id="categories-dropdown" name="categories-dropdown" /></label></p>
 			<input type="hidden" id="categories-submit" name="categories-submit" value="1" />
 <?php
 }
@@ -871,7 +871,7 @@ function wp_widgets_init() {
 	register_sidebar_widget(__('Calendar'), 'wp_widget_calendar', null, 'calendar');
 	register_widget_control(__('Calendar'), 'wp_widget_calendar_control', 300, 90, 'calendar');
 	register_sidebar_widget(__('Archives'), 'wp_widget_archives', null, 'archives');
-	register_widget_control(__('Archives'), 'wp_widget_archives_control', 300, 90, 'archives');
+	register_widget_control(__('Archives'), 'wp_widget_archives_control', 300, 100, 'archives');
 	register_sidebar_widget(__('Links'), 'wp_widget_links', null, 'links');
 	register_sidebar_widget(__('Meta'), 'wp_widget_meta', null, 'meta');
 	register_widget_control(__('Meta'), 'wp_widget_meta_control', 300, 90, 'meta');
