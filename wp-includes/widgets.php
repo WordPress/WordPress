@@ -131,8 +131,8 @@ function register_widget_control($name, $control_callback, $width = 300, $height
 	$height = (int) $height > 60 ? (int) $height + 40 : 240;
 
 	if ( empty($control_callback) )
-		unset($wp_registered_widget_controls[$name]);
-	elseif ( !isset($wp_registered_widget_controls[$name]) || !$wp_register_widget_defaults )
+		unset($wp_registered_widget_controls[$id]);
+	elseif ( !isset($wp_registered_widget_controls[$id]) || !$wp_register_widget_defaults )
 		$wp_registered_widget_controls[$id] = array(
 			'name' => $name,
 			'id' => $id,
