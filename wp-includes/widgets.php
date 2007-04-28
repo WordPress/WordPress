@@ -81,7 +81,7 @@ function register_sidebar_widget($name, $output_callback, $classname = '', $id =
 	}
 
 	// Last resort -- this can be broken when names get translated so please provide a unique id.
-	if ( !isset($id) )
+	if ( empty($id) )
 		$id = sanitize_title($name);
 
 	if ( (!isset($classname) || empty($classname) || !is_string($classname)) && is_string($output_callback) )
@@ -122,7 +122,7 @@ function register_widget_control($name, $control_callback, $width = 300, $height
 			$name = $name[0];
 	}
 
-	if ( !isset($id) || empty($id) )
+	if ( empty($id) )
 		$id = $name;
 
 	$id = sanitize_title($id);
