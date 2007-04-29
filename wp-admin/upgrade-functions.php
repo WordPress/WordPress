@@ -175,6 +175,8 @@ function upgrade_all() {
 		upgrade_110();
 		upgrade_130();
 	}
+	
+	maybe_disable_automattic_widgets();
 
 	if ( $wp_current_db_version < 3308 )
 		upgrade_160();
@@ -1097,6 +1099,15 @@ function wp_check_mysql_version() {
 	$mysql_version = preg_replace('|[^0-9\.]|', '', @mysql_get_server_info());
 	if ( version_compare($mysql_version, '4.0.0', '<') )
 		die(sprintf(__('<strong>ERROR</strong>: WordPress %s requires MySQL 4.0.0 or higher'), $wp_version));
+}
+
+function maybe_disable_automattic_widgets() {
+	$plugins = __get_option( 'active_plugins' );
+	
+	if ( in_array( 'widgets/widgets.php', $plugins ) ) {
+		array_splice( $plugins, array_search( 'widgets/widgets.php', $plugins ), 1 );
+		update_option( 'active_plugins', $plugins );
+	}
 }
 
 ?>
