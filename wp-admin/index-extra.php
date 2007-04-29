@@ -7,10 +7,10 @@ require_once (ABSPATH . WPINC . '/rss.php');
 switch ( $_GET['jax'] ) {
 
 case 'incominglinks' :
-$rss = @fetch_rss('http://feeds.technorati.com/cosmos/rss/?url='. trailingslashit(get_option('home')) .'&partner=wordpress');
+$rss = @fetch_rss(apply_filters( 'dashboard_incoming_links_feed', 'http://feeds.technorati.com/cosmos/rss/?url='. trailingslashit(get_option('home')) .'&partner=wordpress' ));
 if ( isset($rss->items) && 1 < count($rss->items) ) { // Technorati returns a 1-item feed when it has no results
 ?>
-<h3><?php _e('Incoming Links'); ?> <cite><a href="http://www.technorati.com/search/<?php echo trailingslashit(get_option('home')); ?>?partner=wordpress"><?php _e('More &raquo;'); ?></a></cite></h3>
+<h3><?php _e('Incoming Links'); ?> <cite><a href="<?php echo apply_filters( 'dashboard_incoming_links_link', 'http://www.technorati.com/search/<?php echo trailingslashit(get_option('home')); ?>?partner=wordpress' ); ?>"><?php _e('More &raquo;'); ?></a></cite></h3>
 <ul>
 <?php
 $rss->items = array_slice($rss->items, 0, 10);
@@ -24,10 +24,10 @@ foreach ($rss->items as $item ) {
 break;
 
 case 'devnews' :
-$rss = @fetch_rss('http://wordpress.org/development/feed/');
+$rss = @fetch_rss(apply_filters( 'dashboard_primary_feed', 'http://wordpress.org/development/feed/' ));
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
-<h3><?php _e('WordPress Development Blog'); ?></h3>
+<h3><?php echo apply_filters( 'dashboard_primary_title', __('WordPress Development Blog') ); ?></h3>
 <?php
 $rss->items = array_slice($rss->items, 0, 3);
 foreach ($rss->items as $item ) {
@@ -43,10 +43,10 @@ foreach ($rss->items as $item ) {
 break;
 
 case 'planetnews' :
-$rss = @fetch_rss('http://planet.wordpress.org/feed/');
+$rss = @fetch_rss(apply_filters( 'dashboard_secondary_feed', 'http://planet.wordpress.org/feed/' ));
 if ( isset($rss->items) && 0 != count($rss->items) ) {
 ?>
-<h3><?php _e('Other WordPress News'); ?></h3>
+<h3><?php echo apply_filters( 'dashboard_secondary_title', __('Other WordPress News') ); ?></h3>
 <ul>
 <?php
 $rss->items = array_slice($rss->items, 0, 20);
@@ -60,7 +60,7 @@ $post = preg_replace( '|.+?:(.+)|s', '$1', $item['title'] );
 	}
 ?>
 </ul>
-<p class="readmore"><a href="http://planet.wordpress.org/"><?php _e('Read more'); ?> &raquo;</a></p>
+<p class="readmore"><a href="<?php echo apply_filters( 'dashboard_secondary_link', 'http://planet.wordpress.org/' ); ?>"><?php _e('Read more'); ?> &raquo;</a></p>
 <?php
 }
 break;
