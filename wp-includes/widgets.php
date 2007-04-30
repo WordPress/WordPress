@@ -534,7 +534,7 @@ function wp_widget_categories($args) {
 	echo $before_widget;
 	echo $before_title . $title . $after_title; 
 
-	$cat_args = "sort_column=name&optioncount={$c}&hierarchical={$h}";
+	$cat_args = "orderby=name&show_count={$c}&hierarchical={$h}";
 
 	if($d) {
 		wp_dropdown_categories($cat_args);
@@ -552,7 +552,7 @@ function wp_widget_categories($args) {
 	} else {
 ?>
 		<ul>
-		<?php wp_list_cats($cat_args); ?>
+		<?php wp_list_categories($cat_args); ?>
 		</ul>
 <?php
 	}
