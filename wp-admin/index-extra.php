@@ -10,7 +10,7 @@ case 'incominglinks' :
 $rss = @fetch_rss(apply_filters( 'dashboard_incoming_links_feed', 'http://feeds.technorati.com/cosmos/rss/?url='. trailingslashit(get_option('home')) .'&partner=wordpress' ));
 if ( isset($rss->items) && 1 < count($rss->items) ) { // Technorati returns a 1-item feed when it has no results
 ?>
-<h3><?php _e('Incoming Links'); ?> <cite><a href="<?php echo apply_filters( 'dashboard_incoming_links_link', 'http://www.technorati.com/search/<?php echo trailingslashit(get_option('home')); ?>?partner=wordpress' ); ?>"><?php _e('More &raquo;'); ?></a></cite></h3>
+<h3><?php _e('Incoming Links'); ?> <cite><a href="<?php echo apply_filters( 'dashboard_incoming_links_link', 'http://www.technorati.com/search/'. trailingslashit(get_option('home')) .'?partner=wordpress' ); ?>"><?php _e('More &raquo;'); ?></a></cite></h3>
 <ul>
 <?php
 $rss->items = array_slice($rss->items, 0, 10);
