@@ -1948,13 +1948,16 @@ function wp_handle_upload( &$file, $overrides = false ) {
 		return $upload_error_handler( $file, __( 'Specified file failed upload test.' ));
 
 	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
-	if ( $test_type && !current_user_can( 'unfiltered_upload' ) ) {
+	if ( $test_type ) {
 		$wp_filetype = wp_check_filetype( $file['name'], $mimes );
 
 		extract( $wp_filetype );
 
-		if ( !$type || !$ext )
+		if ( ( !$type || !$ext ) && !current_user_can( 'unfiltered_upload' ) )
 			return $upload_error_handler( $file, __( 'File type does not meet security guidelines. Try another.' ));
+		
+		if ( !$ext )
+			$ext = strrchr($file['name'], '.');
 	}
 
 	// A writable uploads dir will pass this test. Again, there's no point overriding this one.
