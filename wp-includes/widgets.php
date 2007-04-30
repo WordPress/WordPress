@@ -783,7 +783,7 @@ function wp_widget_rss_control($number) {
 	if ( $_POST["rss-submit-$number"] ) {
 		$newoptions[$number]['items'] = (int) $_POST["rss-items-$number"];
 		$url = strip_tags(stripslashes($_POST["rss-url-$number"]));
-		$newoptions[$number]['title'] = trim(strip_tags(stripslashes($_POST["rss-title-$number"])));print_r($_POST);
+		$newoptions[$number]['title'] = trim(strip_tags(stripslashes($_POST["rss-title-$number"])));
 		if ( $url !== $options[$number]['url'] ) {
 			require_once(ABSPATH . WPINC . '/rss.php');
 			$rss = fetch_rss_summary($url);
