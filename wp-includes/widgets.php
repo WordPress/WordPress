@@ -687,7 +687,7 @@ function wp_widget_recent_comments_control() {
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
 		update_option('widget_recent_comments', $options);
-		delete_recent_comments_cache();
+		wp_delete_recent_comments_cache();
 	}
 	$title = htmlspecialchars($options['title'], ENT_QUOTES);
 	if ( !$number = (int) $options['number'] )
