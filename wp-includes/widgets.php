@@ -44,7 +44,6 @@ function register_sidebar($args = array()) {
 
 	$defaults = array(
 		'name' => sprintf(__('Sidebar %d'), count($wp_registered_sidebars) + 1 ),
-		'id' => "sidebar-$i",
 		'before_widget' => '<li id="%1$s" class="widget %2$s">',
 		'after_widget' => "</li>\n",
 		'before_title' => '<h2 class="widgettitle">',
@@ -53,6 +52,7 @@ function register_sidebar($args = array()) {
 
 	$sidebar = array_merge($defaults, $args);
 
+	if ( ! isset($sidebar['id']) ) $sidebar['id'] = sanitize_title($sidebar['name']);
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
 
 	return $sidebar['id'];
