@@ -552,7 +552,7 @@ function wp_widget_categories($args) {
 	} else {
 ?>
 		<ul>
-		<?php wp_list_categories($cat_args); ?>
+		<?php wp_list_categories($cat_args . '&title_li='); ?>
 		</ul>
 <?php
 	}
