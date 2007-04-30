@@ -43,7 +43,8 @@ function register_sidebar($args = array()) {
 	$i = count($wp_registered_sidebars) + 1;
 
 	$defaults = array(
-		'name' => sprintf(__('Sidebar %d'), count($wp_registered_sidebars) + 1 ),
+		'name' => sprintf(__('Sidebar %d'), $i ),
+		'id' => "sidebar-$i",
 		'before_widget' => '<li id="%1$s" class="widget %2$s">',
 		'after_widget' => "</li>\n",
 		'before_title' => '<h2 class="widgettitle">',
@@ -52,7 +53,6 @@ function register_sidebar($args = array()) {
 
 	$sidebar = array_merge($defaults, $args);
 
-	if ( ! isset($sidebar['id']) ) $sidebar['id'] = sanitize_title($sidebar['name']);
 	$wp_registered_sidebars[$sidebar['id']] = $sidebar;
 
 	return $sidebar['id'];
@@ -220,7 +220,7 @@ endif;
 /* Internal Functions */
 
 function wp_get_sidebars_widgets($update = true) {
-	global $wp_registered_widgets;
+	global $wp_registered_widgets, $wp_registered_sidebars;
 
 	$sidebars_widgets = get_option('sidebars_widgets');
 	$_sidebars_widgets = array();
@@ -246,17 +246,37 @@ function wp_get_sidebars_widgets($update = true) {
 				unset($_sidebars_widgets[$index][$i]);
 			}
 			$_sidebars_widgets['array_version'] = 2;
-			if ( $update )
-				update_option('sidebars_widgets', $_sidebars_widgets);
-			break;
+			$sidebars_widgets = $_sidebars_widgets;
+			unset($_sidebars_widgets);
+
 		case 2 :
-			$_sidebars_widgets = $sidebars_widgets;
-			break;
+			$sidebars = array_keys( $wp_registered_sidebars );
+			if ( !empty( $sidebars ) ) {
+				// Move the known-good ones first
+				foreach ( $sidebars as $id ) {
+					if ( array_key_exists( $id, $sidebars_widgets ) ) {
+						$_sidebars_widgets[$id] = $sidebars_widgets[$id];
+						unset($sidebars_widgets[$id], $sidebars[$id]);
+					}
+				}
+
+				// Assign to each unmatched registered sidebar the first available orphan
+				unset( $sidebars_widgets[ 'array_version' ] );
+				while ( ( $sidebar = array_shift( $sidebars ) ) && $widgets = array_shift( $sidebars_widgets ) )
+					$_sidebars_widgets[ $sidebar ] = $widgets;
+
+				$_sidebars_widgets['array_version'] = 3;
+				$sidebars_widgets = $_sidebars_widgets;
+				unset($_sidebars_widgets);
+			}
+
+			if ( $update )
+				update_option('sidebars_widgets', $sidebars_widgets);
 	}
 
-	unset($_sidebars_widgets['array_version']);
+	unset($sidebars_widgets['array_version']);
 
-	return $_sidebars_widgets;
+	return $sidebars_widgets;
 }
 
 function wp_set_sidebars_widgets( $sidebars_widgets ) {
@@ -543,7 +563,7 @@ function wp_widget_categories($args) {
 <script lang='javascript'><!--
     var dropdown = document.getElementById("cat");
     function onCatChange() {
-        location.href = "?cat="+dropdown.options[dropdown.selectedIndex].value;
+        location.href = "<?php echo get_option('siteurl'); ?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
     }
     dropdown.onchange = onCatChange;
 --></script>
