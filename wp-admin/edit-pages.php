@@ -18,6 +18,8 @@ require_once('admin-header.php');
 	</fieldset>
 </form>
 
+<br style="clear:both;" />
+
 <?php
 wp('post_type=page&orderby=menu_order&what_to_show=posts&posts_per_page=-1&posts_per_archive_page=-1&order=asc');
 
