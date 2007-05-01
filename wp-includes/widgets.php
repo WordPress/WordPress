@@ -5,7 +5,7 @@
 	then bail out.
 */
 
-if ( function_exists( 'dynamic_sidebars' ) ) {
+if ( function_exists( 'dynamic_sidebar' ) ) {
 	return;
 }
 
