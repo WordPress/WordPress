@@ -518,7 +518,7 @@ function wp_widget_text_register() {
 	for ($i = 1; $i <= 9; $i++) {
 		$name = sprintf(__('Text %d'), $i);
 		$id = "text-$i"; // Never never never translate an id
-		register_sidebar_widget($name, $i <= $number ? 'wp_widget_text' : /* unregister */ '', null, $id, $i);
+		register_sidebar_widget($name, $i <= $number ? 'wp_widget_text' : /* unregister */ '', 'widget_text', $id, $i);
 		register_widget_control($name, $i <= $number ? 'wp_widget_text_control' : /* unregister */ '', 460, 350, $id, $i);
 	}
 	add_action('sidebar_admin_setup', 'wp_widget_text_setup');
@@ -856,7 +856,7 @@ function wp_widget_rss_register() {
 	for ($i = 1; $i <= 9; $i++) {
 		$name = sprintf(__('RSS %d'), $i);
 		$id = "rss-$i"; // Never never never translate an id
-		register_sidebar_widget($name, $i <= $number ? 'wp_widget_rss' : /* unregister */ '', null, $id, $i);
+		register_sidebar_widget($name, $i <= $number ? 'wp_widget_rss' : /* unregister */ '', 'widget_rss', $id, $i);
 		register_widget_control($name, $i <= $number ? 'wp_widget_rss_control' : /* unregister */ '', 410, 200, $id, $i);
 	}
 	add_action('sidebar_admin_setup', 'wp_widget_rss_setup');
@@ -868,19 +868,19 @@ function wp_widgets_init() {
 
 	$wp_register_widget_defaults = true;
 
-	register_sidebar_widget(__('Pages'), 'wp_widget_pages', null, 'pages');
+	register_sidebar_widget(__('Pages'), 'wp_widget_pages', 'widget_pages', 'pages');
 	register_widget_control(__('Pages'), 'wp_widget_pages_control', 300, 90, 'pages');
-	register_sidebar_widget(__('Calendar'), 'wp_widget_calendar', null, 'calendar');
+	register_sidebar_widget(__('Calendar'), 'wp_widget_calendar', 'widget_calendar', 'calendar');
 	register_widget_control(__('Calendar'), 'wp_widget_calendar_control', 300, 90, 'calendar');
-	register_sidebar_widget(__('Archives'), 'wp_widget_archives', null, 'archives');
+	register_sidebar_widget(__('Archives'), 'wp_widget_archives', 'widget_archives', 'archives');
 	register_widget_control(__('Archives'), 'wp_widget_archives_control', 300, 100, 'archives');
-	register_sidebar_widget(__('Links'), 'wp_widget_links', null, 'links');
-	register_sidebar_widget(__('Meta'), 'wp_widget_meta', null, 'meta');
+	register_sidebar_widget(__('Links'), 'wp_widget_links', 'widget_links', 'links');
+	register_sidebar_widget(__('Meta'), 'wp_widget_meta', 'widget_meta', 'meta');
 	register_widget_control(__('Meta'), 'wp_widget_meta_control', 300, 90, 'meta');
-	register_sidebar_widget(__('Search'), 'wp_widget_search', null, 'search');
-	register_sidebar_widget(__('Categories'), 'wp_widget_categories', null, 'categories');
+	register_sidebar_widget(__('Search'), 'wp_widget_search', 'widget_search', 'search');
+	register_sidebar_widget(__('Categories'), 'wp_widget_categories', 'widget_categories', 'categories');
 	register_widget_control(__('Categories'), 'wp_widget_categories_control', 300, 150, 'categories');
-	register_sidebar_widget(__('Recent Posts'), 'wp_widget_recent_entries', null, 'recent-posts');
+	register_sidebar_widget(__('Recent Posts'), 'wp_widget_recent_entries', 'widget_recent_entries', 'recent-posts');
 	register_widget_control(__('Recent Posts'), 'wp_widget_recent_entries_control', 300, 90, 'recent-posts');
 	wp_widget_text_register();
 	wp_widget_rss_register();
