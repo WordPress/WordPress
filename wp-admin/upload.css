@@ -44,6 +44,7 @@ body > #upload-menu { border-bottom: 7px solid #fff; }
 }
 
 #upload-menu li #current-tab-nav {
+	background: #f9fcfe;
 	float: left;
 	padding: 5px 5px 0 0;
 	margin-left: -5px;
