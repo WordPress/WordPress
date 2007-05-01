@@ -1,14 +1,5 @@
 <?php
 
-/*
-	Check if another widget plugin is active. If this is so, 
-	then bail out.
-*/
-
-if ( function_exists( 'dynamic_sidebar' ) ) {
-	return;
-}
-
 /* Global Variables */
 
 global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_styles, $wp_registered_widget_defaults;
