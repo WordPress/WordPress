@@ -1,6 +1,17 @@
 <?php
 
+/*
+	Check if another widget plugin is active. If this is so, 
+	then bail out.
+*/
+
+if ( function_exists( 'dynamic_sidebars' ) ) {
+	return;
+}
+
 /* Global Variables */
+
+global $wp_registered_sidebars, $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_styles, $wp_registered_widget_defaults;
 
 $wp_registered_sidebars = array();
 $wp_registered_widgets = array();
@@ -10,7 +21,6 @@ $wp_register_widget_defaults = false;
 
 /* Template tags & API functions */
 
-if ( !function_exists( 'register_sidebars' ) ):
 function register_sidebars($number = 1, $args = array()) {
 	$number = (int) $number;
 
@@ -31,9 +41,7 @@ function register_sidebars($number = 1, $args = array()) {
 		++$i;
 	}
 }
-endif;
 
-if ( !function_exists( 'register_sidebar' ) ):
 function register_sidebar($args = array()) {
 	global $wp_registered_sidebars;
 
@@ -57,18 +65,14 @@ function register_sidebar($args = array()) {
 
 	return $sidebar['id'];
 }
-endif;
 
-if ( !function_exists( 'unregister_sidebar' ) ):
 function unregister_sidebar( $name ) {
 	global $wp_registered_sidebars;
 		
 	if ( isset( $wp_registered_sidebars[$name] ) )
 		unset( $wp_registered_sidebars[$name] );
 }
-endif;
 
-if ( !function_exists( 'register_sidebar_widget' ) ):
 function register_sidebar_widget($name, $output_callback, $classname = '', $id = '') {
 	global $wp_registered_widgets, $wp_register_widget_defaults;
 
@@ -100,17 +104,13 @@ function register_sidebar_widget($name, $output_callback, $classname = '', $id =
 	elseif ( is_callable($output_callback) && ( !isset($wp_registered_widgets[$id]) || !$wp_register_widget_defaults) )
 		$wp_registered_widgets[$id] = $widget;
 }
-endif;
 
-if ( !function_exists( 'unregister_sidebar_widget' ) ):
 function unregister_sidebar_widget($id) {
 	$id = sanitize_title($id);
 	register_sidebar_widget('', '', '', $id);
 	unregister_widget_control($id);
 }
-endif;
 
-if ( !function_exists( 'register_widget_control' ) ):
 function register_widget_control($name, $control_callback, $width = 300, $height = 200, $id = '') {
 	global $wp_registered_widget_controls, $wp_register_widget_defaults;
 
@@ -142,16 +142,12 @@ function register_widget_control($name, $control_callback, $width = 300, $height
 			'params' => array_slice(func_get_args(), 5)
 		);
 }
-endif;
 
-if ( !function_exists( 'unregister_widget_control' ) ):
 function unregister_widget_control($id) {
 	$id = sanitize_title($id);
 	return register_widget_control($id, '');
 }
-endif;
 
-if ( !function_exists( 'dynamic_sidebar' ) ):
 function dynamic_sidebar($index = 1) {
 	global $wp_registered_sidebars, $wp_registered_widgets;
 
@@ -185,9 +181,7 @@ function dynamic_sidebar($index = 1) {
 
 	return $did_one;
 }
-endif;
 
-if ( !function_exists( 'is_active_widget' ) ):
 function is_active_widget($callback) {
 	global $wp_registered_widgets;
 
@@ -200,9 +194,7 @@ function is_active_widget($callback) {
 
 	return false;
 }
-endif;
 
-if ( !function_exists( 'is_dynamic_sidebar' ) ):
 function is_dynamic_sidebar() {
 	global $wp_registered_widgets, $wp_registered_sidebars;
 	$sidebars_widgets = get_option('sidebars_widgets');
@@ -215,7 +207,6 @@ function is_dynamic_sidebar() {
 	}
 	return false;
 }
-endif;
 
 /* Internal Functions */
 
@@ -908,5 +899,7 @@ function wp_widgets_init() {
 
 	do_action('widgets_init');
 }
+
+add_action('init', 'wp_widgets_init', 1);
 
 ?>

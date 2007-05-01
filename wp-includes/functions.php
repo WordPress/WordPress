@@ -1468,4 +1468,8 @@ function smilies_init() {
 	}
 }
 
+function wp_load_widgets() {
+	require_once ABSPATH . WPINC . '/widgets.php';
+}
+
 ?>
