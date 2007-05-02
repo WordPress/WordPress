@@ -84,7 +84,7 @@
 	if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
 		$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
 
-	if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
+	if ((in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler') {
 		$enc = in_array('x-gzip', $encodings) ? "x-gzip" : "gzip";
 		$supportsGzip = true;
 	}
