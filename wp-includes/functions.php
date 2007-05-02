@@ -1477,10 +1477,11 @@ function smilies_init() {
 		);
 	}
 
+	$siteurl = get_option('siteurl');
 	foreach ( (array) $wpsmiliestrans as $smiley => $img ) {
 		$wp_smiliessearch[] = '/(\s|^)'.preg_quote($smiley, '/').'(\s|$)/';
 		$smiley_masked = htmlspecialchars(trim($smiley), ENT_QUOTES);
-		$wp_smiliesreplace[] = " <img src='" . get_option('siteurl') . "/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
+		$wp_smiliesreplace[] = " <img src='$siteurl/wp-includes/images/smilies/$img' alt='$smiley_masked' class='wp-smiley' /> ";
 	}
 }
 
