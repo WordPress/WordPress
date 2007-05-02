@@ -34,7 +34,9 @@ if (!CUSTOM_TAGS) {
 		'b' => array(), 
 		'big' => array(), 
 		'blockquote' => array(
-			'cite' => array()
+			'cite' => array(), 
+			'xml:lang' => array(), 
+			'lang' => array()
 			), 
 		'br' => array(), 
 		'button' => array(
@@ -55,7 +57,9 @@ if (!CUSTOM_TAGS) {
 			), 
 		'dd' => array(), 
 		'div' => array(
-			'align' => array()
+			'align' => array(), 
+			'xml:lang' => array(), 
+			'lang' => array()
 			), 
 		'dl' => array(), 
 		'dt' => array(), 
@@ -113,7 +117,9 @@ if (!CUSTOM_TAGS) {
 			), 
 		'li' => array(), 
 		'p' => array(
-			'align' => array()
+			'align' => array(), 
+			'xml:lang' => array(), 
+			'lang' => array()
 			), 
 		'pre' => array(
 			'width' => array()
