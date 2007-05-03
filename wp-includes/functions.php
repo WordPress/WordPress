@@ -1472,11 +1472,13 @@ function smilies_init() {
 function wp_maybe_load_widgets() {
 	if ( !function_exists( 'dynamic_sidebar' ) ) {
 		require_once ABSPATH . WPINC . '/widgets.php';
-		
-		if ( strpos( $_SERVER['REQUEST_URI'], 'wp-admin' ) !== false && isset( $GLOBALS['submenu'] ) ) {
-			$GLOBALS['submenu']['themes.php'][7] = array( __( 'Widgets' ), 'edit_themes', 'widgets.php' );
-		}
+		add_action( 'admin_head', 'wp_widgets_admin_page' );
 	}
+}
+
+function wp_widgets_admin_page() {
+	global $submenu;
+	$submenu['themes.php'][7] = array( __( 'Widgets' ), 'edit_themes', 'widgets.php' );
 }
 
 ?>
