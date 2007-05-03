@@ -721,6 +721,7 @@ function get_nested_categories( $default = 0, $parent = 0 ) {
 		}
 	}
 
+	$result = apply_filters('get_nested_categories', $result);
 	usort( $result, 'sort_cats' );
 
 	return $result;
