@@ -1506,6 +1506,10 @@ function wp_parse_args( $args, $defaults = '' ) {
 function wp_maybe_load_widgets() {
 	if ( !function_exists( 'dynamic_sidebar' ) ) {
 		require_once ABSPATH . WPINC . '/widgets.php';
+		
+		if ( strpos( $_SERVER['REQUEST_URI'], 'wp-admin' ) !== false && isset( $GLOBALS['submenu'] ) ) {
+			$GLOBALS['submenu']['themes.php'][7] = array( __( 'Widgets' ), 'edit_themes', 'widgets.php' );
+		}
 	}
 }
 
