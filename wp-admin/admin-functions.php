@@ -1355,6 +1355,7 @@ function get_page_templates() {
 
 function page_template_dropdown( $default = '' ) {
 	$templates = get_page_templates();
+	ksort( $templates );
 	foreach (array_keys( $templates ) as $template )
 		: if ( $default == $templates[$template] )
 			$selected = " selected='selected'";
