@@ -182,7 +182,7 @@ document.write('<ul><li><a href="javascript:markAllForApprove()"><?php _e('Mark 
 
 <noscript>
 	<p>
-		<input name="feelinglucky" type="checkbox" id="feelinglucky" value="true" /> <label for="feelinglucky"><?php _e('Delete every comment marked "defer." <strong>Warning: This can&#8217;t be undone.</strong>'); ?></label>
+		<input name="feelinglucky" type="checkbox" id="feelinglucky" value="true" /> <label for="feelinglucky"><?php _e('Delete every comment marked &#8220;defer.&#8221; <strong>Warning: This can&#8217;t be undone.</strong>'); ?></label>
 	</p>
 </noscript>
 </form>
