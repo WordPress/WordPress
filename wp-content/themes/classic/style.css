@@ -48,9 +48,9 @@ blockquote {
 
 body {
 	background: #fff;
-	border: solid 2px #565;
-	border-bottom: solid 1px #565;
-	border-top: solid 3px #565;
+	border: 2px solid #565;
+	border-bottom: 1px solid #565;
+	border-top: 3px solid #565;
 	color: #000;
 	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
 	margin: 0;
@@ -71,7 +71,7 @@ h2 {
 }
 
 h3 {
-	border-bottom: dotted 1px #eee;
+	border-bottom: 1px dotted #eee;
 	font-family: "Times New Roman", Times, serif;
 	margin-top: 0;
 }
@@ -96,7 +96,7 @@ ul.post-meta span.post-meta-key {
 
 .credit {
 	background: #90a090;
-	border-top: double 3px #aba;
+	border-top: 3px double #aba;
 	color: #fff;
 	font-size: 11px;
 	margin: 10px 0 0 0;
@@ -166,10 +166,10 @@ ul.post-meta span.post-meta-key {
 
 #header {
 	background: #90a090;
-	border-bottom: double 3px #aba;
-	border-left: solid 1px #9a9;
-	border-right: solid 1px #565;
-	border-top: solid 1px #9a9;
+	border-bottom: 3px double #aba;
+	border-left: 1px solid #9a9;
+	border-right: 1px solid #565;
+	border-top: 1px solid #9a9;
 	font: italic normal 230% 'Times New Roman', Times, serif;
 	letter-spacing: 0.2em;
 	margin: 0;
@@ -188,7 +188,7 @@ ul.post-meta span.post-meta-key {
 #menu {
 	background: #fff;
 	border-left: 1px dotted #ccc;
-	border-top: solid 3px #e0e6e0;
+	border-top: 3px solid #e0e6e0;
 	padding: 20px 0 10px 30px;
 	position: absolute;
 	right: 2px;
