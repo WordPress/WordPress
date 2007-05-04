@@ -2,6 +2,9 @@
 
 require_once 'admin.php';
 
+if ( ! current_user_can('edit_themes') )
+	wp_die( __( 'Cheatin&#8217; uh?' ));
+
 wp_enqueue_script( 'scriptaculous-effects' );
 wp_enqueue_script( 'scriptaculous-dragdrop' );
 
@@ -350,11 +353,7 @@ if ( isset( $_POST['action'] ) ) {
 			</script>
 		
 			<p class="submit">
-			<?php
-				if ( function_exists( 'wp_nonce_field' ) ) {
-					wp_nonce_field( 'widgets-save-widget-order' );
-				}
-			?>
+			<?php wp_nonce_field( 'widgets-save-widget-order' ); ?>
 				<input type="hidden" name="action" id="action" value="save_widget_order" />
 				<input type="submit" value="<?php _e( 'Save Changes &raquo;' ); ?>" />
 			</p>
