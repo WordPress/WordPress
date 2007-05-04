@@ -26,7 +26,7 @@ if (!CUSTOM_TAGS) {
 			'name' => array()
 			), 
 		'abbr' => array(
-			'title' => array()
+			'title' => array(), 'class' => array()
 			), 
 		'acronym' => array(
 			'title' => array()
@@ -34,8 +34,7 @@ if (!CUSTOM_TAGS) {
 		'b' => array(), 
 		'big' => array(), 
 		'blockquote' => array(
-			'cite' => array(), 
-			'xml:lang' => array(), 
+			'cite' => array(), 'xml:lang' => array(), 
 			'lang' => array()
 			), 
 		'br' => array(), 
@@ -57,8 +56,7 @@ if (!CUSTOM_TAGS) {
 			), 
 		'dd' => array(), 
 		'div' => array(
-			'align' => array(), 
-			'xml:lang' => array(), 
+			'align' => array(), 'xml:lang' => array(), 
 			'lang' => array()
 			), 
 		'dl' => array(), 
@@ -117,8 +115,7 @@ if (!CUSTOM_TAGS) {
 			), 
 		'li' => array(), 
 		'p' => array(
-			'align' => array(), 
-			'xml:lang' => array(), 
+			'align' => array(), 'xml:lang' => array(), 
 			'lang' => array()
 			), 
 		'pre' => array(
