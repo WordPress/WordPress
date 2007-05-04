@@ -344,7 +344,7 @@ function wp_widget_archives($args) {
 
 	if($d) { 
 ?>
-		<select name="archive-dropdown" onChange='document.location.href=this.options[this.selectedIndex].value;'> <?php wp_get_archives('type=monthly&format=option'); ?> </select>
+		<select name="archive-dropdown" onChange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php _e('Select Month'); ?></option> <?php wp_get_archives('type=monthly&format=option'); ?> </select>
 <?php	
 	} else { 
 ?>
@@ -539,13 +539,15 @@ function wp_widget_categories($args) {
 	$cat_args = "orderby=name&show_count={$c}&hierarchical={$h}";
 
 	if($d) {
-		wp_dropdown_categories($cat_args);
+		wp_dropdown_categories($cat_args . '&show_option_none= ' . __('Select Category'));
 ?>
 
 <script lang='javascript'><!--
     var dropdown = document.getElementById("cat");
     function onCatChange() {
-        location.href = "<?php echo get_option('siteurl'); ?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
+		if ( dropdown.options[dropdown.selectedIndex].value > 0 ) {
+	        location.href = "<?php echo get_option('siteurl'); ?>/?cat="+dropdown.options[dropdown.selectedIndex].value;
+		}
     }
     dropdown.onchange = onCatChange;
 --></script>
