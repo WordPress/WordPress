@@ -23,6 +23,7 @@ class Custom_Image_Header {
 	function js() {
 
 		if ( isset( $_POST['textcolor'] ) ) {
+			check_admin_referer('custom-header');
 			if ( 'blank' == $_POST['textcolor'] ) {
 				set_theme_mod('header_textcolor', 'blank');
 			} else {
@@ -31,8 +32,10 @@ class Custom_Image_Header {
 					set_theme_mod('header_textcolor', $color);
 			}
 		}
-		if ( isset($_POST['resetheader']) )
+		if ( isset($_POST['resetheader']) ) {
+			check_admin_referer('custom-header');
 			remove_theme_mods();
+		}
 	?>
 <script type="text/javascript">
 
@@ -157,7 +160,7 @@ Event.observe( window, 'load', hide_text );
 <h2><?php _e('Your Header Image'); ?></h2>
 <p><?php _e('This is your header image. You can change the text color or upload and crop a new image.'); ?></p>
 
-<div id="headimg" style="background: url(<?php header_image() ?>) no-repeat;">
+<div id="headimg" style="background: url(<?php clean_url(header_image()) ?>) no-repeat;">
 <h1><a onclick="return false;" href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>" id="name"><?php bloginfo('name'); ?></a></h1>
 <div id="desc"><?php bloginfo('description');?></div>
 </div>
@@ -165,7 +168,8 @@ Event.observe( window, 'load', hide_text );
 <form method="post" action="<?php echo get_option('siteurl') ?>/wp-admin/themes.php?page=custom-header&amp;updated=true">
 <input type="button" value="<?php _e('Hide Text'); ?>" onclick="hide_text()" id="hidetext" />
 <input type="button" value="<?php _e('Select a Text Color'); ?>" onclick="colorSelect($('textcolor'), 'pickcolor')" id="pickcolor" /><input type="button" value="<?php _e('Use Original Color'); ?>" onclick="colorDefault()" id="defaultcolor" />
-<input type="hidden" name="textcolor" id="textcolor" value="#<?php header_textcolor() ?>" /><input name="submit" type="submit" value="<?php _e('Save Changes'); ?> &raquo;" /></form>
+<?php wp_nonce_field('custom-header') ?>
+<input type="hidden" name="textcolor" id="textcolor" value="#<?php attribute_escape(header_textcolor()) ?>" /><input name="submit" type="submit" value="<?php _e('Save Changes'); ?> &raquo;" /></form>
 <?php } ?>
 
 <div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;visibility:hidden;"> </div>
@@ -177,6 +181,7 @@ Event.observe( window, 'load', hide_text );
 <form enctype="multipart/form-data" id="uploadForm" method="POST" action="<?php echo attribute_escape(add_query_arg('step', 2)) ?>" style="margin: auto; width: 50%;">
 <label for="upload"><?php _e('Choose an image from your computer:'); ?></label><br /><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
+<?php wp_nonce_field('custom-header') ?>
 <p class="submit">
 <input type="submit" value="<?php _e('Upload'); ?> &raquo;" />
 </p>
@@ -197,6 +202,7 @@ Event.observe( window, 'load', hide_text );
 	}
 
 	function step_2() {
+		check_admin_referer('custom-header');
 		$overrides = array('test_form' => false);
 		$file = wp_handle_upload($_FILES['import'], $overrides);
 
@@ -222,7 +228,7 @@ Event.observe( window, 'load', hide_text );
 		list($width, $height, $type, $attr) = getimagesize( $file );
 
 		if ( $width == HEADER_IMAGE_WIDTH && $height == HEADER_IMAGE_HEIGHT ) {
-			set_theme_mod('header_image', $url);
+			set_theme_mod('header_image', clean_url($url));
 			$header = apply_filters('wp_create_file_in_uploads', $file, $id); // For replication
 			return $this->finished();
 		} elseif ( $width > HEADER_IMAGE_WIDTH ) {
@@ -256,6 +262,7 @@ Event.observe( window, 'load', hide_text );
 <input type="hidden" name="height" id="height" />
 <input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo $id; ?>" />
 <input type="hidden" name="oitar" id="oitar" value="<?php echo $oitar; ?>" />
+<?php wp_nonce_field('custom-header') ?>
 <input type="submit" value="<?php _e('Crop Header &raquo;'); ?>" />
 </p>
 
@@ -265,6 +272,7 @@ Event.observe( window, 'load', hide_text );
 	}
 
 	function step_3() {
+		check_admin_referer('custom-header');
 		if ( $_POST['oitar'] > 1 ) {
 			$_POST['x1'] = $_POST['x1'] * $_POST['oitar'];
 			$_POST['y1'] = $_POST['y1'] * $_POST['oitar'];
