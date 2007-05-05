@@ -671,7 +671,15 @@ function get_alloptions_110() {
 // Version of get_option that is private to install/upgrade.
 function __get_option($setting) {
 	global $wpdb;
-
+	
+	if ( $setting == 'home' && defined( 'WP_HOME' ) ) {
+		return preg_replace( '|/+$|', '', constant( 'WP_HOME' ) );
+	}
+	
+	if ( $setting == 'siteurl' && defined( 'WP_SITEURL' ) ) {
+		return preg_replace( '|/+$|', '', constant( 'WP_SITEURL' ) );
+	}
+	
 	$option = $wpdb->get_var("SELECT option_value FROM $wpdb->options WHERE option_name = '$setting'");
 
 	if ( 'home' == $setting && '' == $option )
