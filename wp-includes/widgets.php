@@ -64,9 +64,7 @@ function unregister_sidebar( $name ) {
 		unset( $wp_registered_sidebars[$name] );
 }
 
-function register_sidebar_widget($name, $output_callback, $classname = '', $id = '') {
-	global $wp_registered_widgets, $wp_register_widget_defaults;
-
+function register_sidebar_widget($name, $output_callback, $classname = '') {
 	// Compat
 	if ( is_array($name) ) {
 		if ( count($name) == 3 )
@@ -75,36 +73,53 @@ function register_sidebar_widget($name, $output_callback, $classname = '', $id =
 			$name = $name[0];
 	}
 
-	// Last resort -- this can be broken when names get translated so please provide a unique id.
-	if ( empty($id) )
-		$id = sanitize_title($name);
+	$id = sanitize_title($name);
+	$options = array();
+	if ( !empty($classname) )
+		$options['classname'] = $classname;
+	$params = array_slice(func_get_args(), 3);
+	$args = array($id, $name, $output_callback, $options);
+	if ( !empty($params) )
+		$args = array_merge($args, $params);
 
-	if ( (!isset($classname) || empty($classname) || !is_string($classname)) && is_string($output_callback) )
-			$classname = $output_callback;
+	call_user_func_array('wp_register_sidebar_widget', $args);
+}
 
+function wp_register_sidebar_widget($id, $name, $output_callback, $options = array()) {
+
+	global $wp_registered_widgets, $wp_register_widget_defaults;
+
+	$id = sanitize_title($id);
+
+	if ( empty($output_callback) ) {
+		unset($wp_registered_widgets[$id]);
+		return;
+	}
+
+	$defaults = array('classname' => $output_callback);
+	$options = wp_parse_args($options, $defaults);
 	$widget = array(
 		'name' => $name,
 		'id' => $id,
 		'callback' => $output_callback,
-		'classname' => $classname,
 		'params' => array_slice(func_get_args(), 4)
 	);
+	$widget = array_merge($widget, $options);
 
-	if ( empty($output_callback) )
-		unset($wp_registered_widgets[$id]);
-	elseif ( is_callable($output_callback) && ( !isset($wp_registered_widgets[$id]) || !$wp_register_widget_defaults) )
+	if ( is_callable($output_callback) && ( !isset($wp_registered_widgets[$id]) || !$wp_register_widget_defaults) )
 		$wp_registered_widgets[$id] = $widget;
 }
 
 function unregister_sidebar_widget($id) {
-	$id = sanitize_title($id);
-	register_sidebar_widget('', '', '', $id);
-	unregister_widget_control($id);
+	return wp_unregister_sidebar_widget($id);
 }
 
-function register_widget_control($name, $control_callback, $width = 300, $height = 200, $id = '') {
-	global $wp_registered_widget_controls, $wp_register_widget_defaults;
+function wp_unregister_sidebar_widget($id) {
+	wp_register_sidebar_widget($id, '', '');
+	wp_unregister_widget_control($id);
+}
 
+function register_widget_control($name, $control_callback, $width = '', $height = '') {
 	// Compat
 	if ( is_array($name) ) {
 		if ( count($name) == 3 )
@@ -113,30 +128,57 @@ function register_widget_control($name, $control_callback, $width = 300, $height
 			$name = $name[0];
 	}
 
-	if ( empty($id) )
-		$id = $name;
+	$id = sanitize_title($name);
+	$options = array();
+	if ( !empty($width) )
+		$options['width'] = $width;
+	if ( !empty($height) )
+		$options['height'] = $height;
+	$params = array_slice(func_get_args(), 4);
+	$args = array($id, $name, $control_callback, $options);
+	if ( !empty($params) )
+		$args = array_merge($args, $params);
+
+	call_user_func_array('wp_register_widget_control', $args);
+}
+
+function wp_register_widget_control($id, $name, $control_callback, $options = array()) {
+	global $wp_registered_widget_controls, $wp_register_widget_defaults;
 
 	$id = sanitize_title($id);
 
-	$width = (int) $width > 90 ? (int) $width + 60 : 360;
-	$height = (int) $height > 60 ? (int) $height + 40 : 240;
-
-	if ( empty($control_callback) )
+	if ( empty($control_callback) ) {
 		unset($wp_registered_widget_controls[$id]);
-	elseif ( !isset($wp_registered_widget_controls[$id]) || !$wp_register_widget_defaults )
-		$wp_registered_widget_controls[$id] = array(
-			'name' => $name,
-			'id' => $id,
-			'callback' => $control_callback,
-			'width' => $width,
-			'height' => $height,
-			'params' => array_slice(func_get_args(), 5)
-		);
+		return;
+	}
+
+	if ( isset($wp_registered_widget_controls[$id]) && $wp_register_widget_defaults )
+		return;
+
+	$defaults = array('width' => 300, 'height' => 200);
+	$options = wp_parse_args($options, $defaults);
+	$options['width'] = (int) $options['width'];
+	$options['height'] = (int) $options['height'];
+	$options['width'] = $options['width'] > 90 ? $options['width'] + 60 : 360;
+	$options['height'] = $options['height'] > 60 ? $options['height'] + 40 : 240;
+
+	$widget = array(
+		'name' => $name,
+		'id' => $id,
+		'callback' => $control_callback,
+		'params' => array_slice(func_get_args(), 4)
+	);
+	$widget = array_merge($widget, $options);
+
+	$wp_registered_widget_controls[$id] = $widget;
 }
 
 function unregister_widget_control($id) {
-	$id = sanitize_title($id);
-	return register_widget_control($id, '');
+	return wp_unregister_widget_control($id);
+}
+
+function wp_unregister_widget_control($id) {
+	return wp_register_widget_control($id, '', '');
 }
 
 function dynamic_sidebar($index = 1) {
@@ -515,11 +557,13 @@ function wp_widget_text_register() {
 	$number = $options['number'];
 	if ( $number < 1 ) $number = 1;
 	if ( $number > 9 ) $number = 9;
+	$dims = array('width' => 460, 'height' => 350);
+	$class = array('classname' => 'widget_text');
 	for ($i = 1; $i <= 9; $i++) {
 		$name = sprintf(__('Text %d'), $i);
 		$id = "text-$i"; // Never never never translate an id
-		register_sidebar_widget($name, $i <= $number ? 'wp_widget_text' : /* unregister */ '', 'widget_text', $id, $i);
-		register_widget_control($name, $i <= $number ? 'wp_widget_text_control' : /* unregister */ '', 460, 350, $id, $i);
+		wp_register_sidebar_widget($id, $name, $i <= $number ? 'wp_widget_text' : /* unregister */ '', $class, $i);
+		wp_register_widget_control($id, $name, $i <= $number ? 'wp_widget_text_control' : /* unregister */ '', $dims, $i);
 	}
 	add_action('sidebar_admin_setup', 'wp_widget_text_setup');
 	add_action('sidebar_admin_page', 'wp_widget_text_page');
@@ -710,8 +754,10 @@ function wp_widget_recent_comments_style() {
 }
 
 function wp_widget_recent_comments_register() {
-	register_sidebar_widget(__('Recent Comments'), 'wp_widget_recent_comments', null, 'recent-comments');
-	register_widget_control(__('Recent Comments'), 'wp_widget_recent_comments_control', 320, 90, 'recent-comments');
+	$dims = array('width' => 320, 'height' => 90);
+	$class = array('classname' => 'widget_recent_comments');
+	wp_register_sidebar_widget('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments', $class);
+	wp_register_widget_control('recent-comments', __('Recent Comments'), 'wp_widget_recent_comments_control', $dims);
 	
 	if ( is_active_widget('wp_widget_recent_comments') )
 		add_action('wp_head', 'wp_widget_recent_comments_style');
@@ -731,7 +777,7 @@ function wp_widget_rss($args, $number = 1) {
 		$url = substr($url, 1);
 	if ( empty($url) )
 		return;
-	$rss = fetch_rss_summary($url, array( 'link', 'title', 'description' ) );
+	$rss = fetch_rss($url);
 	$link = wp_specialchars(strip_tags($rss->channel['link']), 1);
 	while ( strstr($link, 'http') != $link )
 		$link = substr($link, 1);
@@ -790,14 +836,14 @@ function wp_widget_rss_control($number) {
 		$newoptions[$number]['title'] = trim(strip_tags(stripslashes($_POST["rss-title-$number"])));
 		if ( $url !== $options[$number]['url'] ) {
 			require_once(ABSPATH . WPINC . '/rss.php');
-			$rss = fetch_rss_summary($url);
-			if ( is_object($rss) && $rss->status == 200 ) {
+			$rss = fetch_rss($url);
+			if ( is_object($rss) ) {
 				$newoptions[$number]['url'] = $url;
 				$newoptions[$number]['error'] = false;
 			} else {
 				$newoptions[$number]['error'] = true;
 				$newoptions[$number]['url'] = wp_specialchars(__('Error: could not find an RSS or ATOM feed at that URL.'), 1);
-				$error = sprintf(__('Error in RSS %1$d: %2$s', 'sandbox'), $number, $newoptions[$number]['error']);
+				$error = sprintf(__('Error in RSS %1$d: %2$s'), $number, $newoptions[$number]['error']);
 			}
 		}
 	}
@@ -855,11 +901,13 @@ function wp_widget_rss_register() {
 	$number = $options['number'];
 	if ( $number < 1 ) $number = 1;
 	if ( $number > 9 ) $number = 9;
+	$dims = array('width' => 410, 'height' => 200);
+	$class = array('classname' => 'widget_rss');
 	for ($i = 1; $i <= 9; $i++) {
 		$name = sprintf(__('RSS %d'), $i);
 		$id = "rss-$i"; // Never never never translate an id
-		register_sidebar_widget($name, $i <= $number ? 'wp_widget_rss' : /* unregister */ '', 'widget_rss', $id, $i);
-		register_widget_control($name, $i <= $number ? 'wp_widget_rss_control' : /* unregister */ '', 410, 200, $id, $i);
+		wp_register_sidebar_widget($id, $name, $i <= $number ? 'wp_widget_rss' : /* unregister */ '', $class, $i);
+		wp_register_widget_control($id, $name, $i <= $number ? 'wp_widget_rss_control' : /* unregister */ '', $dims, $i);
 	}
 	add_action('sidebar_admin_setup', 'wp_widget_rss_setup');
 	add_action('sidebar_admin_page', 'wp_widget_rss_page');
@@ -869,21 +917,31 @@ function wp_widgets_init() {
 	global $wp_register_widget_defaults;
 
 	$wp_register_widget_defaults = true;
-
-	register_sidebar_widget(__('Pages'), 'wp_widget_pages', 'widget_pages', 'pages');
-	register_widget_control(__('Pages'), 'wp_widget_pages_control', 300, 90, 'pages');
-	register_sidebar_widget(__('Calendar'), 'wp_widget_calendar', 'widget_calendar', 'calendar');
-	register_widget_control(__('Calendar'), 'wp_widget_calendar_control', 300, 90, 'calendar');
-	register_sidebar_widget(__('Archives'), 'wp_widget_archives', 'widget_archives', 'archives');
-	register_widget_control(__('Archives'), 'wp_widget_archives_control', 300, 100, 'archives');
-	register_sidebar_widget(__('Links'), 'wp_widget_links', 'widget_links', 'links');
-	register_sidebar_widget(__('Meta'), 'wp_widget_meta', 'widget_meta', 'meta');
-	register_widget_control(__('Meta'), 'wp_widget_meta_control', 300, 90, 'meta');
-	register_sidebar_widget(__('Search'), 'wp_widget_search', 'widget_search', 'search');
-	register_sidebar_widget(__('Categories'), 'wp_widget_categories', 'widget_categories', 'categories');
-	register_widget_control(__('Categories'), 'wp_widget_categories_control', 300, 150, 'categories');
-	register_sidebar_widget(__('Recent Posts'), 'wp_widget_recent_entries', 'widget_recent_entries', 'recent-posts');
-	register_widget_control(__('Recent Posts'), 'wp_widget_recent_entries_control', 300, 90, 'recent-posts');
+	$dims90 = array('height' => 90, 'width' => 300);
+	$dims100 = array('height' => 100, 'width' => 300);
+	$dims150 = array('height' => 150, 'width' => 300);
+	$class = array('classname' => 'widget_pages');
+	wp_register_sidebar_widget('pages', __('Pages'), 'wp_widget_pages', $class);
+	wp_register_widget_control('pages', __('Pages'), 'wp_widget_pages_control', $dims90);
+	$class['classname'] = 'widget_calendar';
+	wp_register_sidebar_widget('calendar', __('Calendar'), 'wp_widget_calendar', $class);
+	wp_register_widget_control('calendar', __('Calendar'), 'wp_widget_calendar_control', $dims90);
+	$class['classname'] = 'widget_archives';
+	wp_register_sidebar_widget('archives', __('Archives'), 'wp_widget_archives', $class);
+	wp_register_widget_control('archives', __('Archives'), 'wp_widget_archives_control', $dims100);
+	$class['classname'] = 'widget_links';
+	wp_register_sidebar_widget('links', __('Links'), 'wp_widget_links', $class);
+	$class['classname'] = 'widget_meta';
+	wp_register_sidebar_widget('meta', __('Meta'), 'wp_widget_meta', $class);
+	wp_register_widget_control('meta', __('Meta'), 'wp_widget_meta_control', $dims90);
+	$class['classname'] = 'widget_search';
+	wp_register_sidebar_widget('search', __('Search'), 'wp_widget_search', $class);
+	$class['classname'] = 'widget_categories';
+	wp_register_sidebar_widget('categories', __('Categories'), 'wp_widget_categories', $class);
+	wp_register_widget_control('categories', __('Categories'), 'wp_widget_categories_control', $dims150);
+	$class['classname'] = 'widget_recent_entries';
+	wp_register_sidebar_widget('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries', $class);
+	wp_register_widget_control('recent-posts', __('Recent Posts'), 'wp_widget_recent_entries_control', $dims90);
 	wp_widget_text_register();
 	wp_widget_rss_register();
 	wp_widget_recent_comments_register();
