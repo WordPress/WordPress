@@ -1332,15 +1332,18 @@ function wp_die( $message, $title = '' ) {
 		$message = "<p>$message</p>";
 	}
 
+	if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
+		$admin_dir = '';
+	else
+		$admin_dir = 'wp-admin/';
+
+	if ( !did_action('admin_head') ) :
 	header('Content-Type: text/html; charset=utf-8');
 
 	if ( empty($title) )
 		$title = __('WordPress &rsaquo; Error');
 
-	if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
-		$admin_dir = '';
-	else
-		$admin_dir = 'wp-admin/';
+
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -1355,6 +1358,7 @@ if ( ( $wp_locale ) && ('rtl' == $wp_locale->text_direction) ) : ?>
 <?php endif; ?>
 </head>
 <body>
+<?php endif; ?>
 	<h1 id="logo"><img alt="WordPress" src="<?php echo $admin_dir; ?>images/wordpress-logo.png" /></h1>
 	<?php echo $message; ?>
 
