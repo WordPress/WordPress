@@ -159,6 +159,7 @@ class WP_Import {
 		$authors = $this->get_wp_authors();
 		echo '<ol id="authors">';
 		echo '<form action="?import=wordpress&amp;step=2&amp;id=' . $this->id . '" method="post">';
+		wp_nonce_field('import-wordpress');
 		$j = -1;
 		foreach ($authors as $author) {
 			++ $j;
@@ -363,9 +364,11 @@ class WP_Import {
 				$this->greet();
 				break;
 			case 1 :
+				check_admin_referer('import-upload');
 				$this->select_authors();
 				break;
 			case 2:
+				check_admin_referer('import-wordpress');
 				$this->import();
 				break;
 		}

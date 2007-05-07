@@ -743,10 +743,11 @@ class Blogger_Import {
 
 	// Step 9: Congratulate the user
 	function congrats() {
+		$blog = (int) $_GET['blog'];
 		echo '<h1>'.__('Congratulations!').'</h1><p>'.__('Now that you have imported your Blogger blog into WordPress, what are you going to do? Here are some suggestions:').'</p><ul><li>'.__('That was hard work! Take a break.').'</li>';
 		if ( count($this->import['blogs']) > 1 )
 			echo '<li>'.__('In case you haven\'t done it already, you can import the posts from your other blogs:'). $this->show_blogs() . '</li>';
-		if ( $n = count($this->import['blogs'][$_GET['blog']]['newusers']) )
+		if ( $n = count($this->import['blogs'][$blog]['newusers']) )
 			echo '<li>'.sprintf(__('Go to <a href="%s" target="%s">Authors &amp; Users</a>, where you can modify the new user(s) or delete them. If you want to make all of the imported posts yours, you will be given that option when you delete the new authors.'), 'users.php', '_parent').'</li>';
 		echo '<li>'.__('For security, click the link below to reset this importer.').'</li>';
 		echo '</ul>';
@@ -765,6 +766,7 @@ class Blogger_Import {
 
 		if ( isset( $_REQUEST['blog'] ) ) {
 			$blog = is_array($_REQUEST['blog']) ? array_shift( array_keys( $_REQUEST['blog'] ) ) : $_REQUEST['blog'];
+			$blog = (int) $blog;
 			$this->import_blog( $blog );
 		} elseif ( isset($_GET['token']) )
 			$this->auth();
