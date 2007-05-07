@@ -136,6 +136,11 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
 function do_action($tag, $arg = '') {
 	global $wp_filter, $wp_actions;
 
+	if ( is_array($wp_actions) )
+		$wp_actions[] = $tag;
+	else
+		$wp_actions = array($tag);
+
 	$args = array();
 	if ( is_array($arg) && 1 == count($arg) && is_object($arg[0]) ) // array(&$this)
 		$args[] =& $arg[0];
@@ -156,16 +161,12 @@ function do_action($tag, $arg = '') {
 
 	} while ( next($wp_filter[$tag]) );
 
-	if ( is_array($wp_actions) )
-		$wp_actions[] = $tag;
-	else
-		$wp_actions = array($tag);
 }
 
 /**
- * Return the number of functions hooked to a specific action hook.
+ * Return the number times an action is fired.
  * @param string $tag The name of the action hook.
- * @return int The number of functions hooked to action hook <tt>$tag</tt>
+ * @return int The number of times action hook <tt>$tag</tt> is fired
  */
 function did_action($tag) {
 	global $wp_actions;
