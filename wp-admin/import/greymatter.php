@@ -34,6 +34,7 @@ class GM_Import {
 <form name="stepOne" method="get">
 <input type="hidden" name="import" value="greymatter" />
 <input type="hidden" name="step" value="1" />
+<?php wp_nonce_field('import-greymatter'); ?>
 <h3><?php _e('Second step: GreyMatter details:') ?></h3>
 <p><table cellpadding="0">
 <tr>
@@ -87,10 +88,12 @@ class GM_Import {
 		}
 
 		if (!chdir($archivespath))
-			wp_die(sprintf(__("Wrong path, %s\ndoesn't exist\non the server"), $archivespath));
+			wp_die(__("Wrong path, the path to the GM entries does not exist on the server"));
 
 		if (!chdir($gmpath))
-			wp_die(sprintf(__("Wrong path, %s\ndoesn't exist\non the server"), $gmpath));
+			wp_die(__("Wrong path, the path to the GM files does not exist on the server"));
+
+		$lastentry = (int) $lastentry;
 
 		$this->header();
 ?>
@@ -297,6 +300,7 @@ class GM_Import {
 				$this->greet();
 				break;
 			case 1:
+				check_admin_referer('import-greymatter');
 				$this->import();
 				break;
 		}

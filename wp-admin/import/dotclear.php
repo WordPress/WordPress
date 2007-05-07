@@ -147,8 +147,9 @@ class Dotclear_Import {
 		echo '<div class="narrow"><p>'.__('Howdy! This importer allows you to extract posts from a DotClear database into your blog.  Mileage may vary.').'</p>';
 		echo '<p>'.__('Your DotClear Configuration settings are as follows:').'</p>';
 		echo '<form action="admin.php?import=dotclear&amp;step=1" method="post">';
+		wp_nonce_field('import-dotclear');
 		$this->db_form();
-		echo '<p class="submit"><input type="submit" name="submit" value="'.__('Import Categories').' &raquo;" /></p>';
+		echo '<p class="submit"><input type="submit" name="submit" value="'.attribute_escape(__('Import Categories &raquo;')).'" /></p>';
 		echo '</form></div>';
 	}
 
@@ -558,7 +559,8 @@ class Dotclear_Import {
 
 
 		echo '<form action="admin.php?import=dotclear&amp;step=2" method="post">';
-		printf('<input type="submit" name="submit" value="%s" />', __('Import Users'));
+		wp_nonce_field('import-dotclear');
+		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Users')));
 		echo '</form>';
 
 	}
@@ -570,7 +572,8 @@ class Dotclear_Import {
 		$this->users2wp($users);
 
 		echo '<form action="admin.php?import=dotclear&amp;step=3" method="post">';
-		printf('<input type="submit" name="submit" value="%s" />', __('Import Posts'));
+		wp_nonce_field('import-dotclear');
+		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Posts')));
 		echo '</form>';
 	}
 
@@ -581,7 +584,8 @@ class Dotclear_Import {
 		$this->posts2wp($posts);
 
 		echo '<form action="admin.php?import=dotclear&amp;step=4" method="post">';
-		printf('<input type="submit" name="submit" value="%s" />', __('Import Comments'));
+		wp_nonce_field('import-dotclear');
+		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Comments')));
 		echo '</form>';
 	}
 
@@ -592,7 +596,8 @@ class Dotclear_Import {
 		$this->comments2wp($comments);
 
 		echo '<form action="admin.php?import=dotclear&amp;step=5" method="post">';
-		printf('<input type="submit" name="submit" value="%s" />', __('Import Links'));
+		wp_nonce_field('import-dotclear');
+		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Import Links')));
 		echo '</form>';
 	}
 
@@ -604,7 +609,8 @@ class Dotclear_Import {
 		add_option('dc_links', $links);
 
 		echo '<form action="admin.php?import=dotclear&amp;step=6" method="post">';
-		printf('<input type="submit" name="submit" value="%s" />', __('Finish'));
+		wp_nonce_field('import-dotclear');
+		printf('<input type="submit" name="submit" value="%s" />', attribute_escape(__('Finish')));
 		echo '</form>';
 	}
 
@@ -667,42 +673,44 @@ class Dotclear_Import {
 
 		if ( $step > 0 )
 		{
+			check_admin_referer('import-dotclear');
+
 			if($_POST['dbuser'])
 			{
 				if(get_option('dcuser'))
 					delete_option('dcuser');
-				add_option('dcuser',$_POST['dbuser']);
+				add_option('dcuser', sanitize_user($_POST['dbuser'], true));
 			}
 			if($_POST['dbpass'])
 			{
 				if(get_option('dcpass'))
 					delete_option('dcpass');
-				add_option('dcpass',$_POST['dbpass']);
+				add_option('dcpass', sanitize_user($_POST['dbpass'], true));
 			}
 
 			if($_POST['dbname'])
 			{
 				if(get_option('dcname'))
 					delete_option('dcname');
-				add_option('dcname',$_POST['dbname']);
+				add_option('dcname', sanitize_user($_POST['dbname'], true));
 			}
 			if($_POST['dbhost'])
 			{
 				if(get_option('dchost'))
 					delete_option('dchost');
-				add_option('dchost',$_POST['dbhost']);
+				add_option('dchost', sanitize_user($_POST['dbhost'], true));
 			}
 			if($_POST['dccharset'])
 			{
 				if(get_option('dccharset'))
 					delete_option('dccharset');
-				add_option('dccharset',$_POST['dccharset']);
+				add_option('dccharset', sanitize_user($_POST['dccharset'], true));
 			}
 			if($_POST['dbprefix'])
 			{
 				if(get_option('dcdbprefix'))
 					delete_option('dcdbprefix');
-				add_option('dcdbprefix',$_POST['dbprefix']);
+				add_option('dcdbprefix', sanitize_user($_POST['dbprefix'], true));
 			}
 
 
