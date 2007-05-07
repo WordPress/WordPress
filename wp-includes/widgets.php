@@ -338,7 +338,7 @@ function wp_widget_pages_control() {
 		$options = $newoptions;
 		update_option('widget_pages', $options);
 	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
+	$title = attribute_escape($options['title']);
 ?>
 			<p><label for="pages-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<input type="hidden" id="pages-submit" name="pages-submit" value="1" />
@@ -367,7 +367,7 @@ function wp_widget_search($args) {
 			<form id="searchform" method="get" action="<?php bloginfo('home'); ?>">
 			<div>
 			<input type="text" name="s" id="s" size="15" /><br />
-			<input type="submit" value="<?php _e('Search'); ?>" />
+			<input type="submit" value="<?php echo attribute_escape(__('Search')); ?>" />
 			</div>
 			</form>
 		<?php echo $after_widget; ?>
@@ -386,7 +386,7 @@ function wp_widget_archives($args) {
 
 	if($d) { 
 ?>
-		<select name="archive-dropdown" onChange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php _e('Select Month'); ?></option> <?php wp_get_archives('type=monthly&format=option'); ?> </select>
+		<select name="archive-dropdown" onChange='document.location.href=this.options[this.selectedIndex].value;'> <option value=""><?php echo attribute_escape(__('Select Month')); ?></option> <?php wp_get_archives('type=monthly&format=option'); ?> </select>
 <?php	
 	} else { 
 ?>
@@ -412,7 +412,7 @@ function wp_widget_archives_control() {
 	}
 	$count = $options['count'] ? 'checked="checked"' : '';
 	$dropdown = $options['dropdown'] ? 'checked="checked"' : '';
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
+	$title = attribute_escape($options['title']);
 ?>
 			<p><label for="archives-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="archives-title" name="archives-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<p style="text-align:right;margin-right:40px;"><label for="archives-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="archives-count" name="archives-count" /></label></p>
@@ -431,9 +431,9 @@ function wp_widget_meta($args) {
 			<ul>
 			<?php wp_register(); ?>
 			<li><?php wp_loginout(); ?></li>
-			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php _e('Syndicate this site using RSS 2.0'); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php _e('The latest comments to all posts in RSS'); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
-			<li><a href="http://wordpress.org/" title="<?php _e('Powered by WordPress, state-of-the-art semantic personal publishing platform.'); ?>">WordPress.org</a></li>
+			<li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo attribute_escape(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+			<li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo attribute_escape(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
+			<li><a href="http://wordpress.org/" title="<?php echo attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li>
 			<?php wp_meta(); ?>
 			</ul>
 		<?php echo $after_widget; ?>
@@ -448,7 +448,7 @@ function wp_widget_meta_control() {
 		$options = $newoptions;
 		update_option('widget_meta', $options);
 	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
+	$title = attribute_escape($options['title']);
 ?>
 			<p><label for="meta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="meta-title" name="meta-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<input type="hidden" id="meta-submit" name="meta-submit" value="1" />
@@ -476,7 +476,7 @@ function wp_widget_calendar_control() {
 		$options = $newoptions;
 		update_option('widget_calendar', $options);
 	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
+	$title = attribute_escape($options['title']);
 ?>
 			<p><label for="calendar-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="calendar-title" name="calendar-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<input type="hidden" id="calendar-submit" name="calendar-submit" value="1" />
@@ -512,8 +512,8 @@ function wp_widget_text_control($number) {
 		$options = $newoptions;
 		update_option('widget_text', $options);
 	}
-	$title = htmlspecialchars($options[$number]['title'], ENT_QUOTES);
-	$text = htmlspecialchars($options[$number]['text'], ENT_QUOTES);
+	$title = attribute_escape($options[$number]['title']);
+	$text = attribute_escape($options[$number]['text']);
 ?>
 			<input style="width: 450px;" id="text-title-<?php echo "$number"; ?>" name="text-title-<?php echo "$number"; ?>" type="text" value="<?php echo $title; ?>" />
 			<textarea style="width: 450px; height: 280px;" id="text-text-<?php echo "$number"; ?>" name="text-text-<?php echo "$number"; ?>"><?php echo $text; ?></textarea>
@@ -546,7 +546,7 @@ function wp_widget_text_page() {
 			<select id="text-number" name="text-number" value="<?php echo $options['number']; ?>">
 <?php for ( $i = 1; $i < 10; ++$i ) echo "<option value='$i' ".($options['number']==$i ? "selected='selected'" : '').">$i</option>"; ?>
 			</select>
-			<span class="submit"><input type="submit" name="text-number-submit" id="text-number-submit" value="<?php _e('Save'); ?>" /></span></p>
+			<span class="submit"><input type="submit" name="text-number-submit" id="text-number-submit" value="<?php echo attribute_escape(__('Save')); ?>" /></span></p>
 		</form>
 	</div>
 <?php
@@ -623,7 +623,7 @@ function wp_widget_categories_control() {
 	$count = $options['count'] ? 'checked="checked"' : '';
 	$hierarchical = $options['hierarchical'] ? 'checked="checked"' : '';
 	$dropdown = $options['dropdown'] ? 'checked="checked"' : '';
-	$title = wp_specialchars($options['title']);
+	$title = attribute_escape($options['title']);
 ?>
 			<p><label for="categories-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="categories-title" name="categories-title" type="text" value="<?php echo $title; ?>" /></label></p>
 			<p style="text-align:right;margin-right:40px;"><label for="categories-count"><?php _e('Show post counts'); ?> <input class="checkbox" type="checkbox" <?php echo $count; ?> id="categories-count" name="categories-count" /></label></p>
@@ -682,7 +682,7 @@ function wp_widget_recent_entries_control() {
 		update_option('widget_recent_entries', $options);
 		wp_flush_widget_recent_entries();
 	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
+	$title = attribute_escape($options['title']);
 	if ( !$number = (int) $options['number'] )
 		$number = 5;
 ?>
@@ -737,7 +737,7 @@ function wp_widget_recent_comments_control() {
 		update_option('widget_recent_comments', $options);
 		wp_delete_recent_comments_cache();
 	}
-	$title = htmlspecialchars($options['title'], ENT_QUOTES);
+	$title = attribute_escape($options['title']);
 	if ( !$number = (int) $options['number'] )
 		$number = 5;
 ?>
@@ -778,10 +778,10 @@ function wp_widget_rss($args, $number = 1) {
 	if ( empty($url) )
 		return;
 	$rss = fetch_rss($url);
-	$link = wp_specialchars(strip_tags($rss->channel['link']), 1);
+	$link = clean_url(strip_tags($rss->channel['link']));
 	while ( strstr($link, 'http') != $link )
 		$link = substr($link, 1);
-	$desc = wp_specialchars(strip_tags(html_entity_decode($rss->channel['description'], ENT_QUOTES)), 1);
+	$desc = attribute_escape(strip_tags(html_entity_decode($rss->channel['description'], ENT_QUOTES)));
 	$title = $options[$number]['title'];
 	if ( empty($title) )
 		$title = htmlentities(strip_tags($rss->channel['title']));
@@ -789,12 +789,12 @@ function wp_widget_rss($args, $number = 1) {
 		$title = $desc;
 	if ( empty($title) )
 		$title = __('Unknown Feed');
-	$url = wp_specialchars(strip_tags($url), 1);
+	$url = clean_url(strip_tags($url));
 	if ( file_exists(dirname(__FILE__) . '/rss.png') )
 		$icon = str_replace(ABSPATH, get_option('siteurl').'/', dirname(__FILE__)) . '/rss.png';
 	else
 		$icon = get_option('siteurl').'/wp-includes/images/rss.png';
-	$title = "<a class='rsswidget' href='$url' title='Syndicate this content'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
+	$title = "<a class='rsswidget' href='$url' title='" . attribute_escape(__('Syndicate this content')) ."'><img style='background:orange;color:white;border:none;' width='14' height='14' src='$icon' alt='RSS' /></a> <a class='rsswidget' href='$link' title='$desc'>$title</a>";
 ?>
 		<?php echo $before_widget; ?>
 			<?php $title ? print($before_title . $title . $after_title) : null; ?>
@@ -805,8 +805,8 @@ function wp_widget_rss($args, $number = 1) {
 		foreach ($rss->items as $item ) {
 			while ( strstr($item['link'], 'http') != $item['link'] )
 				$item['link'] = substr($item['link'], 1);
-			$link = wp_specialchars(strip_tags($item['link']), 1);
-			$title = wp_specialchars(strip_tags($item['title']), 1);
+			$link = clean_url(strip_tags($item['link']));
+			$title = attribute_escape(strip_tags($item['title']));
 			if ( empty($title) )
 				$title = __('Untitled');
 			$desc = '';
@@ -814,7 +814,7 @@ function wp_widget_rss($args, $number = 1) {
 				$summary = '<div class="rssSummary">' . $item['description'] . '</div>';
 			} else {
 				if ( isset( $item['description'] ) && is_string( $item['description'] ) )
-					$desc = str_replace(array("\n", "\r"), ' ', wp_specialchars(strip_tags(html_entity_decode($item['description'], ENT_QUOTES)), 1));
+					$desc = str_replace(array("\n", "\r"), ' ', attribute_escape(strip_tags(html_entity_decode($item['description'], ENT_QUOTES))));
 				$summary = '';
 			}
 			echo "<li><a class='rsswidget' href='$link' title='$desc'>$title</a>$summary</li>";
@@ -832,7 +832,7 @@ function wp_widget_rss_control($number) {
 	$options = $newoptions = get_option('widget_rss');
 	if ( $_POST["rss-submit-$number"] ) {
 		$newoptions[$number]['items'] = (int) $_POST["rss-items-$number"];
-		$url = strip_tags(stripslashes($_POST["rss-url-$number"]));
+		$url = clean_url(strip_tags(stripslashes($_POST["rss-url-$number"])));
 		$newoptions[$number]['title'] = trim(strip_tags(stripslashes($_POST["rss-title-$number"])));
 		if ( $url !== $options[$number]['url'] ) {
 			require_once(ABSPATH . WPINC . '/rss.php');
@@ -851,9 +851,9 @@ function wp_widget_rss_control($number) {
 		$options = $newoptions;
 		update_option('widget_rss', $options);
 	}
-	$url = htmlspecialchars($options[$number]['url'], ENT_QUOTES);
+	$url = attribute_escape($options[$number]['url']);
 	$items = (int) $options[$number]['items'];
-	$title = htmlspecialchars($options[$number]['title'], ENT_QUOTES);
+	$title = attribute_escape($options[$number]['title']);
 	if ( empty($items) || $items < 1 ) $items = 10;
 ?>
 			<p style="text-align:center;"><?php _e('Enter the RSS feed URL here:'); ?></p>
@@ -890,7 +890,7 @@ function wp_widget_rss_page() {
 			<select id="rss-number" name="rss-number" value="<?php echo $options['number']; ?>">
 <?php for ( $i = 1; $i < 10; ++$i ) echo "<option value='$i' ".($options['number']==$i ? "selected='selected'" : '').">$i</option>"; ?>
 			</select>
-			<span class="submit"><input type="submit" name="rss-number-submit" id="rss-number-submit" value="<?php _e('Save'); ?>" /></span></p>
+			<span class="submit"><input type="submit" name="rss-number-submit" id="rss-number-submit" value="<?php echo attribute_escape(__('Save')); ?>" /></span></p>
 		</form>
 	</div>
 <?php
