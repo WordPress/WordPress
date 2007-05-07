@@ -1813,6 +1813,7 @@ o.submit();
 }
 </script>
 <form enctype="multipart/form-data" id="uploadForm" method="post" action="<?php echo attribute_escape($action) ?>">
+<?php wp_nonce_field('import-upload'); ?>
 <label for="upload"><?php _e('File:'); ?></label><input type="file" id="upload" name="import" />
 <input type="hidden" name="action" value="save" />
 <div id="buttons">
