@@ -173,6 +173,9 @@ function do_action($tag, $arg = '') {
 function did_action($tag) {
 	global $wp_actions;
 
+	if ( empty($wp_actions) )
+		return 0;
+
 	return count(array_keys($wp_actions, $tag));
 }
 
