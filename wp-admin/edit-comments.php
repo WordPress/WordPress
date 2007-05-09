@@ -156,7 +156,7 @@ if ( $extra_comments ) : ?>
 		$class .= ('unapproved' == $comment_status) ? ' unapproved' : '';
 ?>
   <tr id="comment-<?php echo $comment->comment_ID; ?>" class='<?php echo $class; ?>'>
-    <td><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
+    <td style="text-align: center"><?php if ( current_user_can('edit_post', $comment->comment_post_ID) ) { ?><input type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" /><?php } ?></td>
     <td><?php comment_author_link() ?></td>
     <td><?php comment_author_email_link() ?></td>
     <td><a href="http://ws.arin.net/cgi-bin/whois.pl?queryinput=<?php comment_author_IP() ?>"><?php comment_author_IP() ?></a></td>
