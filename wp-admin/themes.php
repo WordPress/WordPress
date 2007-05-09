@@ -72,7 +72,7 @@ foreach ($theme_names as $theme_name) {
 	$activate_link = wp_nonce_url("themes.php?action=activate&amp;template=$template&amp;stylesheet=$stylesheet", 'switch-theme_' . $template);
 ?>
 <div class="available-theme">
-<h3><a href="<?php echo $activate_link; ?>"><?php echo "$title $version"; ?></a></h3>
+<h3><a href="<?php echo $activate_link; ?>"><?php echo $title; ?></a></h3>
 
 <a href="<?php echo $activate_link; ?>" class="screenshot">
 <?php if ( $screenshot ) : ?>
