@@ -96,7 +96,7 @@ function wp_widgets_admin_head() {
 		var p = Position.page(el);
 		var right = p[0];
 		var top = p[1];
-		var left = $('shadow').offsetWidth - (el.offsetWidth + left);
+		var left = $('shadow').offsetWidth - (el.offsetWidth + right);
 		var bottom = $('shadow').offsetHeight - (el.offsetHeight + top);
 		if ( right < 1 ) el.style.left = 0;
 		if ( top < 1 ) el.style.top = 0;
