@@ -29,7 +29,7 @@
 	$plugins = apply_filters('mce_plugins', $plugins);
 	$plugins = implode($plugins, ',');
 
-	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright', 'separator', 'link', 'unlink', 'image', 'wp_more', 'separator', 'spellchecker', 'separator', 'wp_help', 'wp_adv_start', 'wp_adv', 'separator', 'formatselect', 'underline', 'justifyfull', 'forecolor', 'separator', 'pastetext', 'pasteword', 'separator', 'removeformat', 'cleanup', 'separator', 'charmap', 'separator', 'undo', 'redo', 'wp_adv_end'));
+	$mce_buttons = apply_filters('mce_buttons', array('bold', 'italic', 'strikethrough', 'separator', 'bullist', 'numlist', 'outdent', 'indent', 'separator', 'justifyleft', 'justifycenter', 'justifyright', 'separator', 'link', 'unlink', 'image', 'wp_more', 'separator', 'spellchecker', 'separator', 'wp_help', 'wp_adv', 'wp_adv_start', 'formatselect', 'underline', 'justifyfull', 'forecolor', 'separator', 'pastetext', 'pasteword', 'separator', 'removeformat', 'cleanup', 'separator', 'charmap', 'separator', 'undo', 'redo', 'wp_adv_end'));
 	$mce_buttons = implode($mce_buttons, ',');
 
 	$mce_buttons_2 = apply_filters('mce_buttons_2', array());
