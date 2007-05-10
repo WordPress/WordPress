@@ -813,7 +813,7 @@ function user_can_richedit() {
 	if ( !isset( $wp_rich_edit) ) {
 		if ( get_user_option( 'rich_editing' ) == 'true' && 
 			( ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 420 ) || 
-				!preg_match( 'opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT'] ) ) ) {
+				!preg_match( '!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT'] ) ) ) {
 			$wp_rich_edit = true;
 		} else {
 			$wp_rich_edit = false;
