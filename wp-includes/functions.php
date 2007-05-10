@@ -1500,11 +1500,7 @@ function wp_parse_args( $args, $defaults = '' ) {
 	}
 	
 	if ( is_array( $defaults ) ) {
-		extract( $defaults );
-		extract( $r );
-		// Note: this only returns the variables that were in $defaults 
-		// to begin with. All other variables are discarded.
-		return compact( array_keys( $defaults ) );
+		return array_merge( $defaults, $r );
 	} else {
 		return $r;
 	}
