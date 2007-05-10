@@ -1124,7 +1124,7 @@ function wp_check_mysql_version() {
 function maybe_disable_automattic_widgets() {
 	$plugins = __get_option( 'active_plugins' );
 	
-	foreach ( $plugins as $plugin ) {
+	foreach ( (array) $plugins as $plugin ) {
 		if ( basename( $plugin ) == 'widgets.php' ) {
 			array_splice( $plugins, array_search( $plugin, $plugins ), 1 );
 			update_option( 'active_plugins', $plugins );
