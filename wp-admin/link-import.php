@@ -93,7 +93,12 @@ foreach ($categories as $category) {
 		}
 
 		if ( isset($opml_url) && $opml_url != '' ) {
-			$opml = wp_remote_fopen($opml_url);
+			if ( $blogrolling === true ) {
+				$opml = wp_remote_fopen($opml_url);
+			} else {
+				$opml = file_get_contents($opml_url);
+			}
+			
 			include_once('link-parse-opml.php');
 
 			$link_count = count($names);
@@ -118,6 +123,7 @@ else
 } // end else
 
 if ( ! $blogrolling )
+	apply_filters( 'wp_delete_file', $opml_url); 
 	@unlink($opml_url);
 ?>
 </div>
