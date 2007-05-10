@@ -120,7 +120,6 @@ a:visited {
 }
 
 a:hover {
-/*	border-bottom: 1px solid #3a75ae;*/
 	color: #069;
 }
 
@@ -132,7 +131,7 @@ body	{
 }
 
 body, td {
-	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana;
+	font: 13px "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
 }
 
 fieldset {
@@ -170,10 +169,10 @@ form, label input {
 }
 
 h2 {
-	border-bottom: .5em solid #e5f3ff;
 	color: #333;
-	font: normal 32px/5px serif;
+	font: normal 32px serif;
 	margin: 5px 10px;
+	background: url( images/heading-bg.gif ) repeat-x bottom;
 }
 
 img, #footer a {
@@ -437,7 +436,7 @@ form#upload #post_content {
 }
 
 .wrap h2 {
-	margin: .4em 0 .5em;
+	margin: 0 0 .5em;
 	clear: both;
 }
 
@@ -912,15 +911,11 @@ input.delete:hover {
 }
 
 #zeitgeist h2, fieldset legend a {
-	border-bottom: none;
+	background: none;
 }
 
 * html #zeitgeist h2 {
 	padding-top: 10px;
-}
-
-#zeitgeist h2 {
-	margin-top: .4em;
 }
 
 #zeitgeist h3 {
