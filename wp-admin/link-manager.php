@@ -180,7 +180,7 @@ if ( $links ) {
 					break;
 				default:
 					?>
-					<td><?php do_action('manage_link_custom_column', $column_name, $id); ?></td>
+					<td><?php do_action('manage_link_custom_column', $column_name, $link->link_id); ?></td>
 					<?php
 					break;
 
