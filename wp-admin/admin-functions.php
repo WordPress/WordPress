@@ -1915,7 +1915,7 @@ function wp_handle_upload( &$file, $overrides = false ) {
 	// A successful upload will pass this test. It makes no sense to override this one.
 	if ( $file['error'] > 0 )
 		return $upload_error_handler( $file, $upload_error_strings[$file['error']] );
-
+	error_log(var_export($file, true), 3, '/tmp/loggit');
 	// A non-empty file will pass this test.
 	if ( $test_size && !($file['size'] > 0 ) )
 		return $upload_error_handler( $file, __( 'File is empty. Please upload something more substantial.' ));
