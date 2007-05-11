@@ -313,7 +313,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 
 
 function wp_get_archives($args = '') {
-	global $wpdb;
+	global $wpdb, $wp_locale;
 	
 	$defaults = array(
 		'type' => 'monthly', 'limit' => '', 
