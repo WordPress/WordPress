@@ -9,28 +9,23 @@
  **/
 function wp_get_links($args = '') {
 	global $wpdb;
-
-	if ( empty($args) )
-		return;
-
-	if ( false === strpos($args, '=') ) {
+	
+	if ( strpos( $args, '=' ) === false ) {
 		$cat_id = $args;
-		$args = add_query_arg('category', $cat_id, $args);
+		$args = add_query_arg( 'category', $cat_id, $args );
 	}
-
-	parse_str($args);
-
-	if ( !isset($category) )         $category = -1;
-	if ( !isset($before) )           $before = '';
-	if ( !isset($after) )            $after = '<br />';
-	if ( !isset($between) )          $between = ' ';
-	if ( !isset($show_images) )      $show_images = true;
-	if ( !isset($orderby) )          $orderby = 'name';
-	if ( !isset($show_description) ) $show_description = true;
-	if ( !isset($show_rating) )      $show_rating = false;
-	if ( !isset($limit) )            $limit = -1;
-	if ( !isset($show_updated) )     $show_updated = 1;
-	if ( !isset($echo) )             $echo = true;
+	
+	$defaults = array(
+		'category' => -1, 'before' => '', 
+		'after' => '<br />', 'between' => ' ', 
+		'show_images' => true, 'orderby' => 'name', 
+		'show_description' => true, 'show_rating' => false, 
+		'limit' => -1, 'show_updated' => true, 
+		'echo' => true
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	return get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, $show_rating, $limit, $show_updated, $echo);
 } // end wp_get_links
@@ -245,15 +240,14 @@ function get_links_list($order = 'name', $hide_if_empty = 'obsolete') {
 }
 
 function _walk_bookmarks($bookmarks, $args = '' ) {
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('show_updated' => 0, 'show_description' => 0, 'show_images' => 1, 'before' => '<li>',
-		'after' => '</li>', 'between' => "\n");
-	$r = array_merge($defaults, $r);
-	extract($r);
+	$defaults = array(
+		'show_updated' => 0, 'show_description' => 0, 
+		'show_images' => 1, 'before' => '<li>', 
+		'after' => '</li>', 'between' => "\n"
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	foreach ( (array) $bookmarks as $bookmark ) {
 		if ( !isset($bookmark->recently_updated) )
@@ -320,18 +314,20 @@ function _walk_bookmarks($bookmarks, $args = '' ) {
 }
 
 function wp_list_bookmarks($args = '') {
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => '',
-		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'echo' => 1,
-		'categorize' => 1, 'title_li' => __('Bookmarks'), 'title_before' => '<h2>', 'title_after' => '</h2>',
-		'category_orderby' => 'name', 'category_order' => 'ASC', 'class' => 'linkcat',
-		'category_before' => '<li id="%id" class="%class">', 'category_after' => '</li>');
-	$r = array_merge($defaults, $r);
-	extract($r);
+	$defaults = array(
+		'orderby' => 'name', 'order' => 'ASC', 
+		'limit' => -1, 'category' => '', 
+		'category_name' => '', 'hide_invisible' => 1, 
+		'show_updated' => 0, 'echo' => 1, 
+		'categorize' => 1, 'title_li' => __('Bookmarks'), 
+		'title_before' => '<h2>', 'title_after' => '</h2>', 
+		'category_orderby' => 'name', 'category_order' => 'ASC', 
+		'class' => 'linkcat', 'category_before' => '<li id="%id" class="%class">', 
+		'category_after' => '</li>'
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	$output = '';
 

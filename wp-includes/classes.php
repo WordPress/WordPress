@@ -687,16 +687,14 @@ class WP_Ajax_Response {
 
 	// a WP_Error object can be passed in 'id' or 'data'
 	function add( $args = '' ) {
-		if ( is_array($args) )
-			$r = &$args;
-		else
-			parse_str($args, $r);
-
-		$defaults = array('what' => 'object', 'action' => false, 'id' => '0', 'old_id' => false,
-				'data' => '', 'supplemental' => array());
-
-		$r = array_merge($defaults, $r);
-		extract($r);
+		$defaults = array(
+			'what' => 'object', 'action' => false, 
+			'id' => '0', 'old_id' => false, 
+			'data' => '', 'supplemental' => array()
+		);
+		
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r );
 
 		if ( is_wp_error($id) ) {
 			$data = $id;

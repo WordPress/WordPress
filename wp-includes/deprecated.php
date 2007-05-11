@@ -427,10 +427,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
 }
 
 function wp_list_cats($args = '') {
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
+	$r = wp_parse_args( $args );
 
 	// Map to new names.
 	if ( isset($r['optionall']) && isset($r['all']))

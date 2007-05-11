@@ -175,14 +175,13 @@ function get_author_name( $auth_id ) {
 function wp_list_authors($args = '') {
 	global $wpdb;
 	
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('optioncount' => false, 'exclude_admin' => true, 'show_fullname' => false, 'hide_empty' => true,
-		'feed' => '', 'feed_image' => '');
-	$r = array_merge($defaults, $r);
+	$defaults = array( 
+		'optioncount' => false, 'exclude_admin' => true, 
+		'show_fullname' => false, 'hide_empty' => true, 
+		'feed' => '', 'feed_image' => ''
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
 	extract($r);
 	
 	// TODO:  Move select to get_authors().

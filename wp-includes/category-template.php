@@ -169,20 +169,21 @@ function category_description($category = 0) {
 }
 
 function wp_dropdown_categories($args = '') {
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('show_option_all' => '', 'show_option_none' => '', 'orderby' => 'ID',
-		'order' => 'ASC', 'show_last_update' => 0, 'show_count' => 0,
-		'hide_empty' => 1, 'child_of' => 0, 'exclude' => '', 'echo' => 1,
-		'selected' => 0, 'hierarchical' => 0, 'name' => 'cat',
-		'class' => 'postform');
+	$defaults = array(
+		'show_option_all' => '', 'show_option_none' => '', 
+		'orderby' => 'ID', 'order' => 'ASC', 
+		'show_last_update' => 0, 'show_count' => 0, 
+		'hide_empty' => 1, 'child_of' => 0, 
+		'exclude' => '', 'echo' => 1, 
+		'selected' => 0, 'hierarchical' => 0, 
+		'name' => 'cat', 'class' => 'postform'
+	);
+	
 	$defaults['selected'] = ( is_category() ) ? get_query_var('cat') : 0;
-	$r = array_merge($defaults, $r);
+	
+	$r = wp_parse_args( $args, $defaults );
 	$r['include_last_update_time'] = $r['show_last_update'];
-	extract($r);
+	extract( $r );
 
 	$categories = get_categories($r);
 
@@ -218,23 +219,28 @@ function wp_dropdown_categories($args = '') {
 }
 
 function wp_list_categories($args = '') {
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('show_option_all' => '', 'orderby' => 'name',
-		'order' => 'ASC', 'show_last_update' => 0, 'style' => 'list',
-		'show_count' => 0, 'hide_empty' => 1, 'use_desc_for_title' => 1,
-		'child_of' => 0, 'feed' => '', 'feed_image' => '', 'exclude' => '',
-		'hierarchical' => true, 'title_li' => __('Categories'));
-	$r = array_merge($defaults, $r);
-	if ( !isset($r['pad_counts']) && $r['show_count'] && $r['hierarchical'] )
+	$defaults = array(
+		'show_option_all' => '', 'orderby' => 'name', 
+		'order' => 'ASC', 'show_last_update' => 0, 
+		'style' => 'list', 'show_count' => 0, 
+		'hide_empty' => 1, 'use_desc_for_title' => 1, 
+		'child_of' => 0, 'feed' => '', 
+		'feed_image' => '', 'exclude' => '', 
+		'hierarchical' => true, 'title_li' => __('Categories')
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	
+	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] ) {
 		$r['pad_counts'] = true;
-	if ( isset($r['show_date']) )
+	}
+	
+	if ( isset( $r['show_date'] ) ) {
 		$r['include_last_update_time'] = $r['show_date'];
-	extract($r);
-
+	}
+	
+	extract( $r );
+	
 	$categories = get_categories($r);
 
 	$output = '';

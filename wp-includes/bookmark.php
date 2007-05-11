@@ -25,16 +25,17 @@ function get_link($bookmark_id, $output = OBJECT) {
 
 function get_bookmarks($args = '') {
 	global $wpdb;
-
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('orderby' => 'name', 'order' => 'ASC', 'limit' => -1, 'category' => '',
-		'category_name' => '', 'hide_invisible' => 1, 'show_updated' => 0, 'include' => '', 'exclude' => '');
-	$r = array_merge($defaults, $r);
-	extract($r);
+	
+	$defaults = array(
+		'orderby' => 'name', 'order' => 'ASC', 
+		'limit' => -1, 'category' => '', 
+		'category_name' => '', 'hide_invisible' => 1, 
+		'show_updated' => 0, 'include' => '', 
+		'exclude' => ''
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) )

@@ -135,19 +135,17 @@ function has_excerpt( $id = 0 ) {
 }
 
 function wp_link_pages($args = '') {
-	global $post;
+	$defaults = array(
+		'before' => '<p>' . __('Pages:'), 'after' => '</p>', 
+		'next_or_number' => 'number', 'nextpagelink' => __('Next page'), 
+		'previouspagelink' => __('Previous page'), 'pagelink' => '%', 
+		'more_file' => '', 'echo' => 1
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('before' => '<p>' . __('Pages:'), 'after' => '</p>', 'next_or_number' => 'number', 'nextpagelink' => __('Next page'),
-			'previouspagelink' => __('Previous page'), 'pagelink' => '%', 'more_file' => '', 'echo' => 1);
-	$r = array_merge($defaults, $r);
-	extract($r);
-
-	global $id, $page, $numpages, $multipage, $more, $pagenow;
+	global $post, $id, $page, $numpages, $multipage, $more, $pagenow;
 	if ( $more_file != '' )
 		$file = $more_file;
 	else
@@ -251,15 +249,14 @@ function the_meta() {
 //
 
 function wp_dropdown_pages($args = '') {
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('depth' => 0, 'child_of' => 0, 'selected' => 0, 'echo' => 1,
-		'name' => 'page_id', 'show_option_none' => '');
-	$r = array_merge($defaults, $r);
-	extract($r);
+	$defaults = array(
+		'depth' => 0, 'child_of' => 0, 
+		'selected' => 0, 'echo' => 1, 
+		'name' => 'page_id', 'show_option_none' => ''
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	$pages = get_pages($r);
 	$output = '';
@@ -281,14 +278,16 @@ function wp_dropdown_pages($args = '') {
 }
 
 function wp_list_pages($args = '') {
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('depth' => 0, 'show_date' => '', 'date_format' => get_option('date_format'),
-		'child_of' => 0, 'exclude' => '', 'title_li' => __('Pages'), 'echo' => 1, 'authors' => '', 'sort_column' => 'menu_order, post_title');
-	$r = array_merge($defaults, $r);
+	$defaults = array(
+		'depth' => 0, 'show_date' => '', 
+		'date_format' => get_option('date_format'), 
+		'child_of' => 0, 'exclude' => '', 
+		'title_li' => __('Pages'), 'echo' => 1, 
+		'authors' => '', 'sort_column' => 'menu_order, post_title'
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	$output = '';
 	$current_page = 0;

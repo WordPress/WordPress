@@ -16,22 +16,25 @@ function get_all_category_ids() {
 
 function &get_categories($args = '') {
 	global $wpdb, $category_links;
-
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('type' => 'post', 'child_of' => 0, 'orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'include_last_update_time' => false, 'hierarchical' => 1, 'exclude' => '', 'include' => '',
-		'number' => '', 'pad_counts' => false);
-	$r = array_merge($defaults, $r);
-	if ( 'count' == $r['orderby'] )
+	
+	$defaults = array(
+		'type' => 'post', 'child_of' => 0, 
+		'orderby' => 'name', 'order' => 'ASC', 
+		'hide_empty' => true, 'include_last_update_time' => false, 
+		'hierarchical' => 1, 'exclude' => '', 
+		'include' => '', 'number' => '', 
+		'pad_counts' => false
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	
+	if ( $r['orderby'] == 'count' ) {
 		$r['orderby'] = 'category_count';
-	else
-		$r['orderby'] = "cat_" . $r['orderby'];  // restricts order by to cat_ID and cat_name fields
-	$r['number'] = (int) $r['number'];
-	extract($r);
+	} else {
+		$r['orderby'] = 'cat_' . $r['orderby'];
+	}
+	
+	extract( $r );
 
 	$key = md5( serialize( $r ) );
 	if ( $cache = wp_cache_get( 'get_categories', 'category' ) )

@@ -313,16 +313,16 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 
 
 function wp_get_archives($args = '') {
-	global $wp_locale, $wpdb;
-
-	if ( is_array($args) )
-		$r = &$args;
-	else
-		parse_str($args, $r);
-
-	$defaults = array('type' => 'monthly', 'limit' => '', 'format' => 'html', 'before' => '', 'after' => '', 'show_post_count' => false);
-	$r = array_merge($defaults, $r);
-	extract($r);
+	global $wpdb;
+	
+	$defaults = array(
+		'type' => 'monthly', 'limit' => '', 
+		'format' => 'html', 'before' => '', 
+		'after' => '', 'show_post_count' => false
+	);
+	
+	$r = wp_parse_args( $args, $defaults );
+	extract( $r );
 
 	if ( '' == $type )
 		$type = 'monthly';
