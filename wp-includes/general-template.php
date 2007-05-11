@@ -809,9 +809,16 @@ function rich_edit_exists() {
 
 function user_can_richedit() {
 	global $wp_rich_edit, $pagenow;
-
-	if ( !isset($wp_rich_edit) )
-		$wp_rich_edit = ( 'true' == get_user_option('rich_editing') && !preg_match('!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT']) && 'comment.php' != $pagenow && rich_edit_exists() ) ? true : false;
+	
+	if ( !isset( $wp_rich_edit) ) {
+		if ( get_user_option( 'rich_editing' ) == 'true' && 
+			( ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval($match[1]) >= 420 ) || 
+				!preg_match( '!opera[ /][2-8]|konqueror|safari!i', $_SERVER['HTTP_USER_AGENT'] ) ) ) {
+			$wp_rich_edit = true;
+		} else {
+			$wp_rich_edit = false;
+		}
+	}
 
 	return apply_filters('user_can_richedit', $wp_rich_edit);
 }
