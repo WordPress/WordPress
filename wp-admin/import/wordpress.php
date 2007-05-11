@@ -43,7 +43,7 @@ class WP_Import {
 
 	function users_form($n) {
 		global $wpdb, $testing;
-		$users = $wpdb->get_results("SELECT * FROM $wpdb->users ORDER BY ID");
+		$users = $wpdb->get_results("SELECT user_login FROM $wpdb->users ORDER BY user_login");
 ?><select name="userselect[<?php echo $n; ?>]">
 	<option value="#NONE#">- Select -</option>
 	<?php
