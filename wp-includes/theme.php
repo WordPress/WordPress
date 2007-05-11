@@ -56,6 +56,21 @@ function get_template_directory_uri() {
 }
 
 function get_theme_data( $theme_file ) {
+	$themes_allowed_tags = array(
+		'a' => array(
+			'href' => array(),'title' => array()
+			),
+		'abbr' => array(
+			'title' => array()
+			),
+		'acronym' => array(
+			'title' => array()
+			),
+		'code' => array(),
+		'em' => array(),
+		'strong' => array()
+	);
+	
 	$theme_data = implode( '', file( $theme_file ) );
 	$theme_data = str_replace ( '\r', '\n', $theme_data ); 
 	preg_match( '|Theme Name:(.*)|i', $theme_data, $theme_name );
@@ -64,26 +79,28 @@ function get_theme_data( $theme_file ) {
 	preg_match( '|Author:(.*)|i', $theme_data, $author_name );
 	preg_match( '|Author URI:(.*)|i', $theme_data, $author_uri );
 	preg_match( '|Template:(.*)|i', $theme_data, $template );
+	
 	if ( preg_match( '|Version:(.*)|i', $theme_data, $version ) )
-		$version = trim( $version[1] );
+		$version = wp_kses( trim( $version[1] ), $themes_allowed_tags );
 	else
-		$version ='';
+		$version = '';
+	
 	if ( preg_match('|Status:(.*)|i', $theme_data, $status) )
-		$status = trim($status[1]);
+		$status = wp_kses( trim( $status[1] ), $themes_allowed_tags );
 	else
 		$status = 'publish';
-
-	$description = wptexturize( trim( $description[1] ) );
-
-	$name = $theme_name[1];
-	$name = trim( $name );
-	$theme = $name;
-	$theme_uri = trim( $theme_uri[1] );
-
-	if ( '' == $author_uri[1] ) {
-		$author = trim( $author_name[1] );
+	
+	$name = $theme = wp_kses( trim( $theme_name[1] ), $themes_allowed_tags );
+	$theme_uri = clean_url( trim( $theme_uri[1] ) );
+	$description = wptexturize( wp_kses( trim( $description[1] ), $themes_allowed_tags ) );
+	$template = wp_kses( trim( $template[1] ), $themes_allowed_tags );
+	
+	$author_uri = clean_url( trim( $author_uri[1] ) );
+	
+	if ( empty( $author_uri[1] ) ) {
+		$author = wp_kses( trim( $author_name[1] ), $themes_allowed_tags );
 	} else {
-		$author = '<a href="' . trim( $author_uri[1] ) . '" title="' . __('Visit author homepage') . '">' . trim( $author_name[1] ) . '</a>';
+		$author = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $author_uri, __( 'Visit author homepage' ), wp_kses( trim( $author_name[1] ), $themes_allowed_tags ) );
 	}
 
 	return array( 'Name' => $name, 'Title' => $theme, 'URI' => $theme_uri, 'Description' => $description, 'Author' => $author, 'Version' => $version, 'Template' => $template[1], 'Status' => $status );
