@@ -369,7 +369,8 @@ class wpdb {
 	function bail($message) { // Just wraps errors in a nice header and footer
 		if ( !$this->show_errors )
 			return false;
-
+		
+		status_header( 503 );
 		header('Content-Type: text/html; charset=utf-8');
 
 		if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)

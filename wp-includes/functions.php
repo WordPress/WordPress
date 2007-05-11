@@ -916,24 +916,30 @@ function wp($query_vars = '') {
 	$wp->main($query_vars);
 }
 
-function status_header( $header ) {
-	if ( 200 == $header )
-		$text = 'OK';
-	elseif ( 301 == $header )
-		$text = 'Moved Permanently';
-	elseif ( 302 == $header )
-		$text = 'Moved Temporarily';
-	elseif ( 304 == $header )
-		$text = 'Not Modified';
-	elseif ( 404 == $header )
-		$text = 'Not Found';
-	elseif ( 410 == $header )
-		$text = 'Gone';
+function get_status_header_desc( $code ) {
+	global $wp_header_to_desc;
+	
+	$code = (int) $code;
+	
+	if ( isset( $wp_header_to_desc[$code] ) ) {
+		return $wp_header_to_desc[$code];
+	} else {
+		return '';
+	}
+}
 
-	if ( version_compare(phpversion(), '4.3.0', '>=') )
-		@header("HTTP/1.1 $header $text", true, $header);
-	else
-		@header("HTTP/1.1 $header $text");
+function status_header( $header ) {
+	$text = get_status_header( $header );
+	
+	if ( empty( $text ) ) {
+		return false;
+	} else {
+		if ( version_compare( phpversion(), '4.3.0', '>=' ) ) {
+			return @header( "HTTP/1.1 $header $text", true, $header );
+		} else {
+			return @header( "HTTP/1.1 $header $text" );
+		}
+	}
 }
 
 function nocache_headers() {
