@@ -120,6 +120,8 @@ function get_userdatabylogin($user_login) {
 	if ( $userdata )
 		return $userdata;
 
+	$user_login = $wpdb->escape($user_login);
+
 	if ( !$user = $wpdb->get_row("SELECT * FROM $wpdb->users WHERE user_login = '$user_login'") )
 		return false;
 
