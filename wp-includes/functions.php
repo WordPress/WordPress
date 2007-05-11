@@ -929,7 +929,7 @@ function get_status_header_desc( $code ) {
 }
 
 function status_header( $header ) {
-	$text = get_status_header( $header );
+	$text = get_status_header_desc( $header );
 	
 	if ( empty( $text ) ) {
 		return false;
