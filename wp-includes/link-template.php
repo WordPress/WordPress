@@ -464,73 +464,52 @@ function next_post_link($format='%link &raquo;', $link='%title', $in_same_cat = 
 
 function get_pagenum_link($pagenum = 1) {
 	global $wp_rewrite;
-
-	$qstr = $_SERVER['REQUEST_URI'];
-
-	$page_querystring = "paged";
-	$page_modstring = "page/";
-	$page_modregex = "page/?";
-	$permalink = 0;
-
+	
+	$pagenum = (int) $pagenum;
+	
+	$request = remove_query_arg( 'paged' );
+	
 	$home_root = parse_url(get_option('home'));
 	$home_root = $home_root['path'];
-	$home_root = trailingslashit($home_root);
-	$qstr = preg_replace('|^'. $home_root . '|', '', $qstr);
-	$qstr = preg_replace('|^/+|', '', $qstr);
-
+	$home_root = preg_quote( trailingslashit( $home_root ), '|' );
+	
+	$request = preg_replace('|^'. $home_root . '|', '', $qstr);
+	$request = preg_replace('|^/+|', '', $qstr);
+	
 	$index = $_SERVER['PHP_SELF'];
 	$index = preg_replace('|^'. $home_root . '|', '', $index);
 	$index = preg_replace('|^/+|', '', $index);
-
-	// if we already have a QUERY style page string
-	if ( stripos( $qstr, $page_querystring ) !== false ) {
-		$replacement = "$page_querystring=$pagenum";
-		$qstr = preg_replace("/".$page_querystring."[^\d]+\d+/", $replacement, $qstr);
-		// if we already have a mod_rewrite style page string
-	} elseif ( preg_match( '|'.$page_modregex.'\d+|', $qstr ) ) {
-		$permalink = 1;
-		$qstr = preg_replace('|'.$page_modregex.'\d+|',"$page_modstring$pagenum",$qstr);
-
-		// if we don't have a page string at all ...
-		// lets see what sort of URL we have...
-	} else {
-		// we need to know the way queries are being written
-		// if there's a querystring_start (a "?" usually), it's definitely not mod_rewritten
-		if ( stripos( $qstr, '?' ) !== false ) {
-			// so append the query string (using &, since we already have ?)
-			$qstr .=	'&amp;' . $page_querystring . '=' . $pagenum;
-			// otherwise, it could be rewritten, OR just the default index ...
-		} elseif( '' != get_option('permalink_structure') && ! is_admin() ) {
-			$permalink = 1;
-			$index = $wp_rewrite->index;
-			// If it's not a path info permalink structure, trim the index.
-			if ( !$wp_rewrite->using_index_permalinks() ) {
-				$qstr = preg_replace("#/*" . $index . "/*#", '/', $qstr);
-			} else {
-				// If using path info style permalinks, make sure the index is in
-				// the URL.
-				if ( strpos($qstr, $index) === false )
-					$qstr = '/' . $index . $qstr;
-			}
-
-			$qstr =	trailingslashit($qstr) . $page_modstring . $pagenum;
+	
+	if ( !$wp_rewrite->using_permalinks() ) {
+		$base = trailingslashit( get_bloginfo( 'home' ) );
+		
+		if ( $pagenum > 1 ) {
+			$result = add_query_arg( 'paged', $pagenum, $request );
 		} else {
-			$qstr = $index . '?' . $page_querystring . '=' . $pagenum;
+			$result = $base . $request;
 		}
+	} else {
+		$qs_regex = '|\?.*?$|';
+		preg_match( $qs_regex, $request, $qs_match );
+		
+		if ( $qs_match[0] ) {
+			$query_string = $qs_match[0];
+			$request = preg_replace( $qs_regex, '', $request );
+		} else {
+			$query_string = '';
+		}
+		
+		$base = get_bloginfo( 'home' ) . '/';
+		
+		if ( $wp_rewrite->using_index_permalinks() && $pagenum > 1 ) {
+			$base .= 'index.php/';
+		}
+		
+		$request = ( $pagenum > 1 ) ? $request . user_trailingslashit( 'page/' . $pagenum, 'paged' ) : $request;
+		$result = $base . $request . $query_string;
 	}
-
-	$qstr = preg_replace('|^/+|', '', $qstr);
-	if ( $permalink )
-		$qstr = user_trailingslashit($qstr, 'paged');
-	$qstr = preg_replace('/&([^#])(?![a-z]{1,8};)/', '&#038;$1', trailingslashit( get_option('home') ) . $qstr );
-
-	// showing /page/1/ or ?paged=1 is redundant
-	if ( 1 === $pagenum ) {
-		$qstr = str_replace(user_trailingslashit('index.php/page/1', 'paged'), '', $qstr); // for PATHINFO style
-		$qstr = str_replace(user_trailingslashit('page/1', 'paged'), '', $qstr); // for mod_rewrite style
-		$qstr = remove_query_arg('paged', $qstr); // for query style
-	}
-	return $qstr;
+	
+	return $result;
 }
 
 function get_next_posts_page_link($max_page = 0) {
