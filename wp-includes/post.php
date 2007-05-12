@@ -229,14 +229,6 @@ function get_posts($args) {
 	if (!empty($exclusions))
 		$exclusions .= ')';
 
-	$query ="SELECT DISTINCT * FROM $wpdb->posts " ;
-	$query .= ( empty( $category ) ? "" : ", $wpdb->post2cat " );
-	$query .= ( empty( $meta_key ) ? "" : ", $wpdb->postmeta " );
-	$query .= " WHERE (post_type = 'post' AND post_status = 'publish') $exclusions $inclusions ";
-	$query .= ( empty( $category ) ? "" : "AND ($wpdb->posts.ID = $wpdb->post2cat.post_id AND $wpdb->post2cat.category_id = " . $category. ") " );
-	$query .= ( empty( $meta_key ) | empty($meta_value)  ? "" : " AND ($wpdb->posts.ID = $wpdb->postmeta.post_id AND $wpdb->postmeta.meta_key = '$meta_key' AND $wpdb->postmeta.meta_value = '$meta_value' )" );
-	$query .= " GROUP BY $wpdb->posts.ID ORDER BY " . $orderby . " " . $order . " LIMIT " . $offset . ',' . $numberposts;
-
 	$query  = "SELECT DISTINCT * FROM $wpdb->posts ";
 	$query .= empty( $category ) ? '' : ", $wpdb->post2cat "; 
 	$query .= empty( $meta_key ) ? '' : ", $wpdb->postmeta ";
