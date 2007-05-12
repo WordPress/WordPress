@@ -370,7 +370,10 @@ class wpdb {
 		if ( !$this->show_errors )
 			return false;
 		
-		status_header( 503 );
+		if ( function_exists( 'status_header' ) ) {
+			status_header( 503 );
+		}
+		
 		header('Content-Type: text/html; charset=utf-8');
 
 		if (strpos($_SERVER['PHP_SELF'], 'wp-admin') !== false)
