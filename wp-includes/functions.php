@@ -1511,4 +1511,11 @@ function wp_widgets_add_menu() {
 	ksort($submenu['themes.php'], SORT_NUMERIC);
 }
 
+// For PHP 5.2, make sure all output buffers are flushed
+// before our singletons our destroyed.
+function wp_ob_end_flush_all()
+{
+	while ( @ob_end_flush() );
+}
+
 ?>
