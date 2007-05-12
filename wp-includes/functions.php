@@ -931,14 +931,19 @@ function get_status_header_desc( $code ) {
 function status_header( $header ) {
 	$text = get_status_header_desc( $header );
 	
-	if ( empty( $text ) ) {
+	if ( empty( $text ) )
 		return false;
+
+	$protocol = $_SERVER["SERVER_PROTOCOL"];
+	if ( ('HTTP/1.1' != $protocol) && ('HTTP/1.0' != $protocol) )
+		$protocol = 'HTTP/1.0';
+	$status_header = "$protocol $header $text";
+	$status_header = apply_filters('status_header', $status_header, $header, $text, $protocol);
+
+	if ( version_compare( phpversion(), '4.3.0', '>=' ) ) {
+		return @header( $status_header, true, $header );
 	} else {
-		if ( version_compare( phpversion(), '4.3.0', '>=' ) ) {
-			return @header( "HTTP/1.1 $header $text", true, $header );
-		} else {
-			return @header( "HTTP/1.1 $header $text" );
-		}
+		return @header( $status_header );
 	}
 }
 
