@@ -98,7 +98,7 @@ function kubrick_add_theme_page() {
 					if ( preg_match('/[0-9A-F]{6}|[0-9A-F]{3}/i', $_REQUEST['njuppercolor'], $uc) && preg_match('/[0-9A-F]{6}|[0-9A-F]{3}/i', $_REQUEST['njlowercolor'], $lc) ) {
 						$uc = ( strlen($uc[0]) == 3 ) ? $uc[0]{0}.$uc[0]{0}.$uc[0]{1}.$uc[0]{1}.$uc[0]{2}.$uc[0]{2} : $uc[0];
 						$lc = ( strlen($lc[0]) == 3 ) ? $lc[0]{0}.$lc[0]{0}.$lc[0]{1}.$lc[0]{1}.$lc[0]{2}.$lc[0]{2} : $lc[0];
-						update_option('kubrick_header_image', "header-img.php?upper=$uc&amp;lower=$lc");
+						update_option('kubrick_header_image', "header-img.php?upper=$uc&lower=$lc");
 					}
 
 					if ( isset($_REQUEST['toggledisplay']) ) {
@@ -157,7 +157,7 @@ function kubrick_theme_page_head() {
 		kUpdate(ColorPicker_targetInput.id);
 	}
 	function PopupWindow_populate(contents) {
-		contents += '<br /><p style="text-align:center;margin-top:0px;"><input type="button" value="Close Color Picker" onclick="cp.hidePopup(\'prettyplease\')"></input></p>';
+		contents += '<br /><p style="text-align:center;margin-top:0px;"><input type="button" value="<?php echo attribute_escape(__('Close Color Picker')); ?>" onclick="cp.hidePopup(\'prettyplease\')"></input></p>';
 		this.contents = contents;
 		this.populated = false;
 	}
@@ -354,11 +354,11 @@ function kubrick_theme_page_head() {
 }
 
 function kubrick_theme_page() {
-	if ( $_REQUEST['saved'] ) echo '<div id="message" class="updated fade"><p><strong>Options saved.</strong></p></div>';
+	if ( $_REQUEST['saved'] ) echo '<div id="message" class="updated fade"><p><strong>'.__('Options saved.').'</strong></p></div>';
 ?>
 <div class='wrap'>
 	<div id="kubrick-header">
-		<h2>Header Image and Color</h2>
+	<h2><?php _e('Header Image and Color'); ?></h2>
 		<div id="headwrap">
 			<div id="header">
 				<div id="headerimg">
@@ -371,14 +371,14 @@ function kubrick_theme_page() {
 		<div id="nonJsForm">
 			<form method="post" action="">
 				<?php wp_nonce_field('kubrick-header'); ?>
-				<div class="zerosize"><input type="submit" name="defaultsubmit" value="Save" /></div>
-				<label for="njfontcolor">Font Color:</label><input type="text" name="njfontcolor" id="njfontcolor" value="<?php echo attribute_escape(kubrick_header_color()); ?>" /> Any CSS color (<code>red</code> or <code>#FF0000</code> or <code>rgb(255, 0, 0)</code>)<br />
-				<label for="njuppercolor">Upper Color:</label><input type="text" name="njuppercolor" id="njuppercolor" value="#<?php echo attribute_escape(kubrick_upper_color()); ?>" /> HEX only (<code>#FF0000</code> or <code>#F00</code>)<br />
-				<label for="njlowercolor">Lower Color:</label><input type="text" name="njlowercolor" id="njlowercolor" value="#<?php echo attribute_escape(kubrick_lower_color()); ?>" /> HEX only (<code>#FF0000</code> or <code>#F00</code>)<br />
+				<div class="zerosize"><input type="submit" name="defaultsubmit" value="<?php echo attribute_escape(__('Save')); ?>" /></div>
+					<label for="njfontcolor"><?php _e('Font Color:'); ?></label><input type="text" name="njfontcolor" id="njfontcolor" value="<?php echo attribute_escape(kubrick_header_color()); ?>" /> <?php printf(__('Any CSS color (%s or %s or %s)'), '<code>red</code>', '<code>#FF0000</code>', '<code>rgb(255, 0, 0)</code>'); ?><br />
+					<label for="njuppercolor"><?php _e('Upper Color:'); ?></label><input type="text" name="njuppercolor" id="njuppercolor" value="#<?php echo attribute_escape(kubrick_upper_color()); ?>" /> <?php printf(__('HEX only (%s or %s)'), '<code>#FF0000</code>', '<code>#F00</code>'); ?><br />
+				<label for="njlowercolor"><?php _e('Lower Color:'); ?></label><input type="text" name="njlowercolor" id="njlowercolor" value="#<?php echo attribute_escape(kubrick_lower_color()); ?>" /> <?php printf(__('HEX only (%s or %s)'), '<code>#FF0000</code>', '<code>#F00</code>'); ?><br />
 				<input type="hidden" name="hi" id="hi" value="<?php echo attribute_escape(kubrick_header_image()); ?>" />
-				<input type="submit" name="toggledisplay" id="toggledisplay" value="Toggle Text" />
-				<input type="submit" name="defaults" value="Use Defaults" />
-				<input type="submit" class="defbutton" name="submitform" value="&nbsp;&nbsp;Save&nbsp;&nbsp;" />
+				<input type="submit" name="toggledisplay" id="toggledisplay" value="<?php echo attribute_escape(__('Toggle Text')); ?>" />
+				<input type="submit" name="defaults" value="<?php echo attribute_escape(__('Use Defaults')); ?>" />
+				<input type="submit" class="defbutton" name="submitform" value="&nbsp;&nbsp;<?php _e('Save'); ?>&nbsp;&nbsp;" />
 				<input type="hidden" name="action" value="save" />
 				<input type="hidden" name="njform" value="true" />
 			</form>
@@ -386,28 +386,28 @@ function kubrick_theme_page() {
 		<div id="jsForm">
 			<form style="display:inline;" method="post" name="hicolor" id="hicolor" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
 				<?php wp_nonce_field('kubrick-header'); ?>
-				<input type="button" onclick="tgt=document.getElementById('fontcolor');colorSelect(tgt,'pick1');return false;" name="pick1" id="pick1" value="Font Color"></input>
-				<input type="button" onclick="tgt=document.getElementById('uppercolor');colorSelect(tgt,'pick2');return false;" name="pick2" id="pick2" value="Upper Color"></input>
-				<input type="button" onclick="tgt=document.getElementById('lowercolor');colorSelect(tgt,'pick3');return false;" name="pick3" id="pick3" value="Lower Color"></input>
-				<input type="button" name="revert" value="Revert" onclick="kRevert()" />
-				<input type="button" value="Advanced" onclick="toggleAdvanced()" />
+	<input type="button" onclick="tgt=document.getElementById('fontcolor');colorSelect(tgt,'pick1');return false;" name="pick1" id="pick1" value="<?php echo attribute_escape(__('Font Color')); ?>"></input>
+		<input type="button" onclick="tgt=document.getElementById('uppercolor');colorSelect(tgt,'pick2');return false;" name="pick2" id="pick2" value="<?php echo attribute_escape(__('Upper Color')); ?>"></input>
+		<input type="button" onclick="tgt=document.getElementById('lowercolor');colorSelect(tgt,'pick3');return false;" name="pick3" id="pick3" value="<?php echo attribute_escape(__('Lower Color')); ?>"></input>
+				<input type="button" name="revert" value="<?php echo attribute_escape(__('Revert')); ?>" onclick="kRevert()" />
+				<input type="button" value="<?php echo attribute_escape(__('Advanced')); ?>" onclick="toggleAdvanced()" />
 				<input type="hidden" name="action" value="save" />
 				<input type="hidden" name="fontdisplay" id="fontdisplay" value="<?php echo attribute_escape(kubrick_header_display()); ?>" />
 				<input type="hidden" name="fontcolor" id="fontcolor" value="<?php echo attribute_escape(kubrick_header_color()); ?>" />
 				<input type="hidden" name="uppercolor" id="uppercolor" value="<?php echo attribute_escape(kubrick_upper_color()); ?>" />
 				<input type="hidden" name="lowercolor" id="lowercolor" value="<?php echo attribute_escape(kubrick_lower_color()); ?>" />
 				<input type="hidden" name="headerimage" id="headerimage" value="<?php echo attribute_escape(kubrick_header_image()); ?>" />
-				<p class="submit"><input type="submit" name="submitform" class="defbutton" value="<?php _e('Update Header &raquo;'); ?>" onclick="cp.hidePopup('prettyplease')" /></p>
+				<p class="submit"><input type="submit" name="submitform" class="defbutton" value="<?php echo attribute_escape(__('Update Header &raquo;')); ?>" onclick="cp.hidePopup('prettyplease')" /></p>
 			</form>
 			<div id="colorPickerDiv" style="z-index: 100;background:#eee;border:1px solid #ccc;position:absolute;visibility:hidden;"> </div>
 			<div id="advanced">
 				<form id="jsAdvanced" style="display:none;" action="">
 					<?php wp_nonce_field('kubrick-header'); ?>
-					<label for="advfontcolor">Font Color (CSS): </label><input type="text" id="advfontcolor" onchange="advUpdate(this.value, 'fontcolor')" value="<?php echo attribute_escape(kubrick_header_color()); ?>" /><br />
-					<label for="advuppercolor">Upper Color (HEX): </label><input type="text" id="advuppercolor" onchange="advUpdate(this.value, 'uppercolor')" value="#<?php echo attribute_escape(kubrick_upper_color()); ?>" /><br />
-					<label for="advlowercolor">Lower Color (HEX): </label><input type="text" id="advlowercolor" onchange="advUpdate(this.value, 'lowercolor')" value="#<?php echo attribute_escape(kubrick_lower_color()); ?>" /><br />
-					<input type="button" name="default" value="Select Default Colors" onclick="kDefaults()" /><br />
-					<input type="button" onclick="toggleDisplay();return false;" name="pick" id="pick" value="Toggle Text Display"></input><br />
+					<label for="advfontcolor"><?php _e('Font Color (CSS):'); ?> </label><input type="text" id="advfontcolor" onchange="advUpdate(this.value, 'fontcolor')" value="<?php echo attribute_escape(kubrick_header_color()); ?>" /><br />
+					<label for="advuppercolor"><?php _e('Upper Color (HEX):');?> </label><input type="text" id="advuppercolor" onchange="advUpdate(this.value, 'uppercolor')" value="#<?php echo attribute_escape(kubrick_upper_color()); ?>" /><br />
+					<label for="advlowercolor"><?php _e('Lower Color (HEX):'); ?> </label><input type="text" id="advlowercolor" onchange="advUpdate(this.value, 'lowercolor')" value="#<?php echo attribute_escape(kubrick_lower_color()); ?>" /><br />
+					<input type="button" name="default" value="<?php echo attribute_escape(__('Select Default Colors')); ?>" onclick="kDefaults()" /><br />
+					<input type="button" onclick="toggleDisplay();return false;" name="pick" id="pick" value="<?php echo attribute_escape(__('Toggle Text Display')); ?>"></input><br />
 				</form>
 			</div>
 		</div>
