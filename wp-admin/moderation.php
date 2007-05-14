@@ -123,14 +123,14 @@ $i = 0;
 <?php comment_text() ?>
 <p><?php comment_date(__('M j, g:i A')); ?> &#8212; [ <?php
 echo '<a href="comment.php?action=editcomment&amp;c='.$comment->comment_ID.'">' . __('Edit') . '</a> | ';
-echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to delete this comment by '%s'.\n'Cancel' to stop, 'OK' to delete."), $comment->comment_author )) . "', theCommentList );\">" . __('Delete') . "</a> | "; ?>
+echo " <a href=\"post.php?action=deletecomment&amp;p=".$comment->comment_post_ID."&amp;comment=".$comment->comment_ID."\" onclick=\"return deleteSomething( 'comment', $comment->comment_ID, '" . js_escape(sprintf(__("You are about to delete this comment by '%s'.\n'Cancel' to stop, 'OK' to delete."), $comment->comment_author )) . "', theCommentList );\">" . __('Delete') . "</a> "; ?> ] &#8212;
 <?php
 $post = get_post($comment->comment_post_ID);
 $post_title = wp_specialchars( $post->post_title, 'double' );
 $post_title = ('' == $post_title) ? "# $comment->comment_post_ID" : $post_title;
 ?>
-<a href="<?php echo get_permalink($comment->comment_post_ID); ?>" title="<?php echo $post_title; ?>"><?php _e('View Post') ?></a> ] &#8212;
- <?php _e('Bulk action:') ?>
+<a href="<?php echo get_permalink($comment->comment_post_ID); ?>"><?php echo $post_title; ?></a></p>
+<p><?php _e('Bulk action:') ?>
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment-<?php echo $comment->comment_ID; ?>-approve" value="approve" /> <label for="comment-<?php echo $comment->comment_ID; ?>-approve"><?php _e('Approve') ?></label> &nbsp;
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment-<?php echo $comment->comment_ID; ?>-spam" value="spam" /> <label for="comment-<?php echo $comment->comment_ID; ?>-spam"><?php _e('Spam') ?></label> &nbsp;
 	<input type="radio" name="comment[<?php echo $comment->comment_ID; ?>]" id="comment-<?php echo $comment->comment_ID; ?>-delete" value="delete" /> <label for="comment-<?php echo $comment->comment_ID; ?>-delete"><?php _e('Delete') ?></label> &nbsp;
