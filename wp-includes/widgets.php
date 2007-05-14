@@ -188,6 +188,12 @@ function dynamic_sidebar($index = 1) {
 		$index = "sidebar-$index";
 	} else {
 		$index = sanitize_title($index);
+		foreach ( $wp_registered_sidebars as $key => $value ) {
+			if ( sanitize_title($value['name']) == $index ) {
+				$index = $key;
+				break;
+			}
+		}
 	}
 
 	$sidebars_widgets = wp_get_sidebars_widgets();
