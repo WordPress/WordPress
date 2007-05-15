@@ -194,6 +194,7 @@ Event.observe( window, 'load', hide_text );
 <h2><?php _e('Reset Header Image and Color'); ?></h2>
 <p><?php _e('This will restore the original header image and color. You will not be able to retrieve any customizations.') ?></p>
 <form method="post" action="<?php echo attribute_escape(add_query_arg('step', 1)) ?>">
+<?php wp_nonce_field('custom-header'); ?>
 <input type="submit" name="resetheader" value="<?php _e('Restore Original Header'); ?>" />
 </form>
 </div>
