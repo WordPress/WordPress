@@ -473,22 +473,20 @@ function get_pagenum_link($pagenum = 1) {
 	$home_root = $home_root['path'];
 	$home_root = preg_quote( trailingslashit( $home_root ), '|' );
 	
-	$request = preg_replace('|^'. $home_root . '|', '', $qstr);
-	$request = preg_replace('|^/+|', '', $qstr);
-	
-	$index = $_SERVER['PHP_SELF'];
-	$index = preg_replace('|^'. $home_root . '|', '', $index);
-	$index = preg_replace('|^/+|', '', $index);
+	$request = preg_replace('|^'. $home_root . '|', '', $request);
+	$request = preg_replace('|^/+|', '', $request);
 	
 	if ( !$wp_rewrite->using_permalinks() ) {
 		$base = trailingslashit( get_bloginfo( 'home' ) );
 		
 		if ( $pagenum > 1 ) {
-			$result = add_query_arg( 'paged', $pagenum, $request );
+			$result = add_query_arg( 'paged', $pagenum, $base . $request );
 		} else {
 			$result = $base . $request;
 		}
 	} else {
+		$request = preg_replace( '|/?page/(.+)/?$|', '', $request);
+		
 		$qs_regex = '|\?.*?$|';
 		preg_match( $qs_regex, $request, $qs_match );
 		
@@ -499,13 +497,18 @@ function get_pagenum_link($pagenum = 1) {
 			$query_string = '';
 		}
 		
-		$base = get_bloginfo( 'home' ) . '/';
+		$base = trailingslashit( get_bloginfo( 'url' ) );
 		
 		if ( $wp_rewrite->using_index_permalinks() && $pagenum > 1 ) {
 			$base .= 'index.php/';
 		}
 		
-		$request = ( $pagenum > 1 ) ? $request . user_trailingslashit( 'page/' . $pagenum, 'paged' ) : $request;
+		if ( $pagenum > 1 ) {
+			$request = ( ( !empty( $request ) ) ? trailingslashit( $request ) : $request ) . user_trailingslashit( 'page/' . $pagenum, 'paged' );
+		} else {
+			$request = user_trailingslashit( $request );
+		}
+		
 		$result = $base . $request . $query_string;
 	}
 	
