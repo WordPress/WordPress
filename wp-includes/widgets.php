@@ -75,9 +75,9 @@ function register_sidebar_widget($name, $output_callback, $classname = '') {
 
 	$id = sanitize_title($name);
 	$options = array();
-	if ( !empty($classname) )
+	if ( !empty($classname) && is_string($classname) )
 		$options['classname'] = $classname;
-	$params = array_slice(func_get_args(), 3);
+	$params = array_slice(func_get_args(), 2);
 	$args = array($id, $name, $output_callback, $options);
 	if ( !empty($params) )
 		$args = array_merge($args, $params);
