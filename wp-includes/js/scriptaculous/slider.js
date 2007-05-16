@@ -1,6 +1,6 @@
-// script.aculo.us slider.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+// script.aculo.us slider.js v1.7.1_beta2, Sat Apr 28 15:20:12 CEST 2007
 
-// Copyright (c) 2005, 2006 Marty Haught, Thomas Fuchs 
+// Copyright (c) 2005-2007 Marty Haught, Thomas Fuchs 
 //
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
 // For details, see the script.aculo.us web site: http://script.aculo.us/
@@ -242,8 +242,7 @@ Control.Slider.prototype = {
    if(this.active) {
       if(!this.dragging) this.dragging = true;
       this.draw(event);
-      // fix AppleWebKit rendering
-      if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+      if(Prototype.Browser.WebKit) window.scrollBy(0,0);
       Event.stop(event);
    }
   },

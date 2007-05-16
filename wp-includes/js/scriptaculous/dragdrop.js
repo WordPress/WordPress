@@ -1,7 +1,7 @@
-// script.aculo.us dragdrop.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+// script.aculo.us dragdrop.js v1.7.1_beta2, Sat Apr 28 15:20:12 CEST 2007
 
-// Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
-//           (c) 2005, 2006 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)
+// Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+//           (c) 2005-2007 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)
 // 
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
 // For details, see the script.aculo.us web site: http://script.aculo.us/
@@ -112,8 +112,10 @@ var Droppables = {
     Position.prepare();
 
     if (this.isAffected([Event.pointerX(event), Event.pointerY(event)], element, this.last_active))
-      if (this.last_active.onDrop) 
-        this.last_active.onDrop(element, this.last_active.element, event);
+      if (this.last_active.onDrop) {
+        this.last_active.onDrop(element, this.last_active.element, event); 
+        return true; 
+      }
   },
 
   reset: function() {
@@ -245,6 +247,7 @@ Draggable.prototype = {
       },
       zindex: 1000,
       revert: false,
+      quiet: false,
       scroll: false,
       scrollSensitivity: 20,
       scrollSpeed: 15,
@@ -353,8 +356,12 @@ Draggable.prototype = {
   
   updateDrag: function(event, pointer) {
     if(!this.dragging) this.startDrag(event);
-    Position.prepare();
-    Droppables.show(pointer, this.element);
+    
+    if(!this.options.quiet){
+      Position.prepare();
+      Droppables.show(pointer, this.element);
+    }
+    
     Draggables.notify('onDrag', this, event);
     
     this.draw(pointer);
@@ -382,13 +389,19 @@ Draggable.prototype = {
     }
     
     // fix AppleWebKit rendering
-    if(navigator.appVersion.indexOf('AppleWebKit')>0) window.scrollBy(0,0);
+    if(Prototype.Browser.WebKit) window.scrollBy(0,0);
     
     Event.stop(event);
   },
   
   finishDrag: function(event, success) {
     this.dragging = false;
+    
+    if(this.options.quiet){
+      Position.prepare();
+      var pointer = [Event.pointerX(event), Event.pointerY(event)];
+      Droppables.show(pointer, this.element);
+    }
 
     if(this.options.ghosting) {
       Position.relativize(this.element);
@@ -396,7 +409,12 @@ Draggable.prototype = {
       this._clone = null;
     }
 
-    if(success) Droppables.fire(event, this.element);
+    var dropped = false; 
+    if(success) { 
+      dropped = Droppables.fire(event, this.element); 
+      if (!dropped) dropped = false; 
+    }
+    if(dropped && this.options.onDropped) this.options.onDropped(this.element);
     Draggables.notify('onEnd', this, event);
 
     var revert = this.options.revert;
@@ -404,8 +422,9 @@ Draggable.prototype = {
     
     var d = this.currentDelta();
     if(revert && this.options.reverteffect) {
-      this.options.reverteffect(this.element, 
-        d[1]-this.delta[1], d[0]-this.delta[0]);
+      if (dropped == 0 || revert != 'failure')
+        this.options.reverteffect(this.element,
+          d[1]-this.delta[1], d[0]-this.delta[0]);
     } else {
       this.delta = d;
     }
@@ -614,6 +633,7 @@ var Sortable = {
       delay:       0,
       hoverclass:  null,
       ghosting:    false,
+      quiet:       false, 
       scroll:      false,
       scrollSensitivity: 20,
       scrollSpeed: 15,
@@ -628,6 +648,7 @@ var Sortable = {
     // build options for the draggables
     var options_for_draggable = {
       revert:      true,
+      quiet:       options.quiet,
       scroll:      options.scroll,
       scrollSpeed: options.scrollSpeed,
       scrollSensitivity: options.scrollSensitivity,

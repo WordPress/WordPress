@@ -1,6 +1,6 @@
-// script.aculo.us builder.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+// script.aculo.us builder.js v1.7.1_beta2, Sat Apr 28 15:20:12 CEST 2007
 
-// Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
+// Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //
 // script.aculo.us is freely distributable under the terms of an MIT-style license.
 // For details, see the script.aculo.us web site: http://script.aculo.us/
@@ -48,7 +48,8 @@ var Builder = {
     // attributes (or text)
     if(arguments[1])
       if(this._isStringOrNumber(arguments[1]) ||
-        (arguments[1] instanceof Array)) {
+        (arguments[1] instanceof Array) ||
+        arguments[1].tagName) {
           this._children(element, arguments[1]);
         } else {
           var attrs = this._attributes(arguments[1]);
@@ -66,7 +67,7 @@ var Builder = {
             }
             if(element.tagName.toUpperCase() != elementName)
               element = parentElement.getElementsByTagName(elementName)[0];
-            }
+          }
         } 
 
     // text, or array of children
@@ -92,6 +93,10 @@ var Builder = {
     return attrs.join(" ");
   },
   _children: function(element, children) {
+    if(children.tagName) {
+      element.appendChild(children);
+      return;
+    }
     if(typeof children=='object') { // array can hold nodes and text
       children.flatten().each( function(e) {
         if(typeof e=='object')
@@ -101,8 +106,8 @@ var Builder = {
             element.appendChild(Builder._text(e));
       });
     } else
-      if(Builder._isStringOrNumber(children)) 
-         element.appendChild(Builder._text(children));
+      if(Builder._isStringOrNumber(children))
+        element.appendChild(Builder._text(children));
   },
   _isStringOrNumber: function(param) {
     return(typeof param=='string' || typeof param=='number');
