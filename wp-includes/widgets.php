@@ -326,19 +326,43 @@ function wp_get_widget_defaults() {
 
 /* Default Widgets */
 
-function wp_widget_pages($args) {
-	extract($args);
-	$options = get_option('widget_pages');
-	$title = empty($options['title']) ? __('Pages') : $options['title'];
-	echo $before_widget . $before_title . $title . $after_title . "<ul>\n";
-	wp_list_pages("title_li=");
-	echo "</ul>\n" . $after_widget;
+function wp_widget_pages( $args ) {
+	extract( $args );
+	$options = get_option( 'widget_pages' );
+	
+	$title = empty( $options['title'] ) ? __( 'Pages' ) : $options['title'];
+	$sortby = empty( $options['sortby'] ) ? 'menu_order' : $options['sortby'];
+	
+	if ( $sortby == 'menu_order' ) {
+		$sortby = 'menu_order, post_title';
+	}
+	
+	$out = wp_list_pages( 'title_li=&echo=0&sort_column=' . $sortby );
+	
+	if ( !empty( $out ) ) {
+?>
+	<?php echo $before_widget; ?>
+		<?php echo $before_title . $title . $after_title; ?>
+		<ul>
+			<?php echo $out; ?>
+		</ul>
+	<?php echo $after_widget; ?>
+<?php
+	}
 }
 
 function wp_widget_pages_control() {
 	$options = $newoptions = get_option('widget_pages');
-	if ( $_POST["pages-submit"] ) {
-		$newoptions['title'] = strip_tags(stripslashes($_POST["pages-title"]));
+	if ( $_POST['pages-submit'] ) {
+		$newoptions['title'] = strip_tags(stripslashes($_POST['pages-title']));
+		
+		$sortby = stripslashes( $_POST['pages-sortby'] );
+		
+		if ( in_array( $sortby, array( 'post_title', 'menu_order', 'ID' ) ) ) {
+			$newoptions['sortby'] = $sortby;
+		} else {
+			$newoptions['sortby'] = 'menu_order';
+		}
 	}
 	if ( $options != $newoptions ) {
 		$options = $newoptions;
@@ -347,6 +371,12 @@ function wp_widget_pages_control() {
 	$title = attribute_escape($options['title']);
 ?>
 			<p><label for="pages-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="pages-title" name="pages-title" type="text" value="<?php echo $title; ?>" /></label></p>
+			<p><label for="pages-sortby"><?php _e( 'Sort by:' ); ?> 
+				<select name="pages-sortby" id="pages-sortby">
+					<option value="post_title"><?php _e('Page title'); ?></option>
+					<option value="menu_order"><?php _e('Menu order'); ?></option>
+					<option value="ID"><?php _e( 'Page ID' ); ?></option>
+				</select></label></p>
 			<input type="hidden" id="pages-submit" name="pages-submit" value="1" />
 <?php
 }
@@ -495,10 +525,10 @@ function wp_widget_text($args, $number = 1) {
 	$title = $options[$number]['title'];
 	if ( empty($title) )
 		$title = '&nbsp;';
-	$text = $options[$number]['text'];
+	$text = apply_filters( 'the_content', $options[$number]['text'] );
 ?>
 		<?php echo $before_widget; ?>
-			<?php $title ? print($before_title . $title . $after_title) : null; ?>
+			<?php !empty( $title ) ? print($before_title . $title . $after_title) : null; ?>
 			<div class="textwidget"><?php echo $text; ?></div>
 		<?php echo $after_widget; ?>
 <?php
@@ -521,8 +551,8 @@ function wp_widget_text_control($number) {
 	$title = attribute_escape($options[$number]['title']);
 	$text = attribute_escape($options[$number]['text']);
 ?>
-			<input style="width: 450px;" id="text-title-<?php echo "$number"; ?>" name="text-title-<?php echo "$number"; ?>" type="text" value="<?php echo $title; ?>" />
-			<textarea style="width: 450px; height: 280px;" id="text-text-<?php echo "$number"; ?>" name="text-text-<?php echo "$number"; ?>"><?php echo $text; ?></textarea>
+			<input style="width: 450px;" id="text-title-<?php echo $number; ?>" name="text-title-<?php echo $number; ?>" type="text" value="<?php echo $title; ?>" />
+			<textarea style="width: 450px; height: 280px;" id="text-text-<?php echo $number; ?>" name="text-text-<?php echo $number; ?>"><?php echo $text; ?></textarea>
 			<input type="hidden" id="text-submit-<?php echo "$number"; ?>" name="text-submit-<?php echo "$number"; ?>" value="1" />
 <?php
 }
