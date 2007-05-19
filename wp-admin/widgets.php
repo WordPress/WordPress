@@ -299,6 +299,9 @@ if ( isset( $_POST['action'] ) ) {
 		<p><?php _e( 'You can drag and drop widgets onto your sidebar below.' ); ?></p>
 		
 		<form id="sbadmin" method="post" onsubmit="serializeAll();">
+			<p class="submit">
+				<input type="submit" value="<?php _e( 'Save Changes &raquo;' ); ?>" />
+			</p>
 			<div id="zones">
 			<?php
 				foreach ( $wp_registered_sidebars as $index => $sidebar ) {
