@@ -84,11 +84,11 @@ body {
 }
 
 .placematt {
-	position: absolute;
 	cursor: default;
 	margin: 10px 0 0;
 	padding: 0;
 	width: 238px;
+	float:left;
 	background-color: #ffe;
 }
 
@@ -106,10 +106,11 @@ body {
 	text-align: justify;
 }
 
+
 #palettediv {
 	border: 1px solid #bbb;
 	background-color: #f0f8ff;
-	height: 180px;
+	height:auto;
 	margin-top: 10px;
 }
 
