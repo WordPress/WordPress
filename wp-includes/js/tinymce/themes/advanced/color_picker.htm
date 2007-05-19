@@ -2,12 +2,73 @@
 <head>
 	<title>{$lang_theme_colorpicker_title}</title>
 	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="jscripts/color_picker.js"></script>
+	<link href="css/colorpicker.css" rel="stylesheet" type="text/css" />
 	<base target="_self" />
 </head>
-<body onload="tinyMCEPopup.executeOnLoad('init();');" style="margin: 3px; display: none">
-	<div align="center">
-	   <script language="javascript" type="text/javascript">renderColorMap();</script>
+<body onload="tinyMCEPopup.executeOnLoad('init();');" style="display: none">
+	<div class="tabs">
+		<ul>
+			<li id="picker_tab" class="current"><span><a href="javascript:mcTabs.displayTab('picker_tab','picker_panel');" onmousedown="return false;">{$lang_color_picker_tab}</a></span></li>
+			<li id="rgb_tab"><span><a href="#" onclick="generateWebColors();mcTabs.displayTab('rgb_tab','rgb_panel');" onmousedown="return false;">{$lang_web_colors_tab}</a></span></li>
+			<li id="named_tab"><span><a  href="#" onclick="generateNamedColors();javascript:mcTabs.displayTab('named_tab','named_panel');" onmousedown="return false;">{$lang_named_colors_tab}</a></span></li>
+		</ul>
+	</div>
+
+	<div class="panel_wrapper">
+		<div id="picker_panel" class="panel current">
+			<fieldset>
+				<legend>{$lang_color_picker}</legend>
+				<div id="picker">
+					<img id="colorpicker" src="images/colors.jpg" onclick="computeColor(event)" onmousedown="isMouseDown = true;return false;" onmouseup="isMouseDown = false;" onmousemove="if (isMouseDown && isMouseOver) computeColor(event); return false;" onmouseover="isMouseOver=true;" onmouseout="isMouseOver=false;" />
+
+					<div id="light">
+						<!-- Will be filled with divs -->
+					</div>
+
+					<br style="clear: both" />
+				</div>
+			</fieldset>
+		</div>
+
+		<div id="rgb_panel" class="panel">
+			<fieldset>
+				<legend>{$lang_web_colors}</legend>
+				<div id="webcolors">
+					<!-- Gets filled with web safe colors-->
+				</div>
+
+				<br style="clear: both" />
+			</fieldset>
+		</div>
+
+		<div id="named_panel" class="panel">
+			<fieldset>
+				<legend>{$lang_named_colors}</legend>
+				<div id="namedcolors">
+					<!-- Gets filled with named colors-->
+				</div>
+
+				<br style="clear: both" />
+
+				<div id="colornamecontainer">
+					{$lang_color_name} <span id="colorname"></span>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+
+	<div class="mceActionPanel">
+		<div style="float: left">
+			<input type="button" id="insert" name="insert" value="{$lang_theme_colorpicker_apply}" onclick="insertAction();" />
+		</div>
+
+		<div id="preview"></div>
+
+		<div id="previewblock">
+			<label for="color">{$lang_color}</label> <input id="color" type="text" size="8" maxlength="8" class="text" />
+		</div>
 	</div>
 </body>
 </html>
