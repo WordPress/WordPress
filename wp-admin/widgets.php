@@ -15,6 +15,11 @@ function wp_widgets_admin_head() {
 	define( 'WP_WIDGETS_HEIGHT', 35 * ( count( $wp_registered_widgets ) ) );
 ?>
 	<link rel="stylesheet" href="widgets.css?version=<?php bloginfo('version'); ?>" type="text/css" />
+	<!--[if IE 7]>
+	<style type="text/css">
+	#palette {float:left;}
+	</style>
+	<![endif]-->
 	<style type="text/css">
 		.dropzone ul { height: <?php echo constant( 'WP_WIDGETS_HEIGHT' ); ?>px; }
 		#sbadmin #zones { width: <?php echo constant( 'WP_WIDGETS_WIDTH' ); ?>px; }
@@ -61,7 +66,8 @@ function wp_widgets_admin_head() {
 		new Effect.Opacity('shadow', {to:0.0});
 		widgets.map(function(o) {o='widgetprefix-'+o; Position.absolutize(o); Position.relativize(o);} );
 		$A(Draggables.drags).map(function(o) {o.startDrag(null); o.finishDrag(null);});
-		for ( var n in Draggables.drags ) {
+		//for ( var n in Draggables.drags ) {
+		for ( n=0; n<=Draggables.drags.length; n++ ) {
 			if ( Draggables.drags[n].element.id == 'lastmodule' ) {
 				Draggables.drags[n].destroy();
 				break;
@@ -145,7 +151,7 @@ function wp_widgets_admin_head() {
 			var pm = $(o+'placematt');
 			if ( $(o).childNodes.length == 0 ) {
 				pm.style.display = 'block';
-				Position.absolutize(o+'placematt');
+				//Position.absolutize(o+'placematt');
 			} else {
 				pm.style.display = 'none';
 			}
@@ -302,7 +308,7 @@ if ( isset( $_POST['action'] ) ) {
 				<div class="dropzone">
 					<h3><?php echo $sidebar['name']; ?></h3>
 					
-					<div id="<?php echo $index; ?>placematt" class="module placematt">
+					<div id="<?php echo $index; ?>placematt" class="module placemat">
 						<span class="handle">
 							<h4><?php _e( 'Default Sidebar' ); ?></h4>
 							<?php _e( 'Your theme will display its usual sidebar when this box is empty. Dragging widgets into this box will replace the usual sidebar with your customized sidebar.' ); ?>
