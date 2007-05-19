@@ -2,7 +2,7 @@
 
 require_once 'admin.php';
 
-if ( ! current_user_can('edit_themes') )
+if ( ! current_user_can('switch_themes') )
 	wp_die( __( 'Cheatin&#8217; uh?' ));
 
 wp_enqueue_script( 'scriptaculous-effects' );
