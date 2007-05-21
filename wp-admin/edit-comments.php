@@ -79,6 +79,7 @@ if ( isset( $_GET['apage'] ) )
 	$page = (int) $_GET['apage'];
 else
 	$page = 1;
+
 $start = $offset = ( $page - 1 ) * 20;
 
 list($_comments, $total) = _wp_get_comment_list( isset($_GET['s']) ? $_GET['s'] : false, $start, 25 ); // Grab a few extra
@@ -87,8 +88,8 @@ $comments = array_slice($_comments, 0, 20);
 $extra_comments = array_slice($_comments, 20);
 
 $page_links = paginate_links( array(
-	'base' => 'edit-comments.php?%_%',
-	'format' => 'apage=%#%',
+	'base' => add_query_arg( 'apage', '%_%' ), 
+	'format' => '',
 	'total' => ceil($total / 20),
 	'current' => $page
 ));
