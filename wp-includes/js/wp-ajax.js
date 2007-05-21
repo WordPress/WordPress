@@ -27,9 +27,9 @@ Object.extend(WPAjax.prototype, {
 		this.getResponseElement(responseEl);
 	},
 	addArg: function(key, value) {
-		var a = [];
+		var a = $H();
 		a[encodeURIComponent(key)] = encodeURIComponent(value);
-		this.options.parameters = $H(this.options.parameters).merge($H(a));
+		this.options.parameters = $H(this.options.parameters).merge(a);
 	},
 	getResponseElement: function(r) {
 		var p = $(r + '-p');
