@@ -649,9 +649,12 @@ function trackback_url_list($tb_list, $post_id) {
 }
 
 function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_agent) {
-	global $wpdb;
+	global $wpdb, $wp_blacklist_reason;
 
 	do_action('wp_blacklist_check', $author, $email, $url, $comment, $user_ip, $user_agent);
+
+// mj
+$wp_blacklist_reason = 'encoded_char';
 
 	if ( preg_match_all('/&#(\d+);/', $comment . $author . $url, $chars) ) {
 		foreach ($chars[1] as $char) {
@@ -676,19 +679,28 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		// spam words don't break things:
 		$word = preg_quote($word, '#');
 		
-		$pattern = "#$word#i"; 
+		$pattern = "#$word#i";
+
+$wp_blacklist_reason = "$pattern (author) $author";
 		if ( preg_match($pattern, $author    ) ) return true;
+$wp_blacklist_reason = "$pattern (email) $email";
 		if ( preg_match($pattern, $email     ) ) return true;
+$wp_blacklist_reason = "$pattern (url) $url";
 		if ( preg_match($pattern, $url       ) ) return true;
+$wp_blacklist_reason = "$pattern (url) $url";
 		if ( preg_match($pattern, $comment   ) ) return true;
+$wp_blacklist_reason = "$pattern (user_ip) $user_ip";
 		if ( preg_match($pattern, $user_ip   ) ) return true;
+$wp_blacklist_reason = "$pattern (user_agent) $user_agent";
 		if ( preg_match($pattern, $user_agent) ) return true;
 	}
-	
+
+$wp_blacklist_reason = "proxy check";
+
 	if ( isset($_SERVER['REMOTE_ADDR']) ) {
 		if ( wp_proxy_check($_SERVER['REMOTE_ADDR']) ) return true;
 	}
-
+$wp_blacklist_reason = "not a WP reason";
 	return false;
 }
 
