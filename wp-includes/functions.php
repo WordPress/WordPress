@@ -322,7 +322,7 @@ function update_option($option_name, $newvalue) {
 	}
 
 	$notoptions = wp_cache_get('notoptions', 'options');
-	if ( isset($notoptions[$option_name]) ) {
+	if ( is_array($notoptions) && isset($notoptions[$option_name]) ) {
 		unset($notoptions[$option_name]);
 		wp_cache_set('notoptions', $notoptions, 'options');
 	}
@@ -356,7 +356,7 @@ function add_option($name, $value = '', $description = '', $autoload = 'yes') {
 
 	// Make sure the option doesn't already exist we can check the cache before we ask for a db query
 	$notoptions = wp_cache_get('notoptions', 'options');
-	if ( isset($notoptions[$name]) ) {
+	if ( is_array($notoptions) && isset($notoptions[$name]) ) {
 		unset($notoptions[$name]);
 		wp_cache_set('notoptions', $notoptions, 'options');
 	} elseif ( false !== get_option($name) ) {
