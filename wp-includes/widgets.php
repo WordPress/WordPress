@@ -549,7 +549,7 @@ function wp_widget_text_control($number) {
 		update_option('widget_text', $options);
 	}
 	$title = attribute_escape($options[$number]['title']);
-	$text = attribute_escape($options[$number]['text']);
+	$text = format_to_edit($options[$number]['text']);
 ?>
 			<input style="width: 450px;" id="text-title-<?php echo $number; ?>" name="text-title-<?php echo $number; ?>" type="text" value="<?php echo $title; ?>" />
 			<textarea style="width: 450px; height: 280px;" id="text-text-<?php echo $number; ?>" name="text-text-<?php echo $number; ?>"><?php echo $text; ?></textarea>
