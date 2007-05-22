@@ -794,7 +794,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	if ( empty($tags) )
 		$tags = array();
 	$tags = (is_array($tags)) ? $tags : explode( ',', $tags );
-	add_term_relationship($tags, $post_id, 'post_tag');
+	wp_set_object_terms($post_id, $tags, 'post_tag', $append);
 }
 
 function wp_set_post_categories($post_ID = 0, $post_categories = array()) {

@@ -31,7 +31,7 @@ CREATE TABLE $wpdb->term_taxonomy (
 CREATE TABLE $wpdb->term_relationships (
  object_id bigint(20) NOT NULL default 0,
  term_taxonomy_id bigint(20) NOT NULL default 0,
- PRIMARY KEY  (object_id),
+ PRIMARY KEY  (object_id, term_taxonomy_id),
  KEY (term_taxonomy_id)
 ) $charset_collate;
 CREATE TABLE $wpdb->comments (

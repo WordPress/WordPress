@@ -43,8 +43,8 @@ function add_term( $term, $taxonomy, $args = array() ) {
 		return $term_id;
 			
 	$wpdb->query("INSERT INTO $wpdb->term_taxonomy (term_id, taxonomy, description, parent, count) VALUES ('$term_id', '$taxonomy', '$description', '$parent', '0')");
-	// TODO: Maybe return both term_id and tt_id.
-	return $term_id;
+	$tt_id = (int) $wpdb->insert_id;
+	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
 }
 
 /**
@@ -58,10 +58,21 @@ function remove_term() {}
  */
 function is_term($term, $taxonomy = '') {
 	global $wpdb;
-	if ( ! $term = sanitize_title($term) )
-		return 0;
 
-	return $wpdb->get_var("SELECT term_id FROM $wpdb->terms WHERE slug = '$term'");
+	if ( is_int($term) ) {
+		$where = "t.term_id = '$term'";
+	} else {
+		if ( ! $term = sanitize_title($term) )
+			return 0;
+		$where = "t.slug = '$term'";
+	}
+
+	$term_id = $wpdb->get_var("SELECT term_id FROM $wpdb->terms as t WHERE $where");
+
+	if ( empty($taxonomy) || empty($term_id) )
+		return $term_id;
+
+	return $wpdb->get_row("SELECT tt.term_id, tt.term_taxonomy_id FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = '$taxonomy'", ARRAY_A);
 }
 	
 /**
@@ -83,56 +94,51 @@ function get_defined_terms($terms) {
 /**
  * Relates an object (post, link etc) to a term and taxonomy type.  Creates the term and taxonomy
  * relationship if it doesn't already exist.  Creates a term if it doesn't exist (using the slug).
- * @param array|int|string $term The slug or id of the term.
  * @param int $object_id The object to relate to.
+ * @param array|int|string $term The slug or id of the term.
  * @param array|string $taxonomies The context(s) in which to relate the term to the object.
  */
-function add_term_relationship($terms, $object_id, $taxonomies) {
+function wp_set_object_terms($object_id, $terms, $taxonomies, $append = false) {
 	global $wpdb;
-		
+
+	$object_id = (int) $object_id;
+
 	if ( !is_array($taxonomies) )
 		$taxonomies = array($taxonomies);
 	
 	if ( !is_array($terms) )
 		$terms = array($terms);
-		
-	$defined_terms = get_defined_terms($terms);
 
-	foreach ( $terms as $term ) {
-		if ( !is_int($term) ) {
-			if ( !isset($defined_terms[$term]) )
-				$new_terms[] = $term;
-			$slugs[] = $term;
-		} else {
-			$term_ids[] = $term;
-		}
+	if ( ! $append ) {
+		$in_taxonomies = "'" . implode("', '", $taxonomies) . "'";
+		$old_terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($in_taxonomies) AND tr.object_id = '$object_id'");
 	}
 
-	$term_clause = isset($term_ids) ? 'tt.term_id IN (' . implode(', ', $term_ids) . ')' : '';
-	if ( isset($slugs) ) {
-		if ($term_clause) {
-			$term_clause .= ' OR ';
-		}
-		$term_clause .= "t.slug IN ('" . implode("', '", $slugs) . "')";
-		$term_join = "INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id";
-	} else {
-		$term_join = '';
-	}
-		
-	// Now add or increment the term taxonomy relationships.  This is inefficient at the moment.
+	$tt_ids = array();
+
 	foreach ( $taxonomies as $taxonomy ) {
-		foreach ( $terms as $term ) {
-			add_term($term, $taxonomy);
+		foreach ($terms as $term) {
+			if ( !$id = is_term($term, $taxonomy) )
+				$id = add_term($term, $taxonomy);
+			$id = $id['term_taxonomy_id'];
+			$tt_ids[] = $id;
+			if ( $wpdb->get_var("SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = '$object_id' AND term_taxonomy_id = '$id'") )
+				continue;
+			$wpdb->query("INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id) VALUES ('$object_id', '$id')");
 		}
 	}
-		
-	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
-		
-	// Finally, relate the term and taxonomy to the object.
-	// Use IGNORE to avoid dupe warnings for now.
-	$wpdb->query("INSERT IGNORE INTO $wpdb->term_relationships(object_id, term_taxonomy_id) SELECT '$object_id', term_taxonomy_id FROM $wpdb->term_taxonomy AS tt $term_join WHERE ($term_clause) AND tt.taxonomy IN ($taxonomies)");
+
+	if ( ! $append ) {
+		$delete_terms = array_diff($old_terms, $tt_ids);
+		if ( $delete_terms ) {
+			$delete_terms = "'" . implode("', '", $delete_terms) . "'";
+			$wpdb->query("DELETE FROM $wpdb->term_relationships WHERE term_taxonomy_id IN ($delete_terms)");
+		}
+	}
+
+	return $tt_ids;
 }
-	
+
 /**
  * Returns the terms associated with the given object(s), in the supplied taxonomies.
  * @param int|array $object_id The id of the object(s)) to retrieve for.
@@ -144,7 +150,7 @@ function get_object_terms($object_id, $taxonomy) {
 	$taxonomies = ($single_taxonomy = !is_array($taxonomy)) ? array($taxonomy) : $taxonomy;
 	$object_ids = ($single_object = !is_array($object_id)) ? array($object_id) : $object_id;
 
-	$taxonomies = "'" . implode("', '", $taxonomies) . "'";		
+	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
 	$object_ids = implode(', ', $object_ids);		
 
 	if ( $taxonomy_data = $wpdb->get_results("SELECT t.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.object_id IN ($object_ids)") ) {
